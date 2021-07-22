@@ -54,6 +54,30 @@ bool eTexture::load(SDL_Renderer* const r,
     return true;
 }
 
+bool eTexture::loadText(SDL_Renderer* const r,
+                        const std::string& text,
+                        const SDL_Color& color,
+                        TTF_Font& font) {
+    reset();
+    const auto surf = TTF_RenderText_Solid(&font, text.c_str(), color);
+    if(!surf) {
+        printf("Unable to render text! SDL_ttf Error: %s\n",
+               TTF_GetError());
+        return false;
+    }
+    mTex = SDL_CreateTextureFromSurface(r, surf);
+    mWidth = surf->w;
+    mHeight = surf->h;
+    SDL_FreeSurface(surf);
+    if(!mTex) {
+        printf("Unable to create texture from rendered text! "
+               "SDL Error: %s\n", SDL_GetError());
+        return false;
+    }
+
+    return true;
+}
+
 void eTexture::render(SDL_Renderer* const r,
                       const SDL_Rect& srcRect,
                       const SDL_Rect& dstRect) const {

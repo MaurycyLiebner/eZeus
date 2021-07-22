@@ -15,7 +15,10 @@ SOURCES += \
         etexture.cpp \
         ewindow.cpp \
         ewindowrenderer.cpp \
-        main.cpp
+        main.cpp \
+        widgets/emousepressevent.cpp \
+        widgets/epainter.cpp \
+        widgets/ewidget.cpp
 
 HEADERS += \
     engine/eeventloop.h \
@@ -25,4 +28,7 @@ HEADERS += \
     esprites.h \
     etexture.h \
     ewindow.h \
-    ewindowrenderer.h
+    ewindowrenderer.h \
+    widgets/emousepressevent.h \
+    widgets/epainter.h \
+    widgets/ewidget.h

@@ -2,6 +2,7 @@
 #define ETEXTURE_H
 
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 #include <string>
 #include <memory>
@@ -17,6 +18,10 @@ public:
     void reset();
     bool load(SDL_Renderer* const r,
               const std::string& path);
+    bool loadText(SDL_Renderer* const r,
+                  const std::string& text,
+                  const SDL_Color& color,
+                  TTF_Font& font);
 
     void render(SDL_Renderer* const r,
                 const SDL_Rect& srcRect,
