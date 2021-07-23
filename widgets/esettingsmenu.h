@@ -7,7 +7,7 @@ class eSettingsMenu : public eWidget {
 public:
     eSettingsMenu(SDL_Renderer* const renderer);
 
-    void initialize();
+    void initialize(const eAction& backA);
 };
 
 #endif // ESETTINGSMENU_H

@@ -17,6 +17,7 @@ eTexture& eTexture::operator=(const eTexture& src) {
     mHeight = src.mHeight;
     mTex = src.mTex;
     mRefs = src.mRefs;
+    if(mRefs) (*mRefs)++;
     return *this;
 }
 
@@ -78,6 +79,15 @@ bool eTexture::loadText(SDL_Renderer* const r,
     }
 
     return true;
+}
+
+bool eTexture::loadText(SDL_Renderer* const r,
+                        const std::string& text,
+                        const SDL_Color& color,
+                        const eFont& font) {
+    const auto ttf = eFonts::requestFont(font);
+    if(!ttf) return false;
+    return loadText(r, text, color, *ttf);
 }
 
 void eTexture::render(SDL_Renderer* const r,

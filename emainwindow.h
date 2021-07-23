@@ -1,4 +1,4 @@
-#ifndef EMAINWINDOW_H
+﻿#ifndef EMAINWINDOW_H
 #define EMAINWINDOW_H
 
 #include "widgets/ewidget.h"
@@ -21,10 +21,15 @@ public:
 private:
     void addSlotImpl(const eSlot& slot);
 
+    void showMainMenu();
+    void showSettingsMenu();
+
     int mWidth = 0;
     int mHeight = 0;
 
     static eMainWindow* sInstance;
+
+    bool mQuit = false;
 
     std::vector<eSlot> mSlots;
 

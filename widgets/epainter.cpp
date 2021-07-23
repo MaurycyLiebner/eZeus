@@ -56,18 +56,18 @@ void ePainter::drawTexture(const SDL_Rect& rect,
                            const eAlignment align) const {
     int xx;
     if(static_cast<bool>(align & eAlignment::right)) {
-        xx = rect.w - tex.width();
+        xx = rect.x + rect.w - tex.width();
     } else if(static_cast<bool>(align & eAlignment::hcenter)) {
-        xx = (rect.w - tex.width())/2;
+        xx = rect.x + (rect.w - tex.width())/2;
     } else {
         xx = rect.x;
     }
 
     int yy;
     if(static_cast<bool>(align & eAlignment::bottom)) {
-        yy = rect.h - tex.height();
+        yy = rect.y + rect.h - tex.height();
     } else if(static_cast<bool>(align & eAlignment::vcenter)) {
-        yy = (rect.h - tex.height())/2;
+        yy = rect.y + (rect.h - tex.height())/2;
     } else {
         yy = rect.y;
     }

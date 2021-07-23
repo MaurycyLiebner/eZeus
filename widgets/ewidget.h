@@ -21,6 +21,8 @@ public:
     void setX(const int x);
     void setY(const int y);
     void resize(const int w, const int h);
+    void setWidth(const int w);
+    void setHeight(const int h);
 
     void align(const eAlignment a);
 
@@ -59,17 +61,15 @@ public:
     bool releaseKeyboard();
     bool isKeyboardGrabber();
 
-    void setLayout(eLayout* const layout);
-    void updateLayout();
-
     void addWidget(eWidget* const w);
     void removeWidget(eWidget* const w);
-private:
-    void setParent(eWidget* const p);
+
+    void layoutVertically();
+    void layoutHorizontally();
 protected:
-    virtual void paintEvent(ePainter& p) {
+    virtual void paintEvent(ePainter& p);/* {
         (void)p;
-    }
+    }*/
 
     virtual bool mousePressEvent(const eMouseEvent& e) {
         (void)e;
@@ -99,6 +99,7 @@ protected:
     SDL_Renderer* renderer() const { return mRenderer; }
 private:
     static eWidget* sWidgetUnderMouse;
+    static eWidget* sLastPressed;
     static eWidget* sMouseGrabber;
     static eWidget* sKeyboardGrabber;
 
@@ -106,7 +107,6 @@ private:
     int mY = 0;
     int mWidth = 0;
     int mHeight = 0;
-    eLayout* mLayout = nullptr;
     eWidget* mParent = nullptr;
     std::vector<eWidget*> mChildren;
     SDL_Renderer* const mRenderer;

@@ -1,11 +1,11 @@
 #include "ewidget.h"
 
-#include "elayout.h"
 #include "emainwindow.h"
 
-#include <bits/stdc++.h>
+#include <algorithm>
 
 eWidget* eWidget::sWidgetUnderMouse = nullptr;
+eWidget* eWidget::sLastPressed = nullptr;
 eWidget* eWidget::sMouseGrabber = nullptr;
 eWidget* eWidget::sKeyboardGrabber = nullptr;
 
@@ -17,8 +17,13 @@ eWidget::~eWidget() {
         delete w;
     }
     if(sWidgetUnderMouse == this) sWidgetUnderMouse = nullptr;
+    if(sLastPressed == this) sLastPressed = nullptr;
     if(sMouseGrabber == this) sMouseGrabber = nullptr;
     if(sKeyboardGrabber == this) sKeyboardGrabber = nullptr;
+}
+
+void eWidget::paintEvent(ePainter& p) {
+    p.drawRect(rect(), {0, 0, 0, 255}, 1);
 }
 
 void eWidget::move(const int x, const int y) {
@@ -37,10 +42,14 @@ void eWidget::setY(const int y) {
 void eWidget::resize(const int w, const int h) {
     mWidth = w;
     mHeight = h;
-    if(mParent) {
-        mParent->updateLayout();
-    }
-    updateLayout();
+}
+
+void eWidget::setWidth(const int w) {
+    resize(w, height());
+}
+
+void eWidget::setHeight(const int h) {
+    resize(width(), h);
 }
 
 void eWidget::align(const eAlignment a) {
@@ -128,27 +137,34 @@ void eWidget::paint(ePainter& p) {
 }
 
 bool eWidget::mousePress(const eMouseEvent& e) {
-    if(sMouseGrabber) {
+    eWidget* override = nullptr;
+    if(sMouseGrabber) override = sMouseGrabber;
+    else override = sLastPressed;
+    if(override) {
         int ex = e.x();
         int ey = e.y();
-        mapTo(sMouseGrabber, ex, ey);
+        mapTo(override, ex, ey);
         const auto ee = e.withPosition(ex, ey);
-        sMouseGrabber->mousePressEvent(ee);
+        override->mousePressEvent(ee);
         return true;
     }
-    sMouseGrabber = mouseEvent(e, &eWidget::mousePressEvent);
-    return sMouseGrabber;
+    sLastPressed = mouseEvent(e, &eWidget::mousePressEvent);
+    return sLastPressed;
 }
 
 bool eWidget::mouseRelease(const eMouseEvent& e) {
-    if(sMouseGrabber) {
+    eWidget* override = nullptr;
+    if(sMouseGrabber) override = sMouseGrabber;
+    else override = sLastPressed;
+    sLastPressed = nullptr;
+    if(override) {
         int ex = e.x();
         int ey = e.y();
-        mapTo(sMouseGrabber, ex, ey);
+        mapTo(override, ex, ey);
         const auto ee = e.withPosition(ex, ey);
-        sMouseGrabber->mouseReleaseEvent(ee);
-        sMouseGrabber->mouseLeaveEvent(ee);
-        sMouseGrabber = nullptr;
+        override->mouseReleaseEvent(ee);
+        override->mouseLeaveEvent(ee);
+        override = nullptr;
         return mouseEvent(e, &eWidget::mouseEnterEvent);
         return true;
     }
@@ -156,12 +172,15 @@ bool eWidget::mouseRelease(const eMouseEvent& e) {
 }
 
 bool eWidget::mouseMove(const eMouseEvent& e) {
-    if(sMouseGrabber) {
+    eWidget* override = nullptr;
+    if(sMouseGrabber) override = sMouseGrabber;
+    else override = sLastPressed;
+    if(override) {
         int ex = e.x();
         int ey = e.y();
-        mapTo(sMouseGrabber, ex, ey);
+        mapTo(override, ex, ey);
         const auto we = e.withPosition(ex, ey);
-        const auto r = sMouseGrabber->mouseMoveEvent(we);
+        const auto r = override->mouseMoveEvent(we);
         return r;
     } else {
         const auto w = mouseEvent(e, &eWidget::mouseMoveEvent);
@@ -178,6 +197,7 @@ bool eWidget::mouseMove(const eMouseEvent& e) {
 }
 
 void eWidget::deleteLater() {
+    if(mParent) mParent->removeWidget(this);
     eMainWindow::addSlot([this]() {
         delete this;
     });
@@ -236,34 +256,41 @@ bool eWidget::isKeyboardGrabber() {
     return sKeyboardGrabber == this;
 }
 
-void eWidget::setLayout(eLayout* const layout) {
-    if(mLayout) delete mLayout;
-    mLayout = layout;
-    updateLayout();
-}
-
-void eWidget::updateLayout() {
-    if(!mLayout) return;
-    mLayout->layoutWidgets(rect(), mChildren);
-}
-
 void eWidget::addWidget(eWidget* const w) {
     mChildren.push_back(w);
-    w->setParent(this);
-    updateLayout();
+    w->mParent = this;
 }
 
 void eWidget::removeWidget(eWidget* const w) {
-    std::remove(mChildren.begin(), mChildren.end(), w);
-    w->setParent(nullptr);
-    updateLayout();
+    const auto it = std::find(mChildren.begin(), mChildren.end(), w);
+    mChildren.erase(it);
+    w->mParent = nullptr;
 }
 
-void eWidget::setParent(eWidget* const p) {
-    if(p == mParent) return;
-    if(mParent) {
-        mParent->removeWidget(this);
+void eWidget::layoutVertically() {
+    const int spaces = mChildren.size() + 1;
+    int wsHeight = 0;
+    for(const auto w : mChildren) {
+        wsHeight += w->height();
     }
-    mParent = p;
+    const int space = (height() - wsHeight)/spaces;
+    int y = space;
+    for(const auto w : mChildren) {
+        w->setY(y);
+        y += w->height() + space;
+    }
 }
 
+void eWidget::layoutHorizontally() {
+    const int spaces = mChildren.size() + 1;
+    int wsWidth = 0;
+    for(const auto w : mChildren) {
+        wsWidth += w->width();
+    }
+    const int space = (width() - wsWidth)/spaces;
+    int x = space;
+    for(const auto w : mChildren) {
+        w->setX(x);
+        x += w->width() + space;
+    }
+}

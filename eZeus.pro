@@ -16,13 +16,14 @@ SOURCES += \
         etexture.cpp \
         main.cpp \
         widgets/ebutton.cpp \
+        widgets/ecombobox.cpp \
+        widgets/econtextmenu.cpp \
         widgets/efonts.cpp \
-        widgets/elayout.cpp \
+        widgets/elabel.cpp \
         widgets/emainmenu.cpp \
         widgets/emouseevent.cpp \
         widgets/epainter.cpp \
         widgets/esettingsmenu.cpp \
-        widgets/evlayout.cpp \
         widgets/ewidget.cpp
 
 HEADERS += \
@@ -34,11 +35,12 @@ HEADERS += \
     esprites.h \
     etexture.h \
     widgets/ebutton.h \
+    widgets/ecombobox.h \
+    widgets/econtextmenu.h \
     widgets/efonts.h \
-    widgets/elayout.h \
+    widgets/elabel.h \
     widgets/emainmenu.h \
     widgets/emouseevent.h \
     widgets/epainter.h \
     widgets/esettingsmenu.h \
-    widgets/evlayout.h \
     widgets/ewidget.h

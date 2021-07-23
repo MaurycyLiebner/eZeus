@@ -1,31 +1,19 @@
 #ifndef EBUTTON_H
 #define EBUTTON_H
 
-#include "ewidget.h"
+#include "elabel.h"
 #include "efonts.h"
 
-class eButton : public eWidget {
+class eButton : public eLabel {
 public:
     eButton(SDL_Renderer* const renderer);
 
-    bool setFont(const eFont& font);
-    bool setText(const std::string& text);
-    bool setFontColor(const SDL_Color& color);
-
     void setPressAction(const eAction& a);
-private:
-    bool setFont(TTF_Font* const font);
-    bool updateTextTexture();
 
-    TTF_Font* mFont = nullptr;
-    std::string mText;
-    eTexture mTextTex;
-    SDL_Color mFontColor{0, 0, 0, 255};
-
-    eTexture mTexture;
-    eTexture mHoverTexture;
-    eTexture mPressedTexture;
-
+    void setTexture(const eTexture& tex);
+    void setHoverTexture(const eTexture& tex);
+    void setPressedTexture(const eTexture& tex);
+protected:
     void paintEvent(ePainter& p);
 
     bool mousePressEvent(const eMouseEvent& e);
@@ -33,6 +21,10 @@ private:
     bool mouseMoveEvent(const eMouseEvent& e);
     bool mouseEnterEvent(const eMouseEvent& e);
     bool mouseLeaveEvent(const eMouseEvent& e);
+private:
+    eTexture mTexture;
+    eTexture mHoverTexture;
+    eTexture mPressedTexture;
 
     eAction mPressAction;
 

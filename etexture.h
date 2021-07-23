@@ -7,6 +7,8 @@
 #include <string>
 #include <memory>
 
+#include "widgets/efonts.h"
+
 class eTexture {
 public:
     eTexture();
@@ -22,6 +24,10 @@ public:
                   const std::string& text,
                   const SDL_Color& color,
                   TTF_Font& font);
+    bool loadText(SDL_Renderer* const r,
+                  const std::string& text,
+                  const SDL_Color& color,
+                  const eFont& font);
 
     void render(SDL_Renderer* const r,
                 const SDL_Rect& srcRect,

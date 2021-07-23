@@ -63,7 +63,7 @@ void eMainWindow::addSlotImpl(const eSlot& slot) {
     mSlots.push_back(slot);
 }
 
-int eMainWindow::exec() {
+void eMainWindow::showMainMenu() {
     const auto mm = new eMainMenu(mSdlRenderer);
     mm->resize(mWidth, mHeight);
     setWidget(mm);
@@ -77,31 +77,43 @@ int eMainWindow::exec() {
     };
 
     const auto settingsAction = [this]() {
-        const auto esm = new eSettingsMenu(mSdlRenderer);
-        setWidget(esm);
+        showSettingsMenu();
     };
 
-    bool quit = false;
-    const auto quitAction = [&quit]() {
-        quit = true;
+    const auto quitAction = [this]() {
+        mQuit = true;
     };
 
     mm->initialize(newGameAction,
                    loadGameAction,
                    settingsAction,
                    quitAction);
+}
+
+void eMainWindow::showSettingsMenu() {
+    const auto esm = new eSettingsMenu(mSdlRenderer);
+    esm->resize(mWidth, mHeight);
+    const auto backA = [this]() {
+        showMainMenu();
+    };
+    esm->initialize(backA);
+    setWidget(esm);
+}
+
+int eMainWindow::exec() {
+    showMainMenu();
 
     eMouseButton button{eMouseButton::none};
     eMouseButton buttons{eMouseButton::none};
 
     SDL_Event e;
 
-    while(!quit) {
+    while(!mQuit) {
         while(SDL_PollEvent(&e)) {
             int x, y;
             SDL_GetMouseState(&x, &y);
             if(e.type == SDL_QUIT) {
-                quit = true;
+                mQuit = true;
             } else if(e.type == SDL_MOUSEMOTION) {
                 const eMouseEvent me(x, y, buttons, button);
                 if(mWidget) mWidget->mouseMove(me);

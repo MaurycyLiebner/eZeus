@@ -1,42 +1,22 @@
 #include "ebutton.h"
 
 eButton::eButton(SDL_Renderer* const renderer) :
-    eWidget(renderer) {
-    setFont({"fonts/FreeSans.ttf", 28});
-}
-
-bool eButton::setFont(const eFont& font) {
-    const auto ttf = eFonts::requestFont(font);
-    return setFont(ttf);
-}
-
-bool eButton::setFont(TTF_Font* const font) {
-    mFont = font;
-    return updateTextTexture();
-}
-
-bool eButton::setText(const std::string& text) {
-    mText = text;
-    return updateTextTexture();
-}
-
-bool eButton::setFontColor(const SDL_Color& color) {
-    mFontColor = color;
-    return updateTextTexture();
-}
+    eLabel(renderer) {}
 
 void eButton::setPressAction(const eAction& a) {
     mPressAction = a;
 }
 
-bool eButton::updateTextTexture() {
-    if(mText.empty()) {
-        mTextTex.reset();
-        return true;
-    }
-    if(!mFont) return false;
-    mTextTex.loadText(renderer(), mText, mFontColor, *mFont);
-    return true;
+void eButton::setTexture(const eTexture& tex) {
+    mTexture = tex;
+}
+
+void eButton::setHoverTexture(const eTexture& tex) {
+    mHoverTexture = tex;
+}
+
+void eButton::setPressedTexture(const eTexture& tex) {
+    mPressedTexture = tex;
 }
 
 void eButton::paintEvent(ePainter& p) {
@@ -48,9 +28,7 @@ void eButton::paintEvent(ePainter& p) {
     } else if(!mTexture.isNull()) {
         p.drawTexture(rect(), mTexture, eAlignment::center);
     }
-    if(!mTextTex.isNull()) {
-        p.drawTexture(rect(), mTextTex, eAlignment::center);
-    }
+    eLabel::paintEvent(p);
 }
 
 bool eButton::mousePressEvent(const eMouseEvent& e) {

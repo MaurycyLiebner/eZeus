@@ -1,7 +1,6 @@
 #include "emainmenu.h"
 
 #include "ebutton.h"
-#include "evlayout.h"
 
 eMainMenu::eMainMenu(SDL_Renderer* const renderer) :
     eWidget(renderer) {}
@@ -15,35 +14,43 @@ void eMainMenu::initialize(const eAction& newGameA,
     buttons->resize(500, 500);
     buttons->align(eAlignment::center);
 
-    buttons->setLayout(new eVLayout());
+    {
+        const auto b1 = new eButton(renderer());
+        b1->setPressAction(newGameA);
+        buttons->addWidget(b1);
+        b1->setText("New Game");
+        b1->resize(200, 50);
+        b1->align(eAlignment::hcenter);
+    }
 
-    const auto b1 = new eButton(renderer());
-    b1->setPressAction(newGameA);
-    buttons->addWidget(b1);
-    b1->setText("New Game");
-    b1->resize(200, 50);
-    b1->align(eAlignment::hcenter);
+    {
+        const auto b2 = new eButton(renderer());
+        b2->setPressAction(loadGameA);
+        buttons->addWidget(b2);
+        b2->setText("Load Game");
+        b2->resize(300, 50);
+        b2->align(eAlignment::hcenter);
+    }
 
-    const auto b2 = new eButton(renderer());
-    b2->setPressAction(loadGameA);
-    buttons->addWidget(b2);
-    b2->setText("Load Game");
-    b2->resize(300, 50);
-    b2->align(eAlignment::hcenter);
+    {
+        const auto b3 = new eButton(renderer());
+        b3->setPressAction(settingsA);
+        buttons->addWidget(b3);
+        b3->setText("Settings");
+        b3->resize(150, 50);
+        b3->align(eAlignment::hcenter);
+    }
 
-    const auto b3 = new eButton(renderer());
-    b3->setPressAction(settingsA);
-    buttons->addWidget(b3);
-    b3->setText("Settings");
-    b3->resize(150, 50);
-    b3->align(eAlignment::hcenter);
+    {
+        const auto b4 = new eButton(renderer());
+        b4->setPressAction(quitA);
+        buttons->addWidget(b4);
+        b4->setText("Quit");
+        b4->resize(150, 50);
+        b4->align(eAlignment::hcenter);
+    }
 
-    const auto b4 = new eButton(renderer());
-    b4->setPressAction(quitA);
-    buttons->addWidget(b4);
-    b4->setText("Quit");
-    b4->resize(150, 50);
-    b4->align(eAlignment::hcenter);
+    buttons->layoutVertically();
 }
 
 void eMainMenu::paintEvent(ePainter& p) {
