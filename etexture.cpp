@@ -29,7 +29,7 @@ void eTexture::reset() {
     mTex = nullptr;
     mWidth = 0;
     mHeight = 0;
-    *mRefs = 1;
+    mRefs.reset();
 }
 
 bool eTexture::load(SDL_Renderer* const r,
@@ -44,6 +44,7 @@ bool eTexture::load(SDL_Renderer* const r,
     mTex = SDL_CreateTextureFromSurface(r, surf);
     mWidth = surf->w;
     mHeight = surf->h;
+    mRefs = std::make_shared<int>(1);
     SDL_FreeSurface(surf);
     if(!mTex) {
         printf("Unable to create texture from %s! SDL Error: %s\n",
@@ -59,7 +60,7 @@ bool eTexture::loadText(SDL_Renderer* const r,
                         const SDL_Color& color,
                         TTF_Font& font) {
     reset();
-    const auto surf = TTF_RenderText_Solid(&font, text.c_str(), color);
+    const auto surf = TTF_RenderText_Blended(&font, text.c_str(), color);
     if(!surf) {
         printf("Unable to render text! SDL_ttf Error: %s\n",
                TTF_GetError());
@@ -68,6 +69,7 @@ bool eTexture::loadText(SDL_Renderer* const r,
     mTex = SDL_CreateTextureFromSurface(r, surf);
     mWidth = surf->w;
     mHeight = surf->h;
+    mRefs = std::make_shared<int>(1);
     SDL_FreeSurface(surf);
     if(!mTex) {
         printf("Unable to create texture from rendered text! "
@@ -97,4 +99,8 @@ void eTexture::render(SDL_Renderer* const r,
     const SDL_Rect srcRect{0, 0, mWidth, mHeight};
     const SDL_Rect dstRect{x, y, mWidth, mHeight};
     render(r, srcRect, dstRect);
+}
+
+bool eTexture::isNull() const {
+    return mWidth <= 0 || mHeight <= 0;
 }

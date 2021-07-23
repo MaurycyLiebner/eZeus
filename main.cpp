@@ -5,7 +5,7 @@
 
 #include "ewindow.h"
 #include "ewindowrenderer.h"
-#include "etexturehelper.h"
+#include "widgets/emainmenu.h"
 
 bool init() {
     if(SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -41,6 +41,12 @@ bool init() {
         return false;
     }
 
+    if(TTF_Init()) {
+        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n",
+               TTF_GetError());
+        return false;
+    }
+
     return true;
 }
 
@@ -48,6 +54,7 @@ void close() {
     eWindowRenderer::destroy();
     eWindow::destroy();
 
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 }
@@ -59,23 +66,45 @@ int main() {
         return 1;
     }
 
+    const auto window = eWindow::instance();
     const auto renderer = eWindowRenderer::instance();
 
-    bool quit = false;
+    int w;
+    int h;
+    SDL_GetWindowSize(window, &w, &h);
+    eMainMenu mm(renderer);
+    mm.resize(w, h);
+    mm.initialize();
 
+    eMouseButton button{eMouseButton::none};
+    eMouseButton buttons{eMouseButton::none};
+
+    bool quit = false;
     SDL_Event e;
 
     while(!quit) {
         while(SDL_PollEvent(&e)) {
+            int x, y;
+            SDL_GetMouseState(&x, &y);
             if(e.type == SDL_QUIT) {
                 quit = true;
+            } else if(e.type == SDL_MOUSEMOTION) {
+                const eMouseEvent me(x, y, buttons, button);
+                mm.mouseMove(me);
+            } else if(e.type == SDL_MOUSEBUTTONDOWN) {
+                const eMouseEvent me(x, y, buttons, button);
+                mm.mousePress(me);
+            } else if(e.type == SDL_MOUSEBUTTONUP) {
+                const eMouseEvent me(x, y, buttons, button);
+                mm.mouseRelease(me);
             }
         }
 
         SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
         SDL_RenderClear(renderer);
 
-
+        ePainter p(renderer);
+        mm.paint(p);
 
         SDL_RenderPresent(renderer);
     }

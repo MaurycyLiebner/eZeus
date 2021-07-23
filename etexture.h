@@ -34,6 +34,8 @@ public:
 
     int width() const { return mWidth; }
     int height() const { return mHeight; }
+
+    bool isNull() const;
 private:
     int mWidth = 0;
     int mHeight = 0;

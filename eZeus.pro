@@ -4,7 +4,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 LIBS += -L/usr/lib/x86_64-linux-gnu
-LIBS += -lSDL2 -lSDL2_image -lSDL2_ttf
+LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf
 
 SOURCES += \
         engine/eeventloop.cpp \
@@ -16,7 +16,10 @@ SOURCES += \
         ewindow.cpp \
         ewindowrenderer.cpp \
         main.cpp \
-        widgets/emousepressevent.cpp \
+        widgets/ebutton.cpp \
+        widgets/efonts.cpp \
+        widgets/emainmenu.cpp \
+        widgets/emouseevent.cpp \
         widgets/epainter.cpp \
         widgets/ewidget.cpp
 
@@ -29,6 +32,9 @@ HEADERS += \
     etexture.h \
     ewindow.h \
     ewindowrenderer.h \
-    widgets/emousepressevent.h \
+    widgets/ebutton.h \
+    widgets/efonts.h \
+    widgets/emainmenu.h \
+    widgets/emouseevent.h \
     widgets/epainter.h \
     widgets/ewidget.h
