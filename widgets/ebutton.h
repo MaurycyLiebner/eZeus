@@ -11,6 +11,8 @@ public:
     bool setFont(const eFont& font);
     bool setText(const std::string& text);
     bool setFontColor(const SDL_Color& color);
+
+    void setPressAction(const eAction& a);
 private:
     bool setFont(TTF_Font* const font);
     bool updateTextTexture();
@@ -31,6 +33,8 @@ private:
     bool mouseMoveEvent(const eMouseEvent& e);
     bool mouseEnterEvent(const eMouseEvent& e);
     bool mouseLeaveEvent(const eMouseEvent& e);
+
+    eAction mPressAction;
 
     bool mPressed = false;
     bool mHover = false;

@@ -25,6 +25,10 @@ bool eButton::setFontColor(const SDL_Color& color) {
     return updateTextTexture();
 }
 
+void eButton::setPressAction(const eAction& a) {
+    mPressAction = a;
+}
+
 bool eButton::updateTextTexture() {
     if(mText.empty()) {
         mTextTex.reset();
@@ -52,6 +56,7 @@ void eButton::paintEvent(ePainter& p) {
 bool eButton::mousePressEvent(const eMouseEvent& e) {
     (void)e;
     mPressed = true;
+    if(mPressAction) mPressAction();
     return true;
 }
 

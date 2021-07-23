@@ -2,9 +2,14 @@
 #define EWIDGET_H
 
 #include <vector>
+#include <functional>
 
 #include "epainter.h"
 #include "emouseevent.h"
+
+class eLayout;
+
+using eAction = std::function<void()>;
 
 class eWidget {
 public:
@@ -51,6 +56,9 @@ public:
     bool releaseKeyboard();
     bool isKeyboardGrabber();
 
+    void setLayout(eLayout* const layout);
+    void updateLayout();
+
     void addWidget(eWidget* const w);
     void removeWidget(eWidget* const w);
 private:
@@ -95,6 +103,7 @@ private:
     int mY = 0;
     int mWidth = 0;
     int mHeight = 0;
+    eLayout* mLayout = nullptr;
     eWidget* mParent = nullptr;
     std::vector<eWidget*> mChildren;
     SDL_Renderer* const mRenderer;

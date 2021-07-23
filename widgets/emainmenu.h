@@ -7,7 +7,10 @@ class eMainMenu : public eWidget {
 public:
     eMainMenu(SDL_Renderer* const renderer);
 
-    void initialize();
+    void initialize(const eAction& newGameA,
+                    const eAction& loadGameA,
+                    const eAction& settingsA,
+                    const eAction& quitA);
 private:
     void paintEvent(ePainter& p);
 

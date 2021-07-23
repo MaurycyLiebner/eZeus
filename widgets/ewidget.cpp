@@ -1,6 +1,8 @@
 #include "ewidget.h"
 
-#include<bits/stdc++.h>
+#include "elayout.h"
+
+#include <bits/stdc++.h>
 
 eWidget* eWidget::sWidgetUnderMouse = nullptr;
 eWidget* eWidget::sMouseGrabber = nullptr;
@@ -32,6 +34,10 @@ void eWidget::setY(const int y) {
 void eWidget::resize(const int w, const int h) {
     mWidth = w;
     mHeight = h;
+    if(mParent) {
+        mParent->updateLayout();
+    }
+    updateLayout();
 }
 
 void eWidget::align(const eAlignment a) {
@@ -208,6 +214,17 @@ bool eWidget::isKeyboardGrabber() {
     return sKeyboardGrabber == this;
 }
 
+void eWidget::setLayout(eLayout* const layout) {
+    if(mLayout) delete mLayout;
+    mLayout = layout;
+    updateLayout();
+}
+
+void eWidget::updateLayout() {
+    if(!mLayout) return;
+    mLayout->layoutWidgets(rect(), mChildren);
+}
+
 eWidget* eWidget::mouseEvent(
         const eMouseEvent& e, const TMouseEvent event) {
     if(!contains(e.x(), e.y())) return nullptr;
@@ -224,11 +241,13 @@ eWidget* eWidget::mouseEvent(
 void eWidget::addWidget(eWidget* const w) {
     mChildren.push_back(w);
     w->setParent(this);
+    updateLayout();
 }
 
 void eWidget::removeWidget(eWidget* const w) {
     std::remove(mChildren.begin(), mChildren.end(), w);
     w->setParent(nullptr);
+    updateLayout();
 }
 
 void eWidget::setParent(eWidget* const p) {
