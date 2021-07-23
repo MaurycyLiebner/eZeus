@@ -2,7 +2,8 @@
 
 #include "ebutton.h"
 
-eSettingsMenu::eSettingsMenu() {
+eSettingsMenu::eSettingsMenu(SDL_Renderer* const renderer) :
+    eWidget(renderer) {
 
 }
 

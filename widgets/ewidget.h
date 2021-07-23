@@ -14,8 +14,9 @@ using eAction = std::function<void()>;
 class eWidget {
 public:
     eWidget(SDL_Renderer* const renderer);
+protected:
     virtual ~eWidget();
-
+public:
     void move(const int x, const int y);
     void setX(const int x);
     void setY(const int y);
@@ -44,6 +45,8 @@ public:
     bool mousePress(const eMouseEvent& e);
     bool mouseRelease(const eMouseEvent& e);
     bool mouseMove(const eMouseEvent& e);
+
+    void deleteLater();
 private:
     using TMouseEvent = bool (eWidget::*)(const eMouseEvent& e);
     eWidget* mouseEvent(const eMouseEvent& e, const TMouseEvent event);

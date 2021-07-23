@@ -1,9 +1,16 @@
 #include "emainwindow.h"
 
 #include "widgets/emainmenu.h"
+#include "widgets/esettingsmenu.h"
+
+eMainWindow* eMainWindow::sInstance = nullptr;
+
+eMainWindow* eMainWindow::instance() {
+    return sInstance;
+}
 
 eMainWindow::eMainWindow() {
-
+    sInstance = this;
 }
 
 eMainWindow::~eMainWindow() {
@@ -44,8 +51,16 @@ bool eMainWindow::initialize(const int width, const int height) {
 }
 
 void eMainWindow::setWidget(eWidget* const w) {
-    if(mWidget) delete mWidget;
+    if(mWidget) mWidget->deleteLater();
     mWidget = w;
+}
+
+void eMainWindow::addSlot(const eSlot& slot) {
+    sInstance->addSlotImpl(slot);
+}
+
+void eMainWindow::addSlotImpl(const eSlot& slot) {
+    mSlots.push_back(slot);
 }
 
 int eMainWindow::exec() {
@@ -62,6 +77,8 @@ int eMainWindow::exec() {
     };
 
     const auto settingsAction = [this]() {
+        const auto esm = new eSettingsMenu(mSdlRenderer);
+        setWidget(esm);
     };
 
     bool quit = false;
@@ -104,6 +121,11 @@ int eMainWindow::exec() {
         if(mWidget) mWidget->paint(p);
 
         SDL_RenderPresent(mSdlRenderer);
+
+        for(const auto& s : mSlots) {
+            s();
+        }
+        mSlots.clear();
     }
 
     return 0;

@@ -1,6 +1,7 @@
 #include "ewidget.h"
 
 #include "elayout.h"
+#include "emainwindow.h"
 
 #include <bits/stdc++.h>
 
@@ -16,6 +17,8 @@ eWidget::~eWidget() {
         delete w;
     }
     if(sWidgetUnderMouse == this) sWidgetUnderMouse = nullptr;
+    if(sMouseGrabber == this) sMouseGrabber = nullptr;
+    if(sKeyboardGrabber == this) sKeyboardGrabber = nullptr;
 }
 
 void eWidget::move(const int x, const int y) {
@@ -174,6 +177,25 @@ bool eWidget::mouseMove(const eMouseEvent& e) {
     }
 }
 
+void eWidget::deleteLater() {
+    eMainWindow::addSlot([this]() {
+        delete this;
+    });
+}
+
+eWidget* eWidget::mouseEvent(
+        const eMouseEvent& e, const TMouseEvent event) {
+    if(!contains(e.x(), e.y())) return nullptr;
+    for(const auto w : mChildren) {
+        const auto we = e.translated(-w->x(), -w->y());
+        const bool r = w->mouseEvent(we, event);
+        if(r) return w;
+    }
+    const bool r = (this->*event)(e);
+    if(r) return this;
+    return nullptr;
+}
+
 void eWidget::grabMouse() {
     if(isMouseGrabber()) return;
     if(sMouseGrabber) {
@@ -223,19 +245,6 @@ void eWidget::setLayout(eLayout* const layout) {
 void eWidget::updateLayout() {
     if(!mLayout) return;
     mLayout->layoutWidgets(rect(), mChildren);
-}
-
-eWidget* eWidget::mouseEvent(
-        const eMouseEvent& e, const TMouseEvent event) {
-    if(!contains(e.x(), e.y())) return nullptr;
-    for(const auto w : mChildren) {
-        const auto we = e.translated(-w->x(), -w->y());
-        const bool r = w->mouseEvent(we, event);
-        if(r) return w;
-    }
-    const bool r = (this->*event)(e);
-    if(r) return this;
-    return nullptr;
 }
 
 void eWidget::addWidget(eWidget* const w) {
