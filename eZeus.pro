@@ -21,6 +21,7 @@ SOURCES += \
         widgets/econtextmenu.cpp \
         widgets/efonts.cpp \
         widgets/elabel.cpp \
+        widgets/elabeledwidget.cpp \
         widgets/emainmenu.cpp \
         widgets/emouseevent.cpp \
         widgets/epainter.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
     widgets/econtextmenu.h \
     widgets/efonts.h \
     widgets/elabel.h \
+    widgets/elabeledwidget.h \
     widgets/emainmenu.h \
     widgets/emouseevent.h \
     widgets/epainter.h \

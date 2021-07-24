@@ -71,6 +71,12 @@ void eMainWindow::setResolution(const eRes res) {
     SDL_SetWindowSize(mSdlWindow, w, h);
 }
 
+void eMainWindow::setFullscreen(const bool f) {
+    if(mFullscreen == f) return;
+    mFullscreen = f;
+    SDL_SetWindowFullscreen(mSdlWindow, f ? SDL_WINDOW_FULLSCREEN : 0);
+}
+
 void eMainWindow::showMainMenu() {
     const auto mm = new eMainMenu(this);
     mm->resize(width(), height());
@@ -99,7 +105,7 @@ void eMainWindow::showMainMenu() {
 }
 
 void eMainWindow::showSettingsMenu() {
-    eSettings settings{mResolution};
+    eSettings settings{mFullscreen, mResolution};
     const auto esm = new eSettingsMenu(settings, this);
     esm->resize(width(), height());
     const auto backA = [this]() {
@@ -107,6 +113,7 @@ void eMainWindow::showSettingsMenu() {
     };
     const auto applyA = [this](const eSettings& settings) {
         setResolution(settings.fRes);
+        setFullscreen(settings.fFullscreen);
         showSettingsMenu();
     };
     esm->initialize(backA, applyA);

@@ -29,10 +29,12 @@ private:
     void addSlotImpl(const eSlot& slot);
 
     void setResolution(const eRes res);
+    void setFullscreen(const bool f);
 
     void showMainMenu();
     void showSettingsMenu();
 
+    bool mFullscreen = false;
     eRes mResolution;
 
     static eMainWindow* sInstance;

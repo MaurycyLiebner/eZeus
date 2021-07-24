@@ -1,6 +1,8 @@
 #include "esettingsmenu.h"
 
 #include "ecombobox.h"
+#include "echeckbox.h"
+#include "elabeledwidget.h"
 
 eSettingsMenu::eSettingsMenu(const eSettings& iniSettings,
                              eMainWindow* const window) :
@@ -26,11 +28,7 @@ void eSettingsMenu::initialize(const eAction& backA,
     buttons->align(eAlignment::center);
 
     {
-        const auto cw = new eWidget(window());
-
-        const auto l = new eLabel("Resolution: ", window());
-        l->fitContent();
-        cw->addWidget(l);
+        const auto lw = new eLabeledWidget(window());
 
         const auto b = new eComboBox(window());
         for(const auto& r : eResolution::sResolutions) {
@@ -43,18 +41,24 @@ void eSettingsMenu::initialize(const eAction& backA,
             const auto& s = eResolution::sResolutions[id];
             mSettings.fRes = s.res();
         });
-        cw->addWidget(b);
         b->fitContent();
 
-        cw->fitContent();
+        lw->setup("Resolution: ", b);
+        buttons->addWidget(lw);
+    }
 
-        l->align(eAlignment::vcenter);
-        b->align(eAlignment::vcenter);
+    {
+        const auto lw = new eLabeledWidget(window());
 
-        cw->setWidth(3*margin + l->width() + b->width());
+        const auto b = new eCheckBox(window());
+        b->setChecked(mSettings.fFullscreen);
+        b->setCheckAction([this](const bool c) {
+            mSettings.fFullscreen = c;
+        });
+        b->fitContent();
 
-        cw->layoutHorizontally();
-        buttons->addWidget(cw);
+        lw->setup("Fullscreen: ", b);
+        buttons->addWidget(lw);
     }
 
     buttons->layoutVertically();
