@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <initializer_list>
 
-eButton::eButton(SDL_Renderer* const renderer) :
-    eLabel(renderer) {}
+eButton::eButton(eMainWindow* const window) :
+    eLabel(window) {}
 
 void eButton::setPressAction(const eAction& a) {
     mPressAction = a;

@@ -4,8 +4,6 @@
 
 #include <algorithm>
 
-int eWidget::sDefaultPadding = 10;
-
 eWidget* eWidget::sWidgetUnderMouse = nullptr;
 eWidget* eWidget::sLastPressed = nullptr;
 eWidget* eWidget::sMouseGrabber = nullptr;
@@ -13,8 +11,10 @@ eWidget* eWidget::sKeyboardGrabber = nullptr;
 
 #define ReverseFor(i, cont) for(i = cont.begin(); i < cont.end(); i++)
 
-eWidget::eWidget(SDL_Renderer* const renderer) :
-    mRenderer(renderer) {}
+eWidget::eWidget(eMainWindow* const window) :
+    mWindow(window) {
+    mPadding = eResolution::padding(resolution());
+}
 
 eWidget::~eWidget() {
     for(const auto w : mChildren) {
@@ -28,6 +28,14 @@ eWidget::~eWidget() {
 
 void eWidget::paintEvent(ePainter& p) {
     p.drawRect(rect(), {0, 0, 0, 255}, 1);
+}
+
+SDL_Renderer* eWidget::renderer() const {
+    return mWindow->renderer();
+}
+
+eRes eWidget::resolution() const {
+    return mWindow->resolution();
 }
 
 void eWidget::move(const int x, const int y) {

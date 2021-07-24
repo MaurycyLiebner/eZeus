@@ -2,10 +2,10 @@
 
 #include "econtextmenu.h"
 
-eComboBox::eComboBox(SDL_Renderer* const renderer) :
-    eButton(renderer) {
-    setPressAction([this, renderer]() {
-        const auto cm = new eContextMenu(renderer);
+eComboBox::eComboBox(eMainWindow* const window) :
+    eButton(window) {
+    setPressAction([this, window]() {
+        const auto cm = new eContextMenu(window);
         const int as = mActions.size();
         for(int i = 0; i < as; i++) {
             const auto& a = mActions[i];

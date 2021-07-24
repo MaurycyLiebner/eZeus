@@ -5,7 +5,7 @@
 
 class eMainMenu : public eWidget {
 public:
-    eMainMenu(SDL_Renderer* const renderer);
+    eMainMenu(eMainWindow* const window);
 
     void initialize(const eAction& newGameA,
                     const eAction& loadGameA,

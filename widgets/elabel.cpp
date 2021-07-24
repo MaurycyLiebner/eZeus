@@ -1,12 +1,12 @@
 #include "elabel.h"
 
-eLabel::eLabel(SDL_Renderer* const renderer) :
-    eWidget(renderer) {
-    setFont(eFonts::defaultFont());
+eLabel::eLabel(eMainWindow* const window) :
+    eWidget(window) {
+    setFont(eFonts::defaultFont(resolution()));
 }
 
-eLabel::eLabel(const std::string& text, SDL_Renderer* const renderer) :
-    eLabel(renderer) {
+eLabel::eLabel(const std::string& text, eMainWindow* const window) :
+    eLabel(window) {
     setText(text);
 }
 

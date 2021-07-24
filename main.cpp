@@ -46,8 +46,7 @@ int main() {
     }
 
     eMainWindow w;
-    const auto res = eResolution::sGetResolution(eRes::p720);
-    const bool i = w.initialize(res);
+    const bool i = w.initialize(eRes::p720);
     if(!i) return 1;
 
     const int r = w.exec();

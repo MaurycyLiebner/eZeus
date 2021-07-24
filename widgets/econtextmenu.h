@@ -7,7 +7,7 @@
 
 class eContextMenu : public eWidget {
 public:
-    eContextMenu(SDL_Renderer* const renderer);
+    eContextMenu(eMainWindow* const window);
 
     void exec();
 
@@ -17,9 +17,12 @@ protected:
 
     void paintEvent(ePainter& p);
     bool mousePressEvent(const eMouseEvent& e);
+    bool mouseMoveEvent(const eMouseEvent& e);
 private:
+    int yToActionId(const int y) const;
     eAction yToAction(const int y) const;
 
+    int mHoverId = -1;
     std::vector<eTexture> mTextures;
     std::vector<eAction> mActions;
 };

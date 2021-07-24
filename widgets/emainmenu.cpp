@@ -2,20 +2,25 @@
 
 #include "ebutton.h"
 
-eMainMenu::eMainMenu(SDL_Renderer* const renderer) :
-    eWidget(renderer) {}
+eMainMenu::eMainMenu(eMainWindow* const window) :
+    eWidget(window) {}
 
 void eMainMenu::initialize(const eAction& newGameA,
                            const eAction& loadGameA,
                            const eAction& settingsA,
                            const eAction& quitA) {
-    const auto buttons = new eWidget(renderer());
+    const auto buttons = new eWidget(window());
     addWidget(buttons);
-    buttons->resize(500, 500);
+
+    const auto res = resolution();
+    const int cww = eResolution::centralWidgetWidth(res);
+    const int cwh = eResolution::centralWidgetHeight(res);
+    buttons->resize(cww, cwh);
+
     buttons->align(eAlignment::center);
 
     {
-        const auto b1 = new eButton(renderer());
+        const auto b1 = new eButton(window());
         b1->setPressAction(newGameA);
         buttons->addWidget(b1);
         b1->setText("New Game");
@@ -24,7 +29,7 @@ void eMainMenu::initialize(const eAction& newGameA,
     }
 
     {
-        const auto b2 = new eButton(renderer());
+        const auto b2 = new eButton(window());
         b2->setPressAction(loadGameA);
         buttons->addWidget(b2);
         b2->setText("Load Game");
@@ -33,7 +38,7 @@ void eMainMenu::initialize(const eAction& newGameA,
     }
 
     {
-        const auto b3 = new eButton(renderer());
+        const auto b3 = new eButton(window());
         b3->setPressAction(settingsA);
         buttons->addWidget(b3);
         b3->setText("Settings");
@@ -42,7 +47,7 @@ void eMainMenu::initialize(const eAction& newGameA,
     }
 
     {
-        const auto b4 = new eButton(renderer());
+        const auto b4 = new eButton(window());
         b4->setPressAction(quitA);
         buttons->addWidget(b4);
         b4->setText("Quit");

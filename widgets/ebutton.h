@@ -6,7 +6,7 @@
 
 class eButton : public eLabel {
 public:
-    eButton(SDL_Renderer* const renderer);
+    eButton(eMainWindow* const window);
 
     void setPressAction(const eAction& a);
 

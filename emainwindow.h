@@ -11,7 +11,7 @@ public:
     eMainWindow();
     ~eMainWindow();
 
-    bool initialize(const eResolution& res);
+    bool initialize(const eRes& res);
 public:
 
     void setWidget(eWidget* const w);
@@ -21,15 +21,19 @@ public:
     static void addSlot(const eSlot& slot);
     static eMainWindow* instance();
 
-    int width() const { return mResolution.width(); }
-    int height() const { return mResolution.height(); }
+    int width() const { return eResolution::width(mResolution); }
+    int height() const { return eResolution::height(mResolution); }
+    eRes resolution() const { return mResolution; }
+    SDL_Renderer* renderer() const { return mSdlRenderer; }
 private:
     void addSlotImpl(const eSlot& slot);
+
+    void setResolution(const eRes res);
 
     void showMainMenu();
     void showSettingsMenu();
 
-    eResolution mResolution;
+    eRes mResolution;
 
     static eMainWindow* sInstance;
 

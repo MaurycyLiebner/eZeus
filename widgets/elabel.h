@@ -6,9 +6,9 @@
 
 class eLabel : public eWidget {
 public:
-    eLabel(SDL_Renderer* const renderer);
+    eLabel(eMainWindow* const window);
     eLabel(const std::string& text,
-           SDL_Renderer* const renderer);
+           eMainWindow* const window);
 
     bool setFont(const eFont& font);
     bool setText(const std::string& text);

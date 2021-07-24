@@ -5,6 +5,8 @@
 #include <map>
 #include <string>
 
+#include "eresolution.h"
+
 struct eFont {
     std::string fPath;
     int fPtSize;
@@ -20,15 +22,11 @@ inline bool operator<(const eFont& p0, const eFont& p1) {
 class eFonts {
 public:
     static TTF_Font* requestFont(const eFont& font);
-    static TTF_Font* defaultFont();
-
-    static void setDefaultFont(const eFont& font);
-    static void setDefaultFontSize(const int size);
+    static TTF_Font* defaultFont(const eRes res);
 private:
     static TTF_Font* loadFont(const eFont& font);
 
     static std::map<eFont, TTF_Font*> sFonts;
-    static eFont sDefaultFont;
 };
 
 #endif // EFONTS_H

@@ -16,6 +16,7 @@ SOURCES += \
         etexture.cpp \
         main.cpp \
         widgets/ebutton.cpp \
+        widgets/echeckbox.cpp \
         widgets/ecombobox.cpp \
         widgets/econtextmenu.cpp \
         widgets/efonts.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     esprites.h \
     etexture.h \
     widgets/ebutton.h \
+    widgets/echeckbox.h \
     widgets/ecombobox.h \
     widgets/econtextmenu.h \
     widgets/efonts.h \

@@ -6,14 +6,14 @@
 
 struct eSettings {
     int width() const {
-        return fRes.width();
+        return eResolution::width(fRes);
     }
 
     int height() const {
-        return fRes.height();
+        return eResolution::height(fRes);
     }
 
-    eResolution fRes;
+    eRes fRes;
 };
 
 inline bool operator==(const eSettings& s0, const eSettings& s1) {
@@ -25,7 +25,7 @@ inline bool operator==(const eSettings& s0, const eSettings& s1) {
 class eSettingsMenu : public eWidget {
 public:
     eSettingsMenu(const eSettings& iniSettings,
-                  SDL_Renderer* const renderer);
+                  eMainWindow* const window);
 
     using eApplyAction = std::function<void(const eSettings&)>;
     void initialize(const eAction& backA,

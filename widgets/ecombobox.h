@@ -5,7 +5,7 @@
 
 class eComboBox : public eButton {
 public:
-    eComboBox(SDL_Renderer* const renderer);
+    eComboBox(eMainWindow* const window);
 
     using eCurrentAction = std::function<void(int)>;
     void setCurrentChangedAction(const eCurrentAction& a);

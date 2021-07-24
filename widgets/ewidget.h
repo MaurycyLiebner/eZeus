@@ -6,14 +6,16 @@
 
 #include "epainter.h"
 #include "emouseevent.h"
+#include "eresolution.h"
 
+class eMainWindow;
 class eLayout;
 
 using eAction = std::function<void()>;
 
 class eWidget {
 public:
-    eWidget(SDL_Renderer* const renderer);
+    eWidget(eMainWindow* const window);
 protected:
     virtual ~eWidget();
 public:
@@ -103,10 +105,10 @@ protected:
         return false;
     }
 
-    SDL_Renderer* renderer() const { return mRenderer; }
+    SDL_Renderer* renderer() const;
+    eMainWindow* window() const { return mWindow; }
+    eRes resolution() const;
 private:
-    static int sDefaultPadding;
-
     static eWidget* sWidgetUnderMouse;
     static eWidget* sLastPressed;
     static eWidget* sMouseGrabber;
@@ -116,10 +118,10 @@ private:
     int mY = 0;
     int mWidth = 0;
     int mHeight = 0;
-    int mPadding = sDefaultPadding;
+    int mPadding = 0;
     eWidget* mParent = nullptr;
     std::vector<eWidget*> mChildren;
-    SDL_Renderer* const mRenderer;
+    eMainWindow* const mWindow;
 };
 
 #endif // EWIDGET_H
