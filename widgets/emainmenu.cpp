@@ -19,7 +19,7 @@ void eMainMenu::initialize(const eAction& newGameA,
         b1->setPressAction(newGameA);
         buttons->addWidget(b1);
         b1->setText("New Game");
-        b1->resize(200, 50);
+        b1->fitContent();
         b1->align(eAlignment::hcenter);
     }
 
@@ -28,7 +28,7 @@ void eMainMenu::initialize(const eAction& newGameA,
         b2->setPressAction(loadGameA);
         buttons->addWidget(b2);
         b2->setText("Load Game");
-        b2->resize(300, 50);
+        b2->fitContent();
         b2->align(eAlignment::hcenter);
     }
 
@@ -37,7 +37,7 @@ void eMainMenu::initialize(const eAction& newGameA,
         b3->setPressAction(settingsA);
         buttons->addWidget(b3);
         b3->setText("Settings");
-        b3->resize(150, 50);
+        b3->fitContent();
         b3->align(eAlignment::hcenter);
     }
 
@@ -46,7 +46,7 @@ void eMainMenu::initialize(const eAction& newGameA,
         b4->setPressAction(quitA);
         buttons->addWidget(b4);
         b4->setText("Quit");
-        b4->resize(150, 50);
+        b4->fitContent();
         b4->align(eAlignment::hcenter);
     }
 

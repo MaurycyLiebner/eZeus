@@ -8,22 +8,34 @@ eContextMenu::eContextMenu(SDL_Renderer* const renderer) :
 void eContextMenu::exec() {
     grabMouse();
     grabKeyboard();
+    fitContent();
 }
 
 void eContextMenu::addAction(const std::string& text, const eAction& a) {
     eTexture tex;
-    tex.loadText(renderer(), text, {0, 0, 0, 255}, {"fonts/FreeSans.ttf", 28});
+    const auto font = eFonts::defaultFont();
+    tex.loadText(renderer(), text, {0, 0, 0, 255}, *font);
     mTextures.push_back(tex);
     mActions.push_back(a);
-    setHeight(50*mActions.size());
+}
+
+void eContextMenu::sizeHint(int& w, int& h) {
+    const int p = padding();
+    h = -2*p;
+    for(const auto& t : mTextures) {
+        w = std::max(w, t.width() + 2*p);
+        h += t.height() + 2*p;
+    }
 }
 
 void eContextMenu::paintEvent(ePainter& p) {
+    p.fillRect(rect(), {255, 255, 255, 255});
     const int aCount = mActions.size();
     const int ah = height()/aCount;
+    const int pd = padding();
     int y = 0;
     for(const auto& t : mTextures) {
-        const SDL_Rect txtrect{25, y, width(), ah};
+        const SDL_Rect txtrect{pd, y + pd, width() - 2*pd, ah - 2*pd};
         p.drawTexture(txtrect, t, eAlignment::left | eAlignment::vcenter);
         const SDL_Rect brect{0, y, width(), ah};
         p.drawRect(brect, {0, 0, 0, 255}, 2);

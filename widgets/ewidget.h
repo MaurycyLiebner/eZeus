@@ -23,6 +23,8 @@ public:
     void resize(const int w, const int h);
     void setWidth(const int w);
     void setHeight(const int h);
+    void setPadding(const int padding);
+    void fitContent();
 
     void align(const eAlignment a);
 
@@ -30,6 +32,7 @@ public:
     int y() const { return mY; }
     int width() const { return mWidth; }
     int height() const { return mHeight; }
+    int padding() const { return mPadding; }
     SDL_Rect rect() const { return {0, 0, mWidth, mHeight}; }
 
     eWidget* parent() const { return mParent; }
@@ -49,6 +52,8 @@ public:
     bool mouseMove(const eMouseEvent& e);
 
     void deleteLater();
+
+    eWidget* lastAncestor();
 private:
     using TMouseEvent = bool (eWidget::*)(const eMouseEvent& e);
     eWidget* mouseEvent(const eMouseEvent& e, const TMouseEvent event);
@@ -67,6 +72,8 @@ public:
     void layoutVertically();
     void layoutHorizontally();
 protected:
+    virtual void sizeHint(int& w, int& h);
+
     virtual void paintEvent(ePainter& p);/* {
         (void)p;
     }*/
@@ -98,6 +105,8 @@ protected:
 
     SDL_Renderer* renderer() const { return mRenderer; }
 private:
+    static int sDefaultPadding;
+
     static eWidget* sWidgetUnderMouse;
     static eWidget* sLastPressed;
     static eWidget* sMouseGrabber;
@@ -107,6 +116,7 @@ private:
     int mY = 0;
     int mWidth = 0;
     int mHeight = 0;
+    int mPadding = sDefaultPadding;
     eWidget* mParent = nullptr;
     std::vector<eWidget*> mChildren;
     SDL_Renderer* const mRenderer;

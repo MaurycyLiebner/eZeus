@@ -2,7 +2,7 @@
 
 eLabel::eLabel(SDL_Renderer* const renderer) :
     eWidget(renderer) {
-    setFont({"fonts/FreeSans.ttf", 28});
+    setFont(eFonts::defaultFont());
 }
 
 eLabel::eLabel(const std::string& text, SDL_Renderer* const renderer) :
@@ -30,13 +30,6 @@ bool eLabel::setFontColor(const SDL_Color& color) {
     return updateTextTexture();
 }
 
-void eLabel::fitSizeToText(const int padding) {
-    if(mTextTex.isNull()) return;
-    const int w = 2*padding + mTextTex.width();
-    const int h = 2*padding + mTextTex.height();
-    resize(w, h);
-}
-
 bool eLabel::updateTextTexture() {
     if(mText.empty()) {
         mTextTex.reset();
@@ -45,6 +38,16 @@ bool eLabel::updateTextTexture() {
     if(!mFont) return false;
     mTextTex.loadText(renderer(), mText, mFontColor, *mFont);
     return true;
+}
+
+void eLabel::sizeHint(int& w, int& h) {
+    if(mTextTex.isNull()) {
+        w = 0;
+        h = 0;
+    } else {
+        w = mTextTex.width();
+        h = mTextTex.height();
+    }
 }
 
 void eLabel::paintEvent(ePainter& p) {

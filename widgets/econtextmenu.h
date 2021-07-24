@@ -13,6 +13,8 @@ public:
 
     void addAction(const std::string& text, const eAction& a);
 protected:
+    void sizeHint(int& w, int& h);
+
     void paintEvent(ePainter& p);
     bool mousePressEvent(const eMouseEvent& e);
 private:

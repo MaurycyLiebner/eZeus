@@ -14,18 +14,17 @@ eMainWindow::eMainWindow() {
 }
 
 eMainWindow::~eMainWindow() {
-    if(mSdlWindow) {
-        SDL_DestroyWindow(mSdlWindow);
-    }
+    if(mSdlWindow) SDL_DestroyWindow(mSdlWindow);
+    if(mSdlRenderer) SDL_DestroyRenderer(mSdlRenderer);
     setWidget(nullptr);
 }
 
-bool eMainWindow::initialize(const int width, const int height) {
+bool eMainWindow::initialize(const eResolution& res) {
     const auto window = SDL_CreateWindow("eZeus",
-                                  SDL_WINDOWPOS_UNDEFINED,
-                                  SDL_WINDOWPOS_UNDEFINED,
-                                  width, height,
-                                  SDL_WINDOW_SHOWN);
+                                         SDL_WINDOWPOS_UNDEFINED,
+                                         SDL_WINDOWPOS_UNDEFINED,
+                                         res.width(), res.height(),
+                                         SDL_WINDOW_SHOWN);
 
     if(!window) {
         printf("Window could not be created! SDL Error: %s\n",
@@ -41,12 +40,12 @@ bool eMainWindow::initialize(const int width, const int height) {
         SDL_DestroyWindow(window);
         return false;
     }
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
+    if(mSdlWindow) SDL_DestroyWindow(mSdlWindow);
+    if(mSdlRenderer) SDL_DestroyRenderer(mSdlRenderer);
     mSdlWindow = window;
     mSdlRenderer = renderer;
-    mWidth = width;
-    mHeight = height;
+    mResolution = res;
     return true;
 }
 
@@ -65,7 +64,7 @@ void eMainWindow::addSlotImpl(const eSlot& slot) {
 
 void eMainWindow::showMainMenu() {
     const auto mm = new eMainMenu(mSdlRenderer);
-    mm->resize(mWidth, mHeight);
+    mm->resize(width(), height());
     setWidget(mm);
 
     const auto newGameAction = []() {
@@ -91,12 +90,20 @@ void eMainWindow::showMainMenu() {
 }
 
 void eMainWindow::showSettingsMenu() {
-    const auto esm = new eSettingsMenu(mSdlRenderer);
-    esm->resize(mWidth, mHeight);
+    eSettings settings{mResolution};
+    const auto esm = new eSettingsMenu(settings, mSdlRenderer);
+    esm->resize(width(), height());
     const auto backA = [this]() {
         showMainMenu();
     };
-    esm->initialize(backA);
+    const auto applyA = [this](const eSettings& settings) {
+        mResolution = settings.fRes;
+        const int w = settings.width();
+        const int h = settings.height();
+        SDL_SetWindowSize(mSdlWindow, w, h);
+        showSettingsMenu();
+    };
+    esm->initialize(backA, applyA);
     setWidget(esm);
 }
 

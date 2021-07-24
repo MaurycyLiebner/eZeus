@@ -4,10 +4,14 @@
 
 #include <algorithm>
 
+int eWidget::sDefaultPadding = 10;
+
 eWidget* eWidget::sWidgetUnderMouse = nullptr;
 eWidget* eWidget::sLastPressed = nullptr;
 eWidget* eWidget::sMouseGrabber = nullptr;
 eWidget* eWidget::sKeyboardGrabber = nullptr;
+
+#define ReverseFor(i, cont) for(i = cont.begin(); i < cont.end(); i++)
 
 eWidget::eWidget(SDL_Renderer* const renderer) :
     mRenderer(renderer) {}
@@ -50,6 +54,17 @@ void eWidget::setWidth(const int w) {
 
 void eWidget::setHeight(const int h) {
     resize(width(), h);
+}
+
+void eWidget::setPadding(const int padding) {
+    mPadding = padding;
+}
+
+void eWidget::fitContent() {
+    int w;
+    int h;
+    sizeHint(w, h);
+    resize(w + 2*mPadding, h + 2*mPadding);
 }
 
 void eWidget::align(const eAlignment a) {
@@ -203,13 +218,22 @@ void eWidget::deleteLater() {
     });
 }
 
+eWidget* eWidget::lastAncestor() {
+    eWidget* p = this;
+    while(p->parent()) {
+        p = p->parent();
+    }
+    return p;
+}
+
 eWidget* eWidget::mouseEvent(
         const eMouseEvent& e, const TMouseEvent event) {
     if(!contains(e.x(), e.y())) return nullptr;
-    for(const auto w : mChildren) {
-        const auto we = e.translated(-w->x(), -w->y());
-        const bool r = w->mouseEvent(we, event);
-        if(r) return w;
+    for(auto w = mChildren.rbegin(); w != mChildren.rend(); w++) {
+        const auto& ww = *w;
+        const auto we = e.translated(-ww->x(), -ww->y());
+        const bool r = ww->mouseEvent(we, event);
+        if(r) return ww;
     }
     const bool r = (this->*event)(e);
     if(r) return this;
@@ -292,5 +316,14 @@ void eWidget::layoutHorizontally() {
     for(const auto w : mChildren) {
         w->setX(x);
         x += w->width() + space;
+    }
+}
+
+void eWidget::sizeHint(int& w, int& h) {
+    w = 0;
+    h = 0;
+    for(const auto c : mChildren) {
+        w = std::max(w, c->x() + c->width());
+        h = std::max(h, c->y() + c->height());
     }
 }

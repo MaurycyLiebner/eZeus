@@ -13,9 +13,8 @@ public:
     bool setFont(const eFont& font);
     bool setText(const std::string& text);
     bool setFontColor(const SDL_Color& color);
-
-    void fitSizeToText(const int padding);
 protected:
+    void sizeHint(int& w, int& h);
     void paintEvent(ePainter& p);
 private:
     bool setFont(TTF_Font* const font);

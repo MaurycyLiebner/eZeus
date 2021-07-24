@@ -1,5 +1,8 @@
 #include "ebutton.h"
 
+#include <algorithm>
+#include <initializer_list>
+
 eButton::eButton(SDL_Renderer* const renderer) :
     eLabel(renderer) {}
 
@@ -17,6 +20,16 @@ void eButton::setHoverTexture(const eTexture& tex) {
 
 void eButton::setPressedTexture(const eTexture& tex) {
     mPressedTexture = tex;
+}
+
+void eButton::sizeHint(int& w, int& h) {
+    eLabel::sizeHint(w, h);
+    w = std::max({w, mTexture.width(),
+                  mHoverTexture.width(),
+                  mPressedTexture.width()});
+    h = std::max({h, mTexture.height(),
+                  mHoverTexture.height(),
+                  mPressedTexture.height()});
 }
 
 void eButton::paintEvent(ePainter& p) {

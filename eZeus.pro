@@ -23,6 +23,7 @@ SOURCES += \
         widgets/emainmenu.cpp \
         widgets/emouseevent.cpp \
         widgets/epainter.cpp \
+        widgets/eresolution.cpp \
         widgets/esettingsmenu.cpp \
         widgets/ewidget.cpp
 
@@ -42,5 +43,6 @@ HEADERS += \
     widgets/emainmenu.h \
     widgets/emouseevent.h \
     widgets/epainter.h \
+    widgets/eresolution.h \
     widgets/esettingsmenu.h \
     widgets/ewidget.h

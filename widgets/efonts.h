@@ -8,6 +8,8 @@
 struct eFont {
     std::string fPath;
     int fPtSize;
+
+    bool isNull() const { return fPath.empty(); }
 };
 
 inline bool operator<(const eFont& p0, const eFont& p1) {
@@ -18,10 +20,15 @@ inline bool operator<(const eFont& p0, const eFont& p1) {
 class eFonts {
 public:
     static TTF_Font* requestFont(const eFont& font);
+    static TTF_Font* defaultFont();
+
+    static void setDefaultFont(const eFont& font);
+    static void setDefaultFontSize(const int size);
 private:
     static TTF_Font* loadFont(const eFont& font);
 
     static std::map<eFont, TTF_Font*> sFonts;
+    static eFont sDefaultFont;
 };
 
 #endif // EFONTS_H

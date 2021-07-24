@@ -14,6 +14,7 @@ public:
     void setHoverTexture(const eTexture& tex);
     void setPressedTexture(const eTexture& tex);
 protected:
+    void sizeHint(int& w, int& h);
     void paintEvent(ePainter& p);
 
     bool mousePressEvent(const eMouseEvent& e);

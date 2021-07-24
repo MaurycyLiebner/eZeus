@@ -2,6 +2,7 @@
 #define EMAINWINDOW_H
 
 #include "widgets/ewidget.h"
+#include "widgets/eresolution.h"
 
 using eSlot = std::function<void()>;
 
@@ -10,7 +11,8 @@ public:
     eMainWindow();
     ~eMainWindow();
 
-    bool initialize(const int width, const int height);
+    bool initialize(const eResolution& res);
+public:
 
     void setWidget(eWidget* const w);
 
@@ -18,14 +20,16 @@ public:
 
     static void addSlot(const eSlot& slot);
     static eMainWindow* instance();
+
+    int width() const { return mResolution.width(); }
+    int height() const { return mResolution.height(); }
 private:
     void addSlotImpl(const eSlot& slot);
 
     void showMainMenu();
     void showSettingsMenu();
 
-    int mWidth = 0;
-    int mHeight = 0;
+    eResolution mResolution;
 
     static eMainWindow* sInstance;
 
