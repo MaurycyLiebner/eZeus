@@ -20,10 +20,7 @@ eWidget::~eWidget() {
     for(const auto w : mChildren) {
         delete w;
     }
-    if(sWidgetUnderMouse == this) sWidgetUnderMouse = nullptr;
-    if(sLastPressed == this) sLastPressed = nullptr;
-    if(sMouseGrabber == this) sMouseGrabber = nullptr;
-    if(sKeyboardGrabber == this) sKeyboardGrabber = nullptr;
+    clearWidgetPointers();
 }
 
 void eWidget::paintEvent(ePainter& p) {
@@ -73,6 +70,22 @@ void eWidget::fitContent() {
     int h;
     sizeHint(w, h);
     resize(w + 2*mPadding, h + 2*mPadding);
+}
+
+void eWidget::show() {
+    mVisible = true;
+}
+
+void eWidget::hide() {
+    mVisible = false;
+    clearWidgetPointers();
+}
+
+void eWidget::clearWidgetPointers() {
+    if(sWidgetUnderMouse == this) sWidgetUnderMouse = nullptr;
+    if(sLastPressed == this) sLastPressed = nullptr;
+    if(sMouseGrabber == this) sMouseGrabber = nullptr;
+    if(sKeyboardGrabber == this) sKeyboardGrabber = nullptr;
 }
 
 void eWidget::align(const eAlignment a) {
@@ -153,6 +166,7 @@ void eWidget::paint(ePainter& p) {
     p.restore();
 
     for(const auto w : mChildren) {
+        if(!w->visible()) continue;
         w->paint(p);
     }
 
@@ -239,6 +253,7 @@ eWidget* eWidget::mouseEvent(
     if(!contains(e.x(), e.y())) return nullptr;
     for(auto w = mChildren.rbegin(); w != mChildren.rend(); w++) {
         const auto& ww = *w;
+        if(!ww->visible()) continue;
         const auto we = e.translated(-ww->x(), -ww->y());
         const bool r = ww->mouseEvent(we, event);
         if(r) return ww;
@@ -317,11 +332,13 @@ void eWidget::layoutHorizontally() {
     const int spaces = mChildren.size() + 1;
     int wsWidth = 0;
     for(const auto w : mChildren) {
+        if(!w->visible()) continue;
         wsWidth += w->width();
     }
     const int space = (width() - wsWidth)/spaces;
     int x = space;
     for(const auto w : mChildren) {
+        if(!w->visible()) continue;
         w->setX(x);
         x += w->width() + space;
     }
@@ -331,6 +348,7 @@ void eWidget::sizeHint(int& w, int& h) {
     w = 0;
     h = 0;
     for(const auto c : mChildren) {
+        if(!c->visible()) continue;
         w = std::max(w, c->x() + c->width());
         h = std::max(h, c->y() + c->height());
     }

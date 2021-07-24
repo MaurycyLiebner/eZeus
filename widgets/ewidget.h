@@ -27,6 +27,9 @@ public:
     void setHeight(const int h);
     void setPadding(const int padding);
     void fitContent();
+    void show();
+    void hide();
+    void clearWidgetPointers();
 
     void align(const eAlignment a);
 
@@ -36,6 +39,7 @@ public:
     int height() const { return mHeight; }
     int padding() const { return mPadding; }
     SDL_Rect rect() const { return {0, 0, mWidth, mHeight}; }
+    bool visible() const { return mVisible; }
 
     eWidget* parent() const { return mParent; }
 
@@ -119,6 +123,7 @@ private:
     int mWidth = 0;
     int mHeight = 0;
     int mPadding = 0;
+    bool mVisible = true;
     eWidget* mParent = nullptr;
     std::vector<eWidget*> mChildren;
     eMainWindow* const mWindow;
