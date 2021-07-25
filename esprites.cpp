@@ -12,3 +12,7 @@ void eSprites::renderFrame(SDL_Renderer* const r,
     if(uFrame >= mFrames.size()) return;
     mFrames[uFrame].render(r, x, y);
 }
+
+int eSprites::frameCount() const {
+    return mFrames.size();
+}

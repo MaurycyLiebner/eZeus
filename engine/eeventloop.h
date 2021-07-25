@@ -4,13 +4,14 @@
 #include <queue>
 #include <functional>
 #include <mutex>
+#include <atomic>
 #include <thread>
 
 using eSlot = std::function<void()>;
 
 class eEventLoop {
 public:
-    eEventLoop(const eSlot& loopFunc);
+    eEventLoop(const double fps, const eSlot& loopFunc);
     ~eEventLoop();
 
     void setFps(const double fps);
@@ -32,7 +33,7 @@ private:
 
     double mFps;
 
-    bool mQuit = false;
+    std::atomic<bool> mQuit{false};
 };
 
 #endif // EEVENTLOOP_H

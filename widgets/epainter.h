@@ -68,6 +68,8 @@ public:
                   const SDL_Color& color,
                   const eAlignment align = eAlignment::bottom |
                                            eAlignment::right) const;
+    void drawPolygon(std::vector<SDL_Point> pts,
+                     const SDL_Color& color) const;
 private:
     std::vector<ePainterSave> mSaves;
 

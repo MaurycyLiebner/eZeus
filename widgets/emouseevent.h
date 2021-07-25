@@ -16,6 +16,10 @@ inline eMouseButton operator&(const eMouseButton a, const eMouseButton b) {
     return static_cast<eMouseButton>(static_cast<int>(a) & static_cast<int>(b));
 }
 
+inline eMouseButton operator~(const eMouseButton a) {
+    return static_cast<eMouseButton>(~static_cast<int>(a));
+}
+
 class eMouseEvent {
 public:
     eMouseEvent(const int x, const int y,

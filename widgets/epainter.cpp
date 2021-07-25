@@ -135,3 +135,13 @@ void ePainter::drawText(const SDL_Rect& rect,
 
     drawTexture(rect, tex, align);
 }
+
+void ePainter::drawPolygon(std::vector<SDL_Point> pts,
+                           const SDL_Color& color) const {
+    for(auto& pt : pts) {
+        pt.x += mX;
+        pt.y += mY;
+    }
+    SDL_SetRenderDrawColor(mRenderer, color.r, color.g, color.b, color.a);
+    SDL_RenderDrawLines(mRenderer, pts.data(), pts.size());
+}

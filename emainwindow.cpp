@@ -2,6 +2,7 @@
 
 #include "widgets/emainmenu.h"
 #include "widgets/esettingsmenu.h"
+#include "widgets/egamewidget.h"
 
 eMainWindow* eMainWindow::sInstance = nullptr;
 
@@ -82,8 +83,8 @@ void eMainWindow::showMainMenu() {
     mm->resize(width(), height());
     setWidget(mm);
 
-    const auto newGameAction = []() {
-
+    const auto newGameAction = [this]() {
+        showGame();
     };
 
     const auto loadGameAction = []() {
@@ -120,7 +121,17 @@ void eMainWindow::showSettingsMenu() {
     setWidget(esm);
 }
 
+void eMainWindow::showGame() {
+    const auto egw = new eGameWidget(this);
+    egw->resize(width(), height());
+    egw->initialize(16, 16);
+    setWidget(egw);
+}
+
 int eMainWindow::exec() {
+    using namespace std::chrono;
+    using namespace std::chrono_literals;
+
     showMainMenu();
 
     eMouseButton button{eMouseButton::none};
@@ -128,7 +139,14 @@ int eMainWindow::exec() {
 
     SDL_Event e;
 
+    auto end = high_resolution_clock::now();
+    auto start = high_resolution_clock::now();
+
+    int c = 0;
+
     while(!mQuit) {
+        const auto nstart = high_resolution_clock::now();
+
         while(SDL_PollEvent(&e)) {
             int x, y;
             SDL_GetMouseState(&x, &y);
@@ -138,9 +156,36 @@ int eMainWindow::exec() {
                 const eMouseEvent me(x, y, buttons, button);
                 if(mWidget) mWidget->mouseMove(me);
             } else if(e.type == SDL_MOUSEBUTTONDOWN) {
+                switch(e.button.button) {
+                case SDL_BUTTON_LEFT:
+                    button = eMouseButton::left;
+                    break;
+                case SDL_BUTTON_RIGHT:
+                    button = eMouseButton::right;
+                    break;
+                case SDL_BUTTON_MIDDLE:
+                    button = eMouseButton::middle;
+                    break;
+                default: continue;
+                }
+                buttons = button | buttons;
+
                 const eMouseEvent me(x, y, buttons, button);
                 if(mWidget) mWidget->mousePress(me);
             } else if(e.type == SDL_MOUSEBUTTONUP) {
+                switch(e.button.button) {
+                case SDL_BUTTON_LEFT:
+                    button = eMouseButton::left;
+                    break;
+                case SDL_BUTTON_RIGHT:
+                    button = eMouseButton::right;
+                    break;
+                case SDL_BUTTON_MIDDLE:
+                    button = eMouseButton::middle;
+                    break;
+                default: continue;
+                }
+                buttons = buttons & ~button;
                 const eMouseEvent me(x, y, buttons, button);
                 if(mWidget) mWidget->mouseRelease(me);
             }
@@ -150,6 +195,12 @@ int eMainWindow::exec() {
         SDL_RenderClear(mSdlRenderer);
 
         ePainter p(mSdlRenderer);
+
+        p.setFont(eFonts::defaultFont(resolution()));
+        const duration<double> elapsed = end - start;
+        const int fps = (int)std::round(1/elapsed.count());
+        p.drawText(0, 0, std::to_string(fps), {0, 0, 0, 255});
+
         if(mWidget) mWidget->paint(p);
 
         SDL_RenderPresent(mSdlRenderer);
@@ -158,6 +209,12 @@ int eMainWindow::exec() {
             s();
         }
         mSlots.clear();
+
+        c++;
+        if(c % 25 == 0) {
+            start = nstart;
+            end = high_resolution_clock::now();
+        }
     }
 
     return 0;

@@ -12,6 +12,7 @@ public:
     void renderFrame(SDL_Renderer* const r,
                      const int x, const int y,
                      const int frame) const;
+    int frameCount() const;
 private:
     std::vector<eSpriteFrame> mFrames;
 };

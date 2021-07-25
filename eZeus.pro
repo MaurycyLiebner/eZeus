@@ -9,8 +9,14 @@ LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf
 SOURCES += \
         emainwindow.cpp \
         engine/eeventloop.cpp \
+        engine/egameboard.cpp \
+        engine/egameboarditerator.cpp \
+        engine/egameeventloop.cpp \
+        engine/egameobject.cpp \
+        engine/emovinggameobject.cpp \
         engine/etask.cpp \
         engine/ethreadpool.cpp \
+        engine/etile.cpp \
         espriteframe.cpp \
         esprites.cpp \
         etexture.cpp \
@@ -20,6 +26,7 @@ SOURCES += \
         widgets/ecombobox.cpp \
         widgets/econtextmenu.cpp \
         widgets/efonts.cpp \
+        widgets/egamewidget.cpp \
         widgets/elabel.cpp \
         widgets/elabeledwidget.cpp \
         widgets/emainmenu.cpp \
@@ -32,8 +39,14 @@ SOURCES += \
 HEADERS += \
     emainwindow.h \
     engine/eeventloop.h \
+    engine/egameboard.h \
+    engine/egameboarditerator.h \
+    engine/egameeventloop.h \
+    engine/egameobject.h \
+    engine/emovinggameobject.h \
     engine/etask.h \
     engine/ethreadpool.h \
+    engine/etile.h \
     espriteframe.h \
     esprites.h \
     etexture.h \
@@ -42,6 +55,7 @@ HEADERS += \
     widgets/ecombobox.h \
     widgets/econtextmenu.h \
     widgets/efonts.h \
+    widgets/egamewidget.h \
     widgets/elabel.h \
     widgets/elabeledwidget.h \
     widgets/emainmenu.h \

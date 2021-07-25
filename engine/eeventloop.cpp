@@ -2,8 +2,8 @@
 
 eEventLoop* eEventLoop::sInstance = nullptr;
 
-eEventLoop::eEventLoop(const eSlot& loopFunc) :
-    mLoopFunc(loopFunc) {
+eEventLoop::eEventLoop(const double fps, const eSlot& loopFunc) :
+    mLoopFunc(loopFunc), mFps(fps) {
     sInstance = this;
 }
 

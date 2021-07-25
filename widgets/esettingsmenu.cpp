@@ -19,8 +19,6 @@ void eSettingsMenu::initialize(const eAction& backA,
 
     const auto res = resolution();
 
-    const int margin = eResolution::margin(res);
-
     const int cww = eResolution::centralWidgetWidth(res);
     const int cwh = eResolution::centralWidgetHeight(res);
     buttons->resize(cww, cwh);

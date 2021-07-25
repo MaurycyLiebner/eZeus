@@ -33,6 +33,7 @@ private:
 
     void showMainMenu();
     void showSettingsMenu();
+    void showGame();
 
     bool mFullscreen = false;
     eRes mResolution;
