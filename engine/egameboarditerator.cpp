@@ -68,7 +68,6 @@ eGameBoardDiagonalIterator& eGameBoardDiagonalIterator::operator++() {
     return* this;
 }
 
-
 bool eGameBoardDiagonalIterator::operator==(
         const eGameBoardDiagonalIterator& it) const {
     return it.mTile == mTile;

@@ -33,6 +33,15 @@ public:
 
     bool operator==(const eGameBoardDiagonalIterator& it) const;
     bool operator!=(const eGameBoardDiagonalIterator& it) const;
+
+    int row() const { return mRow; }
+    int column() const { return mColumn; }
+
+    void nextRow() {
+        mRow++;
+        mColumn = 0;
+        updateTile();
+    }
 protected:
     void updateTile();
 

@@ -18,13 +18,30 @@ void eGameWidget::paintEvent(ePainter& p) {
     const int tileW = 100;
     const int tileH = 50;
     const auto board = mLoop.requestBoard();
-//    const int w = board.width();
-//    const int h = board.height();
+    const int w = board.width();
+    const int h = board.height();
+    const int nRows = w + h - 1;
+
 //    const int pixW = tileW*(w + h)/2;
+
+    int minRow = -2*(mDY - 100)/tileH;
+    int maxRow = minRow + 2*(height() - 200)/tileH;
+    minRow = std::clamp(minRow, 0, nRows);
+    maxRow = std::clamp(maxRow, 0, nRows);
+
+    const int minXYDiff = 2*(-mDX + 100)/tileW;
+    const int maxXYDiff = minXYDiff + 2*(width() - 200)/tileW;
+//    const int minColumn = ;
+
     p.setFont(eFonts::defaultFont(resolution()));
-    p.translate(mDX + width()/2, mDY);
-    for(auto it = board.dBegin(); it != board.dEnd(); ++it) {
+    p.translate(mDX, mDY);
+    const auto iniIt = eGameBoardDiagonalIterator(minRow, 0, &board);
+    for(auto it = iniIt; it != board.dEnd(); ++it) {
+        if(it.row() > maxRow) break;
         const auto tile = *it;
+        const int xmy = tile->x() - tile->y();
+        if(xmy < minXYDiff) continue;
+        if(xmy > maxXYDiff) continue;
         std::vector<SDL_Point> pts;
         const int tx = tile->x();
         const int ty = tile->y();
