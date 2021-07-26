@@ -27,6 +27,8 @@ private:
     eTextureCollection mDryTerrainTexs;
     eTextureCollection mBeachTerrainTexs;
     eTextureCollection mBeachToDryTerrainTexs;
+    eTextureCollection mRiverTerrainTexs;
+    std::vector<eTextureCollection> mRiverToDryTerrainTexs;
 };
 
 #endif // EGAMEWIDGET_H

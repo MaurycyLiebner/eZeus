@@ -27,7 +27,7 @@ eTile* eTile::bottom() const {
     return mBottomLeft->bottomRight();
 }
 
-void eTile::setTerrain(const eTerrain& terr) {
+void eTile::setTerrain(const eTerrain terr) {
     mTerr = terr;
 }
 
@@ -47,7 +47,11 @@ void eTile::setBottomLeft(eTile* const bl) {
     mBottomLeft = bl;
 }
 
-eTypedSurroundings eTile::surroundings() const {
+void eTile::neighboursWithTerrain(const eTerrain terr,
+                                  bool& tl, bool& tr,
+                                  bool& br, bool& bl,
+                                  bool& t, bool& r,
+                                  bool& b, bool& l) const {
     eTerrain tlTerr = mTerr;
     eTerrain trTerr = mTerr;
     eTerrain brTerr = mTerr;
@@ -58,19 +62,29 @@ eTypedSurroundings eTile::surroundings() const {
     eTerrain bTerr = mTerr;
     eTerrain lTerr = mTerr;
 
-    eTypedSurroundings result{mTerr, eSurroundings::end};
-
-    if(mTopLeft) {
-        tlTerr = mTopLeft->terrain();
+    {
+        const auto tl = topLeft();
+        if(tl) {
+            tlTerr = tl->terrain();
+        }
     }
-    if(mTopRight) {
-        trTerr = mTopRight->terrain();
+    {
+        const auto tr = topRight();
+        if(tr) {
+            trTerr = tr->terrain();
+        }
     }
-    if(mBottomRight) {
-        brTerr = mBottomRight->terrain();
+    {
+        const auto br = bottomRight();
+        if(br) {
+            brTerr = br->terrain();
+        }
     }
-    if(mBottomLeft) {
-        blTerr = mBottomLeft->terrain();
+    {
+        const auto bl = bottomLeft();
+        if(bl) {
+            blTerr = bl->terrain();
+        }
     }
 
     {
@@ -101,59 +115,13 @@ eTypedSurroundings eTile::surroundings() const {
         }
     }
 
-    if(tlTerr != mTerr) {
-        result.fTerr = tlTerr;
-    } else if(trTerr != mTerr) {
-        result.fTerr = trTerr;
-    } else if(brTerr != mTerr) {
-        result.fTerr = brTerr;
-    } else if(blTerr != mTerr) {
-        result.fTerr = blTerr;
-    } else if(tTerr != mTerr) {
-        result.fTerr = tTerr;
-    } else if(rTerr != mTerr) {
-        result.fTerr = rTerr;
-    } else if(bTerr != mTerr) {
-        result.fTerr = bTerr;
-    } else if(lTerr != mTerr) {
-        result.fTerr = lTerr;
-    }
+    tl = tlTerr != terr;
+    tr = trTerr != terr;
+    br = brTerr != terr;
+    bl = blTerr != terr;
 
-    const bool tl = tlTerr != mTerr;
-    const bool tr = trTerr != mTerr;
-    const bool br = brTerr != mTerr;
-    const bool bl = blTerr != mTerr;
-
-    const bool t = tTerr != mTerr;
-    const bool r = rTerr != mTerr;
-    const bool b = bTerr != mTerr;
-    const bool l = lTerr != mTerr;
-
-    if(bl && br) {
-        result.fSurr = eSurroundings::bottomLeftAndBottomRight;
-    } else if(tr && br) {
-        result.fSurr = eSurroundings::topRightAndBottomRight;
-    } else if(tl && tr) {
-        result.fSurr = eSurroundings::topLeftAndTopRight;
-    } else if(tl && bl) {
-        result.fSurr = eSurroundings::topLeftAndBottomLeft;
-    } else if(br) {
-        result.fSurr = eSurroundings::bottomRight;
-    } else if(tr) {
-        result.fSurr = eSurroundings::topRight;
-    } else if(tl) {
-        result.fSurr = eSurroundings::topLeft;
-    } else if(bl) {
-        result.fSurr = eSurroundings::bottomLeft;
-    } else if(t) {
-        result.fSurr = eSurroundings::top;
-    } else if(r) {
-        result.fSurr = eSurroundings::right;
-    } else if(b) {
-        result.fSurr = eSurroundings::bottom;
-    } else if(l) {
-        result.fSurr = eSurroundings::left;
-    }
-
-    return result;
+    t = tTerr != terr;
+    r = rTerr != terr;
+    b = bTerr != terr;
+    l = lTerr != terr;
 }

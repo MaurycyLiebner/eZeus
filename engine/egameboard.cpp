@@ -49,13 +49,14 @@ void eGameBoard::initialize(const int w, const int h) {
     updateNeighbours();
 
     for(int i = 0; i < w + h; i++) {
+        const auto type = rand() % 2 ? eTerrain::beach : eTerrain::river;
         const int x0 = rand() % w;
         const int y0 = rand() % h;
         for(int j = 0; j < 3; j++) {
             for(int k = 0; k < 3; k++) {
                 const auto t = tile(x0 + j, y0 + k);
                 if(!t) continue;
-                t->setTerrain(eTerrain::beach);
+                t->setTerrain(type);
             }
         }
     }

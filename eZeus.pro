@@ -8,12 +8,14 @@ LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf
 
 SOURCES += \
         emainwindow.cpp \
+        engine/ebeachtodry.cpp \
         engine/eeventloop.cpp \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
         engine/egameeventloop.cpp \
         engine/egameobject.cpp \
         engine/emovinggameobject.cpp \
+        engine/erivertodry.cpp \
         engine/etask.cpp \
         engine/ethreadpool.cpp \
         engine/etile.cpp \
@@ -39,12 +41,14 @@ SOURCES += \
 
 HEADERS += \
     emainwindow.h \
+    engine/ebeachtodry.h \
     engine/eeventloop.h \
     engine/egameboard.h \
     engine/egameboarditerator.h \
     engine/egameeventloop.h \
     engine/egameobject.h \
     engine/emovinggameobject.h \
+    engine/erivertodry.h \
     engine/etask.h \
     engine/ethreadpool.h \
     engine/etile.h \

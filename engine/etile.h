@@ -2,28 +2,7 @@
 #define ETILE_H
 
 enum class eTerrain {
-    dry, beach
-};
-
-enum class eSurroundings {
-    bottomLeft,
-    left,
-    topLeft,
-    top,
-    topRight,
-    right,
-    bottomRight,
-    bottom,
-    topLeftAndBottomLeft,
-    topLeftAndTopRight,
-    topRightAndBottomRight,
-    bottomLeftAndBottomRight,
-    end
-};
-
-struct eTypedSurroundings {
-    eTerrain fTerr;
-    eSurroundings fSurr;
+    dry, beach, river
 };
 
 class eTile {
@@ -45,14 +24,18 @@ public:
     eTile* right() const;
     eTile* bottom() const;
 
-    void setTerrain(const eTerrain& terr);
+    void setTerrain(const eTerrain terr);
 
     void setTopLeft(eTile* const tl);
     void setTopRight(eTile* const tr);
     void setBottomRight(eTile* const br);
     void setBottomLeft(eTile* const bl);
 
-    eTypedSurroundings surroundings() const;
+    void neighboursWithTerrain(const eTerrain terr,
+                               bool& tl, bool& tr,
+                               bool& br, bool& bl,
+                               bool& t, bool& r,
+                               bool& b, bool& l) const;
 private:
     const int mId;
     const int mX;

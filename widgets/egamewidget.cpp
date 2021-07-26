@@ -1,25 +1,14 @@
 #include "egamewidget.h"
 
-enum class eBeachToDryTile {
-    dryBottomLeft,
-    dryLeft,
-    dryTopLeft,
-    dryTop,
-    dryTopRight,
-    dryRight,
-    dryBottomRight,
-    dryBottom,
-    dryTopLeftAndBottomLeft,
-    dryTopLeftAndTopRight,
-    dryTopRightAndBottomRight,
-    dryBottomLeftAndBottomRight
-};
+#include "engine/ebeachtodry.h"
+#include "engine/erivertodry.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window),
     mDryTerrainTexs(renderer()),
     mBeachTerrainTexs(renderer()),
-    mBeachToDryTerrainTexs(renderer()) {
+    mBeachToDryTerrainTexs(renderer()),
+    mRiverTerrainTexs(renderer()) {
     mLoopThread = std::thread(std::bind(&eGameEventLoop::exec, &mLoop));
 }
 
@@ -39,6 +28,42 @@ void eGameWidget::initialize(const int w, const int h) {
             const auto path = pathBase + std::to_string(i) + ".png";
             const bool r = mDryTerrainTexs.loadTexture(path);
             if(!r) std::printf("Failed to load %s\n", path.c_str());
+        }
+
+        for(int i = 164; i < 172; i++) {
+            const auto path = pathBase + std::to_string(i) + ".png";
+            const bool r = mRiverTerrainTexs.loadTexture(path);
+            if(!r) std::printf("Failed to load %s\n", path.c_str());
+        }
+
+        {
+            for(int i = 172; i < 204;) {
+                eTextureCollection coll(renderer());
+                for(int j = 0; j < 4; j++, i++) {
+                    const auto path = pathBase + std::to_string(i) + ".png";
+                    const bool r = coll.loadTexture(path);
+                    if(!r) std::printf("Failed to load %s\n", path.c_str());
+                }
+                mRiverToDryTerrainTexs.push_back(coll);
+            }
+
+            for(int i = 204; i < 208;) {
+                eTextureCollection coll(renderer());
+                for(int j = 0; j < 2; j++, i++) {
+                    const auto path = pathBase + std::to_string(i) + ".png";
+                    const bool r = coll.loadTexture(path);
+                    if(!r) std::printf("Failed to load %s\n", path.c_str());
+                }
+                mRiverToDryTerrainTexs.push_back(coll);
+            }
+
+            for(int i = 208; i < 244; i++) {
+                eTextureCollection coll(renderer());
+                const auto path = pathBase + std::to_string(i) + ".png";
+                const bool r = coll.loadTexture(path);
+                if(!r) std::printf("Failed to load %s\n", path.c_str());
+                mRiverToDryTerrainTexs.push_back(coll);
+            }
         }
     }
 
@@ -93,19 +118,31 @@ void eGameWidget::paintEvent(ePainter& p) {
             pixY -= alt*tileH/2;
         }
 
-        const auto surr = tile->surroundings();
         switch(tile->terrain()) {
         case eTerrain::dry: {
             const int texId = tile->id() % mDryTerrainTexs.size();
             mDryTerrainTexs.draw(p, pixX, pixY, texId);
         } break;
         case eTerrain::beach: {
-            if(surr.fSurr == eSurroundings::end) {
+            const auto id = eBeachToDry::get(tile);
+            if(id == eBeachToDryId::none) {
                 const int texId = tile->id() % mBeachTerrainTexs.size();
                 mBeachTerrainTexs.draw(p, pixX, pixY, texId);
             } else {
-                const int texId = static_cast<int>(surr.fSurr);
+                const int texId = static_cast<int>(id);
                 mBeachToDryTerrainTexs.draw(p, pixX, pixY, texId);
+            }
+        } break;
+        case eTerrain::river: {
+            const auto id = eRiverToDry::get(tile);
+            if(id == eRiverToDryId::none) {
+                const int texId = tile->id() % mRiverTerrainTexs.size();
+                mRiverTerrainTexs.draw(p, pixX, pixY, texId);
+            } else {
+                const int collId = static_cast<int>(id);
+                const auto& texs = mRiverToDryTerrainTexs[collId];
+                const int texId = tile->id() % texs.size();
+                texs.draw(p, pixX, pixY, texId);
             }
         } break;
         }
