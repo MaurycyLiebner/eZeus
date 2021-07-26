@@ -13,39 +13,30 @@ eGameWidget::~eGameWidget() {
 void eGameWidget::initialize(const int w, const int h) {
     mLoop.initialize(w, h);
 
-    const std::string pathBase{"textures/720p/tiles/grass/flat_"};
-    for(int i = 1; i < 5; i++) {
+    const std::string pathBase{"../ZeusTextures/Zeus_Terrain/Zeus_land1_00"};
+    for(int i = 106; i < 164; i++) {
         const auto path = pathBase + std::to_string(i) + ".png";
         eTexture tex;
         tex.load(renderer(), path);
         mFlatGrassTexs.push_back(tex);
     }
-
-    {
-        const auto path = "textures/720p/tiles/grass/flat_1_bottom_left.png";
-        mBottomLeft.load(renderer(), path);
-    }
-    {
-        const auto path = "textures/720p/tiles/grass/flat_1_bottom_right.png";
-        mBottomRight.load(renderer(), path);
-    }
 }
 
 void eGameWidget::paintEvent(ePainter& p) {
-    const int tileW = 128;
-    const int tileH = 64;
+    const int tileW = 56;
+    const int tileH = 30;
     const auto board = mLoop.requestBoard();
     const int w = board.width();
     const int h = board.height();
     const int nRows = w + h - 1;
 
-    int minRow = -2*(mDY - 100)/tileH;
-    int maxRow = minRow + 2*(height() - 200)/tileH;
+    int minRow = -2*mDY/tileH;
+    int maxRow = minRow + 2*height()/tileH - 2;
     minRow = std::clamp(minRow, 0, nRows);
     maxRow = std::clamp(maxRow, 0, nRows);
 
-    const int minXYDiff = 2*(-mDX + 100)/tileW;
-    const int maxXYDiff = minXYDiff + 2*(width() - 200)/tileW;
+    const int minXYDiff = -2*mDX/tileW;
+    const int maxXYDiff = minXYDiff + 2*width()/tileW;
 
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);
@@ -62,15 +53,10 @@ void eGameWidget::paintEvent(ePainter& p) {
         int pixY = (tx*tileH + ty*tileH)/2;
         const int alt = tile->altitude();
         if(alt > 0) {
-            for(int i = 0; i < alt; i++) {
-                const int y = pixY - i*tileH/2;
-                p.drawTexture(pixX - tileW/2, y, mBottomLeft);
-                p.drawTexture(pixX, y, mBottomRight);
-            }
             pixY -= alt*tileH/2;
         }
 
-        const int texId = (tx + ty) % 4;
+        const int texId = tile->id() % mFlatGrassTexs.size();
         const auto& tex = mFlatGrassTexs[texId];
         p.drawTexture(pixX - tileW/2, pixY, tex);
 
