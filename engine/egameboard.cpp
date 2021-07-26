@@ -1,5 +1,7 @@
 #include "egameboard.h"
 
+#include <random>
+
 eGameBoard::eGameBoard() {
 
 }
@@ -21,6 +23,7 @@ eGameBoard::eGameBoard(const eGameBoard& board) {
     mHeight = h;
 
     updateDiagonalArray();
+    updateNeighbours();
 }
 
 eGameBoard::~eGameBoard() {
@@ -43,6 +46,19 @@ void eGameBoard::initialize(const int w, const int h) {
     mHeight = h;
 
     updateDiagonalArray();
+    updateNeighbours();
+
+    for(int i = 0; i < w + h; i++) {
+        const int x0 = rand() % w;
+        const int y0 = rand() % h;
+        for(int j = 0; j < 3; j++) {
+            for(int k = 0; k < 3; k++) {
+                const auto t = tile(x0 + j, y0 + k);
+                if(!t) continue;
+                t->setTerrain(eTerrain::beach);
+            }
+        }
+    }
 }
 
 void eGameBoard::clear() {
@@ -57,6 +73,12 @@ void eGameBoard::clear() {
     mHeight = 0;
 }
 
+eTile* eGameBoard::tile(const int x, const int y) const {
+    if(x < 0 || x >= mWidth) return nullptr;
+    if(y < 0 || y >= mHeight) return nullptr;
+    return mTiles[x][y];
+}
+
 void eGameBoard::updateDiagonalArray() {
     for(int k = 0 ; k <= mWidth + mHeight - 2; k++) {
         std::vector<eTile*> diag;
@@ -67,5 +89,17 @@ void eGameBoard::updateDiagonalArray() {
             }
         }
         mDiagTiles.push_back(diag);
+    }
+}
+
+void eGameBoard::updateNeighbours() {
+    for(int x = 0; x < mWidth; x++) {
+        for(int y = 0; y < mHeight; y++) {
+            const auto t = mTiles[x][y];
+            t->setTopLeft(tile(x - 1, y));
+            t->setTopRight(tile(x, y - 1));
+            t->setBottomRight(tile(x + 1, y));
+            t->setBottomLeft(tile(x, y + 1));
+        }
     }
 }

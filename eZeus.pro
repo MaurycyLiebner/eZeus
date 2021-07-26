@@ -20,6 +20,7 @@ SOURCES += \
         espriteframe.cpp \
         esprites.cpp \
         etexture.cpp \
+        etexturecollection.cpp \
         main.cpp \
         widgets/ebutton.cpp \
         widgets/echeckbox.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     espriteframe.h \
     esprites.h \
     etexture.h \
+    etexturecollection.h \
     widgets/ebutton.h \
     widgets/echeckbox.h \
     widgets/ecombobox.h \

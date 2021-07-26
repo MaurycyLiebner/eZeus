@@ -1,7 +1,25 @@
 #include "egamewidget.h"
 
+enum class eBeachToDryTile {
+    dryBottomLeft,
+    dryLeft,
+    dryTopLeft,
+    dryTop,
+    dryTopRight,
+    dryRight,
+    dryBottomRight,
+    dryBottom,
+    dryTopLeftAndBottomLeft,
+    dryTopLeftAndTopRight,
+    dryTopRightAndBottomRight,
+    dryBottomLeftAndBottomRight
+};
+
 eGameWidget::eGameWidget(eMainWindow* const window) :
-    eWidget(window) {
+    eWidget(window),
+    mDryTerrainTexs(renderer()),
+    mBeachTerrainTexs(renderer()),
+    mBeachToDryTerrainTexs(renderer()) {
     mLoopThread = std::thread(std::bind(&eGameEventLoop::exec, &mLoop));
 }
 
@@ -13,17 +31,36 @@ eGameWidget::~eGameWidget() {
 void eGameWidget::initialize(const int w, const int h) {
     mLoop.initialize(w, h);
 
-    const std::string pathBase{"../ZeusTextures/Zeus_Terrain/Zeus_land1_00"};
-    for(int i = 106; i < 164; i++) {
-        const auto path = pathBase + std::to_string(i) + ".png";
-        eTexture tex;
-        tex.load(renderer(), path);
-        mFlatGrassTexs.push_back(tex);
+    const std::string terrDir{"../ZeusTextures/Zeus_Terrain/"};
+
+    {
+        const std::string pathBase{terrDir + "Zeus_land1_00"};
+        for(int i = 106; i < 164; i++) {
+            const auto path = pathBase + std::to_string(i) + ".png";
+            const bool r = mDryTerrainTexs.loadTexture(path);
+            if(!r) std::printf("Failed to load %s\n", path.c_str());
+        }
+    }
+
+    {
+        const std::string pathBase{terrDir + "Zeus_Land3_00"};
+
+        for(int i = 189; i < 195; i++) {
+            const auto path = pathBase + std::to_string(i) + ".png";
+            const bool r = mBeachTerrainTexs.loadTexture(path);
+            if(!r) std::printf("Failed to load %s\n", path.c_str());
+        }
+
+        for(int i = 195; i < 207; i++) {
+            const auto path = pathBase + std::to_string(i) + ".png";
+            const bool r = mBeachToDryTerrainTexs.loadTexture(path);
+            if(!r) std::printf("Failed to load %s\n", path.c_str());
+        }
     }
 }
 
 void eGameWidget::paintEvent(ePainter& p) {
-    const int tileW = 56;
+    const int tileW = 58;
     const int tileH = 30;
     const auto board = mLoop.requestBoard();
     const int w = board.width();
@@ -49,16 +86,31 @@ void eGameWidget::paintEvent(ePainter& p) {
         const int xmy = tx - ty;
         if(xmy < minXYDiff) continue;
         if(xmy > maxXYDiff) continue;
-        const int pixX = (tx*tileW - ty*tileW)/2;
+        const int pixX = (tx*tileW - ty*tileW)/2 - tileW/2;
         int pixY = (tx*tileH + ty*tileH)/2;
         const int alt = tile->altitude();
         if(alt > 0) {
             pixY -= alt*tileH/2;
         }
 
-        const int texId = tile->id() % mFlatGrassTexs.size();
-        const auto& tex = mFlatGrassTexs[texId];
-        p.drawTexture(pixX - tileW/2, pixY, tex);
+        const auto surr = tile->surroundings();
+        switch(tile->terrain()) {
+        case eTerrain::dry: {
+            const int texId = tile->id() % mDryTerrainTexs.size();
+            mDryTerrainTexs.draw(p, pixX, pixY, texId);
+        } break;
+        case eTerrain::beach: {
+            if(surr.fSurr == eSurroundings::end) {
+                const int texId = tile->id() % mBeachTerrainTexs.size();
+                mBeachTerrainTexs.draw(p, pixX, pixY, texId);
+            } else {
+                const int texId = static_cast<int>(surr.fSurr);
+                mBeachToDryTerrainTexs.draw(p, pixX, pixY, texId);
+            }
+        } break;
+        }
+
+
 
 //        std::vector<SDL_Point> pts;
 //        pts.push_back({pixX, pixY});

@@ -20,9 +20,7 @@ public:
     void initialize(const int w, const int h);
     void clear();
 
-    eTile* tile(const int x, const int y) const {
-        return mTiles[x][y];
-    }
+    eTile* tile(const int x, const int y) const;
 
     int width() const { return mWidth; }
     int height() const { return mHeight; }
@@ -44,6 +42,7 @@ public:
     }
 private:
     void updateDiagonalArray();
+    void updateNeighbours();
 
     int mWidth = 0;
     int mHeight = 0;

@@ -2,6 +2,7 @@
 #define EGAMEWIDGET_H
 
 #include "ewidget.h"
+#include "etexturecollection.h"
 
 #include "engine/egameeventloop.h"
 
@@ -23,7 +24,9 @@ private:
     std::thread mLoopThread;
     eGameEventLoop mLoop;
 
-    std::vector<eTexture> mFlatGrassTexs;
+    eTextureCollection mDryTerrainTexs;
+    eTextureCollection mBeachTerrainTexs;
+    eTextureCollection mBeachToDryTerrainTexs;
 };
 
 #endif // EGAMEWIDGET_H
