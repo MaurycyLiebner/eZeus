@@ -22,6 +22,10 @@ private:
 
     std::thread mLoopThread;
     eGameEventLoop mLoop;
+
+    eTexture mBottomLeft;
+    eTexture mBottomRight;
+    std::vector<eTexture> mFlatGrassTexs;
 };
 
 #endif // EGAMEWIDGET_H

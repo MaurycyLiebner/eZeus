@@ -12,11 +12,28 @@ eGameWidget::~eGameWidget() {
 
 void eGameWidget::initialize(const int w, const int h) {
     mLoop.initialize(w, h);
+
+    const std::string pathBase{"textures/720p/tiles/grass/flat_"};
+    for(int i = 1; i < 5; i++) {
+        const auto path = pathBase + std::to_string(i) + ".png";
+        eTexture tex;
+        tex.load(renderer(), path);
+        mFlatGrassTexs.push_back(tex);
+    }
+
+    {
+        const auto path = "textures/720p/tiles/grass/flat_1_bottom_left.png";
+        mBottomLeft.load(renderer(), path);
+    }
+    {
+        const auto path = "textures/720p/tiles/grass/flat_1_bottom_right.png";
+        mBottomRight.load(renderer(), path);
+    }
 }
 
 void eGameWidget::paintEvent(ePainter& p) {
-    const int tileW = 100;
-    const int tileH = 50;
+    const int tileW = 128;
+    const int tileH = 64;
     const auto board = mLoop.requestBoard();
     const int w = board.width();
     const int h = board.height();
@@ -36,24 +53,34 @@ void eGameWidget::paintEvent(ePainter& p) {
     for(auto it = iniIt; it != board.dEnd(); ++it) {
         if(it.row() > maxRow) break;
         const auto tile = *it;
-        const int xmy = tile->x() - tile->y();
-        if(xmy < minXYDiff) continue;
-        if(xmy > maxXYDiff) continue;
-        std::vector<SDL_Point> pts;
         const int tx = tile->x();
         const int ty = tile->y();
+        const int xmy = tx - ty;
+        if(xmy < minXYDiff) continue;
+        if(xmy > maxXYDiff) continue;
         const int pixX = (tx*tileW - ty*tileW)/2;
         int pixY = (tx*tileH + ty*tileH)/2;
         const int alt = tile->altitude();
         if(alt > 0) {
+            for(int i = 0; i < alt; i++) {
+                const int y = pixY - i*tileH/2;
+                p.drawTexture(pixX - tileW/2, y, mBottomLeft);
+                p.drawTexture(pixX, y, mBottomRight);
+            }
             pixY -= alt*tileH/2;
         }
-        pts.push_back({pixX, pixY});
-        pts.push_back({pixX + tileW/2, pixY + tileH/2});
-        pts.push_back({pixX, pixY + tileH});
-        pts.push_back({pixX - tileW/2, pixY + tileH/2});
-        pts.push_back({pixX, pixY});
-        p.drawPolygon(pts, {0, 0, 0, 255});
+
+        const int texId = (tx + ty) % 4;
+        const auto& tex = mFlatGrassTexs[texId];
+        p.drawTexture(pixX - tileW/2, pixY, tex);
+
+//        std::vector<SDL_Point> pts;
+//        pts.push_back({pixX, pixY});
+//        pts.push_back({pixX + tileW/2, pixY + tileH/2});
+//        pts.push_back({pixX, pixY + tileH});
+//        pts.push_back({pixX - tileW/2, pixY + tileH/2});
+//        pts.push_back({pixX, pixY});
+//        p.drawPolygon(pts, {0, 0, 0, 255});
 //        p.drawText({pixX - tileW/2, pixY, tileW, tileH},
 //                   std::to_string(tx) + " " + std::to_string(ty),
 //                   {0, 0, 0, 255}, eAlignment::center);

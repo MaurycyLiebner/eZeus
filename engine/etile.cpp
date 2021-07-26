@@ -4,5 +4,5 @@
 
 eTile::eTile(const int x, const int y) :
     mX(x), mY(y) {
-    mAltitude = rand() % 2;
+    mAltitude = rand() % 3;
 }
