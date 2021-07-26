@@ -22,8 +22,6 @@ void eGameWidget::paintEvent(ePainter& p) {
     const int h = board.height();
     const int nRows = w + h - 1;
 
-//    const int pixW = tileW*(w + h)/2;
-
     int minRow = -2*(mDY - 100)/tileH;
     int maxRow = minRow + 2*(height() - 200)/tileH;
     minRow = std::clamp(minRow, 0, nRows);
@@ -31,7 +29,6 @@ void eGameWidget::paintEvent(ePainter& p) {
 
     const int minXYDiff = 2*(-mDX + 100)/tileW;
     const int maxXYDiff = minXYDiff + 2*(width() - 200)/tileW;
-//    const int minColumn = ;
 
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);
@@ -46,16 +43,20 @@ void eGameWidget::paintEvent(ePainter& p) {
         const int tx = tile->x();
         const int ty = tile->y();
         const int pixX = (tx*tileW - ty*tileW)/2;
-        const int pixY = (tx*tileH + ty*tileH)/2;
+        int pixY = (tx*tileH + ty*tileH)/2;
+        const int alt = tile->altitude();
+        if(alt > 0) {
+            pixY -= alt*tileH/2;
+        }
         pts.push_back({pixX, pixY});
         pts.push_back({pixX + tileW/2, pixY + tileH/2});
         pts.push_back({pixX, pixY + tileH});
         pts.push_back({pixX - tileW/2, pixY + tileH/2});
         pts.push_back({pixX, pixY});
         p.drawPolygon(pts, {0, 0, 0, 255});
-        p.drawText({pixX - tileW/2, pixY, tileW, tileH},
-                   std::to_string(tx) + " " + std::to_string(ty),
-                   {0, 0, 0, 255}, eAlignment::center);
+//        p.drawText({pixX - tileW/2, pixY, tileW, tileH},
+//                   std::to_string(tx) + " " + std::to_string(ty),
+//                   {0, 0, 0, 255}, eAlignment::center);
     }
 }
 

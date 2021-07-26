@@ -51,43 +51,74 @@ eGameBoardDiagonalIterator::eGameBoardDiagonalIterator(
 }
 
 eTile* eGameBoardDiagonalIterator::operator*() {
-    return mTile;
+    return *mTilePtr;
 }
 
 eGameBoardDiagonalIterator& eGameBoardDiagonalIterator::operator++() {
-    if(!mTile) return *this;
-    const int w = mBoard->width();
-    const int h = mBoard->height();
-    const int nCols = std::min({mRow + 1, w + h - mRow - 1, w, h});
+    if(isNull()) return *this;
     mColumn++;
-    if(mColumn >= nCols) {
-        mColumn = 0;
-        mRow++;
+    if(mColumn >= nColumns()) {
+        nextRow();
+    } else {
+        mTilePtr++;
     }
-    updateTile();
     return* this;
 }
 
 bool eGameBoardDiagonalIterator::operator==(
         const eGameBoardDiagonalIterator& it) const {
-    return it.mTile == mTile;
+    return it.mTilePtr == mTilePtr;
 }
 
 bool eGameBoardDiagonalIterator::operator!=(
         const eGameBoardDiagonalIterator& it) const {
-    return it.mTile != mTile;
+    return it.mTilePtr != mTilePtr;
+}
+
+int eGameBoardDiagonalIterator::nColumns() const {
+    const int w = mBoard->width();
+    const int h = mBoard->height();
+    return std::min({mRow + 1, w + h - mRow - 1, w, h});
+}
+
+eTile* eGameBoardDiagonalIterator::tile() const {
+    if(isNull()) return nullptr;
+    return *mTilePtr;
+}
+
+bool eGameBoardDiagonalIterator::isNull() const {
+    return !mTilePtr;
+}
+
+void eGameBoardDiagonalIterator::nextRow() {
+    if(isNull()) return;
+    const int w = mBoard->width();
+    const int h = mBoard->height();
+    const int nRows = w + h - 1;
+    mRow++;
+    if(mRow >= nRows) return nullify();
+    mColumn = 0;
+    mRowPtr++;
+    mTilePtr = &(*mRowPtr)[0];
+}
+
+void eGameBoardDiagonalIterator::nullify() {
+    mRow = -1;
+    mColumn = -1;
+    mRowPtr = nullptr;
+    mTilePtr = nullptr;
 }
 
 void eGameBoardDiagonalIterator::updateTile() {
-    mTile = nullptr;
+    mTilePtr = nullptr;
     const int w = mBoard->width();
     const int h = mBoard->height();
     const int nRows = w + h - 1;
 
     if(mRow >= 0 && mRow < nRows) {
-        const int nCols = std::min({mRow + 1, w + h - mRow - 1, w, h});
-        if(mColumn >= 0 && mColumn < nCols) {
-            mTile = mBoard->mDiagTiles[mRow][mColumn];
+        if(mColumn >= 0 && mColumn < nColumns()) {
+            mRowPtr = &mBoard->mDiagTiles[mRow];
+            mTilePtr = &(*mRowPtr)[mColumn];
         }
     }
 }
