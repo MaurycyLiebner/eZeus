@@ -1,8 +1,10 @@
 #ifndef ETILE_H
 #define ETILE_H
 
+#include <vector>
+
 enum class eTerrain {
-    dry, beach, river, fertile, forest
+    dry, beach, water, fertile, forest
 };
 
 class eTile {
@@ -28,18 +30,27 @@ public:
 
     void setTerrain(const eTerrain terr);
     void setScrub(const double s);
-    void incScrub(const bool s);
+    void incScrub(const double s);
 
     void setTopLeft(eTile* const tl);
     void setTopRight(eTile* const tr);
     void setBottomRight(eTile* const br);
     void setBottomLeft(eTile* const bl);
 
+    void neighbourTerrain(eTerrain& tlTerr,
+                          eTerrain& trTerr,
+                          eTerrain& brTerr,
+                          eTerrain& blTerr,
+                          eTerrain& tTerr,
+                          eTerrain& rTerr,
+                          eTerrain& bTerr,
+                          eTerrain& lTerr) const;
     void neighboursWithTerrain(const eTerrain terr,
                                bool& tl, bool& tr,
                                bool& br, bool& bl,
                                bool& t, bool& r,
                                bool& b, bool& l) const;
+    void neighbourTerrainTypes(std::vector<eTerrain>& neighTerrs) const;
 private:
     const int mId;
     const int mX;

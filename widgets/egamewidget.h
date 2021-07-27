@@ -6,6 +6,8 @@
 
 #include "engine/egameeventloop.h"
 
+class eTerrainEditMenu;
+
 class eGameWidget : public eWidget {
 public:
     eGameWidget(eMainWindow* const window);
@@ -20,12 +22,23 @@ protected:
 
     bool mousePressEvent(const eMouseEvent& e);
     bool mouseMoveEvent(const eMouseEvent& e);
+    bool mouseReleaseEvent(const eMouseEvent& e);
 private:
+    using eTileAction = std::function<void(eTile* const)>;
+    void actionOnSelectedTiles(const eTileAction& apply);
+
+    void loadWaterToX(int i0, const std::string& pathBase,
+                      std::vector<eTextureCollection>& result) const;
+
     int mDX = 0;
     int mDY = 0;
 
-    const int mTileW = 58;
-    const int mTileH = 30;
+//    const int mTileW = 58;
+//    const int mTileH = 30;
+    const int mTileW = 116;
+    const int mTileH = 60;
+
+    eGameBoard mBoard;
 
     std::thread mLoopThread;
     eGameEventLoop mLoop;
@@ -33,8 +46,8 @@ private:
     eTextureCollection mDryTerrainTexs;
     eTextureCollection mBeachTerrainTexs;
     eTextureCollection mBeachToDryTerrainTexs;
-    eTextureCollection mRiverTerrainTexs;
-    std::vector<eTextureCollection> mRiverToDryTerrainTexs;
+    eTextureCollection mWaterTerrainTexs;
+    std::vector<eTextureCollection> mWaterToDryTerrainTexs;
     eTextureCollection mFertileTerrainTexs;
     eTextureCollection mFertileToDryTerrainTexs;
     std::vector<eTextureCollection> mDryToScrubTerrainTexs;
@@ -43,6 +56,11 @@ private:
     std::vector<eTextureCollection> mForestToDryTerrainTexs;
     eTextureCollection mForestToScrubTerrainTexs;
     eTextureCollection mForestTerrainTexs;
+    std::vector<eTextureCollection> mWaterToBeachTerrainTexs;
+    eTexture mSelectedTex;
+    eTextureCollection mWaterToBeachToDryTerrainTexs;
+
+    eTerrainEditMenu* mTem = nullptr;
 };
 
 #endif // EGAMEWIDGET_H

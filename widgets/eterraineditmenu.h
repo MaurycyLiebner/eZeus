@@ -4,13 +4,14 @@
 #include "ewidget.h"
 
 enum class eTerrainEditMode {
-    scrub, forest, dry, beach, river, fertile
+    scrub, forest, dry, beach, water, fertile
 };
 
 class eTerrainEditMenu : public eWidget {
 public:
     eTerrainEditMenu(eMainWindow* const window);
 
+    eTerrainEditMode mode() const { return mMode; }
 private:
     eTerrainEditMode mMode;
 };

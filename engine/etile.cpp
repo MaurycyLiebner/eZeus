@@ -40,7 +40,7 @@ void eTile::setScrub(const double s) {
     mScrub = std::clamp(s, 0., 1.);
 }
 
-void eTile::incScrub(const bool s) {
+void eTile::incScrub(const double s) {
     setScrub(mScrub + s);
 }
 
@@ -60,20 +60,23 @@ void eTile::setBottomLeft(eTile* const bl) {
     mBottomLeft = bl;
 }
 
-void eTile::neighboursWithTerrain(const eTerrain terr,
-                                  bool& tl, bool& tr,
-                                  bool& br, bool& bl,
-                                  bool& t, bool& r,
-                                  bool& b, bool& l) const {
-    eTerrain tlTerr = mTerr;
-    eTerrain trTerr = mTerr;
-    eTerrain brTerr = mTerr;
-    eTerrain blTerr = mTerr;
+void eTile::neighbourTerrain(eTerrain& tlTerr,
+                             eTerrain& trTerr,
+                             eTerrain& brTerr,
+                             eTerrain& blTerr,
+                             eTerrain& tTerr,
+                             eTerrain& rTerr,
+                             eTerrain& bTerr,
+                             eTerrain& lTerr) const {
+    tlTerr = mTerr;
+    trTerr = mTerr;
+    brTerr = mTerr;
+    blTerr = mTerr;
 
-    eTerrain tTerr = mTerr;
-    eTerrain rTerr = mTerr;
-    eTerrain bTerr = mTerr;
-    eTerrain lTerr = mTerr;
+    tTerr = mTerr;
+    rTerr = mTerr;
+    bTerr = mTerr;
+    lTerr = mTerr;
 
     {
         const auto tl = topLeft();
@@ -127,6 +130,25 @@ void eTile::neighboursWithTerrain(const eTerrain terr,
             lTerr = l->terrain();
         }
     }
+}
+
+void eTile::neighboursWithTerrain(const eTerrain terr,
+                                  bool& tl, bool& tr,
+                                  bool& br, bool& bl,
+                                  bool& t, bool& r,
+                                  bool& b, bool& l) const {
+    eTerrain tlTerr;
+    eTerrain trTerr;
+    eTerrain brTerr;
+    eTerrain blTerr;
+
+    eTerrain tTerr;
+    eTerrain rTerr;
+    eTerrain bTerr;
+    eTerrain lTerr;
+
+    neighbourTerrain(tlTerr, trTerr, brTerr, blTerr,
+                     tTerr, rTerr, bTerr, lTerr);
 
     tl = tlTerr != terr;
     tr = trTerr != terr;
@@ -137,4 +159,36 @@ void eTile::neighboursWithTerrain(const eTerrain terr,
     r = rTerr != terr;
     b = bTerr != terr;
     l = lTerr != terr;
+}
+
+void eTile::neighbourTerrainTypes(std::vector<eTerrain>& neighTerrs) const {
+    eTerrain tlTerr;
+    eTerrain trTerr;
+    eTerrain brTerr;
+    eTerrain blTerr;
+
+    eTerrain tTerr;
+    eTerrain rTerr;
+    eTerrain bTerr;
+    eTerrain lTerr;
+
+    neighbourTerrain(tlTerr, trTerr, brTerr, blTerr,
+                     tTerr, rTerr, bTerr, lTerr);
+
+    const auto terr = [&](const eTerrain& t) {
+        const auto it = std::find(neighTerrs.begin(), neighTerrs.end(), t);
+        const bool has = it != neighTerrs.end();
+        if(has) return;
+        neighTerrs.push_back(t);
+    };
+
+    terr(tlTerr);
+    terr(trTerr);
+    terr(brTerr);
+    terr(blTerr);
+
+    terr(tTerr);
+    terr(rTerr);
+    terr(bTerr);
+    terr(lTerr);
 }

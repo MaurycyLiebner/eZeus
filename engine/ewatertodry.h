@@ -1,9 +1,9 @@
-#ifndef ERIVERTODRY_H
-#define ERIVERTODRY_H
+#ifndef EWATERTODRY_H
+#define EWATERTODRY_H
 
 class eTile;
 
-enum class eRiverToDryId {
+enum class eWaterToDryId {
     bottomLeft,
     topLeft,
     topRight,
@@ -53,8 +53,8 @@ enum class eRiverToDryId {
     none
 };
 
-namespace eRiverToDry {
-    eRiverToDryId get(eTile* const tile);
+namespace eWaterToDry {
+    eWaterToDryId get(eTile* const tile);
 };
 
-#endif // ERIVERTODRY_H
+#endif // EWATERTODRY_H

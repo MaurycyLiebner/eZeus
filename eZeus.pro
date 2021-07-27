@@ -17,10 +17,12 @@ SOURCES += \
         engine/egameeventloop.cpp \
         engine/egameobject.cpp \
         engine/emovinggameobject.cpp \
-        engine/erivertodry.cpp \
         engine/etask.cpp \
         engine/ethreadpool.cpp \
         engine/etile.cpp \
+        engine/ewatercorner.cpp \
+        engine/ewatertobeach.cpp \
+        engine/ewatertodry.cpp \
         espriteframe.cpp \
         esprites.cpp \
         etexture.cpp \
@@ -53,10 +55,12 @@ HEADERS += \
     engine/egameeventloop.h \
     engine/egameobject.h \
     engine/emovinggameobject.h \
-    engine/erivertodry.h \
     engine/etask.h \
     engine/ethreadpool.h \
     engine/etile.h \
+    engine/ewatercorner.h \
+    engine/ewatertobeach.h \
+    engine/ewatertodry.h \
     espriteframe.h \
     esprites.h \
     etexture.h \

@@ -49,10 +49,10 @@ eTerrainEditMenu::eTerrainEditMenu(eMainWindow* const window) :
 
     {
         const auto b = new eButton(window);
-        b->setText("river");
+        b->setText("water");
         b->fitContent();
         b->setPressAction([this]() {
-            mMode = eTerrainEditMode::river;
+            mMode = eTerrainEditMode::water;
         });
         addWidget(b);
     }
