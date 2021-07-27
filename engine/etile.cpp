@@ -40,6 +40,10 @@ void eTile::setScrub(const double s) {
     mScrub = std::clamp(s, 0., 1.);
 }
 
+void eTile::incScrub(const bool s) {
+    setScrub(mScrub + s);
+}
+
 void eTile::setTopLeft(eTile* const tl) {
     mTopLeft = tl;
 }

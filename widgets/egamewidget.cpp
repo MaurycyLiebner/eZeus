@@ -1,5 +1,7 @@
 #include "egamewidget.h"
 
+#include "eterraineditmenu.h"
+
 #include "engine/ebeachtodry.h"
 #include "engine/erivertodry.h"
 #include "engine/efertiletodry.h"
@@ -16,8 +18,7 @@ eGameWidget::eGameWidget(eMainWindow* const window) :
     mScrubTerrainTexs(renderer()),
     mForestToScrubTerrainTexs(renderer()),
     mForestTerrainTexs(renderer()) {
-    mLoopThread = std::thread(std::bind(&eGameEventLoop::exec, &mLoop));
-}
+    mLoopThread = std::thread(std::bind(&eGameEventLoop::exec, &mLoop));}
 
 eGameWidget::~eGameWidget() {
     mLoop.quit();
@@ -33,6 +34,10 @@ std::string addZeroes(const std::string& str) {
 }
 
 void eGameWidget::initialize(const int w, const int h) {
+    const auto tem = new eTerrainEditMenu(window());
+    addWidget(tem);
+    tem->align(eAlignment::hcenter | eAlignment::bottom);
+
     mLoop.initialize(w, h);
 
     const std::string terrDir{"../ZeusTextures/Zeus_Terrain/"};
@@ -200,21 +205,30 @@ void eGameWidget::initialize(const int w, const int h) {
     }
 }
 
+void eGameWidget::pixToId(const int pixX, const int pixY,
+                          int& idX, int& idY) const {
+    const double w = mTileW;
+    const double h = mTileH;
+    idX = std::round((pixX - mDX)/w + (pixY - mDY)/h + 0.5);
+    idY = std::round(-(pixX - mDX)/w + (pixY - mDY)/h + 0.5);
+}
+
+int gHoverX = -1;
+int gHoverY = -1;
+
 void eGameWidget::paintEvent(ePainter& p) {
-    const int tileW = 58;
-    const int tileH = 30;
     const auto board = mLoop.requestBoard();
     const int w = board.width();
     const int h = board.height();
     const int nRows = w + h - 1;
 
-    int minRow = -2*mDY/tileH;
-    int maxRow = minRow + 2*height()/tileH - 2;
+    int minRow = -2*mDY/mTileH + 2;
+    int maxRow = minRow + 2*height()/mTileH - 2;
     minRow = std::clamp(minRow, 0, nRows);
     maxRow = std::clamp(maxRow, 0, nRows);
 
-    const int minXYDiff = -2*mDX/tileW;
-    const int maxXYDiff = minXYDiff + 2*width()/tileW - 1;
+    const int minXYDiff = -2*mDX/mTileW;
+    const int maxXYDiff = minXYDiff + 2*width()/mTileW - 1;
 
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);
@@ -222,29 +236,30 @@ void eGameWidget::paintEvent(ePainter& p) {
     for(auto it = iniIt; it != board.dEnd(); ++it) {
         if(it.row() > maxRow) break;
         const auto tile = *it;
+        const int tileId = tile->id();
         const int tx = tile->x();
         const int ty = tile->y();
         const int xmy = tx - ty;
         if(xmy < minXYDiff) continue;
         if(xmy > maxXYDiff) continue;
-        const int pixX = (tx*tileW - ty*tileW)/2 - tileW/2;
-        int pixY = (tx*tileH + ty*tileH)/2;
+        const int pixX = (tx*mTileW - ty*mTileW)/2 - mTileW/2;
+        int pixY = (tx*mTileH + ty*mTileH)/2;
         const int alt = tile->altitude();
         if(alt > 0) {
-            pixY -= alt*tileH/2;
+            pixY -= alt*mTileH/2;
         }
 
         switch(tile->terrain()) {
         case eTerrain::dry: {
             const int scrub = tile->scrubId(13) - 1;
             if(scrub == -1) { // zero scrub
-                const int texId = tile->id() % mDryTerrainTexs.size();
+                const int texId = tileId % mDryTerrainTexs.size();
                 mDryTerrainTexs.draw(p, pixX, pixY, texId, eAlignment::top);
             } else if(scrub == 13) { // full scrub
-                const int texId = tile->id() % mScrubTerrainTexs.size();
+                const int texId = tileId % mScrubTerrainTexs.size();
                 mScrubTerrainTexs.draw(p, pixX, pixY, texId, eAlignment::top);
             } else { // partial scrub
-                const int collId = tile->id() % mDryToScrubTerrainTexs.size();
+                const int collId = tileId % mDryToScrubTerrainTexs.size();
                 const auto& coll = mDryToScrubTerrainTexs[collId];
                 coll.draw(p, pixX, pixY, scrub, eAlignment::top);
             }
@@ -252,7 +267,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         case eTerrain::beach: {
             const auto id = eBeachToDry::get(tile);
             if(id == eBeachToDryId::none) {
-                const int texId = tile->id() % mBeachTerrainTexs.size();
+                const int texId = tileId % mBeachTerrainTexs.size();
                 mBeachTerrainTexs.draw(p, pixX, pixY, texId, eAlignment::top);
             } else {
                 const int texId = static_cast<int>(id);
@@ -262,12 +277,12 @@ void eGameWidget::paintEvent(ePainter& p) {
         case eTerrain::river: {
             const auto id = eRiverToDry::get(tile);
             if(id == eRiverToDryId::none) {
-                const int texId = tile->id() % mRiverTerrainTexs.size();
+                const int texId = tileId % mRiverTerrainTexs.size();
                 mRiverTerrainTexs.draw(p, pixX, pixY, texId, eAlignment::top);
             } else {
                 const int collId = static_cast<int>(id);
                 const auto& texs = mRiverToDryTerrainTexs[collId];
-                const int texId = tile->id() % texs.size();
+                const int texId = tileId % texs.size();
                 texs.draw(p, pixX, pixY, texId, eAlignment::top);
             }
         } break;
@@ -277,7 +292,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             switch(id) {
             case eFertileToDryId::none: {
                 if(scrub == -1) {
-                    const int texId = tile->id() % mFertileTerrainTexs.size();
+                    const int texId = tileId % mFertileTerrainTexs.size();
                     mFertileTerrainTexs.draw(p, pixX, pixY, texId, eAlignment::top);
                 } else {
                     const auto& coll = mFertileToScrubTerrainTexs[2];
@@ -286,7 +301,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             } break;
             case eFertileToDryId::somewhere: {
                 if(scrub == -1) {
-                    const int texId = tile->id() % mFertileToDryTerrainTexs.size();
+                    const int texId = tileId % mFertileToDryTerrainTexs.size();
                     mFertileToDryTerrainTexs.draw(p, pixX, pixY, texId, eAlignment::top);
                 } else {
                     const int collId = rand() % 2;
@@ -300,15 +315,15 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto id = eForestToDry::get(tile);
             switch(id) {
             case eForestToDryId::none: {
-                const int texId = tile->id() % mForestTerrainTexs.size();
+                const int texId = tileId % mForestTerrainTexs.size();
                 mForestTerrainTexs.draw(p, pixX, pixY, texId, eAlignment::top);
             } break;
             case eForestToDryId::somewhere: {
                 const int scrub = tile->scrubId(13) - 1;
                 if(scrub == -1) {
-                    const int collId = tile->id() % mForestToDryTerrainTexs.size();
+                    const int collId = tileId % mForestToDryTerrainTexs.size();
                     const auto& coll = mForestToDryTerrainTexs[collId];
-                    const int texId = tile->id() % coll.size();
+                    const int texId = tileId % coll.size();
                     coll.draw(p, pixX, pixY, texId, eAlignment::top);
                 } else {
                     mForestToScrubTerrainTexs.draw(p, pixX, pixY, scrub, eAlignment::top);
@@ -319,17 +334,18 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
 
 
-
-//        std::vector<SDL_Point> pts;
-//        pts.push_back({pixX, pixY});
-//        pts.push_back({pixX + tileW/2, pixY + tileH/2});
-//        pts.push_back({pixX, pixY + tileH});
-//        pts.push_back({pixX - tileW/2, pixY + tileH/2});
-//        pts.push_back({pixX, pixY});
-//        p.drawPolygon(pts, {0, 0, 0, 255});
-//        p.drawText({pixX - tileW/2, pixY, tileW, tileH},
-//                   std::to_string(tx) + " " + std::to_string(ty),
-//                   {0, 0, 0, 255}, eAlignment::center);
+        if(tile->x() == gHoverX && tile->y() == gHoverY) {
+            std::vector<SDL_Point> pts;
+            pts.push_back({pixX + mTileW/2, pixY - mTileH});
+            pts.push_back({pixX + mTileW, pixY - mTileH/2});
+            pts.push_back({pixX + mTileW/2, pixY});
+            pts.push_back({pixX, pixY - mTileH/2});
+            pts.push_back({pixX + mTileW/2, pixY - mTileH});
+            p.drawPolygon(pts, {0, 0, 0, 255});
+    //        p.drawText({pixX - tileW/2, pixY, tileW, tileH},
+    //                   std::to_string(tx) + " " + std::to_string(ty),
+    //                   {0, 0, 0, 255}, eAlignment::center);
+        }
     }
 }
 
@@ -338,7 +354,7 @@ int gLastY = 0;
 
 bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
     switch(e.button()) {
-    case eMouseButton::left:
+    case eMouseButton::middle:
         gLastX = e.x();
         gLastY = e.y();
         return true;
@@ -347,13 +363,16 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
 }
 
 bool eGameWidget::mouseMoveEvent(const eMouseEvent& e) {
-    if(static_cast<bool>(e.buttons() & eMouseButton::left)) {
+    if(static_cast<bool>(e.buttons() & eMouseButton::middle)) {
         const int dx = e.x() - gLastX;
         const int dy = e.y() - gLastY;
         mDX += dx;
         mDY += dy;
         gLastX = e.x();
         gLastY = e.y();
+        return true;
+    } else {
+        pixToId(e.x(), e.y(), gHoverX, gHoverY);
         return true;
     }
     return false;

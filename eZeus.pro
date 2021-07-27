@@ -39,6 +39,7 @@ SOURCES += \
         widgets/epainter.cpp \
         widgets/eresolution.cpp \
         widgets/esettingsmenu.cpp \
+        widgets/eterraineditmenu.cpp \
         widgets/ewidget.cpp
 
 HEADERS += \
@@ -73,4 +74,5 @@ HEADERS += \
     widgets/epainter.h \
     widgets/eresolution.h \
     widgets/esettingsmenu.h \
+    widgets/eterraineditmenu.h \
     widgets/ewidget.h

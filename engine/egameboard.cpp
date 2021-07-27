@@ -47,51 +47,6 @@ void eGameBoard::initialize(const int w, const int h) {
 
     updateDiagonalArray();
     updateNeighbours();
-
-    for(int i = 0; i < w + h; i++) {
-        const int rr = rand() % 3;
-        eTerrain type;
-        if(rr == 0) {
-            type = eTerrain::beach;
-        } else if(rr == 1) {
-            type = eTerrain::fertile;
-        } else {
-            type = eTerrain::river;
-        }
-        type = eTerrain::forest;
-        const int x0 = rand() % w;
-        const int y0 = rand() % h;
-        for(int j = 0; j < 3; j++) {
-            for(int k = 0; k < 3; k++) {
-                const auto t = tile(x0 + j, y0 + k);
-                if(!t) continue;
-                t->setTerrain(type);
-            }
-        }
-    }
-    for(int i = 0; i < w + h; i++) {
-        const int rr = rand() % 3;
-        eTerrain type;
-        double scrub;
-        if(rr == 0) {
-            scrub = 0.2;
-        } else if(rr == 1) {
-            scrub = 0.4;
-        } else {
-            scrub = 0.6;
-        }
-        type = eTerrain::forest;
-        const int x0 = rand() % w;
-        const int y0 = rand() % h;
-        for(int j = 0; j < 3; j++) {
-            for(int k = 0; k < 3; k++) {
-                const auto t = tile(x0 + j, y0 + k);
-                if(!t) continue;
-                t->setScrub(scrub);
-            }
-        }
-    }
-
 }
 
 void eGameBoard::clear() {

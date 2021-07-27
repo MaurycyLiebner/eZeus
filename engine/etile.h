@@ -28,6 +28,7 @@ public:
 
     void setTerrain(const eTerrain terr);
     void setScrub(const double s);
+    void incScrub(const bool s);
 
     void setTopLeft(eTile* const tl);
     void setTopRight(eTile* const tr);

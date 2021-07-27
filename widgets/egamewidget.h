@@ -12,6 +12,9 @@ public:
     ~eGameWidget();
 
     void initialize(const int w, const int h);
+
+    void pixToId(const int pixX, const int pixY,
+                 int& idX, int& idY) const;
 protected:
     void paintEvent(ePainter& p);
 
@@ -20,6 +23,9 @@ protected:
 private:
     int mDX = 0;
     int mDY = 0;
+
+    const int mTileW = 58;
+    const int mTileH = 30;
 
     std::thread mLoopThread;
     eGameEventLoop mLoop;
