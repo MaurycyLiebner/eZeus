@@ -2,13 +2,17 @@
 
 #include "engine/ebeachtodry.h"
 #include "engine/erivertodry.h"
+#include "engine/efertiletodry.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window),
     mDryTerrainTexs(renderer()),
     mBeachTerrainTexs(renderer()),
     mBeachToDryTerrainTexs(renderer()),
-    mRiverTerrainTexs(renderer()) {
+    mRiverTerrainTexs(renderer()),
+    mFertileTerrainTexs(renderer()),
+    mFertileToDryTerrainTexs(renderer()),
+    mScrubTerrainTexs(renderer()) {
     mLoopThread = std::thread(std::bind(&eGameEventLoop::exec, &mLoop));
 }
 
@@ -65,6 +69,34 @@ void eGameWidget::initialize(const int w, const int h) {
                 mRiverToDryTerrainTexs.push_back(coll);
             }
         }
+
+        for(int i = 2; i < 38;) {
+            eTextureCollection coll(renderer());
+            for(int j = 0; j < 12; j++, i++) {
+                auto iStr = std::to_string(i);
+                while(iStr.size() < 3) {
+                    iStr.insert(iStr.begin(), '0');
+                }
+                const auto path = pathBase + iStr + ".png";
+                const bool r = coll.loadTexture(path);
+                if(!r) std::printf("Failed to load %s\n", path.c_str());
+            }
+            mDryToScrubTerrainTexs.push_back(coll);
+        }
+
+        for(int i = 38; i < 50; i++) {
+            const auto iStr = "0" + std::to_string(i);
+            const auto path = pathBase + iStr + ".png";
+            const bool r = mScrubTerrainTexs.loadTexture(path);
+            if(!r) std::printf("Failed to load %s\n", path.c_str());
+        }
+
+        for(int i = 62; i < 74; i++) {
+            const auto iStr = "0" + std::to_string(i);
+            const auto path = pathBase + iStr + ".png";
+            const bool r = mScrubTerrainTexs.loadTexture(path);
+            if(!r) std::printf("Failed to load %s\n", path.c_str());
+        }
     }
 
     {
@@ -79,6 +111,21 @@ void eGameWidget::initialize(const int w, const int h) {
         for(int i = 195; i < 207; i++) {
             const auto path = pathBase + std::to_string(i) + ".png";
             const bool r = mBeachToDryTerrainTexs.loadTexture(path);
+            if(!r) std::printf("Failed to load %s\n", path.c_str());
+        }
+    }
+
+    {
+        const std::string pathBase{terrDir + "Zeus_Trees_00"};
+
+        for(int i = 157; i < 165; i++) {
+            const auto path = pathBase + std::to_string(i) + ".png";
+            const bool r = mFertileTerrainTexs.loadTexture(path);
+            if(!r) std::printf("Failed to load %s\n", path.c_str());
+        }
+        for(int i = 173; i < 181; i++) {
+            const auto path = pathBase + std::to_string(i) + ".png";
+            const bool r = mFertileToDryTerrainTexs.loadTexture(path);
             if(!r) std::printf("Failed to load %s\n", path.c_str());
         }
     }
@@ -98,7 +145,7 @@ void eGameWidget::paintEvent(ePainter& p) {
     maxRow = std::clamp(maxRow, 0, nRows);
 
     const int minXYDiff = -2*mDX/tileW;
-    const int maxXYDiff = minXYDiff + 2*width()/tileW;
+    const int maxXYDiff = minXYDiff + 2*width()/tileW - 1;
 
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);
@@ -120,8 +167,18 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         switch(tile->terrain()) {
         case eTerrain::dry: {
-            const int texId = tile->id() % mDryTerrainTexs.size();
-            mDryTerrainTexs.draw(p, pixX, pixY, texId);
+            const int scrub = tile->scrubId(13) - 1;
+            if(scrub == -1) { // zero scrub
+                const int texId = tile->id() % mDryTerrainTexs.size();
+                mDryTerrainTexs.draw(p, pixX, pixY, texId);
+            } else if(scrub == 13) { // full scrub
+                const int texId = tile->id() % mScrubTerrainTexs.size();
+                mScrubTerrainTexs.draw(p, pixX, pixY, texId);
+            } else { // partial scrub
+                const int collId = tile->id() % mDryToScrubTerrainTexs.size();
+                const auto& coll = mDryToScrubTerrainTexs[collId];
+                coll.draw(p, pixX, pixY, scrub);
+            }
         } break;
         case eTerrain::beach: {
             const auto id = eBeachToDry::get(tile);
@@ -143,6 +200,19 @@ void eGameWidget::paintEvent(ePainter& p) {
                 const auto& texs = mRiverToDryTerrainTexs[collId];
                 const int texId = tile->id() % texs.size();
                 texs.draw(p, pixX, pixY, texId);
+            }
+        } break;
+        case eTerrain::fertile: {
+            const auto id = eFertileToDry::get(tile);
+            switch(id) {
+            case eFertileToDryId::none: {
+                const int texId = tile->id() % mFertileTerrainTexs.size();
+                mFertileTerrainTexs.draw(p, pixX, pixY, texId);
+            } break;
+            case eFertileToDryId::somewhere: {
+                const int texId = tile->id() % mFertileToDryTerrainTexs.size();
+                mFertileToDryTerrainTexs.draw(p, pixX, pixY, texId);
+            } break;
             }
         } break;
         }

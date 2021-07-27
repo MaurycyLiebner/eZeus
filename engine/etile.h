@@ -2,7 +2,7 @@
 #define ETILE_H
 
 enum class eTerrain {
-    dry, beach, river
+    dry, beach, river, fertile
 };
 
 class eTile {
@@ -13,6 +13,8 @@ public:
     int y() const { return mY; }
     int altitude() const { return mAltitude; }
     eTerrain terrain() const { return mTerr; }
+    double scrub() const { return mScrub; }
+    int scrubId(const int nLevels) const;
 
     eTile* topLeft() const { return mTopLeft; }
     eTile* topRight() const { return mTopRight; }
@@ -25,6 +27,7 @@ public:
     eTile* bottom() const;
 
     void setTerrain(const eTerrain terr);
+    void setScrub(const double s);
 
     void setTopLeft(eTile* const tl);
     void setTopRight(eTile* const tr);
@@ -47,6 +50,7 @@ private:
     eTile* mBottomLeft = nullptr;
 
     eTerrain mTerr = eTerrain::dry;
+    double mScrub = 0;
     int mAltitude = 0;
 };
 

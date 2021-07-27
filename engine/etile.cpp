@@ -1,11 +1,16 @@
 #include "etile.h"
 
 #include <random>
-
-int gId = 0;
+#include <algorithm>
 
 eTile::eTile(const int x, const int y) :
-    mId(gId++), mX(x), mY(y) {}
+    mId(rand()), mX(x), mY(y) {}
+
+int eTile::scrubId(const int nLevels) const {
+    const double div = 1./nLevels;
+    const int i = std::round(mScrub/div);
+    return std::clamp(i, 0, nLevels);
+}
 
 eTile* eTile::left() const {
     if(!mBottomLeft) return nullptr;
@@ -29,6 +34,10 @@ eTile* eTile::bottom() const {
 
 void eTile::setTerrain(const eTerrain terr) {
     mTerr = terr;
+}
+
+void eTile::setScrub(const double s) {
+    mScrub = std::clamp(s, 0., 1.);
 }
 
 void eTile::setTopLeft(eTile* const tl) {

@@ -49,7 +49,16 @@ void eGameBoard::initialize(const int w, const int h) {
     updateNeighbours();
 
     for(int i = 0; i < w + h; i++) {
-        const auto type = rand() % 2 ? eTerrain::beach : eTerrain::river;
+        const int rr = rand() % 3;
+        eTerrain type;
+        if(rr == 0) {
+            type = eTerrain::beach;
+        } else if(rr == 1) {
+            type = eTerrain::fertile;
+        } else {
+            type = eTerrain::river;
+        }
+        type = eTerrain::fertile;
         const int x0 = rand() % w;
         const int y0 = rand() % h;
         for(int j = 0; j < 3; j++) {
@@ -60,6 +69,7 @@ void eGameBoard::initialize(const int w, const int h) {
             }
         }
     }
+
 }
 
 void eGameBoard::clear() {
