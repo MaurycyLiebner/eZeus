@@ -46,7 +46,7 @@ private:
 
     eWidget* mWidget = nullptr;
     SDL_Window* mSdlWindow = nullptr;
-    SDL_Renderer* mSdlRenderer;
+    SDL_Renderer* mSdlRenderer = nullptr;
 };
 
 #endif // EMAINWINDOW_H

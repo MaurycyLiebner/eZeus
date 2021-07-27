@@ -2,7 +2,7 @@
 #define ETILE_H
 
 enum class eTerrain {
-    dry, beach, river, fertile
+    dry, beach, river, fertile, forest
 };
 
 class eTile {

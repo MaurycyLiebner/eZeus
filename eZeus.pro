@@ -11,6 +11,7 @@ SOURCES += \
         engine/ebeachtodry.cpp \
         engine/eeventloop.cpp \
         engine/efertiletodry.cpp \
+        engine/eforesttodry.cpp \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
         engine/egameeventloop.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
     engine/ebeachtodry.h \
     engine/eeventloop.h \
     engine/efertiletodry.h \
+    engine/eforesttodry.h \
     engine/egameboard.h \
     engine/egameboarditerator.h \
     engine/egameeventloop.h \

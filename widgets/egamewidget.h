@@ -33,6 +33,10 @@ private:
     eTextureCollection mFertileToDryTerrainTexs;
     std::vector<eTextureCollection> mDryToScrubTerrainTexs;
     eTextureCollection mScrubTerrainTexs;
+    std::vector<eTextureCollection> mFertileToScrubTerrainTexs;
+    std::vector<eTextureCollection> mForestToDryTerrainTexs;
+    eTextureCollection mForestToScrubTerrainTexs;
+    eTextureCollection mForestTerrainTexs;
 };
 
 #endif // EGAMEWIDGET_H
