@@ -5,6 +5,7 @@
 #include "etexturecollection.h"
 
 #include "engine/egameeventloop.h"
+#include "engine/eterraintextures.h"
 
 class eTerrainEditMenu;
 
@@ -33,32 +34,16 @@ private:
     int mDX = 0;
     int mDY = 0;
 
-//    const int mTileW = 58;
-//    const int mTileH = 30;
-    const int mTileW = 116;
-    const int mTileH = 60;
+    const int mTileW = 58;
+    const int mTileH = 30;
+//    const int mTileW = 116;
+//    const int mTileH = 60;
 
     eGameBoard mBoard;
+    eTerrainTextures mTextures;
 
     std::thread mLoopThread;
     eGameEventLoop mLoop;
-
-    eTextureCollection mDryTerrainTexs;
-    eTextureCollection mBeachTerrainTexs;
-    eTextureCollection mBeachToDryTerrainTexs;
-    eTextureCollection mWaterTerrainTexs;
-    std::vector<eTextureCollection> mWaterToDryTerrainTexs;
-    eTextureCollection mFertileTerrainTexs;
-    eTextureCollection mFertileToDryTerrainTexs;
-    std::vector<eTextureCollection> mDryToScrubTerrainTexs;
-    eTextureCollection mScrubTerrainTexs;
-    std::vector<eTextureCollection> mFertileToScrubTerrainTexs;
-    std::vector<eTextureCollection> mForestToDryTerrainTexs;
-    eTextureCollection mForestToScrubTerrainTexs;
-    eTextureCollection mForestTerrainTexs;
-    std::vector<eTextureCollection> mWaterToBeachTerrainTexs;
-    eTexture mSelectedTex;
-    eTextureCollection mWaterToBeachToDryTerrainTexs;
 
     eTerrainEditMenu* mTem = nullptr;
 };

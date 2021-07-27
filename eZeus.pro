@@ -18,8 +18,10 @@ SOURCES += \
         engine/egameobject.cpp \
         engine/emovinggameobject.cpp \
         engine/etask.cpp \
+        engine/eterraintextures.cpp \
         engine/ethreadpool.cpp \
         engine/etile.cpp \
+        engine/etiletotexture.cpp \
         engine/ewatercorner.cpp \
         engine/ewatertobeach.cpp \
         engine/ewatertodry.cpp \
@@ -56,8 +58,10 @@ HEADERS += \
     engine/egameobject.h \
     engine/emovinggameobject.h \
     engine/etask.h \
+    engine/eterraintextures.h \
     engine/ethreadpool.h \
     engine/etile.h \
+    engine/etiletotexture.h \
     engine/ewatercorner.h \
     engine/ewatertobeach.h \
     engine/ewatertodry.h \
