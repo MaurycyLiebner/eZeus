@@ -13,7 +13,25 @@ eTerrainTextures::eTerrainTextures(const int tileW, const int tileH,
     fScrubTerrainTexs(renderer),
     fForestToScrubTerrainTexs(renderer),
     fForestTerrainTexs(renderer),
-    fWaterToBeachToDryTerrainTexs(renderer) {
+    fWaterToBeachToDryTerrainTexs(renderer),
+
+    fFlatStonesTerrainTexs(renderer),
+    fLargeFlatStonesTerrainTexs(renderer),
+    fHugeFlatStonesTerrainTexs(renderer),
+
+    fBronzeTerrainTexs(renderer),
+    fLargeBronzeTerrainTexs(renderer),
+    fHugeBronzeTerrainTexs(renderer),
+
+    fSilverTerrainTexs(renderer),
+    fLargeSilverTerrainTexs(renderer),
+    fHugeSilverTerrainTexs(renderer),
+
+    fTallStoneTerrainTexs(renderer),
+    fLargeTallStoneTerrainTexs(renderer),
+    fHugeTallStoneTerrainTexs(renderer),
+
+    fTinyStones(renderer) {
 
 }
 
@@ -56,6 +74,24 @@ void loadWaterToX(SDL_Renderer* const renderer,
         eTextureCollection coll(renderer);
         loadTex(pathBase, i, coll);
         result.push_back(coll);
+    }
+}
+
+void loadStones(int i0, const std::string& pathBase,
+                eTextureCollection& result,
+                eTextureCollection& resultLarge,
+                eTextureCollection& resultHuge) {
+    int i = i0;
+    for(; i < i0 + 8; i++) {
+        loadTex(pathBase, i, result);
+    }
+
+    for(; i < i0 + 11; i++) {
+        loadTex(pathBase, i, resultLarge);
+    }
+
+    for(; i < i0 + 14; i++) {
+        loadTex(pathBase, i, resultHuge);
     }
 }
 
@@ -104,6 +140,23 @@ void eTerrainTextures::load() {
         }
 
         loadWaterToX(fRenderer, 172, pathBase, fWaterToDryTerrainTexs);
+
+        loadStones(334, pathBase, fFlatStonesTerrainTexs,
+                   fLargeFlatStonesTerrainTexs, fHugeFlatStonesTerrainTexs);
+        loadStones(348, pathBase, fBronzeTerrainTexs,
+                   fLargeBronzeTerrainTexs, fHugeBronzeTerrainTexs);
+        loadStones(363, pathBase, fSilverTerrainTexs,
+                   fLargeSilverTerrainTexs, fHugeSilverTerrainTexs);
+        loadStones(377, pathBase, fTallStoneTerrainTexs,
+                   fLargeTallStoneTerrainTexs, fHugeTallStoneTerrainTexs);
+    }
+
+    {
+        const std::string pathBase{terrDir + "Zeus_Overlay_00"};
+
+        for(int i = 21; i < 29; i++) {
+            loadTex(pathBase, i, fTinyStones);
+        }
     }
 
     {

@@ -31,6 +31,24 @@ public:
     eTexture fInvalidTex;
     eTexture fSelectedTex;
     eTextureCollection fWaterToBeachToDryTerrainTexs;
+
+    eTextureCollection fFlatStonesTerrainTexs;
+    eTextureCollection fLargeFlatStonesTerrainTexs;
+    eTextureCollection fHugeFlatStonesTerrainTexs;
+
+    eTextureCollection fBronzeTerrainTexs;
+    eTextureCollection fLargeBronzeTerrainTexs;
+    eTextureCollection fHugeBronzeTerrainTexs;
+
+    eTextureCollection fSilverTerrainTexs;
+    eTextureCollection fLargeSilverTerrainTexs;
+    eTextureCollection fHugeSilverTerrainTexs;
+
+    eTextureCollection fTallStoneTerrainTexs;
+    eTextureCollection fLargeTallStoneTerrainTexs;
+    eTextureCollection fHugeTallStoneTerrainTexs;
+
+    eTextureCollection fTinyStones;
 };
 
 #endif // ETERRAINTEXTURES_H

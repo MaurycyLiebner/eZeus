@@ -19,13 +19,13 @@ eTexture eTileToTexture::get(eTile* const tile,
 
     switch(tile->terrain()) {
     case eTerrain::dry: {
-        const int scrubCount = textures.fDryToScrubTerrainTexs.size();
+        const int scrubCount = textures.fDryToScrubTerrainTexs[0].size();
         const int scrub = tile->scrubId(scrubCount) - 1;
         if(scrub == -1) { // zero scrub
             const int texId = tileId % textures.fDryTerrainTexs.size();
             const auto& coll = textures.fDryTerrainTexs;
             return coll.getTexture(texId);
-        } else if(scrub == scrubCount) { // full scrub
+        } else if(scrub == scrubCount - 1) { // full scrub
             const int texId = tileId % textures.fScrubTerrainTexs.size();
             const auto& coll = textures.fScrubTerrainTexs;
             return coll.getTexture(texId);
