@@ -70,7 +70,7 @@ eTile* eGameBoard::tile(const int x, const int y) const {
 void eGameBoard::updateDiagonalArray() {
     for(int k = 0 ; k <= mWidth + mHeight - 2; k++) {
         std::vector<eTile*> diag;
-        for(int j = 0 ; j <= k ; j++) {
+        for(int j = k ; j >= 0 ; j--) {
             const int i = k - j;
             if(i < mWidth && j < mHeight) {
                 diag.push_back(mTiles[i][j]);
