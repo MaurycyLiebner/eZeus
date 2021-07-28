@@ -2,8 +2,23 @@
 
 #include "engine/etile.h"
 
+#include <algorithm>
+
 bool eWaterCorner::detect(eTile* const tile) {
-    return false;
+    const auto tt = tile->terrain();
+    if(tt != eTerrain::water) return false;
+    std::vector<eTerrain> neighTypes;
+    tile->neighbourTerrainTypes(neighTypes);
+    const auto waterIt = std::find(neighTypes.begin(), neighTypes.end(),
+                                   eTerrain::water);
+    if(waterIt == neighTypes.end()) return false;
+    const auto beachIt = std::find(neighTypes.begin(), neighTypes.end(),
+                                   eTerrain::beach);
+    if(beachIt == neighTypes.end()) return false;
+    const auto dryIt = std::find(neighTypes.begin(), neighTypes.end(),
+                                 eTerrain::dry);
+    if(dryIt == neighTypes.end()) return false;
+    return true;
 }
 
 int eWaterCorner::get(eTile* const tile) {
@@ -27,7 +42,10 @@ int eWaterCorner::get(eTile* const tile) {
     int id = 0;
     if(l == dry &&
        tr == water &&
-       b == beach) {
+       b == beach &&
+       br == water &&
+       t == water &&
+       r == water) {
         id = 0;
     } else if(l == beach &&
               b == dry &&
@@ -74,6 +92,8 @@ int eWaterCorner::get(eTile* const tile) {
               b == water) {
         id = 11;
     } else if(bl == water &&
+              l == water &&
+              b == water &&
               t == beach &&
               r == dry) {
         id = 12;

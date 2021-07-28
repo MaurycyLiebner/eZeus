@@ -109,7 +109,8 @@ eTexture eTileToTexture::get(eTile* const tile,
     } break;
     case eTerrain::fertile: {
         const auto id = eFertileToDry::get(tile);
-        const int scrub = tile->scrubId(13) - 1;
+        const int scrubCount = textures.fFertileToScrubTerrainTexs.size();
+        const int scrub = tile->scrubId(scrubCount) - 1;
         switch(id) {
         case eFertileToDryId::none: {
             if(scrub == -1) {
@@ -143,7 +144,8 @@ eTexture eTileToTexture::get(eTile* const tile,
             return coll.getTexture(texId);
         } break;
         case eForestToDryId::somewhere: {
-            const int scrub = tile->scrubId(13) - 1;
+            const int scrubCount = textures.fForestToScrubTerrainTexs.size();
+            const int scrub = tile->scrubId(scrubCount) - 1;
             if(scrub == -1) {
                 const int collId = tileId % textures.fForestToDryTerrainTexs.size();
                 const auto& coll = textures.fForestToDryTerrainTexs[collId];
