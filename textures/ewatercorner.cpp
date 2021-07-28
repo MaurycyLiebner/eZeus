@@ -41,9 +41,9 @@ int eWaterCorner::get(eTile* const tile) {
         id = 12;
     } else if(tt(dry, beach, beach | water, water, water, water, water, water)) {
         id = 13;
-    } else if(tt(beach | water, beach, dry, dry, dry, water, water, water)) {
+    } else if(tt(beach | water, beach, dry, dry, dry | water, water, water, water)) {
         id = 14;
-    } else if(tt(dry, beach, beach | water, water, water, water, dry, dry)) {
+    } else if(tt(dry, beach, beach | water, water, water, water, dry | water, dry)) {
         id = 15;
     } else if(tt(beach | water, beach, dry, water, water, water, beach | water, beach)) {
         id = 16;
