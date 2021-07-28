@@ -255,7 +255,7 @@ bool eWidget::mouseWheel(const eMouseWheelEvent& e) {
 
 void eWidget::deleteLater() {
     if(mParent) mParent->removeWidget(this);
-    eMainWindow::addSlot([this]() {
+    mWindow->addSlot([this]() {
         delete this;
     });
 }

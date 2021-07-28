@@ -9,8 +9,6 @@ public:
 protected:
     virtual void run() {}
     virtual void finish() {}
-private:
-    void exec();
 };
 
 #endif // ETASK_H

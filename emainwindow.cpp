@@ -4,15 +4,9 @@
 #include "widgets/esettingsmenu.h"
 #include "widgets/egamewidget.h"
 
-eMainWindow* eMainWindow::sInstance = nullptr;
+#include <chrono>
 
-eMainWindow* eMainWindow::instance() {
-    return sInstance;
-}
-
-eMainWindow::eMainWindow() {
-    sInstance = this;
-}
+eMainWindow::eMainWindow() {}
 
 eMainWindow::~eMainWindow() {
     if(mSdlWindow) SDL_DestroyWindow(mSdlWindow);
@@ -58,10 +52,6 @@ void eMainWindow::setWidget(eWidget* const w) {
 }
 
 void eMainWindow::addSlot(const eSlot& slot) {
-    sInstance->addSlotImpl(slot);
-}
-
-void eMainWindow::addSlotImpl(const eSlot& slot) {
     mSlots.push_back(slot);
 }
 

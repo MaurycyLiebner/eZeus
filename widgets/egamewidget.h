@@ -4,7 +4,8 @@
 #include "ewidget.h"
 #include "etexturecollection.h"
 
-#include "engine/egameeventloop.h"
+#include "engine/etile.h"
+#include "engine/egameboard.h"
 #include "textures/eterraintextures.h"
 
 class eTerrainEditMenu;
@@ -50,9 +51,6 @@ private:
     eGameBoard mBoard;
     eTerrainTextures* mTerrainTextures = nullptr;
     std::vector<eTerrainTextures> mTerrainTexturesColl;
-
-    std::thread mLoopThread;
-    eGameEventLoop mLoop;
 
     eTerrainEditMenu* mTem = nullptr;
 };

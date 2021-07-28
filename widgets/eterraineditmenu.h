@@ -27,7 +27,7 @@ public:
 
     eTerrainEditMode mode() const { return mMode; }
 private:
-    eTerrainEditMode mMode;
+    eTerrainEditMode mMode = eTerrainEditMode::dry;
 
     eWidget* mStonesWidget = nullptr;
     eWidget* mBasicWidget = nullptr;

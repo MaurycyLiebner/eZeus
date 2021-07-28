@@ -18,16 +18,13 @@ public:
 
     int exec();
 
-    static void addSlot(const eSlot& slot);
-    static eMainWindow* instance();
+    void addSlot(const eSlot& slot);
 
     int width() const { return eResolution::width(mResolution); }
     int height() const { return eResolution::height(mResolution); }
     eRes resolution() const { return mResolution; }
     SDL_Renderer* renderer() const { return mSdlRenderer; }
 private:
-    void addSlotImpl(const eSlot& slot);
-
     void setResolution(const eRes res);
     void setFullscreen(const bool f);
 
@@ -37,8 +34,6 @@ private:
 
     bool mFullscreen = false;
     eRes mResolution;
-
-    static eMainWindow* sInstance;
 
     bool mQuit = false;
 

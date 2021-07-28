@@ -5,13 +5,9 @@
 #include "textures/etiletotexture.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
-    eWidget(window) {
-    mLoopThread = std::thread(std::bind(&eGameEventLoop::exec, &mLoop));}
+    eWidget(window) {}
 
-eGameWidget::~eGameWidget() {
-    mLoop.quit();
-    mLoopThread.join();
-}
+eGameWidget::~eGameWidget() {}
 
 void eGameWidget::initialize(const int w, const int h) {
     mTem = new eTerrainEditMenu(window());

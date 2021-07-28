@@ -8,10 +8,8 @@ LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf
 
 SOURCES += \
         emainwindow.cpp \
-        engine/eeventloop.cpp \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
-        engine/egameeventloop.cpp \
         engine/egameobject.cpp \
         engine/emovinggameobject.cpp \
         engine/etask.cpp \
@@ -39,12 +37,14 @@ SOURCES += \
         widgets/ecombobox.cpp \
         widgets/econtextmenu.cpp \
         widgets/efonts.cpp \
+        widgets/egameloadingwidget.cpp \
         widgets/egamewidget.cpp \
         widgets/elabel.cpp \
         widgets/elabeledwidget.cpp \
         widgets/emainmenu.cpp \
         widgets/emouseevent.cpp \
         widgets/epainter.cpp \
+        widgets/eprogressbar.cpp \
         widgets/eresolution.cpp \
         widgets/esettingsmenu.cpp \
         widgets/eterraineditmenu.cpp \
@@ -52,10 +52,8 @@ SOURCES += \
 
 HEADERS += \
     emainwindow.h \
-    engine/eeventloop.h \
     engine/egameboard.h \
     engine/egameboarditerator.h \
-    engine/egameeventloop.h \
     engine/egameobject.h \
     engine/emovinggameobject.h \
     engine/etask.h \
@@ -82,12 +80,14 @@ HEADERS += \
     widgets/ecombobox.h \
     widgets/econtextmenu.h \
     widgets/efonts.h \
+    widgets/egameloadingwidget.h \
     widgets/egamewidget.h \
     widgets/elabel.h \
     widgets/elabeledwidget.h \
     widgets/emainmenu.h \
     widgets/emouseevent.h \
     widgets/epainter.h \
+    widgets/eprogressbar.h \
     widgets/eresolution.h \
     widgets/esettingsmenu.h \
     widgets/eterraineditmenu.h \
