@@ -4,7 +4,6 @@
 class eTile;
 
 namespace eWaterCorner {
-    bool detect(eTile* const tile);
     int get(eTile* const tile);
 };
 

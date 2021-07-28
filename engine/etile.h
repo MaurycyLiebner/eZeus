@@ -51,6 +51,7 @@ public:
                                bool& t, bool& r,
                                bool& b, bool& l) const;
     void neighbourTerrainTypes(std::vector<eTerrain>& neighTerrs) const;
+    void majorNeighbourTerrainTypes(std::vector<eTerrain>& neighTerrs) const;
 private:
     const int mId;
     const int mX;

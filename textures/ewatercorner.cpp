@@ -4,142 +4,96 @@
 
 #include <algorithm>
 
-bool eWaterCorner::detect(eTile* const tile) {
-    const auto tt = tile->terrain();
-    if(tt != eTerrain::water) return false;
-    std::vector<eTerrain> neighTypes;
-    tile->neighbourTerrainTypes(neighTypes);
-    const auto waterIt = std::find(neighTypes.begin(), neighTypes.end(),
-                                   eTerrain::water);
-    if(waterIt == neighTypes.end()) return false;
-    const auto beachIt = std::find(neighTypes.begin(), neighTypes.end(),
-                                   eTerrain::beach);
-    if(beachIt == neighTypes.end()) return false;
-    const auto dryIt = std::find(neighTypes.begin(), neighTypes.end(),
-                                 eTerrain::dry);
-    if(dryIt == neighTypes.end()) return false;
-    return true;
-}
+struct eTT {
+    bool operator()(const eTerrain t,
+                    const eTerrain tr,
+                    const eTerrain r,
+                    const eTerrain br,
+                    const eTerrain b,
+                    const eTerrain bl,
+                    const eTerrain l,
+                    const eTerrain tl) {
+        if(t != fT) return false;
+        if(tr != fTr) return false;
+        if(r != fR) return false;
+        if(br != fBr) return false;
+        if(b != fB) return false;
+        if(bl != fBl) return false;
+        if(l != fL) return false;
+        if(tl != fTl) return false;
+        return true;
+    }
+
+    eTerrain fTl;
+    eTerrain fTr;
+    eTerrain fBr;
+    eTerrain fBl;
+
+    eTerrain fT;
+    eTerrain fR;
+    eTerrain fB;
+    eTerrain fL;
+};
 
 int eWaterCorner::get(eTile* const tile) {
-    eTerrain tl;
-    eTerrain tr;
-    eTerrain br;
-    eTerrain bl;
-
-    eTerrain t;
-    eTerrain r;
-    eTerrain b;
-    eTerrain l;
-
-    tile->neighbourTerrain(tl, tr, br, bl,
-                           t, r, b, l);
-
     const auto dry = eTerrain::dry;
     const auto water = eTerrain::water;
     const auto beach = eTerrain::beach;
 
-    int id = 0;
-    if(l == dry &&
-       tr == water &&
-       b == beach &&
-       br == water &&
-       t == water &&
-       r == water) {
+    if(tile->terrain() != water) return -1;
+
+    eTT tt;
+    tile->neighbourTerrain(tt.fTl, tt.fTr, tt.fBr, tt.fBl,
+                           tt.fT, tt.fR, tt.fB, tt.fL);
+
+    int id = -1;
+    if(tt(water, water, water, water, beach, beach, dry, water)) {
         id = 0;
-    } else if(l == beach &&
-              b == dry &&
-              tr == water) {
+    } else if(tt(water, water, water, water, dry, beach, beach, water)) {
         id = 1;
-    } else if(tl == dry &&
-              b == beach &&
-              r == water) {
+    } else if(tt(dry, water, water, water, beach, beach, dry, dry)) {
         id = 2;
-    } else if(br == dry &&
-              l == beach &&
-              t == water) {
+    } else if(tt(water, water, dry, dry, dry, beach, beach, water)) {
         id = 3;
-    } else if(t == water &&
-              l == dry &&
-              br == beach) {
+    } else if(tt(water, water, beach, beach, beach, beach, dry, water)) {
         id = 4;
-    } else if(tl == beach &&
-              b == dry &&
-              r == water) {
+    } else if(tt(beach, water, water, water, dry, beach, beach, beach)) {
         id = 5;
-    } else if(br == water &&
-              t == dry &&
-              l == beach) {
+    } else if(tt(dry, water, water, water, water, water, beach, beach)) {
         id = 6;
-    } else if(t == beach &&
-              l == dry &&
-              br == water) {
+    } else if(tt(beach, water, water, water, water, water, dry, beach)) {
         id = 7;
-    } else if(tr == dry &&
-              l == beach &&
-              b == water) {
+    } else if(tt(dry, dry, dry, water, water, water, beach, beach)) {
         id = 8;
-    } else if(bl == dry &&
-              t == beach &&
-              r == water) {
+    } else if(tt(beach, water, water, water, dry, dry, dry, beach)) {
         id = 9;
-    } else if(t == dry &&
-              bl == beach &&
-              r == water) {
+    } else if(tt(dry, water, water, water, beach, beach, beach, beach)) {
         id = 10;
-    } else if(l == dry &&
-              tr == beach &&
-              b == water) {
+    } else if(tt(beach, beach, beach, water, water, water, dry, beach)) {
         id = 11;
-    } else if(bl == water &&
-              l == water &&
-              b == water &&
-              t == beach &&
-              r == dry) {
+    } else if(tt(beach, beach, dry, water, water, water, water, water)) {
         id = 12;
-    } else if(bl == water &&
-              t == dry &&
-              r == beach) {
+    } else if(tt(dry, beach, beach, water, water, water, water, water)) {
         id = 13;
-    } else if(l == water &&
-              t == beach &&
-              br == dry) {
+    } else if(tt(beach, beach, dry, dry, dry, water, water, water)) {
         id = 14;
-    } else if(tl == dry &&
-              b == water &&
-              r == beach) {
+    } else if(tt(dry, beach, beach, water, water, water, dry, dry)) {
         id = 15;
-    } else if(tl == beach &&
-              r == dry &&
-              b == water) {
+    } else if(tt(beach, beach, dry, water, water, water, beach, beach)) {
         id = 16;
-    } else if(l == water &&
-              t == dry &&
-              br == beach) {
+    } else if(tt(dry, beach, beach, beach, beach, water, water, water)) {
         id = 17;
-    } else if(tl == water &&
-              b == dry &&
-              r == beach) {
+    } else if(tt(water, water, beach, beach, dry, water, water, water)) {
         id = 18;
-    } else if(tl == water &&
-              r == dry &&
-              b == beach) {
+    } else if(tt(water, water, dry, beach, beach, water, water, water)) {
         id = 19;
-    } else if(bl == dry &&
-              t == water &&
-              r == beach) {
+    } else if(tt(water, water, beach, beach, dry, dry, dry, water)) {
         id = 20;
-    } else if(tr == dry &&
-              l == water &&
-              b == beach) {
+    } else if(tt(dry, dry, dry, beach, beach, water, water, water)) {
         id = 21;
-    } else if(tr == beach &&
-              l == water &&
-              b == dry) {
+    } else if(tt(beach, beach, beach, beach, dry, water, water, water)) {
         id = 22;
-    } else if(t == water &&
-              bl == beach &&
-              r == dry) {
+    } else if(tt(water, water, dry, dry, beach, beach, beach, water)) {
         id = 23;
     }
     return id;

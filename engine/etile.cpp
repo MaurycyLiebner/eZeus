@@ -192,3 +192,30 @@ void eTile::neighbourTerrainTypes(std::vector<eTerrain>& neighTerrs) const {
     terr(bTerr);
     terr(lTerr);
 }
+
+void eTile::majorNeighbourTerrainTypes(std::vector<eTerrain>& neighTerrs) const {
+    eTerrain tlTerr;
+    eTerrain trTerr;
+    eTerrain brTerr;
+    eTerrain blTerr;
+
+    eTerrain tTerr;
+    eTerrain rTerr;
+    eTerrain bTerr;
+    eTerrain lTerr;
+
+    neighbourTerrain(tlTerr, trTerr, brTerr, blTerr,
+                     tTerr, rTerr, bTerr, lTerr);
+
+    const auto terr = [&](const eTerrain& t) {
+        const auto it = std::find(neighTerrs.begin(), neighTerrs.end(), t);
+        const bool has = it != neighTerrs.end();
+        if(has) return;
+        neighTerrs.push_back(t);
+    };
+
+    terr(tlTerr);
+    terr(trTerr);
+    terr(brTerr);
+    terr(blTerr);
+}

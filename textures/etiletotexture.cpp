@@ -64,10 +64,10 @@ eTexture eTileToTexture::get(eTile* const tile,
         }
     } break;
     case eTerrain::water: {
-        if(eWaterCorner::detect(tile)) {
-            const int id = eWaterCorner::get(tile);
+        const int r = eWaterCorner::get(tile);
+        if(r != -1) {
             const auto& coll = textures.fWaterToBeachToDryTerrainTexs;
-            return coll.getTexture(id);
+            return coll.getTexture(r);
         } else {
             std::vector<eTerrain> neighTypes;
             neighTypes.push_back(tile->terrain());
@@ -159,4 +159,5 @@ eTexture eTileToTexture::get(eTile* const tile,
         }
     } break;
     }
+    return eTexture();
 }
