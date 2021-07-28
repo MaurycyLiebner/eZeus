@@ -25,11 +25,13 @@ SOURCES += \
         textures/ebeachtodry.cpp \
         textures/efertiletodry.cpp \
         textures/eforesttodry.cpp \
+        textures/esurroundingterrain.cpp \
         textures/eterraintextures.cpp \
         textures/etiletotexture.cpp \
         textures/ewatercorner.cpp \
         textures/ewatertobeach.cpp \
         textures/ewatertodry.cpp \
+        textures/ewatertox.cpp \
         widgets/ebutton.cpp \
         widgets/echeckbox.cpp \
         widgets/ecombobox.cpp \
@@ -64,11 +66,13 @@ HEADERS += \
     textures/ebeachtodry.h \
     textures/efertiletodry.h \
     textures/eforesttodry.h \
+    textures/esurroundingterrain.h \
     textures/eterraintextures.h \
     textures/etiletotexture.h \
     textures/ewatercorner.h \
     textures/ewatertobeach.h \
     textures/ewatertodry.h \
+    textures/ewatertox.h \
     widgets/ebutton.h \
     widgets/echeckbox.h \
     widgets/ecombobox.h \

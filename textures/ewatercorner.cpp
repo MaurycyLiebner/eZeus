@@ -1,50 +1,16 @@
 #include "ewatercorner.h"
 
 #include "engine/etile.h"
-
-#include <algorithm>
-
-struct eTT {
-    bool operator()(const eTerrain t,
-                    const eTerrain tr,
-                    const eTerrain r,
-                    const eTerrain br,
-                    const eTerrain b,
-                    const eTerrain bl,
-                    const eTerrain l,
-                    const eTerrain tl) {
-        if(t != fT) return false;
-        if(tr != fTr) return false;
-        if(r != fR) return false;
-        if(br != fBr) return false;
-        if(b != fB) return false;
-        if(bl != fBl) return false;
-        if(l != fL) return false;
-        if(tl != fTl) return false;
-        return true;
-    }
-
-    eTerrain fTl;
-    eTerrain fTr;
-    eTerrain fBr;
-    eTerrain fBl;
-
-    eTerrain fT;
-    eTerrain fR;
-    eTerrain fB;
-    eTerrain fL;
-};
+#include "esurroundingterrain.h"
 
 int eWaterCorner::get(eTile* const tile) {
-    const auto dry = eTerrain::dry;
+    const auto dry = eTerrain::dryBased;
     const auto water = eTerrain::water;
     const auto beach = eTerrain::beach;
 
     if(tile->terrain() != water) return -1;
 
-    eTT tt;
-    tile->neighbourTerrain(tt.fTl, tt.fTr, tt.fBr, tt.fBl,
-                           tt.fT, tt.fR, tt.fB, tt.fL);
+    eSurroundingTerrain tt(tile);
 
     int id = -1;
     if(tt(water, water, water, water, beach, beach, dry, water)) {

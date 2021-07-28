@@ -1,10 +1,10 @@
 #ifndef EWATERTOBEACH_H
 #define EWATERTOBEACH_H
 
-#include "ewatertodry.h"
+class eTile;
 
 namespace eWaterToBeach {
-    using eWaterToDry::get;
+    int get(eTile* const tile);
 };
 
 #endif // EWATERTOBEACH_H

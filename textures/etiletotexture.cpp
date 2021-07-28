@@ -25,7 +25,7 @@ eTexture eTileToTexture::get(eTile* const tile,
             const int texId = tileId % textures.fDryTerrainTexs.size();
             const auto& coll = textures.fDryTerrainTexs;
             return coll.getTexture(texId);
-        } else if(scrubCount == 12) { // full scrub
+        } else if(scrub == scrubCount) { // full scrub
             const int texId = tileId % textures.fScrubTerrainTexs.size();
             const auto& coll = textures.fScrubTerrainTexs;
             return coll.getTexture(texId);
@@ -36,76 +36,37 @@ eTexture eTileToTexture::get(eTile* const tile,
         }
     } break;
     case eTerrain::beach: {
-        std::vector<eTerrain> neighTypes;
-        neighTypes.push_back(tile->terrain());
-        tile->neighbourTerrainTypes(neighTypes);
-        if(neighTypes.size() == 1) {
-            const int texId = tileId % textures.fBeachTerrainTexs.size();
-            const auto& coll = textures.fBeachTerrainTexs;
-            return coll.getTexture(texId);
-        } else {
-            const auto neighType = neighTypes[1];
-            if(neighType == eTerrain::water) {
-                const int texId = tileId % textures.fBeachTerrainTexs.size();
-                const auto& coll = textures.fBeachTerrainTexs;
-                return coll.getTexture(texId);
-            } else { // if(neighType == eTerrain::dry) {
-                const auto id = eBeachToDry::get(tile);
-                if(id == eBeachToDryId::none) {
-                    const int texId = tileId % textures.fBeachTerrainTexs.size();
-                    const auto& coll = textures.fBeachTerrainTexs;
-                    return coll.getTexture(texId);
-                } else {
-                    const int texId = static_cast<int>(id);
-                    const auto& coll = textures.fBeachToDryTerrainTexs;
-                    return coll.getTexture(texId);
-                }
-            }
+        const int toDryId = eBeachToDry::get(tile);
+        if(toDryId != -1) {
+            const auto& coll = textures.fBeachToDryTerrainTexs;
+            return coll.getTexture(toDryId);
         }
+        const int texId = tileId % textures.fBeachTerrainTexs.size();
+        const auto& coll = textures.fBeachTerrainTexs;
+        return coll.getTexture(texId);
     } break;
     case eTerrain::water: {
-        const int r = eWaterCorner::get(tile);
-        if(r != -1) {
+        const int cornerId = eWaterCorner::get(tile);
+        if(cornerId != -1) {
             const auto& coll = textures.fWaterToBeachToDryTerrainTexs;
-            return coll.getTexture(r);
-        } else {
-            std::vector<eTerrain> neighTypes;
-            neighTypes.push_back(tile->terrain());
-            tile->neighbourTerrainTypes(neighTypes);
-            if(neighTypes.size() == 1) {
-                const int texId = tileId % textures.fWaterTerrainTexs.size();
-                const auto& coll = textures.fWaterTerrainTexs;
-                return coll.getTexture(texId);
-            } else {
-                const auto it = std::find(neighTypes.begin(), neighTypes.end(), eTerrain::beach);
-                const bool hasBeach = it != neighTypes.end();
-                if(hasBeach) {
-                    const auto id = eWaterToBeach::get(tile);
-                    if(id == eWaterToDryId::none) {
-                        const int texId = tileId % textures.fWaterTerrainTexs.size();
-                        const auto& coll = textures.fWaterTerrainTexs;
-                        return coll.getTexture(texId);
-                    } else {
-                        const int collId = static_cast<int>(id);
-                        const auto& texs = textures.fWaterToBeachTerrainTexs[collId];
-                        const int texId = tileId % texs.size();
-                        return texs.getTexture(texId);
-                    }
-                } else { // if(neighType == eTerrain::dry) {
-                    const auto id = eWaterToDry::get(tile);
-                    if(id == eWaterToDryId::none) {
-                        const int texId = tileId % textures.fWaterTerrainTexs.size();
-                        const auto& coll = textures.fWaterTerrainTexs;
-                        return coll.getTexture(texId);
-                    } else {
-                        const int collId = static_cast<int>(id);
-                        const auto& texs = textures.fWaterToDryTerrainTexs[collId];
-                        const int texId = tileId % texs.size();
-                        return texs.getTexture(texId);
-                    }
-                }
-            }
+            return coll.getTexture(cornerId);
         }
+        const int toDryId = eWaterToDry::get(tile);
+        if(toDryId != -1) {
+            const auto& texs = textures.fWaterToDryTerrainTexs[toDryId];
+            const int texId = tileId % texs.size();
+            return texs.getTexture(texId);
+        }
+        const int toBeachId = eWaterToBeach::get(tile);
+        if(toBeachId != -1) {
+            const auto& texs = textures.fWaterToBeachTerrainTexs[toBeachId];
+            const int texId = tileId % texs.size();
+            return texs.getTexture(texId);
+        }
+
+        const int texId = tileId % textures.fWaterTerrainTexs.size();
+        const auto& coll = textures.fWaterTerrainTexs;
+        return coll.getTexture(texId);
     } break;
     case eTerrain::fertile: {
         const auto id = eFertileToDry::get(tile);
@@ -158,6 +119,8 @@ eTexture eTileToTexture::get(eTile* const tile,
         } break;
         }
     } break;
+    case eTerrain::dryBased:
+        break;
     }
-    return eTexture();
+    return textures.fInvalidTex;
 }

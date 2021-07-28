@@ -110,6 +110,7 @@ void eTerrainTextures::load() {
         const std::string pathBase{terrDir + "Zeus_Land3_00"};
 
         fSelectedTex.load(fRenderer, pathBase + "007.png");
+        fInvalidTex.load(fRenderer, pathBase + "007.png");
 
         loadWaterToX(fRenderer, 9, pathBase, fWaterToBeachTerrainTexs);
 

@@ -28,6 +28,7 @@ public:
     eTextureCollection fForestToScrubTerrainTexs;
     eTextureCollection fForestTerrainTexs;
     std::vector<eTextureCollection> fWaterToBeachTerrainTexs;
+    eTexture fInvalidTex;
     eTexture fSelectedTex;
     eTextureCollection fWaterToBeachToDryTerrainTexs;
 };

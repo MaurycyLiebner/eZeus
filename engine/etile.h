@@ -4,8 +4,24 @@
 #include <vector>
 
 enum class eTerrain {
-    dry, beach, water, fertile, forest
+    dry = 1 << 0,
+    beach = 1 << 1,
+    water = 1 << 2,
+    fertile = 1 << 3,
+    forest = 1 << 4,
+
+    dryBased = eTerrain::dry |
+               eTerrain::fertile |
+               eTerrain::forest
 };
+
+inline eTerrain operator|(const eTerrain a, const eTerrain b) {
+    return static_cast<eTerrain>(static_cast<int>(a) | static_cast<int>(b));
+}
+
+inline eTerrain operator&(const eTerrain a, const eTerrain b) {
+    return static_cast<eTerrain>(static_cast<int>(a) & static_cast<int>(b));
+}
 
 class eTile {
 public:
@@ -37,7 +53,7 @@ public:
     void setBottomRight(eTile* const br);
     void setBottomLeft(eTile* const bl);
 
-    void neighbourTerrain(eTerrain& tlTerr,
+    void surroundingTerrain(eTerrain& tlTerr,
                           eTerrain& trTerr,
                           eTerrain& brTerr,
                           eTerrain& blTerr,

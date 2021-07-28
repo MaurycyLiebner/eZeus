@@ -60,14 +60,14 @@ void eTile::setBottomLeft(eTile* const bl) {
     mBottomLeft = bl;
 }
 
-void eTile::neighbourTerrain(eTerrain& tlTerr,
-                             eTerrain& trTerr,
-                             eTerrain& brTerr,
-                             eTerrain& blTerr,
-                             eTerrain& tTerr,
-                             eTerrain& rTerr,
-                             eTerrain& bTerr,
-                             eTerrain& lTerr) const {
+void eTile::surroundingTerrain(eTerrain& tlTerr,
+                               eTerrain& trTerr,
+                               eTerrain& brTerr,
+                               eTerrain& blTerr,
+                               eTerrain& tTerr,
+                               eTerrain& rTerr,
+                               eTerrain& bTerr,
+                               eTerrain& lTerr) const {
     tlTerr = mTerr;
     trTerr = mTerr;
     brTerr = mTerr;
@@ -147,7 +147,7 @@ void eTile::neighboursWithTerrain(const eTerrain terr,
     eTerrain bTerr;
     eTerrain lTerr;
 
-    neighbourTerrain(tlTerr, trTerr, brTerr, blTerr,
+    surroundingTerrain(tlTerr, trTerr, brTerr, blTerr,
                      tTerr, rTerr, bTerr, lTerr);
 
     tl = tlTerr != terr;
@@ -172,7 +172,7 @@ void eTile::neighbourTerrainTypes(std::vector<eTerrain>& neighTerrs) const {
     eTerrain bTerr;
     eTerrain lTerr;
 
-    neighbourTerrain(tlTerr, trTerr, brTerr, blTerr,
+    surroundingTerrain(tlTerr, trTerr, brTerr, blTerr,
                      tTerr, rTerr, bTerr, lTerr);
 
     const auto terr = [&](const eTerrain& t) {
@@ -204,7 +204,7 @@ void eTile::majorNeighbourTerrainTypes(std::vector<eTerrain>& neighTerrs) const 
     eTerrain bTerr;
     eTerrain lTerr;
 
-    neighbourTerrain(tlTerr, trTerr, brTerr, blTerr,
+    surroundingTerrain(tlTerr, trTerr, brTerr, blTerr,
                      tTerr, rTerr, bTerr, lTerr);
 
     const auto terr = [&](const eTerrain& t) {

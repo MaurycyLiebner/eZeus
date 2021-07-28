@@ -1,50 +1,41 @@
 #include "ebeachtodry.h"
 
 #include "engine/etile.h"
+#include "esurroundingterrain.h"
 
-eBeachToDryId eBeachToDry::get(eTile* const tile) {
-    if(!tile) return eBeachToDryId::none;
+int eBeachToDry::get(eTile* const tile) {
+    const auto dry = eTerrain::dry;
+    const auto beach = eTerrain::beach;
 
-    const auto terr = tile->terrain();
+    if(tile->terrain() != beach) return -1;
 
-    bool tl;
-    bool tr;
-    bool br;
-    bool bl;
-    bool t;
-    bool r;
-    bool b;
-    bool l;
-    tile->neighboursWithTerrain(terr, tl, tr, br, bl, t, r, b, l);
+    eSurroundingTerrain tt(tile);
 
-    eBeachToDryId result;
-    if(bl && br) {
-        result = eBeachToDryId::bottomLeftAndBottomRight;
-    } else if(tr && br) {
-        result = eBeachToDryId::topRightAndBottomRight;
-    } else if(tl && tr) {
-        result = eBeachToDryId::topLeftAndTopRight;
-    } else if(tl && bl) {
-        result = eBeachToDryId::topLeftAndBottomLeft;
-    } else if(br) {
-        result = eBeachToDryId::bottomRight;
-    } else if(tr) {
-        result = eBeachToDryId::topRight;
-    } else if(tl) {
-        result = eBeachToDryId::topLeft;
-    } else if(bl) {
-        result = eBeachToDryId::bottomLeft;
-    } else if(t) {
-        result = eBeachToDryId::top;
-    } else if(r) {
-        result = eBeachToDryId::right;
-    } else if(b) {
-        result = eBeachToDryId::bottom;
-    } else if(l) {
-        result = eBeachToDryId::left;
-    } else {
-        result = eBeachToDryId::none;
+    int id = -1;
+    if(tt(beach, beach, beach, beach, dry, dry, dry, beach)) {
+        id = 0;
+    } else if(tt(beach, beach, beach, beach, beach, beach, dry, beach)) {
+        id = 1;
+    } else if(tt(dry, beach, beach, beach, beach, beach, dry, dry)) {
+        id = 2;
+    } else if(tt(dry, beach, beach, beach, beach, beach, beach, beach)) {
+        id = 3;
+    } else if(tt(dry, dry, dry, beach, beach, beach, beach, beach)) {
+        id = 4;
+    } else if(tt(beach, beach, dry, beach, beach, beach, beach, beach)) {
+        id = 5;
+    } else if(tt(beach, beach, dry, dry, dry, beach, beach, beach)) {
+        id = 6;
+    } else if(tt(beach, beach, beach, beach, dry, beach, beach, beach)) {
+        id = 7;
+    } else if(tt(dry, beach, beach, beach, dry, dry, dry, dry)) {
+        id = 8;
+    } else if(tt(dry, dry, dry, beach, beach, beach, dry, dry)) {
+        id = 9;
+    } else if(tt(dry, dry, dry, dry, dry, beach, beach, beach)) {
+        id = 10;
+    } else if(tt(beach, beach, dry, dry, dry, dry, dry, beach)) {
+        id = 11;
     }
-
-    return result;
+    return id;
 }
