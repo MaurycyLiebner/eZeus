@@ -39,35 +39,35 @@ int eWaterToX::get(eTile* const tile, const eTerrain x) {
         id = 12;
     } else if(tt(x | water, x, x | water, x, x | water, x, x | water, water)) {
         id = 13;
-    } else if(tt(water, water, x | water, water, water, water, x | water, water)) {
+    } else if(tt(water, water, x, water, water, water, x, water)) {
         id = 14;
-    } else if(tt(x | water, water, water, water, x | water, water, water, water)) {
+    } else if(tt(x, water, water, water, x, water, water, water)) {
         id = 15;
-    } else if(tt(water, water, water, water, water, water, x | water, water)) {
+    } else if(tt(water, water, water, water, water, water, x, water)) {
         id = 16;
-    } else if(tt(x | water, water, water, water, water, water, water, water)) {
+    } else if(tt(x, water, water, water, water, water, water, water)) {
         id = 17;
-    } else if(tt(water, water, x | water, water, water, water, water, water)) {
+    } else if(tt(water, water, x, water, water, water, water, water)) {
         id = 18;
-    } else if(tt(water, water, water, water, x | water, water, water, water)) {
+    } else if(tt(water, water, water, water, x, water, water, water)) {
         id = 19;
-    } else if(tt(x | water, water, water, water, water, water, x | water, water)) {
+    } else if(tt(x, water, water, water, water, water, x, water)) {
         id = 20;
-    } else if(tt(x | water, water, x | water, water, water, water, water, water)) {
+    } else if(tt(x, water, x, water, water, water, water, water)) {
         id = 21;
-    } else if(tt(water, water, x | water, water, x | water, water, water, water)) {
+    } else if(tt(water, water, x, water, x, water, water, water)) {
         id = 22;
     } else if(tt(water, water, water, water, x | water, water, x, water)) {
         id = 23;
-    } else if(tt(x | water, water, x | water, water, water, water, x | water, water)) {
+    } else if(tt(x, water, x, water, water, water, x, water)) {
         id = 24;
-    } else if(tt(x | water, water, x | water, water, x | water, water, water, water)) {
+    } else if(tt(x, water, x, water, x, water, water, water)) {
         id = 25;
-    } else if(tt(water, water, x | water, water, x | water, water, x | water, water)) {
+    } else if(tt(water, water, x, water, x, water, x, water)) {
         id = 26;
-    } else if(tt(x | water, water, water, water, x | water, water, x | water, water)) {
+    } else if(tt(x, water, water, water, x, water, x, water)) {
         id = 27;
-    } else if(tt(x | water, water, x | water, water, x | water, water, x | water, water)) {
+    } else if(tt(x, water, x, water, x, water, x, water)) {
         id = 28;
     } else if(tt(x | water, water, water, water, x | water, x, x | water, water)) {
         id = 29;
