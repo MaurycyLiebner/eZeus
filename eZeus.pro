@@ -8,6 +8,7 @@ LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf
 
 SOURCES += \
         emainwindow.cpp \
+        engine/efunctask.cpp \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
         engine/egameobject.cpp \
@@ -52,6 +53,7 @@ SOURCES += \
 
 HEADERS += \
     emainwindow.h \
+    engine/efunctask.h \
     engine/egameboard.h \
     engine/egameboarditerator.h \
     engine/egameobject.h \

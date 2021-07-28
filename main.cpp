@@ -4,6 +4,7 @@
 #include <string>
 
 #include "emainwindow.h"
+#include "engine/ethreadpool.h"
 
 bool init() {
     if(SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -45,6 +46,7 @@ int main() {
         return 1;
     }
 
+    eThreadPool p;
     eMainWindow w;
     const bool i = w.initialize(eRes::p720);
     if(!i) return 1;

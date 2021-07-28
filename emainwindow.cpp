@@ -3,6 +3,9 @@
 #include "widgets/emainmenu.h"
 #include "widgets/esettingsmenu.h"
 #include "widgets/egamewidget.h"
+#include "widgets/egameloadingwidget.h"
+
+#include "engine/ethreadpool.h"
 
 #include <chrono>
 
@@ -74,7 +77,14 @@ void eMainWindow::showMainMenu() {
     setWidget(mm);
 
     const auto newGameAction = [this]() {
-        showGame();
+        const auto l = new eGameLoadingWidget(this);
+        l->resize(width(), height());
+        const auto show = [this, l]() {
+            showGame(std::move(l->takeTerrainTextures()));
+        };
+        l->setDoneAction(show);
+        setWidget(l);
+        l->initialize();
     };
 
     const auto loadGameAction = []() {
@@ -111,8 +121,8 @@ void eMainWindow::showSettingsMenu() {
     setWidget(esm);
 }
 
-void eMainWindow::showGame() {
-    const auto egw = new eGameWidget(this);
+void eMainWindow::showGame(std::vector<eTerrainTextures>&& texs) {
+    const auto egw = new eGameWidget(std::move(texs), this);
     egw->resize(width(), height());
     egw->initialize(16, 16);
     setWidget(egw);
@@ -202,6 +212,8 @@ int eMainWindow::exec() {
             s();
         }
         mSlots.clear();
+
+        eThreadPool::handleFinished();
 
         c++;
         if(c % 25 == 0) {

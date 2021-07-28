@@ -16,7 +16,8 @@ enum class eTileSize {
 
 class eGameWidget : public eWidget {
 public:
-    eGameWidget(eMainWindow* const window);
+    eGameWidget(std::vector<eTerrainTextures>&& textures,
+                eMainWindow* const window);
     ~eGameWidget();
 
     void initialize(const int w, const int h);

@@ -4,8 +4,9 @@
 
 #include "textures/etiletotexture.h"
 
-eGameWidget::eGameWidget(eMainWindow* const window) :
-    eWidget(window) {}
+eGameWidget::eGameWidget(std::vector<eTerrainTextures>&& textures,
+                         eMainWindow* const window) :
+    eWidget(window), mTerrainTexturesColl(std::move(textures)) {}
 
 eGameWidget::~eGameWidget() {}
 
@@ -15,14 +16,6 @@ void eGameWidget::initialize(const int w, const int h) {
     mTem->align(eAlignment::hcenter | eAlignment::bottom);
 
     mBoard.initialize(w, h);
-
-    mTerrainTexturesColl.emplace_back(29, 15, renderer());
-    mTerrainTexturesColl.emplace_back(58, 30, renderer());
-    mTerrainTexturesColl.emplace_back(116, 60, renderer());
-
-    for(auto& t : mTerrainTexturesColl) {
-        t.load();
-    }
 
     setTileSize(eTileSize::s30);
 }

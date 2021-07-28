@@ -3,6 +3,7 @@
 
 #include "widgets/ewidget.h"
 #include "widgets/eresolution.h"
+#include "textures/eterraintextures.h"
 
 using eSlot = std::function<void()>;
 
@@ -30,7 +31,7 @@ private:
 
     void showMainMenu();
     void showSettingsMenu();
-    void showGame();
+    void showGame(std::vector<eTerrainTextures>&& texs);
 
     bool mFullscreen = false;
     eRes mResolution;
