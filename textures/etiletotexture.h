@@ -8,7 +8,8 @@ class eTerrainTextures;
 
 namespace eTileToTexture {
     eTexture get(eTile* const tile,
-                 const eTerrainTextures& textures);
+                 const eTerrainTextures& textures,
+                 int& wSpan, int& hSpan);
 };
 
 #endif // ETILETOTEXTURE_H

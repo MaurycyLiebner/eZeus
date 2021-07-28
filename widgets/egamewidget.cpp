@@ -74,10 +74,13 @@ void eGameWidget::paintEvent(ePainter& p) {
         if(alt > 0) {
             pixY -= alt*mTileH/2;
         }
-        const auto tex = eTileToTexture::get(tile, *mTerrainTextures);
-        p.drawTexture(pixX, pixY, tex, eAlignment::top);
+        int wSpan;
+        int hSpan;
+        const auto tex = eTileToTexture::get(tile, *mTerrainTextures,
+                                             wSpan, hSpan);
+        p.drawTexture(pixX - (wSpan - 1)*mTileW/2, pixY, tex, eAlignment::top);
 
-        const auto selectedTex = mTerrainTextures->fSelectedTex;
+        const auto& selectedTex = mTerrainTextures->fSelectedTex;
 
         if(tile->x() == gHoverX && tile->y() == gHoverY) {
             p.drawTexture(pixX, pixY, selectedTex, eAlignment::top);

@@ -16,7 +16,8 @@
 
 eTexture getStonesTexture(eTile* const tile,
                           const eTextureCollection& small,
-                          const eTextureCollection& large) {
+                          const eTextureCollection& large,
+                          int& wSpan, int& hSpan) {
     const auto id = eStonesToDry::get(tile);
     switch(id) {
     case eStonesToDryId::outer: {
@@ -33,6 +34,8 @@ eTexture getStonesTexture(eTile* const tile,
             const int texId = tile->id() % coll.size();
             return coll.getTexture(texId);
         } else {
+            wSpan = 2;
+            hSpan = 2;
             const auto& coll = large;
             const int texId = tile->id() % coll.size();
             return coll.getTexture(texId);
@@ -43,7 +46,10 @@ eTexture getStonesTexture(eTile* const tile,
 }
 
 eTexture eTileToTexture::get(eTile* const tile,
-                             const eTerrainTextures& textures) {
+                             const eTerrainTextures& textures,
+                             int& wSpan, int& hSpan) {
+    wSpan = 1;
+    hSpan = 1;
     const int tileId = tile->id();
 
     switch(tile->terrain()) {
@@ -152,19 +158,23 @@ eTexture eTileToTexture::get(eTile* const tile,
     } break;
     case eTerrain::flatStones: {
         return getStonesTexture(tile, textures.fFlatStonesTerrainTexs,
-                                textures.fLargeFlatStonesTerrainTexs);
+                                textures.fLargeFlatStonesTerrainTexs,
+                                wSpan, hSpan);
     } break;
     case eTerrain::bronze: {
         return getStonesTexture(tile, textures.fBronzeTerrainTexs,
-                                textures.fLargeBronzeTerrainTexs);
+                                textures.fLargeBronzeTerrainTexs,
+                                wSpan, hSpan);
     } break;
     case eTerrain::silver: {
         return getStonesTexture(tile, textures.fSilverTerrainTexs,
-                                textures.fLargeSilverTerrainTexs);
+                                textures.fLargeSilverTerrainTexs,
+                                wSpan, hSpan);
     } break;
     case eTerrain::tallStones: {
         return getStonesTexture(tile, textures.fTallStoneTerrainTexs,
-                                textures.fLargeTallStoneTerrainTexs);
+                                textures.fLargeTallStoneTerrainTexs,
+                                wSpan, hSpan);
     } break;
     case eTerrain::tinyStones: {
         const auto& coll = textures.fTinyStones;
