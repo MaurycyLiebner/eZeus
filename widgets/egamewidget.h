@@ -38,6 +38,8 @@ private:
     void loadWaterToX(int i0, const std::string& pathBase,
                       std::vector<eTextureCollection>& result) const;
 
+    int mWheel = 0;
+
     int mDX = 0;
     int mDY = 0;
 

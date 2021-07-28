@@ -177,6 +177,12 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 }
 
 bool eGameWidget::mouseWheelEvent(const eMouseWheelEvent& e) {
+    const bool wheel = std::abs(mWheel) > 3;
+    if(!wheel) {
+        mWheel += e.dy();
+        return true;
+    }
+    mWheel = 0;
     if(e.dy() > 0) {
         switch(mTileSize) {
         case eTileSize::s15:
