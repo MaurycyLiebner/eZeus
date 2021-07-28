@@ -8,28 +8,28 @@ LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf
 
 SOURCES += \
         emainwindow.cpp \
-        engine/ebeachtodry.cpp \
         engine/eeventloop.cpp \
-        engine/efertiletodry.cpp \
-        engine/eforesttodry.cpp \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
         engine/egameeventloop.cpp \
         engine/egameobject.cpp \
         engine/emovinggameobject.cpp \
         engine/etask.cpp \
-        engine/eterraintextures.cpp \
         engine/ethreadpool.cpp \
         engine/etile.cpp \
-        engine/etiletotexture.cpp \
-        engine/ewatercorner.cpp \
-        engine/ewatertobeach.cpp \
-        engine/ewatertodry.cpp \
         espriteframe.cpp \
         esprites.cpp \
         etexture.cpp \
         etexturecollection.cpp \
         main.cpp \
+        textures/ebeachtodry.cpp \
+        textures/efertiletodry.cpp \
+        textures/eforesttodry.cpp \
+        textures/eterraintextures.cpp \
+        textures/etiletotexture.cpp \
+        textures/ewatercorner.cpp \
+        textures/ewatertobeach.cpp \
+        textures/ewatertodry.cpp \
         widgets/ebutton.cpp \
         widgets/echeckbox.cpp \
         widgets/ecombobox.cpp \
@@ -48,27 +48,27 @@ SOURCES += \
 
 HEADERS += \
     emainwindow.h \
-    engine/ebeachtodry.h \
     engine/eeventloop.h \
-    engine/efertiletodry.h \
-    engine/eforesttodry.h \
     engine/egameboard.h \
     engine/egameboarditerator.h \
     engine/egameeventloop.h \
     engine/egameobject.h \
     engine/emovinggameobject.h \
     engine/etask.h \
-    engine/eterraintextures.h \
     engine/ethreadpool.h \
     engine/etile.h \
-    engine/etiletotexture.h \
-    engine/ewatercorner.h \
-    engine/ewatertobeach.h \
-    engine/ewatertodry.h \
     espriteframe.h \
     esprites.h \
     etexture.h \
     etexturecollection.h \
+    textures/ebeachtodry.h \
+    textures/efertiletodry.h \
+    textures/eforesttodry.h \
+    textures/eterraintextures.h \
+    textures/etiletotexture.h \
+    textures/ewatercorner.h \
+    textures/ewatertobeach.h \
+    textures/ewatertodry.h \
     widgets/ebutton.h \
     widgets/echeckbox.h \
     widgets/ecombobox.h \

@@ -5,7 +5,7 @@
 #include "etexturecollection.h"
 
 #include "engine/egameeventloop.h"
-#include "engine/eterraintextures.h"
+#include "textures/eterraintextures.h"
 
 class eTerrainEditMenu;
 

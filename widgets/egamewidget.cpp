@@ -2,7 +2,7 @@
 
 #include "eterraineditmenu.h"
 
-#include "engine/etiletotexture.h"
+#include "textures/etiletotexture.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {

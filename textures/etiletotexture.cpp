@@ -2,16 +2,16 @@
 
 #include <algorithm>
 
-#include "etile.h"
+#include "engine/etile.h"
 
 #include "eterraintextures.h"
 
-#include "engine/ebeachtodry.h"
-#include "engine/ewatertodry.h"
-#include "engine/efertiletodry.h"
-#include "engine/eforesttodry.h"
-#include "engine/ewatertobeach.h"
-#include "engine/ewatercorner.h"
+#include "ebeachtodry.h"
+#include "ewatertodry.h"
+#include "efertiletodry.h"
+#include "eforesttodry.h"
+#include "ewatertobeach.h"
+#include "ewatercorner.h"
 
 eTexture eTileToTexture::get(eTile* const tile,
                              const eTerrainTextures& textures) {
