@@ -38,7 +38,7 @@ inline eTerrain operator&(const eTerrain a, const eTerrain b) {
 class eTile {
 public:
     eTile(const int x, const int y);
-    int id() const { return mId; }
+    int seed() const { return mSeed; }
     int x() const { return mX; }
     int y() const { return mY; }
     int altitude() const { return mAltitude; }
@@ -81,7 +81,7 @@ public:
     void neighbourTerrainTypes(std::vector<eTerrain>& neighTerrs) const;
     void majorNeighbourTerrainTypes(std::vector<eTerrain>& neighTerrs) const;
 private:
-    const int mId;
+    const int mSeed;
     const int mX;
     const int mY;
 

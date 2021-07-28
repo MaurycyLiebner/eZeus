@@ -17,7 +17,16 @@ eStonesToDryId eStonesToDry::get(eTile* const tile) {
     if(tl || tr || bl || br || t || l || r || b) {
         result = eStonesToDryId::outer;
     } else {
-        result = eStonesToDryId::inner;
+        if(const auto brt = tile->top()) {
+            const auto brti = get(brt);
+            if(brti == eStonesToDryId::inner) {
+                result = eStonesToDryId::doubleInner;
+            } else {
+                result = eStonesToDryId::inner;
+            }
+        } else {
+            result = eStonesToDryId::outer;
+        }
     }
 
     return result;

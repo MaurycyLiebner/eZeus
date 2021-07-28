@@ -78,7 +78,8 @@ void eGameWidget::paintEvent(ePainter& p) {
         int hSpan;
         const auto tex = eTileToTexture::get(tile, *mTerrainTextures,
                                              wSpan, hSpan);
-        p.drawTexture(pixX - (wSpan - 1)*mTileW/2, pixY, tex, eAlignment::top);
+        p.drawTexture(pixX - (wSpan - 1)*mTileW/2,
+                      pixY, tex, eAlignment::top);
 
         const auto& selectedTex = mTerrainTextures->fSelectedTex;
 

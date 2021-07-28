@@ -4,7 +4,7 @@
 #include <algorithm>
 
 eTile::eTile(const int x, const int y) :
-    mId(rand()), mX(x), mY(y) {}
+    mSeed(rand()), mX(x), mY(y) {}
 
 int eTile::scrubId(const int nLevels) const {
     const double div = 1./nLevels;
