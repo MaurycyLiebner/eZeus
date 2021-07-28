@@ -5,7 +5,7 @@
 #include "engine/etiletotexture.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
-    eWidget(window), mTextures(mTileW, mTileH, renderer()) {
+    eWidget(window) {
     mLoopThread = std::thread(std::bind(&eGameEventLoop::exec, &mLoop));}
 
 eGameWidget::~eGameWidget() {
@@ -19,7 +19,16 @@ void eGameWidget::initialize(const int w, const int h) {
     mTem->align(eAlignment::hcenter | eAlignment::bottom);
 
     mBoard.initialize(w, h);
-    mTextures.load();
+
+    mTerrainTexturesColl.emplace_back(29, 15, renderer());
+    mTerrainTexturesColl.emplace_back(58, 30, renderer());
+    mTerrainTexturesColl.emplace_back(116, 60, renderer());
+
+    for(auto& t : mTerrainTexturesColl) {
+        t.load();
+    }
+
+    setTileSize(eTileSize::s30);
 }
 
 void eGameWidget::pixToId(const int pixX, const int pixY,
@@ -65,10 +74,10 @@ void eGameWidget::paintEvent(ePainter& p) {
         if(alt > 0) {
             pixY -= alt*mTileH/2;
         }
-        const auto tex = eTileToTexture::get(tile, mTextures);
+        const auto tex = eTileToTexture::get(tile, *mTerrainTextures);
         p.drawTexture(pixX, pixY, tex, eAlignment::top);
 
-        const auto selectedTex = mTextures.fSelectedTex;
+        const auto selectedTex = mTerrainTextures->fSelectedTex;
 
         if(tile->x() == gHoverX && tile->y() == gHoverY) {
             p.drawTexture(pixX, pixY, selectedTex, eAlignment::top);
@@ -165,6 +174,46 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
     }
 
     return true;
+}
+
+bool eGameWidget::mouseWheelEvent(const eMouseWheelEvent& e) {
+    if(e.dy() > 0) {
+        switch(mTileSize) {
+        case eTileSize::s15:
+            setTileSize(eTileSize::s30);
+            break;
+        case eTileSize::s30:
+            setTileSize(eTileSize::s60);
+            break;
+        case eTileSize::s60:
+            break;
+        }
+    } else {
+        switch(mTileSize) {
+        case eTileSize::s30:
+            setTileSize(eTileSize::s15);
+            break;
+        case eTileSize::s60:
+            setTileSize(eTileSize::s30);
+            break;
+        case eTileSize::s15:
+            break;
+        }
+    }
+    return true;
+}
+
+void eGameWidget::setTileSize(const eTileSize size) {
+    mTileSize = size;
+    mTerrainTextures = &mTerrainTexturesColl.at(static_cast<int>(mTileSize));
+    const int newW = mTerrainTextures->fTileW;
+    const int newH = mTerrainTextures->fTileH;
+
+    mDX = std::round((mDX - width()/2) * static_cast<double>(newW)/mTileW + width()/2);
+    mDY = std::round((mDY - height()/2) * static_cast<double>(newH)/mTileH + height()/2);
+
+    mTileW = newW;
+    mTileH = newH;
 }
 
 void eGameWidget::actionOnSelectedTiles(const eTileAction& apply) {

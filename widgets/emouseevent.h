@@ -32,12 +32,26 @@ public:
     int y() const { return mY; }
     eMouseButton button() const { return mButton; }
     eMouseButton buttons() const { return mButtons; }
-private:
+protected:
     int mX;
     int mY;
 
     eMouseButton mButtons;
     eMouseButton mButton;
+};
+
+class eMouseWheelEvent : public eMouseEvent {
+public:
+    eMouseWheelEvent(const int x, const int y,
+                     const eMouseButton buttons,
+                     const int dy);
+
+    eMouseWheelEvent translated(const int x, const int y) const;
+    eMouseWheelEvent withPosition(const int x, const int y) const;
+
+    int dy() const { return mDY; }
+private:
+    int mDY;
 };
 
 #endif // EMOUSEEVENT_H

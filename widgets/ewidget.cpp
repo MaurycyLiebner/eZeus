@@ -233,6 +233,21 @@ bool eWidget::mouseMove(const eMouseEvent& e) {
     }
 }
 
+bool eWidget::mouseWheel(const eMouseWheelEvent& e) {
+    eWidget* override = nullptr;
+    if(sMouseGrabber) override = sMouseGrabber;
+    else override = sLastPressed;
+    if(override) {
+        int ex = e.x();
+        int ey = e.y();
+        mapTo(override, ex, ey);
+        const auto ee = e.withPosition(ex, ey);
+        override->mouseWheelEvent(ee);
+        return true;
+    }
+    return mouseEvent(e, &eWidget::mouseWheelEvent);
+}
+
 void eWidget::deleteLater() {
     if(mParent) mParent->removeWidget(this);
     eMainWindow::addSlot([this]() {
@@ -248,8 +263,8 @@ eWidget* eWidget::lastAncestor() {
     return p;
 }
 
-eWidget* eWidget::mouseEvent(
-        const eMouseEvent& e, const TMouseEvent event) {
+template <typename T>
+eWidget* eWidget::mouseEvent(const T& e, const TMouseEvent<T> event) {
     if(!contains(e.x(), e.y())) return nullptr;
     for(auto w = mChildren.rbegin(); w != mChildren.rend(); w++) {
         const auto& ww = *w;

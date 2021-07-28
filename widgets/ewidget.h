@@ -56,13 +56,16 @@ public:
     bool mousePress(const eMouseEvent& e);
     bool mouseRelease(const eMouseEvent& e);
     bool mouseMove(const eMouseEvent& e);
+    bool mouseWheel(const eMouseWheelEvent& e);
 
     void deleteLater();
 
     eWidget* lastAncestor();
 private:
-    using TMouseEvent = bool (eWidget::*)(const eMouseEvent& e);
-    eWidget* mouseEvent(const eMouseEvent& e, const TMouseEvent event);
+    template <typename T>
+    using TMouseEvent = bool (eWidget::*)(const T& e);
+    template <typename T>
+    eWidget* mouseEvent(const T& e, const TMouseEvent<T> event);
 public:
     void grabMouse();
     bool releaseMouse();
@@ -105,6 +108,11 @@ protected:
     }
 
     virtual bool mouseMoveEvent(const eMouseEvent& e) {
+        (void)e;
+        return false;
+    }
+
+    virtual bool mouseWheelEvent(const eMouseWheelEvent& e) {
         (void)e;
         return false;
     }

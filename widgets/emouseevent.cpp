@@ -20,3 +20,24 @@ eMouseEvent eMouseEvent::withPosition(const int x, const int y) const {
     r.mY = y;
     return r;
 }
+
+eMouseWheelEvent::eMouseWheelEvent(const int x, const int y,
+                                   const eMouseButton buttons,
+                                   const int dy) :
+    eMouseEvent(x, y, buttons), mDY(dy) {
+
+}
+
+eMouseWheelEvent eMouseWheelEvent::translated(const int x, const int y) const {
+    auto r = *this;
+    r.mX += x;
+    r.mY += y;
+    return r;
+}
+
+eMouseWheelEvent eMouseWheelEvent::withPosition(const int x, const int y) const {
+    auto r = *this;
+    r.mX = x;
+    r.mY = y;
+    return r;
+}

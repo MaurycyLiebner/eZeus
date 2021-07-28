@@ -9,6 +9,10 @@
 
 class eTerrainEditMenu;
 
+enum class eTileSize {
+    s15, s30, s60
+};
+
 class eGameWidget : public eWidget {
 public:
     eGameWidget(eMainWindow* const window);
@@ -24,7 +28,10 @@ protected:
     bool mousePressEvent(const eMouseEvent& e);
     bool mouseMoveEvent(const eMouseEvent& e);
     bool mouseReleaseEvent(const eMouseEvent& e);
+    bool mouseWheelEvent(const eMouseWheelEvent& e);
 private:
+    void setTileSize(const eTileSize size);
+
     using eTileAction = std::function<void(eTile* const)>;
     void actionOnSelectedTiles(const eTileAction& apply);
 
@@ -34,13 +41,13 @@ private:
     int mDX = 0;
     int mDY = 0;
 
-    const int mTileW = 58;
-    const int mTileH = 30;
-//    const int mTileW = 116;
-//    const int mTileH = 60;
+    eTileSize mTileSize = eTileSize::s30;
+    int mTileW = 58;
+    int mTileH = 30;
 
     eGameBoard mBoard;
-    eTerrainTextures mTextures;
+    eTerrainTextures* mTerrainTextures = nullptr;
+    std::vector<eTerrainTextures> mTerrainTexturesColl;
 
     std::thread mLoopThread;
     eGameEventLoop mLoop;

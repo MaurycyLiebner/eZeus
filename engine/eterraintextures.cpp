@@ -61,11 +61,7 @@ void loadWaterToX(SDL_Renderer* const renderer,
 
 void eTerrainTextures::load() {
     std::string terrDir{"../ZeusTextures/"};
-    if(fTileW == 58) {
-        terrDir += "58/";
-    } else if(fTileW == 116) {
-        terrDir += "116/";
-    }
+    terrDir += std::to_string(fTileH) + "/";
     terrDir += "Zeus_Terrain/";
 
     {

@@ -188,6 +188,9 @@ int eMainWindow::exec() {
                 buttons = buttons & ~button;
                 const eMouseEvent me(x, y, buttons, button);
                 if(mWidget) mWidget->mouseRelease(me);
+            } else if(e.type == SDL_MOUSEWHEEL) {
+                const eMouseWheelEvent me(x, y, buttons, e.wheel.y);
+                if(mWidget) mWidget->mouseWheel(me);
             }
         }
 
