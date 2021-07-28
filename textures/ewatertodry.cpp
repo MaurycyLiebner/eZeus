@@ -3,5 +3,5 @@
 #include "ewatertox.h"
 
 int eWaterToDry::get(eTile* const tile) {
-    return eWaterToX::get(tile, eTerrain::dryBased);
+    return eWaterToX::get(tile, eTerrain::dryBased | eTerrain::beach);
 }

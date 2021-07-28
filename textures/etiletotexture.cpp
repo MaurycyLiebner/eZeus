@@ -51,15 +51,15 @@ eTexture eTileToTexture::get(eTile* const tile,
             const auto& coll = textures.fWaterToBeachToDryTerrainTexs;
             return coll.getTexture(cornerId);
         }
-        const int toDryId = eWaterToDry::get(tile);
-        if(toDryId != -1) {
-            const auto& texs = textures.fWaterToDryTerrainTexs[toDryId];
-            const int texId = tileId % texs.size();
-            return texs.getTexture(texId);
-        }
         const int toBeachId = eWaterToBeach::get(tile);
         if(toBeachId != -1) {
             const auto& texs = textures.fWaterToBeachTerrainTexs[toBeachId];
+            const int texId = tileId % texs.size();
+            return texs.getTexture(texId);
+        }
+        const int toDryId = eWaterToDry::get(tile);
+        if(toDryId != -1) {
+            const auto& texs = textures.fWaterToDryTerrainTexs[toDryId];
             const int texId = tileId % texs.size();
             return texs.getTexture(texId);
         }
