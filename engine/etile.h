@@ -10,9 +10,21 @@ enum class eTerrain {
     fertile = 1 << 3,
     forest = 1 << 4,
 
+    flatStones = 1 << 5,
+    bronze = 1 << 6,
+    silver = 1 << 7,
+    tallStones = 1 << 8,
+    tinyStones = 1 << 9,
+
     dryBased = eTerrain::dry |
                eTerrain::fertile |
-               eTerrain::forest
+               eTerrain::forest |
+
+               eTerrain::flatStones |
+               eTerrain::bronze |
+               eTerrain::silver |
+               eTerrain::tallStones |
+               eTerrain::tinyStones
 };
 
 inline eTerrain operator|(const eTerrain a, const eTerrain b) {

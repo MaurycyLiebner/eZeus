@@ -81,6 +81,11 @@ void eWidget::hide() {
     clearWidgetPointers();
 }
 
+void eWidget::setVisible(const bool v) {
+    if(v) show();
+    else hide();
+}
+
 void eWidget::clearWidgetPointers() {
     if(sWidgetUnderMouse == this) sWidgetUnderMouse = nullptr;
     if(sLastPressed == this) sLastPressed = nullptr;

@@ -29,6 +29,7 @@ public:
     void fitContent();
     void show();
     void hide();
+    void setVisible(const bool v);
     void clearWidgetPointers();
 
     void align(const eAlignment a);

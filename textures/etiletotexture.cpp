@@ -12,6 +12,35 @@
 #include "eforesttodry.h"
 #include "ewatertobeach.h"
 #include "ewatercorner.h"
+#include "estonestodry.h"
+
+eTexture getStonesTexture(eTile* const tile,
+                          const eTextureCollection& small,
+                          const eTextureCollection& large) {
+    const auto id = eStonesToDry::get(tile);
+    switch(id) {
+    case eStonesToDryId::outer: {
+        const auto& coll = small;
+        const int texId = tile->id() % coll.size();
+        return coll.getTexture(texId);
+    } break;
+    case eStonesToDryId::inner: {
+        const int smallFreq = 5;
+        const int largeFreq = 1;
+        const int t = tile->id() % (smallFreq + largeFreq);
+        if(t < smallFreq) {
+            const auto& coll = small;
+            const int texId = tile->id() % coll.size();
+            return coll.getTexture(texId);
+        } else {
+            const auto& coll = large;
+            const int texId = tile->id() % coll.size();
+            return coll.getTexture(texId);
+        }
+    } break;
+    }
+    return eTexture();
+}
 
 eTexture eTileToTexture::get(eTile* const tile,
                              const eTerrainTextures& textures) {
@@ -19,19 +48,20 @@ eTexture eTileToTexture::get(eTile* const tile,
 
     switch(tile->terrain()) {
     case eTerrain::dry: {
-        const int scrubCount = textures.fDryToScrubTerrainTexs[0].size();
+        const auto& vec = textures.fDryToScrubTerrainTexs;
+        const int scrubCount = vec[0].size();
         const int scrub = tile->scrubId(scrubCount) - 1;
         if(scrub == -1) { // zero scrub
-            const int texId = tileId % textures.fDryTerrainTexs.size();
             const auto& coll = textures.fDryTerrainTexs;
+            const int texId = tileId % coll.size();
             return coll.getTexture(texId);
         } else if(scrub == scrubCount - 1) { // full scrub
-            const int texId = tileId % textures.fScrubTerrainTexs.size();
             const auto& coll = textures.fScrubTerrainTexs;
+            const int texId = tileId % coll.size();
             return coll.getTexture(texId);
         } else { // partial scrub
-            const int collId = tileId % textures.fDryToScrubTerrainTexs.size();
-            const auto& coll = textures.fDryToScrubTerrainTexs[collId];
+            const int collId = tileId % vec.size();
+            const auto& coll = vec[collId];
             return coll.getTexture(scrub);
         }
     } break;
@@ -41,8 +71,8 @@ eTexture eTileToTexture::get(eTile* const tile,
             const auto& coll = textures.fBeachToDryTerrainTexs;
             return coll.getTexture(toDryId);
         }
-        const int texId = tileId % textures.fBeachTerrainTexs.size();
         const auto& coll = textures.fBeachTerrainTexs;
+        const int texId = tileId % coll.size();
         return coll.getTexture(texId);
     } break;
     case eTerrain::water: {
@@ -75,8 +105,8 @@ eTexture eTileToTexture::get(eTile* const tile,
         switch(id) {
         case eFertileToDryId::none: {
             if(scrub == -1) {
-                const int texId = tileId % textures.fFertileTerrainTexs.size();
                 const auto& coll = textures.fFertileTerrainTexs;
+                const int texId = tileId % coll.size();
                 return coll.getTexture(texId);
             } else {
                 const auto& coll = textures.fFertileToScrubTerrainTexs[2];
@@ -85,8 +115,8 @@ eTexture eTileToTexture::get(eTile* const tile,
         } break;
         case eFertileToDryId::somewhere: {
             if(scrub == -1) {
-                const int texId = tileId % textures.fFertileToDryTerrainTexs.size();
                 const auto& coll = textures.fFertileToDryTerrainTexs;
+                const int texId = tileId % coll.size();
                 return coll.getTexture(texId);
             } else {
                 const int collId = tileId % 2;
@@ -100,16 +130,17 @@ eTexture eTileToTexture::get(eTile* const tile,
         const auto id = eForestToDry::get(tile);
         switch(id) {
         case eForestToDryId::none: {
-            const int texId = tileId % textures.fForestTerrainTexs.size();
             const auto& coll = textures.fForestTerrainTexs;
+            const int texId = tileId % coll.size();
             return coll.getTexture(texId);
         } break;
         case eForestToDryId::somewhere: {
             const int scrubCount = textures.fForestToScrubTerrainTexs.size();
             const int scrub = tile->scrubId(scrubCount) - 1;
             if(scrub == -1) {
-                const int collId = tileId % textures.fForestToDryTerrainTexs.size();
-                const auto& coll = textures.fForestToDryTerrainTexs[collId];
+                const auto& vec = textures.fForestToDryTerrainTexs;
+                const int collId = tileId % vec.size();
+                const auto& coll = vec[collId];
                 const int texId = tileId % coll.size();
                 return coll.getTexture(texId);
             } else {
@@ -118,6 +149,27 @@ eTexture eTileToTexture::get(eTile* const tile,
             }
         } break;
         }
+    } break;
+    case eTerrain::flatStones: {
+        return getStonesTexture(tile, textures.fFlatStonesTerrainTexs,
+                                textures.fLargeFlatStonesTerrainTexs);
+    } break;
+    case eTerrain::bronze: {
+        return getStonesTexture(tile, textures.fBronzeTerrainTexs,
+                                textures.fLargeBronzeTerrainTexs);
+    } break;
+    case eTerrain::silver: {
+        return getStonesTexture(tile, textures.fSilverTerrainTexs,
+                                textures.fLargeSilverTerrainTexs);
+    } break;
+    case eTerrain::tallStones: {
+        return getStonesTexture(tile, textures.fTallStoneTerrainTexs,
+                                textures.fLargeTallStoneTerrainTexs);
+    } break;
+    case eTerrain::tinyStones: {
+        const auto& coll = textures.fTinyStones;
+        const int texId = tileId % coll.size();
+        return coll.getTexture(texId);
     } break;
     case eTerrain::dryBased:
         break;

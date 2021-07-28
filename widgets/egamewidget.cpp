@@ -132,37 +132,16 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
     switch(e.button()) {
     case eMouseButton::left: {
         std::function<void(eTile* const)> apply;
-        switch(mTem->mode()) {
-        case eTerrainEditMode::scrub: {
+        const auto mode = mTem->mode();
+        if(mode == eTerrainEditMode::scrub) {
             apply = [](eTile* const tile) {
                 tile->incScrub(0.1);
             };
-        } break;
-        case eTerrainEditMode::forest: {
-            apply = [](eTile* const tile) {
-                tile->setTerrain(eTerrain::forest);
+        } else {
+            apply = [mode](eTile* const tile) {
+                const auto terr = static_cast<eTerrain>(mode);
+                tile->setTerrain(terr);
             };
-        } break;
-        case eTerrainEditMode::dry: {
-            apply = [](eTile* const tile) {
-                tile->setTerrain(eTerrain::dry);
-            };
-        } break;
-        case eTerrainEditMode::beach: {
-            apply = [](eTile* const tile) {
-                tile->setTerrain(eTerrain::beach);
-            };
-        } break;
-        case eTerrainEditMode::water: {
-            apply = [](eTile* const tile) {
-                tile->setTerrain(eTerrain::water);
-            };
-        } break;
-        case eTerrainEditMode::fertile: {
-            apply = [](eTile* const tile) {
-                tile->setTerrain(eTerrain::fertile);
-            };
-        } break;
         }
 
         actionOnSelectedTiles(apply);

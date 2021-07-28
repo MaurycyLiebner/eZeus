@@ -25,6 +25,7 @@ SOURCES += \
         textures/ebeachtodry.cpp \
         textures/efertiletodry.cpp \
         textures/eforesttodry.cpp \
+        textures/estonestodry.cpp \
         textures/esurroundingterrain.cpp \
         textures/eterraintextures.cpp \
         textures/etiletotexture.cpp \
@@ -33,6 +34,7 @@ SOURCES += \
         textures/ewatertodry.cpp \
         textures/ewatertox.cpp \
         widgets/ebutton.cpp \
+        widgets/echeckablebutton.cpp \
         widgets/echeckbox.cpp \
         widgets/ecombobox.cpp \
         widgets/econtextmenu.cpp \
@@ -66,6 +68,7 @@ HEADERS += \
     textures/ebeachtodry.h \
     textures/efertiletodry.h \
     textures/eforesttodry.h \
+    textures/estonestodry.h \
     textures/esurroundingterrain.h \
     textures/eterraintextures.h \
     textures/etiletotexture.h \
@@ -74,6 +77,7 @@ HEADERS += \
     textures/ewatertodry.h \
     textures/ewatertox.h \
     widgets/ebutton.h \
+    widgets/echeckablebutton.h \
     widgets/echeckbox.h \
     widgets/ecombobox.h \
     widgets/econtextmenu.h \
