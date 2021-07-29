@@ -11,6 +11,45 @@ eMoveAroundAction::eMoveAroundAction(eDemeter* const d) :
     }
     mStartX = d->x();
     mStartY = d->y();
+    mOrientation = d->orientation();
+}
+
+void orientationToTargetCoords(const eOrientation o,
+                               double& targetX, double& targetY) {
+    switch(o) {
+    case eOrientation::topRight:
+        targetX = 0.75;
+        targetY = 0.25;
+        break;
+    case eOrientation::right:
+        targetX = 1;
+        targetY = 0.5;
+        break;
+    case eOrientation::bottomRight:
+        targetX = 0.75;
+        targetY = 0.75;
+        break;
+    case eOrientation::bottom:
+        targetX = 0.5;
+        targetY = 1;
+        break;
+    case eOrientation::bottomLeft:
+        targetX = 0.25;
+        targetY = 0.75;
+        break;
+    case eOrientation::left:
+        targetX = 0;
+        targetY = 0.5;
+        break;
+    case eOrientation::topLeft:
+        targetX = 0.25;
+        targetY = 0.25;
+        break;
+    case eOrientation::top:
+        targetX = 0.5;
+        targetY = 0;
+        break;
+    }
 }
 
 void eMoveAroundAction::increment() {
@@ -36,38 +75,12 @@ void eMoveAroundAction::increment() {
             nextTurn();
             return;
         }
-        if(mDirX == 0) {
-            if(mDirY == 1) {
-                mStartX = 0.75;
-                mStartY = 0.25;
-            } else if(mDirY == -1) {
-                mStartX = 0.25;
-                mStartY = 0.75;
-            }
-        } else if(mDirY == 0) {
-            if(mDirX == 1) {
-                mStartX = 0.25;
-                mStartY = 0.25;
-            } else if(mDirX == -1) {
-                mStartX = 0.75;
-                mStartY = 0.75;
-            }
-        } else if(mDirX == 1) {
-            if(mDirY == 1) {
-                mStartX = 0.5;
-                mStartY = 0;
-            } else if(mDirY == -1) {
-                mStartX = 0;
-                mStartY = 0.5;
-            }
-        } else if(mDirX == -1) {
-            if(mDirY == 1) {
-                mStartX = 1;
-                mStartY = 0.5;
-            } else if(mDirY == -1) {
-                mStartX = 0.5;
-                mStartY = 1;
-            }
+        {
+            double targetX;
+            double targetY;
+            orientationToTargetCoords(mOrientation, targetX, targetY);
+            mStartX = 1 - targetX;
+            mStartY = 1 - targetY;
         }
 
         mCharacter->tile()->removeDemeter(mCharacter);
@@ -92,40 +105,8 @@ bool eMoveAroundAction::nextTurn() {
     if(!mTargetTile) return nextTurn();
     mStartX = mCharacter->x();
     mStartY = mCharacter->y();
-    mDirX = mTargetTile->x() - t->x();
-    mDirY = mTargetTile->y() - t->y();
-    if(mDirX == 0) {
-        if(mDirY == 1) {
-            mTargetX = 0.25;
-            mTargetY = 0.75;
-        } else if(mDirY == -1) {
-            mTargetX = 0.75;
-            mTargetY = 0.25;
-        }
-    } else if(mDirY == 0) {
-        if(mDirX == 1) {
-            mTargetX = 0.75;
-            mTargetY = 0.75;
-        } else if(mDirX == -1) {
-            mTargetX = 0.25;
-            mTargetY = 0.25;
-        }
-    } else if(mDirX == 1) {
-        if(mDirY == 1) {
-            mTargetX = 0.5;
-            mTargetY = 1;
-        } else if(mDirY == -1) {
-            mTargetX = 1;
-            mTargetY = 0.5;
-        }
-    } else if(mDirX == -1) {
-        if(mDirY == 1) {
-            mTargetX = 0;
-            mTargetY = 0.5;
-        } else if(mDirY == -1) {
-            mTargetX = 0.5;
-            mTargetY = 0;
-        }
-    }
+    mOrientation = o;
+    orientationToTargetCoords(o, mTargetX, mTargetY);
+
     return true;
 }

@@ -17,9 +17,8 @@ public:
 private:
     bool nextTurn();
 
+    eOrientation mOrientation;
     eTile* mTargetTile = nullptr;
-    int mDirX = 0;
-    int mDirY = 0;
 
     double mStartX;
     double mStartY;
