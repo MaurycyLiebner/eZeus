@@ -84,9 +84,14 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto tex = eTileToTexture::get(tile, *mTerrainTextures,
                                              wSpan, hSpan);
         if(!tex.isNull()) {
-            const int pixTX = pixX - (wSpan - 1)*mTileW/2;
-            const int pixTY = pixY + (hSpan - 1)*mTileH;
-            if(wSpan > 1) {
+            int pixTX = pixX;
+            int pixTY = pixY;
+            if((wSpan == 2 && hSpan == 2) ||
+               (wSpan == 3 && hSpan == 3)) {
+                pixTX -= (wSpan - 1)*mTileW/2;
+                pixTY += mTileH;
+            }
+            if(wSpan == 2 && hSpan == 2) {
                 gDelayedTextures.emplace_back(eDelayedTexture{pixTX, pixTY, tex});
                 continue;
             } else {

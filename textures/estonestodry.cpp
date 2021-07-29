@@ -4,22 +4,22 @@ bool hiddenByNeighbour(eTile* const tile, const int id) {
     const auto terr = tile->terrain();
 
     if(const auto t = tile->top()) {
-        const auto tdid = t->drawnId();
-        if(t->terrain() == terr && tdid & id) {
+        const auto did = t->drawnId();
+        if(t->terrain() == terr && did & id) {
             return true;
         }
     }
 
-    if(const auto tl = tile->topLeft()) {
-        const auto tldid = tl->drawnId();
-        if(tl->terrain() == terr && tldid & id) {
+    if(const auto t = tile->topLeft()) {
+        const auto did = t->drawnId();
+        if(t->terrain() == terr && did & id) {
             return true;
         }
     }
 
-    if(const auto tr = tile->topRight()) {
-        const auto trdid = tr->drawnId();
-        if(tr->terrain() == terr && trdid & id) {
+    if(const auto t = tile->topRight()) {
+        const auto did = t->drawnId();
+        if(t->terrain() == terr && did & id) {
             return true;
         }
     }
@@ -38,41 +38,14 @@ bool hidden(eTile* const tile) {
     const bool r = hiddenByNeighbour(tile, hid | lid);
     if(r) return r;
 
-//    const auto terr = tile->terrain();
+    const auto terr = tile->terrain();
 
-//    if(const auto t = tile->top()) {
-//        if(const auto tt = t->top()) {
-//            const auto did = tt->drawnId();
-//            if(tt->terrain() == terr && did == hid) {
-//                return true;
-//            }
-//        }
-//        if(const auto tt = t->topLeft()) {
-//            const auto did = tt->drawnId();
-//            if(tt->terrain() == terr && did == hid) {
-//                return true;
-//            }
-//        }
-//        if(const auto tt = t->topRight()) {
-//            const auto did = tt->drawnId();
-//            if(tt->terrain() == terr && did == hid) {
-//                return true;
-//            }
-//        }
-//        if(const auto tt = t->right()) {
-//            const auto did = tt->drawnId();
-//            if(tt->terrain() == terr && did == hid) {
-//                return true;
-//            }
-//        }
-//        if(const auto tt = t->left()) {
-//            const auto did = tt->drawnId();
-//            if(tt->terrain() == terr && did == hid) {
-//                return true;
-//            }
-//        }
-//    }
-
+    if(const auto t = tile->left()) {
+        const auto did = t->drawnId();
+        if(t->terrain() == terr && did == hid) {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -81,30 +54,47 @@ eStonesToDryId eStonesToDry::get(eTile* const tile) {
 
     if(hidden(tile)) return eStonesToDryId::none;
 
-    const auto bt = tile->bottom();
-    if(!bt || bt->terrain() != terr) return eStonesToDryId::small;
+    {
+        const auto t = tile->bottom();
+        if(!t || t->terrain() != terr) return eStonesToDryId::small;
+    }
 
-    const auto blt = tile->bottomLeft();
-    if(!blt || blt->terrain() != terr) return eStonesToDryId::small;
+    {
+        const auto t = tile->bottomLeft();
+        if(!t || t->terrain() != terr) return eStonesToDryId::small;
+    }
 
-    const auto brt = tile->bottomRight();
-    if(!brt || brt->terrain() != terr) return eStonesToDryId::small;
+    {
+        const auto t = tile->bottomRight();
+        if(!t || t->terrain() != terr) return eStonesToDryId::small;
+    }
 
 
-//    const auto bbt = bt->bottom();
-//    if(!bbt || bbt->terrain() != terr) return eStonesToDryId::large;
 
-//    const auto bblt = bt->bottomLeft();
-//    if(!bblt || bblt->terrain() != terr) return eStonesToDryId::large;
+    {
+        const auto t = tile->top();
+        if(!t || t->terrain() != terr) return eStonesToDryId::large;
+    }
 
-//    const auto bbrt = bt->bottomRight();
-//    if(!bbrt || bbrt->terrain() != terr) return eStonesToDryId::large;
+    {
+        const auto t = tile->topLeft();
+        if(!t || t->terrain() != terr) return eStonesToDryId::large;
+    }
 
-//    const auto bbblt = bt->left();
-//    if(!bbblt || bbblt->terrain() != terr) return eStonesToDryId::large;
+    {
+        const auto t = tile->topRight();
+        if(!t || t->terrain() != terr) return eStonesToDryId::large;
+    }
 
-//    const auto bbbrt = bt->right();
-//    if(!bbbrt || bbbrt->terrain() != terr) return eStonesToDryId::large;
+    {
+        const auto t = tile->left();
+        if(!t || t->terrain() != terr) return eStonesToDryId::large;
+    }
 
-    return eStonesToDryId::large;
+    {
+        const auto t = tile->right();
+        if(!t || t->terrain() != terr) return eStonesToDryId::large;
+    }
+
+    return eStonesToDryId::huge;
 }
