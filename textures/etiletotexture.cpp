@@ -21,27 +21,28 @@ eTexture getStonesTexture(eTile* const tile,
                           int& wSpan, int& hSpan) {
     const auto id = eStonesToDry::get(tile);
     switch(id) {
-    case eStonesToDryId::outer: {
+    case eStonesToDryId::small: {
         const auto& coll = small;
         const int texId = tile->seed() % coll.size();
         return coll.getTexture(texId);
     } break;
-    case eStonesToDryId::inner: {
+    case eStonesToDryId::large: {
         wSpan = 2;
         hSpan = 2;
         const auto& coll = large;
         const int texId = tile->seed() % coll.size();
         return coll.getTexture(texId);
     } break;
-    case eStonesToDryId::doubleInner: {
+    case eStonesToDryId::huge: {
         wSpan = 3;
         hSpan = 3;
         const auto& coll = huge;
         const int texId = tile->seed() % coll.size();
         return coll.getTexture(texId);
     } break;
+    default:
+        return eTexture();
     }
-    return eTexture();
 }
 
 eTexture eTileToTexture::get(eTile* const tile,

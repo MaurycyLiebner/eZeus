@@ -3,31 +3,13 @@
 eStonesToDryId eStonesToDry::get(eTile* const tile) {
     const auto terr = tile->terrain();
 
-    bool tl;
-    bool tr;
-    bool br;
-    bool bl;
-    bool t;
-    bool r;
-    bool b;
-    bool l;
-    tile->neighboursWithTerrain(terr, tl, tr, br, bl, t, r, b, l);
+    const auto bt = tile->bottom();
+    if(!bt) return eStonesToDryId::small;
 
-    eStonesToDryId result;
-    if(tl || tr || bl || br || t || l || r || b) {
-        result = eStonesToDryId::outer;
-    } else {
-        if(const auto brt = tile->top()) {
-            const auto brti = get(brt);
-            if(brti == eStonesToDryId::inner) {
-                result = eStonesToDryId::doubleInner;
-            } else {
-                result = eStonesToDryId::inner;
-            }
-        } else {
-            result = eStonesToDryId::outer;
-        }
-    }
+    const auto blt = tile->bottomLeft();
+    const auto brt = tile->bottomRight();
 
-    return result;
+    if(blt->terrain() != terr) return eStonesToDryId::small;
+    if(brt->terrain() != terr) return eStonesToDryId::small;
+    return eStonesToDryId::large;
 }

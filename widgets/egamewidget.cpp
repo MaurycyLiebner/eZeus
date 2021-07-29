@@ -33,6 +33,14 @@ int gHoverY = -1;
 int gPressedX = -1;
 int gPressedY = -1;
 
+struct eDelayedTexture {
+    int fX;
+    int fY;
+    eTexture fTex;
+};
+
+eDelayedTexture gDelayedTexture;
+
 void eGameWidget::paintEvent(ePainter& p) {
     const int w = mBoard.width();
     const int h = mBoard.height();
@@ -57,6 +65,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         const int xmy = tx - ty;
         if(xmy < minXYDiff) continue;
         if(xmy > maxXYDiff) continue;
+
         const int pixX = (tx*mTileW - ty*mTileW)/2 - mTileW/2;
         int pixY = (tx*mTileH + ty*mTileH)/2;
         const int alt = tile->altitude();
@@ -67,8 +76,24 @@ void eGameWidget::paintEvent(ePainter& p) {
         int hSpan;
         const auto tex = eTileToTexture::get(tile, *mTerrainTextures,
                                              wSpan, hSpan);
-        p.drawTexture(pixX - (wSpan - 1)*mTileW/2,
-                      pixY, tex, eAlignment::top);
+        if(!tex.isNull()) {
+            const int pixTX = pixX - (wSpan - 1)*mTileW/2;
+            const int pixTY = pixY + (hSpan - 1)*mTileH;
+            if(wSpan > 1) {
+                gDelayedTexture.fX = pixTX;
+                gDelayedTexture.fY = pixTY;
+                gDelayedTexture.fTex = tex;
+                continue;
+            } else {
+                p.drawTexture(pixTX, pixTY, tex, eAlignment::top);
+            }
+        }
+        auto& delTex = gDelayedTexture.fTex;
+        if(!delTex.isNull()) {
+            p.drawTexture(gDelayedTexture.fX, gDelayedTexture.fY,
+                          delTex, eAlignment::top);
+            delTex = eTexture();
+        }
 
         const auto& selectedTex = mTerrainTextures->fSelectedTex;
 
@@ -87,6 +112,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         }
     }
+    gSkipTiles.clear();
 }
 
 int gLastX = 0;

@@ -4,7 +4,7 @@
 #include "engine/etile.h"
 
 enum class eStonesToDryId {
-    doubleInner, inner, outer
+    none, small, large, huge
 };
 
 namespace eStonesToDry {
