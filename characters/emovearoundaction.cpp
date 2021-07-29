@@ -19,7 +19,7 @@ void eMoveAroundAction::increment() {
         return;
     }
 
-    const double inc = 0.005;
+    const double inc = 0.01;
     double x = mCharacter->x();
     double y = mCharacter->y();
     const bool xSignBefore = x - mTargetX > 0 ? true : false;
@@ -41,8 +41,8 @@ void eMoveAroundAction::increment() {
                 mStartX = 0.75;
                 mStartY = 0.25;
             } else if(mDirY == -1) {
-                mStartX = 0.75;
-                mStartY = 0.25;
+                mStartX = 0.25;
+                mStartY = 0.75;
             }
         } else if(mDirY == 0) {
             if(mDirX == 1) {
@@ -57,8 +57,8 @@ void eMoveAroundAction::increment() {
                 mStartX = 0.5;
                 mStartY = 0;
             } else if(mDirY == -1) {
-                mStartX = 0.5;
-                mStartY = 1;
+                mStartX = 0;
+                mStartY = 0.5;
             }
         } else if(mDirX == -1) {
             if(mDirY == 1) {
@@ -90,6 +90,8 @@ bool eMoveAroundAction::nextTurn() {
     const auto t = mCharacter->tile();
     mTargetTile = t->neighbour(o);
     if(!mTargetTile) return nextTurn();
+    mStartX = mCharacter->x();
+    mStartY = mCharacter->y();
     mDirX = mTargetTile->x() - t->x();
     mDirY = mTargetTile->y() - t->y();
     if(mDirX == 0) {
