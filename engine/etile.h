@@ -3,37 +3,13 @@
 
 #include <vector>
 
-enum class eTerrain {
-    dry = 1 << 0,
-    beach = 1 << 1,
-    water = 1 << 2,
-    fertile = 1 << 3,
-    forest = 1 << 4,
+#include "eterrain.h"
 
-    flatStones = 1 << 5,
-    bronze = 1 << 6,
-    silver = 1 << 7,
-    tallStones = 1 << 8,
-    tinyStones = 1 << 9,
-
-    dryBased = eTerrain::dry |
-               eTerrain::fertile |
-               eTerrain::forest |
-
-               eTerrain::flatStones |
-               eTerrain::bronze |
-               eTerrain::silver |
-               eTerrain::tallStones |
-               eTerrain::tinyStones
+enum class eTileSize {
+    s15, s30, s60
 };
 
-inline eTerrain operator|(const eTerrain a, const eTerrain b) {
-    return static_cast<eTerrain>(static_cast<int>(a) | static_cast<int>(b));
-}
-
-inline eTerrain operator&(const eTerrain a, const eTerrain b) {
-    return static_cast<eTerrain>(static_cast<int>(a) & static_cast<int>(b));
-}
+class eDemeter;
 
 class eTile {
 public:
@@ -66,29 +42,33 @@ public:
     void setBottomLeft(eTile* const bl);
 
     void surroundingTerrain(eTerrain& tlTerr,
-                           eTerrain& trTerr,
-                           eTerrain& brTerr,
-                           eTerrain& blTerr,
-                           eTerrain& tTerr,
-                           eTerrain& rTerr,
-                           eTerrain& bTerr,
-                           eTerrain& lTerr) const;
+                            eTerrain& trTerr,
+                            eTerrain& brTerr,
+                            eTerrain& blTerr,
+                            eTerrain& tTerr,
+                            eTerrain& rTerr,
+                            eTerrain& bTerr,
+                            eTerrain& lTerr) const;
     void neighboursWithTerrain(const eTerrain terr,
                                bool& tl, bool& tr,
                                bool& br, bool& bl,
                                bool& t, bool& r,
                                bool& b, bool& l) const;
-    void neighbourTerrainTypes(std::vector<eTerrain>& neighTerrs) const;
-    void majorNeighbourTerrainTypes(std::vector<eTerrain>& neighTerrs) const;
 
+    void addDemeter(eDemeter* const d) { mDemeter = d; }
+    eDemeter* demeter() const { return mDemeter; }
+
+    // used for stones rendering
     void setDrawnId(const int d) { mDrawnId = d; }
     int drawnId() const { return mDrawnId; }
+private:
+    int mDrawnId = -1;
 private:
     const int mSeed;
     const int mX;
     const int mY;
 
-    int mDrawnId = -1;
+    eDemeter* mDemeter = nullptr;
 
     eTile* mTopLeft = nullptr;
     eTile* mTopRight = nullptr;

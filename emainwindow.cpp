@@ -80,7 +80,8 @@ void eMainWindow::showMainMenu() {
         const auto l = new eGameLoadingWidget(this);
         l->resize(width(), height());
         const auto show = [this, l]() {
-            showGame(std::move(l->takeTerrainTextures()));
+            showGame(std::move(l->takeTerrainTextures()),
+                     std::move(l->takeDemeterTextures()));
         };
         l->setDoneAction(show);
         setWidget(l);
@@ -121,8 +122,11 @@ void eMainWindow::showSettingsMenu() {
     setWidget(esm);
 }
 
-void eMainWindow::showGame(std::vector<eTerrainTextures>&& texs) {
-    const auto egw = new eGameWidget(std::move(texs), this);
+void eMainWindow::showGame(std::vector<eTerrainTextures>&& texs,
+                           std::vector<eDemeterTextures>&& demeterTextures) {
+    const auto egw = new eGameWidget(std::move(texs),
+                                     std::move(demeterTextures),
+                                     this);
     egw->resize(width(), height());
     egw->initialize(16, 16);
     setWidget(egw);

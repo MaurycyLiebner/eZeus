@@ -3,10 +3,14 @@
 #include "eterraineditmenu.h"
 
 #include "textures/etiletotexture.h"
+#include "characters/edemeter.h"
 
 eGameWidget::eGameWidget(std::vector<eTerrainTextures>&& textures,
+                         std::vector<eDemeterTextures>&& demeterTextures,
                          eMainWindow* const window) :
-    eWidget(window), mTerrainTexturesColl(std::move(textures)) {}
+    eWidget(window),
+    mTerrainTexturesColl(std::move(textures)),
+    mDemeterTextures(std::move(demeterTextures)) {}
 
 eGameWidget::~eGameWidget() {}
 
@@ -18,6 +22,13 @@ void eGameWidget::initialize(const int w, const int h) {
     mBoard.initialize(w, h);
 
     setTileSize(eTileSize::s30);
+
+    const auto t = mBoard.tile(5, 5);
+    const auto d = new eDemeter(mDemeterTextures);
+    d->setTile(t);
+    d->setX(0.5);
+    d->setY(0.5);
+    t->addDemeter(d);
 }
 
 void eGameWidget::pixToId(const int pixX, const int pixY,
@@ -48,7 +59,7 @@ void gDrawDelayed(ePainter& p) {
     gDelayedTextures.erase(gDelayedTextures.begin());
 }
 
-void eGameWidget::paintEvent(ePainter& p) {
+void eGameWidget::iterateOverTiles(const eTileItAction& a) {
     const int w = mBoard.width();
     const int h = mBoard.height();
     const int nRows = w + h - 1;
@@ -61,8 +72,6 @@ void eGameWidget::paintEvent(ePainter& p) {
     const int minXYDiff = -2*mDX/mTileW;
     const int maxXYDiff = minXYDiff + 2*width()/mTileW - 1;
 
-    p.setFont(eFonts::defaultFont(resolution()));
-    p.translate(mDX, mDY);
     const auto iniIt = eGameBoardDiagonalIterator(minRow, 0, &mBoard);
     for(auto it = iniIt; it != mBoard.dEnd(); ++it) {
         if(it.row() > maxRow) break;
@@ -79,6 +88,17 @@ void eGameWidget::paintEvent(ePainter& p) {
         if(alt > 0) {
             pixY -= alt*mTileH/2;
         }
+        a(tile, pixX, pixY);
+    }
+}
+
+void eGameWidget::paintEvent(ePainter& p) {
+    p.setFont(eFonts::defaultFont(resolution()));
+    p.translate(mDX, mDY);
+    iterateOverTiles([&](eTile* const tile,
+                         const int pixX,
+                         const int pixY) {
+
         int wSpan;
         int hSpan;
         const auto tex = eTileToTexture::get(tile, *mTerrainTextures,
@@ -93,12 +113,19 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
             if(wSpan == 2 && hSpan == 2) {
                 gDelayedTextures.emplace_back(eDelayedTexture{pixTX, pixTY, tex});
-                continue;
+                return;
             } else {
                 p.drawTexture(pixTX, pixTY, tex, eAlignment::top);
             }
         }
         gDrawDelayed(p);
+
+        if(const auto d = tile->demeter()) {
+            const auto tex = d->getTexture(mTileSize);
+            p.drawTexture(pixX + d->x()*mTileW + mTileW/2, pixY + d->y()*mTileH, tex,
+                          eAlignment::top | eAlignment::hcenter);
+            d->incTime();
+        }
 
         const auto& selectedTex = mTerrainTextures->fSelectedTex;
 
@@ -116,7 +143,18 @@ void eGameWidget::paintEvent(ePainter& p) {
                 p.drawTexture(pixX, pixY, selectedTex, eAlignment::top);
             }
         }
-    }
+    });
+    iterateOverTiles([&](eTile* const tile,
+                         const int pixX,
+                         const int pixY) {
+        if(const auto d = tile->demeter()) {
+            const auto tex = d->getTexture(mTileSize);
+            p.drawTexture(pixX + d->x()*mTileW + mTileW/2,
+                          pixY + d->y()*mTileH, tex,
+                          eAlignment::top | eAlignment::hcenter);
+            d->incTime();
+        }
+    });
 }
 
 int gLastX = 0;

@@ -7,16 +7,14 @@
 #include "engine/etile.h"
 #include "engine/egameboard.h"
 #include "textures/eterraintextures.h"
+#include "textures/edemetertextures.h"
 
 class eTerrainEditMenu;
-
-enum class eTileSize {
-    s15, s30, s60
-};
 
 class eGameWidget : public eWidget {
 public:
     eGameWidget(std::vector<eTerrainTextures>&& textures,
+                std::vector<eDemeterTextures>&& demeterTextures,
                 eMainWindow* const window);
     ~eGameWidget();
 
@@ -32,6 +30,11 @@ protected:
     bool mouseReleaseEvent(const eMouseEvent& e);
     bool mouseWheelEvent(const eMouseWheelEvent& e);
 private:
+    using eTileItAction = std::function<void(eTile* const tile,
+                                             const int pixX,
+                                             const int pixY)>;
+    void iterateOverTiles(const eTileItAction& a);
+
     void setTileSize(const eTileSize size);
 
     using eTileAction = std::function<void(eTile* const)>;
@@ -52,6 +55,7 @@ private:
     eGameBoard mBoard;
     eTerrainTextures* mTerrainTextures = nullptr;
     std::vector<eTerrainTextures> mTerrainTexturesColl;
+    std::vector<eDemeterTextures> mDemeterTextures;
 
     eTerrainEditMenu* mTem = nullptr;
 };

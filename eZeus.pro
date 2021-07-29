@@ -7,6 +7,8 @@ LIBS += -L/usr/lib/x86_64-linux-gnu
 LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf
 
 SOURCES += \
+        characters/echaracteraction.cpp \
+        characters/edemeter.cpp \
         emainwindow.cpp \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
@@ -14,6 +16,7 @@ SOURCES += \
         engine/egameobject.cpp \
         engine/emovinggameobject.cpp \
         engine/etask.cpp \
+        engine/eterrain.cpp \
         engine/ethreadpool.cpp \
         engine/etile.cpp \
         espriteframe.cpp \
@@ -22,11 +25,13 @@ SOURCES += \
         etexturecollection.cpp \
         main.cpp \
         textures/ebeachtodry.cpp \
+        textures/edemetertextures.cpp \
         textures/efertiletodry.cpp \
         textures/eforesttodry.cpp \
         textures/estonestodry.cpp \
         textures/esurroundingterrain.cpp \
         textures/eterraintextures.cpp \
+        textures/etextureloadinghelpers.cpp \
         textures/etiletotexture.cpp \
         textures/ewatercorner.cpp \
         textures/ewatertobeach.cpp \
@@ -52,6 +57,8 @@ SOURCES += \
         widgets/ewidget.cpp
 
 HEADERS += \
+    characters/echaracteraction.h \
+    characters/edemeter.h \
     emainwindow.h \
     engine/efunctask.h \
     engine/egameboard.h \
@@ -59,6 +66,7 @@ HEADERS += \
     engine/egameobject.h \
     engine/emovinggameobject.h \
     engine/etask.h \
+    engine/eterrain.h \
     engine/ethreadpool.h \
     engine/etile.h \
     espriteframe.h \
@@ -66,11 +74,13 @@ HEADERS += \
     etexture.h \
     etexturecollection.h \
     textures/ebeachtodry.h \
+    textures/edemetertextures.h \
     textures/efertiletodry.h \
     textures/eforesttodry.h \
     textures/estonestodry.h \
     textures/esurroundingterrain.h \
     textures/eterraintextures.h \
+    textures/etextureloadinghelpers.h \
     textures/etiletotexture.h \
     textures/ewatercorner.h \
     textures/ewatertobeach.h \
