@@ -20,6 +20,7 @@ eTexture getStonesTexture(eTile* const tile,
                           const eTextureCollection& huge,
                           int& wSpan, int& hSpan) {
     const auto id = eStonesToDry::get(tile);
+    tile->setDrawnId(static_cast<int>(id));
     switch(id) {
     case eStonesToDryId::small: {
         const auto& coll = small;

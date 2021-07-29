@@ -39,7 +39,14 @@ struct eDelayedTexture {
     eTexture fTex;
 };
 
-eDelayedTexture gDelayedTexture;
+std::vector<eDelayedTexture> gDelayedTextures;
+
+void gDrawDelayed(ePainter& p) {
+    if(gDelayedTextures.empty()) return;
+    const auto& dell = gDelayedTextures.front();
+    p.drawTexture(dell.fX, dell.fY, dell.fTex, eAlignment::top);
+    gDelayedTextures.erase(gDelayedTextures.begin());
+}
 
 void eGameWidget::paintEvent(ePainter& p) {
     const int w = mBoard.width();
@@ -80,20 +87,13 @@ void eGameWidget::paintEvent(ePainter& p) {
             const int pixTX = pixX - (wSpan - 1)*mTileW/2;
             const int pixTY = pixY + (hSpan - 1)*mTileH;
             if(wSpan > 1) {
-                gDelayedTexture.fX = pixTX;
-                gDelayedTexture.fY = pixTY;
-                gDelayedTexture.fTex = tex;
+                gDelayedTextures.emplace_back(eDelayedTexture{pixTX, pixTY, tex});
                 continue;
             } else {
                 p.drawTexture(pixTX, pixTY, tex, eAlignment::top);
             }
         }
-        auto& delTex = gDelayedTexture.fTex;
-        if(!delTex.isNull()) {
-            p.drawTexture(gDelayedTexture.fX, gDelayedTexture.fY,
-                          delTex, eAlignment::top);
-            delTex = eTexture();
-        }
+        gDrawDelayed(p);
 
         const auto& selectedTex = mTerrainTextures->fSelectedTex;
 
@@ -112,7 +112,6 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         }
     }
-    gSkipTiles.clear();
 }
 
 int gLastX = 0;

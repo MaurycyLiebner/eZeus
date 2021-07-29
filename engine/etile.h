@@ -66,13 +66,13 @@ public:
     void setBottomLeft(eTile* const bl);
 
     void surroundingTerrain(eTerrain& tlTerr,
-                          eTerrain& trTerr,
-                          eTerrain& brTerr,
-                          eTerrain& blTerr,
-                          eTerrain& tTerr,
-                          eTerrain& rTerr,
-                          eTerrain& bTerr,
-                          eTerrain& lTerr) const;
+                           eTerrain& trTerr,
+                           eTerrain& brTerr,
+                           eTerrain& blTerr,
+                           eTerrain& tTerr,
+                           eTerrain& rTerr,
+                           eTerrain& bTerr,
+                           eTerrain& lTerr) const;
     void neighboursWithTerrain(const eTerrain terr,
                                bool& tl, bool& tr,
                                bool& br, bool& bl,
@@ -80,10 +80,15 @@ public:
                                bool& b, bool& l) const;
     void neighbourTerrainTypes(std::vector<eTerrain>& neighTerrs) const;
     void majorNeighbourTerrainTypes(std::vector<eTerrain>& neighTerrs) const;
+
+    void setDrawnId(const int d) { mDrawnId = d; }
+    int drawnId() const { return mDrawnId; }
 private:
     const int mSeed;
     const int mX;
     const int mY;
+
+    int mDrawnId = -1;
 
     eTile* mTopLeft = nullptr;
     eTile* mTopRight = nullptr;
