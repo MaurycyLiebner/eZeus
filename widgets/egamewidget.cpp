@@ -4,6 +4,7 @@
 
 #include "textures/etiletotexture.h"
 #include "characters/edemeter.h"
+#include "characters/emovearoundaction.h"
 
 eGameWidget::eGameWidget(std::vector<eTerrainTextures>&& textures,
                          std::vector<eDemeterTextures>&& demeterTextures,
@@ -28,6 +29,7 @@ void eGameWidget::initialize(const int w, const int h) {
     d->setTile(t);
     d->setX(0.5);
     d->setY(0.5);
+    d->setCharAction(new eMoveAroundAction(d));
     t->addDemeter(d);
 }
 

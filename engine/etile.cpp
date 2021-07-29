@@ -32,6 +32,35 @@ eTile* eTile::bottom() const {
     return mBottomLeft->bottomRight();
 }
 
+eTile* eTile::neighbour(const eOrientation o) const {
+    switch(o) {
+    case eOrientation::topRight: {
+        return topRight();
+    } break;
+    case eOrientation::right: {
+        return right();
+    } break;
+    case eOrientation::bottomRight: {
+        return bottomRight();
+    } break;
+    case eOrientation::bottom: {
+        return bottom();
+    } break;
+    case eOrientation::bottomLeft: {
+        return bottomLeft();
+    } break;
+    case eOrientation::left: {
+        return left();
+    } break;
+    case eOrientation::topLeft: {
+        return topLeft();
+    } break;
+    case eOrientation::top: {
+        return top();
+    } break;
+    }
+}
+
 void eTile::setTerrain(const eTerrain terr) {
     mTerr = terr;
 }

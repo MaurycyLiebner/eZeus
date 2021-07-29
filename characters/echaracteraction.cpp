@@ -1,5 +1,6 @@
 #include "echaracteraction.h"
 
-eCharacterAction::eCharacterAction() {
+eCharacterAction::eCharacterAction(eDemeter* const d) :
+    mCharacter(d) {
 
 }

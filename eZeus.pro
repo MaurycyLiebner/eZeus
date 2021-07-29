@@ -9,6 +9,7 @@ LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf
 SOURCES += \
         characters/echaracteraction.cpp \
         characters/edemeter.cpp \
+        characters/emovearoundaction.cpp \
         emainwindow.cpp \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
@@ -59,12 +60,14 @@ SOURCES += \
 HEADERS += \
     characters/echaracteraction.h \
     characters/edemeter.h \
+    characters/emovearoundaction.h \
     emainwindow.h \
     engine/efunctask.h \
     engine/egameboard.h \
     engine/egameboarditerator.h \
     engine/egameobject.h \
     engine/emovinggameobject.h \
+    engine/eorientation.h \
     engine/etask.h \
     engine/eterrain.h \
     engine/ethreadpool.h \

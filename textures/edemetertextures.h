@@ -8,17 +8,6 @@ public:
     eDemeterTextures(const int tileW, const int tileH,
                      SDL_Renderer* const renderer);
 
-    enum eOrientation {
-        topRight,
-        right,
-        bottomRight,
-        bottom,
-        bottomLeft,
-        left,
-        topLeft,
-        top
-    };
-
     void load();
 
     const int fTileW;

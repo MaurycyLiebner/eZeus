@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "eterrain.h"
+#include "eorientation.h"
 
 enum class eTileSize {
     s15, s30, s60
@@ -32,6 +33,8 @@ public:
     eTile* right() const;
     eTile* bottom() const;
 
+    eTile* neighbour(const eOrientation o) const;
+
     void setTerrain(const eTerrain terr);
     void setScrub(const double s);
     void incScrub(const double s);
@@ -56,6 +59,11 @@ public:
                                bool& b, bool& l) const;
 
     void addDemeter(eDemeter* const d) { mDemeter = d; }
+    void removeDemeter(eDemeter* const d) {
+        (void)d;
+        mDemeter = nullptr;
+    }
+
     eDemeter* demeter() const { return mDemeter; }
 
     // used for stones rendering

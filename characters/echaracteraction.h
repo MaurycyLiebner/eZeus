@@ -5,10 +5,11 @@ class eDemeter;
 
 class eCharacterAction {
 public:
-    eCharacterAction();
+    eCharacterAction(eDemeter* const d);
 
-    virtual void increment(eDemeter* const d) = 0;
-private:
+    virtual void increment() = 0;
+protected:
+    eDemeter* const mCharacter;
 };
 
 #endif // ECHARACTERACTION_H
