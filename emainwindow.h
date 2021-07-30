@@ -5,6 +5,7 @@
 #include "widgets/eresolution.h"
 #include "textures/eterraintextures.h"
 #include "textures/edemetertextures.h"
+#include "textures/ebuildingtextures.h"
 
 using eSlot = std::function<void()>;
 
@@ -33,7 +34,8 @@ private:
     void showMainMenu();
     void showSettingsMenu();
     void showGame(std::vector<eTerrainTextures>&& texs,
-                  std::vector<eDemeterTextures>&& demeterTextures);
+                  std::vector<eDemeterTextures>&& demeterTextures,
+                  std::vector<eBuildingTextures>&& buildingTextures);
 
     bool mFullscreen = false;
     eRes mResolution;

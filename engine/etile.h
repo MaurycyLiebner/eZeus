@@ -11,6 +11,7 @@ enum class eTileSize {
 };
 
 class eDemeter;
+class eBuilding;
 
 class eTile {
 public:
@@ -66,6 +67,9 @@ public:
 
     eDemeter* demeter() const { return mDemeter; }
 
+    void addBuilding(eBuilding* const b) { mBuilding = b; }
+    eBuilding* building() const { return mBuilding; }
+
     // used for stones rendering
     void setDrawnSpan(const int w, const int h) {
         mDrawnSpanW = w;
@@ -82,6 +86,7 @@ private:
     const int mY;
 
     eDemeter* mDemeter = nullptr;
+    eBuilding* mBuilding = nullptr;
 
     eTile* mTopLeft = nullptr;
     eTile* mTopRight = nullptr;

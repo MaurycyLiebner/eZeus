@@ -16,7 +16,7 @@ void eBuildingTextures::load() {
 
     const std::string pathBase{dir + "Zeus_Housing_"};
 
-    for(int i = 0; i < 14;) {
+    for(int i = 1; i < 15;) {
         auto& coll = fSmallHouses.emplace_back(fRenderer);
         for(int j = 0; j < 2; j++, i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, coll);

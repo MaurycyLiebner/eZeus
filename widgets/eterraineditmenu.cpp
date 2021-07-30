@@ -138,7 +138,7 @@ eTerrainEditMenu::eTerrainEditMenu(eMainWindow* const window) :
             b->setText("small house");
             b->fitContent();
             b->setPressAction([this]() {
-                mMode = eTerrainEditMode::flatStones;
+                mMode = eTerrainEditMode::smallHouse;
             });
             mBuildingsWidget->addWidget(b);
         }

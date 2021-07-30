@@ -6,13 +6,16 @@
 #include "textures/etiletotexture.h"
 #include "characters/edemeter.h"
 #include "characters/emovearoundaction.h"
+#include "buildings/esmallhouse.h"
 
 eGameWidget::eGameWidget(std::vector<eTerrainTextures>&& textures,
                          std::vector<eDemeterTextures>&& demeterTextures,
+                         std::vector<eBuildingTextures>&& buildingTextures,
                          eMainWindow* const window) :
     eWidget(window),
     mTerrainTexturesColl(std::move(textures)),
-    mDemeterTextures(std::move(demeterTextures)) {}
+    mDemeterTextures(std::move(demeterTextures)),
+    mBuildingTextures(std::move(buildingTextures)) {}
 
 eGameWidget::~eGameWidget() {}
 
@@ -149,6 +152,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                            eAlignment::top | eAlignment::hcenter);
             d->incTime();
         }
+        if(const auto d = tile->building()) {
+            const auto tex = d->getTexture(mTileSize);
+            tp.drawTexture(tx, ty, tex,
+                           eAlignment::top | eAlignment::hcenter);
+            d->incTime();
+        }
     });
 }
 
@@ -192,6 +201,11 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
         if(mode == eTerrainEditMode::scrub) {
             apply = [](eTile* const tile) {
                 tile->incScrub(0.1);
+            };
+        } else if(mode == eTerrainEditMode::smallHouse) {
+            apply = [this](eTile* const tile) {
+                const auto house = new eSmallHouse(mBuildingTextures);
+                tile->addBuilding(house);
             };
         } else {
             apply = [mode](eTile* const tile) {

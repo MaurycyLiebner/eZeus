@@ -25,7 +25,9 @@ void eGameLoadingWidget::initialize() {
         mBuildingTextures.emplace_back(s.first, s.second, renderer());
     }
 
-    mSize = mTerrainTextures.size() + mDemeterTextures.size();
+    mSize = mTerrainTextures.size() +
+            mDemeterTextures.size() +
+            mBuildingTextures.size();
     mPB->setRange(0, mSize);
 }
 

@@ -8,6 +8,7 @@
 #include "engine/egameboard.h"
 #include "textures/eterraintextures.h"
 #include "textures/edemetertextures.h"
+#include "textures/ebuildingtextures.h"
 
 class eTerrainEditMenu;
 
@@ -15,6 +16,7 @@ class eGameWidget : public eWidget {
 public:
     eGameWidget(std::vector<eTerrainTextures>&& textures,
                 std::vector<eDemeterTextures>&& demeterTextures,
+                std::vector<eBuildingTextures>&& buildingTextures,
                 eMainWindow* const window);
     ~eGameWidget();
 
@@ -54,6 +56,7 @@ private:
     eTerrainTextures* mTerrainTextures = nullptr;
     std::vector<eTerrainTextures> mTerrainTexturesColl;
     std::vector<eDemeterTextures> mDemeterTextures;
+    std::vector<eBuildingTextures> mBuildingTextures;
 
     eTerrainEditMenu* mTem = nullptr;
 };
