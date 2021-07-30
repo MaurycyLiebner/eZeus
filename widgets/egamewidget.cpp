@@ -91,7 +91,7 @@ int gPressedY = -1;
 void eGameWidget::paintEvent(ePainter& p) {
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);
-    eTilePainter tp(p, mTileW, mTileH);
+    eTilePainter tp(p, mTileSize, mTileW, mTileH);
 
     iterateOverTiles([&](eTile* const tile) {
         const int tx = tile->x();

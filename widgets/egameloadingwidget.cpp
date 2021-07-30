@@ -17,13 +17,13 @@ void eGameLoadingWidget::initialize() {
     mLabel->align(eAlignment::hcenter);
     mLabel->setY(mPB->y() + 2*mLabel->height());
 
-    mTerrainTextures.emplace_back(29, 15, renderer());
-    mTerrainTextures.emplace_back(58, 30, renderer());
-    mTerrainTextures.emplace_back(116, 60, renderer());
-
-    mDemeterTextures.emplace_back(29, 15, renderer());
-    mDemeterTextures.emplace_back(58, 30, renderer());
-    mDemeterTextures.emplace_back(116, 60, renderer());
+    for(const auto& s : {std::pair<int, int>{29, 15},
+                         std::pair<int, int>{58, 30},
+                         std::pair<int, int>{116, 60}}) {
+        mTerrainTextures.emplace_back(s.first, s.second, renderer());
+        mDemeterTextures.emplace_back(s.first, s.second, renderer());
+        mBuildingTextures.emplace_back(s.first, s.second, renderer());
+    }
 
     mSize = mTerrainTextures.size() + mDemeterTextures.size();
     mPB->setRange(0, mSize);
@@ -39,6 +39,10 @@ std::vector<eTerrainTextures>&& eGameLoadingWidget::takeTerrainTextures() {
 
 std::vector<eDemeterTextures>&& eGameLoadingWidget::takeDemeterTextures() {
     return std::move(mDemeterTextures);
+}
+
+std::vector<eBuildingTextures>&& eGameLoadingWidget::takeBuildingTextures() {
+    return std::move(mBuildingTextures);
 }
 
 void eGameLoadingWidget::paintEvent(ePainter& p) {
@@ -66,6 +70,16 @@ void eGameLoadingWidget::paintEvent(ePainter& p) {
                     mLabel->setText("Loading large Demeter textures...");
                 }
                 mDemeterTextures[dload].load();
+            } else if(toLoad <= 8) {
+                const int dload = toLoad - 6;
+                if(dload == 0) {
+                    mLabel->setText("Loading small building textures...");
+                } else if(dload == 1) {
+                    mLabel->setText("Loading medium building textures...");
+                } else if(dload == 2) {
+                    mLabel->setText("Loading large building textures...");
+                }
+                mBuildingTextures[dload].load();
             }
             mPB->setValue(mPB->value() + 1);
         };

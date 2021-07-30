@@ -1,9 +1,12 @@
 #include "eterraineditmenu.h"
 
+#include "etabwidget.h"
+
 eTerrainEditMenu::eTerrainEditMenu(eMainWindow* const window) :
-    eWidget(window) {
+    eTabWidget(window) {
 
     resize(500, 150);
+    initialize();
 
     {
         mBasicWidget = new eWidget(window);
@@ -71,8 +74,6 @@ eTerrainEditMenu::eTerrainEditMenu(eMainWindow* const window) :
 
 
         mBasicWidget->layoutHorizontally();
-        addWidget(mBasicWidget);
-        mBasicWidget->align(eAlignment::hcenter | eAlignment::bottom);
     }
 
     {
@@ -126,46 +127,28 @@ eTerrainEditMenu::eTerrainEditMenu(eMainWindow* const window) :
         }
 
         mStonesWidget->layoutHorizontally();
-        addWidget(mStonesWidget);
-        mStonesWidget->align(eAlignment::hcenter | eAlignment::bottom);
-        mStonesWidget->hide();
     }
 
     {
-        const auto menuW = new eWidget(window);
-        menuW->resize(500, 75);
+        mBuildingsWidget = new eWidget(window);
+        mBuildingsWidget->resize(500, 75);
 
         {
-            const auto b = new eCheckableButton(window);
-            mBasicButton = b;
-            b->setText("basic");
-            b->setChecked(true);
+            const auto b = new eButton(window);
+            b->setText("small house");
             b->fitContent();
-            b->setCheckAction([this](const bool c) {
-                if(!c) return;
-                mBasicWidget->setVisible(true);
-                mStonesWidget->setVisible(false);
-                mStonesButton->setChecked(false);
+            b->setPressAction([this]() {
+                mMode = eTerrainEditMode::flatStones;
             });
-            menuW->addWidget(b);
+            mBuildingsWidget->addWidget(b);
         }
 
-        {
-            const auto b = new eCheckableButton(window);
-            mStonesButton = b;
-            b->setText("stones");
-            b->fitContent();
-            b->setCheckAction([this](const bool c) {
-                if(!c) return;
-                mBasicWidget->setVisible(false);
-                mStonesWidget->setVisible(true);
-                mBasicButton->setChecked(false);
-            });
-            menuW->addWidget(b);
-        }
+        mBuildingsWidget->layoutHorizontally();
+    }
 
-        menuW->layoutHorizontally();
-        addWidget(menuW);
-        menuW->align(eAlignment::hcenter | eAlignment::top);
+    {
+        addTab("basic", mBasicWidget);
+        addTab("stones", mStonesWidget);
+        addTab("buildings", mBuildingsWidget);
     }
 }

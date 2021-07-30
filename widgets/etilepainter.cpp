@@ -1,7 +1,9 @@
 #include "etilepainter.h"
 
-eTilePainter::eTilePainter(ePainter& p, const int tw, const int th) :
-    mP(p), mTileW(tw), mTileH(th) {
+eTilePainter::eTilePainter(ePainter& p,
+                           const eTileSize size,
+                           const int tw, const int th) :
+    mP(p), mSize(size), mTileW(tw), mTileH(th) {
 
 }
 

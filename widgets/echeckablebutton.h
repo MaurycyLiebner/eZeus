@@ -3,13 +3,14 @@
 
 #include "ebutton.h"
 
+using eCheckAction = std::function<void(bool)>;
+
 class eCheckableButton : public eButton {
 public:
     eCheckableButton(eMainWindow* const window);
 
     bool checked() const { return mChecked; }
 
-    using eCheckAction = std::function<void(bool)>;
     void setCheckAction(const eCheckAction& a);
 
     void setChecked(const bool c);

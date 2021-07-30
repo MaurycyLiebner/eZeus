@@ -4,6 +4,7 @@
 #include "ewidget.h"
 #include "textures/eterraintextures.h"
 #include "textures/edemetertextures.h"
+#include "textures/ebuildingtextures.h"
 #include "eprogressbar.h"
 #include "elabel.h"
 
@@ -16,6 +17,7 @@ public:
 
     std::vector<eTerrainTextures>&& takeTerrainTextures();
     std::vector<eDemeterTextures>&& takeDemeterTextures();
+    std::vector<eBuildingTextures>&& takeBuildingTextures();
 protected:
     void paintEvent(ePainter& p);
 private:
@@ -29,6 +31,7 @@ private:
 
     std::vector<eTerrainTextures> mTerrainTextures;
     std::vector<eDemeterTextures> mDemeterTextures;
+    std::vector<eBuildingTextures> mBuildingTextures;
 };
 
 #endif // EGAMELOADINGWIDGET_H

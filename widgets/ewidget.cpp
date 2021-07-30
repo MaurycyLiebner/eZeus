@@ -330,6 +330,7 @@ void eWidget::addWidget(eWidget* const w) {
 
 void eWidget::removeWidget(eWidget* const w) {
     const auto it = std::find(mChildren.begin(), mChildren.end(), w);
+    if(it == mChildren.end()) return;
     mChildren.erase(it);
     w->mParent = nullptr;
 }

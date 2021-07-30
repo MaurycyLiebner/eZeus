@@ -2,6 +2,7 @@
 #define ETILEPAINTER_H
 
 #include "epainter.h"
+#include "engine/etile.h"
 
 class eTilePainter {
     struct eTilePainterSave {
@@ -9,7 +10,12 @@ class eTilePainter {
         double fY;
     };
 public:
-    eTilePainter(ePainter& p, const int tw, const int th);
+    eTilePainter(ePainter& p,
+                 const eTileSize size,
+                 const int tw, const int th);
+
+    SDL_Renderer* renderer() const { return mP.renderer(); }
+    eTileSize size() const { return mSize; }
 
     void save();
     void restore();
@@ -23,6 +29,7 @@ public:
                      const eTexture& tex) const;
 private:
     ePainter& mP;
+    const eTileSize mSize;
     const int mTileW;
     const int mTileH;
 

@@ -1,7 +1,7 @@
 #ifndef ETERRAINEDITMENU_H
 #define ETERRAINEDITMENU_H
 
-#include "ewidget.h"
+#include "etabwidget.h"
 
 #include "engine/etile.h"
 #include "echeckablebutton.h"
@@ -21,7 +21,7 @@ enum class eTerrainEditMode {
     tinyStones = static_cast<int>(eTerrain::tinyStones),
 };
 
-class eTerrainEditMenu : public eWidget {
+class eTerrainEditMenu : public eTabWidget {
 public:
     eTerrainEditMenu(eMainWindow* const window);
 
@@ -31,6 +31,7 @@ private:
 
     eWidget* mStonesWidget = nullptr;
     eWidget* mBasicWidget = nullptr;
+    eWidget* mBuildingsWidget = nullptr;
 
     eCheckableButton* mBasicButton = nullptr;
     eCheckableButton* mStonesButton = nullptr;

@@ -7,10 +7,11 @@ LIBS += -L/usr/lib/x86_64-linux-gnu
 LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf
 
 SOURCES += \
+        buildings/ebuilding.cpp \
+        buildings/esmallhouse.cpp \
         characters/echaracteraction.cpp \
         characters/edemeter.cpp \
         characters/emovearoundaction.cpp \
-        ebuilding.cpp \
         emainwindow.cpp \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
         etexturecollection.cpp \
         main.cpp \
         textures/ebeachtodry.cpp \
+        textures/ebuildingtextures.cpp \
         textures/edemetertextures.cpp \
         textures/efertiletodry.cpp \
         textures/eforesttodry.cpp \
@@ -55,15 +57,17 @@ SOURCES += \
         widgets/eprogressbar.cpp \
         widgets/eresolution.cpp \
         widgets/esettingsmenu.cpp \
+        widgets/etabwidget.cpp \
         widgets/eterraineditmenu.cpp \
         widgets/etilepainter.cpp \
         widgets/ewidget.cpp
 
 HEADERS += \
+    buildings/ebuilding.h \
+    buildings/esmallhouse.h \
     characters/echaracteraction.h \
     characters/edemeter.h \
     characters/emovearoundaction.h \
-    ebuilding.h \
     emainwindow.h \
     engine/efunctask.h \
     engine/egameboard.h \
@@ -80,6 +84,7 @@ HEADERS += \
     etexture.h \
     etexturecollection.h \
     textures/ebeachtodry.h \
+    textures/ebuildingtextures.h \
     textures/edemetertextures.h \
     textures/efertiletodry.h \
     textures/eforesttodry.h \
@@ -108,6 +113,7 @@ HEADERS += \
     widgets/eprogressbar.h \
     widgets/eresolution.h \
     widgets/esettingsmenu.h \
+    widgets/etabwidget.h \
     widgets/eterraineditmenu.h \
     widgets/etilepainter.h \
     widgets/ewidget.h

@@ -37,6 +37,8 @@ class ePainter {
 public:
     ePainter(SDL_Renderer* const renderer);
 
+    SDL_Renderer* renderer() const { return mRenderer; }
+
     void save();
     void restore();
 
