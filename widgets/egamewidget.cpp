@@ -38,8 +38,8 @@ void eGameWidget::pixToId(const int pixX, const int pixY,
                           int& idX, int& idY) const {
     const double w = mTileW;
     const double h = mTileH;
-    idX = std::round((pixX - mDX)/w + (pixY - mDY)/h + 0.5);
-    idY = std::round(-(pixX - mDX)/w + (pixY - mDY)/h + 0.5);
+    idX = std::round((pixX - mDX)/w + (pixY - mDY)/h);
+    idY = std::round(-(pixX - mDX)/w + (pixY - mDY)/h + 1);
 }
 
 int gHoverX = -1;
@@ -101,14 +101,15 @@ void eGameWidget::paintEvent(ePainter& p) {
         int hSpan;
         const auto tex = eTileToTexture::get(tile, *mTerrainTextures,
                                              wSpan, hSpan);
+        tile->setDrawnSpan(wSpan, hSpan);
+
+        const double dx = tx + 0.5;
+        const double dy = ty + 1.5;
+
+        const double rx = dx + 0.5*(wSpan - 1);
+        const double ry = dy + 1.5*(hSpan - 1);
+
         if(!tex.isNull()) {
-            double rx = tx;
-            double ry = ty;
-            if((wSpan == 2 && hSpan == 2) ||
-               (wSpan == 3 && hSpan == 3)) {
-                rx -= 0.5*(wSpan - 1);
-                ry += 1;
-            }
             if(wSpan == 2 && hSpan == 2) {
                 gDelayedTextures.emplace_back(eDelayedTexture{rx, ry, tex});
                 return;
@@ -118,17 +119,10 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
         gDrawDelayed(tp);
 
-        if(const auto d = tile->demeter()) {
-            const auto tex = d->getTexture(mTileSize);
-            tp.drawTexture(tx + d->x() + 0.5, ty + d->y(), tex,
-                           eAlignment::top | eAlignment::hcenter);
-            d->incTime();
-        }
-
         const auto& selectedTex = mTerrainTextures->fSelectedTex;
 
         if(tile->x() == gHoverX && tile->y() == gHoverY) {
-            tp.drawTexture(tx, ty, selectedTex, eAlignment::top);
+            tp.drawTexture(rx, ry, selectedTex, eAlignment::top);
         }
 
         if(gPressedX >= 0 && gPressedY >= 0) {
@@ -138,7 +132,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             const int maxY = std::max(gPressedY, gHoverY);
             if(tile->x() >= minX && tile->x() <= maxX &&
                tile->y() >= minY && tile->y() <= maxY) {
-                tp.drawTexture(tx, ty, selectedTex, eAlignment::top);
+                tp.drawTexture(rx, ry, selectedTex, eAlignment::top);
             }
         }
     });
@@ -148,7 +142,7 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         if(const auto d = tile->demeter()) {
             const auto tex = d->getTexture(mTileSize);
-            tp.drawTexture(tx + d->x() + 0.5,
+            tp.drawTexture(tx + d->x(),
                            ty + d->y(), tex,
                            eAlignment::top | eAlignment::hcenter);
             d->incTime();

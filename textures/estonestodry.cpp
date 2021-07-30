@@ -1,58 +1,35 @@
 #include "estonestodry.h"
 
-bool hiddenByNeighbour(eTile* const tile, const int id) {
-    const auto terr = tile->terrain();
-
+bool hiddenByNeighbour(eTile* const tile) {
     if(const auto t = tile->top()) {
-        const auto did = t->drawnId();
-        if(t->terrain() == terr && did & id) {
-            return true;
-        }
+        const int w = t->drawSpanW();
+        const int h = t->drawSpanH();
+        if(w > 1 && h > 1) return true;
     }
 
     if(const auto t = tile->topLeft()) {
-        const auto did = t->drawnId();
-        if(t->terrain() == terr && did & id) {
-            return true;
-        }
+        const int w = t->drawSpanW();
+        if(w > 1) return true;
     }
 
     if(const auto t = tile->topRight()) {
-        const auto did = t->drawnId();
-        if(t->terrain() == terr && did & id) {
-            return true;
-        }
+        const int h = t->drawSpanW();
+        if(h > 1) return true;
     }
-
-    return false;
-}
-
-inline eStonesToDryId operator|(const eStonesToDryId a, const eStonesToDryId b) {
-    return static_cast<eStonesToDryId>(static_cast<int>(a) | static_cast<int>(b));
-}
-
-bool hidden(eTile* const tile) {
-    const int hid = static_cast<int>(eStonesToDryId::huge);
-    const int lid = static_cast<int>(eStonesToDryId::large);
-
-    const bool r = hiddenByNeighbour(tile, hid | lid);
-    if(r) return r;
-
-    const auto terr = tile->terrain();
 
     if(const auto t = tile->left()) {
-        const auto did = t->drawnId();
-        if(t->terrain() == terr && did == hid) {
-            return true;
-        }
+        const int w = t->drawSpanW();
+        const int h = t->drawSpanH();
+        if(w > 2 && h > 2) return true;
     }
+
     return false;
 }
 
 eStonesToDryId eStonesToDry::get(eTile* const tile) {
     const auto terr = tile->terrain();
 
-    if(hidden(tile)) return eStonesToDryId::none;
+    if(hiddenByNeighbour(tile)) return eStonesToDryId::none;
 
     {
         const auto t = tile->bottom();

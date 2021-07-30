@@ -59,6 +59,7 @@ eTile* eTile::neighbour(const eOrientation o) const {
         return top();
     } break;
     }
+    return nullptr;
 }
 
 void eTile::setTerrain(const eTerrain terr) {

@@ -67,10 +67,15 @@ public:
     eDemeter* demeter() const { return mDemeter; }
 
     // used for stones rendering
-    void setDrawnId(const int d) { mDrawnId = d; }
-    int drawnId() const { return mDrawnId; }
+    void setDrawnSpan(const int w, const int h) {
+        mDrawnSpanW = w;
+        mDrawnSpanH = h;
+    }
+    int drawSpanW() const { return mDrawnSpanW; }
+    int drawSpanH() const { return mDrawnSpanH; }
 private:
-    int mDrawnId = -1;
+    int mDrawnSpanW = 0;
+    int mDrawnSpanH = 0;
 private:
     const int mSeed;
     const int mX;
