@@ -38,14 +38,9 @@ void eGameWidget::pixToId(const int pixX, const int pixY,
                           int& idX, int& idY) const {
     const double w = mTileW;
     const double h = mTileH;
-    idX = std::round((pixX - mDX)/w + (pixY - mDY)/h);
-    idY = std::round(-(pixX - mDX)/w + (pixY - mDY)/h + 1);
+    idX = std::round((pixX - mDX)/w + (pixY - mDY)/h - 0.5);
+    idY = std::round(-(pixX - mDX)/w + (pixY - mDY)/h - 0.5);
 }
-
-int gHoverX = -1;
-int gHoverY = -1;
-int gPressedX = -1;
-int gPressedY = -1;
 
 struct eDelayedTexture {
     double fX;
@@ -88,6 +83,11 @@ void eGameWidget::iterateOverTiles(const eTileAction& a) {
     }
 }
 
+int gHoverX = -1;
+int gHoverY = -1;
+int gPressedX = -1;
+int gPressedY = -1;
+
 void eGameWidget::paintEvent(ePainter& p) {
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);
@@ -103,11 +103,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                                              wSpan, hSpan);
         tile->setDrawnSpan(wSpan, hSpan);
 
-        const double dx = tx + 0.5;
-        const double dy = ty + 1.5;
+        double rx = tx + 0.5;
+        double ry = ty + 1.5;
 
-        const double rx = dx + 0.5*(wSpan - 1);
-        const double ry = dy + 1.5*(hSpan - 1);
+        if(wSpan == 2 && hSpan == 2) {
+            rx += 0.5;
+            ry += 1.5;
+        }
 
         if(!tex.isNull()) {
             if(wSpan == 2 && hSpan == 2) {
