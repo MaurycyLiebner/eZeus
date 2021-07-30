@@ -10,6 +10,7 @@ SOURCES += \
         characters/echaracteraction.cpp \
         characters/edemeter.cpp \
         characters/emovearoundaction.cpp \
+        ebuilding.cpp \
         emainwindow.cpp \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
@@ -55,12 +56,14 @@ SOURCES += \
         widgets/eresolution.cpp \
         widgets/esettingsmenu.cpp \
         widgets/eterraineditmenu.cpp \
+        widgets/etilepainter.cpp \
         widgets/ewidget.cpp
 
 HEADERS += \
     characters/echaracteraction.h \
     characters/edemeter.h \
     characters/emovearoundaction.h \
+    ebuilding.h \
     emainwindow.h \
     engine/efunctask.h \
     engine/egameboard.h \
@@ -106,4 +109,5 @@ HEADERS += \
     widgets/eresolution.h \
     widgets/esettingsmenu.h \
     widgets/eterraineditmenu.h \
+    widgets/etilepainter.h \
     widgets/ewidget.h

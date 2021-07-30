@@ -1,6 +1,7 @@
 #include "egamewidget.h"
 
 #include "eterraineditmenu.h"
+#include "etilepainter.h"
 
 #include "textures/etiletotexture.h"
 #include "characters/edemeter.h"
@@ -47,21 +48,21 @@ int gPressedX = -1;
 int gPressedY = -1;
 
 struct eDelayedTexture {
-    int fX;
-    int fY;
+    double fX;
+    double fY;
     eTexture fTex;
 };
 
 std::vector<eDelayedTexture> gDelayedTextures;
 
-void gDrawDelayed(ePainter& p) {
+void gDrawDelayed(eTilePainter& p) {
     if(gDelayedTextures.empty()) return;
     const auto& dell = gDelayedTextures.front();
     p.drawTexture(dell.fX, dell.fY, dell.fTex, eAlignment::top);
     gDelayedTextures.erase(gDelayedTextures.begin());
 }
 
-void eGameWidget::iterateOverTiles(const eTileItAction& a) {
+void eGameWidget::iterateOverTiles(const eTileAction& a) {
     const int w = mBoard.width();
     const int h = mBoard.height();
     const int nRows = w + h - 1;
@@ -83,56 +84,51 @@ void eGameWidget::iterateOverTiles(const eTileItAction& a) {
         const int xmy = tx - ty;
         if(xmy < minXYDiff) continue;
         if(xmy > maxXYDiff) continue;
-
-        const int pixX = (tx*mTileW - ty*mTileW)/2 - mTileW/2;
-        int pixY = (tx*mTileH + ty*mTileH)/2;
-        const int alt = tile->altitude();
-        if(alt > 0) {
-            pixY -= alt*mTileH/2;
-        }
-        a(tile, pixX, pixY);
+        a(tile);
     }
 }
 
 void eGameWidget::paintEvent(ePainter& p) {
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);
-    iterateOverTiles([&](eTile* const tile,
-                         const int pixX,
-                         const int pixY) {
+    eTilePainter tp(p, mTileW, mTileH);
+
+    iterateOverTiles([&](eTile* const tile) {
+        const int tx = tile->x();
+        const int ty = tile->y();
 
         int wSpan;
         int hSpan;
         const auto tex = eTileToTexture::get(tile, *mTerrainTextures,
                                              wSpan, hSpan);
         if(!tex.isNull()) {
-            int pixTX = pixX;
-            int pixTY = pixY;
+            double rx = tx;
+            double ry = ty;
             if((wSpan == 2 && hSpan == 2) ||
                (wSpan == 3 && hSpan == 3)) {
-                pixTX -= (wSpan - 1)*mTileW/2;
-                pixTY += mTileH;
+                rx -= 0.5*(wSpan - 1);
+                ry += 1;
             }
             if(wSpan == 2 && hSpan == 2) {
-                gDelayedTextures.emplace_back(eDelayedTexture{pixTX, pixTY, tex});
+                gDelayedTextures.emplace_back(eDelayedTexture{rx, ry, tex});
                 return;
             } else {
-                p.drawTexture(pixTX, pixTY, tex, eAlignment::top);
+                tp.drawTexture(rx, ry, tex, eAlignment::top);
             }
         }
-        gDrawDelayed(p);
+        gDrawDelayed(tp);
 
         if(const auto d = tile->demeter()) {
             const auto tex = d->getTexture(mTileSize);
-            p.drawTexture(pixX + d->x()*mTileW + mTileW/2, pixY + d->y()*mTileH, tex,
-                          eAlignment::top | eAlignment::hcenter);
+            tp.drawTexture(tx + d->x() + 0.5, ty + d->y(), tex,
+                           eAlignment::top | eAlignment::hcenter);
             d->incTime();
         }
 
         const auto& selectedTex = mTerrainTextures->fSelectedTex;
 
         if(tile->x() == gHoverX && tile->y() == gHoverY) {
-            p.drawTexture(pixX, pixY, selectedTex, eAlignment::top);
+            tp.drawTexture(tx, ty, selectedTex, eAlignment::top);
         }
 
         if(gPressedX >= 0 && gPressedY >= 0) {
@@ -142,18 +138,19 @@ void eGameWidget::paintEvent(ePainter& p) {
             const int maxY = std::max(gPressedY, gHoverY);
             if(tile->x() >= minX && tile->x() <= maxX &&
                tile->y() >= minY && tile->y() <= maxY) {
-                p.drawTexture(pixX, pixY, selectedTex, eAlignment::top);
+                tp.drawTexture(tx, ty, selectedTex, eAlignment::top);
             }
         }
     });
-    iterateOverTiles([&](eTile* const tile,
-                         const int pixX,
-                         const int pixY) {
+    iterateOverTiles([&](eTile* const tile) {
+        const int tx = tile->x();
+        const int ty = tile->y();
+
         if(const auto d = tile->demeter()) {
             const auto tex = d->getTexture(mTileSize);
-            p.drawTexture(pixX + d->x()*mTileW + mTileW/2,
-                          pixY + d->y()*mTileH, tex,
-                          eAlignment::top | eAlignment::hcenter);
+            tp.drawTexture(tx + d->x() + 0.5,
+                           ty + d->y(), tex,
+                           eAlignment::top | eAlignment::hcenter);
             d->incTime();
         }
     });

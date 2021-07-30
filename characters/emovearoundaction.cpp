@@ -18,35 +18,35 @@ void orientationToTargetCoords(const eOrientation o,
                                double& targetX, double& targetY) {
     switch(o) {
     case eOrientation::topRight:
-        targetX = 0.75;
-        targetY = 0.25;
+        targetX = 0.5;
+        targetY = 0;
         break;
     case eOrientation::right:
         targetX = 1;
-        targetY = 0.5;
+        targetY = 0;
         break;
     case eOrientation::bottomRight:
-        targetX = 0.75;
-        targetY = 0.75;
+        targetX = 1;
+        targetY = 0.5;
         break;
     case eOrientation::bottom:
-        targetX = 0.5;
+        targetX = 1;
         targetY = 1;
         break;
     case eOrientation::bottomLeft:
-        targetX = 0.25;
-        targetY = 0.75;
+        targetX = 0.5;
+        targetY = 1;
         break;
     case eOrientation::left:
         targetX = 0;
-        targetY = 0.5;
+        targetY = 1;
         break;
     case eOrientation::topLeft:
-        targetX = 0.25;
-        targetY = 0.25;
+        targetX = 0;
+        targetY = 0.5;
         break;
     case eOrientation::top:
-        targetX = 0.5;
+        targetX = 0;
         targetY = 0;
         break;
     }

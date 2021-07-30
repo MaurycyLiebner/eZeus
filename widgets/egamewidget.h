@@ -30,14 +30,12 @@ protected:
     bool mouseReleaseEvent(const eMouseEvent& e);
     bool mouseWheelEvent(const eMouseWheelEvent& e);
 private:
-    using eTileItAction = std::function<void(eTile* const tile,
-                                             const int pixX,
-                                             const int pixY)>;
-    void iterateOverTiles(const eTileItAction& a);
+    using eTileAction = std::function<void(eTile* const)>;
+
+    void iterateOverTiles(const eTileAction& a);
 
     void setTileSize(const eTileSize size);
 
-    using eTileAction = std::function<void(eTile* const)>;
     void actionOnSelectedTiles(const eTileAction& apply);
 
     void loadWaterToX(int i0, const std::string& pathBase,

@@ -8,12 +8,6 @@
 
 #include "etexture.h"
 
-struct ePainterSave {
-    int fX;
-    int fY;
-    TTF_Font* fFont;
-};
-
 enum class eAlignment {
     left = 0x0001,
     right = 0x0002,
@@ -35,6 +29,11 @@ inline eAlignment operator&(const eAlignment a, const eAlignment b) {
 }
 
 class ePainter {
+    struct ePainterSave {
+        int fX;
+        int fY;
+        TTF_Font* fFont;
+    };
 public:
     ePainter(SDL_Renderer* const renderer);
 
