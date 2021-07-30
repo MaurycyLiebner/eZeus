@@ -3,14 +3,14 @@
 #include <algorithm>
 
 eSmallHouse::eSmallHouse(std::vector<eBuildingTextures>& texs) :
-    eBuilding(eBuildingType::house), mTextures(texs) {
+    eBuilding(eBuildingType::house, 2, 2), mTextures(texs) {
 
 }
 
 eTexture eSmallHouse::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& coll = mTextures[sizeId].fSmallHouses[mLevel];
-    const int texId = time() % coll.size();
+    const int texId = seed() % coll.size();
     return coll.getTexture(texId);
 }
 

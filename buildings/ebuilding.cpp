@@ -1,7 +1,9 @@
 #include "ebuilding.h"
 
-eBuilding::eBuilding(const eBuildingType type) :
-    mSeed(rand()), mType(type) {}
+eBuilding::eBuilding(const eBuildingType type,
+                     const int sw, const int sh) :
+    mSeed(rand()), mType(type),
+    mSpanW(sw), mSpanH(sh) {}
 
 void eBuilding::draw(eTilePainter& p,
                      const double x, const double y,

@@ -91,6 +91,17 @@ int gHoverY = -1;
 int gPressedX = -1;
 int gPressedY = -1;
 
+void drawXY(const int tx, const int ty, double& rx, double& ry,
+            const int wSpan, const int hSpan) {
+    rx = tx + 0.5;
+    ry = ty + 1.5;
+
+    if(wSpan == 2 && hSpan == 2) {
+        rx += 0.5;
+        ry += 1.5;
+    }
+}
+
 void eGameWidget::paintEvent(ePainter& p) {
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);
@@ -106,13 +117,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                                              wSpan, hSpan);
         tile->setDrawnSpan(wSpan, hSpan);
 
-        double rx = tx + 0.5;
-        double ry = ty + 1.5;
-
-        if(wSpan == 2 && hSpan == 2) {
-            rx += 0.5;
-            ry += 1.5;
-        }
+        double rx;
+        double ry;
+        drawXY(tx, ty, rx, ry, wSpan, hSpan);
 
         if(!tex.isNull()) {
             if(wSpan == 2 && hSpan == 2) {
@@ -154,8 +161,10 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
         if(const auto d = tile->building()) {
             const auto tex = d->getTexture(mTileSize);
-            tp.drawTexture(tx, ty, tex,
-                           eAlignment::top | eAlignment::hcenter);
+            double rx;
+            double ry;
+            drawXY(tx, ty, rx, ry, d->spanW(), d->spanH());
+            tp.drawTexture(rx, ry, tex, eAlignment::top);
             d->incTime();
         }
     });
