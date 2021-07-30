@@ -8,6 +8,7 @@ LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf
 
 SOURCES += \
         buildings/ebuilding.cpp \
+        buildings/egymnasium.cpp \
         buildings/esmallhouse.cpp \
         characters/echaracteraction.cpp \
         characters/edemeter.cpp \
@@ -64,6 +65,7 @@ SOURCES += \
 
 HEADERS += \
     buildings/ebuilding.h \
+    buildings/egymnasium.h \
     buildings/esmallhouse.h \
     characters/echaracteraction.h \
     characters/edemeter.h \

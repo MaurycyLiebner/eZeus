@@ -143,6 +143,16 @@ eTerrainEditMenu::eTerrainEditMenu(eMainWindow* const window) :
             mBuildingsWidget->addWidget(b);
         }
 
+        {
+            const auto b = new eButton(window);
+            b->setText("gymnasium");
+            b->fitContent();
+            b->setPressAction([this]() {
+                mMode = eTerrainEditMode::gymnasium;
+            });
+            mBuildingsWidget->addWidget(b);
+        }
+
         mBuildingsWidget->layoutHorizontally();
     }
 

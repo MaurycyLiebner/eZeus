@@ -15,6 +15,8 @@ public:
     SDL_Renderer* const fRenderer;
 
     std::vector<eTextureCollection> fSmallHouses;
+    eTexture fGymnasium;
+    eTextureCollection fGymnasiumOverlay;
 };
 
 #endif // EBUILDINGTEXTURES_H

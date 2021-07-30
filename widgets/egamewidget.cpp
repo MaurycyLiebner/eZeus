@@ -4,9 +4,12 @@
 #include "etilepainter.h"
 
 #include "textures/etiletotexture.h"
+
 #include "characters/edemeter.h"
 #include "characters/emovearoundaction.h"
+
 #include "buildings/esmallhouse.h"
+#include "buildings/egymnasium.h"
 
 eGameWidget::eGameWidget(std::vector<eTerrainTextures>&& textures,
                          std::vector<eDemeterTextures>&& demeterTextures,
@@ -99,6 +102,9 @@ void drawXY(const int tx, const int ty, double& rx, double& ry,
     if(wSpan == 2 && hSpan == 2) {
         rx += 0.5;
         ry += 1.5;
+    } else if(wSpan == 3 && hSpan == 3) {
+        rx += 0;
+        ry += 2;
     }
 }
 
@@ -160,11 +166,10 @@ void eGameWidget::paintEvent(ePainter& p) {
             d->incTime();
         }
         if(const auto d = tile->building()) {
-            const auto tex = d->getTexture(mTileSize);
             double rx;
             double ry;
             drawXY(tx, ty, rx, ry, d->spanW(), d->spanH());
-            tp.drawTexture(rx, ry, tex, eAlignment::top);
+            d->draw(tp, rx, ry, eAlignment::top);
             d->incTime();
         }
     });
@@ -215,6 +220,11 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             apply = [this](eTile* const tile) {
                 const auto house = new eSmallHouse(mBuildingTextures);
                 tile->addBuilding(house);
+            };
+        } else if(mode == eTerrainEditMode::gymnasium) {
+            apply = [this](eTile* const tile) {
+                const auto gym = new eGymnasium(mBuildingTextures);
+                tile->addBuilding(gym);
             };
         } else {
             apply = [mode](eTile* const tile) {
