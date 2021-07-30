@@ -153,6 +153,16 @@ eTerrainEditMenu::eTerrainEditMenu(eMainWindow* const window) :
             mBuildingsWidget->addWidget(b);
         }
 
+        {
+            const auto b = new eButton(window);
+            b->setText("road");
+            b->fitContent();
+            b->setPressAction([this]() {
+                mMode = eTerrainEditMode::road;
+            });
+            mBuildingsWidget->addWidget(b);
+        }
+
         mBuildingsWidget->layoutHorizontally();
     }
 

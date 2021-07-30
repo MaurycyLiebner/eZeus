@@ -10,6 +10,7 @@
 
 #include "buildings/esmallhouse.h"
 #include "buildings/egymnasium.h"
+#include "buildings/eroad.h"
 
 eGameWidget::eGameWidget(std::vector<eTerrainTextures>&& textures,
                          std::vector<eDemeterTextures>&& demeterTextures,
@@ -225,6 +226,11 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             apply = [this](eTile* const tile) {
                 const auto gym = new eGymnasium(mBuildingTextures);
                 tile->addBuilding(gym);
+            };
+        } else if(mode == eTerrainEditMode::road) {
+            apply = [this](eTile* const tile) {
+                const auto road = new eRoad(mBuildingTextures);
+                tile->addBuilding(road);
             };
         } else {
             apply = [mode](eTile* const tile) {

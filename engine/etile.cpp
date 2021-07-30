@@ -3,6 +3,8 @@
 #include <random>
 #include <algorithm>
 
+#include "buildings/ebuilding.h"
+
 eTile::eTile(const int x, const int y) :
     mSeed(rand()), mX(x), mY(y) {}
 
@@ -189,4 +191,19 @@ void eTile::neighboursWithTerrain(const eTerrain terr,
     r = rTerr != terr;
     b = bTerr != terr;
     l = lTerr != terr;
+}
+
+void eTile::addBuilding(eBuilding* const b) {
+    mBuilding = b;
+    b->setTile(this);
+}
+
+bool eTile::hasRoad() const {
+    if(!mBuilding) return false;
+    return mBuilding->type() == eBuildingType::road;
+}
+
+void eTile::setDrawnSpan(const int w, const int h) {
+    mDrawnSpanW = w;
+    mDrawnSpanH = h;
 }

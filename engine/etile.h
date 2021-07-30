@@ -67,14 +67,12 @@ public:
 
     eDemeter* demeter() const { return mDemeter; }
 
-    void addBuilding(eBuilding* const b) { mBuilding = b; }
+    void addBuilding(eBuilding* const b);
     eBuilding* building() const { return mBuilding; }
+    bool hasRoad() const;
 
     // used for stones rendering
-    void setDrawnSpan(const int w, const int h) {
-        mDrawnSpanW = w;
-        mDrawnSpanH = h;
-    }
+    void setDrawnSpan(const int w, const int h);
     int drawSpanW() const { return mDrawnSpanW; }
     int drawSpanH() const { return mDrawnSpanH; }
 private:

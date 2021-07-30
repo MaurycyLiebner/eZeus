@@ -6,7 +6,9 @@
 #include "engine/etile.h"
 
 enum class eBuildingType {
-    house
+    house,
+    gymnasium,
+    road
 };
 
 struct eOverlay {
@@ -34,6 +36,7 @@ public:
 
     void incTime() { mTime++; };
     int time() const { return mTime; }
+    void setTile(eTile* const t);
 
     void draw(eTilePainter& p,
               const double x, const double y,

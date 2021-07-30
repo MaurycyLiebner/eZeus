@@ -21,7 +21,8 @@ enum class eTerrainEditMode {
     tinyStones = static_cast<int>(eTerrain::tinyStones),
 
     smallHouse,
-    gymnasium
+    gymnasium,
+    road
 };
 
 class eTerrainEditMenu : public eTabWidget {

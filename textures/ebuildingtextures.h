@@ -17,6 +17,8 @@ public:
     std::vector<eTextureCollection> fSmallHouses;
     eTexture fGymnasium;
     eTextureCollection fGymnasiumOverlay;
+    eTextureCollection fBeachRoad;
+    eTextureCollection fRoad;
 };
 
 #endif // EBUILDINGTEXTURES_H

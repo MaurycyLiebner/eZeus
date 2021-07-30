@@ -5,6 +5,10 @@ eBuilding::eBuilding(const eBuildingType type,
     mSeed(rand()), mType(type),
     mSpanW(sw), mSpanH(sh) {}
 
+void eBuilding::setTile(eTile* const t) {
+    mTile = t;
+}
+
 void eBuilding::draw(eTilePainter& p,
                      const double x, const double y,
                      const eAlignment align) {

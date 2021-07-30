@@ -1,7 +1,7 @@
 #include "egymnasium.h"
 
 eGymnasium::eGymnasium(std::vector<eBuildingTextures>& texs) :
-    eBuilding(eBuildingType::house, 3, 3), mTextures(texs) {
+    eBuilding(eBuildingType::gymnasium, 3, 3), mTextures(texs) {
 
 }
 
