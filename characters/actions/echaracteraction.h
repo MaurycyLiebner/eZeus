@@ -1,15 +1,17 @@
 #ifndef ECHARACTERACTION_H
 #define ECHARACTERACTION_H
 
-class eDemeter;
+class eCharacter;
 
 class eCharacterAction {
 public:
-    eCharacterAction(eDemeter* const d);
+    eCharacterAction(eCharacter* const d);
 
     virtual void increment() = 0;
+
+    eCharacter* character() const { return mCharacter; }
 protected:
-    eDemeter* const mCharacter;
+    eCharacter* const mCharacter;
 };
 
 #endif // ECHARACTERACTION_H

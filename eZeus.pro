@@ -11,11 +11,12 @@ SOURCES += \
         buildings/egymnasium.cpp \
         buildings/eroad.cpp \
         buildings/esmallhouse.cpp \
+        characters/actions/echaracteraction.cpp \
+        characters/actions/emoveaction.cpp \
+        characters/actions/emovearoundaction.cpp \
         characters/echaracter.cpp \
-        characters/echaracteraction.cpp \
         characters/edemeter.cpp \
         characters/egymnast.cpp \
-        characters/emovearoundaction.cpp \
         emainwindow.cpp \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
@@ -74,11 +75,12 @@ HEADERS += \
     buildings/egymnasium.h \
     buildings/eroad.h \
     buildings/esmallhouse.h \
+    characters/actions/echaracteraction.h \
+    characters/actions/emoveaction.h \
+    characters/actions/emovearoundaction.h \
     characters/echaracter.h \
-    characters/echaracteraction.h \
     characters/edemeter.h \
     characters/egymnast.h \
-    characters/emovearoundaction.h \
     emainwindow.h \
     engine/efunctask.h \
     engine/egameboard.h \

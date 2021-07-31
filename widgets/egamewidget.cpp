@@ -6,7 +6,7 @@
 #include "textures/etiletotexture.h"
 
 #include "characters/edemeter.h"
-#include "characters/emovearoundaction.h"
+#include "characters/actions/emovearoundaction.h"
 
 #include "buildings/esmallhouse.h"
 #include "buildings/egymnasium.h"

@@ -3,7 +3,7 @@
 
 #include "engine/eorientation.h"
 #include "engine/etile.h"
-#include "characters/echaracteraction.h"
+#include "actions/echaracteraction.h"
 #include "etexture.h"
 
 class eCharacter {

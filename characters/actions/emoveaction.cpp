@@ -1,21 +1,19 @@
-#include "emovearoundaction.h"
+#include "emoveaction.h"
 
-#include "edemeter.h"
+#include "../echaracter.h"
 
-eMoveAroundAction::eMoveAroundAction(eDemeter* const d) :
-    eCharacterAction(d) {
-    for(int i = 0; i < 100; i++) {
-        const int oid = rand() % 8;
-        const auto o = static_cast<eOrientation>(oid);
-        mTurns.push_back(o);
-    }
-    mStartX = d->x();
-    mStartY = d->y();
-    mOrientation = d->orientation();
+eMoveAction::eMoveAction(eCharacter* const c,
+                         const eTileWalkable& tileWalkable) :
+    eCharacterAction(c),
+    mTileWalkable(tileWalkable) {
+    mStartX = c->x();
+    mStartY = c->y();
+    mOrientation = c->orientation();
 }
 
 void orientationToTargetCoords(const eOrientation o,
-                               double& targetX, double& targetY) {
+                               double& targetX,
+                               double& targetY) {
     switch(o) {
     case eOrientation::topRight:
         targetX = 0.5;
@@ -52,7 +50,7 @@ void orientationToTargetCoords(const eOrientation o,
     }
 }
 
-void eMoveAroundAction::increment() {
+void eMoveAction::increment() {
     if(!mTargetTile) {
         if(nextTurn()) increment();
         return;
@@ -94,19 +92,18 @@ void eMoveAroundAction::increment() {
     }
 }
 
-bool eMoveAroundAction::nextTurn() {
-    if(mTurns.empty()) return false;
-    const auto o = mTurns.back();
-    mCharacter->setOrientation(o);
-    mTurns.pop_back();
+bool eMoveAction::nextTurn() {
+    eOrientation turn;
+    const bool r = nextTurn(turn);
+    if(!r) return false;
 
+    mCharacter->setOrientation(turn);
     const auto t = mCharacter->tile();
-    mTargetTile = t->neighbour(o);
-    if(!mTargetTile) return nextTurn();
+    mTargetTile = t->neighbour(turn);
+    if(!mTargetTile) return false;
     mStartX = mCharacter->x();
     mStartY = mCharacter->y();
-    mOrientation = o;
-    orientationToTargetCoords(o, mTargetX, mTargetY);
-
+    mOrientation = turn;
+    orientationToTargetCoords(turn, mTargetX, mTargetY);
     return true;
 }
