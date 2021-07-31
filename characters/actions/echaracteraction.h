@@ -14,8 +14,13 @@ public:
     virtual void increment() = 0;
 
     eCharacter* character() const { return mCharacter; }
+    eCharacterActionState state() const { return mState; }
 protected:
+    void setState(const eCharacterActionState state);
+
     eCharacter* const mCharacter;
+private:
+    eCharacterActionState mState{eCharacterActionState::running};
 };
 
 #endif // ECHARACTERACTION_H

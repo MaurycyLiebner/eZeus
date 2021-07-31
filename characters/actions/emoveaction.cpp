@@ -53,7 +53,7 @@ void orientationToTargetCoords(const eOrientation o,
 }
 
 void eMoveAction::increment() {
-    switch(mState) {
+    switch(state()) {
     case eCharacterActionState::failed:
     case eCharacterActionState::finished:
         return;
@@ -104,8 +104,9 @@ void eMoveAction::increment() {
 
 bool eMoveAction::nextTurn() {
     eOrientation turn;
-    mState = nextTurn(turn);
-    switch(mState) {
+    const auto r = nextTurn(turn);
+    setState(r);
+    switch(r) {
     case eCharacterActionState::failed:
         mFailAction();
         return false;
