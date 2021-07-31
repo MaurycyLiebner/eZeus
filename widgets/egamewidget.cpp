@@ -6,7 +6,10 @@
 #include "textures/etiletotexture.h"
 
 #include "characters/edemeter.h"
+#include "characters/egymnast.h"
 #include "characters/actions/emovearoundaction.h"
+#include "characters/actions/emovepathaction.h"
+#include "engine/epathfinder.h"
 
 #include "buildings/esmallhouse.h"
 #include "buildings/egymnasium.h"
@@ -15,11 +18,13 @@
 eGameWidget::eGameWidget(std::vector<eTerrainTextures>&& textures,
                          std::vector<eDemeterTextures>&& demeterTextures,
                          std::vector<eBuildingTextures>&& buildingTextures,
+                         std::vector<eCharacterTextures>&& characterTextures,
                          eMainWindow* const window) :
     eWidget(window),
     mTerrainTexturesColl(std::move(textures)),
     mDemeterTextures(std::move(demeterTextures)),
-    mBuildingTextures(std::move(buildingTextures)) {}
+    mBuildingTextures(std::move(buildingTextures)),
+    mCharacterTextures(std::move(characterTextures)) {}
 
 eGameWidget::~eGameWidget() {}
 
@@ -39,6 +44,25 @@ void eGameWidget::initialize(const int w, const int h) {
     d->setY(0.5);
     d->setCharAction(new eMoveAroundAction(d));
     t->addCharacter(d);
+
+    {
+        const auto t = mBoard.tile(5, 5);
+        const auto d = new eGymnast(mCharacterTextures);
+        d->setTile(t);
+        d->setX(0.5);
+        d->setY(0.5);
+        ePathFinder f(5, 5, mBoard,
+                      [](eTile* const) { return true; },
+                      [](eTile* const tile) {
+            return tile->x() == 10 && tile->y() == 10;
+        });
+        std::vector<eOrientation> path;
+        f.findPath(50, path, false);
+        d->setCharAction(new eMovePathAction(d, path,
+                                             [](eTile* const) { return true; },
+                                             []() {}));
+        t->addCharacter(d);
+    }
 }
 
 void eGameWidget::pixToId(const int pixX, const int pixY,

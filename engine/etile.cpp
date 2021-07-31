@@ -64,6 +64,33 @@ eTile* eTile::neighbour(const eOrientation o) const {
     return nullptr;
 }
 
+eTile* eTile::tileRel(const int x, const int y) {
+    if(x == 0 && y == 0) return this;
+    if(x > 0) {
+        const auto br = bottomRight();
+        if(!br) return nullptr;
+        return br->tileRel(x - 1, y);
+    } else if(x < 0) {
+        const auto tl = topLeft();
+        if(!tl) return nullptr;
+        return tl->tileRel(x + 1, y);
+    }
+    if(y > 0) {
+        const auto bl = bottomLeft();
+        if(!bl) return nullptr;
+        return bl->tileRel(x, y - 1);
+    } else if(y < 0) {
+        const auto tl = topRight();
+        if(!tl) return nullptr;
+        return tl->tileRel(x, y + 1);
+    }
+    return nullptr;
+}
+
+eTile* eTile::tileAbs(const int x, const int y) {
+    return tileRel(x - mX, y - mY);
+}
+
 void eTile::setTerrain(const eTerrain terr) {
     mTerr = terr;
 }
@@ -90,6 +117,17 @@ void eTile::setBottomRight(eTile* const br) {
 
 void eTile::setBottomLeft(eTile* const bl) {
     mBottomLeft = bl;
+}
+
+eTile* eTile::nearestRoad() const {
+    std::vector<eTile*> tiles;
+    for(int i = 0; i < 8; i += 2) {
+        const auto o = static_cast<eOrientation>(i);
+        const auto n = neighbour(o);
+        if(n && n->hasRoad()) tiles.push_back(n);
+    }
+    if(tiles.empty()) return nullptr;
+    return tiles[rand() % tiles.size()];
 }
 
 void eTile::surroundingTerrain(eTerrain& tlTerr,

@@ -9,6 +9,7 @@
 #include "textures/eterraintextures.h"
 #include "textures/edemetertextures.h"
 #include "textures/ebuildingtextures.h"
+#include "textures/echaractertextures.h"
 
 #include "infowidgets/egyminfowidget.h"
 
@@ -19,6 +20,7 @@ public:
     eGameWidget(std::vector<eTerrainTextures>&& textures,
                 std::vector<eDemeterTextures>&& demeterTextures,
                 std::vector<eBuildingTextures>&& buildingTextures,
+                std::vector<eCharacterTextures>&& characterTextures,
                 eMainWindow* const window);
     ~eGameWidget();
 
@@ -59,6 +61,7 @@ private:
     std::vector<eTerrainTextures> mTerrainTexturesColl;
     std::vector<eDemeterTextures> mDemeterTextures;
     std::vector<eBuildingTextures> mBuildingTextures;
+    std::vector<eCharacterTextures> mCharacterTextures;
 
     eInfoWidget* mInfoWidget = nullptr;
     eTerrainEditMenu* mTem = nullptr;

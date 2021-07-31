@@ -13,7 +13,8 @@ ePathFinder::ePathFinder(const int startX, const int startY,
 }
 
 bool ePathFinder::findPath(const int maxDist,
-                           std::vector<eOrientation>& path) {
+                           std::vector<eOrientation>& path,
+                           const bool randomize) {
     std::vector<std::vector<int>> board;
     const int boardDim = 2*maxDist + 1;
     board.reserve(boardDim);
@@ -39,17 +40,34 @@ bool ePathFinder::findPath(const int maxDist,
     using ePFinder = std::function<void(const eTilePair&, const int)>;
     ePFinder pathFinder;
     pathFinder = [&](const eTilePair& from, const int dist) {
-        if(dist >= bestDistance || dist > maxDist) return;
+        if(randomize) {
+            if(dist > bestDistance) return;
+        } else {
+            if(dist >= bestDistance) return;
+        }
         const auto tile = from.first;
         if(!tile) return;
         const int tx = tile->x();
         const int ty = tile->y();
-        if(dist >= *from.second) return;
+        if(randomize) {
+            if(dist > *from.second) return;
+        } else {
+            if(dist >= *from.second) return;
+        }
         *from.second = dist;
-        if(bestDistance > dist && mFinish(tile)) {
-            bestFinishX = tx;
-            bestFinishY = ty;
-            bestDistance = dist;
+        if(randomize && bestDistance == dist) {
+            const bool r = rand() % 2;
+            if(r && mFinish(tile)) {
+                bestFinishX = tx;
+                bestFinishY = ty;
+                bestDistance = dist;
+            }
+        } else {
+            if(bestDistance > dist && mFinish(tile)) {
+                bestFinishX = tx;
+                bestFinishY = ty;
+                bestDistance = dist;
+            }
         }
         const auto tr = tileGetter(tx, ty - 1);
         const auto r = tileGetter(tx + 1, ty - 1);
@@ -94,38 +112,28 @@ bool ePathFinder::findPath(const int maxDist,
         const auto tl = tileGetter(tx - 1, ty);
         const auto t = tileGetter(tx - 1, ty - 1);
 
-        if(tr.first && *tr.second == dist + 1) {
-            path.emplace_back(eOrientation::topRight);
-            return bestFinder(tr);
+        using eNeigh = std::pair<eOrientation, eTilePair>;
+        std::vector<eNeigh> neighs{
+                {eOrientation::topRight, tr},
+                {eOrientation::right, r},
+                {eOrientation::bottomRight, br},
+                {eOrientation::bottom, b},
+                {eOrientation::bottomLeft, bl},
+                {eOrientation::left, l},
+                {eOrientation::topLeft, tl},
+                {eOrientation::top, t}};
+        if(randomize) {
+            std::random_shuffle(neighs.begin(), neighs.end());
         }
-        if(r.first && *r.second == dist + 1) {
-            path.emplace_back(eOrientation::topRight);
-            return bestFinder(r);
+
+        for(const auto& n : neighs) {
+            const auto& tp = n.second;
+            if(tp.first && *tp.second == dist + 1) {
+                path.emplace_back(n.first);
+                return bestFinder(tr);
+            }
         }
-        if(br.first && *br.second == dist + 1) {
-            path.emplace_back(eOrientation::topRight);
-            return bestFinder(br);
-        }
-        if(b.first && *b.second == dist + 1) {
-            path.emplace_back(eOrientation::topRight);
-            return bestFinder(b);
-        }
-        if(bl.first && *bl.second == dist + 1) {
-            path.emplace_back(eOrientation::topRight);
-            return bestFinder(bl);
-        }
-        if(l.first && *l.second == dist + 1) {
-            path.emplace_back(eOrientation::topRight);
-            return bestFinder(l);
-        }
-        if(tl.first && *tl.second == dist + 1) {
-            path.emplace_back(eOrientation::topRight);
-            return bestFinder(tl);
-        }
-        if(t.first && *t.second == dist + 1) {
-            path.emplace_back(eOrientation::topRight);
-            return bestFinder(t);
-        }
+
         return false;
     };
 

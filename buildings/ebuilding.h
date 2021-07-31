@@ -28,6 +28,8 @@ public:
         return std::vector<eOverlay>();
     }
 
+    eTile* nearestRoad() const;
+
     int seed() const { return mSeed; }
     eBuildingType type() const { return mType; }
     eTile* tile() const { return mTile; }

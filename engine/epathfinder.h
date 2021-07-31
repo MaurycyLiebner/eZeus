@@ -16,7 +16,8 @@ public:
                 const eTileFinish& finish);
 
     bool findPath(const int maxDist,
-                  std::vector<eOrientation>& path);
+                  std::vector<eOrientation>& path,
+                  const bool randomize);
 private:
     const eGameBoard& mBoard;
     const eTileWalkable mWalkable;

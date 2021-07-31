@@ -36,6 +36,9 @@ public:
 
     eTile* neighbour(const eOrientation o) const;
 
+    eTile* tileRel(const int x, const int y);
+    eTile* tileAbs(const int x, const int y);
+
     void setTerrain(const eTerrain terr);
     void setScrub(const double s);
     void incScrub(const double s);
@@ -44,6 +47,8 @@ public:
     void setTopRight(eTile* const tr);
     void setBottomRight(eTile* const br);
     void setBottomLeft(eTile* const bl);
+
+    eTile* nearestRoad() const;
 
     void surroundingTerrain(eTerrain& tlTerr,
                             eTerrain& trTerr,
