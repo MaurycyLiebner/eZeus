@@ -12,7 +12,7 @@ eTexture eDemeter::getTexture(const eTileSize size) const {
         const int id = static_cast<int>(size);
         const int oid = static_cast<int>(orientation());
         const auto& coll = mTextures[id].fWalk[oid];
-        return coll.getTexture((time()/4) % coll.size());
+        return coll.getTexture(textureTime() % coll.size());
     }
     return eTexture();
 }

@@ -32,7 +32,7 @@ void eGameWidget::initialize(const int w, const int h) {
 
     setTileSize(eTileSize::s30);
 
-    const auto t = mBoard.tile(5, 5);
+    const auto t = mBoard.tile(0, 0);
     const auto d = new eDemeter(mDemeterTextures);
     d->setTile(t);
     d->setX(0.5);
@@ -170,7 +170,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto& chars = tile->characters();
         for(const auto c : chars) {
             const auto tex = c->getTexture(mTileSize);
-            tp.drawTexture(tx + c->x(), ty + c->y(), tex,
+            tp.drawTexture(tx + c->x() + 0.5, ty + c->y() + 0.5, tex,
                            eAlignment::top | eAlignment::hcenter);
             c->incTime();
         }

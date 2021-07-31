@@ -14,6 +14,7 @@ SOURCES += \
         characters/echaracter.cpp \
         characters/echaracteraction.cpp \
         characters/edemeter.cpp \
+        characters/egymnast.cpp \
         characters/emovearoundaction.cpp \
         emainwindow.cpp \
         engine/efunctask.cpp \
@@ -74,6 +75,7 @@ HEADERS += \
     characters/echaracter.h \
     characters/echaracteraction.h \
     characters/edemeter.h \
+    characters/egymnast.h \
     characters/emovearoundaction.h \
     emainwindow.h \
     engine/efunctask.h \
