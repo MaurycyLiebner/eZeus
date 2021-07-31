@@ -10,7 +10,7 @@ public:
                     const eTileWalkable& tileWalkable,
                     const eFailAction& failAction);
 private:
-    bool nextTurn(eOrientation& turn);
+    eCharacterActionState nextTurn(eOrientation& turn);
 
     std::vector<eOrientation> mTurns;
 };

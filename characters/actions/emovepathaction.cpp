@@ -11,13 +11,13 @@ eMovePathAction::eMovePathAction(eCharacter* const c,
 
 }
 
-bool eMovePathAction::nextTurn(eOrientation& turn) {
-    if(mTurns.empty()) return false;
+eCharacterActionState eMovePathAction::nextTurn(eOrientation& turn) {
+    if(mTurns.empty()) return eCharacterActionState::finished;
     turn = mTurns.back();
     mTurns.pop_back();
 
     const auto t = character()->tile();
     const auto tt = t->neighbour(turn);
-    if(!tt) return false;
-    return true;
+    if(!tt) return eCharacterActionState::failed;
+    return eCharacterActionState::running;
 }

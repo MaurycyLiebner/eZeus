@@ -13,13 +13,13 @@ eMoveAroundAction::eMoveAroundAction(eCharacter* const c) :
     }
 }
 
-bool eMoveAroundAction::nextTurn(eOrientation& turn) {
-    if(mTurns.empty()) return false;
+eCharacterActionState eMoveAroundAction::nextTurn(eOrientation& turn) {
+    if(mTurns.empty()) return eCharacterActionState::finished;
     turn = mTurns.back();
     mTurns.pop_back();
 
     const auto t = character()->tile();
     const auto tt = t->neighbour(turn);
     if(!tt) return nextTurn(turn);
-    return true;
+    return eCharacterActionState::running;
 }

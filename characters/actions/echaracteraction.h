@@ -3,6 +3,10 @@
 
 class eCharacter;
 
+enum class eCharacterActionState {
+    running, finished, failed
+};
+
 class eCharacterAction {
 public:
     eCharacterAction(eCharacter* const d);

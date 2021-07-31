@@ -53,6 +53,14 @@ void orientationToTargetCoords(const eOrientation o,
 }
 
 void eMoveAction::increment() {
+    switch(mState) {
+    case eCharacterActionState::failed:
+    case eCharacterActionState::finished:
+        return;
+    case eCharacterActionState::running:
+        break;
+    }
+
     if(!mTargetTile) {
         if(nextTurn()) increment();
         return;
@@ -96,10 +104,15 @@ void eMoveAction::increment() {
 
 bool eMoveAction::nextTurn() {
     eOrientation turn;
-    const bool r = nextTurn(turn);
-    if(!r) {
+    mState = nextTurn(turn);
+    switch(mState) {
+    case eCharacterActionState::failed:
         mFailAction();
         return false;
+    case eCharacterActionState::finished:
+        return false;
+    case eCharacterActionState::running:
+        break;
     }
 
     mCharacter->setOrientation(turn);

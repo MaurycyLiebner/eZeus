@@ -19,8 +19,10 @@ public:
 
     void increment();
 private:
-    virtual bool nextTurn(eOrientation& t) = 0;
+    virtual eCharacterActionState nextTurn(eOrientation& t) = 0;
     bool nextTurn();
+
+    eCharacterActionState mState{eCharacterActionState::running};
 
     const eTileWalkable mTileWalkable;
     const eFailAction mFailAction;

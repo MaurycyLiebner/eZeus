@@ -9,7 +9,7 @@ class eMoveAroundAction : public eMoveAction {
 public:
     eMoveAroundAction(eCharacter* const c);
 private:
-    bool nextTurn(eOrientation& turn);
+    eCharacterActionState nextTurn(eOrientation& turn);
 
     std::vector<eOrientation> mTurns;
 };
