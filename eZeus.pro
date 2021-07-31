@@ -11,6 +11,7 @@ SOURCES += \
         buildings/egymnasium.cpp \
         buildings/eroad.cpp \
         buildings/esmallhouse.cpp \
+        characters/echaracter.cpp \
         characters/echaracteraction.cpp \
         characters/edemeter.cpp \
         characters/emovearoundaction.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
         main.cpp \
         textures/ebeachtodry.cpp \
         textures/ebuildingtextures.cpp \
+        textures/echaractertextures.cpp \
         textures/edemetertextures.cpp \
         textures/efertiletodry.cpp \
         textures/eforesttodry.cpp \
@@ -69,6 +71,7 @@ HEADERS += \
     buildings/egymnasium.h \
     buildings/eroad.h \
     buildings/esmallhouse.h \
+    characters/echaracter.h \
     characters/echaracteraction.h \
     characters/edemeter.h \
     characters/emovearoundaction.h \
@@ -89,6 +92,7 @@ HEADERS += \
     etexturecollection.h \
     textures/ebeachtodry.h \
     textures/ebuildingtextures.h \
+    textures/echaractertextures.h \
     textures/edemetertextures.h \
     textures/efertiletodry.h \
     textures/eforesttodry.h \

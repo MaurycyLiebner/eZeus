@@ -193,6 +193,17 @@ void eTile::neighboursWithTerrain(const eTerrain terr,
     l = lTerr != terr;
 }
 
+void eTile::addCharacter(eCharacter* const c) {
+    mCharacters.push_back(c);
+}
+
+bool eTile::removeCharacter(eCharacter* const c) {
+    const auto it = std::find(mCharacters.begin(), mCharacters.end(), c);
+    if(it == mCharacters.end()) return false;
+    mCharacters.erase(it);
+    return true;
+}
+
 void eTile::addBuilding(eBuilding* const b) {
     mBuilding = b;
     b->setTile(this);

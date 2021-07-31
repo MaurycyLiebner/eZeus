@@ -38,7 +38,7 @@ void eGameWidget::initialize(const int w, const int h) {
     d->setX(0.5);
     d->setY(0.5);
     d->setCharAction(new eMoveAroundAction(d));
-    t->addDemeter(d);
+    t->addCharacter(d);
 }
 
 void eGameWidget::pixToId(const int pixX, const int pixY,
@@ -159,19 +159,20 @@ void eGameWidget::paintEvent(ePainter& p) {
         const int tx = tile->x();
         const int ty = tile->y();
 
-        if(const auto d = tile->demeter()) {
-            const auto tex = d->getTexture(mTileSize);
-            tp.drawTexture(tx + d->x(),
-                           ty + d->y(), tex,
-                           eAlignment::top | eAlignment::hcenter);
-            d->incTime();
-        }
         if(const auto d = tile->building()) {
             double rx;
             double ry;
             drawXY(tx, ty, rx, ry, d->spanW(), d->spanH());
             d->draw(tp, rx, ry, eAlignment::top);
             d->incTime();
+        }
+
+        const auto& chars = tile->characters();
+        for(const auto c : chars) {
+            const auto tex = c->getTexture(mTileSize);
+            tp.drawTexture(tx + c->x(), ty + c->y(), tex,
+                           eAlignment::top | eAlignment::hcenter);
+            c->incTime();
         }
     });
 }

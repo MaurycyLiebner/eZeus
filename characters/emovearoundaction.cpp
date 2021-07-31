@@ -83,9 +83,9 @@ void eMoveAroundAction::increment() {
             mStartY = 1 - targetY;
         }
 
-        mCharacter->tile()->removeDemeter(mCharacter);
+        mCharacter->tile()->removeCharacter(mCharacter);
         mCharacter->setTile(mTargetTile);
-        mTargetTile->addDemeter(mCharacter);
+        mTargetTile->addCharacter(mCharacter);
         mTargetX = 0.5;
         mTargetY = 0.5;
 

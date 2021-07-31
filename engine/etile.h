@@ -10,7 +10,7 @@ enum class eTileSize {
     s15, s30, s60
 };
 
-class eDemeter;
+class eCharacter;
 class eBuilding;
 
 class eTile {
@@ -59,13 +59,11 @@ public:
                                bool& t, bool& r,
                                bool& b, bool& l) const;
 
-    void addDemeter(eDemeter* const d) { mDemeter = d; }
-    void removeDemeter(eDemeter* const d) {
-        (void)d;
-        mDemeter = nullptr;
-    }
+    void addCharacter(eCharacter* const c);
+    bool removeCharacter(eCharacter* const c);
 
-    eDemeter* demeter() const { return mDemeter; }
+    const std::vector<eCharacter*>& characters() const
+    { return mCharacters; }
 
     void addBuilding(eBuilding* const b);
     eBuilding* building() const { return mBuilding; }
@@ -83,7 +81,7 @@ private:
     const int mX;
     const int mY;
 
-    eDemeter* mDemeter = nullptr;
+    std::vector<eCharacter*> mCharacters;
     eBuilding* mBuilding = nullptr;
 
     eTile* mTopLeft = nullptr;

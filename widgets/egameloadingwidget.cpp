@@ -23,11 +23,13 @@ void eGameLoadingWidget::initialize() {
         mTerrainTextures.emplace_back(s.first, s.second, renderer());
         mDemeterTextures.emplace_back(s.first, s.second, renderer());
         mBuildingTextures.emplace_back(s.first, s.second, renderer());
+        mCharacterTextures.emplace_back(s.first, s.second, renderer());
     }
 
     mSize = mTerrainTextures.size() +
             mDemeterTextures.size() +
-            mBuildingTextures.size();
+            mBuildingTextures.size() +
+            mCharacterTextures.size();
     mPB->setRange(0, mSize);
 }
 
@@ -45,6 +47,10 @@ std::vector<eDemeterTextures>&& eGameLoadingWidget::takeDemeterTextures() {
 
 std::vector<eBuildingTextures>&& eGameLoadingWidget::takeBuildingTextures() {
     return std::move(mBuildingTextures);
+}
+
+std::vector<eCharacterTextures>&& eGameLoadingWidget::takeCharacterTextures() {
+    return std::move(mCharacterTextures);
 }
 
 void eGameLoadingWidget::paintEvent(ePainter& p) {
@@ -82,6 +88,16 @@ void eGameLoadingWidget::paintEvent(ePainter& p) {
                     mLabel->setText("Loading large building textures...");
                 }
                 mBuildingTextures[dload].load();
+            } else if(toLoad <= 11) {
+                const int dload = toLoad - 9;
+                if(dload == 0) {
+                    mLabel->setText("Loading small character textures...");
+                } else if(dload == 1) {
+                    mLabel->setText("Loading medium character textures...");
+                } else if(dload == 2) {
+                    mLabel->setText("Loading large character textures...");
+                }
+                mCharacterTextures[dload].load();
             }
             mPB->setValue(mPB->value() + 1);
         };
