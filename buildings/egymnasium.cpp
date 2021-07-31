@@ -20,3 +20,7 @@ std::vector<eOverlay> eGymnasium::getOverlays(const eTileSize size) const {
     o.fY = -1.7;
     return std::vector<eOverlay>({o});
 }
+
+void eGymnasium::setMovePath(const eMovePath& path) {
+    mMovePath = path;
+}

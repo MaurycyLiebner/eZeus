@@ -10,8 +10,12 @@ public:
 
     eTexture getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
+
+    using eMovePath = std::vector<std::pair<int, int>>;
+    void setMovePath(const eMovePath& path);
 private:
     std::vector<eBuildingTextures>& mTextures;
+    eMovePath mMovePath;
 };
 
 #endif // EGYMNASIUM_H
