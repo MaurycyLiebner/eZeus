@@ -89,6 +89,7 @@ bool ePathFinder::findPath(const int maxDist,
     };
 
     pathFinder(tileGetter(mStartX, mStartY), 0);
+    *tileGetter(mStartX, mStartY).second = 0;
 
     if(bestDistance == __INT_MAX__) return false;
 
@@ -102,6 +103,7 @@ bool ePathFinder::findPath(const int maxDist,
         const int dist = *from.second;
         const int tx = tile->x();
         const int ty = tile->y();
+        if(tx == mStartX && ty == mStartY) return true;
 
         const auto tr = tileGetter(tx, ty - 1);
         const auto r = tileGetter(tx + 1, ty - 1);
@@ -114,28 +116,31 @@ bool ePathFinder::findPath(const int maxDist,
 
         using eNeigh = std::pair<eOrientation, eTilePair>;
         std::vector<eNeigh> neighs{
-                {eOrientation::topRight, tr},
-                {eOrientation::right, r},
-                {eOrientation::bottomRight, br},
-                {eOrientation::bottom, b},
-                {eOrientation::bottomLeft, bl},
-                {eOrientation::left, l},
-                {eOrientation::topLeft, tl},
-                {eOrientation::top, t}};
+                {eOrientation::bottomLeft, tr},
+                {eOrientation::left, r},
+                {eOrientation::topLeft, br},
+                {eOrientation::top, b},
+                {eOrientation::topRight, bl},
+                {eOrientation::right, l},
+                {eOrientation::bottomRight, tl},
+                {eOrientation::bottom, t}};
         if(randomize) {
             std::random_shuffle(neighs.begin(), neighs.end());
         }
 
         for(const auto& n : neighs) {
             const auto& tp = n.second;
-            if(tp.first && *tp.second == dist + 1) {
+            if(tp.first && *tp.second == dist - 1) {
                 path.emplace_back(n.first);
-                return bestFinder(tr);
+                return bestFinder(tp);
             }
         }
 
         return false;
     };
 
-    return bestFinder(tileGetter(bestFinishX, bestFinishY));
+    const bool r = bestFinder(tileGetter(bestFinishX, bestFinishY));
+    if(!r) return false;
+    std::reverse(path.begin(), path.end());
+    return true;
 }
