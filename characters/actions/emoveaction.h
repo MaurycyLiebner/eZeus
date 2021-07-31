@@ -11,9 +11,11 @@ class eTile;
 class eMoveAction : public eCharacterAction {
 public:
     using eTileWalkable = std::function<bool(eTile* const)>;
+    using eFailAction = std::function<void()>;
 
     eMoveAction(eCharacter* const c,
-                const eTileWalkable& tileWalkable);
+                const eTileWalkable& tileWalkable,
+                const eFailAction& failAction);
 
     void increment();
 private:
@@ -21,6 +23,7 @@ private:
     bool nextTurn();
 
     const eTileWalkable mTileWalkable;
+    const eFailAction mFailAction;
 
     eOrientation mOrientation;
     eTile* mTargetTile = nullptr;

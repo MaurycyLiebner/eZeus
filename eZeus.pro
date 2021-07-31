@@ -14,6 +14,7 @@ SOURCES += \
         characters/actions/echaracteraction.cpp \
         characters/actions/emoveaction.cpp \
         characters/actions/emovearoundaction.cpp \
+        characters/actions/emovepathaction.cpp \
         characters/echaracter.cpp \
         characters/edemeter.cpp \
         characters/egymnast.cpp \
@@ -78,6 +79,7 @@ HEADERS += \
     characters/actions/echaracteraction.h \
     characters/actions/emoveaction.h \
     characters/actions/emovearoundaction.h \
+    characters/actions/emovepathaction.h \
     characters/echaracter.h \
     characters/edemeter.h \
     characters/egymnast.h \

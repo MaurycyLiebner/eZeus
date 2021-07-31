@@ -3,9 +3,11 @@
 #include "../echaracter.h"
 
 eMoveAction::eMoveAction(eCharacter* const c,
-                         const eTileWalkable& tileWalkable) :
+                         const eTileWalkable& tileWalkable,
+                         const eFailAction& failAction) :
     eCharacterAction(c),
-    mTileWalkable(tileWalkable) {
+    mTileWalkable(tileWalkable),
+    mFailAction(failAction) {
     mStartX = c->x();
     mStartY = c->y();
     mOrientation = c->orientation();
@@ -95,12 +97,22 @@ void eMoveAction::increment() {
 bool eMoveAction::nextTurn() {
     eOrientation turn;
     const bool r = nextTurn(turn);
-    if(!r) return false;
+    if(!r) {
+        mFailAction();
+        return false;
+    }
 
     mCharacter->setOrientation(turn);
     const auto t = mCharacter->tile();
     mTargetTile = t->neighbour(turn);
-    if(!mTargetTile) return false;
+    if(!mTargetTile) {
+        mFailAction();
+        return false;
+    }
+    if(!mTileWalkable(mTargetTile)) {
+        mFailAction();
+        return false;
+    }
     mStartX = mCharacter->x();
     mStartY = mCharacter->y();
     mOrientation = turn;
