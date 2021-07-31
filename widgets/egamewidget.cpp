@@ -189,8 +189,27 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
     case eMouseButton::left:
         pixToId(e.x(), e.y(), gPressedX, gPressedY);
         return true;
-    default: return false;
+    case eMouseButton::right: {
+        int tx;
+        int ty;
+        pixToId(e.x(), e.y(), tx, ty);
+        const auto tile = mBoard.tile(tx, ty);
+        if(!tile) return true;
+        const auto b = tile->building();
+        if(!b) return true;
+        if(const auto gym = dynamic_cast<eGymnasium*>(b)) {
+            const auto gymWid = new eGymInfoWidget(window());
+            gymWid->initialize([this, gymWid]() {
+                removeWidget(gymWid);
+                gymWid->deleteLater();
+            });
+            addWidget(gymWid);
+            gymWid->align(eAlignment::center);
+        }
+    } break;
+    default: return true;
     }
+    return true;
 }
 
 bool eGameWidget::mouseMoveEvent(const eMouseEvent& e) {

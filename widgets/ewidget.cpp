@@ -275,8 +275,8 @@ eWidget* eWidget::mouseEvent(const T& e, const TMouseEvent<T> event) {
         const auto& ww = *w;
         if(!ww->visible()) continue;
         const auto we = e.translated(-ww->x(), -ww->y());
-        const bool r = ww->mouseEvent(we, event);
-        if(r) return ww;
+        const auto www = ww->mouseEvent(we, event);
+        if(www) return www;
     }
     const bool r = (this->*event)(e);
     if(r) return this;

@@ -47,13 +47,13 @@ void eButton::paintEvent(ePainter& p) {
 bool eButton::mousePressEvent(const eMouseEvent& e) {
     (void)e;
     mPressed = true;
-    if(mPressAction) mPressAction();
     return true;
 }
 
 bool eButton::mouseReleaseEvent(const eMouseEvent& e) {
     (void)e;
     mPressed = false;
+    if(mPressAction) mPressAction();
     return true;
 }
 

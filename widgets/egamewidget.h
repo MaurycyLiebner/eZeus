@@ -10,6 +10,8 @@
 #include "textures/edemetertextures.h"
 #include "textures/ebuildingtextures.h"
 
+#include "infowidgets/egyminfowidget.h"
+
 class eTerrainEditMenu;
 
 class eGameWidget : public eWidget {
@@ -58,6 +60,7 @@ private:
     std::vector<eDemeterTextures> mDemeterTextures;
     std::vector<eBuildingTextures> mBuildingTextures;
 
+    eInfoWidget* mInfoWidget = nullptr;
     eTerrainEditMenu* mTem = nullptr;
 };
 

@@ -65,7 +65,9 @@ SOURCES += \
         widgets/etabwidget.cpp \
         widgets/eterraineditmenu.cpp \
         widgets/etilepainter.cpp \
-        widgets/ewidget.cpp
+        widgets/ewidget.cpp \
+        widgets/infowidgets/egyminfowidget.cpp \
+        widgets/infowidgets/einfowidget.cpp
 
 HEADERS += \
     buildings/ebuilding.h \
@@ -126,4 +128,6 @@ HEADERS += \
     widgets/etabwidget.h \
     widgets/eterraineditmenu.h \
     widgets/etilepainter.h \
-    widgets/ewidget.h
+    widgets/ewidget.h \
+    widgets/infowidgets/egyminfowidget.h \
+    widgets/infowidgets/einfowidget.h
