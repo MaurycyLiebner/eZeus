@@ -10,7 +10,7 @@ enum class eDemeterAction {
 
 class eDemeter : public eCharacter {
 public:
-    eDemeter(std::vector<eDemeterTextures>& texs);
+    eDemeter();
 
     eDemeterAction action() const { return mAction; }
 
@@ -18,7 +18,7 @@ public:
 private:
     eDemeterAction mAction{eDemeterAction::walk};
 
-    std::vector<eDemeterTextures>& mTextures;
+    const std::vector<eDemeterTextures>& mTextures;
 };
 
 #endif // EDEMETER_H

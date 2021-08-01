@@ -4,6 +4,7 @@
 #include "etilepainter.h"
 
 #include "textures/etiletotexture.h"
+#include "textures/egametextures.h"
 
 #include "characters/edemeter.h"
 #include "characters/egymnast.h"
@@ -15,16 +16,8 @@
 #include "buildings/egymnasium.h"
 #include "buildings/eroad.h"
 
-eGameWidget::eGameWidget(std::vector<eTerrainTextures>&& textures,
-                         std::vector<eDemeterTextures>&& demeterTextures,
-                         std::vector<eBuildingTextures>&& buildingTextures,
-                         std::vector<eCharacterTextures>&& characterTextures,
-                         eMainWindow* const window) :
-    eWidget(window),
-    mTerrainTexturesColl(std::move(textures)),
-    mDemeterTextures(std::move(demeterTextures)),
-    mBuildingTextures(std::move(buildingTextures)),
-    mCharacterTextures(std::move(characterTextures)) {}
+eGameWidget::eGameWidget(eMainWindow* const window) :
+    eWidget(window) {}
 
 eGameWidget::~eGameWidget() {}
 
@@ -38,7 +31,7 @@ void eGameWidget::initialize(const int w, const int h) {
     setTileSize(eTileSize::s30);
 
     const auto t = mBoard.tile(0, 0);
-    const auto d = new eDemeter(mDemeterTextures);
+    const auto d = new eDemeter();
     d->setTile(t);
     d->setX(0.5);
     d->setY(0.5);
@@ -55,7 +48,7 @@ void eGameWidget::initialize(const int w, const int h) {
         const bool found = f.findPath(7, path, false);
         if(found) {
             const auto t = mBoard.tile(5, 5);
-            const auto d = new eGymnast(mCharacterTextures);
+            const auto d = new eGymnast();
             d->setTile(t);
             d->setX(0.5);
             d->setY(0.5);
@@ -141,13 +134,16 @@ void eGameWidget::paintEvent(ePainter& p) {
     p.translate(mDX, mDY);
     eTilePainter tp(p, mTileSize, mTileW, mTileH);
 
+    const int tid = static_cast<int>(mTileSize);
+    const auto& trrTexs = eGameTextures::terrain().at(tid);
+
     iterateOverTiles([&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
 
         int wSpan;
         int hSpan;
-        const auto tex = eTileToTexture::get(tile, *mTerrainTextures,
+        const auto tex = eTileToTexture::get(tile, trrTexs,
                                              wSpan, hSpan);
         tile->setDrawnSpan(wSpan, hSpan);
 
@@ -165,7 +161,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
         gDrawDelayed(tp);
 
-        const auto& selectedTex = mTerrainTextures->fSelectedTex;
+        const auto& selectedTex = trrTexs.fSelectedTex;
 
         if(tile->x() == gHoverX && tile->y() == gHoverY) {
             tp.drawTexture(rx, ry, selectedTex, eAlignment::top);
@@ -265,18 +261,18 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 tile->incScrub(0.1);
             };
         } else if(mode == eTerrainEditMode::smallHouse) {
-            apply = [this](eTile* const tile) {
-                const auto house = new eSmallHouse(mBuildingTextures);
+            apply = [](eTile* const tile) {
+                const auto house = new eSmallHouse();
                 tile->addBuilding(house);
             };
         } else if(mode == eTerrainEditMode::gymnasium) {
-            apply = [this](eTile* const tile) {
-                const auto gym = new eGymnasium(mBuildingTextures);
+            apply = [](eTile* const tile) {
+                const auto gym = new eGymnasium();
                 tile->addBuilding(gym);
             };
         } else if(mode == eTerrainEditMode::road) {
-            apply = [this](eTile* const tile) {
-                const auto road = new eRoad(mBuildingTextures);
+            apply = [](eTile* const tile) {
+                const auto road = new eRoad();
                 tile->addBuilding(road);
             };
         } else {
@@ -332,9 +328,10 @@ bool eGameWidget::mouseWheelEvent(const eMouseWheelEvent& e) {
 
 void eGameWidget::setTileSize(const eTileSize size) {
     mTileSize = size;
-    mTerrainTextures = &mTerrainTexturesColl.at(static_cast<int>(mTileSize));
-    const int newW = mTerrainTextures->fTileW;
-    const int newH = mTerrainTextures->fTileH;
+    const int tid = static_cast<int>(mTileSize);
+    const auto& trrTexs = eGameTextures::terrain().at(tid);
+    const int newW = trrTexs.fTileW;
+    const int newH = trrTexs.fTileH;
 
     mDX = std::round((mDX - width()/2) * static_cast<double>(newW)/mTileW + width()/2);
     mDY = std::round((mDY - height()/2) * static_cast<double>(newH)/mTileH + height()/2);

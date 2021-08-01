@@ -79,11 +79,8 @@ void eMainWindow::showMainMenu() {
     const auto newGameAction = [this]() {
         const auto l = new eGameLoadingWidget(this);
         l->resize(width(), height());
-        const auto show = [this, l]() {
-            showGame(std::move(l->takeTerrainTextures()),
-                     std::move(l->takeDemeterTextures()),
-                     std::move(l->takeBuildingTextures()),
-                     std::move(l->takeCharacterTextures()));
+        const auto show = [this]() {
+            showGame();
         };
         l->setDoneAction(show);
         setWidget(l);
@@ -124,15 +121,8 @@ void eMainWindow::showSettingsMenu() {
     setWidget(esm);
 }
 
-void eMainWindow::showGame(std::vector<eTerrainTextures>&& texs,
-                           std::vector<eDemeterTextures>&& demeterTextures,
-                           std::vector<eBuildingTextures>&& buildingTextures,
-                           std::vector<eCharacterTextures>&& characterTextures) {
-    const auto egw = new eGameWidget(std::move(texs),
-                                     std::move(demeterTextures),
-                                     std::move(buildingTextures),
-                                     std::move(characterTextures),
-                                     this);
+void eMainWindow::showGame() {
+    const auto egw = new eGameWidget(this);
     egw->resize(width(), height());
     egw->initialize(16, 16);
     setWidget(egw);

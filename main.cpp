@@ -5,6 +5,7 @@
 
 #include "emainwindow.h"
 #include "engine/ethreadpool.h"
+#include "textures/egametextures.h"
 
 bool init() {
     if(SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -50,6 +51,7 @@ int main() {
     eMainWindow w;
     const bool i = w.initialize(eRes::p720);
     if(!i) return 1;
+    eGameTextures::initialize(w.renderer());
 
     const int r = w.exec();
 

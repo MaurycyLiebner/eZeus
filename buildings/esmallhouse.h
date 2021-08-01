@@ -6,7 +6,7 @@
 
 class eSmallHouse : public eBuilding {
 public:
-    eSmallHouse(std::vector<eBuildingTextures>& texs);
+    eSmallHouse();
 
     eTexture getTexture(const eTileSize size) const;
 
@@ -16,7 +16,7 @@ private:
     void setLevel(const int l);
 
     int mLevel = 0;
-    std::vector<eBuildingTextures>& mTextures;
+    const std::vector<eBuildingTextures>& mTextures;
 };
 
 #endif // ESMALLHOUSE_H

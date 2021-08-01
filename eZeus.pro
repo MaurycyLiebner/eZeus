@@ -41,6 +41,7 @@ SOURCES += \
         textures/edemetertextures.cpp \
         textures/efertiletodry.cpp \
         textures/eforesttodry.cpp \
+        textures/egametextures.cpp \
         textures/estonestodry.cpp \
         textures/esurroundingterrain.cpp \
         textures/eterraintextures.cpp \
@@ -108,6 +109,7 @@ HEADERS += \
     textures/edemetertextures.h \
     textures/efertiletodry.h \
     textures/eforesttodry.h \
+    textures/egametextures.h \
     textures/estonestodry.h \
     textures/esurroundingterrain.h \
     textures/eterraintextures.h \

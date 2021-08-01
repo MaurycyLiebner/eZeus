@@ -1,9 +1,11 @@
 #include "esmallhouse.h"
 
 #include <algorithm>
+#include "textures/egametextures.h"
 
-eSmallHouse::eSmallHouse(std::vector<eBuildingTextures>& texs) :
-    eBuilding(eBuildingType::house, 2, 2), mTextures(texs) {
+eSmallHouse::eSmallHouse() :
+    eBuilding(eBuildingType::house, 2, 2),
+    mTextures(eGameTextures::buildings()) {
 
 }
 

@@ -1,8 +1,10 @@
 #include "eroad.h"
 
-eRoad::eRoad(std::vector<eBuildingTextures>& texs) :
+#include "textures/egametextures.h"
+
+eRoad::eRoad() :
     eBuilding(eBuildingType::road, 1, 1),
-    mTextures(texs) {
+    mTextures(eGameTextures::buildings()) {
 
 }
 

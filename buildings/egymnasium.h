@@ -3,19 +3,22 @@
 
 #include "ebuilding.h"
 #include "textures/ebuildingtextures.h"
+#include "characters/actions/epatrolaction.h"
 
 class eGymnasium : public eBuilding {
 public:
-    eGymnasium(std::vector<eBuildingTextures>& texs);
+    eGymnasium();
 
     eTexture getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
 
-    using eMovePath = std::vector<std::pair<int, int>>;
-    void setMovePath(const eMovePath& path);
+    using ePatrolGuides = std::vector<ePatrolGuide>;
+    void setPatrolGuides(const ePatrolGuides& g);
+
+    void spawn() const;
 private:
-    std::vector<eBuildingTextures>& mTextures;
-    eMovePath mMovePath;
+    const std::vector<eBuildingTextures>& mTextures;
+    ePatrolGuides mPatrolGuides;
 };
 
 #endif // EGYMNASIUM_H

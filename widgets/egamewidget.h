@@ -17,11 +17,7 @@ class eTerrainEditMenu;
 
 class eGameWidget : public eWidget {
 public:
-    eGameWidget(std::vector<eTerrainTextures>&& textures,
-                std::vector<eDemeterTextures>&& demeterTextures,
-                std::vector<eBuildingTextures>&& buildingTextures,
-                std::vector<eCharacterTextures>&& characterTextures,
-                eMainWindow* const window);
+    eGameWidget(eMainWindow* const window);
     ~eGameWidget();
 
     void initialize(const int w, const int h);
@@ -44,9 +40,6 @@ private:
 
     void actionOnSelectedTiles(const eTileAction& apply);
 
-    void loadWaterToX(int i0, const std::string& pathBase,
-                      std::vector<eTextureCollection>& result) const;
-
     int mWheel = 0;
 
     int mDX = 0;
@@ -57,11 +50,6 @@ private:
     int mTileH = 30;
 
     eGameBoard mBoard;
-    eTerrainTextures* mTerrainTextures = nullptr;
-    std::vector<eTerrainTextures> mTerrainTexturesColl;
-    std::vector<eDemeterTextures> mDemeterTextures;
-    std::vector<eBuildingTextures> mBuildingTextures;
-    std::vector<eCharacterTextures> mCharacterTextures;
 
     eInfoWidget* mInfoWidget = nullptr;
     eTerrainEditMenu* mTem = nullptr;

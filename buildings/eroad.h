@@ -6,11 +6,11 @@
 
 class eRoad : public eBuilding {
 public:
-    eRoad(std::vector<eBuildingTextures>& texs);
+    eRoad();
 
     eTexture getTexture(const eTileSize size) const;
 private:
-    std::vector<eBuildingTextures>& mTextures;
+    const std::vector<eBuildingTextures>& mTextures;
 };
 
 #endif // EROAD_H

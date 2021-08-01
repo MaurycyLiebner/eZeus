@@ -34,10 +34,7 @@ private:
 
     void showMainMenu();
     void showSettingsMenu();
-    void showGame(std::vector<eTerrainTextures>&& texs,
-                  std::vector<eDemeterTextures>&& demeterTextures,
-                  std::vector<eBuildingTextures>&& buildingTextures,
-                  std::vector<eCharacterTextures>&& characterTextures);
+    void showGame();
 
     bool mFullscreen = false;
     eRes mResolution;

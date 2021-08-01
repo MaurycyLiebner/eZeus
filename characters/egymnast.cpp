@@ -1,7 +1,9 @@
 #include "egymnast.h"
 
-eGymnast::eGymnast(std::vector<eCharacterTextures>& tex) :
-    mTextures(tex) {
+#include "textures/egametextures.h"
+
+eGymnast::eGymnast() :
+    mTextures(eGameTextures::characters()) {
 
 }
 

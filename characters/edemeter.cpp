@@ -1,9 +1,10 @@
 #include "edemeter.h"
 
 #include "engine/etile.h"
+#include "textures/egametextures.h"
 
-eDemeter::eDemeter(std::vector<eDemeterTextures>& texs) :
-    mTextures(texs) {
+eDemeter::eDemeter() :
+    mTextures(eGameTextures::demeter()) {
 
 }
 

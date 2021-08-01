@@ -11,7 +11,7 @@ enum class eGymnastAction {
 
 class eGymnast : public eCharacter {
 public:
-    eGymnast(std::vector<eCharacterTextures>& tex);
+    eGymnast();
 
     eGymnastAction action() const { return mAction; }
     void setAction(const eGymnastAction a);
@@ -21,7 +21,7 @@ private:
     int mActionStartTime = 0;
     eGymnastAction mAction{eGymnastAction::walk};
 
-    std::vector<eCharacterTextures>& mTextures;
+    const std::vector<eCharacterTextures>& mTextures;
 };
 
 #endif // EGYMNAST_H
