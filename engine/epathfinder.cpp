@@ -11,7 +11,8 @@ ePathFinder::ePathFinder(eTile* const startTile,
 
 bool ePathFinder::findPath(const int maxDist,
                            std::vector<eOrientation>& path,
-                           const bool randomize) const {
+                           const bool randomize,
+                           const bool onlyDiagonal) const {
     if(!mStart) return false;
     const int startX = mStart->x();
     const int startY = mStart->y();
@@ -70,23 +71,14 @@ bool ePathFinder::findPath(const int maxDist,
                 bestDistance = dist;
             }
         }
-        const auto tr = tileGetter(tx, ty - 1);
-        const auto r = tileGetter(tx + 1, ty - 1);
-        const auto br = tileGetter(tx + 1, ty);
-        const auto b = tileGetter(tx + 1, ty + 1);
-        const auto bl = tileGetter(tx, ty + 1);
-        const auto l = tileGetter(tx - 1, ty + 1);
-        const auto tl = tileGetter(tx - 1, ty);
-        const auto t = tileGetter(tx - 1, ty - 1);
 
-        if(tr.first && mWalkable(tr.first)) pathFinder(tr, dist + 1);
-        if(r.first && mWalkable(r.first)) pathFinder(r, dist + 1);
-        if(br.first && mWalkable(br.first))pathFinder(br, dist + 1);
-        if(b.first && mWalkable(b.first))pathFinder(b, dist + 1);
-        if(bl.first && mWalkable(bl.first))pathFinder(bl, dist + 1);
-        if(l.first && mWalkable(l.first))pathFinder(l, dist + 1);
-        if(tl.first && mWalkable(tl.first))pathFinder(tl, dist + 1);
-        if(t.first && mWalkable(t.first))pathFinder(t, dist + 1);
+        for(const auto x : {0, 1, -1}) {
+            for(const auto y : {0, 1, -1}) {
+                if(onlyDiagonal && x != 0 && y != 0) continue;
+                const auto tt = tileGetter(tx + x, ty + y);
+                if(tt.first && mWalkable(tt.first)) pathFinder(tt, dist + 1);
+            }
+        }
     };
 
     pathFinder(tileGetter(startX, startY), 0);
@@ -107,24 +99,24 @@ bool ePathFinder::findPath(const int maxDist,
         if(tx == startX && ty == startY) return true;
 
         const auto tr = tileGetter(tx, ty - 1);
-        const auto r = tileGetter(tx + 1, ty - 1);
         const auto br = tileGetter(tx + 1, ty);
-        const auto b = tileGetter(tx + 1, ty + 1);
         const auto bl = tileGetter(tx, ty + 1);
-        const auto l = tileGetter(tx - 1, ty + 1);
         const auto tl = tileGetter(tx - 1, ty);
-        const auto t = tileGetter(tx - 1, ty - 1);
 
         using eNeigh = std::pair<eOrientation, eTilePair>;
         std::vector<eNeigh> neighs{
                 {eOrientation::bottomLeft, tr},
-                {eOrientation::left, r},
+                {eOrientation::left, onlyDiagonal ? eTilePair{nullptr, nullptr}
+                                                  : tileGetter(tx + 1, ty - 1)},
                 {eOrientation::topLeft, br},
-                {eOrientation::top, b},
+                {eOrientation::top, onlyDiagonal ? eTilePair{nullptr, nullptr}
+                                                 : tileGetter(tx + 1, ty + 1)},
                 {eOrientation::topRight, bl},
-                {eOrientation::right, l},
+                {eOrientation::right, onlyDiagonal ? eTilePair{nullptr, nullptr}
+                                                   : tileGetter(tx - 1, ty + 1)},
                 {eOrientation::bottomRight, tl},
-                {eOrientation::bottom, t}};
+                {eOrientation::bottom, onlyDiagonal ? eTilePair{nullptr, nullptr}
+                                                    : tileGetter(tx - 1, ty - 1)}};
         if(randomize) {
             std::random_shuffle(neighs.begin(), neighs.end());
         }

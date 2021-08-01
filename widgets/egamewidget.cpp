@@ -45,7 +45,7 @@ void eGameWidget::initialize(const int w, const int h) {
             return tile->x() == 10 && tile->y() == 10;
         });
         std::vector<eOrientation> path;
-        const bool found = f.findPath(7, path, false);
+        const bool found = f.findPath(7, path, false, false);
         if(found) {
             const auto t = mBoard.tile(5, 5);
             const auto d = new eGymnast();
@@ -202,9 +202,9 @@ void eGameWidget::paintEvent(ePainter& p) {
 
 bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
     if(e.key() == SDL_Scancode::SDL_SCANCODE_KP_PLUS) {
-        mSpeed = std::clamp(mSpeed + 1, 1, 6);
+        mSpeed = std::clamp(mSpeed + 1, 1, 10);
     } else if(e.key() == SDL_Scancode::SDL_SCANCODE_KP_MINUS) {
-        mSpeed = std::clamp(mSpeed - 1, 1, 6);
+        mSpeed = std::clamp(mSpeed - 1, 1, 10);
     }
     return true;
 }

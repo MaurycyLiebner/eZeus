@@ -17,7 +17,7 @@ public:
     double y() const { return mY; }
     eTile* tile() const { return mTile; }
     int time() const { return mTime; }
-    int textureTime() const { return time()/4; }
+    int textureTime() const { return time()/10; }
     eOrientation orientation() const { return mOrientation; }
 
     void setTile(eTile* const t);

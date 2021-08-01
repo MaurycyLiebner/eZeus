@@ -113,7 +113,10 @@ eTile* eBuilding::road(const eOrientation o) const {
 }
 
 void eBuilding::incTime(const int by) {
-    mTime += by;
+    for(int i = 0; i < by; i++) {
+        mTime++;
+        timeChanged();
+    }
 }
 
 void eBuilding::setTile(eTile* const t) {

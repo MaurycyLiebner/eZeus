@@ -28,6 +28,8 @@ public:
         return std::vector<eOverlay>();
     }
 
+    virtual void timeChanged() {}
+
     std::vector<eTile*> surroundingRoads() const;
     eTile* nearestRoad() const;
     eTile* road(const eOrientation o) const;
@@ -38,8 +40,10 @@ public:
     int spanW() const { return mSpanW; }
     int spanH() const { return mSpanH; }
 
-    void incTime(const int by);;
+    void incTime(const int by);
     int time() const { return mTime; }
+    int textureTime() const { return time()/10; }
+
     void setTile(eTile* const t);
 
     void draw(eTilePainter& p,

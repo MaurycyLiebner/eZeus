@@ -55,35 +55,19 @@ bool ePatrolAction::goBack() {
     const auto tileStart = [this](eTile* const t) {
         return t->x() == mStartX && t->y() == mStartY;
     };
-    const auto failAction = []() {};
-    const auto finishAction = []() {};
+    const auto failAction = [this]() { setState(eCharacterActionState::failed); };
+    const auto finishAction = [this]() { setState(eCharacterActionState::finished); };
 
-    {
-        const auto tileWalkable0 = [](eTile* const t) {
-            return t->hasRoad();
-        };
-        const auto pf0 = ePathFinder(t, tileWalkable0, tileStart);
-        std::vector<eOrientation> path0;
-        const bool r0 = pf0.findPath(100, path0, false);
-        if(r0) {
-            mGoBackAction = new eMovePathAction(c, path0, tileWalkable0,
-                                                failAction, finishAction);
-            return true;
-        }
-    }
-
-    {
-        const auto tileWalkable1 = [](eTile* const) {
-            return true;
-        };
-        const auto pf1 = ePathFinder(t, tileWalkable1, tileStart);
-        std::vector<eOrientation> path1;
-        const bool r1 = pf1.findPath(100, path1, false);
-        if(r1) {
-            mGoBackAction = new eMovePathAction(c, path1, tileWalkable1,
-                                                failAction, finishAction);
-            return true;
-        }
+    const auto tileWalkable0 = [](eTile* const t) {
+        return t->hasRoad();
+    };
+    const auto pf0 = ePathFinder(t, tileWalkable0, tileStart);
+    std::vector<eOrientation> path0;
+    const bool r0 = pf0.findPath(100, path0, false, true);
+    if(r0) {
+        mGoBackAction = new eMovePathAction(c, path0, tileWalkable0,
+                                            failAction, finishAction);
+        return true;
     }
     return false;
 }
@@ -103,19 +87,25 @@ eCharacterActionState ePatrolAction::nextTurn(eOrientation& t) {
     if(r) mO = directionToOrientation(g.fDir);
     const auto tt = tile->neighbour(mO);
     if(!tt || !tt->hasRoad()) {
-        const auto r = tile->randomDiagonalNeighbour([](eTile* const t) {
-            return t->hasRoad();
+        const auto r = tile->randomDiagonalNeighbour([&](eTile* const t) {
+            return t->hasRoad() && t->neighbour(mO) != tile;
         });
-        const auto t = r.second;
-        if(!t) {
-            const bool r = goBack();
-            if(r) {
-                return eCharacterActionState::running;
+        if(r.second) {
+            mO = r.first;
+        } else {
+            const auto o = !mO;
+            const auto t = tile->neighbour(o);
+            if(t && t->hasRoad()) {
+                mO = o;
             } else {
-                return eCharacterActionState::failed;
+                const bool r = goBack();
+                if(r) {
+                    return eCharacterActionState::running;
+                } else {
+                    return eCharacterActionState::failed;
+                }
             }
         }
-        mO = r.first;
     }
     t = mO;
     return eCharacterActionState::running;
