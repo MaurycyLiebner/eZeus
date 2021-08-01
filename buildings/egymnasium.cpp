@@ -33,7 +33,10 @@ void eGymnasium::setPatrolGuides(const ePatrolGuides &g) {
 }
 
 void eGymnasium::spawn() const {
-    const auto t = tile();
+    const auto o = directionToOrientation(mSpawnDirection);
+    const auto t = road(o);
+    if(!t) return;
+
     const auto d = new eGymnast();
     d->setTile(t);
     d->setX(0.5);

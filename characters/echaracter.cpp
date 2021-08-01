@@ -8,9 +8,9 @@ void eCharacter::setTile(eTile* const t) {
     mTile = t;
 }
 
-void eCharacter::incTime() {
-    mTime++;
-    if(mCharAction) mCharAction->increment();
+void eCharacter::incTime(const int by) {
+    mTime += by;
+    if(mCharAction) mCharAction->increment(by);
 }
 
 void eCharacter::setOrientation(const eOrientation o) {

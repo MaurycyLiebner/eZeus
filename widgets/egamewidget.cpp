@@ -187,7 +187,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             double ry;
             drawXY(tx, ty, rx, ry, d->spanW(), d->spanH());
             d->draw(tp, rx, ry, eAlignment::top);
-            d->incTime();
+            d->incTime(mSpeed);
         }
 
         const auto& chars = tile->characters();
@@ -195,7 +195,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto tex = c->getTexture(mTileSize);
             tp.drawTexture(tx + c->x() + 0.5, ty + c->y() + 0.5, tex,
                            eAlignment::top | eAlignment::hcenter);
-            c->incTime();
+            c->incTime(mSpeed);
         }
     });
 }

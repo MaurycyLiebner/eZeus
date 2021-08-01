@@ -153,13 +153,18 @@ void eTile::setBottomLeft(eTile* const bl) {
     mBottomLeft = bl;
 }
 
-eTile* eTile::nearestRoad() const {
+std::vector<eTile*> eTile::surroundingRoads() const {
     std::vector<eTile*> tiles;
     for(int i = 0; i < 8; i += 2) {
         const auto o = static_cast<eOrientation>(i);
         const auto n = neighbour(o);
         if(n && n->hasRoad()) tiles.push_back(n);
     }
+    return tiles;
+}
+
+eTile* eTile::nearestRoad() const {
+    const auto tiles = surroundingRoads();
     if(tiles.empty()) return nullptr;
     return tiles[rand() % tiles.size()];
 }

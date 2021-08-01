@@ -18,14 +18,14 @@ ePatrolAction::ePatrolAction(eCharacter* const c,
     mO = c->orientation();
 }
 
-void ePatrolAction::increment() {
+void ePatrolAction::increment(const int by) {
     if(mGoBackAction) {
-        mGoBackAction->increment();
+        mGoBackAction->increment(by);
         const auto s = mGoBackAction->state();
         setState(s);
         return;
     }
-    return eMoveAction::increment();
+    return eMoveAction::increment(by);
 }
 
 bool ePatrolAction::getGuide(const int tx, const int ty,
@@ -78,20 +78,6 @@ bool ePatrolAction::goBack() {
         }
     }
     return false;
-}
-
-eOrientation directionToOrientation(const eMoveDirection dir) {
-    switch(dir) {
-    case eMoveDirection::topRight:
-        return eOrientation::topRight;
-    case eMoveDirection::bottomRight:
-        return eOrientation::bottomRight;
-    case eMoveDirection::bottomLeft:
-        return eOrientation::bottomLeft;
-    case eMoveDirection::topLeft:
-        return eOrientation::topLeft;
-    }
-    return eOrientation::topRight;
 }
 
 eCharacterActionState ePatrolAction::nextTurn(eOrientation& t) {

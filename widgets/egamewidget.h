@@ -40,6 +40,8 @@ private:
 
     void actionOnSelectedTiles(const eTileAction& apply);
 
+    int mSpeed = 1;
+
     int mWheel = 0;
 
     int mDX = 0;

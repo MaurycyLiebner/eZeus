@@ -14,6 +14,21 @@ enum class eMoveDirection {
     topLeft
 };
 
+inline eOrientation directionToOrientation(const eMoveDirection dir) {
+    switch(dir) {
+    case eMoveDirection::topRight:
+        return eOrientation::topRight;
+    case eMoveDirection::bottomRight:
+        return eOrientation::bottomRight;
+    case eMoveDirection::bottomLeft:
+        return eOrientation::bottomLeft;
+    case eMoveDirection::topLeft:
+        return eOrientation::topLeft;
+    }
+    return eOrientation::topRight;
+}
+
+
 struct ePatrolGuide {
     int fX;
     int fY;
@@ -26,7 +41,7 @@ public:
                   const eAction& failAction,
                   const eAction& finishAction);
 
-    void increment();
+    void increment(const int by);
 private:
     bool getGuide(const int tx, const int ty,
                   ePatrolGuide& result);

@@ -28,7 +28,9 @@ public:
         return std::vector<eOverlay>();
     }
 
+    std::vector<eTile*> surroundingRoads() const;
     eTile* nearestRoad() const;
+    eTile* road(const eOrientation o) const;
 
     int seed() const { return mSeed; }
     eBuildingType type() const { return mType; }
@@ -36,7 +38,7 @@ public:
     int spanW() const { return mSpanW; }
     int spanH() const { return mSpanH; }
 
-    void incTime() { mTime++; };
+    void incTime(const int by);;
     int time() const { return mTime; }
     void setTile(eTile* const t);
 

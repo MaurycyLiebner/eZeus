@@ -58,6 +58,7 @@ public:
     void setBottomRight(eTile* const br);
     void setBottomLeft(eTile* const bl);
 
+    std::vector<eTile*> surroundingRoads() const;
     eTile* nearestRoad() const;
 
     void surroundingTerrain(eTerrain& tlTerr,

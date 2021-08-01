@@ -17,7 +17,7 @@ public:
                      const eAction& failAction,
                      const eAction& finishAction);
 
-    virtual void increment() = 0;
+    virtual void increment(const int by) = 0;
 
     eCharacter* character() const { return mCharacter; }
     eCharacterActionState state() const { return mState; }

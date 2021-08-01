@@ -22,7 +22,7 @@ public:
     void setTile(eTile* const t);
     void setX(const double x) { mX = x; }
     void setY(const double y) { mY = y; };
-    void incTime();
+    void incTime(const int by);
     void setOrientation(const eOrientation o);
     void setCharAction(eCharacterAction* const a);
 private:

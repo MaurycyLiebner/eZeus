@@ -15,7 +15,7 @@ public:
                 const eAction& failAction,
                 const eAction& finishAction);
 
-    void increment();
+    void increment(const int by);
 private:
     virtual eCharacterActionState nextTurn(eOrientation& t) = 0;
     bool nextTurn();

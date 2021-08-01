@@ -52,7 +52,7 @@ void orientationToTargetCoords(const eOrientation o,
     }
 }
 
-void eMoveAction::increment() {
+void eMoveAction::increment(const int by) {
     switch(state()) {
     case eCharacterActionState::failed:
     case eCharacterActionState::finished:
@@ -62,11 +62,11 @@ void eMoveAction::increment() {
     }
 
     if(!mTargetTile) {
-        if(nextTurn()) increment();
+        if(nextTurn()) increment(by);
         return;
     }
 
-    const double inc = 0.01;
+    const double inc = 0.01 * by;
     double x = mCharacter->x();
     double y = mCharacter->y();
     const bool xSignBefore = x - mTargetX > 0 ? true : false;

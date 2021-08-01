@@ -17,6 +17,7 @@ public:
 
     void spawn() const;
 private:
+    eMoveDirection mSpawnDirection{eMoveDirection::bottomLeft};
     const std::vector<eBuildingTextures>& mTextures;
     ePatrolGuides mPatrolGuides;
 };
