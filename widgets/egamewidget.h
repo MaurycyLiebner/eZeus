@@ -27,6 +27,7 @@ public:
 protected:
     void paintEvent(ePainter& p);
 
+    bool keyPressEvent(const eKeyPressEvent& e);
     bool mousePressEvent(const eMouseEvent& e);
     bool mouseMoveEvent(const eMouseEvent& e);
     bool mouseReleaseEvent(const eMouseEvent& e);

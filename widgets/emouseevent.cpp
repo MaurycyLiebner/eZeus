@@ -41,3 +41,24 @@ eMouseWheelEvent eMouseWheelEvent::withPosition(const int x, const int y) const 
     r.mY = y;
     return r;
 }
+
+eKeyPressEvent::eKeyPressEvent(const int x, const int y,
+                               const eMouseButton buttons,
+                               const SDL_Scancode key) :
+    eMouseEvent(x, y, buttons), mKey(key) {
+
+}
+
+eKeyPressEvent eKeyPressEvent::translated(const int x, const int y) const {
+    auto r = *this;
+    r.mX += x;
+    r.mY += y;
+    return r;
+}
+
+eKeyPressEvent eKeyPressEvent::withPosition(const int x, const int y) const {
+    auto r = *this;
+    r.mX = x;
+    r.mY = y;
+    return r;
+}

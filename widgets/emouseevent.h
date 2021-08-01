@@ -40,6 +40,8 @@ protected:
     eMouseButton mButton;
 };
 
+#include <SDL2/SDL_scancode.h>
+
 class eMouseWheelEvent : public eMouseEvent {
 public:
     eMouseWheelEvent(const int x, const int y,
@@ -52,6 +54,20 @@ public:
     int dy() const { return mDY; }
 private:
     int mDY;
+};
+
+class eKeyPressEvent : public eMouseEvent {
+public:
+    eKeyPressEvent(const int x, const int y,
+                   const eMouseButton buttons,
+                   const SDL_Scancode key);
+
+    eKeyPressEvent translated(const int x, const int y) const;
+    eKeyPressEvent withPosition(const int x, const int y) const;
+
+    SDL_Scancode key() const { return mKey; }
+private:
+    SDL_Scancode mKey;
 };
 
 #endif // EMOUSEEVENT_H

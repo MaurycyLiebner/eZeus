@@ -178,6 +178,22 @@ void eWidget::paint(ePainter& p) {
     p.restore();
 }
 
+bool eWidget::keyPress(const eKeyPressEvent& e) {
+    eWidget* override = nullptr;
+    if(sKeyboardGrabber) override = sKeyboardGrabber;
+    else override = sLastPressed;
+    if(override) {
+        int ex = e.x();
+        int ey = e.y();
+        mapTo(override, ex, ey);
+        const auto ee = e.withPosition(ex, ey);
+        override->keyPressEvent(ee);
+        return true;
+    }
+    sLastPressed = mouseEvent(e, &eWidget::keyPressEvent);
+    return sLastPressed;
+}
+
 bool eWidget::mousePress(const eMouseEvent& e) {
     eWidget* override = nullptr;
     if(sMouseGrabber) override = sMouseGrabber;

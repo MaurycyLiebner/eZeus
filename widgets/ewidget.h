@@ -54,6 +54,7 @@ public:
     void mapFrom(const eWidget* const from, int& x, int& y) const;
 
     void paint(ePainter& p);
+    bool keyPress(const eKeyPressEvent& e);
     bool mousePress(const eMouseEvent& e);
     bool mouseRelease(const eMouseEvent& e);
     bool mouseMove(const eMouseEvent& e);
@@ -87,6 +88,11 @@ protected:
     virtual void paintEvent(ePainter& p);/* {
         (void)p;
     }*/
+
+    virtual bool keyPressEvent(const eKeyPressEvent& e) {
+        (void)e;
+        return false;
+    }
 
     virtual bool mousePressEvent(const eMouseEvent& e) {
         (void)e;

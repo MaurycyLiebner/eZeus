@@ -191,6 +191,9 @@ int eMainWindow::exec() {
             } else if(e.type == SDL_MOUSEWHEEL) {
                 const eMouseWheelEvent me(x, y, buttons, e.wheel.y);
                 if(mWidget) mWidget->mouseWheel(me);
+            } else if(e.type == SDL_KEYDOWN) {
+                const eKeyPressEvent ke(x, y, buttons, e.key.keysym.scancode);
+                if(mWidget) mWidget->keyPress(ke);
             }
         }
 
