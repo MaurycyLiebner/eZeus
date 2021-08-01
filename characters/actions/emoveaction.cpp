@@ -66,7 +66,7 @@ void eMoveAction::increment(const int by) {
         return;
     }
 
-    const double inc = 0.01 * by;
+    const double inc = 0.02 * by;
     double x = mCharacter->x();
     double y = mCharacter->y();
     const bool xSignBefore = x - mTargetX > 0 ? true : false;

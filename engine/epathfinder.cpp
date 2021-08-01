@@ -79,14 +79,14 @@ bool ePathFinder::findPath(const int maxDist,
         const auto tl = tileGetter(tx - 1, ty);
         const auto t = tileGetter(tx - 1, ty - 1);
 
-        pathFinder(tr, dist + 1);
-        pathFinder(r, dist + 1);
-        pathFinder(br, dist + 1);
-        pathFinder(b, dist + 1);
-        pathFinder(bl, dist + 1);
-        pathFinder(l, dist + 1);
-        pathFinder(tl, dist + 1);
-        pathFinder(t, dist + 1);
+        if(tr.first && mWalkable(tr.first)) pathFinder(tr, dist + 1);
+        if(r.first && mWalkable(r.first)) pathFinder(r, dist + 1);
+        if(br.first && mWalkable(br.first))pathFinder(br, dist + 1);
+        if(b.first && mWalkable(b.first))pathFinder(b, dist + 1);
+        if(bl.first && mWalkable(bl.first))pathFinder(bl, dist + 1);
+        if(l.first && mWalkable(l.first))pathFinder(l, dist + 1);
+        if(tl.first && mWalkable(tl.first))pathFinder(tl, dist + 1);
+        if(t.first && mWalkable(t.first))pathFinder(t, dist + 1);
     };
 
     pathFinder(tileGetter(startX, startY), 0);
@@ -131,9 +131,12 @@ bool ePathFinder::findPath(const int maxDist,
 
         for(const auto& n : neighs) {
             const auto& tp = n.second;
-            if(tp.first && *tp.second == dist - 1) {
-                path.emplace_back(n.first);
-                return bestFinder(tp);
+            if(!tp.first) continue;
+            if(mWalkable(tp.first)) {
+                if(*tp.second == dist - 1) {
+                    path.emplace_back(n.first);
+                    return bestFinder(tp);
+                }
             }
         }
 
@@ -142,6 +145,6 @@ bool ePathFinder::findPath(const int maxDist,
 
     const bool r = bestFinder(tileGetter(bestFinishX, bestFinishY));
     if(!r) return false;
-    std::reverse(path.begin(), path.end());
+    //std::reverse(path.begin(), path.end());
     return true;
 }

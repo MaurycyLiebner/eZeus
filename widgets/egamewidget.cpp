@@ -202,9 +202,9 @@ void eGameWidget::paintEvent(ePainter& p) {
 
 bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
     if(e.key() == SDL_Scancode::SDL_SCANCODE_KP_PLUS) {
-        mSpeed = std::clamp(mSpeed + 1, 1, 4);
+        mSpeed = std::clamp(mSpeed + 1, 1, 6);
     } else if(e.key() == SDL_Scancode::SDL_SCANCODE_KP_MINUS) {
-        mSpeed = std::clamp(mSpeed - 1, 1, 4);
+        mSpeed = std::clamp(mSpeed - 1, 1, 6);
     }
     return true;
 }

@@ -9,6 +9,7 @@
 class eCharacter {
 public:
     eCharacter();
+    virtual ~eCharacter() {}
 
     virtual eTexture getTexture(const eTileSize size) const = 0;
 

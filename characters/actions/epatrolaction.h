@@ -50,10 +50,11 @@ private:
     eCharacterActionState nextTurn(eOrientation& t);
 
     eOrientation mO{eOrientation::topRight};
-    int mMaxDistance = 50;
+    int mMaxDistance = 20;
     int mWalkedDistance = 0;
-    int mStartX;
-    int mStartY;
+    int mStartX = 0;
+    int mStartY = 0;
+    bool mGoBack = false;
     eMovePathAction* mGoBackAction = nullptr;
     std::vector<ePatrolGuide> mGuides;
 };

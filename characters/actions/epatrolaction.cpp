@@ -13,19 +13,27 @@ ePatrolAction::ePatrolAction(eCharacter* const c,
                     return tile->hasRoad();
                 },
                 failAction, finishAction) {
-    mStartX = c->x();
-    mStartY = c->y();
+    const auto t = c->tile();
+    if(t) {
+        mStartX = t->x();
+        mStartY = t->y();
+    }
     mO = c->orientation();
 }
 
 void ePatrolAction::increment(const int by) {
-    if(mGoBackAction) {
+    if(mGoBack) {
+        goBack();
+        if(!mGoBackAction) {
+            setState(eCharacterActionState::failed);
+            return;
+        }
         mGoBackAction->increment(by);
         const auto s = mGoBackAction->state();
         setState(s);
-        return;
+    } else {
+        return eMoveAction::increment(by);
     }
-    return eMoveAction::increment(by);
 }
 
 bool ePatrolAction::getGuide(const int tx, const int ty,
@@ -81,16 +89,15 @@ bool ePatrolAction::goBack() {
 }
 
 eCharacterActionState ePatrolAction::nextTurn(eOrientation& t) {
+    mGoBack = mWalkedDistance++ > mMaxDistance;
     const auto tile = mCharacter->tile();
-    if(!tile) return eCharacterActionState::failed;
+    if(!tile) {
+        return eCharacterActionState::failed;
+    }
 
     const int tx = tile->x();
     const int ty = tile->y();
-    if(mWalkedDistance++ > mMaxDistance) {
-        const bool r = goBack();
-        if(r) return eCharacterActionState::running;
-        else return eCharacterActionState::failed;
-    }
+
     ePatrolGuide g;
     const bool r = getGuide(tx, ty, g);
     if(r) mO = directionToOrientation(g.fDir);
@@ -102,8 +109,11 @@ eCharacterActionState ePatrolAction::nextTurn(eOrientation& t) {
         const auto t = r.second;
         if(!t) {
             const bool r = goBack();
-            if(r) return eCharacterActionState::running;
-            else return eCharacterActionState::failed;
+            if(r) {
+                return eCharacterActionState::running;
+            } else {
+                return eCharacterActionState::failed;
+            }
         }
         mO = r.first;
     }

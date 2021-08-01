@@ -41,6 +41,11 @@ void eGymnasium::spawn() const {
     d->setTile(t);
     d->setX(0.5);
     d->setY(0.5);
-    d->setCharAction(new ePatrolAction(d, []() {}, []() {}));
+    const auto finishAct = [d]() {
+        const auto t = d->tile();
+        t->removeCharacter(d);
+        delete d;
+    };
+    d->setCharAction(new ePatrolAction(d, finishAct, finishAct));
     t->addCharacter(d);
 }
