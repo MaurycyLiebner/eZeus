@@ -5,6 +5,7 @@
 eMoveAroundAction::eMoveAroundAction(eCharacter* const c) :
     eMoveAction(c,
                 [](eTile* const) { return true; },
+                []() {},
                 []() {}) {
     for(int i = 0; i < 100; i++) {
         const int oid = rand() % 8;

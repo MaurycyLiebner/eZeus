@@ -8,7 +8,8 @@ public:
     eMovePathAction(eCharacter* const c,
                     const std::vector<eOrientation>& path,
                     const eTileWalkable& tileWalkable,
-                    const eFailAction& failAction);
+                    const eAction& failAction,
+                    const eAction& finishAction);
 private:
     eCharacterActionState nextTurn(eOrientation& turn);
 

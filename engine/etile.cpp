@@ -34,6 +34,40 @@ eTile* eTile::bottom() const {
     return mBottomLeft->bottomRight();
 }
 
+std::vector<eTile::eTO> eTile::neighbours(const eTileVerifier& v) const {
+    std::vector<eTile::eTO> result;
+    for(int i = 0; i < 8; i++) {
+        const auto o = static_cast<eOrientation>(i);
+        const auto t = neighbour(o);
+        if(!t) continue;
+        if(v(t)) result.push_back({o, t});
+    }
+    return result;
+}
+
+eTile::eTO eTile::randomNeighbour(const eTileVerifier& v) const {
+    const auto ts = neighbours(v);
+    if(ts.empty()) return {eOrientation::top, nullptr};
+    return ts[rand() % ts.size()];
+}
+
+std::vector<eTile::eTO> eTile::diagonalNeighbours(const eTileVerifier& v) const {
+    std::vector<eTile::eTO> result;
+    for(int i = 0; i < 8; i += 2) {
+        const auto o = static_cast<eOrientation>(i);
+        const auto t = neighbour(o);
+        if(!t) continue;
+        if(v(t)) result.push_back({o, t});
+    }
+    return result;
+}
+
+eTile::eTO eTile::randomDiagonalNeighbour(const eTileVerifier& v) const {
+    const auto ts = diagonalNeighbours(v);
+    if(ts.empty()) return {eOrientation::top, nullptr};
+    return ts[rand() % ts.size()];
+}
+
 eTile* eTile::neighbour(const eOrientation o) const {
     switch(o) {
     case eOrientation::topRight: {

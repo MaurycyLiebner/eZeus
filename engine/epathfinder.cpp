@@ -1,20 +1,21 @@
 #include "epathfinder.h"
 
-ePathFinder::ePathFinder(const int startX, const int startY,
-                         const eGameBoard& board,
+ePathFinder::ePathFinder(eTile* const startTile,
                          const eTileWalkable& walkable,
                          const eTileFinish& finish) :
-    mBoard(board),
     mWalkable(walkable),
     mFinish(finish),
-    mStartX(startX),
-    mStartY(startY) {
+    mStart(startTile) {
 
 }
 
 bool ePathFinder::findPath(const int maxDist,
                            std::vector<eOrientation>& path,
-                           const bool randomize) {
+                           const bool randomize) const {
+    if(!mStart) return false;
+    const int startX = mStart->x();
+    const int startY = mStart->y();
+
     std::vector<std::vector<int>> board;
     const int boardDim = 2*maxDist + 1;
     board.reserve(boardDim);
@@ -24,9 +25,9 @@ bool ePathFinder::findPath(const int maxDist,
     using eTilePair = std::pair<eTile*, int*>;
     using eTileGetter = std::function<eTilePair(int, int)>;
     const eTileGetter tileGetter = [&](const int tx, const int ty) {
-        const auto tile = mBoard.tile(tx, ty);
-        const int bx = maxDist + tx + 1 - mStartX;
-        const int by = maxDist + ty + 1 - mStartY;
+        const auto tile = mStart->tileAbs(tx, ty);
+        const int bx = maxDist + tx + 1 - startX;
+        const int by = maxDist + ty + 1 - startY;
         if(!tile ||
            bx < 0 || bx >= boardDim ||
            by < 0 || by >= boardDim) {
@@ -88,8 +89,8 @@ bool ePathFinder::findPath(const int maxDist,
         pathFinder(t, dist + 1);
     };
 
-    pathFinder(tileGetter(mStartX, mStartY), 0);
-    *tileGetter(mStartX, mStartY).second = 0;
+    pathFinder(tileGetter(startX, startY), 0);
+    *tileGetter(startX, startY).second = 0;
 
     if(bestDistance == __INT_MAX__) return false;
 
@@ -103,7 +104,7 @@ bool ePathFinder::findPath(const int maxDist,
         const int dist = *from.second;
         const int tx = tile->x();
         const int ty = tile->y();
-        if(tx == mStartX && ty == mStartY) return true;
+        if(tx == startX && ty == startY) return true;
 
         const auto tr = tileGetter(tx, ty - 1);
         const auto r = tileGetter(tx + 1, ty - 1);

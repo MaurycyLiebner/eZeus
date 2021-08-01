@@ -2,6 +2,7 @@
 #define ETILE_H
 
 #include <vector>
+#include <functional>
 
 #include "eterrain.h"
 #include "eorientation.h"
@@ -33,6 +34,15 @@ public:
     eTile* top() const;
     eTile* right() const;
     eTile* bottom() const;
+
+    using eTO = std::pair<eOrientation, eTile*>;
+    using eTileVerifier = std::function<bool(eTile* const)>;
+
+    std::vector<eTO> neighbours(const eTileVerifier& v) const;
+    eTO randomNeighbour(const eTileVerifier& v) const;
+
+    std::vector<eTO> diagonalNeighbours(const eTileVerifier& v) const;
+    eTO randomDiagonalNeighbour(const eTileVerifier& v) const;
 
     eTile* neighbour(const eOrientation o) const;
 

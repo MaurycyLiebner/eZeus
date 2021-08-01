@@ -4,10 +4,10 @@
 
 eMoveAction::eMoveAction(eCharacter* const c,
                          const eTileWalkable& tileWalkable,
-                         const eFailAction& failAction) :
-    eCharacterAction(c),
-    mTileWalkable(tileWalkable),
-    mFailAction(failAction) {
+                         const eAction& failAction,
+                         const eAction& finishAction) :
+    eCharacterAction(c, failAction, finishAction),
+    mTileWalkable(tileWalkable) {
     mStartX = c->x();
     mStartY = c->y();
     mOrientation = c->orientation();
@@ -108,8 +108,6 @@ bool eMoveAction::nextTurn() {
     setState(r);
     switch(r) {
     case eCharacterActionState::failed:
-        mFailAction();
-        return false;
     case eCharacterActionState::finished:
         return false;
     case eCharacterActionState::running:
@@ -119,12 +117,8 @@ bool eMoveAction::nextTurn() {
     mCharacter->setOrientation(turn);
     const auto t = mCharacter->tile();
     mTargetTile = t->neighbour(turn);
-    if(!mTargetTile) {
-        mFailAction();
-        return false;
-    }
-    if(!mTileWalkable(mTargetTile)) {
-        mFailAction();
+    if(!mTargetTile || !mTileWalkable(mTargetTile)) {
+        setState(eCharacterActionState::failed);
         return false;
     }
     mStartX = mCharacter->x();

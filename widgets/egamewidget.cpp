@@ -46,7 +46,7 @@ void eGameWidget::initialize(const int w, const int h) {
     t->addCharacter(d);
 
     {
-        ePathFinder f(5, 5, mBoard,
+        ePathFinder f(mBoard.tile(5, 5),
                       [](eTile* const) { return true; },
                       [](eTile* const tile) {
             return tile->x() == 10 && tile->y() == 10;
@@ -61,6 +61,7 @@ void eGameWidget::initialize(const int w, const int h) {
             d->setY(0.5);
             d->setCharAction(new eMovePathAction(d, path,
                                                  [](eTile* const) { return true; },
+                                                 []() {},
                                                  []() {}));
             t->addCharacter(d);
         }

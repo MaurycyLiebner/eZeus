@@ -10,20 +10,17 @@ class ePathFinder {
 public:
     using eTileWalkable = std::function<bool(eTile* const)>;
     using eTileFinish = std::function<bool(eTile* const)>;
-    ePathFinder(const int startX, const int startY,
-                const eGameBoard& board,
+    ePathFinder(eTile* const startTile,
                 const eTileWalkable& walkable,
                 const eTileFinish& finish);
 
     bool findPath(const int maxDist,
                   std::vector<eOrientation>& path,
-                  const bool randomize);
+                  const bool randomize) const;
 private:
-    const eGameBoard& mBoard;
     const eTileWalkable mWalkable;
     const eTileFinish mFinish;
-    const int mStartX;
-    const int mStartY;
+    eTile* const mStart;
 };
 
 #endif // EPATHFINDER_H

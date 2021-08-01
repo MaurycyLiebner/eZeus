@@ -5,8 +5,9 @@
 eMovePathAction::eMovePathAction(eCharacter* const c,
                                  const std::vector<eOrientation>& path,
                                  const eTileWalkable& tileWalkable,
-                                 const eFailAction& failAction) :
-    eMoveAction(c, tileWalkable, failAction),
+                                 const eAction& failAction,
+                                 const eAction& finishAction) :
+    eMoveAction(c, tileWalkable, failAction, finishAction),
     mTurns(path) {
 
 }
