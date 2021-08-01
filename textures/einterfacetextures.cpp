@@ -201,6 +201,8 @@ void eInterfaceTextures::load() {
     {
         const std::string pathBase{dir + "Zeus_Interface_New_parts_"};
 
+        fGameMenuBackground.load(fRenderer, pathBase + "00002.png");
+
         for(int i = 45; i < 49; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fBuildRoadTexture);
         }

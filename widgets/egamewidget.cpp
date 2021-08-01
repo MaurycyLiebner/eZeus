@@ -3,6 +3,9 @@
 #include "eterraineditmenu.h"
 #include "etilepainter.h"
 
+#include "emainmenu.h"
+#include "egamemenu.h"
+
 #include "textures/etiletotexture.h"
 #include "textures/egametextures.h"
 
@@ -22,6 +25,10 @@ eGameWidget::eGameWidget(eMainWindow* const window) :
 eGameWidget::~eGameWidget() {}
 
 void eGameWidget::initialize(const int w, const int h) {
+    const auto gm = new eGameMenu(window());
+    addWidget(gm);
+    gm->align(eAlignment::right | eAlignment::top);
+
     mTem = new eTerrainEditMenu(window());
     addWidget(mTem);
     mTem->align(eAlignment::hcenter | eAlignment::bottom);

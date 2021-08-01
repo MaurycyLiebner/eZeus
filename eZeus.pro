@@ -59,6 +59,7 @@ SOURCES += \
         widgets/econtextmenu.cpp \
         widgets/efonts.cpp \
         widgets/egameloadingwidget.cpp \
+        widgets/egamemenu.cpp \
         widgets/egamewidget.cpp \
         widgets/elabel.cpp \
         widgets/elabeledwidget.cpp \
@@ -128,6 +129,7 @@ HEADERS += \
     widgets/econtextmenu.h \
     widgets/efonts.h \
     widgets/egameloadingwidget.h \
+    widgets/egamemenu.h \
     widgets/egamewidget.h \
     widgets/elabel.h \
     widgets/elabeledwidget.h \

@@ -4,6 +4,7 @@
 #include "widgets/esettingsmenu.h"
 #include "widgets/egamewidget.h"
 #include "widgets/egameloadingwidget.h"
+#include "widgets/egamemenu.h"
 
 #include "engine/ethreadpool.h"
 

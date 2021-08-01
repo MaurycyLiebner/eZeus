@@ -14,11 +14,13 @@ public:
     void setCheckAction(const eCheckAction& a);
 
     void setChecked(const bool c);
+    void setCheckedTexture(const eTexture& tex);
 private:
     using eButton::setPressAction;
 private:
     void paintEvent(ePainter& p);
 
+    eTexture mCheckedTexture;
     bool mChecked = false;
 };
 

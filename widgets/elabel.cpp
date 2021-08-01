@@ -25,6 +25,11 @@ bool eLabel::setText(const std::string& text) {
     return updateTextTexture();
 }
 
+bool eLabel::setTexture(const eTexture& tex) {
+    mTexture = tex;
+    return true;
+}
+
 bool eLabel::setFontColor(const SDL_Color& color) {
     mFontColor = color;
     return updateTextTexture();
@@ -32,26 +37,26 @@ bool eLabel::setFontColor(const SDL_Color& color) {
 
 bool eLabel::updateTextTexture() {
     if(mText.empty()) {
-        mTextTex.reset();
+        mTexture.reset();
         return true;
     }
     if(!mFont) return false;
-    mTextTex.loadText(renderer(), mText, mFontColor, *mFont);
+    mTexture.loadText(renderer(), mText, mFontColor, *mFont);
     return true;
 }
 
 void eLabel::sizeHint(int& w, int& h) {
-    if(mTextTex.isNull()) {
+    if(mTexture.isNull()) {
         w = 0;
         h = 0;
     } else {
-        w = mTextTex.width();
-        h = mTextTex.height();
+        w = mTexture.width();
+        h = mTexture.height();
     }
 }
 
 void eLabel::paintEvent(ePainter& p) {
-    if(!mTextTex.isNull()) {
-        p.drawTexture(rect(), mTextTex, eAlignment::center);
+    if(!mTexture.isNull()) {
+        p.drawTexture(rect(), mTexture, eAlignment::center);
     }
 }

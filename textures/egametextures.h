@@ -21,6 +21,9 @@ public:
     static const std::vector<eCharacterTextures>& characters() {
         return sCharacterTextures;
     }
+    static const std::vector<eInterfaceTextures>& interface() {
+        return sInterfaceTextures;
+    }
 
     static bool initialize(SDL_Renderer* const r);
     static bool loadNext(std::string& text);

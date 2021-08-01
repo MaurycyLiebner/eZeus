@@ -12,6 +12,7 @@ public:
 
     bool setFont(const eFont& font);
     bool setText(const std::string& text);
+    bool setTexture(const eTexture& tex);
     bool setFontColor(const SDL_Color& color);
 protected:
     void sizeHint(int& w, int& h);
@@ -22,7 +23,7 @@ private:
 
     TTF_Font* mFont = nullptr;
     std::string mText;
-    eTexture mTextTex;
+    eTexture mTexture;
     SDL_Color mFontColor{0, 0, 0, 255};
 };
 

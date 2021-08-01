@@ -14,6 +14,7 @@ public:
     const int fTileH;
     SDL_Renderer* const fRenderer;
 
+    eTexture fGameMenuBackground;
 
     // normal, hover, selected, disabled
     eTextureCollection fPopulationTexture;
