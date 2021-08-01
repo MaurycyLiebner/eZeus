@@ -5,6 +5,7 @@
 #include "edemetertextures.h"
 #include "ebuildingtextures.h"
 #include "echaractertextures.h"
+#include "einterfacetextures.h"
 
 class eGameTextures {
 public:
@@ -29,6 +30,7 @@ private:
     static std::vector<eDemeterTextures> sDemeterTextures;
     static std::vector<eBuildingTextures> sBuildingTextures;
     static std::vector<eCharacterTextures> sCharacterTextures;
+    static std::vector<eInterfaceTextures> sInterfaceTextures;
 };
 
 #endif // EGAMETEXTURES_H

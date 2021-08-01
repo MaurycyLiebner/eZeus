@@ -4,6 +4,7 @@ std::vector<eTerrainTextures> eGameTextures::sTerrainTextures;
 std::vector<eDemeterTextures> eGameTextures::sDemeterTextures;
 std::vector<eBuildingTextures> eGameTextures::sBuildingTextures;
 std::vector<eCharacterTextures> eGameTextures::sCharacterTextures;
+std::vector<eInterfaceTextures> eGameTextures::sInterfaceTextures;
 
 bool eGameTextures::initialize(SDL_Renderer* const r) {
     for(const auto& s : {std::pair<int, int>{29, 15},
@@ -13,6 +14,7 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
         sDemeterTextures.emplace_back(s.first, s.second, r);
         sBuildingTextures.emplace_back(s.first, s.second, r);
         sCharacterTextures.emplace_back(s.first, s.second, r);
+        sInterfaceTextures.emplace_back(s.first, s.second, r);
     }
 
     return true;
@@ -64,6 +66,16 @@ bool eGameTextures::loadNext(std::string& text) {
                 text = "Loading large character textures...";
             }
             sCharacterTextures[dload].load();
+        } else if(toLoad <= 14) {
+            const int dload = toLoad - 12;
+            if(dload == 0) {
+                text = "Loading small interface textures...";
+            } else if(dload == 1) {
+                text = "Loading medium interface textures...";
+            } else if(dload == 2) {
+                text = "Loading large interface textures...";
+            }
+            sInterfaceTextures[dload].load();
         }
     }
     return false;
@@ -73,5 +85,6 @@ int eGameTextures::size() {
     return sTerrainTextures.size() +
            sDemeterTextures.size() +
            sBuildingTextures.size() +
-           sCharacterTextures.size();
+           sCharacterTextures.size() +
+           sInterfaceTextures.size();
 }
