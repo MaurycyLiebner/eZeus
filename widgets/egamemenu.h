@@ -13,8 +13,12 @@ public:
 private:
     eCheckableButton* createButton(const eTextureCollection& texs,
                                    eWidget* const buttons);
+    eWidget* createButtons(const std::vector<const eTextureCollection*>& colls);
 
     const eRes mRes;
+
+    std::vector<eCheckableButton*> mButtons;
+    std::vector<eWidget*> mWidgets;
 };
 
 #endif // EGAMEMENU_H
