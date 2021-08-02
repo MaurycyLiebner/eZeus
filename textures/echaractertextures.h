@@ -3,8 +3,8 @@
 
 #include "etexturecollection.h"
 
-struct eGymnastTextures {
-    eGymnastTextures(SDL_Renderer* const renderer) :
+struct eBasicPatrolerTextures {
+    eBasicPatrolerTextures(SDL_Renderer* const renderer) :
         fDie(renderer) {}
 
     std::vector<eTextureCollection> fWalk;
@@ -22,7 +22,10 @@ public:
     const int fTileH;
     SDL_Renderer* const fRenderer;
 
-    eGymnastTextures fGymnast;
+    eBasicPatrolerTextures fGymnast;
+    eBasicPatrolerTextures fTaxCollector;
+    eBasicPatrolerTextures fWaterDistributor;
+    eBasicPatrolerTextures fPhilosopher;
 };
 
 #endif // ECHARACTERTEXTURES_H

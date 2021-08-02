@@ -8,7 +8,11 @@ LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf
 
 SOURCES += \
         buildings/ebuilding.cpp \
+        buildings/ecollege.cpp \
+        buildings/efountain.cpp \
         buildings/egymnasium.cpp \
+        buildings/epatrolbuilding.cpp \
+        buildings/epodium.cpp \
         buildings/eroad.cpp \
         buildings/esmallhouse.cpp \
         characters/actions/echaracteraction.cpp \
@@ -16,9 +20,13 @@ SOURCES += \
         characters/actions/emovearoundaction.cpp \
         characters/actions/emovepathaction.cpp \
         characters/actions/epatrolaction.cpp \
+        characters/ebasicpatroler.cpp \
         characters/echaracter.cpp \
         characters/edemeter.cpp \
         characters/egymnast.cpp \
+        characters/ephilosopher.cpp \
+        characters/etaxcollector.cpp \
+        characters/ewaterdistributor.cpp \
         emainwindow.cpp \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
@@ -78,7 +86,11 @@ SOURCES += \
 
 HEADERS += \
     buildings/ebuilding.h \
+    buildings/ecollege.h \
+    buildings/efountain.h \
     buildings/egymnasium.h \
+    buildings/epatrolbuilding.h \
+    buildings/epodium.h \
     buildings/eroad.h \
     buildings/esmallhouse.h \
     characters/actions/echaracteraction.h \
@@ -86,9 +98,13 @@ HEADERS += \
     characters/actions/emovearoundaction.h \
     characters/actions/emovepathaction.h \
     characters/actions/epatrolaction.h \
+    characters/ebasicpatroler.h \
     characters/echaracter.h \
     characters/edemeter.h \
     characters/egymnast.h \
+    characters/ephilosopher.h \
+    characters/etaxcollector.h \
+    characters/ewaterdistributor.h \
     emainwindow.h \
     engine/efunctask.h \
     engine/egameboard.h \

@@ -61,7 +61,7 @@ void eBuildingTextures::load() {
 
             fHouseSpace.load(fRenderer, pathBase + "00015.png");
             for(int i = 1; i < 15;) {
-                auto& coll = fSmallHouses.emplace_back(fRenderer);
+                auto& coll = fCommonHouse.emplace_back(fRenderer);
                 for(int j = 0; j < 2; j++, i++) {
                     eTextureLoadingHelpers::loadTex(pathBase, i, coll);
                 }

@@ -1,27 +1,11 @@
 #ifndef EGYMNASIUM_H
 #define EGYMNASIUM_H
 
-#include "ebuilding.h"
-#include "textures/ebuildingtextures.h"
-#include "characters/actions/epatrolaction.h"
+#include "epatrolbuilding.h"
 
-class eGymnasium : public eBuilding {
+class eGymnasium : public ePatrolBuilding {
 public:
     eGymnasium();
-
-    eTexture getTexture(const eTileSize size) const;
-    std::vector<eOverlay> getOverlays(const eTileSize size) const;
-
-    void timeChanged();
-
-    using ePatrolGuides = std::vector<ePatrolGuide>;
-    void setPatrolGuides(const ePatrolGuides& g);
-
-    void spawn() const;
-private:
-    eMoveDirection mSpawnDirection{eMoveDirection::bottomLeft};
-    const std::vector<eBuildingTextures>& mTextures;
-    ePatrolGuides mPatrolGuides;
 };
 
 #endif // EGYMNASIUM_H

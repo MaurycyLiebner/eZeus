@@ -15,7 +15,8 @@ public:
     SDL_Renderer* const fRenderer;
 
     eTexture fHouseSpace;
-    std::vector<eTextureCollection> fSmallHouses;
+    std::vector<eTextureCollection> fCommonHouse;
+
 
     eTexture fGymnasium;
     eTextureCollection fGymnasiumOverlay;
@@ -36,6 +37,7 @@ public:
 
     eTexture fStadium1W;
     eTexture fStadium2W;
+
 
     eTexture fFountain;
     eTextureCollection fFountainOverlay;

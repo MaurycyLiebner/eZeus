@@ -6,8 +6,48 @@
 #include "engine/etile.h"
 
 enum class eBuildingType {
-    house,
+    commonHouse,
+
     gymnasium,
+    college,
+    dramaSchool,
+    podium,
+    theater,
+    stadium,
+
+    fountain,
+    hospital,
+
+    oliveTree,
+    vine,
+    plantation,
+    wheat,
+    carrots,
+    onions,
+    huntingLodge,
+    fishery,
+    urchinQuay,
+    cardingShed,
+    dairy,
+    growersLodge,
+
+    timberMill,
+    masonryShop,
+    mint,
+    foundry,
+    artisansGuild,
+    olivePress,
+    winery,
+    sculptureStudio,
+
+    triremeWharf,
+    horseRanch,
+    armory,
+
+    maintenanceOffice,
+    taxOffice,
+    watchPost,
+
     road
 };
 

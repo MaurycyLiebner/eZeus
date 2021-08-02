@@ -4,14 +4,14 @@
 #include "textures/egametextures.h"
 
 eSmallHouse::eSmallHouse() :
-    eBuilding(eBuildingType::house, 2, 2),
+    eBuilding(eBuildingType::commonHouse, 2, 2),
     mTextures(eGameTextures::buildings()) {
 
 }
 
 eTexture eSmallHouse::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
-    const auto& coll = mTextures[sizeId].fSmallHouses[mLevel];
+    const auto& coll = mTextures[sizeId].fCommonHouse[mLevel];
     const int texId = seed() % coll.size();
     return coll.getTexture(texId);
 }
