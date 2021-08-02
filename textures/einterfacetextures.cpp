@@ -7,73 +7,88 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fTileW(tileW), fTileH(tileH),
     fRenderer(renderer),
 
-    fShowInfoTexture(renderer),
-    fShowMapTexture(renderer),
+    fShowInfo(renderer),
+    fShowMap(renderer),
 
-    fPopulationTexture(renderer),
-    fHusbandryTexture(renderer),
-    fIndustryTexture(renderer),
-    fDistributionTexture(renderer),
-    fHygieneSafetyTexture(renderer),
-    fAdministrationTexture(renderer),
-    fCultureTexture(renderer),
-    fMythologyTexture(renderer),
-    fMilitaryTexture(renderer),
-    fAestheticsTexture(renderer),
-    fOverviewTexture(renderer),
+    fPopulation(renderer),
+    fHusbandry(renderer),
+    fIndustry(renderer),
+    fDistribution(renderer),
+    fHygieneSafety(renderer),
+    fAdministration(renderer),
+    fCulture(renderer),
+    fMythology(renderer),
+    fMilitary(renderer),
+    fAesthetics(renderer),
+    fOverview(renderer),
 
-    fCommonHousingTexture(renderer),
-    fEliteHousingTexture(renderer),
+    fCommonHousing(renderer),
+    fEliteHousing(renderer),
 
-    fFoodFarmingTexture(renderer),
-    fOtherFarmingTexture(renderer),
-    fAnimalFarmingTexture(renderer),
-    fAnimalHuntingTexture(renderer),
+    fFoodFarming(renderer),
+    fOtherFarming(renderer),
+    fAnimalFarming(renderer),
+    fAnimalHunting(renderer),
 
-    fResourcesTexture(renderer),
-    fProcessingTexture(renderer),
-    fBuildersGuildTexture(renderer),
+    fResources(renderer),
+    fProcessing(renderer),
+    fBuildersGuild(renderer),
 
-    fGranaryTexture(renderer),
-    fWarehouseTexture(renderer),
-    fAgorasTexture(renderer),
-    fTradeTexture(renderer),
+    fGranary(renderer),
+    fWarehouse(renderer),
+    fAgoras(renderer),
+    fTrade(renderer),
 
-    fFireFighterTexture(renderer),
-    fFountainTexture(renderer),
-    fPoliceTexture(renderer),
-    fHospitalTexture(renderer),
+    fFireFighter(renderer),
+    fFountain(renderer),
+    fPolice(renderer),
+    fHospital(renderer),
 
-    fPalaceTexture(renderer),
-    fTaxCollectorTexture(renderer),
-    fBridgeTexture(renderer),
+    fPalace(renderer),
+    fTaxCollector(renderer),
+    fBridge(renderer),
 
-    fPhilosophyTexture(renderer),
-    fGymnasiumTexture(renderer),
-    fDramaTexture(renderer),
-    fStadiumTexture(renderer),
+    fPhilosophy(renderer),
+    fGymnasium(renderer),
+    fDrama(renderer),
+    fStadium(renderer),
 
-    fTemplesTexture(renderer),
-    fHeroShrinesTexture(renderer),
+    fTemples(renderer),
+    fHeroShrines(renderer),
 
-    fFortificationsTexture(renderer),
-    fMilitaryProductionTexture(renderer),
+    fFortifications(renderer),
+    fMilitaryProduction(renderer),
 
-    fBeautificationTexture(renderer),
-    fRecreationTexture(renderer),
-    fMonumentTexture(renderer),
+    fBeautification(renderer),
+    fRecreation(renderer),
+    fMonuments(renderer),
 
-    fBuildRoadTexture(renderer),
-    fRoadBlockTexture(renderer),
-    fClearTexture(renderer),
-    fUndoTexture(renderer),
+    fBuildRoad(renderer),
+    fRoadBlock(renderer),
+    fClear(renderer),
+    fUndo(renderer),
 
-    fMessagesTexture(renderer),
+    fMessages(renderer),
 
-    fGoalsTexture(renderer),
-    fRotationTexture(renderer),
-    fWorldTexture(renderer) {
+    fGoals(renderer),
+    fRotation(renderer),
+    fWorld(renderer),
 
+    fFireAlert(renderer),
+    fGroundFissureAlert(renderer),
+    fFloodAlert(renderer),
+    fAvalancheAltert(renderer),
+    fLavaAltert(renderer),
+    fBuildingCollapseAltert(renderer),
+    fRoadBlockAltert(renderer),
+    fVirusAlert(renderer),
+    fIllnessAlert(renderer),
+    fInvasionAlert(renderer),
+    fMonsterAltert(renderer),
+    fGodAttackAlert(renderer),
+    fGodVisitAlert(renderer),
+    fHeroArrivalAlert(renderer),
+    fArmyComebackAlert(renderer) {
 }
 
 void eInterfaceTextures::load() {
@@ -85,127 +100,127 @@ void eInterfaceTextures::load() {
         const std::string pathBase{dir + "Zeus_Interface_New_Bbuttons_"};
 
         for(int i = 4; i < 7; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fCommonHousingTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fCommonHousing);
         }
 
         for(int i = 7; i < 10; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fEliteHousingTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fEliteHousing);
         }
 
         for(int i = 10; i < 13; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fFoodFarmingTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fFoodFarming);
         }
 
         for(int i = 13; i < 16; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fOtherFarmingTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fOtherFarming);
         }
 
         for(int i = 16; i < 19; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fAnimalFarmingTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fAnimalFarming);
         }
 
         for(int i = 19; i < 22; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fAnimalHuntingTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fAnimalHunting);
         }
 
         for(int i = 22; i < 25; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fResourcesTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fResources);
         }
 
         for(int i = 25; i < 28; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fProcessingTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fProcessing);
         }
 
         for(int i = 28; i < 31; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fBuildersGuildTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fBuildersGuild);
         }
 
         for(int i = 31; i < 34; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fGranaryTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fGranary);
         }
 
         for(int i = 34; i < 37; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouse);
         }
 
         for(int i = 37; i < 40; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fAgorasTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fAgoras);
         }
 
         for(int i = 40; i < 43; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fTradeTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fTrade);
         }
 
         for(int i = 43; i < 46; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fFireFighterTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fFireFighter);
         }
 
         for(int i = 46; i < 49; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fFountainTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fFountain);
         }
 
         for(int i = 49; i < 52; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fPoliceTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fPolice);
         }
 
         for(int i = 52; i < 55; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fHospitalTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fHospital);
         }
 
         for(int i = 55; i < 58; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fPalaceTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fPalace);
         }
 
         for(int i = 58; i < 61; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fTaxCollectorTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fTaxCollector);
         }
 
         for(int i = 61; i < 64; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fBridgeTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fBridge);
         }
 
         for(int i = 67; i < 70; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fPhilosophyTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fPhilosophy);
         }
 
         for(int i = 70; i < 73; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fGymnasiumTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fGymnasium);
         }
 
         for(int i = 73; i < 76; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fDramaTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fDrama);
         }
 
         for(int i = 76; i < 79; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fStadiumTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fStadium);
         }
 
         for(int i = 79; i < 82; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fTemplesTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fTemples);
         }
 
         for(int i = 82; i < 85; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fHeroShrinesTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fHeroShrines);
         }
 
         for(int i = 85; i < 88; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fFortificationsTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fFortifications);
         }
 
         for(int i = 88; i < 91; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fMilitaryProductionTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fMilitaryProduction);
         }
 
         for(int i = 91; i < 94; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fBeautificationTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fBeautification);
         }
 
         for(int i = 94; i < 97; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fRecreationTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fRecreation);
         }
 
         for(int i = 97; i < 100; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fMonumentTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fMonuments);
         }
     }
 
@@ -216,87 +231,136 @@ void eInterfaceTextures::load() {
 
 
         for(int i = 5; i < 37; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fRotationTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fRotation);
         }
 
         for(int i = 37; i < 41; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fGoalsTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fGoals);
         }
 
         for(int i = 41; i < 45; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWorld);
         }
 
         for(int i = 45; i < 49; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fBuildRoadTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fBuildRoad);
         }
 
         for(int i = 49; i < 53; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fRoadBlockTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fRoadBlock);
         }
 
         for(int i = 53; i < 57; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fClearTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fClear);
         }
 
         for(int i = 57; i < 61; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fUndoTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fUndo);
         }
 
         for(int i = 61; i < 65; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fMessagesTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fMessages);
         }
 
         for(int i = 89; i < 93; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fOverviewTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fOverview);
         }
 
         for(int i = 93; i < 97; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fPopulationTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fPopulation);
         }
 
         for(int i = 97; i < 101; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fHusbandryTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fHusbandry);
         }
 
         for(int i = 101; i < 105; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fIndustryTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fIndustry);
         }
 
         for(int i = 105; i < 109; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fDistributionTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fDistribution);
         }
 
         for(int i = 109; i < 113; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fHygieneSafetyTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fHygieneSafety);
         }
 
         for(int i = 113; i < 117; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fAdministrationTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fAdministration);
         }
 
         for(int i = 117; i < 121; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fCultureTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fCulture);
         }
 
         for(int i = 121; i < 125; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fMythologyTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fMythology);
         }
 
         for(int i = 125; i < 129; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fMilitaryTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fMilitary);
         }
 
         for(int i = 129; i < 133; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fAestheticsTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fAesthetics);
         }
 
+
+
+        for(int i = 184; i < 187; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fFireAlert);
+        }
+        for(int i = 187; i < 190; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fGroundFissureAlert);
+        }
+        for(int i = 190; i < 193; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fFloodAlert);
+        }
+        for(int i = 193; i < 196; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fAvalancheAltert);
+        }
+        for(int i = 196; i < 199; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fLavaAltert);
+        }
+        for(int i = 199; i < 202; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fBuildingCollapseAltert);
+        }
+        for(int i = 202; i < 205; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fRoadBlockAltert);
+        }
+        for(int i = 205; i < 208; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fVirusAlert);
+        }
+        for(int i = 208; i < 211; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fIllnessAlert);
+        }
+        for(int i = 211; i < 214; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fInvasionAlert);
+        }
+        for(int i = 214; i < 217; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fMonsterAltert);
+        }
+        for(int i = 217; i < 220; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fGodAttackAlert);
+        }
+        for(int i = 220; i < 223; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fGodVisitAlert);
+        }
+        for(int i = 223; i < 226; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fHeroArrivalAlert);
+        }
+        for(int i = 226; i < 229; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fArmyComebackAlert);
+        }
+
+
         for(int i = 263; i < 267; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fShowInfoTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fShowInfo);
         }
 
         for(int i = 267; i < 271; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fShowMapTexture);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fShowMap);
         }
     }
 }

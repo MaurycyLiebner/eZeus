@@ -17,75 +17,92 @@ public:
     eTexture fGameMenuBackground;
 
     // normal, hover, selected, disabled
-    eTextureCollection fShowInfoTexture;
-    eTextureCollection fShowMapTexture;
+    eTextureCollection fShowInfo;
+    eTextureCollection fShowMap;
 
     // normal, hover, selected, disabled
-    eTextureCollection fPopulationTexture;
-    eTextureCollection fHusbandryTexture;
-    eTextureCollection fIndustryTexture;
-    eTextureCollection fDistributionTexture;
-    eTextureCollection fHygieneSafetyTexture;
-    eTextureCollection fAdministrationTexture;
-    eTextureCollection fCultureTexture;
-    eTextureCollection fMythologyTexture;
-    eTextureCollection fMilitaryTexture;
-    eTextureCollection fAestheticsTexture;
-    eTextureCollection fOverviewTexture;
+    eTextureCollection fPopulation;
+    eTextureCollection fHusbandry;
+    eTextureCollection fIndustry;
+    eTextureCollection fDistribution;
+    eTextureCollection fHygieneSafety;
+    eTextureCollection fAdministration;
+    eTextureCollection fCulture;
+    eTextureCollection fMythology;
+    eTextureCollection fMilitary;
+    eTextureCollection fAesthetics;
+    eTextureCollection fOverview;
 
     // normal, hover, pressed
-    eTextureCollection fCommonHousingTexture;
-    eTextureCollection fEliteHousingTexture;
+    eTextureCollection fCommonHousing;
+    eTextureCollection fEliteHousing;
 
-    eTextureCollection fFoodFarmingTexture;
-    eTextureCollection fOtherFarmingTexture; // e.g. wine
-    eTextureCollection fAnimalFarmingTexture;
-    eTextureCollection fAnimalHuntingTexture;
+    eTextureCollection fFoodFarming;
+    eTextureCollection fOtherFarming; // e.g. wine
+    eTextureCollection fAnimalFarming;
+    eTextureCollection fAnimalHunting;
 
-    eTextureCollection fResourcesTexture; // e.g. wood, marble
-    eTextureCollection fProcessingTexture; // e.g. olives
-    eTextureCollection fBuildersGuildTexture;
+    eTextureCollection fResources; // e.g. wood, marble
+    eTextureCollection fProcessing; // e.g. olives
+    eTextureCollection fBuildersGuild;
 
-    eTextureCollection fGranaryTexture;
-    eTextureCollection fWarehouseTexture;
-    eTextureCollection fAgorasTexture;
-    eTextureCollection fTradeTexture;
+    eTextureCollection fGranary;
+    eTextureCollection fWarehouse;
+    eTextureCollection fAgoras;
+    eTextureCollection fTrade;
 
-    eTextureCollection fFireFighterTexture;
-    eTextureCollection fFountainTexture;
-    eTextureCollection fPoliceTexture;
-    eTextureCollection fHospitalTexture;
+    eTextureCollection fFireFighter;
+    eTextureCollection fFountain;
+    eTextureCollection fPolice;
+    eTextureCollection fHospital;
 
-    eTextureCollection fPalaceTexture;
-    eTextureCollection fTaxCollectorTexture;
-    eTextureCollection fBridgeTexture;
+    eTextureCollection fPalace;
+    eTextureCollection fTaxCollector;
+    eTextureCollection fBridge;
 
-    eTextureCollection fPhilosophyTexture;
-    eTextureCollection fGymnasiumTexture;
-    eTextureCollection fDramaTexture;
-    eTextureCollection fStadiumTexture;
+    eTextureCollection fPhilosophy;
+    eTextureCollection fGymnasium;
+    eTextureCollection fDrama;
+    eTextureCollection fStadium;
 
-    eTextureCollection fTemplesTexture;
-    eTextureCollection fHeroShrinesTexture;
+    eTextureCollection fTemples;
+    eTextureCollection fHeroShrines;
 
-    eTextureCollection fFortificationsTexture;
-    eTextureCollection fMilitaryProductionTexture;
+    eTextureCollection fFortifications;
+    eTextureCollection fMilitaryProduction;
 
-    eTextureCollection fBeautificationTexture;
-    eTextureCollection fRecreationTexture;
-    eTextureCollection fMonumentTexture;
+    eTextureCollection fBeautification;
+    eTextureCollection fRecreation;
+    eTextureCollection fMonuments;
 
     // normal, hover, pressed, disabled
-    eTextureCollection fBuildRoadTexture;
-    eTextureCollection fRoadBlockTexture;
-    eTextureCollection fClearTexture;
-    eTextureCollection fUndoTexture;
+    eTextureCollection fBuildRoad;
+    eTextureCollection fRoadBlock;
+    eTextureCollection fClear;
+    eTextureCollection fUndo;
 
-    eTextureCollection fMessagesTexture;
+    eTextureCollection fMessages;
 
-    eTextureCollection fGoalsTexture;
-    eTextureCollection fRotationTexture;
-    eTextureCollection fWorldTexture;
+    eTextureCollection fGoals;
+    eTextureCollection fRotation;
+    eTextureCollection fWorld;
+
+    // normal, hoer, pressed
+    eTextureCollection fFireAlert;
+    eTextureCollection fGroundFissureAlert;
+    eTextureCollection fFloodAlert;
+    eTextureCollection fAvalancheAltert;
+    eTextureCollection fLavaAltert;
+    eTextureCollection fBuildingCollapseAltert;
+    eTextureCollection fRoadBlockAltert;
+    eTextureCollection fVirusAlert;
+    eTextureCollection fIllnessAlert;
+    eTextureCollection fInvasionAlert;
+    eTextureCollection fMonsterAltert;
+    eTextureCollection fGodAttackAlert;
+    eTextureCollection fGodVisitAlert;
+    eTextureCollection fHeroArrivalAlert;
+    eTextureCollection fArmyComebackAlert;
 };
 
 #endif // EINTERFACETEXTURES_H

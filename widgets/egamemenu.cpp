@@ -97,17 +97,17 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
     buttons->setY(y);
     buttons->setPadding(0);
 
-    const auto b0 = createButton(coll.fPopulationTexture, buttons);
-    const auto b1 = createButton(coll.fHusbandryTexture, buttons);
-    const auto b2 = createButton(coll.fIndustryTexture, buttons);
-    const auto b3 = createButton(coll.fDistributionTexture, buttons);
-    const auto b4 = createButton(coll.fHygieneSafetyTexture, buttons);
-    const auto b5 = createButton(coll.fAdministrationTexture, buttons);
-    const auto b6 = createButton(coll.fCultureTexture, buttons);
-    const auto b7 = createButton(coll.fMythologyTexture, buttons);
-    const auto b8 = createButton(coll.fMilitaryTexture, buttons);
-    const auto b9 = createButton(coll.fAestheticsTexture, buttons);
-    const auto b10 = createButton(coll.fOverviewTexture, buttons);
+    const auto b0 = createButton(coll.fPopulation, buttons);
+    const auto b1 = createButton(coll.fHusbandry, buttons);
+    const auto b2 = createButton(coll.fIndustry, buttons);
+    const auto b3 = createButton(coll.fDistribution, buttons);
+    const auto b4 = createButton(coll.fHygieneSafety, buttons);
+    const auto b5 = createButton(coll.fAdministration, buttons);
+    const auto b6 = createButton(coll.fCulture, buttons);
+    const auto b7 = createButton(coll.fMythology, buttons);
+    const auto b8 = createButton(coll.fMilitary, buttons);
+    const auto b9 = createButton(coll.fAesthetics, buttons);
+    const auto b10 = createButton(coll.fOverview, buttons);
 
     mButtons.push_back(b0);
     mButtons.push_back(b1);
@@ -153,55 +153,55 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
 
     const auto w0 = createSubButtons(mult,
                         std::vector<const eTextureCollection*>{
-                            &coll.fCommonHousingTexture,
-                            &coll.fEliteHousingTexture});
+                            &coll.fCommonHousing,
+                            &coll.fEliteHousing});
     const auto w1 = createSubButtons(mult,
                         std::vector<const eTextureCollection*>{
-                            &coll.fFoodFarmingTexture,
-                            &coll.fOtherFarmingTexture,
-                            &coll.fAnimalFarmingTexture,
-                            &coll.fAnimalHuntingTexture});
+                            &coll.fFoodFarming,
+                            &coll.fOtherFarming,
+                            &coll.fAnimalFarming,
+                            &coll.fAnimalHunting});
     const auto w2 = createSubButtons(mult,
                         std::vector<const eTextureCollection*>{
-                            &coll.fResourcesTexture,
-                            &coll.fProcessingTexture,
-                            &coll.fBuildersGuildTexture});
+                            &coll.fResources,
+                            &coll.fProcessing,
+                            &coll.fBuildersGuild});
     const auto w3 = createSubButtons(mult,
                         std::vector<const eTextureCollection*>{
-                            &coll.fGranaryTexture,
-                            &coll.fWarehouseTexture,
-                            &coll.fAgorasTexture,
-                            &coll.fTradeTexture});
+                            &coll.fGranary,
+                            &coll.fWarehouse,
+                            &coll.fAgoras,
+                            &coll.fTrade});
     const auto w4 = createSubButtons(mult,
                         std::vector<const eTextureCollection*>{
-                            &coll.fFireFighterTexture,
-                            &coll.fFountainTexture,
-                            &coll.fPoliceTexture,
-                            &coll.fHospitalTexture});
+                            &coll.fFireFighter,
+                            &coll.fFountain,
+                            &coll.fPolice,
+                            &coll.fHospital});
     const auto w5 = createSubButtons(mult,
                         std::vector<const eTextureCollection*>{
-                            &coll.fPalaceTexture,
-                            &coll.fTaxCollectorTexture,
-                            &coll.fBridgeTexture});
+                            &coll.fPalace,
+                            &coll.fTaxCollector,
+                            &coll.fBridge});
     const auto w6 = createSubButtons(mult,
                         std::vector<const eTextureCollection*>{
-                            &coll.fPhilosophyTexture,
-                            &coll.fGymnasiumTexture,
-                            &coll.fDramaTexture,
-                            &coll.fStadiumTexture});
+                            &coll.fPhilosophy,
+                            &coll.fGymnasium,
+                            &coll.fDrama,
+                            &coll.fStadium});
     const auto w7 = createSubButtons(mult,
                         std::vector<const eTextureCollection*>{
-                            &coll.fTemplesTexture,
-                            &coll.fHeroShrinesTexture});
+                            &coll.fTemples,
+                            &coll.fHeroShrines});
     const auto w8 = createSubButtons(mult,
                         std::vector<const eTextureCollection*>{
-                            &coll.fFortificationsTexture,
-                            &coll.fMilitaryProductionTexture});
+                            &coll.fFortifications,
+                            &coll.fMilitaryProduction});
     const auto w9 = createSubButtons(mult,
                         std::vector<const eTextureCollection*>{
-                            &coll.fBeautificationTexture,
-                            &coll.fRecreationTexture,
-                            &coll.fMonumentTexture});
+                            &coll.fBeautification,
+                            &coll.fRecreation,
+                            &coll.fMonuments});
 
 
     mWidgets.push_back(w0);
@@ -256,10 +256,10 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
         const auto btmButtons = new eWidget(window);
         btmButtons->setPadding(0);
 
-        const auto b = createSubButton(coll.fBuildRoadTexture, btmButtons);
-        createSubButton(coll.fRoadBlockTexture, btmButtons);
-        createSubButton(coll.fClearTexture, btmButtons);
-        createSubButton(coll.fUndoTexture, btmButtons);
+        const auto b = createSubButton(coll.fBuildRoad, btmButtons);
+        createSubButton(coll.fRoadBlock, btmButtons);
+        createSubButton(coll.fClear, btmButtons);
+        createSubButton(coll.fUndo, btmButtons);
 
         const int x = mult*24;
         const int y = std::round(mult*217.5);
@@ -271,8 +271,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
 
     {
         const auto butts = new eWidget(window);
-        const auto info = createButton(coll.fShowInfoTexture, butts);
-        const auto map = createButton(coll.fShowMapTexture, butts);
+        const auto info = createButton(coll.fShowInfo, butts);
+        const auto map = createButton(coll.fShowMap, butts);
         info->setChecked(true);
         info->setCheckAction([info, map](const bool c) {
             if(!c) return info->setChecked(true);
@@ -289,15 +289,15 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
     }
 
     {
-        const auto m = createButton(coll.fMessagesTexture, this);
+        const auto m = createButton(coll.fMessages, this);
         m->move(mult*73, mult*239);
     }
     {
         const auto butts = new eWidget(window);
         butts->setPadding(0);
-        const auto goals = createButton(coll.fGoalsTexture, butts);
-        const auto rotate = createButton(coll.fRotationTexture, butts);
-        const auto world = createButton(coll.fWorldTexture, butts);
+        const auto goals = createButton(coll.fGoals, butts);
+        const auto rotate = createButton(coll.fRotation, butts);
+        const auto world = createButton(coll.fWorld, butts);
         const int w = goals->width() + rotate->width() + world->width() + 5;
         butts->resize(w, world->height());
         butts->layoutHorizontally();
