@@ -6,6 +6,7 @@
 class eCheckableButton;
 class eTextureCollection;
 class eInterfaceTextures;
+class eButton;
 
 class eGameMenu : public eLabel {
 public:
@@ -13,7 +14,11 @@ public:
 private:
     eCheckableButton* createButton(const eTextureCollection& texs,
                                    eWidget* const buttons);
-    eWidget* createButtons(const std::vector<const eTextureCollection*>& colls);
+    eButton* createSubButton(const eTextureCollection& texs,
+                             eWidget* const buttons);
+    using eTexCollVec = std::vector<const eTextureCollection*>;
+    eWidget* createSubButtons(const int resoltuionMult,
+                              const eTexCollVec& colls);
 
     const eRes mRes;
 

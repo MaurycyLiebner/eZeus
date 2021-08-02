@@ -7,6 +7,9 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fTileW(tileW), fTileH(tileH),
     fRenderer(renderer),
 
+    fShowInfoTexture(renderer),
+    fShowMapTexture(renderer),
+
     fPopulationTexture(renderer),
     fHusbandryTexture(renderer),
     fIndustryTexture(renderer),
@@ -61,7 +64,15 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fMonumentTexture(renderer),
 
     fBuildRoadTexture(renderer),
-    fClearTexture(renderer) {
+    fRoadBlockTexture(renderer),
+    fClearTexture(renderer),
+    fUndoTexture(renderer),
+
+    fMessagesTexture(renderer),
+
+    fGoalsTexture(renderer),
+    fRotationTexture(renderer),
+    fWorldTexture(renderer) {
 
 }
 
@@ -203,12 +214,37 @@ void eInterfaceTextures::load() {
 
         fGameMenuBackground.load(fRenderer, pathBase + "00002.png");
 
+
+        for(int i = 5; i < 37; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fRotationTexture);
+        }
+
+        for(int i = 37; i < 41; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fGoalsTexture);
+        }
+
+        for(int i = 41; i < 45; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldTexture);
+        }
+
         for(int i = 45; i < 49; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fBuildRoadTexture);
         }
 
+        for(int i = 49; i < 53; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fRoadBlockTexture);
+        }
+
         for(int i = 53; i < 57; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fClearTexture);
+        }
+
+        for(int i = 57; i < 61; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fUndoTexture);
+        }
+
+        for(int i = 61; i < 65; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fMessagesTexture);
         }
 
         for(int i = 89; i < 93; i++) {
@@ -253,6 +289,14 @@ void eInterfaceTextures::load() {
 
         for(int i = 129; i < 133; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fAestheticsTexture);
+        }
+
+        for(int i = 263; i < 267; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fShowInfoTexture);
+        }
+
+        for(int i = 267; i < 271; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fShowMapTexture);
         }
     }
 }

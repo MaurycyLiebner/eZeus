@@ -17,6 +17,10 @@ public:
     eTexture fGameMenuBackground;
 
     // normal, hover, selected, disabled
+    eTextureCollection fShowInfoTexture;
+    eTextureCollection fShowMapTexture;
+
+    // normal, hover, selected, disabled
     eTextureCollection fPopulationTexture;
     eTextureCollection fHusbandryTexture;
     eTextureCollection fIndustryTexture;
@@ -29,7 +33,7 @@ public:
     eTextureCollection fAestheticsTexture;
     eTextureCollection fOverviewTexture;
 
-    // normal, hover, selected
+    // normal, hover, pressed
     eTextureCollection fCommonHousingTexture;
     eTextureCollection fEliteHousingTexture;
 
@@ -71,9 +75,17 @@ public:
     eTextureCollection fRecreationTexture;
     eTextureCollection fMonumentTexture;
 
-    // normal, hover, selected, disabled
+    // normal, hover, pressed, disabled
     eTextureCollection fBuildRoadTexture;
+    eTextureCollection fRoadBlockTexture;
     eTextureCollection fClearTexture;
+    eTextureCollection fUndoTexture;
+
+    eTextureCollection fMessagesTexture;
+
+    eTextureCollection fGoalsTexture;
+    eTextureCollection fRotationTexture;
+    eTextureCollection fWorldTexture;
 };
 
 #endif // EINTERFACETEXTURES_H

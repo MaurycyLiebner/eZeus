@@ -44,28 +44,6 @@ void eGameWidget::initialize(const int w, const int h) {
     d->setY(0.5);
     d->setCharAction(new eMoveAroundAction(d));
     t->addCharacter(d);
-
-    {
-        ePathFinder f(mBoard.tile(5, 5),
-                      [](eTile* const) { return true; },
-                      [](eTile* const tile) {
-            return tile->x() == 10 && tile->y() == 10;
-        });
-        std::vector<eOrientation> path;
-        const bool found = f.findPath(7, path, false, false);
-        if(found) {
-            const auto t = mBoard.tile(5, 5);
-            const auto d = new eGymnast();
-            d->setTile(t);
-            d->setX(0.5);
-            d->setY(0.5);
-            d->setCharAction(new eMovePathAction(d, path,
-                                                 [](eTile* const) { return true; },
-                                                 []() {},
-                                                 []() {}));
-            t->addCharacter(d);
-        }
-    }
 }
 
 void eGameWidget::pixToId(const int pixX, const int pixY,
