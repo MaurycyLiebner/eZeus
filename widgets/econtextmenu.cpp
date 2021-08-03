@@ -3,11 +3,16 @@
 #include "textures/egametextures.h"
 
 eContextMenu::eContextMenu(eMainWindow* const window) :
-    eWidget(window) {
+    eWidget(window) {}
 
-}
+void eContextMenu::exec(const int x, const int y,
+                        eWidget* const w) {
+    int gx = x;
+    int gy = y;
+    w->mapToGlobal(gx, gy);
+    move(gx, gy);
+    w->lastAncestor()->addWidget(this);
 
-void eContextMenu::exec() {
     grabMouse();
     grabKeyboard();
     fitContent();
@@ -16,18 +21,21 @@ void eContextMenu::exec() {
 void eContextMenu::addAction(const std::string& text, const eAction& a) {
     eTexture tex;
     const auto font = eFonts::defaultFont(resolution());
-    tex.loadText(renderer(), text, {0, 0, 0, 255}, *font);
+    tex.loadText(renderer(), text, {255, 255, 255, 255}, *font);
     mTextures.push_back(tex);
     mActions.push_back(a);
 }
 
 void eContextMenu::sizeHint(int& w, int& h) {
     const int p = padding();
-    h = -2*p;
+    h = 2*p;
+    w = 0;
     for(const auto& t : mTextures) {
         w = std::max(w, t.width() + 2*p);
         h += t.height() + 2*p;
     }
+    h = 32*int(std::ceil((2*p + h)/32.)) - 2*p;
+    w = 32*int(std::ceil((2*p + w)/32.)) - 2*p;
 }
 
 void eContextMenu::paintEvent(ePainter& p) {
@@ -35,7 +43,7 @@ void eContextMenu::paintEvent(ePainter& p) {
         const auto& intrfc = eGameTextures::interface();
         const int iMax = width()/32;
         const int jMax = height()/32;
-        const auto& texs = intrfc[2].fComboBox[0];
+        const auto& texs = intrfc[2].fComboBox[1];
         for(int i = 0; i < iMax; i++) {
             const int x = 32*i;
             for(int j = 0; j < jMax; j++) {
@@ -71,23 +79,23 @@ void eContextMenu::paintEvent(ePainter& p) {
     }
 //    p.fillRect(rect(), {255, 255, 255, 255});
     const int aCount = mActions.size();
-    const int ah = height()/aCount;
     const int pd = padding();
-    int y = 0;
+    const int ah = (height() - 2*pd)/aCount;
+    int y = pd;
     const int iMax = mTextures.size();
     for(int i = 0; i < iMax; i++) {
         const auto& t = mTextures[i];
-        const SDL_Rect brect{0, y, width(), ah};
+        const auto tw = t.width();
+        const auto ww = (width() - tw)/2;
+        const SDL_Rect brect{ww, y + ah - pd, width() - 2*ww, 2};
         if(i == mHoverId) {
-            p.fillRect(brect, {125, 125, 125, 255});
+            p.fillRect(brect, {255, 255, 255, 255});
         }
-        p.drawRect(brect, {0, 0, 0, 255}, 2);
 
         const SDL_Rect txtrect{pd, y + pd, width() - 2*pd, ah - 2*pd};
-        p.drawTexture(txtrect, t, eAlignment::left | eAlignment::vcenter);
+        p.drawTexture(txtrect, t, eAlignment::center);
         y += ah;
     }
-    p.drawRect(rect(), {0, 0, 0, 255}, 2);
 }
 
 bool eContextMenu::mousePressEvent(const eMouseEvent& e) {

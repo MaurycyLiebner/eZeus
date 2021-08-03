@@ -13,13 +13,7 @@ eComboBox::eComboBox(eMainWindow* const window) :
                 setCurrentIndex(i);
             });
         }
-        int gx = 0;
-        int gy = height();
-        mapToGlobal(gx, gy);
-        lastAncestor()->addWidget(cm);
-        cm->setWidth(width());
-        cm->move(gx, gy);
-        cm->exec();
+        cm->exec(0, height(), this);
     });
 }
 

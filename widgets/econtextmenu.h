@@ -10,7 +10,8 @@ class eContextMenu : public eWidget {
 public:
     eContextMenu(eMainWindow* const window);
 
-    void exec();
+    void exec(const int x, const int y,
+              eWidget* const w);
 
     void addAction(const std::string& text, const eAction& a);
 protected:
@@ -20,6 +21,10 @@ protected:
     bool mousePressEvent(const eMouseEvent& e);
     bool mouseMoveEvent(const eMouseEvent& e);
 private:
+    using eWidget::setHeight;
+    using eWidget::setWidth;
+    using eWidget::resize;
+
     int yToActionId(const int y) const;
     eAction yToAction(const int y) const;
 

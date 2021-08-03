@@ -139,6 +139,7 @@ private:
     int mHeight = 0;
     int mPadding = 0;
     bool mVisible = true;
+    bool mDeleteLater = false;
     eWidget* mParent = nullptr;
     std::vector<eWidget*> mChildren;
     eMainWindow* const mWindow;

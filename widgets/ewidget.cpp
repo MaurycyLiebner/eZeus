@@ -270,10 +270,12 @@ bool eWidget::mouseWheel(const eMouseWheelEvent& e) {
 }
 
 void eWidget::deleteLater() {
+    if(mDeleteLater) return;
     if(mParent) mParent->removeWidget(this);
     mWindow->addSlot([this]() {
         delete this;
     });
+    mDeleteLater = true;
 }
 
 eWidget* eWidget::lastAncestor() {

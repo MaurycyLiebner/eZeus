@@ -12,7 +12,7 @@ TTF_Font* eFonts::requestFont(const eFont& font) {
 
 TTF_Font* eFonts::defaultFont(const eRes res) {
     const int fs = eResolution::fontSize(res);
-    return requestFont({"fonts/FreeSans.ttf", fs});
+    return requestFont({"fonts/DIOGENES.ttf", fs});
 }
 
 TTF_Font* eFonts::loadFont(const eFont& font) {
