@@ -3,6 +3,7 @@
 #include "textures/egametextures.h"
 #include "emainwindow.h"
 #include "echeckablebutton.h"
+#include "econtextmenu.h"
 
 struct eSubButtonData {
     std::function<void()> fPressedFunc;
@@ -157,17 +158,66 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
     buttons->fitContent();
     addWidget(buttons);
 
-    const auto cha0 = []() {};
-    const auto eha0 = []() {};
+    const int cmx = -3*width()/2;
+    const int cmy = height()/2;
+
+    const auto cha0 = [this]() {
+        setMode(eBuildingMode::commonHousing);
+    };
+    const auto eha0 = [this]() {
+        setMode(eBuildingMode::eliteHousing);
+    };
     const auto w0 = createSubButtons(mult,
                         eButtonsDataVec{
                             {cha0, &coll.fCommonHousing},
                             {eha0, &coll.fEliteHousing}});
 
-    const auto ff1 = []() {};
-    const auto of1 = []() {};
-    const auto af1 = []() {};
-    const auto ah1 = []() {};
+    using eSPR = std::pair<eBuildingMode, std::string>;
+    const auto ff1 = [this, window, cmx, cmy]() {
+        const auto cm = new eContextMenu(window);
+        for(const auto& c : {eSPR{eBuildingMode::wheatFarm, "Wheat Farm"},
+                             eSPR{eBuildingMode::carrotFarm, "Carrot Farm"},
+                             eSPR{eBuildingMode::onionFarm, "Onion Farm"}}) {
+            cm->addAction(c.second, [this, c]() {
+                setMode(c.first);
+            });
+        }
+        cm->exec(cmx,cmy, this);
+    };
+    const auto of1 = [this, window, cmx, cmy]() {
+        const auto cm = new eContextMenu(window);
+        for(const auto& c : {eSPR{eBuildingMode::vine, "Vine"},
+                             eSPR{eBuildingMode::oliveTree, "Olive Tree"},
+                             eSPR{eBuildingMode::growersLodge, "Growers Lodge"}}) {
+            cm->addAction(c.second, [this, c]() {
+                setMode(c.first);
+            });
+        }
+        cm->exec(cmx,cmy, this);
+    };
+    const auto af1 = [this, window, cmx, cmy]() {
+        const auto cm = new eContextMenu(window);
+        for(const auto& c : {eSPR{eBuildingMode::dairy, "Dairy"},
+                             eSPR{eBuildingMode::goat, "Goat"},
+                             eSPR{eBuildingMode::cardingShed, "Carding Shed"},
+                             eSPR{eBuildingMode::sheep, "Sheep"}}) {
+            cm->addAction(c.second, [this, c]() {
+                setMode(c.first);
+            });
+        }
+        cm->exec(cmx,cmy, this);
+    };
+    const auto ah1 = [this, window, cmx, cmy]() {
+        const auto cm = new eContextMenu(window);
+        for(const auto& c : {eSPR{eBuildingMode::fishery, "Fishery"},
+                             eSPR{eBuildingMode::urchinQuay, "Urchin Quay"},
+                             eSPR{eBuildingMode::huntingLodge, "Hunting Lodge"}}) {
+            cm->addAction(c.second, [this, c]() {
+                setMode(c.first);
+            });
+        }
+        cm->exec(cmx,cmy, this);
+    };
 
     const auto w1 = createSubButtons(mult,
                         eButtonsDataVec{
@@ -177,9 +227,32 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                             {ah1, &coll.fAnimalHunting}});
 
 
-    const auto r2 = []() {};
-    const auto p2 = []() {};
-    const auto bg2 = []() {};
+    const auto r2 = [this, window, cmx, cmy]() {
+        const auto cm = new eContextMenu(window);
+        for(const auto& c : {eSPR{eBuildingMode::mint, "Mint"},
+                             eSPR{eBuildingMode::foundry, "Foundry"},
+                             eSPR{eBuildingMode::timberMill, "Timber Mill"},
+                             eSPR{eBuildingMode::masonryShop, "Masonry Shop"}}) {
+            cm->addAction(c.second, [this, c]() {
+                setMode(c.first);
+            });
+        }
+        cm->exec(cmx,cmy, this);
+    };
+    const auto p2 = [this, window, cmx, cmy]() {
+        const auto cm = new eContextMenu(window);
+        for(const auto& c : {eSPR{eBuildingMode::winery, "Winery"},
+                             eSPR{eBuildingMode::olivePress, "Olive Press"},
+                             eSPR{eBuildingMode::sculptureStudio, "Sculpture Studio"}}) {
+            cm->addAction(c.second, [this, c]() {
+                setMode(c.first);
+            });
+        }
+        cm->exec(cmx,cmy, this);
+    };
+    const auto bg2 = [this]() {
+        setMode(eBuildingMode::artisansGuild);
+    };
 
     const auto w2 = createSubButtons(mult,
                         eButtonsDataVec{
@@ -188,10 +261,14 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                              {bg2, &coll.fBuildersGuild}});
 
 
-    const auto g3 = []() {};
-    const auto ww3 = []() {};
-    const auto a3 = []() {};
-    const auto t3 = []() {};
+    const auto g3 = [this]() {
+        setMode(eBuildingMode::granary);
+    };
+    const auto ww3 = [this]() {
+        setMode(eBuildingMode::warehouse);
+    };
+    const auto a3 = [this, window, cmx, cmy]() {};
+    const auto t3 = [this, window, cmx, cmy]() {};
     const auto w3 = createSubButtons(mult,
                         eButtonsDataVec{
                              {g3, &coll.fGranary},
@@ -200,10 +277,18 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                              {t3, &coll.fTrade}});
 
 
-    const auto ff4 = []() {};
-    const auto f4 = []() {};
-    const auto p4 = []() {};
-    const auto h4 = []() {};
+    const auto ff4 = [this]() {
+        setMode(eBuildingMode::maintenanceOffice);
+    };
+    const auto f4 = [this]() {
+        setMode(eBuildingMode::fountain);
+    };
+    const auto p4 = [this]() {
+        setMode(eBuildingMode::watchpost);
+    };
+    const auto h4 = [this]() {
+        setMode(eBuildingMode::hospital);
+    };
     const auto w4 = createSubButtons(mult,
                         eButtonsDataVec{
                              {ff4, &coll.fFireFighter},
@@ -211,9 +296,11 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                              {p4, &coll.fPolice},
                              {h4, &coll.fHospital}});
 
-    const auto p5 = []() {};
-    const auto tc5 = []() {};
-    const auto bb5 = []() {};
+    const auto p5 = [this]() {};
+    const auto tc5 = [this]() {
+        setMode(eBuildingMode::taxOffice);
+    };
+    const auto bb5 = [this]() {};
     const auto w5 = createSubButtons(mult,
                         eButtonsDataVec{
                              {p5, &coll.fPalace},
@@ -221,10 +308,32 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                              {bb5, &coll.fBridge}});
 
 
-    const auto p6 = []() {};
-    const auto g6 = []() {};
-    const auto d6 = []() {};
-    const auto s6 = []() {};
+    const auto p6 = [this, window, cmx, cmy]() {
+        const auto cm = new eContextMenu(window);
+        for(const auto& c : {eSPR{eBuildingMode::podium, "Podium"},
+                             eSPR{eBuildingMode::college, "College"}}) {
+            cm->addAction(c.second, [this, c]() {
+                setMode(c.first);
+            });
+        }
+        cm->exec(cmx,cmy, this);
+    };
+    const auto g6 = [this]() {
+        setMode(eBuildingMode::gymnasium);
+    };
+    const auto d6 = [this, window, cmx, cmy]() {
+        const auto cm = new eContextMenu(window);
+        for(const auto& c : {eSPR{eBuildingMode::theater, "Theater"},
+                             eSPR{eBuildingMode::dramaSchool, "Drama School"}}) {
+            cm->addAction(c.second, [this, c]() {
+                setMode(c.first);
+            });
+        }
+        cm->exec(cmx,cmy, this);
+    };
+    const auto s6 = [this]() {
+        setMode(eBuildingMode::stadium);
+    };
     const auto w6 = createSubButtons(mult,
                         eButtonsDataVec{
                              {p6, &coll.fPhilosophy},
@@ -233,23 +342,23 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                              {s6, &coll.fStadium}});
 
 
-    const auto t7 = []() {};
-    const auto hs7 = []() {};
+    const auto t7 = [this, window, cmx, cmy]() {};
+    const auto hs7 = [this, window, cmx, cmy]() {};
     const auto w7 = createSubButtons(mult,
                         eButtonsDataVec{
                              {t7, &coll.fTemples},
                              {hs7, &coll.fHeroShrines}});
 
-    const auto f8 = []() {};
-    const auto mp8 = []() {};
+    const auto f8 = [this, window, cmx, cmy]() {};
+    const auto mp8 = [this, window, cmx, cmy]() {};
     const auto w8 = createSubButtons(mult,
                         eButtonsDataVec{
                              {f8, &coll.fFortifications},
                              {mp8, &coll.fMilitaryProduction}});
 
-    const auto bb9 = []() {};
-    const auto r9 = []() {};
-    const auto m9 = []() {};
+    const auto bb9 = [this, window, cmx, cmy]() {};
+    const auto r9 = [this, window, cmx, cmy]() {};
+    const auto m9 = [this, window, cmx, cmy]() {};
     const auto w9 = createSubButtons(mult,
                         eButtonsDataVec{
                              {bb9, &coll.fBeautification},
@@ -310,6 +419,9 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
         btmButtons->setPadding(0);
 
         const auto b = createSubButton(coll.fBuildRoad, btmButtons);
+        b->setPressAction([this]() {
+            setMode(eBuildingMode::road);
+        });
         createSubButton(coll.fRoadBlock, btmButtons);
         createSubButton(coll.fClear, btmButtons);
         createSubButton(coll.fUndo, btmButtons);
@@ -358,4 +470,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
         butts->setY(std::round(mult*282.5));
         addWidget(butts);
     }
+}
+
+void eGameMenu::setMode(const eBuildingMode mode) {
+    mMode = mode;
 }
