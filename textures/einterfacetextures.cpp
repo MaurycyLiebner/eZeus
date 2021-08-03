@@ -363,4 +363,20 @@ void eInterfaceTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fShowMap);
         }
     }
+
+    {
+        const std::string pathBase{dir + "Zeus_Paneling_"};
+
+
+        for(int i = 0; i < 2; i++) {
+            fComboBox.emplace_back(fRenderer);
+        }
+
+        for(int i = 11; i < 20; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fComboBox[0]);
+        }
+        for(int i = 20; i < 29; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fComboBox[1]);
+        }
+    }
 }

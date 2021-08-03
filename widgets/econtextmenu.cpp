@@ -1,5 +1,7 @@
 #include "econtextmenu.h"
 
+#include "textures/egametextures.h"
+
 eContextMenu::eContextMenu(eMainWindow* const window) :
     eWidget(window) {
 
@@ -29,7 +31,45 @@ void eContextMenu::sizeHint(int& w, int& h) {
 }
 
 void eContextMenu::paintEvent(ePainter& p) {
-    p.fillRect(rect(), {255, 255, 255, 255});
+    {
+        const auto& intrfc = eGameTextures::interface();
+        const int iMax = width()/32;
+        const int jMax = height()/32;
+        const auto& texs = intrfc[2].fComboBox[0];
+        for(int i = 0; i < iMax; i++) {
+            const int x = 32*i;
+            for(int j = 0; j < jMax; j++) {
+                const int y = 32*j;
+                int texId;
+                if(i == 0) {
+                    if(j == 0) {
+                        texId = 0;
+                    } else if(j == jMax - 1) {
+                        texId = 6;
+                    } else {
+                        texId = 3;
+                    }
+                } else if(i == iMax - 1) {
+                    if(j == 0) {
+                        texId = 2;
+                    } else if(j == jMax - 1) {
+                        texId = 8;
+                    } else {
+                        texId = 5;
+                    }
+                } else if(j == 0) {
+                    texId = 1;
+                } else if(j == jMax - 1) {
+                    texId = 7;
+                } else {
+                    texId = 4;
+                }
+                const auto tex = texs.getTexture(texId);
+                p.drawTexture(x, y, tex);
+            }
+        }
+    }
+//    p.fillRect(rect(), {255, 255, 255, 255});
     const int aCount = mActions.size();
     const int ah = height()/aCount;
     const int pd = padding();

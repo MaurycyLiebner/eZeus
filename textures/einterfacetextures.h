@@ -103,6 +103,9 @@ public:
     eTextureCollection fGodVisitAlert;
     eTextureCollection fHeroArrivalAlert;
     eTextureCollection fArmyComebackAlert;
+
+    // topLeft, top, topRight, left, center, right, bottomLeft, bottom, bottomRight,
+    std::vector<eTextureCollection> fComboBox;
 };
 
 #endif // EINTERFACETEXTURES_H

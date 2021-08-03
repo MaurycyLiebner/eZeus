@@ -26,9 +26,12 @@ public:
     }
 
     static bool initialize(SDL_Renderer* const r);
-    static bool loadNext(std::string& text);
-    static int size();
+    static bool loadNextMenu(std::string& text);
+    static bool loadNextGame(std::string& text);
+    static int gameSize();
+    static int menuSize();
 private:
+    static bool sInitialized;
     static std::vector<eTerrainTextures> sTerrainTextures;
     static std::vector<eDemeterTextures> sDemeterTextures;
     static std::vector<eBuildingTextures> sBuildingTextures;

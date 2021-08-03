@@ -5,6 +5,7 @@
 #include "widgets/egamewidget.h"
 #include "widgets/egameloadingwidget.h"
 #include "widgets/egamemenu.h"
+#include "widgets/emenuloadingwidget.h"
 
 #include "engine/ethreadpool.h"
 
@@ -72,6 +73,14 @@ void eMainWindow::setFullscreen(const bool f) {
     SDL_SetWindowFullscreen(mSdlWindow, f ? SDL_WINDOW_FULLSCREEN : 0);
 }
 
+void eMainWindow::showMenuLoading() {
+    const auto mlw = new eMenuLoadingWidget(this);
+    mlw->setDoneAction([this]() { showMainMenu(); });
+    mlw->initialize();
+    mlw->resize(width(), height());
+    setWidget(mlw);
+}
+
 void eMainWindow::showMainMenu() {
     const auto mm = new eMainMenu(this);
     mm->resize(width(), height());
@@ -133,7 +142,7 @@ int eMainWindow::exec() {
     using namespace std::chrono;
     using namespace std::chrono_literals;
 
-    showMainMenu();
+    showMenuLoading();
 
     eMouseButton button{eMouseButton::none};
     eMouseButton buttons{eMouseButton::none};

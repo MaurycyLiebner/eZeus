@@ -32,6 +32,7 @@ private:
     void setResolution(const eRes res);
     void setFullscreen(const bool f);
 
+    void showMenuLoading();
     void showMainMenu();
     void showSettingsMenu();
     void showGame();

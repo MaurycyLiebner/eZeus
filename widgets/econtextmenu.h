@@ -4,6 +4,7 @@
 #include "ewidget.h"
 
 #include "etexture.h"
+#include "textures/egametextures.h"
 
 class eContextMenu : public eWidget {
 public:
@@ -23,6 +24,7 @@ private:
     eAction yToAction(const int y) const;
 
     int mHoverId = -1;
+
     std::vector<eTexture> mTextures;
     std::vector<eAction> mActions;
 };

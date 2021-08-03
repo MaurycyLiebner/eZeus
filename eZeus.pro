@@ -71,7 +71,9 @@ SOURCES += \
         widgets/egamewidget.cpp \
         widgets/elabel.cpp \
         widgets/elabeledwidget.cpp \
+        widgets/eloadingwidget.cpp \
         widgets/emainmenu.cpp \
+        widgets/emenuloadingwidget.cpp \
         widgets/emouseevent.cpp \
         widgets/epainter.cpp \
         widgets/eprogressbar.cpp \
@@ -149,7 +151,9 @@ HEADERS += \
     widgets/egamewidget.h \
     widgets/elabel.h \
     widgets/elabeledwidget.h \
+    widgets/eloadingwidget.h \
     widgets/emainmenu.h \
+    widgets/emenuloadingwidget.h \
     widgets/emouseevent.h \
     widgets/epainter.h \
     widgets/eprogressbar.h \
