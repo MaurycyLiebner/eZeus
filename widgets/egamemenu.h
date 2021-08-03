@@ -8,6 +8,8 @@ class eTextureCollection;
 class eInterfaceTextures;
 class eButton;
 
+struct eSubButtonData;
+
 class eGameMenu : public eLabel {
 public:
     eGameMenu(eMainWindow* const window);
@@ -16,9 +18,9 @@ private:
                                    eWidget* const buttons);
     eButton* createSubButton(const eTextureCollection& texs,
                              eWidget* const buttons);
-    using eTexCollVec = std::vector<const eTextureCollection*>;
+    using eButtonsDataVec = std::vector<eSubButtonData>;
     eWidget* createSubButtons(const int resoltuionMult,
-                              const eTexCollVec& colls);
+                              const eButtonsDataVec& buttons);
 
     const eRes mRes;
 

@@ -4,6 +4,11 @@
 #include "emainwindow.h"
 #include "echeckablebutton.h"
 
+struct eSubButtonData {
+    std::function<void()> fPressedFunc;
+    const eTextureCollection* fColl = nullptr;
+};
+
 eCheckableButton* eGameMenu::createButton(
         const eTextureCollection& texs,
         eWidget* const buttons) {
@@ -32,7 +37,7 @@ eButton* eGameMenu::createSubButton(
 
 eWidget* eGameMenu::createSubButtons(
         const int resoltuionMult,
-        const eTexCollVec& colls) {
+        const eButtonsDataVec& buttons) {
     const auto result = new eWidget(window());
 
     const int x = resoltuionMult*35;
@@ -40,10 +45,11 @@ eWidget* eGameMenu::createSubButtons(
     const std::vector<std::pair<int, int>> poses =
         {{0, 0}, {x, 0}, {0, y}, {x, y}};
 
-    const int iMax = colls.size();
+    const int iMax = buttons.size();
     for(int i = 0; i < iMax; i++) {
-        const auto& c = colls[i];
-        const auto b = createSubButton(*c, result);
+        const auto& c = buttons[i];
+        const auto b = createSubButton(*c.fColl, result);
+        b->setPressAction(c.fPressedFunc);
         const auto& pos = poses[i];
         b->setX(pos.first);
         b->setY(pos.second);
@@ -151,57 +157,104 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
     buttons->fitContent();
     addWidget(buttons);
 
+    const auto cha0 = []() {};
+    const auto eha0 = []() {};
     const auto w0 = createSubButtons(mult,
-                        std::vector<const eTextureCollection*>{
-                            &coll.fCommonHousing,
-                            &coll.fEliteHousing});
+                        eButtonsDataVec{
+                            {cha0, &coll.fCommonHousing},
+                            {eha0, &coll.fEliteHousing}});
+
+    const auto ff1 = []() {};
+    const auto of1 = []() {};
+    const auto af1 = []() {};
+    const auto ah1 = []() {};
+
     const auto w1 = createSubButtons(mult,
-                        std::vector<const eTextureCollection*>{
-                            &coll.fFoodFarming,
-                            &coll.fOtherFarming,
-                            &coll.fAnimalFarming,
-                            &coll.fAnimalHunting});
+                        eButtonsDataVec{
+                            {ff1, &coll.fFoodFarming},
+                            {of1, &coll.fOtherFarming},
+                            {af1, &coll.fAnimalFarming},
+                            {ah1, &coll.fAnimalHunting}});
+
+
+    const auto r2 = []() {};
+    const auto p2 = []() {};
+    const auto bg2 = []() {};
+
     const auto w2 = createSubButtons(mult,
-                        std::vector<const eTextureCollection*>{
-                            &coll.fResources,
-                            &coll.fProcessing,
-                            &coll.fBuildersGuild});
+                        eButtonsDataVec{
+                             {r2, &coll.fResources},
+                             {p2, &coll.fProcessing},
+                             {bg2, &coll.fBuildersGuild}});
+
+
+    const auto g3 = []() {};
+    const auto ww3 = []() {};
+    const auto a3 = []() {};
+    const auto t3 = []() {};
     const auto w3 = createSubButtons(mult,
-                        std::vector<const eTextureCollection*>{
-                            &coll.fGranary,
-                            &coll.fWarehouse,
-                            &coll.fAgoras,
-                            &coll.fTrade});
+                        eButtonsDataVec{
+                             {g3, &coll.fGranary},
+                             {ww3, &coll.fWarehouse},
+                             {a3, &coll.fAgoras},
+                             {t3, &coll.fTrade}});
+
+
+    const auto ff4 = []() {};
+    const auto f4 = []() {};
+    const auto p4 = []() {};
+    const auto h4 = []() {};
     const auto w4 = createSubButtons(mult,
-                        std::vector<const eTextureCollection*>{
-                            &coll.fFireFighter,
-                            &coll.fFountain,
-                            &coll.fPolice,
-                            &coll.fHospital});
+                        eButtonsDataVec{
+                             {ff4, &coll.fFireFighter},
+                             {f4, &coll.fFountain},
+                             {p4, &coll.fPolice},
+                             {h4, &coll.fHospital}});
+
+    const auto p5 = []() {};
+    const auto tc5 = []() {};
+    const auto bb5 = []() {};
     const auto w5 = createSubButtons(mult,
-                        std::vector<const eTextureCollection*>{
-                            &coll.fPalace,
-                            &coll.fTaxCollector,
-                            &coll.fBridge});
+                        eButtonsDataVec{
+                             {p5, &coll.fPalace},
+                             {tc5, &coll.fTaxCollector},
+                             {bb5, &coll.fBridge}});
+
+
+    const auto p6 = []() {};
+    const auto g6 = []() {};
+    const auto d6 = []() {};
+    const auto s6 = []() {};
     const auto w6 = createSubButtons(mult,
-                        std::vector<const eTextureCollection*>{
-                            &coll.fPhilosophy,
-                            &coll.fGymnasium,
-                            &coll.fDrama,
-                            &coll.fStadium});
+                        eButtonsDataVec{
+                             {p6, &coll.fPhilosophy},
+                             {g6, &coll.fGymnasium},
+                             {d6, &coll.fDrama},
+                             {s6, &coll.fStadium}});
+
+
+    const auto t7 = []() {};
+    const auto hs7 = []() {};
     const auto w7 = createSubButtons(mult,
-                        std::vector<const eTextureCollection*>{
-                            &coll.fTemples,
-                            &coll.fHeroShrines});
+                        eButtonsDataVec{
+                             {t7, &coll.fTemples},
+                             {hs7, &coll.fHeroShrines}});
+
+    const auto f8 = []() {};
+    const auto mp8 = []() {};
     const auto w8 = createSubButtons(mult,
-                        std::vector<const eTextureCollection*>{
-                            &coll.fFortifications,
-                            &coll.fMilitaryProduction});
+                        eButtonsDataVec{
+                             {f8, &coll.fFortifications},
+                             {mp8, &coll.fMilitaryProduction}});
+
+    const auto bb9 = []() {};
+    const auto r9 = []() {};
+    const auto m9 = []() {};
     const auto w9 = createSubButtons(mult,
-                        std::vector<const eTextureCollection*>{
-                            &coll.fBeautification,
-                            &coll.fRecreation,
-                            &coll.fMonuments});
+                        eButtonsDataVec{
+                             {bb9, &coll.fBeautification},
+                             {r9, &coll.fRecreation},
+                             {m9, &coll.fMonuments}});
 
 
     mWidgets.push_back(w0);
