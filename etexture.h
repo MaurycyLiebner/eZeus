@@ -43,10 +43,17 @@ public:
     int width() const { return mWidth; }
     int height() const { return mHeight; }
 
+    void setOffset(const int x, const int y);
+
+    int offsetX() const { return mOffsetX; }
+    int offsetY() const { return mOffsetY; }
+
     bool isNull() const;
 private:
     int mWidth = 0;
     int mHeight = 0;
+    int mOffsetX = 0;
+    int mOffsetY = 0;
     SDL_Texture* mTex = nullptr;
     std::shared_ptr<int> mRefs;
 };

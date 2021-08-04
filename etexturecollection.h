@@ -15,7 +15,7 @@ public:
               const int x, const int y,
               const int id,
               const eAlignment align) const;
-    bool loadTexture(const std::string& path);
+    eTexture* loadTexture(const std::string& path);
     eTexture getTexture(const int id) const;
     int size() const;
 private:

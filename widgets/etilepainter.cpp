@@ -32,8 +32,8 @@ void eTilePainter::drawTexture(const double x, const double y,
                                const eAlignment align) const {
     const auto rx = x + mX;
     const auto ry = y + mY;
-    mP.drawTexture(std::round(0.5 * (rx - ry) * mTileW),
-                   std::round(0.5 * (rx + ry) * mTileH),
+    mP.drawTexture(std::round(0.5 * (rx - ry) * mTileW - tex.offsetX()),
+                   std::round(0.5 * (rx + ry) * mTileH - tex.offsetY()),
                    tex, align);
 }
 
@@ -41,7 +41,7 @@ void eTilePainter::drawTexture(const double x, const double y,
                                const eTexture& tex) const {
     const auto rx = x + mX;
     const auto ry = y + mY;
-    mP.drawTexture(std::round(0.5 * (rx - ry) * mTileW),
-                   std::round(0.5 * (rx + ry) * mTileH),
+    mP.drawTexture(std::round(0.5 * (rx - ry) * mTileW - tex.offsetX()),
+                   std::round(0.5 * (rx + ry) * mTileH - tex.offsetY()),
                    tex);
 }

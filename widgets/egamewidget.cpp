@@ -177,9 +177,26 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         const auto& chars = tile->characters();
         for(const auto c : chars) {
+            {
+
+                const int tx = tile->x();
+                const int ty = tile->y();
+
+                int wSpan;
+                int hSpan;
+                const auto tex = eTileToTexture::get(tile, trrTexs,
+                                                     wSpan, hSpan);
+                tile->setDrawnSpan(wSpan, hSpan);
+
+                double rx;
+                double ry;
+                drawXY(tx, ty, rx, ry, wSpan, hSpan);
+                const auto& selectedTex = trrTexs.fSelectedTex;
+
+                tp.drawTexture(rx, ry, selectedTex, eAlignment::top);
+            }
             const auto tex = c->getTexture(mTileSize);
-            tp.drawTexture(tx + c->x() + 0.5, ty + c->y() + 0.5, tex,
-                           eAlignment::top | eAlignment::hcenter);
+            tp.drawTexture(tx + c->x() + 0.25, ty + c->y() + 0.25, tex);
             c->incTime(mSpeed);
         }
     });

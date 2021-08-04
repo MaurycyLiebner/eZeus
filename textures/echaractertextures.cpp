@@ -1,6 +1,7 @@
 #include "echaractertextures.h"
 
 #include "etextureloadinghelpers.h"
+#include "offsets/SprMain.h"
 
 eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
                                        SDL_Renderer* const renderer) :
@@ -27,7 +28,8 @@ void eCharacterTextures::load() {
     for(int i = 10588; i < 10684;) {
         for(int j = 0; j < 8; j++, i++) {
             auto& walk = fGymnast.fWalk;
-            eTextureLoadingHelpers::loadTex(pathBase, i, walk[j]);
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
         }
     }
     for(int i = 10684; i < 10692; i++) {

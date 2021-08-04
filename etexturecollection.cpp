@@ -18,13 +18,13 @@ void eTextureCollection::draw(ePainter& p,
     p.drawTexture(x, y, mTexs[id], align);
 }
 
-bool eTextureCollection::loadTexture(
+eTexture* eTextureCollection::loadTexture(
         const std::string& path) {
     eTexture t;
     const bool r = t.load(mRenderer, path);
-    if(!r) return false;
+    if(!r) return nullptr;
     mTexs.push_back(t);
-    return true;
+    return &mTexs.back();
 }
 
 eTexture eTextureCollection::getTexture(const int id) const {

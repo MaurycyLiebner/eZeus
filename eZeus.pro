@@ -123,6 +123,8 @@ HEADERS += \
     esprites.h \
     etexture.h \
     etexturecollection.h \
+    offsets/SprMain.h \
+    offsets/Zeus_Demeter.h \
     textures/ebeachtodry.h \
     textures/ebuildingtextures.h \
     textures/echaractertextures.h \

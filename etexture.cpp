@@ -17,6 +17,8 @@ eTexture& eTexture::operator=(const eTexture& src) {
     mHeight = src.mHeight;
     mTex = src.mTex;
     mRefs = src.mRefs;
+    mOffsetX = src.mOffsetX;
+    mOffsetY = src.mOffsetY;
     if(mRefs) (*mRefs)++;
     return *this;
 }
@@ -151,6 +153,11 @@ void eTexture::render(SDL_Renderer* const r,
     const SDL_Rect srcRect{0, 0, mWidth, mHeight};
     const SDL_Rect dstRect{x, y, mWidth, mHeight};
     render(r, srcRect, dstRect);
+}
+
+void eTexture::setOffset(const int x, const int y) {
+    mOffsetX = x;
+    mOffsetY = y;
 }
 
 bool eTexture::isNull() const {

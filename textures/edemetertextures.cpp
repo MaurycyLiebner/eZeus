@@ -1,6 +1,7 @@
 #include "edemetertextures.h"
 
 #include "etextureloadinghelpers.h"
+#include "offsets/Zeus_Demeter.h"
 
 eDemeterTextures::eDemeterTextures(const int tileW, const int tileH,
                                    SDL_Renderer* const renderer) :
@@ -22,7 +23,8 @@ void eDemeterTextures::load() {
 
     for(int i = 1; i < 225;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWalk[j]);
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fWalk[j], eZeus_DemeterOffset);
         }
     }
 }
