@@ -146,6 +146,17 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
         gDrawDelayed(tp);
 
+
+        if(const auto d = tile->building()) {
+            if(d->type() == eBuildingType::road) {
+                double rx;
+                double ry;
+                drawXY(tx, ty, rx, ry, d->spanW(), d->spanH());
+                d->draw(tp, rx, ry, eAlignment::top);
+                d->incTime(mSpeed);
+            }
+        }
+
         const auto& selectedTex = trrTexs.fSelectedTex;
 
         if(tile->x() == gHoverX && tile->y() == gHoverY) {
@@ -168,33 +179,35 @@ void eGameWidget::paintEvent(ePainter& p) {
         const int ty = tile->y();
 
         if(const auto d = tile->building()) {
-            double rx;
-            double ry;
-            drawXY(tx, ty, rx, ry, d->spanW(), d->spanH());
-            d->draw(tp, rx, ry, eAlignment::top);
-            d->incTime(mSpeed);
+            if(d->type() != eBuildingType::road) {
+                double rx;
+                double ry;
+                drawXY(tx, ty, rx, ry, d->spanW(), d->spanH());
+                d->draw(tp, rx, ry, eAlignment::top);
+                d->incTime(mSpeed);
+            }
         }
 
         const auto& chars = tile->characters();
         for(const auto c : chars) {
-            {
+//            {
 
-                const int tx = tile->x();
-                const int ty = tile->y();
+//                const int tx = tile->x();
+//                const int ty = tile->y();
 
-                int wSpan;
-                int hSpan;
-                const auto tex = eTileToTexture::get(tile, trrTexs,
-                                                     wSpan, hSpan);
-                tile->setDrawnSpan(wSpan, hSpan);
+//                int wSpan;
+//                int hSpan;
+//                const auto tex = eTileToTexture::get(tile, trrTexs,
+//                                                     wSpan, hSpan);
+//                tile->setDrawnSpan(wSpan, hSpan);
 
-                double rx;
-                double ry;
-                drawXY(tx, ty, rx, ry, wSpan, hSpan);
-                const auto& selectedTex = trrTexs.fSelectedTex;
+//                double rx;
+//                double ry;
+//                drawXY(tx, ty, rx, ry, wSpan, hSpan);
+//                const auto& selectedTex = trrTexs.fSelectedTex;
 
-                tp.drawTexture(rx, ry, selectedTex, eAlignment::top);
-            }
+//                tp.drawTexture(rx, ry, selectedTex, eAlignment::top);
+//            }
             const auto tex = c->getTexture(mTileSize);
             tp.drawTexture(tx + c->x() + 0.25, ty + c->y() + 0.25, tex);
             c->incTime(mSpeed);
