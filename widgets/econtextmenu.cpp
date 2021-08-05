@@ -28,26 +28,35 @@ void eContextMenu::addAction(const std::string& text, const eAction& a) {
 
 void eContextMenu::sizeHint(int& w, int& h) {
     const int p = padding();
-    h = 2*p;
+    h = p;
     w = 0;
     for(const auto& t : mTextures) {
-        w = std::max(w, t.width() + 2*p);
-        h += t.height() + 2*p;
+        w = std::max(w, t.width() + p);
+        h += t.height() + p;
     }
-    h = 32*int(std::ceil((2*p + h)/32.)) - 2*p;
-    w = 32*int(std::ceil((2*p + w)/32.)) - 2*p;
+    int iRes;
+    int dim;
+    iResAndDim(iRes, dim);
+    h = dim*int(std::ceil((2.*p + h)/dim)) - 2*p;
+    w = dim*int(std::ceil((2.*p + w)/dim)) - 2*p;
 }
 
 void eContextMenu::paintEvent(ePainter& p) {
     {
         const auto& intrfc = eGameTextures::interface();
-        const int iMax = width()/32;
-        const int jMax = height()/32;
-        const auto& texs = intrfc[2].fComboBox[1];
+
+        int iRes;
+        int dim;
+        iResAndDim(iRes, dim);
+
+        const auto& texs = intrfc[iRes].fComboBox[1];
+
+        const int iMax = width()/dim;
+        const int jMax = height()/dim;
         for(int i = 0; i < iMax; i++) {
-            const int x = 32*i;
+            const int x = dim*i;
             for(int j = 0; j < jMax; j++) {
-                const int y = 32*j;
+                const int y = dim*j;
                 int texId;
                 if(i == 0) {
                     if(j == 0) {
@@ -115,6 +124,26 @@ bool eContextMenu::mouseMoveEvent(const eMouseEvent& e) {
         mHoverId = -1;
     }
     return true;
+}
+
+void eContextMenu::iResAndDim(int& iRes, int& dim) const {
+    const auto res = resolution();
+    switch(res) {
+    case eRes::p2160:
+    case eRes::p1440:
+        iRes = 2;
+        dim = 32;
+        break;
+    case eRes::p1080:
+    case eRes::p720:
+        iRes = 1;
+        dim = 16;
+        break;
+    case eRes::p480:
+        iRes = 0;
+        dim = 8;
+        break;
+    }
 }
 
 int eContextMenu::yToActionId(const int y) const {

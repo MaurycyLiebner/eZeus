@@ -25,5 +25,5 @@ void eProgressBar::paintEvent(ePainter& p) {
     const int pa = padding();
     const int w = per*(width() - 2*pa);
     const SDL_Rect rect{pa, pa, w, height() - 2*pa};
-    p.fillRect(rect, {0, 0, 0, 255});
+    p.fillRect(rect, {255, 255, 255, 255});
 }

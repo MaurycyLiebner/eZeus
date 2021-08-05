@@ -25,6 +25,7 @@ private:
     using eWidget::setWidth;
     using eWidget::resize;
 
+    void iResAndDim(int& iRes, int& dim) const;
     int yToActionId(const int y) const;
     eAction yToAction(const int y) const;
 

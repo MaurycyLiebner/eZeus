@@ -379,4 +379,11 @@ void eInterfaceTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fComboBox[1]);
         }
     }
+
+    {
+        std::string dir{"../ZeusTextures/"};
+        dir += std::to_string(fTileH) + "/Zeus_Data_Images/";
+
+        fLoadImage.load(fRenderer, dir + "Zeus_Load1.jpg");
+    }
 }

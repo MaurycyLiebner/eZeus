@@ -106,6 +106,8 @@ public:
 
     // topLeft, top, topRight, left, center, right, bottomLeft, bottom, bottomRight,
     std::vector<eTextureCollection> fComboBox;
+
+    eTexture fLoadImage;
 };
 
 #endif // EINTERFACETEXTURES_H
