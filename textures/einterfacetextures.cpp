@@ -88,7 +88,9 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fGodAttackAlert(renderer),
     fGodVisitAlert(renderer),
     fHeroArrivalAlert(renderer),
-    fArmyComebackAlert(renderer) {
+    fArmyComebackAlert(renderer),
+
+    fCheckBox(renderer) {
 }
 
 void eInterfaceTextures::load() {
@@ -377,6 +379,10 @@ void eInterfaceTextures::load() {
         }
         for(int i = 20; i < 29; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fComboBox[1]);
+        }
+
+        for(int i = 407; i < 409; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fCheckBox);
         }
     }
 

@@ -19,6 +19,8 @@
 #include "buildings/egymnasium.h"
 #include "buildings/eroad.h"
 
+#include "echeckbox.h"
+
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {}
 
@@ -28,6 +30,10 @@ void eGameWidget::initialize(const int w, const int h) {
     const auto gm = new eGameMenu(window());
     addWidget(gm);
     gm->align(eAlignment::right | eAlignment::top);
+
+    const auto swtch = new eCheckBox(window());
+    swtch->move(gm->x(), 0);
+    addWidget(swtch);
 
     mTem = new eTerrainEditMenu(window());
     addWidget(mTem);

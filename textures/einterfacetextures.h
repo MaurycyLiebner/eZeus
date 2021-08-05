@@ -108,6 +108,7 @@ public:
     std::vector<eTextureCollection> fComboBox;
 
     eTexture fLoadImage;
+    eTextureCollection fCheckBox;
 };
 
 #endif // EINTERFACETEXTURES_H

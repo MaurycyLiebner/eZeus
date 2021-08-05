@@ -1,39 +1,28 @@
 #include "echeckbox.h"
 
+#include "textures/egametextures.h"
+
 eCheckBox::eCheckBox(eMainWindow* const window) :
-    eWidget(window) {
-
-}
-
-void eCheckBox::setChecked(const bool c) {
-    mChecked = c;
-}
-
-void eCheckBox::setCheckAction(const eCheckAction& a) {
-    mAction = a;
-}
-
-void eCheckBox::sizeHint(int& w, int& h) {
-    const int pd = eResolution::padding(resolution());
-    w = pd;
-    h = pd;
-}
-
-void eCheckBox::paintEvent(ePainter& p) {
-    SDL_Color col;
-    if(mChecked) {
-        col = {0, 0, 0, 255};
-    } else {
-        col = {200, 200, 200, 255};
+    eCheckableButton(window) {
+    int iRes;
+    const auto res = resolution();
+    switch(res) {
+    case eRes::p2160:
+    case eRes::p1440:
+        iRes = 2;
+        break;
+    case eRes::p1080:
+    case eRes::p720:
+        iRes = 1;
+        break;
+    case eRes::p480:
+        iRes = 0;
+        break;
     }
-    const int pd = eResolution::padding(resolution());
-    const SDL_Rect rect{pd, pd, width() - 2*pd, height() - 2*pd};
-    p.fillRect(rect, col);
-}
-
-bool eCheckBox::mousePressEvent(const eMouseEvent& e) {
-    (void)e;
-    setChecked(!mChecked);
-    if(mAction) mAction(mChecked);
-    return true;
+    const auto& intrfc = eGameTextures::interface();
+    const auto& texs = intrfc[iRes].fCheckBox;
+    setCheckedTexture(texs.getTexture(0));
+    setTexture(texs.getTexture(1));
+    setPadding(0);
+    fitContent();
 }
