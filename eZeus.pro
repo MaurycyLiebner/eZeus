@@ -66,10 +66,13 @@ SOURCES += \
         widgets/ecombobox.cpp \
         widgets/econtextmenu.cpp \
         widgets/efonts.cpp \
+        widgets/eframedlabel.cpp \
+        widgets/eframedwidget.cpp \
         widgets/egameloadingwidget.cpp \
         widgets/egamemenu.cpp \
         widgets/egamewidget.cpp \
         widgets/elabel.cpp \
+        widgets/elabelbase.cpp \
         widgets/elabeledwidget.cpp \
         widgets/eloadingwidget.cpp \
         widgets/emainmenu.cpp \
@@ -148,10 +151,13 @@ HEADERS += \
     widgets/ecombobox.h \
     widgets/econtextmenu.h \
     widgets/efonts.h \
+    widgets/eframedlabel.h \
+    widgets/eframedwidget.h \
     widgets/egameloadingwidget.h \
     widgets/egamemenu.h \
     widgets/egamewidget.h \
     widgets/elabel.h \
+    widgets/elabelbase.h \
     widgets/elabeledwidget.h \
     widgets/eloadingwidget.h \
     widgets/emainmenu.h \

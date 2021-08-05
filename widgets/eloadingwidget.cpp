@@ -6,13 +6,13 @@
 
 eLoadingWidget::eLoadingWidget(const int size,
                                const eLoader& loader,
-                               eMainWindow* const window) :
-    eWidget(window), mSize(size), mLoader(loader) {
+                               eMainWindow* const window,
+                               const bool useTextures) :
+    eWidget(window), mUseTextures(useTextures),
+    mSize(size), mLoader(loader) {
 }
 
 void eLoadingWidget::initialize() {
-    const auto bg = new eLabel(window());
-
     const auto& intrfc = eGameTextures::interface();
 
     const auto res = resolution();
@@ -31,11 +31,14 @@ void eLoadingWidget::initialize() {
         break;
     }
 
-    const auto& texs = intrfc[iRes];
-    bg->setTexture(texs.fLoadImage);
-    bg->fitContent();
-    addWidget(bg);
-    bg->align(eAlignment::center);
+    if(mUseTextures) {
+        const auto bg = new eFramedLabel(window());
+        const auto& texs = intrfc[iRes];
+        bg->setTexture(texs.fLoadImage);
+        bg->fitContent();
+        addWidget(bg);
+        bg->align(eAlignment::center);
+    }
 
     mPB = new eProgressBar(window());
     mPB->fitContent();
@@ -43,12 +46,20 @@ void eLoadingWidget::initialize() {
     addWidget(mPB);
     mPB->align(eAlignment::center);
 
-    mLabel = new eLabel("Waiting...", window());
-    mLabel->setFontColor({255, 255, 255, 255});
-    mLabel->fitContent();
-    addWidget(mLabel);
-    mLabel->align(eAlignment::hcenter);
-    mLabel->setY(mPB->y() + 2*mLabel->height());
+    if(mUseTextures) {
+        const auto label = new eFramedLabel("Waiting...", window());
+        mLabelW = label;
+        mLabel = label;
+        mLabel->setFontColor({255, 255, 255, 255});
+    } else {
+        const auto label = new eLabel("Waiting...", window());
+        mLabelW = label;
+        mLabel = label;
+    }
+    mLabelW->fitContent();
+    addWidget(mLabelW);
+    mLabelW->align(eAlignment::hcenter);
+    mLabelW->setY(mPB->y() + 2*mLabelW->height());
 
     mPB->setRange(0, mSize);
 }
@@ -65,6 +76,8 @@ void eLoadingWidget::paintEvent(ePainter& p) {
     } else {
         mPB->setValue(mPB->value() + 1);
         mLabel->setText(text);
+        mLabelW->fitContent();
+        mLabelW->align(eAlignment::hcenter);
     }
     eWidget::paintEvent(p);
 }

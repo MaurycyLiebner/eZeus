@@ -158,7 +158,7 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
     buttons->fitContent();
     addWidget(buttons);
 
-    const int cmx = -3*width()/2;
+    const int cmx = -padding();
     const int cmy = height()/2;
 
     const auto cha0 = [this]() {
@@ -182,7 +182,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                 setMode(c.first);
             });
         }
-        cm->exec(cmx,cmy, this);
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy, this);
     };
     const auto of1 = [this, window, cmx, cmy]() {
         const auto cm = new eContextMenu(window);
@@ -193,7 +194,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                 setMode(c.first);
             });
         }
-        cm->exec(cmx,cmy, this);
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy, this);
     };
     const auto af1 = [this, window, cmx, cmy]() {
         const auto cm = new eContextMenu(window);
@@ -205,7 +207,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                 setMode(c.first);
             });
         }
-        cm->exec(cmx,cmy, this);
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy, this);
     };
     const auto ah1 = [this, window, cmx, cmy]() {
         const auto cm = new eContextMenu(window);
@@ -216,7 +219,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                 setMode(c.first);
             });
         }
-        cm->exec(cmx,cmy, this);
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy, this);
     };
 
     const auto w1 = createSubButtons(mult,
@@ -237,7 +241,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                 setMode(c.first);
             });
         }
-        cm->exec(cmx,cmy, this);
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy, this);
     };
     const auto p2 = [this, window, cmx, cmy]() {
         const auto cm = new eContextMenu(window);
@@ -248,7 +253,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                 setMode(c.first);
             });
         }
-        cm->exec(cmx,cmy, this);
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy, this);
     };
     const auto bg2 = [this]() {
         setMode(eBuildingMode::artisansGuild);
@@ -316,7 +322,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                 setMode(c.first);
             });
         }
-        cm->exec(cmx,cmy, this);
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy, this);
     };
     const auto g6 = [this]() {
         setMode(eBuildingMode::gymnasium);
@@ -329,7 +336,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                 setMode(c.first);
             });
         }
-        cm->exec(cmx,cmy, this);
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy, this);
     };
     const auto s6 = [this]() {
         setMode(eBuildingMode::stadium);

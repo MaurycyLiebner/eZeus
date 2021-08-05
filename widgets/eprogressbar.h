@@ -1,9 +1,9 @@
 #ifndef EPROGRESSBAR_H
 #define EPROGRESSBAR_H
 
-#include "ewidget.h"
+#include "eframedwidget.h"
 
-class eProgressBar : public eWidget {
+class eProgressBar : public eFramedWidget {
 public:
     eProgressBar(eMainWindow* const window);
 
@@ -12,7 +12,7 @@ public:
     void setRange(const int min, const int max);
     void setValue(const int v);
 protected:
-    void sizeHint(int& w, int& h);
+    void sizeHint2(int& w, int& h);
 
     void paintEvent(ePainter& p);
 private:

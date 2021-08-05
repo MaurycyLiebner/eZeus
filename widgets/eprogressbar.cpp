@@ -1,7 +1,7 @@
 #include "eprogressbar.h"
 
 eProgressBar::eProgressBar(eMainWindow* const window) :
-    eWidget(window) {
+    eFramedWidget(window) {
 
 }
 
@@ -14,13 +14,13 @@ void eProgressBar::setValue(const int v) {
     mValue = v;
 }
 
-void eProgressBar::sizeHint(int& w, int& h) {
+void eProgressBar::sizeHint2(int& w, int& h) {
     w = 10*padding();
     h = 2*padding();
 }
 
 void eProgressBar::paintEvent(ePainter& p) {
-    p.drawRect(rect(), {0, 0, 0, 255}, 2);
+    eFramedWidget::paintEvent(p);
     const double per = double(mValue - mMin)/(mMax - mMin);
     const int pa = padding();
     const int w = per*(width() - 2*pa);

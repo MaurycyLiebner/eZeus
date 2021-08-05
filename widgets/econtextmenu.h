@@ -1,12 +1,12 @@
 #ifndef ECONTEXTMENU_H
 #define ECONTEXTMENU_H
 
-#include "ewidget.h"
+#include "eframedwidget.h"
 
 #include "etexture.h"
 #include "textures/egametextures.h"
 
-class eContextMenu : public eWidget {
+class eContextMenu : public eFramedWidget {
 public:
     eContextMenu(eMainWindow* const window);
 
@@ -15,7 +15,7 @@ public:
 
     void addAction(const std::string& text, const eAction& a);
 protected:
-    void sizeHint(int& w, int& h);
+    void sizeHint2(int& w, int& h);
 
     void paintEvent(ePainter& p);
     bool mousePressEvent(const eMouseEvent& e);
@@ -25,7 +25,6 @@ private:
     using eWidget::setWidth;
     using eWidget::resize;
 
-    void iResAndDim(int& iRes, int& dim) const;
     int yToActionId(const int y) const;
     eAction yToAction(const int y) const;
 
