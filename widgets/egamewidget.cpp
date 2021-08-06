@@ -18,6 +18,9 @@
 #include "buildings/esmallhouse.h"
 #include "buildings/egymnasium.h"
 #include "buildings/eroad.h"
+#include "buildings/epodium.h"
+#include "buildings/ecollege.h"
+#include "buildings/efountain.h"
 
 #include "echeckbox.h"
 
@@ -319,6 +322,21 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             case eBuildingMode::gymnasium:
                 apply = [](eTile* const tile) {
                     tile->addBuilding(new eGymnasium);
+                };
+                break;
+            case eBuildingMode::podium:
+                apply = [](eTile* const tile) {
+                    tile->addBuilding(new ePodium);
+                };
+                break;
+            case eBuildingMode::fountain:
+                apply = [](eTile* const tile) {
+                    tile->addBuilding(new eFountain);
+                };
+                break;
+            case eBuildingMode::college:
+                apply = [](eTile* const tile) {
+                    tile->addBuilding(new eCollege);
                 };
                 break;
             default: break;

@@ -91,7 +91,7 @@ void eTerrainEditMenu::initialize() {
 
     for(const auto w : mWidgets) {
         addWidget(w);
-        w->move(24*mult, 165*mult);
+        w->move(21*mult, 10*mult);
         w->hide();
     }
 
