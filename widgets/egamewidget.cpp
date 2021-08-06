@@ -28,18 +28,24 @@ eGameWidget::~eGameWidget() {}
 
 void eGameWidget::initialize(const int w, const int h) {
     const auto gm = new eGameMenu(window());
+    gm->initialize();
     addWidget(gm);
     gm->align(eAlignment::right | eAlignment::top);
 
+    mTem = new eTerrainEditMenu(window());
+    mTem->initialize();
+    addWidget(mTem);
+    mTem->align(eAlignment::right | eAlignment::top);
+    mTem->hide();
+    mBoard.initialize(w, h);
+
     const auto swtch = new eCheckBox(window());
     swtch->move(gm->x(), 0);
+    swtch->setCheckAction([this, gm](const bool c) {
+        mTem->setVisible(c);
+        gm->setVisible(!c);
+    });
     addWidget(swtch);
-
-    mTem = new eTerrainEditMenu(window());
-    addWidget(mTem);
-    mTem->align(eAlignment::hcenter | eAlignment::bottom);
-
-    mBoard.initialize(w, h);
 
     setTileSize(eTileSize::s30);
 
@@ -289,21 +295,6 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
         if(mode == eTerrainEditMode::scrub) {
             apply = [](eTile* const tile) {
                 tile->incScrub(0.1);
-            };
-        } else if(mode == eTerrainEditMode::smallHouse) {
-            apply = [](eTile* const tile) {
-                const auto house = new eSmallHouse();
-                tile->addBuilding(house);
-            };
-        } else if(mode == eTerrainEditMode::gymnasium) {
-            apply = [](eTile* const tile) {
-                const auto gym = new eGymnasium();
-                tile->addBuilding(gym);
-            };
-        } else if(mode == eTerrainEditMode::road) {
-            apply = [](eTile* const tile) {
-                const auto road = new eRoad();
-                tile->addBuilding(road);
             };
         } else {
             apply = [mode](eTile* const tile) {

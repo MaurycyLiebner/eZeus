@@ -10,19 +10,6 @@ struct eSubButtonData {
     const eTextureCollection* fColl = nullptr;
 };
 
-eCheckableButton* eGameMenu::createButton(
-        const eTextureCollection& texs,
-        eWidget* const buttons) {
-    const auto b = new eCheckableButton(window());
-    b->setTexture(texs.getTexture(0));
-    b->setPadding(0);
-    b->setHoverTexture(texs.getTexture(1));
-    b->setCheckedTexture(texs.getTexture(2));
-    b->fitContent();
-    buttons->addWidget(b);
-    return b;
-}
-
 eButton* eGameMenu::createSubButton(
         const eTextureCollection& texs,
         eWidget* const buttons) {
@@ -62,101 +49,31 @@ eWidget* eGameMenu::createSubButtons(
     return result;
 }
 
-eGameMenu::eGameMenu(eMainWindow* const window) :
-    eLabel(window), mRes(window->resolution()) {
+void eGameMenu::initialize() {
+    eGameMenuBase::initialize();
+
     const auto& intrfc = eGameTextures::interface();
     int mult;
     int icoll;
-    int margin;
-    int x;
-    int y;
-    switch(mRes) {
+    switch(resolution()) {
     case eRes::p480:
         mult = 1;
         icoll = 0;
-        margin = 2;
-        x = 5;
-        y = 15;
         break;
     case eRes::p720:
     case eRes::p1080:
         mult = 2;
         icoll = 1;
-        margin = 2;
-        x = 6;
-        y = 21;
         break;
     default:
         mult = 4;
         icoll = 2;
-        margin = 3;
-        x = 12;
-        y = 42;
     }
     const auto& coll = intrfc[icoll];
     const auto tex = coll.fGameMenuBackground;
     setTexture(tex);
     setPadding(0);
     fitContent();
-
-    const auto buttons = new eWidget(window);
-    buttons->setX(x);
-    buttons->setY(y);
-    buttons->setPadding(0);
-
-    const auto b0 = createButton(coll.fPopulation, buttons);
-    const auto b1 = createButton(coll.fHusbandry, buttons);
-    const auto b2 = createButton(coll.fIndustry, buttons);
-    const auto b3 = createButton(coll.fDistribution, buttons);
-    const auto b4 = createButton(coll.fHygieneSafety, buttons);
-    const auto b5 = createButton(coll.fAdministration, buttons);
-    const auto b6 = createButton(coll.fCulture, buttons);
-    const auto b7 = createButton(coll.fMythology, buttons);
-    const auto b8 = createButton(coll.fMilitary, buttons);
-    const auto b9 = createButton(coll.fAesthetics, buttons);
-    const auto b10 = createButton(coll.fOverview, buttons);
-
-    mButtons.push_back(b0);
-    mButtons.push_back(b1);
-    mButtons.push_back(b2);
-    mButtons.push_back(b3);
-    mButtons.push_back(b4);
-    mButtons.push_back(b5);
-    mButtons.push_back(b6);
-    mButtons.push_back(b7);
-    mButtons.push_back(b8);
-    mButtons.push_back(b9);
-    mButtons.push_back(b10);
-
-    b10->setChecked(true);
-
-    const int iMax = mButtons.size();
-    for(int i = 0; i < iMax; i++) {
-        const auto b = mButtons[i];
-        b->setCheckAction([this, i, b](const bool c) {
-            if(c) {
-                const int jMax = mButtons.size();
-                const int wSize = mWidgets.size();
-                for(int j = 0; j < jMax; j++) {
-                    if(j < wSize) {
-                        const auto w = mWidgets[j];
-                        w->setVisible(j == i);
-                    }
-                    if(j == i) continue;
-                    const auto b = mButtons[j];
-                    b->setChecked(false);
-                }
-            } else {
-                b->setChecked(true);
-            }
-        });
-    }
-
-    buttons->setHeight(11*(b0->height() + margin));
-
-    buttons->layoutVertically();
-    buttons->fitContent();
-    addWidget(buttons);
 
     const int cmx = -padding();
     const int cmy = height()/2;
@@ -173,8 +90,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                             {eha0, &coll.fEliteHousing}});
 
     using eSPR = std::pair<eBuildingMode, std::string>;
-    const auto ff1 = [this, window, cmx, cmy]() {
-        const auto cm = new eContextMenu(window);
+    const auto ff1 = [this, cmx, cmy]() {
+        const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::wheatFarm, "Wheat Farm"},
                              eSPR{eBuildingMode::carrotFarm, "Carrot Farm"},
                              eSPR{eBuildingMode::onionFarm, "Onion Farm"}}) {
@@ -185,8 +102,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
         cm->fitContent();
         cm->exec(cmx - cm->width(), cmy, this);
     };
-    const auto of1 = [this, window, cmx, cmy]() {
-        const auto cm = new eContextMenu(window);
+    const auto of1 = [this, cmx, cmy]() {
+        const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::vine, "Vine"},
                              eSPR{eBuildingMode::oliveTree, "Olive Tree"},
                              eSPR{eBuildingMode::growersLodge, "Growers Lodge"}}) {
@@ -197,8 +114,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
         cm->fitContent();
         cm->exec(cmx - cm->width(), cmy, this);
     };
-    const auto af1 = [this, window, cmx, cmy]() {
-        const auto cm = new eContextMenu(window);
+    const auto af1 = [this, cmx, cmy]() {
+        const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::dairy, "Dairy"},
                              eSPR{eBuildingMode::goat, "Goat"},
                              eSPR{eBuildingMode::cardingShed, "Carding Shed"},
@@ -210,8 +127,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
         cm->fitContent();
         cm->exec(cmx - cm->width(), cmy, this);
     };
-    const auto ah1 = [this, window, cmx, cmy]() {
-        const auto cm = new eContextMenu(window);
+    const auto ah1 = [this, cmx, cmy]() {
+        const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::fishery, "Fishery"},
                              eSPR{eBuildingMode::urchinQuay, "Urchin Quay"},
                              eSPR{eBuildingMode::huntingLodge, "Hunting Lodge"}}) {
@@ -231,8 +148,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                             {ah1, &coll.fAnimalHunting}});
 
 
-    const auto r2 = [this, window, cmx, cmy]() {
-        const auto cm = new eContextMenu(window);
+    const auto r2 = [this, cmx, cmy]() {
+        const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::mint, "Mint"},
                              eSPR{eBuildingMode::foundry, "Foundry"},
                              eSPR{eBuildingMode::timberMill, "Timber Mill"},
@@ -244,8 +161,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
         cm->fitContent();
         cm->exec(cmx - cm->width(), cmy, this);
     };
-    const auto p2 = [this, window, cmx, cmy]() {
-        const auto cm = new eContextMenu(window);
+    const auto p2 = [this, cmx, cmy]() {
+        const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::winery, "Winery"},
                              eSPR{eBuildingMode::olivePress, "Olive Press"},
                              eSPR{eBuildingMode::sculptureStudio, "Sculpture Studio"}}) {
@@ -273,8 +190,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
     const auto ww3 = [this]() {
         setMode(eBuildingMode::warehouse);
     };
-    const auto a3 = [this, window, cmx, cmy]() {};
-    const auto t3 = [this, window, cmx, cmy]() {};
+    const auto a3 = [this, cmx, cmy]() {};
+    const auto t3 = [this, cmx, cmy]() {};
     const auto w3 = createSubButtons(mult,
                         eButtonsDataVec{
                              {g3, &coll.fGranary},
@@ -314,8 +231,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                              {bb5, &coll.fBridge}});
 
 
-    const auto p6 = [this, window, cmx, cmy]() {
-        const auto cm = new eContextMenu(window);
+    const auto p6 = [this, cmx, cmy]() {
+        const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::podium, "Podium"},
                              eSPR{eBuildingMode::college, "College"}}) {
             cm->addAction(c.second, [this, c]() {
@@ -328,8 +245,8 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
     const auto g6 = [this]() {
         setMode(eBuildingMode::gymnasium);
     };
-    const auto d6 = [this, window, cmx, cmy]() {
-        const auto cm = new eContextMenu(window);
+    const auto d6 = [this, cmx, cmy]() {
+        const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::theater, "Theater"},
                              eSPR{eBuildingMode::dramaSchool, "Drama School"}}) {
             cm->addAction(c.second, [this, c]() {
@@ -350,23 +267,23 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
                              {s6, &coll.fStadium}});
 
 
-    const auto t7 = [this, window, cmx, cmy]() {};
-    const auto hs7 = [this, window, cmx, cmy]() {};
+    const auto t7 = [this, cmx, cmy]() {};
+    const auto hs7 = [this, cmx, cmy]() {};
     const auto w7 = createSubButtons(mult,
                         eButtonsDataVec{
                              {t7, &coll.fTemples},
                              {hs7, &coll.fHeroShrines}});
 
-    const auto f8 = [this, window, cmx, cmy]() {};
-    const auto mp8 = [this, window, cmx, cmy]() {};
+    const auto f8 = [this, cmx, cmy]() {};
+    const auto mp8 = [this, cmx, cmy]() {};
     const auto w8 = createSubButtons(mult,
                         eButtonsDataVec{
                              {f8, &coll.fFortifications},
                              {mp8, &coll.fMilitaryProduction}});
 
-    const auto bb9 = [this, window, cmx, cmy]() {};
-    const auto r9 = [this, window, cmx, cmy]() {};
-    const auto m9 = [this, window, cmx, cmy]() {};
+    const auto bb9 = [this, cmx, cmy]() {};
+    const auto r9 = [this, cmx, cmy]() {};
+    const auto m9 = [this, cmx, cmy]() {};
     const auto w9 = createSubButtons(mult,
                         eButtonsDataVec{
                              {bb9, &coll.fBeautification},
@@ -385,45 +302,30 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
     mWidgets.push_back(w8);
     mWidgets.push_back(w9);
 
-    addWidget(w0);
-    addWidget(w1);
-    addWidget(w2);
-    addWidget(w3);
-    addWidget(w4);
-    addWidget(w5);
-    addWidget(w6);
-    addWidget(w7);
-    addWidget(w8);
-    addWidget(w9);
-
-    {
-        const int x = mult*24;
-        const int y = mult*165;
-        w0->move(x, y);
-        w1->move(x, y);
-        w2->move(x, y);
-        w3->move(x, y);
-        w4->move(x, y);
-        w5->move(x, y);
-        w6->move(x, y);
-        w7->move(x, y);
-        w8->move(x, y);
-        w9->move(x, y);
+    for(const auto w : mWidgets) {
+        addWidget(w);
+        w->move(24*mult, 165*mult);
+        w->hide();
     }
 
-    w0->hide();
-    w1->hide();
-    w2->hide();
-    w3->hide();
-    w4->hide();
-    w5->hide();
-    w6->hide();
-    w7->hide();
-    w8->hide();
-    w9->hide();
+    const auto b0 = addButton(coll.fPopulation, w0);
+    const auto b1 = addButton(coll.fHusbandry, w1);
+    const auto b2 = addButton(coll.fIndustry, w2);
+    const auto b3 = addButton(coll.fDistribution, w3);
+    const auto b4 = addButton(coll.fHygieneSafety, w4);
+    const auto b5 = addButton(coll.fAdministration, w5);
+    const auto b6 = addButton(coll.fCulture, w6);
+    const auto b7 = addButton(coll.fMythology, w7);
+    const auto b8 = addButton(coll.fMilitary, w8);
+    const auto b9 = addButton(coll.fAesthetics, w9);
+    const auto b10 = addButton(coll.fOverview, new eWidget(window()));
+
+    b10->setChecked(true);
+
+    connectAndLayoutButtons();
 
     {
-        const auto btmButtons = new eWidget(window);
+        const auto btmButtons = new eWidget(window());
         btmButtons->setPadding(0);
 
         const auto b = createSubButton(coll.fBuildRoad, btmButtons);
@@ -443,7 +345,7 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
     }
 
     {
-        const auto butts = new eWidget(window);
+        const auto butts = new eWidget(window());
         const auto info = createButton(coll.fShowInfo, butts);
         const auto map = createButton(coll.fShowMap, butts);
         info->setChecked(true);
@@ -466,7 +368,7 @@ eGameMenu::eGameMenu(eMainWindow* const window) :
         m->move(mult*73, mult*239);
     }
     {
-        const auto butts = new eWidget(window);
+        const auto butts = new eWidget(window());
         butts->setPadding(0);
         const auto goals = createButton(coll.fGoals, butts);
         const auto rotate = createButton(coll.fRotation, butts);

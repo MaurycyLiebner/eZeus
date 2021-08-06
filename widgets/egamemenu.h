@@ -1,7 +1,7 @@
-#ifndef EGAMEMENU_H
+﻿#ifndef EGAMEMENU_H
 #define EGAMEMENU_H
 
-#include "elabel.h"
+#include "egamemenubase.h"
 
 class eCheckableButton;
 class eTextureCollection;
@@ -63,27 +63,22 @@ enum class eBuildingMode {
     taxOffice
 };
 
-class eGameMenu : public eLabel {
+class eGameMenu : public eGameMenuBase {
 public:
-    eGameMenu(eMainWindow* const window);
+    using eGameMenuBase::eGameMenuBase;
+    void initialize();
 
     eBuildingMode mode() const { return mMode; }
 private:
     void setMode(const eBuildingMode mode);
-
-    eCheckableButton* createButton(const eTextureCollection& texs,
-                                   eWidget* const buttons);
     eButton* createSubButton(const eTextureCollection& texs,
                              eWidget* const buttons);
     using eButtonsDataVec = std::vector<eSubButtonData>;
     eWidget* createSubButtons(const int resoltuionMult,
                               const eButtonsDataVec& buttons);
 
-    const eRes mRes;
-
     eBuildingMode mMode{eBuildingMode::road};
 
-    std::vector<eCheckableButton*> mButtons;
     std::vector<eWidget*> mWidgets;
 };
 
