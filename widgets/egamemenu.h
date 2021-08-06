@@ -11,6 +11,8 @@ class eButton;
 struct eSubButtonData;
 
 enum class eBuildingMode {
+    none,
+
     road,
 
     commonHousing,
@@ -70,6 +72,7 @@ public:
     void initialize();
 
     eBuildingMode mode() const { return mMode; }
+    void clearMode() { mMode = eBuildingMode::none; }
 private:
     void setMode(const eBuildingMode mode);
     eButton* createSubButton(const eTextureCollection& texs,

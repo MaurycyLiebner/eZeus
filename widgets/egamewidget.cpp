@@ -142,6 +142,86 @@ void drawXY(const int tx, const int ty, double& rx, double& ry,
     }
 }
 
+void buildTiles(int& minX, int& minY,
+                int& maxX, int& maxY,
+                const int tx, const int ty,
+                const int sw, const int sh,
+                const eBuildingMode mode,
+                const bool rotate) {
+    minX = tx;
+    minY = ty;
+
+    if(sw == 2 && sh == 2) {
+    } else if(sw == 3 && sh == 3) {
+        minX -= 1;
+        minY -= 1;
+    } else if(sw == 4 && sh == 4) {
+        minX -= 1;
+        minY -= 1;
+    } else if(sw == 5 && sh == 5) {
+        minX -= 2;
+        minY -= 2;
+    }
+
+    maxX = minX + sw;
+    maxY = minY + sh;
+    if(mode == eBuildingMode::palace) {
+        if(rotate) maxY += 4;
+        else maxX += 4;
+    } else if(mode == eBuildingMode::stadium) {
+        if(rotate) maxY += 5;
+        else maxX += 5;
+    }
+}
+
+bool eGameWidget::canBuild(const int tx, const int ty,
+                           const int sw, const int sh,
+                           const eBuildingMode mode) {
+    int minX;
+    int minY;
+    int maxX;
+    int maxY;
+    buildTiles(minX, minY, maxX, maxY,
+               tx, ty, sw, sh, mode, mRotate);
+
+    for(int x = minX; x < maxX; x++) {
+        for(int y = minY; y < maxY; y++) {
+            const auto t = mBoard.tile(x, y);
+            if(!t || t->underBuilding()) return false;
+        }
+    }
+    return true;
+}
+
+
+bool eGameWidget::build(const int tx, const int ty,
+                        const int sw, const int sh,
+                        const eBuildingMode mode,
+                        const eBuildingCreator& bc) {
+    if(!bc) return false;
+    const auto tile = mBoard.tile(tx, ty);
+    if(!tile) return false;
+    const bool cb = canBuild(tx, ty, sw, sh, mode);
+    if(!cb) return false;
+    const auto b = bc();
+    if(!b) return false;
+    b->setTile(tile);
+    tile->setBuilding(b);
+    int minX;
+    int minY;
+    int maxX;
+    int maxY;
+    buildTiles(minX, minY, maxX, maxY,
+               tx, ty, sw, sh, mode, mRotate);
+    for(int x = minX; x < maxX; x++) {
+        for(int y = minY; y < maxY; y++) {
+            const auto t = mBoard.tile(x, y);
+            if(t) t->setUnderBuilding(b);
+        }
+    }
+    return true;
+}
+
 void eGameWidget::paintEvent(ePainter& p) {
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);
@@ -218,24 +298,6 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         const auto& chars = tile->characters();
         for(const auto c : chars) {
-//            {
-
-//                const int tx = tile->x();
-//                const int ty = tile->y();
-
-//                int wSpan;
-//                int hSpan;
-//                const auto tex = eTileToTexture::get(tile, trrTexs,
-//                                                     wSpan, hSpan);
-//                tile->setDrawnSpan(wSpan, hSpan);
-
-//                double rx;
-//                double ry;
-//                drawXY(tx, ty, rx, ry, wSpan, hSpan);
-//                const auto& selectedTex = trrTexs.fSelectedTex;
-
-//                tp.drawTexture(rx, ry, selectedTex, eAlignment::top);
-//            }
             const auto tex = c->getTexture(mTileSize);
             tp.drawTexture(tx + c->x() + 0.25, ty + c->y() + 0.25, tex);
             c->incTime(mSpeed);
@@ -290,43 +352,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             const int sw = b->spanW();
             const int sh = b->spanH();
 
-            int minX = gHoverX;
-            int minY = gHoverY;
-
-            if(sw == 2 && sh == 2) {
-            } else if(sw == 3 && sh == 3) {
-                minX -= 1;
-                minY -= 1;
-            } else if(sw == 4 && sh == 4) {
-                minX -= 1;
-                minY -= 1;
-            } else if(sw == 5 && sh == 5) {
-                minX -= 2;
-                minY -= 2;
-            }
-
-            int maxX = minX + sw;
-            int maxY = minY + sh;
-            if(mode == eBuildingMode::palace) {
-                if(mRotate) maxY += 4;
-                else maxX += 4;
-            } else if(mode == eBuildingMode::stadium) {
-                if(mRotate) maxY += 5;
-                else maxX += 5;
-            }
-
-            bool taken = false;
-            const auto& selectedTex = trrTexs.fSelectedTex;
-            for(int x = minX; x < maxX; x++) {
-                for(int y = minY; y < maxY; y++) {
-                    const auto t = mBoard.tile(x, y);
-                    if(!t || t->building()) taken = true;
-                    double rx;
-                    double ry;
-                    drawXY(x, y, rx, ry, 1, 1);
-                    tp.drawTexture(rx, ry, selectedTex, eAlignment::top);
-                }
-            }
+            const bool cb = canBuild(tx, ty, sw, sh, mode);
 
             b->setSeed(0);
             b->setTile(t);
@@ -334,8 +360,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             double ry;
             drawXY(tx, ty, rx, ry, sw, sh);
             auto tex = b->getTexture(tp.size());
-            if(taken) tex.setColorMod(255, 0, 0);
-            else tex.setColorMod(0, 255, 0);
+            if(cb) tex.setColorMod(0, 255, 0);
+            else tex.setColorMod(255, 0, 0);
             tp.drawTexture(rx, ry, tex, eAlignment::top);
             tex.clearColorMod();
             delete b;
@@ -367,6 +393,7 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         pixToId(e.x(), e.y(), gPressedX, gPressedY);
         return true;
     case eMouseButton::right: {
+        mGm->clearMode();
         int tx;
         int ty;
         pixToId(e.x(), e.y(), tx, ty);
@@ -425,81 +452,118 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             const auto mode = mGm->mode();
             switch(mode) {
             case eBuildingMode::road:
-                apply = [](eTile* const tile) {
-                    tile->addBuilding(new eRoad);
+                apply = [this, mode](eTile*) {
+                    build(gHoverX, gHoverY, 1, 1, mode,
+                          []() { return new eRoad; });
                 };
                 break;
             case eBuildingMode::commonHousing:
-                apply = [](eTile* const tile) {
-                    tile->addBuilding(new eSmallHouse);
+                apply = [this, mode](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2, mode,
+                          []() { return new eSmallHouse; });
                 };
                 break;
             case eBuildingMode::gymnasium:
-                apply = [](eTile* const tile) {
-                    tile->addBuilding(new eGymnasium);
+                apply = [this, mode](eTile*) {
+                    build(gHoverX, gHoverY, 3, 3, mode,
+                          []() { return new eGymnasium; });
                 };
                 break;
             case eBuildingMode::podium:
-                apply = [](eTile* const tile) {
-                    tile->addBuilding(new ePodium);
+                apply = [this, mode](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2, mode,
+                          []() { return new ePodium; });
                 };
                 break;
             case eBuildingMode::fountain:
-                apply = [](eTile* const tile) {
-                    tile->addBuilding(new eFountain);
+                apply = [this, mode](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2, mode,
+                          []() { return new eFountain; });
                 };
                 break;
             case eBuildingMode::college:
-                apply = [](eTile* const tile) {
-                    tile->addBuilding(new eCollege);
+                apply = [this, mode](eTile*) {
+                    build(gHoverX, gHoverY, 3, 3, mode,
+                          []() { return new eCollege; });
                 };
                 break;
             case eBuildingMode::dramaSchool:
-                apply = [](eTile* const tile) {
-                    tile->addBuilding(new eDramaSchool);
+                apply = [this, mode](eTile*) {
+                    build(gHoverX, gHoverY, 3, 3, mode,
+                          []() { return new eDramaSchool; });
                 };
                 break;
             case eBuildingMode::theater:
-                apply = [](eTile* const tile) {
-                    tile->addBuilding(new eTheater);
+                apply = [this, mode](eTile*) {
+                    build(gHoverX, gHoverY, 5, 5, mode,
+                          []() { return new eTheater; });
                 };
                 break;
             case eBuildingMode::hospital:
-                apply = [](eTile* const tile) {
-                    tile->addBuilding(new eHospital);
+                apply = [this, mode](eTile*) {
+                    build(gHoverX, gHoverY, 4, 4, mode,
+                          []() { return new eHospital; });
                 };
                 break;
             case eBuildingMode::stadium:
                 if(mRotate) {
-                    apply = [](eTile* const tile) {
+                    apply = [this, mode](eTile*) {
+                        const bool cb = canBuild(gHoverX, gHoverY, 5, 5, mode);
+                        if(!cb) return;
+                        const auto tile = mBoard.tile(gHoverX, gHoverY);
                         const auto t2 = tile->tileRel(0, 5);
+                        const bool cb2 = canBuild(gHoverX, gHoverY + 5, 5, 5, mode);
+                        if(!cb2) return;
                         if(!t2) return;
-                        tile->addBuilding(new eStadium1H);
-                        t2->addBuilding(new eStadium2H);
+                        build(tile->x(), tile->y(), 5, 5, mode,
+                              []() { return new eStadium1H; });
+                        build(t2->x(), tile->y(), 5, 5, mode,
+                              []() { return new eStadium2H; });
                     };
                 } else {
-                    apply = [](eTile* const tile) {
+                    apply = [this, mode](eTile*) {
+                        const bool cb = canBuild(gHoverX, gHoverY, 5, 5, mode);
+                        if(!cb) return;
+                        const auto tile = mBoard.tile(gHoverX, gHoverY);
                         const auto t2 = tile->tileRel(5, 0);
+                        const bool cb2 = canBuild(gHoverX + 5, gHoverY, 5, 5, mode);
+                        if(!cb2) return;
                         if(!t2) return;
-                        tile->addBuilding(new eStadium1W);
-                        t2->addBuilding(new eStadium2W);
+                        build(tile->x(), tile->y(), 5, 5, mode,
+                              []() { return new eStadium1H; });
+                        build(t2->x(), tile->y(), 5, 5, mode,
+                              []() { return new eStadium2H; });
                     };
                 }
                 break;
             case eBuildingMode::palace:
                 if(mRotate) {
-                    apply = [](eTile* const tile) {
+                    apply = [this, mode](eTile*) {
+                        const bool cb = canBuild(gHoverX, gHoverY, 4, 4, mode);
+                        if(!cb) return;
+                        const auto tile = mBoard.tile(gHoverX, gHoverY);
                         const auto t2 = tile->tileRel(0, 4);
+                        const bool cb2 = canBuild(gHoverX, gHoverY + 4, 4, 4, mode);
+                        if(!cb2) return;
                         if(!t2) return;
-                        tile->addBuilding(new ePalace1H);
-                        t2->addBuilding(new ePalace2H);
+                        build(tile->x(), tile->y(), 4, 4, mode,
+                              []() { return new ePalace1H; });
+                        build(t2->x(), tile->y(), 4, 4, mode,
+                              []() { return new ePalace2H; });
                     };
                 } else {
-                    apply = [](eTile* const tile) {
+                    apply = [this, mode](eTile*) {
+                        const bool cb = canBuild(gHoverX, gHoverY, 4, 4, mode);
+                        if(!cb) return;
+                        const auto tile = mBoard.tile(gHoverX, gHoverY);
                         const auto t2 = tile->tileRel(4, 0);
+                        const bool cb2 = canBuild(gHoverX + 4, gHoverY, 4, 4, mode);
+                        if(!cb2) return;
                         if(!t2) return;
-                        tile->addBuilding(new ePalace1W);
-                        t2->addBuilding(new ePalace2W);
+                        build(tile->x(), tile->y(), 4, 4, mode,
+                              []() { return new ePalace1H; });
+                        build(t2->x(), tile->y(), 4, 4, mode,
+                              []() { return new ePalace2H; });
                     };
                 }
                 break;

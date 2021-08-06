@@ -81,9 +81,11 @@ public:
     const std::vector<eCharacter*>& characters() const
     { return mCharacters; }
 
-    void addBuilding(eBuilding* const b);
+    void setBuilding(eBuilding* const b);
     eBuilding* building() const { return mBuilding; }
     bool hasRoad() const;
+    void setUnderBuilding(eBuilding* const b);
+    eBuilding* underBuilding() const { return mUnderBuilding; }
 
     // used for stones rendering
     void setDrawnSpan(const int w, const int h);
@@ -98,6 +100,7 @@ private:
     const int mY;
 
     std::vector<eCharacter*> mCharacters;
+    eBuilding* mUnderBuilding = nullptr;
     eBuilding* mBuilding = nullptr;
 
     eTile* mTopLeft = nullptr;

@@ -281,7 +281,7 @@ bool eTile::removeCharacter(eCharacter* const c) {
     return true;
 }
 
-void eTile::addBuilding(eBuilding* const b) {
+void eTile::setBuilding(eBuilding* const b) {
     mBuilding = b;
     b->setTile(this);
 }
@@ -289,6 +289,10 @@ void eTile::addBuilding(eBuilding* const b) {
 bool eTile::hasRoad() const {
     if(!mBuilding) return false;
     return mBuilding->type() == eBuildingType::road;
+}
+
+void eTile::setUnderBuilding(eBuilding* const b) {
+    mUnderBuilding = b;
 }
 
 void eTile::setDrawnSpan(const int w, const int h) {
