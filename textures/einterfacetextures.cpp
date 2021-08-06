@@ -22,6 +22,21 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fAesthetics(renderer),
     fOverview(renderer),
 
+    fBrushSize(renderer),
+    fEmptyLand(renderer),
+    fForest(renderer),
+    fWaterMarshBeach(renderer),
+    fMeadow(renderer),
+    fFishAndUrchin(renderer),
+    fRocks(renderer),
+    fScrub(renderer),
+    fElevation(renderer),
+    fDisasters(renderer),
+    fWaterPoints(renderer),
+    fLandInvasionPoints(renderer),
+    fExitEndEntryPoints(renderer),
+    fAnimalPoints(renderer),
+
     fCommonHousing(renderer),
     fEliteHousing(renderer),
 
@@ -363,6 +378,55 @@ void eInterfaceTextures::load() {
 
         for(int i = 267; i < 271; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fShowMap);
+        }
+    }
+
+    {
+        const std::string pathBase{dir + "Zeus_MapEditor_"};
+
+        fMapEditMenuBackground.load(fRenderer, pathBase + "00001.png");
+
+        for(int i = 2; i < 6; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fBrushSize);
+        }
+        for(int i = 6; i < 10; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fEmptyLand);
+        }
+        for(int i = 10; i < 14; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fForest);
+        }
+        for(int i = 14; i < 18; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWaterMarshBeach);
+        }
+        for(int i = 18; i < 22; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fMeadow);
+        }
+        for(int i = 22; i < 26; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fFishAndUrchin);
+        }
+        for(int i = 26; i < 30; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fRocks);
+        }
+        for(int i = 30; i < 34; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fScrub);
+        }
+        for(int i = 34; i < 38; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fElevation);
+        }
+        for(int i = 38; i < 42; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fDisasters);
+        }
+        for(int i = 42; i < 46; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWaterPoints);
+        }
+        for(int i = 46; i < 50; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fLandInvasionPoints);
+        }
+        for(int i = 50; i < 54; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fExitEndEntryPoints);
+        }
+        for(int i = 54; i < 58; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fAnimalPoints);
         }
     }
 

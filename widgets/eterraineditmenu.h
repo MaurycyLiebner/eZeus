@@ -18,11 +18,7 @@ enum class eTerrainEditMode {
     bronze = static_cast<int>(eTerrain::bronze),
     silver = static_cast<int>(eTerrain::silver),
     tallStones = static_cast<int>(eTerrain::tallStones),
-    tinyStones = static_cast<int>(eTerrain::tinyStones),
-
-    smallHouse,
-    gymnasium,
-    road
+    tinyStones = static_cast<int>(eTerrain::tinyStones)
 };
 
 class eTerrainEditMenu : public eTabWidget {

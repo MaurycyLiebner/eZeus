@@ -33,6 +33,23 @@ public:
     eTextureCollection fAesthetics;
     eTextureCollection fOverview;
 
+    eTexture fMapEditMenuBackground;
+
+    eTextureCollection fBrushSize;
+    eTextureCollection fEmptyLand;
+    eTextureCollection fForest;
+    eTextureCollection fWaterMarshBeach;
+    eTextureCollection fMeadow;
+    eTextureCollection fFishAndUrchin;
+    eTextureCollection fRocks;
+    eTextureCollection fScrub;
+    eTextureCollection fElevation;
+    eTextureCollection fDisasters;
+    eTextureCollection fWaterPoints;
+    eTextureCollection fLandInvasionPoints;
+    eTextureCollection fExitEndEntryPoints;
+    eTextureCollection fAnimalPoints;
+
     // normal, hover, pressed
     eTextureCollection fCommonHousing;
     eTextureCollection fEliteHousing;
