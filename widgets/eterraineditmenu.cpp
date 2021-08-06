@@ -1,6 +1,7 @@
 #include "eterraineditmenu.h"
 
 #include "textures/egametextures.h"
+#include "eactionlistwidget.h"
 
 void eTerrainEditMenu::initialize() {
     eGameMenuBase::initialize();
@@ -31,10 +32,40 @@ void eTerrainEditMenu::initialize() {
     const auto w0 = new eWidget(window());
     const auto w1 = new eWidget(window());
     const auto w2 = new eWidget(window());
-    const auto w3 = new eWidget(window());
+
+    const auto w3 = new eActionListWidget(window());
+    w3->addAction("Water", [this]() {
+        mMode = eTerrainEditMode::water;
+    });
+    w3->addAction("Beach", [this]() {
+        mMode = eTerrainEditMode::beach;
+    });
+    w3->fitContent();
+
     const auto w4 = new eWidget(window());
     const auto w5 = new eWidget(window());
-    const auto w6 = new eWidget(window());
+
+    const auto w6 = new eActionListWidget(window());
+    w6->addAction("Water", [this]() {
+        mMode = eTerrainEditMode::water;
+    });
+    w6->addAction("Flat Rock", [this]() {
+        mMode = eTerrainEditMode::flatStones;
+    });
+    w6->addAction("Tall Rock", [this]() {
+        mMode = eTerrainEditMode::tallStones;
+    });
+    w6->addAction("Tiny Rock", [this]() {
+        mMode = eTerrainEditMode::tinyStones;
+    });
+    w6->addAction("Copper Ore", [this]() {
+        mMode = eTerrainEditMode::bronze;
+    });
+    w6->addAction("Silver Ore", [this]() {
+        mMode = eTerrainEditMode::silver;
+    });
+    w6->fitContent();
+
     const auto w7 = new eWidget(window());
     const auto w8 = new eWidget(window());
     const auto w9 = new eWidget(window());
@@ -65,13 +96,13 @@ void eTerrainEditMenu::initialize() {
     }
 
     const auto b0 = addButton(coll.fBrushSize, w0);
-    const auto b1 = addButton(coll.fEmptyLand, w1);
-    const auto b2 = addButton(coll.fForest, w2);
+    mB1 = addButton(coll.fEmptyLand, w1);
+    mB2 = addButton(coll.fForest, w2);
     const auto b3 = addButton(coll.fWaterMarshBeach, w3);
-    const auto b4 = addButton(coll.fMeadow, w4);
+    mB4 = addButton(coll.fMeadow, w4);
     const auto b5 = addButton(coll.fFishAndUrchin, w5);
     const auto b6 = addButton(coll.fRocks, w6);
-    const auto b7 = addButton(coll.fScrub, w7);
+    mB7 = addButton(coll.fScrub, w7);
     const auto b8 = addButton(coll.fElevation, w8);
     const auto b9 = addButton(coll.fDisasters, w9);
     const auto b10 = addButton(coll.fWaterPoints, w10);
@@ -97,4 +128,17 @@ void eTerrainEditMenu::initialize() {
         btmButtons->layoutHorizontally();
         addWidget(btmButtons);
     }
+}
+
+eTerrainEditMode eTerrainEditMenu::mode() const {
+    if(mB1->checked()) {
+        return eTerrainEditMode::dry;
+    } else if(mB2->checked()) {
+        return eTerrainEditMode::forest;
+    } else if(mB4->checked()) {
+        return eTerrainEditMode::fertile;
+    } else if(mB7->checked()) {
+        return eTerrainEditMode::scrub;
+    }
+    return mMode;
 }

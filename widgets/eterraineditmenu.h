@@ -27,9 +27,14 @@ public:
 
     void initialize();
 
-    eTerrainEditMode mode() const { return mMode; }
+    eTerrainEditMode mode() const;
 private:
     eTerrainEditMode mMode = eTerrainEditMode::dry;
+
+    eCheckableButton* mB1 = nullptr;
+    eCheckableButton* mB2 = nullptr;
+    eCheckableButton* mB4 = nullptr;
+    eCheckableButton* mB7 = nullptr;
 
     std::vector<eWidget*> mWidgets;
 };
