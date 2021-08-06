@@ -3,12 +3,20 @@ CONFIG += console c++17
 CONFIG -= app_bundle
 CONFIG -= qt
 
+QMAKE_CFLAGS_RELEASE -= -O2
+QMAKE_CFLAGS_RELEASE -= -O1
+QMAKE_CXXFLAGS_RELEASE -= -O2
+QMAKE_CXXFLAGS_RELEASE -= -O1
+QMAKE_CFLAGS_RELEASE += -m64 -O3
+QMAKE_CXXFLAGS_RELEASE += -m64 -O3
+
 LIBS += -L/usr/lib/x86_64-linux-gnu
 LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf
 
 SOURCES += \
         buildings/ebuilding.cpp \
         buildings/ecollege.cpp \
+        buildings/edramaschool.cpp \
         buildings/efountain.cpp \
         buildings/egymnasium.cpp \
         buildings/ehospital.cpp \
@@ -101,6 +109,7 @@ SOURCES += \
 HEADERS += \
     buildings/ebuilding.h \
     buildings/ecollege.h \
+    buildings/edramaschool.h \
     buildings/efountain.h \
     buildings/egymnasium.h \
     buildings/ehospital.h \

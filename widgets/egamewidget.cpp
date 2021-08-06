@@ -23,6 +23,7 @@
 #include "buildings/efountain.h"
 #include "buildings/ehospital.h"
 #include "buildings/etheater.h"
+#include "buildings/edramaschool.h"
 #include "buildings/estadium1.h"
 #include "buildings/estadium2.h"
 #include "buildings/epalace1.h"
@@ -266,6 +267,9 @@ void eGameWidget::paintEvent(ePainter& p) {
         case eBuildingMode::college:
             b = new eCollege;
             break;
+        case eBuildingMode::dramaSchool:
+            b = new eDramaSchool;
+            break;
         case eBuildingMode::theater:
             b = new eTheater;
             break;
@@ -281,13 +285,53 @@ void eGameWidget::paintEvent(ePainter& p) {
         default: break;
         }
         if(b) {
+            const int sw = b->spanW();
+            const int sh = b->spanH();
+
+            int minX = gHoverX;
+            int minY = gHoverY;
+
+            if(sw == 2 && sh == 2) {
+            } else if(sw == 3 && sh == 3) {
+                minX -= 1;
+                minY -= 1;
+            } else if(sw == 4 && sh == 4) {
+                minX -= 1;
+                minY -= 1;
+            } else if(sw == 5 && sh == 5) {
+                minX -= 2;
+                minY -= 2;
+            }
+
+            int maxX = minX + sw;
+            int maxY = minY + sh;
+            if(mode == eBuildingMode::palace) {
+                maxX += 4;
+            } else if(mode == eBuildingMode::stadium) {
+                maxX += 5;
+            }
+
+            bool taken = false;
+            const auto& selectedTex = trrTexs.fSelectedTex;
+            for(int x = minX; x < maxX; x++) {
+                for(int y = minY; y < maxY; y++) {
+                    const auto t = mBoard.tile(x, y);
+                    if(!t || t->building()) taken = true;
+                    double rx;
+                    double ry;
+                    drawXY(x, y, rx, ry, 1, 1);
+                    tp.drawTexture(rx, ry, selectedTex, eAlignment::top);
+                }
+            }
+
             b->setSeed(0);
             b->setTile(t);
             double rx;
             double ry;
-            drawXY(tx, ty, rx, ry, b->spanW(), b->spanH());
+            drawXY(tx, ty, rx, ry, sw, sh);
             auto tex = b->getTexture(tp.size());
-            tex.setColorMod(0, 255, 0);
+            if(taken) tex.setColorMod(255, 0, 0);
+            else tex.setColorMod(0, 255, 0);
             tp.drawTexture(rx, ry, tex, eAlignment::top);
             tex.clearColorMod();
             delete b;
@@ -402,6 +446,11 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             case eBuildingMode::college:
                 apply = [](eTile* const tile) {
                     tile->addBuilding(new eCollege);
+                };
+                break;
+            case eBuildingMode::dramaSchool:
+                apply = [](eTile* const tile) {
+                    tile->addBuilding(new eDramaSchool);
                 };
                 break;
             case eBuildingMode::theater:
