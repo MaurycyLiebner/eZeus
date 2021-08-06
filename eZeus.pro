@@ -11,6 +11,7 @@ SOURCES += \
         buildings/ecollege.cpp \
         buildings/efountain.cpp \
         buildings/egymnasium.cpp \
+        buildings/ehospital.cpp \
         buildings/epatrolbuilding.cpp \
         buildings/epodium.cpp \
         buildings/eroad.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
         characters/echaracter.cpp \
         characters/edemeter.cpp \
         characters/egymnast.cpp \
+        characters/ehealer.cpp \
         characters/ephilosopher.cpp \
         characters/etaxcollector.cpp \
         characters/ewaterdistributor.cpp \
@@ -96,6 +98,7 @@ HEADERS += \
     buildings/ecollege.h \
     buildings/efountain.h \
     buildings/egymnasium.h \
+    buildings/ehospital.h \
     buildings/epatrolbuilding.h \
     buildings/epodium.h \
     buildings/eroad.h \
@@ -109,6 +112,7 @@ HEADERS += \
     characters/echaracter.h \
     characters/edemeter.h \
     characters/egymnast.h \
+    characters/ehealer.h \
     characters/ephilosopher.h \
     characters/etaxcollector.h \
     characters/ewaterdistributor.h \

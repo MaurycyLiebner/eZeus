@@ -22,9 +22,12 @@ public:
     const int fTileH;
     SDL_Renderer* const fRenderer;
 
-    eBasicPatrolerTextures fGymnast;
+    eBasicPatrolerTextures fFoodDistributor;
+    eBasicPatrolerTextures fActor;
     eBasicPatrolerTextures fTaxCollector;
     eBasicPatrolerTextures fWaterDistributor;
+    eBasicPatrolerTextures fHealer;
+    eBasicPatrolerTextures fGymnast;
     eBasicPatrolerTextures fPhilosopher;
 };
 

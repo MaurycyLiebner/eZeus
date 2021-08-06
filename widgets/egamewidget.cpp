@@ -21,6 +21,7 @@
 #include "buildings/epodium.h"
 #include "buildings/ecollege.h"
 #include "buildings/efountain.h"
+#include "buildings/ehospital.h"
 
 #include "echeckbox.h"
 
@@ -339,6 +340,11 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     tile->addBuilding(new eCollege);
                 };
                 break;
+            case eBuildingMode::hospital:
+                apply = [](eTile* const tile) {
+                    tile->addBuilding(new eHospital);
+                };
+                break;
             default: break;
             }
         }
@@ -402,6 +408,7 @@ void eGameWidget::setTileSize(const eTileSize size) {
 }
 
 void eGameWidget::actionOnSelectedTiles(const eTileAction& apply) {
+    if(!apply) return;
     const int minX = std::min(gPressedX, gHoverX);
     const int minY = std::min(gPressedY, gHoverY);
     const int maxX = std::max(gPressedX, gHoverX);
