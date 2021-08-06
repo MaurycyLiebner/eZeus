@@ -12,6 +12,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fDramaSchoolOverlay(renderer),
     fPodiumOverlay(renderer),
 
+    fPalaceTiles(renderer),
+
     fFountainOverlay(renderer),
     fHospitalOverlay(renderer),
 
@@ -260,6 +262,18 @@ void eBuildingTextures::load() {
         }
 
         fWatchPost.load(fRenderer, pathBase + "00065.png");
+
+        {
+            const std::string pathBase{dir + "Zeus_Mun-Palace_"};
+
+            fPalace1H.load(fRenderer, pathBase + "00001.png");
+            fPalace2H.load(fRenderer, pathBase + "00012.png");
+            fPalace1W.load(fRenderer, pathBase + "00013.png");
+            fPalace2W.load(fRenderer, pathBase + "00014.png");
+
+            eTextureLoadingHelpers::loadTex(pathBase, 25, fPalaceTiles);
+            eTextureLoadingHelpers::loadTex(pathBase, 26, fPalaceTiles);
+        }
     }
 
     {

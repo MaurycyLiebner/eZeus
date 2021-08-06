@@ -22,6 +22,11 @@
 #include "buildings/ecollege.h"
 #include "buildings/efountain.h"
 #include "buildings/ehospital.h"
+#include "buildings/etheater.h"
+#include "buildings/estadium1.h"
+#include "buildings/estadium2.h"
+#include "buildings/epalace1.h"
+#include "buildings/epalace2.h"
 
 #include "echeckbox.h"
 
@@ -125,8 +130,20 @@ void drawXY(const int tx, const int ty, double& rx, double& ry,
         rx += 0.5;
         ry += 1.5;
     } else if(wSpan == 3 && hSpan == 3) {
-        rx += 0;
-        ry += 2;
+        rx += 0.0;
+        ry += 2.0;
+    } else if(wSpan == 4 && hSpan == 4) {
+        rx += 0.5;
+        ry += 3.5;
+    } else if(wSpan == 5 && hSpan == 5) {
+        rx += 0.0;
+        ry += 4.0;
+    } else if(wSpan == 6 && hSpan == 4) {
+        rx += 0.0;
+        ry += 4.0;
+    } else if(wSpan == 6 && hSpan == 5) {
+        rx += 0.0;
+        ry += 4.0;
     }
 }
 
@@ -340,9 +357,30 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     tile->addBuilding(new eCollege);
                 };
                 break;
+            case eBuildingMode::theater:
+                apply = [](eTile* const tile) {
+                    tile->addBuilding(new eTheater);
+                };
+                break;
             case eBuildingMode::hospital:
                 apply = [](eTile* const tile) {
                     tile->addBuilding(new eHospital);
+                };
+                break;
+            case eBuildingMode::stadium:
+                apply = [](eTile* const tile) {
+                    const auto t2 = tile->tileRel(5, 0);
+                    if(!t2) return;
+                    tile->addBuilding(new eStadium1W);
+                    t2->addBuilding(new eStadium2W);
+                };
+                break;
+            case eBuildingMode::palace:
+                apply = [](eTile* const tile) {
+                    const auto t2 = tile->tileRel(4, 0);
+                    if(!t2) return;
+                    tile->addBuilding(new ePalace1W);
+                    t2->addBuilding(new ePalace2W);
                 };
                 break;
             default: break;

@@ -13,7 +13,8 @@ enum class eBuildingType {
     dramaSchool,
     podium,
     theater,
-    stadium,
+    stadium1,
+    stadium2,
 
     fountain,
     hospital,
@@ -47,6 +48,9 @@ enum class eBuildingType {
     maintenanceOffice,
     taxOffice,
     watchPost,
+
+    palace1,
+    palace2,
 
     road
 };

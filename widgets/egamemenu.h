@@ -60,7 +60,8 @@ enum class eBuildingMode {
     hospital,
     watchpost,
 
-    taxOffice
+    taxOffice,
+    palace
 };
 
 class eGameMenu : public eGameMenuBase {

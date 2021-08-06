@@ -62,12 +62,14 @@ void eCharacterTextures::load() {
     for(int i = 4625; i < 4721;) {
         for(int j = 0; j < 8; j++, i++) {
             auto& walk = fTaxCollector.fWalk;
-            eTextureLoadingHelpers::loadTex(pathBase, i, walk[j]);
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
         }
     }
     for(int i = 4721; i < 4729; i++) {
         auto& die = fTaxCollector.fDie;
-        eTextureLoadingHelpers::loadTex(pathBase, i, die);
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
     }
 
 
@@ -78,12 +80,14 @@ void eCharacterTextures::load() {
     for(int i = 6737; i < 6833;) {
         for(int j = 0; j < 8; j++, i++) {
             auto& walk = fWaterDistributor.fWalk;
-            eTextureLoadingHelpers::loadTex(pathBase, i, walk[j]);
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
         }
     }
     for(int i = 6833; i < 6841; i++) {
         auto& die = fWaterDistributor.fDie;
-        eTextureLoadingHelpers::loadTex(pathBase, i, die);
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
     }
 
 
@@ -93,12 +97,14 @@ void eCharacterTextures::load() {
     for(int i = 7473; i < 7569;) {
         for(int j = 0; j < 8; j++, i++) {
             auto& walk = fHealer.fWalk;
-            eTextureLoadingHelpers::loadTex(pathBase, i, walk[j]);
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
         }
     }
     for(int i = 7569; i < 7577; i++) {
         auto& die = fHealer.fDie;
-        eTextureLoadingHelpers::loadTex(pathBase, i, die);
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
     }
 
 
@@ -114,7 +120,8 @@ void eCharacterTextures::load() {
     }
     for(int i = 10684; i < 10692; i++) {
         auto& die = fGymnast.fDie;
-        eTextureLoadingHelpers::loadTex(pathBase, i, die);
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
     }
 
 
@@ -124,11 +131,13 @@ void eCharacterTextures::load() {
     for(int i = 12128; i < 12224;) {
         for(int j = 0; j < 8; j++, i++) {
             auto& walk = fPhilosopher.fWalk;
-            eTextureLoadingHelpers::loadTex(pathBase, i, walk[j]);
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
         }
     }
     for(int i = 12224; i < 12232; i++) {
         auto& die = fPhilosopher.fDie;
-        eTextureLoadingHelpers::loadTex(pathBase, i, die);
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
     }
 }

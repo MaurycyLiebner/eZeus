@@ -12,10 +12,15 @@ SOURCES += \
         buildings/efountain.cpp \
         buildings/egymnasium.cpp \
         buildings/ehospital.cpp \
+        buildings/epalace1.cpp \
+        buildings/epalace2.cpp \
         buildings/epatrolbuilding.cpp \
         buildings/epodium.cpp \
         buildings/eroad.cpp \
         buildings/esmallhouse.cpp \
+        buildings/estadium1.cpp \
+        buildings/estadium2.cpp \
+        buildings/etheater.cpp \
         characters/actions/echaracteraction.cpp \
         characters/actions/emoveaction.cpp \
         characters/actions/emovearoundaction.cpp \
@@ -99,10 +104,15 @@ HEADERS += \
     buildings/efountain.h \
     buildings/egymnasium.h \
     buildings/ehospital.h \
+    buildings/epalace1.h \
+    buildings/epalace2.h \
     buildings/epatrolbuilding.h \
     buildings/epodium.h \
     buildings/eroad.h \
     buildings/esmallhouse.h \
+    buildings/estadium1.h \
+    buildings/estadium2.h \
+    buildings/etheater.h \
     characters/actions/echaracteraction.h \
     characters/actions/emoveaction.h \
     characters/actions/emovearoundaction.h \

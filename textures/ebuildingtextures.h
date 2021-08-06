@@ -38,6 +38,13 @@ public:
     eTexture fStadium1W;
     eTexture fStadium2W;
 
+    eTexture fPalace1H;
+    eTexture fPalace2H;
+
+    eTexture fPalace1W;
+    eTexture fPalace2W;
+
+    eTextureCollection fPalaceTiles;
 
     eTexture fFountain;
     eTextureCollection fFountainOverlay;

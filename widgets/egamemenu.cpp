@@ -219,7 +219,9 @@ void eGameMenu::initialize() {
                              {p4, &coll.fPolice},
                              {h4, &coll.fHospital}});
 
-    const auto p5 = [this]() {};
+    const auto p5 = [this]() {
+        setMode(eBuildingMode::palace);
+    };
     const auto tc5 = [this]() {
         setMode(eBuildingMode::taxOffice);
     };
