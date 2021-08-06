@@ -27,10 +27,10 @@ eGameWidget::eGameWidget(eMainWindow* const window) :
 eGameWidget::~eGameWidget() {}
 
 void eGameWidget::initialize(const int w, const int h) {
-    const auto gm = new eGameMenu(window());
-    gm->initialize();
-    addWidget(gm);
-    gm->align(eAlignment::right | eAlignment::top);
+    mGm = new eGameMenu(window());
+    mGm->initialize();
+    addWidget(mGm);
+    mGm->align(eAlignment::right | eAlignment::top);
 
     mTem = new eTerrainEditMenu(window());
     mTem->initialize();
@@ -40,10 +40,10 @@ void eGameWidget::initialize(const int w, const int h) {
     mBoard.initialize(w, h);
 
     const auto swtch = new eCheckBox(window());
-    swtch->move(gm->x(), 0);
-    swtch->setCheckAction([this, gm](const bool c) {
+    swtch->move(mGm->x(), 0);
+    swtch->setCheckAction([this](const bool c) {
         mTem->setVisible(c);
-        gm->setVisible(!c);
+        mGm->setVisible(!c);
     });
     addWidget(swtch);
 
@@ -291,16 +291,38 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
     switch(e.button()) {
     case eMouseButton::left: {
         std::function<void(eTile* const)> apply;
-        const auto mode = mTem->mode();
-        if(mode == eTerrainEditMode::scrub) {
-            apply = [](eTile* const tile) {
-                tile->incScrub(0.1);
-            };
+        if(mTem->visible()) {
+            const auto mode = mTem->mode();
+            if(mode == eTerrainEditMode::scrub) {
+                apply = [](eTile* const tile) {
+                    tile->incScrub(0.1);
+                };
+            } else {
+                apply = [mode](eTile* const tile) {
+                    const auto terr = static_cast<eTerrain>(mode);
+                    tile->setTerrain(terr);
+                };
+            }
         } else {
-            apply = [mode](eTile* const tile) {
-                const auto terr = static_cast<eTerrain>(mode);
-                tile->setTerrain(terr);
-            };
+            const auto mode = mGm->mode();
+            switch(mode) {
+            case eBuildingMode::road:
+                apply = [](eTile* const tile) {
+                    tile->addBuilding(new eRoad);
+                };
+                break;
+            case eBuildingMode::commonHousing:
+                apply = [](eTile* const tile) {
+                    tile->addBuilding(new eSmallHouse);
+                };
+                break;
+            case eBuildingMode::gymnasium:
+                apply = [](eTile* const tile) {
+                    tile->addBuilding(new eGymnasium);
+                };
+                break;
+            default: break;
+            }
         }
 
         actionOnSelectedTiles(apply);

@@ -14,6 +14,7 @@
 #include "infowidgets/egyminfowidget.h"
 
 class eTerrainEditMenu;
+class eGameMenu;
 
 class eGameWidget : public eWidget {
 public:
@@ -56,6 +57,7 @@ private:
 
     eInfoWidget* mInfoWidget = nullptr;
     eTerrainEditMenu* mTem = nullptr;
+    eGameMenu* mGm = nullptr;
 };
 
 #endif // EGAMEWIDGET_H
