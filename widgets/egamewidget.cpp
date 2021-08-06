@@ -138,12 +138,6 @@ void drawXY(const int tx, const int ty, double& rx, double& ry,
     } else if(wSpan == 5 && hSpan == 5) {
         rx += 0.0;
         ry += 4.0;
-    } else if(wSpan == 6 && hSpan == 4) {
-        rx += 0.0;
-        ry += 4.0;
-    } else if(wSpan == 6 && hSpan == 5) {
-        rx += 0.0;
-        ry += 4.0;
     }
 }
 
@@ -246,6 +240,59 @@ void eGameWidget::paintEvent(ePainter& p) {
             c->incTime(mSpeed);
         }
     });
+
+    const auto t = mBoard.tile(gHoverX, gHoverY);
+    if(t && mGm->visible()) {
+        const int tx = gHoverX;
+        const int ty = gHoverY;
+        eBuilding* b = nullptr;
+        const auto mode = mGm->mode();
+        switch(mode) {
+        case eBuildingMode::road:
+            b = new eRoad;
+            break;
+        case eBuildingMode::commonHousing:
+            b = new eSmallHouse;
+            break;
+        case eBuildingMode::gymnasium:
+            b = new eGymnasium;
+            break;
+        case eBuildingMode::podium:
+            b = new ePodium;
+            break;
+        case eBuildingMode::fountain:
+            b = new eFountain;
+            break;
+        case eBuildingMode::college:
+            b = new eCollege;
+            break;
+        case eBuildingMode::theater:
+            b = new eTheater;
+            break;
+        case eBuildingMode::hospital:
+            b = new eHospital;
+            break;
+        case eBuildingMode::stadium:
+            b = new eStadium1W;
+            break;
+        case eBuildingMode::palace:
+            b = new ePalace1W;
+            break;
+        default: break;
+        }
+        if(b) {
+            b->setSeed(0);
+            b->setTile(t);
+            double rx;
+            double ry;
+            drawXY(tx, ty, rx, ry, b->spanW(), b->spanH());
+            auto tex = b->getTexture(tp.size());
+            tex.setColorMod(0, 255, 0);
+            tp.drawTexture(rx, ry, tex, eAlignment::top);
+            tex.clearColorMod();
+            delete b;
+        }
+    }
 }
 
 bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {

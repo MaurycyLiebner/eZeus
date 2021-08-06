@@ -65,6 +65,7 @@ class eBuilding {
 public:
     eBuilding(const eBuildingType type,
               const int sw, const int sh);
+    virtual ~eBuilding() {}
 
     virtual eTexture getTexture(const eTileSize size) const = 0;
     virtual std::vector<eOverlay> getOverlays(const eTileSize size) const {
@@ -79,6 +80,7 @@ public:
     eTile* road(const eOrientation o) const;
 
     int seed() const { return mSeed; }
+    void setSeed(const int s) { mSeed = s; }
     eBuildingType type() const { return mType; }
     eTile* tile() const { return mTile; }
     int spanW() const { return mSpanW; }
@@ -94,7 +96,7 @@ public:
               const double x, const double y,
               const eAlignment align);
 private:
-    const int mSeed;
+    int mSeed;
     const eBuildingType mType;
     const int mSpanW;
     const int mSpanH;

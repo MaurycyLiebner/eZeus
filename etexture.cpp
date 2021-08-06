@@ -163,3 +163,15 @@ void eTexture::setOffset(const int x, const int y) {
 bool eTexture::isNull() const {
     return mWidth <= 0 || mHeight <= 0;
 }
+
+void eTexture::setAlpha(const Uint8 alpha) {
+    SDL_SetTextureAlphaMod(mTex, alpha);
+}
+
+void eTexture::setColorMod(const Uint8 r, const Uint8 g, const Uint8 b) {
+    SDL_SetTextureColorMod(mTex, r, g, b);
+}
+
+void eTexture::clearColorMod() {
+    setColorMod(255, 255, 255);
+}

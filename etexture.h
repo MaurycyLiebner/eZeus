@@ -49,6 +49,10 @@ public:
     int offsetY() const { return mOffsetY; }
 
     bool isNull() const;
+
+    void setAlpha(const Uint8 alpha);
+    void setColorMod(const Uint8 r, const Uint8 g, const Uint8 b);
+    void clearColorMod();
 private:
     int mWidth = 0;
     int mHeight = 0;
