@@ -42,6 +42,8 @@ private:
 
     void actionOnSelectedTiles(const eTileAction& apply);
 
+    bool mRotate = false;
+
     int mSpeed = 1;
 
     int mWheel = 0;

@@ -277,10 +277,12 @@ void eGameWidget::paintEvent(ePainter& p) {
             b = new eHospital;
             break;
         case eBuildingMode::stadium:
-            b = new eStadium1W;
+            if(mRotate) b = new eStadium1H;
+            else b = new eStadium1W;
             break;
         case eBuildingMode::palace:
-            b = new ePalace1W;
+            if(mRotate) b = new ePalace1H;
+            else b = new ePalace1W;
             break;
         default: break;
         }
@@ -306,9 +308,11 @@ void eGameWidget::paintEvent(ePainter& p) {
             int maxX = minX + sw;
             int maxY = minY + sh;
             if(mode == eBuildingMode::palace) {
-                maxX += 4;
+                if(mRotate) maxY += 4;
+                else maxX += 4;
             } else if(mode == eBuildingMode::stadium) {
-                maxX += 5;
+                if(mRotate) maxY += 5;
+                else maxX += 5;
             }
 
             bool taken = false;
@@ -344,6 +348,8 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
         mSpeed = std::clamp(mSpeed + 1, 1, 10);
     } else if(e.key() == SDL_Scancode::SDL_SCANCODE_KP_MINUS) {
         mSpeed = std::clamp(mSpeed - 1, 1, 10);
+    } else if(e.key() == SDL_Scancode::SDL_SCANCODE_R) {
+        mRotate = !mRotate;
     }
     return true;
 }
@@ -464,20 +470,38 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 };
                 break;
             case eBuildingMode::stadium:
-                apply = [](eTile* const tile) {
-                    const auto t2 = tile->tileRel(5, 0);
-                    if(!t2) return;
-                    tile->addBuilding(new eStadium1W);
-                    t2->addBuilding(new eStadium2W);
-                };
+                if(mRotate) {
+                    apply = [](eTile* const tile) {
+                        const auto t2 = tile->tileRel(0, 5);
+                        if(!t2) return;
+                        tile->addBuilding(new eStadium1H);
+                        t2->addBuilding(new eStadium2H);
+                    };
+                } else {
+                    apply = [](eTile* const tile) {
+                        const auto t2 = tile->tileRel(5, 0);
+                        if(!t2) return;
+                        tile->addBuilding(new eStadium1W);
+                        t2->addBuilding(new eStadium2W);
+                    };
+                }
                 break;
             case eBuildingMode::palace:
-                apply = [](eTile* const tile) {
-                    const auto t2 = tile->tileRel(4, 0);
-                    if(!t2) return;
-                    tile->addBuilding(new ePalace1W);
-                    t2->addBuilding(new ePalace2W);
-                };
+                if(mRotate) {
+                    apply = [](eTile* const tile) {
+                        const auto t2 = tile->tileRel(0, 4);
+                        if(!t2) return;
+                        tile->addBuilding(new ePalace1H);
+                        t2->addBuilding(new ePalace2H);
+                    };
+                } else {
+                    apply = [](eTile* const tile) {
+                        const auto t2 = tile->tileRel(4, 0);
+                        if(!t2) return;
+                        tile->addBuilding(new ePalace1W);
+                        t2->addBuilding(new ePalace2W);
+                    };
+                }
                 break;
             default: break;
             }

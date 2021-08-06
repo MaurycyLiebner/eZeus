@@ -99,8 +99,8 @@ void eBuildingTextures::load() {
 
             fTheater.load(fRenderer, pathBase + "00109.png");
 
-            fStadium1H.load(fRenderer, pathBase + "00110.png");
-            fStadium2H.load(fRenderer, pathBase + "00111.png");
+            fStadium2H.load(fRenderer, pathBase + "00110.png");
+            fStadium1H.load(fRenderer, pathBase + "00111.png");
             fStadium1W.load(fRenderer, pathBase + "00112.png");
             fStadium2W.load(fRenderer, pathBase + "00113.png");
 
@@ -266,8 +266,8 @@ void eBuildingTextures::load() {
         {
             const std::string pathBase{dir + "Zeus_Mun-Palace_"};
 
-            fPalace1H.load(fRenderer, pathBase + "00001.png");
-            fPalace2H.load(fRenderer, pathBase + "00012.png");
+            fPalace2H.load(fRenderer, pathBase + "00001.png");
+            fPalace1H.load(fRenderer, pathBase + "00012.png");
             fPalace1W.load(fRenderer, pathBase + "00013.png");
             fPalace2W.load(fRenderer, pathBase + "00014.png");
 
