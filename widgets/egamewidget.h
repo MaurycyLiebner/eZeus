@@ -11,6 +11,8 @@
 #include "textures/ebuildingtextures.h"
 #include "textures/echaractertextures.h"
 
+#include "buildings/epatrolbuilding.h"
+
 #include "infowidgets/egyminfowidget.h"
 
 #include "widgets/egamemenu.h"
@@ -65,6 +67,8 @@ private:
     int mTileH = 30;
 
     eGameBoard mBoard;
+
+    ePatrolBuilding* mPatrolBuilding = nullptr;
 
     eInfoWidget* mInfoWidget = nullptr;
     eTerrainEditMenu* mTem = nullptr;

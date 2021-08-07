@@ -49,6 +49,8 @@ public:
     eTextureCollection fHugeTallStoneTerrainTexs;
 
     eTextureCollection fTinyStones;
+
+    eTexture fBuildingBase;
 };
 
 #endif // ETERRAINTEXTURES_H

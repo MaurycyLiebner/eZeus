@@ -121,6 +121,8 @@ public:
 
     eTextureCollection fBeachRoad;
     eTextureCollection fRoad;
+
+    eTextureCollection fPatrolGuides;
 };
 
 #endif // EBUILDINGTEXTURES_H

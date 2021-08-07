@@ -144,6 +144,8 @@ void eTerrainTextures::load() {
         for(int i = 21; i < 29; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fTinyStones);
         }
+
+        fBuildingBase.load(fRenderer, pathBase + "00037.png");
     }
 
     {

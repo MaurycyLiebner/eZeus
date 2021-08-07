@@ -49,7 +49,9 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fWatchPostOverlay(renderer),
 
     fBeachRoad(renderer),
-    fRoad(renderer) {
+    fRoad(renderer),
+
+    fPatrolGuides(renderer) {
 
 }
 
@@ -303,6 +305,16 @@ void eBuildingTextures::load() {
 
         for(int i = 231; i < 302; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fRoad);
+        }
+    }
+
+    {
+        const auto dir = basedir + "Zeus_Added/";
+
+        const std::string pathBase{dir + "Zeus_Added_"};
+
+        for(int i = 1; i < 16; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fPatrolGuides);
         }
     }
 }

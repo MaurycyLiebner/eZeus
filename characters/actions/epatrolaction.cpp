@@ -84,7 +84,18 @@ eCharacterActionState ePatrolAction::nextTurn(eOrientation& t) {
 
     ePatrolGuide g;
     const bool r = getGuide(tx, ty, g);
-    if(r) mO = directionToOrientation(g.fDir);
+    if(r) {
+        auto dirs = gExtractDirections(g.fDir);
+        if(!dirs.empty()) {
+            eTile* tt = nullptr;
+            std::random_shuffle(dirs.begin(), dirs.end());
+            for(const auto dir : dirs) {
+                mO = directionToOrientation(dir);
+                tt = tile->neighbour(mO);
+                if(tt && tt->hasRoad()) break;
+            }
+        }
+    }
     const auto tt = tile->neighbour(mO);
     if(!tt || !tt->hasRoad()) {
         const auto r = tile->randomDiagonalNeighbour([&](eTile* const t) {

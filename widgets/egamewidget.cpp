@@ -218,6 +218,7 @@ void eGameWidget::paintEvent(ePainter& p) {
 
     const int tid = static_cast<int>(mTileSize);
     const auto& trrTexs = eGameTextures::terrain().at(tid);
+    const auto& builTexs = eGameTextures::buildings().at(tid);
 
     iterateOverTiles([&](eTile* const tile) {
         const int tx = tile->x();
@@ -275,13 +276,22 @@ void eGameWidget::paintEvent(ePainter& p) {
         const int tx = tile->x();
         const int ty = tile->y();
 
+        if(mPatrolBuilding && tile->underBuilding()) {
+            const auto& base = trrTexs.fBuildingBase;
+            double rx;
+            double ry;
+            drawXY(tx, ty, rx, ry, 1, 1);
+            tp.drawTexture(rx, ry, base, eAlignment::top);
+        }
         if(const auto d = tile->building()) {
             if(d->type() != eBuildingType::road) {
-                double rx;
-                double ry;
-                drawXY(tx, ty, rx, ry, d->spanW(), d->spanH());
-                d->draw(tp, rx, ry, eAlignment::top);
                 d->incTime(mSpeed);
+                if(!mPatrolBuilding) {
+                    double rx;
+                    double ry;
+                    drawXY(tx, ty, rx, ry, d->spanW(), d->spanH());
+                    d->draw(tp, rx, ry, eAlignment::top);
+                }
             }
         }
 
@@ -290,6 +300,32 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto tex = c->getTexture(mTileSize);
             tp.drawTexture(tx + c->x() + 0.25, ty + c->y() + 0.25, tex);
             c->incTime(mSpeed);
+        }
+
+        if(mPatrolBuilding) {
+            if(tile->building() == mPatrolBuilding) {
+                double rx;
+                double ry;
+                drawXY(tx, ty, rx, ry, 1, 1);
+                const auto sd = mPatrolBuilding->spawnDirection();
+                const int s = static_cast<int>(sd) - 1;
+                const auto& coll = builTexs.fPatrolGuides;
+                const auto tex = coll.getTexture(s);
+                tp.drawTexture(rx, ry, tex, eAlignment::top);
+            }
+            const auto pgs = mPatrolBuilding->patrolGuides();
+            for(const auto& pg : *pgs) {
+                if(pg.fX == tx && pg.fY == ty) {
+                    double rx;
+                    double ry;
+                    drawXY(tx, ty, rx, ry, 1, 1);
+                    const int s = static_cast<int>(pg.fDir) - 1;
+                    const auto& coll = builTexs.fPatrolGuides;
+                    const auto tex = coll.getTexture(s);
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    break;
+                }
+            }
         }
     });
 
@@ -413,9 +449,47 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         gLastY = e.y();
         return true;
     case eMouseButton::left:
-        pixToId(e.x(), e.y(), gPressedX, gPressedY);
+        int tx;
+        int ty;
+        pixToId(e.x(), e.y(), tx, ty);
+        gPressedX = tx;
+        gPressedY = ty;
+        if(mPatrolBuilding) {
+            const auto tile = mBoard.tile(gPressedX, gPressedY);
+            if(tile->underBuilding() == mPatrolBuilding) {
+                const auto s = mPatrolBuilding->spawnDirection();
+                const int si = static_cast<int>(s);
+                int nsi = si + 1;
+                if(nsi > 15) nsi = 1;
+                const auto ss = static_cast<eMoveDirection>(nsi);
+                mPatrolBuilding->setSpawnDirection(ss);
+            } else {
+                const auto pgs = mPatrolBuilding->patrolGuides();
+                bool found = false;
+                const int iMax = pgs->size();
+                for(int i = 0; i < iMax; i++) {
+                    auto& pg = (*pgs)[i];
+                    if(pg.fX == tx && pg.fY == ty) {
+                        found = true;
+                        const int si = static_cast<int>(pg.fDir);
+                        int nsi = si + 1;
+                        if(nsi >= 15) {
+                            pgs->erase(pgs->begin() + i);
+                        } else {
+                            const auto ss = static_cast<eMoveDirection>(nsi);
+                            pg.fDir = ss;
+                        }
+                        break;
+                    }
+                }
+                if(!found) {
+                    pgs->push_back({tx, ty, eMoveDirection::topRight});
+                }
+            }
+        }
         return true;
     case eMouseButton::right: {
+        mPatrolBuilding = nullptr;
         mGm->clearMode();
         int tx;
         int ty;
@@ -474,6 +548,16 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
         } else {
             const auto mode = mGm->mode();
             switch(mode) {
+            case eBuildingMode::none: {
+                const auto tile = mBoard.tile(gHoverX, gHoverY);
+                if(!mPatrolBuilding && tile) {
+                    if(const auto b = tile->underBuilding()) {
+                        if(const auto pb = dynamic_cast<ePatrolBuilding*>(b)) {
+                            mPatrolBuilding = pb;
+                        }
+                    }
+                }
+            } break;
             case eBuildingMode::road:
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 1, 1,

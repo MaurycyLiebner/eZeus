@@ -25,7 +25,11 @@ public:
     void timeChanged();
 
     using ePatrolGuides = std::vector<ePatrolGuide>;
+    ePatrolGuides* patrolGuides() { return &mPatrolGuides; };
     void setPatrolGuides(const ePatrolGuides& g);
+
+    eMoveDirection spawnDirection() const { return mSpawnDirection; }
+    void setSpawnDirection(const eMoveDirection d);
 
     void spawn() const;
 private:
@@ -38,7 +42,10 @@ private:
     const double mOverlayX;
     const double mOverlayY;
 
-    eMoveDirection mSpawnDirection{eMoveDirection::bottomLeft};
+    eMoveDirection mSpawnDirection{eMoveDirection::topRight |
+                                   eMoveDirection::bottomRight |
+                                   eMoveDirection::bottomLeft |
+                                   eMoveDirection::topLeft};
     ePatrolGuides mPatrolGuides;
 };
 

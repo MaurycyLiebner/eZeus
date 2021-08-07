@@ -44,9 +44,20 @@ void ePatrolBuilding::setPatrolGuides(const ePatrolGuides &g) {
     mPatrolGuides = g;
 }
 
+void ePatrolBuilding::setSpawnDirection(const eMoveDirection d) {
+    mSpawnDirection = d;
+}
+
 void ePatrolBuilding::spawn() const {
-    const auto o = directionToOrientation(mSpawnDirection);
-    const auto t = road(o);
+    auto dirs = gExtractDirections(mSpawnDirection);
+    if(dirs.empty()) return;
+    std::random_shuffle(dirs.begin(), dirs.end());
+    eTile* t = nullptr;
+    for(const auto dir : dirs) {
+        const auto o = directionToOrientation(dir);
+        t = road(o);
+        if(t) break;
+    }
     if(!t) return;
 
     const auto d = mCharGenerator();
