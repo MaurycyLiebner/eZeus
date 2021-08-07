@@ -276,12 +276,17 @@ void eGameWidget::paintEvent(ePainter& p) {
         const int tx = tile->x();
         const int ty = tile->y();
 
-        if(mPatrolBuilding && tile->underBuilding()) {
-            const auto& base = trrTexs.fBuildingBase;
+        if(mPatrolBuilding && tile->underBuilding() && !tile->hasRoad()) {
             double rx;
             double ry;
             drawXY(tx, ty, rx, ry, 1, 1);
-            tp.drawTexture(rx, ry, base, eAlignment::top);
+            const eTexture* tex;
+            if(tile->underBuilding() == mPatrolBuilding) {
+                tex = &trrTexs.fSelectedBuildingBase;
+            } else {
+                tex = &trrTexs.fBuildingBase;
+            }
+            tp.drawTexture(rx, ry, *tex, eAlignment::top);
         }
         if(const auto d = tile->building()) {
             if(d->type() != eBuildingType::road) {
@@ -456,6 +461,7 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         gPressedY = ty;
         if(mPatrolBuilding) {
             const auto tile = mBoard.tile(gPressedX, gPressedY);
+            if(!tile) return true;
             if(tile->underBuilding() == mPatrolBuilding) {
                 const auto s = mPatrolBuilding->spawnDirection();
                 const int si = static_cast<int>(s);

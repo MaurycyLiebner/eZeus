@@ -64,6 +64,7 @@ struct ePatrolGuide {
 class ePatrolAction : public eMoveAction {
 public:
     ePatrolAction(eCharacter* const c,
+                  const std::vector<ePatrolGuide>& guides,
                   const eAction& failAction,
                   const eAction& finishAction);
 

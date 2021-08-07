@@ -1,4 +1,4 @@
-#include "epatrolbuilding.h"
+﻿#include "epatrolbuilding.h"
 
 #include "characters/echaracter.h"
 #include "characters/actions/epatrolaction.h"
@@ -69,6 +69,6 @@ void ePatrolBuilding::spawn() const {
         t->removeCharacter(d);
         delete d;
     };
-    d->setCharAction(new ePatrolAction(d, finishAct, finishAct));
-    t->addCharacter(d);
+    d->setCharAction(new ePatrolAction(d, mPatrolGuides, finishAct, finishAct));
+    t->addCharacter(d)  ;
 }

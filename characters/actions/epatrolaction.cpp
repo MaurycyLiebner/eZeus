@@ -6,13 +6,15 @@
 #include "engine/epathfinder.h"
 
 ePatrolAction::ePatrolAction(eCharacter* const c,
+                             const std::vector<ePatrolGuide>& guides,
                              const eAction& failAction,
                              const eAction& finishAction) :
     eMoveAction(c,
                 [](eTile* const tile) {
                     return tile->hasRoad();
                 },
-                failAction, finishAction) {
+                failAction, finishAction),
+    mGuides(guides) {
     const auto t = c->tile();
     if(t) {
         mStartX = t->x();
@@ -90,9 +92,11 @@ eCharacterActionState ePatrolAction::nextTurn(eOrientation& t) {
             eTile* tt = nullptr;
             std::random_shuffle(dirs.begin(), dirs.end());
             for(const auto dir : dirs) {
-                mO = directionToOrientation(dir);
+                const auto o = directionToOrientation(dir);
+                const bool tryDiff = o == !mO;
+                mO = o;
                 tt = tile->neighbour(mO);
-                if(tt && tt->hasRoad()) break;
+                if(!tryDiff && tt && tt->hasRoad()) break;
             }
         }
     }

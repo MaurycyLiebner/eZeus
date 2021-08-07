@@ -51,6 +51,7 @@ public:
     eTextureCollection fTinyStones;
 
     eTexture fBuildingBase;
+    eTexture fSelectedBuildingBase;
 };
 
 #endif // ETERRAINTEXTURES_H

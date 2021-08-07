@@ -146,6 +146,7 @@ void eTerrainTextures::load() {
         }
 
         fBuildingBase.load(fRenderer, pathBase + "00037.png");
+        fSelectedBuildingBase.load(fRenderer, pathBase + "00038.png");
     }
 
     {
