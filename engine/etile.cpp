@@ -125,6 +125,10 @@ eTile* eTile::tileAbs(const int x, const int y) {
     return tileRel(x - mX, y - mY);
 }
 
+void eTile::setAltitude(const int a) {
+    mAltitude = a;
+}
+
 void eTile::setTerrain(const eTerrain terr) {
     mTerr = terr;
 }

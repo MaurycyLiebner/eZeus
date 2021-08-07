@@ -49,6 +49,7 @@ public:
     eTile* tileRel(const int x, const int y);
     eTile* tileAbs(const int x, const int y);
 
+    void setAltitude(const int a);
     void setTerrain(const eTerrain terr);
     void setScrub(const double s);
     void incScrub(const double s);

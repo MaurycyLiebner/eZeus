@@ -52,6 +52,8 @@ public:
 
     eTexture fBuildingBase;
     eTexture fSelectedBuildingBase;
+
+    eTextureCollection fElevation;
 };
 
 #endif // ETERRAINTEXTURES_H

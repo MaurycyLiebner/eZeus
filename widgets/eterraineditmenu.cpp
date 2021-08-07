@@ -67,7 +67,16 @@ void eTerrainEditMenu::initialize() {
     w6->fitContent();
 
     const auto w7 = new eWidget(window());
-    const auto w8 = new eWidget(window());
+
+    const auto w8 = new eActionListWidget(window());
+    w8->addAction("Raise", [this]() {
+        mMode = eTerrainEditMode::raise;
+    });
+    w8->addAction("Lower", [this]() {
+        mMode = eTerrainEditMode::lower;
+    });
+    w8->fitContent();
+
     const auto w9 = new eWidget(window());
     const auto w10 = new eWidget(window());
     const auto w11 = new eWidget(window());

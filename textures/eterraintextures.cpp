@@ -33,7 +33,9 @@ eTerrainTextures::eTerrainTextures(const int tileW, const int tileH,
     fLargeTallStoneTerrainTexs(renderer),
     fHugeTallStoneTerrainTexs(renderer),
 
-    fTinyStones(renderer) {
+    fTinyStones(renderer),
+
+    fElevation(renderer) {
 
 }
 
@@ -147,6 +149,14 @@ void eTerrainTextures::load() {
 
         fBuildingBase.load(fRenderer, pathBase + "00037.png");
         fSelectedBuildingBase.load(fRenderer, pathBase + "00038.png");
+    }
+
+    {
+        const std::string pathBase{terrDir + "Zeus_Elevation_Tiles_"};
+
+        for(int i = 21; i < 45; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fElevation);
+        }
     }
 
     {

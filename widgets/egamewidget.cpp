@@ -236,6 +236,9 @@ void eGameWidget::paintEvent(ePainter& p) {
         double rx;
         double ry;
         drawXY(tx, ty, rx, ry, wSpan, hSpan);
+        const auto a = tile->altitude();
+        rx -= a;
+        ry -= a;
 
         if(!tex.isNull()) {
             if(wSpan == 2 && hSpan == 2) {
@@ -547,6 +550,14 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             if(mode == eTerrainEditMode::scrub) {
                 apply = [](eTile* const tile) {
                     tile->incScrub(0.1);
+                };
+            } else if(mode == eTerrainEditMode::raise) {
+                apply = [](eTile* const tile) {
+                    tile->setAltitude(tile->altitude() + 1);
+                };
+            } else if(mode == eTerrainEditMode::lower) {
+                apply = [](eTile* const tile) {
+                    tile->setAltitude(tile->altitude() - 1);
                 };
             } else {
                 apply = [mode](eTile* const tile) {
