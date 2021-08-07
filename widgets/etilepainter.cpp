@@ -32,8 +32,10 @@ void eTilePainter::drawTexture(const double x, const double y,
                                const eAlignment align) const {
     const auto rx = x + mX;
     const auto ry = y + mY;
-    mP.drawTexture(std::round(0.5 * (rx - ry) * mTileW - tex.offsetX()),
-                   std::round(0.5 * (rx + ry) * mTileH - tex.offsetY()),
+    const double dx = mTileH*tex.offsetX()/30.;
+    const double dy = mTileH*tex.offsetY()/30.;
+    mP.drawTexture(std::round(0.5 * (rx - ry) * mTileW - dx),
+                   std::round(0.5 * (rx + ry) * mTileH - dy),
                    tex, align);
 }
 

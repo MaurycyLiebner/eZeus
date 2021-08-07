@@ -46,11 +46,9 @@ private:
     void actionOnSelectedTiles(const eTileAction& apply);
 
     bool canBuild(const int tx, const int ty,
-                  const int sw, const int sh,
-                  const eBuildingMode mode);
+                  const int sw, const int sh);
     bool build(const int tx, const int ty,
                const int sw, const int sh,
-               const eBuildingMode mode,
                const eBuildingCreator& bc);
 
     bool mRotate = false;
