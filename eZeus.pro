@@ -29,6 +29,7 @@ SOURCES += \
         buildings/estadium1.cpp \
         buildings/estadium2.cpp \
         buildings/etheater.cpp \
+        buildings/ewatchpost.cpp \
         characters/actions/echaracteraction.cpp \
         characters/actions/emoveaction.cpp \
         characters/actions/emovearoundaction.cpp \
@@ -37,10 +38,12 @@ SOURCES += \
         characters/ebasicpatroler.cpp \
         characters/echaracter.cpp \
         characters/edemeter.cpp \
+        characters/efightingpatroler.cpp \
         characters/egymnast.cpp \
         characters/ehealer.cpp \
         characters/ephilosopher.cpp \
         characters/etaxcollector.cpp \
+        characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
         emainwindow.cpp \
         engine/efunctask.cpp \
@@ -122,6 +125,7 @@ HEADERS += \
     buildings/estadium1.h \
     buildings/estadium2.h \
     buildings/etheater.h \
+    buildings/ewatchpost.h \
     characters/actions/echaracteraction.h \
     characters/actions/emoveaction.h \
     characters/actions/emovearoundaction.h \
@@ -130,10 +134,12 @@ HEADERS += \
     characters/ebasicpatroler.h \
     characters/echaracter.h \
     characters/edemeter.h \
+    characters/efightingpatroler.h \
     characters/egymnast.h \
     characters/ehealer.h \
     characters/ephilosopher.h \
     characters/etaxcollector.h \
+    characters/ewatchman.h \
     characters/ewaterdistributor.h \
     emainwindow.h \
     engine/efunctask.h \

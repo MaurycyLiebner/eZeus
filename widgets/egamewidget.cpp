@@ -21,6 +21,7 @@
 #include "buildings/epodium.h"
 #include "buildings/ecollege.h"
 #include "buildings/efountain.h"
+#include "buildings/ewatchpost.h"
 #include "buildings/ehospital.h"
 #include "buildings/etheater.h"
 #include "buildings/edramaschool.h"
@@ -317,6 +318,9 @@ void eGameWidget::paintEvent(ePainter& p) {
         case eBuildingMode::fountain:
             b1 = new eFountain;
             break;
+        case eBuildingMode::watchpost:
+            b1 = new eWatchpost;
+            break;
         case eBuildingMode::college:
             b1 = new eCollege;
             break;
@@ -498,6 +502,12 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
                           []() { return new eFountain; });
+                };
+                break;
+            case eBuildingMode::watchpost:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          []() { return new eWatchpost; });
                 };
                 break;
             case eBuildingMode::college:

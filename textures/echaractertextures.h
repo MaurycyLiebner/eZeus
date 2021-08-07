@@ -11,6 +11,13 @@ struct eBasicPatrolerTextures {
     eTextureCollection fDie;
 };
 
+struct eFightingPatrolerTextures : public eBasicPatrolerTextures {
+    eFightingPatrolerTextures(SDL_Renderer* const renderer) :
+        eBasicPatrolerTextures(renderer) {}
+
+    std::vector<eTextureCollection> fFight;
+};
+
 class eCharacterTextures {
 public:
     eCharacterTextures(const int tileW, const int tileH,
@@ -26,6 +33,7 @@ public:
     eBasicPatrolerTextures fActor;
     eBasicPatrolerTextures fTaxCollector;
     eBasicPatrolerTextures fWaterDistributor;
+    eFightingPatrolerTextures fWatchman;
     eBasicPatrolerTextures fHealer;
     eBasicPatrolerTextures fGymnast;
     eBasicPatrolerTextures fPhilosopher;

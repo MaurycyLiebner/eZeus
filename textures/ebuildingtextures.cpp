@@ -1,6 +1,7 @@
 #include "ebuildingtextures.h"
 
 #include "etextureloadinghelpers.h"
+#include "offsets/SprAmbient.h"
 
 eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
                                      SDL_Renderer* const renderer) :
@@ -286,7 +287,8 @@ void eBuildingTextures::load() {
         const std::string pathBase{dir + "SprAmbient_"};
 
         for(int i = 2958; i < 3011; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWatchPostOverlay);
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fWatchPostOverlay, eSprAmbientOffset);
         }
     }
 

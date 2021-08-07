@@ -11,6 +11,7 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fActor(renderer),
     fTaxCollector(renderer),
     fWaterDistributor(renderer),
+    fWatchman(renderer),
     fHealer(renderer),
     fGymnast(renderer),
     fPhilosopher(renderer) {
@@ -53,6 +54,32 @@ void eCharacterTextures::load() {
     for(int i = 201; i < 209; i++) {
         auto& die = fActor.fDie;
         eTextureLoadingHelpers::loadTex(pathBase, i, die);
+    }
+
+
+    for(int j = 0; j < 8; j++) {
+        fWatchman.fWalk.emplace_back(fRenderer);
+    }
+    for(int i = 2209; i < 2305;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& walk = fWatchman.fWalk;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
+        }
+    }
+    for(int i = 2305; i < 2313; i++) {
+        auto& die = fWatchman.fDie;
+        eTextureLoadingHelpers::loadTex(pathBase, i, die);
+    }
+    for(int j = 0; j < 8; j++) {
+        fWatchman.fFight.emplace_back(fRenderer);
+    }
+    for(int i = 2312; i < 2377;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& fight = fWatchman.fFight;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fight[j], eSprMainOffset);
+        }
     }
 
 

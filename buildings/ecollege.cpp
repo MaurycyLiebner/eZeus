@@ -21,7 +21,7 @@ std::vector<eOverlay> eCollege::getOverlays(const eTileSize size) const {
     const int texId = textureTime() % coll.size();
     eOverlay o;
     o.fTex = coll.getTexture(texId);
-    o.fX = 0.36;
-    o.fY = -1.33;
+    o.fX = -2.7;
+    o.fY = -4.38;
     return std::vector<eOverlay>({o});
 }

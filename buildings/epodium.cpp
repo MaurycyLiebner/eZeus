@@ -5,7 +5,7 @@
 
 ePodium::ePodium() :
     ePatrolBuilding(&eBuildingTextures::fPodium,
-                    0.45, -1.05,
+                    -2.25, -3.78,
                     &eBuildingTextures::fPodiumOverlay,
                     []() { return new ePhilosopher; },
                     eBuildingType::podium, 2, 2) {

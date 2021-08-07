@@ -4,7 +4,7 @@
 
 eFountain::eFountain() :
     ePatrolBuilding(&eBuildingTextures::fFountain,
-                    -0.25, -1.5,
+                    -1.15, -2.37,
                     &eBuildingTextures::fFountainOverlay,
                     []() { return new eWaterDistributor; },
                     eBuildingType::fountain, 2, 2)  {

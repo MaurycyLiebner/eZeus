@@ -5,7 +5,7 @@
 
 eGymnasium::eGymnasium() :
     ePatrolBuilding(&eBuildingTextures::fGymnasium,
-                    0.3, -1.7,
+                    -2.57, -4.57,
                     &eBuildingTextures::fGymnasiumOverlay,
                     []() { return new eGymnast; },
                     eBuildingType::gymnasium, 3, 3) {

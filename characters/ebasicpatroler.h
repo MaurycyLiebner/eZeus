@@ -5,7 +5,6 @@
 
 #include "textures/echaractertextures.h"
 
-
 enum class eBasicPatrolerAction {
     walk, die
 };
