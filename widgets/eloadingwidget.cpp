@@ -20,9 +20,9 @@ void eLoadingWidget::initialize() {
     switch(res) {
     case eRes::p2160:
     case eRes::p1440:
+    case eRes::p1080:
         iRes = 2;
         break;
-    case eRes::p1080:
     case eRes::p720:
         iRes = 1;
         break;

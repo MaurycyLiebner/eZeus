@@ -92,7 +92,7 @@ eCharacterActionState ePatrolAction::nextTurn(eOrientation& t) {
             eTile* tt = nullptr;
             std::random_shuffle(dirs.begin(), dirs.end());
             for(const auto dir : dirs) {
-                const auto o = directionToOrientation(dir);
+                const auto o = gDirectionToOrientation(dir);
                 const bool tryDiff = o == !mO;
                 mO = o;
                 tt = tile->neighbour(mO);

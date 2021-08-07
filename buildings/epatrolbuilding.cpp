@@ -54,8 +54,7 @@ void ePatrolBuilding::spawn() const {
     std::random_shuffle(dirs.begin(), dirs.end());
     eTile* t = nullptr;
     for(const auto dir : dirs) {
-        const auto o = directionToOrientation(dir);
-        t = road(o);
+        t = road(dir);
         if(t) break;
     }
     if(!t) return;

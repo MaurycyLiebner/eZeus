@@ -126,6 +126,7 @@ public:
 
     eTexture fLoadImage;
     eTextureCollection fCheckBox;
+    eTextureCollection fLargeCheckBox;
 };
 
 #endif // EINTERFACETEXTURES_H

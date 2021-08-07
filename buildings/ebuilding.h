@@ -4,6 +4,7 @@
 #include "etexturecollection.h"
 #include "widgets/etilepainter.h"
 #include "engine/etile.h"
+#include "engine/emovedirection.h"
 
 enum class eBuildingType {
     commonHouse,
@@ -75,9 +76,7 @@ public:
 
     virtual void timeChanged() {}
 
-    std::vector<eTile*> surroundingRoads() const;
-    eTile* nearestRoad() const;
-    eTile* road(const eOrientation o) const;
+    eTile* road(const eMoveDirection o) const;
 
     int seed() const { return mSeed; }
     void setSeed(const int s) { mSeed = s; }
@@ -95,7 +94,11 @@ public:
     void draw(eTilePainter& p,
               const double x, const double y,
               const eAlignment align);
+
+    void addUnderBuilding(eTile* const t);
 private:
+    std::vector<eTile*> mUnderBuilding;
+
     int mSeed;
     const eBuildingType mType;
     const int mSpanW;

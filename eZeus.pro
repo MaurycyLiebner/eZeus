@@ -146,6 +146,7 @@ HEADERS += \
     engine/egameboard.h \
     engine/egameboarditerator.h \
     engine/egameobject.h \
+    engine/emovedirection.h \
     engine/emovinggameobject.h \
     engine/eorientation.h \
     engine/epathfinder.h \

@@ -5,109 +5,30 @@ eBuilding::eBuilding(const eBuildingType type,
     mSeed(rand()), mType(type),
     mSpanW(sw), mSpanH(sh) {}
 
-std::vector<eTile*> eBuilding::surroundingRoads() const {
-    if(!mTile) return std::vector<eTile*>();
-    const int tx = mTile->x();
-    const int ty = mTile->y();
-    std::vector<eTile*> tiles;
-    int xMin = tx;
-    int xMax = tx;
-    int yMin = ty;
-    int yMax = ty;
-    if(mSpanW == 2 && mSpanH == 2) {
-        xMax++;
-        yMax++;
-    } else if(mSpanW == 3 && mSpanH == 3) {
-        xMin--;
-        yMin--;
-        xMax++;
-        yMax++;
-    }
-    for(int x = xMin; x <= xMax; x++) {
-        for(int y = yMin; y <= yMax; y++) {
-            const auto t = mTile->tileRel(x, y);
-            if(!t) continue;
-            const auto r = t->nearestRoad();
-            if(r) tiles.push_back(r);
-        }
-    }
-    return tiles;
-}
-
-eTile* eBuilding::nearestRoad() const {
-    const auto tiles = surroundingRoads();
-    if(tiles.empty()) return nullptr;
-    return tiles[rand() % tiles.size()];
-}
-
-eTile* eBuilding::road(const eOrientation o) const {
+eTile* eBuilding::road(const eMoveDirection o) const {
     if(!mTile) return nullptr;
-    const int tx = mTile->x();
-    const int ty = mTile->y();
-    int xMin = tx;
-    int xMax = tx;
-    int yMin = ty;
-    int yMax = ty;
+    int dx = 0;
+    int dy = 0;
     switch(o) {
-    case eOrientation::topRight: {
-        if(mSpanW == 1 && mSpanH == 1) {
-            yMin -= 1;
-        } if(mSpanW == 2 && mSpanH == 2) {
-            yMin -= 1;
-            xMax += 1;
-        } else if(mSpanW == 3 && mSpanH == 3) {
-            yMin -= 2;
-            xMin -= 1;
-            xMax += 1;
-        }
-        yMax = yMin;
-    } break;
-    case eOrientation::bottomRight: {
-        if(mSpanW == 1 && mSpanH == 1) {
-            xMin += 1;
-        } if(mSpanW == 2 && mSpanH == 2) {
-            xMin += 2;
-            yMax += 1;
-        } else if(mSpanW == 3 && mSpanH == 3) {
-            xMin += 2;
-            yMin -= 1;
-            yMax += 1;
-        }
-        xMax = xMin;
-    } break;
-    case eOrientation::bottomLeft: {
-        if(mSpanW == 1 && mSpanH == 1) {
-            yMin += 1;
-        } if(mSpanW == 2 && mSpanH == 2) {
-            yMin += 2;
-            xMax += 1;
-        } else if(mSpanW == 3 && mSpanH == 3) {
-            yMin += 2;
-            xMin -= 1;
-            xMax += 1;
-        }
-        yMax = yMin;
-    } break;
-    case eOrientation::topLeft: {
-        if(mSpanW == 1 && mSpanH == 1) {
-            xMin -= 1;
-        } if(mSpanW == 2 && mSpanH == 2) {
-            xMin -= 1;
-            yMax += 1;
-        } else if(mSpanW == 3 && mSpanH == 3) {
-            xMin += 2;
-            yMin -= 1;
-            yMax += 1;
-        }
-        xMax = xMin;
-    } break;
-    default: return nullptr;
+    case eMoveDirection::topRight:
+        dy--;
+        break;
+    case eMoveDirection::bottomRight:
+        dx++;
+        break;
+    case eMoveDirection::bottomLeft:
+        dy++;
+        break;
+    case eMoveDirection::topLeft:
+        dx--;
+        break;
+    default:
+        return nullptr;
     }
-    for(int x = xMin; x <= xMax; x++) {
-        for(int y = yMin; y <= yMax; y++) {
-            const auto t = mTile->tileAbs(x, y);
-            if(t && t->hasRoad()) return t;
-        }
+    for(const auto u : mUnderBuilding) {
+        auto tt = u->tileRel(dx, dy);
+        if(!tt) continue;
+        if(tt->hasRoad()) return tt;
     }
     return nullptr;
 }
@@ -131,4 +52,8 @@ void eBuilding::draw(eTilePainter& p,
     for(const auto& o : overlays) {
         p.drawTexture(x + o.fX, y + o.fY, o.fTex);
     }
+}
+
+void eBuilding::addUnderBuilding(eTile* const t) {
+    mUnderBuilding.push_back(t);
 }

@@ -105,7 +105,8 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fHeroArrivalAlert(renderer),
     fArmyComebackAlert(renderer),
 
-    fCheckBox(renderer) {
+    fCheckBox(renderer),
+    fLargeCheckBox(renderer) {
 }
 
 void eInterfaceTextures::load() {
@@ -250,6 +251,9 @@ void eInterfaceTextures::load() {
         for(int i = 5; i < 37; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fRotation);
         }
+
+        eTextureLoadingHelpers::loadTex(pathBase, 40, fLargeCheckBox);
+        eTextureLoadingHelpers::loadTex(pathBase, 37, fLargeCheckBox);
 
         for(int i = 37; i < 41; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fGoals);
