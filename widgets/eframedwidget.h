@@ -8,7 +8,9 @@ public:
     using eWidget::eWidget;
 protected:
     void sizeHint(int& w, int& h) final;
-    virtual void sizeHint2(int& w, int& h) = 0;
+    virtual void sizeHint2(int& w, int& h) {
+        eWidget::sizeHint(w, h);
+    }
 
     void paintEvent(ePainter& p);
 private:

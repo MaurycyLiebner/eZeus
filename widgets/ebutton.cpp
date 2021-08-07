@@ -10,10 +10,6 @@ void eButton::setPressAction(const eAction& a) {
     mPressAction = a;
 }
 
-void eButton::setTexture(const eTexture& tex) {
-    mTexture = tex;
-}
-
 void eButton::setHoverTexture(const eTexture& tex) {
     mHoverTexture = tex;
 }
@@ -33,15 +29,22 @@ void eButton::sizeHint(int& w, int& h) {
 }
 
 void eButton::paintEvent(ePainter& p) {
-    p.drawRect(rect(), {0, 0, 0, 255}, 5);
+    eLabel::paintEvent(p);
     if(mPressed && !mPressedTexture.isNull()) {
         p.drawTexture(rect(), mPressedTexture, eAlignment::center);
-    } else if(mHover && !mHoverTexture.isNull()) {
-        p.drawTexture(rect(), mHoverTexture, eAlignment::center);
-    } else if(!mTexture.isNull()) {
-        p.drawTexture(rect(), mTexture, eAlignment::center);
+    } else if(mHover) {
+        if(!mHoverTexture.isNull()) {
+            p.drawTexture(rect(), mHoverTexture, eAlignment::center);
+        } else {
+            const auto& t = texture();
+            const auto tw = t.width();
+            const auto ww = (width() - tw)/2;
+            const int ah = height();
+            const int pd = padding();
+            const SDL_Rect brect{ww, ah - pd, width() - 2*ww, 2};
+            p.fillRect(brect, {255, 255, 255, 255});
+        }
     }
-    eLabel::paintEvent(p);
 }
 
 bool eButton::mousePressEvent(const eMouseEvent& e) {

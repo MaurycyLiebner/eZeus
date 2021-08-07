@@ -459,5 +459,6 @@ void eInterfaceTextures::load() {
         dir += std::to_string(fTileH) + "/Zeus_Data_Images/";
 
         fLoadImage.load(fRenderer, dir + "Zeus_Load1.jpg");
+        fMainMenuImage.load(fRenderer, dir + "Zeus_FE_Registry.jpg");
     }
 }

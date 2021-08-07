@@ -230,7 +230,8 @@ void eGameWidget::paintEvent(ePainter& p) {
         int wSpan;
         int hSpan;
         const auto tex = eTileToTexture::get(tile, trrTexs,
-                                             wSpan, hSpan);
+                                             wSpan, hSpan,
+                                             mTileSize);
         tile->setDrawnSpan(wSpan, hSpan);
 
         double rx;
@@ -249,17 +250,6 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         }
         gDrawDelayed(tp);
-
-
-        if(const auto d = tile->building()) {
-            if(d->type() == eBuildingType::road) {
-                double rx;
-                double ry;
-                drawXY(tx, ty, rx, ry, d->spanW(), d->spanH());
-                d->draw(tp, rx, ry, eAlignment::top);
-                d->incTime(mSpeed);
-            }
-        }
 
         const auto& selectedTex = trrTexs.fSelectedTex;
 
@@ -558,6 +548,14 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             } else if(mode == eTerrainEditMode::lower) {
                 apply = [](eTile* const tile) {
                     tile->setAltitude(tile->altitude() - 1);
+                };
+            } else if(mode == eTerrainEditMode::resetElev) {
+                apply = [](eTile* const tile) {
+                    tile->setAltitude(0);
+                };
+            } else if(mode == eTerrainEditMode::makeWalkable) {
+                apply = [](eTile* const tile) {
+                    tile->setWalkableElev(!tile->walkableElev());
                 };
             } else {
                 apply = [mode](eTile* const tile) {

@@ -10,7 +10,6 @@ public:
 
     void setPressAction(const eAction& a);
 
-    void setTexture(const eTexture& tex);
     void setHoverTexture(const eTexture& tex);
     void setPressedTexture(const eTexture& tex);
 protected:

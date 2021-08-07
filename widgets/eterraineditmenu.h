@@ -21,7 +21,9 @@ enum class eTerrainEditMode {
     tinyStones = static_cast<int>(eTerrain::tinyStones),
 
     raise,
-    lower
+    lower,
+    resetElev,
+    makeWalkable
 };
 
 class eTerrainEditMenu : public eGameMenuBase {

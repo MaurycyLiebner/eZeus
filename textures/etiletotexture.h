@@ -6,10 +6,13 @@
 class eTile;
 class eTerrainTextures;
 
+enum class eTileSize : int;
+
 namespace eTileToTexture {
     eTexture get(eTile* const tile,
                  const eTerrainTextures& textures,
-                 int& wSpan, int& hSpan);
+                 int& wSpan, int& hSpan,
+                 const eTileSize tileSize);
 };
 
 #endif // ETILETOTEXTURE_H

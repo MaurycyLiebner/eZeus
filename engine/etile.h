@@ -7,7 +7,7 @@
 #include "eterrain.h"
 #include "eorientation.h"
 
-enum class eTileSize {
+enum class eTileSize : int {
     s15, s30, s60
 };
 
@@ -92,6 +92,9 @@ public:
     void setDrawnSpan(const int w, const int h);
     int drawSpanW() const { return mDrawnSpanW; }
     int drawSpanH() const { return mDrawnSpanH; }
+
+    bool walkableElev() const { return mWalkableElev; }
+    void setWalkableElev(const bool w);
 private:
     int mDrawnSpanW = 0;
     int mDrawnSpanH = 0;
@@ -99,6 +102,8 @@ private:
     const int mSeed;
     const int mX;
     const int mY;
+
+    bool mWalkableElev{false};
 
     std::vector<eCharacter*> mCharacters;
     eBuilding* mUnderBuilding = nullptr;

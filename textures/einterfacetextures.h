@@ -125,6 +125,8 @@ public:
     std::vector<eTextureCollection> fComboBox;
 
     eTexture fLoadImage;
+    eTexture fMainMenuImage;
+
     eTextureCollection fCheckBox;
     eTextureCollection fLargeCheckBox;
 };

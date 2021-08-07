@@ -2,76 +2,67 @@
 
 #include "ebutton.h"
 
+#include "eframedwidget.h"
+#include "textures/egametextures.h"
+
 eMainMenu::eMainMenu(eMainWindow* const window) :
-    eWidget(window) {}
+    eLabel(window) {}
+
+void addButton(const std::string& text,
+               const eAction& a,
+               eWidget* const buttons,
+               eMainWindow* const window) {
+    const auto w1 = new eFramedWidget(window);
+    w1->setPadding(w1->padding()/2);
+    buttons->addWidget(w1);
+    const auto b1 = new eButton(window);
+    w1->addWidget(b1);
+    b1->setPressAction(a);
+    b1->setText(text);
+    b1->fitContent();
+    w1->fitContent();
+    w1->align(eAlignment::hcenter);
+    b1->align(eAlignment::center);
+}
 
 void eMainMenu::initialize(const eAction& newGameA,
                            const eAction& loadGameA,
                            const eAction& settingsA,
                            const eAction& quitA) {
+    const auto& intrfc = eGameTextures::interface();
+    const auto res = resolution();
+    int iRes;
+    switch(res) {
+    case eRes::p2160:
+    case eRes::p1440:
+    case eRes::p1080:
+        iRes = 2;
+        break;
+    case eRes::p720:
+        iRes = 1;
+        break;
+    case eRes::p480:
+        iRes = 0;
+        break;
+    }
+    const auto& texs = intrfc[iRes];
+    setTexture(texs.fMainMenuImage);
+
     const auto buttons = new eWidget(window());
     addWidget(buttons);
 
-    const auto res = resolution();
     const int cww = eResolution::centralWidgetWidth(res);
     const int cwh = eResolution::centralWidgetHeight(res);
     buttons->resize(cww, cwh);
 
     buttons->align(eAlignment::center);
 
-    {
-        const auto b1 = new eButton(window());
-        b1->setPressAction(newGameA);
-        buttons->addWidget(b1);
-        b1->setText("New Game");
-        b1->fitContent();
-        b1->align(eAlignment::hcenter);
-    }
-
-    {
-        const auto b2 = new eButton(window());
-        b2->setPressAction(loadGameA);
-        buttons->addWidget(b2);
-        b2->setText("Load Game");
-        b2->fitContent();
-        b2->align(eAlignment::hcenter);
-    }
-
-    {
-        const auto b3 = new eButton(window());
-        b3->setPressAction(settingsA);
-        buttons->addWidget(b3);
-        b3->setText("Settings");
-        b3->fitContent();
-        b3->align(eAlignment::hcenter);
-    }
-
-    {
-        const auto b4 = new eButton(window());
-        b4->setPressAction(quitA);
-        buttons->addWidget(b4);
-        b4->setText("Quit");
-        b4->fitContent();
-        b4->align(eAlignment::hcenter);
-    }
+    addButton("New Game", newGameA, buttons, window());
+    addButton("Load Game", loadGameA, buttons, window());
+    addButton("Settings", settingsA, buttons, window());
+    addButton("Quit", quitA, buttons, window());
 
     buttons->layoutVertically();
-}
-
-void eMainMenu::paintEvent(ePainter& p) {
-    if(mPressed) {
-        if(mHover) {
-            p.drawRect(rect(), {255, 255, 0, 255}, 5);
-        } else {
-            p.drawRect(rect(), {255, 0, 255, 255}, 5);
-        }
-    } else {
-        if(mHover) {
-            p.drawRect(rect(), {0, 255, 0, 255}, 5);
-        } else {
-            p.drawRect(rect(), {255, 0, 0, 255}, 5);
-        }
-    }
 }
 
 bool eMainMenu::mousePressEvent(const eMouseEvent& e) {

@@ -22,7 +22,7 @@ private:
     TTF_Font* mFont = nullptr;
     std::string mText;
     eTexture mTexture;
-    SDL_Color mFontColor{0, 0, 0, 255};
+    SDL_Color mFontColor{255, 255, 255, 255};
 };
 
 #endif // ELABELBASE_H

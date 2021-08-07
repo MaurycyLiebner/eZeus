@@ -1,9 +1,9 @@
 #ifndef EMAINMENU_H
 #define EMAINMENU_H
 
-#include "ewidget.h"
+#include "elabel.h"
 
-class eMainMenu : public eWidget {
+class eMainMenu : public eLabel {
 public:
     eMainMenu(eMainWindow* const window);
 
@@ -12,8 +12,6 @@ public:
                     const eAction& settingsA,
                     const eAction& quitA);
 private:
-    void paintEvent(ePainter& p);
-
     bool mousePressEvent(const eMouseEvent& e);
     bool mouseReleaseEvent(const eMouseEvent& e);
     bool mouseMoveEvent(const eMouseEvent& e);

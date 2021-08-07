@@ -75,6 +75,12 @@ void eTerrainEditMenu::initialize() {
     w8->addAction("Lower", [this]() {
         mMode = eTerrainEditMode::lower;
     });
+    w8->addAction("Reset Elevation", [this]() {
+        mMode = eTerrainEditMode::resetElev;
+    });
+    w8->addAction("Make Walkable", [this]() {
+        mMode = eTerrainEditMode::makeWalkable;
+    });
     w8->fitContent();
 
     const auto w9 = new eWidget(window());

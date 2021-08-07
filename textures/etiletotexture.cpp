@@ -14,6 +14,8 @@
 #include "ewatercorner.h"
 #include "estonestodry.h"
 
+#include "buildings/ebuilding.h"
+
 eTexture getStonesTexture(eTile* const tile,
                           const eTextureCollection& small,
                           const eTextureCollection& large,
@@ -47,7 +49,8 @@ eTexture getStonesTexture(eTile* const tile,
 
 eTexture eTileToTexture::get(eTile* const tile,
                              const eTerrainTextures& textures,
-                             int& wSpan, int& hSpan) {
+                             int& wSpan, int& hSpan,
+                             const eTileSize tileSize) {
     wSpan = 1;
     hSpan = 1;
     const int tileId = tile->seed();
@@ -73,6 +76,8 @@ eTexture eTileToTexture::get(eTile* const tile,
     const int ta = t ? t->altitude() : a;
 
     const auto& elev = textures.fElevation;
+    const bool w = tile->walkableElev();
+    const bool hr = tile->hasRoad();
     if(tra > a && tla > a) {
         return elev.getTexture(8);
     } else if(tra > a && bra > a) {
@@ -82,13 +87,17 @@ eTexture eTileToTexture::get(eTile* const tile,
     } else if(bla > a && tla > a) {
         return elev.getTexture(11);
     } else if(bla > a) {
-        return elev.getTexture(1);
+        if(w) return elev.getTexture(12 + (hr ? 4 : 0));
+        else return elev.getTexture(1);
     } else if(tla > a) {
-        return elev.getTexture(3);
+        if(w) return elev.getTexture(13 + (hr ? 4 : 0));
+        else return elev.getTexture(3);
     } else if(tra > a) {
-        return elev.getTexture(5);
+        if(w) return elev.getTexture(14 + (hr ? 4 : 0));
+        else return elev.getTexture(5);
     } else if(bra > a) {
-        return elev.getTexture(7);
+        if(w) return elev.getTexture(15 + (hr ? 4 : 0));
+        else return elev.getTexture(7);
     } else if(la > a) {
         return elev.getTexture(2);
     } else if(ta > a) {
@@ -98,6 +107,8 @@ eTexture eTileToTexture::get(eTile* const tile,
     } else if(ba > a) {
         return elev.getTexture(0);
     }
+
+    if(hr) return tile->building()->getTexture(tileSize);
 
     switch(tile->terrain()) {
     case eTerrain::dry: {
