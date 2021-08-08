@@ -6,6 +6,9 @@
 #include "etile.h"
 #include "egameboarditerator.h"
 
+class eCharacter;
+class eBuilding;
+
 class eGameBoard {
     friend class eGameBoardIterator;
     friend class eGameBoardDiagonalIterator;
@@ -40,6 +43,14 @@ public:
     eDiagIter dEnd() const {
         return eDiagIter(-1, -1, this);
     }
+
+    void registerCharacter(eCharacter* const c);
+    bool unregisterCharacter(eCharacter* const c);
+
+    void registerBuilding(eBuilding* const b);
+    bool unregisterBuilding(eBuilding* const b);
+
+    void incTime(const int by);
 private:
     void updateDiagonalArray();
     void updateNeighbours();
@@ -48,6 +59,9 @@ private:
     int mHeight = 0;
     std::vector<std::vector<eTile*>> mTiles;
     std::vector<std::vector<eTile*>> mDiagTiles;
+
+    std::vector<eCharacter*> mCharacters;
+    std::vector<eBuilding*> mBuildings;
 };
 
 #endif // EGAMEBOARD_H

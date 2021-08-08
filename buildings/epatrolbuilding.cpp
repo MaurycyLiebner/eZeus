@@ -4,14 +4,16 @@
 #include "characters/actions/epatrolaction.h"
 #include "textures/egametextures.h"
 
-ePatrolBuilding::ePatrolBuilding(const eBaseTex baseTex,
+ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
+                                 const eBaseTex baseTex,
                                  const double overlayX,
                                  const double overlayY,
                                  const eOverlays overlays,
                                  const eCharGenerator& charGen,
                                  const eBuildingType type,
                                  const int sw, const int sh) :
-    eBuilding(type, sw, sh), mCharGenerator(charGen),
+    eBuilding(board, type, sw, sh),
+    mCharGenerator(charGen),
     mTextures(eGameTextures::buildings()),
     mBaseTex(baseTex), mOverlays(overlays),
     mOverlayX(overlayX), mOverlayY(overlayY) {

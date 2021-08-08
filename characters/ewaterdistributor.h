@@ -5,7 +5,7 @@
 
 class eWaterDistributor : public eBasicPatroler {
 public:
-    eWaterDistributor();
+    eWaterDistributor(eGameBoard& board);
 };
 
 #endif // EWATERDISTRIBUTOR_H

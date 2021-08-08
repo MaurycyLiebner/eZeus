@@ -5,7 +5,7 @@
 
 class eHospital : public ePatrolBuilding {
 public:
-    eHospital();
+    eHospital(eGameBoard& board);
 };
 
 #endif // EHOSPITAL_H

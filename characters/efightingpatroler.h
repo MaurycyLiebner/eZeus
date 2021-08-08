@@ -12,7 +12,7 @@ enum class eFightingPatrolerAction {
 class eFightingPatroler : public eCharacter {
 public:
     using eCharTexs = eFightingPatrolerTextures eCharacterTextures::*;
-    eFightingPatroler(const eCharTexs charTexs);
+    eFightingPatroler(eGameBoard& board, const eCharTexs charTexs);
 
     eFightingPatrolerAction action() const { return mAction; }
     void setAction(const eFightingPatrolerAction a);

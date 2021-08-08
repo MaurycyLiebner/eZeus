@@ -1,4 +1,4 @@
 #include "ewaterdistributor.h"
 
-eWaterDistributor::eWaterDistributor() :
-    eBasicPatroler(&eCharacterTextures::fWaterDistributor) {}
+eWaterDistributor::eWaterDistributor(eGameBoard& board) :
+    eBasicPatroler(board, &eCharacterTextures::fWaterDistributor) {}

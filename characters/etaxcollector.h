@@ -5,7 +5,7 @@
 
 class eTaxCollector : public eBasicPatroler {
 public:
-    eTaxCollector();
+    eTaxCollector(eGameBoard& board);
 };
 
 #endif // ETAXCOLLECTOR_H

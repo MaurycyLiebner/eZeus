@@ -3,8 +3,8 @@
 #include <algorithm>
 #include "textures/egametextures.h"
 
-eSmallHouse::eSmallHouse() :
-    eBuilding(eBuildingType::commonHouse, 2, 2),
+eSmallHouse::eSmallHouse(eGameBoard& board) :
+    eBuilding(board, eBuildingType::commonHouse, 2, 2),
     mTextures(eGameTextures::buildings()) {
 
 }

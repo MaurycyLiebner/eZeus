@@ -2,11 +2,11 @@
 
 #include "characters/ehealer.h"
 
-eHospital::eHospital() :
-    ePatrolBuilding(&eBuildingTextures::fHospital,
+eHospital::eHospital(eGameBoard& board) :
+    ePatrolBuilding(board, &eBuildingTextures::fHospital,
                     -1.78, -4.5,
                     &eBuildingTextures::fHospitalOverlay,
-                    []() { return new eHealer; },
+                    [this]() { return new eHealer(getBoard()); },
                     eBuildingType::hospital, 4, 4)  {
 
 }

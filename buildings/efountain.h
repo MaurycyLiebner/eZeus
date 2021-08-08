@@ -5,7 +5,7 @@
 
 class eFountain : public ePatrolBuilding {
 public:
-    eFountain();
+    eFountain(eGameBoard& board);
 };
 
 #endif // EFOUNTAIN_H

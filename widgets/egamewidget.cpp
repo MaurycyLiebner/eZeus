@@ -61,7 +61,7 @@ void eGameWidget::initialize(const int w, const int h) {
     setTileSize(eTileSize::s30);
 
     const auto t = mBoard.tile(0, 0);
-    const auto d = new eDemeter();
+    const auto d = new eDemeter(mBoard);
     d->setTile(t);
     d->setX(0.5);
     d->setY(0.5);
@@ -266,6 +266,7 @@ bool eGameWidget::build(const int tx, const int ty,
 }
 
 void eGameWidget::paintEvent(ePainter& p) {
+    mBoard.incTime(mSpeed);
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);
     eTilePainter tp(p, mTileSize, mTileW, mTileH);
@@ -332,14 +333,11 @@ void eGameWidget::paintEvent(ePainter& p) {
             tp.drawTexture(rx, ry, *tex, eAlignment::top);
         }
         if(const auto d = tile->building()) {
-            if(d->type() != eBuildingType::road) {
-                d->incTime(mSpeed);
-                if(!mPatrolBuilding) {
-                    double rx;
-                    double ry;
-                    drawXY(tx, ty, rx, ry, d->spanW(), d->spanH(), a);
-                    d->draw(tp, rx, ry, eAlignment::top);
-                }
+            if(!mPatrolBuilding && d->type() != eBuildingType::road) {
+                double rx;
+                double ry;
+                drawXY(tx, ty, rx, ry, d->spanW(), d->spanH(), a);
+                d->draw(tp, rx, ry, eAlignment::top);
             }
         }
 
@@ -347,7 +345,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         for(const auto c : chars) {
             const auto tex = c->getTexture(mTileSize);
             tp.drawTexture(tx - a + c->x() + 0.25, ty - a + c->y() + 0.25, tex);
-            c->incTime(mSpeed);
         }
 
         if(mPatrolBuilding) {
@@ -388,54 +385,54 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto mode = mGm->mode();
         switch(mode) {
         case eBuildingMode::road:
-            b1 = new eRoad;
+            b1 = new eRoad(mBoard);
             break;
         case eBuildingMode::commonHousing:
-            b1 = new eSmallHouse;
+            b1 = new eSmallHouse(mBoard);
             break;
         case eBuildingMode::gymnasium:
-            b1 = new eGymnasium;
+            b1 = new eGymnasium(mBoard);
             break;
         case eBuildingMode::podium:
-            b1 = new ePodium;
+            b1 = new ePodium(mBoard);
             break;
         case eBuildingMode::fountain:
-            b1 = new eFountain;
+            b1 = new eFountain(mBoard);
             break;
         case eBuildingMode::watchpost:
-            b1 = new eWatchpost;
+            b1 = new eWatchpost(mBoard);
             break;
         case eBuildingMode::college:
-            b1 = new eCollege;
+            b1 = new eCollege(mBoard);
             break;
         case eBuildingMode::dramaSchool:
-            b1 = new eDramaSchool;
+            b1 = new eDramaSchool(mBoard);
             break;
         case eBuildingMode::theater:
-            b1 = new eTheater;
+            b1 = new eTheater(mBoard);
             break;
         case eBuildingMode::hospital:
-            b1 = new eHospital;
+            b1 = new eHospital(mBoard);
             break;
         case eBuildingMode::stadium:
             if(mRotate) {
-                b1 = new eStadium1H;
-                b2 = new eStadium2H;
+                b1 = new eStadium1H(mBoard);
+                b2 = new eStadium2H(mBoard);
                 ty2 += 5;
             } else {
-                b1 = new eStadium1W;
-                b2 = new eStadium2W;
+                b1 = new eStadium1W(mBoard);
+                b2 = new eStadium2W(mBoard);
                 tx2 += 5;
             }
             break;
         case eBuildingMode::palace:
             if(mRotate) {
-                b1 = new ePalace1H;
-                b2 = new ePalace2H;
+                b1 = new ePalace1H(mBoard);
+                b2 = new ePalace2H(mBoard);
                 ty2 += 4;
             } else {
-                b1 = new ePalace1W;
-                b2 = new ePalace2W;
+                b1 = new ePalace1W(mBoard);
+                b2 = new ePalace2W(mBoard);
                 tx2 += 4;
             }
             break;
@@ -640,61 +637,61 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             case eBuildingMode::road:
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 1, 1,
-                          []() { return new eRoad; });
+                          [this]() { return new eRoad(mBoard); });
                 };
                 break;
             case eBuildingMode::commonHousing:
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 2, 2,
-                          []() { return new eSmallHouse; });
+                          [this]() { return new eSmallHouse(mBoard); });
                 };
                 break;
             case eBuildingMode::gymnasium:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 3, 3,
-                          []() { return new eGymnasium; });
+                          [this]() { return new eGymnasium(mBoard); });
                 };
                 break;
             case eBuildingMode::podium:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
-                          []() { return new ePodium; });
+                          [this]() { return new ePodium(mBoard); });
                 };
                 break;
             case eBuildingMode::fountain:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
-                          []() { return new eFountain; });
+                          [this]() { return new eFountain(mBoard); });
                 };
                 break;
             case eBuildingMode::watchpost:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
-                          []() { return new eWatchpost; });
+                          [this]() { return new eWatchpost(mBoard); });
                 };
                 break;
             case eBuildingMode::college:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 3, 3,
-                          []() { return new eCollege; });
+                          [this]() { return new eCollege(mBoard); });
                 };
                 break;
             case eBuildingMode::dramaSchool:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 3, 3,
-                          []() { return new eDramaSchool; });
+                          [this]() { return new eDramaSchool(mBoard); });
                 };
                 break;
             case eBuildingMode::theater:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 5, 5,
-                          []() { return new eTheater; });
+                          [this]() { return new eTheater(mBoard); });
                 };
                 break;
             case eBuildingMode::hospital:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 4, 4,
-                          []() { return new eHospital; });
+                          [this]() { return new eHospital(mBoard); });
                 };
                 break;
             case eBuildingMode::stadium:
@@ -709,9 +706,9 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                         const bool cb2 = canBuild(t2->x(), t2->y(), 5, 5);
                         if(!cb2) return;
                         build(tile->x(), tile->y(), 5, 5,
-                              []() { return new eStadium1H; });
+                              [this]() { return new eStadium1H(mBoard); });
                         build(t2->x(), t2->y(), 5, 5,
-                              []() { return new eStadium2H; });
+                              [this]() { return new eStadium2H(mBoard); });
                     };
                 } else {
                     apply = [this](eTile*) {
@@ -724,9 +721,9 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                         const bool cb2 = canBuild(t2->x(), t2->y(), 5, 5);
                         if(!cb2) return;
                         build(tile->x(), tile->y(), 5, 5,
-                              []() { return new eStadium1W; });
+                              [this]() { return new eStadium1W(mBoard); });
                         build(t2->x(), t2->y(), 5, 5,
-                              []() { return new eStadium2W; });
+                              [this]() { return new eStadium2W(mBoard); });
                     };
                 }
                 break;
@@ -742,9 +739,9 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                         const bool cb2 = canBuild(t2->x(), t2->y(), 4, 4);
                         if(!cb2) return;
                         build(tile->x(), tile->y(), 4, 4,
-                              []() { return new ePalace1H; });
+                              [this]() { return new ePalace1H(mBoard); });
                         build(t2->x(), t2->y(), 4, 4,
-                              []() { return new ePalace2H; });
+                              [this]() { return new ePalace2H(mBoard); });
                     };
                 } else {
                     apply = [this](eTile*) {
@@ -757,9 +754,9 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                         const bool cb2 = canBuild(t2->x(), t2->y(), 4, 4);
                         if(!cb2) return;
                         build(tile->x(), tile->y(), 4, 4,
-                              []() { return new ePalace1W; });
+                              [this]() { return new ePalace1W(mBoard); });
                         build(t2->x(), t2->y(), 4, 4,
-                              []() { return new ePalace2W; });
+                              [this]() { return new ePalace2W(mBoard); });
                     };
                 }
                 break;

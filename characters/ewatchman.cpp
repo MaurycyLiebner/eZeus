@@ -1,4 +1,4 @@
 #include "ewatchman.h"
 
-eWatchman::eWatchman() :
-    eFightingPatroler(&eCharacterTextures::fWatchman) {}
+eWatchman::eWatchman(eGameBoard& board) :
+    eFightingPatroler(board, &eCharacterTextures::fWatchman) {}

@@ -1,7 +1,14 @@
 #include "echaracter.h"
 
-eCharacter::eCharacter() {
+#include "engine/egameboard.h"
 
+eCharacter::eCharacter(eGameBoard& board) :
+    mBoard(board) {
+    mBoard.registerCharacter(this);
+}
+
+eCharacter::~eCharacter() {
+    mBoard.unregisterCharacter(this);
 }
 
 void eCharacter::setTile(eTile* const t) {

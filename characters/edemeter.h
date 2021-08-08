@@ -10,7 +10,7 @@ enum class eDemeterAction {
 
 class eDemeter : public eCharacter {
 public:
-    eDemeter();
+    eDemeter(eGameBoard& board);
 
     eDemeterAction action() const { return mAction; }
 

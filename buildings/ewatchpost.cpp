@@ -2,11 +2,11 @@
 
 #include "characters/ewatchman.h"
 
-eWatchpost::eWatchpost() :
-    ePatrolBuilding(&eBuildingTextures::fWatchPost,
+eWatchpost::eWatchpost(eGameBoard& board) :
+    ePatrolBuilding(board, &eBuildingTextures::fWatchPost,
                     -0.25, -2.1,
                     &eBuildingTextures::fWatchPostOverlay,
-                    []() { return new eWatchman; },
+                    [this]() { return new eWatchman(getBoard()); },
                     eBuildingType::watchPost, 2, 2)  {
 
 }

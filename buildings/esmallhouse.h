@@ -6,7 +6,7 @@
 
 class eSmallHouse : public eBuilding {
 public:
-    eSmallHouse();
+    eSmallHouse(eGameBoard& board);
 
     eTexture getTexture(const eTileSize size) const;
 

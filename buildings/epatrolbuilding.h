@@ -11,7 +11,8 @@ public:
     using eBaseTex = eTexture eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;
     using eCharGenerator =  std::function<eCharacter*()>;
-    ePatrolBuilding(const eBaseTex baseTex,
+    ePatrolBuilding(eGameBoard& board,
+                    const eBaseTex baseTex,
                     const double overlayX,
                     const double overlayY,
                     const eOverlays overlays,

@@ -4,8 +4,8 @@
 #include "characters/actions/epatrolaction.h"
 #include "textures/egametextures.h"
 
-eCollege::eCollege() :
-    eBuilding(eBuildingType::college, 3, 3),
+eCollege::eCollege(eGameBoard& board) :
+    eBuilding(board, eBuildingType::college, 3, 3),
     mTextures(eGameTextures::buildings()) {
 
 }

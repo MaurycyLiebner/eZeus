@@ -6,6 +6,8 @@
 #include "engine/etile.h"
 #include "engine/emovedirection.h"
 
+class eGameBoard;
+
 enum class eBuildingType {
     commonHouse,
 
@@ -64,9 +66,10 @@ struct eOverlay {
 
 class eBuilding {
 public:
-    eBuilding(const eBuildingType type,
+    eBuilding(eGameBoard& board,
+              const eBuildingType type,
               const int sw, const int sh);
-    virtual ~eBuilding() {}
+    virtual ~eBuilding();
 
     virtual eTexture getTexture(const eTileSize size) const = 0;
     virtual std::vector<eOverlay> getOverlays(const eTileSize size) const {
@@ -97,9 +100,12 @@ public:
 
     void addUnderBuilding(eTile* const t);
     void erase();
+
+    eGameBoard& getBoard() { return mBoard; }
 private:
     std::vector<eTile*> mUnderBuilding;
 
+    eGameBoard& mBoard;
     int mSeed;
     const eBuildingType mType;
     const int mSpanW;

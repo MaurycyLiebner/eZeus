@@ -1,4 +1,4 @@
 #include "etaxcollector.h"
 
-eTaxCollector::eTaxCollector() :
-    eBasicPatroler(&eCharacterTextures::fTaxCollector) {}
+eTaxCollector::eTaxCollector(eGameBoard& board) :
+    eBasicPatroler(board, &eCharacterTextures::fTaxCollector) {}

@@ -4,8 +4,8 @@
 #include "characters/actions/epatrolaction.h"
 #include "textures/egametextures.h"
 
-ePalace1W::ePalace1W() :
-    eBuilding(eBuildingType::palace1, 4, 4),
+ePalace1W::ePalace1W(eGameBoard& board) :
+    eBuilding(board, eBuildingType::palace1, 4, 4),
     mTextures(eGameTextures::buildings()) {
 
 }
@@ -15,8 +15,8 @@ eTexture ePalace1W::getTexture(const eTileSize size) const {
     return mTextures[sizeId].fPalace1W;
 }
 
-ePalace1H::ePalace1H() :
-    eBuilding(eBuildingType::palace1, 4, 4),
+ePalace1H::ePalace1H(eGameBoard& board) :
+    eBuilding(board, eBuildingType::palace1, 4, 4),
     mTextures(eGameTextures::buildings()) {
 
 }

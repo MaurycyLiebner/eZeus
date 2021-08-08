@@ -5,7 +5,7 @@
 
 class ePodium : public ePatrolBuilding {
 public:
-    ePodium();
+    ePodium(eGameBoard& board);
 
 };
 

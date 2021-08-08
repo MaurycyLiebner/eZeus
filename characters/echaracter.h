@@ -6,10 +6,12 @@
 #include "actions/echaracteraction.h"
 #include "etexture.h"
 
+class eGameBoard;
+
 class eCharacter {
 public:
-    eCharacter();
-    virtual ~eCharacter() {}
+    eCharacter(eGameBoard& board);
+    virtual ~eCharacter();
 
     virtual eTexture getTexture(const eTileSize size) const = 0;
 
@@ -27,6 +29,7 @@ public:
     void setOrientation(const eOrientation o);
     void setCharAction(eCharacterAction* const a);
 private:
+    eGameBoard& mBoard;
     eTile* mTile = nullptr;
     eOrientation mOrientation{eOrientation::top};
     double mX = 0;

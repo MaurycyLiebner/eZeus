@@ -2,11 +2,12 @@
 
 #include "characters/ewaterdistributor.h"
 
-eFountain::eFountain() :
-    ePatrolBuilding(&eBuildingTextures::fFountain,
+eFountain::eFountain(eGameBoard& board) :
+    ePatrolBuilding(board,
+                    &eBuildingTextures::fFountain,
                     -1.15, -2.37,
                     &eBuildingTextures::fFountainOverlay,
-                    []() { return new eWaterDistributor; },
+                    [this]() { return new eWaterDistributor(getBoard()); },
                     eBuildingType::fountain, 2, 2)  {
 
 }

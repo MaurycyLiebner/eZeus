@@ -2,6 +2,9 @@
 
 #include <random>
 
+#include "characters/echaracter.h"
+#include "buildings/ebuilding.h"
+
 eGameBoard::eGameBoard() {
 
 }
@@ -65,6 +68,37 @@ eTile* eGameBoard::tile(const int x, const int y) const {
     if(x < 0 || x >= mWidth) return nullptr;
     if(y < 0 || y >= mHeight) return nullptr;
     return mTiles[x][y];
+}
+
+void eGameBoard::registerCharacter(eCharacter* const c) {
+    mCharacters.push_back(c);
+}
+
+bool eGameBoard::unregisterCharacter(eCharacter* const c) {
+    const auto it = std::find(mCharacters.begin(), mCharacters.end(), c);
+    if(it == mCharacters.end()) return false;
+    mCharacters.erase(it);
+    return true;
+}
+
+void eGameBoard::registerBuilding(eBuilding* const b) {
+    mBuildings.push_back(b);
+}
+
+bool eGameBoard::unregisterBuilding(eBuilding* const b) {
+    const auto it = std::find(mBuildings.begin(), mBuildings.end(), b);
+    if(it == mBuildings.end()) return false;
+    mBuildings.erase(it);
+    return true;
+}
+
+void eGameBoard::incTime(const int by) {
+    for(const auto c : mCharacters) {
+        c->incTime(by);
+    }
+    for(const auto b : mBuildings) {
+        b->incTime(by);
+    }
 }
 
 void eGameBoard::updateDiagonalArray() {

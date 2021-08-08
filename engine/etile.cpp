@@ -287,7 +287,7 @@ bool eTile::removeCharacter(eCharacter* const c) {
 
 void eTile::setBuilding(eBuilding* const b) {
     mBuilding = b;
-    b->setTile(this);
+    if(b) b->setTile(this);
 }
 
 bool eTile::hasRoad() const {

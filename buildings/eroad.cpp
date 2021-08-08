@@ -2,8 +2,8 @@
 
 #include "textures/egametextures.h"
 
-eRoad::eRoad() :
-    eBuilding(eBuildingType::road, 1, 1),
+eRoad::eRoad(eGameBoard& board) :
+    eBuilding(board, eBuildingType::road, 1, 1),
     mTextures(eGameTextures::buildings()) {
 
 }

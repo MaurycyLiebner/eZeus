@@ -7,7 +7,7 @@
 
 class eCollege : public eBuilding {
 public:
-    eCollege();
+    eCollege(eGameBoard& board);
 
     eTexture getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;

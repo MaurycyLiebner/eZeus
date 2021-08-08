@@ -4,8 +4,8 @@
 #include "characters/actions/epatrolaction.h"
 #include "textures/egametextures.h"
 
-eDramaSchool::eDramaSchool() :
-    eBuilding(eBuildingType::dramaSchool, 3, 3),
+eDramaSchool::eDramaSchool(eGameBoard& board) :
+    eBuilding(board, eBuildingType::dramaSchool, 3, 3),
     mTextures(eGameTextures::buildings()) {
 
 }

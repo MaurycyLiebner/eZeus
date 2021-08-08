@@ -4,8 +4,8 @@
 #include "characters/actions/epatrolaction.h"
 #include "textures/egametextures.h"
 
-eStadium1W::eStadium1W() :
-    eBuilding(eBuildingType::stadium1, 5, 5),
+eStadium1W::eStadium1W(eGameBoard& board) :
+    eBuilding(board, eBuildingType::stadium1, 5, 5),
     mTextures(eGameTextures::buildings()) {
 
 }
@@ -15,8 +15,8 @@ eTexture eStadium1W::getTexture(const eTileSize size) const {
     return mTextures[sizeId].fStadium1W;
 }
 
-eStadium1H::eStadium1H() :
-    eBuilding(eBuildingType::stadium1, 5, 5),
+eStadium1H::eStadium1H(eGameBoard& board) :
+    eBuilding(board, eBuildingType::stadium1, 5, 5),
     mTextures(eGameTextures::buildings()) {
 
 }

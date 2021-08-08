@@ -3,8 +3,8 @@
 #include "engine/etile.h"
 #include "textures/egametextures.h"
 
-eDemeter::eDemeter() :
-    mTextures(eGameTextures::demeter()) {
+eDemeter::eDemeter(eGameBoard& board) :
+    eCharacter(board), mTextures(eGameTextures::demeter()) {
 
 }
 

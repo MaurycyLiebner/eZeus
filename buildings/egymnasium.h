@@ -5,7 +5,7 @@
 
 class eGymnasium : public ePatrolBuilding {
 public:
-    eGymnasium();
+    eGymnasium(eGameBoard& board);
 };
 
 #endif // EGYMNASIUM_H

@@ -1,4 +1,4 @@
 #include "ephilosopher.h"
 
-ePhilosopher::ePhilosopher() :
-    eBasicPatroler(&eCharacterTextures::fPhilosopher) {}
+ePhilosopher::ePhilosopher(eGameBoard& board) :
+    eBasicPatroler(board, &eCharacterTextures::fPhilosopher) {}

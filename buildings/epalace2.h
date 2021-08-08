@@ -7,7 +7,7 @@
 
 class ePalace2W : public eBuilding {
 public:
-    ePalace2W();
+    ePalace2W(eGameBoard& board);
 
     eTexture getTexture(const eTileSize size) const;
 private:
@@ -16,7 +16,7 @@ private:
 
 class ePalace2H : public eBuilding {
 public:
-    ePalace2H();
+    ePalace2H(eGameBoard& board);
 
     eTexture getTexture(const eTileSize size) const;
 private:

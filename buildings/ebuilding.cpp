@@ -1,9 +1,19 @@
 #include "ebuilding.h"
 
-eBuilding::eBuilding(const eBuildingType type,
+#include "engine/egameboard.h"
+
+eBuilding::eBuilding(eGameBoard& board,
+                     const eBuildingType type,
                      const int sw, const int sh) :
+    mBoard(board),
     mSeed(rand()), mType(type),
-    mSpanW(sw), mSpanH(sh) {}
+    mSpanW(sw), mSpanH(sh) {
+    mBoard.registerBuilding(this);
+}
+
+eBuilding::~eBuilding() {
+    mBoard.unregisterBuilding(this);
+}
 
 eTile* eBuilding::road(const eMoveDirection o) const {
     if(!mTile) return nullptr;

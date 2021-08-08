@@ -7,7 +7,7 @@
 
 class eTheater : public eBuilding {
 public:
-    eTheater();
+    eTheater(eGameBoard& board);
 
     eTexture getTexture(const eTileSize size) const;
 private:

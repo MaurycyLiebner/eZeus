@@ -6,7 +6,7 @@
 
 class eRoad : public eBuilding {
 public:
-    eRoad();
+    eRoad(eGameBoard& board);
 
     eTexture getTexture(const eTileSize size) const;
 private:

@@ -1,4 +1,4 @@
 #include "egymnast.h"
 
-eGymnast::eGymnast() :
-    eBasicPatroler(&eCharacterTextures::fGymnast) {}
+eGymnast::eGymnast(eGameBoard& board) :
+    eBasicPatroler(board, &eCharacterTextures::fGymnast) {}
