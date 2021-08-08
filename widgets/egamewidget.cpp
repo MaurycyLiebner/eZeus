@@ -69,12 +69,55 @@ void eGameWidget::initialize(const int w, const int h) {
     t->addCharacter(d);
 }
 
+void drawXY(const int tx, const int ty,
+            double& rx, double& ry,
+            const int wSpan, const int hSpan,
+            const int a) {
+    rx = tx + 0.5;
+    ry = ty + 1.5;
+
+    if(wSpan == 2 && hSpan == 2) {
+        rx += 0.5;
+        ry += 1.5;
+    } else if(wSpan == 3 && hSpan == 3) {
+        rx += 0.0;
+        ry += 2.0;
+    } else if(wSpan == 4 && hSpan == 4) {
+        rx += 0.5;
+        ry += 3.5;
+    } else if(wSpan == 5 && hSpan == 5) {
+        rx += 0.0;
+        ry += 4.0;
+    }
+    rx -= a;
+    ry -= a;
+}
+
 void eGameWidget::pixToId(const int pixX, const int pixY,
                           int& idX, int& idY) const {
     const double w = mTileW;
     const double h = mTileH;
     idX = std::round((pixX - mDX)/w + (pixY - mDY)/h - 0.5);
     idY = std::round(-(pixX - mDX)/w + (pixY - mDY)/h - 0.5);
+
+    for(int x = idX + 4; x >= idX - 4; x--) {
+        for(int y = idY + 4; y >= idY - 4; y--) {
+            const auto t = mBoard.tile(x, y);
+            if(!t) continue;
+            const int a = t->altitude();
+            const int dx = 0;
+            const int dy = -a*2 + 2;
+            const int tpx = std::round(0.5 * (x - y + dx) * mTileW) + mDX;
+            const int tpy = std::round(0.5 * (x + y + dy) * mTileH) + mDY;
+            const int dist = std::sqrt((tpx - pixX)*(tpx - pixX) +
+                                       (tpy - pixY)*(tpy - pixY));
+            if(dist < mTileH) {
+                idX = x;
+                idY = y;
+                return;
+            }
+        }
+    }
 }
 
 struct eDelayedTexture {
@@ -122,26 +165,6 @@ int gHoverX = -1;
 int gHoverY = -1;
 int gPressedX = -1;
 int gPressedY = -1;
-
-void drawXY(const int tx, const int ty, double& rx, double& ry,
-            const int wSpan, const int hSpan) {
-    rx = tx + 0.5;
-    ry = ty + 1.5;
-
-    if(wSpan == 2 && hSpan == 2) {
-        rx += 0.5;
-        ry += 1.5;
-    } else if(wSpan == 3 && hSpan == 3) {
-        rx += 0.0;
-        ry += 2.0;
-    } else if(wSpan == 4 && hSpan == 4) {
-        rx += 0.5;
-        ry += 3.5;
-    } else if(wSpan == 5 && hSpan == 5) {
-        rx += 0.0;
-        ry += 4.0;
-    }
-}
 
 void buildTiles(int& minX, int& minY,
                 int& maxX, int& maxY,
@@ -223,59 +246,55 @@ void eGameWidget::paintEvent(ePainter& p) {
     const auto& trrTexs = eGameTextures::terrain().at(tid);
     const auto& builTexs = eGameTextures::buildings().at(tid);
 
+    const int sMinX = std::min(gPressedX, gHoverX);
+    const int sMinY = std::min(gPressedY, gHoverY);
+    const int sMaxX = std::max(gPressedX, gHoverX);
+    const int sMaxY = std::max(gPressedY, gHoverY);
     iterateOverTiles([&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
 
         int wSpan;
         int hSpan;
-        const auto tex = eTileToTexture::get(tile, trrTexs,
-                                             wSpan, hSpan,
-                                             mTileSize);
+        auto tex = eTileToTexture::get(tile, trrTexs,
+                                       wSpan, hSpan,
+                                       mTileSize);
         tile->setDrawnSpan(wSpan, hSpan);
 
         double rx;
         double ry;
-        drawXY(tx, ty, rx, ry, wSpan, hSpan);
-        const auto a = tile->altitude();
-        rx -= a;
-        ry -= a;
+        const int a = tile->altitude();
+        drawXY(tx, ty, rx, ry, wSpan, hSpan, a);
 
         if(!tex.isNull()) {
             if(wSpan == 2 && hSpan == 2) {
                 gDelayedTextures.emplace_back(eDelayedTexture{rx, ry, tex});
                 return;
             } else {
+                bool s = false;
+                if(gPressedX >= 0 && gPressedY >= 0) {
+                    if(tx >= sMinX && tx <= sMaxX &&
+                       ty >= sMinY && ty <= sMaxY) {
+                        s = true;
+                    }
+                }
+                const bool h = tx == gHoverX && ty == gHoverY;
+                if(h || s) tex.setColorMod(255, 175, 255);
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
+                if(h || s) tex.clearColorMod();
             }
         }
         gDrawDelayed(tp);
-
-        const auto& selectedTex = trrTexs.fSelectedTex;
-
-        if(tile->x() == gHoverX && tile->y() == gHoverY) {
-            tp.drawTexture(rx, ry, selectedTex, eAlignment::top);
-        }
-
-        if(gPressedX >= 0 && gPressedY >= 0) {
-            const int minX = std::min(gPressedX, gHoverX);
-            const int minY = std::min(gPressedY, gHoverY);
-            const int maxX = std::max(gPressedX, gHoverX);
-            const int maxY = std::max(gPressedY, gHoverY);
-            if(tile->x() >= minX && tile->x() <= maxX &&
-               tile->y() >= minY && tile->y() <= maxY) {
-                tp.drawTexture(rx, ry, selectedTex, eAlignment::top);
-            }
-        }
     });
     iterateOverTiles([&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
+        const int a = tile->altitude();
 
         if(mPatrolBuilding && tile->underBuilding() && !tile->hasRoad()) {
             double rx;
             double ry;
-            drawXY(tx, ty, rx, ry, 1, 1);
+            drawXY(tx, ty, rx, ry, 1, 1, a);
             const eTexture* tex;
             if(tile->underBuilding() == mPatrolBuilding) {
                 tex = &trrTexs.fSelectedBuildingBase;
@@ -290,7 +309,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 if(!mPatrolBuilding) {
                     double rx;
                     double ry;
-                    drawXY(tx, ty, rx, ry, d->spanW(), d->spanH());
+                    drawXY(tx, ty, rx, ry, d->spanW(), d->spanH(), a);
                     d->draw(tp, rx, ry, eAlignment::top);
                 }
             }
@@ -299,7 +318,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto& chars = tile->characters();
         for(const auto c : chars) {
             const auto tex = c->getTexture(mTileSize);
-            tp.drawTexture(tx + c->x() + 0.25, ty + c->y() + 0.25, tex);
+            tp.drawTexture(tx - a + c->x() + 0.25, ty - a + c->y() + 0.25, tex);
             c->incTime(mSpeed);
         }
 
@@ -307,7 +326,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             if(tile->building() == mPatrolBuilding) {
                 double rx;
                 double ry;
-                drawXY(tx, ty, rx, ry, 1, 1);
+                drawXY(tx, ty, rx, ry, 1, 1, a);
                 const auto sd = mPatrolBuilding->spawnDirection();
                 const int s = static_cast<int>(sd) - 1;
                 const auto& coll = builTexs.fPatrolGuides;
@@ -319,7 +338,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 if(pg.fX == tx && pg.fY == ty) {
                     double rx;
                     double ry;
-                    drawXY(tx, ty, rx, ry, 1, 1);
+                    drawXY(tx, ty, rx, ry, 1, 1, a);
                     const int s = static_cast<int>(pg.fDir) - 1;
                     const auto& coll = builTexs.fPatrolGuides;
                     const auto tex = coll.getTexture(s);
@@ -400,6 +419,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             eBuilding* fB;
         };
         bool cbg = true;
+        const int a = t->altitude();
         if(b1) {
             const bool cb1 = canBuild(tx, ty, b1->spanW(), b1->spanH());
             cbg = cbg && cb1;
@@ -418,7 +438,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             b->setTile(t);
             double rx;
             double ry;
-            drawXY(eb.fTx, eb.fTy, rx, ry, sw, sh);
+            drawXY(eb.fTx, eb.fTy, rx, ry, sw, sh, a);
             auto tex = b->getTexture(tp.size());
             if(cbg) tex.setColorMod(0, 255, 0);
             else tex.setColorMod(255, 0, 0);
@@ -436,6 +456,14 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
         mSpeed = std::clamp(mSpeed - 1, 1, 10);
     } else if(e.key() == SDL_Scancode::SDL_SCANCODE_R) {
         mRotate = !mRotate;
+    } else if(e.key() == SDL_Scancode::SDL_SCANCODE_LEFT) {
+        mDX += 25;
+    } else if(e.key() == SDL_Scancode::SDL_SCANCODE_RIGHT) {
+        mDX -= 25;
+    } else if(e.key() == SDL_Scancode::SDL_SCANCODE_UP) {
+        mDY += 25;
+    } else if(e.key() == SDL_Scancode::SDL_SCANCODE_DOWN) {
+        mDY -= 25;
     }
     return true;
 }
