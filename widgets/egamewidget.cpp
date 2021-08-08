@@ -201,6 +201,11 @@ bool eGameWidget::canBuild(const int tx, const int ty,
         for(int y = minY; y < maxY; y++) {
             const auto t = mBoard.tile(x, y);
             if(!t || t->underBuilding()) return false;
+
+            const auto ttt = t->terrain();
+            const auto ttta = ttt & eTerrain::buildable;
+            if(!static_cast<bool>(ttta)) return false;
+
             const int a = t->altitude();
             const auto tr = t->topRight();
             if(tr && tr->altitude() > a) return false;

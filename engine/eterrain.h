@@ -15,15 +15,17 @@ enum class eTerrain {
     tallStones = 1 << 8,
     tinyStones = 1 << 9,
 
-    dryBased = eTerrain::dry |
-               eTerrain::fertile |
-               eTerrain::forest |
+    dryBased = dry |
+               fertile |
+               forest |
 
-               eTerrain::flatStones |
-               eTerrain::bronze |
-               eTerrain::silver |
-               eTerrain::tallStones |
-               eTerrain::tinyStones
+               flatStones |
+               bronze |
+               silver |
+               tallStones |
+               tinyStones,
+
+    buildable = dry | beach | fertile
 };
 
 inline eTerrain operator|(const eTerrain a, const eTerrain b) {
