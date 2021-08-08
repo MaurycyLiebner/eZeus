@@ -29,6 +29,7 @@
 #include "buildings/estadium2.h"
 #include "buildings/epalace1.h"
 #include "buildings/epalace2.h"
+#include "buildings/emint.h"
 
 #include "echeckbox.h"
 
@@ -463,6 +464,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                 tx2 += 4;
             }
             break;
+        case eBuildingMode::mint:
+            b1 = new eMint(mBoard);
+            break;
         default: break;
         }
         struct eB {
@@ -803,6 +807,12 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                               [this]() { return new ePalace2W(mBoard); });
                     };
                 }
+                break;
+            case eBuildingMode::mint:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return new eMint(mBoard); });
+                };
                 break;
             default: break;
             }

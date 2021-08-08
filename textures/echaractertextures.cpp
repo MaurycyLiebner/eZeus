@@ -97,6 +97,11 @@ void eCharacterTextures::load() {
                         pathBase, i, walk[j], eSprMainOffset);
         }
     }
+    for(int i = 3837; i < 3845; i++) {
+        auto& die = fSilverMiner.fDie;
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
+    }
     for(int i = 3857; i < 3953;) {
         for(int j = 0; j < 8; j++, i++) {
             auto& carry = fSilverMiner.fCarry;
@@ -110,11 +115,6 @@ void eCharacterTextures::load() {
             eTextureLoadingHelpers::loadTexWithOffset(
                         pathBase, i, collect[j], eSprMainOffset);
         }
-    }
-    for(int i = 3837; i < 3845; i++) {
-        auto& die = fSilverMiner.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
     }
 
 

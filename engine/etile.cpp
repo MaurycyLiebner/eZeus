@@ -307,3 +307,7 @@ void eTile::setDrawnSpan(const int w, const int h) {
 void eTile::setWalkableElev(const bool w) {
     mWalkableElev = w;
 }
+
+void eTile::decResource(const int by) {
+    mResource -= by;
+}

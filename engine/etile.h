@@ -95,6 +95,9 @@ public:
 
     bool walkableElev() const { return mWalkableElev; }
     void setWalkableElev(const bool w);
+
+    int resource() { return mResource; }
+    void decResource(const int by);
 private:
     int mDrawnSpanW = 0;
     int mDrawnSpanH = 0;
@@ -104,6 +107,8 @@ private:
     const int mY;
 
     bool mWalkableElev{false};
+
+    int mResource = 10000;
 
     std::vector<eCharacter*> mCharacters;
     eBuilding* mUnderBuilding = nullptr;

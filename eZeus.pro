@@ -20,10 +20,12 @@ SOURCES += \
         buildings/efountain.cpp \
         buildings/egymnasium.cpp \
         buildings/ehospital.cpp \
+        buildings/emint.cpp \
         buildings/epalace1.cpp \
         buildings/epalace2.cpp \
         buildings/epatrolbuilding.cpp \
         buildings/epodium.cpp \
+        buildings/eresourcecollectbuilding.cpp \
         buildings/eroad.cpp \
         buildings/esmallhouse.cpp \
         buildings/estadium1.cpp \
@@ -31,6 +33,7 @@ SOURCES += \
         buildings/etheater.cpp \
         buildings/ewatchpost.cpp \
         characters/actions/echaracteraction.cpp \
+        characters/actions/ecollectresourceaction.cpp \
         characters/actions/emoveaction.cpp \
         characters/actions/emovearoundaction.cpp \
         characters/actions/emovepathaction.cpp \
@@ -42,6 +45,8 @@ SOURCES += \
         characters/egymnast.cpp \
         characters/ehealer.cpp \
         characters/ephilosopher.cpp \
+        characters/eresourcecollector.cpp \
+        characters/esilverminer.cpp \
         characters/etaxcollector.cpp \
         characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
@@ -116,10 +121,12 @@ HEADERS += \
     buildings/efountain.h \
     buildings/egymnasium.h \
     buildings/ehospital.h \
+    buildings/emint.h \
     buildings/epalace1.h \
     buildings/epalace2.h \
     buildings/epatrolbuilding.h \
     buildings/epodium.h \
+    buildings/eresourcecollectbuilding.h \
     buildings/eroad.h \
     buildings/esmallhouse.h \
     buildings/estadium1.h \
@@ -127,6 +134,7 @@ HEADERS += \
     buildings/etheater.h \
     buildings/ewatchpost.h \
     characters/actions/echaracteraction.h \
+    characters/actions/ecollectresourceaction.h \
     characters/actions/emoveaction.h \
     characters/actions/emovearoundaction.h \
     characters/actions/emovepathaction.h \
@@ -138,6 +146,8 @@ HEADERS += \
     characters/egymnast.h \
     characters/ehealer.h \
     characters/ephilosopher.h \
+    characters/eresourcecollector.h \
+    characters/esilverminer.h \
     characters/etaxcollector.h \
     characters/ewatchman.h \
     characters/ewaterdistributor.h \

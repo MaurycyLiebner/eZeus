@@ -8,7 +8,6 @@
 
 class eMovePathAction;
 
-
 struct ePatrolGuide {
     int fX;
     int fY;
