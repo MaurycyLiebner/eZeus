@@ -235,6 +235,28 @@ bool eGameWidget::erase(eTile* const tile) {
     return true;
 }
 
+std::vector<ePatrolGuide>::iterator
+    eGameWidget::findGuide(const int tx, const int ty) {
+    const auto pgs = mPatrolBuilding->patrolGuides();
+    const int iMax = pgs->size();
+    for(int i = 0; i < iMax; i++) {
+        auto& pg = (*pgs)[i];
+        if(pg.fX == tx && pg.fY == ty) {
+            return pgs->begin() + i;
+            const int si = static_cast<int>(pg.fDir);
+            int nsi = si + 1;
+            if(nsi >= 15) {
+                pgs->erase(pgs->begin() + i);
+            } else {
+                const auto ss = static_cast<eMoveDirection>(nsi);
+                pg.fDir = ss;
+            }
+            break;
+        }
+    }
+    return pgs->end();
+}
+
 bool eGameWidget::build(const int tx, const int ty,
                         const int sw, const int sh,
                         const eBuildingCreator& bc) {
@@ -509,7 +531,7 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         gPressedX = tx;
         gPressedY = ty;
         if(mPatrolBuilding) {
-            const auto tile = mBoard.tile(gPressedX, gPressedY);
+            const auto tile = mBoard.tile(tx, ty);
             if(!tile) return true;
             if(tile->underBuilding() == mPatrolBuilding) {
                 const auto s = mPatrolBuilding->spawnDirection();
@@ -520,35 +542,44 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
                 mPatrolBuilding->setSpawnDirection(ss);
             } else {
                 const auto pgs = mPatrolBuilding->patrolGuides();
-                bool found = false;
-                const int iMax = pgs->size();
-                for(int i = 0; i < iMax; i++) {
-                    auto& pg = (*pgs)[i];
-                    if(pg.fX == tx && pg.fY == ty) {
-                        found = true;
-                        const int si = static_cast<int>(pg.fDir);
-                        int nsi = si + 1;
-                        if(nsi >= 15) {
-                            pgs->erase(pgs->begin() + i);
-                        } else {
-                            const auto ss = static_cast<eMoveDirection>(nsi);
-                            pg.fDir = ss;
-                        }
-                        break;
+                const auto it = findGuide(tx, ty);
+                const bool found = it != pgs->end();
+                if(found) {
+                    auto& pg = *it;
+                    const int si = static_cast<int>(pg.fDir);
+                    int nsi = si + 1;
+                    if(nsi >= 15) {
+                        pgs->erase(it);
+                    } else {
+                        const auto ss = static_cast<eMoveDirection>(nsi);
+                        pg.fDir = ss;
                     }
-                }
-                if(!found) {
+                } else {
                     pgs->push_back({tx, ty, eMoveDirection::topRight});
                 }
             }
         }
         return true;
     case eMouseButton::right: {
-        mPatrolBuilding = nullptr;
-        mGm->clearMode();
         int tx;
         int ty;
         pixToId(e.x(), e.y(), tx, ty);
+        if(mPatrolBuilding) {
+            const auto pgs = mPatrolBuilding->patrolGuides();
+            const auto it = findGuide(tx, ty);
+            const bool found = it != pgs->end();
+            if(found) {
+                pgs->erase(it);
+                return true;
+            }
+            const auto t = mBoard.tile(tx, ty);
+            if(t && t->underBuilding() == mPatrolBuilding) {
+                const auto sd = eMoveDirection::allDirections;
+                mPatrolBuilding->setSpawnDirection(sd);
+            }
+        }
+        mPatrolBuilding = nullptr;
+        mGm->clearMode();
         const auto tile = mBoard.tile(tx, ty);
         if(!tile) return true;
         const auto b = tile->building();
@@ -602,6 +633,14 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [](eTile* const tile) {
                     tile->setAltitude(tile->altitude() - 1);
                 };
+            } else if(mode == eTerrainEditMode::levelOut) {
+                const auto t = mBoard.tile(gHoverX, gHoverY);
+                if(t) {
+                    const int a = t->altitude();
+                    apply = [a](eTile* const tile) {
+                        tile->setAltitude(a);
+                    };
+                }
             } else if(mode == eTerrainEditMode::resetElev) {
                 apply = [](eTile* const tile) {
                     tile->setAltitude(0);

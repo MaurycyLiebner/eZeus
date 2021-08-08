@@ -34,6 +34,7 @@ void eTerrainEditMenu::initialize() {
     const auto w2 = new eWidget(window());
 
     const auto w3 = new eActionListWidget(window());
+    w3->setSmallFontSize();
     w3->addAction("Water", [this]() {
         mMode = eTerrainEditMode::water;
     });
@@ -46,6 +47,7 @@ void eTerrainEditMenu::initialize() {
     const auto w5 = new eWidget(window());
 
     const auto w6 = new eActionListWidget(window());
+    w6->setSmallFontSize();
     w6->addAction("Water", [this]() {
         mMode = eTerrainEditMode::water;
     });
@@ -69,11 +71,15 @@ void eTerrainEditMenu::initialize() {
     const auto w7 = new eWidget(window());
 
     const auto w8 = new eActionListWidget(window());
+    w8->setSmallFontSize();
     w8->addAction("Raise", [this]() {
         mMode = eTerrainEditMode::raise;
     });
     w8->addAction("Lower", [this]() {
         mMode = eTerrainEditMode::lower;
+    });
+    w8->addAction("Level Out", [this]() {
+        mMode = eTerrainEditMode::levelOut;
     });
     w8->addAction("Reset Elevation", [this]() {
         mMode = eTerrainEditMode::resetElev;
@@ -107,6 +113,7 @@ void eTerrainEditMenu::initialize() {
     for(const auto w : mWidgets) {
         addWidget(w);
         w->move(21*mult, 10*mult);
+        w->setWidth(width() - w->x());
         w->hide();
     }
 

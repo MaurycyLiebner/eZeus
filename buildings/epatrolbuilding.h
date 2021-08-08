@@ -43,10 +43,7 @@ private:
     const double mOverlayX;
     const double mOverlayY;
 
-    eMoveDirection mSpawnDirection{eMoveDirection::topRight |
-                                   eMoveDirection::bottomRight |
-                                   eMoveDirection::bottomLeft |
-                                   eMoveDirection::topLeft};
+    eMoveDirection mSpawnDirection{eMoveDirection::allDirections};
     ePatrolGuides mPatrolGuides;
 };
 

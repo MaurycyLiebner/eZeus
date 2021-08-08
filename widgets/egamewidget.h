@@ -53,6 +53,8 @@ private:
                const int sw, const int sh,
                const eBuildingCreator& bc);
     bool erase(eTile* const tile);
+    std::vector<ePatrolGuide>::iterator
+        findGuide(const int tx, const int ty);
 
     bool mRotate = false;
 

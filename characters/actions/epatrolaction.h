@@ -31,7 +31,7 @@ private:
     eCharacterActionState nextTurn(eOrientation& t);
 
     eOrientation mO{eOrientation::topRight};
-    int mMaxDistance = 20;
+    int mMaxDistance = 100;
     int mWalkedDistance = 0;
     int mStartX = 0;
     int mStartY = 0;

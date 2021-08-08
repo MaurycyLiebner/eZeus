@@ -4,10 +4,14 @@
 void eActionListWidget::addAction(
         const std::string& text, const eAction& a) {
     eTexture tex;
-    const auto font = eFonts::defaultFont(resolution());
+    const auto font = eFonts::defaultFont(mFontSize);
     tex.loadText(renderer(), text, {255, 255, 255, 255}, *font);
     mTextures.push_back(tex);
     mActions.push_back(a);
+}
+
+void eActionListWidget::setSmallFontSize() {
+    mFontSize = eResolution::smallFontSize(resolution());
 }
 
 void eActionListWidget::sizeHint2(int& w, int& h) {

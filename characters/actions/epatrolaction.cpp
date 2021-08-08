@@ -84,44 +84,38 @@ eCharacterActionState ePatrolAction::nextTurn(eOrientation& t) {
     const int tx = tile->x();
     const int ty = tile->y();
 
+    auto options = tile->diagonalNeighbours([&](eTile* const t) {
+        return t && t->hasRoad() && t->neighbour(mO) != tile;
+    });
+
     ePatrolGuide g;
     const bool r = getGuide(tx, ty, g);
     if(r) {
-        auto dirs = gExtractDirections(g.fDir);
-        if(!dirs.empty()) {
-            eTile* tt = nullptr;
-            std::random_shuffle(dirs.begin(), dirs.end());
-            for(const auto dir : dirs) {
-                const auto o = gDirectionToOrientation(dir);
-                const bool tryDiff = o == !mO;
-                mO = o;
-                tt = tile->neighbour(mO);
-                if(!tryDiff && tt && tt->hasRoad()) break;
+        for(auto it = options.begin(); it != options.end(); it++) {
+            const auto o = (*it).first;
+            const auto odir = gOrientationToDirection(o);
+            if(!static_cast<bool>(odir & g.fDir)) {
+                const auto itt = it;
+                it--;
+                options.erase(itt);
             }
         }
     }
-    const auto tt = tile->neighbour(mO);
-    if(!tt || !tt->hasRoad()) {
-        const auto r = tile->randomDiagonalNeighbour([&](eTile* const t) {
-            return t->hasRoad() && t->neighbour(mO) != tile;
-        });
-        if(r.second) {
-            mO = r.first;
-        } else {
-            const auto o = !mO;
-            const auto t = tile->neighbour(o);
-            if(t && t->hasRoad()) {
-                mO = o;
-            } else {
-                const bool r = goBack();
-                if(r) {
-                    return eCharacterActionState::running;
-                } else {
-                    return eCharacterActionState::failed;
-                }
-            }
-        }
+    if(options.empty()) {
+        mO = !mO;
+    } else {
+        std::random_shuffle(options.begin(), options.end());
+        mO = options.front().first;
     }
     t = mO;
+    const auto tt = tile->neighbour(mO);
+    if(!tt || !tt->hasRoad()) {
+        const bool r = goBack();
+        if(r) {
+            return eCharacterActionState::running;
+        } else {
+            return eCharacterActionState::failed;
+        }
+    }
     return eCharacterActionState::running;
 }

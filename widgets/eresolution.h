@@ -29,7 +29,12 @@ public:
     static int height(const eRes res);
     static int padding(const eRes res);
     static int margin(const eRes res);
-    static int fontSize(const eRes res);
+
+    static int hugeFontSize(const eRes res);
+    static int largeFontSize(const eRes res);
+    static int smallFontSize(const eRes res);
+    static int tinyFontSize(const eRes res);
+
     static int centralWidgetWidth(const eRes res);
     static int centralWidgetHeight(const eRes res);
 

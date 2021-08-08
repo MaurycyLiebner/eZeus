@@ -7,8 +7,8 @@ class eActionListWidget : public eFramedWidget {
 public:
     using eFramedWidget::eFramedWidget;
 
-
     void addAction(const std::string& text, const eAction& a);
+    void setSmallFontSize();
 protected:
     void sizeHint2(int& w, int& h);
     void paintEvent(ePainter& p);
@@ -17,6 +17,8 @@ protected:
 private:
     int yToActionId(const int y) const;
     eAction yToAction(const int y) const;
+
+    int mFontSize = eResolution::largeFontSize(resolution());
 
     int mHoverId = -1;
 

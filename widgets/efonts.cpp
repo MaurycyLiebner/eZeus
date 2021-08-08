@@ -11,7 +11,11 @@ TTF_Font* eFonts::requestFont(const eFont& font) {
 }
 
 TTF_Font* eFonts::defaultFont(const eRes res) {
-    const int fs = eResolution::fontSize(res);
+    const int fs = eResolution::largeFontSize(res);
+    return defaultFont(fs);
+;}
+
+TTF_Font* eFonts::defaultFont(const int fs) {
     return requestFont({"fonts/DIOGENES.ttf", fs});
 }
 

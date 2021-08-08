@@ -22,6 +22,7 @@ enum class eTerrainEditMode {
 
     raise,
     lower,
+    levelOut,
     resetElev,
     makeWalkable
 };

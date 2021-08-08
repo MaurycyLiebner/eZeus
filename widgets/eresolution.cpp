@@ -64,7 +64,11 @@ int eResolution::margin(const eRes res) {
     return padding(res);
 }
 
-int eResolution::fontSize(const eRes res) {
+int eResolution::hugeFontSize(const eRes res) {
+    return 3*largeFontSize(res)/2;
+}
+
+int eResolution::largeFontSize(const eRes res) {
     switch(res) {
     case eRes::p2160:
         return 45;
@@ -77,6 +81,14 @@ int eResolution::fontSize(const eRes res) {
     case eRes::p480:
         return 15;
     }
+}
+
+int eResolution::smallFontSize(const eRes res) {
+    return 2*largeFontSize(res)/3;
+}
+
+int eResolution::tinyFontSize(const eRes res) {
+    return largeFontSize(res)/2;
 }
 
 int eResolution::centralWidgetWidth(const eRes res) {

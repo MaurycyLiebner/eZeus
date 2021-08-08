@@ -9,7 +9,12 @@ enum class eMoveDirection {
     topRight = 1 << 0,
     bottomRight = 1 << 1,
     bottomLeft = 1 << 2,
-    topLeft = 1 << 3
+    topLeft = 1 << 3,
+
+    allDirections = eMoveDirection::topRight |
+                    eMoveDirection::bottomRight |
+                    eMoveDirection::bottomLeft |
+                    eMoveDirection::topLeft
 };
 
 inline eMoveDirection operator|(const eMoveDirection a, const eMoveDirection b) {
@@ -36,6 +41,22 @@ inline std::vector<eMoveDirection> gExtractDirections(
         dirs.push_back(eMoveDirection::topLeft);
     }
     return dirs;
+}
+
+inline eMoveDirection gOrientationToDirection(const eOrientation dir) {
+    switch(dir) {
+    case eOrientation::topRight:
+        return eMoveDirection::topRight;
+    case eOrientation::bottomRight:
+        return eMoveDirection::bottomRight;
+    case eOrientation::bottomLeft:
+        return eMoveDirection::bottomLeft;
+    case eOrientation::topLeft:
+        return eMoveDirection::topLeft;
+    default:
+        break;
+    }
+    return eMoveDirection::topRight;
 }
 
 inline eOrientation gDirectionToOrientation(const eMoveDirection dir) {
