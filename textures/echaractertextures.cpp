@@ -14,7 +14,9 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fWatchman(renderer),
     fHealer(renderer),
     fGymnast(renderer),
-    fPhilosopher(renderer) {
+    fPhilosopher(renderer),
+
+    fSilverMiner(renderer) {
 
 }
 
@@ -80,6 +82,39 @@ void eCharacterTextures::load() {
             eTextureLoadingHelpers::loadTexWithOffset(
                         pathBase, i, fight[j], eSprMainOffset);
         }
+    }
+
+
+    for(int j = 0; j < 8; j++) {
+        fSilverMiner.fWalk.emplace_back(fRenderer);
+        fSilverMiner.fCollect.emplace_back(fRenderer);
+        fSilverMiner.fCarry.emplace_back(fRenderer);
+    }
+    for(int i = 3741; i < 3837;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& walk = fSilverMiner.fWalk;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
+        }
+    }
+    for(int i = 3857; i < 3953;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& carry = fSilverMiner.fCarry;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, carry[j], eSprMainOffset);
+        }
+    }
+    for(int i = 3953; i < 4033; i++) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& collect = fSilverMiner.fCollect;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, collect[j], eSprMainOffset);
+        }
+    }
+    for(int i = 3837; i < 3845; i++) {
+        auto& die = fSilverMiner.fDie;
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
     }
 
 

@@ -3,6 +3,16 @@
 
 #include "etexturecollection.h"
 
+struct eResourceCollectorTextures {
+    eResourceCollectorTextures(SDL_Renderer* const renderer) :
+        fDie(renderer) {}
+
+    std::vector<eTextureCollection> fWalk;
+    std::vector<eTextureCollection> fCarry;
+    std::vector<eTextureCollection> fCollect;
+    eTextureCollection fDie;
+};
+
 struct eBasicPatrolerTextures {
     eBasicPatrolerTextures(SDL_Renderer* const renderer) :
         fDie(renderer) {}
@@ -37,6 +47,8 @@ public:
     eBasicPatrolerTextures fHealer;
     eBasicPatrolerTextures fGymnast;
     eBasicPatrolerTextures fPhilosopher;
+
+    eResourceCollectorTextures fSilverMiner;
 };
 
 #endif // ECHARACTERTEXTURES_H
