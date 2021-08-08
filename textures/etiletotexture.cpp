@@ -50,62 +50,66 @@ eTexture getStonesTexture(eTile* const tile,
 eTexture eTileToTexture::get(eTile* const tile,
                              const eTerrainTextures& textures,
                              int& wSpan, int& hSpan,
-                             const eTileSize tileSize) {
+                             const eTileSize tileSize,
+                             const bool drawElev) {
     wSpan = 1;
     hSpan = 1;
     const int tileId = tile->seed();
 
-    const auto tr = tile->topRight();
-    const auto r = tile->right();
-    const auto br = tile->bottomRight();
-    const auto b = tile->bottom();
-    const auto bl = tile->bottomLeft();
-    const auto l = tile->left();
-    const auto tl = tile->topLeft();
-    const auto t = tile->top();
-
-    const int a = tile->altitude();
-
-    const int tra = tr ? tr->altitude() : a;
-    const int ra = r ? r->altitude() : a;
-    const int bra = br ? br->altitude() : a;
-    const int ba = b ? b->altitude() : a;
-    const int bla = bl ? bl->altitude() : a;
-    const int la = l ? l->altitude() : a;
-    const int tla = tl ? tl->altitude() : a;
-    const int ta = t ? t->altitude() : a;
-
-    const auto& elev = textures.fElevation;
-    const bool w = tile->walkableElev();
     const bool hr = tile->hasRoad();
-    if(tra > a && tla > a) {
-        return elev.getTexture(8);
-    } else if(tra > a && bra > a) {
-        return elev.getTexture(9);
-    } else if(bla > a && bra > a) {
-        return elev.getTexture(10);
-    } else if(bla > a && tla > a) {
-        return elev.getTexture(11);
-    } else if(bla > a) {
-        if(w) return elev.getTexture(12 + (hr ? 4 : 0));
-        else return elev.getTexture(1);
-    } else if(tla > a) {
-        if(w) return elev.getTexture(13 + (hr ? 4 : 0));
-        else return elev.getTexture(3);
-    } else if(tra > a) {
-        if(w) return elev.getTexture(14 + (hr ? 4 : 0));
-        else return elev.getTexture(5);
-    } else if(bra > a) {
-        if(w) return elev.getTexture(15 + (hr ? 4 : 0));
-        else return elev.getTexture(7);
-    } else if(la > a) {
-        return elev.getTexture(2);
-    } else if(ta > a) {
-        return elev.getTexture(4);
-    } else if(ra > a) {
-        return elev.getTexture(6);
-    } else if(ba > a) {
-        return elev.getTexture(0);
+
+    if(drawElev) {
+        const auto tr = tile->topRight();
+        const auto r = tile->right();
+        const auto br = tile->bottomRight();
+        const auto b = tile->bottom();
+        const auto bl = tile->bottomLeft();
+        const auto l = tile->left();
+        const auto tl = tile->topLeft();
+        const auto t = tile->top();
+
+        const int a = tile->altitude();
+
+        const int tra = tr ? tr->altitude() : a;
+        const int ra = r ? r->altitude() : a;
+        const int bra = br ? br->altitude() : a;
+        const int ba = b ? b->altitude() : a;
+        const int bla = bl ? bl->altitude() : a;
+        const int la = l ? l->altitude() : a;
+        const int tla = tl ? tl->altitude() : a;
+        const int ta = t ? t->altitude() : a;
+
+        const auto& elev = textures.fElevation;
+        const bool w = tile->walkableElev();
+        if(tra > a && tla > a) {
+            return elev.getTexture(8);
+        } else if(tra > a && bra > a) {
+            return elev.getTexture(9);
+        } else if(bla > a && bra > a) {
+            return elev.getTexture(10);
+        } else if(bla > a && tla > a) {
+            return elev.getTexture(11);
+        } else if(bla > a) {
+            if(w) return elev.getTexture(12 + (hr ? 4 : 0));
+            else return elev.getTexture(1);
+        } else if(tla > a) {
+            if(w) return elev.getTexture(13 + (hr ? 4 : 0));
+            else return elev.getTexture(3);
+        } else if(tra > a) {
+            if(w) return elev.getTexture(14 + (hr ? 4 : 0));
+            else return elev.getTexture(5);
+        } else if(bra > a) {
+            if(w) return elev.getTexture(15 + (hr ? 4 : 0));
+            else return elev.getTexture(7);
+        } else if(la > a) {
+            return elev.getTexture(2);
+        } else if(ta > a) {
+            return elev.getTexture(4);
+        } else if(ra > a) {
+            return elev.getTexture(6);
+        } else if(ba > a) {
+            return elev.getTexture(0);
+        }
     }
 
     if(hr) return tile->building()->getTexture(tileSize);

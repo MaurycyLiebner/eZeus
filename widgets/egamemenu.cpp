@@ -335,7 +335,10 @@ void eGameMenu::initialize() {
             setMode(eBuildingMode::road);
         });
         createSubButton(coll.fRoadBlock, btmButtons);
-        createSubButton(coll.fClear, btmButtons);
+        const auto e = createSubButton(coll.fClear, btmButtons);
+        e->setPressAction([this]() {
+            setMode(eBuildingMode::erase);
+        });
         createSubButton(coll.fUndo, btmButtons);
 
         const int x = mult*24;

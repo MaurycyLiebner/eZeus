@@ -12,6 +12,7 @@ struct eSubButtonData;
 
 enum class eBuildingMode {
     none,
+    erase,
 
     road,
 

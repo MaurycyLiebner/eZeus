@@ -52,6 +52,7 @@ private:
     bool build(const int tx, const int ty,
                const int sw, const int sh,
                const eBuildingCreator& bc);
+    bool erase(eTile* const tile);
 
     bool mRotate = false;
 
@@ -68,6 +69,7 @@ private:
 
     eGameBoard mBoard;
 
+    bool mDrawElevation = true;
     ePatrolBuilding* mPatrolBuilding = nullptr;
 
     eInfoWidget* mInfoWidget = nullptr;

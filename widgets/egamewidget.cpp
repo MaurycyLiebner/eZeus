@@ -223,6 +223,17 @@ bool eGameWidget::canBuild(const int tx, const int ty,
     return true;
 }
 
+bool eGameWidget::erase(eTile* const tile) {
+    if(!tile) return false;
+    if(const auto b = tile->underBuilding()) {
+        b->erase();
+        delete b;
+    }
+    if(tile->terrain() == eTerrain::forest) {
+        tile->setTerrain(eTerrain::dry);
+    }
+    return true;
+}
 
 bool eGameWidget::build(const int tx, const int ty,
                         const int sw, const int sh,
@@ -275,12 +286,12 @@ void eGameWidget::paintEvent(ePainter& p) {
         int hSpan;
         auto tex = eTileToTexture::get(tile, trrTexs,
                                        wSpan, hSpan,
-                                       mTileSize);
+                                       mTileSize, mDrawElevation);
         tile->setDrawnSpan(wSpan, hSpan);
 
         double rx;
         double ry;
-        const int a = tile->altitude();
+        const int a = mDrawElevation ? tile->altitude() : 0;
         drawXY(tx, ty, rx, ry, wSpan, hSpan, a);
 
         if(!tex.isNull()) {
@@ -306,7 +317,7 @@ void eGameWidget::paintEvent(ePainter& p) {
     iterateOverTiles([&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
-        const int a = tile->altitude();
+        const int a = mDrawElevation ? tile->altitude() : 0;
 
         if(mPatrolBuilding && tile->underBuilding() && !tile->hasRoad()) {
             double rx;
@@ -621,6 +632,11 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     }
                 }
             } break;
+            case eBuildingMode::erase:
+                apply = [this](eTile* const tile) {
+                    erase(tile);
+                };
+                break;
             case eBuildingMode::road:
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 1, 1,

@@ -96,6 +96,7 @@ public:
               const eAlignment align);
 
     void addUnderBuilding(eTile* const t);
+    void erase();
 private:
     std::vector<eTile*> mUnderBuilding;
 

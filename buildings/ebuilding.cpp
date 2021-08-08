@@ -57,3 +57,14 @@ void eBuilding::draw(eTilePainter& p,
 void eBuilding::addUnderBuilding(eTile* const t) {
     mUnderBuilding.push_back(t);
 }
+
+void eBuilding::erase() {
+    for(const auto t : mUnderBuilding) {
+        t->setUnderBuilding(nullptr);
+    }
+    mUnderBuilding.clear();
+    if(mTile) {
+        mTile->setBuilding(nullptr);
+        mTile = nullptr;
+    }
+}
