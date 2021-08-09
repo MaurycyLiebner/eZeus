@@ -33,6 +33,7 @@
 #include "buildings/efoundry.h"
 #include "buildings/etimbermill.h"
 #include "buildings/etaxoffice.h"
+#include "buildings/eresourcebuilding.h"
 
 #include "echeckbox.h"
 
@@ -194,7 +195,8 @@ void buildTiles(int& minX, int& minY,
 }
 
 bool eGameWidget::canBuild(const int tx, const int ty,
-                           const int sw, const int sh) {
+                           const int sw, const int sh,
+                           const eSpecialRequirement& specReq) {
     int minX;
     int minY;
     int maxX;
@@ -205,6 +207,7 @@ bool eGameWidget::canBuild(const int tx, const int ty,
         for(int y = minY; y < maxY; y++) {
             const auto t = mBoard.tile(x, y);
             if(!t || t->underBuilding()) return false;
+            if(specReq && !specReq(t)) return false;
 
             const auto ttt = t->terrain();
             const auto ttta = ttt & eTerrain::buildable;
@@ -269,11 +272,12 @@ std::vector<ePatrolGuide>::iterator
 
 bool eGameWidget::build(const int tx, const int ty,
                         const int sw, const int sh,
-                        const eBuildingCreator& bc) {
+                        const eBuildingCreator& bc,
+                        const eSpecialRequirement& specReq) {
     if(!bc) return false;
     const auto tile = mBoard.tile(tx, ty);
     if(!tile) return false;
-    const bool cb = canBuild(tx, ty, sw, sh);
+    const bool cb = canBuild(tx, ty, sw, sh, specReq);
     if(!cb) return false;
     const auto b = bc();
     if(!b) return false;
@@ -407,6 +411,7 @@ void eGameWidget::paintEvent(ePainter& p) {
     });
 
     const auto t = mBoard.tile(gHoverX, gHoverY);
+    eSpecialRequirement specReq;
     if(t && mGm->visible()) {
         const int tx = gHoverX;
         const int ty = gHoverY;
@@ -480,6 +485,15 @@ void eGameWidget::paintEvent(ePainter& p) {
         case eBuildingMode::timberMill:
             b1 = new eTimberMill(mBoard);
             break;
+
+        case eBuildingMode::oliveTree:
+            b1 = new eResourceBuilding(mBoard, eResourceType::oliveTree);
+            specReq = [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; };
+            break;
+        case eBuildingMode::vine:
+            b1 = new eResourceBuilding(mBoard, eResourceType::vine);
+            specReq = [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; };
+            break;
         default: break;
         }
         struct eB {
@@ -490,11 +504,11 @@ void eGameWidget::paintEvent(ePainter& p) {
         bool cbg = true;
         const int a = t->altitude();
         if(b1) {
-            const bool cb1 = canBuild(tx, ty, b1->spanW(), b1->spanH());
+            const bool cb1 = canBuild(tx, ty, b1->spanW(), b1->spanH(), specReq);
             cbg = cbg && cb1;
         }
         if(b2) {
-            const bool cb2 = canBuild(tx2, ty2, b2->spanW(), b2->spanH());
+            const bool cb2 = canBuild(tx2, ty2, b2->spanW(), b2->spanH(), specReq);
             cbg = cbg && cb2;
         }
         for(const auto& eb : {eB{tx, ty, b1}, eB{tx2, ty2, b2}}) {
@@ -843,6 +857,22 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
                           [this]() { return new eTimberMill(mBoard); });
+                };
+                break;
+
+
+            case eBuildingMode::oliveTree:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 1, 1,
+                          [this]() { return new eResourceBuilding(mBoard, eResourceType::oliveTree); },
+                          [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; });
+                };
+                break;
+            case eBuildingMode::vine:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 1, 1,
+                          [this]() { return new eResourceBuilding(mBoard, eResourceType::vine); },
+                    [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; });
                 };
                 break;
             default: break;

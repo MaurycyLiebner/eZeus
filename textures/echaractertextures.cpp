@@ -18,7 +18,9 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
     fSilverMiner(renderer),
     fBronzeMiner(renderer),
-    fLumberjack(renderer) {
+    fLumberjack(renderer),
+
+    fHunter(renderer) {
 
 }
 
@@ -257,6 +259,42 @@ void eCharacterTextures::load() {
         eTextureLoadingHelpers::loadTexWithOffset(
                     pathBase, i, die, eSprMainOffset);
     }
+
+
+
+
+    for(int j = 0; j < 8; j++) {
+        fHunter.fWalk.emplace_back(fRenderer);
+        fHunter.fCollect.emplace_back(fRenderer);
+        fHunter.fCarry.emplace_back(fRenderer);
+    }
+    for(int i = 11820; i < 11916;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& walk = fHunter.fWalk;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
+        }
+    }
+    for(int i = 11916; i < 11924; i++) {
+        auto& die = fHunter.fDie;
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
+    }
+    for(int i = 11924; i < 12019;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& collect = fHunter.fCollect;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, collect[j], eSprMainOffset);
+        }
+    }
+    for(int i = 12032; i < 12128;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& carry = fHunter.fCarry;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, carry[j], eSprMainOffset);
+        }
+    }
+
 
 
     for(int j = 0; j < 8; j++) {

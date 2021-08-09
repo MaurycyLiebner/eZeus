@@ -21,11 +21,13 @@ SOURCES += \
         buildings/efountain.cpp \
         buildings/egymnasium.cpp \
         buildings/ehospital.cpp \
+        buildings/ehuntinglodge.cpp \
         buildings/emint.cpp \
         buildings/epalace1.cpp \
         buildings/epalace2.cpp \
         buildings/epatrolbuilding.cpp \
         buildings/epodium.cpp \
+        buildings/eresourcebuilding.cpp \
         buildings/eresourcecollectbuilding.cpp \
         buildings/eroad.cpp \
         buildings/esmallhouse.cpp \
@@ -48,6 +50,7 @@ SOURCES += \
         characters/efightingpatroler.cpp \
         characters/egymnast.cpp \
         characters/ehealer.cpp \
+        characters/ehunter.cpp \
         characters/elumberjack.cpp \
         characters/ephilosopher.cpp \
         characters/eresourcecollector.cpp \
@@ -127,11 +130,13 @@ HEADERS += \
     buildings/efountain.h \
     buildings/egymnasium.h \
     buildings/ehospital.h \
+    buildings/ehuntinglodge.h \
     buildings/emint.h \
     buildings/epalace1.h \
     buildings/epalace2.h \
     buildings/epatrolbuilding.h \
     buildings/epodium.h \
+    buildings/eresourcebuilding.h \
     buildings/eresourcecollectbuilding.h \
     buildings/eroad.h \
     buildings/esmallhouse.h \
@@ -154,6 +159,7 @@ HEADERS += \
     characters/efightingpatroler.h \
     characters/egymnast.h \
     characters/ehealer.h \
+    characters/ehunter.h \
     characters/elumberjack.h \
     characters/ephilosopher.h \
     characters/eresourcecollector.h \

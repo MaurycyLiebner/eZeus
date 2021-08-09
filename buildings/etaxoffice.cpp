@@ -6,7 +6,7 @@
 eTaxOffice::eTaxOffice(eGameBoard& board) :
     ePatrolBuilding(board,
                     &eBuildingTextures::fTaxOffice,
-                    -0.35, -2.28,
+                    -0.65, -2.55,
                     &eBuildingTextures::fTaxOfficeOverlay,
                     [this]() { return new eTaxCollector(getBoard()); },
                     eBuildingType::taxOffice, 2, 2) {

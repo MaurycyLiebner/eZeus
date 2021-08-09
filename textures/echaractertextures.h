@@ -51,6 +51,8 @@ public:
     eResourceCollectorTextures fSilverMiner;
     eResourceCollectorTextures fBronzeMiner;
     eResourceCollectorTextures fLumberjack;
+
+    eResourceCollectorTextures fHunter;
 };
 
 #endif // ECHARACTERTEXTURES_H

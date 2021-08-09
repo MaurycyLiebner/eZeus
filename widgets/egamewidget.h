@@ -47,11 +47,14 @@ private:
 
     void actionOnSelectedTiles(const eTileAction& apply);
 
+    using eSpecialRequirement = std::function<bool(eTile*)>;
     bool canBuild(const int tx, const int ty,
-                  const int sw, const int sh);
+                  const int sw, const int sh,
+                  const eSpecialRequirement& specReq = {});
     bool build(const int tx, const int ty,
                const int sw, const int sh,
-               const eBuildingCreator& bc);
+               const eBuildingCreator& bc,
+               const eSpecialRequirement& specReq = {});
     bool erase(eTile* const tile);
     std::vector<ePatrolGuide>::iterator
         findGuide(const int tx, const int ty);
