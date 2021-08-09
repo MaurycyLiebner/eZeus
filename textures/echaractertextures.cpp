@@ -109,7 +109,7 @@ void eCharacterTextures::load() {
                         pathBase, i, carry[j], eSprMainOffset);
         }
     }
-    for(int i = 3953; i < 4033; i++) {
+    for(int i = 3953; i < 4033;) {
         for(int j = 0; j < 8; j++, i++) {
             auto& collect = fSilverMiner.fCollect;
             eTextureLoadingHelpers::loadTexWithOffset(
