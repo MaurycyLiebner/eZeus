@@ -43,20 +43,25 @@ std::vector<eOverlay> eResourceCollectBuilding::
 
 
 void eResourceCollectBuilding::timeChanged() {
-    const int spawnFreq = 5000;
-    if(time() % spawnFreq == 0) spawn();
+    if(time() > mSpawnTime) {
+        const bool r = spawn();
+        if(r) mSpawnTime = time() + 5*mWaitTime;
+        mSpawnTime = time() + mWaitTime;
+    }
 }
 
-void eResourceCollectBuilding::spawn() {
+bool eResourceCollectBuilding::spawn() {
     auto dirs = gExtractDirections(eMoveDirection::allDirections);
-    if(dirs.empty()) return;
+    if(dirs.empty()) return false;
     std::random_shuffle(dirs.begin(), dirs.end());
     eTile* t = nullptr;
     for(const auto dir : dirs) {
-        t = road(dir);
+        t = tileNeighbour(dir, [](eTile* const tile) {
+            return tile->walkable();
+        });
         if(t) break;
     }
-    if(!t) return;
+    if(!t) return false;
 
     const auto d = mCharGenerator();
     d->setTile(t);
@@ -66,6 +71,7 @@ void eResourceCollectBuilding::spawn() {
         mResource += d->collected();
         const auto t = d->tile();
         t->removeCharacter(d);
+        mSpawnTime = time() + mWaitTime;
         delete d;
     };
     const auto a = new eCollectResourceAction(d, mHasRes,
@@ -74,4 +80,5 @@ void eResourceCollectBuilding::spawn() {
                                               finishAct);
     d->setCharAction(a);
     t->addCharacter(d);
+    return true;
 }

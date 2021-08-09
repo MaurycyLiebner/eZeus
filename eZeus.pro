@@ -17,6 +17,7 @@ SOURCES += \
         buildings/ebuilding.cpp \
         buildings/ecollege.cpp \
         buildings/edramaschool.cpp \
+        buildings/efoundry.cpp \
         buildings/efountain.cpp \
         buildings/egymnasium.cpp \
         buildings/ehospital.cpp \
@@ -30,7 +31,9 @@ SOURCES += \
         buildings/esmallhouse.cpp \
         buildings/estadium1.cpp \
         buildings/estadium2.cpp \
+        buildings/etaxoffice.cpp \
         buildings/etheater.cpp \
+        buildings/etimbermill.cpp \
         buildings/ewatchpost.cpp \
         characters/actions/echaracteraction.cpp \
         characters/actions/ecollectresourceaction.cpp \
@@ -39,11 +42,13 @@ SOURCES += \
         characters/actions/emovepathaction.cpp \
         characters/actions/epatrolaction.cpp \
         characters/ebasicpatroler.cpp \
+        characters/ebronzeminer.cpp \
         characters/echaracter.cpp \
         characters/edemeter.cpp \
         characters/efightingpatroler.cpp \
         characters/egymnast.cpp \
         characters/ehealer.cpp \
+        characters/elumberjack.cpp \
         characters/ephilosopher.cpp \
         characters/eresourcecollector.cpp \
         characters/esilverminer.cpp \
@@ -118,6 +123,7 @@ HEADERS += \
     buildings/ebuilding.h \
     buildings/ecollege.h \
     buildings/edramaschool.h \
+    buildings/efoundry.h \
     buildings/efountain.h \
     buildings/egymnasium.h \
     buildings/ehospital.h \
@@ -131,7 +137,9 @@ HEADERS += \
     buildings/esmallhouse.h \
     buildings/estadium1.h \
     buildings/estadium2.h \
+    buildings/etaxoffice.h \
     buildings/etheater.h \
+    buildings/etimbermill.h \
     buildings/ewatchpost.h \
     characters/actions/echaracteraction.h \
     characters/actions/ecollectresourceaction.h \
@@ -140,11 +148,13 @@ HEADERS += \
     characters/actions/emovepathaction.h \
     characters/actions/epatrolaction.h \
     characters/ebasicpatroler.h \
+    characters/ebronzeminer.h \
     characters/echaracter.h \
     characters/edemeter.h \
     characters/efightingpatroler.h \
     characters/egymnast.h \
     characters/ehealer.h \
+    characters/elumberjack.h \
     characters/ephilosopher.h \
     characters/eresourcecollector.h \
     characters/esilverminer.h \

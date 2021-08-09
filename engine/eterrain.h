@@ -8,24 +8,35 @@ enum class eTerrain {
     water = 1 << 2,
     fertile = 1 << 3,
     forest = 1 << 4,
+    choppedForest = 1 << 5,
 
-    flatStones = 1 << 5,
-    bronze = 1 << 6,
-    silver = 1 << 7,
-    tallStones = 1 << 8,
-    tinyStones = 1 << 9,
+    flatStones = 1 << 6,
+    bronze = 1 << 7,
+    silver = 1 << 8,
+    tallStones = 1 << 9,
+    tinyStones = 1 << 10,
+
+    oliveTree = 1 << 11,
+    vine = 1 << 12,
 
     dryBased = dry |
                fertile |
                forest |
+               choppedForest |
 
                flatStones |
                bronze |
                silver |
                tallStones |
-               tinyStones,
+               tinyStones |
 
-    buildable = dry | beach | fertile
+               oliveTree |
+               vine,
+
+    buildable = dry | beach | fertile,
+    walkable = dry | beach | fertile |
+               forest | choppedForest |
+               tinyStones | oliveTree | vine
 };
 
 inline eTerrain operator|(const eTerrain a, const eTerrain b) {

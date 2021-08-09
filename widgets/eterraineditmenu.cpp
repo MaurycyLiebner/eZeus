@@ -31,7 +31,16 @@ void eTerrainEditMenu::initialize() {
 
     const auto w0 = new eWidget(window());
     const auto w1 = new eWidget(window());
-    const auto w2 = new eWidget(window());
+
+    const auto w2 = new eActionListWidget(window());
+    w2->setSmallFontSize();
+    w2->addAction("Forest", [this]() {
+        mMode = eTerrainEditMode::forest;
+    });
+    w2->addAction("Chopped Forest", [this]() {
+        mMode = eTerrainEditMode::choppedForest;
+    });
+    w2->fitContent();
 
     const auto w3 = new eActionListWidget(window());
     w3->setSmallFontSize();
@@ -119,7 +128,7 @@ void eTerrainEditMenu::initialize() {
 
     const auto b0 = addButton(coll.fBrushSize, w0);
     mB1 = addButton(coll.fEmptyLand, w1);
-    mB2 = addButton(coll.fForest, w2);
+    const auto b2 = addButton(coll.fForest, w2);
     const auto b3 = addButton(coll.fWaterMarshBeach, w3);
     mB4 = addButton(coll.fMeadow, w4);
     const auto b5 = addButton(coll.fFishAndUrchin, w5);
@@ -155,8 +164,6 @@ void eTerrainEditMenu::initialize() {
 eTerrainEditMode eTerrainEditMenu::mode() const {
     if(mB1->checked()) {
         return eTerrainEditMode::dry;
-    } else if(mB2->checked()) {
-        return eTerrainEditMode::forest;
     } else if(mB4->checked()) {
         return eTerrainEditMode::fertile;
     } else if(mB7->checked()) {

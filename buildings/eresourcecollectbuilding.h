@@ -30,7 +30,7 @@ public:
 
     void timeChanged();
 
-    void spawn();
+    bool spawn();
 private:
     const eCharGenerator mCharGenerator;
     const std::vector<eBuildingTextures>& mTextures;
@@ -43,6 +43,9 @@ private:
 
     const eHasResource mHasRes;
     const eTranformFunc mTransFunc;
+
+    int mWaitTime = 5000;
+    int mSpawnTime = mWaitTime;
 
     int mResource{0};
 };

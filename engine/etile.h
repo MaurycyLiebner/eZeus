@@ -1,4 +1,4 @@
-#ifndef ETILE_H
+﻿#ifndef ETILE_H
 #define ETILE_H
 
 #include <vector>
@@ -81,6 +81,8 @@ public:
 
     const std::vector<eCharacter*>& characters() const
     { return mCharacters; }
+
+    bool walkable() const;
 
     void setBuilding(eBuilding* const b);
     eBuilding* building() const { return mBuilding; }

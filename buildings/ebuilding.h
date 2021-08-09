@@ -79,6 +79,9 @@ public:
 
     virtual void timeChanged() {}
 
+    using eTileValidator = std::function<bool(eTile*)>;
+    eTile* tileNeighbour(const eMoveDirection o,
+                         const eTileValidator& v) const;
     eTile* road(const eMoveDirection o) const;
 
     int seed() const { return mSeed; }

@@ -54,7 +54,7 @@ eTexture eTileToTexture::get(eTile* const tile,
                              const bool drawElev) {
     wSpan = 1;
     hSpan = 1;
-    const int tileId = tile->seed();
+    const int seed = tile->seed();
 
     const bool hr = tile->hasRoad();
 
@@ -121,14 +121,14 @@ eTexture eTileToTexture::get(eTile* const tile,
         const int scrub = tile->scrubId(scrubCount) - 1;
         if(scrub == -1) { // zero scrub
             const auto& coll = textures.fDryTerrainTexs;
-            const int texId = tileId % coll.size();
+            const int texId = seed % coll.size();
             return coll.getTexture(texId);
         } else if(scrub == scrubCount - 1) { // full scrub
             const auto& coll = textures.fScrubTerrainTexs;
-            const int texId = tileId % coll.size();
+            const int texId = seed % coll.size();
             return coll.getTexture(texId);
         } else { // partial scrub
-            const int collId = tileId % vec.size();
+            const int collId = seed % vec.size();
             const auto& coll = vec[collId];
             return coll.getTexture(scrub);
         }
@@ -140,7 +140,7 @@ eTexture eTileToTexture::get(eTile* const tile,
             return coll.getTexture(toDryId);
         }
         const auto& coll = textures.fBeachTerrainTexs;
-        const int texId = tileId % coll.size();
+        const int texId = seed % coll.size();
         return coll.getTexture(texId);
     } break;
     case eTerrain::water: {
@@ -152,17 +152,17 @@ eTexture eTileToTexture::get(eTile* const tile,
         const int toBeachId = eWaterToBeach::get(tile);
         if(toBeachId != -1) {
             const auto& texs = textures.fWaterToBeachTerrainTexs[toBeachId];
-            const int texId = tileId % texs.size();
+            const int texId = seed % texs.size();
             return texs.getTexture(texId);
         }
         const int toDryId = eWaterToDry::get(tile);
         if(toDryId != -1) {
             const auto& texs = textures.fWaterToDryTerrainTexs[toDryId];
-            const int texId = tileId % texs.size();
+            const int texId = seed % texs.size();
             return texs.getTexture(texId);
         }
 
-        const int texId = tileId % textures.fWaterTerrainTexs.size();
+        const int texId = seed % textures.fWaterTerrainTexs.size();
         const auto& coll = textures.fWaterTerrainTexs;
         return coll.getTexture(texId);
     } break;
@@ -174,7 +174,7 @@ eTexture eTileToTexture::get(eTile* const tile,
         case eFertileToDryId::none: {
             if(scrub == -1) {
                 const auto& coll = textures.fFertileTerrainTexs;
-                const int texId = tileId % coll.size();
+                const int texId = seed % coll.size();
                 return coll.getTexture(texId);
             } else {
                 const auto& coll = textures.fFertileToScrubTerrainTexs[2];
@@ -184,10 +184,10 @@ eTexture eTileToTexture::get(eTile* const tile,
         case eFertileToDryId::somewhere: {
             if(scrub == -1) {
                 const auto& coll = textures.fFertileToDryTerrainTexs;
-                const int texId = tileId % coll.size();
+                const int texId = seed % coll.size();
                 return coll.getTexture(texId);
             } else {
-                const int collId = tileId % 2;
+                const int collId = seed % 2;
                 const auto& coll = textures.fFertileToScrubTerrainTexs[collId];
                 return coll.getTexture(scrub);
             }
@@ -199,7 +199,7 @@ eTexture eTileToTexture::get(eTile* const tile,
         switch(id) {
         case eForestToDryId::none: {
             const auto& coll = textures.fForestTerrainTexs;
-            const int texId = tileId % coll.size();
+            const int texId = seed % coll.size();
             return coll.getTexture(texId);
         } break;
         case eForestToDryId::somewhere: {
@@ -207,9 +207,9 @@ eTexture eTileToTexture::get(eTile* const tile,
             const int scrub = tile->scrubId(scrubCount) - 1;
             if(scrub == -1) {
                 const auto& vec = textures.fForestToDryTerrainTexs;
-                const int collId = tileId % vec.size();
+                const int collId = seed % vec.size();
                 const auto& coll = vec[collId];
-                const int texId = tileId % coll.size();
+                const int texId = seed % coll.size();
                 return coll.getTexture(texId);
             } else {
                 const auto& coll = textures.fForestToScrubTerrainTexs;
@@ -218,6 +218,20 @@ eTexture eTileToTexture::get(eTile* const tile,
         } break;
         }
     } break;
+    case eTerrain::choppedForest: {
+        const int scrubCount = textures.fChoppedForestToScrubTerrainTexs.size();
+        const int scrub = tile->scrubId(scrubCount) - 1;
+        if(scrub == -1) {
+            const auto& coll = textures.fChoppedForestTerrainTexs;
+            const int texId = seed % coll.size();
+            return coll.getTexture(texId);
+        } else {
+            const auto& coll = textures.fChoppedForestToScrubTerrainTexs;
+            return coll.getTexture(scrub);
+        }
+    } break;
+
+
     case eTerrain::flatStones: {
         return getStonesTexture(tile, textures.fFlatStonesTerrainTexs,
                                 textures.fLargeFlatStonesTerrainTexs,
@@ -244,9 +258,11 @@ eTexture eTileToTexture::get(eTile* const tile,
     } break;
     case eTerrain::tinyStones: {
         const auto& coll = textures.fTinyStones;
-        const int texId = tileId % coll.size();
+        const int texId = seed % coll.size();
         return coll.getTexture(texId);
     } break;
+
+
     case eTerrain::dryBased:
         break;
     }

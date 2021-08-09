@@ -285,6 +285,13 @@ bool eTile::removeCharacter(eCharacter* const c) {
     return true;
 }
 
+bool eTile::walkable() const {
+    const auto terr = mTerr & eTerrain::walkable;
+    if(!static_cast<bool>(terr)) return false;
+    if(underBuilding() && !hasRoad()) return false;
+    return true;
+}
+
 void eTile::setBuilding(eBuilding* const b) {
     mBuilding = b;
     if(b) b->setTile(this);

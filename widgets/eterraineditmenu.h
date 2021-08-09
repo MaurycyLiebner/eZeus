@@ -13,6 +13,7 @@ enum class eTerrainEditMode {
     water = static_cast<int>(eTerrain::water),
     fertile = static_cast<int>(eTerrain::fertile),
     forest = static_cast<int>(eTerrain::forest),
+    choppedForest = static_cast<int>(eTerrain::choppedForest),
 
     flatStones = static_cast<int>(eTerrain::flatStones),
     bronze = static_cast<int>(eTerrain::bronze),
@@ -38,7 +39,6 @@ private:
     eTerrainEditMode mMode = eTerrainEditMode::dry;
 
     eCheckableButton* mB1 = nullptr;
-    eCheckableButton* mB2 = nullptr;
     eCheckableButton* mB4 = nullptr;
     eCheckableButton* mB7 = nullptr;
 

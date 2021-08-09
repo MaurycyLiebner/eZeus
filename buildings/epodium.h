@@ -6,7 +6,6 @@
 class ePodium : public ePatrolBuilding {
 public:
     ePodium(eGameBoard& board);
-
 };
 
 #endif // EPODIUM_H

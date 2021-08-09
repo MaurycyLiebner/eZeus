@@ -7,6 +7,7 @@ double eTerrainTools::speed(const eTerrain t) {
         case eTerrain::water: return 0;
         case eTerrain::fertile: return 1;
         case eTerrain::forest: return 0.75;
+        case eTerrain::choppedForest: return 1;
 
         case eTerrain::flatStones: return 0;
         case eTerrain::bronze: return 0;

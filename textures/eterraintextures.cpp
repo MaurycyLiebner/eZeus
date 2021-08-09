@@ -15,6 +15,8 @@ eTerrainTextures::eTerrainTextures(const int tileW, const int tileH,
     fScrubTerrainTexs(renderer),
     fForestToScrubTerrainTexs(renderer),
     fForestTerrainTexs(renderer),
+    fChoppedForestToScrubTerrainTexs(renderer),
+    fChoppedForestTerrainTexs(renderer),
     fWaterToBeachToDryTerrainTexs(renderer),
 
     fFlatStonesTerrainTexs(renderer),
@@ -201,6 +203,14 @@ void eTerrainTextures::load() {
 
         for(int i = 45; i < 97; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fForestTerrainTexs);
+        }
+
+        for(int i = 97; i < 105; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fChoppedForestTerrainTexs);
+        }
+
+        for(int i = 105; i < 121; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fChoppedForestToScrubTerrainTexs);
         }
 
         for(int i = 121; i < 157;) {

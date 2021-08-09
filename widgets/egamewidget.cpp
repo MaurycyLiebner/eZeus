@@ -30,6 +30,9 @@
 #include "buildings/epalace1.h"
 #include "buildings/epalace2.h"
 #include "buildings/emint.h"
+#include "buildings/efoundry.h"
+#include "buildings/etimbermill.h"
+#include "buildings/etaxoffice.h"
 
 #include "echeckbox.h"
 
@@ -235,7 +238,8 @@ bool eGameWidget::erase(eTile* const tile) {
         b->erase();
         delete b;
     }
-    if(tile->terrain() == eTerrain::forest) {
+    const auto t = tile->terrain();
+    if(t == eTerrain::forest || t == eTerrain::choppedForest) {
         tile->setTerrain(eTerrain::dry);
     }
     return true;
@@ -464,8 +468,17 @@ void eGameWidget::paintEvent(ePainter& p) {
                 tx2 += 4;
             }
             break;
+        case eBuildingMode::taxOffice:
+            b1 = new eTaxOffice(mBoard);
+            break;
         case eBuildingMode::mint:
             b1 = new eMint(mBoard);
+            break;
+        case eBuildingMode::foundry:
+            b1 = new eFoundry(mBoard);
+            break;
+        case eBuildingMode::timberMill:
+            b1 = new eTimberMill(mBoard);
             break;
         default: break;
         }
@@ -808,10 +821,28 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     };
                 }
                 break;
+            case eBuildingMode::taxOffice:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return new eTaxOffice(mBoard); });
+                };
+                break;
             case eBuildingMode::mint:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
                           [this]() { return new eMint(mBoard); });
+                };
+                break;
+            case eBuildingMode::foundry:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return new eFoundry(mBoard); });
+                };
+                break;
+            case eBuildingMode::timberMill:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return new eTimberMill(mBoard); });
                 };
                 break;
             default: break;

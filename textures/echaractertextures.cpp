@@ -16,7 +16,9 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fGymnast(renderer),
     fPhilosopher(renderer),
 
-    fSilverMiner(renderer) {
+    fSilverMiner(renderer),
+    fBronzeMiner(renderer),
+    fLumberjack(renderer) {
 
 }
 
@@ -85,6 +87,41 @@ void eCharacterTextures::load() {
     }
 
 
+
+    for(int j = 0; j < 8; j++) {
+        fBronzeMiner.fWalk.emplace_back(fRenderer);
+        fBronzeMiner.fCollect.emplace_back(fRenderer);
+        fBronzeMiner.fCarry.emplace_back(fRenderer);
+    }
+    for(int i = 2595; i < 2691;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& walk = fBronzeMiner.fWalk;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
+        }
+    }
+    for(int i = 2691; i < 2699; i++) {
+        auto& die = fBronzeMiner.fDie;
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
+    }
+    for(int i = 2711; i < 2807;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& carry = fBronzeMiner.fCarry;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, carry[j], eSprMainOffset);
+        }
+    }
+    for(int i = 2807; i < 2887;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& collect = fBronzeMiner.fCollect;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, collect[j], eSprMainOffset);
+        }
+    }
+
+
+
     for(int j = 0; j < 8; j++) {
         fSilverMiner.fWalk.emplace_back(fRenderer);
         fSilverMiner.fCollect.emplace_back(fRenderer);
@@ -116,6 +153,41 @@ void eCharacterTextures::load() {
                         pathBase, i, collect[j], eSprMainOffset);
         }
     }
+
+
+
+    for(int j = 0; j < 8; j++) {
+        fLumberjack.fWalk.emplace_back(fRenderer);
+        fLumberjack.fCollect.emplace_back(fRenderer);
+        fLumberjack.fCarry.emplace_back(fRenderer);
+    }
+    for(int i = 4329; i < 4425;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& walk = fLumberjack.fWalk;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
+        }
+    }
+    for(int i = 4425; i < 4433; i++) {
+        auto& die = fLumberjack.fDie;
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
+    }
+    for(int i = 4433; i < 4529;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& collect = fLumberjack.fCollect;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, collect[j], eSprMainOffset);
+        }
+    }
+    for(int i = 4529; i < 4625;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& carry = fLumberjack.fCarry;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, carry[j], eSprMainOffset);
+        }
+    }
+
 
 
     for(int j = 0; j < 8; j++) {

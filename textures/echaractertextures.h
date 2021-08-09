@@ -49,6 +49,8 @@ public:
     eBasicPatrolerTextures fPhilosopher;
 
     eResourceCollectorTextures fSilverMiner;
+    eResourceCollectorTextures fBronzeMiner;
+    eResourceCollectorTextures fLumberjack;
 };
 
 #endif // ECHARACTERTEXTURES_H

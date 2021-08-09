@@ -15,7 +15,8 @@ eBuilding::~eBuilding() {
     mBoard.unregisterBuilding(this);
 }
 
-eTile* eBuilding::road(const eMoveDirection o) const {
+eTile* eBuilding::tileNeighbour(const eMoveDirection o,
+                                const eTileValidator& v) const {
     if(!mTile) return nullptr;
     int dx = 0;
     int dy = 0;
@@ -38,9 +39,15 @@ eTile* eBuilding::road(const eMoveDirection o) const {
     for(const auto u : mUnderBuilding) {
         auto tt = u->tileRel(dx, dy);
         if(!tt) continue;
-        if(tt->hasRoad()) return tt;
+        if(v(tt)) return tt;
     }
     return nullptr;
+}
+
+eTile* eBuilding::road(const eMoveDirection o) const {
+    return tileNeighbour(o, [](eTile* const tile) {
+        return tile->hasRoad();
+    });
 }
 
 void eBuilding::incTime(const int by) {
