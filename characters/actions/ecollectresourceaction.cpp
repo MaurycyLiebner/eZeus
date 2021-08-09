@@ -51,6 +51,7 @@ bool eCollectResourceAction::findResource() {
                                              failAction, finishAction);
         return true;
     }
+    setState(eCharacterActionState::failed);
     return false;
 }
 
@@ -136,5 +137,6 @@ bool eCollectResourceAction::goBack() {
                                              failAction, finishAction);
         return true;
     }
+    setState(eCharacterActionState::failed);
     return false;
 }

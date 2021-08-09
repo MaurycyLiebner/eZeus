@@ -71,6 +71,7 @@ bool ePatrolAction::goBack() {
                                             failAction, finishAction);
         return true;
     }
+    setState(eCharacterActionState::failed);
     return false;
 }
 
