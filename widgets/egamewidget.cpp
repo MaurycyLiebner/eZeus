@@ -415,103 +415,127 @@ void eGameWidget::paintEvent(ePainter& p) {
     if(t && mGm->visible()) {
         const int tx = gHoverX;
         const int ty = gHoverY;
-        eBuilding* b1 = nullptr;
-        eBuilding* b2 = nullptr;
-        int tx2 = tx;
-        int ty2 = ty;
+
+        struct eB {
+            eB(const int tx, const int ty, eBuilding* const b) :
+                fTx(tx), fTy(ty), fB(b) {}
+
+            int fTx = gHoverX;
+            int fTy = gHoverY;
+            eBuilding* fB = nullptr;
+        };
+
+        std::vector<eB> ebs;
         const auto mode = mGm->mode();
         switch(mode) {
-        case eBuildingMode::road:
-            b1 = new eRoad(mBoard);
-            break;
-        case eBuildingMode::commonHousing:
-            b1 = new eSmallHouse(mBoard);
-            break;
-        case eBuildingMode::gymnasium:
-            b1 = new eGymnasium(mBoard);
-            break;
-        case eBuildingMode::podium:
-            b1 = new ePodium(mBoard);
-            break;
-        case eBuildingMode::fountain:
-            b1 = new eFountain(mBoard);
-            break;
-        case eBuildingMode::watchpost:
-            b1 = new eWatchpost(mBoard);
-            break;
-        case eBuildingMode::college:
-            b1 = new eCollege(mBoard);
-            break;
-        case eBuildingMode::dramaSchool:
-            b1 = new eDramaSchool(mBoard);
-            break;
-        case eBuildingMode::theater:
-            b1 = new eTheater(mBoard);
-            break;
-        case eBuildingMode::hospital:
-            b1 = new eHospital(mBoard);
-            break;
-        case eBuildingMode::stadium:
+        case eBuildingMode::road: {
+            const auto b1 = new eRoad(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::commonHousing: {
+            const auto b1 = new eSmallHouse(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::gymnasium: {
+            const auto b1 = new eGymnasium(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::podium: {
+            const auto b1 = new ePodium(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::fountain: {
+            const auto b1 = new eFountain(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::watchpost: {
+            const auto b1 = new eWatchpost(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::college: {
+            const auto b1 = new eCollege(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::dramaSchool: {
+            const auto b1 = new eDramaSchool(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::theater: {
+            const auto b1 = new eTheater(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::hospital: {
+            const auto b1 = new eHospital(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::stadium: {
             if(mRotate) {
-                b1 = new eStadium1H(mBoard);
-                b2 = new eStadium2H(mBoard);
-                ty2 += 5;
+                const auto b1 = new eStadium1H(mBoard);
+                ebs.emplace_back(gHoverX, gHoverY, b1);
+                const auto b2 = new eStadium2H(mBoard);
+                ebs.emplace_back(gHoverX, gHoverY + 5, b2);
             } else {
-                b1 = new eStadium1W(mBoard);
-                b2 = new eStadium2W(mBoard);
-                tx2 += 5;
+                const auto b1 = new eStadium1W(mBoard);
+                ebs.emplace_back(gHoverX, gHoverY, b1);
+                const auto b2 = new eStadium2W(mBoard);
+                ebs.emplace_back(gHoverX + 5, gHoverY, b2);
             }
-            break;
-        case eBuildingMode::palace:
+        } break;
+        case eBuildingMode::palace: {
             if(mRotate) {
-                b1 = new ePalace1H(mBoard);
-                b2 = new ePalace2H(mBoard);
-                ty2 += 4;
+                const auto b1 = new ePalace1H(mBoard);
+                ebs.emplace_back(gHoverX, gHoverY, b1);
+                const auto b2 = new ePalace2H(mBoard);
+                ebs.emplace_back(gHoverX, gHoverY + 4, b2);
             } else {
-                b1 = new ePalace1W(mBoard);
-                b2 = new ePalace2W(mBoard);
-                tx2 += 4;
+                const auto b1 = new ePalace1W(mBoard);
+                ebs.emplace_back(gHoverX, gHoverY, b1);
+                const auto b2 = new ePalace2W(mBoard);
+                ebs.emplace_back(gHoverX + 4, gHoverY, b2);
             }
-            break;
-        case eBuildingMode::taxOffice:
-            b1 = new eTaxOffice(mBoard);
-            break;
-        case eBuildingMode::mint:
-            b1 = new eMint(mBoard);
-            break;
-        case eBuildingMode::foundry:
-            b1 = new eFoundry(mBoard);
-            break;
-        case eBuildingMode::timberMill:
-            b1 = new eTimberMill(mBoard);
-            break;
+        } break;
+        case eBuildingMode::taxOffice: {
+            const auto b1 = new eTaxOffice(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::mint: {
+            const auto b1 = new eMint(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::foundry: {
+            const auto b1 = new eFoundry(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::timberMill: {
+            const auto b1 = new eTimberMill(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
 
-        case eBuildingMode::oliveTree:
-            b1 = new eResourceBuilding(mBoard, eResourceType::oliveTree);
+        case eBuildingMode::oliveTree: {
+            const auto b1 = new eResourceBuilding(mBoard, eResourceType::oliveTree);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
             specReq = [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; };
-            break;
-        case eBuildingMode::vine:
-            b1 = new eResourceBuilding(mBoard, eResourceType::vine);
+        } break;
+        case eBuildingMode::vine: {
+            const auto b1 = new eResourceBuilding(mBoard, eResourceType::vine);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
             specReq = [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; };
-            break;
+        } break;
         default: break;
         }
-        struct eB {
-            int fTx;
-            int fTy;
-            eBuilding* fB;
-        };
         bool cbg = true;
         const int a = t->altitude();
-        if(b1) {
-            const bool cb1 = canBuild(tx, ty, b1->spanW(), b1->spanH(), specReq);
-            cbg = cbg && cb1;
+        for(const auto& eb : ebs) {
+            const auto b = eb.fB;
+            const int sw =  b->spanW();
+            const int sh = b->spanH();
+            const bool cb = canBuild(tx, ty, sw, sh, specReq);
+            if(!cb) {
+                cbg = false;
+                break;
+            }
         }
-        if(b2) {
-            const bool cb2 = canBuild(tx2, ty2, b2->spanW(), b2->spanH(), specReq);
-            cbg = cbg && cb2;
-        }
-        for(const auto& eb : {eB{tx, ty, b1}, eB{tx2, ty2, b2}}) {
+        for(const auto& eb : ebs) {
             if(!eb.fB) continue;
             const auto b = eb.fB;
             const int sw = b->spanW();
