@@ -43,7 +43,9 @@ SOURCES += \
         characters/actions/emovearoundaction.cpp \
         characters/actions/emovepathaction.cpp \
         characters/actions/epatrolaction.cpp \
+        characters/eanimal.cpp \
         characters/ebasicpatroler.cpp \
+        characters/eboar.cpp \
         characters/ebronzeminer.cpp \
         characters/echaracter.cpp \
         characters/edemeter.cpp \
@@ -74,6 +76,8 @@ SOURCES += \
         etexture.cpp \
         etexturecollection.cpp \
         main.cpp \
+        spawners/eboarspawner.cpp \
+        spawners/espawner.cpp \
         textures/ebeachtodry.cpp \
         textures/ebuildingtextures.cpp \
         textures/echaractertextures.cpp \
@@ -152,7 +156,9 @@ HEADERS += \
     characters/actions/emovearoundaction.h \
     characters/actions/emovepathaction.h \
     characters/actions/epatrolaction.h \
+    characters/eanimal.h \
     characters/ebasicpatroler.h \
+    characters/eboar.h \
     characters/ebronzeminer.h \
     characters/echaracter.h \
     characters/edemeter.h \
@@ -186,6 +192,8 @@ HEADERS += \
     etexturecollection.h \
     offsets/SprMain.h \
     offsets/Zeus_Demeter.h \
+    spawners/eboarspawner.h \
+    spawners/espawner.h \
     textures/ebeachtodry.h \
     textures/ebuildingtextures.h \
     textures/echaractertextures.h \

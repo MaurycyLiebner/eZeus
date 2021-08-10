@@ -454,6 +454,8 @@ void eInterfaceTextures::load() {
         }
     }
 
+    fSpawner.load(fRenderer, dir + "Zeus_sprites_00026.png");
+
     {
         std::string dir{"../ZeusTextures/"};
         dir += std::to_string(fTileH) + "/Zeus_Data_Images/";

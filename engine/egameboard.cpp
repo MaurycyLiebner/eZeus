@@ -4,6 +4,7 @@
 
 #include "characters/echaracter.h"
 #include "buildings/ebuilding.h"
+#include "spawners/espawner.h"
 
 eGameBoard::eGameBoard() {
 
@@ -92,12 +93,26 @@ bool eGameBoard::unregisterBuilding(eBuilding* const b) {
     return true;
 }
 
+void eGameBoard::registerSpawner(eSpawner* const s) {
+    mSpawners.push_back(s);
+}
+
+bool eGameBoard::unregisterSpawner(eSpawner* const s) {
+    const auto it = std::find(mSpawners.begin(), mSpawners.end(), s);
+    if(it == mSpawners.end()) return false;
+    mSpawners.erase(it);
+    return true;
+}
+
 void eGameBoard::incTime(const int by) {
     for(const auto c : mCharacters) {
         c->incTime(by);
     }
     for(const auto b : mBuildings) {
         b->incTime(by);
+    }
+    for(const auto s : mSpawners) {
+        s->incTime(by);
     }
 }
 

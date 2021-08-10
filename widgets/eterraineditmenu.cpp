@@ -102,7 +102,12 @@ void eTerrainEditMenu::initialize() {
     const auto w10 = new eWidget(window());
     const auto w11 = new eWidget(window());
     const auto w12 = new eWidget(window());
-    const auto w13 = new eWidget(window());
+    const auto w13 = new eActionListWidget(window());
+    w13->setSmallFontSize();
+    w13->addAction("Boar", [this]() {
+        mMode = eTerrainEditMode::boar;
+    });
+    w13->fitContent();
 
     mWidgets.push_back(w0);
     mWidgets.push_back(w1);

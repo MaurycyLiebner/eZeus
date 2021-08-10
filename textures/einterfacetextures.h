@@ -129,6 +129,8 @@ public:
 
     eTextureCollection fCheckBox;
     eTextureCollection fLargeCheckBox;
+
+    eTexture fSpawner;
 };
 
 #endif // EINTERFACETEXTURES_H

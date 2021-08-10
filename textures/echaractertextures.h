@@ -28,6 +28,15 @@ struct eFightingPatrolerTextures : public eBasicPatrolerTextures {
     std::vector<eTextureCollection> fFight;
 };
 
+struct eAnimalTextures {
+    eAnimalTextures(SDL_Renderer* const renderer) :
+        fDie(renderer) {}
+
+    std::vector<eTextureCollection> fWalk;
+    std::vector<eTextureCollection> fFight;
+    eTextureCollection fDie;
+};
+
 class eCharacterTextures {
 public:
     eCharacterTextures(const int tileW, const int tileH,
@@ -53,6 +62,8 @@ public:
     eResourceCollectorTextures fLumberjack;
 
     eResourceCollectorTextures fHunter;
+
+    eAnimalTextures fBoar;
 };
 
 #endif // ECHARACTERTEXTURES_H

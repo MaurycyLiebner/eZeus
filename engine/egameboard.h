@@ -6,6 +6,7 @@
 #include "etile.h"
 #include "egameboarditerator.h"
 
+class eSpawner;
 class eCharacter;
 class eBuilding;
 
@@ -50,6 +51,9 @@ public:
     void registerBuilding(eBuilding* const b);
     bool unregisterBuilding(eBuilding* const b);
 
+    void registerSpawner(eSpawner* const s);
+    bool unregisterSpawner(eSpawner* const s);
+
     void incTime(const int by);
 private:
     void updateDiagonalArray();
@@ -62,6 +66,7 @@ private:
 
     std::vector<eCharacter*> mCharacters;
     std::vector<eBuilding*> mBuildings;
+    std::vector<eSpawner*> mSpawners;
 };
 
 #endif // EGAMEBOARD_H

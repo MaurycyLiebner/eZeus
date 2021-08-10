@@ -36,6 +36,8 @@
 #include "buildings/eresourcebuilding.h"
 #include "buildings/ehuntinglodge.h"
 
+#include "spawners/eboarspawner.h"
+
 #include "echeckbox.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
@@ -385,10 +387,10 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
 
         if(mPatrolBuilding) {
+            double rx;
+            double ry;
+            drawXY(tx, ty, rx, ry, 1, 1, a);
             if(tile->building() == mPatrolBuilding) {
-                double rx;
-                double ry;
-                drawXY(tx, ty, rx, ry, 1, 1, a);
                 const auto sd = mPatrolBuilding->spawnDirection();
                 const int s = static_cast<int>(sd) - 1;
                 const auto& coll = builTexs.fPatrolGuides;
@@ -398,9 +400,6 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto pgs = mPatrolBuilding->patrolGuides();
             for(const auto& pg : *pgs) {
                 if(pg.fX == tx && pg.fY == ty) {
-                    double rx;
-                    double ry;
-                    drawXY(tx, ty, rx, ry, 1, 1, a);
                     const int s = static_cast<int>(pg.fDir) - 1;
                     const auto& coll = builTexs.fPatrolGuides;
                     const auto tex = coll.getTexture(s);
@@ -408,6 +407,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                     break;
                 }
             }
+        }
+        if(mTem->visible() && tile->spawner()) {
+            double rx;
+            double ry;
+            drawXY(tx, ty, rx, ry, 1, 1, a);
+            const auto& intrfc = eGameTextures::interface().at(tid);
+            tp.drawTexture(rx, ry, intrfc.fSpawner, eAlignment::top);
         }
     });
 
@@ -714,6 +720,12 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             } else if(mode == eTerrainEditMode::makeWalkable) {
                 apply = [](eTile* const tile) {
                     tile->setWalkableElev(!tile->walkableElev());
+                };
+            } else if(mode == eTerrainEditMode::boar) {
+                apply = [this](eTile* const tile) {
+                    const auto os = tile->spawner();
+                    if(os) delete os;
+                    new eBoarSpawner(tile, mBoard);
                 };
             } else {
                 apply = [mode](eTile* const tile) {

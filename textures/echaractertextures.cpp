@@ -20,7 +20,9 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fBronzeMiner(renderer),
     fLumberjack(renderer),
 
-    fHunter(renderer) {
+    fHunter(renderer),
+
+    fBoar(renderer) {
 
 }
 
@@ -243,6 +245,30 @@ void eCharacterTextures::load() {
                     pathBase, i, die, eSprMainOffset);
     }
 
+
+    for(int j = 0; j < 8; j++) {
+        fBoar.fWalk.emplace_back(fRenderer);
+        fBoar.fFight.emplace_back(fRenderer);
+    }
+    for(int i = 10124; i < 10220;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& walk = fBoar.fWalk;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
+        }
+    }
+    for(int i = 10220; i < 10228; i++) {
+        auto& die = fBoar.fDie;
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
+    }
+    for(int i = 10228; i < 10356;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& fight = fBoar.fFight;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fight[j], eSprMainOffset);
+        }
+    }
 
     for(int j = 0; j < 8; j++) {
         fGymnast.fWalk.emplace_back(fRenderer);

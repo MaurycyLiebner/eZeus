@@ -13,6 +13,7 @@ enum class eTileSize : int {
 
 class eCharacter;
 class eBuilding;
+class eSpawner;
 
 class eTile {
 public:
@@ -90,6 +91,9 @@ public:
     void setUnderBuilding(eBuilding* const b);
     eBuilding* underBuilding() const { return mUnderBuilding; }
 
+    void setSpawner(eSpawner* const s);
+    eSpawner* spawner() const { return mSpawner; }
+
     // used for stones rendering
     void setDrawnSpan(const int w, const int h);
     int drawSpanW() const { return mDrawnSpanW; }
@@ -115,6 +119,7 @@ private:
     std::vector<eCharacter*> mCharacters;
     eBuilding* mUnderBuilding = nullptr;
     eBuilding* mBuilding = nullptr;
+    eSpawner* mSpawner = nullptr;
 
     eTile* mTopLeft = nullptr;
     eTile* mTopRight = nullptr;

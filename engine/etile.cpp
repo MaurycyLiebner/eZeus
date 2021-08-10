@@ -306,6 +306,10 @@ void eTile::setUnderBuilding(eBuilding* const b) {
     mUnderBuilding = b;
 }
 
+void eTile::setSpawner(eSpawner* const s) {
+    mSpawner = s;
+}
+
 void eTile::setDrawnSpan(const int w, const int h) {
     mDrawnSpanW = w;
     mDrawnSpanH = h;
