@@ -34,6 +34,7 @@
 #include "buildings/etimbermill.h"
 #include "buildings/etaxoffice.h"
 #include "buildings/eresourcebuilding.h"
+#include "buildings/ehuntinglodge.h"
 
 #include "echeckbox.h"
 
@@ -521,6 +522,11 @@ void eGameWidget::paintEvent(ePainter& p) {
             ebs.emplace_back(gHoverX, gHoverY, b1);
             specReq = [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; };
         } break;
+
+        case eBuildingMode::huntingLodge: {
+            const auto b1 = new eHuntingLodge(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
         default: break;
         }
         bool cbg = true;
@@ -897,6 +903,14 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     build(gHoverX, gHoverY, 1, 1,
                           [this]() { return new eResourceBuilding(mBoard, eResourceType::vine); },
                     [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; });
+                };
+                break;
+
+
+            case eBuildingMode::huntingLodge:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return new eHuntingLodge(mBoard); });
                 };
                 break;
             default: break;
