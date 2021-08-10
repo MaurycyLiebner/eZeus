@@ -8,6 +8,7 @@ eCharacter::eCharacter(eGameBoard& board) :
 }
 
 eCharacter::~eCharacter() {
+    if(mTile) mTile->removeCharacter(this);
     mBoard.unregisterCharacter(this);
 }
 

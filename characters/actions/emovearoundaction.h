@@ -10,8 +10,12 @@ public:
     eMoveAroundAction(eCharacter* const c);
 private:
     eCharacterActionState nextTurn(eOrientation& turn);
+    eCharacterActionState nextTurn(eOrientation& turn, const int n);
 
-    std::vector<eOrientation> mTurns;
+    int mStartTX;
+    int mStartTY;
+
+    const int mMaxDist = 5;
 };
 
 #endif // EMOVEAROUNDACTION_H
