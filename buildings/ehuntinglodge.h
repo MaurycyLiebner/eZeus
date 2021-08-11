@@ -11,8 +11,17 @@ public:
 
     eTexture getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
+
+    void timeChanged();
+
+    bool spawn();
 private:
     const std::vector<eBuildingTextures>& mTextures;
+
+    int mWaitTime = 5000;
+    int mSpawnTime = mWaitTime;
+
+    int mResource{0};
 };
 
 #endif // EHUNTINGLODGE_H

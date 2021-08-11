@@ -13,6 +13,6 @@ void eBoarSpawner::spawn(eTile* const tile) {
     const auto b = new eBoar(this, board());
     b->setTile(tile);
     tile->addCharacter(b);
-    b->setAction(eAnimalAction::walk);
-    b->setCharAction(new eMoveAroundAction(b));
+    b->setAnimationAction(eAnimalAction::walk);
+    b->setAction(new eMoveAroundAction(b));
 }

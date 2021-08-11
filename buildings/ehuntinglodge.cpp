@@ -3,6 +3,12 @@
 #include "characters/ehunter.h"
 #include "textures/egametextures.h"
 
+#include "characters/ehunter.h"
+#include "characters/eboar.h"
+#include "characters/actions/ehuntaction.h"
+
+#include "characters/actions/ecollectresourceaction.h"
+
 eHuntingLodge::eHuntingLodge(eGameBoard& board) :
     eBuilding(board, eBuildingType::huntingLodge, 2, 2),
     mTextures(eGameTextures::buildings())  {
@@ -23,4 +29,63 @@ std::vector<eOverlay> eHuntingLodge::getOverlays(const eTileSize size) const {
     o.fX = -1.95;
     o.fY = -2.4;
     return std::vector<eOverlay>({o});
+}
+
+void eHuntingLodge::timeChanged() {
+    if(time() > mSpawnTime) {
+        const bool r = spawn();
+        if(r) mSpawnTime = time() + 5*mWaitTime;
+        mSpawnTime = time() + mWaitTime;
+    }
+}
+
+bool eHuntingLodge::spawn() {
+    auto dirs = gExtractDirections(eMoveDirection::allDirections);
+    if(dirs.empty()) return false;
+    std::random_shuffle(dirs.begin(), dirs.end());
+    eTile* t = nullptr;
+    for(const auto dir : dirs) {
+        t = tileNeighbour(dir, [](eTile* const tile) {
+            return tile->walkable();
+        });
+        if(t) break;
+    }
+    if(!t) return false;
+
+    const auto d = new eHunter(getBoard());
+    d->setTile(t);
+    d->setX(0.5);
+    d->setY(0.5);
+    const auto finishAct = [this, d]() {
+        mResource += d->collected();
+        const auto t = d->tile();
+        t->removeCharacter(d);
+        mSpawnTime = time() + mWaitTime;
+        delete d;
+    };
+    const auto hasRes = [](eTile* const tile) {
+        const auto cs = tile->characters();
+        for(const auto c : cs) {
+            if(const auto b = dynamic_cast<eBoar*>(c)) {
+                if(!b->fighting()) return true;
+            }
+        }
+        return false;
+    };
+    using eTranformFunc = std::function<void(eTile*)>;
+    const auto a = new eCollectResourceAction(
+                       d, hasRes,
+                       [](eTile*) {},
+                       finishAct,
+                       finishAct,
+                       [](eResourceCollector* const c,
+                          const eTranformFunc& tf,
+                          const eAction& failAction,
+                          const eAction& finishAction) {
+        (void)tf;
+        return new eHuntAction(c, failAction, finishAction);
+    });
+    d->setAction(a);
+    t->addCharacter(d);
+    return true;
 }

@@ -39,7 +39,11 @@ std::vector<eOverlay> ePatrolBuilding::getOverlays(const eTileSize size) const {
 
 void ePatrolBuilding::timeChanged() {
     const int spawnFreq = 5000;
-    if(time() % spawnFreq == 0) spawn();
+    const int t = time();
+    if(t >= mSpawnTime) {
+        spawn();
+        mSpawnTime = t + spawnFreq;
+    }
 }
 
 void ePatrolBuilding::setPatrolGuides(const ePatrolGuides &g) {
@@ -70,6 +74,6 @@ void ePatrolBuilding::spawn() const {
         t->removeCharacter(d);
         delete d;
     };
-    d->setCharAction(new ePatrolAction(d, mPatrolGuides, finishAct, finishAct));
+    d->setAction(new ePatrolAction(d, mPatrolGuides, finishAct, finishAct));
     t->addCharacter(d)  ;
 }

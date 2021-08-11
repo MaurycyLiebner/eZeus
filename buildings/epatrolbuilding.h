@@ -43,6 +43,8 @@ private:
     const double mOverlayX;
     const double mOverlayY;
 
+    int mSpawnTime = 0;
+
     eMoveDirection mSpawnDirection{eMoveDirection::allDirections};
     ePatrolGuides mPatrolGuides;
 };

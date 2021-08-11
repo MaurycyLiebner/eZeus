@@ -1,8 +1,6 @@
 #ifndef EPATROLACTION_H
 #define EPATROLACTION_H
 
-#include <vector>
-
 #include "emoveaction.h"
 #include "engine/emovedirection.h"
 
@@ -20,6 +18,7 @@ public:
                   const std::vector<ePatrolGuide>& guides,
                   const eAction& failAction,
                   const eAction& finishAction);
+    ~ePatrolAction();
 
     void increment(const int by);
 private:
@@ -34,7 +33,6 @@ private:
     int mWalkedDistance = 0;
     int mStartX = 0;
     int mStartY = 0;
-    bool mGoBack = false;
     eMovePathAction* mGoBackAction = nullptr;
     std::vector<ePatrolGuide> mGuides;
 };

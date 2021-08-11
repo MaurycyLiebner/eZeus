@@ -14,6 +14,9 @@ public:
     virtual ~eCharacter();
 
     virtual eTexture getTexture(const eTileSize size) const = 0;
+    virtual bool canFight(eCharacter* const c);
+
+    void fight(eCharacter* const c);
 
     double x() const { return mX; }
     double y() const { return mY; }
@@ -27,7 +30,22 @@ public:
     void setY(const double y) { mY = y; };
     void incTime(const int by);
     void setOrientation(const eOrientation o);
-    void setCharAction(eCharacterAction* const a);
+
+    void setAction(eCharacterAction* const a);
+    eCharacterAction* takeAction();
+    eCharacterAction* action() const { return mAction; }
+
+    bool defend(const int a);
+
+    void setAttack(const int a);
+    int attack() const { return mAttack; }
+    void setHP(const int hp);
+    int hp() const { return mHP; }
+    bool dead() const { return mHP <= 0; }
+    bool fighting() const { return mFighting; }
+
+    int playerId() const { return mPlayerId; }
+    void setPlayerId(const int i) { mPlayerId = i; }
 private:
     eGameBoard& mBoard;
     eTile* mTile = nullptr;
@@ -35,9 +53,15 @@ private:
     double mX = 0;
     double mY = 0;
 
+    int mPlayerId{1}; // 0 - neutral
+
     int mTime = 0;
 
-    eCharacterAction* mCharAction = nullptr;
+    bool mFighting = false;
+    int mHP = 100;
+    int mAttack = 1;
+
+    eCharacterAction* mAction = nullptr;
 };
 
 #endif // ECHARACTER_H

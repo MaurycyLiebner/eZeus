@@ -14,8 +14,8 @@ public:
     using eCharTexs = eFightingPatrolerTextures eCharacterTextures::*;
     eFightingPatroler(eGameBoard& board, const eCharTexs charTexs);
 
-    eFightingPatrolerAction action() const { return mAction; }
-    void setAction(const eFightingPatrolerAction a);
+    eFightingPatrolerAction animationAction() const { return mAction; }
+    void setAnimationAction(const eFightingPatrolerAction a);
 
     eTexture getTexture(const eTileSize size) const;
 private:

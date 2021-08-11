@@ -91,7 +91,8 @@ void eMoveAction::increment(const int by) {
             mStartY = 1 - targetY;
         }
 
-        mCharacter->tile()->removeCharacter(mCharacter);
+        const auto oldTile = mCharacter->tile();
+        oldTile->removeCharacter(mCharacter);
         mCharacter->setTile(mTargetTile);
         mTargetTile->addCharacter(mCharacter);
         mTargetX = 0.5;
@@ -99,6 +100,19 @@ void eMoveAction::increment(const int by) {
 
         mCharacter->setX(mStartX);
         mCharacter->setY(mStartY);
+
+        const auto cs = mTargetTile->characters();
+        const auto cc = character();
+        for(const auto c : cs) {
+            if(cc == character()) continue;
+            const bool cf = c->canFight(cc);
+            const bool ccf = cc->canFight(c);
+            if(cf && ccf) {
+                cc->fight(c);
+                c->fight(cc);
+                break;
+            }
+        }
     }
 }
 

@@ -14,8 +14,8 @@ public:
     using eCharTexs = eBasicPatrolerTextures eCharacterTextures::*;
     eBasicPatroler(eGameBoard& board, const eCharTexs charTexs);
 
-    eBasicPatrolerAction action() const { return mAction; }
-    void setAction(const eBasicPatrolerAction a);
+    eBasicPatrolerAction animationAction() const { return mAction; }
+    void setAnimationAction(const eBasicPatrolerAction a);
 
     eTexture getTexture(const eTileSize size) const;
 private:

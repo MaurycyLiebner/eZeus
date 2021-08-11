@@ -15,8 +15,8 @@ public:
     using eCharTexs = eResourceCollectorTextures eCharacterTextures::*;
     eResourceCollector(eGameBoard& board, const eCharTexs charTexs);
 
-    eResourceCollectorAction action() const { return mAction; }
-    void setAction(const eResourceCollectorAction a);
+    eResourceCollectorAction animationAction() const { return mAction; }
+    void setAnimationAction(const eResourceCollectorAction a);
 
     eTexture getTexture(const eTileSize size) const;
 

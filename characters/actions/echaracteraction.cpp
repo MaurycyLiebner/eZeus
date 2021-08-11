@@ -1,9 +1,9 @@
 #include "echaracteraction.h"
 
-eCharacterAction::eCharacterAction(eCharacter* const d,
+eCharacterAction::eCharacterAction(eCharacter* const c,
                                    const eAction& failAction,
                                    const eAction& finishAction) :
-    mCharacter(d),
+    mCharacter(c),
     mFailAction(failAction),
     mFinishAction(finishAction) {
 

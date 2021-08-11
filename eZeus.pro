@@ -37,8 +37,13 @@ SOURCES += \
         buildings/etheater.cpp \
         buildings/etimbermill.cpp \
         buildings/ewatchpost.cpp \
+        characters/actions/eactionwithcomeback.cpp \
         characters/actions/echaracteraction.cpp \
+        characters/actions/ecollectaction.cpp \
         characters/actions/ecollectresourceaction.cpp \
+        characters/actions/edieaction.cpp \
+        characters/actions/efightaction.cpp \
+        characters/actions/ehuntaction.cpp \
         characters/actions/emoveaction.cpp \
         characters/actions/emovearoundaction.cpp \
         characters/actions/emovepathaction.cpp \
@@ -150,8 +155,13 @@ HEADERS += \
     buildings/etheater.h \
     buildings/etimbermill.h \
     buildings/ewatchpost.h \
+    characters/actions/eactionwithcomeback.h \
     characters/actions/echaracteraction.h \
+    characters/actions/ecollectaction.h \
     characters/actions/ecollectresourceaction.h \
+    characters/actions/edieaction.h \
+    characters/actions/efightaction.h \
+    characters/actions/ehuntaction.h \
     characters/actions/emoveaction.h \
     characters/actions/emovearoundaction.h \
     characters/actions/emovepathaction.h \

@@ -78,7 +78,7 @@ bool eResourceCollectBuilding::spawn() {
                                               mTransFunc,
                                               finishAct,
                                               finishAct);
-    d->setCharAction(a);
+    d->setAction(a);
     t->addCharacter(d);
     return true;
 }

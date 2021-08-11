@@ -23,12 +23,18 @@ ePatrolAction::ePatrolAction(eCharacter* const c,
     mO = c->orientation();
 }
 
+ePatrolAction::~ePatrolAction() {
+    if(mGoBackAction) delete mGoBackAction;
+}
+
 void ePatrolAction::increment(const int by) {
-    if(mGoBack) {
-        goBack();
+    const bool gb = mWalkedDistance++ > mMaxDistance;
+    if(gb) {
         if(!mGoBackAction) {
-            setState(eCharacterActionState::failed);
-            return;
+            if(!goBack()) {
+                setState(eCharacterActionState::failed);
+                return;
+            }
         }
         mGoBackAction->increment(by);
         const auto s = mGoBackAction->state();
@@ -54,16 +60,20 @@ bool ePatrolAction::goBack() {
     const auto c = character();
     const auto t = c->tile();
 
-    const auto tileStart = [this](eTile* const t) {
+    const auto finalTile = [this](eTile* const t) {
         return t->x() == mStartX && t->y() == mStartY;
     };
-    const auto failAction = [this]() { setState(eCharacterActionState::failed); };
-    const auto finishAction = [this]() { setState(eCharacterActionState::finished); };
+    const auto failAction = [this]() {
+        setState(eCharacterActionState::failed);
+    };
+    const auto finishAction = [this]() {
+        setState(eCharacterActionState::finished);
+    };
 
     const auto tileWalkable0 = [](eTile* const t) {
         return t->hasRoad();
     };
-    const auto pf0 = ePathFinder(t, tileWalkable0, tileStart);
+    const auto pf0 = ePathFinder(t, tileWalkable0, finalTile);
     std::vector<eOrientation> path0;
     const bool r0 = pf0.findPath(100, path0, false, true);
     if(r0) {
@@ -76,7 +86,6 @@ bool ePatrolAction::goBack() {
 }
 
 eCharacterActionState ePatrolAction::nextTurn(eOrientation& t) {
-    mGoBack = mWalkedDistance++ > mMaxDistance;
     const auto tile = mCharacter->tile();
     if(!tile) {
         return eCharacterActionState::failed;

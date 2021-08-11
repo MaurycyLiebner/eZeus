@@ -73,7 +73,7 @@ void eGameWidget::initialize(const int w, const int h) {
     d->setTile(t);
     d->setX(0.5);
     d->setY(0.5);
-    d->setCharAction(new eMoveAroundAction(d));
+    d->setAction(new eMoveAroundAction(d));
     t->addCharacter(d);
 }
 

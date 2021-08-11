@@ -17,8 +17,8 @@ public:
             const eCharTexs charTexs);
     ~eAnimal();
 
-    eAnimalAction action() const { return mAction; }
-    void setAction(const eAnimalAction a);
+    eAnimalAction animationAction() const { return mAction; }
+    void setAnimationAction(const eAnimalAction a);
 
     eTexture getTexture(const eTileSize size) const;
 private:

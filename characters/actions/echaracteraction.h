@@ -13,9 +13,10 @@ using eAction = std::function<void()>;
 
 class eCharacterAction {
 public:
-    eCharacterAction(eCharacter* const d,
+    eCharacterAction(eCharacter* const c,
                      const eAction& failAction,
                      const eAction& finishAction);
+    virtual ~eCharacterAction() {}
 
     virtual void increment(const int by) = 0;
 
