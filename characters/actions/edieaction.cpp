@@ -21,5 +21,5 @@ eDieAction::eDieAction(eCharacter* const c,
 
 void eDieAction::increment(const int by) {
     mTime += by;
-    if(mTime > 256) setState(eCharacterActionState::finished);
+    if(mTime > 512) setState(eCharacterActionState::finished);
 }

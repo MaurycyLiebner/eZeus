@@ -72,19 +72,7 @@ bool eHuntingLodge::spawn() {
         }
         return false;
     };
-    using eTranformFunc = std::function<void(eTile*)>;
-    const auto a = new eCollectResourceAction(
-                       d, hasRes,
-                       [](eTile*) {},
-                       finishAct,
-                       finishAct,
-                       [](eResourceCollector* const c,
-                          const eTranformFunc& tf,
-                          const eAction& failAction,
-                          const eAction& finishAction) {
-        (void)tf;
-        return new eHuntAction(c, failAction, finishAction);
-    });
+    const auto a = new eHuntAction(d, finishAct, finishAct);
     d->setAction(a);
     t->addCharacter(d);
     return true;

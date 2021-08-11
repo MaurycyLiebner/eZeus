@@ -9,18 +9,20 @@ eCollectResourceAction::eCollectResourceAction(
         const eHasResource& hr,
         const eTranformFunc& tf,
         const eAction& failAction,
-        const eAction& finishAction,
-        const eCollectActionCreator& cac) :
+        const eAction& finishAction) :
     eActionWithComeback(c, failAction, finishAction),
     mHasResource(hr),
     mTransFunc(tf),
-    mCollectCreator(cac),
     mCharacter(c) {
 }
 
 void eCollectResourceAction::increment(const int by) {
     if(!currentAction()) findResource();
     else eActionWithComeback::increment(by);
+}
+
+void eCollectResourceAction::resume() {
+    mCharacter->setAnimationAction(mAction);
 }
 
 bool eCollectResourceAction::findResource() {
@@ -65,8 +67,8 @@ bool eCollectResourceAction::collect() {
         goBack2();
     };
 
-    const auto a = mCollectCreator(mCharacter, mTransFunc,
-                                   failAction, finishAction);
+    const auto a = new eCollectAction(mCharacter, mTransFunc,
+                                      failAction, finishAction);
     setCurrentAction(a);
     return false;
 }

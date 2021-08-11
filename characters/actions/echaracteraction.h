@@ -19,6 +19,7 @@ public:
     virtual ~eCharacterAction() {}
 
     virtual void increment(const int by) = 0;
+    virtual void resume() {}
 
     eCharacter* character() const { return mCharacter; }
     eCharacterActionState state() const { return mState; }

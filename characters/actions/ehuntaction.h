@@ -1,22 +1,29 @@
 #ifndef EHUNTACTION_H
 #define EHUNTACTION_H
 
-#include "echaracteraction.h"
+#include "eactionwithcomeback.h"
 
-#include "characters/eresourcecollector.h"
+#include "characters/ehunter.h"
 
-class eHuntAction : public eCharacterAction {
+class eHuntAction : public eActionWithComeback {
 public:
-    eHuntAction(eResourceCollector* const c,
+    using eHasResource = std::function<bool(eTile*)>;
+    eHuntAction(eHunter* const c,
+                const eHasResource& hr,
                 const eAction& failAction,
                 const eAction& finishAction);
 
-
     void increment(const int by);
+
+    void resume();
 private:
-    int mTime = 0;
-    eResourceCollector* const mCharacter;
-    eTile* const mTile;
+    bool findResource();
+    bool collect();
+    bool goBack2();
+
+    const eHasResource mHasResource;
+    eHunter* const mCharacter;
+    eResourceCollectorAction mAction{0};
 };
 
 #endif // EHUNTACTION_H

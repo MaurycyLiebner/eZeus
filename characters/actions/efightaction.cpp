@@ -27,7 +27,7 @@ void eFightAction::increment(const int by) {
     const auto c = character();
     const int a = c->attack();
     const bool dead = mOpponent->defend(by*a);
-    if(dead || character()->dead()) {
+    if(dead || c->dead()) {
         setState(eCharacterActionState::finished);
     }
 }

@@ -16,25 +16,15 @@ class eCollectResourceAction : public eActionWithComeback {
 public:
     using eHasResource = std::function<bool(eTile*)>;
     using eTranformFunc = std::function<void(eTile*)>;
-    using eCollectActionCreator = std::function<eCharacterAction*(
-                                eResourceCollector* const c,
-                                const eTranformFunc& tf,
-                                const eAction& failAction,
-                                const eAction& finishAction)>;
     eCollectResourceAction(eResourceCollector* const c,
                            const eHasResource& hr,
                            const eTranformFunc& tf,
                            const eAction& failAction,
-                           const eAction& finishAction,
-                           const eCollectActionCreator& cac = [](
-                                eResourceCollector* const c,
-                                const eTranformFunc& tf,
-                                const eAction& failAction,
-                                const eAction& finishAction) {
-        return new eCollectAction(c, tf, failAction, finishAction);
-    });
+                           const eAction& finishAction);
 
     void increment(const int by);
+
+    void resume();
 private:
     bool findResource();
     bool collect();
@@ -42,7 +32,6 @@ private:
 
     const eHasResource mHasResource;
     const eTranformFunc mTransFunc;
-    const eCollectActionCreator mCollectCreator;
     eResourceCollector* const mCharacter;
     eResourceCollectorAction mAction{0};
 };

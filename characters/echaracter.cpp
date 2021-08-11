@@ -29,7 +29,10 @@ void eCharacter::fight(eCharacter* const c) {
         if(dead()) {
             setAction(new eDieAction(this, [this]() { delete this; }));
             delete a;
-        } else setAction(a);
+        } else {
+            setAction(a);
+            a->resume();
+        }
     }));
     mFighting = true;
 }

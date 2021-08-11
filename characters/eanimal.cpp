@@ -38,8 +38,8 @@ eTexture eAnimal::getTexture(const eTileSize size) const {
         coll = &charTexs.fDie;
     }
     if(!coll || coll->size() == 0) return eTexture();
-    const int t = textureTime() - mActionStartTime;
-    int texId = t % coll->size();
-    if(!wrap) texId = std::clamp(texId, 0, coll->size() - 1);
+    int t = textureTime() - mActionStartTime;
+    if(!wrap) t = std::clamp(t, 0, coll->size() - 1);
+    const int texId = t % coll->size();
     return coll->getTexture(texId);
 }
