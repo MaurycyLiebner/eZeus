@@ -42,7 +42,7 @@ public:
     void setHP(const int hp);
     int hp() const { return mHP; }
     bool dead() const { return mHP <= 0; }
-    bool fighting() const { return mFighting; }
+    bool fighting() const { return mFighting && !dead(); }
 
     int playerId() const { return mPlayerId; }
     void setPlayerId(const int i) { mPlayerId = i; }
@@ -58,7 +58,7 @@ private:
     int mTime = 0;
 
     bool mFighting = false;
-    int mHP = 100;
+    int mHP = 1000;
     int mAttack = 1;
 
     eCharacterAction* mAction = nullptr;

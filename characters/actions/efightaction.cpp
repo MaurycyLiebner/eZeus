@@ -17,7 +17,7 @@ eFightAction::eFightAction(eCharacter* const c,
     } else if(const auto fp = dynamic_cast<eFightingPatroler*>(c)) {
         fp->setAnimationAction(eFightingPatrolerAction::fight);
     } else if(const auto rc = dynamic_cast<eResourceCollector*>(c)) {
-        rc->setAnimationAction(eResourceCollectorAction::walk);
+        rc->setAnimationAction(eResourceCollectorAction::collect);
     } else if(const auto rc = dynamic_cast<eAnimal*>(c)) {
         rc->setAnimationAction(eAnimalAction::fight);
     }

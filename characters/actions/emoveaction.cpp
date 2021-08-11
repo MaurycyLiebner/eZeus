@@ -104,7 +104,7 @@ void eMoveAction::increment(const int by) {
         const auto cs = mTargetTile->characters();
         const auto cc = character();
         for(const auto c : cs) {
-            if(cc == character()) continue;
+            if(c == character()) continue;
             const bool cf = c->canFight(cc);
             const bool ccf = cc->canFight(c);
             if(cf && ccf) {
