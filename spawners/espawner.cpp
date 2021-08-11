@@ -19,9 +19,10 @@ eSpawner::~eSpawner() {
 
 void eSpawner::incTime(const int by) {
     mTime += by;
-    if(mTime % mSpawnFreq == 0 && mCount < mMaxCount) {
+    if(mTime >= mSpawnFreq && mCount < mMaxCount) {
         spawn(mTile);
         mCount++;
+        mTime = 0;
     }
 }
 

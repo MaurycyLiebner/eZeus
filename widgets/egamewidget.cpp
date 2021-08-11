@@ -413,7 +413,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             double ry;
             drawXY(tx, ty, rx, ry, 1, 1, a);
             const auto& intrfc = eGameTextures::interface().at(tid);
-            tp.drawTexture(rx, ry, intrfc.fSpawner, eAlignment::top);
+            tp.drawTexture(rx, ry - 1, intrfc.fSpawner,
+                           eAlignment::hcenter | eAlignment::top);
         }
     });
 
