@@ -9,6 +9,14 @@ enum class eCharacterActionState {
     running, finished, failed
 };
 
+enum class eCharacterActionType {
+    walk,
+    fight,
+    die,
+    collect,
+    carry
+};
+
 using eAction = std::function<void()>;
 
 class eCharacterAction {
@@ -19,7 +27,8 @@ public:
     virtual ~eCharacterAction() {}
 
     virtual void increment(const int by) = 0;
-    virtual void resume() {}
+    virtual void pause();
+    virtual void resume();
 
     eCharacter* character() const { return mCharacter; }
     eCharacterActionState state() const { return mState; }
@@ -31,6 +40,7 @@ private:
     eCharacterActionState mState{eCharacterActionState::running};
     const eAction mFailAction;
     const eAction mFinishAction;
+    eCharacterActionType mPauseType;
 };
 
 #endif // ECHARACTERACTION_H

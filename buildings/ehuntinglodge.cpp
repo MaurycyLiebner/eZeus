@@ -72,7 +72,16 @@ bool eHuntingLodge::spawn() {
         }
         return false;
     };
-    const auto a = new eHuntAction(d, hasRes, finishAct, finishAct);
+    const auto hasCollRes = [](eTile* const tile) {
+        const auto cs = tile->characters();
+        for(const auto c : cs) {
+            if(const auto b = dynamic_cast<eBoar*>(c)) {
+                if(b->dead()) return true;
+            }
+        }
+        return false;
+    };
+    const auto a = new eHuntAction(d, hasRes, hasCollRes, finishAct, finishAct);
     d->setAction(a);
     t->addCharacter(d);
     return true;

@@ -8,8 +8,10 @@
 class eHuntAction : public eActionWithComeback {
 public:
     using eHasResource = std::function<bool(eTile*)>;
+    using eHasCollectableResource = std::function<bool(eTile*)>;
     eHuntAction(eHunter* const c,
                 const eHasResource& hr,
+                const eHasCollectableResource& hcr,
                 const eAction& failAction,
                 const eAction& finishAction);
 
@@ -22,8 +24,8 @@ private:
     bool goBack2();
 
     const eHasResource mHasResource;
+    const eHasCollectableResource mHasCollectableResource;
     eHunter* const mCharacter;
-    eCharacterActionType mAction{eCharacterActionType::walk};
 };
 
 #endif // EHUNTACTION_H

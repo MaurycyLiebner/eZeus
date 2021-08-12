@@ -8,14 +8,6 @@
 
 class eGameBoard;
 
-enum class eCharacterActionType {
-    walk,
-    fight,
-    die,
-    collect,
-    carry
-};
-
 class eCharacter {
 public:
     eCharacter(eGameBoard& board);

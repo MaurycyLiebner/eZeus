@@ -5,10 +5,6 @@
 
 #include "textures/echaractertextures.h"
 
-enum class eAnimalAction {
-    walk, fight, die
-};
-
 class eAnimal : public eCharacter {
 public:
     using eCharTexs = eAnimalTextures eCharacterTextures::*;

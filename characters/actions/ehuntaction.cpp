@@ -5,12 +5,13 @@
 eHuntAction::eHuntAction(
         eHunter* const c,
         const eHasResource& hr,
+        const eHasCollectableResource& hcr,
         const eAction& failAction,
         const eAction& finishAction) :
     eActionWithComeback(c, failAction, finishAction),
     mHasResource(hr),
-    mCharacter(c) {
-}
+    mHasCollectableResource(hcr),
+    mCharacter(c) {}
 
 void eHuntAction::increment(const int by) {
     if(!currentAction()) findResource();
@@ -18,12 +19,13 @@ void eHuntAction::increment(const int by) {
 }
 
 void eHuntAction::resume() {
-    mCharacter->setActionType(mAction);
+    eActionWithComeback::resume();
+    const auto tile = mCharacter->tile();
+    if(mHasCollectableResource(tile)) collect();
 }
 
 bool eHuntAction::findResource() {
-    mAction = eCharacterActionType::walk;
-    mCharacter->setActionType(mAction);
+    mCharacter->setActionType(eCharacterActionType::walk);
     const auto c = character();
     const auto t = c->tile();
 
@@ -32,12 +34,12 @@ bool eHuntAction::findResource() {
     };
     const auto finishAction = [this, c]() {
         const auto tile = c->tile();
-        if(mHasResource(tile)) collect();
+        if(mHasCollectableResource(tile)) collect();
         else findResource();
     };
 
-    const auto tileWalkable = [this](eTile* const t) {
-        return t->walkable() || mHasResource(t);
+    const auto tileWalkable = [](eTile* const t) {
+        return t->walkable();
     };
     const auto pf0 = ePathFinder(t, tileWalkable, mHasResource);
     std::vector<eOrientation> path0;
@@ -53,26 +55,14 @@ bool eHuntAction::findResource() {
 }
 
 bool eHuntAction::collect() {
-    mAction = eCharacterActionType::collect;
-    mCharacter->setActionType(mAction);
-
-    const auto failAction = [this]() {
-        setState(eCharacterActionState::failed);
-    };
-    const auto finishAction = [this]() {
-        goBack2();
-    };
-
-    const auto a = new eCollectAction(mCharacter, mTransFunc,
-                                      failAction, finishAction);
-    setCurrentAction(a);
-    return false;
+    mCharacter->incCollected(100);
+    goBack2();
+    return true;
 }
 
 bool eHuntAction::goBack2() {
-    mAction = eCharacterActionType::carry;
-    mCharacter->setActionType(mAction);
-    return eActionWithComeback::goBack([this](eTile* const t) {
-        return t->walkable() || mHasResource(t);
+    mCharacter->setActionType(eCharacterActionType::carry);
+    return eActionWithComeback::goBack([](eTile* const t) {
+        return t->walkable();
     });
 }

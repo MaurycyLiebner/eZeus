@@ -24,6 +24,7 @@ bool eCharacter::canFight(eCharacter* const c) {
 
 void eCharacter::fight(eCharacter* const c) {
     const auto a = takeAction();
+    a->pause();
     setAction(new eFightAction(this, c, [this, a]() {
         mFighting = false;
         if(dead()) {

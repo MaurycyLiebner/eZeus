@@ -30,6 +30,7 @@ eTexture eAnimal::getTexture(const eTileSize size) const {
     case eCharacterActionType::fight: {
         coll = &charTexs.fFight[oid];
     } break;
+    case eCharacterActionType::carry:
     case eCharacterActionType::walk: {
         coll = &charTexs.fWalk[oid];
     } break;
