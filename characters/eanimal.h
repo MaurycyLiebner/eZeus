@@ -17,14 +17,8 @@ public:
             const eCharTexs charTexs);
     ~eAnimal();
 
-    eAnimalAction animationAction() const { return mAction; }
-    void setAnimationAction(const eAnimalAction a);
-
     eTexture getTexture(const eTileSize size) const;
 private:
-    int mActionStartTime = 0;
-    eAnimalAction mAction{eAnimalAction::walk};
-
     const std::vector<eCharacterTextures>& mTextures;
     const eCharTexs mCharTexs;
     eSpawner* const mSpawner;

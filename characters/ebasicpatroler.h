@@ -5,23 +5,13 @@
 
 #include "textures/echaractertextures.h"
 
-enum class eBasicPatrolerAction {
-    walk, die
-};
-
 class eBasicPatroler : public eCharacter {
 public:
     using eCharTexs = eBasicPatrolerTextures eCharacterTextures::*;
     eBasicPatroler(eGameBoard& board, const eCharTexs charTexs);
 
-    eBasicPatrolerAction animationAction() const { return mAction; }
-    void setAnimationAction(const eBasicPatrolerAction a);
-
     eTexture getTexture(const eTileSize size) const;
 private:
-    int mActionStartTime = 0;
-    eBasicPatrolerAction mAction{eBasicPatrolerAction::walk};
-
     const std::vector<eCharacterTextures>& mTextures;
     const eCharTexs mCharTexs;
 };

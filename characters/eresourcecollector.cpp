@@ -10,32 +10,31 @@ eResourceCollector::eResourceCollector(
 
 }
 
-void eResourceCollector::setAnimationAction(const eResourceCollectorAction a) {
-    mAction = a;
-    mActionStartTime = textureTime();
-}
-
 eTexture eResourceCollector::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
     const auto& charTexs = mTextures[id].*mCharTexs;
     const eTextureCollection* coll = nullptr;
     const int oid = static_cast<int>(orientation());
     bool wrap = true;
-    if(mAction == eResourceCollectorAction::walk) {
-        coll = &charTexs.fWalk[oid];
-    } else if(mAction == eResourceCollectorAction::collect) {
+    const auto a = actionType();
+    switch(a) {
+    case eCharacterActionType::collect:
+    case eCharacterActionType::fight: {
         coll = &charTexs.fCollect[oid];
-    } else if(mAction == eResourceCollectorAction::carry) {
+    } break;
+    case eCharacterActionType::walk: {
+        coll = &charTexs.fWalk[oid];
+    } break;
+    case eCharacterActionType::carry: {
         coll = &charTexs.fCarry[oid];
-    } else if(mAction == eResourceCollectorAction::die) {
+    } break;
+    case eCharacterActionType::die:
         wrap = false;
         coll = &charTexs.fDie;
     }
     if(!coll || coll->size() == 0) return eTexture();
-    const int t = textureTime() - mActionStartTime;
-    int texId = t % coll->size();
-    if(!wrap) texId = std::clamp(texId, 0, coll->size() - 1);
+    int t = textureTime() - actionStartTime();
+    if(!wrap) t = std::clamp(t, 0, coll->size() - 1);
+    const int texId = t % coll->size();
     return coll->getTexture(texId);
-    if(!coll) return eTexture();
-    return coll->getTexture(t % coll->size());
 }

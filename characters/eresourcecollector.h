@@ -15,17 +15,11 @@ public:
     using eCharTexs = eResourceCollectorTextures eCharacterTextures::*;
     eResourceCollector(eGameBoard& board, const eCharTexs charTexs);
 
-    eResourceCollectorAction animationAction() const { return mAction; }
-    void setAnimationAction(const eResourceCollectorAction a);
-
     eTexture getTexture(const eTileSize size) const;
 
     int collected() const { return mResCollected; }
     void incCollected(const int by = 1) { mResCollected += by; }
 private:
-    int mActionStartTime = 0;
-    eResourceCollectorAction mAction{eResourceCollectorAction::walk};
-
     const std::vector<eCharacterTextures>& mTextures;
     const eCharTexs mCharTexs;
 

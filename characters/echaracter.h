@@ -12,7 +12,8 @@ enum class eCharacterActionType {
     walk,
     fight,
     die,
-    collect
+    collect,
+    carry
 };
 
 class eCharacter {
@@ -53,6 +54,10 @@ public:
 
     int playerId() const { return mPlayerId; }
     void setPlayerId(const int i) { mPlayerId = i; }
+
+    eCharacterActionType actionType() const { return mActionType; }
+    int actionStartTime() const { return mActionStartTime; }
+    void setActionType(const eCharacterActionType t);
 private:
     eGameBoard& mBoard;
     eTile* mTile = nullptr;
@@ -69,6 +74,8 @@ private:
     int mAttack = 1;
 
     eCharacterAction* mAction = nullptr;
+    eCharacterActionType mActionType{eCharacterActionType::walk};
+    int mActionStartTime{0};
 };
 
 #endif // ECHARACTER_H

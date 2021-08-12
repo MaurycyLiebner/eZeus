@@ -72,3 +72,8 @@ void eCharacter::setAttack(const int a) {
 void eCharacter::setHP(const int hp) {
     mHP = hp;
 }
+
+void eCharacter::setActionType(const eCharacterActionType t) {
+    mActionStartTime = textureTime();
+    mActionType = t;
+}

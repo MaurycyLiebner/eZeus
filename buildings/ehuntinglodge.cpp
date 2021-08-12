@@ -72,7 +72,7 @@ bool eHuntingLodge::spawn() {
         }
         return false;
     };
-    const auto a = new eHuntAction(d, finishAct, finishAct);
+    const auto a = new eHuntAction(d, hasRes, finishAct, finishAct);
     d->setAction(a);
     t->addCharacter(d);
     return true;

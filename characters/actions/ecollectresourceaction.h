@@ -33,7 +33,7 @@ private:
     const eHasResource mHasResource;
     const eTranformFunc mTransFunc;
     eResourceCollector* const mCharacter;
-    eResourceCollectorAction mAction{0};
+    eCharacterActionType mAction{eCharacterActionType::walk};
 };
 
 #endif // ECOLLECTRESOURCEACTION_H

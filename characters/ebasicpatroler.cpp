@@ -10,26 +10,28 @@ eBasicPatroler::eBasicPatroler(
 
 }
 
-void eBasicPatroler::setAnimationAction(const eBasicPatrolerAction a) {
-    mAction = a;
-    mActionStartTime = textureTime();
-}
-
 eTexture eBasicPatroler::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
     const auto& charTexs = mTextures[id].*mCharTexs;
     const eTextureCollection* coll = nullptr;
     bool wrap = true;
-    if(mAction == eBasicPatrolerAction::walk) {
+    const auto a = actionType();
+    switch(a) {
+    case eCharacterActionType::collect:
+    case eCharacterActionType::fight:
+    case eCharacterActionType::carry:
+    case eCharacterActionType::walk: {
         const int oid = static_cast<int>(orientation());
         coll = &charTexs.fWalk[oid];
-    } else if(mAction == eBasicPatrolerAction::die) {
+    } break;
+    case eCharacterActionType::die:
         wrap = false;
         coll = &charTexs.fDie;
     }
+
     if(!coll || coll->size() == 0) return eTexture();
-    const int t = textureTime() - mActionStartTime;
+    int t = textureTime() - actionStartTime();
+    if(!wrap) t = std::clamp(t, 0, coll->size() - 1);
     int texId = t % coll->size();
-    if(!wrap) texId = std::clamp(texId, 0, coll->size() - 1);
     return coll->getTexture(texId);
 }

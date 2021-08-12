@@ -23,7 +23,7 @@ private:
 
     const eHasResource mHasResource;
     eHunter* const mCharacter;
-    eResourceCollectorAction mAction{0};
+    eCharacterActionType mAction{eCharacterActionType::walk};
 };
 
 #endif // EHUNTACTION_H

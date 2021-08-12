@@ -12,15 +12,7 @@ eFightAction::eFightAction(eCharacter* const c,
                            const eAction& finishAction) :
     eCharacterAction(c, finishAction, finishAction),
     mOpponent(o) {
-    if(const auto bp = dynamic_cast<eBasicPatroler*>(c)) {
-        bp->setAnimationAction(eBasicPatrolerAction::walk);
-    } else if(const auto fp = dynamic_cast<eFightingPatroler*>(c)) {
-        fp->setAnimationAction(eFightingPatrolerAction::fight);
-    } else if(const auto rc = dynamic_cast<eResourceCollector*>(c)) {
-        rc->setAnimationAction(eResourceCollectorAction::collect);
-    } else if(const auto rc = dynamic_cast<eAnimal*>(c)) {
-        rc->setAnimationAction(eAnimalAction::fight);
-    }
+    c->setActionType(eCharacterActionType::fight);
 }
 
 void eFightAction::increment(const int by) {

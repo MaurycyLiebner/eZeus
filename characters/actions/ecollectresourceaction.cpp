@@ -22,12 +22,12 @@ void eCollectResourceAction::increment(const int by) {
 }
 
 void eCollectResourceAction::resume() {
-    mCharacter->setAnimationAction(mAction);
+    mCharacter->setActionType(mAction);
 }
 
 bool eCollectResourceAction::findResource() {
-    mAction = eResourceCollectorAction::walk;
-    mCharacter->setAnimationAction(mAction);
+    mAction = eCharacterActionType::walk;
+    mCharacter->setActionType(mAction);
     const auto c = character();
     const auto t = c->tile();
 
@@ -57,8 +57,8 @@ bool eCollectResourceAction::findResource() {
 }
 
 bool eCollectResourceAction::collect() {
-    mAction = eResourceCollectorAction::collect;
-    mCharacter->setAnimationAction(mAction);
+    mAction = eCharacterActionType::collect;
+    mCharacter->setActionType(mAction);
 
     const auto failAction = [this]() {
         setState(eCharacterActionState::failed);
@@ -74,8 +74,8 @@ bool eCollectResourceAction::collect() {
 }
 
 bool eCollectResourceAction::goBack2() {
-    mAction = eResourceCollectorAction::carry;
-    mCharacter->setAnimationAction(mAction);
+    mAction = eCharacterActionType::carry;
+    mCharacter->setActionType(mAction);
     return eActionWithComeback::goBack([this](eTile* const t) {
         return t->walkable() || mHasResource(t);
     });
