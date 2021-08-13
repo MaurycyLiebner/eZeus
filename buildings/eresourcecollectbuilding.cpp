@@ -74,6 +74,7 @@ bool eResourceCollectBuilding::spawn() {
         mSpawnTime = time() + mWaitTime;
         delete d;
     };
+
     const auto a = new eCollectResourceAction(d, mHasRes,
                                               mTransFunc,
                                               finishAct,

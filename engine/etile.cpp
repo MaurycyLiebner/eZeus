@@ -322,3 +322,7 @@ void eTile::setWalkableElev(const bool w) {
 void eTile::decResource(const int by) {
     mResource -= by;
 }
+
+void eTile::setBusy(const bool b) {
+    mBusy = b;
+}

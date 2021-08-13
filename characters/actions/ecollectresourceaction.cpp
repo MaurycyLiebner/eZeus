@@ -36,14 +36,19 @@ bool eCollectResourceAction::findResource() {
     };
     const auto finishAction = [this, c]() {
         const auto tile = c->tile();
-        if(mHasResource(tile)) collect();
+        if(mHasResource(tile) && !tile->busy()) collect(tile);
         else findResource();
     };
 
     const auto tileWalkable = [this](eTile* const t) {
         return t->walkable() || mHasResource(t);
     };
-    const auto pf0 = ePathFinder(t, tileWalkable, mHasResource);
+
+    const auto hubr = [this](eTile* const t) {
+        return mHasResource(t) && !t->busy();
+    };
+
+    const auto pf0 = ePathFinder(t, tileWalkable, hubr);
     std::vector<eOrientation> path0;
     const bool r0 = pf0.findPath(100, path0, false, false);
     if(r0) {
@@ -56,14 +61,17 @@ bool eCollectResourceAction::findResource() {
     return false;
 }
 
-bool eCollectResourceAction::collect() {
+bool eCollectResourceAction::collect(eTile* const tile) {
+    tile->setBusy(true);
     mAction = eCharacterActionType::collect;
     mCharacter->setActionType(mAction);
 
-    const auto failAction = [this]() {
+    const auto failAction = [this, tile]() {
+        tile->setBusy(false);
         setState(eCharacterActionState::failed);
     };
-    const auto finishAction = [this]() {
+    const auto finishAction = [this, tile]() {
+        tile->setBusy(false);
         goBack2();
     };
 

@@ -27,7 +27,7 @@ public:
     void resume();
 private:
     bool findResource();
-    bool collect();
+    bool collect(eTile* const tile);
     bool goBack2();
 
     const eHasResource mHasResource;

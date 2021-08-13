@@ -104,6 +104,9 @@ public:
 
     int resource() { return mResource; }
     void decResource(const int by);
+
+    bool busy() const { return mBusy; }
+    void setBusy(const bool b);
 private:
     int mDrawnSpanW = 0;
     int mDrawnSpanH = 0;
@@ -114,6 +117,7 @@ private:
 
     bool mWalkableElev{false};
 
+    bool mBusy = false;
     int mResource = 10000;
 
     std::vector<eCharacter*> mCharacters;
