@@ -1,10 +1,10 @@
 #include "efunctask.h"
 
-eFuncTask::eFuncTask(const eFunc& runFunc, const eFunc& finishFunc) :
+eFuncTask::eFuncTask(const eRunFunc& runFunc, const eFunc& finishFunc) :
     mRun(runFunc), mFinish(finishFunc) {}
 
-void eFuncTask::run() {
-    if(mRun) mRun();
+void eFuncTask::run(eThreadData& data) {
+    if(mRun) mRun(data);
 }
 
 void eFuncTask::finish() {

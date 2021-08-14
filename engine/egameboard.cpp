@@ -10,26 +10,6 @@ eGameBoard::eGameBoard() {
 
 }
 
-eGameBoard::eGameBoard(const eGameBoard& board) {
-    const int w = board.mWidth;
-    const int h = board.mHeight;
-    mTiles.reserve(w);
-    for(int x = 0; x < w; x++) {
-        std::vector<eTile*> yArr;
-        yArr.reserve(h);
-        for(int y = 0; y < h; y++) {
-            const auto tile = new eTile(*board.tile(x, y));
-            yArr.push_back(tile);
-        }
-        mTiles.push_back(yArr);
-    }
-    mWidth = w;
-    mHeight = h;
-
-    updateDiagonalArray();
-    updateNeighbours();
-}
-
 eGameBoard::~eGameBoard() {
     clear();
 }

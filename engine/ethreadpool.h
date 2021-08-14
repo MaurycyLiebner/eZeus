@@ -3,6 +3,8 @@
 
 #include "etask.h"
 
+#include "thread/ethreaddata.h"
+
 #include <queue>
 #include <thread>
 #include <mutex>
@@ -17,7 +19,7 @@ public:
     static void queueTask(eTask* const task);
     static void handleFinished();
 private:
-    void threadEntry();
+    void threadEntry(eThreadData& data);
 
     void queueTaskImpl(eTask* const task);
     void handleFinishedImpl();
@@ -34,6 +36,7 @@ private:
     std::vector<eTask*> mFinishedTasks;
 
     std::vector<std::thread> mThreads;
+    std::vector<eThreadData> mThreadData;
 };
 
 #endif // ETHREADPOOL_H

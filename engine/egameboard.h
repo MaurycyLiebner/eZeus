@@ -18,7 +18,6 @@ public:
     using eDiagIter = eGameBoardDiagonalIterator;
 
     eGameBoard();
-    eGameBoard(const eGameBoard& board);
     ~eGameBoard();
 
     void initialize(const int w, const int h);

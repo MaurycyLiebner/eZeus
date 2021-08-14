@@ -10,7 +10,8 @@ public:
     using eCharTexs = eAnimalTextures eCharacterTextures::*;
     eAnimal(eSpawner* const s,
             eGameBoard& board,
-            const eCharTexs charTexs);
+            const eCharTexs charTexs,
+            const eCharacterType type);
     ~eAnimal();
 
     eTexture getTexture(const eTileSize size) const;

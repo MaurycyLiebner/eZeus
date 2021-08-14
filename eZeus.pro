@@ -76,6 +76,12 @@ SOURCES += \
         engine/eterrain.cpp \
         engine/ethreadpool.cpp \
         engine/etile.cpp \
+        engine/etilebase.cpp \
+        engine/thread/ethreadboard.cpp \
+        engine/thread/ethreadbuilding.cpp \
+        engine/thread/ethreadcharacter.cpp \
+        engine/thread/ethreaddata.cpp \
+        engine/thread/ethreadtile.cpp \
         espriteframe.cpp \
         esprites.cpp \
         etexture.cpp \
@@ -196,6 +202,12 @@ HEADERS += \
     engine/eterrain.h \
     engine/ethreadpool.h \
     engine/etile.h \
+    engine/etilebase.h \
+    engine/thread/ethreadboard.h \
+    engine/thread/ethreadbuilding.h \
+    engine/thread/ethreadcharacter.h \
+    engine/thread/ethreaddata.h \
+    engine/thread/ethreadtile.h \
     espriteframe.h \
     esprites.h \
     etexture.h \

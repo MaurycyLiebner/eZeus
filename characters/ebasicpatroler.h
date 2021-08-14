@@ -8,7 +8,9 @@
 class eBasicPatroler : public eCharacter {
 public:
     using eCharTexs = eBasicPatrolerTextures eCharacterTextures::*;
-    eBasicPatroler(eGameBoard& board, const eCharTexs charTexs);
+    eBasicPatroler(eGameBoard& board,
+                   const eCharTexs charTexs,
+                   const eCharacterType type);
 
     eTexture getTexture(const eTileSize size) const;
 private:

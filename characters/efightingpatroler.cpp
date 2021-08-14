@@ -3,8 +3,9 @@
 #include "textures/egametextures.h"
 
 eFightingPatroler::eFightingPatroler(
-        eGameBoard& board, const eCharTexs charTexs) :
-    eCharacter(board),
+        eGameBoard& board, const eCharTexs charTexs,
+        const eCharacterType type) :
+    eCharacter(board, type),
     mTextures(eGameTextures::characters()),
     mCharTexs(charTexs) {
 

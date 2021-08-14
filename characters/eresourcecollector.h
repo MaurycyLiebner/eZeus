@@ -13,7 +13,8 @@ enum class eResourceCollectorAction : int{
 class eResourceCollector : public eCharacter {
 public:
     using eCharTexs = eResourceCollectorTextures eCharacterTextures::*;
-    eResourceCollector(eGameBoard& board, const eCharTexs charTexs);
+    eResourceCollector(eGameBoard& board, const eCharTexs charTexs,
+                       const eCharacterType type);
 
     eTexture getTexture(const eTileSize size) const;
 

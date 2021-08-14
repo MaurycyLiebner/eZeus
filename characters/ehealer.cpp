@@ -1,4 +1,5 @@
 #include "ehealer.h"
 
 eHealer::eHealer(eGameBoard& board) :
-    eBasicPatroler(board, &eCharacterTextures::fHealer) {}
+    eBasicPatroler(board, &eCharacterTextures::fHealer,
+                   eCharacterType::healer) {}

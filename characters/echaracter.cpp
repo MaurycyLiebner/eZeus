@@ -5,8 +5,8 @@
 #include "actions/edieaction.h"
 #include "actions/efightaction.h"
 
-eCharacter::eCharacter(eGameBoard& board) :
-    mBoard(board) {
+eCharacter::eCharacter(eGameBoard& board, const eCharacterType type) :
+    mBoard(board), mType(type) {
     mBoard.registerCharacter(this);
 }
 
@@ -26,7 +26,6 @@ void eCharacter::fight(eCharacter* const c) {
     const auto a = takeAction();
     a->pause();
     setAction(new eFightAction(this, c, [this, a]() {
-        mFighting = false;
         if(dead()) {
             setAction(new eDieAction(this, [this]() { delete this; }));
             delete a;
@@ -35,7 +34,6 @@ void eCharacter::fight(eCharacter* const c) {
             a->resume();
         }
     }));
-    mFighting = true;
 }
 
 void eCharacter::setTile(eTile* const t) {
@@ -72,6 +70,10 @@ void eCharacter::setAttack(const int a) {
 
 void eCharacter::setHP(const int hp) {
     mHP = hp;
+}
+
+bool eCharacter::fighting() const {
+    return mActionType == eCharacterActionType::fight;
 }
 
 void eCharacter::setActionType(const eCharacterActionType t) {

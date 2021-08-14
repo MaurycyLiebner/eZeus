@@ -6,8 +6,9 @@
 
 eAnimal::eAnimal(eSpawner* const s,
                  eGameBoard& board,
-                 const eCharTexs charTexs) :
-    eCharacter(board),
+                 const eCharTexs charTexs,
+                 const eCharacterType type) :
+    eCharacter(board, type),
     mTextures(eGameTextures::characters()),
     mCharTexs(charTexs),
     mSpawner(s) {

@@ -8,9 +8,30 @@
 
 class eGameBoard;
 
+enum class eCharacterType {
+    boar,
+
+    lumberjack,
+    bronzeMiner,
+    silverMiner,
+
+    hunter,
+
+    gymnast,
+    philosopher,
+
+    taxCollector,
+    watchman,
+    waterDistributor,
+
+    healer,
+
+    demeter
+};
+
 class eCharacter {
 public:
-    eCharacter(eGameBoard& board);
+    eCharacter(eGameBoard& board, const eCharacterType type);
     virtual ~eCharacter();
 
     virtual eTexture getTexture(const eTileSize size) const = 0;
@@ -42,7 +63,7 @@ public:
     void setHP(const int hp);
     int hp() const { return mHP; }
     bool dead() const { return mHP <= 0; }
-    bool fighting() const { return mFighting && !dead(); }
+    bool fighting() const;
 
     int playerId() const { return mPlayerId; }
     void setPlayerId(const int i) { mPlayerId = i; }
@@ -50,9 +71,12 @@ public:
     eCharacterActionType actionType() const { return mActionType; }
     int actionStartTime() const { return mActionStartTime; }
     void setActionType(const eCharacterActionType t);
+
+    eCharacterType type() const { return mType; }
 private:
     eGameBoard& mBoard;
     eTile* mTile = nullptr;
+    eCharacterType mType;
     eOrientation mOrientation{eOrientation::top};
     double mX = 0;
     double mY = 0;
@@ -61,7 +85,6 @@ private:
 
     int mTime = 0;
 
-    bool mFighting = false;
     int mHP = 1000;
     int mAttack = 1;
 

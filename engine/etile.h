@@ -4,6 +4,7 @@
 #include <vector>
 #include <functional>
 
+#include "etilebase.h"
 #include "eterrain.h"
 #include "eorientation.h"
 
@@ -15,67 +16,11 @@ class eCharacter;
 class eBuilding;
 class eSpawner;
 
-class eTile {
+class eTile : public eTileBase<eTile> {
 public:
     eTile(const int x, const int y);
-    int seed() const { return mSeed; }
-    int x() const { return mX; }
-    int y() const { return mY; }
-    int altitude() const { return mAltitude; }
-    eTerrain terrain() const { return mTerr; }
-    double scrub() const { return mScrub; }
+
     int scrubId(const int nLevels) const;
-
-    eTile* topLeft() const { return mTopLeft; }
-    eTile* topRight() const { return mTopRight; }
-    eTile* bottomRight() const { return mBottomRight; }
-    eTile* bottomLeft() const { return mBottomLeft; }
-
-    eTile* left() const;
-    eTile* top() const;
-    eTile* right() const;
-    eTile* bottom() const;
-
-    using eTO = std::pair<eOrientation, eTile*>;
-    using eTileVerifier = std::function<bool(eTile* const)>;
-
-    std::vector<eTO> neighbours(const eTileVerifier& v) const;
-    eTO randomNeighbour(const eTileVerifier& v) const;
-
-    std::vector<eTO> diagonalNeighbours(const eTileVerifier& v) const;
-    eTO randomDiagonalNeighbour(const eTileVerifier& v) const;
-
-    eTile* neighbour(const eOrientation o) const;
-
-    eTile* tileRel(const int x, const int y);
-    eTile* tileAbs(const int x, const int y);
-
-    void setAltitude(const int a);
-    void setTerrain(const eTerrain terr);
-    void setScrub(const double s);
-    void incScrub(const double s);
-
-    void setTopLeft(eTile* const tl);
-    void setTopRight(eTile* const tr);
-    void setBottomRight(eTile* const br);
-    void setBottomLeft(eTile* const bl);
-
-    std::vector<eTile*> surroundingRoads() const;
-    eTile* nearestRoad() const;
-
-    void surroundingTerrain(eTerrain& tlTerr,
-                            eTerrain& trTerr,
-                            eTerrain& brTerr,
-                            eTerrain& blTerr,
-                            eTerrain& tTerr,
-                            eTerrain& rTerr,
-                            eTerrain& bTerr,
-                            eTerrain& lTerr) const;
-    void neighboursWithTerrain(const eTerrain terr,
-                               bool& tl, bool& tr,
-                               bool& br, bool& bl,
-                               bool& t, bool& r,
-                               bool& b, bool& l) const;
 
     void addCharacter(eCharacter* const c);
     bool removeCharacter(eCharacter* const c);
@@ -99,40 +44,30 @@ public:
     int drawSpanW() const { return mDrawnSpanW; }
     int drawSpanH() const { return mDrawnSpanH; }
 
-    bool walkableElev() const { return mWalkableElev; }
-    void setWalkableElev(const bool w);
+    std::vector<eTile*> surroundingRoads() const;
+    eTile* nearestRoad() const;
 
-    int resource() { return mResource; }
-    void decResource(const int by);
-
-    bool busy() const { return mBusy; }
-    void setBusy(const bool b);
+    void surroundingTerrain(eTerrain& tlTerr,
+                            eTerrain& trTerr,
+                            eTerrain& brTerr,
+                            eTerrain& blTerr,
+                            eTerrain& tTerr,
+                            eTerrain& rTerr,
+                            eTerrain& bTerr,
+                            eTerrain& lTerr) const;
+    void neighboursWithTerrain(const eTerrain terr,
+                               bool& tl, bool& tr,
+                               bool& br, bool& bl,
+                               bool& t, bool& r,
+                               bool& b, bool& l) const;
 private:
     int mDrawnSpanW = 0;
     int mDrawnSpanH = 0;
 private:
-    const int mSeed;
-    const int mX;
-    const int mY;
-
-    bool mWalkableElev{false};
-
-    bool mBusy = false;
-    int mResource = 10000;
-
     std::vector<eCharacter*> mCharacters;
     eBuilding* mUnderBuilding = nullptr;
     eBuilding* mBuilding = nullptr;
     eSpawner* mSpawner = nullptr;
-
-    eTile* mTopLeft = nullptr;
-    eTile* mTopRight = nullptr;
-    eTile* mBottomRight = nullptr;
-    eTile* mBottomLeft = nullptr;
-
-    eTerrain mTerr = eTerrain::dry;
-    double mScrub = 0;
-    int mAltitude = 0;
 };
 
 #endif // ETILE_H

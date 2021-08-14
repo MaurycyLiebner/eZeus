@@ -8,7 +8,9 @@ eThreadPool::eThreadPool() {
     const int hc = std::thread::hardware_concurrency();
     const int threads = hc > 1 ? hc - 1 : 1;
     for(int i = 0; i < threads; i++) {
-        mThreads.emplace_back(std::bind(&eThreadPool::threadEntry, this));
+        mThreadData.emplace_back();
+        mThreads.emplace_back(std::bind(&eThreadPool::threadEntry, this,
+                                        mThreadData.back()));
     }
 }
 
@@ -34,7 +36,7 @@ void eThreadPool::handleFinished() {
     sInstance->handleFinishedImpl();
 }
 
-void eThreadPool::threadEntry() {
+void eThreadPool::threadEntry(eThreadData& data) {
     eTask* task = nullptr;
     while(!mQuit) {
         {
@@ -50,7 +52,7 @@ void eThreadPool::threadEntry() {
             mTasks.pop();
         }
         if(task) {
-            task->run();
+            task->run(data);
             std::lock_guard lock(mFinishedTasksMutex);
             mFinishedTasks.push_back(task);
         }

@@ -12,7 +12,8 @@ enum class eFightingPatrolerAction {
 class eFightingPatroler : public eCharacter {
 public:
     using eCharTexs = eFightingPatrolerTextures eCharacterTextures::*;
-    eFightingPatroler(eGameBoard& board, const eCharTexs charTexs);
+    eFightingPatroler(eGameBoard& board, const eCharTexs charTexs,
+                      const eCharacterType type);
 
     eFightingPatrolerAction animationAction() const { return mAction; }
     void setAnimationAction(const eFightingPatrolerAction a);

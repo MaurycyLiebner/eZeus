@@ -9,6 +9,8 @@
 class eGameBoard;
 
 enum class eBuildingType {
+    none = -1,
+
     commonHouse,
 
     gymnasium,

@@ -4,7 +4,8 @@
 #include "textures/egametextures.h"
 
 eDemeter::eDemeter(eGameBoard& board) :
-    eCharacter(board), mTextures(eGameTextures::demeter()) {
+    eCharacter(board, eCharacterType::demeter),
+    mTextures(eGameTextures::demeter()) {
 
 }
 

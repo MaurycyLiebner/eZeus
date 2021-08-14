@@ -2,9 +2,10 @@
 
 #include "textures/egametextures.h"
 
-eBasicPatroler::eBasicPatroler(
-        eGameBoard& board, const eCharTexs charTexs) :
-    eCharacter(board),
+eBasicPatroler::eBasicPatroler(eGameBoard& board,
+                               const eCharTexs charTexs,
+                               const eCharacterType type) :
+    eCharacter(board, type),
     mTextures(eGameTextures::characters()),
     mCharTexs(charTexs) {
 
