@@ -21,7 +21,10 @@ public:
                         const int w, const int h);
 
     void updateBoard();
+
+    void setRunning(const bool r);
 private:
+    std::atomic_bool mRunning{false};
     eThreadBoard mBoard;
     std::vector<eThreadBoard> mUpdates;
     std::mutex mMutex;

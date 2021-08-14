@@ -13,12 +13,17 @@ void eThreadData::scheduleUpdate(eGameBoard& board,
                                  const int x, const int y,
                                  const int w, const int h) {
     std::lock_guard l(mMutex);
-    auto& dstBoard = mUpdates.emplace_back();
-    dstBoard.initialize(x, y, w, h);
+    eThreadBoard* dstBoard;
+    if(mRunning) {
+        dstBoard = &mUpdates.emplace_back();
+        dstBoard->initialize(x, y, w, h);
+    } else {
+        dstBoard = &mBoard;
+    }
     for(int i = x; i < x + w; i++) {
         for(int j = y; j < y + h; j++) {
             const auto src = board.tile(i, j);
-            const auto dst = dstBoard.absTile(i, j);
+            const auto dst = dstBoard->absTile(i, j);
             if(!src || !dst) continue;
             dst->load(src);
         }
@@ -38,4 +43,8 @@ void eThreadData::updateBoard() {
         }
     }
     mUpdates.clear();
+}
+
+void eThreadData::setRunning(const bool r) {
+    mRunning = r;
 }

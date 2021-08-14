@@ -60,8 +60,10 @@ void eThreadPool::threadEntry(eThreadData& data) {
         if(task) {
             {
                 data.updateBoard();
+                data.setRunning(true);
                 auto& b = data.board();
                 task->run(b);
+                data.setRunning(false);
             }
             std::lock_guard lock(mFinishedTasksMutex);
             mFinishedTasks.push_back(task);
