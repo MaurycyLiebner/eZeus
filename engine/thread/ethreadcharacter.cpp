@@ -1,6 +1,6 @@
 #include "ethreadcharacter.h"
 
-eThreadCharacter::eThreadCharacter(eCharacter* const character) {
+void eThreadCharacter::load(eCharacter* const character) {
     mType = character->type();
     mPlayerId = character->playerId();
     mHP = character->hp();

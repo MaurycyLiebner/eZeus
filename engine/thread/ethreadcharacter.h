@@ -5,8 +5,11 @@
 
 class eThreadCharacter {
 public:
-    eThreadCharacter(eCharacter* const character);
+    void load(eCharacter* const character);
 
+    eCharacterType type() const { return mType; }
+    int playerId() const { return mPlayerId; }
+    bool isDead() const { return mHP <= 0; }
 private:
     eCharacterType mType;
     int mPlayerId{1};

@@ -6,10 +6,6 @@
 #include "buildings/ebuilding.h"
 #include "spawners/espawner.h"
 
-eGameBoard::eGameBoard() {
-
-}
-
 eGameBoard::~eGameBoard() {
     clear();
 }

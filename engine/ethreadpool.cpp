@@ -52,7 +52,8 @@ void eThreadPool::threadEntry(eThreadData& data) {
             mTasks.pop();
         }
         if(task) {
-            task->run(data);
+            data.updateBoard();
+            task->run(data.board());
             std::lock_guard lock(mFinishedTasksMutex);
             mFinishedTasks.push_back(task);
         }

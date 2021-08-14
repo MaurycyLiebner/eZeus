@@ -8,9 +8,8 @@
 
 class eThreadTile : public eTileBase<eThreadTile> {
 public:
-    eThreadTile();
-
     void load(eTile* const src);
+    void load(const eThreadTile& src);
 
     bool walkable() const {
         const auto terr = terrain() & eTerrain::walkable;

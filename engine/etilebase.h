@@ -60,7 +60,7 @@ public:
     bool walkableElev() const { return mWalkableElev; }
     void setWalkableElev(const bool w);
 
-    int resource() { return mResource; }
+    int resource() const { return mResource; }
     void decResource(const int by);
     void setResource(const int r);
 

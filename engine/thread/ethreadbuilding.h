@@ -5,10 +5,7 @@
 
 class eThreadBuilding {
 public:
-    eThreadBuilding();
-
     void load(eBuilding* const src);
-
     eBuildingType type() const { return mType; }
 private:
     eBuildingType mType;

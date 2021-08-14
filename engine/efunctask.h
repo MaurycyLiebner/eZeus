@@ -7,11 +7,11 @@
 
 class eFuncTask : public eTask {
 public:
-    using eRunFunc = std::function<void(eThreadData&)>;
+    using eRunFunc = std::function<void(eThreadBoard&)>;
     using eFunc = std::function<void()>;
     eFuncTask(const eRunFunc& runFunc, const eFunc& finishFunc);
 protected:
-    void run(eThreadData& data);
+    void run(eThreadBoard& data);
     void finish();
 private:
     const eRunFunc mRun;
