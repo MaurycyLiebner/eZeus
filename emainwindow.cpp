@@ -134,7 +134,7 @@ void eMainWindow::showSettingsMenu() {
 void eMainWindow::showGame() {
     const auto egw = new eGameWidget(this);
     egw->resize(width(), height());
-    egw->initialize(16, 16);
+    egw->initialize(100, 100);
     setWidget(egw);
 }
 

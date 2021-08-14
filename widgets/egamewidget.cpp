@@ -38,6 +38,8 @@
 
 #include "spawners/eboarspawner.h"
 
+#include "engine/ethreadpool.h"
+
 #include "echeckbox.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
@@ -306,6 +308,9 @@ bool eGameWidget::build(const int tx, const int ty,
 
 void eGameWidget::paintEvent(ePainter& p) {
     mBoard.incTime(mSpeed);
+
+    eThreadPool::scheduleUpdate(mBoard, 0, 0, mBoard.width(), mBoard.height());
+
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);
     eTilePainter tp(p, mTileSize, mTileW, mTileH);

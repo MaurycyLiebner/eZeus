@@ -5,8 +5,7 @@ void eThreadBoard::initialize(const int x, const int y,
     clear();
     mTiles.reserve(w);
     for(int x = 0; x < w; x++) {
-        mTiles.emplace_back();
-        auto& yArr = mTiles.back();
+        auto& yArr = mTiles.emplace_back();
         yArr.reserve(h);
         for(int y = 0; y < h; y++) {
             yArr.emplace_back();

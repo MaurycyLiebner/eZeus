@@ -5,17 +5,26 @@
 #include <mutex>
 
 #include "engine/thread/ethreadboard.h"
+#include "engine/egameboard.h"
 
 class eThreadData {
 public:
+    eThreadData() {}
+    eThreadData(const eThreadData& s);
+
     void initialize(const int w, const int h);
 
-    void updateBoard();
     eThreadBoard& board() { return mBoard; }
+
+    void scheduleUpdate(eGameBoard& board,
+                        const int x, const int y,
+                        const int w, const int h);
+
+    void updateBoard();
 private:
-    std::vector<std::vector<eThreadBoard>> mData;
     eThreadBoard mBoard;
-    std::mutex mDataMutex;
+    std::vector<eThreadBoard> mUpdates;
+    std::mutex mMutex;
 };
 
 #endif // ETHREADDATA_H
