@@ -65,8 +65,6 @@ bool eResourceCollectBuilding::spawn() {
 
     const auto d = mCharGenerator();
     d->setTile(t);
-    d->setX(0.5);
-    d->setY(0.5);
     const auto finishAct = [this, d]() {
         mResource += d->collected();
         const auto t = d->tile();

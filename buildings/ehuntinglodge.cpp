@@ -54,8 +54,6 @@ bool eHuntingLodge::spawn() {
 
     const auto d = new eHunter(getBoard());
     d->setTile(t);
-    d->setX(0.5);
-    d->setY(0.5);
     const auto finishAct = [this, d]() {
         mResource += d->collected();
         const auto t = d->tile();

@@ -67,8 +67,6 @@ void ePatrolBuilding::spawn() const {
 
     const auto d = mCharGenerator();
     d->setTile(t);
-    d->setX(0.5);
-    d->setY(0.5);
     const auto finishAct = [d]() {
         const auto t = d->tile();
         t->removeCharacter(d);

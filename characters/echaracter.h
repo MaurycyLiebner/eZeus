@@ -78,8 +78,8 @@ private:
     eTile* mTile = nullptr;
     eCharacterType mType;
     eOrientation mOrientation{eOrientation::top};
-    double mX = 0;
-    double mY = 0;
+    double mX = 0.5;
+    double mY = 0.5;
 
     int mPlayerId{1}; // 0 - neutral
 

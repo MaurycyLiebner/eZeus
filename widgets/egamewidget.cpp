@@ -73,8 +73,6 @@ void eGameWidget::initialize(const int w, const int h) {
     const auto t = mBoard.tile(0, 0);
     const auto d = new eDemeter(mBoard);
     d->setTile(t);
-    d->setX(0.5);
-    d->setY(0.5);
     d->setAction(new eMoveAroundAction(d));
     t->addCharacter(d);
 }
