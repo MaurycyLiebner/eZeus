@@ -6,9 +6,11 @@
 #include "etile.h"
 #include "egameboarditerator.h"
 
+
 class eSpawner;
 class eCharacter;
 class eBuilding;
+class eThreadPool;
 
 class eGameBoard {
     friend class eGameBoardIterator;
@@ -16,6 +18,8 @@ class eGameBoard {
 public:
     using eIter = eGameBoardIterator;
     using eDiagIter = eGameBoardDiagonalIterator;
+
+    eGameBoard(eThreadPool* const tpool);
 
     ~eGameBoard();
 
@@ -53,9 +57,13 @@ public:
     bool unregisterSpawner(eSpawner* const s);
 
     void incTime(const int by);
+
+    eThreadPool* threadPool() const { return mThreadPool; }
 private:
     void updateDiagonalArray();
     void updateNeighbours();
+
+    eThreadPool* mThreadPool = nullptr;
 
     int mWidth = 0;
     int mHeight = 0;

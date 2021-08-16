@@ -61,7 +61,7 @@ bool eHuntingLodge::spawn() {
         mSpawnTime = time() + mWaitTime;
         delete d;
     };
-    const auto hasRes = [](eTile* const tile) {
+    const auto hasRes = [](eTileBase* const tile) {
         const auto cs = tile->characters();
         for(const auto c : cs) {
             if(const auto b = dynamic_cast<eBoar*>(c)) {
@@ -70,7 +70,7 @@ bool eHuntingLodge::spawn() {
         }
         return false;
     };
-    const auto hasCollRes = [](eTile* const tile) {
+    const auto hasCollRes = [](eTileBase* const tile) {
         const auto cs = tile->characters();
         for(const auto c : cs) {
             if(const auto b = dynamic_cast<eBoar*>(c)) {

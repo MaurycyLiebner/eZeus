@@ -6,7 +6,7 @@
 
 #include "../etilebase.h"
 
-class eThreadTile : public eTileBase<eThreadTile> {
+class eThreadTile : public eTileBase {
 public:
     void load(eTile* const src);
     void load(const eThreadTile& src);

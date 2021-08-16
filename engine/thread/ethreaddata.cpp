@@ -2,11 +2,11 @@
 
 eThreadData::eThreadData(const eThreadData& s) {
     mBoard = s.mBoard;
-    mUpdates = s.mUpdates;
 }
 
 void eThreadData::initialize(const int w, const int h) {
     mBoard.initialize(0, 0, w, h);
+    mTmpBoard = mBoard;
 }
 
 void eThreadData::scheduleUpdate(eGameBoard& board,
@@ -15,8 +15,8 @@ void eThreadData::scheduleUpdate(eGameBoard& board,
     std::lock_guard l(mMutex);
     eThreadBoard* dstBoard;
     if(mRunning) {
-        dstBoard = &mUpdates.emplace_back();
-        dstBoard->initialize(x, y, w, h);
+        dstBoard = &mTmpBoard;
+        mTmpChanged = true;
     } else {
         dstBoard = &mBoard;
     }
@@ -31,18 +31,11 @@ void eThreadData::scheduleUpdate(eGameBoard& board,
 }
 
 void eThreadData::updateBoard() {
-    std::lock_guard l(mMutex);
-    for(auto& u : mUpdates) {
-        for(int x = u.x(); x < u.x() + u.width(); x++) {
-            for(int y = u.y(); y < u.y() + u.height(); y++) {
-                const auto src = u.absTile(x, y);
-                const auto dst = mBoard.absTile(x, y);
-                if(!src || !dst) continue;
-                dst->load(*src);
-            }
-        }
+    if(mTmpChanged) {
+        std::lock_guard l(mMutex);
+        mBoard = mTmpBoard;
+        mTmpChanged = false;
     }
-    mUpdates.clear();
 }
 
 void eThreadData::setRunning(const bool r) {

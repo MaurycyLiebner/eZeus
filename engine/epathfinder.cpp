@@ -1,18 +1,20 @@
 #include "epathfinder.h"
 
-ePathFinder::ePathFinder(eTile* const startTile,
-                         const eTileWalkable& walkable,
-                         const eTileFinish& finish) :
+template <typename T>
+ePathFinder<T>::ePathFinder(T* const startTile,
+                            const eTileWalkable& walkable,
+                            const eTileFinish& finish) :
     mWalkable(walkable),
     mFinish(finish),
     mStart(startTile) {
 
 }
 
-bool ePathFinder::findPath(const int maxDist,
-                           std::vector<eOrientation>& path,
-                           const bool randomize,
-                           const bool onlyDiagonal) const {
+template <typename T>
+bool ePathFinder<T>::findPath(const int maxDist,
+                              std::vector<eOrientation>& path,
+                              const bool randomize,
+                              const bool onlyDiagonal) const {
     if(!mStart) return false;
     const int startX = mStart->x();
     const int startY = mStart->y();
@@ -23,7 +25,7 @@ bool ePathFinder::findPath(const int maxDist,
     for(int x = 0; x < boardDim; x++) {
         board.emplace_back(boardDim, __INT_MAX__);
     }
-    using eTilePair = std::pair<eTile*, int*>;
+    using eTilePair = std::pair<T*, int*>;
     using eTileGetter = std::function<eTilePair(int, int)>;
     const eTileGetter tileGetter = [&](const int tx, const int ty) {
         const auto tile = mStart->tileAbs(tx, ty);
@@ -137,6 +139,5 @@ bool ePathFinder::findPath(const int maxDist,
 
     const bool r = bestFinder(tileGetter(bestFinishX, bestFinishY));
     if(!r) return false;
-    //std::reverse(path.begin(), path.end());
     return true;
 }

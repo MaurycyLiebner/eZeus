@@ -73,7 +73,7 @@ bool ePatrolAction::goBack() {
     const auto tileWalkable0 = [](eTile* const t) {
         return t->hasRoad();
     };
-    const auto pf0 = ePathFinder(t, tileWalkable0, finalTile);
+    const auto pf0 = ePathFinder<eTile>(t, tileWalkable0, finalTile);
     std::vector<eOrientation> path0;
     const bool r0 = pf0.findPath(100, path0, false, true);
     if(r0) {

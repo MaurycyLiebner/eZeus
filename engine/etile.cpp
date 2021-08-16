@@ -22,7 +22,8 @@ std::vector<eTile*> eTile::surroundingRoads() const {
     for(int i = 0; i < 8; i += 2) {
         const auto o = static_cast<eOrientation>(i);
         const auto n = neighbour(o);
-        if(n && n->hasRoad()) tiles.push_back(n);
+        const auto nt = static_cast<eTile*>(n);
+        if(n && nt->hasRoad()) tiles.push_back(nt);
     }
     return tiles;
 }

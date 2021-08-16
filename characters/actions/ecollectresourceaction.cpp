@@ -48,7 +48,7 @@ bool eCollectResourceAction::findResource() {
         return mHasResource(t) && !t->busy();
     };
 
-    const auto pf0 = ePathFinder(t, tileWalkable, hubr);
+    const auto pf0 = ePathFinder<eTile>(t, tileWalkable, hubr);
     std::vector<eOrientation> path0;
     const bool r0 = pf0.findPath(100, path0, false, false);
     if(r0) {

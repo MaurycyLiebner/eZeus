@@ -37,7 +37,7 @@ eTile* eBuilding::tileNeighbour(const eMoveDirection o,
         return nullptr;
     }
     for(const auto u : mUnderBuilding) {
-        auto tt = u->tileRel(dx, dy);
+        auto tt = static_cast<eTile*>(u->tileRel(dx, dy));
         if(!tt) continue;
         if(v(tt)) return tt;
     }

@@ -6,11 +6,12 @@
 
 #include <functional>
 
+template <typename T>
 class ePathFinder {
 public:
-    using eTileWalkable = std::function<bool(eTile* const)>;
-    using eTileFinish = std::function<bool(eTile* const)>;
-    ePathFinder(eTile* const startTile,
+    using eTileWalkable = std::function<bool(T* const)>;
+    using eTileFinish = std::function<bool(T* const)>;
+    ePathFinder(T* const startTile,
                 const eTileWalkable& walkable,
                 const eTileFinish& finish);
 
@@ -23,5 +24,7 @@ private:
     const eTileFinish mFinish;
     eTile* const mStart;
 };
+
+#include "epathfinder.cpp"
 
 #endif // EPATHFINDER_H

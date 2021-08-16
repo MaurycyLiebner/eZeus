@@ -6,6 +6,8 @@
 
 #include "engine/etile.h"
 #include "engine/egameboard.h"
+#include "engine/ethreadpool.h"
+
 #include "textures/eterraintextures.h"
 #include "textures/edemetertextures.h"
 #include "textures/ebuildingtextures.h"
@@ -72,6 +74,10 @@ private:
     int mTileW = 58;
     int mTileH = 30;
 
+    eThreadPool mThreadPool;
+
+    int mUpdateRect = 0;
+    std::vector<SDL_Rect> mUpdateRects;
     eGameBoard mBoard;
 
     bool mDrawElevation = true;

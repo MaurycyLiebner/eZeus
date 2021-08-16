@@ -38,8 +38,6 @@
 
 #include "spawners/eboarspawner.h"
 
-#include "engine/ethreadpool.h"
-
 #include "echeckbox.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
@@ -48,6 +46,17 @@ eGameWidget::eGameWidget(eMainWindow* const window) :
 eGameWidget::~eGameWidget() {}
 
 void eGameWidget::initialize(const int w, const int h) {
+    mThreadPool.initialize(w, h);
+
+    const int dim = 25;
+    for(int x = 0; x < w; x += dim) {
+        const int ww = std::clamp(w - x, 0, dim);
+        for(int y = 0; y < h; y += dim) {
+            const int hh = std::clamp(h - y, 0, dim);
+            mUpdateRects.emplace_back(SDL_Rect{x, y, ww, hh});
+        }
+    }
+
     mGm = new eGameMenu(window());
     mGm->initialize();
     addWidget(mGm);
@@ -305,9 +314,19 @@ bool eGameWidget::build(const int tx, const int ty,
 }
 
 void eGameWidget::paintEvent(ePainter& p) {
+    mThreadPool.handleFinished();
+
     mBoard.incTime(mSpeed);
 
-    eThreadPool::scheduleUpdate(mBoard, 0, 0, mBoard.width(), mBoard.height());
+    if(mUpdateRects.empty()) {
+        const int w = mBoard.width();
+        const int h = mBoard.height();
+        mThreadPool.scheduleUpdate(mBoard, 0, 0, w, h);
+    } else {
+        const int i = (mUpdateRect++) % mUpdateRects.size();
+        const auto& rect = mUpdateRects[i];
+        mThreadPool.scheduleUpdate(mBoard, rect.x, rect.y, rect.w, rect.h);
+    }
 
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);

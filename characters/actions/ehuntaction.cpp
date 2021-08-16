@@ -2,6 +2,10 @@
 
 #include "engine/epathfinder.h"
 
+#include "epathfindtask.h"
+#include "engine/ethreadpool.h"
+#include "characters/actions/ewaitaction.h"
+
 eHuntAction::eHuntAction(
         eHunter* const c,
         const eHasResource& hr,
@@ -25,33 +29,53 @@ void eHuntAction::resume() {
 }
 
 bool eHuntAction::findResource() {
-    mCharacter->setActionType(eCharacterActionType::walk);
     const auto c = character();
+    c->setActionType(eCharacterActionType::walk);
     const auto t = c->tile();
+    const auto& brd = c->board();
+    const auto tp = brd.threadPool();
 
-    const auto failAction = [this]() {
-        setState(eCharacterActionState::failed);
-    };
-    const auto finishAction = [this, c]() {
-        const auto tile = c->tile();
-        if(mHasCollectableResource(tile)) collect();
-        else findResource();
+    const int tx = t->x();
+    const int ty = t->y();
+
+    const auto startTile = [tx, ty](eThreadBoard& board) {
+        return board.absTile(tx, ty);
     };
 
-    const auto tileWalkable = [](eTile* const t) {
+    const auto tileWalkable = [](eTileBase* const t) {
         return t->walkable();
     };
-    const auto pf0 = ePathFinder(t, tileWalkable, mHasResource);
-    std::vector<eOrientation> path0;
-    const bool r0 = pf0.findPath(100, path0, false, false);
-    if(r0) {
-        const auto a  = new eMovePathAction(c, path0, tileWalkable,
-                                            failAction, finishAction);
+
+    const auto hasRes = mHasResource;
+    const auto endTile = [hasRes](eTileBase* const t) {
+        return hasRes(t);
+    };
+
+    const auto failFunc = [this]() {
+        setState(eCharacterActionState::failed);
+    };
+
+    const auto finishFunc = [this, c, tileWalkable, failFunc](
+                            const std::vector<eOrientation>& path) {
+        const auto finishAction = [this, c]() {
+            const auto tile = c->tile();
+            if(mHasCollectableResource(tile)) collect();
+            else findResource();
+        };
+
+        const auto a  = new eMovePathAction(c, path, tileWalkable,
+                                            failFunc, finishAction);
         setCurrentAction(a);
-        return true;
-    }
-    setState(eCharacterActionState::failed);
-    return false;
+        return false;
+    };
+
+    const auto pft = new ePathFindTask(startTile, tileWalkable, endTile,
+                                       finishFunc, failFunc);
+    tp->queueTask(pft);
+
+    setCurrentAction(new eWaitAction(c, []() {}, []() {}));
+
+    return true;
 }
 
 bool eHuntAction::collect() {

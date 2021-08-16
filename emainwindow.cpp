@@ -226,8 +226,6 @@ int eMainWindow::exec() {
         }
         mSlots.clear();
 
-        eThreadPool::handleFinished();
-
         c++;
         if(c % 25 == 0) {
             start = nstart;

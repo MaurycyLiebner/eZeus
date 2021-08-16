@@ -16,7 +16,7 @@ class eCharacter;
 class eBuilding;
 class eSpawner;
 
-class eTile : public eTileBase<eTile> {
+class eTile : public eTileBase {
 public:
     eTile(const int x, const int y);
 

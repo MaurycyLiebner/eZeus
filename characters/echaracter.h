@@ -73,6 +73,8 @@ public:
     void setActionType(const eCharacterActionType t);
 
     eCharacterType type() const { return mType; }
+
+    eGameBoard& board() { return mBoard; }
 private:
     eGameBoard& mBoard;
     eTile* mTile = nullptr;

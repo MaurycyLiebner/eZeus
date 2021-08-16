@@ -48,6 +48,7 @@ SOURCES += \
         characters/actions/emovearoundaction.cpp \
         characters/actions/emovepathaction.cpp \
         characters/actions/epatrolaction.cpp \
+        characters/actions/ewaitaction.cpp \
         characters/eanimal.cpp \
         characters/ebasicpatroler.cpp \
         characters/eboar.cpp \
@@ -82,6 +83,7 @@ SOURCES += \
         engine/thread/ethreadcharacter.cpp \
         engine/thread/ethreaddata.cpp \
         engine/thread/ethreadtile.cpp \
+        epathfindtask.cpp \
         espriteframe.cpp \
         esprites.cpp \
         etexture.cpp \
@@ -172,6 +174,7 @@ HEADERS += \
     characters/actions/emovearoundaction.h \
     characters/actions/emovepathaction.h \
     characters/actions/epatrolaction.h \
+    characters/actions/ewaitaction.h \
     characters/eanimal.h \
     characters/ebasicpatroler.h \
     characters/eboar.h \
@@ -208,6 +211,7 @@ HEADERS += \
     engine/thread/ethreadcharacter.h \
     engine/thread/ethreaddata.h \
     engine/thread/ethreadtile.h \
+    epathfindtask.h \
     espriteframe.h \
     esprites.h \
     etexture.h \

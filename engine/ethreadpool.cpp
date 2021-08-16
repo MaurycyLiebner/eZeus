@@ -1,21 +1,8 @@
 #include "ethreadpool.h"
 
-eThreadPool* eThreadPool::sInstance = nullptr;
-
-eThreadPool::eThreadPool() {
-    sInstance = this;
-
-    const int hc = std::thread::hardware_concurrency();
-    const int threads = hc > 1 ? hc - 1 : 1;
-    for(int i = 0; i < threads; i++) {
-        auto& b = mThreadData.emplace_back();
-        mThreads.emplace_back(std::bind(&eThreadPool::threadEntry, this, b));
-    }
-}
+eThreadPool::eThreadPool() {}
 
 eThreadPool::~eThreadPool() {
-    sInstance = nullptr;
-
     {
         std::unique_lock<std::mutex> lock(mTasksMutex);
 
@@ -27,19 +14,14 @@ eThreadPool::~eThreadPool() {
     }
 }
 
-void eThreadPool::queueTask(eTask* const task) {
-    sInstance->queueTaskImpl(task);
-}
-
-void eThreadPool::handleFinished() {
-    sInstance->handleFinishedImpl();
-}
-
-void eThreadPool::scheduleUpdate(eGameBoard& board,
-                                 const int x, const int y,
-                                 const int w, const int h) {
-
-    sInstance->scheduleUpdateImpl(board, x, y, w, h);
+void eThreadPool::initialize(const int w, const int h) {
+    const int hc = std::thread::hardware_concurrency();
+    const int threads = hc > 1 ? hc - 1 : 1;
+    for(int i = 0; i < threads; i++) {
+        auto& b = mThreadData.emplace_back();
+        b.initialize(w, h);
+        mThreads.emplace_back(std::bind(&eThreadPool::threadEntry, this, b));
+    }
 }
 
 void eThreadPool::threadEntry(eThreadData& data) {
@@ -71,13 +53,13 @@ void eThreadPool::threadEntry(eThreadData& data) {
     }
 }
 
-void eThreadPool::queueTaskImpl(eTask* const task) {
+void eThreadPool::queueTask(eTask* const task) {
     std::unique_lock<std::mutex> lock(mTasksMutex);
     mTasks.emplace(task);
     mCv.notify_one();
 }
 
-void eThreadPool::handleFinishedImpl() {
+void eThreadPool::handleFinished() {
     std::vector<eTask*> tasks;
     {
         std::lock_guard lock(mFinishedTasksMutex);
@@ -89,9 +71,9 @@ void eThreadPool::handleFinishedImpl() {
     }
 }
 
-void eThreadPool::scheduleUpdateImpl(eGameBoard& board,
-                                     const int x, const int y,
-                                     const int w, const int h) {
+void eThreadPool::scheduleUpdate(eGameBoard& board,
+                                 const int x, const int y,
+                                 const int w, const int h) {
     for(auto& d : mThreadData) {
         d.scheduleUpdate(board, x, y, w, h);
     }

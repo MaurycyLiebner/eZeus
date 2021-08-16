@@ -25,8 +25,11 @@ public:
     void setRunning(const bool r);
 private:
     std::atomic_bool mRunning{false};
+
     eThreadBoard mBoard;
-    std::vector<eThreadBoard> mUpdates;
+    std::atomic_bool mTmpChanged{false};
+    eThreadBoard mTmpBoard;
+
     std::mutex mMutex;
 };
 

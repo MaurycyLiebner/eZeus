@@ -16,23 +16,17 @@ public:
     eThreadPool();
     ~eThreadPool();
 
-    static void queueTask(eTask* const task);
-    static void handleFinished();
+    void initialize(const int w, const int h);
 
+    void queueTask(eTask* const task);
+    void handleFinished();
 
-    static void scheduleUpdate(eGameBoard& board,
-                               const int x, const int y,
-                               const int w, const int h);
+    void scheduleUpdate(eGameBoard& board,
+                        const int x, const int y,
+                        const int w, const int h);
 private:
     void threadEntry(eThreadData& data);
 
-    void queueTaskImpl(eTask* const task);
-    void handleFinishedImpl();
-    void scheduleUpdateImpl(eGameBoard& board,
-                            const int x, const int y,
-                            const int w, const int h);
-
-    static eThreadPool* sInstance;
 
     bool mQuit = false;
 

@@ -6,6 +6,9 @@
 #include "buildings/ebuilding.h"
 #include "spawners/espawner.h"
 
+eGameBoard::eGameBoard(eThreadPool* const tpool) :
+    mThreadPool(tpool) {}
+
 eGameBoard::~eGameBoard() {
     clear();
 }
