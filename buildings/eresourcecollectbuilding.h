@@ -9,7 +9,7 @@ class eResourceCollector;
 
 class eResourceCollectBuilding : public eBuilding {
 public:
-    using eHasResource = std::function<bool(eTile*)>;
+    using eHasResource = std::function<bool(eTileBase*)>;
     using eTranformFunc = std::function<void(eTile*)>;
     using eBaseTex = eTexture eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;

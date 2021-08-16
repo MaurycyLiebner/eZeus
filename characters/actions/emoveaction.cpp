@@ -130,7 +130,7 @@ bool eMoveAction::nextTurn() {
 
     mCharacter->setOrientation(turn);
     const auto t = mCharacter->tile();
-    mTargetTile = t->neighbour(turn);
+    mTargetTile = t->neighbour<eTile>(turn);
     if(!mTargetTile || !mTileWalkable(mTargetTile)) {
         setState(eCharacterActionState::failed);
         return false;

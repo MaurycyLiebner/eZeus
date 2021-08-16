@@ -54,6 +54,7 @@ SOURCES += \
         characters/eboar.cpp \
         characters/ebronzeminer.cpp \
         characters/echaracter.cpp \
+        characters/echaracterbase.cpp \
         characters/edemeter.cpp \
         characters/efightingpatroler.cpp \
         characters/egymnast.cpp \
@@ -180,6 +181,7 @@ HEADERS += \
     characters/eboar.h \
     characters/ebronzeminer.h \
     characters/echaracter.h \
+    characters/echaracterbase.h \
     characters/edemeter.h \
     characters/efightingpatroler.h \
     characters/egymnast.h \

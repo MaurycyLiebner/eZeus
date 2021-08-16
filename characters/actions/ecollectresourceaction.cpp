@@ -40,15 +40,15 @@ bool eCollectResourceAction::findResource() {
         else findResource();
     };
 
-    const auto tileWalkable = [this](eTile* const t) {
+    const auto tileWalkable = [this](eTileBase* const t) {
         return t->walkable() || mHasResource(t);
     };
 
-    const auto hubr = [this](eTile* const t) {
+    const auto hubr = [this](eTileBase* const t) {
         return mHasResource(t) && !t->busy();
     };
 
-    const auto pf0 = ePathFinder<eTile>(t, tileWalkable, hubr);
+    const auto pf0 = ePathFinder(t, tileWalkable, hubr);
     std::vector<eOrientation> path0;
     const bool r0 = pf0.findPath(100, path0, false, false);
     if(r0) {
@@ -84,7 +84,7 @@ bool eCollectResourceAction::collect(eTile* const tile) {
 bool eCollectResourceAction::goBack2() {
     mAction = eCharacterActionType::carry;
     mCharacter->setActionType(mAction);
-    return eActionWithComeback::goBack([this](eTile* const t) {
+    return eActionWithComeback::goBack([this](eTileBase* const t) {
         return t->walkable() || mHasResource(t);
     });
 }

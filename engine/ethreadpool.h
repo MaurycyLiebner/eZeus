@@ -25,7 +25,7 @@ public:
                         const int x, const int y,
                         const int w, const int h);
 private:
-    void threadEntry(eThreadData& data);
+    void threadEntry(eThreadData* data);
 
 
     bool mQuit = false;
@@ -38,7 +38,7 @@ private:
     std::vector<eTask*> mFinishedTasks;
 
     std::vector<std::thread> mThreads;
-    std::vector<eThreadData> mThreadData;
+    std::vector<eThreadData*> mThreadData;
 };
 
 #endif // ETHREADPOOL_H

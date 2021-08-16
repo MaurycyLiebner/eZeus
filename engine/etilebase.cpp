@@ -28,26 +28,6 @@ void eTileBase::setY(const int y) {
     mY = y;
 }
 
-eTileBase* eTileBase::left() const {
-    if(!mBottomLeft) return nullptr;
-    return mBottomLeft->topLeft();
-}
-
-eTileBase* eTileBase::top() const {
-    if(!mTopLeft) return nullptr;
-    return mTopLeft->topRight();
-}
-
-eTileBase* eTileBase::right() const {
-    if(!mTopRight) return nullptr;
-    return mTopRight->bottomRight();
-}
-
-eTileBase* eTileBase::bottom() const {
-    if(!mBottomLeft) return nullptr;
-    return mBottomLeft->bottomRight();
-}
-
 std::vector<eTileBase::eTO> eTileBase::neighbours(const eTileVerifier& v) const {
     std::vector<eTileBase::eTO> result;
     for(int i = 0; i < 8; i++) {
@@ -80,63 +60,6 @@ eTileBase::eTO eTileBase::randomDiagonalNeighbour(const eTileVerifier& v) const 
     const auto ts = diagonalNeighbours(v);
     if(ts.empty()) return {eOrientation::top, nullptr};
     return ts[rand() % ts.size()];
-}
-
-eTileBase* eTileBase::neighbour(const eOrientation o) const {
-    switch(o) {
-    case eOrientation::topRight: {
-        return topRight();
-    } break;
-    case eOrientation::right: {
-        return right();
-    } break;
-    case eOrientation::bottomRight: {
-        return bottomRight();
-    } break;
-    case eOrientation::bottom: {
-        return bottom();
-    } break;
-    case eOrientation::bottomLeft: {
-        return bottomLeft();
-    } break;
-    case eOrientation::left: {
-        return left();
-    } break;
-    case eOrientation::topLeft: {
-        return topLeft();
-    } break;
-    case eOrientation::top: {
-        return top();
-    } break;
-    }
-    return nullptr;
-}
-
-eTileBase* eTileBase::tileRel(const int x, const int y) {
-    if(x == 0 && y == 0) return static_cast<eTileBase*>(this);
-    if(x > 0) {
-        const auto br = bottomRight();
-        if(!br) return nullptr;
-        return br->tileRel(x - 1, y);
-    } else if(x < 0) {
-        const auto tl = topLeft();
-        if(!tl) return nullptr;
-        return tl->tileRel(x + 1, y);
-    }
-    if(y > 0) {
-        const auto bl = bottomLeft();
-        if(!bl) return nullptr;
-        return bl->tileRel(x, y - 1);
-    } else if(y < 0) {
-        const auto tl = topRight();
-        if(!tl) return nullptr;
-        return tl->tileRel(x, y + 1);
-    }
-    return nullptr;
-}
-
-eTileBase* eTileBase::tileAbs(const int x, const int y) {
-    return tileRel(x - mX, y - mY);
 }
 
 void eTileBase::setAltitude(const int a) {

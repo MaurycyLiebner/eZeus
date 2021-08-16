@@ -4,6 +4,7 @@
 #include <algorithm>
 
 #include "buildings/ebuilding.h"
+#include "characters/echaracter.h"
 
 eTile::eTile(const int x, const int y) {
     setSeed(rand());
@@ -144,6 +145,13 @@ bool eTile::removeCharacter(eCharacter* const c) {
     if(it == mCharacters.end()) return false;
     mCharacters.erase(it);
     return true;
+}
+
+bool eTile::hasCharacter(const eHasChar& func) const {
+    for(const auto c : mCharacters) {
+        if(func(*c)) return true;
+    }
+    return false;
 }
 
 bool eTile::walkable() const {

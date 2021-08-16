@@ -1,5 +1,7 @@
 #include "ethreadtile.h"
 
+#include "characters/echaracter.h"
+
 void eThreadTile::load(eTile* const src) {
     setSeed(src->seed());
     setX(src->x());
@@ -32,4 +34,26 @@ void eThreadTile::load(const eThreadTile& src) {
 
     mCharacters = src.mCharacters;
     mUnderBuilding = src.mUnderBuilding;
+}
+
+bool eThreadTile::walkable() const {
+    const auto terr = terrain() & eTerrain::walkable;
+    if(!static_cast<bool>(terr)) return false;
+    if(underBuilding() && !hasRoad()) return false;
+    return true;
+}
+
+bool eThreadTile::hasRoad() const {
+    return mUnderBuilding.type() == eBuildingType::road;
+}
+
+bool eThreadTile::hasCharacter(const eHasChar& func) const {
+    for(const auto& c : mCharacters) {
+        if(func(c)) return true;
+    }
+    return false;
+}
+
+bool eThreadTile::underBuilding() const {
+    return mUnderBuilding.type() != eBuildingType::none;
 }

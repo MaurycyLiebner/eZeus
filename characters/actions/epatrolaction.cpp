@@ -10,7 +10,7 @@ ePatrolAction::ePatrolAction(eCharacter* const c,
                              const eAction& failAction,
                              const eAction& finishAction) :
     eMoveAction(c,
-                [](eTile* const tile) {
+                [](eTileBase* const tile) {
                     return tile->hasRoad();
                 },
                 failAction, finishAction),
@@ -60,7 +60,7 @@ bool ePatrolAction::goBack() {
     const auto c = character();
     const auto t = c->tile();
 
-    const auto finalTile = [this](eTile* const t) {
+    const auto finalTile = [this](eTileBase* const t) {
         return t->x() == mStartX && t->y() == mStartY;
     };
     const auto failAction = [this]() {
@@ -70,10 +70,10 @@ bool ePatrolAction::goBack() {
         setState(eCharacterActionState::finished);
     };
 
-    const auto tileWalkable0 = [](eTile* const t) {
+    const auto tileWalkable0 = [](eTileBase* const t) {
         return t->hasRoad();
     };
-    const auto pf0 = ePathFinder<eTile>(t, tileWalkable0, finalTile);
+    const auto pf0 = ePathFinder(t, tileWalkable0, finalTile);
     std::vector<eOrientation> path0;
     const bool r0 = pf0.findPath(100, path0, false, true);
     if(r0) {
@@ -94,7 +94,7 @@ eCharacterActionState ePatrolAction::nextTurn(eOrientation& t) {
     const int tx = tile->x();
     const int ty = tile->y();
 
-    auto options = tile->diagonalNeighbours([&](eTile* const t) {
+    auto options = tile->diagonalNeighbours([&](eTileBase* const t) {
         return t && t->hasRoad() && t->neighbour(mO) != tile;
     });
 

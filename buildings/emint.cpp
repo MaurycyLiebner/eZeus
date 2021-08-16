@@ -10,7 +10,7 @@ eMint::eMint(eGameBoard& board) :
                              &eBuildingTextures::fMintOverlay,
                              [this]() { return new eSilverMiner(getBoard()); },
                              eBuildingType::mint,
-                             [](eTile* const t) {
+                             [](eTileBase* const t) {
                                 return t->terrain() == eTerrain::silver;
                              },
                              [](eTile* const t) {

@@ -4,11 +4,12 @@
 #include "echaracteraction.h"
 #include "engine/eorientation.h"
 
+class eTileBase;
 class eTile;
 
 class eMoveAction : public eCharacterAction {
 public:
-    using eTileWalkable = std::function<bool(eTile* const)>;
+    using eTileWalkable = std::function<bool(eTileBase* const)>;
 
     eMoveAction(eCharacter* const c,
                 const eTileWalkable& tileWalkable,

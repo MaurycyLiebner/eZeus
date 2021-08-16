@@ -4,7 +4,7 @@
 
 eMoveAroundAction::eMoveAroundAction(eCharacter* const c) :
     eMoveAction(c,
-                [](eTile* const) { return true; },
+                [](eTileBase* const t) { return t->walkable(); },
                 []() {},
                 []() {}) {
     const auto t = c->tile();

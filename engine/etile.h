@@ -24,12 +24,12 @@ public:
 
     void addCharacter(eCharacter* const c);
     bool removeCharacter(eCharacter* const c);
+    bool hasCharacter(const eHasChar& func) const;
 
     const std::vector<eCharacter*>& characters() const
     { return mCharacters; }
 
     bool walkable() const;
-
     void setBuilding(eBuilding* const b);
     eBuilding* building() const { return mBuilding; }
     bool hasRoad() const;

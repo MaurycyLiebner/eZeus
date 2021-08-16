@@ -6,7 +6,7 @@
 #include "actions/efightaction.h"
 
 eCharacter::eCharacter(eGameBoard& board, const eCharacterType type) :
-    mBoard(board), mType(type) {
+    eCharacterBase(type), mBoard(board) {
     mBoard.registerCharacter(this);
 }
 
@@ -59,24 +59,7 @@ eCharacterAction* eCharacter::takeAction() {
     return a;
 }
 
-bool eCharacter::defend(const int a) {
-    mHP -= a;
-    return dead();
-}
-
-void eCharacter::setAttack(const int a) {
-    mAttack = a;
-}
-
-void eCharacter::setHP(const int hp) {
-    mHP = hp;
-}
-
-bool eCharacter::fighting() const {
-    return mActionType == eCharacterActionType::fight;
-}
-
 void eCharacter::setActionType(const eCharacterActionType t) {
     mActionStartTime = textureTime();
-    mActionType = t;
+    eCharacterBase::setActionType(t);
 }

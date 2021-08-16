@@ -1,20 +1,12 @@
 #ifndef ETHREADCHARACTER_H
 #define ETHREADCHARACTER_H
 
-#include "characters/echaracter.h"
+#include "characters/echaracterbase.h"
 
-class eThreadCharacter {
+class eThreadCharacter : public eCharacterBase {
 public:
-    void load(eCharacter* const character);
-
-    eCharacterType type() const { return mType; }
-    int playerId() const { return mPlayerId; }
-    bool isDead() const { return mHP <= 0; }
-private:
-    eCharacterType mType;
-    int mPlayerId{1};
-    int mHP = 1000;
-    eCharacterActionType mActionType{eCharacterActionType::walk};
+    eThreadCharacter();
+    void load(eCharacterBase* const character);
 };
 
 #endif // ETHREADCHARACTER_H

@@ -86,7 +86,7 @@ bool eHuntAction::collect() {
 
 bool eHuntAction::goBack2() {
     mCharacter->setActionType(eCharacterActionType::carry);
-    return eActionWithComeback::goBack([](eTile* const t) {
+    return eActionWithComeback::goBack([](eTileBase* const t) {
         return t->walkable();
     });
 }

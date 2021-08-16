@@ -62,15 +62,11 @@ bool eHuntingLodge::spawn() {
         delete d;
     };
     const auto hasRes = [](eTileBase* const tile) {
-        const auto cs = tile->characters();
-        for(const auto c : cs) {
-            if(const auto b = dynamic_cast<eBoar*>(c)) {
-                if(!b->fighting()) return true;
-            }
-        }
-        return false;
+        return tile->hasCharacter([](const eCharacterBase& c) {
+            return c.type() == eCharacterType::boar && !c.fighting();
+        });
     };
-    const auto hasCollRes = [](eTileBase* const tile) {
+    const auto hasCollRes = [](eTile* const tile) {
         const auto cs = tile->characters();
         for(const auto c : cs) {
             if(const auto b = dynamic_cast<eBoar*>(c)) {

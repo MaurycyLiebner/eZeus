@@ -6,7 +6,7 @@ eThreadData::eThreadData(const eThreadData& s) {
 
 void eThreadData::initialize(const int w, const int h) {
     mBoard.initialize(0, 0, w, h);
-    mTmpBoard = mBoard;
+    mTmpBoard.initialize(0, 0, w, h);
 }
 
 void eThreadData::scheduleUpdate(eGameBoard& board,

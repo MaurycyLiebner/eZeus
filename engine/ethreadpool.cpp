@@ -18,13 +18,14 @@ void eThreadPool::initialize(const int w, const int h) {
     const int hc = std::thread::hardware_concurrency();
     const int threads = hc > 1 ? hc - 1 : 1;
     for(int i = 0; i < threads; i++) {
-        auto& b = mThreadData.emplace_back();
-        b.initialize(w, h);
+        const auto b = new eThreadData;
+        b->initialize(w, h);
+        mThreadData.push_back(b);
         mThreads.emplace_back(std::bind(&eThreadPool::threadEntry, this, b));
     }
 }
 
-void eThreadPool::threadEntry(eThreadData& data) {
+void eThreadPool::threadEntry(eThreadData* data) {
     eTask* task = nullptr;
     while(!mQuit) {
         {
@@ -41,11 +42,11 @@ void eThreadPool::threadEntry(eThreadData& data) {
         }
         if(task) {
             {
-                data.updateBoard();
-                data.setRunning(true);
-                auto& b = data.board();
+                data->setRunning(true);
+                data->updateBoard();
+                auto& b = data->board();
                 task->run(b);
-                data.setRunning(false);
+                data->setRunning(false);
             }
             std::lock_guard lock(mFinishedTasksMutex);
             mFinishedTasks.push_back(task);
@@ -75,6 +76,6 @@ void eThreadPool::scheduleUpdate(eGameBoard& board,
                                  const int x, const int y,
                                  const int w, const int h) {
     for(auto& d : mThreadData) {
-        d.scheduleUpdate(board, x, y, w, h);
+        d->scheduleUpdate(board, x, y, w, h);
     }
 }

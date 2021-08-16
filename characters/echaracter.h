@@ -5,31 +5,11 @@
 #include "engine/etile.h"
 #include "actions/echaracteraction.h"
 #include "etexture.h"
+#include "echaracterbase.h"
 
 class eGameBoard;
 
-enum class eCharacterType {
-    boar,
-
-    lumberjack,
-    bronzeMiner,
-    silverMiner,
-
-    hunter,
-
-    gymnast,
-    philosopher,
-
-    taxCollector,
-    watchman,
-    waterDistributor,
-
-    healer,
-
-    demeter
-};
-
-class eCharacter {
+class eCharacter : public eCharacterBase {
 public:
     eCharacter(eGameBoard& board, const eCharacterType type);
     virtual ~eCharacter();
@@ -56,42 +36,20 @@ public:
     eCharacterAction* takeAction();
     eCharacterAction* action() const { return mAction; }
 
-    bool defend(const int a);
-
-    void setAttack(const int a);
-    int attack() const { return mAttack; }
-    void setHP(const int hp);
-    int hp() const { return mHP; }
-    bool dead() const { return mHP <= 0; }
-    bool fighting() const;
-
-    int playerId() const { return mPlayerId; }
-    void setPlayerId(const int i) { mPlayerId = i; }
-
-    eCharacterActionType actionType() const { return mActionType; }
-    int actionStartTime() const { return mActionStartTime; }
     void setActionType(const eCharacterActionType t);
-
-    eCharacterType type() const { return mType; }
+    int actionStartTime() const { return mActionStartTime; }
 
     eGameBoard& board() { return mBoard; }
 private:
     eGameBoard& mBoard;
     eTile* mTile = nullptr;
-    eCharacterType mType;
     eOrientation mOrientation{eOrientation::top};
     double mX = 0.5;
     double mY = 0.5;
 
-    int mPlayerId{1}; // 0 - neutral
-
     int mTime = 0;
 
-    int mHP = 1000;
-    int mAttack = 1;
-
     eCharacterAction* mAction = nullptr;
-    eCharacterActionType mActionType{eCharacterActionType::walk};
     int mActionStartTime{0};
 };
 

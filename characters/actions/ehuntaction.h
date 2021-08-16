@@ -10,7 +10,7 @@ class eThreadTile;
 class eHuntAction : public eActionWithComeback {
 public:
     using eHasResource = std::function<bool(eTileBase*)>;
-    using eHasCollectableResource = std::function<bool(eTileBase*)>;
+    using eHasCollectableResource = std::function<bool(eTile*)>;
     eHuntAction(eHunter* const c,
                 const eHasResource& hr,
                 const eHasCollectableResource& hcr,

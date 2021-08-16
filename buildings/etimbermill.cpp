@@ -10,7 +10,7 @@ eTimberMill::eTimberMill(eGameBoard& board) :
                              &eBuildingTextures::fTimberMillOverlay,
                              [this]() { return new eLumberjack(getBoard()); },
                              eBuildingType::timberMill,
-                             [](eTile* const t) {
+                             [](eTileBase* const t) {
                                 return t->terrain() == eTerrain::forest;
                              },
                              [](eTile* const t) {

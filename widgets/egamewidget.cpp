@@ -41,7 +41,7 @@
 #include "echeckbox.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
-    eWidget(window) {}
+    eWidget(window), mBoard(&mThreadPool) {}
 
 eGameWidget::~eGameWidget() {}
 

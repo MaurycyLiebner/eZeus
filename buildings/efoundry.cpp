@@ -10,7 +10,7 @@ eFoundry::eFoundry(eGameBoard& board) :
                              &eBuildingTextures::fFoundryOverlay,
                              [this]() { return new eBronzeMiner(getBoard()); },
                              eBuildingType::foundry,
-                             [](eTile* const t) {
+                             [](eTileBase* const t) {
                                 return t->terrain() == eTerrain::bronze;
                              },
                              [](eTile* const t) {

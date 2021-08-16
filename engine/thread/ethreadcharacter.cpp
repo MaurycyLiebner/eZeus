@@ -1,8 +1,11 @@
 #include "ethreadcharacter.h"
 
-void eThreadCharacter::load(eCharacter* const character) {
-    mType = character->type();
-    mPlayerId = character->playerId();
-    mHP = character->hp();
-    mActionType = character->actionType();
+eThreadCharacter::eThreadCharacter() :
+    eCharacterBase(eCharacterType::none) {}
+
+void eThreadCharacter::load(eCharacterBase* const character) {
+    setType(character->type());
+    setPlayerId(character->playerId());
+    setHP(character->hp());
+    setActionType(character->actionType());
 }

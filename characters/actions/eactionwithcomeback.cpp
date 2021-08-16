@@ -32,7 +32,7 @@ bool eActionWithComeback::goBack(const eWalkable& walkable) {
     const auto c = character();
     const auto t = c->tile();
 
-    const auto finalTile = [this](eTile* const t) {
+    const auto finalTile = [this](eTileBase* const t) {
         return t->x() == mStartX && t->y() == mStartY;
     };
     const auto failAction = [this]() {
@@ -42,7 +42,7 @@ bool eActionWithComeback::goBack(const eWalkable& walkable) {
         setState(eCharacterActionState::finished);
     };
 
-    const auto pf0 = ePathFinder<eTile>(t, walkable, finalTile);
+    const auto pf0 = ePathFinder(t, walkable, finalTile);
     std::vector<eOrientation> path0;
     const bool r0 = pf0.findPath(100, path0, false, false);
     if(r0) {

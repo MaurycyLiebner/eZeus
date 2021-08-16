@@ -15,7 +15,7 @@ public:
 protected:
     eCharacterAction* currentAction() const { return mCurrentAction; }
     void setCurrentAction(eCharacterAction* const a);
-    using eWalkable = std::function<bool(eTile*)>;
+    using eWalkable = std::function<bool(eTileBase*)>;
     virtual bool goBack(const eWalkable& walkable);
 private:
     eCharacterAction* mCurrentAction = nullptr;

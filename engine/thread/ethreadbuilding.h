@@ -8,7 +8,7 @@ public:
     void load(eBuilding* const src);
     eBuildingType type() const { return mType; }
 private:
-    eBuildingType mType;
+    eBuildingType mType{eBuildingType::none};
 };
 
 #endif // ETHREADBUILDING_H

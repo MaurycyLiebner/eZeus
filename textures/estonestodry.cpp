@@ -1,18 +1,18 @@
 #include "estonestodry.h"
 
 bool hiddenByNeighbour(eTile* const tile) {
-    if(const auto t = tile->top()) {
+    if(const auto t = tile->top<eTile>()) {
         const int w = t->drawSpanW();
         const int h = t->drawSpanH();
         if(w > 1 && h > 1) return true;
     }
 
-    if(const auto t = tile->topLeft()) {
+    if(const auto t = tile->topLeft<eTile>()) {
         const int w = t->drawSpanW();
         if(w > 1) return true;
     }
 
-    if(const auto t = tile->topRight()) {
+    if(const auto t = tile->topRight<eTile>()) {
         const int h = t->drawSpanH();
         if(h > 1) return true;
     }
