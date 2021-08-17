@@ -41,15 +41,12 @@ bool eHuntAction::findResource() {
     const auto startTile = [tx, ty](eThreadBoard& board) {
         return board.absTile(tx, ty);
     };
-
     const auto tileWalkable = [](eTileBase* const t) {
         return t->walkable();
     };
-
     const auto failFunc = [this]() {
         setState(eCharacterActionState::failed);
     };
-
     const auto finishFunc = [this, c, tileWalkable, failFunc](
                             const std::vector<eOrientation>& path) {
         const auto finishAction = [this, c]() {
@@ -61,7 +58,6 @@ bool eHuntAction::findResource() {
         const auto a  = new eMovePathAction(c, path, tileWalkable,
                                             failFunc, finishAction);
         setCurrentAction(a);
-        return false;
     };
 
     const auto pft = new ePathFindTask(startTile, tileWalkable,

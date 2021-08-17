@@ -32,9 +32,8 @@ std::vector<eOverlay> eHuntingLodge::getOverlays(const eTileSize size) const {
 }
 
 void eHuntingLodge::timeChanged() {
-    if(time() > mSpawnTime) {
-        const bool r = spawn();
-        if(r) mSpawnTime = time() + 5*mWaitTime;
+    if(!mSpawned && time() > mSpawnTime) {
+        mSpawned = spawn();
         mSpawnTime = time() + mWaitTime;
     }
 }
@@ -58,6 +57,7 @@ bool eHuntingLodge::spawn() {
         mResource += d->collected();
         const auto t = d->tile();
         t->removeCharacter(d);
+        mSpawned = false;
         mSpawnTime = time() + mWaitTime;
         delete d;
     };
@@ -75,7 +75,8 @@ bool eHuntingLodge::spawn() {
         }
         return false;
     };
-    const auto a = new eHuntAction(d, hasRes, hasCollRes, finishAct, finishAct);
+    const auto a = new eHuntAction(d, hasRes, hasCollRes,
+                                   finishAct, finishAct);
     d->setAction(a);
     t->addCharacter(d);
     return true;

@@ -43,9 +43,8 @@ std::vector<eOverlay> eResourceCollectBuilding::
 
 
 void eResourceCollectBuilding::timeChanged() {
-    if(time() > mSpawnTime) {
-        const bool r = spawn();
-        if(r) mSpawnTime = time() + 5*mWaitTime;
+    if(!mSpawned && time() > mSpawnTime) {
+        mSpawned = spawn();
         mSpawnTime = time() + mWaitTime;
     }
 }
@@ -69,6 +68,7 @@ bool eResourceCollectBuilding::spawn() {
         mResource += d->collected();
         const auto t = d->tile();
         t->removeCharacter(d);
+        mSpawned = false;
         mSpawnTime = time() + mWaitTime;
         delete d;
     };

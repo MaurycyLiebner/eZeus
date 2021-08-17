@@ -2,6 +2,9 @@
 
 #include "characters/echaracter.h"
 #include "engine/epathfinder.h"
+#include "characters/actions/ewaitaction.h"
+#include "engine/ethreadpool.h"
+#include "epathfindtask.h"
 
 eActionWithComeback::eActionWithComeback(
         eCharacter* const c,
@@ -31,26 +34,38 @@ void eActionWithComeback::setCurrentAction(eCharacterAction* const a) {
 bool eActionWithComeback::goBack(const eWalkable& walkable) {
     const auto c = character();
     const auto t = c->tile();
+    const auto& brd = c->board();
+    const auto tp = brd.threadPool();
 
+    const int tx = t->x();
+    const int ty = t->y();
+
+    const auto startTile = [tx, ty](eThreadBoard& board) {
+        return board.absTile(tx, ty);
+    };
     const auto finalTile = [this](eTileBase* const t) {
         return t->x() == mStartX && t->y() == mStartY;
     };
-    const auto failAction = [this]() {
+    const auto failFunc = [this]() {
         setState(eCharacterActionState::failed);
     };
-    const auto finishAction = [this]() {
-        setState(eCharacterActionState::finished);
+    const auto finishFunc = [this, c, walkable, failFunc](
+                            const std::vector<eOrientation>& path) {
+        const auto finishAction = [this]() {
+            setState(eCharacterActionState::finished);
+        };
+
+        const auto a  = new eMovePathAction(c, path, walkable,
+                                            failFunc, finishAction);
+        setCurrentAction(a);
     };
 
-    const auto pf0 = ePathFinder(t, walkable, finalTile);
-    std::vector<eOrientation> path0;
-    const bool r0 = pf0.findPath(100, path0, false);
-    if(r0) {
-        const auto a  = new eMovePathAction(c, path0, walkable,
-                                            failAction, finishAction);
-        setCurrentAction(a);
-        return true;
-    }
-    setState(eCharacterActionState::failed);
-    return false;
+    const auto pft = new ePathFindTask(startTile, walkable,
+                                       finalTile, finishFunc,
+                                       failFunc);
+    tp->queueTask(pft);
+
+    setCurrentAction(new eWaitAction(c, []() {}, []() {}));
+
+    return true;
 }

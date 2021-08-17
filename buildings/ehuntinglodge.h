@@ -20,6 +20,7 @@ private:
 
     int mWaitTime = 5000;
     int mSpawnTime = mWaitTime;
+    bool mSpawned{false};
 
     int mResource{0};
 };
