@@ -13,6 +13,7 @@ void eThreadTile::load(eTile* const src) {
     setScrub(src->scrub());
     setAltitude(src->altitude());
 
+    mCharacters.clear();
     const auto& chars = src->characters();
     for(const auto& ch : chars) {
         mCharacters.emplace_back().load(ch);

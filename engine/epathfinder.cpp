@@ -15,7 +15,6 @@ bool ePathFinder::findPath(const int maxDist,
                            std::vector<eOrientation>& path,
                            const bool onlyDiagonal) const {
     if(!mStart) return false;
-    printf("enter\n");
     const int startX = mStart->x();
     const int startY = mStart->y();
 
