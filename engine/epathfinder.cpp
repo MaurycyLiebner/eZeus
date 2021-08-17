@@ -1,5 +1,7 @@
 #include "epathfinder.h"
 
+#include <deque>
+
 ePathFinder::ePathFinder(eTileBase* const startTile,
                          const eTileWalkable& walkable,
                          const eTileFinish& finish) :
@@ -41,23 +43,23 @@ bool ePathFinder::findPath(const int maxDist,
     };
     int bestFinishX = -1;
     int bestFinishY = -1;
-    int bestDistance = __INT_MAX__;
-    using ePFinder = std::function<void(const eTilePair&, const int)>;
+    int foundDistance;
+    using ePFinder = std::function<void(const eTilePair&)>;
+    std::deque<eTilePair> toProcess;
     ePFinder pathFinder;
-    pathFinder = [&](const eTilePair& from, const int dist) {
-        if(dist >= bestDistance) return;
-        if(dist >= *from.second) return;
+    bool found = false;
+    pathFinder = [&](const eTilePair& from) {
+        const int dist = *from.second;
         const auto tile = from.first;
-        if(!tile) return;
         const int tx = tile->x();
         const int ty = tile->y();
-        printf("find %d %d; %d\n", tx, ty, dist);
 
-        *from.second = dist;
-        if(bestDistance > dist && mFinish(tile)) {
+        if(mFinish(tile)) {
             bestFinishX = tx;
             bestFinishY = ty;
-            bestDistance = dist;
+            foundDistance = dist;
+            found = true;
+            return;
         }
 
         for(const int x : {0, 1, -1}) {
@@ -67,19 +69,29 @@ bool ePathFinder::findPath(const int maxDist,
                 const auto tt = tileGetter(tile, x, y);
                 if(!tt.first || !tt.second) continue;
                 if(!mWalkable(tt.first)) continue;
-                pathFinder(tt, dist + 1);
+                const int newDist = dist + 1;
+                if(*tt.second > newDist) {
+                    *tt.second = newDist;
+                    toProcess.push_back(tt);
+                }
             }
         }
     };
 
     const auto t = tileGetter(mStart, 0, 0);
     if(!t.first || !t.second) return false;
-    pathFinder(t, 0);
+    *t.second = 0;
+    toProcess.push_back(t);
+    while(!found && !toProcess.empty()) {
+        const auto t = toProcess.front();
+        toProcess.pop_front();
+        pathFinder(t);
+    }
 
-    if(bestDistance == __INT_MAX__) return false;
+    if(!found) return false;
 
     path.clear();
-    path.reserve(bestDistance);
+    path.reserve(foundDistance);
     using eBFinder = std::function<bool(const eTilePair&)>;
     eBFinder bestFinder;
     bestFinder = [&](const eTilePair& from) {
@@ -89,7 +101,6 @@ bool ePathFinder::findPath(const int maxDist,
         const int tx = tile->x();
         const int ty = tile->y();
         if(tx == startX && ty == startY) return true;
-        printf("trace %d %d\n", tx, ty);
 
         const auto tr = tileGetter(tile, 0, -1);
         const auto br = tileGetter(tile, 1, 0);
