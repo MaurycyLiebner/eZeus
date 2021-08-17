@@ -75,7 +75,7 @@ bool ePatrolAction::goBack() {
     };
     const auto pf0 = ePathFinder(t, tileWalkable0, finalTile);
     std::vector<eOrientation> path0;
-    const bool r0 = pf0.findPath(100, path0, false, true);
+    const bool r0 = pf0.findPath(100, path0, false);
     if(r0) {
         mGoBackAction = new eMovePathAction(c, path0, tileWalkable0,
                                             failAction, finishAction);

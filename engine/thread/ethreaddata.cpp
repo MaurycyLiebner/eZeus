@@ -13,17 +13,11 @@ void eThreadData::scheduleUpdate(eGameBoard& board,
                                  const int x, const int y,
                                  const int w, const int h) {
     std::lock_guard l(mMutex);
-    eThreadBoard* dstBoard;
-    if(mRunning) {
-        dstBoard = &mTmpBoard;
-        mTmpChanged = true;
-    } else {
-        dstBoard = &mBoard;
-    }
+    mTmpChanged = true;
     for(int i = x; i < x + w; i++) {
         for(int j = y; j < y + h; j++) {
             const auto src = board.tile(i, j);
-            const auto dst = dstBoard->absTile(i, j);
+            const auto dst = mTmpBoard.absTile(i, j);
             if(!src || !dst) continue;
             dst->load(src);
         }

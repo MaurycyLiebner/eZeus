@@ -46,11 +46,6 @@ bool eHuntAction::findResource() {
         return t->walkable();
     };
 
-    const auto hasRes = mHasResource;
-    const auto endTile = [hasRes](eTileBase* const t) {
-        return hasRes(t);
-    };
-
     const auto failFunc = [this]() {
         setState(eCharacterActionState::failed);
     };
@@ -69,8 +64,9 @@ bool eHuntAction::findResource() {
         return false;
     };
 
-    const auto pft = new ePathFindTask(startTile, tileWalkable, endTile,
-                                       finishFunc, failFunc);
+    const auto pft = new ePathFindTask(startTile, tileWalkable,
+                                       mHasResource, finishFunc,
+                                       failFunc);
     tp->queueTask(pft);
 
     setCurrentAction(new eWaitAction(c, []() {}, []() {}));

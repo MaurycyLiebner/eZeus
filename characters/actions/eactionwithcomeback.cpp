@@ -44,7 +44,7 @@ bool eActionWithComeback::goBack(const eWalkable& walkable) {
 
     const auto pf0 = ePathFinder(t, walkable, finalTile);
     std::vector<eOrientation> path0;
-    const bool r0 = pf0.findPath(100, path0, false, false);
+    const bool r0 = pf0.findPath(100, path0, false);
     if(r0) {
         const auto a  = new eMovePathAction(c, path0, walkable,
                                             failAction, finishAction);

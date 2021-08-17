@@ -18,7 +18,7 @@ ePathFindTask::ePathFindTask(const eTileGetter& startTile,
 void ePathFindTask::run(eThreadBoard& data) {
     const auto t = mStartTile(data);
     const auto pf0 = ePathFinder(t, mTileWalkable, mEndTile);
-    mR = pf0.findPath(100, mPath, false, false);
+    mR = pf0.findPath(100, mPath, false);
 }
 
 void ePathFindTask::finish() {

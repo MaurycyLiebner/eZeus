@@ -11,9 +11,9 @@ ePathFinder::ePathFinder(eTileBase* const startTile,
 
 bool ePathFinder::findPath(const int maxDist,
                            std::vector<eOrientation>& path,
-                           const bool randomize,
                            const bool onlyDiagonal) const {
     if(!mStart) return false;
+    printf("enter\n");
     const int startX = mStart->x();
     const int startY = mStart->y();
 
@@ -24,13 +24,16 @@ bool ePathFinder::findPath(const int maxDist,
         board.emplace_back(boardDim, __INT_MAX__);
     }
     using eTilePair = std::pair<eTileBase*, int*>;
-    using eTileGetter = std::function<eTilePair(int, int)>;
-    const eTileGetter tileGetter = [&](const int tx, const int ty) {
-        const auto tile = mStart->tileAbs(tx, ty);
+    using eTileGetter = std::function<eTilePair(eTileBase*, int, int)>;
+    const eTileGetter tileGetter = [&](eTileBase* const from,
+                                       const int dx, const int dy) {
+        const auto tile = from->tileRel(dx, dy);
+        if(!tile) return eTilePair{nullptr, nullptr};
+        const int tx = tile->x();
+        const int ty = tile->y();
         const int bx = maxDist + tx + 1 - startX;
         const int by = maxDist + ty + 1 - startY;
-        if(!tile ||
-           bx < 0 || bx >= boardDim ||
+        if(bx < 0 || bx >= boardDim ||
            by < 0 || by >= boardDim) {
             return eTilePair{nullptr, nullptr};
         }
@@ -42,47 +45,36 @@ bool ePathFinder::findPath(const int maxDist,
     using ePFinder = std::function<void(const eTilePair&, const int)>;
     ePFinder pathFinder;
     pathFinder = [&](const eTilePair& from, const int dist) {
-        if(randomize) {
-            if(dist > bestDistance) return;
-        } else {
-            if(dist >= bestDistance) return;
-        }
+        if(dist >= bestDistance) return;
+        if(dist >= *from.second) return;
         const auto tile = from.first;
         if(!tile) return;
         const int tx = tile->x();
         const int ty = tile->y();
-        if(randomize) {
-            if(dist > *from.second) return;
-        } else {
-            if(dist >= *from.second) return;
-        }
+        printf("find %d %d; %d\n", tx, ty, dist);
+
         *from.second = dist;
-        if(randomize && bestDistance == dist) {
-            const bool r = rand() % 2;
-            if(r && mFinish(tile)) {
-                bestFinishX = tx;
-                bestFinishY = ty;
-                bestDistance = dist;
-            }
-        } else {
-            if(bestDistance > dist && mFinish(tile)) {
-                bestFinishX = tx;
-                bestFinishY = ty;
-                bestDistance = dist;
-            }
+        if(bestDistance > dist && mFinish(tile)) {
+            bestFinishX = tx;
+            bestFinishY = ty;
+            bestDistance = dist;
         }
 
-        for(const auto x : {0, 1, -1}) {
-            for(const auto y : {0, 1, -1}) {
+        for(const int x : {0, 1, -1}) {
+            for(const int y : {0, 1, -1}) {
+                if(x == 0 && y == 0) continue;
                 if(onlyDiagonal && x != 0 && y != 0) continue;
-                const auto tt = tileGetter(tx + x, ty + y);
-                if(tt.first && mWalkable(tt.first)) pathFinder(tt, dist + 1);
+                const auto tt = tileGetter(tile, x, y);
+                if(!tt.first || !tt.second) continue;
+                if(!mWalkable(tt.first)) continue;
+                pathFinder(tt, dist + 1);
             }
         }
     };
 
-    pathFinder(tileGetter(startX, startY), 0);
-    *tileGetter(startX, startY).second = 0;
+    const auto t = tileGetter(mStart, 0, 0);
+    if(!t.first || !t.second) return false;
+    pathFinder(t, 0);
 
     if(bestDistance == __INT_MAX__) return false;
 
@@ -91,39 +83,37 @@ bool ePathFinder::findPath(const int maxDist,
     using eBFinder = std::function<bool(const eTilePair&)>;
     eBFinder bestFinder;
     bestFinder = [&](const eTilePair& from) {
+        if(!from.first || !from.second) return false;
         const auto tile = from.first;
-        if(!tile) return false;
         const int dist = *from.second;
         const int tx = tile->x();
         const int ty = tile->y();
         if(tx == startX && ty == startY) return true;
+        printf("trace %d %d\n", tx, ty);
 
-        const auto tr = tileGetter(tx, ty - 1);
-        const auto br = tileGetter(tx + 1, ty);
-        const auto bl = tileGetter(tx, ty + 1);
-        const auto tl = tileGetter(tx - 1, ty);
+        const auto tr = tileGetter(tile, 0, -1);
+        const auto br = tileGetter(tile, 1, 0);
+        const auto bl = tileGetter(tile, 0, 1);
+        const auto tl = tileGetter(tile, -1, 0);
 
         using eNeigh = std::pair<eOrientation, eTilePair>;
         std::vector<eNeigh> neighs{
                 {eOrientation::bottomLeft, tr},
                 {eOrientation::left, onlyDiagonal ? eTilePair{nullptr, nullptr}
-                                                  : tileGetter(tx + 1, ty - 1)},
+                                                  : tileGetter(tile, 1, -1)},
                 {eOrientation::topLeft, br},
                 {eOrientation::top, onlyDiagonal ? eTilePair{nullptr, nullptr}
-                                                 : tileGetter(tx + 1, ty + 1)},
+                                                 : tileGetter(tile, 1, 1)},
                 {eOrientation::topRight, bl},
                 {eOrientation::right, onlyDiagonal ? eTilePair{nullptr, nullptr}
-                                                   : tileGetter(tx - 1, ty + 1)},
+                                                   : tileGetter(tile, -1, 1)},
                 {eOrientation::bottomRight, tl},
                 {eOrientation::bottom, onlyDiagonal ? eTilePair{nullptr, nullptr}
-                                                    : tileGetter(tx - 1, ty - 1)}};
-        if(randomize) {
-            std::random_shuffle(neighs.begin(), neighs.end());
-        }
+                                                    : tileGetter(tile, -1, -1)}};
 
         for(const auto& n : neighs) {
             const auto& tp = n.second;
-            if(!tp.first) continue;
+            if(!tp.first || !tp.second) continue;
             if(mWalkable(tp.first)) {
                 if(*tp.second == dist - 1) {
                     path.emplace_back(n.first);
@@ -135,7 +125,8 @@ bool ePathFinder::findPath(const int maxDist,
         return false;
     };
 
-    const bool r = bestFinder(tileGetter(bestFinishX, bestFinishY));
-    if(!r) return false;
-    return true;
+    const bool r = bestFinder(tileGetter(mStart,
+                                         bestFinishX - startX,
+                                         bestFinishY - startY));
+    return r;
 }
