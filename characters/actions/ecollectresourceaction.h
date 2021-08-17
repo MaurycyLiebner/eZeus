@@ -23,8 +23,6 @@ public:
                            const eAction& finishAction);
 
     void increment(const int by);
-
-    void resume();
 private:
     bool findResource();
     bool collect(eTile* const tile);
@@ -33,7 +31,6 @@ private:
     const eHasResource mHasResource;
     const eTranformFunc mTransFunc;
     eResourceCollector* const mCharacter;
-    eCharacterActionType mAction{eCharacterActionType::walk};
 };
 
 #endif // ECOLLECTRESOURCEACTION_H

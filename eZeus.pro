@@ -48,6 +48,7 @@ SOURCES += \
         characters/actions/emovearoundaction.cpp \
         characters/actions/emovepathaction.cpp \
         characters/actions/epatrolaction.cpp \
+        characters/actions/epatrolmoveaction.cpp \
         characters/actions/ewaitaction.cpp \
         characters/eanimal.cpp \
         characters/ebasicpatroler.cpp \
@@ -175,6 +176,7 @@ HEADERS += \
     characters/actions/emovearoundaction.h \
     characters/actions/emovepathaction.h \
     characters/actions/epatrolaction.h \
+    characters/actions/epatrolmoveaction.h \
     characters/actions/ewaitaction.h \
     characters/eanimal.h \
     characters/ebasicpatroler.h \

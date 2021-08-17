@@ -24,13 +24,8 @@ void eCollectResourceAction::increment(const int by) {
     else eActionWithComeback::increment(by);
 }
 
-void eCollectResourceAction::resume() {
-    mCharacter->setActionType(mAction);
-}
-
 bool eCollectResourceAction::findResource() {
-    mAction = eCharacterActionType::walk;
-    mCharacter->setActionType(mAction);
+    mCharacter->setActionType(eCharacterActionType::walk);
     const auto c = character();
     const auto t = c->tile();
     const auto& brd = c->board();
@@ -78,8 +73,7 @@ bool eCollectResourceAction::findResource() {
 
 bool eCollectResourceAction::collect(eTile* const tile) {
     tile->setBusy(true);
-    mAction = eCharacterActionType::collect;
-    mCharacter->setActionType(mAction);
+    mCharacter->setActionType(eCharacterActionType::collect);
 
     const auto failAction = [this, tile]() {
         tile->setBusy(false);
@@ -97,9 +91,9 @@ bool eCollectResourceAction::collect(eTile* const tile) {
 }
 
 bool eCollectResourceAction::goBack2() {
-    mAction = eCharacterActionType::carry;
-    mCharacter->setActionType(mAction);
-    return eActionWithComeback::goBack([this](eTileBase* const t) {
-        return t->walkable() || mHasResource(t);
+    mCharacter->setActionType(eCharacterActionType::carry);
+    const auto hr = mHasResource;
+    return eActionWithComeback::goBack([hr](eTileBase* const t) {
+        return t->walkable() || hr(t);
     });
 }

@@ -1,40 +1,25 @@
 #ifndef EPATROLACTION_H
 #define EPATROLACTION_H
 
-#include "emoveaction.h"
+#include "eactionwithcomeback.h"
 #include "engine/emovedirection.h"
+#include "epatrolmoveaction.h"
 
-class eMovePathAction;
-
-struct ePatrolGuide {
-    int fX;
-    int fY;
-    eMoveDirection fDir;
-};
-
-class ePatrolAction : public eMoveAction {
+class ePatrolAction : public eActionWithComeback {
 public:
     ePatrolAction(eCharacter* const c,
                   const std::vector<ePatrolGuide>& guides,
                   const eAction& failAction,
                   const eAction& finishAction);
-    ~ePatrolAction();
 
     void increment(const int by);
 private:
-    bool getGuide(const int tx, const int ty,
-                  ePatrolGuide& result);
-    bool goBack();
+    bool goBack2();
 
-    eCharacterActionState nextTurn(eOrientation& t);
+    const std::vector<ePatrolGuide> mGuides;
 
-    eOrientation mO{eOrientation::topRight};
-    int mMaxDistance = 100;
-    int mWalkedDistance = 0;
     int mStartX = 0;
     int mStartY = 0;
-    eMovePathAction* mGoBackAction = nullptr;
-    std::vector<ePatrolGuide> mGuides;
 };
 
 #endif // EPATROLACTION_H
