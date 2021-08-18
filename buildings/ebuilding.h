@@ -107,6 +107,10 @@ public:
     void erase();
 
     eGameBoard& getBoard() { return mBoard; }
+
+    const std::vector<eTile*>& tilesUnder() const {
+        return mUnderBuilding;
+    }
 private:
     std::vector<eTile*> mUnderBuilding;
 

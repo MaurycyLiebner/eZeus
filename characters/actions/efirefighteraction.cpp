@@ -17,11 +17,13 @@ eFireFighterAction::eFireFighterAction(
 }
 
 void eFireFighterAction::increment(const int by) {
-    const int fireCheckInc = 200;
-    mFireCheck += by;
-    if(mFireCheck > fireCheckInc) {
-        mFireCheck = 0;
-        lookForFire();
+    if(!mFireFighting) {
+        const int fireCheckInc = 200;
+        mFireCheck += by;
+        if(mFireCheck > fireCheckInc) {
+            mFireCheck = 0;
+            lookForFire();
+        }
     }
     ePatrolAction::increment(by);
 }
@@ -45,6 +47,7 @@ bool eFireFighterAction::lookForFire() {
     const auto failFunc = []() {};
     const auto finishFunc = [this, c, tileWalkable, failFunc](
                             std::vector<eOrientation> path) {
+        mFireFighting = true;
         const auto o = path.back();
         path.pop_back();
         const auto finishAction = [this, c, o]() {
@@ -53,7 +56,10 @@ bool eFireFighterAction::lookForFire() {
             if(n && n->onFire()) {
                 c->setOrientation(o);
                 putOutFire(n);
-            } else patrol();
+            } else {
+                mFireFighting = false;
+                patrol();
+            }
         };
 
         const auto a  = new eMovePathAction(c, path, tileWalkable,
@@ -67,7 +73,7 @@ bool eFireFighterAction::lookForFire() {
 
     const auto pft = new ePathFindTask(startTile, tileWalkable,
                                        onFire, finishFunc,
-                                       failFunc);
+                                       failFunc, 20);
     tp->queueTask(pft);
 
     return true;
@@ -77,7 +83,15 @@ void eFireFighterAction::putOutFire(eTile* const tile) {
     const auto c = character();
     c->setActionType(eCharacterActionType::fight);
     const auto finish = [this, tile]() {
-        tile->setOnFire(false);
+        mFireFighting = false;
+        if(const auto b = tile->underBuilding()) {
+            const auto& u = b->tilesUnder();
+            for(const auto t : u) {
+                t->setOnFire(false);
+            }
+        } else {
+            tile->setOnFire(false);
+        }
         lookForFire();
     };
     const auto a = new eWaitAction(c, []() {}, finish);

@@ -64,7 +64,7 @@ bool eCollectResourceAction::findResource() {
 
     const auto pft = new ePathFindTask(startTile, tileWalkable,
                                        hubr, finishFunc,
-                                       failFunc);
+                                       failFunc, 50);
     tp->queueTask(pft);
 
     setCurrentAction(new eWaitAction(c, []() {}, []() {}));

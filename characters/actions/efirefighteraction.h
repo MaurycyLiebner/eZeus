@@ -15,6 +15,7 @@ private:
     bool lookForFire();
     void putOutFire(eTile* const tile);
 
+    bool mFireFighting{false};
     int mFireCheck{0};
 };
 

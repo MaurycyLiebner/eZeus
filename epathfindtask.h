@@ -16,7 +16,8 @@ public:
                   const eTileChecker& tileWalkable,
                   const eTileChecker& endTile,
                   const eFinishFunc& finishFunc,
-                  const eFailFunc& failFunc);
+                  const eFailFunc& failFunc,
+                  const int range);
 
 
 protected:
@@ -29,6 +30,7 @@ private:
     const eTileChecker mEndTile;
     const eFinishFunc mFinish;
     const eFailFunc mFailFunc;
+    const int mRange;
 
     bool mR{false};
     ePath mPath;
