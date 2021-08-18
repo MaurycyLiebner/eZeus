@@ -45,6 +45,7 @@ SOURCES += \
         characters/actions/edieaction.cpp \
         characters/actions/efightaction.cpp \
         characters/actions/efirefightaction.cpp \
+        characters/actions/efirefighteraction.cpp \
         characters/actions/ehuntaction.cpp \
         characters/actions/emoveaction.cpp \
         characters/actions/emovearoundaction.cpp \
@@ -176,6 +177,7 @@ HEADERS += \
     characters/actions/edieaction.h \
     characters/actions/efightaction.h \
     characters/actions/efirefightaction.h \
+    characters/actions/efirefighteraction.h \
     characters/actions/ehuntaction.h \
     characters/actions/emoveaction.h \
     characters/actions/emovearoundaction.h \

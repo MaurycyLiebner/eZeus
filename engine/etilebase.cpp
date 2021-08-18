@@ -16,6 +16,10 @@ void eTileBase::setBusy(const bool b) {
     mBusy = b;
 }
 
+void eTileBase::setOnFire(const bool of) {
+    mOnFire = of;
+}
+
 void eTileBase::setSeed(const int s) {
     mSeed = s;
 }

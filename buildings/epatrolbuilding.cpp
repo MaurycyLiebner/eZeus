@@ -10,13 +10,37 @@ ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
                                  const double overlayY,
                                  const eOverlays overlays,
                                  const eCharGenerator& charGen,
+                                 const eActGenerator& actGen,
                                  const eBuildingType type,
                                  const int sw, const int sh) :
     eBuilding(board, type, sw, sh),
     mCharGenerator(charGen),
+    mActGenerator(actGen),
     mTextures(eGameTextures::buildings()),
     mBaseTex(baseTex), mOverlays(overlays),
     mOverlayX(overlayX), mOverlayY(overlayY) {
+
+}
+
+eCharacterAction* gDefaultActGenerator(
+           eCharacter* const c,
+           const std::vector<ePatrolGuide>& guides,
+           const eAction& failAction,
+           const eAction& finishActio) {
+    return new ePatrolAction(c, guides, failAction, finishActio);
+}
+
+ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
+                                 const eBaseTex baseTex,
+                                 const double overlayX,
+                                 const double overlayY,
+                                 const eOverlays overlays,
+                                 const eCharGenerator& charGen,
+                                 const eBuildingType type,
+                                 const int sw, const int sh) :
+    ePatrolBuilding(board, baseTex, overlayX, overlayY,
+                    overlays, charGen, gDefaultActGenerator,
+                    type, sw, sh) {
 
 }
 
@@ -35,7 +59,6 @@ std::vector<eOverlay> ePatrolBuilding::getOverlays(const eTileSize size) const {
     o.fY = mOverlayY;
     return std::vector<eOverlay>({o});
 }
-
 
 void ePatrolBuilding::timeChanged() {
     const int spawnFreq = 5000;
@@ -65,13 +88,13 @@ void ePatrolBuilding::spawn() const {
     }
     if(!t) return;
 
-    const auto d = mCharGenerator();
-    d->setTile(t);
-    const auto finishAct = [d]() {
-        const auto t = d->tile();
-        t->removeCharacter(d);
-        delete d;
+    const auto c = mCharGenerator();
+    c->setTile(t);
+    const auto finishAct = [c]() {
+        const auto t = c->tile();
+        t->removeCharacter(c);
+        delete c;
     };
-    d->setAction(new ePatrolAction(d, mPatrolGuides, finishAct, finishAct));
-    t->addCharacter(d)  ;
+    c->setAction(mActGenerator(c, mPatrolGuides, finishAct, finishAct));
+    t->addCharacter(c)  ;
 }

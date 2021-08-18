@@ -7,7 +7,11 @@ class eWaitAction : public eCharacterAction {
 public:
     using eCharacterAction::eCharacterAction;
 
-    void increment(const int) {}
+    void increment(const int by);
+
+    void setTime(const int t);
+private:
+    int mRemTime{__INT_MAX__};
 };
 
 #endif // EWAITACTION_H

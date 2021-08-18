@@ -15,16 +15,20 @@ ePatrolAction::ePatrolAction(eCharacter* const c,
 
 void ePatrolAction::increment(const int by) {
     if(!currentAction()) {
-        const auto failFunc = [this]() {
-            setState(eCharacterActionState::failed);
-        };
-        const auto finishFunc = [this]() {
-            goBack2();
-        };
-        const auto a = new ePatrolMoveAction(character(), mGuides,
-                                             failFunc, finishFunc);
-        setCurrentAction(a);
+        patrol();
     } else eActionWithComeback::increment(by);
+}
+
+void ePatrolAction::patrol() {
+    const auto failFunc = [this]() {
+        setState(eCharacterActionState::failed);
+    };
+    const auto finishFunc = [this]() {
+        goBack2();
+    };
+    const auto a = new ePatrolMoveAction(character(), mGuides,
+                                         failFunc, finishFunc);
+    setCurrentAction(a);
 }
 
 bool ePatrolAction::goBack2() {

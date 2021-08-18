@@ -11,6 +11,20 @@ public:
     using eBaseTex = eTexture eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;
     using eCharGenerator =  std::function<eCharacter*()>;
+    using eActGenerator =  std::function<eCharacterAction*(
+                                eCharacter* const c,
+                                const std::vector<ePatrolGuide>& guides,
+                                const eAction& failAction,
+                                const eAction& finishAction)>;
+    ePatrolBuilding(eGameBoard& board,
+                    const eBaseTex baseTex,
+                    const double overlayX,
+                    const double overlayY,
+                    const eOverlays overlays,
+                    const eCharGenerator& charGen,
+                    const eActGenerator& actGen,
+                    const eBuildingType type,
+                    const int sw, const int sh);
     ePatrolBuilding(eGameBoard& board,
                     const eBaseTex baseTex,
                     const double overlayX,
@@ -35,6 +49,7 @@ public:
     void spawn() const;
 private:
     const eCharGenerator mCharGenerator;
+    const eActGenerator mActGenerator;
     const std::vector<eBuildingTextures>& mTextures;
 
     const eBaseTex mBaseTex;

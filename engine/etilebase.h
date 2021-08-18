@@ -85,6 +85,9 @@ public:
 
     bool busy() const { return mBusy; }
     void setBusy(const bool b);
+
+    bool onFire() const { return mOnFire; }
+    void setOnFire(const bool of);
 private:
     int mSeed;
     int mX;
@@ -92,7 +95,8 @@ private:
 
     bool mWalkableElev{false};
 
-    bool mBusy = false;
+    bool mOnFire{false};
+    bool mBusy{false};
     int mResource = 10000;
 
     eTileBase* mTopLeft = nullptr;

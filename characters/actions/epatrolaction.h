@@ -13,9 +13,10 @@ public:
                   const eAction& finishAction);
 
     void increment(const int by);
-private:
+protected:
+    void patrol();
     bool goBack2();
-
+private:
     const std::vector<ePatrolGuide> mGuides;
 
     int mStartX = 0;
