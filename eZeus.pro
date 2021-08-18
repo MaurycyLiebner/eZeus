@@ -100,6 +100,7 @@ SOURCES += \
         textures/ebuildingtextures.cpp \
         textures/echaractertextures.cpp \
         textures/edemetertextures.cpp \
+        textures/edestructiontextures.cpp \
         textures/efertiletodry.cpp \
         textures/eforesttodry.cpp \
         textures/egametextures.cpp \
@@ -234,6 +235,7 @@ HEADERS += \
     textures/ebuildingtextures.h \
     textures/echaractertextures.h \
     textures/edemetertextures.h \
+    textures/edestructiontextures.h \
     textures/efertiletodry.h \
     textures/eforesttodry.h \
     textures/egametextures.h \

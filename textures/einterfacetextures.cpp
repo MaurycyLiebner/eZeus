@@ -3,7 +3,7 @@
 #include "etextureloadinghelpers.h"
 
 eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
-                                       SDL_Renderer* const renderer):
+                                       SDL_Renderer* const renderer) :
     fTileW(tileW), fTileH(tileH),
     fRenderer(renderer),
 

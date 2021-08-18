@@ -6,6 +6,7 @@
 #include "ebuildingtextures.h"
 #include "echaractertextures.h"
 #include "einterfacetextures.h"
+#include "edestructiontextures.h"
 
 class eGameTextures {
 public:
@@ -24,6 +25,9 @@ public:
     static const std::vector<eInterfaceTextures>& interface() {
         return sInterfaceTextures;
     }
+    static const std::vector<eDestructionTextures>& destrution() {
+        return sDestructionTextures;
+    }
 
     static bool initialize(SDL_Renderer* const r);
     static bool loadNextMenu(std::string& text);
@@ -37,6 +41,7 @@ private:
     static std::vector<eBuildingTextures> sBuildingTextures;
     static std::vector<eCharacterTextures> sCharacterTextures;
     static std::vector<eInterfaceTextures> sInterfaceTextures;
+    static std::vector<eDestructionTextures> sDestructionTextures;
 };
 
 #endif // EGAMETEXTURES_H

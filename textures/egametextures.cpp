@@ -8,6 +8,7 @@ std::vector<eDemeterTextures> eGameTextures::sDemeterTextures;
 std::vector<eBuildingTextures> eGameTextures::sBuildingTextures;
 std::vector<eCharacterTextures> eGameTextures::sCharacterTextures;
 std::vector<eInterfaceTextures> eGameTextures::sInterfaceTextures;
+std::vector<eDestructionTextures> eGameTextures::sDestructionTextures;
 
 using eLoader = std::function<void(std::string&)>;
 std::vector<eLoader> gMenuLoaders;
@@ -24,6 +25,7 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
         sBuildingTextures.emplace_back(s.first, s.second, r);
         sCharacterTextures.emplace_back(s.first, s.second, r);
         sInterfaceTextures.emplace_back(s.first, s.second, r);
+        sDestructionTextures.emplace_back(s.first, s.second, r);
 
         gGameLoaders.push_back([i](std::string& text) {
             sTerrainTextures[i].load();
@@ -66,6 +68,17 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
                 text = "Loading medium character textures...";
             } else if(i == 2) {
                 text = "Loading large character textures...";
+            }
+        });
+
+        gGameLoaders.push_back([i](std::string& text) {
+            sDestructionTextures[i].load();
+            if(i == 0) {
+                text = "Loading small destruction textures...";
+            } else if(i == 1) {
+                text = "Loading medium destruction textures...";
+            } else if(i == 2) {
+                text = "Loading large destruction textures...";
             }
         });
 
