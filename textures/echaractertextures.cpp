@@ -12,6 +12,7 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fTaxCollector(renderer),
     fWaterDistributor(renderer),
     fWatchman(renderer),
+    fFireFighter(renderer),
     fHealer(renderer),
     fGymnast(renderer),
     fPhilosopher(renderer),
@@ -66,7 +67,40 @@ void eCharacterTextures::load() {
 
 
     for(int j = 0; j < 8; j++) {
+        fFireFighter.fWalk.emplace_back(fRenderer);
+        fFireFighter.fCarry.emplace_back(fRenderer);
+        fFireFighter.fPutOut.emplace_back(fRenderer);
+    }
+    for(int i = 609; i < 705;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& walk = fFireFighter.fWalk;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
+        }
+    }
+    for(int i = 705; i < 801;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& walk = fFireFighter.fCarry;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
+        }
+    }
+    for(int i = 801; i < 809; i++) {
+        auto& die = fFireFighter.fDie;
+        eTextureLoadingHelpers::loadTex(pathBase, i, die);
+    }
+    for(int i = 809; i < 1129;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& walk = fFireFighter.fPutOut;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
+        }
+    }
+
+
+    for(int j = 0; j < 8; j++) {
         fWatchman.fWalk.emplace_back(fRenderer);
+        fWatchman.fFight.emplace_back(fRenderer);
     }
     for(int i = 2209; i < 2305;) {
         for(int j = 0; j < 8; j++, i++) {
@@ -78,9 +112,6 @@ void eCharacterTextures::load() {
     for(int i = 2305; i < 2313; i++) {
         auto& die = fWatchman.fDie;
         eTextureLoadingHelpers::loadTex(pathBase, i, die);
-    }
-    for(int j = 0; j < 8; j++) {
-        fWatchman.fFight.emplace_back(fRenderer);
     }
     for(int i = 2312; i < 2377;) {
         for(int j = 0; j < 8; j++, i++) {

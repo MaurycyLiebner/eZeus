@@ -35,6 +35,7 @@
 #include "buildings/etaxoffice.h"
 #include "buildings/eresourcebuilding.h"
 #include "buildings/ehuntinglodge.h"
+#include "buildings/emaintenanceoffice.h"
 
 #include "spawners/eboarspawner.h"
 
@@ -482,6 +483,10 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = new eWatchpost(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
+        case eBuildingMode::maintenanceOffice: {
+            const auto b1 = new eMaintenanceOffice(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
         case eBuildingMode::college: {
             const auto b1 = new eCollege(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
@@ -808,6 +813,12 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
                           [this]() { return new eWatchpost(mBoard); });
+                };
+                break;
+            case eBuildingMode::maintenanceOffice:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return new eMaintenanceOffice(mBoard); });
                 };
                 break;
             case eBuildingMode::college:

@@ -3,38 +3,43 @@
 
 #include "etexturecollection.h"
 
-struct eResourceCollectorTextures {
-    eResourceCollectorTextures(SDL_Renderer* const renderer) :
+struct eBasicCharacterTextures {
+    eBasicCharacterTextures(SDL_Renderer* const renderer) :
         fDie(renderer) {}
 
     std::vector<eTextureCollection> fWalk;
+    eTextureCollection fDie;
+};
+
+struct eResourceCollectorTextures : public eBasicCharacterTextures {
+    eResourceCollectorTextures(SDL_Renderer* const renderer) :
+        eBasicCharacterTextures(renderer) {}
+
     std::vector<eTextureCollection> fCarry;
     std::vector<eTextureCollection> fCollect;
-    eTextureCollection fDie;
 };
 
-struct eBasicPatrolerTextures {
-    eBasicPatrolerTextures(SDL_Renderer* const renderer) :
-        fDie(renderer) {}
 
-    std::vector<eTextureCollection> fWalk;
-    eTextureCollection fDie;
-};
-
-struct eFightingPatrolerTextures : public eBasicPatrolerTextures {
-    eFightingPatrolerTextures(SDL_Renderer* const renderer) :
-        eBasicPatrolerTextures(renderer) {}
+struct eFightingCharacterTextures : public eBasicCharacterTextures {
+    eFightingCharacterTextures(SDL_Renderer* const renderer) :
+        eBasicCharacterTextures(renderer) {}
 
     std::vector<eTextureCollection> fFight;
 };
 
-struct eAnimalTextures {
+struct eFireFighterTextures : public eBasicCharacterTextures {
+    eFireFighterTextures(SDL_Renderer* const renderer) :
+        eBasicCharacterTextures(renderer) {}
+
+    std::vector<eTextureCollection> fCarry;
+    std::vector<eTextureCollection> fPutOut;
+};
+
+struct eAnimalTextures : public eBasicCharacterTextures {
     eAnimalTextures(SDL_Renderer* const renderer) :
-        fDie(renderer) {}
+        eBasicCharacterTextures(renderer) {}
 
-    std::vector<eTextureCollection> fWalk;
     std::vector<eTextureCollection> fFight;
-    eTextureCollection fDie;
 };
 
 class eCharacterTextures {
@@ -48,14 +53,15 @@ public:
     const int fTileH;
     SDL_Renderer* const fRenderer;
 
-    eBasicPatrolerTextures fFoodDistributor;
-    eBasicPatrolerTextures fActor;
-    eBasicPatrolerTextures fTaxCollector;
-    eBasicPatrolerTextures fWaterDistributor;
-    eFightingPatrolerTextures fWatchman;
-    eBasicPatrolerTextures fHealer;
-    eBasicPatrolerTextures fGymnast;
-    eBasicPatrolerTextures fPhilosopher;
+    eBasicCharacterTextures fFoodDistributor;
+    eBasicCharacterTextures fActor;
+    eBasicCharacterTextures fTaxCollector;
+    eBasicCharacterTextures fWaterDistributor;
+    eFightingCharacterTextures fWatchman;
+    eFireFighterTextures fFireFighter;
+    eBasicCharacterTextures fHealer;
+    eBasicCharacterTextures fGymnast;
+    eBasicCharacterTextures fPhilosopher;
 
     eResourceCollectorTextures fSilverMiner;
     eResourceCollectorTextures fBronzeMiner;

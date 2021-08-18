@@ -19,6 +19,7 @@ enum class eCharacterType {
     taxCollector,
     watchman,
     waterDistributor,
+    fireFighter,
 
     healer,
 

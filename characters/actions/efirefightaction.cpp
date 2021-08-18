@@ -1,19 +1,19 @@
-#include "epatrolaction.h"
+#include "efirefightaction.h"
 
 #include "../echaracter.h"
 #include "engine/etile.h"
 #include "epatrolmoveaction.h"
 
-ePatrolAction::ePatrolAction(eCharacter* const c,
-                             const std::vector<ePatrolGuide>& guides,
-                             const eAction& failAction,
-                             const eAction& finishAction) :
+eFireFightAction::eFireFightAction(eCharacter* const c,
+                                   const std::vector<ePatrolGuide>& guides,
+                                   const eAction& failAction,
+                                   const eAction& finishAction) :
     eActionWithComeback(c, failAction, finishAction),
     mGuides(guides) {
 
 }
 
-void ePatrolAction::increment(const int by) {
+void eFireFightAction::increment(const int by) {
     if(!currentAction()) {
         const auto failFunc = [this]() {
             setState(eCharacterActionState::failed);
@@ -22,12 +22,12 @@ void ePatrolAction::increment(const int by) {
             goBack2();
         };
         const auto a = new ePatrolMoveAction(character(), mGuides,
-                                             failFunc, finishFunc);
+                                           failFunc, finishFunc);
         setCurrentAction(a);
     } else eActionWithComeback::increment(by);
 }
 
-bool ePatrolAction::goBack2() {
+bool eFireFightAction::goBack2() {
     return eActionWithComeback::goBack([](eTileBase* const t) {
         return t->hasRoad();
     });

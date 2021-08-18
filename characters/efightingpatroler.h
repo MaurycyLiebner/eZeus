@@ -7,7 +7,7 @@
 
 class eFightingPatroler : public eCharacter {
 public:
-    using eCharTexs = eFightingPatrolerTextures eCharacterTextures::*;
+    using eCharTexs = eFightingCharacterTextures eCharacterTextures::*;
     eFightingPatroler(eGameBoard& board, const eCharTexs charTexs,
                       const eCharacterType type);
 

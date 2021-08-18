@@ -22,6 +22,7 @@ SOURCES += \
         buildings/egymnasium.cpp \
         buildings/ehospital.cpp \
         buildings/ehuntinglodge.cpp \
+        buildings/emaintenanceoffice.cpp \
         buildings/emint.cpp \
         buildings/epalace1.cpp \
         buildings/epalace2.cpp \
@@ -43,6 +44,7 @@ SOURCES += \
         characters/actions/ecollectresourceaction.cpp \
         characters/actions/edieaction.cpp \
         characters/actions/efightaction.cpp \
+        characters/actions/efirefightaction.cpp \
         characters/actions/ehuntaction.cpp \
         characters/actions/emoveaction.cpp \
         characters/actions/emovearoundaction.cpp \
@@ -58,6 +60,7 @@ SOURCES += \
         characters/echaracterbase.cpp \
         characters/edemeter.cpp \
         characters/efightingpatroler.cpp \
+        characters/efirefighter.cpp \
         characters/egymnast.cpp \
         characters/ehealer.cpp \
         characters/ehunter.cpp \
@@ -150,6 +153,7 @@ HEADERS += \
     buildings/egymnasium.h \
     buildings/ehospital.h \
     buildings/ehuntinglodge.h \
+    buildings/emaintenanceoffice.h \
     buildings/emint.h \
     buildings/epalace1.h \
     buildings/epalace2.h \
@@ -171,6 +175,7 @@ HEADERS += \
     characters/actions/ecollectresourceaction.h \
     characters/actions/edieaction.h \
     characters/actions/efightaction.h \
+    characters/actions/efirefightaction.h \
     characters/actions/ehuntaction.h \
     characters/actions/emoveaction.h \
     characters/actions/emovearoundaction.h \
@@ -186,6 +191,7 @@ HEADERS += \
     characters/echaracterbase.h \
     characters/edemeter.h \
     characters/efightingpatroler.h \
+    characters/efirefighter.h \
     characters/egymnast.h \
     characters/ehealer.h \
     characters/ehunter.h \
