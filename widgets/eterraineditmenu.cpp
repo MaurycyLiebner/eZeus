@@ -98,7 +98,13 @@ void eTerrainEditMenu::initialize() {
     });
     w8->fitContent();
 
-    const auto w9 = new eWidget(window());
+    const auto w9 = new eActionListWidget(window());
+    w9->setSmallFontSize();
+    w9->addAction("Fire", [this]() {
+        mMode = eTerrainEditMode::fire;
+    });
+    w9->fitContent();
+
     const auto w10 = new eWidget(window());
     const auto w11 = new eWidget(window());
     const auto w12 = new eWidget(window());

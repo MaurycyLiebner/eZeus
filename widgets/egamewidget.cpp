@@ -316,7 +316,7 @@ bool eGameWidget::build(const int tx, const int ty,
 
 void eGameWidget::paintEvent(ePainter& p) {
     mThreadPool.handleFinished();
-
+    mTime += mSpeed;
     mBoard.incTime(mSpeed);
 
     if(mUpdateRects.empty()) {
@@ -407,6 +407,18 @@ void eGameWidget::paintEvent(ePainter& p) {
         for(const auto c : chars) {
             const auto tex = c->getTexture(mTileSize);
             tp.drawTexture(tx - a + c->x() + 0.25, ty - a + c->y() + 0.25, tex);
+        }
+
+        if(tile->onFire()) {
+            double rx;
+            double ry;
+            drawXY(tx, ty, rx, ry, 1, 1, a);
+            const int f = (tx + ty) % 2;
+            const auto& destr = eGameTextures::destrution().at(tid);
+            const auto& ff = destr.fFire[f];
+            const int dt = mTime/8 + tx*ty;
+            const auto tex = ff.getTexture(dt % ff.size());
+            tp.drawTexture(rx - 2, ry - 3, tex, eAlignment::hcenter);
         }
 
         if(mPatrolBuilding) {
@@ -754,6 +766,10 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     const auto os = tile->spawner();
                     if(os) delete os;
                     new eBoarSpawner(tile, mBoard);
+                };
+            } else if(mode == eTerrainEditMode::fire) {
+                apply = [](eTile* const tile) {
+                    tile->setOnFire(true);
                 };
             } else {
                 apply = [mode](eTile* const tile) {

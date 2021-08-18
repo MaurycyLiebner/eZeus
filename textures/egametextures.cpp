@@ -121,7 +121,8 @@ int eGameTextures::gameSize() {
     return sTerrainTextures.size() +
            sDemeterTextures.size() +
            sBuildingTextures.size() +
-           sCharacterTextures.size();
+           sCharacterTextures.size() +
+           sDestructionTextures.size();
 }
 
 int eGameTextures::menuSize() {

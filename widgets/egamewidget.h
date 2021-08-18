@@ -63,6 +63,7 @@ private:
 
     bool mRotate = false;
 
+    int mTime{0};
     int mSpeed = 1;
 
     int mWheel = 0;

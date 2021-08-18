@@ -36,3 +36,9 @@ bool ePatrolAction::goBack2() {
         return t->hasRoad();
     });
 }
+
+bool ePatrolAction::goBackNoRoad() {
+    return eActionWithComeback::goBack([](eTileBase* const t) {
+        return t->walkable();
+    });
+}

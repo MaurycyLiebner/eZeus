@@ -47,6 +47,7 @@ bool eFireFighterAction::lookForFire() {
     const auto failFunc = []() {};
     const auto finishFunc = [this, c, tileWalkable, failFunc](
                             std::vector<eOrientation> path) {
+        c->setActionType(eCharacterActionType::carry);
         mFireFighting = true;
         const auto o = path.back();
         path.pop_back();
@@ -58,7 +59,7 @@ bool eFireFighterAction::lookForFire() {
                 putOutFire(n);
             } else {
                 mFireFighting = false;
-                patrol();
+                goBackNoRoad();
             }
         };
 
@@ -95,5 +96,6 @@ void eFireFighterAction::putOutFire(eTile* const tile) {
         lookForFire();
     };
     const auto a = new eWaitAction(c, []() {}, finish);
+    a->setTime(400);
     setCurrentAction(a);
 }

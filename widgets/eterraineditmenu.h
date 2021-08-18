@@ -27,7 +27,9 @@ enum class eTerrainEditMode {
     resetElev,
     makeWalkable,
 
-    boar
+    boar,
+
+    fire
 };
 
 class eTerrainEditMenu : public eGameMenuBase {

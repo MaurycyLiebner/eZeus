@@ -12,6 +12,7 @@ void eThreadTile::load(eTile* const src) {
     setTerrain(src->terrain());
     setScrub(src->scrub());
     setAltitude(src->altitude());
+    setOnFire(src->onFire());
 
     mCharacters.clear();
     const auto& chars = src->characters();
@@ -32,6 +33,7 @@ void eThreadTile::load(const eThreadTile& src) {
     setTerrain(src.terrain());
     setScrub(src.scrub());
     setAltitude(src.altitude());
+    setOnFire(src.onFire());
 
     mCharacters = src.mCharacters;
     mUnderBuilding = src.mUnderBuilding;

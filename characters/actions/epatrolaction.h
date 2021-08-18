@@ -16,6 +16,7 @@ public:
 protected:
     void patrol();
     bool goBack2();
+    bool goBackNoRoad();
 private:
     const std::vector<ePatrolGuide> mGuides;
 
