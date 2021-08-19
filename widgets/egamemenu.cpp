@@ -6,6 +6,8 @@
 #include "econtextmenu.h"
 #include "engine/egameboard.h"
 
+#include "widgets/datawidgets/epopulationdatawidget.h"
+
 struct eSubButtonData {
     std::function<void()> fPressedFunc;
     const eTextureCollection* fColl = nullptr;
@@ -86,12 +88,19 @@ void eGameMenu::initialize() {
         setMode(eBuildingMode::eliteHousing);
     };
 
-//    const auto ww0 = new eWidget(window());
+    const auto ww0 = new eWidget(window());
     const auto w0 = createSubButtons(mult,
                         eButtonsDataVec{
                             {cha0, &coll.fCommonHousing},
                             {eha0, &coll.fEliteHousing}});
-//    ww0->addWidget(w0);
+    mPopDataW = new ePopulationDataWidget(window());
+    mPopDataW->initialize();
+    ww0->addWidget(mPopDataW);
+    ww0->addWidget(w0);
+    ww0->fitContent();
+    ww0->setHeight(190*mult);
+    w0->align(eAlignment::bottom);
+    mPopDataW->align(eAlignment::top);
 
     using eSPR = std::pair<eBuildingMode, std::string>;
     const auto ff1 = [this, cmx, cmy]() {
@@ -297,7 +306,7 @@ void eGameMenu::initialize() {
                              {m9, &coll.fMonuments}});
 
 
-    mWidgets.push_back(w0);
+    mWidgets.push_back(ww0);
     mWidgets.push_back(w1);
     mWidgets.push_back(w2);
     mWidgets.push_back(w3);
@@ -310,11 +319,11 @@ void eGameMenu::initialize() {
 
     for(const auto w : mWidgets) {
         addWidget(w);
-        w->move(24*mult, 165*mult);
+        w->move(24*mult, 20*mult/*165*mult*/);
         w->hide();
     }
 
-    const auto b0 = addButton(coll.fPopulation, w0);
+    const auto b0 = addButton(coll.fPopulation, ww0);
     const auto b1 = addButton(coll.fHusbandry, w1);
     const auto b2 = addButton(coll.fIndustry, w2);
     const auto b3 = addButton(coll.fDistribution, w3);
@@ -389,6 +398,11 @@ void eGameMenu::initialize() {
         butts->setY(std::round(mult*282.5));
         addWidget(butts);
     }
+}
+
+void eGameMenu::setBoard(eGameBoard* const b) {
+    mBoard = b;
+    mPopDataW->setBoard(b);
 }
 
 void eGameMenu::setMode(const eBuildingMode mode) {

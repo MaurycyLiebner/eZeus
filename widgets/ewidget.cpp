@@ -23,10 +23,6 @@ eWidget::~eWidget() {
     clearWidgetPointers();
 }
 
-void eWidget::paintEvent(ePainter& p) {
-    p.drawRect(rect(), {0, 0, 0, 255}, 1);
-}
-
 SDL_Renderer* eWidget::renderer() const {
     return mWindow->renderer();
 }

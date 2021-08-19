@@ -9,6 +9,7 @@ public:
     eLabelBase(SDL_Renderer* const renderer);
 
     bool setFont(const eFont& font);
+    bool setFontSize(const int s);
     bool setText(const std::string& text);
     bool setTexture(const eTexture& tex);
     bool setFontColor(const SDL_Color& color);

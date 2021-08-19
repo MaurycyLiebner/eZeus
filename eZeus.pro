@@ -118,6 +118,7 @@ SOURCES += \
         textures/ewatertobeach.cpp \
         textures/ewatertodry.cpp \
         textures/ewatertox.cpp \
+        widgets/datawidgets/epopulationdatawidget.cpp \
         widgets/eactionlistwidget.cpp \
         widgets/ebutton.cpp \
         widgets/echeckablebutton.cpp \
@@ -257,6 +258,7 @@ HEADERS += \
     textures/ewatertobeach.h \
     textures/ewatertodry.h \
     textures/ewatertox.h \
+    widgets/datawidgets/epopulationdatawidget.h \
     widgets/eactionlistwidget.h \
     widgets/ebutton.h \
     widgets/echeckablebutton.h \

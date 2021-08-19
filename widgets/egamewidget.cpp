@@ -63,6 +63,7 @@ void eGameWidget::initialize(const int w, const int h) {
     mGm->initialize();
     addWidget(mGm);
     mGm->align(eAlignment::right | eAlignment::top);
+    mGm->setBoard(&mBoard);
 
     mTem = new eTerrainEditMenu(window());
     mTem->initialize();

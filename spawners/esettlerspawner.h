@@ -9,9 +9,6 @@ public:
                     eGameBoard& board);
 
     void spawn(eTile* const tile);
-
-private:
-    int mPop{0};
 };
 
 #endif // ESETTLERSPAWNER_H

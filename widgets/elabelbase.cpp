@@ -10,12 +10,18 @@ bool eLabelBase::setFont(const eFont& font) {
     return setFont(ttf);
 }
 
+bool eLabelBase::setFontSize(const int s) {
+    const auto font = eFonts::defaultFont(s);
+    return setFont(font);
+}
+
 bool eLabelBase::setFont(TTF_Font* const font) {
     mFont = font;
     return updateTextTexture();
 }
 
 bool eLabelBase::setText(const std::string& text) {
+    if(text == mText) return true;
     mText = text;
     return updateTextTexture();
 }

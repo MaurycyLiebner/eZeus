@@ -8,6 +8,7 @@ class eTextureCollection;
 class eInterfaceTextures;
 class eButton;
 class eGameBoard;
+class ePopulationDataWidget;
 
 struct eSubButtonData;
 
@@ -75,6 +76,8 @@ public:
 
     eBuildingMode mode() const { return mMode; }
     void clearMode() { mMode = eBuildingMode::none; }
+
+    void setBoard(eGameBoard* const b);
 private:
     void setMode(const eBuildingMode mode);
     eButton* createSubButton(const eTextureCollection& texs,
@@ -84,6 +87,8 @@ private:
                               const eButtonsDataVec& buttons);
 
     eGameBoard* mBoard{nullptr};
+
+    ePopulationDataWidget* mPopDataW = nullptr;
 
     eBuildingMode mMode{eBuildingMode::road};
 
