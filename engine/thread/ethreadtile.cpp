@@ -1,6 +1,7 @@
 #include "ethreadtile.h"
 
 #include "characters/echaracter.h"
+#include "buildings/esmallhouse.h"
 
 void eThreadTile::load(eTile* const src) {
     setSeed(src->seed());
@@ -13,6 +14,12 @@ void eThreadTile::load(eTile* const src) {
     setScrub(src->scrub());
     setAltitude(src->altitude());
     setOnFire(src->onFire());
+    if(const auto b = src->underBuilding()) {
+        if(b->type() == eBuildingType::commonHouse) {
+            const auto h = static_cast<eSmallHouse*>(b);
+            mData1 = h->vacancies();
+        }
+    }
 
     mCharacters.clear();
     const auto& chars = src->characters();
@@ -34,6 +41,7 @@ void eThreadTile::load(const eThreadTile& src) {
     setScrub(src.scrub());
     setAltitude(src.altitude());
     setOnFire(src.onFire());
+    mData1 = src.mData1;
 
     mCharacters = src.mCharacters;
     mUnderBuilding = src.mUnderBuilding;
@@ -42,7 +50,7 @@ void eThreadTile::load(const eThreadTile& src) {
 bool eThreadTile::walkable() const {
     const auto terr = terrain() & eTerrain::walkable;
     if(!static_cast<bool>(terr)) return false;
-    if(underBuilding() && !hasRoad()) return false;
+    if(isUnderBuilding() && !hasRoad()) return false;
     return true;
 }
 
@@ -57,6 +65,10 @@ bool eThreadTile::hasCharacter(const eHasChar& func) const {
     return false;
 }
 
-bool eThreadTile::underBuilding() const {
+eBuildingType eThreadTile::underBuildingType() const {
+    return mUnderBuilding.type();
+}
+
+bool eThreadTile::isUnderBuilding() const {
     return mUnderBuilding.type() != eBuildingType::none;
 }

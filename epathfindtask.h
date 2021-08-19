@@ -8,8 +8,8 @@
 class ePathFindTask : public eTask {
 public:
     using ePath = std::vector<eOrientation>;
-    using eTileGetter = std::function<eTileBase*(eThreadBoard&)>;
-    using eTileChecker = std::function<bool(eTileBase*)>;
+    using eTileGetter = std::function<eThreadTile*(eThreadBoard&)>;
+    using eTileChecker = std::function<bool(eThreadTile*)>;
     using eFinishFunc = std::function<void(const ePath&)>;
     using eFailFunc = std::function<void()>;
     ePathFindTask(const eTileGetter& startTile,

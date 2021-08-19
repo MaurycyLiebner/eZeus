@@ -5,6 +5,9 @@
 
 enum class eCharacterType {
     none,
+
+    settler,
+
     boar,
 
     lumberjack,

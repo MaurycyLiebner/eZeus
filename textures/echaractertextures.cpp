@@ -23,7 +23,10 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
     fHunter(renderer),
 
-    fBoar(renderer) {
+    fBoar(renderer),
+
+    fSettlers1(renderer),
+    fSettlers2(renderer) {
 
 }
 
@@ -46,7 +49,8 @@ void eCharacterTextures::load() {
     }
     for(int i = 97; i < 105; i++) {
         auto& die = fFoodDistributor.fDie;
-        eTextureLoadingHelpers::loadTex(pathBase, i, die);
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
     }
 
 
@@ -62,8 +66,43 @@ void eCharacterTextures::load() {
     }
     for(int i = 201; i < 209; i++) {
         auto& die = fActor.fDie;
-        eTextureLoadingHelpers::loadTex(pathBase, i, die);
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
     }
+
+    for(int j = 0; j < 8; j++) {
+        fSettlers1.fWalk.emplace_back(fRenderer);
+    }
+    for(int i = 505; i < 601;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& walk = fSettlers1.fWalk;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
+        }
+    }
+    for(int i = 601; i < 609; i++) {
+        auto& die = fSettlers1.fDie;
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
+    }
+
+
+    for(int j = 0; j < 8; j++) {
+        fSettlers2.fWalk.emplace_back(fRenderer);
+    }
+    for(int i = 1793; i < 1889;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& walk = fSettlers2.fWalk;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
+        }
+    }
+    for(int i = 1889; i < 1897; i++) {
+        auto& die = fSettlers2.fDie;
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
+    }
+
 
 
     for(int j = 0; j < 8; j++) {
@@ -87,7 +126,8 @@ void eCharacterTextures::load() {
     }
     for(int i = 801; i < 809; i++) {
         auto& die = fFireFighter.fDie;
-        eTextureLoadingHelpers::loadTex(pathBase, i, die);
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
     }
     for(int i = 809; i < 1129;) {
         for(int j = 0; j < 8; j++, i++) {
@@ -111,7 +151,8 @@ void eCharacterTextures::load() {
     }
     for(int i = 2305; i < 2313; i++) {
         auto& die = fWatchman.fDie;
-        eTextureLoadingHelpers::loadTex(pathBase, i, die);
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
     }
     for(int i = 2312; i < 2377;) {
         for(int j = 0; j < 8; j++, i++) {

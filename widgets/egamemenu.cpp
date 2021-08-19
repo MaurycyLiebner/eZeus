@@ -4,6 +4,7 @@
 #include "emainwindow.h"
 #include "echeckablebutton.h"
 #include "econtextmenu.h"
+#include "engine/egameboard.h"
 
 struct eSubButtonData {
     std::function<void()> fPressedFunc;
@@ -84,10 +85,13 @@ void eGameMenu::initialize() {
     const auto eha0 = [this]() {
         setMode(eBuildingMode::eliteHousing);
     };
+
+//    const auto ww0 = new eWidget(window());
     const auto w0 = createSubButtons(mult,
                         eButtonsDataVec{
                             {cha0, &coll.fCommonHousing},
                             {eha0, &coll.fEliteHousing}});
+//    ww0->addWidget(w0);
 
     using eSPR = std::pair<eBuildingMode, std::string>;
     const auto ff1 = [this, cmx, cmy]() {

@@ -14,9 +14,8 @@ ePatrolAction::ePatrolAction(eCharacter* const c,
 }
 
 void ePatrolAction::increment(const int by) {
-    if(!currentAction()) {
-        patrol();
-    } else eActionWithComeback::increment(by);
+    if(!currentAction()) patrol();
+    eActionWithComeback::increment(by);
 }
 
 void ePatrolAction::patrol() {
@@ -31,14 +30,14 @@ void ePatrolAction::patrol() {
     setCurrentAction(a);
 }
 
-bool ePatrolAction::goBack2() {
-    return eActionWithComeback::goBack([](eTileBase* const t) {
+void ePatrolAction::goBack2() {
+    eActionWithComeback::goBack([](eTileBase* const t) {
         return t->hasRoad();
     });
 }
 
-bool ePatrolAction::goBackNoRoad() {
-    return eActionWithComeback::goBack([](eTileBase* const t) {
+void ePatrolAction::goBackNoRoad() {
+    eActionWithComeback::goBack([](eTileBase* const t) {
         return t->walkable();
     });
 }

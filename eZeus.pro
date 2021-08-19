@@ -51,6 +51,7 @@ SOURCES += \
         characters/actions/emovepathaction.cpp \
         characters/actions/epatrolaction.cpp \
         characters/actions/epatrolmoveaction.cpp \
+        characters/actions/esettleraction.cpp \
         characters/actions/ewaitaction.cpp \
         characters/eanimal.cpp \
         characters/ebasicpatroler.cpp \
@@ -67,11 +68,13 @@ SOURCES += \
         characters/elumberjack.cpp \
         characters/ephilosopher.cpp \
         characters/eresourcecollector.cpp \
+        characters/esettler.cpp \
         characters/esilverminer.cpp \
         characters/etaxcollector.cpp \
         characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
         emainwindow.cpp \
+        engine/boardData/epopulationdata.cpp \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
@@ -95,6 +98,7 @@ SOURCES += \
         etexturecollection.cpp \
         main.cpp \
         spawners/eboarspawner.cpp \
+        spawners/esettlerspawner.cpp \
         spawners/espawner.cpp \
         textures/ebeachtodry.cpp \
         textures/ebuildingtextures.cpp \
@@ -183,6 +187,7 @@ HEADERS += \
     characters/actions/emovepathaction.h \
     characters/actions/epatrolaction.h \
     characters/actions/epatrolmoveaction.h \
+    characters/actions/esettleraction.h \
     characters/actions/ewaitaction.h \
     characters/eanimal.h \
     characters/ebasicpatroler.h \
@@ -199,11 +204,13 @@ HEADERS += \
     characters/elumberjack.h \
     characters/ephilosopher.h \
     characters/eresourcecollector.h \
+    characters/esettler.h \
     characters/esilverminer.h \
     characters/etaxcollector.h \
     characters/ewatchman.h \
     characters/ewaterdistributor.h \
     emainwindow.h \
+    engine/boardData/epopulationdata.h \
     engine/efunctask.h \
     engine/egameboard.h \
     engine/egameboarditerator.h \
@@ -230,6 +237,7 @@ HEADERS += \
     offsets/SprMain.h \
     offsets/Zeus_Demeter.h \
     spawners/eboarspawner.h \
+    spawners/esettlerspawner.h \
     spawners/espawner.h \
     textures/ebeachtodry.h \
     textures/ebuildingtextures.h \

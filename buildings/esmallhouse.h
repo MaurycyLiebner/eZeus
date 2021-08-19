@@ -7,15 +7,26 @@
 class eSmallHouse : public eBuilding {
 public:
     eSmallHouse(eGameBoard& board);
+    ~eSmallHouse();
 
     eTexture getTexture(const eTileSize size) const;
 
     void levelUp();
     void levelDown();
+
+    int vacancies() const;
+
+    int level() const { return mLevel; }
+    int people() const { return mPeople; }
+
+    int moveIn(int c);
 private:
     void setLevel(const int l);
+    int evict();
+    void setPeople(const int p);
 
-    int mLevel = 0;
+    int mLevel{0};
+    int mPeople{0};
     const std::vector<eBuildingTextures>& mTextures;
 };
 

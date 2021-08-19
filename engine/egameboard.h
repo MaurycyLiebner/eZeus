@@ -6,6 +6,7 @@
 #include "etile.h"
 #include "egameboarditerator.h"
 
+#include "boardData/epopulationdata.h"
 
 class eSpawner;
 class eCharacter;
@@ -59,6 +60,9 @@ public:
     void incTime(const int by);
 
     eThreadPool* threadPool() const { return mThreadPool; }
+
+
+    ePopulationData& populationData() { return mPopData; }
 private:
     void updateDiagonalArray();
     void updateNeighbours();
@@ -73,6 +77,8 @@ private:
     std::vector<eCharacter*> mCharacters;
     std::vector<eBuilding*> mBuildings;
     std::vector<eSpawner*> mSpawners;
+
+    ePopulationData mPopData;
 };
 
 #endif // EGAMEBOARD_H

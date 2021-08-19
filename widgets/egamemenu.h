@@ -7,6 +7,7 @@ class eCheckableButton;
 class eTextureCollection;
 class eInterfaceTextures;
 class eButton;
+class eGameBoard;
 
 struct eSubButtonData;
 
@@ -81,6 +82,8 @@ private:
     using eButtonsDataVec = std::vector<eSubButtonData>;
     eWidget* createSubButtons(const int resoltuionMult,
                               const eButtonsDataVec& buttons);
+
+    eGameBoard* mBoard{nullptr};
 
     eBuildingMode mMode{eBuildingMode::road};
 

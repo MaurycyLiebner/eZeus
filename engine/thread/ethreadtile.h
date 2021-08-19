@@ -14,8 +14,15 @@ public:
     bool walkable() const;
     bool hasRoad() const;
     bool hasCharacter(const eHasChar& func) const;
-    bool underBuilding() const;
+    eBuildingType underBuildingType() const;
+    bool isUnderBuilding() const;
+
+    // data1
+    int houseVacancies() const { return mData1; }
+    // data1
 private:
+    int mData1{0}; // house vacancies
+
     std::vector<eThreadCharacter> mCharacters;
     eThreadBuilding mUnderBuilding;
 };

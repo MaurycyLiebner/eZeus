@@ -26,7 +26,7 @@ public:
 private:
     bool findResource();
     bool collect(eTile* const tile);
-    bool goBack2();
+    void goBack2();
 
     const eHasResource mHasResource;
     const eTranformFunc mTransFunc;

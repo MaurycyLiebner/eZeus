@@ -29,7 +29,9 @@ enum class eTerrainEditMode {
 
     boar,
 
-    fire
+    fire,
+
+    settlers
 };
 
 class eTerrainEditMenu : public eGameMenuBase {

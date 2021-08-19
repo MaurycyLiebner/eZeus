@@ -1,7 +1,6 @@
 #include "eactionwithcomeback.h"
 
 #include "characters/echaracter.h"
-#include "engine/epathfinder.h"
 #include "characters/actions/ewaitaction.h"
 #include "engine/ethreadpool.h"
 #include "epathfindtask.h"
@@ -31,7 +30,7 @@ void eActionWithComeback::setCurrentAction(eCharacterAction* const a) {
     mCurrentAction = a;
 }
 
-bool eActionWithComeback::goBack(const eWalkable& walkable) {
+void eActionWithComeback::goBack(const eWalkable& walkable) {
     const auto c = character();
     const auto t = c->tile();
     const auto& brd = c->board();
@@ -43,8 +42,10 @@ bool eActionWithComeback::goBack(const eWalkable& walkable) {
     const auto startTile = [tx, ty](eThreadBoard& board) {
         return board.absTile(tx, ty);
     };
-    const auto finalTile = [this](eTileBase* const t) {
-        return t->x() == mStartX && t->y() == mStartY;
+    const int startX = mStartX;
+    const int startY = mStartY;
+    const auto finalTile = [startX, startY](eThreadTile* const t) {
+        return t->x() == startX && t->y() == startY;
     };
     const auto failFunc = [this]() {
         setState(eCharacterActionState::failed);
@@ -66,6 +67,4 @@ bool eActionWithComeback::goBack(const eWalkable& walkable) {
     tp->queueTask(pft);
 
     setCurrentAction(new eWaitAction(c, []() {}, []() {}));
-
-    return true;
 }

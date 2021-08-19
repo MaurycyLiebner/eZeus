@@ -1,6 +1,7 @@
 #include "ebuilding.h"
 
 #include "engine/egameboard.h"
+#include "engine/etile.h"
 
 eBuilding::eBuilding(eGameBoard& board,
                      const eBuildingType type,

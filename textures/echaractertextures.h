@@ -70,6 +70,9 @@ public:
     eResourceCollectorTextures fHunter;
 
     eAnimalTextures fBoar;
+
+    eBasicCharacterTextures fSettlers1;
+    eBasicCharacterTextures fSettlers2;
 };
 
 #endif // ECHARACTERTEXTURES_H

@@ -107,7 +107,16 @@ void eTerrainEditMenu::initialize() {
 
     const auto w10 = new eWidget(window());
     const auto w11 = new eWidget(window());
-    const auto w12 = new eWidget(window());
+
+
+    const auto w12 = new eActionListWidget(window());
+    w12->setSmallFontSize();
+    w12->addAction("Settlers", [this]() {
+        mMode = eTerrainEditMode::settlers;
+    });
+    w12->fitContent();
+
+
     const auto w13 = new eActionListWidget(window());
     w13->setSmallFontSize();
     w13->addAction("Boar", [this]() {

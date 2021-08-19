@@ -38,6 +38,7 @@
 #include "buildings/emaintenanceoffice.h"
 
 #include "spawners/eboarspawner.h"
+#include "spawners/esettlerspawner.h"
 
 #include "echeckbox.h"
 
@@ -770,6 +771,12 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             } else if(mode == eTerrainEditMode::fire) {
                 apply = [](eTile* const tile) {
                     tile->setOnFire(true);
+                };
+            } else if(mode == eTerrainEditMode::settlers) {
+                apply = [this](eTile* const tile) {
+                    const auto os = tile->spawner();
+                    if(os) delete os;
+                    new eSettlerSpawner(tile, mBoard);
                 };
             } else {
                 apply = [mode](eTile* const tile) {

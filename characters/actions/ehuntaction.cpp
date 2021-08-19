@@ -76,9 +76,9 @@ bool eHuntAction::collect() {
     return true;
 }
 
-bool eHuntAction::goBack2() {
+void eHuntAction::goBack2() {
     mCharacter->setActionType(eCharacterActionType::carry);
-    return eActionWithComeback::goBack([](eTileBase* const t) {
+    eActionWithComeback::goBack([](eTileBase* const t) {
         return t->walkable();
     });
 }

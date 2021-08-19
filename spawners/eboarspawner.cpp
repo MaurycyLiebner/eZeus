@@ -5,7 +5,7 @@
 
 eBoarSpawner::eBoarSpawner(eTile* const tile,
                            eGameBoard& board) :
-    eSpawner(tile, 8, 1500, board) {
+    eSpawner(tile, 8, 3000, board) {
 
 }
 

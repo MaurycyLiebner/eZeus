@@ -90,10 +90,10 @@ bool eCollectResourceAction::collect(eTile* const tile) {
     return false;
 }
 
-bool eCollectResourceAction::goBack2() {
+void eCollectResourceAction::goBack2() {
     mCharacter->setActionType(eCharacterActionType::carry);
     const auto hr = mHasResource;
-    return eActionWithComeback::goBack([hr](eTileBase* const t) {
+    eActionWithComeback::goBack([hr](eTileBase* const t) {
         return t->walkable() || hr(t);
     });
 }

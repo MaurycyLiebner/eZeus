@@ -3,10 +3,10 @@
 
 #include "etexturecollection.h"
 #include "widgets/etilepainter.h"
-#include "engine/etile.h"
 #include "engine/emovedirection.h"
 
 class eGameBoard;
+class eTile;
 
 enum class eBuildingType {
     none = -1,

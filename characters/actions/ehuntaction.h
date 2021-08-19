@@ -23,7 +23,7 @@ public:
 private:
     bool findResource();
     bool collect();
-    bool goBack2();
+    void goBack2();
 
     const eHasResource mHasResource;
     const eHasCollectableResource mHasCollectableResource;

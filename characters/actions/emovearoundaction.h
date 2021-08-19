@@ -10,7 +10,8 @@ public:
     eMoveAroundAction(eCharacter* const c);
 private:
     eCharacterActionState nextTurn(eOrientation& turn);
-    eCharacterActionState nextTurn(eOrientation& turn, const int n);
+    eCharacterActionState nextTurn(eOrientation& turn,
+                                   const int n, const int i);
 
     int mStartTX;
     int mStartTY;
