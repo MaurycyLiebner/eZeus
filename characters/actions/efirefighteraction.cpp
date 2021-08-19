@@ -96,6 +96,10 @@ void eFireFighterAction::putOutFire(eTile* const tile) {
         lookForFire();
     };
     const auto a = new eWaitAction(c, []() {}, finish);
-    a->setTime(400);
+    if(tile->underBuilding()) {
+        a->setTime(800);
+    } else {
+        a->setTime(400);
+    }
     setCurrentAction(a);
 }

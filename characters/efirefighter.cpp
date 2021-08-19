@@ -14,6 +14,7 @@ eTexture eFireFighter::getTexture(const eTileSize size) const {
     const auto& charTexs = mTextures[id].*mCharTexs;
     const eTextureCollection* coll = nullptr;
     const int oid = static_cast<int>(orientation());
+    bool boomerang = false;
     bool wrap = true;
     const auto a = actionType();
     switch(a) {
@@ -23,6 +24,7 @@ eTexture eFireFighter::getTexture(const eTileSize size) const {
     } break;
     case eCharacterActionType::fight: {
         coll = &charTexs.fPutOut[oid];
+        boomerang = true;
     } break;
     case eCharacterActionType::carry: {
         coll = &charTexs.fCarry[oid];
@@ -31,9 +33,15 @@ eTexture eFireFighter::getTexture(const eTileSize size) const {
         wrap = false;
         coll = &charTexs.fDie;
     }
-    if(!coll || coll->size() == 0) return eTexture();
-    const int t = textureTime() - actionStartTime();
-    int texId = t % coll->size();
-    if(!wrap) texId = std::clamp(texId, 0, coll->size() - 1);
+    const int s = coll->size();
+    if(!coll || s == 0) return eTexture();
+    int t = textureTime() - actionStartTime();
+    if(!wrap) {
+        t = std::clamp(t, 0, s - 1);
+    } else if(boomerang) {
+        t = t % (2*s);
+        if(t > s) t = 2*s - t;
+    }
+    const int texId = t % s;
     return coll->getTexture(texId);
 }

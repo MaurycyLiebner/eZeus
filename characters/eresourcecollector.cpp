@@ -33,9 +33,10 @@ eTexture eResourceCollector::getTexture(const eTileSize size) const {
         wrap = false;
         coll = &charTexs.fDie;
     }
-    if(!coll || coll->size() == 0) return eTexture();
+    const int s = coll->size();
+    if(!coll || s == 0) return eTexture();
     int t = textureTime() - actionStartTime();
-    if(!wrap) t = std::clamp(t, 0, coll->size() - 1);
-    const int texId = t % coll->size();
+    if(!wrap) t = std::clamp(t, 0, s - 1);
+    const int texId = t % s;
     return coll->getTexture(texId);
 }
