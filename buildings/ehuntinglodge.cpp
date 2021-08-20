@@ -10,7 +10,8 @@
 #include "characters/actions/ecollectresourceaction.h"
 
 eHuntingLodge::eHuntingLodge(eGameBoard& board) :
-    eResourceBuildingBase(board, eBuildingType::huntingLodge, 2, 2),
+    eResourceBuildingBase(board, eBuildingType::huntingLodge, 2, 2,
+                          eResourceType::meat),
     mTextures(eGameTextures::buildings())  {
 
 }
@@ -42,6 +43,7 @@ std::vector<eOverlay> eHuntingLodge::getOverlays(const eTileSize size) const {
 }
 
 void eHuntingLodge::timeChanged() {
+    eResourceBuildingBase::timeChanged();
     if(!mSpawned && time() > mSpawnTime) {
         mSpawned = spawn();
         mSpawnTime = time() + mWaitTime;

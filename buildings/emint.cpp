@@ -15,6 +15,7 @@ eMint::eMint(eGameBoard& board) :
                              },
                              [](eTile* const t) {
                                 t->setTerrain(eTerrain::flatStones);
-                             }, 2, 2) {
+                             }, 2, 2,
+                             eResourceType::silver) {
 
 }

@@ -26,7 +26,11 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fBoar(renderer),
 
     fSettlers1(renderer),
-    fSettlers2(renderer) {
+    fSettlers2(renderer),
+
+    fTransporter(renderer),
+
+    fEmptyCart(renderer) {
 
 }
 
@@ -285,6 +289,24 @@ void eCharacterTextures::load() {
 
 
     for(int j = 0; j < 8; j++) {
+        fTransporter.fWalk.emplace_back(fRenderer);
+    }
+    for(int i = 4729; i < 4825;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& walk = fTransporter.fWalk;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
+        }
+    }
+    for(int i = 4825; i < 4833; i++) {
+        auto& die = fTransporter.fDie;
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
+    }
+
+
+
+    for(int j = 0; j < 8; j++) {
         fWaterDistributor.fWalk.emplace_back(fRenderer);
     }
     for(int i = 6737; i < 6833;) {
@@ -316,6 +338,154 @@ void eCharacterTextures::load() {
         eTextureLoadingHelpers::loadTexWithOffset(
                     pathBase, i, die, eSprMainOffset);
     }
+
+
+
+    for(int i = 8428; i < 8436; i++) {
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, fEmptyCart, eSprMainOffset);
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fUrchinCart.emplace_back(fRenderer);
+    }
+    for(int i = 8436; i < 8460;) {
+        for(int j = 0; j < 8; j++, i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fUrchinCart[j], eSprMainOffset);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fFishCart.emplace_back(fRenderer);
+    }
+    for(int i = 8460; i < 8484;) {
+        for(int j = 0; j < 8; j++, i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fFishCart[j], eSprMainOffset);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fMeatCart.emplace_back(fRenderer);
+    }
+    for(int i = 8484; i < 8508;) {
+        for(int j = 0; j < 8; j++, i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fMeatCart[j], eSprMainOffset);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fCheeseCart.emplace_back(fRenderer);
+    }
+    for(int i = 8508; i < 8532;) {
+        for(int j = 0; j < 8; j++, i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fCheeseCart[j], eSprMainOffset);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fCarrotsCart.emplace_back(fRenderer);
+    }
+    for(int i = 8532; i < 8556;) {
+        for(int j = 0; j < 8; j++, i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fCarrotsCart[j], eSprMainOffset);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fOnionsCart.emplace_back(fRenderer);
+    }
+    for(int i = 8556; i < 8580;) {
+        for(int j = 0; j < 8; j++, i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fOnionsCart[j], eSprMainOffset);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fWheatCart.emplace_back(fRenderer);
+    }
+    for(int i = 8580; i < 8604;) {
+        for(int j = 0; j < 8; j++, i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fWheatCart[j], eSprMainOffset);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fBronzeCart.emplace_back(fRenderer);
+    }
+    for(int i = 8604; i < 8620;) {
+        for(int j = 0; j < 8; j++, i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fBronzeCart[j], eSprMainOffset);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fGrapesCart.emplace_back(fRenderer);
+    }
+    for(int i = 8620; i < 8644;) {
+        for(int j = 0; j < 8; j++, i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fGrapesCart[j], eSprMainOffset);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fOlivesCart.emplace_back(fRenderer);
+    }
+    for(int i = 8644; i < 8668;) {
+        for(int j = 0; j < 8; j++, i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fOlivesCart[j], eSprMainOffset);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fFleeceCart.emplace_back(fRenderer);
+    }
+    for(int i = 8668; i < 8684;) {
+        for(int j = 0; j < 8; j++, i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fFleeceCart[j], eSprMainOffset);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fArmorCart.emplace_back(fRenderer);
+    }
+    for(int i = 8684; i < 8700;) {
+        for(int j = 0; j < 8; j++, i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fArmorCart[j], eSprMainOffset);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fOliveOilCart.emplace_back(fRenderer);
+    }
+    for(int i = 8700; i < 8716;) {
+        for(int j = 0; j < 8; j++, i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fOliveOilCart[j], eSprMainOffset);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fWineCart.emplace_back(fRenderer);
+    }
+    for(int i = 8716; i < 8732;) {
+        for(int j = 0; j < 8; j++, i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fWineCart[j], eSprMainOffset);
+        }
+    }
+
 
 
     for(int j = 0; j < 8; j++) {
@@ -357,8 +527,6 @@ void eCharacterTextures::load() {
         eTextureLoadingHelpers::loadTexWithOffset(
                     pathBase, i, die, eSprMainOffset);
     }
-
-
 
 
     for(int j = 0; j < 8; j++) {

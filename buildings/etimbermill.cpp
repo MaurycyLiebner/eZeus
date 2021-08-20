@@ -15,6 +15,7 @@ eTimberMill::eTimberMill(eGameBoard& board) :
                              },
                              [](eTile* const t) {
                                 t->setTerrain(eTerrain::choppedForest);
-                             }, 2, 2) {
+                             }, 2, 2,
+                             eResourceType::wood) {
 
 }

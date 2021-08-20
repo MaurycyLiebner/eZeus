@@ -73,6 +73,25 @@ public:
 
     eBasicCharacterTextures fSettlers1;
     eBasicCharacterTextures fSettlers2;
+
+    eBasicCharacterTextures fTransporter;
+
+    eTextureCollection fEmptyCart;
+    std::vector<eTextureCollection> fUrchinCart;
+    std::vector<eTextureCollection> fFishCart;
+    std::vector<eTextureCollection> fMeatCart;
+    std::vector<eTextureCollection> fCheeseCart;
+    std::vector<eTextureCollection> fCarrotsCart;
+    std::vector<eTextureCollection> fOnionsCart;
+    std::vector<eTextureCollection> fWheatCart;
+    std::vector<eTextureCollection> fBronzeCart;
+    std::vector<eTextureCollection> fGrapesCart;
+    std::vector<eTextureCollection> fOlivesCart;
+    std::vector<eTextureCollection> fFleeceCart;
+    std::vector<eTextureCollection> fArmorCart;
+    std::vector<eTextureCollection> fOliveOilCart;
+    std::vector<eTextureCollection> fWineCart;
+
 };
 
 #endif // ECHARACTERTEXTURES_H

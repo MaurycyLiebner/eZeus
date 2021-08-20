@@ -226,6 +226,7 @@ HEADERS += \
     engine/emovinggameobject.h \
     engine/eorientation.h \
     engine/epathfinder.h \
+    engine/eresourcetype.h \
     engine/etask.h \
     engine/eterrain.h \
     engine/ethreadpool.h \

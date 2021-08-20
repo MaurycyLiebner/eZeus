@@ -3,16 +3,7 @@
 
 #include "ebuilding.h"
 
-enum class eResourceType {
-    none = 0,
-    urchin,
-    fish,
-    meat,
-    cheese,
-    carrots,
-    onions,
-    wheat
-};
+#include "engine/eresourcetype.h"
 
 class eStorageBuilding : public eBuilding {
 public:

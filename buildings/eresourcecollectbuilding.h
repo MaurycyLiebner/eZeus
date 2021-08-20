@@ -23,7 +23,8 @@ public:
                              const eBuildingType type,
                              const eHasResource& hr,
                              const eTranformFunc& tf,
-                             const int sw, const int sh);
+                             const int sw, const int sh,
+                             const eResourceType resType);
 
     eTexture getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;

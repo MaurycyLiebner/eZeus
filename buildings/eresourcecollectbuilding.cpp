@@ -4,8 +4,7 @@
 #include "characters/actions/ecollectresourceaction.h"
 #include "textures/egametextures.h"
 
-eResourceCollectBuilding::eResourceCollectBuilding(
-        eGameBoard& board,
+eResourceCollectBuilding::eResourceCollectBuilding(eGameBoard& board,
         const eBaseTex baseTex,
         const double overlayX,
         const double overlayY,
@@ -14,8 +13,9 @@ eResourceCollectBuilding::eResourceCollectBuilding(
         const eBuildingType type,
         const eHasResource& hr,
         const eTranformFunc& tf,
-        const int sw, const int sh) :
-    eResourceBuildingBase(board, type, sw, sh),
+        const int sw, const int sh,
+        const eResourceType resType) :
+    eResourceBuildingBase(board, type, sw, sh, resType),
     mCharGenerator(charGen),
     mTextures(eGameTextures::buildings()),
     mBaseTex(baseTex), mOverlays(overlays),
@@ -43,6 +43,7 @@ std::vector<eOverlay> eResourceCollectBuilding::
 
 
 void eResourceCollectBuilding::timeChanged() {
+    eResourceBuildingBase::timeChanged();
     if(!mSpawned && time() > mSpawnTime) {
         mSpawned = spawn();
         mSpawnTime = time() + mWaitTime;
