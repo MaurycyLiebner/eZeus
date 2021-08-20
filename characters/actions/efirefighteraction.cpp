@@ -49,8 +49,8 @@ bool eFireFighterAction::lookForFire() {
                             std::vector<eOrientation> path) {
         c->setActionType(eCharacterActionType::carry);
         mFireFighting = true;
-        const auto o = path.back();
-        path.pop_back();
+        const auto o = path.front();
+        path.erase(path.begin());
         const auto finishAction = [this, c, o]() {
             const auto tile = c->tile();
             const auto n = tile->neighbour<eTile>(o);

@@ -47,7 +47,7 @@ void eSettlerAction::findHouse() {
             setState(eCharacterActionState::finished);
             return;
         }
-        path.pop_back();
+        path.erase(path.begin());
         const auto finishAction = [this]() {
             const bool r = enterHouse();
             if(r) {
@@ -64,7 +64,7 @@ void eSettlerAction::findHouse() {
 
     const auto pft = new ePathFindTask(startTile, walkable,
                                        finalTile, finishFunc,
-                                       failFunc, 1000);
+                                       failFunc, 200);
     tp->queueTask(pft);
 
     setCurrentAction(new eWaitAction(c, []() {}, []() {}));

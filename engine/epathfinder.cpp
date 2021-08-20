@@ -60,8 +60,8 @@ bool ePathFinder::findPath(const int maxDist,
                 if(onlyDiagonal && x != 0 && y != 0) continue;
                 const auto tt = tileGetter(tile, x, y);
                 if(!tt.first || !tt.second) continue;
+                const int newDist = dist + 1;
                 if(mFinish(tt.first)) {
-                    const int newDist = dist + 1;
                     *tt.second = newDist;
                     const int ttx = tt.first->x();
                     const int tty = tt.first->y();
@@ -72,7 +72,6 @@ bool ePathFinder::findPath(const int maxDist,
                     return;
                 }
                 if(!mWalkable(tt.first)) continue;
-                const int newDist = dist + 1;
                 if(*tt.second > newDist) {
                     *tt.second = newDist;
                     toProcess.push_back(tt);

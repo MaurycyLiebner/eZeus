@@ -19,6 +19,8 @@ void eThreadTile::load(eTile* const src) {
             const auto h = static_cast<eSmallHouse*>(b);
             mData1 = h->vacancies();
         }
+    } else {
+        mData1 = 0;
     }
 
     mCharacters.clear();
