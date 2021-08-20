@@ -433,8 +433,10 @@ void eBuildingTextures::load() {
         fGranaryFish.load(fRenderer, pathBase + "00047.png");
         fGranaryMeat.load(fRenderer, pathBase + "00048.png");
         fGranaryCheese.load(fRenderer, pathBase + "00049.png");
+        fGranaryCheese.setOffset(-3, 2);
         fGranaryCarrots.load(fRenderer, pathBase + "00050.png");
         fGranaryOnions.load(fRenderer, pathBase + "00051.png");
+        fGranaryOnions.setOffset(-4, 0);
         fGranaryWheat.load(fRenderer, pathBase + "00052.png");
     }
 

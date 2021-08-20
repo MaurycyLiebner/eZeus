@@ -9,6 +9,8 @@ public:
 
     int resource() const { return mResource; }
     int incResource(const int by);
+
+    int maxResource() const { return mMaxResource; }
 private:
     const int mMaxResource = 8;
     int mResource{0};

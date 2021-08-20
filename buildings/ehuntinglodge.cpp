@@ -49,6 +49,7 @@ void eHuntingLodge::timeChanged() {
 }
 
 bool eHuntingLodge::spawn() {
+    if(resource() >= maxResource()) return false;
     auto dirs = gExtractDirections(eMoveDirection::allDirections);
     if(dirs.empty()) return false;
     std::random_shuffle(dirs.begin(), dirs.end());
