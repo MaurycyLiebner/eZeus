@@ -12,10 +12,18 @@ enum class eResourceType {
     onions,
     wheat,
 
+    grapes,
+    olives,
+    wine,
+    oliveOil,
+    fleece,
+
     wood,
     bronze,
     marble,
-    silver
+    silver,
+
+    armor
 };
 
 #endif // ERESOURCETYPE_H

@@ -60,6 +60,7 @@ SOURCES += \
         characters/ebasicpatroler.cpp \
         characters/eboar.cpp \
         characters/ebronzeminer.cpp \
+        characters/ecarttransporter.cpp \
         characters/echaracter.cpp \
         characters/echaracterbase.cpp \
         characters/edemeter.cpp \
@@ -200,6 +201,7 @@ HEADERS += \
     characters/ebasicpatroler.h \
     characters/eboar.h \
     characters/ebronzeminer.h \
+    characters/ecarttransporter.h \
     characters/echaracter.h \
     characters/echaracterbase.h \
     characters/edemeter.h \

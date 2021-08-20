@@ -26,6 +26,8 @@ enum class eCharacterType {
 
     healer,
 
+    cartTransporter,
+
     demeter
 };
 

@@ -64,3 +64,7 @@ void eCharacter::setActionType(const eCharacterActionType t) {
     mActionStartTime = textureTime();
     eCharacterBase::setActionType(t);
 }
+
+void eCharacter::setHasSecondaryTexture(const bool st) {
+    mHasSecondaryTexture = st;
+}

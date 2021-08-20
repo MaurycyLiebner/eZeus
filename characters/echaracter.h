@@ -15,6 +15,10 @@ public:
     virtual ~eCharacter();
 
     virtual eTexture getTexture(const eTileSize size) const = 0;
+    virtual eTexture getSecondaryTexture(const eTileSize size) const {
+        (void)size;
+        return eTexture();
+    }
     virtual bool canFight(eCharacter* const c);
 
     void fight(eCharacter* const c);
@@ -40,6 +44,9 @@ public:
     int actionStartTime() const { return mActionStartTime; }
 
     eGameBoard& board() { return mBoard; }
+
+    bool hasSecondaryTexture() const { return mHasSecondaryTexture; }
+    void setHasSecondaryTexture(const bool st);
 private:
     eGameBoard& mBoard;
     eTile* mTile = nullptr;
@@ -48,6 +55,7 @@ private:
     double mY = 0.5;
 
     int mTime = 0;
+    bool mHasSecondaryTexture = false;
 
     eCharacterAction* mAction = nullptr;
     int mActionStartTime{0};
