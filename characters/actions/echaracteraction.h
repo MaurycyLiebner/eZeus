@@ -32,11 +32,9 @@ public:
 
     eCharacter* character() const { return mCharacter; }
     eCharacterActionState state() const { return mState; }
-protected:
     void setState(const eCharacterActionState state);
-
-    eCharacter* const mCharacter;
 private:
+    eCharacter* const mCharacter;
     eCharacterActionState mState{eCharacterActionState::running};
     const eAction mFailAction;
     const eAction mFinishAction;

@@ -61,11 +61,10 @@ std::vector<eOverlay> ePatrolBuilding::getOverlays(const eTileSize size) const {
 }
 
 void ePatrolBuilding::timeChanged() {
-    const int spawnFreq = 5000;
     const int t = time();
-    if(t >= mSpawnTime) {
-        spawn();
-        mSpawnTime = t + spawnFreq;
+    if(!mSpawned && t >= mSpawnTime) {
+        mSpawned = spawn();
+        mSpawnTime = t + mWaitTime;
     }
 }
 
@@ -77,24 +76,26 @@ void ePatrolBuilding::setSpawnDirection(const eMoveDirection d) {
     mSpawnDirection = d;
 }
 
-void ePatrolBuilding::spawn() const {
+bool ePatrolBuilding::spawn() {
     auto dirs = gExtractDirections(mSpawnDirection);
-    if(dirs.empty()) return;
+    if(dirs.empty()) return false;
     std::random_shuffle(dirs.begin(), dirs.end());
     eTile* t = nullptr;
     for(const auto dir : dirs) {
         t = road(dir);
         if(t) break;
     }
-    if(!t) return;
+    if(!t) return false;
 
     const auto c = mCharGenerator();
     c->setTile(t);
-    const auto finishAct = [c]() {
+    const auto finishAct = [this, c]() {
         const auto t = c->tile();
         t->removeCharacter(c);
+        mSpawned = false;
         delete c;
     };
     c->setAction(mActGenerator(c, mPatrolGuides, finishAct, finishAct));
-    t->addCharacter(c)  ;
+    t->addCharacter(c);
+    return true;
 }

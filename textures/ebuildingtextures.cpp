@@ -51,7 +51,16 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fBeachRoad(renderer),
     fRoad(renderer),
 
-    fPatrolGuides(renderer) {
+    fPatrolGuides(renderer),
+
+    fWaitingMeat(renderer),
+    fWaitingCheese(renderer),
+    fWaitingWheat(renderer),
+    fWaitingWood(renderer),
+    fWaitingBronze(renderer),
+    fWaitingGrape(renderer),
+    fWaitingOlives(renderer),
+    fWaitingArmor(renderer) {
 
 }
 
@@ -305,6 +314,36 @@ void eBuildingTextures::load() {
 
         for(int i = 231; i < 302; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fRoad);
+        }
+    }
+
+    {
+        const auto dir = basedir + "Zeus_General/";
+        const std::string pathBase{dir + "Zeus_Stor-bays_"};
+
+        for(int i = 71; i < 76; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingMeat);
+        }
+        for(int i = 76; i < 81; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingCheese);
+        }
+        for(int i = 81; i < 89; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingWheat);
+        }
+        for(int i = 89; i < 94; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingWood);
+        }
+        for(int i = 94; i < 99; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingBronze);
+        }
+        for(int i = 99; i < 102; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingGrape);
+        }
+        for(int i = 102; i < 105; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingOlives);
+        }
+        for(int i = 105; i < 110; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingArmor);
         }
     }
 

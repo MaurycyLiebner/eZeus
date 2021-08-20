@@ -39,7 +39,8 @@ eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
         setState(eCharacterActionState::finished);
         return eCharacterActionState::finished;
     }
-    const auto tile = mCharacter->tile();
+    const auto c = character();
+    const auto tile = c->tile();
     if(!tile) return eCharacterActionState::failed;
 
     const int tx = tile->x();

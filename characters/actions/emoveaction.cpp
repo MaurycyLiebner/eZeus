@@ -67,19 +67,20 @@ void eMoveAction::increment(const int by) {
     }
 
     const double inc = 0.01 * by;
-    double x = mCharacter->x();
-    double y = mCharacter->y();
+    const auto c = character();
+    double x = c->x();
+    double y = c->y();
     const bool xSignBefore = x - mTargetX > 0 ? true : false;
     const bool ySignBefore = y - mTargetY > 0 ? true : false;
-    mCharacter->setX(x + (mTargetX - mStartX)*inc);
-    mCharacter->setY(y + (mTargetY - mStartY)*inc);
-    x = mCharacter->x();
-    y = mCharacter->y();
+    c->setX(x + (mTargetX - mStartX)*inc);
+    c->setY(y + (mTargetY - mStartY)*inc);
+    x = c->x();
+    y = c->y();
     const bool xSignAfter = x - mTargetX > 0 ? true : false;
     const bool ySignAfter = y - mTargetY > 0 ? true : false;
     if(xSignAfter != xSignBefore ||
        ySignAfter != ySignBefore) {
-        if(mCharacter->tile() == mTargetTile) {
+        if(c->tile() == mTargetTile) {
             nextTurn();
             return;
         }
@@ -91,15 +92,15 @@ void eMoveAction::increment(const int by) {
             mStartY = 1 - targetY;
         }
 
-        const auto oldTile = mCharacter->tile();
-        oldTile->removeCharacter(mCharacter);
-        mCharacter->setTile(mTargetTile);
-        mTargetTile->addCharacter(mCharacter);
+        const auto oldTile = c->tile();
+        oldTile->removeCharacter(c);
+        c->setTile(mTargetTile);
+        mTargetTile->addCharacter(c);
         mTargetX = 0.5;
         mTargetY = 0.5;
 
-        mCharacter->setX(mStartX);
-        mCharacter->setY(mStartY);
+        c->setX(mStartX);
+        c->setY(mStartY);
 
         const auto cs = mTargetTile->characters();
         const auto cc = character();
@@ -128,15 +129,16 @@ bool eMoveAction::nextTurn() {
         break;
     }
 
-    mCharacter->setOrientation(turn);
-    const auto t = mCharacter->tile();
+    const auto c = character();
+    c->setOrientation(turn);
+    const auto t = c->tile();
     mTargetTile = t->neighbour<eTile>(turn);
     if(!mTargetTile || !mTileWalkable(mTargetTile)) {
         setState(eCharacterActionState::failed);
         return false;
     }
-    mStartX = mCharacter->x();
-    mStartY = mCharacter->y();
+    mStartX = c->x();
+    mStartY = c->y();
     mOrientation = turn;
     orientationToTargetCoords(turn, mTargetX, mTargetY);
     return true;

@@ -48,6 +48,7 @@ eTexture eResourceBuilding::getTexture(const eTileSize size) const {
 void eResourceBuilding::takeResource(const int by) {
     mResource -= by;
     if(mResource <= 0) {
+        mResource = 0;
         mRipe = 0;
     }
 }
@@ -57,7 +58,7 @@ void eResourceBuilding::timeChanged() {
         mNextRipe = time() + 5000;
         if(mRipe >= 5) return;
         if(++mRipe == 5) {
-            mResource = 1000;
+            mResource = 1;
         }
     }
 }

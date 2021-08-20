@@ -28,6 +28,7 @@ void eCharacter::fight(eCharacter* const c) {
     setAction(new eFightAction(this, c, [this, a]() {
         if(dead()) {
             setAction(new eDieAction(this, [this]() { delete this; }));
+            a->setState(eCharacterActionState::failed);
             delete a;
         } else {
             setAction(a);

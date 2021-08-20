@@ -22,12 +22,22 @@ eTexture eHuntingLodge::getTexture(const eTileSize size) const {
 
 std::vector<eOverlay> eHuntingLodge::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
-    const auto& coll = mTextures[sizeId].fHuntingLodgeOverlay;
+    const auto texs = mTextures[sizeId];
+    const auto& coll = texs.fHuntingLodgeOverlay;
     const int texId = textureTime() % coll.size();
     eOverlay o;
     o.fTex = coll.getTexture(texId);
     o.fX = -1.95;
     o.fY = -2.4;
+    if(mResource > 0) {
+        eOverlay meat;
+        const int res = std::clamp(mResource - 1, 0, 4);
+        meat.fTex = texs.fWaitingMeat.getTexture(res);
+        meat.fX = -0.5;
+        meat.fY = -2;
+
+        return std::vector<eOverlay>({o, meat});
+    }
     return std::vector<eOverlay>({o});
 }
 
@@ -51,15 +61,15 @@ bool eHuntingLodge::spawn() {
     }
     if(!t) return false;
 
-    const auto d = new eHunter(getBoard());
-    d->setTile(t);
-    const auto finishAct = [this, d]() {
-        mResource += d->collected();
-        const auto t = d->tile();
-        t->removeCharacter(d);
+    const auto h = new eHunter(getBoard());
+    h->setTile(t);
+    const auto finishAct = [this, h]() {
+        mResource += h->collected();
+        const auto t = h->tile();
+        t->removeCharacter(h);
         mSpawned = false;
         mSpawnTime = time() + mWaitTime;
-        delete d;
+        delete h;
     };
     const auto hasRes = [](eTileBase* const tile) {
         return tile->hasCharacter([](const eCharacterBase& c) {
@@ -75,9 +85,9 @@ bool eHuntingLodge::spawn() {
         }
         return false;
     };
-    const auto a = new eHuntAction(d, hasRes, hasCollRes,
+    const auto a = new eHuntAction(h, hasRes, hasCollRes,
                                    finishAct, finishAct);
-    d->setAction(a);
-    t->addCharacter(d);
+    h->setAction(a);
+    t->addCharacter(h);
     return true;
 }

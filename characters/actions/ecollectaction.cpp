@@ -15,7 +15,7 @@ void eCollectAction::increment(const int by) {
         mCharacter->incCollected(by);
         const bool noResLeft = mTile->resource() <= 0;
         if(noResLeft) mTransFunc(mTile);
-        if(noResLeft || mCharacter->collected() >= 100) {
+        if(noResLeft || mCharacter->collected() >= 1) {
             setState(eCharacterActionState::finished);
         }
         mTime = 0;

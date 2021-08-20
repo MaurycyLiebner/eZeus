@@ -123,6 +123,16 @@ public:
     eTextureCollection fRoad;
 
     eTextureCollection fPatrolGuides;
+
+    eTextureCollection fWaitingMeat;
+    eTextureCollection fWaitingCheese;
+    eTextureCollection fWaitingWheat;
+    eTextureCollection fWaitingWood;
+    eTextureCollection fWaitingBronze;
+    eTextureCollection fWaitingGrape;
+    eTextureCollection fWaitingOlives;
+    eTextureCollection fWaitingArmor;
+
 };
 
 #endif // EBUILDINGTEXTURES_H

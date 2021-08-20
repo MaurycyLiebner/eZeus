@@ -71,7 +71,7 @@ bool eHuntAction::findResource() {
 }
 
 bool eHuntAction::collect() {
-    mCharacter->incCollected(100);
+    mCharacter->incCollected(1);
     goBack2();
     return true;
 }

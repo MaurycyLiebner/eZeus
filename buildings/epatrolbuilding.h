@@ -46,7 +46,7 @@ public:
     eMoveDirection spawnDirection() const { return mSpawnDirection; }
     void setSpawnDirection(const eMoveDirection d);
 
-    void spawn() const;
+    bool spawn();
 private:
     const eCharGenerator mCharGenerator;
     const eActGenerator mActGenerator;
@@ -58,7 +58,9 @@ private:
     const double mOverlayX;
     const double mOverlayY;
 
+    int mWaitTime = 5000;
     int mSpawnTime = 0;
+    bool mSpawned{false};
 
     eMoveDirection mSpawnDirection{eMoveDirection::allDirections};
     ePatrolGuides mPatrolGuides;
