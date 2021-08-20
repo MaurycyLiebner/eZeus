@@ -15,7 +15,7 @@ eResourceCollectBuilding::eResourceCollectBuilding(
         const eHasResource& hr,
         const eTranformFunc& tf,
         const int sw, const int sh) :
-    eBuilding(board, type, sw, sh),
+    eResourceBuildingBase(board, type, sw, sh),
     mCharGenerator(charGen),
     mTextures(eGameTextures::buildings()),
     mBaseTex(baseTex), mOverlays(overlays),
@@ -65,7 +65,7 @@ bool eResourceCollectBuilding::spawn() {
     const auto d = mCharGenerator();
     d->setTile(t);
     const auto finishAct = [this, d]() {
-        mResource += d->collected();
+        incResource(d->collected());
         const auto t = d->tile();
         t->removeCharacter(d);
         mSpawned = false;

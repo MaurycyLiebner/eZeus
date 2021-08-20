@@ -30,7 +30,6 @@ void eFireFighterAction::increment(const int by) {
 
 bool eFireFighterAction::lookForFire() {
     const auto c = character();
-    c->setActionType(eCharacterActionType::walk);
     const auto t = c->tile();
     const auto& brd = c->board();
     const auto tp = brd.threadPool();

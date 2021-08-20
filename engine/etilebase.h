@@ -97,7 +97,7 @@ private:
 
     bool mOnFire{false};
     bool mBusy{false};
-    int mResource = 10000;
+    int mResource = 100;
 
     eTileBase* mTopLeft = nullptr;
     eTileBase* mTopRight = nullptr;

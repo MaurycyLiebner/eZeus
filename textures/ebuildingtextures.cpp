@@ -60,7 +60,26 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fWaitingBronze(renderer),
     fWaitingGrape(renderer),
     fWaitingOlives(renderer),
-    fWaitingArmor(renderer) {
+    fWaitingArmor(renderer),
+
+    fWarehouseUrchin(renderer),
+    fWarehouseFish(renderer),
+    fWarehouseMeat(renderer),
+    fWarehouseCheese(renderer),
+    fWarehouseCarrots(renderer),
+    fWarehouseOnions(renderer),
+    fWarehouseWheat(renderer),
+    fWarehouseWood(renderer),
+    fWarehouseBronze(renderer),
+    fWarehouseMarble(renderer),
+    fWarehouseGrapes(renderer),
+    fWarehouseOlives(renderer),
+    fWarehouseFleece(renderer),
+    fWarehouseArmor(renderer),
+    fWarehouseOliveOil(renderer),
+    fWarehouseWine(renderer),
+
+    fGranaryOverlay(renderer) {
 
 }
 
@@ -321,6 +340,58 @@ void eBuildingTextures::load() {
         const auto dir = basedir + "Zeus_General/";
         const std::string pathBase{dir + "Zeus_Stor-bays_"};
 
+
+        for(int i = 1; i < 5; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseUrchin);
+        }
+        for(int i = 5; i < 9; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseFish);
+        }
+        for(int i = 9; i < 13; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseMeat);
+        }
+        for(int i = 13; i < 17; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseCheese);
+        }
+        for(int i = 17; i < 21; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseCarrots);
+        }
+        for(int i = 21; i < 25; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseOnions);
+        }
+        for(int i = 25; i < 29; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseWheat);
+        }
+        for(int i = 29; i < 33; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseWood);
+        }
+        for(int i = 33; i < 37; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseBronze);
+        }
+        for(int i = 37; i < 41; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseMarble);
+        }
+        for(int i = 41; i < 45; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseGrapes);
+        }
+        for(int i = 45; i < 49; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseOlives);
+        }
+        for(int i = 49; i < 53; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseFleece);
+        }
+        for(int i = 53; i < 57; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseArmor);
+        }
+        fWarehouseStatue.load(fRenderer, pathBase + "00057.png");
+        for(int i = 58; i < 62; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseOliveOil);
+        }
+        for(int i = 62; i < 66; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseWine);
+        }
+
+
         for(int i = 71; i < 76; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingMeat);
         }
@@ -345,6 +416,26 @@ void eBuildingTextures::load() {
         for(int i = 105; i < 110; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingArmor);
         }
+    }
+
+    {
+        const auto dir = basedir + "Zeus_General/";
+        const std::string pathBase{dir + "Zeus_StorNDist_"};
+
+        fWarehouse.load(fRenderer, pathBase + "00023.png");
+
+        fGranary.load(fRenderer, pathBase + "00029.png");;
+        for(int i = 30; i < 46; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fGranaryOverlay);
+        }
+
+        fGranaryUrchin.load(fRenderer, pathBase + "00046.png");
+        fGranaryFish.load(fRenderer, pathBase + "00047.png");
+        fGranaryMeat.load(fRenderer, pathBase + "00048.png");
+        fGranaryCheese.load(fRenderer, pathBase + "00049.png");
+        fGranaryCarrots.load(fRenderer, pathBase + "00050.png");
+        fGranaryOnions.load(fRenderer, pathBase + "00051.png");
+        fGranaryWheat.load(fRenderer, pathBase + "00052.png");
     }
 
     {

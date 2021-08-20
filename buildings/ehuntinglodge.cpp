@@ -10,7 +10,7 @@
 #include "characters/actions/ecollectresourceaction.h"
 
 eHuntingLodge::eHuntingLodge(eGameBoard& board) :
-    eBuilding(board, eBuildingType::huntingLodge, 2, 2),
+    eResourceBuildingBase(board, eBuildingType::huntingLodge, 2, 2),
     mTextures(eGameTextures::buildings())  {
 
 }
@@ -29,9 +29,9 @@ std::vector<eOverlay> eHuntingLodge::getOverlays(const eTileSize size) const {
     o.fTex = coll.getTexture(texId);
     o.fX = -1.95;
     o.fY = -2.4;
-    if(mResource > 0) {
+    if(resource() > 0) {
         eOverlay meat;
-        const int res = std::clamp(mResource - 1, 0, 4);
+        const int res = std::clamp(resource() - 1, 0, 4);
         meat.fTex = texs.fWaitingMeat.getTexture(res);
         meat.fX = -0.5;
         meat.fY = -2;
@@ -64,7 +64,7 @@ bool eHuntingLodge::spawn() {
     const auto h = new eHunter(getBoard());
     h->setTile(t);
     const auto finishAct = [this, h]() {
-        mResource += h->collected();
+        incResource(h->collected());
         const auto t = h->tile();
         t->removeCharacter(h);
         mSpawned = false;

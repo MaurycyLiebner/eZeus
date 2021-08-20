@@ -51,7 +51,7 @@ public:
     eCharacterType type() const { return mType; }
 private:
     eCharacterType mType;
-    eCharacterActionType mActionType{eCharacterActionType::walk};
+    eCharacterActionType mActionType{eCharacterActionType::none};
 
     int mPlayerId{1}; // 0 - neutral
 

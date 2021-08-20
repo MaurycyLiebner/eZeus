@@ -19,6 +19,7 @@ SOURCES += \
         buildings/edramaschool.cpp \
         buildings/efoundry.cpp \
         buildings/efountain.cpp \
+        buildings/egranary.cpp \
         buildings/egymnasium.cpp \
         buildings/ehospital.cpp \
         buildings/ehuntinglodge.cpp \
@@ -29,11 +30,13 @@ SOURCES += \
         buildings/epatrolbuilding.cpp \
         buildings/epodium.cpp \
         buildings/eresourcebuilding.cpp \
+        buildings/eresourcebuildingbase.cpp \
         buildings/eresourcecollectbuilding.cpp \
         buildings/eroad.cpp \
         buildings/esmallhouse.cpp \
         buildings/estadium1.cpp \
         buildings/estadium2.cpp \
+        buildings/estoragebuilding.cpp \
         buildings/etaxoffice.cpp \
         buildings/etheater.cpp \
         buildings/etimbermill.cpp \
@@ -156,6 +159,7 @@ HEADERS += \
     buildings/edramaschool.h \
     buildings/efoundry.h \
     buildings/efountain.h \
+    buildings/egranary.h \
     buildings/egymnasium.h \
     buildings/ehospital.h \
     buildings/ehuntinglodge.h \
@@ -166,11 +170,13 @@ HEADERS += \
     buildings/epatrolbuilding.h \
     buildings/epodium.h \
     buildings/eresourcebuilding.h \
+    buildings/eresourcebuildingbase.h \
     buildings/eresourcecollectbuilding.h \
     buildings/eroad.h \
     buildings/esmallhouse.h \
     buildings/estadium1.h \
     buildings/estadium2.h \
+    buildings/estoragebuilding.h \
     buildings/etaxoffice.h \
     buildings/etheater.h \
     buildings/etimbermill.h \

@@ -37,6 +37,8 @@ enum class eBuildingType {
     dairy,
     growersLodge,
 
+    granary,
+
     timberMill,
     masonryShop,
     mint,
@@ -45,6 +47,8 @@ enum class eBuildingType {
     olivePress,
     winery,
     sculptureStudio,
+
+    warehouse,
 
     triremeWharf,
     horseRanch,

@@ -17,12 +17,8 @@ public:
     eBuildingType underBuildingType() const;
     bool isUnderBuilding() const;
 
-    // data1
-    int houseVacancies() const { return mData1; }
-    // data1
+    int houseVacancies() const;
 private:
-    int mData1{0}; // house vacancies
-
     std::vector<eThreadCharacter> mCharacters;
     eThreadBuilding mUnderBuilding;
 };

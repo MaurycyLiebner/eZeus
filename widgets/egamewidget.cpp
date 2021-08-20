@@ -36,6 +36,7 @@
 #include "buildings/eresourcebuilding.h"
 #include "buildings/ehuntinglodge.h"
 #include "buildings/emaintenanceoffice.h"
+#include "buildings/egranary.h"
 
 #include "spawners/eboarspawner.h"
 #include "spawners/esettlerspawner.h"
@@ -160,13 +161,14 @@ void eGameWidget::iterateOverTiles(const eTileAction& a) {
     const int h = mBoard.height();
     const int nRows = w + h - 1;
 
-    int minRow = -2*mDY/mTileH + 2;
-    int maxRow = minRow + 2*height()/mTileH - 2;
+    int minRow = -2*mDY/mTileH - 1;
+    int maxRow = minRow + 2*height()/mTileH + 1;
     minRow = std::clamp(minRow, 0, nRows);
     maxRow = std::clamp(maxRow, 0, nRows);
 
-    const int minXYDiff = -2*mDX/mTileW;
-    const int maxXYDiff = minXYDiff + 2*width()/mTileW - 1;
+    const int minXYDiff = -2*mDX/mTileW - 1;
+    const int gmw = mGm->width();
+    const int maxXYDiff = minXYDiff + 2*(width() - gmw)/mTileW + 3;
 
     const auto iniIt = eGameBoardDiagonalIterator(minRow, 0, &mBoard);
     for(auto it = iniIt; it != mBoard.dEnd(); ++it) {
@@ -561,18 +563,23 @@ void eGameWidget::paintEvent(ePainter& p) {
         } break;
 
         case eBuildingMode::oliveTree: {
-            const auto b1 = new eResourceBuilding(mBoard, eResourceType::oliveTree);
+            const auto b1 = new eResourceBuilding(mBoard, eResourceBuildingType::oliveTree);
             ebs.emplace_back(gHoverX, gHoverY, b1);
             specReq = [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; };
         } break;
         case eBuildingMode::vine: {
-            const auto b1 = new eResourceBuilding(mBoard, eResourceType::vine);
+            const auto b1 = new eResourceBuilding(mBoard, eResourceBuildingType::vine);
             ebs.emplace_back(gHoverX, gHoverY, b1);
             specReq = [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; };
         } break;
 
         case eBuildingMode::huntingLodge: {
             const auto b1 = new eHuntingLodge(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+
+        case eBuildingMode::granary: {
+            const auto b1 = new eGranary(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
         default: break;
@@ -964,14 +971,14 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             case eBuildingMode::oliveTree:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 1, 1,
-                          [this]() { return new eResourceBuilding(mBoard, eResourceType::oliveTree); },
+                          [this]() { return new eResourceBuilding(mBoard, eResourceBuildingType::oliveTree); },
                           [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; });
                 };
                 break;
             case eBuildingMode::vine:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 1, 1,
-                          [this]() { return new eResourceBuilding(mBoard, eResourceType::vine); },
+                          [this]() { return new eResourceBuilding(mBoard, eResourceBuildingType::vine); },
                     [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; });
                 };
                 break;
@@ -981,6 +988,13 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
                           [this]() { return new eHuntingLodge(mBoard); });
+                };
+                break;
+
+            case eBuildingMode::granary:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 4, 4,
+                          [this]() { return new eGranary(mBoard); });
                 };
                 break;
             default: break;

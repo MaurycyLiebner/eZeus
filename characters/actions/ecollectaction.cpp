@@ -10,14 +10,12 @@ eCollectAction::eCollectAction(eResourceCollector* const c,
 
 void eCollectAction::increment(const int by) {
     mTime += by;
-    if(mTime > 100) {
-        mTile->decResource(by);
-        mCharacter->incCollected(by);
+    if(mTime > 1000) {
+        mTile->decResource(1);
+        mCharacter->incCollected(1);
         const bool noResLeft = mTile->resource() <= 0;
         if(noResLeft) mTransFunc(mTile);
-        if(noResLeft || mCharacter->collected() >= 1) {
-            setState(eCharacterActionState::finished);
-        }
+        setState(eCharacterActionState::finished);
         mTime = 0;
     }
 }

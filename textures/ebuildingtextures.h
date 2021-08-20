@@ -133,6 +133,36 @@ public:
     eTextureCollection fWaitingOlives;
     eTextureCollection fWaitingArmor;
 
+    eTexture fWarehouse;
+
+    eTextureCollection fWarehouseUrchin;
+    eTextureCollection fWarehouseFish;
+    eTextureCollection fWarehouseMeat;
+    eTextureCollection fWarehouseCheese;
+    eTextureCollection fWarehouseCarrots;
+    eTextureCollection fWarehouseOnions;
+    eTextureCollection fWarehouseWheat;
+    eTextureCollection fWarehouseWood;
+    eTextureCollection fWarehouseBronze;
+    eTextureCollection fWarehouseMarble;
+    eTextureCollection fWarehouseGrapes;
+    eTextureCollection fWarehouseOlives;
+    eTextureCollection fWarehouseFleece;
+    eTextureCollection fWarehouseArmor;
+    eTexture fWarehouseStatue;
+    eTextureCollection fWarehouseOliveOil;
+    eTextureCollection fWarehouseWine;
+
+    eTexture fGranary;
+    eTextureCollection fGranaryOverlay;
+
+    eTexture fGranaryUrchin;
+    eTexture fGranaryFish;
+    eTexture fGranaryMeat;
+    eTexture fGranaryCheese;
+    eTexture fGranaryCarrots;
+    eTexture fGranaryOnions;
+    eTexture fGranaryWheat;
 };
 
 #endif // EBUILDINGTEXTURES_H

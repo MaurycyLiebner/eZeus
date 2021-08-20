@@ -10,6 +10,7 @@ enum class eCharacterActionState {
 };
 
 enum class eCharacterActionType {
+    none,
     walk,
     fight,
     die,

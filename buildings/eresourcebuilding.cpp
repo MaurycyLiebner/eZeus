@@ -3,24 +3,24 @@
 #include "textures/egametextures.h"
 #include "textures/ebuildingtextures.h"
 
-eBuildingType resourceTypeToBuildingType(const eResourceType r) {
+eBuildingType resourceTypeToBuildingType(const eResourceBuildingType r) {
     switch(r) {
-    case eResourceType::oliveTree:
+    case eResourceBuildingType::oliveTree:
         return eBuildingType::oliveTree;
-    case eResourceType::vine:
+    case eResourceBuildingType::vine:
         return eBuildingType::vine;
-    case eResourceType::wheat:
+    case eResourceBuildingType::wheat:
         return eBuildingType::wheat;
-    case eResourceType::carrots:
+    case eResourceBuildingType::carrots:
         return eBuildingType::carrots;
-    case eResourceType::onions:
+    case eResourceBuildingType::onions:
         return eBuildingType::onions;
     }
     return eBuildingType::oliveTree;
 }
 
 eResourceBuilding::eResourceBuilding(
-        eGameBoard& board, const eResourceType type) :
+        eGameBoard& board, const eResourceBuildingType type) :
     eBuilding(board, resourceTypeToBuildingType(type), 1, 1),
     mType(type) {
 
@@ -31,15 +31,15 @@ eTexture eResourceBuilding::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& colls = texs[sizeId];
     switch(mType) {
-    case eResourceType::oliveTree:
+    case eResourceBuildingType::oliveTree:
         return colls.fOliveTree.getTexture(mRipe);
-    case eResourceType::vine:
+    case eResourceBuildingType::vine:
         return colls.fVine.getTexture(mRipe);
-    case eResourceType::wheat:
+    case eResourceBuildingType::wheat:
         return colls.fWheat.getTexture(mRipe);
-    case eResourceType::carrots:
+    case eResourceBuildingType::carrots:
         return colls.fCarrots.getTexture(mRipe);
-    case eResourceType::onions:
+    case eResourceBuildingType::onions:
         return colls.fOnions.getTexture(mRipe);
     }
     return eTexture();

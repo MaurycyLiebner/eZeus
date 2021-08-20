@@ -1,13 +1,13 @@
 #ifndef ERESOURCECOLLECTBUILDING_H
 #define ERESOURCECOLLECTBUILDING_H
 
-#include "ebuilding.h"
+#include "eresourcebuildingbase.h"
 
 #include "textures/ebuildingtextures.h"
 
 class eResourceCollector;
 
-class eResourceCollectBuilding : public eBuilding {
+class eResourceCollectBuilding : public eResourceBuildingBase {
 public:
     using eHasResource = std::function<bool(eTileBase*)>;
     using eTranformFunc = std::function<void(eTile*)>;
@@ -47,8 +47,6 @@ private:
     int mWaitTime = 5000;
     int mSpawnTime = mWaitTime;
     bool mSpawned{false};
-
-    int mResource{0};
 };
 
 #endif // ERESOURCECOLLECTBUILDING_H

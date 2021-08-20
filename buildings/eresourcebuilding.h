@@ -3,7 +3,7 @@
 
 #include "ebuilding.h"
 
-enum class eResourceType {
+enum class eResourceBuildingType {
     oliveTree,
     vine,
     wheat,
@@ -14,11 +14,11 @@ enum class eResourceType {
 class eResourceBuilding : public eBuilding {
 public:
     eResourceBuilding(eGameBoard& board,
-                      const eResourceType type);
+                      const eResourceBuildingType type);
 
     eTexture getTexture(const eTileSize size) const;
 
-    eResourceType type() const { return mType; }
+    eResourceBuildingType type() const { return mType; }
 
     bool fullyRipe() const { return mRipe == 5; }
     int ripe() const { return mRipe; }
@@ -26,7 +26,7 @@ public:
     void takeResource(const int by);
     void timeChanged();
 private:
-    const eResourceType mType;
+    const eResourceBuildingType mType;
     int mNextRipe = 0;
     int mRipe = 0; // 0 - 5
     int mResource = 0;

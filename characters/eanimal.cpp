@@ -27,6 +27,8 @@ eTexture eAnimal::getTexture(const eTileSize size) const {
     bool wrap = true;
     const auto a = actionType();
     switch(a) {
+    case eCharacterActionType::none:
+        return eTexture();
     case eCharacterActionType::collect:
     case eCharacterActionType::fight: {
         coll = &charTexs.fFight[oid];
