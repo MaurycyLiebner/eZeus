@@ -40,3 +40,40 @@ int eStorageBuilding::take(const eResourceType type, const int count) {
     }
     return count - rem;
 }
+
+int eStorageBuilding::count(const eResourceType type) const {
+    return sCount(type, mResourceCount, mResource);
+}
+
+int eStorageBuilding::spaceLeft(const eResourceType type) const {
+    return sSpaceLeft(type, mResourceCount, mResource);
+}
+
+int eStorageBuilding::sCount(const eResourceType type,
+                             const int resourceCount[8],
+                             const eResourceType resourceType[8]) {
+    int result = 0;
+    for(int i = 0; i < 8; i++) {
+        const auto t = resourceType[i];
+        if(t != type) continue;
+        result += resourceCount[i];
+    }
+    return result;
+}
+
+int eStorageBuilding::sSpaceLeft(const eResourceType type,
+                                 const int resourceCount[8],
+                                 const eResourceType resourceType[8]) {
+
+    int space = 0;
+    for(int i = 0; i < 8; i++) {
+        const int c = resourceCount[i];
+        const auto t = resourceType[i];
+        if(c == 0) {
+            space += 8;
+        } else if(t == type) {
+            space += 8 - c;
+        }
+    }
+    return space;
+}
