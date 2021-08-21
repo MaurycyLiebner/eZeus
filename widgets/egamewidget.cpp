@@ -37,6 +37,7 @@
 #include "buildings/ehuntinglodge.h"
 #include "buildings/emaintenanceoffice.h"
 #include "buildings/egranary.h"
+#include "buildings/ewarehouse.h"
 
 #include "spawners/eboarspawner.h"
 #include "spawners/esettlerspawner.h"
@@ -590,6 +591,10 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = new eGranary(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
+        case eBuildingMode::warehouse: {
+            const auto b1 = new eWarehouse(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
         default: break;
         }
         bool cbg = true;
@@ -1003,6 +1008,12 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 4, 4,
                           [this]() { return new eGranary(mBoard); });
+                };
+                break;
+            case eBuildingMode::warehouse:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 3, 3,
+                          [this]() { return new eWarehouse(mBoard); });
                 };
                 break;
             default: break;

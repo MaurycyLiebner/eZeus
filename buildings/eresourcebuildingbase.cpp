@@ -49,7 +49,7 @@ void eResourceBuildingBase::timeChanged() {
 }
 
 bool eResourceBuildingBase::spawn() {
-    if(resource() >= maxResource()) return false;
+    if(mResource <= 0) return false;
     const auto t = tile();
     const auto h = new eCartTransporter(getBoard());
     const int took = take(mResType, 8);

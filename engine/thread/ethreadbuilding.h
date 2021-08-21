@@ -26,6 +26,8 @@ private:
                                   eResourceType::none,
                                   eResourceType::none,
                                   eResourceType::none};
+
+    eResourceType mAccepts = eResourceType::none;
 };
 
 #endif // ETHREADBUILDING_H

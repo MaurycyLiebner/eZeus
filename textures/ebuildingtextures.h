@@ -135,6 +135,7 @@ public:
 
     eTexture fWarehouse;
 
+    eTexture fWarehouseEmpty;
     eTextureCollection fWarehouseUrchin;
     eTextureCollection fWarehouseFish;
     eTextureCollection fWarehouseMeat;
@@ -142,6 +143,7 @@ public:
     eTextureCollection fWarehouseCarrots;
     eTextureCollection fWarehouseOnions;
     eTextureCollection fWarehouseWheat;
+
     eTextureCollection fWarehouseWood;
     eTextureCollection fWarehouseBronze;
     eTextureCollection fWarehouseMarble;

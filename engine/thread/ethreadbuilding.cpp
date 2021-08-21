@@ -8,6 +8,7 @@ void eThreadBuilding::load(eBuilding* const src) {
 
     memset(mResourceCount, 0, sizeof(mResourceCount));
     memset(mResource, 0, sizeof(mResourceCount));
+    mAccepts = eResourceType::none;
 
     if(src) {
         mType = src->type();
@@ -44,9 +45,12 @@ int eThreadBuilding::resourceCount(const eResourceType type) const {
 }
 
 int eThreadBuilding::resourceSpaceLeft(const eResourceType type) const {
+    const bool accepts = static_cast<bool>(mAccepts & type);
+    if(!accepts) return 0;
     if(mType == eBuildingType::granary ||
        mType == eBuildingType::warehouse) {
-        return eStorageBuilding::sSpaceLeft(type, mResourceCount, mResource);
+        return eStorageBuilding::sSpaceLeft(type, mResourceCount,
+                                            mResource, mAccepts);
     } else {
         return 0;
     }

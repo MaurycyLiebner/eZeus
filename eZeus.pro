@@ -41,6 +41,7 @@ SOURCES += \
         buildings/etaxoffice.cpp \
         buildings/etheater.cpp \
         buildings/etimbermill.cpp \
+        buildings/ewarehouse.cpp \
         buildings/ewatchpost.cpp \
         characters/actions/eactionwithcomeback.cpp \
         characters/actions/ecarttransporteraction.cpp \
@@ -184,6 +185,7 @@ HEADERS += \
     buildings/etaxoffice.h \
     buildings/etheater.h \
     buildings/etimbermill.h \
+    buildings/ewarehouse.h \
     buildings/ewatchpost.h \
     characters/actions/eactionwithcomeback.h \
     characters/actions/ecarttransporteraction.h \

@@ -416,6 +416,8 @@ void eBuildingTextures::load() {
         for(int i = 105; i < 110; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingArmor);
         }
+
+        fWarehouseEmpty.load(fRenderer, pathBase + "00115.png");
     }
 
     {
@@ -423,6 +425,7 @@ void eBuildingTextures::load() {
         const std::string pathBase{dir + "Zeus_StorNDist_"};
 
         fWarehouse.load(fRenderer, pathBase + "00023.png");
+        fWarehouse.setOffset(-58, 60);
 
         fGranary.load(fRenderer, pathBase + "00029.png");;
         for(int i = 30; i < 46; i++) {

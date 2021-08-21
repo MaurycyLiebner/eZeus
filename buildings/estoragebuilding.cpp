@@ -1,6 +1,7 @@
 #include "estoragebuilding.h"
 
 int eStorageBuilding::add(const eResourceType type, const int count) {
+    if(!static_cast<bool>(mAccepts & type)) return 0;
     int rem = count;
     for(int i = 0; i < 8 && rem > 0; i++) {
         const auto t = mResource[i];
@@ -46,7 +47,7 @@ int eStorageBuilding::count(const eResourceType type) const {
 }
 
 int eStorageBuilding::spaceLeft(const eResourceType type) const {
-    return sSpaceLeft(type, mResourceCount, mResource);
+    return sSpaceLeft(type, mResourceCount, mResource, mAccepts);
 }
 
 int eStorageBuilding::sCount(const eResourceType type,
@@ -63,17 +64,22 @@ int eStorageBuilding::sCount(const eResourceType type,
 
 int eStorageBuilding::sSpaceLeft(const eResourceType type,
                                  const int resourceCount[8],
-                                 const eResourceType resourceType[8]) {
-
+                                 const eResourceType resourceType[8],
+                                 const eResourceType accepts) {
+    if(!static_cast<bool>(accepts & type)) return 0;
     int space = 0;
     for(int i = 0; i < 8; i++) {
         const int c = resourceCount[i];
         const auto t = resourceType[i];
         if(c == 0) {
-            space += 8;
+            space += 4;
         } else if(t == type) {
-            space += 8 - c;
+            space += 4 - c;
         }
     }
     return space;
+}
+
+void eStorageBuilding::setAccepts(const eResourceType a) {
+    mAccepts = a;
 }

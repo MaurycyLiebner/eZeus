@@ -5,7 +5,7 @@
 eGranary::eGranary(eGameBoard& board) :
     eStorageBuilding(board, eBuildingType::granary, 4, 4),
     mTextures(eGameTextures::buildings()) {
-
+    setAccepts(eResourceType::food);
 }
 
 eTexture eGranary::getTexture(const eTileSize size) const {
@@ -38,7 +38,6 @@ std::vector<eOverlay> eGranary::getOverlays(const eTileSize size) const {
         const auto type = resourceType(i);
         if(type == eResourceType::none) continue;
         eOverlay& o = os.emplace_back();
-        const auto texs = mTextures[sizeId];
         switch(type) {
         case eResourceType::urchin:
             o.fTex = texs.fGranaryUrchin;
