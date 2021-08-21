@@ -51,17 +51,7 @@ void eResourceCollectBuilding::timeChanged() {
 }
 
 bool eResourceCollectBuilding::spawn() {
-    auto dirs = gExtractDirections(eMoveDirection::allDirections);
-    if(dirs.empty()) return false;
-    std::random_shuffle(dirs.begin(), dirs.end());
-    eTile* t = nullptr;
-    for(const auto dir : dirs) {
-        t = tileNeighbour(dir, [](eTile* const tile) {
-            return tile->walkable();
-        });
-        if(t) break;
-    }
-    if(!t) return false;
+    const auto t = tile();
 
     const auto d = mCharGenerator();
     d->setTile(t);
