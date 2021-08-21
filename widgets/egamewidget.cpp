@@ -410,8 +410,8 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto& chars = tile->characters();
         for(const auto c : chars) {
             const auto tex = c->getTexture(mTileSize);
-            const int x = tx - a + c->x() + 0.25;
-            const int y = ty - a + c->y() + 0.25;
+            const double x = tx - a + c->x() + 0.25;
+            const double y = ty - a + c->y() + 0.25;
             tp.drawTexture(x, y, tex);
             if(!c->hasSecondaryTexture()) continue;
             const auto stex = c->getSecondaryTexture(mTileSize);
