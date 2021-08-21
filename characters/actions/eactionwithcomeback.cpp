@@ -63,7 +63,7 @@ void eActionWithComeback::goBack(const eWalkable& walkable) {
 
     const auto pft = new ePathFindTask(startTile, walkable,
                                        finalTile, finishFunc,
-                                       failFunc, 50);
+                                       failFunc, false, 50);
     tp->queueTask(pft);
 
     setCurrentAction(new eWaitAction(c, []() {}, []() {}));

@@ -64,7 +64,7 @@ void eSettlerAction::findHouse() {
 
     const auto pft = new ePathFindTask(startTile, walkable,
                                        finalTile, finishFunc,
-                                       failFunc, 200);
+                                       failFunc, false, 200);
     tp->queueTask(pft);
 
     setCurrentAction(new eWaitAction(c, []() {}, []() {}));

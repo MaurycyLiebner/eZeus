@@ -7,13 +7,15 @@
 #include "buildings/ebuildingwithresource.h"
 
 eCartTransporterAction::eCartTransporterAction(
+        const SDL_Rect& buildingRect,
         eCartTransporter* const c,
         const eCartActionType aType,
         const eResourceType resType,
         const eAction& failAction,
         const eAction& finishAction) :
     eActionWithComeback(c, failAction, finishAction),
-    mActionType(aType), mResource(resType) {
+    mActionType(aType), mResource(resType),
+    mBuildingRect(buildingRect) {
 
 }
 
@@ -53,12 +55,16 @@ void eCartTransporterAction::findTarget() {
         };
     }
     const auto failFunc = [this]() {
-        goBack2();
+        setState(eCharacterActionState::failed);
     };
-    const auto walkable = [](eTileBase* const t) {
+    const auto rect = mBuildingRect;
+    const auto walkable = [rect](eTileBase* const t) {
+        const SDL_Point p{t->x(), t->y()};
+        const bool r = SDL_PointInRect(&p, &rect);
+        if(r) return true;
         return t->hasRoad();
     };
-    const auto finishFunc = [this, c, walkable, failFunc](
+    const auto finishFunc = [this, c, walkable](
                             std::vector<eOrientation> path) {
         if(path.empty()) {
             setState(eCharacterActionState::failed);
@@ -78,24 +84,34 @@ void eCartTransporterAction::findTarget() {
         if(path.empty()) {
             finishAction();
         } else {
-            const auto a  = new eMovePathAction(c, path, walkable,
-                                                failFunc, finishAction);
+            const auto failFunc = [this]() {
+                findTarget();
+            };
+
+            c->setActionType(eCharacterActionType::walk);
+            const auto a = new eMovePathAction(c, path, walkable,
+                                               failFunc, finishAction);
             setCurrentAction(a);
         }
     };
 
     const auto pft = new ePathFindTask(startTile, walkable,
                                        finalTile, finishFunc,
-                                       failFunc, 200);
+                                       failFunc, true, 200);
     tp->queueTask(pft);
 
     setCurrentAction(new eWaitAction(c, []() {}, []() {}));
 }
 
 void eCartTransporterAction::goBack2() {
-    eActionWithComeback::goBack([](eTileBase* const t) {
+    const auto rect = mBuildingRect;
+    const auto walkable = [rect](eTileBase* const t) {
+        const SDL_Point p{t->x(), t->y()};
+        const bool r = SDL_PointInRect(&p, &rect);
+        if(r) return true;
         return t->hasRoad();
-    });
+    };
+    eActionWithComeback::goBack(walkable);
 }
 
 bool eCartTransporterAction::resourceAction() {

@@ -243,6 +243,7 @@ HEADERS += \
     engine/thread/ethreadcharacter.h \
     engine/thread/ethreaddata.h \
     engine/thread/ethreadtile.h \
+    eoverlay.h \
     epathfindtask.h \
     espriteframe.h \
     esprites.h \

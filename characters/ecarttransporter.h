@@ -9,7 +9,7 @@ class eCartTransporter : public eBasicPatroler {
 public:
     eCartTransporter(eGameBoard& board);
 
-    eTexture getSecondaryTexture(const eTileSize size) const;
+    eOverlay getSecondaryTexture(const eTileSize size) const;
 
     void setResource(const eResourceType type,
                      const int count);

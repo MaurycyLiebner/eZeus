@@ -16,7 +16,8 @@ class eCollectResourceAction : public eActionWithComeback {
 public:
     using eHasResource = std::function<bool(eTileBase*)>;
     using eTranformFunc = std::function<void(eTile*)>;
-    eCollectResourceAction(eResourceCollector* const c,
+    eCollectResourceAction(const SDL_Rect& buildingRect,
+                           eResourceCollector* const c,
                            const eHasResource& hr,
                            const eTranformFunc& tf,
                            const eAction& failAction,
@@ -31,6 +32,7 @@ private:
     const eHasResource mHasResource;
     const eTranformFunc mTransFunc;
     eResourceCollector* const mCharacter;
+    const SDL_Rect mBuildingRect;
 };
 
 #endif // ECOLLECTRESOURCEACTION_H

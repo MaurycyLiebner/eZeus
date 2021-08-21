@@ -50,18 +50,7 @@ void eResourceBuildingBase::timeChanged() {
 
 bool eResourceBuildingBase::spawn() {
     if(resource() >= maxResource()) return false;
-    auto dirs = gExtractDirections(eMoveDirection::allDirections);
-    if(dirs.empty()) return false;
-    std::random_shuffle(dirs.begin(), dirs.end());
-    eTile* t = nullptr;
-    for(const auto dir : dirs) {
-        t = tileNeighbour(dir, [](eTile* const tile) {
-            return tile->walkable();
-        });
-        if(t) break;
-    }
-    if(!t) return false;
-
+    const auto t = tile();
     const auto h = new eCartTransporter(getBoard());
     const int took = take(mResType, 8);
     h->setResource(mResType, took);
@@ -73,9 +62,14 @@ bool eResourceBuildingBase::spawn() {
         mSpawnTime = time() + mWaitTime;
         delete h;
     };
+    const auto failAct = [this, finishAct, took]() {
+        add(mResType, took);
+        finishAct();
+    };
     const auto a = new eCartTransporterAction(
+                       tileRect(),
                        h, eCartActionType::give, mResType,
-                       finishAct, finishAct);
+                       failAct, finishAct);
     h->setAction(a);
     t->addCharacter(h);
     return true;

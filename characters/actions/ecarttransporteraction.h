@@ -11,7 +11,8 @@ enum class eCartActionType {
 
 class eCartTransporterAction : public eActionWithComeback {
 public:
-    eCartTransporterAction(eCartTransporter* const c,
+    eCartTransporterAction(const SDL_Rect& buildingRect,
+                           eCartTransporter* const c,
                            const eCartActionType aType,
                            const eResourceType resType,
                            const eAction& failAction,
@@ -25,6 +26,7 @@ protected:
 private:
     const eCartActionType mActionType;
     const eResourceType mResource;
+    const SDL_Rect mBuildingRect;
     eOrientation mBuildingO;
 };
 

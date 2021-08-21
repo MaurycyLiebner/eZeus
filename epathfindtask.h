@@ -17,6 +17,7 @@ public:
                   const eTileChecker& endTile,
                   const eFinishFunc& finishFunc,
                   const eFailFunc& failFunc,
+                  const bool onlyDiagonal,
                   const int range);
 
 
@@ -30,6 +31,7 @@ private:
     const eTileChecker mEndTile;
     const eFinishFunc mFinish;
     const eFailFunc mFailFunc;
+    const bool mOnlyDiagonal;
     const int mRange;
 
     bool mR{false};

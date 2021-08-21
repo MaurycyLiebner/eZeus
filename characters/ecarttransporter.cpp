@@ -8,7 +8,11 @@ eCartTransporter::eCartTransporter(eGameBoard& board) :
     setHasSecondaryTexture(true);
 }
 
-eTexture eCartTransporter::getSecondaryTexture(const eTileSize size) const {
+eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
+    const auto a = actionType();
+    if(a == eCharacterActionType::none) {
+        return eOverlay{0, 0, eTexture()};
+    }
     const int id = static_cast<int>(size);
     const auto& texs = eGameTextures::characters()[id];
     const int oi = static_cast<int>(orientation());
@@ -37,42 +41,96 @@ eTexture eCartTransporter::getSecondaryTexture(const eTileSize size) const {
     default: break;
     }
 
+    double xx;
+    double yy;
+    switch(orientation()) {
+    case eOrientation::topRight:
+        xx = 0.25;
+        yy = -0.60;
+        break;
+    case eOrientation::right:
+        xx = 0.75;
+        yy = 0.75;
+        break;
+    case eOrientation::bottomRight:
+        xx = 0.85;
+        yy = 0.15;
+        break;
+    case eOrientation::bottom:
+        xx = 0.75;
+        yy = 0.75;
+        break;
+    case eOrientation::bottomLeft:
+        xx = 0.15;
+        yy = 0.85;
+        break;
+    case eOrientation::left:
+        xx = 0.75;
+        yy = 0.75;
+        break;
+    case eOrientation::topLeft:
+        xx = -0.75;
+        yy = 0.1;
+        break;
+    case eOrientation::top:
+        xx = 0.75;
+        yy = 0.75;
+        break;
+    }
+
+    eTexture tex;
     if(mResourceCount <= 0) {
-        return texs.fEmptyCart.getTexture(oi);
+        tex = texs.fEmptyCart.getTexture(oi);
     } else {
         switch(mResourceType) {
         case eResourceType::urchin:
-            return texs.fUrchinCart[oi].getTexture(ci);
+            tex = texs.fUrchinCart[oi].getTexture(ci);
+            break;
         case eResourceType::fish:
-            return texs.fFishCart[oi].getTexture(ci);
+            tex = texs.fFishCart[oi].getTexture(ci);
+            break;
         case eResourceType::meat:
-            return texs.fMeatCart[oi].getTexture(ci);
+            tex = texs.fMeatCart[oi].getTexture(ci);
+            break;
         case eResourceType::cheese:
-            return texs.fCheeseCart[oi].getTexture(ci);
+            tex = texs.fCheeseCart[oi].getTexture(ci);
+            break;
         case eResourceType::carrots:
-            return texs.fCarrotsCart[oi].getTexture(ci);
+            tex = texs.fCarrotsCart[oi].getTexture(ci);
+            break;
         case eResourceType::onions:
-            return texs.fOnionsCart[oi].getTexture(ci);
+            tex = texs.fOnionsCart[oi].getTexture(ci);
+            break;
         case eResourceType::wheat:
-            return texs.fWheatCart[oi].getTexture(ci);
+            tex = texs.fWheatCart[oi].getTexture(ci);
+            break;
         case eResourceType::grapes:
-            return texs.fGrapesCart[oi].getTexture(ci);
+            tex = texs.fGrapesCart[oi].getTexture(ci);
+            break;
         case eResourceType::olives:
-            return texs.fOlivesCart[oi].getTexture(ci);
+            tex = texs.fOlivesCart[oi].getTexture(ci);
+            break;
         case eResourceType::wine:
-            return texs.fWineCart[oi].getTexture(ci);
+            tex = texs.fWineCart[oi].getTexture(ci);
+            break;
         case eResourceType::oliveOil:
-            return texs.fOliveOilCart[oi].getTexture(ci);
+            tex = texs.fOliveOilCart[oi].getTexture(ci);
+            break;
         case eResourceType::fleece:
-            return texs.fFleeceCart[oi].getTexture(ci);
+            tex = texs.fFleeceCart[oi].getTexture(ci);
+            break;
         case eResourceType::bronze:
-            return texs.fBronzeCart[oi].getTexture(ci);
+            tex = texs.fBronzeCart[oi].getTexture(ci);
+            break;
         case eResourceType::armor:
-            return texs.fArmorCart[oi].getTexture(ci);
+            tex = texs.fArmorCart[oi].getTexture(ci);
+            break;
         default:
-            return texs.fEmptyCart.getTexture(oi);
+            tex = texs.fEmptyCart.getTexture(oi);
+            break;
         }
     }
+    return {xx, yy, tex};
 }
 
 void eCartTransporter::setResource(const eResourceType type,

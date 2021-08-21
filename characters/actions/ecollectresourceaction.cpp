@@ -8,6 +8,7 @@
 #include "characters/actions/ewaitaction.h"
 
 eCollectResourceAction::eCollectResourceAction(
+        const SDL_Rect& buildingRect,
         eResourceCollector* const c,
         const eHasResource& hr,
         const eTranformFunc& tf,
@@ -16,7 +17,8 @@ eCollectResourceAction::eCollectResourceAction(
     eActionWithComeback(c, failAction, finishAction),
     mHasResource(hr),
     mTransFunc(tf),
-    mCharacter(c) {
+    mCharacter(c),
+    mBuildingRect(buildingRect) {
 }
 
 void eCollectResourceAction::increment(const int by) {
@@ -25,7 +27,6 @@ void eCollectResourceAction::increment(const int by) {
 }
 
 bool eCollectResourceAction::findResource() {
-    mCharacter->setActionType(eCharacterActionType::walk);
     const auto c = character();
     const auto t = c->tile();
     const auto& brd = c->board();
@@ -43,7 +44,11 @@ bool eCollectResourceAction::findResource() {
     const auto failFunc = [this]() {
         setState(eCharacterActionState::failed);
     };
-    const auto tileWalkable = [hr](eTileBase* const t) {
+    const auto rect = mBuildingRect;
+    const auto tileWalkable = [hr, rect](eTileBase* const t) {
+        const SDL_Point p{t->x(), t->y()};
+        const bool r = SDL_PointInRect(&p, &rect);
+        if(r) return true;
         return t->walkable() || hr(t);
     };
     const auto hubr = [hr](eTileBase* const t) {
@@ -57,6 +62,7 @@ bool eCollectResourceAction::findResource() {
             else findResource();
         };
 
+        c->setActionType(eCharacterActionType::walk);
         const auto a  = new eMovePathAction(c, path, tileWalkable,
                                             failFunc, finishAction);
         setCurrentAction(a);
@@ -64,7 +70,7 @@ bool eCollectResourceAction::findResource() {
 
     const auto pft = new ePathFindTask(startTile, tileWalkable,
                                        hubr, finishFunc,
-                                       failFunc, 50);
+                                       failFunc, false, 50);
     tp->queueTask(pft);
 
     setCurrentAction(new eWaitAction(c, []() {}, []() {}));
@@ -93,7 +99,11 @@ bool eCollectResourceAction::collect(eTile* const tile) {
 void eCollectResourceAction::goBack2() {
     mCharacter->setActionType(eCharacterActionType::carry);
     const auto hr = mHasResource;
-    eActionWithComeback::goBack([hr](eTileBase* const t) {
+    const auto rect = mBuildingRect;
+    eActionWithComeback::goBack([hr, rect](eTileBase* const t) {
+        const SDL_Point p{t->x(), t->y()};
+        const bool r = SDL_PointInRect(&p, &rect);
+        if(r) return true;
         return t->walkable() || hr(t);
     });
 }

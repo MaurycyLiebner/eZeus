@@ -74,7 +74,8 @@ bool eResourceCollectBuilding::spawn() {
         delete d;
     };
 
-    const auto a = new eCollectResourceAction(d, mHasRes,
+    const auto a = new eCollectResourceAction(tileRect(),
+                                              d, mHasRes,
                                               mTransFunc,
                                               finishAct,
                                               finishAct);

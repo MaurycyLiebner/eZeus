@@ -11,7 +11,8 @@ class eHuntAction : public eActionWithComeback {
 public:
     using eHasResource = std::function<bool(eTileBase*)>;
     using eHasCollectableResource = std::function<bool(eTile*)>;
-    eHuntAction(eHunter* const c,
+    eHuntAction(const SDL_Rect& buildingRect,
+                eHunter* const c,
                 const eHasResource& hr,
                 const eHasCollectableResource& hcr,
                 const eAction& failAction,
@@ -28,6 +29,7 @@ private:
     const eHasResource mHasResource;
     const eHasCollectableResource mHasCollectableResource;
     eHunter* const mCharacter;
+    const SDL_Rect mBuildingRect;
 };
 
 #endif // EHUNTACTION_H

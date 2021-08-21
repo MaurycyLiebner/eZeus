@@ -1,6 +1,7 @@
 #ifndef ECHARACTER_H
 #define ECHARACTER_H
 
+#include "eoverlay.h"
 #include "engine/eorientation.h"
 #include "engine/etile.h"
 #include "actions/echaracteraction.h"
@@ -15,9 +16,9 @@ public:
     virtual ~eCharacter();
 
     virtual eTexture getTexture(const eTileSize size) const = 0;
-    virtual eTexture getSecondaryTexture(const eTileSize size) const {
+    virtual eOverlay getSecondaryTexture(const eTileSize size) const {
         (void)size;
-        return eTexture();
+        return eOverlay();
     }
     virtual bool canFight(eCharacter* const c);
 

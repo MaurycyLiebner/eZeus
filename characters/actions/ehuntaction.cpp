@@ -7,6 +7,7 @@
 #include "characters/actions/ewaitaction.h"
 
 eHuntAction::eHuntAction(
+        const SDL_Rect& buildingRect,
         eHunter* const c,
         const eHasResource& hr,
         const eHasCollectableResource& hcr,
@@ -15,7 +16,8 @@ eHuntAction::eHuntAction(
     eActionWithComeback(c, failAction, finishAction),
     mHasResource(hr),
     mHasCollectableResource(hcr),
-    mCharacter(c) {}
+    mCharacter(c),
+    mBuildingRect(buildingRect) {}
 
 void eHuntAction::increment(const int by) {
     if(!currentAction()) findResource();
@@ -40,7 +42,11 @@ bool eHuntAction::findResource() {
     const auto startTile = [tx, ty](eThreadBoard& board) {
         return board.absTile(tx, ty);
     };
-    const auto tileWalkable = [](eTileBase* const t) {
+    const auto rect = mBuildingRect;
+    const auto tileWalkable = [rect](eTileBase* const t) {
+        const SDL_Point p{t->x(), t->y()};
+        const bool r = SDL_PointInRect(&p, &rect);
+        if(r) return true;
         return t->walkable();
     };
     const auto failFunc = [this]() {
@@ -54,6 +60,7 @@ bool eHuntAction::findResource() {
             else findResource();
         };
 
+        c->setActionType(eCharacterActionType::walk);
         const auto a  = new eMovePathAction(c, path, tileWalkable,
                                             failFunc, finishAction);
         setCurrentAction(a);
@@ -61,7 +68,7 @@ bool eHuntAction::findResource() {
 
     const auto pft = new ePathFindTask(startTile, tileWalkable,
                                        mHasResource, finishFunc,
-                                       failFunc, 50);
+                                       failFunc, false, 50);
     tp->queueTask(pft);
 
     setCurrentAction(new eWaitAction(c, []() {}, []() {}));
@@ -77,7 +84,11 @@ bool eHuntAction::collect() {
 
 void eHuntAction::goBack2() {
     mCharacter->setActionType(eCharacterActionType::carry);
-    eActionWithComeback::goBack([](eTileBase* const t) {
+    const auto rect = mBuildingRect;
+    eActionWithComeback::goBack([rect](eTileBase* const t) {
+        const SDL_Point p{t->x(), t->y()};
+        const bool r = SDL_PointInRect(&p, &rect);
+        if(r) return true;
         return t->walkable();
     });
 }

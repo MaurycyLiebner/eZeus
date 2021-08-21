@@ -73,7 +73,7 @@ bool eFireFighterAction::lookForFire() {
 
     const auto pft = new ePathFindTask(startTile, tileWalkable,
                                        onFire, finishFunc,
-                                       failFunc, 20);
+                                       failFunc, false, 20);
     tp->queueTask(pft);
 
     return true;

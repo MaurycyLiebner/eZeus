@@ -7,12 +7,14 @@ ePathFindTask::ePathFindTask(const eTileGetter& startTile,
                              const eTileChecker& endTile,
                              const eFinishFunc& finishFunc,
                              const eFailFunc& failFunc,
+                             const bool onlyDiagonal,
                              const int range) :
     mStartTile(startTile),
     mTileWalkable(tileWalkable),
     mEndTile(endTile),
     mFinish(finishFunc),
     mFailFunc(failFunc),
+    mOnlyDiagonal(onlyDiagonal),
     mRange(range) {
 
 }
@@ -20,7 +22,7 @@ ePathFindTask::ePathFindTask(const eTileGetter& startTile,
 void ePathFindTask::run(eThreadBoard& data) {
     const auto t = mStartTile(data);
     const auto pf0 = ePathFinder(t, mTileWalkable, mEndTile);
-    mR = pf0.findPath(mRange, mPath, false);
+    mR = pf0.findPath(mRange, mPath, mOnlyDiagonal);
 }
 
 void ePathFindTask::finish() {

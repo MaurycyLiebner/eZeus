@@ -52,18 +52,7 @@ void eHuntingLodge::timeChanged() {
 
 bool eHuntingLodge::spawn() {
     if(resource() >= maxResource()) return false;
-    auto dirs = gExtractDirections(eMoveDirection::allDirections);
-    if(dirs.empty()) return false;
-    std::random_shuffle(dirs.begin(), dirs.end());
-    eTile* t = nullptr;
-    for(const auto dir : dirs) {
-        t = tileNeighbour(dir, [](eTile* const tile) {
-            return tile->walkable();
-        });
-        if(t) break;
-    }
-    if(!t) return false;
-
+    const auto t = tile();
     const auto h = new eHunter(getBoard());
     h->setTile(t);
     const auto finishAct = [this, h]() {
@@ -88,7 +77,7 @@ bool eHuntingLodge::spawn() {
         }
         return false;
     };
-    const auto a = new eHuntAction(h, hasRes, hasCollRes,
+    const auto a = new eHuntAction(tileRect(), h, hasRes, hasCollRes,
                                    finishAct, finishAct);
     h->setAction(a);
     t->addCharacter(h);

@@ -1,6 +1,7 @@
 #ifndef EBUILDING_H
 #define EBUILDING_H
 
+#include "eoverlay.h"
 #include "etexturecollection.h"
 #include "widgets/etilepainter.h"
 #include "engine/emovedirection.h"
@@ -64,12 +65,6 @@ enum class eBuildingType {
     road
 };
 
-struct eOverlay {
-    double fX;
-    double fY;
-    eTexture fTex;
-};
-
 class eBuilding {
 public:
     eBuilding(eGameBoard& board,
@@ -115,8 +110,12 @@ public:
     const std::vector<eTile*>& tilesUnder() const {
         return mUnderBuilding;
     }
+
+    void setTileRect(const SDL_Rect& rect) { mTileRect = rect; }
+    const SDL_Rect& tileRect() const { return mTileRect; }
 private:
     std::vector<eTile*> mUnderBuilding;
+    SDL_Rect mTileRect;
 
     eGameBoard& mBoard;
     int mSeed;

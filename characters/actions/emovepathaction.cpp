@@ -9,7 +9,6 @@ eMovePathAction::eMovePathAction(eCharacter* const c,
                                  const eAction& finishAction) :
     eMoveAction(c, tileWalkable, failAction, finishAction),
     mTurns(path) {
-    c->setActionType(eCharacterActionType::walk);
 }
 
 eCharacterActionState eMovePathAction::nextTurn(eOrientation& turn) {
