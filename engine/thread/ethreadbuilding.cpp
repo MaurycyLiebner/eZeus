@@ -1,6 +1,7 @@
 #include "ethreadbuilding.h"
 
 #include "buildings/esmallhouse.h"
+#include "buildings/eresourcebuildingbase.h"
 
 void eThreadBuilding::load(eBuilding* const src) {
     mVacancies = 0;
@@ -22,6 +23,9 @@ void eThreadBuilding::load(eBuilding* const src) {
                 mResourceCount[i] = rc[i];
                 mResource[i] = rt[i];
             }
+        } else if(const auto b = dynamic_cast<eResourceBuildingBase*>(src)) {
+            mResource[0] = b->resourceType();
+            mResourceCount[0] = b->resource();
         }
     } else {
         mType = eBuildingType::none;
@@ -29,9 +33,21 @@ void eThreadBuilding::load(eBuilding* const src) {
 }
 
 int eThreadBuilding::resourceCount(const eResourceType type) const {
-    return eStorageBuilding::sCount(type, mResourceCount, mResource);
+    if(mType == eBuildingType::granary ||
+       mType == eBuildingType::warehouse) {
+        return eStorageBuilding::sCount(type, mResourceCount, mResource);
+    } else {
+        const auto t = mResource[0];
+        if(t != type) return 0;
+        return mResourceCount[0];
+    }
 }
 
 int eThreadBuilding::resourceSpaceLeft(const eResourceType type) const {
-    return eStorageBuilding::sSpaceLeft(type, mResourceCount, mResource);
+    if(mType == eBuildingType::granary ||
+       mType == eBuildingType::warehouse) {
+        return eStorageBuilding::sSpaceLeft(type, mResourceCount, mResource);
+    } else {
+        return 0;
+    }
 }

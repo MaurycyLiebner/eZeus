@@ -1,20 +1,23 @@
 #ifndef ERESOURCEBUILDINGBASE_H
 #define ERESOURCEBUILDINGBASE_H
 
-#include "ebuilding.h"
+#include "ebuildingwithresource.h"
 
-#include "engine/eresourcetype.h"
-
-class eResourceBuildingBase : public eBuilding {
+class eResourceBuildingBase : public eBuildingWithResource {
 public:
     eResourceBuildingBase(eGameBoard& board,
                           const eBuildingType type,
                           const int sw, const int sh,
                           const eResourceType resType);
 
-    int resource() const { return mResource; }
-    int incResource(const int by);
+    int add(const eResourceType type, const int count);
+    int take(const eResourceType type, const int count);
 
+    int count(const eResourceType type) const;
+    int spaceLeft(const eResourceType type) const;
+
+    eResourceType resourceType() const { return mResType; }
+    int resource() const { return mResource; }
     int maxResource() const { return mMaxResource; }
 
     void timeChanged();

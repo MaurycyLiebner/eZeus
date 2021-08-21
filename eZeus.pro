@@ -15,6 +15,7 @@ LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf
 
 SOURCES += \
         buildings/ebuilding.cpp \
+        buildings/ebuildingwithresource.cpp \
         buildings/ecollege.cpp \
         buildings/edramaschool.cpp \
         buildings/efoundry.cpp \
@@ -42,6 +43,7 @@ SOURCES += \
         buildings/etimbermill.cpp \
         buildings/ewatchpost.cpp \
         characters/actions/eactionwithcomeback.cpp \
+        characters/actions/ecarttransporteraction.cpp \
         characters/actions/echaracteraction.cpp \
         characters/actions/ecollectaction.cpp \
         characters/actions/ecollectresourceaction.cpp \
@@ -156,6 +158,7 @@ SOURCES += \
 
 HEADERS += \
     buildings/ebuilding.h \
+    buildings/ebuildingwithresource.h \
     buildings/ecollege.h \
     buildings/edramaschool.h \
     buildings/efoundry.h \
@@ -183,6 +186,7 @@ HEADERS += \
     buildings/etimbermill.h \
     buildings/ewatchpost.h \
     characters/actions/eactionwithcomeback.h \
+    characters/actions/ecarttransporteraction.h \
     characters/actions/echaracteraction.h \
     characters/actions/ecollectaction.h \
     characters/actions/ecollectresourceaction.h \

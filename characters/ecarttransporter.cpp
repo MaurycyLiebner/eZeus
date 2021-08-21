@@ -73,7 +73,6 @@ eTexture eCartTransporter::getSecondaryTexture(const eTileSize size) const {
             return texs.fEmptyCart.getTexture(oi);
         }
     }
-
 }
 
 void eCartTransporter::setResource(const eResourceType type,

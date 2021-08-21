@@ -1,0 +1,31 @@
+#ifndef ECARTTRANSPORTERACTION_H
+#define ECARTTRANSPORTERACTION_H
+
+#include "eactionwithcomeback.h"
+
+#include "characters/ecarttransporter.h"
+
+enum class eCartActionType {
+    take, give
+};
+
+class eCartTransporterAction : public eActionWithComeback {
+public:
+    eCartTransporterAction(eCartTransporter* const c,
+                           const eCartActionType aType,
+                           const eResourceType resType,
+                           const eAction& failAction,
+                           const eAction& finishAction);
+
+    void increment(const int by);
+protected:
+    void findTarget();
+    void goBack2();
+    bool resourceAction();
+private:
+    const eCartActionType mActionType;
+    const eResourceType mResource;
+    eOrientation mBuildingO;
+};
+
+#endif // ECARTTRANSPORTERACTION_H

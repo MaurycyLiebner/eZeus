@@ -414,8 +414,42 @@ void eGameWidget::paintEvent(ePainter& p) {
             const double y = ty - a + c->y() + 0.25;
             tp.drawTexture(x, y, tex);
             if(!c->hasSecondaryTexture()) continue;
+            const auto o = c->orientation();
+            double xx = x;
+            double yy = y;
+            switch(o) {
+            case eOrientation::topRight:
+                yy -= 1;
+                break;
+            case eOrientation::right:
+                xx += 1;
+                yy -= 1;
+                break;
+            case eOrientation::bottomRight:
+                xx += 1;
+                break;
+            case eOrientation::bottom:
+                xx += 1;
+                yy += 1;
+                break;
+            case eOrientation::bottomLeft:
+                yy += 1;
+                break;
+            case eOrientation::left:
+                xx -= 1;
+                yy += 1;
+                break;
+            case eOrientation::topLeft:
+                xx -= 1;
+                break;
+            case eOrientation::top:
+                xx -= 1;
+                yy -= 1;
+                break;
+            }
+
             const auto stex = c->getSecondaryTexture(mTileSize);
-            tp.drawTexture(x, y, stex);
+            tp.drawTexture(xx, yy, stex);
         }
 
         if(tile->onFire()) {

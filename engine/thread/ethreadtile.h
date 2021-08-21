@@ -15,6 +15,8 @@ public:
     bool hasRoad() const;
     bool hasCharacter(const eHasChar& func) const;
     eBuildingType underBuildingType() const;
+    const eThreadBuilding& underBuilding() const
+    { return mUnderBuilding; }
     bool isUnderBuilding() const;
 
     int houseVacancies() const;

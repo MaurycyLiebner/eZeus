@@ -67,7 +67,7 @@ bool eHuntingLodge::spawn() {
     const auto h = new eHunter(getBoard());
     h->setTile(t);
     const auto finishAct = [this, h]() {
-        incResource(h->collected());
+        add(eResourceType::meat, h->collected());
         const auto t = h->tile();
         t->removeCharacter(h);
         mSpawned = false;

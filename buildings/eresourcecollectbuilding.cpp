@@ -66,7 +66,7 @@ bool eResourceCollectBuilding::spawn() {
     const auto d = mCharGenerator();
     d->setTile(t);
     const auto finishAct = [this, d]() {
-        incResource(d->collected());
+        add(resourceType(), d->collected());
         const auto t = d->tile();
         t->removeCharacter(d);
         mSpawned = false;
