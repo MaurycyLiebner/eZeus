@@ -7,6 +7,8 @@
 #include "widgets/egamemenu.h"
 #include "widgets/emenuloadingwidget.h"
 
+#include "emusic.h"
+
 #include "engine/ethreadpool.h"
 
 #include <chrono>
@@ -75,7 +77,10 @@ void eMainWindow::setFullscreen(const bool f) {
 
 void eMainWindow::showMenuLoading() {
     const auto mlw = new eMenuLoadingWidget(this);
-    mlw->setDoneAction([this]() { showMainMenu(); });
+    mlw->setDoneAction([this]() {
+        eMusic::playMenuMusic();
+        showMainMenu();
+    });
     mlw->initialize();
     mlw->resize(width(), height());
     setWidget(mlw);
@@ -132,6 +137,7 @@ void eMainWindow::showSettingsMenu() {
 }
 
 void eMainWindow::showGame() {
+    eMusic::playRandomMusic();
     const auto egw = new eGameWidget(this);
     egw->resize(width(), height());
     egw->initialize(100, 100);
@@ -217,6 +223,7 @@ int eMainWindow::exec() {
         const int fps = (int)std::round(1/elapsed.count());
         p.drawText(0, 0, std::to_string(fps), {0, 0, 0, 255});
 
+        eMusic::incTime();
         if(mWidget) mWidget->paint(p);
 
         SDL_RenderPresent(mSdlRenderer);

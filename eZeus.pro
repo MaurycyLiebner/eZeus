@@ -11,7 +11,7 @@ QMAKE_CFLAGS_RELEASE += -m64 -O3
 QMAKE_CXXFLAGS_RELEASE += -m64 -O3
 
 LIBS += -L/usr/lib/x86_64-linux-gnu
-LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf
+LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
 SOURCES += \
         buildings/ebuilding.cpp \
@@ -81,6 +81,7 @@ SOURCES += \
         characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
         emainwindow.cpp \
+        emusic.cpp \
         engine/boardData/eemploymentdata.cpp \
         engine/boardData/epopulationdata.cpp \
         engine/efunctask.cpp \
@@ -227,6 +228,7 @@ HEADERS += \
     characters/ewatchman.h \
     characters/ewaterdistributor.h \
     emainwindow.h \
+    emusic.h \
     engine/boardData/eemploymentdata.h \
     engine/boardData/epopulationdata.h \
     engine/efunctask.h \
