@@ -2,14 +2,25 @@
 
 #include "textures/egametextures.h"
 #include "emusic.h"
+#include "esounds.h"
 
 eGameLoadingWidget::eGameLoadingWidget(eMainWindow* const window) :
-    eLoadingWidget(eGameTextures::gameSize(), [](std::string& text) {
+    eLoadingWidget(eGameTextures::gameSize() + 2,
+                   [](std::string& text) {
         const bool r = eGameTextures::loadNextGame(text);
         if(r) {
-            text = "Loading music...";
-            eMusic::load();
-            return true;
+            const bool r = eMusic::loaded();
+            if(r) {
+                const bool r = eSounds::loaded();
+                if(r) return true;
+                text = "Loading sounds...";
+                eSounds::load();
+                return false;
+            } else {
+                text = "Loading music...";
+                eMusic::load();
+                return false;
+            }
         }
         return false;
     }, window) {}

@@ -24,6 +24,10 @@ void eMusic::load() {
     sInstance.loadImpl();
 }
 
+bool eMusic::loaded() {
+    return sInstance.mLoaded;
+}
+
 void eMusic::incTime() {
     sInstance.incTimeImpl();
 }
@@ -93,6 +97,8 @@ void eMusic::playRandomBattleMusicImpl() {
 }
 
 void eMusic::loadImpl() {
+    if(mLoaded) return;
+    mLoaded = true;
     const std::string dir{"../Audio/Music/"};
 
     loadMusic(dir + "Afigisi.mp3");

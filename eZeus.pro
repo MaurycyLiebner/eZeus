@@ -101,6 +101,7 @@ SOURCES += \
         engine/thread/ethreaddata.cpp \
         engine/thread/ethreadtile.cpp \
         epathfindtask.cpp \
+        esounds.cpp \
         espriteframe.cpp \
         esprites.cpp \
         etexture.cpp \
@@ -252,6 +253,7 @@ HEADERS += \
     engine/thread/ethreadtile.h \
     eoverlay.h \
     epathfindtask.h \
+    esounds.h \
     espriteframe.h \
     esprites.h \
     etexture.h \

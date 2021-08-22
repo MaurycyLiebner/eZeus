@@ -17,6 +17,7 @@ public:
 
     static void loadMenu();
     static void load();
+    static bool loaded();
 
     static void incTime();
 
@@ -37,6 +38,7 @@ private:
     bool loadBattleMusic(const std::string& path);
     static eMusic sInstance;
 
+    bool mLoaded{false};
     eMusicType mMusicType{eMusicType::none};
 
     Mix_Music* mSetupMusic = nullptr;
