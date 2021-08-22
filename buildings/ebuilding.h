@@ -99,8 +99,7 @@ public:
     void setTile(eTile* const t);
 
     void draw(eTilePainter& p,
-              const double x, const double y,
-              const eAlignment align);
+              const double x, const double y);
 
     void addUnderBuilding(eTile* const t);
     void erase();

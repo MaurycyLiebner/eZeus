@@ -7,6 +7,7 @@ struct eOverlay {
     double fX;
     double fY;
     eTexture fTex;
+    bool fAlignTop = false;
 };
 
 #endif // EOVERLAY_H

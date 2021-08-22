@@ -23,16 +23,16 @@ std::vector<eOverlay> eWarehouse::getOverlays(const eTileSize size) const {
 //    o.fTex = coll.getTexture(texId);
 //    o.fX = 0.5;
 //    o.fY = -3.81;
-    const std::pair<double, double> xy[8] = {{-2, -3},
-                                             {-2, -2},
+    const std::pair<int, int> xy[8] = {{-1, -2},
+                                       {-1, -1},
 
-                                             {-1, -4},
-                                             {-1, -3},
-                                             {-1, -2},
+                                       {0, -3},
+                                       {0, -2},
+                                       {0, -1},
 
-                                             {0, -4},
-                                             {0, -3},
-                                             {0, -2}};
+                                       {1, -3},
+                                       {1, -2},
+                                       {1, -1}};
     for(int i = 0; i < 8; i++) {
         const int count = resourceCount(i);
         const auto type = resourceType(i);
@@ -40,6 +40,7 @@ std::vector<eOverlay> eWarehouse::getOverlays(const eTileSize size) const {
         const auto& xxyy = xy[i];
         o.fX = xxyy.first;
         o.fY = xxyy.second;
+        o.fAlignTop = true;
         if(type == eResourceType::none || count <= 0) {
             o.fTex = texs.fWarehouseEmpty;
             continue;

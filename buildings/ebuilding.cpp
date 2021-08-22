@@ -63,12 +63,13 @@ void eBuilding::setTile(eTile* const t) {
 }
 
 void eBuilding::draw(eTilePainter& p,
-                     const double x, const double y,
-                     const eAlignment align) {
-    p.drawTexture(x, y, getTexture(p.size()), align);
+                     const double x, const double y) {
+    p.drawTexture(x, y, getTexture(p.size()), eAlignment::top);
     const auto overlays = getOverlays(p.size());
     for(const auto& o : overlays) {
-        p.drawTexture(x + o.fX, y + o.fY, o.fTex);
+        if(o.fAlignTop) p.drawTexture(x + o.fX, y + o.fY, o.fTex,
+                                      eAlignment::top);
+        else p.drawTexture(x + o.fX, y + o.fY, o.fTex);
     }
 }
 

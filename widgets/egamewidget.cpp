@@ -405,7 +405,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 double rx;
                 double ry;
                 drawXY(tx, ty, rx, ry, d->spanW(), d->spanH(), a);
-                d->draw(tp, rx, ry, eAlignment::top);
+                d->draw(tp, rx, ry);
             }
         }
 
