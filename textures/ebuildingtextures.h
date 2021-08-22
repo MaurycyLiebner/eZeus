@@ -134,6 +134,7 @@ public:
     eTextureCollection fWaitingArmor;
 
     eTexture fWarehouse;
+    eTextureCollection fWarehouseOverlay;
 
     eTexture fWarehouseEmpty;
     eTextureCollection fWarehouseUrchin;

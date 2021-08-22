@@ -17,12 +17,12 @@ std::vector<eOverlay> eWarehouse::getOverlays(const eTileSize size) const {
     std::vector<eOverlay> os;
     const int sizeId = static_cast<int>(size);
     const auto texs = mTextures[sizeId];
-//    const auto& coll = texs.fGranaryOverlay;
-//    const int texId = textureTime() % coll.size();
-//    auto& o = os.emplace_back();
-//    o.fTex = coll.getTexture(texId);
-//    o.fX = 0.5;
-//    o.fY = -3.81;
+    const auto& coll = texs.fWarehouseOverlay;
+    const int texId = textureTime() % coll.size();
+    auto& o = os.emplace_back();
+    o.fTex = coll.getTexture(texId);
+    o.fX = -1.20;
+    o.fY = -4.32;
     const std::pair<int, int> xy[8] = {{-1, -2},
                                        {-1, -1},
 

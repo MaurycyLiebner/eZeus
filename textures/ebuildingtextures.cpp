@@ -62,6 +62,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fWaitingOlives(renderer),
     fWaitingArmor(renderer),
 
+    fWarehouseOverlay(renderer),
+
     fWarehouseUrchin(renderer),
     fWarehouseFish(renderer),
     fWarehouseMeat(renderer),
@@ -315,6 +317,11 @@ void eBuildingTextures::load() {
         const auto dir = basedir + "SprAmbient/";
 
         const std::string pathBase{dir + "SprAmbient_"};
+
+        for(int i = 269; i < 293; i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fWarehouseOverlay, eSprAmbientOffset);
+        }
 
         for(int i = 2958; i < 3011; i++) {
             eTextureLoadingHelpers::loadTexWithOffset(
