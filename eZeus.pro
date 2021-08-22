@@ -81,6 +81,7 @@ SOURCES += \
         characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
         emainwindow.cpp \
+        engine/boardData/eemploymentdata.cpp \
         engine/boardData/epopulationdata.cpp \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
@@ -125,6 +126,7 @@ SOURCES += \
         textures/ewatertobeach.cpp \
         textures/ewatertodry.cpp \
         textures/ewatertox.cpp \
+        widgets/datawidgets/eemploymentdatawidget.cpp \
         widgets/datawidgets/epopulationdatawidget.cpp \
         widgets/eactionlistwidget.cpp \
         widgets/ebutton.cpp \
@@ -225,6 +227,7 @@ HEADERS += \
     characters/ewatchman.h \
     characters/ewaterdistributor.h \
     emainwindow.h \
+    engine/boardData/eemploymentdata.h \
     engine/boardData/epopulationdata.h \
     engine/efunctask.h \
     engine/egameboard.h \
@@ -274,6 +277,7 @@ HEADERS += \
     textures/ewatertobeach.h \
     textures/ewatertodry.h \
     textures/ewatertox.h \
+    widgets/datawidgets/eemploymentdatawidget.h \
     widgets/datawidgets/epopulationdatawidget.h \
     widgets/eactionlistwidget.h \
     widgets/ebutton.h \

@@ -28,9 +28,6 @@ void ePopulationDataWidget::initialize() {
     addWidget(s);
     addWidget(mSetLabel);
 
-    fitContent();
-    setHeight(4*p->height());
-
     p->align(eAlignment::hcenter);
     v->align(eAlignment::hcenter);
     s->align(eAlignment::hcenter);

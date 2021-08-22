@@ -7,7 +7,7 @@
 #include "spawners/espawner.h"
 
 eGameBoard::eGameBoard(eThreadPool* const tpool) :
-    mThreadPool(tpool) {}
+    mThreadPool(tpool), mEmplData(mPopData) {}
 
 eGameBoard::~eGameBoard() {
     clear();

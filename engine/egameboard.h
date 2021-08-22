@@ -7,6 +7,7 @@
 #include "egameboarditerator.h"
 
 #include "boardData/epopulationdata.h"
+#include "boardData/eemploymentdata.h"
 
 class eSpawner;
 class eCharacter;
@@ -63,6 +64,8 @@ public:
 
 
     ePopulationData& populationData() { return mPopData; }
+
+    eEmploymentData& employmentData() { return mEmplData; }
 private:
     void updateDiagonalArray();
     void updateNeighbours();
@@ -79,6 +82,8 @@ private:
     std::vector<eSpawner*> mSpawners;
 
     ePopulationData mPopData;
+
+    eEmploymentData mEmplData;
 };
 
 #endif // EGAMEBOARD_H

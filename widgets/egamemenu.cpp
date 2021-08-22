@@ -7,6 +7,7 @@
 #include "engine/egameboard.h"
 
 #include "widgets/datawidgets/epopulationdatawidget.h"
+#include "widgets/datawidgets/eemploymentdatawidget.h"
 
 struct eSubButtonData {
     std::function<void()> fPressedFunc;
@@ -94,12 +95,14 @@ void eGameMenu::initialize() {
                             {cha0, &coll.fCommonHousing},
                             {eha0, &coll.fEliteHousing}});
     mPopDataW = new ePopulationDataWidget(window());
+    mPopDataW->setWidth(65*mult);
+    mPopDataW->setHeight(140*mult);
     mPopDataW->initialize();
     ww0->addWidget(mPopDataW);
     ww0->addWidget(w0);
     ww0->fitContent();
     ww0->setHeight(190*mult);
-    w0->align(eAlignment::bottom);
+    w0->setY(mPopDataW->height());
     mPopDataW->align(eAlignment::top);
 
     using eSPR = std::pair<eBuildingMode, std::string>;
@@ -190,11 +193,22 @@ void eGameMenu::initialize() {
         setMode(eBuildingMode::artisansGuild);
     };
 
+    const auto ww2 = new eWidget(window());
     const auto w2 = createSubButtons(mult,
                         eButtonsDataVec{
                              {r2, &coll.fResources},
                              {p2, &coll.fProcessing},
                              {bg2, &coll.fBuildersGuild}});
+    mEmplDataW = new eEmploymentDataWidget(window());
+    mEmplDataW->setWidth(65*mult);
+    mEmplDataW->setHeight(140*mult);
+    mEmplDataW->initialize();
+    ww2->addWidget(mEmplDataW);
+    ww2->addWidget(w2);
+    ww2->fitContent();
+    ww2->setHeight(190*mult);
+    w2->setY(mEmplDataW->height());
+    mEmplDataW->align(eAlignment::top);
 
 
     const auto g3 = [this]() {
@@ -308,7 +322,7 @@ void eGameMenu::initialize() {
 
     mWidgets.push_back(ww0);
     mWidgets.push_back(w1);
-    mWidgets.push_back(w2);
+    mWidgets.push_back(ww2);
     mWidgets.push_back(w3);
     mWidgets.push_back(w4);
     mWidgets.push_back(w5);
@@ -325,7 +339,7 @@ void eGameMenu::initialize() {
 
     const auto b0 = addButton(coll.fPopulation, ww0);
     const auto b1 = addButton(coll.fHusbandry, w1);
-    const auto b2 = addButton(coll.fIndustry, w2);
+    const auto b2 = addButton(coll.fIndustry, ww2);
     const auto b3 = addButton(coll.fDistribution, w3);
     const auto b4 = addButton(coll.fHygieneSafety, w4);
     const auto b5 = addButton(coll.fAdministration, w5);
@@ -403,6 +417,7 @@ void eGameMenu::initialize() {
 void eGameMenu::setBoard(eGameBoard* const b) {
     mBoard = b;
     mPopDataW->setBoard(b);
+    mEmplDataW->setBoard(b);
 }
 
 void eGameMenu::setMode(const eBuildingMode mode) {

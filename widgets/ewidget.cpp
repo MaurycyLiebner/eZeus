@@ -388,3 +388,8 @@ void eWidget::sizeHint(int& w, int& h) {
         h = std::max(h, c->y() + c->height());
     }
 }
+
+void eWidget::paintEvent(ePainter& p) {
+    (void)p;
+    p.drawRect(rect(), {0, 0, 0, 255}, 1);
+}

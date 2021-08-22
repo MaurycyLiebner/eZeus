@@ -85,9 +85,7 @@ public:
 protected:
     virtual void sizeHint(int& w, int& h);
 
-    virtual void paintEvent(ePainter& p) {
-        (void)p;
-    }
+    virtual void paintEvent(ePainter& p);
 
     virtual bool keyPressEvent(const eKeyPressEvent& e) {
         (void)e;

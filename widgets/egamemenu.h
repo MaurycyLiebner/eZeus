@@ -9,6 +9,7 @@ class eInterfaceTextures;
 class eButton;
 class eGameBoard;
 class ePopulationDataWidget;
+class eEmploymentDataWidget;
 
 struct eSubButtonData;
 
@@ -89,6 +90,7 @@ private:
     eGameBoard* mBoard{nullptr};
 
     ePopulationDataWidget* mPopDataW = nullptr;
+    eEmploymentDataWidget* mEmplDataW = nullptr;
 
     eBuildingMode mMode{eBuildingMode::road};
 
