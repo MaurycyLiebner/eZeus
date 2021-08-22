@@ -44,6 +44,8 @@
 
 #include "echeckbox.h"
 
+#include "esounds.h"
+
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window), mBoard(&mThreadPool) {}
 
@@ -162,14 +164,18 @@ void eGameWidget::iterateOverTiles(const eTileAction& a) {
     const int h = mBoard.height();
     const int nRows = w + h - 1;
 
-    int minRow = -2*mDY/mTileH - 1;
-    int maxRow = minRow + 2*height()/mTileH + 1;
+    int minRow = -2*mDY/mTileH - 5;
+    int maxRow = minRow + 2*height()/mTileH + 10;
     minRow = std::clamp(minRow, 0, nRows);
     maxRow = std::clamp(maxRow, 0, nRows);
 
-    const int minXYDiff = -2*mDX/mTileW - 1;
+    const int minXYDiff = -2*mDX/mTileW - 5;
     const int gmw = mGm->width();
-    const int maxXYDiff = minXYDiff + 2*(width() - gmw)/mTileW + 3;
+    const int maxXYDiff = minXYDiff + 2*(width() - gmw)/mTileW + 10;
+
+    const int soundRow = (minRow + maxRow)/2;
+    const int soundXmy = (minXYDiff + maxXYDiff)/2;
+    const bool play = rand() % 5000;
 
     const auto iniIt = eGameBoardDiagonalIterator(minRow, 0, &mBoard);
     for(auto it = iniIt; it != mBoard.dEnd(); ++it) {
@@ -178,6 +184,61 @@ void eGameWidget::iterateOverTiles(const eTileAction& a) {
         const int tx = tile->x();
         const int ty = tile->y();
         const int xmy = tx - ty;
+        if(play && soundXmy == xmy && it.row() == soundRow) {
+            const int playing = Mix_Playing(-1);
+            if(playing == 0) {
+                if(const auto b = tile->underBuilding()) {
+                    switch(b->type()) {
+                    case eBuildingType::commonHouse:
+                        eSounds::playCommonHousingSound();
+                        break;
+                    case eBuildingType::theater:
+                        eSounds::playTheatreSound();
+                        break;
+                    case eBuildingType::dramaSchool:
+                        eSounds::playDramaSound();
+                        break;
+                    case eBuildingType::timberMill:
+                        eSounds::playTimberMillSound();
+                        break;
+                    case eBuildingType::warehouse:
+                    case eBuildingType::granary:
+                        eSounds::playStorageSound();
+                        break;
+                    case eBuildingType::foundry:
+                        eSounds::playFoundrySound();
+                        break;
+                    case eBuildingType::mint:
+                        eSounds::playMintSound();
+                        break;
+                    case eBuildingType::maintenanceOffice:
+                        eSounds::playMaintananceSound();
+                        break;
+                    case eBuildingType::taxOffice:
+                        eSounds::playTaxesSound();
+                        break;
+                    case eBuildingType::palace1:
+                    case eBuildingType::palace2:
+                        eSounds::playPalaceSound();
+                        break;
+                    case eBuildingType::podium:
+                    case eBuildingType::college:
+                        eSounds::playPhilosophySound();
+                        break;
+                    case eBuildingType::gymnasium:
+                        eSounds::playGymnasiumSound();
+                        break;
+                    case eBuildingType::stadium1:
+                    case eBuildingType::stadium2:
+                        eSounds::playStadiumSound();
+                        break;
+                    default: break;
+                    }
+                } else {
+                    eSounds::playEnvironmentSound();
+                }
+            }
+        }
         if(xmy < minXYDiff) continue;
         if(xmy > maxXYDiff) continue;
         a(tile);

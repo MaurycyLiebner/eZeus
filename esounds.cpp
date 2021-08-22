@@ -14,6 +14,68 @@ bool eSounds::loaded() {
     return sInstance.mLoaded;
 }
 
+void playRandomSound(const std::vector<Mix_Chunk*>& sounds) {
+    if(sounds.empty()) return;
+    const int id = rand() % sounds.size();
+    Mix_PlayChannel(-1, sounds[id], 0);
+}
+
+void eSounds::playEnvironmentSound() {
+    playRandomSound(sInstance.mEnvironment);
+}
+
+void eSounds::playCommonHousingSound() {
+    playRandomSound(sInstance.mCommonHousing);
+}
+
+void eSounds::playTheatreSound() {
+    playRandomSound(sInstance.mTheatre);
+}
+
+void eSounds::playDramaSound() {
+    playRandomSound(sInstance.mDrama);
+}
+
+void eSounds::playPhilosophySound() {
+    playRandomSound(sInstance.mPhilosophy);
+}
+
+void eSounds::playGymnasiumSound() {
+    playRandomSound(sInstance.mGymnasium);
+}
+
+void eSounds::playStadiumSound() {
+    playRandomSound(sInstance.mStadium);
+}
+
+void eSounds::playTaxesSound() {
+    playRandomSound(sInstance.mTaxes);
+}
+
+void eSounds::playPalaceSound() {
+    playRandomSound(sInstance.mPalace);
+}
+
+void eSounds::playMaintananceSound() {
+    playRandomSound(sInstance.mMaintenance);
+}
+
+void eSounds::playFoundrySound() {
+    playRandomSound(sInstance.mFoundry);
+}
+
+void eSounds::playMintSound() {
+    playRandomSound(sInstance.mMint);
+}
+
+void eSounds::playTimberMillSound() {
+    playRandomSound(sInstance.mTimberMill);
+}
+
+void eSounds::playStorageSound() {
+    playRandomSound(sInstance.mStorage);
+}
+
 Mix_Chunk* loadSoundBase(const std::string& path) {
     const auto wav = Mix_LoadWAV(path.c_str());
     if(!wav) {
@@ -27,6 +89,34 @@ Mix_Chunk* loadSoundBase(const std::string& path) {
 void eSounds::loadImpl() {
     if(mLoaded) return;
     mLoaded = true;
+
+    {
+        const std::string dir{"../Audio/Ambient/Layer1/"};
+        for(const auto& s : {"wind1.wav",
+                             "wind2.wav",
+                             "wind3.wav",
+                             "wind4.wav",
+                             "wind5.wav",
+                             "wind6.wav",
+                             "wind7.wav",
+                             "shimmer3.wav",
+                             "wind_sparkle2.wav",
+                             "dark2.wav",
+                             "bells.wav",
+                             "space_bells7.wav",
+                             "space_bells10.wav",
+                             "space_bells12.wav",
+                             "space_bells13.wav",
+                             "space_bells14.wav",
+                             "space_bells4a.wav",
+                             "chime2.wav",
+                             "voice.wav",
+                             "shimmer6.wav",
+                             "shimmer7.wav"}) {
+            const auto r = loadSoundBase(dir + s);
+            if(r) mEnvironment.push_back(r);
+        }
+    }
 
     const std::string dir{"../Audio/Ambient/Layer2/"};
 
@@ -250,18 +340,19 @@ void eSounds::loadImpl() {
 
     for(const auto& s : {"drama1.wav",
                          "flying.wav",
-                         "thtr_spear1.wav"}) {
+                         "thtr_spear1.wav",
+                         "thtr_spear2.wav",
+                         "thtr_mumbl1.wav",
+                         "thtr_mumbl2.wav",
+                         "thtr_mumbl3.wav",
+                         "thtr_women.wav",
+        }) {
         const auto r = loadSoundBase(dir + s);
         if(r) mTheatre.push_back(r);
     }
 
-    for(const auto& s : {"thtr_mumbl1.wav",
-                         "thtr_mumbl2.wav",
-                         "thtr_mumbl3.wav",
-                         "thtr_spear2.wav",
-                         "thtr_spin1.wav",
-                         "thtr_spin2.wav",
-                         "thtr_women.wav"}) {
+    for(const auto& s : {"thtr_spin1.wav",
+                         "thtr_spin2.wav"}) {
         const auto r = loadSoundBase(dir + s);
         if(r) mDrama.push_back(r);
     }

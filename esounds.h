@@ -12,12 +12,34 @@ public:
 
     static void load();
     static bool loaded();
+
+    static void playEnvironmentSound();
+
+    static void playCommonHousingSound();
+
+    static void playTheatreSound();
+    static void playDramaSound();
+    static void playPhilosophySound();
+    static void playGymnasiumSound();
+    static void playStadiumSound();
+
+    static void playTaxesSound();
+    static void playPalaceSound();
+    static void playMaintananceSound();
+
+    static void playFoundrySound();
+    static void playMintSound();
+    static void playTimberMillSound();
+
+    static void playStorageSound();
 private:
     void loadImpl();
 
     static eSounds sInstance;
 
     bool mLoaded{false};
+
+    std::vector<Mix_Chunk*> mEnvironment;
 
     std::vector<Mix_Chunk*> mMaintenance;
     std::vector<Mix_Chunk*> mCommonHousing;
