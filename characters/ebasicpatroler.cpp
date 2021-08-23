@@ -16,20 +16,22 @@ eTexture eBasicPatroler::getTexture(const eTileSize size) const {
     const auto& charTexs = mTextures[id].*mCharTexs;
     const eTextureCollection* coll = nullptr;
     bool wrap = true;
+    const int oid = static_cast<int>(orientation());
     const auto a = actionType();
     switch(a) {
-    case eCharacterActionType::none:
-        return eTexture();
+    case eCharacterActionType::stand:
+        return charTexs.fWalk[oid].getTexture(0);
     case eCharacterActionType::collect:
     case eCharacterActionType::fight:
     case eCharacterActionType::carry:
     case eCharacterActionType::walk: {
-        const int oid = static_cast<int>(orientation());
         coll = &charTexs.fWalk[oid];
     } break;
     case eCharacterActionType::die:
         wrap = false;
         coll = &charTexs.fDie;
+        break;
+    default: return eTexture();
     }
 
     const int s = coll->size();

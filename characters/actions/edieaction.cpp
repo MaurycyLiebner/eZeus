@@ -8,7 +8,10 @@
 eDieAction::eDieAction(eCharacter* const c,
                        const eAction& finishAction) :
     eCharacterAction(c, finishAction, finishAction) {
-    c->setActionType(eCharacterActionType::die);
+    const auto aType = c->actionType();
+    if(aType != eCharacterActionType::none) {
+        c->setActionType(eCharacterActionType::die);
+    }
 }
 
 void eDieAction::increment(const int by) {

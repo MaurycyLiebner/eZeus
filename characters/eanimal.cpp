@@ -27,8 +27,6 @@ eTexture eAnimal::getTexture(const eTileSize size) const {
     bool wrap = true;
     const auto a = actionType();
     switch(a) {
-    case eCharacterActionType::none:
-        return eTexture();
     case eCharacterActionType::stand:
         return charTexs.fWalk[oid].getTexture(0);
     case eCharacterActionType::lay:
@@ -45,6 +43,8 @@ eTexture eAnimal::getTexture(const eTileSize size) const {
     case eCharacterActionType::die:
         wrap = false;
         coll = &charTexs.fDie;
+        break;
+    default: return eTexture();
     }
     if(!coll || coll->size() == 0) return eTexture();
     int t = textureTime() - actionStartTime();

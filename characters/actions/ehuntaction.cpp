@@ -35,16 +35,22 @@ bool hasHuntableAnimal(eTileBase* const tile,
     });
 }
 
-bool hasDeadAnimal(eTile* const tile) {
+bool tryToCollectDeadAnimal(eTile* const tile) {
     const auto cs = tile->characters();
     for(const auto c : cs) {
         const auto t = c->type();
         if(t == eCharacterType::boar) {
             const auto b = static_cast<eBoar*>(c);
-            if(b->dead()) return true;
+            if(b->dead()) {
+                b->setActionType(eCharacterActionType::none);
+                return true;
+            }
         } else if(t == eCharacterType::deer) {
             const auto d = static_cast<eDeer*>(c);
-            if(d->dead()) return true;
+            if(d->dead()) {
+                d->setActionType(eCharacterActionType::none);
+                return true;
+            }
         }
     }
     return false;
@@ -58,7 +64,7 @@ void eHuntAction::increment(const int by) {
 void eHuntAction::resume() {
     eActionWithComeback::resume();
     const auto tile = mCharacter->tile();
-    if(hasDeadAnimal(tile)) collect();
+    if(tryToCollectDeadAnimal(tile)) collect();
 }
 
 bool eHuntAction::findResource() {
@@ -90,7 +96,7 @@ bool eHuntAction::findResource() {
                             const std::vector<eOrientation>& path) {
         const auto finishAction = [this, c]() {
             const auto tile = c->tile();
-            if(hasDeadAnimal(tile)) collect();
+            if(tryToCollectDeadAnimal(tile)) collect();
             else findResource();
         };
 
