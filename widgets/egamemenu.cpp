@@ -304,7 +304,16 @@ void eGameMenu::initialize() {
                              {hs7, &coll.fHeroShrines}});
 
     const auto f8 = [this, cmx, cmy]() {};
-    const auto mp8 = [this, cmx, cmy]() {};
+    const auto mp8 = [this, cmx, cmy]() {
+        const auto cm = new eContextMenu(window());
+        for(const auto& c : {eSPR{eBuildingMode::armory, "Armory"}}) {
+            cm->addAction(c.second, [this, c]() {
+                setMode(c.first);
+            });
+        }
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy, this);
+    };
     const auto w8 = createSubButtons(mult,
                         eButtonsDataVec{
                              {f8, &coll.fFortifications},

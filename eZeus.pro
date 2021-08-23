@@ -14,6 +14,7 @@ LIBS += -L/usr/lib/x86_64-linux-gnu
 LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
 SOURCES += \
+        buildings/earmory.cpp \
         buildings/ebuilding.cpp \
         buildings/ebuildingwithresource.cpp \
         buildings/ecollege.cpp \
@@ -169,6 +170,7 @@ SOURCES += \
         widgets/infowidgets/einfowidget.cpp
 
 HEADERS += \
+    buildings/earmory.h \
     buildings/ebuilding.h \
     buildings/ebuildingwithresource.h \
     buildings/ecollege.h \

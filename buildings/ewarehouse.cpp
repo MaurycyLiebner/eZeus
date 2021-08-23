@@ -97,6 +97,9 @@ std::vector<eOverlay> eWarehouse::getOverlays(const eTileSize size) const {
         case eResourceType::wine:
             o.fTex = texs.fWarehouseWine.getTexture(texId);
             break;
+        case eResourceType::armor:
+            o.fTex = texs.fWarehouseArmor.getTexture(texId);
+            break;
         default: continue;
         }
     }

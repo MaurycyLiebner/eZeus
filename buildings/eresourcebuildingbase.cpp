@@ -17,7 +17,7 @@ int eResourceBuildingBase::add(const eResourceType type,
     if(type != mResType) return 0;
 
     const int r = std::clamp(mResource + count, 0, mMaxResource);
-    const int result = mResource - r;
+    const int result = r - mResource;
     mResource = r;
     return result;
 }

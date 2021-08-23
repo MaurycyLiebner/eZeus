@@ -75,7 +75,7 @@ void eCartTransporterAction::findTarget() {
         const auto finishAction = [this]() {
             const bool r = resourceAction();
             if(r) {
-                setState(eCharacterActionState::finished);
+                goBack2();
             } else {
                 findTarget();
             }

@@ -48,6 +48,7 @@ enum class eBuildingMode {
     olivePress,
     sculptureStudio,
     artisansGuild,
+    armory,
 
     podium,
     college,
