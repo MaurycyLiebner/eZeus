@@ -21,9 +21,9 @@ public:
     int maxResource() const { return mMaxResource; }
 
     void timeChanged();
-
-    bool spawn();
 private:
+    bool spawn();
+
     const int mMaxResource = 8;
 
     const eResourceType mResType;

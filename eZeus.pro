@@ -30,6 +30,7 @@ SOURCES += \
         buildings/epalace2.cpp \
         buildings/epatrolbuilding.cpp \
         buildings/epodium.cpp \
+        buildings/eprocessingbuilding.cpp \
         buildings/eresourcebuilding.cpp \
         buildings/eresourcebuildingbase.cpp \
         buildings/eresourcecollectbuilding.cpp \
@@ -184,6 +185,7 @@ HEADERS += \
     buildings/epalace2.h \
     buildings/epatrolbuilding.h \
     buildings/epodium.h \
+    buildings/eprocessingbuilding.h \
     buildings/eresourcebuilding.h \
     buildings/eresourcebuildingbase.h \
     buildings/eresourcecollectbuilding.h \
