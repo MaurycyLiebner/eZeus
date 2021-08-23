@@ -9,25 +9,12 @@ eActionWithComeback::eActionWithComeback(
         eCharacter* const c,
         const eAction& failAction,
         const eAction& finishAction) :
-    eCharacterAction(c, failAction, finishAction) {
+    eComplexAction(c, failAction, finishAction) {
     const auto t = c->tile();
     if(t) {
         mStartX = t->x();
         mStartY = t->y();
     }
-}
-
-eActionWithComeback::~eActionWithComeback() {
-    setCurrentAction(nullptr);
-}
-
-void eActionWithComeback::increment(const int by) {
-    if(mCurrentAction) mCurrentAction->increment(by);
-}
-
-void eActionWithComeback::setCurrentAction(eCharacterAction* const a) {
-    if(mCurrentAction) delete mCurrentAction;
-    mCurrentAction = a;
 }
 
 void eActionWithComeback::goBack(const eWalkable& walkable) {

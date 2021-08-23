@@ -6,6 +6,8 @@
 
 #include <SDL2/SDL_mixer.h>
 
+class eTile;
+
 class eSounds {
 public:
     eSounds();
@@ -13,7 +15,13 @@ public:
     static void load();
     static bool loaded();
 
+    static void playSoundForTile(eTile* const tile);
+
     static void playEnvironmentSound();
+
+    static void playBeachSound();
+    static void playWaterSound();
+    static void playRockySound();
 
     static void playCommonHousingSound();
 
@@ -23,6 +31,7 @@ public:
     static void playGymnasiumSound();
     static void playStadiumSound();
 
+    static void playFountainSound();
     static void playTaxesSound();
     static void playPalaceSound();
     static void playMaintananceSound();
@@ -30,6 +39,17 @@ public:
     static void playFoundrySound();
     static void playMintSound();
     static void playTimberMillSound();
+
+    static void playArmorySound();
+
+    static void playHuntingSound();
+    static void playBoarSound();
+    static void playDeerSound();
+    static void playWolfSound();
+
+    static void playSheepSound();
+    static void playGoatSound();
+    static void playCattleSound();
 
     static void playStorageSound();
 private:

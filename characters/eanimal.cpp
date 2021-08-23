@@ -29,6 +29,11 @@ eTexture eAnimal::getTexture(const eTileSize size) const {
     switch(a) {
     case eCharacterActionType::none:
         return eTexture();
+    case eCharacterActionType::stand:
+        return charTexs.fWalk[oid].getTexture(0);
+    case eCharacterActionType::lay:
+        coll = &charTexs.fLayDown[oid];
+        break;
     case eCharacterActionType::collect:
     case eCharacterActionType::fight: {
         coll = &charTexs.fFight[oid];

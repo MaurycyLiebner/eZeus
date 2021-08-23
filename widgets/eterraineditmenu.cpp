@@ -122,6 +122,9 @@ void eTerrainEditMenu::initialize() {
     w13->addAction("Boar", [this]() {
         mMode = eTerrainEditMode::boar;
     });
+    w13->addAction("Deer", [this]() {
+        mMode = eTerrainEditMode::deer;
+    });
     w13->fitContent();
 
     mWidgets.push_back(w0);

@@ -2,14 +2,40 @@
 
 #include "characters/echaracter.h"
 
-eMoveAroundAction::eMoveAroundAction(eCharacter* const c) :
+eMoveAroundAction::eMoveAroundAction(eCharacter* const c,
+                                     const eAction& failAction,
+                                     const eAction& finishAction,
+                                     const int startX, const int startY) :
     eMoveAction(c,
                 [](eTileBase* const t) { return t->walkable(); },
-                []() {},
-                []() {}) {
+                failAction,
+                finishAction) {
+    mStartTX = startX;
+    mStartTY = startY;
+}
+
+eMoveAroundAction::eMoveAroundAction(eCharacter* const c,
+                                     const eAction& failAction,
+                                     const eAction& finishAction) :
+    eMoveAction(c,
+                [](eTileBase* const t) { return t->walkable(); },
+                failAction,
+                finishAction) {
     const auto t = c->tile();
     mStartTX = t->x();
     mStartTY = t->y();
+}
+
+void eMoveAroundAction::increment(const int by) {
+    mRemTime -= by;
+    if(mRemTime <= 0) {
+        setState(eCharacterActionState::finished);
+    }
+    return eMoveAction::increment(by);
+}
+
+void eMoveAroundAction::setTime(const int t) {
+    mRemTime = t;
 }
 
 eCharacterActionState eMoveAroundAction::nextTurn(

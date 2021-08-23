@@ -40,6 +40,7 @@ struct eAnimalTextures : public eBasicCharacterTextures {
         eBasicCharacterTextures(renderer) {}
 
     std::vector<eTextureCollection> fFight;
+    std::vector<eTextureCollection> fLayDown;
 };
 
 class eCharacterTextures {
@@ -68,8 +69,18 @@ public:
     eResourceCollectorTextures fLumberjack;
 
     eResourceCollectorTextures fHunter;
+    eResourceCollectorTextures fDeerHunter;
+
+    eResourceCollectorTextures fShepherd;
+    eResourceCollectorTextures fGoatherd;
 
     eAnimalTextures fBoar;
+    eAnimalTextures fDeer;
+    eAnimalTextures fWolf;
+
+    eAnimalTextures fGoat;
+    eAnimalTextures fNudeSheep;
+    eAnimalTextures fSheep;
 
     eBasicCharacterTextures fSettlers1;
     eBasicCharacterTextures fSettlers2;

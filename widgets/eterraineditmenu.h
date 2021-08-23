@@ -28,6 +28,7 @@ enum class eTerrainEditMode {
     makeWalkable,
 
     boar,
+    deer,
 
     fire,
 

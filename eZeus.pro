@@ -44,10 +44,12 @@ SOURCES += \
         buildings/ewarehouse.cpp \
         buildings/ewatchpost.cpp \
         characters/actions/eactionwithcomeback.cpp \
+        characters/actions/eanimalaction.cpp \
         characters/actions/ecarttransporteraction.cpp \
         characters/actions/echaracteraction.cpp \
         characters/actions/ecollectaction.cpp \
         characters/actions/ecollectresourceaction.cpp \
+        characters/actions/ecomplexaction.cpp \
         characters/actions/edieaction.cpp \
         characters/actions/efightaction.cpp \
         characters/actions/efirefighteraction.cpp \
@@ -66,6 +68,7 @@ SOURCES += \
         characters/ecarttransporter.cpp \
         characters/echaracter.cpp \
         characters/echaracterbase.cpp \
+        characters/edeer.cpp \
         characters/edemeter.cpp \
         characters/efightingpatroler.cpp \
         characters/efirefighter.cpp \
@@ -108,6 +111,7 @@ SOURCES += \
         etexturecollection.cpp \
         main.cpp \
         spawners/eboarspawner.cpp \
+        spawners/edeerspawner.cpp \
         spawners/esettlerspawner.cpp \
         spawners/espawner.cpp \
         textures/ebeachtodry.cpp \
@@ -192,10 +196,12 @@ HEADERS += \
     buildings/ewarehouse.h \
     buildings/ewatchpost.h \
     characters/actions/eactionwithcomeback.h \
+    characters/actions/eanimalaction.h \
     characters/actions/ecarttransporteraction.h \
     characters/actions/echaracteraction.h \
     characters/actions/ecollectaction.h \
     characters/actions/ecollectresourceaction.h \
+    characters/actions/ecomplexaction.h \
     characters/actions/edieaction.h \
     characters/actions/efightaction.h \
     characters/actions/efirefighteraction.h \
@@ -214,6 +220,7 @@ HEADERS += \
     characters/ecarttransporter.h \
     characters/echaracter.h \
     characters/echaracterbase.h \
+    characters/edeer.h \
     characters/edemeter.h \
     characters/efightingpatroler.h \
     characters/efirefighter.h \
@@ -258,9 +265,11 @@ HEADERS += \
     esprites.h \
     etexture.h \
     etexturecollection.h \
+    offsets/PoseidonImps.h \
     offsets/SprMain.h \
     offsets/Zeus_Demeter.h \
     spawners/eboarspawner.h \
+    spawners/edeerspawner.h \
     spawners/esettlerspawner.h \
     spawners/espawner.h \
     textures/ebeachtodry.h \

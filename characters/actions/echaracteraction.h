@@ -11,6 +11,8 @@ enum class eCharacterActionState {
 
 enum class eCharacterActionType {
     none,
+    stand,
+    lay,
     walk,
     fight,
     die,

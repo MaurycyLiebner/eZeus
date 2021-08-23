@@ -9,6 +9,12 @@ enum class eCharacterType {
     settler,
 
     boar,
+    deer,
+    wolf,
+
+    sheep,
+    goat,
+    cattle,
 
     lumberjack,
     bronzeMiner,

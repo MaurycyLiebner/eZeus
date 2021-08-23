@@ -1,5 +1,9 @@
 #include "esounds.h"
 
+#include "engine/etile.h"
+#include "buildings/ebuilding.h"
+#include "characters/echaracter.h"
+
 eSounds eSounds::sInstance;
 
 eSounds::eSounds() {
@@ -14,6 +18,89 @@ bool eSounds::loaded() {
     return sInstance.mLoaded;
 }
 
+void eSounds::playSoundForTile(eTile* const tile) {
+    if(const auto b = tile->underBuilding()) {
+        switch(b->type()) {
+        case eBuildingType::commonHouse:
+            return eSounds::playCommonHousingSound();
+        case eBuildingType::theater:
+            return eSounds::playTheatreSound();
+        case eBuildingType::dramaSchool:
+            return eSounds::playDramaSound();
+        case eBuildingType::timberMill:
+            return eSounds::playTimberMillSound();
+        case eBuildingType::warehouse:
+        case eBuildingType::granary:
+            return eSounds::playStorageSound();
+        case eBuildingType::foundry:
+            return eSounds::playFoundrySound();
+        case eBuildingType::mint:
+            return eSounds::playMintSound();
+        case eBuildingType::maintenanceOffice:
+            return eSounds::playMaintananceSound();
+        case eBuildingType::taxOffice:
+            return eSounds::playTaxesSound();
+        case eBuildingType::palace1:
+        case eBuildingType::palace2:
+            return eSounds::playPalaceSound();
+        case eBuildingType::podium:
+        case eBuildingType::college:
+            return eSounds::playPhilosophySound();
+        case eBuildingType::gymnasium:
+            return eSounds::playGymnasiumSound();
+        case eBuildingType::stadium1:
+        case eBuildingType::stadium2:
+            return eSounds::playStadiumSound();
+        case eBuildingType::fountain:
+            return eSounds::playFountainSound();
+        case eBuildingType::armory:
+            return eSounds::playArmorySound();
+        default: break;
+        }
+    }
+
+    for(const auto c : tile->characters()) {
+        switch(c->type()) {
+        case eCharacterType::hunter:
+            return eSounds::playHuntingSound();
+        case eCharacterType::silverMiner:
+            return eSounds::playMintSound();
+        case eCharacterType::lumberjack:
+            return eSounds::playTimberMillSound();
+        case eCharacterType::boar:
+            return eSounds::playBoarSound();
+        case eCharacterType::deer:
+            return eSounds::playDeerSound();
+        case eCharacterType::wolf:
+            return eSounds::playWolfSound();
+        case eCharacterType::sheep:
+            return eSounds::playSheepSound();
+        case eCharacterType::goat:
+            return eSounds::playGoatSound();
+        case eCharacterType::cattle:
+            return eSounds::playCattleSound();
+        case eCharacterType::cartTransporter:
+            return eSounds::playStorageSound();
+        default: break;
+        }
+    }
+
+    switch(tile->terrain()) {
+    case eTerrain::beach:
+        return eSounds::playBeachSound();
+    case eTerrain::water:
+        return eSounds::playWaterSound();
+    case eTerrain::silver:
+    case eTerrain::bronze:
+    case eTerrain::flatStones:
+    case eTerrain::tallStones:
+        return eSounds::playRockySound();
+    default: break;
+    }
+
+    eSounds::playEnvironmentSound();
+}
+
 void playRandomSound(const std::vector<Mix_Chunk*>& sounds) {
     if(sounds.empty()) return;
     const int id = rand() % sounds.size();
@@ -22,6 +109,18 @@ void playRandomSound(const std::vector<Mix_Chunk*>& sounds) {
 
 void eSounds::playEnvironmentSound() {
     playRandomSound(sInstance.mEnvironment);
+}
+
+void eSounds::playBeachSound() {
+    playRandomSound(sInstance.mBeach);
+}
+
+void eSounds::playWaterSound() {
+    playRandomSound(sInstance.mWater);
+}
+
+void eSounds::playRockySound() {
+    playRandomSound(sInstance.mRocky);
 }
 
 void eSounds::playCommonHousingSound() {
@@ -48,6 +147,10 @@ void eSounds::playStadiumSound() {
     playRandomSound(sInstance.mStadium);
 }
 
+void eSounds::playFountainSound() {
+    playRandomSound(sInstance.mFountain);
+}
+
 void eSounds::playTaxesSound() {
     playRandomSound(sInstance.mTaxes);
 }
@@ -70,6 +173,38 @@ void eSounds::playMintSound() {
 
 void eSounds::playTimberMillSound() {
     playRandomSound(sInstance.mTimberMill);
+}
+
+void eSounds::playArmorySound() {
+    playRandomSound(sInstance.mArmory);
+}
+
+void eSounds::playHuntingSound() {
+    playRandomSound(sInstance.mHunting);
+}
+
+void eSounds::playBoarSound() {
+    playRandomSound(sInstance.mBoar);
+}
+
+void eSounds::playDeerSound(){
+    playRandomSound(sInstance.mDeer);
+}
+
+void eSounds::playWolfSound() {
+    playRandomSound(sInstance.mWolf);
+}
+
+void eSounds::playSheepSound() {
+    playRandomSound(sInstance.mSheep);
+}
+
+void eSounds::playGoatSound() {
+    playRandomSound(sInstance.mGoat);
+}
+
+void eSounds::playCattleSound() {
+    playRandomSound(sInstance.mCattle);
 }
 
 void eSounds::playStorageSound() {

@@ -40,6 +40,7 @@
 #include "buildings/ewarehouse.h"
 
 #include "spawners/eboarspawner.h"
+#include "spawners/edeerspawner.h"
 #include "spawners/esettlerspawner.h"
 
 #include "echeckbox.h"
@@ -85,12 +86,6 @@ void eGameWidget::initialize(const int w, const int h) {
     addWidget(swtch);
 
     setTileSize(eTileSize::s30);
-
-    const auto t = mBoard.tile(0, 0);
-    const auto d = new eDemeter(mBoard);
-    d->setTile(t);
-    d->setAction(new eMoveAroundAction(d));
-    t->addCharacter(d);
 }
 
 void drawXY(const int tx, const int ty,
@@ -173,9 +168,9 @@ void eGameWidget::iterateOverTiles(const eTileAction& a) {
     const int gmw = mGm->width();
     const int maxXYDiff = minXYDiff + 2*(width() - gmw)/mTileW + 10;
 
-    const int soundRow = (minRow + maxRow)/2;
-    const int soundXmy = (minXYDiff + maxXYDiff)/2;
-    const bool play = rand() % 5000;
+    const int soundRow = (minRow + maxRow)/2 + (rand() % 7 - 3);
+    const int soundXmy = (minXYDiff + maxXYDiff)/2 + (rand() % 7 - 3);
+    const bool play = Mix_Playing(-1) == 0 && rand() % 5000;
 
     const auto iniIt = eGameBoardDiagonalIterator(minRow, 0, &mBoard);
     for(auto it = iniIt; it != mBoard.dEnd(); ++it) {
@@ -184,60 +179,8 @@ void eGameWidget::iterateOverTiles(const eTileAction& a) {
         const int tx = tile->x();
         const int ty = tile->y();
         const int xmy = tx - ty;
-        if(play && soundXmy == xmy && it.row() == soundRow) {
-            const int playing = Mix_Playing(-1);
-            if(playing == 0) {
-                if(const auto b = tile->underBuilding()) {
-                    switch(b->type()) {
-                    case eBuildingType::commonHouse:
-                        eSounds::playCommonHousingSound();
-                        break;
-                    case eBuildingType::theater:
-                        eSounds::playTheatreSound();
-                        break;
-                    case eBuildingType::dramaSchool:
-                        eSounds::playDramaSound();
-                        break;
-                    case eBuildingType::timberMill:
-                        eSounds::playTimberMillSound();
-                        break;
-                    case eBuildingType::warehouse:
-                    case eBuildingType::granary:
-                        eSounds::playStorageSound();
-                        break;
-                    case eBuildingType::foundry:
-                        eSounds::playFoundrySound();
-                        break;
-                    case eBuildingType::mint:
-                        eSounds::playMintSound();
-                        break;
-                    case eBuildingType::maintenanceOffice:
-                        eSounds::playMaintananceSound();
-                        break;
-                    case eBuildingType::taxOffice:
-                        eSounds::playTaxesSound();
-                        break;
-                    case eBuildingType::palace1:
-                    case eBuildingType::palace2:
-                        eSounds::playPalaceSound();
-                        break;
-                    case eBuildingType::podium:
-                    case eBuildingType::college:
-                        eSounds::playPhilosophySound();
-                        break;
-                    case eBuildingType::gymnasium:
-                        eSounds::playGymnasiumSound();
-                        break;
-                    case eBuildingType::stadium1:
-                    case eBuildingType::stadium2:
-                        eSounds::playStadiumSound();
-                        break;
-                    default: break;
-                    }
-                } else {
-                    eSounds::playEnvironmentSound();
-                }
-            }
+        if(play && xmy == soundXmy && it.row() == soundRow) {
+            eSounds::playSoundForTile(tile);
         }
         if(xmy < minXYDiff) continue;
         if(xmy > maxXYDiff) continue;
@@ -487,8 +430,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             double rx;
             double ry;
             drawXY(tx, ty, rx, ry, 1, 1, a);
-            const int f = (tx + ty) % 2;
             const auto& destr = eGameTextures::destrution().at(tid);
+            const int f = (tx + ty) % destr.fFire.size();
             const auto& ff = destr.fFire[f];
             const int dt = mTime/8 + tx*ty;
             const auto tex = ff.getTexture(dt % ff.size());
@@ -849,6 +792,12 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     const auto os = tile->spawner();
                     if(os) delete os;
                     new eBoarSpawner(tile, mBoard);
+                };
+            } else if(mode == eTerrainEditMode::deer) {
+                apply = [this](eTile* const tile) {
+                    const auto os = tile->spawner();
+                    if(os) delete os;
+                    new eDeerSpawner(tile, mBoard);
                 };
             } else if(mode == eTerrainEditMode::fire) {
                 apply = [](eTile* const tile) {

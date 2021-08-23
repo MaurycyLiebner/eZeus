@@ -15,6 +15,7 @@ public:
     SDL_Renderer* const fRenderer;
 
     std::vector<eTextureCollection> fFire;
+    std::vector<eTextureCollection> fBigFire;
 };
 
 #endif // EDESTRUCTIONTEXTURES_H
