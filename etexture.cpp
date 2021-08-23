@@ -57,49 +57,6 @@ bool eTexture::load(SDL_Renderer* const r, const std::string& path) {
     return true;
 }
 
-void flipSurface(SDL_Surface* const surface) {
-    SDL_LockSurface(surface);
-
-    int pitch = surface->pitch;
-    char* temp = new char[pitch];
-    char* pixels = (char*) surface->pixels;
-
-    for(int i = 0; i < surface->h; ++i) {
-        char* row = pixels + i * pitch;
-
-        memcpy(temp, row, pitch);
-        for(int j = 0; j < pitch; j++) {
-            row[j] = temp[pitch - j - 1];
-        }
-    }
-
-    delete[] temp;
-
-    SDL_UnlockSurface(surface);
-}
-
-bool eTexture::loadMirrored(SDL_Renderer* const r, const std::string& path) {
-    reset();
-    const auto surf = IMG_Load(path.c_str());
-    if(!surf) {
-        printf("Unable to load image %s! SDL_image Error: %s\n",
-               path.c_str(), IMG_GetError());
-        return false;
-    }
-    mTex = SDL_CreateTextureFromSurface(r, surf);
-    mWidth = surf->w;
-    mHeight = surf->h;
-    mRefs = std::make_shared<int>(1);
-    SDL_FreeSurface(surf);
-    if(!mTex) {
-        printf("Unable to create texture from %s! SDL Error: %s\n",
-               path.c_str(), SDL_GetError());
-        return false;
-    }
-
-    return true;
-}
-
 bool eTexture::loadText(SDL_Renderer* const r,
                         const std::string& text,
                         const SDL_Color& color,

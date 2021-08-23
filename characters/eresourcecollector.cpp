@@ -19,8 +19,8 @@ eTexture eResourceCollector::getTexture(const eTileSize size) const {
     bool wrap = true;
     const auto a = actionType();
     switch(a) {
-    case eCharacterActionType::none:
-        return eTexture();
+    case eCharacterActionType::stand:
+        return charTexs.fWalk[oid].getTexture(0);
     case eCharacterActionType::collect:
     case eCharacterActionType::fight: {
         coll = &charTexs.fCollect[oid];
@@ -34,6 +34,8 @@ eTexture eResourceCollector::getTexture(const eTileSize size) const {
     case eCharacterActionType::die:
         wrap = false;
         coll = &charTexs.fDie;
+        break;
+    default: return eTexture();
     }
     const int s = coll->size();
     if(!coll || s == 0) return eTexture();
@@ -41,4 +43,8 @@ eTexture eResourceCollector::getTexture(const eTileSize size) const {
     if(!wrap) t = std::clamp(t, 0, s - 1);
     const int texId = t % s;
     return coll->getTexture(texId);
+}
+
+void eResourceCollector::setCharTexs(const eCharTexs& texs) {
+    mCharTexs = texs;
 }

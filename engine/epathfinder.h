@@ -17,7 +17,9 @@ public:
     bool findPath(eTileBase* const startTile,
                   const int maxDist,
                   std::vector<eOrientation>& path,
-                  const bool onlyDiagonal) const;
+                  const bool onlyDiagonal,
+                  int* finalX = nullptr,
+                  int* finalY = nullptr) const;
 private:
     const eTileWalkable mWalkable;
     const eTileFinish mFinish;

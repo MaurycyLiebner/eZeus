@@ -14,7 +14,8 @@ ePathFinder::ePathFinder(const eTileWalkable& walkable,
 bool ePathFinder::findPath(eTileBase* const start,
                            const int maxDist,
                            std::vector<eOrientation>& path,
-                           const bool onlyDiagonal) const {
+                           const bool onlyDiagonal,
+                           int* finalX, int* finalY) const {
     if(!start) return false;
     if(mFinish(start)) return true;
     const int startX = start->x();
@@ -140,5 +141,7 @@ bool ePathFinder::findPath(eTileBase* const start,
     const bool r = bestFinder(tileGetter(start,
                                          bestFinishX - startX,
                                          bestFinishY - startY));
+    if(finalX) *finalX = bestFinishX;
+    if(finalY) *finalY = bestFinishY;
     return r;
 }

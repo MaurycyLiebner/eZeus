@@ -7,6 +7,7 @@
 #include "characters/actions/ewaitaction.h"
 
 #include "characters/eboar.h"
+#include "characters/edeer.h"
 
 eHuntAction::eHuntAction(
         const SDL_Rect& buildingRect,
@@ -17,17 +18,33 @@ eHuntAction::eHuntAction(
     mCharacter(c),
     mBuildingRect(buildingRect) {}
 
-bool hasHuntableAnimal(eTileBase* const tile) {
-    return tile->hasCharacter([](const eCharacterBase& c) {
-        return c.type() == eCharacterType::boar && !c.fighting();
+bool hasHuntableAnimal(eTileBase* const tile,
+                       eCharacterType& type) {
+    return tile->hasCharacter([&type](const eCharacterBase& c) {
+        const bool b = c.type() == eCharacterType::boar && !c.fighting();
+        if(b) {
+            type = eCharacterType::boar;
+            return true;
+        }
+        const bool d = c.type() == eCharacterType::deer && !c.fighting();
+        if(d) {
+            type = eCharacterType::deer;
+            return true;
+        }
+        return false;
     });
 }
 
 bool hasDeadAnimal(eTile* const tile) {
     const auto cs = tile->characters();
     for(const auto c : cs) {
-        if(const auto b = dynamic_cast<eBoar*>(c)) {
+        const auto t = c->type();
+        if(t == eCharacterType::boar) {
+            const auto b = static_cast<eBoar*>(c);
             if(b->dead()) return true;
+        } else if(t == eCharacterType::deer) {
+            const auto d = static_cast<eDeer*>(c);
+            if(d->dead()) return true;
         }
     }
     return false;
@@ -66,7 +83,10 @@ bool eHuntAction::findResource() {
     const auto failFunc = [this]() {
         setState(eCharacterActionState::failed);
     };
-    const auto finishFunc = [this, c, tileWalkable, failFunc](
+
+    auto aType = std::make_shared<eCharacterType>();
+
+    const auto finishFunc = [this, c, tileWalkable, failFunc, aType](
                             const std::vector<eOrientation>& path) {
         const auto finishAction = [this, c]() {
             const auto tile = c->tile();
@@ -74,14 +94,24 @@ bool eHuntAction::findResource() {
             else findResource();
         };
 
+        if(*aType == eCharacterType::deer) {
+            mCharacter->setDeerHunter(true);
+        }
         c->setActionType(eCharacterActionType::walk);
         const auto a  = new eMovePathAction(c, path, tileWalkable,
                                             failFunc, finishAction);
         setCurrentAction(a);
     };
 
+    const auto hha = [aType](eTileBase* const tile) {
+        eCharacterType type;
+        const bool r = hasHuntableAnimal(tile, type);
+        if(r) *aType = type;
+        return r;
+    };
+
     const auto pft = new ePathFindTask(startTile, tileWalkable,
-                                       hasHuntableAnimal, finishFunc,
+                                       hha, finishFunc,
                                        failFunc, false, 50);
     tp->queueTask(pft);
 

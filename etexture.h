@@ -20,8 +20,6 @@ public:
     void reset();
     bool load(SDL_Renderer* const r,
               const std::string& path);
-    bool loadMirrored(SDL_Renderer* const r,
-                      const std::string& path);
     bool loadText(SDL_Renderer* const r,
                   const std::string& text,
                   const SDL_Color& color,

@@ -20,9 +20,11 @@ public:
 
     int collected() const { return mResCollected; }
     void incCollected(const int by = 1) { mResCollected += by; }
+protected:
+    void setCharTexs(const eCharTexs& texs);
 private:
     const std::vector<eCharacterTextures>& mTextures;
-    const eCharTexs mCharTexs;
+    eCharTexs mCharTexs;
 
     int mResCollected = 0;
 };
