@@ -63,22 +63,7 @@ bool eHuntingLodge::spawn() {
         mSpawnTime = time() + mWaitTime;
         delete h;
     };
-    const auto hasRes = [](eTileBase* const tile) {
-        return tile->hasCharacter([](const eCharacterBase& c) {
-            return c.type() == eCharacterType::boar && !c.fighting();
-        });
-    };
-    const auto hasCollRes = [](eTile* const tile) {
-        const auto cs = tile->characters();
-        for(const auto c : cs) {
-            if(const auto b = dynamic_cast<eBoar*>(c)) {
-                if(b->dead()) return true;
-            }
-        }
-        return false;
-    };
-    const auto a = new eHuntAction(tileRect(), h, hasRes, hasCollRes,
-                                   finishAct, finishAct);
+    const auto a = new eHuntAction(tileRect(), h, finishAct, finishAct);
     h->setAction(a);
     t->addCharacter(h);
     return true;

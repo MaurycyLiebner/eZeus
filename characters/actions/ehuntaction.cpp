@@ -6,18 +6,32 @@
 #include "engine/ethreadpool.h"
 #include "characters/actions/ewaitaction.h"
 
+#include "characters/eboar.h"
+
 eHuntAction::eHuntAction(
         const SDL_Rect& buildingRect,
         eHunter* const c,
-        const eHasResource& hr,
-        const eHasCollectableResource& hcr,
         const eAction& failAction,
         const eAction& finishAction) :
     eActionWithComeback(c, failAction, finishAction),
-    mHasResource(hr),
-    mHasCollectableResource(hcr),
     mCharacter(c),
     mBuildingRect(buildingRect) {}
+
+bool hasHuntableAnimal(eTileBase* const tile) {
+    return tile->hasCharacter([](const eCharacterBase& c) {
+        return c.type() == eCharacterType::boar && !c.fighting();
+    });
+}
+
+bool hasDeadAnimal(eTile* const tile) {
+    const auto cs = tile->characters();
+    for(const auto c : cs) {
+        if(const auto b = dynamic_cast<eBoar*>(c)) {
+            if(b->dead()) return true;
+        }
+    }
+    return false;
+}
 
 void eHuntAction::increment(const int by) {
     if(!currentAction()) findResource();
@@ -27,7 +41,7 @@ void eHuntAction::increment(const int by) {
 void eHuntAction::resume() {
     eActionWithComeback::resume();
     const auto tile = mCharacter->tile();
-    if(mHasCollectableResource(tile)) collect();
+    if(hasDeadAnimal(tile)) collect();
 }
 
 bool eHuntAction::findResource() {
@@ -56,7 +70,7 @@ bool eHuntAction::findResource() {
                             const std::vector<eOrientation>& path) {
         const auto finishAction = [this, c]() {
             const auto tile = c->tile();
-            if(mHasCollectableResource(tile)) collect();
+            if(hasDeadAnimal(tile)) collect();
             else findResource();
         };
 
@@ -67,7 +81,7 @@ bool eHuntAction::findResource() {
     };
 
     const auto pft = new ePathFindTask(startTile, tileWalkable,
-                                       mHasResource, finishFunc,
+                                       hasHuntableAnimal, finishFunc,
                                        failFunc, false, 50);
     tp->queueTask(pft);
 

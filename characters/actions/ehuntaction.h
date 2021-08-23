@@ -9,12 +9,8 @@ class eThreadTile;
 
 class eHuntAction : public eActionWithComeback {
 public:
-    using eHasResource = std::function<bool(eTileBase*)>;
-    using eHasCollectableResource = std::function<bool(eTile*)>;
     eHuntAction(const SDL_Rect& buildingRect,
                 eHunter* const c,
-                const eHasResource& hr,
-                const eHasCollectableResource& hcr,
                 const eAction& failAction,
                 const eAction& finishAction);
 
@@ -26,8 +22,6 @@ private:
     bool collect();
     void goBack2();
 
-    const eHasResource mHasResource;
-    const eHasCollectableResource mHasCollectableResource;
     eHunter* const mCharacter;
     const SDL_Rect mBuildingRect;
 };
