@@ -19,6 +19,7 @@ void ePatrolAction::increment(const int by) {
 }
 
 void ePatrolAction::patrol() {
+    character()->setActionType(eCharacterActionType::walk);
     const auto failFunc = [this]() {
         setState(eCharacterActionState::failed);
     };
