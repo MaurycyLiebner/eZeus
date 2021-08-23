@@ -1,6 +1,6 @@
 #include "epathfindtask.h"
 
-#include "engine/epathfinder.h"
+#include "engine/eotherthreadpathfinder.h"
 
 ePathFindTask::ePathFindTask(const eTileGetter& startTile,
                              const eTileChecker& tileWalkable,
@@ -21,8 +21,8 @@ ePathFindTask::ePathFindTask(const eTileGetter& startTile,
 
 void ePathFindTask::run(eThreadBoard& data) {
     const auto t = mStartTile(data);
-    const auto pf0 = ePathFinder(t, mTileWalkable, mEndTile);
-    mR = pf0.findPath(mRange, mPath, mOnlyDiagonal);
+    const auto pf0 = eOtherThreadPathFinder(mTileWalkable, mEndTile);
+    mR = pf0.findPath(t, mRange, mPath, mOnlyDiagonal);
 }
 
 void ePathFindTask::finish() {

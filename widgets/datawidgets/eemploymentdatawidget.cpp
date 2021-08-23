@@ -10,7 +10,7 @@ void eEmploymentDataWidget::initialize() {
     p->fitContent();
     mPensionsLabel = new eLabel("-", window());
     mPensionsLabel->fitContent();
-    mUnemployedLabel = new eLabel("Unemploed:", window());
+    mUnemployedLabel = new eLabel("Unemployed:", window());
     mUnemployedLabel->setSmallFontSize();
     mUnemployedLabel->fitContent();
     mUnemployedNLabel = new eLabel("-", window());

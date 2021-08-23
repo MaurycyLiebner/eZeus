@@ -2,24 +2,23 @@
 
 #include <deque>
 
-#include "engine/thread/ethreadtile.h"
+#include "engine/etilebase.h"
 
-ePathFinder::ePathFinder(eThreadTile* const startTile,
-                         const eTileWalkable& walkable,
+ePathFinder::ePathFinder(const eTileWalkable& walkable,
                          const eTileFinish& finish) :
     mWalkable(walkable),
-    mFinish(finish),
-    mStart(startTile) {
+    mFinish(finish) {
 
 }
 
-bool ePathFinder::findPath(const int maxDist,
+bool ePathFinder::findPath(eTileBase* const start,
+                           const int maxDist,
                            std::vector<eOrientation>& path,
                            const bool onlyDiagonal) const {
-    if(!mStart) return false;
-    if(mFinish(mStart)) return true;
-    const int startX = mStart->x();
-    const int startY = mStart->y();
+    if(!start) return false;
+    if(mFinish(start)) return true;
+    const int startX = start->x();
+    const int startY = start->y();
 
     std::vector<std::vector<int>> board;
     const int boardDim = 2*maxDist + 1;
@@ -27,11 +26,11 @@ bool ePathFinder::findPath(const int maxDist,
     for(int x = 0; x < boardDim; x++) {
         board.emplace_back(boardDim, __INT_MAX__);
     }
-    using eTilePair = std::pair<eThreadTile*, int*>;
-    using eTileGetter = std::function<eTilePair(eThreadTile*, int, int)>;
-    const eTileGetter tileGetter = [&](eThreadTile* const from,
+    using eTilePair = std::pair<eTileBase*, int*>;
+    using eTileGetter = std::function<eTilePair(eTileBase*, int, int)>;
+    const eTileGetter tileGetter = [&](eTileBase* const from,
                                        const int dx, const int dy) {
-        const auto tile = from->tileRel<eThreadTile>(dx, dy);
+        const auto tile = from->tileRel<eTileBase>(dx, dy);
         if(!tile) return eTilePair{nullptr, nullptr};
         const int tx = tile->x();
         const int ty = tile->y();
@@ -80,7 +79,7 @@ bool ePathFinder::findPath(const int maxDist,
         }
     };
 
-    const auto t = tileGetter(mStart, 0, 0);
+    const auto t = tileGetter(start, 0, 0);
     if(!t.first || !t.second) return false;
     *t.second = 0;
     toProcess.push_back(t);
@@ -138,7 +137,7 @@ bool ePathFinder::findPath(const int maxDist,
         return false;
     };
 
-    const bool r = bestFinder(tileGetter(mStart,
+    const bool r = bestFinder(tileGetter(start,
                                          bestFinishX - startX,
                                          bestFinishY - startY));
     return r;

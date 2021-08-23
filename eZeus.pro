@@ -91,7 +91,9 @@ SOURCES += \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
         engine/egameobject.cpp \
+        engine/emainthreadpathfinder.cpp \
         engine/emovinggameobject.cpp \
+        engine/eotherthreadpathfinder.cpp \
         engine/epathfinder.cpp \
         engine/etask.cpp \
         engine/eterrain.cpp \
@@ -243,9 +245,11 @@ HEADERS += \
     engine/egameboard.h \
     engine/egameboarditerator.h \
     engine/egameobject.h \
+    engine/emainthreadpathfinder.h \
     engine/emovedirection.h \
     engine/emovinggameobject.h \
     engine/eorientation.h \
+    engine/eotherthreadpathfinder.h \
     engine/epathfinder.h \
     engine/eresourcetype.h \
     engine/etask.h \

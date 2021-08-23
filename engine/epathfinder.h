@@ -5,23 +5,22 @@
 
 #include "eorientation.h"
 
-class eThreadTile;
+class eTileBase;
 
 class ePathFinder {
 public:
-    using eTileWalkable = std::function<bool(eThreadTile* const)>;
-    using eTileFinish = std::function<bool(eThreadTile* const)>;
-    ePathFinder(eThreadTile* const startTile,
-                const eTileWalkable& walkable,
+    using eTileWalkable = std::function<bool(eTileBase* const)>;
+    using eTileFinish = std::function<bool(eTileBase* const)>;
+    ePathFinder(const eTileWalkable& walkable,
                 const eTileFinish& finish);
 
-    bool findPath(const int maxDist,
+    bool findPath(eTileBase* const startTile,
+                  const int maxDist,
                   std::vector<eOrientation>& path,
                   const bool onlyDiagonal) const;
 private:
     const eTileWalkable mWalkable;
     const eTileFinish mFinish;
-    eThreadTile* const mStart;
 };
 
 #endif // EPATHFINDER_H
