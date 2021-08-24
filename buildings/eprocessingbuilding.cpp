@@ -80,7 +80,7 @@ bool eProcessingBuilding::spawnRawGetter() {
     if(mRawCount >= mMaxRaw) return false;
     const auto t = tile();
     if(!mRawCart) mRawCart = new eCartTransporter(getBoard());
-    mRawCart->setTile(t);
+    mRawCart->changeTile(t);
     const auto failAct = [this] {
         mSpawned = false;
         if(mRawCart->dead()) {
@@ -99,7 +99,6 @@ bool eProcessingBuilding::spawnRawGetter() {
                        mRawMaterial,
                        failAct, finishAct);
     mRawCart->setAction(a);
-    t->addCharacter(mRawCart);
     return true;
 }
 

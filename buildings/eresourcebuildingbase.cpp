@@ -54,7 +54,7 @@ bool eResourceBuildingBase::spawn() {
     const auto h = new eCartTransporter(getBoard());
     const int took = take(mResType, 8);
     h->setResource(mResType, took);
-    h->setTile(t);
+    h->changeTile(t);
     const auto finishAct = [this, h]() {
         const auto t = h->tile();
         t->removeCharacter(h);
@@ -71,6 +71,5 @@ bool eResourceBuildingBase::spawn() {
                        h, eCartActionType::give, mResType,
                        failAct, finishAct);
     h->setAction(a);
-    t->addCharacter(h);
     return true;
 }

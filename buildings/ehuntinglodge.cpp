@@ -54,7 +54,7 @@ bool eHuntingLodge::spawn() {
     if(resource() >= maxResource()) return false;
     const auto t = tile();
     const auto h = new eHunter(getBoard());
-    h->setTile(t);
+    h->changeTile(t);
     const auto finishAct = [this, h]() {
         add(eResourceType::meat, h->collected());
         const auto t = h->tile();
@@ -65,6 +65,5 @@ bool eHuntingLodge::spawn() {
     };
     const auto a = new eHuntAction(tileRect(), h, finishAct, finishAct);
     h->setAction(a);
-    t->addCharacter(h);
     return true;
 }

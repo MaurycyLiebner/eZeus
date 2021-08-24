@@ -31,7 +31,7 @@ public:
     int textureTime() const { return time()/10; }
     eOrientation orientation() const { return mOrientation; }
 
-    void setTile(eTile* const t);
+    void changeTile(eTile* const t);
     void setX(const double x) { mX = x; }
     void setY(const double y) { mY = y; };
     void incTime(const int by);

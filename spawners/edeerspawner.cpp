@@ -11,8 +11,7 @@ eDeerSpawner::eDeerSpawner(eTile* const tile,
 
 void eDeerSpawner::spawn(eTile* const tile) {
     const auto b = new eDeer(this, board());
-    b->setTile(tile);
-    tile->addCharacter(b);
+    b->changeTile(tile);
     const auto e = []() {};
     b->setAction(new eAnimalAction(b, e, e, tile->x(), tile->y()));
 }

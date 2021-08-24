@@ -94,8 +94,7 @@ void eMoveAction::increment(const int by) {
 
         const auto oldTile = c->tile();
         oldTile->removeCharacter(c);
-        c->setTile(mTargetTile);
-        mTargetTile->addCharacter(c);
+        c->changeTile(mTargetTile);
         mTargetX = 0.5;
         mTargetY = 0.5;
 

@@ -15,8 +15,7 @@ void eSettlerSpawner::spawn(eTile* const tile) {
     if(s >= v) return;
     popData.incSettlers(8);
     const auto b = new eSettler(board());
-    b->setTile(tile);
-    tile->addCharacter(b);
+    b->changeTile(tile);
     b->setActionType(eCharacterActionType::walk);
     const auto fa = [this, b]() {
         auto& popData = board().populationData();

@@ -11,8 +11,7 @@ eBoarSpawner::eBoarSpawner(eTile* const tile,
 
 void eBoarSpawner::spawn(eTile* const tile) {
     const auto b = new eBoar(this, board());
-    b->setTile(tile);
-    tile->addCharacter(b);
+    b->changeTile(tile);
     const auto e = []() {};
     b->setAction(new eAnimalAction(b, e, e, tile->x(), tile->y()));
 }

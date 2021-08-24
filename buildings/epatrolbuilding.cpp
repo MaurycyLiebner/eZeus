@@ -88,7 +88,7 @@ bool ePatrolBuilding::spawn() {
     if(!t) return false;
 
     const auto c = mCharGenerator();
-    c->setTile(t);
+    c->changeTile(t);
     const auto finishAct = [this, c]() {
         const auto t = c->tile();
         t->removeCharacter(c);
@@ -96,6 +96,5 @@ bool ePatrolBuilding::spawn() {
         delete c;
     };
     c->setAction(mActGenerator(c, mPatrolGuides, finishAct, finishAct));
-    t->addCharacter(c);
     return true;
 }

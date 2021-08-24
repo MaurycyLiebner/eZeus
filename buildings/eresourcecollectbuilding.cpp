@@ -54,7 +54,7 @@ bool eResourceCollectBuilding::spawn() {
     const auto t = tile();
 
     const auto d = mCharGenerator();
-    d->setTile(t);
+    d->changeTile(t);
     const auto finishAct = [this, d]() {
         add(resourceType(), d->collected());
         const auto t = d->tile();
@@ -70,6 +70,5 @@ bool eResourceCollectBuilding::spawn() {
                                               finishAct,
                                               finishAct);
     d->setAction(a);
-    t->addCharacter(d);
     return true;
 }

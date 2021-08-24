@@ -12,7 +12,7 @@ eCharacter::eCharacter(eGameBoard& board, const eCharacterType type) :
 
 eCharacter::~eCharacter() {
     if(mAction) delete mAction;
-    if(mTile) mTile->removeCharacter(this);
+    changeTile(nullptr);
     mBoard.unregisterCharacter(this);
 }
 
@@ -37,8 +37,10 @@ void eCharacter::fight(eCharacter* const c) {
     }));
 }
 
-void eCharacter::setTile(eTile* const t) {
+void eCharacter::changeTile(eTile* const t) {
+    if(mTile) mTile->removeCharacter(this);
     mTile = t;
+    if(mTile) mTile->addCharacter(this);
 }
 
 void eCharacter::incTime(const int by) {
