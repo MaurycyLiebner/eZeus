@@ -57,7 +57,8 @@ bool ePathFinder::findPath(eTileBase* const start,
         for(const int x : {0, 1, -1}) {
             for(const int y : {0, 1, -1}) {
                 if(x == 0 && y == 0) continue;
-                if(onlyDiagonal && x != 0 && y != 0) continue;
+                const bool notDiagonal = x != 0 && y != 0;
+                if(onlyDiagonal && notDiagonal) continue;
                 const auto tt = tileGetter(tile, x, y);
                 if(!tt.first || !tt.second) continue;
                 const int newDist = dist + 1;
@@ -72,6 +73,20 @@ bool ePathFinder::findPath(eTileBase* const start,
                     return;
                 }
                 if(!mWalkable(tt.first)) continue;
+                if(notDiagonal) {
+                    {
+                        const auto ttt = tileGetter(tile, 0, -y);
+                        if(ttt.first && ttt.second) {
+                            if(!mWalkable(ttt.first)) continue;
+                        }
+                    }
+                    {
+                        const auto ttt = tileGetter(tile, -x, 0);
+                        if(ttt.first && ttt.second) {
+                            if(!mWalkable(ttt.first)) continue;
+                        }
+                    }
+                }
                 if(*tt.second > newDist) {
                     *tt.second = newDist;
                     toProcess.push_back(tt);
