@@ -123,6 +123,7 @@ public:
     eTextureCollection fRoad;
 
     eTextureCollection fPatrolGuides;
+    eTextureCollection fFogOfWar;
 
     eTextureCollection fWaitingMeat;
     eTextureCollection fWaitingCheese;
