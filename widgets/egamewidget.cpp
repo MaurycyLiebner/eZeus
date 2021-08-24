@@ -36,8 +36,13 @@
 #include "buildings/eresourcebuilding.h"
 #include "buildings/ehuntinglodge.h"
 #include "buildings/emaintenanceoffice.h"
+
 #include "buildings/egranary.h"
 #include "buildings/ewarehouse.h"
+
+#include "buildings/ewinery.h"
+#include "buildings/eolivepress.h"
+#include "buildings/esculpturestudio.h"
 #include "buildings/earmory.h"
 
 #include "spawners/eboarspawner.h"
@@ -605,6 +610,18 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = new eArmory(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
+        case eBuildingMode::olivePress: {
+            const auto b1 = new eOlivePress(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::winery: {
+            const auto b1 = new eWinery(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::sculptureStudio: {
+            const auto b1 = new eSculptureStudio(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
         default: break;
         }
         bool cbg = true;
@@ -1038,6 +1055,24 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
                           [this]() { return new eArmory(mBoard); });
+                };
+                break;
+            case eBuildingMode::olivePress:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return new eOlivePress(mBoard); });
+                };
+                break;
+            case eBuildingMode::winery:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return new eWinery(mBoard); });
+                };
+                break;
+            case eBuildingMode::sculptureStudio:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return new eSculptureStudio(mBoard); });
                 };
                 break;
             default: break;

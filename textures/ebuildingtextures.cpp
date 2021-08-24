@@ -390,7 +390,7 @@ void eBuildingTextures::load() {
         for(int i = 53; i < 57; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseArmor);
         }
-        fWarehouseStatue.load(fRenderer, pathBase + "00057.png");
+        fWarehouseSculpture.load(fRenderer, pathBase + "00057.png");
         for(int i = 58; i < 62; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseOliveOil);
         }

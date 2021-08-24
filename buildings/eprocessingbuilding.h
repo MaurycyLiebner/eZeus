@@ -18,7 +18,9 @@ public:
                         const eBuildingType type,
                         const int sw, const int sh,
                         const eResourceType rawMaterial,
-                        const eResourceType product);
+                        const eResourceType product,
+                        const int rawUse,
+                        const int time);
 
     eTexture getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
@@ -42,13 +44,14 @@ private:
 
     const eResourceType mRawMaterial;
 
-    const int mMaxRaw = 8;
+    const int mMaxRaw = 4;
+    const int mRawUse;
 
     eCartTransporter* mRawCart = nullptr;
 
     int mRawCount{0};
 
-    int mProcessWaitTime = 5000;
+    int mProcessWaitTime;
     int mProcessTime = mProcessWaitTime;
 
     int mSpawnWaitTime = 5000;

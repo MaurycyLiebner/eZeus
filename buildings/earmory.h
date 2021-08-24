@@ -6,8 +6,6 @@
 class eArmory : public eProcessingBuilding {
 public:
     eArmory(eGameBoard& board);
-
-
 };
 
 #endif // EARMORY_H

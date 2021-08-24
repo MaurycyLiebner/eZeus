@@ -152,7 +152,7 @@ public:
     eTextureCollection fWarehouseOlives;
     eTextureCollection fWarehouseFleece;
     eTextureCollection fWarehouseArmor;
-    eTexture fWarehouseStatue;
+    eTexture fWarehouseSculpture;
     eTextureCollection fWarehouseOliveOil;
     eTextureCollection fWarehouseWine;
 

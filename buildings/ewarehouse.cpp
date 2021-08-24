@@ -88,8 +88,8 @@ std::vector<eOverlay> eWarehouse::getOverlays(const eTileSize size) const {
         case eResourceType::fleece:
             o.fTex = texs.fWarehouseFleece.getTexture(texId);
             break;
-        case eResourceType::statue:
-            o.fTex = texs.fWarehouseStatue;
+        case eResourceType::sculpture:
+            o.fTex = texs.fWarehouseSculpture;
             break;
         case eResourceType::oliveOil:
             o.fTex = texs.fWarehouseOliveOil.getTexture(texId);

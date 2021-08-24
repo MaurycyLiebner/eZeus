@@ -39,17 +39,17 @@ enum class eBuildingType {
     growersLodge,
 
     granary,
+    warehouse,
 
     timberMill,
     masonryShop,
     mint,
     foundry,
-    artisansGuild,
+
     olivePress,
     winery,
     sculptureStudio,
-
-    warehouse,
+    artisansGuild,
 
     triremeWharf,
     horseRanch,

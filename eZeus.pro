@@ -27,6 +27,7 @@ SOURCES += \
         buildings/ehuntinglodge.cpp \
         buildings/emaintenanceoffice.cpp \
         buildings/emint.cpp \
+        buildings/eolivepress.cpp \
         buildings/epalace1.cpp \
         buildings/epalace2.cpp \
         buildings/epatrolbuilding.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
         buildings/eresourcebuildingbase.cpp \
         buildings/eresourcecollectbuilding.cpp \
         buildings/eroad.cpp \
+        buildings/esculpturestudio.cpp \
         buildings/esmallhouse.cpp \
         buildings/estadium1.cpp \
         buildings/estadium2.cpp \
@@ -45,6 +47,7 @@ SOURCES += \
         buildings/etimbermill.cpp \
         buildings/ewarehouse.cpp \
         buildings/ewatchpost.cpp \
+        buildings/ewinery.cpp \
         characters/actions/eactionwithcomeback.cpp \
         characters/actions/eanimalaction.cpp \
         characters/actions/ecarttransporteraction.cpp \
@@ -183,6 +186,7 @@ HEADERS += \
     buildings/ehuntinglodge.h \
     buildings/emaintenanceoffice.h \
     buildings/emint.h \
+    buildings/eolivepress.h \
     buildings/epalace1.h \
     buildings/epalace2.h \
     buildings/epatrolbuilding.h \
@@ -192,6 +196,7 @@ HEADERS += \
     buildings/eresourcebuildingbase.h \
     buildings/eresourcecollectbuilding.h \
     buildings/eroad.h \
+    buildings/esculpturestudio.h \
     buildings/esmallhouse.h \
     buildings/estadium1.h \
     buildings/estadium2.h \
@@ -201,6 +206,7 @@ HEADERS += \
     buildings/etimbermill.h \
     buildings/ewarehouse.h \
     buildings/ewatchpost.h \
+    buildings/ewinery.h \
     characters/actions/eactionwithcomeback.h \
     characters/actions/eanimalaction.h \
     characters/actions/ecarttransporteraction.h \

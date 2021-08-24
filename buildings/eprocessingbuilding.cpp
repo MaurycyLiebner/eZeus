@@ -3,8 +3,7 @@
 #include "characters/actions/ecarttransporteraction.h"
 #include "textures/egametextures.h"
 
-eProcessingBuilding::eProcessingBuilding(
-        eGameBoard& board,
+eProcessingBuilding::eProcessingBuilding(eGameBoard& board,
         const eBaseTex baseTex,
         const double overlayX,
         const double overlayY,
@@ -12,12 +11,15 @@ eProcessingBuilding::eProcessingBuilding(
         const eBuildingType type,
         const int sw, const int sh,
         const eResourceType rawMaterial,
-        const eResourceType product) :
+        const eResourceType product,
+        const int rawUse,
+        const int time) :
     eResourceBuildingBase(board, type, sw, sh, product),
     mTextures(eGameTextures::buildings()),
     mBaseTex(baseTex), mOverlays(overlays),
     mOverlayX(overlayX), mOverlayY(overlayY),
-    mRawMaterial(rawMaterial) {
+    mRawMaterial(rawMaterial), mRawUse(rawUse),
+    mProcessWaitTime(5000*time) {
 
 }
 
@@ -44,9 +46,9 @@ void eProcessingBuilding::timeChanged() {
         mSpawnTime = time() + mSpawnWaitTime;
     }
     if(time() > mProcessTime) {
-        if(mRawCount > 0) {
+        if(mRawCount >= mRawUse) {
             const int c = add(resourceType(), 1);
-            if(c == 1) mRawCount--;
+            if(c == 1) mRawCount -= mRawUse;
         }
         mProcessTime = time() + mProcessWaitTime;
     }

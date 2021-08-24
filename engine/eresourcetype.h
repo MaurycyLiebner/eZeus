@@ -26,7 +26,7 @@ enum class eResourceType {
     silver = 1 << 15,
 
     armor = 1 << 16,
-    statue = 1 << 17,
+    sculpture = 1 << 17,
 
     all = (1 << 18) - 1,
     allButFood = all & ~food
