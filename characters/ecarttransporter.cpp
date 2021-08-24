@@ -50,7 +50,7 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
         break;
     case eOrientation::right:
         xx = 0.75;
-        yy = 0.75;
+        yy = -0.25;
         break;
     case eOrientation::bottomRight:
         xx = 0.85;
@@ -65,7 +65,7 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
         yy = 0.85;
         break;
     case eOrientation::left:
-        xx = 0.75;
+        xx = -0.25;
         yy = 0.75;
         break;
     case eOrientation::topLeft:
@@ -73,8 +73,8 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
         yy = 0.1;
         break;
     case eOrientation::top:
-        xx = 0.75;
-        yy = 0.75;
+        xx = -0.25;
+        yy = -0.25;
         break;
     }
 
