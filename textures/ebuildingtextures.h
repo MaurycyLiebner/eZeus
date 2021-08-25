@@ -130,7 +130,7 @@ public:
     eTextureCollection fWaitingWheat;
     eTextureCollection fWaitingWood;
     eTextureCollection fWaitingBronze;
-    eTextureCollection fWaitingGrape;
+    eTextureCollection fWaitingGrapes;
     eTextureCollection fWaitingOlives;
     eTextureCollection fWaitingArmor;
 

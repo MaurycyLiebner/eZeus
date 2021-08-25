@@ -59,7 +59,7 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fWaitingWheat(renderer),
     fWaitingWood(renderer),
     fWaitingBronze(renderer),
-    fWaitingGrape(renderer),
+    fWaitingGrapes(renderer),
     fWaitingOlives(renderer),
     fWaitingArmor(renderer),
 
@@ -416,7 +416,7 @@ void eBuildingTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingBronze);
         }
         for(int i = 99; i < 102; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingGrape);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingGrapes);
         }
         for(int i = 102; i < 105; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingOlives);

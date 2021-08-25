@@ -31,7 +31,7 @@ public:
 
     void timeChanged();
 
-    void spawn();
+    bool spawn();
 private:
     const eCharGenerator mCharGenerator;
     const std::vector<eBuildingTextures>& mTextures;

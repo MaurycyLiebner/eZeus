@@ -38,9 +38,54 @@ std::vector<eOverlay> eResourceCollectBuilding::
     o.fTex = coll.getTexture(texId);
     o.fX = mOverlayX;
     o.fY = mOverlayY;
+    if(resource() > 0) {
+        const auto texs = mTextures[sizeId];
+        const eTextureCollection* coll = nullptr;
+        double x = -0.5;
+        double y = -2;
+        switch(resourceType()) {
+        case eResourceType::meat:
+            coll = &texs.fWaitingMeat;
+            break;
+        case eResourceType::cheese:
+            coll = &texs.fWaitingCheese;
+            break;
+        case eResourceType::wheat:
+            coll = &texs.fWaitingWheat;
+            break;
+        case eResourceType::wood:
+            coll = &texs.fWaitingWood;
+            x += 0.25;
+            y += 0.25;
+            break;
+        case eResourceType::bronze:
+            coll = &texs.fWaitingBronze;
+            break;
+        case eResourceType::grapes:
+            coll = &texs.fWaitingGrapes;
+            break;
+        case eResourceType::olives:
+            coll = &texs.fWaitingOlives;
+            break;
+        case eResourceType::armor:
+            coll = &texs.fWaitingArmor;
+            break;
+        default: break;
+        }
+
+        if(coll) {
+            const int resMax = coll->size() - 1;
+            const int res = std::clamp(resource() - 1, 0, resMax);
+            eOverlay resO;
+            resO.fTex = coll->getTexture(res);
+            resO.fX = x;
+            resO.fY = y;
+
+            return std::vector<eOverlay>({o, resO});
+        }
+    }
     return std::vector<eOverlay>({o});
 }
-
 
 void eResourceCollectBuilding::timeChanged() {
     eResourceBuildingBase::timeChanged();
@@ -50,7 +95,8 @@ void eResourceCollectBuilding::timeChanged() {
     }
 }
 
-void eResourceCollectBuilding::spawn() {
+bool eResourceCollectBuilding::spawn() {
+    if(resource() >= maxResource()) return false;
     const auto t = tile();
     mCollector = mCharGenerator();
     mCollector->changeTile(t);
@@ -69,4 +115,5 @@ void eResourceCollectBuilding::spawn() {
                        tileRect(), mCollector.get(), mHasRes,
                        mTransFunc, finishAct, finishAct);
     mCollector->setAction(a);
+    return true;
 }

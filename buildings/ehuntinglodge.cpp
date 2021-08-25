@@ -58,13 +58,16 @@ bool eHuntingLodge::spawn() {
     const eStdPointer<eHuntingLodge> tptr(this);
     const auto finishAct = [tptr, this]() {
         if(!tptr) return;
-        add(eResourceType::meat, mHunter->collected());
-        mHunter->changeTile(nullptr);
-        mHunter.reset();
+        if(mHunter) {
+            add(eResourceType::meat, mHunter->collected());
+            mHunter->changeTile(nullptr);
+            mHunter.reset();
+        }
         mSpawnTime = time() + mWaitTime;
     };
     const auto a = e::make_shared<eHuntAction>(
-                       tileRect(), mHunter.get(), finishAct, finishAct);
+                       tileRect(), mHunter.get(),
+                       finishAct, finishAct);
     mHunter->setAction(a);
     return true;
 }
