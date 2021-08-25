@@ -6,7 +6,7 @@ eWatchpost::eWatchpost(eGameBoard& board) :
     ePatrolBuilding(board, &eBuildingTextures::fWatchPost,
                     -0.25, -2.1,
                     &eBuildingTextures::fWatchPostOverlay,
-                    [this]() { return new eWatchman(getBoard()); },
+                    [this]() { return e::make_shared<eWatchman>(getBoard()); },
                     eBuildingType::watchPost, 2, 2)  {
 
 }

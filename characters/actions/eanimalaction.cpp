@@ -21,13 +21,15 @@ void eAnimalAction::nextAction() {
     };
     if(rand() % 2 == 0) {
         c->setActionType(eCharacterActionType::walk);
-        const auto m = new eMoveAroundAction(c, finishAct, finishAct,
-                                             mSpawnerX, mSpawnerY);
+        const auto m = e::make_shared<eMoveAroundAction>(
+                           c, finishAct, finishAct,
+                           mSpawnerX, mSpawnerY);
         m->setTime(3000);
         setCurrentAction(m);
     } else {
         c->setActionType(eCharacterActionType::lay);
-        const auto w = new eWaitAction(c, finishAct, finishAct);
+        const auto w = e::make_shared<eWaitAction>(
+                           c, finishAct, finishAct);
         w->setTime(2000);
         setCurrentAction(w);
     }

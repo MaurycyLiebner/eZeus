@@ -1,6 +1,8 @@
 #ifndef EBUILDING_H
 #define EBUILDING_H
 
+#include "pointers/estdselfref.h"
+
 #include "eoverlay.h"
 #include "etexturecollection.h"
 #include "widgets/etilepainter.h"
@@ -66,7 +68,7 @@ enum class eBuildingType {
     road
 };
 
-class eBuilding {
+class eBuilding : public eStdSelfRef {
 public:
     eBuilding(eGameBoard& board,
               const eBuildingType type,
@@ -95,7 +97,7 @@ public:
 
     void incTime(const int by);
     int time() const { return mTime; }
-    int textureTime() const { return time()/10; }
+    int textureTime() const { return time()/15; }
 
     void setTile(eTile* const t);
 

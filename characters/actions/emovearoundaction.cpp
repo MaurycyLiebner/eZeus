@@ -29,9 +29,8 @@ eMoveAroundAction::eMoveAroundAction(eCharacter* const c,
 void eMoveAroundAction::increment(const int by) {
     mRemTime -= by;
     if(mRemTime <= 0) {
-        setState(eCharacterActionState::finished);
-    }
-    return eMoveAction::increment(by);
+        return setState(eCharacterActionState::finished);
+    } else return eMoveAction::increment(by);
 }
 
 void eMoveAroundAction::setTime(const int t) {

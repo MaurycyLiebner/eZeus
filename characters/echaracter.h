@@ -1,16 +1,19 @@
 #ifndef ECHARACTER_H
 #define ECHARACTER_H
 
+#include "pointers/estdselfref.h"
+#include "pointers/estdpointer.h"
+
 #include "eoverlay.h"
 #include "engine/eorientation.h"
 #include "engine/etile.h"
-#include "actions/echaracteraction.h"
 #include "etexture.h"
 #include "echaracterbase.h"
 
 class eGameBoard;
+class eCharacterAction;
 
-class eCharacter : public eCharacterBase {
+class eCharacter : public eStdSelfRef, public eCharacterBase {
 public:
     eCharacter(eGameBoard& board, const eCharacterType type);
     virtual ~eCharacter();
@@ -28,7 +31,7 @@ public:
     double y() const { return mY; }
     eTile* tile() const { return mTile; }
     int time() const { return mTime; }
-    int textureTime() const { return time()/10; }
+    int textureTime() const { return time()/15; }
     eOrientation orientation() const { return mOrientation; }
 
     void changeTile(eTile* const t);
@@ -37,9 +40,7 @@ public:
     void incTime(const int by);
     void setOrientation(const eOrientation o);
 
-    void setAction(eCharacterAction* const a);
-    eCharacterAction* takeAction();
-    eCharacterAction* action() const { return mAction; }
+    void setAction(const stdsptr<eCharacterAction>& a);
 
     void setActionType(const eCharacterActionType t);
     int actionStartTime() const { return mActionStartTime; }
@@ -49,6 +50,8 @@ public:
     bool hasSecondaryTexture() const { return mHasSecondaryTexture; }
     void setHasSecondaryTexture(const bool st);
 private:
+    stdsptr<eCharacterAction> takeAction();
+
     eGameBoard& mBoard;
     eTile* mTile = nullptr;
     eOrientation mOrientation{eOrientation::top};
@@ -58,7 +61,7 @@ private:
     int mTime = 0;
     bool mHasSecondaryTexture = false;
 
-    eCharacterAction* mAction = nullptr;
+    stdsptr<eCharacterAction> mAction;
     int mActionStartTime{0};
 };
 

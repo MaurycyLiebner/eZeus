@@ -3,26 +3,18 @@
 
 #include <functional>
 
+#include "echaracteractiontype.h"
+#include "pointers/estdselfref.h"
+
 class eCharacter;
 
 enum class eCharacterActionState {
     running, finished, failed
 };
 
-enum class eCharacterActionType {
-    none,
-    stand,
-    lay,
-    walk,
-    fight,
-    die,
-    collect,
-    carry
-};
-
 using eAction = std::function<void()>;
 
-class eCharacterAction {
+class eCharacterAction : public eStdSelfRef {
 public:
     eCharacterAction(eCharacter* const c,
                      const eAction& failAction,

@@ -14,13 +14,11 @@ void eSettlerSpawner::spawn(eTile* const tile) {
     const int s = popData.settlers();
     if(s >= v) return;
     popData.incSettlers(8);
-    const auto b = new eSettler(board());
+    const auto b = e::make_shared<eSettler>(board());
     b->changeTile(tile);
-    b->setActionType(eCharacterActionType::walk);
-    const auto fa = [this, b]() {
+    const auto fa = [this]() {
         auto& popData = board().populationData();
         popData.incSettlers(-8);
-        delete b;
     };
-    b->setAction(new eSettlerAction(b, fa, fa));
+    b->setAction(e::make_shared<eSettlerAction>(b.get(), fa, fa));
 }

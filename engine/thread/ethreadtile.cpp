@@ -18,7 +18,7 @@ void eThreadTile::load(eTile* const src) {
     mCharacters.clear();
     const auto& chars = src->characters();
     for(const auto& ch : chars) {
-        mCharacters.emplace_back().load(ch);
+        mCharacters.emplace_back().load(ch.get());
     }
 
     mUnderBuilding.load(src->underBuilding());

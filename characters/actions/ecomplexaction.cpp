@@ -6,15 +6,10 @@ eComplexAction::eComplexAction(
         const eAction& finishAction) :
     eCharacterAction(c, failAction, finishAction) {}
 
-eComplexAction::~eComplexAction() {
-    setCurrentAction(nullptr);
-}
-
 void eComplexAction::increment(const int by) {
     if(mCurrentAction) mCurrentAction->increment(by);
 }
 
-void eComplexAction::setCurrentAction(eCharacterAction* const a) {
-    if(mCurrentAction) delete mCurrentAction;
+void eComplexAction::setCurrentAction(const stdsptr<eCharacterAction>& a) {
     mCurrentAction = a;
 }

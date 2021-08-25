@@ -21,7 +21,7 @@
 
 class eTerrainEditMenu;
 
-using eBuildingCreator = std::function<eBuilding*()>;
+using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
 
 class eGameWidget : public eWidget {
 public:

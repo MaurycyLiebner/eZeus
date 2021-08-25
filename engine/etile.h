@@ -8,6 +8,8 @@
 #include "eterrain.h"
 #include "eorientation.h"
 
+#include "pointers/estdselfref.h"
+
 enum class eTileSize : int {
     s15, s30, s60
 };
@@ -22,16 +24,16 @@ public:
 
     int scrubId(const int nLevels) const;
 
-    void addCharacter(eCharacter* const c);
-    bool removeCharacter(eCharacter* const c);
+    void addCharacter(const stdsptr<eCharacter>& c);
+    bool removeCharacter(const stdsptr<eCharacter>& c);
     bool hasCharacter(const eHasChar& func) const;
 
-    const std::vector<eCharacter*>& characters() const
+    const std::vector<stdsptr<eCharacter>>& characters() const
     { return mCharacters; }
 
     bool walkable() const;
-    void setBuilding(eBuilding* const b);
-    eBuilding* building() const { return mBuilding; }
+    void setBuilding(const stdsptr<eBuilding>& b);
+    eBuilding* building() const { return mBuilding.get(); }
     bool hasRoad() const;
     void setUnderBuilding(eBuilding* const b);
     eBuilding* underBuilding() const { return mUnderBuilding; }
@@ -64,9 +66,9 @@ private:
     int mDrawnSpanW = 0;
     int mDrawnSpanH = 0;
 private:
-    std::vector<eCharacter*> mCharacters;
+    std::vector<stdsptr<eCharacter>> mCharacters;
     eBuilding* mUnderBuilding = nullptr;
-    eBuilding* mBuilding = nullptr;
+    stdsptr<eBuilding> mBuilding;
     eSpawner* mSpawner = nullptr;
 };
 

@@ -1,7 +1,7 @@
 #ifndef ECHARACTERBASE_H
 #define ECHARACTERBASE_H
 
-#include "actions/echaracteraction.h"
+#include "actions/echaracteractiontype.h"
 
 enum class eCharacterType {
     none,

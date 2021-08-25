@@ -53,17 +53,21 @@ void eHuntingLodge::timeChanged() {
 bool eHuntingLodge::spawn() {
     if(resource() >= maxResource()) return false;
     const auto t = tile();
-    const auto h = new eHunter(getBoard());
+    const auto h = e::make_shared<eHunter>(getBoard());
     h->changeTile(t);
-    const auto finishAct = [this, h]() {
-        add(eResourceType::meat, h->collected());
-        const auto t = h->tile();
-        t->removeCharacter(h);
-        mSpawned = false;
-        mSpawnTime = time() + mWaitTime;
-        delete h;
+    const eStdPointer<eHuntingLodge> tptr(this);
+    const eStdPointer<eHunter> hptr(h);
+    const auto finishAct = [tptr, this, hptr]() {
+        const auto h = &*hptr;
+        if(tptr) {
+            if(h) add(eResourceType::meat, h->collected());
+            mSpawned = false;
+            mSpawnTime = time() + mWaitTime;
+        }
+        if(h) h->changeTile(nullptr);
     };
-    const auto a = new eHuntAction(tileRect(), h, finishAct, finishAct);
+    const auto a = e::make_shared<eHuntAction>(
+                       tileRect(), h.get(), finishAct, finishAct);
     h->setAction(a);
     return true;
 }

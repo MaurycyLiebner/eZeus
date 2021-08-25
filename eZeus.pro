@@ -121,6 +121,7 @@ SOURCES += \
         etexture.cpp \
         etexturecollection.cpp \
         main.cpp \
+        pointers/estdselfref.cpp \
         spawners/eboarspawner.cpp \
         spawners/edeerspawner.cpp \
         spawners/esettlerspawner.cpp \
@@ -219,6 +220,7 @@ HEADERS += \
     characters/actions/eanimalaction.h \
     characters/actions/ecarttransporteraction.h \
     characters/actions/echaracteraction.h \
+    characters/actions/echaracteractiontype.h \
     characters/actions/ecollectaction.h \
     characters/actions/ecollectresourceaction.h \
     characters/actions/ecomplexaction.h \
@@ -290,6 +292,9 @@ HEADERS += \
     offsets/PoseidonImps.h \
     offsets/SprMain.h \
     offsets/Zeus_Demeter.h \
+    pointers/eobject.h \
+    pointers/estdpointer.h \
+    pointers/estdselfref.h \
     spawners/eboarspawner.h \
     spawners/edeerspawner.h \
     spawners/esettlerspawner.h \

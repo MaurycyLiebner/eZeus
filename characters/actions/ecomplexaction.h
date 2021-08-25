@@ -8,14 +8,13 @@ public:
     eComplexAction(eCharacter* const c,
                    const eAction& failAction,
                    const eAction& finishAction);
-    ~eComplexAction();
 
     void increment(const int by);
 protected:
-    eCharacterAction* currentAction() const { return mCurrentAction; }
-    void setCurrentAction(eCharacterAction* const a);
+    eCharacterAction* currentAction() const { return mCurrentAction.get(); }
+    void setCurrentAction(const stdsptr<eCharacterAction>& a);
 private:
-    eCharacterAction* mCurrentAction = nullptr;
+    stdsptr<eCharacterAction> mCurrentAction;
 };
 
 #endif // ECOMPLEXACTION_H

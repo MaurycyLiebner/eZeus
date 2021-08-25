@@ -79,23 +79,26 @@ bool eProcessingBuilding::spawnRawGetter() {
     if(mRawCart) depositRaw();
     if(mRawCount >= mMaxRaw) return false;
     const auto t = tile();
-    if(!mRawCart) mRawCart = new eCartTransporter(getBoard());
+    if(!mRawCart) mRawCart = e::make_shared<eCartTransporter>(getBoard());
     mRawCart->changeTile(t);
-    const auto failAct = [this] {
+    const eStdPointer<eProcessingBuilding> tptr(this);
+    const eStdPointer<eProcessingBuilding> rcptr(this);
+    const auto failAct = [tptr, this] {
+        if(!tptr) return;
         mSpawned = false;
-        if(mRawCart->dead()) {
+        if(mRawCart && mRawCart->dead()) {
             mSpawnTime = time() + mSpawnWaitTime;
         } else {
             killCart();
         }
         mRawCart = nullptr;
     };
-    const auto finishAct = [this]() {
-        depositRaw();
+    const auto finishAct = [tptr, this]() {
+        if(tptr) depositRaw();
     };
-    const auto a = new eCartTransporterAction(
-                       tileRect(),
-                       mRawCart, eCartActionType::take,
+    const auto a = e::make_shared<eCartTransporterAction>(
+                       tileRect(), mRawCart.get(),
+                       eCartActionType::take,
                        mRawMaterial,
                        failAct, finishAct);
     mRawCart->setAction(a);
@@ -103,6 +106,7 @@ bool eProcessingBuilding::spawnRawGetter() {
 }
 
 void eProcessingBuilding::depositRaw() {
+    if(!mRawCart) return;
     if(mRawCount >= mMaxRaw) return;
     const auto type = mRawCart->resourceType();
     const int count = mRawCart->resourceCount();
@@ -119,8 +123,5 @@ void eProcessingBuilding::depositRaw() {
 void eProcessingBuilding::killCart() {
     mSpawned = false;
     mSpawnTime = time() + mSpawnWaitTime;
-    const auto t = mRawCart->tile();
-    t->removeCharacter(mRawCart);
-    delete mRawCart;
-    mRawCart = nullptr;
+    mRawCart.reset();
 }

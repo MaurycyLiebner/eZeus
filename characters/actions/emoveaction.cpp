@@ -92,8 +92,6 @@ void eMoveAction::increment(const int by) {
             mStartY = 1 - targetY;
         }
 
-        const auto oldTile = c->tile();
-        oldTile->removeCharacter(c);
         c->changeTile(mTargetTile);
         mTargetX = 0.5;
         mTargetY = 0.5;
@@ -103,12 +101,12 @@ void eMoveAction::increment(const int by) {
 
         const auto cs = mTargetTile->characters();
         const auto cc = character();
-        for(const auto c : cs) {
-            if(c == character()) continue;
+        for(const auto& c : cs) {
+            if(c.get() == character()) continue;
             const bool cf = c->canFight(cc);
-            const bool ccf = cc->canFight(c);
+            const bool ccf = cc->canFight(c.get());
             if(cf && ccf) {
-                cc->fight(c);
+                cc->fight(c.get());
                 c->fight(cc);
                 break;
             }

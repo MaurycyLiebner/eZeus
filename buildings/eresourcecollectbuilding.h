@@ -13,7 +13,7 @@ public:
     using eTranformFunc = std::function<void(eTile*)>;
     using eBaseTex = eTexture eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;
-    using eCharGenerator =  std::function<eResourceCollector*()>;
+    using eCharGenerator =  std::function<stdsptr<eResourceCollector>()>;
     eResourceCollectBuilding(eGameBoard& board,
                              const eBaseTex baseTex,
                              const double overlayX,
@@ -31,7 +31,7 @@ public:
 
     void timeChanged();
 
-    bool spawn();
+    void spawn();
 private:
     const eCharGenerator mCharGenerator;
     const std::vector<eBuildingTextures>& mTextures;
@@ -45,9 +45,10 @@ private:
     const eHasResource mHasRes;
     const eTranformFunc mTransFunc;
 
+    stdsptr<eResourceCollector> mCollector;
+
     int mWaitTime = 5000;
     int mSpawnTime = mWaitTime;
-    bool mSpawned{false};
 };
 
 #endif // ERESOURCECOLLECTBUILDING_H

@@ -19,8 +19,8 @@ eTexture eFightingPatroler::getTexture(const eTileSize size) const {
     bool wrap = true;
     const auto a = actionType();
     switch(a) {
-    case eCharacterActionType::none:
-        return eTexture();
+    case eCharacterActionType::stand:
+        return charTexs.fWalk[oid].getTexture(0);
     case eCharacterActionType::collect:
     case eCharacterActionType::carry:
     case eCharacterActionType::walk: {
@@ -32,6 +32,8 @@ eTexture eFightingPatroler::getTexture(const eTileSize size) const {
     case eCharacterActionType::die:
         wrap = false;
         coll = &charTexs.fDie;
+        break;
+    default: return eTexture();
     }
     const int s = coll->size();
     if(!coll || s == 0) return eTexture();

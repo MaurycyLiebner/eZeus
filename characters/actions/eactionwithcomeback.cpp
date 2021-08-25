@@ -34,18 +34,21 @@ void eActionWithComeback::goBack(const eWalkable& walkable) {
     const auto finalTile = [startX, startY](eThreadTile* const t) {
         return t->x() == startX && t->y() == startY;
     };
-    const auto failFunc = [this]() {
-        setState(eCharacterActionState::failed);
+    const stdptr<eActionWithComeback> tptr(this);
+    const auto failFunc = [tptr]() {
+        if(tptr) tptr->setState(eCharacterActionState::failed);
     };
-    const auto finishFunc = [this, c, walkable, failFunc](
+    const auto finishFunc = [tptr, c, walkable, failFunc](
                             const std::vector<eOrientation>& path) {
-        const auto finishAction = [this]() {
-            setState(eCharacterActionState::finished);
+        if(!tptr) return;
+        const auto finishAction = [tptr]() {
+            if(tptr) tptr->setState(eCharacterActionState::finished);
         };
 
-        const auto a  = new eMovePathAction(c, path, walkable,
-                                            failFunc, finishAction);
-        setCurrentAction(a);
+        const auto a  = e::make_shared<eMovePathAction>(
+                            c, path, walkable,
+                            failFunc, finishAction);
+        tptr->setCurrentAction(a);
     };
 
     const auto pft = new ePathFindTask(startTile, walkable,
@@ -53,5 +56,5 @@ void eActionWithComeback::goBack(const eWalkable& walkable) {
                                        failFunc, false, 50);
     tp->queueTask(pft);
 
-    setCurrentAction(new eWaitAction(c, []() {}, []() {}));
+    setCurrentAction(e::make_shared<eWaitAction>(c, []() {}, []() {}));
 }

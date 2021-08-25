@@ -11,8 +11,6 @@ eCharacter::eCharacter(eGameBoard& board, const eCharacterType type) :
 }
 
 eCharacter::~eCharacter() {
-    if(mAction) delete mAction;
-    changeTile(nullptr);
     mBoard.unregisterCharacter(this);
 }
 
@@ -25,11 +23,10 @@ bool eCharacter::canFight(eCharacter* const c) {
 void eCharacter::fight(eCharacter* const c) {
     const auto a = takeAction();
     a->pause();
-    setAction(new eFightAction(this, c, [this, a]() {
+    setAction(e::make_shared<eFightAction>(this, c, [this, a]() {
         if(dead()) {
-            setAction(new eDieAction(this, [this]() { delete this; }));
+            setAction(e::make_shared<eDieAction>(this, [this]() { delete this; }));
             a->setState(eCharacterActionState::failed);
-            delete a;
         } else {
             setAction(a);
             a->resume();
@@ -38,27 +35,35 @@ void eCharacter::fight(eCharacter* const c) {
 }
 
 void eCharacter::changeTile(eTile* const t) {
-    if(mTile) mTile->removeCharacter(this);
+    const auto tsptr = ref<eCharacter>();
+    if(mTile) mTile->removeCharacter(tsptr);
     mTile = t;
-    if(mTile) mTile->addCharacter(this);
+    if(mTile) mTile->addCharacter(tsptr);
 }
 
 void eCharacter::incTime(const int by) {
     mTime += by;
-    if(mAction) mAction->increment(by);
+    if(mAction) {
+        if(mAction->state() != eCharacterActionState::running) {
+            mAction.reset();
+            changeTile(nullptr);
+        } else {
+            mAction->increment(by);
+        }
+    }
 }
 
 void eCharacter::setOrientation(const eOrientation o) {
     mOrientation = o;
 }
 
-void eCharacter::setAction(eCharacterAction* const a) {
+void eCharacter::setAction(const stdsptr<eCharacterAction>& a) {
     mAction = a;
 }
 
-eCharacterAction* eCharacter::takeAction() {
+stdsptr<eCharacterAction> eCharacter::takeAction() {
     const auto a = mAction;
-    mAction = nullptr;
+    mAction .reset();
     return a;
 }
 

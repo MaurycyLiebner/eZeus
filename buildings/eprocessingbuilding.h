@@ -47,7 +47,7 @@ private:
     const int mMaxRaw = 4;
     const int mRawUse;
 
-    eCartTransporter* mRawCart = nullptr;
+    stdsptr<eCartTransporter> mRawCart;
 
     int mRawCount{0};
 

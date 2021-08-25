@@ -8,7 +8,7 @@ eTimberMill::eTimberMill(eGameBoard& board) :
                              &eBuildingTextures::fTimberMill,
                              -3.65, -3.65,
                              &eBuildingTextures::fTimberMillOverlay,
-                             [this]() { return new eLumberjack(getBoard()); },
+                             [this]() { return e::make_shared<eLumberjack>(getBoard()); },
                              eBuildingType::timberMill,
                              [](eTileBase* const t) {
                                 return t->terrain() == eTerrain::forest;

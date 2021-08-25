@@ -136,11 +136,11 @@ void eTile::neighboursWithTerrain(const eTerrain terr,
     l = lTerr != terr;
 }
 
-void eTile::addCharacter(eCharacter* const c) {
+void eTile::addCharacter(const stdsptr<eCharacter>& c) {
     mCharacters.push_back(c);
 }
 
-bool eTile::removeCharacter(eCharacter* const c) {
+bool eTile::removeCharacter(const stdsptr<eCharacter>& c) {
     const auto it = std::find(mCharacters.begin(), mCharacters.end(), c);
     if(it == mCharacters.end()) return false;
     mCharacters.erase(it);
@@ -148,7 +148,7 @@ bool eTile::removeCharacter(eCharacter* const c) {
 }
 
 bool eTile::hasCharacter(const eHasChar& func) const {
-    for(const auto c : mCharacters) {
+    for(const auto& c : mCharacters) {
         if(func(*c)) return true;
     }
     return false;
@@ -161,7 +161,7 @@ bool eTile::walkable() const {
     return true;
 }
 
-void eTile::setBuilding(eBuilding* const b) {
+void eTile::setBuilding(const stdsptr<eBuilding>& b) {
     mBuilding = b;
     if(b) b->setTile(this);
 }

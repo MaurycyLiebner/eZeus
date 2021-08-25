@@ -63,8 +63,9 @@ bool eCollectResourceAction::findResource() {
         };
 
         c->setActionType(eCharacterActionType::walk);
-        const auto a  = new eMovePathAction(c, path, tileWalkable,
-                                            failFunc, finishAction);
+        const auto a  = e::make_shared<eMovePathAction>(
+                            c, path, tileWalkable,
+                            failFunc, finishAction);
         setCurrentAction(a);
     };
 
@@ -73,7 +74,7 @@ bool eCollectResourceAction::findResource() {
                                        failFunc, false, 50);
     tp->queueTask(pft);
 
-    setCurrentAction(new eWaitAction(c, []() {}, []() {}));
+    setCurrentAction(e::make_shared<eWaitAction>(c, []() {}, []() {}));
     return false;
 }
 
@@ -90,8 +91,9 @@ bool eCollectResourceAction::collect(eTile* const tile) {
         goBack2();
     };
 
-    const auto a = new eCollectAction(mCharacter, mTransFunc,
-                                      failAction, finishAction);
+    const auto a = e::make_shared<eCollectAction>(
+                       mCharacter, mTransFunc,
+                       failAction, finishAction);
     setCurrentAction(a);
     return false;
 }

@@ -54,8 +54,9 @@ void eCartTransporterAction::findTarget() {
             return rsl > 0;
         };
     }
-    const auto failFunc = [this]() {
-        setState(eCharacterActionState::failed);
+    const stdptr<eCharacterAction> tptr(this);
+    const auto failFunc = [tptr]() {
+        if(tptr) tptr->setState(eCharacterActionState::failed);
     };
     const auto rect = mBuildingRect;
     const auto walkable = [rect](eTileBase* const t) {
@@ -64,15 +65,17 @@ void eCartTransporterAction::findTarget() {
         if(r) return true;
         return t->hasRoad();
     };
-    const auto finishFunc = [this, c, walkable](
+    const auto finishFunc = [tptr, this, c, walkable](
                             std::vector<eOrientation> path) {
+        if(!tptr) return;
         if(path.empty()) {
-            setState(eCharacterActionState::failed);
+            tptr->setState(eCharacterActionState::failed);
             return;
         }
         mBuildingO = path.front();
         path.erase(path.begin());
-        const auto finishAction = [this]() {
+        const auto finishAction = [tptr, this]() {
+            if(!tptr) return;
             const bool r = resourceAction();
             if(r) {
                 goBack2();
@@ -84,13 +87,14 @@ void eCartTransporterAction::findTarget() {
         if(path.empty()) {
             finishAction();
         } else {
-            const auto failFunc = [this]() {
-                findTarget();
+            const auto failFunc = [tptr, this]() {
+                if(tptr) findTarget();
             };
 
             c->setActionType(eCharacterActionType::walk);
-            const auto a = new eMovePathAction(c, path, walkable,
-                                               failFunc, finishAction);
+            const auto a = e::make_shared<eMovePathAction>(
+                               c, path, walkable,
+                               failFunc, finishAction);
             setCurrentAction(a);
         }
     };
@@ -100,7 +104,7 @@ void eCartTransporterAction::findTarget() {
                                        failFunc, true, 200);
     tp->queueTask(pft);
 
-    setCurrentAction(new eWaitAction(c, []() {}, []() {}));
+    setCurrentAction(e::make_shared<eWaitAction>(c, []() {}, []() {}));
 }
 
 void eCartTransporterAction::goBack2() {

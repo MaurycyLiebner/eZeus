@@ -22,12 +22,13 @@ ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
 
 }
 
-eCharacterAction* gDefaultActGenerator(
+stdsptr<eCharacterAction> gDefaultActGenerator(
            eCharacter* const c,
            const std::vector<ePatrolGuide>& guides,
            const eAction& failAction,
            const eAction& finishActio) {
-    return new ePatrolAction(c, guides, failAction, finishActio);
+    return e::make_shared<ePatrolAction>(
+                c, guides, failAction, finishActio);
 }
 
 ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
@@ -62,9 +63,9 @@ std::vector<eOverlay> ePatrolBuilding::getOverlays(const eTileSize size) const {
 
 void ePatrolBuilding::timeChanged() {
     const int t = time();
-    if(!mSpawned && t >= mSpawnTime) {
-        mSpawned = spawn();
-        mSpawnTime = t + mWaitTime;
+    if(!mChar && t >= mSpawnTime) {
+        spawn();
+        mSpawnTime = time() + mWaitTime;
     }
 }
 
@@ -87,14 +88,19 @@ bool ePatrolBuilding::spawn() {
     }
     if(!t) return false;
 
-    const auto c = mCharGenerator();
-    c->changeTile(t);
-    const auto finishAct = [this, c]() {
-        const auto t = c->tile();
-        t->removeCharacter(c);
-        mSpawned = false;
-        delete c;
+    mChar = mCharGenerator();
+    mChar->changeTile(t);
+    const eStdPointer<ePatrolBuilding> tptr(this);
+    const eStdPointer<eCharacter> cptr(mChar);
+    const auto finishAct = [tptr, this, cptr]() {
+        if(cptr) cptr->changeTile(nullptr);
+        if(tptr) {
+            mChar.reset();
+            mSpawnTime = time() + mWaitTime;
+        }
     };
-    c->setAction(mActGenerator(c, mPatrolGuides, finishAct, finishAct));
+    const auto a = mActGenerator(mChar.get(), mPatrolGuides,
+                                 finishAct, finishAct);
+    mChar->setAction(a);
     return true;
 }

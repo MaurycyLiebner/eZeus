@@ -10,8 +10,9 @@ eDeerSpawner::eDeerSpawner(eTile* const tile,
 }
 
 void eDeerSpawner::spawn(eTile* const tile) {
-    const auto b = new eDeer(this, board());
+    const auto b = e::make_shared<eDeer>(this, board());
     b->changeTile(tile);
     const auto e = []() {};
-    b->setAction(new eAnimalAction(b, e, e, tile->x(), tile->y()));
+    b->setAction(e::make_shared<eAnimalAction>(
+                     b.get(), e, e, tile->x(), tile->y()));
 }

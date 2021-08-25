@@ -35,20 +35,23 @@ void eSettlerAction::findHouse() {
         return t->underBuildingType() == eBuildingType::commonHouse &&
                t->houseVacancies() > 0;
     };
-    const auto failFunc = [this]() {
-        goBack2();
+    const stdptr<eCharacterAction> tptr(this);
+    const auto failFunc = [tptr, this]() {
+        if(tptr) goBack2();
     };
     const auto walkable = [](eTileBase* const t) {
         return t->walkable();
     };
-    const auto finishFunc = [this, c, walkable, failFunc](
+    const auto finishFunc = [tptr, this, c, walkable, failFunc](
                             std::vector<eOrientation> path) {
+        if(!tptr) return;
         if(path.empty()) {
             setState(eCharacterActionState::finished);
             return;
         }
         path.erase(path.begin());
-        const auto finishAction = [this]() {
+        const auto finishAction = [tptr, this]() {
+            if(!tptr) return;
             const bool r = enterHouse();
             if(r) {
                 setState(eCharacterActionState::finished);
@@ -57,8 +60,10 @@ void eSettlerAction::findHouse() {
             }
         };
 
-        const auto a  = new eMovePathAction(c, path, walkable,
-                                            failFunc, finishAction);
+        c->setActionType(eCharacterActionType::walk);
+        const auto a  = e::make_shared<eMovePathAction>(
+                            c, path, walkable,
+                            failFunc, finishAction);
         setCurrentAction(a);
     };
 
@@ -67,7 +72,7 @@ void eSettlerAction::findHouse() {
                                        failFunc, false, 200);
     tp->queueTask(pft);
 
-    setCurrentAction(new eWaitAction(c, []() {}, []() {}));
+    setCurrentAction(e::make_shared<eWaitAction>(c, []() {}, []() {}));
 }
 
 void eSettlerAction::goBack2() {

@@ -37,16 +37,16 @@ bool hasHuntableAnimal(eTileBase* const tile,
 
 bool tryToCollectDeadAnimal(eTile* const tile) {
     const auto cs = tile->characters();
-    for(const auto c : cs) {
+    for(const auto& c : cs) {
         const auto t = c->type();
         if(t == eCharacterType::boar) {
-            const auto b = static_cast<eBoar*>(c);
+            const auto b = static_cast<eBoar*>(c.get());
             if(b->dead()) {
                 b->setActionType(eCharacterActionType::none);
                 return true;
             }
         } else if(t == eCharacterType::deer) {
-            const auto d = static_cast<eDeer*>(c);
+            const auto d = static_cast<eDeer*>(c.get());
             if(d->dead()) {
                 d->setActionType(eCharacterActionType::none);
                 return true;
@@ -86,15 +86,19 @@ bool eHuntAction::findResource() {
         if(r) return true;
         return t->walkable();
     };
-    const auto failFunc = [this]() {
-        setState(eCharacterActionState::failed);
+
+    const stdptr<eCharacterAction> tptr(this);
+    const auto failFunc = [tptr]() {
+        if(tptr) tptr->setState(eCharacterActionState::failed);
     };
 
     auto aType = std::make_shared<eCharacterType>();
 
-    const auto finishFunc = [this, c, tileWalkable, failFunc, aType](
+    const auto finishFunc = [tptr, this, c, tileWalkable, failFunc, aType](
                             const std::vector<eOrientation>& path) {
-        const auto finishAction = [this, c]() {
+        if(!tptr) return;
+        const auto finishAction = [tptr, this, c]() {
+            if(!tptr) return;
             const auto tile = c->tile();
             if(tryToCollectDeadAnimal(tile)) collect();
             else findResource();
@@ -104,8 +108,9 @@ bool eHuntAction::findResource() {
             mCharacter->setDeerHunter(true);
         }
         c->setActionType(eCharacterActionType::walk);
-        const auto a  = new eMovePathAction(c, path, tileWalkable,
-                                            failFunc, finishAction);
+        const auto a  = e::make_shared<eMovePathAction>(
+                            c, path, tileWalkable,
+                            failFunc, finishAction);
         setCurrentAction(a);
     };
 
@@ -121,7 +126,7 @@ bool eHuntAction::findResource() {
                                        failFunc, false, 50);
     tp->queueTask(pft);
 
-    setCurrentAction(new eWaitAction(c, []() {}, []() {}));
+    setCurrentAction(e::make_shared<eWaitAction>(c, []() {}, []() {}));
 
     return true;
 }

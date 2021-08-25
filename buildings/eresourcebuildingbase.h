@@ -3,6 +3,8 @@
 
 #include "ebuildingwithresource.h"
 
+class eCartTransporter;
+
 class eResourceBuildingBase : public eBuildingWithResource {
 public:
     eResourceBuildingBase(eGameBoard& board,
@@ -30,9 +32,9 @@ private:
 
     int mResource{0};
 
+    stdsptr<eCartTransporter> mCart;
     int mWaitTime = 5000;
     int mSpawnTime = mWaitTime;
-    bool mSpawned{false};
 };
 
 #endif // ERESOURCEBUILDINGBASE_H

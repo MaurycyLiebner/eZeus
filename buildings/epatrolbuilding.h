@@ -10,8 +10,8 @@ class ePatrolBuilding : public eBuilding {
 public:
     using eBaseTex = eTexture eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;
-    using eCharGenerator =  std::function<eCharacter*()>;
-    using eActGenerator =  std::function<eCharacterAction*(
+    using eCharGenerator =  std::function<stdsptr<eCharacter>()>;
+    using eActGenerator =  std::function<stdsptr<eCharacterAction>(
                                 eCharacter* const c,
                                 const std::vector<ePatrolGuide>& guides,
                                 const eAction& failAction,
@@ -60,7 +60,7 @@ private:
 
     int mWaitTime = 5000;
     int mSpawnTime = 0;
-    bool mSpawned{false};
+    stdsptr<eCharacter> mChar;
 
     eMoveDirection mSpawnDirection{eMoveDirection::allDirections};
     ePatrolGuides mPatrolGuides;

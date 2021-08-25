@@ -12,8 +12,6 @@ class eDemeter : public eCharacter {
 public:
     eDemeter(eGameBoard& board);
 
-    eDemeterAction action() const { return mAction; }
-
     eTexture getTexture(const eTileSize size) const;
 private:
     eDemeterAction mAction{eDemeterAction::walk};

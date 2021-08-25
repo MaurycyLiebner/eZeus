@@ -8,7 +8,7 @@ eFoundry::eFoundry(eGameBoard& board) :
                              &eBuildingTextures::fFoundry,
                              -3.80, -3.78,
                              &eBuildingTextures::fFoundryOverlay,
-                             [this]() { return new eBronzeMiner(getBoard()); },
+                             [this]() { return e::make_shared<eBronzeMiner>(getBoard()); },
                              eBuildingType::foundry,
                              [](eTileBase* const t) {
                                 return t->terrain() == eTerrain::bronze;

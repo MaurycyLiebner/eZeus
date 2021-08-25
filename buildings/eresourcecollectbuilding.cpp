@@ -44,31 +44,29 @@ std::vector<eOverlay> eResourceCollectBuilding::
 
 void eResourceCollectBuilding::timeChanged() {
     eResourceBuildingBase::timeChanged();
-    if(!mSpawned && time() > mSpawnTime) {
-        mSpawned = spawn();
+    if(!mCollector && time() > mSpawnTime) {
+        spawn();
         mSpawnTime = time() + mWaitTime;
     }
 }
 
-bool eResourceCollectBuilding::spawn() {
+void eResourceCollectBuilding::spawn() {
     const auto t = tile();
-
-    const auto d = mCharGenerator();
-    d->changeTile(t);
-    const auto finishAct = [this, d]() {
-        add(resourceType(), d->collected());
-        const auto t = d->tile();
-        t->removeCharacter(d);
-        mSpawned = false;
+    mCollector = mCharGenerator();
+    mCollector->changeTile(t);
+    const eStdPointer<eResourceCollectBuilding> tptr(this);
+    const auto finishAct = [tptr, this]() {
+        if(!tptr) return;
+        if(mCollector) {
+            add(resourceType(), mCollector->collected());
+            mCollector->changeTile(nullptr);
+            mCollector.reset();
+        }
         mSpawnTime = time() + mWaitTime;
-        delete d;
     };
 
-    const auto a = new eCollectResourceAction(tileRect(),
-                                              d, mHasRes,
-                                              mTransFunc,
-                                              finishAct,
-                                              finishAct);
-    d->setAction(a);
-    return true;
+    const auto a = e::make_shared<eCollectResourceAction>(
+                       tileRect(), mCollector.get(), mHasRes,
+                       mTransFunc, finishAct, finishAct);
+    mCollector->setAction(a);
 }

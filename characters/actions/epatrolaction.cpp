@@ -26,8 +26,9 @@ void ePatrolAction::patrol() {
     const auto finishFunc = [this]() {
         goBack2();
     };
-    const auto a = new ePatrolMoveAction(character(), mGuides,
-                                         failFunc, finishFunc);
+    const auto a = e::make_shared<ePatrolMoveAction>(
+                       character(), mGuides,
+                       failFunc, finishFunc);
     setCurrentAction(a);
 }
 
