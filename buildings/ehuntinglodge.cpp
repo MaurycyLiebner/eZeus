@@ -44,8 +44,8 @@ std::vector<eOverlay> eHuntingLodge::getOverlays(const eTileSize size) const {
 
 void eHuntingLodge::timeChanged() {
     eResourceBuildingBase::timeChanged();
-    if(!mSpawned && time() > mSpawnTime) {
-        mSpawned = spawn();
+    if(!mHunter && time() > mSpawnTime) {
+        spawn();
         mSpawnTime = time() + mWaitTime;
     }
 }
@@ -53,21 +53,18 @@ void eHuntingLodge::timeChanged() {
 bool eHuntingLodge::spawn() {
     if(resource() >= maxResource()) return false;
     const auto t = tile();
-    const auto h = e::make_shared<eHunter>(getBoard());
-    h->changeTile(t);
+    mHunter = e::make_shared<eHunter>(getBoard());
+    mHunter->changeTile(t);
     const eStdPointer<eHuntingLodge> tptr(this);
-    const eStdPointer<eHunter> hptr(h);
-    const auto finishAct = [tptr, this, hptr]() {
-        const auto h = &*hptr;
-        if(tptr) {
-            if(h) add(eResourceType::meat, h->collected());
-            mSpawned = false;
-            mSpawnTime = time() + mWaitTime;
-        }
-        if(h) h->changeTile(nullptr);
+    const auto finishAct = [tptr, this]() {
+        if(!tptr) return;
+        add(eResourceType::meat, mHunter->collected());
+        mHunter->changeTile(nullptr);
+        mHunter.reset();
+        mSpawnTime = time() + mWaitTime;
     };
     const auto a = e::make_shared<eHuntAction>(
-                       tileRect(), h.get(), finishAct, finishAct);
-    h->setAction(a);
+                       tileRect(), mHunter.get(), finishAct, finishAct);
+    mHunter->setAction(a);
     return true;
 }

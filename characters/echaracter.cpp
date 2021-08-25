@@ -25,11 +25,13 @@ void eCharacter::fight(eCharacter* const c) {
     a->pause();
     setAction(e::make_shared<eFightAction>(this, c, [this, a]() {
         if(dead()) {
-            setAction(e::make_shared<eDieAction>(this, [this]() { delete this; }));
-            a->setState(eCharacterActionState::failed);
+            setAction(e::make_shared<eDieAction>(this, [a]() {
+                a->setState(eCharacterActionState::failed);
+            }));
         } else {
-            setAction(a);
-            a->resume();
+            const auto aa = a;
+            setAction(aa);
+            aa->resume();
         }
     }));
 }

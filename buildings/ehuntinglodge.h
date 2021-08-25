@@ -5,6 +5,8 @@
 
 #include "textures/ebuildingtextures.h"
 
+class eHunter;
+
 class eHuntingLodge : public eResourceBuildingBase {
 public:
     eHuntingLodge(eGameBoard& board);
@@ -18,9 +20,9 @@ public:
 private:
     const std::vector<eBuildingTextures>& mTextures;
 
+    stdsptr<eHunter> mHunter;
     int mWaitTime = 5000;
     int mSpawnTime = mWaitTime;
-    bool mSpawned{false};
 };
 
 #endif // EHUNTINGLODGE_H
