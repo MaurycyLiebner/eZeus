@@ -40,6 +40,7 @@
 #include "buildings/egranary.h"
 #include "buildings/ewarehouse.h"
 
+#include "buildings/egrowerslodge.h"
 #include "buildings/ewinery.h"
 #include "buildings/eolivepress.h"
 #include "buildings/esculpturestudio.h"
@@ -639,6 +640,11 @@ void eGameWidget::paintEvent(ePainter& p) {
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
 
+        case eBuildingMode::growersLodge: {
+            const auto b1 = e::make_shared<eGrowersLodge>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+
         case eBuildingMode::granary: {
             const auto b1 = e::make_shared<eGranary>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
@@ -712,9 +718,9 @@ void eGameWidget::paintEvent(ePainter& p) {
 
 bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
     if(e.key() == SDL_Scancode::SDL_SCANCODE_KP_PLUS) {
-        mSpeed = std::clamp(mSpeed + 1, 1, 20);
+        mSpeed = std::clamp(mSpeed + 1, 1, 100);
     } else if(e.key() == SDL_Scancode::SDL_SCANCODE_KP_MINUS) {
-        mSpeed = std::clamp(mSpeed - 1, 1, 20);
+        mSpeed = std::clamp(mSpeed - 1, 1, 100);
     } else if(e.key() == SDL_Scancode::SDL_SCANCODE_R) {
         mRotate = !mRotate;
     } else if(e.key() == SDL_Scancode::SDL_SCANCODE_LEFT) {
@@ -1068,15 +1074,15 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 
 
             case eBuildingMode::oliveTree:
-                apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 1, 1,
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 1, 1,
                           [this]() { return e::make_shared<eResourceBuilding>(mBoard, eResourceBuildingType::oliveTree); },
                           [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; });
                 };
                 break;
             case eBuildingMode::vine:
-                apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 1, 1,
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 1, 1,
                           [this]() { return e::make_shared<eResourceBuilding>(mBoard, eResourceBuildingType::vine); },
                     [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; });
                 };
@@ -1106,6 +1112,12 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 3, 3,
                           [this]() { return e::make_shared<eCarrotFarm>(mBoard); });
+                };
+                break;
+            case eBuildingMode::growersLodge:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eGrowersLodge>(mBoard); });
                 };
                 break;
 

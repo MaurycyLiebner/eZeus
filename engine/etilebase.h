@@ -9,6 +9,8 @@
 
 class eCharacterBase;
 
+enum class eBuildingType;
+
 class eTileBase {
 public:
     eTileBase() {}
@@ -18,6 +20,7 @@ public:
     virtual bool walkable() const = 0;
     using eHasChar = std::function<bool(const eCharacterBase&)>;
     virtual bool hasCharacter(const eHasChar& func) const = 0;
+    virtual eBuildingType underBuildingType() const = 0;
 
     int seed() const { return mSeed; }
     int x() const { return mX; }

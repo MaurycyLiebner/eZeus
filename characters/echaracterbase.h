@@ -16,6 +16,8 @@ enum class eCharacterType {
     goat,
     cattle,
 
+    grower,
+
     lumberjack,
     bronzeMiner,
     silverMiner,

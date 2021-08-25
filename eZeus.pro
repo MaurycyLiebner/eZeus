@@ -24,6 +24,7 @@ SOURCES += \
         buildings/efoundry.cpp \
         buildings/efountain.cpp \
         buildings/egranary.cpp \
+        buildings/egrowerslodge.cpp \
         buildings/egymnasium.cpp \
         buildings/ehospital.cpp \
         buildings/ehuntinglodge.cpp \
@@ -62,6 +63,7 @@ SOURCES += \
         characters/actions/edieaction.cpp \
         characters/actions/efightaction.cpp \
         characters/actions/efirefighteraction.cpp \
+        characters/actions/egroweraction.cpp \
         characters/actions/ehuntaction.cpp \
         characters/actions/emoveaction.cpp \
         characters/actions/emovearoundaction.cpp \
@@ -81,6 +83,7 @@ SOURCES += \
         characters/edemeter.cpp \
         characters/efightingpatroler.cpp \
         characters/efirefighter.cpp \
+        characters/egrower.cpp \
         characters/egymnast.cpp \
         characters/ehealer.cpp \
         characters/ehunter.cpp \
@@ -188,6 +191,7 @@ HEADERS += \
     buildings/efoundry.h \
     buildings/efountain.h \
     buildings/egranary.h \
+    buildings/egrowerslodge.h \
     buildings/egymnasium.h \
     buildings/ehospital.h \
     buildings/ehuntinglodge.h \
@@ -227,6 +231,7 @@ HEADERS += \
     characters/actions/edieaction.h \
     characters/actions/efightaction.h \
     characters/actions/efirefighteraction.h \
+    characters/actions/egroweraction.h \
     characters/actions/ehuntaction.h \
     characters/actions/emoveaction.h \
     characters/actions/emovearoundaction.h \
@@ -246,6 +251,7 @@ HEADERS += \
     characters/edemeter.h \
     characters/efightingpatroler.h \
     characters/efirefighter.h \
+    characters/egrower.h \
     characters/egymnast.h \
     characters/ehealer.h \
     characters/ehunter.h \

@@ -2,6 +2,7 @@
 
 #include "buildings/esmallhouse.h"
 #include "buildings/eresourcebuildingbase.h"
+#include "buildings/eresourcebuilding.h"
 
 void eThreadBuilding::load(eBuilding* const src) {
     mVacancies = 0;
@@ -28,6 +29,8 @@ void eThreadBuilding::load(eBuilding* const src) {
         } else if(const auto b = dynamic_cast<eResourceBuildingBase*>(src)) {
             mResource[0] = b->resourceType();
             mResourceCount[0] = b->resource();
+        } else if(const auto b = dynamic_cast<eResourceBuilding*>(src)) {
+            mWorkedOn = b->workedOn();
         }
     } else {
         mType = eBuildingType::none;

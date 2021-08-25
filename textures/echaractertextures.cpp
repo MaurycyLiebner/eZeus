@@ -28,6 +28,8 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fShepherd(renderer),
     fGoatherd(renderer),
 
+    fGrower(renderer),
+
     fBoar(renderer),
     fDeer(renderer),
     fWolf(renderer),
@@ -412,6 +414,55 @@ void eCharacterTextures::load() {
                     pathBase, i, die, eSprMainOffset);
     }
 
+
+
+    for(int j = 0; j < 8; j++) {
+        fGrower.fWalk.emplace_back(fRenderer);
+        fGrower.fWorkOnGrapes.emplace_back(fRenderer);
+        fGrower.fWorkOnOlives.emplace_back(fRenderer);
+        fGrower.fCollectGrapes.emplace_back(fRenderer);
+        fGrower.fCollectOlives.emplace_back(fRenderer);
+    }
+    for(int i = 5505; i < 5601;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& walk = fGrower.fWalk;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, walk[j], eSprMainOffset);
+        }
+    }
+    for(int i = 5601; i < 5609; i++) {
+        auto& die = fGrower.fDie;
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    pathBase, i, die, eSprMainOffset);
+    }
+    for(int i = 5609; i < 5689;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& collect = fGrower.fWorkOnGrapes;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, collect[j], eSprMainOffset);
+        }
+    }
+    for(int i = 5689; i < 5769;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& collect = fGrower.fWorkOnOlives;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, collect[j], eSprMainOffset);
+        }
+    }
+    for(int i = 5769; i < 5849;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& collect = fGrower.fCollectGrapes;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, collect[j], eSprMainOffset);
+        }
+    }
+    for(int i = 5849; i < 5929;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& collect = fGrower.fCollectOlives;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, collect[j], eSprMainOffset);
+        }
+    }
 
 
     for(int j = 0; j < 8; j++) {

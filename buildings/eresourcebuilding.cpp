@@ -34,18 +34,29 @@ eTexture eResourceBuilding::getTexture(const eTileSize size) const {
 }
 
 int eResourceBuilding::takeResource(const int by) {
+    if(mResource == 0) return 0;
     const int take = std::clamp(by, 0, mResource);
-    mResource -= by;
+    mResource -= take;
     if(mResource == 0) mRipe = 0;
     return take;
 }
 
+void eResourceBuilding::workOn() {
+    mWorkedOn = true;
+    mNextRipe = time() + mRipeWait;
+}
+
 void eResourceBuilding::timeChanged() {
-    if(time() >= mNextRipe) {
-        mNextRipe = time() + 2500;
-        if(mRipe >= 5) return;
+    if((mWorkedOn || mRipe >= 5) && time() >= mNextRipe) {
+        mWorkedOn = false;
+        if(mRipe >= 5) {
+            mRipe = 0;
+            mResource = 0;
+            return;
+        }
         if(++mRipe == 5) {
             mResource = 1;
+            mNextRipe = time() + 5*mRipeWait;
         }
     }
 }

@@ -37,6 +37,7 @@ public:
     bool hasRoad() const;
     void setUnderBuilding(eBuilding* const b);
     eBuilding* underBuilding() const { return mUnderBuilding; }
+    eBuildingType underBuildingType() const;
 
     void setSpawner(eSpawner* const s);
     eSpawner* spawner() const { return mSpawner; }

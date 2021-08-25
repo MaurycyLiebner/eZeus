@@ -9,6 +9,10 @@ enum class eCharacterActionType {
     fight,
     die,
     collect,
+    workOnGrapes,
+    workOnOlives,
+    collectGrapes,
+    collectOlives,
     carry
 };
 

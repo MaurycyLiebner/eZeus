@@ -44,15 +44,17 @@ int eResourceBuildingBase::spaceLeft(const eResourceType type) const {
 void eResourceBuildingBase::timeChanged() {
     if(!mCart && mResource > 0 && time() > mSpawnTime) {
         mSpawnTime = time() + mWaitTime;
+        spawn();
     }
 }
 
 bool eResourceBuildingBase::spawn() {
     if(mResource <= 0) return false;
-    const auto t = tile();
-    mCart = e::make_shared<eCartTransporter>(getBoard());
     const int took = take(mResType, 8);
+    if(took <= 0) return false;
+    mCart = e::make_shared<eCartTransporter>(getBoard());
     mCart->setResource(mResType, took);
+    const auto t = tile();
     mCart->changeTile(t);
     const eStdPointer<eResourceBuildingBase> tptr(this);
     const eStdPointer<eCartTransporter> hptr(mCart);

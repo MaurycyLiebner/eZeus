@@ -1,7 +1,6 @@
 #include "etimbermill.h"
 
 #include "characters/elumberjack.h"
-#include "textures/egametextures.h"
 
 eTimberMill::eTimberMill(eGameBoard& board) :
     eResourceCollectBuilding(board,
