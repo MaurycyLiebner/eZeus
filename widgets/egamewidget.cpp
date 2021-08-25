@@ -45,6 +45,10 @@
 #include "buildings/esculpturestudio.h"
 #include "buildings/earmory.h"
 
+#include "buildings/ewheatfarm.h"
+#include "buildings/eonionfarm.h"
+#include "buildings/ecarrotfarm.h"
+
 #include "spawners/eboarspawner.h"
 #include "spawners/edeerspawner.h"
 #include "spawners/esettlerspawner.h"
@@ -622,6 +626,19 @@ void eGameWidget::paintEvent(ePainter& p) {
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
 
+        case eBuildingMode::wheatFarm: {
+            const auto b1 = new eWheatFarm(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::onionFarm: {
+            const auto b1 = new eOnionFarm(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::carrotFarm: {
+            const auto b1 = new eCarrotFarm(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+
         case eBuildingMode::granary: {
             const auto b1 = new eGranary(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
@@ -1072,6 +1089,25 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
                           [this]() { return new eHuntingLodge(mBoard); });
+                };
+                break;
+
+            case eBuildingMode::wheatFarm:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 3, 3,
+                          [this]() { return new eWheatFarm(mBoard); });
+                };
+                break;
+            case eBuildingMode::onionFarm:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 3, 3,
+                          [this]() { return new eOnionFarm(mBoard); });
+                };
+                break;
+            case eBuildingMode::carrotFarm:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 3, 3,
+                          [this]() { return new eCarrotFarm(mBoard); });
                 };
                 break;
 

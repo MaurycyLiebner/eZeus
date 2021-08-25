@@ -9,12 +9,6 @@ eBuildingType resourceTypeToBuildingType(const eResourceBuildingType r) {
         return eBuildingType::oliveTree;
     case eResourceBuildingType::vine:
         return eBuildingType::vine;
-    case eResourceBuildingType::wheat:
-        return eBuildingType::wheat;
-    case eResourceBuildingType::carrots:
-        return eBuildingType::carrots;
-    case eResourceBuildingType::onions:
-        return eBuildingType::onions;
     }
     return eBuildingType::oliveTree;
 }
@@ -35,27 +29,20 @@ eTexture eResourceBuilding::getTexture(const eTileSize size) const {
         return colls.fOliveTree.getTexture(mRipe);
     case eResourceBuildingType::vine:
         return colls.fVine.getTexture(mRipe);
-    case eResourceBuildingType::wheat:
-        return colls.fWheat.getTexture(mRipe);
-    case eResourceBuildingType::carrots:
-        return colls.fCarrots.getTexture(mRipe);
-    case eResourceBuildingType::onions:
-        return colls.fOnions.getTexture(mRipe);
     }
     return eTexture();
 }
 
-void eResourceBuilding::takeResource(const int by) {
+int eResourceBuilding::takeResource(const int by) {
+    const int take = std::clamp(by, 0, mResource);
     mResource -= by;
-    if(mResource <= 0) {
-        mResource = 0;
-        mRipe = 0;
-    }
+    if(mResource == 0) mRipe = 0;
+    return take;
 }
 
 void eResourceBuilding::timeChanged() {
     if(time() >= mNextRipe) {
-        mNextRipe = time() + 5000;
+        mNextRipe = time() + 2500;
         if(mRipe >= 5) return;
         if(++mRipe == 5) {
             mResource = 1;

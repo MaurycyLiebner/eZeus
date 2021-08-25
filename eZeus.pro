@@ -17,8 +17,10 @@ SOURCES += \
         buildings/earmory.cpp \
         buildings/ebuilding.cpp \
         buildings/ebuildingwithresource.cpp \
+        buildings/ecarrotfarm.cpp \
         buildings/ecollege.cpp \
         buildings/edramaschool.cpp \
+        buildings/efarmbase.cpp \
         buildings/efoundry.cpp \
         buildings/efountain.cpp \
         buildings/egranary.cpp \
@@ -28,6 +30,7 @@ SOURCES += \
         buildings/emaintenanceoffice.cpp \
         buildings/emint.cpp \
         buildings/eolivepress.cpp \
+        buildings/eonionfarm.cpp \
         buildings/epalace1.cpp \
         buildings/epalace2.cpp \
         buildings/epatrolbuilding.cpp \
@@ -47,6 +50,7 @@ SOURCES += \
         buildings/etimbermill.cpp \
         buildings/ewarehouse.cpp \
         buildings/ewatchpost.cpp \
+        buildings/ewheatfarm.cpp \
         buildings/ewinery.cpp \
         characters/actions/eactionwithcomeback.cpp \
         characters/actions/eanimalaction.cpp \
@@ -176,8 +180,10 @@ HEADERS += \
     buildings/earmory.h \
     buildings/ebuilding.h \
     buildings/ebuildingwithresource.h \
+    buildings/ecarrotfarm.h \
     buildings/ecollege.h \
     buildings/edramaschool.h \
+    buildings/efarmbase.h \
     buildings/efoundry.h \
     buildings/efountain.h \
     buildings/egranary.h \
@@ -187,6 +193,7 @@ HEADERS += \
     buildings/emaintenanceoffice.h \
     buildings/emint.h \
     buildings/eolivepress.h \
+    buildings/eonionfarm.h \
     buildings/epalace1.h \
     buildings/epalace2.h \
     buildings/epatrolbuilding.h \
@@ -206,6 +213,7 @@ HEADERS += \
     buildings/etimbermill.h \
     buildings/ewarehouse.h \
     buildings/ewatchpost.h \
+    buildings/ewheatfarm.h \
     buildings/ewinery.h \
     characters/actions/eactionwithcomeback.h \
     characters/actions/eanimalaction.h \

@@ -5,10 +5,7 @@
 
 enum class eResourceBuildingType {
     oliveTree,
-    vine,
-    wheat,
-    carrots,
-    onions
+    vine
 };
 
 class eResourceBuilding : public eBuilding {
@@ -23,7 +20,7 @@ public:
     bool fullyRipe() const { return mRipe == 5; }
     int ripe() const { return mRipe; }
     int resource() const { return mResource; }
-    void takeResource(const int by);
+    int takeResource(const int by);
     void timeChanged();
 private:
     const eResourceBuildingType mType;

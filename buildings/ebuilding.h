@@ -27,10 +27,11 @@ enum class eBuildingType {
 
     oliveTree,
     vine,
-    plantation,
-    wheat,
-    carrots,
-    onions,
+
+    wheatFarm,
+    carrotsFarm,
+    onionsFarm,
+
     huntingLodge,
     fishery,
     urchinQuay,
