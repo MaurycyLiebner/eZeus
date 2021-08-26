@@ -131,6 +131,12 @@ public:
     eTextureCollection fLargeCheckBox;
 
     eTexture fSpawner;
+
+    //
+
+    eTexture fDrachmasTopMenu;
+    eTexture fPopulationTopMenu;
+    eTexture fDrachmasUnit;
 };
 
 #endif // EINTERFACETEXTURES_H

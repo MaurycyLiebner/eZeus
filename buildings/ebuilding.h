@@ -13,19 +13,25 @@ class eTile;
 
 enum class eBuildingType {
     none = -1,
+    erase,
 
     commonHouse,
+    eliteHousing,
 
     gymnasium,
     college,
     dramaSchool,
     podium,
     theater,
+
     stadium1,
     stadium2,
 
     fountain,
     hospital,
+
+    goat,
+    sheep,
 
     oliveTree,
     vine,

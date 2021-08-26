@@ -100,6 +100,7 @@ SOURCES += \
         emusic.cpp \
         engine/boardData/eemploymentdata.cpp \
         engine/boardData/epopulationdata.cpp \
+        engine/edifficulty.cpp \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
@@ -151,6 +152,7 @@ SOURCES += \
         widgets/datawidgets/eemploymentdatawidget.cpp \
         widgets/datawidgets/epopulationdatawidget.cpp \
         widgets/eactionlistwidget.cpp \
+        widgets/ebuildingmode.cpp \
         widgets/ebutton.cpp \
         widgets/echeckablebutton.cpp \
         widgets/echeckbox.cpp \
@@ -269,6 +271,7 @@ HEADERS += \
     emusic.h \
     engine/boardData/eemploymentdata.h \
     engine/boardData/epopulationdata.h \
+    engine/edifficulty.h \
     engine/efunctask.h \
     engine/egameboard.h \
     engine/egameboarditerator.h \
@@ -328,6 +331,7 @@ HEADERS += \
     widgets/datawidgets/eemploymentdatawidget.h \
     widgets/datawidgets/epopulationdatawidget.h \
     widgets/eactionlistwidget.h \
+    widgets/ebuildingmode.h \
     widgets/ebutton.h \
     widgets/echeckablebutton.h \
     widgets/echeckbox.h \

@@ -110,9 +110,8 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
 }
 
 void eInterfaceTextures::load() {
-    std::string dir{"../ZeusTextures/"};
-    dir += std::to_string(fTileH) + "/";
-    dir += "Zeus_Interface/";
+    const std::string basedir{"../ZeusTextures/" + std::to_string(fTileH) + "/"};
+    const auto dir = basedir + "Zeus_Interface/";
 
     {
         const std::string pathBase{dir + "Zeus_Interface_New_Bbuttons_"};
@@ -457,10 +456,18 @@ void eInterfaceTextures::load() {
     fSpawner.load(fRenderer, dir + "Zeus_sprites_00026.png");
 
     {
-        std::string dir{"../ZeusTextures/"};
-        dir += std::to_string(fTileH) + "/Zeus_Data_Images/";
+        const auto dir = basedir + "/Zeus_Data_Images/";
 
         fLoadImage.load(fRenderer, dir + "Zeus_Load1.jpg");
         fMainMenuImage.load(fRenderer, dir + "Zeus_FE_Registry.jpg");
+    }
+
+    {
+        const auto dir = basedir + "/Zeus_General/";
+        const auto pathBase = dir + "Zeus_Stor-bays_";
+
+        fDrachmasUnit.load(fRenderer, pathBase + "00184.png");
+        fDrachmasTopMenu.load(fRenderer, pathBase + "00185.png");
+        fPopulationTopMenu.load(fRenderer, pathBase + "00186.png");
     }
 }

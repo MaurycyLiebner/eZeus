@@ -9,6 +9,8 @@
 #include "boardData/epopulationdata.h"
 #include "boardData/eemploymentdata.h"
 
+#include "edifficulty.h"
+
 class eSpawner;
 class eCharacter;
 class eBuilding;
@@ -66,9 +68,15 @@ public:
     ePopulationData& populationData() { return mPopData; }
 
     eEmploymentData& employmentData() { return mEmplData; }
+
+    int drachmas() const { return mDrachmas; }
+    eDifficulty difficulty() const { return mDifficulty; }
 private:
     void updateDiagonalArray();
     void updateNeighbours();
+
+    int mDrachmas = 2500;
+    eDifficulty mDifficulty = eDifficulty::beginner;
 
     eThreadPool* mThreadPool = nullptr;
 

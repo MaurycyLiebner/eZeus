@@ -3,11 +3,35 @@
 
 #include "eframedwidget.h"
 
+class eActionListWidget;
+
+class eActionInstance {
+public:
+    eActionInstance(eActionListWidget* const parent,
+                    const eAction& a);
+
+    int width() const;
+    int height() const;
+
+    void addText(const int margin, const std::string& text);
+    void addTexture(const int margin, const eTexture& tex);
+
+    const eAction& action() const;
+
+    void draw(ePainter& p, const SDL_Rect& rect) const;
+private:
+    eActionListWidget* const mParent;
+    const eAction mAction;
+    std::vector<eTexture> mTextures;
+    std::vector<int> mMargins;
+};
+
 class eActionListWidget : public eFramedWidget {
 public:
     using eFramedWidget::eFramedWidget;
 
-    void addAction(const std::string& text, const eAction& a);
+    eTexture textToTexture(const std::string& text);
+    eActionInstance& addAction(const std::string& text, const eAction& a);
     void setSmallFontSize();
 protected:
     void sizeHint2(int& w, int& h);
@@ -22,8 +46,7 @@ private:
 
     int mHoverId = -1;
 
-    std::vector<eTexture> mTextures;
-    std::vector<eAction> mActions;
+    std::vector<eActionInstance> mActions;
 };
 
 #endif // EACTIONLISTWIDGET_H

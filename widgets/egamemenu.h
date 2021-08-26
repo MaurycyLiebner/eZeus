@@ -2,6 +2,7 @@
 #define EGAMEMENU_H
 
 #include "egamemenubase.h"
+#include "ebuildingmode.h"
 
 class eCheckableButton;
 class eTextureCollection;
@@ -13,63 +14,7 @@ class eEmploymentDataWidget;
 
 struct eSubButtonData;
 
-enum class eBuildingMode {
-    none,
-    erase,
-
-    road,
-
-    commonHousing,
-    eliteHousing,
-
-    wheatFarm,
-    carrotFarm,
-    onionFarm,
-
-    vine,
-    oliveTree,
-    growersLodge,
-
-    dairy,
-    goat,
-    cardingShed,
-    sheep,
-
-    fishery,
-    urchinQuay,
-    huntingLodge,
-
-    mint,
-    foundry,
-    timberMill,
-    masonryShop,
-
-    winery,
-    olivePress,
-    sculptureStudio,
-    artisansGuild,
-    armory,
-
-    podium,
-    college,
-
-    theater,
-    dramaSchool,
-
-    gymnasium,
-    stadium,
-
-    granary,
-    warehouse,
-
-    maintenanceOffice,
-    fountain,
-    hospital,
-    watchpost,
-
-    taxOffice,
-    palace
-};
+class eContextMenu;
 
 class eGameMenu : public eGameMenuBase {
 public:
@@ -87,6 +32,10 @@ private:
     using eButtonsDataVec = std::vector<eSubButtonData>;
     eWidget* createSubButtons(const int resoltuionMult,
                               const eButtonsDataVec& buttons);
+    using eSPR = std::pair<eBuildingMode, std::string>;
+    void addAction(const eSPR& c, const int mult,
+                   const eInterfaceTextures& coll,
+                   eContextMenu* const cm);
 
     eGameBoard* mBoard{nullptr};
 

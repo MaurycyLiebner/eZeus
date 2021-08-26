@@ -49,14 +49,17 @@ void ePopulationDataWidget::paintEvent(ePainter& p) {
         const int p = popData.population();
         mPopLabel->setText(std::to_string(p));
         mPopLabel->fitContent();
+        mPopLabel->align(eAlignment::hcenter);
 
         const int v = popData.vacancies();
         mVacLabel->setText(std::to_string(v));
         mVacLabel->fitContent();
+        mVacLabel->align(eAlignment::hcenter);
 
         const int s = popData.settlers();
         mSetLabel->setText(std::to_string(s));
         mSetLabel->fitContent();
+        mSetLabel->align(eAlignment::hcenter);
     }
     eWidget::paintEvent(p);
 }
