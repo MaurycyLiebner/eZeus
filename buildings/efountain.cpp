@@ -8,6 +8,6 @@ eFountain::eFountain(eGameBoard& board) :
                     -1.15, -2.37,
                     &eBuildingTextures::fFountainOverlay,
                     [this]() { return e::make_shared<eWaterDistributor>(getBoard()); },
-                    eBuildingType::fountain, 2, 2)  {
+                    eBuildingType::fountain, 2, 2, 4)  {
 
 }

@@ -1,13 +1,13 @@
 #ifndef EBUILDINGWITHRESOURCE_H
 #define EBUILDINGWITHRESOURCE_H
 
-#include "ebuilding.h"
+#include "eemployingbuilding.h"
 
 #include "engine/eresourcetype.h"
 
-class eBuildingWithResource : public eBuilding {
+class eBuildingWithResource : public eEmployingBuilding {
 public:
-    using eBuilding::eBuilding;
+    using eEmployingBuilding::eEmployingBuilding;
 
     virtual int add(const eResourceType type, const int count) = 0;
     virtual int take(const eResourceType type, const int count) = 0;

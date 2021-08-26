@@ -10,11 +10,19 @@ void eEmploymentDataWidget::initialize() {
     p->fitContent();
     mPensionsLabel = new eLabel("-", window());
     mPensionsLabel->fitContent();
+
+    const auto w = new eLabel("Workforce:", window());
+    w->setSmallFontSize();
+    w->fitContent();
+    mWorkforceLabel = new eLabel("-", window());
+    mWorkforceLabel->fitContent();
+
     mUnemployedLabel = new eLabel("Unemployed:", window());
     mUnemployedLabel->setSmallFontSize();
     mUnemployedLabel->fitContent();
     mUnemployedNLabel = new eLabel("-", window());
     mUnemployedNLabel->fitContent();
+
     mVacanciesLabel = new eLabel("Job Vacancies:", window());
     mVacanciesLabel->setSmallFontSize();
     mVacanciesLabel->fitContent();
@@ -23,6 +31,8 @@ void eEmploymentDataWidget::initialize() {
 
     addWidget(p);
     addWidget(mPensionsLabel);
+    addWidget(w);
+    addWidget(mWorkforceLabel);
     addWidget(mUnemployedLabel);
     addWidget(mUnemployedNLabel);
     layoutVertically();
@@ -35,9 +45,11 @@ void eEmploymentDataWidget::initialize() {
     mVacanciesNLabel->hide();
 
     p->align(eAlignment::hcenter);
+    w->align(eAlignment::hcenter);
     mUnemployedLabel->align(eAlignment::hcenter);
     mVacanciesLabel->align(eAlignment::hcenter);
     mPensionsLabel->align(eAlignment::hcenter);
+    mWorkforceLabel->align(eAlignment::hcenter);
     mUnemployedNLabel->align(eAlignment::hcenter);
     mVacanciesNLabel->align(eAlignment::hcenter);
 }
@@ -51,7 +63,7 @@ void eEmploymentDataWidget::paintEvent(ePainter& p) {
     if(update && mBoard) {
         const auto& emplData = mBoard->employmentData();
 
-        const bool vacsVisible = emplData.jobVacancies() > 0;
+        const bool vacsVisible = emplData.freeJobVacancies() > 0;
         mVacanciesLabel->setVisible(vacsVisible);
         mVacanciesNLabel->setVisible(vacsVisible);
 
@@ -62,11 +74,15 @@ void eEmploymentDataWidget::paintEvent(ePainter& p) {
         mPensionsLabel->setText(std::to_string(p));
         mPensionsLabel->fitContent();
 
-        const int v = emplData.jobVacancies();
+        const int w = emplData.employable();
+        mWorkforceLabel->setText(std::to_string(w));
+        mWorkforceLabel->fitContent();
+
+        const int v = emplData.freeJobVacancies();
         mVacanciesNLabel->setText(std::to_string(v));
         mVacanciesNLabel->fitContent();
 
-        const int u = emplData.pensions();
+        const int u = emplData.unemployed();
         mUnemployedNLabel->setText(std::to_string(u));
         mUnemployedNLabel->fitContent();
     }

@@ -9,5 +9,5 @@ ePodium::ePodium(eGameBoard& board) :
                     -2.25, -3.78,
                     &eBuildingTextures::fPodiumOverlay,
                     [this]() { return e::make_shared<ePhilosopher>(getBoard()); },
-                    eBuildingType::podium, 2, 2) {
+                    eBuildingType::podium, 2, 2, 4) {
 }

@@ -15,6 +15,12 @@ public:
                            eCartTransporter* const c,
                            const eCartActionType aType,
                            const eResourceType resType,
+                           const eAction& failAction,
+                           const eAction& finishAction);
+    eCartTransporterAction(const SDL_Rect& buildingRect,
+                           eCartTransporter* const c,
+                           const eCartActionType aType,
+                           const eResourceType resType,
                            const eAction& foundAction,
                            const eAction& failAction,
                            const eAction& finishAction);

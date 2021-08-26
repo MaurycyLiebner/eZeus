@@ -10,6 +10,7 @@ public:
     eResourceBuildingBase(eGameBoard& board,
                           const eBuildingType type,
                           const int sw, const int sh,
+                          const int maxEmployees,
                           const eResourceType resType);
 
     int add(const eResourceType type, const int count);

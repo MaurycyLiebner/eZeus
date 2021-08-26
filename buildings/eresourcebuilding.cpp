@@ -56,7 +56,7 @@ void eResourceBuilding::timeChanged() {
         }
         if(++mRipe == 5) {
             mResource = 1;
-            mNextRipe = time() + 5*mRipeWait;
+            mNextRipe = time() + 2*mRipeWait;
         }
     }
 }

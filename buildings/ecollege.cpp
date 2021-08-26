@@ -5,7 +5,7 @@
 #include "textures/egametextures.h"
 
 eCollege::eCollege(eGameBoard& board) :
-    eBuilding(board, eBuildingType::college, 3, 3),
+    eEmployingBuilding(board, eBuildingType::college, 3, 3, 12),
     mTextures(eGameTextures::buildings()) {
 
 }

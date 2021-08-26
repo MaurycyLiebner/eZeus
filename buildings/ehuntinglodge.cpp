@@ -10,8 +10,8 @@
 #include "characters/actions/ecollectresourceaction.h"
 
 eHuntingLodge::eHuntingLodge(eGameBoard& board) :
-    eResourceBuildingBase(board, eBuildingType::huntingLodge, 2, 2,
-                          eResourceType::meat),
+    eResourceBuildingBase(board, eBuildingType::huntingLodge,
+                          2, 2, 8, eResourceType::meat),
     mTextures(eGameTextures::buildings())  {
 
 }

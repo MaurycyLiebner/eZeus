@@ -20,6 +20,7 @@ SOURCES += \
         buildings/ecarrotfarm.cpp \
         buildings/ecollege.cpp \
         buildings/edramaschool.cpp \
+        buildings/eemployingbuilding.cpp \
         buildings/efarmbase.cpp \
         buildings/efoundry.cpp \
         buildings/efountain.cpp \
@@ -187,6 +188,7 @@ HEADERS += \
     buildings/ecarrotfarm.h \
     buildings/ecollege.h \
     buildings/edramaschool.h \
+    buildings/eemployingbuilding.h \
     buildings/efarmbase.h \
     buildings/efoundry.h \
     buildings/efountain.h \

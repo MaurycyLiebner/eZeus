@@ -18,6 +18,6 @@ eMaintenanceOffice::eMaintenanceOffice(eGameBoard& board) :
                     &eBuildingTextures::fMaintenanceOfficeOverlay,
                     [this]() { return e::make_shared<eFireFighter>(getBoard()); },
                     gFireFighterActGenerator,
-                    eBuildingType::maintenanceOffice, 2, 2)  {
+                    eBuildingType::maintenanceOffice, 2, 2, 5)  {
 
 }

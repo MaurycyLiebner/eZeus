@@ -7,16 +7,19 @@ class eEmploymentData {
 public:
     eEmploymentData(const ePopulationData& popData);
 
-    void incEmployed(const int p);
+    void incTotalJobVacancies(const int v);
 
-    int employed() const { return mEmployed; }
-
+    int employable() const;
+    int employed() const;
     int pensions() const;
     int unemployed() const;
-    int jobVacancies() const;
+    int freeJobVacancies() const;
+    int totalJobVacancies() const;
+
+    double employedFraction() const;
 private:
     const ePopulationData& mPopData;
-    int mEmployed{0};
+    int mTotalJobVacs{0};
 };
 
 #endif // EEMPLOYMENTDATA_H

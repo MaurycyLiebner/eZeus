@@ -17,6 +17,7 @@ public:
                         const eOverlays overlays,
                         const eBuildingType type,
                         const int sw, const int sh,
+                        const int maxEmployees,
                         const eResourceType rawMaterial,
                         const eResourceType product,
                         const int rawUse,
@@ -56,7 +57,6 @@ private:
 
     int mSpawnWaitTime = 5000;
     int mSpawnTime = mSpawnWaitTime;
-    bool mSpawned{false};
 };
 
 #endif // EPROCESSINGBUILDING_H

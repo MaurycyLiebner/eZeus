@@ -24,6 +24,7 @@ public:
                              const eHasResource& hr,
                              const eTranformFunc& tf,
                              const int sw, const int sh,
+                             const int maxEmployees,
                              const eResourceType resType);
 
     eTexture getTexture(const eTileSize size) const;

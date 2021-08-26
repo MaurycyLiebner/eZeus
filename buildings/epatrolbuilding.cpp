@@ -12,8 +12,9 @@ ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
                                  const eCharGenerator& charGen,
                                  const eActGenerator& actGen,
                                  const eBuildingType type,
-                                 const int sw, const int sh) :
-    eBuilding(board, type, sw, sh),
+                                 const int sw, const int sh,
+                                 const int maxEmployees) :
+    eEmployingBuilding(board, type, sw, sh, maxEmployees),
     mCharGenerator(charGen),
     mActGenerator(actGen),
     mTextures(eGameTextures::buildings()),
@@ -38,10 +39,11 @@ ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
                                  const eOverlays overlays,
                                  const eCharGenerator& charGen,
                                  const eBuildingType type,
-                                 const int sw, const int sh) :
+                                 const int sw, const int sh,
+                                 const int maxEmployees) :
     ePatrolBuilding(board, baseTex, overlayX, overlayY,
                     overlays, charGen, gDefaultActGenerator,
-                    type, sw, sh) {
+                    type, sw, sh, maxEmployees) {
 
 }
 

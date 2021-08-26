@@ -1,12 +1,12 @@
 #ifndef EPATROLBUILDING_H
 #define EPATROLBUILDING_H
 
-#include "ebuilding.h"
+#include "eemployingbuilding.h"
 
 #include "characters/actions/epatrolaction.h"
 #include "textures/ebuildingtextures.h"
 
-class ePatrolBuilding : public eBuilding {
+class ePatrolBuilding : public eEmployingBuilding {
 public:
     using eBaseTex = eTexture eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;
@@ -24,7 +24,8 @@ public:
                     const eCharGenerator& charGen,
                     const eActGenerator& actGen,
                     const eBuildingType type,
-                    const int sw, const int sh);
+                    const int sw, const int sh,
+                    const int maxEmployees);
     ePatrolBuilding(eGameBoard& board,
                     const eBaseTex baseTex,
                     const double overlayX,
@@ -32,7 +33,8 @@ public:
                     const eOverlays overlays,
                     const eCharGenerator& charGen,
                     const eBuildingType type,
-                    const int sw, const int sh);
+                    const int sw, const int sh,
+                    const int maxEmployees);
 
     eTexture getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;

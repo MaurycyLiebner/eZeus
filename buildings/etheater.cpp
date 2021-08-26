@@ -5,7 +5,7 @@
 #include "textures/egametextures.h"
 
 eTheater::eTheater(eGameBoard& board) :
-    eBuilding(board, eBuildingType::theater, 5, 5),
+    eEmployingBuilding(board, eBuildingType::theater, 5, 5, 18),
     mTextures(eGameTextures::buildings()) {
 
 }

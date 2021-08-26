@@ -5,7 +5,7 @@
 #include "textures/egametextures.h"
 
 eDramaSchool::eDramaSchool(eGameBoard& board) :
-    eBuilding(board, eBuildingType::dramaSchool, 3, 3),
+    eEmployingBuilding(board, eBuildingType::dramaSchool, 3, 3, 10),
     mTextures(eGameTextures::buildings()) {
 
 }

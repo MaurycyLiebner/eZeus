@@ -5,7 +5,7 @@ eOlivePress::eOlivePress(eGameBoard& board) :
                         &eBuildingTextures::fOlivePress,
                         -3.65, -3.75,
                         &eBuildingTextures::fOlivePressOverlay,
-                        eBuildingType::olivePress, 2, 2,
+                        eBuildingType::olivePress, 2, 2, 12,
                         eResourceType::olives,
                         eResourceType::oliveOil, 1, 2) {
 

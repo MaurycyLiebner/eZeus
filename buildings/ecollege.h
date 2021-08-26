@@ -1,11 +1,11 @@
 #ifndef ECOLLEGE_H
 #define ECOLLEGE_H
 
-#include "ebuilding.h"
+#include "eemployingbuilding.h"
 #include "textures/ebuildingtextures.h"
 #include "characters/actions/epatrolaction.h"
 
-class eCollege : public eBuilding {
+class eCollege : public eEmployingBuilding {
 public:
     eCollege(eGameBoard& board);
 

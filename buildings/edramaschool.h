@@ -1,11 +1,11 @@
 #ifndef EDRAMASCHOOL_H
 #define EDRAMASCHOOL_H
 
-#include "ebuilding.h"
+#include "eemployingbuilding.h"
 #include "textures/ebuildingtextures.h"
 #include "characters/actions/epatrolaction.h"
 
-class eDramaSchool : public eBuilding {
+class eDramaSchool : public eEmployingBuilding {
 public:
     eDramaSchool(eGameBoard& board);
 

@@ -4,7 +4,8 @@
 #include "characters/actions/ecollectresourceaction.h"
 #include "textures/egametextures.h"
 
-eResourceCollectBuilding::eResourceCollectBuilding(eGameBoard& board,
+eResourceCollectBuilding::eResourceCollectBuilding(
+        eGameBoard& board,
         const eBaseTex baseTex,
         const double overlayX,
         const double overlayY,
@@ -14,8 +15,9 @@ eResourceCollectBuilding::eResourceCollectBuilding(eGameBoard& board,
         const eHasResource& hr,
         const eTranformFunc& tf,
         const int sw, const int sh,
+        const int maxEmployees,
         const eResourceType resType) :
-    eResourceBuildingBase(board, type, sw, sh, resType),
+    eResourceBuildingBase(board, type, sw, sh, maxEmployees, resType),
     mCharGenerator(charGen),
     mTextures(eGameTextures::buildings()),
     mBaseTex(baseTex), mOverlays(overlays),

@@ -1,11 +1,11 @@
 #ifndef ESTADIUM1_H
 #define ESTADIUM1_H
 
-#include "ebuilding.h"
+#include "eemployingbuilding.h"
 #include "textures/ebuildingtextures.h"
 #include "characters/actions/epatrolaction.h"
 
-class eStadium1W : public eBuilding {
+class eStadium1W : public eEmployingBuilding {
 public:
     eStadium1W(eGameBoard& board);
 
@@ -14,7 +14,7 @@ private:
     const std::vector<eBuildingTextures>& mTextures;
 };
 
-class eStadium1H : public eBuilding {
+class eStadium1H : public eEmployingBuilding {
 public:
     eStadium1H(eGameBoard& board);
 

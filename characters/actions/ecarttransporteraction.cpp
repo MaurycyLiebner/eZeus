@@ -22,6 +22,18 @@ eCartTransporterAction::eCartTransporterAction(
 
 }
 
+eCartTransporterAction::eCartTransporterAction(
+        const SDL_Rect& buildingRect,
+        eCartTransporter* const c,
+        const eCartActionType aType,
+        const eResourceType resType,
+        const eAction& failAction,
+        const eAction& finishAction) :
+    eCartTransporterAction(buildingRect, c, aType, resType,
+                           []() {}, failAction, finishAction) {
+
+}
+
 void eCartTransporterAction::increment(const int by) {
     if(!currentAction()) findTarget();
     eActionWithComeback::increment(by);

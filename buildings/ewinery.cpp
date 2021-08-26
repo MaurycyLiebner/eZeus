@@ -5,7 +5,7 @@ eWinery::eWinery(eGameBoard& board) :
                         &eBuildingTextures::fWinery,
                         -2.2, -3.25,
                         &eBuildingTextures::fWineryOverlay,
-                        eBuildingType::winery, 2, 2,
+                        eBuildingType::winery, 2, 2, 12,
                         eResourceType::grapes,
                         eResourceType::wine, 1, 2) {
 

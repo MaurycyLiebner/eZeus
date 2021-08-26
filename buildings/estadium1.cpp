@@ -5,7 +5,7 @@
 #include "textures/egametextures.h"
 
 eStadium1W::eStadium1W(eGameBoard& board) :
-    eBuilding(board, eBuildingType::stadium1, 5, 5),
+    eEmployingBuilding(board, eBuildingType::stadium1, 5, 5, 45),
     mTextures(eGameTextures::buildings()) {
 
 }
@@ -16,7 +16,7 @@ eTexture eStadium1W::getTexture(const eTileSize size) const {
 }
 
 eStadium1H::eStadium1H(eGameBoard& board) :
-    eBuilding(board, eBuildingType::stadium1, 5, 5),
+    eEmployingBuilding(board, eBuildingType::stadium1, 5, 5, 45),
     mTextures(eGameTextures::buildings()) {
 
 }

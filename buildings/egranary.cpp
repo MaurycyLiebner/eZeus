@@ -3,7 +3,7 @@
 #include "textures/egametextures.h"
 
 eGranary::eGranary(eGameBoard& board) :
-    eStorageBuilding(board, eBuildingType::granary, 4, 4),
+    eStorageBuilding(board, eBuildingType::granary, 4, 4, 18),
     mTextures(eGameTextures::buildings()) {
     setAccepts(eResourceType::food);
 }

@@ -6,8 +6,9 @@ eResourceBuildingBase::eResourceBuildingBase(
         eGameBoard& board,
         const eBuildingType type,
         const int sw, const int sh,
+        const int maxEmployees,
         const eResourceType resType) :
-    eBuildingWithResource(board, type, sw, sh),
+    eBuildingWithResource(board, type, sw, sh, maxEmployees),
     mResType(resType) {
 
 }

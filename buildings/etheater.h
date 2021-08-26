@@ -1,11 +1,11 @@
 #ifndef ETHEATER_H
 #define ETHEATER_H
 
-#include "ebuilding.h"
+#include "eemployingbuilding.h"
 #include "textures/ebuildingtextures.h"
 #include "characters/actions/epatrolaction.h"
 
-class eTheater : public eBuilding {
+class eTheater : public eEmployingBuilding {
 public:
     eTheater(eGameBoard& board);
 

@@ -3,7 +3,7 @@
 #include "textures/egametextures.h"
 
 eWarehouse::eWarehouse(eGameBoard& board) :
-    eStorageBuilding(board, eBuildingType::warehouse, 3, 3),
+    eStorageBuilding(board, eBuildingType::warehouse, 3, 3, 12),
     mTextures(eGameTextures::buildings()) {
     setAccepts(eResourceType::allButFood | eResourceType::wheat);
 }

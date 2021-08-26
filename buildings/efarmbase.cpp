@@ -6,7 +6,7 @@ eFarmBase::eFarmBase(eGameBoard& board,
                      const eBuildingType type,
                      const int sw, const int sh,
                      const eResourceType resType) :
-    eResourceBuildingBase(board, type, sw, sh, resType),
+    eResourceBuildingBase(board, type, sw, sh, 10, resType),
     mTextures(eGameTextures::buildings())  {
 
 }

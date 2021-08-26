@@ -9,6 +9,6 @@ eGymnasium::eGymnasium(eGameBoard& board) :
                     -2.57, -4.57,
                     &eBuildingTextures::fGymnasiumOverlay,
                     [this]() { return e::make_shared<eGymnast>(getBoard()); },
-                    eBuildingType::gymnasium, 3, 3) {
+                    eBuildingType::gymnasium, 3, 3, 7) {
 
 }

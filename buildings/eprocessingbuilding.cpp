@@ -3,18 +3,20 @@
 #include "characters/actions/ecarttransporteraction.h"
 #include "textures/egametextures.h"
 
-eProcessingBuilding::eProcessingBuilding(eGameBoard& board,
+eProcessingBuilding::eProcessingBuilding(
+        eGameBoard& board,
         const eBaseTex baseTex,
         const double overlayX,
         const double overlayY,
         const eOverlays overlays,
         const eBuildingType type,
         const int sw, const int sh,
+        const int maxEmployees,
         const eResourceType rawMaterial,
         const eResourceType product,
         const int rawUse,
         const int time) :
-    eResourceBuildingBase(board, type, sw, sh, product),
+    eResourceBuildingBase(board, type, sw, sh, maxEmployees, product),
     mTextures(eGameTextures::buildings()),
     mBaseTex(baseTex), mOverlays(overlays),
     mOverlayX(overlayX), mOverlayY(overlayY),
@@ -41,14 +43,14 @@ std::vector<eOverlay> eProcessingBuilding::getOverlays(
 }
 
 void eProcessingBuilding::timeChanged() {
-    if(!mSpawned && mRawCount < mMaxRaw && time() > mSpawnTime) {
-        mSpawned = spawnRawGetter();
+    if(!mRawCart && mRawCount < mMaxRaw && time() > mSpawnTime) {
+        spawnRawGetter();
         mSpawnTime = time() + mSpawnWaitTime;
     }
     if(time() > mProcessTime) {
         if(mRawCount >= mRawUse) {
             const int c = add(resourceType(), 1);
-            if(c == 1) mRawCount -= mRawUse;
+            mRawCount -= c*mRawUse;
         }
         mProcessTime = time() + mProcessWaitTime;
     }
@@ -85,13 +87,12 @@ bool eProcessingBuilding::spawnRawGetter() {
     const eStdPointer<eProcessingBuilding> rcptr(this);
     const auto failAct = [tptr, this] {
         if(!tptr) return;
-        mSpawned = false;
         if(mRawCart && mRawCart->dead()) {
             mSpawnTime = time() + mSpawnWaitTime;
+            mRawCart.reset();
         } else {
             killCart();
         }
-        mRawCart = nullptr;
     };
     const auto finishAct = [tptr, this]() {
         if(tptr) depositRaw();
@@ -121,7 +122,7 @@ void eProcessingBuilding::depositRaw() {
 }
 
 void eProcessingBuilding::killCart() {
-    mSpawned = false;
     mSpawnTime = time() + mSpawnWaitTime;
+    mRawCart->changeTile(nullptr);
     mRawCart.reset();
 }

@@ -20,6 +20,8 @@ private:
 
     eLabel* mPensionsLabel = nullptr;
 
+    eLabel* mWorkforceLabel = nullptr;
+
     eLabel* mUnemployedLabel = nullptr;
     eLabel* mUnemployedNLabel = nullptr;
 
