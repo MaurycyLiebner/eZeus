@@ -14,7 +14,7 @@ public:
               eWidget* const w);
 
 protected:
-    bool mousePressEvent(const eMouseEvent& e);
+    bool mouseReleaseEvent(const eMouseEvent& e);
 private:
     using eWidget::setHeight;
     using eWidget::setWidth;

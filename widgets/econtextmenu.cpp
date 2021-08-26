@@ -15,8 +15,8 @@ void eContextMenu::exec(const int x, const int y,
     fitContent();
 }
 
-bool eContextMenu::mousePressEvent(const eMouseEvent& e) {
-    eActionListWidget::mousePressEvent(e);
+bool eContextMenu::mouseReleaseEvent(const eMouseEvent& e) {
+    eActionListWidget::mouseReleaseEvent(e);
     deleteLater();
     return true;
 }

@@ -12,7 +12,7 @@ public:
 protected:
     void sizeHint2(int& w, int& h);
     void paintEvent(ePainter& p);
-    bool mousePressEvent(const eMouseEvent& e);
+    bool mouseReleaseEvent(const eMouseEvent& e);
     bool mouseMoveEvent(const eMouseEvent& e);
 private:
     int yToActionId(const int y) const;
