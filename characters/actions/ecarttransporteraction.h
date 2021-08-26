@@ -15,6 +15,7 @@ public:
                            eCartTransporter* const c,
                            const eCartActionType aType,
                            const eResourceType resType,
+                           const eAction& foundAction,
                            const eAction& failAction,
                            const eAction& finishAction);
 
@@ -27,6 +28,7 @@ private:
     const eCartActionType mActionType;
     const eResourceType mResource;
     const SDL_Rect mBuildingRect;
+    const eAction mFoundAction;
     eOrientation mBuildingO;
 };
 

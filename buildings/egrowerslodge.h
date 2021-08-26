@@ -24,7 +24,8 @@ public:
     int spaceLeft(const eResourceType type) const;
 
     bool spawnCart(const eResourceType resType);
-    bool spawnGrower(stdsptr<eGrower> eGrowersLodge::*grower);
+    using eGrowerPtr = stdsptr<eGrower> eGrowersLodge::*;
+    bool spawnGrower(const eGrowerPtr grower);
 private:
     const std::vector<eBuildingTextures>& mTextures;
 

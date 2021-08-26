@@ -718,9 +718,9 @@ void eGameWidget::paintEvent(ePainter& p) {
 
 bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
     if(e.key() == SDL_Scancode::SDL_SCANCODE_KP_PLUS) {
-        mSpeed = std::clamp(mSpeed + 1, 1, 100);
+        mSpeed = std::clamp(mSpeed + 1, 1, 50);
     } else if(e.key() == SDL_Scancode::SDL_SCANCODE_KP_MINUS) {
-        mSpeed = std::clamp(mSpeed - 1, 1, 100);
+        mSpeed = std::clamp(mSpeed - 1, 1, 50);
     } else if(e.key() == SDL_Scancode::SDL_SCANCODE_R) {
         mRotate = !mRotate;
     } else if(e.key() == SDL_Scancode::SDL_SCANCODE_LEFT) {

@@ -57,4 +57,5 @@ void eFarmBase::timeChanged() {
             mRipe = 0;
         }
     }
+    eResourceBuildingBase::timeChanged();
 }

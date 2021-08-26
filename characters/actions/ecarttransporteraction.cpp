@@ -11,11 +11,14 @@ eCartTransporterAction::eCartTransporterAction(
         eCartTransporter* const c,
         const eCartActionType aType,
         const eResourceType resType,
+        const eAction& foundAction,
         const eAction& failAction,
         const eAction& finishAction) :
     eActionWithComeback(c, failAction, finishAction),
-    mActionType(aType), mResource(resType),
-    mBuildingRect(buildingRect) {
+    mActionType(aType),
+    mResource(resType),
+    mBuildingRect(buildingRect),
+    mFoundAction(foundAction) {
 
 }
 
@@ -68,6 +71,7 @@ void eCartTransporterAction::findTarget() {
     const auto finishFunc = [tptr, this, c, walkable](
                             std::vector<eOrientation> path) {
         if(!tptr) return;
+        mFoundAction();
         if(path.empty()) {
             tptr->setState(eCharacterActionState::failed);
             return;

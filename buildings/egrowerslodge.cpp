@@ -44,7 +44,7 @@ std::vector<eOverlay> eGrowersLodge::
         const int res = std::clamp(mOlives - 1, 0, resMax);
         olives.fTex = coll.getTexture(res);
         olives.fX = -0.5;
-        olives.fY = -2;
+        olives.fY = -1.85;
         os.push_back(olives);
     }
     return os;
@@ -64,10 +64,10 @@ void eGrowersLodge::timeChanged() {
         const bool r = spawnCart(eResourceType::olives);
         if(!r) spawnCart(eResourceType::grapes);
     }
+    eBuildingWithResource::timeChanged();
 }
 
-int eGrowersLodge::add(const eResourceType type,
-                       const int count) {
+int eGrowersLodge::add(const eResourceType type, const int count) {
     if(type == eResourceType::olives) {
         const int r = std::clamp(mOlives + count, 0, mMaxResource - mGrapes);
         const int result = r - mOlives;
@@ -82,8 +82,7 @@ int eGrowersLodge::add(const eResourceType type,
     return 0;
 }
 
-int eGrowersLodge::take(const eResourceType type,
-                        const int count) {
+int eGrowersLodge::take(const eResourceType type, const int count) {
     if(type == eResourceType::olives) {
         const int result = std::clamp(count, 0, mOlives);
         mOlives -= result;
@@ -114,14 +113,17 @@ int eGrowersLodge::spaceLeft(const eResourceType type) const {
 }
 
 bool eGrowersLodge::spawnCart(const eResourceType resType) {
-    const int took = take(resType, 8);
-    if(took <= 0) return false;
+    if(count(resType) <= 0) return false;
     mCart = e::make_shared<eCartTransporter>(getBoard());
-    mCart->setResource(resType, took);
     const auto t = tile();
     mCart->changeTile(t);
     const eStdPointer<eGrowersLodge> tptr(this);
     const eStdPointer<eCartTransporter> hptr(mCart);
+    const auto foundAct = [tptr, this, hptr, resType] {
+        if(!tptr || !hptr) return;
+        const int took = take(resType, 8);
+        hptr->setResource(resType, took);
+    };
     const auto finishAct = [tptr, this, hptr]() {
         if(hptr) {
             hptr->changeTile(nullptr);
@@ -131,8 +133,9 @@ bool eGrowersLodge::spawnCart(const eResourceType resType) {
             mCartSpawnTime = time() + mCartWaitTime;
         }
     };
-    const auto failAct = [this, finishAct, took, resType]() {
-        add(resType, took);
+    const auto failAct = [tptr, this, hptr, finishAct]() {
+        if(!tptr || !hptr) return;
+        add(hptr->resourceType(), hptr->resourceCount());
         finishAct();
     };
     const auto a = e::make_shared<eCartTransporterAction>(
@@ -143,7 +146,7 @@ bool eGrowersLodge::spawnCart(const eResourceType resType) {
     return true;
 }
 
-bool eGrowersLodge::spawnGrower(stdsptr<eGrower> eGrowersLodge::*grower) {
+bool eGrowersLodge::spawnGrower(const eGrowerPtr grower) {
     if(mGrapes + mOlives >= mMaxResource) return false;
     const auto t = tile();
     auto& g = this->*grower;
