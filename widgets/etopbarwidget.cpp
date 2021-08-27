@@ -25,29 +25,46 @@ void eTopBarWidget::initialize() {
     const auto& coll = intrfc[icoll];
     setPadding(0);
 
+    const auto s0 = new eWidget(window());
+    s0->setWidth(mult*25);
+
     mDrachmasWidget = new eTopWidget(window());
     mDrachmasWidget->initialize(coll.fDrachmasTopMenu, "-");
 
-    const auto s = new eWidget(window());
-    s->setWidth(mult*35);
+    const auto s1 = new eWidget(window());
+    s1->setWidth(mult*55);
 
     mPopulationWidget = new eTopWidget(window());
     mPopulationWidget->initialize(coll.fPopulationTopMenu, "-");
 
     const auto s2 = new eWidget(window());
-    s2->setWidth(mult*15);
+    s2->setWidth(mult*25);
 
+    mDateLabel = new eLabel(window());
+    const eDate date(30, eMonth::january, -1500);
+    mDateLabel->setText(date.shortString());
+    mDateLabel->fitContent();
+
+    const auto s3 = new eWidget(window());
+    s3->setWidth(mult*20);
+
+    addWidget(s0);
     addWidget(mDrachmasWidget);
-    addWidget(s);
+    addWidget(s1);
     addWidget(mPopulationWidget);
     addWidget(s2);
+    addWidget(mDateLabel);
+    addWidget(s3);
 
     setHeight(16*mult);
-    setWidth(25*mult + mDrachmasWidget->width() + s->width() +
-             mPopulationWidget->width() + s2->width());
+    setWidth(s0->width() +
+             mDrachmasWidget->width() + s1->width() +
+             mPopulationWidget->width() + s2->width() +
+             mDateLabel->width() + s3->width());
 
     mDrachmasWidget->align(eAlignment::vcenter);
     mPopulationWidget->align(eAlignment::vcenter);
+    mDateLabel->align(eAlignment::vcenter);
 
     layoutHorizontally();
 }
@@ -65,6 +82,8 @@ void eTopBarWidget::paintEvent(ePainter& p) {
 
         const int d =  mBoard->drachmas();
         mDrachmasWidget->setText(std::to_string(d));
+
+        mDateLabel->setText(mBoard->date().shortString());
     }
     eFramedWidget::paintEvent(p);
 }

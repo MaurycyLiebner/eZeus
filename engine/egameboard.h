@@ -10,6 +10,7 @@
 #include "boardData/eemploymentdata.h"
 
 #include "edifficulty.h"
+#include "edate.h"
 
 class eSpawner;
 class eCharacter;
@@ -69,15 +70,19 @@ public:
 
     eEmploymentData& employmentData() { return mEmplData; }
 
-    int incDrachmas(const int d);
+    void incDrachmas(const int d);
     int drachmas() const { return mDrachmas; }
     eDifficulty difficulty() const { return mDifficulty; }
+    const eDate& date() const { return mDate; }
 private:
     void updateDiagonalArray();
     void updateNeighbours();
 
     int mDrachmas = 2500;
     eDifficulty mDifficulty = eDifficulty::beginner;
+
+    int mTime = 0;
+    eDate mDate = eDate(1, eMonth::january, -1500);
 
     eThreadPool* mThreadPool = nullptr;
 

@@ -84,6 +84,11 @@ bool eGameBoard::unregisterSpawner(eSpawner* const s) {
 }
 
 void eGameBoard::incTime(const int by) {
+    mTime += by;
+    if(mTime > 250) {
+        mDate.nextDay();
+        mTime = 0;
+    }
     for(const auto c : mCharacters) {
         c->incTime(by);
     }
@@ -95,7 +100,7 @@ void eGameBoard::incTime(const int by) {
     }
 }
 
-int eGameBoard::incDrachmas(const int d) {
+void eGameBoard::incDrachmas(const int d) {
     mDrachmas += d;
 }
 

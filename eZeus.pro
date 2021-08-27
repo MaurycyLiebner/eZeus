@@ -110,6 +110,7 @@ SOURCES += \
         emusic.cpp \
         engine/boardData/eemploymentdata.cpp \
         engine/boardData/epopulationdata.cpp \
+        engine/edate.cpp \
         engine/edifficulty.cpp \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
@@ -292,6 +293,7 @@ HEADERS += \
     emusic.h \
     engine/boardData/eemploymentdata.h \
     engine/boardData/epopulationdata.h \
+    engine/edate.h \
     engine/edifficulty.h \
     engine/efunctask.h \
     engine/egameboard.h \

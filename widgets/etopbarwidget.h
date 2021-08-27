@@ -52,6 +52,7 @@ private:
     eGameBoard* mBoard = nullptr;
     eTopWidget* mDrachmasWidget = nullptr;
     eTopWidget* mPopulationWidget = nullptr;
+    eLabel* mDateLabel = nullptr;
     int mTime = 0;
 };
 
