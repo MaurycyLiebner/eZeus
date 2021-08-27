@@ -1,9 +1,9 @@
 #ifndef EBOAR_H
 #define EBOAR_H
 
-#include "eanimal.h"
+#include "ewildanimal.h"
 
-class eBoar : public eAnimal {
+class eBoar : public eWildAnimal {
 public:
     eBoar(eSpawner* const s, eGameBoard& board);
 };

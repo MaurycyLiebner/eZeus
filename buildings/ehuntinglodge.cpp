@@ -2,12 +2,7 @@
 
 #include "characters/ehunter.h"
 #include "textures/egametextures.h"
-
-#include "characters/ehunter.h"
-#include "characters/eboar.h"
 #include "characters/actions/ehuntaction.h"
-
-#include "characters/actions/ecollectresourceaction.h"
 
 eHuntingLodge::eHuntingLodge(eGameBoard& board) :
     eResourceBuildingBase(board, eBuildingType::huntingLodge,

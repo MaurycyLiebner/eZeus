@@ -8,17 +8,16 @@
 class eAnimal : public eCharacter {
 public:
     using eCharTexs = eAnimalTextures eCharacterTextures::*;
-    eAnimal(eSpawner* const s,
-            eGameBoard& board,
+    eAnimal(eGameBoard& board,
             const eCharTexs charTexs,
             const eCharacterType type);
-    ~eAnimal();
+
+    void setTextures(const eCharTexs& texs);
 
     eTexture getTexture(const eTileSize size) const;
 private:
     const std::vector<eCharacterTextures>& mTextures;
-    const eCharTexs mCharTexs;
-    eSpawner* const mSpawner;
+    eCharTexs mCharTexs;
 };
 
 #endif // EANIMAL_H

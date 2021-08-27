@@ -1,12 +1,11 @@
 #ifndef EDEER_H
 #define EDEER_H
 
-#include "eanimal.h"
+#include "ewildanimal.h"
 
-class eDeer : public eAnimal {
+class eDeer : public eWildAnimal {
 public:
     eDeer(eSpawner* const s, eGameBoard& board);
 };
-
 
 #endif // EDEER_H

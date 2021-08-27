@@ -12,6 +12,9 @@ enum class eCharacterType {
     deer,
     wolf,
 
+    shepherd,
+    goatherd,
+
     sheep,
     goat,
     cattle,

@@ -141,7 +141,7 @@ bool eGrowersLodge::spawnCart(const eResourceType resType) {
     const auto a = e::make_shared<eCartTransporterAction>(
                        tileRect(), mCart.get(),
                        eCartActionType::give, resType,
-                       failAct, finishAct);
+                       foundAct, failAct, finishAct);
     mCart->setAction(a);
     return true;
 }

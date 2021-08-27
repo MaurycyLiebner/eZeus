@@ -17,8 +17,10 @@ SOURCES += \
         buildings/earmory.cpp \
         buildings/ebuilding.cpp \
         buildings/ebuildingwithresource.cpp \
+        buildings/ecardingshed.cpp \
         buildings/ecarrotfarm.cpp \
         buildings/ecollege.cpp \
+        buildings/edairy.cpp \
         buildings/edramaschool.cpp \
         buildings/eemployingbuilding.cpp \
         buildings/efarmbase.cpp \
@@ -43,6 +45,7 @@ SOURCES += \
         buildings/eresourcecollectbuilding.cpp \
         buildings/eroad.cpp \
         buildings/esculpturestudio.cpp \
+        buildings/eshepherbuildingbase.cpp \
         buildings/esmallhouse.cpp \
         buildings/estadium1.cpp \
         buildings/estadium2.cpp \
@@ -72,6 +75,7 @@ SOURCES += \
         characters/actions/epatrolaction.cpp \
         characters/actions/epatrolmoveaction.cpp \
         characters/actions/esettleraction.cpp \
+        characters/actions/eshepherdaction.cpp \
         characters/actions/ewaitaction.cpp \
         characters/eanimal.cpp \
         characters/ebasicpatroler.cpp \
@@ -82,8 +86,11 @@ SOURCES += \
         characters/echaracterbase.cpp \
         characters/edeer.cpp \
         characters/edemeter.cpp \
+        characters/edomesticatedanimal.cpp \
         characters/efightingpatroler.cpp \
         characters/efirefighter.cpp \
+        characters/egoat.cpp \
+        characters/egoatherd.cpp \
         characters/egrower.cpp \
         characters/egymnast.cpp \
         characters/ehealer.cpp \
@@ -92,10 +99,13 @@ SOURCES += \
         characters/ephilosopher.cpp \
         characters/eresourcecollector.cpp \
         characters/esettler.cpp \
+        characters/esheep.cpp \
+        characters/eshepherd.cpp \
         characters/esilverminer.cpp \
         characters/etaxcollector.cpp \
         characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
+        characters/ewildanimal.cpp \
         emainwindow.cpp \
         emusic.cpp \
         engine/boardData/eemploymentdata.cpp \
@@ -188,8 +198,10 @@ HEADERS += \
     buildings/earmory.h \
     buildings/ebuilding.h \
     buildings/ebuildingwithresource.h \
+    buildings/ecardingshed.h \
     buildings/ecarrotfarm.h \
     buildings/ecollege.h \
+    buildings/edairy.h \
     buildings/edramaschool.h \
     buildings/eemployingbuilding.h \
     buildings/efarmbase.h \
@@ -214,6 +226,7 @@ HEADERS += \
     buildings/eresourcecollectbuilding.h \
     buildings/eroad.h \
     buildings/esculpturestudio.h \
+    buildings/eshepherbuildingbase.h \
     buildings/esmallhouse.h \
     buildings/estadium1.h \
     buildings/estadium2.h \
@@ -244,6 +257,7 @@ HEADERS += \
     characters/actions/epatrolaction.h \
     characters/actions/epatrolmoveaction.h \
     characters/actions/esettleraction.h \
+    characters/actions/eshepherdaction.h \
     characters/actions/ewaitaction.h \
     characters/eanimal.h \
     characters/ebasicpatroler.h \
@@ -254,8 +268,11 @@ HEADERS += \
     characters/echaracterbase.h \
     characters/edeer.h \
     characters/edemeter.h \
+    characters/edomesticatedanimal.h \
     characters/efightingpatroler.h \
     characters/efirefighter.h \
+    characters/egoat.h \
+    characters/egoatherd.h \
     characters/egrower.h \
     characters/egymnast.h \
     characters/ehealer.h \
@@ -264,10 +281,13 @@ HEADERS += \
     characters/ephilosopher.h \
     characters/eresourcecollector.h \
     characters/esettler.h \
+    characters/esheep.h \
+    characters/eshepherd.h \
     characters/esilverminer.h \
     characters/etaxcollector.h \
     characters/ewatchman.h \
     characters/ewaterdistributor.h \
+    characters/ewildanimal.h \
     emainwindow.h \
     emusic.h \
     engine/boardData/eemploymentdata.h \

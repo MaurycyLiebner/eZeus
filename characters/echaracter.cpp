@@ -40,18 +40,20 @@ void eCharacter::changeTile(eTile* const t) {
     const auto tsptr = ref<eCharacter>();
     if(mTile) mTile->removeCharacter(tsptr);
     mTile = t;
-    if(mTile) mTile->addCharacter(tsptr);
+    if(t) t->addCharacter(tsptr);
 }
 
 void eCharacter::incTime(const int by) {
     mTime += by;
     if(mAction) {
         if(mAction->state() != eCharacterActionState::running) {
-            mAction.reset();
             changeTile(nullptr);
+            mAction.reset();
         } else {
             mAction->increment(by);
         }
+    } else {
+        changeTile(nullptr);
     }
 }
 

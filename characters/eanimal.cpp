@@ -4,19 +4,17 @@
 
 #include "spawners/eboarspawner.h"
 
-eAnimal::eAnimal(eSpawner* const s,
-                 eGameBoard& board,
+eAnimal::eAnimal(eGameBoard& board,
                  const eCharTexs charTexs,
                  const eCharacterType type) :
     eCharacter(board, type),
     mTextures(eGameTextures::characters()),
-    mCharTexs(charTexs),
-    mSpawner(s) {
+    mCharTexs(charTexs) {
 
 }
 
-eAnimal::~eAnimal() {
-    mSpawner->decCount();
+void eAnimal::setTextures(const eCharTexs& texs) {
+    mCharTexs = texs;
 }
 
 eTexture eAnimal::getTexture(const eTileSize size) const {

@@ -92,7 +92,7 @@ public:
 
     eAnimalTextures fGoat;
     eAnimalTextures fNudeSheep;
-    eAnimalTextures fSheep;
+    eAnimalTextures fFleecedSheep;
 
     eBasicCharacterTextures fSettlers1;
     eBasicCharacterTextures fSettlers2;

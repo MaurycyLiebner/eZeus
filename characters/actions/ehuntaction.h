@@ -5,8 +5,6 @@
 
 #include "characters/ehunter.h"
 
-class eThreadTile;
-
 class eHuntAction : public eActionWithComeback {
 public:
     eHuntAction(const SDL_Rect& buildingRect,

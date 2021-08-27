@@ -36,7 +36,7 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
     fGoat(renderer),
     fNudeSheep(renderer),
-    fSheep(renderer),
+    fFleecedSheep(renderer),
 
     fSettlers1(renderer),
     fSettlers2(renderer),
@@ -245,32 +245,32 @@ void eCharacterTextures::load() {
 
 
     for(int j = 0; j < 8; j++) {
-        fSheep.fWalk.emplace_back(fRenderer);
-        fSheep.fFight.emplace_back(fRenderer);
-        fSheep.fLayDown.emplace_back(fRenderer);
+        fFleecedSheep.fWalk.emplace_back(fRenderer);
+        fFleecedSheep.fFight.emplace_back(fRenderer);
+        fFleecedSheep.fLayDown.emplace_back(fRenderer);
     }
     for(int i = 3183; i < 3279;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fSheep.fWalk;
+            auto& walk = fFleecedSheep.fWalk;
             eTextureLoadingHelpers::loadTexWithOffset(
                         pathBase, i, walk[j], eSprMainOffset);
         }
     }
     for(int i = 3279; i < 3287; i++) {
-        auto& die = fSheep.fDie;
+        auto& die = fFleecedSheep.fDie;
         eTextureLoadingHelpers::loadTexWithOffset(
                     pathBase, i, die, eSprMainOffset);
     }
     for(int i = 3287; i < 3351;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& fight = fSheep.fFight;
+            auto& fight = fFleecedSheep.fFight;
             eTextureLoadingHelpers::loadTexWithOffset(
                         pathBase, i, fight[j], eSprMainOffset);
         }
     }
     for(int i = 3351; i < 3415;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& lay = fSheep.fLayDown;
+            auto& lay = fFleecedSheep.fLayDown;
             eTextureLoadingHelpers::loadTexWithOffset(
                         pathBase, i, lay[j], eSprMainOffset);
         }

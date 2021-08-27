@@ -50,6 +50,13 @@
 #include "buildings/eonionfarm.h"
 #include "buildings/ecarrotfarm.h"
 
+#include "buildings/edairy.h"
+#include "buildings/ecardingshed.h"
+
+#include "characters/esheep.h"
+#include "characters/egoat.h"
+#include "characters/actions/eanimalaction.h"
+
 #include "spawners/eboarspawner.h"
 #include "spawners/edeerspawner.h"
 #include "spawners/esettlerspawner.h"
@@ -677,6 +684,15 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = e::make_shared<eSculptureStudio>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
+
+        case eBuildingMode::dairy: {
+            const auto b1 = e::make_shared<eDairy>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::cardingShed: {
+            const auto b1 = e::make_shared<eCardingShed>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
         default: break;
         }
         bool cbg = true;
@@ -1100,6 +1116,39 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
                           [this]() { return e::make_shared<eHuntingLodge>(mBoard); });
+                };
+                break;
+
+
+            case eBuildingMode::dairy:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eDairy>(mBoard); });
+                };
+                break;
+            case eBuildingMode::cardingShed:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eCardingShed>(mBoard); });
+                };
+                break;
+
+            case eBuildingMode::sheep:
+                apply = [this](eTile* const tile) {
+                    const auto sh = e::make_shared<eSheep>(mBoard);
+                    sh->changeTile(tile);
+                    const auto e = []() {};
+                    sh->setAction(e::make_shared<eAnimalAction>(
+                                     sh.get(), e, e, tile->x(), tile->y()));
+                };
+                break;
+            case eBuildingMode::goat:
+                apply = [this](eTile* const tile) {
+                    const auto gt = e::make_shared<eGoat>(mBoard);
+                    gt->changeTile(tile);
+                    const auto e = []() {};
+                    gt->setAction(e::make_shared<eAnimalAction>(
+                                     gt.get(), e, e, tile->x(), tile->y()));
                 };
                 break;
 
