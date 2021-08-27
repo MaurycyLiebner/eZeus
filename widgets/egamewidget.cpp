@@ -345,6 +345,9 @@ bool eGameWidget::build(const int tx, const int ty,
             }
         }
     }
+    const auto diff = mBoard.difficulty();
+    const int cost = eDifficultyHelpers::buildingCost(diff, b->type());
+    mBoard.incDrachmas(-cost);
     return true;
 }
 
@@ -858,6 +861,10 @@ bool eGameWidget::mouseMoveEvent(const eMouseEvent& e) {
     return false;
 }
 
+bool tileFertile(eTile* const tile) {
+    return tile->terrain() == eTerrain::fertile;
+}
+
 bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
     switch(e.button()) {
     case eMouseButton::left: {
@@ -936,6 +943,10 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             case eBuildingMode::erase:
                 apply = [this](eTile* const tile) {
                     erase(tile);
+
+                    const auto diff = mBoard.difficulty();
+                    const int cost = eDifficultyHelpers::buildingCost(diff, eBuildingType::erase);
+                    mBoard.incDrachmas(-cost);
                 };
                 break;
             case eBuildingMode::road:
@@ -1100,14 +1111,14 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 1, 1,
                           [this]() { return e::make_shared<eResourceBuilding>(mBoard, eResourceBuildingType::oliveTree); },
-                          [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; });
+                          tileFertile);
                 };
                 break;
             case eBuildingMode::vine:
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 1, 1,
                           [this]() { return e::make_shared<eResourceBuilding>(mBoard, eResourceBuildingType::vine); },
-                    [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; });
+                          tileFertile);
                 };
                 break;
 
@@ -1135,39 +1146,54 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 
             case eBuildingMode::sheep:
                 apply = [this](eTile* const tile) {
+                    if(!tileFertile(tile)) return;
                     const auto sh = e::make_shared<eSheep>(mBoard);
                     sh->changeTile(tile);
                     const auto e = []() {};
                     sh->setAction(e::make_shared<eAnimalAction>(
-                                     sh.get(), e, e, tile->x(), tile->y()));
+                                     sh.get(), e, e, tile->x(), tile->y(),
+                                     eMoveAroundAction::sFertileWalkable));
+
+                    const auto diff = mBoard.difficulty();
+                    const int cost = eDifficultyHelpers::buildingCost(diff, eBuildingType::sheep);
+                    mBoard.incDrachmas(-cost);
                 };
                 break;
             case eBuildingMode::goat:
                 apply = [this](eTile* const tile) {
+                    if(!tileFertile(tile)) return;
                     const auto gt = e::make_shared<eGoat>(mBoard);
                     gt->changeTile(tile);
                     const auto e = []() {};
                     gt->setAction(e::make_shared<eAnimalAction>(
-                                     gt.get(), e, e, tile->x(), tile->y()));
+                                     gt.get(), e, e, tile->x(), tile->y(),
+                                     eMoveAroundAction::sFertileWalkable));
+
+                    const auto diff = mBoard.difficulty();
+                    const int cost = eDifficultyHelpers::buildingCost(diff, eBuildingType::goat);
+                    mBoard.incDrachmas(-cost);
                 };
                 break;
 
             case eBuildingMode::wheatFarm:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 3, 3,
-                          [this]() { return e::make_shared<eWheatFarm>(mBoard); });
+                          [this]() { return e::make_shared<eWheatFarm>(mBoard); },
+                          tileFertile);
                 };
                 break;
             case eBuildingMode::onionFarm:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 3, 3,
-                          [this]() { return e::make_shared<eOnionFarm>(mBoard); });
+                          [this]() { return e::make_shared<eOnionFarm>(mBoard); },
+                          tileFertile);
                 };
                 break;
             case eBuildingMode::carrotFarm:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 3, 3,
-                          [this]() { return e::make_shared<eCarrotFarm>(mBoard); });
+                          [this]() { return e::make_shared<eCarrotFarm>(mBoard); },
+                          tileFertile);
                 };
                 break;
             case eBuildingMode::growersLodge:

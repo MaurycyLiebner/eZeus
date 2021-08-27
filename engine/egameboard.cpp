@@ -95,6 +95,10 @@ void eGameBoard::incTime(const int by) {
     }
 }
 
+int eGameBoard::incDrachmas(const int d) {
+    mDrachmas += d;
+}
+
 void eGameBoard::updateDiagonalArray() {
     for(int k = 0 ; k <= mWidth + mHeight - 2; k++) {
         std::vector<eTile*> diag;

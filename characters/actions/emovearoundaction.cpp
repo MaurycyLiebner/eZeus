@@ -5,25 +5,24 @@
 eMoveAroundAction::eMoveAroundAction(eCharacter* const c,
                                      const eAction& failAction,
                                      const eAction& finishAction,
-                                     const int startX, const int startY) :
+                                     const int startX, const int startY,
+                                     const eTileWalkable& walkable) :
     eMoveAction(c,
-                [](eTileBase* const t) { return t->walkable(); },
+                walkable,
                 failAction,
                 finishAction) {
     mStartTX = startX;
     mStartTY = startY;
 }
 
-eMoveAroundAction::eMoveAroundAction(eCharacter* const c,
-                                     const eAction& failAction,
-                                     const eAction& finishAction) :
-    eMoveAction(c,
-                [](eTileBase* const t) { return t->walkable(); },
-                failAction,
-                finishAction) {
-    const auto t = c->tile();
-    mStartTX = t->x();
-    mStartTY = t->y();
+bool eMoveAroundAction::sDefaultWalkable(eTileBase* const tile) {
+    return tile->walkable();
+}
+
+bool eMoveAroundAction::sFertileWalkable(eTileBase* const tile) {
+    const bool r = sDefaultWalkable(tile);
+    if(!r) return false;
+    return tile->terrain() == eTerrain::fertile;
 }
 
 void eMoveAroundAction::increment(const int by) {
@@ -48,7 +47,7 @@ eCharacterActionState eMoveAroundAction::nextTurn(
     const int ty = t->y() - mStartTY;
     const int oldDist = std::sqrt(tx*tx + ty*ty);
     const auto tt = t->neighbour(turn);
-    if(!tt || !tt->walkable()) {
+    if(!tt || !walkable(tt)) {
         if(i > 16) return eCharacterActionState::failed;
         return nextTurn(turn, n, i + 1);
     }

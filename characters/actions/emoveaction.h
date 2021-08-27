@@ -16,6 +16,8 @@ public:
                 const eAction& failAction,
                 const eAction& finishAction);
 
+    bool walkable(eTileBase* const tile) const;
+
     void increment(const int by);
 private:
     virtual eCharacterActionState nextTurn(eOrientation& t) = 0;

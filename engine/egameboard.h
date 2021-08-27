@@ -69,6 +69,7 @@ public:
 
     eEmploymentData& employmentData() { return mEmplData; }
 
+    int incDrachmas(const int d);
     int drachmas() const { return mDrachmas; }
     eDifficulty difficulty() const { return mDifficulty; }
 private:

@@ -13,6 +13,10 @@ eMoveAction::eMoveAction(eCharacter* const c,
     mOrientation = c->orientation();
 }
 
+bool eMoveAction::walkable(eTileBase* const tile) const {
+    return mTileWalkable(tile);
+}
+
 void orientationToTargetCoords(const eOrientation o,
                                double& targetX,
                                double& targetY) {
