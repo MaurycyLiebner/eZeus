@@ -10,7 +10,7 @@ stdsptr<eResourceCollector> cardingShedCharGenerator(eGameBoard& board) {
 
 eCardingShed::eCardingShed(eGameBoard& board) :
     eShepherBuildingBase(board, &eBuildingTextures::fCardingShed,
-                         -1.35, -2.95,
+                         -0.98, -2.15,
                          &eBuildingTextures::fCardingShedOverlay,
                          cardingShedCharGenerator,
                          eBuildingType::cardingShed,
