@@ -18,6 +18,7 @@
 #include "infowidgets/egyminfowidget.h"
 
 #include "widgets/egamemenu.h"
+#include "etopbarwidget.h"
 
 class eTerrainEditMenu;
 
@@ -84,6 +85,7 @@ private:
     bool mDrawElevation = true;
     ePatrolBuilding* mPatrolBuilding = nullptr;
 
+    eTopBarWidget* mTopBar = nullptr;
     eInfoWidget* mInfoWidget = nullptr;
     eTerrainEditMenu* mTem = nullptr;
     eGameMenu* mGm = nullptr;

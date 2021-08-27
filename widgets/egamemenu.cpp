@@ -64,8 +64,8 @@ void eGameMenu::addAction(const eSPR& c, const int mult,
     const auto mode = c.first;
     const auto t = eBuildingModeHelpers::toBuildingType(mode);
     const int cost = eDifficultyHelpers::buildingCost(diff, t);
-    a.addText(mult*20, std::to_string(cost));
-    a.addTexture(0, coll.fDrachmasUnit);
+    a.addTexture(mult*20, coll.fDrachmasUnit);
+    a.addText(0, std::to_string(cost));
 }
 
 void eGameMenu::initialize() {

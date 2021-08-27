@@ -51,6 +51,11 @@ void eActionListWidget::paintEvent(ePainter& p) {
     }
 }
 
+bool eActionListWidget::mousePressEvent(const eMouseEvent& e) {
+    (void)e;
+    return true;
+}
+
 bool eActionListWidget::mouseReleaseEvent(const eMouseEvent& e) {
     (void)e;
     if(contains(e.x(), e.y())) {
