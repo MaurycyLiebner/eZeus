@@ -352,6 +352,10 @@ bool eGameWidget::build(const int tx, const int ty,
     return true;
 }
 
+bool tileFertile(eTile* const tile) {
+    return tile->terrain() == eTerrain::fertile;
+}
+
 void eGameWidget::paintEvent(ePainter& p) {
     mThreadPool.handleFinished();
     mTime += mSpeed;
@@ -632,12 +636,12 @@ void eGameWidget::paintEvent(ePainter& p) {
         case eBuildingMode::oliveTree: {
             const auto b1 = e::make_shared<eResourceBuilding>(mBoard, eResourceBuildingType::oliveTree);
             ebs.emplace_back(gHoverX, gHoverY, b1);
-            specReq = [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; };
+            specReq = tileFertile;
         } break;
         case eBuildingMode::vine: {
             const auto b1 = e::make_shared<eResourceBuilding>(mBoard, eResourceBuildingType::vine);
             ebs.emplace_back(gHoverX, gHoverY, b1);
-            specReq = [](eTile* const tile) { return tile->terrain() == eTerrain::fertile; };
+            specReq = tileFertile;
         } break;
 
         case eBuildingMode::huntingLodge: {
@@ -648,14 +652,17 @@ void eGameWidget::paintEvent(ePainter& p) {
         case eBuildingMode::wheatFarm: {
             const auto b1 = e::make_shared<eWheatFarm>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
+            specReq = tileFertile;
         } break;
         case eBuildingMode::onionFarm: {
             const auto b1 = e::make_shared<eOnionFarm>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
+            specReq = tileFertile;
         } break;
         case eBuildingMode::carrotFarm: {
             const auto b1 = e::make_shared<eCarrotFarm>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
+            specReq = tileFertile;
         } break;
 
         case eBuildingMode::growersLodge: {
@@ -860,10 +867,6 @@ bool eGameWidget::mouseMoveEvent(const eMouseEvent& e) {
         return true;
     }
     return false;
-}
-
-bool tileFertile(eTile* const tile) {
-    return tile->terrain() == eTerrain::fertile;
 }
 
 bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
