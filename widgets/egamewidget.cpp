@@ -165,21 +165,6 @@ void eGameWidget::pixToId(const int pixX, const int pixY,
     }
 }
 
-struct eDelayedTexture {
-    double fX;
-    double fY;
-    eTexture fTex;
-};
-
-std::vector<eDelayedTexture> gDelayedTextures;
-
-void gDrawDelayed(eTilePainter& p) {
-    if(gDelayedTextures.empty()) return;
-    const auto& dell = gDelayedTextures.front();
-    p.drawTexture(dell.fX, dell.fY, dell.fTex, eAlignment::top);
-    gDelayedTextures.erase(gDelayedTextures.begin());
-}
-
 void eGameWidget::iterateOverTiles(const eTileAction& a) {
     const int w = mBoard.width();
     const int h = mBoard.height();
@@ -387,37 +372,34 @@ void eGameWidget::paintEvent(ePainter& p) {
         const int tx = tile->x();
         const int ty = tile->y();
 
-        int wSpan;
-        int hSpan;
+        int drawDim;
+        int futureDim;
         auto tex = eTileToTexture::get(tile, trrTexs,
-                                       wSpan, hSpan,
-                                       mTileSize, mDrawElevation);
-        tile->setDrawnSpan(wSpan, hSpan);
+                                       mTileSize, mDrawElevation,
+                                       futureDim, drawDim);
+        tile->setFutureDimension(futureDim);
 
         double rx;
         double ry;
         const int a = mDrawElevation ? tile->altitude() : 0;
-        drawXY(tx, ty, rx, ry, wSpan, hSpan, a);
+        drawXY(tx, ty, rx, ry, drawDim, drawDim, a);
 
         if(!tex.isNull()) {
-            if(wSpan == 2 && hSpan == 2) {
-                gDelayedTextures.emplace_back(eDelayedTexture{rx, ry, tex});
-                return;
-            } else {
-                bool s = false;
-                if(gPressedX >= 0 && gPressedY >= 0) {
-                    if(tx >= sMinX && tx <= sMaxX &&
-                       ty >= sMinY && ty <= sMaxY) {
-                        s = true;
-                    }
-                }
-                const bool h = tx == gHoverX && ty == gHoverY;
-                if(h || s) tex.setColorMod(255, 175, 255);
-                tp.drawTexture(rx, ry, tex, eAlignment::top);
-                if(h || s) tex.clearColorMod();
+            if(drawDim == 2) {
+                ry -= 1;
             }
+            bool s = false;
+            if(gPressedX >= 0 && gPressedY >= 0) {
+                if(tx >= sMinX && tx <= sMaxX &&
+                   ty >= sMinY && ty <= sMaxY) {
+                    s = true;
+                }
+            }
+            const bool h = tx == gHoverX && ty == gHoverY;
+            if(h || s) tex.setColorMod(255, 175, 255);
+            tp.drawTexture(rx, ry, tex, eAlignment::top);
+            if(h || s) tex.clearColorMod();
         }
-        gDrawDelayed(tp);
 
         const auto& fow = builTexs.fFogOfWar;
         if(!tile->topRight()) {

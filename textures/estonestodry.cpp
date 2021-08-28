@@ -2,19 +2,13 @@
 
 bool hiddenByNeighbour(eTile* const tile) {
     if(const auto t = tile->top<eTile>()) {
-        const int w = t->drawSpanW();
-        const int h = t->drawSpanH();
-        if(w > 1 && h > 1) return true;
+        const int d = t->futureDim();
+        if(d > 1) return true;
     }
 
     if(const auto t = tile->topLeft<eTile>()) {
-        const int w = t->drawSpanW();
-        if(w > 1) return true;
-    }
-
-    if(const auto t = tile->topRight<eTile>()) {
-        const int h = t->drawSpanH();
-        if(h > 1) return true;
+        const int d = t->futureDim();
+        if(d > 1) return true;
     }
 
 //    if(const auto t = tile->left()) {
@@ -26,27 +20,64 @@ bool hiddenByNeighbour(eTile* const tile) {
     return false;
 }
 
-eStonesToDryId eStonesToDry::get(eTile* const tile) {
+void eStonesToDry::get(eTile* const tile,
+                       int& futureDim,
+                       int& drawDim) {
     const auto terr = tile->terrain();
 
-    if(hiddenByNeighbour(tile)) return eStonesToDryId::none;
+    const bool hidden = hiddenByNeighbour(tile);
+    if(hidden) {
+        futureDim = 0;
+        drawDim = 0;
+        return;
+    }
+
+    {
+        const auto tr = tile->topRight<eTile>();
+        if(tr && tr->futureDim() == 2) {
+            futureDim = 1;
+            drawDim = 2;
+            return;
+        }
+    }
 
     {
         const auto t = tile->bottom();
-        if(!t || t->terrain() != terr) return eStonesToDryId::small;
+        if(!t || t->terrain() != terr) {
+            futureDim = 1;
+            drawDim = 1;
+            return;
+        }
     }
 
     {
         const auto t = tile->bottomLeft();
-        if(!t || t->terrain() != terr) return eStonesToDryId::small;
+        if(!t || t->terrain() != terr) {
+            futureDim = 1;
+            drawDim = 1;
+            return;
+        }
     }
 
     {
         const auto t = tile->bottomRight();
-        if(!t || t->terrain() != terr) return eStonesToDryId::small;
+        if(!t || t->terrain() != terr) {
+            futureDim = 1;
+            drawDim = 1;
+            return;
+        }
+    }
+    {
+        const auto t = tile->left<eTile>();
+        if(t && t->terrain() == terr && t->futureDim() > 1) {
+            futureDim = 1;
+            drawDim = 1;
+            return;
+        }
     }
 
-    return eStonesToDryId::large;
+    futureDim = 2;
+    drawDim = 0;
 
 //    {
 //        const auto t = tile->top();

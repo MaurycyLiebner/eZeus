@@ -11,9 +11,10 @@ enum class eTileSize : int;
 namespace eTileToTexture {
     eTexture get(eTile* const tile,
                  const eTerrainTextures& textures,
-                 int& wSpan, int& hSpan,
                  const eTileSize tileSize,
-                 const bool drawElev);
+                 const bool drawElev,
+                 int& futureDim,
+                 int& drawDim);
 };
 
 #endif // ETILETOTEXTURE_H

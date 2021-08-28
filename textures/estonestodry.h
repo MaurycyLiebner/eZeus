@@ -11,7 +11,9 @@ enum class eStonesToDryId {
 };
 
 namespace eStonesToDry {
-    eStonesToDryId get(eTile* const tile);
+    void get(eTile* const tile,
+             int& futureDim,
+             int& drawDim);
 };
 
 #endif // ESTONESTODRY_H

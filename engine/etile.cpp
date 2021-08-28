@@ -188,7 +188,6 @@ void eTile::setSpawner(eSpawner* const s) {
     mSpawner = s;
 }
 
-void eTile::setDrawnSpan(const int w, const int h) {
-    mDrawnSpanW = w;
-    mDrawnSpanH = h;
+void eTile::setFutureDimension(const int futureDim) {
+    mFutureDim = futureDim;
 }

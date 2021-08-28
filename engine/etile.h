@@ -43,9 +43,8 @@ public:
     eSpawner* spawner() const { return mSpawner; }
 
     // used for stones rendering
-    void setDrawnSpan(const int w, const int h);
-    int drawSpanW() const { return mDrawnSpanW; }
-    int drawSpanH() const { return mDrawnSpanH; }
+    void setFutureDimension(const int futureDim);
+    int futureDim() const { return mFutureDim; }
 
     std::vector<eTile*> surroundingRoads() const;
     eTile* nearestRoad() const;
@@ -64,8 +63,7 @@ public:
                                bool& t, bool& r,
                                bool& b, bool& l) const;
 private:
-    int mDrawnSpanW = 0;
-    int mDrawnSpanH = 0;
+    int mFutureDim = 0;
 private:
     std::vector<stdsptr<eCharacter>> mCharacters;
     eBuilding* mUnderBuilding = nullptr;
