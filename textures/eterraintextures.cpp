@@ -77,7 +77,7 @@ void loadStones(int i0, const std::string& pathBase,
         eTextureLoadingHelpers::loadTex(pathBase, i, result);
     }
 
-    for(; i < i0 + 11; i++) {
+    for(; i < i0 + 12; i++) {
         eTextureLoadingHelpers::loadTex(pathBase, i, resultLarge);
     }
 

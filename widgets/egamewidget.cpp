@@ -387,6 +387,9 @@ void eGameWidget::paintEvent(ePainter& p) {
         if(!tex.isNull()) {
             if(drawDim == 2) {
                 ry -= 1;
+            } else if(drawDim == 3) {
+                rx += 1;
+                ry -= 1;
             }
             bool s = false;
             if(gPressedX >= 0 && gPressedY >= 0) {
