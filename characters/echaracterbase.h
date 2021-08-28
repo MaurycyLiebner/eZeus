@@ -21,6 +21,13 @@ enum class eCharacterType {
 
     grower,
 
+    foodVendor,
+    fleeceVendor,
+    oilVendor,
+    wineVendor,
+    armsVendor,
+    horseTrainer,
+
     lumberjack,
     bronzeMiner,
     silverMiner,

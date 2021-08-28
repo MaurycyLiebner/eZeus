@@ -50,6 +50,13 @@ enum class eBuildingType {
     granary,
     warehouse,
 
+    foodVendor,
+    fleeceVendor,
+    oilVendor,
+    wineVendor,
+    armsVendor,
+    horseTrainer,
+
     timberMill,
     masonryShop,
     mint,

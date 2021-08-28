@@ -24,6 +24,7 @@ SOURCES += \
         buildings/edramaschool.cpp \
         buildings/eemployingbuilding.cpp \
         buildings/efarmbase.cpp \
+        buildings/efoodvendor.cpp \
         buildings/efoundry.cpp \
         buildings/efountain.cpp \
         buildings/egranary.cpp \
@@ -89,6 +90,7 @@ SOURCES += \
         characters/edomesticatedanimal.cpp \
         characters/efightingpatroler.cpp \
         characters/efirefighter.cpp \
+        characters/efoodvendorchar.cpp \
         characters/egoat.cpp \
         characters/egoatherd.cpp \
         characters/egrower.cpp \
@@ -206,6 +208,7 @@ HEADERS += \
     buildings/edramaschool.h \
     buildings/eemployingbuilding.h \
     buildings/efarmbase.h \
+    buildings/efoodvendor.h \
     buildings/efoundry.h \
     buildings/efountain.h \
     buildings/egranary.h \
@@ -272,6 +275,7 @@ HEADERS += \
     characters/edomesticatedanimal.h \
     characters/efightingpatroler.h \
     characters/efirefighter.h \
+    characters/efoodvendorchar.h \
     characters/egoat.h \
     characters/egoatherd.h \
     characters/egrower.h \

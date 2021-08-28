@@ -219,7 +219,19 @@ void eGameMenu::initialize() {
     const auto ww3 = [this]() {
         setMode(eBuildingMode::warehouse);
     };
-    const auto a3 = [this, cmx, cmy, coll, mult]() {};
+    const auto a3 = [this, cmx, cmy, coll, mult]() {
+        const auto cm = new eContextMenu(window());
+        for(const auto& c : {eSPR{eBuildingMode::foodVendor, "Food Vendor"},
+                             eSPR{eBuildingMode::fleeceVendor, "Fleece Vendor"},
+                             eSPR{eBuildingMode::oilVendor, "Oil Vendor"},
+                             eSPR{eBuildingMode::wineVendor, "Wine Vendor"},
+                             eSPR{eBuildingMode::armsVendor, "Arms Vendor"},
+                             eSPR{eBuildingMode::horseTrainer, "Horse Trainer"}}) {
+            addAction(c, mult, coll, cm);
+        }
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy, this);
+    };
     const auto t3 = [this, cmx, cmy, coll, mult]() {};
     const auto w3 = createSubButtons(mult,
                         eButtonsDataVec{

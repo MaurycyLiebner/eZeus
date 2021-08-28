@@ -1,7 +1,6 @@
 #include "egymnasium.h"
 
 #include "characters/egymnast.h"
-#include "textures/egametextures.h"
 
 eGymnasium::eGymnasium(eGameBoard& board) :
     ePatrolBuilding(board,

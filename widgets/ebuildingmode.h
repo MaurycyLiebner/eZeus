@@ -52,6 +52,13 @@ enum class eBuildingMode {
     granary,
     warehouse,
 
+    foodVendor,
+    fleeceVendor,
+    oilVendor,
+    wineVendor,
+    armsVendor,
+    horseTrainer,
+
     maintenanceOffice,
     fountain,
     hospital,

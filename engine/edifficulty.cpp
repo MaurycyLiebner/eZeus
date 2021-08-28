@@ -73,6 +73,13 @@ int buildingBaseCost(const eBuildingType type) {
     case eBuildingType::warehouse:
         return 25;
 
+    case eBuildingType::foodVendor:
+    case eBuildingType::fleeceVendor:
+    case eBuildingType::oilVendor:
+    case eBuildingType::wineVendor:
+    case eBuildingType::armsVendor:
+    case eBuildingType::horseTrainer:
+        return 20;
 
     case eBuildingType::fountain:
         return 16;

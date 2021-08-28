@@ -53,6 +53,7 @@ eTexture ePatrolBuilding::getTexture(const eTileSize size) const {
 }
 
 std::vector<eOverlay> ePatrolBuilding::getOverlays(const eTileSize size) const {
+    if(!mOverlays) return {};
     const int sizeId = static_cast<int>(size);
     const auto& coll = mTextures[sizeId].*mOverlays;
     const int texId = textureTime() % coll.size();

@@ -53,6 +53,8 @@
 #include "buildings/edairy.h"
 #include "buildings/ecardingshed.h"
 
+#include "buildings/efoodvendor.h"
+
 #include "characters/esheep.h"
 #include "characters/egoat.h"
 #include "characters/actions/eanimalaction.h"
@@ -689,6 +691,11 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = e::make_shared<eCardingShed>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
+
+        case eBuildingMode::foodVendor: {
+            const auto b1 = e::make_shared<eFoodVendor>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
         default: break;
         }
         bool cbg = true;
@@ -1228,6 +1235,13 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
                           [this]() { return e::make_shared<eSculptureStudio>(mBoard); });
+                };
+                break;
+
+            case eBuildingMode::foodVendor:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eFoodVendor>(mBoard); });
                 };
                 break;
             default: break;
