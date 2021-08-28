@@ -134,6 +134,27 @@ public:
     eTextureCollection fWaitingOlives;
     eTextureCollection fWaitingArmor;
 
+//    eTextureCollection fAgoraRoad;
+//    eTextureCollection fAgora;
+
+    eTexture fFoodVendor;
+    eTexture fFoodVendorOverlay;
+
+    eTexture fFleeceVendor;
+    eTexture fFleeceVendorOverlay;
+
+    eTexture fOilVender;
+    eTexture fOilVenderOverlay;
+
+    eTexture fArmsVendor;
+    eTexture fArmsVendorOverlay;
+
+    eTexture fWineVendor;
+    eTexture fWineVendorOverlay;
+
+    eTexture fHorseTrainer;
+    eTexture fHorseTrainerOverlay;
+
     eTexture fWarehouse;
     eTextureCollection fWarehouseOverlay;
 

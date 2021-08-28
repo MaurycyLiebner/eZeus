@@ -63,6 +63,9 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fWaitingOlives(renderer),
     fWaitingArmor(renderer),
 
+//    fAgoraRoad(renderer),
+//    fAgora(renderer),
+
     fWarehouseOverlay(renderer),
 
     fWarehouseUrchin(renderer),
@@ -431,6 +434,26 @@ void eBuildingTextures::load() {
     {
         const auto dir = basedir + "Zeus_General/";
         const std::string pathBase{dir + "Zeus_StorNDist_"};
+
+        fFoodVendor.load(fRenderer, pathBase + "00001.png");
+        fFoodVendorOverlay.load(fRenderer, pathBase + "00002.png");
+        fFleeceVendor.load(fRenderer, pathBase + "00003.png");
+        fFleeceVendorOverlay.load(fRenderer, pathBase + "00004.png");
+        fOilVender.load(fRenderer, pathBase + "00005.png");
+        fOilVenderOverlay.load(fRenderer, pathBase + "00006.png");
+        fWineVendor.load(fRenderer, pathBase + "00007.png");
+        fWineVendorOverlay.load(fRenderer, pathBase + "00008.png");
+        fArmsVendor.load(fRenderer, pathBase + "00009.png");
+        fArmsVendorOverlay.load(fRenderer, pathBase + "00010.png");
+        fHorseTrainer.load(fRenderer, pathBase + "00011.png");
+        fHorseTrainerOverlay.load(fRenderer, pathBase + "00012.png");
+
+//        for(int i = 13; i < 16; i++) {
+//            eTextureLoadingHelpers::loadTex(pathBase, i, fAgoraRoad);
+//        }
+//        for(int i = 16; i < 19; i++) {
+//            eTextureLoadingHelpers::loadTex(pathBase, i, fAgora);
+//        }
 
         fWarehouse.load(fRenderer, pathBase + "00023.png");
         fWarehouse.setOffset(-58, 60);

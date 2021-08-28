@@ -64,7 +64,7 @@ public:
     const int fTileH;
     SDL_Renderer* const fRenderer;
 
-    eBasicCharacterTextures fFoodDistributor;
+//    eBasicCharacterTextures fFoodDistributor;
     eBasicCharacterTextures fActor;
     eBasicCharacterTextures fTaxCollector;
     eBasicCharacterTextures fWaterDistributor;
@@ -83,6 +83,13 @@ public:
 
     eResourceCollectorTextures fShepherd;
     eResourceCollectorTextures fGoatherd;
+
+    eBasicCharacterTextures fFoodVendor;
+    eBasicCharacterTextures fFleeceVendor;
+    eBasicCharacterTextures fOilVendor;
+    eBasicCharacterTextures fWineVendor;
+    eBasicCharacterTextures fArmsVendor;
+    eBasicCharacterTextures fHorseVendor;
 
     eGrowerTextures fGrower;
 
