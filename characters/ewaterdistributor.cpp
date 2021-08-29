@@ -2,4 +2,6 @@
 
 eWaterDistributor::eWaterDistributor(eGameBoard& board) :
     eBasicPatroler(board, &eCharacterTextures::fWaterDistributor,
-                   eCharacterType::waterDistributor) {}
+                   eCharacterType::waterDistributor) {
+    setProvide(eProvide::water, 1000);
+}

@@ -41,6 +41,20 @@ void eCharacter::changeTile(eTile* const t) {
     if(mTile) mTile->removeCharacter(tsptr);
     mTile = t;
     if(t) t->addCharacter(tsptr);
+
+    if(t && mProvide != eProvide::none && mProvideCount > 0) {
+        for(const int x : {-1, 0, 1}) {
+            for(const int y : {-1, 0, 1}) {
+                const auto tt = t->tileRel<eTile>(x, y);
+                if(!tt) continue;
+                if(const auto b = tt->underBuilding()) {
+                    const int r = b->provide(mProvide, mProvideCount);
+                    mProvideCount -= r;
+                    if(mProvideCount <= 0) return;
+                }
+            }
+        }
+    }
 }
 
 void eCharacter::incTime(const int by) {
@@ -78,4 +92,9 @@ void eCharacter::setActionType(const eCharacterActionType t) {
 
 void eCharacter::setHasSecondaryTexture(const bool st) {
     mHasSecondaryTexture = st;
+}
+
+void eCharacter::setProvide(const eProvide p, const int n) {
+    mProvide = p;
+    mProvideCount = n;
 }

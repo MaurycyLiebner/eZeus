@@ -2,4 +2,6 @@
 
 eFoodVendorChar::eFoodVendorChar(eGameBoard& board) :
     eBasicPatroler(board, &eCharacterTextures::fFoodVendor,
-                   eCharacterType::foodVendor) {}
+                   eCharacterType::foodVendor) {
+    setProvide(eProvide::food, 1000);
+}

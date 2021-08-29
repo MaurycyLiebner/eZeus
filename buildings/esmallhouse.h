@@ -11,6 +11,8 @@ public:
 
     eTexture getTexture(const eTileSize size) const;
 
+    int provide(const eProvide p, const int n);
+
     void levelUp();
     void levelDown();
 
@@ -21,6 +23,7 @@ public:
 
     int moveIn(int c);
 private:
+    void updateLevel();
     void setLevel(const int l);
     int evict();
     void setPeople(const int p);
@@ -28,6 +31,9 @@ private:
     int mLevel{0};
     int mPeople{0};
     const std::vector<eBuildingTextures>& mTextures;
+
+    int mWater = 0;
+    int mFood = 0;
 };
 
 #endif // ESMALLHOUSE_H

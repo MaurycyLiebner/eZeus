@@ -7,6 +7,7 @@
 #include "etexturecollection.h"
 #include "widgets/etilepainter.h"
 #include "engine/emovedirection.h"
+#include "engine/eprovide.h"
 
 class eGameBoard;
 class eTile;
@@ -95,6 +96,8 @@ public:
     }
 
     virtual void timeChanged() {}
+
+    virtual int provide(const eProvide, const int) { return 0; }
 
     using eTileValidator = std::function<bool(eTile*)>;
     eTile* tileNeighbour(const eMoveDirection o,

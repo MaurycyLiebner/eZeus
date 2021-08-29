@@ -27,6 +27,24 @@ eTexture eSmallHouse::getTexture(const eTileSize size) const {
     return coll.getTexture(texId);
 }
 
+int eSmallHouse::provide(const eProvide p, const int n) {
+    int max = 8;
+    int* value = nullptr;
+    switch(p) {
+    case eProvide::water:
+        value = &mWater;
+        break;
+    case eProvide::food:
+        value = &mFood;
+        break;
+    default: return eBuilding::provide(p, n);
+    }
+    const int add = std::clamp(n, 0, max - *value);
+    *value += add;
+    updateLevel();
+    return add;
+}
+
 void eSmallHouse::levelUp() {
     setLevel(mLevel + 1);
 }
@@ -45,8 +63,23 @@ int eSmallHouse::moveIn(int c) {
     return c;
 }
 
+void eSmallHouse::updateLevel() {
+    if(mFood > 0 && mWater > 0) {
+        return setLevel(1);
+    }
+    setLevel(0);
+}
+
 void eSmallHouse::setLevel(const int l) {
+    if(mLevel == l) return;
+
+    const int ov = vacancies();
     mLevel = std::clamp(l, 0, 6);
+    const int nv = vacancies();
+
+    auto& popData = getBoard().populationData();
+    popData.incVacancies(nv - ov);
+
     evict();
 }
 

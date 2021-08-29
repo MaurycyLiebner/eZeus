@@ -313,6 +313,7 @@ HEADERS += \
     engine/eorientation.h \
     engine/eotherthreadpathfinder.h \
     engine/epathfinder.h \
+    engine/eprovide.h \
     engine/eresourcetype.h \
     engine/etask.h \
     engine/eterrain.h \

@@ -9,6 +9,7 @@
 #include "engine/etile.h"
 #include "etexture.h"
 #include "echaracterbase.h"
+#include "engine/eprovide.h"
 
 class eGameBoard;
 class eCharacterAction;
@@ -49,8 +50,13 @@ public:
 
     bool hasSecondaryTexture() const { return mHasSecondaryTexture; }
     void setHasSecondaryTexture(const bool st);
+
+    void setProvide(const eProvide p, const int n);
 private:
     stdsptr<eCharacterAction> takeAction();
+
+    eProvide mProvide = eProvide::none;
+    int mProvideCount = 0;
 
     eGameBoard& mBoard;
     eTile* mTile = nullptr;
