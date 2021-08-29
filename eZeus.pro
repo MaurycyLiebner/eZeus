@@ -11,7 +11,9 @@ QMAKE_CFLAGS_RELEASE += -m64 -O3
 QMAKE_CXXFLAGS_RELEASE += -m64 -O3
 
 LIBS += -L/usr/lib/x86_64-linux-gnu
-LIBS += -lpthread -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+LIBS += -lpthread
+LIBS += -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+LIBS += -lnoise
 
 SOURCES += \
         buildings/earmory.cpp \
@@ -119,6 +121,7 @@ SOURCES += \
         engine/egameboarditerator.cpp \
         engine/egameobject.cpp \
         engine/emainthreadpathfinder.cpp \
+        engine/emapgenerator.cpp \
         engine/emovinggameobject.cpp \
         engine/eotherthreadpathfinder.cpp \
         engine/epathfinder.cpp \
@@ -304,6 +307,7 @@ HEADERS += \
     engine/egameboarditerator.h \
     engine/egameobject.h \
     engine/emainthreadpathfinder.h \
+    engine/emapgenerator.h \
     engine/emovedirection.h \
     engine/emovinggameobject.h \
     engine/eorientation.h \

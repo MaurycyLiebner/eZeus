@@ -67,6 +67,8 @@
 
 #include "esounds.h"
 
+#include "engine/emapgenerator.h"
+
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window), mBoard(&mThreadPool) {}
 
@@ -103,7 +105,10 @@ void eGameWidget::initialize(const int w, const int h) {
     addWidget(mTem);
     mTem->align(eAlignment::right | eAlignment::top);
     mTem->hide();
+
     mBoard.initialize(w, h);
+    eMapGenerator g(mBoard);
+    g.generate();
 
     const auto swtch = new eCheckBox(window());
     swtch->move(mGm->x(), 0);
