@@ -20,6 +20,21 @@ void eTileBase::setOnFire(const bool of) {
     mOnFire = of;
 }
 
+bool eTileBase::isElevationTile() const {
+    const int a = altitude();
+    for(int x = -1; x < 2; x++) {
+        for(int y = -1; y < 2; y++) {
+            if(x == 0 && y == 0) continue;
+            const auto t = tileRel(x, y);
+            if(!t) continue;
+            const int ta = t->altitude();
+            if(ta > a) return true;
+        }
+    }
+
+    return false;
+}
+
 void eTileBase::setSeed(const int s) {
     mSeed = s;
 }

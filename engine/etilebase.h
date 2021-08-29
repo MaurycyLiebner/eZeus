@@ -26,6 +26,7 @@ public:
     int x() const { return mX; }
     int y() const { return mY; }
     int altitude() const { return mAltitude; }
+    bool isElevationTile() const;
     eTerrain terrain() const { return mTerr; }
     double scrub() const { return mScrub; }
 
@@ -65,9 +66,9 @@ public:
     T* neighbour(const eOrientation o) const;
 
     template <typename T = eTileBase>
-    T* tileRel(const int x, const int y);
+    T* tileRel(const int x, const int y) const;
     template <typename T = eTileBase>
-    T* tileAbs(const int x, const int y);
+    T* tileAbs(const int x, const int y) const;
 
     void setAltitude(const int a);
     void setTerrain(const eTerrain terr);
@@ -168,8 +169,11 @@ T* eTileBase::neighbour(const eOrientation o) const {
 }
 
 template <typename T>
-T* eTileBase::tileRel(const int x, const int y) {
-    if(x == 0 && y == 0) return static_cast<T*>(this);
+T* eTileBase::tileRel(const int x, const int y) const {
+    if(x == 0 && y == 0) {
+        const auto t = static_cast<const T*>(this);
+        return const_cast<T*>(t);
+    }
     if(x > 0) {
         const auto br = bottomRight<T>();
         if(!br) return nullptr;
@@ -192,7 +196,7 @@ T* eTileBase::tileRel(const int x, const int y) {
 }
 
 template <typename T>
-T* eTileBase::tileAbs(const int x, const int y) {
+T* eTileBase::tileAbs(const int x, const int y) const {
     return tileRel<T>(x - mX, y - mY);
 }
 

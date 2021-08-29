@@ -12,17 +12,16 @@ bool hiddenByNeighbour(eTile* const tile) {
     }
 
 
-
     for(int x = 0; x > -3; x--) {
         for(int y = 0; y > -3; y--) {
             if(x == 0 && y == 0) continue;
             if(x == 0 && y == -2) continue;
             const auto t = tile->tileRel<eTile>(x, y);
+            if(!t) continue;
             const int d = t->futureDim();
             if(d > 2) return true;
         }
     }
-
 
 
     return false;
@@ -49,7 +48,7 @@ void eStonesToDry::get(eTile* const tile,
                 return;
             }
             const auto trtr = tr->topRight<eTile>();
-            if(trtr->futureDim() == 3) {
+            if(trtr && trtr->futureDim() == 3) {
                 futureDim = 1;
                 drawDim = 3;
                 return;
