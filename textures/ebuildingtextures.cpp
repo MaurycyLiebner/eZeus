@@ -52,7 +52,6 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fRoad(renderer),
 
     fPatrolGuides(renderer),
-    fFogOfWar(renderer),
 
     fWaitingMeat(renderer),
     fWaitingCheese(renderer),
@@ -481,10 +480,6 @@ void eBuildingTextures::load() {
 
         for(int i = 1; i < 16; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fPatrolGuides);
-        }
-
-        for(int i = 16; i < 24; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fFogOfWar);
         }
     }
 }

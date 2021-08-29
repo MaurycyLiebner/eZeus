@@ -410,31 +410,6 @@ void eGameWidget::paintEvent(ePainter& p) {
             tp.drawTexture(rx, ry, tex, eAlignment::top);
             if(h || s) tex.clearColorMod();
         }
-
-        const auto& fow = builTexs.fFogOfWar;
-        if(!tile->topRight()) {
-            if(!tile->topLeft()) {
-                tp.drawTexture(rx, ry, fow.getTexture(7), eAlignment::top);
-            } else if(tile->bottomRight()) {
-                tp.drawTexture(rx, ry, fow.getTexture(0), eAlignment::top);
-            } else {
-                tp.drawTexture(rx, ry, fow.getTexture(1), eAlignment::top);
-            }
-        } else if(!tile->bottomRight()) {
-            if(tile->bottomLeft()) {
-                tp.drawTexture(rx, ry, fow.getTexture(2), eAlignment::top);
-            } else {
-                tp.drawTexture(rx, ry, fow.getTexture(3), eAlignment::top);
-            }
-        } else if(!tile->bottomLeft()) {
-            if(tile->topLeft()) {
-                tp.drawTexture(rx, ry, fow.getTexture(4), eAlignment::top);
-            } else {
-                tp.drawTexture(rx, ry, fow.getTexture(5), eAlignment::top);
-            }
-        } else if(!tile->topLeft()) {
-            tp.drawTexture(rx, ry, fow.getTexture(6), eAlignment::top);
-        }
     });
     iterateOverTiles([&](eTile* const tile) {
         const int tx = tile->x();
