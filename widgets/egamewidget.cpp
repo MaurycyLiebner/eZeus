@@ -108,7 +108,8 @@ void eGameWidget::initialize(const int w, const int h) {
 
     mBoard.initialize(w, h);
     eMapGenerator g(mBoard);
-    g.generate();
+    eMapGeneratorSettings sett;
+    g.generate(sett);
 
     const auto swtch = new eCheckBox(window());
     swtch->move(mGm->x(), 0);

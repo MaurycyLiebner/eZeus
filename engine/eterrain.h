@@ -11,7 +11,7 @@ enum class eTerrain {
     choppedForest = 1 << 5,
 
     flatStones = 1 << 6,
-    bronze = 1 << 7,
+    copper = 1 << 7,
     silver = 1 << 8,
     tallStones = 1 << 9,
     tinyStones = 1 << 10,
@@ -22,7 +22,7 @@ enum class eTerrain {
                choppedForest |
 
                flatStones |
-               bronze |
+               copper |
                silver |
                tallStones |
                tinyStones,

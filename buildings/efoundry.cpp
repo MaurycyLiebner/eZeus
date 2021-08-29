@@ -11,7 +11,7 @@ eFoundry::eFoundry(eGameBoard& board) :
                              [this]() { return e::make_shared<eBronzeMiner>(getBoard()); },
                              eBuildingType::foundry,
                              [](eTileBase* const t) {
-                                return t->terrain() == eTerrain::bronze;
+                                return t->terrain() == eTerrain::copper;
                              },
                              [](eTile* const t) {
                                 t->setTerrain(eTerrain::flatStones);

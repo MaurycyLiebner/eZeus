@@ -232,7 +232,7 @@ eTexture eTileToTexture::get(eTile* const tile,
                                 textures.fHugeFlatStonesTerrainTexs,
                                 futureDim, drawDim);
     } break;
-    case eTerrain::bronze: {
+    case eTerrain::copper: {
         return getStonesTexture(tile, textures.fBronzeTerrainTexs,
                                 textures.fLargeBronzeTerrainTexs,
                                 textures.fHugeBronzeTerrainTexs,

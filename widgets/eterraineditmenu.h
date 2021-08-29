@@ -16,7 +16,7 @@ enum class eTerrainEditMode {
     choppedForest = static_cast<int>(eTerrain::choppedForest),
 
     flatStones = static_cast<int>(eTerrain::flatStones),
-    bronze = static_cast<int>(eTerrain::bronze),
+    bronze = static_cast<int>(eTerrain::copper),
     silver = static_cast<int>(eTerrain::silver),
     tallStones = static_cast<int>(eTerrain::tallStones),
     tinyStones = static_cast<int>(eTerrain::tinyStones),

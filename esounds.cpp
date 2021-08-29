@@ -91,7 +91,7 @@ void eSounds::playSoundForTile(eTile* const tile) {
     case eTerrain::water:
         return eSounds::playWaterSound();
     case eTerrain::silver:
-    case eTerrain::bronze:
+    case eTerrain::copper:
     case eTerrain::flatStones:
     case eTerrain::tallStones:
         return eSounds::playRockySound();
