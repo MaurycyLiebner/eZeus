@@ -33,8 +33,6 @@ public:
     int spaceLeft(const eResourceType type) const;
 private:
     bool spawnRawGetter();
-    void depositRaw();
-    void killCart();
 
     const std::vector<eBuildingTextures>& mTextures;
 

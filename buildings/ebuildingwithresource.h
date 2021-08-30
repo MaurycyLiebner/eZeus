@@ -5,6 +5,9 @@
 
 #include "engine/eresourcetype.h"
 
+class eCartTransporter;
+enum class eCartActionType;
+
 class eBuildingWithResource : public eEmployingBuilding {
 public:
     using eEmployingBuilding::eEmployingBuilding;
@@ -14,6 +17,16 @@ public:
 
     virtual int count(const eResourceType type) const = 0;
     virtual int spaceLeft(const eResourceType type) const = 0;
+
+    bool spawnGiveCart(stdsptr<eCartTransporter>& cart,
+                       int& spawnTime, const int waitTime,
+                       const eResourceType resType);
+    bool spawnTakeCart(stdsptr<eCartTransporter>& cart,
+                       int& spawnTime, const int waitTime,
+                       const eResourceType resType);
+private:
+    bool depositFromCart(stdsptr<eCartTransporter>& cart,
+                         int& spawnTime, const int waitTime);
 };
 
 #endif // EBUILDINGWITHRESOURCE_H

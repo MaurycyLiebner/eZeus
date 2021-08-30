@@ -113,37 +113,7 @@ int eGrowersLodge::spaceLeft(const eResourceType type) const {
 }
 
 bool eGrowersLodge::spawnCart(const eResourceType resType) {
-    if(count(resType) <= 0) return false;
-    mCart = e::make_shared<eCartTransporter>(getBoard());
-    const auto t = tile();
-    mCart->changeTile(t);
-    const eStdPointer<eGrowersLodge> tptr(this);
-    const eStdPointer<eCartTransporter> hptr(mCart);
-    const auto foundAct = [tptr, this, hptr, resType] {
-        if(!tptr || !hptr) return;
-        const int took = take(resType, 8);
-        hptr->setResource(resType, took);
-    };
-    const auto finishAct = [tptr, this, hptr]() {
-        if(hptr) {
-            hptr->changeTile(nullptr);
-        }
-        if(tptr) {
-            mCart.reset();
-            mCartSpawnTime = time() + mCartWaitTime;
-        }
-    };
-    const auto failAct = [tptr, this, hptr, finishAct]() {
-        if(!tptr || !hptr) return;
-        add(hptr->resourceType(), hptr->resourceCount());
-        finishAct();
-    };
-    const auto a = e::make_shared<eCartTransporterAction>(
-                       tileRect(), mCart.get(),
-                       eCartActionType::give, resType,
-                       foundAct, failAct, finishAct);
-    mCart->setAction(a);
-    return true;
+    return spawnGiveCart(mCart, mCartSpawnTime, mCartWaitTime, resType);
 }
 
 bool eGrowersLodge::spawnGrower(const eGrowerPtr grower) {

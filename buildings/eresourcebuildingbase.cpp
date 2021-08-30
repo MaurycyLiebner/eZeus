@@ -43,43 +43,12 @@ int eResourceBuildingBase::spaceLeft(const eResourceType type) const {
 }
 
 void eResourceBuildingBase::timeChanged() {
-    if(!mCart && mResource > 0 && time() > mSpawnTime) {
-        mSpawnTime = time() + mWaitTime;
-        spawn();
+    if(!mCart && mResource > 0 && time() > mCartSpawnTime) {
+        mCartSpawnTime = time() + mCartWaitTime;
+        spawnCart();
     }
 }
 
-bool eResourceBuildingBase::spawn() {
-    if(mResource <= 0) return false;
-    mCart = e::make_shared<eCartTransporter>(getBoard());
-    const auto t = tile();
-    mCart->changeTile(t);
-
-    const eStdPointer<eResourceBuildingBase> tptr(this);
-    const eStdPointer<eCartTransporter> hptr(mCart);
-    const auto foundAct = [tptr, this, hptr] {
-        if(!tptr || !hptr) return;
-        const int took = take(mResType, 8);
-        hptr->setResource(mResType, took);
-    };
-    const auto finishAct = [tptr, this, hptr]() {
-        if(hptr) {
-            hptr->changeTile(nullptr);
-        }
-        if(tptr) {
-            mCart.reset();
-            mSpawnTime = time() + mWaitTime;
-        }
-    };
-    const auto failAct = [hptr, tptr, this, finishAct]() {
-        if(!hptr || !tptr) return;
-        add(hptr->resourceType(), hptr->resourceCount());
-        finishAct();
-    };
-    const auto a = e::make_shared<eCartTransporterAction>(
-                       tileRect(), mCart.get(),
-                       eCartActionType::give, mResType,
-                       foundAct, failAct, finishAct);
-    mCart->setAction(a);
-    return true;
+bool eResourceBuildingBase::spawnCart() {
+    return spawnGiveCart(mCart, mCartSpawnTime, mCartWaitTime, mResType);
 }

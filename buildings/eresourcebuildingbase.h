@@ -25,7 +25,7 @@ public:
 
     void timeChanged();
 private:
-    bool spawn();
+    bool spawnCart();
 
     const int mMaxResource = 8;
 
@@ -34,8 +34,8 @@ private:
     int mResource{0};
 
     stdsptr<eCartTransporter> mCart;
-    int mWaitTime = 5000;
-    int mSpawnTime = mWaitTime;
+    int mCartWaitTime = 5000;
+    int mCartSpawnTime = mCartWaitTime;
 };
 
 #endif // ERESOURCEBUILDINGBASE_H

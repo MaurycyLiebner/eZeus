@@ -10,7 +10,7 @@ eCollectAction::eCollectAction(eResourceCollector* const c,
 
 void eCollectAction::increment(const int by) {
     mTime += by;
-    if(mTime > 1000) {
+    if(mTime > 3500) {
         mTile->decResource(1);
         mCharacter->incCollected(1);
         const bool noResLeft = mTile->resource() <= 0;
