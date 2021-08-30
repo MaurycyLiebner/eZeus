@@ -97,7 +97,8 @@ void eBuildingTextures::load() {
         {
             const std::string pathBase{dir + "Zeus_Housing_"};
 
-            fHouseSpace.load(fRenderer, pathBase + "00015.png");
+            fHouseSpace = std::make_shared<eTexture>();
+            fHouseSpace->load(fRenderer, pathBase + "00015.png");
             for(int i = 1; i < 15;) {
                 auto& coll = fCommonHouse.emplace_back(fRenderer);
                 for(int j = 0; j < 2; j++, i++) {
@@ -109,38 +110,47 @@ void eBuildingTextures::load() {
         {
             const std::string pathBase{dir + "Zeus_Culture_"};
 
-            fCollege.load(fRenderer, pathBase + "00001.png");
+            fCollege = std::make_shared<eTexture>();
+            fCollege->load(fRenderer, pathBase + "00001.png");
 
             for(int i = 2; i < 26; i++) {
                 eTextureLoadingHelpers::loadTex(pathBase, i, fCollegeOverlay);
             }
 
-            fGymnasium.load(fRenderer, pathBase + "00026.png");
+            fGymnasium = std::make_shared<eTexture>();
+            fGymnasium->load(fRenderer, pathBase + "00026.png");
 
             for(int i = 27; i < 59; i++) {
                 eTextureLoadingHelpers::loadTex(pathBase, i, fGymnasiumOverlay);
             }
 
-            fDramaSchool.load(fRenderer, pathBase + "00059.png");
+            fDramaSchool = std::make_shared<eTexture>();
+            fDramaSchool->load(fRenderer, pathBase + "00059.png");
 
             for(int i = 60; i < 84; i++) {
                 eTextureLoadingHelpers::loadTex(pathBase, i, fDramaSchoolOverlay);
             }
 
-            fPodium.load(fRenderer, pathBase + "00084.png");
+            fPodium = std::make_shared<eTexture>();
+            fPodium->load(fRenderer, pathBase + "00084.png");
 
             for(int i = 85; i < 109; i++) {
                 eTextureLoadingHelpers::loadTex(pathBase, i, fPodiumOverlay);
             }
 
-            fTheater.load(fRenderer, pathBase + "00109.png");
+            fTheater = std::make_shared<eTexture>();
+            fTheater->load(fRenderer, pathBase + "00109.png");
 
-            fStadium2H.load(fRenderer, pathBase + "00110.png");
-            fStadium2H.setOffset(5, 0);
-            fStadium1H.load(fRenderer, pathBase + "00111.png");
-            fStadium1W.load(fRenderer, pathBase + "00112.png");
-            fStadium2W.load(fRenderer, pathBase + "00113.png");
-            fStadium2W.setOffset(-5, 0);
+            fStadium2H = std::make_shared<eTexture>();
+            fStadium2H->load(fRenderer, pathBase + "00110.png");
+            fStadium2H->setOffset(5, 0);
+            fStadium1H = std::make_shared<eTexture>();
+            fStadium1H->load(fRenderer, pathBase + "00111.png");
+            fStadium1W = std::make_shared<eTexture>();
+            fStadium1W->load(fRenderer, pathBase + "00112.png");
+            fStadium2W = std::make_shared<eTexture>();
+            fStadium2W->load(fRenderer, pathBase + "00113.png");
+            fStadium2W->setOffset(-5, 0);
 
         }
     }
@@ -150,12 +160,14 @@ void eBuildingTextures::load() {
 
         const std::string pathBase{dir + "Zeus_HealthNSan_"};
 
-        fFountain.load(fRenderer, pathBase + "00001.png");
+        fFountain = std::make_shared<eTexture>();
+        fFountain->load(fRenderer, pathBase + "00001.png");
         for(int i = 2; i < 8; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fFountainOverlay);
         }
 
-        fHospital.load(fRenderer, pathBase + "00008.png");
+        fHospital = std::make_shared<eTexture>();
+        fHospital->load(fRenderer, pathBase + "00008.png");
         for(int i = 9; i < 21; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fHospitalOverlay);
         }
@@ -174,7 +186,8 @@ void eBuildingTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fVine);
         }
 
-        fPlantation.load(fRenderer, pathBase + "00013.png");
+        fPlantation = std::make_shared<eTexture>();
+        fPlantation->load(fRenderer, pathBase + "00013.png");
 
         for(int i = 14; i < 20; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fWheat);
@@ -188,7 +201,8 @@ void eBuildingTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fOnions);
         }
 
-        fHuntingLodge.load(fRenderer, pathBase + "00032.png");
+        fHuntingLodge = std::make_shared<eTexture>();
+        fHuntingLodge->load(fRenderer, pathBase + "00032.png");
         for(int i = 33; i < 48; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fHuntingLodgeOverlay);
         }
@@ -201,17 +215,20 @@ void eBuildingTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fUrchinQuay);
         }
 
-        fCardingShed.load(fRenderer, pathBase + "00056.png");
+        fCardingShed = std::make_shared<eTexture>();
+        fCardingShed->load(fRenderer, pathBase + "00056.png");
         for(int i = 57; i < 69; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fCardingShedOverlay);
         }
 
-        fDairy.load(fRenderer, pathBase + "00069.png");
+        fDairy = std::make_shared<eTexture>();
+        fDairy->load(fRenderer, pathBase + "00069.png");
         for(int i = 70; i < 91; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fDairyOverlay);
         }
 
-        fGrowersLodge.load(fRenderer, pathBase + "00091.png");
+        fGrowersLodge = std::make_shared<eTexture>();
+        fGrowersLodge->load(fRenderer, pathBase + "00091.png");
         for(int i = 92; i < 102; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fGrowersLodgeOverlay);
         }
@@ -222,42 +239,50 @@ void eBuildingTextures::load() {
 
         const std::string pathBase{dir + "Zeus_Industry_"};
 
-        fTimberMill.load(fRenderer, pathBase + "00001.png");
+        fTimberMill = std::make_shared<eTexture>();
+        fTimberMill->load(fRenderer, pathBase + "00001.png");
         for(int i = 2; i < 12; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fTimberMillOverlay);
         }
 
-        fMasonryShop.load(fRenderer, pathBase + "00012.png");
+        fMasonryShop = std::make_shared<eTexture>();
+        fMasonryShop->load(fRenderer, pathBase + "00012.png");
         for(int i = 13; i < 21; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fMasonryShopStones);
         }
 
-        fMint.load(fRenderer, pathBase + "00021.png");
+        fMint = std::make_shared<eTexture>();
+        fMint->load(fRenderer, pathBase + "00021.png");
         for(int i = 22; i < 32; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fMintOverlay);
         }
 
-        fFoundry.load(fRenderer, pathBase + "00036.png");
+        fFoundry = std::make_shared<eTexture>();
+        fFoundry->load(fRenderer, pathBase + "00036.png");
         for(int i = 37; i < 49; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fFoundryOverlay);
         }
 
-        fArtisansGuild.load(fRenderer, pathBase + "00049.png");
+        fArtisansGuild = std::make_shared<eTexture>();
+        fArtisansGuild->load(fRenderer, pathBase + "00049.png");
         for(int i = 50; i < 60; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fArtisansGuildOverlay);
         }
 
-        fOlivePress.load(fRenderer, pathBase + "00060.png");
+        fOlivePress = std::make_shared<eTexture>();
+        fOlivePress->load(fRenderer, pathBase + "00060.png");
         for(int i = 61; i < 73; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fOlivePressOverlay);
         }
 
-        fWinery.load(fRenderer, pathBase + "00073.png");
+        fWinery = std::make_shared<eTexture>();
+        fWinery->load(fRenderer, pathBase + "00073.png");
         for(int i = 74; i < 86; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fWineryOverlay);
         }
 
-        fSculptureStudio.load(fRenderer, pathBase + "00086.png");
+        fSculptureStudio = std::make_shared<eTexture>();
+        fSculptureStudio->load(fRenderer, pathBase + "00086.png");
         for(int i = 87; i < 122; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fSculptureStudioOverlay);
         }
@@ -272,13 +297,16 @@ void eBuildingTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fTriremeWharf);
         }
 
-        fHorseRanch.load(fRenderer, pathBase + "00005.png");
+        fHorseRanch = std::make_shared<eTexture>();
+        fHorseRanch->load(fRenderer, pathBase + "00005.png");
         for(int i = 6; i < 22; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fHorseRanchOverlay);
         }
-        fHorseRanchEnclosure.load(fRenderer, pathBase + "00041.png");
+        fHorseRanchEnclosure = std::make_shared<eTexture>();
+        fHorseRanchEnclosure->load(fRenderer, pathBase + "00041.png");
 
-        fArmory.load(fRenderer, pathBase + "00022.png");
+        fArmory = std::make_shared<eTexture>();
+        fArmory->load(fRenderer, pathBase + "00022.png");
         for(int i = 23; i < 41; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fArmoryOverlay);
         }
@@ -289,27 +317,34 @@ void eBuildingTextures::load() {
 
         const std::string pathBase{dir + "Zeus_Municipal_"};
 
-        fMaintenanceOffice.load(fRenderer, pathBase + "00001.png");
+        fMaintenanceOffice = std::make_shared<eTexture>();
+        fMaintenanceOffice->load(fRenderer, pathBase + "00001.png");
         for(int i = 2; i < 46; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fMaintenanceOfficeOverlay);
         }
 
-        fTaxOffice.load(fRenderer, pathBase + "00046.png");
+        fTaxOffice = std::make_shared<eTexture>();
+        fTaxOffice->load(fRenderer, pathBase + "00046.png");
         for(int i = 47; i < 65; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fTaxOfficeOverlay);
         }
 
-        fWatchPost.load(fRenderer, pathBase + "00065.png");
+        fWatchPost = std::make_shared<eTexture>();
+        fWatchPost->load(fRenderer, pathBase + "00065.png");
 
         {
             const std::string pathBase{dir + "Zeus_Mun-Palace_"};
 
-            fPalace2H.load(fRenderer, pathBase + "00001.png");
-            fPalace2H.setOffset(4, 0);
-            fPalace1H.load(fRenderer, pathBase + "00012.png");
-            fPalace1W.load(fRenderer, pathBase + "00013.png");
-            fPalace2W.load(fRenderer, pathBase + "00014.png");
-            fPalace2W.setOffset(-4, 0);
+            fPalace2H = std::make_shared<eTexture>();
+            fPalace2H->load(fRenderer, pathBase + "00001.png");
+            fPalace2H->setOffset(4, 0);
+            fPalace1H = std::make_shared<eTexture>();
+            fPalace1H->load(fRenderer, pathBase + "00012.png");
+            fPalace1W = std::make_shared<eTexture>();
+            fPalace1W->load(fRenderer, pathBase + "00013.png");
+            fPalace2W = std::make_shared<eTexture>();
+            fPalace2W->load(fRenderer, pathBase + "00014.png");
+            fPalace2W->setOffset(-4, 0);
 
             eTextureLoadingHelpers::loadTex(pathBase, 25, fPalaceTiles);
             eTextureLoadingHelpers::loadTex(pathBase, 26, fPalaceTiles);
@@ -393,7 +428,8 @@ void eBuildingTextures::load() {
         for(int i = 53; i < 57; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseArmor);
         }
-        fWarehouseSculpture.load(fRenderer, pathBase + "00057.png");
+        fWarehouseSculpture = std::make_shared<eTexture>();
+        fWarehouseSculpture->load(fRenderer, pathBase + "00057.png");
         for(int i = 58; i < 62; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseOliveOil);
         }
@@ -427,25 +463,38 @@ void eBuildingTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingArmor);
         }
 
-        fWarehouseEmpty.load(fRenderer, pathBase + "00115.png");
+        fWarehouseEmpty = std::make_shared<eTexture>();
+        fWarehouseEmpty->load(fRenderer, pathBase + "00115.png");
     }
 
     {
         const auto dir = basedir + "Zeus_General/";
         const std::string pathBase{dir + "Zeus_StorNDist_"};
 
-        fFoodVendor.load(fRenderer, pathBase + "00001.png");
-        fFoodVendorOverlay.load(fRenderer, pathBase + "00002.png");
-        fFleeceVendor.load(fRenderer, pathBase + "00003.png");
-        fFleeceVendorOverlay.load(fRenderer, pathBase + "00004.png");
-        fOilVendor.load(fRenderer, pathBase + "00005.png");
-        fOilVendorOverlay.load(fRenderer, pathBase + "00006.png");
-        fWineVendor.load(fRenderer, pathBase + "00007.png");
-        fWineVendorOverlay.load(fRenderer, pathBase + "00008.png");
-        fArmsVendor.load(fRenderer, pathBase + "00009.png");
-        fArmsVendorOverlay.load(fRenderer, pathBase + "00010.png");
-        fHorseTrainer.load(fRenderer, pathBase + "00011.png");
-        fHorseTrainerOverlay.load(fRenderer, pathBase + "00012.png");
+        fFoodVendor = std::make_shared<eTexture>();
+        fFoodVendor->load(fRenderer, pathBase + "00001.png");
+        fFoodVendorOverlay = std::make_shared<eTexture>();
+        fFoodVendorOverlay->load(fRenderer, pathBase + "00002.png");
+        fFleeceVendor = std::make_shared<eTexture>();
+        fFleeceVendor->load(fRenderer, pathBase + "00003.png");
+        fFleeceVendorOverlay = std::make_shared<eTexture>();
+        fFleeceVendorOverlay->load(fRenderer, pathBase + "00004.png");
+        fOilVendor = std::make_shared<eTexture>();
+        fOilVendor->load(fRenderer, pathBase + "00005.png");
+        fOilVendorOverlay = std::make_shared<eTexture>();
+        fOilVendorOverlay->load(fRenderer, pathBase + "00006.png");
+        fWineVendor = std::make_shared<eTexture>();
+        fWineVendor->load(fRenderer, pathBase + "00007.png");
+        fWineVendorOverlay = std::make_shared<eTexture>();
+        fWineVendorOverlay->load(fRenderer, pathBase + "00008.png");
+        fArmsVendor = std::make_shared<eTexture>();
+        fArmsVendor->load(fRenderer, pathBase + "00009.png");
+        fArmsVendorOverlay = std::make_shared<eTexture>();
+        fArmsVendorOverlay->load(fRenderer, pathBase + "00010.png");
+        fHorseTrainer = std::make_shared<eTexture>();
+        fHorseTrainer->load(fRenderer, pathBase + "00011.png");
+        fHorseTrainerOverlay = std::make_shared<eTexture>();
+        fHorseTrainerOverlay->load(fRenderer, pathBase + "00012.png");
 
 //        for(int i = 13; i < 16; i++) {
 //            eTextureLoadingHelpers::loadTex(pathBase, i, fAgoraRoad);
@@ -454,23 +503,32 @@ void eBuildingTextures::load() {
 //            eTextureLoadingHelpers::loadTex(pathBase, i, fAgora);
 //        }
 
-        fWarehouse.load(fRenderer, pathBase + "00023.png");
-        fWarehouse.setOffset(-58, 60);
+        fWarehouse = std::make_shared<eTexture>();
+        fWarehouse->load(fRenderer, pathBase + "00023.png");
+        fWarehouse->setOffset(-58, 60);
 
-        fGranary.load(fRenderer, pathBase + "00029.png");;
+        fGranary = std::make_shared<eTexture>();
+        fGranary->load(fRenderer, pathBase + "00029.png");;
         for(int i = 30; i < 46; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fGranaryOverlay);
         }
 
-        fGranaryUrchin.load(fRenderer, pathBase + "00046.png");
-        fGranaryFish.load(fRenderer, pathBase + "00047.png");
-        fGranaryMeat.load(fRenderer, pathBase + "00048.png");
-        fGranaryCheese.load(fRenderer, pathBase + "00049.png");
-        fGranaryCheese.setOffset(-3, 2);
-        fGranaryCarrots.load(fRenderer, pathBase + "00050.png");
-        fGranaryOnions.load(fRenderer, pathBase + "00051.png");
-        fGranaryOnions.setOffset(-4, 0);
-        fGranaryWheat.load(fRenderer, pathBase + "00052.png");
+        fGranaryUrchin = std::make_shared<eTexture>();
+        fGranaryUrchin->load(fRenderer, pathBase + "00046.png");
+        fGranaryFish = std::make_shared<eTexture>();
+        fGranaryFish->load(fRenderer, pathBase + "00047.png");
+        fGranaryMeat = std::make_shared<eTexture>();
+        fGranaryMeat->load(fRenderer, pathBase + "00048.png");
+        fGranaryCheese = std::make_shared<eTexture>();
+        fGranaryCheese->load(fRenderer, pathBase + "00049.png");
+        fGranaryCheese->setOffset(-3, 2);
+        fGranaryCarrots = std::make_shared<eTexture>();
+        fGranaryCarrots->load(fRenderer, pathBase + "00050.png");
+        fGranaryOnions = std::make_shared<eTexture>();
+        fGranaryOnions->load(fRenderer, pathBase + "00051.png");
+        fGranaryOnions->setOffset(-4, 0);
+        fGranaryWheat = std::make_shared<eTexture>();
+        fGranaryWheat->load(fRenderer, pathBase + "00052.png");
     }
 
     {

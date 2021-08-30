@@ -18,12 +18,12 @@ void eCheckableButton::setChecked(const bool c) {
     mChecked = c;
 }
 
-void eCheckableButton::setCheckedTexture(const eTexture& tex) {
+void eCheckableButton::setCheckedTexture(const std::shared_ptr<eTexture>& tex) {
     mCheckedTexture = tex;
 }
 
 void eCheckableButton::paintEvent(ePainter& p) {
-    if(!mCheckedTexture.isNull()) {
+    if(mCheckedTexture) {
         if(mChecked) {
             p.drawTexture(rect(), mCheckedTexture, eAlignment::center);
         } else eButton::paintEvent(p);

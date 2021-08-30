@@ -9,12 +9,12 @@ eDemeter::eDemeter(eGameBoard& board) :
 
 }
 
-eTexture eDemeter::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eDemeter::getTexture(const eTileSize size) const {
     if(mAction == eDemeterAction::walk) {
         const int id = static_cast<int>(size);
         const int oid = static_cast<int>(orientation());
         const auto& coll = mTextures[id].fWalk[oid];
         return coll.getTexture(textureTime() % coll.size());
     }
-    return eTexture();
+    return std::shared_ptr<eTexture>();
 }

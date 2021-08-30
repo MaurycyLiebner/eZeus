@@ -11,7 +11,7 @@ eFarmBase::eFarmBase(eGameBoard& board,
 
 }
 
-eTexture eFarmBase::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eFarmBase::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].fPlantation;
 }

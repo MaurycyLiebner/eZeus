@@ -11,7 +11,7 @@ enum class eCharacterType;
 
 class eShepherBuildingBase : public eResourceBuildingBase {
 public:
-    using eBaseTex = eTexture eBuildingTextures::*;
+    using eBaseTex = std::shared_ptr<eTexture> eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;
     using eRC = eResourceCollector;
     using eCharGenerator =  std::function<stdsptr<eRC>(eGameBoard&)>;
@@ -27,7 +27,7 @@ public:
                          const int sw, const int sh,
                          const int maxEmployees);
 
-    eTexture getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
 
     void timeChanged();

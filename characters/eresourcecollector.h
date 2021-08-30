@@ -16,7 +16,7 @@ public:
     eResourceCollector(eGameBoard& board, const eCharTexs charTexs,
                        const eCharacterType type);
 
-    eTexture getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 
     int collected() const { return mResCollected; }
     void incCollected(const int by = 1) { mResCollected += by; }

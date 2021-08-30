@@ -10,7 +10,7 @@ ePalace1W::ePalace1W(eGameBoard& board) :
 
 }
 
-eTexture ePalace1W::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> ePalace1W::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].fPalace1W;
 }
@@ -21,7 +21,7 @@ ePalace1H::ePalace1H(eGameBoard& board) :
 
 }
 
-eTexture ePalace1H::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> ePalace1H::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].fPalace1H;
 }

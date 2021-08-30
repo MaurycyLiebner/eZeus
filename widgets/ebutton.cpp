@@ -10,34 +10,34 @@ void eButton::setPressAction(const eAction& a) {
     mPressAction = a;
 }
 
-void eButton::setHoverTexture(const eTexture& tex) {
+void eButton::setHoverTexture(const std::shared_ptr<eTexture>& tex) {
     mHoverTexture = tex;
 }
 
-void eButton::setPressedTexture(const eTexture& tex) {
+void eButton::setPressedTexture(const std::shared_ptr<eTexture>& tex) {
     mPressedTexture = tex;
 }
 
 void eButton::sizeHint(int& w, int& h) {
     eLabel::sizeHint(w, h);
-    w = std::max({w, mTexture.width(),
-                  mHoverTexture.width(),
-                  mPressedTexture.width()});
-    h = std::max({h, mTexture.height(),
-                  mHoverTexture.height(),
-                  mPressedTexture.height()});
+    w = std::max({w, mTexture ? mTexture->width() : 0,
+                  mHoverTexture ? mHoverTexture->width() : 0,
+                  mPressedTexture ? mPressedTexture->width() : 0});
+    h = std::max({h, mTexture ? mTexture->height() : 0,
+                  mHoverTexture ? mHoverTexture->height() : 0,
+                  mPressedTexture ? mPressedTexture->height() : 0});
 }
 
 void eButton::paintEvent(ePainter& p) {
     eLabel::paintEvent(p);
-    if(mPressed && !mPressedTexture.isNull()) {
+    if(mPressed && mPressedTexture) {
         p.drawTexture(rect(), mPressedTexture, eAlignment::center);
     } else if(mHover) {
-        if(!mHoverTexture.isNull()) {
+        if(mHoverTexture) {
             p.drawTexture(rect(), mHoverTexture, eAlignment::center);
         } else {
             const auto& t = texture();
-            const auto tw = t.width();
+            const auto tw = t->width();
             const auto ww = (width() - tw)/2;
             const int ah = height();
             const int pd = padding();

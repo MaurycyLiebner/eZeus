@@ -13,7 +13,7 @@ public:
     void incGrapes();
     void incOlives();
 
-    eTexture getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 private:
     int mOlives = 0;
     int mGrapes = 0;

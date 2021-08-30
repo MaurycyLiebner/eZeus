@@ -397,7 +397,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         const int a = mDrawElevation ? tile->altitude() : 0;
         drawXY(tx, ty, rx, ry, drawDim, drawDim, a);
 
-        if(!tex.isNull()) {
+        if(tex) {
             if(drawDim == 2) {
                 ry -= 1;
             } else if(drawDim == 3) {
@@ -412,9 +412,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                 }
             }
             const bool h = tx == gHoverX && ty == gHoverY;
-            if(h || s) tex.setColorMod(255, 175, 255);
+            if(h || s) tex->setColorMod(255, 175, 255);
             tp.drawTexture(rx, ry, tex, eAlignment::top);
-            if(h || s) tex.clearColorMod();
+            if(h || s) tex->clearColorMod();
         }
     });
     iterateOverTiles([&](eTile* const tile) {
@@ -426,7 +426,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             double rx;
             double ry;
             drawXY(tx, ty, rx, ry, 1, 1, a);
-            const eTexture* tex;
+            const std::shared_ptr<eTexture>* tex;
             if(tile->underBuilding() == mPatrolBuilding) {
                 tex = &trrTexs.fSelectedBuildingBase;
             } else {
@@ -451,7 +451,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             tp.drawTexture(x, y, tex);
             if(!c->hasSecondaryTexture()) continue;
             const auto stex = c->getSecondaryTexture(mTileSize);
-            if(!stex.fTex.isNull()) {
+            if(stex.fTex) {
                 tp.drawTexture(x + stex.fX, y + stex.fY, stex.fTex);
             }
         }
@@ -729,20 +729,20 @@ void eGameWidget::paintEvent(ePainter& p) {
             drawXY(eb.fTx, eb.fTy, rx, ry, sw, sh, a);
             auto tex = b->getTexture(tp.size());
 
-            if(cbg) tex.setColorMod(0, 255, 0);
-            else tex.setColorMod(255, 0, 0);
+            if(cbg) tex->setColorMod(0, 255, 0);
+            else tex->setColorMod(255, 0, 0);
             tp.drawTexture(rx, ry, tex, eAlignment::top);
-            tex.clearColorMod();
+            tex->clearColorMod();
 
             auto overlays = b->getOverlays(tp.size());
             for(auto& o : overlays) {
                 auto& ttex = o.fTex;
-                if(cbg) ttex.setColorMod(0, 255, 0);
-                else ttex.setColorMod(255, 0, 0);
+                if(cbg) ttex->setColorMod(0, 255, 0);
+                else ttex->setColorMod(255, 0, 0);
                 if(o.fAlignTop) tp.drawTexture(rx + o.fX, ry + o.fY, ttex,
                                                eAlignment::top);
                 else tp.drawTexture(rx + o.fX, ry + o.fY, ttex);
-                ttex.clearColorMod();
+                ttex->clearColorMod();
             }
         }
     }

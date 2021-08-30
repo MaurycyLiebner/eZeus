@@ -14,7 +14,7 @@ public:
     const int fTileH;
     SDL_Renderer* const fRenderer;
 
-    eTexture fGameMenuBackground;
+    std::shared_ptr<eTexture> fGameMenuBackground;
 
     // normal, hover, selected, disabled
     eTextureCollection fShowInfo;
@@ -33,7 +33,7 @@ public:
     eTextureCollection fAesthetics;
     eTextureCollection fOverview;
 
-    eTexture fMapEditMenuBackground;
+    std::shared_ptr<eTexture> fMapEditMenuBackground;
 
     eTextureCollection fBrushSize;
     eTextureCollection fEmptyLand;
@@ -124,19 +124,19 @@ public:
     // topLeft, top, topRight, left, center, right, bottomLeft, bottom, bottomRight,
     std::vector<eTextureCollection> fComboBox;
 
-    eTexture fLoadImage;
-    eTexture fMainMenuImage;
+    std::shared_ptr<eTexture> fLoadImage;
+    std::shared_ptr<eTexture> fMainMenuImage;
 
     eTextureCollection fCheckBox;
     eTextureCollection fLargeCheckBox;
 
-    eTexture fSpawner;
+    std::shared_ptr<eTexture> fSpawner;
 
     //
 
-    eTexture fDrachmasTopMenu;
-    eTexture fPopulationTopMenu;
-    eTexture fDrachmasUnit;
+    std::shared_ptr<eTexture> fDrachmasTopMenu;
+    std::shared_ptr<eTexture> fPopulationTopMenu;
+    std::shared_ptr<eTexture> fDrachmasUnit;
 };
 
 #endif // EINTERFACETEXTURES_H

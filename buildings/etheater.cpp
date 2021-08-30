@@ -10,7 +10,7 @@ eTheater::eTheater(eGameBoard& board) :
 
 }
 
-eTexture eTheater::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eTheater::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].fTheater;
 }

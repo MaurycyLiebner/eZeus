@@ -10,7 +10,7 @@ class eTopWidget : public eWidget {
 public:
     using eWidget::eWidget;
 
-    void initialize(const eTexture& icon,
+    void initialize(const std::shared_ptr<eTexture>& icon,
                     const std::string& text) {
         setPadding(0);
         mIcon = new eLabel(window());

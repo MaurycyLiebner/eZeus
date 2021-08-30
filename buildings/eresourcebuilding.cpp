@@ -20,7 +20,7 @@ eResourceBuilding::eResourceBuilding(
 
 }
 
-eTexture eResourceBuilding::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eResourceBuilding::getTexture(const eTileSize size) const {
     const auto& texs = eGameTextures::buildings();
     const int sizeId = static_cast<int>(size);
     const auto& colls = texs[sizeId];
@@ -30,7 +30,7 @@ eTexture eResourceBuilding::getTexture(const eTileSize size) const {
     case eResourceBuildingType::vine:
         return colls.fVine.getTexture(mRipe);
     }
-    return eTexture();
+    return std::shared_ptr<eTexture>();
 }
 
 int eResourceBuilding::takeResource(const int by) {

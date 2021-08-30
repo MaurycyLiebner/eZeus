@@ -6,11 +6,13 @@
 namespace eTextureLoadingHelpers {
     std::string addZeroes(const std::string& str);
 
-    eTexture* loadTex(const std::string& pathBase, const int i,
-                      eTextureCollection& coll);
-    eTexture* loadTexWithOffset(const std::string& pathBase, const int i,
-                                eTextureCollection& coll,
-                                const std::vector<std::pair<int, int>>& offs);
+    std::shared_ptr<eTexture> loadTex(
+            const std::string& pathBase, const int i,
+            eTextureCollection& coll);
+    std::shared_ptr<eTexture> loadTexWithOffset(
+            const std::string& pathBase, const int i,
+            eTextureCollection& coll,
+            const std::vector<std::pair<int, int>>& offs);
 };
 
 #endif // ETEXTURELOADINGHELPERS_H

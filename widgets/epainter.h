@@ -47,13 +47,13 @@ public:
     void setFont(TTF_Font* const font);
 
     void drawTexture(const int x, const int y,
-                     const eTexture& tex,
+                     const std::shared_ptr<eTexture>& tex,
                      const eAlignment align) const;
     void drawTexture(const SDL_Rect& rect,
-                     const eTexture& tex,
+                     const std::shared_ptr<eTexture>& tex,
                      const eAlignment align) const;
     void drawTexture(const int x, const int y,
-                     const eTexture& tex) const;
+                     const std::shared_ptr<eTexture>& tex) const;
     void fillRect(const SDL_Rect& rect,
                   const SDL_Color& color) const;
     void drawRect(const SDL_Rect& rect,

@@ -2,37 +2,13 @@
 
 eTexture::eTexture() {}
 
-eTexture::eTexture(const eTexture& other) {
-    *this = other;
-}
-
 eTexture::~eTexture() {
     reset();
 }
 
-eTexture& eTexture::operator=(const eTexture& src) {
-    if(&src == this) return *this;
-    reset();
-    mWidth = src.mWidth;
-    mHeight = src.mHeight;
-    mTex = src.mTex;
-    mRefs = src.mRefs;
-    mOffsetX = src.mOffsetX;
-    mOffsetY = src.mOffsetY;
-    if(mRefs) (*mRefs)++;
-    return *this;
-}
-
 void eTexture::reset() {
-    if(mTex) {
-        if(--(*mRefs) == 0) {
-            SDL_DestroyTexture(mTex);
-        }
-    }
+    if(mTex) SDL_DestroyTexture(mTex);
     mTex = nullptr;
-    mWidth = 0;
-    mHeight = 0;
-    mRefs.reset();
 }
 
 bool eTexture::load(SDL_Renderer* const r, const std::string& path) {
@@ -46,7 +22,6 @@ bool eTexture::load(SDL_Renderer* const r, const std::string& path) {
     mTex = SDL_CreateTextureFromSurface(r, surf);
     mWidth = surf->w;
     mHeight = surf->h;
-    mRefs = std::make_shared<int>(1);
     SDL_FreeSurface(surf);
     if(!mTex) {
         printf("Unable to create texture from %s! SDL Error: %s\n",
@@ -71,7 +46,6 @@ bool eTexture::loadText(SDL_Renderer* const r,
     mTex = SDL_CreateTextureFromSurface(r, surf);
     mWidth = surf->w;
     mHeight = surf->h;
-    mRefs = std::make_shared<int>(1);
     SDL_FreeSurface(surf);
     if(!mTex) {
         printf("Unable to create texture from rendered text! "

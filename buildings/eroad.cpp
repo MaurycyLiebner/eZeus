@@ -8,7 +8,7 @@ eRoad::eRoad(eGameBoard& board) :
 
 }
 
-eTexture eRoad::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& sizeColl = mTextures[sizeId];
     const auto& coll = sizeColl.fRoad;
@@ -90,5 +90,5 @@ eTexture eRoad::getTexture(const eTileSize size) const {
 
         return coll.getTexture(16);
     }
-    return eTexture();
+    return std::shared_ptr<eTexture>();
 }

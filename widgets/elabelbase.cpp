@@ -26,7 +26,7 @@ bool eLabelBase::setText(const std::string& text) {
     return updateTextTexture();
 }
 
-bool eLabelBase::setTexture(const eTexture& tex) {
+bool eLabelBase::setTexture(const std::shared_ptr<eTexture>& tex) {
     mTexture = tex;
     return true;
 }
@@ -42,6 +42,7 @@ bool eLabelBase::updateTextTexture() {
         return true;
     }
     if(!mFont) return false;
-    mTexture.loadText(mRenderer, mText, mFontColor, *mFont);
+    mTexture = std::make_shared<eTexture>();
+    mTexture->loadText(mRenderer, mText, mFontColor, *mFont);
     return true;
 }

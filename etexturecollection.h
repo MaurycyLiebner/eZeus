@@ -15,12 +15,12 @@ public:
               const int x, const int y,
               const int id,
               const eAlignment align) const;
-    eTexture* loadTexture(const std::string& path);
-    eTexture getTexture(const int id) const;
+    std::shared_ptr<eTexture> loadTexture(const std::string& path);
+    std::shared_ptr<eTexture> getTexture(const int id) const;
     int size() const;
 private:
     SDL_Renderer* const mRenderer;
-    std::vector<eTexture> mTexs;
+    std::vector<std::shared_ptr<eTexture>> mTexs;
 };
 
 #endif // ETEXTURECOLLECTION_H

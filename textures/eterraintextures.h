@@ -30,8 +30,8 @@ public:
     eTextureCollection fChoppedForestToScrubTerrainTexs;
     eTextureCollection fChoppedForestTerrainTexs;
     std::vector<eTextureCollection> fWaterToBeachTerrainTexs;
-    eTexture fInvalidTex;
-    eTexture fSelectedTex;
+    std::shared_ptr<eTexture> fInvalidTex;
+    std::shared_ptr<eTexture> fSelectedTex;
     eTextureCollection fWaterToBeachToDryTerrainTexs;
 
     eTextureCollection fFlatStonesTerrainTexs;
@@ -52,8 +52,8 @@ public:
 
     eTextureCollection fTinyStones;
 
-    eTexture fBuildingBase;
-    eTexture fSelectedBuildingBase;
+    std::shared_ptr<eTexture> fBuildingBase;
+    std::shared_ptr<eTexture> fSelectedBuildingBase;
 
     eTextureCollection fElevation;
 };

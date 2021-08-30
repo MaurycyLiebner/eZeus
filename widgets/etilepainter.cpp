@@ -28,23 +28,23 @@ void eTilePainter::translate(const double x, const double y) {
 }
 
 void eTilePainter::drawTexture(const double x, const double y,
-                               const eTexture& tex,
+                               const std::shared_ptr<eTexture>& tex,
                                const eAlignment align) const {
     const auto rx = x + mX;
     const auto ry = y + mY;
-    const double dx = mTileH*tex.offsetX()/30.;
-    const double dy = mTileH*tex.offsetY()/30.;
+    const double dx = mTileH*tex->offsetX()/30.;
+    const double dy = mTileH*tex->offsetY()/30.;
     mP.drawTexture(std::round(0.5 * (rx - ry) * mTileW - dx),
                    std::round(0.5 * (rx + ry) * mTileH - dy),
                    tex, align);
 }
 
 void eTilePainter::drawTexture(const double x, const double y,
-                               const eTexture& tex) const {
+                               const std::shared_ptr<eTexture>& tex) const {
     const auto rx = x + mX;
     const auto ry = y + mY;
-    const double dx = mTileH*tex.offsetX()/30.;
-    const double dy = mTileH*tex.offsetY()/30.;
+    const double dx = mTileH*tex->offsetX()/30.;
+    const double dy = mTileH*tex->offsetY()/30.;
     mP.drawTexture(std::round(0.5 * (rx - ry) * mTileW - dx),
                    std::round(0.5 * (rx + ry) * mTileH - dy),
                    tex);

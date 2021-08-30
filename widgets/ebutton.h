@@ -10,8 +10,8 @@ public:
 
     void setPressAction(const eAction& a);
 
-    void setHoverTexture(const eTexture& tex);
-    void setPressedTexture(const eTexture& tex);
+    void setHoverTexture(const std::shared_ptr<eTexture>& tex);
+    void setPressedTexture(const std::shared_ptr<eTexture>& tex);
 protected:
     void sizeHint(int& w, int& h);
     void paintEvent(ePainter& p);
@@ -22,9 +22,9 @@ protected:
     bool mouseEnterEvent(const eMouseEvent& e);
     bool mouseLeaveEvent(const eMouseEvent& e);
 private:
-    eTexture mTexture;
-    eTexture mHoverTexture;
-    eTexture mPressedTexture;
+    std::shared_ptr<eTexture> mTexture;
+    std::shared_ptr<eTexture> mHoverTexture;
+    std::shared_ptr<eTexture> mPressedTexture;
 
     eAction mPressAction;
 

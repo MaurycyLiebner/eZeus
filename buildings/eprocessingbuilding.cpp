@@ -25,7 +25,7 @@ eProcessingBuilding::eProcessingBuilding(
 
 }
 
-eTexture eProcessingBuilding::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eProcessingBuilding::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].*mBaseTex;
 }

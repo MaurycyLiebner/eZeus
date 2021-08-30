@@ -12,7 +12,7 @@ class eGrowersLodge : public eEmployingBuilding {
 public:
     eGrowersLodge(eGameBoard& board);
 
-    eTexture getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
 
     void timeChanged();

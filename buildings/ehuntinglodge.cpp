@@ -11,7 +11,7 @@ eHuntingLodge::eHuntingLodge(eGameBoard& board) :
 
 }
 
-eTexture eHuntingLodge::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eHuntingLodge::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].fHuntingLodge;
 }

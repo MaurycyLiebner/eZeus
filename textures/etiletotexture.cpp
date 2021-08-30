@@ -16,14 +16,14 @@
 
 #include "buildings/ebuilding.h"
 
-eTexture getStonesTexture(eTile* const tile,
+std::shared_ptr<eTexture> getStonesTexture(eTile* const tile,
                           const eTextureCollection& small,
                           const eTextureCollection& large,
                           const eTextureCollection& huge,
                           int& futureDim, int& drawDim) {
     eStonesToDry::get(tile, futureDim, drawDim);
     if(drawDim == 0) {
-        return eTexture();
+        return std::shared_ptr<eTexture>();
     } else if(drawDim == 1) {
         const auto& coll = small;
         const int texId = tile->seed() % coll.size();
@@ -37,10 +37,10 @@ eTexture getStonesTexture(eTile* const tile,
         const int texId = tile->seed() % coll.size();
         return coll.getTexture(texId);
     }
-    return eTexture();
+    return std::shared_ptr<eTexture>();
 }
 
-eTexture eTileToTexture::get(eTile* const tile,
+std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
                              const eTerrainTextures& textures,
                              const eTileSize tileSize,
                              const bool drawElev,

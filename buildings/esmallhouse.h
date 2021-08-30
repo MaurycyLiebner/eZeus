@@ -9,7 +9,7 @@ public:
     eSmallHouse(eGameBoard& board);
     ~eSmallHouse();
 
-    eTexture getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 
     int provide(const eProvide p, const int n);
 

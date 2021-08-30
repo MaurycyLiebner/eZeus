@@ -12,7 +12,7 @@ class eDemeter : public eCharacter {
 public:
     eDemeter(eGameBoard& board);
 
-    eTexture getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 private:
     eDemeterAction mAction{eDemeterAction::walk};
 

@@ -17,7 +17,7 @@ void eAnimal::setTextures(const eCharTexs& texs) {
     mCharTexs = texs;
 }
 
-eTexture eAnimal::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eAnimal::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
     const auto& charTexs = mTextures[id].*mCharTexs;
     const eTextureCollection* coll = nullptr;
@@ -42,9 +42,9 @@ eTexture eAnimal::getTexture(const eTileSize size) const {
         wrap = false;
         coll = &charTexs.fDie;
         break;
-    default: return eTexture();
+    default: return std::shared_ptr<eTexture>();
     }
-    if(!coll || coll->size() == 0) return eTexture();
+    if(!coll || coll->size() == 0) return std::shared_ptr<eTexture>();
     int t = textureTime() - actionStartTime();
     if(!wrap) t = std::clamp(t, 0, coll->size() - 1);
     const int texId = t % coll->size();

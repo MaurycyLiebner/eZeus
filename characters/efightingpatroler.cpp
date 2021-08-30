@@ -11,7 +11,7 @@ eFightingPatroler::eFightingPatroler(
 
 }
 
-eTexture eFightingPatroler::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eFightingPatroler::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
     const auto& charTexs = mTextures[id].*mCharTexs;
     const eTextureCollection* coll = nullptr;
@@ -33,10 +33,10 @@ eTexture eFightingPatroler::getTexture(const eTileSize size) const {
         wrap = false;
         coll = &charTexs.fDie;
         break;
-    default: return eTexture();
+    default: return std::shared_ptr<eTexture>();
     }
     const int s = coll->size();
-    if(!coll || s == 0) return eTexture();
+    if(!coll || s == 0) return std::shared_ptr<eTexture>();
     int t = textureTime() - actionStartTime();
     if(!wrap) t = std::clamp(t, 0, s - 1);
     const int texId = t % s;

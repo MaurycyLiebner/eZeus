@@ -10,7 +10,7 @@ eGrowersLodge::eGrowersLodge(eGameBoard& board) :
 
 }
 
-eTexture eGrowersLodge::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eGrowersLodge::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].fGrowersLodge;
 }

@@ -11,7 +11,7 @@ class eResourceCollectBuilding : public eResourceBuildingBase {
 public:
     using eHasResource = std::function<bool(eTileBase*)>;
     using eTranformFunc = std::function<void(eTile*)>;
-    using eBaseTex = eTexture eBuildingTextures::*;
+    using eBaseTex = std::shared_ptr<eTexture> eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;
     using eCharGenerator =  std::function<stdsptr<eResourceCollector>()>;
     eResourceCollectBuilding(eGameBoard& board,
@@ -27,7 +27,7 @@ public:
                              const int maxEmployees,
                              const eResourceType resType);
 
-    eTexture getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
 
     void timeChanged();

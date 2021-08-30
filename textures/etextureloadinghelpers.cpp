@@ -8,7 +8,7 @@ std::string eTextureLoadingHelpers::addZeroes(const std::string& str) {
     return result;
 }
 
-eTexture* eTextureLoadingHelpers::loadTex(
+std::shared_ptr<eTexture> eTextureLoadingHelpers::loadTex(
         const std::string& pathBase,
         const int i, eTextureCollection& coll) {
     const auto path = pathBase + addZeroes(std::to_string(i)) + ".png";
@@ -17,7 +17,7 @@ eTexture* eTextureLoadingHelpers::loadTex(
     return r;
 }
 
-eTexture* eTextureLoadingHelpers::loadTexWithOffset(
+std::shared_ptr<eTexture> eTextureLoadingHelpers::loadTexWithOffset(
         const std::string& pathBase,
         const int i, eTextureCollection& coll,
         const std::vector<std::pair<int, int>>& offs) {

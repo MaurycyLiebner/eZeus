@@ -18,18 +18,18 @@ bool eLabel::setSmallFontSize() {
 
 void eLabel::sizeHint(int& w, int& h) {
     const auto& tex = texture();
-    if(tex.isNull()) {
+    if(tex) {
+        w = tex->width();
+        h = tex->height();
+    } else {
         w = 0;
         h = 0;
-    } else {
-        w = tex.width();
-        h = tex.height();
     }
 }
 
 void eLabel::paintEvent(ePainter& p) {
     const auto& tex = texture();
-    if(!tex.isNull()) {
+    if(tex) {
         p.drawTexture(rect(), tex, eAlignment::center);
     }
 }

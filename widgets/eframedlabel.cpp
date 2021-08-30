@@ -13,19 +13,19 @@ eFramedLabel::eFramedLabel(const std::string& text,
 
 void eFramedLabel::sizeHint2(int& w, int& h) {
     const auto& tex = texture();
-    if(tex.isNull()) {
+    if(tex) {
+        w = tex->width();
+        h = tex->height();
+    } else {
         w = 0;
         h = 0;
-    } else {
-        w = tex.width();
-        h = tex.height();
     }
 }
 
 void eFramedLabel::paintEvent(ePainter& p) {
     eFramedWidget::paintEvent(p);
     const auto& tex = texture();
-    if(!tex.isNull()) {
+    if(tex) {
         p.drawTexture(rect(), tex, eAlignment::center);
     }
 }

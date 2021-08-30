@@ -32,42 +32,42 @@ void ePainter::setFont(TTF_Font* const font) {
 }
 
 void ePainter::drawTexture(const int x, const int y,
-                           const eTexture& tex,
+                           const std::shared_ptr<eTexture>& tex,
                            const eAlignment align) const {
     int xx = x;
     if(static_cast<bool>(align & eAlignment::left)) {
-        xx -= tex.width();
+        xx -= tex->width();
     } else if(static_cast<bool>(align & eAlignment::hcenter)) {
-        xx -= tex.width()/2;
+        xx -= tex->width()/2;
     }
 
     int yy = y;
     if(static_cast<bool>(align & eAlignment::top)) {
-        yy -= tex.height();
+        yy -= tex->height();
     } else if(static_cast<bool>(align & eAlignment::vcenter)) {
-        yy -= tex.height()/2;
+        yy -= tex->height()/2;
     }
 
     drawTexture(xx, yy, tex);
 }
 
 void ePainter::drawTexture(const SDL_Rect& rect,
-                           const eTexture& tex,
+                           const std::shared_ptr<eTexture>& tex,
                            const eAlignment align) const {
     int xx;
     if(static_cast<bool>(align & eAlignment::right)) {
-        xx = rect.x + rect.w - tex.width();
+        xx = rect.x + rect.w - tex->width();
     } else if(static_cast<bool>(align & eAlignment::hcenter)) {
-        xx = rect.x + (rect.w - tex.width())/2;
+        xx = rect.x + (rect.w - tex->width())/2;
     } else {
         xx = rect.x;
     }
 
     int yy;
     if(static_cast<bool>(align & eAlignment::bottom)) {
-        yy = rect.y + rect.h - tex.height();
+        yy = rect.y + rect.h - tex->height();
     } else if(static_cast<bool>(align & eAlignment::vcenter)) {
-        yy = rect.y + (rect.h - tex.height())/2;
+        yy = rect.y + (rect.h - tex->height())/2;
     } else {
         yy = rect.y;
     }
@@ -76,8 +76,8 @@ void ePainter::drawTexture(const SDL_Rect& rect,
 }
 
 void ePainter::drawTexture(const int x, const int y,
-                           const eTexture& tex) const {
-    tex.render(mRenderer, mX + x, mY + y);
+                           const std::shared_ptr<eTexture>& tex) const {
+    tex->render(mRenderer, mX + x, mY + y);
 }
 
 void ePainter::fillRect(const SDL_Rect& rect,
@@ -118,8 +118,8 @@ void ePainter::drawText(const int x, const int y,
                         const eAlignment align) const {
     if(!mFont) return;
 
-    eTexture tex;
-    tex.loadText(mRenderer, text, color, *mFont);
+    const auto tex = std::make_shared<eTexture>();
+    tex->loadText(mRenderer, text, color, *mFont);
 
     drawTexture(x, y, tex, align);
 }
@@ -130,8 +130,8 @@ void ePainter::drawText(const SDL_Rect& rect,
                         const eAlignment align) const {
     if(!mFont) return;
 
-    eTexture tex;
-    tex.loadText(mRenderer, text, color, *mFont);
+    const auto tex = std::make_shared<eTexture>();
+    tex->loadText(mRenderer, text, color, *mFont);
 
     drawTexture(rect, tex, align);
 }

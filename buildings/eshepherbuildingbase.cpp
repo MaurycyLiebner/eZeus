@@ -25,7 +25,7 @@ eShepherBuildingBase::eShepherBuildingBase(
 
 }
 
-eTexture eShepherBuildingBase::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eShepherBuildingBase::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].*mBaseTex;
 }

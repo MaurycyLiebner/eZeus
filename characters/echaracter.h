@@ -19,7 +19,7 @@ public:
     eCharacter(eGameBoard& board, const eCharacterType type);
     virtual ~eCharacter();
 
-    virtual eTexture getTexture(const eTileSize size) const = 0;
+    virtual std::shared_ptr<eTexture> getTexture(const eTileSize size) const = 0;
     virtual eOverlay getSecondaryTexture(const eTileSize size) const {
         (void)size;
         return eOverlay();

@@ -9,7 +9,7 @@ eFireFighter::eFireFighter(eGameBoard& board) :
 
 }
 
-eTexture eFireFighter::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eFireFighter::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
     const auto& charTexs = mTextures[id].*mCharTexs;
     const eTextureCollection* coll = nullptr;
@@ -19,7 +19,7 @@ eTexture eFireFighter::getTexture(const eTileSize size) const {
     const auto a = actionType();
     switch(a) {
     case eCharacterActionType::none:
-        return eTexture();
+        return std::shared_ptr<eTexture>();
     case eCharacterActionType::collect:
     case eCharacterActionType::walk: {
         coll = &charTexs.fWalk[oid];
@@ -36,7 +36,7 @@ eTexture eFireFighter::getTexture(const eTileSize size) const {
         coll = &charTexs.fDie;
     }
     const int s = coll->size();
-    if(!coll || s == 0) return eTexture();
+    if(!coll || s == 0) return std::shared_ptr<eTexture>();
     int t = textureTime() - actionStartTime();
     if(!wrap) {
         t = std::clamp(t, 0, s - 1);

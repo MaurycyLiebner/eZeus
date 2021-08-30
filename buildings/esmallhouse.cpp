@@ -19,7 +19,7 @@ eSmallHouse::~eSmallHouse() {
     popData.incVacancies(-vacancies());
 }
 
-eTexture eSmallHouse::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eSmallHouse::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     if(mPeople == 0) return mTextures[sizeId].fHouseSpace;
     const auto& coll = mTextures[sizeId].fCommonHouse[mLevel];

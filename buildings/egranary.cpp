@@ -8,7 +8,7 @@ eGranary::eGranary(eGameBoard& board) :
     setAccepts(eResourceType::food);
 }
 
-eTexture eGranary::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eGranary::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].fGranary;
 }

@@ -1,9 +1,9 @@
 #include "eactionlistwidget.h"
 
-eTexture eActionListWidget::textToTexture(const std::string& text) {
-    eTexture tex;
+std::shared_ptr<eTexture> eActionListWidget::textToTexture(const std::string& text) {
+    const auto tex = std::make_shared<eTexture>();
     const auto font = eFonts::defaultFont(mFontSize);
-    tex.loadText(renderer(), text, {255, 255, 255, 255}, *font);
+    tex->loadText(renderer(), text, {255, 255, 255, 255}, *font);
     return tex;
 }
 
@@ -101,7 +101,7 @@ int eActionInstance::width() const {
     for(int i = 0; i < iMax; i++) {
         const int margin = mMargins[i];
         const auto& t = mTextures[i];
-        result += margin + t.width();
+        result += margin + t->width();
     }
     return result;
 }
@@ -109,7 +109,7 @@ int eActionInstance::width() const {
 int eActionInstance::height() const {
     int result = 0;
     for(const auto& t : mTextures) {
-        result = std::max(result, t.height());
+        result = std::max(result, t->height());
     }
     return result;
 }
@@ -119,7 +119,7 @@ void eActionInstance::addText(const int margin, const std::string& text) {
     addTexture(margin, tex);
 }
 
-void eActionInstance::addTexture(const int margin, const eTexture& tex) {
+void eActionInstance::addTexture(const int margin, const std::shared_ptr<eTexture>& tex) {
     mMargins.push_back(margin);
     mTextures.push_back(tex);
 }
@@ -132,7 +132,7 @@ void eActionInstance::draw(ePainter& p, const SDL_Rect& rect) const {
     for(int i = 0; i < iMax; i++) {
         x += mMargins[i];
         const auto& tt = mTextures[i];
-        const int ttw = tt.width();
+        const int ttw = tt->width();
         p.drawTexture({x, rect.y, ttw, rect.h}, tt, eAlignment::center);
         x += ttw;
     }

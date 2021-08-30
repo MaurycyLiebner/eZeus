@@ -244,7 +244,8 @@ void eInterfaceTextures::load() {
     {
         const std::string pathBase{dir + "Zeus_Interface_New_parts_"};
 
-        fGameMenuBackground.load(fRenderer, pathBase + "00002.png");
+        fGameMenuBackground = std::make_shared<eTexture>();
+        fGameMenuBackground->load(fRenderer, pathBase + "00002.png");
 
 
         for(int i = 5; i < 37; i++) {
@@ -387,7 +388,8 @@ void eInterfaceTextures::load() {
     {
         const std::string pathBase{dir + "Zeus_MapEditor_"};
 
-        fMapEditMenuBackground.load(fRenderer, pathBase + "00001.png");
+        fMapEditMenuBackground = std::make_shared<eTexture>();
+        fMapEditMenuBackground->load(fRenderer, pathBase + "00001.png");
 
         for(int i = 2; i < 6; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fBrushSize);
@@ -453,21 +455,27 @@ void eInterfaceTextures::load() {
         }
     }
 
-    fSpawner.load(fRenderer, dir + "Zeus_sprites_00026.png");
+    fSpawner = std::make_shared<eTexture>();
+    fSpawner->load(fRenderer, dir + "Zeus_sprites_00026.png");
 
     {
         const auto dir = basedir + "/Zeus_Data_Images/";
 
-        fLoadImage.load(fRenderer, dir + "Zeus_Load1.jpg");
-        fMainMenuImage.load(fRenderer, dir + "Zeus_FE_Registry.jpg");
+        fLoadImage = std::make_shared<eTexture>();
+        fLoadImage->load(fRenderer, dir + "Zeus_Load1.jpg");
+        fMainMenuImage = std::make_shared<eTexture>();
+        fMainMenuImage->load(fRenderer, dir + "Zeus_FE_Registry.jpg");
     }
 
     {
         const auto dir = basedir + "/Zeus_General/";
         const auto pathBase = dir + "Zeus_Stor-bays_";
 
-        fDrachmasUnit.load(fRenderer, pathBase + "00184.png");
-        fDrachmasTopMenu.load(fRenderer, pathBase + "00185.png");
-        fPopulationTopMenu.load(fRenderer, pathBase + "00186.png");
+        fDrachmasUnit = std::make_shared<eTexture>();
+        fDrachmasUnit->load(fRenderer, pathBase + "00184.png");
+        fDrachmasTopMenu = std::make_shared<eTexture>();
+        fDrachmasTopMenu->load(fRenderer, pathBase + "00185.png");
+        fPopulationTopMenu = std::make_shared<eTexture>();
+        fPopulationTopMenu->load(fRenderer, pathBase + "00186.png");
     }
 }

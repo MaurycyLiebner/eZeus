@@ -12,10 +12,7 @@
 class eTexture {
 public:
     eTexture();
-    eTexture(const eTexture& other);
     ~eTexture();
-
-    eTexture& operator=(const eTexture& src);
 
     void reset();
     bool load(SDL_Renderer* const r,
@@ -57,7 +54,6 @@ private:
     int mOffsetX = 0;
     int mOffsetY = 0;
     SDL_Texture* mTex = nullptr;
-    std::shared_ptr<int> mRefs;
 };
 
 #endif // ETEXTURE_H

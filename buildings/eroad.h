@@ -8,7 +8,7 @@ class eRoad : public eBuilding {
 public:
     eRoad(eGameBoard& board);
 
-    eTexture getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 private:
     const std::vector<eBuildingTextures>& mTextures;
 };

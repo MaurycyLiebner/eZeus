@@ -10,7 +10,7 @@ public:
     using eCharTexs = eFireFighterTextures eCharacterTextures::*;
     eFireFighter(eGameBoard& board);
 
-    eTexture getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 private:
     const std::vector<eCharacterTextures>& mTextures;
     const eCharTexs mCharTexs;

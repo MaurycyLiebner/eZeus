@@ -13,7 +13,7 @@ public:
     eResourceBuilding(eGameBoard& board,
                       const eResourceBuildingType type);
 
-    eTexture getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 
     eResourceBuildingType type() const { return mType; }
 

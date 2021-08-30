@@ -149,8 +149,10 @@ void eTerrainTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fTinyStones);
         }
 
-        fBuildingBase.load(fRenderer, pathBase + "00037.png");
-        fSelectedBuildingBase.load(fRenderer, pathBase + "00038.png");
+        fBuildingBase = std::make_shared<eTexture>();
+        fBuildingBase->load(fRenderer, pathBase + "00037.png");
+        fSelectedBuildingBase = std::make_shared<eTexture>();
+        fSelectedBuildingBase->load(fRenderer, pathBase + "00038.png");
     }
 
     {
@@ -164,8 +166,10 @@ void eTerrainTextures::load() {
     {
         const std::string pathBase{terrDir + "Zeus_Land3_"};
 
-        fSelectedTex.load(fRenderer, pathBase + "00007.png");
-        fInvalidTex.load(fRenderer, pathBase + "00007.png");
+        fSelectedTex = std::make_shared<eTexture>();
+        fSelectedTex->load(fRenderer, pathBase + "00007.png");
+        fInvalidTex = std::make_shared<eTexture>();
+        fInvalidTex->load(fRenderer, pathBase + "00007.png");
 
         loadWaterToX(fRenderer, 9, pathBase, fWaterToBeachTerrainTexs);
 

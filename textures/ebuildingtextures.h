@@ -14,109 +14,109 @@ public:
     const int fTileH;
     SDL_Renderer* const fRenderer;
 
-    eTexture fHouseSpace;
+    std::shared_ptr<eTexture> fHouseSpace;
     std::vector<eTextureCollection> fCommonHouse;
 
 
-    eTexture fGymnasium;
+    std::shared_ptr<eTexture> fGymnasium;
     eTextureCollection fGymnasiumOverlay;
 
-    eTexture fCollege;
+    std::shared_ptr<eTexture> fCollege;
     eTextureCollection fCollegeOverlay;
 
-    eTexture fDramaSchool;
+    std::shared_ptr<eTexture> fDramaSchool;
     eTextureCollection fDramaSchoolOverlay;
 
-    eTexture fPodium;
+    std::shared_ptr<eTexture> fPodium;
     eTextureCollection fPodiumOverlay;
 
-    eTexture fTheater;
+    std::shared_ptr<eTexture> fTheater;
 
-    eTexture fStadium1H;
-    eTexture fStadium2H;
+    std::shared_ptr<eTexture> fStadium1H;
+    std::shared_ptr<eTexture> fStadium2H;
 
-    eTexture fStadium1W;
-    eTexture fStadium2W;
+    std::shared_ptr<eTexture> fStadium1W;
+    std::shared_ptr<eTexture> fStadium2W;
 
-    eTexture fPalace1H;
-    eTexture fPalace2H;
+    std::shared_ptr<eTexture> fPalace1H;
+    std::shared_ptr<eTexture> fPalace2H;
 
-    eTexture fPalace1W;
-    eTexture fPalace2W;
+    std::shared_ptr<eTexture> fPalace1W;
+    std::shared_ptr<eTexture> fPalace2W;
 
     eTextureCollection fPalaceTiles;
 
-    eTexture fFountain;
+    std::shared_ptr<eTexture> fFountain;
     eTextureCollection fFountainOverlay;
 
-    eTexture fHospital;
+    std::shared_ptr<eTexture> fHospital;
     eTextureCollection fHospitalOverlay;
 
 
     eTextureCollection fOliveTree;
     eTextureCollection fVine;
 
-    eTexture fPlantation;
+    std::shared_ptr<eTexture> fPlantation;
     eTextureCollection fWheat;
     eTextureCollection fCarrots;
     eTextureCollection fOnions;
 
-    eTexture fHuntingLodge;
+    std::shared_ptr<eTexture> fHuntingLodge;
     eTextureCollection fHuntingLodgeOverlay;
 
     eTextureCollection fFishery;
     eTextureCollection fUrchinQuay;
 
-    eTexture fCardingShed;
+    std::shared_ptr<eTexture> fCardingShed;
     eTextureCollection fCardingShedOverlay;
 
-    eTexture fDairy;
+    std::shared_ptr<eTexture> fDairy;
     eTextureCollection fDairyOverlay;
 
-    eTexture fGrowersLodge;
+    std::shared_ptr<eTexture> fGrowersLodge;
     eTextureCollection fGrowersLodgeOverlay;
 
-    eTexture fTimberMill;
+    std::shared_ptr<eTexture> fTimberMill;
     eTextureCollection fTimberMillOverlay;
 
-    eTexture fMasonryShop;
+    std::shared_ptr<eTexture> fMasonryShop;
     eTextureCollection fMasonryShopStones;
 
-    eTexture fMint;
+    std::shared_ptr<eTexture> fMint;
     eTextureCollection fMintOverlay;
 
-    eTexture fFoundry;
+    std::shared_ptr<eTexture> fFoundry;
     eTextureCollection fFoundryOverlay;
 
-    eTexture fArtisansGuild;
+    std::shared_ptr<eTexture> fArtisansGuild;
     eTextureCollection fArtisansGuildOverlay;
 
-    eTexture fOlivePress;
+    std::shared_ptr<eTexture> fOlivePress;
     eTextureCollection fOlivePressOverlay;
 
-    eTexture fWinery;
+    std::shared_ptr<eTexture> fWinery;
     eTextureCollection fWineryOverlay;
 
-    eTexture fSculptureStudio;
+    std::shared_ptr<eTexture> fSculptureStudio;
     eTextureCollection fSculptureStudioOverlay;
 
 
     eTextureCollection fTriremeWharf;
 
-    eTexture fHorseRanch;
+    std::shared_ptr<eTexture> fHorseRanch;
     eTextureCollection fHorseRanchOverlay;
-    eTexture fHorseRanchEnclosure;
+    std::shared_ptr<eTexture> fHorseRanchEnclosure;
 
-    eTexture fArmory;
+    std::shared_ptr<eTexture> fArmory;
     eTextureCollection fArmoryOverlay;
 
-    eTexture fMaintenanceOffice;
+    std::shared_ptr<eTexture> fMaintenanceOffice;
     eTextureCollection fMaintenanceOfficeOverlay;
 
-    eTexture fTaxOffice;
+    std::shared_ptr<eTexture> fTaxOffice;
     eTextureCollection fTaxOfficeOverlay;
 
-    eTexture fWatchPost;
+    std::shared_ptr<eTexture> fWatchPost;
     eTextureCollection fWatchPostOverlay;
 
     eTextureCollection fBeachRoad;
@@ -136,28 +136,28 @@ public:
 //    eTextureCollection fAgoraRoad;
 //    eTextureCollection fAgora;
 
-    eTexture fFoodVendor;
-    eTexture fFoodVendorOverlay;
+    std::shared_ptr<eTexture> fFoodVendor;
+    std::shared_ptr<eTexture> fFoodVendorOverlay;
 
-    eTexture fFleeceVendor;
-    eTexture fFleeceVendorOverlay;
+    std::shared_ptr<eTexture> fFleeceVendor;
+    std::shared_ptr<eTexture> fFleeceVendorOverlay;
 
-    eTexture fOilVendor;
-    eTexture fOilVendorOverlay;
+    std::shared_ptr<eTexture> fOilVendor;
+    std::shared_ptr<eTexture> fOilVendorOverlay;
 
-    eTexture fArmsVendor;
-    eTexture fArmsVendorOverlay;
+    std::shared_ptr<eTexture> fArmsVendor;
+    std::shared_ptr<eTexture> fArmsVendorOverlay;
 
-    eTexture fWineVendor;
-    eTexture fWineVendorOverlay;
+    std::shared_ptr<eTexture> fWineVendor;
+    std::shared_ptr<eTexture> fWineVendorOverlay;
 
-    eTexture fHorseTrainer;
-    eTexture fHorseTrainerOverlay;
+    std::shared_ptr<eTexture> fHorseTrainer;
+    std::shared_ptr<eTexture> fHorseTrainerOverlay;
 
-    eTexture fWarehouse;
+    std::shared_ptr<eTexture> fWarehouse;
     eTextureCollection fWarehouseOverlay;
 
-    eTexture fWarehouseEmpty;
+    std::shared_ptr<eTexture> fWarehouseEmpty;
     eTextureCollection fWarehouseUrchin;
     eTextureCollection fWarehouseFish;
     eTextureCollection fWarehouseMeat;
@@ -173,20 +173,20 @@ public:
     eTextureCollection fWarehouseOlives;
     eTextureCollection fWarehouseFleece;
     eTextureCollection fWarehouseArmor;
-    eTexture fWarehouseSculpture;
+    std::shared_ptr<eTexture> fWarehouseSculpture;
     eTextureCollection fWarehouseOliveOil;
     eTextureCollection fWarehouseWine;
 
-    eTexture fGranary;
+    std::shared_ptr<eTexture> fGranary;
     eTextureCollection fGranaryOverlay;
 
-    eTexture fGranaryUrchin;
-    eTexture fGranaryFish;
-    eTexture fGranaryMeat;
-    eTexture fGranaryCheese;
-    eTexture fGranaryCarrots;
-    eTexture fGranaryOnions;
-    eTexture fGranaryWheat;
+    std::shared_ptr<eTexture> fGranaryUrchin;
+    std::shared_ptr<eTexture> fGranaryFish;
+    std::shared_ptr<eTexture> fGranaryMeat;
+    std::shared_ptr<eTexture> fGranaryCheese;
+    std::shared_ptr<eTexture> fGranaryCarrots;
+    std::shared_ptr<eTexture> fGranaryOnions;
+    std::shared_ptr<eTexture> fGranaryWheat;
 };
 
 #endif // EBUILDINGTEXTURES_H

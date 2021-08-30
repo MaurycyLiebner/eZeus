@@ -14,7 +14,7 @@ public:
     int height() const;
 
     void addText(const int margin, const std::string& text);
-    void addTexture(const int margin, const eTexture& tex);
+    void addTexture(const int margin, const std::shared_ptr<eTexture>& tex);
 
     const eAction& action() const;
 
@@ -22,7 +22,7 @@ public:
 private:
     eActionListWidget* const mParent;
     const eAction mAction;
-    std::vector<eTexture> mTextures;
+    std::vector<std::shared_ptr<eTexture>> mTextures;
     std::vector<int> mMargins;
 };
 
@@ -30,7 +30,7 @@ class eActionListWidget : public eFramedWidget {
 public:
     using eFramedWidget::eFramedWidget;
 
-    eTexture textToTexture(const std::string& text);
+    std::shared_ptr<eTexture> textToTexture(const std::string& text);
     eActionInstance& addAction(const std::string& text, const eAction& a);
     void setSmallFontSize();
 protected:

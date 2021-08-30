@@ -10,7 +10,7 @@ eStadium2W::eStadium2W(eGameBoard& board) :
 
 }
 
-eTexture eStadium2W::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eStadium2W::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].fStadium2W;
 }
@@ -22,7 +22,7 @@ eStadium2H::eStadium2H(eGameBoard& board) :
 
 }
 
-eTexture eStadium2H::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eStadium2H::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].fStadium2H;
 }

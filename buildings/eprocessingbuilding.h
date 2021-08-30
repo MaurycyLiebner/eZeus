@@ -8,7 +8,7 @@ class eCartTransporter;
 
 class eProcessingBuilding : public eResourceBuildingBase {
 public:
-    using eBaseTex = eTexture eBuildingTextures::*;
+    using eBaseTex = std::shared_ptr<eTexture> eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;
     eProcessingBuilding(eGameBoard& board,
                         const eBaseTex baseTex,
@@ -23,7 +23,7 @@ public:
                         const int rawUse,
                         const int time);
 
-    eTexture getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
 
     void timeChanged();

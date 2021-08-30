@@ -9,7 +9,7 @@ class ePalace1W : public eBuilding {
 public:
     ePalace1W(eGameBoard& board);
 
-    eTexture getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 private:
     const std::vector<eBuildingTextures>& mTextures;
 };
@@ -18,7 +18,7 @@ class ePalace1H : public eBuilding {
 public:
     ePalace1H(eGameBoard& board);
 
-    eTexture getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 private:
     const std::vector<eBuildingTextures>& mTextures;
 };

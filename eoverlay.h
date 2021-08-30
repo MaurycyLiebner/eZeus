@@ -6,7 +6,7 @@
 struct eOverlay {
     double fX;
     double fY;
-    eTexture fTex;
+    std::shared_ptr<eTexture> fTex;
     bool fAlignTop = false;
 };
 

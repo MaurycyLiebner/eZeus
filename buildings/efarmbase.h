@@ -12,7 +12,7 @@ public:
               const int sw, const int sh,
               const eResourceType resType);
 
-    eTexture getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
 
     void timeChanged();

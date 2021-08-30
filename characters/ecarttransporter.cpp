@@ -11,7 +11,7 @@ eCartTransporter::eCartTransporter(eGameBoard& board) :
 eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
     const auto a = actionType();
     if(a == eCharacterActionType::none) {
-        return eOverlay{0, 0, eTexture()};
+        return eOverlay{0, 0, std::shared_ptr<eTexture>()};
     }
     const int id = static_cast<int>(size);
     const auto& texs = eGameTextures::characters()[id];
@@ -78,7 +78,7 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
         break;
     }
 
-    eTexture tex;
+    std::shared_ptr<eTexture> tex;
     if(mResourceCount <= 0) {
         tex = texs.fEmptyCart.getTexture(oi);
     } else {

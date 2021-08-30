@@ -23,10 +23,10 @@ public:
     void translate(const double x, const double y);
 
     void drawTexture(const double x, const double y,
-                     const eTexture& tex,
+                     const std::shared_ptr<eTexture>& tex,
                      const eAlignment align) const;
     void drawTexture(const double x, const double y,
-                     const eTexture& tex) const;
+                     const std::shared_ptr<eTexture>& tex) const;
 private:
     ePainter& mP;
     const eTileSize mSize;
