@@ -438,8 +438,8 @@ void eBuildingTextures::load() {
         fFoodVendorOverlay.load(fRenderer, pathBase + "00002.png");
         fFleeceVendor.load(fRenderer, pathBase + "00003.png");
         fFleeceVendorOverlay.load(fRenderer, pathBase + "00004.png");
-        fOilVender.load(fRenderer, pathBase + "00005.png");
-        fOilVenderOverlay.load(fRenderer, pathBase + "00006.png");
+        fOilVendor.load(fRenderer, pathBase + "00005.png");
+        fOilVendorOverlay.load(fRenderer, pathBase + "00006.png");
         fWineVendor.load(fRenderer, pathBase + "00007.png");
         fWineVendorOverlay.load(fRenderer, pathBase + "00008.png");
         fArmsVendor.load(fRenderer, pathBase + "00009.png");

@@ -54,6 +54,11 @@
 #include "buildings/ecardingshed.h"
 
 #include "buildings/efoodvendor.h"
+#include "buildings/efleecevendor.h"
+#include "buildings/eoilvendor.h"
+#include "buildings/ewinevendor.h"
+#include "buildings/earmsvendor.h"
+#include "buildings/ehorsevendor.h"
 
 #include "characters/esheep.h"
 #include "characters/egoat.h"
@@ -677,6 +682,26 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = e::make_shared<eFoodVendor>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
+        case eBuildingMode::fleeceVendor: {
+            const auto b1 = e::make_shared<eFleeceVendor>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::oilVendor: {
+            const auto b1 = e::make_shared<eOilVendor>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::wineVendor: {
+            const auto b1 = e::make_shared<eWineVendor>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::armsVendor: {
+            const auto b1 = e::make_shared<eArmsVendor>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::horseTrainer: {
+            const auto b1 = e::make_shared<eHorseVendor>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
         default: break;
         }
         bool cbg = true;
@@ -1223,6 +1248,36 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
                           [this]() { return e::make_shared<eFoodVendor>(mBoard); });
+                };
+                break;
+            case eBuildingMode::fleeceVendor:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eFleeceVendor>(mBoard); });
+                };
+                break;
+            case eBuildingMode::oilVendor:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eOilVendor>(mBoard); });
+                };
+                break;
+            case eBuildingMode::wineVendor:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eWineVendor>(mBoard); });
+                };
+                break;
+            case eBuildingMode::armsVendor:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eArmsVendor>(mBoard); });
+                };
+                break;
+            case eBuildingMode::horseTrainer:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eHorseVendor>(mBoard); });
                 };
                 break;
             default: break;

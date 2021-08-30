@@ -29,7 +29,9 @@ enum class eResourceType {
     sculpture = 1 << 17,
 
     all = (1 << 18) - 1,
-    allButFood = all & ~food
+    allButFood = all & ~food,
+
+    horse
 };
 
 inline eResourceType operator|(const eResourceType a, const eResourceType b) {

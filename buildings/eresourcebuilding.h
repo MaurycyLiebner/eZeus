@@ -26,7 +26,7 @@ public:
     void timeChanged();
 private:
     const eResourceBuildingType mType;
-    const int mRipeWait = 80000;
+    const int mRipeWait = 40000;
     bool mWorkedOn = false;
     int mNextRipe = 0;
     int mRipe = 0; // 0 - 5

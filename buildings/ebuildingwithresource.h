@@ -1,23 +1,38 @@
 #ifndef EBUILDINGWITHRESOURCE_H
 #define EBUILDINGWITHRESOURCE_H
 
-#include "eemployingbuilding.h"
+#include "ebuilding.h"
 
 #include "engine/eresourcetype.h"
 
 class eCartTransporter;
 enum class eCartActionType;
 
-class eBuildingWithResource : public eEmployingBuilding {
+class eBuildingWithResource : public eBuilding {
 public:
-    using eEmployingBuilding::eEmployingBuilding;
+    using eBuilding::eBuilding;
 
-    virtual int add(const eResourceType type, const int count) = 0;
-    virtual int take(const eResourceType type, const int count) = 0;
+    virtual int add(const eResourceType type, const int count) {
+        (void)type;
+        (void)count;
+        return 0;
+    }
+    virtual int take(const eResourceType type, const int count) {
+        (void)type;
+        (void)count;
+        return 0;
+    }
 
-    virtual int count(const eResourceType type) const = 0;
-    virtual int spaceLeft(const eResourceType type) const = 0;
+    virtual int count(const eResourceType type) const {
+        (void)type;
+        return 0;
+    }
 
+    virtual int spaceLeft(const eResourceType type) const {
+        (void)type;
+        return 0;
+    }
+protected:
     bool spawnGiveCart(stdsptr<eCartTransporter>& cart,
                        int& spawnTime, const int waitTime,
                        const eResourceType resType);

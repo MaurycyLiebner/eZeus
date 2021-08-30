@@ -6,7 +6,7 @@ eEmployingBuilding::eEmployingBuilding(eGameBoard& board,
         const eBuildingType type,
         const int sw, const int sh,
         const int maxEmployees) :
-    eBuilding(board, type, sw, sh),
+    eBuildingWithResource(board, type, sw, sh),
     mMaxEmployees(maxEmployees) {
     auto& emplData = getBoard().employmentData();
     emplData.incTotalJobVacancies(mMaxEmployees);

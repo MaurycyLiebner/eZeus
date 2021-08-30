@@ -122,6 +122,7 @@ public:
     std::vector<eTextureCollection> fOliveOilCart;
     std::vector<eTextureCollection> fWineCart;
 
+    std::vector<eTextureCollection> fFoodCart;
 };
 
 #endif // ECHARACTERTEXTURES_H

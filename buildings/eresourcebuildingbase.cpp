@@ -8,7 +8,7 @@ eResourceBuildingBase::eResourceBuildingBase(
         const int sw, const int sh,
         const int maxEmployees,
         const eResourceType resType) :
-    eBuildingWithResource(board, type, sw, sh, maxEmployees),
+    eEmployingBuilding(board, type, sw, sh, maxEmployees),
     mResType(resType) {
 
 }

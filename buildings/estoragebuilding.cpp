@@ -30,7 +30,7 @@ int eStorageBuilding::take(const eResourceType type, const int count) {
     for(int i = 0; i < 8 && rem > 0; i++) {
         auto& t = mResource[i];
         int& c = mResourceCount[i];
-        if(t == type) {
+        if(static_cast<bool>(t & type)) {
             const int dep = std::min(c, rem);
             rem -= dep;
             c -= dep;
@@ -56,8 +56,9 @@ int eStorageBuilding::sCount(const eResourceType type,
     int result = 0;
     for(int i = 0; i < 8; i++) {
         const auto t = resourceType[i];
-        if(t != type) continue;
-        result += resourceCount[i];
+        if(static_cast<bool>(t & type)) {
+            result += resourceCount[i];
+        }
     }
     return result;
 }
@@ -73,7 +74,7 @@ int eStorageBuilding::sSpaceLeft(const eResourceType type,
         const auto t = resourceType[i];
         if(c == 0) {
             space += 4;
-        } else if(t == type) {
+        } else if(static_cast<bool>(t & type)) {
             space += 4 - c;
         }
     }

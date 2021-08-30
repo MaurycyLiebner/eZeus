@@ -872,4 +872,18 @@ void eCharacterTextures::load() {
                         ppathBase, i, lay[j], ePoseidonImpsOffset);
         }
     }
+
+    {
+        const std::string pathBase{dir + "Zeus_Added/SprMain_"};
+        for(int j = 0; j < 8; j++) {
+            fFoodCart.emplace_back(fRenderer);
+        }
+        for(int i = 8428; i < 8436;) {
+            for(int j = 0; j < 8; j++, i++) {
+                const auto r = eTextureLoadingHelpers::loadTexWithOffset(
+                            pathBase, i, fFoodCart[j], eSprMainOffset);
+                r->setOffset(r->offsetX(), r->offsetY() + 10);
+            }
+        }
+    }
 }

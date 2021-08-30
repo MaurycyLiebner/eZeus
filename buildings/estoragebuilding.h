@@ -1,11 +1,11 @@
 #ifndef ESTORAGEBUILDING_H
 #define ESTORAGEBUILDING_H
 
-#include "ebuildingwithresource.h"
+#include "eemployingbuilding.h"
 
-class eStorageBuilding : public eBuildingWithResource {
+class eStorageBuilding : public eEmployingBuilding {
 public:
-    using eBuildingWithResource::eBuildingWithResource;
+    using eEmployingBuilding::eEmployingBuilding;
 
     int add(const eResourceType type, const int count);
     int take(const eResourceType type, const int count);

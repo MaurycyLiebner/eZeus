@@ -1,9 +1,9 @@
 #ifndef EEMPLOYINGBUILDING_H
 #define EEMPLOYINGBUILDING_H
 
-#include "ebuilding.h"
+#include "ebuildingwithresource.h"
 
-class eEmployingBuilding : public eBuilding {
+class eEmployingBuilding : public eBuildingWithResource {
 public:
     eEmployingBuilding(eGameBoard& board,
                        const eBuildingType type,

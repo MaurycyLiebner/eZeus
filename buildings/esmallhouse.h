@@ -34,6 +34,17 @@ private:
 
     int mWater = 0;
     int mFood = 0;
+    int mFleece = 0;
+    int mOil = 0;
+
+    int mPodium = 0;
+    int mCollege = 0;
+
+    int mDramaSchool = 0;
+    int mTheatre = 0;
+
+    int mGymnasium = 0;
+    int mStadium = 0;
 };
 
 #endif // ESMALLHOUSE_H

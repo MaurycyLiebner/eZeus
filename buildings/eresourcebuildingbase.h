@@ -1,11 +1,11 @@
 #ifndef ERESOURCEBUILDINGBASE_H
 #define ERESOURCEBUILDINGBASE_H
 
-#include "ebuildingwithresource.h"
+#include "eemployingbuilding.h"
 
 class eCartTransporter;
 
-class eResourceBuildingBase : public eBuildingWithResource {
+class eResourceBuildingBase : public eEmployingBuilding {
 public:
     eResourceBuildingBase(eGameBoard& board,
                           const eBuildingType type,

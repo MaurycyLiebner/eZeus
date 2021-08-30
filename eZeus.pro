@@ -17,6 +17,7 @@ LIBS += -lnoise
 
 SOURCES += \
         buildings/earmory.cpp \
+        buildings/earmsvendor.cpp \
         buildings/ebuilding.cpp \
         buildings/ebuildingwithresource.cpp \
         buildings/ecardingshed.cpp \
@@ -26,16 +27,19 @@ SOURCES += \
         buildings/edramaschool.cpp \
         buildings/eemployingbuilding.cpp \
         buildings/efarmbase.cpp \
+        buildings/efleecevendor.cpp \
         buildings/efoodvendor.cpp \
         buildings/efoundry.cpp \
         buildings/efountain.cpp \
         buildings/egranary.cpp \
         buildings/egrowerslodge.cpp \
         buildings/egymnasium.cpp \
+        buildings/ehorsevendor.cpp \
         buildings/ehospital.cpp \
         buildings/ehuntinglodge.cpp \
         buildings/emaintenanceoffice.cpp \
         buildings/emint.cpp \
+        buildings/eoilvendor.cpp \
         buildings/eolivepress.cpp \
         buildings/eonionfarm.cpp \
         buildings/epalace1.cpp \
@@ -56,10 +60,12 @@ SOURCES += \
         buildings/etaxoffice.cpp \
         buildings/etheater.cpp \
         buildings/etimbermill.cpp \
+        buildings/evendor.cpp \
         buildings/ewarehouse.cpp \
         buildings/ewatchpost.cpp \
         buildings/ewheatfarm.cpp \
         buildings/ewinery.cpp \
+        buildings/ewinevendor.cpp \
         characters/actions/eactionwithcomeback.cpp \
         characters/actions/eanimalaction.cpp \
         characters/actions/ecarttransporteraction.cpp \
@@ -81,6 +87,7 @@ SOURCES += \
         characters/actions/eshepherdaction.cpp \
         characters/actions/ewaitaction.cpp \
         characters/eanimal.cpp \
+        characters/earmsvendorchar.cpp \
         characters/ebasicpatroler.cpp \
         characters/eboar.cpp \
         characters/ebronzeminer.cpp \
@@ -92,14 +99,17 @@ SOURCES += \
         characters/edomesticatedanimal.cpp \
         characters/efightingpatroler.cpp \
         characters/efirefighter.cpp \
+        characters/efleecevendorchar.cpp \
         characters/efoodvendorchar.cpp \
         characters/egoat.cpp \
         characters/egoatherd.cpp \
         characters/egrower.cpp \
         characters/egymnast.cpp \
         characters/ehealer.cpp \
+        characters/ehorsevendorchar.cpp \
         characters/ehunter.cpp \
         characters/elumberjack.cpp \
+        characters/eoilvendorchar.cpp \
         characters/ephilosopher.cpp \
         characters/eresourcecollector.cpp \
         characters/esettler.cpp \
@@ -110,6 +120,7 @@ SOURCES += \
         characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
         characters/ewildanimal.cpp \
+        characters/ewinevendorchar.cpp \
         emainwindow.cpp \
         emusic.cpp \
         engine/boardData/eemploymentdata.cpp \
@@ -202,6 +213,7 @@ SOURCES += \
 
 HEADERS += \
     buildings/earmory.h \
+    buildings/earmsvendor.h \
     buildings/ebuilding.h \
     buildings/ebuildingwithresource.h \
     buildings/ecardingshed.h \
@@ -211,16 +223,19 @@ HEADERS += \
     buildings/edramaschool.h \
     buildings/eemployingbuilding.h \
     buildings/efarmbase.h \
+    buildings/efleecevendor.h \
     buildings/efoodvendor.h \
     buildings/efoundry.h \
     buildings/efountain.h \
     buildings/egranary.h \
     buildings/egrowerslodge.h \
     buildings/egymnasium.h \
+    buildings/ehorsevendor.h \
     buildings/ehospital.h \
     buildings/ehuntinglodge.h \
     buildings/emaintenanceoffice.h \
     buildings/emint.h \
+    buildings/eoilvendor.h \
     buildings/eolivepress.h \
     buildings/eonionfarm.h \
     buildings/epalace1.h \
@@ -241,10 +256,12 @@ HEADERS += \
     buildings/etaxoffice.h \
     buildings/etheater.h \
     buildings/etimbermill.h \
+    buildings/evendor.h \
     buildings/ewarehouse.h \
     buildings/ewatchpost.h \
     buildings/ewheatfarm.h \
     buildings/ewinery.h \
+    buildings/ewinevendor.h \
     characters/actions/eactionwithcomeback.h \
     characters/actions/eanimalaction.h \
     characters/actions/ecarttransporteraction.h \
@@ -267,6 +284,7 @@ HEADERS += \
     characters/actions/eshepherdaction.h \
     characters/actions/ewaitaction.h \
     characters/eanimal.h \
+    characters/earmsvendorchar.h \
     characters/ebasicpatroler.h \
     characters/eboar.h \
     characters/ebronzeminer.h \
@@ -278,14 +296,17 @@ HEADERS += \
     characters/edomesticatedanimal.h \
     characters/efightingpatroler.h \
     characters/efirefighter.h \
+    characters/efleecevendorchar.h \
     characters/efoodvendorchar.h \
     characters/egoat.h \
     characters/egoatherd.h \
     characters/egrower.h \
     characters/egymnast.h \
     characters/ehealer.h \
+    characters/ehorsevendorchar.h \
     characters/ehunter.h \
     characters/elumberjack.h \
+    characters/eoilvendorchar.h \
     characters/ephilosopher.h \
     characters/eresourcecollector.h \
     characters/esettler.h \
@@ -296,6 +317,7 @@ HEADERS += \
     characters/ewatchman.h \
     characters/ewaterdistributor.h \
     characters/ewildanimal.h \
+    characters/ewinevendorchar.h \
     emainwindow.h \
     emusic.h \
     engine/boardData/eemploymentdata.h \

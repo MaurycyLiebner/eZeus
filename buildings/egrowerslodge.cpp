@@ -5,7 +5,7 @@
 #include "characters/actions/egroweraction.h"
 
 eGrowersLodge::eGrowersLodge(eGameBoard& board) :
-    eBuildingWithResource(board, eBuildingType::growersLodge, 2, 2, 12),
+    eEmployingBuilding(board, eBuildingType::growersLodge, 2, 2, 12),
     mTextures(eGameTextures::buildings()) {
 
 }

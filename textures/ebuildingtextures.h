@@ -142,8 +142,8 @@ public:
     eTexture fFleeceVendor;
     eTexture fFleeceVendorOverlay;
 
-    eTexture fOilVender;
-    eTexture fOilVenderOverlay;
+    eTexture fOilVendor;
+    eTexture fOilVendorOverlay;
 
     eTexture fArmsVendor;
     eTexture fArmsVendorOverlay;

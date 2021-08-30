@@ -1,14 +1,14 @@
 #ifndef EGROWERSLODGE_H
 #define EGROWERSLODGE_H
 
-#include "ebuildingwithresource.h"
+#include "eemployingbuilding.h"
 
 #include "textures/ebuildingtextures.h"
 #include "characters/egrower.h"
 
 class eCartTransporter;
 
-class eGrowersLodge : public eBuildingWithResource {
+class eGrowersLodge : public eEmployingBuilding {
 public:
     eGrowersLodge(eGameBoard& board);
 

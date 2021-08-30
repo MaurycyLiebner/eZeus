@@ -37,6 +37,31 @@ int eSmallHouse::provide(const eProvide p, const int n) {
     case eProvide::food:
         value = &mFood;
         break;
+    case eProvide::fleece:
+        value = &mFleece;
+        break;
+    case eProvide::oil:
+        value = &mOil;
+        break;
+
+    case eProvide::podium:
+        value = &mPodium;
+        break;
+    case eProvide::college:
+        value = &mCollege;
+        break;
+    case eProvide::dramaSchool:
+        value = &mDramaSchool;
+        break;
+    case eProvide::theatre:
+        value = &mTheatre;
+        break;
+    case eProvide::gymnasium:
+        value = &mGymnasium;
+        break;
+    case eProvide::stadium:
+        value = &mStadium;
+        break;
     default: return eBuilding::provide(p, n);
     }
     const int add = std::clamp(n, 0, max - *value);
@@ -64,7 +89,25 @@ int eSmallHouse::moveIn(int c) {
 }
 
 void eSmallHouse::updateLevel() {
-    if(mFood > 0 && mWater > 0) {
+    const int nVenues = mPodium + mCollege +
+                        mDramaSchool + mTheatre +
+                        mGymnasium + mStadium;
+    if(mFood > 0) {
+        if(mWater > 0 && nVenues > 0) {
+            if(mFleece > 0) {
+                if(nVenues > 1) {
+                    if(mOil > 0) {
+                        if(nVenues > 2) {
+                            return setLevel(6);
+                        }
+                        return setLevel(5);
+                    }
+                    return setLevel(4);
+                }
+                return setLevel(3);
+            }
+            return setLevel(2);
+        }
         return setLevel(1);
     }
     setLevel(0);

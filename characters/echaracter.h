@@ -51,6 +51,7 @@ public:
     bool hasSecondaryTexture() const { return mHasSecondaryTexture; }
     void setHasSecondaryTexture(const bool st);
 
+    int provideCount() const { return mProvideCount; }
     void setProvide(const eProvide p, const int n);
 private:
     stdsptr<eCharacterAction> takeAction();
