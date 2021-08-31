@@ -3,10 +3,6 @@
 #include "ebutton.h"
 
 #include "eframedwidget.h"
-#include "textures/egametextures.h"
-
-eMainMenu::eMainMenu(eMainWindow* const window) :
-    eLabel(window) {}
 
 void addButton(const std::string& text,
                const eAction& a,
@@ -29,28 +25,12 @@ void eMainMenu::initialize(const eAction& newGameA,
                            const eAction& loadGameA,
                            const eAction& settingsA,
                            const eAction& quitA) {
-    const auto& intrfc = eGameTextures::interface();
-    const auto res = resolution();
-    int iRes;
-    switch(res) {
-    case eRes::p2160:
-    case eRes::p1440:
-    case eRes::p1080:
-        iRes = 2;
-        break;
-    case eRes::p720:
-        iRes = 1;
-        break;
-    case eRes::p480:
-        iRes = 0;
-        break;
-    }
-    const auto& texs = intrfc[iRes];
-    setTexture(texs.fMainMenuImage);
+    eMainMenuBase::initialize();
 
     const auto buttons = new eWidget(window());
     addWidget(buttons);
 
+    const auto res = resolution();
     const int cww = eResolution::centralWidgetWidth(res);
     const int cwh = eResolution::centralWidgetHeight(res);
     buttons->resize(cww, cwh);

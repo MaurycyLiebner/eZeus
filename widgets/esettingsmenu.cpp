@@ -3,10 +3,11 @@
 #include "ecombobox.h"
 #include "echeckbox.h"
 #include "elabeledwidget.h"
+#include "eframedwidget.h"
 
 eSettingsMenu::eSettingsMenu(const eSettings& iniSettings,
                              eMainWindow* const window) :
-    eWidget(window),
+    eMainMenuBase(window),
     mIniSettings(iniSettings),
     mSettings(iniSettings) {
 
@@ -14,7 +15,9 @@ eSettingsMenu::eSettingsMenu(const eSettings& iniSettings,
 
 void eSettingsMenu::initialize(const eAction& backA,
                                const eApplyAction& settingsA) {
-    const auto buttons = new eWidget(window());
+    eMainMenuBase::initialize();
+
+    const auto buttons = new eFramedWidget(window());
     addWidget(buttons);
 
     const auto res = resolution();

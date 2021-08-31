@@ -198,6 +198,7 @@ SOURCES += \
         widgets/elabeledwidget.cpp \
         widgets/eloadingwidget.cpp \
         widgets/emainmenu.cpp \
+        widgets/emainmenubase.cpp \
         widgets/emenuloadingwidget.cpp \
         widgets/emouseevent.cpp \
         widgets/epainter.cpp \
@@ -406,6 +407,7 @@ HEADERS += \
     widgets/elabeledwidget.h \
     widgets/eloadingwidget.h \
     widgets/emainmenu.h \
+    widgets/emainmenubase.h \
     widgets/emenuloadingwidget.h \
     widgets/emouseevent.h \
     widgets/epainter.h \

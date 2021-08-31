@@ -1,11 +1,11 @@
 #ifndef EMAINMENU_H
 #define EMAINMENU_H
 
-#include "elabel.h"
+#include "emainmenubase.h"
 
-class eMainMenu : public eLabel {
+class eMainMenu : public eMainMenuBase {
 public:
-    eMainMenu(eMainWindow* const window);
+    using eMainMenuBase::eMainMenuBase;
 
     void initialize(const eAction& newGameA,
                     const eAction& loadGameA,

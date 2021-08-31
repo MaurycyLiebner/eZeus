@@ -1,7 +1,7 @@
 #ifndef ESETTINGSMENU_H
 #define ESETTINGSMENU_H
 
-#include "ewidget.h"
+#include "emainmenubase.h"
 #include "eresolution.h"
 
 struct eSettings {
@@ -24,7 +24,7 @@ inline bool operator==(const eSettings& s0, const eSettings& s1) {
     return true;
 }
 
-class eSettingsMenu : public eWidget {
+class eSettingsMenu : public eMainMenuBase {
 public:
     eSettingsMenu(const eSettings& iniSettings,
                   eMainWindow* const window);
