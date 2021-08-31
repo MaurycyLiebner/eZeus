@@ -37,12 +37,13 @@ void eButton::paintEvent(ePainter& p) {
             p.drawTexture(rect(), mHoverTexture, eAlignment::center);
         } else {
             const auto& t = texture();
-            const auto tw = t->width();
-            const auto ww = (width() - tw)/2;
+            const int tw = t->width();
+            const int ww = (width() - tw)/2;
+            const int th = t->height();
+            const int hh = (height() - th)/2;
             const int ah = height();
-            const int pd = padding();
-            const SDL_Rect brect{ww, ah - pd, width() - 2*ww, 2};
-            p.fillRect(brect, {255, 255, 255, 255});
+            const SDL_Rect brect{ww, ah - hh, width() - 2*ww, 2};
+            p.fillRect(brect, fontColor());
         }
     }
 }

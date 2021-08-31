@@ -157,6 +157,10 @@ public:
     std::shared_ptr<eTexture> fOliveOilUnit;
     std::shared_ptr<eTexture> fWineUnit;
     std::shared_ptr<eTexture> fFoodUnit;
+
+    // normal, hover, pressed, disabled
+    eTextureCollection fUpButton;
+    eTextureCollection fDownButton;
 };
 
 #endif // EINTERFACETEXTURES_H

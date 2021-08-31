@@ -13,8 +13,11 @@ public:
     bool setText(const std::string& text);
     bool setTexture(const std::shared_ptr<eTexture>& tex);
     bool setFontColor(const SDL_Color& color);
+
+    SDL_Color fontColor() const
+    { return mFontColor; }
 protected:
-    std::shared_ptr<eTexture>& texture() { return mTexture; }
+    const std::shared_ptr<eTexture>& texture() { return mTexture; }
     bool setFont(TTF_Font* const font);
 private:
     bool updateTextTexture();

@@ -205,6 +205,7 @@ SOURCES += \
         widgets/eprogressbar.cpp \
         widgets/eresolution.cpp \
         widgets/esettingsmenu.cpp \
+        widgets/espinbox.cpp \
         widgets/eswitchbutton.cpp \
         widgets/etabwidget.cpp \
         widgets/eterraineditmenu.cpp \
@@ -414,6 +415,7 @@ HEADERS += \
     widgets/eprogressbar.h \
     widgets/eresolution.h \
     widgets/esettingsmenu.h \
+    widgets/espinbox.h \
     widgets/eswitchbutton.h \
     widgets/etabwidget.h \
     widgets/eterraineditmenu.h \
