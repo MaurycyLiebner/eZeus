@@ -30,6 +30,8 @@ public:
     static int padding(const eRes res);
     static int margin(const eRes res);
 
+    static double multiplier(const eRes res);
+
     static int hugeFontSize(const eRes res);
     static int largeFontSize(const eRes res);
     static int smallFontSize(const eRes res);

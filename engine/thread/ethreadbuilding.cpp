@@ -26,6 +26,7 @@ void eThreadBuilding::load(eBuilding* const src) {
                 mResourceCount[i] = rc[i];
                 mResource[i] = rt[i];
             }
+            mMaxCount = s->maxCount();
         } else if(const auto b = dynamic_cast<eResourceBuildingBase*>(src)) {
             mResource[0] = b->resourceType();
             mResourceCount[0] = b->resource();
@@ -54,7 +55,7 @@ int eThreadBuilding::resourceSpaceLeft(const eResourceType type) const {
     if(mType == eBuildingType::granary ||
        mType == eBuildingType::warehouse) {
         return eStorageBuilding::sSpaceLeft(type, mResourceCount,
-                                            mResource, mAccepts);
+                                            mResource, mAccepts, mMaxCount);
     } else {
         return 0;
     }

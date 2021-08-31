@@ -11,41 +11,35 @@ public:
                     const eResourceType get,
                     const eResourceType empty,
                     const eResourceType accept,
-                    std::map<eResourceType, eSwitchButton*>& buttons) {
+                    std::map<eResourceType, eSwitchButton*>& buttons,
+                    std::map<eResourceType, eSpinBox*>& spinBoxes,
+                    const std::map<eResourceType, int>& maxCount) {
         const auto iconsW = new eWidget(window());
         const auto namesW = new eWidget(window());
         const auto buttonsW = new eWidget(window());
+        const auto spinsW = new eWidget(window());
 
         const auto& intrfc = eGameTextures::interface();
         int icoll;
-        int mult;
-        switch(resolution()) {
+        const auto res = resolution();
+        const double mult = eResolution::multiplier(res);
+        switch(res) {
         case eRes::p480:
-            mult = 1;
             icoll = 0;
             break;
         case eRes::p720:
-        case eRes::p1080:
-            mult = 2;
             icoll = 1;
             break;
         default:
-            mult = 4;
             icoll = 2;
         }
         const auto& coll = intrfc[icoll];
 
-        const int rowHeight = mult*20;
-        const int iconsWidth = mult*20;
-        const int namesWidth = mult*45;
-        const int buttonsWidth = mult*65;
-
-        iconsW->setWidth(iconsWidth);
-        namesW->setWidth(namesWidth);
-        buttonsW->setWidth(buttonsWidth);
-
-        namesW->setX(iconsW->x() + iconsW->width());
-        buttonsW->setX(namesW->x() + namesW->width());
+        const int rowHeight = mult*40;
+        const int iconsWidth = mult*40;
+        const int namesWidth = mult*80;
+        const int buttonsWidth = mult*120;
+        const int spinsWidth = mult*100;
 
         for(const auto type : types) {
             const auto icon = new eLabel(window());
@@ -140,11 +134,27 @@ public:
 
             buttons[type] = b;
 
+            const auto s = new eSpinBox(window());
+            s->setHeight(rowHeight);
+            s->setWidth(spinsWidth);
+            s->initialize();
+            s->label()->setSmallFontSize();
+            if(type == eResourceType::sculpture) {
+                s->setRange(0, 8);
+            } else {
+                s->setRange(0, 32);
+                s->setIncrement(4);
+            }
+            s->setValue(maxCount.at(type));
+
+            spinBoxes[type] = s;
+
             iconsW->addWidget(icon);
             namesW->addWidget(n);
             buttonsW->addWidget(b);
+            spinsW->addWidget(s);
 
-            icon->align(eAlignment::hcenter);
+            icon->align(eAlignment::left);
             n->align(eAlignment::left);
             b->align(eAlignment::left);
 
@@ -162,23 +172,32 @@ public:
         iconsW->stackVertically();
         namesW->stackVertically();
         buttonsW->stackVertically();
+        spinsW->stackVertically();
 
         iconsW->fitContent();
         namesW->fitContent();
         buttonsW->fitContent();
+        spinsW->fitContent();
+
+        iconsW->setWidth(iconsWidth);
+        namesW->setWidth(namesWidth);
+        buttonsW->setWidth(buttonsWidth);
+        spinsW->setWidth(spinsWidth);
 
         addWidget(iconsW);
         addWidget(namesW);
         addWidget(buttonsW);
+        addWidget(spinsW);
 
-        layoutHorizontally();
+        stackHorizontally();
     }
 };
 
 void eStorageInfoWidget::initialize(const eResourceType all,
                                     const eResourceType get,
                                     const eResourceType empty,
-                                    const eResourceType accept) {
+                                    const eResourceType accept,
+                                    const std::map<eResourceType, int>& maxCount) {
     eInfoWidget::initialize();
 
     const auto rect = centralWidgetRect();
@@ -194,7 +213,8 @@ void eStorageInfoWidget::initialize(const eResourceType all,
         const auto r = new eResourceStorageStack(window());
         r->setWidth(rect.w);
         r->setHeight(rect.h);
-        r->initialize(types, get, empty, accept, mButtons);
+        r->initialize(types, get, empty, accept,
+                      mButtons, mSpinBoxes, maxCount);
         stWid->addWidget(r);
     } else {
         {
@@ -203,7 +223,8 @@ void eStorageInfoWidget::initialize(const eResourceType all,
             r->setHeight(rect.h);
             const std::vector<eResourceType> types1(
                         types.begin(), types.begin() + 6);
-            r->initialize(types1, get, empty, accept, mButtons);
+            r->initialize(types1, get, empty, accept,
+                          mButtons, mSpinBoxes, maxCount);
             stWid->addWidget(r);
         }
         {
@@ -212,7 +233,8 @@ void eStorageInfoWidget::initialize(const eResourceType all,
             r->setHeight(rect.h);
             const std::vector<eResourceType> types1(
                         types.begin() + 6, types.end());
-            r->initialize(types1, get, empty, accept, mButtons);
+            r->initialize(types1, get, empty, accept,
+                          mButtons, mSpinBoxes, maxCount);
             stWid->addWidget(r);
         }
     }
@@ -225,7 +247,8 @@ void eStorageInfoWidget::initialize(const eResourceType all,
 void eStorageInfoWidget::get(eResourceType& get,
                              eResourceType& empty,
                              eResourceType& accept,
-                             eResourceType& dontaccept) const {
+                             eResourceType& dontaccept,
+                             std::map<eResourceType, int>& count) const {
     get = eResourceType::none;
     empty = eResourceType::none;
     accept = eResourceType::none;
@@ -242,5 +265,10 @@ void eStorageInfoWidget::get(eResourceType& get,
         } else if(val == 3) {
             empty = empty | type;
         }
+    }
+    for(const auto s : mSpinBoxes) {
+        const auto type = s.first;
+        const int val = s.second->value();
+        count[type] = val;
     }
 }

@@ -26,6 +26,7 @@ void eSpinBox::initialize() {
     const auto& texs = intrfc[iRes];
 
     const auto up = new eButton(window());
+    up->setPadding(0);
     up->setTexture(texs.fUpButton.getTexture(0));
     up->setHoverTexture(texs.fUpButton.getTexture(1));
     up->setPressedTexture(texs.fUpButton.getTexture(2));
@@ -35,15 +36,16 @@ void eSpinBox::initialize() {
     });
 
     const auto down = new eButton(window());
+    down->setPadding(0);
     down->setTexture(texs.fDownButton.getTexture(0));
     down->setHoverTexture(texs.fDownButton.getTexture(1));
     down->setPressedTexture(texs.fDownButton.getTexture(2));
     down->fitContent();
-    up->setPressAction([this]() {
+    down->setPressAction([this]() {
         setValue(mValue - mIncrement);
     });
 
-    mValueLabel->setWidth(3*down->width());
+    mValueLabel->setWidth(down->width());
     mValueLabel->setHeight(down->height());
     setValue(0);
 
@@ -51,7 +53,10 @@ void eSpinBox::initialize() {
     addWidget(up);
     addWidget(down);
     stackHorizontally();
-    fitContent();
+
+    mValueLabel->align(eAlignment::vcenter);
+    up->align(eAlignment::vcenter);
+    down->align(eAlignment::vcenter);
 }
 
 void eSpinBox::setRange(const int min, const int max) {
@@ -66,5 +71,5 @@ void eSpinBox::setIncrement(const int i) {
 
 void eSpinBox::setValue(const int v) {
     mValue = std::clamp(v, mMinValue, mMaxValue);
-    mValueLabel->setText(std::to_string(v));
+    mValueLabel->setText(std::to_string(mValue));
 }

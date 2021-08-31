@@ -46,22 +46,15 @@ int eResolution::height(const eRes res) {
 }
 
 int eResolution::padding(const eRes res) {
-    switch(res) {
-    case eRes::p2160:
-        return 35;
-    case eRes::p1440:
-        return 25;
-    case eRes::p1080:
-        return 20;
-    case eRes::p720:
-        return 15;
-    case eRes::p480:
-        return 10;
-    }
+    return 15*multiplier(res);
 }
 
 int eResolution::margin(const eRes res) {
     return padding(res);
+}
+
+double eResolution::multiplier(const eRes res) {
+    return double(height(res))/height(eRes::p720);
 }
 
 int eResolution::hugeFontSize(const eRes res) {
@@ -69,18 +62,7 @@ int eResolution::hugeFontSize(const eRes res) {
 }
 
 int eResolution::largeFontSize(const eRes res) {
-    switch(res) {
-    case eRes::p2160:
-        return 45;
-    case eRes::p1440:
-        return 35;
-    case eRes::p1080:
-        return 28;
-    case eRes::p720:
-        return 20;
-    case eRes::p480:
-        return 15;
-    }
+    return 20*multiplier(res);
 }
 
 int eResolution::smallFontSize(const eRes res) {
@@ -96,16 +78,5 @@ int eResolution::centralWidgetWidth(const eRes res) {
 }
 
 int eResolution::centralWidgetHeight(const eRes res) {
-    switch(res) {
-    case eRes::p2160:
-        return 1650;
-    case eRes::p1440:
-        return 1000;
-    case eRes::p1080:
-        return 750;
-    case eRes::p720:
-        return 480;
-    case eRes::p480:
-        return 350;
-    }
+    return 480*multiplier(res);
 }

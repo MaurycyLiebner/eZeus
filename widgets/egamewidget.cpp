@@ -191,12 +191,11 @@ void eGameWidget::iterateOverTiles(const eTileAction& a) {
     maxRow = std::clamp(maxRow, 0, nRows);
 
     const int minXYDiff = -2*mDX/mTileW - 5;
-    const int gmw = mGm->width();
-    const int maxXYDiff = minXYDiff + 2*(width() - gmw)/mTileW + 10;
+    const int maxXYDiff = minXYDiff + 2*width()/mTileW + 10;
 
     const int soundRow = (minRow + maxRow)/2 + (rand() % 7 - 3);
     const int soundXmy = (minXYDiff + maxXYDiff)/2 + (rand() % 7 - 3);
-    const bool play = Mix_Playing(-1) == 0 && rand() % 10000;
+    const bool play = Mix_Playing(-1) == 0 && rand() % 20000;
 
     const auto iniIt = eGameBoardDiagonalIterator(minRow, 0, &mBoard);
     for(auto it = iniIt; it != mBoard.dEnd(); ++it) {
@@ -850,17 +849,20 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
             eResourceType accept;
             stor->getOrders(get, empty, accept);
             const auto storWid = new eStorageInfoWidget(window());
-            storWid->initialize(stor->canAccept(), get, empty, accept);
+            storWid->initialize(stor->canAccept(), get, empty, accept,
+                                stor->maxCount());
             wid = storWid;
             const stdptr<eStorageBuilding> storptr(stor);
             closeAct = [storptr, storWid]() {
                 if(storptr) {
+                    std::map<eResourceType, int> maxCount;
                     eResourceType get;
                     eResourceType empty;
                     eResourceType accept;
                     eResourceType dontaccept;
-                    storWid->get(get, empty, accept, dontaccept);
+                    storWid->get(get, empty, accept, dontaccept, maxCount);
                     storptr->setOrders(get, empty, accept);
+                    storptr->setMaxCount(maxCount);
                 }
             };
         }

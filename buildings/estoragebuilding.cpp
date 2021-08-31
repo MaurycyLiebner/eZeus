@@ -7,17 +7,26 @@ eStorageBuilding::eStorageBuilding(eGameBoard& board,
                                    const eResourceType canAccept) :
     eEmployingBuilding(board, type, sw, sh, maxEmployees),
     mCanAccept(canAccept) {
-
+    const auto all = eResourceTypeHelpers::extractResourceTypes(mCanAccept);
+    for(const auto a : all) {
+        if(a == eResourceType::sculpture) {
+            mMaxCount[a] = 8;
+        } else {
+            mMaxCount[a] = 32;
+        }
+    }
 }
 
 int eStorageBuilding::add(const eResourceType type, const int count) {
     if(!static_cast<bool>(mAccept & type)) return 0;
+    const bool sculpt = type == eResourceType::sculpture;
+    const int sspace = sculpt ? 1 : 4;
     int rem = count;
     for(int i = 0; i < 8 && rem > 0; i++) {
         const auto t = mResource[i];
         int& c = mResourceCount[i];
         if(t == type) {
-            const int dep = std::min(4 - c, rem);
+            const int dep = std::min(sspace - c, rem);
             rem -= dep;
             c += dep;
         }
@@ -27,12 +36,13 @@ int eStorageBuilding::add(const eResourceType type, const int count) {
         int& c = mResourceCount[i];
         if(t == eResourceType::none) {
             t = type;
-            const int dep = std::min(4, rem);
+            const int dep = std::min(sspace, rem);
             rem -= dep;
             c += dep;
         }
     }
-    return count - rem;
+    const int max = mMaxCount[type];
+    return std::min(max, count - rem);
 }
 
 int eStorageBuilding::take(const eResourceType type, const int count) {
@@ -57,7 +67,7 @@ int eStorageBuilding::count(const eResourceType type) const {
 }
 
 int eStorageBuilding::spaceLeft(const eResourceType type) const {
-    return sSpaceLeft(type, mResourceCount, mResource, mAccept);
+    return sSpaceLeft(type, mResourceCount, mResource, mAccept, mMaxCount);
 }
 
 int eStorageBuilding::sCount(const eResourceType type,
@@ -73,22 +83,31 @@ int eStorageBuilding::sCount(const eResourceType type,
     return result;
 }
 
-int eStorageBuilding::sSpaceLeft(const eResourceType type,
-                                 const int resourceCount[8],
-                                 const eResourceType resourceType[8],
-                                 const eResourceType accepts) {
+int eStorageBuilding::sSpaceLeft(
+        const eResourceType type,
+        const int resourceCount[8],
+        const eResourceType resourceType[8],
+        const eResourceType accepts,
+        const std::map<eResourceType, int>& maxCounts) {
     if(!static_cast<bool>(accepts & type)) return 0;
+    const bool sculpt = type == eResourceType::sculpture;
+    const int sspace = sculpt ? 1 : 4;
     int space = 0;
     for(int i = 0; i < 8; i++) {
         const int c = resourceCount[i];
         const auto t = resourceType[i];
         if(c == 0) {
-            space += 4;
+            space += sspace;
         } else if(static_cast<bool>(t & type)) {
-            space += 4 - c;
+            space += sspace - c;
         }
     }
-    return space;
+    const int max = maxCounts.at(type);
+    return std::min(max, space);
+}
+
+void eStorageBuilding::setMaxCount(const std::map<eResourceType, int>& m) {
+    mMaxCount = m;
 }
 
 void eStorageBuilding::setOrders(const eResourceType get,

@@ -14,6 +14,8 @@ public:
 
     void setValue(const int v);
     int value() const { return mValue; }
+
+    eLabel* label() const { return mValueLabel; }
 private:
     int mIncrement = 1;
     int mMinValue = 0;

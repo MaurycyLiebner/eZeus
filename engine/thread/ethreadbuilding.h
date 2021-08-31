@@ -32,6 +32,7 @@ private:
                                   eResourceType::none};
 
     eResourceType mAccepts = eResourceType::none;
+    std::map<eResourceType, int> mMaxCount;
 };
 
 #endif // ETHREADBUILDING_H
