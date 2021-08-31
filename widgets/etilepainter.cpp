@@ -30,6 +30,7 @@ void eTilePainter::translate(const double x, const double y) {
 void eTilePainter::drawTexture(const double x, const double y,
                                const std::shared_ptr<eTexture>& tex,
                                const eAlignment align) const {
+    if(!tex) return;
     const auto rx = x + mX;
     const auto ry = y + mY;
     const double dx = mTileH*tex->offsetX()/30.;
@@ -41,6 +42,7 @@ void eTilePainter::drawTexture(const double x, const double y,
 
 void eTilePainter::drawTexture(const double x, const double y,
                                const std::shared_ptr<eTexture>& tex) const {
+    if(!tex) return;
     const auto rx = x + mX;
     const auto ry = y + mY;
     const double dx = mTileH*tex->offsetX()/30.;

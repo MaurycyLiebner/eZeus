@@ -70,6 +70,52 @@ int eStorageBuilding::spaceLeft(const eResourceType type) const {
     return sSpaceLeft(type, mResourceCount, mResource, mAccept, mMaxCount);
 }
 
+void eStorageBuilding::timeChanged() {
+    eEmployingBuilding::timeChanged();
+    if(mCartTime <= time() && (!mCart1 || !mCart2)) {
+        struct eResTask {
+            eResTask(const bool get, const eResourceType res) :
+                fGet(get), fRes(res) {}
+
+            bool fGet;
+            eResourceType fRes;
+        };
+
+        std::vector<eResTask> tasks;
+        const auto get = eResourceTypeHelpers::extractResourceTypes(mGet);
+        const auto empty = eResourceTypeHelpers::extractResourceTypes(mEmpty);
+        tasks.reserve(get.size() + empty.size());
+        for(const auto g : get) {
+            tasks.emplace_back(true, g);
+        }
+        for(const auto e : empty) {
+            tasks.emplace_back(false, e);
+        }
+
+        if(!tasks.empty()) {
+            if(!mCart1) {
+                const int id = rand() % tasks.size();
+                const auto& task = tasks[id];
+                if(task.fGet) {
+                    spawnTakeCart(mCart1, mCartTime, mCartWaitTime, task.fRes);
+                } else {
+                    spawnGiveCart(mCart1, mCartTime, mCartWaitTime, task.fRes);
+                }
+            }
+            if(!mCart2) {
+                const int id = rand() % tasks.size();
+                const auto& task = tasks[id];
+                if(task.fGet) {
+                    spawnTakeCart(mCart2, mCartTime, mCartWaitTime, task.fRes);
+                } else {
+                    spawnGiveCart(mCart2, mCartTime, mCartWaitTime, task.fRes);
+                }
+            }
+        }
+        mCartTime += mCartWaitTime;
+    }
+}
+
 int eStorageBuilding::sCount(const eResourceType type,
                              const int resourceCount[8],
                              const eResourceType resourceType[8]) {

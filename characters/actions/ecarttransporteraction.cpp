@@ -54,16 +54,23 @@ void eCartTransporterAction::findTarget() {
     using eFinalTile = std::function<bool(eThreadTile*)>;
     eFinalTile finalTile;
     const auto resType = mResource;
+    const auto buildingRect = mBuildingRect;
     if(mActionType == eCartActionType::give) {
-        finalTile = [resType](eThreadTile* const t) {
+        finalTile = [resType, buildingRect](eThreadTile* const t) {
             if(!t->isUnderBuilding()) return false;
+            const SDL_Point p{t->x(), t->y()};
+            const bool r = SDL_PointInRect(&p, &buildingRect);
+            if(r) return false;
             const auto& ub = t->underBuilding();
             const int rsl = ub.resourceSpaceLeft(resType);
             return rsl > 0;
         };
     } else {
-        finalTile = [resType](eThreadTile* const t) {
+        finalTile = [resType, buildingRect](eThreadTile* const t) {
             if(!t->isUnderBuilding()) return false;
+            const SDL_Point p{t->x(), t->y()};
+            const bool r = SDL_PointInRect(&p, &buildingRect);
+            if(r) return false;
             const auto& ub = t->underBuilding();
             const int rsl = ub.resourceCount(resType);
             return rsl > 0;

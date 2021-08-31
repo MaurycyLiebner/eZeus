@@ -17,6 +17,9 @@ public:
     int count(const eResourceType type) const;
     int spaceLeft(const eResourceType type) const;
 
+
+    void timeChanged();
+
     static int sCount(const eResourceType type,
                       const int resourceCount[8],
                       const eResourceType resourceType[8]);
@@ -62,6 +65,11 @@ private:
                                   eResourceType::none};
 
     std::map<eResourceType, int> mMaxCount;
+
+    const int mCartWaitTime = 5000;
+    int mCartTime = 0;
+    stdsptr<eCartTransporter> mCart1;
+    stdsptr<eCartTransporter> mCart2;
 };
 
 #endif // ESTORAGEBUILDING_H
