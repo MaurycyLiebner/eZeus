@@ -5,7 +5,11 @@
 
 class eStorageBuilding : public eEmployingBuilding {
 public:
-    using eEmployingBuilding::eEmployingBuilding;
+    eStorageBuilding(eGameBoard& board,
+                     const eBuildingType type,
+                     const int sw, const int sh,
+                     const int maxEmployees,
+                     const eResourceType canAccept);
 
     int add(const eResourceType type, const int count);
     int take(const eResourceType type, const int count);
@@ -27,10 +31,23 @@ public:
     const int* resourceCounts() const { return &mResourceCount[0]; }
     const eResourceType* resourceTypes() const { return &mResource[0]; }
 
-    void setAccepts(const eResourceType a);
-    eResourceType accepts() const { return mAccepts; }
+    eResourceType accepts() const { return mAccept; }
+    eResourceType canAccept() const { return mCanAccept; }
+
+    void setOrders(const eResourceType get,
+                   const eResourceType empty,
+                   const eResourceType accept);
+
+    void getOrders(eResourceType& get,
+                   eResourceType& empty,
+                   eResourceType& accept) const;
 private:
-    eResourceType mAccepts = eResourceType::all;
+    const eResourceType mCanAccept;
+
+    eResourceType mGet = eResourceType::none;
+    eResourceType mEmpty = eResourceType::none;
+    eResourceType mAccept = mCanAccept; // includes get
+
     int mResourceCount[8] = {0, 0, 0, 0, 0, 0, 0, 0};
     eResourceType mResource[8] = {eResourceType::none,
                                   eResourceType::none,

@@ -1,15 +1,21 @@
 #ifndef EINFOWIDGET_H
 #define EINFOWIDGET_H
 
-#include "../ewidget.h"
+#include "../eframedwidget.h"
 
-class eInfoWidget : public eWidget {
+class eButton;
+
+class eInfoWidget : public eFramedWidget {
 public:
     eInfoWidget(eMainWindow* const window);
 
     void initialize();
+
+    void setCloseAction(const eAction& closeAction);
 protected:
-    void paintEvent(ePainter& p);
+    SDL_Rect centralWidgetRect() const;
+private:
+    eButton* mOk = nullptr;
 };
 
 #endif // EINFOWIDGET_H

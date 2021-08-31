@@ -84,28 +84,28 @@ int eResolution::largeFontSize(const eRes res) {
 }
 
 int eResolution::smallFontSize(const eRes res) {
-    return 2*largeFontSize(res)/3;
+    return 3*largeFontSize(res)/4;
 }
 
 int eResolution::tinyFontSize(const eRes res) {
-    return largeFontSize(res)/2;
+    return 2*largeFontSize(res)/2;
 }
 
 int eResolution::centralWidgetWidth(const eRes res) {
+    return 3*centralWidgetHeight(res)/2;
+}
+
+int eResolution::centralWidgetHeight(const eRes res) {
     switch(res) {
     case eRes::p2160:
-        return 1750;
+        return 1650;
     case eRes::p1440:
         return 1000;
     case eRes::p1080:
         return 750;
     case eRes::p720:
-        return 500;
+        return 480;
     case eRes::p480:
         return 350;
     }
-}
-
-int eResolution::centralWidgetHeight(const eRes res) {
-    return centralWidgetWidth(res);
 }

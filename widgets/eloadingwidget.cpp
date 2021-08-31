@@ -42,7 +42,7 @@ void eLoadingWidget::initialize() {
 
     mPB = new eProgressBar(window());
     mPB->fitContent();
-    mPB->setWidth(width() / 2);
+    mPB->setWidth(width() / 4);
     addWidget(mPB);
     mPB->align(eAlignment::center);
 

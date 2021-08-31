@@ -2,8 +2,10 @@
 
 #include "emainwindow.h"
 
+#include "../ebutton.h"
+
 eInfoWidget::eInfoWidget(eMainWindow* const window) :
-    eWidget(window) {
+    eFramedWidget(window) {
 
 }
 
@@ -12,8 +14,20 @@ void eInfoWidget::initialize() {
     resize(eResolution::centralWidgetWidth(res),
            eResolution::centralWidgetHeight(res));
     align(eAlignment::center);
+
+    mOk = new eButton(window());
+    mOk->setText("OK");
+    mOk->fitContent();
+
+    addWidget(mOk);
+    mOk->align(eAlignment::bottom | eAlignment::right);
 }
 
-void eInfoWidget::paintEvent(ePainter& p) {
-    p.fillRect(rect(), {255, 255, 255, 255});
+void eInfoWidget::setCloseAction(const eAction& closeAction) {
+    mOk->setPressAction(closeAction);
+}
+
+SDL_Rect eInfoWidget::centralWidgetRect() const {
+    const int p = padding();
+    return {p, p, width() - 2*p, height() - 4*p};
 }

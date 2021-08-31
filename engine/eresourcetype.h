@@ -1,6 +1,9 @@
 #ifndef ERESOURCETYPE_H
 #define ERESOURCETYPE_H
 
+#include <vector>
+#include <string>
+
 enum class eResourceType {
     none = 0,
 
@@ -29,9 +32,9 @@ enum class eResourceType {
     sculpture = 1 << 17,
 
     all = (1 << 18) - 1,
-    allButFood = all & ~food,
+    warehouse = (all & ~food & ~silver) | wheat,
 
-    horse
+    horse = 1 << 19,
 };
 
 inline eResourceType operator|(const eResourceType a, const eResourceType b) {
@@ -40,6 +43,12 @@ inline eResourceType operator|(const eResourceType a, const eResourceType b) {
 
 inline eResourceType operator&(const eResourceType a, const eResourceType b) {
     return static_cast<eResourceType>(static_cast<int>(a) & static_cast<int>(b));
+}
+
+namespace eResourceTypeHelpers {
+    std::vector<eResourceType> extractResourceTypes(
+            const eResourceType from);
+    std::string typeName(const eResourceType type);
 }
 
 #endif // ERESOURCETYPE_H

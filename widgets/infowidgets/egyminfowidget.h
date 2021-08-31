@@ -5,11 +5,9 @@
 
 class eGymInfoWidget : public eInfoWidget {
 public:
-    eGymInfoWidget(eMainWindow* const window);
+    using eInfoWidget::eInfoWidget;
 
-    void initialize(const eAction& closeAction);
-
-    void setCloseAction();
+    void initialize();
 };
 
 #endif // EGYMINFOWIDGET_H

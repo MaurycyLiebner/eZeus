@@ -80,7 +80,9 @@ public:
     void addWidget(eWidget* const w);
     void removeWidget(eWidget* const w);
 
+    void stackVertically();
     void layoutVertically();
+    void stackHorizontally();
     void layoutHorizontally();
 protected:
     virtual void sizeHint(int& w, int& h);

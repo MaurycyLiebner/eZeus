@@ -477,5 +477,44 @@ void eInterfaceTextures::load() {
         fDrachmasTopMenu->load(fRenderer, pathBase + "00185.png");
         fPopulationTopMenu = std::make_shared<eTexture>();
         fPopulationTopMenu->load(fRenderer, pathBase + "00186.png");
+
+        fUrchinUnit = std::make_shared<eTexture>();
+        fUrchinUnit->load(fRenderer, pathBase + "00117.png");
+        fFishUnit = std::make_shared<eTexture>();
+        fFishUnit->load(fRenderer, pathBase + "00118.png");
+        fMeatUnit = std::make_shared<eTexture>();
+        fMeatUnit->load(fRenderer, pathBase + "00119.png");
+        fCheeseUnit = std::make_shared<eTexture>();
+        fCheeseUnit->load(fRenderer, pathBase + "00120.png");
+        fCarrotsUnit = std::make_shared<eTexture>();
+        fCarrotsUnit->load(fRenderer, pathBase + "00121.png");
+        fOnionsUnit = std::make_shared<eTexture>();
+        fOnionsUnit->load(fRenderer, pathBase + "00122.png");
+        fWheatUnit = std::make_shared<eTexture>();
+        fWheatUnit->load(fRenderer, pathBase + "00123.png");
+        fWoodUnit = std::make_shared<eTexture>();
+        fWoodUnit->load(fRenderer, pathBase + "00124.png");
+        fBronzeUnit = std::make_shared<eTexture>();
+        fBronzeUnit->load(fRenderer, pathBase + "00125.png");
+        fMarbleUnit = std::make_shared<eTexture>();
+        fMarbleUnit->load(fRenderer, pathBase + "00126.png");
+        fGrapesUnit = std::make_shared<eTexture>();
+        fGrapesUnit->load(fRenderer, pathBase + "00127.png");
+        fOlivesUnit = std::make_shared<eTexture>();
+        fOlivesUnit->load(fRenderer, pathBase + "00128.png");
+        fFleeceUnit = std::make_shared<eTexture>();
+        fFleeceUnit->load(fRenderer, pathBase + "00129.png");
+        fHorseUnit = std::make_shared<eTexture>();
+        fHorseUnit->load(fRenderer, pathBase + "00130.png");
+        fArmsUnit = std::make_shared<eTexture>();
+        fArmsUnit->load(fRenderer, pathBase + "00131.png");
+        fSculptureUnit = std::make_shared<eTexture>();
+        fSculptureUnit->load(fRenderer, pathBase + "00132.png");
+        fOliveOilUnit = std::make_shared<eTexture>();
+        fOliveOilUnit->load(fRenderer, pathBase + "00133.png");
+        fWineUnit = std::make_shared<eTexture>();
+        fWineUnit->load(fRenderer, pathBase + "00134.png");
+        fFoodUnit = std::make_shared<eTexture>();
+        fFoodUnit->load(fRenderer, pathBase + "00135.png");
     }
 }

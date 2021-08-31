@@ -3,9 +3,9 @@
 #include "textures/egametextures.h"
 
 eWarehouse::eWarehouse(eGameBoard& board) :
-    eStorageBuilding(board, eBuildingType::warehouse, 3, 3, 12),
+    eStorageBuilding(board, eBuildingType::warehouse, 3, 3, 12,
+                     eResourceType::warehouse),
     mTextures(eGameTextures::buildings()) {
-    setAccepts(eResourceType::allButFood | eResourceType::wheat);
 }
 
 std::shared_ptr<eTexture> eWarehouse::getTexture(const eTileSize size) const {

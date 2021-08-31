@@ -3,9 +3,9 @@
 #include "textures/egametextures.h"
 
 eGranary::eGranary(eGameBoard& board) :
-    eStorageBuilding(board, eBuildingType::granary, 4, 4, 18),
+    eStorageBuilding(board, eBuildingType::granary,
+                     4, 4, 18, eResourceType::food),
     mTextures(eGameTextures::buildings()) {
-    setAccepts(eResourceType::food);
 }
 
 std::shared_ptr<eTexture> eGranary::getTexture(const eTileSize size) const {

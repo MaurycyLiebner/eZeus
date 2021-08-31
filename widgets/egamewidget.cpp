@@ -74,6 +74,8 @@
 
 #include "engine/emapgenerator.h"
 
+#include "infowidgets/estorageinfowidget.h"
+
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window), mBoard(&mThreadPool) {}
 
@@ -834,16 +836,43 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         mGm->clearMode();
         const auto tile = mBoard.tile(tx, ty);
         if(!tile) return true;
-        const auto b = tile->building();
+        const auto b = tile->underBuilding();
         if(!b) return true;
+        eInfoWidget* wid = nullptr;
+        eAction closeAct;
         if(const auto gym = dynamic_cast<eGymnasium*>(b)) {
             const auto gymWid = new eGymInfoWidget(window());
-            gymWid->initialize([this, gymWid]() {
-                removeWidget(gymWid);
-                gymWid->deleteLater();
+            gymWid->initialize();
+            wid = gymWid;
+        } else if(const auto stor = dynamic_cast<eStorageBuilding*>(b)) {
+            eResourceType get;
+            eResourceType empty;
+            eResourceType accept;
+            stor->getOrders(get, empty, accept);
+            const auto storWid = new eStorageInfoWidget(window());
+            storWid->initialize(stor->canAccept(), get, empty, accept);
+            wid = storWid;
+            const stdptr<eStorageBuilding> storptr(stor);
+            closeAct = [storptr, storWid]() {
+                if(storptr) {
+                    eResourceType get;
+                    eResourceType empty;
+                    eResourceType accept;
+                    eResourceType dontaccept;
+                    storWid->get(get, empty, accept, dontaccept);
+                    storptr->setOrders(get, empty, accept);
+                }
+            };
+        }
+        if(wid) {
+            addWidget(wid);
+            wid->setX((width() - mGm->width() - wid->width())/2);
+            wid->align(eAlignment::vcenter);
+            wid->setCloseAction([this, wid, closeAct]() {
+                if(closeAct) closeAct();
+                removeWidget(wid);
+                wid->deleteLater();
             });
-            addWidget(gymWid);
-            gymWid->align(eAlignment::center);
         }
     } break;
     default: return true;

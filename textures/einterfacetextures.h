@@ -137,6 +137,26 @@ public:
     std::shared_ptr<eTexture> fDrachmasTopMenu;
     std::shared_ptr<eTexture> fPopulationTopMenu;
     std::shared_ptr<eTexture> fDrachmasUnit;
+
+    std::shared_ptr<eTexture> fUrchinUnit;
+    std::shared_ptr<eTexture> fFishUnit;
+    std::shared_ptr<eTexture> fMeatUnit;
+    std::shared_ptr<eTexture> fCheeseUnit;
+    std::shared_ptr<eTexture> fCarrotsUnit;
+    std::shared_ptr<eTexture> fOnionsUnit;
+    std::shared_ptr<eTexture> fWheatUnit;
+    std::shared_ptr<eTexture> fWoodUnit;
+    std::shared_ptr<eTexture> fBronzeUnit;
+    std::shared_ptr<eTexture> fMarbleUnit;
+    std::shared_ptr<eTexture> fGrapesUnit;
+    std::shared_ptr<eTexture> fOlivesUnit;
+    std::shared_ptr<eTexture> fFleeceUnit;
+    std::shared_ptr<eTexture> fHorseUnit;
+    std::shared_ptr<eTexture> fArmsUnit;
+    std::shared_ptr<eTexture> fSculptureUnit;
+    std::shared_ptr<eTexture> fOliveOilUnit;
+    std::shared_ptr<eTexture> fWineUnit;
+    std::shared_ptr<eTexture> fFoodUnit;
 };
 
 #endif // EINTERFACETEXTURES_H

@@ -1,7 +1,17 @@
 #include "estoragebuilding.h"
 
+eStorageBuilding::eStorageBuilding(eGameBoard& board,
+                                   const eBuildingType type,
+                                   const int sw, const int sh,
+                                   const int maxEmployees,
+                                   const eResourceType canAccept) :
+    eEmployingBuilding(board, type, sw, sh, maxEmployees),
+    mCanAccept(canAccept) {
+
+}
+
 int eStorageBuilding::add(const eResourceType type, const int count) {
-    if(!static_cast<bool>(mAccepts & type)) return 0;
+    if(!static_cast<bool>(mAccept & type)) return 0;
     int rem = count;
     for(int i = 0; i < 8 && rem > 0; i++) {
         const auto t = mResource[i];
@@ -47,7 +57,7 @@ int eStorageBuilding::count(const eResourceType type) const {
 }
 
 int eStorageBuilding::spaceLeft(const eResourceType type) const {
-    return sSpaceLeft(type, mResourceCount, mResource, mAccepts);
+    return sSpaceLeft(type, mResourceCount, mResource, mAccept);
 }
 
 int eStorageBuilding::sCount(const eResourceType type,
@@ -81,6 +91,18 @@ int eStorageBuilding::sSpaceLeft(const eResourceType type,
     return space;
 }
 
-void eStorageBuilding::setAccepts(const eResourceType a) {
-    mAccepts = a;
+void eStorageBuilding::setOrders(const eResourceType get,
+                                 const eResourceType empty,
+                                 const eResourceType accept) {
+    mGet = get;
+    mEmpty = empty;
+    mAccept = accept | get;
+}
+
+void eStorageBuilding::getOrders(eResourceType& get,
+                                 eResourceType& empty,
+                                 eResourceType& accept) const {
+    get = mGet;
+    empty = mEmpty;
+    accept = mAccept;
 }

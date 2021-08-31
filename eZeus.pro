@@ -136,6 +136,7 @@ SOURCES += \
         engine/emovinggameobject.cpp \
         engine/eotherthreadpathfinder.cpp \
         engine/epathfinder.cpp \
+        engine/eresourcetype.cpp \
         engine/etask.cpp \
         engine/eterrain.cpp \
         engine/ethreadpool.cpp \
@@ -203,13 +204,15 @@ SOURCES += \
         widgets/eprogressbar.cpp \
         widgets/eresolution.cpp \
         widgets/esettingsmenu.cpp \
+        widgets/eswitchbutton.cpp \
         widgets/etabwidget.cpp \
         widgets/eterraineditmenu.cpp \
         widgets/etilepainter.cpp \
         widgets/etopbarwidget.cpp \
         widgets/ewidget.cpp \
         widgets/infowidgets/egyminfowidget.cpp \
-        widgets/infowidgets/einfowidget.cpp
+        widgets/infowidgets/einfowidget.cpp \
+        widgets/infowidgets/estorageinfowidget.cpp
 
 HEADERS += \
     buildings/earmory.h \
@@ -409,10 +412,12 @@ HEADERS += \
     widgets/eprogressbar.h \
     widgets/eresolution.h \
     widgets/esettingsmenu.h \
+    widgets/eswitchbutton.h \
     widgets/etabwidget.h \
     widgets/eterraineditmenu.h \
     widgets/etilepainter.h \
     widgets/etopbarwidget.h \
     widgets/ewidget.h \
     widgets/infowidgets/egyminfowidget.h \
-    widgets/infowidgets/einfowidget.h
+    widgets/infowidgets/einfowidget.h \
+    widgets/infowidgets/estorageinfowidget.h
