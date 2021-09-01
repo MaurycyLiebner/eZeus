@@ -56,6 +56,11 @@ void orientationToTargetCoords(const eOrientation o,
     }
 }
 
+inline bool isEqual(const double x, const double y) {
+    const double epsilon = 1e-5;
+    return std::abs(x - y) <= epsilon * std::abs(x);
+}
+
 void eMoveAction::increment(const int by) {
     switch(state()) {
     case eCharacterActionState::failed:
@@ -142,5 +147,9 @@ bool eMoveAction::nextTurn() {
     mStartY = c->y();
     mOrientation = turn;
     orientationToTargetCoords(turn, mTargetX, mTargetY);
+    if(isEqual(mStartX, mTargetX) &&
+       isEqual(mStartY, mTargetY)) {
+        return nextTurn();
+    }
     return true;
 }

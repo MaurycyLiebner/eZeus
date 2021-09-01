@@ -61,8 +61,8 @@ void eCharacter::incTime(const int by) {
     mTime += by;
     if(mAction) {
         if(mAction->state() != eCharacterActionState::running) {
-            changeTile(nullptr);
             mAction.reset();
+            changeTile(nullptr);
         } else {
             mAction->increment(by);
         }
