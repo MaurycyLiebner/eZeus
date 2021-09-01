@@ -5,21 +5,12 @@
 #include "eresolution.h"
 
 struct eSettings {
-    int width() const {
-        return eResolution::width(fRes);
-    }
-
-    int height() const {
-        return eResolution::height(fRes);
-    }
-
     bool fFullscreen;
-    eRes fRes;
+    eResolution fRes;
 };
 
 inline bool operator==(const eSettings& s0, const eSettings& s1) {
-    if(s0.width() != s1.width()) return false;
-    if(s0.height() != s1.height()) return false;
+    if(s0.fRes != s1.fRes) return false;
     if(s0.fFullscreen != s1.fFullscreen) return false;
     return true;
 }

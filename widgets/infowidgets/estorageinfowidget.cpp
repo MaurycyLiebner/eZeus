@@ -24,13 +24,12 @@ public:
         const auto& intrfc = eGameTextures::interface();
         int icoll;
         const auto res = resolution();
-        const double mult = eResolution::multiplier(res);
-        switch(res) {
-        case eRes::p480:
+        const double mult = res.multiplier();
+        switch(res.uiScale()) {
+        case eUIScale::small:
 //            icoll = 0;
 //            break;
-        case eRes::p720:
-        case eRes::p1080:
+        case eUIScale::medium:
             icoll = 1;
             break;
         default:

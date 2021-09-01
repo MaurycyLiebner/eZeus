@@ -6,17 +6,16 @@ eCheckBox::eCheckBox(eMainWindow* const window) :
     eCheckableButton(window) {
     int iRes;
     const auto res = resolution();
-    switch(res) {
-    case eRes::p2160:
-    case eRes::p1440:
-        iRes = 2;
+    const auto uiScale = res.uiScale();
+    switch(uiScale) {
+    case eUIScale::small:
+        iRes = 0;
         break;
-    case eRes::p1080:
-    case eRes::p720:
+    case eUIScale::medium:
         iRes = 1;
         break;
-    case eRes::p480:
-        iRes = 0;
+    case eUIScale::large:
+        iRes = 2;
         break;
     }
     const auto& intrfc = eGameTextures::interface();

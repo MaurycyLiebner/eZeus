@@ -47,6 +47,49 @@ void close() {
     SDL_Quit();
 }
 
+bool getDisplayResolution(SDL_DisplayMode& mode) {
+    int display_count = 0, display_index = 0, mode_index = 0;
+    mode = { SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0 };
+
+    if((display_count = SDL_GetNumVideoDisplays()) < 1) {
+        SDL_Log("SDL_GetNumVideoDisplays returned: %i", display_count);
+        return false;
+    }
+
+    if(SDL_GetDisplayMode(display_index, mode_index, &mode) != 0) {
+        SDL_Log("SDL_GetDisplayMode failed: %s", SDL_GetError());
+        return false;
+    }
+    SDL_Log("SDL_GetDisplayMode(0, 0, &mode):\t\t%i bpp\t%i x %i",
+    SDL_BITSPERPIXEL(mode.format), mode.w, mode.h);
+
+    return true;
+}
+
+bool getDisplayResolutions(std::vector<SDL_DisplayMode>& resolutions) {
+    const int display_count = SDL_GetNumVideoDisplays();
+
+    SDL_Log("Number of displays: %i", display_count);
+
+    for(int display_index = 0; display_index <= display_count; display_index++) {
+        SDL_Log("Display %i:", display_index);
+
+        const int modes_count = SDL_GetNumDisplayModes(display_index);
+
+        for(int mode_index = 0; mode_index <= modes_count; mode_index++) {
+            SDL_DisplayMode mode = { SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0 };
+
+            if (SDL_GetDisplayMode(display_index, mode_index, &mode) == 0) {
+                SDL_Log(" %i bpp\t%i x %i @ %iHz",
+                    SDL_BITSPERPIXEL(mode.format), mode.w, mode.h, mode.refresh_rate);
+
+                resolutions.push_back(mode);
+            }
+        }
+    }
+    return true;
+}
+
 int main() {
     if(!init()) {
         printf("Failed to initialize!\n");
@@ -54,8 +97,26 @@ int main() {
         return 1;
     }
 
+    SDL_DisplayMode mode;
+    const bool r0 = getDisplayResolution(mode);
+    eResolution resolution;
+//    if(r0) {
+//        resolution = eResolution(mode.w, mode.h);
+//    } else {
+        resolution = eResolution(1280, 720);
+//    }
+
+    std::vector<SDL_DisplayMode> resolutions;
+    const bool r1 = getDisplayResolutions(resolutions);
+    if(r1 && !resolutions.empty()) {
+        eResolution::sResolutions = std::vector<eResolution>();
+        for(const auto& m : resolutions) {
+            eResolution::sResolutions.emplace_back(m.w, m.h);
+        }
+    }
+
     eMainWindow w;
-    const bool i = w.initialize(eRes::p720);
+    const bool i = w.initialize(resolution);
     if(!i) return 1;
     eGameTextures::initialize(w.renderer());
 

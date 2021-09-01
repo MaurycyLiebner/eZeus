@@ -43,7 +43,7 @@ private:
     int yToActionId(const int y) const;
     eAction yToAction(const int y) const;
 
-    int mFontSize = eResolution::largeFontSize(resolution());
+    int mFontSize = resolution().largeFontSize();
 
     int mHoverId = -1;
 

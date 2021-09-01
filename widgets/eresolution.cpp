@@ -1,82 +1,68 @@
 #include "eresolution.h"
 
-const std::vector<eResolution> eResolution::sResolutions{
-    eResolution{eRes::p2160},
-    eResolution{eRes::p1440},
-    eResolution{eRes::p1080},
-    eResolution{eRes::p720},
-    eResolution{eRes::p480}
+std::vector<eResolution> eResolution::sResolutions{
+    eResolution{800, 600},
+    eResolution{1024, 768},
+    eResolution{1280, 720},
+    eResolution{1280, 800},
+    eResolution{1280, 1024},
+    eResolution{1360, 768},
+    eResolution{1366, 768},
+    eResolution{1440, 900},
+    eResolution{1600, 900},
+    eResolution{1680, 1050},
+    eResolution{1920, 1080},
+    eResolution{1920, 1200},
+    eResolution{2560, 1080},
+    eResolution{2560, 1440},
+    eResolution{3440, 1440},
+    eResolution{3840, 2160},
 };
 
-eResolution::eResolution(const eRes res) {
-    mRes = res;
-    const int w = width(res);
-    const int h = height(res);
-    mName = std::to_string(w) + "x" + std::to_string(h);
-}
-
-int eResolution::width(const eRes res) {
-    switch(res) {
-    case eRes::p2160:
-        return 3840;
-    case eRes::p1440:
-        return 2560;
-    case eRes::p1080:
-        return 1920;
-    case eRes::p720:
-        return 1280;
-    case eRes::p480:
-        return 854;
+eResolution::eResolution(const int width, const int height) :
+    mWidth(width), mHeight(height) {
+    if(height <= 600) {
+        mUIScale = eUIScale::small;
+    } else if(height <= 1200) {
+        mUIScale = eUIScale::medium;
+    } else {
+        mUIScale = eUIScale::large;
     }
+    mName = std::to_string(mWidth) + "x" + std::to_string(mHeight);
 }
 
-int eResolution::height(const eRes res) {
-    switch(res) {
-    case eRes::p2160:
-        return 2160;
-    case eRes::p1440:
-        return 1440;
-    case eRes::p1080:
-        return 1080;
-    case eRes::p720:
-        return 720;
-    case eRes::p480:
-        return 480;
-    }
+int eResolution::padding() const {
+    return 15*multiplier();
 }
 
-int eResolution::padding(const eRes res) {
-    return 15*multiplier(res);
+int eResolution::margin() const {
+    return padding();
 }
 
-int eResolution::margin(const eRes res) {
-    return padding(res);
+double eResolution::multiplier() const {
+    return height()/720.;
 }
 
-double eResolution::multiplier(const eRes res) {
-    return double(height(res))/height(eRes::p720);
+int eResolution::hugeFontSize() const {
+    return 3*largeFontSize()/2;
 }
 
-int eResolution::hugeFontSize(const eRes res) {
-    return 3*largeFontSize(res)/2;
+int eResolution::largeFontSize() const {
+    return 20*multiplier();
 }
 
-int eResolution::largeFontSize(const eRes res) {
-    return 20*multiplier(res);
+int eResolution::smallFontSize() const {
+    return 3*largeFontSize()/4;
 }
 
-int eResolution::smallFontSize(const eRes res) {
-    return 3*largeFontSize(res)/4;
+int eResolution::tinyFontSize() const {
+    return 2*largeFontSize()/2;
 }
 
-int eResolution::tinyFontSize(const eRes res) {
-    return 2*largeFontSize(res)/2;
+int eResolution::centralWidgetWidth() const {
+    return 3*centralWidgetHeight()/2;
 }
 
-int eResolution::centralWidgetWidth(const eRes res) {
-    return 3*centralWidgetHeight(res)/2;
-}
-
-int eResolution::centralWidgetHeight(const eRes res) {
-    return 480*multiplier(res);
+int eResolution::centralWidgetHeight() const {
+    return 480*multiplier();
 }

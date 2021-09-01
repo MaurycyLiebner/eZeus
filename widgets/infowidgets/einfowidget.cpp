@@ -11,8 +11,8 @@ eInfoWidget::eInfoWidget(eMainWindow* const window) :
 
 void eInfoWidget::initialize() {
     const auto res = window()->resolution();
-    resize(eResolution::centralWidgetWidth(res),
-           eResolution::centralWidgetHeight(res));
+    resize(res.centralWidgetWidth(),
+           res.centralWidgetHeight());
     align(eAlignment::center);
 
     mOk = new eButton(window());

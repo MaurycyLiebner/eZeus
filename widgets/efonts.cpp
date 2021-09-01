@@ -10,8 +10,8 @@ TTF_Font* eFonts::requestFont(const eFont& font) {
     return ttf;
 }
 
-TTF_Font* eFonts::defaultFont(const eRes res) {
-    const int fs = eResolution::largeFontSize(res);
+TTF_Font* eFonts::defaultFont(const eResolution res) {
+    const int fs = res.largeFontSize();
     return defaultFont(fs);
 ;}
 

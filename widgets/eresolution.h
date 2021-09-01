@@ -4,48 +4,48 @@
 #include <string>
 #include <vector>
 
-enum class eRes {
-    p2160, p1440, p1080, p720, p480
+enum class eUIScale {
+    small, medium, large
 };
-
-//switch(resolution()) {
-//case eRes::p2160:
-//    break;
-//case eRes::p1440:
-//    break;
-//case eRes::p1080:
-//    break;
-//case eRes::p720:
-//    break;
-//case eRes::p480:
-//    break;
-//}
 
 class eResolution {
 public:
-    eResolution(const eRes res);
+    eResolution() {}
+    eResolution(const int width, const int height);
 
-    static int width(const eRes res);
-    static int height(const eRes res);
-    static int padding(const eRes res);
-    static int margin(const eRes res);
+    int width() const { return mWidth; }
+    int height() const { return mHeight; }
 
-    static double multiplier(const eRes res);
+    double multiplier() const;
 
-    static int hugeFontSize(const eRes res);
-    static int largeFontSize(const eRes res);
-    static int smallFontSize(const eRes res);
-    static int tinyFontSize(const eRes res);
+    int padding() const;
+    int margin() const;
 
-    static int centralWidgetWidth(const eRes res);
-    static int centralWidgetHeight(const eRes res);
+    int hugeFontSize() const;
+    int largeFontSize() const;
+    int smallFontSize() const;
+    int tinyFontSize() const;
 
-    static const std::vector<eResolution> sResolutions;
+    int centralWidgetWidth() const;
+    int centralWidgetHeight() const;
+
+    static std::vector<eResolution> sResolutions;
 
     const std::string& name() const { return mName; }
-    eRes res() const { return mRes; }
+    eUIScale uiScale() const { return mUIScale; }
+
+    bool operator==(const eResolution other) const {
+        return mWidth == other.mWidth &&
+               mHeight == other.mHeight;
+    }
+
+    bool operator!=(const eResolution other) const {
+        return !(*this == other);
+    }
 private:
-    eRes mRes;
+    int mWidth;
+    int mHeight;
+    eUIScale mUIScale;
     std::string mName;
 };
 

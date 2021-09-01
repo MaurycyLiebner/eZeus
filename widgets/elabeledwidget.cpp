@@ -14,7 +14,7 @@ void eLabeledWidget::setup(const std::string& label, eWidget* const w) {
 
     fitContent();
 
-    const int margin = eResolution::margin(resolution());
+    const int margin = resolution().margin();
     setWidth(3*margin + l->width() + w->width());
 
     l->align(eAlignment::vcenter);

@@ -74,13 +74,12 @@ void eGameMenu::initialize() {
     const auto& intrfc = eGameTextures::interface();
     int mult;
     int icoll;
-    switch(resolution()) {
-    case eRes::p480:
+    switch(resolution().uiScale()) {
+    case eUIScale::small:
         mult = 1;
         icoll = 0;
         break;
-    case eRes::p720:
-    case eRes::p1080:
+    case eUIScale::medium:
         mult = 2;
         icoll = 1;
         break;

@@ -10,16 +10,14 @@ void eSpinBox::initialize() {
     const auto& intrfc = eGameTextures::interface();
     const auto res = resolution();
     int iRes;
-    switch(res) {
-    case eRes::p2160:
-    case eRes::p1440:
-    case eRes::p1080:
+    switch(res.uiScale()) {
+    case eUIScale::large:
         iRes = 2;
         break;
-    case eRes::p720:
+    case eUIScale::medium:
         iRes = 1;
         break;
-    case eRes::p480:
+    case eUIScale::small:
         iRes = 0;
         break;
     }
@@ -45,7 +43,7 @@ void eSpinBox::initialize() {
         setValue(mValue - mIncrement);
     });
 
-    mValueLabel->setWidth(down->width());
+    mValueLabel->setWidth(1.5*down->width());
     mValueLabel->setHeight(down->height());
     setValue(0);
 

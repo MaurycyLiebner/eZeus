@@ -12,7 +12,7 @@ eLabel::eLabel(const std::string& text,
 }
 
 bool eLabel::setSmallFontSize() {
-    const int s = eResolution::smallFontSize(resolution());
+    const int s = resolution().smallFontSize();
     return setFontSize(s);
 }
 

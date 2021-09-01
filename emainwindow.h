@@ -15,7 +15,7 @@ public:
     eMainWindow();
     ~eMainWindow();
 
-    bool initialize(const eRes& res);
+    bool initialize(const eResolution& res);
 public:
 
     void setWidget(eWidget* const w);
@@ -24,12 +24,12 @@ public:
 
     void addSlot(const eSlot& slot);
 
-    int width() const { return eResolution::width(mResolution); }
-    int height() const { return eResolution::height(mResolution); }
-    eRes resolution() const { return mResolution; }
+    int width() const { return mResolution.width(); }
+    int height() const { return mResolution.height(); }
+    eResolution resolution() const { return mResolution; }
     SDL_Renderer* renderer() const { return mSdlRenderer; }
 private:
-    void setResolution(const eRes res);
+    void setResolution(const eResolution res);
     void setFullscreen(const bool f);
 
     void showMenuLoading();
@@ -38,7 +38,7 @@ private:
     void showGame();
 
     bool mFullscreen = false;
-    eRes mResolution;
+    eResolution mResolution;
 
     bool mQuit = false;
 

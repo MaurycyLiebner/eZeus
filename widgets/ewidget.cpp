@@ -13,7 +13,7 @@ eWidget* eWidget::sKeyboardGrabber = nullptr;
 
 eWidget::eWidget(eMainWindow* const window) :
     mWindow(window) {
-    mPadding = eResolution::padding(resolution());
+    mPadding = resolution().padding();
 }
 
 eWidget::~eWidget() {
@@ -27,7 +27,7 @@ SDL_Renderer* eWidget::renderer() const {
     return mWindow->renderer();
 }
 
-eRes eWidget::resolution() const {
+eResolution eWidget::resolution() const {
     return mWindow->resolution();
 }
 

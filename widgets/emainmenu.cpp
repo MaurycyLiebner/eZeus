@@ -31,8 +31,8 @@ void eMainMenu::initialize(const eAction& newGameA,
     addWidget(buttons);
 
     const auto res = resolution();
-    const int cww = eResolution::centralWidgetWidth(res);
-    const int cwh = eResolution::centralWidgetHeight(res);
+    const int cww = res.centralWidgetWidth();
+    const int cwh = res.centralWidgetHeight();
     buttons->resize(cww, cwh);
 
     buttons->align(eAlignment::center);

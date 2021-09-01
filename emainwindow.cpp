@@ -21,9 +21,9 @@ eMainWindow::~eMainWindow() {
     setWidget(nullptr);
 }
 
-bool eMainWindow::initialize(const eRes& res) {
-    const int w = eResolution::width(res);
-    const int h = eResolution::width(res);
+bool eMainWindow::initialize(const eResolution& res) {
+    const int w = res.width();
+    const int h = res.height();
     const auto window = SDL_CreateWindow("eZeus",
                                          SDL_WINDOWPOS_UNDEFINED,
                                          SDL_WINDOWPOS_UNDEFINED,
@@ -62,10 +62,10 @@ void eMainWindow::addSlot(const eSlot& slot) {
     mSlots.push_back(slot);
 }
 
-void eMainWindow::setResolution(const eRes res) {
+void eMainWindow::setResolution(const eResolution res) {
     mResolution = res;
-    const int w = eResolution::width(res);
-    const int h = eResolution::height(res);
+    const int w = res.width();
+    const int h = res.height();
     SDL_SetWindowSize(mSdlWindow, w, h);
 }
 

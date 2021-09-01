@@ -22,8 +22,8 @@ void eSettingsMenu::initialize(const eAction& backA,
 
     const auto res = resolution();
 
-    const int cww = eResolution::centralWidgetWidth(res);
-    const int cwh = eResolution::centralWidgetHeight(res);
+    const int cww = res.centralWidgetWidth();
+    const int cwh = res.centralWidgetHeight();
     buttons->resize(cww, cwh);
 
     buttons->align(eAlignment::center);
@@ -32,15 +32,17 @@ void eSettingsMenu::initialize(const eAction& backA,
         const auto lw = new eLabeledWidget(window());
 
         const auto b = new eComboBox(window());
-        for(const auto& r : eResolution::sResolutions) {
+        const auto res = mSettings.fRes;
+        int id = 0;
+        const int iMax = eResolution::sResolutions.size();
+        for(int i = 0; i < iMax; i++) {
+            const auto& r = eResolution::sResolutions[i];
+            if(r == res) id = i;
             b->addAction(r.name());
         }
-        const auto res = mSettings.fRes;
-        const int id = static_cast<int>(res);
         b->setCurrentIndex(id);
         b->setCurrentChangedAction([this](const int id) {
-            const auto& s = eResolution::sResolutions[id];
-            mSettings.fRes = s.res();
+            mSettings.fRes = eResolution::sResolutions[id];
         });
         b->fitContent();
 

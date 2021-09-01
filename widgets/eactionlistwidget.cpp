@@ -15,7 +15,7 @@ eActionInstance& eActionListWidget::addAction(
 }
 
 void eActionListWidget::setSmallFontSize() {
-    mFontSize = eResolution::smallFontSize(resolution());
+    mFontSize = resolution().smallFontSize();
 }
 
 void eActionListWidget::sizeHint2(int& w, int& h) {

@@ -62,18 +62,16 @@ void eFramedWidget::paintEvent(ePainter& p) {
 
 void eFramedWidget::iResAndDim(int& iRes, int& dim) const {
     const auto res = resolution();
-    switch(res) {
-    case eRes::p2160:
-    case eRes::p1440:
+    switch(res.uiScale()) {
+    case eUIScale::large:
         iRes = 2;
         dim = 32;
         break;
-    case eRes::p1080:
-    case eRes::p720:
+    case eUIScale::medium:
         iRes = 1;
         dim = 16;
         break;
-    case eRes::p480:
+    case eUIScale::small:
         iRes = 0;
         dim = 8;
         break;
