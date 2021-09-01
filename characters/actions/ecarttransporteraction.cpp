@@ -7,7 +7,7 @@
 #include "buildings/ebuildingwithresource.h"
 
 eCartTransporterAction::eCartTransporterAction(
-        const SDL_Rect& buildingRect,
+        eBuilding* const b,
         eCartTransporter* const c,
         const eCartActionType aType,
         const eResourceType resType,
@@ -15,21 +15,23 @@ eCartTransporterAction::eCartTransporterAction(
         const eAction& failAction,
         const eAction& finishAction) :
     eActionWithComeback(c, failAction, finishAction),
+    mBuilding(b),
+    mBuildingType(b->type()),
+    mBuildingRect(b->tileRect()),
     mActionType(aType),
     mResource(resType),
-    mBuildingRect(buildingRect),
     mFoundAction(foundAction) {
 
 }
 
 eCartTransporterAction::eCartTransporterAction(
-        const SDL_Rect& buildingRect,
+        eBuilding* const b,
         eCartTransporter* const c,
         const eCartActionType aType,
         const eResourceType resType,
         const eAction& failAction,
         const eAction& finishAction) :
-    eCartTransporterAction(buildingRect, c, aType, resType,
+    eCartTransporterAction(b, c, aType, resType,
                            []() {}, failAction, finishAction) {
 
 }
@@ -65,13 +67,24 @@ void eCartTransporterAction::findTarget() {
             const int rsl = ub.resourceSpaceLeft(resType);
             return rsl > 0;
         };
-    } else {
-        finalTile = [resType, buildingRect](eThreadTile* const t) {
+    } else { // take
+        const auto srcType = mBuildingType;
+        finalTile = [resType, buildingRect, srcType]
+                    (eThreadTile* const t) {
             if(!t->isUnderBuilding()) return false;
             const SDL_Point p{t->x(), t->y()};
             const bool r = SDL_PointInRect(&p, &buildingRect);
             if(r) return false;
             const auto& ub = t->underBuilding();
+            const auto ubt = ub.type();
+            if((ubt == eBuildingType::granary ||
+                ubt == eBuildingType::warehouse) &&
+               (srcType == eBuildingType::granary ||
+                srcType == eBuildingType::warehouse)) {
+                const auto gets = ub.gets();
+                if(static_cast<bool>(gets & resType)) return false;
+            }
+
             const int rsl = ub.resourceCount(resType);
             return rsl > 0;
         };

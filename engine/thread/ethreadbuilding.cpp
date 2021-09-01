@@ -20,6 +20,7 @@ void eThreadBuilding::load(eBuilding* const src) {
                   mType == eBuildingType::warehouse) {
             const auto s = static_cast<eStorageBuilding*>(src);
             mAccepts = s->accepts();
+            mGet = s->get();
             const auto rc = s->resourceCounts();
             const auto rt = s->resourceTypes();
             for(int i = 0; i < 8; i++) {

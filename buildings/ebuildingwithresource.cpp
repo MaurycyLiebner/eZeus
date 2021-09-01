@@ -34,7 +34,7 @@ bool eBuildingWithResource::spawnGiveCart(
         finishAct();
     };
     const auto a = e::make_shared<eCartTransporterAction>(
-                       tileRect(), cart.get(),
+                       this, cart.get(),
                        eCartActionType::give, resType,
                        foundAct, failAct, finishAct);
     cart->setAction(a);
@@ -86,7 +86,7 @@ bool eBuildingWithResource::spawnTakeCart(
         depositFromCart(cart, spawnTime, waitTime);
     };
     const auto a = e::make_shared<eCartTransporterAction>(
-                       tileRect(), cart.get(),
+                       this, cart.get(),
                        eCartActionType::take,
                        resType,
                        failAct, finishAct);

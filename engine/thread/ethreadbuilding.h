@@ -14,6 +14,8 @@ public:
 
     int resourceCount(const eResourceType type) const;
     int resourceSpaceLeft(const eResourceType type) const;
+
+    eResourceType gets() const { return mGet; }
 private:
     eBuildingType mType{eBuildingType::none};
 
@@ -31,6 +33,7 @@ private:
                                   eResourceType::none,
                                   eResourceType::none};
 
+    eResourceType mGet = eResourceType::none;
     eResourceType mAccepts = eResourceType::none;
     std::map<eResourceType, int> mMaxCount;
 };

@@ -38,6 +38,7 @@ public:
     void setMaxCount(const std::map<eResourceType, int>& m);
 
     eResourceType accepts() const { return mAccept; }
+    eResourceType get() const { return mGet; }
     eResourceType canAccept() const { return mCanAccept; }
 
     void setOrders(const eResourceType get,
