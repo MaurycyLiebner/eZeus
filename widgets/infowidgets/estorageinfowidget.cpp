@@ -7,13 +7,15 @@ class eResourceStorageStack : public eWidget {
 public:
     using eWidget::eWidget;
 
-    void initialize(const std::vector<eResourceType>& types,
+    void initialize(eStorageBuilding* const stor,
+                    const std::vector<eResourceType>& types,
                     const eResourceType get,
                     const eResourceType empty,
                     const eResourceType accept,
                     std::map<eResourceType, eSwitchButton*>& buttons,
                     std::map<eResourceType, eSpinBox*>& spinBoxes,
                     const std::map<eResourceType, int>& maxCount) {
+        const auto countW = new eWidget(window());
         const auto iconsW = new eWidget(window());
         const auto namesW = new eWidget(window());
         const auto buttonsW = new eWidget(window());
@@ -25,9 +27,10 @@ public:
         const double mult = eResolution::multiplier(res);
         switch(res) {
         case eRes::p480:
-            icoll = 0;
-            break;
+//            icoll = 0;
+//            break;
         case eRes::p720:
+        case eRes::p1080:
             icoll = 1;
             break;
         default:
@@ -36,12 +39,20 @@ public:
         const auto& coll = intrfc[icoll];
 
         const int rowHeight = mult*40;
+        const int countWidth = mult*25;
         const int iconsWidth = mult*40;
         const int namesWidth = mult*80;
         const int buttonsWidth = mult*120;
-        const int spinsWidth = mult*100;
+        const int spinsWidth = mult*90;
 
         for(const auto type : types) {
+            const auto count = new eLabel(window());
+            count->setSmallFontSize();
+            const int c = stor->count(type);
+            count->setText(std::to_string(c));
+            count->fitContent();
+            count->setHeight(rowHeight);
+
             const auto icon = new eLabel(window());
             std::shared_ptr<eTexture> tex;
             switch(type) {
@@ -149,6 +160,7 @@ public:
 
             spinBoxes[type] = s;
 
+            countW->addWidget(count);
             iconsW->addWidget(icon);
             namesW->addWidget(n);
             buttonsW->addWidget(b);
@@ -169,21 +181,25 @@ public:
             }
         }
 
+        countW->stackVertically();
         iconsW->stackVertically();
         namesW->stackVertically();
         buttonsW->stackVertically();
         spinsW->stackVertically();
 
+        countW->fitContent();
         iconsW->fitContent();
         namesW->fitContent();
         buttonsW->fitContent();
         spinsW->fitContent();
 
+        countW->setWidth(countWidth);
         iconsW->setWidth(iconsWidth);
         namesW->setWidth(namesWidth);
         buttonsW->setWidth(buttonsWidth);
         spinsW->setWidth(spinsWidth);
 
+        addWidget(countW);
         addWidget(iconsW);
         addWidget(namesW);
         addWidget(buttonsW);
@@ -193,12 +209,15 @@ public:
     }
 };
 
-void eStorageInfoWidget::initialize(const eResourceType all,
-                                    const eResourceType get,
-                                    const eResourceType empty,
-                                    const eResourceType accept,
-                                    const std::map<eResourceType, int>& maxCount) {
+void eStorageInfoWidget::initialize(eStorageBuilding* const stor) {
     eInfoWidget::initialize();
+
+    eResourceType get;
+    eResourceType empty;
+    eResourceType accept;
+    stor->getOrders(get, empty, accept);
+    const auto all = stor->canAccept();
+    const auto& maxCount = stor->maxCount();
 
     const auto rect = centralWidgetRect();
 
@@ -213,7 +232,7 @@ void eStorageInfoWidget::initialize(const eResourceType all,
         const auto r = new eResourceStorageStack(window());
         r->setWidth(rect.w);
         r->setHeight(rect.h);
-        r->initialize(types, get, empty, accept,
+        r->initialize(stor, types, get, empty, accept,
                       mButtons, mSpinBoxes, maxCount);
         stWid->addWidget(r);
     } else {
@@ -223,7 +242,7 @@ void eStorageInfoWidget::initialize(const eResourceType all,
             r->setHeight(rect.h);
             const std::vector<eResourceType> types1(
                         types.begin(), types.begin() + 6);
-            r->initialize(types1, get, empty, accept,
+            r->initialize(stor, types1, get, empty, accept,
                           mButtons, mSpinBoxes, maxCount);
             stWid->addWidget(r);
         }
@@ -233,7 +252,7 @@ void eStorageInfoWidget::initialize(const eResourceType all,
             r->setHeight(rect.h);
             const std::vector<eResourceType> types1(
                         types.begin() + 6, types.end());
-            r->initialize(types1, get, empty, accept,
+            r->initialize(stor, types1, get, empty, accept,
                           mButtons, mSpinBoxes, maxCount);
             stWid->addWidget(r);
         }

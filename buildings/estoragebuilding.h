@@ -34,7 +34,7 @@ public:
 
     const int* resourceCounts() const { return &mResourceCount[0]; }
     const eResourceType* resourceTypes() const { return &mResource[0]; }
-    const std::map<eResourceType, int> maxCount() const { return mMaxCount; };
+    const std::map<eResourceType, int>& maxCount() const { return mMaxCount; };
     void setMaxCount(const std::map<eResourceType, int>& m);
 
     eResourceType accepts() const { return mAccept; }

@@ -844,13 +844,8 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
             gymWid->initialize();
             wid = gymWid;
         } else if(const auto stor = dynamic_cast<eStorageBuilding*>(b)) {
-            eResourceType get;
-            eResourceType empty;
-            eResourceType accept;
-            stor->getOrders(get, empty, accept);
             const auto storWid = new eStorageInfoWidget(window());
-            storWid->initialize(stor->canAccept(), get, empty, accept,
-                                stor->maxCount());
+            storWid->initialize(stor);
             wid = storWid;
             const stdptr<eStorageBuilding> storptr(stor);
             closeAct = [storptr, storWid]() {

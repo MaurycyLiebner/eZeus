@@ -8,15 +8,13 @@
 
 #include "engine/eresourcetype.h"
 
+#include "buildings/estoragebuilding.h"
+
 class eStorageInfoWidget : public eInfoWidget {
 public:
     using eInfoWidget::eInfoWidget;
 
-    void initialize(const eResourceType all,
-                    const eResourceType get,
-                    const eResourceType empty,
-                    const eResourceType accept,
-                    const std::map<eResourceType, int>& count);
+    void initialize(eStorageBuilding* const stor);
     void get(eResourceType& get,
              eResourceType& empty,
              eResourceType& accept,
