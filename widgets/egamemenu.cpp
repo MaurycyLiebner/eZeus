@@ -9,6 +9,7 @@
 
 #include "widgets/datawidgets/epopulationdatawidget.h"
 #include "widgets/datawidgets/eemploymentdatawidget.h"
+#include "eminimap.h"
 
 struct eSubButtonData {
     std::function<void()> fPressedFunc;
@@ -336,6 +337,9 @@ void eGameMenu::initialize() {
                              {m9, &coll.fMonuments}});
 
 
+    mMiniMap = new eMiniMap(window());
+    mMiniMap->resize(65*mult, 65*mult);
+
     mWidgets.push_back(ww0);
     mWidgets.push_back(w1);
     mWidgets.push_back(ww2);
@@ -346,6 +350,7 @@ void eGameMenu::initialize() {
     mWidgets.push_back(w7);
     mWidgets.push_back(w8);
     mWidgets.push_back(w9);
+    mWidgets.push_back(mMiniMap);
 
     for(const auto w : mWidgets) {
         addWidget(w);
@@ -363,7 +368,7 @@ void eGameMenu::initialize() {
     const auto b7 = addButton(coll.fMythology, w7);
     const auto b8 = addButton(coll.fMilitary, w8);
     const auto b9 = addButton(coll.fAesthetics, w9);
-    const auto b10 = addButton(coll.fOverview, new eWidget(window()));
+    const auto b10 = addButton(coll.fOverview, mMiniMap);
 
     b10->setChecked(true);
 
@@ -434,6 +439,7 @@ void eGameMenu::setBoard(eGameBoard* const b) {
     mBoard = b;
     mPopDataW->setBoard(b);
     mEmplDataW->setBoard(b);
+    mMiniMap->setBoard(b);
 }
 
 void eGameMenu::setMode(const eBuildingMode mode) {

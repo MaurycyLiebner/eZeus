@@ -200,6 +200,7 @@ SOURCES += \
         widgets/emainmenu.cpp \
         widgets/emainmenubase.cpp \
         widgets/emenuloadingwidget.cpp \
+        widgets/eminimap.cpp \
         widgets/emouseevent.cpp \
         widgets/epainter.cpp \
         widgets/eprogressbar.cpp \
@@ -410,6 +411,7 @@ HEADERS += \
     widgets/emainmenu.h \
     widgets/emainmenubase.h \
     widgets/emenuloadingwidget.h \
+    widgets/eminimap.h \
     widgets/emouseevent.h \
     widgets/epainter.h \
     widgets/eprogressbar.h \

@@ -108,7 +108,9 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fCheckBox(renderer),
     fLargeCheckBox(renderer),
     fUpButton(renderer),
-    fDownButton(renderer) {
+    fDownButton(renderer),
+
+    fDiamond(renderer) {
 }
 
 void eInterfaceTextures::load() {
@@ -461,6 +463,14 @@ void eInterfaceTextures::load() {
 
         for(int i = 407; i < 409; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fCheckBox);
+        }
+    }
+
+    {
+        const std::string pathBase{dir + "Zeus_Radar_"};
+
+        for(int i = 347; i < 352; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fDiamond);
         }
     }
 

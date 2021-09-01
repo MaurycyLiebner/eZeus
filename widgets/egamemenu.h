@@ -11,6 +11,7 @@ class eButton;
 class eGameBoard;
 class ePopulationDataWidget;
 class eEmploymentDataWidget;
+class eMiniMap;
 
 struct eSubButtonData;
 
@@ -41,6 +42,7 @@ private:
 
     ePopulationDataWidget* mPopDataW = nullptr;
     eEmploymentDataWidget* mEmplDataW = nullptr;
+    eMiniMap* mMiniMap = nullptr;
 
     eBuildingMode mMode{eBuildingMode::road};
 

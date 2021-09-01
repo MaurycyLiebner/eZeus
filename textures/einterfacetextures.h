@@ -161,6 +161,8 @@ public:
     // normal, hover, pressed, disabled
     eTextureCollection fUpButton;
     eTextureCollection fDownButton;
+
+    eTextureCollection fDiamond;
 };
 
 #endif // EINTERFACETEXTURES_H
