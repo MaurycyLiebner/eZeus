@@ -718,7 +718,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b = eb.fB;
             const int sw =  b->spanW();
             const int sh = b->spanH();
-            const bool cb = canBuild(tx, ty, sw, sh, specReq);
+            const bool cb = canBuild(eb.fTx, eb.fTy, sw, sh, specReq);
             if(!cb) {
                 cbg = false;
                 break;
