@@ -16,13 +16,13 @@ protected:
 
     void paintEvent(ePainter& p);
 private:
-    void tileAtPix(const int pixX, const int pixY,
-                   int& tileX, int& tileY) const;
-    void pixAtTile(const int tileX, const int tileY,
-                   int& pixX, int& pixY) const;
+    int mapDimension() const;
 
-    void viewTile(const int tileX, const int tileY);
     void viewPix(const int pixX, const int pixY);
+    void setCenterPix(const int px, const int py);
+
+    int mMouseX = 0;
+    int mMouseY = 0;
 
     int mCenterX = 0;
     int mCenterY = 0;

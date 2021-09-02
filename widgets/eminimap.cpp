@@ -4,11 +4,14 @@
 
 void eMiniMap::setBoard(eGameBoard* const board) {
     mBoard = board;
-    viewTile(mBoard->width()/2, mBoard->height()/2);
+    viewPix(0, 0);
 }
 
 bool eMiniMap::mousePressEvent(const eMouseEvent& e) {
     if(!mBoard) return false;
+
+    mMouseX = e.x();
+    mMouseY = e.y();
 
     viewPix(e.x(), e.y());
 
@@ -20,7 +23,12 @@ bool eMiniMap::mouseMoveEvent(const eMouseEvent& e) {
     const bool pressed = static_cast<bool>(e.buttons() & eMouseButton::left);
     if(!pressed) return false;
 
-    viewPix(e.x(), e.y());
+    const int dx = e.x() - mMouseX;
+    const int dy = e.y() - mMouseY;
+    setCenterPix(mCenterX + dx, mCenterY + dy);
+
+    mMouseX = e.x();
+    mMouseY = e.y();
 
     return true;
 }
@@ -28,12 +36,8 @@ bool eMiniMap::mouseMoveEvent(const eMouseEvent& e) {
 void eMiniMap::paintEvent(ePainter& p) {
     if(!mBoard) return;
 
-    int viewPixX;
-    int viewPixY;
-    pixAtTile(mCenterX, mCenterY, viewPixX, viewPixY);
-
-    const int leftX = -viewPixX + width()/2;
-    const int topY = -viewPixY + height()/2;
+    const int leftX = -mCenterX;
+    const int topY = -mCenterY;
 
     const int tdim = 2;
 
@@ -83,24 +87,24 @@ void eMiniMap::paintEvent(ePainter& p) {
         } else if(!tile->characters().empty()) {
             color = {0, 0, 0, 255};
         } else {
-            const SDL_Color dryColor{255, 200, 100, 255};
+            const SDL_Color dryColor{210, 175, 85, 255};
             switch(tile->terrain()) {
             case eTerrain::dry:
                 color = dryColor;
                 break;
             case eTerrain::fertile:
-                if(xmy % 2) {
-                    color = {200, 150, 255, 255};
+                if((tx + ty) % 2) {
+                    color = {115, 110, 200, 255};
                 } else {
                     color = dryColor;
                 }
                 break;
             case eTerrain::forest:
             case eTerrain::choppedForest:
-                color = {150, 255, 50, 255};
+                color = {100, 120, 60, 255};
                 break;
             case eTerrain::water:
-                color = {50, 175, 225, 255};
+                color = {42, 108, 116, 255};
                 break;
             case eTerrain::silver:
                 color = {0, 255, 255, 255};
@@ -119,30 +123,20 @@ void eMiniMap::paintEvent(ePainter& p) {
     eWidget::paintEvent(p);
 }
 
-void eMiniMap::tileAtPix(const int pixX, const int pixY,
-                         int& tileX, int& tileY) const {
+int eMiniMap::mapDimension() const {
+    if(!mBoard) return 0;
     const int tdim = 2;
-
-    tileX = (pixX + pixY)/tdim;
-    tileY = 2*pixY/tdim - tileX;
-}
-
-void eMiniMap::pixAtTile(const int tileX, const int tileY,
-                         int& pixX, int& pixY) const {
-    const int tdim = 2;
-
-    pixX = tileX*tdim/2 - tileY*tdim/2;
-    pixY = tileX*tdim/2 + tileY*tdim/2;
-}
-
-void eMiniMap::viewTile(const int tileX, const int tileY) {
-    mCenterX = tileX;
-    mCenterY = tileY;
+    return tdim*(mBoard->width() + mBoard->height())/2;
 }
 
 void eMiniMap::viewPix(const int pixX, const int pixY) {
-    int tileX;
-    int tileY;
-    tileAtPix(pixX, pixY, tileX, tileY);
-    viewTile(tileX, tileY);
+    const int px = mCenterX + pixX - width()/2;
+    const int py = mCenterY + pixY - height()/2;
+    setCenterPix(px, py);
+}
+
+void eMiniMap::setCenterPix(const int px, const int py) {
+    const int md = mapDimension();
+    mCenterX = std::clamp(px, -md/2, md/2 - width());
+    mCenterY = std::clamp(py, 0, md - height());
 }
