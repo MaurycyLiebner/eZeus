@@ -24,6 +24,8 @@ private:
 
     void scheduleUpdate();
 
+    int mTime = 0;
+
     int mMouseX = 0;
     int mMouseY = 0;
 

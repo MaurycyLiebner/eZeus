@@ -35,7 +35,9 @@ bool eMiniMap::mouseMoveEvent(const eMouseEvent& e) {
 }
 
 void eMiniMap::paintEvent(ePainter& p) {
-    if(mUpdateScheduled) {
+    mTime++;
+    if(!mTexture || mTime % 60 == 0 ||
+       (mUpdateScheduled && mTime % 10 == 0)) {
         updateTexture();
         mUpdateScheduled = false;
     }
@@ -92,7 +94,8 @@ void eMiniMap::updateTexture() {
             it.nextRow();
             continue;
         }
-        SDL_Color color{41, 154, 199, 255};
+        ++it;
+        SDL_Color color{75, 180, 225, 255};
         if(const auto b = tile->underBuilding()) {
             if(b->type() == eBuildingType::road) {
                 color = {85, 197, 245, 255};
@@ -102,16 +105,15 @@ void eMiniMap::updateTexture() {
         } else if(!tile->characters().empty()) {
             color = {8, 65, 90, 255};
         } else {
-            const SDL_Color dryColor{41, 154, 199, 255};
             switch(tile->terrain()) {
             case eTerrain::dry:
-                color = dryColor;
+                continue;
                 break;
             case eTerrain::fertile:
                 if((tx + ty) % 2) {
                     color = {85, 197, 245, 255};
                 } else {
-                    color = dryColor;
+                    continue;
                 }
                 break;
             case eTerrain::forest:
@@ -123,14 +125,13 @@ void eMiniMap::updateTexture() {
                 break;
             case eTerrain::copper:
             case eTerrain::silver:
-                color = {100, 215, 255, 255};
+                color = {125, 235, 255, 255};
                 break;
             }
         }
         const auto t = ds.getTexture(tdim/2 - 1);
         t->setColorMod(color.r, color.g, color.b);
         tp2.drawTexture(tile->x(), tile->y(), t);
-        ++it;
     }
 
     SDL_SetRenderTarget(rend, nullptr);
