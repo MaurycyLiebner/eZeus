@@ -218,13 +218,13 @@ int eMainWindow::exec() {
 
         ePainter p(mSdlRenderer);
 
+        eMusic::incTime();
+        if(mWidget) mWidget->paint(p);
+
         p.setFont(eFonts::defaultFont(resolution()));
         const duration<double> elapsed = end - start;
         const int fps = (int)std::round(1/elapsed.count());
         p.drawText(0, 0, std::to_string(fps), {0, 0, 0, 255});
-
-        eMusic::incTime();
-        if(mWidget) mWidget->paint(p);
 
         SDL_RenderPresent(mSdlRenderer);
 

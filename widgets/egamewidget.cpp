@@ -195,7 +195,7 @@ void eGameWidget::iterateOverTiles(const eTileAction& a) {
 
     const int soundRow = (minRow + maxRow)/2 + (rand() % 7 - 3);
     const int soundXmy = (minXYDiff + maxXYDiff)/2 + (rand() % 7 - 3);
-    const bool play = Mix_Playing(-1) == 0 && rand() % 20000;
+    const bool play = Mix_Playing(-1) == 0 && (rand() % 5000) == 0;
 
     const auto iniIt = eGameBoardDiagonalIterator(minRow, 0, &mBoard);
     for(auto it = iniIt; it != mBoard.dEnd();) {
@@ -430,10 +430,11 @@ void eGameWidget::paintEvent(ePainter& p) {
         const int ty = tile->y();
         const int a = mDrawElevation ? tile->altitude() : 0;
 
+        double rx;
+        double ry;
+        drawXY(tx, ty, rx, ry, 1, 1, a);
+
         if(mPatrolBuilding && tile->underBuilding() && !tile->hasRoad()) {
-            double rx;
-            double ry;
-            drawXY(tx, ty, rx, ry, 1, 1, a);
             const std::shared_ptr<eTexture>* tex;
             if(tile->underBuilding() == mPatrolBuilding) {
                 tex = &trrTexs.fSelectedBuildingBase;
@@ -465,9 +466,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
 
         if(tile->onFire()) {
-            double rx;
-            double ry;
-            drawXY(tx, ty, rx, ry, 1, 1, a);
             const auto& destr = eGameTextures::destrution().at(tid);
             const int f = (tx + ty) % destr.fFire.size();
             const auto& ff = destr.fFire[f];
@@ -477,9 +475,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
 
         if(mPatrolBuilding) {
-            double rx;
-            double ry;
-            drawXY(tx, ty, rx, ry, 1, 1, a);
             if(tile->building() == mPatrolBuilding) {
                 const auto sd = mPatrolBuilding->spawnDirection();
                 const int s = static_cast<int>(sd) - 1;
@@ -499,21 +494,41 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         }
         if(mTem->visible() && tile->spawner()) {
-            double rx;
-            double ry;
-            drawXY(tx, ty, rx, ry, 1, 1, a);
             const auto& intrfc = eGameTextures::interface().at(tid);
             tp.drawTexture(rx, ry - 1, intrfc.fSpawner,
                            eAlignment::hcenter | eAlignment::top);
+        }
+
+        if(!tile->topRight() || !tile->bottomRight() ||
+           !tile->bottomLeft() || !tile->topLeft()) {
+            const auto& clouds = builTexs.fClouds;
+            const int id = tile->seed() % clouds.size();
+            const auto tex = builTexs.fClouds.getTexture(id);
+            double dx = 0;
+            double dy = 0;
+            eAlignment align = eAlignment::bottom | eAlignment::right;
+            if(!tile->topRight()) {
+                dx = 0.5;
+                dy = -2;
+                align = eAlignment::top | eAlignment::left;
+            } else if(!tile->bottomRight()) {
+                dx = -2;
+                dy = -1;
+            } else if(!tile->bottomLeft()) {
+                dx = -2;
+                dy = 0;
+            } else if(!tile->topLeft()) {
+                dx = 1.5;
+                dy = -1.5;
+                align = eAlignment::top | eAlignment::left;
+            }
+            tp.drawTexture(rx + dx, ry + dy, tex, align);
         }
     });
 
     const auto t = mBoard.tile(gHoverX, gHoverY);
     eSpecialRequirement specReq;
     if(t && mGm->visible()) {
-        const int tx = gHoverX;
-        const int ty = gHoverY;
-
         struct eB {
             eB(const int tx, const int ty,
                const stdsptr<eBuilding>& b) :

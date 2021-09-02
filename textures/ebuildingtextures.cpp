@@ -84,7 +84,9 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fWarehouseOliveOil(renderer),
     fWarehouseWine(renderer),
 
-    fGranaryOverlay(renderer) {
+    fGranaryOverlay(renderer),
+
+    fClouds(renderer) {
 
 }
 
@@ -538,6 +540,11 @@ void eBuildingTextures::load() {
 
         for(int i = 1; i < 16; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fPatrolGuides);
+        }
+
+        const auto cloudPathBase{dir + "cloud_"};
+        for(int i = 1; i < 5; i++) {
+            eTextureLoadingHelpers::loadTex(cloudPathBase, i, fClouds);
         }
     }
 }

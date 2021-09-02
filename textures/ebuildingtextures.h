@@ -187,6 +187,8 @@ public:
     std::shared_ptr<eTexture> fGranaryCarrots;
     std::shared_ptr<eTexture> fGranaryOnions;
     std::shared_ptr<eTexture> fGranaryWheat;
+
+    eTextureCollection fClouds;
 };
 
 #endif // EBUILDINGTEXTURES_H
