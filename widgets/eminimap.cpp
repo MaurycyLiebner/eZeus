@@ -5,6 +5,7 @@
 void eMiniMap::setBoard(eGameBoard* const board) {
     mBoard = board;
     viewPix(0, 0);
+    scheduleUpdate();
 }
 
 bool eMiniMap::mousePressEvent(const eMouseEvent& e) {
@@ -34,7 +35,22 @@ bool eMiniMap::mouseMoveEvent(const eMouseEvent& e) {
 }
 
 void eMiniMap::paintEvent(ePainter& p) {
+    if(mUpdateScheduled) {
+        updateTexture();
+        mUpdateScheduled = false;
+    }
+    p.drawTexture(0, 0, mTexture);
+}
+
+void eMiniMap::updateTexture() {
     if(!mBoard) return;
+    const auto rend = renderer();
+    mTexture = std::make_shared<eTexture>();
+    mTexture->create(rend, width(), height());
+    mTexture->setAsRenderTarget(rend);
+    SDL_SetRenderDrawColor(rend, 0, 0, 0, 0);
+    SDL_RenderClear(rend);
+    ePainter p(rend);
 
     const int leftX = -mCenterX;
     const int topY = -mCenterY;
@@ -58,7 +74,6 @@ void eMiniMap::paintEvent(ePainter& p) {
     const auto& coll = intrfc[id];
     const auto& ds = coll.fDiamond;
 
-    p.save();
     p.translate(leftX, topY);
     eTilePainter tp2(p, eTileSize::s15, tdim, tdim);
 
@@ -77,40 +92,38 @@ void eMiniMap::paintEvent(ePainter& p) {
             it.nextRow();
             continue;
         }
-        SDL_Color color{255, 255, 255, 255};
+        SDL_Color color{41, 154, 199, 255};
         if(const auto b = tile->underBuilding()) {
             if(b->type() == eBuildingType::road) {
-                color = {255, 255, 255, 255};
+                color = {85, 197, 245, 255};
             } else {
-                color = {0, 0, 0, 255};
+                color = {8, 65, 90, 255};
             }
         } else if(!tile->characters().empty()) {
-            color = {0, 0, 0, 255};
+            color = {8, 65, 90, 255};
         } else {
-            const SDL_Color dryColor{210, 175, 85, 255};
+            const SDL_Color dryColor{41, 154, 199, 255};
             switch(tile->terrain()) {
             case eTerrain::dry:
                 color = dryColor;
                 break;
             case eTerrain::fertile:
                 if((tx + ty) % 2) {
-                    color = {115, 110, 200, 255};
+                    color = {85, 197, 245, 255};
                 } else {
                     color = dryColor;
                 }
                 break;
             case eTerrain::forest:
             case eTerrain::choppedForest:
-                color = {100, 120, 60, 255};
+                color = {15, 115, 165, 255};
                 break;
             case eTerrain::water:
-                color = {42, 108, 116, 255};
-                break;
-            case eTerrain::silver:
-                color = {0, 255, 255, 255};
+                color = {8, 65, 90, 255};
                 break;
             case eTerrain::copper:
-                color = {255, 200, 100, 255};
+            case eTerrain::silver:
+                color = {100, 215, 255, 255};
                 break;
             }
         }
@@ -119,8 +132,8 @@ void eMiniMap::paintEvent(ePainter& p) {
         tp2.drawTexture(tile->x(), tile->y(), t);
         ++it;
     }
-    p.restore();
-    eWidget::paintEvent(p);
+
+    SDL_SetRenderTarget(rend, nullptr);
 }
 
 int eMiniMap::mapDimension() const {
@@ -139,4 +152,9 @@ void eMiniMap::setCenterPix(const int px, const int py) {
     const int md = mapDimension();
     mCenterX = std::clamp(px, -md/2, md/2 - width());
     mCenterY = std::clamp(py, 0, md - height());
+    scheduleUpdate();
+}
+
+void eMiniMap::scheduleUpdate() {
+    mUpdateScheduled = true;
 }

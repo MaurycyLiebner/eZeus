@@ -11,6 +11,21 @@ void eTexture::reset() {
     mTex = nullptr;
 }
 
+bool eTexture::create(SDL_Renderer* const r,
+                      const int width, const int height) {
+    reset();
+    mTex = SDL_CreateTexture(r, SDL_PIXELFORMAT_RGBA8888,
+                             SDL_TEXTUREACCESS_TARGET, width, height);
+    SDL_SetTextureBlendMode(mTex, SDL_BLENDMODE_BLEND);
+    mWidth = width;
+    mHeight = height;
+    return true;
+}
+
+void eTexture::setAsRenderTarget(SDL_Renderer* const r) {
+    SDL_SetRenderTarget(r, mTex);
+}
+
 bool eTexture::load(SDL_Renderer* const r, const std::string& path) {
     reset();
     const auto surf = IMG_Load(path.c_str());

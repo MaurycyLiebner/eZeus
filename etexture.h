@@ -15,6 +15,9 @@ public:
     ~eTexture();
 
     void reset();
+    bool create(SDL_Renderer* const r,
+                const int width, const int height);
+    void setAsRenderTarget(SDL_Renderer* const r);
     bool load(SDL_Renderer* const r,
               const std::string& path);
     bool loadText(SDL_Renderer* const r,

@@ -16,10 +16,13 @@ protected:
 
     void paintEvent(ePainter& p);
 private:
+    void updateTexture();
     int mapDimension() const;
 
     void viewPix(const int pixX, const int pixY);
     void setCenterPix(const int px, const int py);
+
+    void scheduleUpdate();
 
     int mMouseX = 0;
     int mMouseY = 0;
@@ -28,6 +31,9 @@ private:
     int mCenterY = 0;
 
     eGameBoard* mBoard = nullptr;
+
+    bool mUpdateScheduled = false;
+    std::shared_ptr<eTexture> mTexture;
 };
 
 #endif // EMINIMAP_H
