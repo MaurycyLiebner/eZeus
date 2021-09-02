@@ -16,7 +16,17 @@ protected:
 
     void paintEvent(ePainter& p);
 private:
-    SDL_Rect mViewRect;
+    void tileAtPix(const int pixX, const int pixY,
+                   int& tileX, int& tileY) const;
+    void pixAtTile(const int tileX, const int tileY,
+                   int& pixX, int& pixY) const;
+
+    void viewTile(const int tileX, const int tileY);
+    void viewPix(const int pixX, const int pixY);
+
+    int mCenterX = 0;
+    int mCenterY = 0;
+
     eGameBoard* mBoard = nullptr;
 };
 

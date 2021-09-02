@@ -198,18 +198,25 @@ void eGameWidget::iterateOverTiles(const eTileAction& a) {
     const bool play = Mix_Playing(-1) == 0 && rand() % 20000;
 
     const auto iniIt = eGameBoardDiagonalIterator(minRow, 0, &mBoard);
-    for(auto it = iniIt; it != mBoard.dEnd(); ++it) {
+    for(auto it = iniIt; it != mBoard.dEnd();) {
         if(it.row() > maxRow) break;
         const auto tile = *it;
         const int tx = tile->x();
         const int ty = tile->y();
         const int xmy = tx - ty;
+        if(xmy < minXYDiff) {
+            ++it;
+            continue;
+        }
+        if(xmy > maxXYDiff) {
+            it.nextRow();
+            continue;
+        }
         if(play && xmy == soundXmy && it.row() == soundRow) {
             eSounds::playSoundForTile(tile);
         }
-        if(xmy < minXYDiff) continue;
-        if(xmy > maxXYDiff) continue;
         a(tile);
+        ++it;
     }
 }
 
