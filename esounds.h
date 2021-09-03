@@ -11,6 +11,7 @@ class eTile;
 class eSounds {
 public:
     eSounds();
+    ~eSounds();
 
     static void load();
     static bool loaded();

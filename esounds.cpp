@@ -10,6 +10,70 @@ eSounds::eSounds() {
 
 }
 
+void deleteSounds(const std::vector<Mix_Chunk*>& sounds) {
+    for(const auto s : sounds) {
+        Mix_FreeChunk(s);
+    }
+}
+
+eSounds::~eSounds() {
+    deleteSounds(mEnvironment);
+
+    deleteSounds(mMaintenance);
+    deleteSounds(mCommonHousing);
+    deleteSounds(mEliteHousing);
+    deleteSounds(mFarming);
+    deleteSounds(mOrchard);
+    deleteSounds(mSheepFarm);
+    deleteSounds(mGoatFarm);
+    deleteSounds(mSea);
+    deleteSounds(mTriremeWharf);
+    deleteSounds(mHunting);
+    deleteSounds(mTimberMill);
+    deleteSounds(mMarble);
+    deleteSounds(mMint);
+    deleteSounds(mFoundry);
+    deleteSounds(mWorkshops);
+    deleteSounds(mStorage);
+    deleteSounds(mAgoraFood);
+    deleteSounds(mAgoraFleece);
+    deleteSounds(mAgoraOil);
+    deleteSounds(mAgoraWine);
+    deleteSounds(mAgoraArms);
+    deleteSounds(mAgoraHorse);
+    deleteSounds(mTrade);
+    deleteSounds(mTaxes);
+    deleteSounds(mPalace);
+    deleteSounds(mDefensive);
+    deleteSounds(mInfirmary);
+    deleteSounds(mTheatre);
+    deleteSounds(mDrama);
+    deleteSounds(mPhilosophy);
+    deleteSounds(mGymnasium);
+    deleteSounds(mStadium);
+    deleteSounds(mSanctuary);
+    deleteSounds(mArmory);
+    deleteSounds(mHorseRanch);
+    deleteSounds(mBeautification);
+    deleteSounds(mFountain);
+    deleteSounds(mArtisan);
+
+    // terrain
+    deleteSounds(mMeadow);
+    deleteSounds(mFarmland);
+    deleteSounds(mBeach);
+    deleteSounds(mRocky);
+    deleteSounds(mVegetation);
+    deleteSounds(mWater);
+    // animals
+    deleteSounds(mBoar);
+    deleteSounds(mGoat);
+    deleteSounds(mWolf);
+    deleteSounds(mSheep);
+    deleteSounds(mCattle);
+    deleteSounds(mDeer);
+}
+
 void eSounds::load() {
     sInstance.loadImpl();
 }
@@ -59,7 +123,7 @@ void eSounds::playSoundForTile(eTile* const tile) {
         }
     }
 
-    for(const auto c : tile->characters()) {
+    for(const auto& c : tile->characters()) {
         switch(c->type()) {
         case eCharacterType::hunter:
             return eSounds::playHuntingSound();
