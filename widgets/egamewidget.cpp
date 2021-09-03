@@ -499,24 +499,31 @@ void eGameWidget::paintEvent(ePainter& p) {
                            eAlignment::hcenter | eAlignment::top);
         }
 
-        if(!tile->topRight() || !tile->bottomRight() ||
-           !tile->bottomLeft() || !tile->topLeft()) {
+        const bool tr = tile->topRight();
+        const bool br = tile->bottomRight();
+        const bool bl = tile->bottomLeft();
+        const bool tl = tile->topLeft();
+        if(!tr || !br || !bl || !tl) {
             const auto& clouds = builTexs.fClouds;
             const int id = tile->seed() % clouds.size();
             const auto tex = builTexs.fClouds.getTexture(id);
             double dx = 0;
             double dy = 0;
             eAlignment align = eAlignment::bottom | eAlignment::right;
-            if(!tile->topRight()) {
-                dx = 0.5;
-                dy = -2;
+            if((!tr && !tl) || (!tr && !br) || (!br && !bl) || (!bl && !tl)) {
+                align = eAlignment::center;
+                dx = -0.25;
+                dy = -1.0;
+            } else if(!tile->topRight()) {
+                dx = 1.25;
+                dy = -1.5;
                 align = eAlignment::top | eAlignment::left;
             } else if(!tile->bottomRight()) {
-                dx = -2;
-                dy = -1;
+                dx = -1.5;
+                dy = -1.5;
             } else if(!tile->bottomLeft()) {
-                dx = -2;
-                dy = 0;
+                dx = -2.0;
+                dy = -0.5;
             } else if(!tile->topLeft()) {
                 dx = 1.5;
                 dy = -1.5;
