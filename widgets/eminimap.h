@@ -18,6 +18,8 @@ public:
 
     void viewTile(const int tileX, const int tileY);
     void viewedTile(int& tileX, int& tileY) const;
+
+    void setViewBoxSize(const double fx, const double fy);
 protected:
     bool mousePressEvent(const eMouseEvent& e);
     bool mouseMoveEvent(const eMouseEvent& e);
@@ -38,6 +40,9 @@ private:
 
     int mCenterX = 0;
     int mCenterY = 0;
+
+    double mViewBoxW = 0.2;
+    double mViewBoxH = 0.2;
 
     eGameBoard* mBoard = nullptr;
 

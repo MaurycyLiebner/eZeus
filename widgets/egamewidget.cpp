@@ -1437,6 +1437,21 @@ void eGameWidget::setTileSize(const eTileSize size) {
 
     mTileW = newW;
     mTileH = newH;
+
+    {
+        int mdx;
+        int mdy;
+        {
+            const int w = mBoard.width();
+            const int h = mBoard.height();
+            mdx = mTileW*(w + h)/2;
+            mdy = mTileH*(w + h)/2;
+        }
+        const double fx = width()/double(mdx);
+        const double fy = height()/double(mdy);
+        const auto mm = mGm->miniMap();
+        mm->setViewBoxSize(fx, fy);
+    }
 }
 
 void eGameWidget::actionOnSelectedTiles(const eTileAction& apply) {

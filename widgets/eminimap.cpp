@@ -49,7 +49,15 @@ void eMiniMap::paintEvent(ePainter& p) {
         updateTexture();
         mUpdateScheduled = false;
     }
+    p.save();
     p.drawTexture(0, 0, mTexture);
+    p.restore();
+    const int md = mapDimension();
+    const int w = mViewBoxW*md;
+    const int h = mViewBoxH*md;
+    const SDL_Rect rect{width()/2 - w/2, height()/2 - h/2, w, h};
+    p.drawRect(rect, {8, 65, 90, 255}, 2);
+    p.drawRect(rect, {125, 235, 255, 255}, 1);
 }
 
 void eMiniMap::updateTexture() {
@@ -178,6 +186,11 @@ void eMiniMap::viewedTile(int& tileX, int& tileY) const {
     const int md = mapDimension();
     tileX = (mCenterX + mCenterY - md/2)/tdim;
     tileY = (mCenterY - mCenterX + md/2)/tdim;
+}
+
+void eMiniMap::setViewBoxSize(const double fx, const double fy) {
+    mViewBoxW = fx;
+    mViewBoxH = fy;
 }
 
 void eMiniMap::viewRelPix(const int pixX, const int pixY) {
