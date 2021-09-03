@@ -442,6 +442,10 @@ void eGameMenu::setBoard(eGameBoard* const b) {
     mMiniMap->setBoard(b);
 }
 
+eMiniMap* eGameMenu::miniMap() const {
+    return mMiniMap;
+}
+
 void eGameMenu::setMode(const eBuildingMode mode) {
     mMode = mode;
 }

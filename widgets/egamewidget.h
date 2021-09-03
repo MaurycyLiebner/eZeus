@@ -62,6 +62,8 @@ private:
     std::vector<ePatrolGuide>::iterator
         findGuide(const int tx, const int ty);
 
+    void updateMinimap();
+
     bool mRotate = false;
 
     int mTime{0};

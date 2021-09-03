@@ -26,6 +26,8 @@ public:
     void clearMode() { mMode = eBuildingMode::none; }
 
     void setBoard(eGameBoard* const b);
+
+    eMiniMap* miniMap() const;
 private:
     void setMode(const eBuildingMode mode);
     eButton* createSubButton(const eTextureCollection& texs,

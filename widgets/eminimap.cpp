@@ -8,6 +8,10 @@ void eMiniMap::setBoard(eGameBoard* const board) {
     scheduleUpdate();
 }
 
+void eMiniMap::setChangeAction(const eAction& act) {
+    mChangeAction = act;
+}
+
 bool eMiniMap::mousePressEvent(const eMouseEvent& e) {
     if(!mBoard) return false;
 
@@ -15,6 +19,8 @@ bool eMiniMap::mousePressEvent(const eMouseEvent& e) {
     mMouseY = e.y();
 
     viewRelPix(e.x(), e.y());
+
+    if(mChangeAction) mChangeAction();
 
     return true;
 }
@@ -30,6 +36,8 @@ bool eMiniMap::mouseMoveEvent(const eMouseEvent& e) {
 
     mMouseX = e.x();
     mMouseY = e.y();
+
+    if(mChangeAction) mChangeAction();
 
     return true;
 }
@@ -128,6 +136,7 @@ void eMiniMap::updateTexture() {
             case eTerrain::silver:
                 color = {125, 235, 255, 255};
                 break;
+            default: break;
             }
         }
         const auto t = ds.getTexture(tdim/2 - 1);
@@ -144,12 +153,31 @@ int eMiniMap::mapDimension() const {
     return tdim*(mBoard->width() + mBoard->height())/2;
 }
 
+void eMiniMap::viewFraction(const double fx, const double fy) {
+    const int md = mapDimension();
+    viewAbsPix(fx*md, fy*md);
+}
+
+void eMiniMap::viewedFraction(double& fx, double& fy) {
+    const int md = mapDimension();
+    if(md <= 0) return;
+    fx = double(mCenterX)/md;
+    fy = double(mCenterY)/md;
+}
+
 void eMiniMap::viewTile(const int tileX, const int tileY) {
     const int tdim = 2;
     const int md = mapDimension();
     const int pixX = tdim*(tileX - tileY)/2 + md/2;
     const int pixY = tdim*(tileX + tileY)/2;
     viewAbsPix(pixX, pixY);
+}
+
+void eMiniMap::viewedTile(int& tileX, int& tileY) const {
+    const int tdim = 2;
+    const int md = mapDimension();
+    tileX = (mCenterX + mCenterY - md/2)/tdim;
+    tileY = (mCenterY - mCenterX + md/2)/tdim;
 }
 
 void eMiniMap::viewRelPix(const int pixX, const int pixY) {
@@ -160,10 +188,8 @@ void eMiniMap::viewRelPix(const int pixX, const int pixY) {
 
 void eMiniMap::viewAbsPix(const int px, const int py) {
     const int md = mapDimension();
-    const int w = width();
-    const int h = height();
-    mCenterX = std::clamp(px, w/2, md - w/2);
-    mCenterY = std::clamp(py, h/2, md - h/2);
+    mCenterX = std::clamp(px, 0, md);
+    mCenterY = std::clamp(py, 0, md);
     scheduleUpdate();
 }
 

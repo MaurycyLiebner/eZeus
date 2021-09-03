@@ -10,6 +10,14 @@ public:
     using eWidget::eWidget;
 
     void setBoard(eGameBoard* const board);
+
+    void setChangeAction(const eAction& act);
+
+    void viewFraction(const double fx, const double fy);
+    void viewedFraction(double& fx, double& fy);
+
+    void viewTile(const int tileX, const int tileY);
+    void viewedTile(int& tileX, int& tileY) const;
 protected:
     bool mousePressEvent(const eMouseEvent& e);
     bool mouseMoveEvent(const eMouseEvent& e);
@@ -18,8 +26,6 @@ protected:
 private:
     void updateTexture();
     int mapDimension() const;
-
-    void viewTile(const int tileX, const int tileY);
     void viewRelPix(const int pixX, const int pixY);
     void viewAbsPix(const int px, const int py);
 
@@ -37,6 +43,8 @@ private:
 
     bool mUpdateScheduled = false;
     std::shared_ptr<eTexture> mTexture;
+
+    eAction mChangeAction;
 };
 
 #endif // EMINIMAP_H

@@ -5,6 +5,7 @@
 
 #include "emainmenu.h"
 #include "egamemenu.h"
+#include "eminimap.h"
 
 #include "textures/etiletotexture.h"
 #include "textures/egametextures.h"
@@ -103,6 +104,25 @@ void eGameWidget::initialize(const int w, const int h) {
     addWidget(mGm);
     mGm->align(eAlignment::right | eAlignment::top);
     mGm->setBoard(&mBoard);
+
+    const auto mm = mGm->miniMap();
+    mm->setChangeAction([this, mm]() {
+        double fx;
+        double fy;
+        mm->viewedFraction(fx, fy);
+
+        int mdx;
+        int mdy;
+        {
+            const int w = mBoard.width();
+            const int h = mBoard.height();
+            mdx = mTileW*(w + h)/2;
+            mdy = mTileH*(w + h)/2;
+        }
+
+        mDX = -fx*mdx + mdx/2 + width()/2;
+        mDY = -fy*mdy + height()/2;
+    });
 
     mTopBar = new eTopBarWidget(window());
     mTopBar->initialize();
@@ -322,6 +342,22 @@ std::vector<ePatrolGuide>::iterator
         }
     }
     return pgs->end();
+}
+
+void eGameWidget::updateMinimap() {
+    int mdx;
+    int mdy;
+    {
+        const int w = mBoard.width();
+        const int h = mBoard.height();
+        mdx = mTileW*(w + h)/2;
+        mdy = mTileH*(w + h)/2;
+    }
+
+    const double fx = (double(mdx)/2 + width()/2 - mDX)/mdx;
+    const double fy = (double(height())/2 - mDY)/mdy;
+    const auto mm = mGm->miniMap();
+    mm->viewFraction(fx, fy);
 }
 
 bool eGameWidget::build(const int tx, const int ty,
@@ -788,12 +824,16 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
         mRotate = !mRotate;
     } else if(e.key() == SDL_Scancode::SDL_SCANCODE_LEFT) {
         mDX += 25;
+        updateMinimap();
     } else if(e.key() == SDL_Scancode::SDL_SCANCODE_RIGHT) {
         mDX -= 25;
+        updateMinimap();
     } else if(e.key() == SDL_Scancode::SDL_SCANCODE_UP) {
         mDY += 25;
+        updateMinimap();
     } else if(e.key() == SDL_Scancode::SDL_SCANCODE_DOWN) {
         mDY -= 25;
+        updateMinimap();
     }
     return true;
 }
@@ -913,6 +953,7 @@ bool eGameWidget::mouseMoveEvent(const eMouseEvent& e) {
         const int dy = e.y() - gLastY;
         mDX += dx;
         mDY += dy;
+        updateMinimap();
         gLastX = e.x();
         gLastY = e.y();
         return true;
