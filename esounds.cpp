@@ -119,6 +119,18 @@ void eSounds::playSoundForTile(eTile* const tile) {
             return eSounds::playFountainSound();
         case eBuildingType::armory:
             return eSounds::playArmorySound();
+        case eBuildingType::foodVendor:
+            return eSounds::playFoodVendorSound();
+        case eBuildingType::fleeceVendor:
+            return eSounds::playFleeceVendorSound();
+        case eBuildingType::oilVendor:
+            return eSounds::playOilVendorSound();
+        case eBuildingType::wineVendor:
+            return eSounds::playWineVendorSound();
+        case eBuildingType::armsVendor:
+            return eSounds::playArmsVendorSound();
+        case eBuildingType::horseTrainer:
+            return eSounds::playHorseTrainerSound();
         default: break;
         }
     }
@@ -273,6 +285,30 @@ void eSounds::playCattleSound() {
 
 void eSounds::playStorageSound() {
     playRandomSound(sInstance.mStorage);
+}
+
+void eSounds::playFoodVendorSound() {
+    playRandomSound(sInstance.mAgoraFood);
+}
+
+void eSounds::playFleeceVendorSound() {
+    playRandomSound(sInstance.mAgoraFleece);
+}
+
+void eSounds::playOilVendorSound() {
+    playRandomSound(sInstance.mAgoraOil);
+}
+
+void eSounds::playWineVendorSound() {
+    playRandomSound(sInstance.mAgoraWine);
+}
+
+void eSounds::playArmsVendorSound() {
+    playRandomSound(sInstance.mAgoraArms);
+}
+
+void eSounds::playHorseTrainerSound() {
+    playRandomSound(sInstance.mAgoraHorse);
 }
 
 Mix_Chunk* loadSoundBase(const std::string& path) {

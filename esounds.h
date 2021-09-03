@@ -53,6 +53,13 @@ public:
     static void playCattleSound();
 
     static void playStorageSound();
+
+    static void playFoodVendorSound();
+    static void playFleeceVendorSound();
+    static void playOilVendorSound();
+    static void playWineVendorSound();
+    static void playArmsVendorSound();
+    static void playHorseTrainerSound();
 private:
     void loadImpl();
 
