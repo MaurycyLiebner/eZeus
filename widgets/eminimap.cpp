@@ -4,7 +4,7 @@
 
 void eMiniMap::setBoard(eGameBoard* const board) {
     mBoard = board;
-    viewPix(0, 0);
+    if(mBoard) viewTile(board->width()/2, board->height()/2);
     scheduleUpdate();
 }
 
@@ -14,7 +14,7 @@ bool eMiniMap::mousePressEvent(const eMouseEvent& e) {
     mMouseX = e.x();
     mMouseY = e.y();
 
-    viewPix(e.x(), e.y());
+    viewRelPix(e.x(), e.y());
 
     return true;
 }
@@ -26,7 +26,7 @@ bool eMiniMap::mouseMoveEvent(const eMouseEvent& e) {
 
     const int dx = e.x() - mMouseX;
     const int dy = e.y() - mMouseY;
-    setCenterPix(mCenterX + dx, mCenterY + dy);
+    viewAbsPix(mCenterX + dx, mCenterY + dy);
 
     mMouseX = e.x();
     mMouseY = e.y();
@@ -54,8 +54,9 @@ void eMiniMap::updateTexture() {
     SDL_RenderClear(rend);
     ePainter p(rend);
 
-    const int leftX = -mCenterX;
-    const int topY = -mCenterY;
+    const int md = mapDimension();
+    const int leftX = -(mCenterX - width()/2 - md/2);
+    const int topY = -(mCenterY - height()/2);
 
     const int tdim = 2;
 
@@ -143,16 +144,26 @@ int eMiniMap::mapDimension() const {
     return tdim*(mBoard->width() + mBoard->height())/2;
 }
 
-void eMiniMap::viewPix(const int pixX, const int pixY) {
-    const int px = mCenterX + pixX - width()/2;
-    const int py = mCenterY + pixY - height()/2;
-    setCenterPix(px, py);
+void eMiniMap::viewTile(const int tileX, const int tileY) {
+    const int tdim = 2;
+    const int md = mapDimension();
+    const int pixX = tdim*(tileX - tileY)/2 + md/2;
+    const int pixY = tdim*(tileX + tileY)/2;
+    viewAbsPix(pixX, pixY);
 }
 
-void eMiniMap::setCenterPix(const int px, const int py) {
+void eMiniMap::viewRelPix(const int pixX, const int pixY) {
+    const int px = mCenterX + pixX - width()/2;
+    const int py = mCenterY + pixY - height()/2;
+    viewAbsPix(px, py);
+}
+
+void eMiniMap::viewAbsPix(const int px, const int py) {
     const int md = mapDimension();
-    mCenterX = std::clamp(px, -md/2, md/2 - width());
-    mCenterY = std::clamp(py, 0, md - height());
+    const int w = width();
+    const int h = height();
+    mCenterX = std::clamp(px, w/2, md - w/2);
+    mCenterY = std::clamp(py, h/2, md - h/2);
     scheduleUpdate();
 }
 

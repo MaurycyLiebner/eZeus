@@ -93,6 +93,11 @@ void eGameWidget::initialize(const int w, const int h) {
         }
     }
 
+    mBoard.initialize(w, h);
+    eMapGenerator g(mBoard);
+    eMapGeneratorSettings sett;
+    g.generate(sett);
+
     mGm = new eGameMenu(window());
     mGm->initialize();
     addWidget(mGm);
@@ -113,10 +118,6 @@ void eGameWidget::initialize(const int w, const int h) {
     mTem->align(eAlignment::right | eAlignment::top);
     mTem->hide();
 
-    mBoard.initialize(w, h);
-    eMapGenerator g(mBoard);
-    eMapGeneratorSettings sett;
-    g.generate(sett);
 
     const auto swtch = new eCheckBox(window());
     swtch->move(mGm->x(), 0);

@@ -19,8 +19,9 @@ private:
     void updateTexture();
     int mapDimension() const;
 
-    void viewPix(const int pixX, const int pixY);
-    void setCenterPix(const int px, const int py);
+    void viewTile(const int tileX, const int tileY);
+    void viewRelPix(const int pixX, const int pixY);
+    void viewAbsPix(const int px, const int py);
 
     void scheduleUpdate();
 
