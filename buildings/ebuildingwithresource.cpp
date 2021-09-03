@@ -24,8 +24,8 @@ bool eBuildingWithResource::spawnGiveCart(
             hptr->changeTile(nullptr);
         }
         if(tptr) {
-            cart.reset();
             spawnTime = time() + waitTime;
+            cart.reset();
         }
     };
     const auto failAct = [hptr, tptr, this, finishAct]() {

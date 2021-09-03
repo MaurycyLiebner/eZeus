@@ -22,6 +22,7 @@ public:
 private:
     virtual eCharacterActionState nextTurn(eOrientation& t) = 0;
     bool nextTurn();
+    void moveToTargetTile();
 
     const eTileWalkable mTileWalkable;
 

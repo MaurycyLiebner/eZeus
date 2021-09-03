@@ -89,37 +89,7 @@ void eMoveAction::increment(const int by) {
     const bool ySignAfter = y - mTargetY > 0 ? true : false;
     if(xSignAfter != xSignBefore ||
        ySignAfter != ySignBefore) {
-        if(c->tile() == mTargetTile) {
-            nextTurn();
-            return;
-        }
-        {
-            double targetX;
-            double targetY;
-            orientationToTargetCoords(mOrientation, targetX, targetY);
-            mStartX = 1 - targetX;
-            mStartY = 1 - targetY;
-        }
-
-        c->changeTile(mTargetTile);
-        mTargetX = 0.5;
-        mTargetY = 0.5;
-
-        c->setX(mStartX);
-        c->setY(mStartY);
-
-        const auto cs = mTargetTile->characters();
-        const auto cc = character();
-        for(const auto& c : cs) {
-            if(c.get() == character()) continue;
-            const bool cf = c->canFight(cc);
-            const bool ccf = cc->canFight(c.get());
-            if(cf && ccf) {
-                cc->fight(c.get());
-                c->fight(cc);
-                break;
-            }
-        }
+        moveToTargetTile();
     }
 }
 
@@ -149,7 +119,42 @@ bool eMoveAction::nextTurn() {
     orientationToTargetCoords(turn, mTargetX, mTargetY);
     if(isEqual(mStartX, mTargetX) &&
        isEqual(mStartY, mTargetY)) {
-        return nextTurn();
+        moveToTargetTile();
     }
     return true;
+}
+
+void eMoveAction::moveToTargetTile() {
+    const auto c = character();
+    if(c->tile() == mTargetTile) {
+        nextTurn();
+        return;
+    }
+    {
+        double targetX;
+        double targetY;
+        orientationToTargetCoords(mOrientation, targetX, targetY);
+        mStartX = 1 - targetX;
+        mStartY = 1 - targetY;
+    }
+
+    c->changeTile(mTargetTile);
+    mTargetX = 0.5;
+    mTargetY = 0.5;
+
+    c->setX(mStartX);
+    c->setY(mStartY);
+
+    const auto cs = mTargetTile->characters();
+    const auto cc = character();
+    for(const auto& c : cs) {
+        if(c.get() == character()) continue;
+        const bool cf = c->canFight(cc);
+        const bool ccf = cc->canFight(c.get());
+        if(cf && ccf) {
+            cc->fight(c.get());
+            c->fight(cc);
+            break;
+        }
+    }
 }
