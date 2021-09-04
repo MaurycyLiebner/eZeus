@@ -9,11 +9,12 @@
 
 ePatrolGuidedMoveAction::ePatrolGuidedMoveAction(
         eCharacter* const c,
+        const SDL_Rect& buildingRect,
         const std::vector<ePatrolGuide>& guides,
         const eAction& failAction,
         const eAction& finishAction) :
     eComplexAction(c, failAction, finishAction),
-    mGuides(guides) {
+    mGuides(guides), mBuildingRect(buildingRect) {
 
 }
 
@@ -48,7 +49,11 @@ void ePatrolGuidedMoveAction::nextGuide() {
         if(tptr) tptr->setState(eCharacterActionState::failed);
     };
 
-    const auto walkable = [](eTileBase* const t) {
+    const auto rect = mBuildingRect;
+    const auto walkable = [rect](eTileBase* const t) {
+        const SDL_Point p{t->x(), t->y()};
+        const bool r = SDL_PointInRect(&p, &rect);
+        if(r) return true;
         return t->hasRoad();
     };
 

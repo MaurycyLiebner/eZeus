@@ -12,3 +12,16 @@ eTheater::eTheater(eGameBoard& board) :
                     eBuildingType::theater, 5, 5, 18)  {
 
 }
+
+void eTheater::timeChanged(const int by) {
+    (void)by;
+    const int t = time();
+    if(!mChar && t >= mSpawnTime) {
+        spawnGetActor();
+        mSpawnTime = t + mWaitTime;
+    }
+}
+
+void eTheater::spawnGetActor() {
+
+}

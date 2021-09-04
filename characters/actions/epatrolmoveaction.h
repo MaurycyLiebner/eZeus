@@ -5,10 +5,12 @@
 #include "engine/emovedirection.h"
 
 class eMovePathAction;
+struct SDL_Rect;
 
 class ePatrolMoveAction : public eMoveAction {
 public:
     ePatrolMoveAction(eCharacter* const c,
+                      const SDL_Rect& buildingRect,
                       const eAction& failAction,
                       const eAction& finishAction);
 private:

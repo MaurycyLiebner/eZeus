@@ -25,11 +25,12 @@ ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
 
 stdsptr<eCharacterAction> gDefaultActGenerator(
            eCharacter* const c,
+           const SDL_Rect& buildingRect,
            const std::vector<ePatrolGuide>& guides,
            const eAction& failAction,
            const eAction& finishActio) {
     return e::make_shared<ePatrolAction>(
-                c, guides, failAction, finishActio);
+                c, buildingRect, guides, failAction, finishActio);
 }
 
 ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
@@ -69,7 +70,7 @@ void ePatrolBuilding::timeChanged(const int by) {
     const int t = time();
     if(!mChar && t >= mSpawnTime) {
         spawn();
-        mSpawnTime = time() + mWaitTime;
+        mSpawnTime = t + mWaitTime;
     }
 }
 
@@ -78,19 +79,9 @@ void ePatrolBuilding::setPatrolGuides(const ePatrolGuides &g) {
 }
 
 bool ePatrolBuilding::spawn() {
-    auto dirs = gExtractDirections(eMoveDirection::allDirections);
-    if(dirs.empty()) return false;
-    std::random_shuffle(dirs.begin(), dirs.end());
-    eTile* t = nullptr;
-    for(const auto dir : dirs) {
-        t = road(dir);
-        if(t) break;
-    }
-    if(!t) return false;
-
     mChar = mCharGenerator();
     if(!mChar) return false;
-    mChar->changeTile(t);
+    mChar->changeTile(tile());
     const eStdPointer<ePatrolBuilding> tptr(this);
     const eStdPointer<eCharacter> cptr(mChar);
     const auto finishAct = [tptr, this, cptr]() {
@@ -100,7 +91,7 @@ bool ePatrolBuilding::spawn() {
             mSpawnTime = time() + mWaitTime;
         }
     };
-    const auto a = mActGenerator(mChar.get(), mPatrolGuides,
+    const auto a = mActGenerator(mChar.get(), tileRect(), mPatrolGuides,
                                  finishAct, finishAct);
     mChar->setAction(a);
     return true;

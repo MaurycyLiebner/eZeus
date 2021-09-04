@@ -7,15 +7,6 @@
 #include "epathfindtask.h"
 #include "ewaitaction.h"
 
-eFireFighterAction::eFireFighterAction(
-        eCharacter* const c,
-        const std::vector<ePatrolGuide>& guides,
-        const eAction& failAction,
-        const eAction& finishAction) :
-    ePatrolAction(c, guides, failAction, finishAction) {
-
-}
-
 void eFireFighterAction::increment(const int by) {
     if(!mFireFighting) {
         const int fireCheckInc = 200;

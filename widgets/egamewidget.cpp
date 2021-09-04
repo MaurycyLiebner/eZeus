@@ -480,16 +480,18 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         }
 
-        const auto& chars = tile->characters();
-        for(const auto& c : chars) {
-            const auto tex = c->getTexture(mTileSize);
-            const double x = tx - a + c->x() + 0.25;
-            const double y = ty - a + c->y() + 0.25;
-            tp.drawTexture(x, y, tex);
-            if(!c->hasSecondaryTexture()) continue;
-            const auto stex = c->getSecondaryTexture(mTileSize);
-            if(stex.fTex) {
-                tp.drawTexture(x + stex.fX, y + stex.fY, stex.fTex);
+        if(!tile->underBuilding() || tile->hasRoad()) {
+            const auto& chars = tile->characters();
+            for(const auto& c : chars) {
+                const auto tex = c->getTexture(mTileSize);
+                const double x = tx - a + c->x() + 0.25;
+                const double y = ty - a + c->y() + 0.25;
+                tp.drawTexture(x, y, tex);
+                if(!c->hasSecondaryTexture()) continue;
+                const auto stex = c->getSecondaryTexture(mTileSize);
+                if(stex.fTex) {
+                    tp.drawTexture(x + stex.fX, y + stex.fY, stex.fTex);
+                }
             }
         }
 

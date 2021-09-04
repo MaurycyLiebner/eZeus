@@ -6,10 +6,13 @@
 
 stdsptr<eCharacterAction> gFireFighterActGenerator(
            eCharacter* const c,
+           const SDL_Rect& buildingRect,
            const std::vector<ePatrolGuide>& guides,
            const eAction& failAction,
            const eAction& finishActio) {
-    return e::make_shared<eFireFighterAction>(c, guides, failAction, finishActio);
+    return e::make_shared<eFireFighterAction>(
+                c, buildingRect, guides,
+                failAction, finishActio);
 }
 
 eMaintenanceOffice::eMaintenanceOffice(eGameBoard& board) :

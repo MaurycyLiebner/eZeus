@@ -5,10 +5,7 @@
 
 class eFireFighterAction : public ePatrolAction {
 public:
-    eFireFighterAction(eCharacter* const c,
-                       const std::vector<ePatrolGuide>& guides,
-                       const eAction& failAction,
-                       const eAction& finishAction);
+    using ePatrolAction::ePatrolAction;
 
     void increment(const int by);
 private:

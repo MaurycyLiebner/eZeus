@@ -5,10 +5,12 @@
 #include "engine/emovedirection.h"
 #include "epatrolmoveaction.h"
 #include "epatrolguidedmoveaction.h"
+#include "buildings/ebuilding.h"
 
 class ePatrolAction : public eActionWithComeback {
 public:
     ePatrolAction(eCharacter* const c,
+                  const SDL_Rect& buildingRect,
                   const std::vector<ePatrolGuide>& guides,
                   const eAction& failAction,
                   const eAction& finishAction);
@@ -20,6 +22,7 @@ protected:
     void goBackNoRoad();
 private:
     const std::vector<ePatrolGuide> mGuides;
+    const SDL_Rect mBuildingRect;
 };
 
 #endif // EPATROLACTION_H
