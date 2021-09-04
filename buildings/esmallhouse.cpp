@@ -47,20 +47,11 @@ int eSmallHouse::provide(const eProvide p, const int n) {
     case eProvide::podium:
         value = &mPodium;
         break;
-    case eProvide::college:
-        value = &mCollege;
-        break;
-    case eProvide::dramaSchool:
-        value = &mDramaSchool;
-        break;
     case eProvide::theatre:
         value = &mTheatre;
         break;
     case eProvide::gymnasium:
         value = &mGymnasium;
-        break;
-    case eProvide::stadium:
-        value = &mStadium;
         break;
     default: return eBuilding::provide(p, n);
     }
@@ -89,9 +80,10 @@ int eSmallHouse::moveIn(int c) {
 }
 
 void eSmallHouse::updateLevel() {
-    const int nVenues = mPodium + mCollege +
-                        mDramaSchool + mTheatre +
-                        mGymnasium + mStadium;
+    const auto& b = getBoard();
+    const int stadium = b.hasStadium() ? 1 : 0;
+    const int nVenues = mPodium + mTheatre +
+                        mGymnasium + stadium;
     if(mFood > 0) {
         if(mWater > 0 && nVenues > 0) {
             if(mFleece > 0) {

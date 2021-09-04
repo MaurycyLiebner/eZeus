@@ -83,6 +83,22 @@ bool eGameBoard::unregisterSpawner(eSpawner* const s) {
     return true;
 }
 
+void eGameBoard::registerStadium() {
+    mStadiumCount++;
+}
+
+void eGameBoard::unregisterStadium() {
+    mStadiumCount--;
+}
+
+void eGameBoard::registerPalace() {
+    mPalaceCount++;
+}
+
+void eGameBoard::unregisterPalace() {
+    mPalaceCount--;
+}
+
 void eGameBoard::incTime(const int by) {
     mTime += by;
     if(mTime > 250) {

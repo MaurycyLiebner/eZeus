@@ -8,13 +8,8 @@ enum class eProvide {
     taxes,
 
     podium,
-    college,
-
-    dramaSchool,
     theatre,
-
     gymnasium,
-    stadium,
 
     water,
     food,

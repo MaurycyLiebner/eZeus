@@ -5,22 +5,24 @@
 #include "textures/ebuildingtextures.h"
 #include "characters/actions/epatrolaction.h"
 
-class eStadium1W : public eEmployingBuilding {
+class eStadium1Base : public eEmployingBuilding {
 public:
-    eStadium1W(eGameBoard& board);
-
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
-private:
-    const std::vector<eBuildingTextures>& mTextures;
+    eStadium1Base(eGameBoard& board);
+    ~eStadium1Base();
 };
 
-class eStadium1H : public eEmployingBuilding {
+class eStadium1W : public eStadium1Base {
 public:
-    eStadium1H(eGameBoard& board);
+    using eStadium1Base::eStadium1Base;
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
-private:
-    const std::vector<eBuildingTextures>& mTextures;
+};
+
+class eStadium1H : public eStadium1Base {
+public:
+    using eStadium1Base::eStadium1Base;
+
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 };
 
 #endif // ESTADIUM1_H

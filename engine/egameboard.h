@@ -61,6 +61,16 @@ public:
     void registerSpawner(eSpawner* const s);
     bool unregisterSpawner(eSpawner* const s);
 
+    void registerStadium();
+    void unregisterStadium();
+
+    bool hasStadium() const { return mStadiumCount > 0; }
+
+    void registerPalace();
+    void unregisterPalace();
+
+    bool hasPalace() const { return mPalaceCount > 0; }
+
     void incTime(const int by);
 
     eThreadPool* threadPool() const { return mThreadPool; }
@@ -94,6 +104,8 @@ private:
     std::vector<eCharacter*> mCharacters;
     std::vector<eBuilding*> mBuildings;
     std::vector<eSpawner*> mSpawners;
+    int mStadiumCount = 0;
+    int mPalaceCount = 0;
 
     ePopulationData mPopData;
 
