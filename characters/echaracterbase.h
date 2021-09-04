@@ -36,6 +36,7 @@ enum class eCharacterType {
 
     gymnast,
     philosopher,
+    actor,
 
     taxCollector,
     watchman,

@@ -1,16 +1,14 @@
 #include "etheater.h"
 
-#include "characters/egymnast.h"
+#include "characters/eactor.h"
 #include "characters/actions/epatrolaction.h"
 #include "textures/egametextures.h"
 
 eTheater::eTheater(eGameBoard& board) :
-    eEmployingBuilding(board, eBuildingType::theater, 5, 5, 18),
-    mTextures(eGameTextures::buildings()) {
+    ePatrolBuilding(board, &eBuildingTextures::fTheater,
+                    -1.25, -6.5,
+                    &eBuildingTextures::fTheaterOverlay,
+                    [this]() { return e::make_shared<eActor>(getBoard()); },
+                    eBuildingType::theater, 5, 5, 18)  {
 
-}
-
-std::shared_ptr<eTexture> eTheater::getTexture(const eTileSize size) const {
-    const int sizeId = static_cast<int>(size);
-    return mTextures[sizeId].fTheater;
 }

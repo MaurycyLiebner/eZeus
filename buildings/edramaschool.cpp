@@ -1,7 +1,6 @@
 #include "edramaschool.h"
 
 #include "characters/egymnast.h"
-#include "characters/actions/epatrolaction.h"
 #include "textures/egametextures.h"
 
 eDramaSchool::eDramaSchool(eGameBoard& board) :

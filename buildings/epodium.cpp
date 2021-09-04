@@ -1,7 +1,6 @@
 #include "epodium.h"
 
 #include "characters/ephilosopher.h"
-#include "textures/egametextures.h"
 
 ePodium::ePodium(eGameBoard& board) :
     ePatrolBuilding(board,

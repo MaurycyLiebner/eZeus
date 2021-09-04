@@ -87,6 +87,7 @@ SOURCES += \
         characters/actions/esettleraction.cpp \
         characters/actions/eshepherdaction.cpp \
         characters/actions/ewaitaction.cpp \
+        characters/eactor.cpp \
         characters/eanimal.cpp \
         characters/earmsvendorchar.cpp \
         characters/ebasicpatroler.cpp \
@@ -291,6 +292,7 @@ HEADERS += \
     characters/actions/esettleraction.h \
     characters/actions/eshepherdaction.h \
     characters/actions/ewaitaction.h \
+    characters/eactor.h \
     characters/eanimal.h \
     characters/earmsvendorchar.h \
     characters/ebasicpatroler.h \

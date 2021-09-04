@@ -31,6 +31,7 @@ public:
     eTextureCollection fPodiumOverlay;
 
     std::shared_ptr<eTexture> fTheater;
+    eTextureCollection fTheaterOverlay;
 
     std::shared_ptr<eTexture> fStadium1H;
     std::shared_ptr<eTexture> fStadium2H;

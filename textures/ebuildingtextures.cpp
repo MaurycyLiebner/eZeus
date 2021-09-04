@@ -11,6 +11,7 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fGymnasiumOverlay(renderer),
     fCollegeOverlay(renderer),
     fDramaSchoolOverlay(renderer),
+    fTheaterOverlay(renderer),
     fPodiumOverlay(renderer),
 
     fPalaceTiles(renderer),
@@ -361,6 +362,11 @@ void eBuildingTextures::load() {
         for(int i = 269; i < 293; i++) {
             eTextureLoadingHelpers::loadTexWithOffset(
                         pathBase, i, fWarehouseOverlay, eSprAmbientOffset);
+        }
+
+        for(int i = 656; i < 680; i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fTheaterOverlay, eSprAmbientOffset);
         }
 
         for(int i = 2958; i < 3011; i++) {

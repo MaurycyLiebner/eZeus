@@ -216,7 +216,7 @@ void eGameWidget::iterateOverTiles(const eTileAction& a) {
 
     const int soundRow = (minRow + maxRow)/2 + (rand() % 7 - 3);
     const int soundXmy = (minXYDiff + maxXYDiff)/2 + (rand() % 7 - 3);
-    const bool play = Mix_Playing(-1) == 0 && (rand() % 5000) == 0;
+    const bool play = Mix_Playing(-1) == 0 && (rand() % 500) == 0;
 
     const auto iniIt = eGameBoardDiagonalIterator(minRow, 0, &mBoard);
     for(auto it = iniIt; it != mBoard.dEnd();) {
