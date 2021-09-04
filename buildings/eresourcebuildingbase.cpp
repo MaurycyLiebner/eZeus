@@ -42,7 +42,8 @@ int eResourceBuildingBase::spaceLeft(const eResourceType type) const {
     return mMaxResource - mResource;
 }
 
-void eResourceBuildingBase::timeChanged() {
+void eResourceBuildingBase::timeChanged(const int by) {
+    (void)by;
     if(!mCart && mResource > 0 && time() > mCartSpawnTime) {
         mCartSpawnTime = time() + mCartWaitTime;
         spawnCart();

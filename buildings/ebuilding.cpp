@@ -52,10 +52,8 @@ eTile* eBuilding::road(const eMoveDirection o) const {
 }
 
 void eBuilding::incTime(const int by) {
-    for(int i = 0; i < by; i++) {
-        mTime++;
-        timeChanged();
-    }
+    mTime += by;
+    timeChanged(by);
 }
 
 void eBuilding::setTile(eTile* const t) {

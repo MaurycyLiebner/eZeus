@@ -42,7 +42,7 @@ std::vector<eOverlay> eProcessingBuilding::getOverlays(
     return std::vector<eOverlay>({o});
 }
 
-void eProcessingBuilding::timeChanged() {
+void eProcessingBuilding::timeChanged(const int by) {
     if(!mRawCart && mRawCount < mMaxRaw && time() > mSpawnTime) {
         spawnRawGetter();
         mSpawnTime = time() + mSpawnWaitTime;
@@ -54,7 +54,7 @@ void eProcessingBuilding::timeChanged() {
         }
         mProcessTime = time() + mProcessWaitTime;
     }
-    eResourceBuildingBase::timeChanged();
+    eResourceBuildingBase::timeChanged(by);
 }
 
 int eProcessingBuilding::count(const eResourceType type) const {

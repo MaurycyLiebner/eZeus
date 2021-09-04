@@ -46,7 +46,8 @@ void eResourceBuilding::workOn() {
     mNextRipe = time() + mRipeWait;
 }
 
-void eResourceBuilding::timeChanged() {
+void eResourceBuilding::timeChanged(const int by) {
+    (void)by;
     if((mWorkedOn || mRipe >= 5) && time() >= mNextRipe) {
         mWorkedOn = false;
         if(mRipe >= 5) {

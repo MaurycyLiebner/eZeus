@@ -37,8 +37,8 @@ std::vector<eOverlay> eHuntingLodge::getOverlays(const eTileSize size) const {
     return std::vector<eOverlay>({o});
 }
 
-void eHuntingLodge::timeChanged() {
-    eResourceBuildingBase::timeChanged();
+void eHuntingLodge::timeChanged(const int by) {
+    eResourceBuildingBase::timeChanged(by);
     if(!mHunter && time() > mSpawnTime) {
         spawn();
         mSpawnTime = time() + mWaitTime;

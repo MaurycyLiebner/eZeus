@@ -70,8 +70,8 @@ int eStorageBuilding::spaceLeft(const eResourceType type) const {
     return sSpaceLeft(type, mResourceCount, mResource, mAccept, mMaxCount);
 }
 
-void eStorageBuilding::timeChanged() {
-    eEmployingBuilding::timeChanged();
+void eStorageBuilding::timeChanged(const int by) {
+    eEmployingBuilding::timeChanged(by);
     if(mCartTime <= time() && (!mCart1 || !mCart2)) {
         struct eResTask {
             eResTask(const bool get, const eResourceType res) :

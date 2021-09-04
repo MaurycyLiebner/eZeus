@@ -42,8 +42,8 @@ std::vector<eOverlay> eShepherBuildingBase::getOverlays(
     return std::vector<eOverlay>({o});
 }
 
-void eShepherBuildingBase::timeChanged() {
-    eResourceBuildingBase::timeChanged();
+void eShepherBuildingBase::timeChanged(const int by) {
+    eResourceBuildingBase::timeChanged(by);
     if(!mShepherd && time() > mSpawnTime) {
         spawn();
         mSpawnTime = time() + mWaitTime;

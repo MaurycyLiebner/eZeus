@@ -23,7 +23,7 @@ public:
     int resource() const { return mResource; }
     int maxResource() const { return mMaxResource; }
 
-    void timeChanged();
+    void timeChanged(const int by);
 private:
     bool spawnCart();
 

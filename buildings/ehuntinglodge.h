@@ -14,7 +14,7 @@ public:
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
 
-    void timeChanged();
+    void timeChanged(const int by);
 
     bool spawn();
 private:

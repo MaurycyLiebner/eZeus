@@ -17,9 +17,10 @@ eEmployingBuilding::~eEmployingBuilding() {
     emplData.incTotalJobVacancies(-mMaxEmployees);
 }
 
-void eEmployingBuilding::timeChanged() {
-    const int u = mEployedUpdate++ % 1000;
-    if(u == 0) {
+void eEmployingBuilding::timeChanged(const int by) {
+    (void)by;
+    if(time() > mEmployedUpdate) {
+        mEmployedUpdate = time() + 1000;
         const auto& emplData = getBoard().employmentData();
         const double ef = emplData.employedFraction();
         const int e = std::round(ef*mMaxEmployees);

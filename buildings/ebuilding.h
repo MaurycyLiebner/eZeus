@@ -95,7 +95,7 @@ public:
         return std::vector<eOverlay>();
     }
 
-    virtual void timeChanged() {}
+    virtual void timeChanged(const int by) { (void)by; }
 
     virtual int provide(const eProvide, const int) { return 0; }
 

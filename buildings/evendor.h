@@ -25,7 +25,7 @@ public:
     int count(const eResourceType type) const;
     int spaceLeft(const eResourceType type) const;
 
-    void timeChanged();
+    void timeChanged(const int by);
 
     stdsptr<eCharacter> vendorGenerator();
 private:

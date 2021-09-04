@@ -64,7 +64,8 @@ std::vector<eOverlay> ePatrolBuilding::getOverlays(const eTileSize size) const {
     return std::vector<eOverlay>({o});
 }
 
-void ePatrolBuilding::timeChanged() {
+void ePatrolBuilding::timeChanged(const int by) {
+    (void)by;
     const int t = time();
     if(!mChar && t >= mSpawnTime) {
         spawn();

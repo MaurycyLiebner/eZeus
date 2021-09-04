@@ -18,7 +18,7 @@ public:
     int spaceLeft(const eResourceType type) const;
 
 
-    void timeChanged();
+    void timeChanged(const int by);
 
     static int sCount(const eResourceType type,
                       const int resourceCount[8],

@@ -23,7 +23,7 @@ public:
     int takeResource(const int by);
     bool workedOn() const { return mWorkedOn; }
     void workOn();
-    void timeChanged();
+    void timeChanged(const int by);
 private:
     const eResourceBuildingType mType;
     const int mRipeWait = 40000;

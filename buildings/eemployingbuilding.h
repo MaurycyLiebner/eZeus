@@ -11,14 +11,14 @@ public:
                        const int maxEmployees);
     ~eEmployingBuilding();
 
-    void timeChanged();
+    void timeChanged(const int by);
 
     int employed() const { return mEmployed; }
     int maxEmployees() const { return mMaxEmployees; }
     double employedFraction() const;
 private:
     const int mMaxEmployees;
-    int mEployedUpdate = 0;
+    int mEmployedUpdate = 0;
     int mEmployed = 0;
 };
 

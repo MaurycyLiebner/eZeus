@@ -50,7 +50,7 @@ std::vector<eOverlay> eGrowersLodge::
     return os;
 }
 
-void eGrowersLodge::timeChanged() {
+void eGrowersLodge::timeChanged(const int by) {
     if(time() > mGrowerSpawnTime) {
         if(!mGrower1) {
             spawnGrower(&eGrowersLodge::mGrower1);
@@ -64,7 +64,7 @@ void eGrowersLodge::timeChanged() {
         const bool r = spawnCart(eResourceType::olives);
         if(!r) spawnCart(eResourceType::grapes);
     }
-    eBuildingWithResource::timeChanged();
+    eBuildingWithResource::timeChanged(by);
 }
 
 int eGrowersLodge::add(const eResourceType type, const int count) {
