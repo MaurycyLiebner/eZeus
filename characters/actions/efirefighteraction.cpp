@@ -39,6 +39,7 @@ bool eFireFighterAction::lookForFire() {
     const auto finishFunc = [tptr, this, c, tileWalkable, failFunc](
                             std::vector<eOrientation> path) {
         if(!tptr) return;
+        if(path.empty()) return;
         c->setActionType(eCharacterActionType::carry);
         mFireFighting = true;
         const auto o = path.front();

@@ -47,6 +47,8 @@ public:
     void setPatrolGuides(const ePatrolGuides& g);
 
     bool spawn();
+
+    void setSpawnPatrolers(const bool s);
 private:
     const eCharGenerator mCharGenerator;
     const eActGenerator mActGenerator;
@@ -57,6 +59,8 @@ private:
 
     const double mOverlayX;
     const double mOverlayY;
+
+    bool mSpawnPatrolers = true;
 
     int mWaitTime = 5000;
     int mSpawnTime = 0;

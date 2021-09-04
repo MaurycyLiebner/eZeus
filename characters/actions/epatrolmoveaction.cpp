@@ -16,7 +16,8 @@ ePatrolMoveAction::ePatrolMoveAction(eCharacter* const c,
                     if(r) return true;
                     return t->hasRoad();
                 },
-                failAction, finishAction) {
+                failAction, finishAction),
+    mBuildingRect(buildingRect) {
     mO = c->orientation();
 }
 
@@ -29,7 +30,11 @@ eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
     const auto tile = c->tile();
     if(!tile) return eCharacterActionState::failed;
 
-    auto options = tile->diagonalNeighbours([&](eTileBase* const t) {
+    auto options = tile->diagonalNeighbours(
+    [&](eTileBase* const t) {
+        const SDL_Point p{t->x(), t->y()};
+        const bool r = SDL_PointInRect(&p, &mBuildingRect);
+        if(r) return true;
         return t && t->hasRoad() && t->neighbour(mO) != tile;
     });
 

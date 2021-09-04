@@ -4,8 +4,9 @@
 #include "emoveaction.h"
 #include "engine/emovedirection.h"
 
+#include <SDL2/SDL_rect.h>
+
 class eMovePathAction;
-struct SDL_Rect;
 
 class ePatrolMoveAction : public eMoveAction {
 public:
@@ -15,6 +16,8 @@ public:
                       const eAction& finishAction);
 private:
     eCharacterActionState nextTurn(eOrientation& t);
+
+    const SDL_Rect mBuildingRect;
 
     eOrientation mO{eOrientation::topRight};
     int mMaxDistance = 100;

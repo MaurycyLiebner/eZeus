@@ -11,7 +11,9 @@ public:
 private:
     void spawnGetActor();
 
-    int mWaitTime = 5000;
+    int mActor = 0;
+
+    const int mWaitTime = 20000;
     int mSpawnTime = 0;
     stdsptr<eCharacter> mChar;
 };
