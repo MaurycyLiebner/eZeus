@@ -4,6 +4,7 @@
 #include "eactionwithcomeback.h"
 #include "engine/emovedirection.h"
 #include "epatrolmoveaction.h"
+#include "epatrolguidedmoveaction.h"
 
 class ePatrolAction : public eActionWithComeback {
 public:

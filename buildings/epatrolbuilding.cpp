@@ -76,12 +76,8 @@ void ePatrolBuilding::setPatrolGuides(const ePatrolGuides &g) {
     mPatrolGuides = g;
 }
 
-void ePatrolBuilding::setSpawnDirection(const eMoveDirection d) {
-    mSpawnDirection = d;
-}
-
 bool ePatrolBuilding::spawn() {
-    auto dirs = gExtractDirections(mSpawnDirection);
+    auto dirs = gExtractDirections(eMoveDirection::allDirections);
     if(dirs.empty()) return false;
     std::random_shuffle(dirs.begin(), dirs.end());
     eTile* t = nullptr;

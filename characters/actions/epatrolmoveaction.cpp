@@ -6,32 +6,14 @@
 #include "engine/epathfinder.h"
 
 ePatrolMoveAction::ePatrolMoveAction(eCharacter* const c,
-                                     const std::vector<ePatrolGuide>& guides,
                                      const eAction& failAction,
                                      const eAction& finishAction) :
     eMoveAction(c,
                 [](eTileBase* const tile) {
                     return tile->hasRoad();
                 },
-                failAction, finishAction),
-    mGuides(guides) {
-    const auto t = c->tile();
-    if(t) {
-        mStartX = t->x();
-        mStartY = t->y();
-    }
+                failAction, finishAction) {
     mO = c->orientation();
-}
-
-bool ePatrolMoveAction::getGuide(const int tx, const int ty,
-                                 ePatrolGuide& result) {
-    for(const auto& g : mGuides) {
-        if(g.fX == tx && g.fY == ty) {
-            result = g;
-            return true;
-        }
-    }
-    return false;
 }
 
 eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
@@ -43,26 +25,10 @@ eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
     const auto tile = c->tile();
     if(!tile) return eCharacterActionState::failed;
 
-    const int tx = tile->x();
-    const int ty = tile->y();
-
     auto options = tile->diagonalNeighbours([&](eTileBase* const t) {
         return t && t->hasRoad() && t->neighbour(mO) != tile;
     });
 
-    ePatrolGuide g;
-    const bool r = getGuide(tx, ty, g);
-    if(r) {
-        for(auto it = options.begin(); it != options.end(); it++) {
-            const auto o = (*it).first;
-            const auto odir = gOrientationToDirection(o);
-            if(!static_cast<bool>(odir & g.fDir)) {
-                const auto itt = it;
-                it--;
-                options.erase(itt);
-            }
-        }
-    }
     if(options.empty()) {
         mO = !mO;
     } else {

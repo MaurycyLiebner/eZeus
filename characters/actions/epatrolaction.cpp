@@ -26,10 +26,15 @@ void ePatrolAction::patrol() {
     const auto finishFunc = [this]() {
         goBack2();
     };
-    const auto a = e::make_shared<ePatrolMoveAction>(
-                       character(), mGuides,
-                       failFunc, finishFunc);
-    setCurrentAction(a);
+    if(mGuides.empty()) {
+        const auto a = e::make_shared<ePatrolMoveAction>(
+                           character(), failFunc, finishFunc);
+        setCurrentAction(a);
+    } else {
+        const auto a = e::make_shared<ePatrolGuidedMoveAction>(
+                           character(), mGuides, failFunc, finishFunc);
+        setCurrentAction(a);
+    }
 }
 
 void ePatrolAction::goBack2() {

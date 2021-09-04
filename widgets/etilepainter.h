@@ -27,7 +27,14 @@ public:
                      const eAlignment align) const;
     void drawTexture(const double x, const double y,
                      const std::shared_ptr<eTexture>& tex) const;
+
+    void drawPolygon(std::vector<SDL_Point> pts,
+                     const SDL_Color& color);
 private:
+    void drawPositon(const double x, const double y,
+                     int& pixX, int& pixY,
+                     const double dx = 0, const double dy = 0) const;
+
     ePainter& mP;
     const eTileSize mSize;
     const int mTileW;

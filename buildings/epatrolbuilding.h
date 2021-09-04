@@ -45,9 +45,6 @@ public:
     ePatrolGuides* patrolGuides() { return &mPatrolGuides; };
     void setPatrolGuides(const ePatrolGuides& g);
 
-    eMoveDirection spawnDirection() const { return mSpawnDirection; }
-    void setSpawnDirection(const eMoveDirection d);
-
     bool spawn();
 private:
     const eCharGenerator mCharGenerator;
@@ -64,7 +61,6 @@ private:
     int mSpawnTime = 0;
     stdsptr<eCharacter> mChar;
 
-    eMoveDirection mSpawnDirection{eMoveDirection::allDirections};
     ePatrolGuides mPatrolGuides;
 };
 
