@@ -81,7 +81,19 @@ void ePatrolBuilding::setPatrolGuides(const ePatrolGuides &g) {
 bool ePatrolBuilding::spawn() {
     mChar = mCharGenerator();
     if(!mChar) return false;
-    mChar->changeTile(tile());
+    if(mPatrolGuides.empty()) {
+        auto dirs = gExtractDirections(eMoveDirection::allDirections);
+        std::random_shuffle(dirs.begin(), dirs.end());
+        eTile* t = nullptr;
+        for(const auto dir : dirs) {
+            t = road(dir);
+            if(t) break;
+        }
+        if(!t) return false;
+        mChar->changeTile(t);
+    } else {
+        mChar->changeTile(tile());
+    }
     const eStdPointer<ePatrolBuilding> tptr(this);
     const eStdPointer<eCharacter> cptr(mChar);
     const auto finishAct = [tptr, this, cptr]() {
@@ -91,7 +103,8 @@ bool ePatrolBuilding::spawn() {
             mSpawnTime = time() + mWaitTime;
         }
     };
-    const auto a = mActGenerator(mChar.get(), tileRect(), mPatrolGuides,
+    const auto a = mActGenerator(mChar.get(), tileRect(),
+                                 mPatrolGuides,
                                  finishAct, finishAct);
     mChar->setAction(a);
     return true;

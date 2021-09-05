@@ -30,8 +30,7 @@ void ePatrolAction::patrol() {
     };
     if(mGuides.empty()) {
         const auto a = e::make_shared<ePatrolMoveAction>(
-                           c, mBuildingRect,
-                           failFunc, finishFunc);
+                           c, failFunc, finishFunc);
         setCurrentAction(a);
     } else {
         const auto a = e::make_shared<ePatrolGuidedMoveAction>(

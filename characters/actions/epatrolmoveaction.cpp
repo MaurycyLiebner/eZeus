@@ -6,18 +6,13 @@
 #include "engine/epathfinder.h"
 
 ePatrolMoveAction::ePatrolMoveAction(eCharacter* const c,
-                                     const SDL_Rect& buildingRect,
                                      const eAction& failAction,
                                      const eAction& finishAction) :
     eMoveAction(c,
-                [buildingRect](eTileBase* const t) {
-                    const SDL_Point p{t->x(), t->y()};
-                    const bool r = SDL_PointInRect(&p, &buildingRect);
-                    if(r) return true;
+                [](eTileBase* const t) {
                     return t->hasRoad();
                 },
-                failAction, finishAction),
-    mBuildingRect(buildingRect) {
+                failAction, finishAction) {
     mO = c->orientation();
 }
 
@@ -32,9 +27,6 @@ eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
 
     auto options = tile->diagonalNeighbours(
     [&](eTileBase* const t) {
-        const SDL_Point p{t->x(), t->y()};
-        const bool r = SDL_PointInRect(&p, &mBuildingRect);
-        if(r) return true;
         return t && t->hasRoad() && t->neighbour(mO) != tile;
     });
 
