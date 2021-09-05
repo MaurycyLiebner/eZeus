@@ -15,7 +15,6 @@ std::shared_ptr<eTexture> eStadium2W::getTexture(const eTileSize size) const {
     return mTextures[sizeId].fStadium2W;
 }
 
-
 eStadium2H::eStadium2H(eGameBoard& board) :
     eBuilding(board, eBuildingType::stadium2, 5, 5),
     mTextures(eGameTextures::buildings()) {

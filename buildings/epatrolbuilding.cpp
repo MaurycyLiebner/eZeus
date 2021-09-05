@@ -20,7 +20,9 @@ ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
     mTextures(eGameTextures::buildings()),
     mBaseTex(baseTex), mOverlays(overlays),
     mOverlayX(overlayX), mOverlayY(overlayY) {
-
+    setOverlayEnabledFunc([this]() {
+        return enabled() && mSpawnPatrolers;
+    });
 }
 
 stdsptr<eCharacterAction> gDefaultActGenerator(
@@ -66,12 +68,14 @@ std::vector<eOverlay> ePatrolBuilding::getOverlays(const eTileSize size) const {
 }
 
 void ePatrolBuilding::timeChanged(const int by) {
-    (void)by;
     const int t = time();
-    if(!mChar && t >= mSpawnTime && mSpawnPatrolers) {
-        spawn();
-        mSpawnTime = t + mWaitTime;
+    if(mSpawnPatrolers && enabled()) {
+        if(!mChar && t >= mSpawnTime) {
+            spawn();
+            mSpawnTime = t + mWaitTime;
+        }
     }
+    eEmployingBuilding::timeChanged(by);
 }
 
 void ePatrolBuilding::setPatrolGuides(const ePatrolGuides &g) {

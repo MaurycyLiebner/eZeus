@@ -49,6 +49,8 @@ public:
                    eResourceType& empty,
                    eResourceType& accept) const;
 private:
+    void spawnCarts();
+
     const eResourceType mCanAccept;
 
     eResourceType mGet = eResourceType::none;

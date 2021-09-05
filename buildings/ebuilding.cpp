@@ -63,11 +63,13 @@ void eBuilding::setTile(eTile* const t) {
 void eBuilding::draw(eTilePainter& p,
                      const double x, const double y) {
     p.drawTexture(x, y, getTexture(p.size()), eAlignment::top);
-    const auto overlays = getOverlays(p.size());
-    for(const auto& o : overlays) {
-        if(o.fAlignTop) p.drawTexture(x + o.fX, y + o.fY, o.fTex,
-                                      eAlignment::top);
-        else p.drawTexture(x + o.fX, y + o.fY, o.fTex);
+    if(mOverlayEnabled()) {
+        const auto overlays = getOverlays(p.size());
+        for(const auto& o : overlays) {
+            if(o.fAlignTop) p.drawTexture(x + o.fX, y + o.fY, o.fTex,
+                                          eAlignment::top);
+            else p.drawTexture(x + o.fX, y + o.fY, o.fTex);
+        }
     }
 }
 
@@ -84,4 +86,12 @@ void eBuilding::erase() {
         mTile->setBuilding(nullptr);
         mTile = nullptr;
     }
+}
+
+void eBuilding::setEnabled(const bool e) {
+    mEnabled = e;
+}
+
+void eBuilding::setOverlayEnabledFunc(const std::function<bool()>& e) {
+    mOverlayEnabled = e;
 }

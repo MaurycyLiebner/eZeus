@@ -71,9 +71,12 @@ int eVendor::spaceLeft(const eResourceType type) const {
 }
 
 void eVendor::timeChanged(const int by) {
-    if(!mCart && mResource < mMaxResource && time() > mCartSpawnTime) {
-        mCartSpawnTime = time() + mCartWaitTime;
-        spawnCart();
+    if(enabled()) {
+        if(!mCart && mResource < mMaxResource &&
+           time() > mCartSpawnTime) {
+            mCartSpawnTime = time() + mCartWaitTime;
+            spawnCart();
+        }
     }
     ePatrolBuilding::timeChanged(by);
 }

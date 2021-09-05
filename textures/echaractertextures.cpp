@@ -337,8 +337,8 @@ void eCharacterTextures::load() {
                         pathBase, i, carry[j], eSprMainOffset);
         }
     }
-    for(int i = 3519; i < 3531;) {
-        for(int j = 0; j < 8; j++, i++) {
+    for(int i = 3519; i < 3531; i++) {
+        for(int j = 0; j < 8; j++) {
             auto& collect = fShepherd.fCollect;
             eTextureLoadingHelpers::loadTexWithOffset(
                         pathBase, i, collect[j], eSprMainOffset);

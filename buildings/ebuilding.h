@@ -131,6 +131,11 @@ public:
 
     void setTileRect(const SDL_Rect& rect) { mTileRect = rect; }
     const SDL_Rect& tileRect() const { return mTileRect; }
+
+    bool enabled() const { return mEnabled; }
+    void setEnabled(const bool e);
+
+    void setOverlayEnabledFunc(const std::function<bool()>& e);
 private:
     std::vector<eTile*> mUnderBuilding;
     SDL_Rect mTileRect;
@@ -142,6 +147,10 @@ private:
     const int mSpanH;
     int mTime = 0;
     eTile* mTile = nullptr;
+    bool mEnabled = false;
+    std::function<bool()> mOverlayEnabled = [this]() {
+        return mEnabled;
+    };
 };
 
 #endif // EBUILDING_H

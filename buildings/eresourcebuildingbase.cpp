@@ -43,11 +43,13 @@ int eResourceBuildingBase::spaceLeft(const eResourceType type) const {
 }
 
 void eResourceBuildingBase::timeChanged(const int by) {
-    (void)by;
-    if(!mCart && mResource > 0 && time() > mCartSpawnTime) {
-        mCartSpawnTime = time() + mCartWaitTime;
-        spawnCart();
+    if(enabled()) {
+        if(!mCart && mResource > 0 && time() > mCartSpawnTime) {
+            mCartSpawnTime = time() + mCartWaitTime;
+            spawnCart();
+        }
     }
+    eEmployingBuilding::timeChanged(by);
 }
 
 bool eResourceBuildingBase::spawnCart() {

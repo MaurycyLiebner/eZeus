@@ -1,9 +1,9 @@
 #ifndef EPODIUM_H
 #define EPODIUM_H
 
-#include "epatrolbuilding.h"
+#include "epatroltarget.h"
 
-class ePodium : public ePatrolBuilding {
+class ePodium : public ePatrolTarget {
 public:
     ePodium(eGameBoard& board);
 };

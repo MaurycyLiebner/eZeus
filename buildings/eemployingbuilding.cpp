@@ -2,7 +2,8 @@
 
 #include "engine/egameboard.h"
 
-eEmployingBuilding::eEmployingBuilding(eGameBoard& board,
+eEmployingBuilding::eEmployingBuilding(
+        eGameBoard& board,
         const eBuildingType type,
         const int sw, const int sh,
         const int maxEmployees) :
@@ -19,12 +20,14 @@ eEmployingBuilding::~eEmployingBuilding() {
 
 void eEmployingBuilding::timeChanged(const int by) {
     (void)by;
-    if(time() > mEmployedUpdate) {
-        mEmployedUpdate = time() + 1000;
+    const auto t = time();
+    if(t > mEmployedUpdate) {
+        mEmployedUpdate = t + 1000;
         const auto& emplData = getBoard().employmentData();
         const double ef = emplData.employedFraction();
         const int e = std::round(ef*mMaxEmployees);
         mEmployed = std::clamp(e, 0, mMaxEmployees);
+        setEnabled(ef > 0.49);
     }
 }
 

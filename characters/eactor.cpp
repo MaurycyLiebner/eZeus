@@ -2,4 +2,6 @@
 
 eActor::eActor(eGameBoard& board) :
     eBasicPatroler(board, &eCharacterTextures::fActor,
-                   eCharacterType::actor) {}
+                   eCharacterType::actor) {
+    setProvide(eProvide::actor, 1000);
+}

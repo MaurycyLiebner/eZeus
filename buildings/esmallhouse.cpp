@@ -28,6 +28,7 @@ std::shared_ptr<eTexture> eSmallHouse::getTexture(const eTileSize size) const {
 }
 
 int eSmallHouse::provide(const eProvide p, const int n) {
+    if(mPeople <= 0) return 0;
     int max = 8;
     int* value = nullptr;
     switch(p) {
@@ -44,16 +45,17 @@ int eSmallHouse::provide(const eProvide p, const int n) {
         value = &mOil;
         break;
 
-    case eProvide::podium:
+    case eProvide::philosopher:
         value = &mPodium;
         break;
-    case eProvide::theatre:
+    case eProvide::actor:
         value = &mTheatre;
         break;
-    case eProvide::gymnasium:
+    case eProvide::gymnast:
         value = &mGymnasium;
         break;
-    default: return eBuilding::provide(p, n);
+    default:
+        return eBuilding::provide(p, n);
     }
     const int add = std::clamp(n, 0, max - *value);
     *value += add;

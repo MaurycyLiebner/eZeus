@@ -22,7 +22,9 @@ eProcessingBuilding::eProcessingBuilding(
     mOverlayX(overlayX), mOverlayY(overlayY),
     mRawMaterial(rawMaterial), mRawUse(rawUse),
     mProcessWaitTime(5000*time) {
-
+    setOverlayEnabledFunc([this]() {
+        return enabled() && mRawCount > 0;
+    });
 }
 
 std::shared_ptr<eTexture> eProcessingBuilding::getTexture(const eTileSize size) const {
@@ -43,16 +45,18 @@ std::vector<eOverlay> eProcessingBuilding::getOverlays(
 }
 
 void eProcessingBuilding::timeChanged(const int by) {
-    if(!mRawCart && mRawCount < mMaxRaw && time() > mSpawnTime) {
-        spawnRawGetter();
-        mSpawnTime = time() + mSpawnWaitTime;
-    }
-    if(time() > mProcessTime) {
-        if(mRawCount >= mRawUse) {
-            const int c = add(resourceType(), 1);
-            mRawCount -= c*mRawUse;
+    if(enabled()) {
+        if(!mRawCart && mRawCount < mMaxRaw && time() > mSpawnTime) {
+            spawnRawGetter();
+            mSpawnTime = time() + mSpawnWaitTime;
         }
-        mProcessTime = time() + mProcessWaitTime;
+        if(time() > mProcessTime) {
+            if(mRawCount >= mRawUse) {
+                const int c = add(resourceType(), 1);
+                mRawCount -= c*mRawUse;
+            }
+            mProcessTime = time() + mProcessWaitTime;
+        }
     }
     eResourceBuildingBase::timeChanged(by);
 }

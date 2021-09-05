@@ -7,9 +7,9 @@ enum class eProvide {
     maintanance,
     taxes,
 
-    podium,
-    theatre,
-    gymnasium,
+    philosopher,
+    actor,
+    gymnast,
 
     water,
     food,
