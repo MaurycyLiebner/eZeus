@@ -18,7 +18,6 @@ ePatrolMoveAction::ePatrolMoveAction(eCharacter* const c,
 
 eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
     if(mWalkedDistance++ > mMaxDistance) {
-        setState(eCharacterActionState::finished);
         return eCharacterActionState::finished;
     }
     const auto c = character();

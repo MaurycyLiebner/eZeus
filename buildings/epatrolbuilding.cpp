@@ -103,8 +103,8 @@ bool ePatrolBuilding::spawn() {
     const auto finishAct = [tptr, this, cptr]() {
         if(cptr) cptr->changeTile(nullptr);
         if(tptr) {
-            mChar.reset();
             mSpawnTime = time() + mWaitTime;
+            mChar.reset();
         }
     };
     const auto a = mActGenerator(mChar.get(), tileRect(),

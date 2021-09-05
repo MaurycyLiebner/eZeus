@@ -105,7 +105,8 @@ void eGameBoard::incTime(const int by) {
         mDate.nextDay();
         mTime = 0;
     }
-    for(const auto c : mCharacters) {
+    const auto chars = mCharacters;
+    for(const auto c : chars) {
         c->incTime(by);
     }
     for(const auto b : mBuildings) {
