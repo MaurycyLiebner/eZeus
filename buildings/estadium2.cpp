@@ -3,14 +3,21 @@
 #include "characters/egymnast.h"
 #include "characters/actions/epatrolaction.h"
 #include "textures/egametextures.h"
+#include "estadium1.h"
 
 eStadium2Base::eStadium2Base(eGameBoard& board,
-                             const eBaseTex baseTex) :
+                             const eBaseTex baseTex,
+                             eStadium1Base* const s1) :
     ePatrolTarget(board, eBuildingType::gymnasium,
                   baseTex, 0, 0, eOverlays(),
                   [this]() { return e::make_shared<eGymnast>(getBoard()); },
                   eBuildingType::stadium2, 5, 5, 0) {
-
+    setOverlayEnabledFunc([this, s1]() {
+        const auto t = enabled() && spawnPatrolers();
+        if(t) return true;
+        const auto s = s1->enabled() && s1->spawnPatrolers();
+        return s;
+    });
 }
 
 void eStadium2Base::timeChanged(const int by) {
@@ -22,8 +29,8 @@ void eStadium2Base::timeChanged(const int by) {
     ePatrolTarget::timeChanged(by);
 }
 
-eStadium2W::eStadium2W(eGameBoard& board) :
-    eStadium2Base(board, &eBuildingTextures::fStadium2W) {
+eStadium2W::eStadium2W(eGameBoard& board, eStadium1W* const s1) :
+    eStadium2Base(board, &eBuildingTextures::fStadium2W, s1) {
 }
 
 std::vector<eOverlay> eStadium2W::getOverlays(const eTileSize size) const {
@@ -73,8 +80,8 @@ std::vector<eOverlay> eStadium2W::getOverlays(const eTileSize size) const {
     return os;
 }
 
-eStadium2H::eStadium2H(eGameBoard& board) :
-    eStadium2Base(board, &eBuildingTextures::fStadium2H) {
+eStadium2H::eStadium2H(eGameBoard& board, eStadium1H* const s1) :
+    eStadium2Base(board, &eBuildingTextures::fStadium2H, s1) {
 }
 
 std::vector<eOverlay> eStadium2H::getOverlays(const eTileSize size) const {

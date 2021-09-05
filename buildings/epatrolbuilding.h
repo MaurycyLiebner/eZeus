@@ -49,6 +49,7 @@ public:
     bool spawn();
 
     void setSpawnPatrolers(const bool s);
+    bool spawnPatrolers() const { return mSpawnPatrolers; }
 private:
     const eCharGenerator mCharGenerator;
     const eActGenerator mActGenerator;

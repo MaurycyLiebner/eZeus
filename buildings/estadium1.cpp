@@ -5,8 +5,12 @@
 #include "textures/egametextures.h"
 #include "engine/egameboard.h"
 
-eStadium1Base::eStadium1Base(eGameBoard& board) :
-    eEmployingBuilding(board, eBuildingType::stadium1, 5, 5, 45) {
+eStadium1Base::eStadium1Base(eGameBoard& board,
+                             const eBaseTex baseTex) :
+    ePatrolTarget(board, eBuildingType::gymnasium,
+                  baseTex, 0, 0, eOverlays(),
+                  [this]() { return e::make_shared<eGymnast>(getBoard()); },
+                  eBuildingType::stadium1, 5, 5, 45) {
     board.registerStadium();
 }
 
@@ -15,14 +19,8 @@ eStadium1Base::~eStadium1Base() {
     b.unregisterStadium();
 }
 
-std::shared_ptr<eTexture> eStadium1W::getTexture(const eTileSize size) const {
-    const auto& texs = eGameTextures::buildings();
-    const int sizeId = static_cast<int>(size);
-    return texs[sizeId].fStadium1W;
-}
+eStadium1W::eStadium1W(eGameBoard& board) :
+    eStadium1Base(board, &eBuildingTextures::fStadium1W) {}
 
-std::shared_ptr<eTexture> eStadium1H::getTexture(const eTileSize size) const {
-    const auto& texs = eGameTextures::buildings();
-    const int sizeId = static_cast<int>(size);
-    return texs[sizeId].fStadium1H;
-}
+eStadium1H::eStadium1H(eGameBoard& board) :
+    eStadium1Base(board, &eBuildingTextures::fStadium1H) {}

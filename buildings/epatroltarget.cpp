@@ -33,9 +33,11 @@ void ePatrolTarget::timeChanged(const int by) {
     const int t = time();
     mActor -= by;
     if(mActor < 0) setSpawnPatrolers(false);
-    if(!mChar && t >= mSpawnTime) {
-        spawnGetActor();
-        mSpawnTime = t + mWaitTime;
+    if(enabled()) {
+        if(!mChar && t >= mSpawnTime) {
+            spawnGetActor();
+            mSpawnTime = t + mWaitTime;
+        }
     }
     ePatrolBuilding::timeChanged(by);
 }

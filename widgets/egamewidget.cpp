@@ -634,12 +634,12 @@ void eGameWidget::paintEvent(ePainter& p) {
             if(mRotate) {
                 const auto b1 = e::make_shared<eStadium1H>(mBoard);
                 ebs.emplace_back(gHoverX, gHoverY, b1);
-                const auto b2 = e::make_shared<eStadium2H>(mBoard);
+                const auto b2 = e::make_shared<eStadium2H>(mBoard, b1.get());
                 ebs.emplace_back(gHoverX, gHoverY + 5, b2);
             } else {
                 const auto b1 = e::make_shared<eStadium1W>(mBoard);
                 ebs.emplace_back(gHoverX, gHoverY, b1);
-                const auto b2 = e::make_shared<eStadium2W>(mBoard);
+                const auto b2 = e::make_shared<eStadium2W>(mBoard, b1.get());
                 ebs.emplace_back(gHoverX + 5, gHoverY, b2);
             }
         } break;
@@ -1098,10 +1098,14 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                         if(!t2) return;
                         const bool cb2 = canBuild(t2->x(), t2->y(), 5, 5);
                         if(!cb2) return;
-                        build(tile->x(), tile->y(), 5, 5,
-                              [this]() { return e::make_shared<eStadium1H>(mBoard); });
+                        eStadium1H* s1 = nullptr;
+                        build(tile->x(), tile->y(), 5, 5, [&]() {
+                            const auto r = e::make_shared<eStadium1H>(mBoard);
+                            s1 = r.get();
+                            return r;
+                        });
                         build(t2->x(), t2->y(), 5, 5,
-                              [this]() { return e::make_shared<eStadium2H>(mBoard); });
+                              [&]() { return e::make_shared<eStadium2H>(mBoard, s1); });
                     };
                 } else {
                     apply = [this](eTile*) {
@@ -1113,10 +1117,15 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                         if(!t2) return;
                         const bool cb2 = canBuild(t2->x(), t2->y(), 5, 5);
                         if(!cb2) return;
-                        build(tile->x(), tile->y(), 5, 5,
-                              [this]() { return e::make_shared<eStadium1W>(mBoard); });
+
+                        eStadium1W* s1 = nullptr;
+                        build(tile->x(), tile->y(), 5, 5, [&]() {
+                            const auto r = e::make_shared<eStadium1W>(mBoard);
+                            s1 = r.get();
+                            return r;
+                        });
                         build(t2->x(), t2->y(), 5, 5,
-                              [this]() { return e::make_shared<eStadium2W>(mBoard); });
+                              [&]() { return e::make_shared<eStadium2W>(mBoard, s1); });
                     };
                 }
                 break;
