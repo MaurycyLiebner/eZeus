@@ -44,6 +44,8 @@ public:
     eTextureCollection fStadiumOverlay3;
     eTextureCollection fStadiumOverlay4W;
     eTextureCollection fStadiumOverlay4H;
+    eTextureCollection fStadiumOverlay5W;
+    eTextureCollection fStadiumOverlay5H;
 
     eTextureCollection fStadiumAudiance1W;
     eTextureCollection fStadiumAudiance2W;

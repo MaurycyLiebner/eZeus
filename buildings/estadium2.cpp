@@ -22,9 +22,9 @@ eStadium2Base::eStadium2Base(eGameBoard& board,
 
 void eStadium2Base::timeChanged(const int by) {
     mOverlayTime += by;
-    if(mOverlayTime > 1000) {
+    if(mOverlayTime > 2000) {
         mOverlayTime = 0;
-        mOverlayId = (mOverlayId + 1) % 4;
+        mOverlayId = (mOverlayId + 1) % 5;
     }
     ePatrolTarget::timeChanged(by);
 }
@@ -36,17 +36,18 @@ eStadium2W::eStadium2W(eGameBoard& board, eStadium1W* const s1) :
 std::vector<eOverlay> eStadium2W::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& texs = eGameTextures::buildings()[sizeId];
-    const int t = textureTime();
 
     std::vector<eOverlay> os;
+
+    const int tt = textureTime();
 
     {
         const auto& coll = texs.fStadiumAudiance1W;
         eOverlay a0;
         a0.fX = -2.1;
         a0.fY = -7.2;
-        const int tt = t % coll.size();
-        a0.fTex = coll.getTexture(tt);
+        const int ttt = tt % coll.size();
+        a0.fTex = coll.getTexture(ttt);
         os.push_back(a0);
     }
     {
@@ -54,12 +55,13 @@ std::vector<eOverlay> eStadium2W::getOverlays(const eTileSize size) const {
         eOverlay a0;
         a0.fX = -2.1;
         a0.fY = -3.5;
-        const int tt = t % coll.size();
-        a0.fTex = coll.getTexture(tt);
+        const int ttt = tt % coll.size();
+        a0.fTex = coll.getTexture(ttt);
         os.push_back(a0);
     }
 
 
+    bool wrap = true;
     double ox = 0;
     double oy = -5;
     const eTextureCollection* coll = nullptr;
@@ -68,15 +70,24 @@ std::vector<eOverlay> eStadium2W::getOverlays(const eTileSize size) const {
         coll = &texs.fStadiumOverlay1;
         ox -= 2;
     } else if(oi == 1) {
-        coll = &texs.fStadiumOverlay2;
+        coll = &texs.fStadiumOverlay5W;
+        wrap = false;
+        ox -= 1;
     } else if(oi == 2) {
         coll = &texs.fStadiumOverlay3;
         ox -= 1;
-    } else {
+    } else if(oi == 3) {
         coll = &texs.fStadiumOverlay4W;
+        wrap = false;
+    } else {
+        coll = &texs.fStadiumOverlay2;
+        ox -= 3;
     }
-    const int tt = t % coll->size();
-    os.push_back(eOverlay{ox, oy, coll->getTexture(tt)});
+    const int t = overlayTime();
+
+    const int ttt = wrap ? t % coll->size() :
+                           std::clamp(t, 0, coll->size() - 1);
+    os.push_back(eOverlay{ox, oy, coll->getTexture(ttt)});
     return os;
 }
 
@@ -87,7 +98,7 @@ eStadium2H::eStadium2H(eGameBoard& board, eStadium1H* const s1) :
 std::vector<eOverlay> eStadium2H::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& texs = eGameTextures::buildings()[sizeId];
-    const int t = textureTime();
+    const int tt = textureTime();
 
     std::vector<eOverlay> os;
 
@@ -96,8 +107,8 @@ std::vector<eOverlay> eStadium2H::getOverlays(const eTileSize size) const {
         eOverlay a0;
         a0.fX = -2.0;
         a0.fY = -7.5;
-        const int tt = t % coll.size();
-        a0.fTex = coll.getTexture(tt);
+        const int ttt = tt % coll.size();
+        a0.fTex = coll.getTexture(ttt);
         os.push_back(a0);
     }
     {
@@ -105,12 +116,12 @@ std::vector<eOverlay> eStadium2H::getOverlays(const eTileSize size) const {
         eOverlay a0;
         a0.fX = 1.5;
         a0.fY = -7.5;
-        const int tt = t % coll.size();
-        a0.fTex = coll.getTexture(tt);
+        const int ttt = tt % coll.size();
+        a0.fTex = coll.getTexture(ttt);
         os.push_back(a0);
     }
 
-
+    bool wrap = true;
     double ox = 0;
     double oy = -6;
     const eTextureCollection* coll = nullptr;
@@ -119,15 +130,24 @@ std::vector<eOverlay> eStadium2H::getOverlays(const eTileSize size) const {
         coll = &texs.fStadiumOverlay1;
         oy -= 2;
     } else if(oi == 1) {
-        coll = &texs.fStadiumOverlay2;
+        coll = &texs.fStadiumOverlay5H;
+        wrap = false;
     } else if(oi == 2) {
         coll = &texs.fStadiumOverlay3;
         oy -= 1;
-    } else {
+    } else if(oi == 3) {
         coll = &texs.fStadiumOverlay4H;
-        oy += 1;
+        wrap = false;
+        oy += 0.5;
+    } else {
+        coll = &texs.fStadiumOverlay2;
+        oy -= 3;
     }
-    const int tt = t % coll->size();
-    os.push_back(eOverlay{ox, oy, coll->getTexture(tt)});
+
+    const int t = overlayTime();
+
+    const int ttt = wrap ? t % coll->size() :
+                           std::clamp(t, 0, coll->size() - 1);
+    os.push_back(eOverlay{ox, oy, coll->getTexture(ttt)});
     return os;
 }

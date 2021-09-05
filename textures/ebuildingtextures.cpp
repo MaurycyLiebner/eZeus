@@ -18,6 +18,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fStadiumOverlay3(renderer),
     fStadiumOverlay4W(renderer),
     fStadiumOverlay4H(renderer),
+    fStadiumOverlay5W(renderer),
+    fStadiumOverlay5H(renderer),
     fStadiumAudiance1W(renderer),
     fStadiumAudiance2W(renderer),
     fStadiumAudiance1H(renderer),
@@ -424,6 +426,19 @@ void eBuildingTextures::load() {
         for(int i = 1701; i < 1725; i++) {
             eTextureLoadingHelpers::loadTexWithOffset(
                         pathBase, i, fStadiumAudiance2H, eSprAmbientOffset);
+        }
+
+        for(int i = 1773; i < 1937;) {
+            for(int j = 0; j < 2; j++, i++) {
+                eTextureCollection* coll;
+                if(j == 0) {
+                    coll = &fStadiumOverlay5W;
+                } else {
+                    coll = &fStadiumOverlay5H;
+                }
+                eTextureLoadingHelpers::loadTexWithOffset(
+                            pathBase, i, *coll, eSprAmbientOffset);
+            }
         }
 
         for(int i = 2958; i < 3011; i++) {

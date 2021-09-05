@@ -18,6 +18,7 @@ public:
     void timeChanged(const int by);
 protected:
     int overlayId() const { return mOverlayId; }
+    int overlayTime() const { return mOverlayTime/20; }
 private:
     int mOverlayTime = 0;
     int mOverlayId = 0;
