@@ -11,8 +11,17 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fGymnasiumOverlay(renderer),
     fCollegeOverlay(renderer),
     fDramaSchoolOverlay(renderer),
-    fTheaterOverlay(renderer),
     fPodiumOverlay(renderer),
+    fTheaterOverlay(renderer),
+    fStadiumOverlay1(renderer),
+    fStadiumOverlay2(renderer),
+    fStadiumOverlay3(renderer),
+    fStadiumOverlay4W(renderer),
+    fStadiumOverlay4H(renderer),
+    fStadiumAudiance1W(renderer),
+    fStadiumAudiance2W(renderer),
+    fStadiumAudiance1H(renderer),
+    fStadiumAudiance2H(renderer),
 
     fPalaceTiles(renderer),
 
@@ -367,6 +376,54 @@ void eBuildingTextures::load() {
         for(int i = 656; i < 680; i++) {
             eTextureLoadingHelpers::loadTexWithOffset(
                         pathBase, i, fTheaterOverlay, eSprAmbientOffset);
+        }
+
+        for(int i = 1492; i < 1510; i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fStadiumOverlay1, eSprAmbientOffset);
+        }
+
+        for(int i = 1510; i < 1530; i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fStadiumOverlay2, eSprAmbientOffset);
+        }
+
+        for(int i = 1530; i < 1547; i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fStadiumOverlay3, eSprAmbientOffset);
+        }
+
+        for(int i = 1547; i < 1629;) {
+            for(int j = 0; j < 2; j++, i++) {
+                eTextureCollection* coll;
+                if(j == 0) {
+                    coll = &fStadiumOverlay4W;
+                } else {
+                    coll = &fStadiumOverlay4H;
+                }
+                eTextureLoadingHelpers::loadTexWithOffset(
+                            pathBase, i, *coll, eSprAmbientOffset);
+            }
+        }
+
+        for(int i = 1629; i < 1653; i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fStadiumAudiance1W, eSprAmbientOffset);
+        }
+
+        for(int i = 1653; i < 1677; i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fStadiumAudiance2W, eSprAmbientOffset);
+        }
+
+        for(int i = 1677; i < 1701; i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fStadiumAudiance1H, eSprAmbientOffset);
+        }
+
+        for(int i = 1701; i < 1725; i++) {
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        pathBase, i, fStadiumAudiance2H, eSprAmbientOffset);
         }
 
         for(int i = 2958; i < 3011; i++) {

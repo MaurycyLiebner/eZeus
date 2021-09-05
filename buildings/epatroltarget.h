@@ -15,8 +15,9 @@ public:
                   const eBuildingType type,
                   const int sw, const int sh,
                   const int maxEmployees);
-private:
+
     void timeChanged(const int by);
+private:
     void spawnGetActor();
 
     const eBuildingType mFromBuilding;

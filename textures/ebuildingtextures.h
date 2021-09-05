@@ -39,6 +39,18 @@ public:
     std::shared_ptr<eTexture> fStadium1W;
     std::shared_ptr<eTexture> fStadium2W;
 
+    eTextureCollection fStadiumOverlay1;
+    eTextureCollection fStadiumOverlay2;
+    eTextureCollection fStadiumOverlay3;
+    eTextureCollection fStadiumOverlay4W;
+    eTextureCollection fStadiumOverlay4H;
+
+    eTextureCollection fStadiumAudiance1W;
+    eTextureCollection fStadiumAudiance2W;
+
+    eTextureCollection fStadiumAudiance1H;
+    eTextureCollection fStadiumAudiance2H;
+
     std::shared_ptr<eTexture> fPalace1H;
     std::shared_ptr<eTexture> fPalace2H;
 
