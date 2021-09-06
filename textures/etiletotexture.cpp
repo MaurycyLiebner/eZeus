@@ -15,33 +15,23 @@
 #include "estonestodry.h"
 
 #include "buildings/ebuilding.h"
+#include "evaryingsizetex.h"
+#include "ebuildingtextures.h"
 
 std::shared_ptr<eTexture> getStonesTexture(eTile* const tile,
                           const eTextureCollection& small,
                           const eTextureCollection& large,
                           const eTextureCollection& huge,
                           int& futureDim, int& drawDim) {
-    eStonesToDry::get(tile, futureDim, drawDim);
-    if(drawDim == 0) {
-        return std::shared_ptr<eTexture>();
-    } else if(drawDim == 1) {
-        const auto& coll = small;
-        const int texId = tile->seed() % coll.size();
-        return coll.getTexture(texId);
-    } else if(drawDim == 2) {
-        const auto& coll = large;
-        const int texId = tile->seed() % coll.size();
-        return coll.getTexture(texId);
-    } else if(drawDim == 3) {
-        const auto& coll = huge;
-        const int texId = tile->seed() % coll.size();
-        return coll.getTexture(texId);
-    }
-    return std::shared_ptr<eTexture>();
+    return eVaryingSizeTex::getVaryingTexture(
+                 eStonesToDry::get, tile,
+                 small, large, huge,
+                 futureDim, drawDim);
 }
 
 std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
                              const eTerrainTextures& textures,
+                             const eBuildingTextures& buildTextures,
                              const eTileSize tileSize,
                              const bool drawElev,
                              int& futureDim,

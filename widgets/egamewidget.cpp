@@ -10,6 +10,9 @@
 #include "textures/etiletotexture.h"
 #include "textures/egametextures.h"
 
+#include "textures/eparktexture.h"
+#include "textures/evaryingsizetex.h"
+
 #include "characters/edemeter.h"
 #include "characters/egymnast.h"
 #include "characters/actions/emovearoundaction.h"
@@ -61,6 +64,8 @@
 #include "buildings/earmsvendor.h"
 #include "buildings/ehorsevendor.h"
 
+#include "buildings/epark.h"
+
 #include "characters/esheep.h"
 #include "characters/egoat.h"
 #include "characters/actions/eanimalaction.h"
@@ -76,6 +81,7 @@
 #include "engine/emapgenerator.h"
 
 #include "infowidgets/estorageinfowidget.h"
+
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window), mBoard(&mThreadPool) {}
@@ -423,7 +429,7 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         int drawDim;
         int futureDim;
-        auto tex = eTileToTexture::get(tile, trrTexs,
+        auto tex = eTileToTexture::get(tile, trrTexs, builTexs,
                                        mTileSize, mDrawElevation,
                                        futureDim, drawDim);
         tile->setFutureDimension(futureDim);
@@ -472,11 +478,37 @@ void eGameWidget::paintEvent(ePainter& p) {
             tp.drawTexture(rx, ry, *tex, eAlignment::top);
         }
         if(const auto d = tile->building()) {
-            if(!mPatrolBuilding && d->type() != eBuildingType::road) {
-                double rx;
-                double ry;
-                drawXY(tx, ty, rx, ry, d->spanW(), d->spanH(), a);
-                d->draw(tp, rx, ry);
+            const auto type = d->type();
+            if(!mPatrolBuilding && type != eBuildingType::road) {
+                if(type == eBuildingType::park) {
+                    int futureDim = 1;
+                    int drawDim = 1;
+                    const auto tex = eVaryingSizeTex::getVaryingTexture(
+                                         eParkTexture::get, tile,
+                                         builTexs.fPark,
+                                         builTexs.fLargePark,
+                                         builTexs.fHugePark,
+                                         futureDim, drawDim);
+                    tile->setFutureDimension(futureDim);
+                    if(drawDim > 0) {
+                        double rx;
+                        double ry;
+                        drawXY(tx, ty, rx, ry, 1, 1, a);
+                        if(drawDim == 2) {
+                            rx += 0.5;
+                            ry += 0.5;
+                        } else if(drawDim == 3) {
+                            rx += 1.0;
+                            ry += 1.0;
+                        }
+                        tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    }
+                } else {
+                    double rx;
+                    double ry;
+                    drawXY(tx, ty, rx, ry, d->spanW(), d->spanH(), a);
+                    d->draw(tp, rx, ry);
+                }
             }
         }
 
@@ -561,11 +593,14 @@ void eGameWidget::paintEvent(ePainter& p) {
     if(mPatrolBuilding) {
         const auto pgs = mPatrolBuilding->patrolGuides();
         if(!pgs->empty()) {
+            const auto t = mPatrolBuilding->tile();
             std::vector<SDL_Point> polygon;
-            polygon.reserve(pgs->size());
+            polygon.reserve(pgs->size() + 2);
+            pgs->push_back({t->x(), t->y()});
             for(const auto& pg : *pgs) {
                 polygon.push_back({pg.fX, pg.fY});
             }
+            pgs->push_back({t->x(), t->y()});
             tp.drawPolygon(polygon, {0, 0, 0, 255});
         }
     }
@@ -767,6 +802,11 @@ void eGameWidget::paintEvent(ePainter& p) {
         } break;
         case eBuildingMode::horseTrainer: {
             const auto b1 = e::make_shared<eHorseVendor>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+
+        case eBuildingMode::park: {
+            const auto b1 = e::make_shared<ePark>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
         default: break;
@@ -1357,6 +1397,13 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
                           [this]() { return e::make_shared<eHorseVendor>(mBoard); });
+                };
+                break;
+
+            case eBuildingMode::park:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 1, 1,
+                          [this]() { return e::make_shared<ePark>(mBoard); });
                 };
                 break;
             default: break;

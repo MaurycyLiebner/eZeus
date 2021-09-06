@@ -5,12 +5,14 @@
 
 class eTile;
 class eTerrainTextures;
+class eBuildingTextures;
 
 enum class eTileSize : int;
 
 namespace eTileToTexture {
     std::shared_ptr<eTexture> get(eTile* const tile,
                  const eTerrainTextures& textures,
+                 const eBuildingTextures& buildTextures,
                  const eTileSize tileSize,
                  const bool drawElev,
                  int& futureDim,

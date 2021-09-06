@@ -1,12 +1,12 @@
-#ifndef ESTONESTODRY_H
-#define ESTONESTODRY_H
+#ifndef EPARKTEXTURE_H
+#define EPARKTEXTURE_H
 
 class eTile;
 
-namespace eStonesToDry {
+namespace eParkTexture {
     void get(eTile* const tile,
              int& futureDim,
              int& drawDim);
 };
 
-#endif // ESTONESTODRY_H
+#endif // EPARKTEXTURE_H

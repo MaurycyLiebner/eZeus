@@ -44,6 +44,7 @@ SOURCES += \
         buildings/eonionfarm.cpp \
         buildings/epalace1.cpp \
         buildings/epalace2.cpp \
+        buildings/epark.cpp \
         buildings/epatrolbuilding.cpp \
         buildings/epatroltarget.cpp \
         buildings/epodium.cpp \
@@ -171,11 +172,13 @@ SOURCES += \
         textures/eforesttodry.cpp \
         textures/egametextures.cpp \
         textures/einterfacetextures.cpp \
+        textures/eparktexture.cpp \
         textures/estonestodry.cpp \
         textures/esurroundingterrain.cpp \
         textures/eterraintextures.cpp \
         textures/etextureloadinghelpers.cpp \
         textures/etiletotexture.cpp \
+        textures/evaryingsizetex.cpp \
         textures/ewatercorner.cpp \
         textures/ewatertobeach.cpp \
         textures/ewatertodry.cpp \
@@ -249,6 +252,7 @@ HEADERS += \
     buildings/eonionfarm.h \
     buildings/epalace1.h \
     buildings/epalace2.h \
+    buildings/epark.h \
     buildings/epatrolbuilding.h \
     buildings/epatroltarget.h \
     buildings/epodium.h \
@@ -385,11 +389,13 @@ HEADERS += \
     textures/eforesttodry.h \
     textures/egametextures.h \
     textures/einterfacetextures.h \
+    textures/eparktexture.h \
     textures/estonestodry.h \
     textures/esurroundingterrain.h \
     textures/eterraintextures.h \
     textures/etextureloadinghelpers.h \
     textures/etiletotexture.h \
+    textures/evaryingsizetex.h \
     textures/ewatercorner.h \
     textures/ewatertobeach.h \
     textures/ewatertodry.h \

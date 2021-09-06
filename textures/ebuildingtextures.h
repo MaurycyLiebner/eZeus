@@ -203,6 +203,16 @@ public:
     std::shared_ptr<eTexture> fGranaryOnions;
     std::shared_ptr<eTexture> fGranaryWheat;
 
+    eTextureCollection fPark;
+    eTextureCollection fLargePark;
+    eTextureCollection fHugePark;
+
+    eTexture fBench;
+    eTexture fFlowerGarden;
+    eTexture fGazebo;
+    eTexture fHedgeMaze;
+    eTexture fFishPond;
+
     eTextureCollection fClouds;
 };
 

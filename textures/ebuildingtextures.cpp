@@ -98,6 +98,10 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
 
     fGranaryOverlay(renderer),
 
+    fPark(renderer),
+    fLargePark(renderer),
+    fHugePark(renderer),
+
     fClouds(renderer) {
 
 }
@@ -609,6 +613,27 @@ void eBuildingTextures::load() {
         fGranaryOnions->setOffset(-4, 0);
         fGranaryWheat = std::make_shared<eTexture>();
         fGranaryWheat->load(fRenderer, pathBase + "00052.png");
+    }
+
+
+    {
+        const auto dir = basedir + "Zeus_General/";
+
+        const std::string pathBase{dir + "Zeus_Beautification2_"};
+
+        for(int i = 12; i < 16; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fPark);
+        }
+        for(int i = 16; i < 19; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fLargePark);
+        }
+        eTextureLoadingHelpers::loadTex(pathBase, 19, fHugePark);
+
+        fBench.load(fRenderer, pathBase + "00020.png");
+        fFlowerGarden.load(fRenderer, pathBase + "00021.png");
+        fGazebo.load(fRenderer, pathBase + "00022.png");
+        fHedgeMaze.load(fRenderer, pathBase + "00023.png");
+        fFishPond.load(fRenderer, pathBase + "00024.png");
     }
 
     {

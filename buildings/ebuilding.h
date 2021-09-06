@@ -79,6 +79,13 @@ enum class eBuildingType {
     palace1,
     palace2,
 
+    park,
+    bench,
+    flowerGarden,
+    gazebo,
+    hedgeMaze,
+    fishPond,
+
     road
 };
 

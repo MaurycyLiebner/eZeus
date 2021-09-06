@@ -327,7 +327,19 @@ void eGameMenu::initialize() {
                              {f8, &coll.fFortifications},
                              {mp8, &coll.fMilitaryProduction}});
 
-    const auto bb9 = [this, cmx, cmy, coll, mult]() {};
+    const auto bb9 = [this, cmx, cmy, coll, mult]() {
+        const auto cm = new eContextMenu(window());
+        for(const auto& c : {eSPR{eBuildingMode::park, "Park"},
+                             eSPR{eBuildingMode::bench, "Bench"},
+                             eSPR{eBuildingMode::flowerGarden, "Flower Garden"},
+                             eSPR{eBuildingMode::gazebo, "Gazebo"},
+                             eSPR{eBuildingMode::hedgeMaze, "Hedge Maze"},
+                             eSPR{eBuildingMode::fishPond, "Fish Pond"}}) {
+            addAction(c, mult, coll, cm);
+        }
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy, this);
+    };
     const auto r9 = [this, cmx, cmy, coll, mult]() {};
     const auto m9 = [this, cmx, cmy, coll, mult]() {};
     const auto w9 = createSubButtons(mult,

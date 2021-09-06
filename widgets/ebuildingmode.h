@@ -65,7 +65,14 @@ enum class eBuildingMode {
     watchpost,
 
     taxOffice,
-    palace
+    palace,
+
+    park,
+    bench,
+    flowerGarden,
+    gazebo,
+    hedgeMaze,
+    fishPond
 };
 
 namespace eBuildingModeHelpers {
