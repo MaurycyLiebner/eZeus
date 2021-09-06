@@ -122,6 +122,11 @@ int buildingBaseCost(const eBuildingType type) {
 
     case eBuildingType::park:
         return 6;
+    case eBuildingType::doricColumn:
+    case eBuildingType::ionicColumn:
+    case eBuildingType::corinthianColumn:
+        return 8;
+
     case eBuildingType::bench:
         return 6;
     case eBuildingType::flowerGarden:
@@ -132,6 +137,7 @@ int buildingBaseCost(const eBuildingType type) {
         return 40;
     case eBuildingType::fishPond:
         return 60;
+
     default:
         return 0;
     }
