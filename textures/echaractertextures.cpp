@@ -50,7 +50,9 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
     fTransporter(renderer),
 
-    fEmptyCart(renderer) {
+    fEmptyCart(renderer),
+
+    fOrangeTender(renderer) {
 
 }
 
@@ -870,6 +872,49 @@ void eCharacterTextures::load() {
             auto& lay = fDeer.fLayDown;
             eTextureLoadingHelpers::loadTexWithOffset(
                         ppathBase, i, lay[j], ePoseidonImpsOffset);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fOrangesCart.emplace_back(fRenderer);
+    }
+    for(int i = 1091; i < 1115;) {
+        for(int j = 0; j < 8; j++, i++) {
+            const auto r = eTextureLoadingHelpers::loadTexWithOffset(
+                        ppathBase, i, fOrangesCart[j], ePoseidonImpsOffset);
+        }
+    }
+
+
+    for(int j = 0; j < 8; j++) {
+        fOrangeTender.fWalk.emplace_back(fRenderer);
+        fOrangeTender.fWorkOnTree.emplace_back(fRenderer);
+        fOrangeTender.fCollect.emplace_back(fRenderer);
+    }
+    for(int i = 1211; i < 1307;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& walk = fOrangeTender.fWalk;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        ppathBase, i, walk[j], ePoseidonImpsOffset);
+        }
+    }
+    for(int i = 1307; i < 1315; i++) {
+        auto& die = fOrangeTender.fDie;
+        eTextureLoadingHelpers::loadTexWithOffset(
+                    ppathBase, i, die, ePoseidonImpsOffset);
+    }
+    for(int i = 1315; i < 1411;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& work = fOrangeTender.fWorkOnTree;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        ppathBase, i, work[j], ePoseidonImpsOffset);
+        }
+    }
+    for(int i = 1411; i < 1507;) {
+        for(int j = 0; j < 8; j++, i++) {
+            auto& collect = fOrangeTender.fCollect;
+            eTextureLoadingHelpers::loadTexWithOffset(
+                        ppathBase, i, collect[j], ePoseidonImpsOffset);
         }
     }
 

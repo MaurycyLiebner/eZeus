@@ -32,6 +32,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
 
     fOliveTree(renderer),
     fVine(renderer),
+    fOrangeTree(renderer),
+
     fWheat(renderer),
     fCarrots(renderer),
     fOnions(renderer),
@@ -42,6 +44,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fCardingShedOverlay(renderer),
     fDairyOverlay(renderer),
     fGrowersLodgeOverlay(renderer),
+    fCorralOverlay(renderer),
+    fOrangeTendersLodgeOverlay(renderer),
 
     fTimberMillOverlay(renderer),
     fMasonryShopStones(renderer),
@@ -664,6 +668,40 @@ void eBuildingTextures::load() {
         const auto cloudPathBase{dir + "cloud_"};
         for(int i = 1; i < 5; i++) {
             eTextureLoadingHelpers::loadTex(cloudPathBase, i, fClouds);
+        }
+    }
+    {
+        const auto dir = basedir + "Poseidon_Loaded/";
+
+        const std::string pathBase{dir + "Poseidon_Storage_"};
+
+        fCorral = std::make_shared<eTexture>();
+        fCorral->load(fRenderer, pathBase + "00001.png");
+
+        for(int i = 2; i < 49; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fCorralOverlay);
+        }
+
+        fOrangeTendersLodge = std::make_shared<eTexture>();
+        fOrangeTendersLodge->load(fRenderer, pathBase + "00051.png");
+
+        for(int i = 52; i < 87; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fOrangeTendersLodgeOverlay);
+        }
+
+        for(int i = 87; i < 91; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouseOranges);
+        }
+
+        for(int i = 99; i < 104; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWaitingOranges);
+        }
+
+        fGranaryOranges = std::make_shared<eTexture>();
+        fGranaryOranges->load(fRenderer, pathBase + "00122.png");
+
+        for(int i = 123; i < 129; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fOrangeTree);
         }
     }
 }

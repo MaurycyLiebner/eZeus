@@ -19,6 +19,14 @@ struct eResourceCollectorTextures : public eBasicCharacterTextures {
     std::vector<eTextureCollection> fCollect;
 };
 
+struct eOrangeTenderTextures : public eBasicCharacterTextures {
+    eOrangeTenderTextures(SDL_Renderer* const renderer) :
+        eBasicCharacterTextures(renderer) {}
+
+    std::vector<eTextureCollection> fWorkOnTree;
+    std::vector<eTextureCollection> fCollect;
+};
+
 struct eGrowerTextures : public eBasicCharacterTextures {
     eGrowerTextures(SDL_Renderer* const renderer) :
         eBasicCharacterTextures(renderer) {}
@@ -122,7 +130,11 @@ public:
     std::vector<eTextureCollection> fOliveOilCart;
     std::vector<eTextureCollection> fWineCart;
 
+    std::vector<eTextureCollection> fOrangesCart;
+
     std::vector<eTextureCollection> fFoodCart;
+
+    eOrangeTenderTextures fOrangeTender;
 };
 
 #endif // ECHARACTERTEXTURES_H

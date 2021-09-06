@@ -70,6 +70,7 @@ public:
 
     eTextureCollection fOliveTree;
     eTextureCollection fVine;
+    eTextureCollection fOrangeTree;
 
     std::shared_ptr<eTexture> fPlantation;
     eTextureCollection fWheat;
@@ -90,6 +91,12 @@ public:
 
     std::shared_ptr<eTexture> fGrowersLodge;
     eTextureCollection fGrowersLodgeOverlay;
+
+    std::shared_ptr<eTexture> fCorral;
+    eTextureCollection fCorralOverlay;
+
+    std::shared_ptr<eTexture> fOrangeTendersLodge;
+    eTextureCollection fOrangeTendersLodgeOverlay;
 
     std::shared_ptr<eTexture> fTimberMill;
     eTextureCollection fTimberMillOverlay;
@@ -142,6 +149,7 @@ public:
     eTextureCollection fWaitingMeat;
     eTextureCollection fWaitingCheese;
     eTextureCollection fWaitingWheat;
+    eTextureCollection fWaitingOranges;
     eTextureCollection fWaitingWood;
     eTextureCollection fWaitingBronze;
     eTextureCollection fWaitingGrapes;
@@ -180,6 +188,7 @@ public:
     eTextureCollection fWarehouseCarrots;
     eTextureCollection fWarehouseOnions;
     eTextureCollection fWarehouseWheat;
+    eTextureCollection fWarehouseOranges;
 
     eTextureCollection fWarehouseWood;
     eTextureCollection fWarehouseBronze;
@@ -202,6 +211,7 @@ public:
     std::shared_ptr<eTexture> fGranaryCarrots;
     std::shared_ptr<eTexture> fGranaryOnions;
     std::shared_ptr<eTexture> fGranaryWheat;
+    std::shared_ptr<eTexture> fGranaryOranges;
 
     eTextureCollection fPark;
     eTextureCollection fLargePark;
