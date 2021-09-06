@@ -68,6 +68,10 @@ enum class eBuildingMode {
     palace,
 
     park,
+    doricColumn,
+    ionicColumn,
+    corinthianColumn,
+
     bench,
     flowerGarden,
     gazebo,

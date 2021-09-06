@@ -65,6 +65,7 @@
 #include "buildings/ehorsevendor.h"
 
 #include "buildings/epark.h"
+#include "buildings/ecolumn.h"
 
 #include "characters/esheep.h"
 #include "characters/egoat.h"
@@ -809,6 +810,39 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = e::make_shared<ePark>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
+        case eBuildingMode::doricColumn: {
+            const auto b1 = e::make_shared<eDoricColumn>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::ionicColumn: {
+            const auto b1 = e::make_shared<eIonicColumn>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::corinthianColumn: {
+            const auto b1 = e::make_shared<eCorinthianColumn>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+
+        case eBuildingMode::bench: {
+            const auto b1 = e::make_shared<eBench>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::flowerGarden: {
+            const auto b1 = e::make_shared<eFlowerGarden>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::gazebo: {
+            const auto b1 = e::make_shared<eGazebo>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::hedgeMaze: {
+            const auto b1 = e::make_shared<eHedgeMaze>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::fishPond: {
+            const auto b1 = e::make_shared<eFishPond>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
         default: break;
         }
         bool cbg = true;
@@ -1404,6 +1438,56 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 1, 1,
                           [this]() { return e::make_shared<ePark>(mBoard); });
+                };
+                break;
+            case eBuildingMode::doricColumn:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 1, 1,
+                          [this]() { return e::make_shared<eDoricColumn>(mBoard); });
+                };
+                break;
+            case eBuildingMode::ionicColumn:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 1, 1,
+                          [this]() { return e::make_shared<eIonicColumn>(mBoard); });
+                };
+                break;
+            case eBuildingMode::corinthianColumn:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 1, 1,
+                          [this]() { return e::make_shared<eCorinthianColumn>(mBoard); });
+                };
+                break;
+
+
+            case eBuildingMode::bench:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 1, 1,
+                          [this]() { return e::make_shared<eBench>(mBoard); });
+                };
+                break;
+            case eBuildingMode::flowerGarden:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eFlowerGarden>(mBoard); });
+                };
+                break;
+            case eBuildingMode::gazebo:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eGazebo>(mBoard); });
+                };
+                break;
+            case eBuildingMode::hedgeMaze:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 3, 3,
+                          [this]() { return e::make_shared<eHedgeMaze>(mBoard); });
+                };
+                break;
+            case eBuildingMode::fishPond:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 4, 4,
+                          [this]() { return e::make_shared<eFishPond>(mBoard); });
                 };
                 break;
             default: break;

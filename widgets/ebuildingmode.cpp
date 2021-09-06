@@ -110,5 +110,25 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::taxOffice;
     case eBuildingMode::palace:
         return eBuildingType::palace1;
+
+    case eBuildingMode::park:
+        return eBuildingType::park;
+    case eBuildingMode::doricColumn:
+        return eBuildingType::doricColumn;
+    case eBuildingMode::ionicColumn:
+        return eBuildingType::ionicColumn;
+    case eBuildingMode::corinthianColumn:
+        return eBuildingType::corinthianColumn;
+
+    case eBuildingMode::bench:
+        return eBuildingType::bench;
+    case eBuildingMode::flowerGarden:
+        return eBuildingType::flowerGarden;
+    case eBuildingMode::gazebo:
+        return eBuildingType::gazebo;
+    case eBuildingMode::hedgeMaze:
+        return eBuildingType::hedgeMaze;
+    case eBuildingMode::fishPond:
+        return eBuildingType::fishPond;
     }
 }

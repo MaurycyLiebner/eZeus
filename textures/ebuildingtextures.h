@@ -207,11 +207,18 @@ public:
     eTextureCollection fLargePark;
     eTextureCollection fHugePark;
 
-    eTexture fBench;
-    eTexture fFlowerGarden;
-    eTexture fGazebo;
-    eTexture fHedgeMaze;
-    eTexture fFishPond;
+    std::shared_ptr<eTexture> fBench;
+    std::shared_ptr<eTexture> fFlowerGarden;
+    std::shared_ptr<eTexture> fGazebo;
+    std::shared_ptr<eTexture> fHedgeMaze;
+    std::shared_ptr<eTexture> fFishPond;
+
+    std::shared_ptr<eTexture> fDoricColumn;
+    std::shared_ptr<eTexture> fIonicColumn;
+    std::shared_ptr<eTexture> fCorinthianColumn;
+
+    std::shared_ptr<eTexture> fColumnConnectionH;
+    std::shared_ptr<eTexture> fColumnConnectionW;
 
     eTextureCollection fClouds;
 };

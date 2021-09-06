@@ -80,6 +80,10 @@ enum class eBuildingType {
     palace2,
 
     park,
+    doricColumn,
+    ionicColumn,
+    corinthianColumn,
+
     bench,
     flowerGarden,
     gazebo,

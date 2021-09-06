@@ -16,6 +16,7 @@ LIBS += -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 LIBS += -lnoise
 
 SOURCES += \
+        buildings/eaestheticsbuilding.cpp \
         buildings/earmory.cpp \
         buildings/earmsvendor.cpp \
         buildings/ebuilding.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
         buildings/ecardingshed.cpp \
         buildings/ecarrotfarm.cpp \
         buildings/ecollege.cpp \
+        buildings/ecolumn.cpp \
         buildings/edairy.cpp \
         buildings/edramaschool.cpp \
         buildings/eemployingbuilding.cpp \
@@ -224,6 +226,7 @@ SOURCES += \
         widgets/infowidgets/estorageinfowidget.cpp
 
 HEADERS += \
+    buildings/eaestheticsbuilding.h \
     buildings/earmory.h \
     buildings/earmsvendor.h \
     buildings/ebuilding.h \
@@ -231,6 +234,7 @@ HEADERS += \
     buildings/ecardingshed.h \
     buildings/ecarrotfarm.h \
     buildings/ecollege.h \
+    buildings/ecolumn.h \
     buildings/edairy.h \
     buildings/edramaschool.h \
     buildings/eemployingbuilding.h \

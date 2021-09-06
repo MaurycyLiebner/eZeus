@@ -119,6 +119,21 @@ int buildingBaseCost(const eBuildingType type) {
         return 75;
     case eBuildingType::horseRanch:
         return 100;
+
+    case eBuildingType::park:
+        return 6;
+    case eBuildingType::bench:
+        return 6;
+    case eBuildingType::flowerGarden:
+        return 20;
+    case eBuildingType::gazebo:
+        return 24;
+    case eBuildingType::hedgeMaze:
+        return 40;
+    case eBuildingType::fishPond:
+        return 60;
+    default:
+        return 0;
     }
 }
 

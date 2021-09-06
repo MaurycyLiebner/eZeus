@@ -629,13 +629,29 @@ void eBuildingTextures::load() {
         }
         eTextureLoadingHelpers::loadTex(pathBase, 19, fHugePark);
 
-        fBench.load(fRenderer, pathBase + "00020.png");
-        fFlowerGarden.load(fRenderer, pathBase + "00021.png");
-        fGazebo.load(fRenderer, pathBase + "00022.png");
-        fHedgeMaze.load(fRenderer, pathBase + "00023.png");
-        fFishPond.load(fRenderer, pathBase + "00024.png");
-    }
+        fBench = std::make_shared<eTexture>();
+        fBench->load(fRenderer, pathBase + "00020.png");
+        fFlowerGarden = std::make_shared<eTexture>();
+        fFlowerGarden->load(fRenderer, pathBase + "00021.png");
+        fGazebo = std::make_shared<eTexture>();
+        fGazebo->load(fRenderer, pathBase + "00022.png");
+        fHedgeMaze = std::make_shared<eTexture>();
+        fHedgeMaze->load(fRenderer, pathBase + "00023.png");
+        fFishPond = std::make_shared<eTexture>();
+        fFishPond->load(fRenderer, pathBase + "00024.png");
 
+        fDoricColumn = std::make_shared<eTexture>();
+        fDoricColumn->load(fRenderer, pathBase + "00034.png");
+        fIonicColumn = std::make_shared<eTexture>();
+        fIonicColumn->load(fRenderer, pathBase + "00035.png");
+        fCorinthianColumn = std::make_shared<eTexture>();
+        fCorinthianColumn->load(fRenderer, pathBase + "00036.png");
+
+        fColumnConnectionH = std::make_shared<eTexture>();
+        fColumnConnectionH->load(fRenderer, pathBase + "00037.png");
+        fColumnConnectionW = std::make_shared<eTexture>();
+        fColumnConnectionW->load(fRenderer, pathBase + "00038.png");
+    }
     {
         const auto dir = basedir + "Zeus_Added/";
 

@@ -330,7 +330,17 @@ void eGameMenu::initialize() {
     const auto bb9 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::park, "Park"},
-                             eSPR{eBuildingMode::bench, "Bench"},
+                             eSPR{eBuildingMode::doricColumn, "Doric Column"},
+                             eSPR{eBuildingMode::ionicColumn, "Ionic Column"},
+                             eSPR{eBuildingMode::corinthianColumn, "Corinthian Column"}}) {
+            addAction(c, mult, coll, cm);
+        }
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy, this);
+    };
+    const auto r9 = [this, cmx, cmy, coll, mult]() {
+        const auto cm = new eContextMenu(window());
+        for(const auto& c : {eSPR{eBuildingMode::bench, "Bench"},
                              eSPR{eBuildingMode::flowerGarden, "Flower Garden"},
                              eSPR{eBuildingMode::gazebo, "Gazebo"},
                              eSPR{eBuildingMode::hedgeMaze, "Hedge Maze"},
@@ -340,7 +350,6 @@ void eGameMenu::initialize() {
         cm->fitContent();
         cm->exec(cmx - cm->width(), cmy, this);
     };
-    const auto r9 = [this, cmx, cmy, coll, mult]() {};
     const auto m9 = [this, cmx, cmy, coll, mult]() {};
     const auto w9 = createSubButtons(mult,
                         eButtonsDataVec{
