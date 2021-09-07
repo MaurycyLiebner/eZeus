@@ -8,7 +8,7 @@
 
 class eContextMenu : public eActionListWidget {
 public:
-    using eActionListWidget::eActionListWidget;
+    eContextMenu(eMainWindow* const window);
 
     void exec(const int x, const int y,
               eWidget* const w);

@@ -919,16 +919,18 @@ void eGameWidget::paintEvent(ePainter& p) {
             double rx;
             double ry;
             drawXY(eb.fTx, eb.fTy, rx, ry, sw, sh, a);
-            auto tex = b->getTexture(tp.size());
+            const auto tex = b->getTexture(tp.size());
 
-            if(cbg) tex->setColorMod(0, 255, 0);
-            else tex->setColorMod(255, 0, 0);
-            tp.drawTexture(rx, ry, tex, eAlignment::top);
-            tex->clearColorMod();
+            if(tex) {
+                if(cbg) tex->setColorMod(0, 255, 0);
+                else tex->setColorMod(255, 0, 0);
+                tp.drawTexture(rx, ry, tex, eAlignment::top);
+                tex->clearColorMod();
+            }
 
-            auto overlays = b->getOverlays(tp.size());
-            for(auto& o : overlays) {
-                auto& ttex = o.fTex;
+            const auto overlays = b->getOverlays(tp.size());
+            for(const auto& o : overlays) {
+                const auto& ttex = o.fTex;
                 if(cbg) ttex->setColorMod(0, 255, 0);
                 else ttex->setColorMod(255, 0, 0);
                 if(o.fAlignTop) tp.drawTexture(rx + o.fX, ry + o.fY, ttex,

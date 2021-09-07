@@ -95,7 +95,7 @@ void eGameMenu::initialize() {
     fitContent();
 
     const int cmx = -padding();
-    const int cmy = height()/2;
+    const int cmy = 3*height()/4;
 
     const auto cha0 = [this]() {
         setMode(eBuildingMode::commonHousing);
@@ -128,7 +128,7 @@ void eGameMenu::initialize() {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
-        cm->exec(cmx - cm->width(), cmy, this);
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto of1 = [this, cmx, cmy, mult, coll]() {
         const auto cm = new eContextMenu(window());
@@ -138,7 +138,7 @@ void eGameMenu::initialize() {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
-        cm->exec(cmx - cm->width(), cmy, this);
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto af1 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
@@ -149,7 +149,7 @@ void eGameMenu::initialize() {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
-        cm->exec(cmx - cm->width(), cmy, this);
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto ah1 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
@@ -159,7 +159,7 @@ void eGameMenu::initialize() {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
-        cm->exec(cmx - cm->width(), cmy, this);
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
 
     const auto w1 = createSubButtons(mult,
@@ -179,7 +179,7 @@ void eGameMenu::initialize() {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
-        cm->exec(cmx - cm->width(), cmy, this);
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto p2 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
@@ -189,7 +189,7 @@ void eGameMenu::initialize() {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
-        cm->exec(cmx - cm->width(), cmy, this);
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto bg2 = [this]() {
         setMode(eBuildingMode::artisansGuild);
@@ -230,7 +230,7 @@ void eGameMenu::initialize() {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
-        cm->exec(cmx - cm->width(), cmy, this);
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto t3 = [this, cmx, cmy, coll, mult]() {};
     const auto w3 = createSubButtons(mult,
@@ -281,7 +281,7 @@ void eGameMenu::initialize() {
            addAction(c, mult, coll, cm);
         }
         cm->fitContent();
-        cm->exec(cmx - cm->width(), cmy, this);
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto g6 = [this]() {
         setMode(eBuildingMode::gymnasium);
@@ -293,7 +293,7 @@ void eGameMenu::initialize() {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
-        cm->exec(cmx - cm->width(), cmy, this);
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto s6 = [this]() {
         setMode(eBuildingMode::stadium);
@@ -320,7 +320,7 @@ void eGameMenu::initialize() {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
-        cm->exec(cmx - cm->width(), cmy, this);
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto w8 = createSubButtons(mult,
                         eButtonsDataVec{
@@ -337,7 +337,7 @@ void eGameMenu::initialize() {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
-        cm->exec(cmx - cm->width(), cmy, this);
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto r9 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
@@ -359,7 +359,7 @@ void eGameMenu::initialize() {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
-        cm->exec(cmx - cm->width(), cmy, this);
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto m9 = [this, cmx, cmy, coll, mult]() {};
     const auto w9 = createSubButtons(mult,

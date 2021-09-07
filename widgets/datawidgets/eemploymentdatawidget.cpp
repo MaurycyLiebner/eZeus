@@ -9,24 +9,28 @@ void eEmploymentDataWidget::initialize() {
     p->setSmallFontSize();
     p->fitContent();
     mPensionsLabel = new eLabel("-", window());
+    mPensionsLabel->setSmallFontSize();
     mPensionsLabel->fitContent();
 
     const auto w = new eLabel("Workforce:", window());
     w->setSmallFontSize();
     w->fitContent();
     mWorkforceLabel = new eLabel("-", window());
+    mWorkforceLabel->setSmallFontSize();
     mWorkforceLabel->fitContent();
 
     mUnemployedLabel = new eLabel("Unemployed:", window());
     mUnemployedLabel->setSmallFontSize();
     mUnemployedLabel->fitContent();
     mUnemployedNLabel = new eLabel("-", window());
+    mUnemployedNLabel->setSmallFontSize();
     mUnemployedNLabel->fitContent();
 
     mVacanciesLabel = new eLabel("Job Vacancies:", window());
     mVacanciesLabel->setSmallFontSize();
     mVacanciesLabel->fitContent();
     mVacanciesNLabel = new eLabel("-", window());
+    mVacanciesNLabel->setSmallFontSize();
     mVacanciesNLabel->fitContent();
 
     addWidget(p);

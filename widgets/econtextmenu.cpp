@@ -2,6 +2,12 @@
 
 #include "textures/egametextures.h"
 
+eContextMenu::eContextMenu(eMainWindow* const window) :
+    eActionListWidget(window) {
+    setSmallFontSize();
+    setPadding(padding()/2);
+}
+
 void eContextMenu::exec(const int x, const int y,
                         eWidget* const w) {
     int gx = x;

@@ -246,6 +246,7 @@ public:
     std::shared_ptr<eTexture> fGazebo;
     std::shared_ptr<eTexture> fHedgeMaze;
     std::shared_ptr<eTexture> fFishPond;
+    eTextureCollection fFishPondOverlay;
 
     std::shared_ptr<eTexture> fDoricColumn;
     std::shared_ptr<eTexture> fIonicColumn;

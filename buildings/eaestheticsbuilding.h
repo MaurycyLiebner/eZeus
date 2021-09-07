@@ -58,7 +58,7 @@ public:
     eHedgeMaze(eGameBoard& board);
 };
 
-class eFishPond : public eAestheticsBuilding {
+class eFishPond : public eOverlayAesthBuilding {
 public:
     eFishPond(eGameBoard& board);
 };

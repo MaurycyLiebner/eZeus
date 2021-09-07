@@ -45,8 +45,10 @@ eHedgeMaze::eHedgeMaze(eGameBoard& board) :
 }
 
 eFishPond::eFishPond(eGameBoard& board) :
-    eAestheticsBuilding(board, &eBuildingTextures::fFishPond,
-                        eBuildingType::fishPond, 4, 4) {
+    eOverlayAesthBuilding(board, &eBuildingTextures::fFishPond,
+                          -2.1, -4.30,
+                          &eBuildingTextures::fFishPondOverlay,
+                          eBuildingType::fishPond, 4, 4) {
 
 }
 
@@ -118,7 +120,7 @@ eDolphinSculpture::eDolphinSculpture(eGameBoard& board) :
 
 eSpring::eSpring(eGameBoard& board) :
     eOverlayAesthBuilding(board, nullptr,
-                          0.0, 0.0,
+                          -3.0, -3.0,
                           &eBuildingTextures::fSpring,
                           eBuildingType::spring, 3, 3) {
 
@@ -133,7 +135,7 @@ eTopiary::eTopiary(eGameBoard& board) :
 
 eBaths::eBaths(eGameBoard& board) :
     eOverlayAesthBuilding(board, &eBuildingTextures::fBaths,
-                          0.0, 0.0,
+                          -2.39, -3.20,
                           &eBuildingTextures::fBathsOverlay,
                           eBuildingType::baths, 4, 4) {
 
@@ -141,7 +143,7 @@ eBaths::eBaths(eGameBoard& board) :
 
 eStoneCircle::eStoneCircle(eGameBoard& board) :
     eOverlayAesthBuilding(board, &eBuildingTextures::fStoneCircle,
-                          0.0, 0.0,
+                          -0.5, -4.0,
                           &eBuildingTextures::fStoneCircleOverlay,
                           eBuildingType::stoneCircle, 4, 4) {
 

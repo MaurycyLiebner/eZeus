@@ -9,16 +9,19 @@ void ePopulationDataWidget::initialize() {
     p->setSmallFontSize();
     p->fitContent();
     mPopLabel = new eLabel("-", window());
+    mPopLabel->setSmallFontSize();
     mPopLabel->fitContent();
     const auto v = new eLabel("Vacancies:", window());
     v->setSmallFontSize();
     v->fitContent();
     mVacLabel = new eLabel("-", window());
+    mVacLabel->setSmallFontSize();
     mVacLabel->fitContent();
     const auto s = new eLabel("Settlers:", window());
     s->setSmallFontSize();
     s->fitContent();
     mSetLabel = new eLabel("-", window());
+    mSetLabel->setSmallFontSize();
     mSetLabel->fitContent();
 
     addWidget(p);

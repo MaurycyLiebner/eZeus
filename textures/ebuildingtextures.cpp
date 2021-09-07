@@ -117,6 +117,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fWaterPark7Overlay(renderer),
     fWaterPark8Overlay(renderer),
 
+    fFishPondOverlay(renderer),
+
     fBirdBathOverlay(renderer),
     fSpring(renderer),
     fBathsOverlay(renderer),
@@ -468,6 +470,10 @@ void eBuildingTextures::load() {
         for(int i = 2958; i < 3011; i++) {
             eTextureLoadingHelpers::loadTexWithOffset(
                         pathBase, i, fWatchPostOverlay, eSprAmbientOffset);
+        }
+
+        for(int i = 2759; i < 2790; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fFishPondOverlay);
         }
     }
 
