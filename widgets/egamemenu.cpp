@@ -330,6 +330,7 @@ void eGameMenu::initialize() {
     const auto bb9 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::park, "Park"},
+                             eSPR{eBuildingMode::waterPark, "Water Park"},
                              eSPR{eBuildingMode::doricColumn, "Doric Column"},
                              eSPR{eBuildingMode::ionicColumn, "Ionic Column"},
                              eSPR{eBuildingMode::corinthianColumn, "Corinthian Column"}}) {
@@ -341,10 +342,20 @@ void eGameMenu::initialize() {
     const auto r9 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::bench, "Bench"},
+                             eSPR{eBuildingMode::birdBath, "Bird Bath"},
+                             eSPR{eBuildingMode::shortObelisk, "Short Obelisk"},
+                             eSPR{eBuildingMode::tallObelisk, "Tall Obelisk"},
                              eSPR{eBuildingMode::flowerGarden, "Flower Garden"},
                              eSPR{eBuildingMode::gazebo, "Gazebo"},
+                             eSPR{eBuildingMode::shellGarden, "Shell Garden"},
+                             eSPR{eBuildingMode::sundial, "Sundial"},
                              eSPR{eBuildingMode::hedgeMaze, "Hedge Maze"},
-                             eSPR{eBuildingMode::fishPond, "Fish Pond"}}) {
+                             eSPR{eBuildingMode::dolphinSculpture, "Dolphin Sculpture"},
+                             eSPR{eBuildingMode::spring, "Spring"},
+                             eSPR{eBuildingMode::topiary, "Topiary"},
+                             eSPR{eBuildingMode::fishPond, "Fish Pond"},
+                             eSPR{eBuildingMode::baths, "Baths"},
+                             eSPR{eBuildingMode::stoneCircle, "Stone Circle"}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();

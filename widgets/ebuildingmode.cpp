@@ -130,5 +130,30 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::hedgeMaze;
     case eBuildingMode::fishPond:
         return eBuildingType::fishPond;
+
+    case eBuildingMode::waterPark:
+        return eBuildingType::waterPark;
+
+    case eBuildingMode::birdBath:
+        return eBuildingType::birdBath;
+    case eBuildingMode::shortObelisk:
+        return eBuildingType::shortObelisk;
+    case eBuildingMode::tallObelisk:
+        return eBuildingType::tallObelisk;
+    case eBuildingMode::shellGarden:
+        return eBuildingType::shellGarden;
+    case eBuildingMode::sundial:
+        return eBuildingType::sundial;
+    case eBuildingMode::dolphinSculpture:
+        return eBuildingType::dolphinSculpture;
+    case eBuildingMode::spring:
+        return eBuildingType::spring;
+    case eBuildingMode::topiary:
+        return eBuildingType::topiary;
+    case eBuildingMode::baths:
+        return eBuildingType::baths;
+    case eBuildingMode::stoneCircle:
+        return eBuildingType::stoneCircle;
+
     }
 }

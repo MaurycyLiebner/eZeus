@@ -90,6 +90,19 @@ enum class eBuildingType {
     hedgeMaze,
     fishPond,
 
+    waterPark,
+
+    birdBath,
+    shortObelisk,
+    tallObelisk,
+    shellGarden,
+    sundial,
+    dolphinSculpture,
+    spring,
+    topiary,
+    baths,
+    stoneCircle,
+
     road
 };
 

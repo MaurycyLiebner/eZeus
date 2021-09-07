@@ -44,7 +44,7 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fCardingShedOverlay(renderer),
     fDairyOverlay(renderer),
     fGrowersLodgeOverlay(renderer),
-    fCorralOverlay(renderer),
+//    fCorralOverlay(renderer),
     fOrangeTendersLodgeOverlay(renderer),
 
     fTimberMillOverlay(renderer),
@@ -72,6 +72,7 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fWaitingMeat(renderer),
     fWaitingCheese(renderer),
     fWaitingWheat(renderer),
+    fWaitingOranges(renderer),
     fWaitingWood(renderer),
     fWaitingBronze(renderer),
     fWaitingGrapes(renderer),
@@ -90,6 +91,7 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fWarehouseCarrots(renderer),
     fWarehouseOnions(renderer),
     fWarehouseWheat(renderer),
+    fWarehouseOranges(renderer),
     fWarehouseWood(renderer),
     fWarehouseBronze(renderer),
     fWarehouseMarble(renderer),
@@ -105,6 +107,20 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fPark(renderer),
     fLargePark(renderer),
     fHugePark(renderer),
+
+    fWaterPark1Overlay(renderer),
+    fWaterPark2Overlay(renderer),
+    fWaterPark3Overlay(renderer),
+    fWaterPark4Overlay(renderer),
+    fWaterPark5Overlay(renderer),
+    fWaterPark6Overlay(renderer),
+    fWaterPark7Overlay(renderer),
+    fWaterPark8Overlay(renderer),
+
+    fBirdBathOverlay(renderer),
+    fSpring(renderer),
+    fBathsOverlay(renderer),
+    fStoneCircleOverlay(renderer),
 
     fClouds(renderer) {
 
@@ -673,14 +689,72 @@ void eBuildingTextures::load() {
     {
         const auto dir = basedir + "Poseidon_Loaded/";
 
+        {
+            const std::string pathBase{dir + "Poseidon_aesthetic_"};
+            fTallObelisk = std::make_shared<eTexture>();
+            fTallObelisk->load(fRenderer, pathBase + "00017.png");
+            fSundial = std::make_shared<eTexture>();
+            fSundial->load(fRenderer, pathBase + "00018.png");
+            fTopiary = std::make_shared<eTexture>();
+            fTopiary->load(fRenderer, pathBase + "00019.png");
+
+            for(int i = 20; i < 27; i++) {
+                eTextureLoadingHelpers::loadTex(pathBase, i, fSpring);
+            }
+            fStoneCircle = std::make_shared<eTexture>();
+            fStoneCircle->load(fRenderer, pathBase + "00027.png");
+            for(int i = 28; i < 33; i++) {
+                eTextureLoadingHelpers::loadTex(pathBase, i, fStoneCircleOverlay);
+            }
+            fDolphinSculpture = std::make_shared<eTexture>();
+            fDolphinSculpture->load(fRenderer, pathBase + "00033.png");
+            fShellGarden = std::make_shared<eTexture>();
+            fShellGarden->load(fRenderer, pathBase + "00035.png");
+
+            fBaths = std::make_shared<eTexture>();
+            fBaths->load(fRenderer, pathBase + "00036.png");
+            for(int i = 37; i < 53; i++) {
+                eTextureLoadingHelpers::loadTex(pathBase, i, fBathsOverlay);
+            }
+
+            fBirdBath = std::make_shared<eTexture>();
+            fBirdBath->load(fRenderer, pathBase + "00053.png");
+            for(int i = 54; i < 63; i++) {
+                eTextureLoadingHelpers::loadTex(pathBase, i, fBirdBathOverlay);
+            }
+
+            fShortObelisk = std::make_shared<eTexture>();
+            fShortObelisk->load(fRenderer, pathBase + "00063.png");
+            const auto loadWaterPark = [&](const int i,
+                                           std::shared_ptr<eTexture>& tex,
+                                           eTextureCollection& overlay) {
+                tex = std::make_shared<eTexture>();
+                auto tn = std::to_string(i);
+                tn = eTextureLoadingHelpers::addZeroes(tn);
+                tex->load(fRenderer, pathBase + tn + ".png");
+                const int jMax = i + 8;
+                for(int j = i + 1; j < jMax; j++) {
+                    eTextureLoadingHelpers::loadTex(pathBase, j, overlay);
+                }
+            };
+            loadWaterPark(64, fWaterPark1, fWaterPark1Overlay);
+            loadWaterPark(72, fWaterPark2, fWaterPark2Overlay);
+            loadWaterPark(80, fWaterPark3, fWaterPark3Overlay);
+            loadWaterPark(88, fWaterPark4, fWaterPark4Overlay);
+            loadWaterPark(96, fWaterPark5, fWaterPark5Overlay);
+            loadWaterPark(104, fWaterPark6, fWaterPark6Overlay);
+            loadWaterPark(112, fWaterPark7, fWaterPark7Overlay);
+            loadWaterPark(120, fWaterPark8, fWaterPark8Overlay);
+        }
+
         const std::string pathBase{dir + "Poseidon_Storage_"};
 
-        fCorral = std::make_shared<eTexture>();
-        fCorral->load(fRenderer, pathBase + "00001.png");
+//        fCorral = std::make_shared<eTexture>();
+//        fCorral->load(fRenderer, pathBase + "00001.png");
 
-        for(int i = 2; i < 49; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fCorralOverlay);
-        }
+//        for(int i = 2; i < 49; i++) {
+//            eTextureLoadingHelpers::loadTex(pathBase, i, fCorralOverlay);
+//        }
 
         fOrangeTendersLodge = std::make_shared<eTexture>();
         fOrangeTendersLodge->load(fRenderer, pathBase + "00051.png");

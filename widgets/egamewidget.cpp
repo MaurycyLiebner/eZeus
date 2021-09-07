@@ -358,6 +358,10 @@ void eGameWidget::updateMinimap() {
     mm->viewFraction(fx, fy);
 }
 
+int eGameWidget::waterParkId() const {
+    return mTime/(mSpeed*150);
+}
+
 bool eGameWidget::build(const int tx, const int ty,
                         const int sw, const int sh,
                         const eBuildingCreator& bc,
@@ -841,6 +845,53 @@ void eGameWidget::paintEvent(ePainter& p) {
         } break;
         case eBuildingMode::fishPond: {
             const auto b1 = e::make_shared<eFishPond>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+
+        case eBuildingMode::waterPark: {
+            const auto b1 = e::make_shared<eWaterPark>(mBoard);
+            b1->setId(waterParkId());
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+
+        case eBuildingMode::birdBath: {
+            const auto b1 = e::make_shared<eBirdBath>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::shortObelisk: {
+            const auto b1 = e::make_shared<eShortObelisk>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::tallObelisk: {
+            const auto b1 = e::make_shared<eTallObelisk>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::shellGarden: {
+            const auto b1 = e::make_shared<eShellGarden>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::sundial: {
+            const auto b1 = e::make_shared<eSundial>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::dolphinSculpture: {
+            const auto b1 = e::make_shared<eDolphinSculpture>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::spring: {
+            const auto b1 = e::make_shared<eSpring>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::topiary: {
+            const auto b1 = e::make_shared<eTopiary>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::baths: {
+            const auto b1 = e::make_shared<eBaths>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::stoneCircle: {
+            const auto b1 = e::make_shared<eStoneCircle>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
         default: break;
@@ -1488,6 +1539,77 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 4, 4,
                           [this]() { return e::make_shared<eFishPond>(mBoard); });
+                };
+                break;
+
+            case eBuildingMode::waterPark:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2, [this]() {
+                        const auto b = e::make_shared<eWaterPark>(mBoard);
+                        b->setId(waterParkId());
+                        return b;
+                    });
+                };
+                break;
+
+            case eBuildingMode::birdBath:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 1, 1,
+                          [this]() { return e::make_shared<eBirdBath>(mBoard); });
+                };
+                break;
+            case eBuildingMode::shortObelisk:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 1, 1,
+                          [this]() { return e::make_shared<eShortObelisk>(mBoard); });
+                };
+                break;
+            case eBuildingMode::tallObelisk:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 1, 1,
+                          [this]() { return e::make_shared<eTallObelisk>(mBoard); });
+                };
+                break;
+            case eBuildingMode::shellGarden:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eShellGarden>(mBoard); });
+                };
+                break;
+            case eBuildingMode::sundial:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eSundial>(mBoard); });
+                };
+                break;
+            case eBuildingMode::dolphinSculpture:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 3, 3,
+                          [this]() { return e::make_shared<eDolphinSculpture>(mBoard); });
+                };
+                break;
+            case eBuildingMode::spring:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 3, 3,
+                          [this]() { return e::make_shared<eSpring>(mBoard); });
+                };
+                break;
+            case eBuildingMode::topiary:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 3, 3,
+                          [this]() { return e::make_shared<eTopiary>(mBoard); });
+                };
+                break;
+            case eBuildingMode::baths:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 4, 4,
+                          [this]() { return e::make_shared<eBaths>(mBoard); });
+                };
+                break;
+            case eBuildingMode::stoneCircle:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 4, 4,
+                          [this]() { return e::make_shared<eStoneCircle>(mBoard); });
                 };
                 break;
             default: break;

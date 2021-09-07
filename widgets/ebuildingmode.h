@@ -76,7 +76,20 @@ enum class eBuildingMode {
     flowerGarden,
     gazebo,
     hedgeMaze,
-    fishPond
+    fishPond,
+
+    waterPark,
+
+    birdBath,
+    shortObelisk,
+    tallObelisk,
+    shellGarden,
+    sundial,
+    dolphinSculpture,
+    spring,
+    topiary,
+    baths,
+    stoneCircle
 };
 
 namespace eBuildingModeHelpers {

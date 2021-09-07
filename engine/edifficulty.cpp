@@ -138,6 +138,30 @@ int buildingBaseCost(const eBuildingType type) {
     case eBuildingType::fishPond:
         return 60;
 
+    case eBuildingType::waterPark:
+        return 16;
+
+    case eBuildingType::birdBath:
+        return 6;
+    case eBuildingType::shortObelisk:
+        return 10;
+    case eBuildingType::tallObelisk:
+        return 12;
+    case eBuildingType::shellGarden:
+        return 20;
+    case eBuildingType::sundial:
+        return 20;
+    case eBuildingType::dolphinSculpture:
+        return 40;
+    case eBuildingType::spring:
+        return 40;
+    case eBuildingType::topiary:
+        return 38;
+    case eBuildingType::baths:
+        return 60;
+    case eBuildingType::stoneCircle:
+        return 60;
+
     default:
         return 0;
     }

@@ -92,8 +92,8 @@ public:
     std::shared_ptr<eTexture> fGrowersLodge;
     eTextureCollection fGrowersLodgeOverlay;
 
-    std::shared_ptr<eTexture> fCorral;
-    eTextureCollection fCorralOverlay;
+//    std::shared_ptr<eTexture> fCorral;
+//    eTextureCollection fCorralOverlay;
 
     std::shared_ptr<eTexture> fOrangeTendersLodge;
     eTextureCollection fOrangeTendersLodgeOverlay;
@@ -217,6 +217,30 @@ public:
     eTextureCollection fLargePark;
     eTextureCollection fHugePark;
 
+    std::shared_ptr<eTexture> fWaterPark1;
+    eTextureCollection fWaterPark1Overlay;
+
+    std::shared_ptr<eTexture> fWaterPark2;
+    eTextureCollection fWaterPark2Overlay;
+
+    std::shared_ptr<eTexture> fWaterPark3;
+    eTextureCollection fWaterPark3Overlay;
+
+    std::shared_ptr<eTexture> fWaterPark4;
+    eTextureCollection fWaterPark4Overlay;
+
+    std::shared_ptr<eTexture> fWaterPark5;
+    eTextureCollection fWaterPark5Overlay;
+
+    std::shared_ptr<eTexture> fWaterPark6;
+    eTextureCollection fWaterPark6Overlay;
+
+    std::shared_ptr<eTexture> fWaterPark7;
+    eTextureCollection fWaterPark7Overlay;
+
+    std::shared_ptr<eTexture> fWaterPark8;
+    eTextureCollection fWaterPark8Overlay;
+
     std::shared_ptr<eTexture> fBench;
     std::shared_ptr<eTexture> fFlowerGarden;
     std::shared_ptr<eTexture> fGazebo;
@@ -229,6 +253,25 @@ public:
 
     std::shared_ptr<eTexture> fColumnConnectionH;
     std::shared_ptr<eTexture> fColumnConnectionW;
+
+    std::shared_ptr<eTexture> fBirdBath;
+    eTextureCollection fBirdBathOverlay;
+
+    std::shared_ptr<eTexture> fShortObelisk;
+    std::shared_ptr<eTexture> fTallObelisk;
+    std::shared_ptr<eTexture> fShellGarden;
+    std::shared_ptr<eTexture> fSundial;
+    std::shared_ptr<eTexture> fDolphinSculpture;
+
+    eTextureCollection fSpring;
+
+    std::shared_ptr<eTexture> fTopiary;
+
+    std::shared_ptr<eTexture> fBaths;
+    eTextureCollection fBathsOverlay;
+
+    std::shared_ptr<eTexture> fStoneCircle;
+    eTextureCollection fStoneCircleOverlay;
 
     eTextureCollection fClouds;
 };

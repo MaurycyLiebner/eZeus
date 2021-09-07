@@ -64,6 +64,8 @@ private:
 
     void updateMinimap();
 
+    int waterParkId() const;
+
     bool mRotate = false;
 
     int mTime{0};
