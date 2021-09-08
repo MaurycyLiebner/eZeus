@@ -13,6 +13,10 @@ public:
 
     int provide(const eProvide p, const int n);
 
+    void timeChanged(const int by);
+
+    void nextMonth();
+
     void levelUp();
     void levelDown();
 

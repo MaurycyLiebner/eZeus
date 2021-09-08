@@ -16,7 +16,7 @@ void eAppealDataWidget::initialize() {
         }
     });
     button->setSmallFontSize();
-    button->setText("Appeal");
+    button->setText("See Appeal");
     button->fitContent();
 
     addWidget(button);

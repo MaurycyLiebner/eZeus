@@ -29,7 +29,7 @@ public:
     eDate(const int day, const eMonth month, const int year);
 
     std::string shortString() const;
-    void nextDay();
+    void nextDay(bool& nextMonth, bool& nextYear);
 private:
     int mDay;
     eMonth mMonth;

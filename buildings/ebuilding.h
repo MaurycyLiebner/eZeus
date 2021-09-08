@@ -122,6 +122,7 @@ public:
     }
 
     virtual void timeChanged(const int by) { (void)by; }
+    virtual void nextMonth() {}
 
     virtual int provide(const eProvide, const int) { return 0; }
 

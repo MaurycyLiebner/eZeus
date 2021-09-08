@@ -84,6 +84,8 @@ public:
     int drachmas() const { return mDrachmas; }
     eDifficulty difficulty() const { return mDifficulty; }
     const eDate& date() const { return mDate; }
+
+    double appeal(const int tx, const int ty) const;
 private:
     void updateDiagonalArray();
     void updateNeighbours();

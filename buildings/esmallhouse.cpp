@@ -63,6 +63,24 @@ int eSmallHouse::provide(const eProvide p, const int n) {
     return add;
 }
 
+void eSmallHouse::timeChanged(const int by) {
+    (void)by;
+    const int t = time();
+    const bool decw = t % 5000 == 0;
+    if(decw) mWater = std::max(0, mWater - 1);
+    const bool ul = t % 1000 == 0;
+    if(ul) updateLevel();
+}
+
+void eSmallHouse::nextMonth() {
+    const int cfood = round(mPeople*0.25);
+    const int cfleece = mLevel > 2 ? 2 : 0;
+    const int coil = mLevel > 4 ? 2 : 0;
+    mFood = std::max(0, mFood - cfood);
+    mFleece = std::max(0, mFood - cfleece);
+    mOil = std::max(0, mFood - coil);
+}
+
 void eSmallHouse::levelUp() {
     setLevel(mLevel + 1);
 }
@@ -83,15 +101,19 @@ int eSmallHouse::moveIn(int c) {
 
 void eSmallHouse::updateLevel() {
     const auto& b = getBoard();
+    const auto t = tile();
+    const int tx = t->x();
+    const int ty = t->y();
+    const double appeal = b.appeal(tx ,ty);
     const int stadium = b.hasStadium() ? 1 : 0;
     const int nVenues = mPodium + mTheatre +
                         mGymnasium + stadium;
     if(mFood > 0) {
         if(mWater > 0 && nVenues > 0) {
-            if(mFleece > 0) {
+            if(mFleece > 0 && appeal > 2.0) {
                 if(nVenues > 1) {
-                    if(mOil > 0) {
-                        if(nVenues > 2) {
+                    if(mOil > 0 && appeal > 5.0) {
+                        if(nVenues > 2 && appeal > 8.0) {
                             return setLevel(6);
                         }
                         return setLevel(5);

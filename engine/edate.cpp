@@ -15,11 +15,11 @@ std::string eDate::shortString() const {
     return d + "  " + m + "  " + y + "  " + bcad;
 }
 
-void eDate::nextDay() {
+void eDate::nextDay(bool& nextMonth, bool& nextYear) {
     const int maxDays = eMonthHelper::days(mMonth);
-    if(++mDay > maxDays) {
+    nextMonth = ++mDay > maxDays;
+    if(nextMonth) {
         mDay = 1;
-        bool nextYear;
         mMonth = eMonthHelper::nextMonth(mMonth, nextYear);
         if(nextYear) {
             if(++mYear == 0) mYear++;

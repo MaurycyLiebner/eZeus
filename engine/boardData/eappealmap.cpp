@@ -46,6 +46,8 @@ void eAppealMap::addAppeal(const eAppeal& a,
 
 void eAppealMap::addAppeal(const int x, const int y,
                            const double a) {
+    if(x < 0 || y < 0 ||
+       x >= mWidth || y >= mHeight) return;
     auto& tile = mMap[x][y];
     tile.fEnabled = true;
     tile.fAppeal += a;

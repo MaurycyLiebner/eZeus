@@ -103,8 +103,10 @@ void eGameBoard::unregisterPalace() {
 
 void eGameBoard::incTime(const int by) {
     mTime += by;
+    bool nextMonth = false;
+    bool nextYear = false;
     if(mTime > 250) {
-        mDate.nextDay();
+        mDate.nextDay(nextMonth, nextYear);
         mTime = 0;
     }
     const auto chars = mCharacters;
@@ -113,6 +115,7 @@ void eGameBoard::incTime(const int by) {
     }
     for(const auto b : mBuildings) {
         b->incTime(by);
+        if(nextMonth) b->nextMonth();
     }
     for(const auto s : mSpawners) {
         s->incTime(by);
@@ -121,6 +124,10 @@ void eGameBoard::incTime(const int by) {
 
 void eGameBoard::incDrachmas(const int d) {
     mDrachmas += d;
+}
+
+double eGameBoard::appeal(const int tx, const int ty) const {
+    return mAppealMap.appeal(tx, ty);
 }
 
 void eGameBoard::updateDiagonalArray() {
