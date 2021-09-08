@@ -16,8 +16,10 @@ public:
     int resourceSpaceLeft(const eResourceType type) const;
 
     eResourceType gets() const { return mGet; }
+
+    SDL_Rect tileRect() const { return mTileRect; }
 private:
-    SDL_Rect mRect;
+    SDL_Rect mTileRect;
     eBuildingType mType{eBuildingType::none};
 
     int mVacancies{0};

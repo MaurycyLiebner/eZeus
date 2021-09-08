@@ -83,6 +83,8 @@
 
 #include "infowidgets/estorageinfowidget.h"
 
+#include "engine/boardData/eappealupdatetask.h"
+
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window), mBoard(&mThreadPool) {}
@@ -111,6 +113,7 @@ void eGameWidget::initialize(const int w, const int h) {
     addWidget(mGm);
     mGm->align(eAlignment::right | eAlignment::top);
     mGm->setBoard(&mBoard);
+    mGm->setGameWidget(this);
 
     const auto mm = mGm->miniMap();
     mm->setChangeAction([this, mm]() {
@@ -206,6 +209,11 @@ void eGameWidget::pixToId(const int pixX, const int pixY,
             }
         }
     }
+}
+
+void eGameWidget::setViewMode(const eViewMode m) {
+    if(m == eViewMode::appeal) updateAppealMap();
+    mViewMode = m;
 }
 
 void eGameWidget::iterateOverTiles(const eTileAction& a) {
@@ -362,6 +370,13 @@ int eGameWidget::waterParkId() const {
     return mTime/(mSpeed*150);
 }
 
+void eGameWidget::updateAppealMap() {
+    const auto task = new eAppealUpdateTask([this](eAppealMap& map) {
+        std::swap(mBoard.appealMap(), map);
+    });
+    mThreadPool.queueTask(task);
+}
+
 bool eGameWidget::build(const int tx, const int ty,
                         const int sw, const int sh,
                         const eBuildingCreator& bc,
@@ -415,6 +430,10 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto& rect = mUpdateRects[i];
         mThreadPool.scheduleUpdate(mBoard, rect.x, rect.y, rect.w, rect.h);
     }
+    const int uam = mViewMode == eViewMode::appeal ?
+                         mTime/mSpeed % 200 :
+                         mTime/mSpeed % 600;
+    if(uam == 0) updateAppealMap();
 
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);
@@ -464,6 +483,11 @@ void eGameWidget::paintEvent(ePainter& p) {
             if(h || s) tex->clearColorMod();
         }
     });
+
+    const bool db = static_cast<bool>(
+                        mViewMode &
+                        eViewMode::displayBuildings);
+
     iterateOverTiles([&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
@@ -472,19 +496,41 @@ void eGameWidget::paintEvent(ePainter& p) {
         double rx;
         double ry;
         drawXY(tx, ty, rx, ry, 1, 1, a);
-
-        if(mPatrolBuilding && tile->underBuilding() && !tile->hasRoad()) {
-            const std::shared_ptr<eTexture>* tex;
-            if(tile->underBuilding() == mPatrolBuilding) {
-                tex = &trrTexs.fSelectedBuildingBase;
-            } else {
-                tex = &trrTexs.fBuildingBase;
+        if(!db) {
+            if(mViewMode == eViewMode::patrolBuilding) {
+                if(mPatrolBuilding && tile->underBuilding() && !tile->hasRoad()) {
+                    const std::shared_ptr<eTexture>* tex;
+                    if(tile->underBuilding() == mPatrolBuilding) {
+                        tex = &trrTexs.fSelectedBuildingBase;
+                    } else {
+                        tex = &trrTexs.fBuildingBase;
+                    }
+                    tp.drawTexture(rx, ry, *tex, eAlignment::top);
+                }
+            } else if(mViewMode == eViewMode::appeal) {
+                const auto& am = mBoard.appealMap();
+                const auto ae = am.enabled(tx, ty);
+                const auto ubt = tile->underBuildingType();
+                const bool ch = ubt == eBuildingType::commonHouse;
+                if(ae || ch) {
+                    const eTextureCollection* coll;
+                    if(ch) {
+                        coll = &builTexs.fHouseAppeal;
+                    } else {
+                        coll = &builTexs.fAppeal;
+                    }
+                    const double app = am.appeal(tx, ty);
+                    const double mult = app > 0 ? 1 : -1;
+                    const double appS = mult*pow(abs(app), 0.75);
+                    int appId = (int)std::round(appS + 2.);
+                    appId = std::clamp(appId, 0, 9);
+                    const auto tex = coll->getTexture(appId);
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                }
             }
-            tp.drawTexture(rx, ry, *tex, eAlignment::top);
-        }
-        if(const auto d = tile->building()) {
+        } else if(const auto d = tile->building()) {
             const auto type = d->type();
-            if(!mPatrolBuilding && type != eBuildingType::road) {
+            if(type != eBuildingType::road) {
                 if(type == eBuildingType::park) {
                     int futureDim = 1;
                     int drawDim = 1;
@@ -1001,7 +1047,10 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         int tx;
         int ty;
         pixToId(e.x(), e.y(), tx, ty);
-        mPatrolBuilding = nullptr;
+        if(mPatrolBuilding) {
+            setViewMode(eViewMode::defaultView);
+            mPatrolBuilding = nullptr;
+        }
         mGm->clearMode();
         const auto tile = mBoard.tile(tx, ty);
         if(!tile) return true;
@@ -1134,6 +1183,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 if(!mPatrolBuilding && tile) {
                     if(const auto b = tile->underBuilding()) {
                         if(const auto pb = dynamic_cast<ePatrolBuilding*>(b)) {
+                            setViewMode(eViewMode::patrolBuilding);
                             mPatrolBuilding = pb;
                         }
                     }

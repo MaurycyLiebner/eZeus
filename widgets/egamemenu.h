@@ -11,7 +11,9 @@ class eButton;
 class eGameBoard;
 class ePopulationDataWidget;
 class eEmploymentDataWidget;
+class eAppealDataWidget;
 class eMiniMap;
+class eGameWidget;
 
 struct eSubButtonData;
 
@@ -25,6 +27,7 @@ public:
     eBuildingMode mode() const { return mMode; }
     void clearMode() { mMode = eBuildingMode::none; }
 
+    void setGameWidget(eGameWidget* const gw);
     void setBoard(eGameBoard* const b);
 
     eMiniMap* miniMap() const;
@@ -44,6 +47,8 @@ private:
 
     ePopulationDataWidget* mPopDataW = nullptr;
     eEmploymentDataWidget* mEmplDataW = nullptr;
+    eAppealDataWidget* mApplDataW = nullptr;
+
     eMiniMap* mMiniMap = nullptr;
 
     eBuildingMode mMode{eBuildingMode::road};

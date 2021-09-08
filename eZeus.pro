@@ -131,6 +131,7 @@ SOURCES += \
         emainwindow.cpp \
         emusic.cpp \
         engine/boardData/eappealmap.cpp \
+        engine/boardData/eappealupdatetask.cpp \
         engine/boardData/eemploymentdata.cpp \
         engine/boardData/epopulationdata.cpp \
         engine/edate.cpp \
@@ -187,6 +188,7 @@ SOURCES += \
         textures/ewatertobeach.cpp \
         textures/ewatertodry.cpp \
         textures/ewatertox.cpp \
+        widgets/datawidgets/eappealdatawidget.cpp \
         widgets/datawidgets/eemploymentdatawidget.cpp \
         widgets/datawidgets/epopulationdatawidget.cpp \
         widgets/eactionlistwidget.cpp \
@@ -344,6 +346,7 @@ HEADERS += \
     emainwindow.h \
     emusic.h \
     engine/boardData/eappealmap.h \
+    engine/boardData/eappealupdatetask.h \
     engine/boardData/eemploymentdata.h \
     engine/boardData/epopulationdata.h \
     engine/edate.h \
@@ -408,6 +411,7 @@ HEADERS += \
     textures/ewatertobeach.h \
     textures/ewatertodry.h \
     textures/ewatertox.h \
+    widgets/datawidgets/eappealdatawidget.h \
     widgets/datawidgets/eemploymentdatawidget.h \
     widgets/datawidgets/epopulationdatawidget.h \
     widgets/eactionlistwidget.h \
@@ -443,6 +447,7 @@ HEADERS += \
     widgets/eterraineditmenu.h \
     widgets/etilepainter.h \
     widgets/etopbarwidget.h \
+    widgets/eviewmode.h \
     widgets/ewidget.h \
     widgets/infowidgets/egyminfowidget.h \
     widgets/infowidgets/einfowidget.h \

@@ -76,7 +76,6 @@ public:
 
     eThreadPool* threadPool() const { return mThreadPool; }
 
-
     ePopulationData& populationData() { return mPopData; }
     eEmploymentData& employmentData() { return mEmplData; }
     eAppealMap& appealMap() { return mAppealMap; }

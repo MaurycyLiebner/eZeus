@@ -37,6 +37,7 @@ void eAppealMap::addAppeal(const eAppeal& a,
             const double dx = std::max(abs(x - cx) - 0.5*sw, 0.);
             const double dy = std::max(abs(y - cy) - 0.5*sh, 0.);
             const double dist = std::sqrt(dx * dx + dy * dy);
+            if(dist > r) continue;
             const double mult = (r - dist)/r;
             addAppeal(x, y, mult*v);
         }

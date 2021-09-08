@@ -20,6 +20,8 @@
 #include "widgets/egamemenu.h"
 #include "etopbarwidget.h"
 
+#include "eviewmode.h"
+
 class eTerrainEditMenu;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
@@ -33,6 +35,9 @@ public:
 
     void pixToId(const int pixX, const int pixY,
                  int& idX, int& idY) const;
+
+    void setViewMode(const eViewMode m);
+    eViewMode viewMode() const { return mViewMode; }
 protected:
     void paintEvent(ePainter& p);
 
@@ -66,6 +71,8 @@ private:
 
     int waterParkId() const;
 
+    void updateAppealMap();
+
     bool mRotate = false;
 
     int mTime{0};
@@ -75,6 +82,8 @@ private:
 
     int mDX = 0;
     int mDY = 0;
+
+    eViewMode mViewMode = eViewMode::defaultView;
 
     eTileSize mTileSize = eTileSize::s30;
     int mTileW = 58;

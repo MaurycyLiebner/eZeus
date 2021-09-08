@@ -9,6 +9,7 @@
 
 #include "widgets/datawidgets/epopulationdatawidget.h"
 #include "widgets/datawidgets/eemploymentdatawidget.h"
+#include "widgets/datawidgets/eappealdatawidget.h"
 #include "eminimap.h"
 
 struct eSubButtonData {
@@ -362,11 +363,23 @@ void eGameMenu::initialize() {
         cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto m9 = [this, cmx, cmy, coll, mult]() {};
+
+    const auto ww9 = new eWidget(window());
     const auto w9 = createSubButtons(mult,
                         eButtonsDataVec{
                              {bb9, &coll.fBeautification},
                              {r9, &coll.fRecreation},
                              {m9, &coll.fMonuments}});
+    mApplDataW = new eAppealDataWidget(window());
+    mApplDataW->setWidth(65*mult);
+    mApplDataW->setHeight(120*mult);
+    mApplDataW->initialize();
+    ww9->addWidget(mApplDataW);
+    ww9->addWidget(w9);
+    ww9->fitContent();
+    ww9->setHeight(190*mult);
+    w9->setY(mApplDataW->height() + 20*mult);
+    mApplDataW->align(eAlignment::top);
 
 
     mMiniMap = new eMiniMap(window());
@@ -381,7 +394,7 @@ void eGameMenu::initialize() {
     mWidgets.push_back(w6);
     mWidgets.push_back(w7);
     mWidgets.push_back(w8);
-    mWidgets.push_back(w9);
+    mWidgets.push_back(ww9);
     mWidgets.push_back(mMiniMap);
 
     for(const auto w : mWidgets) {
@@ -399,7 +412,7 @@ void eGameMenu::initialize() {
     const auto b6 = addButton(coll.fCulture, w6);
     const auto b7 = addButton(coll.fMythology, w7);
     const auto b8 = addButton(coll.fMilitary, w8);
-    const auto b9 = addButton(coll.fAesthetics, w9);
+    const auto b9 = addButton(coll.fAesthetics, ww9);
     const auto b10 = addButton(coll.fOverview, mMiniMap);
 
     b10->setChecked(true);
@@ -465,6 +478,10 @@ void eGameMenu::initialize() {
         butts->setY(std::round(mult*282.5));
         addWidget(butts);
     }
+}
+
+void eGameMenu::setGameWidget(eGameWidget* const gw) {
+    mApplDataW->setGameWidget(gw);
 }
 
 void eGameMenu::setBoard(eGameBoard* const b) {
