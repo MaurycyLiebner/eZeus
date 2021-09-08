@@ -124,6 +124,9 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fBathsOverlay(renderer),
     fStoneCircleOverlay(renderer),
 
+    fAppeal(renderer),
+    fHouseAppeal(renderer),
+
     fClouds(renderer) {
 
 }
@@ -480,14 +483,28 @@ void eBuildingTextures::load() {
     {
         const auto dir = basedir + "Zeus_Terrain/";
 
-        const std::string pathBase{dir + "Zeus_Land3_"};
+        {
+            const std::string pathBase{dir + "Zeus_Land3_"};
 
-        for(int i = 81; i < 99; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fBeachRoad);
+            for(int i = 81; i < 99; i++) {
+                eTextureLoadingHelpers::loadTex(pathBase, i, fBeachRoad);
+            }
+
+            for(int i = 231; i < 302; i++) {
+                eTextureLoadingHelpers::loadTex(pathBase, i, fRoad);
+            }
         }
 
-        for(int i = 231; i < 302; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fRoad);
+        {
+            const std::string pathBase{dir + "Zeus_Overlay_"};
+
+            for(int i = 1; i < 11; i++) {
+                eTextureLoadingHelpers::loadTex(pathBase, i, fAppeal);
+            }
+
+            for(int i = 11; i < 21; i++) {
+                eTextureLoadingHelpers::loadTex(pathBase, i, fHouseAppeal);
+            }
         }
     }
 

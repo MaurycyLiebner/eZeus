@@ -28,6 +28,8 @@ void eGameBoard::initialize(const int w, const int h) {
     mWidth = w;
     mHeight = h;
 
+    mAppealMap.initialize(w, h);
+
     updateDiagonalArray();
     updateNeighbours();
 }

@@ -17,6 +17,7 @@ LIBS += -lnoise
 
 SOURCES += \
         buildings/eaestheticsbuilding.cpp \
+        buildings/eappeal.cpp \
         buildings/earmory.cpp \
         buildings/earmsvendor.cpp \
         buildings/ebuilding.cpp \
@@ -129,6 +130,7 @@ SOURCES += \
         characters/ewinevendorchar.cpp \
         emainwindow.cpp \
         emusic.cpp \
+        engine/boardData/eappealmap.cpp \
         engine/boardData/eemploymentdata.cpp \
         engine/boardData/epopulationdata.cpp \
         engine/edate.cpp \
@@ -227,6 +229,7 @@ SOURCES += \
 
 HEADERS += \
     buildings/eaestheticsbuilding.h \
+    buildings/eappeal.h \
     buildings/earmory.h \
     buildings/earmsvendor.h \
     buildings/ebuilding.h \
@@ -340,6 +343,7 @@ HEADERS += \
     characters/ewinevendorchar.h \
     emainwindow.h \
     emusic.h \
+    engine/boardData/eappealmap.h \
     engine/boardData/eemploymentdata.h \
     engine/boardData/epopulationdata.h \
     engine/edate.h \

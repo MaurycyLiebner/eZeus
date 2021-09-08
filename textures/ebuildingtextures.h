@@ -274,6 +274,9 @@ public:
     std::shared_ptr<eTexture> fStoneCircle;
     eTextureCollection fStoneCircleOverlay;
 
+    eTextureCollection fAppeal;
+    eTextureCollection fHouseAppeal;
+
     eTextureCollection fClouds;
 };
 

@@ -108,11 +108,6 @@ enum class eBuildingType {
     road
 };
 
-struct eAppeal {
-    int fValue;
-    int fRange;
-};
-
 class eBuilding : public eStdSelfRef {
 public:
     eBuilding(eGameBoard& board,
@@ -168,8 +163,6 @@ public:
 
     void setOverlayEnabledFunc(const std::function<bool()>& e);
     bool overlayEnabled() const { return mOverlayEnabled(); }
-
-    eAppeal appeal() const;
 private:
     std::vector<eTile*> mUnderBuilding;
     SDL_Rect mTileRect;

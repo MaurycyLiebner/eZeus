@@ -20,7 +20,10 @@ public:
     bool isUnderBuilding() const;
 
     int houseVacancies() const;
+
+    bool mainBuildingTile() const { return mMainBuildingTile; }
 private:
+    bool mMainBuildingTile = false;
     std::vector<eThreadCharacter> mCharacters;
     eThreadBuilding mUnderBuilding;
 };

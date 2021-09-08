@@ -17,6 +17,7 @@ public:
 
     eResourceType gets() const { return mGet; }
 private:
+    SDL_Rect mRect;
     eBuildingType mType{eBuildingType::none};
 
     int mVacancies{0};

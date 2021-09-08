@@ -8,6 +8,7 @@
 
 #include "boardData/epopulationdata.h"
 #include "boardData/eemploymentdata.h"
+#include "boardData/eappealmap.h"
 
 #include "edifficulty.h"
 #include "edate.h"
@@ -77,8 +78,8 @@ public:
 
 
     ePopulationData& populationData() { return mPopData; }
-
     eEmploymentData& employmentData() { return mEmplData; }
+    eAppealMap& appealMap() { return mAppealMap; }
 
     void incDrachmas(const int d);
     int drachmas() const { return mDrachmas; }
@@ -110,6 +111,8 @@ private:
     ePopulationData mPopData;
 
     eEmploymentData mEmplData;
+
+    eAppealMap mAppealMap;
 };
 
 #endif // EGAMEBOARD_H
