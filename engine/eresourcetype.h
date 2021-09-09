@@ -4,6 +4,9 @@
 #include <vector>
 #include <string>
 
+#include "etexture.h"
+#include "widgets/eresolution.h"
+
 enum class eResourceType {
     none = 0,
 
@@ -46,10 +49,15 @@ inline eResourceType operator&(const eResourceType a, const eResourceType b) {
     return static_cast<eResourceType>(static_cast<int>(a) & static_cast<int>(b));
 }
 
+inline eResourceType operator~(const eResourceType a) {
+    return static_cast<eResourceType>(~static_cast<int>(a));
+}
+
 namespace eResourceTypeHelpers {
     std::vector<eResourceType> extractResourceTypes(
             const eResourceType from);
     std::string typeName(const eResourceType type);
+    std::shared_ptr<eTexture> icon(const eUIScale scale, const eResourceType type);
 }
 
 #endif // ERESOURCETYPE_H

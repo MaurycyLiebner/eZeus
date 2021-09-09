@@ -21,22 +21,8 @@ public:
         const auto buttonsW = new eWidget(window());
         const auto spinsW = new eWidget(window());
 
-        const auto& intrfc = eGameTextures::interface();
-        int icoll;
         const auto res = resolution();
         const double mult = res.multiplier();
-        switch(res.uiScale()) {
-        case eUIScale::small:
-//            icoll = 0;
-//            break;
-        case eUIScale::medium:
-            icoll = 1;
-            break;
-        default:
-            icoll = 2;
-        }
-        const auto& coll = intrfc[icoll];
-
         const int rowHeight = mult*40;
         const int countWidth = mult*25;
         const int iconsWidth = mult*40;
@@ -53,66 +39,8 @@ public:
             count->setHeight(rowHeight);
 
             const auto icon = new eLabel(window());
-            std::shared_ptr<eTexture> tex;
-            switch(type) {
-            case eResourceType::urchin:
-                tex = coll.fUrchinUnit;
-                break;
-            case eResourceType::fish:
-                tex = coll.fFishUnit;
-                break;
-            case eResourceType::meat:
-                tex = coll.fMeatUnit;
-                break;
-            case eResourceType::cheese:
-                tex = coll.fCheeseUnit;
-                break;
-            case eResourceType::carrots:
-                tex = coll.fCarrotsUnit;
-                break;
-            case eResourceType::onions:
-                tex = coll.fOnionsUnit;
-                break;
-            case eResourceType::wheat:
-                tex = coll.fWheatUnit;
-                break;
-            case eResourceType::wood:
-                tex = coll.fWoodUnit;
-                break;
-            case eResourceType::bronze:
-                tex = coll.fBronzeUnit;
-                break;
-            case eResourceType::marble:
-                tex = coll.fMarbleUnit;
-                break;
-            case eResourceType::grapes:
-                tex = coll.fGrapesUnit;
-                break;
-            case eResourceType::olives:
-                tex = coll.fOlivesUnit;
-                break;
-            case eResourceType::fleece:
-                tex = coll.fFleeceUnit;
-                break;
-            case eResourceType::horse:
-                tex = coll.fHorseUnit;
-                break;
-            case eResourceType::armor:
-                tex = coll.fArmsUnit;
-                break;
-            case eResourceType::sculpture:
-                tex = coll.fSculptureUnit;
-                break;
-            case eResourceType::oliveOil:
-                tex = coll.fOliveOilUnit;
-                break;
-            case eResourceType::wine:
-                tex = coll.fWineUnit;
-                break;
-            case eResourceType::food:
-                tex = coll.fFoodUnit;
-                break;
-            }
+            const auto tex = eResourceTypeHelpers::icon(
+                                 res.uiScale(), type);
             icon->setTexture(tex);
             icon->fitContent();
             icon->setHeight(rowHeight);

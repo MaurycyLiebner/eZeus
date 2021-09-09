@@ -11,6 +11,7 @@ public:
     eLabel(const std::string& text,
            eMainWindow* const window);
 
+    bool setTinyFontSize();
     bool setSmallFontSize();
 protected:
     void sizeHint(int& w, int& h);

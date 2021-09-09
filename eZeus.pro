@@ -191,6 +191,7 @@ SOURCES += \
         widgets/datawidgets/eappealdatawidget.cpp \
         widgets/datawidgets/eemploymentdatawidget.cpp \
         widgets/datawidgets/epopulationdatawidget.cpp \
+        widgets/datawidgets/estoragedatawidget.cpp \
         widgets/eactionlistwidget.cpp \
         widgets/ebuildingmode.cpp \
         widgets/ebutton.cpp \
@@ -414,6 +415,7 @@ HEADERS += \
     widgets/datawidgets/eappealdatawidget.h \
     widgets/datawidgets/eemploymentdatawidget.h \
     widgets/datawidgets/epopulationdatawidget.h \
+    widgets/datawidgets/estoragedatawidget.h \
     widgets/eactionlistwidget.h \
     widgets/ebuildingmode.h \
     widgets/ebutton.h \

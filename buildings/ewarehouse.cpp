@@ -6,6 +6,7 @@ eWarehouse::eWarehouse(eGameBoard& board) :
     eStorageBuilding(board, eBuildingType::warehouse, 3, 3, 12,
                      eResourceType::warehouse),
     mTextures(eGameTextures::buildings()) {
+    setOverlayEnabledFunc([]() { return true; });
 }
 
 std::shared_ptr<eTexture> eWarehouse::getTexture(const eTileSize size) const {
@@ -17,12 +18,14 @@ std::vector<eOverlay> eWarehouse::getOverlays(const eTileSize size) const {
     std::vector<eOverlay> os;
     const int sizeId = static_cast<int>(size);
     const auto texs = mTextures[sizeId];
-    const auto& coll = texs.fWarehouseOverlay;
-    const int texId = textureTime() % coll.size();
-    auto& o = os.emplace_back();
-    o.fTex = coll.getTexture(texId);
-    o.fX = -1.20;
-    o.fY = -4.32;
+    if(enabled()) {
+        const auto& coll = texs.fWarehouseOverlay;
+        const int texId = textureTime() % coll.size();
+        auto& o = os.emplace_back();
+        o.fTex = coll.getTexture(texId);
+        o.fX = -1.20;
+        o.fY = -4.32;
+    }
     const std::pair<int, int> xy[8] = {{-1, -2},
                                        {-1, -1},
 
@@ -67,6 +70,9 @@ std::vector<eOverlay> eWarehouse::getOverlays(const eTileSize size) const {
             break;
         case eResourceType::wheat:
             o.fTex = texs.fWarehouseWheat.getTexture(texId);
+            break;
+        case eResourceType::oranges:
+            o.fTex = texs.fWarehouseOranges.getTexture(texId);
             break;
 
 

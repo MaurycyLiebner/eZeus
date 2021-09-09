@@ -11,6 +11,7 @@ class eButton;
 class eGameBoard;
 class ePopulationDataWidget;
 class eEmploymentDataWidget;
+class eStorageDataWidget;
 class eAppealDataWidget;
 class eMiniMap;
 class eGameWidget;
@@ -47,6 +48,7 @@ private:
 
     ePopulationDataWidget* mPopDataW = nullptr;
     eEmploymentDataWidget* mEmplDataW = nullptr;
+    eStorageDataWidget* mStrgDataW = nullptr;
     eAppealDataWidget* mApplDataW = nullptr;
 
     eMiniMap* mMiniMap = nullptr;

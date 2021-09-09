@@ -10,6 +10,7 @@
 #include "widgets/datawidgets/epopulationdatawidget.h"
 #include "widgets/datawidgets/eemploymentdatawidget.h"
 #include "widgets/datawidgets/eappealdatawidget.h"
+#include "widgets/datawidgets/estoragedatawidget.h"
 #include "eminimap.h"
 
 struct eSubButtonData {
@@ -105,20 +106,26 @@ void eGameMenu::initialize() {
         setMode(eBuildingMode::eliteHousing);
     };
 
+    const int dataWidWidth = 65*mult;
+    const int dataWidHeight = 120*mult;
+
+    const int wwHeight = 190*mult;
+    const int wy = dataWidHeight + 20*mult;
+
     const auto ww0 = new eWidget(window());
     const auto w0 = createSubButtons(mult,
                         eButtonsDataVec{
                             {cha0, &coll.fCommonHousing},
                             {eha0, &coll.fEliteHousing}});
     mPopDataW = new ePopulationDataWidget(window());
-    mPopDataW->setWidth(65*mult);
-    mPopDataW->setHeight(120*mult);
+    mPopDataW->setWidth(dataWidWidth);
+    mPopDataW->setHeight(dataWidHeight);
     mPopDataW->initialize();
     ww0->addWidget(mPopDataW);
     ww0->addWidget(w0);
     ww0->fitContent();
-    ww0->setHeight(190*mult);
-    w0->setY(mPopDataW->height() + 20*mult);
+    ww0->setHeight(wwHeight);
+    w0->setY(wy);
     mPopDataW->align(eAlignment::top);
 
     const auto ff1 = [this, cmx, cmy, mult, coll]() {
@@ -207,14 +214,14 @@ void eGameMenu::initialize() {
                              {p2, &coll.fProcessing},
                              {bg2, &coll.fBuildersGuild}});
     mEmplDataW = new eEmploymentDataWidget(window());
-    mEmplDataW->setWidth(65*mult);
-    mEmplDataW->setHeight(120*mult);
+    mEmplDataW->setWidth(dataWidWidth);
+    mEmplDataW->setHeight(dataWidHeight);
     mEmplDataW->initialize();
     ww2->addWidget(mEmplDataW);
     ww2->addWidget(w2);
     ww2->fitContent();
-    ww2->setHeight(190*mult);
-    w2->setY(mEmplDataW->height() + 20*mult);
+    ww2->setHeight(wwHeight);
+    w2->setY(wy);
     mEmplDataW->align(eAlignment::top);
 
 
@@ -238,12 +245,23 @@ void eGameMenu::initialize() {
         cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto t3 = [this, cmx, cmy, coll, mult]() {};
+    const auto www3 = new eWidget(window());
     const auto w3 = createSubButtons(mult,
                         eButtonsDataVec{
                              {g3, &coll.fGranary},
                              {ww3, &coll.fWarehouse},
                              {a3, &coll.fAgoras},
                              {t3, &coll.fTrade}});
+    mStrgDataW = new eStorageDataWidget(window());
+    mStrgDataW->setWidth(dataWidWidth);
+    mStrgDataW->setHeight(dataWidHeight);
+    mStrgDataW->initialize();
+    www3->addWidget(mStrgDataW);
+    www3->addWidget(w3);
+    www3->fitContent();
+    www3->setHeight(wwHeight);
+    w3->setY(wy);
+    mStrgDataW->align(eAlignment::top);
 
 
     const auto ff4 = [this]() {
@@ -375,24 +393,24 @@ void eGameMenu::initialize() {
                              {r9, &coll.fRecreation},
                              {m9, &coll.fMonuments}});
     mApplDataW = new eAppealDataWidget(window());
-    mApplDataW->setWidth(65*mult);
-    mApplDataW->setHeight(120*mult);
+    mApplDataW->setWidth(dataWidWidth);
+    mApplDataW->setHeight(dataWidHeight);
     mApplDataW->initialize();
     ww9->addWidget(mApplDataW);
     ww9->addWidget(w9);
     ww9->fitContent();
-    ww9->setHeight(190*mult);
-    w9->setY(mApplDataW->height() + 20*mult);
+    ww9->setHeight(wwHeight);
+    w9->setY(wy);
     mApplDataW->align(eAlignment::top);
 
 
     mMiniMap = new eMiniMap(window());
-    mMiniMap->resize(65*mult, 65*mult);
+    mMiniMap->resize(dataWidWidth, dataWidWidth);
 
     mWidgets.push_back(ww0);
     mWidgets.push_back(w1);
     mWidgets.push_back(ww2);
-    mWidgets.push_back(w3);
+    mWidgets.push_back(www3);
     mWidgets.push_back(w4);
     mWidgets.push_back(w5);
     mWidgets.push_back(w6);
@@ -403,14 +421,14 @@ void eGameMenu::initialize() {
 
     for(const auto w : mWidgets) {
         addWidget(w);
-        w->move(24*mult, 20*mult/*165*mult*/);
+        w->move(24*mult, 20*mult/*1dataWidWidth*/);
         w->hide();
     }
 
     const auto b0 = addButton(coll.fPopulation, ww0);
     const auto b1 = addButton(coll.fHusbandry, w1);
     const auto b2 = addButton(coll.fIndustry, ww2);
-    const auto b3 = addButton(coll.fDistribution, w3);
+    const auto b3 = addButton(coll.fDistribution, www3);
     const auto b4 = addButton(coll.fHygieneSafety, w4);
     const auto b5 = addButton(coll.fAdministration, w5);
     const auto b6 = addButton(coll.fCulture, w6);
@@ -492,6 +510,7 @@ void eGameMenu::setBoard(eGameBoard* const b) {
     mBoard = b;
     mPopDataW->setBoard(b);
     mEmplDataW->setBoard(b);
+    mStrgDataW->setBoard(b);
     mMiniMap->setBoard(b);
 }
 

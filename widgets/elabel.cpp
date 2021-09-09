@@ -11,6 +11,11 @@ eLabel::eLabel(const std::string& text,
     setText(text);
 }
 
+bool eLabel::setTinyFontSize() {
+    const int s = resolution().tinyFontSize();
+    return setFontSize(s);
+}
+
 bool eLabel::setSmallFontSize() {
     const int s = resolution().smallFontSize();
     return setFontSize(s);

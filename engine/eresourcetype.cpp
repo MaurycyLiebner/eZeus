@@ -1,5 +1,7 @@
 #include "eresourcetype.h"
 
+#include "textures/egametextures.h"
+
 bool extractResourceType(const eResourceType from,
                          const eResourceType t,
                          std::vector<eResourceType>& result) {
@@ -21,11 +23,13 @@ std::vector<eResourceType> eResourceTypeHelpers::extractResourceTypes(const eRes
     extractResourceType(from, eResourceType::onions, result);
     extractResourceType(from, eResourceType::wheat, result);
     extractResourceType(from, eResourceType::oranges, result);
+
     extractResourceType(from, eResourceType::fleece, result);
     extractResourceType(from, eResourceType::olives, result);
     extractResourceType(from, eResourceType::oliveOil, result);
     extractResourceType(from, eResourceType::grapes, result);
     extractResourceType(from, eResourceType::wine, result);
+
     extractResourceType(from, eResourceType::wood, result);
     extractResourceType(from, eResourceType::bronze, result);
     extractResourceType(from, eResourceType::armor, result);
@@ -59,5 +63,66 @@ std::string eResourceTypeHelpers::typeName(const eResourceType type) {
     case eResourceType::sculpture: return "Sculpture";
     case eResourceType::horse: return "Horse";
     default: return "Invalid";
+    }
+}
+
+std::shared_ptr<eTexture> eResourceTypeHelpers::icon(
+        const eUIScale scale, const eResourceType type) {
+    int icoll;
+    switch(scale) {
+    case eUIScale::small:
+    case eUIScale::medium:
+        icoll = 1;
+        break;
+    default:
+        icoll = 2;
+    }
+
+    const auto& intrfc = eGameTextures::interface();
+    const auto& coll = intrfc[icoll];
+    switch(type) {
+    case eResourceType::urchin:
+        return coll.fUrchinUnit;
+    case eResourceType::fish:
+        return coll.fFishUnit;
+    case eResourceType::meat:
+        return coll.fMeatUnit;
+    case eResourceType::cheese:
+        return coll.fCheeseUnit;
+    case eResourceType::carrots:
+        return coll.fCarrotsUnit;
+    case eResourceType::onions:
+        return coll.fOnionsUnit;
+    case eResourceType::wheat:
+        return coll.fWheatUnit;
+    case eResourceType::oranges:
+        return coll.fOrangesUnit;
+
+    case eResourceType::wood:
+        return coll.fWoodUnit;
+    case eResourceType::bronze:
+        return coll.fBronzeUnit;
+    case eResourceType::marble:
+        return coll.fMarbleUnit;
+    case eResourceType::grapes:
+        return coll.fGrapesUnit;
+    case eResourceType::olives:
+        return coll.fOlivesUnit;
+    case eResourceType::fleece:
+        return coll.fFleeceUnit;
+    case eResourceType::horse:
+        return coll.fHorseUnit;
+    case eResourceType::armor:
+        return coll.fArmsUnit;
+    case eResourceType::sculpture:
+        return coll.fSculptureUnit;
+    case eResourceType::oliveOil:
+        return coll.fOliveOilUnit;
+    case eResourceType::wine:
+        return coll.fWineUnit;
+    case eResourceType::food:
+        return coll.fFoodUnit;
+    default:
+        return nullptr;
     }
 }

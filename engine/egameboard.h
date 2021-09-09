@@ -13,9 +13,13 @@
 #include "edifficulty.h"
 #include "edate.h"
 
+#include "eresourcetype.h"
+
 class eSpawner;
 class eCharacter;
 class eBuilding;
+class eStorageBuilding;
+
 class eThreadPool;
 
 class eGameBoard {
@@ -65,10 +69,17 @@ public:
     void registerStadium();
     void unregisterStadium();
 
+    void registerStorBuilding(eStorageBuilding* const b);
+    bool unregisterStorBuilding(eStorageBuilding* const b);
+
     bool hasStadium() const { return mStadiumCount > 0; }
 
     void registerPalace();
     void unregisterPalace();
+
+    void updateResources();
+    using eResources = std::vector<std::pair<eResourceType, int>>;
+    const eResources& resources() const { return mResources; }
 
     bool hasPalace() const { return mPalaceCount > 0; }
 
@@ -103,9 +114,33 @@ private:
     std::vector<std::vector<eTile*>> mTiles;
     std::vector<std::vector<eTile*>> mDiagTiles;
 
+    eResources mResources = {{eResourceType::urchin, 0},
+                             {eResourceType::fish, 0},
+                             {eResourceType::meat, 0},
+                             {eResourceType::cheese, 0},
+                             {eResourceType::carrots, 0},
+                             {eResourceType::onions, 0},
+                             {eResourceType::wheat, 0},
+                             {eResourceType::oranges, 0},
+
+                             {eResourceType::grapes, 0},
+                             {eResourceType::olives, 0},
+                             {eResourceType::wine, 0},
+                             {eResourceType::oliveOil, 0},
+                             {eResourceType::fleece, 0},
+
+                             {eResourceType::wood, 0},
+                             {eResourceType::bronze, 0},
+                             {eResourceType::marble, 0},
+
+                             {eResourceType::armor, 0},
+                             {eResourceType::sculpture, 0}};
+
+    std::vector<eStorageBuilding*> mStorBuildings;
     std::vector<eCharacter*> mCharacters;
     std::vector<eBuilding*> mBuildings;
     std::vector<eSpawner*> mSpawners;
+
     int mStadiumCount = 0;
     int mPalaceCount = 0;
 

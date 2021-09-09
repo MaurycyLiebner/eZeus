@@ -10,6 +10,7 @@ public:
                      const int sw, const int sh,
                      const int maxEmployees,
                      const eResourceType canAccept);
+    ~eStorageBuilding();
 
     int add(const eResourceType type, const int count);
     int take(const eResourceType type, const int count);

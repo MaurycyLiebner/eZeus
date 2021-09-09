@@ -4,6 +4,7 @@
 #include "../ewidget.h"
 
 class eGameWidget;
+class eCheckableButton;
 
 class eAppealDataWidget : public eWidget {
 public:
@@ -12,7 +13,11 @@ public:
     void initialize();
 
     void setGameWidget(eGameWidget* const gw);
+
+    void paintEvent(ePainter& p);
 private:
+    eCheckableButton* mSeeAppeal = nullptr;
+
     eGameWidget* mGW = nullptr;
 };
 

@@ -511,6 +511,14 @@ void eInterfaceTextures::load() {
         fOnionsUnit->load(fRenderer, pathBase + "00122.png");
         fWheatUnit = std::make_shared<eTexture>();
         fWheatUnit->load(fRenderer, pathBase + "00123.png");
+
+        {
+            const auto dir = basedir + "/Poseidon_Loaded/";
+            const auto pathBase = dir + "Poseidon_Storage_";
+            fOrangesUnit = std::make_shared<eTexture>();
+            fOrangesUnit->load(fRenderer, pathBase + "00114.png");
+        }
+
         fWoodUnit = std::make_shared<eTexture>();
         fWoodUnit->load(fRenderer, pathBase + "00124.png");
         fBronzeUnit = std::make_shared<eTexture>();

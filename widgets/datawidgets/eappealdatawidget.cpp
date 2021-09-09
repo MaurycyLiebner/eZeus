@@ -5,8 +5,8 @@
 #include "widgets/egamewidget.h"
 
 void eAppealDataWidget::initialize() {
-    const auto button = new eCheckableButton(window());
-    button->setCheckAction([this](const bool) {
+    mSeeAppeal = new eCheckableButton(window());
+    mSeeAppeal->setCheckAction([this](const bool) {
         if(!mGW) return;
         const auto vm = mGW->viewMode();
         if(vm == eViewMode::appeal) {
@@ -15,15 +15,23 @@ void eAppealDataWidget::initialize() {
             mGW->setViewMode(eViewMode::appeal);
         }
     });
-    button->setSmallFontSize();
-    button->setPadding(button->padding()/2);
-    button->setText("See Appeal");
-    button->fitContent();
+    mSeeAppeal->setSmallFontSize();
+    mSeeAppeal->setPadding(mSeeAppeal->padding()/2);
+    mSeeAppeal->setText("See Appeal");
+    mSeeAppeal->fitContent();
 
-    addWidget(button);
-    button->align(eAlignment::hcenter);
+    addWidget(mSeeAppeal);
+    mSeeAppeal->align(eAlignment::hcenter);
 }
 
 void eAppealDataWidget::setGameWidget(eGameWidget* const gw) {
     mGW = gw;
+}
+
+void eAppealDataWidget::paintEvent(ePainter& p) {
+    if(mGW) {
+        const auto vm = mGW->viewMode();
+        mSeeAppeal->setChecked(vm == eViewMode::appeal);
+    }
+    eWidget::paintEvent(p);
 }

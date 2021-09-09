@@ -6,6 +6,8 @@
 #include "buildings/ebuilding.h"
 #include "spawners/espawner.h"
 
+#include "buildings/estoragebuilding.h"
+
 eGameBoard::eGameBoard(eThreadPool* const tpool) :
     mThreadPool(tpool), mEmplData(mPopData) {}
 
@@ -93,6 +95,17 @@ void eGameBoard::unregisterStadium() {
     mStadiumCount--;
 }
 
+void eGameBoard::registerStorBuilding(eStorageBuilding* const b) {
+    mStorBuildings.push_back(b);
+}
+
+bool eGameBoard::unregisterStorBuilding(eStorageBuilding* const b) {
+    const auto it = std::find(mStorBuildings.begin(), mStorBuildings.end(), b);
+    if(it == mStorBuildings.end()) return false;
+    mStorBuildings.erase(it);
+    return true;
+}
+
 void eGameBoard::registerPalace() {
     mPalaceCount++;
 }
@@ -151,6 +164,17 @@ void eGameBoard::updateNeighbours() {
             t->setTopRight(tile(x, y - 1));
             t->setBottomRight(tile(x + 1, y));
             t->setBottomLeft(tile(x, y + 1));
+        }
+    }
+}
+
+void eGameBoard::updateResources() {
+    for(auto& r : mResources) {
+        int& count = r.second;
+        count = 0;
+        const auto type = r.first;
+        for(const auto s : mStorBuildings) {
+            count += s->count(type);
         }
     }
 }

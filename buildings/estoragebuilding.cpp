@@ -1,5 +1,7 @@
 #include "estoragebuilding.h"
 
+#include "engine/egameboard.h"
+
 eStorageBuilding::eStorageBuilding(eGameBoard& board,
                                    const eBuildingType type,
                                    const int sw, const int sh,
@@ -15,6 +17,11 @@ eStorageBuilding::eStorageBuilding(eGameBoard& board,
             mMaxCount[a] = 32;
         }
     }
+    board.registerStorBuilding(this);
+}
+
+eStorageBuilding::~eStorageBuilding() {
+    getBoard().unregisterStorBuilding(this);
 }
 
 int eStorageBuilding::add(const eResourceType type, const int count) {
