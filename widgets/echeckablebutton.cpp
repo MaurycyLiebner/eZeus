@@ -29,5 +29,6 @@ void eCheckableButton::paintEvent(ePainter& p) {
         } else eButton::paintEvent(p);
     } else {
         eButton::paintEvent(p);
+        if(mChecked) p.drawRect(rect(), fontColor(), 2);
     }
 }

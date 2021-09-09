@@ -1,12 +1,12 @@
 #include "eappealdatawidget.h"
 
-#include "../ebutton.h"
+#include "../echeckablebutton.h"
 
 #include "widgets/egamewidget.h"
 
 void eAppealDataWidget::initialize() {
-    const auto button = new eButton(window());
-    button->setPressAction([this]() {
+    const auto button = new eCheckableButton(window());
+    button->setCheckAction([this](const bool) {
         if(!mGW) return;
         const auto vm = mGW->viewMode();
         if(vm == eViewMode::appeal) {
@@ -16,6 +16,7 @@ void eAppealDataWidget::initialize() {
         }
     });
     button->setSmallFontSize();
+    button->setPadding(button->padding()/2);
     button->setText("See Appeal");
     button->fitContent();
 
