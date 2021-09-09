@@ -17,10 +17,11 @@ public:
     virtual ~eTileBase() {}
 
     virtual bool hasRoad() const = 0;
-    virtual bool walkable() const = 0;
     using eHasChar = std::function<bool(const eCharacterBase&)>;
     virtual bool hasCharacter(const eHasChar& func) const = 0;
     virtual eBuildingType underBuildingType() const = 0;
+
+    bool walkable() const;
 
     int seed() const { return mSeed; }
     int x() const { return mX; }

@@ -7,7 +7,8 @@
 
 class eGrowerAction : public eActionWithComeback {
 public:
-    eGrowerAction(const SDL_Rect& buildingRect,
+    eGrowerAction(const eGrowerType type,
+                  const SDL_Rect& buildingRect,
                   eGrower* const c,
                   const eAction& failAction,
                   const eAction& finishAction);
@@ -18,6 +19,7 @@ private:
       bool workOn(eTile* const tile);
       void goBack2();
 
+      const eGrowerType mType;
       eGrower* const mGrower;
       const SDL_Rect mBuildingRect;
       int mCount = 0;

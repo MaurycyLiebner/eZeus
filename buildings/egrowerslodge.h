@@ -10,7 +10,7 @@ class eCartTransporter;
 
 class eGrowersLodge : public eEmployingBuilding {
 public:
-    eGrowersLodge(eGameBoard& board);
+    eGrowersLodge(eGameBoard& board, const eGrowerType type);
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
@@ -31,8 +31,11 @@ private:
 
     const int mMaxResource = 8;
 
+    const eGrowerType mType;
+
     int mGrapes{0};
     int mOlives{0};
+    int mOranges{0};
 
     stdsptr<eCartTransporter> mCart;
     const int mCartWaitTime = 5000;

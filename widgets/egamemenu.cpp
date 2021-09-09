@@ -135,7 +135,11 @@ void eGameMenu::initialize() {
         const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::vine, "Vine"},
                              eSPR{eBuildingMode::oliveTree, "Olive Tree"},
-                             eSPR{eBuildingMode::growersLodge, "Growers Lodge"}}) {
+                             eSPR{eBuildingMode::orangeTree, "Orange Tree"},
+                             eSPR{eBuildingMode::orangeTendersLodge,
+                                  "Orange Tenders' Lodge"},
+                             eSPR{eBuildingMode::growersLodge,
+                                  "Growers Lodge"}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();

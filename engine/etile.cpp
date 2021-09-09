@@ -154,17 +154,6 @@ bool eTile::hasCharacter(const eHasChar& func) const {
     return false;
 }
 
-bool eTile::walkable() const {
-    const auto terr = terrain() & eTerrain::walkable;
-    if(!static_cast<bool>(terr)) return false;
-    const auto t = underBuildingType();
-    if(underBuilding() && !hasRoad() &&
-       t != eBuildingType::vine &&
-       t != eBuildingType::oliveTree) return false;
-
-    return true;
-}
-
 void eTile::setBuilding(const stdsptr<eBuilding>& b) {
     mBuilding = b;
     if(b) b->setTile(this);

@@ -31,7 +31,6 @@ public:
     const std::vector<stdsptr<eCharacter>>& characters() const
     { return mCharacters; }
 
-    bool walkable() const;
     void setBuilding(const stdsptr<eBuilding>& b);
     eBuilding* building() const { return mBuilding.get(); }
     bool hasRoad() const;

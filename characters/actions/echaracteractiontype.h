@@ -11,8 +11,10 @@ enum class eCharacterActionType {
     collect,
     workOnGrapes,
     workOnOlives,
+    workOnOranges,
     collectGrapes,
     collectOlives,
+    collectOranges,
     carry
 };
 

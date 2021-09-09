@@ -3,6 +3,7 @@
 eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
     switch(mode) {
     case eBuildingMode::none:
+        return eBuildingType::none;
     case eBuildingMode::erase:
         return eBuildingType::erase;
 
@@ -25,6 +26,10 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::vine;
     case eBuildingMode::oliveTree:
         return eBuildingType::oliveTree;
+    case eBuildingMode::orangeTree:
+        return eBuildingType::orangeTree;
+    case eBuildingMode::orangeTendersLodge:
+        return eBuildingType::orangeTendersLodge;
     case eBuildingMode::growersLodge:
         return eBuildingType::growersLodge;
 
@@ -154,6 +159,7 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::baths;
     case eBuildingMode::stoneCircle:
         return eBuildingType::stoneCircle;
-
+    default:
+        return eBuildingType::none;
     }
 }

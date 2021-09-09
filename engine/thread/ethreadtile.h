@@ -11,7 +11,6 @@ public:
     void load(eTile* const src);
     void load(const eThreadTile& src);
 
-    bool walkable() const;
     bool hasRoad() const;
     bool hasCharacter(const eHasChar& func) const;
     eBuildingType underBuildingType() const;

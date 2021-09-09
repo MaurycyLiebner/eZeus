@@ -1,5 +1,7 @@
 #include "etilebase.h"
 
+#include "buildings/ebuilding.h"
+
 void eTileBase::setWalkableElev(const bool w) {
     mWalkableElev = w;
 }
@@ -18,6 +20,17 @@ void eTileBase::setBusy(const bool b) {
 
 void eTileBase::setOnFire(const bool of) {
     mOnFire = of;
+}
+
+bool eTileBase::walkable() const {
+    const auto terr = terrain() & eTerrain::walkable;
+    if(!static_cast<bool>(terr)) return false;
+    const auto t = underBuildingType();
+    if(t == eBuildingType::none) return true;
+    if(t == eBuildingType::vine) return true;
+    if(t == eBuildingType::oliveTree) return true;
+    if(t == eBuildingType::orangeTree) return true;
+    return false;
 }
 
 bool eTileBase::isElevationTile() const {

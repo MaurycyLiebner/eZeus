@@ -14,27 +14,28 @@ enum class eResourceType {
     carrots = 1 << 4,
     onions = 1 << 5,
     wheat = 1 << 6,
+    oranges = 1 << 7,
 
-    food = (1 << 7) - 1,
+    food = (1 << 8) - 1,
 
-    grapes = 1 << 7,
-    olives = 1 << 8,
-    wine = 1 << 9,
-    oliveOil = 1 << 10,
-    fleece = 1 << 11,
+    grapes = 1 << 8,
+    olives = 1 << 9,
+    wine = 1 << 10,
+    oliveOil = 1 << 11,
+    fleece = 1 << 12,
 
-    wood = 1 << 12,
-    bronze = 1 << 13,
-    marble = 1 << 14,
-    silver = 1 << 15,
+    wood = 1 << 13,
+    bronze = 1 << 14,
+    marble = 1 << 15,
+    silver = 1 << 16,
 
-    armor = 1 << 16,
-    sculpture = 1 << 17,
+    armor = 1 << 17,
+    sculpture = 1 << 18,
 
-    all = (1 << 18) - 1,
+    all = (1 << 19) - 1,
     warehouse = (all & ~food & ~silver) | wheat,
 
-    horse = 1 << 19,
+    horse = 1 << 20,
 };
 
 inline eResourceType operator|(const eResourceType a, const eResourceType b) {

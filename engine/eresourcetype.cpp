@@ -20,6 +20,7 @@ std::vector<eResourceType> eResourceTypeHelpers::extractResourceTypes(const eRes
     extractResourceType(from, eResourceType::carrots, result);
     extractResourceType(from, eResourceType::onions, result);
     extractResourceType(from, eResourceType::wheat, result);
+    extractResourceType(from, eResourceType::oranges, result);
     extractResourceType(from, eResourceType::fleece, result);
     extractResourceType(from, eResourceType::olives, result);
     extractResourceType(from, eResourceType::oliveOil, result);
@@ -43,6 +44,7 @@ std::string eResourceTypeHelpers::typeName(const eResourceType type) {
     case eResourceType::carrots: return "Carrots";
     case eResourceType::onions: return "Onions";
     case eResourceType::wheat: return "Wheat";
+    case eResourceType::oranges: return "Oranges";
     case eResourceType::food: return "Food";
     case eResourceType::grapes: return "Grapes";
     case eResourceType::olives: return "Olives";

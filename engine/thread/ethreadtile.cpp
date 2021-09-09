@@ -40,16 +40,6 @@ void eThreadTile::load(const eThreadTile& src) {
     mUnderBuilding = src.mUnderBuilding;
 }
 
-bool eThreadTile::walkable() const {
-    const auto terr = terrain() & eTerrain::walkable;
-    if(!static_cast<bool>(terr)) return false;
-    const auto t = mUnderBuilding.type();
-    if(isUnderBuilding() && !hasRoad() &&
-       t != eBuildingType::vine &&
-       t != eBuildingType::oliveTree) return false;
-    return true;
-}
-
 bool eThreadTile::hasRoad() const {
     return mUnderBuilding.type() == eBuildingType::road;
 }

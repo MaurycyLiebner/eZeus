@@ -18,6 +18,8 @@ enum class eBuildingMode {
 
     vine,
     oliveTree,
+    orangeTree,
+    orangeTendersLodge,
     growersLodge,
 
     dairy,

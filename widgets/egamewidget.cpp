@@ -45,6 +45,7 @@
 #include "buildings/ewarehouse.h"
 
 #include "buildings/egrowerslodge.h"
+
 #include "buildings/ewinery.h"
 #include "buildings/eolivepress.h"
 #include "buildings/esculpturestudio.h"
@@ -562,8 +563,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                 }
             }
         }
-
-        if(!tile->underBuilding() || tile->hasRoad()) {
+        const auto bt = tile->underBuildingType();
+        if(bt == eBuildingType::none ||
+           bt == eBuildingType::road ||
+           bt == eBuildingType::vine ||
+           bt == eBuildingType::oliveTree ||
+           bt == eBuildingType::orangeTree) {
             const auto& chars = tile->characters();
             for(const auto& c : chars) {
                 const auto tex = c->getTexture(mTileSize);
@@ -762,12 +767,20 @@ void eGameWidget::paintEvent(ePainter& p) {
         } break;
 
         case eBuildingMode::oliveTree: {
-            const auto b1 = e::make_shared<eResourceBuilding>(mBoard, eResourceBuildingType::oliveTree);
+            const auto b1 = e::make_shared<eResourceBuilding>(
+                                mBoard, eResourceBuildingType::oliveTree);
             ebs.emplace_back(gHoverX, gHoverY, b1);
             specReq = tileFertile;
         } break;
         case eBuildingMode::vine: {
-            const auto b1 = e::make_shared<eResourceBuilding>(mBoard, eResourceBuildingType::vine);
+            const auto b1 = e::make_shared<eResourceBuilding>(
+                                mBoard, eResourceBuildingType::vine);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+            specReq = tileFertile;
+        } break;
+        case eBuildingMode::orangeTree: {
+            const auto b1 = e::make_shared<eResourceBuilding>(
+                                mBoard, eResourceBuildingType::orangeTree);
             ebs.emplace_back(gHoverX, gHoverY, b1);
             specReq = tileFertile;
         } break;
@@ -794,7 +807,13 @@ void eGameWidget::paintEvent(ePainter& p) {
         } break;
 
         case eBuildingMode::growersLodge: {
-            const auto b1 = e::make_shared<eGrowersLodge>(mBoard);
+            const auto b1 = e::make_shared<eGrowersLodge>(
+                                mBoard, eGrowerType::grapesAndOlives);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::orangeTendersLodge: {
+            const auto b1 = e::make_shared<eGrowersLodge>(
+                                mBoard, eGrowerType::oranges);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
 
@@ -1370,14 +1389,24 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             case eBuildingMode::oliveTree:
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 1, 1,
-                          [this]() { return e::make_shared<eResourceBuilding>(mBoard, eResourceBuildingType::oliveTree); },
+                          [this]() { return e::make_shared<eResourceBuilding>(
+                                    mBoard, eResourceBuildingType::oliveTree); },
                           tileFertile);
                 };
                 break;
             case eBuildingMode::vine:
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 1, 1,
-                          [this]() { return e::make_shared<eResourceBuilding>(mBoard, eResourceBuildingType::vine); },
+                          [this]() { return e::make_shared<eResourceBuilding>(
+                                    mBoard, eResourceBuildingType::vine); },
+                          tileFertile);
+                };
+                break;
+            case eBuildingMode::orangeTree:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 1, 1,
+                          [this]() { return e::make_shared<eResourceBuilding>(
+                                    mBoard, eResourceBuildingType::orangeTree); },
                           tileFertile);
                 };
                 break;
@@ -1459,7 +1488,15 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             case eBuildingMode::growersLodge:
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
-                          [this]() { return e::make_shared<eGrowersLodge>(mBoard); });
+                          [this]() { return e::make_shared<eGrowersLodge>(
+                                    mBoard, eGrowerType::grapesAndOlives); });
+                };
+                break;
+            case eBuildingMode::orangeTendersLodge:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eGrowersLodge>(
+                                    mBoard, eGrowerType::oranges); });
                 };
                 break;
 

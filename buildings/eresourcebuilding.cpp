@@ -9,6 +9,8 @@ eBuildingType resourceTypeToBuildingType(const eResourceBuildingType r) {
         return eBuildingType::oliveTree;
     case eResourceBuildingType::vine:
         return eBuildingType::vine;
+    case eResourceBuildingType::orangeTree:
+        return eBuildingType::orangeTree;
     }
     return eBuildingType::oliveTree;
 }
@@ -29,6 +31,8 @@ std::shared_ptr<eTexture> eResourceBuilding::getTexture(const eTileSize size) co
         return colls.fOliveTree.getTexture(mRipe);
     case eResourceBuildingType::vine:
         return colls.fVine.getTexture(mRipe);
+    case eResourceBuildingType::orangeTree:
+        return colls.fOrangeTree.getTexture(mRipe);
     }
     return std::shared_ptr<eTexture>();
 }

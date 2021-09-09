@@ -5,7 +5,8 @@
 
 enum class eResourceBuildingType {
     oliveTree,
-    vine
+    vine,
+    orangeTree
 };
 
 class eResourceBuilding : public eBuilding {

@@ -30,6 +30,7 @@ int buildingBaseCost(const eBuildingType type) {
 
     case eBuildingType::vine:
     case eBuildingType::oliveTree:
+    case eBuildingType::orangeTree:
         return 3;
 
     case eBuildingType::goat:
@@ -48,6 +49,8 @@ int buildingBaseCost(const eBuildingType type) {
         return 30;
     case eBuildingType::growersLodge:
         return 25;
+    case eBuildingType::orangeTendersLodge:
+        return 20;
     case eBuildingType::huntingLodge:
         return 20;
     case eBuildingType::urchinQuay:
