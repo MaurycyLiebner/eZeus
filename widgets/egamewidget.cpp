@@ -645,13 +645,15 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto pgs = mPatrolBuilding->patrolGuides();
         if(!pgs->empty()) {
             const auto t = mPatrolBuilding->tile();
+            const int tx = t->x();
+            const int ty = t->y();
             std::vector<SDL_Point> polygon;
             polygon.reserve(pgs->size() + 2);
-            pgs->push_back({t->x(), t->y()});
+            polygon.push_back({tx, ty});
             for(const auto& pg : *pgs) {
                 polygon.push_back({pg.fX, pg.fY});
             }
-            pgs->push_back({t->x(), t->y()});
+            polygon.push_back({tx, ty});
             tp.drawPolygon(polygon, {0, 0, 0, 255});
         }
     }
