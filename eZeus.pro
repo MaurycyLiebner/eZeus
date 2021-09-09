@@ -17,6 +17,7 @@ LIBS += -lnoise
 
 SOURCES += \
         buildings/eaestheticsbuilding.cpp \
+        buildings/eanimalbuilding.cpp \
         buildings/eappeal.cpp \
         buildings/earmory.cpp \
         buildings/earmsvendor.cpp \
@@ -232,6 +233,7 @@ SOURCES += \
 
 HEADERS += \
     buildings/eaestheticsbuilding.h \
+    buildings/eanimalbuilding.h \
     buildings/eappeal.h \
     buildings/earmory.h \
     buildings/earmsvendor.h \

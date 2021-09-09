@@ -23,6 +23,7 @@
 #include "eviewmode.h"
 
 class eTerrainEditMenu;
+class eDomesticatedAnimal;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
 
@@ -63,6 +64,11 @@ private:
                const int sw, const int sh,
                const eBuildingCreator& bc,
                const eSpecialRequirement& specReq = {});
+    using eDA = eDomesticatedAnimal;
+    using eAnimalCreator = std::function<stdsptr<eDA>(eGameBoard&)>;
+    void buildAnimal(eTile* const tile,
+                     const eBuildingType type,
+                     const eAnimalCreator& creator);
     bool erase(eTile* const tile);
     std::vector<ePatrolGuide>::iterator
         findGuide(const int tx, const int ty);

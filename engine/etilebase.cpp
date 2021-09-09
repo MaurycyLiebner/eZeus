@@ -30,6 +30,8 @@ bool eTileBase::walkable() const {
     if(t == eBuildingType::vine) return true;
     if(t == eBuildingType::oliveTree) return true;
     if(t == eBuildingType::orangeTree) return true;
+    if(t == eBuildingType::sheep) return true;
+    if(t == eBuildingType::goat) return true;
     return false;
 }
 

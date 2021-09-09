@@ -68,6 +68,8 @@
 #include "buildings/epark.h"
 #include "buildings/ecolumn.h"
 
+#include "buildings/eanimalbuilding.h"
+
 #include "characters/esheep.h"
 #include "characters/egoat.h"
 #include "characters/actions/eanimalaction.h"
@@ -417,6 +419,31 @@ bool tileFertile(eTile* const tile) {
     return tile->terrain() == eTerrain::fertile;
 }
 
+void eGameWidget::buildAnimal(eTile* const tile,
+                              const eBuildingType type,
+                              const eAnimalCreator& creator) {
+    const int tx = tile->x();
+    const int ty = tile->y();
+    const bool cb = canBuild(tx, ty, 1, 2, tileFertile);
+    if(!cb) return;
+    const auto sh = creator(mBoard);
+    sh->changeTile(tile);
+    const auto e = []() {};
+    sh->setAction(e::make_shared<eAnimalAction>(
+                     sh.get(), e, e, tx, ty,
+                     eMoveAroundAction::sFertileWalkable));
+
+    const auto diff = mBoard.difficulty();
+    const int cost = eDifficultyHelpers::buildingCost(
+                         diff, type);
+    mBoard.incDrachmas(-cost);
+
+    build(tx, ty, 1, 2, [this, sh, type]() {
+        return e::make_shared<eAnimalBuilding>(
+                    mBoard, sh.get(), type);
+    }, tileFertile);
+}
+
 void eGameWidget::paintEvent(ePainter& p) {
     mThreadPool.handleFinished();
     mTime += mSpeed;
@@ -497,6 +524,18 @@ void eGameWidget::paintEvent(ePainter& p) {
         double rx;
         double ry;
         drawXY(tx, ty, rx, ry, 1, 1, a);
+
+        const auto mode = mGm->mode();
+        if(mode == eBuildingMode::sheep ||
+           mode == eBuildingMode::goat ||
+           mode == eBuildingMode::erase) {
+            const auto t = tile->underBuildingType();
+            if(t == eBuildingType::sheep ||
+               t == eBuildingType::goat) {
+                const auto tex = trrTexs.fBuildingBase;
+                tp.drawTexture(rx, ry, tex, eAlignment::top);
+            }
+        }
         if(!db) {
             if(mViewMode == eViewMode::patrolBuilding) {
                 if(mPatrolBuilding && tile->underBuilding() && !tile->hasRoad()) {
@@ -568,7 +607,9 @@ void eGameWidget::paintEvent(ePainter& p) {
            bt == eBuildingType::road ||
            bt == eBuildingType::vine ||
            bt == eBuildingType::oliveTree ||
-           bt == eBuildingType::orangeTree) {
+           bt == eBuildingType::orangeTree ||
+           bt == eBuildingType::sheep ||
+           bt == eBuildingType::goat) {
             const auto& chars = tile->characters();
             for(const auto& c : chars) {
                 const auto tex = c->getTexture(mTileSize);
@@ -1435,32 +1476,18 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 
             case eBuildingMode::sheep:
                 apply = [this](eTile* const tile) {
-                    if(!tileFertile(tile)) return;
-                    const auto sh = e::make_shared<eSheep>(mBoard);
-                    sh->changeTile(tile);
-                    const auto e = []() {};
-                    sh->setAction(e::make_shared<eAnimalAction>(
-                                     sh.get(), e, e, tile->x(), tile->y(),
-                                     eMoveAroundAction::sFertileWalkable));
-
-                    const auto diff = mBoard.difficulty();
-                    const int cost = eDifficultyHelpers::buildingCost(diff, eBuildingType::sheep);
-                    mBoard.incDrachmas(-cost);
+                    buildAnimal(tile, eBuildingType::sheep,
+                                [](eGameBoard& board) {
+                        return e::make_shared<eSheep>(board);
+                    });
                 };
                 break;
             case eBuildingMode::goat:
                 apply = [this](eTile* const tile) {
-                    if(!tileFertile(tile)) return;
-                    const auto gt = e::make_shared<eGoat>(mBoard);
-                    gt->changeTile(tile);
-                    const auto e = []() {};
-                    gt->setAction(e::make_shared<eAnimalAction>(
-                                     gt.get(), e, e, tile->x(), tile->y(),
-                                     eMoveAroundAction::sFertileWalkable));
-
-                    const auto diff = mBoard.difficulty();
-                    const int cost = eDifficultyHelpers::buildingCost(diff, eBuildingType::goat);
-                    mBoard.incDrachmas(-cost);
+                    buildAnimal(tile, eBuildingType::goat,
+                                [](eGameBoard& board) {
+                        return e::make_shared<eGoat>(board);
+                    });
                 };
                 break;
 
