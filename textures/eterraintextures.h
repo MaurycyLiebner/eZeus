@@ -55,6 +55,9 @@ public:
     std::shared_ptr<eTexture> fBuildingBase;
     std::shared_ptr<eTexture> fSelectedBuildingBase;
 
+    eTextureCollection fBuildingBase2;
+    eTextureCollection fBuildingBase3;
+
     eTextureCollection fElevation;
 };
 

@@ -444,6 +444,50 @@ void eGameWidget::buildAnimal(eTile* const tile,
     }, tileFertile);
 }
 
+stdsptr<eTexture> getBasementTexture(
+        eTile* const tile, eBuilding* const d,
+        const eTerrainTextures& trrTexs) {
+    const int tx = tile->x();
+    const int ty = tile->y();
+
+    const auto tr = d->tileRect();
+    const int right = tr.x + tr.w - 1;
+    const int bottom = tr.y + tr.h - 1;
+    int id = 0;
+    if(tr.w == 1 && tr.h == 1) {
+        id = 0;
+    } else if(tx == tr.x) {
+        if(ty == tr.y) {
+            id = 2;
+        } else if(ty == bottom) {
+            id = 8;
+        } else {
+            id = 9;
+        }
+    } else if(tx == right) {
+        if(ty == tr.y) {
+            id = 4;
+        } else if(ty == bottom) {
+            id = 6;
+        } else {
+            id = 5;
+        }
+    } else if(ty == tr.y) {
+        id = 3;
+    } else if(ty == bottom) {
+        id = 7;
+    } else {
+        id = 1;
+    }
+    const eTextureCollection* coll = nullptr;
+    if(d->type() == eBuildingType::commonHouse) {
+        coll = &trrTexs.fBuildingBase3;
+    } else {
+        coll = &trrTexs.fBuildingBase2;
+    }
+    return coll->getTexture(id);
+}
+
 void eGameWidget::paintEvent(ePainter& p) {
     mThreadPool.handleFinished();
     mTime += mSpeed;
@@ -512,10 +556,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     });
 
-    const bool db = static_cast<bool>(
-                        mViewMode &
-                        eViewMode::displayBuildings);
-
     iterateOverTiles([&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
@@ -536,41 +576,45 @@ void eGameWidget::paintEvent(ePainter& p) {
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
             }
         }
-        if(!db) {
-            if(mViewMode == eViewMode::patrolBuilding) {
-                if(mPatrolBuilding && tile->underBuilding() && !tile->hasRoad()) {
-                    const std::shared_ptr<eTexture>* tex;
-                    if(tile->underBuilding() == mPatrolBuilding) {
-                        tex = &trrTexs.fSelectedBuildingBase;
-                    } else {
-                        tex = &trrTexs.fBuildingBase;
-                    }
-                    tp.drawTexture(rx, ry, *tex, eAlignment::top);
+        const auto d = tile->underBuilding();
+        if(mViewMode == eViewMode::patrolBuilding) {
+            if(mPatrolBuilding && d && !tile->hasRoad()) {
+                std::shared_ptr<eTexture> tex;
+                if(d == mPatrolBuilding) {
+                    tex = trrTexs.fSelectedBuildingBase;
+                } else {
+                    tex = getBasementTexture(tile, d, trrTexs);
                 }
-            } else if(mViewMode == eViewMode::appeal) {
-                const auto& am = mBoard.appealMap();
-                const auto ae = am.enabled(tx, ty);
-                const auto ubt = tile->underBuildingType();
-                const bool ch = ubt == eBuildingType::commonHouse;
-                if(ae || ch) {
-                    const eTextureCollection* coll;
-                    if(ch) {
-                        coll = &builTexs.fHouseAppeal;
-                    } else {
-                        coll = &builTexs.fAppeal;
-                    }
-                    const double app = am.appeal(tx, ty);
-                    const double mult = app > 0 ? 1 : -1;
-                    const double appS = mult*pow(abs(app), 0.75);
-                    int appId = (int)std::round(appS + 2.);
-                    appId = std::clamp(appId, 0, 9);
-                    const auto tex = coll->getTexture(appId);
-                    tp.drawTexture(rx, ry, tex, eAlignment::top);
-                }
+                tp.drawTexture(rx, ry, tex, eAlignment::top);
             }
-        } else if(const auto d = tile->building()) {
+        } else if(mViewMode == eViewMode::appeal) {
+            const auto& am = mBoard.appealMap();
+            const auto ae = am.enabled(tx, ty);
+            const auto ubt = tile->underBuildingType();
+            const bool ch = ubt == eBuildingType::commonHouse;
+            if(ae || ch) {
+                const eTextureCollection* coll;
+                if(ch) {
+                    coll = &builTexs.fHouseAppeal;
+                } else {
+                    coll = &builTexs.fAppeal;
+                }
+                const double app = am.appeal(tx, ty);
+                const double mult = app > 0 ? 1 : -1;
+                const double appS = mult*pow(abs(app), 0.75);
+                int appId = (int)std::round(appS + 2.);
+                appId = std::clamp(appId, 0, 9);
+                const auto tex = coll->getTexture(appId);
+                tp.drawTexture(rx, ry, tex, eAlignment::top);
+            }
+        } else if(d) {
             const auto type = d->type();
-            if(type != eBuildingType::road) {
+            const bool v = eViewModeHelpers::buildingVisible(
+                               mViewMode, type);
+            if(!v) {
+                const auto tex = getBasementTexture(tile, d, trrTexs);
+                tp.drawTexture(rx, ry, tex, eAlignment::top);
+            } else if(tile->building() && type != eBuildingType::road) {
                 if(type == eBuildingType::park) {
                     int futureDim = 1;
                     int drawDim = 1;
@@ -582,17 +626,16 @@ void eGameWidget::paintEvent(ePainter& p) {
                                          futureDim, drawDim);
                     tile->setFutureDimension(futureDim);
                     if(drawDim > 0) {
-                        double rx;
-                        double ry;
-                        drawXY(tx, ty, rx, ry, 1, 1, a);
+                        double rx0 = rx;
+                        double ry0 = ry;
                         if(drawDim == 2) {
-                            rx += 0.5;
-                            ry += 0.5;
+                            rx0 += 0.5;
+                            ry0 += 0.5;
                         } else if(drawDim == 3) {
-                            rx += 1.0;
-                            ry += 1.0;
+                            rx0 += 1.0;
+                            ry0 += 1.0;
                         }
-                        tp.drawTexture(rx, ry, tex, eAlignment::top);
+                        tp.drawTexture(rx0, ry0, tex, eAlignment::top);
                     }
                 } else {
                     double rx;
@@ -612,6 +655,9 @@ void eGameWidget::paintEvent(ePainter& p) {
            bt == eBuildingType::goat) {
             const auto& chars = tile->characters();
             for(const auto& c : chars) {
+                const bool v = eViewModeHelpers::characterVisible(
+                                   mViewMode, c->type());
+                if(!v) continue;
                 const auto tex = c->getTexture(mTileSize);
                 const double x = tx - a + c->x() + 0.25;
                 const double y = ty - a + c->y() + 0.25;

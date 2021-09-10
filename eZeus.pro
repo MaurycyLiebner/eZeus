@@ -226,6 +226,7 @@ SOURCES += \
         widgets/eterraineditmenu.cpp \
         widgets/etilepainter.cpp \
         widgets/etopbarwidget.cpp \
+        widgets/eviewmode.cpp \
         widgets/ewidget.cpp \
         widgets/infowidgets/egyminfowidget.cpp \
         widgets/infowidgets/einfowidget.cpp \

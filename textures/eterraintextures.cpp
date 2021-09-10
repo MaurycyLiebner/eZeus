@@ -37,6 +37,9 @@ eTerrainTextures::eTerrainTextures(const int tileW, const int tileH,
 
     fTinyStones(renderer),
 
+    fBuildingBase2(renderer),
+    fBuildingBase3(renderer),
+
     fElevation(renderer) {
 
 }
@@ -153,6 +156,13 @@ void eTerrainTextures::load() {
         fBuildingBase->load(fRenderer, pathBase + "00037.png");
         fSelectedBuildingBase = std::make_shared<eTexture>();
         fSelectedBuildingBase->load(fRenderer, pathBase + "00038.png");
+
+        for(int i = 43; i < 53; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fBuildingBase2);
+        }
+        for(int i = 53; i < 63; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fBuildingBase3);
+        }
     }
 
     {
