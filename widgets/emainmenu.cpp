@@ -9,7 +9,7 @@ void addButton(const std::string& text,
                eWidget* const buttons,
                eMainWindow* const window) {
     const auto w1 = new eFramedWidget(window);
-    w1->setPadding(w1->padding()/2);
+    w1->setSmallPadding();
     buttons->addWidget(w1);
     const auto b1 = new eButton(window);
     w1->addWidget(b1);

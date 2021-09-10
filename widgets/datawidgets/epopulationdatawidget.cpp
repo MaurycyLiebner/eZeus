@@ -2,9 +2,19 @@
 
 #include "engine/egameboard.h"
 
+#include "eviewmodebutton.h"
+
 #include "../elabel.h"
 
 void ePopulationDataWidget::initialize() {
+    mSeeSupplies = new eViewModeButton(
+                     "See Supplies",
+                     eViewMode::supplies,
+                     window());
+
+    addWidget(mSeeSupplies);
+    mSeeSupplies->align(eAlignment::hcenter);
+
     const auto p = new eLabel("Population:", window());
     p->setSmallFontSize();
     p->fitContent();
@@ -17,31 +27,25 @@ void ePopulationDataWidget::initialize() {
     mVacLabel = new eLabel("-", window());
     mVacLabel->setSmallFontSize();
     mVacLabel->fitContent();
-    const auto s = new eLabel("Settlers:", window());
-    s->setSmallFontSize();
-    s->fitContent();
-    mSetLabel = new eLabel("-", window());
-    mSetLabel->setSmallFontSize();
-    mSetLabel->fitContent();
 
     addWidget(p);
     addWidget(mPopLabel);
     addWidget(v);
     addWidget(mVacLabel);
-    addWidget(s);
-    addWidget(mSetLabel);
 
     p->align(eAlignment::hcenter);
     v->align(eAlignment::hcenter);
-    s->align(eAlignment::hcenter);
     mPopLabel->align(eAlignment::hcenter);
     mVacLabel->align(eAlignment::hcenter);
-    mSetLabel->align(eAlignment::hcenter);
     layoutVertically();
 }
 
 void ePopulationDataWidget::setBoard(eGameBoard* const b) {
     mBoard = b;
+}
+
+void ePopulationDataWidget::setGameWidget(eGameWidget* const gw) {
+    mSeeSupplies->setGameWidget(gw);
 }
 
 void ePopulationDataWidget::paintEvent(ePainter& p) {
@@ -58,11 +62,6 @@ void ePopulationDataWidget::paintEvent(ePainter& p) {
         mVacLabel->setText(std::to_string(v));
         mVacLabel->fitContent();
         mVacLabel->align(eAlignment::hcenter);
-
-        const int s = popData.settlers();
-        mSetLabel->setText(std::to_string(s));
-        mSetLabel->fitContent();
-        mSetLabel->align(eAlignment::hcenter);
     }
     eWidget::paintEvent(p);
 }

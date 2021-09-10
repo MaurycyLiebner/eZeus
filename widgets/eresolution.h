@@ -18,7 +18,11 @@ public:
 
     double multiplier() const;
 
-    int padding() const;
+    int hugePadding() const;
+    int largePadding() const;
+    int smallPadding() const;
+    int tinyPadding() const;
+
     int margin() const;
 
     int hugeFontSize() const;

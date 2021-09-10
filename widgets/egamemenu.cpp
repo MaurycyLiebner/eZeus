@@ -11,6 +11,8 @@
 #include "widgets/datawidgets/eemploymentdatawidget.h"
 #include "widgets/datawidgets/eappealdatawidget.h"
 #include "widgets/datawidgets/estoragedatawidget.h"
+#include "widgets/datawidgets/ehygienesafetydatawidget.h"
+#include "widgets/datawidgets/eculturedatawidget.h"
 #include "eminimap.h"
 
 struct eSubButtonData {
@@ -276,12 +278,24 @@ void eGameMenu::initialize() {
     const auto h4 = [this]() {
         setMode(eBuildingMode::hospital);
     };
+    const auto ww4 = new eWidget(window());
     const auto w4 = createSubButtons(mult,
                         eButtonsDataVec{
                              {ff4, &coll.fFireFighter},
                              {f4, &coll.fFountain},
                              {p4, &coll.fPolice},
                              {h4, &coll.fHospital}});
+
+    mHySaDataW = new eHygieneSafetyDataWidget(window());
+    mHySaDataW->setWidth(dataWidWidth);
+    mHySaDataW->setHeight(dataWidHeight);
+    mHySaDataW->initialize();
+    ww4->addWidget(mHySaDataW);
+    ww4->addWidget(w4);
+    ww4->fitContent();
+    ww4->setHeight(wwHeight);
+    w4->setY(wy);
+    mHySaDataW->align(eAlignment::top);
 
     const auto p5 = [this]() {
         setMode(eBuildingMode::palace);
@@ -321,12 +335,24 @@ void eGameMenu::initialize() {
     const auto s6 = [this]() {
         setMode(eBuildingMode::stadium);
     };
+    const auto ww6 = new eWidget(window());
     const auto w6 = createSubButtons(mult,
                         eButtonsDataVec{
                              {p6, &coll.fPhilosophy},
                              {g6, &coll.fGymnasium},
                              {d6, &coll.fDrama},
                              {s6, &coll.fStadium}});
+
+    mCultureDataW = new eCultureDataWidget(window());
+    mCultureDataW->setWidth(dataWidWidth);
+    mCultureDataW->setHeight(dataWidHeight);
+    mCultureDataW->initialize();
+    ww6->addWidget(mCultureDataW);
+    ww6->addWidget(w6);
+    ww6->fitContent();
+    ww6->setHeight(wwHeight);
+    w6->setY(wy);
+    mCultureDataW->align(eAlignment::top);
 
 
     const auto t7 = [this, cmx, cmy, coll, mult]() {};
@@ -411,9 +437,9 @@ void eGameMenu::initialize() {
     mWidgets.push_back(w1);
     mWidgets.push_back(ww2);
     mWidgets.push_back(www3);
-    mWidgets.push_back(w4);
+    mWidgets.push_back(ww4);
     mWidgets.push_back(w5);
-    mWidgets.push_back(w6);
+    mWidgets.push_back(ww6);
     mWidgets.push_back(w7);
     mWidgets.push_back(w8);
     mWidgets.push_back(ww9);
@@ -429,9 +455,9 @@ void eGameMenu::initialize() {
     const auto b1 = addButton(coll.fHusbandry, w1);
     const auto b2 = addButton(coll.fIndustry, ww2);
     const auto b3 = addButton(coll.fDistribution, www3);
-    const auto b4 = addButton(coll.fHygieneSafety, w4);
+    const auto b4 = addButton(coll.fHygieneSafety, ww4);
     const auto b5 = addButton(coll.fAdministration, w5);
-    const auto b6 = addButton(coll.fCulture, w6);
+    const auto b6 = addButton(coll.fCulture, ww6);
     const auto b7 = addButton(coll.fMythology, w7);
     const auto b8 = addButton(coll.fMilitary, w8);
     const auto b9 = addButton(coll.fAesthetics, ww9);
@@ -503,7 +529,10 @@ void eGameMenu::initialize() {
 }
 
 void eGameMenu::setGameWidget(eGameWidget* const gw) {
+    mPopDataW->setGameWidget(gw);
     mApplDataW->setGameWidget(gw);
+    mHySaDataW->setGameWidget(gw);
+    mCultureDataW->setGameWidget(gw);
 }
 
 void eGameMenu::setBoard(eGameBoard* const b) {

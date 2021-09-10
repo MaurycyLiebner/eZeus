@@ -13,6 +13,8 @@ class ePopulationDataWidget;
 class eEmploymentDataWidget;
 class eStorageDataWidget;
 class eAppealDataWidget;
+class eHygieneSafetyDataWidget;
+class eCultureDataWidget;
 class eMiniMap;
 class eGameWidget;
 
@@ -50,6 +52,8 @@ private:
     eEmploymentDataWidget* mEmplDataW = nullptr;
     eStorageDataWidget* mStrgDataW = nullptr;
     eAppealDataWidget* mApplDataW = nullptr;
+    eHygieneSafetyDataWidget* mHySaDataW = nullptr;
+    eCultureDataWidget* mCultureDataW = nullptr;
 
     eMiniMap* mMiniMap = nullptr;
 

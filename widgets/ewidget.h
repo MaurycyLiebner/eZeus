@@ -32,6 +32,12 @@ public:
     void setVisible(const bool v);
     void clearWidgetPointers();
 
+    void setHugePadding();
+    void setLargePadding();
+    void setSmallPadding();
+    void setTinyPadding();
+    void setNoPadding();
+
     void align(const eAlignment a);
 
     int x() const { return mX; }

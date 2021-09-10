@@ -13,7 +13,7 @@ eWidget* eWidget::sKeyboardGrabber = nullptr;
 
 eWidget::eWidget(eMainWindow* const window) :
     mWindow(window) {
-    mPadding = resolution().padding();
+    mPadding = resolution().largePadding();
 }
 
 eWidget::~eWidget() {
@@ -87,6 +87,26 @@ void eWidget::clearWidgetPointers() {
     if(sLastPressed == this) sLastPressed = nullptr;
     if(sMouseGrabber == this) sMouseGrabber = nullptr;
     if(sKeyboardGrabber == this) sKeyboardGrabber = nullptr;
+}
+
+void eWidget::setHugePadding() {
+    mPadding = resolution().hugePadding();
+}
+
+void eWidget::setLargePadding() {
+    mPadding = resolution().largePadding();
+}
+
+void eWidget::setSmallPadding() {
+    mPadding = resolution().smallPadding();
+}
+
+void eWidget::setTinyPadding() {
+    mPadding = resolution().tinyPadding();
+}
+
+void eWidget::setNoPadding() {
+    mPadding = 0;
 }
 
 void eWidget::align(const eAlignment a) {

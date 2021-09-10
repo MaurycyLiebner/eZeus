@@ -15,11 +15,11 @@ public:
 
     void setChecked(const bool c);
     void setCheckedTexture(const std::shared_ptr<eTexture>& tex);
+protected:
+    void paintEvent(ePainter& p);
 private:
     using eButton::setPressAction;
 private:
-    void paintEvent(ePainter& p);
-
     std::shared_ptr<eTexture> mCheckedTexture;
     bool mChecked = false;
 };

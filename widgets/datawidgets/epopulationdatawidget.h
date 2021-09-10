@@ -5,6 +5,8 @@
 
 class eGameBoard;
 class eLabel;
+class eGameWidget;
+class eViewModeButton;
 
 class ePopulationDataWidget : public eWidget {
 public:
@@ -13,14 +15,16 @@ public:
     void initialize();
 
     void setBoard(eGameBoard* const b);
+
+    void setGameWidget(eGameWidget* const gw);
 protected:
     void paintEvent(ePainter& p);
 private:
+    eViewModeButton* mSeeSupplies = nullptr;
     eGameBoard* mBoard = nullptr;
 
     eLabel* mPopLabel = nullptr;
     eLabel* mVacLabel = nullptr;
-    eLabel* mSetLabel = nullptr;
 
     int mTime{0};
 };

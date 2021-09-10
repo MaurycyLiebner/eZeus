@@ -31,12 +31,24 @@ eResolution::eResolution(const int width, const int height) :
     mName = std::to_string(mWidth) + "x" + std::to_string(mHeight);
 }
 
-int eResolution::padding() const {
-    return 15*multiplier();
+int eResolution::hugePadding() const {
+    return 3*largePadding()/2;
+}
+
+int eResolution::largePadding() const {
+    return 10*multiplier();
+}
+
+int eResolution::smallPadding() const {
+    return 3*largePadding()/4;
+}
+
+int eResolution::tinyPadding() const {
+    return largePadding()/2;
 }
 
 int eResolution::margin() const {
-    return padding();
+    return largePadding();
 }
 
 double eResolution::multiplier() const {
