@@ -1,7 +1,7 @@
 #ifndef EBUILDING_H
 #define EBUILDING_H
 
-#include "pointers/estdselfref.h"
+#include "pointers/eobject.h"
 
 #include "eoverlay.h"
 #include "etexturecollection.h"
@@ -110,7 +110,7 @@ enum class eBuildingType {
     road
 };
 
-class eBuilding : public eStdSelfRef {
+class eBuilding : public eObject {
 public:
     eBuilding(eGameBoard& board,
               const eBuildingType type,
@@ -156,8 +156,6 @@ public:
     void catchOnFire();
     void spreadFire();
 
-    eGameBoard& getBoard() { return mBoard; }
-
     const std::vector<eTile*>& tilesUnder() const {
         return mUnderBuilding;
     }
@@ -170,12 +168,13 @@ public:
 
     void setOverlayEnabledFunc(const std::function<bool()>& e);
     bool overlayEnabled() const { return mOverlayEnabled(); }
+
+    int maintenance() const { return mMaintance; }
 private:
     std::vector<eTile*> mUnderBuilding;
     SDL_Rect mTileRect;
 
     int mMaintance = 100;
-    eGameBoard& mBoard;
     int mSeed;
     const eBuildingType mType;
     const int mSpanW;

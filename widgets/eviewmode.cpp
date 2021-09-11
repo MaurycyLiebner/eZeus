@@ -3,6 +3,9 @@
 bool eViewModeHelpers::buildingVisible(
         const eViewMode viewMode,
         const eBuildingType b) {
+    if(b == eBuildingType::road) return true;
+    if(b == eBuildingType::ruins) return true;
+
     switch(viewMode) {
     case eViewMode::defaultView: {
         return true;

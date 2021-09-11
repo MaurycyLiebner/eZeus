@@ -110,8 +110,13 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fUpButton(renderer),
     fDownButton(renderer),
 
-    fDiamond(renderer) {
-}
+    fColumn1(renderer),
+    fColumn2(renderer),
+    fColumn3(renderer),
+    fColumn4(renderer),
+    fColumn5(renderer),
+
+    fDiamond(renderer) {}
 
 void eInterfaceTextures::load() {
     const std::string basedir{"../ZeusTextures/" + std::to_string(fTileH) + "/"};
@@ -476,6 +481,25 @@ void eInterfaceTextures::load() {
 
     fSpawner = std::make_shared<eTexture>();
     fSpawner->load(fRenderer, dir + "Zeus_sprites_00026.png");
+
+    {
+        const auto pathBase = dir + "Zeus_sprites_";
+        for(int i = 1; i < 4; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fColumn1);
+        }
+        for(int i = 4; i < 7; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fColumn2);
+        }
+        for(int i = 7; i < 10; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fColumn3);
+        }
+        for(int i = 10; i < 13; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fColumn4);
+        }
+        for(int i = 13; i < 16; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fColumn5);
+        }
+    }
 
     {
         const auto dir = basedir + "/Zeus_Data_Images/";

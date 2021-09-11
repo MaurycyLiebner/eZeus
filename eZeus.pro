@@ -141,10 +141,8 @@ SOURCES += \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
-        engine/egameobject.cpp \
         engine/emainthreadpathfinder.cpp \
         engine/emapgenerator.cpp \
-        engine/emovinggameobject.cpp \
         engine/eotherthreadpathfinder.cpp \
         engine/epathfinder.cpp \
         engine/eresourcetype.cpp \
@@ -165,6 +163,7 @@ SOURCES += \
         etexture.cpp \
         etexturecollection.cpp \
         main.cpp \
+        pointers/eobject.cpp \
         pointers/estdselfref.cpp \
         spawners/eboarspawner.cpp \
         spawners/edeerspawner.cpp \
@@ -363,11 +362,9 @@ HEADERS += \
     engine/efunctask.h \
     engine/egameboard.h \
     engine/egameboarditerator.h \
-    engine/egameobject.h \
     engine/emainthreadpathfinder.h \
     engine/emapgenerator.h \
     engine/emovedirection.h \
-    engine/emovinggameobject.h \
     engine/eorientation.h \
     engine/eotherthreadpathfinder.h \
     engine/epathfinder.h \
@@ -393,6 +390,7 @@ HEADERS += \
     offsets/PoseidonImps.h \
     offsets/SprMain.h \
     offsets/Zeus_Demeter.h \
+    pointers/eobject.h \
     pointers/eobject.h \
     pointers/estdpointer.h \
     pointers/estdselfref.h \

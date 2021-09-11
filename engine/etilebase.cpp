@@ -27,6 +27,8 @@ bool eTileBase::walkable() const {
     if(!static_cast<bool>(terr)) return false;
     const auto t = underBuildingType();
     if(t == eBuildingType::none) return true;
+    if(t == eBuildingType::road) return true;
+    if(t == eBuildingType::ruins) return true;
     if(t == eBuildingType::vine) return true;
     if(t == eBuildingType::oliveTree) return true;
     if(t == eBuildingType::orangeTree) return true;

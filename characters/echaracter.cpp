@@ -5,13 +5,14 @@
 #include "actions/edieaction.h"
 #include "actions/efightaction.h"
 
-eCharacter::eCharacter(eGameBoard& board, const eCharacterType type) :
-    eCharacterBase(type), mBoard(board) {
-    mBoard.registerCharacter(this);
+eCharacter::eCharacter(eGameBoard& board,
+                       const eCharacterType type) :
+    eObject(board), eCharacterBase(type) {
+    getBoard().registerCharacter(this);
 }
 
 eCharacter::~eCharacter() {
-    mBoard.unregisterCharacter(this);
+    getBoard().unregisterCharacter(this);
 }
 
 bool eCharacter::canFight(eCharacter* const c) {
@@ -41,7 +42,7 @@ void eCharacter::changeTile(eTile* const t) {
     if(mTile) mTile->removeCharacter(tsptr);
     mTile = t;
     if(t) t->addCharacter(tsptr);
-
+    else deleteLater();
     if(t && mProvide != eProvide::none && mProvideCount > 0) {
         for(const int x : {-1, 0, 1}) {
             for(const int y : {-1, 0, 1}) {

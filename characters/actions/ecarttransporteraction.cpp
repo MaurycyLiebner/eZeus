@@ -44,7 +44,7 @@ void eCartTransporterAction::increment(const int by) {
 void eCartTransporterAction::findTarget() {
     const auto c = character();
     const auto t = c->tile();
-    const auto& brd = c->board();
+    const auto& brd = c->getBoard();
     const auto tp = brd.threadPool();
 
     const int tx = t->x();

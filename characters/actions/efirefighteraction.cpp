@@ -22,7 +22,7 @@ void eFireFighterAction::increment(const int by) {
 bool eFireFighterAction::lookForFire() {
     const auto c = character();
     const auto t = c->tile();
-    const auto& brd = c->board();
+    const auto& brd = c->getBoard();
     const auto tp = brd.threadPool();
 
     const int tx = t->x();
@@ -34,8 +34,12 @@ bool eFireFighterAction::lookForFire() {
     const auto tileWalkable = [](eTileBase* const t) {
         return t->walkable() || t->onFire();
     };
-    const auto failFunc = []() {};
     const stdptr<eCharacterAction> tptr(this);
+    const auto failFunc = [tptr, this]() {
+        if(tptr) {
+            mFireFighting = false;
+        }
+    };
     const auto finishFunc = [tptr, this, c, tileWalkable, failFunc](
                             std::vector<eOrientation> path) {
         if(!tptr) return;

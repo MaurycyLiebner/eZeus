@@ -21,7 +21,7 @@ void eGrowerAction::increment(const int by) {
 
 bool eGrowerAction::findResource() {
     const auto t = mGrower->tile();
-    const auto& brd = mGrower->board();
+    const auto& brd = mGrower->getBoard();
     const auto tp = brd.threadPool();
 
     const int tx = t->x();

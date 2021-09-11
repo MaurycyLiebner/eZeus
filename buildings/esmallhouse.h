@@ -26,6 +26,8 @@ public:
     int people() const { return mPeople; }
 
     int moveIn(int c);
+
+    int water() const { return mWater; }
 private:
     void updateLevel();
     void setLevel(const int l);

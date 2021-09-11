@@ -5,7 +5,7 @@
 void eHygieneSafetyDataWidget::initialize() {
     mSeeWater = new eViewModeButton(
                      "See Water",
-                     eViewMode::supplies,
+                     eViewMode::water,
                      window());
 
     addWidget(mSeeWater);

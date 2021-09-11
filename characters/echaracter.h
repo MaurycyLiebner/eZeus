@@ -1,7 +1,7 @@
 #ifndef ECHARACTER_H
 #define ECHARACTER_H
 
-#include "pointers/estdselfref.h"
+#include "pointers/eobject.h"
 #include "pointers/estdpointer.h"
 
 #include "eoverlay.h"
@@ -14,7 +14,7 @@
 class eGameBoard;
 class eCharacterAction;
 
-class eCharacter : public eStdSelfRef, public eCharacterBase {
+class eCharacter : public eObject, public eCharacterBase {
 public:
     eCharacter(eGameBoard& board, const eCharacterType type);
     virtual ~eCharacter();
@@ -46,8 +46,6 @@ public:
     void setActionType(const eCharacterActionType t);
     int actionStartTime() const { return mActionStartTime; }
 
-    eGameBoard& board() { return mBoard; }
-
     bool hasSecondaryTexture() const { return mHasSecondaryTexture; }
     void setHasSecondaryTexture(const bool st);
 
@@ -59,7 +57,6 @@ private:
     eProvide mProvide = eProvide::none;
     int mProvideCount = 0;
 
-    eGameBoard& mBoard;
     eTile* mTile = nullptr;
     eOrientation mOrientation{eOrientation::top};
     double mX = 0.5;

@@ -20,7 +20,7 @@ eActionWithComeback::eActionWithComeback(
 void eActionWithComeback::goBack(const eWalkable& walkable) {
     const auto c = character();
     const auto t = c->tile();
-    const auto& brd = c->board();
+    const auto& brd = c->getBoard();
     const auto tp = brd.threadPool();
 
     const int tx = t->x();

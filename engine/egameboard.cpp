@@ -126,15 +126,16 @@ void eGameBoard::incTime(const int by) {
     for(const auto c : chars) {
         c->incTime(by);
     }
-    const auto builds = mBuildings;
-    for(const auto b : builds) {
-        stdptr<eBuilding> bptr(b);
+    const auto build = mBuildings;
+    for(const auto b : build) {
         b->incTime(by);
-        if(nextMonth && bptr) b->nextMonth();
+        if(nextMonth) b->nextMonth();
     }
     for(const auto s : mSpawners) {
         s->incTime(by);
     }
+
+    emptyRubbish();
 }
 
 void eGameBoard::incDrachmas(const int d) {
@@ -143,6 +144,14 @@ void eGameBoard::incDrachmas(const int d) {
 
 double eGameBoard::appeal(const int tx, const int ty) const {
     return mAppealMap.appeal(tx, ty);
+}
+
+void eGameBoard::addRubbish(const stdsptr<eObject>& o) {
+    mRubbish.push_back(o);
+}
+
+void eGameBoard::emptyRubbish() {
+    mRubbish.clear();
 }
 
 void eGameBoard::updateDiagonalArray() {

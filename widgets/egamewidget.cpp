@@ -488,6 +488,26 @@ stdsptr<eTexture> getBasementTexture(
     return coll->getTexture(id);
 }
 
+void drawColumn(eTilePainter& tp, const int n,
+                const double rx, const double ry,
+                const eTextureCollection& coll) {
+    double y = 0;
+    const auto top = coll.getTexture(0);
+    const auto mid = coll.getTexture(1);
+    const auto btm = coll.getTexture(2);
+
+    tp.drawTexture(rx + 1 - y, ry - y, btm,
+                   eAlignment::hcenter | eAlignment::top);
+    y += 0.75;
+    for(int i = 0; i < n; i++) {
+        tp.drawTexture(rx + 1 - y, ry - y, mid,
+                       eAlignment::hcenter | eAlignment::top);
+        y += 0.33;
+    }
+    tp.drawTexture(rx + 1 - y, ry - y, top,
+                   eAlignment::hcenter | eAlignment::top);
+}
+
 void eGameWidget::paintEvent(ePainter& p) {
     mThreadPool.handleFinished();
     mTime += mSpeed;
@@ -514,6 +534,8 @@ void eGameWidget::paintEvent(ePainter& p) {
     const int tid = static_cast<int>(mTileSize);
     const auto& trrTexs = eGameTextures::terrain().at(tid);
     const auto& builTexs = eGameTextures::buildings().at(tid);
+    const auto& intrTexs = eGameTextures::interface().at(tid);
+    const auto& destTexs = eGameTextures::destrution().at(tid);
 
     const int sMinX = std::min(gPressedX, gHoverX);
     const int sMinY = std::min(gPressedY, gHoverY);
@@ -643,6 +665,32 @@ void eGameWidget::paintEvent(ePainter& p) {
                     drawXY(tx, ty, rx, ry, d->spanW(), d->spanH(), a);
                     d->draw(tp, rx, ry);
                 }
+
+                if(mViewMode == eViewMode::hazards &&
+                   type != eBuildingType::ruins) {
+                    const int h = 100 - d->maintenance();
+                    if(h > 5) {
+                        const int n = h/15;
+                        const eTextureCollection* coll = nullptr;
+                        if(n < 2) {
+                            coll = &intrTexs.fColumn1;
+                        } else if(n < 3) {
+                            coll = &intrTexs.fColumn2;
+                        } else if(n < 4) {
+                            coll = &intrTexs.fColumn3;
+                        } else {
+                            coll = &intrTexs.fColumn4;
+                        }
+
+                        drawColumn(tp, n, rx, ry, *coll);
+                    }
+                } else if(mViewMode == eViewMode::water) {
+                    if(type == eBuildingType::commonHouse) {
+                        const auto ch = static_cast<eSmallHouse*>(d);
+                        const int w = ch->water()/2;
+                        drawColumn(tp, w, rx, ry, intrTexs.fColumn5);
+                    }
+                }
             }
         }
         const auto bt = tile->underBuildingType();
@@ -671,9 +719,8 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
 
         if(tile->onFire()) {
-            const auto& destr = eGameTextures::destrution().at(tid);
-            const int f = (tx + ty) % destr.fFire.size();
-            const auto& ff = destr.fFire[f];
+            const int f = (tx + ty) % destTexs.fFire.size();
+            const auto& ff = destTexs.fFire[f];
             const int dt = mTime/8 + tx*ty;
             const auto tex = ff.getTexture(dt % ff.size());
             tp.drawTexture(rx - 2, ry - 3, tex, eAlignment::hcenter);
@@ -686,16 +733,14 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const auto& coll = builTexs.fPatrolGuides;
                     const auto tex = coll.getTexture(14);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
-                    const auto& intrfc = eGameTextures::interface().at(tid);
-                    tp.drawTexture(rx, ry - 1, intrfc.fSpawner,
+                    tp.drawTexture(rx, ry - 1, intrTexs.fSpawner,
                                    eAlignment::hcenter | eAlignment::top);
                     break;
                 }
             }
         }
         if(mTem->visible() && tile->spawner()) {
-            const auto& intrfc = eGameTextures::interface().at(tid);
-            tp.drawTexture(rx, ry - 1, intrfc.fSpawner,
+            tp.drawTexture(rx, ry - 1, intrTexs.fSpawner,
                            eAlignment::hcenter | eAlignment::top);
         }
 

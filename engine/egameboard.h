@@ -15,6 +15,8 @@
 
 #include "eresourcetype.h"
 
+#include "pointers/eobject.h"
+
 class eSpawner;
 class eCharacter;
 class eBuilding;
@@ -99,6 +101,9 @@ public:
     double appeal(const int tx, const int ty) const;
 
     double taxRate() const { return mTaxRate; }
+
+    void addRubbish(const stdsptr<eObject>& o);
+    void emptyRubbish();
 private:
     void updateDiagonalArray();
     void updateNeighbours();
@@ -139,6 +144,8 @@ private:
 
                              {eResourceType::armor, 0},
                              {eResourceType::sculpture, 0}};
+
+    std::vector<stdsptr<eObject>> mRubbish;
 
     std::vector<eStorageBuilding*> mStorBuildings;
     std::vector<eCharacter*> mCharacters;

@@ -164,6 +164,12 @@ public:
     eTextureCollection fUpButton;
     eTextureCollection fDownButton;
 
+    eTextureCollection fColumn1;
+    eTextureCollection fColumn2;
+    eTextureCollection fColumn3;
+    eTextureCollection fColumn4;
+    eTextureCollection fColumn5;
+
     eTextureCollection fDiamond;
 };
 

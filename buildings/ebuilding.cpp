@@ -7,14 +7,14 @@
 eBuilding::eBuilding(eGameBoard& board,
                      const eBuildingType type,
                      const int sw, const int sh) :
-    mBoard(board),
+    eObject(board),
     mSeed(rand()), mType(type),
     mSpanW(sw), mSpanH(sh) {
-    mBoard.registerBuilding(this);
+    getBoard().registerBuilding(this);
 }
 
 eBuilding::~eBuilding() {
-    mBoard.unregisterBuilding(this);
+    getBoard().unregisterBuilding(this);
 }
 
 int eBuilding::provide(const eProvide p, const int n) {
@@ -75,20 +75,19 @@ void eBuilding::incTime(const int by) {
                 return;
             }
         }
-    } else if(rand() % (100/by) == 0) {
-        mMaintance = std::max(0, mMaintance - 1);
-        if(mMaintance == 0) {
-            const auto& b = getBoard();
-            const auto diff = b.difficulty();
-            const int fireRisk = eDifficultyHelpers::fireRisk(diff, mType);
-            const int damageRisk = eDifficultyHelpers::fireRisk(diff, mType);
-            if(fireRisk && rand() % (100/fireRisk) == 0) {
-                catchOnFire();
-            } else if(damageRisk && rand() % (100/damageRisk) == 0) {
-                collapse();
-                return;
-            }
+    } else if(mMaintance == 0 && rand() % (5000/by) == 0) {
+        const auto& b = getBoard();
+        const auto diff = b.difficulty();
+        const int fireRisk = eDifficultyHelpers::fireRisk(diff, mType);
+        const int damageRisk = eDifficultyHelpers::fireRisk(diff, mType);
+        if(fireRisk && rand() % (100/fireRisk) == 0) {
+            catchOnFire();
+        } else if(damageRisk && rand() % (100/damageRisk) == 0) {
+            collapse();
+            return;
         }
+    } else if(rand() % (1000/by) == 0) {
+        mMaintance = std::max(0, mMaintance - 1);
     }
     timeChanged(by);
 }
@@ -115,14 +114,14 @@ void eBuilding::addUnderBuilding(eTile* const t) {
 }
 
 void eBuilding::erase() {
+    deleteLater();
     for(const auto t : mUnderBuilding) {
         t->setUnderBuilding(nullptr);
     }
     mUnderBuilding.clear();
     if(mTile) {
-        const auto t = mTile;
+        mTile->setBuilding(nullptr);
         mTile = nullptr;
-        t->setBuilding(nullptr);
     }
 }
 

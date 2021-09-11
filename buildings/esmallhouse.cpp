@@ -78,9 +78,9 @@ int eSmallHouse::provide(const eProvide p, const int n) {
 
 void eSmallHouse::timeChanged(const int by) {
     const int t = time();
-    const bool decw = t % 5000 == 0;
+    const bool decw = t % 5000 < by;
     if(decw) mWater = std::max(0, mWater - 1);
-    const bool ul = t % 1000 == 0;
+    const bool ul = t % 1000 < by;
     if(ul) updateLevel();
     eBuilding::timeChanged(by);
 }
