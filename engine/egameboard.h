@@ -97,12 +97,16 @@ public:
     const eDate& date() const { return mDate; }
 
     double appeal(const int tx, const int ty) const;
+
+    double taxRate() const { return mTaxRate; }
 private:
     void updateDiagonalArray();
     void updateNeighbours();
 
     int mDrachmas = 2500;
     eDifficulty mDifficulty = eDifficulty::beginner;
+
+    double mTaxRate = 0.09;
 
     int mTime = 0;
     eDate mDate = eDate(1, eMonth::january, -1500);

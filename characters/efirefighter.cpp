@@ -6,7 +6,7 @@ eFireFighter::eFireFighter(eGameBoard& board) :
     eCharacter(board, eCharacterType::fireFighter),
     mTextures(eGameTextures::characters()),
     mCharTexs(&eCharacterTextures::fFireFighter) {
-
+    setProvide(eProvide::maintanance, __INT_MAX__);
 }
 
 std::shared_ptr<eTexture> eFireFighter::getTexture(const eTileSize size) const {
@@ -18,6 +18,7 @@ std::shared_ptr<eTexture> eFireFighter::getTexture(const eTileSize size) const {
     bool wrap = true;
     const auto a = actionType();
     switch(a) {
+    default:
     case eCharacterActionType::none:
         return std::shared_ptr<eTexture>();
     case eCharacterActionType::collect:

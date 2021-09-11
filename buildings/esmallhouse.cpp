@@ -54,6 +54,19 @@ int eSmallHouse::provide(const eProvide p, const int n) {
     case eProvide::gymnast:
         value = &mGymnasium;
         break;
+
+    case eProvide::taxes: {
+        if(mPaidTaxes) return 0;
+        mPaidTaxes = true;
+        auto& b = getBoard();
+        const auto diff = b.difficulty();
+        const int taxMult = eDifficultyHelpers::taxMultiplier(
+                                diff, type(), mLevel);
+        const double tax = mPeople * taxMult * b.taxRate();
+        const int iTax = std::round(tax);
+        b.incDrachmas(iTax);
+        return iTax;
+    }
     default:
         return eBuilding::provide(p, n);
     }
@@ -64,15 +77,16 @@ int eSmallHouse::provide(const eProvide p, const int n) {
 }
 
 void eSmallHouse::timeChanged(const int by) {
-    (void)by;
     const int t = time();
     const bool decw = t % 5000 == 0;
     if(decw) mWater = std::max(0, mWater - 1);
     const bool ul = t % 1000 == 0;
     if(ul) updateLevel();
+    eBuilding::timeChanged(by);
 }
 
 void eSmallHouse::nextMonth() {
+    mPaidTaxes = false;
     const int cfood = round(mPeople*0.25);
     const int cfleece = mLevel > 2 ? 2 : 0;
     const int coil = mLevel > 4 ? 2 : 0;

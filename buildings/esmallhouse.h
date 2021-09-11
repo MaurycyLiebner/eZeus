@@ -32,6 +32,8 @@ private:
     int evict();
     void setPeople(const int p);
 
+    bool mPaidTaxes = false;
+
     int mLevel{0};
     int mPeople{0};
     const std::vector<eBuildingTextures>& mTextures;

@@ -126,9 +126,11 @@ void eGameBoard::incTime(const int by) {
     for(const auto c : chars) {
         c->incTime(by);
     }
-    for(const auto b : mBuildings) {
+    const auto builds = mBuildings;
+    for(const auto b : builds) {
+        stdptr<eBuilding> bptr(b);
         b->incTime(by);
-        if(nextMonth) b->nextMonth();
+        if(nextMonth && bptr) b->nextMonth();
     }
     for(const auto s : mSpawners) {
         s->incTime(by);

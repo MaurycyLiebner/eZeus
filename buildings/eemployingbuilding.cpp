@@ -19,7 +19,6 @@ eEmployingBuilding::~eEmployingBuilding() {
 }
 
 void eEmployingBuilding::timeChanged(const int by) {
-    (void)by;
     const auto t = time();
     if(t > mEmployedUpdate) {
         mEmployedUpdate = t + 1000;
@@ -29,6 +28,7 @@ void eEmployingBuilding::timeChanged(const int by) {
         mEmployed = std::clamp(e, 0, mMaxEmployees);
         setEnabled(ef > 0.49);
     }
+    eBuildingWithResource::timeChanged(by);
 }
 
 double eEmployingBuilding::employedFraction() const {

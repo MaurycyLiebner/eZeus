@@ -2,6 +2,7 @@
 
 #include "engine/egameboard.h"
 #include "engine/etile.h"
+#include "eruins.h"
 
 eBuilding::eBuilding(eGameBoard& board,
                      const eBuildingType type,
@@ -14,6 +15,16 @@ eBuilding::eBuilding(eGameBoard& board,
 
 eBuilding::~eBuilding() {
     mBoard.unregisterBuilding(this);
+}
+
+int eBuilding::provide(const eProvide p, const int n) {
+    (void)n;
+    if(p == eProvide::maintanance) {
+        const int nn = 100 - mMaintance;
+        mMaintance += nn;
+        return nn;
+    }
+    return 0;
 }
 
 eTile* eBuilding::tileNeighbour(const eMoveDirection o,
@@ -53,6 +64,32 @@ eTile* eBuilding::road(const eMoveDirection o) const {
 
 void eBuilding::incTime(const int by) {
     mTime += by;
+    if(mTile && mTile->onFire()) {
+        if(rand() % (10000/by) == 0) {
+            if(rand() % 3) {
+                spreadFire();
+            } else if(mType == eBuildingType::ruins) {
+                mTile->setOnFire(false);
+            } else {
+                collapse();
+                return;
+            }
+        }
+    } else if(rand() % (100/by) == 0) {
+        mMaintance = std::max(0, mMaintance - 1);
+        if(mMaintance == 0) {
+            const auto& b = getBoard();
+            const auto diff = b.difficulty();
+            const int fireRisk = eDifficultyHelpers::fireRisk(diff, mType);
+            const int damageRisk = eDifficultyHelpers::fireRisk(diff, mType);
+            if(fireRisk && rand() % (100/fireRisk) == 0) {
+                catchOnFire();
+            } else if(damageRisk && rand() % (100/damageRisk) == 0) {
+                collapse();
+                return;
+            }
+        }
+    }
     timeChanged(by);
 }
 
@@ -83,8 +120,63 @@ void eBuilding::erase() {
     }
     mUnderBuilding.clear();
     if(mTile) {
-        mTile->setBuilding(nullptr);
+        const auto t = mTile;
         mTile = nullptr;
+        t->setBuilding(nullptr);
+    }
+}
+
+void eBuilding::collapse() {
+    const auto tiles = mUnderBuilding;
+    auto& b = getBoard();
+    const auto tp = type();
+    const bool noRuins = tp == eBuildingType::oliveTree ||
+                         tp == eBuildingType::vine ||
+                         tp == eBuildingType::orangeTree;
+    if(mTile && noRuins) {
+        mTile->setOnFire(false);
+    }
+    erase();
+    if(noRuins) {
+        return;
+    }
+    for(const auto t : tiles) {
+        const auto ruins = e::make_shared<eRuins>(b);
+        t->setBuilding(ruins);
+        t->setUnderBuilding(ruins.get());
+        ruins->addUnderBuilding(t);
+    }
+}
+
+void eBuilding::catchOnFire() {
+    for(const auto t : mUnderBuilding) {
+        t->setOnFire(true);
+    }
+}
+
+void eBuilding::spreadFire() {
+    auto dirs = gExtractDirections(eMoveDirection::allDirections);
+    std::random_shuffle(dirs.begin(), dirs.end());
+    eTile* t = nullptr;
+    for(const auto dir : dirs) {
+        t = tileNeighbour(dir, [this](eTile* const tile) {
+            const auto ub = tile->underBuilding();
+            if(!ub) return false;
+            if(ub == this) return false;
+            const auto t = ub->type();
+            if(t == eBuildingType::road) return false;
+            if(t == eBuildingType::sheep) return false;
+            if(t == eBuildingType::goat) return false;
+            if(t == eBuildingType::ruins) return false;
+            return true;
+        });
+        if(t) break;
+    }
+    if(t) {
+        const auto ub = t->underBuilding();
+        if(ub) {
+            ub->catchOnFire();
+        }
     }
 }
 

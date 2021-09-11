@@ -57,6 +57,7 @@ SOURCES += \
         buildings/eresourcebuildingbase.cpp \
         buildings/eresourcecollectbuilding.cpp \
         buildings/eroad.cpp \
+        buildings/eruins.cpp \
         buildings/esculpturestudio.cpp \
         buildings/eshepherbuildingbase.cpp \
         buildings/esmallhouse.cpp \
@@ -277,6 +278,7 @@ HEADERS += \
     buildings/eresourcebuildingbase.h \
     buildings/eresourcecollectbuilding.h \
     buildings/eroad.h \
+    buildings/eruins.h \
     buildings/esculpturestudio.h \
     buildings/eshepherbuildingbase.h \
     buildings/esmallhouse.h \

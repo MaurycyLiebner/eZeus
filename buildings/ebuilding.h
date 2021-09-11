@@ -105,6 +105,8 @@ enum class eBuildingType {
     baths,
     stoneCircle,
 
+    ruins,
+
     road
 };
 
@@ -124,7 +126,7 @@ public:
     virtual void timeChanged(const int by) { (void)by; }
     virtual void nextMonth() {}
 
-    virtual int provide(const eProvide, const int) { return 0; }
+    virtual int provide(const eProvide p, const int n);
 
     using eTileValidator = std::function<bool(eTile*)>;
     eTile* tileNeighbour(const eMoveDirection o,
@@ -148,7 +150,11 @@ public:
               const double x, const double y);
 
     void addUnderBuilding(eTile* const t);
+
     void erase();
+    void collapse();
+    void catchOnFire();
+    void spreadFire();
 
     eGameBoard& getBoard() { return mBoard; }
 
@@ -168,6 +174,7 @@ private:
     std::vector<eTile*> mUnderBuilding;
     SDL_Rect mTileRect;
 
+    int mMaintance = 100;
     eGameBoard& mBoard;
     int mSeed;
     const eBuildingType mType;
