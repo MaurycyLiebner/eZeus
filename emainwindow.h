@@ -4,7 +4,7 @@
 #include "widgets/ewidget.h"
 #include "widgets/eresolution.h"
 #include "textures/eterraintextures.h"
-#include "textures/edemetertextures.h"
+#include "textures/egodtextures.h"
 #include "textures/ebuildingtextures.h"
 #include "textures/echaractertextures.h"
 

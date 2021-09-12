@@ -47,6 +47,7 @@ enum class eCharacterType {
 
     cartTransporter,
 
+    athena,
     demeter
 };
 

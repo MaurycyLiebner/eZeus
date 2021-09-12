@@ -8,6 +8,49 @@
 
 class eTile;
 
+struct eGodSounds {
+    eGodSounds(const std::string& shortName,
+               const std::string& longName) :
+        fShortName(shortName),
+        fLongName(longName) {
+
+    }
+
+    void load();
+
+    void playVisit() {
+        int id;
+        if(fFirstVisit) {
+            fFirstVisit = false;
+            id = 2;
+        } else {
+            id = rand() % 3;
+        }
+        Mix_PlayChannel(-1, mVisit[id], 0);
+    }
+
+    void playAttack() {
+        Mix_PlayChannel(-1, mAttack, 0);
+    }
+
+    void playAppear() {
+        Mix_PlayChannel(-1, mAppear, 0);
+    }
+
+    void playDisappear() {
+        Mix_PlayChannel(-1, mDisappear, 0);
+    }
+
+    const std::string fShortName;
+    const std::string fLongName;
+
+    bool fFirstVisit = true;
+    std::vector<Mix_Chunk*> mVisit;
+    Mix_Chunk* mAttack = nullptr;
+    Mix_Chunk* mAppear = nullptr;
+    Mix_Chunk* mDisappear = nullptr;
+};
+
 class eSounds {
 public:
     eSounds();
@@ -73,6 +116,12 @@ public:
 
     static void playDemeterAppearSound();
     static void playDemeterDisappearSound();
+
+    static void playAthenaVisitSound();
+    static void playAthenaAttackSound();
+
+    static void playAthenaAppearSound();
+    static void playAthenaDisappearSound();
 private:
     void loadImpl();
 
@@ -142,10 +191,8 @@ private:
     Mix_Chunk* mFire = nullptr;
     Mix_Chunk* mCollapse = nullptr;
 
-    Mix_Chunk* mDemeterVisit = nullptr;
-    Mix_Chunk* mDemeterAttack = nullptr;
-    Mix_Chunk* mDemeterAppear = nullptr;
-    Mix_Chunk* mDemeterDisappear = nullptr;
+    eGodSounds mAthena{"Atn", "athena"};
+    eGodSounds mDemeter{"Dem", "demeter"};
 };
 
 #endif // ESOUNDS_H

@@ -16,7 +16,8 @@ enum class eCharacterActionType {
     collectOlives,
     collectOranges,
     carry,
-    appear
+    appear,
+    bless
 };
 
 #endif // ECHARACTERACTIONTYPE_H

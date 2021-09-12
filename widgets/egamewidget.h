@@ -9,7 +9,7 @@
 #include "engine/ethreadpool.h"
 
 #include "textures/eterraintextures.h"
-#include "textures/edemetertextures.h"
+#include "textures/egodtextures.h"
 #include "textures/ebuildingtextures.h"
 #include "textures/echaractertextures.h"
 

@@ -346,20 +346,37 @@ void eSounds::playCollapseSound() {
 }
 
 void eSounds::playDemeterVisitSound() {
-    Mix_PlayChannel(-1, sInstance.mDemeterVisit, 0);
+    sInstance.mDemeter.playVisit();
 }
 
 void eSounds::playDemeterAttackSound() {
-    Mix_PlayChannel(-1, sInstance.mDemeterAttack, 0);
+    sInstance.mDemeter.playAttack();
 }
 
 void eSounds::playDemeterAppearSound() {
-    Mix_PlayChannel(-1, sInstance.mDemeterAppear, 0);
+    sInstance.mDemeter.playAppear();
 }
 
 void eSounds::playDemeterDisappearSound() {
-    Mix_PlayChannel(-1, sInstance.mDemeterDisappear, 0);
+    sInstance.mDemeter.playDisappear();
 }
+
+void eSounds::playAthenaVisitSound() {
+    sInstance.mAthena.playVisit();
+}
+
+void eSounds::playAthenaAttackSound() {
+    sInstance.mAthena.playAttack();
+}
+
+void eSounds::playAthenaAppearSound() {
+    sInstance.mAthena.playAppear();
+}
+
+void eSounds::playAthenaDisappearSound() {
+    sInstance.mAthena.playDisappear();
+}
+
 
 void eSounds::loadImpl() {
     if(mLoaded) return;
@@ -801,10 +818,23 @@ void eSounds::loadImpl() {
     mFire = loadSoundBase(wavsDir + "Fire.wav");
     mCollapse = loadSoundBase(wavsDir + "collapse.wav");
 
+    mAthena.load();
+    mDemeter.load();
+}
 
+void eGodSounds::load() {
     const std::string voiceDir{"../Audio/Voice/Walker/"};
-    mDemeterVisit = loadSoundBase(voiceDir + "Dem_ev_3.mp3");
-    mDemeterAttack = loadSoundBase(voiceDir + "Dem_ev_4.mp3");
-    mDemeterAppear = loadSoundBase(wavsDir + "G_demeter_mat.wav");
-    mDemeterDisappear = loadSoundBase(wavsDir + "G_demeter_demat.wav");
+    const std::string wavsDir{"../Audio/Wavs/"};
+
+    for(const auto& s : {fShortName + "_ev_1.mp3",
+        fShortName + "_ev_2.mp3",
+        fShortName + "_ev_3.mp3"}) {
+        const auto r = loadSoundBase(voiceDir + s);
+        if(r) mVisit.push_back(r);
+    }
+
+    mAttack = loadSoundBase(voiceDir + fShortName + "_ev_4.mp3");
+    mAppear = loadSoundBase(wavsDir + "G_" + fLongName + "_mat.wav");
+    mDisappear = loadSoundBase(wavsDir + "G_" + fLongName + "_demat.wav");
+
 }

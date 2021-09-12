@@ -1,16 +1,17 @@
-#include "edemeter.h"
+#include "eathena.h"
 
 #include "engine/etile.h"
 #include "textures/egametextures.h"
 
-eDemeter::eDemeter(eGameBoard& board) :
-    eCharacter(board, eCharacterType::demeter) {
+eAthena::eAthena(eGameBoard& board) :
+    eCharacter(board, eCharacterType::athena) {
 
 }
 
-std::shared_ptr<eTexture> eDemeter::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eAthena::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
-    const auto& charTexs = eGameTextures::demeter()[id];
+    const auto& charTexs = eGameTextures::gods()[id];
+    const auto& atn = charTexs.fAthena;
     const eTextureCollection* coll = nullptr;
     bool reverse = false;
     bool wrap = true;
@@ -18,30 +19,34 @@ std::shared_ptr<eTexture> eDemeter::getTexture(const eTileSize size) const {
     const auto a = actionType();
     switch(a) {
     case eCharacterActionType::stand:
-        return charTexs.fWalk[oid].getTexture(0);
+        return atn.fWalk[oid].getTexture(0);
+    case eCharacterActionType::bless:
+        coll = &atn.fBless[oid];
+        break;
     case eCharacterActionType::collect:
-    case eCharacterActionType::fight: {
-        coll = &charTexs.fFight[oid];
-    } break;
+    case eCharacterActionType::fight:
+        coll = &atn.fFight[oid];
+        break;
     case eCharacterActionType::carry:
-    case eCharacterActionType::walk: {
-        coll = &charTexs.fWalk[oid];
-    } break;
+    case eCharacterActionType::walk:
+        coll = &atn.fWalk[oid];
+        break;
     case eCharacterActionType::die:
         wrap = false;
-        coll = &charTexs.fDie;
+        coll = &atn.fDisappear;
         break;
     case eCharacterActionType::appear:
         wrap = false;
         reverse = true;
-        coll = &charTexs.fDie;
+        coll = &atn.fDisappear;
         break;
     default:
-        return std::shared_ptr<eTexture>();
+        return nullptr;
     }
 
+    if(!coll) return nullptr;
     const int s = coll->size();
-    if(!coll || s == 0) return std::shared_ptr<eTexture>();
+    if(s == 0) return nullptr;
     int t = textureTime() - actionStartTime();
     if(reverse) {
         t = coll->size() - t;

@@ -13,12 +13,6 @@
 #include "textures/eparktexture.h"
 #include "textures/evaryingsizetex.h"
 
-#include "characters/edemeter.h"
-#include "characters/egymnast.h"
-#include "characters/actions/emovearoundaction.h"
-#include "characters/actions/emovepathaction.h"
-#include "engine/epathfinder.h"
-
 #include "buildings/esmallhouse.h"
 #include "buildings/egymnasium.h"
 #include "buildings/eroad.h"
@@ -101,6 +95,12 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
         break;
     case eEvent::collapse:
         eSounds::playCollapseSound();
+        break;
+    case eEvent::athenaVisit:
+        eSounds::playAthenaVisitSound();
+        break;
+    case eEvent::athenaAttack:
+        eSounds::playAthenaAttackSound();
         break;
     case eEvent::demeterVisit:
         eSounds::playDemeterVisitSound();

@@ -4,7 +4,7 @@
 
 bool eGameTextures::sInitialized = false;
 std::vector<eTerrainTextures> eGameTextures::sTerrainTextures;
-std::vector<eDemeterTextures> eGameTextures::sDemeterTextures;
+std::vector<eGodTextures> eGameTextures::sGodTextures;
 std::vector<eBuildingTextures> eGameTextures::sBuildingTextures;
 std::vector<eCharacterTextures> eGameTextures::sCharacterTextures;
 std::vector<eInterfaceTextures> eGameTextures::sInterfaceTextures;
@@ -21,7 +21,7 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
                          std::pair<int, int>{58, 30},
                          std::pair<int, int>{116, 60}}) {
         sTerrainTextures.emplace_back(s.first, s.second, r);
-        sDemeterTextures.emplace_back(s.first, s.second, r);
+        sGodTextures.emplace_back(s.first, s.second, r);
         sBuildingTextures.emplace_back(s.first, s.second, r);
         sCharacterTextures.emplace_back(s.first, s.second, r);
         sInterfaceTextures.emplace_back(s.first, s.second, r);
@@ -39,13 +39,13 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
         });
 
         gGameLoaders.push_back([i](std::string& text) {
-            sDemeterTextures[i].load();
+            sGodTextures[i].load();
             if(i == 0) {
-                text = "Loading small Demeter textures...";
+                text = "Loading small god textures...";
             } else if(i == 1) {
-                text = "Loading medium Demeter textures...";
+                text = "Loading medium god textures...";
             } else if(i == 2) {
-                text = "Loading large Demeter textures...";
+                text = "Loading large god textures...";
             }
         });
 
@@ -119,7 +119,7 @@ bool eGameTextures::loadNextGame(std::string& text) {
 
 int eGameTextures::gameSize() {
     return sTerrainTextures.size() +
-           sDemeterTextures.size() +
+           sGodTextures.size() +
            sBuildingTextures.size() +
            sCharacterTextures.size() +
            sDestructionTextures.size();

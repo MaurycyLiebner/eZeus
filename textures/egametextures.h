@@ -2,7 +2,7 @@
 #define EGAMETEXTURES_H
 
 #include "eterraintextures.h"
-#include "edemetertextures.h"
+#include "egodtextures.h"
 #include "ebuildingtextures.h"
 #include "echaractertextures.h"
 #include "einterfacetextures.h"
@@ -13,8 +13,8 @@ public:
     static const std::vector<eTerrainTextures>& terrain() {
         return sTerrainTextures;
     }
-    static const std::vector<eDemeterTextures>& demeter() {
-        return sDemeterTextures;
+    static const std::vector<eGodTextures>& gods() {
+        return sGodTextures;
     }
     static const std::vector<eBuildingTextures>& buildings() {
         return sBuildingTextures;
@@ -37,7 +37,7 @@ public:
 private:
     static bool sInitialized;
     static std::vector<eTerrainTextures> sTerrainTextures;
-    static std::vector<eDemeterTextures> sDemeterTextures;
+    static std::vector<eGodTextures> sGodTextures;
     static std::vector<eBuildingTextures> sBuildingTextures;
     static std::vector<eCharacterTextures> sCharacterTextures;
     static std::vector<eInterfaceTextures> sInterfaceTextures;

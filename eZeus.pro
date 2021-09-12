@@ -105,7 +105,6 @@ SOURCES += \
         characters/echaracter.cpp \
         characters/echaracterbase.cpp \
         characters/edeer.cpp \
-        characters/edemeter.cpp \
         characters/edomesticatedanimal.cpp \
         characters/efightingpatroler.cpp \
         characters/efirefighter.cpp \
@@ -131,6 +130,8 @@ SOURCES += \
         characters/ewaterdistributor.cpp \
         characters/ewildanimal.cpp \
         characters/ewinevendorchar.cpp \
+        characters/gods/eathena.cpp \
+        characters/gods/edemeter.cpp \
         emainwindow.cpp \
         emusic.cpp \
         engine/boardData/eappealmap.cpp \
@@ -173,11 +174,11 @@ SOURCES += \
         textures/ebeachtodry.cpp \
         textures/ebuildingtextures.cpp \
         textures/echaractertextures.cpp \
-        textures/edemetertextures.cpp \
         textures/edestructiontextures.cpp \
         textures/efertiletodry.cpp \
         textures/eforesttodry.cpp \
         textures/egametextures.cpp \
+        textures/egodtextures.cpp \
         textures/einterfacetextures.cpp \
         textures/eparktexture.cpp \
         textures/estonestodry.cpp \
@@ -328,7 +329,6 @@ HEADERS += \
     characters/echaracter.h \
     characters/echaracterbase.h \
     characters/edeer.h \
-    characters/edemeter.h \
     characters/edomesticatedanimal.h \
     characters/efightingpatroler.h \
     characters/efirefighter.h \
@@ -354,6 +354,8 @@ HEADERS += \
     characters/ewaterdistributor.h \
     characters/ewildanimal.h \
     characters/ewinevendorchar.h \
+    characters/gods/eathena.h \
+    characters/gods/edemeter.h \
     emainwindow.h \
     emusic.h \
     engine/boardData/eappealmap.h \
@@ -392,6 +394,7 @@ HEADERS += \
     etexturecollection.h \
     offsets/PoseidonImps.h \
     offsets/SprMain.h \
+    offsets/Zeus_Athena.h \
     offsets/Zeus_Demeter.h \
     pointers/eobject.h \
     pointers/eobject.h \
@@ -404,11 +407,11 @@ HEADERS += \
     textures/ebeachtodry.h \
     textures/ebuildingtextures.h \
     textures/echaractertextures.h \
-    textures/edemetertextures.h \
     textures/edestructiontextures.h \
     textures/efertiletodry.h \
     textures/eforesttodry.h \
     textures/egametextures.h \
+    textures/egodtextures.h \
     textures/einterfacetextures.h \
     textures/eparktexture.h \
     textures/estonestodry.h \

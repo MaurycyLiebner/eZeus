@@ -28,6 +28,9 @@ enum class eEvent {
     fire,
     collapse,
 
+    athenaVisit,
+    athenaAttack,
+
     demeterVisit,
     demeterAttack
 };

@@ -1,8 +1,8 @@
 #ifndef EDEMETER_H
 #define EDEMETER_H
 
-#include "textures/edemetertextures.h"
-#include "echaracter.h"
+#include "textures/egodtextures.h"
+#include "../echaracter.h"
 
 
 class eDemeter : public eCharacter {

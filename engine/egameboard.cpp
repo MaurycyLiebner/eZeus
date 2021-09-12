@@ -8,7 +8,8 @@
 
 #include "buildings/estoragebuilding.h"
 
-#include "characters/edemeter.h"
+#include "characters/gods/eathena.h"
+#include "characters/gods/edemeter.h"
 #include "characters/actions/egodvisitaction.h"
 
 eGameBoard::eGameBoard(eThreadPool* const tpool) :
@@ -139,12 +140,20 @@ void eGameBoard::incTime(const int by) {
     }
 
     if(rand() % 100000 < by) {
-        const auto d = e::make_shared<eDemeter>(*this);
+        stdsptr<eCharacter> god;
+        eEvent e;
+        if(rand() % 2) {
+            god = e::make_shared<eDemeter>(*this);
+            e = eEvent::demeterVisit;
+        } else {
+            god = e::make_shared<eAthena>(*this);
+            e = eEvent::athenaVisit;
+        }
         const auto a = e::make_shared<eGodVisitAction>(
-                           d.get(), []() {}, []() {});
-        d->setAction(a);
+                           god.get(), []() {}, []() {});
+        god->setAction(a);
         a->appear();
-        event(eEvent::demeterVisit, d->tile());
+        event(e, god->tile());
     }
 
     emptyRubbish();
