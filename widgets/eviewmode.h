@@ -35,7 +35,7 @@ inline eViewMode operator&(const eViewMode a, const eViewMode b) {
 
 namespace eViewModeHelpers {
     bool buildingVisible(const eViewMode viewMode,
-                         const eBuildingType b);
+                         const eBuilding* const b);
     bool characterVisible(const eViewMode viewMode,
                           const eCharacterType c);
 }

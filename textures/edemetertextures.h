@@ -15,6 +15,8 @@ public:
     SDL_Renderer* const fRenderer;
 
     std::vector<eTextureCollection> fWalk;
+    eTextureCollection fDie;
+    std::vector<eTextureCollection> fFight;
 };
 
 #endif // EDEMETERTEXTURES_H

@@ -8,6 +8,9 @@
 
 #include "buildings/estoragebuilding.h"
 
+#include "characters/edemeter.h"
+#include "characters/actions/egodvisitaction.h"
+
 eGameBoard::eGameBoard(eThreadPool* const tpool) :
     mThreadPool(tpool), mEmplData(mPopData) {}
 
@@ -135,6 +138,15 @@ void eGameBoard::incTime(const int by) {
         s->incTime(by);
     }
 
+    if(rand() % 100000 < by) {
+        const auto d = e::make_shared<eDemeter>(*this);
+        const auto a = e::make_shared<eGodVisitAction>(
+                           d.get(), []() {}, []() {});
+        d->setAction(a);
+        a->appear();
+        event(eEvent::demeterVisit, d->tile());
+    }
+
     emptyRubbish();
 }
 
@@ -160,6 +172,18 @@ void eGameBoard::setEventHandler(const eEventHandler& eh) {
 
 void eGameBoard::event(const eEvent e, eTile* const tile) {
     if(mEventHandler) mEventHandler(e, tile);
+}
+
+void eGameBoard::setVisibilityChecker(const eVisibilityChecker& vc) {
+    mVisibilityChecker = vc;
+}
+
+bool eGameBoard::ifVisible(eTile* const tile, const eAction& func) const {
+    if(!tile) return false;
+    if(!mVisibilityChecker) return false;
+    const bool r = mVisibilityChecker(tile);
+    if(r) func();
+    return r;
 }
 
 void eGameBoard::updateDiagonalArray() {

@@ -2,9 +2,11 @@
 
 bool eViewModeHelpers::buildingVisible(
         const eViewMode viewMode,
-        const eBuildingType b) {
-    if(b == eBuildingType::road) return true;
-    if(b == eBuildingType::ruins) return true;
+        const eBuilding* const b) {
+    if(!b) return false;
+    const auto bt = b->type();
+    if(bt == eBuildingType::road) return true;
+    if(bt == eBuildingType::ruins) return true;
 
     switch(viewMode) {
     case eViewMode::defaultView: {
@@ -16,62 +18,84 @@ bool eViewModeHelpers::buildingVisible(
     } break;
 
     case eViewMode::supplies: {
-        return b == eBuildingType::commonHouse ||
-               b == eBuildingType::eliteHousing;
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing;
     } break;
 
     case eViewMode::water: {
-        return b == eBuildingType::commonHouse ||
-               b == eBuildingType::eliteHousing ||
-               b == eBuildingType::fountain;
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing ||
+               bt == eBuildingType::fountain;
     } break;
     case eViewMode::hygiene: {
-        return b == eBuildingType::commonHouse ||
-               b == eBuildingType::eliteHousing ||
-               b == eBuildingType::hospital;
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing ||
+               bt == eBuildingType::hospital;
     } break;
     case eViewMode::hazards: {
-        return true;
+        return b->maintenance() < 90;
     } break;
     case eViewMode::unrest: {
-        return b == eBuildingType::commonHouse ||
-               b == eBuildingType::eliteHousing ||
-               b == eBuildingType::watchPost;
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing ||
+               bt == eBuildingType::watchPost;
     } break;
 
     case eViewMode::actors: {
-        return b == eBuildingType::commonHouse ||
-               b == eBuildingType::eliteHousing ||
-               b == eBuildingType::dramaSchool ||
-               b == eBuildingType::theater;
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing ||
+               bt == eBuildingType::dramaSchool ||
+               bt == eBuildingType::theater;
     } break;
     case eViewMode::athletes: {
-        return b == eBuildingType::commonHouse ||
-               b == eBuildingType::eliteHousing ||
-               b == eBuildingType::gymnasium ||
-               b == eBuildingType::stadium1 ||
-               b == eBuildingType::stadium2;
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing ||
+               bt == eBuildingType::gymnasium ||
+               bt == eBuildingType::stadium1 ||
+               bt == eBuildingType::stadium2;
     } break;
     case eViewMode::philosophers: {
-        return b == eBuildingType::commonHouse ||
-               b == eBuildingType::eliteHousing ||
-               b == eBuildingType::college ||
-               b == eBuildingType::podium;
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing ||
+               bt == eBuildingType::college ||
+               bt == eBuildingType::podium;
     } break;
     case eViewMode::allCulture: {
-        return b == eBuildingType::commonHouse ||
-               b == eBuildingType::eliteHousing ||
-               b == eBuildingType::dramaSchool ||
-               b == eBuildingType::theater ||
-               b == eBuildingType::college ||
-               b == eBuildingType::podium ||
-               b == eBuildingType::gymnasium ||
-               b == eBuildingType::stadium1 ||
-               b == eBuildingType::stadium2;
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing ||
+               bt == eBuildingType::dramaSchool ||
+               bt == eBuildingType::theater ||
+               bt == eBuildingType::college ||
+               bt == eBuildingType::podium ||
+               bt == eBuildingType::gymnasium ||
+               bt == eBuildingType::stadium1 ||
+               bt == eBuildingType::stadium2;
     } break;
 
     case eViewMode::appeal: {
-        return false;
+        return bt == eBuildingType::park ||
+               bt == eBuildingType::doricColumn ||
+               bt == eBuildingType::ionicColumn ||
+               bt == eBuildingType::corinthianColumn ||
+
+               bt == eBuildingType::bench ||
+               bt == eBuildingType::flowerGarden ||
+               bt == eBuildingType::gazebo ||
+               bt == eBuildingType::hedgeMaze ||
+               bt == eBuildingType::fishPond ||
+
+               bt == eBuildingType::waterPark ||
+
+               bt == eBuildingType::birdBath ||
+               bt == eBuildingType::shortObelisk ||
+               bt == eBuildingType::tallObelisk ||
+               bt == eBuildingType::shellGarden ||
+               bt == eBuildingType::sundial ||
+               bt == eBuildingType::dolphinSculpture ||
+               bt == eBuildingType::spring ||
+               bt == eBuildingType::topiary ||
+               bt == eBuildingType::baths ||
+               bt == eBuildingType::stoneCircle;
     } break;
     }
 

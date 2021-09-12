@@ -26,7 +26,10 @@ class eThreadPool;
 
 enum class eEvent {
     fire,
-    collapse
+    collapse,
+
+    demeterVisit,
+    demeterAttack
 };
 
 class eGameBoard {
@@ -113,11 +116,18 @@ public:
     using eEventHandler = std::function<void(eEvent, eTile*)>;
     void setEventHandler(const eEventHandler& eh);
     void event(const eEvent e, eTile* const tile);
+
+    using eVisibilityChecker = std::function<bool(eTile*)>;
+    void setVisibilityChecker(const eVisibilityChecker& vc);
+
+    using eAction = std::function<void()>;
+    bool ifVisible(eTile* const tile, const eAction& func) const;
 private:
     void updateDiagonalArray();
     void updateNeighbours();
 
     eEventHandler mEventHandler;
+    eVisibilityChecker mVisibilityChecker;
 
     int mDrachmas = 2500;
     eDifficulty mDifficulty = eDifficulty::beginner;

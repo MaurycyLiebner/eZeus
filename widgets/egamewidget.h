@@ -42,6 +42,7 @@ public:
 
     void viewFraction(const double fx, const double fy);
     void viewTile(eTile* const tile);
+    bool tileVisible(eTile* const tile) const;
 protected:
     void paintEvent(ePainter& p);
 
@@ -79,6 +80,11 @@ private:
     void handleEvent(const eEvent e, eTile* const tile);
 
     void mapDimensions(int& mdx, int& mdy) const;
+    void viewBoxSize(double& fx, double& fy) const;
+    void viewedFraction(double& fx, double& fy) const;
+    void tileViewFraction(eTile* const tile,
+                          double& xf, double& yf) const;
+
     void updateMinimap();
 
     int waterParkId() const;

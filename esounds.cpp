@@ -345,6 +345,22 @@ void eSounds::playCollapseSound() {
     Mix_PlayChannel(-1, sInstance.mCollapse, 0);
 }
 
+void eSounds::playDemeterVisitSound() {
+    Mix_PlayChannel(-1, sInstance.mDemeterVisit, 0);
+}
+
+void eSounds::playDemeterAttackSound() {
+    Mix_PlayChannel(-1, sInstance.mDemeterAttack, 0);
+}
+
+void eSounds::playDemeterAppearSound() {
+    Mix_PlayChannel(-1, sInstance.mDemeterAppear, 0);
+}
+
+void eSounds::playDemeterDisappearSound() {
+    Mix_PlayChannel(-1, sInstance.mDemeterDisappear, 0);
+}
+
 void eSounds::loadImpl() {
     if(mLoaded) return;
     mLoaded = true;
@@ -784,4 +800,11 @@ void eSounds::loadImpl() {
     const std::string wavsDir{"../Audio/Wavs/"};
     mFire = loadSoundBase(wavsDir + "Fire.wav");
     mCollapse = loadSoundBase(wavsDir + "collapse.wav");
+
+
+    const std::string voiceDir{"../Audio/Voice/Walker/"};
+    mDemeterVisit = loadSoundBase(voiceDir + "Dem_ev_3.mp3");
+    mDemeterAttack = loadSoundBase(voiceDir + "Dem_ev_4.mp3");
+    mDemeterAppear = loadSoundBase(wavsDir + "G_demeter_mat.wav");
+    mDemeterDisappear = loadSoundBase(wavsDir + "G_demeter_demat.wav");
 }

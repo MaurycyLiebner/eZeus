@@ -13,6 +13,8 @@ public:
     ePatrolMoveAction(eCharacter* const c,
                       const eAction& failAction,
                       const eAction& finishAction);
+
+    void setMaxDistance(const int dist);
 private:
     eCharacterActionState nextTurn(eOrientation& t);
 

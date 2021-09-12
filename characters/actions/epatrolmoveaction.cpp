@@ -13,7 +13,11 @@ ePatrolMoveAction::ePatrolMoveAction(eCharacter* const c,
                     return t->hasRoad();
                 },
                 failAction, finishAction) {
-    mO = c->orientation();
+                    mO = c->orientation();
+                }
+
+void ePatrolMoveAction::setMaxDistance(const int dist) {
+    mMaxDistance = dist;
 }
 
 eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {

@@ -43,18 +43,15 @@ std::vector<eOverlay> eVendor::getOverlays(const eTileSize size) const {
     return os;
 }
 
-int eVendor::add(const eResourceType type,
-                     const int count) {
+int eVendor::add(const eResourceType type, const int count) {
     if(!static_cast<bool>(type & mResType)) return 0;
 
-    const int r = std::clamp(mResource + count, 0, mMaxResource);
-    const int result = r - mResource;
-    mResource = r;
-    return result;
+    const int r = std::clamp(count, 0, mMaxResource - mResource);
+    mResource += r;
+    return r;
 }
 
-int eVendor::take(const eResourceType type,
-                      const int count) {
+int eVendor::take(const eResourceType type, const int count) {
     (void)type;
     (void)count;
     return 0;
@@ -91,7 +88,9 @@ stdsptr<eCharacter> eVendor::vendorGenerator() {
         return nullptr;
     }
     mVendor = mCharGen();
-    mVendor->setProvide(mProvType, mult*mResource);
+    const int take = std::max(mResource, 2);
+    mResource -= take;
+    mVendor->setProvide(mProvType, mult*take);
     return mVendor;
 }
 

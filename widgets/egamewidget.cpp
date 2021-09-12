@@ -102,6 +102,12 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
     case eEvent::collapse:
         eSounds::playCollapseSound();
         break;
+    case eEvent::demeterVisit:
+        eSounds::playDemeterVisitSound();
+        break;
+    case eEvent::demeterAttack:
+        eSounds::playDemeterAttackSound();
+        break;
     }
     mGm->pushEvent(e, tile);
 }
@@ -120,6 +126,9 @@ void eGameWidget::initialize(const int w, const int h) {
 
     mBoard.setEventHandler([this](const eEvent e, eTile* const tile) {
         handleEvent(e, tile);
+    });
+    mBoard.setVisibilityChecker([this](eTile* const tile) {
+        return tileVisible(tile);
     });
     mBoard.initialize(w, h);
     eMapGenerator g(mBoard);
@@ -235,6 +244,38 @@ void eGameWidget::mapDimensions(int& mdx, int& mdy) const {
     mdy = mTileH*(w + h)/2;
 }
 
+void eGameWidget::viewBoxSize(double& fx, double& fy) const {
+    int mdx;
+    int mdy;
+    mapDimensions(mdx, mdy);
+    fx = width()/double(mdx);
+    fy = height()/double(mdy);
+}
+
+void eGameWidget::viewedFraction(double& fx, double& fy) const {
+    int mdx;
+    int mdy;
+    mapDimensions(mdx, mdy);
+
+    fx = (double(mdx)/2 + width()/2 - mDX)/mdx;
+    fy = (double(height())/2 - mDY)/mdy;
+}
+
+void eGameWidget::tileViewFraction(eTile* const tile,
+                                   double& xf, double& yf) const {
+    int mdx;
+    int mdy;
+    mapDimensions(mdx, mdy);
+
+    const int tx = tile->x();
+    const int ty = tile->y();
+    xf = mTileW*(tx - ty)/2. + mdx/2.;
+    yf = mTileH*(tx + ty)/2.;
+
+    xf /= mdx;
+    yf /= mdy;
+}
+
 void eGameWidget::viewFraction(const double fx, const double fy) {
     int mdx;
     int mdy;
@@ -245,16 +286,37 @@ void eGameWidget::viewFraction(const double fx, const double fy) {
 }
 
 void eGameWidget::viewTile(eTile* const tile) {
-    int mdx;
-    int mdy;
-    mapDimensions(mdx, mdy);
+    double x;
+    double y;
+    tileViewFraction(tile, x, y);
+    viewFraction(x, y);
+}
 
-    const int tx = tile->x();
-    const int ty = tile->y();
-    const double x = mTileW*(tx - ty)/2. + mdx/2.;
-    const double y = mTileH*(tx + ty)/2.;
+bool eGameWidget::tileVisible(eTile* const tile) const {
+    if(!tile) return false;
 
-    viewFraction(x/mdx, y/mdy);
+    double fx;
+    double fy;
+    viewBoxSize(fx, fy);
+
+    double ffx;
+    double ffy;
+    viewedFraction(ffx, ffy);
+
+    double txf;
+    double tyf;
+    tileViewFraction(tile, txf, tyf);
+
+    const double top = ffy - fy/2;
+    const double left = ffx - fx/2;
+    const double bottom = top + fy;
+    const double right = left + fx;
+
+    if(txf > right) return false;
+    if(txf < left) return false;
+    if(tyf > bottom) return false;
+    if(tyf < top) return false;
+    return true;
 }
 
 void eGameWidget::iterateOverTiles(const eTileAction& a) {
@@ -392,12 +454,9 @@ std::vector<ePatrolGuide>::iterator
 }
 
 void eGameWidget::updateMinimap() {
-    int mdx;
-    int mdy;
-    mapDimensions(mdx, mdy);
-
-    const double fx = (double(mdx)/2 + width()/2 - mDX)/mdx;
-    const double fy = (double(height())/2 - mDY)/mdy;
+    double fx;
+    double fy;
+    viewedFraction(fx, fy);
     const auto mm = mGm->miniMap();
     mm->viewFraction(fx, fy);
 }
@@ -665,7 +724,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         } else if(d) {
             const auto type = d->type();
             const bool v = eViewModeHelpers::buildingVisible(
-                               mViewMode, type);
+                               mViewMode, d);
             if(!v) {
                 const auto tex = getBasementTexture(tile, d, trrTexs);
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
@@ -698,11 +757,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                     drawXY(tx, ty, rx, ry, d->spanW(), d->spanH(), a);
                     d->draw(tp, rx, ry);
                 }
+                if(mViewMode == eViewMode::hazards) {
+                    const auto diff = mBoard.difficulty();
+                    const int fr = eDifficultyHelpers::fireRisk(diff, type);
+                    const int dr = eDifficultyHelpers::damageRisk(diff, type);
 
-                if(mViewMode == eViewMode::hazards &&
-                   type != eBuildingType::ruins) {
                     const int h = 100 - d->maintenance();
-                    if(h > 5) {
+                    if((fr || dr) && h > 5) {
                         const int n = h/15;
                         const eTextureCollection* coll = nullptr;
                         if(n < 2) {
@@ -1920,11 +1981,9 @@ void eGameWidget::setTileSize(const eTileSize size) {
     mTileH = newH;
 
     {
-        int mdx;
-        int mdy;
-        mapDimensions(mdx, mdy);
-        const double fx = width()/double(mdx);
-        const double fy = height()/double(mdy);
+        double fx;
+        double fy;
+        viewBoxSize(fx, fy);
         const auto mm = mGm->miniMap();
         mm->setViewBoxSize(fx, fy);
     }

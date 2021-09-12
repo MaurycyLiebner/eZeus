@@ -53,6 +53,13 @@ eEventButton::eEventButton(const eEvent e,
     case eEvent::collapse:
         coll = &texs.fCollapseAltert;
         break;
+
+    case eEvent::demeterVisit:
+        coll = &texs.fGodVisitAlert;
+        break;
+    case eEvent::demeterAttack:
+        coll = &texs.fGodAttackAlert;
+        break;
     default:
         return;
     }

@@ -37,6 +37,7 @@ int eSmallHouse::provide(const eProvide p, const int n) {
         break;
     case eProvide::food:
         value = &mFood;
+        max = 2*mPeople;
         break;
     case eProvide::fleece:
         value = &mFleece;

@@ -67,6 +67,12 @@ public:
 
     static void playFireSound();
     static void playCollapseSound();
+
+    static void playDemeterVisitSound();
+    static void playDemeterAttackSound();
+
+    static void playDemeterAppearSound();
+    static void playDemeterDisappearSound();
 private:
     void loadImpl();
 
@@ -135,6 +141,11 @@ private:
     // events
     Mix_Chunk* mFire = nullptr;
     Mix_Chunk* mCollapse = nullptr;
+
+    Mix_Chunk* mDemeterVisit = nullptr;
+    Mix_Chunk* mDemeterAttack = nullptr;
+    Mix_Chunk* mDemeterAppear = nullptr;
+    Mix_Chunk* mDemeterDisappear = nullptr;
 };
 
 #endif // ESOUNDS_H
