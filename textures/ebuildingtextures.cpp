@@ -65,7 +65,9 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fWatchPostOverlay(renderer),
 
     fBeachRoad(renderer),
+    fToBeachRoad(renderer),
     fRoad(renderer),
+    fPrettyRoad(renderer),
 
     fPatrolGuides(renderer),
 
@@ -490,8 +492,16 @@ void eBuildingTextures::load() {
                 eTextureLoadingHelpers::loadTex(pathBase, i, fBeachRoad);
             }
 
-            for(int i = 231; i < 302; i++) {
+            for(int i = 231; i < 235; i++) {
+                eTextureLoadingHelpers::loadTex(pathBase, i, fToBeachRoad);
+            }
+
+            for(int i = 235; i < 253; i++) {
                 eTextureLoadingHelpers::loadTex(pathBase, i, fRoad);
+            }
+
+            for(int i = 253; i < 302; i++) {
+                eTextureLoadingHelpers::loadTex(pathBase, i, fPrettyRoad);
             }
         }
 

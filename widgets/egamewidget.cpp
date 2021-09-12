@@ -701,7 +701,10 @@ void eGameWidget::paintEvent(ePainter& p) {
                 }
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
             }
-        } else if(mViewMode == eViewMode::appeal) {
+        }
+        const bool bv = eViewModeHelpers::buildingVisible(mViewMode, d);
+        const bool v = d && bv;
+        if(!v && mViewMode == eViewMode::appeal) {
             const auto& am = mBoard.appealMap();
             const auto ae = am.enabled(tx, ty);
             const auto ubt = tile->underBuildingType();
@@ -721,10 +724,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                 const auto tex = coll->getTexture(appId);
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
             }
-        } else if(d) {
+        }
+        if(v) {
             const auto type = d->type();
-            const bool v = eViewModeHelpers::buildingVisible(
-                               mViewMode, d);
             if(!v) {
                 const auto tex = getBasementTexture(tile, d, trrTexs);
                 tp.drawTexture(rx, ry, tex, eAlignment::top);

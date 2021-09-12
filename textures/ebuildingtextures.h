@@ -142,7 +142,9 @@ public:
     eTextureCollection fWatchPostOverlay;
 
     eTextureCollection fBeachRoad;
+    eTextureCollection fToBeachRoad;
     eTextureCollection fRoad;
+    eTextureCollection fPrettyRoad;
 
     eTextureCollection fPatrolGuides;
 
