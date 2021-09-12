@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <initializer_list>
 
+#include "esounds.h"
+
 eButton::eButton(eMainWindow* const window) :
     eLabel(window) {}
 
@@ -58,6 +60,7 @@ bool eButton::mouseReleaseEvent(const eMouseEvent& e) {
     (void)e;
     mPressed = false;
     if(mPressAction) mPressAction();
+    eSounds::playButtonSound();
     return true;
 }
 

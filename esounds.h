@@ -13,8 +13,12 @@ public:
     eSounds();
     ~eSounds();
 
+    static void loadButtonSound();
+
     static void load();
     static bool loaded();
+
+    static void playButtonSound();
 
     static void playSoundForTile(eTile* const tile);
 
@@ -60,12 +64,17 @@ public:
     static void playWineVendorSound();
     static void playArmsVendorSound();
     static void playHorseTrainerSound();
+
+    static void playFireSound();
+    static void playCollapseSound();
 private:
     void loadImpl();
 
     static eSounds sInstance;
 
     bool mLoaded{false};
+
+    Mix_Chunk* mButton = nullptr;
 
     std::vector<Mix_Chunk*> mEnvironment;
 
@@ -122,6 +131,10 @@ private:
     std::vector<Mix_Chunk*> mSheep;
     std::vector<Mix_Chunk*> mCattle;
     std::vector<Mix_Chunk*> mDeer;
+
+    // events
+    Mix_Chunk* mFire = nullptr;
+    Mix_Chunk* mCollapse = nullptr;
 };
 
 #endif // ESOUNDS_H

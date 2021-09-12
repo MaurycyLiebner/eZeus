@@ -110,7 +110,7 @@ public:
     eTextureCollection fFloodAlert;
     eTextureCollection fAvalancheAltert;
     eTextureCollection fLavaAltert;
-    eTextureCollection fBuildingCollapseAltert;
+    eTextureCollection fCollapseAltert;
     eTextureCollection fRoadBlockAltert;
     eTextureCollection fVirusAlert;
     eTextureCollection fIllnessAlert;

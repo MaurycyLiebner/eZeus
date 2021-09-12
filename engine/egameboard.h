@@ -24,6 +24,11 @@ class eStorageBuilding;
 
 class eThreadPool;
 
+enum class eEvent {
+    fire,
+    collapse
+};
+
 class eGameBoard {
     friend class eGameBoardIterator;
     friend class eGameBoardDiagonalIterator;
@@ -104,9 +109,15 @@ public:
 
     void addRubbish(const stdsptr<eObject>& o);
     void emptyRubbish();
+
+    using eEventHandler = std::function<void(eEvent, eTile*)>;
+    void setEventHandler(const eEventHandler& eh);
+    void event(const eEvent e, eTile* const tile);
 private:
     void updateDiagonalArray();
     void updateNeighbours();
+
+    eEventHandler mEventHandler;
 
     int mDrachmas = 2500;
     eDifficulty mDifficulty = eDifficulty::beginner;

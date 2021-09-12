@@ -17,6 +17,8 @@ class eHygieneSafetyDataWidget;
 class eCultureDataWidget;
 class eMiniMap;
 class eGameWidget;
+class eEventWidget;
+enum class eEvent;
 
 struct eSubButtonData;
 
@@ -34,6 +36,11 @@ public:
     void setBoard(eGameBoard* const b);
 
     eMiniMap* miniMap() const;
+
+    void pushEvent(const eEvent e, eTile* const tile);
+
+    using eViewTileHandler = std::function<void(eTile*)>;
+    void setViewTileHandler(const eViewTileHandler& h);
 private:
     void setMode(const eBuildingMode mode);
     eButton* createSubButton(const eTextureCollection& texs,
@@ -60,6 +67,8 @@ private:
     eBuildingMode mMode{eBuildingMode::road};
 
     std::vector<eWidget*> mWidgets;
+
+    eEventWidget* mEventW = nullptr;
 };
 
 #endif // EGAMEMENU_H

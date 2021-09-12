@@ -1,5 +1,7 @@
 #include "eactionlistwidget.h"
 
+#include "esounds.h"
+
 std::shared_ptr<eTexture> eActionListWidget::textToTexture(const std::string& text) {
     const auto tex = std::make_shared<eTexture>();
     const auto font = eFonts::defaultFont(mFontSize);
@@ -62,6 +64,7 @@ bool eActionListWidget::mouseReleaseEvent(const eMouseEvent& e) {
         const auto a = yToAction(e.y());
         a();
     }
+    eSounds::playButtonSound();
     return true;
 }
 

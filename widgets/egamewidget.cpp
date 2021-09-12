@@ -94,6 +94,18 @@ eGameWidget::eGameWidget(eMainWindow* const window) :
 
 eGameWidget::~eGameWidget() {}
 
+void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
+    switch(e) {
+    case eEvent::fire:
+        eSounds::playFireSound();
+        break;
+    case eEvent::collapse:
+        eSounds::playCollapseSound();
+        break;
+    }
+    mGm->pushEvent(e, tile);
+}
+
 void eGameWidget::initialize(const int w, const int h) {
     mThreadPool.initialize(w, h);
 
@@ -106,6 +118,9 @@ void eGameWidget::initialize(const int w, const int h) {
         }
     }
 
+    mBoard.setEventHandler([this](const eEvent e, eTile* const tile) {
+        handleEvent(e, tile);
+    });
     mBoard.initialize(w, h);
     eMapGenerator g(mBoard);
     eMapGeneratorSettings sett;
@@ -118,23 +133,17 @@ void eGameWidget::initialize(const int w, const int h) {
     mGm->setBoard(&mBoard);
     mGm->setGameWidget(this);
 
+    mGm->setViewTileHandler([this](eTile* const tile) {
+        if(!tile) return;
+        viewTile(tile);
+    });
+
     const auto mm = mGm->miniMap();
     mm->setChangeAction([this, mm]() {
         double fx;
         double fy;
         mm->viewedFraction(fx, fy);
-
-        int mdx;
-        int mdy;
-        {
-            const int w = mBoard.width();
-            const int h = mBoard.height();
-            mdx = mTileW*(w + h)/2;
-            mdy = mTileH*(w + h)/2;
-        }
-
-        mDX = -fx*mdx + mdx/2 + width()/2;
-        mDY = -fy*mdy + height()/2;
+        viewFraction(fx, fy);
     });
 
     mTopBar = new eTopBarWidget(window());
@@ -217,6 +226,35 @@ void eGameWidget::pixToId(const int pixX, const int pixY,
 void eGameWidget::setViewMode(const eViewMode m) {
     if(m == eViewMode::appeal) updateAppealMap();
     mViewMode = m;
+}
+
+void eGameWidget::mapDimensions(int& mdx, int& mdy) const {
+    const int w = mBoard.width();
+    const int h = mBoard.height();
+    mdx = mTileW*(w + h)/2;
+    mdy = mTileH*(w + h)/2;
+}
+
+void eGameWidget::viewFraction(const double fx, const double fy) {
+    int mdx;
+    int mdy;
+    mapDimensions(mdx, mdy);
+
+    mDX = -fx*mdx + mdx/2 + width()/2;
+    mDY = -fy*mdy + height()/2;
+}
+
+void eGameWidget::viewTile(eTile* const tile) {
+    int mdx;
+    int mdy;
+    mapDimensions(mdx, mdy);
+
+    const int tx = tile->x();
+    const int ty = tile->y();
+    const double x = mTileW*(tx - ty)/2. + mdx/2.;
+    const double y = mTileH*(tx + ty)/2.;
+
+    viewFraction(x/mdx, y/mdy);
 }
 
 void eGameWidget::iterateOverTiles(const eTileAction& a) {
@@ -331,7 +369,7 @@ bool eGameWidget::canBuild(const int tx, const int ty,
 bool eGameWidget::erase(eTile* const tile) {
     if(!tile) return false;
     if(const auto b = tile->underBuilding()) {
-        b->erase();
+        if(!b->isOnFire()) b->erase();
     }
     const auto t = tile->terrain();
     if(t == eTerrain::forest || t == eTerrain::choppedForest) {
@@ -356,12 +394,7 @@ std::vector<ePatrolGuide>::iterator
 void eGameWidget::updateMinimap() {
     int mdx;
     int mdy;
-    {
-        const int w = mBoard.width();
-        const int h = mBoard.height();
-        mdx = mTileW*(w + h)/2;
-        mdy = mTileH*(w + h)/2;
-    }
+    mapDimensions(mdx, mdy);
 
     const double fx = (double(mdx)/2 + width()/2 - mDX)/mdx;
     const double fy = (double(height())/2 - mDY)/mdy;
@@ -1168,7 +1201,11 @@ int gLastX = 0;
 int gLastY = 0;
 
 bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
-    switch(e.button()) {
+    const auto b = e.button();
+    if(b != eMouseButton::middle) {
+        eSounds::playButtonSound();
+    }
+    switch(b) {
     case eMouseButton::middle:
         gLastX = e.x();
         gLastY = e.y();
@@ -1885,12 +1922,7 @@ void eGameWidget::setTileSize(const eTileSize size) {
     {
         int mdx;
         int mdy;
-        {
-            const int w = mBoard.width();
-            const int h = mBoard.height();
-            mdx = mTileW*(w + h)/2;
-            mdy = mTileH*(w + h)/2;
-        }
+        mapDimensions(mdx, mdy);
         const double fx = width()/double(mdx);
         const double fy = height()/double(mdy);
         const auto mm = mGm->miniMap();

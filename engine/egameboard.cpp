@@ -154,6 +154,14 @@ void eGameBoard::emptyRubbish() {
     mRubbish.clear();
 }
 
+void eGameBoard::setEventHandler(const eEventHandler& eh) {
+    mEventHandler = eh;
+}
+
+void eGameBoard::event(const eEvent e, eTile* const tile) {
+    if(mEventHandler) mEventHandler(e, tile);
+}
+
 void eGameBoard::updateDiagonalArray() {
     for(int k = 0 ; k <= mWidth + mHeight - 2; k++) {
         std::vector<eTile*> diag;

@@ -94,7 +94,7 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fFloodAlert(renderer),
     fAvalancheAltert(renderer),
     fLavaAltert(renderer),
-    fBuildingCollapseAltert(renderer),
+    fCollapseAltert(renderer),
     fRoadBlockAltert(renderer),
     fVirusAlert(renderer),
     fIllnessAlert(renderer),
@@ -354,7 +354,7 @@ void eInterfaceTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fLavaAltert);
         }
         for(int i = 199; i < 202; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fBuildingCollapseAltert);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fCollapseAltert);
         }
         for(int i = 202; i < 205; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fRoadBlockAltert);

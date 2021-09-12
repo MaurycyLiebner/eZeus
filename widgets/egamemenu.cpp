@@ -15,6 +15,8 @@
 #include "widgets/datawidgets/eculturedatawidget.h"
 #include "eminimap.h"
 
+#include "eeventwidget.h"
+
 struct eSubButtonData {
     std::function<void()> fPressedFunc;
     const eTextureCollection* fColl = nullptr;
@@ -526,6 +528,15 @@ void eGameMenu::initialize() {
         butts->setY(std::round(mult*282.5));
         addWidget(butts);
     }
+
+    {
+        mEventW = new eEventWidget(window());
+        mEventW->setNoPadding();
+        mEventW->setX(mult*5);
+        mEventW->setY(mult*240);
+        mEventW->setWidth(dataWidWidth);
+        addWidget(mEventW);
+    }
 }
 
 void eGameMenu::setGameWidget(eGameWidget* const gw) {
@@ -545,6 +556,14 @@ void eGameMenu::setBoard(eGameBoard* const b) {
 
 eMiniMap* eGameMenu::miniMap() const {
     return mMiniMap;
+}
+
+void eGameMenu::pushEvent(const eEvent e, eTile* const tile) {
+    mEventW->pushEvent(e, tile);
+}
+
+void eGameMenu::setViewTileHandler(const eViewTileHandler& h) {
+    mEventW->setViewTileHandler(h);
 }
 
 void eGameMenu::setMode(const eBuildingMode mode) {

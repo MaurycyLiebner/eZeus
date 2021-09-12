@@ -2,6 +2,7 @@
 
 #include "textures/egametextures.h"
 #include "emusic.h"
+#include "esounds.h"
 
 eMenuLoadingWidget::eMenuLoadingWidget(eMainWindow* const window) :
     eLoadingWidget(eGameTextures::menuSize(), [](std::string& text) {
@@ -9,6 +10,7 @@ eMenuLoadingWidget::eMenuLoadingWidget(eMainWindow* const window) :
         if(r) {
             text = "Loading music...";
             eMusic::loadMenu();
+            eSounds::loadButtonSound();
             return true;
         }
         return false;

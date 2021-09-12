@@ -154,7 +154,9 @@ public:
     void erase();
     void collapse();
     void catchOnFire();
-    void spreadFire();
+    bool spreadFire();
+
+    bool isOnFire();
 
     const std::vector<eTile*>& tilesUnder() const {
         return mUnderBuilding;

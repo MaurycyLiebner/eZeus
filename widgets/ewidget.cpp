@@ -17,9 +17,7 @@ eWidget::eWidget(eMainWindow* const window) :
 }
 
 eWidget::~eWidget() {
-    for(const auto w : mChildren) {
-        delete w;
-    }
+    removeChildren();
     clearWidgetPointers();
 }
 
@@ -302,6 +300,12 @@ eWidget* eWidget::lastAncestor() {
     return p;
 }
 
+void eWidget::removeChildren() {
+    for(const auto w : mChildren) {
+        delete w;
+    }
+}
+
 template <typename T>
 eWidget* eWidget::mouseEvent(const T& e, const TMouseEvent<T> event) {
     if(!contains(e.x(), e.y())) return nullptr;
@@ -355,6 +359,11 @@ bool eWidget::releaseKeyboard() {
 
 bool eWidget::isKeyboardGrabber() {
     return sKeyboardGrabber == this;
+}
+
+void eWidget::prependWidget(eWidget* const w) {
+    mChildren.insert(mChildren.begin(), w);
+    w->mParent = this;
 }
 
 void eWidget::addWidget(eWidget* const w) {

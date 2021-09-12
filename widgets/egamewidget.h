@@ -39,6 +39,9 @@ public:
 
     void setViewMode(const eViewMode m);
     eViewMode viewMode() const { return mViewMode; }
+
+    void viewFraction(const double fx, const double fy);
+    void viewTile(eTile* const tile);
 protected:
     void paintEvent(ePainter& p);
 
@@ -73,6 +76,9 @@ private:
     std::vector<ePatrolGuide>::iterator
         findGuide(const int tx, const int ty);
 
+    void handleEvent(const eEvent e, eTile* const tile);
+
+    void mapDimensions(int& mdx, int& mdy) const;
     void updateMinimap();
 
     int waterParkId() const;

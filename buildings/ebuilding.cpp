@@ -63,31 +63,43 @@ eTile* eBuilding::road(const eMoveDirection o) const {
 }
 
 void eBuilding::incTime(const int by) {
+    auto& b = getBoard();
     mTime += by;
     if(mTile && mTile->onFire()) {
         if(rand() % (10000/by) == 0) {
             if(rand() % 3) {
-                spreadFire();
+                const bool r = spreadFire();
+                if(r) b.event(eEvent::fire, mTile);
             } else if(mType == eBuildingType::ruins) {
                 mTile->setOnFire(false);
             } else {
+                b.event(eEvent::collapse, mTile);
                 collapse();
                 return;
             }
         }
-    } else if(mMaintance == 0 && rand() % (5000/by) == 0) {
-        const auto& b = getBoard();
-        const auto diff = b.difficulty();
-        const int fireRisk = eDifficultyHelpers::fireRisk(diff, mType);
-        const int damageRisk = eDifficultyHelpers::fireRisk(diff, mType);
-        if(fireRisk && rand() % (100/fireRisk) == 0) {
-            catchOnFire();
-        } else if(damageRisk && rand() % (100/damageRisk) == 0) {
-            collapse();
-            return;
-        }
     } else if(rand() % (1000/by) == 0) {
         mMaintance = std::max(0, mMaintance - 1);
+    } else {
+        const int m4 = pow(mMaintance, 4);
+        const auto diff = b.difficulty();
+        const int fireRisk = eDifficultyHelpers::fireRisk(diff, mType);
+        if(fireRisk) {
+            const int firePeriod = m4/(by*fireRisk);
+            if(firePeriod && rand() % firePeriod == 0) {
+                catchOnFire();
+                b.event(eEvent::fire, mTile);
+            }
+        }
+        const int damageRisk = eDifficultyHelpers::damageRisk(diff, mType);
+        if(damageRisk) {
+            const int damagePeriod = m4/(by*damageRisk);
+            if(damagePeriod && rand() % damagePeriod == 0) {
+                b.event(eEvent::collapse, mTile);
+                collapse();
+                return;
+            }
+        }
     }
     timeChanged(by);
 }
@@ -153,7 +165,7 @@ void eBuilding::catchOnFire() {
     }
 }
 
-void eBuilding::spreadFire() {
+bool eBuilding::spreadFire() {
     auto dirs = gExtractDirections(eMoveDirection::allDirections);
     std::random_shuffle(dirs.begin(), dirs.end());
     eTile* t = nullptr;
@@ -175,8 +187,17 @@ void eBuilding::spreadFire() {
         const auto ub = t->underBuilding();
         if(ub) {
             ub->catchOnFire();
+            return true;
         }
     }
+    return false;
+}
+
+bool eBuilding::isOnFire() {
+    for(const auto t : mUnderBuilding) {
+        if(t->onFire()) return true;
+    }
+    return false;
 }
 
 void eBuilding::setEnabled(const bool e) {

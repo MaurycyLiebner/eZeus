@@ -203,6 +203,7 @@ SOURCES += \
         widgets/echeckbox.cpp \
         widgets/ecombobox.cpp \
         widgets/econtextmenu.cpp \
+        widgets/eeventwidget.cpp \
         widgets/efonts.cpp \
         widgets/eframedlabel.cpp \
         widgets/eframedwidget.cpp \
@@ -432,6 +433,7 @@ HEADERS += \
     widgets/echeckbox.h \
     widgets/ecombobox.h \
     widgets/econtextmenu.h \
+    widgets/eeventwidget.h \
     widgets/efonts.h \
     widgets/eframedlabel.h \
     widgets/eframedwidget.h \
