@@ -3,6 +3,8 @@
 
 #include "etexturecollection.h"
 
+class eTextureLoader;
+
 struct eDemeterTextures {
     eDemeterTextures(SDL_Renderer* const renderer) :
         fDisappear(renderer) {};
@@ -29,8 +31,10 @@ public:
 
     void load();
 
-    void loadAthena(const std::string& baseDir);
-    void loadDemeter(const std::string& baseDir);
+    void loadAthena(const std::string& baseDir,
+                    eTextureLoader& texLoader);
+    void loadDemeter(const std::string& baseDir,
+                     eTextureLoader& texLoader);
 
     const int fTileW;
     const int fTileH;

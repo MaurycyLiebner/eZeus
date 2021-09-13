@@ -15,8 +15,9 @@ public:
               const int x, const int y,
               const int id,
               const eAlignment align) const;
+    const std::shared_ptr<eTexture>& addTexture();
     std::shared_ptr<eTexture> loadTexture(const std::string& path);
-    std::shared_ptr<eTexture> getTexture(const int id) const;
+    const std::shared_ptr<eTexture>& getTexture(const int id) const;
     int size() const;
 private:
     SDL_Renderer* const mRenderer;

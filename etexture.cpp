@@ -34,13 +34,19 @@ bool eTexture::load(SDL_Renderer* const r, const std::string& path) {
                path.c_str(), IMG_GetError());
         return false;
     }
+    return load(r, surf);
+}
+
+bool eTexture::load(SDL_Renderer* const r,
+                    SDL_Surface* const surf) {
+    reset();
     mTex = SDL_CreateTextureFromSurface(r, surf);
     mWidth = surf->w;
     mHeight = surf->h;
     SDL_FreeSurface(surf);
     if(!mTex) {
-        printf("Unable to create texture from %s! SDL Error: %s\n",
-               path.c_str(), SDL_GetError());
+        printf("Unable to create texture from surface! SDL Error: %s\n",
+               SDL_GetError());
         return false;
     }
 

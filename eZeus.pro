@@ -184,6 +184,7 @@ SOURCES += \
         textures/estonestodry.cpp \
         textures/esurroundingterrain.cpp \
         textures/eterraintextures.cpp \
+        textures/etextureloader.cpp \
         textures/etextureloadinghelpers.cpp \
         textures/etiletotexture.cpp \
         textures/evaryingsizetex.cpp \
@@ -417,6 +418,7 @@ HEADERS += \
     textures/estonestodry.h \
     textures/esurroundingterrain.h \
     textures/eterraintextures.h \
+    textures/etextureloader.h \
     textures/etextureloadinghelpers.h \
     textures/etiletotexture.h \
     textures/evaryingsizetex.h \

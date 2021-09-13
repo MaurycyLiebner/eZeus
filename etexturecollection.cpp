@@ -18,6 +18,10 @@ void eTextureCollection::draw(ePainter& p,
     p.drawTexture(x, y, mTexs[id], align);
 }
 
+const std::shared_ptr<eTexture>& eTextureCollection::addTexture() {
+    return mTexs.emplace_back(std::make_shared<eTexture>());
+}
+
 std::shared_ptr<eTexture> eTextureCollection::loadTexture(
         const std::string& path) {
     const auto t = std::make_shared<eTexture>();
@@ -27,7 +31,8 @@ std::shared_ptr<eTexture> eTextureCollection::loadTexture(
     return mTexs.back();
 }
 
-std::shared_ptr<eTexture> eTextureCollection::getTexture(const int id) const {
+const std::shared_ptr<eTexture>&
+eTextureCollection::getTexture(const int id) const {
     return mTexs[id];
 }
 

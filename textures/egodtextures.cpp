@@ -4,6 +4,8 @@
 #include "offsets/Zeus_Athena.h"
 #include "offsets/Zeus_Demeter.h"
 
+#include "etextureloader.h"
+
 eGodTextures::eGodTextures(const int tileW, const int tileH,
                            SDL_Renderer* const renderer) :
     fTileW(tileW), fTileH(tileH),
@@ -17,12 +19,22 @@ void eGodTextures::load() {
     std::string baseDir{"../ZeusTextures/"};
     baseDir += std::to_string(fTileH) + "/";
 
-    loadAthena(baseDir);
-    loadDemeter(baseDir);
+    eTextureLoader texLoader(fRenderer);
+    texLoader.initialize();
+
+    loadAthena(baseDir, texLoader);
+    loadDemeter(baseDir, texLoader);
+
+    texLoader.waitUntilFinished();
+    texLoader.handleFinished();
 }
 
-void eGodTextures::loadAthena(const std::string& baseDir) {
+void eGodTextures::loadAthena(const std::string& baseDir,
+                              eTextureLoader& texLoader) {
+
     const std::string pathBase{baseDir + "Zeus_Athena/Zeus_Athena_"};
+
+    eTextureClass texClass(pathBase, texLoader, &eZeus_AthenaOffset);
 
     auto& ath = fAthena;
     for(int j = 0; j < 8; j++) {
@@ -33,33 +45,32 @@ void eGodTextures::loadAthena(const std::string& baseDir) {
 
     for(int i = 1; i < 121;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, ath.fWalk[j], eZeus_AthenaOffset);
+            texClass.load(i, ath.fWalk[j]);
         }
     }
 
     for(int i = 121; i < 137; i++) {
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, ath.fDisappear, eZeus_AthenaOffset);
+        texClass.load(i, ath.fDisappear);
     }
 
     for(int i = 137; i < 297;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, ath.fFight[j], eZeus_AthenaOffset);
+            texClass.load(i, ath.fFight[j]);
         }
     }
 
     for(int i = 298; i < 426;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, ath.fBless[j], eZeus_AthenaOffset);
+            texClass.load(i, ath.fBless[j]);
         }
     }
 }
 
-void eGodTextures::loadDemeter(const std::string& baseDir) {
+void eGodTextures::loadDemeter(const std::string& baseDir,
+                               eTextureLoader& texLoader) {
     const std::string pathBase{baseDir + "Zeus_Demeter/Zeus_Demeter_"};
+
+    eTextureClass texClass(pathBase, texLoader, &eZeus_DemeterOffset);
 
     auto& dem = fDemeter;
     for(int j = 0; j < 8; j++) {
@@ -69,20 +80,17 @@ void eGodTextures::loadDemeter(const std::string& baseDir) {
 
     for(int i = 1; i < 225;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, dem.fWalk[j], eZeus_DemeterOffset);
+            texClass.load(i, dem.fWalk[j]);
         }
     }
 
     for(int i = 225; i < 243; i++) {
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, dem.fDisappear, eZeus_DemeterOffset);
+        texClass.load(i, dem.fDisappear);
     }
 
     for(int i = 243; i < 507;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, dem.fFight[j], eZeus_DemeterOffset);
+            texClass.load(i, dem.fFight[j]);
         }
     }
 }
