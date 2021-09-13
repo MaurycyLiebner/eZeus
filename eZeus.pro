@@ -397,6 +397,7 @@ HEADERS += \
     offsets/SprMain.h \
     offsets/Zeus_Athena.h \
     offsets/Zeus_Demeter.h \
+    offsets/Zeus_Hades.h \
     pointers/eobject.h \
     pointers/eobject.h \
     pointers/estdpointer.h \
