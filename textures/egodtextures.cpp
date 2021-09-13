@@ -26,7 +26,6 @@ void eGodTextures::load() {
     loadDemeter(baseDir, texLoader);
 
     texLoader.waitUntilFinished();
-    texLoader.handleFinished();
 }
 
 void eGodTextures::loadAthena(const std::string& baseDir,

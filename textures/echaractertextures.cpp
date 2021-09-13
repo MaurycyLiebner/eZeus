@@ -4,6 +4,8 @@
 #include "offsets/SprMain.h"
 #include "offsets/PoseidonImps.h"
 
+#include "etextureloader.h"
+
 eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
                                        SDL_Renderer* const renderer) :
     fTileW(tileW), fTileH(tileH),
@@ -58,22 +60,18 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
 void loadBasicTexture(eBasicCharacterTextures& tex,
                       SDL_Renderer* const renderer,
-                      const std::string& pathBase,
-                      const int start) {
+                      const int start,
+                      eTextureClass& texClass) {
     for(int j = 0; j < 8; j++) {
         tex.fWalk.emplace_back(renderer);
     }
     for(int i = start; i < start + 96;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = tex.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, tex.fWalk[j]);
         }
     }
     for(int i = start + 96; i < start + 104; i++) {
-        auto& die = tex.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, tex.fDie);
     }
 }
 
@@ -98,21 +96,20 @@ void eCharacterTextures::load() {
 //                    pathBase, i, die, eSprMainOffset);
 //    }
 
+    eTextureLoader texLoader(fRenderer);
+    texLoader.initialize();
+    eTextureClass texClass(pathBase, texLoader, &eSprMainOffset);
 
     for(int j = 0; j < 8; j++) {
         fActor.fWalk.emplace_back(fRenderer);
     }
     for(int i = 105; i < 201;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fActor.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fActor.fWalk[j]);
         }
     }
     for(int i = 201; i < 209; i++) {
-        auto& die = fActor.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fActor.fDie);
     }
 
     for(int j = 0; j < 8; j++) {
@@ -120,15 +117,11 @@ void eCharacterTextures::load() {
     }
     for(int i = 505; i < 601;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fSettlers1.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fSettlers1.fWalk[j]);
         }
     }
     for(int i = 601; i < 609; i++) {
-        auto& die = fSettlers1.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fSettlers1.fDie);
     }
 
 
@@ -137,15 +130,11 @@ void eCharacterTextures::load() {
     }
     for(int i = 1793; i < 1889;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fSettlers2.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fSettlers2.fWalk[j]);
         }
     }
     for(int i = 1889; i < 1897; i++) {
-        auto& die = fSettlers2.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fSettlers2.fDie);
     }
 
 
@@ -157,28 +146,20 @@ void eCharacterTextures::load() {
     }
     for(int i = 609; i < 705;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fFireFighter.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fFireFighter.fWalk[j]);
         }
     }
     for(int i = 705; i < 801;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fFireFighter.fCarry;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fFireFighter.fCarry[j]);
         }
     }
     for(int i = 801; i < 809; i++) {
-        auto& die = fFireFighter.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fFireFighter.fDie);
     }
     for(int i = 809; i < 1129;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fFireFighter.fPutOut;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fFireFighter.fPutOut[j]);
         }
     }
 
@@ -189,21 +170,15 @@ void eCharacterTextures::load() {
     }
     for(int i = 2209; i < 2305;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fWatchman.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fWatchman.fWalk[j]);
         }
     }
     for(int i = 2305; i < 2313; i++) {
-        auto& die = fWatchman.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fWatchman.fDie);
     }
     for(int i = 2312; i < 2377;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& fight = fWatchman.fFight;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fight[j], eSprMainOffset);
+            texClass.load(i, fWatchman.fFight[j]);
         }
     }
 
@@ -215,28 +190,20 @@ void eCharacterTextures::load() {
     }
     for(int i = 2377; i < 2473;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fGoatherd.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fGoatherd.fWalk[j]);
         }
     }
     for(int i = 2473; i < 2481; i++) {
-        auto& die = fGoatherd.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fGoatherd.fDie);
     }
     for(int i = 2489; i < 2585;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& carry = fGoatherd.fCarry;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, carry[j], eSprMainOffset);
+            texClass.load(i, fGoatherd.fCarry[j]);
         }
     }
     for(int i = 2481; i < 2489; i++) {
         for(int j = 0; j < 8; j++) {
-            auto& collect = fGoatherd.fCollect;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, collect[j], eSprMainOffset);
+            texClass.load(i, fGoatherd.fCollect[j]);
         }
     }
 
@@ -248,38 +215,30 @@ void eCharacterTextures::load() {
     }
     for(int i = 2595; i < 2691;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fBronzeMiner.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fBronzeMiner.fWalk[j]);
         }
     }
     for(int i = 2691; i < 2699; i++) {
-        auto& die = fBronzeMiner.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fBronzeMiner.fDie);
     }
     for(int i = 2711; i < 2807;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& carry = fBronzeMiner.fCarry;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, carry[j], eSprMainOffset);
+            texClass.load(i, fBronzeMiner.fCarry[j]);
         }
     }
     for(int i = 2807; i < 2887;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& collect = fBronzeMiner.fCollect;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, collect[j], eSprMainOffset);
+            texClass.load(i, fBronzeMiner.fCollect[j]);
         }
     }
 
 
-    loadBasicTexture(fFoodVendor, fRenderer, pathBase, 2887);
-    loadBasicTexture(fFleeceVendor, fRenderer, pathBase, 1897);
-    loadBasicTexture(fOilVendor, fRenderer, pathBase, 5297);
-    loadBasicTexture(fWineVendor, fRenderer, pathBase, 5401);
-    loadBasicTexture(fArmsVendor, fRenderer, pathBase, 2105);
-    loadBasicTexture(fHorseVendor, fRenderer, pathBase, 1129);
+    loadBasicTexture(fFoodVendor, fRenderer, 2887, texClass);
+    loadBasicTexture(fFleeceVendor, fRenderer, 1897, texClass);
+    loadBasicTexture(fOilVendor, fRenderer, 5297, texClass);
+    loadBasicTexture(fWineVendor, fRenderer, 5401, texClass);
+    loadBasicTexture(fArmsVendor, fRenderer, 2105, texClass);
+    loadBasicTexture(fHorseVendor, fRenderer, 1129, texClass);
 
     for(int j = 0; j < 8; j++) {
         fFleecedSheep.fWalk.emplace_back(fRenderer);
@@ -288,28 +247,20 @@ void eCharacterTextures::load() {
     }
     for(int i = 3183; i < 3279;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fFleecedSheep.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fFleecedSheep.fWalk[j]);
         }
     }
     for(int i = 3279; i < 3287; i++) {
-        auto& die = fFleecedSheep.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fFleecedSheep.fDie);
     }
     for(int i = 3287; i < 3351;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& fight = fFleecedSheep.fFight;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fight[j], eSprMainOffset);
+            texClass.load(i, fFleecedSheep.fFight[j]);
         }
     }
     for(int i = 3351; i < 3415;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& lay = fFleecedSheep.fLayDown;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, lay[j], eSprMainOffset);
+            texClass.load(i, fFleecedSheep.fLayDown[j]);
         }
     }
 
@@ -322,28 +273,20 @@ void eCharacterTextures::load() {
     }
     for(int i = 3415; i < 3511;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fShepherd.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fShepherd.fWalk[j]);
         }
     }
     for(int i = 3511; i < 3519; i++) {
-        auto& die = fShepherd.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fShepherd.fDie);
     }
     for(int i = 3531; i < 3627;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& carry = fShepherd.fCarry;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, carry[j], eSprMainOffset);
+            texClass.load(i, fShepherd.fCarry[j]);
         }
     }
     for(int i = 3519; i < 3531; i++) {
         for(int j = 0; j < 8; j++) {
-            auto& collect = fShepherd.fCollect;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, collect[j], eSprMainOffset);
+            texClass.load(i, fShepherd.fCollect[j]);
         }
     }
 
@@ -356,28 +299,20 @@ void eCharacterTextures::load() {
     }
     for(int i = 3741; i < 3837;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fSilverMiner.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fSilverMiner.fWalk[j]);
         }
     }
     for(int i = 3837; i < 3845; i++) {
-        auto& die = fSilverMiner.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fSilverMiner.fDie);
     }
     for(int i = 3857; i < 3953;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& carry = fSilverMiner.fCarry;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, carry[j], eSprMainOffset);
+            texClass.load(i, fSilverMiner.fCarry[j]);
         }
     }
     for(int i = 3953; i < 4033;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& collect = fSilverMiner.fCollect;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, collect[j], eSprMainOffset);
+            texClass.load(i, fSilverMiner.fCollect[j]);
         }
     }
 
@@ -390,34 +325,26 @@ void eCharacterTextures::load() {
     }
     for(int i = 4329; i < 4425;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fLumberjack.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fLumberjack.fWalk[j]);
         }
     }
     for(int i = 4425; i < 4433; i++) {
-        auto& die = fLumberjack.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fLumberjack.fDie);
     }
     for(int i = 4433; i < 4529;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& collect = fLumberjack.fCollect;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, collect[j], eSprMainOffset);
+            texClass.load(i, fLumberjack.fCollect[j]);
         }
     }
     for(int i = 4529; i < 4625;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& carry = fLumberjack.fCarry;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, carry[j], eSprMainOffset);
+            texClass.load(i, fLumberjack.fCarry[j]);
         }
     }
 
 
-    loadBasicTexture(fTaxCollector, fRenderer, pathBase, 4625);
-    loadBasicTexture(fTransporter, fRenderer, pathBase, 4729);
+    loadBasicTexture(fTaxCollector, fRenderer, 4625, texClass);
+    loadBasicTexture(fTransporter, fRenderer, 4729, texClass);
 
 
 
@@ -430,47 +357,35 @@ void eCharacterTextures::load() {
     }
     for(int i = 5505; i < 5601;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fGrower.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fGrower.fWalk[j]);
         }
     }
     for(int i = 5601; i < 5609; i++) {
-        auto& die = fGrower.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fGrower.fDie);
     }
     for(int i = 5609; i < 5689;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& collect = fGrower.fWorkOnGrapes;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, collect[j], eSprMainOffset);
+            texClass.load(i, fGrower.fWorkOnGrapes[j]);
         }
     }
     for(int i = 5689; i < 5769;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& collect = fGrower.fWorkOnOlives;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, collect[j], eSprMainOffset);
+            texClass.load(i, fGrower.fWorkOnOlives[j]);
         }
     }
     for(int i = 5769; i < 5849;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& collect = fGrower.fCollectGrapes;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, collect[j], eSprMainOffset);
+            texClass.load(i, fGrower.fCollectGrapes[j]);
         }
     }
     for(int i = 5849; i < 5929;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& collect = fGrower.fCollectOlives;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, collect[j], eSprMainOffset);
+            texClass.load(i, fGrower.fCollectOlives[j]);
         }
     }
 
 
-    loadBasicTexture(fWaterDistributor, fRenderer, pathBase, 6737);
+    loadBasicTexture(fWaterDistributor, fRenderer, 6737, texClass);
 
 
     for(int j = 0; j < 8; j++) {
@@ -478,15 +393,11 @@ void eCharacterTextures::load() {
     }
     for(int i = 7473; i < 7569;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fHealer.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fHealer.fWalk[j]);
         }
     }
     for(int i = 7569; i < 7577; i++) {
-        auto& die = fHealer.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fHealer.fDie);
     }
 
 
@@ -498,35 +409,26 @@ void eCharacterTextures::load() {
     }
     for(int i = 7873; i < 7969;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fNudeSheep.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fNudeSheep.fWalk[j]);
         }
     }
     for(int i = 7969; i < 7977; i++) {
-        auto& die = fNudeSheep.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fNudeSheep.fDie);
     }
     for(int i = 7977; i < 8041;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& fight = fNudeSheep.fFight;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fight[j], eSprMainOffset);
+            texClass.load(i, fNudeSheep.fFight[j]);
         }
     }
     for(int i = 8041; i < 8105;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& lay = fNudeSheep.fLayDown;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, lay[j], eSprMainOffset);
+            texClass.load(i, fNudeSheep.fLayDown[j]);
         }
     }
 
 
     for(int i = 8428; i < 8436; i++) {
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, fEmptyCart, eSprMainOffset);
+        texClass.load(i, fEmptyCart);
     }
 
     for(int j = 0; j < 8; j++) {
@@ -534,8 +436,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 8436; i < 8460;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fUrchinCart[j], eSprMainOffset);
+            texClass.load(i, fUrchinCart[j]);
         }
     }
 
@@ -544,8 +445,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 8460; i < 8484;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fFishCart[j], eSprMainOffset);
+            texClass.load(i, fFishCart[j]);
         }
     }
 
@@ -554,8 +454,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 8484; i < 8508;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fMeatCart[j], eSprMainOffset);
+            texClass.load(i, fMeatCart[j]);
         }
     }
 
@@ -564,8 +463,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 8508; i < 8532;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fCheeseCart[j], eSprMainOffset);
+            texClass.load(i, fCheeseCart[j]);
         }
     }
 
@@ -574,8 +472,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 8532; i < 8556;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fCarrotsCart[j], eSprMainOffset);
+            texClass.load(i, fCarrotsCart[j]);
         }
     }
 
@@ -584,8 +481,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 8556; i < 8580;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fOnionsCart[j], eSprMainOffset);
+            texClass.load(i, fOnionsCart[j]);
         }
     }
 
@@ -594,8 +490,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 8580; i < 8604;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fWheatCart[j], eSprMainOffset);
+            texClass.load(i, fWheatCart[j]);
         }
     }
 
@@ -604,8 +499,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 8604; i < 8620;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fBronzeCart[j], eSprMainOffset);
+            texClass.load(i, fBronzeCart[j]);
         }
     }
 
@@ -614,8 +508,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 8620; i < 8644;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fGrapesCart[j], eSprMainOffset);
+            texClass.load(i, fGrapesCart[j]);
         }
     }
 
@@ -624,8 +517,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 8644; i < 8668;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fOlivesCart[j], eSprMainOffset);
+            texClass.load(i, fOlivesCart[j]);
         }
     }
 
@@ -634,8 +526,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 8668; i < 8684;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fFleeceCart[j], eSprMainOffset);
+            texClass.load(i, fFleeceCart[j]);
         }
     }
 
@@ -644,8 +535,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 8684; i < 8700;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fArmorCart[j], eSprMainOffset);
+            texClass.load(i, fArmorCart[j]);
         }
     }
 
@@ -654,8 +544,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 8700; i < 8716;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fOliveOilCart[j], eSprMainOffset);
+            texClass.load(i, fOliveOilCart[j]);
         }
     }
 
@@ -664,8 +553,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 8716; i < 8732;) {
         for(int j = 0; j < 8; j++, i++) {
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fWineCart[j], eSprMainOffset);
+            texClass.load(i, fWineCart[j]);
         }
     }
 
@@ -678,32 +566,24 @@ void eCharacterTextures::load() {
     }
     for(int i = 10124; i < 10220;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fBoar.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fBoar.fWalk[j]);
         }
     }
     for(int i = 10220; i < 10228; i++) {
-        auto& die = fBoar.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fBoar.fDie);
     }
     for(int i = 10228; i < 10356;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& fight = fBoar.fFight;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fight[j], eSprMainOffset);
+            texClass.load(i, fBoar.fFight[j]);
         }
     }
     for(int i = 10356; i < 10420;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& lay = fBoar.fLayDown;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, lay[j], eSprMainOffset);
+            texClass.load(i, fBoar.fLayDown[j]);
         }
     }
 
-    loadBasicTexture(fGymnast, fRenderer, pathBase, 10588);
+    loadBasicTexture(fGymnast, fRenderer, 10588, texClass);
 
 
     for(int j = 0; j < 8; j++) {
@@ -713,28 +593,20 @@ void eCharacterTextures::load() {
     }
     for(int i = 11228; i < 11324;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fGoat.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fGoat.fWalk[j]);
         }
     }
     for(int i = 11324; i < 11332; i++) {
-        auto& die = fGoat.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fGoat.fDie);
     }
     for(int i = 11332; i < 11460;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& fight = fGoat.fFight;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fight[j], eSprMainOffset);
+            texClass.load(i, fGoat.fFight[j]);
         }
     }
     for(int i = 11460; i < 11524;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& lay = fGoat.fLayDown;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, lay[j], eSprMainOffset);
+            texClass.load(i, fGoat.fLayDown[j]);
         }
     }
 
@@ -746,28 +618,20 @@ void eCharacterTextures::load() {
     }
     for(int i = 11524; i < 11620;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fWolf.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fWolf.fWalk[j]);
         }
     }
     for(int i = 11620; i < 11628; i++) {
-        auto& die = fWolf.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fWolf.fDie);
     }
     for(int i = 11628; i < 11756;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& fight = fWolf.fFight;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, fight[j], eSprMainOffset);
+            texClass.load(i, fWolf.fFight[j]);
         }
     }
     for(int i = 11756; i < 11820;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& lay = fWolf.fLayDown;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, lay[j], eSprMainOffset);
+            texClass.load(i, fWolf.fLayDown[j]);
         }
     }
 
@@ -779,36 +643,29 @@ void eCharacterTextures::load() {
     }
     for(int i = 11820; i < 11916;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fHunter.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, walk[j], eSprMainOffset);
+            texClass.load(i, fHunter.fWalk[j]);
         }
     }
     for(int i = 11916; i < 11924; i++) {
-        auto& die = fHunter.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    pathBase, i, die, eSprMainOffset);
+        texClass.load(i, fHunter.fDie);
     }
     for(int i = 11924; i < 12019;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& collect = fHunter.fCollect;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, collect[j], eSprMainOffset);
+            texClass.load(i, fHunter.fCollect[j]);
         }
     }
     for(int i = 12032; i < 12128;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& carry = fHunter.fCarry;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        pathBase, i, carry[j], eSprMainOffset);
+            texClass.load(i, fHunter.fCarry[j]);
         }
     }
 
-
-    loadBasicTexture(fPhilosopher, fRenderer, pathBase, 12128);
+    loadBasicTexture(fPhilosopher, fRenderer, 12128, texClass);
 
 
     const std::string ppathBase{dir + "PoseidonImps/PoseidonImps_"};
+
+    eTextureClass ptexClass(ppathBase, texLoader, &ePoseidonImpsOffset);
 
     for(int j = 0; j < 8; j++) {
         fDeerHunter.fWalk.emplace_back(fRenderer);
@@ -817,28 +674,20 @@ void eCharacterTextures::load() {
     }
     for(int i = 183; i < 279;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fDeerHunter.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        ppathBase, i, walk[j], ePoseidonImpsOffset);
+            ptexClass.load(i, fDeerHunter.fWalk[j]);
         }
     }
     for(int i = 279; i < 287; i++) {
-        auto& die = fDeerHunter.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    ppathBase, i, die, ePoseidonImpsOffset);
+        ptexClass.load(i, fDeerHunter.fDie);
     }
     for(int i = 287; i < 407;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& collect = fDeerHunter.fCollect;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        ppathBase, i, collect[j], ePoseidonImpsOffset);
+            ptexClass.load(i, fDeerHunter.fCollect[j]);
         }
     }
     for(int i = 435; i < 531;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& carry = fDeerHunter.fCarry;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        ppathBase, i, carry[j], ePoseidonImpsOffset);
+            ptexClass.load(i, fDeerHunter.fCarry[j]);
         }
     }
 
@@ -850,28 +699,20 @@ void eCharacterTextures::load() {
     }
     for(int i = 531; i < 627;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fDeer.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        ppathBase, i, walk[j], ePoseidonImpsOffset);
+            ptexClass.load(i, fDeer.fWalk[j]);
         }
     }
     for(int i = 627; i < 635; i++) {
-        auto& die = fDeer.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    ppathBase, i, die, ePoseidonImpsOffset);
+        ptexClass.load(i, fDeer.fDie);
     }
     for(int i = 635; i < 859;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& fight = fDeer.fFight;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        ppathBase, i, fight[j], ePoseidonImpsOffset);
+            ptexClass.load(i, fDeer.fFight[j]);
         }
     }
     for(int i = 859; i < 955;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& lay = fDeer.fLayDown;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        ppathBase, i, lay[j], ePoseidonImpsOffset);
+            ptexClass.load(i, fDeer.fLayDown[j]);
         }
     }
 
@@ -880,8 +721,7 @@ void eCharacterTextures::load() {
     }
     for(int i = 1091; i < 1115;) {
         for(int j = 0; j < 8; j++, i++) {
-            const auto r = eTextureLoadingHelpers::loadTexWithOffset(
-                        ppathBase, i, fOrangesCart[j], ePoseidonImpsOffset);
+            ptexClass.load(i, fOrangesCart[j]);
         }
     }
 
@@ -893,30 +733,24 @@ void eCharacterTextures::load() {
     }
     for(int i = 1211; i < 1307;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& walk = fOrangeTender.fWalk;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        ppathBase, i, walk[j], ePoseidonImpsOffset);
+            ptexClass.load(i, fOrangeTender.fWalk[j]);
         }
     }
     for(int i = 1307; i < 1315; i++) {
-        auto& die = fOrangeTender.fDie;
-        eTextureLoadingHelpers::loadTexWithOffset(
-                    ppathBase, i, die, ePoseidonImpsOffset);
+        ptexClass.load(i, fOrangeTender.fDie);
     }
     for(int i = 1315; i < 1411;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& work = fOrangeTender.fWorkOnTree;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        ppathBase, i, work[j], ePoseidonImpsOffset);
+            ptexClass.load(i, fOrangeTender.fWorkOnTree[j]);
         }
     }
     for(int i = 1411; i < 1507;) {
         for(int j = 0; j < 8; j++, i++) {
-            auto& collect = fOrangeTender.fCollect;
-            eTextureLoadingHelpers::loadTexWithOffset(
-                        ppathBase, i, collect[j], ePoseidonImpsOffset);
+            ptexClass.load(i, fOrangeTender.fCollect[j]);
         }
     }
+
+    texLoader.waitUntilFinished();
 
     {
         const std::string pathBase{dir + "Zeus_Added/SprMain_"};

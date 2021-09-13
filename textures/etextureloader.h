@@ -24,12 +24,14 @@ public:
     void initialize();
 
     void queueTask(const eTextureLoadTask& task);
-    void handleFinished();
-
-    bool finished();
     void waitUntilFinished();
 private:
     void threadEntry();
+
+    void handleFinished();
+    bool finished();
+
+    int mQuedTasks = 0;
 
     bool mQuit = false;
 

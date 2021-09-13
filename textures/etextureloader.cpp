@@ -24,7 +24,7 @@ void eTextureLoader::initialize() {
 }
 
 void eTextureLoader::threadEntry() {
-    eTextureLoadTask task;
+    std::vector<eTextureLoadTask> tasks;
     while(!mQuit) {
         {
             std::unique_lock<std::mutex> lock(mTasksMutex);
@@ -35,25 +35,34 @@ void eTextureLoader::threadEntry() {
 
             if(mTasks.empty()) return;
 
-            task = mTasks.front();
-            mTasks.pop();
+            const int iMax = mTasks.size();
+            for(int i = 0; i < iMax && i < 500; i++) {
+                const auto& task = mTasks.front();
+                tasks.push_back(task);
+                mTasks.pop();
+            }
         }
         {
-            task.fSurface = IMG_Load(task.fPath.c_str());
-            if(!task.fSurface) {
-                printf("Unable to load image %s! SDL_image Error: %s\n",
-                       task.fPath.c_str(), IMG_GetError());
-                continue;
+            for(auto& task : tasks) {
+                task.fSurface = IMG_Load(task.fPath.c_str());
+                if(!task.fSurface) {
+                    printf("Unable to load image %s! SDL_image Error: %s\n",
+                           task.fPath.c_str(), IMG_GetError());
+                }
             }
             {
                 std::lock_guard lock(mFinishedTasksMutex);
-                mFinishedTasks.push_back(task);
+                for(auto& task : tasks) {
+                    mFinishedTasks.push_back(task);
+                }
             }
+            tasks.clear();
         }
     }
 }
 
 void eTextureLoader::queueTask(const eTextureLoadTask& task) {
+    mQuedTasks++;
     std::unique_lock<std::mutex> lock(mTasksMutex);
     mTasks.emplace(task);
     mCv.notify_one();
@@ -71,16 +80,15 @@ void eTextureLoader::handleFinished() {
 }
 
 bool eTextureLoader::finished() {
-    {
-        std::unique_lock<std::mutex> lock(mTasksMutex);
-        if(!mTasks.empty()) return false;
-    }
-    return true;
+    std::lock_guard lock(mFinishedTasksMutex);
+    const int iSize = mFinishedTasks.size();
+    return mQuedTasks == iSize;
 }
 
 void eTextureLoader::waitUntilFinished() {
     while(!finished()) {
-        std::chrono::milliseconds timespan(1);
+        const std::chrono::milliseconds timespan(1);
         std::this_thread::sleep_for(timespan);
     }
+    handleFinished();
 }
