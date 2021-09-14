@@ -31,6 +31,7 @@ private:
     void handleFinished();
     bool finished();
 
+    int mFinished = 0;
     int mQuedTasks = 0;
 
     bool mQuit = false;

@@ -77,18 +77,20 @@ void eTextureLoader::handleFinished() {
     for(auto &t : tasks) {
         t.fTex->load(mRenderer, t.fSurface);
     }
+    mFinished += tasks.size();
 }
 
 bool eTextureLoader::finished() {
     std::lock_guard lock(mFinishedTasksMutex);
     const int iSize = mFinishedTasks.size();
-    return mQuedTasks == iSize;
+    return mQuedTasks == iSize + mFinished;
 }
 
 void eTextureLoader::waitUntilFinished() {
     while(!finished()) {
-        const std::chrono::milliseconds timespan(1);
+        const std::chrono::milliseconds timespan(10);
         std::this_thread::sleep_for(timespan);
+        handleFinished();
     }
     handleFinished();
 }

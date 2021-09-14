@@ -394,10 +394,21 @@ HEADERS += \
     etexture.h \
     etexturecollection.h \
     offsets/PoseidonImps.h \
+    offsets/Poseidon_Atlas.h \
+    offsets/Poseidon_Hera.h \
     offsets/SprMain.h \
+    offsets/Zeus_Aphrodite.h \
+    offsets/Zeus_Apollo.h \
+    offsets/Zeus_Ares.h \
+    offsets/Zeus_Artemis.h \
     offsets/Zeus_Athena.h \
     offsets/Zeus_Demeter.h \
+    offsets/Zeus_Dionysus.h \
     offsets/Zeus_Hades.h \
+    offsets/Zeus_Hephaestus.h \
+    offsets/Zeus_Hermes.h \
+    offsets/Zeus_Poseidon.h \
+    offsets/Zeus_Zeus.h \
     pointers/eobject.h \
     pointers/eobject.h \
     pointers/estdpointer.h \

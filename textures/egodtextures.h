@@ -24,6 +24,23 @@ struct eBasicGodTextures {
     std::vector<eTextureCollection> fFight;
 };
 
+struct eDionysusTextures : public eBasicGodTextures {
+    eDionysusTextures(SDL_Renderer* const renderer) :
+        eBasicGodTextures(renderer),
+        fAppear(renderer) {};
+
+
+    void load(const std::string& pathBase,
+              const int w0, const int w1,
+              const int d0, const int d1,
+              const int f0, const int f1,
+              const int a0, const int a1,
+              const eOffsets& offs,
+              eTextureLoader& texLoader);
+
+    eTextureCollection fAppear;
+};
+
 struct eExtendedGodTextures : public eBasicGodTextures {
     eExtendedGodTextures(SDL_Renderer* const renderer) :
         eBasicGodTextures(renderer) {};
@@ -58,9 +75,20 @@ public:
     const int fTileH;
     SDL_Renderer* const fRenderer;
 
+    eBasicGodTextures fAphrodite;
+    eExtendedGodTextures fApollo;
+    eBasicGodTextures fAres;
+    eExtendedGodTextures fArtemis;
     eExtendedGodTextures fAthena;
+    eExtendedGodTextures fAtlas;
     eBasicGodTextures fDemeter;
+    eDionysusTextures fDionysus;
     eBasicGodTextures fHades;
+    eBasicGodTextures fHephaestus;
+    eBasicGodTextures fHera;
+    eBasicGodTextures fHermes;
+    eBasicGodTextures fPoseidon;
+    eExtendedGodTextures fZeus;
 };
 
 #endif // EGODTEXTURES_H
