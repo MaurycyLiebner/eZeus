@@ -65,6 +65,7 @@ eTile* eBuilding::road(const eMoveDirection o) const {
 void eBuilding::incTime(const int by) {
     auto& b = getBoard();
     mTime += by;
+    mTextureTime++;
     if(mTile && mTile->onFire()) {
         if(rand() % (10000/by) == 0) {
             if(rand() % 3) {

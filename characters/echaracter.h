@@ -32,7 +32,7 @@ public:
     double y() const { return mY; }
     eTile* tile() const { return mTile; }
     int time() const { return mTime; }
-    int textureTime() const { return time()/15; }
+    int textureTime() const { return time()/20; }
     eOrientation orientation() const { return mOrientation; }
 
     void changeTile(eTile* const t);

@@ -2,6 +2,7 @@
 #define EGAMEWIDGET_H
 
 #include "ewidget.h"
+#include "eframedlabel.h"
 #include "etexturecollection.h"
 
 #include "engine/etile.h"
@@ -93,8 +94,13 @@ private:
 
     bool mRotate = false;
 
+    const int sSpeeds[4] = {2, 10, 25, 50};
+
+    bool mPaused = false;
+    int mFrame{0};
     int mTime{0};
-    int mSpeed = 1;
+    int mSpeedId = 1;
+    int mSpeed = sSpeeds[mSpeedId];
 
     int mWheel = 0;
 
@@ -115,6 +121,8 @@ private:
 
     bool mDrawElevation = true;
     ePatrolBuilding* mPatrolBuilding = nullptr;
+
+    eFramedLabel* mPausedLabel = nullptr;
 
     eTopBarWidget* mTopBar = nullptr;
     eInfoWidget* mInfoWidget = nullptr;

@@ -142,7 +142,7 @@ public:
 
     void incTime(const int by);
     int time() const { return mTime; }
-    int textureTime() const { return time()/20; }
+    int textureTime() const { return mTextureTime/3; }
 
     void setTile(eTile* const t);
 
@@ -176,12 +176,16 @@ private:
     std::vector<eTile*> mUnderBuilding;
     SDL_Rect mTileRect;
 
-    int mMaintance = 100;
     int mSeed;
     const eBuildingType mType;
     const int mSpanW;
     const int mSpanH;
+
+    int mMaintance = 100;
+
     int mTime = 0;
+    int mTextureTime = 0;
+
     eTile* mTile = nullptr;
     bool mEnabled = false;
     std::function<bool()> mOverlayEnabled = [this]() {

@@ -688,8 +688,11 @@ void drawColumn(eTilePainter& tp, const int n,
 
 void eGameWidget::paintEvent(ePainter& p) {
     mThreadPool.handleFinished();
-    mTime += mSpeed;
-    mBoard.incTime(mSpeed);
+    mFrame++;
+    if(!mPaused) {
+        mTime += mSpeed;
+        mBoard.incTime(mSpeed);
+    }
 
     if(mUpdateRects.empty()) {
         const int w = mBoard.width();
@@ -700,9 +703,8 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto& rect = mUpdateRects[i];
         mThreadPool.scheduleUpdate(mBoard, rect.x, rect.y, rect.w, rect.h);
     }
-    const int uam = mViewMode == eViewMode::appeal ?
-                         mTime/mSpeed % 200 :
-                         mTime/mSpeed % 600;
+    const int uam = mViewMode == eViewMode::appeal ? mFrame % 200 :
+                                                     mFrame % 600;
     if(uam == 0) updateAppealMap();
 
     p.setFont(eFonts::defaultFont(resolution()));
@@ -1324,22 +1326,41 @@ void eGameWidget::paintEvent(ePainter& p) {
 }
 
 bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
-    if(e.key() == SDL_Scancode::SDL_SCANCODE_KP_PLUS) {
-        mSpeed = std::clamp(mSpeed + 1, 1, 50);
-    } else if(e.key() == SDL_Scancode::SDL_SCANCODE_KP_MINUS) {
-        mSpeed = std::clamp(mSpeed - 1, 1, 50);
-    } else if(e.key() == SDL_Scancode::SDL_SCANCODE_R) {
+    const auto k = e.key();
+    if(k == SDL_Scancode::SDL_SCANCODE_KP_PLUS ||
+       k == SDL_Scancode::SDL_SCANCODE_RIGHTBRACKET) {
+        mSpeedId = std::clamp(mSpeedId + 1, 0, 3);
+        mSpeed = sSpeeds[mSpeedId];
+    } else if(k == SDL_Scancode::SDL_SCANCODE_KP_MINUS ||
+              k == SDL_Scancode::SDL_SCANCODE_LEFTBRACKET) {
+        mSpeedId = std::clamp(mSpeedId - 1, 0, 3);
+        mSpeed = sSpeeds[mSpeedId];
+    } else if(k == SDL_Scancode::SDL_SCANCODE_R) {
         mRotate = !mRotate;
-    } else if(e.key() == SDL_Scancode::SDL_SCANCODE_LEFT) {
+    } else if(k == SDL_Scancode::SDL_SCANCODE_P) {
+        mPaused = !mPaused;
+        if(mPaused && !mPausedLabel) {
+            mPausedLabel = new eFramedLabel("Paused", window());
+            mPausedLabel->fitContent();
+            addWidget(mPausedLabel);
+            mPausedLabel->align(eAlignment::bottom);
+            const int vw = width() - mGm->width();
+            const int w = mPausedLabel->width();
+            mPausedLabel->setX((vw - w)/2);
+        } else if(mPausedLabel) {
+            mPausedLabel->deleteLater();
+            mPausedLabel = nullptr;
+        }
+    } else if(k == SDL_Scancode::SDL_SCANCODE_LEFT) {
         mDX += 25;
         updateMinimap();
-    } else if(e.key() == SDL_Scancode::SDL_SCANCODE_RIGHT) {
+    } else if(k == SDL_Scancode::SDL_SCANCODE_RIGHT) {
         mDX -= 25;
         updateMinimap();
-    } else if(e.key() == SDL_Scancode::SDL_SCANCODE_UP) {
+    } else if(k == SDL_Scancode::SDL_SCANCODE_UP) {
         mDY += 25;
         updateMinimap();
-    } else if(e.key() == SDL_Scancode::SDL_SCANCODE_DOWN) {
+    } else if(k == SDL_Scancode::SDL_SCANCODE_DOWN) {
         mDY -= 25;
         updateMinimap();
     }
