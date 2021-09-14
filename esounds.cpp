@@ -820,8 +820,20 @@ void eSounds::loadImpl() {
     mFire = loadSoundBase(wavsDir + "Fire.wav");
     mCollapse = loadSoundBase(wavsDir + "collapse.wav");
 
+    mAphrodite.load();
+    mApollo.load();
+    mAres.load();
+    mArtemis.load();
     mAthena.load();
+    mAtlas.load();
     mDemeter.load();
+    mDionysus.load();
+    mHades.load();
+    mHephaestus.load();
+    mHera.load();
+    mHermes.load();
+    mPoseidon.load();
+    mZeus.load();
 }
 
 void eGodSounds::load() {

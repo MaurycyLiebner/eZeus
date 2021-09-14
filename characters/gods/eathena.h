@@ -1,15 +1,31 @@
 #ifndef EATHENA_H
 #define EATHENA_H
 
-#include "textures/egodtextures.h"
-#include "../echaracter.h"
+#include "eextendedgod.h"
 
+class eApollo : public eExtendedGod {
+public:
+    eApollo(eGameBoard& board);
+};
 
-class eAthena : public eCharacter {
+class eArtemis : public eExtendedGod {
+public:
+    eArtemis(eGameBoard& board);
+};
+
+class eAthena : public eExtendedGod {
 public:
     eAthena(eGameBoard& board);
+};
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
+class eAtlas : public eExtendedGod {
+public:
+    eAtlas(eGameBoard& board);
+};
+
+class eZeus : public eExtendedGod {
+public:
+    eZeus(eGameBoard& board);
 };
 
 #endif // EATHENA_H

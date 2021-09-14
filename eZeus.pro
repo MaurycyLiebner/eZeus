@@ -131,7 +131,10 @@ SOURCES += \
         characters/ewildanimal.cpp \
         characters/ewinevendorchar.cpp \
         characters/gods/eathena.cpp \
+        characters/gods/ebasicgod.cpp \
         characters/gods/edemeter.cpp \
+        characters/gods/edionysus.cpp \
+        characters/gods/eextendedgod.cpp \
         characters/gods/egod.cpp \
         emainwindow.cpp \
         emusic.cpp \
@@ -357,7 +360,10 @@ HEADERS += \
     characters/ewildanimal.h \
     characters/ewinevendorchar.h \
     characters/gods/eathena.h \
+    characters/gods/ebasicgod.h \
     characters/gods/edemeter.h \
+    characters/gods/edionysus.h \
+    characters/gods/eextendedgod.h \
     characters/gods/egod.h \
     emainwindow.h \
     emusic.h \

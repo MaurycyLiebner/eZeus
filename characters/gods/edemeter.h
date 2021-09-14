@@ -1,15 +1,46 @@
 #ifndef EDEMETER_H
 #define EDEMETER_H
 
-#include "textures/egodtextures.h"
-#include "../echaracter.h"
+#include "ebasicgod.h"
 
+class eAphrodite : public eBasicGod {
+public:
+    eAphrodite(eGameBoard& board);
+};
 
-class eDemeter : public eCharacter {
+class eAres : public eBasicGod {
+public:
+    eAres(eGameBoard& board);
+};
+
+class eDemeter : public eBasicGod {
 public:
     eDemeter(eGameBoard& board);
+};
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
+class eHades : public eBasicGod {
+public:
+    eHades(eGameBoard& board);
+};
+
+class eHephaestus : public eBasicGod {
+public:
+    eHephaestus(eGameBoard& board);
+};
+
+class eHera : public eBasicGod {
+public:
+    eHera(eGameBoard& board);
+};
+
+class eHermes : public eBasicGod {
+public:
+    eHermes(eGameBoard& board);
+};
+
+class ePoseidon : public eBasicGod {
+public:
+    ePoseidon(eGameBoard& board);
 };
 
 #endif // EDEMETER_H

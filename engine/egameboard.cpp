@@ -10,6 +10,7 @@
 
 #include "characters/gods/eathena.h"
 #include "characters/gods/edemeter.h"
+#include "characters/gods/edionysus.h"
 #include "characters/actions/egodvisitaction.h"
 
 eGameBoard::eGameBoard(eThreadPool* const tpool) :
@@ -144,46 +145,46 @@ void eGameBoard::incTime(const int by) {
         eEvent e;
         const int r = rand() % 14;
         if(r == 0) {
-            god = e::make_shared<eDemeter>(*this);
+            god = e::make_shared<eAphrodite>(*this);
             e = eEvent::aphroditeVisit;
         } else if(r == 1) {
-            god = e::make_shared<eAthena>(*this);
+            god = e::make_shared<eApollo>(*this);
             e = eEvent::apolloVisit;
         } else if(r == 2) {
-            god = e::make_shared<eAthena>(*this);
+            god = e::make_shared<eAres>(*this);
             e = eEvent::aresVisit;
         } else if(r == 3) {
-            god = e::make_shared<eAthena>(*this);
+            god = e::make_shared<eArtemis>(*this);
             e = eEvent::artemisVisit;
         } else if(r == 4) {
             god = e::make_shared<eAthena>(*this);
             e = eEvent::athenaVisit;
         } else if(r == 5) {
-            god = e::make_shared<eAthena>(*this);
+            god = e::make_shared<eAtlas>(*this);
             e = eEvent::atlasVisit;
         } else if(r == 6) {
             god = e::make_shared<eDemeter>(*this);
             e = eEvent::demeterVisit;
         } else if(r == 7) {
-            god = e::make_shared<eAthena>(*this);
+            god = e::make_shared<eDionysus>(*this);
             e = eEvent::dionysusVisit;
         } else if(r == 8) {
-            god = e::make_shared<eAthena>(*this);
+            god = e::make_shared<eHades>(*this);
             e = eEvent::hadesVisit;
         } else if(r == 9) {
-            god = e::make_shared<eAthena>(*this);
+            god = e::make_shared<eHephaestus>(*this);
             e = eEvent::hephaestusVisit;
         } else if(r == 10) {
-            god = e::make_shared<eAthena>(*this);
+            god = e::make_shared<eHera>(*this);
             e = eEvent::heraVisit;
         } else if(r == 11) {
-            god = e::make_shared<eAthena>(*this);
+            god = e::make_shared<eHermes>(*this);
             e = eEvent::hermesVisit;
         } else if(r == 12) {
-            god = e::make_shared<eAthena>(*this);
+            god = e::make_shared<ePoseidon>(*this);
             e = eEvent::poseidonVisit;
         } else {
-            god = e::make_shared<eAthena>(*this);
+            god = e::make_shared<eZeus>(*this);
             e = eEvent::zeusVisit;
         }
         const auto a = e::make_shared<eGodVisitAction>(

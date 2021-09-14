@@ -12,31 +12,11 @@
 
 #include "characters/echaracter.h"
 
-eGodType characterToGodType(const eCharacterType type) {
-    switch(type) {
-    case eCharacterType::aphrodite: return eGodType::aphrodite;
-    case eCharacterType::apollo: return eGodType::apollo;
-    case eCharacterType::ares: return eGodType::ares;
-    case eCharacterType::artemis: return eGodType::artemis;
-    case eCharacterType::athena: return eGodType::athena;
-    case eCharacterType::atlas: return eGodType::atlas;
-    case eCharacterType::demeter: return eGodType::demeter;
-    case eCharacterType::dionysus: return eGodType::dionysus;
-    case eCharacterType::hades: return eGodType::hades;
-    case eCharacterType::hephaestus: return eGodType::hephaestus;
-    case eCharacterType::hera: return eGodType::hera;
-    case eCharacterType::hermes: return eGodType::hermes;
-    case eCharacterType::poseidon: return eGodType::poseidon;
-    case eCharacterType::zeus: return eGodType::zeus;
-    default: return eGodType::aphrodite;
-    }
-}
-
 eGodVisitAction::eGodVisitAction(eCharacter* const c,
                                  const eAction& failAction,
                                  const eAction& finishAction) :
     eComplexAction(c, failAction, finishAction),
-    mType(characterToGodType(c->type())) {
+    mType(eGod::sCharacterToGodType(c->type())) {
 
 }
 
@@ -64,7 +44,7 @@ void eGodVisitAction::appear() {
         else moveAround();
     };
     const auto a = e::make_shared<eWaitAction>(c, fail, finish);
-    a->setTime(300);
+    a->setTime(500);
     setCurrentAction(a);
     board.ifVisible(tile, [this]() {
         eSounds::playGodSound(mType, eGodSound::appear);
@@ -80,7 +60,7 @@ void eGodVisitAction::disappear() {
         c->changeTile(nullptr);
     };
     const auto a = e::make_shared<eWaitAction>(c, finish, finish);
-    a->setTime(300);
+    a->setTime(500);
     setCurrentAction(a);
     board.ifVisible(c->tile(), [this]() {
         eSounds::playGodSound(mType, eGodSound::disappear);

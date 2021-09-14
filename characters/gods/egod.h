@@ -1,6 +1,8 @@
 #ifndef EGOD_H
 #define EGOD_H
 
+#include "characters/echaracter.h"
+
 enum class eGodType {
     aphrodite,
     apollo,
@@ -18,10 +20,16 @@ enum class eGodType {
     zeus
 };
 
-class eGod
-{
+class eGod : public eCharacter {
 public:
-    eGod();
+    eGod(eGameBoard& board, const eGodType gt);
+
+    static eGodType sCharacterToGodType(const eCharacterType type);
+    static eCharacterType sGodToCharacterType(const eGodType type);
+
+    eGodType type() const { return mType; }
+private:
+    const eGodType mType;
 };
 
 #endif // EGOD_H
