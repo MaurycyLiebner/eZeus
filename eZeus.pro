@@ -447,6 +447,7 @@ HEADERS += \
     textures/ewatertobeach.h \
     textures/ewatertodry.h \
     textures/ewatertox.h \
+    vec2.h \
     widgets/datawidgets/eappealdatawidget.h \
     widgets/datawidgets/eculturedatawidget.h \
     widgets/datawidgets/eemploymentdatawidget.h \

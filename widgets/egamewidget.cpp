@@ -688,7 +688,7 @@ void drawColumn(eTilePainter& tp, const int n,
 void eGameWidget::paintEvent(ePainter& p) {
     mThreadPool.handleFinished();
     mFrame++;
-    if(!mPaused) {
+    if(!mPaused && !mMenu) {
         mTime += mSpeed;
         mBoard.incTime(mSpeed);
     }
@@ -1328,11 +1328,11 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
     const auto k = e.key();
     if(k == SDL_Scancode::SDL_SCANCODE_KP_PLUS ||
        k == SDL_Scancode::SDL_SCANCODE_RIGHTBRACKET) {
-        mSpeedId = std::clamp(mSpeedId + 1, 0, 3);
+        mSpeedId = std::clamp(mSpeedId + 1, 0, 4);
         mSpeed = sSpeeds[mSpeedId];
     } else if(k == SDL_Scancode::SDL_SCANCODE_KP_MINUS ||
               k == SDL_Scancode::SDL_SCANCODE_LEFTBRACKET) {
-        mSpeedId = std::clamp(mSpeedId - 1, 0, 3);
+        mSpeedId = std::clamp(mSpeedId - 1, 0, 4);
         mSpeed = sSpeeds[mSpeedId];
     } else if(k == SDL_Scancode::SDL_SCANCODE_R) {
         mRotate = !mRotate;

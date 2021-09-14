@@ -94,7 +94,7 @@ private:
 
     bool mRotate = false;
 
-    const int sSpeeds[4] = {2, 10, 25, 50};
+    const int sSpeeds[5] = {2, 10, 25, 50, 100};
 
     bool mPaused = false;
     int mFrame{0};

@@ -2,6 +2,8 @@
 
 #include "../echaracter.h"
 
+#include "vec2.h"
+
 eMoveAction::eMoveAction(eCharacter* const c,
                          const eTileWalkable& tileWalkable,
                          const eAction& failAction,
@@ -75,21 +77,28 @@ void eMoveAction::increment(const int by) {
         return;
     }
 
-    const double inc = 0.01 * by;
+    moveBy(0.005 * by);
+}
+
+void eMoveAction::moveBy(const double inc) {
     const auto c = character();
-    double x = c->x();
-    double y = c->y();
-    const bool xSignBefore = x - mTargetX > 0 ? true : false;
-    const bool ySignBefore = y - mTargetY > 0 ? true : false;
-    c->setX(x + (mTargetX - mStartX)*inc);
-    c->setY(y + (mTargetY - mStartY)*inc);
-    x = c->x();
-    y = c->y();
-    const bool xSignAfter = x - mTargetX > 0 ? true : false;
-    const bool ySignAfter = y - mTargetY > 0 ? true : false;
-    if(xSignAfter != xSignBefore ||
-       ySignAfter != ySignBefore) {
+    const double x = c->x();
+    const double y = c->y();
+
+    vec2d moveVec(mTargetX - x,
+                  mTargetY - y);
+    const double dist = moveVec.length();
+    if(dist > inc) {
+        moveVec.normalize();
+        moveVec *= inc;
+        c->setX(x + moveVec.x);
+        c->setY(y + moveVec.y);
+    } else {
+        c->setX(mTargetX);
+        c->setY(mTargetY);
+        const auto t = mTargetTile;
         moveToTargetTile();
+        if(t != mTargetTile) moveBy(inc - dist);
     }
 }
 

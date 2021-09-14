@@ -21,6 +21,7 @@ public:
     void increment(const int by);
 private:
     virtual eCharacterActionState nextTurn(eOrientation& t) = 0;
+    void moveBy(const double inc);
     bool nextTurn();
     void moveToTargetTile();
 
