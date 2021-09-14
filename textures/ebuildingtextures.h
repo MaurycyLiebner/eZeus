@@ -17,6 +17,8 @@ public:
     std::shared_ptr<eTexture> fHouseSpace;
     std::vector<eTextureCollection> fCommonHouse;
 
+    std::vector<eTextureCollection> fEliteHouse;
+    eTextureCollection fEliteHouseHorses;
 
     std::shared_ptr<eTexture> fGymnasium;
     eTextureCollection fGymnasiumOverlay;

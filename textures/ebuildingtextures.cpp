@@ -10,6 +10,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fTileW(tileW), fTileH(tileH),
     fRenderer(renderer),
 
+    fEliteHouseHorses(renderer),
+
     fGymnasiumOverlay(renderer),
     fCollegeOverlay(renderer),
     fDramaSchoolOverlay(renderer),
@@ -155,6 +157,17 @@ void eBuildingTextures::load() {
                 for(int j = 0; j < 2; j++, i++) {
                     texClass.load(i, coll);
                 }
+            }
+
+            for(int i = 16; i < 46;) {
+                auto& coll = fEliteHouse.emplace_back(fRenderer);
+                for(int j = 0; j < 5; j++, i++) {
+                    texClass.load(i, coll);
+                }
+            }
+
+            for(int i = 46; i < 50; i++) {
+                texClass.load(i, fEliteHouseHorses);
             }
         }
 
