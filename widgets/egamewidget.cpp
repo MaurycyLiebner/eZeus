@@ -82,11 +82,10 @@
 
 #include "engine/boardData/eappealupdatetask.h"
 
+#include "emainwindow.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window), mBoard(&mThreadPool) {}
-
-eGameWidget::~eGameWidget() {}
 
 void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
     switch(e) {
@@ -1363,6 +1362,20 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
     } else if(k == SDL_Scancode::SDL_SCANCODE_DOWN) {
         mDY -= 25;
         updateMinimap();
+    } else if(k == SDL_Scancode::SDL_SCANCODE_ESCAPE) {
+        if(mMenu) {
+            mMenu->deleteLater();
+            mMenu = nullptr;
+        } else {
+            mMenu = new eGameMainMenu(window());
+            mMenu->resize(width()/4, height()/2);
+            const auto w = window();
+            mMenu->initialize([w]() {
+                w->showMainMenu();
+            });
+            addWidget(mMenu);
+            mMenu->align(eAlignment::center);
+        }
     }
     return true;
 }

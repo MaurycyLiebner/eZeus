@@ -28,7 +28,7 @@ public:
     int height() const { return mResolution.height(); }
     eResolution resolution() const { return mResolution; }
     SDL_Renderer* renderer() const { return mSdlRenderer; }
-private:
+
     void setResolution(const eResolution res);
     void setFullscreen(const bool f);
 
@@ -36,7 +36,7 @@ private:
     void showMainMenu();
     void showSettingsMenu();
     void showGame();
-
+private:
     bool mFullscreen = false;
     eResolution mResolution;
 

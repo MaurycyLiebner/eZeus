@@ -19,6 +19,7 @@
 #include "infowidgets/egyminfowidget.h"
 
 #include "widgets/egamemenu.h"
+#include "egamemainmenu.h"
 #include "etopbarwidget.h"
 
 #include "eviewmode.h"
@@ -31,7 +32,6 @@ using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
 class eGameWidget : public eWidget {
 public:
     eGameWidget(eMainWindow* const window);
-    ~eGameWidget();
 
     void initialize(const int w, const int h);
 
@@ -123,6 +123,7 @@ private:
     ePatrolBuilding* mPatrolBuilding = nullptr;
 
     eFramedLabel* mPausedLabel = nullptr;
+    eGameMainMenu* mMenu = nullptr;
 
     eTopBarWidget* mTopBar = nullptr;
     eInfoWidget* mInfoWidget = nullptr;

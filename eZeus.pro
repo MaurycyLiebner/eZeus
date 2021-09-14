@@ -215,6 +215,7 @@ SOURCES += \
         widgets/eframedlabel.cpp \
         widgets/eframedwidget.cpp \
         widgets/egameloadingwidget.cpp \
+        widgets/egamemainmenu.cpp \
         widgets/egamemenu.cpp \
         widgets/egamemenubase.cpp \
         widgets/egamewidget.cpp \
@@ -465,6 +466,7 @@ HEADERS += \
     widgets/eframedlabel.h \
     widgets/eframedwidget.h \
     widgets/egameloadingwidget.h \
+    widgets/egamemainmenu.h \
     widgets/egamemenu.h \
     widgets/egamemenubase.h \
     widgets/egamewidget.h \
