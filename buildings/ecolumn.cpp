@@ -25,7 +25,7 @@ std::vector<eOverlay> eColumn::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& bds = eGameTextures::buildings();
     const auto& texs = bds[sizeId];
-    const auto t = tile();
+    const auto t = centerTile();
     std::vector<eOverlay> os;
     if(const auto bl = t->bottomLeft<eTile>()) {
         if(bl->underBuildingType() == type()) {

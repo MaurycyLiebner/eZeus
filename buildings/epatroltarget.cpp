@@ -43,7 +43,7 @@ void ePatrolTarget::timeChanged(const int by) {
 }
 
 void ePatrolTarget::spawnGetActor() {
-    const auto t = tile();
+    const auto t = centerTile();
     const auto tp = getBoard().threadPool();
 
     const int tx = t->x();

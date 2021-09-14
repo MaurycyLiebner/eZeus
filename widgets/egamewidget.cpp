@@ -13,6 +13,8 @@
 #include "textures/eparktexture.h"
 #include "textures/evaryingsizetex.h"
 
+#include "buildings/ebuildingrenderer.h"
+
 #include "buildings/esmallhouse.h"
 #include "buildings/egymnasium.h"
 #include "buildings/eroad.h"
@@ -568,8 +570,8 @@ bool eGameWidget::build(const int tx, const int ty,
     if(!cb) return false;
     const auto b = bc();
     if(!b) return false;
-    b->setTile(tile);
-    tile->setBuilding(b);
+    const auto rend = e::make_shared<eBuildingRenderer>(b);
+    tile->setBuilding(rend);
     int minX;
     int minY;
     int maxX;
@@ -964,7 +966,7 @@ void eGameWidget::paintEvent(ePainter& p) {
     if(mPatrolBuilding) {
         const auto pgs = mPatrolBuilding->patrolGuides();
         if(!pgs->empty()) {
-            const auto t = mPatrolBuilding->tile();
+            const auto t = mPatrolBuilding->centerTile();
             const int tx = t->x();
             const int ty = t->y();
             std::vector<SDL_Point> polygon;
@@ -1297,7 +1299,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             const int sh = b->spanH();
 
             b->setSeed(0);
-            b->setTile(t);
+            b->addUnderBuilding(t);
             double rx;
             double ry;
             drawXY(eb.fTx, eb.fTy, rx, ry, sw, sh, a);

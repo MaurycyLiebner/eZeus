@@ -96,7 +96,7 @@ bool ePatrolBuilding::spawn() {
         if(!t) return false;
         mChar->changeTile(t);
     } else {
-        mChar->changeTile(tile());
+        mChar->changeTile(centerTile());
     }
     const eStdPointer<ePatrolBuilding> tptr(this);
     const eStdPointer<eCharacter> cptr(mChar);

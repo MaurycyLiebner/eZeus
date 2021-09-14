@@ -47,7 +47,7 @@ void eHuntingLodge::timeChanged(const int by) {
 
 bool eHuntingLodge::spawn() {
     if(resource() >= maxResource()) return false;
-    const auto t = tile();
+    const auto t = centerTile();
     mHunter = e::make_shared<eHunter>(getBoard());
     mHunter->changeTile(t);
     const eStdPointer<eHuntingLodge> tptr(this);

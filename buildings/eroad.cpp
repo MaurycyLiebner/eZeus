@@ -16,7 +16,7 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
     const auto& tbcoll = sizeColl.fToBeachRoad;
     const auto& bcoll = sizeColl.fBeachRoad;
 
-    const auto ti = tile();
+    const auto ti = centerTile();
     const auto tr = ti->topRight();
     const auto br = ti->bottomRight();
     const auto bl = ti->bottomLeft();
@@ -70,7 +70,7 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
         const auto& rcoll = sizeColl.fRoad;
 
         const auto& b = getBoard();
-        const auto t = tile();
+        const auto t = centerTile();
         const int tx = t->x();
         const int ty = t->y();
         const double a = b.appeal(tx, ty);

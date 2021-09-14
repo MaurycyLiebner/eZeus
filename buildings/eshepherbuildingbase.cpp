@@ -52,7 +52,7 @@ void eShepherBuildingBase::timeChanged(const int by) {
 
 bool eShepherBuildingBase::spawn() {
     if(resource() >= maxResource()) return false;
-    const auto t = tile();
+    const auto t = centerTile();
     mShepherd = mCharGenerator(getBoard());
     mShepherd->changeTile(t);
     const eStdPointer<eShepherBuildingBase> tptr(this);

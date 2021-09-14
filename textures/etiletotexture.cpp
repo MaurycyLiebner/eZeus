@@ -15,6 +15,7 @@
 #include "estonestodry.h"
 
 #include "buildings/ebuilding.h"
+#include "buildings/ebuildingrenderer.h"
 #include "evaryingsizetex.h"
 #include "ebuildingtextures.h"
 

@@ -21,7 +21,7 @@ eStadium2Base::eStadium2Base(eGameBoard& board,
 }
 
 void eStadium2Base::timeChanged(const int by) {
-    mOverlayTime += by;
+    mOverlayTime++;
     if(mOverlayTime > 2000) {
         mOverlayTime = 0;
         mOverlayId = (mOverlayId + 1) % 5;

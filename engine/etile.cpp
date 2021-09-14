@@ -154,14 +154,14 @@ bool eTile::hasCharacter(const eHasChar& func) const {
     return false;
 }
 
-void eTile::setBuilding(const stdsptr<eBuilding>& b) {
+void eTile::setBuilding(const stdsptr<eBuildingRenderer>& b) {
     mBuilding = b;
-    if(b) b->setTile(this);
 }
 
 bool eTile::hasRoad() const {
-    if(!mBuilding) return false;
-    return mBuilding->type() == eBuildingType::road;
+    if(!mUnderBuilding) return false;
+    const auto t = mUnderBuilding->type();
+    return t == eBuildingType::road;
 }
 
 void eTile::setUnderBuilding(eBuilding* const b) {

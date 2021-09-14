@@ -22,6 +22,7 @@ SOURCES += \
         buildings/earmory.cpp \
         buildings/earmsvendor.cpp \
         buildings/ebuilding.cpp \
+        buildings/ebuildingrenderer.cpp \
         buildings/ebuildingwithresource.cpp \
         buildings/ecardingshed.cpp \
         buildings/ecarrotfarm.cpp \
@@ -251,6 +252,7 @@ HEADERS += \
     buildings/earmory.h \
     buildings/earmsvendor.h \
     buildings/ebuilding.h \
+    buildings/ebuildingrenderer.h \
     buildings/ebuildingwithresource.h \
     buildings/ecardingshed.h \
     buildings/ecarrotfarm.h \

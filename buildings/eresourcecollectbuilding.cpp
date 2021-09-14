@@ -99,7 +99,7 @@ void eResourceCollectBuilding::timeChanged(const int by) {
 
 bool eResourceCollectBuilding::spawn() {
     if(resource() >= maxResource()) return false;
-    const auto t = tile();
+    const auto t = centerTile();
     mCollector = mCharGenerator();
     mCollector->changeTile(t);
     const eStdPointer<eResourceCollectBuilding> tptr(this);

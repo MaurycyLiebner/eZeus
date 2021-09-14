@@ -180,7 +180,7 @@ bool eGrowersLodge::spawnCart(const eResourceType resType) {
 
 bool eGrowersLodge::spawnGrower(const eGrowerPtr grower) {
     if(mGrapes + mOlives + mOranges >= mMaxResource) return false;
-    const auto t = tile();
+    const auto t = centerTile();
     auto& g = this->*grower;
     this->*grower = e::make_shared<eGrower>(getBoard(), mType);
     g->changeTile(t);

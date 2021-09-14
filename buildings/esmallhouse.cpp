@@ -116,7 +116,7 @@ int eSmallHouse::moveIn(int c) {
 
 void eSmallHouse::updateLevel() {
     const auto& b = getBoard();
-    const auto t = tile();
+    const auto t = centerTile();
     const int tx = t->x();
     const int ty = t->y();
     const double appeal = b.appeal(tx ,ty);

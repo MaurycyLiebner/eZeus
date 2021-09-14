@@ -8,7 +8,7 @@ bool eBuildingWithResource::spawnGiveCart(
         const eResourceType resType) {
     if(count(resType) <= 0) return false;
     cart = e::make_shared<eCartTransporter>(getBoard());
-    const auto t = tile();
+    const auto t = centerTile();
     cart->changeTile(t);
 
     const eStdPointer<eBuildingWithResource> tptr(this);
@@ -67,7 +67,7 @@ bool eBuildingWithResource::spawnTakeCart(
         const eResourceType resType) {
     if(cart) depositFromCart(cart, spawnTime, waitTime);
     if(spaceLeft(resType) <= 0) return false;
-    const auto t = tile();
+    const auto t = centerTile();
     if(!cart) cart = e::make_shared<eCartTransporter>(getBoard());
     cart->changeTile(t);
     const eStdPointer<eBuildingWithResource> tptr(this);

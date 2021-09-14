@@ -4,6 +4,8 @@
 #include "engine/etile.h"
 #include "eruins.h"
 
+#include "ebuildingrenderer.h"
+
 eBuilding::eBuilding(eGameBoard& board,
                      const eBuildingType type,
                      const int sw, const int sh) :
@@ -29,7 +31,6 @@ int eBuilding::provide(const eProvide p, const int n) {
 
 eTile* eBuilding::tileNeighbour(const eMoveDirection o,
                                 const eTileValidator& v) const {
-    if(!mTile) return nullptr;
     int dx = 0;
     int dy = 0;
     switch(o) {
@@ -66,15 +67,15 @@ void eBuilding::incTime(const int by) {
     auto& b = getBoard();
     mTime += by;
     mTextureTime++;
-    if(mTile && mTile->onFire()) {
+    if(isOnFire()) {
         if(rand() % (10000/by) == 0) {
             if(rand() % 3) {
                 const bool r = spreadFire();
-                if(r) b.event(eEvent::fire, mTile);
+                if(r) b.event(eEvent::fire, centerTile());
             } else if(mType == eBuildingType::ruins) {
-                mTile->setOnFire(false);
+                putOutFire();
             } else {
-                b.event(eEvent::collapse, mTile);
+                b.event(eEvent::collapse, centerTile());
                 collapse();
                 return;
             }
@@ -89,24 +90,20 @@ void eBuilding::incTime(const int by) {
             const int firePeriod = m4/(by*fireRisk);
             if(firePeriod && rand() % firePeriod == 0) {
                 catchOnFire();
-                b.event(eEvent::fire, mTile);
+                b.event(eEvent::fire, centerTile());
             }
         }
         const int damageRisk = eDifficultyHelpers::damageRisk(diff, mType);
         if(damageRisk) {
             const int damagePeriod = m4/(by*damageRisk);
             if(damagePeriod && rand() % damagePeriod == 0) {
-                b.event(eEvent::collapse, mTile);
+                b.event(eEvent::collapse, centerTile());
                 collapse();
                 return;
             }
         }
     }
     timeChanged(by);
-}
-
-void eBuilding::setTile(eTile* const t) {
-    mTile = t;
 }
 
 void eBuilding::draw(eTilePainter& p,
@@ -130,12 +127,9 @@ void eBuilding::erase() {
     deleteLater();
     for(const auto t : mUnderBuilding) {
         t->setUnderBuilding(nullptr);
+        t->setBuilding(nullptr);
     }
     mUnderBuilding.clear();
-    if(mTile) {
-        mTile->setBuilding(nullptr);
-        mTile = nullptr;
-    }
 }
 
 void eBuilding::collapse() {
@@ -145,8 +139,8 @@ void eBuilding::collapse() {
     const bool noRuins = tp == eBuildingType::oliveTree ||
                          tp == eBuildingType::vine ||
                          tp == eBuildingType::orangeTree;
-    if(mTile && noRuins) {
-        mTile->setOnFire(false);
+    if(noRuins) {
+        putOutFire();
     }
     erase();
     if(noRuins) {
@@ -154,7 +148,8 @@ void eBuilding::collapse() {
     }
     for(const auto t : tiles) {
         const auto ruins = e::make_shared<eRuins>(b);
-        t->setBuilding(ruins);
+        const auto renderer = e::make_shared<eBuildingRenderer>(ruins);
+        t->setBuilding(renderer);
         t->setUnderBuilding(ruins.get());
         ruins->addUnderBuilding(t);
     }
@@ -163,6 +158,12 @@ void eBuilding::collapse() {
 void eBuilding::catchOnFire() {
     for(const auto t : mUnderBuilding) {
         t->setOnFire(true);
+    }
+}
+
+void eBuilding::putOutFire() {
+    for(const auto t : mUnderBuilding) {
+        t->setOnFire(false);
     }
 }
 
@@ -199,6 +200,11 @@ bool eBuilding::isOnFire() {
         if(t->onFire()) return true;
     }
     return false;
+}
+
+eTile* eBuilding::centerTile() const {
+    if(mUnderBuilding.empty()) return nullptr;
+    return mUnderBuilding.front();
 }
 
 void eBuilding::setEnabled(const bool e) {

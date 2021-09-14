@@ -136,15 +136,12 @@ public:
     int seed() const { return mSeed; }
     void setSeed(const int s) { mSeed = s; }
     eBuildingType type() const { return mType; }
-    eTile* tile() const { return mTile; }
     int spanW() const { return mSpanW; }
     int spanH() const { return mSpanH; }
 
     void incTime(const int by);
     int time() const { return mTime; }
     int textureTime() const { return mTextureTime/3; }
-
-    void setTile(eTile* const t);
 
     void draw(eTilePainter& p,
               const double x, const double y);
@@ -154,6 +151,7 @@ public:
     void erase();
     void collapse();
     void catchOnFire();
+    void putOutFire();
     bool spreadFire();
 
     bool isOnFire();
@@ -164,6 +162,8 @@ public:
 
     void setTileRect(const SDL_Rect& rect) { mTileRect = rect; }
     const SDL_Rect& tileRect() const { return mTileRect; }
+
+    eTile* centerTile() const;
 
     bool enabled() const { return mEnabled; }
     void setEnabled(const bool e);
@@ -186,7 +186,6 @@ private:
     int mTime = 0;
     int mTextureTime = 0;
 
-    eTile* mTile = nullptr;
     bool mEnabled = false;
     std::function<bool()> mOverlayEnabled = [this]() {
         return mEnabled;

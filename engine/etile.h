@@ -16,6 +16,7 @@ enum class eTileSize : int {
 
 class eCharacter;
 class eBuilding;
+class eBuildingRenderer;
 class eSpawner;
 
 class eTile : public eTileBase {
@@ -31,8 +32,8 @@ public:
     const std::vector<stdsptr<eCharacter>>& characters() const
     { return mCharacters; }
 
-    void setBuilding(const stdsptr<eBuilding>& b);
-    eBuilding* building() const { return mBuilding.get(); }
+    void setBuilding(const stdsptr<eBuildingRenderer>& b);
+    eBuildingRenderer* building() const { return mBuilding.get(); }
     bool hasRoad() const;
     void setUnderBuilding(eBuilding* const b);
     eBuilding* underBuilding() const { return mUnderBuilding; }
@@ -66,7 +67,7 @@ private:
 private:
     std::vector<stdsptr<eCharacter>> mCharacters;
     eBuilding* mUnderBuilding = nullptr;
-    stdsptr<eBuilding> mBuilding;
+    stdsptr<eBuildingRenderer> mBuilding;
     eSpawner* mSpawner = nullptr;
 };
 
