@@ -142,12 +142,49 @@ void eGameBoard::incTime(const int by) {
     if(rand() % 100000 < by) {
         stdsptr<eCharacter> god;
         eEvent e;
-        if(rand() % 2) {
+        const int r = rand() % 14;
+        if(r == 0) {
             god = e::make_shared<eDemeter>(*this);
-            e = eEvent::demeterVisit;
-        } else {
+            e = eEvent::aphroditeVisit;
+        } else if(r == 1) {
+            god = e::make_shared<eAthena>(*this);
+            e = eEvent::apolloVisit;
+        } else if(r == 2) {
+            god = e::make_shared<eAthena>(*this);
+            e = eEvent::aresVisit;
+        } else if(r == 3) {
+            god = e::make_shared<eAthena>(*this);
+            e = eEvent::artemisVisit;
+        } else if(r == 4) {
             god = e::make_shared<eAthena>(*this);
             e = eEvent::athenaVisit;
+        } else if(r == 5) {
+            god = e::make_shared<eAthena>(*this);
+            e = eEvent::atlasVisit;
+        } else if(r == 6) {
+            god = e::make_shared<eDemeter>(*this);
+            e = eEvent::demeterVisit;
+        } else if(r == 7) {
+            god = e::make_shared<eAthena>(*this);
+            e = eEvent::dionysusVisit;
+        } else if(r == 8) {
+            god = e::make_shared<eAthena>(*this);
+            e = eEvent::hadesVisit;
+        } else if(r == 9) {
+            god = e::make_shared<eAthena>(*this);
+            e = eEvent::hephaestusVisit;
+        } else if(r == 10) {
+            god = e::make_shared<eAthena>(*this);
+            e = eEvent::heraVisit;
+        } else if(r == 11) {
+            god = e::make_shared<eAthena>(*this);
+            e = eEvent::hermesVisit;
+        } else if(r == 12) {
+            god = e::make_shared<eAthena>(*this);
+            e = eEvent::poseidonVisit;
+        } else {
+            god = e::make_shared<eAthena>(*this);
+            e = eEvent::zeusVisit;
         }
         const auto a = e::make_shared<eGodVisitAction>(
                            god.get(), []() {}, []() {});

@@ -345,38 +345,40 @@ void eSounds::playCollapseSound() {
     Mix_PlayChannel(-1, sInstance.mCollapse, 0);
 }
 
-void eSounds::playDemeterVisitSound() {
-    sInstance.mDemeter.playVisit();
+void eSounds::playGodSound(const eGodType g, const eGodSound s) {
+    eGodSounds* god = nullptr;
+    switch(g) {
+    case eGodType::aphrodite:
+        god = &sInstance.mAphrodite; break;
+    case eGodType::apollo:
+        god = &sInstance.mApollo; break;
+    case eGodType::ares:
+        god = &sInstance.mAres; break;
+    case eGodType::artemis:
+        god = &sInstance.mArtemis; break;
+    case eGodType::athena:
+        god = &sInstance.mAthena; break;
+    case eGodType::atlas:
+        god = &sInstance.mAtlas; break;
+    case eGodType::demeter:
+        god = &sInstance.mDemeter; break;
+    case eGodType::dionysus:
+        god = &sInstance.mDionysus; break;
+    case eGodType::hades:
+        god = &sInstance.mHades; break;
+    case eGodType::hephaestus:
+        god = &sInstance.mHephaestus; break;
+    case eGodType::hera:
+        god = &sInstance.mHera; break;
+    case eGodType::hermes:
+        god = &sInstance.mHermes; break;
+    case eGodType::poseidon:
+        god = &sInstance.mPoseidon; break;
+    case eGodType::zeus:
+        god = &sInstance.mZeus; break;
+    }
+    god->play(s);
 }
-
-void eSounds::playDemeterAttackSound() {
-    sInstance.mDemeter.playAttack();
-}
-
-void eSounds::playDemeterAppearSound() {
-    sInstance.mDemeter.playAppear();
-}
-
-void eSounds::playDemeterDisappearSound() {
-    sInstance.mDemeter.playDisappear();
-}
-
-void eSounds::playAthenaVisitSound() {
-    sInstance.mAthena.playVisit();
-}
-
-void eSounds::playAthenaAttackSound() {
-    sInstance.mAthena.playAttack();
-}
-
-void eSounds::playAthenaAppearSound() {
-    sInstance.mAthena.playAppear();
-}
-
-void eSounds::playAthenaDisappearSound() {
-    sInstance.mAthena.playDisappear();
-}
-
 
 void eSounds::loadImpl() {
     if(mLoaded) return;
@@ -827,14 +829,26 @@ void eGodSounds::load() {
     const std::string wavsDir{"../Audio/Wavs/"};
 
     for(const auto& s : {fShortName + "_ev_1.mp3",
-        fShortName + "_ev_2.mp3",
-        fShortName + "_ev_3.mp3"}) {
+                         fShortName + "_ev_2.mp3",
+                         fShortName + "_ev_3.mp3"}) {
         const auto r = loadSoundBase(voiceDir + s);
-        if(r) mVisit.push_back(r);
+        if(r) fVisit.push_back(r);
     }
 
-    mAttack = loadSoundBase(voiceDir + fShortName + "_ev_4.mp3");
-    mAppear = loadSoundBase(wavsDir + "G_" + fLongName + "_mat.wav");
-    mDisappear = loadSoundBase(wavsDir + "G_" + fLongName + "_demat.wav");
+    fInvade = loadSoundBase(voiceDir + fShortName + "_ev_4.mp3");
 
+    fAppear = loadSoundBase(wavsDir + "G_" + fLongName + "_mat.wav");
+    fDisappear = loadSoundBase(wavsDir + "G_" + fLongName + "_demat.wav");
+
+    for(const auto& s : {"G_" + fLongName + "_atk1.wav",
+                         "G_" + fLongName + "_atk2.wav",
+                         "G_" + fLongName + "_atk3.wav",
+                         "G_" + fLongName + "_atk4.wav"}) {
+        const auto r = loadSoundBase(wavsDir + s);
+        if(r) fAttack.push_back(r);
+    }
+
+    fCurse = loadSoundBase(wavsDir + "G_" + fLongName + "_curse.wav");
+    fHit = loadSoundBase(wavsDir + "G_" + fLongName + "_hit.wav");
+    fSanctify = loadSoundBase(wavsDir + "G_" + fLongName + "_sanctify.wav");
 }

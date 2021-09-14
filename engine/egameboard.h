@@ -28,11 +28,47 @@ enum class eEvent {
     fire,
     collapse,
 
+    aphroditeVisit,
+    aphroditeInvasion,
+
+    apolloVisit,
+    apolloInvasion,
+
+    aresVisit,
+    aresInvasion,
+
+    artemisVisit,
+    artemisInvasion,
+
     athenaVisit,
-    athenaAttack,
+    athenaInvasion,
+
+    atlasVisit,
+    atlasInvasion,
 
     demeterVisit,
-    demeterAttack
+    demeterInvasion,
+
+    dionysusVisit,
+    dionysusInvasion,
+
+    hadesVisit,
+    hadesInvasion,
+
+    hephaestusVisit,
+    hephaestusInvasion,
+
+    heraVisit,
+    heraInvasion,
+
+    hermesVisit,
+    hermesInvasion,
+
+    poseidonVisit,
+    poseidonInvasion,
+
+    zeusVisit,
+    zeusInvasion,
 };
 
 class eGameBoard {

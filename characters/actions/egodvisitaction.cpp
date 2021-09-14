@@ -10,6 +10,36 @@
 
 #include "esounds.h"
 
+#include "characters/echaracter.h"
+
+eGodType characterToGodType(const eCharacterType type) {
+    switch(type) {
+    case eCharacterType::aphrodite: return eGodType::aphrodite;
+    case eCharacterType::apollo: return eGodType::apollo;
+    case eCharacterType::ares: return eGodType::ares;
+    case eCharacterType::artemis: return eGodType::artemis;
+    case eCharacterType::athena: return eGodType::athena;
+    case eCharacterType::atlas: return eGodType::atlas;
+    case eCharacterType::demeter: return eGodType::demeter;
+    case eCharacterType::dionysus: return eGodType::dionysus;
+    case eCharacterType::hades: return eGodType::hades;
+    case eCharacterType::hephaestus: return eGodType::hephaestus;
+    case eCharacterType::hera: return eGodType::hera;
+    case eCharacterType::hermes: return eGodType::hermes;
+    case eCharacterType::poseidon: return eGodType::poseidon;
+    case eCharacterType::zeus: return eGodType::zeus;
+    default: return eGodType::aphrodite;
+    }
+}
+
+eGodVisitAction::eGodVisitAction(eCharacter* const c,
+                                 const eAction& failAction,
+                                 const eAction& finishAction) :
+    eComplexAction(c, failAction, finishAction),
+    mType(characterToGodType(c->type())) {
+
+}
+
 void eGodVisitAction::appear() {
     const auto c = character();
     auto& board = c->getBoard();
@@ -36,8 +66,8 @@ void eGodVisitAction::appear() {
     const auto a = e::make_shared<eWaitAction>(c, fail, finish);
     a->setTime(300);
     setCurrentAction(a);
-    board.ifVisible(tile, []() {
-        eSounds::playDemeterAppearSound();
+    board.ifVisible(tile, [this]() {
+        eSounds::playGodSound(mType, eGodSound::appear);
     });
 }
 
@@ -52,8 +82,8 @@ void eGodVisitAction::disappear() {
     const auto a = e::make_shared<eWaitAction>(c, finish, finish);
     a->setTime(300);
     setCurrentAction(a);
-    board.ifVisible(c->tile(), []() {
-        eSounds::playDemeterDisappearSound();
+    board.ifVisible(c->tile(), [this]() {
+        eSounds::playGodSound(mType, eGodSound::disappear);
     });
 }
 

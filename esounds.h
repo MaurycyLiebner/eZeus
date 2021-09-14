@@ -6,7 +6,20 @@
 
 #include <SDL2/SDL_mixer.h>
 
+#include "characters/gods/egod.h"
+
 class eTile;
+
+enum class eGodSound {
+    visit,
+    invade,
+    appear,
+    disappear,
+    attack,
+    curse,
+    hit,
+    santcify
+};
 
 struct eGodSounds {
     eGodSounds(const std::string& shortName,
@@ -16,7 +29,52 @@ struct eGodSounds {
 
     }
 
+    ~eGodSounds() {
+        for(const auto v : fVisit) {
+            Mix_FreeChunk(v);
+        }
+        Mix_FreeChunk(fInvade);
+        Mix_FreeChunk(fAppear);
+        Mix_FreeChunk(fDisappear);
+
+        for(const auto a : fAttack) {
+            Mix_FreeChunk(a);
+        }
+        Mix_FreeChunk(fCurse);
+        Mix_FreeChunk(fHit);
+        Mix_FreeChunk(fSanctify);
+    }
+
     void load();
+
+    void play(const eGodSound s) {
+        switch(s) {
+        case eGodSound::visit:
+            playVisit();
+            break;
+        case eGodSound::invade:
+            playInvade();
+            break;
+        case eGodSound::appear:
+            playAppear();
+            break;
+        case eGodSound::disappear:
+            playDisappear();
+            break;
+        case eGodSound::attack:
+            playAttack();
+            break;
+        case eGodSound::curse:
+            playCurse();
+            break;
+        case eGodSound::hit:
+            playHit();
+            break;
+        case eGodSound::santcify:
+            playSanctify();
+            break;
+        }
+    }
 
     void playVisit() {
         int id;
@@ -26,29 +84,52 @@ struct eGodSounds {
         } else {
             id = rand() % 3;
         }
-        Mix_PlayChannel(-1, mVisit[id], 0);
+        Mix_PlayChannel(-1, fVisit[id], 0);
     }
 
-    void playAttack() {
-        Mix_PlayChannel(-1, mAttack, 0);
+    void playInvade() {
+        Mix_PlayChannel(-1, fInvade, 0);
     }
 
     void playAppear() {
-        Mix_PlayChannel(-1, mAppear, 0);
+        Mix_PlayChannel(-1, fAppear, 0);
     }
 
     void playDisappear() {
-        Mix_PlayChannel(-1, mDisappear, 0);
+        Mix_PlayChannel(-1, fDisappear, 0);
+    }
+
+    void playAttack() {
+        const int id = rand() % fAttack.size();
+        Mix_PlayChannel(-1, fAttack[id], 0);
+    }
+
+    void playCurse() {
+        Mix_PlayChannel(-1, fCurse, 0);
+    }
+
+    void playHit() {
+        Mix_PlayChannel(-1, fHit, 0);
+    }
+
+    void playSanctify() {
+        Mix_PlayChannel(-1, fSanctify, 0);
     }
 
     const std::string fShortName;
     const std::string fLongName;
 
     bool fFirstVisit = true;
-    std::vector<Mix_Chunk*> mVisit;
-    Mix_Chunk* mAttack = nullptr;
-    Mix_Chunk* mAppear = nullptr;
-    Mix_Chunk* mDisappear = nullptr;
+
+    std::vector<Mix_Chunk*> fVisit;
+    Mix_Chunk* fInvade = nullptr;
+    Mix_Chunk* fAppear = nullptr;
+    Mix_Chunk* fDisappear = nullptr;
+
+    std::vector<Mix_Chunk*> fAttack;
+    Mix_Chunk* fCurse = nullptr;
+    Mix_Chunk* fHit = nullptr;
+    Mix_Chunk* fSanctify = nullptr;
 };
 
 class eSounds {
@@ -111,17 +192,8 @@ public:
     static void playFireSound();
     static void playCollapseSound();
 
-    static void playDemeterVisitSound();
-    static void playDemeterAttackSound();
-
-    static void playDemeterAppearSound();
-    static void playDemeterDisappearSound();
-
-    static void playAthenaVisitSound();
-    static void playAthenaAttackSound();
-
-    static void playAthenaAppearSound();
-    static void playAthenaDisappearSound();
+    static void playGodSound(const eGodType g,
+                             const eGodSound s);
 private:
     void loadImpl();
 
@@ -191,8 +263,20 @@ private:
     Mix_Chunk* mFire = nullptr;
     Mix_Chunk* mCollapse = nullptr;
 
+    eGodSounds mAphrodite{"Aph", "aphrodite"};
+    eGodSounds mApollo{"Apo", "apollo"};
+    eGodSounds mAres{"Are", "ares"};
+    eGodSounds mArtemis{"Atm", "artemis"};
     eGodSounds mAthena{"Atn", "athena"};
+    eGodSounds mAtlas{"Ats", "Atlas"};
     eGodSounds mDemeter{"Dem", "demeter"};
+    eGodSounds mDionysus{"Dio", "dionysus"};
+    eGodSounds mHades{"Had", "hades"};
+    eGodSounds mHephaestus{"Hep", "hephaestus"};
+    eGodSounds mHera{"Hra", "Hera"};
+    eGodSounds mHermes{"Her", "hermes"};
+    eGodSounds mPoseidon{"Pos", "poseidon"};
+    eGodSounds mZeus{"Zeu", "zeus"};
 };
 
 #endif // ESOUNDS_H

@@ -47,8 +47,20 @@ enum class eCharacterType {
 
     cartTransporter,
 
+    aphrodite,
+    apollo,
+    ares,
+    artemis,
     athena,
-    demeter
+    atlas,
+    demeter,
+    dionysus,
+    hades,
+    hephaestus,
+    hera,
+    hermes,
+    poseidon,
+    zeus
 };
 
 class eCharacterBase {

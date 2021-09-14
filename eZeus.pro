@@ -132,6 +132,7 @@ SOURCES += \
         characters/ewinevendorchar.cpp \
         characters/gods/eathena.cpp \
         characters/gods/edemeter.cpp \
+        characters/gods/egod.cpp \
         emainwindow.cpp \
         emusic.cpp \
         engine/boardData/eappealmap.cpp \
@@ -357,6 +358,7 @@ HEADERS += \
     characters/ewinevendorchar.h \
     characters/gods/eathena.h \
     characters/gods/edemeter.h \
+    characters/gods/egod.h \
     emainwindow.h \
     emusic.h \
     engine/boardData/eappealmap.h \
