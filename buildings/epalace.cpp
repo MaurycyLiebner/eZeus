@@ -43,7 +43,7 @@ std::vector<eOverlay> ePalace::getOverlays2(const eTileSize size) const {
 
     const int tt = textureTime();
     if(mRotated) {
-        const auto& coll = texs.fPalaceOverlay;
+        const auto& coll = texs.fPalaceHOverlay;
         eOverlay a0;
         a0.fX = 1.0;
         a0.fY = -2.75;
@@ -51,10 +51,10 @@ std::vector<eOverlay> ePalace::getOverlays2(const eTileSize size) const {
         a0.fTex = coll.getTexture(ttt);
         os.push_back(a0);
     } else {
-        const auto& coll = texs.fPalaceOverlay;
+        const auto& coll = texs.fPalaceWOverlay;
         eOverlay a0;
-        a0.fX = 2.0;
-        a0.fY = -7.5;
+        a0.fX = -1.0;
+        a0.fY = -4.5;
         const int ttt = tt % coll.size();
         a0.fTex = coll.getTexture(ttt);
         os.push_back(a0);

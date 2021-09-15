@@ -124,11 +124,13 @@ bool eTexture::isNull() const {
 }
 
 void eTexture::setAlpha(const Uint8 alpha) {
-    SDL_SetTextureAlphaMod(mTex, alpha);
+    if(mFlipTex) mFlipTex->setAlpha(alpha);
+    else SDL_SetTextureAlphaMod(mTex, alpha);
 }
 
 void eTexture::setColorMod(const Uint8 r, const Uint8 g, const Uint8 b) {
-    SDL_SetTextureColorMod(mTex, r, g, b);
+    if(mFlipTex) mFlipTex->setColorMod(r, g, b);
+    else SDL_SetTextureColorMod(mTex, r, g, b);
 }
 
 void eTexture::clearColorMod() {

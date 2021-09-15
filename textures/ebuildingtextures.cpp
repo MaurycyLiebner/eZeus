@@ -29,7 +29,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fStadiumAudiance1H(renderer),
     fStadiumAudiance2H(renderer),
 
-    fPalaceOverlay(renderer),
+    fPalaceHOverlay(renderer),
+    fPalaceWOverlay(renderer),
 
     fPalaceTiles(renderer),
 
@@ -469,7 +470,12 @@ void eBuildingTextures::load() {
         }
 
         for(int i = 3011; i < 3035; i++) {
-            texClass.load(i, fPalaceOverlay);
+            texClass.load(i, fPalaceHOverlay);
+        }
+        for(int i = 0; i < fPalaceHOverlay.size(); i++) {
+            auto& tex = fPalaceWOverlay.addTexture();
+            const auto& srcTex = fPalaceHOverlay.getTexture(i);
+            tex->setFlipTex(srcTex);
         }
     }
 

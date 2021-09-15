@@ -61,7 +61,8 @@ public:
     std::shared_ptr<eTexture> fPalace1W;
     std::shared_ptr<eTexture> fPalace2W;
 
-    eTextureCollection fPalaceOverlay;
+    eTextureCollection fPalaceHOverlay;
+    eTextureCollection fPalaceWOverlay;
 
     eTextureCollection fPalaceTiles;
 
