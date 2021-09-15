@@ -105,8 +105,7 @@ int costBase(const eBuildingType type) {
         return 16;
     case eBuildingType::gymnasium:
         return 30;
-    case eBuildingType::stadium1:
-    case eBuildingType::stadium2:
+    case eBuildingType::stadium:
         return 200;
     case eBuildingType::podium:
         return 15;
@@ -334,8 +333,7 @@ int damageRiskBase(const eBuildingType type) {
         return 8;
     case eBuildingType::gymnasium:
         return 5;
-    case eBuildingType::stadium1:
-    case eBuildingType::stadium2:
+    case eBuildingType::stadium:
         return 8;
     case eBuildingType::podium:
         return 5;

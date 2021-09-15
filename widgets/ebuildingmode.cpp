@@ -82,7 +82,7 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
     case eBuildingMode::gymnasium:
         return eBuildingType::gymnasium;
     case eBuildingMode::stadium:
-        return eBuildingType::stadium1;
+        return eBuildingType::stadium;
 
     case eBuildingMode::granary:
         return eBuildingType::granary;

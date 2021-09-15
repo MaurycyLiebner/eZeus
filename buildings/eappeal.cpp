@@ -54,8 +54,7 @@ eAppeal eAppealHelpers::appeal(const eBuildingType type) {
     case eBuildingType::gymnasium: return {0, 0};
     case eBuildingType::dramaSchool: return {0, 0};
     case eBuildingType::theater: return {6, 3};
-    case eBuildingType::stadium1:
-    case eBuildingType::stadium2: return {0, 0};
+    case eBuildingType::stadium: return {0, 0};
 
     case eBuildingType::doricColumn:
     case eBuildingType::ionicColumn:

@@ -62,8 +62,8 @@ SOURCES += \
         buildings/esculpturestudio.cpp \
         buildings/eshepherbuildingbase.cpp \
         buildings/esmallhouse.cpp \
-        buildings/estadium1.cpp \
-        buildings/estadium2.cpp \
+        buildings/estadium.cpp \
+        buildings/estadiumrenderer.cpp \
         buildings/estoragebuilding.cpp \
         buildings/etaxoffice.cpp \
         buildings/etheater.cpp \
@@ -292,8 +292,8 @@ HEADERS += \
     buildings/esculpturestudio.h \
     buildings/eshepherbuildingbase.h \
     buildings/esmallhouse.h \
-    buildings/estadium1.h \
-    buildings/estadium2.h \
+    buildings/estadium.h \
+    buildings/estadiumrenderer.h \
     buildings/estoragebuilding.h \
     buildings/etaxoffice.h \
     buildings/etheater.h \

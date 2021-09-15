@@ -138,8 +138,7 @@ void eSounds::playSoundForTile(eTile* const tile) {
             return eSounds::playPhilosophySound();
         case eBuildingType::gymnasium:
             return eSounds::playGymnasiumSound();
-        case eBuildingType::stadium1:
-        case eBuildingType::stadium2:
+        case eBuildingType::stadium:
             return eSounds::playStadiumSound();
         case eBuildingType::fountain:
             return eSounds::playFountainSound();

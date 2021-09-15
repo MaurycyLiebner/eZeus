@@ -25,8 +25,8 @@
 #include "buildings/ehospital.h"
 #include "buildings/etheater.h"
 #include "buildings/edramaschool.h"
-#include "buildings/estadium1.h"
-#include "buildings/estadium2.h"
+#include "buildings/estadium.h"
+#include "buildings/estadiumrenderer.h"
 #include "buildings/epalace1.h"
 #include "buildings/epalace2.h"
 #include "buildings/emint.h"
@@ -462,10 +462,10 @@ void buildTiles(int& minX, int& minY,
     } else if(sw == 3 && sh == 3) {
         minX -= 1;
         minY -= 1;
-    } else if(sw == 4 && sh == 4) {
+    } else if(sw == 4 || sh == 4) {
         minX -= 1;
         minY -= 1;
-    } else if(sw == 5 && sh == 5) {
+    } else if(sw == 5 || sh == 5) {
         minX -= 2;
         minY -= 2;
     }
@@ -992,6 +992,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             int fTx = gHoverX;
             int fTy = gHoverY;
             stdsptr<eBuilding> fB;
+            stdsptr<eBuildingRenderer> fBR;
         };
 
         std::vector<eB> ebs;
@@ -1042,17 +1043,20 @@ void eGameWidget::paintEvent(ePainter& p) {
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
         case eBuildingMode::stadium: {
+            const auto b1 = e::make_shared<eStadium>(mBoard, mRotate);
+            auto& ebs1 = ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs1.fBR = e::make_shared<eStadium1Renderer>(b1);
+            int dx;
+            int dy;
             if(mRotate) {
-                const auto b1 = e::make_shared<eStadium1H>(mBoard);
-                ebs.emplace_back(gHoverX, gHoverY, b1);
-                const auto b2 = e::make_shared<eStadium2H>(mBoard, b1.get());
-                ebs.emplace_back(gHoverX, gHoverY + 5, b2);
+                dx = 0;
+                dy = 5;
             } else {
-                const auto b1 = e::make_shared<eStadium1W>(mBoard);
-                ebs.emplace_back(gHoverX, gHoverY, b1);
-                const auto b2 = e::make_shared<eStadium2W>(mBoard, b1.get());
-                ebs.emplace_back(gHoverX + 5, gHoverY, b2);
+                dx = 5;
+                dy = 0;
             }
+            auto& ebs2 = ebs.emplace_back(gHoverX + dx, gHoverY + dy, b1);
+            ebs2.fBR = e::make_shared<eStadium2Renderer>(b1);
         } break;
         case eBuildingMode::palace: {
             if(mRotate) {
@@ -1283,8 +1287,9 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
         bool cbg = true;
         const int a = t->altitude();
-        for(const auto& eb : ebs) {
-            const auto b = eb.fB;
+        for(auto& eb : ebs) {
+            if(!eb.fBR) eb.fBR = e::make_shared<eBuildingRenderer>(eb.fB);
+            const auto b = eb.fBR;
             const int sw =  b->spanW();
             const int sh = b->spanH();
             const bool cb = canBuild(eb.fTx, eb.fTy, sw, sh, specReq);
@@ -1293,18 +1298,18 @@ void eGameWidget::paintEvent(ePainter& p) {
                 break;
             }
         }
-        for(const auto& eb : ebs) {
+        for(auto& eb : ebs) {
             if(!eb.fB) continue;
             const auto b = eb.fB;
-            const int sw = b->spanW();
-            const int sh = b->spanH();
 
             b->setSeed(0);
             b->addUnderBuilding(t);
             double rx;
             double ry;
+            const int sw = eb.fBR->spanW();
+            const int sh = eb.fBR->spanH();
             drawXY(eb.fTx, eb.fTy, rx, ry, sw, sh, a);
-            const auto tex = b->getTexture(tp.size());
+            const auto tex = eb.fBR->getTexture(tp.size());
 
             if(tex) {
                 if(cbg) tex->setColorMod(0, 255, 0);
@@ -1313,7 +1318,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 tex->clearColorMod();
             }
 
-            const auto overlays = b->getOverlays(tp.size());
+            const auto overlays = eb.fBR->getOverlays(tp.size());
             for(const auto& o : overlays) {
                 const auto& ttex = o.fTex;
                 if(cbg) ttex->setColorMod(0, 255, 0);
@@ -1641,46 +1646,40 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 };
                 break;
             case eBuildingMode::stadium:
-                if(mRotate) {
-                    apply = [this](eTile*) {
-                        const auto tile = mBoard.tile(gHoverX, gHoverY);
-                        if(!tile) return;
-                        const bool cb = canBuild(tile->x(), tile->y(), 5, 5);
-                        if(!cb) return;
-                        const auto t2 = tile->tileRel(0, 5);
-                        if(!t2) return;
-                        const bool cb2 = canBuild(t2->x(), t2->y(), 5, 5);
-                        if(!cb2) return;
-                        eStadium1H* s1 = nullptr;
-                        build(tile->x(), tile->y(), 5, 5, [&]() {
-                            const auto r = e::make_shared<eStadium1H>(mBoard);
-                            s1 = r.get();
-                            return r;
-                        });
-                        build(t2->x(), t2->y(), 5, 5,
-                              [&]() { return e::make_shared<eStadium2H>(mBoard, s1); });
-                    };
-                } else {
-                    apply = [this](eTile*) {
-                        const auto tile = mBoard.tile(gHoverX, gHoverY);
-                        if(!tile) return;
-                        const bool cb = canBuild(tile->x(), tile->y(), 5, 5);
-                        if(!cb) return;
-                        const auto t2 = tile->tileRel(5, 0);
-                        if(!t2) return;
-                        const bool cb2 = canBuild(t2->x(), t2->y(), 5, 5);
-                        if(!cb2) return;
-
-                        eStadium1W* s1 = nullptr;
-                        build(tile->x(), tile->y(), 5, 5, [&]() {
-                            const auto r = e::make_shared<eStadium1W>(mBoard);
-                            s1 = r.get();
-                            return r;
-                        });
-                        build(t2->x(), t2->y(), 5, 5,
-                              [&]() { return e::make_shared<eStadium2W>(mBoard, s1); });
-                    };
-                }
+                apply = [this](eTile*) {
+                    int dx;
+                    int dy;
+                    int sw;
+                    int sh;
+                    if(mRotate) {
+                        dx = 0;
+                        dy = 5;
+                        sw = 5;
+                        sh = 10;
+                    } else {
+                        dx = 5;
+                        dy = 0;
+                        sw = 10;
+                        sh = 5;
+                    }
+                    const auto t1 = mBoard.tile(gHoverX, gHoverY);
+                    if(!t1) return;
+                    const bool cb1 = canBuild(t1->x(), t1->y(), 5, 5);
+                    if(!cb1) return;
+                    const auto t2 = t1->tileRel<eTile>(dx, dy);
+                    if(!t2) return;
+                    const bool cb2 = canBuild(t2->x(), t2->y(), 5, 5);
+                    if(!cb2) return;
+                    stdsptr<eStadium> s;
+                    build(t1->x(), t1->y(), sw, sh, [&]() {
+                        s = e::make_shared<eStadium>(mBoard, mRotate);
+                        return s;
+                    });
+                    const auto renderer1 = e::make_shared<eStadium1Renderer>(s);
+                    t1->setBuilding(renderer1);
+                    const auto renderer2 = e::make_shared<eStadium2Renderer>(s);
+                    t2->setBuilding(renderer2);
+                };
                 break;
             case eBuildingMode::palace:
                 if(mRotate) {

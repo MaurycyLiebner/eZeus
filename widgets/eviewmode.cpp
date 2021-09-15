@@ -51,8 +51,7 @@ bool eViewModeHelpers::buildingVisible(
         return bt == eBuildingType::commonHouse ||
                bt == eBuildingType::eliteHousing ||
                bt == eBuildingType::gymnasium ||
-               bt == eBuildingType::stadium1 ||
-               bt == eBuildingType::stadium2;
+               bt == eBuildingType::stadium;
     } break;
     case eViewMode::philosophers: {
         return bt == eBuildingType::commonHouse ||
@@ -68,8 +67,7 @@ bool eViewModeHelpers::buildingVisible(
                bt == eBuildingType::college ||
                bt == eBuildingType::podium ||
                bt == eBuildingType::gymnasium ||
-               bt == eBuildingType::stadium1 ||
-               bt == eBuildingType::stadium2;
+               bt == eBuildingType::stadium;
     } break;
 
     case eViewMode::appeal: {

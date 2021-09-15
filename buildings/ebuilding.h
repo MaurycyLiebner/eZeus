@@ -25,8 +25,7 @@ enum class eBuildingType {
     podium,
     theater,
 
-    stadium1,
-    stadium2,
+    stadium,
 
     fountain,
     hospital,
@@ -78,6 +77,7 @@ enum class eBuildingType {
     taxOffice,
     watchPost,
 
+    palace,
     palace1,
     palace2,
 
@@ -141,7 +141,7 @@ public:
 
     void incTime(const int by);
     int time() const { return mTime; }
-    int textureTime() const { return mTextureTime/3; }
+    int textureTime() const { return mTextureTime/4; }
 
     void addUnderBuilding(eTile* const t);
 
