@@ -78,8 +78,6 @@ enum class eBuildingType {
     watchPost,
 
     palace,
-    palace1,
-    palace2,
 
     park,
     doricColumn,

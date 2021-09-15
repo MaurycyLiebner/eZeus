@@ -47,8 +47,8 @@ SOURCES += \
         buildings/eoilvendor.cpp \
         buildings/eolivepress.cpp \
         buildings/eonionfarm.cpp \
-        buildings/epalace1.cpp \
-        buildings/epalace2.cpp \
+        buildings/epalace.cpp \
+        buildings/epalacerenderer.cpp \
         buildings/epark.cpp \
         buildings/epatrolbuilding.cpp \
         buildings/epatroltarget.cpp \
@@ -277,8 +277,8 @@ HEADERS += \
     buildings/eoilvendor.h \
     buildings/eolivepress.h \
     buildings/eonionfarm.h \
-    buildings/epalace1.h \
-    buildings/epalace2.h \
+    buildings/epalace.h \
+    buildings/epalacerenderer.h \
     buildings/epark.h \
     buildings/epatrolbuilding.h \
     buildings/epatroltarget.h \

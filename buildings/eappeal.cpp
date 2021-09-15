@@ -45,8 +45,7 @@ eAppeal eAppealHelpers::appeal(const eBuildingType type) {
     case eBuildingType::hospital: return {-2, 4};
     case eBuildingType::maintenanceOffice: return {0, 0};
     case eBuildingType::watchPost: return {-2, 2};
-    case eBuildingType::palace1:
-    case eBuildingType::palace2: return {18, 6};
+    case eBuildingType::palace: return {18, 6};
     case eBuildingType::taxOffice: return {-4, 2};
 
     case eBuildingType::college: return {-5, 2};

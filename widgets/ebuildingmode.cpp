@@ -114,7 +114,7 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
     case eBuildingMode::taxOffice:
         return eBuildingType::taxOffice;
     case eBuildingMode::palace:
-        return eBuildingType::palace1;
+        return eBuildingType::palace;
 
     case eBuildingMode::park:
         return eBuildingType::park;

@@ -29,6 +29,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fStadiumAudiance1H(renderer),
     fStadiumAudiance2H(renderer),
 
+    fPalaceOverlay(renderer),
+
     fPalaceTiles(renderer),
 
     fFountainOverlay(renderer),
@@ -459,12 +461,15 @@ void eBuildingTextures::load() {
             }
         }
 
+        for(int i = 2759; i < 2790; i++) {
+            texClass.load(i, fFishPondOverlay);
+        }
         for(int i = 2958; i < 3011; i++) {
             texClass.load(i, fWatchPostOverlay);
         }
 
-        for(int i = 2759; i < 2790; i++) {
-            texClass.load(i, fFishPondOverlay);
+        for(int i = 3011; i < 3035; i++) {
+            texClass.load(i, fPalaceOverlay);
         }
     }
 

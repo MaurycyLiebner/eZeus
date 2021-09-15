@@ -93,8 +93,7 @@ int costBase(const eBuildingType type) {
     case eBuildingType::watchPost:
         return 20;
 
-    case eBuildingType::palace1:
-    case eBuildingType::palace2:
+    case eBuildingType::palace:
         return 125;
     case eBuildingType::taxOffice:
         return 25;
@@ -241,8 +240,7 @@ int fireRiskBase(const eBuildingType type) {
     case eBuildingType::maintenanceOffice:
         return 3;
 
-    case eBuildingType::palace1:
-    case eBuildingType::palace2:
+    case eBuildingType::palace:
         return 3;
     case eBuildingType::taxOffice:
         return 5;
@@ -323,8 +321,7 @@ int damageRiskBase(const eBuildingType type) {
     case eBuildingType::watchPost:
         return 5;
 
-    case eBuildingType::palace1:
-    case eBuildingType::palace2:
+    case eBuildingType::palace:
         return 5;
 
     case eBuildingType::college:

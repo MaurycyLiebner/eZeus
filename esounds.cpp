@@ -130,8 +130,7 @@ void eSounds::playSoundForTile(eTile* const tile) {
             return eSounds::playMaintananceSound();
         case eBuildingType::taxOffice:
             return eSounds::playTaxesSound();
-        case eBuildingType::palace1:
-        case eBuildingType::palace2:
+        case eBuildingType::palace:
             return eSounds::playPalaceSound();
         case eBuildingType::podium:
         case eBuildingType::college:

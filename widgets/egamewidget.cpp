@@ -27,8 +27,8 @@
 #include "buildings/edramaschool.h"
 #include "buildings/estadium.h"
 #include "buildings/estadiumrenderer.h"
-#include "buildings/epalace1.h"
-#include "buildings/epalace2.h"
+#include "buildings/epalace.h"
+#include "buildings/epalacerenderer.h"
 #include "buildings/emint.h"
 #include "buildings/efoundry.h"
 #include "buildings/etimbermill.h"
@@ -1059,17 +1059,20 @@ void eGameWidget::paintEvent(ePainter& p) {
             ebs2.fBR = e::make_shared<eStadium2Renderer>(b1);
         } break;
         case eBuildingMode::palace: {
+            const auto b1 = e::make_shared<ePalace>(mBoard, mRotate);
+            auto& ebs1 = ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs1.fBR = e::make_shared<ePalace1Renderer>(b1);
+            int dx;
+            int dy;
             if(mRotate) {
-                const auto b1 = e::make_shared<ePalace1H>(mBoard);
-                ebs.emplace_back(gHoverX, gHoverY, b1);
-                const auto b2 = e::make_shared<ePalace2H>(mBoard);
-                ebs.emplace_back(gHoverX, gHoverY + 4, b2);
+                dx = 0;
+                dy = 4;
             } else {
-                const auto b1 = e::make_shared<ePalace1W>(mBoard);
-                ebs.emplace_back(gHoverX, gHoverY, b1);
-                const auto b2 = e::make_shared<ePalace2W>(mBoard);
-                ebs.emplace_back(gHoverX + 4, gHoverY, b2);
+                dx = 4;
+                dy = 0;
             }
+            auto& ebs2 = ebs.emplace_back(gHoverX + dx, gHoverY + dy, b1);
+            ebs2.fBR = e::make_shared<ePalace2Renderer>(b1);
         } break;
         case eBuildingMode::taxOffice: {
             const auto b1 = e::make_shared<eTaxOffice>(mBoard);
@@ -1682,37 +1685,40 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 };
                 break;
             case eBuildingMode::palace:
-                if(mRotate) {
-                    apply = [this](eTile*) {
-                        const auto tile = mBoard.tile(gHoverX, gHoverY);
-                        if(!tile) return;
-                        const bool cb = canBuild(tile->x(), tile->y(), 4, 4);
-                        if(!cb) return;
-                        const auto t2 = tile->tileRel(0, 4);
-                        if(!t2) return;
-                        const bool cb2 = canBuild(t2->x(), t2->y(), 4, 4);
-                        if(!cb2) return;
-                        build(tile->x(), tile->y(), 4, 4,
-                              [this]() { return e::make_shared<ePalace1H>(mBoard); });
-                        build(t2->x(), t2->y(), 4, 4,
-                              [this]() { return e::make_shared<ePalace2H>(mBoard); });
-                    };
-                } else {
-                    apply = [this](eTile*) {
-                        const auto tile = mBoard.tile(gHoverX, gHoverY);
-                        if(!tile) return;
-                        const bool cb = canBuild(tile->x(), tile->y(), 4, 4);
-                        if(!cb) return;
-                        const auto t2 = tile->tileRel(4, 0);
-                        if(!t2) return;
-                        const bool cb2 = canBuild(t2->x(), t2->y(), 4, 4);
-                        if(!cb2) return;
-                        build(tile->x(), tile->y(), 4, 4,
-                              [this]() { return e::make_shared<ePalace1W>(mBoard); });
-                        build(t2->x(), t2->y(), 4, 4,
-                              [this]() { return e::make_shared<ePalace2W>(mBoard); });
-                    };
-                }
+                apply = [this](eTile*) {
+                    int dx;
+                    int dy;
+                    int sw;
+                    int sh;
+                    if(mRotate) {
+                        dx = 0;
+                        dy = 4;
+                        sw = 4;
+                        sh = 8;
+                    } else {
+                        dx = 4;
+                        dy = 0;
+                        sw = 8;
+                        sh = 4;
+                    }
+                    const auto t1 = mBoard.tile(gHoverX, gHoverY);
+                    if(!t1) return;
+                    const bool cb1 = canBuild(t1->x(), t1->y(), 4, 4);
+                    if(!cb1) return;
+                    const auto t2 = t1->tileRel<eTile>(dx, dy);
+                    if(!t2) return;
+                    const bool cb2 = canBuild(t2->x(), t2->y(), 4, 4);
+                    if(!cb2) return;
+                    stdsptr<ePalace> s;
+                    build(t1->x(), t1->y(), sw, sh, [&]() {
+                        s = e::make_shared<ePalace>(mBoard, mRotate);
+                        return s;
+                    });
+                    const auto renderer1 = e::make_shared<ePalace1Renderer>(s);
+                    t1->setBuilding(renderer1);
+                    const auto renderer2 = e::make_shared<ePalace2Renderer>(s);
+                    t2->setBuilding(renderer2);
+                };
                 break;
             case eBuildingMode::taxOffice:
                 apply = [this](eTile*) {
