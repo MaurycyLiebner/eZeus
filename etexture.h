@@ -53,11 +53,14 @@ public:
     void setAlpha(const Uint8 alpha);
     void setColorMod(const Uint8 r, const Uint8 g, const Uint8 b);
     void clearColorMod();
+
+    void setFlipTex(const std::shared_ptr<eTexture>& tex);
 private:
     int mWidth = 0;
     int mHeight = 0;
     int mOffsetX = 0;
     int mOffsetY = 0;
+    std::shared_ptr<eTexture> mFlipTex;
     SDL_Texture* mTex = nullptr;
 };
 

@@ -25,6 +25,8 @@ public:
 
     void queueTask(const eTextureLoadTask& task);
     void waitUntilFinished();
+
+    SDL_Renderer* renderer() const { return mRenderer; }
 private:
     void threadEntry();
 

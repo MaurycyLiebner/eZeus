@@ -100,17 +100,13 @@ void eCharacterTextures::load() {
     texLoader.initialize();
     eTextureClass texClass(pathBase, texLoader, &eSprMainOffset);
 
-    for(int j = 0; j < 8; j++) {
-        fActor.fWalk.emplace_back(fRenderer);
-    }
-    for(int i = 105; i < 201;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fActor.fWalk[j]);
-        }
-    }
+    texClass.loadSkipFlipped(fActor.fWalk, 105, 201);
+
     for(int i = 201; i < 209; i++) {
         texClass.load(i, fActor.fDie);
     }
+
+    texClass.loadSkipFlipped(fActor.fWalk, 105, 201);
 
     for(int j = 0; j < 8; j++) {
         fSettlers1.fWalk.emplace_back(fRenderer);

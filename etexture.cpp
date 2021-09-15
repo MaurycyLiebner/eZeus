@@ -45,8 +45,8 @@ bool eTexture::load(SDL_Renderer* const r,
     mHeight = surf->h;
     SDL_FreeSurface(surf);
     if(!mTex) {
-        printf("Unable to create texture from surface! SDL Error: %s\n",
-               SDL_GetError());
+        printf("Unable to create texture from surface!"
+               "SDL Error: %s\n", SDL_GetError());
         return false;
     }
 
@@ -58,7 +58,8 @@ bool eTexture::loadText(SDL_Renderer* const r,
                         const SDL_Color& color,
                         TTF_Font& font) {
     reset();
-    const auto surf = TTF_RenderText_Blended(&font, text.c_str(), color);
+    const auto surf = TTF_RenderText_Blended(
+                          &font, text.c_str(), color);
     if(!surf) {
         printf("Unable to render text! SDL_ttf Error: %s\n",
                TTF_GetError());
@@ -89,8 +90,12 @@ bool eTexture::loadText(SDL_Renderer* const r,
 void eTexture::render(SDL_Renderer* const r,
                       const SDL_Rect& srcRect,
                       const SDL_Rect& dstRect) const {
-    if(!mTex) return;
-    SDL_RenderCopy(r, mTex, &srcRect, &dstRect);
+    if(mFlipTex) {
+        SDL_RenderCopyEx(r, mFlipTex->mTex, &srcRect, &dstRect, 0, nullptr,
+                         SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
+    } else if(mTex) {
+        SDL_RenderCopy(r, mTex, &srcRect, &dstRect);
+    }
 }
 
 void eTexture::render(SDL_Renderer* const r,
@@ -126,4 +131,8 @@ void eTexture::setColorMod(const Uint8 r, const Uint8 g, const Uint8 b) {
 
 void eTexture::clearColorMod() {
     setColorMod(255, 255, 255);
+}
+
+void eTexture::setFlipTex(const std::shared_ptr<eTexture>& tex) {
+    mFlipTex = tex;
 }
