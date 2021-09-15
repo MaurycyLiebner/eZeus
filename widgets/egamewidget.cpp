@@ -86,6 +86,7 @@
 #include "infowidgets/estorageinfowidget.h"
 
 #include "engine/boardData/eappealupdatetask.h"
+#include "engine/epathfinder.h"
 
 #include "emainwindow.h"
 
@@ -983,6 +984,40 @@ void eGameWidget::paintEvent(ePainter& p) {
             tp.drawPolygon(polygon, {0, 0, 0, 255});
         }
     }
+    const auto mode = mGm->mode();
+
+    if(mode == eBuildingMode::road) {
+        ePathFinder p([](eTileBase* const t) {
+            const auto terr = t->terrain();
+            const bool tr = static_cast<bool>(eTerrain::buildable & terr);
+            const auto bt = t->underBuildingType();
+            return tr && (bt == eBuildingType::road ||
+                          bt == eBuildingType::none);
+        }, [](eTileBase* const t) {
+            return t->x() == gPressedX && t->y() == gPressedY;
+        });
+        std::vector<eOrientation> path;
+        const auto startTile = mBoard.tile(gHoverX, gHoverY);
+        const bool r = p.findPath(startTile, 100, path, true);
+        if(r) {
+            const auto drawRoad = [&](eTile* const t) {
+                const auto& tex = trrTexs.fBuildingBase;
+                double rx;
+                double ry;
+                drawXY(t->x(), t->y(), rx, ry, 1, 1, t->altitude());
+                tp.drawTexture(rx, ry, tex, eAlignment::top);
+            };
+            eTile* t = startTile;
+            for(const auto o : path) {
+                if(!t) break;
+                const auto b1 = e::make_shared<eRoad>(mBoard);
+                drawRoad(t);
+                t = t->neighbour<eTile>(o);
+            }
+            if(t) drawRoad(t);
+            return;
+        }
+    }
 
     const auto t = mBoard.tile(gHoverX, gHoverY);
     eSpecialRequirement specReq;
@@ -999,7 +1034,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         };
 
         std::vector<eB> ebs;
-        const auto mode = mGm->mode();
         switch(mode) {
         case eBuildingMode::road: {
             const auto b1 = e::make_shared<eRoad>(mBoard);
@@ -1314,10 +1348,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             const int sw =  b->spanW();
             const int sh = b->spanH();
             const bool cb = canBuild(eb.fTx, eb.fTy, sw, sh, specReq);
-            if(!cb) {
-                cbg = false;
-                break;
-            }
+            if(!cb) cbg = false;
         }
         for(auto& eb : ebs) {
             if(!eb.fB) continue;
@@ -1601,9 +1632,35 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 };
                 break;
             case eBuildingMode::road:
-                apply = [this](eTile* const tile) {
-                    build(tile->x(), tile->y(), 1, 1,
-                          [this]() { return e::make_shared<eRoad>(mBoard); });
+                apply = [this](eTile*) {
+                    ePathFinder p([](eTileBase* const t) {
+                        const auto terr = t->terrain();
+                        const bool tr = static_cast<bool>(eTerrain::buildable & terr);
+                        const auto bt = t->underBuildingType();
+                        return tr && (bt == eBuildingType::road ||
+                                      bt == eBuildingType::none);
+                    }, [](eTileBase* const t) {
+                        return t->x() == gPressedX && t->y() == gPressedY;
+                    });
+                    std::vector<eOrientation> path;
+                    const auto startTile = mBoard.tile(gHoverX, gHoverY);
+                    const bool r = p.findPath(startTile, 100, path, true);
+                    if(r) {
+                        eTile* t = startTile;
+                        for(const auto o : path) {
+                            if(!t) break;
+                            build(t->x(), t->y(), 1, 1,
+                                  [this]() { return e::make_shared<eRoad>(mBoard); });
+                            t = t->neighbour<eTile>(o);
+                        }
+                        if(t) {
+                            build(t->x(), t->y(), 1, 1,
+                                  [this]() { return e::make_shared<eRoad>(mBoard); });
+                        }
+                    } else {
+                        build(startTile->x(), startTile->y(), 1, 1,
+                              [this]() { return e::make_shared<eRoad>(mBoard); });
+                    }
                 };
                 break;
             case eBuildingMode::commonHousing:
