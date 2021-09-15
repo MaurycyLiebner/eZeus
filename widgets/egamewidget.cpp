@@ -563,6 +563,20 @@ void eGameWidget::updateAppealMap() {
     mThreadPool.queueTask(task);
 }
 
+bool eGameWidget::roadPath(std::vector<eOrientation>& path) {
+    ePathFinder p([](eTileBase* const t) {
+        const auto terr = t->terrain();
+        const bool tr = static_cast<bool>(eTerrain::buildable & terr);
+        const auto bt = t->underBuildingType();
+        return tr && (bt == eBuildingType::road ||
+                      bt == eBuildingType::none);
+    }, [](eTileBase* const t) {
+        return t->x() == gPressedX && t->y() == gPressedY;
+    });
+    const auto startTile = mBoard.tile(gHoverX, gHoverY);
+    return p.findPath(startTile, 100, path, true);
+}
+
 bool eGameWidget::build(const int tx, const int ty,
                         const int sw, const int sh,
                         const eBuildingCreator& bc,
@@ -749,17 +763,19 @@ void eGameWidget::paintEvent(ePainter& p) {
                 rx += 1;
                 ry -= 1;
             }
-            bool s = false;
-            if(gPressedX >= 0 && gPressedY >= 0) {
-                if(tx >= sMinX && tx <= sMaxX &&
-                   ty >= sMinY && ty <= sMaxY) {
-                    s = true;
+            if(mGm->visible()) {
+                bool s = false;
+                if(gPressedX >= 0 && gPressedY >= 0) {
+                    if(tx >= sMinX && tx <= sMaxX &&
+                       ty >= sMinY && ty <= sMaxY) {
+                        s = true;
+                    }
                 }
+                const bool h = tx == gHoverX && ty == gHoverY;
+                if(h || s) tex->setColorMod(255, 175, 255);
+                tp.drawTexture(rx, ry, tex, eAlignment::top);
+                if(h || s) tex->clearColorMod();
             }
-            const bool h = tx == gHoverX && ty == gHoverY;
-            if(h || s) tex->setColorMod(255, 175, 255);
-            tp.drawTexture(rx, ry, tex, eAlignment::top);
-            if(h || s) tex->clearColorMod();
         }
     });
 
@@ -987,18 +1003,9 @@ void eGameWidget::paintEvent(ePainter& p) {
     const auto mode = mGm->mode();
 
     if(mode == eBuildingMode::road) {
-        ePathFinder p([](eTileBase* const t) {
-            const auto terr = t->terrain();
-            const bool tr = static_cast<bool>(eTerrain::buildable & terr);
-            const auto bt = t->underBuildingType();
-            return tr && (bt == eBuildingType::road ||
-                          bt == eBuildingType::none);
-        }, [](eTileBase* const t) {
-            return t->x() == gPressedX && t->y() == gPressedY;
-        });
-        std::vector<eOrientation> path;
         const auto startTile = mBoard.tile(gHoverX, gHoverY);
-        const bool r = p.findPath(startTile, 100, path, true);
+        std::vector<eOrientation> path;
+        const bool r = roadPath(path);
         if(r) {
             const auto drawRoad = [&](eTile* const t) {
                 const auto& tex = trrTexs.fBuildingBase;
@@ -1015,6 +1022,84 @@ void eGameWidget::paintEvent(ePainter& p) {
                 t = t->neighbour<eTile>(o);
             }
             if(t) drawRoad(t);
+            return;
+        }
+    }
+
+    const bool pressed = SDL_GetMouseState(nullptr, nullptr) &
+                         SDL_BUTTON_LMASK;
+    if(pressed) {
+        if(mode == eBuildingMode::vine ||
+           mode == eBuildingMode::oliveTree ||
+           mode == eBuildingMode::orangeTree) {
+            std::shared_ptr<eTexture> tex;
+            if(mode == eBuildingMode::vine) {
+                tex = builTexs.fVine.getTexture(0);
+                tex->setColorMod(0, 255, 0);
+            } else if(mode == eBuildingMode::oliveTree) {
+                tex = builTexs.fOliveTree.getTexture(0);
+                tex->setColorMod(0, 255, 0);
+            } else if(mode == eBuildingMode::orangeTree) {
+                tex = builTexs.fOrangeTree.getTexture(0);
+                tex->setColorMod(0, 255, 0);
+            } else {
+                tex = trrTexs.fBuildingBase;
+            }
+            for(int x = sMinX; x <= sMaxX; x++) {
+                for(int y = sMinY; y <= sMaxY; y++) {
+                    double rx;
+                    double ry;
+                    const auto t = mBoard.tile(x, y);
+                    if(!t) continue;
+                    if(t->terrain() != eTerrain::fertile) continue;
+                    if(t->underBuilding()) continue;
+                    drawXY(x, y, rx, ry, 1, 1, t->altitude());
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                }
+            }
+            tex->clearColorMod();
+            return;
+        }
+
+        if(mode == eBuildingMode::sheep ||
+           mode == eBuildingMode::goat) {
+            const auto tex = trrTexs.fBuildingBase;
+            for(int x = sMinX; x <= sMaxX; x++) {
+                for(int y = sMinY; y <= sMaxY; y += 2) {
+                    double rx;
+                    double ry;
+                    const auto t = mBoard.tile(x, y);
+                    if(!t) continue;
+                    if(t->terrain() != eTerrain::fertile) continue;
+                    if(t->underBuilding()) continue;
+                    const auto t2 = mBoard.tile(x, y + 1);
+                    if(!t2) continue;
+                    if(t2->terrain() != eTerrain::fertile) continue;
+                    if(t2->underBuilding()) continue;
+                    drawXY(x, y, rx, ry, 1, 1, t->altitude());
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    tp.drawTexture(rx, ry + 1, tex, eAlignment::top);
+                }
+            }
+            return;
+        }
+
+        if(mode == eBuildingMode::commonHousing) {
+            const auto& tex = builTexs.fHouseSpace;
+            tex->setColorMod(0, 255, 0);
+            for(int x = sMinX; x <= sMaxX; x += 2) {
+                for(int y = sMinY; y <= sMaxY; y += 2) {
+                    const bool cb = canBuild(x, y, 2, 2);
+                    if(!cb) continue;
+                    double rx;
+                    double ry;
+                    const auto t = mBoard.tile(x, y);
+                    if(!t) continue;
+                    drawXY(x, y, rx, ry, 2, 2, t->altitude());
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                }
+            }
+            tex->clearColorMod();
             return;
         }
     }
@@ -1633,18 +1718,9 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 break;
             case eBuildingMode::road:
                 apply = [this](eTile*) {
-                    ePathFinder p([](eTileBase* const t) {
-                        const auto terr = t->terrain();
-                        const bool tr = static_cast<bool>(eTerrain::buildable & terr);
-                        const auto bt = t->underBuildingType();
-                        return tr && (bt == eBuildingType::road ||
-                                      bt == eBuildingType::none);
-                    }, [](eTileBase* const t) {
-                        return t->x() == gPressedX && t->y() == gPressedY;
-                    });
-                    std::vector<eOrientation> path;
                     const auto startTile = mBoard.tile(gHoverX, gHoverY);
-                    const bool r = p.findPath(startTile, 100, path, true);
+                    std::vector<eOrientation> path;
+                    const bool r = roadPath(path);
                     if(r) {
                         eTile* t = startTile;
                         for(const auto o : path) {

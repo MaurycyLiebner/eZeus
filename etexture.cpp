@@ -128,6 +128,10 @@ void eTexture::setAlpha(const Uint8 alpha) {
     else SDL_SetTextureAlphaMod(mTex, alpha);
 }
 
+void eTexture::clearAlphaMod() {
+    setAlpha(255);
+}
+
 void eTexture::setColorMod(const Uint8 r, const Uint8 g, const Uint8 b) {
     if(mFlipTex) mFlipTex->setColorMod(r, g, b);
     else SDL_SetTextureColorMod(mTex, r, g, b);

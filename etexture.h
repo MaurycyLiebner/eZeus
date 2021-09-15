@@ -51,6 +51,7 @@ public:
     bool isNull() const;
 
     void setAlpha(const Uint8 alpha);
+    void clearAlphaMod();
     void setColorMod(const Uint8 r, const Uint8 g, const Uint8 b);
     void clearColorMod();
 
