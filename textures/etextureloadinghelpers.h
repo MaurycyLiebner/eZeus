@@ -25,6 +25,8 @@ namespace eTextureLoadingHelpers {
             eTextureCollection& coll, std::string& path,
             const eOffsets& offs);
 
+    void deleteTex(const std::string& pathBase, const int i);
+
     const std::shared_ptr<eTexture>& queLoadTex(
             const std::string& pathBase,
             const int i,

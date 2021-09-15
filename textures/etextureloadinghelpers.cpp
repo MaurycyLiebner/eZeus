@@ -94,3 +94,10 @@ eTextureLoadingHelpers::queLoadTexWithOffset(
     tex->setOffset(offset.first, offset.second);
     return tex;
 }
+
+#include <stdio.h>
+
+void eTextureLoadingHelpers::deleteTex(const std::string& pathBase, const int i) {
+    const auto path = pathBase + addZeroes(std::to_string(i)) + ".png";
+    remove(path.c_str());
+}

@@ -122,7 +122,7 @@ void eCharacterTextures::load() {
     }
 
     texClass.loadSkipFlipped(fWatchman.fWalk, 2209, 2305);
-    texClass.loadSkipFlipped(fWatchman.fFight, 2312, 2377);
+    texClass.loadSkipFlipped(fWatchman.fFight, 2313, 2377);
 
     for(int i = 2305; i < 2313; i++) {
         texClass.load(i, fWatchman.fDie);
@@ -163,7 +163,14 @@ void eCharacterTextures::load() {
     }
 
     texClass.loadSkipFlipped(fShepherd.fWalk, 3415, 3511);
-    texClass.loadSkipFlipped(fShepherd.fCollect, 3519, 3531);
+    for(int j = 0; j < 8; j++) {
+        fShepherd.fCollect.emplace_back(fRenderer);
+    }
+    for(int i = 3519; i < 3531; i++) {
+        for(int j = 0; j < 8; j++) {
+            texClass.load(i, fShepherd.fCollect[j]);
+        }
+    }
     texClass.loadSkipFlipped(fShepherd.fCarry, 3531, 3627);
 
     for(int i = 3511; i < 3519; i++) {

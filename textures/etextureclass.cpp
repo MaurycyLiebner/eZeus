@@ -45,6 +45,7 @@ void eTextureClass::loadSkipFlipped(std::vector<eTextureCollection>& colls,
     for(int i = i0; i < i1;) {
         for(int j = 0; j < 8; j++, i++) {
             if(j > 3 && j < 7) {
+                eTextureLoadingHelpers::deleteTex(mPathBase, i);
                 auto& tex = colls[j].addTexture();
                 const auto& flipTex = colls[6 - j].getTexture(k);
                 tex->setFlipTex(flipTex);
