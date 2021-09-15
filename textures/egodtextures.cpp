@@ -52,7 +52,7 @@ void eGodTextures::load() {
                     eZeus_AphroditeOffset, texLoader);
 
     fApollo.load(baseDir + "Zeus_Apollo/Zeus_Apollo_",
-                 1, 186, 186, 201, 202, 346, 347, 515,
+                 1, 185, 185, 201, 202, 346, 347, 515,
                  eZeus_ApolloOffset, texLoader);
 
     fAres.load(baseDir + "Zeus_Ares/Zeus_Ares_",
@@ -114,25 +114,11 @@ void eBasicGodTextures::load(const std::string& pathBase,
                              eTextureLoader& texLoader) {
     eTextureClass texClass(pathBase, texLoader, &offs);
 
-    for(int j = 0; j < 8; j++) {
-        fWalk.emplace_back(fRenderer);
-        fFight.emplace_back(fRenderer);
-    }
-
-    for(int i = w0; i < w1;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fWalk[j]);
-        }
-    }
+    texClass.loadSkipFlipped(fWalk, w0, w1);
+    texClass.loadSkipFlipped(fFight, f0, f1);
 
     for(int i = d0; i < d1; i++) {
         texClass.load(i, fDisappear);
-    }
-
-    for(int i = f0; i < f1;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fFight[j]);
-        }
     }
 }
 
@@ -166,12 +152,6 @@ void eExtendedGodTextures::load(const std::string& pathBase,
     eBasicGodTextures::load(pathBase,
                             w0, w1, d0, d1, f0, f1,
                             offs, texLoader);
-    for(int j = 0; j < 8; j++) {
-        fBless.emplace_back(fRenderer);
-    }
-    for(int i = b0; i < b1;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fBless[j]);
-        }
-    }
+
+    texClass.loadSkipFlipped(fBless, b0, b1);
 }

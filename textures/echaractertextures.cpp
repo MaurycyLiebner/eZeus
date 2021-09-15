@@ -59,17 +59,10 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 }
 
 void loadBasicTexture(eBasicCharacterTextures& tex,
-                      SDL_Renderer* const renderer,
                       const int start,
                       eTextureClass& texClass) {
-    for(int j = 0; j < 8; j++) {
-        tex.fWalk.emplace_back(renderer);
-    }
-    for(int i = start; i < start + 96;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, tex.fWalk[j]);
-        }
-    }
+    texClass.loadSkipFlipped(tex.fWalk, start, start + 96);
+
     for(int i = start + 96; i < start + 104; i++) {
         texClass.load(i, tex.fDie);
     }
@@ -106,320 +99,124 @@ void eCharacterTextures::load() {
         texClass.load(i, fActor.fDie);
     }
 
-    texClass.loadSkipFlipped(fActor.fWalk, 105, 201);
+    texClass.loadSkipFlipped(fSettlers1.fWalk, 505, 601);
 
-    for(int j = 0; j < 8; j++) {
-        fSettlers1.fWalk.emplace_back(fRenderer);
-    }
-    for(int i = 505; i < 601;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fSettlers1.fWalk[j]);
-        }
-    }
     for(int i = 601; i < 609; i++) {
         texClass.load(i, fSettlers1.fDie);
     }
 
 
-    for(int j = 0; j < 8; j++) {
-        fSettlers2.fWalk.emplace_back(fRenderer);
-    }
-    for(int i = 1793; i < 1889;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fSettlers2.fWalk[j]);
-        }
-    }
+    texClass.loadSkipFlipped(fSettlers2.fWalk, 1793, 1889);
+
     for(int i = 1889; i < 1897; i++) {
         texClass.load(i, fSettlers2.fDie);
     }
 
 
+    texClass.loadSkipFlipped(fFireFighter.fWalk, 609, 705);
+    texClass.loadSkipFlipped(fFireFighter.fCarry, 705, 801);
+    texClass.loadSkipFlipped(fFireFighter.fPutOut, 809, 1129);
 
-    for(int j = 0; j < 8; j++) {
-        fFireFighter.fWalk.emplace_back(fRenderer);
-        fFireFighter.fCarry.emplace_back(fRenderer);
-        fFireFighter.fPutOut.emplace_back(fRenderer);
-    }
-    for(int i = 609; i < 705;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fFireFighter.fWalk[j]);
-        }
-    }
-    for(int i = 705; i < 801;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fFireFighter.fCarry[j]);
-        }
-    }
     for(int i = 801; i < 809; i++) {
         texClass.load(i, fFireFighter.fDie);
     }
-    for(int i = 809; i < 1129;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fFireFighter.fPutOut[j]);
-        }
-    }
 
+    texClass.loadSkipFlipped(fWatchman.fWalk, 2209, 2305);
+    texClass.loadSkipFlipped(fWatchman.fFight, 2312, 2377);
 
-    for(int j = 0; j < 8; j++) {
-        fWatchman.fWalk.emplace_back(fRenderer);
-        fWatchman.fFight.emplace_back(fRenderer);
-    }
-    for(int i = 2209; i < 2305;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fWatchman.fWalk[j]);
-        }
-    }
     for(int i = 2305; i < 2313; i++) {
         texClass.load(i, fWatchman.fDie);
     }
-    for(int i = 2312; i < 2377;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fWatchman.fFight[j]);
-        }
-    }
 
 
-    for(int j = 0; j < 8; j++) {
-        fGoatherd.fWalk.emplace_back(fRenderer);
-        fGoatherd.fCollect.emplace_back(fRenderer);
-        fGoatherd.fCarry.emplace_back(fRenderer);
-    }
-    for(int i = 2377; i < 2473;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fGoatherd.fWalk[j]);
-        }
-    }
+    texClass.loadSkipFlipped(fGoatherd.fWalk, 2377, 2473);
+    texClass.loadSkipFlipped(fGoatherd.fCollect, 2481, 2489);
+    texClass.loadSkipFlipped(fGoatherd.fCarry, 2489, 2585);
+
     for(int i = 2473; i < 2481; i++) {
         texClass.load(i, fGoatherd.fDie);
     }
-    for(int i = 2489; i < 2585;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fGoatherd.fCarry[j]);
-        }
-    }
-    for(int i = 2481; i < 2489; i++) {
-        for(int j = 0; j < 8; j++) {
-            texClass.load(i, fGoatherd.fCollect[j]);
-        }
-    }
 
+    texClass.loadSkipFlipped(fBronzeMiner.fWalk, 2595, 2691);
+    texClass.loadSkipFlipped(fBronzeMiner.fCarry, 2711, 2807);
+    texClass.loadSkipFlipped(fBronzeMiner.fCollect, 2807, 2887);
 
-    for(int j = 0; j < 8; j++) {
-        fBronzeMiner.fWalk.emplace_back(fRenderer);
-        fBronzeMiner.fCollect.emplace_back(fRenderer);
-        fBronzeMiner.fCarry.emplace_back(fRenderer);
-    }
-    for(int i = 2595; i < 2691;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fBronzeMiner.fWalk[j]);
-        }
-    }
     for(int i = 2691; i < 2699; i++) {
         texClass.load(i, fBronzeMiner.fDie);
     }
-    for(int i = 2711; i < 2807;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fBronzeMiner.fCarry[j]);
-        }
-    }
-    for(int i = 2807; i < 2887;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fBronzeMiner.fCollect[j]);
-        }
-    }
 
 
-    loadBasicTexture(fFoodVendor, fRenderer, 2887, texClass);
-    loadBasicTexture(fFleeceVendor, fRenderer, 1897, texClass);
-    loadBasicTexture(fOilVendor, fRenderer, 5297, texClass);
-    loadBasicTexture(fWineVendor, fRenderer, 5401, texClass);
-    loadBasicTexture(fArmsVendor, fRenderer, 2105, texClass);
-    loadBasicTexture(fHorseVendor, fRenderer, 1129, texClass);
+    loadBasicTexture(fFoodVendor, 2887, texClass);
+    loadBasicTexture(fFleeceVendor, 1897, texClass);
+    loadBasicTexture(fOilVendor, 5297, texClass);
+    loadBasicTexture(fWineVendor, 5401, texClass);
+    loadBasicTexture(fArmsVendor, 2105, texClass);
+    loadBasicTexture(fHorseVendor, 1129, texClass);
 
-    for(int j = 0; j < 8; j++) {
-        fFleecedSheep.fWalk.emplace_back(fRenderer);
-        fFleecedSheep.fFight.emplace_back(fRenderer);
-        fFleecedSheep.fLayDown.emplace_back(fRenderer);
-    }
-    for(int i = 3183; i < 3279;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fFleecedSheep.fWalk[j]);
-        }
-    }
+
+    texClass.loadSkipFlipped(fFleecedSheep.fWalk, 3183, 3279);
+    texClass.loadSkipFlipped(fFleecedSheep.fFight, 3287, 3351);
+    texClass.loadSkipFlipped(fFleecedSheep.fLayDown, 3351, 3415);
+
     for(int i = 3279; i < 3287; i++) {
         texClass.load(i, fFleecedSheep.fDie);
     }
-    for(int i = 3287; i < 3351;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fFleecedSheep.fFight[j]);
-        }
-    }
-    for(int i = 3351; i < 3415;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fFleecedSheep.fLayDown[j]);
-        }
-    }
 
+    texClass.loadSkipFlipped(fShepherd.fWalk, 3415, 3511);
+    texClass.loadSkipFlipped(fShepherd.fCollect, 3519, 3531);
+    texClass.loadSkipFlipped(fShepherd.fCarry, 3531, 3627);
 
-
-    for(int j = 0; j < 8; j++) {
-        fShepherd.fWalk.emplace_back(fRenderer);
-        fShepherd.fCollect.emplace_back(fRenderer);
-        fShepherd.fCarry.emplace_back(fRenderer);
-    }
-    for(int i = 3415; i < 3511;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fShepherd.fWalk[j]);
-        }
-    }
     for(int i = 3511; i < 3519; i++) {
         texClass.load(i, fShepherd.fDie);
     }
-    for(int i = 3531; i < 3627;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fShepherd.fCarry[j]);
-        }
-    }
-    for(int i = 3519; i < 3531; i++) {
-        for(int j = 0; j < 8; j++) {
-            texClass.load(i, fShepherd.fCollect[j]);
-        }
-    }
 
+    texClass.loadSkipFlipped(fSilverMiner.fWalk, 3741, 3837);
+    texClass.loadSkipFlipped(fSilverMiner.fCarry, 3857, 3953);
+    texClass.loadSkipFlipped(fSilverMiner.fCollect, 3953, 4033);
 
-
-    for(int j = 0; j < 8; j++) {
-        fSilverMiner.fWalk.emplace_back(fRenderer);
-        fSilverMiner.fCollect.emplace_back(fRenderer);
-        fSilverMiner.fCarry.emplace_back(fRenderer);
-    }
-    for(int i = 3741; i < 3837;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fSilverMiner.fWalk[j]);
-        }
-    }
     for(int i = 3837; i < 3845; i++) {
         texClass.load(i, fSilverMiner.fDie);
     }
-    for(int i = 3857; i < 3953;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fSilverMiner.fCarry[j]);
-        }
-    }
-    for(int i = 3953; i < 4033;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fSilverMiner.fCollect[j]);
-        }
-    }
 
+    texClass.loadSkipFlipped(fLumberjack.fWalk, 4329, 4425);
+    texClass.loadSkipFlipped(fLumberjack.fCollect, 4433, 4529);
+    texClass.loadSkipFlipped(fLumberjack.fCarry, 4529, 4625);
 
-
-    for(int j = 0; j < 8; j++) {
-        fLumberjack.fWalk.emplace_back(fRenderer);
-        fLumberjack.fCollect.emplace_back(fRenderer);
-        fLumberjack.fCarry.emplace_back(fRenderer);
-    }
-    for(int i = 4329; i < 4425;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fLumberjack.fWalk[j]);
-        }
-    }
     for(int i = 4425; i < 4433; i++) {
         texClass.load(i, fLumberjack.fDie);
     }
-    for(int i = 4433; i < 4529;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fLumberjack.fCollect[j]);
-        }
-    }
-    for(int i = 4529; i < 4625;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fLumberjack.fCarry[j]);
-        }
-    }
 
 
-    loadBasicTexture(fTaxCollector, fRenderer, 4625, texClass);
-    loadBasicTexture(fTransporter, fRenderer, 4729, texClass);
+    loadBasicTexture(fTaxCollector, 4625, texClass);
+    loadBasicTexture(fTransporter, 4729, texClass);
 
 
 
-    for(int j = 0; j < 8; j++) {
-        fGrower.fWalk.emplace_back(fRenderer);
-        fGrower.fWorkOnGrapes.emplace_back(fRenderer);
-        fGrower.fWorkOnOlives.emplace_back(fRenderer);
-        fGrower.fCollectGrapes.emplace_back(fRenderer);
-        fGrower.fCollectOlives.emplace_back(fRenderer);
-    }
-    for(int i = 5505; i < 5601;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fGrower.fWalk[j]);
-        }
-    }
+    texClass.loadSkipFlipped(fGrower.fWalk, 5505, 5601);
+    texClass.loadSkipFlipped(fGrower.fWorkOnGrapes, 5609, 5689);
+    texClass.loadSkipFlipped(fGrower.fWorkOnOlives, 5689, 5769);
+    texClass.loadSkipFlipped(fGrower.fCollectGrapes, 5769, 5849);
+    texClass.loadSkipFlipped(fGrower.fCollectOlives, 5849, 5929);
+
     for(int i = 5601; i < 5609; i++) {
         texClass.load(i, fGrower.fDie);
     }
-    for(int i = 5609; i < 5689;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fGrower.fWorkOnGrapes[j]);
-        }
-    }
-    for(int i = 5689; i < 5769;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fGrower.fWorkOnOlives[j]);
-        }
-    }
-    for(int i = 5769; i < 5849;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fGrower.fCollectGrapes[j]);
-        }
-    }
-    for(int i = 5849; i < 5929;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fGrower.fCollectOlives[j]);
-        }
-    }
 
 
-    loadBasicTexture(fWaterDistributor, fRenderer, 6737, texClass);
+    loadBasicTexture(fWaterDistributor, 6737, texClass);
 
+    texClass.loadSkipFlipped(fHealer.fWalk, 7473, 7569);
 
-    for(int j = 0; j < 8; j++) {
-        fHealer.fWalk.emplace_back(fRenderer);
-    }
-    for(int i = 7473; i < 7569;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fHealer.fWalk[j]);
-        }
-    }
     for(int i = 7569; i < 7577; i++) {
         texClass.load(i, fHealer.fDie);
     }
 
+    texClass.loadSkipFlipped(fNudeSheep.fWalk, 7873, 7969);
+    texClass.loadSkipFlipped(fNudeSheep.fFight, 7977, 8041);
+    texClass.loadSkipFlipped(fNudeSheep.fLayDown, 8041, 8105);
 
-
-    for(int j = 0; j < 8; j++) {
-        fNudeSheep.fWalk.emplace_back(fRenderer);
-        fNudeSheep.fFight.emplace_back(fRenderer);
-        fNudeSheep.fLayDown.emplace_back(fRenderer);
-    }
-    for(int i = 7873; i < 7969;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fNudeSheep.fWalk[j]);
-        }
-    }
     for(int i = 7969; i < 7977; i++) {
         texClass.load(i, fNudeSheep.fDie);
-    }
-    for(int i = 7977; i < 8041;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fNudeSheep.fFight[j]);
-        }
-    }
-    for(int i = 8041; i < 8105;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fNudeSheep.fLayDown[j]);
-        }
     }
 
 
@@ -427,323 +224,84 @@ void eCharacterTextures::load() {
         texClass.load(i, fEmptyCart);
     }
 
-    for(int j = 0; j < 8; j++) {
-        fUrchinCart.emplace_back(fRenderer);
-    }
-    for(int i = 8436; i < 8460;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fUrchinCart[j]);
-        }
-    }
+    texClass.loadSkipFlipped(fUrchinCart, 8436, 8460);
+    texClass.loadSkipFlipped(fFishCart, 8460, 8484);
+    texClass.loadSkipFlipped(fMeatCart, 8484, 8508);
+    texClass.loadSkipFlipped(fCheeseCart, 8508, 8532);
+    texClass.loadSkipFlipped(fCarrotsCart, 8532, 8556);
+    texClass.loadSkipFlipped(fOnionsCart, 8556, 8580);
+    texClass.loadSkipFlipped(fWheatCart, 8580, 8604);
 
-    for(int j = 0; j < 8; j++) {
-        fFishCart.emplace_back(fRenderer);
-    }
-    for(int i = 8460; i < 8484;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fFishCart[j]);
-        }
-    }
-
-    for(int j = 0; j < 8; j++) {
-        fMeatCart.emplace_back(fRenderer);
-    }
-    for(int i = 8484; i < 8508;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fMeatCart[j]);
-        }
-    }
-
-    for(int j = 0; j < 8; j++) {
-        fCheeseCart.emplace_back(fRenderer);
-    }
-    for(int i = 8508; i < 8532;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fCheeseCart[j]);
-        }
-    }
-
-    for(int j = 0; j < 8; j++) {
-        fCarrotsCart.emplace_back(fRenderer);
-    }
-    for(int i = 8532; i < 8556;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fCarrotsCart[j]);
-        }
-    }
-
-    for(int j = 0; j < 8; j++) {
-        fOnionsCart.emplace_back(fRenderer);
-    }
-    for(int i = 8556; i < 8580;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fOnionsCart[j]);
-        }
-    }
-
-    for(int j = 0; j < 8; j++) {
-        fWheatCart.emplace_back(fRenderer);
-    }
-    for(int i = 8580; i < 8604;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fWheatCart[j]);
-        }
-    }
-
-    for(int j = 0; j < 8; j++) {
-        fBronzeCart.emplace_back(fRenderer);
-    }
-    for(int i = 8604; i < 8620;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fBronzeCart[j]);
-        }
-    }
-
-    for(int j = 0; j < 8; j++) {
-        fGrapesCart.emplace_back(fRenderer);
-    }
-    for(int i = 8620; i < 8644;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fGrapesCart[j]);
-        }
-    }
-
-    for(int j = 0; j < 8; j++) {
-        fOlivesCart.emplace_back(fRenderer);
-    }
-    for(int i = 8644; i < 8668;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fOlivesCart[j]);
-        }
-    }
-
-    for(int j = 0; j < 8; j++) {
-        fFleeceCart.emplace_back(fRenderer);
-    }
-    for(int i = 8668; i < 8684;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fFleeceCart[j]);
-        }
-    }
-
-    for(int j = 0; j < 8; j++) {
-        fArmorCart.emplace_back(fRenderer);
-    }
-    for(int i = 8684; i < 8700;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fArmorCart[j]);
-        }
-    }
-
-    for(int j = 0; j < 8; j++) {
-        fOliveOilCart.emplace_back(fRenderer);
-    }
-    for(int i = 8700; i < 8716;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fOliveOilCart[j]);
-        }
-    }
-
-    for(int j = 0; j < 8; j++) {
-        fWineCart.emplace_back(fRenderer);
-    }
-    for(int i = 8716; i < 8732;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fWineCart[j]);
-        }
-    }
+    texClass.loadSkipFlipped(fBronzeCart, 8604, 8620);
+    texClass.loadSkipFlipped(fGrapesCart, 8620, 8644);
+    texClass.loadSkipFlipped(fOlivesCart, 8644, 8668);
+    texClass.loadSkipFlipped(fFleeceCart, 8668, 8684);
+    texClass.loadSkipFlipped(fArmorCart, 8684, 8700);
+    texClass.loadSkipFlipped(fOliveOilCart, 8700, 8716);
+    texClass.loadSkipFlipped(fWineCart, 8716, 8732);
 
 
+    texClass.loadSkipFlipped(fBoar.fWalk, 10124, 10220);
+    texClass.loadSkipFlipped(fBoar.fFight, 10228, 10356);
+    texClass.loadSkipFlipped(fBoar.fLayDown, 10356, 10420);
 
-    for(int j = 0; j < 8; j++) {
-        fBoar.fWalk.emplace_back(fRenderer);
-        fBoar.fFight.emplace_back(fRenderer);
-        fBoar.fLayDown.emplace_back(fRenderer);
-    }
-    for(int i = 10124; i < 10220;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fBoar.fWalk[j]);
-        }
-    }
-    for(int i = 10220; i < 10228; i++) {
-        texClass.load(i, fBoar.fDie);
-    }
-    for(int i = 10228; i < 10356;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fBoar.fFight[j]);
-        }
-    }
-    for(int i = 10356; i < 10420;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fBoar.fLayDown[j]);
-        }
-    }
+    loadBasicTexture(fGymnast, 10588, texClass);
 
-    loadBasicTexture(fGymnast, fRenderer, 10588, texClass);
+    texClass.loadSkipFlipped(fGoat.fWalk, 11228, 11324);
+    texClass.loadSkipFlipped(fGoat.fFight, 11332, 11460);
+    texClass.loadSkipFlipped(fGoat.fLayDown, 11460, 11524);
 
-
-    for(int j = 0; j < 8; j++) {
-        fGoat.fWalk.emplace_back(fRenderer);
-        fGoat.fFight.emplace_back(fRenderer);
-        fGoat.fLayDown.emplace_back(fRenderer);
-    }
-    for(int i = 11228; i < 11324;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fGoat.fWalk[j]);
-        }
-    }
     for(int i = 11324; i < 11332; i++) {
         texClass.load(i, fGoat.fDie);
     }
-    for(int i = 11332; i < 11460;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fGoat.fFight[j]);
-        }
-    }
-    for(int i = 11460; i < 11524;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fGoat.fLayDown[j]);
-        }
-    }
 
+    texClass.loadSkipFlipped(fWolf.fWalk, 11524, 11620);
+    texClass.loadSkipFlipped(fWolf.fFight, 11628, 11756);
+    texClass.loadSkipFlipped(fWolf.fLayDown, 11756, 11820);
 
-    for(int j = 0; j < 8; j++) {
-        fWolf.fWalk.emplace_back(fRenderer);
-        fWolf.fFight.emplace_back(fRenderer);
-        fWolf.fLayDown.emplace_back(fRenderer);
-    }
-    for(int i = 11524; i < 11620;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fWolf.fWalk[j]);
-        }
-    }
     for(int i = 11620; i < 11628; i++) {
         texClass.load(i, fWolf.fDie);
     }
-    for(int i = 11628; i < 11756;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fWolf.fFight[j]);
-        }
-    }
-    for(int i = 11756; i < 11820;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fWolf.fLayDown[j]);
-        }
-    }
 
+    texClass.loadSkipFlipped(fHunter.fWalk, 11820, 11916);
+    texClass.loadSkipFlipped(fHunter.fCollect, 11924, 12019);
+    texClass.loadSkipFlipped(fHunter.fCarry, 12032, 12128);
 
-    for(int j = 0; j < 8; j++) {
-        fHunter.fWalk.emplace_back(fRenderer);
-        fHunter.fCollect.emplace_back(fRenderer);
-        fHunter.fCarry.emplace_back(fRenderer);
-    }
-    for(int i = 11820; i < 11916;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fHunter.fWalk[j]);
-        }
-    }
     for(int i = 11916; i < 11924; i++) {
         texClass.load(i, fHunter.fDie);
     }
-    for(int i = 11924; i < 12019;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fHunter.fCollect[j]);
-        }
-    }
-    for(int i = 12032; i < 12128;) {
-        for(int j = 0; j < 8; j++, i++) {
-            texClass.load(i, fHunter.fCarry[j]);
-        }
-    }
 
-    loadBasicTexture(fPhilosopher, fRenderer, 12128, texClass);
-
+    loadBasicTexture(fPhilosopher, 12128, texClass);
 
     const std::string ppathBase{dir + "PoseidonImps/PoseidonImps_"};
 
     eTextureClass ptexClass(ppathBase, texLoader, &ePoseidonImpsOffset);
 
-    for(int j = 0; j < 8; j++) {
-        fDeerHunter.fWalk.emplace_back(fRenderer);
-        fDeerHunter.fCollect.emplace_back(fRenderer);
-        fDeerHunter.fCarry.emplace_back(fRenderer);
-    }
-    for(int i = 183; i < 279;) {
-        for(int j = 0; j < 8; j++, i++) {
-            ptexClass.load(i, fDeerHunter.fWalk[j]);
-        }
-    }
+
+    ptexClass.loadSkipFlipped(fDeerHunter.fWalk, 183, 279);
+    ptexClass.loadSkipFlipped(fDeerHunter.fCollect, 287, 407);
+    ptexClass.loadSkipFlipped(fDeerHunter.fCarry, 435, 531);
+
     for(int i = 279; i < 287; i++) {
         ptexClass.load(i, fDeerHunter.fDie);
     }
-    for(int i = 287; i < 407;) {
-        for(int j = 0; j < 8; j++, i++) {
-            ptexClass.load(i, fDeerHunter.fCollect[j]);
-        }
-    }
-    for(int i = 435; i < 531;) {
-        for(int j = 0; j < 8; j++, i++) {
-            ptexClass.load(i, fDeerHunter.fCarry[j]);
-        }
-    }
 
+    ptexClass.loadSkipFlipped(fDeer.fWalk, 531, 627);
+    ptexClass.loadSkipFlipped(fDeer.fFight, 635, 859);
+    ptexClass.loadSkipFlipped(fDeer.fLayDown, 859, 955);
 
-    for(int j = 0; j < 8; j++) {
-        fDeer.fWalk.emplace_back(fRenderer);
-        fDeer.fFight.emplace_back(fRenderer);
-        fDeer.fLayDown.emplace_back(fRenderer);
-    }
-    for(int i = 531; i < 627;) {
-        for(int j = 0; j < 8; j++, i++) {
-            ptexClass.load(i, fDeer.fWalk[j]);
-        }
-    }
     for(int i = 627; i < 635; i++) {
         ptexClass.load(i, fDeer.fDie);
     }
-    for(int i = 635; i < 859;) {
-        for(int j = 0; j < 8; j++, i++) {
-            ptexClass.load(i, fDeer.fFight[j]);
-        }
-    }
-    for(int i = 859; i < 955;) {
-        for(int j = 0; j < 8; j++, i++) {
-            ptexClass.load(i, fDeer.fLayDown[j]);
-        }
-    }
 
-    for(int j = 0; j < 8; j++) {
-        fOrangesCart.emplace_back(fRenderer);
-    }
-    for(int i = 1091; i < 1115;) {
-        for(int j = 0; j < 8; j++, i++) {
-            ptexClass.load(i, fOrangesCart[j]);
-        }
-    }
+    ptexClass.loadSkipFlipped(fOrangesCart, 1091, 1115);
 
+    ptexClass.loadSkipFlipped(fOrangeTender.fWalk, 1211, 1307);
+    ptexClass.loadSkipFlipped(fOrangeTender.fWorkOnTree, 1315, 1411);
+    ptexClass.loadSkipFlipped(fOrangeTender.fCollect, 1411, 1507);
 
-    for(int j = 0; j < 8; j++) {
-        fOrangeTender.fWalk.emplace_back(fRenderer);
-        fOrangeTender.fWorkOnTree.emplace_back(fRenderer);
-        fOrangeTender.fCollect.emplace_back(fRenderer);
-    }
-    for(int i = 1211; i < 1307;) {
-        for(int j = 0; j < 8; j++, i++) {
-            ptexClass.load(i, fOrangeTender.fWalk[j]);
-        }
-    }
     for(int i = 1307; i < 1315; i++) {
         ptexClass.load(i, fOrangeTender.fDie);
-    }
-    for(int i = 1315; i < 1411;) {
-        for(int j = 0; j < 8; j++, i++) {
-            ptexClass.load(i, fOrangeTender.fWorkOnTree[j]);
-        }
-    }
-    for(int i = 1411; i < 1507;) {
-        for(int j = 0; j < 8; j++, i++) {
-            ptexClass.load(i, fOrangeTender.fCollect[j]);
-        }
     }
 
     texLoader.waitUntilFinished();

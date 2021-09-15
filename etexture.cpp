@@ -107,8 +107,10 @@ void eTexture::render(SDL_Renderer* const r,
 
 void eTexture::render(SDL_Renderer* const r,
                       const int x, const int y) const {
-    const SDL_Rect srcRect{0, 0, mWidth, mHeight};
-    const SDL_Rect dstRect{x, y, mWidth, mHeight};
+    const int w = mFlipTex ? mFlipTex->width() : mWidth;
+    const int h = mFlipTex ? mFlipTex->height() : mHeight;
+    const SDL_Rect srcRect{0, 0, w, h};
+    const SDL_Rect dstRect{x, y, w, h};
     render(r, srcRect, dstRect);
 }
 

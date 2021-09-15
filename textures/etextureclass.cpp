@@ -46,7 +46,12 @@ void eTextureClass::loadSkipFlipped(std::vector<eTextureCollection>& colls,
         for(int j = 0; j < 8; j++, i++) {
             if(j > 3 && j < 7) {
                 auto& tex = colls[j].addTexture();
-                tex->setFlipTex(colls[6 - j].getTexture(k));
+                const auto& flipTex = colls[6 - j].getTexture(k);
+                tex->setFlipTex(flipTex);
+                if(mOffset) {
+                    const auto& offset = (*mOffset)[i - 1];
+                    tex->setOffset(offset.first, offset.second);
+                }
             } else {
                 load(i, colls[j]);
             }
