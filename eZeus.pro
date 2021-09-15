@@ -30,6 +30,8 @@ SOURCES += \
         buildings/ecolumn.cpp \
         buildings/edairy.cpp \
         buildings/edramaschool.cpp \
+        buildings/eelitehousing.cpp \
+        buildings/eelitehousingrenderer.cpp \
         buildings/eemployingbuilding.cpp \
         buildings/efarmbase.cpp \
         buildings/efleecevendor.cpp \
@@ -261,6 +263,8 @@ HEADERS += \
     buildings/ecolumn.h \
     buildings/edairy.h \
     buildings/edramaschool.h \
+    buildings/eelitehousing.h \
+    buildings/eelitehousingrenderer.h \
     buildings/eemployingbuilding.h \
     buildings/efarmbase.h \
     buildings/efleecevendor.h \

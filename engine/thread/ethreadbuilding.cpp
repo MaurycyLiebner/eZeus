@@ -1,6 +1,7 @@
 #include "ethreadbuilding.h"
 
 #include "buildings/esmallhouse.h"
+#include "buildings/eelitehousing.h"
 #include "buildings/eresourcebuildingbase.h"
 #include "buildings/eresourcebuilding.h"
 
@@ -16,6 +17,9 @@ void eThreadBuilding::load(eBuilding* const src) {
         mTileRect = src->tileRect();
         if(mType == eBuildingType::commonHouse) {
             const auto h = static_cast<eSmallHouse*>(src);
+            mVacancies = h->vacancies();
+        } else if(mType == eBuildingType::eliteHousing) {
+            const auto h = static_cast<eEliteHousing*>(src);
             mVacancies = h->vacancies();
         } else if(mType == eBuildingType::granary ||
                   mType == eBuildingType::warehouse) {

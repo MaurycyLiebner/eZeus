@@ -1,49 +1,87 @@
-#include "esmallhouse.h"
+#include "eelitehousing.h"
 
-#include <algorithm>
-#include "textures/egametextures.h"
 #include "engine/egameboard.h"
 
-const int gMaxPeople[] = {8, 16, 24, 32, 40, 48, 60};
+#include "textures/egametextures.h"
 
-eSmallHouse::eSmallHouse(eGameBoard& board) :
-    eBuilding(board, eBuildingType::commonHouse, 2, 2) {
+const int gMaxPeople[] = {6, 6, 10, 16, 20};
+
+eEliteHousing::eEliteHousing(eGameBoard& board) :
+    eBuilding(board, eBuildingType::eliteHousing, 4, 4) {
     auto& popData = getBoard().populationData();
     popData.incVacancies(gMaxPeople[0]);
 }
 
-eSmallHouse::~eSmallHouse() {
+eEliteHousing::~eEliteHousing() {
     auto& popData = getBoard().populationData();
     popData.incPopulation(-mPeople);
     popData.incVacancies(-vacancies());
 }
 
-std::shared_ptr<eTexture> eSmallHouse::getTexture(const eTileSize size) const {
-    const int sizeId = static_cast<int>(size);
-    const auto& blds = eGameTextures::buildings();
-    if(mPeople == 0) return blds[sizeId].fHouseSpace;
-    const auto& coll = blds[sizeId].fCommonHouse[mLevel];
-    const int texId = seed() % coll.size();
-    return coll.getTexture(texId);
+std::shared_ptr<eTexture>
+eEliteHousing::getLeftTexture(const eTileSize size) const {
+    const auto& coll = getTextureCollection(size);
+    const int id = seed() % 2;
+    return coll.getTexture(id);
 }
 
-int eSmallHouse::provide(const eProvide p, const int n) {
+std::shared_ptr<eTexture>
+eEliteHousing::getBottomTexture(const eTileSize size) const {
+    const auto& coll = getTextureCollection(size);
+    return coll.getTexture(2);
+}
+
+std::shared_ptr<eTexture>
+eEliteHousing::getTopTexture(const eTileSize size) const {
+    const auto& coll = getTextureCollection(size);
+    return coll.getTexture(3);
+}
+
+std::shared_ptr<eTexture>
+eEliteHousing::getRightTexture(const eTileSize size) const {
+    const auto& coll = getTextureCollection(size);
+    return coll.getTexture(4);
+}
+
+std::vector<eOverlay>
+eEliteHousing::getHorseOverlays(const eTileSize size) const {
+    if(mLevel < 3 || mHorses < 1) return {};
+    const int sizeId = static_cast<int>(size);
+    const auto& texs = eGameTextures::buildings()[sizeId];
+
+    const auto& coll = texs.fEliteHouseHorses;
+    eOverlay h;
+    h.fX = -2.0;
+    h.fY = -2.5;
+    h.fTex = coll.getTexture(mHorses - 1);
+    return {h};
+}
+
+int eEliteHousing::provide(const eProvide p, const int n) {
     if(mPeople <= 0) return 0;
     int max = 8;
     int* value = nullptr;
     switch(p) {
-    case eProvide::water:
-        value = &mWater;
-        break;
     case eProvide::food:
         value = &mFood;
-        max = 2*mPeople;
+        max = 2*(16 + mPeople + mHorses);
         break;
     case eProvide::fleece:
         value = &mFleece;
         break;
     case eProvide::oil:
         value = &mOil;
+        break;
+    case eProvide::wine:
+        value = &mWine;
+        break;
+    case eProvide::arms:
+        max = 4;
+        value = &mArms;
+        break;
+    case eProvide::horses:
+        max = 4;
+        value = &mHorses;
         break;
 
     case eProvide::philosopher:
@@ -77,44 +115,52 @@ int eSmallHouse::provide(const eProvide p, const int n) {
     return add;
 }
 
-void eSmallHouse::timeChanged(const int by) {
+void eEliteHousing::timeChanged(const int by) {
     const int t = time();
-    const bool decw = t % 5000 < by;
-    if(decw) mWater = std::max(0, mWater - 1);
     const bool ul = t % 1000 < by;
     if(ul) updateLevel();
     eBuilding::timeChanged(by);
 }
 
-void eSmallHouse::nextMonth() {
+void eEliteHousing::nextMonth() {
     mPaidTaxes = false;
-    const int cfood = round(mPeople*0.25);
-    const int cfleece = mLevel > 2 ? 2 : 0;
-    const int coil = mLevel > 4 ? 2 : 0;
+    const int cfood = round((mPeople + mHorses)*0.25);
+    const int cfleece = 2;
+    const int coil = 2;
+    const int cwine = mLevel > 1 ? 2 : 0;
     mFood = std::max(0, mFood - cfood);
     mFleece = std::max(0, mFleece - cfleece);
     mOil = std::max(0, mOil - coil);
+    if(mLevel > 2) mWine = std::max(0, mWine - cwine);
 }
 
-void eSmallHouse::levelUp() {
+void eEliteHousing::levelUp() {
     setLevel(mLevel + 1);
 }
 
-void eSmallHouse::levelDown() {
+void eEliteHousing::levelDown() {
     setLevel(mLevel - 1);
 }
 
-int eSmallHouse::vacancies() const {
+int eEliteHousing::vacancies() const {
     return gMaxPeople[mLevel] - mPeople;
 }
 
-int eSmallHouse::moveIn(int c) {
+int eEliteHousing::moveIn(int c) {
     c = std::clamp(c, 0, vacancies());
     setPeople(mPeople + c);
     return c;
 }
 
-void eSmallHouse::updateLevel() {
+const eTextureCollection& eEliteHousing::getTextureCollection(
+        const eTileSize size) const {
+    const int sizeId = static_cast<int>(size);
+    const auto& blds = eGameTextures::buildings()[sizeId];
+    if(mPeople <= 0) return blds.fEliteHouse[0];
+    return blds.fEliteHouse[mLevel + 1];
+}
+
+void eEliteHousing::updateLevel() {
     const auto& b = getBoard();
     const auto t = centerTile();
     const int tx = t->x();
@@ -123,16 +169,10 @@ void eSmallHouse::updateLevel() {
     const int stadium = b.hasStadium() ? 1 : 0;
     const int nVenues = mPodium + mTheatre +
                         mGymnasium + stadium;
-    if(mFood > 0) {
-        if(mWater > 0 && nVenues > 0) {
-            if(mFleece > 0 && appeal > 2.0) {
-                if(nVenues > 1) {
-                    if(mOil > 0 && appeal > 5.0) {
-                        if(nVenues > 2 && appeal > 8.0) {
-                            return setLevel(6);
-                        }
-                        return setLevel(5);
-                    }
+    if(mFood > 0 && mFleece > 0 && mOil > 0 && nVenues > 2 && appeal > 5.0) {
+        if(mArms > 0 && appeal > 7.0) {
+            if(mWine > 0 && appeal > 9.0) {
+                if(mHorses > 0 && nVenues > 3 && appeal > 10.0) {
                     return setLevel(4);
                 }
                 return setLevel(3);
@@ -144,11 +184,11 @@ void eSmallHouse::updateLevel() {
     setLevel(0);
 }
 
-void eSmallHouse::setLevel(const int l) {
+void eEliteHousing::setLevel(const int l) {
     if(mLevel == l) return;
 
     const int ov = vacancies();
-    mLevel = std::clamp(l, 0, 6);
+    mLevel = std::clamp(l, 0, 4);
     const int nv = vacancies();
 
     auto& popData = getBoard().populationData();
@@ -157,14 +197,14 @@ void eSmallHouse::setLevel(const int l) {
     evict();
 }
 
-int eSmallHouse::evict() {
+int eEliteHousing::evict() {
     const int e = -vacancies();
     if(e <= 0) return 0;
     setPeople(mPeople - e);
     return e;
 }
 
-void eSmallHouse::setPeople(const int p) {
+void eEliteHousing::setPeople(const int p) {
     if(p == mPeople) return;
 
     auto& popData = getBoard().populationData();

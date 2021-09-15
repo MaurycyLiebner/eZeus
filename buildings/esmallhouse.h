@@ -2,7 +2,6 @@
 #define ESMALLHOUSE_H
 
 #include "ebuilding.h"
-#include "textures/ebuildingtextures.h"
 
 class eSmallHouse : public eBuilding {
 public:
@@ -38,7 +37,6 @@ private:
 
     int mLevel{0};
     int mPeople{0};
-    const std::vector<eBuildingTextures>& mTextures;
 
     int mWater = 0;
     int mFood = 0;

@@ -32,8 +32,10 @@ void eSettlerAction::findHouse() {
         return board.absTile(tx, ty);
     };
     const auto finalTile = [](eThreadTile* const t) {
-        return t->underBuildingType() == eBuildingType::commonHouse &&
-               t->houseVacancies() > 0;
+        const auto ut = t->underBuildingType();
+        const bool h = ut == eBuildingType::commonHouse ||
+                       ut == eBuildingType::eliteHousing;
+        return h && t->houseVacancies() > 0;
     };
     const stdptr<eCharacterAction> tptr(this);
     const auto failFunc = [tptr, this]() {
@@ -101,7 +103,8 @@ bool eSettlerAction::enterHouse() {
         const auto b = nn->underBuilding();
         if(!b) continue;
         const auto t = b->type();
-        if(t != eBuildingType::commonHouse) continue;
+        if(t != eBuildingType::commonHouse &&
+           t != eBuildingType::eliteHousing) continue;
         const auto ch = static_cast<eSmallHouse*>(b);
         const int v = ch->vacancies();
         if(v <= 0) continue;

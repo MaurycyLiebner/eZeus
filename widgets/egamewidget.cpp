@@ -66,6 +66,9 @@
 
 #include "buildings/eanimalbuilding.h"
 
+#include "buildings/eelitehousing.h"
+#include "buildings/eelitehousingrenderer.h"
+
 #include "characters/esheep.h"
 #include "characters/egoat.h"
 #include "characters/actions/eanimalaction.h"
@@ -1074,6 +1077,21 @@ void eGameWidget::paintEvent(ePainter& p) {
             auto& ebs2 = ebs.emplace_back(gHoverX + dx, gHoverY + dy, b1);
             ebs2.fBR = e::make_shared<ePalace2Renderer>(b1);
         } break;
+        case eBuildingMode::eliteHousing: {
+            const auto b1 = e::make_shared<eEliteHousing>(mBoard);
+            auto& ebs1 = ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs1.fBR = e::make_shared<eEliteHousingRenderer>(
+                           eEliteRendererType::top, b1);
+            auto& ebs2 = ebs.emplace_back(gHoverX + 2, gHoverY, b1);
+            ebs2.fBR = e::make_shared<eEliteHousingRenderer>(
+                           eEliteRendererType::right, b1);
+            auto& ebs3 = ebs.emplace_back(gHoverX + 2, gHoverY + 2, b1);
+            ebs3.fBR = e::make_shared<eEliteHousingRenderer>(
+                           eEliteRendererType::bottom, b1);
+            auto& ebs4 = ebs.emplace_back(gHoverX, gHoverY + 2, b1);
+            ebs4.fBR = e::make_shared<eEliteHousingRenderer>(
+                           eEliteRendererType::left, b1);
+        } break;
         case eBuildingMode::taxOffice: {
             const auto b1 = e::make_shared<eTaxOffice>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
@@ -1718,6 +1736,37 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     t1->setBuilding(renderer1);
                     const auto renderer2 = e::make_shared<ePalace2Renderer>(s);
                     t2->setBuilding(renderer2);
+                };
+                break;
+            case eBuildingMode::eliteHousing:
+                apply = [this](eTile*) {
+                    const auto t1 = mBoard.tile(gHoverX, gHoverY);
+                    if(!t1) return;
+                    const bool cb = canBuild(t1->x(), t1->y(), 4, 4);
+                    if(!cb) return;
+                    const auto t2 = t1->tileRel<eTile>(2, 0);
+                    if(!t2) return;
+                    const auto t3 = t1->tileRel<eTile>(2, 2);
+                    if(!t3) return;
+                    const auto t4 = t1->tileRel<eTile>(0, 2);
+                    if(!t4) return;
+                    stdsptr<eEliteHousing> s;
+                    build(t1->x() + 1, t1->y() + 1, 4, 4, [&]() {
+                        s = e::make_shared<eEliteHousing>(mBoard);
+                        return s;
+                    });
+                    const auto renderer1 = e::make_shared<eEliteHousingRenderer>(
+                                               eEliteRendererType::top, s);
+                    t1->setBuilding(renderer1);
+                    const auto renderer2 = e::make_shared<eEliteHousingRenderer>(
+                                               eEliteRendererType::right, s);
+                    t2->setBuilding(renderer2);
+                    const auto renderer3 = e::make_shared<eEliteHousingRenderer>(
+                                               eEliteRendererType::bottom, s);
+                    t3->setBuilding(renderer3);
+                    const auto renderer4 = e::make_shared<eEliteHousingRenderer>(
+                                               eEliteRendererType::left, s);
+                    t4->setBuilding(renderer4);
                 };
                 break;
             case eBuildingMode::taxOffice:
