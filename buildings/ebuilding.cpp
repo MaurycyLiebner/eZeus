@@ -106,19 +106,6 @@ void eBuilding::incTime(const int by) {
     timeChanged(by);
 }
 
-void eBuilding::draw(eTilePainter& p,
-                     const double x, const double y) {
-    p.drawTexture(x, y, getTexture(p.size()), eAlignment::top);
-    if(mOverlayEnabled()) {
-        const auto overlays = getOverlays(p.size());
-        for(const auto& o : overlays) {
-            if(o.fAlignTop) p.drawTexture(x + o.fX, y + o.fY, o.fTex,
-                                          eAlignment::top);
-            else p.drawTexture(x + o.fX, y + o.fY, o.fTex);
-        }
-    }
-}
-
 void eBuilding::addUnderBuilding(eTile* const t) {
     mUnderBuilding.push_back(t);
 }

@@ -845,8 +845,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                 } else {
                     double rx;
                     double ry;
-                    drawXY(tx, ty, rx, ry, d->spanW(), d->spanH(), a);
-                    d->draw(tp, rx, ry);
+                    const auto br = tile->building();
+                    drawXY(tx, ty, rx, ry, br->spanW(), br->spanH(), a);
+                    br->draw(tp, rx, ry);
                 }
                 if(mViewMode == eViewMode::hazards) {
                     const auto diff = mBoard.difficulty();

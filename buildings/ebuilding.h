@@ -143,9 +143,6 @@ public:
     int time() const { return mTime; }
     int textureTime() const { return mTextureTime/3; }
 
-    void draw(eTilePainter& p,
-              const double x, const double y);
-
     void addUnderBuilding(eTile* const t);
 
     void erase();

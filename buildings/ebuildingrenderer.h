@@ -11,6 +11,11 @@ public:
         getTexture(const eTileSize size) const;
     virtual std::vector<eOverlay>
         getOverlays(const eTileSize size) const;
+
+    virtual int spanW() const;
+    virtual int spanH() const;
+
+    void draw(eTilePainter& p, const double x, const double y);
 private:
     const stdsptr<eBuilding> mBuilding;
 };
