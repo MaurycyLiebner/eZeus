@@ -1017,11 +1017,11 @@ void eGameWidget::paintEvent(ePainter& p) {
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
             };
             eTile* t = startTile;
-            for(const auto o : path) {
+            for(int i = path.size() - 1; i >= 0; i--) {
                 if(!t) break;
                 const auto b1 = e::make_shared<eRoad>(mBoard);
                 drawRoad(t);
-                t = t->neighbour<eTile>(o);
+                t = t->neighbour<eTile>(path[i]);
             }
             if(t) drawRoad(t);
             return;
@@ -1725,11 +1725,11 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     const bool r = roadPath(path);
                     if(r) {
                         eTile* t = startTile;
-                        for(const auto o : path) {
+                        for(int i = path.size() - 1; i >= 0; i--) {
                             if(!t) break;
                             build(t->x(), t->y(), 1, 1,
                                   [this]() { return e::make_shared<eRoad>(mBoard); });
-                            t = t->neighbour<eTile>(o);
+                            t = t->neighbour<eTile>(path[i]);
                         }
                         if(t) {
                             build(t->x(), t->y(), 1, 1,
