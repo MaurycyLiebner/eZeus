@@ -46,7 +46,7 @@ eHedgeMaze::eHedgeMaze(eGameBoard& board) :
 
 eFishPond::eFishPond(eGameBoard& board) :
     eOverlayAesthBuilding(board, &eBuildingTextures::fFishPond,
-                          -2.1, -4.30,
+                          0.95, -3.18,
                           &eBuildingTextures::fFishPondOverlay,
                           eBuildingType::fishPond, 4, 4) {
 
