@@ -836,68 +836,84 @@ void eGameWidget::paintEvent(ePainter& p) {
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
             }
         }
-        if(v) {
-            const auto type = d->type();
-            if(!v) {
-                const auto tex = getBasementTexture(tile, d, trrTexs);
-                tp.drawTexture(rx, ry, tex, eAlignment::top);
-            } else if(tile->building() && type != eBuildingType::road) {
-                if(type == eBuildingType::park) {
-                    int futureDim = 1;
-                    int drawDim = 1;
-                    const auto tex = eVaryingSizeTex::getVaryingTexture(
-                                         eParkTexture::get, tile,
-                                         builTexs.fPark,
-                                         builTexs.fLargePark,
-                                         builTexs.fHugePark,
-                                         futureDim, drawDim);
-                    tile->setFutureDimension(futureDim);
-                    if(drawDim > 0) {
-                        double rx0 = rx;
-                        double ry0 = ry;
-                        if(drawDim == 2) {
-                            rx0 += 0.5;
-                            ry0 += 0.5;
-                        } else if(drawDim == 3) {
-                            rx0 += 1.0;
-                            ry0 += 1.0;
-                        }
-                        tp.drawTexture(rx0, ry0, tex, eAlignment::top);
+        const auto type = d->type();
+        if(!v) {
+            const auto tex = getBasementTexture(tile, d, trrTexs);
+            tp.drawTexture(rx, ry, tex, eAlignment::top);
+        } else if(tile->building() && type != eBuildingType::road) {
+            if(type == eBuildingType::park) {
+                int futureDim = 1;
+                int drawDim = 1;
+                const auto tex = eVaryingSizeTex::getVaryingTexture(
+                                     eParkTexture::get, tile,
+                                     builTexs.fPark,
+                                     builTexs.fLargePark,
+                                     builTexs.fHugePark,
+                                     futureDim, drawDim);
+                tile->setFutureDimension(futureDim);
+                if(drawDim > 0) {
+                    double rx0 = rx;
+                    double ry0 = ry;
+                    if(drawDim == 2) {
+                        rx0 += 0.5;
+                        ry0 += 0.5;
+                    } else if(drawDim == 3) {
+                        rx0 += 1.0;
+                        ry0 += 1.0;
                     }
-                } else {
-                    double rx;
-                    double ry;
-                    const auto br = tile->building();
-                    drawXY(tx, ty, rx, ry, br->spanW(), br->spanH(), a);
-                    br->draw(tp, rx, ry);
+                    tp.drawTexture(rx0, ry0, tex, eAlignment::top);
                 }
-                if(mViewMode == eViewMode::hazards) {
-                    const auto diff = mBoard.difficulty();
-                    const int fr = eDifficultyHelpers::fireRisk(diff, type);
-                    const int dr = eDifficultyHelpers::damageRisk(diff, type);
+            } else {
+                double rx;
+                double ry;
+                const auto br = tile->building();
+                drawXY(tx, ty, rx, ry, br->spanW(), br->spanH(), a);
+                br->draw(tp, rx, ry);
+            }
+            if(mViewMode == eViewMode::hazards) {
+                const auto diff = mBoard.difficulty();
+                const int fr = eDifficultyHelpers::fireRisk(diff, type);
+                const int dr = eDifficultyHelpers::damageRisk(diff, type);
 
-                    const int h = 100 - d->maintenance();
-                    if((fr || dr) && h > 5) {
-                        const int n = h/15;
-                        const eTextureCollection* coll = nullptr;
-                        if(n < 2) {
-                            coll = &intrTexs.fColumn1;
-                        } else if(n < 3) {
-                            coll = &intrTexs.fColumn2;
-                        } else if(n < 4) {
-                            coll = &intrTexs.fColumn3;
-                        } else {
-                            coll = &intrTexs.fColumn4;
-                        }
+                const int h = 100 - d->maintenance();
+                if((fr || dr) && h > 5) {
+                    const int n = h/15;
+                    const eTextureCollection* coll = nullptr;
+                    if(n < 2) {
+                        coll = &intrTexs.fColumn1;
+                    } else if(n < 3) {
+                        coll = &intrTexs.fColumn2;
+                    } else if(n < 4) {
+                        coll = &intrTexs.fColumn3;
+                    } else {
+                        coll = &intrTexs.fColumn4;
+                    }
 
-                        drawColumn(tp, n, rx, ry, *coll);
-                    }
-                } else if(mViewMode == eViewMode::water) {
-                    if(type == eBuildingType::commonHouse) {
-                        const auto ch = static_cast<eSmallHouse*>(d);
-                        const int w = ch->water()/2;
-                        drawColumn(tp, w, rx, ry, intrTexs.fColumn5);
-                    }
+                    drawColumn(tp, n, rx, ry, *coll);
+                }
+            } else if(mViewMode == eViewMode::water) {
+                if(type == eBuildingType::commonHouse) {
+                    const auto ch = static_cast<eSmallHouse*>(d);
+                    const int w = ch->water()/2;
+                    drawColumn(tp, w, rx, ry, intrTexs.fColumn5);
+                }
+            } else if(mViewMode == eViewMode::actors) {
+                if(type == eBuildingType::commonHouse) {
+                    const auto ch = static_cast<eSmallHouse*>(d);
+                    const int a = ch->actors()/2;
+                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                }
+            } else if(mViewMode == eViewMode::philosophers) {
+                if(type == eBuildingType::commonHouse) {
+                    const auto ch = static_cast<eSmallHouse*>(d);
+                    const int a = ch->philosophers()/2;
+                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                }
+            } else if(mViewMode == eViewMode::athletes) {
+                if(type == eBuildingType::commonHouse) {
+                    const auto ch = static_cast<eSmallHouse*>(d);
+                    const int a = ch->athletes()/2;
+                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
                 }
             }
         }

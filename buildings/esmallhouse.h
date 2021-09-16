@@ -27,6 +27,13 @@ public:
     int moveIn(int c);
 
     int water() const { return mWater; }
+    int food() const { return mFood; }
+    int fleece() const { return mFleece; }
+    int oil() const { return mOil; }
+
+    int philosophers() const { return mPhilosophers; }
+    int actors() const { return mActors; }
+    int athletes() const { return mAthletes; }
 private:
     void updateLevel();
     void setLevel(const int l);
@@ -43,9 +50,9 @@ private:
     int mFleece = 0;
     int mOil = 0;
 
-    int mPodium = 0;
-    int mTheatre = 0;
-    int mGymnasium = 0;
+    int mPhilosophers = 0;
+    int mActors = 0;
+    int mAthletes = 0;
 };
 
 #endif // ESMALLHOUSE_H
