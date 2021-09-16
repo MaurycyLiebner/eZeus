@@ -736,6 +736,8 @@ void eGameWidget::paintEvent(ePainter& p) {
     const auto& intrTexs = eGameTextures::interface().at(tid);
     const auto& destTexs = eGameTextures::destrution().at(tid);
 
+    const auto mode = mGm->mode();
+
     const int sMinX = std::min(gPressedX, gHoverX);
     const int sMinY = std::min(gPressedY, gHoverY);
     const int sMaxX = std::max(gPressedX, gHoverX);
@@ -763,19 +765,19 @@ void eGameWidget::paintEvent(ePainter& p) {
                 rx += 1;
                 ry -= 1;
             }
-            if(mGm->visible()) {
-                bool s = false;
-                if(gPressedX >= 0 && gPressedY >= 0) {
-                    if(tx >= sMinX && tx <= sMaxX &&
-                       ty >= sMinY && ty <= sMaxY) {
-                        s = true;
-                    }
+            bool s = false;
+            if(gPressedX >= 0 && gPressedY >= 0) {
+                if(tx >= sMinX && tx <= sMaxX &&
+                   ty >= sMinY && ty <= sMaxY) {
+                    s = true;
                 }
-                const bool h = tx == gHoverX && ty == gHoverY;
-                if(h || s) tex->setColorMod(255, 175, 255);
-                tp.drawTexture(rx, ry, tex, eAlignment::top);
-                if(h || s) tex->clearColorMod();
             }
+            const bool h = tx == gHoverX && ty == gHoverY;
+            const bool e = mode == eBuildingMode::erase;
+            const bool cm = (h || s) && (mTem->visible() || e);
+            if(cm) tex->setColorMod(255, 175, 255);
+            tp.drawTexture(rx, ry, tex, eAlignment::top);
+            if(cm) tex->clearColorMod();
         }
     });
 
@@ -1000,7 +1002,6 @@ void eGameWidget::paintEvent(ePainter& p) {
             tp.drawPolygon(polygon, {0, 0, 0, 255});
         }
     }
-    const auto mode = mGm->mode();
 
     if(mode == eBuildingMode::road) {
         const auto startTile = mBoard.tile(gHoverX, gHoverY);
