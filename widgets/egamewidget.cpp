@@ -908,7 +908,8 @@ void eGameWidget::paintEvent(ePainter& p) {
            bt == eBuildingType::oliveTree ||
            bt == eBuildingType::orangeTree ||
            bt == eBuildingType::sheep ||
-           bt == eBuildingType::goat) {
+           bt == eBuildingType::goat ||
+           bt == eBuildingType::ruins) {
             const auto& chars = tile->characters();
             for(const auto& c : chars) {
                 const bool v = eViewModeHelpers::characterVisible(
