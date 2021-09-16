@@ -38,7 +38,18 @@ public:
 
     int moveIn(int c);
 
+    int food() const { return mFood; }
+    int fleece() const { return mFleece; }
+    int oil() const { return mOil; }
+
+    int wine() const { return mWine; }
+    int arms() const { return mArms; }
+
     int horses() const { return mHorses; }
+
+    int philosophers() const { return mPhilosophers; }
+    int actors() const { return mActors; }
+    int athletes() const { return mAthletes; }
 private:
     const eTextureCollection& getTextureCollection(
             const eTileSize size) const;
@@ -60,9 +71,9 @@ private:
     int mArms = 0;
     int mHorses = 0;
 
-    int mPodium = 0;
-    int mTheatre = 0;
-    int mGymnasium = 0;
+    int mPhilosophers = 0;
+    int mActors = 0;
+    int mAthletes = 0;
 };
 
 #endif // EELITEHOUSING_H

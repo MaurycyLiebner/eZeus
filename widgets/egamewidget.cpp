@@ -902,10 +902,18 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const auto ch = static_cast<eSmallHouse*>(d);
                     const int a = ch->actors()/2;
                     drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                } else if(type == eBuildingType::eliteHousing) {
+                    const auto ch = static_cast<eEliteHousing*>(d);
+                    const int a = ch->actors()/2;
+                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
                 }
             } else if(mViewMode == eViewMode::philosophers) {
                 if(type == eBuildingType::commonHouse) {
                     const auto ch = static_cast<eSmallHouse*>(d);
+                    const int a = ch->philosophers()/2;
+                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                } else if(type == eBuildingType::eliteHousing) {
+                    const auto ch = static_cast<eEliteHousing*>(d);
                     const int a = ch->philosophers()/2;
                     drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
                 }
@@ -914,7 +922,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const auto ch = static_cast<eSmallHouse*>(d);
                     const int a = ch->athletes()/2;
                     drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                } else if(type == eBuildingType::eliteHousing) {
+                    const auto ch = static_cast<eEliteHousing*>(d);
+                    const int a = ch->athletes()/2;
+                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
                 }
+            } else if(mViewMode == eViewMode::supplies) {
+
             }
         }
         const auto bt = tile->underBuildingType();

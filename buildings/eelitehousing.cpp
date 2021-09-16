@@ -85,13 +85,13 @@ int eEliteHousing::provide(const eProvide p, const int n) {
         break;
 
     case eProvide::philosopher:
-        value = &mPodium;
+        value = &mPhilosophers;
         break;
     case eProvide::actor:
-        value = &mTheatre;
+        value = &mActors;
         break;
     case eProvide::gymnast:
-        value = &mGymnasium;
+        value = &mAthletes;
         break;
 
     case eProvide::taxes: {
@@ -167,8 +167,8 @@ void eEliteHousing::updateLevel() {
     const int ty = t->y();
     const double appeal = b.appeal(tx ,ty);
     const int stadium = b.hasStadium() ? 1 : 0;
-    const int nVenues = mPodium + mTheatre +
-                        mGymnasium + stadium;
+    const int nVenues = mPhilosophers + mActors +
+                        mAthletes + stadium;
     if(mFood > 0 && mFleece > 0 && mOil > 0 && nVenues > 2 && appeal > 5.0) {
         if(mArms > 0 && appeal > 7.0) {
             if(mWine > 0 && appeal > 9.0) {
