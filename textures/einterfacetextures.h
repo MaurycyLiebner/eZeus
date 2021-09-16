@@ -160,6 +160,23 @@ public:
     std::shared_ptr<eTexture> fWineUnit;
     std::shared_ptr<eTexture> fFoodUnit;
 
+    std::shared_ptr<eTexture> fSuppliesBg;
+    std::shared_ptr<eTexture> fEliteSuppliesBg;
+
+    std::shared_ptr<eTexture> fHasFood;
+    std::shared_ptr<eTexture> fHasFleece;
+    std::shared_ptr<eTexture> fHasOil;
+    std::shared_ptr<eTexture> fHasWine;
+    std::shared_ptr<eTexture> fHasArms;
+    std::shared_ptr<eTexture> fHasHorses;
+
+    std::shared_ptr<eTexture> fNHasFood;
+    std::shared_ptr<eTexture> fNHasFleece;
+    std::shared_ptr<eTexture> fNHasOil;
+    std::shared_ptr<eTexture> fNHasWine;
+    std::shared_ptr<eTexture> fNHasArms;
+    std::shared_ptr<eTexture> fNHasHorses;
+
     // normal, hover, pressed, disabled
     eTextureCollection fUpButton;
     eTextureCollection fDownButton;

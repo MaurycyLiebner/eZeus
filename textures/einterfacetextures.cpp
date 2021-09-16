@@ -567,5 +567,36 @@ void eInterfaceTextures::load() {
         fWineUnit->load(fRenderer, pathBase + "00134.png");
         fFoodUnit = std::make_shared<eTexture>();
         fFoodUnit->load(fRenderer, pathBase + "00135.png");
+
+        fSuppliesBg = std::make_shared<eTexture>();
+        fSuppliesBg->load(fRenderer, pathBase + "00137.png");
+        fEliteSuppliesBg = std::make_shared<eTexture>();
+        fEliteSuppliesBg->load(fRenderer, pathBase + "00139.png");
+
+        fHasFood = std::make_shared<eTexture>();
+        fHasFood->load(fRenderer, pathBase + "00155.png");
+        fHasFleece = std::make_shared<eTexture>();
+        fHasFleece->load(fRenderer, pathBase + "00153.png");
+        fHasOil = std::make_shared<eTexture>();
+        fHasOil->load(fRenderer, pathBase + "00156.png");
+        fHasWine = std::make_shared<eTexture>();
+        fHasWine->load(fRenderer, pathBase + "00157.png");
+        fHasArms = std::make_shared<eTexture>();
+        fHasArms->load(fRenderer, pathBase + "00154.png");
+        fHasHorses = std::make_shared<eTexture>();
+        fHasHorses->load(fRenderer, pathBase + "00158.png");
+
+        fNHasFood = std::make_shared<eTexture>();
+        fNHasFood->load(fRenderer, pathBase + "00161.png");
+        fNHasFleece = std::make_shared<eTexture>();
+        fNHasFleece->load(fRenderer, pathBase + "00159.png");
+        fNHasOil = std::make_shared<eTexture>();
+        fNHasOil->load(fRenderer, pathBase + "00162.png");
+        fNHasWine = std::make_shared<eTexture>();
+        fNHasWine->load(fRenderer, pathBase + "00163.png");
+        fNHasArms = std::make_shared<eTexture>();
+        fNHasArms->load(fRenderer, pathBase + "00160.png");
+        fNHasHorses = std::make_shared<eTexture>();
+        fNHasHorses->load(fRenderer, pathBase + "00164.png");
     }
 }

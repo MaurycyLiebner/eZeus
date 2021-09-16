@@ -114,6 +114,12 @@ int eSmallHouse::moveIn(int c) {
     return c;
 }
 
+bool eSmallHouse::lowFood() const {
+    if(!mFood) return true;
+    const int cfood = round(mPeople*0.25);
+    return mFood < cfood;
+}
+
 void eSmallHouse::updateLevel() {
     const auto& b = getBoard();
     const auto t = centerTile();

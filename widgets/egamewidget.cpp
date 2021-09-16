@@ -801,20 +801,20 @@ void eGameWidget::paintEvent(ePainter& p) {
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
             }
         }
-        const auto d = tile->underBuilding();
+        const auto ub = tile->underBuilding();
         if(mViewMode == eViewMode::patrolBuilding) {
-            if(mPatrolBuilding && d && !tile->hasRoad()) {
+            if(mPatrolBuilding && ub && !tile->hasRoad()) {
                 std::shared_ptr<eTexture> tex;
-                if(d == mPatrolBuilding) {
+                if(ub == mPatrolBuilding) {
                     tex = trrTexs.fSelectedBuildingBase;
                 } else {
-                    tex = getBasementTexture(tile, d, trrTexs);
+                    tex = getBasementTexture(tile, ub, trrTexs);
                 }
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
             }
         }
-        const bool bv = eViewModeHelpers::buildingVisible(mViewMode, d);
-        const bool v = d && bv;
+        const bool bv = eViewModeHelpers::buildingVisible(mViewMode, ub);
+        const bool v = ub && bv;
         if(!v && mViewMode == eViewMode::appeal) {
             const auto& am = mBoard.appealMap();
             const auto ae = am.enabled(tx, ty);
@@ -836,11 +836,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
             }
         }
-        const auto type = d->type();
-        if(!v) {
-            const auto tex = getBasementTexture(tile, d, trrTexs);
+        const auto tbr = tile->building();
+        const auto type = ub ? ub->type() : eBuildingType::none;
+        if(ub && !v) {
+            const auto tex = getBasementTexture(tile, ub, trrTexs);
             tp.drawTexture(rx, ry, tex, eAlignment::top);
-        } else if(tile->building() && type != eBuildingType::road) {
+        } else if(tbr && type != eBuildingType::road) {
             if(type == eBuildingType::park) {
                 int futureDim = 1;
                 int drawDim = 1;
@@ -866,69 +867,120 @@ void eGameWidget::paintEvent(ePainter& p) {
             } else {
                 double rx;
                 double ry;
-                const auto br = tile->building();
-                drawXY(tx, ty, rx, ry, br->spanW(), br->spanH(), a);
-                br->draw(tp, rx, ry);
+                drawXY(tx, ty, rx, ry, tbr->spanW(), tbr->spanH(), a);
+                tbr->draw(tp, rx, ry);
             }
-            if(mViewMode == eViewMode::hazards) {
-                const auto diff = mBoard.difficulty();
-                const int fr = eDifficultyHelpers::fireRisk(diff, type);
-                const int dr = eDifficultyHelpers::damageRisk(diff, type);
+            if(tbr->isMain()) {
+                if(mViewMode == eViewMode::hazards) {
+                    const auto diff = mBoard.difficulty();
+                    const int fr = eDifficultyHelpers::fireRisk(diff, type);
+                    const int dr = eDifficultyHelpers::damageRisk(diff, type);
 
-                const int h = 100 - d->maintenance();
-                if((fr || dr) && h > 5) {
-                    const int n = h/15;
-                    const eTextureCollection* coll = nullptr;
-                    if(n < 2) {
-                        coll = &intrTexs.fColumn1;
-                    } else if(n < 3) {
-                        coll = &intrTexs.fColumn2;
-                    } else if(n < 4) {
-                        coll = &intrTexs.fColumn3;
-                    } else {
-                        coll = &intrTexs.fColumn4;
+                    const int h = 100 - ub->maintenance();
+                    if((fr || dr) && h > 5) {
+                        const int n = h/15;
+                        const eTextureCollection* coll = nullptr;
+                        if(n < 2) {
+                            coll = &intrTexs.fColumn1;
+                        } else if(n < 3) {
+                            coll = &intrTexs.fColumn2;
+                        } else if(n < 4) {
+                            coll = &intrTexs.fColumn3;
+                        } else {
+                            coll = &intrTexs.fColumn4;
+                        }
+
+                        drawColumn(tp, n, rx, ry, *coll);
                     }
-
-                    drawColumn(tp, n, rx, ry, *coll);
+                } else if(mViewMode == eViewMode::water) {
+                    if(type == eBuildingType::commonHouse) {
+                        const auto ch = static_cast<eSmallHouse*>(ub);
+                        const int w = ch->water()/2;
+                        drawColumn(tp, w, rx, ry, intrTexs.fColumn5);
+                    }
+                } else if(mViewMode == eViewMode::actors) {
+                    if(type == eBuildingType::commonHouse) {
+                        const auto ch = static_cast<eSmallHouse*>(ub);
+                        const int a = ch->actors()/2;
+                        drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                    } else if(type == eBuildingType::eliteHousing) {
+                        const auto ch = static_cast<eEliteHousing*>(ub);
+                        const int a = ch->actors()/2;
+                        drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                    }
+                } else if(mViewMode == eViewMode::philosophers) {
+                    if(type == eBuildingType::commonHouse) {
+                        const auto ch = static_cast<eSmallHouse*>(ub);
+                        const int a = ch->philosophers()/2;
+                        drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                    } else if(type == eBuildingType::eliteHousing) {
+                        const auto ch = static_cast<eEliteHousing*>(ub);
+                        const int a = ch->philosophers()/2;
+                        drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                    }
+                } else if(mViewMode == eViewMode::athletes) {
+                    if(type == eBuildingType::commonHouse) {
+                        const auto ch = static_cast<eSmallHouse*>(ub);
+                        const int a = ch->athletes()/2;
+                        drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                    } else if(type == eBuildingType::eliteHousing) {
+                        const auto ch = static_cast<eEliteHousing*>(ub);
+                        const int a = ch->athletes()/2;
+                        drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                    }
+                } else if(mViewMode == eViewMode::supplies) {
+                    if(type == eBuildingType::commonHouse) {
+                        const auto ch = static_cast<eSmallHouse*>(ub);
+                        double rxx = rx - 2.5;
+                        double ryy = ry - 2;
+                        tp.drawTexture(rxx, ryy, intrTexs.fSuppliesBg);
+                        rxx += 0.32;
+                        ryy += 0.32;
+                        tp.drawTexture(rxx + 0.17, ryy - 0.17,
+                                       ch->lowFood() ?
+                                           intrTexs.fNHasFood :
+                                           intrTexs.fHasFood);
+                        tp.drawTexture(rxx + 0.62, ryy - 0.62,
+                                       ch->lowFleece() ?
+                                           intrTexs.fNHasFleece :
+                                           intrTexs.fHasFleece);
+                        tp.drawTexture(rxx + 1.08, ryy - 1.08,
+                                       ch->lowOil() ?
+                                           intrTexs.fNHasOil :
+                                           intrTexs.fHasOil);
+                    } else if(type == eBuildingType::eliteHousing) {
+                        const auto ch = static_cast<eEliteHousing*>(ub);
+                        double rxx = rx - 3.5;
+                        double ryy = ry - 1.5;
+                        tp.drawTexture(rxx, ryy, intrTexs.fEliteSuppliesBg);
+                        rxx += 0.32;
+                        ryy += 0.32;
+                        tp.drawTexture(rxx + 0.17, ryy - 0.17,
+                                       ch->lowFood() ?
+                                           intrTexs.fNHasFood :
+                                           intrTexs.fHasFood);
+                        tp.drawTexture(rxx + 0.62, ryy - 0.62,
+                                       ch->lowFleece() ?
+                                           intrTexs.fNHasFleece :
+                                           intrTexs.fHasFleece);
+                        tp.drawTexture(rxx + 1.08, ryy - 1.08,
+                                       ch->lowOil() ?
+                                           intrTexs.fNHasOil :
+                                           intrTexs.fHasOil);
+                        tp.drawTexture(rxx + 1.54, ryy - 1.54,
+                                       ch->lowWine() ?
+                                           intrTexs.fNHasWine :
+                                           intrTexs.fHasWine);
+                        tp.drawTexture(rxx + 2.00, ryy - 2.00,
+                                       ch->lowArms() ?
+                                           intrTexs.fNHasArms :
+                                           intrTexs.fHasArms);
+                        tp.drawTexture(rxx + 2.46, ryy - 2.46,
+                                       ch->lowHorses() ?
+                                           intrTexs.fNHasHorses :
+                                           intrTexs.fHasHorses);
+                    }
                 }
-            } else if(mViewMode == eViewMode::water) {
-                if(type == eBuildingType::commonHouse) {
-                    const auto ch = static_cast<eSmallHouse*>(d);
-                    const int w = ch->water()/2;
-                    drawColumn(tp, w, rx, ry, intrTexs.fColumn5);
-                }
-            } else if(mViewMode == eViewMode::actors) {
-                if(type == eBuildingType::commonHouse) {
-                    const auto ch = static_cast<eSmallHouse*>(d);
-                    const int a = ch->actors()/2;
-                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
-                } else if(type == eBuildingType::eliteHousing) {
-                    const auto ch = static_cast<eEliteHousing*>(d);
-                    const int a = ch->actors()/2;
-                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
-                }
-            } else if(mViewMode == eViewMode::philosophers) {
-                if(type == eBuildingType::commonHouse) {
-                    const auto ch = static_cast<eSmallHouse*>(d);
-                    const int a = ch->philosophers()/2;
-                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
-                } else if(type == eBuildingType::eliteHousing) {
-                    const auto ch = static_cast<eEliteHousing*>(d);
-                    const int a = ch->philosophers()/2;
-                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
-                }
-            } else if(mViewMode == eViewMode::athletes) {
-                if(type == eBuildingType::commonHouse) {
-                    const auto ch = static_cast<eSmallHouse*>(d);
-                    const int a = ch->athletes()/2;
-                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
-                } else if(type == eBuildingType::eliteHousing) {
-                    const auto ch = static_cast<eEliteHousing*>(d);
-                    const int a = ch->athletes()/2;
-                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
-                }
-            } else if(mViewMode == eViewMode::supplies) {
-
             }
         }
         const auto bt = tile->underBuildingType();

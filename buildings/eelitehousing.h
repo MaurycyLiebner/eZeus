@@ -50,6 +50,13 @@ public:
     int philosophers() const { return mPhilosophers; }
     int actors() const { return mActors; }
     int athletes() const { return mAthletes; }
+
+    bool lowFood() const;
+    bool lowFleece() const { return mFleece < 2; }
+    bool lowOil() const { return mOil < 2; }
+    bool lowWine() const { return mWine < 2; }
+    bool lowArms() const { return !mArms; }
+    bool lowHorses() const { return !mHorses; }
 private:
     const eTextureCollection& getTextureCollection(
             const eTileSize size) const;

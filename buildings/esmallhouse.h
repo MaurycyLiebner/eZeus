@@ -34,6 +34,10 @@ public:
     int philosophers() const { return mPhilosophers; }
     int actors() const { return mActors; }
     int athletes() const { return mAthletes; }
+
+    bool lowFood() const;
+    bool lowFleece() const { return mFleece < 2; }
+    bool lowOil() const { return mOil < 2; }
 private:
     void updateLevel();
     void setLevel(const int l);

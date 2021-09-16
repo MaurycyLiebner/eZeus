@@ -152,6 +152,12 @@ int eEliteHousing::moveIn(int c) {
     return c;
 }
 
+bool eEliteHousing::lowFood() const {
+    if(!mFood) return true;
+    const int cfood = round((mPeople + mHorses)*0.25);
+    return mFood < cfood;
+}
+
 const eTextureCollection& eEliteHousing::getTextureCollection(
         const eTileSize size) const {
     const int sizeId = static_cast<int>(size);

@@ -21,6 +21,8 @@ public:
 
     int spanW() const { return 2; }
     int spanH() const { return 2; }
+
+    bool isMain() const { return false; }
 private:
     const eEliteRendererType mType;
     const stdsptr<eEliteHousing> mBuilding;
