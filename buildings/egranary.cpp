@@ -60,6 +60,9 @@ std::vector<eOverlay> eGranary::getOverlays(const eTileSize size) const {
         case eResourceType::wheat:
             o.fTex = texs.fGranaryWheat;
             break;
+        case eResourceType::oranges:
+            o.fTex = texs.fGranaryOranges;
+            break;
         default: continue;
         }
         o.fX = xy[i].first;
