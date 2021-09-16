@@ -748,7 +748,7 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         int drawDim;
         int futureDim;
-        auto tex = eTileToTexture::get(tile, trrTexs, builTexs,
+        auto tex = eTileToTexture::get(tile, trrTexs,
                                        mTileSize, mDrawElevation,
                                        futureDim, drawDim);
         tile->setFutureDimension(futureDim);

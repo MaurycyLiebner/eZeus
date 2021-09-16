@@ -14,7 +14,7 @@ enum class eTerrain {
     copper = 1 << 7,
     silver = 1 << 8,
     tallStones = 1 << 9,
-    tinyStones = 1 << 10,
+    marble = 1 << 10,
 
     dryBased = dry |
                fertile |
@@ -25,12 +25,12 @@ enum class eTerrain {
                copper |
                silver |
                tallStones |
-               tinyStones,
+               marble,
 
     buildable = dry | beach | fertile,
     walkable = dry | beach | fertile |
                forest | choppedForest |
-               tinyStones
+               marble
 };
 
 inline eTerrain operator|(const eTerrain a, const eTerrain b) {

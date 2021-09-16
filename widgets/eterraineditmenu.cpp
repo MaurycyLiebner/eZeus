@@ -65,8 +65,8 @@ void eTerrainEditMenu::initialize() {
     w6->addAction("Tall Rock", [this]() {
         mMode = eTerrainEditMode::tallStones;
     });
-    w6->addAction("Tiny Rock", [this]() {
-        mMode = eTerrainEditMode::tinyStones;
+    w6->addAction("Marble", [this]() {
+        mMode = eTerrainEditMode::marble;
     });
     w6->addAction("Copper Ore", [this]() {
         mMode = eTerrainEditMode::bronze;

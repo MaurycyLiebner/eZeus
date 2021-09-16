@@ -142,6 +142,7 @@ void eMiniMap::updateTexture() {
                 break;
             case eTerrain::copper:
             case eTerrain::silver:
+            case eTerrain::marble:
                 color = {125, 235, 255, 255};
                 break;
             default: break;

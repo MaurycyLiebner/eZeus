@@ -18,6 +18,7 @@
 #include "buildings/ebuildingrenderer.h"
 #include "evaryingsizetex.h"
 #include "ebuildingtextures.h"
+#include "emarbletile.h"
 
 std::shared_ptr<eTexture> getStonesTexture(eTile* const tile,
                           const eTextureCollection& small,
@@ -32,7 +33,6 @@ std::shared_ptr<eTexture> getStonesTexture(eTile* const tile,
 
 std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
                              const eTerrainTextures& textures,
-                             const eBuildingTextures& buildTextures,
                              const eTileSize tileSize,
                              const bool drawElev,
                              int& futureDim,
@@ -241,12 +241,9 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
                                 textures.fHugeTallStoneTerrainTexs,
                                 futureDim, drawDim);
     } break;
-    case eTerrain::tinyStones: {
-        const auto& coll = textures.fTinyStones;
-        const int texId = seed % coll.size();
-        return coll.getTexture(texId);
+    case eTerrain::marble: {
+        return eMarbleTile::get(tile, textures);
     } break;
-
 
     case eTerrain::dryBased:
         break;

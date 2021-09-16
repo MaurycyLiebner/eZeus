@@ -39,6 +39,10 @@ eTerrainTextures::eTerrainTextures(const int tileW, const int tileH,
 
     fTinyStones(renderer),
 
+    fFlatMarble(renderer),
+    fDryToMarble(renderer),
+    fMarble(renderer),
+
     fBuildingBase2(renderer),
     fBuildingBase3(renderer),
 
@@ -252,5 +256,24 @@ void eTerrainTextures::load() {
             texClass.load(i, fFertileToDryTerrainTexs);
         }
     }
+
+
+    {
+        const std::string pathBase{terrDir + "Zeus_QuarryTileSet_"};
+        eTextureClass texClass(pathBase, texLoader);
+
+        for(int i = 1; i < 27; i++) {
+            texClass.load(i, fFlatMarble);
+        }
+
+        for(int i = 27; i < 35; i++) {
+            texClass.load(i, fDryToMarble);
+        }
+
+        for(int i = 35; i < 95; i++) {
+            texClass.load(i, fMarble);
+        }
+    }
+
     texLoader.waitUntilFinished();
 }

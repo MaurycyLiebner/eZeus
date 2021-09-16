@@ -52,6 +52,10 @@ public:
 
     eTextureCollection fTinyStones;
 
+    eTextureCollection fFlatMarble;
+    eTextureCollection fDryToMarble;
+    eTextureCollection fMarble;
+
     std::shared_ptr<eTexture> fBuildingBase;
     std::shared_ptr<eTexture> fSelectedBuildingBase;
 

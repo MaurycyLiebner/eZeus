@@ -187,6 +187,7 @@ SOURCES += \
         textures/egametextures.cpp \
         textures/egodtextures.cpp \
         textures/einterfacetextures.cpp \
+        textures/emarbletile.cpp \
         textures/eparktexture.cpp \
         textures/estonestodry.cpp \
         textures/esurroundingterrain.cpp \
@@ -442,6 +443,7 @@ HEADERS += \
     textures/egametextures.h \
     textures/egodtextures.h \
     textures/einterfacetextures.h \
+    textures/emarbletile.h \
     textures/eparktexture.h \
     textures/estonestodry.h \
     textures/esurroundingterrain.h \
