@@ -80,7 +80,7 @@ void eBuilding::incTime(const int by) {
                 return;
             }
         }
-    } else if(rand() % (1000/by) == 0) {
+    } else if(rand() % (2000/by) == 0) {
         mMaintance = std::max(0, mMaintance - 1);
     } else {
         const int m4 = pow(mMaintance, 4);
