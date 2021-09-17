@@ -14,7 +14,7 @@ eFoundry::eFoundry(eGameBoard& board) :
                                 return t->terrain() == eTerrain::copper;
                              },
                              [](eTile* const t) {
-                                t->setTerrain(eTerrain::flatStones);
+                                t->setTerrain(eTerrain::dry);
                              }, 2, 2, 15,
                              eResourceType::bronze) {
 

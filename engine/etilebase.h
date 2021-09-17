@@ -93,6 +93,9 @@ public:
 
     bool onFire() const { return mOnFire; }
     void setOnFire(const bool of);
+
+    int marbleLevel() const { return mMarbleLevel; };
+    void setMarbleLevel(const int l);
 private:
     int mSeed;
     int mX;
@@ -102,6 +105,7 @@ private:
 
     bool mOnFire{false};
     bool mBusy{false};
+    int mMarbleLevel = 0;
     int mResource = 100;
 
     eTileBase* mTopLeft = nullptr;

@@ -14,7 +14,7 @@ eMint::eMint(eGameBoard& board) :
                                 return t->terrain() == eTerrain::silver;
                              },
                              [](eTile* const t) {
-                                t->setTerrain(eTerrain::flatStones);
+                                t->setTerrain(eTerrain::dry);
                              }, 2, 2, 15,
                              eResourceType::silver) {
 

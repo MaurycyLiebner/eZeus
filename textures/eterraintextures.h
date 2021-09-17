@@ -55,6 +55,7 @@ public:
     eTextureCollection fFlatMarble;
     eTextureCollection fDryToMarble;
     eTextureCollection fMarble;
+    eTextureCollection fDeepMarble;
 
     std::shared_ptr<eTexture> fBuildingBase;
     std::shared_ptr<eTexture> fSelectedBuildingBase;

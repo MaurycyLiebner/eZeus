@@ -42,6 +42,7 @@ eTerrainTextures::eTerrainTextures(const int tileW, const int tileH,
     fFlatMarble(renderer),
     fDryToMarble(renderer),
     fMarble(renderer),
+    fDeepMarble(renderer),
 
     fBuildingBase2(renderer),
     fBuildingBase3(renderer),
@@ -272,6 +273,10 @@ void eTerrainTextures::load() {
 
         for(int i = 35; i < 95; i++) {
             texClass.load(i, fMarble);
+        }
+
+        for(int i = 95; i < 155; i++) {
+            texClass.load(i, fDeepMarble);
         }
     }
 

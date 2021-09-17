@@ -22,6 +22,10 @@ void eTileBase::setOnFire(const bool of) {
     mOnFire = of;
 }
 
+void eTileBase::setMarbleLevel(const int l) {
+    mMarbleLevel = l;
+}
+
 bool eTileBase::walkable() const {
     const auto terr = terrain() & eTerrain::walkable;
     if(!static_cast<bool>(terr)) return false;
