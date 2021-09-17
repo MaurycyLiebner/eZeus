@@ -20,6 +20,7 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fGymnast(renderer),
     fPhilosopher(renderer),
 
+    fMarbleMiner(renderer),
     fSilverMiner(renderer),
     fBronzeMiner(renderer),
     fLumberjack(renderer),
@@ -175,6 +176,13 @@ void eCharacterTextures::load() {
 
     for(int i = 3511; i < 3519; i++) {
         texClass.load(i, fShepherd.fDie);
+    }
+
+    texClass.loadSkipFlipped(fMarbleMiner.fWalk, 11044, 11140);
+    texClass.loadSkipFlipped(fMarbleMiner.fCollect, 11148, 11228);
+
+    for(int i = 11140; i < 11148; i++) {
+        texClass.load(i, fMarbleMiner.fDie);
     }
 
     texClass.loadSkipFlipped(fSilverMiner.fWalk, 3741, 3837);

@@ -32,6 +32,7 @@
 #include "buildings/emint.h"
 #include "buildings/efoundry.h"
 #include "buildings/etimbermill.h"
+#include "buildings/emasonryshop.h"
 #include "buildings/etaxoffice.h"
 #include "buildings/eresourcebuilding.h"
 #include "buildings/ehuntinglodge.h"
@@ -1311,6 +1312,10 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = e::make_shared<eTimberMill>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
+        case eBuildingMode::masonryShop: {
+            const auto b1 = e::make_shared<eMasonryShop>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
 
         case eBuildingMode::oliveTree: {
             const auto b1 = e::make_shared<eResourceBuilding>(
@@ -2008,6 +2013,12 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 2, 2,
                           [this]() { return e::make_shared<eTimberMill>(mBoard); });
+                };
+                break;
+            case eBuildingMode::masonryShop:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eMasonryShop>(mBoard); });
                 };
                 break;
 

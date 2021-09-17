@@ -1,6 +1,6 @@
 #include "emarbletile.h"
 
-bool isEdge(eTile* const tile) {
+bool eMarbleTile::isEdge(eTile* const tile) {
     const auto terr = tile->terrain();
 
     bool tl;

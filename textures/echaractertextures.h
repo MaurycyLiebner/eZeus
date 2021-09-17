@@ -82,6 +82,7 @@ public:
     eBasicCharacterTextures fGymnast;
     eBasicCharacterTextures fPhilosopher;
 
+    eResourceCollectorTextures fMarbleMiner;
     eResourceCollectorTextures fSilverMiner;
     eResourceCollectorTextures fBronzeMiner;
     eResourceCollectorTextures fLumberjack;

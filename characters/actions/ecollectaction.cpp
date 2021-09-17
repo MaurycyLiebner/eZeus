@@ -10,8 +10,13 @@ eCollectAction::eCollectAction(eResourceCollector* const c,
 
 void eCollectAction::increment(const int by) {
     mTime += by;
-    if(mTime > 3500) {
-        mTile->decResource(1);
+    if(mTime > 6000) {
+        const auto terr = mTile->terrain();
+        if(terr == eTerrain::marble) {
+            mTile->decResource(100);
+        } else {
+            mTile->decResource(1);
+        }
         mCharacter->incCollected(1);
         const bool noResLeft = mTile->resource() <= 0;
         if(noResLeft) mTransFunc(mTile);

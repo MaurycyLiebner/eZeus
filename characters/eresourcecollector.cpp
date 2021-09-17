@@ -29,7 +29,11 @@ std::shared_ptr<eTexture> eResourceCollector::getTexture(const eTileSize size) c
         coll = &charTexs.fWalk[oid];
     } break;
     case eCharacterActionType::carry: {
-        coll = &charTexs.fCarry[oid];
+        if(!charTexs.fCarry.size()) {
+            coll = &charTexs.fWalk[oid];
+        } else {
+            coll = &charTexs.fCarry[oid];
+        }
     } break;
     case eCharacterActionType::die:
         wrap = false;

@@ -7,11 +7,11 @@ void eTileBase::setWalkableElev(const bool w) {
 }
 
 void eTileBase::decResource(const int by) {
-    mResource -= by;
+    setResource(mResource - by);
 }
 
 void eTileBase::setResource(const int r) {
-    mResource = r;
+    mResource = std::clamp(r, 0, 100);
 }
 
 void eTileBase::setBusy(const bool b) {

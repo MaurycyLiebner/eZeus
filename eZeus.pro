@@ -45,6 +45,7 @@ SOURCES += \
         buildings/ehospital.cpp \
         buildings/ehuntinglodge.cpp \
         buildings/emaintenanceoffice.cpp \
+        buildings/emasonryshop.cpp \
         buildings/emint.cpp \
         buildings/eoilvendor.cpp \
         buildings/eolivepress.cpp \
@@ -121,6 +122,7 @@ SOURCES += \
         characters/ehorsevendorchar.cpp \
         characters/ehunter.cpp \
         characters/elumberjack.cpp \
+        characters/emarbleminer.cpp \
         characters/eoilvendorchar.cpp \
         characters/ephilosopher.cpp \
         characters/eresourcecollector.cpp \
@@ -279,6 +281,7 @@ HEADERS += \
     buildings/ehospital.h \
     buildings/ehuntinglodge.h \
     buildings/emaintenanceoffice.h \
+    buildings/emasonryshop.h \
     buildings/emint.h \
     buildings/eoilvendor.h \
     buildings/eolivepress.h \
@@ -356,6 +359,7 @@ HEADERS += \
     characters/ehorsevendorchar.h \
     characters/ehunter.h \
     characters/elumberjack.h \
+    characters/emarbleminer.h \
     characters/eoilvendorchar.h \
     characters/ephilosopher.h \
     characters/eresourcecollector.h \

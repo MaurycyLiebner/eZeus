@@ -33,6 +33,7 @@ std::shared_ptr<eTexture> eResourceCollectBuilding::getTexture(const eTileSize s
 
 std::vector<eOverlay> eResourceCollectBuilding::
     getOverlays(const eTileSize size) const {
+    if(!mOverlays) return {};
     const int sizeId = static_cast<int>(size);
     const auto& coll = mTextures[sizeId].*mOverlays;
     const int texId = textureTime() % coll.size();
