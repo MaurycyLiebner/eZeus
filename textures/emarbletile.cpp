@@ -1,5 +1,44 @@
 #include "emarbletile.h"
 
+bool edge(eTile* const tile,
+          bool& tl, bool& tr,
+          bool& br, bool& bl,
+          bool& t, bool& r,
+          bool& b, bool& l) {
+    const auto terr = tile->terrain();
+
+    tile->neighboursWithTerrain(terr, tl, tr, br, bl, t, r, b, l);
+    const auto tlt = tile->topLeft();
+    tl = tl || !tlt || !tlt->marbleLevel();
+    const auto trt = tile->topRight();
+    tr = tr || !trt || !trt->marbleLevel();
+    const auto brt = tile->bottomRight();
+    br = br || !brt || !brt->marbleLevel();
+    const auto blt = tile->bottomLeft();
+    bl = bl || !blt || !blt->marbleLevel();
+    const auto tt = tile->top();
+    t = t || !tt || !tt->marbleLevel();
+    const auto rt = tile->right();
+    r = r || !rt || !rt->marbleLevel();
+    const auto bt = tile->bottom();
+    b = b || !bt || !bt->marbleLevel();
+    const auto lt = tile->left();
+    l = l || !lt || !lt->marbleLevel();
+    return tl || tr || br || bl || t || r || b || l;
+}
+
+bool edge(eTile* const tile) {
+    bool tl;
+    bool tr;
+    bool br;
+    bool bl;
+    bool t;
+    bool r;
+    bool b;
+    bool l;
+    return edge(tile, tl, tr, br, bl, t, r, b, l);
+}
+
 bool eMarbleTile::isEdge(eTile* const tile) {
     const auto terr = tile->terrain();
 
@@ -30,8 +69,6 @@ std::shared_ptr<eTexture> eMarbleTile::get(
         return fm.getTexture(id);
     }
 
-    const auto terr = tile->terrain();
-
     bool tl;
     bool tr;
     bool br;
@@ -40,35 +77,33 @@ std::shared_ptr<eTexture> eMarbleTile::get(
     bool r;
     bool b;
     bool l;
-    tile->neighboursWithTerrain(terr, tl, tr, br, bl, t, r, b, l);
+    const bool e = edge(tile, tl, tr, br, bl, t, r, b, l);
 
-    const bool edge = tl || tr || br || bl || t || r || b || l;
-
-    if(!edge) {
+    if(!e) {
         if(ml == 1) {
             return textures.fMarble.getTexture(seed % 6);
         }
 
         const auto tlt = tile->topLeft<eTile>();
-        tl = !tlt || isEdge(tlt);
+        tl = !tlt || edge(tlt);
         const auto trt = tile->topRight<eTile>();
-        tr = !trt || isEdge(trt);
+        tr = !trt || edge(trt);
         const auto blt = tile->bottomLeft<eTile>();
-        bl = !blt || isEdge(blt);
+        bl = !blt || edge(blt);
         const auto brt = tile->bottomRight<eTile>();
-        br = !brt || isEdge(brt);
+        br = !brt || edge(brt);
 
         const auto tt = tile->top<eTile>();
-        t = !tt || isEdge(tt);
+        t = !tt || edge(tt);
         const auto rt = tile->right<eTile>();
-        r = !rt || isEdge(rt);
+        r = !rt || edge(rt);
         const auto bt = tile->bottom<eTile>();
-        b = !bt || isEdge(bt);
+        b = !bt || edge(bt);
         const auto lt = tile->left<eTile>();
-        l = !lt || isEdge(lt);
+        l = !lt || edge(lt);
     }
 
-    const auto& coll = edge ? textures.fMarble : textures.fDeepMarble;
+    const auto& coll = e ? textures.fMarble : textures.fDeepMarble;
 
     if(t && b && r && l && br && bl && tl && tr) {
         return coll.getTexture(37);
