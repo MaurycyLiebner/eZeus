@@ -87,6 +87,7 @@ SOURCES += \
         characters/actions/edieaction.cpp \
         characters/actions/efightaction.cpp \
         characters/actions/efirefighteraction.cpp \
+        characters/actions/efollowaction.cpp \
         characters/actions/egodvisitaction.cpp \
         characters/actions/egroweraction.cpp \
         characters/actions/ehuntaction.cpp \
@@ -324,6 +325,7 @@ HEADERS += \
     characters/actions/edieaction.h \
     characters/actions/efightaction.h \
     characters/actions/efirefighteraction.h \
+    characters/actions/efollowaction.h \
     characters/actions/egodvisitaction.h \
     characters/actions/egroweraction.h \
     characters/actions/ehuntaction.h \

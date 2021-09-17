@@ -19,10 +19,11 @@ public:
     bool walkable(eTileBase* const tile) const;
 
     void increment(const int by);
+protected:
+    bool nextTurn();
 private:
     virtual eCharacterActionState nextTurn(eOrientation& t) = 0;
     void moveBy(const double inc);
-    bool nextTurn();
     void moveToTargetTile();
 
     const eTileWalkable mTileWalkable;
