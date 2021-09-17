@@ -462,6 +462,9 @@ void eBuildingTextures::load() {
             }
         }
 
+        texClass.loadSkipFlipped(fMasonryShopOverlay1, 1937, 2017);
+        texClass.loadSkipFlipped(fMasonryShopOverlay2, 2017, 2097);
+
         for(int i = 2759; i < 2790; i++) {
             texClass.load(i, fFishPondOverlay);
         }

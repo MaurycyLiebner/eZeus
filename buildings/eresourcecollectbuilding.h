@@ -33,6 +33,9 @@ public:
     void timeChanged(const int by);
 
     bool spawn();
+protected:
+    void enableSpawn() { mSpawnEnabled = true; }
+    void disableSpawn() { mSpawnEnabled = false; }
 private:
     const eCharGenerator mCharGenerator;
     const std::vector<eBuildingTextures>& mTextures;
@@ -47,6 +50,8 @@ private:
     const eTranformFunc mTransFunc;
 
     stdsptr<eResourceCollector> mCollector;
+
+    bool mSpawnEnabled = true;
 
     int mWaitTime = 5000;
     int mSpawnTime = mWaitTime;

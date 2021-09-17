@@ -92,7 +92,7 @@ std::vector<eOverlay> eResourceCollectBuilding::
 
 void eResourceCollectBuilding::timeChanged(const int by) {
     eResourceBuildingBase::timeChanged(by);
-    if(enabled() && !mCollector && time() > mSpawnTime) {
+    if(enabled() && mSpawnEnabled && !mCollector && time() > mSpawnTime) {
         spawn();
         mSpawnTime = time() + mWaitTime;
     }

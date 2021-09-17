@@ -28,6 +28,70 @@ eMasonryShop::eMasonryShop(eGameBoard& board) :
                                     }
                                 }
                              }, 2, 2, 15,
-                             eResourceType::marble) {
+                             eResourceType::marble) {}
 
+std::vector<eOverlay>
+eMasonryShop::getOverlays(const eTileSize size) const {
+    const int sizeId = static_cast<int>(size);
+    const auto& btexs = eGameTextures::buildings()[sizeId];
+    std::vector<eOverlay> os;
+    if(mRawCount) {
+        const auto& stones = btexs.fMasonryShopStones;
+        const int sid = std::clamp(8 - mRawCount, 0, stones.size());
+        eOverlay o;
+        o.fAlignTop = true;
+        o.fTex = stones.getTexture(sid);
+        o.fX = 0.25;
+        o.fY = -0.75;
+        if(sid > 0 && sid < 4) {
+            o.fX -= 0.1;
+            o.fY -= 0.1;
+        } else if(sid == 4) {
+            o.fY -= 0.15;
+        } else if(sid == 5) {
+            o.fX -= 0.10;
+            o.fY -= 0.20;
+        } else if(sid == 6) {
+            o.fY -= 0.5;
+        } else if(sid == 7) {
+            o.fX -= 0.25;
+            o.fY -= 0.5;
+        }
+        os.push_back(o);
+
+        if(sid < 4) {
+            eOverlay o;
+            const auto& ov = btexs.fMasonryShopOverlay1[0];
+            const int id = textureTime() % ov.size();
+            o.fTex = ov.getTexture(id);
+            o.fX = 0.50;
+            o.fY = -0.90;
+            os.push_back(o);
+        } else {
+            eOverlay o;
+            const auto& ov = btexs.fMasonryShopOverlay2[0];
+            const int id = textureTime() % ov.size();
+            o.fTex = ov.getTexture(id);
+            o.fX = 0.50;
+            o.fY = -1.00;
+            os.push_back(o);
+        }
+    }
+
+    return os;
+}
+
+void eMasonryShop::timeChanged(const int by) {
+    if(enabled()) {
+        if(time() > mProcessTime) {
+            if(mRawCount > 0) {
+                const int c = eResourceCollectBuilding::add(
+                                  eResourceType::marble, 1);
+                mRawCount -= c;
+                if(mRawCount <= 0) enableSpawn();
+            }
+            mProcessTime = time() + mProcessWaitTime;
+        }
+    }
+    eResourceCollectBuilding::timeChanged(by);
 }
