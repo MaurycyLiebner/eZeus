@@ -28,6 +28,9 @@ enum class eCharacterType {
     armsVendor,
     horseTrainer,
 
+    trailer,
+    ox,
+    oxHandler,
     marbleMiner,
     lumberjack,
     bronzeMiner,

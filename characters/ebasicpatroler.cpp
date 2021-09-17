@@ -6,14 +6,14 @@ eBasicPatroler::eBasicPatroler(eGameBoard& board,
                                const eCharTexs charTexs,
                                const eCharacterType type) :
     eCharacter(board, type),
-    mTextures(eGameTextures::characters()),
     mCharTexs(charTexs) {
 
 }
 
 std::shared_ptr<eTexture> eBasicPatroler::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
-    const auto& charTexs = mTextures[id].*mCharTexs;
+    const auto& gTexs = eGameTextures::characters();
+    const auto& charTexs = gTexs[id].*mCharTexs;
     const eTextureCollection* coll = nullptr;
     bool wrap = true;
     const int oid = static_cast<int>(orientation());

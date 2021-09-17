@@ -20,6 +20,18 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fGymnast(renderer),
     fPhilosopher(renderer),
 
+    fOx(renderer),
+    fOxHandler(renderer),
+
+    fEmptyTrailer(renderer),
+    fWoodTrailer1(renderer),
+    fWoodTrailer2(renderer),
+    fMarbleTrailer1(renderer),
+    fMarbleTrailer2(renderer),
+    fSculptureTrailer(renderer),
+    fEmptyBigTrailer(renderer),
+    fMarbleBigTrailer(renderer),
+
     fMarbleMiner(renderer),
     fSilverMiner(renderer),
     fBronzeMiner(renderer),
@@ -98,6 +110,44 @@ void eCharacterTextures::load() {
 
     for(int i = 201; i < 209; i++) {
         texClass.load(i, fActor.fDie);
+    }
+
+    texClass.loadSkipFlipped(fOx.fWalk, 209, 305);
+
+    for(int i = 497; i < 505; i++) {
+        texClass.load(i, fOx.fDie);
+    }
+
+    texClass.loadSkipFlipped(fOxHandler.fWalk, 1337, 1433);
+
+    for(int i = 1433; i < 1441; i++) {
+        texClass.load(i, fOxHandler.fDie);
+    }
+
+    for(int i = 2991; i < 2999; i++) {
+        texClass.load(i, fEmptyTrailer);
+    }
+    for(int i = 2999; i < 3007; i++) {
+        texClass.load(i, fWoodTrailer1);
+    }
+    for(int i = 3007; i < 3015; i++) {
+        texClass.load(i, fWoodTrailer2);
+    }
+    for(int i = 3015; i < 3023; i++) {
+        texClass.load(i, fMarbleTrailer1);
+    }
+    for(int i = 3023; i < 3031; i++) {
+        texClass.load(i, fMarbleTrailer2);
+    }
+    for(int i = 3031; i < 3039; i++) {
+        texClass.load(i, fSculptureTrailer);
+    }
+
+    for(int i = 3039; i < 3047; i++) {
+        texClass.load(i, fEmptyBigTrailer);
+    }
+    for(int i = 3047; i < 3055; i++) {
+        texClass.load(i, fMarbleBigTrailer);
     }
 
     texClass.loadSkipFlipped(fSettlers1.fWalk, 505, 601);

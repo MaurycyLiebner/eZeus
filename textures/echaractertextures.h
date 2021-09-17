@@ -82,6 +82,19 @@ public:
     eBasicCharacterTextures fGymnast;
     eBasicCharacterTextures fPhilosopher;
 
+    eBasicCharacterTextures fOx;
+    eBasicCharacterTextures fOxHandler;
+
+    eTextureCollection fEmptyTrailer;
+    eTextureCollection fWoodTrailer1;
+    eTextureCollection fWoodTrailer2;
+    eTextureCollection fMarbleTrailer1;
+    eTextureCollection fMarbleTrailer2;
+    eTextureCollection fSculptureTrailer;
+
+    eTextureCollection fEmptyBigTrailer;
+    eTextureCollection fMarbleBigTrailer;
+
     eResourceCollectorTextures fMarbleMiner;
     eResourceCollectorTextures fSilverMiner;
     eResourceCollectorTextures fBronzeMiner;

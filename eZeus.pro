@@ -125,6 +125,8 @@ SOURCES += \
         characters/elumberjack.cpp \
         characters/emarbleminer.cpp \
         characters/eoilvendorchar.cpp \
+        characters/eox.cpp \
+        characters/eoxhandler.cpp \
         characters/ephilosopher.cpp \
         characters/eresourcecollector.cpp \
         characters/esettler.cpp \
@@ -132,6 +134,7 @@ SOURCES += \
         characters/eshepherd.cpp \
         characters/esilverminer.cpp \
         characters/etaxcollector.cpp \
+        characters/etrailer.cpp \
         characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
         characters/ewildanimal.cpp \
@@ -363,6 +366,8 @@ HEADERS += \
     characters/elumberjack.h \
     characters/emarbleminer.h \
     characters/eoilvendorchar.h \
+    characters/eox.h \
+    characters/eoxhandler.h \
     characters/ephilosopher.h \
     characters/eresourcecollector.h \
     characters/esettler.h \
@@ -370,6 +375,7 @@ HEADERS += \
     characters/eshepherd.h \
     characters/esilverminer.h \
     characters/etaxcollector.h \
+    characters/etrailer.h \
     characters/ewatchman.h \
     characters/ewaterdistributor.h \
     characters/ewildanimal.h \
