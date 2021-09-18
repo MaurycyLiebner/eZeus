@@ -14,9 +14,11 @@ public:
                   eTextureLoader& texLoader,
                   const eOffsets* const offs = nullptr);
 
-    void load(const int i, eTextureCollection& coll);
+    std::shared_ptr<eTexture>
+        load(const int i, eTextureCollection& coll);
 
-    std::shared_ptr<eTexture> load(const int i);
+    std::shared_ptr<eTexture>
+        load(const int i);
 
     void loadSkipFlipped(std::vector<eTextureCollection>& colls,
                          const int i0, const int i1);

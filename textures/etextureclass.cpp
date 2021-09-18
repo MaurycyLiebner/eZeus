@@ -10,13 +10,14 @@ eTextureClass::eTextureClass(const std::string& pathBase,
     mTexLoader(texLoader),
     mOffset(offs) {}
 
-void eTextureClass::load(const int i, eTextureCollection& coll) {
+std::shared_ptr<eTexture>
+eTextureClass::load(const int i, eTextureCollection& coll) {
     if(mOffset) {
-        eTextureLoadingHelpers::queLoadTexWithOffset(
+        return eTextureLoadingHelpers::queLoadTexWithOffset(
                     mPathBase, i, coll,
                     *mOffset, mTexLoader);
     } else {
-        eTextureLoadingHelpers::queLoadTex(
+        return eTextureLoadingHelpers::queLoadTex(
                     mPathBase, i, coll,
                     mTexLoader);
     }
