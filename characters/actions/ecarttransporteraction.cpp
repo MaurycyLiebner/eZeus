@@ -8,7 +8,7 @@
 
 eCartTransporterAction::eCartTransporterAction(
         eBuilding* const b,
-        eCartTransporter* const c,
+        eTransporterBase* const c,
         const eCartActionType aType,
         const eResourceType resType,
         const eAction& foundAction,
@@ -26,7 +26,7 @@ eCartTransporterAction::eCartTransporterAction(
 
 eCartTransporterAction::eCartTransporterAction(
         eBuilding* const b,
-        eCartTransporter* const c,
+        eTransporterBase* const c,
         const eCartActionType aType,
         const eResourceType resType,
         const eAction& failAction,
@@ -166,20 +166,20 @@ bool eCartTransporterAction::resourceAction() {
     const auto b = nn->underBuilding();
     if(!b) return false;
     if(const auto rb = dynamic_cast<eBuildingWithResource*>(b)) {
-        const auto rt = c->resourceType();
-        const int rc = c->resourceCount();
+        const auto rt = c->resType();
+        const int rc = c->resCount();
 
         if(mActionType == eCartActionType::give) {
             if(rt == eResourceType::none) return false;
             const int a = rb->add(rt, rc);
             c->setResource(rt, rc - a);
-            return c->resourceCount() == 0;
+            return c->resCount() == 0;
         } else {
             if(rt != eResourceType::none &&
                rt != mResource) return false;
             const int t = rb->take(mResource, 8 - rc);
             c->setResource(mResource, t + rc);
-            return c->resourceCount() > 0;
+            return c->resCount() > 0;
         }
     }
     return false;

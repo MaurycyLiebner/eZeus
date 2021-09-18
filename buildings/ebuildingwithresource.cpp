@@ -1,21 +1,52 @@
 #include "ebuildingwithresource.h"
 
+#include "characters/etrailer.h"
+#include "characters/eox.h"
+#include "characters/eoxhandler.h"
+#include "characters/etrailer.h"
+
 #include "characters/actions/ecarttransporteraction.h"
+#include "characters/actions/efollowaction.h"
 
 bool eBuildingWithResource::spawnGiveCart(
-        stdsptr<eCartTransporter>& cart,
+        stdsptr<eTransporterBase>& cart,
         int& spawnTime, const int waitTime,
         const eResourceType resType) {
     if(count(resType) <= 0) return false;
-    cart = e::make_shared<eCartTransporter>(getBoard());
+    auto& board = getBoard();
     const auto t = centerTile();
+    if(resType == eResourceType::marble ||
+       resType == eResourceType::wood ||
+       resType == eResourceType::sculpture) {
+        cart = e::make_shared<eOxHandler>(board);
+        const auto ox = e::make_shared<eOx>(board);
+        const auto aox = e::make_shared<eFollowAction>(
+                           cart.get(), ox.get(),
+                           []() {}, []() {});
+        ox->setAction(aox);
+        ox->changeTile(t);
+        const auto tr = e::make_shared<eTrailer>(cart.get(), board);
+        const auto atr = e::make_shared<eFollowAction>(
+                           ox.get(), tr.get(),
+                           []() {}, []() {});
+        tr->setAction(atr);
+        tr->changeTile(t);
+    } else {
+        cart = e::make_shared<eCartTransporter>(board);
+    }
     cart->changeTile(t);
 
     const eStdPointer<eBuildingWithResource> tptr(this);
-    const eStdPointer<eCartTransporter> hptr(cart);
+    const eStdPointer<eTransporterBase> hptr(cart);
     const auto foundAct = [tptr, this, hptr, resType] {
         if(!tptr || !hptr) return;
-        const int took = take(resType, 8);
+        int max = 8;
+        if(resType == eResourceType::marble) {
+            max = 4;
+        } else if(resType == eResourceType::sculpture) {
+            max = 1;
+        }
+        const int took = take(resType, max);
         hptr->setResource(resType, took);
     };
     const auto finishAct = [tptr, this, hptr,
@@ -30,7 +61,7 @@ bool eBuildingWithResource::spawnGiveCart(
     };
     const auto failAct = [hptr, tptr, this, finishAct]() {
         if(!hptr || !tptr) return;
-        add(hptr->resourceType(), hptr->resourceCount());
+        add(hptr->resType(), hptr->resCount());
         finishAct();
     };
     const auto a = e::make_shared<eCartTransporterAction>(
@@ -42,15 +73,15 @@ bool eBuildingWithResource::spawnGiveCart(
 }
 
 bool eBuildingWithResource::depositFromCart(
-        stdsptr<eCartTransporter>& cart,
+        stdsptr<eTransporterBase>& cart,
         int& spawnTime, const int waitTime) {
     if(!cart) return false;
-    const auto resType = cart->resourceType();
+    const auto resType = cart->resType();
     if(spaceLeft(resType) <= 0) return false;
-    const int count = cart->resourceCount();
+    const int count = cart->resCount();
     const int added = add(resType, count);
     cart->setResource(resType, count - added);
-    const int newCount = cart->resourceCount();
+    const int newCount = cart->resCount();
     if(newCount <= 0) {
         spawnTime = time() + waitTime;
         cart->changeTile(nullptr);
@@ -62,7 +93,7 @@ bool eBuildingWithResource::depositFromCart(
 }
 
 bool eBuildingWithResource::spawnTakeCart(
-        stdsptr<eCartTransporter>& cart,
+        stdsptr<eTransporterBase>& cart,
         int& spawnTime, const int waitTime,
         const eResourceType resType) {
     if(cart) depositFromCart(cart, spawnTime, waitTime);

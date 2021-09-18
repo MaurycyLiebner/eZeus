@@ -2,25 +2,21 @@
 #define ETRAILER_H
 
 #include "echaracter.h"
-
-#include "engine/eresourcetype.h"
+#include "etransporterbase.h"
 
 class eTrailer : public eCharacter {
 public:
-    eTrailer(eGameBoard& board);
+    eTrailer(eTransporterBase* const follow,
+             eGameBoard& board);
 
     std::shared_ptr<eTexture>
         getTexture(const eTileSize size) const;
 
-    void setResource(const eResourceType type,
-                     const int count);
-
     void setBig(const bool b) { mIsBig = b; }
 private:
-    bool mIsBig = false;
+    const stdptr<eTransporterBase> mFollow;
 
-    int mResourceCount = 0;
-    eResourceType mResourceType = eResourceType::none;
+    bool mIsBig = false;
 };
 
 #endif // ETRAILER_H

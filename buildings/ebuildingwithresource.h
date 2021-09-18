@@ -5,7 +5,7 @@
 
 #include "engine/eresourcetype.h"
 
-class eCartTransporter;
+class eTransporterBase;
 enum class eCartActionType;
 
 class eBuildingWithResource : public eBuilding {
@@ -33,14 +33,14 @@ public:
         return 0;
     }
 protected:
-    bool spawnGiveCart(stdsptr<eCartTransporter>& cart,
+    bool spawnGiveCart(stdsptr<eTransporterBase>& cart,
                        int& spawnTime, const int waitTime,
                        const eResourceType resType);
-    bool spawnTakeCart(stdsptr<eCartTransporter>& cart,
+    bool spawnTakeCart(stdsptr<eTransporterBase>& cart,
                        int& spawnTime, const int waitTime,
                        const eResourceType resType);
 private:
-    bool depositFromCart(stdsptr<eCartTransporter>& cart,
+    bool depositFromCart(stdsptr<eTransporterBase>& cart,
                          int& spawnTime, const int waitTime);
 };
 

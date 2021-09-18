@@ -3,8 +3,8 @@
 #include "textures/egametextures.h"
 
 eCartTransporter::eCartTransporter(eGameBoard& board) :
-    eBasicPatroler(board, &eCharacterTextures::fTransporter,
-                   eCharacterType::cartTransporter) {
+    eTransporterBase(board, &eCharacterTextures::fTransporter,
+                     eCharacterType::cartTransporter) {
     setHasSecondaryTexture(true);
 }
 
@@ -19,7 +19,10 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
 
     int ci = 0;
 
-    switch(mResourceType) {
+    const auto rType = resType();
+    const int rCount = resCount();
+
+    switch(rType) {
     case eResourceType::urchin:
     case eResourceType::fish:
     case eResourceType::meat:
@@ -29,14 +32,14 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
     case eResourceType::wheat:
     case eResourceType::grapes:
     case eResourceType::olives:
-        ci = std::clamp(mResourceCount/4, 0, 2);
+        ci = std::clamp(rCount/4, 0, 2);
         break;
     case eResourceType::wine:
     case eResourceType::oliveOil:
     case eResourceType::fleece:
     case eResourceType::bronze:
     case eResourceType::armor:
-        ci = std::clamp(mResourceCount/4, 0, 1);
+        ci = std::clamp(rCount/4, 0, 1);
         break;
     default: break;
     }
@@ -79,10 +82,10 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
     }
 
     std::shared_ptr<eTexture> tex;
-    if(mResourceCount <= 0) {
+    if(rCount <= 0) {
         tex = texs.fEmptyCart.getTexture(oi);
     } else {
-        switch(mResourceType) {
+        switch(rType) {
         case eResourceType::urchin:
             tex = texs.fUrchinCart[oi].getTexture(ci);
             break;
@@ -134,10 +137,4 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
         }
     }
     return {xx, yy, tex};
-}
-
-void eCartTransporter::setResource(const eResourceType type,
-                                   const int count) {
-    mResourceType = type;
-    mResourceCount = count;
 }

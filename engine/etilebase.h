@@ -31,6 +31,9 @@ public:
     eTerrain terrain() const { return mTerr; }
     double scrub() const { return mScrub; }
 
+    static double sDistance(eTileBase* const t1,
+                            eTileBase* const t2);
+
     void setSeed(const int s);
     void setX(const int x);
     void setY(const int y);

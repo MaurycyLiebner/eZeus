@@ -4,29 +4,43 @@
 
 #include "engine/emainthreadpathfinder.h"
 
-bool allWalkable(eTileBase*) {
-    return true;
+bool allWalkable(eTileBase* const tile) {
+    return tile->hasRoad();
+    return tile->walkable();
 }
 
 eFollowAction::eFollowAction(eCharacter* const f,
                              eCharacter* const c,
                              const eAction& failAction,
                              const eAction& finishAction) :
-    eMoveAction(c, allWalkable, failAction, finishAction),
-    mFollow(f) {}
+    eCharacterAction(c, failAction, finishAction),
+    mFollow(f) {
+    c->setActionType(eCharacterActionType::stand);
+}
 
-eCharacterActionState eFollowAction::nextTurn(eOrientation& t) {
-    if(!mFollow) return eCharacterActionState::finished;
+void eFollowAction::setDistance(const int d) {
+    mDistance = d;
+}
+
+void eFollowAction::increment(const int by) {
+    (void)by;
+    if(mPaused) {
+        if(mPauseTile == mFollow->tile()) return;
+        mPaused = false;
+    }
+    if(!mFollow) return setState(eCharacterActionState::finished);
     const auto ft = mFollow->tile();
-    if(!ft) return eCharacterActionState::finished;
+    if(!ft) return setState(eCharacterActionState::finished);
     const auto c = character();
+    c->setActionType(eCharacterActionType::walk);
 
     const auto pause = [&]() {
-        t = c->orientation();
         mPaused = true;
         mPauseTile = ft;
+        c->setActionType(eCharacterActionType::stand);
     };
-    if(c->tile() == ft) {
+    const auto cTile = c->tile();
+    if(eTileBase::sDistance(cTile, ft) < mDistance) {
         pause();
     } else {
         const auto finish = [&](eTile* const tile) {
@@ -36,21 +50,20 @@ eCharacterActionState eFollowAction::nextTurn(eOrientation& t) {
         };
         std::vector<eOrientation> path;
         eMainThreadPathFinder pf(allWalkable, finish);
-        pf.findPath(c->tile(), 5, path, false);
-        if(path.empty()) {
+        pf.findPath(cTile, 10, path, false);
+        eOrientation oo{mFollow->orientation()};
+        auto tt = ft;
+        const int iMax = path.size();
+        for(int i = 0; i < mDistance && i < iMax; i++) {
+            oo = path[i];
+            tt = tt->neighbour<eTile>(!oo);
+        }
+
+        if(tt == cTile) {
             pause();
         } else {
-            t = path.back();
+            c->changeTile(tt);
+            c->setOrientation(oo);
         }
     }
-    return eCharacterActionState::running;
-}
-
-void eFollowAction::increment(const int by) {
-    if(mPaused) {
-        if(mPauseTile == mFollow->tile()) return;
-        mPaused = false;
-        eMoveAction::nextTurn();
-    }
-    return eMoveAction::increment(by);
 }

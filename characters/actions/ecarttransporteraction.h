@@ -12,13 +12,13 @@ enum class eCartActionType {
 class eCartTransporterAction : public eActionWithComeback {
 public:
     eCartTransporterAction(eBuilding* const b,
-                           eCartTransporter* const c,
+                           eTransporterBase* const c,
                            const eCartActionType aType,
                            const eResourceType resType,
                            const eAction& failAction,
                            const eAction& finishAction);
     eCartTransporterAction(eBuilding* const b,
-                           eCartTransporter* const c,
+                           eTransporterBase* const c,
                            const eCartActionType aType,
                            const eResourceType resType,
                            const eAction& foundAction,

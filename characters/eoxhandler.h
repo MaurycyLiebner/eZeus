@@ -1,9 +1,9 @@
 #ifndef EOXHANDLER_H
 #define EOXHANDLER_H
 
-#include "ebasicpatroler.h"
+#include "etransporterbase.h"
 
-class eOxHandler : public eBasicPatroler {
+class eOxHandler : public eTransporterBase {
 public:
     eOxHandler(eGameBoard& board);
 };

@@ -56,6 +56,13 @@ bool eTileBase::isElevationTile() const {
     return false;
 }
 
+double eTileBase::sDistance(eTileBase* const t1,
+                            eTileBase* const t2) {
+    const int dx = t1->x() - t2->x();
+    const int dy = t1->y() - t2->y();
+    return sqrt(dx*dx + dy*dy);
+}
+
 void eTileBase::setSeed(const int s) {
     mSeed = s;
 }

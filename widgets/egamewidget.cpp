@@ -871,7 +871,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 drawXY(tx, ty, rx, ry, tbr->spanW(), tbr->spanH(), a);
                 tbr->draw(tp, rx, ry);
             }
-            if(tbr->isMain()) {
+            if(ub && tbr && tbr->isMain()) {
                 if(mViewMode == eViewMode::hazards) {
                     const auto diff = mBoard.difficulty();
                     const int fr = eDifficultyHelpers::fireRisk(diff, type);

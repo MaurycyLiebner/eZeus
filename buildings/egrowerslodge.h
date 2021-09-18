@@ -37,7 +37,7 @@ private:
     int mOlives{0};
     int mOranges{0};
 
-    stdsptr<eCartTransporter> mCart;
+    stdsptr<eTransporterBase> mCart;
     const int mCartWaitTime = 5000;
     int mCartSpawnTime = mCartWaitTime;
 

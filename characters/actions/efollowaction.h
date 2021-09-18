@@ -7,19 +7,20 @@
 
 #include "pointers/estdpointer.h"
 
-class eFollowAction : public eMoveAction {
+class eFollowAction : public eCharacterAction {
 public:
     eFollowAction(eCharacter* const f,
                   eCharacter* const c,
                   const eAction& failAction,
                   const eAction& finishAction);
-private:
-    eCharacterActionState nextTurn(eOrientation& t);
 
+    void setDistance(const int d);
+private:
     void increment(const int by);
 
     const stdptr<eCharacter> mFollow;
 
+    int mDistance = 1;
     bool mPaused = true;
     eTile* mPauseTile = nullptr;
 };

@@ -43,7 +43,7 @@ private:
 
     int mResource{0};
 
-    stdsptr<eCartTransporter> mCart;
+    stdsptr<eTransporterBase> mCart;
     int mCartWaitTime = 5000;
     int mCartSpawnTime = mCartWaitTime;
 };

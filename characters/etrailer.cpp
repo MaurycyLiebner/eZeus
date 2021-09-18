@@ -2,28 +2,33 @@
 
 #include "textures/egametextures.h"
 
-eTrailer::eTrailer(eGameBoard& board) :
-    eCharacter(board, eCharacterType::trailer) {}
+eTrailer::eTrailer(eTransporterBase* const follow,
+                   eGameBoard& board) :
+    eCharacter(board, eCharacterType::trailer),
+    mFollow(follow) {}
 
 std::shared_ptr<eTexture>
 eTrailer::getTexture(const eTileSize size) const {
+    if(!mFollow) return nullptr;
     const int id = static_cast<int>(size);
     const auto& charTexs = eGameTextures::characters()[id];
     const int oid = static_cast<int>(orientation());
     const eTextureCollection* coll = nullptr;
-    if(mResourceCount <= 0) {
+    const int resCount = mFollow->resCount();
+    const auto resType = mFollow->resType();
+    if(resCount <= 0) {
         if(mIsBig) {
             coll = &charTexs.fEmptyBigTrailer;
         } else {
             coll = &charTexs.fEmptyTrailer;
         }
     } else {
-        switch(mResourceType) {
+        switch(resType) {
         case eResourceType::marble: {
             if(mIsBig) {
                 coll = &charTexs.fMarbleBigTrailer;
             } else {
-                if(mResourceCount >= 4) {
+                if(resCount >= 4) {
                     coll = &charTexs.fMarbleTrailer2;
                 } else {
                     coll = &charTexs.fMarbleTrailer1;
@@ -31,7 +36,7 @@ eTrailer::getTexture(const eTileSize size) const {
             }
         } break;
         case eResourceType::wood: {
-            if(mResourceCount >= 8) {
+            if(resCount >= 8) {
                 coll = &charTexs.fWoodTrailer2;
             } else {
                 coll = &charTexs.fWoodTrailer1;
@@ -51,10 +56,4 @@ eTrailer::getTexture(const eTileSize size) const {
     }
 
     return coll->getTexture(oid);
-}
-
-void eTrailer::setResource(const eResourceType type,
-                           const int count) {
-    mResourceType = type;
-    mResourceCount = count;
 }

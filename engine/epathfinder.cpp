@@ -127,15 +127,15 @@ bool ePathFinder::findPath(eTileBase* const start,
         using eNeigh = std::pair<eOrientation, eTilePair>;
         std::vector<eNeigh> neighs{
                 {eOrientation::bottomLeft, tr},
+                {eOrientation::topLeft, br},
+                {eOrientation::topRight, bl},
+                {eOrientation::bottomRight, tl},
                 {eOrientation::left, onlyDiagonal ? eTilePair{nullptr, nullptr}
                                                   : tileGetter(tile, 1, -1)},
-                {eOrientation::topLeft, br},
                 {eOrientation::top, onlyDiagonal ? eTilePair{nullptr, nullptr}
                                                  : tileGetter(tile, 1, 1)},
-                {eOrientation::topRight, bl},
                 {eOrientation::right, onlyDiagonal ? eTilePair{nullptr, nullptr}
                                                    : tileGetter(tile, -1, 1)},
-                {eOrientation::bottomRight, tl},
                 {eOrientation::bottom, onlyDiagonal ? eTilePair{nullptr, nullptr}
                                                     : tileGetter(tile, -1, -1)}};
 

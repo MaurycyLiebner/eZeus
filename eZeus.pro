@@ -135,6 +135,7 @@ SOURCES += \
         characters/esilverminer.cpp \
         characters/etaxcollector.cpp \
         characters/etrailer.cpp \
+        characters/etransporterbase.cpp \
         characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
         characters/ewildanimal.cpp \
@@ -376,6 +377,7 @@ HEADERS += \
     characters/esilverminer.h \
     characters/etaxcollector.h \
     characters/etrailer.h \
+    characters/etransporterbase.h \
     characters/ewatchman.h \
     characters/ewaterdistributor.h \
     characters/ewildanimal.h \

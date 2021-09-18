@@ -72,8 +72,8 @@ private:
 
     const int mCartWaitTime = 5000;
     int mCartTime = 0;
-    stdsptr<eCartTransporter> mCart1;
-    stdsptr<eCartTransporter> mCart2;
+    stdsptr<eTransporterBase> mCart1;
+    stdsptr<eTransporterBase> mCart2;
 };
 
 #endif // ESTORAGEBUILDING_H
