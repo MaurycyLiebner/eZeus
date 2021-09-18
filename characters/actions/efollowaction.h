@@ -32,6 +32,7 @@ private:
     int mDistance = 1;
     bool mPaused = true;
     eTile* mPauseTile = nullptr;
+    int mPos = 0;
 };
 
 

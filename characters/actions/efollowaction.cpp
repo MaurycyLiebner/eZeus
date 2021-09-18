@@ -27,12 +27,23 @@ void eFollowAction::increment(const int by) {
     if(!mFollow) return setState(eCharacterActionState::finished);
     const auto ft = mFollow->tile();
     if(!ft) return setState(eCharacterActionState::finished);
-    if(!mTiles.empty() && ft == mTiles.back().fTile) return;
-    mTiles.push({ft, mFollow->orientation()});
-    const int tmax = mTiles.size();
-    const auto pn = mTiles.front();
-    if(tmax > mDistance) mTiles.pop();
     const auto c = character();
+    if(!mTiles.empty()) {
+        auto& b = mTiles.back();
+        if(ft == b.fTile) {
+            b.fO = mFollow->orientation();
+            return;
+        }
+    }
+    mTiles.push({ft, mFollow->orientation()});
+    const int nt = mTiles.size();
+    if(nt < mDistance + 1) return;
+    if(nt > mDistance + 1) mTiles.pop();
+    const auto pn = mTiles.front();
+    c->setActionType(eCharacterActionType::walk);
     c->changeTile(pn.fTile);
     c->setOrientation(pn.fO);
+    c->setX(0.5);
+    c->setY(0.5);
+    mPos = 1;
 }
