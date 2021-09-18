@@ -3,13 +3,15 @@
 
 #include <queue>
 
-#include "emoveaction.h"
+#include "ecomplexaction.h"
 
 #include "engine/eorientation.h"
 
 #include "pointers/estdpointer.h"
 
-class eFollowAction : public eCharacterAction {
+class eTile;
+
+class eFollowAction : public eComplexAction {
 public:
     eFollowAction(eCharacter* const f,
                   eCharacter* const c,
@@ -30,9 +32,6 @@ private:
     std::queue<ePathNode> mTiles;
 
     int mDistance = 1;
-    bool mPaused = true;
-    eTile* mPauseTile = nullptr;
-    int mPos = 0;
 };
 
 

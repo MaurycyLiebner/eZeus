@@ -134,6 +134,10 @@ bool eMoveAction::nextTurn() {
 }
 
 void eMoveAction::moveToTargetTile() {
+    if(!mTargetTile) {
+        setState(eCharacterActionState::failed);
+        return;
+    }
     const auto c = character();
     if(c->tile() == mTargetTile) {
         nextTurn();
