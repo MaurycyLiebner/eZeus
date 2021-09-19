@@ -133,37 +133,39 @@ void eCharacterTextures::load() {
         texClass.load(i, fOxHandler.fDie);
     }
 
-    const auto loadTrailer = [&](const int i, eTextureCollection& coll) {
+    const auto loadTrailer =
+            [&](const int i,
+            eTextureCollection& coll,
+            const int dy) {
         const auto tex = texClass.load(i, coll);
 
-        tex->setOffset(tex->offsetX(),
-                       tex->offsetY() - 7);
+        tex->setOffset(tex->offsetX(), tex->offsetY() + dy);
     };
 
     for(int i = 2991; i < 2999; i++) {
-        loadTrailer(i, fEmptyTrailer);
+        loadTrailer(i, fEmptyTrailer, -7);
     }
     for(int i = 2999; i < 3007; i++) {
-        loadTrailer(i, fWoodTrailer1);
+        loadTrailer(i, fWoodTrailer1, -7);
     }
     for(int i = 3007; i < 3015; i++) {
-        loadTrailer(i, fWoodTrailer2);
+        loadTrailer(i, fWoodTrailer2, -7);
     }
     for(int i = 3015; i < 3023; i++) {
-        loadTrailer(i, fMarbleTrailer1);
+        loadTrailer(i, fMarbleTrailer1, -7);
     }
     for(int i = 3023; i < 3031; i++) {
-        loadTrailer(i, fMarbleTrailer2);
+        loadTrailer(i, fMarbleTrailer2, -7);
     }
     for(int i = 3031; i < 3039; i++) {
-        loadTrailer(i, fSculptureTrailer);
+        loadTrailer(i, fSculptureTrailer, -7);
     }
 
     for(int i = 3039; i < 3047; i++) {
-        texClass.load(i, fEmptyBigTrailer);
+        loadTrailer(i, fEmptyBigTrailer, -4);
     }
     for(int i = 3047; i < 3055; i++) {
-        texClass.load(i, fMarbleBigTrailer);
+        loadTrailer(i, fMarbleBigTrailer, -4);
     }
 
     texClass.loadSkipFlipped(fSettlers1.fWalk, 505, 601);
