@@ -80,6 +80,7 @@ eMasonryShop::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& btexs = eGameTextures::buildings()[sizeId];
     std::vector<eOverlay> os;
+    const int t = textureTime();
     if(mRawCount) {
         const auto& stones = btexs.fMasonryShopStones;
         const int sid = std::clamp(8 - mRawCount, 0, stones.size());
@@ -107,7 +108,7 @@ eMasonryShop::getOverlays(const eTileSize size) const {
         if(sid < 4) {
             eOverlay o;
             const auto& ov = btexs.fMasonryShopOverlay1[0];
-            const int id = textureTime() % ov.size();
+            const int id = t % ov.size();
             o.fTex = ov.getTexture(id);
             o.fX = 0.50;
             o.fY = -0.90;
@@ -115,12 +116,20 @@ eMasonryShop::getOverlays(const eTileSize size) const {
         } else {
             eOverlay o;
             const auto& ov = btexs.fMasonryShopOverlay2[0];
-            const int id = textureTime() % ov.size();
+            const int id = t % ov.size();
             o.fTex = ov.getTexture(id);
             o.fX = 0.50;
             o.fY = -1.00;
             os.push_back(o);
         }
+    } else {
+        eOverlay o;
+        const auto& ov = btexs.fMasonryShopOverlay0[3];
+        const int id = t % ov.size();
+        o.fTex = ov.getTexture(id);
+        o.fX = 0.50;
+        o.fY = -1.50;
+        os.push_back(o);
     }
 
     return os;

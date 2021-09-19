@@ -108,6 +108,7 @@ public:
 
     std::shared_ptr<eTexture> fMasonryShop;
     eTextureCollection fMasonryShopStones;
+    std::vector<eTextureCollection> fMasonryShopOverlay0;
     std::vector<eTextureCollection> fMasonryShopOverlay1;
     std::vector<eTextureCollection> fMasonryShopOverlay2;
 
