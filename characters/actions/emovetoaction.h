@@ -7,18 +7,12 @@
 
 class eMoveToAction : public eComplexAction {
 public:
+    using eComplexAction::eComplexAction;
+
     using eTileWalkable = std::function<bool(eTileBase* const)>;
     using eTileFinal = eTileWalkable;
-
-    eMoveToAction(eCharacter* const c,
-                  const eTileWalkable& walkable,
-                  const eTileFinal& final,
-                  const eAction& failAction,
-                  const eAction& finishAction);
-    void initialize();
-private:
-    const eTileWalkable mWalkable;
-    const eTileFinal mFinal;
+    void initialize(const eTileWalkable& walkable,
+                    const eTileFinal& final);
 };
 
 #endif // EMOVETOACTION_H

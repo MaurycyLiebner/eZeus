@@ -66,11 +66,10 @@ eMasonryShop::eMasonryShop(eGameBoard& board) :
             const SDL_Point p{tile->x(), tile->y()};
             return SDL_PointInRect(&p, &rect);
         };
+        const auto empty = []() {};
         const auto a = e::make_shared<eMoveToAction>(
-                           cart.get(), tileWalkable,
-                           finalTile,
-                           []() {}, []() {});
-        a->initialize();
+                           cart.get(), empty, empty);
+        a->initialize(tileWalkable, finalTile);
         cart->setAction(a);
     });
 }

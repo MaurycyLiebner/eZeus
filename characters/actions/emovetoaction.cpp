@@ -9,16 +9,8 @@
 #include "epathfindtask.h"
 #include "ewaitaction.h"
 
-eMoveToAction::eMoveToAction(eCharacter* const c,
-                             const eTileWalkable& walkable,
-                             const eTileFinal& final,
-                             const eAction& failAction,
-                             const eAction& finishAction) :
-    eComplexAction(c, failAction, finishAction),
-    mWalkable(walkable),
-    mFinal(final) {}
-
-void eMoveToAction::initialize() {
+void eMoveToAction::initialize(const eTileWalkable& walkable,
+                               const eTileFinal& final) {
     const auto c = character();
     const auto t = c->tile();
     const auto& brd = c->getBoard();
@@ -35,7 +27,7 @@ void eMoveToAction::initialize() {
     const auto failFunc = [tptr]() {
         if(tptr) tptr->setState(eCharacterActionState::failed);
     };
-    const auto finishFunc = [tptr, c, failFunc](
+    const auto finishFunc = [tptr, c, failFunc, walkable](
                             const std::vector<eOrientation>& path) {
         if(!tptr) return;
         const auto finishAction = [tptr]() {
@@ -43,13 +35,13 @@ void eMoveToAction::initialize() {
         };
 
         const auto a  = e::make_shared<eMovePathAction>(
-                            c, path, tptr->mWalkable,
+                            c, path, walkable,
                             failFunc, finishAction);
         tptr->setCurrentAction(a);
     };
 
-    const auto pft = new ePathFindTask(startTile, mWalkable,
-                                       mFinal, finishFunc,
+    const auto pft = new ePathFindTask(startTile, walkable,
+                                       final, finishFunc,
                                        failFunc, false, 50);
     tp->queueTask(pft);
 
