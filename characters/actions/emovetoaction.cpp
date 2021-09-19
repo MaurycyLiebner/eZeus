@@ -38,12 +38,15 @@ void eMoveToAction::start(const eTileFinal& final,
         if(tptr) tptr->setState(eCharacterActionState::failed);
     };
     const auto finishFunc = [tptr, c, failFunc, walkable](
-                            const std::vector<eOrientation>& path) {
+                            std::vector<eOrientation> path) {
         if(!tptr) return;
         const auto finishAction = [tptr]() {
             if(tptr) tptr->setState(eCharacterActionState::finished);
         };
 
+        if(tptr->mRemoveLastTurn && !path.empty()) {
+            path.erase(path.begin());
+        }
         if(path.empty()) {
             finishAction();
             return;

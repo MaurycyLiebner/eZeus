@@ -1,9 +1,6 @@
 #include "eactionwithcomeback.h"
 
 #include "characters/echaracter.h"
-#include "characters/actions/ewaitaction.h"
-#include "engine/ethreadpool.h"
-#include "epathfindtask.h"
 #include "emovetoaction.h"
 
 eActionWithComeback::eActionWithComeback(

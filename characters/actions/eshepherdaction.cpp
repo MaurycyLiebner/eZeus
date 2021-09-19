@@ -1,14 +1,9 @@
 #include "eshepherdaction.h"
 
-#include "engine/epathfinder.h"
-
-#include "epathfindtask.h"
-#include "engine/ethreadpool.h"
-#include "characters/actions/ewaitaction.h"
-
 #include "characters/esheep.h"
 #include "characters/egoat.h"
 
+#include "ewaitaction.h"
 #include "emovetoaction.h"
 
 eShepherdAction::eShepherdAction(
