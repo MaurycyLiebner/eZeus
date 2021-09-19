@@ -10,11 +10,21 @@
 #include "ewaitaction.h"
 
 void eMoveToAction::start(const eTileFinal& final,
-                          const eTileWalkable& walkable) {
+                          eTileWalkable walkable) {
     const auto c = character();
     const auto t = c->tile();
     const auto& brd = c->getBoard();
     const auto tp = brd.threadPool();
+
+    if(const auto b = t->underBuilding()) {
+        const auto rect = b->tileRect();
+        walkable = [walkable, rect](eTileBase* const t) {
+            const SDL_Point p{t->x(), t->y()};
+            const bool r = SDL_PointInRect(&p, &rect);
+            if(r) return true;
+            return walkable(t);
+        };
+    }
 
     const int tx = t->x();
     const int ty = t->y();

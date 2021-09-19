@@ -9,6 +9,8 @@
 #include "characters/esheep.h"
 #include "characters/egoat.h"
 
+#include "emovetoaction.h"
+
 eShepherdAction::eShepherdAction(
         const SDL_Rect& buildingRect,
         eResourceCollector* const c,
@@ -50,45 +52,18 @@ void eShepherdAction::increment(const int by) {
 
 bool eShepherdAction::findResource() {
     const auto c = character();
-    const auto t = c->tile();
-    const auto& brd = c->getBoard();
-    const auto tp = brd.threadPool();
-
-    const int tx = t->x();
-    const int ty = t->y();
-
-    const auto startTile = [tx, ty](eThreadBoard& board) {
-        return board.absTile(tx, ty);
-    };
-    const auto rect = mBuildingRect;
-    const auto tileWalkable = [rect](eTileBase* const t) {
-        const SDL_Point p{t->x(), t->y()};
-        const bool r = SDL_PointInRect(&p, &rect);
-        if(r) return true;
-        return t->walkable();
-    };
 
     const stdptr<eCharacterAction> tptr(this);
     const auto failFunc = [tptr]() {
         if(tptr) tptr->setState(eCharacterActionState::failed);
     };
 
-    const auto finishFunc = [tptr, this, c, tileWalkable, failFunc](
-                            const std::vector<eOrientation>& path) {
+    const auto finishAction = [tptr, this, c]() {
         if(!tptr) return;
-        const auto finishAction = [tptr, this, c]() {
-            if(!tptr) return;
-            const auto tile = c->tile();
-            if(const auto a = tryToCollect(tile, mAnimalType)) {
-                collect(a);
-            } else findResource();
-        };
-
-        c->setActionType(eCharacterActionType::walk);
-        const auto a  = e::make_shared<eMovePathAction>(
-                            c, path, tileWalkable,
-                            failFunc, finishAction);
-        setCurrentAction(a);
+        const auto tile = c->tile();
+        if(const auto a = tryToCollect(tile, mAnimalType)) {
+            collect(a);
+        } else findResource();
     };
 
     const auto aType = mAnimalType;
@@ -96,13 +71,11 @@ bool eShepherdAction::findResource() {
         return hasAnimal(tile, aType);
     };
 
-    const auto pft = new ePathFindTask(startTile, tileWalkable,
-                                       hha, finishFunc,
-                                       failFunc, false, 50);
-    tp->queueTask(pft);
-
-    setCurrentAction(e::make_shared<eWaitAction>(c, []() {}, []() {}));
-
+    c->setActionType(eCharacterActionType::walk);
+    const auto a = e::make_shared<eMoveToAction>(
+                       c, failFunc, finishAction);
+    a->start(hha);
+    setCurrentAction(a);
     return true;
 }
 
@@ -129,11 +102,5 @@ void eShepherdAction::goBack2() {
     } else {
         mCharacter->setActionType(eCharacterActionType::walk);
     }
-    const auto rect = mBuildingRect;
-    eActionWithComeback::goBack([rect](eTileBase* const t) {
-        const SDL_Point p{t->x(), t->y()};
-        const bool r = SDL_PointInRect(&p, &rect);
-        if(r) return true;
-        return t->walkable();
-    });
+    eActionWithComeback::goBack(eMoveToAction::sDefaultWalkable);
 }

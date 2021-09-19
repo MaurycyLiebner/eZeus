@@ -12,7 +12,7 @@ public:
     using eTileWalkable = std::function<bool(eTileBase* const)>;
     using eTileFinal = eTileWalkable;
     void start(const eTileFinal& final,
-               const eTileWalkable& walkable =
+               eTileWalkable walkable =
                    sDefaultWalkable);
     void start(eTile* const final,
                const eTileWalkable& walkable =
