@@ -34,6 +34,11 @@ void eMoveToAction::start(const eTileFinal& final,
             if(tptr) tptr->setState(eCharacterActionState::finished);
         };
 
+        if(path.empty()) {
+            finishAction();
+            return;
+        }
+
         const auto a  = e::make_shared<eMovePathAction>(
                             c, path, walkable,
                             failFunc, finishAction);
@@ -68,6 +73,18 @@ void eMoveToAction::start(eBuilding* const final,
     start(finalFunc, walkable);
 }
 
+void eMoveToAction::start(const eBuildingType final,
+                          const eTileWalkable& walkable) {
+    const auto finalFunc = [final](eTileBase* const t) {
+        return t->underBuildingType() == final;
+    };
+    start(finalFunc, walkable);
+}
+
 bool eMoveToAction::sDefaultWalkable(eTileBase* const t) {
     return t->walkable();
+}
+
+bool eMoveToAction::sRoadWalkable(eTileBase* const t) {
+    return t->hasRoad();
 }

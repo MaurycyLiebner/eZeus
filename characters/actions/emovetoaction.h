@@ -20,8 +20,12 @@ public:
     void start(eBuilding* const final,
                const eTileWalkable& walkable =
                    sDefaultWalkable);
+    void start(const eBuildingType final,
+               const eTileWalkable& walkable =
+                   sDefaultWalkable);
 
     static bool sDefaultWalkable(eTileBase* const t);
+    static bool sRoadWalkable(eTileBase* const t);
 };
 
 #endif // EMOVETOACTION_H
