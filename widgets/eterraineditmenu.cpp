@@ -56,9 +56,6 @@ void eTerrainEditMenu::initialize() {
 
     const auto w6 = new eActionListWidget(window());
     w6->setSmallFontSize();
-    w6->addAction("Water", [this]() {
-        mMode = eTerrainEditMode::water;
-    });
     w6->addAction("Flat Rock", [this]() {
         mMode = eTerrainEditMode::flatStones;
     });

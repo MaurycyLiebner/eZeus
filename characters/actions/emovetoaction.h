@@ -11,8 +11,17 @@ public:
 
     using eTileWalkable = std::function<bool(eTileBase* const)>;
     using eTileFinal = eTileWalkable;
-    void initialize(const eTileWalkable& walkable,
-                    const eTileFinal& final);
+    void start(const eTileFinal& final,
+               const eTileWalkable& walkable =
+                   sDefaultWalkable);
+    void start(eTile* const final,
+               const eTileWalkable& walkable =
+                   sDefaultWalkable);
+    void start(eBuilding* const final,
+               const eTileWalkable& walkable =
+                   sDefaultWalkable);
+
+    static bool sDefaultWalkable(eTileBase* const t);
 };
 
 #endif // EMOVETOACTION_H
