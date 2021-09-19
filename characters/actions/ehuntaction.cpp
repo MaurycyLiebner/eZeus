@@ -2,9 +2,7 @@
 
 #include "engine/epathfinder.h"
 
-#include "epathfindtask.h"
-#include "engine/ethreadpool.h"
-#include "characters/actions/ewaitaction.h"
+#include "emovetoaction.h"
 
 #include "characters/eboar.h"
 #include "characters/edeer.h"
@@ -69,23 +67,6 @@ void eHuntAction::resume() {
 
 bool eHuntAction::findResource() {
     const auto c = character();
-    const auto t = c->tile();
-    const auto& brd = c->getBoard();
-    const auto tp = brd.threadPool();
-
-    const int tx = t->x();
-    const int ty = t->y();
-
-    const auto startTile = [tx, ty](eThreadBoard& board) {
-        return board.absTile(tx, ty);
-    };
-    const auto rect = mBuildingRect;
-    const auto tileWalkable = [rect](eTileBase* const t) {
-        const SDL_Point p{t->x(), t->y()};
-        const bool r = SDL_PointInRect(&p, &rect);
-        if(r) return true;
-        return t->walkable();
-    };
 
     const stdptr<eCharacterAction> tptr(this);
     const auto failFunc = [tptr]() {
@@ -94,24 +75,11 @@ bool eHuntAction::findResource() {
 
     auto aType = std::make_shared<eCharacterType>();
 
-    const auto finishFunc = [tptr, this, c, tileWalkable, failFunc, aType](
-                            const std::vector<eOrientation>& path) {
+    const auto finishAction = [tptr, this, c]() {
         if(!tptr) return;
-        const auto finishAction = [tptr, this, c]() {
-            if(!tptr) return;
-            const auto tile = c->tile();
-            if(tryToCollect(tile)) collect();
-            else findResource();
-        };
-
-        if(*aType == eCharacterType::deer) {
-            mCharacter->setDeerHunter(true);
-        }
-        c->setActionType(eCharacterActionType::walk);
-        const auto a  = e::make_shared<eMovePathAction>(
-                            c, path, tileWalkable,
-                            failFunc, finishAction);
-        setCurrentAction(a);
+        const auto tile = c->tile();
+        if(tryToCollect(tile)) collect();
+        else findResource();
     };
 
     const auto hha = [aType](eTileBase* const tile) {
@@ -121,12 +89,15 @@ bool eHuntAction::findResource() {
         return r;
     };
 
-    const auto pft = new ePathFindTask(startTile, tileWalkable,
-                                       hha, finishFunc,
-                                       failFunc, false, 50);
-    tp->queueTask(pft);
-
-    setCurrentAction(e::make_shared<eWaitAction>(c, []() {}, []() {}));
+    const auto a = e::make_shared<eMoveToAction>(c, failFunc, finishAction);
+    a->setFoundAction([this, c, aType]() {
+        if(*aType == eCharacterType::deer) {
+            mCharacter->setDeerHunter(true);
+        }
+        c->setActionType(eCharacterActionType::walk);
+    });
+    a->start(hha);
+    setCurrentAction(a);
 
     return true;
 }

@@ -28,9 +28,13 @@ public:
     void setRemoveLastTurn(const bool r)
     { mRemoveLastTurn = r; }
 
+    void setFoundAction(const eAction& a)
+    { mFoundAction = a; }
+
     static bool sDefaultWalkable(eTileBase* const t);
     static bool sRoadWalkable(eTileBase* const t);
 private:
+    eAction mFoundAction;
     bool mRemoveLastTurn = false;
 };
 

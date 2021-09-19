@@ -66,9 +66,11 @@ bool eShepherdAction::findResource() {
         return hasAnimal(tile, aType);
     };
 
-    c->setActionType(eCharacterActionType::walk);
     const auto a = e::make_shared<eMoveToAction>(
                        c, failFunc, finishAction);
+    a->setFoundAction([c]() {
+        c->setActionType(eCharacterActionType::walk);
+    });
     a->start(hha);
     setCurrentAction(a);
     return true;
