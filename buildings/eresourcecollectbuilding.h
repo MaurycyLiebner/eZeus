@@ -36,6 +36,9 @@ public:
 protected:
     void enableSpawn() { mSpawnEnabled = true; }
     void disableSpawn() { mSpawnEnabled = false; }
+
+    using eTileAction = std::function<void(eTile*)>;
+    void setCollectedAction(const eTileAction& a);
 private:
     const eCharGenerator mCharGenerator;
     const std::vector<eBuildingTextures>& mTextures;
@@ -48,6 +51,8 @@ private:
 
     const eHasResource mHasRes;
     const eTranformFunc mTransFunc;
+
+    eTileAction mCollectedAction;
 
     stdsptr<eResourceCollector> mCollector;
 

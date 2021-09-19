@@ -5,6 +5,13 @@
 
 #include "textures/emarbletile.h"
 
+#include "characters/eox.h"
+#include "characters/eoxhandler.h"
+#include "characters/etrailer.h"
+
+#include "characters/actions/efollowaction.h"
+#include "characters/actions/emovetoaction.h"
+
 eMasonryShop::eMasonryShop(eGameBoard& board) :
     eResourceCollectBuilding(board,
                              &eBuildingTextures::fMasonryShop,
@@ -28,7 +35,45 @@ eMasonryShop::eMasonryShop(eGameBoard& board) :
                                     }
                                 }
                              }, 2, 2, 15,
-                             eResourceType::marble) {}
+                             eResourceType::marble) {
+    setCollectedAction([this](eTile* const tile) {
+        auto& board = getBoard();
+        const auto cart = e::make_shared<eOxHandler>(board);
+        cart->setResource(eResourceType::marble, 1);
+        cart->changeTile(tile);
+        const auto ox = e::make_shared<eOx>(board);
+        const auto aox = e::make_shared<eFollowAction>(
+                           cart.get(), ox.get(),
+                           []() {}, []() {});
+        ox->setAction(aox);
+        ox->changeTile(tile);
+        const auto tr = e::make_shared<eTrailer>(cart.get(), board);
+        const auto atr = e::make_shared<eFollowAction>(
+                           ox.get(), tr.get(),
+                           []() {}, []() {});
+        tr->setAction(atr);
+        tr->changeTile(tile);
+        tr->setBig(true);
+
+        const auto rect = tileRect();
+        const auto tileWalkable = [rect](eTileBase* const t) {
+            const SDL_Point p{t->x(), t->y()};
+            const bool r = SDL_PointInRect(&p, &rect);
+            if(r) return true;
+            return t->walkable();
+        };
+        const auto finalTile = [rect](eTileBase* const tile) {
+            const SDL_Point p{tile->x(), tile->y()};
+            return SDL_PointInRect(&p, &rect);
+        };
+        const auto a = e::make_shared<eMoveToAction>(
+                           cart.get(), tileWalkable,
+                           finalTile,
+                           []() {}, []() {});
+        a->initialize();
+        cart->setAction(a);
+    });
+}
 
 std::vector<eOverlay>
 eMasonryShop::getOverlays(const eTileSize size) const {
@@ -52,9 +97,9 @@ eMasonryShop::getOverlays(const eTileSize size) const {
             o.fX -= 0.10;
             o.fY -= 0.20;
         } else if(sid == 6) {
-            o.fY -= 0.5;
+            o.fY -= 0.30;
         } else if(sid == 7) {
-            o.fX -= 0.25;
+            o.fX -= 0.15;
             o.fY -= 0.5;
         }
         os.push_back(o);

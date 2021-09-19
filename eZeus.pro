@@ -94,6 +94,7 @@ SOURCES += \
         characters/actions/emoveaction.cpp \
         characters/actions/emovearoundaction.cpp \
         characters/actions/emovepathaction.cpp \
+        characters/actions/emovetoaction.cpp \
         characters/actions/epatrolaction.cpp \
         characters/actions/epatrolguidedmoveaction.cpp \
         characters/actions/epatrolmoveaction.cpp \
@@ -336,6 +337,7 @@ HEADERS += \
     characters/actions/emoveaction.h \
     characters/actions/emovearoundaction.h \
     characters/actions/emovepathaction.h \
+    characters/actions/emovetoaction.h \
     characters/actions/epatrolaction.h \
     characters/actions/epatrolguidedmoveaction.h \
     characters/actions/epatrolmoveaction.h \

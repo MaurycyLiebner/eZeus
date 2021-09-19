@@ -13,16 +13,16 @@ public:
                   const eAction& failAction,
                   const eAction& finishAction);
 
-      void increment(const int by);
+    void increment(const int by);
 private:
-      bool findResource();
-      bool workOn(eTile* const tile);
-      void goBack2();
+    bool findResource();
+    bool workOn(eTile* const tile);
+    void goBack2();
 
-      const eGrowerType mType;
-      eGrower* const mGrower;
-      const SDL_Rect mBuildingRect;
-      int mCount = 0;
+    const eGrowerType mType;
+    eGrower* const mGrower;
+    const SDL_Rect mBuildingRect;
+    int mCount = 0;
 };
 
 #endif // EGROWERACTION_H

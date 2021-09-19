@@ -20,7 +20,7 @@ void eCollectAction::increment(const int by) {
         mCharacter->incCollected(1);
         const bool noResLeft = mTile->resource() <= 0;
         if(noResLeft) mTransFunc(mTile);
-        setState(eCharacterActionState::finished);
         mTime = 0;
+        setState(eCharacterActionState::finished);
     }
 }

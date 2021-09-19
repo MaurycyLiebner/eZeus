@@ -15,7 +15,8 @@ class eResourceCollector;
 class eCollectResourceAction : public eActionWithComeback {
 public:
     using eHasResource = std::function<bool(eTileBase*)>;
-    using eTranformFunc = std::function<void(eTile*)>;
+    using eTileAction = std::function<void(eTile*)>;
+    using eTranformFunc = eTileAction;
     eCollectResourceAction(const SDL_Rect& buildingRect,
                            eResourceCollector* const c,
                            const eHasResource& hr,
@@ -24,6 +25,8 @@ public:
                            const eAction& finishAction);
 
     void increment(const int by);
+
+    void setCollectedAction(const eTileAction& a);
 private:
     bool findResource();
     bool collect(eTile* const tile);
@@ -33,6 +36,7 @@ private:
     const eTranformFunc mTransFunc;
     eResourceCollector* const mCharacter;
     const SDL_Rect mBuildingRect;
+    eTileAction mCollectedAction;
 };
 
 #endif // ECOLLECTRESOURCEACTION_H

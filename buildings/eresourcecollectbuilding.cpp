@@ -117,6 +117,11 @@ bool eResourceCollectBuilding::spawn() {
     const auto a = e::make_shared<eCollectResourceAction>(
                        tileRect(), mCollector.get(), mHasRes,
                        mTransFunc, finishAct, finishAct);
+    a->setCollectedAction(mCollectedAction);
     mCollector->setAction(a);
     return true;
+}
+
+void eResourceCollectBuilding::setCollectedAction(const eTileAction& a) {
+    mCollectedAction = a;
 }

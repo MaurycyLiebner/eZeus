@@ -96,9 +96,10 @@ void eMoveAction::moveBy(const double inc) {
     } else {
         c->setX(mTargetX);
         c->setY(mTargetY);
+        const stdptr<eMoveAction> tptr(this);
         const auto t = mTargetTile;
         moveToTargetTile();
-        if(t != mTargetTile) moveBy(inc - dist);
+        if(tptr && t != mTargetTile) moveBy(inc - dist);
     }
 }
 

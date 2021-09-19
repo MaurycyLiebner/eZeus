@@ -26,6 +26,10 @@ void eCollectResourceAction::increment(const int by) {
     else eActionWithComeback::increment(by);
 }
 
+void eCollectResourceAction::setCollectedAction(const eTileAction& a) {
+    mCollectedAction = a;
+}
+
 bool eCollectResourceAction::findResource() {
     const auto c = character();
     const auto t = c->tile();
@@ -87,6 +91,7 @@ bool eCollectResourceAction::collect(eTile* const tile) {
         setState(eCharacterActionState::failed);
     };
     const auto finishAction = [this, tile]() {
+        if(mCollectedAction) mCollectedAction(tile);
         tile->setBusy(false);
         goBack2();
     };
