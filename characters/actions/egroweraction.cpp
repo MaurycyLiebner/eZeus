@@ -1,7 +1,6 @@
 #include "egroweraction.h"
 
-#include "epathfindtask.h"
-#include "engine/ethreadpool.h"
+#include "characters/actions/emovetoaction.h"
 #include "characters/actions/ewaitaction.h"
 #include "buildings/eresourcebuilding.h"
 
@@ -20,48 +19,13 @@ void eGrowerAction::increment(const int by) {
 }
 
 bool eGrowerAction::findResource() {
-    const auto t = mGrower->tile();
-    const auto& brd = mGrower->getBoard();
-    const auto tp = brd.threadPool();
-
-    const int tx = t->x();
-    const int ty = t->y();
-
-    const auto startTile = [tx, ty](eThreadBoard& board) {
-        return board.absTile(tx, ty);
-    };
-    const auto rect = mBuildingRect;
-    const auto tileWalkable = [rect](eTileBase* const t) {
-        const SDL_Point p{t->x(), t->y()};
-        const bool r = SDL_PointInRect(&p, &rect);
-        if(r) return true;
-        return t->walkable();
-    };
-
     const stdptr<eCharacterAction> tptr(this);
     const auto failFunc = [tptr]() {
         if(tptr) tptr->setState(eCharacterActionState::failed);
     };
 
-    auto aType = std::make_shared<eBuildingType>();
-
-    const auto finishFunc = [tptr, this, tileWalkable,
-                            failFunc, aType](
-                            const std::vector<eOrientation>& path) {
-        if(!tptr) return;
-        const auto finishAction = [tptr, this, aType]() {
-            workOn(mGrower->tile());
-        };
-
-        mGrower->setActionType(eCharacterActionType::walk);
-        const auto a  = e::make_shared<eMovePathAction>(
-                            mGrower, path, tileWalkable,
-                            failFunc, finishAction);
-        setCurrentAction(a);
-    };
-
     const auto gt = mType;
-    const auto hha = [aType, gt](eThreadTile* const tile) {
+    const auto hha = [gt](eThreadTile* const tile) {
         const auto ub = tile->underBuildingType();
         bool r;
         switch(gt) {
@@ -75,17 +39,21 @@ bool eGrowerAction::findResource() {
         }
 
         if(!r) return false;
-        *aType = ub;
         const auto& b = tile->underBuilding();
         return !b.workedOn() && !tile->busy();
     };
 
-    const auto pft = new ePathFindTask(startTile, tileWalkable,
-                                       hha, finishFunc,
-                                       failFunc, false, 50);
-    tp->queueTask(pft);
+    const auto finishAction = [tptr, this]() {
+        workOn(mGrower->tile());
+    };
 
-    setCurrentAction(e::make_shared<eWaitAction>(mGrower, []() {}, []() {}));
+    const auto a = e::make_shared<eMoveToAction>(
+                       mGrower, failFunc, finishAction);
+    a->setFoundAction([this]() {
+        mGrower->setActionType(eCharacterActionType::walk);
+    });
+    a->start(hha);
+    setCurrentAction(a);
 
     return true;
 }
