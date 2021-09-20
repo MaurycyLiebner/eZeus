@@ -64,7 +64,11 @@ void eMoveToAction::start(const eTileFinal& final,
                                        failFunc, false, 50);
     tp->queueTask(pft);
 
-    setCurrentAction(e::make_shared<eWaitAction>(c, []() {}, []() {}));
+    if(mWait) {
+        const auto w = e::make_shared<eWaitAction>(
+                           c, []() {}, []() {});
+        setCurrentAction(w);
+    }
 }
 
 void eMoveToAction::start(eTile* const final,

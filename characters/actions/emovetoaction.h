@@ -31,11 +31,15 @@ public:
     void setFoundAction(const eAction& a)
     { mFoundAction = a; }
 
+    void setWait(const bool w)
+    { mWait = w; }
+
     static bool sDefaultWalkable(eTileBase* const t);
     static bool sRoadWalkable(eTileBase* const t);
 private:
     eAction mFoundAction;
     bool mRemoveLastTurn = false;
+    bool mWait = true;
 };
 
 #endif // EMOVETOACTION_H

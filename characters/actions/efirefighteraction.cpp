@@ -2,14 +2,12 @@
 
 #include "../echaracter.h"
 #include "engine/egameboard.h"
-#include "engine/thread/ethreadboard.h"
-#include "engine/ethreadpool.h"
-#include "epathfindtask.h"
+#include "emovetoaction.h"
 #include "ewaitaction.h"
 
 void eFireFighterAction::increment(const int by) {
     if(!mFireFighting) {
-        const int fireCheckInc = 200;
+        const int fireCheckInc = 1000;
         mFireCheck += by;
         if(mFireCheck > fireCheckInc) {
             mFireCheck = 0;
@@ -21,60 +19,66 @@ void eFireFighterAction::increment(const int by) {
 
 bool eFireFighterAction::lookForFire() {
     const auto c = character();
-    const auto t = c->tile();
-    const auto& brd = c->getBoard();
-    const auto tp = brd.threadPool();
 
-    const int tx = t->x();
-    const int ty = t->y();
-
-    const auto startTile = [tx, ty](eThreadBoard& board) {
-        return board.absTile(tx, ty);
-    };
-    const auto tileWalkable = [](eTileBase* const t) {
-        return t->walkable() || t->onFire();
-    };
-    const stdptr<eCharacterAction> tptr(this);
-    const auto failFunc = [tptr, this]() {
+    const stdptr<eFireFighterAction> tptr(this);
+    const auto failFunc = [tptr, this, c]() {
         if(tptr) {
-            mFireFighting = false;
-        }
-    };
-    const auto finishFunc = [tptr, this, c, tileWalkable, failFunc](
-                            std::vector<eOrientation> path) {
-        if(!tptr) return;
-        if(path.empty()) return;
-        c->setActionType(eCharacterActionType::carry);
-        mFireFighting = true;
-        const auto o = path.front();
-        path.erase(path.begin());
-        const auto finishAction = [tptr, this, c, o]() {
-            if(!tptr) return;
-            const auto tile = c->tile();
-            const auto n = tile->neighbour<eTile>(o);
-            if(n && n->onFire()) {
-                c->setOrientation(o);
-                putOutFire(n);
-            } else {
+            if(mFireFighting) {
                 mFireFighting = false;
+                c->setActionType(eCharacterActionType::walk);
                 goBackNoRoad();
             }
-        };
+        }
+    };
 
-        const auto a  = e::make_shared<eMovePathAction>(
-                            c, path, tileWalkable,
-                            failFunc, finishAction);
-        setCurrentAction(a);
+    const auto finishAction = [tptr, this, c]() {
+        if(!tptr) return;
+        const auto tile = c->tile();
+        eTile* n = nullptr;
+        eOrientation oo;
+        for(const auto o : {eOrientation::topRight,
+                            eOrientation::right,
+                            eOrientation::bottomRight,
+                            eOrientation::bottom,
+                            eOrientation::bottomLeft,
+                            eOrientation::left,
+                            eOrientation::topLeft,
+                            eOrientation::top}) {
+            const auto nt = tile->neighbour<eTile>(o);
+            if(!nt) continue;
+            if(nt->onFire()) {
+                oo = o;
+                n = nt;
+                break;
+            }
+        }
+        if(n && n->onFire()) {
+            c->setOrientation(oo);
+            putOutFire(n);
+        } else {
+            mFireFighting = false;
+            c->setActionType(eCharacterActionType::walk);
+            goBackNoRoad();
+            lookForFire();
+        }
     };
 
     const auto onFire = [](eTileBase* const tile) {
         return tile->onFire();
     };
 
-    const auto pft = new ePathFindTask(startTile, tileWalkable,
-                                       onFire, finishFunc,
-                                       failFunc, false, 20);
-    tp->queueTask(pft);
+
+    const auto a = e::make_shared<eMoveToAction>(
+                       c, failFunc, finishAction);
+    a->setFoundAction([tptr, c, a]() {
+        if(!tptr) return;
+        c->setActionType(eCharacterActionType::carry);
+        tptr->setCurrentAction(a);
+        tptr->mFireFighting = true;
+    });
+    a->setRemoveLastTurn(true);
+    a->setWait(false);
+    a->start(onFire);
 
     return true;
 }
@@ -82,8 +86,8 @@ bool eFireFighterAction::lookForFire() {
 void eFireFighterAction::putOutFire(eTile* const tile) {
     const auto c = character();
     c->setActionType(eCharacterActionType::fight);
-    const auto finish = [this, tile]() {
-        mFireFighting = false;
+    const auto finish = [this, tile, c]() {
+        c->setActionType(eCharacterActionType::stand);
         if(const auto b = tile->underBuilding()) {
             const auto& u = b->tilesUnder();
             for(const auto t : u) {
@@ -96,9 +100,9 @@ void eFireFighterAction::putOutFire(eTile* const tile) {
     };
     const auto a = e::make_shared<eWaitAction>(c, []() {}, finish);
     if(tile->underBuilding()) {
-        a->setTime(800);
+        a->setTime(1600);
     } else {
-        a->setTime(400);
+        a->setTime(800);
     }
     setCurrentAction(a);
 }

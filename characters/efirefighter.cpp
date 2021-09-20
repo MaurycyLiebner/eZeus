@@ -21,6 +21,9 @@ std::shared_ptr<eTexture> eFireFighter::getTexture(const eTileSize size) const {
     default:
     case eCharacterActionType::none:
         return std::shared_ptr<eTexture>();
+    case eCharacterActionType::stand: {
+        return charTexs.fWalk[oid].getTexture(0);
+    } break;
     case eCharacterActionType::collect:
     case eCharacterActionType::walk: {
         coll = &charTexs.fWalk[oid];
