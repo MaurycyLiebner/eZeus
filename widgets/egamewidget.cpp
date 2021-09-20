@@ -791,6 +791,8 @@ void eGameWidget::paintEvent(ePainter& p) {
         double ry;
         drawXY(tx, ty, rx, ry, 1, 1, a);
 
+        bool bd = false;
+
         const auto mode = mGm->mode();
         if(mode == eBuildingMode::sheep ||
            mode == eBuildingMode::goat ||
@@ -800,6 +802,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                t == eBuildingType::goat) {
                 const auto tex = trrTexs.fBuildingBase;
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
+                bd = true;
             }
         }
         const auto ub = tile->underBuilding();
@@ -812,6 +815,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                     tex = getBasementTexture(tile, ub, trrTexs);
                 }
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
+                bd = true;
             }
         }
         const bool bv = eViewModeHelpers::buildingVisible(mViewMode, ub);
@@ -835,11 +839,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                 appId = std::clamp(appId, 0, 9);
                 const auto tex = coll->getTexture(appId);
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
+                bd = true;
             }
         }
         const auto tbr = tile->building();
         const auto type = ub ? ub->type() : eBuildingType::none;
-        if(ub && !v) {
+        if(bd) {
+        } else if(ub && !v) {
             const auto tex = getBasementTexture(tile, ub, trrTexs);
             tp.drawTexture(rx, ry, tex, eAlignment::top);
         } else if(tbr && type != eBuildingType::road) {
