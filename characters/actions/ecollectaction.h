@@ -17,6 +17,7 @@ public:
 
     void increment(const int by);
 private:
+    int mSoundTime = 0;
     int mTime = 0;
     eResourceCollector* const mCharacter;
     eTile* const mTile;

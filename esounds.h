@@ -1,4 +1,4 @@
-#ifndef ESOUNDS_H
+﻿#ifndef ESOUNDS_H
 #define ESOUNDS_H
 
 #include <string>
@@ -192,6 +192,11 @@ public:
     static void playFireSound();
     static void playCollapseSound();
 
+    static void playCopperMinerSound();
+    static void playSilverMinerSound();
+    static void playStoneCutterSound();
+    static void playTreeCutterSound();
+
     static void playGodSound(const eGodType g,
                              const eGodSound s);
 private:
@@ -258,6 +263,12 @@ private:
     std::vector<Mix_Chunk*> mSheep;
     std::vector<Mix_Chunk*> mCattle;
     std::vector<Mix_Chunk*> mDeer;
+
+    // collectors
+    std::vector<Mix_Chunk*> mCopperMiner;
+    std::vector<Mix_Chunk*> mSilverMiner;
+    std::vector<Mix_Chunk*> mTreeCutter;
+    std::vector<Mix_Chunk*> mStoneCutter;
 
     // events
     Mix_Chunk* mFire = nullptr;

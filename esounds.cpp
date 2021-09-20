@@ -85,6 +85,12 @@ eSounds::~eSounds() {
     deleteSounds(mCattle);
     deleteSounds(mDeer);
 
+    // collectors
+    deleteSounds(mCopperMiner);
+    deleteSounds(mSilverMiner);
+    deleteSounds(mTreeCutter);
+    deleteSounds(mStoneCutter);
+
     // events
     Mix_FreeChunk(mFire);
     Mix_FreeChunk(mCollapse);
@@ -341,6 +347,22 @@ void eSounds::playFireSound() {
 
 void eSounds::playCollapseSound() {
     Mix_PlayChannel(-1, sInstance.mCollapse, 0);
+}
+
+void eSounds::playCopperMinerSound() {
+    playRandomSound(sInstance.mCopperMiner);
+}
+
+void eSounds::playSilverMinerSound() {
+    playRandomSound(sInstance.mSilverMiner);
+}
+
+void eSounds::playStoneCutterSound() {
+    playRandomSound(sInstance.mStoneCutter);
+}
+
+void eSounds::playTreeCutterSound() {
+    playRandomSound(sInstance.mTreeCutter);
 }
 
 void eSounds::playGodSound(const eGodType g, const eGodSound s) {
@@ -817,6 +839,31 @@ void eSounds::loadImpl() {
     const std::string wavsDir{"../Audio/Wavs/"};
     mFire = loadSoundBase(wavsDir + "Fire.wav");
     mCollapse = loadSoundBase(wavsDir + "collapse.wav");
+
+
+    for(const auto& s : {"copperminer1.wav",
+                         "copperminer2.wav"}) {
+        const auto r = loadSoundBase(wavsDir + s);
+        if(r) mCopperMiner.push_back(r);
+    }
+
+    for(const auto& s : {"silverminer1.wav",
+                         "silverminer2.wav"}) {
+        const auto r = loadSoundBase(wavsDir + s);
+        if(r) mSilverMiner.push_back(r);
+    }
+
+    for(const auto& s : {"treecutter1.wav",
+                         "treecutter2.wav"}) {
+        const auto r = loadSoundBase(wavsDir + s);
+        if(r) mTreeCutter.push_back(r);
+    }
+
+    for(const auto& s : {"stonecutter1.wav",
+                         "stonecutter2.wav"}) {
+        const auto r = loadSoundBase(wavsDir + s);
+        if(r) mStoneCutter.push_back(r);
+    }
 
     mAphrodite.load();
     mApollo.load();
