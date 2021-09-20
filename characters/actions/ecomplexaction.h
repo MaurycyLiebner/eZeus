@@ -5,9 +5,7 @@
 
 class eComplexAction : public eCharacterAction {
 public:
-    eComplexAction(eCharacter* const c,
-                   const eAction& failAction,
-                   const eAction& finishAction);
+    using eCharacterAction::eCharacterAction;
 
     void increment(const int by);
 protected:
