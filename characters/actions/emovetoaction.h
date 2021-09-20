@@ -34,12 +34,20 @@ public:
     void setWait(const bool w)
     { mWait = w; }
 
+    void setDiagonalOnly(const bool d)
+    { mDiagonalOnly = d; }
+
+    void setMaxDistance(const int d)
+    { mMaxDistance = d; }
+
     static bool sDefaultWalkable(eTileBase* const t);
     static bool sRoadWalkable(eTileBase* const t);
 private:
     eAction mFoundAction;
     bool mRemoveLastTurn = false;
     bool mWait = true;
+    bool mDiagonalOnly = false;
+    int mMaxDistance = 50;
 };
 
 #endif // EMOVETOACTION_H

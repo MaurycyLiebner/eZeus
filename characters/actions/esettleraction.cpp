@@ -47,6 +47,7 @@ void eSettlerAction::findHouse() {
 
     const auto a = e::make_shared<eMoveToAction>(c, failFunc, finishAction);
     a->setRemoveLastTurn(true);
+    a->setMaxDistance(200);
     a->start(finalTile);
     setCurrentAction(a);
 }

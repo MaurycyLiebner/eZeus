@@ -29,7 +29,7 @@ public:
 protected:
     void findTarget();
     void goBack2();
-    bool resourceAction();
+    bool resourceAction(const int bx, const int by);
 private:
     eBuilding* const mBuilding;
     const eBuildingType mBuildingType;

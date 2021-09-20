@@ -61,7 +61,8 @@ void eMoveToAction::start(const eTileFinal& final,
 
     const auto pft = new ePathFindTask(startTile, walkable,
                                        final, finishFunc,
-                                       failFunc, false, 50);
+                                       failFunc, mDiagonalOnly,
+                                       mMaxDistance);
     tp->queueTask(pft);
 
     if(mWait) {
