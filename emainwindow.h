@@ -7,6 +7,7 @@
 #include "textures/egodtextures.h"
 #include "textures/ebuildingtextures.h"
 #include "textures/echaractertextures.h"
+#include "widgets/esettingsmenu.h"
 
 using eSlot = std::function<void()>;
 
@@ -24,9 +25,9 @@ public:
 
     void addSlot(const eSlot& slot);
 
-    int width() const { return mResolution.width(); }
-    int height() const { return mResolution.height(); }
-    eResolution resolution() const { return mResolution; }
+    int width() const { return resolution().width(); }
+    int height() const { return resolution().height(); }
+    eResolution resolution() const { return mSettings.fRes; }
     SDL_Renderer* renderer() const { return mSdlRenderer; }
 
     void setResolution(const eResolution res);
@@ -36,9 +37,10 @@ public:
     void showMainMenu();
     void showSettingsMenu();
     void showGame();
+
+    const eSettings& settings() const { return mSettings; }
 private:
-    bool mFullscreen = false;
-    eResolution mResolution;
+    eSettings mSettings{false, false, false, eResolution()};
 
     bool mQuit = false;
 

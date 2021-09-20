@@ -10,7 +10,16 @@ std::vector<eCharacterTextures> eGameTextures::sCharacterTextures;
 std::vector<eInterfaceTextures> eGameTextures::sInterfaceTextures;
 std::vector<eDestructionTextures> eGameTextures::sDestructionTextures;
 
-using eLoader = std::function<void(std::string&)>;
+struct eLoader {
+    using eFunc = std::function<void(std::string&)>;
+    eLoader(const eFunc& f, const int s) :
+        fFunc(f), fSize(s) {}
+
+    eFunc fFunc;
+    int fSize;
+    bool fFinished = false;
+};
+
 std::vector<eLoader> gMenuLoaders;
 std::vector<eLoader> gGameLoaders;
 
@@ -27,7 +36,7 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
         sInterfaceTextures.emplace_back(s.first, s.second, r);
         sDestructionTextures.emplace_back(s.first, s.second, r);
 
-        gGameLoaders.push_back([i](std::string& text) {
+        gGameLoaders.emplace_back([i](std::string& text) {
             sTerrainTextures[i].load();
             if(i == 0) {
                 text = "Loading small terrain textures...";
@@ -36,9 +45,9 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
             } else if(i == 2) {
                 text = "Loading large terrain textures...";
             }
-        });
+        }, i);
 
-        gGameLoaders.push_back([i](std::string& text) {
+        gGameLoaders.emplace_back([i](std::string& text) {
             sGodTextures[i].load();
             if(i == 0) {
                 text = "Loading small god textures...";
@@ -47,9 +56,9 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
             } else if(i == 2) {
                 text = "Loading large god textures...";
             }
-        });
+        }, i);
 
-        gGameLoaders.push_back([i](std::string& text) {
+        gGameLoaders.emplace_back([i](std::string& text) {
             sBuildingTextures[i].load();
             if(i == 0) {
                 text = "Loading small building textures...";
@@ -58,9 +67,9 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
             } else if(i == 2) {
                 text = "Loading large building textures...";
             }
-        });
+        }, i);
 
-        gGameLoaders.push_back([i](std::string& text) {
+        gGameLoaders.emplace_back([i](std::string& text) {
             sCharacterTextures[i].load();
             if(i == 0) {
                 text = "Loading small character textures...";
@@ -69,9 +78,9 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
             } else if(i == 2) {
                 text = "Loading large character textures...";
             }
-        });
+        }, i);
 
-        gGameLoaders.push_back([i](std::string& text) {
+        gGameLoaders.emplace_back([i](std::string& text) {
             sDestructionTextures[i].load();
             if(i == 0) {
                 text = "Loading small destruction textures...";
@@ -80,9 +89,9 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
             } else if(i == 2) {
                 text = "Loading large destruction textures...";
             }
-        });
+        }, i);
 
-        gMenuLoaders.push_back([i](std::string& text) {
+        gMenuLoaders.emplace_back([i](std::string& text) {
             sInterfaceTextures[i].load();
             if(i == 0) {
                 text = "Loading small interface textures...";
@@ -91,7 +100,7 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
             } else if(i == 2) {
                 text = "Loading large interface textures...";
             }
-        });
+        }, i);
 
         i++;
     }
@@ -103,26 +112,44 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
 
 bool eGameTextures::loadNextMenu(std::string& text) {
     if(gMenuLoaders.empty()) return true;
-    gMenuLoaders.back()(text);
+    gMenuLoaders.back().fFunc(text);
     gMenuLoaders.pop_back();
     return false;
 }
 
 int gNextToLoad = 0;
 
-bool eGameTextures::loadNextGame(std::string& text) {
-    if(gGameLoaders.empty()) return true;
-    gGameLoaders.back()(text);
-    gGameLoaders.pop_back();
-    return false;
+bool eGameTextures::loadNextGame(const eSettings& settings,
+                                 std::string& text) {
+    const int iMax = gGameLoaders.size();
+    for(int i = 0; i < iMax; i++) {
+        auto& g = gGameLoaders[i];
+        if(g.fFinished) continue;
+        if(!settings.fSmallTextures &&
+           g.fSize == 0) continue;
+        if(!settings.fLargeTextures &&
+           g.fSize == 2) continue;
+        g.fFunc(text);
+        g.fFinished = true;
+        return false;
+    }
+    text = "Finished";
+    return true;
 }
 
-int eGameTextures::gameSize() {
-    return sTerrainTextures.size() +
-           sGodTextures.size() +
-           sBuildingTextures.size() +
-           sCharacterTextures.size() +
-           sDestructionTextures.size();
+int eGameTextures::gameSize(const eSettings& settings) {
+    int result = 0;
+    const int iMax = gGameLoaders.size();
+    for(int i = 0; i < iMax; i++) {
+        auto& g = gGameLoaders[i];
+        if(g.fFinished) continue;
+        if(!settings.fSmallTextures &&
+           g.fSize == 0) continue;
+        if(!settings.fLargeTextures &&
+           g.fSize == 2) continue;
+        result++;
+    }
+    return result;
 }
 
 int eGameTextures::menuSize() {

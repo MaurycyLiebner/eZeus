@@ -2,12 +2,7 @@
 #define ESETTINGSMENU_H
 
 #include "emainmenubase.h"
-#include "eresolution.h"
-
-struct eSettings {
-    bool fFullscreen;
-    eResolution fRes;
-};
+#include "esettings.h"
 
 inline bool operator==(const eSettings& s0, const eSettings& s1) {
     if(s0.fRes != s1.fRes) return false;

@@ -64,6 +64,34 @@ void eSettingsMenu::initialize(const eAction& backA,
         buttons->addWidget(lw);
     }
 
+    {
+        const auto lw = new eLabeledWidget(window());
+
+        const auto b = new eCheckBox(window());
+        b->setChecked(mSettings.fSmallTextures);
+        b->setCheckAction([this](const bool c) {
+            mSettings.fSmallTextures = c;
+        });
+        b->fitContent();
+
+        lw->setup("Small Textures: ", b);
+        buttons->addWidget(lw);
+    }
+
+    {
+        const auto lw = new eLabeledWidget(window());
+
+        const auto b = new eCheckBox(window());
+        b->setChecked(mSettings.fLargeTextures);
+        b->setCheckAction([this](const bool c) {
+            mSettings.fLargeTextures = c;
+        });
+        b->fitContent();
+
+        lw->setup("Large Textures: ", b);
+        buttons->addWidget(lw);
+    }
+
     buttons->layoutVertically();
 
     {
@@ -78,9 +106,6 @@ void eSettingsMenu::initialize(const eAction& backA,
     {
         const auto b = new eButton(window());
         b->setPressAction([this, backA, settingsA]() {
-            if(mSettings == mIniSettings) {
-                return;
-            }
             settingsA(mSettings);
         });
         buttons->addWidget(b);

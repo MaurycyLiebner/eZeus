@@ -2354,13 +2354,15 @@ bool eGameWidget::mouseWheelEvent(const eMouseWheelEvent& e) {
         return true;
     }
     mWheel = 0;
+    const auto& sett = window()->settings();
     if(e.dy() > 0) {
         switch(mTileSize) {
         case eTileSize::s15:
             setTileSize(eTileSize::s30);
             break;
         case eTileSize::s30:
-            setTileSize(eTileSize::s60);
+            if(sett.fLargeTextures)
+                setTileSize(eTileSize::s60);
             break;
         case eTileSize::s60:
             break;
@@ -2368,7 +2370,8 @@ bool eGameWidget::mouseWheelEvent(const eMouseWheelEvent& e) {
     } else {
         switch(mTileSize) {
         case eTileSize::s30:
-            setTileSize(eTileSize::s15);
+            if(sett.fSmallTextures)
+                setTileSize(eTileSize::s15);
             break;
         case eTileSize::s60:
             setTileSize(eTileSize::s30);

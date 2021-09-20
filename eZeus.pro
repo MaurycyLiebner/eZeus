@@ -421,6 +421,7 @@ HEADERS += \
     engine/thread/ethreadtile.h \
     eoverlay.h \
     epathfindtask.h \
+    esettings.h \
     esounds.h \
     espriteframe.h \
     esprites.h \

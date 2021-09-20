@@ -8,6 +8,8 @@
 #include "einterfacetextures.h"
 #include "edestructiontextures.h"
 
+#include "esettings.h"
+
 class eGameTextures {
 public:
     static const std::vector<eTerrainTextures>& terrain() {
@@ -31,8 +33,9 @@ public:
 
     static bool initialize(SDL_Renderer* const r);
     static bool loadNextMenu(std::string& text);
-    static bool loadNextGame(std::string& text);
-    static int gameSize();
+    static bool loadNextGame(const eSettings& settings,
+                             std::string& text);
+    static int gameSize(const eSettings& settings);
     static int menuSize();
 private:
     static bool sInitialized;
