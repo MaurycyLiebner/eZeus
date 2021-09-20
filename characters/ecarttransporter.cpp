@@ -107,6 +107,9 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
         case eResourceType::wheat:
             tex = texs.fWheatCart[oi].getTexture(ci);
             break;
+        case eResourceType::oranges:
+            tex = texs.fOrangesCart[oi].getTexture(ci);
+            break;
         case eResourceType::grapes:
             tex = texs.fGrapesCart[oi].getTexture(ci);
             break;

@@ -769,6 +769,7 @@ void eBuildingTextures::load() {
         }
 
         fGranaryOranges = texClass.load(122);
+        fGranaryOranges->setOffset(-3, -3);
 
         for(int i = 123; i < 129; i++) {
             texClass.load(i, fOrangeTree);
