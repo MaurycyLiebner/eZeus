@@ -19,9 +19,9 @@ void eGrowerAction::increment(const int by) {
 }
 
 bool eGrowerAction::findResource() {
-    const stdptr<eCharacterAction> tptr(this);
+    const stdptr<eGrowerAction> tptr(this);
     const auto failFunc = [tptr]() {
-        if(tptr) tptr->setState(eCharacterActionState::failed);
+        if(tptr) tptr->goBack2();
     };
 
     const auto gt = mType;
@@ -44,7 +44,15 @@ bool eGrowerAction::findResource() {
     };
 
     const auto finishAction = [tptr, this]() {
-        workOn(mGrower->tile());
+        if(!tptr) return;
+        const auto t = mGrower->tile();
+        const auto b = dynamic_cast<eResourceBuilding*>(
+                           t->underBuilding());
+        if(!b || t->busy() || b->workedOn()) {
+            findResource();
+        } else {
+            workOn(t);
+        }
     };
 
     const auto a = e::make_shared<eMoveToAction>(
