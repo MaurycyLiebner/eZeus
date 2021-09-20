@@ -38,26 +38,15 @@ eMasonryShop::eMasonryShop(eGameBoard& board) :
                              eResourceType::marble) {
     setCollectedAction([this](eTile* const tile) {
         auto& board = getBoard();
-        const auto cart = e::make_shared<eOxHandler>(board);
+
+        const auto r = eOxHandler::sCreate(board, tile);
+        const auto cart = r.fHandler.get();
         cart->setResource(eResourceType::marble, 1);
-        cart->changeTile(tile);
-        const auto ox = e::make_shared<eOx>(board);
-        const auto aox = e::make_shared<eFollowAction>(
-                           cart.get(), ox.get(),
-                           []() {}, []() {});
-        ox->setAction(aox);
-        ox->changeTile(tile);
-        const auto tr = e::make_shared<eTrailer>(cart.get(), board);
-        const auto atr = e::make_shared<eFollowAction>(
-                           ox.get(), tr.get(),
-                           []() {}, []() {});
-        tr->setAction(atr);
-        tr->changeTile(tile);
-        tr->setBig(true);
+        r.fTrailer->setBig(true);
 
         const auto empty = []() {};
         const auto a = e::make_shared<eMoveToAction>(
-                           cart.get(), empty, empty);
+                           cart, empty, empty);
         a->start(this);
         cart->setAction(a);
     });

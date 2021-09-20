@@ -18,19 +18,8 @@ bool eBuildingWithResource::spawnGiveCart(
     if(resType == eResourceType::marble ||
        resType == eResourceType::wood ||
        resType == eResourceType::sculpture) {
-        cart = e::make_shared<eOxHandler>(board);
-        const auto ox = e::make_shared<eOx>(board);
-        const auto aox = e::make_shared<eFollowAction>(
-                           cart.get(), ox.get(),
-                           []() {}, []() {});
-        ox->setAction(aox);
-        ox->changeTile(t);
-        const auto tr = e::make_shared<eTrailer>(cart.get(), board);
-        const auto atr = e::make_shared<eFollowAction>(
-                           ox.get(), tr.get(),
-                           []() {}, []() {});
-        tr->setAction(atr);
-        tr->changeTile(t);
+        const auto r = eOxHandler::sCreate(board, t);
+        cart = r.fHandler;
     } else {
         cart = e::make_shared<eCartTransporter>(board);
     }
@@ -99,7 +88,16 @@ bool eBuildingWithResource::spawnTakeCart(
     if(cart) depositFromCart(cart, spawnTime, waitTime);
     if(spaceLeft(resType) <= 0) return false;
     const auto t = centerTile();
-    if(!cart) cart = e::make_shared<eCartTransporter>(getBoard());
+    auto& board = getBoard();
+
+    if(resType == eResourceType::marble ||
+       resType == eResourceType::wood ||
+       resType == eResourceType::sculpture) {
+        const auto r = eOxHandler::sCreate(board, t);
+        cart = r.fHandler;
+    } else {
+        cart = e::make_shared<eCartTransporter>(board);
+    }
     cart->changeTile(t);
     const eStdPointer<eBuildingWithResource> tptr(this);
     const auto failAct = [tptr, this, &cart,
