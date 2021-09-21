@@ -676,6 +676,31 @@ void eBuildingTextures::load() {
 
         fColumnConnectionH = texClass.load(37);
         fColumnConnectionW = texClass.load(38);
+
+        fAvenue.emplace_back(fRenderer);
+        for(int i = 88; i < 97; i++) {
+            texClass.load(i, fAvenue[0]);
+        }
+
+        fAvenue.emplace_back(fRenderer);
+        for(int i = 97; i < 106; i++) {
+            texClass.load(i, fAvenue[1]);
+        }
+
+        fAvenue.emplace_back(fRenderer);
+        for(int i = 106; i < 115; i++) {
+            texClass.load(i, fAvenue[2]);
+        }
+
+        fAvenue.emplace_back(fRenderer);
+        for(int i = 115; i < 124; i++) {
+            texClass.load(i, fAvenue[3]);
+        }
+
+        fAvenue.emplace_back(fRenderer);
+        for(int i = 124; i < 132; i++) {
+            texClass.load(i, fAvenue[4]);
+        }
     }
     {
         const auto dir = basedir + "Zeus_Added/";

@@ -124,6 +124,8 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::ionicColumn;
     case eBuildingMode::corinthianColumn:
         return eBuildingType::corinthianColumn;
+    case eBuildingMode::avenue:
+        return eBuildingType::avenue;
 
     case eBuildingMode::bench:
         return eBuildingType::bench;

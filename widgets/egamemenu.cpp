@@ -384,7 +384,8 @@ void eGameMenu::initialize() {
                              eSPR{eBuildingMode::waterPark, "Water Park"},
                              eSPR{eBuildingMode::doricColumn, "Doric Column"},
                              eSPR{eBuildingMode::ionicColumn, "Ionic Column"},
-                             eSPR{eBuildingMode::corinthianColumn, "Corinthian Column"}}) {
+                             eSPR{eBuildingMode::corinthianColumn, "Corinthian Column"},
+                             eSPR{eBuildingMode::avenue, "Avenue"}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();

@@ -64,6 +64,7 @@
 
 #include "buildings/epark.h"
 #include "buildings/ecolumn.h"
+#include "buildings/eavenue.h"
 
 #include "buildings/eanimalbuilding.h"
 
@@ -1450,6 +1451,10 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = e::make_shared<eCorinthianColumn>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
+        case eBuildingMode::avenue: {
+            const auto b1 = e::make_shared<eAvenue>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
 
         case eBuildingMode::bench: {
             const auto b1 = e::make_shared<eBench>(mBoard);
@@ -2227,6 +2232,12 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 1, 1,
                           [this]() { return e::make_shared<eCorinthianColumn>(mBoard); });
+                };
+                break;
+            case eBuildingMode::avenue:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 1, 1,
+                          [this]() { return e::make_shared<eAvenue>(mBoard); });
                 };
                 break;
 

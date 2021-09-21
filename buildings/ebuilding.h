@@ -83,6 +83,7 @@ enum class eBuildingType {
     doricColumn,
     ionicColumn,
     corinthianColumn,
+    avenue,
 
     bench,
     flowerGarden,

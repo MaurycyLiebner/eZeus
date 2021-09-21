@@ -21,6 +21,7 @@ SOURCES += \
         buildings/eappeal.cpp \
         buildings/earmory.cpp \
         buildings/earmsvendor.cpp \
+        buildings/eavenue.cpp \
         buildings/ebuilding.cpp \
         buildings/ebuildingrenderer.cpp \
         buildings/ebuildingwithresource.cpp \
@@ -263,6 +264,7 @@ HEADERS += \
     buildings/eappeal.h \
     buildings/earmory.h \
     buildings/earmsvendor.h \
+    buildings/eavenue.h \
     buildings/ebuilding.h \
     buildings/ebuildingrenderer.h \
     buildings/ebuildingwithresource.h \

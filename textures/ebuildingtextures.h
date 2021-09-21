@@ -262,6 +262,8 @@ public:
     std::shared_ptr<eTexture> fIonicColumn;
     std::shared_ptr<eTexture> fCorinthianColumn;
 
+    std::vector<eTextureCollection> fAvenue;
+
     std::shared_ptr<eTexture> fColumnConnectionH;
     std::shared_ptr<eTexture> fColumnConnectionW;
 
