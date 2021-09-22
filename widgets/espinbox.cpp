@@ -4,41 +4,18 @@
 
 #include "textures/egametextures.h"
 
+#include "eupbutton.h"
+#include "edownbutton.h"
+
 void eSpinBox::initialize() {
     mValueLabel = new eLabel(window());
 
-    const auto& intrfc = eGameTextures::interface();
-    const auto res = resolution();
-    int iRes;
-    switch(res.uiScale()) {
-    case eUIScale::large:
-        iRes = 2;
-        break;
-    case eUIScale::medium:
-        iRes = 1;
-        break;
-    case eUIScale::small:
-        iRes = 0;
-        break;
-    }
-    const auto& texs = intrfc[iRes];
-
-    const auto up = new eButton(window());
-    up->setPadding(0);
-    up->setTexture(texs.fUpButton.getTexture(0));
-    up->setHoverTexture(texs.fUpButton.getTexture(1));
-    up->setPressedTexture(texs.fUpButton.getTexture(2));
-    up->fitContent();
+    const auto up = new eUpButton(window());
     up->setPressAction([this]() {
         setValue(mValue + mIncrement);
     });
 
-    const auto down = new eButton(window());
-    down->setPadding(0);
-    down->setTexture(texs.fDownButton.getTexture(0));
-    down->setHoverTexture(texs.fDownButton.getTexture(1));
-    down->setPressedTexture(texs.fDownButton.getTexture(2));
-    down->fitContent();
+    const auto down = new eDownButton(window());
     down->setPressAction([this]() {
         setValue(mValue - mIncrement);
     });

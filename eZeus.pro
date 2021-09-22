@@ -225,6 +225,7 @@ SOURCES += \
         widgets/echeckbox.cpp \
         widgets/ecombobox.cpp \
         widgets/econtextmenu.cpp \
+        widgets/edownbutton.cpp \
         widgets/eeventwidget.cpp \
         widgets/efonts.cpp \
         widgets/eframedlabel.cpp \
@@ -253,6 +254,7 @@ SOURCES += \
         widgets/eterraineditmenu.cpp \
         widgets/etilepainter.cpp \
         widgets/etopbarwidget.cpp \
+        widgets/eupbutton.cpp \
         widgets/eviewmode.cpp \
         widgets/ewidget.cpp \
         widgets/infowidgets/egyminfowidget.cpp \
@@ -493,6 +495,7 @@ HEADERS += \
     widgets/echeckbox.h \
     widgets/ecombobox.h \
     widgets/econtextmenu.h \
+    widgets/edownbutton.h \
     widgets/eeventwidget.h \
     widgets/efonts.h \
     widgets/eframedlabel.h \
@@ -521,6 +524,7 @@ HEADERS += \
     widgets/eterraineditmenu.h \
     widgets/etilepainter.h \
     widgets/etopbarwidget.h \
+    widgets/eupbutton.h \
     widgets/eviewmode.h \
     widgets/ewidget.h \
     widgets/infowidgets/egyminfowidget.h \
