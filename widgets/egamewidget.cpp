@@ -1176,22 +1176,52 @@ void eGameWidget::paintEvent(ePainter& p) {
             return;
         }
 
+        if(mode == eBuildingMode::park ||
+           mode == eBuildingMode::avenue) {
+            const auto& tex = trrTexs.fBuildingBase;
+            for(int x = sMinX; x <= sMaxX; x++) {
+                for(int y = sMinY; y <= sMaxY; y++) {
+                    double rx;
+                    double ry;
+                    const auto t = mBoard.tile(x, y);
+                    if(!t) continue;
+                    if(t->underBuilding()) continue;
+                    drawXY(x, y, rx, ry, 1, 1, t->altitude());
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                }
+            }
+            return;
+        }
+
         if(mode == eBuildingMode::commonHousing) {
-            const auto& tex = builTexs.fHouseSpace;
-            tex->setColorMod(0, 255, 0);
-            for(int x = sMinX; x <= sMaxX; x += 2) {
-                for(int y = sMinY; y <= sMaxY; y += 2) {
+            std::vector<SDL_Rect> rects;
+            const auto& tex = trrTexs.fBuildingBase;
+            for(int x = sMinX; x <= sMaxX; x++) {
+                for(int y = sMinY; y <= sMaxY; y++) {
+                    const SDL_Rect rect{x, y, 2, 2};
+                    bool cbr = true;
+                    for(const auto& r : rects) {
+                        const bool i = SDL_HasIntersection(&r, &rect);
+                        if(i) {
+                            cbr = false;
+                            break;
+                        }
+                    }
+                    if(!cbr) continue;
                     const bool cb = canBuild(x, y, 2, 2);
                     if(!cb) continue;
                     double rx;
                     double ry;
                     const auto t = mBoard.tile(x, y);
                     if(!t) continue;
-                    drawXY(x, y, rx, ry, 2, 2, t->altitude());
+                    drawXY(x, y, rx, ry, 1, 1, t->altitude());
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    tp.drawTexture(rx + 1, ry, tex, eAlignment::top);
+                    tp.drawTexture(rx, ry + 1, tex, eAlignment::top);
+                    tp.drawTexture(rx + 1, ry + 1, tex, eAlignment::top);
+                    rects.emplace_back(rect);
                 }
             }
-            tex->clearColorMod();
             return;
         }
     }

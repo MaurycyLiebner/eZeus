@@ -127,6 +127,8 @@ int costBase(const eBuildingType type) {
     case eBuildingType::ionicColumn:
     case eBuildingType::corinthianColumn:
         return 8;
+    case eBuildingType::avenue:
+        return 10;
 
     case eBuildingType::bench:
         return 6;
@@ -402,7 +404,7 @@ int eDifficultyHelpers::taxMultiplier(
     return 0;
 }
 
-int eDifficultyHelpers::texSentiment(
+int eDifficultyHelpers::taxSentiment(
         const eDifficulty diff,
         const eTaxRate taxRate) {
     const int id = static_cast<int>(taxRate);

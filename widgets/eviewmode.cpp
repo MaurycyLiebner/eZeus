@@ -75,6 +75,7 @@ bool eViewModeHelpers::buildingVisible(
                bt == eBuildingType::doricColumn ||
                bt == eBuildingType::ionicColumn ||
                bt == eBuildingType::corinthianColumn ||
+               bt == eBuildingType::avenue ||
 
                bt == eBuildingType::bench ||
                bt == eBuildingType::flowerGarden ||

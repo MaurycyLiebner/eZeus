@@ -36,7 +36,7 @@ namespace eDifficultyHelpers {
     int taxMultiplier(const eDifficulty diff,
                       const eBuildingType type,
                       const int level);
-    int texSentiment(const eDifficulty diff,
+    int taxSentiment(const eDifficulty diff,
                      const eTaxRate taxRate);
 }
 

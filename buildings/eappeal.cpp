@@ -59,6 +59,8 @@ eAppeal eAppealHelpers::appeal(const eBuildingType type) {
     case eBuildingType::ionicColumn:
     case eBuildingType::corinthianColumn: return {4, 3};
 
+    case eBuildingType::avenue: return {3, 3};
+
     case eBuildingType::park: return {3, 3};
 
     case eBuildingType::bench: return {2, 4};
