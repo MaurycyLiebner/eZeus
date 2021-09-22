@@ -4,6 +4,9 @@
 
 #include "../elabel.h"
 
+#include "../eupbutton.h"
+#include "../edownbutton.h"
+
 void eEmploymentDataWidget::initialize() {
     {
         const auto w = new eDataLabel(window());
@@ -29,6 +32,41 @@ void eEmploymentDataWidget::initialize() {
         jv = w;
     }
 
+    {
+        const auto l = new eLabel("Wages:", window());
+        l->setSmallPadding();
+        l->setVerySmallFontSize();
+        l->fitContent();
+        addWidget(l);
+
+        const auto w = new eWidget(window());
+        w->setNoPadding();
+        mWageLabel = new eLabel("very high", window());
+        mWageLabel->setSmallPadding();
+        mWageLabel->setVerySmallFontSize();
+        mWageLabel->fitContent();
+        w->addWidget(mWageLabel);
+        const auto upButton = new eUpButton(window());
+        upButton->setPressAction([this]() {
+            if(mWageRate == eWageRate::veryHigh) return;
+            const int wr = static_cast<int>(mWageRate) + 1;
+            setWageRate(static_cast<eWageRate>(wr));
+        });
+        w->addWidget(upButton);
+        const auto downButton = new eDownButton(window());
+        downButton->setPressAction([this]() {
+            if(mWageRate == eWageRate::none) return;
+            const int wr = static_cast<int>(mWageRate) - 1;
+            setWageRate(static_cast<eWageRate>(wr));
+        });
+        w->addWidget(downButton);
+        w->stackHorizontally();
+        w->fitContent();
+        upButton->align(eAlignment::vcenter);
+        downButton->align(eAlignment::vcenter);
+        addWidget(w);
+    }
+
     stackVertically();
 
 
@@ -48,6 +86,9 @@ void eEmploymentDataWidget::initialize() {
 
 void eEmploymentDataWidget::setBoard(eGameBoard* const b) {
     mBoard = b;
+    if(b) {
+        setWageRate(b->wageRate());
+    }
 }
 
 void eEmploymentDataWidget::paintEvent(ePainter& p) {
@@ -74,8 +115,11 @@ void eEmploymentDataWidget::paintEvent(ePainter& p) {
         const int u = emplData.unemployed();
         mUnemployedNLabel->setText(std::to_string(u));
         mUnemployedNLabel->fitContent();
-
-        stackVertically();
     }
     eWidget::paintEvent(p);
+}
+
+void eEmploymentDataWidget::setWageRate(const eWageRate wr) {
+    mWageRate = wr;
+    mWageLabel->setText(eWageRateHelpers::name(wr));
 }

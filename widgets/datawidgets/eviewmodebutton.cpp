@@ -13,7 +13,7 @@ eViewModeButton::eViewModeButton(const std::string& text,
             mGW->setViewMode(mVM);
         }
     });
-    setSmallFontSize();
+    setVerySmallFontSize();
     setTinyPadding();
     setText(text);
     fitContent();

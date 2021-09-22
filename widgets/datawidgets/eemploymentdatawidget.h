@@ -3,6 +3,8 @@
 
 #include "edatalabel.h"
 
+#include "engine/ewagerate.h"
+
 class eGameBoard;
 class eLabel;
 
@@ -16,6 +18,8 @@ public:
 protected:
     void paintEvent(ePainter& p);
 private:
+    void setWageRate(const eWageRate wr);
+
     eGameBoard* mBoard = nullptr;
 
     eLabel* mPensionsLabel = nullptr;
@@ -27,6 +31,10 @@ private:
 
     eDataLabel* mVacanciesLabel = nullptr;
     eLabel* mVacanciesNLabel = nullptr;
+
+    eLabel* mWageLabel = nullptr;
+
+    eWageRate mWageRate{eWageRate::normal};
 
     int mTime{0};
 };
