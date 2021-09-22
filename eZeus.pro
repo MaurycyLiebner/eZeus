@@ -165,10 +165,12 @@ SOURCES += \
         engine/epathfinder.cpp \
         engine/eresourcetype.cpp \
         engine/etask.cpp \
+        engine/etaxrate.cpp \
         engine/eterrain.cpp \
         engine/ethreadpool.cpp \
         engine/etile.cpp \
         engine/etilebase.cpp \
+        engine/ewagerate.cpp \
         engine/thread/ethreadboard.cpp \
         engine/thread/ethreadbuilding.cpp \
         engine/thread/ethreadcharacter.cpp \
@@ -415,10 +417,12 @@ HEADERS += \
     engine/eprovide.h \
     engine/eresourcetype.h \
     engine/etask.h \
+    engine/etaxrate.h \
     engine/eterrain.h \
     engine/ethreadpool.h \
     engine/etile.h \
     engine/etilebase.h \
+    engine/ewagerate.h \
     engine/thread/ethreadboard.h \
     engine/thread/ethreadbuilding.h \
     engine/thread/ethreadcharacter.h \

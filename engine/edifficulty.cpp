@@ -432,37 +432,6 @@ int eDifficultyHelpers::taxSentiment(
     }
 }
 
-double eTaxRateHelpers::getRate(const eTaxRate tr) {
-    switch(tr) {
-    case eTaxRate::none:
-        return 0.03;
-    case eTaxRate::low:
-        return 0.03;
-    case eTaxRate::veryLow:
-        return 0.07;
-    case eTaxRate::normal:
-        return 0.09;
-    case eTaxRate::high:
-        return 0.11;
-    case eTaxRate::veryHigh:
-        return 0.15;
-    case eTaxRate::outrageous:
-        return 0.20;
-    }
-}
-
-double eDifficultyHelpers::wageMultiplier(
-        const eWageRate wageRate) {
-    switch(wageRate) {
-    case eWageRate::none: return 0;
-    case eWageRate::veryLow: return 2;
-    case eWageRate::low: return 2.5;
-    case eWageRate::normal: return 3;
-    case eWageRate::high: return 3.4;
-    case eWageRate::veryHigh: return 4;
-    }
-}
-
 double eDifficultyHelpers::workerFrac(
         const eDifficulty diff, const eWageRate wageRate) {
     switch(wageRate) {

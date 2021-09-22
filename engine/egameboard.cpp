@@ -127,6 +127,9 @@ void eGameBoard::incTime(const int by) {
         mDate.nextDay(nextMonth, nextYear);
         mTime = 0;
     }
+    if(nextYear) {
+        mDrachmas -= mEmplData.pensions();
+    }
     const auto chars = mCharacters;
     for(const auto c : chars) {
         c->incTime(by);
