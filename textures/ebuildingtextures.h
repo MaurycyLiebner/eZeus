@@ -265,6 +265,8 @@ public:
     std::vector<eTextureCollection> fAvenue;
     eTextureCollection fAvenueRoad;
 
+    eTextureCollection fCommemorative;
+
     std::shared_ptr<eTexture> fColumnConnectionH;
     std::shared_ptr<eTexture> fColumnConnectionW;
 

@@ -75,6 +75,16 @@ enum class eBuildingMode {
     corinthianColumn,
     avenue,
 
+    commemorative1,
+    commemorative2,
+    commemorative3,
+    commemorative4,
+    commemorative5,
+    commemorative6,
+    commemorative7,
+    commemorative8,
+    commemorative9,
+
     bench,
     flowerGarden,
     gazebo,

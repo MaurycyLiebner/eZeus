@@ -61,6 +61,8 @@ eAppeal eAppealHelpers::appeal(const eBuildingType type) {
 
     case eBuildingType::avenue: return {3, 3};
 
+    case eBuildingType::commemorative: return {30, 6};
+
     case eBuildingType::park: return {3, 3};
 
     case eBuildingType::bench: return {2, 4};

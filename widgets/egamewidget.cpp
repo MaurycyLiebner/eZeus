@@ -1486,6 +1486,43 @@ void eGameWidget::paintEvent(ePainter& p) {
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
 
+        case eBuildingMode::commemorative1: {
+            const auto b1 = e::make_shared<eCommemorative>(0, mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::commemorative2: {
+            const auto b1 = e::make_shared<eCommemorative>(1, mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::commemorative3: {
+            const auto b1 = e::make_shared<eCommemorative>(2, mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::commemorative4: {
+            const auto b1 = e::make_shared<eCommemorative>(3, mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::commemorative5: {
+            const auto b1 = e::make_shared<eCommemorative>(4, mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::commemorative6: {
+            const auto b1 = e::make_shared<eCommemorative>(5, mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::commemorative7: {
+            const auto b1 = e::make_shared<eCommemorative>(6, mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::commemorative8: {
+            const auto b1 = e::make_shared<eCommemorative>(7, mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::commemorative9: {
+            const auto b1 = e::make_shared<eCommemorative>(8, mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+
         case eBuildingMode::bench: {
             const auto b1 = e::make_shared<eBench>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
@@ -2268,6 +2305,61 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 1, 1,
                           [this]() { return e::make_shared<eAvenue>(mBoard); });
+                };
+                break;
+
+            case eBuildingMode::commemorative1:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 3, 3,
+                          [this]() { return e::make_shared<eCommemorative>(0, mBoard); });
+                };
+                break;
+            case eBuildingMode::commemorative2:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 3, 3,
+                          [this]() { return e::make_shared<eCommemorative>(1, mBoard); });
+                };
+                break;
+            case eBuildingMode::commemorative3:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 3, 3,
+                          [this]() { return e::make_shared<eCommemorative>(2, mBoard); });
+                };
+                break;
+            case eBuildingMode::commemorative4:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 3, 3,
+                          [this]() { return e::make_shared<eCommemorative>(3, mBoard); });
+                };
+                break;
+            case eBuildingMode::commemorative5:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 3, 3,
+                          [this]() { return e::make_shared<eCommemorative>(4, mBoard); });
+                };
+                break;
+            case eBuildingMode::commemorative6:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 3, 3,
+                          [this]() { return e::make_shared<eCommemorative>(5, mBoard); });
+                };
+                break;
+            case eBuildingMode::commemorative7:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 3, 3,
+                          [this]() { return e::make_shared<eCommemorative>(6, mBoard); });
+                };
+                break;
+            case eBuildingMode::commemorative8:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 3, 3,
+                          [this]() { return e::make_shared<eCommemorative>(7, mBoard); });
+                };
+                break;
+            case eBuildingMode::commemorative9:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 3, 3,
+                          [this]() { return e::make_shared<eCommemorative>(8, mBoard); });
                 };
                 break;
 

@@ -85,6 +85,8 @@ enum class eBuildingType {
     corinthianColumn,
     avenue,
 
+    commemorative,
+
     bench,
     flowerGarden,
     gazebo,

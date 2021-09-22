@@ -130,6 +130,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
 
     fAvenueRoad(renderer),
 
+    fCommemorative(renderer),
+
     fBirdBathOverlay(renderer),
     fSpring(renderer),
     fBathsOverlay(renderer),
@@ -671,6 +673,10 @@ void eBuildingTextures::load() {
         fGazebo = texClass.load(22);
         fHedgeMaze = texClass.load(23);
         fFishPond = texClass.load(24);
+
+        for(int i = 25; i < 34; i++) {
+            texClass.load(i, fCommemorative);
+        }
 
         fDoricColumn = texClass.load(34);
         fIonicColumn = texClass.load(35);

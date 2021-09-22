@@ -202,3 +202,16 @@ std::vector<eOverlay> eWaterPark::getOverlays(
     o.fTex = coll->getTexture(texId);
     return std::vector<eOverlay>({o});
 }
+
+eCommemorative::eCommemorative(const int id, eGameBoard& board) :
+    eBuilding(board, eBuildingType::commemorative, 3, 3),
+    mId(id) {
+
+}
+
+std::shared_ptr<eTexture>
+eCommemorative::getTexture(const eTileSize size) const {
+    const int sizeId = static_cast<int>(size);
+    const auto& texs = eGameTextures::buildings()[sizeId];
+    return texs.fCommemorative.getTexture(mId);
+}

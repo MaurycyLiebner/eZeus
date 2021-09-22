@@ -127,6 +127,17 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
     case eBuildingMode::avenue:
         return eBuildingType::avenue;
 
+    case eBuildingMode::commemorative1:
+    case eBuildingMode::commemorative2:
+    case eBuildingMode::commemorative3:
+    case eBuildingMode::commemorative4:
+    case eBuildingMode::commemorative5:
+    case eBuildingMode::commemorative6:
+    case eBuildingMode::commemorative7:
+    case eBuildingMode::commemorative8:
+    case eBuildingMode::commemorative9:
+        return eBuildingType::commemorative;
+
     case eBuildingMode::bench:
         return eBuildingType::bench;
     case eBuildingMode::flowerGarden:

@@ -413,7 +413,22 @@ void eGameMenu::initialize() {
         cm->fitContent();
         cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
-    const auto m9 = [this, cmx, cmy, coll, mult]() {};
+    const auto m9 = [this, cmx, cmy, coll, mult]() {
+        const auto cm = new eContextMenu(window());
+        for(const auto& c : {eSPR{eBuildingMode::commemorative1, "Commemorative 1"},
+                             eSPR{eBuildingMode::commemorative2, "Commemorative 2"},
+                             eSPR{eBuildingMode::commemorative3, "Commemorative 3"},
+                             eSPR{eBuildingMode::commemorative4, "Commemorative 4"},
+                             eSPR{eBuildingMode::commemorative5, "Commemorative 5"},
+                             eSPR{eBuildingMode::commemorative6, "Commemorative 6"},
+                             eSPR{eBuildingMode::commemorative7, "Commemorative 7"},
+                             eSPR{eBuildingMode::commemorative8, "Commemorative 8"},
+                             eSPR{eBuildingMode::commemorative9, "Commemorative 9"}}) {
+            addAction(c, mult, coll, cm);
+        }
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
+    };
 
     const auto ww9 = new eWidget(window());
     const auto w9 = createSubButtons(mult,
