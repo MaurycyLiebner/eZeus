@@ -12,6 +12,8 @@ public:
 
     void setHoverTexture(const std::shared_ptr<eTexture>& tex);
     void setPressedTexture(const std::shared_ptr<eTexture>& tex);
+
+    int lineWidth() const;
 protected:
     void sizeHint(int& w, int& h);
     void paintEvent(ePainter& p);

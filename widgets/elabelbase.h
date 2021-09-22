@@ -16,6 +16,8 @@ public:
 
     SDL_Color fontColor() const
     { return mFontColor; }
+
+    int fontSize() const;
 protected:
     const std::shared_ptr<eTexture>& texture() { return mTexture; }
     bool setFont(TTF_Font* const font);

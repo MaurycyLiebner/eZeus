@@ -20,6 +20,10 @@ void eButton::setPressedTexture(const std::shared_ptr<eTexture>& tex) {
     mPressedTexture = tex;
 }
 
+int eButton::lineWidth() const {
+    return fontSize()/15;
+}
+
 void eButton::sizeHint(int& w, int& h) {
     eLabel::sizeHint(w, h);
     w = std::max({w, mTexture ? mTexture->width() : 0,
@@ -44,7 +48,7 @@ void eButton::paintEvent(ePainter& p) {
             const int th = t->height();
             const int hh = (height() - th)/2;
             const int ah = height();
-            const SDL_Rect brect{ww, ah - hh, width() - 2*ww, 2};
+            const SDL_Rect brect{ww, ah - hh, width() - 2*ww, lineWidth()};
             p.fillRect(brect, fontColor());
         }
     }

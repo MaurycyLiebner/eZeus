@@ -36,6 +36,11 @@ bool eLabelBase::setFontColor(const SDL_Color& color) {
     return updateTextTexture();
 }
 
+int eLabelBase::fontSize() const {
+    if(!mFont) return 0;
+    return TTF_FontHeight(mFont);
+}
+
 bool eLabelBase::updateTextTexture() {
     if(mText.empty()) {
         mTexture.reset();
