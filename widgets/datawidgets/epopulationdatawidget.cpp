@@ -4,7 +4,7 @@
 
 #include "eviewmodebutton.h"
 
-#include "../elabel.h"
+#include "edatalabel.h"
 
 void ePopulationDataWidget::initialize() {
     mSeeSupplies = new eViewModeButton(
@@ -15,29 +15,21 @@ void ePopulationDataWidget::initialize() {
     addWidget(mSeeSupplies);
     mSeeSupplies->align(eAlignment::hcenter);
 
-    const auto p = new eLabel("Population:", window());
-    p->setSmallFontSize();
-    p->fitContent();
-    mPopLabel = new eLabel("-", window());
-    mPopLabel->setSmallFontSize();
-    mPopLabel->fitContent();
-    const auto v = new eLabel("Vacancies:", window());
-    v->setSmallFontSize();
-    v->fitContent();
-    mVacLabel = new eLabel("-", window());
-    mVacLabel->setSmallFontSize();
-    mVacLabel->fitContent();
+    {
+        const auto w = new eDataLabel(window());
+        w->initialize("Population: ");
+        mPopLabel = w->label();
+        addWidget(w);
+    }
 
-    addWidget(p);
-    addWidget(mPopLabel);
-    addWidget(v);
-    addWidget(mVacLabel);
+    {
+        const auto w = new eDataLabel(window());
+        w->initialize("Vacancies: ");
+        mVacLabel = w->label();
+        addWidget(w);
+    }
 
-    p->align(eAlignment::hcenter);
-    v->align(eAlignment::hcenter);
-    mPopLabel->align(eAlignment::hcenter);
-    mVacLabel->align(eAlignment::hcenter);
-    layoutVertically();
+    stackVertically();
 }
 
 void ePopulationDataWidget::setBoard(eGameBoard* const b) {
@@ -56,12 +48,10 @@ void ePopulationDataWidget::paintEvent(ePainter& p) {
         const int p = popData.population();
         mPopLabel->setText(std::to_string(p));
         mPopLabel->fitContent();
-        mPopLabel->align(eAlignment::hcenter);
 
         const int v = popData.vacancies();
         mVacLabel->setText(std::to_string(v));
         mVacLabel->fitContent();
-        mVacLabel->align(eAlignment::hcenter);
     }
     eWidget::paintEvent(p);
 }

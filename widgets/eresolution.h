@@ -28,6 +28,7 @@ public:
     int hugeFontSize() const;
     int largeFontSize() const;
     int smallFontSize() const;
+    int verySmallFontSize() const;
     int tinyFontSize() const;
 
     int centralWidgetWidth() const;

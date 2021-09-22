@@ -212,6 +212,7 @@ SOURCES += \
         textures/ewatertox.cpp \
         widgets/datawidgets/eappealdatawidget.cpp \
         widgets/datawidgets/eculturedatawidget.cpp \
+        widgets/datawidgets/edatalabel.cpp \
         widgets/datawidgets/eemploymentdatawidget.cpp \
         widgets/datawidgets/ehygienesafetydatawidget.cpp \
         widgets/datawidgets/epopulationdatawidget.cpp \
@@ -479,6 +480,7 @@ HEADERS += \
     vec2.h \
     widgets/datawidgets/eappealdatawidget.h \
     widgets/datawidgets/eculturedatawidget.h \
+    widgets/datawidgets/edatalabel.h \
     widgets/datawidgets/eemploymentdatawidget.h \
     widgets/datawidgets/ehygienesafetydatawidget.h \
     widgets/datawidgets/epopulationdatawidget.h \

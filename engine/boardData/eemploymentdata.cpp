@@ -29,7 +29,10 @@ int eEmploymentData::employed() const {
 }
 
 int eEmploymentData::pensions() const {
-    return 2*employed();
+    const auto wageRate = mBoard.wageRate();
+    const double frac = eDifficultyHelpers::wageMultiplier(
+                            wageRate);
+    return frac*employed();
 }
 
 int eEmploymentData::unemployed() const {

@@ -1,7 +1,7 @@
 #ifndef EEMPLOYMENTDATAWIDGET_H
 #define EEMPLOYMENTDATAWIDGET_H
 
-#include "../ewidget.h"
+#include "edatalabel.h"
 
 class eGameBoard;
 class eLabel;
@@ -22,10 +22,10 @@ private:
 
     eLabel* mWorkforceLabel = nullptr;
 
-    eLabel* mUnemployedLabel = nullptr;
+    eDataLabel* mUnemployedLabel = nullptr;
     eLabel* mUnemployedNLabel = nullptr;
 
-    eLabel* mVacanciesLabel = nullptr;
+    eDataLabel* mVacanciesLabel = nullptr;
     eLabel* mVacanciesNLabel = nullptr;
 
     int mTime{0};

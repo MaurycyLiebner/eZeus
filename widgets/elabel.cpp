@@ -16,6 +16,12 @@ bool eLabel::setTinyFontSize() {
     return setFontSize(s);
 }
 
+bool eLabel::setVerySmallFontSize() {
+    const int s = resolution().verySmallFontSize();
+    return setFontSize(s);
+
+}
+
 bool eLabel::setSmallFontSize() {
     const int s = resolution().smallFontSize();
     return setFontSize(s);
@@ -36,5 +42,6 @@ void eLabel::paintEvent(ePainter& p) {
     const auto& tex = texture();
     if(tex) {
         p.drawTexture(rect(), tex, eAlignment::center);
+        p.drawRect(rect(), {0, 0, 0, 255}, 1);
     }
 }

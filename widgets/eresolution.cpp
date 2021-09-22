@@ -52,7 +52,14 @@ int eResolution::margin() const {
 }
 
 double eResolution::multiplier() const {
-    return height()/720.;
+    switch(mUIScale) {
+    case eUIScale::small:
+        return 0.75;
+    case eUIScale::medium:
+        return 1.0;
+    case eUIScale::large:
+        return 1.5;
+    }
 }
 
 int eResolution::hugeFontSize() const {
@@ -65,6 +72,10 @@ int eResolution::largeFontSize() const {
 
 int eResolution::smallFontSize() const {
     return 3*largeFontSize()/4;
+}
+
+int eResolution::verySmallFontSize() const {
+    return 3*largeFontSize()/5;
 }
 
 int eResolution::tinyFontSize() const {

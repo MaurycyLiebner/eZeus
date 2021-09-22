@@ -12,6 +12,7 @@ public:
            eMainWindow* const window);
 
     bool setTinyFontSize();
+    bool setVerySmallFontSize();
     bool setSmallFontSize();
 protected:
     void sizeHint(int& w, int& h);

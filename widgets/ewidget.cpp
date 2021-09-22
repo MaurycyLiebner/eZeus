@@ -381,10 +381,12 @@ void eWidget::removeWidget(eWidget* const w) {
 void eWidget::stackVertically() {
     int wsHeight = 0;
     for(const auto w : mChildren) {
+        if(!w->visible()) continue;
         wsHeight += w->height();
     }
     int y = 0;
     for(const auto w : mChildren) {
+        if(!w->visible()) continue;
         w->setY(y);
         y += w->height();
     }
@@ -394,11 +396,13 @@ void eWidget::layoutVertically() {
     const int spaces = mChildren.size() + 1;
     int wsHeight = 0;
     for(const auto w : mChildren) {
+        if(!w->visible()) continue;
         wsHeight += w->height();
     }
     const int space = (height() - wsHeight)/spaces;
     int y = space;
     for(const auto w : mChildren) {
+        if(!w->visible()) continue;
         w->setY(y);
         y += w->height() + space;
     }
