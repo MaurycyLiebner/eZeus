@@ -263,6 +263,7 @@ public:
     std::shared_ptr<eTexture> fCorinthianColumn;
 
     std::vector<eTextureCollection> fAvenue;
+    eTextureCollection fAvenueRoad;
 
     std::shared_ptr<eTexture> fColumnConnectionH;
     std::shared_ptr<eTexture> fColumnConnectionW;

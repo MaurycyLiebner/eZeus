@@ -66,6 +66,7 @@ eAvenue::getTexture(const eTileSize size) const {
     const auto& blds = eGameTextures::buildings()[sizeId];
     const auto& avn = blds.fAvenue;
     const auto t = centerTile();
+
     const auto tl = t->topLeft<eTile>();
     const auto br = t->bottomRight<eTile>();
     const auto bl = t->bottomLeft<eTile>();
@@ -76,11 +77,6 @@ eAvenue::getTexture(const eTileSize size) const {
     const auto blt = bl ? bl->underBuildingType() : eBuildingType::none;
     const auto trt = tr ? tr->underBuildingType() : eBuildingType::none;
 
-    const auto tt = tl ? tl->underBuildingType() : eBuildingType::none;
-    const auto bt = br ? br->underBuildingType() : eBuildingType::none;
-    const auto lt = bl ? bl->underBuildingType() : eBuildingType::none;
-    const auto rt = tr ? tr->underBuildingType() : eBuildingType::none;
-
     const bool tlb = tlt == eBuildingType::avenue ||
                      tlt == eBuildingType::road;
     const bool brb = brt == eBuildingType::avenue ||
@@ -90,17 +86,26 @@ eAvenue::getTexture(const eTileSize size) const {
     const bool trb = trt == eBuildingType::avenue ||
                      trt == eBuildingType::road;
 
-    const bool lb = bt == eBuildingType::avenue ||
-                    bt == eBuildingType::road;
-    const bool bb = lt == eBuildingType::avenue ||
-                    lt == eBuildingType::road;
-    const bool rb = rt == eBuildingType::avenue ||
-                    rt == eBuildingType::road;
     eTileGetter tg1 = nullptr;
     eTileGetter tg2 = nullptr;
     int collId = 0;
     int id = 0;
     if(tlb && brb && blb && trb) {
+        const auto b = t->bottom<eTile>();
+        const auto l = t->left<eTile>();
+        const auto r = t->right<eTile>();
+
+        const auto bt = b ? b->underBuildingType() : eBuildingType::none;
+        const auto lt = l ? l->underBuildingType() : eBuildingType::none;
+        const auto rt = r ? r->underBuildingType() : eBuildingType::none;
+
+        const bool lb = bt == eBuildingType::avenue ||
+                        bt == eBuildingType::road;
+        const bool bb = lt == eBuildingType::avenue ||
+                        lt == eBuildingType::road;
+        const bool rb = rt == eBuildingType::avenue ||
+                        rt == eBuildingType::road;
+
         collId = 4;
         if(!bb) {
             id = 0;

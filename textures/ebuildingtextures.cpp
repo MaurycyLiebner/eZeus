@@ -128,6 +128,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
 
     fFishPondOverlay(renderer),
 
+    fAvenueRoad(renderer),
+
     fBirdBathOverlay(renderer),
     fSpring(renderer),
     fBathsOverlay(renderer),
@@ -676,6 +678,10 @@ void eBuildingTextures::load() {
 
         fColumnConnectionH = texClass.load(37);
         fColumnConnectionW = texClass.load(38);
+
+        for(int i = 39; i < 88; i++) {
+            texClass.load(i, fAvenueRoad);
+        }
 
         fAvenue.emplace_back(fRenderer);
         for(int i = 88; i < 97; i++) {
