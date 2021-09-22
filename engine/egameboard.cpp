@@ -14,7 +14,7 @@
 #include "characters/actions/egodvisitaction.h"
 
 eGameBoard::eGameBoard(eThreadPool* const tpool) :
-    mThreadPool(tpool), mEmplData(mPopData) {}
+    mThreadPool(tpool), mEmplData(mPopData, *this) {}
 
 eGameBoard::~eGameBoard() {
     clear();
@@ -203,6 +203,10 @@ void eGameBoard::incDrachmas(const int d) {
 
 double eGameBoard::appeal(const int tx, const int ty) const {
     return mAppealMap.appeal(tx, ty);
+}
+
+double eGameBoard::taxRateF() const {
+    return eTaxRateHelpers::getRate(mTaxRate);
 }
 
 void eGameBoard::addRubbish(const stdsptr<eObject>& o) {

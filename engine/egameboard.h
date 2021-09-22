@@ -147,7 +147,9 @@ public:
 
     double appeal(const int tx, const int ty) const;
 
-    double taxRate() const { return mTaxRate; }
+    double taxRateF() const;
+    eTaxRate taxRate() const { return mTaxRate; }
+    eWageRate wageRate() const { return mWageRate; }
 
     void addRubbish(const stdsptr<eObject>& o);
     void emptyRubbish();
@@ -169,9 +171,9 @@ private:
     eVisibilityChecker mVisibilityChecker;
 
     int mDrachmas = 2500;
-    eDifficulty mDifficulty = eDifficulty::beginner;
-
-    double mTaxRate = 0.09;
+    eDifficulty mDifficulty{eDifficulty::beginner};
+    eWageRate mWageRate{eWageRate::normal};
+    eTaxRate mTaxRate{eTaxRate::normal};
 
     int mTime = 0;
     eDate mDate = eDate(1, eMonth::january, -1500);

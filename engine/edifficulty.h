@@ -17,6 +17,15 @@ enum class eTaxRate {
     outrageous
 };
 
+enum class eWageRate {
+    none,
+    veryLow,
+    low,
+    normal,
+    high,
+    veryHigh
+};
+
 namespace eTaxRateHelpers {
     double getRate(const eTaxRate tr);
 }
@@ -38,6 +47,10 @@ namespace eDifficultyHelpers {
                       const int level);
     int taxSentiment(const eDifficulty diff,
                      const eTaxRate taxRate);
+
+    double wageMultiplier(const eWageRate wageRate);
+    double workerFrac(const eDifficulty diff,
+                      const eWageRate wageRate);
 }
 
 #endif // EDIFFICULTY_H

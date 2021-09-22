@@ -1,11 +1,14 @@
 #include "eemploymentdata.h"
 
 #include "epopulationdata.h"
+#include "engine/edifficulty.h"
+#include "engine/egameboard.h"
 
 #include <math.h>
 
-eEmploymentData::eEmploymentData(const ePopulationData& popData) :
-    mPopData(popData) {
+eEmploymentData::eEmploymentData(const ePopulationData& popData,
+                                 const eGameBoard& board) :
+    mPopData(popData), mBoard(board) {
 
 }
 
@@ -14,7 +17,11 @@ void eEmploymentData::incTotalJobVacancies(const int v) {
 }
 
 int eEmploymentData::employable() const {
-    return mPopData.population()/2;
+    const auto diff = mBoard.difficulty();
+    const auto wageRate = mBoard.wageRate();
+    const double frac = eDifficultyHelpers::workerFrac(
+                            diff, wageRate);
+    return frac*mPopData.population();
 }
 
 int eEmploymentData::employed() const {

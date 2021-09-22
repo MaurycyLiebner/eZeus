@@ -450,3 +450,111 @@ double eTaxRateHelpers::getRate(const eTaxRate tr) {
         return 0.20;
     }
 }
+
+double eDifficultyHelpers::wageMultiplier(
+        const eWageRate wageRate) {
+    switch(wageRate) {
+    case eWageRate::none: return 0;
+    case eWageRate::veryLow: return 2;
+    case eWageRate::low: return 2.5;
+    case eWageRate::normal: return 3;
+    case eWageRate::high: return 3.4;
+    case eWageRate::veryHigh: return 4;
+    }
+}
+
+double eDifficultyHelpers::workerFrac(
+        const eDifficulty diff, const eWageRate wageRate) {
+    switch(wageRate) {
+    case eWageRate::none:
+    {
+        switch(diff) {
+        case eDifficulty::beginner:
+            return 0.42;
+        case eDifficulty::mortal:
+            return 0.37;
+        case eDifficulty::hero:
+            return 0.32;
+        case eDifficulty::titan:
+            return 0.29;
+        case eDifficulty::olympian:
+            return 0.27;
+        }
+    }
+    case eWageRate::veryLow:
+    {
+        switch(diff) {
+        case eDifficulty::beginner:
+            return 0.46;
+        case eDifficulty::mortal:
+            return 0.41;
+        case eDifficulty::hero:
+            return 0.36;
+        case eDifficulty::titan:
+            return 0.33;
+        case eDifficulty::olympian:
+            return 0.31;
+        }
+    }
+    case eWageRate::low:
+    {
+        switch(diff) {
+        case eDifficulty::beginner:
+            return 0.49;
+        case eDifficulty::mortal:
+            return 0.44;
+        case eDifficulty::hero:
+            return 0.39;
+        case eDifficulty::titan:
+            return 0.36;
+        case eDifficulty::olympian:
+            return 0.34;
+        }
+    }
+    case eWageRate::normal:
+    {
+        switch(diff) {
+        case eDifficulty::beginner:
+            return 0.52;
+        case eDifficulty::mortal:
+            return 0.47;
+        case eDifficulty::hero:
+            return 0.42;
+        case eDifficulty::titan:
+            return 0.39;
+        case eDifficulty::olympian:
+            return 0.37;
+        }
+    }
+    case eWageRate::high:
+    {
+        switch(diff) {
+        case eDifficulty::beginner:
+            return 0.55;
+        case eDifficulty::mortal:
+            return 0.50;
+        case eDifficulty::hero:
+            return 0.45;
+        case eDifficulty::titan:
+            return 0.42;
+        case eDifficulty::olympian:
+            return 0.4;
+        }
+    }
+    case eWageRate::veryHigh:
+    {
+        switch(diff) {
+        case eDifficulty::beginner:
+            return 0.57;
+        case eDifficulty::mortal:
+            return 0.52;
+        case eDifficulty::hero:
+            return 0.47;
+        case eDifficulty::titan:
+            return 0.44;
+        case eDifficulty::olympian:
+            return 0.42;
+        }
+    }
+    }
+}

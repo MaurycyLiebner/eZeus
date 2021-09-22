@@ -63,7 +63,7 @@ int eSmallHouse::provide(const eProvide p, const int n) {
         const auto diff = b.difficulty();
         const int taxMult = eDifficultyHelpers::taxMultiplier(
                                 diff, type(), mLevel);
-        const double tax = mPeople * taxMult * b.taxRate();
+        const double tax = mPeople * taxMult * b.taxRateF();
         const int iTax = std::round(tax);
         b.incDrachmas(iTax);
         return iTax;
