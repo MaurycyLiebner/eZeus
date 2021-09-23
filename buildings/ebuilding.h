@@ -69,6 +69,10 @@ enum class eBuildingType {
     sculptureStudio,
     artisansGuild,
 
+    wall,
+    tower,
+    gatehouse,
+
     triremeWharf,
     horseRanch,
     armory,

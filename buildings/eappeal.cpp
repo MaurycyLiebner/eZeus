@@ -31,6 +31,8 @@ eAppeal eAppealHelpers::appeal(const eBuildingType type) {
     case eBuildingType::sculptureStudio: return {-2, 2};
     case eBuildingType::olivePress: return {-4, 4};
     case eBuildingType::winery: return {4, 4};
+    case eBuildingType::armory: return {-8, 4};
+    case eBuildingType::tower: return {-4, 4};
 
     case eBuildingType::granary: return {-12, 4};
     case eBuildingType::warehouse: return {-2, 4};

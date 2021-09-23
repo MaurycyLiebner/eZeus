@@ -42,6 +42,10 @@ enum class eBuildingMode {
     artisansGuild,
     armory,
 
+    wall,
+    tower,
+    gatehouse,
+
     podium,
     college,
 

@@ -71,6 +71,14 @@ int costBase(const eBuildingType type) {
     case eBuildingType::winery:
         return 45;
 
+    case eBuildingType::wall:
+        return 2;
+    case eBuildingType::gatehouse:
+        return 20;
+    case eBuildingType::tower:
+        return 50;
+
+
     case eBuildingType::granary:
         return 50;
     case eBuildingType::warehouse:

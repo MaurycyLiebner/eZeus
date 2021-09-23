@@ -73,6 +73,7 @@ SOURCES += \
         buildings/etheater.cpp \
         buildings/etimbermill.cpp \
         buildings/evendor.cpp \
+        buildings/ewall.cpp \
         buildings/ewarehouse.cpp \
         buildings/ewatchpost.cpp \
         buildings/ewheatfarm.cpp \
@@ -321,6 +322,7 @@ HEADERS += \
     buildings/etheater.h \
     buildings/etimbermill.h \
     buildings/evendor.h \
+    buildings/ewall.h \
     buildings/ewarehouse.h \
     buildings/ewatchpost.h \
     buildings/ewheatfarm.h \

@@ -67,6 +67,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fHorseRanchOverlay(renderer),
     fArmoryOverlay(renderer),
 
+    fWall(renderer),
+
     fMaintenanceOfficeOverlay(renderer),
     fTaxOfficeOverlay(renderer),
     fWatchPostOverlay(renderer),
@@ -361,6 +363,10 @@ void eBuildingTextures::load() {
         fArmory = texClass.load(22);
         for(int i = 23; i < 41; i++) {
             texClass.load(i, fArmoryOverlay);
+        }
+
+        for(int i = 59; i < 95; i++) {
+            texClass.load(i, fWall);
         }
     }
 

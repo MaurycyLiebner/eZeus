@@ -69,6 +69,13 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
     case eBuildingMode::armory:
         return eBuildingType::armory;
 
+    case eBuildingMode::wall:
+        return eBuildingType::wall;
+    case eBuildingMode::tower:
+        return eBuildingType::tower;
+    case eBuildingMode::gatehouse:
+        return eBuildingType::gatehouse;
+
     case eBuildingMode::podium:
         return eBuildingType::podium;
     case eBuildingMode::college:

@@ -48,6 +48,8 @@
 #include "buildings/esculpturestudio.h"
 #include "buildings/earmory.h"
 
+#include "buildings/ewall.h"
+
 #include "buildings/ewheatfarm.h"
 #include "buildings/eonionfarm.h"
 #include "buildings/ecarrotfarm.h"
@@ -1414,6 +1416,12 @@ void eGameWidget::paintEvent(ePainter& p) {
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
 
+
+        case eBuildingMode::wall: {
+            const auto b1 = e::make_shared<eWall>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+
         case eBuildingMode::armory: {
             const auto b1 = e::make_shared<eArmory>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
@@ -2214,6 +2222,13 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 };
                 break;
 
+
+            case eBuildingMode::wall:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 1, 1,
+                          [this]() { return e::make_shared<eWall>(mBoard); });
+                };
+                break;
 
             case eBuildingMode::armory:
                 apply = [this](eTile*) {

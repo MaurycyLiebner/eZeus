@@ -364,7 +364,16 @@ void eGameMenu::initialize() {
                              {t7, &coll.fTemples},
                              {hs7, &coll.fHeroShrines}});
 
-    const auto f8 = [this, cmx, cmy, coll, mult]() {};
+    const auto f8 = [this, cmx, cmy, coll, mult]() {
+        const auto cm = new eContextMenu(window());
+        for(const auto& c : {eSPR{eBuildingMode::wall, "Wall"},
+                             eSPR{eBuildingMode::tower, "Tower"},
+                             eSPR{eBuildingMode::gatehouse, "Gatehouse"}}) {
+            addAction(c, mult, coll, cm);
+        }
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
+    };
     const auto mp8 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::armory, "Armory"}}) {
@@ -465,7 +474,7 @@ void eGameMenu::initialize() {
 
     for(const auto w : mWidgets) {
         addWidget(w);
-        w->move(24*mult, 20*mult/*1dataWidWidth*/);
+        w->move(24*mult, 20*mult);
         w->hide();
     }
 
