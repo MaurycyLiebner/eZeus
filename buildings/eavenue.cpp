@@ -99,10 +99,10 @@ eAvenue::getTexture(const eTileSize size) const {
         const auto lt = l ? l->underBuildingType() : eBuildingType::none;
         const auto rt = r ? r->underBuildingType() : eBuildingType::none;
 
-        const bool lb = bt == eBuildingType::avenue ||
-                        bt == eBuildingType::road;
-        const bool bb = lt == eBuildingType::avenue ||
+        const bool lb = lt == eBuildingType::avenue ||
                         lt == eBuildingType::road;
+        const bool bb = bt == eBuildingType::avenue ||
+                        bt == eBuildingType::road;
         const bool rb = rt == eBuildingType::avenue ||
                         rt == eBuildingType::road;
 
