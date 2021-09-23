@@ -457,6 +457,28 @@ void eGameWidget::iterateOverTiles(const eTileAction& a) {
     }
 }
 
+void clearScrub(const int x, const int y,
+                const int sw, const int sh,
+                eGameBoard& board) {
+    for(int xx = x; xx < x + sw; xx++) {
+        for(int yy = y; yy < y + sh; yy++) {
+            for(int i = -6; i < 7; i++) {
+                for(int j = -6; j < 7; j++) {
+                    const int tx = xx + i;
+                    const int ty = yy + j;
+                    const auto t = board.tile(tx, ty);
+                    if(!t) continue;
+                    const int dx = xx - tx;
+                    const int dy = yy - ty;
+                    const int dist = sqrt(dx*dx + dy*dy);
+                    const double max = dist*0.15;
+                    t->setScrub(std::min(max, t->scrub()));
+                }
+            }
+        }
+    }
+}
+
 int gHoverX = -1;
 int gHoverY = -1;
 int gPressedX = -1;
@@ -613,6 +635,9 @@ bool eGameWidget::build(const int tx, const int ty,
             }
         }
     }
+
+    clearScrub(minX, minY, sw, sh, mBoard);
+
     const auto diff = mBoard.difficulty();
     const int cost = eDifficultyHelpers::buildingCost(diff, b->type());
     mBoard.incDrachmas(-cost);
@@ -2278,13 +2303,15 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                         sw = 5;
                         sh = 2;
                     }
-                    const auto t1 = mBoard.tile(gHoverX, gHoverY);
+                    const int tx = gHoverX;
+                    const int ty = gHoverY;
+                    const auto t1 = mBoard.tile(tx, ty);
                     if(!t1) return;
-                    const bool cb1 = canBuild(t1->x(), t1->y(), 2, 2);
+                    const bool cb1 = canBuild(tx, ty, 2, 2);
                     if(!cb1) return;
-                    const bool cb2 = canBuild(t1->x() + dx/2, t1->y() + dy/2, 2, 2);
+                    const bool cb2 = canBuild(tx + dx/2, ty + dy/2, 2, 2);
                     if(!cb2) return;
-                    const bool cb3 = canBuild(t1->x() + dx, t1->y() + dy, 2, 2);
+                    const bool cb3 = canBuild(tx + dx, ty + dy, 2, 2);
                     if(!cb3) return;
                     const auto b1 = e::make_shared<eGatehouse>(mBoard, mRotate);
                     const auto r1 = e::make_shared<eGatehouseRenderer>(
@@ -2295,11 +2322,12 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     const auto t2 = t1->tileRel<eTile>(dx, dy);
                     t2->setBuilding(r2);
 
-                    b1->setTileRect({t1->x(), t1->y(), sw, sh});
-                    const int minX = t1->x();
-                    const int maxX = t1->x() + sw;
-                    const int minY = t1->y();
-                    const int maxY = t1->y() + sh;
+                    clearScrub(tx, ty, sw, sh, mBoard);
+                    b1->setTileRect({tx, ty, sw, sh});
+                    const int minX = tx;
+                    const int maxX = tx + sw;
+                    const int minY = ty;
+                    const int maxY = ty + sh;
                     for(int x = minX; x < maxX; x++) {
                         for(int y = minY; y < maxY; y++) {
                             const auto t = mBoard.tile(x, y);
