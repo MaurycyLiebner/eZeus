@@ -108,6 +108,7 @@ SOURCES += \
         characters/actions/ewaitaction.cpp \
         characters/eactor.cpp \
         characters/eanimal.cpp \
+        characters/earcher.cpp \
         characters/earmsvendorchar.cpp \
         characters/ebasicpatroler.cpp \
         characters/eboar.cpp \
@@ -361,6 +362,7 @@ HEADERS += \
     characters/actions/ewaitaction.h \
     characters/eactor.h \
     characters/eanimal.h \
+    characters/earcher.h \
     characters/earmsvendorchar.h \
     characters/ebasicpatroler.h \
     characters/eboar.h \
