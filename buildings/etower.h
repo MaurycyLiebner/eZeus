@@ -1,9 +1,9 @@
 #ifndef ETOWER_H
 #define ETOWER_H
 
-#include "ebuilding.h"
+#include "eemployingbuilding.h"
 
-class eTower : public eBuilding {
+class eTower : public eEmployingBuilding {
 public:
     eTower(eGameBoard& board);
 

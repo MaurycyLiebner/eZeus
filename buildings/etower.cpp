@@ -3,7 +3,7 @@
 #include "textures/egametextures.h"
 
 eTower::eTower(eGameBoard& board) :
-    eBuilding(board, eBuildingType::tower, 2, 2) {}
+    eEmployingBuilding(board, eBuildingType::tower, 2, 2, 15) {}
 
 std::shared_ptr<eTexture>
 eTower::getTexture(const eTileSize size) const {
