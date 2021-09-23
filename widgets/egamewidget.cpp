@@ -49,6 +49,9 @@
 #include "buildings/earmory.h"
 
 #include "buildings/ewall.h"
+#include "buildings/etower.h"
+#include "buildings/egatehouse.h"
+#include "buildings/egatehouserenderer.h"
 
 #include "buildings/ewheatfarm.h"
 #include "buildings/eonionfarm.h"
@@ -1179,7 +1182,8 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
 
         if(mode == eBuildingMode::park ||
-           mode == eBuildingMode::avenue) {
+           mode == eBuildingMode::avenue ||
+           mode == eBuildingMode::wall) {
             const auto& tex = trrTexs.fBuildingBase;
             for(int x = sMinX; x <= sMaxX; x++) {
                 for(int y = sMinY; y <= sMaxY; y++) {
@@ -1420,6 +1424,28 @@ void eGameWidget::paintEvent(ePainter& p) {
         case eBuildingMode::wall: {
             const auto b1 = e::make_shared<eWall>(mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::tower: {
+            const auto b1 = e::make_shared<eTower>(mBoard);
+            ebs.emplace_back(gHoverX, gHoverY, b1);
+        } break;
+        case eBuildingMode::gatehouse: {
+            int dx;
+            int dy;
+            if(mRotate) {
+                dx = 0;
+                dy = 3;
+            } else {
+                dx = 3;
+                dy = 0;
+            }
+            const auto b1 = e::make_shared<eGatehouse>(mBoard, mRotate);
+            auto& ebs1 = ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs1.fBR = e::make_shared<eGatehouseRenderer>(
+                           eGatehouseRendererType::grt1, b1);
+            auto& ebs2 = ebs.emplace_back(gHoverX + dx, gHoverY + dy, b1);
+            ebs2.fBR = e::make_shared<eGatehouseRenderer>(
+                           eGatehouseRendererType::grt2, b1);
         } break;
 
         case eBuildingMode::armory: {
@@ -2227,6 +2253,66 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 1, 1,
                           [this]() { return e::make_shared<eWall>(mBoard); });
+                };
+                break;
+            case eBuildingMode::tower:
+                apply = [this](eTile*) {
+                    build(gHoverX, gHoverY, 2, 2,
+                          [this]() { return e::make_shared<eTower>(mBoard); });
+                };
+                break;
+            case eBuildingMode::gatehouse:
+                apply = [this](eTile*) {
+                    int dx;
+                    int dy;
+                    int sw;
+                    int sh;
+                    if(mRotate) {
+                        dx = 0;
+                        dy = 3;
+                        sw = 2;
+                        sh = 5;
+                    } else {
+                        dx = 3;
+                        dy = 0;
+                        sw = 5;
+                        sh = 2;
+                    }
+                    const auto t1 = mBoard.tile(gHoverX, gHoverY);
+                    if(!t1) return;
+                    const bool cb1 = canBuild(t1->x(), t1->y(), 2, 2);
+                    if(!cb1) return;
+                    const bool cb2 = canBuild(t1->x() + dx/2, t1->y() + dy/2, 2, 2);
+                    if(!cb2) return;
+                    const bool cb3 = canBuild(t1->x() + dx, t1->y() + dy, 2, 2);
+                    if(!cb3) return;
+                    const auto b1 = e::make_shared<eGatehouse>(mBoard, mRotate);
+                    const auto r1 = e::make_shared<eGatehouseRenderer>(
+                                   eGatehouseRendererType::grt1, b1);
+                    t1->setBuilding(r1);
+                    const auto r2 = e::make_shared<eGatehouseRenderer>(
+                                   eGatehouseRendererType::grt2, b1);
+                    const auto t2 = t1->tileRel<eTile>(dx, dy);
+                    t2->setBuilding(r2);
+
+                    b1->setTileRect({t1->x(), t1->y(), sw, sh});
+                    const int minX = t1->x();
+                    const int maxX = t1->x() + sw;
+                    const int minY = t1->y();
+                    const int maxY = t1->y() + sh;
+                    for(int x = minX; x < maxX; x++) {
+                        for(int y = minY; y < maxY; y++) {
+                            const auto t = mBoard.tile(x, y);
+                            if(t) {
+                                t->setUnderBuilding(b1.get());
+                                b1->addUnderBuilding(t);
+                            }
+                        }
+                    }
+                    const auto diff = mBoard.difficulty();
+                    const int cost = eDifficultyHelpers::buildingCost(
+                                         diff, eBuildingType::gatehouse);
+                    mBoard.incDrachmas(-cost);
                 };
                 break;
 

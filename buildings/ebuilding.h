@@ -122,8 +122,10 @@ public:
               const int sw, const int sh);
     virtual ~eBuilding();
 
-    virtual std::shared_ptr<eTexture> getTexture(const eTileSize size) const = 0;
-    virtual std::vector<eOverlay> getOverlays(const eTileSize size) const {
+    virtual std::shared_ptr<eTexture>
+    getTexture(const eTileSize size) const = 0;
+    virtual std::vector<eOverlay>
+    getOverlays(const eTileSize size) const {
         (void)size;
         return std::vector<eOverlay>();
     }

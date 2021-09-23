@@ -140,6 +140,9 @@ public:
     std::shared_ptr<eTexture> fArmory;
     eTextureCollection fArmoryOverlay;
 
+    eTextureCollection fGatehouseW;
+    eTextureCollection fGatehouseH;
+    std::shared_ptr<eTexture> fTower;
     eTextureCollection fWall;
 
     std::shared_ptr<eTexture> fMaintenanceOffice;

@@ -39,6 +39,8 @@ SOURCES += \
         buildings/efoodvendor.cpp \
         buildings/efoundry.cpp \
         buildings/efountain.cpp \
+        buildings/egatehouse.cpp \
+        buildings/egatehouserenderer.cpp \
         buildings/egranary.cpp \
         buildings/egrowerslodge.cpp \
         buildings/egymnasium.cpp \
@@ -72,6 +74,7 @@ SOURCES += \
         buildings/etaxoffice.cpp \
         buildings/etheater.cpp \
         buildings/etimbermill.cpp \
+        buildings/etower.cpp \
         buildings/evendor.cpp \
         buildings/ewall.cpp \
         buildings/ewarehouse.cpp \
@@ -288,6 +291,8 @@ HEADERS += \
     buildings/efoodvendor.h \
     buildings/efoundry.h \
     buildings/efountain.h \
+    buildings/egatehouse.h \
+    buildings/egatehouserenderer.h \
     buildings/egranary.h \
     buildings/egrowerslodge.h \
     buildings/egymnasium.h \
@@ -321,6 +326,7 @@ HEADERS += \
     buildings/etaxoffice.h \
     buildings/etheater.h \
     buildings/etimbermill.h \
+    buildings/etower.h \
     buildings/evendor.h \
     buildings/ewall.h \
     buildings/ewarehouse.h \
