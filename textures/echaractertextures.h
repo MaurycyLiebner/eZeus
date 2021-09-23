@@ -12,24 +12,21 @@ struct eBasicCharacterTextures {
 };
 
 struct eResourceCollectorTextures : public eBasicCharacterTextures {
-    eResourceCollectorTextures(SDL_Renderer* const renderer) :
-        eBasicCharacterTextures(renderer) {}
+    using eBasicCharacterTextures::eBasicCharacterTextures;
 
     std::vector<eTextureCollection> fCarry;
     std::vector<eTextureCollection> fCollect;
 };
 
 struct eOrangeTenderTextures : public eBasicCharacterTextures {
-    eOrangeTenderTextures(SDL_Renderer* const renderer) :
-        eBasicCharacterTextures(renderer) {}
+    using eBasicCharacterTextures::eBasicCharacterTextures;
 
     std::vector<eTextureCollection> fWorkOnTree;
     std::vector<eTextureCollection> fCollect;
 };
 
 struct eGrowerTextures : public eBasicCharacterTextures {
-    eGrowerTextures(SDL_Renderer* const renderer) :
-        eBasicCharacterTextures(renderer) {}
+    using eBasicCharacterTextures::eBasicCharacterTextures;
 
     std::vector<eTextureCollection> fWorkOnGrapes;
     std::vector<eTextureCollection> fWorkOnOlives;
@@ -39,26 +36,29 @@ struct eGrowerTextures : public eBasicCharacterTextures {
 };
 
 struct eFightingCharacterTextures : public eBasicCharacterTextures {
-    eFightingCharacterTextures(SDL_Renderer* const renderer) :
-        eBasicCharacterTextures(renderer) {}
+    using eBasicCharacterTextures::eBasicCharacterTextures;
 
     std::vector<eTextureCollection> fFight;
 };
 
 struct eFireFighterTextures : public eBasicCharacterTextures {
-    eFireFighterTextures(SDL_Renderer* const renderer) :
-        eBasicCharacterTextures(renderer) {}
+    using eBasicCharacterTextures::eBasicCharacterTextures;
 
     std::vector<eTextureCollection> fCarry;
     std::vector<eTextureCollection> fPutOut;
 };
 
 struct eAnimalTextures : public eBasicCharacterTextures {
-    eAnimalTextures(SDL_Renderer* const renderer) :
-        eBasicCharacterTextures(renderer) {}
+    using eBasicCharacterTextures::eBasicCharacterTextures;
 
     std::vector<eTextureCollection> fFight;
     std::vector<eTextureCollection> fLayDown;
+};
+
+struct eArcherTextures : public eFightingCharacterTextures {
+    using eFightingCharacterTextures::eFightingCharacterTextures;
+
+    std::vector<eTextureCollection> fPatrol;
 };
 
 class eCharacterTextures {
@@ -149,6 +149,8 @@ public:
     std::vector<eTextureCollection> fFoodCart;
 
     eOrangeTenderTextures fOrangeTender;
+
+    eArcherTextures fArcher;
 };
 
 #endif // ECHARACTERTEXTURES_H

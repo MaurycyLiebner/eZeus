@@ -67,7 +67,9 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
     fEmptyCart(renderer),
 
-    fOrangeTender(renderer) {
+    fOrangeTender(renderer),
+
+    fArcher(renderer) {
 
 }
 
@@ -260,6 +262,13 @@ void eCharacterTextures::load() {
     for(int i = 3837; i < 3845; i++) {
         texClass.load(i, fSilverMiner.fDie);
     }
+
+    texClass.loadSkipFlipped(fArcher.fWalk, 4033, 4129);
+    for(int i = 4129; i < 4137; i++) {
+        texClass.load(i, fArcher.fDie);
+    }
+    texClass.loadSkipFlipped(fArcher.fFight, 4137, 4233);
+    texClass.loadSkipFlipped(fArcher.fPatrol, 4233, 4329);
 
     texClass.loadSkipFlipped(fLumberjack.fWalk, 4329, 4425);
     texClass.loadSkipFlipped(fLumberjack.fCollect, 4433, 4529);
