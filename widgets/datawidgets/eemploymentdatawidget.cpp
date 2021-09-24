@@ -120,6 +120,9 @@ void eEmploymentDataWidget::paintEvent(ePainter& p) {
 }
 
 void eEmploymentDataWidget::setWageRate(const eWageRate wr) {
+    if(mBoard) {
+        mBoard->setWageRate(wr);
+    }
     mWageRate = wr;
     mWageLabel->setText(eWageRateHelpers::name(wr));
 }

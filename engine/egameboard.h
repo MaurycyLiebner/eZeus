@@ -151,6 +151,9 @@ public:
     eTaxRate taxRate() const { return mTaxRate; }
     eWageRate wageRate() const { return mWageRate; }
 
+    void setTaxRate(const eTaxRate tr);
+    void setWageRate(const eWageRate wr);
+
     void addRubbish(const stdsptr<eObject>& o);
     void emptyRubbish();
 

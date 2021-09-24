@@ -13,6 +13,7 @@
 #include "widgets/datawidgets/estoragedatawidget.h"
 #include "widgets/datawidgets/ehygienesafetydatawidget.h"
 #include "widgets/datawidgets/eculturedatawidget.h"
+#include "widgets/datawidgets/eadmindatawidget.h"
 #include "eminimap.h"
 
 #include "eeventwidget.h"
@@ -295,11 +296,22 @@ void eGameMenu::initialize() {
         setMode(eBuildingMode::taxOffice);
     };
     const auto bb5 = [this]() {};
+    const auto ww5 = new eWidget(window());
     const auto w5 = createSubButtons(mult,
                         eButtonsDataVec{
                              {p5, &coll.fPalace},
                              {tc5, &coll.fTaxCollector},
                              {bb5, &coll.fBridge}});
+    mAdminDataW = new eAdminDataWidget(window());
+    mAdminDataW->setWidth(dataWidWidth);
+    mAdminDataW->setHeight(dataWidHeight);
+    mAdminDataW->initialize();
+    ww5->addWidget(mAdminDataW);
+    ww5->addWidget(w5);
+    ww5->fitContent();
+    ww5->setHeight(wwHeight);
+    w5->setY(wy);
+    mAdminDataW->align(eAlignment::top);
 
 
     const auto p6 = [this, cmx, cmy, coll, mult]() {
@@ -454,7 +466,7 @@ void eGameMenu::initialize() {
     mWidgets.push_back(ww2);
     mWidgets.push_back(www3);
     mWidgets.push_back(ww4);
-    mWidgets.push_back(w5);
+    mWidgets.push_back(ww5);
     mWidgets.push_back(ww6);
     mWidgets.push_back(w7);
     mWidgets.push_back(w8);
@@ -472,7 +484,7 @@ void eGameMenu::initialize() {
     const auto b2 = addButton(coll.fIndustry, ww2);
     const auto b3 = addButton(coll.fDistribution, www3);
     const auto b4 = addButton(coll.fHygieneSafety, ww4);
-    const auto b5 = addButton(coll.fAdministration, w5);
+    const auto b5 = addButton(coll.fAdministration, ww5);
     const auto b6 = addButton(coll.fCulture, ww6);
     const auto b7 = addButton(coll.fMythology, w7);
     const auto b8 = addButton(coll.fMilitary, w8);
@@ -565,6 +577,7 @@ void eGameMenu::setBoard(eGameBoard* const b) {
     mPopDataW->setBoard(b);
     mEmplDataW->setBoard(b);
     mStrgDataW->setBoard(b);
+    mAdminDataW->setBoard(b);
     mMiniMap->setBoard(b);
 }
 

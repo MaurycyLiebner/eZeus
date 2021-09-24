@@ -218,6 +218,7 @@ SOURCES += \
         textures/ewatertobeach.cpp \
         textures/ewatertodry.cpp \
         textures/ewatertox.cpp \
+        widgets/datawidgets/eadmindatawidget.cpp \
         widgets/datawidgets/eappealdatawidget.cpp \
         widgets/datawidgets/eculturedatawidget.cpp \
         widgets/datawidgets/edatalabel.cpp \
@@ -496,6 +497,7 @@ HEADERS += \
     textures/ewatertodry.h \
     textures/ewatertox.h \
     vec2.h \
+    widgets/datawidgets/eadmindatawidget.h \
     widgets/datawidgets/eappealdatawidget.h \
     widgets/datawidgets/eculturedatawidget.h \
     widgets/datawidgets/edatalabel.h \

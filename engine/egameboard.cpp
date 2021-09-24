@@ -212,6 +212,14 @@ double eGameBoard::taxRateF() const {
     return eTaxRateHelpers::getRate(mTaxRate);
 }
 
+void eGameBoard::setTaxRate(const eTaxRate tr) {
+    mTaxRate = tr;
+}
+
+void eGameBoard::setWageRate(const eWageRate wr) {
+    mWageRate = wr;
+}
+
 void eGameBoard::addRubbish(const stdsptr<eObject>& o) {
     mRubbish.push_back(o);
 }
