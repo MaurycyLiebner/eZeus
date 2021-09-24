@@ -33,18 +33,9 @@ eEventButton::eEventButton(const eEvent e,
                            eMainWindow* const window) :
     eButton(window) {
     const auto intrfc = eGameTextures::interface();
-    int icoll;
-    switch(resolution().uiScale()) {
-    case eUIScale::small:
-        icoll = 0;
-        break;
-    case eUIScale::medium:
-        icoll = 1;
-        break;
-    default:
-        icoll = 2;
-    }
-    const auto& texs = intrfc[icoll];
+    const auto uiScale = resolution().uiScale();
+    const int iRes = static_cast<int>(uiScale);
+    const auto& texs = intrfc[iRes];
     const eTextureCollection* coll = nullptr;
     switch(e) {
     case eEvent::fire:

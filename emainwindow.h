@@ -40,7 +40,7 @@ public:
 
     const eSettings& settings() const { return mSettings; }
 private:
-    eSettings mSettings{false, false, false, eResolution()};
+    eSettings mSettings{false, true, false, false, false, eResolution()};
 
     bool mQuit = false;
 

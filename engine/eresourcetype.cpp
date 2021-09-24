@@ -70,8 +70,8 @@ std::shared_ptr<eTexture> eResourceTypeHelpers::icon(
         const eUIScale scale, const eResourceType type) {
     int icoll;
     switch(scale) {
+    case eUIScale::tiny:
     case eUIScale::small:
-    case eUIScale::medium:
         icoll = 1;
         break;
     default:

@@ -130,6 +130,12 @@ void eMainWindow::showSettingsMenu() {
         setResolution(settings.fRes);
         setFullscreen(settings.fFullscreen);
         mSettings = settings;
+        if(!mSettings.fTinyTextures &&
+           !mSettings.fSmallTextures &&
+           !mSettings.fMediumTextures &&
+           !mSettings.fLargeTextures) {
+            mSettings.fSmallTextures = true;
+        }
         showSettingsMenu();
     };
     esm->initialize(backA, applyA);

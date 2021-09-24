@@ -79,22 +79,11 @@ void eGameMenu::initialize() {
     eGameMenuBase::initialize();
 
     const auto& intrfc = eGameTextures::interface();
-    int mult;
-    int icoll;
-    switch(resolution().uiScale()) {
-    case eUIScale::small:
-        mult = 1;
-        icoll = 0;
-        break;
-    case eUIScale::medium:
-        mult = 2;
-        icoll = 1;
-        break;
-    default:
-        mult = 4;
-        icoll = 2;
-    }
-    const auto& coll = intrfc[icoll];
+    const auto uiScale = resolution().uiScale();
+    const int iRes = static_cast<int>(uiScale);
+    const int mult = iRes + 1;
+
+    const auto& coll = intrfc[iRes];
     const auto tex = coll.fGameMenuBackground;
     setTexture(tex);
     setPadding(0);

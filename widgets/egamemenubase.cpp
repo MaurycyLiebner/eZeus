@@ -4,13 +4,17 @@ void eGameMenuBase::initialize() {
     int x;
     int y;
     switch(resolution().uiScale()) {
-    case eUIScale::small:
+    case eUIScale::tiny:
         x = 5;
         y = 15;
         break;
-    case eUIScale::medium:
+    case eUIScale::small:
         x = 6;
         y = 21;
+        break;
+    case eUIScale::medium:
+        x = 9;
+        y = 31;
         break;
     default:
         x = 12;
@@ -39,13 +43,16 @@ eCheckableButton* eGameMenuBase::addButton(
 }
 
 void eGameMenuBase::connectAndLayoutButtons() {
-    int margin;
+    double margin;
     switch(resolution().uiScale()) {
+    case eUIScale::tiny:
+        margin = 2;
+        break;
     case eUIScale::small:
         margin = 2;
         break;
     case eUIScale::medium:
-        margin = 2;
+        margin = 2.1835;
         break;
     default:
         margin = 3;

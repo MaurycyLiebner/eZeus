@@ -68,6 +68,20 @@ void eSettingsMenu::initialize(const eAction& backA,
         const auto lw = new eLabeledWidget(window());
 
         const auto b = new eCheckBox(window());
+        b->setChecked(mSettings.fTinyTextures);
+        b->setCheckAction([this](const bool c) {
+            mSettings.fTinyTextures = c;
+        });
+        b->fitContent();
+
+        lw->setup("Tiny Textures: ", b);
+        buttons->addWidget(lw);
+    }
+
+    {
+        const auto lw = new eLabeledWidget(window());
+
+        const auto b = new eCheckBox(window());
         b->setChecked(mSettings.fSmallTextures);
         b->setCheckAction([this](const bool c) {
             mSettings.fSmallTextures = c;
@@ -75,6 +89,20 @@ void eSettingsMenu::initialize(const eAction& backA,
         b->fitContent();
 
         lw->setup("Small Textures: ", b);
+        buttons->addWidget(lw);
+    }
+
+    {
+        const auto lw = new eLabeledWidget(window());
+
+        const auto b = new eCheckBox(window());
+        b->setChecked(mSettings.fMediumTextures);
+        b->setCheckAction([this](const bool c) {
+            mSettings.fMediumTextures = c;
+        });
+        b->fitContent();
+
+        lw->setup("Medium Textures: ", b);
         buttons->addWidget(lw);
     }
 

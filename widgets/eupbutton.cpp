@@ -7,18 +7,8 @@ eUpButton::eUpButton(eMainWindow* const window) :
 
     const auto& intrfc = eGameTextures::interface();
     const auto res = resolution();
-    int iRes;
-    switch(res.uiScale()) {
-    case eUIScale::large:
-        iRes = 2;
-        break;
-    case eUIScale::medium:
-        iRes = 1;
-        break;
-    case eUIScale::small:
-        iRes = 0;
-        break;
-    }
+    const auto uiScale = res.uiScale();
+    const int iRes = static_cast<int>(uiScale);
     const auto& texs = intrfc[iRes];
 
     setPadding(0);

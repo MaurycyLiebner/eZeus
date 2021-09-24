@@ -28,6 +28,7 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
     int i = 0;
     for(const auto& s : {std::pair<int, int>{29, 15},
                          std::pair<int, int>{58, 30},
+                         std::pair<int, int>{87, 45},
                          std::pair<int, int>{116, 60}}) {
         sTerrainTextures.emplace_back(s.first, s.second, r);
         sGodTextures.emplace_back(s.first, s.second, r);
@@ -39,10 +40,12 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
         gGameLoaders.emplace_back([i](std::string& text) {
             sTerrainTextures[i].load();
             if(i == 0) {
-                text = "Loading small terrain textures...";
+                text = "Loading tiny terrain textures...";
             } else if(i == 1) {
-                text = "Loading medium terrain textures...";
+                text = "Loading small terrain textures...";
             } else if(i == 2) {
+                text = "Loading medium terrain textures...";
+            } else if(i == 3) {
                 text = "Loading large terrain textures...";
             }
         }, i);
@@ -50,10 +53,12 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
         gGameLoaders.emplace_back([i](std::string& text) {
             sGodTextures[i].load();
             if(i == 0) {
-                text = "Loading small god textures...";
+                text = "Loading tiny god textures...";
             } else if(i == 1) {
-                text = "Loading medium god textures...";
+                text = "Loading small god textures...";
             } else if(i == 2) {
+                text = "Loading medium god textures...";
+            } else if(i == 3) {
                 text = "Loading large god textures...";
             }
         }, i);
@@ -61,10 +66,12 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
         gGameLoaders.emplace_back([i](std::string& text) {
             sBuildingTextures[i].load();
             if(i == 0) {
-                text = "Loading small building textures...";
+                text = "Loading tiny building textures...";
             } else if(i == 1) {
-                text = "Loading medium building textures...";
+                text = "Loading small building textures...";
             } else if(i == 2) {
+                text = "Loading medium building textures...";
+            } else if(i == 3) {
                 text = "Loading large building textures...";
             }
         }, i);
@@ -72,10 +79,12 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
         gGameLoaders.emplace_back([i](std::string& text) {
             sCharacterTextures[i].load();
             if(i == 0) {
-                text = "Loading small character textures...";
+                text = "Loading tiny character textures...";
             } else if(i == 1) {
-                text = "Loading medium character textures...";
+                text = "Loading small character textures...";
             } else if(i == 2) {
+                text = "Loading medium character textures...";
+            } else if(i == 3) {
                 text = "Loading large character textures...";
             }
         }, i);
@@ -83,10 +92,12 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
         gGameLoaders.emplace_back([i](std::string& text) {
             sDestructionTextures[i].load();
             if(i == 0) {
-                text = "Loading small destruction textures...";
+                text = "Loading tiny destruction textures...";
             } else if(i == 1) {
-                text = "Loading medium destruction textures...";
+                text = "Loading small destruction textures...";
             } else if(i == 2) {
+                text = "Loading medium destruction textures...";
+            } else if(i == 3) {
                 text = "Loading large destruction textures...";
             }
         }, i);
@@ -94,10 +105,12 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
         gMenuLoaders.emplace_back([i](std::string& text) {
             sInterfaceTextures[i].load();
             if(i == 0) {
-                text = "Loading small interface textures...";
+                text = "Loading tiny interface textures...";
             } else if(i == 1) {
-                text = "Loading medium interface textures...";
+                text = "Loading small interface textures...";
             } else if(i == 2) {
+                text = "Loading medium interface textures...";
+            } else if(i == 3) {
                 text = "Loading large interface textures...";
             }
         }, i);
@@ -125,10 +138,14 @@ bool eGameTextures::loadNextGame(const eSettings& settings,
     for(int i = 0; i < iMax; i++) {
         auto& g = gGameLoaders[i];
         if(g.fFinished) continue;
-        if(!settings.fSmallTextures &&
+        if(!settings.fTinyTextures &&
            g.fSize == 0) continue;
-        if(!settings.fLargeTextures &&
+        if(!settings.fSmallTextures &&
+           g.fSize == 1) continue;
+        if(!settings.fMediumTextures &&
            g.fSize == 2) continue;
+        if(!settings.fLargeTextures &&
+           g.fSize == 3) continue;
         g.fFunc(text);
         g.fFinished = true;
         return false;
@@ -143,10 +160,14 @@ int eGameTextures::gameSize(const eSettings& settings) {
     for(int i = 0; i < iMax; i++) {
         auto& g = gGameLoaders[i];
         if(g.fFinished) continue;
-        if(!settings.fSmallTextures &&
+        if(!settings.fTinyTextures &&
            g.fSize == 0) continue;
-        if(!settings.fLargeTextures &&
+        if(!settings.fSmallTextures &&
+           g.fSize == 1) continue;
+        if(!settings.fMediumTextures &&
            g.fSize == 2) continue;
+        if(!settings.fLargeTextures &&
+           g.fSize == 3) continue;
         result++;
     }
     return result;

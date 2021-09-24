@@ -22,6 +22,8 @@ std::vector<eResolution> eResolution::sResolutions{
 eResolution::eResolution(const int width, const int height) :
     mWidth(width), mHeight(height) {
     if(height <= 600) {
+        mUIScale = eUIScale::tiny;
+    } else if(height <= 800) {
         mUIScale = eUIScale::small;
     } else if(height <= 1200) {
         mUIScale = eUIScale::medium;
@@ -53,10 +55,12 @@ int eResolution::margin() const {
 
 double eResolution::multiplier() const {
     switch(mUIScale) {
-    case eUIScale::small:
+    case eUIScale::tiny:
         return 0.75;
-    case eUIScale::medium:
+    case eUIScale::small:
         return 1.0;
+    case eUIScale::medium:
+        return 1.25;
     case eUIScale::large:
         return 1.5;
     }

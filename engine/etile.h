@@ -11,7 +11,7 @@
 #include "pointers/estdselfref.h"
 
 enum class eTileSize : int {
-    s15, s30, s60
+    s15, s30, s45, s60
 };
 
 class eCharacter;

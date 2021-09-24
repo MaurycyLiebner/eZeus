@@ -276,7 +276,9 @@ void eGameWidget::initialize(const int w, const int h) {
     });
     addWidget(swtch);
 
-    setTileSize(eTileSize::s30);
+    const auto& setts = window()->settings();
+    const auto sizes = setts.availableSizes();
+    setTileSize(sizes.front());
 }
 
 void drawXY(const int tx, const int ty,
@@ -2618,29 +2620,42 @@ bool eGameWidget::mouseWheelEvent(const eMouseWheelEvent& e) {
     }
     mWheel = 0;
     const auto& sett = window()->settings();
+    std::vector<eTileSize> sizes;
+    int currSize = 0;
+    if(sett.fTinyTextures) {
+        sizes.push_back(eTileSize::s15);
+        if(mTileSize == eTileSize::s15) {
+            currSize = sizes.size() - 1;
+        }
+    }
+    if(sett.fSmallTextures) {
+        sizes.push_back(eTileSize::s30);
+        if(mTileSize == eTileSize::s30) {
+            currSize = sizes.size() - 1;
+        }
+    }
+    if(sett.fMediumTextures) {
+        sizes.push_back(eTileSize::s45);
+        if(mTileSize == eTileSize::s45) {
+            currSize = sizes.size() - 1;
+        }
+    }
+    if(sett.fLargeTextures) {
+        sizes.push_back(eTileSize::s60);
+        if(mTileSize == eTileSize::s60) {
+            currSize = sizes.size() - 1;
+        }
+    }
+    const int sizesC = sizes.size();
     if(e.dy() > 0) {
-        switch(mTileSize) {
-        case eTileSize::s15:
-            setTileSize(eTileSize::s30);
-            break;
-        case eTileSize::s30:
-            if(sett.fLargeTextures)
-                setTileSize(eTileSize::s60);
-            break;
-        case eTileSize::s60:
-            break;
+        const int newSize = currSize + 1;
+        if(newSize < sizesC) {
+            setTileSize(sizes[newSize]);
         }
     } else {
-        switch(mTileSize) {
-        case eTileSize::s30:
-            if(sett.fSmallTextures)
-                setTileSize(eTileSize::s15);
-            break;
-        case eTileSize::s60:
-            setTileSize(eTileSize::s30);
-            break;
-        case eTileSize::s15:
-            break;
+        const int newSize = currSize - 1;
+        if(newSize >= 0) {
+            setTileSize(sizes[newSize]);
         }
     }
     return true;

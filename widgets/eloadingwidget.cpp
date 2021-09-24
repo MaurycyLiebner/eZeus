@@ -16,19 +16,7 @@ void eLoadingWidget::initialize() {
     const auto& intrfc = eGameTextures::interface();
 
     const auto res = resolution();
-    int iRes;
-    switch(res.uiScale()) {
-    case eUIScale::large:
-        iRes = 2;
-        break;
-    case eUIScale::medium:
-        iRes = 1;
-        break;
-    case eUIScale::small:
-        iRes = 0;
-        break;
-    }
-
+    const int iRes = static_cast<int>(res.uiScale());
     if(mUseTextures) {
         const auto bg = new eFramedLabel(window());
         const auto& texs = intrfc[iRes];
