@@ -7,14 +7,18 @@
 
 ePatrolMoveAction::ePatrolMoveAction(eCharacter* const c,
                                      const eAction& failAction,
-                                     const eAction& finishAction) :
-    eMoveAction(c,
-                [](eTileBase* const t) {
-                    return t->hasRoad();
-                },
-                failAction, finishAction) {
-                    mO = c->orientation();
-                }
+                                     const eAction& finishAction,
+                                     const bool diagonalOnly,
+                                     const eTileWalkable& walkable) :
+    eMoveAction(c, walkable, failAction, finishAction),
+    mDiagonalOnly(diagonalOnly),
+    mWalkable(walkable) {
+    mO = c->orientation();
+}
+
+bool ePatrolMoveAction::sRoadWalkable(eTileBase* const tile) {
+    return tile->hasRoad();
+}
 
 void ePatrolMoveAction::setMaxDistance(const int dist) {
     mMaxDistance = dist;
@@ -28,10 +32,11 @@ eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
     const auto tile = c->tile();
     if(!tile) return eCharacterActionState::failed;
 
-    auto options = tile->diagonalNeighbours(
-    [&](eTileBase* const t) {
-        return t && t->hasRoad() && t->neighbour(mO) != tile;
-    });
+    const auto neighVer = [&](eTileBase* const t) {
+        return t && mWalkable(t) && t->neighbour(mO) != tile;
+    };
+    auto options = mDiagonalOnly ? tile->diagonalNeighbours(neighVer) :
+                                   tile->neighbours(neighVer);
 
     if(options.empty()) {
         mO = !mO;

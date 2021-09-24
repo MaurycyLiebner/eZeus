@@ -84,6 +84,7 @@ SOURCES += \
         buildings/ewinevendor.cpp \
         characters/actions/eactionwithcomeback.cpp \
         characters/actions/eanimalaction.cpp \
+        characters/actions/earcheraction.cpp \
         characters/actions/ecarttransporteraction.cpp \
         characters/actions/echaracteraction.cpp \
         characters/actions/ecollectaction.cpp \
@@ -337,6 +338,7 @@ HEADERS += \
     buildings/ewinevendor.h \
     characters/actions/eactionwithcomeback.h \
     characters/actions/eanimalaction.h \
+    characters/actions/earcheraction.h \
     characters/actions/ecarttransporteraction.h \
     characters/actions/echaracteraction.h \
     characters/actions/echaracteractiontype.h \

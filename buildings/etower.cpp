@@ -2,6 +2,8 @@
 
 #include "textures/egametextures.h"
 
+#include "characters/actions/earcheraction.h"
+
 eTower::eTower(eGameBoard& board) :
     eEmployingBuilding(board, eBuildingType::tower, 2, 2, 15) {}
 
@@ -28,3 +30,33 @@ eTower::getOverlays(const eTileSize size) const {
     o.fY = -5.5;
     return {o};
 }
+
+void eTower::timeChanged(const int by) {
+    const int t = time();
+    if(mSpawnPatrolers && enabled()) {
+        if(!mArcher && t >= mSpawnTime) {
+            spawn();
+            mSpawnTime = t + mWaitTime;
+        }
+    }
+    eEmployingBuilding::timeChanged(by);
+}
+
+bool eTower::spawn() {
+    mArcher = e::make_shared<eArcher>(getBoard());
+    mArcher->changeTile(centerTile());
+    const eStdPointer<eTower> tptr(this);
+    const eStdPointer<eArcher> cptr(mArcher);
+    const auto finishAct = [tptr, this, cptr]() {
+        if(cptr) cptr->changeTile(nullptr);
+        if(tptr) {
+            mSpawnTime = time() + mWaitTime;
+            mArcher.reset();
+        }
+    };
+    const auto a = e::make_shared<eArcherAction>(
+                       mArcher.get(), finishAct, finishAct);
+    mArcher->setAction(a);
+    return true;
+}
+
