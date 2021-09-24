@@ -2100,7 +2100,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     const auto t1 = mBoard.tile(gHoverX, gHoverY);
                     if(!t1) return;
-                    const bool cb = canBuild(t1->x(), t1->y(), 4, 4);
+                    const bool cb = canBuild(t1->x() + 1, t1->y() + 1, 4, 4);
                     if(!cb) return;
                     const auto t2 = t1->tileRel<eTile>(2, 0);
                     if(!t2) return;
@@ -2303,9 +2303,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                         sh = 2;
                     }
                     const int tx = gHoverX;
-                    const int ty = gHoverY;
-                    const auto t1 = mBoard.tile(tx, ty);
-                    if(!t1) return;
+                    const int ty = gHoverY - 1;
                     const bool cb1 = canBuild(tx, ty, 2, 2);
                     if(!cb1) return;
                     const bool cb2 = canBuild(tx + dx/2, ty + dy/2, 2, 2);
@@ -2315,10 +2313,13 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     const auto b1 = e::make_shared<eGatehouse>(mBoard, mRotate);
                     const auto r1 = e::make_shared<eGatehouseRenderer>(
                                    eGatehouseRendererType::grt1, b1);
+                    const auto t1 = mBoard.tile(tx, ty + 1);
+                    if(!t1) return;
                     t1->setBuilding(r1);
                     const auto r2 = e::make_shared<eGatehouseRenderer>(
                                    eGatehouseRendererType::grt2, b1);
                     const auto t2 = t1->tileRel<eTile>(dx, dy);
+                    if(!t2) return;
                     t2->setBuilding(r2);
 
                     clearScrub(tx, ty, sw, sh, mBoard);
