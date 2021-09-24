@@ -288,13 +288,13 @@ void drawXY(const int tx, const int ty,
 
     if(wSpan == 2 && hSpan == 2) {
         rx += 0.5;
-        ry += 1.5;
+        ry += 0.5;
     } else if(wSpan == 3 && hSpan == 3) {
         rx += 0.0;
         ry += 2.0;
     } else if(wSpan == 4 && hSpan == 4) {
         rx += 0.5;
-        ry += 3.5;
+        ry += 2.5;
     } else if(wSpan == 5 && hSpan == 5) {
         rx += 0.0;
         ry += 4.0;
@@ -492,12 +492,13 @@ void buildTiles(int& minX, int& minY,
     minY = ty;
 
     if(sw == 2 && sh == 2) {
+        minY -= 1;
     } else if(sw == 3 && sh == 3) {
         minX -= 1;
         minY -= 1;
     } else if(sw == 4 || sh == 4) {
         minX -= 1;
-        minY -= 1;
+        minY -= 2;
     } else if(sw == 5 || sh == 5) {
         minX -= 2;
         minY -= 2;
