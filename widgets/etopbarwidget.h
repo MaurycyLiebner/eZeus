@@ -20,6 +20,7 @@ public:
         mText = new eLabel(window());
         mText->setX(1.5*mIcon->width());
         mText->setPadding(0);
+        mText->setSmallFontSize();
 
         addWidget(mIcon);
         addWidget(mText);

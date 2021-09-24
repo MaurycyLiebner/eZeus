@@ -29,6 +29,7 @@ void eTopBarWidget::initialize() {
 
     mDateLabel = new eLabel(window());
     const eDate date(30, eMonth::january, -1500);
+    mDateLabel->setSmallFontSize();
     mDateLabel->setText(date.shortString());
     mDateLabel->fitContent();
 
