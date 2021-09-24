@@ -2275,8 +2275,8 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 
 
             case eBuildingMode::wall:
-                apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 1, 1,
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 1, 1,
                           [this]() { return e::make_shared<eWall>(mBoard); });
                 };
                 break;

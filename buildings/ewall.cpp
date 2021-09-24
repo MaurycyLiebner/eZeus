@@ -79,7 +79,11 @@ eWall::getTexture(const eTileSize size) const {
             id = 22;
         }
     } else if(tlb && brb && trb) {
-        id = 1;
+        if(tlt != eBuildingType::wall) {
+            id = 32;
+        } else {
+            id = 1;
+        }
     } else if(blb && brb && trb) {
         if(bb) {
             if(rb) {
@@ -113,7 +117,11 @@ eWall::getTexture(const eTileSize size) const {
             }
         }
     } else if(blb && tlb && trb) {
-        id = 4;
+        if(trt != eBuildingType::wall) {
+            id = 31;
+        } else {
+            id = 4;
+        }
     } else if(brb && blb && tlb) {
         if(bb) {
             if(rb) {
