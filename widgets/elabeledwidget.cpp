@@ -2,7 +2,7 @@
 
 eLabeledWidget::eLabeledWidget(eMainWindow* const window) :
     eWidget(window) {
-
+    setNoPadding();
 }
 
 void eLabeledWidget::setup(const std::string& label, eWidget* const w) {
