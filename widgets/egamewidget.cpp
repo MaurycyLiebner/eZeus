@@ -2340,6 +2340,31 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                             }
                         }
                     }
+                    if(sw == 2) {
+                        const auto t2 = t1->tileRel<eTile>(0, 1);
+                        const auto r1 = e::make_shared<eRoad>(mBoard);
+                        r1->addUnderBuilding(t2);
+                        t2->setUnderBuilding(r1.get());
+                        t2->setBuilding(e::make_shared<eBuildingRenderer>(r1));
+
+                        const auto t3 = t2->tileRel<eTile>(1, 0);
+                        const auto r2 = e::make_shared<eRoad>(mBoard);
+                        r2->addUnderBuilding(t3);
+                        t3->setUnderBuilding(r2.get());
+                        t3->setBuilding(e::make_shared<eBuildingRenderer>(r2));
+                    } else {
+                        const auto t2 = t1->tileRel<eTile>(2, -1);
+                        const auto r1 = e::make_shared<eRoad>(mBoard);
+                        r1->addUnderBuilding(t2);
+                        t2->setUnderBuilding(r1.get());
+                        t2->setBuilding(e::make_shared<eBuildingRenderer>(r1));
+
+                        const auto t3 = t2->tileRel<eTile>(0, 1);
+                        const auto r2 = e::make_shared<eRoad>(mBoard);
+                        r2->addUnderBuilding(t3);
+                        t3->setUnderBuilding(r2.get());
+                        t3->setBuilding(e::make_shared<eBuildingRenderer>(r2));
+                    }
                     const auto diff = mBoard.difficulty();
                     const int cost = eDifficultyHelpers::buildingCost(
                                          diff, eBuildingType::gatehouse);
