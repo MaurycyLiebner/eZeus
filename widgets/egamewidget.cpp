@@ -792,9 +792,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         drawXY(tx, ty, rx, ry, drawDim, drawDim, a);
 
         if(tex) {
-            if(drawDim == 2) {
-                ry -= 1;
-            } else if(drawDim == 3) {
+            if(drawDim == 3) {
                 rx += 1;
                 ry -= 1;
             }
