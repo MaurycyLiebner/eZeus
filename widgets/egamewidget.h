@@ -26,6 +26,7 @@
 
 class eTerrainEditMenu;
 class eDomesticatedAnimal;
+struct eMessage;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
 
@@ -91,6 +92,8 @@ private:
     int waterParkId() const;
 
     void updateAppealMap();
+
+    void showMessage(const std::shared_ptr<eMessage>& msg);
 
     bool roadPath(std::vector<eOrientation>& path);
 

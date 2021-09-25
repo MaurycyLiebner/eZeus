@@ -97,6 +97,8 @@
 
 #include "emainwindow.h"
 
+#include "emessagebox.h"
+
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window), mBoard(&mThreadPool) {}
 
@@ -593,6 +595,17 @@ void eGameWidget::updateAppealMap() {
         std::swap(mBoard.appealMap(), map);
     });
     mThreadPool.queueTask(task);
+}
+
+void eGameWidget::showMessage(const std::shared_ptr<eMessage>& msg) {
+    const auto msgb = new eMessageBox(window());
+    msgb->setHeight(height()/3);
+    msgb->setWidth(width()/2);
+    msgb->initialize(msg);
+    addWidget(msgb);
+    msgb->align(eAlignment::bottom | eAlignment::hcenter);
+    msgb->setX(msgb->y() - mGm->width()/10);
+    msgb->setX(msgb->x() - mGm->width()/2);
 }
 
 bool eGameWidget::roadPath(std::vector<eOrientation>& path) {

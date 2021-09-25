@@ -459,6 +459,69 @@ void eInterfaceTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fComboBox[1]);
         }
 
+
+
+        for(int i = 0; i < 9; i++) {
+            fMessageBox.emplace_back(fRenderer);
+        }
+
+        eTextureLoadingHelpers::loadTex(pathBase, 140, fMessageBox[0]);
+
+        for(int i = 141; i < 151; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fMessageBox[1]);
+        }
+
+        eTextureLoadingHelpers::loadTex(pathBase, 151, fMessageBox[2]);
+
+        for(int i = 152; i < 272;) {
+            eTextureLoadingHelpers::loadTex(pathBase, i++, fMessageBox[3]);
+            for(int j = 0; j < 10; j++) {
+                eTextureLoadingHelpers::loadTex(pathBase, i++, fMessageBox[4]);
+            }
+            eTextureLoadingHelpers::loadTex(pathBase, i++, fMessageBox[5]);
+        }
+
+        eTextureLoadingHelpers::loadTex(pathBase, 272, fMessageBox[6]);
+
+        for(int i = 273; i < 283; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fMessageBox[7]);
+        }
+
+        eTextureLoadingHelpers::loadTex(pathBase, 283, fMessageBox[8]);
+
+
+
+        for(int i = 0; i < 9; i++) {
+            fInnerBox.emplace_back(fRenderer);
+        }
+
+        eTextureLoadingHelpers::loadTex(pathBase, 284, fInnerBox[0]);
+
+        for(int i = 285; i < 290; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fInnerBox[1]);
+        }
+
+        eTextureLoadingHelpers::loadTex(pathBase, 290, fInnerBox[2]);
+
+        for(int i = 291; i < 326;) {
+            eTextureLoadingHelpers::loadTex(pathBase, i++, fInnerBox[3]);
+            for(int j = 0; j < 5; j++) {
+                eTextureLoadingHelpers::loadTex(pathBase, i++, fInnerBox[4]);
+            }
+            eTextureLoadingHelpers::loadTex(pathBase, i++, fInnerBox[5]);
+        }
+
+        eTextureLoadingHelpers::loadTex(pathBase, 326, fInnerBox[6]);
+
+        for(int i = 327; i < 332; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fInnerBox[7]);
+        }
+
+        eTextureLoadingHelpers::loadTex(pathBase, 332, fInnerBox[8]);
+
+
+
+
         for(int i = 388; i < 392; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fUpButton);
         }

@@ -56,10 +56,15 @@ bool eTexture::load(SDL_Renderer* const r,
 bool eTexture::loadText(SDL_Renderer* const r,
                         const std::string& text,
                         const SDL_Color& color,
-                        TTF_Font& font) {
+                        TTF_Font& font,
+                        const int width) {
     reset();
-    const auto surf = TTF_RenderText_Blended(
-                          &font, text.c_str(), color);
+    SDL_Surface* surf;
+    if(width) {
+        surf = TTF_RenderText_Blended_Wrapped(&font, text.c_str(), color, width);
+    } else {
+        surf = TTF_RenderText_Blended(&font, text.c_str(), color);
+    }
     if(!surf) {
         printf("Unable to render text! SDL_ttf Error: %s\n",
                TTF_GetError());
@@ -81,10 +86,11 @@ bool eTexture::loadText(SDL_Renderer* const r,
 bool eTexture::loadText(SDL_Renderer* const r,
                         const std::string& text,
                         const SDL_Color& color,
-                        const eFont& font) {
+                        const eFont& font,
+                        const int width) {
     const auto ttf = eFonts::requestFont(font);
     if(!ttf) return false;
-    return loadText(r, text, color, *ttf);
+    return loadText(r, text, color, *ttf, width);
 }
 
 void eTexture::render(SDL_Renderer* const r,

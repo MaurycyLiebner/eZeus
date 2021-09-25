@@ -25,11 +25,13 @@ public:
     bool loadText(SDL_Renderer* const r,
                   const std::string& text,
                   const SDL_Color& color,
-                  TTF_Font& font);
+                  TTF_Font& font,
+                  const int width = 0);
     bool loadText(SDL_Renderer* const r,
                   const std::string& text,
                   const SDL_Color& color,
-                  const eFont& font);
+                  const eFont& font,
+                  const int width = 0);
 
     void render(SDL_Renderer* const r,
                 const SDL_Rect& srcRect,

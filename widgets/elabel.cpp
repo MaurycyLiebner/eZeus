@@ -27,6 +27,11 @@ bool eLabel::setSmallFontSize() {
     return setFontSize(s);
 }
 
+bool eLabel::setHugeFontSize() {
+    const int s = resolution().hugeFontSize();
+    return setFontSize(s);
+}
+
 void eLabel::sizeHint(int& w, int& h) {
     const auto& tex = texture();
     if(tex) {

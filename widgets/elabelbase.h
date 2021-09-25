@@ -18,12 +18,15 @@ public:
     { return mFontColor; }
 
     int fontSize() const;
+
+    void setWrapWidth(const int w);
 protected:
     const std::shared_ptr<eTexture>& texture() { return mTexture; }
     bool setFont(TTF_Font* const font);
 private:
     bool updateTextTexture();
 
+    int mWidth = 0;
     SDL_Renderer* const mRenderer;
     TTF_Font* mFont = nullptr;
     std::string mText;

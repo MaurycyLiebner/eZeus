@@ -41,6 +41,11 @@ int eLabelBase::fontSize() const {
     return TTF_FontHeight(mFont);
 }
 
+void eLabelBase::setWrapWidth(const int w) {
+    mWidth = w;
+    updateTextTexture();
+}
+
 bool eLabelBase::updateTextTexture() {
     if(mText.empty()) {
         mTexture.reset();
@@ -48,6 +53,6 @@ bool eLabelBase::updateTextTexture() {
     }
     if(!mFont) return false;
     mTexture = std::make_shared<eTexture>();
-    mTexture->loadText(mRenderer, mText, mFontColor, *mFont);
+    mTexture->loadText(mRenderer, mText, mFontColor, *mFont, mWidth);
     return true;
 }

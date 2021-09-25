@@ -155,6 +155,7 @@ SOURCES += \
         characters/gods/eextendedgod.cpp \
         characters/gods/egod.cpp \
         emainwindow.cpp \
+        emessage.cpp \
         emusic.cpp \
         engine/boardData/eappealmap.cpp \
         engine/boardData/eappealupdatetask.cpp \
@@ -251,6 +252,7 @@ SOURCES += \
         widgets/emainmenu.cpp \
         widgets/emainmenubase.cpp \
         widgets/emenuloadingwidget.cpp \
+        widgets/emessagebox.cpp \
         widgets/eminimap.cpp \
         widgets/emouseevent.cpp \
         widgets/epainter.cpp \
@@ -411,6 +413,7 @@ HEADERS += \
     characters/gods/eextendedgod.h \
     characters/gods/egod.h \
     emainwindow.h \
+    emessage.h \
     emusic.h \
     engine/boardData/eappealmap.h \
     engine/boardData/eappealupdatetask.h \
@@ -530,6 +533,7 @@ HEADERS += \
     widgets/emainmenu.h \
     widgets/emainmenubase.h \
     widgets/emenuloadingwidget.h \
+    widgets/emessagebox.h \
     widgets/eminimap.h \
     widgets/emouseevent.h \
     widgets/epainter.h \

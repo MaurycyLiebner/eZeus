@@ -123,6 +123,8 @@ public:
 
     // topLeft, top, topRight, left, center, right, bottomLeft, bottom, bottomRight,
     std::vector<eTextureCollection> fComboBox;
+    std::vector<eTextureCollection> fMessageBox;
+    std::vector<eTextureCollection> fInnerBox;
 
     std::shared_ptr<eTexture> fLoadImage;
     std::shared_ptr<eTexture> fMainMenuImage;
