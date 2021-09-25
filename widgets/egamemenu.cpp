@@ -425,15 +425,15 @@ void eGameMenu::initialize() {
     };
     const auto m9 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::commemorative1, "Commemorative 1"},
+        for(const auto& c : {eSPR{eBuildingMode::populationMonument, "Population Monument"},
                              eSPR{eBuildingMode::commemorative2, "Commemorative 2"},
                              eSPR{eBuildingMode::commemorative3, "Commemorative 3"},
-                             eSPR{eBuildingMode::commemorative4, "Commemorative 4"},
-                             eSPR{eBuildingMode::commemorative5, "Commemorative 5"},
-                             eSPR{eBuildingMode::commemorative6, "Commemorative 6"},
+                             eSPR{eBuildingMode::athleteMonument, "Athlete Monument"},
+                             eSPR{eBuildingMode::conquestMonument, "Conquest Monument"},
+                             eSPR{eBuildingMode::happinessMonument, "Happiness Monument"},
                              eSPR{eBuildingMode::commemorative7, "Commemorative 7"},
                              eSPR{eBuildingMode::commemorative8, "Commemorative 8"},
-                             eSPR{eBuildingMode::commemorative9, "Commemorative 9"}}) {
+                             eSPR{eBuildingMode::scholarMonument, "Scholar Monument"}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();

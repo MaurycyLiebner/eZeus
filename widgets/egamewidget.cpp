@@ -1547,7 +1547,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
 
-        case eBuildingMode::commemorative1: {
+        case eBuildingMode::populationMonument: {
             const auto b1 = e::make_shared<eCommemorative>(0, mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
@@ -1559,15 +1559,15 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = e::make_shared<eCommemorative>(2, mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
-        case eBuildingMode::commemorative4: {
+        case eBuildingMode::athleteMonument: {
             const auto b1 = e::make_shared<eCommemorative>(3, mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
-        case eBuildingMode::commemorative5: {
+        case eBuildingMode::conquestMonument: {
             const auto b1 = e::make_shared<eCommemorative>(4, mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
-        case eBuildingMode::commemorative6: {
+        case eBuildingMode::happinessMonument: {
             const auto b1 = e::make_shared<eCommemorative>(5, mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
@@ -1579,7 +1579,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = e::make_shared<eCommemorative>(7, mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
-        case eBuildingMode::commemorative9: {
+        case eBuildingMode::scholarMonument: {
             const auto b1 = e::make_shared<eCommemorative>(8, mBoard);
             ebs.emplace_back(gHoverX, gHoverY, b1);
         } break;
@@ -2465,7 +2465,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 };
                 break;
 
-            case eBuildingMode::commemorative1:
+            case eBuildingMode::populationMonument:
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 3, 3,
                           [this]() { return e::make_shared<eCommemorative>(0, mBoard); });
@@ -2483,19 +2483,19 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                           [this]() { return e::make_shared<eCommemorative>(2, mBoard); });
                 };
                 break;
-            case eBuildingMode::commemorative4:
+            case eBuildingMode::athleteMonument:
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 3, 3,
                           [this]() { return e::make_shared<eCommemorative>(3, mBoard); });
                 };
                 break;
-            case eBuildingMode::commemorative5:
+            case eBuildingMode::conquestMonument:
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 3, 3,
                           [this]() { return e::make_shared<eCommemorative>(4, mBoard); });
                 };
                 break;
-            case eBuildingMode::commemorative6:
+            case eBuildingMode::happinessMonument:
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 3, 3,
                           [this]() { return e::make_shared<eCommemorative>(5, mBoard); });
@@ -2513,7 +2513,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                           [this]() { return e::make_shared<eCommemorative>(7, mBoard); });
                 };
                 break;
-            case eBuildingMode::commemorative9:
+            case eBuildingMode::scholarMonument:
                 apply = [this](eTile* const tile) {
                     build(tile->x(), tile->y(), 3, 3,
                           [this]() { return e::make_shared<eCommemorative>(8, mBoard); });
