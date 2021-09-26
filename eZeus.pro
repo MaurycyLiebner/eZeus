@@ -185,8 +185,6 @@ SOURCES += \
         engine/thread/ethreadtile.cpp \
         epathfindtask.cpp \
         esounds.cpp \
-        espriteframe.cpp \
-        esprites.cpp \
         etexture.cpp \
         etexturecollection.cpp \
         main.cpp \
@@ -448,8 +446,6 @@ HEADERS += \
     epathfindtask.h \
     esettings.h \
     esounds.h \
-    espriteframe.h \
-    esprites.h \
     etexture.h \
     etexturecollection.h \
     offsets/PoseidonImps.h \
