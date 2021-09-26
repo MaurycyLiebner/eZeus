@@ -156,6 +156,7 @@ SOURCES += \
         characters/gods/egod.cpp \
         emainwindow.cpp \
         emessage.cpp \
+        emessages.cpp \
         emusic.cpp \
         engine/boardData/eappealmap.cpp \
         engine/boardData/eappealupdatetask.cpp \
@@ -227,6 +228,7 @@ SOURCES += \
         widgets/datawidgets/estoragedatawidget.cpp \
         widgets/datawidgets/eviewmodebutton.cpp \
         widgets/eactionlistwidget.cpp \
+        widgets/ebasicbutton.cpp \
         widgets/ebuildingmode.cpp \
         widgets/ebutton.cpp \
         widgets/echeckablebutton.cpp \
@@ -243,6 +245,7 @@ SOURCES += \
         widgets/egamemenu.cpp \
         widgets/egamemenubase.cpp \
         widgets/egamewidget.cpp \
+        widgets/ehelpbutton.cpp \
         widgets/elabel.cpp \
         widgets/elabelbase.cpp \
         widgets/elabeledwidget.cpp \
@@ -253,6 +256,7 @@ SOURCES += \
         widgets/emessagebox.cpp \
         widgets/eminimap.cpp \
         widgets/emouseevent.cpp \
+        widgets/eokbutton.cpp \
         widgets/epainter.cpp \
         widgets/eprogressbar.cpp \
         widgets/eresolution.cpp \
@@ -412,6 +416,7 @@ HEADERS += \
     characters/gods/egod.h \
     emainwindow.h \
     emessage.h \
+    emessages.h \
     emusic.h \
     engine/boardData/eappealmap.h \
     engine/boardData/eappealupdatetask.h \
@@ -506,6 +511,7 @@ HEADERS += \
     widgets/datawidgets/estoragedatawidget.h \
     widgets/datawidgets/eviewmodebutton.h \
     widgets/eactionlistwidget.h \
+    widgets/ebasicbutton.h \
     widgets/ebuildingmode.h \
     widgets/ebutton.h \
     widgets/echeckablebutton.h \
@@ -522,6 +528,7 @@ HEADERS += \
     widgets/egamemenu.h \
     widgets/egamemenubase.h \
     widgets/egamewidget.h \
+    widgets/ehelpbutton.h \
     widgets/elabel.h \
     widgets/elabelbase.h \
     widgets/elabeledwidget.h \
@@ -532,6 +539,7 @@ HEADERS += \
     widgets/emessagebox.h \
     widgets/eminimap.h \
     widgets/emouseevent.h \
+    widgets/eokbutton.h \
     widgets/epainter.h \
     widgets/eprogressbar.h \
     widgets/eresolution.h \

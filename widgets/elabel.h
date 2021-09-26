@@ -10,11 +10,6 @@ public:
     eLabel(eMainWindow* const window);
     eLabel(const std::string& text,
            eMainWindow* const window);
-
-    bool setTinyFontSize();
-    bool setVerySmallFontSize();
-    bool setSmallFontSize();
-    bool setHugeFontSize();
 protected:
     void sizeHint(int& w, int& h);
     void paintEvent(ePainter& p);

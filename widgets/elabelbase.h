@@ -6,7 +6,12 @@
 
 class eLabelBase {
 public:
-    eLabelBase(SDL_Renderer* const renderer);
+    eLabelBase(eMainWindow* const window);
+
+    bool setTinyFontSize();
+    bool setVerySmallFontSize();
+    bool setSmallFontSize();
+    bool setHugeFontSize();
 
     bool setFont(const eFont& font);
     bool setFontSize(const int s);
@@ -25,9 +30,10 @@ protected:
     bool setFont(TTF_Font* const font);
 private:
     bool updateTextTexture();
+    eResolution res() const;
 
     int mWidth = 0;
-    SDL_Renderer* const mRenderer;
+    eMainWindow* const mWindow;
     TTF_Font* mFont = nullptr;
     std::string mText;
     std::shared_ptr<eTexture> mTexture;

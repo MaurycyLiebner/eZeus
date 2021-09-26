@@ -1,13 +1,35 @@
 #include "elabelbase.h"
 
-eLabelBase::eLabelBase(SDL_Renderer* const renderer) :
-    mRenderer(renderer) {
+#include "emainwindow.h"
+
+eLabelBase::eLabelBase(eMainWindow* const window) :
+    mWindow(window) {
 
 }
 
 bool eLabelBase::setFont(const eFont& font) {
     const auto ttf = eFonts::requestFont(font);
     return setFont(ttf);
+}
+
+bool eLabelBase::setTinyFontSize() {
+    const int s = res().tinyFontSize();
+    return setFontSize(s);
+}
+
+bool eLabelBase::setVerySmallFontSize() {
+    const int s = res().verySmallFontSize();
+    return setFontSize(s);
+}
+
+bool eLabelBase::setSmallFontSize() {
+    const int s = res().smallFontSize();
+    return setFontSize(s);
+}
+
+bool eLabelBase::setHugeFontSize() {
+    const int s = res().hugeFontSize();
+    return setFontSize(s);
 }
 
 bool eLabelBase::setFontSize(const int s) {
@@ -53,6 +75,11 @@ bool eLabelBase::updateTextTexture() {
     }
     if(!mFont) return false;
     mTexture = std::make_shared<eTexture>();
-    mTexture->loadText(mRenderer, mText, mFontColor, *mFont, mWidth);
+    const auto r = mWindow->renderer();
+    mTexture->loadText(r, mText, mFontColor, *mFont, mWidth);
     return true;
+}
+
+eResolution eLabelBase::res() const {
+    return mWindow->resolution();
 }

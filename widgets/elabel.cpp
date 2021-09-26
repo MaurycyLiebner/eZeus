@@ -1,7 +1,7 @@
 #include "elabel.h"
 
 eLabel::eLabel(eMainWindow* const window) :
-    eWidget(window), eLabelBase(renderer()) {
+    eWidget(window), eLabelBase(window) {
     setFont(eFonts::defaultFont(resolution()));
 }
 
@@ -9,27 +9,6 @@ eLabel::eLabel(const std::string& text,
                eMainWindow* const window) :
     eLabel(window) {
     setText(text);
-}
-
-bool eLabel::setTinyFontSize() {
-    const int s = resolution().tinyFontSize();
-    return setFontSize(s);
-}
-
-bool eLabel::setVerySmallFontSize() {
-    const int s = resolution().verySmallFontSize();
-    return setFontSize(s);
-
-}
-
-bool eLabel::setSmallFontSize() {
-    const int s = resolution().smallFontSize();
-    return setFontSize(s);
-}
-
-bool eLabel::setHugeFontSize() {
-    const int s = resolution().hugeFontSize();
-    return setFontSize(s);
 }
 
 void eLabel::sizeHint(int& w, int& h) {

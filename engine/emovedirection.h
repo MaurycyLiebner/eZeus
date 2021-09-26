@@ -69,8 +69,9 @@ inline eOrientation gDirectionToOrientation(const eMoveDirection dir) {
         return eOrientation::bottomLeft;
     case eMoveDirection::topLeft:
         return eOrientation::topLeft;
+    default:
+        return eOrientation::topRight;
     }
-    return eOrientation::topRight;
 }
 
 #endif // EMOVEDIRECTION_H

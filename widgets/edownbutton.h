@@ -1,9 +1,9 @@
 #ifndef EDOWNBUTTON_H
 #define EDOWNBUTTON_H
 
-#include "ebutton.h"
+#include "ebasicbutton.h"
 
-class eDownButton : public eButton {
+class eDownButton : public eBasicButton {
 public:
     eDownButton(eMainWindow* const window);
 };

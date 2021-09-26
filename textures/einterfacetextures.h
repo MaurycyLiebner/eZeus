@@ -183,6 +183,9 @@ public:
     eTextureCollection fUpButton;
     eTextureCollection fDownButton;
 
+    eTextureCollection fOkButton;
+    eTextureCollection fHelpButton;
+
     eTextureCollection fColumn1;
     eTextureCollection fColumn2;
     eTextureCollection fColumn3;

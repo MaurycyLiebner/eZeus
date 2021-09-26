@@ -98,6 +98,7 @@
 #include "emainwindow.h"
 
 #include "emessagebox.h"
+#include "emessages.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window), mBoard(&mThreadPool) {}
@@ -106,13 +107,16 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
     switch(e) {
     case eEvent::fire:
         eSounds::playFireSound();
+        showMessage(eMessages::sInstance.fFire);
         break;
     case eEvent::collapse:
         eSounds::playCollapseSound();
+        showMessage(eMessages::sInstance.fCollapse);
         break;
 
     case eEvent::aphroditeVisit:
         eSounds::playGodSound(eGodType::aphrodite, eGodSound::visit);
+        showMessage(eMessages::sInstance.fAphroditeGreetings);
         break;
     case eEvent::aphroditeInvasion:
         eSounds::playGodSound(eGodType::aphrodite, eGodSound::invade);
@@ -134,6 +138,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
 
     case eEvent::artemisVisit:
         eSounds::playGodSound(eGodType::artemis, eGodSound::visit);
+        showMessage(eMessages::sInstance.fArtemisGreetings);
         break;
     case eEvent::artemisInvasion:
         eSounds::playGodSound(eGodType::artemis, eGodSound::invade);
@@ -155,6 +160,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
 
     case eEvent::demeterVisit:
         eSounds::playGodSound(eGodType::demeter, eGodSound::visit);
+        showMessage(eMessages::sInstance.fDemeterGreetings);
         break;
     case eEvent::demeterInvasion:
         eSounds::playGodSound(eGodType::demeter, eGodSound::invade);
@@ -169,6 +175,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
 
     case eEvent::hadesVisit:
         eSounds::playGodSound(eGodType::hades, eGodSound::visit);
+        showMessage(eMessages::sInstance.fHadesGreetings);
         break;
     case eEvent::hadesInvasion:
         eSounds::playGodSound(eGodType::hades, eGodSound::invade);
@@ -204,6 +211,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
 
     case eEvent::zeusVisit:
         eSounds::playGodSound(eGodType::zeus, eGodSound::visit);
+        showMessage(eMessages::sInstance.fZeusGreetings);
         break;
     case eEvent::zeusInvasion:
         eSounds::playGodSound(eGodType::zeus, eGodSound::invade);
@@ -281,6 +289,8 @@ void eGameWidget::initialize(const int w, const int h) {
     const auto& setts = window()->settings();
     const auto sizes = setts.availableSizes();
     setTileSize(sizes.front());
+
+    showMessage(eMessages::sInstance.fFire);
 }
 
 void drawXY(const int tx, const int ty,
@@ -601,10 +611,10 @@ void eGameWidget::showMessage(const std::shared_ptr<eMessage>& msg) {
     const auto msgb = new eMessageBox(window());
     msgb->setHeight(height()/3);
     msgb->setWidth(width()/2);
-    msgb->initialize(msg);
+    msgb->initialize(msg, mBoard.playerName());
     addWidget(msgb);
     msgb->align(eAlignment::bottom | eAlignment::hcenter);
-    msgb->setX(msgb->y() - mGm->width()/10);
+    msgb->setY(msgb->y() - mGm->width()/10);
     msgb->setX(msgb->x() - mGm->width()/2);
 }
 

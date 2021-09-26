@@ -1,9 +1,9 @@
 #ifndef EUPBUTTON_H
 #define EUPBUTTON_H
 
-#include "ebutton.h"
+#include "ebasicbutton.h"
 
-class eUpButton : public eButton {
+class eUpButton : public eBasicButton {
 public:
     eUpButton(eMainWindow* const window);
 };

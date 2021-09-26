@@ -1,7 +1,7 @@
 #include "eframedlabel.h"
 
 eFramedLabel::eFramedLabel(eMainWindow* const window) :
-    eFramedWidget(window), eLabelBase(renderer()) {
+    eFramedWidget(window), eLabelBase(window) {
     setFont(eFonts::defaultFont(resolution()));
 }
 

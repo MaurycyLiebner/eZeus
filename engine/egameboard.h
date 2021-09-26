@@ -166,12 +166,17 @@ public:
 
     using eAction = std::function<void()>;
     bool ifVisible(eTile* const tile, const eAction& func) const;
+
+    const std::string& playerName() const
+    { return mPlayerName; }
 private:
     void updateDiagonalArray();
     void updateNeighbours();
 
     eEventHandler mEventHandler;
     eVisibilityChecker mVisibilityChecker;
+
+    std::string mPlayerName = "Ailuropoda";
 
     int mDrachmas = 2500;
     eDifficulty mDifficulty{eDifficulty::beginner};
