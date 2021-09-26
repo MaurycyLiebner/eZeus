@@ -183,6 +183,7 @@ public:
     eTextureCollection fUpButton;
     eTextureCollection fDownButton;
 
+    eTextureCollection fExclamationButton;
     eTextureCollection fOkButton;
     eTextureCollection fHelpButton;
 

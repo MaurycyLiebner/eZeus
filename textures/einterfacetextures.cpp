@@ -110,6 +110,7 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
 
     fUpButton(renderer),
     fDownButton(renderer),
+    fExclamationButton(renderer),
     fOkButton(renderer),
     fHelpButton(renderer),
 
@@ -523,6 +524,10 @@ void eInterfaceTextures::load() {
         eTextureLoadingHelpers::loadTex(pathBase, 332, fInnerBox[8]);
 
 
+
+        for(int i = 64; i < 68; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fExclamationButton);
+        }
 
         for(int i = 333; i < 337; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fHelpButton);

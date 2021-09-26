@@ -237,6 +237,7 @@ SOURCES += \
         widgets/econtextmenu.cpp \
         widgets/edownbutton.cpp \
         widgets/eeventwidget.cpp \
+        widgets/eexclamationbutton.cpp \
         widgets/efonts.cpp \
         widgets/eframedlabel.cpp \
         widgets/eframedwidget.cpp \
@@ -520,6 +521,7 @@ HEADERS += \
     widgets/econtextmenu.h \
     widgets/edownbutton.h \
     widgets/eeventwidget.h \
+    widgets/eexclamationbutton.h \
     widgets/efonts.h \
     widgets/eframedlabel.h \
     widgets/eframedwidget.h \

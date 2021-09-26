@@ -93,7 +93,8 @@ private:
 
     void updateAppealMap();
 
-    void showMessage(const std::shared_ptr<eMessage>& msg);
+    void showMessage(eTile* const tile,
+                     const std::shared_ptr<eMessage>& msg);
 
     bool roadPath(std::vector<eOrientation>& path);
 

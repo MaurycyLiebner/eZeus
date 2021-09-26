@@ -107,16 +107,16 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
     switch(e) {
     case eEvent::fire:
         eSounds::playFireSound();
-        showMessage(eMessages::sInstance.fFire);
+        showMessage(tile, eMessages::sInstance.fFire);
         break;
     case eEvent::collapse:
         eSounds::playCollapseSound();
-        showMessage(eMessages::sInstance.fCollapse);
+        showMessage(tile, eMessages::sInstance.fCollapse);
         break;
 
     case eEvent::aphroditeVisit:
         eSounds::playGodSound(eGodType::aphrodite, eGodSound::visit);
-        showMessage(eMessages::sInstance.fAphroditeGreetings);
+        showMessage(tile, eMessages::sInstance.fAphroditeGreetings);
         break;
     case eEvent::aphroditeInvasion:
         eSounds::playGodSound(eGodType::aphrodite, eGodSound::invade);
@@ -138,7 +138,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
 
     case eEvent::artemisVisit:
         eSounds::playGodSound(eGodType::artemis, eGodSound::visit);
-        showMessage(eMessages::sInstance.fArtemisGreetings);
+        showMessage(tile, eMessages::sInstance.fArtemisGreetings);
         break;
     case eEvent::artemisInvasion:
         eSounds::playGodSound(eGodType::artemis, eGodSound::invade);
@@ -160,7 +160,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
 
     case eEvent::demeterVisit:
         eSounds::playGodSound(eGodType::demeter, eGodSound::visit);
-        showMessage(eMessages::sInstance.fDemeterGreetings);
+        showMessage(tile, eMessages::sInstance.fDemeterGreetings);
         break;
     case eEvent::demeterInvasion:
         eSounds::playGodSound(eGodType::demeter, eGodSound::invade);
@@ -175,7 +175,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
 
     case eEvent::hadesVisit:
         eSounds::playGodSound(eGodType::hades, eGodSound::visit);
-        showMessage(eMessages::sInstance.fHadesGreetings);
+        showMessage(tile, eMessages::sInstance.fHadesGreetings);
         break;
     case eEvent::hadesInvasion:
         eSounds::playGodSound(eGodType::hades, eGodSound::invade);
@@ -211,7 +211,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
 
     case eEvent::zeusVisit:
         eSounds::playGodSound(eGodType::zeus, eGodSound::visit);
-        showMessage(eMessages::sInstance.fZeusGreetings);
+        showMessage(tile, eMessages::sInstance.fZeusGreetings);
         break;
     case eEvent::zeusInvasion:
         eSounds::playGodSound(eGodType::zeus, eGodSound::invade);
@@ -290,7 +290,7 @@ void eGameWidget::initialize(const int w, const int h) {
     const auto sizes = setts.availableSizes();
     setTileSize(sizes.front());
 
-    showMessage(eMessages::sInstance.fFire);
+    showMessage(nullptr, eMessages::sInstance.fFire);
 }
 
 void drawXY(const int tx, const int ty,
@@ -607,11 +607,19 @@ void eGameWidget::updateAppealMap() {
     mThreadPool.queueTask(task);
 }
 
-void eGameWidget::showMessage(const std::shared_ptr<eMessage>& msg) {
+void eGameWidget::showMessage(eTile* const tile,
+                              const std::shared_ptr<eMessage>& msg) {
     const auto msgb = new eMessageBox(window());
     msgb->setHeight(height()/3);
     msgb->setWidth(width()/2);
-    msgb->initialize(msg, mBoard.playerName());
+    eAction a;
+    if(tile) {
+        a = [this, tile]() {
+            viewTile(tile);
+        };
+    }
+    const auto& d = mBoard.date();
+    msgb->initialize(a, d, msg, mBoard.playerName());
     addWidget(msgb);
     msgb->align(eAlignment::bottom | eAlignment::hcenter);
     msgb->setY(msgb->y() - mGm->width()/10);

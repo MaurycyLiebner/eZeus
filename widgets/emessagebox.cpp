@@ -2,7 +2,9 @@
 
 #include "elabel.h"
 #include "eframedlabel.h"
+#include "eframedwidget.h"
 #include "eokbutton.h"
+#include "eexclamationbutton.h"
 
 template<typename ... Args>
 std::string string_format(const std::string& format, Args... args) {
@@ -14,7 +16,8 @@ std::string string_format(const std::string& format, Args... args) {
     return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
 }
 
-void eMessageBox::initialize(const std::shared_ptr<eMessage>& msg,
+void eMessageBox::initialize(const eAction& viewTile, const eDate& date,
+                             const std::shared_ptr<eMessage>& msg,
                              const std::string& name) {
     setType(eFrameType::message);
 
@@ -24,31 +27,67 @@ void eMessageBox::initialize(const std::shared_ptr<eMessage>& msg,
     w->setHeight(p);
     addWidget(w);
 
+    const auto w0 = new eWidget(window());
+    w0->setNoPadding();
+    const auto d = new eLabel(date.shortString(), window());
+    d->setSmallFontSize();
+    d->fitContent();
+    w0->addWidget(d);
     const auto title = new eLabel(msg->fTitle, window());
     title->setHugeFontSize();
     title->fitContent();
-    addWidget(title);
+    w0->addWidget(title);
+    w0->fitContent();
+    w0->setWidth(width() - 2*p);
+    title->align(eAlignment::hcenter);
+    addWidget(w0);
 
-    const auto text = new eFramedLabel(window());
+    const auto ww = new eFramedWidget(window());
+    ww->setType(eFrameType::inner);
+    ww->setNoPadding();
+
+    if(viewTile) {
+        const auto www = new eWidget(window());
+        www->setNoPadding();
+        const auto butt = new eExclamationButton(window());
+        butt->setPressAction(viewTile);
+        www->addWidget(butt);
+        const auto l = new eLabel("Go to site of event", window());
+        l->setSmallFontSize();
+        l->fitContent();
+        www->addWidget(l);
+        www->stackHorizontally();
+        www->fitContent();
+        butt->align(eAlignment::vcenter);
+        addWidget(www);
+        www->setX(3*p);
+    }
+
+    const auto text = new eLabel(window());
     text->setSmallFontSize();
-    text->setType(eFrameType::inner);
     text->setWrapWidth(width() - 4*p);
     const auto txt = string_format(msg->fText, name.c_str());
     text->setText(txt);
     text->fitContent();
-    addWidget(text);
+
+    ww->addWidget(text);
+    ww->stackVertically();
+    ww->fitContent();
+    addWidget(ww);
 
     const auto ok = new eOkButton(window());
     ok->setPressAction([this]() {
         deleteLater();
     });
     addWidget(ok);
-    ok->align(eAlignment::right);
 
     stackVertically();
 
     fitContent();
 
-    title->align(eAlignment::hcenter);
-    text->align(eAlignment::hcenter);
+    ok->align(eAlignment::right | eAlignment::bottom);
+    ok->setX(ok->x() - 2*p);
+    ok->setY(ok->y() - 2*p);
+    w0->align(eAlignment::hcenter);
+    ww->align(eAlignment::hcenter);
 }
