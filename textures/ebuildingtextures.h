@@ -298,6 +298,53 @@ public:
     eTextureCollection fHouseAppeal;
 
     eTextureCollection fClouds;
+
+    eTextureCollection fZeusStatues;
+    eTextureCollection fPoseidonStatues;
+    eTextureCollection fHadesStatues;
+    eTextureCollection fDemeterStatues;
+    eTextureCollection fAthenaStatues;
+    eTextureCollection fArtemisStatues;
+    eTextureCollection fApolloStatues;
+    eTextureCollection fAresStatues;
+    eTextureCollection fHephaestusStatues;
+    eTextureCollection fAphroditeStatues;
+    eTextureCollection fHermesStatues;
+    eTextureCollection fDionysusStatues;
+
+    eTextureCollection fHeraStatues;
+    eTextureCollection fAtlasStatues;
+
+    eTextureCollection fSanctuaryTiles;
+    eTextureCollection fSanctuarySpace;
+    std::shared_ptr<eTexture> fSanctuaryAltar;
+
+    std::shared_ptr<eTexture> fHeroHall;
+    // achilles, hercules, jason
+    eTextureCollection fHeroStatues;
+
+    eTextureCollection fZeusMonuments;
+    eTextureCollection fPoseidonMonuments;
+    eTextureCollection fHadesMonuments;
+    eTextureCollection fDemeterMonuments;
+    eTextureCollection fAthenaMonuments;
+    eTextureCollection fArtemisMonuments;
+    eTextureCollection fApolloMonuments;
+    eTextureCollection fAresMonuments;
+    eTextureCollection fHephaestusMonuments;
+    eTextureCollection fAphroditeMonuments;
+    eTextureCollection fHermesMonuments;
+    eTextureCollection fDionysusMonuments;
+
+    eTextureCollection fHeraMonuments;
+    eTextureCollection fAtlasMonuments;
+
+    std::shared_ptr<eTexture> fMonumentStone;
+
+    std::vector<eTextureCollection> fSanctuary;
+
+    eTextureCollection fSanctuaryWOverlay;
+    eTextureCollection fSanctuaryHOverlay;
 };
 
 #endif // EBUILDINGTEXTURES_H

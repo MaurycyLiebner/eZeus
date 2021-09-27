@@ -144,7 +144,47 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fAppeal(renderer),
     fHouseAppeal(renderer),
 
-    fClouds(renderer) {
+    fClouds(renderer),
+
+    fZeusStatues(renderer),
+    fPoseidonStatues(renderer),
+    fHadesStatues(renderer),
+    fDemeterStatues(renderer),
+    fAthenaStatues(renderer),
+    fArtemisStatues(renderer),
+    fApolloStatues(renderer),
+    fAresStatues(renderer),
+    fHephaestusStatues(renderer),
+    fAphroditeStatues(renderer),
+    fHermesStatues(renderer),
+    fDionysusStatues(renderer),
+
+    fHeraStatues(renderer),
+    fAtlasStatues(renderer),
+
+    fSanctuaryTiles(renderer),
+    fSanctuarySpace(renderer),
+
+    fHeroStatues(renderer),
+
+    fZeusMonuments(renderer),
+    fPoseidonMonuments(renderer),
+    fHadesMonuments(renderer),
+    fDemeterMonuments(renderer),
+    fAthenaMonuments(renderer),
+    fArtemisMonuments(renderer),
+    fApolloMonuments(renderer),
+    fAresMonuments(renderer),
+    fHephaestusMonuments(renderer),
+    fAphroditeMonuments(renderer),
+    fHermesMonuments(renderer),
+    fDionysusMonuments(renderer),
+
+    fHeraMonuments(renderer),
+    fAtlasMonuments(renderer),
+
+    fSanctuaryWOverlay(renderer),
+    fSanctuaryHOverlay(renderer){
 
 }
 
@@ -474,6 +514,15 @@ void eBuildingTextures::load() {
             texClass.load(i, fStadiumAudiance2H);
         }
 
+        for(int i = 1725; i < 1773; i++) {
+            texClass.load(i, fSanctuaryHOverlay);
+        }
+        for(int i = 0; i < fSanctuaryHOverlay.size(); i++) {
+            auto& tex = fSanctuaryWOverlay.addTexture();
+            const auto& srcTex = fSanctuaryHOverlay.getTexture(i);
+            tex->setFlipTex(srcTex);
+        }
+
         for(int i = 1773; i < 1937;) {
             for(int j = 0; j < 2; j++, i++) {
                 eTextureCollection* coll;
@@ -750,6 +799,47 @@ void eBuildingTextures::load() {
         }
     }
     {
+        const auto dir = basedir + "Zeus_General/";
+
+        const std::string pathBase{dir + "Zeus_Religion_"};
+        eTextureClass texClass(pathBase, texLoader);
+
+        int i = 1;
+        const auto loadStatues = [&](eTextureCollection& coll) {
+            for(int j = 0; j < 4; j++, i++) {
+                texClass.load(i, coll);
+            }
+        };
+        loadStatues(fZeusStatues);
+        {
+            // loadStatues(fPoseidonStatues);
+            i += 4;
+        }
+        loadStatues(fHadesStatues);
+        loadStatues(fDemeterStatues);
+        loadStatues(fAthenaStatues);
+        loadStatues(fArtemisStatues);
+        loadStatues(fApolloStatues);
+        loadStatues(fAresStatues);
+        loadStatues(fHephaestusStatues);
+        loadStatues(fAphroditeStatues);
+        loadStatues(fHermesStatues);
+        loadStatues(fDionysusStatues);
+
+        for(int i = 49; i < 55; i++) {
+            texClass.load(i, fSanctuaryTiles);
+        }
+        for(int i = 55; i < 61; i++) {
+            texClass.load(i, fSanctuarySpace);
+        }
+
+        fSanctuaryAltar = texClass.load(61);
+        fHeroHall = texClass.load(62);
+        for(int i = 63; i < 69; i++) {
+            texClass.load(i, fHeroStatues);
+        }
+    }
+    {
         const auto dir = basedir + "Poseidon_Loaded/";
 
         {
@@ -800,36 +890,139 @@ void eBuildingTextures::load() {
             loadWaterPark(120, fWaterPark8, fWaterPark8Overlay);
         }
 
-        const std::string pathBase{dir + "Poseidon_Storage_"};
-        eTextureClass texClass(pathBase, texLoader);
+        {
+            const std::string pathBase{dir + "Poseidon_Statues_"};
+            eTextureClass texClass(pathBase, texLoader);
 
+            int i = 1;
+            const auto loadStatues = [&](eTextureCollection& coll) {
+                for(int j = 0; j < 4; j++, i++) {
+                    texClass.load(i, coll);
+                }
+            };
 
-//        fCorral = std::make_shared<eTexture>();
-//        fCorral->load(fRenderer, pathBase + "00001.png");
-
-//        for(int i = 2; i < 49; i++) {
-//            eTextureLoadingHelpers::loadTex(pathBase, i, fCorralOverlay);
-//        }
-
-        fOrangeTendersLodge = texClass.load(51);
-
-        for(int i = 52; i < 87; i++) {
-            texClass.load(i, fOrangeTendersLodgeOverlay);
+            loadStatues(fHeraStatues);
+            loadStatues(fAtlasStatues);
+            for(int j = 0; j < 2; j++, i++) {
+                texClass.load(i, fHeroStatues);
+            }
+            loadStatues(fPoseidonStatues);
         }
 
-        for(int i = 87; i < 91; i++) {
-            texClass.load(i, fWarehouseOranges);
+        const auto loadGodMonuments = [&](const int j, eTextureCollection& coll) {
+            const auto nStr = (j < 10 ? "0" : "") + std::to_string(j);
+            const auto dir = basedir + "Zeus_God" + nStr + "/";
+            const std::string pathBase{dir + "Zeus_Rel-Statue-F_"};
+            eTextureClass texClass(pathBase, texLoader);
+
+            for(int i = 1; i < 5; i++) {
+                texClass.load(i, coll);
+            }
+        };
+
+        loadGodMonuments(1, fZeusMonuments);
+
+        loadGodMonuments(2, fPoseidonMonuments);
+        loadGodMonuments(3, fHadesMonuments);
+        loadGodMonuments(4, fDemeterMonuments);
+        loadGodMonuments(5, fAthenaMonuments);
+        loadGodMonuments(6, fArtemisMonuments);
+        loadGodMonuments(7, fApolloMonuments);
+        loadGodMonuments(8, fAresMonuments);
+        loadGodMonuments(9, fHephaestusMonuments);
+        loadGodMonuments(10, fAphroditeMonuments);
+        loadGodMonuments(11, fHermesMonuments);
+        loadGodMonuments(12, fDionysusMonuments);
+
+        {
+            const auto dir = basedir + "zeus_statcon1/";
+            const std::string pathBase{dir + "Zeus_Rel-Statue-R_"};
+            eTextureClass texClass(pathBase, texLoader);
+            fMonumentStone = texClass.load(1);
         }
 
-        for(int i = 99; i < 104; i++) {
-            texClass.load(i, fWaitingOranges);
+        {
+            const auto dir = basedir + "Zeus_Sanctuary1/";
+            const std::string pathBase{dir + "Zeus_Religion_"};
+            eTextureClass texClass(pathBase, texLoader);
+            for(int i = 1; i < 5; i++) {
+                auto& coll = fSanctuary.emplace_back(fRenderer);
+                texClass.load(i, coll);
+            }
         }
 
-        fGranaryOranges = texClass.load(122);
-        fGranaryOranges->setOffset(-3, -3);
+        {
+            const auto dir = basedir + "Zeus_Sanctuary2/";
+            const std::string pathBase{dir + "Zeus_Religion_"};
+            eTextureClass texClass(pathBase, texLoader);
+            for(int i = 1; i < 5; i++) {
+                auto& coll = fSanctuary[i - 1];
+                texClass.load(i, coll);
+            }
+        }
 
-        for(int i = 123; i < 129; i++) {
-            texClass.load(i, fOrangeTree);
+        {
+            const auto dir = basedir + "Zeus_Sanctuary3/";
+            const std::string pathBase{dir + "Zeus_Religion_"};
+            eTextureClass texClass(pathBase, texLoader);
+            for(int i = 1; i < 5; i++) {
+                auto& coll = fSanctuary[i - 1];
+                texClass.load(i, coll);
+            }
+        }
+
+        {
+            const auto dir = basedir + "Poseidon_AtlasStat/";
+            const std::string pathBase{dir + "Poseidon_Statues_"};
+            eTextureClass texClass(pathBase, texLoader);
+
+            for(int i = 1; i < 5; i++) {
+                texClass.load(i, fAtlasMonuments);
+            }
+        }
+
+        {
+            const auto dir = basedir + "Poseidon_HeraStat/";
+            const std::string pathBase{dir + "Poseidon_Statues_"};
+            eTextureClass texClass(pathBase, texLoader);
+
+            for(int i = 1; i < 5; i++) {
+                texClass.load(i, fAtlasMonuments);
+            }
+        }
+
+        {
+            const std::string pathBase{dir + "Poseidon_Storage_"};
+            eTextureClass texClass(pathBase, texLoader);
+
+
+    //        fCorral = std::make_shared<eTexture>();
+    //        fCorral->load(fRenderer, pathBase + "00001.png");
+
+    //        for(int i = 2; i < 49; i++) {
+    //            eTextureLoadingHelpers::loadTex(pathBase, i, fCorralOverlay);
+    //        }
+
+            fOrangeTendersLodge = texClass.load(51);
+
+            for(int i = 52; i < 87; i++) {
+                texClass.load(i, fOrangeTendersLodgeOverlay);
+            }
+
+            for(int i = 87; i < 91; i++) {
+                texClass.load(i, fWarehouseOranges);
+            }
+
+            for(int i = 99; i < 104; i++) {
+                texClass.load(i, fWaitingOranges);
+            }
+
+            fGranaryOranges = texClass.load(122);
+            fGranaryOranges->setOffset(-3, -3);
+
+            for(int i = 123; i < 129; i++) {
+                texClass.load(i, fOrangeTree);
+            }
         }
     }
 
