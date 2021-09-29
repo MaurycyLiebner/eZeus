@@ -503,11 +503,6 @@ void clearScrub(const int x, const int y,
     }
 }
 
-int gHoverX = -1;
-int gHoverY = -1;
-int gPressedX = -1;
-int gPressedY = -1;
-
 void buildTiles(int& minX, int& minY,
                 int& maxX, int& maxY,
                 const int tx, const int ty,
@@ -648,10 +643,10 @@ bool eGameWidget::roadPath(std::vector<eOrientation>& path) {
         const auto bt = t->underBuildingType();
         return tr && (bt == eBuildingType::road ||
                       bt == eBuildingType::none);
-    }, [](eTileBase* const t) {
-        return t->x() == gPressedX && t->y() == gPressedY;
+    }, [&](eTileBase* const t) {
+        return t->x() == mPressedX && t->y() == mPressedY;
     });
-    const auto startTile = mBoard.tile(gHoverX, gHoverY);
+    const auto startTile = mBoard.tile(mHoverX, mHoverY);
     return p.findPath(startTile, 100, path, true);
 }
 
@@ -819,10 +814,10 @@ void eGameWidget::paintEvent(ePainter& p) {
 
     const auto mode = mGm->mode();
 
-    const int sMinX = std::min(gPressedX, gHoverX);
-    const int sMinY = std::min(gPressedY, gHoverY);
-    const int sMaxX = std::max(gPressedX, gHoverX);
-    const int sMaxY = std::max(gPressedY, gHoverY);
+    const int sMinX = std::min(mPressedX, mHoverX);
+    const int sMinY = std::min(mPressedY, mHoverY);
+    const int sMaxX = std::max(mPressedX, mHoverX);
+    const int sMaxY = std::max(mPressedY, mHoverY);
     iterateOverTiles([&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
@@ -845,13 +840,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                 ry -= 1;
             }
             bool s = false;
-            if(gPressedX >= 0 && gPressedY >= 0) {
+            if(mPressedX >= 0 && mPressedY >= 0) {
                 if(tx >= sMinX && tx <= sMaxX &&
                    ty >= sMinY && ty <= sMaxY) {
                     s = true;
                 }
             }
-            const bool h = tx == gHoverX && ty == gHoverY;
+            const bool h = tx == mHoverX && ty == mHoverY;
             const bool e = mode == eBuildingMode::erase;
             const bool cm = (h || s) && (mTem->visible() || e);
             if(cm) tex->setColorMod(255, 175, 255);
@@ -1173,7 +1168,7 @@ void eGameWidget::paintEvent(ePainter& p) {
     }
 
     if(mode == eBuildingMode::road) {
-        const auto startTile = mBoard.tile(gHoverX, gHoverY);
+        const auto startTile = mBoard.tile(mHoverX, mHoverY);
         std::vector<eOrientation> path;
         const bool r = roadPath(path);
         if(r) {
@@ -1305,7 +1300,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     }
 
-    const auto t = mBoard.tile(gHoverX, gHoverY);
+    const auto t = mBoard.tile(mHoverX, mHoverY);
     eSpecialRequirement specReq;
     if(t && mGm->visible()) {
         struct eB {
@@ -1313,8 +1308,8 @@ void eGameWidget::paintEvent(ePainter& p) {
                const stdsptr<eBuilding>& b) :
                 fTx(tx), fTy(ty), fB(b) {}
 
-            int fTx = gHoverX;
-            int fTy = gHoverY;
+            int fTx;
+            int fTy;
             stdsptr<eBuilding> fB;
             stdsptr<eBuildingRenderer> fBR;
         };
@@ -1323,51 +1318,51 @@ void eGameWidget::paintEvent(ePainter& p) {
         switch(mode) {
         case eBuildingMode::road: {
             const auto b1 = e::make_shared<eRoad>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::commonHousing: {
             const auto b1 = e::make_shared<eSmallHouse>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::gymnasium: {
             const auto b1 = e::make_shared<eGymnasium>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::podium: {
             const auto b1 = e::make_shared<ePodium>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::fountain: {
             const auto b1 = e::make_shared<eFountain>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::watchpost: {
             const auto b1 = e::make_shared<eWatchpost>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::maintenanceOffice: {
             const auto b1 = e::make_shared<eMaintenanceOffice>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::college: {
             const auto b1 = e::make_shared<eCollege>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::dramaSchool: {
             const auto b1 = e::make_shared<eDramaSchool>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::theater: {
             const auto b1 = e::make_shared<eTheater>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::hospital: {
             const auto b1 = e::make_shared<eHospital>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::stadium: {
             const auto b1 = e::make_shared<eStadium>(mBoard, mRotate);
-            auto& ebs1 = ebs.emplace_back(gHoverX, gHoverY, b1);
+            auto& ebs1 = ebs.emplace_back(mHoverX, mHoverY, b1);
             ebs1.fBR = e::make_shared<eStadium1Renderer>(b1);
             int dx;
             int dy;
@@ -1378,12 +1373,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                 dx = 5;
                 dy = 0;
             }
-            auto& ebs2 = ebs.emplace_back(gHoverX + dx, gHoverY + dy, b1);
+            auto& ebs2 = ebs.emplace_back(mHoverX + dx, mHoverY + dy, b1);
             ebs2.fBR = e::make_shared<eStadium2Renderer>(b1);
         } break;
         case eBuildingMode::palace: {
             const auto b1 = e::make_shared<ePalace>(mBoard, mRotate);
-            auto& ebs1 = ebs.emplace_back(gHoverX, gHoverY, b1);
+            auto& ebs1 = ebs.emplace_back(mHoverX, mHoverY, b1);
             ebs1.fBR = e::make_shared<ePalace1Renderer>(b1);
             int dx;
             int dy;
@@ -1394,113 +1389,113 @@ void eGameWidget::paintEvent(ePainter& p) {
                 dx = 4;
                 dy = 0;
             }
-            auto& ebs2 = ebs.emplace_back(gHoverX + dx, gHoverY + dy, b1);
+            auto& ebs2 = ebs.emplace_back(mHoverX + dx, mHoverY + dy, b1);
             ebs2.fBR = e::make_shared<ePalace2Renderer>(b1);
         } break;
         case eBuildingMode::eliteHousing: {
             const auto b1 = e::make_shared<eEliteHousing>(mBoard);
-            auto& ebs1 = ebs.emplace_back(gHoverX, gHoverY, b1);
+            auto& ebs1 = ebs.emplace_back(mHoverX, mHoverY, b1);
             ebs1.fBR = e::make_shared<eEliteHousingRenderer>(
                            eEliteRendererType::top, b1);
-            auto& ebs2 = ebs.emplace_back(gHoverX + 2, gHoverY, b1);
+            auto& ebs2 = ebs.emplace_back(mHoverX + 2, mHoverY, b1);
             ebs2.fBR = e::make_shared<eEliteHousingRenderer>(
                            eEliteRendererType::right, b1);
-            auto& ebs3 = ebs.emplace_back(gHoverX + 2, gHoverY + 2, b1);
+            auto& ebs3 = ebs.emplace_back(mHoverX + 2, mHoverY + 2, b1);
             ebs3.fBR = e::make_shared<eEliteHousingRenderer>(
                            eEliteRendererType::bottom, b1);
-            auto& ebs4 = ebs.emplace_back(gHoverX, gHoverY + 2, b1);
+            auto& ebs4 = ebs.emplace_back(mHoverX, mHoverY + 2, b1);
             ebs4.fBR = e::make_shared<eEliteHousingRenderer>(
                            eEliteRendererType::left, b1);
         } break;
         case eBuildingMode::taxOffice: {
             const auto b1 = e::make_shared<eTaxOffice>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::mint: {
             const auto b1 = e::make_shared<eMint>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::foundry: {
             const auto b1 = e::make_shared<eFoundry>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::timberMill: {
             const auto b1 = e::make_shared<eTimberMill>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::masonryShop: {
             const auto b1 = e::make_shared<eMasonryShop>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
 
         case eBuildingMode::oliveTree: {
             const auto b1 = e::make_shared<eResourceBuilding>(
                                 mBoard, eResourceBuildingType::oliveTree);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
             specReq = tileFertile;
         } break;
         case eBuildingMode::vine: {
             const auto b1 = e::make_shared<eResourceBuilding>(
                                 mBoard, eResourceBuildingType::vine);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
             specReq = tileFertile;
         } break;
         case eBuildingMode::orangeTree: {
             const auto b1 = e::make_shared<eResourceBuilding>(
                                 mBoard, eResourceBuildingType::orangeTree);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
             specReq = tileFertile;
         } break;
 
         case eBuildingMode::huntingLodge: {
             const auto b1 = e::make_shared<eHuntingLodge>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
 
         case eBuildingMode::wheatFarm: {
             const auto b1 = e::make_shared<eWheatFarm>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
             specReq = tileFertile;
         } break;
         case eBuildingMode::onionFarm: {
             const auto b1 = e::make_shared<eOnionFarm>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
             specReq = tileFertile;
         } break;
         case eBuildingMode::carrotFarm: {
             const auto b1 = e::make_shared<eCarrotFarm>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
             specReq = tileFertile;
         } break;
 
         case eBuildingMode::growersLodge: {
             const auto b1 = e::make_shared<eGrowersLodge>(
                                 mBoard, eGrowerType::grapesAndOlives);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::orangeTendersLodge: {
             const auto b1 = e::make_shared<eGrowersLodge>(
                                 mBoard, eGrowerType::oranges);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
 
         case eBuildingMode::granary: {
             const auto b1 = e::make_shared<eGranary>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::warehouse: {
             const auto b1 = e::make_shared<eWarehouse>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
 
 
         case eBuildingMode::wall: {
             const auto b1 = e::make_shared<eWall>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::tower: {
             const auto b1 = e::make_shared<eTower>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::gatehouse: {
             int dx;
@@ -1513,189 +1508,189 @@ void eGameWidget::paintEvent(ePainter& p) {
                 dy = 0;
             }
             const auto b1 = e::make_shared<eGatehouse>(mBoard, mRotate);
-            auto& ebs1 = ebs.emplace_back(gHoverX, gHoverY, b1);
+            auto& ebs1 = ebs.emplace_back(mHoverX, mHoverY, b1);
             ebs1.fBR = e::make_shared<eGatehouseRenderer>(
                            eGatehouseRendererType::grt1, b1);
-            auto& ebs2 = ebs.emplace_back(gHoverX + dx, gHoverY + dy, b1);
+            auto& ebs2 = ebs.emplace_back(mHoverX + dx, mHoverY + dy, b1);
             ebs2.fBR = e::make_shared<eGatehouseRenderer>(
                            eGatehouseRendererType::grt2, b1);
         } break;
 
         case eBuildingMode::armory: {
             const auto b1 = e::make_shared<eArmory>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::olivePress: {
             const auto b1 = e::make_shared<eOlivePress>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::winery: {
             const auto b1 = e::make_shared<eWinery>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::sculptureStudio: {
             const auto b1 = e::make_shared<eSculptureStudio>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
 
         case eBuildingMode::dairy: {
             const auto b1 = e::make_shared<eDairy>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::cardingShed: {
             const auto b1 = e::make_shared<eCardingShed>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
 
         case eBuildingMode::foodVendor: {
             const auto b1 = e::make_shared<eFoodVendor>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::fleeceVendor: {
             const auto b1 = e::make_shared<eFleeceVendor>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::oilVendor: {
             const auto b1 = e::make_shared<eOilVendor>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::wineVendor: {
             const auto b1 = e::make_shared<eWineVendor>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::armsVendor: {
             const auto b1 = e::make_shared<eArmsVendor>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::horseTrainer: {
             const auto b1 = e::make_shared<eHorseVendor>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
 
         case eBuildingMode::park: {
             const auto b1 = e::make_shared<ePark>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::doricColumn: {
             const auto b1 = e::make_shared<eDoricColumn>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::ionicColumn: {
             const auto b1 = e::make_shared<eIonicColumn>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::corinthianColumn: {
             const auto b1 = e::make_shared<eCorinthianColumn>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::avenue: {
             const auto b1 = e::make_shared<eAvenue>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
 
         case eBuildingMode::populationMonument: {
             const auto b1 = e::make_shared<eCommemorative>(0, mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::commemorative2: {
             const auto b1 = e::make_shared<eCommemorative>(1, mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::commemorative3: {
             const auto b1 = e::make_shared<eCommemorative>(2, mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::athleteMonument: {
             const auto b1 = e::make_shared<eCommemorative>(3, mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::conquestMonument: {
             const auto b1 = e::make_shared<eCommemorative>(4, mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::happinessMonument: {
             const auto b1 = e::make_shared<eCommemorative>(5, mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::commemorative7: {
             const auto b1 = e::make_shared<eCommemorative>(6, mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::commemorative8: {
             const auto b1 = e::make_shared<eCommemorative>(7, mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::scholarMonument: {
             const auto b1 = e::make_shared<eCommemorative>(8, mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
 
         case eBuildingMode::bench: {
             const auto b1 = e::make_shared<eBench>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::flowerGarden: {
             const auto b1 = e::make_shared<eFlowerGarden>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::gazebo: {
             const auto b1 = e::make_shared<eGazebo>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::hedgeMaze: {
             const auto b1 = e::make_shared<eHedgeMaze>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::fishPond: {
             const auto b1 = e::make_shared<eFishPond>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
 
         case eBuildingMode::waterPark: {
             const auto b1 = e::make_shared<eWaterPark>(mBoard);
             b1->setId(waterParkId());
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
 
         case eBuildingMode::birdBath: {
             const auto b1 = e::make_shared<eBirdBath>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::shortObelisk: {
             const auto b1 = e::make_shared<eShortObelisk>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::tallObelisk: {
             const auto b1 = e::make_shared<eTallObelisk>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::shellGarden: {
             const auto b1 = e::make_shared<eShellGarden>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::sundial: {
             const auto b1 = e::make_shared<eSundial>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::dolphinSculpture: {
             const auto b1 = e::make_shared<eDolphinSculpture>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::spring: {
             const auto b1 = e::make_shared<eSpring>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::topiary: {
             const auto b1 = e::make_shared<eTopiary>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::baths: {
             const auto b1 = e::make_shared<eBaths>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         case eBuildingMode::stoneCircle: {
             const auto b1 = e::make_shared<eStoneCircle>(mBoard);
-            ebs.emplace_back(gHoverX, gHoverY, b1);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
         default: break;
         }
@@ -1799,9 +1794,6 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
     return true;
 }
 
-int gLastX = 0;
-int gLastY = 0;
-
 bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
     const auto b = e.button();
     if(b != eMouseButton::middle) {
@@ -1809,15 +1801,15 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
     }
     switch(b) {
     case eMouseButton::middle:
-        gLastX = e.x();
-        gLastY = e.y();
+        mLastX = e.x();
+        mLastY = e.y();
         return true;
     case eMouseButton::left:
         int tx;
         int ty;
         pixToId(e.x(), e.y(), tx, ty);
-        gPressedX = tx;
-        gPressedY = ty;
+        mPressedX = tx;
+        mPressedY = ty;
         if(mPatrolBuilding) {
             const auto tile = mBoard.tile(tx, ty);
             if(!tile) return true;
@@ -1890,16 +1882,16 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
 
 bool eGameWidget::mouseMoveEvent(const eMouseEvent& e) {
     if(static_cast<bool>(e.buttons() & eMouseButton::middle)) {
-        const int dx = e.x() - gLastX;
-        const int dy = e.y() - gLastY;
+        const int dx = e.x() - mLastX;
+        const int dy = e.y() - mLastY;
         mDX += dx;
         mDY += dy;
         updateMinimap();
-        gLastX = e.x();
-        gLastY = e.y();
+        mLastX = e.x();
+        mLastY = e.y();
         return true;
     } else {
-        pixToId(e.x(), e.y(), gHoverX, gHoverY);
+        pixToId(e.x(), e.y(), mHoverX, mHoverY);
         return true;
     }
     return false;
@@ -1924,7 +1916,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     tile->setAltitude(tile->altitude() - 1);
                 };
             } else if(mode == eTerrainEditMode::levelOut) {
-                const auto t = mBoard.tile(gHoverX, gHoverY);
+                const auto t = mBoard.tile(mHoverX, mHoverY);
                 if(t) {
                     const int a = t->altitude();
                     apply = [a](eTile* const tile) {
@@ -1971,7 +1963,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             const auto mode = mGm->mode();
             switch(mode) {
             case eBuildingMode::none: {
-                const auto tile = mBoard.tile(gHoverX, gHoverY);
+                const auto tile = mBoard.tile(mHoverX, mHoverY);
                 if(!mPatrolBuilding && tile) {
                     if(const auto b = tile->underBuilding()) {
                         if(const auto pb = dynamic_cast<ePatrolBuilding*>(b)) {
@@ -1992,7 +1984,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 break;
             case eBuildingMode::road:
                 apply = [this](eTile*) {
-                    const auto startTile = mBoard.tile(gHoverX, gHoverY);
+                    const auto startTile = mBoard.tile(mHoverX, mHoverY);
                     std::vector<eOrientation> path;
                     const bool r = roadPath(path);
                     if(r) {
@@ -2021,55 +2013,55 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 break;
             case eBuildingMode::gymnasium:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 3, 3,
+                    build(mHoverX, mHoverY, 3, 3,
                           [this]() { return e::make_shared<eGymnasium>(mBoard); });
                 };
                 break;
             case eBuildingMode::podium:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<ePodium>(mBoard); });
                 };
                 break;
             case eBuildingMode::fountain:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eFountain>(mBoard); });
                 };
                 break;
             case eBuildingMode::watchpost:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eWatchpost>(mBoard); });
                 };
                 break;
             case eBuildingMode::maintenanceOffice:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eMaintenanceOffice>(mBoard); });
                 };
                 break;
             case eBuildingMode::college:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 3, 3,
+                    build(mHoverX, mHoverY, 3, 3,
                           [this]() { return e::make_shared<eCollege>(mBoard); });
                 };
                 break;
             case eBuildingMode::dramaSchool:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 3, 3,
+                    build(mHoverX, mHoverY, 3, 3,
                           [this]() { return e::make_shared<eDramaSchool>(mBoard); });
                 };
                 break;
             case eBuildingMode::theater:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 5, 5,
+                    build(mHoverX, mHoverY, 5, 5,
                           [this]() { return e::make_shared<eTheater>(mBoard); });
                 };
                 break;
             case eBuildingMode::hospital:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 4, 4,
+                    build(mHoverX, mHoverY, 4, 4,
                           [this]() { return e::make_shared<eHospital>(mBoard); });
                 };
                 break;
@@ -2090,7 +2082,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                         sw = 10;
                         sh = 5;
                     }
-                    const auto t1 = mBoard.tile(gHoverX, gHoverY);
+                    const auto t1 = mBoard.tile(mHoverX, mHoverY);
                     if(!t1) return;
                     const bool cb1 = canBuild(t1->x(), t1->y(), 5, 5);
                     if(!cb1) return;
@@ -2126,7 +2118,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                         sw = 8;
                         sh = 4;
                     }
-                    const auto t1 = mBoard.tile(gHoverX, gHoverY);
+                    const auto t1 = mBoard.tile(mHoverX, mHoverY);
                     if(!t1) return;
                     const bool cb1 = canBuild(t1->x(), t1->y(), 4, 4);
                     if(!cb1) return;
@@ -2147,7 +2139,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 break;
             case eBuildingMode::eliteHousing:
                 apply = [this](eTile*) {
-                    const auto t1 = mBoard.tile(gHoverX, gHoverY);
+                    const auto t1 = mBoard.tile(mHoverX, mHoverY);
                     if(!t1) return;
                     const bool cb = canBuild(t1->x() + 1, t1->y() + 1, 4, 4);
                     if(!cb) return;
@@ -2178,31 +2170,31 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 break;
             case eBuildingMode::taxOffice:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eTaxOffice>(mBoard); });
                 };
                 break;
             case eBuildingMode::mint:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eMint>(mBoard); });
                 };
                 break;
             case eBuildingMode::foundry:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eFoundry>(mBoard); });
                 };
                 break;
             case eBuildingMode::timberMill:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eTimberMill>(mBoard); });
                 };
                 break;
             case eBuildingMode::masonryShop:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eMasonryShop>(mBoard); });
                 };
                 break;
@@ -2236,7 +2228,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 
             case eBuildingMode::huntingLodge:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eHuntingLodge>(mBoard); });
                 };
                 break;
@@ -2244,13 +2236,13 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 
             case eBuildingMode::dairy:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eDairy>(mBoard); });
                 };
                 break;
             case eBuildingMode::cardingShed:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eCardingShed>(mBoard); });
                 };
                 break;
@@ -2274,35 +2266,35 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 
             case eBuildingMode::wheatFarm:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 3, 3,
+                    build(mHoverX, mHoverY, 3, 3,
                           [this]() { return e::make_shared<eWheatFarm>(mBoard); },
                           tileFertile);
                 };
                 break;
             case eBuildingMode::onionFarm:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 3, 3,
+                    build(mHoverX, mHoverY, 3, 3,
                           [this]() { return e::make_shared<eOnionFarm>(mBoard); },
                           tileFertile);
                 };
                 break;
             case eBuildingMode::carrotFarm:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 3, 3,
+                    build(mHoverX, mHoverY, 3, 3,
                           [this]() { return e::make_shared<eCarrotFarm>(mBoard); },
                           tileFertile);
                 };
                 break;
             case eBuildingMode::growersLodge:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eGrowersLodge>(
                                     mBoard, eGrowerType::grapesAndOlives); });
                 };
                 break;
             case eBuildingMode::orangeTendersLodge:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eGrowersLodge>(
                                     mBoard, eGrowerType::oranges); });
                 };
@@ -2310,13 +2302,13 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 
             case eBuildingMode::granary:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 4, 4,
+                    build(mHoverX, mHoverY, 4, 4,
                           [this]() { return e::make_shared<eGranary>(mBoard); });
                 };
                 break;
             case eBuildingMode::warehouse:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 3, 3,
+                    build(mHoverX, mHoverY, 3, 3,
                           [this]() { return e::make_shared<eWarehouse>(mBoard); });
                 };
                 break;
@@ -2330,7 +2322,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 break;
             case eBuildingMode::tower:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eTower>(mBoard); });
                 };
                 break;
@@ -2351,8 +2343,8 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                         sw = 5;
                         sh = 2;
                     }
-                    const int tx = gHoverX;
-                    const int ty = gHoverY - 1;
+                    const int tx = mHoverX;
+                    const int ty = mHoverY - 1;
                     const bool cb1 = canBuild(tx, ty, 2, 2);
                     if(!cb1) return;
                     const bool cb2 = canBuild(tx + dx/2, ty + dy/2, 2, 2);
@@ -2420,62 +2412,62 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 
             case eBuildingMode::armory:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eArmory>(mBoard); });
                 };
                 break;
             case eBuildingMode::olivePress:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eOlivePress>(mBoard); });
                 };
                 break;
             case eBuildingMode::winery:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eWinery>(mBoard); });
                 };
                 break;
             case eBuildingMode::sculptureStudio:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eSculptureStudio>(mBoard); });
                 };
                 break;
 
             case eBuildingMode::foodVendor:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eFoodVendor>(mBoard); });
                 };
                 break;
             case eBuildingMode::fleeceVendor:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eFleeceVendor>(mBoard); });
                 };
                 break;
             case eBuildingMode::oilVendor:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eOilVendor>(mBoard); });
                 };
                 break;
             case eBuildingMode::wineVendor:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eWineVendor>(mBoard); });
                 };
                 break;
             case eBuildingMode::armsVendor:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eArmsVendor>(mBoard); });
                 };
                 break;
             case eBuildingMode::horseTrainer:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eHorseVendor>(mBoard); });
                 };
                 break;
@@ -2569,38 +2561,38 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 
             case eBuildingMode::bench:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 1, 1,
+                    build(mHoverX, mHoverY, 1, 1,
                           [this]() { return e::make_shared<eBench>(mBoard); });
                 };
                 break;
             case eBuildingMode::flowerGarden:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eFlowerGarden>(mBoard); });
                 };
                 break;
             case eBuildingMode::gazebo:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eGazebo>(mBoard); });
                 };
                 break;
             case eBuildingMode::hedgeMaze:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 3, 3,
+                    build(mHoverX, mHoverY, 3, 3,
                           [this]() { return e::make_shared<eHedgeMaze>(mBoard); });
                 };
                 break;
             case eBuildingMode::fishPond:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 4, 4,
+                    build(mHoverX, mHoverY, 4, 4,
                           [this]() { return e::make_shared<eFishPond>(mBoard); });
                 };
                 break;
 
             case eBuildingMode::waterPark:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2, [this]() {
+                    build(mHoverX, mHoverY, 2, 2, [this]() {
                         const auto b = e::make_shared<eWaterPark>(mBoard);
                         b->setId(waterParkId());
                         return b;
@@ -2610,61 +2602,61 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 
             case eBuildingMode::birdBath:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 1, 1,
+                    build(mHoverX, mHoverY, 1, 1,
                           [this]() { return e::make_shared<eBirdBath>(mBoard); });
                 };
                 break;
             case eBuildingMode::shortObelisk:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 1, 1,
+                    build(mHoverX, mHoverY, 1, 1,
                           [this]() { return e::make_shared<eShortObelisk>(mBoard); });
                 };
                 break;
             case eBuildingMode::tallObelisk:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 1, 1,
+                    build(mHoverX, mHoverY, 1, 1,
                           [this]() { return e::make_shared<eTallObelisk>(mBoard); });
                 };
                 break;
             case eBuildingMode::shellGarden:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eShellGarden>(mBoard); });
                 };
                 break;
             case eBuildingMode::sundial:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 2, 2,
+                    build(mHoverX, mHoverY, 2, 2,
                           [this]() { return e::make_shared<eSundial>(mBoard); });
                 };
                 break;
             case eBuildingMode::dolphinSculpture:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 3, 3,
+                    build(mHoverX, mHoverY, 3, 3,
                           [this]() { return e::make_shared<eDolphinSculpture>(mBoard); });
                 };
                 break;
             case eBuildingMode::spring:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 3, 3,
+                    build(mHoverX, mHoverY, 3, 3,
                           [this]() { return e::make_shared<eSpring>(mBoard); });
                 };
                 break;
             case eBuildingMode::topiary:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 3, 3,
+                    build(mHoverX, mHoverY, 3, 3,
                           [this]() { return e::make_shared<eTopiary>(mBoard); });
                 };
                 break;
             case eBuildingMode::baths:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 4, 4,
+                    build(mHoverX, mHoverY, 4, 4,
                           [this]() { return e::make_shared<eBaths>(mBoard); });
                 };
                 break;
             case eBuildingMode::stoneCircle:
                 apply = [this](eTile*) {
-                    build(gHoverX, gHoverY, 4, 4,
+                    build(mHoverX, mHoverY, 4, 4,
                           [this]() { return e::make_shared<eStoneCircle>(mBoard); });
                 };
                 break;
@@ -2679,9 +2671,9 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     }
                     const int sw = h->fW;
                     const int sh = h->fH;
-                    const int minX = gHoverX - sw/2;
+                    const int minX = mHoverX - sw/2;
                     const int maxX = minX + sw;
-                    const int minY = gHoverY - sh/2;
+                    const int minY = mHoverY - sh/2;
                     const int maxY = minY + sh;
                     const bool r = canBuildBase(minX, maxX, minY, maxY);
                     if(!r) return;
@@ -2744,6 +2736,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                                 const auto s = e::make_shared<eStairsRenderer>(t.fId, b);
                                 tile->setBuilding(s);
                                 break;
+                            default: break;
                             }
                         }
                     }
@@ -2755,8 +2748,8 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 
         actionOnSelectedTiles(apply);
 
-        gPressedX = -1;
-        gPressedY = -1;
+        mPressedX = -1;
+        mPressedY = -1;
     } break;
     default: return false;
     }
@@ -2837,10 +2830,10 @@ void eGameWidget::setTileSize(const eTileSize size) {
 
 void eGameWidget::actionOnSelectedTiles(const eTileAction& apply) {
     if(!apply) return;
-    const int minX = std::min(gPressedX, gHoverX);
-    const int minY = std::min(gPressedY, gHoverY);
-    const int maxX = std::max(gPressedX, gHoverX);
-    const int maxY = std::max(gPressedY, gHoverY);
+    const int minX = std::min(mPressedX, mHoverX);
+    const int minY = std::min(mPressedY, mHoverY);
+    const int maxX = std::max(mPressedX, mHoverX);
+    const int maxY = std::max(mPressedY, mHoverY);
 
     for(int x = minX; x <= maxX; x++) {
         for(int y = minY; y <= maxY; y++) {

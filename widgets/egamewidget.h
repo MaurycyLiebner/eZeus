@@ -116,6 +116,13 @@ private:
     int mDX = 0;
     int mDY = 0;
 
+    int mHoverX = -1;
+    int mHoverY = -1;
+    int mPressedX = -1;
+    int mPressedY = -1;
+    int mLastX = -1;
+    int mLastY = -1;
+
     eViewMode mViewMode = eViewMode::defaultView;
 
     eTileSize mTileSize = eTileSize::s30;
