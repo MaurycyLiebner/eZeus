@@ -54,6 +54,13 @@ protected:
     bool mouseReleaseEvent(const eMouseEvent& e);
     bool mouseWheelEvent(const eMouseWheelEvent& e);
 private:
+    void buildMouseRelease();
+
+    static void sClearScrub(const int x, const int y,
+                            const int sw, const int sh,
+                            eGameBoard& board);
+    static bool sTileFertile(eTile* const tile);
+
     using eTileAction = std::function<void(eTile* const)>;
 
     void iterateOverTiles(const eTileAction& a);

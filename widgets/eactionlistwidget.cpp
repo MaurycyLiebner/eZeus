@@ -62,7 +62,7 @@ bool eActionListWidget::mouseReleaseEvent(const eMouseEvent& e) {
     (void)e;
     if(contains(e.x(), e.y())) {
         const auto a = yToAction(e.y());
-        a();
+        if(a) a();
     }
     eSounds::playButtonSound();
     return true;
