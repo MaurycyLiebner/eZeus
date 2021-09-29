@@ -3,20 +3,30 @@
 #include "textures/egametextures.h"
 
 eTempleBuilding::eTempleBuilding(const int id, eGameBoard& board) :
-    eBuilding(board, eBuildingType::temple, 4, 4),
+    eSanctBuilding(board, eBuildingType::temple, 4, 4),
     mId(id) {
     setEnabled(true);
 }
 
 std::shared_ptr<eTexture>
 eTempleBuilding::getTexture(const eTileSize size) const {
+    const int p = progress();
+    if(p <= 0) return nullptr;
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
-    return blds.fSanctuary[mId].getTexture(2);
+    const int id = p - 1;
+    const auto& coll = blds.fSanctuary[mId];
+    return coll.getTexture(id);
 }
 
 std::vector<eOverlay>
 eTempleBuilding::getOverlays(const eTileSize size) const {
+    const int p = progress();
+    if(!p) {
+        return eSanctBuilding::getOverlays(size);
+    } else if(p != 2) {
+        return {};
+    }
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
     eOverlay o;

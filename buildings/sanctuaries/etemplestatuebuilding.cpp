@@ -5,13 +5,15 @@
 eTempleStatueBuilding::eTempleStatueBuilding(
         const eGodType god,
         const int id, eGameBoard& board) :
-    eBuilding(board, eBuildingType::templeStatue, 1, 1),
+    eSanctBuilding(board, eBuildingType::templeStatue, 1, 1),
     mGod(god), mId(id) {
 
 }
 
 std::shared_ptr<eTexture>
 eTempleStatueBuilding::getTexture(const eTileSize size) const {
+    const int p = progress();
+    if(p <= 0) return nullptr;
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
     const eTextureCollection* coll = nullptr;

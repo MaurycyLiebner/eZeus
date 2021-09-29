@@ -3,13 +3,15 @@
 #include "textures/egametextures.h"
 
 eTempleTileBuilding::eTempleTileBuilding(const int id, eGameBoard& board) :
-    eBuilding(board, eBuildingType::templeTile, 1, 1),
+    eSanctBuilding(board, eBuildingType::templeTile, 1, 1),
     mId(id) {
     setEnabled(true);
 }
 
 std::shared_ptr<eTexture>
 eTempleTileBuilding::getTexture(const eTileSize size) const {
+    const int p = progress();
+    if(p <= 0) return nullptr;
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
     const auto& coll = blds.fSanctuaryTiles;
@@ -19,6 +21,10 @@ eTempleTileBuilding::getTexture(const eTileSize size) const {
 
 std::vector<eOverlay>
 eTempleTileBuilding::getOverlays(const eTileSize size) const {
+    const int p = progress();
+    if(!p) {
+        return eSanctBuilding::getOverlays(size);
+    }
     if(mId < 10) return {};
     eOverlay o;
     o.fX = 0.5;

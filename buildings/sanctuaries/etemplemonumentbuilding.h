@@ -4,9 +4,9 @@
 
 #include "characters/gods/egod.h"
 
-#include "buildings/ebuilding.h"
+#include "esanctbuilding.h"
 
-class eTempleMonumentBuilding : public eBuilding {
+class eTempleMonumentBuilding : public eSanctBuilding {
 public:
     eTempleMonumentBuilding(const eGodType god,
                             const int id, eGameBoard& board);

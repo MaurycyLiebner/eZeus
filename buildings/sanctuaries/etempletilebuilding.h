@@ -1,9 +1,9 @@
 #ifndef ETEMPLETILEBUILDING_H
 #define ETEMPLETILEBUILDING_H
 
-#include "../ebuilding.h"
+#include "esanctbuilding.h"
 
-class eTempleTileBuilding : public eBuilding {
+class eTempleTileBuilding : public eSanctBuilding {
 public:
     eTempleTileBuilding(const int id, eGameBoard& board);
 

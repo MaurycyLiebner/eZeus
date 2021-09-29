@@ -821,7 +821,9 @@ void eGameWidget::paintEvent(ePainter& p) {
     iterateOverTiles([&](eTile* const tile) {
         const auto ut = tile->underBuildingType();
         if(ut != eBuildingType::none &&
-           ut != eBuildingType::road) return;
+           ut != eBuildingType::road &&
+           ut != eBuildingType::goat &&
+           ut != eBuildingType::sheep) return;
 
         const int tx = tile->x();
         const int ty = tile->y();
