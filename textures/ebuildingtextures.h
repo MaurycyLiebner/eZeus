@@ -345,6 +345,8 @@ public:
 
     eTextureCollection fSanctuaryWOverlay;
     eTextureCollection fSanctuaryHOverlay;
+
+    eTextureCollection fSanctuaryStairs;
 };
 
 #endif // EBUILDINGTEXTURES_H

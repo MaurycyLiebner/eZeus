@@ -63,6 +63,9 @@ private:
     void actionOnSelectedTiles(const eTileAction& apply);
 
     using eSpecialRequirement = std::function<bool(eTile*)>;
+    bool canBuildBase(const int minX, const int maxX,
+                      const int minY, const int maxY,
+                      const eSpecialRequirement& specReq = {});
     bool canBuild(const int tx, const int ty,
                   const int sw, const int sh,
                   const eSpecialRequirement& specReq = {});

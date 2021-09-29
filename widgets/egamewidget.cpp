@@ -76,6 +76,14 @@
 #include "buildings/eelitehousing.h"
 #include "buildings/eelitehousingrenderer.h"
 
+#include "buildings/sanctuaries/ehephaestussanctuary.h"
+#include "buildings/sanctuaries/estairsrenderer.h"
+#include "buildings/sanctuaries/etempletilebuilding.h"
+#include "buildings/sanctuaries/etemplestatuebuilding.h"
+#include "buildings/sanctuaries/etemplemonumentbuilding.h"
+#include "buildings/sanctuaries/etemplealtarbuilding.h"
+#include "buildings/sanctuaries/etemplebuilding.h"
+
 #include "characters/esheep.h"
 #include "characters/egoat.h"
 #include "characters/actions/eanimalaction.h"
@@ -99,6 +107,8 @@
 
 #include "emessagebox.h"
 #include "emessages.h"
+
+#include "buildings/sanctuaries/esanctuaryblueprint.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window), mBoard(&mThreadPool) {}
@@ -522,15 +532,9 @@ void buildTiles(int& minX, int& minY,
     maxY = minY + sh;
 }
 
-bool eGameWidget::canBuild(const int tx, const int ty,
-                           const int sw, const int sh,
-                           const eSpecialRequirement& specReq) {
-    int minX;
-    int minY;
-    int maxX;
-    int maxY;
-    buildTiles(minX, minY, maxX, maxY, tx, ty, sw, sh);
-
+bool eGameWidget::canBuildBase(const int minX, const int maxX,
+                               const int minY, const int maxY,
+                               const eSpecialRequirement& specReq) {
     for(int x = minX; x < maxX; x++) {
         for(int y = minY; y < maxY; y++) {
             const auto t = mBoard.tile(x, y);
@@ -561,6 +565,17 @@ bool eGameWidget::canBuild(const int tx, const int ty,
         }
     }
     return true;
+}
+
+bool eGameWidget::canBuild(const int tx, const int ty,
+                           const int sw, const int sh,
+                           const eSpecialRequirement& specReq) {
+    int minX;
+    int minY;
+    int maxX;
+    int maxY;
+    buildTiles(minX, minY, maxX, maxY, tx, ty, sw, sh);
+    return canBuildBase(minX, maxX, minY, maxY, specReq);
 }
 
 bool eGameWidget::erase(eTile* const tile) {
@@ -2651,6 +2666,76 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 apply = [this](eTile*) {
                     build(gHoverX, gHoverY, 4, 4,
                           [this]() { return e::make_shared<eStoneCircle>(mBoard); });
+                };
+                break;
+            case eBuildingMode::templeHephaestus:
+                apply = [this](eTile*) {
+                    const auto& i = eSanctBlueprints::instance;
+                    const auto& h = i.fHephaestus;
+                    const int sw = h.fW;
+                    const int sh = h.fH;
+                    const int minX = gHoverX - sw/2;
+                    const int maxX = minX + h.fW;
+                    const int minY = gHoverY - sh/2;
+                    const int maxY = minY + h.fH;
+                    const bool r = canBuildBase(minX, maxX, minY, maxY);
+                    if(!r) return;
+                    clearScrub(minX, minY, sw, sh, mBoard);
+                    const auto b = e::make_shared<eHephaestusSanctuary>(
+                                       sw, sh, mBoard);
+
+                    for(const auto& tv : h.fTiles) {
+                        for(const auto& t : tv) {
+                            const int tx = minX + t.fX;
+                            const int ty = minY + t.fY;
+                            const auto tile = mBoard.tile(tx, ty);
+                            tile->setAltitude(tile->altitude() + t.fA);
+                        }
+                    }
+                    for(const auto& tv : h.fTiles) {
+                        for(const auto& t : tv) {
+                            const int tx = minX + t.fX;
+                            const int ty = minY + t.fY;
+                            const auto tile = mBoard.tile(tx, ty);
+                            switch(t.fType) {
+                            case eSanctEleType::copper:
+                                tile->setTerrain(eTerrain::copper);
+                                break;
+                            case eSanctEleType::statue: {
+                                const auto tt = e::make_shared<eTempleStatueBuilding>(
+                                                    eGodType::hephaestus, t.fId, mBoard);
+                                const auto r = e::make_shared<eBuildingRenderer>(tt);
+                                tile->setBuilding(r);
+                                tile->setUnderBuilding(tt.get());
+                            } break;
+                            case eSanctEleType::monument: {
+                                const auto tt = e::make_shared<eTempleMonumentBuilding>(
+                                                    eGodType::hephaestus, t.fId, mBoard);
+                                build(tx, ty, 2, 2, [tt]() { return tt; });
+                            } break;
+                            case eSanctEleType::altar: {
+                                const auto tt = e::make_shared<eTempleAltarBuilding>(
+                                                    mBoard);
+                                build(tx, ty, 2, 2, [tt]() { return tt; });
+                            } break;
+                            case eSanctEleType::sanctuary: {
+                                const auto tt = e::make_shared<eTempleBuilding>(
+                                                    t.fId, mBoard);
+                                build(tx + 1, ty - 1, 4, 4, [tt]() { return tt; });
+                            } break;
+                            case eSanctEleType::tile: {
+                                const auto tt = e::make_shared<eTempleTileBuilding>(t.fId, mBoard);
+                                const auto r = e::make_shared<eBuildingRenderer>(tt);
+                                tile->setBuilding(r);
+                                tile->setUnderBuilding(tt.get());
+                            } break;
+                            case eSanctEleType::stairs:
+                                const auto s = e::make_shared<eStairsRenderer>(t.fId, b);
+                                tile->setBuilding(s);
+                                break;
+                            }
+                        }
+                    }
                 };
                 break;
             default: break;

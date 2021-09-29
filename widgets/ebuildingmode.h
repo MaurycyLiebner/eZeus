@@ -106,7 +106,9 @@ enum class eBuildingMode {
     spring,
     topiary,
     baths,
-    stoneCircle
+    stoneCircle,
+
+    templeHephaestus
 };
 
 namespace eBuildingModeHelpers {

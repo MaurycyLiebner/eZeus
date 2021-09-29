@@ -358,7 +358,15 @@ void eGameMenu::initialize() {
     mCultureDataW->align(eAlignment::top);
 
 
-    const auto t7 = [this, cmx, cmy, coll, mult]() {};
+    const auto t7 = [this, cmx, cmy, coll, mult]() {
+        const auto cm = new eContextMenu(window());
+        for(const auto& c : {eSPR{eBuildingMode::templeHephaestus,
+                                  "Forge of Hephaestus"}}) {
+            addAction(c, mult, coll, cm);
+        }
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
+    };
     const auto hs7 = [this, cmx, cmy, coll, mult]() {};
     const auto w7 = createSubButtons(mult,
                         eButtonsDataVec{

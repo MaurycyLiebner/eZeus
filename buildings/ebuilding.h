@@ -112,6 +112,14 @@ enum class eBuildingType {
 
     ruins,
 
+    templeHephaestus,
+
+    temple,
+    templeTile,
+    templeStatue,
+    templeMonument,
+    templeAltar,
+
     road
 };
 

@@ -184,7 +184,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fAtlasMonuments(renderer),
 
     fSanctuaryWOverlay(renderer),
-    fSanctuaryHOverlay(renderer){
+    fSanctuaryHOverlay(renderer),
+    fSanctuaryStairs(renderer) {
 
 }
 
@@ -590,6 +591,15 @@ void eBuildingTextures::load() {
 
             for(int i = 11; i < 21; i++) {
                 texClass.load(i, fHouseAppeal);
+            }
+        }
+
+        {
+            const std::string pathBase{dir + "Zeus_Religion_"};
+            eTextureClass texClass(pathBase, texLoader);
+
+            for(int i = 1; i < 13; i++) {
+                texClass.load(i, fSanctuaryStairs);
             }
         }
     }

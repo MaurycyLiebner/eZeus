@@ -82,6 +82,15 @@ SOURCES += \
         buildings/ewheatfarm.cpp \
         buildings/ewinery.cpp \
         buildings/ewinevendor.cpp \
+        buildings/sanctuaries/ehephaestussanctuary.cpp \
+        buildings/sanctuaries/esanctuary.cpp \
+        buildings/sanctuaries/esanctuaryblueprint.cpp \
+        buildings/sanctuaries/estairsrenderer.cpp \
+        buildings/sanctuaries/etemplealtarbuilding.cpp \
+        buildings/sanctuaries/etemplebuilding.cpp \
+        buildings/sanctuaries/etemplemonumentbuilding.cpp \
+        buildings/sanctuaries/etemplestatuebuilding.cpp \
+        buildings/sanctuaries/etempletilebuilding.cpp \
         characters/actions/eactionwithcomeback.cpp \
         characters/actions/eanimalaction.cpp \
         characters/actions/earcheraction.cpp \
@@ -342,6 +351,15 @@ HEADERS += \
     buildings/ewheatfarm.h \
     buildings/ewinery.h \
     buildings/ewinevendor.h \
+    buildings/sanctuaries/ehephaestussanctuary.h \
+    buildings/sanctuaries/esanctuary.h \
+    buildings/sanctuaries/esanctuaryblueprint.h \
+    buildings/sanctuaries/estairsrenderer.h \
+    buildings/sanctuaries/etemplealtarbuilding.h \
+    buildings/sanctuaries/etemplebuilding.h \
+    buildings/sanctuaries/etemplemonumentbuilding.h \
+    buildings/sanctuaries/etemplestatuebuilding.h \
+    buildings/sanctuaries/etempletilebuilding.h \
     characters/actions/eactionwithcomeback.h \
     characters/actions/eanimalaction.h \
     characters/actions/earcheraction.h \
