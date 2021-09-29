@@ -5,7 +5,7 @@
 eTempleTileBuilding::eTempleTileBuilding(const int id, eGameBoard& board) :
     eBuilding(board, eBuildingType::templeTile, 1, 1),
     mId(id) {
-
+    setEnabled(true);
 }
 
 std::shared_ptr<eTexture>
@@ -13,5 +13,19 @@ eTempleTileBuilding::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
     const auto& coll = blds.fSanctuaryTiles;
+    if(mId > 9) return coll.getTexture(mId - 10);
     return coll.getTexture(mId);
+}
+
+std::vector<eOverlay>
+eTempleTileBuilding::getOverlays(const eTileSize size) const {
+    if(mId < 10) return {};
+    eOverlay o;
+    o.fX = -0.5;
+    o.fY = -0.5;
+    const int sizeId = static_cast<int>(size);
+    const auto& blds = eGameTextures::buildings()[sizeId];
+    const auto& coll = blds.fSanctuaryFire;
+    o.fTex = coll.getTexture(textureTime() % coll.size());
+    return {o};
 }

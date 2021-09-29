@@ -185,7 +185,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
 
     fSanctuaryWOverlay(renderer),
     fSanctuaryHOverlay(renderer),
-    fSanctuaryStairs(renderer) {
+    fSanctuaryStairs(renderer),
+    fSanctuaryFire(renderer) {
 
 }
 
@@ -534,6 +535,10 @@ void eBuildingTextures::load() {
                 }
                 texClass.load(i, *coll);
             }
+        }
+
+        for(int i = 2105; i < 2117; i++) {
+            texClass.load(i, fSanctuaryFire);
         }
 
         texClass.loadSkipFlipped(fMasonryShopOverlay1, 1937, 2017);
