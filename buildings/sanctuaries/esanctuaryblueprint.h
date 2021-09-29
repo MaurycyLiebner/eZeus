@@ -36,7 +36,8 @@ public:
 
     bool fLoaded = false;
 
-    eSanctBlueprint fHephaestus;
+    eSanctBlueprint fHephaestusW;
+    eSanctBlueprint fHephaestusH;
 };
 
 #endif // ESANCTUARYBLUEPRINT_H

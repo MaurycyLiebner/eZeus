@@ -88,8 +88,61 @@ bool loadBP(eSanctBlueprint& bp,
     return true;
 }
 
+eSanctEle rotate(const eSanctEle& src) {
+    eSanctEle result = src;
+    result.fX = src.fY;
+    result.fY = src.fX;
+    if(result.fType == eSanctEleType::stairs) {
+        int& id = result.fId;
+        if(id == 1) id = 7;
+        else if(id == 5) id = 3;
+        else if(id == 3) id = 5;
+        else if(id == 7) id = 1;
+        else if(id == 2) id = 6;
+        else if(id == 4) id = 4;
+        else if(id == 8) id = 8;
+        else if(id == 11) id = 9;
+        else if(id == 10) id = 10;
+        else if(id == 9) id = 11;
+        else if(id == 6) id = 2;
+        else if(id == 0) id = 0;
+    } else if(result.fType == eSanctEleType::statue ||
+              result.fType == eSanctEleType::monument) {
+        int& id = result.fId;
+        if(id == 1) id = 2;
+        else if(id == 2) id = 1;
+        else if(id == 3) id = 0;
+        else if(id == 0) id = 3;
+    } else if(result.fType == eSanctEleType::sanctuary) {
+        int& id = result.fId;
+        if(id == 1) id = 0;
+        else if(id == 0) id = 1;
+        else if(id == 2) id = 3;
+        else if(id == 3) id = 2;
+    }
+
+    return result;
+}
+
+eSanctBlueprint rotate(const eSanctBlueprint& src) {
+    eSanctBlueprint result;
+    result.fH = src.fW;
+    result.fW = src.fH;
+    for(int y = 0; y < src.fH; y++) {
+        std::vector<eSanctEle> v;
+        for(int x = 0; x < src.fW; x++) {
+            const auto& row = src.fTiles[x];
+            const auto& col = row[y];
+            v.push_back(rotate(col));
+        }
+        result.fTiles.push_back(v);
+    }
+    return result;
+}
+
 void eSanctBlueprints::load() {
     fLoaded = true;
     const std::string dir = "../Sanctuaries/";
-    loadBP(fHephaestus, dir + "hephaestus.txt");
+    loadBP(fHephaestusW, dir + "hephaestus.txt");
+    fHephaestusH = rotate(fHephaestusW);
 }

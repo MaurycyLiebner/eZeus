@@ -21,7 +21,7 @@ std::vector<eOverlay>
 eTempleTileBuilding::getOverlays(const eTileSize size) const {
     if(mId < 10) return {};
     eOverlay o;
-    o.fX = -0.5;
+    o.fX = 0.5;
     o.fY = -0.5;
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];

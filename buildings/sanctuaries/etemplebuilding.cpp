@@ -17,12 +17,19 @@ eTempleBuilding::getTexture(const eTileSize size) const {
 
 std::vector<eOverlay>
 eTempleBuilding::getOverlays(const eTileSize size) const {
-    eOverlay o;
-    o.fX = -0.45;
-    o.fY = -5.25;
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
-    const auto& coll = blds.fSanctuaryWOverlay;
-    o.fTex = coll.getTexture(textureTime() % coll.size());
+    eOverlay o;
+    if(mId == 0) {
+        o.fX = -0.45;
+        o.fY = -2.75;
+        const auto& coll = blds.fSanctuaryHOverlay;
+        o.fTex = coll.getTexture(textureTime() % coll.size());
+    } else {
+        o.fX = -0.45;
+        o.fY = -5.25;
+        const auto& coll = blds.fSanctuaryWOverlay;
+        o.fTex = coll.getTexture(textureTime() % coll.size());
+    }
     return {o};
 }

@@ -2671,20 +2671,25 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             case eBuildingMode::templeHephaestus:
                 apply = [this](eTile*) {
                     const auto& i = eSanctBlueprints::instance;
-                    const auto& h = i.fHephaestus;
-                    const int sw = h.fW;
-                    const int sh = h.fH;
+                    const eSanctBlueprint* h = nullptr;
+                    if(mRotate) {
+                        h = &i.fHephaestusH;
+                    } else {
+                        h = &i.fHephaestusW;
+                    }
+                    const int sw = h->fW;
+                    const int sh = h->fH;
                     const int minX = gHoverX - sw/2;
-                    const int maxX = minX + h.fW;
+                    const int maxX = minX + sw;
                     const int minY = gHoverY - sh/2;
-                    const int maxY = minY + h.fH;
+                    const int maxY = minY + sh;
                     const bool r = canBuildBase(minX, maxX, minY, maxY);
                     if(!r) return;
                     clearScrub(minX, minY, sw, sh, mBoard);
                     const auto b = e::make_shared<eHephaestusSanctuary>(
                                        sw, sh, mBoard);
 
-                    for(const auto& tv : h.fTiles) {
+                    for(const auto& tv : h->fTiles) {
                         for(const auto& t : tv) {
                             const int tx = minX + t.fX;
                             const int ty = minY + t.fY;
@@ -2692,7 +2697,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                             tile->setAltitude(tile->altitude() + t.fA);
                         }
                     }
-                    for(const auto& tv : h.fTiles) {
+                    for(const auto& tv : h->fTiles) {
                         for(const auto& t : tv) {
                             const int tx = minX + t.fX;
                             const int ty = minY + t.fY;
@@ -2711,17 +2716,23 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                             case eSanctEleType::monument: {
                                 const auto tt = e::make_shared<eTempleMonumentBuilding>(
                                                     eGodType::hephaestus, t.fId, mBoard);
-                                build(tx, ty, 2, 2, [tt]() { return tt; });
+                                const int d = mRotate ? 1 : 0;
+                                build(tx - d, ty + d, 2, 2, [tt]() { return tt; });
                             } break;
                             case eSanctEleType::altar: {
                                 const auto tt = e::make_shared<eTempleAltarBuilding>(
                                                     mBoard);
-                                build(tx, ty, 2, 2, [tt]() { return tt; });
+                                const int d = mRotate ? 1 : 0;
+                                build(tx - d, ty + d, 2, 2, [tt]() { return tt; });
                             } break;
                             case eSanctEleType::sanctuary: {
                                 const auto tt = e::make_shared<eTempleBuilding>(
                                                     t.fId, mBoard);
-                                build(tx + 1, ty - 1, 4, 4, [tt]() { return tt; });
+                                if(mRotate) {
+                                    build(tx - 2, ty + 2, 4, 4, [tt]() { return tt; });
+                                } else {
+                                    build(tx + 1, ty - 1, 4, 4, [tt]() { return tt; });
+                                }
                             } break;
                             case eSanctEleType::tile: {
                                 const auto tt = e::make_shared<eTempleTileBuilding>(t.fId, mBoard);
