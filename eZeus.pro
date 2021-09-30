@@ -91,6 +91,7 @@ SOURCES += \
         buildings/sanctuaries/etemplealtarbuilding.cpp \
         buildings/sanctuaries/etemplebuilding.cpp \
         buildings/sanctuaries/etemplemonumentbuilding.cpp \
+        buildings/sanctuaries/etemplerenderer.cpp \
         buildings/sanctuaries/etemplestatuebuilding.cpp \
         buildings/sanctuaries/etempletilebuilding.cpp \
         characters/actions/eactionwithcomeback.cpp \
@@ -364,6 +365,7 @@ HEADERS += \
     buildings/sanctuaries/etemplealtarbuilding.h \
     buildings/sanctuaries/etemplebuilding.h \
     buildings/sanctuaries/etemplemonumentbuilding.h \
+    buildings/sanctuaries/etemplerenderer.h \
     buildings/sanctuaries/etemplestatuebuilding.h \
     buildings/sanctuaries/etempletilebuilding.h \
     characters/actions/eactionwithcomeback.h \

@@ -5,14 +5,11 @@
 
 class eTempleBuilding : public eSanctBuilding {
 public:
-    eTempleBuilding(const int id, eGameBoard& board);
+    eTempleBuilding(eGameBoard& board);
 
     std::shared_ptr<eTexture>
-        getTexture(const eTileSize size) const;
-    std::vector<eOverlay>
-        getOverlays(const eTileSize size) const;
-private:
-    const int mId;
+    getTexture(const eTileSize) const
+    { return nullptr; }
 };
 
 #endif // ETEMPLEBUILDING_H

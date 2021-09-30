@@ -30,6 +30,7 @@ struct eMessage;
 struct eSanctBlueprint;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
+using eRendererCreator = std::function<stdsptr<eBuildingRenderer>()>;
 
 class eGameWidget : public eWidget {
 public:
@@ -80,7 +81,8 @@ private:
     bool build(const int tx, const int ty,
                const int sw, const int sh,
                const eBuildingCreator& bc,
-               const eSpecialRequirement& specReq = {});
+               const eSpecialRequirement& specReq = {},
+               const eRendererCreator& rc = {});
     using eDA = eDomesticatedAnimal;
     using eAnimalCreator = std::function<stdsptr<eDA>(eGameBoard&)>;
     void buildAnimal(eTile* const tile,

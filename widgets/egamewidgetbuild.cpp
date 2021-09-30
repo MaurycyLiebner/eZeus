@@ -73,6 +73,7 @@
 #include "buildings/sanctuaries/etemplemonumentbuilding.h"
 #include "buildings/sanctuaries/etemplealtarbuilding.h"
 #include "buildings/sanctuaries/etemplebuilding.h"
+#include "buildings/sanctuaries/etemplerenderer.h"
 
 #include "characters/esheep.h"
 #include "characters/egoat.h"
@@ -897,6 +898,7 @@ void eGameWidget::buildMouseRelease() {
                 if(!r) return;
                 sClearScrub(minX, minY, sw, sh, mBoard);
 
+                const auto tb = e::make_shared<eTempleBuilding>(mBoard);
                 for(const auto& tv : h->fTiles) {
                     for(const auto& t : tv) {
                         const int tx = minX + t.fX;
@@ -926,12 +928,14 @@ void eGameWidget::buildMouseRelease() {
                             build(tx - d, ty + d, 2, 2, [tt]() { return tt; });
                         } break;
                         case eSanctEleType::sanctuary: {
-                            const auto tt = e::make_shared<eTempleBuilding>(
-                                                t.fId, mBoard);
                             if(mRotate) {
-                                build(tx - 2, ty + 2, 4, 4, [tt]() { return tt; });
+                                build(tx - 2, ty + 2, 4, 4, [tb]() { return tb; },
+                                nullptr,
+                                [&]() { return e::make_shared<eTempleRenderer>(t.fId, tb); });
                             } else {
-                                build(tx + 1, ty - 1, 4, 4, [tt]() { return tt; });
+                                build(tx + 1, ty - 1, 4, 4, [tb]() { return tb; },
+                                nullptr,
+                                [&]() { return e::make_shared<eTempleRenderer>(t.fId, tb); });
                             }
                         } break;
                         case eSanctEleType::tile: {

@@ -537,7 +537,8 @@ bool eGameWidget::roadPath(std::vector<eOrientation>& path) {
 bool eGameWidget::build(const int tx, const int ty,
                         const int sw, const int sh,
                         const eBuildingCreator& bc,
-                        const eSpecialRequirement& specReq) {
+                        const eSpecialRequirement& specReq,
+                        const eRendererCreator& rc) {
     if(!bc) return false;
     const auto tile = mBoard.tile(tx, ty);
     if(!tile) return false;
@@ -545,7 +546,7 @@ bool eGameWidget::build(const int tx, const int ty,
     if(!cb) return false;
     const auto b = bc();
     if(!b) return false;
-    const auto rend = e::make_shared<eBuildingRenderer>(b);
+    const auto rend = rc ? rc() : e::make_shared<eBuildingRenderer>(b);
     tile->setBuilding(rend);
     int minX;
     int minY;
