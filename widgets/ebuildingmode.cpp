@@ -179,6 +179,12 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::baths;
     case eBuildingMode::stoneCircle:
         return eBuildingType::stoneCircle;
+
+    case eBuildingMode::templeArtemis:
+        return eBuildingType::templeArtemis;
+    case eBuildingMode::templeHephaestus:
+        return eBuildingType::templeHephaestus;
+
     default:
         return eBuildingType::none;
     }

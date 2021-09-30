@@ -38,6 +38,9 @@ public:
 
     eSanctBlueprint fHephaestusW;
     eSanctBlueprint fHephaestusH;
+
+    eSanctBlueprint fArtemisW;
+    eSanctBlueprint fArtemisH;
 };
 
 #endif // ESANCTUARYBLUEPRINT_H

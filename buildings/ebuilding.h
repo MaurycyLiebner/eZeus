@@ -113,6 +113,7 @@ enum class eBuildingType {
     ruins,
 
     templeHephaestus,
+    templeArtemis,
 
     temple,
     templeTile,

@@ -82,6 +82,7 @@ SOURCES += \
         buildings/ewheatfarm.cpp \
         buildings/ewinery.cpp \
         buildings/ewinevendor.cpp \
+        buildings/sanctuaries/eartemissanctuary.cpp \
         buildings/sanctuaries/ehephaestussanctuary.cpp \
         buildings/sanctuaries/esanctbuilding.cpp \
         buildings/sanctuaries/esanctuary.cpp \
@@ -354,6 +355,7 @@ HEADERS += \
     buildings/ewheatfarm.h \
     buildings/ewinery.h \
     buildings/ewinevendor.h \
+    buildings/sanctuaries/eartemissanctuary.h \
     buildings/sanctuaries/ehephaestussanctuary.h \
     buildings/sanctuaries/esanctbuilding.h \
     buildings/sanctuaries/esanctuary.h \

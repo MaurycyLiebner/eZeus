@@ -361,7 +361,9 @@ void eGameMenu::initialize() {
     const auto t7 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::templeHephaestus,
-                                  "Forge of Hephaestus"}}) {
+                                  "Forge of Hephaestus"},
+                             eSPR{eBuildingMode::templeArtemis,
+                                   "Artemis' Menagerie"}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();

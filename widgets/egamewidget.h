@@ -27,6 +27,7 @@
 class eTerrainEditMenu;
 class eDomesticatedAnimal;
 struct eMessage;
+struct eSanctBlueprint;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
 
@@ -85,6 +86,10 @@ private:
     void buildAnimal(eTile* const tile,
                      const eBuildingType type,
                      const eAnimalCreator& creator);
+
+    const eSanctBlueprint* sanctuaryBlueprint(
+            const eBuildingType type, const bool rotate);
+
     bool erase(eTile* const tile);
     std::vector<ePatrolGuide>::iterator
         findGuide(const int tx, const int ty);

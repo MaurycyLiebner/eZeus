@@ -66,6 +66,7 @@
 #include "buildings/eelitehousingrenderer.h"
 
 #include "buildings/sanctuaries/ehephaestussanctuary.h"
+#include "buildings/sanctuaries/eartemissanctuary.h"
 #include "buildings/sanctuaries/estairsrenderer.h"
 #include "buildings/sanctuaries/etempletilebuilding.h"
 #include "buildings/sanctuaries/etemplestatuebuilding.h"
@@ -80,6 +81,28 @@
 #include "spawners/eboarspawner.h"
 #include "spawners/edeerspawner.h"
 #include "spawners/esettlerspawner.h"
+
+const eSanctBlueprint* eGameWidget::sanctuaryBlueprint(
+        const eBuildingType type, const bool rotate) {
+    const auto& i = eSanctBlueprints::instance;
+    switch(type) {
+    case eBuildingType::templeArtemis: {
+        if(rotate) {
+            return &i.fArtemisH;
+        } else {
+            return &i.fArtemisW;
+        }
+    } break;
+    case eBuildingType::templeHephaestus: {
+        if(rotate) {
+            return &i.fHephaestusH;
+        } else {
+            return &i.fHephaestusW;
+        }
+    } break;
+    }
+    return nullptr;
+}
 
 void eGameWidget::buildMouseRelease() {
     std::function<void(eTile* const)> apply;
@@ -842,17 +865,30 @@ void eGameWidget::buildMouseRelease() {
                       [this]() { return e::make_shared<eStoneCircle>(mBoard); });
             };
             break;
+        case eBuildingMode::templeArtemis:
         case eBuildingMode::templeHephaestus:
-            apply = [this](eTile*) {
-                const auto& i = eSanctBlueprints::instance;
-                const eSanctBlueprint* h = nullptr;
-                if(mRotate) {
-                    h = &i.fHephaestusH;
-                } else {
-                    h = &i.fHephaestusW;
-                }
+            apply = [this, mode](eTile*) {
+                const auto bt = eBuildingModeHelpers::toBuildingType(mode);
+                const auto h = sanctuaryBlueprint(bt, mRotate);
+
                 const int sw = h->fW;
                 const int sh = h->fH;
+
+                eGodType god;
+                stdsptr<eSanctuary> b;
+                switch(mode) {
+                case eBuildingMode::templeArtemis: {
+                    god = eGodType::artemis;
+                    b = e::make_shared<eArtemisSanctuary>(
+                            sw, sh, mBoard);
+                } break;
+                case eBuildingMode::templeHephaestus: {
+                    god = eGodType::hephaestus;
+                    b = e::make_shared<eHephaestusSanctuary>(
+                            sw, sh, mBoard);
+                } break;
+                }
+
                 const int minX = mHoverX - sw/2;
                 const int maxX = minX + sw;
                 const int minY = mHoverY - sh/2;
@@ -860,8 +896,6 @@ void eGameWidget::buildMouseRelease() {
                 const bool r = canBuildBase(minX, maxX, minY, maxY);
                 if(!r) return;
                 sClearScrub(minX, minY, sw, sh, mBoard);
-                const auto b = e::make_shared<eHephaestusSanctuary>(
-                                   sw, sh, mBoard);
 
                 for(const auto& tv : h->fTiles) {
                     for(const auto& t : tv) {
@@ -874,14 +908,14 @@ void eGameWidget::buildMouseRelease() {
                             break;
                         case eSanctEleType::statue: {
                             const auto tt = e::make_shared<eTempleStatueBuilding>(
-                                                eGodType::hephaestus, t.fId, mBoard);
+                                                god, t.fId, mBoard);
                             const auto r = e::make_shared<eBuildingRenderer>(tt);
                             tile->setBuilding(r);
                             tile->setUnderBuilding(tt.get());
                         } break;
                         case eSanctEleType::monument: {
                             const auto tt = e::make_shared<eTempleMonumentBuilding>(
-                                                eGodType::hephaestus, t.fId, mBoard);
+                                                god, t.fId, mBoard);
                             const int d = mRotate ? 1 : 0;
                             build(tx - d, ty + d, 2, 2, [tt]() { return tt; });
                         } break;

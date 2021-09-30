@@ -21,6 +21,9 @@ eTempleStatueBuilding::getTexture(const eTileSize size) const {
     case eGodType::hephaestus:
         coll = &blds.fHephaestusStatues;
         break;
+    case eGodType::artemis:
+        coll = &blds.fArtemisStatues;
+        break;
     }
 
     if(!coll) return nullptr;

@@ -143,6 +143,10 @@ eSanctBlueprint rotate(const eSanctBlueprint& src) {
 void eSanctBlueprints::load() {
     fLoaded = true;
     const std::string dir = "../Sanctuaries/";
+
     loadBP(fHephaestusW, dir + "hephaestus.txt");
     fHephaestusH = rotate(fHephaestusW);
+
+    loadBP(fArtemisW, dir + "artemis.txt");
+    fArtemisH = rotate(fArtemisW);
 }

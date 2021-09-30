@@ -108,7 +108,8 @@ enum class eBuildingMode {
     baths,
     stoneCircle,
 
-    templeHephaestus
+    templeHephaestus,
+    templeArtemis
 };
 
 namespace eBuildingModeHelpers {
