@@ -1002,8 +1002,15 @@ void eBuildingTextures::load() {
             eTextureClass texClass(pathBase, texLoader);
 
             for(int i = 1; i < 5; i++) {
-                texClass.load(i, fAtlasMonuments);
+                texClass.load(i, fHeraMonuments);
             }
+        }
+
+        {
+            const auto dir = basedir + "zeus_statcon1/";
+            const std::string pathBase{dir + "Zeus_Rel-Statue-R_"};
+            eTextureClass texClass(pathBase, texLoader);
+            fBlankMonument = texClass.load(1);
         }
 
         {

@@ -16,6 +16,9 @@ eTempleMonumentBuilding::getTexture(const eTileSize size) const {
     if(p <= 0) return nullptr;
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
+    if(p == 1) {
+        return blds.fBlankMonument;
+    }
     const eTextureCollection* coll = nullptr;
     switch(mGod) {
     case eGodType::hephaestus:

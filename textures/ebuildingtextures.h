@@ -323,6 +323,8 @@ public:
     // achilles, hercules, jason
     eTextureCollection fHeroStatues;
 
+    std::shared_ptr<eTexture> fBlankMonument;
+
     eTextureCollection fZeusMonuments;
     eTextureCollection fPoseidonMonuments;
     eTextureCollection fHadesMonuments;
