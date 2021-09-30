@@ -9,14 +9,11 @@ public:
                    const eBuildingType type,
                    const int sw, const int sh);
 
-    std::vector<eOverlay>
-        getOverlays(const eTileSize size) const;
-
     int progress() const { return mProgress; }
     void incProgress() { mProgress++; }
     void destroy() { mProgress = 0; }
 private:
-    int mProgress = 1;
+    int mProgress = 0;
 };
 
 #endif // ESANCTBUILDING_H

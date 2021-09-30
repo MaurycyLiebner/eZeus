@@ -941,8 +941,9 @@ void eGameWidget::buildMouseRelease() {
                             tile->setUnderBuilding(tt.get());
                         } break;
                         case eSanctEleType::stairs: {
-                            const auto s = e::make_shared<eStairsRenderer>(t.fId, b);
-                            tile->setBuilding(s);
+                            tile->setSeed(t.fId);
+//                            const auto s = e::make_shared<eStairsRenderer>(t.fId, b);
+//                            tile->setBuilding(s);
                         } break;
                         case eSanctEleType::none:
                             break;

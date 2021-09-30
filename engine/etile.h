@@ -36,7 +36,7 @@ public:
     eBuildingRenderer* building() const { return mBuilding.get(); }
     bool hasRoad() const;
     void setUnderBuilding(eBuilding* const b);
-    eBuilding* underBuilding() const { return mUnderBuilding; }
+    eBuilding* underBuilding() const { return mUnderBuilding.get(); }
     eBuildingType underBuildingType() const;
 
     void setSpawner(eSpawner* const s);
@@ -66,7 +66,7 @@ private:
     int mFutureDim = 0;
 private:
     std::vector<stdsptr<eCharacter>> mCharacters;
-    eBuilding* mUnderBuilding = nullptr;
+    stdsptr<eBuilding> mUnderBuilding;
     stdsptr<eBuildingRenderer> mBuilding;
     eSpawner* mSpawner = nullptr;
 };

@@ -703,18 +703,12 @@ void eGameWidget::paintEvent(ePainter& p) {
     const int sMaxX = std::max(mPressedX, mHoverX);
     const int sMaxY = std::max(mPressedY, mHoverY);
     iterateOverTiles([&](eTile* const tile) {
-        const auto ut = tile->underBuildingType();
-        if(ut != eBuildingType::none &&
-           ut != eBuildingType::road &&
-           ut != eBuildingType::goat &&
-           ut != eBuildingType::sheep) return;
-
         const int tx = tile->x();
         const int ty = tile->y();
 
         int drawDim;
         int futureDim;
-        auto tex = eTileToTexture::get(tile, trrTexs,
+        auto tex = eTileToTexture::get(tile, trrTexs, builTexs,
                                        mTileSize, mDrawElevation,
                                        futureDim, drawDim);
         tile->setFutureDimension(futureDim);

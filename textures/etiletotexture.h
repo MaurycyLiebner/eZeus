@@ -12,6 +12,7 @@ enum class eTileSize : int;
 namespace eTileToTexture {
     std::shared_ptr<eTexture> get(eTile* const tile,
                  const eTerrainTextures& textures,
+                 const eBuildingTextures& blds,
                  const eTileSize tileSize,
                  const bool drawElev,
                  int& futureDim,

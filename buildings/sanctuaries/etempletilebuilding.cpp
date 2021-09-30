@@ -22,9 +22,7 @@ eTempleTileBuilding::getTexture(const eTileSize size) const {
 std::vector<eOverlay>
 eTempleTileBuilding::getOverlays(const eTileSize size) const {
     const int p = progress();
-    if(!p) {
-        return eSanctBuilding::getOverlays(size);
-    }
+    if(!p) return {};
     if(mId < 10) return {};
     eOverlay o;
     o.fX = 0.5;

@@ -33,6 +33,7 @@ std::shared_ptr<eTexture> getStonesTexture(eTile* const tile,
 
 std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
                              const eTerrainTextures& textures,
+                             const eBuildingTextures& blds,
                              const eTileSize tileSize,
                              const bool drawElev,
                              int& futureDim,
@@ -41,7 +42,26 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
     futureDim = 1;
     const int seed = tile->seed();
 
-    const bool hr = tile->hasRoad();
+    const auto ut = tile->underBuildingType();
+    switch(ut) {
+    case eBuildingType::templeHephaestus:
+    case eBuildingType::templeArtemis: {
+        const auto& coll = blds.fSanctuaryStairs;
+        return coll.getTexture(seed % coll.size());
+    } break;
+
+    case eBuildingType::temple:
+    case eBuildingType::templeTile:
+    case eBuildingType::templeStatue:
+    case eBuildingType::templeMonument:
+    case eBuildingType::templeAltar: {
+        const auto& coll = blds.fSanctuarySpace;
+        return coll.getTexture(seed % coll.size());
+    } break;
+    default: break;
+    }
+
+    const bool hr = ut == eBuildingType::road;
 
     if(drawElev) {
         const auto tr = tile->topRight();
