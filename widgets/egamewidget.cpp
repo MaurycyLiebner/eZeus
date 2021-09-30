@@ -1515,7 +1515,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = e::make_shared<eCommemorative>(1, mBoard);
             ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
-        case eBuildingMode::commemorative3: {
+        case eBuildingMode::colonyMonument: {
             const auto b1 = e::make_shared<eCommemorative>(2, mBoard);
             ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;

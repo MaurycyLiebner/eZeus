@@ -81,7 +81,7 @@ enum class eBuildingMode {
 
     populationMonument,
     commemorative2,
-    commemorative3,
+    colonyMonument,
     athleteMonument,
     conquestMonument,
     happinessMonument,

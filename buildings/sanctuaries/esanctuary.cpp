@@ -39,3 +39,15 @@ void eSanctuary::timeChanged(const int by) {
     }
     eEmployingBuilding::timeChanged(by);
 }
+
+int eSanctuary::spaceLeft(const eResourceType type) const {
+    const auto c = cost();
+    if(type == eResourceType::marble) {
+        return c.fMarble;
+    } else if(type == eResourceType::wood) {
+        return c.fWood;
+    } else if(type == eResourceType::sculpture) {
+        return c.fSculpture;
+    }
+    return 0;
+}

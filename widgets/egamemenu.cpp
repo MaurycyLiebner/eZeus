@@ -437,7 +437,7 @@ void eGameMenu::initialize() {
         const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::populationMonument, "Population Monument"},
                              eSPR{eBuildingMode::commemorative2, "Commemorative 2"},
-                             eSPR{eBuildingMode::commemorative3, "Commemorative 3"},
+                             eSPR{eBuildingMode::colonyMonument, "Colony Monument"},
                              eSPR{eBuildingMode::athleteMonument, "Athlete Monument"},
                              eSPR{eBuildingMode::conquestMonument, "Conquest Monument"},
                              eSPR{eBuildingMode::happinessMonument, "Happiness Monument"},

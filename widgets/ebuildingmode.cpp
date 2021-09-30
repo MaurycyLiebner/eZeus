@@ -136,7 +136,7 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
 
     case eBuildingMode::populationMonument:
     case eBuildingMode::commemorative2:
-    case eBuildingMode::commemorative3:
+    case eBuildingMode::colonyMonument:
     case eBuildingMode::athleteMonument:
     case eBuildingMode::conquestMonument:
     case eBuildingMode::happinessMonument:

@@ -721,7 +721,7 @@ void eGameWidget::buildMouseRelease() {
                       [this]() { return e::make_shared<eCommemorative>(1, mBoard); });
             };
             break;
-        case eBuildingMode::commemorative3:
+        case eBuildingMode::colonyMonument:
             apply = [this](eTile* const tile) {
                 build(tile->x(), tile->y(), 3, 3,
                       [this]() { return e::make_shared<eCommemorative>(2, mBoard); });
@@ -916,6 +916,7 @@ void eGameWidget::buildMouseRelease() {
                             const auto r = e::make_shared<eBuildingRenderer>(tt);
                             tile->setBuilding(r);
                             tile->setUnderBuilding(tt.get());
+                            tt->addUnderBuilding(tile);
                             b->registerElement(tt);
                         } break;
                         case eSanctEleType::monument: {
@@ -949,6 +950,7 @@ void eGameWidget::buildMouseRelease() {
                             const auto r = e::make_shared<eBuildingRenderer>(tt);
                             tile->setBuilding(r);
                             tile->setUnderBuilding(tt.get());
+                            tt->addUnderBuilding(tile);
                             b->registerElement(tt);
                         } break;
                         case eSanctEleType::stairs: {
@@ -973,6 +975,7 @@ void eGameWidget::buildMouseRelease() {
                                                trr & eTerrain::buildable);
                         if(!tile->underBuilding() && bldbl) {
                             tile->setUnderBuilding(b.get());
+                            b->addUnderBuilding(tile);
                         }
                     }
                 }

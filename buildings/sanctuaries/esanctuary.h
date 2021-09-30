@@ -30,6 +30,8 @@ public:
     eSanctCost cost() const;
 
     void timeChanged(const int by);
+
+    int spaceLeft(const eResourceType type) const;
 private:
     const eTexCollPtr mStatues;
     const eTexCollPtr mMonuments;
