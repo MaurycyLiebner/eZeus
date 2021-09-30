@@ -51,3 +51,14 @@ int eSanctuary::spaceLeft(const eResourceType type) const {
     }
     return 0;
 }
+
+int eSanctuary::add(const eResourceType type, const int count) {
+    if(type == eResourceType::marble) {
+        mStored.fMarble += count;
+    } else if(type == eResourceType::wood) {
+        mStored.fWood += count;
+    } else if(type == eResourceType::sculpture) {
+        mStored.fSculpture += count;
+    }
+    return count;
+}

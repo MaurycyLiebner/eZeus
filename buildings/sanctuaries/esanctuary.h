@@ -32,9 +32,12 @@ public:
     void timeChanged(const int by);
 
     int spaceLeft(const eResourceType type) const;
+    int add(const eResourceType type, const int count);
 private:
     const eTexCollPtr mStatues;
     const eTexCollPtr mMonuments;
+
+    eSanctCost mStored{0, 0, 0};
 
     stdsptr<eTransporterBase> mCart;
     const int mCartWaitTime = 5000;
