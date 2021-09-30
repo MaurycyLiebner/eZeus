@@ -897,7 +897,7 @@ void eGameWidget::buildMouseRelease() {
                 const bool r = canBuildBase(minX, maxX, minY, maxY);
                 if(!r) return;
                 sClearScrub(minX, minY, sw, sh, mBoard);
-                b->setTileRect({minX, maxX, sw, sh});
+                b->setTileRect({minX, minY, sw, sh});
 
                 const auto tb = e::make_shared<eTempleBuilding>(mBoard);
                 b->registerElement(tb);
