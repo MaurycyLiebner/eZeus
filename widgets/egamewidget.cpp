@@ -559,7 +559,7 @@ bool eGameWidget::build(const int tx, const int ty,
         for(int y = minY; y < maxY; y++) {
             const auto t = mBoard.tile(x, y);
             if(t) {
-                t->setUnderBuilding(b.get());
+                t->setUnderBuilding(b);
                 b->addUnderBuilding(t);
             }
         }

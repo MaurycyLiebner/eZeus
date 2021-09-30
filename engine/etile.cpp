@@ -164,8 +164,8 @@ bool eTile::hasRoad() const {
     return t == eBuildingType::road;
 }
 
-void eTile::setUnderBuilding(eBuilding* const b) {
-    mUnderBuilding = b->ref<eBuilding>();
+void eTile::setUnderBuilding(const stdsptr<eBuilding>& b) {
+    mUnderBuilding = b;
 }
 
 eBuildingType eTile::underBuildingType() const {

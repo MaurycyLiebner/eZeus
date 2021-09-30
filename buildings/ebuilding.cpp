@@ -137,7 +137,7 @@ void eBuilding::collapse() {
         const auto ruins = e::make_shared<eRuins>(b);
         const auto renderer = e::make_shared<eBuildingRenderer>(ruins);
         t->setBuilding(renderer);
-        t->setUnderBuilding(ruins.get());
+        t->setUnderBuilding(ruins);
         ruins->addUnderBuilding(t);
     }
 }

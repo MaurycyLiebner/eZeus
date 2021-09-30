@@ -35,7 +35,7 @@ public:
     void setBuilding(const stdsptr<eBuildingRenderer>& b);
     eBuildingRenderer* building() const { return mBuilding.get(); }
     bool hasRoad() const;
-    void setUnderBuilding(eBuilding* const b);
+    void setUnderBuilding(const stdsptr<eBuilding>& b);
     eBuilding* underBuilding() const { return mUnderBuilding.get(); }
     eBuildingType underBuildingType() const;
 

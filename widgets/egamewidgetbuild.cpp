@@ -579,7 +579,7 @@ void eGameWidget::buildMouseRelease() {
                     for(int y = minY; y < maxY; y++) {
                         const auto t = mBoard.tile(x, y);
                         if(t) {
-                            t->setUnderBuilding(b1.get());
+                            t->setUnderBuilding(b1);
                             b1->addUnderBuilding(t);
                         }
                     }
@@ -588,25 +588,25 @@ void eGameWidget::buildMouseRelease() {
                     const auto t2 = t1->tileRel<eTile>(0, 1);
                     const auto r1 = e::make_shared<eRoad>(mBoard);
                     r1->addUnderBuilding(t2);
-                    t2->setUnderBuilding(r1.get());
+                    t2->setUnderBuilding(r1);
                     t2->setBuilding(e::make_shared<eBuildingRenderer>(r1));
 
                     const auto t3 = t2->tileRel<eTile>(1, 0);
                     const auto r2 = e::make_shared<eRoad>(mBoard);
                     r2->addUnderBuilding(t3);
-                    t3->setUnderBuilding(r2.get());
+                    t3->setUnderBuilding(r2);
                     t3->setBuilding(e::make_shared<eBuildingRenderer>(r2));
                 } else {
                     const auto t2 = t1->tileRel<eTile>(2, -1);
                     const auto r1 = e::make_shared<eRoad>(mBoard);
                     r1->addUnderBuilding(t2);
-                    t2->setUnderBuilding(r1.get());
+                    t2->setUnderBuilding(r1);
                     t2->setBuilding(e::make_shared<eBuildingRenderer>(r1));
 
                     const auto t3 = t2->tileRel<eTile>(0, 1);
                     const auto r2 = e::make_shared<eRoad>(mBoard);
                     r2->addUnderBuilding(t3);
-                    t3->setUnderBuilding(r2.get());
+                    t3->setUnderBuilding(r2);
                     t3->setBuilding(e::make_shared<eBuildingRenderer>(r2));
                 }
                 const auto diff = mBoard.difficulty();
@@ -897,6 +897,7 @@ void eGameWidget::buildMouseRelease() {
                 const bool r = canBuildBase(minX, maxX, minY, maxY);
                 if(!r) return;
                 sClearScrub(minX, minY, sw, sh, mBoard);
+                b->setTileRect({minX, maxX, sw, sh});
 
                 const auto tb = e::make_shared<eTempleBuilding>(mBoard);
                 b->registerElement(tb);
@@ -915,7 +916,7 @@ void eGameWidget::buildMouseRelease() {
                                                 god, t.fId, mBoard);
                             const auto r = e::make_shared<eBuildingRenderer>(tt);
                             tile->setBuilding(r);
-                            tile->setUnderBuilding(tt.get());
+                            tile->setUnderBuilding(tt);
                             tt->addUnderBuilding(tile);
                             b->registerElement(tt);
                         } break;
@@ -949,7 +950,7 @@ void eGameWidget::buildMouseRelease() {
                             const auto tt = e::make_shared<eTempleTileBuilding>(t.fId, mBoard);
                             const auto r = e::make_shared<eBuildingRenderer>(tt);
                             tile->setBuilding(r);
-                            tile->setUnderBuilding(tt.get());
+                            tile->setUnderBuilding(tt);
                             tt->addUnderBuilding(tile);
                             b->registerElement(tt);
                         } break;
@@ -974,7 +975,7 @@ void eGameWidget::buildMouseRelease() {
                         const bool bldbl = static_cast<bool>(
                                                trr & eTerrain::buildable);
                         if(!tile->underBuilding() && bldbl) {
-                            tile->setUnderBuilding(b.get());
+                            tile->setUnderBuilding(b);
                             b->addUnderBuilding(tile);
                         }
                     }

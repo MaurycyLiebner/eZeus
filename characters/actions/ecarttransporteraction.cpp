@@ -95,7 +95,10 @@ void eCartTransporterAction::findTarget() {
     }
     const stdptr<eCartTransporterAction> tptr(this);
 
-    const auto walkable = [](eTileBase* const t) {
+    const auto walkable = [buildingRect](eTileBase* const t) {
+        const SDL_Point p{t->x(), t->y()};
+        const bool r = SDL_PointInRect(&p, &buildingRect);
+        if(r) return true;
         return t->hasRoad();
     };
 
