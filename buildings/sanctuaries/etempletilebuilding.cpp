@@ -3,7 +3,7 @@
 #include "textures/egametextures.h"
 
 eTempleTileBuilding::eTempleTileBuilding(const int id, eGameBoard& board) :
-    eSanctBuilding(board, eBuildingType::templeTile, 1, 1),
+    eSanctBuilding({0, 1, 0}, 1, board, eBuildingType::templeTile, 1, 1),
     mId(id) {
     setEnabled(true);
 }

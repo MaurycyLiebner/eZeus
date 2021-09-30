@@ -899,6 +899,8 @@ void eGameWidget::buildMouseRelease() {
                 sClearScrub(minX, minY, sw, sh, mBoard);
 
                 const auto tb = e::make_shared<eTempleBuilding>(mBoard);
+                b->registerElement(tb);
+                int ts = 0;
                 for(const auto& tv : h->fTiles) {
                     for(const auto& t : tv) {
                         const int tx = minX + t.fX;
@@ -914,20 +916,24 @@ void eGameWidget::buildMouseRelease() {
                             const auto r = e::make_shared<eBuildingRenderer>(tt);
                             tile->setBuilding(r);
                             tile->setUnderBuilding(tt.get());
+                            b->registerElement(tt);
                         } break;
                         case eSanctEleType::monument: {
                             const auto tt = e::make_shared<eTempleMonumentBuilding>(
                                                 god, t.fId, mBoard);
                             const int d = mRotate ? 1 : 0;
                             build(tx - d, ty + d, 2, 2, [tt]() { return tt; });
+                            b->registerElement(tt);
                         } break;
                         case eSanctEleType::altar: {
                             const auto tt = e::make_shared<eTempleAltarBuilding>(
                                                 mBoard);
                             const int d = mRotate ? 1 : 0;
                             build(tx - d, ty + d, 2, 2, [tt]() { return tt; });
+                            b->registerElement(tt);
                         } break;
                         case eSanctEleType::sanctuary: {
+                            ts++;
                             if(mRotate) {
                                 build(tx - 2, ty + 2, 4, 4, [tb]() { return tb; },
                                 nullptr,
@@ -943,6 +949,7 @@ void eGameWidget::buildMouseRelease() {
                             const auto r = e::make_shared<eBuildingRenderer>(tt);
                             tile->setBuilding(r);
                             tile->setUnderBuilding(tt.get());
+                            b->registerElement(tt);
                         } break;
                         case eSanctEleType::stairs: {
                             tile->setSeed(t.fId);
@@ -954,6 +961,7 @@ void eGameWidget::buildMouseRelease() {
                         }
                     }
                 }
+                tb->setCost({ts*5, ts*5, 0});
                 for(const auto& tv : h->fTiles) {
                     for(const auto& t : tv) {
                         const int tx = minX + t.fX;

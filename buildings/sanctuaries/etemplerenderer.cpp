@@ -19,7 +19,7 @@ std::shared_ptr<eTexture> eTempleRenderer::getTexture(const eTileSize size) cons
 
 std::vector<eOverlay> eTempleRenderer::getOverlays(const eTileSize size) const {
     const int p = mB->progress();
-    if(p < 2) {
+    if(p < 3) {
         return {};
     }
     const int sizeId = static_cast<int>(size);

@@ -3,7 +3,7 @@
 #include "textures/egametextures.h"
 
 eTempleAltarBuilding::eTempleAltarBuilding(eGameBoard& board) :
-    eSanctBuilding(board, eBuildingType::templeAltar, 2, 2) {
+    eSanctBuilding({0, 4, 0}, 1, board, eBuildingType::templeAltar, 2, 2) {
 
 }
 

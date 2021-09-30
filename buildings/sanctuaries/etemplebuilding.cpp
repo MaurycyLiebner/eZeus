@@ -3,6 +3,6 @@
 #include "textures/egametextures.h"
 
 eTempleBuilding::eTempleBuilding(eGameBoard& board) :
-    eSanctBuilding(board, eBuildingType::temple, 4, 4) {
+    eSanctBuilding({5, 5, 0}, 3, board, eBuildingType::temple, 4, 4) {
     setEnabled(true);
 }
