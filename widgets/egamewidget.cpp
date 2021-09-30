@@ -1190,6 +1190,44 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     }
 
+    const auto& tex = trrTexs.fBuildingBase;
+    switch(mode) {
+    case eBuildingMode::templeHephaestus: {
+        const eSanctBlueprint* h = nullptr;
+        const auto& i = eSanctBlueprints::instance;
+        if(mRotate) {
+            h = &i.fHephaestusH;
+        } else {
+            h = &i.fHephaestusW;
+        }
+        const int sw = h->fW;
+        const int sh = h->fH;
+        const int xMin = mHoverX - sw/2;
+        const int yMin = mHoverY - sh/2;
+        const int xMax = xMin + sw;
+        const int yMax = yMin + sh;
+        const bool cb = canBuildBase(xMin, xMax, yMin, yMax);
+        if(!cb) {
+            tex->setColorMod(255, 0, 0);
+        }
+        for(int x = xMin; x < xMax; x++) {
+            for(int y = yMin; y < yMax; y++) {
+                double rx;
+                double ry;
+                const auto t = mBoard.tile(x, y);
+                if(!t) continue;
+                if(t->underBuilding()) continue;
+                drawXY(x, y, rx, ry, 1, 1, t->altitude());
+                tp.drawTexture(rx, ry, tex, eAlignment::top);
+            }
+        }
+        if(!cb) {
+            tex->clearColorMod();
+        }
+    } break;
+    default: break;
+    }
+
     const auto t = mBoard.tile(mHoverX, mHoverY);
     eSpecialRequirement specReq;
     if(t && mGm->visible()) {
