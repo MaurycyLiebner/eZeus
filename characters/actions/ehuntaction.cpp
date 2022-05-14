@@ -96,6 +96,17 @@ bool eHuntAction::decide() {
     return true;
 }
 
+void eHuntAction::resume() {
+    if(mHunter) {
+        const auto t = mHunter->tile();
+        if(t && tryToCollect(t)) {
+            setCurrentAction(nullptr);
+            return;
+        }
+    }
+    eActionWithComeback::resume();
+}
+
 void eHuntAction::findResourceDecision() {
     const auto c = character();
 

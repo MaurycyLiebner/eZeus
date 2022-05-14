@@ -15,6 +15,7 @@ public:
                 const eAction& finishAction);
 
     bool decide();
+    void resume();
 private:
     void findResourceDecision();
     void goBackDecision();
