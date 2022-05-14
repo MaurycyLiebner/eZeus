@@ -31,6 +31,9 @@ public:
     void setFoundAction(const eAction& a)
     { mFoundAction = a; }
 
+    void setFindFailAction(const eAction& a)
+    { mFindFailAction = a; }
+
     void setWait(const bool w)
     { mWait = w; }
 
@@ -44,6 +47,7 @@ public:
     static bool sRoadWalkable(eTileBase* const t);
 private:
     eAction mFoundAction;
+    eAction mFindFailAction;
     bool mRemoveLastTurn = false;
     bool mWait = true;
     bool mDiagonalOnly = false;

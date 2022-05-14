@@ -37,6 +37,10 @@ void eCharacter::fight(eCharacter* const c) {
     }));
 }
 
+void eCharacter::kill() {
+    changeTile(nullptr);
+}
+
 void eCharacter::changeTile(eTile* const t) {
     const auto tsptr = ref<eCharacter>();
     if(mTile) mTile->removeCharacter(tsptr);
@@ -82,7 +86,7 @@ void eCharacter::setAction(const stdsptr<eCharacterAction>& a) {
 
 stdsptr<eCharacterAction> eCharacter::takeAction() {
     const auto a = mAction;
-    mAction .reset();
+    mAction.reset();
     return a;
 }
 

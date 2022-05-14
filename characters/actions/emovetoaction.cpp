@@ -59,9 +59,15 @@ void eMoveToAction::start(const eTileFinal& final,
         tptr->setCurrentAction(a);
     };
 
+    const auto findFailFunc = [tptr]() {
+        if(!tptr) return;
+        if(tptr->mFindFailAction) tptr->mFindFailAction();
+        tptr->setState(eCharacterActionState::failed);
+    };
+
     const auto pft = new ePathFindTask(startTile, walkable,
                                        final, finishFunc,
-                                       failFunc, mDiagonalOnly,
+                                       findFailFunc, mDiagonalOnly,
                                        mMaxDistance);
     tp->queueTask(pft);
 

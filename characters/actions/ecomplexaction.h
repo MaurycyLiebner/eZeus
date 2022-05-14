@@ -7,6 +7,8 @@ class eComplexAction : public eCharacterAction {
 public:
     using eCharacterAction::eCharacterAction;
 
+    virtual bool decide() { return false; };
+
     void increment(const int by);
 protected:
     eCharacterAction* currentAction() const { return mCurrentAction.get(); }

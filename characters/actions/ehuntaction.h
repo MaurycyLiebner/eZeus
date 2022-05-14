@@ -5,23 +5,25 @@
 
 #include "characters/ehunter.h"
 
+class eHuntingLodge;
+
 class eHuntAction : public eActionWithComeback {
 public:
-    eHuntAction(const SDL_Rect& buildingRect,
+    eHuntAction(eHuntingLodge* const b,
                 eHunter* const c,
                 const eAction& failAction,
                 const eAction& finishAction);
 
-    void increment(const int by);
-
-    void resume();
+    bool decide();
 private:
-    bool findResource();
-    bool collect();
-    void goBack2();
+    void findResourceDecision();
+    void goBackDecision();
+    void waitDecision();
 
-    eHunter* const mCharacter;
-    const SDL_Rect mBuildingRect;
+    eHuntingLodge* const mLodge;
+    eHunter* const mHunter;
+
+    bool mNoResource = false;
 };
 
 #endif // EHUNTACTION_H

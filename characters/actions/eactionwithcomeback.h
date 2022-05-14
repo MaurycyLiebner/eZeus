@@ -10,12 +10,17 @@ public:
     eActionWithComeback(eCharacter* const c,
                         const eAction& failAction,
                         const eAction& finishAction);
+
+    bool decide();
 protected:
     using eWalkable = std::function<bool(eTileBase*)>;
     void goBack(const eWalkable& walkable);
 private:
-    int mStartX{0};
-    int mStartY{0};
+    void teleportDecision();
+
+    eTile* const mStartTile;
+
+    bool mGoBackFail = false;
 };
 
 #endif // EACTIONWITHCOMEBACK_H

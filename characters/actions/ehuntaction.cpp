@@ -3,21 +3,23 @@
 #include "engine/epathfinder.h"
 
 #include "emovetoaction.h"
+#include "ewaitaction.h"
 
 #include "characters/eboar.h"
 #include "characters/edeer.h"
 
+#include "buildings/ehuntinglodge.h"
+
 eHuntAction::eHuntAction(
-        const SDL_Rect& buildingRect,
+        eHuntingLodge* const b,
         eHunter* const c,
         const eAction& failAction,
         const eAction& finishAction) :
     eActionWithComeback(c, failAction, finishAction),
-    mCharacter(c),
-    mBuildingRect(buildingRect) {}
+    mLodge(b),
+    mHunter(c) {}
 
-bool hasAnimal(eTileBase* const tile,
-                       eCharacterType& type) {
+bool hasAnimal(eTileBase* const tile, eCharacterType& type) {
     return tile->hasCharacter([&type](const eCharacterBase& c) {
         const bool b = c.type() == eCharacterType::boar && !c.fighting();
         if(b) {
@@ -54,33 +56,52 @@ bool tryToCollect(eTile* const tile) {
     return false;
 }
 
-void eHuntAction::increment(const int by) {
-    if(!currentAction()) findResource();
-    else eActionWithComeback::increment(by);
+bool eHuntAction::decide() {
+    const bool r = eActionWithComeback::decide();
+    if(r) return r;
+
+    const auto t = mHunter->tile();
+
+    if(tryToCollect(t)) mHunter->incCollected(1);
+    const int coll = mHunter->collected();
+
+    const SDL_Point p{t->x(), t->y()};
+    const auto rect = mLodge->tileRect();
+    const bool inLodge = SDL_PointInRect(&p, &rect);
+
+    if(coll > 0) {
+        if(inLodge) {
+            mLodge->add(eResourceType::meat, coll);
+            mHunter->incCollected(-coll);
+            waitDecision();
+        } else {
+            goBackDecision();
+        }
+    } else {
+        if(inLodge) {
+            const int res = mLodge->resource();
+            if(res >= mLodge->maxResource() ||
+               !mLodge->enabled()) {
+                waitDecision();
+            } else {
+                findResourceDecision();
+            }
+        } if(mNoResource) {
+            mNoResource = false;
+            goBackDecision();
+        } else {
+            findResourceDecision();
+        }
+    }
+    return true;
 }
 
-void eHuntAction::resume() {
-    eActionWithComeback::resume();
-    const auto tile = mCharacter->tile();
-    if(tryToCollect(tile)) collect();
-}
-
-bool eHuntAction::findResource() {
+void eHuntAction::findResourceDecision() {
     const auto c = character();
 
-    const stdptr<eCharacterAction> tptr(this);
-    const auto failFunc = [tptr]() {
-        if(tptr) tptr->setState(eCharacterActionState::failed);
-    };
+    const stdptr<eHuntAction> tptr(this);
 
     auto aType = std::make_shared<eCharacterType>();
-
-    const auto finishAction = [tptr, this, c]() {
-        if(!tptr) return;
-        const auto tile = c->tile();
-        if(tryToCollect(tile)) collect();
-        else findResource();
-    };
 
     const auto hha = [aType](eTileBase* const tile) {
         eCharacterType type;
@@ -89,32 +110,35 @@ bool eHuntAction::findResource() {
         return r;
     };
 
-    const auto a = e::make_shared<eMoveToAction>(c, failFunc, finishAction);
+    const auto a = e::make_shared<eMoveToAction>(c, [](){}, [](){});
     a->setFoundAction([this, c, aType]() {
         if(*aType == eCharacterType::deer) {
-            mCharacter->setDeerHunter(true);
+            mHunter->setDeerHunter(true);
         }
         c->setActionType(eCharacterActionType::walk);
     });
+    const auto findFailFunc = [tptr]() {
+        if(tptr) tptr->mNoResource = true;
+    };
+    a->setFindFailAction(findFailFunc);
     a->start(hha);
     setCurrentAction(a);
-
-    return true;
 }
 
-bool eHuntAction::collect() {
-    mCharacter->incCollected(1);
-    goBack2();
-    return true;
-}
-
-void eHuntAction::goBack2() {
-    mCharacter->setActionType(eCharacterActionType::carry);
-    const auto rect = mBuildingRect;
+void eHuntAction::goBackDecision() {
+    mHunter->setActionType(eCharacterActionType::carry);
+    const auto rect = mLodge->tileRect();
     eActionWithComeback::goBack([rect](eTileBase* const t) {
         const SDL_Point p{t->x(), t->y()};
         const bool r = SDL_PointInRect(&p, &rect);
         if(r) return true;
         return t->walkable();
     });
+}
+
+void eHuntAction::waitDecision() {
+    const auto w = e::make_shared<eWaitAction>(
+                       mHunter, [](){}, [](){});
+    w->setTime(2000);
+    setCurrentAction(w);
 }

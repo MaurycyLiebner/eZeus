@@ -10,6 +10,7 @@ class eHunter;
 class eHuntingLodge : public eResourceBuildingBase {
 public:
     eHuntingLodge(eGameBoard& board);
+    ~eHuntingLodge();
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;

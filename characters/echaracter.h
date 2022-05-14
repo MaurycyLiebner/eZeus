@@ -27,6 +27,7 @@ public:
     virtual bool canFight(eCharacter* const c);
 
     void fight(eCharacter* const c);
+    void kill();
 
     double x() const { return mX; }
     double y() const { return mY; }

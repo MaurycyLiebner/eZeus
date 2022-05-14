@@ -2,6 +2,7 @@
 #define EFIGHTACTION_H
 
 #include "echaracteraction.h"
+#include "characters/echaracter.h"
 
 class eFightAction : public eCharacterAction {
 public:
@@ -11,7 +12,7 @@ public:
 
     void increment(const int by);
 private:
-    eCharacter* const mOpponent;
+    const stdptr<eCharacter> mOpponent;
 
     int mTime = 0;
 };
