@@ -73,6 +73,9 @@ class eCharacterBase {
 public:
     eCharacterBase(const eCharacterType type);
 
+    bool busy() const { return mBusy; }
+    void setBusy(const bool b) { mBusy = b; }
+
     void setAttack(const int a);
     int attack() const { return mAttack; }
     void setHP(const int hp);
@@ -94,6 +97,8 @@ private:
     eCharacterActionType mActionType{eCharacterActionType::none};
 
     int mPlayerId{1}; // 0 - neutral
+
+    bool mBusy = false;
 
     int mHP = 1000;
     int mAttack = 1;

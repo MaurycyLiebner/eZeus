@@ -8,9 +8,8 @@
 #include "ecollectaction.h"
 
 class eMovePathAction;
-enum class eResourceCollectorAction : int;
 
-class eResourceCollector;
+class eResourceCollectorBase;
 
 class eCollectResourceAction : public eActionWithComeback {
 public:
@@ -18,7 +17,7 @@ public:
     using eTileAction = std::function<void(eTile*)>;
     using eTranformFunc = eTileAction;
     eCollectResourceAction(const SDL_Rect& buildingRect,
-                           eResourceCollector* const c,
+                           eResourceCollectorBase* const c,
                            const eHasResource& hr,
                            const eTranformFunc& tf,
                            const eAction& failAction,
@@ -34,7 +33,7 @@ private:
 
     const eHasResource mHasResource;
     const eTranformFunc mTransFunc;
-    eResourceCollector* const mCharacter;
+    eResourceCollectorBase* const mCharacter;
     const SDL_Rect mBuildingRect;
     eTileAction mCollectedAction;
 };

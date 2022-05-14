@@ -5,7 +5,7 @@
 
 eCollectResourceAction::eCollectResourceAction(
         const SDL_Rect& buildingRect,
-        eResourceCollector* const c,
+        eResourceCollectorBase* const c,
         const eHasResource& hr,
         const eTranformFunc& tf,
         const eAction& failAction,

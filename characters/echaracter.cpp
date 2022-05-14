@@ -18,6 +18,7 @@ eCharacter::~eCharacter() {
 bool eCharacter::canFight(eCharacter* const c) {
     if(dead()) return false;
     if(playerId() == c->playerId()) return false;
+    if(attack() == 0 && c->attack() == 0) return false;
     return true;
 }
 

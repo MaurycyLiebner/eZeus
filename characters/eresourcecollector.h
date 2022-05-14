@@ -1,32 +1,22 @@
 #ifndef ERESOURCECOLLECTOR_H
 #define ERESOURCECOLLECTOR_H
 
-#include "echaracter.h"
+#include "eresourcecollectorbase.h"
 
 #include "textures/echaractertextures.h"
 
-
-enum class eResourceCollectorAction : int{
-    walk, collect, carry, die
-};
-
-class eResourceCollector : public eCharacter {
+class eResourceCollector : public eResourceCollectorBase {
 public:
     using eCharTexs = eResourceCollectorTextures eCharacterTextures::*;
     eResourceCollector(eGameBoard& board, const eCharTexs charTexs,
                        const eCharacterType type);
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
-
-    int collected() const { return mResCollected; }
-    void incCollected(const int by = 1) { mResCollected += by; }
 protected:
     void setCharTexs(const eCharTexs& texs);
 private:
     const std::vector<eCharacterTextures>& mTextures;
     eCharTexs mCharTexs;
-
-    int mResCollected = 0;
 };
 
 #endif // ERESOURCECOLLECTOR_H

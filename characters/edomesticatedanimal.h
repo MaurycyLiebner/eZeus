@@ -10,14 +10,11 @@ public:
     void groom();
     int collect();
     bool canCollect() const { return mResource; }
-    void setBusy(const bool b) { mBusy = b; }
-    bool busy() const { return mBusy; }
 private:
     virtual void setNakedTexture() {}
     virtual void setFleecedTexture() {}
 
-    const int mMaxGroom = 250;
-    bool mBusy = false;
+    const int mMaxGroom = 25;
     int mGroomed = 0;
     int mResource = 0;
 };

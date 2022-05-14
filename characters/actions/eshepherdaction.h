@@ -4,27 +4,33 @@
 #include "eactionwithcomeback.h"
 
 #include "characters/eshepherd.h"
+#include "buildings/eshepherbuildingbase.h"
 
 class eDomesticatedAnimal;
 
 class eShepherdAction : public eActionWithComeback {
 public:
-    eShepherdAction(const SDL_Rect& buildingRect,
-                    eResourceCollector* const c,
+    eShepherdAction(eShepherBuildingBase* const shed,
+                    eResourceCollectorBase* const c,
                     const eCharacterType animalType,
                     const eAction& failAction,
                     const eAction& finishAction);
 
-    void increment(const int by);
+    bool decide();
 private:
-    bool findResource();
-    bool collect(eDomesticatedAnimal* const a);
-    void goBack2();
+    bool findResourceDecision();
+    void collectDecision(eDomesticatedAnimal* const a);
+    void groomDecision(eDomesticatedAnimal* const a);
+    void goBackDecision();
+    void waitDecision();
 
     eCharacterType mAnimalType;
 
-    eResourceCollector* const mCharacter;
-    const SDL_Rect mBuildingRect;
+    eResourceCollectorBase* const mCharacter;
+    eShepherBuildingBase* const mShed;
+
+    int mGroomed = 0;
+    bool mNoResource = false;
 };
 
 #endif // ESHEPHERDACTION_H

@@ -5,7 +5,7 @@
 
 #include "textures/ebuildingtextures.h"
 
-class eResourceCollector;
+class eResourceCollectorBase;
 
 enum class eCharacterType;
 
@@ -13,7 +13,7 @@ class eShepherBuildingBase : public eResourceBuildingBase {
 public:
     using eBaseTex = std::shared_ptr<eTexture> eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;
-    using eRC = eResourceCollector;
+    using eRC = eResourceCollectorBase;
     using eCharGenerator =  std::function<stdsptr<eRC>(eGameBoard&)>;
     eShepherBuildingBase(eGameBoard& board,
                          const eBaseTex baseTex,
@@ -26,6 +26,7 @@ public:
                          const eCharacterType animalType,
                          const int sw, const int sh,
                          const int maxEmployees);
+    ~eShepherBuildingBase();
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
@@ -45,9 +46,7 @@ private:
 
     const eCharacterType mAnimalType;
 
-    stdsptr<eResourceCollector> mShepherd;
-    int mWaitTime = 5000;
-    int mSpawnTime = mWaitTime;
+    stdsptr<eResourceCollectorBase> mShepherd;
 };
 
 #endif // ESHEPHERBUILDINGBASE_H

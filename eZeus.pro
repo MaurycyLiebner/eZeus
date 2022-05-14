@@ -149,9 +149,11 @@ SOURCES += \
         characters/eoxhandler.cpp \
         characters/ephilosopher.cpp \
         characters/eresourcecollector.cpp \
+        characters/eresourcecollectorbase.cpp \
         characters/esettler.cpp \
         characters/esheep.cpp \
         characters/eshepherd.cpp \
+        characters/eshepherdbase.cpp \
         characters/esilverminer.cpp \
         characters/etaxcollector.cpp \
         characters/etrailer.cpp \
@@ -424,9 +426,11 @@ HEADERS += \
     characters/eoxhandler.h \
     characters/ephilosopher.h \
     characters/eresourcecollector.h \
+    characters/eresourcecollectorbase.h \
     characters/esettler.h \
     characters/esheep.h \
     characters/eshepherd.h \
+    characters/eshepherdbase.h \
     characters/esilverminer.h \
     characters/etaxcollector.h \
     characters/etrailer.h \

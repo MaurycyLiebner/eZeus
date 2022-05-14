@@ -5,7 +5,7 @@
 
 #include "textures/ebuildingtextures.h"
 
-class eResourceCollector;
+class eResourceCollectorBase;
 
 class eResourceCollectBuilding : public eResourceBuildingBase {
 public:
@@ -13,7 +13,7 @@ public:
     using eTranformFunc = std::function<void(eTile*)>;
     using eBaseTex = std::shared_ptr<eTexture> eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;
-    using eCharGenerator =  std::function<stdsptr<eResourceCollector>()>;
+    using eCharGenerator =  std::function<stdsptr<eResourceCollectorBase>()>;
     eResourceCollectBuilding(eGameBoard& board,
                              const eBaseTex baseTex,
                              const double overlayX,
@@ -54,7 +54,7 @@ private:
 
     eTileAction mCollectedAction;
 
-    stdsptr<eResourceCollector> mCollector;
+    stdsptr<eResourceCollectorBase> mCollector;
 
     bool mSpawnEnabled = true;
 

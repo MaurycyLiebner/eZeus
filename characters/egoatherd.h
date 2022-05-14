@@ -1,9 +1,9 @@
 #ifndef EGOATHERD_H
 #define EGOATHERD_H
 
-#include "eresourcecollector.h"
+#include "eshepherdbase.h"
 
-class eGoatherd : public eResourceCollector {
+class eGoatherd : public eShepherdBase {
 public:
     eGoatherd(eGameBoard& board);
 };

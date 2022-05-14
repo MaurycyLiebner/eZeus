@@ -9,7 +9,7 @@ class eCollectAction : public eCharacterAction {
 public:
     using eTranformFunc = std::function<void(eTile*)>;
     eCollectAction(
-            eResourceCollector* const c,
+            eResourceCollectorBase* const c,
             const eTranformFunc& tf,
             const eAction& failAction,
             const eAction& finishAction);
@@ -19,7 +19,7 @@ public:
 private:
     int mSoundTime = 0;
     int mTime = 0;
-    eResourceCollector* const mCharacter;
+    eResourceCollectorBase* const mCharacter;
     eTile* const mTile;
     const eTranformFunc mTransFunc;
 };

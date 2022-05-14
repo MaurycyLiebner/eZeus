@@ -25,6 +25,10 @@ eShepherBuildingBase::eShepherBuildingBase(
 
 }
 
+eShepherBuildingBase::~eShepherBuildingBase() {
+    if(mShepherd) mShepherd->kill();
+}
+
 std::shared_ptr<eTexture> eShepherBuildingBase::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].*mBaseTex;
@@ -44,10 +48,7 @@ std::vector<eOverlay> eShepherBuildingBase::getOverlays(
 
 void eShepherBuildingBase::timeChanged(const int by) {
     eResourceBuildingBase::timeChanged(by);
-    if(enabled() && !mShepherd && time() > mSpawnTime) {
-        spawn();
-        mSpawnTime = time() + mWaitTime;
-    }
+    if(!mShepherd) spawn();
 }
 
 bool eShepherBuildingBase::spawn() {
@@ -58,15 +59,11 @@ bool eShepherBuildingBase::spawn() {
     const eStdPointer<eShepherBuildingBase> tptr(this);
     const auto finishAct = [tptr, this]() {
         if(!tptr) return;
-        if(mShepherd) {
-            add(resourceType(), mShepherd->collected());
-            mShepherd->changeTile(nullptr);
-            mShepherd.reset();
-        }
-        mSpawnTime = time() + mWaitTime;
+        if(mShepherd) mShepherd->kill();
+        mShepherd = nullptr;
     };
     const auto a = e::make_shared<eShepherdAction>(
-                       tileRect(), mShepherd.get(),
+                       this, mShepherd.get(),
                        mAnimalType,
                        finishAct, finishAct);
     mShepherd->setAction(a);

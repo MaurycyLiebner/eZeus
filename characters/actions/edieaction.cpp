@@ -1,9 +1,6 @@
 #include "edieaction.h"
 
-#include "characters/ebasicpatroler.h"
-#include "characters/efightingpatroler.h"
-#include "characters/eresourcecollector.h"
-#include "characters/eanimal.h"
+#include "characters/echaracter.h"
 
 eDieAction::eDieAction(eCharacter* const c,
                        const eAction& finishAction) :

@@ -26,6 +26,8 @@ public:
     }
     virtual bool canFight(eCharacter* const c);
 
+    void incTime(const int by);
+
     void fight(eCharacter* const c);
     void kill();
 
@@ -39,7 +41,6 @@ public:
     void changeTile(eTile* const t);
     void setX(const double x) { mX = x; }
     void setY(const double y) { mY = y; };
-    void incTime(const int by);
     void setOrientation(const eOrientation o);
 
     void setAction(const stdsptr<eCharacterAction>& a);
@@ -52,8 +53,13 @@ public:
 
     int provideCount() const { return mProvideCount; }
     void setProvide(const eProvide p, const int n);
+
+    bool visible() const { return mVisible; }
+    void setVisible(const bool v) { mVisible = v; }
 private:
     stdsptr<eCharacterAction> takeAction();
+
+    bool mVisible = true;
 
     eProvide mProvide = eProvide::none;
     int mProvideCount = 0;

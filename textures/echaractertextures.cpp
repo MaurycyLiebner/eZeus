@@ -208,6 +208,10 @@ void eCharacterTextures::load() {
         texClass.load(i, fGoatherd.fDie);
     }
 
+    for(int i = 2585; i < 2595; i++) {
+        texClass.load(i, fGoatherd.fFight);
+    }
+
     texClass.loadSkipFlipped(fBronzeMiner.fWalk, 2595, 2691);
     texClass.loadSkipFlipped(fBronzeMiner.fCarry, 2711, 2807);
     texClass.loadSkipFlipped(fBronzeMiner.fCollect, 2807, 2887);
@@ -246,6 +250,10 @@ void eCharacterTextures::load() {
 
     for(int i = 3511; i < 3519; i++) {
         texClass.load(i, fShepherd.fDie);
+    }
+
+    for(int i = 3627; i < 3637; i++) {
+        texClass.load(i, fShepherd.fFight);
     }
 
     texClass.loadSkipFlipped(fMarbleMiner.fWalk, 11044, 11140);

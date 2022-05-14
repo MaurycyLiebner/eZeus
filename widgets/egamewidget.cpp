@@ -960,6 +960,7 @@ void eGameWidget::paintEvent(ePainter& p) {
            bt == eBuildingType::wall) {
             const auto& chars = tile->characters();
             for(const auto& c : chars) {
+                if(!c->visible()) continue;
                 const bool v = eViewModeHelpers::characterVisible(
                                    mViewMode, c->type());
                 if(!v) continue;

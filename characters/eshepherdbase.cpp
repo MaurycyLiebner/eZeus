@@ -1,8 +1,8 @@
-#include "eresourcecollector.h"
+#include "eshepherdbase.h"
 
 #include "textures/egametextures.h"
 
-eResourceCollector::eResourceCollector(
+eShepherdBase::eShepherdBase(
         eGameBoard& board, const eCharTexs charTexs,
         const eCharacterType type) :
     eResourceCollectorBase(board, type),
@@ -11,7 +11,8 @@ eResourceCollector::eResourceCollector(
 
 }
 
-std::shared_ptr<eTexture> eResourceCollector::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture>
+eShepherdBase::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
     const auto& charTexs = mTextures[id].*mCharTexs;
     const eTextureCollection* coll = nullptr;
@@ -21,9 +22,11 @@ std::shared_ptr<eTexture> eResourceCollector::getTexture(const eTileSize size) c
     switch(a) {
     case eCharacterActionType::stand:
         return charTexs.fWalk[oid].getTexture(0);
-    case eCharacterActionType::collect:
-    case eCharacterActionType::fight: {
+    case eCharacterActionType::collect: {
         coll = &charTexs.fCollect[oid];
+    } break;
+    case eCharacterActionType::fight: {
+        coll = &charTexs.fFight;
     } break;
     case eCharacterActionType::walk: {
         coll = &charTexs.fWalk[oid];
@@ -48,8 +51,4 @@ std::shared_ptr<eTexture> eResourceCollector::getTexture(const eTileSize size) c
     if(!wrap) t = std::clamp(t, 0, s - 1);
     const int texId = t % s;
     return coll->getTexture(texId);
-}
-
-void eResourceCollector::setCharTexs(const eCharTexs& texs) {
-    mCharTexs = texs;
 }

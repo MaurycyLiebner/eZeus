@@ -3,7 +3,7 @@
 #include "engine/egameboard.h"
 #include "esounds.h"
 
-eCollectAction::eCollectAction(eResourceCollector* const c,
+eCollectAction::eCollectAction(eResourceCollectorBase* const c,
                                const eTranformFunc& tf,
                                const eAction& failAction,
                                const eAction& finishAction) :

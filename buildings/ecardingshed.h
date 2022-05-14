@@ -8,6 +8,8 @@ class eShepherd;
 class eCardingShed : public eShepherBuildingBase {
 public:
     eCardingShed(eGameBoard& board);
+
+    std::vector<eOverlay> getOverlays(const eTileSize size) const;
 private:
     const std::vector<eBuildingTextures>& mTextures;
 };

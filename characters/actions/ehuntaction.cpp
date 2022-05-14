@@ -84,9 +84,14 @@ bool eHuntAction::decide() {
                !mLodge->enabled()) {
                 waitDecision();
             } else {
-                findResourceDecision();
+                if(mNoResource) {
+                    mNoResource = false;
+                    waitDecision();
+                } else {
+                    findResourceDecision();
+                }
             }
-        } if(mNoResource) {
+        } else if(mNoResource) {
             mNoResource = false;
             goBackDecision();
         } else {
@@ -150,6 +155,6 @@ void eHuntAction::goBackDecision() {
 void eHuntAction::waitDecision() {
     const auto w = e::make_shared<eWaitAction>(
                        mHunter, [](){}, [](){});
-    w->setTime(2000);
+    w->setTime(5000);
     setCurrentAction(w);
 }

@@ -22,8 +22,6 @@ private:
     const std::vector<eBuildingTextures>& mTextures;
 
     stdsptr<eHunter> mHunter;
-    int mWaitTime = 5000;
-    int mSpawnTime = mWaitTime;
 };
 
 #endif // EHUNTINGLODGE_H
