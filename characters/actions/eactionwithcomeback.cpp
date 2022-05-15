@@ -42,6 +42,17 @@ void eActionWithComeback::goBack(const eWalkable& walkable) {
     setCurrentAction(a);
 }
 
+void eActionWithComeback::goBack(eBuilding* const b,
+                                 const eWalkable& walkable) {
+    const auto rect = b->tileRect();
+    eActionWithComeback::goBack([rect, walkable](eTileBase* const t) {
+        const SDL_Point p{t->x(), t->y()};
+        const bool r = SDL_PointInRect(&p, &rect);
+        if(r) return true;
+        return walkable(t);
+    });
+}
+
 void eActionWithComeback::teleportDecision() {
     const auto c = character();
 

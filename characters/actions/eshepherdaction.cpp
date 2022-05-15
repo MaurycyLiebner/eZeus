@@ -175,13 +175,8 @@ void eShepherdAction::goBackDecision() {
     } else {
         mCharacter->setActionType(eCharacterActionType::walk);
     }
-    const auto rect = mShed->tileRect();
-    eActionWithComeback::goBack([rect](eTileBase* const t) {
-        const SDL_Point p{t->x(), t->y()};
-        const bool r = SDL_PointInRect(&p, &rect);
-        if(r) return true;
-        return t->walkable();
-    });
+
+    goBack(mShed, eMoveToAction::sDefaultWalkable);
 }
 
 void eShepherdAction::waitDecision() {

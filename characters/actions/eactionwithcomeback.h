@@ -5,6 +5,8 @@
 #include "emovepathaction.h"
 #include "engine/emovedirection.h"
 
+class eBuilding;
+
 class eActionWithComeback : public eComplexAction {
 public:
     eActionWithComeback(eCharacter* const c,
@@ -15,6 +17,8 @@ public:
 protected:
     using eWalkable = std::function<bool(eTileBase*)>;
     void goBack(const eWalkable& walkable);
+    void goBack(eBuilding* const b,
+                const eWalkable& walkable);
 private:
     void teleportDecision();
 
