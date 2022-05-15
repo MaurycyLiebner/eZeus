@@ -233,8 +233,5 @@ void eGrowerAction::goBackDecision() {
 }
 
 void eGrowerAction::waitDecision() {
-    const auto w = e::make_shared<eWaitAction>(
-                       mGrower, [](){}, [](){});
-    w->setTime(5000);
-    setCurrentAction(w);
+    wait(5000);
 }

@@ -185,8 +185,5 @@ void eShepherdAction::goBackDecision() {
 }
 
 void eShepherdAction::waitDecision() {
-    const auto w = e::make_shared<eWaitAction>(
-                       mCharacter, [](){}, [](){});
-    w->setTime(5000);
-    setCurrentAction(w);
+    wait(5000);
 }

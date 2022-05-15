@@ -13,6 +13,7 @@ public:
 protected:
     eCharacterAction* currentAction() const { return mCurrentAction.get(); }
     void setCurrentAction(const stdsptr<eCharacterAction>& a);
+    void wait(const int t);
 private:
     stdsptr<eCharacterAction> mCurrentAction;
 };
