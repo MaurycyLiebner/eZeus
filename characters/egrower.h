@@ -18,9 +18,9 @@ public:
     int grapes() const { return mGrapes; }
     int oranges() const { return mOranges; }
 
-    void incGrapes();
-    void incOlives();
-    void incOranges();
+    void incGrapes(const int i = 1);
+    void incOlives(const int i = 1);
+    void incOranges(const int i = 1);
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 private:

@@ -108,8 +108,6 @@ bool eShepherdAction::decide() {
 }
 
 bool eShepherdAction::findResourceDecision() {
-    const auto c = character();
-
     const stdptr<eShepherdAction> tptr(this);
 
     const auto aType = mAnimalType;
@@ -117,9 +115,11 @@ bool eShepherdAction::findResourceDecision() {
         return hasAnimal(tile, aType);
     };
 
-    const auto a = e::make_shared<eMoveToAction>(c, [](){}, [](){});
-    a->setFoundAction([c]() {
-        c->setActionType(eCharacterActionType::walk);
+    const auto a = e::make_shared<eMoveToAction>(mCharacter, [](){}, [](){});
+    a->setFoundAction([tptr, this]() {
+        if(!tptr) return;
+        if(!mCharacter) return;
+        mCharacter->setActionType(eCharacterActionType::walk);
     });
     const auto findFailFunc = [tptr, this]() {
         if(tptr) mNoResource = true;

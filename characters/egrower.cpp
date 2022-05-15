@@ -8,16 +8,16 @@ eGrower::eGrower(eGameBoard& board, const eGrowerType type) :
 
 }
 
-void eGrower::incGrapes() {
-    mGrapes++;
+void eGrower::incGrapes(const int i) {
+    mGrapes += i;
 }
 
-void eGrower::incOlives() {
-    mOlives++;
+void eGrower::incOlives(const int i) {
+    mOlives += i;
 }
 
-void eGrower::incOranges() {
-    mOranges++;
+void eGrower::incOranges(const int i) {
+    mOranges += i;
 }
 
 std::shared_ptr<eTexture> eGrower::getTexture(const eTileSize size) const {

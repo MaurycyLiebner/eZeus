@@ -14,6 +14,11 @@ eGrowersLodge::eGrowersLodge(eGameBoard& board, const eGrowerType type) :
 
 }
 
+eGrowersLodge::~eGrowersLodge() {
+    if(mGrower1) mGrower1->kill();
+    if(mGrower2) mGrower2->kill();
+}
+
 std::shared_ptr<eTexture> eGrowersLodge::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& texs = mTextures[sizeId];
@@ -89,14 +94,6 @@ std::vector<eOverlay> eGrowersLodge::
 void eGrowersLodge::timeChanged(const int by) {
     if(enabled()) {
         const int t = time();
-        if(t > mGrowerSpawnTime) {
-            if(!mGrower1) {
-                spawnGrower(&eGrowersLodge::mGrower1);
-            } else if(!mGrower2) {
-                spawnGrower(&eGrowersLodge::mGrower2);
-            }
-            mGrowerSpawnTime = time() + mGrowerWaitTime;
-        }
         if(!mCart && t > mCartSpawnTime) {
             mCartSpawnTime = t + mCartWaitTime;
             bool spawned = false;
@@ -111,6 +108,8 @@ void eGrowersLodge::timeChanged(const int by) {
             }
         }
     }
+    if(!mGrower1) spawnGrower(&eGrowersLodge::mGrower1);
+    if(!mGrower2) spawnGrower(&eGrowersLodge::mGrower2);
     eEmployingBuilding::timeChanged(by);
 }
 
@@ -188,17 +187,11 @@ bool eGrowersLodge::spawnGrower(const eGrowerPtr grower) {
     const auto finishAct = [tptr, this, grower]() {
         if(!tptr) return;
         auto& g = this->*grower;
-        if(g) {
-            add(eResourceType::olives, g->olives());
-            add(eResourceType::grapes, g->grapes());
-            add(eResourceType::oranges, g->oranges());
-            g->changeTile(nullptr);
-            g.reset();
-        }
-        mGrowerSpawnTime = time() + mGrowerWaitTime;
+        if(g) g->kill();
+        g = nullptr;
     };
     const auto a = e::make_shared<eGrowerAction>(
-                       mType, tileRect(), g.get(),
+                       mType, this, g.get(),
                        finishAct, finishAct);
     g->setAction(a);
     return true;

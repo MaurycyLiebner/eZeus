@@ -11,6 +11,7 @@ class eCartTransporter;
 class eGrowersLodge : public eEmployingBuilding {
 public:
     eGrowersLodge(eGameBoard& board, const eGrowerType type);
+    ~eGrowersLodge();
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
@@ -43,8 +44,6 @@ private:
 
     stdsptr<eGrower> mGrower1;
     stdsptr<eGrower> mGrower2;
-    const int mGrowerWaitTime = 5000;
-    int mGrowerSpawnTime = mGrowerWaitTime;
 };
 
 #endif // EGROWERSLODGE_H

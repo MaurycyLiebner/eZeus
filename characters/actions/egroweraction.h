@@ -4,25 +4,29 @@
 #include "eactionwithcomeback.h"
 
 #include "characters/egrower.h"
+#include "buildings/egrowerslodge.h"
 
 class eGrowerAction : public eActionWithComeback {
 public:
     eGrowerAction(const eGrowerType type,
-                  const SDL_Rect& buildingRect,
+                  eGrowersLodge* const lodge,
                   eGrower* const c,
                   const eAction& failAction,
                   const eAction& finishAction);
 
-    void increment(const int by);
+    bool decide();
 private:
-    bool findResource();
-    bool workOn(eTile* const tile);
-    void goBack2();
+    bool findResourceDecision();
+    void workOnDecision(eTile* const tile);
+    void goBackDecision();
+    void waitDecision();
 
     const eGrowerType mType;
     eGrower* const mGrower;
-    const SDL_Rect mBuildingRect;
-    int mCount = 0;
+    eGrowersLodge* const mLodge;
+
+    int mGroomed = 0;
+    bool mNoResource = false;
 };
 
 #endif // EGROWERACTION_H

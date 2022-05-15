@@ -5,76 +5,172 @@
 #include "buildings/eresourcebuilding.h"
 
 eGrowerAction::eGrowerAction(const eGrowerType type,
-                             const SDL_Rect& buildingRect,
+                             eGrowersLodge* const lodge,
                              eGrower* const c,
                              const eAction& failAction,
                              const eAction& finishAction) :
     eActionWithComeback(c, failAction, finishAction),
     mType(type), mGrower(c),
-    mBuildingRect(buildingRect) {}
+    mLodge(lodge) {}
 
-void eGrowerAction::increment(const int by) {
-    if(!currentAction()) findResource();
-    else eActionWithComeback::increment(by);
+bool hasResource(eThreadTile* const tile, const eGrowerType gt) {
+    if(rand() % 2) return false;
+    const auto ub = tile->underBuildingType();
+    bool r;
+    switch(gt) {
+    case eGrowerType::grapesAndOlives:
+        r = ub == eBuildingType::vine ||
+            ub == eBuildingType::oliveTree;
+        break;
+    case eGrowerType::oranges:
+        r = ub == eBuildingType::orangeTree;
+        break;
+    }
+
+    if(!r) return false;
+    const auto& b = tile->underBuilding();
+    return !b.workedOn() && !tile->busy();
 }
 
-bool eGrowerAction::findResource() {
-    const stdptr<eGrowerAction> tptr(this);
-    const auto failFunc = [tptr]() {
-        if(tptr) tptr->goBack2();
-    };
+enum class eCollectType {
+    groom,
+    collect
+};
 
-    const auto gt = mType;
-    const auto hha = [gt](eThreadTile* const tile) {
-        const auto ub = tile->underBuildingType();
-        bool r;
-        switch(gt) {
+eResourceBuilding* tryToCollect(eTile* const tile,
+                                const eGrowerType type,
+                                eCollectType& collType) {
+    if(tile->busy()) return nullptr;
+    const auto b = tile->underBuilding();
+    if(b) {
+        const auto s = static_cast<eResourceBuilding*>(b);
+        if(s->workedOn()) return nullptr;
+        const auto t = b->type();
+        switch(type) {
         case eGrowerType::grapesAndOlives:
-            r = ub == eBuildingType::vine ||
-                ub == eBuildingType::oliveTree;
-            break;
+            if(t != eBuildingType::vine &&
+               t != eBuildingType::oliveTree) {
+                return nullptr;
+            }
+           break;
         case eGrowerType::oranges:
-            r = ub == eBuildingType::orangeTree;
-            break;
+            if(t != eBuildingType::orangeTree) {
+                return nullptr;
+            }
+           break;
         }
 
-        if(!r) return false;
-        const auto& b = tile->underBuilding();
-        return !b.workedOn() && !tile->busy();
-    };
-
-    const auto finishAction = [tptr, this]() {
-        if(!tptr) return;
-        const auto t = mGrower->tile();
-        const auto b = dynamic_cast<eResourceBuilding*>(
-                           t->underBuilding());
-        if(!b || t->busy() || b->workedOn()) {
-            findResource();
+        if(s->resource() > 0) {
+            collType = eCollectType::collect;
         } else {
-            workOn(t);
+            collType = eCollectType::groom;
         }
-    };
+        return s;
+    }
+    return nullptr;
+}
 
-    const auto a = e::make_shared<eMoveToAction>(
-                       mGrower, failFunc, finishAction);
-    a->setFoundAction([this]() {
-        mGrower->setActionType(eCharacterActionType::walk);
-    });
-    a->start(hha);
-    setCurrentAction(a);
+bool eGrowerAction::decide() {
+    const bool r = eActionWithComeback::decide();
+    if(r) return r;
 
+    const auto t = mGrower->tile();
+
+    const int grapes = mGrower->grapes();
+    const int olives = mGrower->olives();
+    const int oranges = mGrower->oranges();
+
+    const SDL_Point p{t->x(), t->y()};
+    const auto rect = mLodge->tileRect();
+    const bool inLodge = SDL_PointInRect(&p, &rect);
+
+    if(grapes > 0 || olives > 0 || oranges > 0) {
+        if(inLodge) {
+            mLodge->add(eResourceType::grapes, grapes);
+            mLodge->add(eResourceType::olives, olives);
+            mLodge->add(eResourceType::oranges, oranges);
+
+            mGrower->incGrapes(-grapes);
+            mGrower->incGrapes(-olives);
+            mGrower->incGrapes(-oranges);
+
+            waitDecision();
+        } else {
+            goBackDecision();
+        }
+    } else {
+        eCollectType collType;
+        if(const auto a = tryToCollect(t, mType, collType)) {
+            workOnDecision(t);
+        } else if(inLodge) {
+            int space = 0;
+            switch(mType) {
+            case eGrowerType::grapesAndOlives:
+                space = mLodge->spaceLeft(eResourceType::grapes);
+                break;
+            case eGrowerType::oranges:
+                space = mLodge->spaceLeft(eResourceType::oranges);
+                break;
+            }
+
+            if(space <= 0 || !mLodge->enabled()) {
+                waitDecision();
+            } else {
+                if(mNoResource) {
+                    mNoResource = false;
+                    waitDecision();
+                } else {
+                    findResourceDecision();
+                }
+            }
+        } else if(mNoResource) {
+            mNoResource = false;
+            goBackDecision();
+        } else {
+            if(mGroomed > 5) {
+                mGroomed = 0;
+                goBackDecision();
+            } else {
+                findResourceDecision();
+            }
+        }
+    }
     return true;
 }
 
-bool eGrowerAction::workOn(eTile* const tile) {
+bool eGrowerAction::findResourceDecision() {
+    const stdptr<eGrowerAction> tptr(this);
+
+    const auto gt = mType;
+    const auto hha = [gt](eThreadTile* const tile) {
+        return hasResource(tile, gt);
+    };
+
+    const auto a = e::make_shared<eMoveToAction>(
+                       mGrower, [](){}, [](){});
+    a->setFoundAction([tptr, this]() {
+        if(!tptr) return;
+        if(!mGrower) return;
+        mGrower->setActionType(eCharacterActionType::walk);
+    });
+    const auto findFailFunc = [tptr, this]() {
+        if(tptr) mNoResource = true;
+    };
+    a->setFindFailAction(findFailFunc);
+    a->start(hha);
+    setCurrentAction(a);
+    return true;
+}
+
+void eGrowerAction::workOnDecision(eTile* const tile) {
     const auto type = tile->underBuildingType();
     switch(mType) {
     case eGrowerType::grapesAndOlives:
         if(type != eBuildingType::vine &&
-           type != eBuildingType::oliveTree) return false;
+           type != eBuildingType::oliveTree) return;
         break;
     case eGrowerType::oranges:
-        if(type != eBuildingType::orangeTree) return false;
+        if(type != eBuildingType::orangeTree) return;
         break;
     }
     tile->setBusy(true);
@@ -98,13 +194,8 @@ bool eGrowerAction::workOn(eTile* const tile) {
         }
     }
 
-    const auto failAction = [this, tile]() {
-        tile->setBusy(false);
-        setState(eCharacterActionState::failed);
-    };
-
     const stdptr<eCharacterAction> tptr(this);
-    const auto finishAction = [tptr, this, tile, type]() {
+    const auto finish = [tptr, this, tile, type]() {
         tile->setBusy(false);
         if(!tptr) return;
         if(const auto b = tile->underBuilding()) {
@@ -122,23 +213,28 @@ bool eGrowerAction::workOn(eTile* const tile) {
                 }
             }
         }
-        if(mCount++ > 5) goBack2();
-        else findResource();
+        mGroomed++;
     };
 
-    const auto w = e::make_shared<eWaitAction>(mGrower, failAction, finishAction);
+    const auto w = e::make_shared<eWaitAction>(mGrower, finish, finish);
     w->setTime(2000);
     setCurrentAction(w);
-    return false;
 }
 
-void eGrowerAction::goBack2() {
+void eGrowerAction::goBackDecision() {
     mGrower->setActionType(eCharacterActionType::carry);
-    const auto rect = mBuildingRect;
+    const auto rect = mLodge->tileRect();
     eActionWithComeback::goBack([rect](eTileBase* const t) {
         const SDL_Point p{t->x(), t->y()};
         const bool r = SDL_PointInRect(&p, &rect);
         if(r) return true;
         return t->walkable();
     });
+}
+
+void eGrowerAction::waitDecision() {
+    const auto w = e::make_shared<eWaitAction>(
+                       mGrower, [](){}, [](){});
+    w->setTime(5000);
+    setCurrentAction(w);
 }
