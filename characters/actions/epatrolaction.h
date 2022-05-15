@@ -6,6 +6,7 @@
 #include "epatrolmoveaction.h"
 #include "epatrolguidedmoveaction.h"
 #include "buildings/ebuilding.h"
+#include "emovetoaction.h"
 
 class ePatrolBuilding;
 
@@ -20,8 +21,8 @@ public:
     bool decide();
 protected:
     void patrol();
-    void goBackDecision();
-    void goBackNoRoad();
+    void goBackDecision(const eWalkable& w =
+                            eMoveToAction::sRoadWalkable);
 private:
     const std::vector<ePatrolGuide> mGuides;
     ePatrolBuilding* const mBuilding;

@@ -3,7 +3,6 @@
 #include "../echaracter.h"
 #include "engine/etile.h"
 #include "epatrolmoveaction.h"
-#include "emovetoaction.h"
 #include "buildings/epatrolbuilding.h"
 
 ePatrolAction::ePatrolAction(eCharacter* const c,
@@ -53,6 +52,6 @@ void ePatrolAction::patrol() {
     }
 }
 
-void ePatrolAction::goBackDecision() {
-    goBack(mBuilding, eMoveToAction::sRoadWalkable);
+void ePatrolAction::goBackDecision(const eWalkable& w) {
+    goBack(mBuilding, w);
 }

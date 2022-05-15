@@ -18,6 +18,8 @@ private:
     bool mFireFighting{false};
     int mFireCheck{0};
 
+    int mUsedWater = 0;
+
     stdsptr<eCharacterAction> mMoveToFireAction;
 };
 

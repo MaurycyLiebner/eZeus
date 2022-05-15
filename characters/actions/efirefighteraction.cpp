@@ -6,7 +6,13 @@
 #include "ewaitaction.h"
 
 void eFireFighterAction::increment(const int by) {
-    if(!mFireFighting) {
+    if(mMoveToFireAction) {
+        mFireFighting = true;
+        setCurrentAction(mMoveToFireAction);
+        mMoveToFireAction = nullptr;
+        const auto c = character();
+        c->setActionType(eCharacterActionType::carry);
+    } else if(!mFireFighting) {
         const int fireCheckInc = 1000;
         mFireCheck += by;
         if(mFireCheck > fireCheckInc) {
@@ -40,26 +46,29 @@ eTile* neighbourOnFire(eTile* const tile, eOrientation& oo) {
 
 bool eFireFighterAction::decide() {
     const auto c = character();
-    if(mMoveToFireAction) {
-        mFireFighting = true;
-        setCurrentAction(mMoveToFireAction);
-        mMoveToFireAction = nullptr;
-        c->setActionType(eCharacterActionType::carry);
-    } else if(mFireFighting) {
+    if(mFireFighting) {
         const auto tile = c->tile();
         eOrientation oo;
         eTile* const n = neighbourOnFire(tile, oo);
         if(n && n->onFire()) {
             c->setOrientation(oo);
             putOutFire(n);
+            mUsedWater++;
         } else {
-            mFireFighting = false;
-            c->setActionType(eCharacterActionType::walk);
-            lookForFire();
+            if(mUsedWater >= 5) {
+                mUsedWater = 0;
+                c->setActionType(eCharacterActionType::walk);
+                goBackDecision(eMoveToAction::sDefaultWalkable);
+            } else {
+                c->setActionType(eCharacterActionType::stand);
+                lookForFire();
+            }
         }
+        return true;
+    } else {
+        const bool r = ePatrolAction::decide();
+        if(r) return r;
     }
-    const bool r = ePatrolAction::decide();
-    if(r) return r;
 
     return true;
 }
@@ -73,6 +82,7 @@ bool eFireFighterAction::lookForFire() {
         if(mFireFighting) {
             mFireFighting = false;
             c->setActionType(eCharacterActionType::walk);
+            goBackDecision(eMoveToAction::sDefaultWalkable);
         }
     };
 
@@ -87,7 +97,8 @@ bool eFireFighterAction::lookForFire() {
         mMoveToFireAction = a;
     });
     a->setRemoveLastTurn(true);
-    a->setWait(false);
+
+    a->setWait(mFireFighting);
     a->start(onFire);
 
     return true;
@@ -96,7 +107,7 @@ bool eFireFighterAction::lookForFire() {
 void eFireFighterAction::putOutFire(eTile* const tile) {
     const auto c = character();
     c->setActionType(eCharacterActionType::fight);
-    const auto finish = [this, tile, c]() {
+    const auto finish = [tile, c]() {
         c->setActionType(eCharacterActionType::stand);
         if(const auto b = tile->underBuilding()) {
             const auto& u = b->tilesUnder();
@@ -106,7 +117,6 @@ void eFireFighterAction::putOutFire(eTile* const tile) {
         } else {
             tile->setOnFire(false);
         }
-        lookForFire();
     };
     const auto a = e::make_shared<eWaitAction>(c, []() {}, finish);
     if(tile->underBuilding()) {
