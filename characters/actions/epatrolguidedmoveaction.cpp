@@ -3,20 +3,26 @@
 #include "emovetoaction.h"
 #include "../echaracter.h"
 
-ePatrolGuidedMoveAction::ePatrolGuidedMoveAction(
-        eCharacter* const c,
-        const SDL_Rect& buildingRect,
+ePatrolGuidedMoveAction::ePatrolGuidedMoveAction(eCharacter* const c,
+        eBuilding* const b,
         const std::vector<ePatrolGuide>& guides,
         const eAction& failAction,
         const eAction& finishAction) :
-    eComplexAction(c, failAction, finishAction),
-    mGuides(guides), mBuildingRect(buildingRect) {
+    eActionWithComeback(c, failAction, finishAction),
+    mGuides(guides), mBuilding(b) {
 
 }
 
-void ePatrolGuidedMoveAction::increment(const int by) {
-    if(!currentAction()) nextGuide();
-    eComplexAction::increment(by);
+bool ePatrolGuidedMoveAction::decide() {
+    const bool r = eActionWithComeback::decide();
+    if(r) return true;
+    if(mGuideFail) {
+        mGuideFail = false;
+        goBack(mBuilding, eMoveToAction::sDefaultWalkable);
+    } else {
+        nextGuide();
+    }
+    return true;
 }
 
 void ePatrolGuidedMoveAction::nextGuide() {
@@ -32,16 +38,13 @@ void ePatrolGuidedMoveAction::nextGuide() {
         return t->x() == g.fX && t->y() == g.fY;
     };
     const stdptr<ePatrolGuidedMoveAction> tptr(this);
-    const auto failFunc = [tptr]() {
-        if(tptr) tptr->setState(eCharacterActionState::failed);
-    };
-
-    const auto finishAction = [tptr]() {
-        if(tptr) tptr->nextGuide();
+    const auto failFunc = [tptr, this]() {
+        if(!tptr) return;
+        mGuideFail = true;
     };
 
     const auto a  = e::make_shared<eMoveToAction>(
-                        c, failFunc, finishAction);
+                        c, failFunc, [](){});
     a->start(finalTile, eMoveToAction::sRoadWalkable);
-    tptr->setCurrentAction(a);
+    setCurrentAction(a);
 }

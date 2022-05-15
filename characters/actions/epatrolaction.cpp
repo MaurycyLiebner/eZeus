@@ -3,20 +3,33 @@
 #include "../echaracter.h"
 #include "engine/etile.h"
 #include "epatrolmoveaction.h"
+#include "emovetoaction.h"
+#include "buildings/epatrolbuilding.h"
 
 ePatrolAction::ePatrolAction(eCharacter* const c,
-                             const SDL_Rect& buildingRect,
+                             ePatrolBuilding* const b,
                              const std::vector<ePatrolGuide>& guides,
                              const eAction& failAction,
                              const eAction& finishAction) :
-    eActionWithComeback(c, failAction, finishAction),
-    mGuides(guides), mBuildingRect(buildingRect) {
+    eActionWithComeback(c, b->centerTile(), failAction, finishAction),
+    mGuides(guides), mBuilding(b) {
 
 }
 
-void ePatrolAction::increment(const int by) {
-    if(!currentAction()) patrol();
-    eActionWithComeback::increment(by);
+bool ePatrolAction::decide() {
+    const bool r = eActionWithComeback::decide();
+    if(r) return r;
+    if(mDone) {
+        mWaited = false;
+        mDone = false;
+        goBackDecision();
+    } else if(!mWaited) {
+        mWaited = true;
+        wait(5000);
+    } else {
+        patrol();
+    }
+    return true;
 }
 
 void ePatrolAction::patrol() {
@@ -26,7 +39,7 @@ void ePatrolAction::patrol() {
         setState(eCharacterActionState::failed);
     };
     const auto finishFunc = [this]() {
-        goBack2();
+        mDone = true;
     };
     if(mGuides.empty()) {
         const auto a = e::make_shared<ePatrolMoveAction>(
@@ -34,28 +47,12 @@ void ePatrolAction::patrol() {
         setCurrentAction(a);
     } else {
         const auto a = e::make_shared<ePatrolGuidedMoveAction>(
-                           c, mBuildingRect, mGuides,
+                           c, mBuilding, mGuides,
                            failFunc, finishFunc);
         setCurrentAction(a);
     }
 }
 
-void ePatrolAction::goBack2() {
-    const auto rect = mBuildingRect;
-    eActionWithComeback::goBack([rect](eTileBase* const t) {
-        const SDL_Point p{t->x(), t->y()};
-        const bool r = SDL_PointInRect(&p, &rect);
-        if(r) return true;
-        return t->hasRoad();
-    });
-}
-
-void ePatrolAction::goBackNoRoad() {
-    const auto rect = mBuildingRect;
-    eActionWithComeback::goBack([rect](eTileBase* const t) {
-        const SDL_Point p{t->x(), t->y()};
-        const bool r = SDL_PointInRect(&p, &rect);
-        if(r) return true;
-        return t->walkable();
-    });
+void ePatrolAction::goBackDecision() {
+    goBack(mBuilding, eMoveToAction::sRoadWalkable);
 }

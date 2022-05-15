@@ -8,6 +8,8 @@
 
 class eMovePathAction;
 
+class eBuilding;
+
 class ePatrolMoveAction : public eMoveAction {
 public:
     using eTileWalkable = std::function<bool(eTileBase* const)>;

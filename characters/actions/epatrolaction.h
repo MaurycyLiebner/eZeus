@@ -7,22 +7,27 @@
 #include "epatrolguidedmoveaction.h"
 #include "buildings/ebuilding.h"
 
+class ePatrolBuilding;
+
 class ePatrolAction : public eActionWithComeback {
 public:
     ePatrolAction(eCharacter* const c,
-                  const SDL_Rect& buildingRect,
+                  ePatrolBuilding* const b,
                   const std::vector<ePatrolGuide>& guides,
                   const eAction& failAction,
                   const eAction& finishAction);
 
-    void increment(const int by);
+    bool decide();
 protected:
     void patrol();
-    void goBack2();
+    void goBackDecision();
     void goBackNoRoad();
 private:
     const std::vector<ePatrolGuide> mGuides;
-    const SDL_Rect mBuildingRect;
+    ePatrolBuilding* const mBuilding;
+
+    bool mDone = false;
+    bool mWaited = true;
 };
 
 #endif // EPATROLACTION_H

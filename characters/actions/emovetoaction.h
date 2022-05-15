@@ -43,8 +43,13 @@ public:
     void setMaxDistance(const int d)
     { mMaxDistance = d; }
 
+    using eWalkable = std::function<bool(eTileBase*)>;
     static bool sDefaultWalkable(eTileBase* const t);
     static bool sRoadWalkable(eTileBase* const t);
+    static eWalkable sBuildingWalkable(
+            eBuilding* const b, const eWalkable& w);
+    static eWalkable sBuildingWalkable(
+            const SDL_Rect& rect, const eWalkable& w);
 private:
     eAction mFoundAction;
     eAction mFindFailAction;

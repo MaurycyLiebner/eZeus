@@ -5,11 +5,17 @@
 #include "emovepathaction.h"
 #include "engine/emovedirection.h"
 
+#include <SDL2/SDL_rect.h>
+
 class eBuilding;
 
 class eActionWithComeback : public eComplexAction {
 public:
     eActionWithComeback(eCharacter* const c,
+                        const eAction& failAction,
+                        const eAction& finishAction);
+    eActionWithComeback(eCharacter* const c,
+                        eTile* const startTile,
                         const eAction& failAction,
                         const eAction& finishAction);
 
@@ -18,6 +24,8 @@ protected:
     using eWalkable = std::function<bool(eTileBase*)>;
     void goBack(const eWalkable& walkable);
     void goBack(eBuilding* const b,
+                const eWalkable& walkable);
+    void goBack(const SDL_Rect& rect,
                 const eWalkable& walkable);
 private:
     void teleportDecision();

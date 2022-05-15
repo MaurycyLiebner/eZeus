@@ -5,10 +5,17 @@
 
 eActionWithComeback::eActionWithComeback(
         eCharacter* const c,
+        eTile* const startTile,
         const eAction& failAction,
         const eAction& finishAction) :
     eComplexAction(c, failAction, finishAction),
-    mStartTile(c->tile()) {}
+    mStartTile(startTile) {}
+
+eActionWithComeback::eActionWithComeback(
+        eCharacter* const c,
+        const eAction& failAction,
+        const eAction& finishAction) :
+    eActionWithComeback(c, c->tile(), failAction, finishAction) {}
 
 bool eActionWithComeback::decide() {
     if(mGoBackFail) {
@@ -45,12 +52,13 @@ void eActionWithComeback::goBack(const eWalkable& walkable) {
 void eActionWithComeback::goBack(eBuilding* const b,
                                  const eWalkable& walkable) {
     const auto rect = b->tileRect();
-    eActionWithComeback::goBack([rect, walkable](eTileBase* const t) {
-        const SDL_Point p{t->x(), t->y()};
-        const bool r = SDL_PointInRect(&p, &rect);
-        if(r) return true;
-        return walkable(t);
-    });
+    goBack(rect, walkable);
+}
+
+void eActionWithComeback::goBack(const SDL_Rect& rect,
+                                 const eWalkable& walkable) {
+    const auto w = eMoveToAction::sBuildingWalkable(rect, walkable);
+    eActionWithComeback::goBack(w);
 }
 
 void eActionWithComeback::teleportDecision() {

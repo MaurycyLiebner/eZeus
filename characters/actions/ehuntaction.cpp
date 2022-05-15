@@ -144,12 +144,7 @@ void eHuntAction::findResourceDecision() {
 void eHuntAction::goBackDecision() {
     mHunter->setActionType(eCharacterActionType::carry);
     const auto rect = mLodge->tileRect();
-    eActionWithComeback::goBack([rect](eTileBase* const t) {
-        const SDL_Point p{t->x(), t->y()};
-        const bool r = SDL_PointInRect(&p, &rect);
-        if(r) return true;
-        return t->walkable();
-    });
+    eActionWithComeback::goBack(rect, eMoveToAction::sDefaultWalkable);
 }
 
 void eHuntAction::waitDecision() {

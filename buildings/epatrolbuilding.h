@@ -13,7 +13,7 @@ public:
     using eCharGenerator =  std::function<stdsptr<eCharacter>()>;
     using eActGenerator =  std::function<stdsptr<eCharacterAction>(
                                 eCharacter* const c,
-                                const SDL_Rect& buildingRect,
+                                ePatrolBuilding* const b,
                                 const std::vector<ePatrolGuide>& guides,
                                 const eAction& failAction,
                                 const eAction& finishAction)>;

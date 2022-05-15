@@ -27,12 +27,12 @@ ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
 
 stdsptr<eCharacterAction> gDefaultActGenerator(
            eCharacter* const c,
-           const SDL_Rect& buildingRect,
+           ePatrolBuilding* const b,
            const std::vector<ePatrolGuide>& guides,
            const eAction& failAction,
            const eAction& finishActio) {
     return e::make_shared<ePatrolAction>(
-                c, buildingRect, guides, failAction, finishActio);
+                c, b, guides, failAction, finishActio);
 }
 
 ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
@@ -107,7 +107,7 @@ bool ePatrolBuilding::spawn() {
             mChar.reset();
         }
     };
-    const auto a = mActGenerator(mChar.get(), tileRect(),
+    const auto a = mActGenerator(mChar.get(), this,
                                  mPatrolGuides,
                                  finishAct, finishAct);
     mChar->setAction(a);
