@@ -27,11 +27,15 @@ protected:
                 const eWalkable& walkable);
     void goBack(const SDL_Rect& rect,
                 const eWalkable& walkable);
+
+    void setFinishOnComeback(const bool b)
+    { mFinishOnComeback = b; }
 private:
     void teleportDecision();
 
     eTile* const mStartTile;
 
+    bool mFinishOnComeback = false;;
     bool mGoBackFail = false;
 };
 

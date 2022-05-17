@@ -28,7 +28,6 @@ private:
     ePatrolBuilding* const mBuilding;
 
     bool mDone = false;
-    bool mWaited = true;
 };
 
 #endif // EPATROLACTION_H

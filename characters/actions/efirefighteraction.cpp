@@ -56,7 +56,6 @@ bool eFireFighterAction::decide() {
             mUsedWater++;
         } else {
             if(mUsedWater >= 5) {
-                mUsedWater = 0;
                 c->setActionType(eCharacterActionType::walk);
                 goBackDecision(eMoveToAction::sDefaultWalkable);
             } else {

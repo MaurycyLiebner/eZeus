@@ -37,6 +37,8 @@ public:
                     const int sw, const int sh,
                     const int maxEmployees);
 
+    ~ePatrolBuilding();
+
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
 

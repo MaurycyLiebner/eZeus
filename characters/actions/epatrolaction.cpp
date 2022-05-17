@@ -12,19 +12,14 @@ ePatrolAction::ePatrolAction(eCharacter* const c,
                              const eAction& finishAction) :
     eActionWithComeback(c, b->centerTile(), failAction, finishAction),
     mGuides(guides), mBuilding(b) {
-
+    setFinishOnComeback(true);
 }
 
 bool ePatrolAction::decide() {
     const bool r = eActionWithComeback::decide();
     if(r) return r;
     if(mDone) {
-        mWaited = false;
-        mDone = false;
         goBackDecision();
-    } else if(!mWaited) {
-        mWaited = true;
-        wait(5000);
     } else {
         patrol();
     }
@@ -35,6 +30,7 @@ void ePatrolAction::patrol() {
     const auto c = character();
     c->setActionType(eCharacterActionType::walk);
     const auto failFunc = [this]() {
+        mDone = true;
         setState(eCharacterActionState::failed);
     };
     const auto finishFunc = [this]() {

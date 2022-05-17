@@ -40,7 +40,14 @@ void eActionWithComeback::goBack(const eWalkable& walkable) {
         goBack(walkable);
     };
 
-    const auto a = e::make_shared<eMoveToAction>(c, failFunc, [](){});
+    eAction finishFunc;
+    if(mFinishOnComeback) {
+        finishFunc = [tptr, this]() {
+            if(!tptr) return;
+            setState(eCharacterActionState::finished);
+        };
+    }
+    const auto a = e::make_shared<eMoveToAction>(c, failFunc, finishFunc);
     a->setFindFailAction([tptr, this]() {
         if(!tptr) return;
         mGoBackFail = true;

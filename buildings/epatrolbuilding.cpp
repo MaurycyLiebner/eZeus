@@ -50,6 +50,10 @@ ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
 
 }
 
+ePatrolBuilding::~ePatrolBuilding() {
+    if(mChar) mChar->kill();
+}
+
 std::shared_ptr<eTexture> ePatrolBuilding::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].*mBaseTex;
@@ -101,7 +105,7 @@ bool ePatrolBuilding::spawn() {
     const eStdPointer<ePatrolBuilding> tptr(this);
     const eStdPointer<eCharacter> cptr(mChar);
     const auto finishAct = [tptr, this, cptr]() {
-        if(cptr) cptr->changeTile(nullptr);
+        if(cptr) cptr->kill();
         if(tptr) {
             mSpawnTime = time() + mWaitTime;
             mChar.reset();
