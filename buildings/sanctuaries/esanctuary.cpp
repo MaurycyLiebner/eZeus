@@ -9,10 +9,6 @@ eSanctuary::eSanctuary(const eTexCollPtr statues,
     eEmployingBuilding(board, type, sw, sh, maxEmployees),
     mStatues(statues), mMonuments(monuments) {}
 
-void eSanctuary::registerElement(const stdsptr<eSanctBuilding>& e) {
-    mElements.push_back(e);
-}
-
 eSanctCost eSanctuary::cost() const {
     eSanctCost c{0, 0, 0};
     for(const auto& e : mElements) {
@@ -22,21 +18,7 @@ eSanctCost eSanctuary::cost() const {
 }
 
 void eSanctuary::timeChanged(const int by) {
-    const int t = time();
-    if(!mCart && t > mCartSpawnTime) {
-        mCartSpawnTime = t + mCartWaitTime;
-        const auto c = cost();
-        if(c.fMarble > 0) {
-            spawnTakeCart(mCart, mCartSpawnTime,
-                          mCartWaitTime, eResourceType::marble);
-        } else if(c.fWood > 0) {
-            spawnTakeCart(mCart, mCartSpawnTime,
-                          mCartWaitTime, eResourceType::wood);
-        } else if(c.fSculpture > 0) {
-            spawnTakeCart(mCart, mCartSpawnTime,
-                          mCartWaitTime, eResourceType::sculpture);
-        }
-    }
+    if(!mCart) spawnCart(mCart);
     eEmployingBuilding::timeChanged(by);
 }
 
@@ -61,4 +43,41 @@ int eSanctuary::add(const eResourceType type, const int count) {
         mStored.fSculpture += count;
     }
     return count;
+}
+
+
+std::vector<eCartTask> eSanctuary::cartTasks() const {
+    std::vector<eCartTask> tasks;
+
+    const auto c = cost();
+
+    if(c.fMarble > 0) {
+        eCartTask task;
+        task.fType = eCartActionType::take;
+        task.fResource = eResourceType::marble;
+        task.fMaxCount = c.fMarble;
+        tasks.push_back(task);
+    }
+
+    if(c.fWood > 0) {
+        eCartTask task;
+        task.fType = eCartActionType::take;
+        task.fResource = eResourceType::wood;
+        task.fMaxCount = c.fWood;
+        tasks.push_back(task);
+    }
+
+    if(c.fSculpture > 0) {
+        eCartTask task;
+        task.fType = eCartActionType::take;
+        task.fResource = eResourceType::sculpture;
+        task.fMaxCount = c.fSculpture;
+        tasks.push_back(task);
+    }
+
+    return tasks;
+}
+
+void eSanctuary::registerElement(const stdsptr<eSanctBuilding>& e) {
+    mElements.push_back(e);
 }

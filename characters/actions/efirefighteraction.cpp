@@ -57,7 +57,7 @@ bool eFireFighterAction::decide() {
         } else {
             if(mUsedWater >= 5) {
                 c->setActionType(eCharacterActionType::walk);
-                goBackDecision(eMoveToAction::sDefaultWalkable);
+                goBackDecision(eWalkableHelpers::sDefaultWalkable);
             } else {
                 c->setActionType(eCharacterActionType::stand);
                 lookForFire();
@@ -81,7 +81,7 @@ bool eFireFighterAction::lookForFire() {
         if(mFireFighting) {
             mFireFighting = false;
             c->setActionType(eCharacterActionType::walk);
-            goBackDecision(eMoveToAction::sDefaultWalkable);
+            goBackDecision(eWalkableHelpers::sDefaultWalkable);
         }
     };
 

@@ -69,11 +69,7 @@ int eVendor::spaceLeft(const eResourceType type) const {
 
 void eVendor::timeChanged(const int by) {
     if(enabled()) {
-        if(!mCart && mResource < mMaxResource &&
-           time() > mCartSpawnTime) {
-            mCartSpawnTime = time() + mCartWaitTime;
-            spawnCart();
-        }
+        if(!mCart) spawnCart(mCart);
     }
     ePatrolBuilding::timeChanged(by);
 }
@@ -92,8 +88,4 @@ stdsptr<eCharacter> eVendor::vendorGenerator() {
     mResource -= take;
     mVendor->setProvide(mProvType, mult*take);
     return mVendor;
-}
-
-bool eVendor::spawnCart() {
-    return spawnTakeCart(mCart, mCartSpawnTime, mCartWaitTime, mResType);
 }

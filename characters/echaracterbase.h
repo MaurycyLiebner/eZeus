@@ -30,7 +30,6 @@ enum class eCharacterType {
 
     trailer,
     ox,
-    oxHandler,
     marbleMiner,
     lumberjack,
     bronzeMiner,

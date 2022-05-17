@@ -46,10 +46,7 @@ std::vector<eOverlay> eProcessingBuilding::getOverlays(
 
 void eProcessingBuilding::timeChanged(const int by) {
     if(enabled()) {
-        if(!mRawCart && mRawCount < mMaxRaw && time() > mSpawnTime) {
-            spawnRawGetter();
-            mSpawnTime = time() + mSpawnWaitTime;
-        }
+        if(!mRawCart) spawnCart(mRawCart);
         if(time() > mProcessTime) {
             if(mRawCount >= mRawUse) {
                 const int c = add(resourceType(), 1);
@@ -81,6 +78,16 @@ int eProcessingBuilding::spaceLeft(const eResourceType type) const {
     return eResourceBuildingBase::spaceLeft(type);
 }
 
-bool eProcessingBuilding::spawnRawGetter() {
-    return spawnTakeCart(mRawCart, mSpawnTime, mSpawnWaitTime, mRawMaterial);
+std::vector<eCartTask> eProcessingBuilding::cartTasks() const {
+    auto tasks = eResourceBuildingBase::cartTasks();
+
+    if(mMaxRaw > mRawCount) {
+        eCartTask task;
+        task.fType = eCartActionType::take;
+        task.fResource = mRawMaterial;
+        task.fMaxCount = mMaxRaw - mRawCount;
+        tasks.push_back(task);
+    }
+
+    return tasks;
 }

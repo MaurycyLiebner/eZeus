@@ -13,27 +13,27 @@ public:
                           const int maxEmployees,
                           const eResourceType resType);
 
+    void timeChanged(const int by);
+
     int add(const eResourceType type, const int count);
     int take(const eResourceType type, const int count);
 
     int count(const eResourceType type) const;
     int spaceLeft(const eResourceType type) const;
 
+    std::vector<eCartTask> cartTasks() const;
+
     eResourceType resourceType() const { return mResType; }
     int resource() const { return mResource; }
     int maxResource() const { return mMaxResource; }
-
-    void timeChanged(const int by);
 private:
-    bool spawnCart();
-
     const int mMaxResource = 8;
 
     const eResourceType mResType;
 
     int mResource{0};
 
-    stdsptr<eTransporterBase> mCart;
+    stdsptr<eCartTransporter> mCart;
     int mCartWaitTime = 5000;
     int mCartSpawnTime = mCartWaitTime;
 };

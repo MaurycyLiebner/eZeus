@@ -66,3 +66,18 @@ int eThreadBuilding::resourceSpaceLeft(const eResourceType type) const {
         return 0;
     }
 }
+
+bool eThreadBuilding::resourceHas(const eResourceType type) const {
+    for(int i = 0; i < 8; i++) {
+        const int c = mResourceCount[i];
+        if(c <= 0) continue;
+        const auto t = mResource[i];
+        if(t != type) continue;
+        return true;
+    }
+    return false;
+}
+
+bool eThreadBuilding::resourceHasSpace(const eResourceType type) const {
+    return resourceSpaceLeft(type) > 0;
+}

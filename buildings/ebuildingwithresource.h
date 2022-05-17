@@ -5,8 +5,17 @@
 
 #include "engine/eresourcetype.h"
 
-class eTransporterBase;
-enum class eCartActionType;
+class eCartTransporter;
+
+enum class eCartActionType {
+    take, give
+};
+
+struct eCartTask {
+    eCartActionType fType;
+    eResourceType fResource;
+    int fMaxCount;
+};
 
 class eBuildingWithResource : public eBuilding {
 public:
@@ -32,16 +41,12 @@ public:
         (void)type;
         return 0;
     }
+
+    virtual std::vector<eCartTask> cartTasks() const {
+        return {};
+    }
 protected:
-    bool spawnGiveCart(stdsptr<eTransporterBase>& cart,
-                       int& spawnTime, const int waitTime,
-                       const eResourceType resType);
-    bool spawnTakeCart(stdsptr<eTransporterBase>& cart,
-                       int& spawnTime, const int waitTime,
-                       const eResourceType resType);
-private:
-    bool depositFromCart(stdsptr<eTransporterBase>& cart,
-                         int& spawnTime, const int waitTime);
+    bool spawnCart(stdsptr<eCartTransporter>& cart);
 };
 
 #endif // EBUILDINGWITHRESOURCE_H

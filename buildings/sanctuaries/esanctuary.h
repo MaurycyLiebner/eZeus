@@ -22,26 +22,26 @@ public:
     getTexture(const eTileSize) const
     { return nullptr; }
 
+    void timeChanged(const int by);
+
+    int spaceLeft(const eResourceType type) const;
+    int add(const eResourceType type, const int count);
+
+    std::vector<eCartTask> cartTasks() const;
+
     eTexCollPtr statues() const { return mStatues; }
     eTexCollPtr monuments() const { return mMonuments; }
 
     void registerElement(const stdsptr<eSanctBuilding>& e);
 
     eSanctCost cost() const;
-
-    void timeChanged(const int by);
-
-    int spaceLeft(const eResourceType type) const;
-    int add(const eResourceType type, const int count);
 private:
     const eTexCollPtr mStatues;
     const eTexCollPtr mMonuments;
 
     eSanctCost mStored{0, 0, 0};
 
-    stdsptr<eTransporterBase> mCart;
-    const int mCartWaitTime = 5000;
-    int mCartSpawnTime = mCartWaitTime;
+    stdsptr<eCartTransporter> mCart;
 
     std::vector<stdsptr<eSanctBuilding>> mElements;
 };

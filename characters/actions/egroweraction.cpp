@@ -223,7 +223,7 @@ void eGrowerAction::workOnDecision(eTile* const tile) {
 
 void eGrowerAction::goBackDecision() {
     mGrower->setActionType(eCharacterActionType::carry);
-    goBack(mLodge, eMoveToAction::sDefaultWalkable);
+    goBack(mLodge, eWalkableHelpers::sDefaultWalkable);
 }
 
 void eGrowerAction::waitDecision() {

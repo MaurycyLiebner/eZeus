@@ -15,6 +15,7 @@ eGrowersLodge::eGrowersLodge(eGameBoard& board, const eGrowerType type) :
 }
 
 eGrowersLodge::~eGrowersLodge() {
+    if(mCart) mCart->kill();
     if(mGrower1) mGrower1->kill();
     if(mGrower2) mGrower2->kill();
 }
@@ -93,23 +94,10 @@ std::vector<eOverlay> eGrowersLodge::
 
 void eGrowersLodge::timeChanged(const int by) {
     if(enabled()) {
-        const int t = time();
-        if(!mCart && t > mCartSpawnTime) {
-            mCartSpawnTime = t + mCartWaitTime;
-            bool spawned = false;
-            if(mOlives > 0) {
-                spawned = spawnCart(eResourceType::olives);
-            }
-            if(!spawned && mGrapes > 0) {
-                spawned = spawnCart(eResourceType::grapes);
-            }
-            if(!spawned && mOranges > 0) {
-                spawnCart(eResourceType::oranges);
-            }
-        }
+        if(!mCart) spawnCart(mCart);
+        if(!mGrower1) spawnGrower(&eGrowersLodge::mGrower1);
+        if(!mGrower2) spawnGrower(&eGrowersLodge::mGrower2);
     }
-    if(!mGrower1) spawnGrower(&eGrowersLodge::mGrower1);
-    if(!mGrower2) spawnGrower(&eGrowersLodge::mGrower2);
     eEmployingBuilding::timeChanged(by);
 }
 
@@ -173,8 +161,34 @@ int eGrowersLodge::spaceLeft(const eResourceType type) const {
     return 0;
 }
 
-bool eGrowersLodge::spawnCart(const eResourceType resType) {
-    return spawnGiveCart(mCart, mCartSpawnTime, mCartWaitTime, resType);
+std::vector<eCartTask> eGrowersLodge::cartTasks() const {
+    std::vector<eCartTask> tasks;
+
+    if(mGrapes > 0) {
+        eCartTask task;
+        task.fType = eCartActionType::give;
+        task.fResource = eResourceType::grapes;
+        task.fMaxCount = mGrapes;
+        tasks.push_back(task);
+    }
+
+    if(mOlives > 0) {
+        eCartTask task;
+        task.fType = eCartActionType::give;
+        task.fResource = eResourceType::olives;
+        task.fMaxCount = mOlives;
+        tasks.push_back(task);
+    }
+
+    if(mOranges > 0) {
+        eCartTask task;
+        task.fType = eCartActionType::give;
+        task.fResource = eResourceType::oranges;
+        task.fMaxCount = mOranges;
+        tasks.push_back(task);
+    }
+
+    return tasks;
 }
 
 bool eGrowersLodge::spawnGrower(const eGrowerPtr grower) {

@@ -64,7 +64,7 @@ void eActionWithComeback::goBack(eBuilding* const b,
 
 void eActionWithComeback::goBack(const SDL_Rect& rect,
                                  const eWalkable& walkable) {
-    const auto w = eMoveToAction::sBuildingWalkable(rect, walkable);
+    const auto w = eWalkableHelpers::sBuildingWalkable(rect, walkable);
     eActionWithComeback::goBack(w);
 }
 

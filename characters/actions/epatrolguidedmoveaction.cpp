@@ -18,7 +18,7 @@ bool ePatrolGuidedMoveAction::decide() {
     if(r) return true;
     if(mGuideFail) {
         mGuideFail = false;
-        goBack(mBuilding, eMoveToAction::sDefaultWalkable);
+        goBack(mBuilding, eWalkableHelpers::sDefaultWalkable);
     } else {
         nextGuide();
     }
@@ -45,6 +45,6 @@ void ePatrolGuidedMoveAction::nextGuide() {
 
     const auto a  = e::make_shared<eMoveToAction>(
                         c, failFunc, [](){});
-    a->start(finalTile, eMoveToAction::sRoadWalkable);
+    a->start(finalTile, eWalkableHelpers::sRoadWalkable);
     setCurrentAction(a);
 }

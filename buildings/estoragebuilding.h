@@ -12,14 +12,15 @@ public:
                      const eResourceType canAccept);
     ~eStorageBuilding();
 
+    void timeChanged(const int by);
+
     int add(const eResourceType type, const int count);
     int take(const eResourceType type, const int count);
 
     int count(const eResourceType type) const;
     int spaceLeft(const eResourceType type) const;
 
-
-    void timeChanged(const int by);
+    std::vector<eCartTask> cartTasks() const;
 
     static int sCount(const eResourceType type,
                       const int resourceCount[8],
@@ -50,8 +51,6 @@ public:
                    eResourceType& empty,
                    eResourceType& accept) const;
 private:
-    void spawnCarts();
-
     const eResourceType mCanAccept;
 
     eResourceType mGet = eResourceType::none;
@@ -70,10 +69,8 @@ private:
 
     std::map<eResourceType, int> mMaxCount;
 
-    const int mCartWaitTime = 5000;
-    int mCartTime = 0;
-    stdsptr<eTransporterBase> mCart1;
-    stdsptr<eTransporterBase> mCart2;
+    stdsptr<eCartTransporter> mCart1;
+    stdsptr<eCartTransporter> mCart2;
 };
 
 #endif // ESTORAGEBUILDING_H

@@ -24,6 +24,14 @@ eStorageBuilding::~eStorageBuilding() {
     getBoard().unregisterStorBuilding(this);
 }
 
+void eStorageBuilding::timeChanged(const int by) {
+    eEmployingBuilding::timeChanged(by);
+    if(enabled()) {
+        if(!mCart1) spawnCart(mCart1);
+        if(!mCart2) spawnCart(mCart2);
+    }
+}
+
 int eStorageBuilding::add(const eResourceType type, const int count) {
     if(!static_cast<bool>(mAccept & type)) return 0;
     const bool sculpt = type == eResourceType::sculpture;
@@ -77,13 +85,35 @@ int eStorageBuilding::spaceLeft(const eResourceType type) const {
     return sSpaceLeft(type, mResourceCount, mResource, mAccept, mMaxCount);
 }
 
-void eStorageBuilding::timeChanged(const int by) {
-    eEmployingBuilding::timeChanged(by);
-    if(enabled()) {
-        if(mCartTime <= time() && (!mCart1 || !mCart2)) {
-            spawnCarts();
+std::vector<eCartTask> eStorageBuilding::cartTasks() const {
+    std::vector<eCartTask> tasks;
+
+    const auto gets = eResourceTypeHelpers::extractResourceTypes(mGet);
+    const auto empties = eResourceTypeHelpers::extractResourceTypes(mEmpty);
+
+    for(const auto g : gets) {
+        const int space = spaceLeft(g);
+        if(space > 0) {
+            eCartTask task;
+            task.fType = eCartActionType::take;
+            task.fResource = g;
+            task.fMaxCount = space;
+            tasks.push_back(task);
         }
     }
+
+    for(const auto e : empties) {
+        const int c = count(e);
+        if(c > 0) {
+            eCartTask task;
+            task.fType = eCartActionType::give;
+            task.fResource = e;
+            task.fMaxCount = c;
+            tasks.push_back(task);
+        }
+    }
+
+    return tasks;
 }
 
 int eStorageBuilding::sCount(const eResourceType type,
@@ -140,47 +170,4 @@ void eStorageBuilding::getOrders(eResourceType& get,
     get = mGet;
     empty = mEmpty;
     accept = mAccept;
-}
-
-void eStorageBuilding::spawnCarts() {
-    struct eResTask {
-        eResTask(const bool get, const eResourceType res) :
-            fGet(get), fRes(res) {}
-
-        bool fGet;
-        eResourceType fRes;
-    };
-
-    std::vector<eResTask> tasks;
-    const auto get = eResourceTypeHelpers::extractResourceTypes(mGet);
-    const auto empty = eResourceTypeHelpers::extractResourceTypes(mEmpty);
-    tasks.reserve(get.size() + empty.size());
-    for(const auto g : get) {
-        tasks.emplace_back(true, g);
-    }
-    for(const auto e : empty) {
-        tasks.emplace_back(false, e);
-    }
-
-    if(!tasks.empty()) {
-        if(!mCart1) {
-            const int id = rand() % tasks.size();
-            const auto& task = tasks[id];
-            if(task.fGet) {
-                spawnTakeCart(mCart1, mCartTime, mCartWaitTime, task.fRes);
-            } else {
-                spawnGiveCart(mCart1, mCartTime, mCartWaitTime, task.fRes);
-            }
-        }
-        if(!mCart2) {
-            const int id = rand() % tasks.size();
-            const auto& task = tasks[id];
-            if(task.fGet) {
-                spawnTakeCart(mCart2, mCartTime, mCartWaitTime, task.fRes);
-            } else {
-                spawnGiveCart(mCart2, mCartTime, mCartWaitTime, task.fRes);
-            }
-        }
-    }
-    mCartTime += mCartWaitTime;
 }

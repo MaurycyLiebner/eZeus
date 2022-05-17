@@ -5,6 +5,7 @@
 
 #include "engine/etile.h"
 #include "engine/thread/ethreadtile.h"
+#include "ewalkablehelpers.h"
 
 class eMoveToAction : public eComplexAction {
 public:
@@ -14,16 +15,16 @@ public:
     using eTileFinal = std::function<bool(eThreadTile* const)>;
     void start(const eTileFinal& final,
                eTileWalkable walkable =
-                   sDefaultWalkable);
+                   eWalkableHelpers::sDefaultWalkable);
     void start(eTile* const final,
                const eTileWalkable& walkable =
-                   sDefaultWalkable);
+                    eWalkableHelpers::sDefaultWalkable);
     void start(eBuilding* const final,
                const eTileWalkable& walkable =
-                   sDefaultWalkable);
+                    eWalkableHelpers::sDefaultWalkable);
     void start(const eBuildingType final,
                const eTileWalkable& walkable =
-                   sDefaultWalkable);
+                    eWalkableHelpers::sDefaultWalkable);
 
     void setRemoveLastTurn(const bool r)
     { mRemoveLastTurn = r; }
@@ -43,13 +44,6 @@ public:
     void setMaxDistance(const int d)
     { mMaxDistance = d; }
 
-    using eWalkable = std::function<bool(eTileBase*)>;
-    static bool sDefaultWalkable(eTileBase* const t);
-    static bool sRoadWalkable(eTileBase* const t);
-    static eWalkable sBuildingWalkable(
-            eBuilding* const b, const eWalkable& w);
-    static eWalkable sBuildingWalkable(
-            const SDL_Rect& rect, const eWalkable& w);
 private:
     eAction mFoundAction;
     eAction mFindFailAction;

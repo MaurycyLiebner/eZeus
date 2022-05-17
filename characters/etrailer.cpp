@@ -2,7 +2,7 @@
 
 #include "textures/egametextures.h"
 
-eTrailer::eTrailer(eTransporterBase* const follow,
+eTrailer::eTrailer(eCartTransporter* const follow,
                    eGameBoard& board) :
     eCharacter(board, eCharacterType::trailer),
     mFollow(follow) {}

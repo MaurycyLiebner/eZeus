@@ -29,8 +29,6 @@ public:
 
     stdsptr<eCharacter> vendorGenerator();
 private:
-    bool spawnCart();
-
     const int mMaxResource = 8;
     const eResourceType mResType;
     const eProvide mProvType;
@@ -43,9 +41,7 @@ private:
 
     int mResource{0};
 
-    stdsptr<eTransporterBase> mCart;
-    int mCartWaitTime = 5000;
-    int mCartSpawnTime = mCartWaitTime;
+    stdsptr<eCartTransporter> mCart;
 };
 
 #endif // EVENDOR_H

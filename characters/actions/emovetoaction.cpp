@@ -17,7 +17,7 @@ void eMoveToAction::start(const eTileFinal& final,
     const auto tp = brd.threadPool();
 
     if(const auto b = t->underBuilding()) {
-        walkable = sBuildingWalkable(b, walkable);
+        walkable =  eWalkableHelpers::sBuildingWalkable(b, walkable);
     }
 
     const int tx = t->x();
@@ -98,28 +98,4 @@ void eMoveToAction::start(const eBuildingType final,
         return t->underBuildingType() == final;
     };
     start(finalFunc, walkable);
-}
-
-bool eMoveToAction::sDefaultWalkable(eTileBase* const t) {
-    return t->walkable();
-}
-
-bool eMoveToAction::sRoadWalkable(eTileBase* const t) {
-    return t->hasRoad();
-}
-
-eMoveToAction::eWalkable eMoveToAction::sBuildingWalkable(
-        eBuilding* const b, const eWalkable& w) {
-    const auto rect = b->tileRect();
-    return sBuildingWalkable(rect, w);
-}
-
-eMoveToAction::eWalkable eMoveToAction::sBuildingWalkable(
-        const SDL_Rect& rect, const eWalkable& w) {
-    return [rect, w](eTileBase* const t) {
-        const SDL_Point p{t->x(), t->y()};
-        const bool r = SDL_PointInRect(&p, &rect);
-        if(r) return true;
-        return w(t);
-    };
 }

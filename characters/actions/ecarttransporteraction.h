@@ -4,40 +4,35 @@
 #include "eactionwithcomeback.h"
 
 #include "characters/ecarttransporter.h"
-
-enum class eCartActionType {
-    take, give
-};
+#include "buildings/ebuildingwithresource.h"
 
 class eCartTransporterAction : public eActionWithComeback {
 public:
-    eCartTransporterAction(eBuilding* const b,
-                           eTransporterBase* const c,
-                           const eCartActionType aType,
-                           const eResourceType resType,
-                           const eAction& failAction,
-                           const eAction& finishAction);
-    eCartTransporterAction(eBuilding* const b,
-                           eTransporterBase* const c,
-                           const eCartActionType aType,
-                           const eResourceType resType,
-                           const eAction& foundAction,
+    eCartTransporterAction(eBuildingWithResource* const b,
+                           eCartTransporter* const c,
                            const eAction& failAction,
                            const eAction& finishAction);
 
-    void increment(const int by);
+    bool decide();
 protected:
     void findTarget();
-    void goBack2();
-    bool resourceAction(const int bx, const int by);
+    void goBack();
+
+    void targetResourceAction(const int bx, const int by);
+    void targetResourceAction(eBuildingWithResource* const rb);
+
+    void startResourceAction(const eCartTask& task);
+    void finishResourceAction(const eCartTask& task);
 private:
-    eBuilding* const mBuilding;
+    void clearTask();
+
+    eBuildingWithResource* const mBuilding;
+
+    eCartTask mTask;
+
     const eBuildingType mBuildingType;
-    const SDL_Rect mBuildingRect;
-    const eCartActionType mActionType;
-    const eResourceType mResource;
-    const eAction mFoundAction;
-    eOrientation mBuildingO;
+
+    bool mNoTarget = false;
 };
 
 #endif // ECARTTRANSPORTERACTION_H

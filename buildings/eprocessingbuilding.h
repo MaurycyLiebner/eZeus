@@ -28,12 +28,13 @@ public:
 
     void timeChanged(const int by);
 
-    int count(const eResourceType type) const;
     int add(const eResourceType type, const int count);
-    int spaceLeft(const eResourceType type) const;
-private:
-    bool spawnRawGetter();
 
+    int count(const eResourceType type) const;
+    int spaceLeft(const eResourceType type) const;
+
+    std::vector<eCartTask> cartTasks() const;
+private:
     const std::vector<eBuildingTextures>& mTextures;
 
     const eBaseTex mBaseTex;
@@ -46,15 +47,12 @@ private:
     const int mMaxRaw = 4;
     const int mRawUse;
 
-    stdsptr<eTransporterBase> mRawCart;
+    stdsptr<eCartTransporter> mRawCart;
 
     int mRawCount{0};
 
     int mProcessWaitTime;
     int mProcessTime = mProcessWaitTime;
-
-    int mSpawnWaitTime = 5000;
-    int mSpawnTime = mSpawnWaitTime;
 };
 
 #endif // EPROCESSINGBUILDING_H

@@ -15,7 +15,11 @@ public:
     int resourceCount(const eResourceType type) const;
     int resourceSpaceLeft(const eResourceType type) const;
 
+    bool resourceHas(const eResourceType type) const;
+    bool resourceHasSpace(const eResourceType type) const;
+
     eResourceType gets() const { return mGet; }
+    eResourceType empties() const { return mEmpty; }
 
     SDL_Rect tileRect() const { return mTileRect; }
 private:
@@ -35,10 +39,11 @@ private:
                                   eResourceType::none,
                                   eResourceType::none,
                                   eResourceType::none};
+    std::map<eResourceType, int> mMaxCount;
 
     eResourceType mGet = eResourceType::none;
-    eResourceType mAccepts = eResourceType::none;
-    std::map<eResourceType, int> mMaxCount;
+    eResourceType mEmpty = eResourceType::none;
+    eResourceType mAccepts = eResourceType::none; // includes get
 };
 
 #endif // ETHREADBUILDING_H

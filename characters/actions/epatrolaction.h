@@ -22,7 +22,7 @@ public:
 protected:
     void patrol();
     void goBackDecision(const eWalkable& w =
-                            eMoveToAction::sRoadWalkable);
+                            eWalkableHelpers::sRoadWalkable);
 private:
     const std::vector<ePatrolGuide> mGuides;
     ePatrolBuilding* const mBuilding;

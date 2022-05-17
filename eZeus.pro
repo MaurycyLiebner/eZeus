@@ -146,7 +146,6 @@ SOURCES += \
         characters/emarbleminer.cpp \
         characters/eoilvendorchar.cpp \
         characters/eox.cpp \
-        characters/eoxhandler.cpp \
         characters/ephilosopher.cpp \
         characters/eresourcecollector.cpp \
         characters/eresourcecollectorbase.cpp \
@@ -157,7 +156,6 @@ SOURCES += \
         characters/esilverminer.cpp \
         characters/etaxcollector.cpp \
         characters/etrailer.cpp \
-        characters/etransporterbase.cpp \
         characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
         characters/ewildanimal.cpp \
@@ -202,6 +200,7 @@ SOURCES += \
         esounds.cpp \
         etexture.cpp \
         etexturecollection.cpp \
+        ewalkablehelpers.cpp \
         main.cpp \
         pointers/eobject.cpp \
         pointers/estdselfref.cpp \
@@ -423,7 +422,6 @@ HEADERS += \
     characters/emarbleminer.h \
     characters/eoilvendorchar.h \
     characters/eox.h \
-    characters/eoxhandler.h \
     characters/ephilosopher.h \
     characters/eresourcecollector.h \
     characters/eresourcecollectorbase.h \
@@ -434,7 +432,6 @@ HEADERS += \
     characters/esilverminer.h \
     characters/etaxcollector.h \
     characters/etrailer.h \
-    characters/etransporterbase.h \
     characters/ewatchman.h \
     characters/ewaterdistributor.h \
     characters/ewildanimal.h \
@@ -484,6 +481,7 @@ HEADERS += \
     esounds.h \
     etexture.h \
     etexturecollection.h \
+    ewalkablehelpers.h \
     offsets/PoseidonImps.h \
     offsets/Poseidon_Atlas.h \
     offsets/Poseidon_Hera.h \

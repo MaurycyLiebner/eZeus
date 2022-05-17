@@ -24,7 +24,8 @@ public:
     int count(const eResourceType type) const;
     int spaceLeft(const eResourceType type) const;
 
-    bool spawnCart(const eResourceType resType);
+    std::vector<eCartTask> cartTasks() const;
+
     using eGrowerPtr = stdsptr<eGrower> eGrowersLodge::*;
     bool spawnGrower(const eGrowerPtr grower);
 private:
@@ -38,9 +39,7 @@ private:
     int mOlives{0};
     int mOranges{0};
 
-    stdsptr<eTransporterBase> mCart;
-    const int mCartWaitTime = 5000;
-    int mCartSpawnTime = mCartWaitTime;
+    stdsptr<eCartTransporter> mCart;
 
     stdsptr<eGrower> mGrower1;
     stdsptr<eGrower> mGrower2;

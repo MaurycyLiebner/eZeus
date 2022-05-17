@@ -2,13 +2,18 @@
 
 #include "textures/egametextures.h"
 
+#include "characters/actions/efollowaction.h"
+#include "etrailer.h"
+#include "eox.h"
+
 eCartTransporter::eCartTransporter(eGameBoard& board) :
-    eTransporterBase(board, &eCharacterTextures::fTransporter,
-                     eCharacterType::cartTransporter) {
+    eBasicPatroler(board, &eCharacterTextures::fTransporter,
+                   eCharacterType::cartTransporter) {
     setHasSecondaryTexture(true);
 }
 
 eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
+    if(mIsOx) return eBasicPatroler::getSecondaryTexture(size);
     const auto a = actionType();
     if(a == eCharacterActionType::none) {
         return eOverlay{0, 0, std::shared_ptr<eTexture>()};
@@ -140,4 +145,58 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
         }
     }
     return {xx, yy, tex};
+}
+
+void eCartTransporter::setIsOx(const bool o) {
+    if(mIsOx == o) return;
+    mIsOx = o;
+    if(mIsOx) {
+        setCharTextures(&eCharacterTextures::fOxHandler);
+
+        const auto t = tile();
+        auto& board = getBoard();
+
+        mOx = e::make_shared<eOx>(board);
+        const auto aox = e::make_shared<eFollowAction>(
+                           this, mOx.get(),
+                           []() {}, []() {});
+        mOx->setAction(aox);
+        mOx->changeTile(t);
+        mTrailer = e::make_shared<eTrailer>(this, board);
+        mTrailer->setBig(mBigTrailer);
+        const auto atr = e::make_shared<eFollowAction>(
+                           mOx.get(), mTrailer.get(),
+                           []() {}, []() {});
+        mTrailer->setAction(atr);
+        mTrailer->changeTile(t);
+    } else {
+        setCharTextures(&eCharacterTextures::fTransporter);
+
+        mOx->kill();
+        mOx.reset();
+
+        mTrailer->kill();
+        mTrailer.reset();
+    }
+}
+
+void eCartTransporter::setBigTrailer(const bool b) {
+    mBigTrailer = b;
+    if(mTrailer) mTrailer->setBig(b);
+}
+
+void eCartTransporter::setResource(const eResourceType type,
+                                   const int count) {
+    mResourceType = type;
+    mResourceCount = count;
+
+    switch(mResourceType) {
+    case eResourceType::marble:
+    case eResourceType::wood:
+    case eResourceType::sculpture:
+        setIsOx(true);
+        break;
+    default:
+        setIsOx(false);
+    }
 }

@@ -41,3 +41,7 @@ std::shared_ptr<eTexture> eBasicPatroler::getTexture(const eTileSize size) const
     const int texId = t % s;
     return coll->getTexture(texId);
 }
+
+void eBasicPatroler::setCharTextures(const eCharTexs& texs) {
+    mCharTexs = texs;
+}

@@ -13,6 +13,13 @@ eResourceBuildingBase::eResourceBuildingBase(
 
 }
 
+void eResourceBuildingBase::timeChanged(const int by) {
+    if(enabled()) {
+        if(!mCart) spawnCart(mCart);
+    }
+    eEmployingBuilding::timeChanged(by);
+}
+
 int eResourceBuildingBase::add(const eResourceType type,
                                const int count) {
     if(type != mResType) return 0;
@@ -42,16 +49,16 @@ int eResourceBuildingBase::spaceLeft(const eResourceType type) const {
     return mMaxResource - mResource;
 }
 
-void eResourceBuildingBase::timeChanged(const int by) {
-    if(enabled()) {
-        if(!mCart && mResource > 0 && time() > mCartSpawnTime) {
-            mCartSpawnTime = time() + mCartWaitTime;
-            spawnCart();
-        }
-    }
-    eEmployingBuilding::timeChanged(by);
-}
+std::vector<eCartTask> eResourceBuildingBase::cartTasks() const {
+    std::vector<eCartTask> tasks;
 
-bool eResourceBuildingBase::spawnCart() {
-    return spawnGiveCart(mCart, mCartSpawnTime, mCartWaitTime, mResType);
+    if(mResource > 0) {
+        eCartTask task;
+        task.fType = eCartActionType::give;
+        task.fResource = mResType;
+        task.fMaxCount = mResource;
+        tasks.push_back(task);
+    }
+
+    return tasks;
 }

@@ -13,8 +13,10 @@ public:
                    const eCharacterType type);
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
+protected:
+    void setCharTextures(const eCharTexs& texs);
 private:
-    const eCharTexs mCharTexs;
+    eCharTexs mCharTexs;
 };
 
 #endif // EBASICPATROLER_H

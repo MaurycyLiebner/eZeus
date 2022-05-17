@@ -5,9 +5,7 @@
 
 #include "textures/emarbletile.h"
 
-#include "characters/eox.h"
-#include "characters/eoxhandler.h"
-#include "characters/etrailer.h"
+#include "characters/ecarttransporter.h"
 
 #include "characters/actions/efollowaction.h"
 #include "characters/actions/emovetoaction.h"
@@ -39,16 +37,16 @@ eMasonryShop::eMasonryShop(eGameBoard& board) :
     setCollectedAction([this](eTile* const tile) {
         auto& board = getBoard();
 
-        const auto r = eOxHandler::sCreate(board, tile);
-        const auto cart = r.fHandler.get();
-        cart->setResource(eResourceType::marble, 1);
-        r.fTrailer->setBig(true);
+        const auto r = e::make_shared<eCartTransporter>(board);
+        r->changeTile(tile);
+        r->setBigTrailer(true);
+        r->setResource(eResourceType::marble, 1);
 
         const auto empty = []() {};
         const auto a = e::make_shared<eMoveToAction>(
-                           cart, empty, empty);
+                           r.get(), empty, empty);
         a->start(this);
-        cart->setAction(a);
+        r->setAction(a);
     });
 }
 

@@ -176,7 +176,7 @@ void eShepherdAction::goBackDecision() {
         mCharacter->setActionType(eCharacterActionType::walk);
     }
 
-    goBack(mShed, eMoveToAction::sDefaultWalkable);
+    goBack(mShed, eWalkableHelpers::sDefaultWalkable);
 }
 
 void eShepherdAction::waitDecision() {
