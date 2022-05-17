@@ -14,7 +14,7 @@ enum class eCartActionType {
 struct eCartTask {
     eCartActionType fType;
     eResourceType fResource;
-    int fMaxCount;
+    int fMaxCount = 0;
 };
 
 class eBuildingWithResource : public eBuilding {

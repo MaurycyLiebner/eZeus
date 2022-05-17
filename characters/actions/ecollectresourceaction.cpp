@@ -15,6 +15,7 @@ eCollectResourceAction::eCollectResourceAction(
     mTransFunc(tf),
     mCharacter(c),
     mBuildingRect(buildingRect) {
+    setFinishOnComeback(true);
 }
 
 void eCollectResourceAction::increment(const int by) {

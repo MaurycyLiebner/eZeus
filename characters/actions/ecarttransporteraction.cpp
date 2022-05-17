@@ -134,10 +134,12 @@ void eCartTransporterAction::targetResourceAction(const int bx, const int by) {
 void eCartTransporterAction::targetResourceAction(eBuildingWithResource* const rb) {
     const auto c = static_cast<eCartTransporter*>(character());
     if(!rb) return;
-    const auto tasks = mBuilding->cartTasks();
+    auto tasks = mBuilding->cartTasks();
+    tasks.push_back(mTask);
     const auto res = c->resType();
     const int count = c->resCount();
     for(const auto task : tasks) {
+        if(task.fMaxCount <= 0) continue;
         const auto tres = task.fResource;
         const int max = tres == eResourceType::sculpture ? 1 : 4;
         if(task.fType == eCartActionType::take) {

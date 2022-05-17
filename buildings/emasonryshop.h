@@ -11,14 +11,7 @@ public:
 
     void timeChanged(const int by);
 
-    int add(const eResourceType type, const int count) {
-        if(type == eResourceType::marble && count > 0) {
-            disableSpawn();
-            mRawCount = 8;
-            return 8;
-        }
-        return eResourceBuildingBase::add(type, count);
-    }
+    int add(const eResourceType type, const int count);
 private:
     int mRawCount{0};
 

@@ -124,3 +124,12 @@ void eMasonryShop::timeChanged(const int by) {
     }
     eResourceCollectBuilding::timeChanged(by);
 }
+
+int eMasonryShop::add(const eResourceType type, const int count) {
+    if(type == eResourceType::marble && count > 0) {
+        disableSpawn();
+        mRawCount = 8;
+        return 8;
+    }
+    return eResourceBuildingBase::add(type, count);
+}
