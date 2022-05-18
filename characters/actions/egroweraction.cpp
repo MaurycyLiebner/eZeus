@@ -80,19 +80,17 @@ bool eGrowerAction::decide() {
     const int olives = mGrower->olives();
     const int oranges = mGrower->oranges();
 
-    const SDL_Point p{t->x(), t->y()};
-    const auto rect = mLodge->tileRect();
-    const bool inLodge = SDL_PointInRect(&p, &rect);
+    const bool inLodge = eWalkableHelpers::sTileUnderBuilding(t, mLodge);
 
     if(grapes > 0 || olives > 0 || oranges > 0) {
         if(inLodge) {
-            mLodge->add(eResourceType::grapes, grapes);
-            mLodge->add(eResourceType::olives, olives);
-            mLodge->add(eResourceType::oranges, oranges);
+            mLodge->add(eResourceType::grapes, std::ceil(grapes/5.));
+            mLodge->add(eResourceType::olives, std::ceil(olives/5.));
+            mLodge->add(eResourceType::oranges, std::ceil(oranges/5.));
 
             mGrower->incGrapes(-grapes);
-            mGrower->incGrapes(-olives);
-            mGrower->incGrapes(-oranges);
+            mGrower->incOlives(-olives);
+            mGrower->incOranges(-oranges);
 
             waitDecision();
         } else {

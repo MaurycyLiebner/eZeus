@@ -132,31 +132,38 @@ void eCartTransporterAction::targetResourceAction(const int bx, const int by) {
 }
 
 void eCartTransporterAction::targetResourceAction(eBuildingWithResource* const rb) {
-    const auto c = static_cast<eCartTransporter*>(character());
     if(!rb) return;
+    targetProcessTask(rb, mTask);
     auto tasks = mBuilding->cartTasks();
-    tasks.push_back(mTask);
+    for(const auto task : tasks) {
+        const bool r = targetProcessTask(rb, task);
+        if(r) return;
+    }
+}
+
+bool eCartTransporterAction::targetProcessTask(eBuildingWithResource* const rb,
+                                               const eCartTask& task) {
+    if(task.fMaxCount <= 0) return false;
+    const auto c = static_cast<eCartTransporter*>(character());
     const auto res = c->resType();
     const int count = c->resCount();
-    for(const auto task : tasks) {
-        if(task.fMaxCount <= 0) continue;
-        const auto tres = task.fResource;
-        const int max = tres == eResourceType::sculpture ? 1 : 4;
-        if(task.fType == eCartActionType::take) {
-            if(count > 0 && res != tres) continue;
-            const int space = max - count;
-            if(space <= 0) continue;
-            const int taken = rb->take(tres, space);
-            c->setResource(tres, taken + count);
-            if(taken > 0) break;
-        } else { // give
-            if(count == 0) continue;
-            if(res != tres) continue;
-            const int added = rb->add(tres, count);
-            c->setResource(tres, count - added);
-            if(added > 0) break;
-        }
+    const auto tres = task.fResource;
+    const int max = tres == eResourceType::sculpture ? 1 : 4;
+    if(task.fType == eCartActionType::take) {
+        if(count > 0 && res != tres) return false;
+        const int space = max - count;
+        if(space <= 0) return false;
+        const int taken = rb->take(tres, space);
+        c->setResource(tres, taken + count);
+        if(taken > 0) return true;
+    } else { // give
+        if(count == 0) return false;
+        if(res != tres) return false;
+        const int added = rb->add(tres, count);
+        c->setResource(tres, count - added);
+        if(added > 0) return true;
     }
+    return false;
 }
 
 void eCartTransporterAction::startResourceAction(const eCartTask& task) {
