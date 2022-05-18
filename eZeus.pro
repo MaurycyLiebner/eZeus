@@ -98,6 +98,7 @@ SOURCES += \
         characters/actions/eactionwithcomeback.cpp \
         characters/actions/eanimalaction.cpp \
         characters/actions/earcheraction.cpp \
+        characters/actions/eartisanaction.cpp \
         characters/actions/ecarttransporteraction.cpp \
         characters/actions/echaracteraction.cpp \
         characters/actions/ecollectaction.cpp \
@@ -124,6 +125,7 @@ SOURCES += \
         characters/eanimal.cpp \
         characters/earcher.cpp \
         characters/earmsvendorchar.cpp \
+        characters/eartisan.cpp \
         characters/ebasicpatroler.cpp \
         characters/eboar.cpp \
         characters/ebronzeminer.cpp \
@@ -375,6 +377,7 @@ HEADERS += \
     characters/actions/eactionwithcomeback.h \
     characters/actions/eanimalaction.h \
     characters/actions/earcheraction.h \
+    characters/actions/eartisanaction.h \
     characters/actions/ecarttransporteraction.h \
     characters/actions/echaracteraction.h \
     characters/actions/echaracteractiontype.h \
@@ -402,6 +405,7 @@ HEADERS += \
     characters/eanimal.h \
     characters/earcher.h \
     characters/earmsvendorchar.h \
+    characters/eartisan.h \
     characters/ebasicpatroler.h \
     characters/eboar.h \
     characters/ebronzeminer.h \

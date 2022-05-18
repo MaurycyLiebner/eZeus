@@ -14,6 +14,8 @@ class eGrower : public eCharacter {
 public:
     eGrower(eGameBoard& board, const eGrowerType type);
 
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
+
     int olives() const { return mOlives; }
     int grapes() const { return mGrapes; }
     int oranges() const { return mOranges; }
@@ -21,8 +23,6 @@ public:
     void incGrapes(const int i = 1);
     void incOlives(const int i = 1);
     void incOranges(const int i = 1);
-
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 private:
     std::shared_ptr<eTexture> getGrapesAndOlivesTex(
             const eCharacterTextures& texs) const;

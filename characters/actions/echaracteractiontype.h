@@ -18,7 +18,9 @@ enum class eCharacterActionType {
     carry,
     appear,
     bless,
-    patrol
+    patrol,
+    build,
+    buildStanding
 };
 
 #endif // ECHARACTERACTIONTYPE_H

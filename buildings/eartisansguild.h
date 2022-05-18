@@ -2,6 +2,7 @@
 #define EARTISANSGUILD_H
 
 #include "eemployingbuilding.h"
+#include "characters/eartisan.h"
 
 class eArtisansGuild : public eEmployingBuilding {
 public:
@@ -11,6 +12,12 @@ public:
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
 
+    void timeChanged(const int by);
+
+    using eArtisanPtr = stdsptr<eArtisan> eArtisansGuild::*;
+    bool spawnArtisan(const eArtisanPtr artisan);
+private:
+    stdsptr<eArtisan> mArtisan;
 };
 
 #endif // EARTISANSGUILD_H
