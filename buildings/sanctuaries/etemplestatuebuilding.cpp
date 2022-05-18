@@ -18,11 +18,47 @@ eTempleStatueBuilding::getTexture(const eTileSize size) const {
     const auto& blds = eGameTextures::buildings()[sizeId];
     const eTextureCollection* coll = nullptr;
     switch(mGod) {
-    case eGodType::hephaestus:
-        coll = &blds.fHephaestusStatues;
+    case eGodType::aphrodite:
+        coll = &blds.fAphroditeStatues;
+        break;
+    case eGodType::apollo:
+        coll = &blds.fApolloStatues;
+        break;
+    case eGodType::ares:
+        coll = &blds.fAresStatues;
         break;
     case eGodType::artemis:
         coll = &blds.fArtemisStatues;
+        break;
+    case eGodType::athena:
+        coll = &blds.fAthenaStatues;
+        break;
+    case eGodType::atlas:
+        coll = &blds.fAtlasStatues;
+        break;
+    case eGodType::demeter:
+        coll = &blds.fDemeterStatues;
+        break;
+    case eGodType::dionysus:
+        coll = &blds.fDionysusStatues;
+        break;
+    case eGodType::hades:
+        coll = &blds.fHadesStatues;
+        break;
+    case eGodType::hephaestus:
+        coll = &blds.fHephaestusStatues;
+        break;
+    case eGodType::hera:
+        coll = &blds.fHeraStatues;
+        break;
+    case eGodType::hermes:
+        coll = &blds.fHermesStatues;
+        break;
+    case eGodType::poseidon:
+        coll = &blds.fPoseidonStatues;
+        break;
+    case eGodType::zeus:
+        coll = &blds.fZeusStatues;
         break;
     }
 

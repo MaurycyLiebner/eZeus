@@ -21,11 +21,47 @@ eTempleMonumentBuilding::getTexture(const eTileSize size) const {
     }
     const eTextureCollection* coll = nullptr;
     switch(mGod) {
-    case eGodType::hephaestus:
-        coll = &blds.fHephaestusMonuments;
+    case eGodType::aphrodite:
+        coll = &blds.fAphroditeMonuments;
+        break;
+    case eGodType::apollo:
+        coll = &blds.fApolloMonuments;
+        break;
+    case eGodType::ares:
+        coll = &blds.fAresMonuments;
         break;
     case eGodType::artemis:
         coll = &blds.fArtemisMonuments;
+        break;
+    case eGodType::athena:
+        coll = &blds.fAthenaMonuments;
+        break;
+    case eGodType::atlas:
+        coll = &blds.fAtlasMonuments;
+        break;
+    case eGodType::demeter:
+        coll = &blds.fDemeterMonuments;
+        break;
+    case eGodType::dionysus:
+        coll = &blds.fDionysusMonuments;
+        break;
+    case eGodType::hades:
+        coll = &blds.fHadesMonuments;
+        break;
+    case eGodType::hephaestus:
+        coll = &blds.fHephaestusMonuments;
+        break;
+    case eGodType::hera:
+        coll = &blds.fHeraMonuments;
+        break;
+    case eGodType::hermes:
+        coll = &blds.fHermesMonuments;
+        break;
+    case eGodType::poseidon:
+        coll = &blds.fPoseidonMonuments;
+        break;
+    case eGodType::zeus:
+        coll = &blds.fZeusMonuments;
         break;
     }
 
