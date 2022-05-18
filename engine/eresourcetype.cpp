@@ -24,16 +24,16 @@ std::vector<eResourceType> eResourceTypeHelpers::extractResourceTypes(const eRes
     extractResourceType(from, eResourceType::wheat, result);
     extractResourceType(from, eResourceType::oranges, result);
 
-    extractResourceType(from, eResourceType::fleece, result);
-    extractResourceType(from, eResourceType::olives, result);
-    extractResourceType(from, eResourceType::oliveOil, result);
     extractResourceType(from, eResourceType::grapes, result);
+    extractResourceType(from, eResourceType::olives, result);
     extractResourceType(from, eResourceType::wine, result);
+    extractResourceType(from, eResourceType::oliveOil, result);
+    extractResourceType(from, eResourceType::fleece, result);
 
     extractResourceType(from, eResourceType::wood, result);
     extractResourceType(from, eResourceType::bronze, result);
-    extractResourceType(from, eResourceType::armor, result);
     extractResourceType(from, eResourceType::marble, result);
+    extractResourceType(from, eResourceType::armor, result);
     extractResourceType(from, eResourceType::sculpture, result);
     extractResourceType(from, eResourceType::horse, result);
     return result;
