@@ -226,8 +226,10 @@ void eGameBoard::addRubbish(const stdsptr<eObject>& o) {
 }
 
 void eGameBoard::emptyRubbish() {
-    std::vector<stdsptr<eObject>> r;
-    std::swap(mRubbish, r);
+    while(!mRubbish.empty()) {
+        std::vector<stdsptr<eObject>> r;
+        std::swap(mRubbish, r);
+    }
 }
 
 void eGameBoard::setEventHandler(const eEventHandler& eh) {
