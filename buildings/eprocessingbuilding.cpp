@@ -27,10 +27,6 @@ eProcessingBuilding::eProcessingBuilding(
     });
 }
 
-eProcessingBuilding::~eProcessingBuilding() {
-    if(mRawCart) mRawCart->kill();
-}
-
 std::shared_ptr<eTexture> eProcessingBuilding::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].*mBaseTex;
@@ -50,7 +46,6 @@ std::vector<eOverlay> eProcessingBuilding::getOverlays(
 
 void eProcessingBuilding::timeChanged(const int by) {
     if(enabled()) {
-        if(!mRawCart) spawnCart(mRawCart);
         if(time() > mProcessTime) {
             if(mRawCount >= mRawUse) {
                 const int c = add(resourceType(), 1);

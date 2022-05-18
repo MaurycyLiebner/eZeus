@@ -46,7 +46,11 @@ public:
             icon->setHeight(rowHeight);
 
             const auto nameStr = eResourceTypeHelpers::typeName(type);
-            const auto n = new eLabel(window());
+//            const auto n = new eLabel(window());
+            const auto n = new eButton(window());
+            n->setPressAction([stor, type]() {
+                stor->add(type, 1);
+            });
             n->setSmallFontSize();
             n->setText(nameStr);
             n->fitContent();

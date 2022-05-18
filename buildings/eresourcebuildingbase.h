@@ -12,6 +12,7 @@ public:
                           const int sw, const int sh,
                           const int maxEmployees,
                           const eResourceType resType);
+    ~eResourceBuildingBase();
 
     void timeChanged(const int by);
 

@@ -13,6 +13,10 @@ eResourceBuildingBase::eResourceBuildingBase(
 
 }
 
+eResourceBuildingBase::~eResourceBuildingBase() {
+    if(mCart) mCart->kill();
+}
+
 void eResourceBuildingBase::timeChanged(const int by) {
     if(enabled()) {
         if(!mCart) spawnCart(mCart);

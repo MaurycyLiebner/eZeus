@@ -16,6 +16,8 @@ public:
     bool decide();
 protected:
     void findTarget();
+    void findTarget(const eCartTask& task);
+    void findTarget(const std::vector<eCartTask>& tasks);
     void goBack();
 
     void targetResourceAction(const int bx, const int by);

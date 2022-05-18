@@ -16,7 +16,7 @@ eCartTransporterAction::eCartTransporterAction(
 
 }
 bool eCartTransporterAction::decide() {
-    const auto c = character();
+    const auto c = static_cast<eCartTransporter*>(character());
     const bool r = eWalkableHelpers::sTileUnderBuilding(
                        c->tile(), mBuilding);
     if(r) {
@@ -28,7 +28,22 @@ bool eCartTransporterAction::decide() {
             mNoTarget = false;
             wait(1000);
         } else {
-            findTarget();
+            int cc = c->resCount();
+            if(cc > 0) {
+                const auto rt = c->resType();
+                const int r = mBuilding->add(rt, cc);
+                c->setResource(rt, cc - r);
+                int cc = c->resCount();
+                if(cc > 0) {
+                    eCartTask task;
+                    task.fMaxCount = cc;
+                    task.fResource = c->resType();
+                    task.fType = eCartActionType::give;
+                    findTarget(task);
+                }
+            } else {
+                findTarget();
+            }
         }
     } else {
         goBack();
@@ -37,30 +52,41 @@ bool eCartTransporterAction::decide() {
 }
 
 void eCartTransporterAction::findTarget() {
+    const auto tasks = mBuilding->cartTasks();
+    findTarget(tasks);
+}
+
+void eCartTransporterAction::findTarget(const eCartTask& task) {
+    findTarget(std::vector<eCartTask>{task});
+}
+
+void eCartTransporterAction::findTarget(const std::vector<eCartTask>& tasks) {
     const auto c = character();
 
     const auto buildingRect = mBuilding->tileRect();
-    const auto tasks = mBuilding->cartTasks();
 
     const auto bx = std::make_shared<int>(0);
     const auto by = std::make_shared<int>(0);
 
     const auto ttask = std::make_shared<eCartTask>();
 
-    const auto finalTile = [buildingRect, ttask, tasks, bx, by]
+    const auto bType = mBuilding->type();
+    const auto finalTile = [buildingRect, bType, ttask, tasks, bx, by]
                            (eThreadTile* const t) {
         if(!t->isUnderBuilding()) return false;
-        const SDL_Point p{t->x(), t->y()};
-        const bool r = SDL_PointInRect(&p, &buildingRect);
+        const bool r = eWalkableHelpers::sTileUnderBuilding(t, buildingRect);
         if(r) return false;
         bool found = false;
         const auto& ub = t->underBuilding();
         for(const auto& task : tasks) {
             const auto res = task.fResource;
             if(task.fType == eCartActionType::take) {
-                const auto gts = ub.gets();
-                const bool gtsRes = static_cast<bool>(gts & res);
-                if(gtsRes) continue;
+                if(bType == eBuildingType::warehouse ||
+                   bType == eBuildingType::granary) {
+                    const auto gts = ub.gets();
+                    const bool gtsRes = static_cast<bool>(gts & res);
+                    if(gtsRes) continue;
+                }
                 const bool has = ub.resourceHas(res);
                 if(has) found = true;
             } else { // give
@@ -89,7 +115,7 @@ void eCartTransporterAction::findTarget() {
         }
         return found;
     };
-    const stdptr<eCartTransporterAction> tptr(this);    
+    const stdptr<eCartTransporterAction> tptr(this);
 
     const auto finishAction = [tptr, this, bx, by]() {
         if(!tptr) return;
@@ -153,13 +179,15 @@ bool eCartTransporterAction::targetProcessTask(eBuildingWithResource* const rb,
         if(count > 0 && res != tres) return false;
         const int space = max - count;
         if(space <= 0) return false;
-        const int taken = rb->take(tres, space);
+        const int toTake = std::min(space, task.fMaxCount);
+        const int taken = rb->take(tres, toTake);
         c->setResource(tres, taken + count);
         if(taken > 0) return true;
     } else { // give
         if(count == 0) return false;
         if(res != tres) return false;
-        const int added = rb->add(tres, count);
+        const int toAdd = std::min(count, task.fMaxCount);
+        const int added = rb->add(tres, toAdd);
         c->setResource(tres, count - added);
         if(added > 0) return true;
     }
