@@ -570,6 +570,8 @@ void eGameWidget::buildMouseRelease() {
                 t2->setBuilding(r2);
 
                 sClearScrub(tx, ty, sw, sh, mBoard);
+                sClearForest(tx, ty, sw, sh, mBoard);
+
                 b1->setTileRect({tx, ty, sw, sh});
                 const int minX = tx;
                 const int maxX = tx + sw;
@@ -896,7 +898,10 @@ void eGameWidget::buildMouseRelease() {
                 const int maxY = minY + sh;
                 const bool r = canBuildBase(minX, maxX, minY, maxY);
                 if(!r) return;
+
                 sClearScrub(minX, minY, sw, sh, mBoard);
+                sClearForest(minX, minY, sw, sh, mBoard);
+
                 b->setTileRect({minX, minY, sw, sh});
 
                 const auto tb = e::make_shared<eTempleBuilding>(mBoard);

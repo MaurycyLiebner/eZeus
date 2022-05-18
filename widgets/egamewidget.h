@@ -61,6 +61,9 @@ private:
     static void sClearScrub(const int x, const int y,
                             const int sw, const int sh,
                             eGameBoard& board);
+    static void sClearForest(const int x, const int y,
+                             const int sw, const int sh,
+                             eGameBoard& board);
     static bool sTileFertile(eTile* const tile);
 
     using eTileAction = std::function<void(eTile* const)>;
