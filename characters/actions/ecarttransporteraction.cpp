@@ -11,10 +11,8 @@ eCartTransporterAction::eCartTransporterAction(
         const eAction& failAction,
         const eAction& finishAction) :
     eActionWithComeback(c, failAction, finishAction),
-    mBuilding(b),
-    mBuildingType(b->type()) {
+    mBuilding(b) {}
 
-}
 bool eCartTransporterAction::decide() {
     const auto c = static_cast<eCartTransporter*>(character());
     const bool r = eWalkableHelpers::sTileUnderBuilding(

@@ -34,8 +34,6 @@ private:
 
     eCartTask mTask;
 
-    const eBuildingType mBuildingType;
-
     bool mNoTarget = false;
 };
 
