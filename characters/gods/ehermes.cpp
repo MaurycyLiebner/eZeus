@@ -1,15 +1,15 @@
-#include "edionysus.h"
+#include "ehermes.h"
 
 #include "textures/egametextures.h"
 
-eDionysus::eDionysus(eGameBoard& board) :
-    eGod(board, eGodType::dionysus) {}
+eHermes::eHermes(eGameBoard& board) :
+    eGod(board, eGodType::hermes) {}
 
 std::shared_ptr<eTexture>
-eDionysus::getTexture(const eTileSize size) const {
+eHermes::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
     const auto& godTexs = eGameTextures::gods()[id];
-    const auto& texs = godTexs.fDionysus;
+    const auto& texs = godTexs.fHermes;
     const eTextureCollection* coll = nullptr;
     bool wrap = true;
     const int oid = static_cast<int>(orientation());
@@ -31,8 +31,7 @@ eDionysus::getTexture(const eTileSize size) const {
         coll = &texs.fDisappear;
         break;
     case eCharacterActionType::appear:
-        wrap = false;
-        coll = &texs.fAppear;
+        coll = &texs.fRun[oid];
         break;
     default:
         return std::shared_ptr<eTexture>();
@@ -45,3 +44,4 @@ eDionysus::getTexture(const eTileSize size) const {
     const int texId = t % s;
     return coll->getTexture(texId);
 }
+

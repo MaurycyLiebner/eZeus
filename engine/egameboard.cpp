@@ -11,6 +11,7 @@
 #include "characters/gods/eathena.h"
 #include "characters/gods/edemeter.h"
 #include "characters/gods/edionysus.h"
+#include "characters/gods/ehermes.h"
 #include "characters/actions/egodvisitaction.h"
 
 eGameBoard::eGameBoard(eThreadPool* const tpool) :

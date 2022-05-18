@@ -166,6 +166,7 @@ SOURCES += \
         characters/gods/edionysus.cpp \
         characters/gods/eextendedgod.cpp \
         characters/gods/egod.cpp \
+        characters/gods/ehermes.cpp \
         emainwindow.cpp \
         emessage.cpp \
         emessages.cpp \
@@ -442,6 +443,7 @@ HEADERS += \
     characters/gods/edionysus.h \
     characters/gods/eextendedgod.h \
     characters/gods/egod.h \
+    characters/gods/ehermes.h \
     emainwindow.h \
     emessage.h \
     emessages.h \

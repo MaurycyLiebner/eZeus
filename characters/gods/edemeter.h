@@ -33,11 +33,6 @@ public:
     eHera(eGameBoard& board);
 };
 
-class eHermes : public eBasicGod {
-public:
-    eHermes(eGameBoard& board);
-};
-
 class ePoseidon : public eBasicGod {
 public:
     ePoseidon(eGameBoard& board);

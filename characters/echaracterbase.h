@@ -83,6 +83,9 @@ public:
     bool fighting() const;
     bool defend(const int a);
 
+    double speed() const { return mSpeed; }
+    void setSpeed(const double s) { mSpeed = s; }
+
     int playerId() const { return mPlayerId; }
     void setPlayerId(const int i) { mPlayerId = i; }
 
@@ -101,6 +104,7 @@ private:
 
     int mHP = 1000;
     int mAttack = 1;
+    double mSpeed = 1;
 };
 
 #endif // ECHARACTERBASE_H

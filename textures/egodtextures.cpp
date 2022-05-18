@@ -139,6 +139,19 @@ void eDionysusTextures::load(const std::string& pathBase,
     }
 }
 
+void eHermesTextures::load(const std::string& pathBase,
+                           const int w0, const int w1,
+                           const int r0, const int r1,
+                           const int f0, const int f1,
+                           const eOffsets& offs,
+                           eTextureLoader& texLoader) {
+    eTextureClass texClass(pathBase, texLoader, &offs);
+
+    eBasicGodTextures::load(pathBase,
+                            w0, w1, 0, 0, f0, f1,
+                            offs, texLoader);
+    texClass.loadSkipFlipped(fRun, r0, r1);
+}
 
 void eExtendedGodTextures::load(const std::string& pathBase,
                                 const int w0, const int w1,

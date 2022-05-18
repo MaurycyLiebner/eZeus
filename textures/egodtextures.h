@@ -41,6 +41,21 @@ struct eDionysusTextures : public eBasicGodTextures {
     eTextureCollection fAppear;
 };
 
+struct eHermesTextures : public eBasicGodTextures {
+    eHermesTextures(SDL_Renderer* const renderer) :
+        eBasicGodTextures(renderer) {};
+
+
+    void load(const std::string& pathBase,
+              const int w0, const int w1,
+              const int r0, const int r1,
+              const int f0, const int f1,
+              const eOffsets& offs,
+              eTextureLoader& texLoader);
+
+    std::vector<eTextureCollection> fRun;
+};
+
 struct eExtendedGodTextures : public eBasicGodTextures {
     eExtendedGodTextures(SDL_Renderer* const renderer) :
         eBasicGodTextures(renderer) {};
@@ -86,7 +101,7 @@ public:
     eBasicGodTextures fHades;
     eBasicGodTextures fHephaestus;
     eBasicGodTextures fHera;
-    eBasicGodTextures fHermes;
+    eHermesTextures fHermes;
     eBasicGodTextures fPoseidon;
     eExtendedGodTextures fZeus;
 };

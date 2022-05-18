@@ -77,7 +77,8 @@ void eMoveAction::increment(const int by) {
         return;
     }
 
-    moveBy(0.005 * by);
+    const auto c = character();
+    moveBy(c->speed()*0.005 * by);
 }
 
 void eMoveAction::moveBy(const double inc) {

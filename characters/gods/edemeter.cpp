@@ -18,8 +18,5 @@ eHephaestus::eHephaestus(eGameBoard& board) :
 eHera::eHera(eGameBoard& board) :
     eBasicGod(board, &eGodTextures::fHera, eGodType::hera) {}
 
-eHermes::eHermes(eGameBoard& board) :
-    eBasicGod(board, &eGodTextures::fHermes, eGodType::hermes) {}
-
 ePoseidon::ePoseidon(eGameBoard& board) :
     eBasicGod(board, &eGodTextures::fPoseidon, eGodType::poseidon) {}
