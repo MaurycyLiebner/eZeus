@@ -1,5 +1,7 @@
 #include "esanctuary.h"
 
+#include "characters/ecarttransporter.h"
+
 eSanctuary::eSanctuary(const eTexCollPtr statues,
                        const eTexCollPtr monuments,
                        eGameBoard& board,
@@ -8,6 +10,10 @@ eSanctuary::eSanctuary(const eTexCollPtr statues,
                        const int maxEmployees) :
     eEmployingBuilding(board, type, sw, sh, maxEmployees),
     mStatues(statues), mMonuments(monuments) {}
+
+eSanctuary::~eSanctuary() {
+    if(mCart) mCart->kill();
+}
 
 eSanctCost eSanctuary::cost() const {
     eSanctCost c{0, 0, 0};

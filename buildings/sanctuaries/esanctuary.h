@@ -17,6 +17,7 @@ public:
                const eBuildingType type,
                const int sw, const int sh,
                const int maxEmployees);
+    ~eSanctuary();
 
     std::shared_ptr<eTexture>
     getTexture(const eTileSize) const

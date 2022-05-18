@@ -1,6 +1,7 @@
 #include "estoragebuilding.h"
 
 #include "engine/egameboard.h"
+#include "characters/ecarttransporter.h"
 
 eStorageBuilding::eStorageBuilding(eGameBoard& board,
                                    const eBuildingType type,
@@ -21,6 +22,8 @@ eStorageBuilding::eStorageBuilding(eGameBoard& board,
 }
 
 eStorageBuilding::~eStorageBuilding() {
+    if(mCart1) mCart1->kill();
+    if(mCart2) mCart2->kill();
     getBoard().unregisterStorBuilding(this);
 }
 

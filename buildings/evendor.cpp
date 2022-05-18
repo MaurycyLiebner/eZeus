@@ -1,7 +1,7 @@
 #include "evendor.h"
 
 #include "characters/echaracter.h"
-
+#include "characters/ecarttransporter.h"
 #include "textures/egametextures.h"
 
 eVendor::eVendor(eGameBoard& board,
@@ -28,6 +28,10 @@ eVendor::eVendor(eGameBoard& board,
     mOverlayY(overlayY),
     mOverlayTex(overlayTex) {
 
+}
+
+eVendor::~eVendor() {
+    if(mCart) mCart->kill();
 }
 
 std::vector<eOverlay> eVendor::getOverlays(const eTileSize size) const {

@@ -16,6 +16,7 @@ public:
             const eBuildingType type,
             const int sw, const int sh,
             const int maxEmployees);
+    ~eVendor();
 
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
 
