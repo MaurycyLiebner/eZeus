@@ -2,14 +2,11 @@
 
 #include "characters/ecarttransporter.h"
 
-eSanctuary::eSanctuary(const eTexCollPtr statues,
-                       const eTexCollPtr monuments,
-                       eGameBoard& board,
+eSanctuary::eSanctuary(eGameBoard& board,
                        const eBuildingType type,
                        const int sw, const int sh,
                        const int maxEmployees) :
-    eEmployingBuilding(board, type, sw, sh, maxEmployees),
-    mStatues(statues), mMonuments(monuments) {}
+    eEmployingBuilding(board, type, sw, sh, maxEmployees) {}
 
 eSanctuary::~eSanctuary() {
     if(mCart) mCart->kill();
@@ -23,6 +20,16 @@ eSanctCost eSanctuary::cost() const {
     return c;
 }
 
+void eSanctuary::useResources(const eSanctCost& r) {
+    mStored.fMarble -= r.fMarble;
+    mStored.fWood -= r.fWood;
+    mStored.fSculpture -= r.fSculpture;
+
+    mUsed.fMarble += r.fMarble;
+    mUsed.fWood += r.fWood;
+    mUsed.fSculpture += r.fSculpture;
+}
+
 void eSanctuary::timeChanged(const int by) {
     if(!mCart) spawnCart(mCart);
     eEmployingBuilding::timeChanged(by);
@@ -31,53 +38,57 @@ void eSanctuary::timeChanged(const int by) {
 int eSanctuary::spaceLeft(const eResourceType type) const {
     const auto c = cost();
     if(type == eResourceType::marble) {
-        return c.fMarble;
+        return c.fMarble - mStored.fMarble - mUsed.fMarble;
     } else if(type == eResourceType::wood) {
-        return c.fWood;
+        return c.fWood - mStored.fWood - mUsed.fWood;
     } else if(type == eResourceType::sculpture) {
-        return c.fSculpture;
+        return c.fSculpture - mStored.fSculpture - mUsed.fSculpture;
     }
     return 0;
 }
 
 int eSanctuary::add(const eResourceType type, const int count) {
+    const int space = spaceLeft(type);
+    const int add = std::min(count, space);
     if(type == eResourceType::marble) {
-        mStored.fMarble += count;
+        mStored.fMarble += add;
     } else if(type == eResourceType::wood) {
-        mStored.fWood += count;
+        mStored.fWood += add;
     } else if(type == eResourceType::sculpture) {
-        mStored.fSculpture += count;
+        mStored.fSculpture += add;
     }
-    return count;
+    return add;
 }
 
 
 std::vector<eCartTask> eSanctuary::cartTasks() const {
     std::vector<eCartTask> tasks;
 
-    const auto c = cost();
+    const int m = spaceLeft(eResourceType::marble);
+    const int w = spaceLeft(eResourceType::wood);
+    const int s = spaceLeft(eResourceType::sculpture);
 
-    if(c.fMarble > 0) {
+    if(m) {
         eCartTask task;
         task.fType = eCartActionType::take;
         task.fResource = eResourceType::marble;
-        task.fMaxCount = c.fMarble;
+        task.fMaxCount = m;
         tasks.push_back(task);
     }
 
-    if(c.fWood > 0) {
+    if(w) {
         eCartTask task;
         task.fType = eCartActionType::take;
         task.fResource = eResourceType::wood;
-        task.fMaxCount = c.fWood;
+        task.fMaxCount = w;
         tasks.push_back(task);
     }
 
-    if(c.fSculpture > 0) {
+    if(s) {
         eCartTask task;
         task.fType = eCartActionType::take;
         task.fResource = eResourceType::sculpture;
-        task.fMaxCount = c.fSculpture;
+        task.fMaxCount = s;
         tasks.push_back(task);
     }
 

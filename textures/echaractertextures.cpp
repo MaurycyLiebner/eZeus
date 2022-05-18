@@ -37,6 +37,8 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fBronzeMiner(renderer),
     fLumberjack(renderer),
 
+    fArtisan(renderer),
+
     fHunter(renderer),
     fDeerHunter(renderer),
 
@@ -220,6 +222,12 @@ void eCharacterTextures::load() {
         texClass.load(i, fBronzeMiner.fDie);
     }
 
+    texClass.loadSkipFlipped(fArtisan.fWalk, 1545, 1641);
+    for(int i = 1641; i < 1649; i++) {
+        texClass.load(i, fArtisan.fDie);
+    }
+    texClass.loadSkipFlipped(fArtisan.fBuild, 1649, 1721);
+    texClass.loadSkipFlipped(fArtisan.fBuildStanding, 1721, 1793);
 
     loadBasicTexture(fFoodVendor, 2887, texClass);
     loadBasicTexture(fFleeceVendor, 1897, texClass);

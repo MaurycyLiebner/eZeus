@@ -1,20 +1,34 @@
 #include "esanctbuilding.h"
 
 #include "textures/egametextures.h"
+#include "esanctuary.h"
 
-eSanctBuilding::eSanctBuilding(const eSanctCost& cost,
+eSanctBuilding::eSanctBuilding(eSanctuary* const s,
+                               const eSanctCost& cost,
                                const int maxProgress,
                                eGameBoard& board,
                                const eBuildingType type,
                                const int sw, const int sh) :
     eBuilding(board, type, sw, sh),
     mMaxProgress(maxProgress),
-    mCost(cost) {
+    mSanctuary(s), mCost(cost) {
     setOverlayEnabledFunc([]() { return true; });
+}
+
+bool eSanctBuilding::resourcesAvailable() const {
+    const auto s = mSanctuary->stored();
+    if(s.fMarble < mCost.fMarble - mStored.fMarble) return false;
+    if(s.fWood < mCost.fWood - mStored.fWood) return false;
+    if(s.fSculpture < mCost.fSculpture - mStored.fSculpture) return false;
+    return true;
 }
 
 bool eSanctBuilding::incProgress() {
     if(mProgress >= mMaxProgress) return false;
+    if(mProgress == 0) {
+        mSanctuary->useResources(mCost);
+        mStored = mCost;
+    }
     mProgress++;
     return true;
 }

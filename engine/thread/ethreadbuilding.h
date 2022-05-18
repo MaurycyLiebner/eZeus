@@ -10,6 +10,7 @@ public:
 
     int houseVacancies() const { return mVacancies; }
 
+    bool resourcesAvailable() const { return mResourcesAvailable; }
     bool workedOn() const { return mWorkedOn; }
 
     int resourceCount(const eResourceType type) const;
@@ -28,6 +29,7 @@ private:
 
     int mVacancies{0};
 
+    bool mResourcesAvailable = false; // for sanctuary buildings
     bool mWorkedOn = false;
 
     int mResourceCount[8] = {0, 0, 0, 0, 0, 0, 0, 0};

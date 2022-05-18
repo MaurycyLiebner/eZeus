@@ -8,7 +8,7 @@
 
 class eTempleMonumentBuilding : public eSanctBuilding {
 public:
-    eTempleMonumentBuilding(const eGodType god,
+    eTempleMonumentBuilding(eSanctuary* const s, const eGodType god,
                             const int id, eGameBoard& board);
 
     std::shared_ptr<eTexture>

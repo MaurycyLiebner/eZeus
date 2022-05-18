@@ -18,6 +18,13 @@ struct eResourceCollectorTextures : public eBasicCharacterTextures {
     std::vector<eTextureCollection> fCollect;
 };
 
+struct eArtisanTextures : public eBasicCharacterTextures {
+    using eBasicCharacterTextures::eBasicCharacterTextures;
+
+    std::vector<eTextureCollection> fBuild;
+    std::vector<eTextureCollection> fBuildStanding;
+};
+
 struct eShepherdTextures : public eResourceCollectorTextures {
     eShepherdTextures(SDL_Renderer* const renderer) :
         eResourceCollectorTextures(renderer), fFight(renderer) {}
@@ -106,6 +113,8 @@ public:
     eResourceCollectorTextures fSilverMiner;
     eResourceCollectorTextures fBronzeMiner;
     eResourceCollectorTextures fLumberjack;
+
+    eArtisanTextures fArtisan;
 
     eResourceCollectorTextures fHunter;
     eResourceCollectorTextures fDeerHunter;

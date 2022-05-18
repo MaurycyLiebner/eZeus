@@ -14,15 +14,27 @@ struct eSanctCost {
         fSculpture += c.fSculpture;
         return *this;
     }
+
+    eSanctCost& operator-=(const eSanctCost& c) {
+        fWood -= c.fWood;
+        fMarble -= c.fMarble;
+        fSculpture -= c.fSculpture;
+        return *this;
+    }
 };
+
+class eSanctuary;
 
 class eSanctBuilding : public eBuilding {
 public:
-    eSanctBuilding(const eSanctCost& cost,
+    eSanctBuilding(eSanctuary* const s,
+                   const eSanctCost& cost,
                    const int maxProgress,
                    eGameBoard& board,
                    const eBuildingType type,
                    const int sw, const int sh);
+
+    bool resourcesAvailable() const;
 
     int progress() const { return mProgress; }
     bool incProgress();
@@ -31,9 +43,15 @@ public:
     const eSanctCost& cost() const { return mCost; }
 
     void setCost(const eSanctCost& c);
+
+    bool workedOn() const { return mWorkedOn; }
+    void setWorkedOn(const bool w) { mWorkedOn = w; }
 private:
     const int mMaxProgress;
+    eSanctuary* const mSanctuary;
     eSanctCost mCost;
+    eSanctCost mStored;
+    bool mWorkedOn = false;
     int mProgress = 0;
 };
 

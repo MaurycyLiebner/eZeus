@@ -4,6 +4,7 @@
 #include "buildings/eelitehousing.h"
 #include "buildings/eresourcebuildingbase.h"
 #include "buildings/eresourcebuilding.h"
+#include "buildings/sanctuaries/esanctbuilding.h"
 
 void eThreadBuilding::load(eBuilding* const src) {
     mVacancies = 0;
@@ -38,6 +39,9 @@ void eThreadBuilding::load(eBuilding* const src) {
             mResourceCount[0] = b->resource();
         } else if(const auto b = dynamic_cast<eResourceBuilding*>(src)) {
             mWorkedOn = b->workedOn();
+        } else if(const auto b = dynamic_cast<eSanctBuilding*>(src)) {
+            mWorkedOn = b->workedOn();
+            mResourcesAvailable = b->resourcesAvailable();
         }
     } else {
         mType = eBuildingType::none;

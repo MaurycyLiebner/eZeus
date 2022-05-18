@@ -47,7 +47,7 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
 
     fResources(renderer),
     fProcessing(renderer),
-    fBuildersGuild(renderer),
+    fArtisansGuild(renderer),
 
     fGranary(renderer),
     fWarehouse(renderer),
@@ -162,7 +162,7 @@ void eInterfaceTextures::load() {
         }
 
         for(int i = 28; i < 31; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fBuildersGuild);
+            eTextureLoadingHelpers::loadTex(pathBase, i, fArtisansGuild);
         }
 
         for(int i = 31; i < 34; i++) {

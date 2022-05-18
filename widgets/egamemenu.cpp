@@ -206,7 +206,7 @@ void eGameMenu::initialize() {
                         eButtonsDataVec{
                              {r2, &coll.fResources},
                              {p2, &coll.fProcessing},
-                             {bg2, &coll.fBuildersGuild}});
+                             {bg2, &coll.fArtisansGuild}});
     mEmplDataW = new eEmploymentDataWidget(window());
     mEmplDataW->setWidth(dataWidWidth);
     mEmplDataW->setHeight(dataWidHeight);

@@ -37,6 +37,8 @@
 #include "buildings/esculpturestudio.h"
 #include "buildings/earmory.h"
 
+#include "buildings/eartisansguild.h"
+
 #include "buildings/ewall.h"
 #include "buildings/etower.h"
 #include "buildings/egatehouse.h"
@@ -643,6 +645,13 @@ void eGameWidget::buildMouseRelease() {
             };
             break;
 
+        case eBuildingMode::artisansGuild:
+            apply = [this](eTile*) {
+                build(mHoverX, mHoverY, 2, 2,
+                      [this]() { return e::make_shared<eArtisansGuild>(mBoard); });
+            };
+            break;
+
         case eBuildingMode::foodVendor:
             apply = [this](eTile*) {
                 build(mHoverX, mHoverY, 2, 2,
@@ -904,7 +913,7 @@ void eGameWidget::buildMouseRelease() {
 
                 b->setTileRect({minX, minY, sw, sh});
 
-                const auto tb = e::make_shared<eTempleBuilding>(mBoard);
+                const auto tb = e::make_shared<eTempleBuilding>(b.get(), mBoard);
                 b->registerElement(tb);
                 int ts = 0;
                 for(const auto& tv : h->fTiles) {
@@ -918,7 +927,7 @@ void eGameWidget::buildMouseRelease() {
                             break;
                         case eSanctEleType::statue: {
                             const auto tt = e::make_shared<eTempleStatueBuilding>(
-                                                god, t.fId, mBoard);
+                                                b.get(), god, t.fId, mBoard);
                             const auto r = e::make_shared<eBuildingRenderer>(tt);
                             tile->setBuilding(r);
                             tile->setUnderBuilding(tt);
@@ -927,14 +936,14 @@ void eGameWidget::buildMouseRelease() {
                         } break;
                         case eSanctEleType::monument: {
                             const auto tt = e::make_shared<eTempleMonumentBuilding>(
-                                                god, t.fId, mBoard);
+                                                b.get(), god, t.fId, mBoard);
                             const int d = mRotate ? 1 : 0;
                             build(tx - d, ty + d, 2, 2, [tt]() { return tt; });
                             b->registerElement(tt);
                         } break;
                         case eSanctEleType::altar: {
                             const auto tt = e::make_shared<eTempleAltarBuilding>(
-                                                mBoard);
+                                                b.get(), mBoard);
                             const int d = mRotate ? 1 : 0;
                             build(tx - d, ty + d, 2, 2, [tt]() { return tt; });
                             b->registerElement(tt);
@@ -952,7 +961,8 @@ void eGameWidget::buildMouseRelease() {
                             }
                         } break;
                         case eSanctEleType::tile: {
-                            const auto tt = e::make_shared<eTempleTileBuilding>(t.fId, mBoard);
+                            const auto tt = e::make_shared<eTempleTileBuilding>(
+                                                b.get(), t.fId, mBoard);
                             const auto r = e::make_shared<eBuildingRenderer>(tt);
                             tile->setBuilding(r);
                             tile->setUnderBuilding(tt);

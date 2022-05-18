@@ -10,10 +10,7 @@ class eBuildingTextures;
 
 class eSanctuary : public eEmployingBuilding {
 public:
-    using eTexCollPtr = eTextureCollection eBuildingTextures::*;
-    eSanctuary(const eTexCollPtr statues,
-               const eTexCollPtr monuments,
-               eGameBoard& board,
+    eSanctuary(eGameBoard& board,
                const eBuildingType type,
                const int sw, const int sh,
                const int maxEmployees);
@@ -30,17 +27,15 @@ public:
 
     std::vector<eCartTask> cartTasks() const;
 
-    eTexCollPtr statues() const { return mStatues; }
-    eTexCollPtr monuments() const { return mMonuments; }
-
     void registerElement(const stdsptr<eSanctBuilding>& e);
 
     eSanctCost cost() const;
-private:
-    const eTexCollPtr mStatues;
-    const eTexCollPtr mMonuments;
+    const eSanctCost& stored() const { return mStored; }
 
+    void useResources(const eSanctCost& r);
+private:
     eSanctCost mStored{0, 0, 0};
+    eSanctCost mUsed{0, 0, 0};
 
     stdsptr<eCartTransporter> mCart;
 

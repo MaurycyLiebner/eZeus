@@ -4,8 +4,6 @@
 
 eArtemisSanctuary::eArtemisSanctuary(
         const int sw, const int sh, eGameBoard& board) :
-    eSanctuary(&eBuildingTextures::fArtemisStatues,
-               &eBuildingTextures::fArtemisMonuments,
-               board, eBuildingType::templeArtemis, sw, sh, 60) {
+    eSanctuary(board, eBuildingType::templeArtemis, sw, sh, 60) {
 
 }

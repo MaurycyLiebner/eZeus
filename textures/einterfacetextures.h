@@ -61,7 +61,7 @@ public:
 
     eTextureCollection fResources; // e.g. wood, marble
     eTextureCollection fProcessing; // e.g. olives
-    eTextureCollection fBuildersGuild;
+    eTextureCollection fArtisansGuild;
 
     eTextureCollection fGranary;
     eTextureCollection fWarehouse;

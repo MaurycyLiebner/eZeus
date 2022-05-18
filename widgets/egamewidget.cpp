@@ -48,6 +48,8 @@
 #include "buildings/esculpturestudio.h"
 #include "buildings/earmory.h"
 
+#include "buildings/eartisansguild.h"
+
 #include "buildings/ewall.h"
 #include "buildings/etower.h"
 #include "buildings/egatehouse.h"
@@ -1474,6 +1476,11 @@ void eGameWidget::paintEvent(ePainter& p) {
         } break;
         case eBuildingMode::sculptureStudio: {
             const auto b1 = e::make_shared<eSculptureStudio>(mBoard);
+            ebs.emplace_back(mHoverX, mHoverY, b1);
+        } break;
+
+        case eBuildingMode::artisansGuild: {
+            const auto b1 = e::make_shared<eArtisansGuild>(mBoard);
             ebs.emplace_back(mHoverX, mHoverY, b1);
         } break;
 
