@@ -50,8 +50,8 @@ public:
 private:
     const int mMaxProgress;
     eSanctuary* const mSanctuary;
-    eSanctCost mCost;
-    eSanctCost mStored;
+    eSanctCost mCost{0, 0, 0};
+    eSanctCost mStored{0, 0, 0};
     bool mWorkedOn = false;
     int mProgress = 0;
 };

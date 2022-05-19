@@ -197,6 +197,8 @@ public:
     static void playStoneCutterSound();
     static void playTreeCutterSound();
 
+    static void playArtisanSound();
+
     static void playGodSound(const eGodType g,
                              const eGodSound s);
 private:
@@ -247,7 +249,7 @@ private:
     std::vector<Mix_Chunk*> mHorseRanch;
     std::vector<Mix_Chunk*> mBeautification;
     std::vector<Mix_Chunk*> mFountain;
-    std::vector<Mix_Chunk*> mArtisan;
+    std::vector<Mix_Chunk*> mArtisansGuild;
 
     // terrain
     std::vector<Mix_Chunk*> mMeadow;
@@ -269,6 +271,8 @@ private:
     std::vector<Mix_Chunk*> mSilverMiner;
     std::vector<Mix_Chunk*> mTreeCutter;
     std::vector<Mix_Chunk*> mStoneCutter;
+
+    std::vector<Mix_Chunk*> mArtisan;
 
     // events
     Mix_Chunk* mFire = nullptr;

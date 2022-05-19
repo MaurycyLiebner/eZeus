@@ -68,7 +68,7 @@ eSounds::~eSounds() {
     deleteSounds(mHorseRanch);
     deleteSounds(mBeautification);
     deleteSounds(mFountain);
-    deleteSounds(mArtisan);
+    deleteSounds(mArtisansGuild);
 
     // terrain
     deleteSounds(mMeadow);
@@ -90,6 +90,8 @@ eSounds::~eSounds() {
     deleteSounds(mSilverMiner);
     deleteSounds(mTreeCutter);
     deleteSounds(mStoneCutter);
+
+    deleteSounds(mArtisan);
 
     // events
     Mix_FreeChunk(mFire);
@@ -363,6 +365,10 @@ void eSounds::playStoneCutterSound() {
 
 void eSounds::playTreeCutterSound() {
     playRandomSound(sInstance.mTreeCutter);
+}
+
+void eSounds::playArtisanSound() {
+    playRandomSound(sInstance.mArtisan);
 }
 
 void eSounds::playGodSound(const eGodType g, const eGodSound s) {
@@ -734,7 +740,7 @@ void eSounds::loadImpl() {
     for(const auto& s : {"artisan_guild1.wav",
                          "artisan_guild2.wav"}) {
         const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mArtisan.push_back(r);
+        if(r) mArtisansGuild.push_back(r);
     }
 
 
@@ -863,6 +869,12 @@ void eSounds::loadImpl() {
                          "stonecutter2.wav"}) {
         const auto r = loadSoundBase(wavsDir + s);
         if(r) mStoneCutter.push_back(r);
+    }
+
+    for(const auto& s : {"artisan1.wav",
+                         "artisan2.wav"}) {
+        const auto r = loadSoundBase(wavsDir + s);
+        if(r) mArtisan.push_back(r);
     }
 
     mAphrodite.load();

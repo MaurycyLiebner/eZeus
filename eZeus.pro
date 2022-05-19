@@ -99,6 +99,7 @@ SOURCES += \
         characters/actions/eanimalaction.cpp \
         characters/actions/earcheraction.cpp \
         characters/actions/eartisanaction.cpp \
+        characters/actions/ebuildaction.cpp \
         characters/actions/ecarttransporteraction.cpp \
         characters/actions/echaracteraction.cpp \
         characters/actions/ecollectaction.cpp \
@@ -378,6 +379,7 @@ HEADERS += \
     characters/actions/eanimalaction.h \
     characters/actions/earcheraction.h \
     characters/actions/eartisanaction.h \
+    characters/actions/ebuildaction.h \
     characters/actions/ecarttransporteraction.h \
     characters/actions/echaracteraction.h \
     characters/actions/echaracteractiontype.h \

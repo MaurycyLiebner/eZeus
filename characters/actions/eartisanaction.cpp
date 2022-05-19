@@ -2,6 +2,7 @@
 
 #include "characters/actions/emovetoaction.h"
 #include "characters/actions/ewaitaction.h"
+#include "characters/actions/ebuildaction.h"
 #include "engine/egameboard.h"
 
 eArtisanAction::eArtisanAction(eArtisansGuild* const guild,
@@ -14,6 +15,16 @@ eArtisanAction::eArtisanAction(eArtisansGuild* const guild,
 bool hasTarget(eThreadTile* const tile) {
     const auto& b = tile->underBuilding();
     return b.resourcesAvailable() && !b.workedOn() && !tile->busy();
+}
+
+bool tileWalkable(eTileBase* const t) {
+    const auto b = t->underBuildingType();
+    if(b == eBuildingType::templeTile) return true;
+    const int min = static_cast<int>(eBuildingType::templeAphrodite);
+    const int max = static_cast<int>(eBuildingType::templeZeus);
+    const int bi = static_cast<int>(b);
+    if(bi >= min && bi <= max) return true;
+    return eWalkableHelpers::sDefaultWalkable(t);
 }
 
 bool eArtisanAction::decide() {
@@ -43,8 +54,9 @@ bool eArtisanAction::decide() {
                 if(!ttt) continue;
                 const auto b = ttt->underBuilding();
                 if(const auto bb = dynamic_cast<eSanctBuilding*>(b)) {
-                    if(!bb->resourcesAvailable()) continue;
+                    if(bb->finished()) continue;
                     if(bb->workedOn()) continue;
+                    if(!bb->resourcesAvailable()) continue;
                     tt = ttt;
                     break;
                 }
@@ -78,19 +90,9 @@ bool eArtisanAction::findTargetDecision() {
         if(tptr) mNoTarget = true;
     };
 
-    const auto walkable = [](eTileBase* const t) {
-        const auto b = t->underBuildingType();
-        if(b == eBuildingType::templeTile) return true;
-        const int min = static_cast<int>(eBuildingType::templeAphrodite);
-        const int max = static_cast<int>(eBuildingType::templeZeus);
-        const int bi = static_cast<int>(b);
-        if(bi >= min && bi <= max) return true;
-        return eWalkableHelpers::sDefaultWalkable(t);
-    };
-
     a->setFindFailAction(findFailFunc);
     a->setRemoveLastTurn(true);
-    a->start(hha, walkable);
+    a->start(hha, tileWalkable);
     setCurrentAction(a);
     return true;
 }
@@ -136,12 +138,11 @@ void eArtisanAction::workOnDecision(eTile* const tile) {
         o = eOrientation::topLeft;
     }
     mArtisan->setOrientation(o);
-    const auto w = e::make_shared<eWaitAction>(mArtisan, finish, finish);
-    w->setTime(2000);
+    const auto w = e::make_shared<eBuildAction>(mArtisan, finish, finish);
     setCurrentAction(w);
 }
 
 void eArtisanAction::goBackDecision() {
     mArtisan->setActionType(eCharacterActionType::walk);
-    goBack(mGuild, eWalkableHelpers::sDefaultWalkable);
+    goBack(mGuild, tileWalkable);
 }
