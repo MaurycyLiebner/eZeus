@@ -12,6 +12,9 @@ public:
         getTexture(const eTileSize size) const;
     std::vector<eOverlay>
         getOverlays(const eTileSize size) const;
+
+    std::shared_ptr<eTexture>
+        getTileTexture(const eTileSize size) const;
 private:
     const int mId;
 };

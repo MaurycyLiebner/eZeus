@@ -12,6 +12,12 @@ eTempleTileBuilding::eTempleTileBuilding(eSanctuary* const s,
 
 std::shared_ptr<eTexture>
 eTempleTileBuilding::getTexture(const eTileSize size) const {
+    (void)size;
+    return nullptr;
+}
+
+std::shared_ptr<eTexture>
+eTempleTileBuilding::getTileTexture(const eTileSize size) const {
     const int p = progress();
     if(p <= 0) return nullptr;
     const int sizeId = static_cast<int>(size);

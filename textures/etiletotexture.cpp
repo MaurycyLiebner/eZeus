@@ -20,6 +20,8 @@
 #include "ebuildingtextures.h"
 #include "emarbletile.h"
 
+#include "buildings/sanctuaries/etempletilebuilding.h"
+
 std::shared_ptr<eTexture> getStonesTexture(eTile* const tile,
                           const eTextureCollection& small,
                           const eTextureCollection& large,
@@ -49,9 +51,14 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
         const auto& coll = blds.fSanctuaryStairs;
         return coll.getTexture(seed % coll.size());
     } break;
-
+    case eBuildingType::templeTile: {
+        const auto b = tile->underBuilding();
+        const auto bt = static_cast<eTempleTileBuilding*>(b);
+        const bool f = bt->finished();
+        if(f) return bt->getTileTexture(tileSize);
+        [[fallthrough]];
+    }
     case eBuildingType::temple:
-    case eBuildingType::templeTile:
     case eBuildingType::templeStatue:
     case eBuildingType::templeMonument:
     case eBuildingType::templeAltar: {
