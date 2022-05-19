@@ -16,11 +16,16 @@ eSanctBuilding::eSanctBuilding(eSanctuary* const s,
 }
 
 bool eSanctBuilding::resourcesAvailable() const {
+    if(finished()) return false;
     const auto s = mSanctuary->stored();
     if(s.fMarble < mCost.fMarble - mStored.fMarble) return false;
     if(s.fWood < mCost.fWood - mStored.fWood) return false;
     if(s.fSculpture < mCost.fSculpture - mStored.fSculpture) return false;
     return true;
+}
+
+bool eSanctBuilding::finished() const {
+    return mProgress >= mMaxProgress;
 }
 
 bool eSanctBuilding::incProgress() {

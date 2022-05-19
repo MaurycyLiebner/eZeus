@@ -36,6 +36,7 @@ public:
 
     bool resourcesAvailable() const;
 
+    bool finished() const;
     int progress() const { return mProgress; }
     bool incProgress();
     void destroy() { mProgress = 0; }

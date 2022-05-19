@@ -89,6 +89,7 @@ bool eArtisanAction::findTargetDecision() {
     };
 
     a->setFindFailAction(findFailFunc);
+    a->setRemoveLastTurn(true);
     a->start(hha, walkable);
     setCurrentAction(a);
     return true;
@@ -97,22 +98,44 @@ bool eArtisanAction::findTargetDecision() {
 void eArtisanAction::workOnDecision(eTile* const tile) {
     const auto b = tile->underBuilding();
     const auto bb = dynamic_cast<eSanctBuilding*>(b);
-    if(!bb) return;
+    if(!bb || bb->workedOn() || bb->finished() ||
+       !bb->resourcesAvailable()) return;
     bb->setWorkedOn(true);
-    const stdptr<eCharacterAction> tptr(this);
-    const auto finish = [tptr, this, tile]() {
-        if(!tptr) return;
+    const auto finish = [tile]() {
         if(const auto b = tile->underBuilding()) {
             if(const auto bb = dynamic_cast<eSanctBuilding*>(b)) {
+                bb->setWorkedOn(false);
                 if(bb->resourcesAvailable()) {
-                    bb->setWorkedOn(false);
                     bb->incProgress();
                 }
             }
         }
     };
     mArtisan->setActionType(eCharacterActionType::build);
-
+    const auto t = mArtisan->tile();
+    const int dx = t->x() - tile->x();
+    const int dy = t->y() - tile->y();
+    eOrientation o;
+    if(dx > 0 && dy == 0) {
+        o = eOrientation::topLeft;
+    } else if(dx < 0 && dy == 0) {
+        o = eOrientation::bottomRight;
+    } else if(dx == 0 && dy > 0) {
+        o = eOrientation::topRight;
+    } else if(dx == 0 && dy < 0) {
+        o = eOrientation::bottomLeft;
+    } else if(dx < 0 && dy < 0) {
+        o = eOrientation::bottom;
+    } else if(dx > 0 && dy > 0) {
+        o = eOrientation::top;
+    } else if(dx < 0 && dy > 0) {
+        o = eOrientation::right;
+    } else if(dx > 0 && dy < 0) {
+        o = eOrientation::left;
+    } else {
+        o = eOrientation::topLeft;
+    }
+    mArtisan->setOrientation(o);
     const auto w = e::make_shared<eWaitAction>(mArtisan, finish, finish);
     w->setTime(2000);
     setCurrentAction(w);
