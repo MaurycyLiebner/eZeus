@@ -975,8 +975,14 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         }
         const auto bt = tile->underBuildingType();
-        if(bt == eBuildingType::none ||
+        const int min = static_cast<int>(eBuildingType::templeAphrodite);
+        const int max = static_cast<int>(eBuildingType::templeZeus);
+        const int bi = static_cast<int>(bt);
+        const bool r = bi >= min && bi <= max;
+        if(r ||
+           bt == eBuildingType::none ||
            bt == eBuildingType::road ||
+           bt == eBuildingType::templeTile ||
            bt == eBuildingType::vine ||
            bt == eBuildingType::oliveTree ||
            bt == eBuildingType::orangeTree ||

@@ -79,12 +79,13 @@ bool eArtisanAction::findTargetDecision() {
     };
 
     const auto walkable = [](eTileBase* const t) {
-        return true;
         const auto b = t->underBuildingType();
-        return b == eBuildingType::temple ||
-               b == eBuildingType::templeTile;
-        const bool r = eWalkableHelpers::sDefaultWalkable(t);
-        if(r) return r;
+        if(b == eBuildingType::templeTile) return true;
+        const int min = static_cast<int>(eBuildingType::templeAphrodite);
+        const int max = static_cast<int>(eBuildingType::templeZeus);
+        const int bi = static_cast<int>(b);
+        if(bi >= min && bi <= max) return true;
+        return eWalkableHelpers::sDefaultWalkable(t);
     };
 
     a->setFindFailAction(findFailFunc);
