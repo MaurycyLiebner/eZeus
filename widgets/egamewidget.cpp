@@ -392,6 +392,7 @@ void eGameWidget::sClearScrub(const int x, const int y,
 void eGameWidget::sClearForest(const int x, const int y,
                                const int sw, const int sh,
                                eGameBoard& board) {
+    return;
     for(int xx = x; xx < x + sw; xx++) {
         for(int yy = y; yy < y + sh; yy++) {
             for(int i = 0; i < 2; i++) {
@@ -729,7 +730,8 @@ void eGameWidget::paintEvent(ePainter& p) {
     const int sMinY = std::min(mPressedY, mHoverY);
     const int sMaxX = std::max(mPressedX, mHoverX);
     const int sMaxY = std::max(mPressedY, mHoverY);
-    iterateOverTiles([&](eTile* const tile) {
+
+    const auto drawTerrain = [&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
 
@@ -764,76 +766,85 @@ void eGameWidget::paintEvent(ePainter& p) {
             tp.drawTexture(rx, ry, tex, eAlignment::top);
             if(cm) tex->clearColorMod();
         }
-    });
+    };
+
+    iterateOverTiles(drawTerrain);
 
     iterateOverTiles([&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
         const int a = mDrawElevation ? tile->altitude() : 0;
 
+        const auto mode = mGm->mode();
+
+        const auto ub = tile->underBuilding();
+        const auto bt = tile->underBuildingType();
+
+        const auto tbr = tile->building();
+
+        const bool bv = eViewModeHelpers::buildingVisible(mViewMode, ub);
+        const bool v = ub && bv;
+
+        bool bd = false;
+
         double rx;
         double ry;
         drawXY(tx, ty, rx, ry, 1, 1, a);
 
-        bool bd = false;
+        const auto drawSheepGoat = [&]() {
+            if(mode == eBuildingMode::sheep ||
+               mode == eBuildingMode::goat ||
+               mode == eBuildingMode::erase) {
+                if(bt == eBuildingType::sheep ||
+                   bt == eBuildingType::goat) {
+                    const auto tex = trrTexs.fBuildingBase;
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    bd = true;
+                }
+            }
+        };
 
-        const auto mode = mGm->mode();
-        if(mode == eBuildingMode::sheep ||
-           mode == eBuildingMode::goat ||
-           mode == eBuildingMode::erase) {
-            const auto t = tile->underBuildingType();
-            if(t == eBuildingType::sheep ||
-               t == eBuildingType::goat) {
-                const auto tex = trrTexs.fBuildingBase;
-                tp.drawTexture(rx, ry, tex, eAlignment::top);
-                bd = true;
-            }
-        }
-        const auto ub = tile->underBuilding();
-        if(mViewMode == eViewMode::patrolBuilding) {
-            if(mPatrolBuilding && ub && !tile->hasRoad()) {
-                std::shared_ptr<eTexture> tex;
-                if(ub == mPatrolBuilding) {
-                    tex = trrTexs.fSelectedBuildingBase;
-                } else {
-                    tex = getBasementTexture(tile, ub, trrTexs);
+        const auto drawPatrol = [&]() {
+            if(mViewMode == eViewMode::patrolBuilding) {
+                if(mPatrolBuilding && ub && !tile->hasRoad()) {
+                    std::shared_ptr<eTexture> tex;
+                    if(ub == mPatrolBuilding) {
+                        tex = trrTexs.fSelectedBuildingBase;
+                    } else {
+                        tex = getBasementTexture(tile, ub, trrTexs);
+                    }
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    bd = true;
                 }
-                tp.drawTexture(rx, ry, tex, eAlignment::top);
-                bd = true;
             }
-        }
-        const bool bv = eViewModeHelpers::buildingVisible(mViewMode, ub);
-        const bool v = ub && bv;
-        if(!v && mViewMode == eViewMode::appeal) {
-            const auto& am = mBoard.appealMap();
-            const auto ae = am.enabled(tx, ty);
-            const auto ubt = tile->underBuildingType();
-            const bool ch = ubt == eBuildingType::commonHouse;
-            if(ae || ch) {
-                const eTextureCollection* coll;
-                if(ch) {
-                    coll = &builTexs.fHouseAppeal;
-                } else {
-                    coll = &builTexs.fAppeal;
+        };
+
+        const auto drawAppeal = [&]() {
+            if(!v && mViewMode == eViewMode::appeal) {
+                const auto& am = mBoard.appealMap();
+                const auto ae = am.enabled(tx, ty);
+                const bool ch = bt == eBuildingType::commonHouse;
+                if(ae || ch) {
+                    const eTextureCollection* coll;
+                    if(ch) {
+                        coll = &builTexs.fHouseAppeal;
+                    } else {
+                        coll = &builTexs.fAppeal;
+                    }
+                    const double app = am.appeal(tx, ty);
+                    const double mult = app > 0 ? 1 : -1;
+                    const double appS = mult*pow(abs(app), 0.75);
+                    int appId = (int)std::round(appS + 2.);
+                    appId = std::clamp(appId, 0, 9);
+                    const auto tex = coll->getTexture(appId);
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    bd = true;
                 }
-                const double app = am.appeal(tx, ty);
-                const double mult = app > 0 ? 1 : -1;
-                const double appS = mult*pow(abs(app), 0.75);
-                int appId = (int)std::round(appS + 2.);
-                appId = std::clamp(appId, 0, 9);
-                const auto tex = coll->getTexture(appId);
-                tp.drawTexture(rx, ry, tex, eAlignment::top);
-                bd = true;
             }
-        }
-        const auto tbr = tile->building();
-        const auto type = ub ? ub->type() : eBuildingType::none;
-        if(bd) {
-        } else if(ub && !v) {
-            const auto tex = getBasementTexture(tile, ub, trrTexs);
-            tp.drawTexture(rx, ry, tex, eAlignment::top);
-        } else if(tbr && type != eBuildingType::road) {
-            if(type == eBuildingType::park) {
+        };
+
+        const auto drawBuilding = [&]() {
+            if(bt == eBuildingType::park) {
                 int futureDim = 1;
                 int drawDim = 1;
                 const auto tex = eVaryingSizeTex::getVaryingTexture(
@@ -861,211 +872,248 @@ void eGameWidget::paintEvent(ePainter& p) {
                 drawXY(tx, ty, rx, ry, tbr->spanW(), tbr->spanH(), a);
                 tbr->draw(tp, rx, ry);
             }
+        };
+
+        const auto drawBuildingModes = [&]() {
+            if(mViewMode == eViewMode::hazards) {
+                const auto diff = mBoard.difficulty();
+                const int fr = eDifficultyHelpers::fireRisk(diff, bt);
+                const int dr = eDifficultyHelpers::damageRisk(diff, bt);
+
+                const int h = 100 - ub->maintenance();
+                if((fr || dr) && h > 5) {
+                    const int n = h/15;
+                    const eTextureCollection* coll = nullptr;
+                    if(n < 2) {
+                        coll = &intrTexs.fColumn1;
+                    } else if(n < 3) {
+                        coll = &intrTexs.fColumn2;
+                    } else if(n < 4) {
+                        coll = &intrTexs.fColumn3;
+                    } else {
+                        coll = &intrTexs.fColumn4;
+                    }
+
+                    drawColumn(tp, n, rx, ry, *coll);
+                }
+            } else if(mViewMode == eViewMode::water) {
+                if(bt == eBuildingType::commonHouse) {
+                    const auto ch = static_cast<eSmallHouse*>(ub);
+                    const int w = ch->water()/2;
+                    drawColumn(tp, w, rx, ry, intrTexs.fColumn5);
+                }
+            } else if(mViewMode == eViewMode::actors) {
+                if(bt == eBuildingType::commonHouse) {
+                    const auto ch = static_cast<eSmallHouse*>(ub);
+                    const int a = ch->actors()/2;
+                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                } else if(bt == eBuildingType::eliteHousing) {
+                    const auto ch = static_cast<eEliteHousing*>(ub);
+                    const int a = ch->actors()/2;
+                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                }
+            } else if(mViewMode == eViewMode::philosophers) {
+                if(bt == eBuildingType::commonHouse) {
+                    const auto ch = static_cast<eSmallHouse*>(ub);
+                    const int a = ch->philosophers()/2;
+                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                } else if(bt == eBuildingType::eliteHousing) {
+                    const auto ch = static_cast<eEliteHousing*>(ub);
+                    const int a = ch->philosophers()/2;
+                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                }
+            } else if(mViewMode == eViewMode::athletes) {
+                if(bt == eBuildingType::commonHouse) {
+                    const auto ch = static_cast<eSmallHouse*>(ub);
+                    const int a = ch->athletes()/2;
+                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                } else if(bt == eBuildingType::eliteHousing) {
+                    const auto ch = static_cast<eEliteHousing*>(ub);
+                    const int a = ch->athletes()/2;
+                    drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
+                }
+            } else if(mViewMode == eViewMode::supplies) {
+                if(bt == eBuildingType::commonHouse) {
+                    const auto ch = static_cast<eSmallHouse*>(ub);
+                    double rxx = rx - 2.5;
+                    double ryy = ry - 2;
+                    tp.drawTexture(rxx, ryy, intrTexs.fSuppliesBg);
+                    rxx += 0.32;
+                    ryy += 0.32;
+                    tp.drawTexture(rxx + 0.17, ryy - 0.17,
+                                   ch->lowFood() ?
+                                       intrTexs.fNHasFood :
+                                       intrTexs.fHasFood);
+                    tp.drawTexture(rxx + 0.62, ryy - 0.62,
+                                   ch->lowFleece() ?
+                                       intrTexs.fNHasFleece :
+                                       intrTexs.fHasFleece);
+                    tp.drawTexture(rxx + 1.08, ryy - 1.08,
+                                   ch->lowOil() ?
+                                       intrTexs.fNHasOil :
+                                       intrTexs.fHasOil);
+                } else if(bt == eBuildingType::eliteHousing) {
+                    const auto ch = static_cast<eEliteHousing*>(ub);
+                    double rxx = rx - 3.5;
+                    double ryy = ry - 1.5;
+                    tp.drawTexture(rxx, ryy, intrTexs.fEliteSuppliesBg);
+                    rxx += 0.32;
+                    ryy += 0.32;
+                    tp.drawTexture(rxx + 0.17, ryy - 0.17,
+                                   ch->lowFood() ?
+                                       intrTexs.fNHasFood :
+                                       intrTexs.fHasFood);
+                    tp.drawTexture(rxx + 0.62, ryy - 0.62,
+                                   ch->lowFleece() ?
+                                       intrTexs.fNHasFleece :
+                                       intrTexs.fHasFleece);
+                    tp.drawTexture(rxx + 1.08, ryy - 1.08,
+                                   ch->lowOil() ?
+                                       intrTexs.fNHasOil :
+                                       intrTexs.fHasOil);
+                    tp.drawTexture(rxx + 1.54, ryy - 1.54,
+                                   ch->lowWine() ?
+                                       intrTexs.fNHasWine :
+                                       intrTexs.fHasWine);
+                    tp.drawTexture(rxx + 2.00, ryy - 2.00,
+                                   ch->lowArms() ?
+                                       intrTexs.fNHasArms :
+                                       intrTexs.fHasArms);
+                    tp.drawTexture(rxx + 2.46, ryy - 2.46,
+                                   ch->lowHorses() ?
+                                       intrTexs.fNHasHorses :
+                                       intrTexs.fHasHorses);
+                }
+            }
+        };
+
+        const auto drawCharacters = [&]() {
+            const auto tt = mBoard.tile(tx, ty);
+            if(!tt) return;
+            const int min = static_cast<int>(eBuildingType::templeAphrodite);
+            const int max = static_cast<int>(eBuildingType::templeZeus);
+            const auto bt = tt->underBuildingType();
+            const int bi = static_cast<int>(bt);
+            const bool r = bi >= min && bi <= max;
+            if(r ||
+               bt == eBuildingType::none ||
+               bt == eBuildingType::road ||
+               bt == eBuildingType::templeTile ||
+               bt == eBuildingType::vine ||
+               bt == eBuildingType::oliveTree ||
+               bt == eBuildingType::orangeTree ||
+               bt == eBuildingType::sheep ||
+               bt == eBuildingType::goat ||
+               bt == eBuildingType::ruins ||
+               bt == eBuildingType::wall) {
+                const auto& chars = tt->characters();
+                for(const auto& c : chars) {
+                    if(!c->visible()) continue;
+                    const bool v = eViewModeHelpers::characterVisible(
+                                       mViewMode, c->type());
+                    if(!v) continue;
+                    const auto tex = c->getTexture(mTileSize);
+                    const double x = tx - a + c->x() + 0.25;
+                    const double y = ty - a + c->y() + 0.25;
+                    tp.drawTexture(x, y, tex);
+                    if(!c->hasSecondaryTexture()) continue;
+                    const auto stex = c->getSecondaryTexture(mTileSize);
+                    if(stex.fTex) {
+                        tp.drawTexture(x + stex.fX, y + stex.fY, stex.fTex);
+                    }
+                }
+            }
+        };
+
+        const auto drawFire = [&]() {
+            if(tile->onFire()) {
+                const int f = (tx + ty) % destTexs.fFire.size();
+                const auto& ff = destTexs.fFire[f];
+                const int dt = mTime/8 + tx*ty;
+                const auto tex = ff.getTexture(dt % ff.size());
+                tp.drawTexture(rx - 2, ry - 3, tex, eAlignment::hcenter);
+            }
+        };
+
+        const auto drawPatrolGuides = [&]() {
+            if(mPatrolBuilding) {
+                const auto pgs = mPatrolBuilding->patrolGuides();
+                for(const auto& pg : *pgs) {
+                    if(pg.fX == tx && pg.fY == ty) {
+                        const auto& coll = builTexs.fPatrolGuides;
+                        const auto tex = coll.getTexture(14);
+                        tp.drawTexture(rx, ry, tex, eAlignment::top);
+                        tp.drawTexture(rx, ry - 1, intrTexs.fSpawner,
+                                       eAlignment::hcenter | eAlignment::top);
+                        break;
+                    }
+                }
+            }
+        };
+
+        const auto drawSpawner = [&]() {
+            if(mTem->visible() && tile->spawner()) {
+                tp.drawTexture(rx, ry - 1, intrTexs.fSpawner,
+                               eAlignment::hcenter | eAlignment::top);
+            }
+        };
+
+        const auto drawClouds = [&]() {
+            const bool tr = tile->topRight();
+            const bool br = tile->bottomRight();
+            const bool bl = tile->bottomLeft();
+            const bool tl = tile->topLeft();
+            if(!tr || !br || !bl || !tl) {
+                const auto& clouds = builTexs.fClouds;
+                const int id = tile->seed() % clouds.size();
+                const auto tex = builTexs.fClouds.getTexture(id);
+                double dx = 0;
+                double dy = 0;
+                eAlignment align = eAlignment::bottom | eAlignment::right;
+                if((!tr && !tl) || (!tr && !br) || (!br && !bl) || (!bl && !tl)) {
+                    align = eAlignment::center;
+                    dx = -0.25;
+                    dy = -1.0;
+                } else if(!tile->topRight()) {
+                    dx = 1.25;
+                    dy = -1.5;
+                    align = eAlignment::top | eAlignment::left;
+                } else if(!tile->bottomRight()) {
+                    dx = -1.5;
+                    dy = -1.5;
+                } else if(!tile->bottomLeft()) {
+                    dx = -2.0;
+                    dy = -0.5;
+                } else if(!tile->topLeft()) {
+                    dx = 1.5;
+                    dy = -1.5;
+                    align = eAlignment::top | eAlignment::left;
+                }
+                tp.drawTexture(rx + dx, ry + dy, tex, align);
+            }
+        };
+
+        drawSheepGoat();
+        drawPatrol();
+        drawAppeal();
+
+        if(bd) {
+        } else if(ub && !v) {
+            const auto tex = getBasementTexture(tile, ub, trrTexs);
+            tp.drawTexture(rx, ry, tex, eAlignment::top);
+        } else if(tbr && bt != eBuildingType::road) {
+            drawBuilding();
             if(ub && tbr && tbr->isMain()) {
-                if(mViewMode == eViewMode::hazards) {
-                    const auto diff = mBoard.difficulty();
-                    const int fr = eDifficultyHelpers::fireRisk(diff, type);
-                    const int dr = eDifficultyHelpers::damageRisk(diff, type);
-
-                    const int h = 100 - ub->maintenance();
-                    if((fr || dr) && h > 5) {
-                        const int n = h/15;
-                        const eTextureCollection* coll = nullptr;
-                        if(n < 2) {
-                            coll = &intrTexs.fColumn1;
-                        } else if(n < 3) {
-                            coll = &intrTexs.fColumn2;
-                        } else if(n < 4) {
-                            coll = &intrTexs.fColumn3;
-                        } else {
-                            coll = &intrTexs.fColumn4;
-                        }
-
-                        drawColumn(tp, n, rx, ry, *coll);
-                    }
-                } else if(mViewMode == eViewMode::water) {
-                    if(type == eBuildingType::commonHouse) {
-                        const auto ch = static_cast<eSmallHouse*>(ub);
-                        const int w = ch->water()/2;
-                        drawColumn(tp, w, rx, ry, intrTexs.fColumn5);
-                    }
-                } else if(mViewMode == eViewMode::actors) {
-                    if(type == eBuildingType::commonHouse) {
-                        const auto ch = static_cast<eSmallHouse*>(ub);
-                        const int a = ch->actors()/2;
-                        drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
-                    } else if(type == eBuildingType::eliteHousing) {
-                        const auto ch = static_cast<eEliteHousing*>(ub);
-                        const int a = ch->actors()/2;
-                        drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
-                    }
-                } else if(mViewMode == eViewMode::philosophers) {
-                    if(type == eBuildingType::commonHouse) {
-                        const auto ch = static_cast<eSmallHouse*>(ub);
-                        const int a = ch->philosophers()/2;
-                        drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
-                    } else if(type == eBuildingType::eliteHousing) {
-                        const auto ch = static_cast<eEliteHousing*>(ub);
-                        const int a = ch->philosophers()/2;
-                        drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
-                    }
-                } else if(mViewMode == eViewMode::athletes) {
-                    if(type == eBuildingType::commonHouse) {
-                        const auto ch = static_cast<eSmallHouse*>(ub);
-                        const int a = ch->athletes()/2;
-                        drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
-                    } else if(type == eBuildingType::eliteHousing) {
-                        const auto ch = static_cast<eEliteHousing*>(ub);
-                        const int a = ch->athletes()/2;
-                        drawColumn(tp, a, rx, ry, intrTexs.fColumn1);
-                    }
-                } else if(mViewMode == eViewMode::supplies) {
-                    if(type == eBuildingType::commonHouse) {
-                        const auto ch = static_cast<eSmallHouse*>(ub);
-                        double rxx = rx - 2.5;
-                        double ryy = ry - 2;
-                        tp.drawTexture(rxx, ryy, intrTexs.fSuppliesBg);
-                        rxx += 0.32;
-                        ryy += 0.32;
-                        tp.drawTexture(rxx + 0.17, ryy - 0.17,
-                                       ch->lowFood() ?
-                                           intrTexs.fNHasFood :
-                                           intrTexs.fHasFood);
-                        tp.drawTexture(rxx + 0.62, ryy - 0.62,
-                                       ch->lowFleece() ?
-                                           intrTexs.fNHasFleece :
-                                           intrTexs.fHasFleece);
-                        tp.drawTexture(rxx + 1.08, ryy - 1.08,
-                                       ch->lowOil() ?
-                                           intrTexs.fNHasOil :
-                                           intrTexs.fHasOil);
-                    } else if(type == eBuildingType::eliteHousing) {
-                        const auto ch = static_cast<eEliteHousing*>(ub);
-                        double rxx = rx - 3.5;
-                        double ryy = ry - 1.5;
-                        tp.drawTexture(rxx, ryy, intrTexs.fEliteSuppliesBg);
-                        rxx += 0.32;
-                        ryy += 0.32;
-                        tp.drawTexture(rxx + 0.17, ryy - 0.17,
-                                       ch->lowFood() ?
-                                           intrTexs.fNHasFood :
-                                           intrTexs.fHasFood);
-                        tp.drawTexture(rxx + 0.62, ryy - 0.62,
-                                       ch->lowFleece() ?
-                                           intrTexs.fNHasFleece :
-                                           intrTexs.fHasFleece);
-                        tp.drawTexture(rxx + 1.08, ryy - 1.08,
-                                       ch->lowOil() ?
-                                           intrTexs.fNHasOil :
-                                           intrTexs.fHasOil);
-                        tp.drawTexture(rxx + 1.54, ryy - 1.54,
-                                       ch->lowWine() ?
-                                           intrTexs.fNHasWine :
-                                           intrTexs.fHasWine);
-                        tp.drawTexture(rxx + 2.00, ryy - 2.00,
-                                       ch->lowArms() ?
-                                           intrTexs.fNHasArms :
-                                           intrTexs.fHasArms);
-                        tp.drawTexture(rxx + 2.46, ryy - 2.46,
-                                       ch->lowHorses() ?
-                                           intrTexs.fNHasHorses :
-                                           intrTexs.fHasHorses);
-                    }
-                }
+                drawBuildingModes();
             }
         }
-        const auto bt = tile->underBuildingType();
-        const int min = static_cast<int>(eBuildingType::templeAphrodite);
-        const int max = static_cast<int>(eBuildingType::templeZeus);
-        const int bi = static_cast<int>(bt);
-        const bool r = bi >= min && bi <= max;
-        if(r ||
-           bt == eBuildingType::none ||
-           bt == eBuildingType::road ||
-           bt == eBuildingType::templeTile ||
-           bt == eBuildingType::vine ||
-           bt == eBuildingType::oliveTree ||
-           bt == eBuildingType::orangeTree ||
-           bt == eBuildingType::sheep ||
-           bt == eBuildingType::goat ||
-           bt == eBuildingType::ruins ||
-           bt == eBuildingType::wall) {
-            const auto& chars = tile->characters();
-            for(const auto& c : chars) {
-                if(!c->visible()) continue;
-                const bool v = eViewModeHelpers::characterVisible(
-                                   mViewMode, c->type());
-                if(!v) continue;
-                const auto tex = c->getTexture(mTileSize);
-                const double x = tx - a + c->x() + 0.25;
-                const double y = ty - a + c->y() + 0.25;
-                tp.drawTexture(x, y, tex);
-                if(!c->hasSecondaryTexture()) continue;
-                const auto stex = c->getSecondaryTexture(mTileSize);
-                if(stex.fTex) {
-                    tp.drawTexture(x + stex.fX, y + stex.fY, stex.fTex);
-                }
-            }
-        }
+        drawCharacters();
+        drawFire();
 
-        if(tile->onFire()) {
-            const int f = (tx + ty) % destTexs.fFire.size();
-            const auto& ff = destTexs.fFire[f];
-            const int dt = mTime/8 + tx*ty;
-            const auto tex = ff.getTexture(dt % ff.size());
-            tp.drawTexture(rx - 2, ry - 3, tex, eAlignment::hcenter);
-        }
+        drawPatrolGuides();
+        drawSpawner();
 
-        if(mPatrolBuilding) {
-            const auto pgs = mPatrolBuilding->patrolGuides();
-            for(const auto& pg : *pgs) {
-                if(pg.fX == tx && pg.fY == ty) {
-                    const auto& coll = builTexs.fPatrolGuides;
-                    const auto tex = coll.getTexture(14);
-                    tp.drawTexture(rx, ry, tex, eAlignment::top);
-                    tp.drawTexture(rx, ry - 1, intrTexs.fSpawner,
-                                   eAlignment::hcenter | eAlignment::top);
-                    break;
-                }
-            }
-        }
-        if(mTem->visible() && tile->spawner()) {
-            tp.drawTexture(rx, ry - 1, intrTexs.fSpawner,
-                           eAlignment::hcenter | eAlignment::top);
-        }
-
-        const bool tr = tile->topRight();
-        const bool br = tile->bottomRight();
-        const bool bl = tile->bottomLeft();
-        const bool tl = tile->topLeft();
-        if(!tr || !br || !bl || !tl) {
-            const auto& clouds = builTexs.fClouds;
-            const int id = tile->seed() % clouds.size();
-            const auto tex = builTexs.fClouds.getTexture(id);
-            double dx = 0;
-            double dy = 0;
-            eAlignment align = eAlignment::bottom | eAlignment::right;
-            if((!tr && !tl) || (!tr && !br) || (!br && !bl) || (!bl && !tl)) {
-                align = eAlignment::center;
-                dx = -0.25;
-                dy = -1.0;
-            } else if(!tile->topRight()) {
-                dx = 1.25;
-                dy = -1.5;
-                align = eAlignment::top | eAlignment::left;
-            } else if(!tile->bottomRight()) {
-                dx = -1.5;
-                dy = -1.5;
-            } else if(!tile->bottomLeft()) {
-                dx = -2.0;
-                dy = -0.5;
-            } else if(!tile->topLeft()) {
-                dx = 1.5;
-                dy = -1.5;
-                align = eAlignment::top | eAlignment::left;
-            }
-            tp.drawTexture(rx + dx, ry + dy, tex, align);
-        }
+        drawClouds();
     });
 
     if(mPatrolBuilding) {
