@@ -29,6 +29,24 @@ int eBuilding::provide(const eProvide p, const int n) {
     return 0;
 }
 
+bool eBuilding::sFlatBuilding(const eBuildingType bt) {
+    const int min = static_cast<int>(eBuildingType::templeAphrodite);
+    const int max = static_cast<int>(eBuildingType::templeZeus);
+    const int bi = static_cast<int>(bt);
+    const bool r = bi >= min && bi <= max;
+    return r ||
+           bt == eBuildingType::none ||
+           bt == eBuildingType::road ||
+           bt == eBuildingType::templeTile ||
+           bt == eBuildingType::vine ||
+           bt == eBuildingType::oliveTree ||
+           bt == eBuildingType::orangeTree ||
+           bt == eBuildingType::sheep ||
+           bt == eBuildingType::goat ||
+           bt == eBuildingType::ruins ||
+           bt == eBuildingType::wall;
+}
+
 eTile* eBuilding::tileNeighbour(const eMoveDirection o,
                                 const eTileValidator& v) const {
     int dx = 0;

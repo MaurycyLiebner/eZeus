@@ -693,6 +693,63 @@ void drawColumn(eTilePainter& tp, const int n,
                    eAlignment::hcenter | eAlignment::top);
 }
 
+void eGameWidget::updateTileRendering() {
+    const auto updateFutureDimension = [&](eTile* const tile) {
+        const int tid = static_cast<int>(mTileSize);
+        const auto& trrTexs = eGameTextures::terrain().at(tid);
+        const auto& builTexs = eGameTextures::buildings().at(tid);
+        int futureDim;
+        int drawDim;
+        auto tex = eTileToTexture::get(tile, trrTexs, builTexs,
+                                       mTileSize, mDrawElevation,
+                                       futureDim, drawDim);
+        tile->setFutureDimension(futureDim);
+    };
+
+    iterateOverTiles([&](eTile* const tile) {
+//        updateFutureDimension(tile);
+
+        tile->terrainTiles().clear();
+        int fx = 0;
+        int fy = 0;
+        const auto ubt = tile->underBuildingType();
+        if(eBuilding::sFlatBuilding(ubt)) {
+            const int tx = tile->x();
+            const int ty = tile->y();
+
+            int tty = ty;
+            bool found = false;
+            eTile* lastT = nullptr;
+            for(int i = 0; i < 3 && !found; i++) {
+                tty--;
+                const int w = ty - tty + 1;
+                int tttx = tx;
+                int ttty = tty;
+                for(int j = 0; j < w && !found; j++) {
+                    const auto t = mBoard.tile(tttx, ttty);
+                    tttx--;
+                    ttty++;
+                    if(!t) continue;
+                    lastT = t;
+                    if(t->x() + t->y() <= fx + fy) {
+                        if(t->x() <= fx) found = true;
+                    }
+                    const auto tubt = t->underBuildingType();
+                    if(!eBuilding::sFlatBuilding(tubt)) {
+                        found = true;
+                    }
+                }
+            }
+
+            if(lastT) {
+                lastT->addTerrainTile(tile);
+                fx = lastT->x();
+                fy = lastT->y();
+            }
+        }
+    });
+}
+
 void eGameWidget::paintEvent(ePainter& p) {
     mThreadPool.handleFinished();
     mFrame++;
@@ -768,8 +825,8 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     };
 
-    iterateOverTiles(drawTerrain);
-
+    //iterateOverTiles(drawTerrain);
+    updateTileRendering();
     iterateOverTiles([&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
@@ -1114,6 +1171,10 @@ void eGameWidget::paintEvent(ePainter& p) {
         drawSpawner();
 
         drawClouds();
+
+        for(const auto t : tile->terrainTiles()) {
+            drawTerrain(t);
+        }
     });
 
     if(mPatrolBuilding) {

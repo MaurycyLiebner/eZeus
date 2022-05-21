@@ -48,6 +48,7 @@ public:
     void viewTile(eTile* const tile);
     bool tileVisible(eTile* const tile) const;
 protected:
+    void updateTileRendering();
     void paintEvent(ePainter& p);
 
     bool keyPressEvent(const eKeyPressEvent& e);

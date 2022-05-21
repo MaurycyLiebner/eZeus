@@ -62,9 +62,14 @@ public:
                                bool& br, bool& bl,
                                bool& t, bool& r,
                                bool& b, bool& l) const;
+
+    void addTerrainTile(eTile* const tile) { mTerrainTiles.push_back(tile); }
+    std::vector<eTile*>& terrainTiles() { return mTerrainTiles; }
 private:
     int mFutureDim = 0;
 private:
+    std::vector<eTile*> mTerrainTiles;
+
     std::vector<stdsptr<eCharacter>> mCharacters;
     stdsptr<eBuilding> mUnderBuilding;
     stdsptr<eBuildingRenderer> mBuilding;

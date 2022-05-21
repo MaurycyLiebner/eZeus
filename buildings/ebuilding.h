@@ -146,6 +146,8 @@ public:
 
     virtual int provide(const eProvide p, const int n);
 
+    static bool sFlatBuilding(const eBuildingType bt);
+
     using eTileValidator = std::function<bool(eTile*)>;
     eTile* tileNeighbour(const eMoveDirection o,
                          const eTileValidator& v) const;
