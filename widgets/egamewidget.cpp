@@ -694,26 +694,15 @@ void drawColumn(eTilePainter& tp, const int n,
 }
 
 void eGameWidget::updateTileRendering() {
-    const auto updateFutureDimension = [&](eTile* const tile) {
-        const int tid = static_cast<int>(mTileSize);
-        const auto& trrTexs = eGameTextures::terrain().at(tid);
-        const auto& builTexs = eGameTextures::buildings().at(tid);
-        int futureDim;
-        int drawDim;
-        auto tex = eTileToTexture::get(tile, trrTexs, builTexs,
-                                       mTileSize, mDrawElevation,
-                                       futureDim, drawDim);
-        tile->setFutureDimension(futureDim);
-    };
-
-    iterateOverTiles([&](eTile* const tile) {
-//        updateFutureDimension(tile);
-
+    const auto updateRenderingOrder = [&](eTile* const tile) {
         tile->terrainTiles().clear();
         int fx = 0;
         int fy = 0;
         const auto ubt = tile->underBuildingType();
-        if(eBuilding::sFlatBuilding(ubt)) {
+        const auto ub = tile->underBuilding();
+        const auto sc = dynamic_cast<eSanctBuilding*>(ub);
+        const bool r = sc && sc->progress() == 0;
+        if(r || eBuilding::sFlatBuilding(ubt)) {
             const int tx = tile->x();
             const int ty = tile->y();
 
@@ -747,6 +736,10 @@ void eGameWidget::updateTileRendering() {
                 fy = lastT->y();
             }
         }
+    };
+
+    iterateOverTiles([&](eTile* const tile) {
+        updateRenderingOrder(tile);
     });
 }
 
@@ -792,11 +785,14 @@ void eGameWidget::paintEvent(ePainter& p) {
         const int tx = tile->x();
         const int ty = tile->y();
 
-        int drawDim;
+        const int tid = static_cast<int>(mTileSize);
+        const auto& trrTexs = eGameTextures::terrain().at(tid);
+        const auto& builTexs = eGameTextures::buildings().at(tid);
         int futureDim;
-        auto tex = eTileToTexture::get(tile, trrTexs, builTexs,
-                                       mTileSize, mDrawElevation,
-                                       futureDim, drawDim);
+        int drawDim;
+        const auto tex = eTileToTexture::get(tile, trrTexs, builTexs,
+                                             mTileSize, mDrawElevation,
+                                             futureDim, drawDim);
         tile->setFutureDimension(futureDim);
 
         double rx;
