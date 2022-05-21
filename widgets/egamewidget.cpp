@@ -923,6 +923,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                 double ry;
                 drawXY(tx, ty, rx, ry, tbr->spanW(), tbr->spanH(), a);
                 tbr->draw(tp, rx, ry);
+
+//                drawXY(tx, ty, rx, ry, 1, 1, a);
+//                tp.drawTexture(rx, ry, trrTexs.fSelectedBuildingBase, eAlignment::top);
             }
         };
 
