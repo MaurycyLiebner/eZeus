@@ -1,10 +1,12 @@
 ﻿#include "ecollectresourceaction.h"
 
 #include "characters/eresourcecollector.h"
+#include "buildings/eresourcecollectbuilding.h"
 #include "emovetoaction.h"
+#include "engine/egameboard.h"
 
 eCollectResourceAction::eCollectResourceAction(
-        const SDL_Rect& buildingRect,
+        eResourceCollectBuilding* const b,
         eResourceCollectorBase* const c,
         const eHasResource& hr,
         const eTranformFunc& tf,
@@ -13,50 +15,104 @@ eCollectResourceAction::eCollectResourceAction(
     eActionWithComeback(c, failAction, finishAction),
     mHasResource(hr),
     mTransFunc(tf),
-    mCharacter(c),
-    mBuildingRect(buildingRect) {
-    setFinishOnComeback(true);
-}
+    mBuilding(b),
+    mCharacter(c) {}
 
-void eCollectResourceAction::increment(const int by) {
-    if(!currentAction()) findResource();
-    else eActionWithComeback::increment(by);
+bool eCollectResourceAction::decide() {
+    const bool r = eActionWithComeback::decide();
+    if(r) return r;
+
+    const auto t = mCharacter->tile();
+    const int coll = mCharacter->collected();
+
+    const bool inside = eWalkableHelpers::sTileUnderBuilding(t, mBuilding);
+
+    if(coll > 0) {
+        if(inside) {
+            const auto rType = mBuilding->resourceType();
+            mBuilding->add(rType, coll);
+            mCharacter->incCollected(-coll);
+            waitDecision();
+        } else {
+            goBackDecision();
+        }
+    } else {
+        const auto& brd = mCharacter->getBoard();
+        eTile* tt = nullptr;
+        if(mGetAtTile) {
+            const auto t = mCharacter->tile();
+            if(mHasResource(t) && !t->busy()) {
+                tt = t;
+            }
+        } else {
+            for(int i = -1; i < 2; i++) {
+                for(int j = -1; j < 2; j++) {
+                    const auto ttt = brd.tile(t->x() + i, t->y() + j);
+                    if(!ttt) continue;
+                    if(mHasResource(ttt) && !ttt->busy()) {
+                        tt = ttt;
+                        break;
+                    }
+                }
+            }
+        }
+        if(tt) collect(tt);
+        else if(inside) {
+            const int res = mBuilding->resource();
+            if(res >= mBuilding->maxResource() ||
+               !mBuilding->enabled()) {
+                waitDecision();
+            } else {
+                if(mNoTarget) {
+                    mNoTarget = false;
+                    waitDecision();
+                } else {
+                    findResourceDecision();
+                }
+            }
+        } else if(mNoTarget) {
+            mNoTarget = false;
+            goBackDecision();
+        } else {
+            findResourceDecision();
+        }
+    }
+
+    return true;
 }
 
 void eCollectResourceAction::setCollectedAction(const eTileAction& a) {
     mCollectedAction = a;
 }
 
-bool eCollectResourceAction::findResource() {
+bool eCollectResourceAction::findResourceDecision() {
     const auto c = character();
-
 
     const stdptr<eCollectResourceAction> tptr(this);
 
-    const auto failFunc = [this]() {
-        setState(eCharacterActionState::failed);
-    };
-
     const auto hr = mHasResource;
-        const auto tileWalkable = [hr](eTileBase* const t) {
+    const auto tileWalkable = [hr](eTileBase* const t) {
         return t->walkable() || hr(t);
     };
 
     const auto hubr = [hr](eTileBase* const t) {
         return hr(t) && !t->busy();
     };
-    const auto finishAction = [this, c]() {
-        const auto tile = c->tile();
-        if(mHasResource(tile) && !tile->busy()) collect(tile);
-        else findResource();
-    };
 
-    const auto a = e::make_shared<eMoveToAction>(c, failFunc, finishAction);
+    const auto a = e::make_shared<eMoveToAction>(c, [](){}, [](){});
+
     const stdptr<eCharacter> cptr(c);
     a->setFoundAction([cptr]() {
         if(!cptr) return;
         cptr->setActionType(eCharacterActionType::walk);
     });
+
+    const auto findFailFunc = [tptr, this]() {
+        if(tptr) mNoTarget = true;
+    };
+    a->setFindFailAction(findFailFunc);
+    a->setRemoveLastTurn(!mGetAtTile);
+
     a->start(hubr, tileWalkable);
     setCurrentAction(a);
 
@@ -67,14 +123,15 @@ bool eCollectResourceAction::collect(eTile* const tile) {
     tile->setBusy(true);
     mCharacter->setActionType(eCharacterActionType::collect);
 
-    const auto failAction = [this, tile]() {
+    const auto failAction = [tile]() {
         tile->setBusy(false);
-        setState(eCharacterActionState::failed);
     };
-    const auto finishAction = [this, tile]() {
-        if(mCollectedAction) mCollectedAction(tile);
+    const eStdPointer<eCollectResourceAction> tptr(this);
+
+    const auto finishAction = [tptr, this, tile]() {
         tile->setBusy(false);
-        goBack2();
+        if(!tptr) return;
+        if(mCollectedAction) mCollectedAction(tile);
     };
 
     const auto a = e::make_shared<eCollectAction>(
@@ -84,14 +141,19 @@ bool eCollectResourceAction::collect(eTile* const tile) {
     return false;
 }
 
-void eCollectResourceAction::goBack2() {
-    mCharacter->setActionType(eCharacterActionType::carry);
+void eCollectResourceAction::goBackDecision() {
+    if(mCharacter->collected()) {
+        mCharacter->setActionType(eCharacterActionType::carry);
+    } else {
+        mCharacter->setActionType(eCharacterActionType::walk);
+    }
     const auto hr = mHasResource;
-    const auto rect = mBuildingRect;
-    eActionWithComeback::goBack([hr, rect](eTileBase* const t) {
-        const SDL_Point p{t->x(), t->y()};
-        const bool r = SDL_PointInRect(&p, &rect);
-        if(r) return true;
-        return t->walkable() || hr(t);
+    goBack(mBuilding, [hr](eTileBase* const t) {
+        return eWalkableHelpers::sDefaultWalkable(t) || hr(t);
     });
 }
+
+void eCollectResourceAction::waitDecision() {
+    wait(5000);
+}
+

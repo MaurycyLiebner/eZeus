@@ -10,32 +10,40 @@
 class eMovePathAction;
 
 class eResourceCollectorBase;
+class eResourceCollectBuilding;
 
 class eCollectResourceAction : public eActionWithComeback {
 public:
     using eHasResource = std::function<bool(eTileBase*)>;
     using eTileAction = std::function<void(eTile*)>;
     using eTranformFunc = eTileAction;
-    eCollectResourceAction(const SDL_Rect& buildingRect,
+    eCollectResourceAction(eResourceCollectBuilding* const b,
                            eResourceCollectorBase* const c,
                            const eHasResource& hr,
                            const eTranformFunc& tf,
                            const eAction& failAction,
                            const eAction& finishAction);
 
-    void increment(const int by);
+    bool decide();
 
     void setCollectedAction(const eTileAction& a);
+
+    void setGetAtTile(const bool b) { mGetAtTile = b; }
 private:
-    bool findResource();
+    bool findResourceDecision();
     bool collect(eTile* const tile);
-    void goBack2();
+    void goBackDecision();
+    void waitDecision();
 
     const eHasResource mHasResource;
     const eTranformFunc mTransFunc;
+    eResourceCollectBuilding* const mBuilding;
     eResourceCollectorBase* const mCharacter;
-    const SDL_Rect mBuildingRect;
     eTileAction mCollectedAction;
+
+    bool mGetAtTile = true;
+
+    bool mNoTarget = false;
 };
 
 #endif // ECOLLECTRESOURCEACTION_H

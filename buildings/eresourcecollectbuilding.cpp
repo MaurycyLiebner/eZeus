@@ -26,6 +26,10 @@ eResourceCollectBuilding::eResourceCollectBuilding(
 
 }
 
+eResourceCollectBuilding::~eResourceCollectBuilding() {
+    if(mCollector) mCollector->kill();
+}
+
 std::shared_ptr<eTexture> eResourceCollectBuilding::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     return mTextures[sizeId].*mBaseTex;
@@ -92,32 +96,32 @@ std::vector<eOverlay> eResourceCollectBuilding::
 
 void eResourceCollectBuilding::timeChanged(const int by) {
     eResourceBuildingBase::timeChanged(by);
-    if(enabled() && mSpawnEnabled && !mCollector && time() > mSpawnTime) {
-        spawn();
-        mSpawnTime = time() + mWaitTime;
-    }
+    if(!mCollector) spawn();
 }
 
 bool eResourceCollectBuilding::spawn() {
     if(resource() >= maxResource()) return false;
+    if(!mSpawnEnabled) return false;
     const auto t = centerTile();
     mCollector = mCharGenerator();
     mCollector->changeTile(t);
     const eStdPointer<eResourceCollectBuilding> tptr(this);
     const auto finishAct = [tptr, this]() {
         if(!tptr) return;
-        if(mCollector) {
-            add(resourceType(), mCollector->collected());
-            mCollector->changeTile(nullptr);
-            mCollector.reset();
-        }
-        mSpawnTime = time() + mWaitTime;
+        if(mCollector) mCollector->kill();
+        mCollector = nullptr;
     };
 
     const auto a = e::make_shared<eCollectResourceAction>(
-                       tileRect(), mCollector.get(), mHasRes,
+                       this, mCollector.get(), mHasRes,
                        mTransFunc, finishAct, finishAct);
     a->setCollectedAction(mCollectedAction);
+    switch(resourceType()) {
+    case eResourceType::silver:
+    case eResourceType::bronze:
+        a->setGetAtTile(false);
+    default: break;
+    }
     mCollector->setAction(a);
     return true;
 }

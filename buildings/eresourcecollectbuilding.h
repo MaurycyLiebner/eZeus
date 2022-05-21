@@ -26,6 +26,7 @@ public:
                              const int sw, const int sh,
                              const int maxEmployees,
                              const eResourceType resType);
+    ~eResourceCollectBuilding();
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
