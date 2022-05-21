@@ -821,7 +821,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     };
 
-    //iterateOverTiles(drawTerrain);
     updateTileRendering();
     iterateOverTiles([&](eTile* const tile) {
         const int tx = tile->x();
@@ -1041,7 +1040,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         };
 
         const auto drawCharacters = [&]() {
-            const auto tt = mBoard.tile(tx, ty);
+            const auto tt = mBoard.tile(tx - 1, ty);
             if(!tt) return;
             const int min = static_cast<int>(eBuildingType::templeAphrodite);
             const int max = static_cast<int>(eBuildingType::templeZeus);
@@ -1066,7 +1065,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                                        mViewMode, c->type());
                     if(!v) continue;
                     const auto tex = c->getTexture(mTileSize);
-                    const double x = tx - a + c->x() + 0.25;
+                    const double x = tx - a + c->x() + 0.25 - 1;
                     const double y = ty - a + c->y() + 0.25;
                     tp.drawTexture(x, y, tex);
                     if(!c->hasSecondaryTexture()) continue;
