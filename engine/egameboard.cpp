@@ -262,6 +262,7 @@ void eGameBoard::incTime(const int by) {
         const auto a = e::make_shared<eGodVisitAction>(
                            god.get(), []() {}, []() {});
         god->setAction(a);
+        a->increment(1);
         event(e, god->tile());
     }
 
