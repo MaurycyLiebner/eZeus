@@ -16,8 +16,29 @@ std::string string_format(const std::string& format, Args... args) {
     return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
 }
 
-void eMessageBox::initialize(const eAction& viewTile, const eDate& date,
-                             const std::shared_ptr<eMessage>& msg,
+void replaceAll(std::string& source, const std::string& from, const std::string& to) {
+    std::string newString;
+    newString.reserve(source.length());  // avoids a few memory allocations
+
+    std::string::size_type lastPos = 0;
+    std::string::size_type findPos;
+
+    while(std::string::npos != (findPos = source.find(from, lastPos)))
+    {
+        newString.append(source, lastPos, findPos - lastPos);
+        newString += to;
+        lastPos = findPos + from.length();
+    }
+
+    // Care for the rest after last occurrence
+    newString += source.substr(lastPos);
+
+    source.swap(newString);
+}
+
+void eMessageBox::initialize(const eAction& viewTile,
+                             const eDate& date,
+                             eMessage msg,
                              const std::string& name) {
     setType(eFrameType::message);
 
@@ -33,7 +54,7 @@ void eMessageBox::initialize(const eAction& viewTile, const eDate& date,
     d->setSmallFontSize();
     d->fitContent();
     w0->addWidget(d);
-    const auto title = new eLabel(msg->fTitle, window());
+    const auto title = new eLabel(msg.fTitle, window());
     title->setHugeFontSize();
     title->fitContent();
     w0->addWidget(title);
@@ -66,8 +87,8 @@ void eMessageBox::initialize(const eAction& viewTile, const eDate& date,
     const auto text = new eLabel(window());
     text->setSmallFontSize();
     text->setWrapWidth(width() - 4*p);
-    const auto txt = string_format(msg->fText, name.c_str());
-    text->setText(txt);
+    replaceAll(msg.fText, "[player_name]", name);
+    text->setText(msg.fText);
     text->fitContent();
 
     ww->addWidget(text);

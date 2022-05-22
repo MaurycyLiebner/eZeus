@@ -23,10 +23,10 @@
 #include "etopbarwidget.h"
 
 #include "eviewmode.h"
+#include "emessage.h"
 
 class eTerrainEditMenu;
 class eDomesticatedAnimal;
-struct eMessage;
 struct eSanctBlueprint;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
@@ -114,8 +114,8 @@ private:
 
     void updateAppealMap();
 
-    void showMessage(eTile* const tile,
-                     const std::shared_ptr<eMessage>& msg);
+    void showMessage(eTile* const tile, const eMessage& msg);
+    void showMessage(eTile* const tile, const eMessageType& msg);
 
     bool roadPath(std::vector<eOrientation>& path);
 

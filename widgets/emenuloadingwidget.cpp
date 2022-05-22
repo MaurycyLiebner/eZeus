@@ -12,7 +12,6 @@ eMenuLoadingWidget::eMenuLoadingWidget(eMainWindow* const window) :
             text = "Loading music...";
             eMusic::loadMenu();
             eSounds::loadButtonSound();
-            eMessages::sInstance.load();
             return true;
         }
         return false;

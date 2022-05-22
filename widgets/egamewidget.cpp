@@ -186,7 +186,7 @@ void eGameWidget::initialize(const int w, const int h) {
     const auto sizes = setts.availableSizes();
     setTileSize(sizes.front());
 
-    showMessage(nullptr, eMessages::sInstance.fFire);
+    showMessage(nullptr, eMessages::instance.fFire);
 }
 
 void drawXY(const int tx, const int ty,
@@ -524,9 +524,11 @@ void eGameWidget::updateAppealMap() {
     });
     mThreadPool.queueTask(task);
 }
+void eGameWidget::showMessage(eTile* const tile, const eMessageType& msg) {
+    showMessage(tile, msg.fFull);
+}
 
-void eGameWidget::showMessage(eTile* const tile,
-                              const std::shared_ptr<eMessage>& msg) {
+void eGameWidget::showMessage(eTile* const tile, const eMessage& msg) {
     const auto msgb = new eMessageBox(window());
     msgb->setHeight(height()/3);
     msgb->setWidth(width()/2);

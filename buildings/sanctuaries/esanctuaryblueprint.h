@@ -32,15 +32,18 @@ class eSanctBlueprints {
 public:
     static eSanctBlueprints instance;
 
-    void load();
-
-    bool fLoaded = false;
+    static void load();
+    static bool loaded();
 
     eSanctBlueprint fHephaestusW;
     eSanctBlueprint fHephaestusH;
 
     eSanctBlueprint fArtemisW;
     eSanctBlueprint fArtemisH;
+private:
+    void loadImpl();
+
+    bool mLoaded = false;
 };
 
 #endif // ESANCTUARYBLUEPRINT_H

@@ -3,6 +3,7 @@
 #include "textures/egametextures.h"
 #include "emusic.h"
 #include "esounds.h"
+#include "emessages.h"
 #include "buildings/sanctuaries/esanctuaryblueprint.h"
 #include "emainwindow.h"
 
@@ -16,11 +17,16 @@ eGameLoadingWidget::eGameLoadingWidget(eMainWindow* const window) :
             if(r) {
                 const bool r = eSounds::loaded();
                 if(r) {
-                    auto& i = eSanctBlueprints::instance;
-                    const bool r = i.fLoaded;
-                    if(r) return true;
+                    const bool r = eSanctBlueprints::loaded();
+                    if(r) {
+                        const bool r = eMessages::loaded();
+                        if(r) return true;
+                        text = "Loading messages...";
+                        eMessages::load();
+                        return false;
+                    }
                     text = "Loading blueprints...";
-                    i.load();
+                    eSanctBlueprints::load();
                     return false;
                 } else {
                     text = "Loading sounds...";

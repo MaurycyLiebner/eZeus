@@ -12,7 +12,7 @@ public:
 
     void initialize(const eAction& viewTile,
                     const eDate& date,
-                    const std::shared_ptr<eMessage>& msg,
+                    eMessage msg,
                     const std::string& name);
 };
 

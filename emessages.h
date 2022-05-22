@@ -3,49 +3,54 @@
 
 #include "emessage.h"
 
-#include <memory>
-
-struct eGameMessages {
-    std::shared_ptr<eMessage> fNoPart;
-    std::shared_ptr<eMessage> fBegin;
-    std::shared_ptr<eMessage> fLost;
-    std::shared_ptr<eMessage> fSecond;
-    std::shared_ptr<eMessage> fWin;
-};
+#include <map>
 
 class eMessages {
 public:
     eMessages() {}
 
-    void load();
+    static eMessages instance;
 
-    static eMessages sInstance;
+    static bool load();
+    static bool loaded();
 
-    std::shared_ptr<eMessage> fPop100;
-    std::shared_ptr<eMessage> fPop500;
-    std::shared_ptr<eMessage> fPop1000;
-    std::shared_ptr<eMessage> fPop2000;
-    std::shared_ptr<eMessage> fPop3000;
+    static const std::string& message(const std::string& key);
 
-    std::shared_ptr<eMessage> fHappinessMonument;
+    std::map<std::string, std::string> fMessages;
 
-    std::shared_ptr<eMessage> fEmployeesNeeded;
+    eMessageType fPop100;
+    eMessageType fPop500;
+    eMessageType fPop1000;
+    eMessageType fPop2000;
+    eMessageType fPop3000;
+    eMessageType fPop5000;
+    eMessageType fPop10000;
+    eMessageType fPop15000;
+    eMessageType fPop20000;
+    eMessageType fPop25000;
 
-    std::shared_ptr<eMessage> fFire;
-    std::shared_ptr<eMessage> fCollapse;
-    std::shared_ptr<eMessage> fPlagueStrikes;
+    eMessageType fHappinessMonument;
 
-    std::shared_ptr<eMessage> fAphroditeGreetings;
-    std::shared_ptr<eMessage> fArtemisGreetings;
-    std::shared_ptr<eMessage> fDemeterGreetings;
-    std::shared_ptr<eMessage> fHadesGreetings;
-    std::shared_ptr<eMessage> fZeusGreetings;
+    eMessageType fEmployeesNeeded;
+
+    eMessageType fFire;
+    eMessageType fCollapse;
+    eMessageType fPlagueStrikes;
+
+    eMessageType fAphroditeWooing;
+    eMessageType fArtemisWooing;
+    eMessageType fDemeterWooing;
+    eMessageType fHadesWooing;
+    eMessageType fZeusWooing;
 
     eGameMessages fHomeGames;
     eGameMessages fIsthmianGames;
     eGameMessages fNemeanGames;
     eGameMessages fOlympianGames;
     eGameMessages fPythianGames;
+private:
+    bool loadImpl();
+    bool mLoaded = false;
 };
 
 #endif // EMESSAGES_H
