@@ -8,7 +8,7 @@
 #include "emainwindow.h"
 
 eGameLoadingWidget::eGameLoadingWidget(eMainWindow* const window) :
-    eLoadingWidget(eGameTextures::gameSize(window->settings()) + 3,
+    eLoadingWidget(eGameTextures::gameSize(window->settings()) + 4,
                    [window](std::string& text) {
         const auto& sett = window->settings();
         const bool r = eGameTextures::loadNextGame(sett, text);
