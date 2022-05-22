@@ -327,7 +327,7 @@ bool eGameWidget::tileVisible(eTile* const tile) const {
     return true;
 }
 
-void eGameWidget::iterateOverTiles(const eTileAction& a) {
+void eGameWidget::iterateOverVisibleTiles(const eTileAction& a) {
     const int w = mBoard.width();
     const int h = mBoard.height();
     const int nRows = w + h - 1;
@@ -695,56 +695,6 @@ void drawColumn(eTilePainter& tp, const int n,
                    eAlignment::hcenter | eAlignment::top);
 }
 
-void eGameWidget::updateTileRendering() {
-    const auto updateRenderingOrder = [&](eTile* const tile) {
-        tile->terrainTiles().clear();
-        int fx = 0;
-        int fy = 0;
-        const auto ubt = tile->underBuildingType();
-        const auto ub = tile->underBuilding();
-        const auto sc = dynamic_cast<eSanctBuilding*>(ub);
-        const bool r = sc && sc->progress() == 0;
-        if(r || eBuilding::sFlatBuilding(ubt)) {
-            const int tx = tile->x();
-            const int ty = tile->y();
-
-            int tty = ty;
-            bool found = false;
-            eTile* lastT = nullptr;
-            for(int i = 0; i < 3 && !found; i++) {
-                tty--;
-                const int w = ty - tty + 1;
-                int tttx = tx;
-                int ttty = tty;
-                for(int j = 0; j < w && !found; j++) {
-                    const auto t = mBoard.tile(tttx, ttty);
-                    tttx--;
-                    ttty++;
-                    if(!t) continue;
-                    lastT = t;
-                    if(t->x() + t->y() <= fx + fy) {
-                        if(t->x() <= fx) found = true;
-                    }
-                    const auto tubt = t->underBuildingType();
-                    if(!eBuilding::sFlatBuilding(tubt)) {
-                        found = true;
-                    }
-                }
-            }
-
-            if(lastT) {
-                lastT->addTerrainTile(tile);
-                fx = lastT->x();
-                fy = lastT->y();
-            }
-        }
-    };
-
-    iterateOverTiles([&](eTile* const tile) {
-        updateRenderingOrder(tile);
-    });
-}
-
 void eGameWidget::paintEvent(ePainter& p) {
     mThreadPool.handleFinished();
     mFrame++;
@@ -823,8 +773,8 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     };
 
-    updateTileRendering();
-    iterateOverTiles([&](eTile* const tile) {
+    mBoard.updateTileRenderingOrderIfNeeded();
+    iterateOverVisibleTiles([&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
         const int a = mDrawElevation ? tile->altitude() : 0;

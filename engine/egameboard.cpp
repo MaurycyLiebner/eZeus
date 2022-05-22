@@ -14,6 +14,8 @@
 #include "characters/gods/ehermes.h"
 #include "characters/actions/egodvisitaction.h"
 
+#include "buildings/sanctuaries/esanctbuilding.h"
+
 eGameBoard::eGameBoard(eThreadPool* const tpool) :
     mThreadPool(tpool), mEmplData(mPopData, *this) {}
 
@@ -54,6 +56,70 @@ void eGameBoard::clear() {
     mHeight = 0;
 }
 
+void eGameBoard::iterateOverAllTiles(const eTileAction& a) {
+    const auto iniIt = eGameBoardDiagonalIterator(0, 0, this);
+    for(auto it = iniIt; it != dEnd(); ++it) {
+        a(*it);
+    }
+}
+
+void eGameBoard::updateTileRenderingOrder() {
+    const auto updateRenderingOrder = [&](eTile* const tile) {
+        tile->terrainTiles().clear();
+        int fx = 0;
+        int fy = 0;
+        const auto ubt = tile->underBuildingType();
+        const auto ub = tile->underBuilding();
+        const auto sc = dynamic_cast<eSanctBuilding*>(ub);
+        const bool r = sc && sc->progress() == 0;
+        if(r || eBuilding::sFlatBuilding(ubt)) {
+            const int tx = tile->x();
+            const int ty = tile->y();
+
+            int tty = ty;
+            bool found = false;
+            eTile* lastT = nullptr;
+            for(int i = 0; i < 3 && !found; i++) {
+                tty--;
+                const int w = ty - tty + 1;
+                int tttx = tx;
+                int ttty = tty;
+                for(int j = 0; j < w && !found; j++) {
+                    const auto t = eGameBoard::tile(tttx, ttty);
+                    tttx--;
+                    ttty++;
+                    if(!t) continue;
+                    lastT = t;
+                    if(t->x() + t->y() <= fx + fy) {
+                        if(t->x() <= fx) found = true;
+                    }
+                    const auto tubt = t->underBuildingType();
+                    if(!eBuilding::sFlatBuilding(tubt)) {
+                        found = true;
+                    }
+                }
+            }
+
+            if(lastT) {
+                lastT->addTerrainTile(tile);
+                fx = lastT->x();
+                fy = lastT->y();
+            }
+        }
+    };
+
+    iterateOverAllTiles([&](eTile* const tile) {
+        updateRenderingOrder(tile);
+    });
+}
+
+void eGameBoard::updateTileRenderingOrderIfNeeded() {
+    if(mTileRenderingOrderUpdateNeeded) {
+        updateTileRenderingOrder();
+        mTileRenderingOrderUpdateNeeded = false;
+    }
+}
+
 eTile* eGameBoard::tile(const int x, const int y) const {
     if(x < 0 || x >= mWidth) return nullptr;
     if(y < 0 || y >= mHeight) return nullptr;
@@ -72,10 +138,12 @@ bool eGameBoard::unregisterCharacter(eCharacter* const c) {
 }
 
 void eGameBoard::registerBuilding(eBuilding* const b) {
+    mTileRenderingOrderUpdateNeeded = true;
     mBuildings.push_back(b);
 }
 
 bool eGameBoard::unregisterBuilding(eBuilding* const b) {
+    mTileRenderingOrderUpdateNeeded = true;
     const auto it = std::find(mBuildings.begin(), mBuildings.end(), b);
     if(it == mBuildings.end()) return false;
     mBuildings.erase(it);

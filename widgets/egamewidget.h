@@ -48,7 +48,6 @@ public:
     void viewTile(eTile* const tile);
     bool tileVisible(eTile* const tile) const;
 protected:
-    void updateTileRendering();
     void paintEvent(ePainter& p);
 
     bool keyPressEvent(const eKeyPressEvent& e);
@@ -68,8 +67,7 @@ private:
     static bool sTileFertile(eTile* const tile);
 
     using eTileAction = std::function<void(eTile* const)>;
-
-    void iterateOverTiles(const eTileAction& a);
+    void iterateOverVisibleTiles(const eTileAction& a);
 
     void setTileSize(const eTileSize size);
 

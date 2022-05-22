@@ -169,9 +169,16 @@ public:
 
     const std::string& playerName() const
     { return mPlayerName; }
+
+    void updateTileRenderingOrder();
+    void updateTileRenderingOrderIfNeeded();
+    using eTileAction = std::function<void(eTile* const)>;
+    void iterateOverAllTiles(const eTileAction& a);
 private:
     void updateDiagonalArray();
     void updateNeighbours();
+
+    bool mTileRenderingOrderUpdateNeeded = true;
 
     eEventHandler mEventHandler;
     eVisibilityChecker mVisibilityChecker;
