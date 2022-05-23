@@ -7,6 +7,8 @@
 #include "emainwindow.h"
 #include "textures/egametextures.h"
 
+#include "egamedir.h"
+
 bool init() {
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         printf("SDL could not initialize! SDL Error: %s\n",
@@ -96,6 +98,8 @@ int main() {
         close();
         return 1;
     }
+
+    eGameDir::initialize();
 
     SDL_DisplayMode mode;
     const bool r0 = getDisplayResolution(mode);

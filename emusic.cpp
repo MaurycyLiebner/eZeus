@@ -1,10 +1,10 @@
 #include "emusic.h"
 
+#include "egamedir.h"
+
 eMusic eMusic::sInstance;
 
-eMusic::eMusic() {
-
-}
+eMusic::eMusic() {}
 
 eMusic::~eMusic() {
     Mix_FreeMusic(mSetupMusic);
@@ -99,7 +99,7 @@ void eMusic::playRandomBattleMusicImpl() {
 void eMusic::loadImpl() {
     if(mLoaded) return;
     mLoaded = true;
-    const std::string dir{"../Audio/Music/"};
+    const std::string dir{eGameDir::path("Audio/Music/")};
 
     loadMusic(dir + "Afigisi.mp3");
     loadMusic(dir + "Amolfi.mp3");
@@ -123,7 +123,7 @@ void eMusic::loadImpl() {
 }
 
 void eMusic::loadMenuImpl() {
-    const std::string dir{"../Audio/Music/"};
+    const std::string dir{eGameDir::path("Audio/Music/")};
 
     loadSetupMusic(dir + "Setup.mp3");
 }

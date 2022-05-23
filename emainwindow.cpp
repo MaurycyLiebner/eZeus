@@ -14,6 +14,8 @@
 
 #include "engine/emapgenerator.h"
 
+#include "egamedir.h"
+
 #include <chrono>
 
 eMainWindow::eMainWindow() {}
@@ -54,8 +56,7 @@ bool eMainWindow::initialize(const eResolution& res) {
     setResolution(res);
     SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
-    const std::string icoDir{"../Zeus and Poseidon/"};
-    const std::string icoPath = icoDir + "zeus.ico";
+    const std::string icoPath = eGameDir::path("zeus.ico");
     const auto icon = IMG_Load(icoPath.c_str());
     SDL_SetWindowIcon(window, icon);
     return true;

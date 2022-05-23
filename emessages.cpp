@@ -3,14 +3,15 @@
 #include <fstream>
 #include <SDL2/SDL_log.h>
 
+#include "egamedir.h"
+
 eMessages eMessages::instance;
 
 bool eMessages::loadImpl() {
     if(mLoaded) return false;
     mLoaded = true;
     {
-        const std::string dir{"../Model/"};
-        const std::string path = dir + "Zeus eventmsg.txt";
+        const std::string path = eGameDir::path("Model/Zeus eventmsg.txt");
         std::ifstream file(path);
         if(!file.good()) {
             printf("File missing %s\n", path.c_str());

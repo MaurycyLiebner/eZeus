@@ -4,6 +4,8 @@
 #include "buildings/ebuilding.h"
 #include "characters/echaracter.h"
 
+#include "egamedir.h"
+
 eSounds eSounds::sInstance;
 
 Mix_Chunk* loadSoundBase(const std::string& path) {
@@ -99,7 +101,7 @@ eSounds::~eSounds() {
 }
 
 void eSounds::loadButtonSound() {
-    const std::string wavsDir{"../Audio/Wavs/"};
+    const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
     sInstance.mButton = loadSoundBase(wavsDir + "button.wav");
 }
 
@@ -411,7 +413,7 @@ void eSounds::loadImpl() {
     mLoaded = true;
 
     {
-        const std::string layer1Dir{"../Audio/Ambient/Layer1/"};
+        const std::string layer1Dir{eGameDir::path("Audio/Ambient/Layer1/")};
         for(const auto& s : {"wind1.wav",
                              "wind2.wav",
                              "wind3.wav",
@@ -437,8 +439,7 @@ void eSounds::loadImpl() {
             if(r) mEnvironment.push_back(r);
         }
     }
-
-    const std::string layer2Dir{"../Audio/Ambient/Layer2/"};
+    const std::string layer2Dir{eGameDir::path("Audio/Ambient/Layer2/")};
 
     for(const auto& s : {"maintenance1.wav",
                          "maintenance2.wav",
@@ -842,7 +843,7 @@ void eSounds::loadImpl() {
     }
 
 
-    const std::string wavsDir{"../Audio/Wavs/"};
+    const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
     mFire = loadSoundBase(wavsDir + "Fire.wav");
     mCollapse = loadSoundBase(wavsDir + "collapse.wav");
 
@@ -894,8 +895,8 @@ void eSounds::loadImpl() {
 }
 
 void eGodSounds::load() {
-    const std::string voiceDir{"../Audio/Voice/Walker/"};
-    const std::string wavsDir{"../Audio/Wavs/"};
+    const std::string voiceDir{eGameDir::path("Audio/Voice/Walker/")};
+    const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
 
     for(const auto& s : {fShortName + "_ev_1.mp3",
                          fShortName + "_ev_2.mp3",
