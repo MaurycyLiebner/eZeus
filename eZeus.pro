@@ -608,3 +608,7 @@ HEADERS += \
     widgets/infowidgets/egyminfowidget.h \
     widgets/infowidgets/einfowidget.h \
     widgets/infowidgets/estorageinfowidget.h
+
+DISTFILES += \
+    sanctuaries/artemis.txt \
+    sanctuaries/hephaestus.txt
