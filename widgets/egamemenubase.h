@@ -17,7 +17,10 @@ public:
     void connectAndLayoutButtons();
 
 
-    eCheckableButton* createButton(
+    eButton* createButton(
+            const eTextureCollection& texs,
+            eWidget* const buttons);
+    eCheckableButton* createCheckableButton(
             const eTextureCollection& texs,
             eWidget* const buttons);
 private:

@@ -44,8 +44,6 @@ public:
     void setViewTileHandler(const eViewTileHandler& h);
 private:
     void setMode(const eBuildingMode mode);
-    eButton* createSubButton(const eTextureCollection& texs,
-                             eWidget* const buttons);
     using eButtonsDataVec = std::vector<eSubButtonData>;
     eWidget* createSubButtons(const int resoltuionMult,
                               const eButtonsDataVec& buttons);

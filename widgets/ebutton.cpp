@@ -20,8 +20,20 @@ void eButton::setPressedTexture(const std::shared_ptr<eTexture>& tex) {
     mPressedTexture = tex;
 }
 
+void eButton::setDisabledTexture(const std::shared_ptr<eTexture>& tex) {
+    mDisabledTexture = tex;
+}
+
 int eButton::lineWidth() const {
     return fontSize()/15;
+}
+
+void eButton::setEnabled(const bool b) {
+    mEnabled = b;
+}
+
+bool eButton::enabled() const {
+    return mEnabled;
 }
 
 void eButton::sizeHint(int& w, int& h) {
@@ -35,13 +47,15 @@ void eButton::sizeHint(int& w, int& h) {
 }
 
 void eButton::paintEvent(ePainter& p) {
-    eLabel::paintEvent(p);
-    if(mPressed && mPressedTexture) {
+    if(!mEnabled && mDisabledTexture) {
+        p.drawTexture(rect(), mDisabledTexture, eAlignment::center);
+    } else if(mPressed && mPressedTexture) {
         p.drawTexture(rect(), mPressedTexture, eAlignment::center);
     } else if(mHover) {
         if(mHoverTexture) {
             p.drawTexture(rect(), mHoverTexture, eAlignment::center);
         } else {
+            eLabel::paintEvent(p);
             const auto& t = texture();
             const int tw = t->width();
             const int ww = (width() - tw)/2;
@@ -51,6 +65,8 @@ void eButton::paintEvent(ePainter& p) {
             const SDL_Rect brect{ww, ah - hh, width() - 2*ww, lineWidth()};
             p.fillRect(brect, fontColor());
         }
+    } else {
+        eLabel::paintEvent(p);
     }
 }
 

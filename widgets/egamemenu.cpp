@@ -23,19 +23,6 @@ struct eSubButtonData {
     const eTextureCollection* fColl = nullptr;
 };
 
-eButton* eGameMenu::createSubButton(
-        const eTextureCollection& texs,
-        eWidget* const buttons) {
-    const auto b = new eButton(window());
-    b->setTexture(texs.getTexture(0));
-    b->setPadding(0);
-    b->setHoverTexture(texs.getTexture(1));
-    b->setPressedTexture(texs.getTexture(2));
-    b->fitContent();
-    buttons->addWidget(b);
-    return b;
-}
-
 eWidget* eGameMenu::createSubButtons(
         const int resoltuionMult,
         const eButtonsDataVec& buttons) {
@@ -49,7 +36,7 @@ eWidget* eGameMenu::createSubButtons(
     const int iMax = buttons.size();
     for(int i = 0; i < iMax; i++) {
         const auto& c = buttons[i];
-        const auto b = createSubButton(*c.fColl, result);
+        const auto b = createButton(*c.fColl, result);
         b->setPressAction(c.fPressedFunc);
         const auto& pos = poses[i];
         b->setX(pos.first);
@@ -509,16 +496,16 @@ void eGameMenu::initialize() {
         const auto btmButtons = new eWidget(window());
         btmButtons->setPadding(0);
 
-        const auto b = createSubButton(coll.fBuildRoad, btmButtons);
+        const auto b = createButton(coll.fBuildRoad, btmButtons);
         b->setPressAction([this]() {
             setMode(eBuildingMode::road);
         });
-        createSubButton(coll.fRoadBlock, btmButtons);
-        const auto e = createSubButton(coll.fClear, btmButtons);
+        createButton(coll.fRoadBlock, btmButtons);
+        const auto e = createButton(coll.fClear, btmButtons);
         e->setPressAction([this]() {
             setMode(eBuildingMode::erase);
         });
-        createSubButton(coll.fUndo, btmButtons);
+        createButton(coll.fUndo, btmButtons);
 
         const int x = mult*24;
         const int y = std::round(mult*217.5);
@@ -530,8 +517,8 @@ void eGameMenu::initialize() {
 
     {
         const auto butts = new eWidget(window());
-        const auto info = createButton(coll.fShowInfo, butts);
-        const auto map = createButton(coll.fShowMap, butts);
+        const auto info = createCheckableButton(coll.fShowInfo, butts);
+        const auto map = createCheckableButton(coll.fShowMap, butts);
         info->setChecked(true);
         info->setCheckAction([info, map](const bool c) {
             if(!c) return info->setChecked(true);
@@ -548,15 +535,15 @@ void eGameMenu::initialize() {
     }
 
     {
-        const auto m = createButton(coll.fMessages, this);
+        const auto m = createCheckableButton(coll.fMessages, this);
         m->move(mult*73, mult*239);
     }
     {
         const auto butts = new eWidget(window());
         butts->setPadding(0);
-        const auto goals = createButton(coll.fGoals, butts);
-        const auto rotate = createButton(coll.fRotation, butts);
-        const auto world = createButton(coll.fWorld, butts);
+        const auto goals = createCheckableButton(coll.fGoals, butts);
+        const auto rotate = createCheckableButton(coll.fRotation, butts);
+        const auto world = createCheckableButton(coll.fWorld, butts);
         const int w = goals->width() + rotate->width() + world->width() + 5;
         butts->resize(w, world->height());
         butts->layoutHorizontally();

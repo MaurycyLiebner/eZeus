@@ -12,8 +12,12 @@ public:
 
     void setHoverTexture(const std::shared_ptr<eTexture>& tex);
     void setPressedTexture(const std::shared_ptr<eTexture>& tex);
+    void setDisabledTexture(const std::shared_ptr<eTexture>& tex);
 
     int lineWidth() const;
+
+    void setEnabled(const bool b);
+    bool enabled() const;
 protected:
     void sizeHint(int& w, int& h);
     void paintEvent(ePainter& p);
@@ -27,9 +31,11 @@ private:
     std::shared_ptr<eTexture> mTexture;
     std::shared_ptr<eTexture> mHoverTexture;
     std::shared_ptr<eTexture> mPressedTexture;
+    std::shared_ptr<eTexture> mDisabledTexture;
 
     eAction mPressAction;
 
+    bool mEnabled = true;
     bool mPressed = false;
     bool mHover = false;
 };

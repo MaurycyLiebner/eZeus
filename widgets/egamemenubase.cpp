@@ -30,14 +30,8 @@ void eGameMenuBase::initialize() {
 eCheckableButton* eGameMenuBase::addButton(
         const eTextureCollection& texs,
         eWidget* const w) {
-    const auto b = new eCheckableButton(window());
-    b->setTexture(texs.getTexture(0));
-    b->setPadding(0);
-    b->setHoverTexture(texs.getTexture(1));
-    b->setCheckedTexture(texs.getTexture(2));
-    b->fitContent();
+    const auto b = createCheckableButton(texs, mButtonsWidget);
     mButtons.push_back(b);
-    mButtonsWidget->addWidget(b);
     mWidgets.push_back(w);
     return b;
 }
@@ -87,15 +81,32 @@ void eGameMenuBase::connectAndLayoutButtons() {
     }
 }
 
-eCheckableButton* eGameMenuBase::createButton(
-        const eTextureCollection& texs,
-        eWidget* const buttons) {
-    const auto b = new eCheckableButton(window());
+template <class T>
+T* createButtonBase(const eTextureCollection& texs,
+                    eWidget* const buttons,
+                    eMainWindow* const window) {
+    const auto b = new T(window);
     b->setTexture(texs.getTexture(0));
     b->setPadding(0);
     b->setHoverTexture(texs.getTexture(1));
-    b->setCheckedTexture(texs.getTexture(2));
+    b->setDisabledTexture(texs.getTexture(3));
     b->fitContent();
     buttons->addWidget(b);
+    return b;
+}
+
+eButton* eGameMenuBase::createButton(
+        const eTextureCollection& texs,
+        eWidget* const buttons) {
+    const auto b = createButtonBase<eButton>(texs, buttons, window());
+    b->setPressedTexture(texs.getTexture(2));
+    return b;
+}
+
+eCheckableButton* eGameMenuBase::createCheckableButton(
+        const eTextureCollection& texs,
+        eWidget* const buttons) {
+    const auto b = createButtonBase<eCheckableButton>(texs, buttons, window());
+    b->setCheckedTexture(texs.getTexture(2));
     return b;
 }
