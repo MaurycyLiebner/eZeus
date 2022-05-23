@@ -5,6 +5,7 @@
 #include "engine/egameboard.h"
 
 class eWorldMenu;
+class eWorldMapWidget;
 
 class eWorldWidget : public eWidget {
 public:
@@ -15,6 +16,7 @@ public:
     void setBoard(eGameBoard* const board);
 private:
     eWorldMenu* mWM = nullptr;
+    eWorldMapWidget* mWMW = nullptr;
     eGameBoard* mBoard = nullptr;
 };
 

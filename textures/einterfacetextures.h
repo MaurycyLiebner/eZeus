@@ -211,6 +211,19 @@ public:
     eTextureCollection fColumn5;
 
     eTextureCollection fDiamond;
+
+    // world
+    eTextureCollection fWorldCities;
+
+    std::shared_ptr<eTexture> fMainCityFlag;
+    std::shared_ptr<eTexture> fEmpireCityFlag;
+    eTextureCollection fAllyCityFlag;
+
+    eTextureCollection fCityArmy;
+    eTextureCollection fCityWealth;
+    eTextureCollection fCityRebellion;
+
+    std::shared_ptr<eTexture> fMapOfGreece;
 };
 
 #endif // EINTERFACETEXTURES_H

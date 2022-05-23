@@ -197,6 +197,7 @@ SOURCES += \
         engine/etile.cpp \
         engine/etilebase.cpp \
         engine/ewagerate.cpp \
+        engine/eworldcity.cpp \
         engine/thread/ethreadboard.cpp \
         engine/thread/ethreadbuilding.cpp \
         engine/thread/ethreadcharacter.cpp \
@@ -292,6 +293,7 @@ SOURCES += \
         widgets/eupbutton.cpp \
         widgets/eviewmode.cpp \
         widgets/ewidget.cpp \
+        widgets/eworldmapwidget.cpp \
         widgets/eworldmenu.cpp \
         widgets/eworldwidget.cpp \
         widgets/infowidgets/egyminfowidget.cpp \
@@ -484,6 +486,7 @@ HEADERS += \
     engine/etile.h \
     engine/etilebase.h \
     engine/ewagerate.h \
+    engine/eworldcity.h \
     engine/thread/ethreadboard.h \
     engine/thread/ethreadbuilding.h \
     engine/thread/ethreadcharacter.h \
@@ -597,6 +600,7 @@ HEADERS += \
     widgets/eupbutton.h \
     widgets/eviewmode.h \
     widgets/ewidget.h \
+    widgets/eworldmapwidget.h \
     widgets/eworldmenu.h \
     widgets/eworldwidget.h \
     widgets/infowidgets/egyminfowidget.h \

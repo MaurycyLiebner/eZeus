@@ -135,11 +135,52 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fColumn4(renderer),
     fColumn5(renderer),
 
-    fDiamond(renderer) {}
+    fDiamond(renderer),
+
+    fWorldCities(renderer),
+
+    fAllyCityFlag(renderer),
+
+    fCityArmy(renderer),
+    fCityWealth(renderer),
+    fCityRebellion(renderer) {}
 
 void eInterfaceTextures::load() {
     const std::string basedir{"../ZeusTextures/" + std::to_string(fTileH) + "/"};
     const auto dir = basedir + "Zeus_Interface/";
+
+    {
+        const std::string pathBase{dir + "Zeus_empire_bits_"};
+
+        for(int i = 1; i < 9; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldCities);
+        }
+        for(int i = 17; i < 28; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldCities);
+        }
+
+        fMainCityFlag = std::make_shared<eTexture>();
+        fMainCityFlag->load(fRenderer, pathBase + "00009.png");
+
+        fEmpireCityFlag = std::make_shared<eTexture>();
+        fEmpireCityFlag->load(fRenderer, pathBase + "00010.png");
+
+        for(int i = 11; i < 17; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fAllyCityFlag);
+        }
+
+        for(int i = 33; i < 38; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fCityArmy);
+        }
+
+        for(int i = 38; i < 43; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fCityWealth);
+        }
+
+        for(int i = 43; i < 49; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fCityRebellion);
+        }
+    }
 
     {
         const std::string pathBase{dir + "Zeus_Interface_New_Bbuttons_"};
@@ -647,8 +688,12 @@ void eInterfaceTextures::load() {
 
         fLoadImage = std::make_shared<eTexture>();
         fLoadImage->load(fRenderer, dir + "Zeus_Load1.jpg");
+
         fMainMenuImage = std::make_shared<eTexture>();
         fMainMenuImage->load(fRenderer, dir + "Zeus_FE_Registry.jpg");
+
+        fMapOfGreece = std::make_shared<eTexture>();
+        fMapOfGreece->load(fRenderer, dir + "Zeus_MapOfGreece08.JPG");
     }
 
     {
