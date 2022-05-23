@@ -74,6 +74,7 @@ void eWorldMenu::initialize() {
         wcb->setX(xwcb);
         wcb->setY(ywcb);
 
+
         const auto wgw = eButton::sCreate(coll.fWorldSmallButton, window(), this);
         wgw->setPressAction([this](){
             window()->showGame();
@@ -81,8 +82,15 @@ void eWorldMenu::initialize() {
         const int wgwx = 20*mult;
         const int wgwy = 285*mult;
 
+        const auto wgwtxt = new eLabel("Back to city", window());
+        wgwtxt->setSmallFontSize();
+        wgwtxt->fitContent();
+        wgw->addWidget(wgwtxt);
+        wgwtxt->align(eAlignment::center);
+
         wgw->setX(wgwx);
         wgw->setY(wgwy);
+
 
         const auto wat = eButton::sCreate(coll.fWorldBigButton, window(), this);
         const int watx = 4*mult;
