@@ -5,7 +5,8 @@
 #include <mutex>
 
 #include "engine/thread/ethreadboard.h"
-#include "engine/egameboard.h"
+
+class eGameBoard;
 
 class eThreadData {
 public:

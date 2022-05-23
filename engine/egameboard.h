@@ -17,6 +17,8 @@
 
 #include "pointers/eobject.h"
 
+#include "ethreadpool.h"
+
 class eSpawner;
 class eCharacter;
 class eBuilding;
@@ -78,8 +80,7 @@ public:
     using eIter = eGameBoardIterator;
     using eDiagIter = eGameBoardDiagonalIterator;
 
-    eGameBoard(eThreadPool* const tpool);
-
+    eGameBoard();
     ~eGameBoard();
 
     void initialize(const int w, const int h);
@@ -134,7 +135,7 @@ public:
 
     void incTime(const int by);
 
-    eThreadPool* threadPool() const { return mThreadPool; }
+    eThreadPool& threadPool() { return mThreadPool; }
 
     ePopulationData& populationData() { return mPopData; }
     eEmploymentData& employmentData() { return mEmplData; }
@@ -174,6 +175,8 @@ public:
     void updateTileRenderingOrderIfNeeded();
     using eTileAction = std::function<void(eTile* const)>;
     void iterateOverAllTiles(const eTileAction& a);
+
+    void updateAppealMap();
 private:
     void updateDiagonalArray();
     void updateNeighbours();
@@ -193,7 +196,9 @@ private:
     int mTime = 0;
     eDate mDate = eDate(1, eMonth::january, -1500);
 
-    eThreadPool* mThreadPool = nullptr;
+    eThreadPool mThreadPool;
+    int mUpdateRect = 0;
+    std::vector<SDL_Rect> mUpdateRects;
 
     int mWidth = 0;
     int mHeight = 0;

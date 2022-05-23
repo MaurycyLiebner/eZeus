@@ -12,6 +12,8 @@
 
 #include "engine/ethreadpool.h"
 
+#include "engine/emapgenerator.h"
+
 #include <chrono>
 
 eMainWindow::eMainWindow() {}
@@ -147,7 +149,15 @@ void eMainWindow::showGame() {
     eMusic::playRandomMusic();
     const auto egw = new eGameWidget(this);
     egw->resize(width(), height());
-    egw->initialize(100, 100);
+
+    const auto board = new eGameBoard();
+    board->initialize(100, 100);
+    eMapGenerator g(*board);
+    eMapGeneratorSettings sett;
+    g.generate(sett);
+
+    egw->setBoard(board);
+    egw->initialize();
     setWidget(egw);
 }
 

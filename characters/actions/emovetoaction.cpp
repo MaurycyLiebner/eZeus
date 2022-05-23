@@ -13,8 +13,8 @@ void eMoveToAction::start(const eTileFinal& final,
                           eTileWalkable walkable) {
     const auto c = character();
     const auto t = c->tile();
-    const auto& brd = c->getBoard();
-    const auto tp = brd.threadPool();
+    auto& brd = c->getBoard();
+    auto& tp = brd.threadPool();
 
     if(const auto b = t->underBuilding()) {
         walkable =  eWalkableHelpers::sBuildingWalkable(b, walkable);
@@ -63,7 +63,7 @@ void eMoveToAction::start(const eTileFinal& final,
                                        final, finishFunc,
                                        findFailFunc, mDiagonalOnly,
                                        mMaxDistance);
-    tp->queueTask(pft);
+    tp.queueTask(pft);
 
     if(mWait) {
         const auto w = e::make_shared<eWaitAction>(

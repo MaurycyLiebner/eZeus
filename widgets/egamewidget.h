@@ -37,7 +37,7 @@ class eGameWidget : public eWidget {
 public:
     eGameWidget(eMainWindow* const window);
 
-    void initialize(const int w, const int h);
+    void initialize();
 
     void pixToId(const int pixX, const int pixY,
                  int& idX, int& idY) const;
@@ -50,6 +50,8 @@ public:
     bool tileVisible(eTile* const tile) const;
 
     void showWorldWidget();
+
+    void setBoard(eGameBoard* const board);
 protected:
     void paintEvent(ePainter& p);
 
@@ -148,11 +150,9 @@ private:
     int mTileW = 58;
     int mTileH = 30;
 
-    eThreadPool mThreadPool;
-
     int mUpdateRect = 0;
     std::vector<SDL_Rect> mUpdateRects;
-    eGameBoard mBoard;
+    eGameBoard* mBoard = nullptr;
 
     bool mDrawElevation = true;
     ePatrolBuilding* mPatrolBuilding = nullptr;

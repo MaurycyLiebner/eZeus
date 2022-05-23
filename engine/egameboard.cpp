@@ -16,14 +16,27 @@
 
 #include "buildings/sanctuaries/esanctbuilding.h"
 
-eGameBoard::eGameBoard(eThreadPool* const tpool) :
-    mThreadPool(tpool), mEmplData(mPopData, *this) {}
+#include "engine/boardData/eappealupdatetask.h"
+
+eGameBoard::eGameBoard() :
+    mEmplData(mPopData, *this) {}
 
 eGameBoard::~eGameBoard() {
     clear();
 }
 
 void eGameBoard::initialize(const int w, const int h) {
+    mThreadPool.initialize(w, h);
+
+    const int dim = 25;
+    for(int x = 0; x < w; x += dim) {
+        const int ww = std::clamp(w - x, 0, dim);
+        for(int y = 0; y < h; y += dim) {
+            const int hh = std::clamp(h - y, 0, dim);
+            mUpdateRects.emplace_back(SDL_Rect{x, y, ww, hh});
+        }
+    }
+
     clear();
     mTiles.reserve(w);
     for(int x = 0; x < w; x++) {
@@ -61,6 +74,13 @@ void eGameBoard::iterateOverAllTiles(const eTileAction& a) {
     for(auto it = iniIt; it != dEnd(); ++it) {
         a(*it);
     }
+}
+
+void eGameBoard::updateAppealMap() {
+    const auto task = new eAppealUpdateTask([this](eAppealMap& map) {
+        std::swap(appealMap(), map);
+    });
+    mThreadPool.queueTask(task);
 }
 
 void eGameBoard::updateTileRenderingOrder() {
@@ -189,6 +209,17 @@ void eGameBoard::unregisterPalace() {
 }
 
 void eGameBoard::incTime(const int by) {
+    mThreadPool.handleFinished();
+    if(mUpdateRects.empty()) {
+        const int w = width();
+        const int h = height();
+        mThreadPool.scheduleUpdate(*this, 0, 0, w, h);
+    } else {
+        const int i = (mUpdateRect++) % mUpdateRects.size();
+        const auto& rect = mUpdateRects[i];
+        mThreadPool.scheduleUpdate(*this, rect.x, rect.y, rect.w, rect.h);
+    }
+
     mTime += by;
     bool nextMonth = false;
     bool nextYear = false;

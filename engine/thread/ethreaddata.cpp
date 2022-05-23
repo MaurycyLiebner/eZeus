@@ -1,5 +1,7 @@
 #include "ethreaddata.h"
 
+#include "engine/egameboard.h"
+
 eThreadData::eThreadData(const eThreadData& s) {
     mBoard = s.mBoard;
 }

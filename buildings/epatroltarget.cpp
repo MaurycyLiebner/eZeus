@@ -8,6 +8,7 @@
 #include "engine/ethreadpool.h"
 #include "characters/actions/ewaitaction.h"
 #include "characters/echaracter.h"
+#include "engine/egameboard.h"
 
 ePatrolTarget::ePatrolTarget(eGameBoard& board,
                              const eBuildingType fromBuilding,
@@ -44,7 +45,7 @@ void ePatrolTarget::timeChanged(const int by) {
 
 void ePatrolTarget::spawnGetActor() {
     const auto t = centerTile();
-    const auto tp = getBoard().threadPool();
+    auto& tp = getBoard().threadPool();
 
     const int tx = t->x();
     const int ty = t->y();
@@ -101,5 +102,5 @@ void ePatrolTarget::spawnGetActor() {
     const auto pft = new ePathFindTask(startTile, walkable,
                                        finalTile, finishFunc,
                                        failFunc, true, 200);
-    tp->queueTask(pft);
+    tp.queueTask(pft);
 }
