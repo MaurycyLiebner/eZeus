@@ -57,8 +57,18 @@ bool eMainWindow::initialize(const eResolution& res) {
 }
 
 void eMainWindow::setWidget(eWidget* const w) {
-    if(mWidget) mWidget->deleteLater();
+    if(mWidget) {
+        if(mWidget != mGW && mWidget != mWW) {
+            mWidget->deleteLater();
+        }
+    }
     mWidget = w;
+}
+
+eWidget* eMainWindow::takeWidget() {
+    const auto w = mWidget;
+    mWidget = nullptr;
+    return w;
 }
 
 void eMainWindow::addSlot(const eSlot& slot) {
@@ -146,26 +156,32 @@ void eMainWindow::showSettingsMenu() {
 }
 
 void eMainWindow::showGame() {
-    eMusic::playRandomMusic();
-    const auto egw = new eGameWidget(this);
-    egw->resize(width(), height());
+    if(mWidget == mGW) return;
+    if(!mGW) {
+        mBoard = new eGameBoard();
+        mBoard->initialize(100, 100);
+        eMapGenerator g(*mBoard);
+        eMapGeneratorSettings sett;
+        g.generate(sett);
 
-    const auto board = new eGameBoard();
-    board->initialize(100, 100);
-    eMapGenerator g(*board);
-    eMapGeneratorSettings sett;
-    g.generate(sett);
-
-    egw->setBoard(board);
-    egw->initialize();
-    setWidget(egw);
+        eMusic::playRandomMusic();
+        mGW = new eGameWidget(this);
+        mGW->setBoard(mBoard);
+        mGW->resize(width(), height());
+        mGW->initialize();
+    }
+    setWidget(mGW);
 }
 
 void eMainWindow::showWorld() {
-    const auto eww = new eWorldWidget(this);
-    eww->resize(width(), height());
-    eww->initialize();
-    setWidget(eww);
+    if(mWidget == mWW) return;
+    if(!mWW) {
+        mWW = new eWorldWidget(this);
+        mWW->setBoard(mBoard);
+        mWW->resize(width(), height());
+        mWW->initialize();
+    }
+    setWidget(mWW);
 }
 
 int eMainWindow::exec() {

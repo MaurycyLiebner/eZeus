@@ -570,8 +570,8 @@ void eGameMenu::setGameWidget(eGameWidget* const gw) {
     mHySaDataW->setGameWidget(gw);
     mCultureDataW->setGameWidget(gw);
 
-    mWorldButton->setPressAction([gw]() {
-        gw->showWorldWidget();
+    mWorldButton->setPressAction([this]() {
+        window()->showWorld();
     });
 }
 

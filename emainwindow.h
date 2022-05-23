@@ -11,6 +11,10 @@
 
 using eSlot = std::function<void()>;
 
+class eGameBoard;
+class eGameWidget;
+class eWorldWidget;
+
 class eMainWindow {
 public:
     eMainWindow();
@@ -20,6 +24,7 @@ public:
 public:
 
     void setWidget(eWidget* const w);
+    eWidget* takeWidget();
 
     int exec();
 
@@ -46,6 +51,10 @@ private:
     bool mQuit = false;
 
     std::vector<eSlot> mSlots;
+
+    eGameBoard* mBoard = nullptr;
+    eGameWidget* mGW = nullptr;
+    eWorldWidget* mWW = nullptr;
 
     eWidget* mWidget = nullptr;
     SDL_Window* mSdlWindow = nullptr;

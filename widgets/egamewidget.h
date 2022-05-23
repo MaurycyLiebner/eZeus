@@ -49,8 +49,6 @@ public:
     void viewTile(eTile* const tile);
     bool tileVisible(eTile* const tile) const;
 
-    void showWorldWidget();
-
     void setBoard(eGameBoard* const board);
 protected:
     void paintEvent(ePainter& p);

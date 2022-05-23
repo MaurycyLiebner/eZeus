@@ -1992,10 +1992,3 @@ void eGameWidget::actionOnSelectedTiles(const eTileAction& apply) {
         }
     }
 }
-
-void eGameWidget::showWorldWidget() {
-    mWW = new eWorldWidget(window());
-    addWidget(mWW);
-    mWW->resize(width(), height());
-    mWW->initialize();
-}

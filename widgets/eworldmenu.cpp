@@ -3,6 +3,7 @@
 #include "textures/egametextures.h"
 
 #include "ebutton.h"
+#include "emainwindow.h"
 
 void eWorldMenu::initialize() {
     const auto& intrfc = eGameTextures::interface();
@@ -72,5 +73,22 @@ void eWorldMenu::initialize() {
 
         wcb->setX(xwcb);
         wcb->setY(ywcb);
+
+        const auto wgw = eButton::sCreate(coll.fWorldSmallButton, window(), this);
+        wgw->setPressAction([this](){
+            window()->showGame();
+        });
+        const int wgwx = 20*mult;
+        const int wgwy = 285*mult;
+
+        wgw->setX(wgwx);
+        wgw->setY(wgwy);
+
+        const auto wat = eButton::sCreate(coll.fWorldBigButton, window(), this);
+        const int watx = 4*mult;
+        const int waty = 66*mult;
+
+        wat->setX(watx);
+        wat->setY(waty);
     }
 }
