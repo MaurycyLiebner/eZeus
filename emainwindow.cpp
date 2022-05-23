@@ -170,6 +170,20 @@ void eMainWindow::showGame() {
         eMapGeneratorSettings sett;
         g.generate(sett);
 
+        auto& wb = mBoard->getWorldBoard();
+
+        const auto hc = std::make_shared<eWorldCityBase>(
+                            eWorldCityType::mainCity, "Sparta", 0.5, 0.5);
+        wb.setHomeCity(hc);
+
+        const auto c1 = std::make_shared<eWorldCity>(
+                            eWorldCityType::collony, "Athens", 0.25, 0.25);
+        wb.addCity(c1);
+
+        const auto c2 = std::make_shared<eWorldCity>(
+                            eWorldCityType::foreignCity1, "Troy", 0.55, 0.3);
+        wb.addCity(c2);
+
         eMusic::playRandomMusic();
         mGW = new eGameWidget(this);
         mGW->setBoard(mBoard);
@@ -183,9 +197,9 @@ void eMainWindow::showWorld() {
     if(mWidget == mWW) return;
     if(!mWW) {
         mWW = new eWorldWidget(this);
-        mWW->setBoard(mBoard);
         mWW->resize(width(), height());
         mWW->initialize();
+        mWW->setBoard(mBoard);
     }
     setWidget(mWW);
 }

@@ -197,6 +197,7 @@ SOURCES += \
         engine/etile.cpp \
         engine/etilebase.cpp \
         engine/ewagerate.cpp \
+        engine/eworldboard.cpp \
         engine/eworldcity.cpp \
         engine/thread/ethreadboard.cpp \
         engine/thread/ethreadbuilding.cpp \
@@ -486,6 +487,7 @@ HEADERS += \
     engine/etile.h \
     engine/etilebase.h \
     engine/ewagerate.h \
+    engine/eworldboard.h \
     engine/eworldcity.h \
     engine/thread/ethreadboard.h \
     engine/thread/ethreadbuilding.h \

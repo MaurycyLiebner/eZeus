@@ -19,6 +19,8 @@
 
 #include "ethreadpool.h"
 
+#include "eworldboard.h"
+
 class eSpawner;
 class eCharacter;
 class eBuilding;
@@ -177,9 +179,13 @@ public:
     void iterateOverAllTiles(const eTileAction& a);
 
     void updateAppealMap();
+
+    eWorldBoard& getWorldBoard() { return mWorldBoard; }
 private:
     void updateDiagonalArray();
     void updateNeighbours();
+
+    eWorldBoard mWorldBoard;
 
     bool mTileRenderingOrderUpdateNeeded = true;
 
