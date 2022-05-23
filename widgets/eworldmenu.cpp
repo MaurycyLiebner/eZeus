@@ -75,6 +75,13 @@ void eWorldMenu::initialize() {
         wcb->setY(ywcb);
 
 
+        const auto wh = eButton::sCreate(coll.fHelpButton, window(), this);
+        const int whx = 6*mult;
+        const int why = 286*mult;
+
+        wh->setX(whx);
+        wh->setY(why);
+
         const auto wgw = eButton::sCreate(coll.fWorldSmallButton, window(), this);
         wgw->setPressAction([this](){
             window()->showGame();
