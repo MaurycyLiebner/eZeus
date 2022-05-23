@@ -36,7 +36,7 @@ eWidget* eGameMenu::createSubButtons(
     const int iMax = buttons.size();
     for(int i = 0; i < iMax; i++) {
         const auto& c = buttons[i];
-        const auto b = createButton(*c.fColl, result);
+        const auto b = eButton::sCreate(*c.fColl, window(), result);
         b->setPressAction(c.fPressedFunc);
         const auto& pos = poses[i];
         b->setX(pos.first);
@@ -496,16 +496,16 @@ void eGameMenu::initialize() {
         const auto btmButtons = new eWidget(window());
         btmButtons->setPadding(0);
 
-        const auto b = createButton(coll.fBuildRoad, btmButtons);
+        const auto b = eButton::sCreate(coll.fBuildRoad, window(), btmButtons);
         b->setPressAction([this]() {
             setMode(eBuildingMode::road);
         });
-        createButton(coll.fRoadBlock, btmButtons);
-        const auto e = createButton(coll.fClear, btmButtons);
+        eButton::sCreate(coll.fRoadBlock, window(), btmButtons);
+        const auto e = eButton::sCreate(coll.fClear, window(), btmButtons);
         e->setPressAction([this]() {
             setMode(eBuildingMode::erase);
         });
-        createButton(coll.fUndo, btmButtons);
+        eButton::sCreate(coll.fUndo, window(), btmButtons);
 
         const int x = mult*24;
         const int y = std::round(mult*217.5);
@@ -517,8 +517,8 @@ void eGameMenu::initialize() {
 
     {
         const auto butts = new eWidget(window());
-        const auto info = createCheckableButton(coll.fShowInfo, butts);
-        const auto map = createCheckableButton(coll.fShowMap, butts);
+        const auto info = eCheckableButton::sCreate(coll.fShowInfo, window(), butts);
+        const auto map = eCheckableButton::sCreate(coll.fShowMap, window(), butts);
         info->setChecked(true);
         info->setCheckAction([info, map](const bool c) {
             if(!c) return info->setChecked(true);
@@ -535,15 +535,15 @@ void eGameMenu::initialize() {
     }
 
     {
-        const auto m = createCheckableButton(coll.fMessages, this);
+        const auto m = eCheckableButton::sCreate(coll.fMessages, window(), this);
         m->move(mult*73, mult*239);
     }
     {
         const auto butts = new eWidget(window());
         butts->setPadding(0);
-        const auto goals = createCheckableButton(coll.fGoals, butts);
-        const auto rotate = createCheckableButton(coll.fRotation, butts);
-        const auto world = createCheckableButton(coll.fWorld, butts);
+        const auto goals = eCheckableButton::sCreate(coll.fGoals, window(), butts);
+        const auto rotate = eCheckableButton::sCreate(coll.fRotation, window(), butts);
+        const auto world = eCheckableButton::sCreate(coll.fWorld, window(), butts);
         const int w = goals->width() + rotate->width() + world->width() + 5;
         butts->resize(w, world->height());
         butts->layoutHorizontally();

@@ -154,9 +154,9 @@ void eTerrainEditMenu::initialize() {
         const auto btmButtons = new eWidget(window());
         btmButtons->setPadding(0);
 
-        const auto b0 = createCheckableButton(coll.fBuildRoad, btmButtons);
-        const auto b2 = createCheckableButton(coll.fRotation, btmButtons);
-        const auto b1 = createCheckableButton(coll.fUndo, btmButtons);
+        const auto b0 = eCheckableButton::sCreate(coll.fBuildRoad, window(), btmButtons);
+        const auto b2 = eCheckableButton::sCreate(coll.fRotation, window(), btmButtons);
+        const auto b1 = eCheckableButton::sCreate(coll.fUndo, window(), btmButtons);
 
         const int x = mult*24;
         const int y = std::round(mult*279.5);

@@ -15,14 +15,6 @@ public:
             const eTextureCollection& coll,
             eWidget* const w);
     void connectAndLayoutButtons();
-
-
-    eButton* createButton(
-            const eTextureCollection& texs,
-            eWidget* const buttons);
-    eCheckableButton* createCheckableButton(
-            const eTextureCollection& texs,
-            eWidget* const buttons);
 private:
     eWidget* mButtonsWidget = nullptr;
     std::vector<eCheckableButton*> mButtons;

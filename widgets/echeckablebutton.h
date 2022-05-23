@@ -15,6 +15,11 @@ public:
 
     void setChecked(const bool c);
     void setCheckedTexture(const std::shared_ptr<eTexture>& tex);
+
+    static eCheckableButton* sCreate(
+            const eTextureCollection& texs,
+            eMainWindow* const window,
+            eWidget* const buttons = nullptr);
 protected:
     void paintEvent(ePainter& p);
 private:

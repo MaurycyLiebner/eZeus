@@ -3,6 +3,7 @@
 
 #include "elabel.h"
 #include "efonts.h"
+#include "etexturecollection.h"
 
 class eButton : public eLabel {
 public:
@@ -18,6 +19,10 @@ public:
 
     void setEnabled(const bool b);
     bool enabled() const;
+
+    static eButton* sCreate(const eTextureCollection& texs,
+                            eMainWindow* const window,
+                            eWidget* const buttons = nullptr);
 protected:
     void sizeHint(int& w, int& h);
     void paintEvent(ePainter& p);
@@ -27,6 +32,12 @@ protected:
     bool mouseMoveEvent(const eMouseEvent& e);
     bool mouseEnterEvent(const eMouseEvent& e);
     bool mouseLeaveEvent(const eMouseEvent& e);
+
+    template <class T>
+    static T* sCreateButtonBase(
+            const eTextureCollection& texs,
+            eMainWindow* const window,
+            eWidget* const buttons);
 private:
     std::shared_ptr<eTexture> mTexture;
     std::shared_ptr<eTexture> mHoverTexture;
@@ -39,5 +50,19 @@ private:
     bool mPressed = false;
     bool mHover = false;
 };
+
+template <class T>
+T* eButton::sCreateButtonBase(const eTextureCollection& texs,
+                              eMainWindow* const window,
+                              eWidget* const buttons) {
+    const auto b = new T(window);
+    b->setTexture(texs.getTexture(0));
+    b->setPadding(0);
+    b->setHoverTexture(texs.getTexture(1));
+    b->setDisabledTexture(texs.getTexture(3));
+    b->fitContent();
+    if(buttons) buttons->addWidget(b);
+    return b;
+}
 
 #endif // EBUTTON_H

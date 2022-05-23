@@ -36,6 +36,14 @@ bool eButton::enabled() const {
     return mEnabled;
 }
 
+eButton* eButton::sCreate(const eTextureCollection& texs,
+                          eMainWindow* const window,
+                          eWidget* const buttons) {
+    const auto b = sCreateButtonBase<eButton>(texs, window, buttons);
+    b->setPressedTexture(texs.getTexture(2));
+    return b;
+}
+
 void eButton::sizeHint(int& w, int& h) {
     eLabel::sizeHint(w, h);
     w = std::max({w, mTexture ? mTexture->width() : 0,
