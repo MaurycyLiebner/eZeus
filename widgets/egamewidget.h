@@ -28,6 +28,7 @@
 class eTerrainEditMenu;
 class eDomesticatedAnimal;
 struct eSanctBlueprint;
+class eWorldWidget;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
 using eRendererCreator = std::function<stdsptr<eBuildingRenderer>()>;
@@ -47,6 +48,8 @@ public:
     void viewFraction(const double fx, const double fy);
     void viewTile(eTile* const tile);
     bool tileVisible(eTile* const tile) const;
+
+    void showWorldWidget();
 protected:
     void paintEvent(ePainter& p);
 
@@ -161,6 +164,8 @@ private:
     eInfoWidget* mInfoWidget = nullptr;
     eTerrainEditMenu* mTem = nullptr;
     eGameMenu* mGm = nullptr;
+
+    eWorldWidget* mWW = nullptr;
 };
 
 #endif // EGAMEWIDGET_H

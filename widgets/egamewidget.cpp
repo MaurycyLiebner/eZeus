@@ -112,6 +112,8 @@
 
 #include "buildings/sanctuaries/esanctuaryblueprint.h"
 
+#include "widgets/eworldwidget.h"
+
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window), mBoard(&mThreadPool) {}
 
@@ -2011,4 +2013,11 @@ void eGameWidget::actionOnSelectedTiles(const eTileAction& apply) {
             apply(tile);
         }
     }
+}
+
+void eGameWidget::showWorldWidget() {
+    mWW = new eWorldWidget(window());
+    addWidget(mWW);
+    mWW->resize(width(), height());
+    mWW->initialize();
 }

@@ -18,6 +18,8 @@
 
 #include "eeventwidget.h"
 
+#include "egamewidget.h"
+
 struct eSubButtonData {
     std::function<void()> fPressedFunc;
     const eTextureCollection* fColl = nullptr;
@@ -543,9 +545,9 @@ void eGameMenu::initialize() {
         butts->setPadding(0);
         const auto goals = eCheckableButton::sCreate(coll.fGoals, window(), butts);
         const auto rotate = eCheckableButton::sCreate(coll.fRotation, window(), butts);
-        const auto world = eCheckableButton::sCreate(coll.fWorld, window(), butts);
-        const int w = goals->width() + rotate->width() + world->width() + 5;
-        butts->resize(w, world->height());
+        mWorldButton = eButton::sCreate(coll.fWorld, window(), butts);
+        const int w = goals->width() + rotate->width() + mWorldButton->width() + 5;
+        butts->resize(w, mWorldButton->height());
         butts->layoutHorizontally();
         butts->setX(mult*5);
         butts->setY(std::round(mult*282.5));
@@ -567,6 +569,10 @@ void eGameMenu::setGameWidget(eGameWidget* const gw) {
     mApplDataW->setGameWidget(gw);
     mHySaDataW->setGameWidget(gw);
     mCultureDataW->setGameWidget(gw);
+
+    mWorldButton->setPressAction([gw]() {
+        gw->showWorldWidget();
+    });
 }
 
 void eGameMenu::setBoard(eGameBoard* const b) {

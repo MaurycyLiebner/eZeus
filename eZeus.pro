@@ -291,6 +291,8 @@ SOURCES += \
         widgets/eupbutton.cpp \
         widgets/eviewmode.cpp \
         widgets/ewidget.cpp \
+        widgets/eworldmenu.cpp \
+        widgets/eworldwidget.cpp \
         widgets/infowidgets/egyminfowidget.cpp \
         widgets/infowidgets/einfowidget.cpp \
         widgets/infowidgets/estorageinfowidget.cpp
@@ -593,6 +595,8 @@ HEADERS += \
     widgets/eupbutton.h \
     widgets/eviewmode.h \
     widgets/ewidget.h \
+    widgets/eworldmenu.h \
+    widgets/eworldwidget.h \
     widgets/infowidgets/egyminfowidget.h \
     widgets/infowidgets/einfowidget.h \
     widgets/infowidgets/estorageinfowidget.h

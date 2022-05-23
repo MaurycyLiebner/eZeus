@@ -6,6 +6,7 @@
 #include "widgets/egameloadingwidget.h"
 #include "widgets/egamemenu.h"
 #include "widgets/emenuloadingwidget.h"
+#include "widgets/eworldwidget.h"
 
 #include "emusic.h"
 
@@ -148,6 +149,13 @@ void eMainWindow::showGame() {
     egw->resize(width(), height());
     egw->initialize(100, 100);
     setWidget(egw);
+}
+
+void eMainWindow::showWorld() {
+    const auto eww = new eWorldWidget(this);
+    eww->resize(width(), height());
+    eww->initialize();
+    setWidget(eww);
 }
 
 int eMainWindow::exec() {

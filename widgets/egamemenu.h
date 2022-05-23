@@ -62,6 +62,8 @@ private:
     eAdminDataWidget* mAdminDataW = nullptr;
     eCultureDataWidget* mCultureDataW = nullptr;
 
+    eButton* mWorldButton = nullptr;
+
     eMiniMap* mMiniMap = nullptr;
 
     eBuildingMode mMode{eBuildingMode::road};

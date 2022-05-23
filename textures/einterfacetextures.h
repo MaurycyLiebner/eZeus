@@ -1,4 +1,4 @@
-#ifndef EINTERFACETEXTURES_H
+﻿#ifndef EINTERFACETEXTURES_H
 #define EINTERFACETEXTURES_H
 
 #include "etexturecollection.h"
@@ -32,6 +32,23 @@ public:
     eTextureCollection fMilitary;
     eTextureCollection fAesthetics;
     eTextureCollection fOverview;
+
+    std::shared_ptr<eTexture> fWorldMenuBackground;
+
+    eTextureCollection fWorldSmallButton;
+    eTextureCollection fWorldBigButton;
+
+    eTextureCollection fRequestButton;
+    eTextureCollection fFulfillButton;
+    eTextureCollection fGiftButton;
+    eTextureCollection fRaidButton;
+    eTextureCollection fConquerButton;
+
+    eTextureCollection fWorldLeftArrowButton;
+    eTextureCollection fWorldRightArrowButton;
+    eTextureCollection fWorldHistoryButton;
+
+    eTextureCollection fWorldBgsButton;
 
     std::shared_ptr<eTexture> fMapEditMenuBackground;
 

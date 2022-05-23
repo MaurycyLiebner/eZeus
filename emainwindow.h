@@ -37,6 +37,7 @@ public:
     void showMainMenu();
     void showSettingsMenu();
     void showGame();
+    void showWorld();
 
     const eSettings& settings() const { return mSettings; }
 private:

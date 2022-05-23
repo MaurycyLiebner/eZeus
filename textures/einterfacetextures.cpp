@@ -22,6 +22,21 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fAesthetics(renderer),
     fOverview(renderer),
 
+    fWorldSmallButton(renderer),
+    fWorldBigButton(renderer),
+
+    fRequestButton(renderer),
+    fFulfillButton(renderer),
+    fGiftButton(renderer),
+    fRaidButton(renderer),
+    fConquerButton(renderer),
+
+    fWorldLeftArrowButton(renderer),
+    fWorldRightArrowButton(renderer),
+    fWorldHistoryButton(renderer),
+
+    fWorldBgsButton(renderer),
+
     fBrushSize(renderer),
     fEmptyLand(renderer),
     fForest(renderer),
@@ -395,6 +410,52 @@ void eInterfaceTextures::load() {
 
         for(int i = 267; i < 271; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fShowMap);
+        }
+    }
+
+    {
+        const std::string pathBase{dir + "Zeus_WorldSide_"};
+
+        fWorldMenuBackground = std::make_shared<eTexture>();
+        fWorldMenuBackground->load(fRenderer, pathBase + "00001.png");
+
+        eTextureLoadingHelpers::loadTex(pathBase, 40, fLargeCheckBox);
+        eTextureLoadingHelpers::loadTex(pathBase, 37, fLargeCheckBox);
+
+        for(int i = 2; i < 6; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldSmallButton);
+        }
+        for(int i = 6; i < 10; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldBigButton);
+        }
+        for(int i = 10; i < 14; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fRequestButton);
+        }
+        for(int i = 14; i < 18; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fFulfillButton);
+        }
+        for(int i = 18; i < 22; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fGiftButton);
+        }
+        for(int i = 22; i < 26; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fRaidButton);
+        }
+        for(int i = 26; i < 30; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fConquerButton);
+        }
+
+        for(int i = 30; i < 34; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldLeftArrowButton);
+        }
+        for(int i = 34; i < 38; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldRightArrowButton);
+        }
+        for(int i = 38; i < 42; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldHistoryButton);
+        }
+
+        for(int i = 42; i < 46; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldBgsButton);
         }
     }
 
