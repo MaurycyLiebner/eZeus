@@ -6,6 +6,8 @@
 #include "eokbutton.h"
 #include "eexclamationbutton.h"
 
+#include <stdexcept>
+
 template<typename ... Args>
 std::string string_format(const std::string& format, Args... args) {
     const int size_s = std::snprintf(nullptr, 0, format.c_str(), args...) + 1; // Extra space for '\0'
