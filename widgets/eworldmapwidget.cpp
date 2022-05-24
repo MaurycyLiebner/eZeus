@@ -3,8 +3,6 @@
 #include "textures/egametextures.h"
 #include "textures/einterfacetextures.h"
 
-#include "engine/eworldboard.h"
-
 eWorldMapWidget::eWorldMapWidget(eMainWindow* const window) :
     eLabel(window) {}
 
@@ -20,6 +18,10 @@ void eWorldMapWidget::initialize() {
 
 void eWorldMapWidget::setBoard(eWorldBoard* const b) {
     mBoard = b;
+}
+
+void eWorldMapWidget::setSelectCityAction(const eSelectCityAction& s) {
+    mSelectCityAction = s;
 }
 
 void eWorldMapWidget::paintEvent(ePainter& p) {
@@ -71,4 +73,28 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
     for(const auto& ct : cts) {
         handleCity(ct);
     }
+}
+
+bool eWorldMapWidget::mousePressEvent(const eMouseEvent& e) {
+    if(e.button() == eMouseButton::right) {
+        mSelectCityAction(nullptr);
+        return true;
+    }
+    if(!mBoard || !mSelectCityAction) return false;
+    const auto& cts = mBoard->cities();
+    stdsptr<eWorldCity> closestCt;
+    int minDist = width()/50;
+    for(const auto& ct : cts) {
+        const int px = width()*ct->x();
+        const int py = height()*ct->y();
+        const int dx = e.x() - px;
+        const int dy = e.y() - py;
+        const int dist = sqrt(dx*dx + dy*dy);
+        if(dist < minDist) {
+            closestCt = ct;
+            minDist = dist;
+        }
+    }
+    mSelectCityAction(closestCt);
+    return true;
 }

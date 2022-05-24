@@ -4,6 +4,7 @@
 
 #include "ebutton.h"
 #include "emainwindow.h"
+#include "eworldgoodswidget.h"
 
 void eWorldMenu::initialize() {
     const auto& intrfc = eGameTextures::interface();
@@ -41,11 +42,11 @@ void eWorldMenu::initialize() {
     }
 
     {
-        const auto wrb = eButton::sCreate(coll.fRequestButton, window(), this);
-        const auto wfb = eButton::sCreate(coll.fFulfillButton, window(), this);
-        const auto wgb = eButton::sCreate(coll.fGiftButton, window(), this);
-        const auto wrdb = eButton::sCreate(coll.fRaidButton, window(), this);
-        const auto wcb = eButton::sCreate(coll.fConquerButton, window(), this);
+        mRequestButton = eButton::sCreate(coll.fRequestButton, window(), this);
+        mFulfillButton = eButton::sCreate(coll.fFulfillButton, window(), this);
+        mGiftButton = eButton::sCreate(coll.fGiftButton, window(), this);
+        mRaidButton = eButton::sCreate(coll.fRaidButton, window(), this);
+        mConquerButton = eButton::sCreate(coll.fConquerButton, window(), this);
 
         const int xwrb = std::round(6.5*mult);
         const int xwfb = 35*mult;
@@ -59,20 +60,20 @@ void eWorldMenu::initialize() {
         const int ywrdb = 259*mult;
         const int ywcb = ywrdb;
 
-        wrb->setX(xwrb);
-        wrb->setY(ywrb);
+        mRequestButton->setX(xwrb);
+        mRequestButton->setY(ywrb);
 
-        wfb->setX(xwfb);
-        wfb->setY(ywfb);
+        mFulfillButton->setX(xwfb);
+        mFulfillButton->setY(ywfb);
 
-        wgb->setX(xwgb);
-        wgb->setY(ywgb);
+        mGiftButton->setX(xwgb);
+        mGiftButton->setY(ywgb);
 
-        wrdb->setX(xwrdb);
-        wrdb->setY(ywrdb);
+        mRaidButton->setX(xwrdb);
+        mRaidButton->setY(ywrdb);
 
-        wcb->setX(xwcb);
-        wcb->setY(ywcb);
+        mConquerButton->setX(xwcb);
+        mConquerButton->setY(ywcb);
 
 
         const auto wh = eButton::sCreate(coll.fHelpButton, window(), this);
@@ -106,4 +107,30 @@ void eWorldMenu::initialize() {
         wat->setX(watx);
         wat->setY(waty);
     }
+
+    {
+        mGoodsWidget = new eWorldGoodsWidget(window());
+        addWidget(mGoodsWidget);
+        mGoodsWidget->setX(mult*10);
+        mGoodsWidget->setY(mult*90);
+
+        mGoodsWidget->setWidth(mult*75);
+        mGoodsWidget->setHeight(mult*105);
+
+        mGoodsWidget->initialize();
+    }
+
+    setCity(nullptr);
+}
+
+void eWorldMenu::setCity(const stdsptr<eWorldCity>& c) {
+    mCity = c;
+
+    mRequestButton->setEnabled(c.get());
+    mFulfillButton->setEnabled(c.get());
+    mGiftButton->setEnabled(c.get());
+    mRaidButton->setEnabled(c.get());
+    mConquerButton->setEnabled(c.get());
+
+    mGoodsWidget->setCity(c);
 }

@@ -16,3 +16,11 @@ eWorldCityBase::eWorldCityBase(const eWorldCityType type,
         break;
     }
 }
+
+void eWorldCity::addBuys(const eResourceTrade& b) {
+    mBuys.push_back(b);
+}
+
+void eWorldCity::addSells(const eResourceTrade& s) {
+    mSells.push_back(s);
+}

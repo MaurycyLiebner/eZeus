@@ -294,6 +294,7 @@ SOURCES += \
         widgets/eupbutton.cpp \
         widgets/eviewmode.cpp \
         widgets/ewidget.cpp \
+        widgets/eworldgoodswidget.cpp \
         widgets/eworldmapwidget.cpp \
         widgets/eworldmenu.cpp \
         widgets/eworldwidget.cpp \
@@ -602,6 +603,7 @@ HEADERS += \
     widgets/eupbutton.h \
     widgets/eviewmode.h \
     widgets/ewidget.h \
+    widgets/eworldgoodswidget.h \
     widgets/eworldmapwidget.h \
     widgets/eworldmenu.h \
     widgets/eworldwidget.h \

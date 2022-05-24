@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "eresourcetype.h"
+
 enum class eWorldCityType {
     mainCity,
     collony,
@@ -65,6 +67,12 @@ private:
     eWorldCityRelationship mRel;
 };
 
+struct eResourceTrade {
+    eResourceType fType;
+    int fUsed;
+    int fMax;
+};
+
 class eWorldCity : public eWorldCityBase {
 public:
     using eWorldCityBase::eWorldCityBase;
@@ -74,9 +82,20 @@ public:
 
     int wealth() const { return mWealth; }
     void setWealth(const int w) { mWealth = w; }
+
+    const std::vector<eResourceTrade>& buys() const
+    { return mBuys; }
+    void addBuys(const eResourceTrade& b);
+
+    const std::vector<eResourceTrade>& sells() const
+    { return mSells; }
+    void addSells(const eResourceTrade& s);
 private:
     int mArmy = 0;
     int mWealth = 0;
+
+    std::vector<eResourceTrade> mBuys;
+    std::vector<eResourceTrade> mSells;
 };
 
 #endif // EWORLDCITY_H

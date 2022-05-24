@@ -14,6 +14,10 @@ void eWorldWidget::initialize() {
     addWidget(mWMW);
     mWMW->align(eAlignment::center);
     mWMW->setX((width() - mWM->width() - mWMW->width())/2);
+
+    mWMW->setSelectCityAction([&](const stdsptr<eWorldCity>& ct) {
+        mWM->setCity(ct);
+    });
 }
 
 void eWorldWidget::setBoard(eGameBoard* const board) {
