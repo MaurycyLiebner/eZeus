@@ -7,9 +7,11 @@
 #include "../eupbutton.h"
 #include "../edownbutton.h"
 
+#include "elanguage.h"
+
 void eAdminDataWidget::initialize() {
     {
-        const auto l = new eLabel("Taxes:", window());
+        const auto l = new eLabel(eLanguage::text("taxes"), window());
         l->setSmallPadding();
         l->setVerySmallFontSize();
         l->fitContent();
@@ -17,7 +19,7 @@ void eAdminDataWidget::initialize() {
 
         const auto w = new eWidget(window());
         w->setNoPadding();
-        mTaxLabel = new eLabel("very high", window());
+        mTaxLabel = new eLabel(eTaxRateHelpers::name(eTaxRate::normal), window());
         mTaxLabel->setSmallPadding();
         mTaxLabel->setVerySmallFontSize();
         mTaxLabel->fitContent();

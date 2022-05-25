@@ -5,6 +5,8 @@
 #include "textures/egametextures.h"
 #include "eworldgoodswidget.h"
 
+#include "elanguage.h"
+
 void eTradeTypesWidget::initialize() {
     setType(eFrameType::inner);
 }
@@ -99,7 +101,7 @@ void eWorldGoodsWidget::initialize() {
     const int mult = iRes + 1;
     const auto& coll = intrfc[iRes];
 
-    mGoodsLabel = new eLabel("Goods", window());
+    mGoodsLabel = new eLabel(eLanguage::text("goods"), window());
     mGoodsLabel->setSmallFontSize();
     mGoodsLabel->setTinyPadding();
     mGoodsLabel->fitContent();
@@ -107,7 +109,7 @@ void eWorldGoodsWidget::initialize() {
     mGoodsLabel->align(eAlignment::top | eAlignment::hcenter);
 
     mOrdersButton = eButton::sCreate(coll.fWorldSmallButton, window(), this);
-    const auto ordersTxt = new eLabel("Orders", window());
+    const auto ordersTxt = new eLabel(eLanguage::text("orders"), window());
     ordersTxt->setSmallFontSize();
     ordersTxt->fitContent();
     mOrdersButton->addWidget(ordersTxt);
@@ -117,11 +119,11 @@ void eWorldGoodsWidget::initialize() {
     mOrdersButton->setY(mGoodsLabel->y() + mGoodsLabel->height());
 
     mBuysWidget = new eWorldTradeWidget(window());
-    mBuysWidget->initialize("Buys");
+    mBuysWidget->initialize(eLanguage::text("buys"));
     addWidget(mBuysWidget);
 
     mSellsWidget = new eWorldTradeWidget(window());
-    mSellsWidget->initialize("Sells");
+    mSellsWidget->initialize(eLanguage::text("sells"));
     addWidget(mSellsWidget);
 
     mSellsWidget->setY(height() - mSellsWidget->height());

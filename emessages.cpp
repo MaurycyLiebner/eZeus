@@ -5,39 +5,16 @@
 
 #include "egamedir.h"
 
+#include "eloadtexthelper.h"
+
 eMessages eMessages::instance;
 
 bool eMessages::loadImpl() {
     if(mLoaded) return false;
     mLoaded = true;
-    {
-        const std::string path = eGameDir::path("Model/Zeus eventmsg.txt");
-        std::ifstream file(path);
-        if(!file.good()) {
-            printf("File missing %s\n", path.c_str());
-            return false;
-        }
-        std::string str;
-        while(std::getline(file, str)) {
-            if(str.empty()) continue;
-            if(str.front() == '\r') continue;
-            if(str.front() == '\t') continue;
-            if(str.front() == ';') continue;
-            const auto keyEnd1 = str.find(' ');
-            const auto keyEnd2 = str.find('\t');
-            const auto keyEnd = std::min(keyEnd1, keyEnd2);
-            if(keyEnd == std::string::npos) continue;
-            const auto key = str.substr(0, keyEnd);
 
-            const auto valueStart = str.find('"');
-            if(valueStart == std::string::npos) continue;
-            const auto valueEnd = str.find('"', valueStart + 1);
-            const auto valueLen = valueEnd - valueStart;
-            const auto value = str.substr(valueStart + 1, valueLen - 1);
-
-            fMessages[key] = value;
-        }
-    }
+    const std::string path = eGameDir::path("Model/Zeus eventmsg.txt");
+    eLoadTextHelper::load(path, fMessages);
 
     fPop100.fFull.fTitle = fMessages["PHRASE_population_100_title"];
     fPop100.fFull.fText = fMessages["PHRASE_population_100_initial_announcement"];

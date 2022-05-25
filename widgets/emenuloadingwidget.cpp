@@ -4,6 +4,7 @@
 #include "emusic.h"
 #include "esounds.h"
 #include "emessages.h"
+#include "elanguage.h"
 
 eMenuLoadingWidget::eMenuLoadingWidget(eMainWindow* const window) :
     eLoadingWidget(eGameTextures::menuSize(), [](std::string& text) {
@@ -12,6 +13,7 @@ eMenuLoadingWidget::eMenuLoadingWidget(eMainWindow* const window) :
             text = "Loading music...";
             eMusic::loadMenu();
             eSounds::loadButtonSound();
+            eLanguage::load();
             return true;
         }
         return false;

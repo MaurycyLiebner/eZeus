@@ -172,6 +172,8 @@ SOURCES += \
         characters/gods/egod.cpp \
         characters/gods/ehermes.cpp \
         egamedir.cpp \
+        elanguage.cpp \
+        eloadtexthelper.cpp \
         emainwindow.cpp \
         emessage.cpp \
         emessages.cpp \
@@ -460,6 +462,8 @@ HEADERS += \
     characters/gods/egod.h \
     characters/gods/ehermes.h \
     egamedir.h \
+    elanguage.h \
+    eloadtexthelper.h \
     emainwindow.h \
     emessage.h \
     emessages.h \

@@ -4,6 +4,8 @@
 
 #include "eframedwidget.h"
 
+#include "elanguage.h"
+
 void addButton(const std::string& text,
                const eAction& a,
                eWidget* const buttons,
@@ -37,10 +39,10 @@ void eMainMenu::initialize(const eAction& newGameA,
 
     buttons->align(eAlignment::center);
 
-    addButton("New Game", newGameA, buttons, window());
-    addButton("Load Game", loadGameA, buttons, window());
-    addButton("Settings", settingsA, buttons, window());
-    addButton("Quit", quitA, buttons, window());
+    addButton(eLanguage::text("new_game"), newGameA, buttons, window());
+    addButton(eLanguage::text("load_game"), loadGameA, buttons, window());
+    addButton(eLanguage::text("settings"), settingsA, buttons, window());
+    addButton(eLanguage::text("quit"), quitA, buttons, window());
 
     buttons->layoutVertically();
 }

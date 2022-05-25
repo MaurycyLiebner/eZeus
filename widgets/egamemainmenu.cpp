@@ -2,9 +2,11 @@
 
 #include "ebutton.h"
 
+#include "elanguage.h"
+
 void eGameMainMenu::initialize(const eAction& exitAct) {
     const auto exitButt = new eButton(window());
-    exitButt->setText("Exit");
+    exitButt->setText(eLanguage::text("exit"));
     exitButt->fitContent();
     exitButt->setPressAction(exitAct);
     addWidget(exitButt);

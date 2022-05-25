@@ -6,9 +6,11 @@
 
 #include "edatalabel.h"
 
+#include "elanguage.h"
+
 void ePopulationDataWidget::initialize() {
     mSeeSupplies = new eViewModeButton(
-                     "See Supplies",
+                     eLanguage::text("see_supplies"),
                      eViewMode::supplies,
                      window());
 
@@ -17,14 +19,14 @@ void ePopulationDataWidget::initialize() {
 
     {
         const auto w = new eDataLabel(window());
-        w->initialize("Population: ");
+        w->initialize(eLanguage::text("population"));
         mPopLabel = w->label();
         addWidget(w);
     }
 
     {
         const auto w = new eDataLabel(window());
-        w->initialize("Vacancies: ");
+        w->initialize(eLanguage::text("vacancies"));
         mVacLabel = w->label();
         addWidget(w);
     }

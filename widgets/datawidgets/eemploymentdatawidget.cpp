@@ -7,17 +7,19 @@
 #include "../eupbutton.h"
 #include "../edownbutton.h"
 
+#include "elanguage.h"
+
 void eEmploymentDataWidget::initialize() {
     {
         const auto w = new eDataLabel(window());
-        w->initialize("Pensions: ");
+        w->initialize(eLanguage::text("pensions"));
         mPensionsLabel = w->label();
         addWidget(w);
     }
 
     {
         const auto w = new eDataLabel(window());
-        w->initialize("Workforce: ");
+        w->initialize(eLanguage::text("workforce"));
         mWorkforceLabel = w->label();
         addWidget(w);
     }
@@ -25,7 +27,7 @@ void eEmploymentDataWidget::initialize() {
     eDataLabel* jv = nullptr;
     {
         const auto w = new eDataLabel(window());
-        w->initialize("Job Vacancies: ");
+        w->initialize(eLanguage::text("job_vacancies"));
         mVacanciesNLabel = w->label();
         mVacanciesLabel = w;
         addWidget(w);
@@ -33,7 +35,7 @@ void eEmploymentDataWidget::initialize() {
     }
 
     {
-        const auto l = new eLabel("Wages:", window());
+        const auto l = new eLabel(eLanguage::text("wages"), window());
         l->setSmallPadding();
         l->setVerySmallFontSize();
         l->fitContent();
@@ -41,7 +43,7 @@ void eEmploymentDataWidget::initialize() {
 
         const auto w = new eWidget(window());
         w->setNoPadding();
-        mWageLabel = new eLabel("very high", window());
+        mWageLabel = new eLabel(eWageRateHelpers::name(eWageRate::normal), window());
         mWageLabel->setSmallPadding();
         mWageLabel->setVerySmallFontSize();
         mWageLabel->fitContent();
@@ -72,7 +74,7 @@ void eEmploymentDataWidget::initialize() {
 
     {
         const auto w = new eDataLabel(window());
-        w->initialize("Unemployed: ");
+        w->initialize(eLanguage::text("unemployed"));
         mUnemployedNLabel = w->label();
         mUnemployedLabel = w;
         addWidget(w);

@@ -5,6 +5,8 @@
 #include "elabeledwidget.h"
 #include "eframedwidget.h"
 
+#include "elanguage.h"
+
 eSettingsMenu::eSettingsMenu(const eSettings& iniSettings,
                              eMainWindow* const window) :
     eMainMenuBase(window),
@@ -46,7 +48,7 @@ void eSettingsMenu::initialize(const eAction& backA,
         });
         b->fitContent();
 
-        lw->setup("Resolution: ", b);
+        lw->setup(eLanguage::text("resolution"), b);
         buttons->addWidget(lw);
     }
 
@@ -60,7 +62,7 @@ void eSettingsMenu::initialize(const eAction& backA,
         });
         b->fitContent();
 
-        lw->setup("Fullscreen: ", b);
+        lw->setup(eLanguage::text("fullscreen"), b);
         buttons->addWidget(lw);
     }
 
@@ -74,7 +76,7 @@ void eSettingsMenu::initialize(const eAction& backA,
         });
         b->fitContent();
 
-        lw->setup("Tiny Textures: ", b);
+        lw->setup(eLanguage::text("tiny_textures"), b);
         buttons->addWidget(lw);
     }
 
@@ -88,7 +90,7 @@ void eSettingsMenu::initialize(const eAction& backA,
         });
         b->fitContent();
 
-        lw->setup("Small Textures: ", b);
+        lw->setup(eLanguage::text("small_textures"), b);
         buttons->addWidget(lw);
     }
 
@@ -102,7 +104,7 @@ void eSettingsMenu::initialize(const eAction& backA,
         });
         b->fitContent();
 
-        lw->setup("Medium Textures: ", b);
+        lw->setup(eLanguage::text("medium_textures"), b);
         buttons->addWidget(lw);
     }
 
@@ -116,7 +118,7 @@ void eSettingsMenu::initialize(const eAction& backA,
         });
         b->fitContent();
 
-        lw->setup("Large Textures: ", b);
+        lw->setup(eLanguage::text("large_textures"), b);
         buttons->addWidget(lw);
     }
 
@@ -126,7 +128,7 @@ void eSettingsMenu::initialize(const eAction& backA,
         const auto b = new eButton(window());
         b->setPressAction(backA);
         buttons->addWidget(b);
-        b->setText("Back");
+        b->setText(eLanguage::text("back"));
         b->fitContent();
         b->align(eAlignment::left | eAlignment::bottom);
     }
@@ -137,7 +139,7 @@ void eSettingsMenu::initialize(const eAction& backA,
             settingsA(mSettings);
         });
         buttons->addWidget(b);
-        b->setText("Apply");
+        b->setText(eLanguage::text("apply"));
         b->fitContent();
         b->align(eAlignment::right | eAlignment::bottom);
     }

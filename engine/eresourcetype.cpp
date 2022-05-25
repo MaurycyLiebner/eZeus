@@ -2,6 +2,8 @@
 
 #include "textures/egametextures.h"
 
+#include "elanguage.h"
+
 bool extractResourceType(const eResourceType from,
                          const eResourceType t,
                          std::vector<eResourceType>& result) {
@@ -40,30 +42,32 @@ std::vector<eResourceType> eResourceTypeHelpers::extractResourceTypes(const eRes
 }
 
 std::string eResourceTypeHelpers::typeName(const eResourceType type) {
+    std::string key;
     switch(type) {
-    case eResourceType::urchin: return "Urchin";
-    case eResourceType::fish: return "Fish";
-    case eResourceType::meat: return "Meat";
-    case eResourceType::cheese: return "Cheese";
-    case eResourceType::carrots: return "Carrots";
-    case eResourceType::onions: return "Onions";
-    case eResourceType::wheat: return "Wheat";
-    case eResourceType::oranges: return "Oranges";
-    case eResourceType::food: return "Food";
-    case eResourceType::grapes: return "Grapes";
-    case eResourceType::olives: return "Olives";
-    case eResourceType::wine: return "Wine";
-    case eResourceType::oliveOil: return "Olive Oil";
-    case eResourceType::fleece: return "Fleece";
-    case eResourceType::wood: return "Wood";
-    case eResourceType::bronze: return "Bronze";
-    case eResourceType::marble: return "Marble";
-    case eResourceType::silver: return "Silver";
-    case eResourceType::armor: return "Armor";
-    case eResourceType::sculpture: return "Sculpture";
-    case eResourceType::horse: return "Horse";
-    default: return "Invalid";
+    case eResourceType::urchin: key = "urchin";
+    case eResourceType::fish: key = "fish";
+    case eResourceType::meat: key = "meat";
+    case eResourceType::cheese: key = "cheese";
+    case eResourceType::carrots: key = "carrots";
+    case eResourceType::onions: key = "onions";
+    case eResourceType::wheat: key = "wheat";
+    case eResourceType::oranges: key = "oranges";
+    case eResourceType::food: key = "food";
+    case eResourceType::grapes: key = "grapes";
+    case eResourceType::olives: key = "olives";
+    case eResourceType::wine: key = "wine";
+    case eResourceType::oliveOil: key = "olive_oil";
+    case eResourceType::fleece: key = "fleece";
+    case eResourceType::wood: key = "wood";
+    case eResourceType::bronze: key = "bronze";
+    case eResourceType::marble: key = "marble";
+    case eResourceType::silver: key = "silver";
+    case eResourceType::armor: key = "armor";
+    case eResourceType::sculpture: key = "sculpture";
+    case eResourceType::horse: key = "horse";
+    default: key = "invalid";
     }
+    return eLanguage::text(key);
 }
 
 std::shared_ptr<eTexture> eResourceTypeHelpers::icon(

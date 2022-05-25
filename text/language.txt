@@ -1,0 +1,118 @@
+new_game "New Game"
+load_game "Load Game"
+settings "Settings"
+quit "Quit"
+
+exit "Exit"
+
+resolution "Resolution: "
+fullscreen "Fullscreen: "
+
+tiny_textures "Tiny Textures: "
+small_textures "Small Textures: "
+medium_textures "Medium Textures: "
+large_textures "Large Textures: "
+
+back "Back"
+apply "Apply"
+
+goods "Goods"
+orders "Orders"
+buys "Buys"
+sells "Sells"
+
+philanthropic "Philanthropic"
+resentful "Resentful"
+
+helpful "Helpful"
+congenial "Congenial"
+sympathetic "Sympathetic"
+apatheticA "Apathetic"
+annoyed "Annoyed"
+
+devoted "Devoted"
+dedicated "Dedicated"
+loyal "Loyal"
+bitter "Bitter"
+angry "Angry"
+
+docile "Docile"
+hostile "Hostile"
+
+admiring "Admiring"
+respectful "Respectful"
+apatheticR "Apathetic"
+displeased "Displeased"
+furious "Furious"
+
+our_city "Our city!"
+collony "Collony"
+vassal "Vassal"
+ally "Ally"
+rival "Rival"
+
+unknown "Unknown"
+
+back_to_city "Back to city"
+
+urchin "Urchin"
+fish "Fish"
+meat "Meat"
+cheese "Cheese"
+carrots "Carrots"
+onions "Onions"
+wheat "Wheat"
+oranges "Oranges"
+food "Food"
+grapes "Grapes"
+olives "Olives"
+wine "Wine"
+olive_oil "Olive Oil"
+fleece "Fleece"
+wood "Wood"
+bronze "Bronze"
+marble "Marble"
+silver "Silver"
+armor "Armor"
+sculpture "Sculpture"
+horse "Horse"
+invalid "Invalid"
+
+taxes "Taxes:"
+
+none "none"
+low "low"
+very_low "very low"
+normal "normal"
+high "high"
+very_high "very high"
+outrageous "outrageous"
+
+see_appeal "See Appeal"
+
+see_actors "See Actors"
+see_athletes "See Athletes"
+see_philosophers "See Philosophers"
+see_all_culture "See All Culture"
+
+pensions "Pensions: "
+workforce "Workforce: "
+job_vacancies "Job Vacancies: "
+wages "Wages:"
+unemployed "Unemployed: "
+
+none "none"
+very_low "very low"
+low "low"
+normal "normal"
+high "high"
+very_high "very high"
+
+see_water "See Water"
+see_hygiene "See Hygiene"
+see_hazards "See Hazards"
+see_unrest "See Unrest"
+
+see_supplies "See Supplies"
+population "Population: "
+vacancies "Vacancies: "

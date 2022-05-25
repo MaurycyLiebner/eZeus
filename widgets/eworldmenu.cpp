@@ -6,6 +6,8 @@
 #include "emainwindow.h"
 #include "eworldgoodswidget.h"
 
+#include "elanguage.h"
+
 void eWorldMenu::initialize() {
     const auto& intrfc = eGameTextures::interface();
     const auto uiScale = resolution().uiScale();
@@ -90,7 +92,7 @@ void eWorldMenu::initialize() {
         const int wgwx = 20*mult;
         const int wgwy = 285*mult;
 
-        const auto wgwtxt = new eLabel("Back to city", window());
+        const auto wgwtxt = new eLabel(eLanguage::text("back_to_city"), window());
         wgwtxt->setSmallFontSize();
         wgwtxt->fitContent();
         wgw->addWidget(wgwtxt);
@@ -102,7 +104,7 @@ void eWorldMenu::initialize() {
 
         const auto wat = eButton::sCreate(coll.fWorldBigButton, window(), this);
 
-        mAttitudeLabel = new eLabel("Loyal", window());
+        mAttitudeLabel = new eLabel(eLanguage::text("unknown"), window());
         mAttitudeLabel->setSmallFontSize();
         mAttitudeLabel->fitContent();
         wat->addWidget(mAttitudeLabel);
@@ -161,17 +163,71 @@ void eWorldMenu::setCity(const stdsptr<eWorldCity>& c) {
         {
             std::string atStr;
             switch(c->attitude()) {
+            case eWorldCityAttitude::philanthropic:
+                atStr = eLanguage::text("philanthropic");
+                break;
+            case eWorldCityAttitude::resentful:
+                atStr = eLanguage::text("resentful");
+                break;
+
+            case eWorldCityAttitude::helpful:
+                atStr = eLanguage::text("helpful");
+                break;
             case eWorldCityAttitude::congenial:
-                atStr = "Congenial";
+                atStr = eLanguage::text("congenial");
+                break;
+            case eWorldCityAttitude::sympathetic:
+                atStr = eLanguage::text("sympathetic");
+                break;
+            case eWorldCityAttitude::apatheticA:
+                atStr = eLanguage::text("apatheticA");
+                break;
+            case eWorldCityAttitude::annoyed:
+                atStr = eLanguage::text("annoyed");
+                break;
+
+
+            case eWorldCityAttitude::devoted:
+                atStr = eLanguage::text("devoted");
                 break;
             case eWorldCityAttitude::dedicated:
-                atStr = "Dedicated";
+                atStr = eLanguage::text("dedicated");
                 break;
             case eWorldCityAttitude::loyal:
-                atStr = "Loyal";
+                atStr = eLanguage::text("loyal");
+                break;
+            case eWorldCityAttitude::bitter:
+                atStr = eLanguage::text("bitter");
+                break;
+            case eWorldCityAttitude::angry:
+                atStr = eLanguage::text("angry");
+                break;
+
+
+            case eWorldCityAttitude::docile:
+                atStr = eLanguage::text("docile");
+                break;
+            case eWorldCityAttitude::hostile:
+                atStr = eLanguage::text("hostile");
+                break;
+
+            case eWorldCityAttitude::admiring:
+                atStr = eLanguage::text("admiring");
+                break;
+            case eWorldCityAttitude::respectful:
+                atStr = eLanguage::text("respectful");
+                break;
+            case eWorldCityAttitude::apatheticR:
+                atStr = eLanguage::text("apatheticR");
+                break;
+            case eWorldCityAttitude::displeased:
+                atStr = eLanguage::text("displeased");
+                break;
+            case eWorldCityAttitude::furious:
+                atStr = eLanguage::text("furious");
                 break;
             default:
-                atStr = "Unknown";
+                atStr = eLanguage::text("unknown");
                 break;
             }
 
@@ -181,19 +237,19 @@ void eWorldMenu::setCity(const stdsptr<eWorldCity>& c) {
             std::string relStr;
             switch(c->relationship()) {
             case eWorldCityRelationship::mainCity:
-                relStr = "Our city!";
+                relStr = eLanguage::text("our_city");
                 break;
             case eWorldCityRelationship::collony:
-                relStr = "Collony";
+                relStr = eLanguage::text("collony");
                 break;
             case eWorldCityRelationship::vassal:
-                relStr = "Vassal";
+                relStr = eLanguage::text("vassal");
                 break;
             case eWorldCityRelationship::ally:
-                relStr = "Ally";
+                relStr = eLanguage::text("ally");
                 break;
             case eWorldCityRelationship::rival:
-                relStr = "Rival";
+                relStr = eLanguage::text("rival");
                 break;
             }
 

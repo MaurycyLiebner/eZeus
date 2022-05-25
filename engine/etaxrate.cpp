@@ -1,21 +1,23 @@
 #include "etaxrate.h"
 
+#include "elanguage.h"
+
 std::string eTaxRateHelpers::name(const eTaxRate tr) {
     switch(tr) {
     case eTaxRate::none:
-        return "none";
+        return eLanguage::text("none");
     case eTaxRate::low:
-        return "low";
+        return eLanguage::text("low");;
     case eTaxRate::veryLow:
-        return "very low";
+        return eLanguage::text("very_low");
     case eTaxRate::normal:
-        return "normal";
+        return eLanguage::text("normal");
     case eTaxRate::high:
-        return "high";
+        return eLanguage::text("high");
     case eTaxRate::veryHigh:
-        return "very high";
+        return eLanguage::text("very_high");
     case eTaxRate::outrageous:
-        return "outrageous";
+        return eLanguage::text("outrageous");
     }
 }
 

@@ -6,6 +6,7 @@
 #include "emessages.h"
 #include "buildings/sanctuaries/esanctuaryblueprint.h"
 #include "emainwindow.h"
+#include "elanguage.h"
 
 eGameLoadingWidget::eGameLoadingWidget(eMainWindow* const window) :
     eLoadingWidget(eGameTextures::gameSize(window->settings()) + 4,

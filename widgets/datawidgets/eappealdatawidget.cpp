@@ -4,9 +4,11 @@
 
 #include "widgets/egamewidget.h"
 
+#include "elanguage.h"
+
 void eAppealDataWidget::initialize() {
     mSeeAppeal = new eViewModeButton(
-                     "See Appeal",
+                     eLanguage::text("see_appeal"),
                      eViewMode::appeal,
                      window());
 

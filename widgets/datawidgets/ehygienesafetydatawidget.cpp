@@ -2,9 +2,11 @@
 
 #include "eviewmodebutton.h"
 
+#include "elanguage.h"
+
 void eHygieneSafetyDataWidget::initialize() {
     mSeeWater = new eViewModeButton(
-                     "See Water",
+                     eLanguage::text("see_water"),
                      eViewMode::water,
                      window());
 
@@ -13,7 +15,7 @@ void eHygieneSafetyDataWidget::initialize() {
 
 
     mSeeHygiene = new eViewModeButton(
-                     "See Hygiene",
+                     eLanguage::text("see_hygiene"),
                      eViewMode::hygiene,
                      window());
 
@@ -22,7 +24,7 @@ void eHygieneSafetyDataWidget::initialize() {
 
 
     mSeeHazards = new eViewModeButton(
-                     "See Hazards",
+                     eLanguage::text("see_hazards"),
                      eViewMode::hazards,
                      window());
 
@@ -31,7 +33,7 @@ void eHygieneSafetyDataWidget::initialize() {
 
 
     mSeeUnrest = new eViewModeButton(
-                     "See Unrest",
+                     eLanguage::text("see_unrest"),
                      eViewMode::unrest,
                      window());
 

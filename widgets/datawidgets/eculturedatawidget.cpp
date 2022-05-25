@@ -2,9 +2,11 @@
 
 #include "eviewmodebutton.h"
 
+#include "elanguage.h"
+
 void eCultureDataWidget::initialize() {
     mSeeActors = new eViewModeButton(
-                     "See Actors",
+                     eLanguage::text("see_actors"),
                      eViewMode::actors,
                      window());
 
@@ -13,7 +15,7 @@ void eCultureDataWidget::initialize() {
 
 
     mSeeAthletes = new eViewModeButton(
-                     "See Athletes",
+                     eLanguage::text("see_athletes"),
                      eViewMode::athletes,
                      window());
 
@@ -22,7 +24,7 @@ void eCultureDataWidget::initialize() {
 
 
     mSeePhilosophers = new eViewModeButton(
-                     "See Philosophers",
+                     eLanguage::text("see_philosophers"),
                      eViewMode::philosophers,
                      window());
 
@@ -31,7 +33,7 @@ void eCultureDataWidget::initialize() {
 
 
     mSeeAllCulture = new eViewModeButton(
-                     "See All Culture",
+                     eLanguage::text("see_all_culture"),
                      eViewMode::allCulture,
                      window());
 
