@@ -1,4 +1,4 @@
-#include "eworldmapwidget.h"
+﻿#include "eworldmapwidget.h"
 
 #include "textures/egametextures.h"
 #include "textures/einterfacetextures.h"
@@ -63,8 +63,23 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
 
         if(ct->rebellion()) {
             const auto& coll = texs.fCityRebellion;
-            p.drawTexture(x, y, coll.getTexture(mFrame % coll.size()));
+            const auto tex = coll.getTexture(mFrame % coll.size());
+            p.drawTexture(x, y, tex);
         }
+
+        const auto& name = ct->name();
+        const auto nameFind = mNames.find(name);
+        stdsptr<eTexture> nameTex;
+        if(nameFind == mNames.end()) {
+            nameTex = std::make_shared<eTexture>();
+            const auto font = eFonts::defaultFont(resolution().smallFontSize());
+            const auto white = SDL_Color{255, 255, 255, 255};
+            nameTex->loadText(renderer(), name, white, *font);
+            mNames[name] = nameTex;
+        } else {
+            nameTex = nameFind->second;
+        }
+        p.drawTexture(x - nameTex->width()/2, y + nameTex->height(), nameTex);
     };
 
     const auto& hc = mBoard->homeCity();

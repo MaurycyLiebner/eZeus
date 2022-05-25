@@ -54,6 +54,8 @@ public:
 
     eWorldCityRelationship relationship() const { return mRel; }
     void setRelationship(const eWorldCityRelationship r) { mRel = r; }
+
+    const std::string& name() const { return mName; }
 private:
     const eWorldCityType mType;
 

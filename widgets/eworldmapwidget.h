@@ -22,6 +22,8 @@ private:
     eWorldBoard* mBoard = nullptr;
     int mFrame = 0;
 
+    std::map<std::string, stdsptr<eTexture>> mNames;
+
     eSelectCityAction mSelectCityAction;
 };
 
