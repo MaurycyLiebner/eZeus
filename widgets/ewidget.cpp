@@ -304,6 +304,7 @@ void eWidget::removeChildren() {
     for(const auto w : mChildren) {
         delete w;
     }
+    mChildren.clear();
 }
 
 template <typename T>
