@@ -11,7 +11,7 @@ eFramedLabel::eFramedLabel(const std::string& text,
     setText(text);
 }
 
-void eFramedLabel::sizeHint2(int& w, int& h) {
+void eFramedLabel::sizeHint(int& w, int& h) {
     const auto& tex = texture();
     if(tex) {
         w = tex->width();

@@ -2,16 +2,6 @@
 
 #include "textures/egametextures.h"
 
-void eFramedWidget::sizeHint(int& w, int& h) {
-    const int p = padding();
-    sizeHint2(w, h);
-    int iRes;
-    int dim;
-    iResAndDim(iRes, dim);
-    h = dim*int(std::ceil((2.*p + h)/dim)) - 2*p;
-    w = dim*int(std::ceil((2.*p + w)/dim)) - 2*p;
-}
-
 void eFramedWidget::setType(const eFrameType type) {
     mType = type;
 }
@@ -21,42 +11,51 @@ void eFramedWidget::paintEvent(ePainter& p) {
     int dim;
     iResAndDim(iRes, dim);
     const auto& intrfc = eGameTextures::interface()[iRes];
+    if(!intrfc.fLoaded) return;
 
-    const int iMax = width()/dim;
-    const int jMax = height()/dim;
+    const int iMax = width()/dim + 1;
+    const int jMax = height()/dim + 1;
+
+    const int lastX = width() - dim;
+    const int lastY = height() - dim;
+
+    const auto texCollId = [&](const int i, const int j) {
+        int texId;
+        if(i == 0) {
+            if(j == 0) {
+                texId = 0;
+            } else if(j == jMax - 1) {
+                texId = 6;
+            } else {
+                texId = 3;
+            }
+        } else if(i == iMax - 1) {
+            if(j == 0) {
+                texId = 2;
+            } else if(j == jMax - 1) {
+                texId = 8;
+            } else {
+                texId = 5;
+            }
+        } else if(j == 0) {
+            texId = 1;
+        } else if(j == jMax - 1) {
+            texId = 7;
+        } else {
+            texId = 4;
+        }
+        return texId;
+    };
 
     if(mType == eFrameType::outer){
         const auto& texs = intrfc.fComboBox[1];
 
         for(int i = 0; i < iMax; i++) {
-            const int x = dim*i;
+            const int x = i == iMax - 1 ? lastX : dim*i;
             for(int j = 0; j < jMax; j++) {
-                const int y = dim*j;
-                int texId;
-                if(i == 0) {
-                    if(j == 0) {
-                        texId = 0;
-                    } else if(j == jMax - 1) {
-                        texId = 6;
-                    } else {
-                        texId = 3;
-                    }
-                } else if(i == iMax - 1) {
-                    if(j == 0) {
-                        texId = 2;
-                    } else if(j == jMax - 1) {
-                        texId = 8;
-                    } else {
-                        texId = 5;
-                    }
-                } else if(j == 0) {
-                    texId = 1;
-                } else if(j == jMax - 1) {
-                    texId = 7;
-                } else {
-                    texId = 4;
-                }
+                const int texId = texCollId(i, j);
                 const auto& tex = texs.getTexture(texId);
+                const int y = j == jMax - 1 ? lastY : dim*j;
                 p.drawTexture(x, y, tex);
             }
         }
@@ -69,36 +68,13 @@ void eFramedWidget::paintEvent(ePainter& p) {
         }
 
         for(int i = 0; i < iMax; i++) {
-            const int x = dim*i;
+            const int x = i == iMax - 1 ? lastX : dim*i;
             for(int j = 0; j < jMax; j++) {
-                const int y = dim*j;
-                int collId;
-                if(i == 0) {
-                    if(j == 0) {
-                        collId = 0;
-                    } else if(j == jMax - 1) {
-                        collId = 6;
-                    } else {
-                        collId = 3;
-                    }
-                } else if(i == iMax - 1) {
-                    if(j == 0) {
-                        collId = 2;
-                    } else if(j == jMax - 1) {
-                        collId = 8;
-                    } else {
-                        collId = 5;
-                    }
-                } else if(j == 0) {
-                    collId = 1;
-                } else if(j == jMax - 1) {
-                    collId = 7;
-                } else {
-                    collId = 4;
-                }
+                const int collId = texCollId(i, j);
                 const auto& coll = (*colls)[collId];
                 const int texId = (i*j) % coll.size();
                 const auto& tex = coll.getTexture(texId);
+                const int y = j == jMax - 1 ? lastY : dim*j;
                 p.drawTexture(x, y, tex);
             }
         }

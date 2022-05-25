@@ -13,11 +13,6 @@ public:
 
     void setType(const eFrameType type);
 protected:
-    void sizeHint(int& w, int& h) final;
-    virtual void sizeHint2(int& w, int& h) {
-        eWidget::sizeHint(w, h);
-    }
-
     void paintEvent(ePainter& p);
 private:
     void iResAndDim(int& iRes, int& dim) const;

@@ -20,7 +20,7 @@ void eActionListWidget::setSmallFontSize() {
     mFontSize = resolution().smallFontSize();
 }
 
-void eActionListWidget::sizeHint2(int& w, int& h) {
+void eActionListWidget::sizeHint(int& w, int& h) {
     const int p = padding();
     h = p;
     w = 0;

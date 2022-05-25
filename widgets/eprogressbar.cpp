@@ -14,7 +14,7 @@ void eProgressBar::setValue(const int v) {
     mValue = v;
 }
 
-void eProgressBar::sizeHint2(int& w, int& h) {
+void eProgressBar::sizeHint(int& w, int& h) {
     w = 10*padding();
     h = 2*padding();
 }

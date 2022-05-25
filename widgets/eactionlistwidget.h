@@ -34,7 +34,7 @@ public:
     eActionInstance& addAction(const std::string& text, const eAction& a);
     void setSmallFontSize();
 protected:
-    void sizeHint2(int& w, int& h);
+    void sizeHint(int& w, int& h);
     void paintEvent(ePainter& p);
     bool mousePressEvent(const eMouseEvent& e);
     bool mouseReleaseEvent(const eMouseEvent& e);

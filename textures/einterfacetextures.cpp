@@ -146,6 +146,9 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fCityRebellion(renderer) {}
 
 void eInterfaceTextures::load() {
+    if(fLoaded) return;
+    fLoaded = true;
+
     const std::string basedir{"../ZeusTextures/" + std::to_string(fTileH) + "/"};
     const auto dir = basedir + "Zeus_Interface/";
 

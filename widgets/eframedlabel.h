@@ -11,7 +11,7 @@ public:
     eFramedLabel(const std::string& text,
                  eMainWindow* const window);
 protected:
-    void sizeHint2(int& w, int& h);
+    void sizeHint(int& w, int& h);
     void paintEvent(ePainter& p);
 };
 

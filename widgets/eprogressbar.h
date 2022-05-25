@@ -12,7 +12,7 @@ public:
     void setRange(const int min, const int max);
     void setValue(const int v);
 protected:
-    void sizeHint2(int& w, int& h);
+    void sizeHint(int& w, int& h);
 
     void paintEvent(ePainter& p);
 private:
