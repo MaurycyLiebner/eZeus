@@ -101,11 +101,42 @@ void eWorldMenu::initialize() {
 
 
         const auto wat = eButton::sCreate(coll.fWorldBigButton, window(), this);
+
+        mAttitudeLabel = new eLabel("Loyal", window());
+        mAttitudeLabel->setSmallFontSize();
+        mAttitudeLabel->fitContent();
+        wat->addWidget(mAttitudeLabel);
+        mAttitudeLabel->align(eAlignment::center);
+
         const int watx = 4*mult;
         const int waty = 66*mult;
 
         wat->setX(watx);
         wat->setY(waty);
+    }
+
+    {
+        mRelationshipLabel = new eLabel("", window());
+        mRelationshipLabel->setSmallFontSize();
+        mRelationshipLabel->fitContent();
+        addWidget(mRelationshipLabel);
+        mRelationshipLabel->align(eAlignment::hcenter);
+        const int rly = 16*mult;
+        mRelationshipLabel->setY(rly);
+
+        mNameLabel = new eLabel("", window());
+        mNameLabel->setSmallFontSize();
+        mNameLabel->fitContent();
+        addWidget(mNameLabel);
+        mNameLabel->align(eAlignment::hcenter);
+        mNameLabel->setY(rly + mRelationshipLabel->height());
+
+        mLeaderLabel = new eLabel("", window());
+        mLeaderLabel->setSmallFontSize();
+        mLeaderLabel->fitContent();
+        addWidget(mLeaderLabel);
+        mLeaderLabel->align(eAlignment::hcenter);
+        mLeaderLabel->setY(mNameLabel->y() + mNameLabel->height());
     }
 
     {
@@ -125,6 +156,57 @@ void eWorldMenu::initialize() {
 
 void eWorldMenu::setCity(const stdsptr<eWorldCity>& c) {
     mCity = c;
+
+    if(c) {
+        {
+            std::string atStr;
+            switch(c->attitude()) {
+            case eWorldCityAttitude::congenial:
+                atStr = "Congenial";
+                break;
+            case eWorldCityAttitude::dedicated:
+                atStr = "Dedicated";
+                break;
+            case eWorldCityAttitude::loyal:
+                atStr = "Loyal";
+                break;
+            default:
+                atStr = "Unknown";
+                break;
+            }
+
+            mAttitudeLabel->setText(atStr);
+        }
+        {
+            std::string relStr;
+            switch(c->relationship()) {
+            case eWorldCityRelationship::mainCity:
+                relStr = "Our city!";
+                break;
+            case eWorldCityRelationship::collony:
+                relStr = "Collony";
+                break;
+            case eWorldCityRelationship::vassal:
+                relStr = "Vassal";
+                break;
+            case eWorldCityRelationship::ally:
+                relStr = "Ally";
+                break;
+            case eWorldCityRelationship::rival:
+                relStr = "Rival";
+                break;
+            }
+
+            mRelationshipLabel->setText(relStr);
+        }
+        mNameLabel->setText(c->name());
+        mLeaderLabel->setText(c->leader());
+    } else {
+        mAttitudeLabel->setText("");
+        mRelationshipLabel->setText("");
+        mNameLabel->setText("");
+        mLeaderLabel->setText("");
+    }
 
     mRequestButton->setEnabled(c.get());
     mFulfillButton->setEnabled(c.get());

@@ -38,6 +38,37 @@ enum class eWorldCityRelationship {
     rival
 };
 
+enum class eWorldCityAttitude {
+    // ally, colony, vassal
+    philanthropic, // - recently pleased
+    resentful, // - recently displeased
+
+    // ally
+    helpful,
+    congenial,
+    sympathetic,
+    apatheticA,
+    annoyed,
+
+    // colony, vassal
+    devoted,
+    dedicated,
+    loyal,
+    bitter,
+    angry,
+
+    // rival
+
+    docile, // - recently pleased
+    hostile, // - recently displeased
+
+    admiring,
+    respectful,
+    apatheticR,
+    displeased,
+    furious
+};
+
 class eWorldCityBase {
 public:
     eWorldCityBase(const eWorldCityType type,
@@ -55,11 +86,16 @@ public:
     eWorldCityRelationship relationship() const { return mRel; }
     void setRelationship(const eWorldCityRelationship r) { mRel = r; }
 
+    eWorldCityAttitude attitude() const { return mAt; }
+    void setAttitude(const eWorldCityAttitude a) { mAt = a; }
+
     const std::string& name() const { return mName; }
+    const std::string& leader() const { return mLeader; }
 private:
     const eWorldCityType mType;
 
     const std::string mName;
+    const std::string mLeader;
 
     const double mX;
     const double mY;
@@ -67,6 +103,7 @@ private:
     bool mRebellion = false;
 
     eWorldCityRelationship mRel;
+    eWorldCityAttitude mAt;
 };
 
 struct eResourceTrade {

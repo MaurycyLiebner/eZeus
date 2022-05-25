@@ -17,6 +17,12 @@ public:
 
     void setCity(const stdsptr<eWorldCity>& c);
 private:
+    eLabel* mRelationshipLabel = nullptr;
+    eLabel* mNameLabel = nullptr;
+    eLabel* mLeaderLabel = nullptr;
+
+    eLabel* mAttitudeLabel = nullptr;
+
     eWorldGoodsWidget* mGoodsWidget = nullptr;
 
     eButton* mRequestButton = nullptr;
