@@ -94,6 +94,19 @@ void eMainWindow::setFullscreen(const bool f) {
     SDL_SetWindowFullscreen(mSdlWindow, f ? SDL_WINDOW_FULLSCREEN : 0);
 }
 
+void eMainWindow::closeGame() {
+    if(!mGW) return;
+    if(mGW) {
+        mGW->deleteLater();
+        mGW = nullptr;
+    }
+    if(mWW) {
+        mWW->deleteLater();
+        mWW = nullptr;
+    }
+    showMainMenu();
+}
+
 void eMainWindow::showMenuLoading() {
     const auto mlw = new eMenuLoadingWidget(this);
     mlw->setDoneAction([this]() {

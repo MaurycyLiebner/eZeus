@@ -38,6 +38,8 @@ public:
     void setResolution(const eResolution res);
     void setFullscreen(const bool f);
 
+    void closeGame();
+
     void showMenuLoading();
     void showMainMenu();
     void showSettingsMenu();

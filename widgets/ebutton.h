@@ -59,7 +59,9 @@ T* eButton::sCreateButtonBase(const eTextureCollection& texs,
     b->setTexture(texs.getTexture(0));
     b->setPadding(0);
     b->setHoverTexture(texs.getTexture(1));
-    b->setDisabledTexture(texs.getTexture(3));
+    if(texs.size() > 3){
+        b->setDisabledTexture(texs.getTexture(3));
+    }
     b->fitContent();
     if(buttons) buttons->addWidget(b);
     return b;

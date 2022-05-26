@@ -114,7 +114,6 @@ void eWorldGoodsWidget::initialize() {
     ordersTxt->fitContent();
     mOrdersButton->addWidget(ordersTxt);
     ordersTxt->align(eAlignment::center);
-    addWidget(mOrdersButton);
     mOrdersButton->align(eAlignment::hcenter);
     mOrdersButton->setY(mGoodsLabel->y() + mGoodsLabel->height());
 
