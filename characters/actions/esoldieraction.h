@@ -5,19 +5,7 @@
 
 #include <map>
 
-struct eForce {
-    double fDx;
-    double fDy;
-
-    eForce operator+(const eForce& f2) {
-        return {fDx + f2.fDx, fDy + f2.fDy};
-    }
-
-    eForce operator+=(const eForce& f2) {
-        *this = this->operator+(f2);
-        return *this;
-    }
-};
+#include "eforce.h"
 
 class eSoldierAction : public eComplexAction {
 public:
@@ -25,7 +13,7 @@ public:
 
     void increment(const int by);
 
-    using eForceGetter = std::function<eForce()>;
+    using eForceGetter = std::function<eForce(eCharacter* const)>;
     int addForce(const eForceGetter& force);
     void removeForce(const int id);
 

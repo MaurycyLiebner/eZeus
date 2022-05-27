@@ -190,13 +190,14 @@ void eMainWindow::showGame() {
         const auto f = std::make_shared<eForce>();
         *i = 0;
         *f = eForce{10., 5.};
-        a->addForce([i, f]() {
+        a->addForce([i, f](eCharacter* const) {
             if((*i)++ % 50 == 0) {
                 *f = eForce{1. * ((rand() % 11) - 5),
                             1. * ((rand() % 11) - 5)};
             }
             return *f;
         });
+        a->addForce(eForceHelpers::avoidBuildingsForce);
         h->setAction(a);
         h->changeTile(mBoard->tile(10, 10));
         h->setActionType(eCharacterActionType::walk);
