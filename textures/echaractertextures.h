@@ -75,6 +75,12 @@ struct eArcherTextures : public eFightingCharacterTextures {
     std::vector<eTextureCollection> fPatrol;
 };
 
+struct eRockThrowerTextures : public eFightingCharacterTextures {
+    using eFightingCharacterTextures::eFightingCharacterTextures;
+
+    std::vector<eTextureCollection> fFight2;
+};
+
 class eCharacterTextures {
 public:
     eCharacterTextures(const int tileW, const int tileH,
@@ -167,6 +173,10 @@ public:
     eOrangeTenderTextures fOrangeTender;
 
     eArcherTextures fArcher;
+
+    eRockThrowerTextures fRockThrower;
+    eFightingCharacterTextures fHoplite;
+    eFightingCharacterTextures fHorseman;
 };
 
 #endif // ECHARACTERTEXTURES_H

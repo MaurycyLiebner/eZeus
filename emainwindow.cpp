@@ -173,7 +173,8 @@ void eMainWindow::showSettingsMenu() {
     esm->initialize(backA, applyA);
     setWidget(esm);
 }
-
+#include "characters/ehoplite.h"
+#include "characters/actions/esoldieraction.h"
 void eMainWindow::showGame() {
     if(mWidget == mGW) return;
     if(!mGW) {
@@ -182,6 +183,23 @@ void eMainWindow::showGame() {
         eMapGenerator g(*mBoard);
         eMapGeneratorSettings sett;
         g.generate(sett);
+
+        const auto h = e::make_shared<eHoplite>(*mBoard);
+        const auto a = e::make_shared<eSoldierAction>(h.get(), [](){}, [](){});
+        const auto i = std::make_shared<int>();
+        const auto f = std::make_shared<eForce>();
+        *i = 0;
+        *f = eForce{10., 5.};
+        a->addForce([i, f]() {
+            if((*i)++ % 50 == 0) {
+                *f = eForce{1. * ((rand() % 11) - 5),
+                            1. * ((rand() % 11) - 5)};
+            }
+            return *f;
+        });
+        h->setAction(a);
+        h->changeTile(mBoard->tile(10, 10));
+        h->setActionType(eCharacterActionType::walk);
 
         auto& wb = mBoard->getWorldBoard();
 

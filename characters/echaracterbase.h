@@ -50,6 +50,10 @@ enum class eCharacterType {
 
     archer,
 
+    rockThrower,
+    hoplite,
+    horseman,
+
     healer,
 
     cartTransporter,

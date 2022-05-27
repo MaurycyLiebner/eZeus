@@ -121,6 +121,7 @@ SOURCES += \
         characters/actions/epatrolmoveaction.cpp \
         characters/actions/esettleraction.cpp \
         characters/actions/eshepherdaction.cpp \
+        characters/actions/esoldieraction.cpp \
         characters/actions/ewaitaction.cpp \
         characters/eactor.cpp \
         characters/eanimal.cpp \
@@ -144,6 +145,7 @@ SOURCES += \
         characters/egrower.cpp \
         characters/egymnast.cpp \
         characters/ehealer.cpp \
+        characters/ehoplite.cpp \
         characters/ehorsevendorchar.cpp \
         characters/ehunter.cpp \
         characters/elumberjack.cpp \
@@ -411,6 +413,7 @@ HEADERS += \
     characters/actions/epatrolmoveaction.h \
     characters/actions/esettleraction.h \
     characters/actions/eshepherdaction.h \
+    characters/actions/esoldieraction.h \
     characters/actions/ewaitaction.h \
     characters/eactor.h \
     characters/eanimal.h \
@@ -434,6 +437,7 @@ HEADERS += \
     characters/egrower.h \
     characters/egymnast.h \
     characters/ehealer.h \
+    characters/ehoplite.h \
     characters/ehorsevendorchar.h \
     characters/ehunter.h \
     characters/elumberjack.h \

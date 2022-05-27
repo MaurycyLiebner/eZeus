@@ -71,7 +71,11 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
     fOrangeTender(renderer),
 
-    fArcher(renderer) {
+    fArcher(renderer),
+
+    fRockThrower(renderer),
+    fHoplite(renderer),
+    fHorseman(renderer) {
 
 }
 
@@ -313,8 +317,30 @@ void eCharacterTextures::load() {
 
     loadBasicTexture(fWaterDistributor, 6737, texClass);
 
-    texClass.loadSkipFlipped(fHealer.fWalk, 7473, 7569);
 
+    texClass.loadSkipFlipped(fRockThrower.fWalk, 6841, 6937);
+    for(int i = 6937; i < 6945; i++) {
+        texClass.load(i, fRockThrower.fDie);
+    }
+    texClass.loadSkipFlipped(fRockThrower.fFight, 6945, 7041);
+    texClass.loadSkipFlipped(fRockThrower.fFight2, 7041, 7105);
+
+
+    texClass.loadSkipFlipped(fHoplite.fWalk, 7105, 7201);
+    for(int i = 7201; i < 7209; i++) {
+        texClass.load(i, fHoplite.fDie);
+    }
+    texClass.loadSkipFlipped(fHoplite.fFight, 7209, 7273);
+
+
+    texClass.loadSkipFlipped(fHorseman.fWalk, 7273, 7369);
+    for(int i = 7369; i < 7377; i++) {
+        texClass.load(i, fHorseman.fDie);
+    }
+    texClass.loadSkipFlipped(fHorseman.fFight, 7377, 7473);
+
+
+    texClass.loadSkipFlipped(fHealer.fWalk, 7473, 7569);
     for(int i = 7569; i < 7577; i++) {
         texClass.load(i, fHealer.fDie);
     }
