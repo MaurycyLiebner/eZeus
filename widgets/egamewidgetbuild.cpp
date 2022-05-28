@@ -107,11 +107,13 @@ const eSanctBlueprint* eGameWidget::sanctuaryBlueprint(
     return nullptr;
 }
 
-void eGameWidget::buildMouseRelease() {
+bool eGameWidget::buildMouseRelease() {
     std::function<void(eTile* const)> apply;
     if(mTem->visible()) {
         const auto mode = mTem->mode();
-        if(mode == eTerrainEditMode::scrub) {
+        if(mode == eTerrainEditMode::none) {
+            return false;
+        } else if(mode == eTerrainEditMode::scrub) {
             apply = [](eTile* const tile) {
                 tile->incScrub(0.1);
             };
@@ -124,7 +126,7 @@ void eGameWidget::buildMouseRelease() {
                 tile->setAltitude(tile->altitude() - 1);
             };
         } else if(mode == eTerrainEditMode::levelOut) {
-            const auto t = mBoard->tile(mHoverX, mHoverY);
+            const auto t = mBoard->tile(mHoverTX, mHoverTY);
             if(t) {
                 const int a = t->altitude();
                 apply = [a](eTile* const tile) {
@@ -171,15 +173,7 @@ void eGameWidget::buildMouseRelease() {
         const auto mode = mGm->mode();
         switch(mode) {
         case eBuildingMode::none: {
-            const auto tile = mBoard->tile(mHoverX, mHoverY);
-            if(!mPatrolBuilding && tile) {
-                if(const auto b = tile->underBuilding()) {
-                    if(const auto pb = dynamic_cast<ePatrolBuilding*>(b)) {
-                        setViewMode(eViewMode::patrolBuilding);
-                        mPatrolBuilding = pb;
-                    }
-                }
-            }
+            return false;
         } break;
         case eBuildingMode::erase:
             apply = [this](eTile* const tile) {
@@ -192,7 +186,7 @@ void eGameWidget::buildMouseRelease() {
             break;
         case eBuildingMode::road:
             apply = [this](eTile*) {
-                const auto startTile = mBoard->tile(mHoverX, mHoverY);
+                const auto startTile = mBoard->tile(mHoverTX, mHoverTY);
                 std::vector<eOrientation> path;
                 const bool r = roadPath(path);
                 if(r) {
@@ -221,55 +215,55 @@ void eGameWidget::buildMouseRelease() {
             break;
         case eBuildingMode::gymnasium:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 3, 3,
+                build(mHoverTX, mHoverTY, 3, 3,
                       [this]() { return e::make_shared<eGymnasium>(*mBoard); });
             };
             break;
         case eBuildingMode::podium:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<ePodium>(*mBoard); });
             };
             break;
         case eBuildingMode::fountain:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eFountain>(*mBoard); });
             };
             break;
         case eBuildingMode::watchpost:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eWatchpost>(*mBoard); });
             };
             break;
         case eBuildingMode::maintenanceOffice:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eMaintenanceOffice>(*mBoard); });
             };
             break;
         case eBuildingMode::college:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 3, 3,
+                build(mHoverTX, mHoverTY, 3, 3,
                       [this]() { return e::make_shared<eCollege>(*mBoard); });
             };
             break;
         case eBuildingMode::dramaSchool:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 3, 3,
+                build(mHoverTX, mHoverTY, 3, 3,
                       [this]() { return e::make_shared<eDramaSchool>(*mBoard); });
             };
             break;
         case eBuildingMode::theater:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 5, 5,
+                build(mHoverTX, mHoverTY, 5, 5,
                       [this]() { return e::make_shared<eTheater>(*mBoard); });
             };
             break;
         case eBuildingMode::hospital:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 4, 4,
+                build(mHoverTX, mHoverTY, 4, 4,
                       [this]() { return e::make_shared<eHospital>(*mBoard); });
             };
             break;
@@ -290,7 +284,7 @@ void eGameWidget::buildMouseRelease() {
                     sw = 10;
                     sh = 5;
                 }
-                const auto t1 = mBoard->tile(mHoverX, mHoverY);
+                const auto t1 = mBoard->tile(mHoverTX, mHoverTY);
                 if(!t1) return;
                 const bool cb1 = canBuild(t1->x(), t1->y(), 5, 5);
                 if(!cb1) return;
@@ -326,7 +320,7 @@ void eGameWidget::buildMouseRelease() {
                     sw = 8;
                     sh = 4;
                 }
-                const auto t1 = mBoard->tile(mHoverX, mHoverY);
+                const auto t1 = mBoard->tile(mHoverTX, mHoverTY);
                 if(!t1) return;
                 const bool cb1 = canBuild(t1->x(), t1->y(), 4, 4);
                 if(!cb1) return;
@@ -347,7 +341,7 @@ void eGameWidget::buildMouseRelease() {
             break;
         case eBuildingMode::eliteHousing:
             apply = [this](eTile*) {
-                const auto t1 = mBoard->tile(mHoverX, mHoverY);
+                const auto t1 = mBoard->tile(mHoverTX, mHoverTY);
                 if(!t1) return;
                 const bool cb = canBuild(t1->x() + 1, t1->y() + 1, 4, 4);
                 if(!cb) return;
@@ -378,31 +372,31 @@ void eGameWidget::buildMouseRelease() {
             break;
         case eBuildingMode::taxOffice:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eTaxOffice>(*mBoard); });
             };
             break;
         case eBuildingMode::mint:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eMint>(*mBoard); });
             };
             break;
         case eBuildingMode::foundry:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eFoundry>(*mBoard); });
             };
             break;
         case eBuildingMode::timberMill:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eTimberMill>(*mBoard); });
             };
             break;
         case eBuildingMode::masonryShop:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eMasonryShop>(*mBoard); });
             };
             break;
@@ -436,7 +430,7 @@ void eGameWidget::buildMouseRelease() {
 
         case eBuildingMode::huntingLodge:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eHuntingLodge>(*mBoard); });
             };
             break;
@@ -444,13 +438,13 @@ void eGameWidget::buildMouseRelease() {
 
         case eBuildingMode::dairy:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eDairy>(*mBoard); });
             };
             break;
         case eBuildingMode::cardingShed:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eCardingShed>(*mBoard); });
             };
             break;
@@ -474,35 +468,35 @@ void eGameWidget::buildMouseRelease() {
 
         case eBuildingMode::wheatFarm:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 3, 3,
+                build(mHoverTX, mHoverTY, 3, 3,
                       [this]() { return e::make_shared<eWheatFarm>(*mBoard); },
                       sTileFertile);
             };
             break;
         case eBuildingMode::onionFarm:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 3, 3,
+                build(mHoverTX, mHoverTY, 3, 3,
                       [this]() { return e::make_shared<eOnionFarm>(*mBoard); },
                       sTileFertile);
             };
             break;
         case eBuildingMode::carrotFarm:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 3, 3,
+                build(mHoverTX, mHoverTY, 3, 3,
                       [this]() { return e::make_shared<eCarrotFarm>(*mBoard); },
                       sTileFertile);
             };
             break;
         case eBuildingMode::growersLodge:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eGrowersLodge>(
                                 *mBoard, eGrowerType::grapesAndOlives); });
             };
             break;
         case eBuildingMode::orangeTendersLodge:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eGrowersLodge>(
                                 *mBoard, eGrowerType::oranges); });
             };
@@ -510,13 +504,13 @@ void eGameWidget::buildMouseRelease() {
 
         case eBuildingMode::granary:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 4, 4,
+                build(mHoverTX, mHoverTY, 4, 4,
                       [this]() { return e::make_shared<eGranary>(*mBoard); });
             };
             break;
         case eBuildingMode::warehouse:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 3, 3,
+                build(mHoverTX, mHoverTY, 3, 3,
                       [this]() { return e::make_shared<eWarehouse>(*mBoard); });
             };
             break;
@@ -530,7 +524,7 @@ void eGameWidget::buildMouseRelease() {
             break;
         case eBuildingMode::tower:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eTower>(*mBoard); });
             };
             break;
@@ -551,8 +545,8 @@ void eGameWidget::buildMouseRelease() {
                     sw = 5;
                     sh = 2;
                 }
-                const int tx = mHoverX;
-                const int ty = mHoverY - 1;
+                const int tx = mHoverTX;
+                const int ty = mHoverTY - 1;
                 const bool cb1 = canBuild(tx, ty, 2, 2);
                 if(!cb1) return;
                 const bool cb2 = canBuild(tx + dx/2, ty + dy/2, 2, 2);
@@ -622,69 +616,69 @@ void eGameWidget::buildMouseRelease() {
 
         case eBuildingMode::armory:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eArmory>(*mBoard); });
             };
             break;
         case eBuildingMode::olivePress:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eOlivePress>(*mBoard); });
             };
             break;
         case eBuildingMode::winery:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eWinery>(*mBoard); });
             };
             break;
         case eBuildingMode::sculptureStudio:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eSculptureStudio>(*mBoard); });
             };
             break;
 
         case eBuildingMode::artisansGuild:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eArtisansGuild>(*mBoard); });
             };
             break;
 
         case eBuildingMode::foodVendor:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eFoodVendor>(*mBoard); });
             };
             break;
         case eBuildingMode::fleeceVendor:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eFleeceVendor>(*mBoard); });
             };
             break;
         case eBuildingMode::oilVendor:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eOilVendor>(*mBoard); });
             };
             break;
         case eBuildingMode::wineVendor:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eWineVendor>(*mBoard); });
             };
             break;
         case eBuildingMode::armsVendor:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eArmsVendor>(*mBoard); });
             };
             break;
         case eBuildingMode::horseTrainer:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eHorseVendor>(*mBoard); });
             };
             break;
@@ -778,38 +772,38 @@ void eGameWidget::buildMouseRelease() {
 
         case eBuildingMode::bench:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 1, 1,
+                build(mHoverTX, mHoverTY, 1, 1,
                       [this]() { return e::make_shared<eBench>(*mBoard); });
             };
             break;
         case eBuildingMode::flowerGarden:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eFlowerGarden>(*mBoard); });
             };
             break;
         case eBuildingMode::gazebo:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eGazebo>(*mBoard); });
             };
             break;
         case eBuildingMode::hedgeMaze:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 3, 3,
+                build(mHoverTX, mHoverTY, 3, 3,
                       [this]() { return e::make_shared<eHedgeMaze>(*mBoard); });
             };
             break;
         case eBuildingMode::fishPond:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 4, 4,
+                build(mHoverTX, mHoverTY, 4, 4,
                       [this]() { return e::make_shared<eFishPond>(*mBoard); });
             };
             break;
 
         case eBuildingMode::waterPark:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2, [this]() {
+                build(mHoverTX, mHoverTY, 2, 2, [this]() {
                     const auto b = e::make_shared<eWaterPark>(*mBoard);
                     b->setId(waterParkId());
                     return b;
@@ -819,61 +813,61 @@ void eGameWidget::buildMouseRelease() {
 
         case eBuildingMode::birdBath:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 1, 1,
+                build(mHoverTX, mHoverTY, 1, 1,
                       [this]() { return e::make_shared<eBirdBath>(*mBoard); });
             };
             break;
         case eBuildingMode::shortObelisk:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 1, 1,
+                build(mHoverTX, mHoverTY, 1, 1,
                       [this]() { return e::make_shared<eShortObelisk>(*mBoard); });
             };
             break;
         case eBuildingMode::tallObelisk:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 1, 1,
+                build(mHoverTX, mHoverTY, 1, 1,
                       [this]() { return e::make_shared<eTallObelisk>(*mBoard); });
             };
             break;
         case eBuildingMode::shellGarden:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eShellGarden>(*mBoard); });
             };
             break;
         case eBuildingMode::sundial:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 2, 2,
+                build(mHoverTX, mHoverTY, 2, 2,
                       [this]() { return e::make_shared<eSundial>(*mBoard); });
             };
             break;
         case eBuildingMode::dolphinSculpture:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 3, 3,
+                build(mHoverTX, mHoverTY, 3, 3,
                       [this]() { return e::make_shared<eDolphinSculpture>(*mBoard); });
             };
             break;
         case eBuildingMode::spring:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 3, 3,
+                build(mHoverTX, mHoverTY, 3, 3,
                       [this]() { return e::make_shared<eSpring>(*mBoard); });
             };
             break;
         case eBuildingMode::topiary:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 3, 3,
+                build(mHoverTX, mHoverTY, 3, 3,
                       [this]() { return e::make_shared<eTopiary>(*mBoard); });
             };
             break;
         case eBuildingMode::baths:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 4, 4,
+                build(mHoverTX, mHoverTY, 4, 4,
                       [this]() { return e::make_shared<eBaths>(*mBoard); });
             };
             break;
         case eBuildingMode::stoneCircle:
             apply = [this](eTile*) {
-                build(mHoverX, mHoverY, 4, 4,
+                build(mHoverTX, mHoverTY, 4, 4,
                       [this]() { return e::make_shared<eStoneCircle>(*mBoard); });
             };
             break;
@@ -901,9 +895,9 @@ void eGameWidget::buildMouseRelease() {
                 } break;
                 }
 
-                const int minX = mHoverX - sw/2;
+                const int minX = mHoverTX - sw/2;
                 const int maxX = minX + sw;
-                const int minY = mHoverY - sh/2;
+                const int minY = mHoverTY - sh/2;
                 const int maxY = minY + sh;
                 const bool r = canBuildBase(minX, maxX, minY, maxY);
                 if(!r) return;
@@ -1002,4 +996,5 @@ void eGameWidget::buildMouseRelease() {
     }
 
     actionOnSelectedTiles(apply);
+    return true;
 }

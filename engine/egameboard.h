@@ -28,6 +28,8 @@ class eStorageBuilding;
 
 class eThreadPool;
 
+class eSoldier;
+
 enum class eEvent {
     fire,
     collapse,
@@ -184,6 +186,12 @@ public:
     void updateAppealMap();
 
     eWorldBoard& getWorldBoard() { return mWorldBoard; }
+
+    void clearSoldierSelection();
+    void deselectSoldier(eSoldier* const c);
+    void selectSoldier(eSoldier* const c);
+    const std::vector<eSoldier*>& selectedSoldiers() const
+    { return mSelectedSoldiers; }
 private:
     void updateDiagonalArray();
     void updateNeighbours();
@@ -243,6 +251,8 @@ private:
     std::vector<eCharacter*> mSoldiers;
     std::vector<eBuilding*> mBuildings;
     std::vector<eSpawner*> mSpawners;
+
+    std::vector<eSoldier*> mSelectedSoldiers;
 
     int mStadiumCount = 0;
     int mPalaceCount = 0;

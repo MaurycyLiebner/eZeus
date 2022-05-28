@@ -161,6 +161,7 @@ SOURCES += \
         characters/eshepherd.cpp \
         characters/eshepherdbase.cpp \
         characters/esilverminer.cpp \
+        characters/esoldier.cpp \
         characters/etaxcollector.cpp \
         characters/etrailer.cpp \
         characters/ewatchman.cpp \
@@ -454,6 +455,7 @@ HEADERS += \
     characters/eshepherd.h \
     characters/eshepherdbase.h \
     characters/esilverminer.h \
+    characters/esoldier.h \
     characters/etaxcollector.h \
     characters/etrailer.h \
     characters/ewatchman.h \

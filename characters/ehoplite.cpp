@@ -4,7 +4,7 @@
 #include "engine/egameboard.h"
 
 eHoplite::eHoplite(eGameBoard& board) :
-    eCharacter(board, eCharacterType::hoplite) {
+    eSoldier(board, eCharacterType::hoplite) {
     board.registerSoldier(this);
 }
 

@@ -14,6 +14,8 @@
 #include "characters/gods/ehermes.h"
 #include "characters/actions/egodvisitaction.h"
 
+#include "characters/esoldier.h"
+
 #include "buildings/sanctuaries/esanctbuilding.h"
 
 #include "engine/boardData/eappealupdatetask.h"
@@ -81,6 +83,27 @@ void eGameBoard::updateAppealMap() {
         std::swap(appealMap(), map);
     });
     mThreadPool.queueTask(task);
+}
+
+void eGameBoard::clearSoldierSelection() {
+    for(const auto s : mSelectedSoldiers) {
+        s->setSelected(false);
+    }
+    mSelectedSoldiers.clear();
+}
+
+void eGameBoard::deselectSoldier(eSoldier* const c) {
+    const auto it = std::find(mSelectedSoldiers.begin(),
+                              mSelectedSoldiers.end(), c);
+    if(it != mSelectedSoldiers.end()) {
+        mSelectedSoldiers.erase(it);
+    }
+    c->setSelected(false);
+}
+
+void eGameBoard::selectSoldier(eSoldier* const c) {
+    mSelectedSoldiers.push_back(c);
+    c->setSelected(true);
 }
 
 void eGameBoard::updateTileRenderingOrder() {
@@ -151,7 +174,15 @@ void eGameBoard::registerCharacter(eCharacter* const c) {
 }
 
 bool eGameBoard::unregisterCharacter(eCharacter* const c) {
-    const auto it = std::find(mCharacters.begin(), mCharacters.end(), c);
+    {
+        const auto it = std::find(mSelectedSoldiers.begin(),
+                                  mSelectedSoldiers.end(), c);
+        if(it != mSelectedSoldiers.end()) {
+            mSelectedSoldiers.erase(it);
+        }
+    }
+    const auto it = std::find(mCharacters.begin(),
+                              mCharacters.end(), c);
     if(it == mCharacters.end()) return false;
     mCharacters.erase(it);
     return true;

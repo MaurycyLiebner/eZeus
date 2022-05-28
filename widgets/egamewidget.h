@@ -59,7 +59,7 @@ protected:
     bool mouseReleaseEvent(const eMouseEvent& e);
     bool mouseWheelEvent(const eMouseWheelEvent& e);
 private:
-    void buildMouseRelease();
+    bool buildMouseRelease();
 
     static void sClearScrub(const int x, const int y,
                             const int sw, const int sh,
@@ -135,10 +135,17 @@ private:
     int mDX = 0;
     int mDY = 0;
 
+    bool mLeftPressed = false;
+    bool mMovedSincePress = false;
+
     int mHoverX = -1;
     int mHoverY = -1;
+    int mHoverTX = -1;
+    int mHoverTY = -1;
     int mPressedX = -1;
     int mPressedY = -1;
+    int mPressedTX = -1;
+    int mPressedTY = -1;
     int mLastX = -1;
     int mLastY = -1;
 

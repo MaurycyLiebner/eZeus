@@ -7,7 +7,6 @@
 #include "echeckablebutton.h"
 
 enum class eTerrainEditMode {
-    scrub = -1,
     dry = static_cast<int>(eTerrain::dry),
     beach = static_cast<int>(eTerrain::beach),
     water = static_cast<int>(eTerrain::water),
@@ -20,6 +19,9 @@ enum class eTerrainEditMode {
     silver = static_cast<int>(eTerrain::silver),
     tallStones = static_cast<int>(eTerrain::tallStones),
     marble = static_cast<int>(eTerrain::marble),
+
+    none,
+    scrub,
 
     raise,
     lower,

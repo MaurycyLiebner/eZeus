@@ -177,6 +177,8 @@ public:
     eRockThrowerTextures fRockThrower;
     eFightingCharacterTextures fHoplite;
     eFightingCharacterTextures fHorseman;
+
+    std::shared_ptr<eTexture> fSelected;
 };
 
 #endif // ECHARACTERTEXTURES_H
