@@ -192,7 +192,6 @@ SOURCES += \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
         engine/emapgenerator.cpp \
-        engine/eotherthreadpathfinder.cpp \
         engine/epathfinder.cpp \
         engine/eresourcetype.cpp \
         engine/etask.cpp \
@@ -487,7 +486,6 @@ HEADERS += \
     engine/emapgenerator.h \
     engine/emovedirection.h \
     engine/eorientation.h \
-    engine/eotherthreadpathfinder.h \
     engine/epathfinder.h \
     engine/eprovide.h \
     engine/eresourcetype.h \
