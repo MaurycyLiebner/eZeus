@@ -191,7 +191,6 @@ SOURCES += \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
-        engine/emainthreadpathfinder.cpp \
         engine/emapgenerator.cpp \
         engine/eotherthreadpathfinder.cpp \
         engine/epathfinder.cpp \
@@ -485,7 +484,6 @@ HEADERS += \
     engine/efunctask.h \
     engine/egameboard.h \
     engine/egameboarditerator.h \
-    engine/emainthreadpathfinder.h \
     engine/emapgenerator.h \
     engine/emovedirection.h \
     engine/eorientation.h \
