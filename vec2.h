@@ -41,65 +41,65 @@ public:
 		return *this;
 	}
 	
-	vec2 operator+(vec2& v) {
+    vec2 operator+(const vec2& v) {
 		return vec2(x + v.x, y + v.y);
 	}
-	vec2 operator-(vec2& v) {
+    vec2 operator-(const vec2& v) {
 		return vec2(x - v.x, y - v.y);
 	}
 	
-	vec2& operator+=(vec2& v) {
+    vec2& operator+=(const vec2& v) {
 		x += v.x;
 		y += v.y;
 		return *this;
 	}
-	vec2& operator-=(vec2& v) {
+    vec2& operator-=(const vec2& v) {
 		x -= v.x;
 		y -= v.y;
 		return *this;
 	}
 	
-	vec2 operator+(double s) {
+    vec2 operator+(const double s) {
 		return vec2(x + s, y + s);
 	}
-	vec2 operator-(double s) {
+    vec2 operator-(const double s) {
 		return vec2(x - s, y - s);
 	}
-	vec2 operator*(double s) {
+    vec2 operator*(const double s) {
 		return vec2(x * s, y * s);
 	}
-	vec2 operator/(double s) {
+    vec2 operator/(const double s) {
 		return vec2(x / s, y / s);
 	}
 	
 	
-	vec2& operator+=(double s) {
+    vec2& operator+=(const double s) {
 		x += s;
 		y += s;
 		return *this;
 	}
-	vec2& operator-=(double s) {
+    vec2& operator-=(const double s) {
 		x -= s;
 		y -= s;
 		return *this;
 	}
-	vec2& operator*=(double s) {
+    vec2& operator*=(const double s) {
 		x *= s;
 		y *= s;
 		return *this;
 	}
-	vec2& operator/=(double s) {
+    vec2& operator/=(const double s) {
 		x /= s;
 		y /= s;
 		return *this;
 	}
 	
-	void set(T x, T y) {
+    void set(const T x, const T y) {
 		this->x = x;
 		this->y = y;
 	}
 	
-	void rotate(double deg) {
+    void rotate(const double deg) {
 		double theta = deg / 180.0 * M_PI;
 		double c = cos(theta);
 		double s = sin(theta);
@@ -110,32 +110,39 @@ public:
 	}
 	
 	vec2& normalize() {
-		if (length() == 0) return *this;
+        if(length() == 0) return *this;
 		*this *= (1.0 / length());
 		return *this;
 	}
 	
-	float dist(vec2 v) const {
+    T dist(const vec2 v) const {
 		vec2 d(v.x - x, v.y - y);
 		return d.length();
 	}
-	float length() const {
+    T length() const {
 		return std::sqrt(x * x + y * y);
 	}
-	void truncate(double length) {
+    void truncate(const double length) {
 		double angle = atan2f(y, x);
 		x = length * cos(angle);
 		y = length * sin(angle);
 	}
+
+    T angle() { // 0 - 360
+        const double radAngle = std::atan2(y, x);
+        const double radAngle2 = radAngle < 0 ? 2*M_PI + radAngle : radAngle;
+        const double degAngle = radAngle2 * 180 / M_PI;
+        return degAngle;
+    }
 	
 	vec2 ortho() const {
 		return vec2(y, -x);
 	}
 	
-	static float dot(vec2 v1, vec2 v2) {
+    static T dot(const vec2& v1, const vec2& v2) {
 		return v1.x * v2.x + v1.y * v2.y;
 	}
-	static float cross(vec2 v1, vec2 v2) {
+    static T cross(const vec2& v1, const vec2& v2) {
 		return (v1.x * v2.y) - (v1.y * v2.x);
 	}
 	

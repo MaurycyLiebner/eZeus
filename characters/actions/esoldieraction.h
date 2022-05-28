@@ -13,7 +13,7 @@ public:
 
     void increment(const int by);
 
-    using eForceGetter = std::function<eForce(eCharacter* const)>;
+    using eForceGetter = std::function<vec2d(eCharacter* const)>;
     int addForce(const eForceGetter& force);
     void removeForce(const int id);
 
@@ -21,6 +21,7 @@ public:
 private:
     int mForceId = 0;
     std::map<int, eForceGetter> mForceGetters;
+    double mAngle{0.};
 };
 
 #endif // ESOLDIERACTION_H

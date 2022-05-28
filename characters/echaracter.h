@@ -33,6 +33,9 @@ public:
 
     double x() const { return mX; }
     double y() const { return mY; }
+    double absX() const;
+    double absY() const;
+
     eTile* tile() const { return mTile; }
     int time() const { return mTime; }
     int textureTime() const { return time()/20; }
@@ -56,6 +59,8 @@ public:
 
     bool visible() const { return mVisible; }
     void setVisible(const bool v) { mVisible = v; }
+
+    bool isSoldier() const;
 private:
     stdsptr<eCharacterAction> takeAction();
 

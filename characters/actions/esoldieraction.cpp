@@ -5,41 +5,46 @@
 
 #include <math.h>
 
+eOrientation angleOrientation(const double degAngle) {
+    const double h45 = 0.5*45.;
+    eOrientation o;
+    if(degAngle > h45 && degAngle < h45 + 45) {
+        o = eOrientation::bottom;
+    } else if(degAngle > h45 + 45 && degAngle < h45 + 90) {
+        o = eOrientation::bottomLeft;
+    } else if(degAngle > h45 + 90 && degAngle < h45 + 135) {
+        o = eOrientation::left;
+    } else if(degAngle > h45 + 135 && degAngle < h45 + 180) {
+        o = eOrientation::topLeft;
+    } else if(degAngle > h45 + 180 && degAngle < h45 + 225) {
+        o = eOrientation::top;
+    } else if(degAngle > h45 + 225 && degAngle < h45 + 270) {
+        o = eOrientation::topRight;
+    } else if(degAngle > h45 + 270 && degAngle < h45 + 315) {
+        o = eOrientation::right;
+    } else {
+        o = eOrientation::bottomRight;
+    }
+    return o;
+}
+
 void eSoldierAction::increment(const int by) {
     if(!mForceGetters.empty()) {
-        eForce force{0, 0};
-        for(const auto& frc : mForceGetters) {
-            force += frc.second();
-        }
+        vec2d force{0, 0};
         const auto c = character();
-        const double len = sqrt(force.fDx*force.fDx + force.fDy*force.fDy);
+        for(const auto& frc : mForceGetters) {
+            force += frc.second(c);
+        }
+        const double len = force.length();
         if(abs(len) > 0.001) {
             const double d = c->speed()*0.005 * by;
-            force.fDx *= d/len;
-            force.fDy *= d/len;
-            moveBy(force.fDx, force.fDy);
-            const double radAngle = std::atan2(force.fDy, force.fDx);
+            force *= d/len;
+            moveBy(force.x, force.y);
+            const double radAngle = std::atan2(force.y, force.x);
             const double radAngle2 = radAngle < 0 ? 2*M_PI + radAngle : radAngle;
             const double degAngle = radAngle2 * 180 / M_PI;
-            const double h45 = 0.5*45.;
-            eOrientation o;
-            if(degAngle > h45 && degAngle < h45 + 45) {
-                o = eOrientation::bottom;
-            } else if(degAngle > h45 + 45 && degAngle < h45 + 90) {
-                o = eOrientation::bottomLeft;
-            } else if(degAngle > h45 + 90 && degAngle < h45 + 135) {
-                o = eOrientation::left;
-            } else if(degAngle > h45 + 135 && degAngle < h45 + 180) {
-                o = eOrientation::topLeft;
-            } else if(degAngle > h45 + 180 && degAngle < h45 + 225) {
-                o = eOrientation::top;
-            } else if(degAngle > h45 + 225 && degAngle < h45 + 270) {
-                o = eOrientation::topRight;
-            } else if(degAngle > h45 + 270 && degAngle < h45 + 315) {
-                o = eOrientation::right;
-            } else {
-                o = eOrientation::bottomRight;
-            }
+            mAngle = mAngle*0.99 + 0.01*degAngle;
+            const auto o = angleOrientation(mAngle);
             c->setOrientation(o);
         }
     }

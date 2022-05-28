@@ -42,6 +42,16 @@ void eCharacter::kill() {
     changeTile(nullptr);
 }
 
+double eCharacter::absX() const {
+    if(!mTile) return mX;
+    return mX + mTile->x();
+}
+
+double eCharacter::absY() const {
+    if(!mTile) return mY;
+    return mY + mTile->y();
+}
+
 void eCharacter::changeTile(eTile* const t) {
     const auto tsptr = ref<eCharacter>();
     if(mTile) mTile->removeCharacter(tsptr);
@@ -103,4 +113,11 @@ void eCharacter::setHasSecondaryTexture(const bool st) {
 void eCharacter::setProvide(const eProvide p, const int n) {
     mProvide = p;
     mProvideCount = n;
+}
+
+bool eCharacter::isSoldier() const {
+    const auto t = type();
+    return t == eCharacterType::hoplite ||
+           t == eCharacterType::horseman ||
+           t == eCharacterType::rockThrower;
 }

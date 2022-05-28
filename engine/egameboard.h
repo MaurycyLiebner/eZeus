@@ -112,6 +112,9 @@ public:
     void registerCharacter(eCharacter* const c);
     bool unregisterCharacter(eCharacter* const c);
 
+    void registerSoldier(eCharacter* const c);
+    bool unregisterSoldier(eCharacter* const c);
+
     void registerBuilding(eBuilding* const b);
     bool unregisterBuilding(eBuilding* const b);
 
@@ -237,6 +240,7 @@ private:
 
     std::vector<eStorageBuilding*> mStorBuildings;
     std::vector<eCharacter*> mCharacters;
+    std::vector<eCharacter*> mSoldiers;
     std::vector<eBuilding*> mBuildings;
     std::vector<eSpawner*> mSpawners;
 

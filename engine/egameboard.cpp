@@ -157,6 +157,17 @@ bool eGameBoard::unregisterCharacter(eCharacter* const c) {
     return true;
 }
 
+void eGameBoard::registerSoldier(eCharacter* const c) {
+    mSoldiers.push_back(c);
+}
+
+bool eGameBoard::unregisterSoldier(eCharacter* const c) {
+    const auto it = std::find(mSoldiers.begin(), mSoldiers.end(), c);
+    if(it == mSoldiers.end()) return false;
+    mSoldiers.erase(it);
+    return true;
+}
+
 void eGameBoard::registerBuilding(eBuilding* const b) {
     mTileRenderingOrderUpdateNeeded = true;
     mBuildings.push_back(b);
@@ -232,7 +243,14 @@ void eGameBoard::incTime(const int by) {
     }
     const auto chars = mCharacters;
     for(const auto c : chars) {
+        if(c->isSoldier()) continue;
         c->incTime(by);
+    }
+    const auto solds = mSoldiers;
+    for(int i = 0; i < by; i++) {
+        for(const auto c : solds) {
+            c->incTime(1);
+        }
     }
     const auto build = mBuildings;
     for(const auto b : build) {

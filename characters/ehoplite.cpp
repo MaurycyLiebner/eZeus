@@ -1,10 +1,16 @@
 #include "ehoplite.h"
 
 #include "textures/egametextures.h"
+#include "engine/egameboard.h"
 
 eHoplite::eHoplite(eGameBoard& board) :
     eCharacter(board, eCharacterType::hoplite) {
+    board.registerSoldier(this);
+}
 
+eHoplite::~eHoplite() {
+    auto& brd = getBoard();
+    brd.unregisterSoldier(this);
 }
 
 std::shared_ptr<eTexture>

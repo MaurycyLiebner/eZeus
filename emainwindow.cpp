@@ -184,23 +184,31 @@ void eMainWindow::showGame() {
         eMapGeneratorSettings sett;
         g.generate(sett);
 
-        const auto h = e::make_shared<eHoplite>(*mBoard);
-        const auto a = e::make_shared<eSoldierAction>(h.get(), [](){}, [](){});
-        const auto i = std::make_shared<int>();
-        const auto f = std::make_shared<eForce>();
-        *i = 0;
-        *f = eForce{10., 5.};
-        a->addForce([i, f](eCharacter* const) {
-            if((*i)++ % 50 == 0) {
-                *f = eForce{1. * ((rand() % 11) - 5),
-                            1. * ((rand() % 11) - 5)};
+        const auto spawnHoplite = [&](const int x, const int y) {
+            const auto h = e::make_shared<eHoplite>(*mBoard);
+            const auto a = e::make_shared<eSoldierAction>(h.get(), [](){}, [](){});
+            const auto i = std::make_shared<int>();
+            const auto f = std::make_shared<vec2d>();
+            *i = 0;
+            *f = vec2d{10., 5.};
+            a->addForce([i, f](eCharacter* const) {
+                if((*i)++ % 500 == 0) {
+                    *f = vec2d{1. * ((rand() % 11) - 5),
+                               1. * ((rand() % 11) - 5)};
+                }
+                return *f;
+            });
+            a->addForce(eForceHelpers::avoidBuildingsForce);
+            a->addForce(eForceHelpers::avoidSoldiersForce);
+            h->setAction(a);
+            h->changeTile(mBoard->tile(x, y));
+            h->setActionType(eCharacterActionType::walk);
+        };
+        for(int i = 10; i < 20; i += 1) {
+            for(int j = 10; j < 20; j += 1) {
+                spawnHoplite(i, j);
             }
-            return *f;
-        });
-        a->addForce(eForceHelpers::avoidBuildingsForce);
-        h->setAction(a);
-        h->changeTile(mBoard->tile(10, 10));
-        h->setActionType(eCharacterActionType::walk);
+        }
 
         auto& wb = mBoard->getWorldBoard();
 
