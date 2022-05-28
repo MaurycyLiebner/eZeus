@@ -198,7 +198,7 @@ void eMainWindow::showGame() {
                 }
                 return *f;
             });
-            a->addForce(eForceHelpers::avoidBuildingsForce);
+            a->addForce(eForceHelpers::avoidUnwalkableForce);
             a->addForce(eForceHelpers::avoidSoldiersForce);
             h->setAction(a);
             h->changeTile(mBoard->tile(x, y));

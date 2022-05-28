@@ -38,6 +38,11 @@ bool eTileBase::walkable() const {
     if(t == eBuildingType::orangeTree) return true;
     if(t == eBuildingType::sheep) return true;
     if(t == eBuildingType::goat) return true;
+    if(t == eBuildingType::templeTile) return true;
+    const int min = static_cast<int>(eBuildingType::templeAphrodite);
+    const int max = static_cast<int>(eBuildingType::templeZeus);
+    const int bi = static_cast<int>(t);
+    if(bi >= min && bi <= max) return true;
     return false;
 }
 

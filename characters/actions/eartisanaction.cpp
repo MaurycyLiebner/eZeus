@@ -17,16 +17,6 @@ bool hasTarget(eThreadTile* const tile) {
     return b.resourcesAvailable() && !b.workedOn() && !tile->busy();
 }
 
-bool tileWalkable(eTileBase* const t) {
-    const auto b = t->underBuildingType();
-    if(b == eBuildingType::templeTile) return true;
-    const int min = static_cast<int>(eBuildingType::templeAphrodite);
-    const int max = static_cast<int>(eBuildingType::templeZeus);
-    const int bi = static_cast<int>(b);
-    if(bi >= min && bi <= max) return true;
-    return eWalkableHelpers::sDefaultWalkable(t);
-}
-
 bool eArtisanAction::decide() {
     const bool r = eActionWithComeback::decide();
     if(r) return r;
@@ -92,7 +82,7 @@ bool eArtisanAction::findTargetDecision() {
 
     a->setFindFailAction(findFailFunc);
     a->setRemoveLastTurn(true);
-    a->start(hha, tileWalkable);
+    a->start(hha, eWalkableHelpers::sDefaultWalkable);
     setCurrentAction(a);
     return true;
 }
@@ -144,5 +134,5 @@ void eArtisanAction::workOnDecision(eTile* const tile) {
 
 void eArtisanAction::goBackDecision() {
     mArtisan->setActionType(eCharacterActionType::walk);
-    goBack(mGuild, tileWalkable);
+    goBack(mGuild, eWalkableHelpers::sDefaultWalkable);
 }

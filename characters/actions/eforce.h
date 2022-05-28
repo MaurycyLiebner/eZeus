@@ -5,7 +5,7 @@
 #include "vec2.h"
 
 namespace eForceHelpers {
-    vec2d avoidBuildingsForce(eCharacter* const c);
+    vec2d avoidUnwalkableForce(eCharacter* const c);
     vec2d avoidSoldiersForce(eCharacter* const c);
 }
 

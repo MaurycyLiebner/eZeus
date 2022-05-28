@@ -2,7 +2,7 @@
 
 #include "engine/egameboard.h"
 
-vec2d eForceHelpers::avoidBuildingsForce(eCharacter* const c) {
+vec2d eForceHelpers::avoidUnwalkableForce(eCharacter* const c) {
     const auto ct = c->tile();
     const auto& brd = c->getBoard();
     const auto cx = c->x();
@@ -12,21 +12,21 @@ vec2d eForceHelpers::avoidBuildingsForce(eCharacter* const c) {
     if(cx > 0.5) { // bottom-right
         const auto cxt = brd.tile(ct->x() + 1, ct->y());
         if(cxt) {
-            const auto ub = cxt->underBuilding();
+            const auto ub = cxt->walkable();
             const double s = mult*(cx - 0.5);
             if(ub) f += vec2d{-s, 0.};
         }
         if(cy < 0.5) { // right
             const auto cxyt = brd.tile(ct->x() + 1, ct->y() - 1);
             if(cxyt) {
-                const auto ub = cxyt->underBuilding();
+                const auto ub = cxyt->walkable();
                 const double s = mult*(cx - 0.5)*(0.5 - cy);
                 if(ub) f += vec2d{-s, s};
             }
         } else { // bottom
             const auto cxyt = brd.tile(ct->x() + 1, ct->y() + 1);
             if(cxyt) {
-                const auto ub = cxyt->underBuilding();
+                const auto ub = cxyt->walkable();
                 const double s = mult*(cx - 0.5)*(cy - 0.5);
                 if(ub) f += vec2d{-s, -s};
             }
@@ -34,21 +34,21 @@ vec2d eForceHelpers::avoidBuildingsForce(eCharacter* const c) {
     } else { // top-left
         const auto cxt = brd.tile(ct->x() - 1, ct->y());
         if(cxt) {
-            const auto ub = cxt->underBuilding();
+            const auto ub = cxt->walkable();
             const double s = mult*(0.5 - cx);
             if(ub) f += vec2d{s, 0.};
         }
         if(cy < 0.5) { // top
             const auto cxyt = brd.tile(ct->x() - 1, ct->y() - 1);
             if(cxyt) {
-                const auto ub = cxyt->underBuilding();
+                const auto ub = cxyt->walkable();
                 const double s = mult*(0.5 - cx)*(0.5 - cy);
                 if(ub) f += vec2d{s, s};
             }
         } else { // left
             const auto cxyt = brd.tile(ct->x() - 1, ct->y() + 1);
             if(cxyt) {
-                const auto ub = cxyt->underBuilding();
+                const auto ub = cxyt->walkable();
                 const double s = mult*(0.5 - cx)*(cy - 0.5);
                 if(ub) f += vec2d{s, -s};
             }
@@ -57,14 +57,14 @@ vec2d eForceHelpers::avoidBuildingsForce(eCharacter* const c) {
     if(cy > 0.5) {
         const auto cxt = brd.tile(ct->x(), ct->y() + 1);
         if(cxt) {
-            const auto ub = cxt->underBuilding();
+            const auto ub = cxt->walkable();
             const double s = mult*(cy - 0.5);
             if(ub) f += vec2d{0., -s};
         }
     } else {
         const auto cxt = brd.tile(ct->x(), ct->y() - 1);
         if(cxt) {
-            const auto ub = cxt->underBuilding();
+            const auto ub = cxt->walkable();
             const double s = mult*(0.5 - cy);
             if(ub) f += vec2d{0., s};
         }
