@@ -550,7 +550,11 @@ bool eGameWidget::roadPath(std::vector<eOrientation>& path) {
         return t->x() == mPressedTX && t->y() == mPressedTY;
     });
     const auto startTile = mBoard->tile(mHoverTX, mHoverTY);
-    return p.findPath(startTile, 100, path, true);
+    const int w = mBoard->width();
+    const int h = mBoard->height();
+    const bool r = p.findPath(startTile, 100, true, w, h);
+    if(!r) return false;
+    return p.extractPath(path);
 }
 
 bool eGameWidget::build(const int tx, const int ty,
@@ -1112,7 +1116,8 @@ void eGameWidget::paintEvent(ePainter& p) {
         for(const auto t : tile->terrainTiles()) {
             drawTerrain(t);
         }
-        if(mLeftPressed && mMovedSincePress) {
+        if(mLeftPressed && mMovedSincePress &&
+           mGm->mode() == eBuildingMode::none) {
             const int x = mPressedX > mHoverX ? mHoverX : mPressedX;
             const int y = mPressedY > mHoverY ? mHoverY : mPressedY;
             const int w = abs(mPressedX - mHoverX);
@@ -1139,7 +1144,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     }
 
-    if(mode == eBuildingMode::road) {
+    if(mode == eBuildingMode::road && mLeftPressed) {
         const auto startTile = mBoard->tile(mHoverTX, mHoverTY);
         std::vector<eOrientation> path;
         const bool r = roadPath(path);

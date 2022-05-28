@@ -28,7 +28,13 @@ void ePathFindTask::run(eThreadBoard& data) {
     [&](eTileBase* const t) {
         return mEndTile(static_cast<eThreadTile*>(t));
     });
-    mR = pf0.findPath(t, mRange, mPath, mOnlyDiagonal);
+    const bool r = pf0.findPath(t, mRange, mOnlyDiagonal,
+                                data.width(), data.height());
+    if(r) {
+        mR = pf0.extractPath(mPath);
+    } else {
+        mR = false;
+    }
 }
 
 void ePathFindTask::finish() {
