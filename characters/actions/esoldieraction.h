@@ -7,6 +7,11 @@
 
 #include "eforce.h"
 
+enum class eForceType {
+    reserved1, // -1
+    regular
+};
+
 class eSoldierAction : public eComplexAction {
 public:
     using eComplexAction::eComplexAction;
@@ -14,7 +19,8 @@ public:
     void increment(const int by);
 
     using eForceGetter = std::function<vec2d(eCharacter* const)>;
-    int addForce(const eForceGetter& force);
+    int addForce(const eForceGetter& force,
+                 const eForceType type = eForceType::regular);
     void removeForce(const int id);
 
     void moveBy(const double dx, const double dy);

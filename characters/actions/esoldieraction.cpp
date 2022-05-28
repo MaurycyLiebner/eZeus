@@ -50,9 +50,16 @@ void eSoldierAction::increment(const int by) {
     }
 }
 
-int eSoldierAction::addForce(const eForceGetter& force) {
-    mForceGetters[mForceId] = force;
-    return mForceId++;
+int eSoldierAction::addForce(const eForceGetter& force,
+                             const eForceType type) {
+    switch(type) {
+    case eForceType::regular:
+        mForceGetters[mForceId] = force;
+        return mForceId++;
+    case eForceType::reserved1:
+        mForceGetters[-1] = force;
+        return -1;
+    }
 }
 
 void eSoldierAction::removeForce(const int id) {

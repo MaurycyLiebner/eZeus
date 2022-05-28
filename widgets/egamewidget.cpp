@@ -91,6 +91,7 @@
 #include "characters/actions/eanimalaction.h"
 
 #include "characters/esoldier.h"
+#include "characters/actions/esoldieraction.h"
 
 #include "spawners/eboarspawner.h"
 #include "spawners/edeerspawner.h"
@@ -1842,6 +1843,9 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         }
         return true;
     case eMouseButton::right: {
+        const auto& solds = mBoard->selectedSoldiers();
+        mGm->clearMode();
+        if(!solds.empty()) return true;
         int tx;
         int ty;
         pixToId(e.x(), e.y(), tx, ty);
@@ -1849,7 +1853,6 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
             setViewMode(eViewMode::defaultView);
             mPatrolBuilding = nullptr;
         }
-        mGm->clearMode();
         const auto tile = mBoard->tile(tx, ty);
         if(!tile) return true;
         const auto b = tile->underBuilding();
@@ -1915,22 +1918,11 @@ bool eGameWidget::mouseMoveEvent(const eMouseEvent& e) {
 bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
     switch(e.button()) {
     case eMouseButton::left: {
+        mBoard->clearSoldierSelection();
         mLeftPressed = false;
         const bool r = buildMouseRelease();
         if(!r) {
-            if(!mMovedSincePress) {
-                const auto tile = mBoard->tile(mHoverTX, mHoverTY);
-                if(!mPatrolBuilding && tile) {
-                    if(const auto b = tile->underBuilding()) {
-                        if(const auto pb = dynamic_cast<ePatrolBuilding*>(b)) {
-                            setViewMode(eViewMode::patrolBuilding);
-                            mPatrolBuilding = pb;
-                        }
-                    }
-                }
-            } else {
-                mBoard->clearSoldierSelection();
-
+            if(mMovedSincePress) {
                 const int x0 = mPressedX > mHoverX ? mHoverX : mPressedX;
                 const int y0 = mPressedY > mHoverY ? mHoverY : mPressedY;
                 const int x1 = mPressedX > mHoverX ? mPressedX : mHoverX;
@@ -1976,10 +1968,35 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     }
                     ++it;
                 }
+            } else {
+                const auto tile = mBoard->tile(mHoverTX, mHoverTY);
+                if(!mPatrolBuilding && tile) {
+                    if(const auto b = tile->underBuilding()) {
+                        if(const auto pb = dynamic_cast<ePatrolBuilding*>(b)) {
+                            setViewMode(eViewMode::patrolBuilding);
+                            mPatrolBuilding = pb;
+                        }
+                    }
+                }
             }
         }
         mPressedTX = -1;
         mPressedTY = -1;
+    } break;
+    case eMouseButton::right: {
+        const auto& solds = mBoard->selectedSoldiers();
+        for(const auto s : solds) {
+            const auto a = s->soldierAction();
+            const int hx = mHoverTX;
+            const int hy = mHoverTY;
+            a->addForce([hx, hy](eCharacter* const c) {
+                const double cx = c->absX();
+                const double cy = c->absY();
+                vec2d line{hx - cx, hy - cy};
+                line.normalize();
+                return line;
+            }, eForceType::reserved1);
+        }
     } break;
     default: return false;
     }

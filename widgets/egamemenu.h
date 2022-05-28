@@ -66,7 +66,7 @@ private:
 
     eMiniMap* mMiniMap = nullptr;
 
-    eBuildingMode mMode{eBuildingMode::road};
+    eBuildingMode mMode{eBuildingMode::none};
 
     std::vector<eWidget*> mWidgets;
 

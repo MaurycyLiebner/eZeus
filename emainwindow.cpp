@@ -187,17 +187,18 @@ void eMainWindow::showGame() {
         const auto spawnHoplite = [&](const int x, const int y) {
             const auto h = e::make_shared<eHoplite>(*mBoard);
             const auto a = e::make_shared<eSoldierAction>(h.get(), [](){}, [](){});
+            h->setSoldierAction(a);
             const auto i = std::make_shared<int>();
             const auto f = std::make_shared<vec2d>();
             *i = 0;
             *f = vec2d{10., 5.};
-            a->addForce([i, f](eCharacter* const) {
-                if((*i)++ % 500 == 0) {
-                    *f = vec2d{1. * ((rand() % 11) - 5),
-                               1. * ((rand() % 11) - 5)};
-                }
-                return *f;
-            });
+//            a->addForce([i, f](eCharacter* const) {
+//                if((*i)++ % 500 == 0) {
+//                    *f = vec2d{1. * ((rand() % 11) - 5),
+//                               1. * ((rand() % 11) - 5)};
+//                }
+//                return *f;
+//            });
             a->addForce(eForceHelpers::avoidUnwalkableForce);
             a->addForce(eForceHelpers::avoidSoldiersForce);
             h->setAction(a);
