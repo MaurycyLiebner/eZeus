@@ -139,7 +139,11 @@ bool ePathFinder::extractPath(std::vector<eOrientation>& path) {
         if(!from.first || !from.second) return false;
         const auto tile = from.first;
         const int dist = *from.second;
-        if(tile == mData.fStart) return true;
+        const int tx = tile->x();
+        const int ty = tile->y();
+        const int dtx = mData.fStart->x();
+        const int dty = mData.fStart->y();
+        if(tx == dtx && ty == dty) return true;
 
         const auto tr = tileGetter(brd, tile, 0, -1);
         const auto br = tileGetter(brd, tile, 1, 0);
