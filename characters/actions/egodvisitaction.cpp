@@ -25,6 +25,7 @@ bool eGodVisitAction::decide() {
     switch(mStage) {
     case eGodVisitStage::none:
         mStage = eGodVisitStage::appear;
+        placeOnBoard();
         if(mType == eGodType::hermes) {
             run();
         } else {
@@ -52,7 +53,7 @@ bool eGodVisitAction::decide() {
     return true;
 }
 
-void eGodVisitAction::appear() {
+void eGodVisitAction::placeOnBoard() {
     const auto c = character();
     auto& board = c->getBoard();
     const int w = board.width();
@@ -68,14 +69,18 @@ void eGodVisitAction::appear() {
         }
     }
     if(!tile) tile = board.tile(w/2, h/2);
-    c->setActionType(eCharacterActionType::appear);
     c->changeTile(tile);
-    const auto a = e::make_shared<eWaitAction>(c, [](){}, [](){});
-    a->setTime(500);
-    setCurrentAction(a);
     board.ifVisible(tile, [this]() {
         eSounds::playGodSound(mType, eGodSound::appear);
     });
+}
+
+void eGodVisitAction::appear() {
+    const auto c = character();
+    c->setActionType(eCharacterActionType::appear);
+    const auto a = e::make_shared<eWaitAction>(c, [](){}, [](){});
+    a->setTime(500);
+    setCurrentAction(a);
 }
 
 void eGodVisitAction::run() {

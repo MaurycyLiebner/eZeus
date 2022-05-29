@@ -143,6 +143,7 @@ SOURCES += \
         characters/efoodvendorchar.cpp \
         characters/egoat.cpp \
         characters/egoatherd.cpp \
+        characters/egreekhoplite.cpp \
         characters/egrower.cpp \
         characters/egymnast.cpp \
         characters/ehealer.cpp \
@@ -436,6 +437,7 @@ HEADERS += \
     characters/efoodvendorchar.h \
     characters/egoat.h \
     characters/egoatherd.h \
+    characters/egreekhoplite.h \
     characters/egrower.h \
     characters/egymnast.h \
     characters/ehealer.h \

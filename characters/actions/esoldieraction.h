@@ -29,6 +29,10 @@ private:
     int mForceId = 0;
     std::map<int, eForceGetter> mForceGetters;
     double mAngle{0.};
+
+    int mAttackTime = 0;
+    bool mAttack = false;
+    stdptr<eCharacter> mAttackTarget;
 };
 
 #endif // ESOLDIERACTION_H

@@ -17,6 +17,7 @@ public:
 
     bool decide();
 
+    void placeOnBoard();
     void appear();
     void run();
     void disappear();

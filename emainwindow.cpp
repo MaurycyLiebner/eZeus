@@ -174,6 +174,7 @@ void eMainWindow::showSettingsMenu() {
     setWidget(esm);
 }
 #include "characters/ehoplite.h"
+#include "characters/egreekhoplite.h"
 #include "characters/actions/esoldieraction.h"
 void eMainWindow::showGame() {
     if(mWidget == mGW) return;
@@ -184,21 +185,17 @@ void eMainWindow::showGame() {
         eMapGeneratorSettings sett;
         g.generate(sett);
 
-        const auto spawnHoplite = [&](const int x, const int y) {
-            const auto h = e::make_shared<eHoplite>(*mBoard);
+        const auto spawnHoplite = [&](const int x, const int y,
+                                      const int pid) {
+            stdsptr<eSoldier> h;
+            if(pid == 1) {
+                h = e::make_shared<eHoplite>(*mBoard);
+            } else {
+                h = e::make_shared<eGreekHoplite>(*mBoard);
+            }
+            h->setPlayerId(pid);
             const auto a = e::make_shared<eSoldierAction>(h.get(), [](){}, [](){});
             h->setSoldierAction(a);
-            const auto i = std::make_shared<int>();
-            const auto f = std::make_shared<vec2d>();
-            *i = 0;
-            *f = vec2d{10., 5.};
-//            a->addForce([i, f](eCharacter* const) {
-//                if((*i)++ % 500 == 0) {
-//                    *f = vec2d{1. * ((rand() % 11) - 5),
-//                               1. * ((rand() % 11) - 5)};
-//                }
-//                return *f;
-//            });
             a->addForce(eForceHelpers::avoidUnwalkableForce);
             a->addForce(eForceHelpers::avoidSoldiersForce);
             h->setAction(a);
@@ -207,7 +204,12 @@ void eMainWindow::showGame() {
         };
         for(int i = 10; i < 20; i += 1) {
             for(int j = 10; j < 20; j += 1) {
-                spawnHoplite(i, j);
+                spawnHoplite(i, j, 1);
+            }
+        }
+        for(int i = 30; i < 40; i += 1) {
+            for(int j = 30; j < 40; j += 1) {
+                spawnHoplite(i, j, 2);
             }
         }
 

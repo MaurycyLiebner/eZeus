@@ -7,7 +7,10 @@ class eSoldierAction;
 
 class eSoldier : public eFightingPatroler {
 public:
-    using eFightingPatroler::eFightingPatroler;
+    using eCharTexs = eFightingCharacterTextures eCharacterTextures::*;
+    eSoldier(eGameBoard& board, const eCharTexs charTexs,
+             const eCharacterType type);
+    ~eSoldier();
 
     bool selected() const { return mSelected; }
     void setSelected(const bool s) { mSelected = s; }

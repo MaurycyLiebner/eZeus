@@ -6,7 +6,6 @@
 class eHoplite : public eSoldier {
 public:
     eHoplite(eGameBoard& board);
-    ~eHoplite();
 };
 
 #endif // EHOPLITE_H

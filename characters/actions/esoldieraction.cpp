@@ -1,9 +1,11 @@
 #include "esoldieraction.h"
 
-#include "characters/echaracter.h"
+#include "characters/esoldier.h"
 #include "engine/egameboard.h"
 
 #include <math.h>
+
+#include "edieaction.h"
 
 eOrientation angleOrientation(const double degAngle) {
     const double h45 = 0.5*45.;
@@ -30,6 +32,49 @@ eOrientation angleOrientation(const double degAngle) {
 
 void eSoldierAction::increment(const int by) {
     const auto c = character();
+    const auto& brd = c->getBoard();
+    if(mAttack) {
+        if(mAttackTime++ > 1000) {
+            if(mAttackTarget && !mAttackTarget->dead()) {
+                const bool d = mAttackTarget->defend(c->attack());
+                if(d) {
+                    const auto a = e::make_shared<eDieAction>(mAttackTarget, []() {});
+                    mAttackTarget->setAction(a);
+                }
+            }
+            mAttack = false;
+            mAttackTarget = nullptr;
+            mAttackTime = 0;
+        } else {
+            return;
+        }
+    }
+    const auto ct = c->tile();
+    const int tx = ct->x();
+    const int ty = ct->y();
+    const int pid = c->playerId();
+    vec2d cpos{c->absX(), c->absY()};
+    for(int i = -1; i <= 1; i++) {
+        for(int j = -1; j <= 1; j++) {
+            const auto t = brd.tile(tx + i, ty + j);
+            if(!t) continue;
+            const auto& chars = t->characters();
+            for(const auto& cc : chars) {
+                if(!cc->isSoldier()) continue;
+                if(cc->playerId() == pid) continue;
+                if(cc->dead()) continue;
+                vec2d ccpos{cc->absX(), cc->absY()};
+                vec2d posdif = ccpos - cpos;
+                const double dist = posdif.length();
+                if(dist > 0.5) continue;
+                mAttackTarget = cc;
+                mAttack = true;
+                mAttackTime = 0;
+                c->setActionType(eCharacterActionType::fight);
+                return;
+            }
+        }
+    }
     if(!mForceGetters.empty()) {
         vec2d force{0, 0};
         const auto frcs = mForceGetters;
