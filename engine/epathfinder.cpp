@@ -22,6 +22,15 @@ bool ePathBoard::getAbsValue(const int x, const int y, int** value) {
     return true;
 }
 
+bool ePathBoard::getAbsValue(const int x, const int y, int& value) const {
+    if(x < fX) return false;
+    if(y < fY) return false;
+    if(x >= fX + fW) return false;
+    if(y >= fY + fH) return false;
+    value = fData[x - fX][y - fY];
+    return true;
+}
+
 ePathFinder::ePathFinder(const eTileWalkable& walkable,
                          const eTileFinish& finish) :
     mWalkable(walkable),
@@ -61,6 +70,8 @@ bool ePathFinder::findPath(eTileBase* const start,
     const int maxX = std::min(startX + maxDist, srcW);
     const int maxY = std::min(startY + maxDist, srcH);
 
+    const bool finishOnFound = mMode == ePathFinderMode::findSingle;
+
     mData = ePathFindData();
     mData.fOnlyDiagonal = onlyDiagonal;
     mData.fStart = start;
@@ -89,7 +100,7 @@ bool ePathFinder::findPath(eTileBase* const start,
                     mData.fDistance = newDist;
                     mData.fFinalX = ttx;
                     mData.fFinalY = tty;
-                    return;
+                    if(finishOnFound) return;
                 }
                 if(!mWalkable(tt.first)) continue;
                 if(notDiagonal) {
@@ -118,7 +129,7 @@ bool ePathFinder::findPath(eTileBase* const start,
     if(!t.first || !t.second) return false;
     *t.second = 0;
     toProcess.push_back(t);
-    while(!mData.fFound && !toProcess.empty()) {
+    while((!mData.fFound || !finishOnFound) && !toProcess.empty()) {
         const auto t = toProcess.front();
         toProcess.pop_front();
         pathFinder(t);
@@ -188,4 +199,10 @@ bool ePathFinder::extractPath(std::vector<eOrientation>& path) {
                               mData.fFinalY - startY);
     const bool r = bestFinder(t);
     return r;
+}
+
+bool ePathFinder::extractData(ePathFindData& data) {
+    if(!mData.fFound) return false;
+    data = mData;
+    return true;
 }

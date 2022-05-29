@@ -20,6 +20,7 @@ struct ePathBoard {
     std::vector<std::vector<int>> fData;
 
     bool getAbsValue(const int x, const int y, int** value);
+    bool getAbsValue(const int x, const int y, int& value) const;
 };
 
 struct ePathFindData {
@@ -34,6 +35,11 @@ struct ePathFindData {
     int fFinalY = -1;
 };
 
+enum class ePathFinderMode {
+    findSingle,
+    findAll
+};
+
 class ePathFinder {
 public:
     using eTileWalkable = std::function<bool(eTileBase* const)>;
@@ -46,9 +52,15 @@ public:
                   const bool onlyDiagonal,
                   const int srcW, const int srcH);
     bool extractPath(std::vector<eOrientation>& path);
+    bool extractData(ePathFindData& data);
+
+    void setMode(const ePathFinderMode m)
+    { mMode = m; }
 private:
     const eTileWalkable mWalkable;
     const eTileFinish mFinish;
+
+    ePathFinderMode mMode = ePathFinderMode::findSingle;
 
     ePathFindData mData;
 };

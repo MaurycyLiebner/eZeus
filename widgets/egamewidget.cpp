@@ -1994,13 +1994,53 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             const auto a = s->soldierAction();
             const int hx = mHoverTX;
             const int hy = mHoverTY;
-            a->addForce([hx, hy](eCharacter* const c) {
-                const double cx = c->absX();
-                const double cy = c->absY();
-                vec2d line{hx - cx, hy - cy};
-                line.normalize();
-                return line;
-            }, eForceType::reserved1);
+            const auto ft = s->tile();
+            const int fx = ft->x();
+            const int fy = ft->y();
+            ePathFinder pf(
+            [](eTileBase* const t) {
+                return t->walkable();
+            },
+            [fx, fy](eTileBase* const t) {
+                return t->x() == fx && t->y() == fy;
+            });
+            const auto st = mBoard->tile(hx, hy);
+            const bool r = pf.findPath(st, 1000, false,
+                                       mBoard->width(),
+                                       mBoard->height());
+            if(r) {
+                ePathFindData data;
+                const bool r = pf.extractData(data);
+                if(r) {
+                    a->addForce([data](eCharacter* const c) {
+                        const auto& brd = data.fBoard;
+                        vec2d force{0., 0.};
+                        const auto t = c->tile();
+                        const int tx = t->x();
+                        const int ty = t->y();
+                        int v;
+                        const bool r = brd.getAbsValue(tx, ty, v);
+                        if(!r) return vec2d{0., 0.};
+                        bool found = false;
+                        for(int i = -1; i < 2 && !found; i++) {
+                            for(int j = -1; j < 2 && !found; j++) {
+                                if(i == 0 && j == 0) continue;
+                                const int ttx = tx + i;
+                                const int tty = ty + j;
+                                int vv;
+                                const bool r = brd.getAbsValue(ttx, tty, vv);
+                                if(!r) continue;
+                                if(vv >= v) continue;
+                                found = true;
+                                force = vec2d{1.*i, 1.*j};
+                                break;
+                            }
+                        }
+                        force.normalize();
+                        return force;
+                    }, eForceType::reserved1);
+                }
+            }
         }
     } break;
     default: return false;
