@@ -1,14 +1,13 @@
-#include "epathfindtask.h"
+#include "epathdatafindtask.h"
 
-#include "engine/epathfinder.h"
-
-ePathFindTask::ePathFindTask(const eTileGetter& startTile,
-                             const eTileChecker& tileWalkable,
-                             const eTileChecker& endTile,
-                             const eFinishFunc& finishFunc,
-                             const eFailFunc& failFunc,
-                             const bool onlyDiagonal,
-                             const int range) :
+ePathDataFindTask::ePathDataFindTask(
+        const eTileGetter& startTile,
+        const eTileChecker& tileWalkable,
+        const eTileChecker& endTile,
+        const eFinishFunc& finishFunc,
+        const eFailFunc& failFunc,
+        const bool onlyDiagonal,
+        const int range) :
     mStartTile(startTile),
     mTileWalkable(tileWalkable),
     mEndTile(endTile),
@@ -17,7 +16,7 @@ ePathFindTask::ePathFindTask(const eTileGetter& startTile,
     mOnlyDiagonal(onlyDiagonal),
     mRange(range) {}
 
-void ePathFindTask::run(eThreadBoard& data) {
+void ePathDataFindTask::run(eThreadBoard& data) {
     const auto t = mStartTile(data);
     ePathFinder pf0(
     [&](eTileBase* const t) {
@@ -29,13 +28,13 @@ void ePathFindTask::run(eThreadBoard& data) {
     const bool r = pf0.findPath(t, mRange, mOnlyDiagonal,
                                 data.width(), data.height());
     if(r) {
-        mR = pf0.extractPath(mPath);
+        mR = pf0.extractData(mData);
     } else {
         mR = false;
     }
 }
 
-void ePathFindTask::finish() {
-    if(mR) mFinish(mPath);
+void ePathDataFindTask::finish() {
+    if(mR) mFinish(mData);
     else mFailFunc();
 }

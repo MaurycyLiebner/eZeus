@@ -7,9 +7,6 @@ class eHoplite : public eSoldier {
 public:
     eHoplite(eGameBoard& board);
     ~eHoplite();
-
-    std::shared_ptr<eTexture>
-    getTexture(const eTileSize size) const;
 };
 
 #endif // EHOPLITE_H

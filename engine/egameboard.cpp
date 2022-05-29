@@ -278,10 +278,8 @@ void eGameBoard::incTime(const int by) {
         c->incTime(by);
     }
     const auto solds = mSoldiers;
-    for(int i = 0; i < by; i++) {
-        for(const auto c : solds) {
-            c->incTime(1);
-        }
+    for(const auto c : solds) {
+        c->incTime(by);
     }
     const auto build = mBuildings;
     for(const auto b : build) {

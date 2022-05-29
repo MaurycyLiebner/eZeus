@@ -1,13 +1,13 @@
 #ifndef ESOLDIER_H
 #define ESOLDIER_H
 
-#include "echaracter.h"
+#include "efightingpatroler.h"
 
 class eSoldierAction;
 
-class eSoldier : public eCharacter {
+class eSoldier : public eFightingPatroler {
 public:
-    using eCharacter::eCharacter;
+    using eFightingPatroler::eFightingPatroler;
 
     bool selected() const { return mSelected; }
     void setSelected(const bool s) { mSelected = s; }

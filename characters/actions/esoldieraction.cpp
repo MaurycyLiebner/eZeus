@@ -32,7 +32,8 @@ void eSoldierAction::increment(const int by) {
     const auto c = character();
     if(!mForceGetters.empty()) {
         vec2d force{0, 0};
-        for(const auto& frc : mForceGetters) {
+        const auto frcs = mForceGetters;
+        for(const auto& frc : frcs) {
             force += frc.second(c);
         }
         const double len = force.length();
@@ -43,15 +44,13 @@ void eSoldierAction::increment(const int by) {
             const double radAngle = std::atan2(force.y, force.x);
             const double radAngle2 = radAngle < 0 ? 2*M_PI + radAngle : radAngle;
             const double degAngle = radAngle2 * 180 / M_PI;
-            mAngle = mAngle*0.99 + 0.01*degAngle;
+            mAngle = mAngle*0.9 + 0.1*degAngle;
             const auto o = angleOrientation(mAngle);
             c->setOrientation(o);
-            c->setActionType(eCharacterActionType::walk);
         } else {
-            c->setActionType(eCharacterActionType::stand);
+            c->setActionType(eCharacterActionType::walk);
         }
     } else {
-        c->setActionType(eCharacterActionType::stand);
     }
 }
 
@@ -69,6 +68,16 @@ int eSoldierAction::addForce(const eForceGetter& force,
 
 void eSoldierAction::removeForce(const int id) {
     mForceGetters.erase(id);
+}
+
+void eSoldierAction::removeForce(const eForceType type) {
+    switch(type) {
+    case eForceType::regular:
+        break;
+    case eForceType::reserved1:
+        mForceGetters.erase(-1);
+        break;
+    }
 }
 
 void eSoldierAction::moveBy(const double dx, const double dy) {

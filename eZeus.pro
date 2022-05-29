@@ -208,6 +208,7 @@ SOURCES += \
         engine/thread/ethreadcharacter.cpp \
         engine/thread/ethreaddata.cpp \
         engine/thread/ethreadtile.cpp \
+        epathdatafindtask.cpp \
         epathfindtask.cpp \
         esounds.cpp \
         etexture.cpp \
@@ -504,6 +505,7 @@ HEADERS += \
     engine/thread/ethreaddata.h \
     engine/thread/ethreadtile.h \
     eoverlay.h \
+    epathdatafindtask.h \
     epathfindtask.h \
     esettings.h \
     esounds.h \

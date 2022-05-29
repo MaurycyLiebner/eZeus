@@ -22,6 +22,7 @@ public:
     int addForce(const eForceGetter& force,
                  const eForceType type = eForceType::regular);
     void removeForce(const int id);
+    void removeForce(const eForceType type);
 
     void moveBy(const double dx, const double dy);
 private:

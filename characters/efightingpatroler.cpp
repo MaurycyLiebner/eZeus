@@ -23,12 +23,12 @@ std::shared_ptr<eTexture> eFightingPatroler::getTexture(const eTileSize size) co
         return charTexs.fWalk[oid].getTexture(0);
     case eCharacterActionType::collect:
     case eCharacterActionType::carry:
-    case eCharacterActionType::walk: {
+    case eCharacterActionType::walk:
         coll = &charTexs.fWalk[oid];
-    } break;
-    case eCharacterActionType::fight: {
+        break;
+    case eCharacterActionType::fight:
         coll = &charTexs.fFight[oid];
-    } break;
+        break;
     case eCharacterActionType::die:
         wrap = false;
         coll = &charTexs.fDie;
