@@ -178,6 +178,10 @@ public:
     eFightingCharacterTextures fHoplite;
     eFightingCharacterTextures fHorseman;
 
+    eRockThrowerTextures fGreekRockThrower;
+    eFightingCharacterTextures fGreekHoplite;
+    eFightingCharacterTextures fGreekHorseman;
+
     std::shared_ptr<eTexture> fSelected;
 };
 

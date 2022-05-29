@@ -75,7 +75,11 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
     fRockThrower(renderer),
     fHoplite(renderer),
-    fHorseman(renderer) {
+    fHorseman(renderer),
+
+    fGreekRockThrower(renderer),
+    fGreekHoplite(renderer),
+    fGreekHorseman(renderer) {
 
 }
 
@@ -407,35 +411,65 @@ void eCharacterTextures::load() {
 
     loadBasicTexture(fPhilosopher, 12128, texClass);
 
-    const std::string ppathBase{dir + "PoseidonImps/PoseidonImps_"};
+    {
+        const std::string pathBase{dir + "PoseidonImps/PoseidonImps_"};
 
-    eTextureClass ptexClass(ppathBase, texLoader, &ePoseidonImpsOffset);
+        eTextureClass texClass(pathBase, texLoader, &ePoseidonImpsOffset);
 
 
-    ptexClass.loadSkipFlipped(fDeerHunter.fWalk, 183, 279);
-    ptexClass.loadSkipFlipped(fDeerHunter.fCollect, 287, 407);
-    ptexClass.loadSkipFlipped(fDeerHunter.fCarry, 435, 531);
+        texClass.loadSkipFlipped(fDeerHunter.fWalk, 183, 279);
+        texClass.loadSkipFlipped(fDeerHunter.fCollect, 287, 407);
+        texClass.loadSkipFlipped(fDeerHunter.fCarry, 435, 531);
 
-    for(int i = 279; i < 287; i++) {
-        ptexClass.load(i, fDeerHunter.fDie);
+        for(int i = 279; i < 287; i++) {
+            texClass.load(i, fDeerHunter.fDie);
+        }
+
+        texClass.loadSkipFlipped(fDeer.fWalk, 531, 627);
+        texClass.loadSkipFlipped(fDeer.fFight, 635, 859);
+        texClass.loadSkipFlipped(fDeer.fLayDown, 859, 955);
+
+        for(int i = 627; i < 635; i++) {
+            texClass.load(i, fDeer.fDie);
+        }
+
+        texClass.loadSkipFlipped(fOrangesCart, 1091, 1115);
+
+        texClass.loadSkipFlipped(fOrangeTender.fWalk, 1211, 1307);
+        texClass.loadSkipFlipped(fOrangeTender.fWorkOnTree, 1315, 1411);
+        texClass.loadSkipFlipped(fOrangeTender.fCollect, 1411, 1507);
+
+        for(int i = 1307; i < 1315; i++) {
+            texClass.load(i, fOrangeTender.fDie);
+        }
     }
 
-    ptexClass.loadSkipFlipped(fDeer.fWalk, 531, 627);
-    ptexClass.loadSkipFlipped(fDeer.fFight, 635, 859);
-    ptexClass.loadSkipFlipped(fDeer.fLayDown, 859, 955);
+    {
+        const std::string pathBase{dir + "Zeus_Greek/Zeus_Greek_"};
 
-    for(int i = 627; i < 635; i++) {
-        ptexClass.load(i, fDeer.fDie);
-    }
+        eTextureClass texClass(pathBase, texLoader, &ePoseidonImpsOffset);
 
-    ptexClass.loadSkipFlipped(fOrangesCart, 1091, 1115);
 
-    ptexClass.loadSkipFlipped(fOrangeTender.fWalk, 1211, 1307);
-    ptexClass.loadSkipFlipped(fOrangeTender.fWorkOnTree, 1315, 1411);
-    ptexClass.loadSkipFlipped(fOrangeTender.fCollect, 1411, 1507);
+        texClass.loadSkipFlipped(fGreekHoplite.fWalk, 1, 97);
+        for(int i = 97; i < 105; i++) {
+            texClass.load(i, fGreekHoplite.fDie);
+        }
+        texClass.loadSkipFlipped(fGreekHoplite.fFight, 105, 169);
 
-    for(int i = 1307; i < 1315; i++) {
-        ptexClass.load(i, fOrangeTender.fDie);
+
+        texClass.loadSkipFlipped(fGreekHorseman.fWalk, 169, 265);
+        for(int i = 265; i < 273; i++) {
+            texClass.load(i, fGreekHorseman.fDie);
+        }
+        texClass.loadSkipFlipped(fGreekHorseman.fFight, 273, 369);
+
+
+        texClass.loadSkipFlipped(fGreekRockThrower.fWalk, 369, 465);
+        for(int i = 465; i < 473; i++) {
+            texClass.load(i, fGreekRockThrower.fDie);
+        }
+        texClass.loadSkipFlipped(fGreekRockThrower.fFight, 473, 569);
+        texClass.loadSkipFlipped(fGreekRockThrower.fFight2, 569, 633);
     }
 
     texLoader.waitUntilFinished();
