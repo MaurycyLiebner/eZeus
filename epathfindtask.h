@@ -19,12 +19,9 @@ public:
                   const eFailFunc& failFunc,
                   const bool onlyDiagonal,
                   const int range);
-
-
 protected:
     void run(eThreadBoard& data);
     void finish();
-
 private:
     const eTileGetter mStartTile;
     const eTileChecker mTileWalkable;

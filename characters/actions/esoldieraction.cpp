@@ -29,9 +29,9 @@ eOrientation angleOrientation(const double degAngle) {
 }
 
 void eSoldierAction::increment(const int by) {
+    const auto c = character();
     if(!mForceGetters.empty()) {
         vec2d force{0, 0};
-        const auto c = character();
         for(const auto& frc : mForceGetters) {
             force += frc.second(c);
         }
@@ -46,7 +46,12 @@ void eSoldierAction::increment(const int by) {
             mAngle = mAngle*0.99 + 0.01*degAngle;
             const auto o = angleOrientation(mAngle);
             c->setOrientation(o);
+            c->setActionType(eCharacterActionType::walk);
+        } else {
+            c->setActionType(eCharacterActionType::stand);
         }
+    } else {
+        c->setActionType(eCharacterActionType::stand);
     }
 }
 

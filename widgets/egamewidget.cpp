@@ -1989,11 +1989,34 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
         mPressedTY = -1;
     } break;
     case eMouseButton::right: {
+        const int hx = mHoverTX;
+        const int hy = mHoverTY;
+
+        const auto ht = mBoard->tile(hx, hy);
+        if(!ht) return false;
+        if(!ht->walkable()) return false;
+
         const auto& solds = mBoard->selectedSoldiers();
+
+        const int cs = solds.size();
+        const int dim = ceil(sqrt(1.*cs));
+        const int hdim = ceil(0.5*dim);
+
+        std::vector<eTile*> tiles;
+        for(int i = hx - hdim; i < hx + hdim; i++) {
+            for(int j = hy - hdim; j < hy + hdim; j++) {
+                const auto t = mBoard->tile(i, j);
+                if(!t) continue;
+                if(!t->walkable()) continue;
+                tiles.push_back(t);
+            }
+        }
+        if(tiles.empty()) return false;
+
+        int tilei = 0;
         for(const auto s : solds) {
             const auto a = s->soldierAction();
-            const int hx = mHoverTX;
-            const int hy = mHoverTY;
+
             const auto ft = s->tile();
             const int fx = ft->x();
             const int fy = ft->y();
@@ -2004,7 +2027,8 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             [fx, fy](eTileBase* const t) {
                 return t->x() == fx && t->y() == fy;
             });
-            const auto st = mBoard->tile(hx, hy);
+            const auto tt = tiles[(tilei++) % tiles.size()];
+            const auto st = mBoard->tile(tt->x(), tt->y());
             const bool r = pf.findPath(st, 1000, false,
                                        mBoard->width(),
                                        mBoard->height());
