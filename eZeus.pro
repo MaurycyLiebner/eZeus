@@ -219,6 +219,8 @@ SOURCES += \
         etexturecollection.cpp \
         ewalkablehelpers.cpp \
         main.cpp \
+        missiles/emissile.cpp \
+        missiles/erockmissile.cpp \
         pointers/eobject.cpp \
         pointers/estdselfref.cpp \
         spawners/eboarspawner.cpp \
@@ -520,6 +522,8 @@ HEADERS += \
     etexture.h \
     etexturecollection.h \
     ewalkablehelpers.h \
+    missiles/emissile.h \
+    missiles/erockmissile.h \
     offsets/PoseidonImps.h \
     offsets/Poseidon_Atlas.h \
     offsets/Poseidon_Hera.h \

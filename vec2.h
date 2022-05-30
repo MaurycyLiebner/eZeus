@@ -128,7 +128,7 @@ public:
 		y = length * sin(angle);
 	}
 
-    T angle() { // 0 - 360
+    T angle() const { // 0 - 360
         const double radAngle = std::atan2(y, x);
         const double radAngle2 = radAngle < 0 ? 2*M_PI + radAngle : radAngle;
         const double degAngle = radAngle2 * 180 / M_PI;

@@ -14,6 +14,7 @@ enum class eTileSize : int {
     s15, s30, s45, s60
 };
 
+class eMissile;
 class eCharacter;
 class eBuilding;
 class eBuildingRenderer;
@@ -31,6 +32,12 @@ public:
 
     const std::vector<stdsptr<eCharacter>>& characters() const
     { return mCharacters; }
+
+    void addMissile(const stdsptr<eMissile>& m);
+    bool removeMissile(const stdsptr<eMissile>& m);
+
+    const std::vector<stdsptr<eMissile>>& missiles() const
+    { return mMissiles; }
 
     void setBuilding(const stdsptr<eBuildingRenderer>& b);
     eBuildingRenderer* building() const { return mBuilding.get(); }
@@ -70,6 +77,7 @@ private:
 private:
     std::vector<eTile*> mTerrainTiles;
 
+    std::vector<stdsptr<eMissile>> mMissiles;
     std::vector<stdsptr<eCharacter>> mCharacters;
     stdsptr<eBuilding> mUnderBuilding;
     stdsptr<eBuildingRenderer> mBuilding;

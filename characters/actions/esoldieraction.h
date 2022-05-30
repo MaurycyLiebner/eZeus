@@ -35,6 +35,8 @@ private:
     std::map<int, eForceGetter> mForceGetters;
     double mAngle{0.};
 
+    int mMissile = 0;
+
     int mRangeAttack = 0;
 
     int mLookForEnemy = 0;

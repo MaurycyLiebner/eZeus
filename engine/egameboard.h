@@ -129,6 +129,9 @@ public:
     void registerStorBuilding(eStorageBuilding* const b);
     bool unregisterStorBuilding(eStorageBuilding* const b);
 
+    void registerMissile(eMissile* const m);
+    bool unregisterMissile(eMissile* const m);
+
     bool hasStadium() const { return mStadiumCount > 0; }
 
     void registerPalace();
@@ -251,6 +254,7 @@ private:
     std::vector<eCharacter*> mSoldiers;
     std::vector<eBuilding*> mBuildings;
     std::vector<eSpawner*> mSpawners;
+    std::vector<eMissile*> mMissiles;
 
     std::vector<eSoldier*> mSelectedSoldiers;
 

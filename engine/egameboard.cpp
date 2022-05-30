@@ -20,6 +20,8 @@
 
 #include "engine/boardData/eappealupdatetask.h"
 
+#include "missiles/emissile.h"
+
 eGameBoard::eGameBoard() :
     mEmplData(mPopData, *this) {}
 
@@ -242,6 +244,17 @@ bool eGameBoard::unregisterStorBuilding(eStorageBuilding* const b) {
     return true;
 }
 
+void eGameBoard::registerMissile(eMissile* const m) {
+    mMissiles.push_back(m);
+}
+
+bool eGameBoard::unregisterMissile(eMissile* const m) {
+    const auto it = std::find(mMissiles.begin(), mMissiles.end(), m);
+    if(it == mMissiles.end()) return false;
+    mMissiles.erase(it);
+    return true;
+}
+
 void eGameBoard::registerPalace() {
     mPalaceCount++;
 }
@@ -288,6 +301,11 @@ void eGameBoard::incTime(const int by) {
     }
     for(const auto s : mSpawners) {
         s->incTime(by);
+    }
+
+    const auto missiles = mMissiles;
+    for(const auto m : missiles) {
+        m->incTime(by);
     }
 
     if(rand() % 100000 < by) {

@@ -1,13 +1,14 @@
 #include "edestructiontextures.h"
 
 #include "etextureloadinghelpers.h"
-
 #include "etextureloader.h"
+#include "offsets/SprAmbient.h"
 
 eDestructionTextures::eDestructionTextures(const int tileW, const int tileH,
                                            SDL_Renderer* const renderer) :
-      fTileW(tileW), fTileH(tileH),
-      fRenderer(renderer) {
+    fTileW(tileW), fTileH(tileH),
+    fRenderer(renderer),
+    fRock(renderer) {
 
 }
 
@@ -15,9 +16,9 @@ void eDestructionTextures::load() {
     eTextureLoader texLoader(fRenderer);
     texLoader.initialize();
 
-    std::string dir{"../ZeusTextures/"};
-    dir += std::to_string(fTileH) + "/";
-    dir += "destruction/";
+    std::string basedir{"../ZeusTextures/"};
+    basedir += std::to_string(fTileH) + "/";
+    std::string dir = basedir + "destruction/";
     const std::string pathBase{dir + "destruction_"};
     eTextureClass texClass(pathBase, texLoader);
 
@@ -54,5 +55,17 @@ void eDestructionTextures::load() {
 //    for(int i = 1059; i < 1085; i++) {
 //        eTextureLoadingHelpers::loadTex(pathBase, i, fBigFire[1]);
 //    }
+
+
+    {
+        const auto dir = basedir + "SprAmbient/";
+        const std::string pathBase{dir + "SprAmbient_"};
+        eTextureClass texClass(pathBase, texLoader, &eSprAmbientOffset);
+
+        for(int i = 1490; i < 1492; i++) {
+            texClass.load(i, fRock);
+        }
+    }
+
     texLoader.waitUntilFinished();
 }

@@ -147,6 +147,17 @@ bool eTile::removeCharacter(const stdsptr<eCharacter>& c) {
     return true;
 }
 
+void eTile::addMissile(const stdsptr<eMissile>& m) {
+    mMissiles.push_back(m);
+}
+
+bool eTile::removeMissile(const stdsptr<eMissile>& m) {
+    const auto it = std::find(mMissiles.begin(), mMissiles.end(), m);
+    if(it == mMissiles.end()) return false;
+    mMissiles.erase(it);
+    return true;
+}
+
 bool eTile::hasCharacter(const eHasChar& func) const {
     for(const auto& c : mCharacters) {
         if(func(*c)) return true;

@@ -119,6 +119,8 @@
 
 #include "epathdatafindtask.h"
 
+#include "missiles/emissile.h"
+
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {}
 
@@ -1093,6 +1095,17 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         };
 
+        const auto drawMissiles = [&]() {
+            const auto& mss = tile->missiles();
+            for(const auto& m : mss) {
+                const double h = m->height();
+                const double x = tx - a + m->x() + 0.25 - h;
+                const double y = ty - a + m->y() + 0.25 - h;
+                const auto tex = m->getTexture(mTileSize);
+                tp.drawTexture(x, y, tex);
+            }
+        };
+
         drawSheepGoat();
         drawPatrol();
         drawAppeal();
@@ -1118,6 +1131,9 @@ void eGameWidget::paintEvent(ePainter& p) {
         for(const auto t : tile->terrainTiles()) {
             drawTerrain(t);
         }
+
+        drawMissiles();
+
         if(mLeftPressed && mMovedSincePress &&
            mGm->mode() == eBuildingMode::none) {
             const int x = mPressedX > mHoverX ? mHoverX : mPressedX;

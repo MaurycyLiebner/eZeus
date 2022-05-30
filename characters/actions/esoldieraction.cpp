@@ -9,12 +9,7 @@
 #include "epathdatafindtask.h"
 #include "ewalkablehelpers.h"
 
-double angle(const vec2d& force) {
-    const double radAngle = std::atan2(force.y, force.x);
-    const double radAngle2 = radAngle < 0 ? 2*M_PI + radAngle : radAngle;
-    const double degAngle = radAngle2 * 180 / M_PI;
-    return degAngle;
-}
+#include "missiles/erockmissile.h"
 
 eOrientation angleOrientation(const double degAngle) {
     const double h45 = 0.5*45.;
@@ -40,20 +35,45 @@ eOrientation angleOrientation(const double degAngle) {
 }
 
 eOrientation orientation(const vec2d& force) {
-    const double deg = angle(force);
+    const double deg = force.angle();
     return angleOrientation(deg);
 }
 
 void eSoldierAction::increment(const int by) {
     const int rangeAttackCheck = 500;
     const int lookForEnemyCheck = 500;
+    const int missileCheck = 200;
 
     const auto c = character();
     const auto s = static_cast<eSoldier*>(c);
-    const auto& brd = c->getBoard();
+    const int range = s->range();
+    auto& brd = c->getBoard();
+    const auto ct = c->tile();
+    const int tx = ct->x();
+    const int ty = ct->y();
+    const int pid = c->playerId();
+
     if(mAttack) {
+        if(range > 0 && mAttackTarget) {
+            mMissile += by;
+            if(mMissile > missileCheck) {
+                mMissile = 0;
+                std::vector<ePathPoint> path;
+                const int ca = ct->altitude();
+                path.push_back(ePathPoint{(double)tx, (double)ty, ca + 0.5});
+                const auto tt = mAttackTarget->tile();
+                const int ttx = tt->x();
+                const int tty = tt->y();
+                const int cca = tt->altitude();
+                path.push_back(ePathPoint{(double)ttx, (double)tty, cca + 0.5});
+                const auto m = e::make_shared<eRockMissile>(brd, path);
+                m->incTime(0);
+            }
+        }
         mAttackTime += by;
-        bool finishAttack = !mAttackTarget || mAttackTime > 1000;
+        bool finishAttack = !mAttackTarget ||
+                            mAttackTarget->dead() ||
+                            mAttackTime > 1000;
         if(mAttackTarget && !mAttackTarget->dead()) {
             const int att = by*c->attack();
             const bool d = mAttackTarget->defend(att);
@@ -72,10 +92,6 @@ void eSoldierAction::increment(const int by) {
             return;
         }
     }
-    const auto ct = c->tile();
-    const int tx = ct->x();
-    const int ty = ct->y();
-    const int pid = c->playerId();
     vec2d cpos{c->absX(), c->absY()};
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
@@ -94,7 +110,7 @@ void eSoldierAction::increment(const int by) {
                 mAttack = true;
                 mAttackTime = 0;
                 c->setActionType(eCharacterActionType::fight);
-                mAngle = angle(posdif);
+                mAngle = posdif.angle();
                 const auto o = angleOrientation(mAngle);
                 c->setOrientation(o);
                 return;
@@ -102,7 +118,6 @@ void eSoldierAction::increment(const int by) {
         }
     }
 
-    const int range = s->range();
     if(range > 0) {
         mRangeAttack += by;
         if(mRangeAttack > rangeAttackCheck) {
@@ -124,7 +139,7 @@ void eSoldierAction::increment(const int by) {
                         mAttack = true;
                         mAttackTime = 0;
                         c->setActionType(eCharacterActionType::fight2);
-                        mAngle = angle(posdif);
+                        mAngle = posdif.angle();
                         const auto o = angleOrientation(mAngle);
                         c->setOrientation(o);
                         return;
@@ -170,7 +185,7 @@ void eSoldierAction::increment(const int by) {
             const double d = c->speed()*0.005 * by;
             force *= d/len;
             moveBy(force.x, force.y);
-            const auto degAngle = angle(force);
+            const auto degAngle = force.angle();
             mAngle = mAngle*0.9 + 0.1*degAngle;
             const auto o = angleOrientation(mAngle);
             c->setOrientation(o);

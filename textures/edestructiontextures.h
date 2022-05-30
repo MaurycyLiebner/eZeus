@@ -16,6 +16,8 @@ public:
 
     std::vector<eTextureCollection> fFire;
 //    std::vector<eTextureCollection> fBigFire;
+
+    eTextureCollection fRock;
 };
 
 #endif // EDESTRUCTIONTEXTURES_H
