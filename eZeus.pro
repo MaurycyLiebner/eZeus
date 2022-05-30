@@ -525,6 +525,7 @@ HEADERS += \
     offsets/Zeus_Athena.h \
     offsets/Zeus_Demeter.h \
     offsets/Zeus_Dionysus.h \
+    offsets/Zeus_Greek.h \
     offsets/Zeus_Hades.h \
     offsets/Zeus_Hephaestus.h \
     offsets/Zeus_Hermes.h \

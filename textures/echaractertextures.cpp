@@ -3,6 +3,7 @@
 #include "etextureloadinghelpers.h"
 #include "offsets/SprMain.h"
 #include "offsets/PoseidonImps.h"
+#include "offsets/Zeus_Greek.h"
 
 #include "etextureloader.h"
 
@@ -447,7 +448,7 @@ void eCharacterTextures::load() {
     {
         const std::string pathBase{dir + "Zeus_Greek/Zeus_Greek_"};
 
-        eTextureClass texClass(pathBase, texLoader, &ePoseidonImpsOffset);
+        eTextureClass texClass(pathBase, texLoader, &eZeus_GreekOffset);
 
 
         texClass.loadSkipFlipped(fGreekHoplite.fWalk, 1, 97);
