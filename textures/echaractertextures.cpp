@@ -327,8 +327,8 @@ void eCharacterTextures::load() {
     for(int i = 6937; i < 6945; i++) {
         texClass.load(i, fRockThrower.fDie);
     }
-    texClass.loadSkipFlipped(fRockThrower.fFight, 6945, 7041);
-    texClass.loadSkipFlipped(fRockThrower.fFight2, 7041, 7105);
+    texClass.loadSkipFlipped(fRockThrower.fFight2, 6945, 7041);
+    texClass.loadSkipFlipped(fRockThrower.fFight, 7041, 7105);
 
 
     texClass.loadSkipFlipped(fHoplite.fWalk, 7105, 7201);
@@ -469,8 +469,8 @@ void eCharacterTextures::load() {
         for(int i = 465; i < 473; i++) {
             texClass.load(i, fGreekRockThrower.fDie);
         }
-        texClass.loadSkipFlipped(fGreekRockThrower.fFight, 473, 569);
-        texClass.loadSkipFlipped(fGreekRockThrower.fFight2, 569, 633);
+        texClass.loadSkipFlipped(fGreekRockThrower.fFight2, 473, 569);
+        texClass.loadSkipFlipped(fGreekRockThrower.fFight, 569, 633);
     }
 
     texLoader.waitUntilFinished();

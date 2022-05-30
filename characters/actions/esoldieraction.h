@@ -28,11 +28,14 @@ public:
     void moveBy(const double dx, const double dy);
 
     void setPathForce(const int sx, const int sy,
-                      const int fx, const int fy);
+                      const int fx, const int fy,
+                      const int dist = 0);
 private:
     int mForceId = 0;
     std::map<int, eForceGetter> mForceGetters;
     double mAngle{0.};
+
+    int mRangeAttack = 0;
 
     int mLookForEnemy = 0;
     int mAttackTime = 0;

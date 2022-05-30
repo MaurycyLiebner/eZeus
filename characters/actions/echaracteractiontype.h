@@ -7,6 +7,7 @@ enum class eCharacterActionType {
     lay,
     walk,
     fight,
+    fight2,
     die,
     collect,
     workOnGrapes,

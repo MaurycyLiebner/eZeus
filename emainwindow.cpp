@@ -174,6 +174,7 @@ void eMainWindow::showSettingsMenu() {
     setWidget(esm);
 }
 #include "characters/ehoplite.h"
+#include "characters/erockthrower.h"
 #include "characters/egreekhoplite.h"
 #include "characters/actions/esoldieraction.h"
 void eMainWindow::showGame() {
@@ -189,7 +190,7 @@ void eMainWindow::showGame() {
                                       const int pid) {
             stdsptr<eSoldier> h;
             if(pid == 1) {
-                h = e::make_shared<eHoplite>(*mBoard);
+                h = e::make_shared<eRockThrower>(*mBoard);
             } else {
                 h = e::make_shared<eGreekHoplite>(*mBoard);
             }

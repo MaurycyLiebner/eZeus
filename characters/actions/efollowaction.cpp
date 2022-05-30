@@ -2,8 +2,6 @@
 
 #include "../echaracter.h"
 
-#include "engine/emainthreadpathfinder.h"
-
 #include "emovepathaction.h"
 
 eFollowAction::eFollowAction(eCharacter* const f,

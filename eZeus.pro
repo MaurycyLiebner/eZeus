@@ -144,6 +144,7 @@ SOURCES += \
         characters/egoat.cpp \
         characters/egoatherd.cpp \
         characters/egreekhoplite.cpp \
+        characters/egreekrockthrower.cpp \
         characters/egrower.cpp \
         characters/egymnast.cpp \
         characters/ehealer.cpp \
@@ -155,8 +156,10 @@ SOURCES += \
         characters/eoilvendorchar.cpp \
         characters/eox.cpp \
         characters/ephilosopher.cpp \
+        characters/erangesoldier.cpp \
         characters/eresourcecollector.cpp \
         characters/eresourcecollectorbase.cpp \
+        characters/erockthrower.cpp \
         characters/esettler.cpp \
         characters/esheep.cpp \
         characters/eshepherd.cpp \
@@ -438,6 +441,7 @@ HEADERS += \
     characters/egoat.h \
     characters/egoatherd.h \
     characters/egreekhoplite.h \
+    characters/egreekrockthrower.h \
     characters/egrower.h \
     characters/egymnast.h \
     characters/ehealer.h \
@@ -449,8 +453,10 @@ HEADERS += \
     characters/eoilvendorchar.h \
     characters/eox.h \
     characters/ephilosopher.h \
+    characters/erangesoldier.h \
     characters/eresourcecollector.h \
     characters/eresourcecollectorbase.h \
+    characters/erockthrower.h \
     characters/esettler.h \
     characters/esheep.h \
     characters/eshepherd.h \

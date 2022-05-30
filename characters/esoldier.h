@@ -8,7 +8,8 @@ class eSoldierAction;
 class eSoldier : public eFightingPatroler {
 public:
     using eCharTexs = eFightingCharacterTextures eCharacterTextures::*;
-    eSoldier(eGameBoard& board, const eCharTexs charTexs,
+    eSoldier(eGameBoard& board,
+             const eCharTexs charTexs,
              const eCharacterType type);
     ~eSoldier();
 
@@ -17,7 +18,11 @@ public:
 
     eSoldierAction* soldierAction() const;
     void setSoldierAction(const stdsptr<eSoldierAction>& a);
+
+    int range() const { return mRange; }
+    void setRange(const int r) { mRange = r; }
 private:
+    int mRange = 0;
     stdsptr<eSoldierAction> mAction;
     bool mSelected = false;
 };

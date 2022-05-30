@@ -1,14 +1,17 @@
-#include "efightingpatroler.h"
+#include "erangesoldier.h"
 
 #include "textures/egametextures.h"
 
-eFightingPatroler::eFightingPatroler(
-        eGameBoard& board, const eCharTexs charTexs,
-        const eCharacterType type) :
-    eCharacter(board, type),
-    mCharTexs(charTexs) {}
+eRangeSoldier::eRangeSoldier(eGameBoard& board,
+                             const eCharTexs charTexs,
+                             const eCharacterType type,
+                             const int range) :
+    eSoldier(board, &eCharacterTextures::fHoplite, type),
+    mCharTexs(charTexs) {
+    setRange(range);
+}
 
-std::shared_ptr<eTexture> eFightingPatroler::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eRangeSoldier::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
     const auto& textures = eGameTextures::characters();
     const auto& charTexs = textures[id].*mCharTexs;
@@ -26,6 +29,9 @@ std::shared_ptr<eTexture> eFightingPatroler::getTexture(const eTileSize size) co
         break;
     case eCharacterActionType::fight:
         coll = &charTexs.fFight[oid];
+        break;
+    case eCharacterActionType::fight2:
+        coll = &charTexs.fFight2[oid];
         break;
     case eCharacterActionType::die:
         wrap = false;

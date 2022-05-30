@@ -13,7 +13,6 @@ public:
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 private:
-    const std::vector<eCharacterTextures>& mTextures;
     const eCharTexs mCharTexs;
 };
 
