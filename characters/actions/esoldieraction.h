@@ -23,13 +23,18 @@ public:
                  const eForceType type = eForceType::regular);
     void removeForce(const int id);
     void removeForce(const eForceType type);
+    bool hasForce(const eForceType type) const;
 
     void moveBy(const double dx, const double dy);
+
+    void setPathForce(const int sx, const int sy,
+                      const int fx, const int fy);
 private:
     int mForceId = 0;
     std::map<int, eForceGetter> mForceGetters;
     double mAngle{0.};
 
+    int mLookForEnemy = 0;
     int mAttackTime = 0;
     bool mAttack = false;
     stdptr<eCharacter> mAttackTarget;

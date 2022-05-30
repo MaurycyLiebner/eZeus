@@ -2017,62 +2017,16 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 
         int tilei = 0;
         for(const auto s : solds) {
-            const auto ft = s->tile();
-            const int fx = ft->x();
-            const int fy = ft->y();
+            const auto t = s->tile();
+            const int tx = t->x();
+            const int ty = t->y();
 
             const auto tt = tiles[(tilei++) % tiles.size()];
             const int ttx = tt->x();
             const int tty = tt->y();
 
-            const auto startTile = [ttx, tty](eThreadBoard& board) {
-                return board.absTile(ttx, tty);
-            };
-
-            const auto endTile = [fx, fy](eTileBase* const t) {
-                return t->x() == fx && t->y() == fy;
-            };
-
-            const stdptr<eSoldierAction> a = s->soldierAction();
-            const auto finishFunc = [a](const ePathFindData& data) {
-                if(!a) return;
-                a->addForce([a, data](eCharacter* const c) {
-                    const auto& brd = data.fBoard;
-                    vec2d force{0., 0.};
-                    const auto t = c->tile();
-                    const int tx = t->x();
-                    const int ty = t->y();
-                    int v;
-                    const bool r = brd.getAbsValue(tx, ty, v);
-                    if(!r) return vec2d{0., 0.};
-                    if(v == 0 && a) {
-                        a->removeForce(eForceType::reserved1);
-                    }
-                    bool found = false;
-                    for(int i = -1; i < 2 && !found; i++) {
-                        for(int j = -1; j < 2 && !found; j++) {
-                            if(i == 0 && j == 0) continue;
-                            const int ttx = tx + i;
-                            const int tty = ty + j;
-                            int vv;
-                            const bool r = brd.getAbsValue(ttx, tty, vv);
-                            if(!r) continue;
-                            if(vv >= v) continue;
-                            found = true;
-                            force = vec2d{1.*i, 1.*j};
-                            break;
-                        }
-                    }
-                    force.normalize();
-                    return force;
-                }, eForceType::reserved1);
-            };
-
-            auto& tp = mBoard->threadPool();
-            const auto pft = new ePathDataFindTask(
-                                 startTile, eWalkableHelpers::sDefaultWalkable,
-                                 endTile, finishFunc, [](){}, false, 1000);
-            tp.queueTask(pft);
+            const auto a = s->soldierAction();
+            a->setPathForce(tx, ty, ttx, tty);
         }
     } break;
     default: return false;
