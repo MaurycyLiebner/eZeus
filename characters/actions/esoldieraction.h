@@ -34,6 +34,7 @@ public:
                       const int dist = 0);
 
     void beingAttacked(eSoldier* const ss);
+    void beingAttacked(const int ttx, const int tty);
 private:
     int mForceId = 0;
     std::map<int, eForceGetter> mForceGetters;

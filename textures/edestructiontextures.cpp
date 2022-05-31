@@ -8,7 +8,8 @@ eDestructionTextures::eDestructionTextures(const int tileW, const int tileH,
                                            SDL_Renderer* const renderer) :
     fTileW(tileW), fTileH(tileH),
     fRenderer(renderer),
-    fRock(renderer) {
+    fRock(renderer),
+    fArrow(renderer) {
 
 }
 
@@ -64,6 +65,10 @@ void eDestructionTextures::load() {
 
         for(int i = 1490; i < 1492; i++) {
             texClass.load(i, fRock);
+        }
+
+        for(int i = 2607; i < 2639; i++) {
+            texClass.load(i, fArrow);
         }
     }
 

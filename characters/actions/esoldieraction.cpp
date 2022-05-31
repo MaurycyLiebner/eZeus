@@ -11,34 +11,6 @@
 
 #include "missiles/erockmissile.h"
 
-eOrientation angleOrientation(const double degAngle) {
-    const double h45 = 0.5*45.;
-    eOrientation o;
-    if(degAngle > h45 && degAngle < h45 + 45) {
-        o = eOrientation::bottom;
-    } else if(degAngle > h45 + 45 && degAngle < h45 + 90) {
-        o = eOrientation::bottomLeft;
-    } else if(degAngle > h45 + 90 && degAngle < h45 + 135) {
-        o = eOrientation::left;
-    } else if(degAngle > h45 + 135 && degAngle < h45 + 180) {
-        o = eOrientation::topLeft;
-    } else if(degAngle > h45 + 180 && degAngle < h45 + 225) {
-        o = eOrientation::top;
-    } else if(degAngle > h45 + 225 && degAngle < h45 + 270) {
-        o = eOrientation::topRight;
-    } else if(degAngle > h45 + 270 && degAngle < h45 + 315) {
-        o = eOrientation::right;
-    } else {
-        o = eOrientation::bottomRight;
-    }
-    return o;
-}
-
-eOrientation orientation(const vec2d& force) {
-    const double deg = force.angle();
-    return angleOrientation(deg);
-}
-
 void eSoldierAction::increment(const int by) {
     const int rangeAttackCheck = 500;
     const int lookForEnemyCheck = 500;
@@ -97,11 +69,12 @@ void eSoldierAction::increment(const int by) {
             mAttackTarget = nullptr;
             mAttackTime = 0;
             mRangeAttack = rangeAttackCheck;
+            c->setActionType(eCharacterActionType::walk);
         } else {
             return;
         }
     }
-    vec2d cpos{c->absX(), c->absY()};
+    const vec2d cpos{c->absX(), c->absY()};
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
             const auto t = brd.tile(tx + i, ty + j);
@@ -111,8 +84,8 @@ void eSoldierAction::increment(const int by) {
                 if(!cc->isSoldier()) continue;
                 if(cc->playerId() == pid) continue;
                 if(cc->dead()) continue;
-                vec2d ccpos{cc->absX(), cc->absY()};
-                vec2d posdif = ccpos - cpos;
+                const vec2d ccpos{cc->absX(), cc->absY()};
+                const vec2d posdif = ccpos - cpos;
                 const double dist = posdif.length();
                 if(dist > 1.) continue;
                 mAttackTarget = cc;
@@ -120,7 +93,7 @@ void eSoldierAction::increment(const int by) {
                 mAttackTime = 0;
                 c->setActionType(eCharacterActionType::fight);
                 mAngle = posdif.angle();
-                const auto o = angleOrientation(mAngle);
+                const auto o = sAngleOrientation(mAngle);
                 c->setOrientation(o);
                 return;
             }
@@ -147,7 +120,7 @@ void eSoldierAction::increment(const int by) {
                         mAttackTime = 0;
                         c->setActionType(eCharacterActionType::fight2);
                         mAngle = posdif.angle();
-                        const auto o = angleOrientation(mAngle);
+                        const auto o = sAngleOrientation(mAngle);
                         c->setOrientation(o);
 
                         const auto tt = cc->tile();
@@ -215,7 +188,7 @@ void eSoldierAction::increment(const int by) {
             moveBy(force.x, force.y);
             const auto degAngle = force.angle();
             mAngle = mAngle*0.9 + 0.1*degAngle;
-            const auto o = angleOrientation(mAngle);
+            const auto o = sAngleOrientation(mAngle);
             c->setOrientation(o);
         } else {
             c->setActionType(eCharacterActionType::walk);
@@ -346,11 +319,15 @@ void eSoldierAction::setPathForce(const int sx, const int sy,
 }
 
 void eSoldierAction::beingAttacked(eSoldier* const ss) {
-    if(mAttack) return;
-    if(hasForce(eForceType::reserved1)) return;
     const auto tt = ss->tile();
     const int ttx = tt->x();
     const int tty = tt->y();
+    beingAttacked(ttx, tty);
+}
+
+void eSoldierAction::beingAttacked(const int ttx, const int tty) {
+    if(mAttack) return;
+    if(hasForce(eForceType::reserved1)) return;
     const auto c = character();
     const auto t = c->tile();
     const int tx = t->x();

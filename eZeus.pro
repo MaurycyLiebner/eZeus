@@ -221,6 +221,7 @@ SOURCES += \
         etexturecollection.cpp \
         ewalkablehelpers.cpp \
         main.cpp \
+        missiles/earrowmissile.cpp \
         missiles/emissile.cpp \
         missiles/erockmissile.cpp \
         pointers/eobject.cpp \
@@ -526,6 +527,7 @@ HEADERS += \
     etexture.h \
     etexturecollection.h \
     ewalkablehelpers.h \
+    missiles/earrowmissile.h \
     missiles/emissile.h \
     missiles/erockmissile.h \
     offsets/PoseidonImps.h \

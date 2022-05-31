@@ -984,7 +984,15 @@ void eGameWidget::paintEvent(ePainter& p) {
         };
 
         const auto drawCharacters = [&]() {
-            const auto tt = mBoard->tile(tx - 1, ty);
+            const int dtx = 0; // -1
+            const int dty = 0;
+
+            eTile* tt;
+            if(dtx == 0 && dty == 0) {
+                tt = tile;
+            } else {
+                tt = mBoard->tile(tx + dtx, ty + dty);
+            }
             if(!tt) return;
             const int min = static_cast<int>(eBuildingType::templeAphrodite);
             const int max = static_cast<int>(eBuildingType::templeZeus);
@@ -1008,8 +1016,8 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const bool v = eViewModeHelpers::characterVisible(
                                        mViewMode, c->type());
                     if(!v) continue;
-                    const double x = tx - a + c->x() + 0.25 - 1;
-                    const double y = ty - a + c->y() + 0.25;
+                    const double x = tx - a + c->x() + 0.25 + dtx;
+                    const double y = ty - a + c->y() + 0.25 + dty;
                     if(c->isSoldier()) {
                         const auto s = static_cast<eSoldier*>(c.get());
                         if(s->selected()) {

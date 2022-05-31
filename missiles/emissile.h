@@ -35,7 +35,10 @@ public:
         if(finished()) return;
         const auto& dst = mPts[mPtId];
         vec2d line{dst.fX - mPos.fX, dst.fY - mPos.fY};
-        mAngle = line.angle();
+        const vec2d heightLine{mPos.fHeight - dst.fHeight,
+                               mPos.fHeight - dst.fHeight};
+        const vec2d angleLine = line + heightLine;
+        mAngle = angleLine.angle();
         const double len = line.length();
         if(by > len) {
             mPos = dst;

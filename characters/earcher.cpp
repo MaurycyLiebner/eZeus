@@ -4,7 +4,7 @@
 
 eArcher::eArcher(eGameBoard& board) :
     eCharacter(board, eCharacterType::archer) {
-
+    setAttack(0.5);
 }
 
 std::shared_ptr<eTexture>
