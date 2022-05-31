@@ -2,5 +2,4 @@
 #include "textures/egametextures.h"
 
 eGreekHoplite::eGreekHoplite(eGameBoard& board) :
-    eSoldier(board, &eCharacterTextures::fGreekHoplite,
-             eCharacterType::hoplite) {}
+    eHopliteBase(board, &eCharacterTextures::fGreekHoplite) {}

@@ -57,15 +57,24 @@ void eSoldierAction::increment(const int by) {
         if(range > 0 && mAttackTarget) {
             mMissile += by;
             if(mMissile > missileCheck) {
-                mMissile = 0;
+                mMissile = mMissile - missileCheck;
                 std::vector<ePathPoint> path;
-                const int ca = ct->altitude();
-                path.push_back(ePathPoint{(double)tx, (double)ty, ca + 0.5});
+                const double ca = ct->altitude() + 0.5;
                 const auto tt = mAttackTarget->tile();
                 const int ttx = tt->x();
                 const int tty = tt->y();
-                const int cca = tt->altitude();
-                path.push_back(ePathPoint{(double)ttx, (double)tty, cca + 0.5});
+                const double cca = tt->altitude() + 0.5;
+                path.push_back(ePathPoint{(double)tx, (double)ty, ca});
+                path.push_back(ePathPoint{0.75*tx + 0.25*ttx,
+                                          0.75*ty + 0.25*tty,
+                                          0.75*ca + 0.25*cca + 1.});
+                path.push_back(ePathPoint{0.5*tx + 0.5*ttx,
+                                          0.5*ty + 0.5*tty,
+                                          0.5*ca + 0.5*cca + 2.});
+                path.push_back(ePathPoint{0.25*tx + 0.75*ttx,
+                                          0.25*ty + 0.75*tty,
+                                          0.25*ca + 0.75*cca + 1.});
+                path.push_back(ePathPoint{(double)ttx, (double)tty, cca});
                 const auto m = e::make_shared<eRockMissile>(brd, path);
                 m->incTime(0);
             }
@@ -75,7 +84,7 @@ void eSoldierAction::increment(const int by) {
                             mAttackTarget->dead() ||
                             mAttackTime > 1000;
         if(mAttackTarget && !mAttackTarget->dead()) {
-            const int att = by*c->attack();
+            const double att = by*c->attack();
             const bool d = mAttackTarget->defend(att);
             if(d) {
                 const auto a = e::make_shared<eDieAction>(mAttackTarget, []() {});
@@ -121,7 +130,7 @@ void eSoldierAction::increment(const int by) {
     if(range > 0) {
         mRangeAttack += by;
         if(mRangeAttack > rangeAttackCheck) {
-            mRangeAttack = 0;
+            mRangeAttack = mRangeAttack - rangeAttackCheck;
             for(int i = -range; i <= range; i++) {
                 for(int j = -range; j <= range; j++) {
                     const auto t = brd.tile(tx + i, ty + j);
@@ -131,10 +140,8 @@ void eSoldierAction::increment(const int by) {
                         if(!cc->isSoldier()) continue;
                         if(cc->playerId() == pid) continue;
                         if(cc->dead()) continue;
-                        vec2d ccpos{cc->absX(), cc->absY()};
-                        vec2d posdif = ccpos - cpos;
-//                        const double dist = posdif.length();
-//                        if(dist > range) continue;
+                        const vec2d ccpos{cc->absX(), cc->absY()};
+                        const vec2d posdif = ccpos - cpos;
                         mAttackTarget = cc;
                         mAttack = true;
                         mAttackTime = 0;
@@ -142,6 +149,27 @@ void eSoldierAction::increment(const int by) {
                         mAngle = posdif.angle();
                         const auto o = angleOrientation(mAngle);
                         c->setOrientation(o);
+
+                        const auto tt = cc->tile();
+                        const int ttx = tt->x();
+                        const int tty = tt->y();
+                        for(int ii = -2; ii <= 2; ii++) {
+                            for(int jj = -2; jj <= 2; jj++) {
+                                const auto tt = brd.tile(ttx + ii, tty + jj);
+                                if(!tt) continue;
+                                const auto& ccchars = tt->characters();
+                                for(const auto& ccc : ccchars) {
+                                    if(!ccc->isSoldier()) continue;
+                                    if(ccc->playerId() == pid) continue;
+                                    if(ccc->dead()) continue;
+
+                                    const auto sss = static_cast<eSoldier*>(ccc.get());
+                                    const auto aaa = sss->soldierAction();
+                                    aaa->beingAttacked(s);
+                                }
+                            }
+                        }
+
                         return;
                     }
                 }
@@ -315,4 +343,17 @@ void eSoldierAction::setPathForce(const int sx, const int sy,
                          startTile, eWalkableHelpers::sDefaultWalkable,
                          endTile, finishFunc, [](){}, false, 1000);
     tp.queueTask(pft);
+}
+
+void eSoldierAction::beingAttacked(eSoldier* const ss) {
+    if(mAttack) return;
+    if(hasForce(eForceType::reserved1)) return;
+    const auto tt = ss->tile();
+    const int ttx = tt->x();
+    const int tty = tt->y();
+    const auto c = character();
+    const auto t = c->tile();
+    const int tx = t->x();
+    const int ty = t->y();
+    setPathForce(tx, ty, ttx, tty);
 }

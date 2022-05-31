@@ -3,5 +3,4 @@
 #include "textures/egametextures.h"
 
 eGreekRockThrower::eGreekRockThrower(eGameBoard& board) :
-    eRangeSoldier(board, &eCharacterTextures::fRockThrower,
-                  eCharacterType::rockThrower, 4) {}
+    eRockThrowerBase(board, &eCharacterTextures::fGreekRockThrower) {}

@@ -3,7 +3,7 @@
 eHunter::eHunter(eGameBoard& board) :
     eResourceCollector(board, &eCharacterTextures::fHunter,
                        eCharacterType::hunter) {
-    setAttack(3);
+    setAttack(0.3);
 }
 
 void eHunter::setDeerHunter(const bool h) {

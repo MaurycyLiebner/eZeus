@@ -1,9 +1,9 @@
 #ifndef EROCKTHROWER_H
 #define EROCKTHROWER_H
 
-#include "erangesoldier.h"
+#include "erockthrowerbase.h"
 
-class eRockThrower : public eRangeSoldier {
+class eRockThrower : public eRockThrowerBase {
 public:
     eRockThrower(eGameBoard& board);
 };

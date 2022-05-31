@@ -3,5 +3,6 @@
 #include "textures/egametextures.h"
 
 eHoplite::eHoplite(eGameBoard& board) :
-    eSoldier(board, &eCharacterTextures::fHoplite,
-             eCharacterType::hoplite) {}
+    eHopliteBase(board, &eCharacterTextures::fHoplite) {
+    setAttack(0.5);
+}

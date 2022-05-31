@@ -7,6 +7,8 @@
 
 #include "eforce.h"
 
+class eSoldier;
+
 enum class eForceType {
     reserved1, // -1
     regular
@@ -30,6 +32,8 @@ public:
     void setPathForce(const int sx, const int sy,
                       const int fx, const int fy,
                       const int dist = 0);
+
+    void beingAttacked(eSoldier* const ss);
 private:
     int mForceId = 0;
     std::map<int, eForceGetter> mForceGetters;

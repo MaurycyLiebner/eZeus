@@ -1,9 +1,9 @@
 #ifndef EHOPLITE_H
 #define EHOPLITE_H
 
-#include "esoldier.h"
+#include "ehoplitebase.h"
 
-class eHoplite : public eSoldier {
+class eHoplite : public eHopliteBase {
 public:
     eHoplite(eGameBoard& board);
 };

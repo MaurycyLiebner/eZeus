@@ -81,13 +81,13 @@ public:
     bool busy() const { return mBusy; }
     void setBusy(const bool b) { mBusy = b; }
 
-    void setAttack(const int a);
-    int attack() const { return mAttack; }
-    void setHP(const int hp);
-    int hp() const { return mHP; }
+    void setAttack(const double a);
+    double attack() const { return mAttack; }
+    void setHP(const double hp);
+    double hp() const { return mHP; }
     bool dead() const { return mHP <= 0; }
     bool fighting() const;
-    bool defend(const int a);
+    bool defend(const double a);
 
     double speed() const { return mSpeed; }
     void setSpeed(const double s) { mSpeed = s; }
@@ -108,8 +108,8 @@ private:
 
     bool mBusy = false;
 
-    int mHP = 1000;
-    int mAttack = 1;
+    double mHP = 1000;
+    double mAttack = 1;
     double mSpeed = 1;
 };
 

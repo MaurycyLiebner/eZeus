@@ -5,16 +5,16 @@ eCharacterBase::eCharacterBase(const eCharacterType type) :
 
 }
 
-bool eCharacterBase::defend(const int a) {
+bool eCharacterBase::defend(const double a) {
     mHP -= a;
     return dead();
 }
 
-void eCharacterBase::setAttack(const int a) {
+void eCharacterBase::setAttack(const double a) {
     mAttack = a;
 }
 
-void eCharacterBase::setHP(const int hp) {
+void eCharacterBase::setHP(const double hp) {
     mHP = hp;
 }
 

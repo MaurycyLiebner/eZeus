@@ -149,6 +149,7 @@ SOURCES += \
         characters/egymnast.cpp \
         characters/ehealer.cpp \
         characters/ehoplite.cpp \
+        characters/ehoplitebase.cpp \
         characters/ehorsevendorchar.cpp \
         characters/ehunter.cpp \
         characters/elumberjack.cpp \
@@ -160,6 +161,7 @@ SOURCES += \
         characters/eresourcecollector.cpp \
         characters/eresourcecollectorbase.cpp \
         characters/erockthrower.cpp \
+        characters/erockthrowerbase.cpp \
         characters/esettler.cpp \
         characters/esheep.cpp \
         characters/eshepherd.cpp \
@@ -448,6 +450,7 @@ HEADERS += \
     characters/egymnast.h \
     characters/ehealer.h \
     characters/ehoplite.h \
+    characters/ehoplitebase.h \
     characters/ehorsevendorchar.h \
     characters/ehunter.h \
     characters/elumberjack.h \
@@ -459,6 +462,7 @@ HEADERS += \
     characters/eresourcecollector.h \
     characters/eresourcecollectorbase.h \
     characters/erockthrower.h \
+    characters/erockthrowerbase.h \
     characters/esettler.h \
     characters/esheep.h \
     characters/eshepherd.h \
