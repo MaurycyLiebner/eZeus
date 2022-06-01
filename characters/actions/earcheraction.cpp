@@ -33,25 +33,11 @@ void eArcherAction::increment(const int by) {
             mMissile += by;
             if(mMissile > missileCheck) {
                 mMissile = mMissile - missileCheck;
-                std::vector<ePathPoint> path;
-                const double ca = ct->altitude() + 0.5;
                 const auto tt = mAttackTarget->tile();
                 const int ttx = tt->x();
                 const int tty = tt->y();
-                const double cca = tt->altitude() + 0.5;
-                path.push_back(ePathPoint{(double)tx, (double)ty, ca});
-                path.push_back(ePathPoint{0.75*tx + 0.25*ttx,
-                                          0.75*ty + 0.25*tty,
-                                          0.75*ca + 0.25*cca + 1.});
-                path.push_back(ePathPoint{0.5*tx + 0.5*ttx,
-                                          0.5*ty + 0.5*tty,
-                                          0.5*ca + 0.5*cca + 2.});
-                path.push_back(ePathPoint{0.25*tx + 0.75*ttx,
-                                          0.25*ty + 0.75*tty,
-                                          0.25*ca + 0.75*cca + 1.});
-                path.push_back(ePathPoint{(double)ttx, (double)tty, cca});
-                const auto m = e::make_shared<eArrowMissile>(brd, path);
-                m->incTime(0);
+                eMissile::sCreate<eArrowMissile>(brd, tx, ty, 0.5,
+                                                 ttx, tty, 0.5, 2);
             }
         }
         mAttackTime += by;

@@ -6,6 +6,7 @@
 #include "pointers/estdselfref.h"
 #include "textures/edestructiontextures.h"
 #include "vec2.h"
+#include "engine/egameboard.h"
 
 class eTile;
 enum class eTileSize : int;
@@ -88,6 +89,14 @@ public:
 
     double angle() const { return mPath.angle(); }
     double height() const { return mPath.height(); }
+
+    template <class T>
+    static stdsptr<T> sCreate(eGameBoard& brd,
+                              const int tx0, const int ty0,
+                              const double h0,
+                              const int tx1, const int ty1,
+                              const double h1,
+                              const double dh);
 private:
     void changeTile(eTile* const t);
 
@@ -100,5 +109,33 @@ private:
 
     eTile* mTile = nullptr;
 };
+
+template<class T>
+stdsptr<T> eMissile::sCreate(eGameBoard& brd,
+                             const int tx0, const int ty0,
+                             const double h0,
+                             const int tx1, const int ty1,
+                             const double h1,
+                             const double dh) {
+    std::vector<ePathPoint> path;
+    const auto t = brd.tile(tx0, ty1);
+    const double ca = t->altitude() + h0;
+    const auto tt = brd.tile(tx1, ty1);
+    const double cca = tt->altitude() + h1;
+    path.push_back(ePathPoint{(double)tx0, (double)ty0, ca});
+    path.push_back(ePathPoint{0.75*tx0 + 0.25*tx1,
+                              0.75*ty0 + 0.25*ty1,
+                              0.75*ca + 0.25*cca + dh*0.75});
+    path.push_back(ePathPoint{0.5*tx0 + 0.5*tx1,
+                              0.5*ty0 + 0.5*ty1,
+                              0.5*ca + 0.5*cca + dh});
+    path.push_back(ePathPoint{0.25*tx0 + 0.75*tx1,
+                              0.25*ty0 + 0.75*ty1,
+                              0.25*ca + 0.75*cca + dh*0.75});
+    path.push_back(ePathPoint{(double)tx1, (double)ty1, cca});
+    const auto m = e::make_shared<T>(brd, path);
+    m->incTime(0);
+    return m;
+}
 
 #endif // EMISSILE_H
