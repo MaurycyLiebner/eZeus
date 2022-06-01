@@ -87,7 +87,6 @@ public:
     double hp() const { return mHP; }
     bool dead() const { return mHP <= 0; }
     bool fighting() const;
-    bool defend(const double a);
 
     double speed() const { return mSpeed; }
     void setSpeed(const double s) { mSpeed = s; }

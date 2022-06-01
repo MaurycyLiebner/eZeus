@@ -4,12 +4,66 @@
 #include "engine/egameboard.h"
 
 #include <math.h>
-
-#include "edieaction.h"
 #include "epathdatafindtask.h"
 #include "ewalkablehelpers.h"
 
 #include "missiles/erockmissile.h"
+
+eAttackTarget::eAttackTarget() :
+    mC(nullptr), mB(nullptr) {}
+
+eAttackTarget::eAttackTarget(eCharacter* const c) :
+    mC(c), mB(nullptr) {}
+
+eAttackTarget::eAttackTarget(eBuilding* const b) :
+    mC(nullptr), mB(b) {}
+
+eTile* eAttackTarget::tile() const {
+    if(mC) return mC->tile();
+    if(mB) return mB->centerTile();
+    return nullptr;
+}
+
+bool eAttackTarget::valid() const {
+    return mC || mB;
+}
+
+bool eAttackTarget::defend(const double a) {
+    if(mC) return mC->defend(a);
+    if(mB) return mB->defend(a);
+    return true;
+}
+
+bool eAttackTarget::dead() const {
+    if(mC) return mC->dead();
+    if(mB) return false;
+    return true;
+}
+
+void eAttackTarget::clear() {
+    mC = nullptr;
+    mB = nullptr;
+}
+
+double eAttackTarget::absX() const {
+    if(mC) return mC->absX();
+    if(mB) {
+        const auto t = mB->centerTile();
+        if(!t) return 0.;
+        return t->x();
+    }
+    return 0.;
+}
+
+double eAttackTarget::absY() const {
+    if(mC) return mC->absY();
+    if(mB) {
+        const auto t = mB->centerTile();
+        if(!t) return 0.;
+        return t->y();
+    }
+    return 0.;
+}
 
 void eSoldierAction::increment(const int by) {
     const int rangeAttackCheck = 500;
@@ -26,11 +80,11 @@ void eSoldierAction::increment(const int by) {
     const int pid = c->playerId();
 
     if(mAttack) {
-        if(range > 0 && mAttackTarget) {
+        if(range > 0 && mAttackTarget.valid()) {
             mMissile += by;
             if(mMissile > missileCheck) {
                 mMissile = mMissile - missileCheck;
-                const auto tt = mAttackTarget->tile();
+                const auto tt = mAttackTarget.tile();
                 const int ttx = tt->x();
                 const int tty = tt->y();
                 eMissile::sCreate<eRockMissile>(brd, tx, ty, 0.5,
@@ -38,21 +92,17 @@ void eSoldierAction::increment(const int by) {
             }
         }
         mAttackTime += by;
-        bool finishAttack = !mAttackTarget ||
-                            mAttackTarget->dead() ||
+        bool finishAttack = !mAttackTarget.valid() ||
+                            mAttackTarget.dead() ||
                             mAttackTime > 1000;
-        if(mAttackTarget && !mAttackTarget->dead()) {
+        if(mAttackTarget.valid() && !mAttackTarget.dead()) {
             const double att = by*c->attack();
-            const bool d = mAttackTarget->defend(att);
-            if(d) {
-                const auto a = e::make_shared<eDieAction>(mAttackTarget, []() {});
-                mAttackTarget->setAction(a);
-                finishAttack = true;
-            }
+            const bool d = mAttackTarget.defend(att);
+            if(d) finishAttack = true;
         }
         if(finishAttack) {
             mAttack = false;
-            mAttackTarget = nullptr;
+            mAttackTarget.clear();
             mAttackTime = 0;
             mRangeAttack = rangeAttackCheck;
             c->setActionType(eCharacterActionType::walk);
@@ -74,7 +124,7 @@ void eSoldierAction::increment(const int by) {
                 const vec2d posdif = ccpos - cpos;
                 const double dist = posdif.length();
                 if(dist > 1.) continue;
-                mAttackTarget = cc;
+                mAttackTarget = eAttackTarget(cc.get());
                 mAttack = true;
                 mAttackTime = 0;
                 c->setActionType(eCharacterActionType::fight);
@@ -83,6 +133,18 @@ void eSoldierAction::increment(const int by) {
                 c->setOrientation(o);
                 return;
             }
+            const auto ub = t->underBuilding();
+            if(!ub) continue;
+            if(ub->playerId() == pid) continue;
+            mAttackTarget = eAttackTarget(ub);
+            mAttack = true;
+            mAttackTime = 0;
+            c->setActionType(eCharacterActionType::fight);
+            const vec2d ccpos{1.*t->x(), 1.*t->y()};
+            const vec2d posdif = ccpos - cpos;
+            mAngle = posdif.angle();
+            const auto o = sAngleOrientation(mAngle);
+            c->setOrientation(o);
         }
     }
 
@@ -101,7 +163,7 @@ void eSoldierAction::increment(const int by) {
                         if(cc->dead()) continue;
                         const vec2d ccpos{cc->absX(), cc->absY()};
                         const vec2d posdif = ccpos - cpos;
-                        mAttackTarget = cc;
+                        mAttackTarget = eAttackTarget(cc.get());
                         mAttack = true;
                         mAttackTime = 0;
                         c->setActionType(eCharacterActionType::fight2);

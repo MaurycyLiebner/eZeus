@@ -189,6 +189,11 @@ public:
     bool overlayEnabled() const { return mOverlayEnabled(); }
 
     int maintenance() const { return mMaintance; }
+
+    int playerId() const { return mPlayerId; }
+
+    bool defend(const double a);
+    bool dead() const;
 private:
     std::vector<eTile*> mUnderBuilding;
     SDL_Rect mTileRect;
@@ -197,6 +202,9 @@ private:
     const eBuildingType mType;
     const int mSpanW;
     const int mSpanH;
+
+    int mPlayerId{1}; // 0 - neutral
+    double mHp = 10000;
 
     int mMaintance = 100;
 

@@ -121,3 +121,16 @@ bool eCharacter::isSoldier() const {
            t == eCharacterType::horseman ||
            t == eCharacterType::rockThrower;
 }
+
+bool eCharacter::defend(const double a) {
+    if(hp() < 0) return true;
+    setHP(hp() - a);
+    if(hp() < 0) {
+        const auto a = e::make_shared<eDieAction>(this, []() {});
+        setAction(a);
+        return true;
+    } else {
+        return false;
+    }
+    return dead();
+}

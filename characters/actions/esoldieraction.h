@@ -14,6 +14,25 @@ enum class eForceType {
     regular
 };
 
+class eAttackTarget {
+public:
+    eAttackTarget();
+    eAttackTarget(eCharacter* const c);
+    eAttackTarget(eBuilding* const b);
+
+    eTile* tile() const;
+    bool valid() const;
+    bool defend(const double a);
+    bool dead() const;
+    void clear();
+
+    double absX() const;
+    double absY() const;
+private:
+    stdptr<eCharacter> mC;
+    stdptr<eBuilding> mB;
+};
+
 class eSoldierAction : public eComplexAction {
 public:
     using eComplexAction::eComplexAction;
@@ -47,7 +66,7 @@ private:
     int mLookForEnemy = 0;
     int mAttackTime = 0;
     bool mAttack = false;
-    stdptr<eCharacter> mAttackTarget;
+    eAttackTarget mAttackTarget;
 };
 
 #endif // ESOLDIERACTION_H

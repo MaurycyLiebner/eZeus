@@ -61,6 +61,8 @@ public:
     void setVisible(const bool v) { mVisible = v; }
 
     bool isSoldier() const;
+
+    bool defend(const double a);
 private:
     stdsptr<eCharacterAction> takeAction();
 

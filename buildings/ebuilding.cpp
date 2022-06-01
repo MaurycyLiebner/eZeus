@@ -82,6 +82,7 @@ eTile* eBuilding::road(const eMoveDirection o) const {
 }
 
 void eBuilding::incTime(const int by) {
+    if(dead()) return;
     auto& b = getBoard();
     mTime += by;
     mTextureTime++;
@@ -218,4 +219,19 @@ void eBuilding::setEnabled(const bool e) {
 
 void eBuilding::setOverlayEnabledFunc(const std::function<bool()>& e) {
     mOverlayEnabled = e;
+}
+
+bool eBuilding::defend(const double a) {
+    if(mHp < 0) return true;
+    mHp -= a;
+    if(mHp < 0) {
+        collapse();
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool eBuilding::dead() const {
+    return mHp < 0;
 }

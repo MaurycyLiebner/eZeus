@@ -18,9 +18,13 @@ public:
 
     bool spawn();
 private:
-    bool mSpawnPatrolers = true;
+    int mMissile = 0;
+    int mRangeAttack = 0;
+    int mAttackTime = 0;
+    bool mAttack = false;
+    eOrientation mAttackOrientation{eOrientation::topRight};
+    stdptr<eCharacter> mAttackTarget;
 
-    int mWaitTime = 5000;
     int mSpawnTime = 0;
 
     stdsptr<eArcher> mArcher;

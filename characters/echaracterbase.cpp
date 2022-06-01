@@ -1,13 +1,10 @@
 #include "echaracterbase.h"
 
+#include "actions/edieaction.h"
+
 eCharacterBase::eCharacterBase(const eCharacterType type) :
     mType(type) {
 
-}
-
-bool eCharacterBase::defend(const double a) {
-    mHP -= a;
-    return dead();
 }
 
 void eCharacterBase::setAttack(const double a) {
@@ -19,7 +16,8 @@ void eCharacterBase::setHP(const double hp) {
 }
 
 bool eCharacterBase::fighting() const {
-    return mActionType == eCharacterActionType::fight;
+    return mActionType == eCharacterActionType::fight ||
+           mActionType == eCharacterActionType::fight2;
 }
 
 void eCharacterBase::setActionType(const eCharacterActionType t) {
