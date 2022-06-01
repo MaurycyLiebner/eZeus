@@ -2041,6 +2041,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 
         int tilei = 0;
         for(const auto s : solds) {
+            if(s->dead()) continue;
             const auto t = s->tile();
             const int tx = t->x();
             const int ty = t->y();

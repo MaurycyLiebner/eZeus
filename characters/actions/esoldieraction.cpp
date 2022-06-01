@@ -71,6 +71,7 @@ void eSoldierAction::increment(const int by) {
     const int missileCheck = 200;
 
     const auto c = character();
+    if(c->dead()) return;
     const auto s = static_cast<eSoldier*>(c);
     const int range = s->range();
     auto& brd = c->getBoard();
