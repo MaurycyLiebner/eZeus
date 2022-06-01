@@ -118,21 +118,19 @@ bool eArcherAction::decide() {
     const auto c = character();
     c->setActionType(eCharacterActionType::walk);
     const auto walkable = [](eTileBase* const tile) {
-        const auto ut = tile->underBuildingType();
-        if(ut == eBuildingType::tower) return true;
-        if(ut != eBuildingType::wall) return false;
+        const auto checker = [](eTileBase* const t) {
+            if(!t) return false;
+            const auto ubt = t->underBuildingType();
+            return ubt == eBuildingType::wall ||
+                   ubt == eBuildingType::tower;
+        };
+        if(!checker(tile)) return false;
         const auto bl = tile->tileRel(0, 1);
-        if(!bl) return false;
+        if(!checker(bl)) return false;
         const auto br = tile->tileRel(1, 0);
-        if(!br) return false;
+        if(!checker(br)) return false;
         const auto b = tile->tileRel(1, 1);
-        if(!b) return false;
-        const auto blt = bl->underBuildingType();
-        const auto brt = br->underBuildingType();
-        const auto bt = b->underBuildingType();
-        if(blt != eBuildingType::wall ||
-           brt != eBuildingType::wall ||
-           bt != eBuildingType::wall) return false;
+        if(!checker(b)) return false;
         return true;
     };
     const auto fail = [this]() {
