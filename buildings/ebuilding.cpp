@@ -222,9 +222,9 @@ void eBuilding::setOverlayEnabledFunc(const std::function<bool()>& e) {
 }
 
 bool eBuilding::defend(const double a) {
-    if(mHp < 0) return true;
+    if(mHp <= 0) return true;
     mHp -= a;
-    if(mHp < 0) {
+    if(mHp <= 0) {
         collapse();
         return true;
     } else {
@@ -233,5 +233,11 @@ bool eBuilding::defend(const double a) {
 }
 
 bool eBuilding::dead() const {
-    return mHp < 0;
+    return mHp <= 0;
+}
+
+bool eBuilding::attackable() const {
+    return mType != eBuildingType::road &&
+           mType != eBuildingType::ruins &&
+           mType != eBuildingType::templeTile;
 }

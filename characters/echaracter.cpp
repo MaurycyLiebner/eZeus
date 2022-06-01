@@ -123,10 +123,15 @@ bool eCharacter::isSoldier() const {
 }
 
 bool eCharacter::defend(const double a) {
-    if(hp() < 0) return true;
+    if(dead()) return true;
     setHP(hp() - a);
-    if(hp() < 0) {
-        const auto a = e::make_shared<eDieAction>(this, []() {});
+    if(hp() <= 0) {
+        const stdptr<eCharacter> c;
+        const auto finish = [c]() {
+            if(!c) return;
+            c->deleteLater();
+        };
+        const auto a = e::make_shared<eDieAction>(this, finish);
         setAction(a);
         return true;
     } else {

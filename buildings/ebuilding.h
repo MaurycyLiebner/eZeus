@@ -194,6 +194,8 @@ public:
 
     bool defend(const double a);
     bool dead() const;
+
+    bool attackable() const;
 private:
     std::vector<eTile*> mUnderBuilding;
     SDL_Rect mTileRect;

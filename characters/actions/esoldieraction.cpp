@@ -136,6 +136,7 @@ void eSoldierAction::increment(const int by) {
             const auto ub = t->underBuilding();
             if(!ub) continue;
             if(ub->playerId() == pid) continue;
+            if(!ub->attackable()) continue;
             mAttackTarget = eAttackTarget(ub);
             mAttack = true;
             mAttackTime = 0;
