@@ -80,7 +80,10 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
     fGreekRockThrower(renderer),
     fGreekHoplite(renderer),
-    fGreekHorseman(renderer) {
+    fGreekHorseman(renderer),
+
+    fBannerRod(renderer),
+    fBannerTops(renderer) {
 
 }
 
@@ -490,5 +493,26 @@ void eCharacterTextures::load() {
 
         fSelected = std::make_shared<eTexture>();
         fSelected->load(fRenderer, pathBase + "08436.png");
+    }
+
+    {
+        const std::string pathBase{dir + "Zeus_General/Zeus_Banners_"};
+
+        for(int i = 1; i < 22; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fBannerRod);
+        }
+
+        int ban = 0;
+        for(int i = 43; i < 204;) {
+            fBanners.emplace_back(fRenderer);
+            auto& bani = fBanners[ban++];
+            for(int j = 0; j < 7; j++, i++) {
+                eTextureLoadingHelpers::loadTex(pathBase, i, bani);
+            }
+        }
+
+        for(int i = 204; i < 207; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fBannerTops);
+        }
     }
 }
