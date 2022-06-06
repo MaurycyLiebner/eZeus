@@ -29,7 +29,10 @@ protected:
     void finishResourceAction(const eCartTask& task);
 private:
     void waitOutside();
+    void spread();
     void clearTask();
+
+    void disappear();
 
     eBuildingWithResource* const mBuilding;
 

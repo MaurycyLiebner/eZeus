@@ -14,6 +14,8 @@ public:
 
     eOverlay getSecondaryTexture(const eTileSize size) const;
 
+    bool isOx() const { return mIsOx; }
+
     void setIsOx(const bool o);
     void setBigTrailer(const bool b);
 
@@ -23,7 +25,7 @@ public:
     void setResource(const eResourceType type,
                      const int count);
 
-    void compress();
+    void setActionType(const eCharacterActionType t);
 private:
     int mResourceCount = 0;
     eResourceType mResourceType = eResourceType::none;

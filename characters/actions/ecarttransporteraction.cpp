@@ -203,7 +203,9 @@ void eCartTransporterAction::startResourceAction(const eCartTask& task) {
         if(c->resCount() == 0) c->setResource(task.fResource, 0);
         return;
     } else { //give
-        const int t = mBuilding->take(task.fResource, task.fMaxCount);
+        const int max = eResourceTypeHelpers::transportSize(task.fResource);
+        const int mmax = std::min(max, task.fMaxCount);
+        const int t = mBuilding->take(task.fResource, mmax);
         if(t <= 0) {
             clearTask();
         } else {
@@ -214,13 +216,14 @@ void eCartTransporterAction::startResourceAction(const eCartTask& task) {
 
 void eCartTransporterAction::finishResourceAction(const eCartTask& task) {
     const auto c = static_cast<eCartTransporter*>(character());
-    if(c->resCount() <= 0) return;
+    if(c->resCount() <= 0) return disappear();
     if(task.fMaxCount <= 0) return;
     if(task.fResource != c->resType()) return;
     if(task.fType == eCartActionType::take) {
         const int crc = c->resCount();
         const int a = mBuilding->add(task.fResource, crc);
         c->setResource(task.fResource, crc - a);
+        if(c->resCount() <= 0) return disappear();
     } else { //give
         return;
     }
@@ -240,12 +243,10 @@ void eCartTransporterAction::waitOutside() {
     if(!tt) return;
     mWaitOutside = true;
 
-    const auto ct = static_cast<eCartTransporter*>(c);
-    const stdptr<eCartTransporter> cptr(ct);
-    const auto stand = [cptr]() {
-        if(!cptr) return;
-        cptr->setActionType(eCharacterActionType::stand);
-        cptr->compress();
+    const stdptr<eCartTransporterAction> tptr(this);
+    const auto stand = [tptr]() {
+        if(!tptr) return;
+        tptr->spread();
     };
     const auto a = e::make_shared<eMoveToAction>(c, stand, stand);
 
@@ -257,7 +258,42 @@ void eCartTransporterAction::waitOutside() {
     setCurrentAction(a);
 }
 
+void eCartTransporterAction::spread() {
+    const auto c = character();
+    const auto ct = static_cast<eCartTransporter*>(c);
+    if(!ct->isOx()) return;
+
+    const stdptr<eCartTransporter> cptr(ct);
+    const auto stand = [cptr]() {
+        if(!cptr) return;
+        cptr->setActionType(eCharacterActionType::stand);
+    };
+    const auto a = e::make_shared<eMoveToAction>(c, stand, stand);
+
+    const auto ctt = ct->tile();
+    const int tx = ctt->x();
+    const int ty = ctt->y();
+
+    const auto finalFunc = [tx, ty](eTileBase* const t) {
+        const int ttx = t->x();
+        const int tty = t->y();
+        const int dx = tx - ttx;
+        const int dy = ty - tty;
+        return sqrt(dx*dx + dy*dy) > 4;
+    };
+    a->setRemoveLastTurn(true);
+    a->start(finalFunc, eWalkableHelpers::sRoadWalkable);
+
+    setCurrentAction(a);
+}
+
 void eCartTransporterAction::clearTask() {
     mTask.fMaxCount = 0;
     setCurrentAction(nullptr);
+}
+
+void eCartTransporterAction::disappear() {
+    const auto c = character();
+    const auto ct = static_cast<eCartTransporter*>(c);
+    if(ct->resCount() == 0) ct->setResource(eResourceType::wine, 0);
 }

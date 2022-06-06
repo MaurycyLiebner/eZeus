@@ -174,3 +174,35 @@ std::shared_ptr<eTexture> eResourceTypeHelpers::icon(
         return nullptr;
     }
 }
+
+int eResourceTypeHelpers::transportSize(const eResourceType type) {
+    switch(type) {
+    case eResourceType::urchin:
+    case eResourceType::fish:
+    case eResourceType::meat:
+    case eResourceType::cheese:
+    case eResourceType::carrots:
+    case eResourceType::onions:
+    case eResourceType::wheat:
+    case eResourceType::oranges:
+
+    case eResourceType::food:
+
+    case eResourceType::grapes:
+    case eResourceType::olives:
+    case eResourceType::wine:
+    case eResourceType::oliveOil:
+    case eResourceType::fleece:
+
+    case eResourceType::wood:
+    case eResourceType::bronze:
+    case eResourceType::marble:
+
+    case eResourceType::armor:
+        return 4;
+    case eResourceType::sculpture:
+        return 1;
+    default: break;
+    }
+    return 0;
+}

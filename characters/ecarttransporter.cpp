@@ -35,6 +35,8 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
     case eResourceType::carrots:
     case eResourceType::onions:
     case eResourceType::wheat:
+    case eResourceType::oranges:
+
     case eResourceType::grapes:
     case eResourceType::olives:
         ci = std::clamp(rCount/4, 0, 2);
@@ -201,9 +203,7 @@ void eCartTransporter::setResource(const eResourceType type,
     }
 }
 
-void eCartTransporter::compress() {
-    if(mIsOx) {
-        mOx->changeTile(tile());
-        mTrailer->changeTile(tile());
-    }
+void eCartTransporter::setActionType(const eCharacterActionType t) {
+    eCharacterBase::setActionType(t);
+    if(mOx) mOx->setActionType(t);
 }
