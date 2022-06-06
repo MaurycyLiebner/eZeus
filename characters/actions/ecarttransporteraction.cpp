@@ -59,6 +59,7 @@ void eCartTransporterAction::findTarget(const eCartTask& task) {
 }
 
 void eCartTransporterAction::findTarget(const std::vector<eCartTask>& tasks) {
+    if(tasks.empty()) return;
     const auto c = character();
 
     const auto buildingRect = mBuilding->tileRect();
@@ -197,10 +198,15 @@ void eCartTransporterAction::startResourceAction(const eCartTask& task) {
     if(c->resCount() > 0) return;
     if(task.fMaxCount <= 0) return;
     if(task.fType == eCartActionType::take) {
+        if(c->resCount() == 0) c->setResource(task.fResource, 0);
         return;
     } else { //give
         const int t = mBuilding->take(task.fResource, task.fMaxCount);
-        c->setResource(task.fResource, t);
+        if(t <= 0) {
+            clearTask();
+        } else {
+            c->setResource(task.fResource, t);
+        }
     }
 }
 
@@ -220,4 +226,5 @@ void eCartTransporterAction::finishResourceAction(const eCartTask& task) {
 
 void eCartTransporterAction::clearTask() {
     mTask.fMaxCount = 0;
+    setCurrentAction(nullptr);
 }

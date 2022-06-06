@@ -47,6 +47,7 @@ void eMoveToAction::start(const eTileFinal& final,
         }
 
         if(tptr->mFoundAction) tptr->mFoundAction();
+        if(!tptr) return;
         const auto a  = e::make_shared<eMovePathAction>(
                             c, path, walkable,
                             failFunc, finishAction);
