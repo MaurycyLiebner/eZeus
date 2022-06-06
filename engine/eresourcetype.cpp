@@ -44,28 +44,72 @@ std::vector<eResourceType> eResourceTypeHelpers::extractResourceTypes(const eRes
 std::string eResourceTypeHelpers::typeName(const eResourceType type) {
     std::string key;
     switch(type) {
-    case eResourceType::urchin: key = "urchin";
-    case eResourceType::fish: key = "fish";
-    case eResourceType::meat: key = "meat";
-    case eResourceType::cheese: key = "cheese";
-    case eResourceType::carrots: key = "carrots";
-    case eResourceType::onions: key = "onions";
-    case eResourceType::wheat: key = "wheat";
-    case eResourceType::oranges: key = "oranges";
-    case eResourceType::food: key = "food";
-    case eResourceType::grapes: key = "grapes";
-    case eResourceType::olives: key = "olives";
-    case eResourceType::wine: key = "wine";
-    case eResourceType::oliveOil: key = "olive_oil";
-    case eResourceType::fleece: key = "fleece";
-    case eResourceType::wood: key = "wood";
-    case eResourceType::bronze: key = "bronze";
-    case eResourceType::marble: key = "marble";
-    case eResourceType::silver: key = "silver";
-    case eResourceType::armor: key = "armor";
-    case eResourceType::sculpture: key = "sculpture";
-    case eResourceType::horse: key = "horse";
-    default: key = "invalid";
+    case eResourceType::urchin:
+        key = "urchin";
+        break;
+    case eResourceType::fish:
+        key = "fish";
+        break;
+    case eResourceType::meat:
+        key = "meat";
+        break;
+    case eResourceType::cheese:
+        key = "cheese";
+        break;
+    case eResourceType::carrots:
+        key = "carrots";
+        break;
+    case eResourceType::onions:
+        key = "onions";
+        break;
+    case eResourceType::wheat:
+        key = "wheat";
+        break;
+    case eResourceType::oranges:
+        key = "oranges";
+        break;
+    case eResourceType::food:
+        key = "food";
+        break;
+    case eResourceType::grapes:
+        key = "grapes";
+        break;
+    case eResourceType::olives:
+        key = "olives";
+        break;
+    case eResourceType::wine:
+        key = "wine";
+        break;
+    case eResourceType::oliveOil:
+        key = "olive_oil";
+        break;
+    case eResourceType::fleece:
+        key = "fleece";
+        break;
+    case eResourceType::wood:
+        key = "wood";
+        break;
+    case eResourceType::bronze:
+        key = "bronze";
+        break;
+    case eResourceType::marble:
+        key = "marble";
+        break;
+    case eResourceType::silver:
+        key = "silver";
+        break;
+    case eResourceType::armor:
+        key = "armor";
+        break;
+    case eResourceType::sculpture:
+        key = "sculpture";
+        break;
+    case eResourceType::horse:
+        key = "horse";
+        break;
+    default:
+        key = "invalid";
+        break;
     }
     return eLanguage::text(key);
 }
