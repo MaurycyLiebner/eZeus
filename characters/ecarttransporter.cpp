@@ -200,3 +200,10 @@ void eCartTransporter::setResource(const eResourceType type,
         setIsOx(false);
     }
 }
+
+void eCartTransporter::compress() {
+    if(mIsOx) {
+        mOx->changeTile(tile());
+        mTrailer->changeTile(tile());
+    }
+}

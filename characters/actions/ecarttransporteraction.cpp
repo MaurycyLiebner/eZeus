@@ -17,14 +17,15 @@ bool eCartTransporterAction::decide() {
     const auto c = static_cast<eCartTransporter*>(character());
     const bool r = eWalkableHelpers::sTileUnderBuilding(
                        c->tile(), mBuilding);
-    if(r) {
+    if(r || mWaitOutside) {
         if(mTask.fMaxCount > 0) {
             finishResourceAction(mTask);
             clearTask();
         }
         if(mNoTarget) {
             mNoTarget = false;
-            wait(1000);
+            if(mWaitOutside) wait(1000);
+            else waitOutside();
         } else {
             int cc = c->resCount();
             if(cc > 0) {
@@ -125,6 +126,7 @@ void eCartTransporterAction::findTarget(const std::vector<eCartTask>& tasks) {
 
     a->setFoundAction([tptr, this, c, ttask]() {
         if(!tptr) return;
+        mWaitOutside = false;
         mTask = *ttask;
         startResourceAction(mTask);
         c->setActionType(eCharacterActionType::walk);
@@ -222,6 +224,37 @@ void eCartTransporterAction::finishResourceAction(const eCartTask& task) {
     } else { //give
         return;
     }
+}
+
+void eCartTransporterAction::waitOutside() {
+    if(mWaitOutside) return;
+    const auto neighs = mBuilding->neighbours();
+    if(neighs.empty()) return;
+    const auto c = character();
+    eTile* tt = nullptr;
+    for(const auto t : neighs) {
+        if(!t->hasRoad()) continue;
+        tt = t;
+        break;
+    }
+    if(!tt) return;
+    mWaitOutside = true;
+
+    const auto ct = static_cast<eCartTransporter*>(c);
+    const stdptr<eCartTransporter> cptr(ct);
+    const auto stand = [cptr]() {
+        if(!cptr) return;
+        cptr->setActionType(eCharacterActionType::stand);
+        cptr->compress();
+    };
+    const auto a = e::make_shared<eMoveToAction>(c, stand, stand);
+
+    const auto buildingRect = mBuilding->tileRect();
+    const auto w = eWalkableHelpers::sBuildingWalkable(
+                       buildingRect, eWalkableHelpers::sRoadWalkable);
+    a->start(tt, w);
+
+    setCurrentAction(a);
 }
 
 void eCartTransporterAction::clearTask() {

@@ -241,3 +241,45 @@ bool eBuilding::attackable() const {
            mType != eBuildingType::ruins &&
            mType != eBuildingType::templeTile;
 }
+
+std::vector<eTile*> eBuilding::neighbours() const {
+    std::vector<eTile*> result;
+
+    const int left = mTileRect.x - 1;
+    const int right = mTileRect.x + mTileRect.w + 1;
+    const int top = mTileRect.y - 1;
+    const int bottom = mTileRect.y + mTileRect.h + 1;
+
+    const auto& brd = getBoard();
+
+    int i;
+    int j;
+
+    const auto iiter = [&]() {
+        for(i = left + 1; i <= right - 1; i++) {
+            const auto t = brd.tile(i, j);
+            if(!t) continue;
+            result.push_back(t);
+        }
+    };
+
+    const auto jiter = [&]() {
+        for(j = top + 1; j <= bottom - 1; j++) {
+            const auto t = brd.tile(i, j);
+            if(!t) continue;
+            result.push_back(t);
+        }
+    };
+
+    j = top;
+    iiter();
+    j = bottom;
+    iiter();
+
+    i = left;
+    jiter();
+    i = right;
+    jiter();
+
+    return result;
+}

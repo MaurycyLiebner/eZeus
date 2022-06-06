@@ -196,6 +196,8 @@ public:
     bool dead() const;
 
     bool attackable() const;
+
+    std::vector<eTile*> neighbours() const;
 private:
     std::vector<eTile*> mUnderBuilding;
     SDL_Rect mTileRect;

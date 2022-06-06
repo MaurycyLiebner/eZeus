@@ -47,6 +47,7 @@ eMasonryShop::eMasonryShop(eGameBoard& board) :
                            r.get(), empty, empty);
         a->start(this);
         r->setAction(a);
+        r->setActionType(eCharacterActionType::walk);
     });
 }
 

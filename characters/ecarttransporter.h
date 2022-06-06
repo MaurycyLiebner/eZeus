@@ -22,6 +22,8 @@ public:
 
     void setResource(const eResourceType type,
                      const int count);
+
+    void compress();
 private:
     int mResourceCount = 0;
     eResourceType mResourceType = eResourceType::none;

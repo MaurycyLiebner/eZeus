@@ -28,6 +28,7 @@ protected:
     void startResourceAction(const eCartTask& task);
     void finishResourceAction(const eCartTask& task);
 private:
+    void waitOutside();
     void clearTask();
 
     eBuildingWithResource* const mBuilding;
@@ -35,6 +36,7 @@ private:
     eCartTask mTask;
 
     bool mNoTarget = false;
+    bool mWaitOutside = false;
 };
 
 #endif // ECARTTRANSPORTERACTION_H
