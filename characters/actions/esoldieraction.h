@@ -55,6 +55,8 @@ public:
     void beingAttacked(eSoldier* const ss);
     void beingAttacked(const int ttx, const int tty);
 private:
+    void goBackToBanner();
+
     int mForceId = 0;
     std::map<int, eForceGetter> mForceGetters;
     double mAngle{0.};

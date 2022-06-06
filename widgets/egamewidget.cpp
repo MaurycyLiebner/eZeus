@@ -121,6 +121,10 @@
 
 #include "missiles/emissile.h"
 
+#include "characters/esoldierbanner.h"
+
+#include "eiteratesquare.h"
+
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {}
 
@@ -1114,6 +1118,39 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         };
 
+        const auto drawBanners = [&]() {
+            const auto b = tile->banner();
+            if(!b) return;
+            {
+                const auto& rods = charTexs.fBannerRod;
+                const auto rod = rods.getTexture(0);
+                tp.drawTexture(rx, ry - 1, rod,
+                               eAlignment::hcenter | eAlignment::top);
+            }
+            {
+                const int id = b->id();
+                const auto& bnrs = charTexs.fBanners;
+                const auto& bnr = bnrs[id % bnrs.size()];
+                int texId;
+                if(b->selected()) {
+                    texId = (mFrame/10) % 6;
+                } else {
+                    texId = 6;
+                }
+                const auto tex = bnr.getTexture(texId);
+                tp.drawTexture(rx - 1, ry - 2.6, tex,
+                               eAlignment::hcenter | eAlignment::top);
+            }
+            {
+                const auto type = b->type();
+                const auto& tps = charTexs.fBannerTops;
+                const int itype = static_cast<int>(type);
+                const auto top = tps.getTexture(itype);
+                tp.drawTexture(rx - 2.5, ry -  3.5, top,
+                               eAlignment::hcenter | eAlignment::top);
+            }
+        };
+
         drawSheepGoat();
         drawPatrol();
         drawAppeal();
@@ -1133,6 +1170,7 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         drawPatrolGuides();
         drawSpawner();
+        drawBanners();
 
         drawClouds();
 
@@ -1992,10 +2030,9 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                         it.nextRow();
                         continue;
                     }
-                    for(const auto& c : tile->characters()) {
-                        if(!c->isSoldier()) continue;
-                        const auto s = static_cast<eSoldier*>(c.get());
-                        if(!s->selected()) mBoard->selectSoldier(s);
+                    const auto b = tile->banner();
+                    if(b) {
+                        if(!b->selected()) mBoard->selectSoldier(b);
                     }
                     ++it;
                 }
@@ -2017,41 +2054,31 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
     case eMouseButton::right: {
         const int hx = mHoverTX;
         const int hy = mHoverTY;
-
-        const auto ht = mBoard->tile(hx, hy);
-        if(!ht) return false;
-        if(!ht->walkable()) return false;
-
         const auto& solds = mBoard->selectedSoldiers();
 
-        const int cs = solds.size();
-        const int dim = ceil(sqrt(1.*cs));
-        const int hdim = ceil(0.5*dim);
+        const int n = solds.size();
+        if(n == 1) {
+            solds[0]->moveTo(hx, hy);
+        } else if(n > 0) {
+            int isld = 0;
+            const int slds = solds.size();
+            const int dist = 5;
 
-        std::vector<eTile*> tiles;
-        for(int i = hx - hdim; i < hx + hdim; i++) {
-            for(int j = hy - hdim; j < hy + hdim; j++) {
-                const auto t = mBoard->tile(i, j);
-                if(!t) continue;
-                if(!t->walkable()) continue;
-                tiles.push_back(t);
+            const auto prcsTile = [&](const int i, const int j) {
+                if(isld >= slds) return;
+                const int tx = hx + i;
+                const int ty = hy + j;
+                const auto tt = mBoard->tile(tx, ty);
+                if(!tt) return;
+                if(!tt->walkable()) return;
+
+                const auto s = solds[isld++];
+                s->moveTo(tx, ty);
+            };
+
+            for(int k = 0; isld < slds; k += dist) {
+                eIterateSquare::iterateSquare(k, prcsTile, dist);
             }
-        }
-        if(tiles.empty()) return false;
-
-        int tilei = 0;
-        for(const auto s : solds) {
-            if(s->dead()) continue;
-            const auto t = s->tile();
-            const int tx = t->x();
-            const int ty = t->y();
-
-            const auto tt = tiles[(tilei++) % tiles.size()];
-            const int ttx = tt->x();
-            const int tty = tt->y();
-
-            const auto a = s->soldierAction();
-            a->setPathForce(tx, ty, ttx, tty);
         }
     } break;
     default: return false;

@@ -9,6 +9,8 @@
 
 #include "missiles/erockmissile.h"
 
+#include "characters/esoldierbanner.h"
+
 eAttackTarget::eAttackTarget() :
     mC(nullptr), mB(nullptr) {}
 
@@ -225,6 +227,9 @@ void eSoldierAction::increment(const int by) {
             }
         }
     }
+    if(!hasForce(eForceType::reserved1)) {
+        goBackToBanner();
+    }
     if(!mForceGetters.empty()) {
         vec2d force{0, 0};
         const auto frcs = mForceGetters;
@@ -382,5 +387,23 @@ void eSoldierAction::beingAttacked(const int ttx, const int tty) {
     const auto t = c->tile();
     const int tx = t->x();
     const int ty = t->y();
+    setPathForce(tx, ty, ttx, tty);
+}
+
+void eSoldierAction::goBackToBanner() {
+    const auto c = character();
+    const auto s = static_cast<eSoldier*>(c);
+    const auto b = s->banner();
+    if(!b) return;
+
+    const auto ct = c->tile();
+    const int tx = ct->x();
+    const int ty = ct->y();
+
+    const auto tt = b->place(s);
+    if(!tt) return;
+
+    const int ttx = tt->x();
+    const int tty = tt->y();
     setPathForce(tx, ty, ttx, tty);
 }

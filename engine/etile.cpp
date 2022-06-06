@@ -188,6 +188,10 @@ void eTile::setSpawner(eSpawner* const s) {
     mSpawner = s;
 }
 
+void eTile::setBanner(eSoldierBanner* const b) {
+    mBanner = b;
+}
+
 void eTile::setFutureDimension(const int futureDim) {
     mFutureDim = futureDim;
 }

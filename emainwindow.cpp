@@ -176,6 +176,7 @@ void eMainWindow::showSettingsMenu() {
 #include "characters/ehoplite.h"
 #include "characters/erockthrower.h"
 #include "characters/egreekhoplite.h"
+#include "characters/esoldierbanner.h"
 #include "characters/actions/esoldieraction.h"
 void eMainWindow::showGame() {
     if(mWidget == mGW) return;
@@ -202,15 +203,35 @@ void eMainWindow::showGame() {
             h->setAction(a);
             h->changeTile(mBoard->tile(x, y));
             h->setActionType(eCharacterActionType::walk);
+            return h;
         };
+
+        eSoldierBanner* b = nullptr;
+        int bi = 8;
         for(int i = 10; i < 20; i += 1) {
             for(int j = 10; j < 20; j += 1) {
-                spawnHoplite(i, j, 1);
+                const auto s = spawnHoplite(i, j, 1);
+                if(bi >= 8) {
+                    b = new eSoldierBanner(eBannerType::rockThrower, 0, *mBoard);
+                    b->moveTo(i, j);
+                    bi = 0;
+                }
+                s->setBanner(b);
+                bi++;
             }
         }
+
+        bi = 8;
         for(int i = 30; i < 40; i += 1) {
             for(int j = 30; j < 40; j += 1) {
-                spawnHoplite(i, j, 2);
+                const auto s = spawnHoplite(i, j, 2);
+                if(bi >= 8) {
+                    b = new eSoldierBanner(eBannerType::hoplite, 0, *mBoard);
+                    b->moveTo(i, j);
+                    bi = 0;
+                }
+                s->setBanner(b);
+                bi++;
             }
         }
 

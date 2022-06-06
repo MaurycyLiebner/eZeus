@@ -19,6 +19,7 @@ class eCharacter;
 class eBuilding;
 class eBuildingRenderer;
 class eSpawner;
+class eSoldierBanner;
 
 class eTile : public eTileBase {
 public:
@@ -48,6 +49,9 @@ public:
 
     void setSpawner(eSpawner* const s);
     eSpawner* spawner() const { return mSpawner; }
+
+    void setBanner(eSoldierBanner* const b);
+    eSoldierBanner* banner() const { return mBanner; }
 
     // used for stones rendering
     void setFutureDimension(const int futureDim);
@@ -82,6 +86,7 @@ private:
     stdsptr<eBuilding> mUnderBuilding;
     stdsptr<eBuildingRenderer> mBuilding;
     eSpawner* mSpawner = nullptr;
+    eSoldierBanner* mBanner = nullptr;
 };
 
 #endif // ETILE_H

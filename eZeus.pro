@@ -168,6 +168,7 @@ SOURCES += \
         characters/eshepherdbase.cpp \
         characters/esilverminer.cpp \
         characters/esoldier.cpp \
+        characters/esoldierbanner.cpp \
         characters/etaxcollector.cpp \
         characters/etrailer.cpp \
         characters/ewatchman.cpp \
@@ -182,6 +183,7 @@ SOURCES += \
         characters/gods/egod.cpp \
         characters/gods/ehermes.cpp \
         egamedir.cpp \
+        eiteratesquare.cpp \
         elanguage.cpp \
         eloadtexthelper.cpp \
         emainwindow.cpp \
@@ -470,6 +472,7 @@ HEADERS += \
     characters/eshepherdbase.h \
     characters/esilverminer.h \
     characters/esoldier.h \
+    characters/esoldierbanner.h \
     characters/etaxcollector.h \
     characters/etrailer.h \
     characters/ewatchman.h \
@@ -484,6 +487,7 @@ HEADERS += \
     characters/gods/egod.h \
     characters/gods/ehermes.h \
     egamedir.h \
+    eiteratesquare.h \
     elanguage.h \
     eloadtexthelper.h \
     emainwindow.h \

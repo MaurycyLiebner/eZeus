@@ -1,6 +1,7 @@
 #include "esoldier.h"
 
 #include "engine/egameboard.h"
+#include "esoldierbanner.h"
 
 eSoldier::eSoldier(eGameBoard& board,
                    const eCharTexs charTexs,
@@ -12,6 +13,7 @@ eSoldier::eSoldier(eGameBoard& board,
 eSoldier::~eSoldier() {
     auto& brd = getBoard();
     brd.unregisterSoldier(this);
+    setBanner(nullptr);
 }
 
 eSoldierAction* eSoldier::soldierAction() const {
@@ -20,4 +22,18 @@ eSoldierAction* eSoldier::soldierAction() const {
 
 void eSoldier::setSoldierAction(const stdsptr<eSoldierAction>& a) {
     mAction = a;
+}
+
+eSoldierBanner* eSoldier::banner() const {
+    return mBanner;
+}
+
+void eSoldier::setBanner(eSoldierBanner* const b) {
+    if(mBanner) {
+        mBanner->removeSoldier(this);
+    }
+    mBanner = b;
+    if(mBanner) {
+        mBanner->addSoldier(this);
+    }
 }

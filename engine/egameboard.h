@@ -25,6 +25,7 @@ class eSpawner;
 class eCharacter;
 class eBuilding;
 class eStorageBuilding;
+class eSoldierBanner;
 
 class eThreadPool;
 
@@ -114,8 +115,8 @@ public:
     void registerCharacter(eCharacter* const c);
     bool unregisterCharacter(eCharacter* const c);
 
-    void registerSoldier(eCharacter* const c);
-    bool unregisterSoldier(eCharacter* const c);
+    void registerSoldier(eSoldier* const c);
+    bool unregisterSoldier(eSoldier* const c);
 
     void registerBuilding(eBuilding* const b);
     bool unregisterBuilding(eBuilding* const b);
@@ -191,10 +192,10 @@ public:
     eWorldBoard& getWorldBoard() { return mWorldBoard; }
 
     void clearSoldierSelection();
-    void deselectSoldier(eSoldier* const c);
-    void selectSoldier(eSoldier* const c);
-    const std::vector<eSoldier*>& selectedSoldiers() const
-    { return mSelectedSoldiers; }
+    void deselectSoldier(eSoldierBanner* const c);
+    void selectSoldier(eSoldierBanner* const c);
+    const std::vector<eSoldierBanner*>& selectedSoldiers() const
+    { return mSelectedBanners; }
 private:
     void updateDiagonalArray();
     void updateNeighbours();
@@ -251,12 +252,14 @@ private:
 
     std::vector<eStorageBuilding*> mStorBuildings;
     std::vector<eCharacter*> mCharacters;
-    std::vector<eCharacter*> mSoldiers;
+    std::vector<eSoldier*> mSoldiers;
     std::vector<eBuilding*> mBuildings;
     std::vector<eSpawner*> mSpawners;
     std::vector<eMissile*> mMissiles;
 
-    std::vector<eSoldier*> mSelectedSoldiers;
+    std::vector<stdsptr<eSoldierBanner>> mBanners;
+
+    std::vector<eSoldierBanner*> mSelectedBanners;
 
     int mStadiumCount = 0;
     int mPalaceCount = 0;

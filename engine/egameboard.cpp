@@ -15,6 +15,7 @@
 #include "characters/actions/egodvisitaction.h"
 
 #include "characters/esoldier.h"
+#include "characters/esoldierbanner.h"
 
 #include "buildings/sanctuaries/esanctbuilding.h"
 
@@ -88,23 +89,23 @@ void eGameBoard::updateAppealMap() {
 }
 
 void eGameBoard::clearSoldierSelection() {
-    for(const auto s : mSelectedSoldiers) {
+    for(const auto s : mSelectedBanners) {
         s->setSelected(false);
     }
-    mSelectedSoldiers.clear();
+    mSelectedBanners.clear();
 }
 
-void eGameBoard::deselectSoldier(eSoldier* const c) {
-    const auto it = std::find(mSelectedSoldiers.begin(),
-                              mSelectedSoldiers.end(), c);
-    if(it != mSelectedSoldiers.end()) {
-        mSelectedSoldiers.erase(it);
+void eGameBoard::deselectSoldier(eSoldierBanner* const c) {
+    const auto it = std::find(mSelectedBanners.begin(),
+                              mSelectedBanners.end(), c);
+    if(it != mSelectedBanners.end()) {
+        mSelectedBanners.erase(it);
     }
     c->setSelected(false);
 }
 
-void eGameBoard::selectSoldier(eSoldier* const c) {
-    mSelectedSoldiers.push_back(c);
+void eGameBoard::selectSoldier(eSoldierBanner* const c) {
+    mSelectedBanners.push_back(c);
     c->setSelected(true);
 }
 
@@ -176,13 +177,6 @@ void eGameBoard::registerCharacter(eCharacter* const c) {
 }
 
 bool eGameBoard::unregisterCharacter(eCharacter* const c) {
-    {
-        const auto it = std::find(mSelectedSoldiers.begin(),
-                                  mSelectedSoldiers.end(), c);
-        if(it != mSelectedSoldiers.end()) {
-            mSelectedSoldiers.erase(it);
-        }
-    }
     const auto it = std::find(mCharacters.begin(),
                               mCharacters.end(), c);
     if(it == mCharacters.end()) return false;
@@ -190,11 +184,11 @@ bool eGameBoard::unregisterCharacter(eCharacter* const c) {
     return true;
 }
 
-void eGameBoard::registerSoldier(eCharacter* const c) {
+void eGameBoard::registerSoldier(eSoldier* const c) {
     mSoldiers.push_back(c);
 }
 
-bool eGameBoard::unregisterSoldier(eCharacter* const c) {
+bool eGameBoard::unregisterSoldier(eSoldier* const c) {
     const auto it = std::find(mSoldiers.begin(), mSoldiers.end(), c);
     if(it == mSoldiers.end()) return false;
     mSoldiers.erase(it);

@@ -4,6 +4,7 @@
 #include "efightingpatroler.h"
 
 class eSoldierAction;
+class eSoldierBanner;
 
 class eSoldier : public eFightingPatroler {
 public:
@@ -21,7 +22,12 @@ public:
 
     int range() const { return mRange; }
     void setRange(const int r) { mRange = r; }
+
+    eSoldierBanner* banner() const;
+    void setBanner(eSoldierBanner* const b);
 private:
+    eSoldierBanner* mBanner = nullptr;
+
     int mRange = 0;
     stdsptr<eSoldierAction> mAction;
     bool mSelected = false;
