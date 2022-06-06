@@ -17,6 +17,9 @@ private:
     const stdptr<eCartTransporter> mFollow;
 
     bool mIsBig = false;
+
+    mutable int mResCount = 0;
+    mutable eResourceType mResType = eResourceType::marble;
 };
 
 #endif // ETRAILER_H

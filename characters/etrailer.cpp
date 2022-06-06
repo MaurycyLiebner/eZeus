@@ -9,13 +9,14 @@ eTrailer::eTrailer(eCartTransporter* const follow,
 
 std::shared_ptr<eTexture>
 eTrailer::getTexture(const eTileSize size) const {
-    if(!mFollow) return nullptr;
     const int id = static_cast<int>(size);
     const auto& charTexs = eGameTextures::characters()[id];
     const int oid = static_cast<int>(orientation());
     const eTextureCollection* coll = nullptr;
-    const int resCount = mFollow->resCount();
-    const auto resType = mFollow->resType();
+    const int resCount = mFollow ? mFollow->resCount() : mResCount;
+    const auto resType = mFollow ? mFollow->resType() : mResType;
+    mResCount = resCount;
+    mResType = resType;
     if(resCount <= 0) {
         if(mIsBig) {
             coll = &charTexs.fEmptyBigTrailer;
