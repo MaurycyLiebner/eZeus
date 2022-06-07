@@ -22,6 +22,7 @@ public:
                         const eResourceType product,
                         const int rawUse,
                         const int time);
+    ~eProcessingBuilding();
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
@@ -43,6 +44,8 @@ private:
     const double mOverlayY;
 
     const eResourceType mRawMaterial;
+
+    stdsptr<eCartTransporter> mTakeCart;
 
     const int mMaxRaw = 4;
     const int mRawUse;

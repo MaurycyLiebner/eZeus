@@ -4,8 +4,7 @@
 #include "ebuilding.h"
 
 #include "engine/eresourcetype.h"
-
-class eCartTransporter;
+#include "characters/ecarttransporter.h"
 
 enum class eCartActionType {
     take, give
@@ -46,7 +45,9 @@ public:
         return {};
     }
 protected:
-    bool spawnCart(stdsptr<eCartTransporter>& cart);
+    bool spawnCart(stdsptr<eCartTransporter>& cart,
+                   const eCartActionTypeSupport s =
+                    eCartActionTypeSupport::both);
 };
 
 #endif // EBUILDINGWITHRESOURCE_H

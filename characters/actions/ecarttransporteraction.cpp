@@ -17,6 +17,7 @@ bool eCartTransporterAction::decide() {
     const auto c = static_cast<eCartTransporter*>(character());
     const bool r = eWalkableHelpers::sTileUnderBuilding(
                        c->tile(), mBuilding);
+    c->setWaiting(mWaitOutside || r);
     if(r || mWaitOutside) {
         if(mTask.fMaxCount > 0) {
             finishResourceAction(mTask);
@@ -24,16 +25,20 @@ bool eCartTransporterAction::decide() {
         }
         if(mNoTarget) {
             mNoTarget = false;
-            if(mWaitOutside) wait(1000);
-            else waitOutside();
+            const bool hr = c->hasResource();
+            if(!hr || mWaitOutside) wait(1000);
+            else if(hr) waitOutside();
         } else {
             int cc = c->resCount();
             if(cc > 0) {
-                const auto rt = c->resType();
-                const int r = mBuilding->add(rt, cc);
-                c->setResource(rt, cc - r);
+                const auto supp = support();
+                if(supp & eCartActionTypeSupport::take) {
+                    const auto rt = c->resType();
+                    const int r = mBuilding->add(rt, cc);
+                    c->take(rt, r);
+                }
                 int cc = c->resCount();
-                if(cc > 0) {
+                if(cc > 0 && supp & eCartActionTypeSupport::give) {
                     eCartTask task;
                     task.fMaxCount = cc;
                     task.fResource = c->resType();
@@ -50,9 +55,28 @@ bool eCartTransporterAction::decide() {
     return true;
 }
 
+eCartActionTypeSupport eCartTransporterAction::support() const {
+    const auto c = character();
+    const auto ct = static_cast<eCartTransporter*>(c);
+    return ct->support();
+}
+
 void eCartTransporterAction::findTarget() {
     const auto tasks = mBuilding->cartTasks();
-    findTarget(tasks);
+    const auto supp = support();
+    if(supp == eCartActionTypeSupport::both) {
+        findTarget(tasks);
+    } else {
+        std::vector<eCartTask> handled;
+        const bool supportGive = supp & eCartActionTypeSupport::give;
+        const bool supportTake = supp & eCartActionTypeSupport::take;
+        for(const auto& t : tasks) {
+            if(t.fType == eCartActionType::give && !supportGive) continue;
+            if(t.fType == eCartActionType::take && !supportTake) continue;
+            handled.push_back(t);
+        }
+        findTarget(handled);
+    }
 }
 
 void eCartTransporterAction::findTarget(const eCartTask& task) {

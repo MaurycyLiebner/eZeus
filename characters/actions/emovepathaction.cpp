@@ -15,8 +15,9 @@ eCharacterActionState eMovePathAction::nextTurn(eOrientation& turn) {
     if(mTurns.empty()) return eCharacterActionState::finished;
     turn = mTurns.back();
     mTurns.pop_back();
-
-    const auto t = character()->tile();
+    const auto c = character();
+    const auto t = c->tile();
+    if(!t) return eCharacterActionState::failed;
     const auto tt = t->neighbour(turn);
     if(!tt) return eCharacterActionState::failed;
     return eCharacterActionState::running;

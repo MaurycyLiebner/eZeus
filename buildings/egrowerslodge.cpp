@@ -94,7 +94,7 @@ std::vector<eOverlay> eGrowersLodge::
 
 void eGrowersLodge::timeChanged(const int by) {
     if(enabled()) {
-        if(!mCart) spawnCart(mCart);
+        if(!mCart) spawnCart(mCart, eCartActionTypeSupport::give);
         if(!mGrower1) spawnGrower(&eGrowersLodge::mGrower1);
         if(!mGrower2) spawnGrower(&eGrowersLodge::mGrower2);
     }

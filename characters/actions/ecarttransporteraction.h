@@ -14,6 +14,8 @@ public:
                            const eAction& finishAction);
 
     bool decide();
+
+    eCartActionTypeSupport support() const;
 protected:
     void findTarget();
     void findTarget(const eCartTask& task);

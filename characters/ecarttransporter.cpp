@@ -203,6 +203,27 @@ void eCartTransporter::setResource(const eResourceType type,
     }
 }
 
+int eCartTransporter::add(const eResourceType type, const int count) {
+    if(count <= 0) return 0;
+    const bool comp = mResourceType == type ||
+                      mResourceCount <= 0;
+    if(!comp) return 0;
+    const int maxResource = eResourceTypeHelpers::transportSize(type);
+    const int r = std::clamp(mResourceCount + count, 0, maxResource);
+    const int result = r - mResourceCount;
+    setResource(type, r);
+    return result;
+}
+
+int eCartTransporter::take(const eResourceType type, const int count) {
+    if(count <= 0) return 0;
+    if(type != mResourceType) return 0;
+
+    const int result = std::clamp(count, 0, mResourceCount);
+    setResource(type, mResourceCount - result);
+    return result;
+}
+
 void eCartTransporter::setActionType(const eCharacterActionType t) {
     eCharacterBase::setActionType(t);
     if(mOx) mOx->setActionType(t);

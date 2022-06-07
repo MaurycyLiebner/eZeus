@@ -19,7 +19,12 @@ eResourceBuildingBase::~eResourceBuildingBase() {
 
 void eResourceBuildingBase::timeChanged(const int by) {
     if(enabled()) {
-        if(!mCart) spawnCart(mCart);
+        if(!mCart) {
+            spawnCart(mCart, eCartActionTypeSupport::give);
+        } else if(mCart && mCart->waiting() && mResource > 0) {
+            const int a = mCart->add(mResType, mResource);
+            mResource -= a;
+        }
     }
     eEmployingBuilding::timeChanged(by);
 }

@@ -73,7 +73,7 @@ int eVendor::spaceLeft(const eResourceType type) const {
 
 void eVendor::timeChanged(const int by) {
     if(enabled()) {
-        if(!mCart) spawnCart(mCart);
+        if(!mCart) spawnCart(mCart, eCartActionTypeSupport::take);
     }
     ePatrolBuilding::timeChanged(by);
 }

@@ -5,7 +5,8 @@
 #include "characters/actions/efollowaction.h"
 
 bool eBuildingWithResource::spawnCart(
-        stdsptr<eCartTransporter>& cart) {
+        stdsptr<eCartTransporter>& cart,
+        const eCartActionTypeSupport s) {
     const auto t = centerTile();
     auto& board = getBoard();
 
@@ -24,5 +25,6 @@ bool eBuildingWithResource::spawnCart(
                        this, cart.get(),
                        finishAct, finishAct);
     cart->setAction(a);
+    cart->setSupport(s);
     return true;
 }

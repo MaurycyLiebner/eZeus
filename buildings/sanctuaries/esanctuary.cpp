@@ -31,7 +31,7 @@ void eSanctuary::useResources(const eSanctCost& r) {
 }
 
 void eSanctuary::timeChanged(const int by) {
-    if(!mCart) spawnCart(mCart);
+    if(!mCart) spawnCart(mCart, eCartActionTypeSupport::take);
     eEmployingBuilding::timeChanged(by);
 }
 
