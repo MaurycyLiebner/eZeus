@@ -208,9 +208,22 @@ bool eGameWidget::buildMouseRelease() {
             };
             break;
         case eBuildingMode::commonHousing:
-            apply = [this](eTile* const tile) {
-                build(tile->x(), tile->y(), 2, 2,
-                      [this]() { return e::make_shared<eSmallHouse>(*mBoard); });
+            apply = [this](eTile*) {
+                const int sMinX = std::min(mPressedTX, mHoverTX);
+                const int sMinY = std::min(mPressedTY, mHoverTY);
+                const int sMaxX = std::max(mPressedTX, mHoverTX);
+                const int sMaxY = std::max(mPressedTY, mHoverTY);
+
+                for(int x = sMinX; x <= sMaxX; x++) {
+                    for(int y = sMinY - 1; y <= sMaxY; y++) {
+                        const bool cb = canBuildBase(x, x + 2, y, y + 2);
+                        if(!cb) continue;
+                        const auto t = mBoard->tile(x, y);
+                        if(!t) continue;
+                        build(t->x(), t->y() + 1, 2, 2,
+                              [this]() { return e::make_shared<eSmallHouse>(*mBoard); });
+                    }
+                }
             };
             break;
         case eBuildingMode::gymnasium:

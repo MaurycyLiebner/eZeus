@@ -123,6 +123,7 @@ bool eSmallHouse::lowFood() const {
 void eSmallHouse::updateLevel() {
     const auto& b = getBoard();
     const auto t = centerTile();
+    if(!t) return;
     const int tx = t->x();
     const int ty = t->y();
     const double appeal = b.appeal(tx ,ty);

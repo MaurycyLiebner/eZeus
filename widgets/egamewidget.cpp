@@ -1232,9 +1232,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     }
 
-    const bool pressed = SDL_GetMouseState(nullptr, nullptr) &
-                         SDL_BUTTON_LMASK;
-    if(pressed) {
+    if(mLeftPressed) {
         if(mode == eBuildingMode::vine ||
            mode == eBuildingMode::oliveTree ||
            mode == eBuildingMode::orangeTree) {
@@ -1312,7 +1310,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             std::vector<SDL_Rect> rects;
             const auto& tex = trrTexs.fBuildingBase;
             for(int x = sMinX; x <= sMaxX; x++) {
-                for(int y = sMinY; y <= sMaxY; y++) {
+                for(int y = sMinY - 1; y <= sMaxY; y++) {
                     const SDL_Rect rect{x, y, 2, 2};
                     bool cbr = true;
                     for(const auto& r : rects) {
@@ -1323,7 +1321,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                         }
                     }
                     if(!cbr) continue;
-                    const bool cb = canBuild(x, y, 2, 2);
+                    const bool cb = canBuildBase(x, x + 2, y, y + 2);
                     if(!cb) continue;
                     double rx;
                     double ry;
