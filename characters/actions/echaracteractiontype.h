@@ -18,6 +18,7 @@ enum class eCharacterActionType {
     collectOranges,
     carry,
     appear,
+    disappear,
     bless,
     patrol,
     build,

@@ -31,6 +31,7 @@ std::shared_ptr<eTexture> eExtendedGod::getTexture(const eTileSize size) const {
     case eCharacterActionType::walk:
         coll = &atn.fWalk[oid];
         break;
+    case eCharacterActionType::disappear:
     case eCharacterActionType::die:
         wrap = false;
         coll = &atn.fDisappear;

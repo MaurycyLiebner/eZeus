@@ -99,7 +99,7 @@ void eGodVisitAction::run() {
 void eGodVisitAction::disappear() {
     const auto c = character();
     auto& board = c->getBoard();
-    c->setActionType(eCharacterActionType::die);
+    c->setActionType(eCharacterActionType::disappear);
     const auto a = e::make_shared<eWaitAction>(c, [](){}, [](){});
     a->setTime(500);
     setCurrentAction(a);

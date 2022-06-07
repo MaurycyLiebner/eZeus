@@ -11,6 +11,7 @@ eDionysus::getTexture(const eTileSize size) const {
     const auto& godTexs = eGameTextures::gods()[id];
     const auto& texs = godTexs.fDionysus;
     const eTextureCollection* coll = nullptr;
+    bool reverse = false;
     bool wrap = true;
     const int oid = static_cast<int>(orientation());
     const auto a = actionType();
@@ -30,6 +31,11 @@ eDionysus::getTexture(const eTileSize size) const {
         wrap = false;
         coll = &texs.fDisappear;
         break;
+    case eCharacterActionType::disappear:
+        reverse = true;
+        wrap = false;
+        coll = &texs.fAppear;
+        break;
     case eCharacterActionType::appear:
         wrap = false;
         coll = &texs.fAppear;
@@ -41,6 +47,9 @@ eDionysus::getTexture(const eTileSize size) const {
     const int s = coll->size();
     if(!coll || s == 0) return std::shared_ptr<eTexture>();
     int t = textureTime() - actionStartTime();
+    if(reverse) {
+        t = coll->size() - t;
+    }
     if(!wrap) t = std::clamp(t, 0, s - 1);
     const int texId = t % s;
     return coll->getTexture(texId);
