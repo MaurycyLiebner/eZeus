@@ -134,3 +134,16 @@ selling "Selling"
 ok "Ok"
 
 of " of "
+
+; cities
+athens "Athens"
+sparta "Sparta"
+knossos "Knossos"
+corinth "Corinth"
+olympia "Olympia"
+egypt "Egypt"
+cyprus "Cyprus"
+troy "Troy"
+mt_pelion "Mt. Pelion"
+sardis "Sardis"
+hattusas "Hattusas"

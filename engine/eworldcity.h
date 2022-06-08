@@ -4,17 +4,18 @@
 #include <string>
 
 #include "eresourcetype.h"
+#include "pointers/estdselfref.h"
 
 enum class eWorldCityType {
     mainCity,
     collony,
     disabledColony,
 
-    foreignCity1,
-    foreignCity2,
-    foreignCity3,
-    foreignCity4,
-    foreignCity5,
+    greekCity,
+    trojanCity,
+    persianCity,
+    centaurCity,
+    amazonCity,
 
     place,
     ruins,
@@ -130,6 +131,33 @@ public:
     const std::vector<eResourceTrade>& sells() const
     { return mSells; }
     void addSells(const eResourceTrade& s);
+
+    static stdsptr<eWorldCity> sCreateAthens(
+            const eWorldCityType type = eWorldCityType::greekCity);
+    static stdsptr<eWorldCity> sCreateSparta(
+            const eWorldCityType type = eWorldCityType::greekCity);
+    static stdsptr<eWorldCity> sCreateKnossos(
+            const eWorldCityType type = eWorldCityType::greekCity);
+    static stdsptr<eWorldCity> sCreateCorinth(
+            const eWorldCityType type = eWorldCityType::greekCity);
+    static stdsptr<eWorldCity> sCreateOlympia(
+            const eWorldCityType type = eWorldCityType::greekCity);
+
+    static stdsptr<eWorldCity> sCreateEgypt(
+            const eWorldCityType type = eWorldCityType::distantCitySE);
+    static stdsptr<eWorldCity> sCreateCyprus(
+            const eWorldCityType type = eWorldCityType::distantCitySE);
+
+    static stdsptr<eWorldCity> sCreateTroy(
+            const eWorldCityType type = eWorldCityType::trojanCity);
+
+    static stdsptr<eWorldCity> sCreateMtPelion(
+            const eWorldCityType type = eWorldCityType::centaurCity);
+
+    static stdsptr<eWorldCity> sCreateSardis(
+            const eWorldCityType type = eWorldCityType::persianCity);
+    static stdsptr<eWorldCity> sCreateHattusas(
+            const eWorldCityType type = eWorldCityType::persianCity);
 private:
     int mArmy = 0;
     int mWealth = 0;

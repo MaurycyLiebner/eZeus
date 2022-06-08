@@ -237,19 +237,20 @@ void eMainWindow::showGame() {
 
         auto& wb = mBoard->getWorldBoard();
 
-        const auto hc = std::make_shared<eWorldCityBase>(
-                            eWorldCityType::mainCity, "Sparta", 0.5, 0.5);
+        const auto hc = eWorldCity::sCreateSparta(eWorldCityType::mainCity);
         wb.setHomeCity(hc);
 
-        const auto c1 = std::make_shared<eWorldCity>(
-                            eWorldCityType::collony, "Athens", 0.25, 0.25);
+        const auto c1 = eWorldCity::sCreateAthens();
         c1->addBuys(eResourceTrade{eResourceType::marble, 0, 12, 120});
         c1->addBuys(eResourceTrade{eResourceType::wood, 0, 12, 80});
         c1->addSells(eResourceTrade{eResourceType::fleece, 0, 12, 60});
         wb.addCity(c1);
 
-        const auto c2 = std::make_shared<eWorldCity>(
-                            eWorldCityType::foreignCity1, "Troy", 0.55, 0.3);
+        const auto c2 = eWorldCity::sCreateTroy();
+        c2->addBuys(eResourceTrade{eResourceType::armor, 0, 12, 120});
+        c2->addBuys(eResourceTrade{eResourceType::wheat, 0, 12, 80});
+        c2->addSells(eResourceTrade{eResourceType::sculpture, 0, 12, 200});
+        c2->addSells(eResourceTrade{eResourceType::bronze, 0, 12, 80});
         wb.addCity(c2);
 
         eMusic::playRandomMusic();
