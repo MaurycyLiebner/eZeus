@@ -24,6 +24,7 @@
 class eSpawner;
 class eCharacter;
 class eBuilding;
+class eTradePost;
 class eStorageBuilding;
 class eSoldierBanner;
 
@@ -120,6 +121,9 @@ public:
 
     void registerBuilding(eBuilding* const b);
     bool unregisterBuilding(eBuilding* const b);
+
+    void registerTradePost(eTradePost* const b);
+    bool unregisterTradePost(eTradePost* const b);
 
     void registerSpawner(eSpawner* const s);
     bool unregisterSpawner(eSpawner* const s);
@@ -254,6 +258,7 @@ private:
     std::vector<eCharacter*> mCharacters;
     std::vector<eSoldier*> mSoldiers;
     std::vector<eBuilding*> mBuildings;
+    std::vector<eTradePost*> mTradePosts;
     std::vector<eSpawner*> mSpawners;
     std::vector<eMissile*> mMissiles;
 

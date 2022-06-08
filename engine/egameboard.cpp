@@ -208,6 +208,17 @@ bool eGameBoard::unregisterBuilding(eBuilding* const b) {
     return true;
 }
 
+void eGameBoard::registerTradePost(eTradePost* const b) {
+    mTradePosts.push_back(b);
+}
+
+bool eGameBoard::unregisterTradePost(eTradePost* const b) {
+    const auto it = std::find(mTradePosts.begin(), mTradePosts.end(), b);
+    if(it == mTradePosts.end()) return false;
+    mTradePosts.erase(it);
+    return true;
+}
+
 void eGameBoard::registerSpawner(eSpawner* const s) {
     mSpawners.push_back(s);
 }

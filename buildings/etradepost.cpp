@@ -2,12 +2,19 @@
 
 #include "textures/egametextures.h"
 
+#include "engine/egameboard.h"
+
 eTradePost::eTradePost(eGameBoard& board, eWorldCity& city) :
     eWarehouseBase(board, eBuildingType::tradePost, 4, 4, 24,
                    eResourceType::warehouse, 15),
     mCity(city) {
     setOverlayEnabledFunc([]() { return true; });
     setOrders(eResourceType::none, eResourceType::none);
+    getBoard().registerTradePost(this);
+}
+
+eTradePost::~eTradePost() {
+    getBoard().unregisterTradePost(this);
 }
 
 std::shared_ptr<eTexture> eTradePost::getTexture(const eTileSize size) const {
