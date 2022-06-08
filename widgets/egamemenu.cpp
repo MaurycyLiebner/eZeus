@@ -20,6 +20,8 @@
 
 #include "egamewidget.h"
 
+#include "elanguage.h"
+
 struct eSubButtonData {
     std::function<void()> fPressedFunc;
     const eTextureCollection* fColl = nullptr;
@@ -114,9 +116,9 @@ void eGameMenu::initialize() {
 
     const auto ff1 = [this, cmx, cmy, mult, coll]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::wheatFarm, "Wheat Farm"},
-                             eSPR{eBuildingMode::carrotFarm, "Carrot Farm"},
-                             eSPR{eBuildingMode::onionFarm, "Onion Farm"}}) {
+        for(const auto& c : {eSPR{eBuildingMode::wheatFarm, eLanguage::text("wheat_farm")},
+                             eSPR{eBuildingMode::carrotFarm, eLanguage::text("carrot_farm")},
+                             eSPR{eBuildingMode::onionFarm, eLanguage::text("onion_farm")}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
@@ -124,13 +126,13 @@ void eGameMenu::initialize() {
     };
     const auto of1 = [this, cmx, cmy, mult, coll]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::vine, "Vine"},
-                             eSPR{eBuildingMode::oliveTree, "Olive Tree"},
-                             eSPR{eBuildingMode::orangeTree, "Orange Tree"},
+        for(const auto& c : {eSPR{eBuildingMode::vine, eLanguage::text("vine")},
+                             eSPR{eBuildingMode::oliveTree, eLanguage::text("olive_tree")},
+                             eSPR{eBuildingMode::orangeTree, eLanguage::text("orange_tree")},
                              eSPR{eBuildingMode::orangeTendersLodge,
-                                  "Orange Tenders' Lodge"},
+                                  eLanguage::text("orange_tenders_lodge")},
                              eSPR{eBuildingMode::growersLodge,
-                                  "Growers Lodge"}}) {
+                                  eLanguage::text("growers_lodge")}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
@@ -138,10 +140,10 @@ void eGameMenu::initialize() {
     };
     const auto af1 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::dairy, "Dairy"},
-                             eSPR{eBuildingMode::goat, "Goat"},
-                             eSPR{eBuildingMode::cardingShed, "Carding Shed"},
-                             eSPR{eBuildingMode::sheep, "Sheep"}}) {
+        for(const auto& c : {eSPR{eBuildingMode::dairy, eLanguage::text("dairy")},
+                             eSPR{eBuildingMode::goat, eLanguage::text("goat")},
+                             eSPR{eBuildingMode::cardingShed, eLanguage::text("carding_shed")},
+                             eSPR{eBuildingMode::sheep, eLanguage::text("sheep")}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
@@ -149,9 +151,9 @@ void eGameMenu::initialize() {
     };
     const auto ah1 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::fishery, "Fishery"},
-                             eSPR{eBuildingMode::urchinQuay, "Urchin Quay"},
-                             eSPR{eBuildingMode::huntingLodge, "Hunting Lodge"}}) {
+        for(const auto& c : {eSPR{eBuildingMode::fishery, eLanguage::text("fishery")},
+                             eSPR{eBuildingMode::urchinQuay, eLanguage::text("urchin_quay")},
+                             eSPR{eBuildingMode::huntingLodge, eLanguage::text("hunting_lodge")}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
@@ -168,10 +170,10 @@ void eGameMenu::initialize() {
 
     const auto r2 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::mint, "Mint"},
-                             eSPR{eBuildingMode::foundry, "Foundry"},
-                             eSPR{eBuildingMode::timberMill, "Timber Mill"},
-                             eSPR{eBuildingMode::masonryShop, "Masonry Shop"}}) {
+        for(const auto& c : {eSPR{eBuildingMode::mint, eLanguage::text("mint")},
+                             eSPR{eBuildingMode::foundry, eLanguage::text("foundry")},
+                             eSPR{eBuildingMode::timberMill, eLanguage::text("timber_mill")},
+                             eSPR{eBuildingMode::masonryShop, eLanguage::text("masonry_shop")}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
@@ -179,9 +181,9 @@ void eGameMenu::initialize() {
     };
     const auto p2 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::winery, "Winery"},
-                             eSPR{eBuildingMode::olivePress, "Olive Press"},
-                             eSPR{eBuildingMode::sculptureStudio, "Sculpture Studio"}}) {
+        for(const auto& c : {eSPR{eBuildingMode::winery, eLanguage::text("winery")},
+                             eSPR{eBuildingMode::olivePress, eLanguage::text("olive_press")},
+                             eSPR{eBuildingMode::sculptureStudio, eLanguage::text("sculpture_studio")}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
@@ -217,12 +219,12 @@ void eGameMenu::initialize() {
     };
     const auto a3 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::foodVendor, "Food Vendor"},
-                             eSPR{eBuildingMode::fleeceVendor, "Fleece Vendor"},
-                             eSPR{eBuildingMode::oilVendor, "Oil Vendor"},
-                             eSPR{eBuildingMode::wineVendor, "Wine Vendor"},
-                             eSPR{eBuildingMode::armsVendor, "Arms Vendor"},
-                             eSPR{eBuildingMode::horseTrainer, "Horse Trainer"}}) {
+        for(const auto& c : {eSPR{eBuildingMode::foodVendor, eLanguage::text("food_vendor")},
+                             eSPR{eBuildingMode::fleeceVendor, eLanguage::text("fleece_vendor")},
+                             eSPR{eBuildingMode::oilVendor, eLanguage::text("oil_vendor")},
+                             eSPR{eBuildingMode::wineVendor, eLanguage::text("wine_vendor")},
+                             eSPR{eBuildingMode::armsVendor, eLanguage::text("arms_vendor")},
+                             eSPR{eBuildingMode::horseTrainer, eLanguage::text("horse_trainer")}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
@@ -235,7 +237,7 @@ void eGameMenu::initialize() {
         for(const auto& c : wrld.cities()) {
             if(!c->buys().empty() || !c->sells().empty()) {
                 const eSPR s{eBuildingMode::tradePost,
-                            "Trading Post: " + c->name(), i};
+                            eLanguage::text("trading_post") + c->name(), i};
                 addAction(s, mult, coll, cm);
             }
             i++;
@@ -320,8 +322,8 @@ void eGameMenu::initialize() {
 
     const auto p6 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::podium, "Podium"},
-                             eSPR{eBuildingMode::college, "College"}}) {
+        for(const auto& c : {eSPR{eBuildingMode::podium, eLanguage::text("podium")},
+                             eSPR{eBuildingMode::college, eLanguage::text("college")}}) {
            addAction(c, mult, coll, cm);
         }
         cm->fitContent();
@@ -332,8 +334,8 @@ void eGameMenu::initialize() {
     };
     const auto d6 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::theater, "Theater"},
-                             eSPR{eBuildingMode::dramaSchool, "Drama School"}}) {
+        for(const auto& c : {eSPR{eBuildingMode::theater, eLanguage::text("theater")},
+                             eSPR{eBuildingMode::dramaSchool, eLanguage::text("drama_school")}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
@@ -365,9 +367,9 @@ void eGameMenu::initialize() {
     const auto t7 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
         for(const auto& c : {eSPR{eBuildingMode::templeHephaestus,
-                                  "Forge of Hephaestus"},
+                                  eLanguage::text("forge_of_hephaestus")},
                              eSPR{eBuildingMode::templeArtemis,
-                                   "Artemis' Menagerie"}}) {
+                                   eLanguage::text("artemis_menagerie")}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
@@ -381,9 +383,9 @@ void eGameMenu::initialize() {
 
     const auto f8 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::wall, "Wall"},
-                             eSPR{eBuildingMode::tower, "Tower"},
-                             eSPR{eBuildingMode::gatehouse, "Gatehouse"}}) {
+        for(const auto& c : {eSPR{eBuildingMode::wall, eLanguage::text("wall")},
+                             eSPR{eBuildingMode::tower, eLanguage::text("tower")},
+                             eSPR{eBuildingMode::gatehouse, eLanguage::text("gatehouse")}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
@@ -391,7 +393,7 @@ void eGameMenu::initialize() {
     };
     const auto mp8 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::armory, "Armory"}}) {
+        for(const auto& c : {eSPR{eBuildingMode::armory, eLanguage::text("armory")}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
@@ -404,12 +406,12 @@ void eGameMenu::initialize() {
 
     const auto bb9 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::park, "Park"},
-                             eSPR{eBuildingMode::waterPark, "Water Park"},
-                             eSPR{eBuildingMode::doricColumn, "Doric Column"},
-                             eSPR{eBuildingMode::ionicColumn, "Ionic Column"},
-                             eSPR{eBuildingMode::corinthianColumn, "Corinthian Column"},
-                             eSPR{eBuildingMode::avenue, "Avenue"}}) {
+        for(const auto& c : {eSPR{eBuildingMode::park, eLanguage::text("park")},
+                             eSPR{eBuildingMode::waterPark, eLanguage::text("water_park")},
+                             eSPR{eBuildingMode::doricColumn, eLanguage::text("doric_column")},
+                             eSPR{eBuildingMode::ionicColumn, eLanguage::text("ionic_column")},
+                             eSPR{eBuildingMode::corinthianColumn, eLanguage::text("corinthian_column")},
+                             eSPR{eBuildingMode::avenue, eLanguage::text("avenue")}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
@@ -417,21 +419,21 @@ void eGameMenu::initialize() {
     };
     const auto r9 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::bench, "Bench"},
-                             eSPR{eBuildingMode::birdBath, "Bird Bath"},
-                             eSPR{eBuildingMode::shortObelisk, "Short Obelisk"},
-                             eSPR{eBuildingMode::tallObelisk, "Tall Obelisk"},
-                             eSPR{eBuildingMode::flowerGarden, "Flower Garden"},
-                             eSPR{eBuildingMode::gazebo, "Gazebo"},
-                             eSPR{eBuildingMode::shellGarden, "Shell Garden"},
-                             eSPR{eBuildingMode::sundial, "Sundial"},
-                             eSPR{eBuildingMode::hedgeMaze, "Hedge Maze"},
-                             eSPR{eBuildingMode::dolphinSculpture, "Dolphin Sculpture"},
-                             eSPR{eBuildingMode::spring, "Spring"},
-                             eSPR{eBuildingMode::topiary, "Topiary"},
-                             eSPR{eBuildingMode::fishPond, "Fish Pond"},
-                             eSPR{eBuildingMode::baths, "Baths"},
-                             eSPR{eBuildingMode::stoneCircle, "Stone Circle"}}) {
+        for(const auto& c : {eSPR{eBuildingMode::bench, eLanguage::text("bench")},
+                             eSPR{eBuildingMode::birdBath, eLanguage::text("bird_bath")},
+                             eSPR{eBuildingMode::shortObelisk, eLanguage::text("short_obelisk")},
+                             eSPR{eBuildingMode::tallObelisk, eLanguage::text("tall_obelisk")},
+                             eSPR{eBuildingMode::flowerGarden, eLanguage::text("flower_garden")},
+                             eSPR{eBuildingMode::gazebo, eLanguage::text("gazebo")},
+                             eSPR{eBuildingMode::shellGarden, eLanguage::text("shell_garden")},
+                             eSPR{eBuildingMode::sundial, eLanguage::text("sundial")},
+                             eSPR{eBuildingMode::hedgeMaze, eLanguage::text("hedge_maze")},
+                             eSPR{eBuildingMode::dolphinSculpture, eLanguage::text("dolphin_sculpture")},
+                             eSPR{eBuildingMode::spring, eLanguage::text("spring")},
+                             eSPR{eBuildingMode::topiary, eLanguage::text("topiary")},
+                             eSPR{eBuildingMode::fishPond, eLanguage::text("fish_pond")},
+                             eSPR{eBuildingMode::baths, eLanguage::text("baths")},
+                             eSPR{eBuildingMode::stoneCircle, eLanguage::text("stone_circle")}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();
@@ -439,15 +441,15 @@ void eGameMenu::initialize() {
     };
     const auto m9 = [this, cmx, cmy, coll, mult]() {
         const auto cm = new eContextMenu(window());
-        for(const auto& c : {eSPR{eBuildingMode::populationMonument, "Population Monument"},
+        for(const auto& c : {eSPR{eBuildingMode::populationMonument, eLanguage::text("population_monument")},
                              eSPR{eBuildingMode::commemorative2, "Commemorative 2"},
-                             eSPR{eBuildingMode::colonyMonument, "Colony Monument"},
-                             eSPR{eBuildingMode::athleteMonument, "Athlete Monument"},
-                             eSPR{eBuildingMode::conquestMonument, "Conquest Monument"},
-                             eSPR{eBuildingMode::happinessMonument, "Happiness Monument"},
+                             eSPR{eBuildingMode::colonyMonument, eLanguage::text("colony_monument")},
+                             eSPR{eBuildingMode::athleteMonument, eLanguage::text("athlete_monument")},
+                             eSPR{eBuildingMode::conquestMonument, eLanguage::text("conquest_monument")},
+                             eSPR{eBuildingMode::happinessMonument, eLanguage::text("happiness_monument")},
                              eSPR{eBuildingMode::commemorative7, "Commemorative 7"},
                              eSPR{eBuildingMode::commemorative8, "Commemorative 8"},
-                             eSPR{eBuildingMode::scholarMonument, "Scholar Monument"}}) {
+                             eSPR{eBuildingMode::scholarMonument, eLanguage::text("scholar_monument")}}) {
             addAction(c, mult, coll, cm);
         }
         cm->fitContent();

@@ -216,6 +216,12 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
     stWid->move(rect.x, rect.y);
     stWid->resize(rect.w, rect.h);
 
+    const auto str = eLanguage::text("trading_post") + city.name();
+    const auto cityName = new eLabel(str, window());
+    cityName->fitContent();
+    stWid->addWidget(cityName);
+    cityName->align(eAlignment::hcenter);
+
     {
         const auto wrapper = new eWidget(window());
         const auto importsLabel = new eLabel(eLanguage::text("imports"), window());

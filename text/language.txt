@@ -147,3 +147,88 @@ troy "Troy"
 mt_pelion "Mt. Pelion"
 sardis "Sardis"
 hattusas "Hattusas"
+
+; game menu
+wheat_farm "Wheat Farm"
+carrot_farm "Carrot Farm"
+onion_farm "Onion Farm"
+
+vine "Vine"
+olive_tree "Olive Tree"
+orange_tree "Orange Tree"
+orange_tenders_lodge "Orange Tenders' Lodge"
+growers_lodge "Growers' Lodge"
+
+dairy "Dairy"
+goat "Goat"
+carding_shed "Carding Shed"
+sheep "Sheep"
+
+fishery "Fishery"
+urchin_quay "Urchin Quay"
+hunting_lodge "Hunting Lodge"
+
+mint "Mint"
+foundry "Foundry"
+timber_mill "Timber Mill"
+masonry_shop "Masonry Shop"
+
+winery "Winery"
+olive_press "Olive Press"
+sculpture_studio "Sculpture Studio"
+
+food_vendor "Food Vendor"
+fleece_vendor "Fleece Vendor"
+oil_vendor "Oil Vendor"
+wine_vendor "Wine Vendor"
+arms_vendor "Arms Vendor"
+horse_trainer "Horse Trainer"
+
+trading_post "Trading Post: "
+
+podium "Podium"
+college "College"
+theater "Theater"
+drama_school "Drama School"
+
+forge_of_hephaestus "Forge of Hephaestus"
+artemis_menagerie "Artemis' Menagerie"
+
+wall "Wall"
+tower "Tower"
+gatehouse "Gatehouse"
+
+armory "Armory"
+
+park "Park"
+water_park "Water Park"
+doric_column "Doric Column"
+ionic_column "Ionic Column"
+corinthian_column "Corinthian Column"
+avenue "Avenue"
+
+bench "Bench"
+bird_bath "Bird Bath"
+short_obelisk "Short Obelisk"
+tall_obelisk "Tall Obelisk"
+flower_garden "Flower Garden"
+gazebo "Gazebo"
+shell_garden "Shell Garden"
+sundial "Sundial"
+hedge_maze "Hedge Maze"
+dolphin_sculpture "Dolphin Sculpture"
+spring "Spring"
+topiary "Topiary"
+fish_pond "Fish Pond"
+baths "Baths"
+stone_circle "Stone Circle"
+
+population_monument "Population Monument"
+
+colony_monument "Colony Monument"
+athlete_monument "Athlete Monument"
+conquest_monument "Conquest Monument"
+happiness_monument "Happiness Monument"
+
+
+scholar_monument "Scholar Monument"
