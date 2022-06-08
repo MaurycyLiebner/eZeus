@@ -12,7 +12,15 @@ eBuilding::eBuilding(eGameBoard& board,
     eObject(board),
     mSeed(rand()), mType(type),
     mSpanW(sw), mSpanH(sh) {
-    getBoard().registerBuilding(this);
+    if(type != eBuildingType::road &&
+       type != eBuildingType::templeTile &&
+       type != eBuildingType::templeMonument &&
+       type != eBuildingType::templeStatue &&
+       type != eBuildingType::ruins &&
+       type != eBuildingType::wall &&
+       type != eBuildingType::gatehouse) {
+        getBoard().registerBuilding(this);
+    }
 }
 
 eBuilding::~eBuilding() {
