@@ -47,7 +47,9 @@ eTerrainTextures::eTerrainTextures(const int tileW, const int tileH,
     fBuildingBase2(renderer),
     fBuildingBase3(renderer),
 
-    fElevation(renderer) {
+    fElevation(renderer),
+    fDoubleElevation(renderer),
+    fDoubleElevation2(renderer) {
 
 }
 
@@ -180,11 +182,26 @@ void eTerrainTextures::load() {
     }
 
     {
-        const std::string pathBase{terrDir + "Zeus_Elevation_Tiles_"};
-        eTextureClass texClass(pathBase, texLoader);
+        {
+            const std::string pathBase{terrDir + "Zeus_Elevation_Tiles_"};
+            eTextureClass texClass(pathBase, texLoader);
 
-        for(int i = 21; i < 45; i++) {
-            texClass.load(i, fElevation);
+            for(int i = 1; i < 21; i++) {
+                texClass.load(i, fDoubleElevation);
+            }
+
+            for(int i = 21; i < 45; i++) {
+                texClass.load(i, fElevation);
+            }
+        }
+
+        {
+            const std::string pathBase{terrDir + "Zeus_Elevation_Tiles2_"};
+            eTextureClass texClass(pathBase, texLoader);
+
+            for(int i = 1; i < 15; i++) {
+                texClass.load(i, fDoubleElevation2);
+            }
         }
     }
 

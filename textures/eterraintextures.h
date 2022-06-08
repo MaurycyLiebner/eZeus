@@ -64,6 +64,8 @@ public:
     eTextureCollection fBuildingBase3;
 
     eTextureCollection fElevation;
+    eTextureCollection fDoubleElevation;
+    eTextureCollection fDoubleElevation2;
 };
 
 #endif // ETERRAINTEXTURES_H

@@ -82,6 +82,9 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
 
         const int a = tile->altitude();
 
+        const int tx = tile->x();
+        const int ty = tile->y();
+
         const int tra = tr ? tr->altitude() : a;
         const int ra = r ? r->altitude() : a;
         const int bra = br ? br->altitude() : a;
@@ -92,35 +95,97 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
         const int ta = t ? t->altitude() : a;
 
         const auto& elev = textures.fElevation;
+        const auto& delev = textures.fDoubleElevation;
+        const auto& delev2 = textures.fDoubleElevation2;
         const bool w = tile->walkableElev();
         if(tra > a && tla > a) {
-            return elev.getTexture(8);
+            if(tra - a == 2 && tla - a == 2) {
+                return delev.getTexture(8);
+            } else {
+                return elev.getTexture(8);
+            }
         } else if(tra > a && bra > a) {
-            return elev.getTexture(9);
+            if(tra - a == 2 && bra - a == 2) {
+                return delev.getTexture(9);
+            } else {
+                return elev.getTexture(9);
+            }
         } else if(bla > a && bra > a) {
-            return elev.getTexture(10);
+            if(bla - a == 2 && bra - a == 2) {
+                return delev.getTexture(10);
+            } else {
+                return elev.getTexture(10);
+            }
         } else if(bla > a && tla > a) {
-            return elev.getTexture(11);
+            if(bla - a == 2 && tla - a == 2) {
+                return delev.getTexture(11);
+            } else {
+                return elev.getTexture(11);
+            }
         } else if(bla > a) {
-            if(w) return elev.getTexture(12 + (hr ? 4 : 0));
-            else return elev.getTexture(1);
+            if(bla - a == 2) {
+                return delev.getTexture(1);
+            } else {
+                if(w) return elev.getTexture(12 + (hr ? 4 : 0));
+                else return elev.getTexture(1);
+            }
         } else if(tla > a) {
-            if(w) return elev.getTexture(13 + (hr ? 4 : 0));
-            else return elev.getTexture(3);
+            if(tla - a == 2) {
+                if((tx + ty) % 2) {
+                    return delev2.getTexture(ty % 3);
+                } else {
+                    return delev.getTexture(3);
+                }
+            } else {
+                if(w) return elev.getTexture(13 + (hr ? 4 : 0));
+                else return elev.getTexture(3);
+            }
         } else if(tra > a) {
-            if(w) return elev.getTexture(14 + (hr ? 4 : 0));
-            else return elev.getTexture(5);
+            if(tra - a == 2) {
+                if((tx + ty) % 2) {
+                    return delev2.getTexture(3 + (tx % 3));
+                } else {
+                    return delev.getTexture(5);
+                }
+            } else {
+                if(w) return elev.getTexture(14 + (hr ? 4 : 0));
+                else return elev.getTexture(5);
+            }
         } else if(bra > a) {
-            if(w) return elev.getTexture(15 + (hr ? 4 : 0));
-            else return elev.getTexture(7);
+            if(bra - a == 2) {
+                return delev.getTexture(7);
+            } else {
+                if(w) return elev.getTexture(15 + (hr ? 4 : 0));
+                else return elev.getTexture(7);
+            }
         } else if(la > a) {
-            return elev.getTexture(2);
+            if(la - a == 2) {
+                return delev.getTexture(2);
+            } else {
+                return elev.getTexture(2);
+            }
         } else if(ta > a) {
-            return elev.getTexture(4);
+            if(ta - a == 2) {
+                if((tx + ty) % 2) {
+                    return delev2.getTexture(12);
+                } else {
+                    return delev.getTexture(4);
+                }
+            } else {
+                return elev.getTexture(4);
+            }
         } else if(ra > a) {
-            return elev.getTexture(6);
+            if(ra - a == 2) {
+                return delev.getTexture(6);
+            } else {
+                return elev.getTexture(6);
+            }
         } else if(ba > a) {
-            return elev.getTexture(0);
+            if(ba - a == 2) {
+                return delev.getTexture(0);
+            } else {
+                return elev.getTexture(0);
+            }
         }
     }
 
