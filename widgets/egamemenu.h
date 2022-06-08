@@ -25,11 +25,18 @@ struct eSubButtonData;
 
 class eContextMenu;
 
+struct eSPR {
+    eBuildingMode fMode;
+    std::string fName;
+    int fCity = -1;
+};
+
 class eGameMenu : public eGameMenuBase {
 public:
     using eGameMenuBase::eGameMenuBase;
     void initialize();
 
+    int cityId() const { return mCityId; }
     eBuildingMode mode() const { return mMode; }
     void clearMode() { mMode = eBuildingMode::none; }
 
@@ -47,7 +54,6 @@ private:
     using eButtonsDataVec = std::vector<eSubButtonData>;
     eWidget* createSubButtons(const int resoltuionMult,
                               const eButtonsDataVec& buttons);
-    using eSPR = std::pair<eBuildingMode, std::string>;
     void addAction(const eSPR& c, const int mult,
                    const eInterfaceTextures& coll,
                    eContextMenu* const cm);
@@ -66,6 +72,7 @@ private:
 
     eMiniMap* mMiniMap = nullptr;
 
+    int mCityId = -1;
     eBuildingMode mMode{eBuildingMode::none};
 
     std::vector<eWidget*> mWidgets;

@@ -54,11 +54,12 @@ eWidget* eGameMenu::createSubButtons(
 void eGameMenu::addAction(const eSPR& c, const int mult,
                           const eInterfaceTextures& coll,
                           eContextMenu* const cm) {
-    auto& a = cm->addAction(c.second, [this, c]() {
-        setMode(c.first);
+    auto& a = cm->addAction(c.fName, [this, c]() {
+        setMode(c.fMode);
+        mCityId = c.fCity;
     });
     const auto diff = mBoard->difficulty();
-    const auto mode = c.first;
+    const auto mode = c.fMode;
     const auto t = eBuildingModeHelpers::toBuildingType(mode);
     const int cost = eDifficultyHelpers::buildingCost(diff, t);
     a.addTexture(mult*20, coll.fDrachmasUnit);
@@ -228,7 +229,19 @@ void eGameMenu::initialize() {
         cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto t3 = [this, cmx, cmy, coll, mult]() {
-        setMode(eBuildingMode::tradePost);
+        const auto cm = new eContextMenu(window());
+        const auto& wrld = mBoard->getWorldBoard();
+        int i = 0;
+        for(const auto& c : wrld.cities()) {
+            if(!c->buys().empty() || !c->sells().empty()) {
+                const eSPR s{eBuildingMode::tradePost,
+                            "Trading Post: " + c->name(), i};
+                addAction(s, mult, coll, cm);
+            }
+            i++;
+        }
+        cm->fitContent();
+        cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
     const auto www3 = new eWidget(window());
     const auto w3 = createSubButtons(mult,

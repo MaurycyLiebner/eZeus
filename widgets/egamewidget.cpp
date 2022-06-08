@@ -1566,7 +1566,10 @@ void eGameWidget::paintEvent(ePainter& p) {
         } break;
 
         case eBuildingMode::tradePost: {
-            const auto b1 = e::make_shared<eTradePost>(*mBoard, *wrld.cities()[0]);
+            const int ctid = mGm->cityId();
+            const auto cts = wrld.cities();
+            const auto ct = cts[ctid];
+            const auto b1 = e::make_shared<eTradePost>(*mBoard, *ct);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
 

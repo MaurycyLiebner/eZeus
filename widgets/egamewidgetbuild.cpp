@@ -474,8 +474,11 @@ bool eGameWidget::buildMouseRelease() {
         }; break;
 
         case eBuildingMode::tradePost: {
+            const int ctid = mGm->cityId();
+            const auto cts = wrld.cities();
+            const auto ct = cts[ctid];
             build(mHoverTX, mHoverTY, 4, 4,
-                  [this, wrld]() { return e::make_shared<eTradePost>(*mBoard, *wrld.cities()[0]); });
+                  [this, wrld, ct]() { return e::make_shared<eTradePost>(*mBoard, *ct); });
         }; break;
 
 
