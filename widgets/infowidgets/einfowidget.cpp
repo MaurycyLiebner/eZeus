@@ -4,6 +4,8 @@
 
 #include "../ebutton.h"
 
+#include "elanguage.h"
+
 eInfoWidget::eInfoWidget(eMainWindow* const window) :
     eFramedWidget(window) {
 
@@ -16,7 +18,7 @@ void eInfoWidget::initialize() {
     align(eAlignment::center);
 
     mOk = new eButton(window());
-    mOk->setText("OK");
+    mOk->setText(eLanguage::text("ok"));
     mOk->fitContent();
 
     addWidget(mOk);

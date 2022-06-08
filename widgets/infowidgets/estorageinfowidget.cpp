@@ -3,6 +3,8 @@
 #include "textures/egametextures.h"
 #include "textures/einterfacetextures.h"
 
+#include "elanguage.h"
+
 class eResourceStorageStack : public eWidget {
 public:
     using eWidget::eWidget;
@@ -69,10 +71,10 @@ public:
             });
 
             b->setSmallFontSize();
-            b->addValue("Don't Accept");
-            b->addValue("Accept");
-            b->addValue("Get");
-            b->addValue("Empty");
+            b->addValue(eLanguage::text("dont_accept"));
+            b->addValue(eLanguage::text("accept"));
+            b->addValue(eLanguage::text("get"));
+            b->addValue(eLanguage::text("empty"));
             b->fitContent();
             b->setHeight(rowHeight);
 

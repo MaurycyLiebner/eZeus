@@ -116,3 +116,21 @@ see_unrest "See Unrest"
 see_supplies "See Supplies"
 population "Population: "
 vacancies "Vacancies: "
+
+dont_accept "Don't Accept"
+accept "Accept"
+get "Get"
+empty "Empty"
+
+exports "Exports"
+imports "Imports"
+
+not_buying "Not Buying"
+buying "Buying"
+
+not_selling "Not Selling"
+selling "Selling"
+
+ok "Ok"
+
+of " of "

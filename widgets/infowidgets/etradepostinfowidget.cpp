@@ -3,6 +3,8 @@
 #include "textures/egametextures.h"
 #include "textures/einterfacetextures.h"
 
+#include "elanguage.h"
+
 class eResourceStorageStack : public eWidget {
 public:
     using eWidget::eWidget;
@@ -137,7 +139,7 @@ public:
             t->setSmallFontSize();
             const int cc = trade.fUsed;
             const int ccc = trade.fMax;
-            t->setText(std::to_string(cc) + " of " + std::to_string(ccc));
+            t->setText(std::to_string(cc) + eLanguage::text("of") + std::to_string(ccc));
             t->fitContent();
             t->setHeight(rowHeight);
 
@@ -216,8 +218,8 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
 
     {
         const auto wrapper = new eWidget(window());
-        const auto exportsLabel = new eLabel("Imports", window());
-        exportsLabel->fitContent();
+        const auto importsLabel = new eLabel(eLanguage::text("imports"), window());
+        importsLabel->fitContent();
 
         const auto r = new eResourceStorageStack(window());
 
@@ -227,7 +229,7 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
                       mImportButtons, mSpinBoxes, maxCount,
                       "Not Buying", "Buying");
 
-        wrapper->addWidget(exportsLabel);
+        wrapper->addWidget(importsLabel);
         wrapper->addWidget(r);
         wrapper->stackVertically();
         wrapper->fitContent();
@@ -237,7 +239,7 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
     }
     {
         const auto wrapper = new eWidget(window());
-        const auto exportsLabel = new eLabel("Exports", window());
+        const auto exportsLabel = new eLabel(eLanguage::text("exports"), window());
         exportsLabel->fitContent();
 
         const auto r = new eResourceStorageStack(window());
@@ -246,7 +248,8 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
 
         r->initialize(stor, csells, exports,
                       mExportButtons, mSpinBoxes, maxCount,
-                      "Not Selling", "Selling");
+                      eLanguage::text("not_selling"),
+                      eLanguage::text("selling"));
 
         wrapper->addWidget(exportsLabel);
         wrapper->addWidget(r);
