@@ -97,6 +97,9 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
 
     fWarehouseOverlay(renderer),
 
+    fPier1(renderer),
+    fTradingPostOverlay(renderer),
+
     fWarehouseUrchin(renderer),
     fWarehouseFish(renderer),
     fWarehouseMeat(renderer),
@@ -468,6 +471,10 @@ void eBuildingTextures::load() {
 
         eTextureClass texClass(pathBase, texLoader, &eSprAmbientOffset);
 
+        for(int i = 43; i < 82; i++) {
+            texClass.load(i, fTradingPostOverlay);
+        }
+
         for(int i = 269; i < 293; i++) {
             texClass.load(i, fWarehouseOverlay);
         }
@@ -720,6 +727,15 @@ void eBuildingTextures::load() {
 
         fWarehouse = texClass.load(23);
         fWarehouse->setOffset(-58, 60);
+
+        for(int i = 19; i < 23; i++) {
+            texClass.load(i, fPier1);
+        }
+
+        fPier2 = texClass.load(25);
+
+        fTradingPost = texClass.load(27);
+        fTradingPost->setOffset(-88, 90);
 
         fGranary = texClass.load(29);
         for(int i = 30; i < 46; i++) {

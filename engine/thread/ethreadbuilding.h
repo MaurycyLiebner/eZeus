@@ -32,15 +32,23 @@ private:
     bool mResourcesAvailable = false; // for sanctuary buildings
     bool mWorkedOn = false;
 
-    int mResourceCount[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-    eResourceType mResource[8] = {eResourceType::none,
-                                  eResourceType::none,
-                                  eResourceType::none,
-                                  eResourceType::none,
-                                  eResourceType::none,
-                                  eResourceType::none,
-                                  eResourceType::none,
-                                  eResourceType::none};
+    int mSpaceCount;
+    int mResourceCount[15] = {0};
+    eResourceType mResource[15] = {eResourceType::none,
+                                   eResourceType::none,
+                                   eResourceType::none,
+                                   eResourceType::none,
+                                   eResourceType::none,
+                                   eResourceType::none,
+                                   eResourceType::none,
+                                   eResourceType::none,
+                                   eResourceType::none,
+                                   eResourceType::none,
+                                   eResourceType::none,
+                                   eResourceType::none,
+                                   eResourceType::none,
+                                   eResourceType::none,
+                                   eResourceType::none};
     std::map<eResourceType, int> mMaxCount;
 
     eResourceType mGet = eResourceType::none;

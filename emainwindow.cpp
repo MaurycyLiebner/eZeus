@@ -243,9 +243,9 @@ void eMainWindow::showGame() {
 
         const auto c1 = std::make_shared<eWorldCity>(
                             eWorldCityType::collony, "Athens", 0.25, 0.25);
-        c1->addBuys(eResourceTrade{eResourceType::marble, 0, 12});
-        c1->addBuys(eResourceTrade{eResourceType::wood, 0, 12});
-        c1->addSells(eResourceTrade{eResourceType::fleece, 0, 12});
+        c1->addBuys(eResourceTrade{eResourceType::marble, 0, 12, 120});
+        c1->addBuys(eResourceTrade{eResourceType::wood, 0, 12, 80});
+        c1->addSells(eResourceTrade{eResourceType::fleece, 0, 12, 60});
         wb.addCity(c1);
 
         const auto c2 = std::make_shared<eWorldCity>(

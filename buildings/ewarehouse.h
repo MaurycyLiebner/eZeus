@@ -1,18 +1,14 @@
 #ifndef EWAREHOUSE_H
 #define EWAREHOUSE_H
 
-#include "estoragebuilding.h"
+#include "ewarehousebase.h"
 
-#include "textures/ebuildingtextures.h"
-
-class eWarehouse : public eStorageBuilding {
+class eWarehouse : public eWarehouseBase {
 public:
     eWarehouse(eGameBoard& board);
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
-private:
-    const std::vector<eBuildingTextures>& mTextures;
 };
 
 #endif // EWAREHOUSE_H

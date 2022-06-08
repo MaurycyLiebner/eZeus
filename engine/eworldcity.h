@@ -110,6 +110,7 @@ struct eResourceTrade {
     eResourceType fType;
     int fUsed;
     int fMax;
+    int fPrice;
 };
 
 class eWorldCity : public eWorldCityBase {

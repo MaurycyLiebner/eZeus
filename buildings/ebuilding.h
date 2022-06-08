@@ -52,6 +52,8 @@ enum class eBuildingType {
     granary,
     warehouse,
 
+    tradePost,
+
     foodVendor,
     fleeceVendor,
     oilVendor,

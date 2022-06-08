@@ -227,7 +227,9 @@ void eGameMenu::initialize() {
         cm->fitContent();
         cm->exec(cmx - cm->width(), cmy - cm->height(), this);
     };
-    const auto t3 = [this, cmx, cmy, coll, mult]() {};
+    const auto t3 = [this, cmx, cmy, coll, mult]() {
+        setMode(eBuildingMode::tradePost);
+    };
     const auto www3 = new eWidget(window());
     const auto w3 = createSubButtons(mult,
                         eButtonsDataVec{

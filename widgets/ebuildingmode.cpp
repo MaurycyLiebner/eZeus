@@ -96,6 +96,9 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
     case eBuildingMode::warehouse:
         return eBuildingType::warehouse;
 
+    case eBuildingMode::tradePost:
+        return eBuildingType::tradePost;
+
     case eBuildingMode::foodVendor:
         return eBuildingType::foodVendor;
     case eBuildingMode::fleeceVendor:

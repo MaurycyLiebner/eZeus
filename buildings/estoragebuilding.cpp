@@ -7,15 +7,17 @@ eStorageBuilding::eStorageBuilding(eGameBoard& board,
                                    const eBuildingType type,
                                    const int sw, const int sh,
                                    const int maxEmployees,
-                                   const eResourceType canAccept) :
+                                   const eResourceType canAccept,
+                                   const int spaceCount) :
     eEmployingBuilding(board, type, sw, sh, maxEmployees),
-    mCanAccept(canAccept) {
+    mCanAccept(canAccept),
+    mSpaceCount(spaceCount) {
     const auto all = eResourceTypeHelpers::extractResourceTypes(mCanAccept);
     for(const auto a : all) {
         if(a == eResourceType::sculpture) {
-            mMaxCount[a] = 8;
+            mMaxCount[a] = mSpaceCount;
         } else {
-            mMaxCount[a] = 32;
+            mMaxCount[a] = 4*mSpaceCount;
         }
     }
     board.registerStorBuilding(this);
@@ -35,12 +37,11 @@ void eStorageBuilding::timeChanged(const int by) {
     }
 }
 
-int eStorageBuilding::add(const eResourceType type, const int count) {
-    if(!static_cast<bool>(mAccept & type)) return 0;
+int eStorageBuilding::addNotAccept(const eResourceType type, const int count) {
     const bool sculpt = type == eResourceType::sculpture;
     const int sspace = sculpt ? 1 : 4;
     int rem = count;
-    for(int i = 0; i < 8 && rem > 0; i++) {
+    for(int i = 0; i < mSpaceCount && rem > 0; i++) {
         const auto t = mResource[i];
         int& c = mResourceCount[i];
         if(t == type) {
@@ -49,7 +50,7 @@ int eStorageBuilding::add(const eResourceType type, const int count) {
             c += dep;
         }
     }
-    for(int i = 0; i < 8 && rem > 0; i++) {
+    for(int i = 0; i < mSpaceCount && rem > 0; i++) {
         auto& t = mResource[i];
         int& c = mResourceCount[i];
         if(t == eResourceType::none) {
@@ -63,9 +64,14 @@ int eStorageBuilding::add(const eResourceType type, const int count) {
     return std::min(max, count - rem);
 }
 
+int eStorageBuilding::add(const eResourceType type, const int count) {
+    if(!static_cast<bool>(mAccept & type)) return 0;
+    return addNotAccept(type, count);
+}
+
 int eStorageBuilding::take(const eResourceType type, const int count) {
     int rem = count;
-    for(int i = 0; i < 8 && rem > 0; i++) {
+    for(int i = 0; i < mSpaceCount && rem > 0; i++) {
         auto& t = mResource[i];
         int& c = mResourceCount[i];
         if(static_cast<bool>(t & type)) {
@@ -81,11 +87,12 @@ int eStorageBuilding::take(const eResourceType type, const int count) {
 }
 
 int eStorageBuilding::count(const eResourceType type) const {
-    return sCount(type, mResourceCount, mResource);
+    return sCount(type, mResourceCount, mResource, mSpaceCount);
 }
 
 int eStorageBuilding::spaceLeft(const eResourceType type) const {
-    return sSpaceLeft(type, mResourceCount, mResource, mAccept, mMaxCount);
+    return sSpaceLeft(type, mResourceCount, mResource,
+                      mAccept, mMaxCount, mSpaceCount);
 }
 
 std::vector<eCartTask> eStorageBuilding::cartTasks() const {
@@ -120,10 +127,11 @@ std::vector<eCartTask> eStorageBuilding::cartTasks() const {
 }
 
 int eStorageBuilding::sCount(const eResourceType type,
-                             const int resourceCount[8],
-                             const eResourceType resourceType[8]) {
+                             const int resourceCount[15],
+                             const eResourceType resourceType[15],
+                             const int spaceCount) {
     int result = 0;
-    for(int i = 0; i < 8; i++) {
+    for(int i = 0; i < spaceCount; i++) {
         const auto t = resourceType[i];
         if(static_cast<bool>(t & type)) {
             result += resourceCount[i];
@@ -134,15 +142,16 @@ int eStorageBuilding::sCount(const eResourceType type,
 
 int eStorageBuilding::sSpaceLeft(
         const eResourceType type,
-        const int resourceCount[8],
-        const eResourceType resourceType[8],
+        const int resourceCount[15],
+        const eResourceType resourceType[15],
         const eResourceType accepts,
-        const std::map<eResourceType, int>& maxCounts) {
+        const std::map<eResourceType, int>& maxCounts,
+        const int spaceCount) {
     if(!static_cast<bool>(accepts & type)) return 0;
     const bool sculpt = type == eResourceType::sculpture;
     const int sspace = sculpt ? 1 : 4;
     int space = 0;
-    for(int i = 0; i < 8; i++) {
+    for(int i = 0; i < spaceCount; i++) {
         const int c = resourceCount[i];
         const auto t = resourceType[i];
         if(c == 0) {

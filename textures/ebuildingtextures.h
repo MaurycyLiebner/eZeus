@@ -195,6 +195,12 @@ public:
     std::shared_ptr<eTexture> fWarehouse;
     eTextureCollection fWarehouseOverlay;
 
+    eTextureCollection fPier1;
+    std::shared_ptr<eTexture> fPier2;
+
+    std::shared_ptr<eTexture> fTradingPost;
+    eTextureCollection fTradingPostOverlay;
+
     std::shared_ptr<eTexture> fWarehouseEmpty;
     eTextureCollection fWarehouseUrchin;
     eTextureCollection fWarehouseFish;

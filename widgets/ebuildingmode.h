@@ -58,6 +58,8 @@ enum class eBuildingMode {
     granary,
     warehouse,
 
+    tradePost,
+
     foodVendor,
     fleeceVendor,
     oilVendor,

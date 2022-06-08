@@ -41,6 +41,8 @@
 #include "buildings/egranary.h"
 #include "buildings/ewarehouse.h"
 
+#include "buildings/etradepost.h"
+
 #include "buildings/egrowerslodge.h"
 
 #include "buildings/ewinery.h"
@@ -104,6 +106,7 @@
 #include "engine/emapgenerator.h"
 
 #include "infowidgets/estorageinfowidget.h"
+#include "infowidgets/etradepostinfowidget.h"
 
 #include "engine/boardData/eappealupdatetask.h"
 #include "engine/epathfinder.h"
@@ -1374,6 +1377,7 @@ void eGameWidget::paintEvent(ePainter& p) {
     }
 
     const auto t = mBoard->tile(mHoverTX, mHoverTY);
+    const auto& wrld = mBoard->getWorldBoard();
     eSpecialRequirement specReq;
     if(t && mGm->visible()) {
         struct eB {
@@ -1558,6 +1562,11 @@ void eGameWidget::paintEvent(ePainter& p) {
         } break;
         case eBuildingMode::warehouse: {
             const auto b1 = e::make_shared<eWarehouse>(*mBoard);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
+
+        case eBuildingMode::tradePost: {
+            const auto b1 = e::make_shared<eTradePost>(*mBoard, *wrld.cities()[0]);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
 
@@ -1930,6 +1939,21 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
             const auto gymWid = new eGymInfoWidget(window());
             gymWid->initialize();
             wid = gymWid;
+        } else if(const auto stor = dynamic_cast<eTradePost*>(b)) {
+            const auto storWid = new eTradePostInfoWidget(window());
+            storWid->initialize(stor);
+            wid = storWid;
+            const stdptr<eTradePost> storptr(stor);
+            closeAct = [storptr, storWid]() {
+                if(storptr) {
+                    std::map<eResourceType, int> maxCount;
+                    eResourceType imports;
+                    eResourceType exports;
+                    storWid->get(imports, exports, maxCount);
+                    storptr->setOrders(imports, exports);
+                    storptr->setMaxCount(maxCount);
+                }
+            };
         } else if(const auto stor = dynamic_cast<eStorageBuilding*>(b)) {
             const auto storWid = new eStorageInfoWidget(window());
             storWid->initialize(stor);

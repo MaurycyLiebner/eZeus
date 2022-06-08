@@ -30,6 +30,8 @@
 #include "buildings/egranary.h"
 #include "buildings/ewarehouse.h"
 
+#include "buildings/etradepost.h"
+
 #include "buildings/egrowerslodge.h"
 
 #include "buildings/ewinery.h"
@@ -108,6 +110,7 @@ const eSanctBlueprint* eGameWidget::sanctuaryBlueprint(
 }
 
 bool eGameWidget::buildMouseRelease() {
+    const auto& wrld = mBoard->getWorldBoard();
     std::function<void(eTile* const)> apply;
     if(mTem->visible()) {
         const auto mode = mTem->mode();
@@ -468,6 +471,11 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::warehouse: {
             build(mHoverTX, mHoverTY, 3, 3,
                   [this]() { return e::make_shared<eWarehouse>(*mBoard); });
+        }; break;
+
+        case eBuildingMode::tradePost: {
+            build(mHoverTX, mHoverTY, 4, 4,
+                  [this, wrld]() { return e::make_shared<eTradePost>(*mBoard, *wrld.cities()[0]); });
         }; break;
 
 

@@ -23,13 +23,15 @@ void eThreadBuilding::load(eBuilding* const src) {
             const auto h = static_cast<eEliteHousing*>(src);
             mVacancies = h->vacancies();
         } else if(mType == eBuildingType::granary ||
-                  mType == eBuildingType::warehouse) {
+                  mType == eBuildingType::warehouse ||
+                  mType == eBuildingType::tradePost) {
             const auto s = static_cast<eStorageBuilding*>(src);
             mAccepts = s->accepts();
             mGet = s->get();
             const auto rc = s->resourceCounts();
             const auto rt = s->resourceTypes();
-            for(int i = 0; i < 8; i++) {
+            mSpaceCount = s->spaceCount();
+            for(int i = 0; i < mSpaceCount; i++) {
                 mResourceCount[i] = rc[i];
                 mResource[i] = rt[i];
             }
@@ -50,8 +52,10 @@ void eThreadBuilding::load(eBuilding* const src) {
 
 int eThreadBuilding::resourceCount(const eResourceType type) const {
     if(mType == eBuildingType::granary ||
-       mType == eBuildingType::warehouse) {
-        return eStorageBuilding::sCount(type, mResourceCount, mResource);
+       mType == eBuildingType::warehouse ||
+       mType == eBuildingType::tradePost) {
+        return eStorageBuilding::sCount(type, mResourceCount,
+                                        mResource, mSpaceCount);
     } else {
         const auto t = mResource[0];
         if(t != type) return 0;
@@ -63,16 +67,17 @@ int eThreadBuilding::resourceSpaceLeft(const eResourceType type) const {
     const bool accepts = static_cast<bool>(mAccepts & type);
     if(!accepts) return 0;
     if(mType == eBuildingType::granary ||
-       mType == eBuildingType::warehouse) {
-        return eStorageBuilding::sSpaceLeft(type, mResourceCount,
-                                            mResource, mAccepts, mMaxCount);
+       mType == eBuildingType::warehouse ||
+       mType == eBuildingType::tradePost) {
+        return eStorageBuilding::sSpaceLeft(type, mResourceCount, mResource,
+                                            mAccepts, mMaxCount, mSpaceCount);
     } else {
         return 0;
     }
 }
 
 bool eThreadBuilding::resourceHas(const eResourceType type) const {
-    for(int i = 0; i < 8; i++) {
+    for(int i = 0; i < mSpaceCount; i++) {
         const int c = mResourceCount[i];
         if(c <= 0) continue;
         const auto t = mResource[i];

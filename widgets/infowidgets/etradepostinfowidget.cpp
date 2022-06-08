@@ -1,4 +1,4 @@
-﻿#include "estorageinfowidget.h"
+#include "etradepostinfowidget.h"
 
 #include "textures/egametextures.h"
 #include "textures/einterfacetextures.h"
@@ -8,29 +8,37 @@ public:
     using eWidget::eWidget;
 
     void initialize(eStorageBuilding* const stor,
-                    const std::vector<eResourceType>& types,
-                    const eResourceType get,
-                    const eResourceType empty,
-                    const eResourceType accept,
+                    const std::vector<eResourceTrade>& importTypes,
+                    const eResourceType imports,
                     std::map<eResourceType, eSwitchButton*>& buttons,
                     std::map<eResourceType, eSpinBox*>& spinBoxes,
-                    const std::map<eResourceType, int>& maxCount) {
+                    const std::map<eResourceType, int>& maxCount,
+                    const std::string& notBuyingTxt,
+                    const std::string& buyingTxt) {
         const auto countW = new eWidget(window());
         const auto iconsW = new eWidget(window());
         const auto namesW = new eWidget(window());
+        const auto priceW = new eWidget(window());
         const auto buttonsW = new eWidget(window());
         const auto spinsW = new eWidget(window());
+        const auto tradedW = new eWidget(window());
 
         const auto res = resolution();
         const double mult = res.multiplier();
         const int rowHeight = mult*40;
         const int countWidth = mult*25;
         const int iconsWidth = mult*40;
-        const int namesWidth = mult*80;
+        const int namesWidth = mult*100;
+        const int priceWidth = mult*60;
         const int buttonsWidth = mult*120;
         const int spinsWidth = mult*90;
+        const int tradedWidth = mult*80;
 
-        for(const auto type : types) {
+        priceW->setWidth(priceWidth);
+
+        for(const auto& trade : importTypes) {
+            const auto type = trade.fType;
+
             const auto count = new eLabel(window());
             count->setSmallFontSize();
             const int c = stor->count(type);
@@ -58,10 +66,43 @@ public:
             n->fitContent();
             n->setHeight(rowHeight);
 
+
+            const auto pi = new eLabel(window());
+            const auto& intrfs = eGameTextures::interface();
+            int icoll;
+            switch(res.uiScale()) {
+            case eUIScale::tiny:
+            case eUIScale::small:
+                icoll = 1;
+                break;
+            default:
+                icoll = 2;
+            }
+            pi->setTexture(intrfs[icoll].fDrachmasUnit);
+            pi->setNoPadding();
+            pi->fitContent();
+
+            const auto p = new eLabel(window());
+            p->setText(std::to_string(trade.fPrice));
+            p->setSmallFontSize();
+            p->setNoPadding();
+            p->fitContent();
+
+            const auto pw = new eWidget(window());
+            pw->setNoPadding();
+            pw->addWidget(pi);
+            pw->addWidget(p);
+            pw->stackHorizontally();
+            pw->fitContent();
+            pw->setHeight(rowHeight);
+
+            pi->align(eAlignment::vcenter);
+            p->align(eAlignment::vcenter);
+
             const auto b = new eSwitchButton(window());
 
             b->setSwitchAction([b](const int i) {
-                if(i == 0 || i == 3) {
+                if(i == 0) {
                     b->setFontColor({180, 180, 200, 255});
                 } else {
                     b->setFontColor({255, 255, 255, 255});
@@ -69,10 +110,8 @@ public:
             });
 
             b->setSmallFontSize();
-            b->addValue("Don't Accept");
-            b->addValue("Accept");
-            b->addValue("Get");
-            b->addValue("Empty");
+            b->addValue(notBuyingTxt);
+            b->addValue(buyingTxt);
             b->fitContent();
             b->setHeight(rowHeight);
 
@@ -94,21 +133,28 @@ public:
 
             spinBoxes[type] = s;
 
+            const auto t = new eLabel(window());
+            t->setSmallFontSize();
+            const int cc = trade.fUsed;
+            const int ccc = trade.fMax;
+            t->setText(std::to_string(cc) + " of " + std::to_string(ccc));
+            t->fitContent();
+            t->setHeight(rowHeight);
+
             countW->addWidget(count);
             iconsW->addWidget(icon);
             namesW->addWidget(n);
+            priceW->addWidget(pw);
+            pw->align(eAlignment::hcenter);
             buttonsW->addWidget(b);
             spinsW->addWidget(s);
+            tradedW->addWidget(t);
 
             icon->align(eAlignment::left);
             n->align(eAlignment::left);
             b->align(eAlignment::left);
 
-            if(static_cast<bool>(get & type)) {
-                b->setValue(2);
-            } else if(static_cast<bool>(empty & type)) {
-                b->setValue(3);
-            } else if(static_cast<bool>(accept & type)) {
+            if(static_cast<bool>(imports & type)) {
                 b->setValue(1);
             } else {
                 b->setValue(0);
@@ -118,105 +164,121 @@ public:
         countW->stackVertically();
         iconsW->stackVertically();
         namesW->stackVertically();
+        priceW->stackVertically();
         buttonsW->stackVertically();
         spinsW->stackVertically();
+        tradedW->stackVertically();
 
         countW->fitContent();
         iconsW->fitContent();
         namesW->fitContent();
+        priceW->fitContent();
         buttonsW->fitContent();
         spinsW->fitContent();
+        tradedW->fitContent();
 
         countW->setWidth(countWidth);
         iconsW->setWidth(iconsWidth);
         namesW->setWidth(namesWidth);
+        priceW->setWidth(priceWidth);
         buttonsW->setWidth(buttonsWidth);
         spinsW->setWidth(spinsWidth);
+        tradedW->setWidth(tradedWidth);
 
         addWidget(countW);
         addWidget(iconsW);
         addWidget(namesW);
+        addWidget(priceW);
         addWidget(buttonsW);
         addWidget(spinsW);
+        addWidget(tradedW);
 
         stackHorizontally();
+        fitContent();
     }
 };
 
-void eStorageInfoWidget::initialize(eStorageBuilding* const stor) {
+void eTradePostInfoWidget::initialize(eTradePost* const stor) {
     eInfoWidget::initialize();
 
-    eResourceType get;
-    eResourceType empty;
-    eResourceType accept;
-    stor->getOrders(get, empty, accept);
-    const auto all = stor->canAccept();
+    eResourceType imports;
+    eResourceType exports;
+    stor->getOrders(imports, exports);
     const auto& maxCount = stor->maxCount();
+    const auto& city = stor->city();
 
     const auto rect = centralWidgetRect();
 
     const auto stWid = new eWidget(window());
 
-    const auto types = eResourceTypeHelpers::extractResourceTypes(all);
-
     stWid->move(rect.x, rect.y);
     stWid->resize(rect.w, rect.h);
 
-    if(types.size() < 7) {
+    {
+        const auto wrapper = new eWidget(window());
+        const auto exportsLabel = new eLabel("Imports", window());
+        exportsLabel->fitContent();
+
         const auto r = new eResourceStorageStack(window());
-        r->setWidth(rect.w);
-        r->setHeight(rect.h);
-        r->initialize(stor, types, get, empty, accept,
-                      mButtons, mSpinBoxes, maxCount);
-        stWid->addWidget(r);
-    } else {
-        {
-            const auto r = new eResourceStorageStack(window());
-            r->setWidth(rect.w/2);
-            r->setHeight(rect.h);
-            const std::vector<eResourceType> types1(
-                        types.begin(), types.begin() + 6);
-            r->initialize(stor, types1, get, empty, accept,
-                          mButtons, mSpinBoxes, maxCount);
-            stWid->addWidget(r);
-        }
-        {
-            const auto r = new eResourceStorageStack(window());
-            r->setWidth(rect.w/2);
-            r->setHeight(rect.h);
-            const std::vector<eResourceType> types1(
-                        types.begin() + 6, types.end());
-            r->initialize(stor, types1, get, empty, accept,
-                          mButtons, mSpinBoxes, maxCount);
-            stWid->addWidget(r);
-        }
+
+        const auto& cbuys = city.buys();
+
+        r->initialize(stor, cbuys, imports,
+                      mImportButtons, mSpinBoxes, maxCount,
+                      "Not Buying", "Buying");
+
+        wrapper->addWidget(exportsLabel);
+        wrapper->addWidget(r);
+        wrapper->stackVertically();
+        wrapper->fitContent();
+
+        stWid->addWidget(wrapper);
+        wrapper->align(eAlignment::hcenter);
+    }
+    {
+        const auto wrapper = new eWidget(window());
+        const auto exportsLabel = new eLabel("Exports", window());
+        exportsLabel->fitContent();
+
+        const auto r = new eResourceStorageStack(window());
+
+        const auto& csells = city.sells();
+
+        r->initialize(stor, csells, exports,
+                      mExportButtons, mSpinBoxes, maxCount,
+                      "Not Selling", "Selling");
+
+        wrapper->addWidget(exportsLabel);
+        wrapper->addWidget(r);
+        wrapper->stackVertically();
+        wrapper->fitContent();
+
+        stWid->addWidget(wrapper);
+        wrapper->align(eAlignment::hcenter);
     }
 
-    stWid->layoutHorizontally();
+    stWid->layoutVertically();
 
     addWidget(stWid);
 }
 
-void eStorageInfoWidget::get(eResourceType& get,
-                             eResourceType& empty,
-                             eResourceType& accept,
-                             eResourceType& dontaccept,
-                             std::map<eResourceType, int>& count) const {
-    get = eResourceType::none;
-    empty = eResourceType::none;
-    accept = eResourceType::none;
-    dontaccept = eResourceType::none;
-    for(const auto b : mButtons) {
+void eTradePostInfoWidget::get(eResourceType& imports,
+                               eResourceType& exports,
+                               std::map<eResourceType, int>& count) const {
+    imports = eResourceType::none;
+    exports = eResourceType::none;
+    for(const auto b : mImportButtons) {
         const auto type = b.first;
         const int val = b.second->currentValue();
-        if(val == 0) {
-            dontaccept = dontaccept | type;
-        } else if(val == 1) {
-            accept = accept | type;
-        } else if(val == 2) {
-            get = get | type;
-        } else if(val == 3) {
-            empty = empty | type;
+        if(val == 1) {
+            imports = imports | type;
+        }
+    }
+    for(const auto b : mExportButtons) {
+        const auto type = b.first;
+        const int val = b.second->currentValue();
+        if(val == 1) {
+            exports = exports | type;
         }
     }
     for(const auto s : mSpinBoxes) {

@@ -76,9 +76,11 @@ SOURCES += \
         buildings/etheater.cpp \
         buildings/etimbermill.cpp \
         buildings/etower.cpp \
+        buildings/etradepost.cpp \
         buildings/evendor.cpp \
         buildings/ewall.cpp \
         buildings/ewarehouse.cpp \
+        buildings/ewarehousebase.cpp \
         buildings/ewatchpost.cpp \
         buildings/ewheatfarm.cpp \
         buildings/ewinery.cpp \
@@ -316,7 +318,8 @@ SOURCES += \
         widgets/eworldwidget.cpp \
         widgets/infowidgets/egyminfowidget.cpp \
         widgets/infowidgets/einfowidget.cpp \
-        widgets/infowidgets/estorageinfowidget.cpp
+        widgets/infowidgets/estorageinfowidget.cpp \
+        widgets/infowidgets/etradepostinfowidget.cpp
 
 HEADERS += \
     buildings/eaestheticsbuilding.h \
@@ -379,9 +382,11 @@ HEADERS += \
     buildings/etheater.h \
     buildings/etimbermill.h \
     buildings/etower.h \
+    buildings/etradepost.h \
     buildings/evendor.h \
     buildings/ewall.h \
     buildings/ewarehouse.h \
+    buildings/ewarehousebase.h \
     buildings/ewatchpost.h \
     buildings/ewheatfarm.h \
     buildings/ewinery.h \
@@ -642,7 +647,8 @@ HEADERS += \
     widgets/eworldwidget.h \
     widgets/infowidgets/egyminfowidget.h \
     widgets/infowidgets/einfowidget.h \
-    widgets/infowidgets/estorageinfowidget.h
+    widgets/infowidgets/estorageinfowidget.h \
+    widgets/infowidgets/etradepostinfowidget.h
 
 DISTFILES += \
     sanctuaries/artemis.txt \
