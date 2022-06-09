@@ -1015,6 +1015,10 @@ void eGameWidget::paintEvent(ePainter& p) {
                     if(!v) continue;
                     double x = tx - a + c->x() + 0.25 + dtx;
                     double y = ty - a + c->y() + 0.25 + dty;
+                    const auto t = tile->top<eTile>();
+                    const auto l = tile->left<eTile>();
+                    const auto r = tile->right<eTile>();
+                    const auto b = tile->bottom<eTile>();
                     const auto tl = tile->topLeft<eTile>();
                     const auto tr = tile->topRight<eTile>();
                     const auto bl = tile->bottomLeft<eTile>();
@@ -1041,6 +1045,30 @@ void eGameWidget::paintEvent(ePainter& p) {
                         const double mult = c->x();
                         const int bra = br->altitude();
                         const double da = mult*(bra - a);
+                        x -= da;
+                        y -= da;
+                    } else if(t && t->altitude() > a) {
+                        const double mult = (1 - c->x())*(1 - c->y());
+                        const int ta = t->altitude();
+                        const double da = mult*(ta - a);
+                        x -= da;
+                        y -= da;
+                    } else if(l && l->altitude() > a) {
+                        const double mult = (1 - c->x())*c->y();
+                        const int la = l->altitude();
+                        const double da = mult*(la - a);
+                        x -= da;
+                        y -= da;
+                    } else if(r && r->altitude() > a) {
+                        const double mult = c->x()*(1 - c->y());
+                        const int ra = r->altitude();
+                        const double da = mult*(ra - a);
+                        x -= da;
+                        y -= da;
+                    } else if(b && b->altitude() > a) {
+                        const double mult = c->x()*c->y();
+                        const int ba = b->altitude();
+                        const double da = mult*(ba - a);
                         x -= da;
                         y -= da;
                     }
