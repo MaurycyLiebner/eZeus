@@ -35,6 +35,9 @@ enum class eCharacterType {
     bronzeMiner,
     silverMiner,
 
+    trader,
+    donkey,
+
     artisan,
 
     hunter,

@@ -4,6 +4,7 @@
 #include "offsets/SprMain.h"
 #include "offsets/PoseidonImps.h"
 #include "offsets/Zeus_Greek.h"
+#include "offsets/SprAmbient.h"
 
 #include "etextureloader.h"
 
@@ -83,7 +84,10 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fGreekHorseman(renderer),
 
     fBannerRod(renderer),
-    fBannerTops(renderer) {
+    fBannerTops(renderer),
+
+    fTrader(renderer),
+    fDonkey(renderer) {
 
 }
 
@@ -322,6 +326,11 @@ void eCharacterTextures::load() {
         texClass.load(i, fGrower.fDie);
     }
 
+    texClass.loadSkipFlipped(fTrader.fWalk, 5929, 6025);
+    for(int i = 6025; i < 6033; i++) {
+        texClass.load(i, fTrader.fDie);
+    }
+
 
     loadBasicTexture(fWaterDistributor, 6737, texClass);
 
@@ -476,8 +485,6 @@ void eCharacterTextures::load() {
         texClass.loadSkipFlipped(fGreekRockThrower.fFight, 569, 633);
     }
 
-    texLoader.waitUntilFinished();
-
     {
         const std::string pathBase{dir + "Zeus_Added/SprMain_"};
         for(int j = 0; j < 8; j++) {
@@ -493,6 +500,17 @@ void eCharacterTextures::load() {
 
         fSelected = std::make_shared<eTexture>();
         fSelected->load(fRenderer, pathBase + "08436.png");
+    }
+
+    {
+        const std::string pathBase{dir + "SprAmbient/SprAmbient_"};
+
+        eTextureClass texClass(pathBase, texLoader, &eSprAmbientOffset);
+
+        texClass.loadSkipFlipped(fDonkey.fWalk, 529, 625);
+        for(int i = 625; i < 633; i++) {
+            texClass.load(i, fDonkey.fDie);
+        }
     }
 
     {
@@ -515,4 +533,6 @@ void eCharacterTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fBannerTops);
         }
     }
+
+    texLoader.waitUntilFinished();
 }

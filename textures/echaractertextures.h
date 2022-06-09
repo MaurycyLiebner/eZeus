@@ -187,6 +187,9 @@ public:
     eTextureCollection fBannerRod;
     std::vector<eTextureCollection> fBanners;
     eTextureCollection fBannerTops;
+
+    eBasicCharacterTextures fTrader;
+    eBasicCharacterTextures fDonkey;
 };
 
 #endif // ECHARACTERTEXTURES_H

@@ -17,7 +17,7 @@ void eMoveToAction::start(const eTileFinal& final,
     auto& tp = brd.threadPool();
 
     if(const auto b = t->underBuilding()) {
-        walkable =  eWalkableHelpers::sBuildingWalkable(b, walkable);
+        walkable = eWalkableHelpers::sBuildingWalkable(b, walkable);
     }
 
     const int tx = t->x();

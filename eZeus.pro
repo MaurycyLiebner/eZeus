@@ -125,6 +125,7 @@ SOURCES += \
         characters/actions/esettleraction.cpp \
         characters/actions/eshepherdaction.cpp \
         characters/actions/esoldieraction.cpp \
+        characters/actions/etraderaction.cpp \
         characters/actions/ewaitaction.cpp \
         characters/eactor.cpp \
         characters/eanimal.cpp \
@@ -139,6 +140,7 @@ SOURCES += \
         characters/echaracterbase.cpp \
         characters/edeer.cpp \
         characters/edomesticatedanimal.cpp \
+        characters/edonkey.cpp \
         characters/efightingpatroler.cpp \
         characters/efirefighter.cpp \
         characters/efleecevendorchar.cpp \
@@ -172,6 +174,7 @@ SOURCES += \
         characters/esoldier.cpp \
         characters/esoldierbanner.cpp \
         characters/etaxcollector.cpp \
+        characters/etrader.cpp \
         characters/etrailer.cpp \
         characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
@@ -432,6 +435,7 @@ HEADERS += \
     characters/actions/esettleraction.h \
     characters/actions/eshepherdaction.h \
     characters/actions/esoldieraction.h \
+    characters/actions/etraderaction.h \
     characters/actions/ewaitaction.h \
     characters/eactor.h \
     characters/eanimal.h \
@@ -446,6 +450,7 @@ HEADERS += \
     characters/echaracterbase.h \
     characters/edeer.h \
     characters/edomesticatedanimal.h \
+    characters/edonkey.h \
     characters/efightingpatroler.h \
     characters/efirefighter.h \
     characters/efleecevendorchar.h \
@@ -479,6 +484,7 @@ HEADERS += \
     characters/esoldier.h \
     characters/esoldierbanner.h \
     characters/etaxcollector.h \
+    characters/etrader.h \
     characters/etrailer.h \
     characters/ewatchman.h \
     characters/ewaterdistributor.h \
@@ -542,6 +548,7 @@ HEADERS += \
     offsets/PoseidonImps.h \
     offsets/Poseidon_Atlas.h \
     offsets/Poseidon_Hera.h \
+    offsets/SprAmbient.h \
     offsets/SprMain.h \
     offsets/Zeus_Aphrodite.h \
     offsets/Zeus_Apollo.h \
