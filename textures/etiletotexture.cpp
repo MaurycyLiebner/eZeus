@@ -99,7 +99,7 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
         const auto& delev2 = textures.fDoubleElevation2;
         const bool w = tile->walkableElev();
         if(tra > a && tla > a) {
-            if(tra - a == 2 && tla - a == 2) {
+            if(tra - a == 2 || tla - a == 2) {
                 return delev.getTexture(8);
             } else {
                 return elev.getTexture(8);
