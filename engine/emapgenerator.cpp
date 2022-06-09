@@ -58,6 +58,45 @@ void eMapGenerator::generateTerrain(const eMGS& settings) {
         }
     }
 
+    const int iMax = w*h/1000;
+    for(int i = 0; i < iMax; i++) {
+        const int tx = rand() % w;
+        const int ty = rand() % h;
+        const auto tile = mBoard.tile(tx, ty);
+        if(tile->altitude() > 0) {
+            i--;
+            continue;
+        }
+        eTile* ct = tile;
+        ct->setTerrain(eTerrain::water);
+        while(true) {
+            const int tx = ct->x();
+            const int ty = ct->y();
+            const double v = p.GetValue(tx/div, ty/div, 0.0);
+            bool found = false;
+            for(int x = -1; x <= 1 && !found; x++) {
+                for(int y = -1; y <= 1 && !found; y++) {
+                    if(x == 0 && y == 0) continue;
+                    const int ttx = tx + x;
+                    const int tty = ty + y;
+                    const auto tt = mBoard.tile(ttx, tty);
+                    if(!tt) continue;
+                    const double vv = p.GetValue(ttx/div, tty/div, 0.0);
+                    if(v > vv) {
+                        if(x != 0 && y != 0) {
+                            tt->setTerrain(eTerrain::water);
+                        } else {
+                            ct = tt;
+                            ct->setTerrain(eTerrain::water);
+                            found = true;
+                        }
+                    }
+                }
+            }
+            if(!found) break;
+        }
+    }
+
     for(int x = 0; x < w; x++) {
         for(int y = 0; y < h; y++) {
             const auto tile = mBoard.tile(x, y);
