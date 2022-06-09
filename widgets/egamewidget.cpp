@@ -554,9 +554,13 @@ bool eGameWidget::roadPath(std::vector<eOrientation>& path) {
     ePathFinder p([](eTileBase* const t) {
         const auto terr = t->terrain();
         const bool tr = static_cast<bool>(eTerrain::buildable & terr);
+        if(!tr) return false;
         const auto bt = t->underBuildingType();
-        return tr && (bt == eBuildingType::road ||
-                      bt == eBuildingType::none);
+        const bool r = bt == eBuildingType::road ||
+                       bt == eBuildingType::none;
+        if(!r) return false;
+        if(!t->walkableElev() && t->isElevationTile()) return false;
+        return true;
     }, [&](eTileBase* const t) {
         return t->x() == mPressedTX && t->y() == mPressedTY;
     });
