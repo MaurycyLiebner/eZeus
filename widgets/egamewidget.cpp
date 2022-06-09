@@ -1013,8 +1013,37 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const bool v = eViewModeHelpers::characterVisible(
                                        mViewMode, c->type());
                     if(!v) continue;
-                    const double x = tx - a + c->x() + 0.25 + dtx;
-                    const double y = ty - a + c->y() + 0.25 + dty;
+                    double x = tx - a + c->x() + 0.25 + dtx;
+                    double y = ty - a + c->y() + 0.25 + dty;
+                    const auto tl = tile->topLeft<eTile>();
+                    const auto tr = tile->topRight<eTile>();
+                    const auto bl = tile->bottomLeft<eTile>();
+                    const auto br = tile->bottomRight<eTile>();
+                    if(tl && tl->altitude() > a) {
+                        const double mult = 1 - c->x();
+                        const int tla = tl->altitude();
+                        const double da = mult*(tla - a);
+                        x -= da;
+                        y -= da;
+                    } else if(tr && tr->altitude() > a) {
+                        const double mult = 1 - c->y();
+                        const int tra = tr->altitude();
+                        const double da = mult*(tra - a);
+                        x -= da;
+                        y -= da;
+                    } else if(bl && bl->altitude() > a) {
+                        const double mult = c->y();
+                        const int bla = bl->altitude();
+                        const double da = mult*(bla - a);
+                        x -= da;
+                        y -= da;
+                    } else if(br && br->altitude() > a) {
+                        const double mult = c->x();
+                        const int bra = br->altitude();
+                        const double da = mult*(bra - a);
+                        x -= da;
+                        y -= da;
+                    }
                     if(c->isSoldier()) {
                         const auto s = static_cast<eSoldier*>(c.get());
                         if(s->selected()) {
