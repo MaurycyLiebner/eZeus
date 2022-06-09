@@ -453,23 +453,7 @@ bool eGameWidget::canBuildBase(const int minX, const int maxX,
             const auto ttta = ttt & eTerrain::buildable;
             if(!static_cast<bool>(ttta)) return false;
 
-            const int a = t->altitude();
-            const auto tr = t->topRight();
-            if(tr && tr->altitude() > a) return false;
-            const auto r = t->right();
-            if(r && r->altitude() > a) return false;
-            const auto br = t->bottomRight();
-            if(br && br->altitude() > a) return false;
-            const auto b = t->bottom();
-            if(b && b->altitude() > a) return false;
-            const auto bl = t->bottomLeft();
-            if(bl && bl->altitude() > a) return false;
-            const auto l = t->left();
-            if(l && l->altitude() > a) return false;
-            const auto tl = t->topLeft();
-            if(tl && tl->altitude() > a) return false;
-            const auto tt = t->top();
-            if(tt && tt->altitude() > a) return false;
+            if(!t->walkableElev() && t->isElevationTile()) return false;
         }
     }
     return true;
@@ -584,6 +568,8 @@ bool eGameWidget::build(const int tx, const int ty,
     if(!cb) return false;
     const auto b = bc();
     if(!b) return false;
+    const bool isRoad = b->type() == eBuildingType::road;
+    if(!isRoad && tile->isElevationTile()) return false;
     const auto rend = rc ? rc() : e::make_shared<eBuildingRenderer>(b);
     tile->setBuilding(rend);
     int minX;
