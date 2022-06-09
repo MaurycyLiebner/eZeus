@@ -58,42 +58,91 @@ void eMapGenerator::generateTerrain(const eMGS& settings) {
         }
     }
 
-    const int iMax = w*h/1000;
-    for(int i = 0; i < iMax; i++) {
-        const int tx = rand() % w;
-        const int ty = rand() % h;
-        const auto tile = mBoard.tile(tx, ty);
-        if(tile->altitude() > 0) {
-            i--;
-            continue;
+    std::vector<std::vector<eTile*>> waterMasses;
+
+    const auto inMasses = [&](eTile* const t) {
+        for(const auto& mass : waterMasses) {
+            for(const auto tm : mass) {
+                if(tm == t) return true;
+            }
         }
-        eTile* ct = tile;
-        ct->setTerrain(eTerrain::water);
-        while(true) {
-            const int tx = ct->x();
-            const int ty = ct->y();
-            const double v = p.GetValue(tx/div, ty/div, 0.0);
-            bool found = false;
-            for(int x = -1; x <= 1 && !found; x++) {
-                for(int y = -1; y <= 1 && !found; y++) {
-                    if(x == 0 && y == 0) continue;
-                    const int ttx = tx + x;
-                    const int tty = ty + y;
-                    const auto tt = mBoard.tile(ttx, tty);
-                    if(!tt) continue;
-                    const double vv = p.GetValue(ttx/div, tty/div, 0.0);
-                    if(v > vv) {
-                        if(x != 0 && y != 0) {
-                            tt->setTerrain(eTerrain::water);
-                        } else {
-                            ct = tt;
-                            ct->setTerrain(eTerrain::water);
-                            found = true;
+        return false;
+    };
+
+    const auto neighsWithWater = [&](eTile* const t) {
+        const auto tl = t->topLeft<eTile>();
+        const auto bl = t->bottomLeft<eTile>();
+        const auto br = t->bottomRight<eTile>();
+        const auto tr = t->topRight<eTile>();
+        std::vector<eTile*> result;
+        if(tl && tl->terrain() == eTerrain::water) {
+            result.push_back(tl);
+        }
+        if(bl && bl->terrain() == eTerrain::water) {
+            result.push_back(bl);
+        }
+        if(br && br->terrain() == eTerrain::water) {
+            result.push_back(br);
+        }
+        if(tr && tr->terrain() == eTerrain::water) {
+            result.push_back(tr);
+        }
+        return result;
+    };
+
+    std::function<void(eTile* const tt, std::vector<eTile*>& newMass)> processTile;
+    processTile = [&](eTile* const tt, std::vector<eTile*>& newMass) {
+        newMass.push_back(tt);
+        const auto ns = neighsWithWater(tt);
+        for(const auto n : ns) {
+            if(inMasses(n)) continue;
+            processTile(n, newMass);
+        }
+    };
+
+    for(int tx = 0; tx < w; tx++) {
+        for(int ty = 0; ty < h; ty++) {
+            const auto t = mBoard.tile(tx, ty);
+            if(t->terrain() != eTerrain::water) continue;
+            if(inMasses(t)) continue;
+            auto& newMass = waterMasses.emplace_back();
+            processTile(t, newMass);
+        }
+    }
+
+    for(const auto& rm : waterMasses) {
+        const int iMax = sqrt(rm.size())/5;
+        for(int i = 0; i < iMax; i++) {
+            const auto tile = rm[rand() % rm.size()];
+            eTile* ct = tile;
+            while(true) {
+                const int tx = ct->x();
+                const int ty = ct->y();
+                const double v = p.GetValue(tx/div, ty/div, 0.0);
+                bool found = false;
+                std::vector<eTile*> valiable;
+                for(int x = -1; x <= 1 && !found; x++) {
+                    for(int y = -1; y <= 1 && !found; y++) {
+                        if(x == 0 && y == 0) continue;
+                        const int ttx = tx + x;
+                        const int tty = ty + y;
+                        const auto tt = mBoard.tile(ttx, tty);
+                        if(!tt) continue;
+                        const double vv = p.GetValue(ttx/div, tty/div, 0.0);
+                        if(v < vv) {
+                            if(x != 0 && y != 0) {
+                                tt->setTerrain(eTerrain::water);
+                            } else {
+                                valiable.push_back(tt);
+                            }
                         }
                     }
                 }
+                if(valiable.empty()) break;
+
+                ct = valiable[rand() % valiable.size()];
+                ct->setTerrain(eTerrain::water);
             }
-            if(!found) break;
         }
     }
 
