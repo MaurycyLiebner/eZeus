@@ -118,6 +118,8 @@ class eWorldCity : public eWorldCityBase {
 public:
     using eWorldCityBase::eWorldCityBase;
 
+    void nextYear();
+
     int army() const { return mArmy; }
     void setArmy(const int a) { mArmy = a; }
 

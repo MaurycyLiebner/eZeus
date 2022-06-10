@@ -10,6 +10,9 @@ class eWorldBoard {
 public:
     eWorldBoard();
 
+    void incTime(const int by);
+    void nextYear();
+
     void setHomeCity(const stdsptr<eWorldCityBase>& hc);
     void addCity(const stdsptr<eWorldCity>& c);
 

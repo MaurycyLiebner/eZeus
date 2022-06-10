@@ -283,13 +283,16 @@ void eGameBoard::incTime(const int by) {
     mTime += by;
     bool nextMonth = false;
     bool nextYear = false;
-    if(mTime > 250) {
+    const int dayLen = 350;
+    if(mTime > dayLen) {
         mDate.nextDay(nextMonth, nextYear);
-        mTime = 0;
+        mTime -= dayLen;
     }
     if(nextYear) {
         mDrachmas -= mEmplData.pensions();
     }
+    mWorldBoard.incTime(by);
+    if(nextYear) mWorldBoard.nextYear();
     const auto chars = mCharacters;
     for(const auto c : chars) {
         if(c->isSoldier()) continue;

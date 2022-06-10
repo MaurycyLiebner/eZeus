@@ -19,6 +19,15 @@ eWorldCityBase::eWorldCityBase(const eWorldCityType type,
     }
 }
 
+void eWorldCity::nextYear() {
+    for(auto& b : mBuys) {
+        b.fUsed = 0;
+    }
+    for(auto& s : mSells) {
+        s.fUsed = 0;
+    }
+}
+
 void eWorldCity::addBuys(const eResourceTrade& b) {
     mBuys.push_back(b);
 }

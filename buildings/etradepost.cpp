@@ -67,7 +67,7 @@ std::vector<eOverlay> eTradePost::getOverlays(const eTileSize size) const {
 }
 
 void eTradePost::timeChanged(const int by) {
-    const int rt = 10000;
+    const int rt = 30000;
     mRouteTimer += by;
     if(mRouteTimer > rt) {
         mRouteTimer -= rt;
