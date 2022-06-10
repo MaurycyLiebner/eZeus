@@ -1,5 +1,7 @@
 #include "edate.h"
 
+#include "elanguage.h"
+
 eDate::eDate(const int day, const eMonth month, const int year) :
     mDay(day), mMonth(month), mYear(year) {
 
@@ -30,29 +32,29 @@ void eDate::nextDay(bool& nextMonth, bool& nextYear) {
 std::string eMonthHelper::shortName(const eMonth m) {
     switch(m) {
     case eMonth::january:
-        return "Jan.";
+        return eLanguage::text("jan_short");
     case eMonth::february:
-        return "Feb.";
+        return eLanguage::text("feb_short");
     case eMonth::march:
-        return "Mar.";
+        return eLanguage::text("mar_short");
     case eMonth::april:
-        return "Apr.";
+        return eLanguage::text("apr_short");
     case eMonth::may:
-        return "May ";
+        return eLanguage::text("may_short");
     case eMonth::june:
-        return "Jun.";
+        return eLanguage::text("jun_short");
     case eMonth::july:
-        return "Jul.";
+        return eLanguage::text("jul_short");
     case eMonth::august:
-        return "Aug.";
+        return eLanguage::text("aug_short");
     case eMonth::september:
-        return "Sep.";
+        return eLanguage::text("sep_short");
     case eMonth::october:
-        return "Oct.";
+        return eLanguage::text("oct_short");
     case eMonth::november:
-        return "Nov.";
+        return eLanguage::text("nov_short");
     case eMonth::december:
-        return "Dec.";
+        return eLanguage::text("dec_short");
     }
 }
 

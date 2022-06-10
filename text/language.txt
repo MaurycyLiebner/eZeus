@@ -232,3 +232,17 @@ happiness_monument "Happiness Monument"
 
 
 scholar_monument "Scholar Monument"
+
+; months
+jan_short "Jan."
+feb_short "Feb."
+mar_short "Mar."
+apr_short "Apr."
+may_short "May "
+jun_short "Jun."
+jul_short "Jul."
+aug_short "Aug."
+sep_short "Sep."
+oct_short "Oct."
+nov_short "Nov."
+dec_short "Dec."
