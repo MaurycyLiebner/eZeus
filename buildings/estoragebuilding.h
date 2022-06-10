@@ -23,12 +23,19 @@ public:
     int count(const eResourceType type) const;
     int spaceLeft(const eResourceType type) const;
 
+    int spaceLeftDontAccept(const eResourceType type) const;
+
     std::vector<eCartTask> cartTasks() const;
 
     static int sCount(const eResourceType type,
                       const int resourceCount[15],
                       const eResourceType resourceType[15],
                       const int spaceCount);
+    static int sSpaceLeftDontAccept(const eResourceType type,
+                                    const int resourceCount[15],
+                                    const eResourceType resourceType[15],
+                                    const std::map<eResourceType, int>& maxCounts,
+                                    const int spaceCount);
     static int sSpaceLeft(const eResourceType type,
                           const int resourceCount[15],
                           const eResourceType resourceType[15],

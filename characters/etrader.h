@@ -8,6 +8,8 @@ public:
     eTrader(eGameBoard& board);
 
     void createFollowers();
+
+    void setActionType(const eCharacterActionType t);
 private:
     std::vector<stdsptr<eCharacter>> mFollowers;
 };

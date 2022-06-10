@@ -95,6 +95,12 @@ int eStorageBuilding::spaceLeft(const eResourceType type) const {
                       mAccept, mMaxCount, mSpaceCount);
 }
 
+
+int eStorageBuilding::spaceLeftDontAccept(const eResourceType type) const {
+    return sSpaceLeftDontAccept(type, mResourceCount, mResource,
+                                mMaxCount, mSpaceCount);
+}
+
 std::vector<eCartTask> eStorageBuilding::cartTasks() const {
     std::vector<eCartTask> tasks;
 
@@ -140,14 +146,12 @@ int eStorageBuilding::sCount(const eResourceType type,
     return result;
 }
 
-int eStorageBuilding::sSpaceLeft(
+int eStorageBuilding::sSpaceLeftDontAccept(
         const eResourceType type,
         const int resourceCount[15],
         const eResourceType resourceType[15],
-        const eResourceType accepts,
         const std::map<eResourceType, int>& maxCounts,
         const int spaceCount) {
-    if(!static_cast<bool>(accepts & type)) return 0;
     const bool sculpt = type == eResourceType::sculpture;
     const int sspace = sculpt ? 1 : 4;
     int space = 0;
@@ -162,6 +166,19 @@ int eStorageBuilding::sSpaceLeft(
     }
     const int max = maxCounts.at(type);
     return std::min(max, space);
+}
+
+int eStorageBuilding::sSpaceLeft(
+        const eResourceType type,
+        const int resourceCount[15],
+        const eResourceType resourceType[15],
+        const eResourceType accepts,
+        const std::map<eResourceType, int>& maxCounts,
+        const int spaceCount) {
+    if(!static_cast<bool>(accepts & type)) return 0;
+    return sSpaceLeftDontAccept(type, resourceCount,
+                                resourceType, maxCounts,
+                                spaceCount);
 }
 
 void eStorageBuilding::setMaxCount(const std::map<eResourceType, int>& m) {

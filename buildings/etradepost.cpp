@@ -151,6 +151,45 @@ void eTradePost::spawnTrader() {
     r->createFollowers();
 
     const auto ta = e::make_shared<eTraderAction>(r.get(), [](){}, [](){});
+    ta->setFinishOnComeback(true);
     ta->setTradePost(this);
     r->setAction(ta);
+}
+
+int eTradePost::buy(const int cash) {
+    int spent = 0;
+    for(auto& b : mCity.buys()) {
+        const auto expt = mExports & b.fType;
+        const bool exp = static_cast<bool>(expt);
+        if(!exp) continue;
+        if(b.fUsed >= b.fMax) continue;
+        if(b.fPrice > cash) continue;
+        const int c = count(b.fType);
+        if(c <= 0) continue;
+        take(b.fType, 1);
+        b.fUsed++;
+        spent += b.fPrice;
+    }
+    auto& brd = getBoard();
+    brd.incDrachmas(spent);
+    return spent;
+}
+
+int eTradePost::sell(const int items) {
+    int earned = 0;
+    for(auto& b : mCity.sells()) {
+        const auto impt = mImports & b.fType;
+        const bool imp = static_cast<bool>(impt);
+        if(!imp) continue;
+        if(b.fUsed >= b.fMax) continue;
+        if(b.fPrice > items) continue;
+        const int c = spaceLeftDontAccept(b.fType);
+        if(c <= 0) continue;
+        addNotAccept(b.fType, 1);
+        b.fUsed++;
+        earned += b.fPrice;
+    }
+    auto& brd = getBoard();
+    brd.incDrachmas(-earned);
+    return earned;
 }

@@ -48,7 +48,7 @@ public:
 
     void setAction(const stdsptr<eCharacterAction>& a);
 
-    void setActionType(const eCharacterActionType t);
+    virtual void setActionType(const eCharacterActionType t);
     int actionStartTime() const { return mActionStartTime; }
 
     bool hasSecondaryTexture() const { return mHasSecondaryTexture; }

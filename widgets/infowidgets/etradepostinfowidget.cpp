@@ -229,11 +229,12 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
 
         const auto r = new eResourceStorageStack(window());
 
-        const auto& cbuys = city.buys();
+        const auto& csells = city.sells();
 
-        r->initialize(stor, cbuys, imports,
+        r->initialize(stor, csells, imports,
                       mImportButtons, mSpinBoxes, maxCount,
-                      "Not Buying", "Buying");
+                      eLanguage::text("not_buying"),
+                      eLanguage::text("buying"));
 
         wrapper->addWidget(importsLabel);
         wrapper->addWidget(r);
@@ -250,9 +251,9 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
 
         const auto r = new eResourceStorageStack(window());
 
-        const auto& csells = city.sells();
+        const auto& cbuys = city.buys();
 
-        r->initialize(stor, csells, exports,
+        r->initialize(stor, cbuys, exports,
                       mExportButtons, mSpinBoxes, maxCount,
                       eLanguage::text("not_selling"),
                       eLanguage::text("selling"));

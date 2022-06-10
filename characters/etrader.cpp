@@ -22,3 +22,10 @@ void eTrader::createFollowers() {
         mFollowers.push_back(d);
     }
 }
+
+void eTrader::setActionType(const eCharacterActionType t) {
+    eBasicPatroler::setActionType(t);
+    for(const auto& f : mFollowers) {
+        f->setActionType(t);
+    }
+}

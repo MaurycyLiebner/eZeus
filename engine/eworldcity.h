@@ -126,9 +126,13 @@ public:
 
     const std::vector<eResourceTrade>& buys() const
     { return mBuys; }
+    std::vector<eResourceTrade>& buys()
+    { return mBuys; }
     void addBuys(const eResourceTrade& b);
 
     const std::vector<eResourceTrade>& sells() const
+    { return mSells; }
+    std::vector<eResourceTrade>& sells()
     { return mSells; }
     void addSells(const eResourceTrade& s);
 

@@ -20,6 +20,9 @@ public:
                         const eAction& finishAction);
 
     bool decide();
+
+    void setFinishOnComeback(const bool b)
+    { mFinishOnComeback = b; }
 protected:
     using eWalkable = std::function<bool(eTileBase*)>;
     void goBack(const eWalkable& walkable);
@@ -27,9 +30,6 @@ protected:
                 const eWalkable& walkable);
     void goBack(const SDL_Rect& rect,
                 const eWalkable& walkable);
-
-    void setFinishOnComeback(const bool b)
-    { mFinishOnComeback = b; }
 private:
     void teleportDecision();
 

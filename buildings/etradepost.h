@@ -27,6 +27,9 @@ public:
     void updateRouteStart();
 
     void spawnTrader();
+
+    int buy(const int cash);
+    int sell(const int items);
 private:
     eWorldCity& mCity;
     eResourceType mImports = eResourceType::none;
