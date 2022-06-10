@@ -94,9 +94,35 @@ std::vector<eOverlay> eGrowersLodge::
 
 void eGrowersLodge::timeChanged(const int by) {
     if(enabled()) {
-        if(!mCart) spawnCart(mCart, eCartActionTypeSupport::give);
-        if(!mGrower1) spawnGrower(&eGrowersLodge::mGrower1);
-        if(!mGrower2) spawnGrower(&eGrowersLodge::mGrower2);
+        const bool hasRes = mGrapes > 0 || mOlives > 0 || mOranges > 0;
+        if(!mCart) {
+            spawnCart(mCart, eCartActionTypeSupport::give);
+        } else if(mCart && mCart->waiting() && hasRes) {
+            if(mGrapes > 0) {
+                const int a = mCart->add(eResourceType::grapes, mGrapes);
+                mGrapes -= a;
+            } else if(mOlives > 0) {
+                const int a = mCart->add(eResourceType::olives, mOlives);
+                mOlives -= a;
+            } else if(mOranges > 0) {
+                const int a = mCart->add(eResourceType::oranges, mOranges);
+                mOranges -= a;
+            }
+        }
+        if(mSpawnEnabled) {
+            mSpawnTime1 += by;
+            if(!mGrower1 && mSpawnTime1 > mWaitTime) {
+                mSpawnTime1 -= mWaitTime;
+                spawnGrower(&eGrowersLodge::mGrower1,
+                            &eGrowersLodge::mSpawnTime1);
+            }
+            mSpawnTime2 += by;
+            if(!mGrower2 && mSpawnTime2 > mWaitTime) {
+                mSpawnTime2 -= mWaitTime;
+                spawnGrower(&eGrowersLodge::mGrower2,
+                            &eGrowersLodge::mSpawnTime2);
+            }
+        }
     }
     eEmployingBuilding::timeChanged(by);
 }
@@ -191,18 +217,19 @@ std::vector<eCartTask> eGrowersLodge::cartTasks() const {
     return tasks;
 }
 
-bool eGrowersLodge::spawnGrower(const eGrowerPtr grower) {
-    if(mGrapes + mOlives + mOranges >= mMaxResource) return false;
+bool eGrowersLodge::spawnGrower(const eGrowerPtr grower,
+                                const eTimePtr time) {
     const auto t = centerTile();
     auto& g = this->*grower;
     this->*grower = e::make_shared<eGrower>(getBoard(), mType);
     g->changeTile(t);
     const eStdPointer<eGrowersLodge> tptr(this);
-    const auto finishAct = [tptr, this, grower]() {
+    const auto finishAct = [tptr, this, grower, time]() {
         if(!tptr) return;
         auto& g = this->*grower;
         if(g) g->kill();
         g = nullptr;
+        this->*time = 0;
     };
     const auto a = e::make_shared<eGrowerAction>(
                        mType, this, g.get(),

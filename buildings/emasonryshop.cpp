@@ -10,45 +10,35 @@
 #include "characters/actions/efollowaction.h"
 #include "characters/actions/emovetoaction.h"
 
+void transformMarble(eTile* const t) {
+    if(eMarbleTile::isEdge(t)) {
+        t->setMarbleLevel(1);
+    } else {
+        const int l = t->marbleLevel();
+        if(l == 0) {
+            t->setMarbleLevel(1);
+            t->setResource(100);
+        } else {
+            t->setMarbleLevel(2);
+        }
+    }
+}
+
+bool hasMarble(eTileBase* const t) {
+    const int r = t->resource();
+    if(r <= 0) return false;
+    return t->terrain() == eTerrain::marble;
+}
+
 eMasonryShop::eMasonryShop(eGameBoard& board) :
     eResourceCollectBuilding(board,
                              &eBuildingTextures::fMasonryShop,
                              0, 0, nullptr,
                              [this]() { return e::make_shared<eMarbleMiner>(getBoard()); },
                              eBuildingType::masonryShop,
-                             [](eTileBase* const t) {
-                                if(!t->resource()) return false;
-                                return t->terrain() == eTerrain::marble;
-                             },
-                             [](eTile* const t) {
-                                if(eMarbleTile::isEdge(t)) {
-                                    t->setMarbleLevel(1);
-                                } else {
-                                    const int l = t->marbleLevel();
-                                    if(l == 0) {
-                                        t->setMarbleLevel(1);
-                                        t->setResource(100);
-                                    } else {
-                                        t->setMarbleLevel(2);
-                                    }
-                                }
-                             }, 2, 2, 15,
+                             hasMarble, transformMarble, 2, 2, 15,
                              eResourceType::marble) {
-    setCollectedAction([this](eTile* const tile) {
-        auto& board = getBoard();
-
-        const auto r = e::make_shared<eCartTransporter>(board);
-        r->changeTile(tile);
-        r->setBigTrailer(true);
-        r->setResource(eResourceType::marble, 1);
-
-        const auto empty = []() {};
-        const auto a = e::make_shared<eMoveToAction>(
-                           r.get(), empty, empty);
-        a->start(this);
-        r->setAction(a);
-        r->setActionType(eCharacterActionType::walk);
-    });
+    setAddResource(false);
 }
 
 std::vector<eOverlay>
@@ -112,25 +102,50 @@ eMasonryShop::getOverlays(const eTileSize size) const {
 }
 
 void eMasonryShop::timeChanged(const int by) {
+    if(!mCollectActionSet) {
+        mCollectActionSet = true;
+        setCollectAction();
+    }
+    const int proccessTime = 3000;
     if(enabled()) {
-        if(time() > mProcessTime) {
+        mProcessTime += by;
+        if(mProcessTime > proccessTime) {
+            mProcessTime -= proccessTime;
             if(mRawCount > 0) {
                 const int c = eResourceCollectBuilding::add(
                                   eResourceType::marble, 1);
                 mRawCount -= c;
                 if(mRawCount <= 0) enableSpawn();
             }
-            mProcessTime = time() + mProcessWaitTime;
         }
     }
     eResourceCollectBuilding::timeChanged(by);
 }
 
-int eMasonryShop::add(const eResourceType type, const int count) {
-    if(type == eResourceType::marble && count > 0) {
-        disableSpawn();
-        mRawCount = 8;
-        return 8;
-    }
-    return eResourceBuildingBase::add(type, count);
+void eMasonryShop::addRaw() {
+    mRawCount = 8;
+    disableSpawn();
+}
+
+void eMasonryShop::setCollectAction() {
+    const stdptr<eMasonryShop> tptr(this);
+    setCollectedAction([tptr, this](eTile* const tile) {
+        if(!tptr) return;
+        auto& board = getBoard();
+
+        const auto r = e::make_shared<eCartTransporter>(board);
+        r->changeTile(tile);
+        r->setBigTrailer(true);
+        r->setResource(eResourceType::marble, 1);
+
+        const auto finish = [tptr, this]() {
+            if(!tptr) return;
+            addRaw();
+        };
+        const auto a = e::make_shared<eMoveToAction>(
+                           r.get(), [](){}, finish);
+        a->start(this);
+        r->setAction(a);
+        r->setActionType(eCharacterActionType::walk);
+    });
 }

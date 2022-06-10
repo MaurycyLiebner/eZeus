@@ -30,9 +30,14 @@ bool eCollectResourceAction::decide() {
     if(coll > 0) {
         if(inside) {
             const auto rType = mBuilding->resourceType();
-            mBuilding->add(rType, coll);
+            if(mAddResource) mBuilding->add(rType, coll);
             mCharacter->incCollected(-coll);
-            waitDecision();
+            if(mFinishOnce) {
+                setState(eCharacterActionState::finished);
+                return true;
+            } else {
+                waitDecision();
+            }
         } else {
             goBackDecision();
         }

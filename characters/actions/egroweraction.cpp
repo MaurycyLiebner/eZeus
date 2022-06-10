@@ -92,7 +92,12 @@ bool eGrowerAction::decide() {
             mGrower->incOlives(-olives);
             mGrower->incOranges(-oranges);
 
-            waitDecision();
+            if(mFinishOnce) {
+                setState(eCharacterActionState::finished);
+                return true;
+            } else {
+                waitDecision();
+            }
         } else {
             goBackDecision();
         }

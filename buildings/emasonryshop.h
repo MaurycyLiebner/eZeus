@@ -10,13 +10,14 @@ public:
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
 
     void timeChanged(const int by);
-
-    int add(const eResourceType type, const int count);
 private:
-    int mRawCount{0};
+    void addRaw();
+    void setCollectAction();
 
-    int mProcessWaitTime = 10000;
-    int mProcessTime = mProcessWaitTime;
+    bool mCollectActionSet = false;
+
+    int mRawCount{0};
+    int mProcessTime = 0;
 };
 
 #endif // EMASONRYSHOP_H

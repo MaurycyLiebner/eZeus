@@ -96,7 +96,13 @@ std::vector<eOverlay> eResourceCollectBuilding::
 
 void eResourceCollectBuilding::timeChanged(const int by) {
     eResourceBuildingBase::timeChanged(by);
-    if(!mCollector) spawn();
+    if(enabled() && !mCollector && mSpawnEnabled) {
+        mSpawnTime += by;
+        if(mSpawnTime > mWaitTime) {
+            mSpawnTime -= mWaitTime;
+            spawn();
+        }
+    }
 }
 
 bool eResourceCollectBuilding::spawn() {
@@ -110,11 +116,13 @@ bool eResourceCollectBuilding::spawn() {
         if(!tptr) return;
         if(mCollector) mCollector->kill();
         mCollector = nullptr;
+        mSpawnTime = 0;
     };
 
     const auto a = e::make_shared<eCollectResourceAction>(
                        this, mCollector.get(), mHasRes,
                        mTransFunc, finishAct, finishAct);
+    a->setAddResource(mAddResource);
     a->setCollectedAction(mCollectedAction);
     switch(resourceType()) {
     case eResourceType::silver:

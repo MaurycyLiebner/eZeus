@@ -34,6 +34,8 @@ public:
     void timeChanged(const int by);
 
     bool spawn();
+
+    void setAddResource(const bool b) { mAddResource = b; }
 protected:
     void enableSpawn() { mSpawnEnabled = true; }
     void disableSpawn() { mSpawnEnabled = false; }
@@ -58,6 +60,8 @@ private:
     stdsptr<eResourceCollectorBase> mCollector;
 
     bool mSpawnEnabled = true;
+
+    bool mAddResource = true;
 
     int mWaitTime = 5000;
     int mSpawnTime = mWaitTime;

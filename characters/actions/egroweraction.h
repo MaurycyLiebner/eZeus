@@ -25,6 +25,8 @@ private:
     eGrower* const mGrower;
     eGrowersLodge* const mLodge;
 
+    bool mFinishOnce = true;
+
     int mGroomed = 0;
     bool mNoResource = false;
 };

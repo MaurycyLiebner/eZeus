@@ -90,7 +90,9 @@ void eMoveToAction::start(eBuilding* const final,
         const SDL_Point p{t->x(), t->y()};
         return SDL_PointInRect(&p, &rect);
     };
-    start(finalFunc, walkable);
+    const auto walkable2 = eWalkableHelpers::sBuildingWalkable(
+                              final, walkable);
+    start(finalFunc, walkable2);
 }
 
 void eMoveToAction::start(const eBuildingType final,
