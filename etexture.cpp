@@ -53,12 +53,12 @@ bool eTexture::load(SDL_Renderer* const r,
     return true;
 }
 
-bool eTexture::loadText(SDL_Renderer* const r,
-                        const std::string& text,
-                        const SDL_Color& color,
-                        TTF_Font& font,
-                        const int width) {
-    reset();
+SDL_Texture* generateTextTexture(SDL_Renderer* const r,
+                                 const std::string& text,
+                                 const SDL_Color& color,
+                                 TTF_Font& font,
+                                 const int width,
+                                 int& w, int& h) {
     SDL_Surface* surf;
     if(width) {
         surf = TTF_RenderText_Blended_Wrapped(&font, text.c_str(), color, width);
@@ -68,18 +68,28 @@ bool eTexture::loadText(SDL_Renderer* const r,
     if(!surf) {
         printf("Unable to render text! SDL_ttf Error: %s\n",
                TTF_GetError());
-        return false;
+        return nullptr;
     }
-    mTex = SDL_CreateTextureFromSurface(r, surf);
-    mWidth = surf->w;
-    mHeight = surf->h;
+    const auto tex = SDL_CreateTextureFromSurface(r, surf);
+    w = surf->w;
+    h = surf->h;
     SDL_FreeSurface(surf);
+    return tex;
+}
+
+bool eTexture::loadText(SDL_Renderer* const r,
+                        const std::string& text,
+                        const SDL_Color& color,
+                        TTF_Font& font,
+                        const int width) {
+    reset();
+    const auto mTex = generateTextTexture(r, text, color, font,
+                                          width, mWidth, mHeight);
     if(!mTex) {
         printf("Unable to create texture from rendered text! "
                "SDL Error: %s\n", SDL_GetError());
         return false;
     }
-
     return true;
 }
 
