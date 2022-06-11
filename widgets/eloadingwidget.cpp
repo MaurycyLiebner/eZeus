@@ -36,7 +36,7 @@ void eLoadingWidget::initialize() {
         const auto label = new eFramedLabel("Waiting...", window());
         mLabelW = label;
         mLabel = label;
-        mLabel->setWhiteFontColor();
+        mLabel->setLightFontColor();
     } else {
         const auto label = new eLabel("Waiting...", window());
         mLabelW = label;

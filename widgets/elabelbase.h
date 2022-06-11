@@ -17,12 +17,12 @@ public:
     bool setFontSize(const int s);
     bool setText(const std::string& text);
     bool setTexture(const std::shared_ptr<eTexture>& tex);
-    bool setFontColor(const SDL_Color& color);
+    bool setFontColor(const eFontColor color);
 
-    SDL_Color fontColor() const
+    eFontColor fontColor() const
     { return mFontColor; }
-    void setWhiteFontColor();
-    void setDarkerFontColor();
+    void setLightFontColor();
+    void setDarkFontColor();
 
     int fontSize() const;
 
@@ -39,7 +39,7 @@ private:
     TTF_Font* mFont = nullptr;
     std::string mText;
     std::shared_ptr<eTexture> mTexture;
-    SDL_Color mFontColor{255, 255, 255, 255};
+    eFontColor mFontColor = eFontColor::light;
 };
 
 #endif // ELABELBASE_H

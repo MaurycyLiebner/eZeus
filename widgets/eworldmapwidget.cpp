@@ -73,8 +73,7 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
         if(nameFind == mNames.end()) {
             nameTex = std::make_shared<eTexture>();
             const auto font = eFonts::defaultFont(resolution().smallFontSize());
-            const auto white = SDL_Color{255, 255, 255, 255};
-            nameTex->loadText(renderer(), name, white, *font);
+            nameTex->loadText(renderer(), name, eFontColor::light, *font);
             mNames[name] = nameTex;
         } else {
             nameTex = nameFind->second;

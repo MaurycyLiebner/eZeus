@@ -5,7 +5,7 @@
 std::shared_ptr<eTexture> eActionListWidget::textToTexture(const std::string& text) {
     const auto tex = std::make_shared<eTexture>();
     const auto font = eFonts::defaultFont(mFontSize);
-    tex->loadText(renderer(), text, {255, 255, 255, 255}, *font);
+    tex->loadText(renderer(), text, eFontColor::light, *font);
     return tex;
 }
 

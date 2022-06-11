@@ -53,17 +53,17 @@ bool eLabelBase::setTexture(const std::shared_ptr<eTexture>& tex) {
     return true;
 }
 
-bool eLabelBase::setFontColor(const SDL_Color& color) {
+bool eLabelBase::setFontColor(const eFontColor color) {
     mFontColor = color;
     return updateTextTexture();
 }
 
-void eLabelBase::setWhiteFontColor() {
-    setFontColor({255, 255, 255, 255});
+void eLabelBase::setLightFontColor() {
+    setFontColor(eFontColor::light);
 }
 
-void eLabelBase::setDarkerFontColor() {
-    setFontColor({180, 180, 200, 255});
+void eLabelBase::setDarkFontColor() {
+    setFontColor(eFontColor::dark);
 }
 
 int eLabelBase::fontSize() const {

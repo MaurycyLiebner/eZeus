@@ -353,7 +353,7 @@ int eMainWindow::exec() {
         p.setFont(eFonts::defaultFont(resolution()));
         const duration<double> elapsed = end - start;
         const int fps = (int)std::round(1/elapsed.count());
-        p.drawText(0, 0, std::to_string(fps), {0, 0, 0, 255});
+        p.drawText(0, 0, std::to_string(fps), eFontColor::dark);
 
         SDL_RenderPresent(mSdlRenderer);
 

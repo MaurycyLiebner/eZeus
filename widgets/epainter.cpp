@@ -114,7 +114,7 @@ void ePainter::drawRect(const SDL_Rect& rect,
 
 void ePainter::drawText(const int x, const int y,
                         const std::string& text,
-                        const SDL_Color& color,
+                        const eFontColor color,
                         const eAlignment align) const {
     if(!mFont) return;
 
@@ -126,7 +126,7 @@ void ePainter::drawText(const int x, const int y,
 
 void ePainter::drawText(const SDL_Rect& rect,
                         const std::string& text,
-                        const SDL_Color& color,
+                        const eFontColor color,
                         const eAlignment align) const {
     if(!mFont) return;
 

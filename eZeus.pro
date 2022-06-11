@@ -187,6 +187,7 @@ SOURCES += \
         characters/gods/eextendedgod.cpp \
         characters/gods/egod.cpp \
         characters/gods/ehermes.cpp \
+        efontcolor.cpp \
         egamedir.cpp \
         eiteratesquare.cpp \
         elanguage.cpp \
@@ -497,6 +498,7 @@ HEADERS += \
     characters/gods/eextendedgod.h \
     characters/gods/egod.h \
     characters/gods/ehermes.h \
+    efontcolor.h \
     egamedir.h \
     eiteratesquare.h \
     elanguage.h \

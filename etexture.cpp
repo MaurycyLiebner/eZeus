@@ -71,6 +71,11 @@ SDL_Texture* generateTextTexture(SDL_Renderer* const r,
         return nullptr;
     }
     const auto tex = SDL_CreateTextureFromSurface(r, surf);
+    if(!tex) {
+        printf("Unable to create texture from rendered text! "
+               "SDL Error: %s\n", SDL_GetError());
+        return nullptr;
+    }
     w = surf->w;
     h = surf->h;
     SDL_FreeSurface(surf);
@@ -79,23 +84,66 @@ SDL_Texture* generateTextTexture(SDL_Renderer* const r,
 
 bool eTexture::loadText(SDL_Renderer* const r,
                         const std::string& text,
-                        const SDL_Color& color,
+                        const eFontColor color,
                         TTF_Font& font,
                         const int width) {
     reset();
-    const auto mTex = generateTextTexture(r, text, color, font,
-                                          width, mWidth, mHeight);
+
+    SDL_Color col1;
+    SDL_Color col2;
+    eFontColorHelpers::colors(color, col1, col2);
+
+    int w;
+    int h;
+    const auto tex1 = generateTextTexture(r, text, col1,
+                                          font, width, w, h);
+    if(!tex1) return false;
+    const auto tex2 = generateTextTexture(r, text, col2,
+                                          font, width, w, h);
+    if(!tex2) return false;
+
+    const int dx = 1;
+    const int dy = 1;
+
+    mWidth = w + dx;
+    mHeight = h + dy;
+    mTex = SDL_CreateTexture(r, SDL_PIXELFORMAT_ARGB8888,
+                             SDL_TEXTUREACCESS_TARGET, mWidth, mHeight);
+
     if(!mTex) {
-        printf("Unable to create texture from rendered text! "
+        printf("Unable to create texture! "
                "SDL Error: %s\n", SDL_GetError());
         return false;
+    }
+    {
+        SDL_SetRenderTarget(r, mTex);
+        const auto bm = SDL_ComposeCustomBlendMode(
+                            SDL_BLENDFACTOR_ONE,
+                            SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA,
+                            SDL_BLENDOPERATION_ADD,
+
+                            SDL_BLENDFACTOR_ONE,
+                            SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA,
+                            SDL_BLENDOPERATION_ADD);
+        SDL_SetTextureBlendMode(mTex, bm);
+
+        SDL_SetRenderDrawBlendMode(r, SDL_BLENDMODE_NONE);
+        SDL_SetRenderDrawColor(r, 0, 0, 0, 0);
+        SDL_RenderFillRect(r, NULL);
+
+        const SDL_Rect dstRect2{0, 0, w, h};
+        SDL_RenderCopy(r, tex2, NULL, &dstRect2);
+        const SDL_Rect dstRect1{dx, dy, w, h};
+        SDL_RenderCopy(r, tex1, NULL, &dstRect1);
+
+        SDL_SetRenderTarget(r, nullptr);
     }
     return true;
 }
 
 bool eTexture::loadText(SDL_Renderer* const r,
                         const std::string& text,
-                        const SDL_Color& color,
+                        const eFontColor color,
                         const eFont& font,
                         const int width) {
     const auto ttf = eFonts::requestFont(font);
