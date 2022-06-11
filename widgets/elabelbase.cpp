@@ -58,6 +58,14 @@ bool eLabelBase::setFontColor(const SDL_Color& color) {
     return updateTextTexture();
 }
 
+void eLabelBase::setWhiteFontColor() {
+    setFontColor({255, 255, 255, 255});
+}
+
+void eLabelBase::setDarkerFontColor() {
+    setFontColor({180, 180, 200, 255});
+}
+
 int eLabelBase::fontSize() const {
     if(!mFont) return 0;
     return TTF_FontHeight(mFont);

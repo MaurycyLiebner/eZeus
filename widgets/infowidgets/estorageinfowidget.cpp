@@ -64,9 +64,9 @@ public:
 
             b->setSwitchAction([b](const int i) {
                 if(i == 0 || i == 3) {
-                    b->setFontColor({180, 180, 200, 255});
+                    b->setDarkerFontColor();
                 } else {
-                    b->setFontColor({255, 255, 255, 255});
+                    b->setWhiteFontColor();
                 }
             });
 

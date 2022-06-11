@@ -21,6 +21,8 @@ public:
 
     SDL_Color fontColor() const
     { return mFontColor; }
+    void setWhiteFontColor();
+    void setDarkerFontColor();
 
     int fontSize() const;
 
