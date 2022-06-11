@@ -29,8 +29,7 @@ bool eCollectResourceAction::decide() {
 
     if(coll > 0) {
         if(inside) {
-            const auto rType = mBuilding->resourceType();
-            if(mAddResource) mBuilding->add(rType, coll);
+            if(mAddResource) mBuilding->addRaw();
             mCharacter->incCollected(-coll);
             if(mFinishOnce) {
                 setState(eCharacterActionState::finished);

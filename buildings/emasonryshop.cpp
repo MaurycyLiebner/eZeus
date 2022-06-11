@@ -34,23 +34,28 @@ eMasonryShop::eMasonryShop(eGameBoard& board) :
     eResourceCollectBuilding(board,
                              &eBuildingTextures::fMasonryShop,
                              0, 0, nullptr,
+                             3, 0.5, -1.5,
                              [this]() { return e::make_shared<eMarbleMiner>(getBoard()); },
                              eBuildingType::masonryShop,
                              hasMarble, transformMarble, 2, 2, 15,
                              eResourceType::marble) {
     setAddResource(false);
+    setRawInc(8);
+    setRawCountCollect(0);
 }
 
 std::vector<eOverlay>
 eMasonryShop::getOverlays(const eTileSize size) const {
+    auto os = eResourceCollectBuilding::getOverlays(size);
     const int sizeId = static_cast<int>(size);
     const auto& btexs = eGameTextures::buildings()[sizeId];
-    std::vector<eOverlay> os;
     const int t = textureTime();
-    if(mRawCount) {
+    const int rc = rawCount();
+    if(rc) {
         const auto& stones = btexs.fMasonryShopStones;
-        const int sid = std::clamp(8 - mRawCount, 0, stones.size());
-        eOverlay o;
+        const int sid = std::clamp(8 - rc, 0, stones.size());
+
+        eOverlay& o = os.emplace_back();
         o.fAlignTop = true;
         o.fTex = stones.getTexture(sid);
         o.fX = 0.25;
@@ -69,33 +74,22 @@ eMasonryShop::getOverlays(const eTileSize size) const {
             o.fX -= 0.15;
             o.fY -= 0.5;
         }
-        os.push_back(o);
 
         if(sid < 4) {
-            eOverlay o;
+            eOverlay& o = os.emplace_back();
             const auto& ov = btexs.fMasonryShopOverlay1[0];
             const int id = t % ov.size();
             o.fTex = ov.getTexture(id);
             o.fX = 0.50;
             o.fY = -0.90;
-            os.push_back(o);
         } else {
-            eOverlay o;
+            eOverlay& o = os.emplace_back();
             const auto& ov = btexs.fMasonryShopOverlay2[0];
             const int id = t % ov.size();
             o.fTex = ov.getTexture(id);
             o.fX = 0.50;
             o.fY = -1.00;
-            os.push_back(o);
         }
-    } else {
-        eOverlay o;
-        const auto& ov = btexs.fMasonryShopOverlay0[3];
-        const int id = t % ov.size();
-        o.fTex = ov.getTexture(id);
-        o.fX = 0.50;
-        o.fY = -1.50;
-        os.push_back(o);
     }
 
     return os;
@@ -106,25 +100,7 @@ void eMasonryShop::timeChanged(const int by) {
         mCollectActionSet = true;
         setCollectAction();
     }
-    const int proccessTime = 3000;
-    if(enabled()) {
-        mProcessTime += by;
-        if(mProcessTime > proccessTime) {
-            mProcessTime -= proccessTime;
-            if(mRawCount > 0) {
-                const int c = eResourceCollectBuilding::add(
-                                  eResourceType::marble, 1);
-                mRawCount -= c;
-                if(mRawCount <= 0) enableSpawn();
-            }
-        }
-    }
     eResourceCollectBuilding::timeChanged(by);
-}
-
-void eMasonryShop::addRaw() {
-    mRawCount = 8;
-    disableSpawn();
 }
 
 void eMasonryShop::setCollectAction() {

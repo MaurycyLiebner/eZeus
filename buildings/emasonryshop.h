@@ -11,13 +11,9 @@ public:
 
     void timeChanged(const int by);
 private:
-    void addRaw();
     void setCollectAction();
 
     bool mCollectActionSet = false;
-
-    int mRawCount{0};
-    int mProcessTime = 0;
 };
 
 #endif // EMASONRYSHOP_H

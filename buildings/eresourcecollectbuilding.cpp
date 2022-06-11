@@ -3,13 +3,16 @@
 #include "characters/eresourcecollector.h"
 #include "characters/actions/ecollectresourceaction.h"
 #include "textures/egametextures.h"
+#include "engine/egameboard.h"
 
-eResourceCollectBuilding::eResourceCollectBuilding(
-        eGameBoard& board,
+eResourceCollectBuilding::eResourceCollectBuilding(eGameBoard& board,
         const eBaseTex baseTex,
         const double overlayX,
         const double overlayY,
         const eOverlays overlays,
+        const int waitingOO,
+        const double waitingOX,
+        const double waitingOY,
         const eCharGenerator& charGen,
         const eBuildingType type,
         const eHasResource& hr,
@@ -22,6 +25,8 @@ eResourceCollectBuilding::eResourceCollectBuilding(
     mTextures(eGameTextures::buildings()),
     mBaseTex(baseTex), mOverlays(overlays),
     mOverlayX(overlayX), mOverlayY(overlayY),
+    mWaitingOO(waitingOO),
+    mWaitingOX(waitingOX), mWaitingOY(waitingOY),
     mHasRes(hr), mTransFunc(tf) {
 
 }
@@ -37,14 +42,33 @@ std::shared_ptr<eTexture> eResourceCollectBuilding::getTexture(const eTileSize s
 
 std::vector<eOverlay> eResourceCollectBuilding::
     getOverlays(const eTileSize size) const {
-    if(!mOverlays) return {};
+    std::vector<eOverlay> result;
     const int sizeId = static_cast<int>(size);
-    const auto& coll = mTextures[sizeId].*mOverlays;
-    const int texId = textureTime() % coll.size();
-    eOverlay o;
-    o.fTex = coll.getTexture(texId);
-    o.fX = mOverlayX;
-    o.fY = mOverlayY;
+    const auto& btexs = eGameTextures::buildings()[sizeId];
+    if(mRawCount <= 0) {
+        eOverlay& o = result.emplace_back();
+        const int wo = seed() % 2;
+        const std::vector<eTextureCollection>* coll;
+        if(wo) {
+            coll = &btexs.fWaitingOverlay0;
+        } else {
+            coll = &btexs.fWaitingOverlay1;
+        }
+        const auto& ov = (*coll)[mWaitingOO];
+        const int t = textureTime();
+        const int id = t % ov.size();
+        o.fTex = ov.getTexture(id);
+        o.fX = mWaitingOX;
+        o.fY = mWaitingOY;
+        result.push_back(o);
+    } else if(mOverlays) {
+        const auto& coll = btexs.*mOverlays;
+        const int texId = textureTime() % coll.size();
+        eOverlay& o = result.emplace_back();
+        o.fTex = coll.getTexture(texId);
+        o.fX = mOverlayX;
+        o.fY = mOverlayY;
+    }
     if(resource() > 0) {
         const auto texs = mTextures[sizeId];
         const eTextureCollection* coll = nullptr;
@@ -63,7 +87,7 @@ std::vector<eOverlay> eResourceCollectBuilding::
         case eResourceType::wood:
             coll = &texs.fWaitingWood;
             x += 0.25;
-            y += 0.25;
+            y -= 0.50;
             break;
         case eResourceType::bronze:
             coll = &texs.fWaitingBronze;
@@ -83,24 +107,41 @@ std::vector<eOverlay> eResourceCollectBuilding::
         if(coll) {
             const int resMax = coll->size() - 1;
             const int res = std::clamp(resource() - 1, 0, resMax);
-            eOverlay resO;
+            eOverlay& resO = result.emplace_back();
             resO.fTex = coll->getTexture(res);
             resO.fX = x;
             resO.fY = y;
-
-            return std::vector<eOverlay>({o, resO});
         }
     }
-    return std::vector<eOverlay>({o});
+    return result;
 }
 
 void eResourceCollectBuilding::timeChanged(const int by) {
     eResourceBuildingBase::timeChanged(by);
-    if(enabled() && !mCollector && mSpawnEnabled) {
-        mSpawnTime += by;
-        if(mSpawnTime > mWaitTime) {
-            mSpawnTime -= mWaitTime;
-            spawn();
+    if(enabled()) {
+        if(mRawCount > 0) {
+            mProcessTime += by;
+            if(mProcessTime > mProcessDuration) {
+                mProcessTime -= mProcessDuration;
+                const auto rt = resourceType();
+                if(rt == eResourceType::silver) {
+                    auto& brd = getBoard();
+                    brd.incDrachmas(25);
+                    mRawCount--;
+                } else {
+                    const int c = eResourceCollectBuilding::add(rt, 1);
+                    mRawCount -= c;
+                }
+                if(mRawCount <= mRawCountCollect) enableSpawn();
+            }
+        }
+
+        if(!mCollector && mSpawnEnabled) {
+            mSpawnTime += by;
+            if(mSpawnTime > mWaitTime) {
+                mSpawnTime -= mWaitTime;
+                spawn();
+            }
         }
     }
 }
@@ -132,6 +173,11 @@ bool eResourceCollectBuilding::spawn() {
     }
     mCollector->setAction(a);
     return true;
+}
+
+void eResourceCollectBuilding::addRaw() {
+    mRawCount += mRawInc;
+    if(mRawCount > mRawCountCollect) disableSpawn();
 }
 
 void eResourceCollectBuilding::setCollectedAction(const eTileAction& a) {

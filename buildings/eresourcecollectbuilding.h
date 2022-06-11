@@ -19,6 +19,9 @@ public:
                              const double overlayX,
                              const double overlayY,
                              const eOverlays overlays,
+                             const int waitingOO,
+                             const double waitingOX,
+                             const double waitingOY,
                              const eCharGenerator& charGen,
                              const eBuildingType type,
                              const eHasResource& hr,
@@ -36,12 +39,19 @@ public:
     bool spawn();
 
     void setAddResource(const bool b) { mAddResource = b; }
+
+    void addRaw();
 protected:
     void enableSpawn() { mSpawnEnabled = true; }
     void disableSpawn() { mSpawnEnabled = false; }
 
     using eTileAction = std::function<void(eTile*)>;
     void setCollectedAction(const eTileAction& a);
+
+    int rawCount() const { return mRawCount; }
+    void setRawInc(const int i) { mRawInc = i; }
+
+    void setRawCountCollect(const int r) { mRawCountCollect = r; }
 private:
     const eCharGenerator mCharGenerator;
     const std::vector<eBuildingTextures>& mTextures;
@@ -51,6 +61,10 @@ private:
 
     const double mOverlayX;
     const double mOverlayY;
+
+    const int mWaitingOO = 0;
+    const double mWaitingOX = 0;
+    const double mWaitingOY = 0;
 
     const eHasResource mHasRes;
     const eTranformFunc mTransFunc;
@@ -63,7 +77,13 @@ private:
 
     bool mAddResource = true;
 
-    int mWaitTime = 5000;
+    int mRawCount = 0;
+    int mRawCountCollect = 0;
+    int mRawInc = 1;
+    int mProcessDuration = 10000;
+    int mProcessTime = 0;
+
+    int mWaitTime = 1500;
     int mSpawnTime = mWaitTime;
 };
 
