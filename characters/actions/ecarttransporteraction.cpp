@@ -13,11 +13,15 @@ eCartTransporterAction::eCartTransporterAction(
     eActionWithComeback(c, failAction, finishAction),
     mBuilding(b) {}
 
+void eCartTransporterAction::increment(const int by) {
+    updateWaiting();
+    eActionWithComeback::increment(by);
+}
+
 bool eCartTransporterAction::decide() {
     const auto c = static_cast<eCartTransporter*>(character());
     const bool r = eWalkableHelpers::sTileUnderBuilding(
                        c->tile(), mBuilding);
-    c->setWaiting(mWaitOutside || r);
     if(r || mWaitOutside) {
         if(mTask.fMaxCount > 0) {
             finishResourceAction(mTask);
@@ -251,6 +255,13 @@ void eCartTransporterAction::finishResourceAction(const eCartTask& task) {
     } else { //give
         return;
     }
+}
+
+void eCartTransporterAction::updateWaiting() {
+    const auto c = static_cast<eCartTransporter*>(character());
+    const bool r = eWalkableHelpers::sTileUnderBuilding(
+                       c->tile(), mBuilding);
+    c->setWaiting(mWaitOutside || r);
 }
 
 void eCartTransporterAction::waitOutside() {

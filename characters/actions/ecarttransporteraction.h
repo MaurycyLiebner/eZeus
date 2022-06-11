@@ -13,9 +13,12 @@ public:
                            const eAction& failAction,
                            const eAction& finishAction);
 
+    void increment(const int by);
     bool decide();
 
     eCartActionTypeSupport support() const;
+
+    bool waiting();
 protected:
     void findTarget();
     void findTarget(const eCartTask& task);
@@ -30,6 +33,8 @@ protected:
     void startResourceAction(const eCartTask& task);
     void finishResourceAction(const eCartTask& task);
 private:
+    void updateWaiting();
+
     void waitOutside();
     void spread();
     void clearTask();
@@ -39,6 +44,8 @@ private:
     eBuildingWithResource* const mBuilding;
 
     eCartTask mTask;
+
+    int mUpdateWaiting = 0;
 
     bool mNoTarget = false;
     bool mWaitOutside = false;
