@@ -274,6 +274,7 @@ SOURCES += \
         widgets/ebasicbutton.cpp \
         widgets/ebuildingmode.cpp \
         widgets/ebutton.cpp \
+        widgets/ebuttonbase.cpp \
         widgets/echeckablebutton.cpp \
         widgets/echeckbox.cpp \
         widgets/ecombobox.cpp \
@@ -610,6 +611,7 @@ HEADERS += \
     widgets/ebasicbutton.h \
     widgets/ebuildingmode.h \
     widgets/ebutton.h \
+    widgets/ebuttonbase.h \
     widgets/echeckablebutton.h \
     widgets/echeckbox.h \
     widgets/ecombobox.h \

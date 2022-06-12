@@ -1,24 +1,18 @@
 #ifndef EBUTTON_H
 #define EBUTTON_H
 
-#include "elabel.h"
+#include "ebuttonbase.h"
+
 #include "efonts.h"
 #include "etexturecollection.h"
 
-class eButton : public eLabel {
+class eButton : public eButtonBase {
 public:
-    eButton(eMainWindow* const window);
-
-    void setPressAction(const eAction& a);
+    using eButtonBase::eButtonBase;
 
     void setHoverTexture(const std::shared_ptr<eTexture>& tex);
     void setPressedTexture(const std::shared_ptr<eTexture>& tex);
     void setDisabledTexture(const std::shared_ptr<eTexture>& tex);
-
-    int lineWidth() const;
-
-    void setEnabled(const bool b);
-    bool enabled() const;
 
     static eButton* sCreate(const eTextureCollection& texs,
                             eMainWindow* const window,
@@ -26,12 +20,6 @@ public:
 protected:
     void sizeHint(int& w, int& h);
     void paintEvent(ePainter& p);
-
-    bool mousePressEvent(const eMouseEvent& e);
-    bool mouseReleaseEvent(const eMouseEvent& e);
-    bool mouseMoveEvent(const eMouseEvent& e);
-    bool mouseEnterEvent(const eMouseEvent& e);
-    bool mouseLeaveEvent(const eMouseEvent& e);
 
     template <class T>
     static T* sCreateButtonBase(
@@ -43,12 +31,6 @@ private:
     std::shared_ptr<eTexture> mHoverTexture;
     std::shared_ptr<eTexture> mPressedTexture;
     std::shared_ptr<eTexture> mDisabledTexture;
-
-    eAction mPressAction;
-
-    bool mEnabled = true;
-    bool mPressed = false;
-    bool mHover = false;
 };
 
 template <class T>

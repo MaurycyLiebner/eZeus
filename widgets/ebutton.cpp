@@ -3,15 +3,6 @@
 #include <algorithm>
 #include <initializer_list>
 
-#include "esounds.h"
-
-eButton::eButton(eMainWindow* const window) :
-    eLabel(window) {}
-
-void eButton::setPressAction(const eAction& a) {
-    mPressAction = a;
-}
-
 void eButton::setHoverTexture(const std::shared_ptr<eTexture>& tex) {
     mHoverTexture = tex;
 }
@@ -22,18 +13,6 @@ void eButton::setPressedTexture(const std::shared_ptr<eTexture>& tex) {
 
 void eButton::setDisabledTexture(const std::shared_ptr<eTexture>& tex) {
     mDisabledTexture = tex;
-}
-
-int eButton::lineWidth() const {
-    return fontSize()/15;
-}
-
-void eButton::setEnabled(const bool b) {
-    mEnabled = b;
-}
-
-bool eButton::enabled() const {
-    return mEnabled;
 }
 
 eButton* eButton::sCreate(const eTextureCollection& texs,
@@ -55,11 +34,11 @@ void eButton::sizeHint(int& w, int& h) {
 }
 
 void eButton::paintEvent(ePainter& p) {
-    if(!mEnabled && mDisabledTexture) {
+    if(!enabled() && mDisabledTexture) {
         p.drawTexture(rect(), mDisabledTexture, eAlignment::center);
-    } else if(mPressed && mPressedTexture) {
+    } else if(pressed() && mPressedTexture) {
         p.drawTexture(rect(), mPressedTexture, eAlignment::center);
-    } else if(mHover) {
+    } else if(hovered()) {
         if(mHoverTexture) {
             p.drawTexture(rect(), mHoverTexture, eAlignment::center);
         } else {
@@ -85,35 +64,4 @@ void eButton::paintEvent(ePainter& p) {
     } else {
         eLabel::paintEvent(p);
     }
-}
-
-bool eButton::mousePressEvent(const eMouseEvent& e) {
-    (void)e;
-    mPressed = true;
-    return true;
-}
-
-bool eButton::mouseReleaseEvent(const eMouseEvent& e) {
-    (void)e;
-    mPressed = false;
-    if(mPressAction) mPressAction();
-    eSounds::playButtonSound();
-    return true;
-}
-
-bool eButton::mouseMoveEvent(const eMouseEvent& e) {
-    (void)e;
-    return true;
-}
-
-bool eButton::mouseEnterEvent(const eMouseEvent& e) {
-    (void)e;
-    mHover = true;
-    return true;
-}
-
-bool eButton::mouseLeaveEvent(const eMouseEvent& e) {
-    (void)e;
-    mHover = false;
-    return true;
 }
