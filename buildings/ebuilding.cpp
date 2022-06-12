@@ -4,6 +4,9 @@
 #include "engine/etile.h"
 #include "eruins.h"
 
+#include "buildings/esmallhouse.h"
+#include "buildings/eelitehousing.h"
+
 #include "ebuildingrenderer.h"
 
 eBuilding::eBuilding(eGameBoard& board,
@@ -108,7 +111,15 @@ void eBuilding::incTime(const int by) {
             }
         }
     } else if(rand() % (2000/by) == 0) {
-        mMaintance = std::max(0, mMaintance - 1);
+        bool lower = true;
+        if(const auto sh = dynamic_cast<eSmallHouse*>(this)) {
+            if(sh->people() <= 0) lower = false;
+        } else if(const auto eh = dynamic_cast<eEliteHousing*>(this)) {
+            if(eh->people() <= 0) lower = false;
+        }
+        if(lower) {
+            mMaintance = std::max(0, mMaintance - 1);
+        }
     } else {
         const int m4 = pow(mMaintance, 4);
         const auto diff = b.difficulty();
