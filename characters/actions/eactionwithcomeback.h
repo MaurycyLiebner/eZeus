@@ -35,7 +35,8 @@ private:
 
     eTile* const mStartTile;
 
-    bool mFinishOnComeback = false;;
+    bool mFinishOnComeback = false;
+    bool mDefaultTry = false;
     bool mGoBackFail = false;
 };
 

@@ -26,13 +26,6 @@ bool eActionWithComeback::decide() {
     return false;
 }
 
-template<typename T, typename... U>
-size_t getAddress(std::function<T(U...)> f) {
-    typedef T(fnType)(U...);
-    fnType ** fnPointer = f.template target<fnType*>();
-    return (size_t) *fnPointer;
-}
-
 void eActionWithComeback::goBack(const eWalkable& walkable) {
     const auto c = character();
 
@@ -57,11 +50,11 @@ void eActionWithComeback::goBack(const eWalkable& walkable) {
     const auto a = e::make_shared<eMoveToAction>(c, failFunc, finishFunc);
     a->setFindFailAction([tptr, this, walkable]() {
         if(!tptr) return;
-        const eWalkable dw = eWalkableHelpers::sDefaultWalkable;
-        if(getAddress(walkable) == getAddress(dw)) {
+        if(mDefaultTry) {
             mGoBackFail = true;
         } else {
-            goBack(dw);
+            mDefaultTry = true;
+            goBack(eWalkableHelpers::sDefaultWalkable);
         }
     });
     a->start(finalTile, walkable);
