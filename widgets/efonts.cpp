@@ -16,7 +16,7 @@ TTF_Font* eFonts::defaultFont(const eResolution res) {
 ;}
 
 TTF_Font* eFonts::defaultFont(const int fs) {
-    return requestFont({"../fonts/OLYMRG.ttf", fs + 2});
+    return requestFont({"../fonts/Zeus.ttf", fs});
 }
 
 TTF_Font* eFonts::loadFont(const eFont& font) {
