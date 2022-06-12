@@ -293,7 +293,8 @@ void eGameBoard::incTime(const int by) {
         mTime -= dayLen;
     }
     if(nextYear) {
-        mDrachmas -= mEmplData.pensions();
+        const int d = mEmplData.pensions();
+        incDrachmas(-d);
     }
     mWorldBoard.incTime(by);
     if(nextYear) mWorldBoard.nextYear();

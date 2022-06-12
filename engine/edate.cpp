@@ -26,6 +26,8 @@ void eDate::nextDay(bool& nextMonth, bool& nextYear) {
         if(nextYear) {
             if(++mYear == 0) mYear++;
         }
+    } else {
+        nextYear = false;
     }
 }
 
