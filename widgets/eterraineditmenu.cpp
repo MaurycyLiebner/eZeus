@@ -6,10 +6,11 @@
 void eTerrainEditMenu::initialize() {
     eGameMenuBase::initialize();
 
+    int iRes;
+    int mult;
+    iResAndMult(iRes, mult);
+
     const auto& intrfc = eGameTextures::interface();
-    const auto uiScale = resolution().uiScale();
-    const int iRes = static_cast<int>(uiScale);
-    const int mult = iRes + 1;
     const auto& coll = intrfc[iRes];
     const auto tex = coll.fMapEditMenuBackground;
     setTexture(tex);

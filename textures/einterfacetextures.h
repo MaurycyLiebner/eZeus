@@ -145,6 +145,9 @@ public:
     std::vector<eTextureCollection> fMessageBox;
     std::vector<eTextureCollection> fInnerBox;
 
+    eTextureCollection fBuildingButton;
+    eTextureCollection fBuildingButtonHover;
+
     std::shared_ptr<eTexture> fLoadImage;
     std::shared_ptr<eTexture> fMainMenuImage;
 

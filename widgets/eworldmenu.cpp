@@ -9,11 +9,11 @@
 #include "elanguage.h"
 
 void eWorldMenu::initialize() {
-    const auto& intrfc = eGameTextures::interface();
-    const auto uiScale = resolution().uiScale();
-    const int iRes = static_cast<int>(uiScale);
-    const int mult = iRes + 1;
+    int iRes;
+    int mult;
+    iResAndMult(iRes, mult);
 
+    const auto& intrfc = eGameTextures::interface();
     const auto& coll = intrfc[iRes];
     const auto tex = coll.fWorldMenuBackground;
     setTexture(tex);

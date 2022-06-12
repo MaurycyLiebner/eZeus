@@ -15,8 +15,6 @@ public:
 protected:
     void paintEvent(ePainter& p);
 private:
-    void iResAndDim(int& iRes, int& dim) const;
-
     eFrameType mType = eFrameType::outer;
 };
 

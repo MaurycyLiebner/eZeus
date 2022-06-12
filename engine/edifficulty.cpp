@@ -176,6 +176,11 @@ int costBase(const eBuildingType type) {
     case eBuildingType::stoneCircle:
         return 60;
 
+    case eBuildingType::templeArtemis:
+        return 1520;
+    case eBuildingType::templeHephaestus:
+        return 760;
+
     default:
         return 0;
     }
@@ -199,8 +204,12 @@ double costMultiplier(const eDifficulty diff) {
 int eDifficultyHelpers::buildingCost(
         const eDifficulty diff,
         const eBuildingType type) {
-    const double mult = costMultiplier(diff);
     const int base = costBase(type);
+    const int min = static_cast<int>(eBuildingType::templeAphrodite);
+    const int max = static_cast<int>(eBuildingType::templeZeus);
+    const int bi = static_cast<int>(type);
+    if(bi >= min && bi <= max) return base;
+    const double mult = costMultiplier(diff);
     return std::round(mult*base);
 }
 

@@ -19,6 +19,8 @@ class eCultureDataWidget;
 class eMiniMap;
 class eGameWidget;
 class eEventWidget;
+class eBuildButton;
+class eBuildWidget;
 enum class eEvent;
 
 struct eSubButtonData;
@@ -28,6 +30,7 @@ class eContextMenu;
 struct eSPR {
     eBuildingMode fMode;
     std::string fName;
+    int fMarbleCost = 0;
     int fCity = -1;
 };
 
@@ -49,6 +52,11 @@ public:
 
     using eViewTileHandler = std::function<void(eTile*)>;
     void setViewTileHandler(const eViewTileHandler& h);
+
+    void closeBuildWidget();
+    void setBuildWidget(eBuildWidget* const bw);
+protected:
+    bool mousePressEvent(const eMouseEvent& e);
 private:
     void setMode(const eBuildingMode mode);
     using eButtonsDataVec = std::vector<eSubButtonData>;
@@ -57,8 +65,13 @@ private:
     void addAction(const eSPR& c, const int mult,
                    const eInterfaceTextures& coll,
                    eContextMenu* const cm);
+    eBuildButton* createBuildButton(const eSPR& c);
+    void openBuildWidget(const int cmx, const int cmy,
+                         const std::vector<eSPR>& cs);
 
     eGameBoard* mBoard{nullptr};
+
+    eBuildWidget* mBuildWidget = nullptr;
 
     ePopulationDataWidget* mPopDataW = nullptr;
     eEmploymentDataWidget* mEmplDataW = nullptr;

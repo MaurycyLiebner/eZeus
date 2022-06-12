@@ -1932,6 +1932,7 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
 }
 
 bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
+    mGm->closeBuildWidget();
     mMovedSincePress = false;
     const auto b = e.button();
     if(b != eMouseButton::middle) {

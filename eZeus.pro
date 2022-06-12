@@ -272,7 +272,9 @@ SOURCES += \
         widgets/datawidgets/eviewmodebutton.cpp \
         widgets/eactionlistwidget.cpp \
         widgets/ebasicbutton.cpp \
+        widgets/ebuildbutton.cpp \
         widgets/ebuildingmode.cpp \
+        widgets/ebuildwidget.cpp \
         widgets/ebutton.cpp \
         widgets/ebuttonbase.cpp \
         widgets/echeckablebutton.cpp \
@@ -609,7 +611,9 @@ HEADERS += \
     widgets/datawidgets/eviewmodebutton.h \
     widgets/eactionlistwidget.h \
     widgets/ebasicbutton.h \
+    widgets/ebuildbutton.h \
     widgets/ebuildingmode.h \
+    widgets/ebuildwidget.h \
     widgets/ebutton.h \
     widgets/ebuttonbase.h \
     widgets/echeckablebutton.h \

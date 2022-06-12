@@ -8,8 +8,9 @@ void eFramedWidget::setType(const eFrameType type) {
 
 void eFramedWidget::paintEvent(ePainter& p) {
     int iRes;
-    int dim;
-    iResAndDim(iRes, dim);
+    int mult;
+    iResAndMult(iRes, mult);
+    const int dim = 8*mult;
     const auto& intrfc = eGameTextures::interface()[iRes];
     if(!intrfc.fLoaded) return;
 
@@ -80,12 +81,4 @@ void eFramedWidget::paintEvent(ePainter& p) {
         }
     }
     p.drawRect(rect(), {0, 0, 0, 255}, 2);
-}
-
-void eFramedWidget::iResAndDim(int& iRes, int& dim) const {
-    const auto res = resolution();
-    const auto uiScale = res.uiScale();
-    iRes = static_cast<int>(uiScale);
-    const int mult = iRes + 1;
-    dim = 8*mult;
 }

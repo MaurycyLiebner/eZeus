@@ -13,8 +13,9 @@ void eTradeTypesWidget::initialize() {
 
 void eTradeTypesWidget::setTrade(const std::vector<eResourceTrade>& trade) {
     const auto uiScale = resolution().uiScale();
-    const int iRes = static_cast<int>(uiScale);
-    const int mult = iRes + 1;
+    int iRes;
+    int mult;
+    iResAndMult(iRes, mult);
 
     const int h = mult*12;
 
@@ -62,9 +63,9 @@ void eTradeTypesWidget::setTrade(const std::vector<eResourceTrade>& trade) {
 }
 
 void eWorldTradeWidget::initialize(const std::string& name) {
-    const auto uiScale = resolution().uiScale();
-    const int iRes = static_cast<int>(uiScale);
-    const int mult = iRes + 1;
+    int iRes;
+    int mult;
+    iResAndMult(iRes, mult);
 
     setWidth(mult*75);
 
@@ -95,10 +96,10 @@ void eWorldTradeWidget::setTrade(const std::vector<eResourceTrade>& trade) {
 }
 
 void eWorldGoodsWidget::initialize() {
+    int iRes;
+    int mult;
+    iResAndMult(iRes, mult);
     const auto& intrfc = eGameTextures::interface();
-    const auto uiScale = resolution().uiScale();
-    const int iRes = static_cast<int>(uiScale);
-    const int mult = iRes + 1;
     const auto& coll = intrfc[iRes];
 
     mGoodsLabel = new eLabel(eLanguage::text("goods"), window());

@@ -120,6 +120,9 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fHeroArrivalAlert(renderer),
     fArmyComebackAlert(renderer),
 
+    fBuildingButton(renderer),
+    fBuildingButtonHover(renderer),
+
     fCheckBox(renderer),
     fLargeCheckBox(renderer),
 
@@ -568,7 +571,13 @@ void eInterfaceTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fComboBox[1]);
         }
 
+        for(int i = 34; i < 37; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fBuildingButtonHover);
+        }
 
+        for(int i = 37; i < 40; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fBuildingButton);
+        }
 
         for(int i = 0; i < 9; i++) {
             fMessageBox.emplace_back(fRenderer);
