@@ -25,10 +25,11 @@ eButton* eButton::sCreate(const eTextureCollection& texs,
 
 void eButton::sizeHint(int& w, int& h) {
     eLabel::sizeHint(w, h);
-    w = std::max({w, mTexture ? mTexture->width() : 0,
+    const auto& tex = texture();
+    w = std::max({w, tex ? tex->width() : 0,
                   mHoverTexture ? mHoverTexture->width() : 0,
                   mPressedTexture ? mPressedTexture->width() : 0});
-    h = std::max({h, mTexture ? mTexture->height() : 0,
+    h = std::max({h, tex ? tex->height() : 0,
                   mHoverTexture ? mHoverTexture->height() : 0,
                   mPressedTexture ? mPressedTexture->height() : 0});
 }

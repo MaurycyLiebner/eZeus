@@ -27,7 +27,6 @@ protected:
             eMainWindow* const window,
             eWidget* const buttons);
 private:
-    std::shared_ptr<eTexture> mTexture;
     std::shared_ptr<eTexture> mHoverTexture;
     std::shared_ptr<eTexture> mPressedTexture;
     std::shared_ptr<eTexture> mDisabledTexture;
