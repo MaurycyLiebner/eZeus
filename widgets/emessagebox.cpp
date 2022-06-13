@@ -8,6 +8,8 @@
 
 #include <stdexcept>
 
+#include "elanguage.h"
+
 template<typename ... Args>
 std::string string_format(const std::string& format, Args... args) {
     const int size_s = std::snprintf(nullptr, 0, format.c_str(), args...) + 1; // Extra space for '\0'
@@ -46,28 +48,32 @@ void eMessageBox::initialize(const eAction& viewTile,
 
     const int p = padding();
 
-    const auto w = new eWidget(window());
-    w->setHeight(p);
-    addWidget(w);
-
     const auto w0 = new eWidget(window());
-    w0->setNoPadding();
-    const auto d = new eLabel(date.shortString(), window());
-    d->setSmallFontSize();
-    d->fitContent();
-    w0->addWidget(d);
-    const auto title = new eLabel(msg.fTitle, window());
-    title->setHugeFontSize();
-    title->fitContent();
-    w0->addWidget(title);
-    w0->fitContent();
-    w0->setWidth(width() - 2*p);
-    title->align(eAlignment::hcenter);
-    addWidget(w0);
+    {
+        w0->setNoPadding();
+        const auto title = new eLabel(msg.fTitle, window());
+        title->setHugeFontSize();
+        title->fitContent();
+        w0->addWidget(title);
+        w0->fitContent();
+        w0->setWidth(width() - 2*p);
+        title->align(eAlignment::hcenter);
+        addWidget(w0);
+    }
 
     const auto ww = new eFramedWidget(window());
     ww->setType(eFrameType::inner);
-    ww->setNoPadding();
+    ww->setSmallPadding();
+
+    {
+        const auto to = eLanguage::text("message_to");
+        const auto str = date.shortString() + "     " + to + " " + name;
+        const auto d = new eLabel(str, window());
+        d->setSmallFontSize();
+        d->fitContent();
+        ww->addWidget(d);
+        d->setX(p);
+    }
 
     if(viewTile) {
         const auto www = new eWidget(window());
@@ -75,23 +81,25 @@ void eMessageBox::initialize(const eAction& viewTile,
         const auto butt = new eExclamationButton(window());
         butt->setPressAction(viewTile);
         www->addWidget(butt);
-        const auto l = new eLabel("Go to site of event", window());
+        const auto go = eLanguage::text("go_to_site");
+        const auto l = new eLabel(go, window());
         l->setSmallFontSize();
         l->fitContent();
         www->addWidget(l);
         www->stackHorizontally();
         www->fitContent();
         butt->align(eAlignment::vcenter);
-        addWidget(www);
+        ww->addWidget(www);
         www->setX(3*p);
     }
 
     const auto text = new eLabel(window());
     text->setSmallFontSize();
-    text->setWrapWidth(width() - 4*p);
+    text->setWrapWidth(width() - 8*p);
     replaceAll(msg.fText, "[player_name]", name);
     text->setText(msg.fText);
     text->fitContent();
+    text->setX(p);
 
     ww->addWidget(text);
     ww->stackVertically();
@@ -109,8 +117,8 @@ void eMessageBox::initialize(const eAction& viewTile,
     fitContent();
 
     ok->align(eAlignment::right | eAlignment::bottom);
-    ok->setX(ok->x() - 2*p);
-    ok->setY(ok->y() - 2*p);
+    ok->setX(ok->x() - 1.5*p);
+    ok->setY(ok->y() - 1.5*p);
     w0->align(eAlignment::hcenter);
     ww->align(eAlignment::hcenter);
 }

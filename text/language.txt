@@ -246,3 +246,7 @@ sep_short "Sep."
 oct_short "Oct."
 nov_short "Nov."
 dec_short "Dec."
+
+; event messages
+message_to "To"
+go_to_site "Go to site of event"
