@@ -32,7 +32,8 @@ public:
     }
 
     static bool initialize(SDL_Renderer* const r);
-    static bool loadNextMenu(std::string& text);
+    static bool loadNextMenu(const eSettings& settings,
+                             std::string& text);
     static bool loadNextGame(const eSettings& settings,
                              std::string& text);
     static int gameSize(const eSettings& settings);

@@ -16,6 +16,8 @@ public:
 
     void initialize();
     void setDoneAction(const eAction& a);
+
+    void setLoadImage(const int id);
 protected:
     void paintEvent(ePainter& p);
 private:
@@ -23,6 +25,7 @@ private:
     const int mSize;
     const eLoader mLoader;
 
+    eLabel* mImageLabel = nullptr;
     eWidget* mLabelW = nullptr;
     eLabelBase* mLabel = nullptr;
     eProgressBar* mPB = nullptr;

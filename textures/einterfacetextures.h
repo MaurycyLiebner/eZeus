@@ -148,7 +148,18 @@ public:
     eTextureCollection fBuildingButton;
     eTextureCollection fBuildingButtonHover;
 
-    std::shared_ptr<eTexture> fLoadImage;
+    std::shared_ptr<eTexture> fLoadImage1;
+    std::shared_ptr<eTexture> fLoadImage2;
+    std::shared_ptr<eTexture> fLoadImage3;
+    std::shared_ptr<eTexture> fLoadImage4;
+    std::shared_ptr<eTexture> fLoadImage5;
+    std::shared_ptr<eTexture> fLoadImage6;
+    std::shared_ptr<eTexture> fLoadImage7;
+    std::shared_ptr<eTexture> fLoadImage8;
+    std::shared_ptr<eTexture> fLoadImage9;
+    std::shared_ptr<eTexture> fLoadImage10;
+    std::shared_ptr<eTexture> fLoadImage11;
+    std::shared_ptr<eTexture> fLoadImage12;
     std::shared_ptr<eTexture> fMainMenuImage;
 
     eTextureCollection fCheckBox;

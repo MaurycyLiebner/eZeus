@@ -123,14 +123,29 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
     return true;
 }
 
-bool eGameTextures::loadNextMenu(std::string& text) {
-    if(gMenuLoaders.empty()) return true;
-    gMenuLoaders.back().fFunc(text);
-    gMenuLoaders.pop_back();
-    return false;
+bool eGameTextures::loadNextMenu(const eSettings& settings,
+                                 std::string& text) {
+    const int iMax = gMenuLoaders.size();
+    const auto res = settings.fRes;
+    const auto uiScale = res.uiScale();
+    for(int i = 0; i < iMax; i++) {
+        auto& g = gMenuLoaders[i];
+        if(g.fFinished) continue;
+        if(uiScale != eUIScale::tiny &&
+           g.fSize == 0) continue;
+        if(uiScale != eUIScale::small &&
+           g.fSize == 1) continue;
+        if(uiScale != eUIScale::medium &&
+           g.fSize == 2) continue;
+        if(uiScale != eUIScale::large &&
+           g.fSize == 3) continue;
+        g.fFunc(text);
+        g.fFinished = true;
+        return false;
+    }
+    text = "Finished";
+    return true;
 }
-
-int gNextToLoad = 0;
 
 bool eGameTextures::loadNextGame(const eSettings& settings,
                                  std::string& text) {

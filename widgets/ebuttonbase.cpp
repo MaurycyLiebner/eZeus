@@ -7,7 +7,7 @@ void eButtonBase::setPressAction(const eAction& a) {
 }
 
 int eButtonBase::lineWidth() const {
-    return fontSize()/15;
+    return std::max(1, fontSize()/15);
 }
 
 void eButtonBase::setEnabled(const bool b) {

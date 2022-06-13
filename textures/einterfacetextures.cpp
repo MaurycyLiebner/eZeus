@@ -698,8 +698,41 @@ void eInterfaceTextures::load() {
     {
         const auto dir = basedir + "/Zeus_Data_Images/";
 
-        fLoadImage = std::make_shared<eTexture>();
-        fLoadImage->load(fRenderer, dir + "Zeus_Load1.jpg");
+        fLoadImage1 = std::make_shared<eTexture>();
+        fLoadImage1->load(fRenderer, dir + "Zeus_Load1.jpg");
+
+        fLoadImage2 = std::make_shared<eTexture>();
+        fLoadImage2->load(fRenderer, dir + "Zeus_Load2.jpg");
+
+        fLoadImage3 = std::make_shared<eTexture>();
+        fLoadImage3->load(fRenderer, dir + "Zeus_Load3.jpg");
+
+        fLoadImage4 = std::make_shared<eTexture>();
+        fLoadImage4->load(fRenderer, dir + "Zeus_Load4.jpg");
+
+        fLoadImage5 = std::make_shared<eTexture>();
+        fLoadImage5->load(fRenderer, dir + "Poseidon_Load1.jpg");
+
+        fLoadImage6 = std::make_shared<eTexture>();
+        fLoadImage6->load(fRenderer, dir + "Poseidon_Load2.jpg");
+
+        fLoadImage7 = std::make_shared<eTexture>();
+        fLoadImage7->load(fRenderer, dir + "Poseidon_Load3.jpg");
+
+        fLoadImage8 = std::make_shared<eTexture>();
+        fLoadImage8->load(fRenderer, dir + "Poseidon_Load4.jpg");
+
+        fLoadImage9 = std::make_shared<eTexture>();
+        fLoadImage9->load(fRenderer, dir + "Poseidon_Load5.jpg");
+
+        fLoadImage10 = std::make_shared<eTexture>();
+        fLoadImage10->load(fRenderer, dir + "Poseidon_Load6.jpg");
+
+        fLoadImage11 = std::make_shared<eTexture>();
+        fLoadImage11->load(fRenderer, dir + "Poseidon_Load7.jpg");
+
+        fLoadImage12 = std::make_shared<eTexture>();
+        fLoadImage12->load(fRenderer, dir + "Poseidon_Load8.jpg");
 
         fMainMenuImage = std::make_shared<eTexture>();
         fMainMenuImage->load(fRenderer, dir + "Zeus_FE_Registry.jpg");

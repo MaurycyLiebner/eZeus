@@ -26,6 +26,6 @@ void eLabel::paintEvent(ePainter& p) {
     const auto& tex = texture();
     if(tex) {
         p.drawTexture(rect(), tex, eAlignment::center);
-        p.drawRect(rect(), {0, 0, 0, 255}, 1);
+        //p.drawRect(rect(), {0, 0, 0, 255}, 1);
     }
 }
