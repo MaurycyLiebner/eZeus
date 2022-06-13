@@ -333,42 +333,26 @@ bool eGameWidget::tileVisible(eTile* const tile) const {
 }
 
 void eGameWidget::iterateOverVisibleTiles(const eTileAction& a) {
-    const int w = mBoard->width();
-    const int h = mBoard->height();
-    const int nRows = w + h - 1;
+    const int minX = std::clamp(-mDX/mTileW + 1, 0, mBoard->width());
+    const int visWidth = width() - mGm->width();
+    const int maxX = std::clamp(minX + visWidth/mTileW, 0, mBoard->width());
 
-    int minRow = -2*mDY/mTileH - 5;
-    int maxRow = minRow + 2*height()/mTileH + 10;
-    minRow = std::clamp(minRow, 0, nRows);
-    maxRow = std::clamp(maxRow, 0, nRows);
+    const int minY = std::clamp(-2*mDY/mTileH, 0, mBoard->height());
+    const int maxY = std::clamp(minY + 2*height()/mTileH, 0, mBoard->height());
 
-    const int minXYDiff = -2*mDX/mTileW - 7;
-    const int maxXYDiff = minXYDiff + 2*width()/mTileW + 5;
-
-    const int soundRow = (minRow + maxRow)/2 + (rand() % 7 - 3);
-    const int soundXmy = (minXYDiff + maxXYDiff)/2 + (rand() % 7 - 3);
     const bool play = Mix_Playing(-1) == 0 && (rand() % 250) == 0;
+    if(play) {
+        const int x = (minX + maxX)/2 + (rand() % 7 - 3);
+        const int y = (minY + maxY)/2 + (rand() % 7 - 3);
+        const auto t = mBoard->tile(x, y);
+        eSounds::playSoundForTile(t);
+    }
 
-    const auto iniIt = eGameBoardDiagonalIterator(minRow, 0, mBoard);
-    for(auto it = iniIt; it != mBoard->dEnd();) {
-        if(it.row() > maxRow) break;
-        const auto tile = *it;
-        const int tx = tile->x();
-        const int ty = tile->y();
-        const int xmy = tx - ty;
-        if(xmy < minXYDiff) {
-            ++it;
-            continue;
+    for(int y = minY; y < maxY; y++) {
+        for(int x = minX; x < maxX; x++) {
+            const auto t = mBoard->tile(x, y);
+            a(t);
         }
-        if(xmy > maxXYDiff) {
-            it.nextRow();
-            continue;
-        }
-        if(play && xmy == soundXmy && it.row() == soundRow) {
-            eSounds::playSoundForTile(tile);
-        }
-        a(tile);
-        ++it;
     }
 }
 
@@ -723,8 +707,10 @@ void eGameWidget::paintEvent(ePainter& p) {
     const int sMaxY = std::max(mPressedTY, mHoverTY);
 
     const auto drawTerrain = [&](eTile* const tile) {
-        const int tx = tile->x();
-        const int ty = tile->y();
+        const int ttx = tile->x();
+        const int tty = tile->y();
+        const int tx = ttx + (tty + 1)/2;
+        const int ty = tty/2 - ttx;
 
         int futureDim;
         int drawDim;
@@ -1201,6 +1187,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         };
 
+        drawTerrain(tile);
+
         drawSheepGoat();
         drawPatrol();
         drawAppeal();
@@ -1224,9 +1212,9 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         drawClouds();
 
-        for(const auto t : tile->terrainTiles()) {
-            drawTerrain(t);
-        }
+//        for(const auto t : tile->terrainTiles()) {
+//            drawTerrain(t);
+//        }
 
         drawMissiles();
 
@@ -2076,38 +2064,14 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 pixToId(x0, y0, t0x, t0y);
                 pixToId(x1, y1, t1x, t1y);
 
-                const int w = mBoard->width();
-                const int h = mBoard->height();
-                const int nRows = w + h - 1;
-                int minRow = t0x + t0y;
-                int maxRow = t1x + t1y;
-                minRow = std::clamp(minRow, 0, nRows);
-                maxRow = std::clamp(maxRow, 0, nRows);
-
-                const int minXYDiff = t0x - t0y;
-                const int maxXYDiff = t1x - t1y;
-
-                const auto iniIt = eGameBoardDiagonalIterator(minRow, 0, mBoard);
-                for(auto it = iniIt; it != mBoard->dEnd();) {
-                    if(it.row() > maxRow) break;
-                    const auto tile = *it;
-                    if(!tile) continue;
-                    const int tx = tile->x();
-                    const int ty = tile->y();
-                    const int xmy = tx - ty;
-                    if(xmy < minXYDiff) {
-                        ++it;
-                        continue;
+                for(int x = t0x; x < t1x; x++) {
+                    for(int y = t0y; y < t1y; y++) {
+                        const auto tile = mBoard->tile(x, y);
+                        const auto b = tile->banner();
+                        if(b) {
+                            if(!b->selected()) mBoard->selectSoldier(b);
+                        }
                     }
-                    if(xmy > maxXYDiff) {
-                        it.nextRow();
-                        continue;
-                    }
-                    const auto b = tile->banner();
-                    if(b) {
-                        if(!b->selected()) mBoard->selectSoldier(b);
-                    }
-                    ++it;
                 }
             } else {
                 const auto tile = mBoard->tile(mHoverTX, mHoverTY);

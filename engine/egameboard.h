@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "etile.h"
-#include "egameboarditerator.h"
 
 #include "boardData/epopulationdata.h"
 #include "boardData/eemploymentdata.h"
@@ -80,12 +79,7 @@ enum class eEvent {
 };
 
 class eGameBoard {
-    friend class eGameBoardIterator;
-    friend class eGameBoardDiagonalIterator;
 public:
-    using eIter = eGameBoardIterator;
-    using eDiagIter = eGameBoardDiagonalIterator;
-
     eGameBoard();
     ~eGameBoard();
 
@@ -96,22 +90,6 @@ public:
 
     int width() const { return mWidth; }
     int height() const { return mHeight; }
-
-    eIter begin() const {
-        return eIter(0, 0, this);
-    }
-
-    eIter end() const {
-        return eIter(-1, -1, this);
-    }
-
-    eDiagIter dBegin() const {
-        return eDiagIter(0, 0, this);
-    }
-
-    eDiagIter dEnd() const {
-        return eDiagIter(-1, -1, this);
-    }
 
     void registerCharacter(eCharacter* const c);
     bool unregisterCharacter(eCharacter* const c);
@@ -201,7 +179,6 @@ public:
     const std::vector<eSoldierBanner*>& selectedSoldiers() const
     { return mSelectedBanners; }
 private:
-    void updateDiagonalArray();
     void updateNeighbours();
 
     eWorldBoard mWorldBoard;
@@ -228,7 +205,6 @@ private:
     int mWidth = 0;
     int mHeight = 0;
     std::vector<std::vector<eTile*>> mTiles;
-    std::vector<std::vector<eTile*>> mDiagTiles;
 
     eResources mResources = {{eResourceType::urchin, 0},
                              {eResourceType::fish, 0},

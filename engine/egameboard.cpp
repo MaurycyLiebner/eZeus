@@ -58,7 +58,6 @@ void eGameBoard::initialize(const int w, const int h) {
 
     mAppealMap.initialize(w, h);
 
-    updateDiagonalArray();
     updateNeighbours();
 }
 
@@ -69,15 +68,16 @@ void eGameBoard::clear() {
         }
     }
     mTiles.clear();
-    mDiagTiles.clear();
     mWidth = 0;
     mHeight = 0;
 }
 
 void eGameBoard::iterateOverAllTiles(const eTileAction& a) {
-    const auto iniIt = eGameBoardDiagonalIterator(0, 0, this);
-    for(auto it = iniIt; it != dEnd(); ++it) {
-        a(*it);
+    for(int x = 0; x < mWidth; x++) {
+        for(int y = 0; y < mHeight; y++) {
+            const auto t = tile(x, y);
+            a(t);
+        }
     }
 }
 
@@ -429,27 +429,26 @@ bool eGameBoard::ifVisible(eTile* const tile, const eAction& func) const {
     return r;
 }
 
-void eGameBoard::updateDiagonalArray() {
-    for(int k = 0 ; k <= mWidth + mHeight - 2; k++) {
-        std::vector<eTile*> diag;
-        for(int j = k ; j >= 0 ; j--) {
-            const int i = k - j;
-            if(i < mWidth && j < mHeight) {
-                diag.push_back(mTiles[i][j]);
-            }
-        }
-        mDiagTiles.push_back(diag);
-    }
-}
-
 void eGameBoard::updateNeighbours() {
     for(int x = 0; x < mWidth; x++) {
         for(int y = 0; y < mHeight; y++) {
             const auto t = mTiles[x][y];
-            t->setTopLeft(tile(x - 1, y));
-            t->setTopRight(tile(x, y - 1));
-            t->setBottomRight(tile(x + 1, y));
-            t->setBottomLeft(tile(x, y + 1));
+            {
+                const int dx = y % 2 == 0 ? -1 : 0;
+                t->setTopLeft(tile(x + dx, y - 1));
+            }
+            {
+                const int dx = y % 2 == 0 ? 0 : 1;
+                t->setTopRight(tile(x + dx, y - 1));
+            }
+            {
+                const int dx = y % 2 == 0 ? 0 : 1;
+                t->setBottomRight(tile(x + dx, y + 1));
+            }
+            {
+                const int dx = y % 2 == 0 ? -1 : 0;
+                t->setBottomLeft(tile(x + dx, y + 1));
+            }
         }
     }
 }

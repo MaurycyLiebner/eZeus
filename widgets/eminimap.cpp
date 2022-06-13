@@ -70,87 +70,65 @@ void eMiniMap::updateTexture() {
     SDL_RenderClear(rend);
     ePainter p(rend);
 
-    const int md = mapDimension();
-    const int leftX = -(mCenterX - width()/2 - md/2);
-    const int topY = -(mCenterY - height()/2);
-
     const int tdim = 2;
+    const int xMin = (mCenterX - width()/2)/tdim;
+    const int xMax = (mCenterX + width()/2)/tdim;
 
-    const int w = mBoard->width();
-    const int h = mBoard->height();
-    const int nRows = w + h - 1;
-
-    int minRow = -2*topY/tdim;
-    int maxRow = minRow + 2*height()/tdim;
-    minRow = std::clamp(minRow, 0, nRows);
-    maxRow = std::clamp(maxRow, 0, nRows);
-
-    const int minXYDiff = -2*leftX/tdim;
-    const int maxXYDiff = minXYDiff + 2*width()/tdim;
+    const int yMin = (mCenterY - height()/2)/tdim;
+    const int yMax = (mCenterY + height()/2)/tdim;
 
     const auto& intrfc = eGameTextures::interface();
     const int id = static_cast<int>(resolution().uiScale());
     const auto& coll = intrfc[id];
     const auto& ds = coll.fDiamond;
 
-    p.translate(leftX, topY);
+    p.translate(-xMin, -yMin);
     eTilePainter tp2(p, eTileSize::s15, tdim, tdim);
 
-    const auto iniIt = eGameBoardDiagonalIterator(minRow, 0, mBoard);
-    for(auto it = iniIt; it != mBoard->dEnd();) {
-        if(it.row() > maxRow) break;
-        const auto tile = *it;
-        const int tx = tile->x();
-        const int ty = tile->y();
-        const int xmy = tx - ty;
-        if(xmy < minXYDiff) {
-            ++it;
-            continue;
-        }
-        if(xmy > maxXYDiff) {
-            it.nextRow();
-            continue;
-        }
-        ++it;
-        SDL_Color color{75, 180, 225, 255};
-        if(const auto b = tile->underBuilding()) {
-            if(b->type() == eBuildingType::road) {
-                color = {85, 197, 245, 255};
-            } else {
-                color = {8, 65, 90, 255};
-            }
-        } else if(!tile->characters().empty()) {
-            color = {8, 65, 90, 255};
-        } else {
-            switch(tile->terrain()) {
-            case eTerrain::dry:
-                continue;
-                break;
-            case eTerrain::fertile:
-                if((tx + ty) % 2) {
+    for(int x = xMin; x < xMax; x++) {
+        for(int y = yMin; y < yMax; y++) {
+            const auto tile = mBoard->tile(x, y);
+            if(!tile) continue;
+            SDL_Color color{75, 180, 225, 255};
+            if(const auto b = tile->underBuilding()) {
+                if(b->type() == eBuildingType::road) {
                     color = {85, 197, 245, 255};
                 } else {
-                    continue;
+                    color = {8, 65, 90, 255};
                 }
-                break;
-            case eTerrain::forest:
-            case eTerrain::choppedForest:
-                color = {15, 115, 165, 255};
-                break;
-            case eTerrain::water:
+            } else if(!tile->characters().empty()) {
                 color = {8, 65, 90, 255};
-                break;
-            case eTerrain::copper:
-            case eTerrain::silver:
-            case eTerrain::marble:
-                color = {125, 235, 255, 255};
-                break;
-            default: break;
+            } else {
+                switch(tile->terrain()) {
+                case eTerrain::dry:
+                    continue;
+                    break;
+                case eTerrain::fertile:
+                    if((x + y) % 2) {
+                        color = {85, 197, 245, 255};
+                    } else {
+                        continue;
+                    }
+                    break;
+                case eTerrain::forest:
+                case eTerrain::choppedForest:
+                    color = {15, 115, 165, 255};
+                    break;
+                case eTerrain::water:
+                    color = {8, 65, 90, 255};
+                    break;
+                case eTerrain::copper:
+                case eTerrain::silver:
+                case eTerrain::marble:
+                    color = {125, 235, 255, 255};
+                    break;
+                default: break;
+                }
             }
+            const auto t = ds.getTexture(tdim/2 - 1);
+            t->setColorMod(color.r, color.g, color.b);
+            tp2.drawTexture(x, y, t);
         }
-        const auto t = ds.getTexture(tdim/2 - 1);
-        t->setColorMod(color.r, color.g, color.b);
-        tp2.drawTexture(tile->x(), tile->y(), t);
     }
 
     SDL_SetRenderTarget(rend, nullptr);
