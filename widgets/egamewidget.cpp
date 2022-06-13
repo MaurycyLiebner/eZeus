@@ -342,8 +342,8 @@ void eGameWidget::iterateOverVisibleTiles(const eTileAction& a) {
     minRow = std::clamp(minRow, 0, nRows);
     maxRow = std::clamp(maxRow, 0, nRows);
 
-    const int minXYDiff = -2*mDX/mTileW - 5;
-    const int maxXYDiff = minXYDiff + 2*width()/mTileW + 10;
+    const int minXYDiff = -2*mDX/mTileW - 7;
+    const int maxXYDiff = minXYDiff + 2*width()/mTileW + 5;
 
     const int soundRow = (minRow + maxRow)/2 + (rand() % 7 - 3);
     const int soundXmy = (minXYDiff + maxXYDiff)/2 + (rand() % 7 - 3);
