@@ -68,12 +68,13 @@ void eFramedWidget::paintEvent(ePainter& p) {
             colls = &intrfc.fInnerBox;
         }
 
+        srand(1000);
         for(int i = 0; i < iMax; i++) {
             const int x = i == iMax - 1 ? lastX : dim*i;
             for(int j = 0; j < jMax; j++) {
                 const int collId = texCollId(i, j);
                 const auto& coll = (*colls)[collId];
-                const int texId = (i*j) % coll.size();
+                const int texId = rand() % coll.size();
                 const auto& tex = coll.getTexture(texId);
                 const int y = j == jMax - 1 ? lastY : dim*j;
                 p.drawTexture(x, y, tex);
