@@ -25,7 +25,7 @@ void eMapGenerator::generateTerrain(const eMGS& settings) {
     const int h = mBoard.height();
     for(int x = 0; x < w; x++) {
         for(int y = 0; y < h; y++) {
-            const auto tile = mBoard.tile(x, y);
+            const auto tile = mBoard.dtile(x, y);
             const double v = p.GetValue(x/div, y/div, 0.0);
             eTerrain terr;
             if(v < -0.5) {
@@ -102,7 +102,7 @@ void eMapGenerator::generateTerrain(const eMGS& settings) {
 
     for(int tx = 0; tx < w; tx++) {
         for(int ty = 0; ty < h; ty++) {
-            const auto t = mBoard.tile(tx, ty);
+            const auto t = mBoard.dtile(tx, ty);
             if(t->terrain() != eTerrain::water) continue;
             if(inMasses(t)) continue;
             auto& newMass = waterMasses.emplace_back();
@@ -126,7 +126,7 @@ void eMapGenerator::generateTerrain(const eMGS& settings) {
                         if(x == 0 && y == 0) continue;
                         const int ttx = tx + x;
                         const int tty = ty + y;
-                        const auto tt = mBoard.tile(ttx, tty);
+                        const auto tt = mBoard.dtile(ttx, tty);
                         if(!tt) continue;
                         const double vv = p.GetValue(ttx/div, tty/div, 0.0);
                         if(v < vv) {
@@ -148,7 +148,7 @@ void eMapGenerator::generateTerrain(const eMGS& settings) {
 
     for(int x = 0; x < w; x++) {
         for(int y = 0; y < h; y++) {
-            const auto tile = mBoard.tile(x, y);
+            const auto tile = mBoard.dtile(x, y);
             if(tile->isElevationTile()) {
                 tile->setTerrain(eTerrain::dry);
             }
@@ -177,7 +177,7 @@ void eMapGenerator::generateStonesResource(
         const int h = mBoard.height();
         for(int x = 0; x < w; x++) {
             for(int y = 0; y < h; y++) {
-                const auto tile = mBoard.tile(x, y);
+                const auto tile = mBoard.dtile(x, y);
                 if(tile->isElevationTile()) {
                     tile->setTerrain(eTerrain::dry);
                 } else {
@@ -214,7 +214,7 @@ void eMapGenerator::generateAnimals(const eMGS& settings) {
         const int x = margin + rand() % (w - 2*margin);
         const int y = margin + rand() % (h - 2*margin);
 
-        const auto tile = mBoard.tile(x, y);
+        const auto tile = mBoard.dtile(x, y);
         const auto terr = tile->terrain();
         if(terr != eTerrain::dry &&
            terr != eTerrain::forest &&

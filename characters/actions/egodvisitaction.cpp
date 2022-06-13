@@ -61,14 +61,14 @@ void eGodVisitAction::placeOnBoard() {
     eTile* tile = nullptr;
     for(int x = 0; x < w; x++) {
         for(int y = 0; y < h; y++) {
-            const auto t = board.tile(x, y);
+            const auto t = board.dtile(x, y);
             if(t->hasRoad()) {
                 tile = t;
                 break;
             }
         }
     }
-    if(!tile) tile = board.tile(w/2, h/2);
+    if(!tile) tile = board.dtile(w/2, h/2);
     c->changeTile(tile);
     board.ifVisible(tile, [this]() {
         eSounds::playGodSound(mType, eGodSound::appear);

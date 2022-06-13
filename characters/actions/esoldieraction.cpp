@@ -78,6 +78,7 @@ void eSoldierAction::increment(const int by) {
     const int range = s->range();
     auto& brd = c->getBoard();
     const auto ct = c->tile();
+    if(!ct) return;
     const int tx = ct->x();
     const int ty = ct->y();
     const int pid = c->playerId();

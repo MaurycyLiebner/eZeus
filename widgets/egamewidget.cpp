@@ -345,12 +345,12 @@ void eGameWidget::iterateOverVisibleTiles(const eTileAction& a) {
         const int x = (minX + maxX)/2 + (rand() % 7 - 3);
         const int y = (minY + maxY)/2 + (rand() % 7 - 3);
         const auto t = mBoard->tile(x, y);
-        eSounds::playSoundForTile(t);
+        if(t) eSounds::playSoundForTile(t);
     }
 
     for(int y = minY; y < maxY; y++) {
         for(int x = minX; x < maxX; x++) {
-            const auto t = mBoard->tile(x, y);
+            const auto t = mBoard->dtile(x, y);
             a(t);
         }
     }
@@ -707,10 +707,8 @@ void eGameWidget::paintEvent(ePainter& p) {
     const int sMaxY = std::max(mPressedTY, mHoverTY);
 
     const auto drawTerrain = [&](eTile* const tile) {
-        const int ttx = tile->x();
-        const int tty = tile->y();
-        const int tx = ttx + (tty + 1)/2;
-        const int ty = tty/2 - ttx;
+        const int tx = tile->x();
+        const int ty = tile->y();
 
         int futureDim;
         int drawDim;
@@ -2067,6 +2065,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 for(int x = t0x; x < t1x; x++) {
                     for(int y = t0y; y < t1y; y++) {
                         const auto tile = mBoard->tile(x, y);
+                        if(!tile) continue;
                         const auto b = tile->banner();
                         if(b) {
                             if(!b->selected()) mBoard->selectSoldier(b);

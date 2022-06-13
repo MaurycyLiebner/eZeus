@@ -23,6 +23,18 @@
 
 #include "missiles/emissile.h"
 
+void dtileIdToTileId(const int dtx, const int dty,
+                     int& tx, int& ty) {
+    tx = dtx + (dty + 1)/2;
+    ty = dty/2 - dtx;
+}
+
+void tileIdToDTileId(const int tx, const int ty,
+                     int& dtx, int& dty) {
+    dty = tx + ty;
+    dtx = (tx + ty)/2 - ty;
+}
+
 eGameBoard::eGameBoard() :
     mEmplData(mPopData, *this) {}
 
@@ -48,7 +60,10 @@ void eGameBoard::initialize(const int w, const int h) {
         std::vector<eTile*> yArr;
         yArr.reserve(h);
         for(int y = 0; y < h; y++) {
-            const auto tile = new eTile(x, y);
+            int tx;
+            int ty;
+            dtileIdToTileId(x, y, tx, ty);
+            const auto tile = new eTile(tx, ty);
             yArr.push_back(tile);
         }
         mTiles.push_back(yArr);
@@ -155,7 +170,7 @@ void eGameBoard::updateTileRenderingOrder() {
     };
 
     iterateOverAllTiles([&](eTile* const tile) {
-        updateRenderingOrder(tile);
+        //updateRenderingOrder(tile);
     });
 }
 
@@ -167,6 +182,13 @@ void eGameBoard::updateTileRenderingOrderIfNeeded() {
 }
 
 eTile* eGameBoard::tile(const int x, const int y) const {
+    int dtx;
+    int dty;
+    tileIdToDTileId(x, y, dtx, dty);
+    return dtile(dtx, dty);
+}
+
+eTile* eGameBoard::dtile(const int x, const int y) const {
     if(x < 0 || x >= mWidth) return nullptr;
     if(y < 0 || y >= mHeight) return nullptr;
     return mTiles[x][y];
@@ -435,19 +457,19 @@ void eGameBoard::updateNeighbours() {
             const auto t = mTiles[x][y];
             {
                 const int dx = y % 2 == 0 ? -1 : 0;
-                t->setTopLeft(tile(x + dx, y - 1));
+                t->setTopLeft(dtile(x + dx, y - 1));
             }
             {
                 const int dx = y % 2 == 0 ? 0 : 1;
-                t->setTopRight(tile(x + dx, y - 1));
+                t->setTopRight(dtile(x + dx, y - 1));
             }
             {
                 const int dx = y % 2 == 0 ? 0 : 1;
-                t->setBottomRight(tile(x + dx, y + 1));
+                t->setBottomRight(dtile(x + dx, y + 1));
             }
             {
                 const int dx = y % 2 == 0 ? -1 : 0;
-                t->setBottomLeft(tile(x + dx, y + 1));
+                t->setBottomLeft(dtile(x + dx, y + 1));
             }
         }
     }

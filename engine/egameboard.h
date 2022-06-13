@@ -87,6 +87,7 @@ public:
     void clear();
 
     eTile* tile(const int x, const int y) const;
+    eTile* dtile(const int x, const int y) const;
 
     int width() const { return mWidth; }
     int height() const { return mHeight; }
