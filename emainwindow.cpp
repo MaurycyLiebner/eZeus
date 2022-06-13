@@ -168,7 +168,7 @@ void eMainWindow::showSettingsMenu() {
            !mSettings.fLargeTextures) {
             mSettings.fSmallTextures = true;
         }
-        showSettingsMenu();
+        showMenuLoading();
     };
     esm->initialize(backA, applyA);
     setWidget(esm);
