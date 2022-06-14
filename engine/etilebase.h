@@ -24,6 +24,8 @@ public:
     bool walkable() const;
 
     int seed() const { return mSeed; }
+    int dx() const { return mDX; }
+    int dy() const { return mDY; }
     int x() const { return mX; }
     int y() const { return mY; }
     int altitude() const { return mAltitude; }
@@ -35,6 +37,8 @@ public:
                             eTileBase* const t2);
 
     void setSeed(const int s);
+    void setDX(const int x);
+    void setDY(const int y);
     void setX(const int x);
     void setY(const int y);
 
@@ -101,6 +105,10 @@ public:
     void setMarbleLevel(const int l);
 private:
     int mSeed;
+
+    int mDX;
+    int mDY;
+
     int mX;
     int mY;
 

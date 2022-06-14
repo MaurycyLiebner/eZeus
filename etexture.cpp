@@ -136,6 +136,9 @@ bool eTexture::loadText(SDL_Renderer* const r,
         const SDL_Rect dstRect1{dx, dy, w, h};
         SDL_RenderCopy(r, tex1, NULL, &dstRect1);
 
+        SDL_DestroyTexture(tex2);
+        SDL_DestroyTexture(tex1);
+
         SDL_SetRenderTarget(r, nullptr);
     }
     return true;

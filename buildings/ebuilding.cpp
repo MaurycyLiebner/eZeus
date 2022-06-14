@@ -175,6 +175,7 @@ void eBuilding::collapse() {
         const auto ruins = e::make_shared<eRuins>(b);
         const auto renderer = e::make_shared<eBuildingRenderer>(ruins);
         t->setBuilding(renderer);
+        ruins->setCenterTile(t);
         t->setUnderBuilding(ruins);
         ruins->addUnderBuilding(t);
     }
@@ -227,9 +228,12 @@ bool eBuilding::isOnFire() {
     return false;
 }
 
+void eBuilding::setCenterTile(eTile* const ct) {
+    mCenterTile = ct;
+}
+
 eTile* eBuilding::centerTile() const {
-    if(mUnderBuilding.empty()) return nullptr;
-    return mUnderBuilding.front();
+    return mCenterTile;
 }
 
 void eBuilding::setEnabled(const bool e) {

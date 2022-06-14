@@ -63,7 +63,7 @@ void eGameBoard::initialize(const int w, const int h) {
             int tx;
             int ty;
             dtileIdToTileId(x, y, tx, ty);
-            const auto tile = new eTile(tx, ty);
+            const auto tile = new eTile(tx, ty, x, y);
             yArr.push_back(tile);
         }
         mTiles.push_back(yArr);
@@ -88,9 +88,9 @@ void eGameBoard::clear() {
 }
 
 void eGameBoard::iterateOverAllTiles(const eTileAction& a) {
-    for(int x = 0; x < mWidth; x++) {
-        for(int y = 0; y < mHeight; y++) {
-            const auto t = tile(x, y);
+    for(int y = 0; y < mHeight; y++) {
+        for(int x = 0; x < mWidth; x++) {
+            const auto t = dtile(x, y);
             a(t);
         }
     }
@@ -125,52 +125,59 @@ void eGameBoard::selectSoldier(eSoldierBanner* const c) {
 }
 
 void eGameBoard::updateTileRenderingOrder() {
+    int fx = 0;
+    int fy = 0;
     const auto updateRenderingOrder = [&](eTile* const tile) {
         tile->terrainTiles().clear();
-        int fx = 0;
-        int fy = 0;
         const auto ubt = tile->underBuildingType();
         const auto ub = tile->underBuilding();
         const auto sc = dynamic_cast<eSanctBuilding*>(ub);
         const bool r = sc && sc->progress() == 0;
         if(r || eBuilding::sFlatBuilding(ubt)) {
-            const int tx = tile->x();
-            const int ty = tile->y();
+            const int tx = tile->dx();
+            const int ty = tile->dy();
+//            if(tx == 11 && ty == 23) tile->setTerrain(eTerrain::choppedForest);
 
-            int tty = ty;
             bool found = false;
-            eTile* lastT = nullptr;
-            for(int i = 0; i < 3 && !found; i++) {
-                tty--;
-                const int w = ty - tty + 1;
-                int tttx = tx;
-                int ttty = tty;
-                for(int j = 0; j < w && !found; j++) {
-                    const auto t = eGameBoard::tile(tttx, ttty);
-                    tttx--;
-                    ttty++;
+            eTile* lastT = tile;
+            int ttx;
+            int tty;
+            for(int i = 1; i < 5 && !found; i++) {
+                tty = ty - i;
+                const int w = i + 1;
+                const int ddx = ty % 2 == 0 ? 1 : 0;
+                const int dx = -(i + ddx)/2;
+                ttx = tx + i + dx;
+                for(int j = 0; j < w && !found; j++, ttx--) {
+                    const auto t = eGameBoard::dtile(ttx, tty);
                     if(!t) continue;
+//                    if(tx == 11 && ty == 23) {
+//                        t->setTerrain(eTerrain::dry);
+//                        t->setScrub(0.75);
+//                    }
                     lastT = t;
-                    if(t->x() + t->y() <= fx + fy) {
-                        if(t->x() <= fx) found = true;
-                    }
+                    //const bool r = (fy > tty) || (fy == tty && fx >= ttx);
                     const auto tubt = t->underBuildingType();
                     if(!eBuilding::sFlatBuilding(tubt)) {
+                        const auto b = t->underBuilding();
+                        const auto ct = b->centerTile();
+                        lastT = ct;
                         found = true;
+                        break;
                     }
                 }
             }
 
             if(lastT) {
                 lastT->addTerrainTile(tile);
-                fx = lastT->x();
-                fy = lastT->y();
+                fx = ttx;
+                fy = tty;
             }
         }
     };
 
     iterateOverAllTiles([&](eTile* const tile) {
-        //updateRenderingOrder(tile);
+        updateRenderingOrder(tile);
     });
 }
 

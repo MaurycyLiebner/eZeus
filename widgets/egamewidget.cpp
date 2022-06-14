@@ -556,6 +556,7 @@ bool eGameWidget::build(const int tx, const int ty,
     if(!isRoad && tile->isElevationTile()) return false;
     const auto rend = rc ? rc() : e::make_shared<eBuildingRenderer>(b);
     tile->setBuilding(rend);
+    b->setCenterTile(tile);
     int minX;
     int minY;
     int maxX;
@@ -1185,7 +1186,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         };
 
-        drawTerrain(tile);
+        //drawTerrain(tile);
 
         drawSheepGoat();
         drawPatrol();
@@ -1208,11 +1209,9 @@ void eGameWidget::paintEvent(ePainter& p) {
         drawSpawner();
         drawBanners();
 
-        drawClouds();
-
-//        for(const auto t : tile->terrainTiles()) {
-//            drawTerrain(t);
-//        }
+        for(const auto t : tile->terrainTiles()) {
+            drawTerrain(t);
+        }
 
         drawMissiles();
 
@@ -1833,6 +1832,7 @@ void eGameWidget::paintEvent(ePainter& p) {
 
             b->setSeed(0);
             b->addUnderBuilding(t);
+            b->setCenterTile(t);
             double rx;
             double ry;
             const int sw = eb.fBR->spanW();

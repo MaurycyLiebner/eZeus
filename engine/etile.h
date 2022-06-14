@@ -23,7 +23,8 @@ class eSoldierBanner;
 
 class eTile : public eTileBase {
 public:
-    eTile(const int x, const int y);
+    eTile(const int x, const int y,
+          const int dx, const int dy);
 
     int scrubId(const int nLevels) const;
 

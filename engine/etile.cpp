@@ -6,10 +6,13 @@
 #include "buildings/ebuilding.h"
 #include "characters/echaracter.h"
 
-eTile::eTile(const int x, const int y) {
+eTile::eTile(const int x, const int y,
+             const int dx, const int dy) {
     setSeed(rand());
     setX(x);
     setY(y);
+    setDX(dx);
+    setDY(dy);
 }
 
 int eTile::scrubId(const int nLevels) const {

@@ -182,6 +182,7 @@ public:
     void setTileRect(const SDL_Rect& rect) { mTileRect = rect; }
     const SDL_Rect& tileRect() const { return mTileRect; }
 
+    void setCenterTile(eTile* const ct);
     eTile* centerTile() const;
 
     bool enabled() const { return mEnabled; }
@@ -201,6 +202,7 @@ public:
 
     std::vector<eTile*> neighbours() const;
 private:
+    eTile* mCenterTile = nullptr;
     std::vector<eTile*> mUnderBuilding;
     SDL_Rect mTileRect;
 

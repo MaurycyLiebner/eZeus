@@ -73,6 +73,14 @@ void eTileBase::setSeed(const int s) {
     mSeed = s;
 }
 
+void eTileBase::setDX(const int x) {
+    mDX = x;
+}
+
+void eTileBase::setDY(const int y) {
+    mDY = y;
+}
+
 void eTileBase::setX(const int x) {
     mX = x;
 }

@@ -541,6 +541,7 @@ bool eGameWidget::buildMouseRelease() {
                     const auto t = mBoard->tile(x, y);
                     if(t) {
                         t->setUnderBuilding(b1);
+                        b1->setCenterTile(t);
                         b1->addUnderBuilding(t);
                     }
                 }
@@ -551,24 +552,28 @@ bool eGameWidget::buildMouseRelease() {
                 r1->addUnderBuilding(t2);
                 t2->setUnderBuilding(r1);
                 t2->setBuilding(e::make_shared<eBuildingRenderer>(r1));
+                r1->setCenterTile(t2);
 
                 const auto t3 = t2->tileRel<eTile>(1, 0);
                 const auto r2 = e::make_shared<eRoad>(*mBoard);
                 r2->addUnderBuilding(t3);
                 t3->setUnderBuilding(r2);
                 t3->setBuilding(e::make_shared<eBuildingRenderer>(r2));
+                r2->setCenterTile(t3);
             } else {
                 const auto t2 = t1->tileRel<eTile>(2, -1);
                 const auto r1 = e::make_shared<eRoad>(*mBoard);
                 r1->addUnderBuilding(t2);
                 t2->setUnderBuilding(r1);
                 t2->setBuilding(e::make_shared<eBuildingRenderer>(r1));
+                r1->setCenterTile(t2);
 
                 const auto t3 = t2->tileRel<eTile>(0, 1);
                 const auto r2 = e::make_shared<eRoad>(*mBoard);
                 r2->addUnderBuilding(t3);
                 t3->setUnderBuilding(r2);
                 t3->setBuilding(e::make_shared<eBuildingRenderer>(r2));
+                r2->setCenterTile(t3);
             }
             const auto diff = mBoard->difficulty();
             const int cost = eDifficultyHelpers::buildingCost(
@@ -814,6 +819,7 @@ bool eGameWidget::buildMouseRelease() {
                         const auto r = e::make_shared<eBuildingRenderer>(tt);
                         tile->setBuilding(r);
                         tile->setUnderBuilding(tt);
+                        tt->setCenterTile(tile);
                         tt->addUnderBuilding(tile);
                         b->registerElement(tt);
                     } break;
@@ -848,6 +854,7 @@ bool eGameWidget::buildMouseRelease() {
                                             b.get(), t.fId, *mBoard);
                         const auto r = e::make_shared<eBuildingRenderer>(tt);
                         tile->setBuilding(r);
+                        tt->setCenterTile(tile);
                         tile->setUnderBuilding(tt);
                         tt->addUnderBuilding(tile);
                         b->registerElement(tt);
