@@ -13,7 +13,7 @@ void eAppealUpdateTask::run(eThreadBoard& board) {
     mMap.initialize(w, h);
     for(int tx = 0; tx < w; tx++) {
         for(int ty = 0; ty < h; ty++) {
-            const auto t = board.absTile(tx, ty);
+            const auto t = board.dtile(tx, ty);
             if(!t->mainBuildingTile()) continue;
             const auto& ub = t->underBuilding();
             const auto ubt = ub.type();

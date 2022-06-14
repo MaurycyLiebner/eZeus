@@ -342,7 +342,7 @@ int eMainWindow::exec() {
             }
         }
 
-        SDL_SetRenderDrawColor(mSdlRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+        SDL_SetRenderDrawColor(mSdlRenderer, 0x0, 0x0, 0x0, 0xFF);
         SDL_RenderClear(mSdlRenderer);
 
         ePainter p(mSdlRenderer);

@@ -320,7 +320,7 @@ void eSoldierAction::setPathForce(const int sx, const int sy,
                                   const int dist) {
 
     const auto startTile = [fx, fy](eThreadBoard& board) {
-        return board.absTile(fx, fy);
+        return board.tile(fx, fy);
     };
 
     const auto endTile = [sx, sy, dist](eTileBase* const t) {

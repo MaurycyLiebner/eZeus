@@ -51,7 +51,7 @@ void ePatrolTarget::spawnGetActor() {
     const int ty = t->y();
 
     const auto startTile = [tx, ty](eThreadBoard& board) {
-        return board.absTile(tx, ty);
+        return board.tile(tx, ty);
     };
     const auto buildingRect = tileRect();
     const auto school = std::make_shared<std::pair<int, int>>(0, 0);

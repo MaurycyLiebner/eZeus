@@ -227,6 +227,7 @@ SOURCES += \
         esounds.cpp \
         etexture.cpp \
         etexturecollection.cpp \
+        etilehelper.cpp \
         ewalkablehelpers.cpp \
         main.cpp \
         missiles/earrowmissile.cpp \
@@ -546,6 +547,7 @@ HEADERS += \
     esounds.h \
     etexture.h \
     etexturecollection.h \
+    etilehelper.h \
     ewalkablehelpers.h \
     missiles/earrowmissile.h \
     missiles/emissile.h \

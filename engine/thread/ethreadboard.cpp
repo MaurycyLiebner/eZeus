@@ -1,7 +1,8 @@
 #include "ethreadboard.h"
 
-void eThreadBoard::initialize(const int x, const int y,
-                              const int w, const int h) {
+#include "etilehelper.h"
+
+void eThreadBoard::initialize(const int w, const int h) {
     clear();
     mTiles.reserve(w);
     for(int x = 0; x < w; x++) {
@@ -11,8 +12,6 @@ void eThreadBoard::initialize(const int x, const int y,
             yArr.emplace_back();
         }
     }
-    mX = x;
-    mY = y;
     mWidth = w;
     mHeight = h;
 
@@ -25,34 +24,27 @@ void eThreadBoard::clear() {
     mHeight = 0;
 }
 
-eThreadTile* eThreadBoard::relTile(const int x, const int y) {
+eThreadTile* eThreadBoard::tile(const int x, const int y) {
+    int dtx;
+    int dty;
+    eTileHelper::tileIdToDTileId(x, y, dtx, dty);
+    return dtile(dtx, dty);
+}
+
+eThreadTile* eThreadBoard::dtile(const int x, const int y) {
     if(x < 0 || x >= mWidth) return nullptr;
     if(y < 0 || y >= mHeight) return nullptr;
     return &mTiles[x][y];
-}
-
-eThreadTile* eThreadBoard::absTile(const int x, const int y) {
-    return relTile(x - mX, y - mY);
 }
 
 void eThreadBoard::updateNeighbours() {
     for(int x = 0; x < mWidth; x++) {
         for(int y = 0; y < mHeight; y++) {
             auto& t = mTiles[x][y];
-            t.setTopLeft(relTile(x - 1, y));
-            t.setTopRight(relTile(x, y - 1));
-            t.setBottomRight(relTile(x + 1, y));
-            t.setBottomLeft(relTile(x, y + 1));
-        }
-    }
-}
-
-void eThreadBoard::assign(const eThreadBoard& src) {
-    for(int x = 0; x < mWidth; x++) {
-        for(int y = 0; y < mHeight; y++) {
-            auto& t = mTiles[x][y];
-            auto& srcT = src.mTiles[x][y];
-            t.load(srcT);
+            t.setTopLeft(tile(x - 1, y));
+            t.setTopRight(tile(x, y - 1));
+            t.setBottomRight(tile(x + 1, y));
+            t.setBottomLeft(tile(x, y + 1));
         }
     }
 }

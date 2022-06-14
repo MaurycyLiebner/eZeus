@@ -102,7 +102,7 @@ void eTradePost::updateRouteStart() {
     const int ty = t->y();
 
     const auto startTile = [tx, ty](eThreadBoard& board) {
-        return board.absTile(tx, ty);
+        return board.tile(tx, ty);
     };
 
     const auto finalTile = std::make_shared<std::pair<int, int>>();

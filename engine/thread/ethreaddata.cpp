@@ -7,8 +7,8 @@ eThreadData::eThreadData(const eThreadData& s) {
 }
 
 void eThreadData::initialize(const int w, const int h) {
-    mBoard.initialize(0, 0, w, h);
-    mTmpBoard.initialize(0, 0, w, h);
+    mBoard.initialize(w, h);
+    mTmpBoard.initialize(w, h);
 }
 
 void eThreadData::scheduleUpdate(eGameBoard& board,
@@ -19,7 +19,7 @@ void eThreadData::scheduleUpdate(eGameBoard& board,
     for(int i = x; i < x + w; i++) {
         for(int j = y; j < y + h; j++) {
             const auto src = board.tile(i, j);
-            const auto dst = mTmpBoard.absTile(i, j);
+            const auto dst = mTmpBoard.tile(i, j);
             if(!src || !dst) continue;
             dst->load(src);
         }

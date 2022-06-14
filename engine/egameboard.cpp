@@ -23,17 +23,7 @@
 
 #include "missiles/emissile.h"
 
-void dtileIdToTileId(const int dtx, const int dty,
-                     int& tx, int& ty) {
-    tx = dtx + (dty + 1)/2;
-    ty = dty/2 - dtx;
-}
-
-void tileIdToDTileId(const int tx, const int ty,
-                     int& dtx, int& dty) {
-    dty = tx + ty;
-    dtx = (tx + ty)/2 - ty;
-}
+#include "etilehelper.h"
 
 eGameBoard::eGameBoard() :
     mEmplData(mPopData, *this) {}
@@ -62,7 +52,7 @@ void eGameBoard::initialize(const int w, const int h) {
         for(int y = 0; y < h; y++) {
             int tx;
             int ty;
-            dtileIdToTileId(x, y, tx, ty);
+            eTileHelper::dtileIdToTileId(x, y, tx, ty);
             const auto tile = new eTile(tx, ty, x, y);
             yArr.push_back(tile);
         }
@@ -238,7 +228,7 @@ void eGameBoard::updateTileRenderingOrderIfNeeded() {
 eTile* eGameBoard::tile(const int x, const int y) const {
     int dtx;
     int dty;
-    tileIdToDTileId(x, y, dtx, dty);
+    eTileHelper::tileIdToDTileId(x, y, dtx, dty);
     return dtile(dtx, dty);
 }
 
@@ -516,18 +506,12 @@ void eGameBoard::updateNeighbours() {
             {
                 const int dx = y % 2 == 0 ? -1 : 0;
                 t->setTopLeft(dtile(x + dx, y - 1));
+                t->setBottomLeft(dtile(x + dx, y + 1));
             }
             {
                 const int dx = y % 2 == 0 ? 0 : 1;
                 t->setTopRight(dtile(x + dx, y - 1));
-            }
-            {
-                const int dx = y % 2 == 0 ? 0 : 1;
                 t->setBottomRight(dtile(x + dx, y + 1));
-            }
-            {
-                const int dx = y % 2 == 0 ? -1 : 0;
-                t->setBottomLeft(dtile(x + dx, y + 1));
             }
         }
     }

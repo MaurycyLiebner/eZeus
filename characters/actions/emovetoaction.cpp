@@ -24,7 +24,7 @@ void eMoveToAction::start(const eTileFinal& final,
     const int ty = t->y();
 
     const auto startTile = [tx, ty](eThreadBoard& board) {
-        return board.absTile(tx, ty);
+        return board.tile(tx, ty);
     };
 
     const stdptr<eMoveToAction> tptr(this);
