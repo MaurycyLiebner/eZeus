@@ -165,7 +165,7 @@ public:
     const std::string& playerName() const
     { return mPlayerName; }
 
-    void updateTileRenderingOrder();
+    void requestTileRenderingOrderUpdate();
     void updateTileRenderingOrderIfNeeded();
     using eTileAction = std::function<void(eTile* const)>;
     void iterateOverAllTiles(const eTileAction& a);
@@ -181,6 +181,7 @@ public:
     { return mSelectedBanners; }
 private:
     void updateNeighbours();
+    void updateTileRenderingOrder();
 
     eWorldBoard mWorldBoard;
 

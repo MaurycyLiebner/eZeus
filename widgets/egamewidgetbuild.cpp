@@ -172,6 +172,7 @@ bool eGameWidget::buildMouseRelease() {
                 tile->setTerrain(terr);
             };
         }
+        mBoard->requestTileRenderingOrderUpdate();
     } else {
         const auto mode = mGm->mode();
         switch(mode) {
@@ -800,6 +801,8 @@ bool eGameWidget::buildMouseRelease() {
             sClearForest(minX, minY, sw, sh, *mBoard);
 
             b->setTileRect({minX, minY, sw, sh});
+            const auto ct = mBoard->tile((minX + maxX)/2, (minY + maxY)/2);
+            b->setCenterTile(ct);
 
             const auto tb = e::make_shared<eTempleBuilding>(b.get(), *mBoard);
             b->registerElement(tb);

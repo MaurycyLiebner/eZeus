@@ -132,7 +132,7 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
         } else if(tla > a) {
             if(tla - a == 2) {
                 if((tx + ty) % 2) {
-                    return delev2.getTexture(ty % 3);
+                    return delev2.getTexture(std::abs(ty) % 3);
                 } else {
                     return delev.getTexture(3);
                 }
@@ -143,7 +143,7 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
         } else if(tra > a) {
             if(tra - a == 2) {
                 if((tx + ty) % 2) {
-                    return delev2.getTexture(3 + (tx % 3));
+                    return delev2.getTexture(3 + (std::abs(tx) % 3));
                 } else {
                     return delev.getTexture(5);
                 }

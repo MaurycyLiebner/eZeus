@@ -125,10 +125,36 @@ void eGameBoard::selectSoldier(eSoldierBanner* const c) {
 }
 
 void eGameBoard::updateTileRenderingOrder() {
-    int fx = 0;
-    int fy = 0;
+    std::vector<std::vector<std::pair<int, int>>> map;
+    map.reserve(width());
+    for(int x = 0; x < width(); x++) {
+        auto& m = map.emplace_back();
+        m.reserve(height());
+        for(int y = 0; y < height(); y++) {
+            m.push_back({0, 0});
+        }
+    }
+
     const auto updateRenderingOrder = [&](eTile* const tile) {
         tile->terrainTiles().clear();
+        bool elev = false;
+        const int a = tile->altitude();
+        for(int x = 0; x < 2 && !elev; x++) {
+            for(int y = 0; y < 2 && !elev; y++) {
+                if(x == 0 && y == 0) continue;
+                const auto t = tile->tileRel(x, y);
+                if(!t) continue;
+                const int ta = t->altitude();
+                if(ta > a) elev = true;
+            }
+        }
+        if(elev) {
+            tile->addTerrainTile(tile);
+            const int dx = tile->dx();
+            const int dy = tile->dy();
+            map[dx][dy] = {dx, dy};
+            return;
+        }
         const auto ubt = tile->underBuildingType();
         const auto ub = tile->underBuilding();
         const auto sc = dynamic_cast<eSanctBuilding*>(ub);
@@ -136,13 +162,15 @@ void eGameBoard::updateTileRenderingOrder() {
         if(r || eBuilding::sFlatBuilding(ubt)) {
             const int tx = tile->dx();
             const int ty = tile->dy();
-//            if(tx == 11 && ty == 23) tile->setTerrain(eTerrain::choppedForest);
-
             bool found = false;
             eTile* lastT = tile;
             int ttx;
             int tty;
-            for(int i = 1; i < 5 && !found; i++) {
+
+            int mmx = 0;
+            int mmy = 0;
+
+            for(int i = 1; i < 3 && !found; i++) {
                 tty = ty - i;
                 const int w = i + 1;
                 const int ddx = ty % 2 == 0 ? 1 : 0;
@@ -151,12 +179,28 @@ void eGameBoard::updateTileRenderingOrder() {
                 for(int j = 0; j < w && !found; j++, ttx--) {
                     const auto t = eGameBoard::dtile(ttx, tty);
                     if(!t) continue;
-//                    if(tx == 11 && ty == 23) {
-//                        t->setTerrain(eTerrain::dry);
-//                        t->setScrub(0.75);
-//                    }
+                    {
+                        const auto& coords = map[ttx][tty];
+                        const int cx = coords.first;
+                        const int cy = coords.second;
+                        if(cy > mmy) {
+                            mmy = cy;
+                            mmx = cx;
+                        } else if(cy == mmy) {
+                            if(cx > mmx) {
+                                mmx = cx;
+                            }
+                        }
+                        if(tty < mmy || (tty == mmy && ttx < mmx)) {
+                            found = true;
+                            break;
+                        }
+                    }
                     lastT = t;
-                    //const bool r = (fy > tty) || (fy == tty && fx >= ttx);
+//                    if(t->altitude() < tile->altitude()) {
+//                        found = true;
+//                        break;
+//                    }
                     const auto tubt = t->underBuildingType();
                     if(!eBuilding::sFlatBuilding(tubt)) {
                         const auto b = t->underBuilding();
@@ -170,8 +214,11 @@ void eGameBoard::updateTileRenderingOrder() {
 
             if(lastT) {
                 lastT->addTerrainTile(tile);
-                fx = ttx;
-                fy = tty;
+                const int dx = tile->dx();
+                const int dy = tile->dy();
+                const int ddx = lastT->dx();
+                const int ddy = lastT->dy();
+                map[dx][dy] = {ddx, ddy};
             }
         }
     };
@@ -456,6 +503,10 @@ bool eGameBoard::ifVisible(eTile* const tile, const eAction& func) const {
     const bool r = mVisibilityChecker(tile);
     if(r) func();
     return r;
+}
+
+void eGameBoard::requestTileRenderingOrderUpdate() {
+    mTileRenderingOrderUpdateNeeded = true;
 }
 
 void eGameBoard::updateNeighbours() {
