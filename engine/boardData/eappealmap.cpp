@@ -1,5 +1,7 @@
 #include "eappealmap.h"
 
+#include "etilehelper.h"
+
 void eAppealMap::reset() {
     initialize(mWidth, mHeight);
 }
@@ -39,7 +41,10 @@ void eAppealMap::addAppeal(const eAppeal& a,
             const double dist = std::sqrt(dx * dx + dy * dy);
             if(dist > r) continue;
             const double mult = (r - dist)/r;
-            addAppeal(x, y, mult*v);
+            int dtx;
+            int dty;
+            eTileHelper::tileIdToDTileId(x, y, dtx, dty);
+            addAppeal(dtx, dty, mult*v);
         }
     }
 }

@@ -748,6 +748,8 @@ void eGameWidget::paintEvent(ePainter& p) {
     iterateOverVisibleTiles([&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
+        const int dtx = tile->dx();
+        const int dty = tile->dy();
         const int a = mDrawElevation ? tile->altitude() : 0;
 
         const auto mode = mGm->mode();
@@ -797,7 +799,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto drawAppeal = [&]() {
             if(!v && mViewMode == eViewMode::appeal) {
                 const auto& am = mBoard->appealMap();
-                const auto ae = am.enabled(tx, ty);
+                const auto ae = am.enabled(dtx, dty);
                 const bool ch = bt == eBuildingType::commonHouse;
                 if(ae || ch) {
                     const eTextureCollection* coll;
@@ -806,7 +808,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                     } else {
                         coll = &builTexs.fAppeal;
                     }
-                    const double app = am.appeal(tx, ty);
+                    const double app = am.appeal(dtx, dty);
                     const double mult = app > 0 ? 1 : -1;
                     const double appS = mult*pow(abs(app), 0.75);
                     int appId = (int)std::round(appS + 2.);
