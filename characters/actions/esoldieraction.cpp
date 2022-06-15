@@ -318,6 +318,8 @@ void eSoldierAction::moveBy(const double dx, const double dy) {
 void eSoldierAction::setPathForce(const int sx, const int sy,
                                   const int fx, const int fy,
                                   const int dist) {
+    const auto empty = [](eCharacter*){ return vec2d{0., 0.}; };
+    addForce(empty, eForceType::reserved1);
 
     const auto startTile = [fx, fy](eThreadBoard& board) {
         return board.tile(fx, fy);
@@ -364,13 +366,18 @@ void eSoldierAction::setPathForce(const int sx, const int sy,
         }, eForceType::reserved1);
     };
 
+    const auto fail = [a]() {
+        if(!a) return;
+        a->removeForce(eForceType::reserved1);
+    };
+
     const auto c = character();
     auto& brd = c->getBoard();
     auto& tp = brd.threadPool();
 
     const auto pft = new ePathDataFindTask(
                          startTile, eWalkableHelpers::sDefaultWalkable,
-                         endTile, finishFunc, [](){}, false, 1000);
+                         endTile, finishFunc, fail, false, 1000);
     tp.queueTask(pft);
 }
 
@@ -403,6 +410,7 @@ void eSoldierAction::goBackToBanner() {
 
     const auto tt = b->place(s);
     if(!tt) return;
+    if(ct == tt) return;
 
     const int ttx = tt->x();
     const int tty = tt->y();

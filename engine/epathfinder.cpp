@@ -4,33 +4,6 @@
 
 #include "engine/etilebase.h"
 
-ePathBoard::ePathBoard(const int x, const int y,
-                       const int w, const int h) :
-    fX(x), fY(y), fW(w), fH(h) {
-    fData.reserve(w);
-    for(int x = 0; x < w; x++) {
-        fData.emplace_back(h, __INT_MAX__);
-    }
-}
-
-bool ePathBoard::getAbsValue(const int x, const int y, int** value) {
-    if(x < fX) return false;
-    if(y < fY) return false;
-    if(x >= fX + fW) return false;
-    if(y >= fY + fH) return false;
-    *value = &fData[x - fX][y - fY];
-    return true;
-}
-
-bool ePathBoard::getAbsValue(const int x, const int y, int& value) const {
-    if(x < fX) return false;
-    if(y < fY) return false;
-    if(x >= fX + fW) return false;
-    if(y >= fY + fH) return false;
-    value = fData[x - fX][y - fY];
-    return true;
-}
-
 ePathFinder::ePathFinder(const eTileWalkable& walkable,
                          const eTileFinish& finish) :
     mWalkable(walkable),
@@ -61,14 +34,6 @@ bool ePathFinder::findPath(eTileBase* const start,
                            const int srcW, const int srcH) {
     if(!start) return false;
     if(mFinish(start)) return true;
-    const int startX = start->x();
-    const int startY = start->y();
-
-    const int minX = startX - maxDist;
-    const int minY = startY - maxDist;
-
-    const int maxX = startX + maxDist;
-    const int maxY = startY + maxDist;
 
     const bool finishOnFound = mMode == ePathFinderMode::findSingle;
 
@@ -76,7 +41,21 @@ bool ePathFinder::findPath(eTileBase* const start,
     mData.fOnlyDiagonal = onlyDiagonal;
     mData.fStart = start;
     auto& brd = mData.fBoard;
-    brd = ePathBoard(minX, minY, maxX - minX, maxY - minY);
+    {
+        const int startX = start->dx();
+        const int startY = start->dy();
+
+        const int minX = std::max(0, startX - maxDist);
+        int minY = std::max(0, startY - maxDist);
+        if(minY % 2) {
+            minY--;
+        }
+
+        const int maxX = std::min(srcW, startX + maxDist);
+        const int maxY = std::min(srcH, startY + maxDist);
+
+        brd = ePathBoard(minX, minY, maxX - minX, maxY - minY);
+    }
 
     std::deque<eTilePair> toProcess;
     ePFinder pathFinder;

@@ -5,23 +5,9 @@
 #include <SDL2/SDL_rect.h>
 
 #include "eorientation.h"
+#include "epathboard.h"
 
 class eTileBase;
-
-struct ePathBoard {
-    ePathBoard() {}
-    ePathBoard(const int x, const int y,
-               const int w, const int h);
-
-    int fX;
-    int fY;
-    int fW;
-    int fH;
-    std::vector<std::vector<int>> fData;
-
-    bool getAbsValue(const int x, const int y, int** value);
-    bool getAbsValue(const int x, const int y, int& value) const;
-};
 
 struct ePathFindData {
     ePathBoard fBoard;

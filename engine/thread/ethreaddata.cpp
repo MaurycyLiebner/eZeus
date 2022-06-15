@@ -18,8 +18,8 @@ void eThreadData::scheduleUpdate(eGameBoard& board,
     mTmpChanged = true;
     for(int i = x; i < x + w; i++) {
         for(int j = y; j < y + h; j++) {
-            const auto src = board.tile(i, j);
-            const auto dst = mTmpBoard.tile(i, j);
+            const auto src = board.dtile(i, j);
+            const auto dst = mTmpBoard.dtile(i, j);
             if(!src || !dst) continue;
             dst->load(src);
         }
