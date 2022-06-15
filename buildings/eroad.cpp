@@ -225,9 +225,10 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
 
         const auto& b = getBoard();
         const auto t = centerTile();
-        const int tx = t->x();
-        const int ty = t->y();
-        const double a = b.appeal(tx, ty);
+
+        const int dx = t->dx();
+        const int dy = t->dy();
+        const double a = b.appeal(dx, dy);
 
         const eTextureCollection* coll;
         if(a > 3) {

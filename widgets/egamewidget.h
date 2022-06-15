@@ -59,6 +59,10 @@ protected:
     bool mouseReleaseEvent(const eMouseEvent& e);
     bool mouseWheelEvent(const eMouseWheelEvent& e);
 private:
+    void setDX(const int dx);
+    void setDY(const int dy);
+    void clampViewBox();
+
     bool buildMouseRelease();
 
     static void sClearScrub(const int x, const int y,

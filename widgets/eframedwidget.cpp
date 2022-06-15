@@ -81,5 +81,5 @@ void eFramedWidget::paintEvent(ePainter& p) {
             }
         }
     }
-    p.drawRect(rect(), {0, 0, 0, 255}, 2);
+    //p.drawRect(rect(), {0, 0, 0, 255}, 2);
 }

@@ -294,8 +294,10 @@ void eGameWidget::viewFraction(const double fx, const double fy) {
     int mdy;
     mapDimensions(mdx, mdy);
 
-    mDX = -fx*mdx + mdx/2 + width()/2;
-    mDY = -fy*mdy + height()/2;
+    const int dx = -fx*mdx + mdx/2 + width()/2;
+    const int dy = -fy*mdy + height()/2;
+    setDX(dx);
+    setDY(dy);
 }
 
 void eGameWidget::viewTile(eTile* const tile) {
@@ -1855,17 +1857,13 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
             mPausedLabel = nullptr;
         }
     } else if(k == SDL_Scancode::SDL_SCANCODE_LEFT) {
-        mDX += 25;
-        updateMinimap();
+        setDX(mDX + 25);
     } else if(k == SDL_Scancode::SDL_SCANCODE_RIGHT) {
-        mDX -= 25;
-        updateMinimap();
+        setDX(mDX - 25);
     } else if(k == SDL_Scancode::SDL_SCANCODE_UP) {
-        mDY += 25;
-        updateMinimap();
+        setDY(mDY + 25);
     } else if(k == SDL_Scancode::SDL_SCANCODE_DOWN) {
-        mDY -= 25;
-        updateMinimap();
+        setDY(mDY - 25);
     } else if(k == SDL_Scancode::SDL_SCANCODE_ESCAPE) {
         if(mMenu) {
             mMenu->deleteLater();
@@ -1997,8 +1995,8 @@ bool eGameWidget::mouseMoveEvent(const eMouseEvent& e) {
     if(static_cast<bool>(e.buttons() & eMouseButton::middle)) {
         const int dx = e.x() - mLastX;
         const int dy = e.y() - mLastY;
-        mDX += dx;
-        mDY += dy;
+        setDX(mDX + dx);
+        setDY(mDY + dy);
         updateMinimap();
         mLastX = e.x();
         mLastY = e.y();
@@ -2139,6 +2137,30 @@ bool eGameWidget::mouseWheelEvent(const eMouseWheelEvent& e) {
     return true;
 }
 
+void eGameWidget::setDX(const int dx) {
+    mDX = dx;
+    clampViewBox();
+    updateMinimap();
+}
+
+void eGameWidget::setDY(const int dy) {
+    mDY = dy;
+    clampViewBox();
+    updateMinimap();
+}
+
+void eGameWidget::clampViewBox() {
+    const int w = mBoard->width();
+    const int ww = width() - mGm->width();
+    mDX = std::min(0, mDX);
+    mDX = std::max(-w*mTileW + ww + mTileW/2, mDX);
+
+    const int h = mBoard->height();
+    const int hh = height();
+    mDY = std::min(-mTileH/2, mDY);
+    mDY = std::max(-h*mTileH/2 + hh, mDY);
+}
+
 void eGameWidget::setTileSize(const eTileSize size) {
     mTileSize = size;
     const int tid = static_cast<int>(mTileSize);
@@ -2146,11 +2168,17 @@ void eGameWidget::setTileSize(const eTileSize size) {
     const int newW = trrTexs.fTileW;
     const int newH = trrTexs.fTileH;
 
-    mDX = std::round((mDX - width()/2) * static_cast<double>(newW)/mTileW + width()/2);
-    mDY = std::round((mDY - height()/2) * static_cast<double>(newH)/mTileH + height()/2);
+    const double dnewW = newW;
+    const double dnewH = newH;
+
+    const int dx = std::round((mDX - width()/2) * dnewW/mTileW + width()/2);
+    const int dy = std::round((mDY - height()/2) * dnewH/mTileH + height()/2);
 
     mTileW = newW;
     mTileH = newH;
+
+    setDX(dx);
+    setDY(dy);
 
     {
         double fx;
@@ -2159,6 +2187,8 @@ void eGameWidget::setTileSize(const eTileSize size) {
         const auto mm = mGm->miniMap();
         mm->setViewBoxSize(fx, fy);
     }
+
+    clampViewBox();
 }
 
 void eGameWidget::actionOnSelectedTiles(const eTileAction& apply) {
