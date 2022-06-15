@@ -147,8 +147,6 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fAppeal(renderer),
     fHouseAppeal(renderer),
 
-    fClouds(renderer),
-
     fZeusStatues(renderer),
     fPoseidonStatues(renderer),
     fHadesStatues(renderer),
@@ -823,11 +821,6 @@ void eBuildingTextures::load() {
 
         for(int i = 1; i < 16; i++) {
             texClass.load(i, fPatrolGuides);
-        }
-
-        const auto cloudPathBase{dir + "cloud_"};
-        for(int i = 1; i < 5; i++) {
-            eTextureLoadingHelpers::loadTex(cloudPathBase, i, fClouds);
         }
     }
     {

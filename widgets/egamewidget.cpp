@@ -1109,41 +1109,6 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         };
 
-        const auto drawClouds = [&]() {
-            const bool tr = tile->topRight();
-            const bool br = tile->bottomRight();
-            const bool bl = tile->bottomLeft();
-            const bool tl = tile->topLeft();
-            if(!tr || !br || !bl || !tl) {
-                const auto& clouds = builTexs.fClouds;
-                const int id = tile->seed() % clouds.size();
-                const auto tex = builTexs.fClouds.getTexture(id);
-                double dx = 0;
-                double dy = 0;
-                eAlignment align = eAlignment::bottom | eAlignment::right;
-                if((!tr && !tl) || (!tr && !br) || (!br && !bl) || (!bl && !tl)) {
-                    align = eAlignment::center;
-                    dx = -0.25;
-                    dy = -1.0;
-                } else if(!tile->topRight()) {
-                    dx = 1.25;
-                    dy = -1.5;
-                    align = eAlignment::top | eAlignment::left;
-                } else if(!tile->bottomRight()) {
-                    dx = -1.5;
-                    dy = -1.5;
-                } else if(!tile->bottomLeft()) {
-                    dx = -2.0;
-                    dy = -0.5;
-                } else if(!tile->topLeft()) {
-                    dx = 1.5;
-                    dy = -1.5;
-                    align = eAlignment::top | eAlignment::left;
-                }
-                tp.drawTexture(rx + dx, ry + dy, tex, align);
-            }
-        };
-
         const auto drawMissiles = [&]() {
             const auto& mss = tile->missiles();
             for(const auto& m : mss) {

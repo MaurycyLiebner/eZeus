@@ -304,8 +304,6 @@ public:
     eTextureCollection fAppeal;
     eTextureCollection fHouseAppeal;
 
-    eTextureCollection fClouds;
-
     eTextureCollection fZeusStatues;
     eTextureCollection fPoseidonStatues;
     eTextureCollection fHadesStatues;
