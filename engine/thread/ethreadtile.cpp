@@ -7,6 +7,8 @@ void eThreadTile::load(eTile* const src) {
     setSeed(src->seed());
     setX(src->x());
     setY(src->y());
+    setDX(src->dx());
+    setDY(src->dy());
     setWalkableElev(src->walkableElev());
     setBusy(src->busy());
     setResource(src->resource());
@@ -28,6 +30,8 @@ void eThreadTile::load(const eThreadTile& src) {
     setSeed(src.seed());
     setX(src.x());
     setY(src.y());
+    setDX(src.dx());
+    setDY(src.dy());
     setWalkableElev(src.walkableElev());
     setBusy(src.busy());
     setResource(src.resource());

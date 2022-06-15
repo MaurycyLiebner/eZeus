@@ -64,11 +64,11 @@ bool ePathFinder::findPath(eTileBase* const start,
     const int startX = start->x();
     const int startY = start->y();
 
-    const int minX = std::max(0, startX - maxDist);
-    const int minY = std::max(0, startY - maxDist);
+    const int minX = startX - maxDist;
+    const int minY = startY - maxDist;
 
-    const int maxX = std::min(startX + maxDist, srcW);
-    const int maxY = std::min(startY + maxDist, srcH);
+    const int maxX = startX + maxDist;
+    const int maxY = startY + maxDist;
 
     const bool finishOnFound = mMode == ePathFinderMode::findSingle;
 

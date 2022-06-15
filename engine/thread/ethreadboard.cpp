@@ -41,10 +41,16 @@ void eThreadBoard::updateNeighbours() {
     for(int x = 0; x < mWidth; x++) {
         for(int y = 0; y < mHeight; y++) {
             auto& t = mTiles[x][y];
-            t.setTopLeft(tile(x - 1, y));
-            t.setTopRight(tile(x, y - 1));
-            t.setBottomRight(tile(x + 1, y));
-            t.setBottomLeft(tile(x, y + 1));
+            {
+                const int dx = y % 2 == 0 ? -1 : 0;
+                t.setTopLeft(dtile(x + dx, y - 1));
+                t.setBottomLeft(dtile(x + dx, y + 1));
+            }
+            {
+                const int dx = y % 2 == 0 ? 0 : 1;
+                t.setTopRight(dtile(x + dx, y - 1));
+                t.setBottomRight(dtile(x + dx, y + 1));
+            }
         }
     }
 }
