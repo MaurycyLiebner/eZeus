@@ -267,8 +267,12 @@ SOURCES += \
         widgets/datawidgets/eappealdatawidget.cpp \
         widgets/datawidgets/eculturedatawidget.cpp \
         widgets/datawidgets/edatalabel.cpp \
+        widgets/datawidgets/edatawidget.cpp \
         widgets/datawidgets/eemploymentdatawidget.cpp \
+        widgets/datawidgets/ehusbandrydatawidget.cpp \
         widgets/datawidgets/ehygienesafetydatawidget.cpp \
+        widgets/datawidgets/emilitarydatawidget.cpp \
+        widgets/datawidgets/emythologydatawidget.cpp \
         widgets/datawidgets/epopulationdatawidget.cpp \
         widgets/datawidgets/estoragedatawidget.cpp \
         widgets/datawidgets/eviewmodebutton.cpp \
@@ -608,8 +612,12 @@ HEADERS += \
     widgets/datawidgets/eappealdatawidget.h \
     widgets/datawidgets/eculturedatawidget.h \
     widgets/datawidgets/edatalabel.h \
+    widgets/datawidgets/edatawidget.h \
     widgets/datawidgets/eemploymentdatawidget.h \
+    widgets/datawidgets/ehusbandrydatawidget.h \
     widgets/datawidgets/ehygienesafetydatawidget.h \
+    widgets/datawidgets/emilitarydatawidget.h \
+    widgets/datawidgets/emythologydatawidget.h \
     widgets/datawidgets/epopulationdatawidget.h \
     widgets/datawidgets/estoragedatawidget.h \
     widgets/datawidgets/eviewmodebutton.h \

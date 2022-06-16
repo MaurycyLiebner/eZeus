@@ -1,22 +1,20 @@
 #ifndef EPOPULATIONDATAWIDGET_H
 #define EPOPULATIONDATAWIDGET_H
 
-#include "../ewidget.h"
+#include "edatawidget.h"
 
 class eGameBoard;
 class eLabel;
 class eGameWidget;
 class eViewModeButton;
 
-class ePopulationDataWidget : public eWidget {
+class ePopulationDataWidget : public eDataWidget {
 public:
-    using eWidget::eWidget;
+    using eDataWidget::eDataWidget;
 
     void initialize();
 
     void setBoard(eGameBoard* const b);
-
-    void setGameWidget(eGameWidget* const gw);
 protected:
     void paintEvent(ePainter& p);
 private:

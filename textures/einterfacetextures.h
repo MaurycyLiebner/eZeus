@@ -165,6 +165,8 @@ public:
     eTextureCollection fCheckBox;
     eTextureCollection fLargeCheckBox;
 
+    eTextureCollection fSeeButton;
+
     std::shared_ptr<eTexture> fSpawner;
 
     //

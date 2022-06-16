@@ -126,6 +126,8 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fCheckBox(renderer),
     fLargeCheckBox(renderer),
 
+    fSeeButton(renderer),
+
     fUpButton(renderer),
     fDownButton(renderer),
     fExclamationButton(renderer),
@@ -402,7 +404,9 @@ void eInterfaceTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fAesthetics);
         }
 
-
+        for(int i = 137; i < 140; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fSeeButton);
+        }
 
         for(int i = 184; i < 187; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fFireAlert);

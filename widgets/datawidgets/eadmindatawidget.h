@@ -1,22 +1,25 @@
 #ifndef EADMINDATAWIDGET_H
 #define EADMINDATAWIDGET_H
 
-#include "../ewidget.h"
+#include "edatawidget.h"
 
 #include "engine/etaxrate.h"
 
 class eGameBoard;
 class eLabel;
+class eViewModeButton;
 
-class eAdminDataWidget : public eWidget {
+class eAdminDataWidget : public eDataWidget {
 public:
-    using eWidget::eWidget;
+    using eDataWidget::eDataWidget;
 
     void initialize();
 
     void setBoard(eGameBoard* const b);
 private:
     void setTaxRate(const eTaxRate tr);
+
+    eViewModeButton* mSeeTaxes = nullptr;
 
     eGameBoard* mBoard = nullptr;
 

@@ -38,6 +38,8 @@ public:
     void setLargePadding();
     void setSmallPadding();
     void setTinyPadding();
+    void setVeryTinyPadding();
+    void setVeryVeryTinyPadding();
     void setNoPadding();
 
     void align(const eAlignment a);

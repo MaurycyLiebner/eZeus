@@ -22,6 +22,8 @@ public:
     int largePadding() const;
     int smallPadding() const;
     int tinyPadding() const;
+    int veryTinyPadding() const;
+    int veryVeryTinyPadding() const;
 
     int margin() const;
 

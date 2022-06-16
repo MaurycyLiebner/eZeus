@@ -78,6 +78,17 @@ sculpture "Sculpture"
 horse "Horse"
 invalid "Invalid"
 
+population_title "Population"
+husbandry_title "Husbandry"
+aesthetics_title "Aesthetics"
+industry_title "Industry"
+distribution_title "Distribution"
+hygiene_safety_title "Hygiene/Safety"
+administration_title "Administration"
+culture_title "Culture"
+mythology_title "Mythology"
+military_title "Military"
+
 taxes "Taxes:"
 
 none "none"
@@ -89,11 +100,13 @@ very_high "very high"
 outrageous "outrageous"
 
 see_appeal "See Appeal"
-
 see_actors "See Actors"
 see_athletes "See Athletes"
 see_philosophers "See Philosophers"
 see_all_culture "See All Culture"
+see_husbandry "See Husbandry"
+see_immortals "See Immortals"
+see_security "See Security"
 
 pensions "Pensions: "
 workforce "Workforce: "
@@ -116,6 +129,12 @@ see_unrest "See Unrest"
 see_supplies "See Supplies"
 population "Population: "
 vacancies "Vacancies: "
+
+see_taxes "See Taxes"
+
+see_distribution "See Distribution"
+
+see_industry "See Industry"
 
 dont_accept "Don't Accept"
 accept "Accept"

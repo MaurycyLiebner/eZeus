@@ -7,15 +7,28 @@
 #include "../eupbutton.h"
 #include "../edownbutton.h"
 
+#include "eviewmodebutton.h"
+
 #include "elanguage.h"
 
 void eAdminDataWidget::initialize() {
+    {
+        mSeeTaxes = new eViewModeButton(
+                        eLanguage::text("see_taxes"),
+                        eViewMode::taxes,
+                        window());
+        addViewButton(mSeeTaxes);
+    }
+
+    eDataWidget::initialize();
+
+    const auto inner = innerWidget();
     {
         const auto l = new eLabel(eLanguage::text("taxes"), window());
         l->setSmallPadding();
         l->setVerySmallFontSize();
         l->fitContent();
-        addWidget(l);
+        inner->addWidget(l);
 
         const auto w = new eWidget(window());
         w->setNoPadding();
@@ -42,10 +55,10 @@ void eAdminDataWidget::initialize() {
         w->fitContent();
         upButton->align(eAlignment::vcenter);
         downButton->align(eAlignment::vcenter);
-        addWidget(w);
+        inner->addWidget(w);
     }
 
-    stackVertically();
+    inner->stackVertically();
 }
 
 void eAdminDataWidget::setBoard(eGameBoard* const b) {

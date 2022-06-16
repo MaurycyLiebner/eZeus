@@ -1,20 +1,18 @@
 #ifndef EHYGIENESAFETYDATAWIDGET_H
 #define EHYGIENESAFETYDATAWIDGET_H
 
-#include "../ewidget.h"
+#include "edatawidget.h"
 
 class eGameBoard;
 class eLabel;
 class eGameWidget;
 class eViewModeButton;
 
-class eHygieneSafetyDataWidget : public eWidget {
+class eHygieneSafetyDataWidget : public eDataWidget {
 public:
-    using eWidget::eWidget;
+    using eDataWidget::eDataWidget;
 
     void initialize();
-
-    void setGameWidget(eGameWidget* const gw);
 private:
     eViewModeButton* mSeeWater = nullptr;
     eViewModeButton* mSeeHygiene = nullptr;

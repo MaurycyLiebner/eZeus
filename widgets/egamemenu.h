@@ -15,7 +15,10 @@ class eAdminDataWidget;
 class eStorageDataWidget;
 class eAppealDataWidget;
 class eHygieneSafetyDataWidget;
+class eHusbandryDataWidget;
+class eMythologyDataWidget;
 class eCultureDataWidget;
+class eMilitaryDataWidget;
 class eMiniMap;
 class eGameWidget;
 class eEventWidget;
@@ -75,11 +78,14 @@ private:
 
     ePopulationDataWidget* mPopDataW = nullptr;
     eEmploymentDataWidget* mEmplDataW = nullptr;
+    eHusbandryDataWidget* mHusbDataW = nullptr;
     eStorageDataWidget* mStrgDataW = nullptr;
     eAppealDataWidget* mApplDataW = nullptr;
     eHygieneSafetyDataWidget* mHySaDataW = nullptr;
     eAdminDataWidget* mAdminDataW = nullptr;
     eCultureDataWidget* mCultureDataW = nullptr;
+    eMythologyDataWidget* mMythDataW = nullptr;
+    eMilitaryDataWidget* mMiltDataW = nullptr;
 
     eButton* mWorldButton = nullptr;
 

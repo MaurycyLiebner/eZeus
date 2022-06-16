@@ -1,20 +1,18 @@
 #ifndef ECULTUREDATAWIDGET_H
 #define ECULTUREDATAWIDGET_H
 
-#include "../ewidget.h"
+#include "edatawidget.h"
 
 class eGameBoard;
 class eLabel;
 class eGameWidget;
 class eViewModeButton;
 
-class eCultureDataWidget : public eWidget {
+class eCultureDataWidget : public eDataWidget {
 public:
-    using eWidget::eWidget;
+    using eDataWidget::eDataWidget;
 
     void initialize();
-
-    void setGameWidget(eGameWidget* const gw);
 private:
     eViewModeButton* mSeeActors = nullptr;
     eViewModeButton* mSeeAthletes = nullptr;

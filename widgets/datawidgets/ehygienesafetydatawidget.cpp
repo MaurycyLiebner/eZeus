@@ -9,27 +9,21 @@ void eHygieneSafetyDataWidget::initialize() {
                      eLanguage::text("see_water"),
                      eViewMode::water,
                      window());
-
-    addWidget(mSeeWater);
-    mSeeWater->align(eAlignment::hcenter);
+    addViewButton(mSeeWater);
 
 
     mSeeHygiene = new eViewModeButton(
                      eLanguage::text("see_hygiene"),
                      eViewMode::hygiene,
                      window());
-
-    addWidget(mSeeHygiene);
-    mSeeHygiene->align(eAlignment::hcenter);
+    addViewButton(mSeeHygiene);
 
 
     mSeeHazards = new eViewModeButton(
                      eLanguage::text("see_hazards"),
                      eViewMode::hazards,
                      window());
-
-    addWidget(mSeeHazards);
-    mSeeHazards->align(eAlignment::hcenter);
+    addViewButton(mSeeHazards);
 
 
     mSeeUnrest = new eViewModeButton(
@@ -37,16 +31,7 @@ void eHygieneSafetyDataWidget::initialize() {
                      eViewMode::unrest,
                      window());
 
-    addWidget(mSeeUnrest);
-    mSeeUnrest->align(eAlignment::hcenter);
+    addViewButton(mSeeUnrest);
 
-
-    layoutVertically();
-}
-
-void eHygieneSafetyDataWidget::setGameWidget(eGameWidget* const gw) {
-    mSeeWater->setGameWidget(gw);
-    mSeeHygiene->setGameWidget(gw);
-    mSeeHazards->setGameWidget(gw);
-    mSeeUnrest->setGameWidget(gw);
+    eDataWidget::initialize();
 }

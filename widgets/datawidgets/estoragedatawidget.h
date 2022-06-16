@@ -1,16 +1,17 @@
 #ifndef ESTORAGEDATAWIDGET_H
 #define ESTORAGEDATAWIDGET_H
 
-#include "../ewidget.h"
+#include "edatawidget.h"
 
 #include "engine/eresourcetype.h"
 
 class eGameBoard;
 class eLabel;
+class eViewModeButton;
 
-class eStorageDataWidget : public eWidget {
+class eStorageDataWidget : public eDataWidget {
 public:
-    using eWidget::eWidget;
+    using eDataWidget::eDataWidget;
 
     void initialize();
 
@@ -18,6 +19,8 @@ public:
 protected:
     void paintEvent(ePainter& p);
 private:
+    eViewModeButton* mSeeDistribution = nullptr;
+
     eGameBoard* mBoard = nullptr;
 
     std::vector<eLabel*> mResourceLabels;

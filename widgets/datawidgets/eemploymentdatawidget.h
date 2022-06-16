@@ -1,6 +1,7 @@
 #ifndef EEMPLOYMENTDATAWIDGET_H
 #define EEMPLOYMENTDATAWIDGET_H
 
+#include "edatawidget.h"
 #include "edatalabel.h"
 
 #include "engine/ewagerate.h"
@@ -8,9 +9,9 @@
 class eGameBoard;
 class eLabel;
 
-class eEmploymentDataWidget : public eWidget {
+class eEmploymentDataWidget : public eDataWidget {
 public:
-    using eWidget::eWidget;
+    using eDataWidget::eDataWidget;
 
     void initialize();
 
@@ -19,6 +20,8 @@ protected:
     void paintEvent(ePainter& p);
 private:
     void setWageRate(const eWageRate wr);
+
+    eViewModeButton* mSeeIndustry = nullptr;
 
     eGameBoard* mBoard = nullptr;
 

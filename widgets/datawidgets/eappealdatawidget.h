@@ -1,18 +1,16 @@
 #ifndef EAPPEALDATAWIDGET_H
 #define EAPPEALDATAWIDGET_H
 
-#include "../ewidget.h"
+#include "edatawidget.h"
 
 class eGameWidget;
 class eViewModeButton;
 
-class eAppealDataWidget : public eWidget {
+class eAppealDataWidget : public eDataWidget {
 public:
-    using eWidget::eWidget;
+    using eDataWidget::eDataWidget;
 
     void initialize();
-
-    void setGameWidget(eGameWidget* const gw);
 private:
     eViewModeButton* mSeeAppeal = nullptr;
 };

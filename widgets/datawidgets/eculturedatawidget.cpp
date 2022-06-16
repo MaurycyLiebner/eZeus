@@ -5,48 +5,29 @@
 #include "elanguage.h"
 
 void eCultureDataWidget::initialize() {
-    mSeeActors = new eViewModeButton(
-                     eLanguage::text("see_actors"),
-                     eViewMode::actors,
+    mSeePhilosophers = new eViewModeButton(
+                     eLanguage::text("see_philosophers"),
+                     eViewMode::philosophers,
                      window());
-
-    addWidget(mSeeActors);
-    mSeeActors->align(eAlignment::hcenter);
-
+    addViewButton(mSeePhilosophers);
 
     mSeeAthletes = new eViewModeButton(
                      eLanguage::text("see_athletes"),
                      eViewMode::athletes,
                      window());
+    addViewButton(mSeeAthletes);
 
-    addWidget(mSeeAthletes);
-    mSeeAthletes->align(eAlignment::hcenter);
-
-
-    mSeePhilosophers = new eViewModeButton(
-                     eLanguage::text("see_philosophers"),
-                     eViewMode::philosophers,
+    mSeeActors = new eViewModeButton(
+                     eLanguage::text("see_actors"),
+                     eViewMode::actors,
                      window());
-
-    addWidget(mSeePhilosophers);
-    mSeePhilosophers->align(eAlignment::hcenter);
-
+    addViewButton(mSeeActors);
 
     mSeeAllCulture = new eViewModeButton(
                      eLanguage::text("see_all_culture"),
                      eViewMode::allCulture,
                      window());
+    addViewButton(mSeeAllCulture);
 
-    addWidget(mSeeAllCulture);
-    mSeeAllCulture->align(eAlignment::hcenter);
-
-
-    layoutVertically();
-}
-
-void eCultureDataWidget::setGameWidget(eGameWidget* const gw) {
-    mSeeActors->setGameWidget(gw);
-    mSeeAthletes->setGameWidget(gw);
-    mSeePhilosophers->setGameWidget(gw);
-    mSeeAllCulture->setGameWidget(gw);
+    eDataWidget::initialize();
 }

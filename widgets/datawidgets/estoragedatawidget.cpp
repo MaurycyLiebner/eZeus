@@ -3,17 +3,22 @@
 #include "engine/egameboard.h"
 #include "widgets/elabel.h"
 
+#include "eviewmodebutton.h"
+
+#include "elanguage.h"
+
 eWidget* sdwColumn(eMainWindow* const window,
                    const eUIScale uiScale,
                    const int iMin, const int iMax,
                    const std::vector<eResourceType>& tps,
                    std::vector<eLabel*>& lbls) {
     const auto w0 = new eWidget(window);
+    w0->setNoPadding();
     for(int i = iMin; i < iMax; i++) {
         const auto t = tps[i];
         const auto icon = eResourceTypeHelpers::icon(uiScale, t);
         const auto w = new eWidget(window);
-        w->setPadding(0);
+        w->setNoPadding();
         const auto ic = new eLabel(window);
         ic->setTexture(icon);
         ic->setPadding(ic->padding()/4);
@@ -24,8 +29,8 @@ eWidget* sdwColumn(eMainWindow* const window,
         l->fitContent();
         lbls.push_back(l);
 
-        w->addWidget(ic);
         w->addWidget(l);
+        w->addWidget(ic);
         w->stackHorizontally();
         w->fitContent();
         ic->align(eAlignment::vcenter);
@@ -33,12 +38,23 @@ eWidget* sdwColumn(eMainWindow* const window,
         w0->addWidget(w);
     }
     w0->stackVertically();
-    w0->setPadding(0);
     w0->fitContent();
     return w0;
 }
 
 void eStorageDataWidget::initialize() {
+    {
+        mSeeDistribution = new eViewModeButton(
+                        eLanguage::text("see_distribution"),
+                        eViewMode::taxes,
+                        window());
+        addViewButton(mSeeDistribution);
+    }
+
+    eDataWidget::initialize();
+
+    const auto inner = innerWidget();
+
     const auto all = eResourceType::all & ~eResourceType::silver;
     const auto tps = eResourceTypeHelpers::extractResourceTypes(all);
     const auto res = resolution();
@@ -55,9 +71,15 @@ void eStorageDataWidget::initialize() {
                               iMin1, iMax1, tps,
                               mResourceLabels);
 
-    addWidget(w0);
-    addWidget(w1);
-    layoutHorizontally();
+    const auto w = new eWidget(window());
+    w->setNoPadding();
+    w->addWidget(w0);
+    w->addWidget(w1);
+    w->stackHorizontally();
+    w->fitContent();
+
+    inner->addWidget(w);
+    w->align(eAlignment::center);
 }
 
 void eStorageDataWidget::setBoard(eGameBoard* const b) {

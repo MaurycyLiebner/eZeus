@@ -11,11 +11,7 @@ void eAppealDataWidget::initialize() {
                      eLanguage::text("see_appeal"),
                      eViewMode::appeal,
                      window());
+    addViewButton(mSeeAppeal);
 
-    addWidget(mSeeAppeal);
-    mSeeAppeal->align(eAlignment::hcenter);
-}
-
-void eAppealDataWidget::setGameWidget(eGameWidget* const gw) {
-    mSeeAppeal->setGameWidget(gw);
+    eDataWidget::initialize();
 }

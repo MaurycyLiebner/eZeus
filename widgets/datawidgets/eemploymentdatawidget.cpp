@@ -7,21 +7,36 @@
 #include "../eupbutton.h"
 #include "../edownbutton.h"
 
+#include "widgets/eframedwidget.h"
+
+#include "eviewmodebutton.h"
+
 #include "elanguage.h"
 
 void eEmploymentDataWidget::initialize() {
     {
+        mSeeIndustry = new eViewModeButton(
+                        eLanguage::text("see_industry"),
+                        eViewMode::industry,
+                        window());
+        addViewButton(mSeeIndustry);
+    }
+
+    eDataWidget::initialize();
+    const auto inner = innerWidget();
+
+    {
         const auto w = new eDataLabel(window());
         w->initialize(eLanguage::text("pensions"));
         mPensionsLabel = w->label();
-        addWidget(w);
+        inner->addWidget(w);
     }
 
     {
         const auto w = new eDataLabel(window());
         w->initialize(eLanguage::text("workforce"));
         mWorkforceLabel = w->label();
-        addWidget(w);
+        inner->addWidget(w);
     }
 
     eDataLabel* jv = nullptr;
@@ -30,7 +45,7 @@ void eEmploymentDataWidget::initialize() {
         w->initialize(eLanguage::text("job_vacancies"));
         mVacanciesNLabel = w->label();
         mVacanciesLabel = w;
-        addWidget(w);
+        inner->addWidget(w);
         jv = w;
     }
 
@@ -39,7 +54,7 @@ void eEmploymentDataWidget::initialize() {
         l->setSmallPadding();
         l->setVerySmallFontSize();
         l->fitContent();
-        addWidget(l);
+        inner->addWidget(l);
 
         const auto w = new eWidget(window());
         w->setNoPadding();
@@ -66,10 +81,10 @@ void eEmploymentDataWidget::initialize() {
         w->fitContent();
         upButton->align(eAlignment::vcenter);
         downButton->align(eAlignment::vcenter);
-        addWidget(w);
+        inner->addWidget(w);
     }
 
-    stackVertically();
+    inner->stackVertically();
 
 
     {
@@ -77,7 +92,7 @@ void eEmploymentDataWidget::initialize() {
         w->initialize(eLanguage::text("unemployed"));
         mUnemployedNLabel = w->label();
         mUnemployedLabel = w;
-        addWidget(w);
+        inner->addWidget(w);
 
         w->setVisible(false);
 
@@ -118,7 +133,7 @@ void eEmploymentDataWidget::paintEvent(ePainter& p) {
         mUnemployedNLabel->setText(std::to_string(u));
         mUnemployedNLabel->fitContent();
     }
-    eWidget::paintEvent(p);
+    eDataWidget::paintEvent(p);
 }
 
 void eEmploymentDataWidget::setWageRate(const eWageRate wr) {

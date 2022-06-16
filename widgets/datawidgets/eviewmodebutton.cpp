@@ -1,5 +1,7 @@
 #include "eviewmodebutton.h"
 
+#include "textures/egametextures.h"
+
 eViewModeButton::eViewModeButton(const std::string& text,
                                  const eViewMode vm,
                                  eMainWindow* const window) :
@@ -13,10 +15,24 @@ eViewModeButton::eViewModeButton(const std::string& text,
             mGW->setViewMode(mVM);
         }
     });
-    setVerySmallFontSize();
-    setTinyPadding();
-    setText(text);
+
+    const auto& intrfc = eGameTextures::interface();
+    const auto res = resolution();
+    const int iRes = static_cast<int>(res.uiScale());
+    const auto& texs = intrfc[iRes].fSeeButton;
+
+    setTexture(texs.getTexture(0));
+    setHoverTexture(texs.getTexture(1));
+    setCheckedTexture(texs.getTexture(2));
+    setVeryVeryTinyPadding();
     fitContent();
+
+    const auto label = new eLabel(text, window);
+    label->setVerySmallFontSize();
+    label->setNoPadding();
+    label->fitContent();
+    addWidget(label);
+    label->align(eAlignment::center);
 }
 
 void eViewModeButton::setGameWidget(eGameWidget* const gw) {

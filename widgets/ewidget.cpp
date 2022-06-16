@@ -110,6 +110,14 @@ void eWidget::setTinyPadding() {
     mPadding = resolution().tinyPadding();
 }
 
+void eWidget::setVeryTinyPadding() {
+    mPadding = resolution().veryTinyPadding();
+}
+
+void eWidget::setVeryVeryTinyPadding() {
+    mPadding = resolution().veryVeryTinyPadding();
+}
+
 void eWidget::setNoPadding() {
     mPadding = 0;
 }

@@ -14,6 +14,9 @@
 #include "widgets/datawidgets/ehygienesafetydatawidget.h"
 #include "widgets/datawidgets/eculturedatawidget.h"
 #include "widgets/datawidgets/eadmindatawidget.h"
+#include "widgets/datawidgets/ehusbandrydatawidget.h"
+#include "widgets/datawidgets/emythologydatawidget.h"
+#include "widgets/datawidgets/emilitarydatawidget.h"
 #include "eminimap.h"
 
 #include "eeventwidget.h"
@@ -49,7 +52,7 @@ eWidget* eGameMenu::createSubButtons(
         b->setY(pos.second);
     }
 
-    result->setPadding(0);
+    result->setNoPadding();
     result->fitContent();
 
     return result;
@@ -123,26 +126,55 @@ void eGameMenu::initialize() {
     };
 
     const int dataWidWidth = 65*mult;
-    const int dataWidHeight = 120*mult;
+    const int dataWidHeight = 113*mult;
 
     const int wwHeight = 190*mult;
-    const int wy = dataWidHeight + 20*mult;
+    const int wy = dataWidHeight + 37*mult;
 
-    const auto ww0 = new eWidget(window());
-    const auto w0 = createSubButtons(mult,
-                        eButtonsDataVec{
-                            {cha0, &coll.fCommonHousing},
-                            {eha0, &coll.fEliteHousing}});
+    const auto createDataWidget =
+        [&](eDataWidget* const dataW,
+            const eButtonsDataVec& buttonsVec,
+            const std::string& name) {
+        const auto ww9 = new eWidget(window());
+        const auto alabel = new eLabel(window());
+        alabel->setText(eLanguage::text(name));
+        alabel->setSmallFontSize();
+        alabel->fitContent();
+        ww9->addWidget(alabel);
+        const auto w9 = createSubButtons(mult, buttonsVec);
+        dataW->setWidth(dataWidWidth);
+        dataW->setHeight(dataWidHeight);
+        dataW->initialize();
+        ww9->addWidget(dataW);
+
+        const auto fw9 = new eFramedLabel(window());
+        fw9->setType(eFrameType::inner);
+        fw9->setVerySmallFontSize();
+        fw9->setText("Recreational Areas");
+        fw9->setVeryTinyPadding();
+        fw9->fitContent();
+        fw9->setText("");
+        fw9->setWidth(dataWidWidth);
+        ww9->addWidget(fw9);
+
+        ww9->addWidget(w9);
+        ww9->setWidth(dataWidWidth);
+        ww9->setHeight(wwHeight);
+        ww9->stackVertically();
+        w9->setY(wy);
+        alabel->align(eAlignment::hcenter);
+        ww9->fitContent();
+        fw9->setY(fw9->y() + fw9->padding());
+        return ww9;
+    };
+
     mPopDataW = new ePopulationDataWidget(window());
-    mPopDataW->setWidth(dataWidWidth);
-    mPopDataW->setHeight(dataWidHeight);
-    mPopDataW->initialize();
-    ww0->addWidget(mPopDataW);
-    ww0->addWidget(w0);
-    ww0->fitContent();
-    ww0->setHeight(wwHeight);
-    w0->setY(wy);
-    mPopDataW->align(eAlignment::top);
+    mPopDataW->setBoard(mBoard);
+    const auto buttonsVec0 = eButtonsDataVec{
+                    {cha0, &coll.fCommonHousing},
+                    {eha0, &coll.fEliteHousing}};
+    const auto ww0 = createDataWidget(mPopDataW, buttonsVec0,
+                                      "population_title");
 
     const auto ff1 = [this, cmx, cmy]() {
         const std::vector<eSPR> cs = {eSPR{eBuildingMode::wheatFarm, eLanguage::text("wheat_farm")},
@@ -172,12 +204,16 @@ void eGameMenu::initialize() {
         openBuildWidget(cmx, cmy, cs);
     };
 
-    const auto w1 = createSubButtons(mult,
-                        eButtonsDataVec{
+
+
+    mHusbDataW = new eHusbandryDataWidget(window());
+    const auto buttonsVec1 = eButtonsDataVec{
                             {ff1, &coll.fFoodFarming},
                             {of1, &coll.fOtherFarming},
                             {af1, &coll.fAnimalFarming},
-                            {ah1, &coll.fAnimalHunting}});
+                            {ah1, &coll.fAnimalHunting}};
+    const auto ww1 = createDataWidget(mHusbDataW, buttonsVec1,
+                                      "husbandry_title");
 
 
     const auto r2 = [this, cmx, cmy]() {
@@ -197,22 +233,14 @@ void eGameMenu::initialize() {
         setMode(eBuildingMode::artisansGuild);
     };
 
-    const auto ww2 = new eWidget(window());
-    const auto w2 = createSubButtons(mult,
-                        eButtonsDataVec{
-                             {r2, &coll.fResources},
-                             {p2, &coll.fProcessing},
-                             {bg2, &coll.fArtisansGuild}});
     mEmplDataW = new eEmploymentDataWidget(window());
-    mEmplDataW->setWidth(dataWidWidth);
-    mEmplDataW->setHeight(dataWidHeight);
-    mEmplDataW->initialize();
-    ww2->addWidget(mEmplDataW);
-    ww2->addWidget(w2);
-    ww2->fitContent();
-    ww2->setHeight(wwHeight);
-    w2->setY(wy);
-    mEmplDataW->align(eAlignment::top);
+    mEmplDataW->setBoard(mBoard);
+    const auto buttonsVec2 = eButtonsDataVec{
+                            {r2, &coll.fResources},
+                            {p2, &coll.fProcessing},
+                            {bg2, &coll.fArtisansGuild}};
+    const auto ww2 = createDataWidget(mEmplDataW, buttonsVec2,
+                                      "industry_title");
 
 
     const auto g3 = [this]() {
@@ -244,23 +272,17 @@ void eGameMenu::initialize() {
         }
         openBuildWidget(cmx, cmy, cs);
     };
-    const auto www3 = new eWidget(window());
-    const auto w3 = createSubButtons(mult,
-                        eButtonsDataVec{
-                             {g3, &coll.fGranary},
-                             {ww3, &coll.fWarehouse},
-                             {a3, &coll.fAgoras},
-                             {t3, &coll.fTrade}});
+
+
     mStrgDataW = new eStorageDataWidget(window());
-    mStrgDataW->setWidth(dataWidWidth);
-    mStrgDataW->setHeight(dataWidHeight);
-    mStrgDataW->initialize();
-    www3->addWidget(mStrgDataW);
-    www3->addWidget(w3);
-    www3->fitContent();
-    www3->setHeight(wwHeight);
-    w3->setY(wy);
-    mStrgDataW->align(eAlignment::top);
+    mStrgDataW->setBoard(mBoard);
+    const auto buttonsVec3 = eButtonsDataVec{
+                            {g3, &coll.fGranary},
+                            {ww3, &coll.fWarehouse},
+                            {a3, &coll.fAgoras},
+                            {t3, &coll.fTrade}};
+    const auto www3 = createDataWidget(mStrgDataW, buttonsVec3,
+                                       "distribution_title");
 
 
     const auto ff4 = [this]() {
@@ -275,24 +297,15 @@ void eGameMenu::initialize() {
     const auto h4 = [this]() {
         setMode(eBuildingMode::hospital);
     };
-    const auto ww4 = new eWidget(window());
-    const auto w4 = createSubButtons(mult,
-                        eButtonsDataVec{
-                             {ff4, &coll.fFireFighter},
-                             {f4, &coll.fFountain},
-                             {p4, &coll.fPolice},
-                             {h4, &coll.fHospital}});
 
     mHySaDataW = new eHygieneSafetyDataWidget(window());
-    mHySaDataW->setWidth(dataWidWidth);
-    mHySaDataW->setHeight(dataWidHeight);
-    mHySaDataW->initialize();
-    ww4->addWidget(mHySaDataW);
-    ww4->addWidget(w4);
-    ww4->fitContent();
-    ww4->setHeight(wwHeight);
-    w4->setY(wy);
-    mHySaDataW->align(eAlignment::top);
+    const auto buttonsVec4 = eButtonsDataVec{
+                            {ff4, &coll.fFireFighter},
+                            {f4, &coll.fFountain},
+                            {p4, &coll.fPolice},
+                            {h4, &coll.fHospital}};
+    const auto ww4 = createDataWidget(mHySaDataW, buttonsVec4,
+                                      "hygiene_safety_title");
 
     const auto p5 = [this]() {
         setMode(eBuildingMode::palace);
@@ -301,22 +314,15 @@ void eGameMenu::initialize() {
         setMode(eBuildingMode::taxOffice);
     };
     const auto bb5 = [this]() {};
-    const auto ww5 = new eWidget(window());
-    const auto w5 = createSubButtons(mult,
-                        eButtonsDataVec{
-                             {p5, &coll.fPalace},
-                             {tc5, &coll.fTaxCollector},
-                             {bb5, &coll.fBridge}});
+
     mAdminDataW = new eAdminDataWidget(window());
-    mAdminDataW->setWidth(dataWidWidth);
-    mAdminDataW->setHeight(dataWidHeight);
-    mAdminDataW->initialize();
-    ww5->addWidget(mAdminDataW);
-    ww5->addWidget(w5);
-    ww5->fitContent();
-    ww5->setHeight(wwHeight);
-    w5->setY(wy);
-    mAdminDataW->align(eAlignment::top);
+    mAdminDataW->setBoard(mBoard);
+    const auto buttonsVec5 = eButtonsDataVec{
+                            {p5, &coll.fPalace},
+                            {tc5, &coll.fTaxCollector},
+                            {bb5, &coll.fBridge}};
+    const auto ww5 = createDataWidget(mAdminDataW, buttonsVec5,
+                                      "administration_title");
 
 
     const auto p6 = [this, cmx, cmy]() {
@@ -335,24 +341,15 @@ void eGameMenu::initialize() {
     const auto s6 = [this]() {
         setMode(eBuildingMode::stadium);
     };
-    const auto ww6 = new eWidget(window());
-    const auto w6 = createSubButtons(mult,
-                        eButtonsDataVec{
-                             {p6, &coll.fPhilosophy},
-                             {g6, &coll.fGymnasium},
-                             {d6, &coll.fDrama},
-                             {s6, &coll.fStadium}});
 
     mCultureDataW = new eCultureDataWidget(window());
-    mCultureDataW->setWidth(dataWidWidth);
-    mCultureDataW->setHeight(dataWidHeight);
-    mCultureDataW->initialize();
-    ww6->addWidget(mCultureDataW);
-    ww6->addWidget(w6);
-    ww6->fitContent();
-    ww6->setHeight(wwHeight);
-    w6->setY(wy);
-    mCultureDataW->align(eAlignment::top);
+    const auto buttonsVec6 = eButtonsDataVec{
+                            {p6, &coll.fPhilosophy},
+                            {g6, &coll.fGymnasium},
+                            {d6, &coll.fDrama},
+                            {s6, &coll.fStadium}};
+    const auto ww6 = createDataWidget(mCultureDataW, buttonsVec6,
+                                      "culture_title");
 
 
     const auto t7 = [this, cmx, cmy]() {
@@ -361,10 +358,15 @@ void eGameMenu::initialize() {
         openBuildWidget(cmx, cmy, cs);
     };
     const auto hs7 = [this, cmx, cmy]() {};
-    const auto w7 = createSubButtons(mult,
-                        eButtonsDataVec{
-                             {t7, &coll.fTemples},
-                             {hs7, &coll.fHeroShrines}});
+
+
+    mMythDataW = new eMythologyDataWidget(window());
+    const auto buttonsVec7 = eButtonsDataVec{
+                            {t7, &coll.fTemples},
+                            {hs7, &coll.fHeroShrines}};
+    const auto ww7 = createDataWidget(mMythDataW, buttonsVec7,
+                                      "mythology_title");
+
 
     const auto f8 = [this, cmx, cmy]() {
         const std::vector<eSPR> cs = {eSPR{eBuildingMode::wall, eLanguage::text("wall")},
@@ -376,10 +378,13 @@ void eGameMenu::initialize() {
         const std::vector<eSPR> cs = {eSPR{eBuildingMode::armory, eLanguage::text("armory")}};
         openBuildWidget(cmx, cmy, cs);
     };
-    const auto w8 = createSubButtons(mult,
-                        eButtonsDataVec{
-                             {f8, &coll.fFortifications},
-                             {mp8, &coll.fMilitaryProduction}});
+
+    mMiltDataW = new eMilitaryDataWidget(window());
+    const auto buttonsVec8 = eButtonsDataVec{
+                        {f8, &coll.fFortifications},
+                        {mp8, &coll.fMilitaryProduction}};
+    const auto ww8 = createDataWidget(mMiltDataW, buttonsVec8,
+                                      "military_title");
 
     const auto bb9 = [this, cmx, cmy]() {
         const std::vector<eSPR> cs = {eSPR{eBuildingMode::park, eLanguage::text("park")},
@@ -422,54 +427,45 @@ void eGameMenu::initialize() {
         openBuildWidget(cmx, cmy, cs);
     };
 
-    const auto ww9 = new eWidget(window());
-    const auto w9 = createSubButtons(mult,
-                        eButtonsDataVec{
-                             {bb9, &coll.fBeautification},
-                             {r9, &coll.fRecreation},
-                             {m9, &coll.fMonuments}});
     mApplDataW = new eAppealDataWidget(window());
-    mApplDataW->setWidth(dataWidWidth);
-    mApplDataW->setHeight(dataWidHeight);
-    mApplDataW->initialize();
-    ww9->addWidget(mApplDataW);
-    ww9->addWidget(w9);
-    ww9->fitContent();
-    ww9->setHeight(wwHeight);
-    w9->setY(wy);
-    mApplDataW->align(eAlignment::top);
+    const auto buttonsVec = eButtonsDataVec{
+                    {bb9, &coll.fBeautification},
+                    {r9, &coll.fRecreation},
+                    {m9, &coll.fMonuments}};
+    const auto ww9 = createDataWidget(mApplDataW, buttonsVec,
+                                      "aesthetics_title");
 
 
     mMiniMap = new eMiniMap(window());
     mMiniMap->resize(dataWidWidth, dataWidWidth);
 
     mWidgets.push_back(ww0);
-    mWidgets.push_back(w1);
+    mWidgets.push_back(ww1);
     mWidgets.push_back(ww2);
     mWidgets.push_back(www3);
     mWidgets.push_back(ww4);
     mWidgets.push_back(ww5);
     mWidgets.push_back(ww6);
-    mWidgets.push_back(w7);
-    mWidgets.push_back(w8);
+    mWidgets.push_back(ww7);
+    mWidgets.push_back(ww8);
     mWidgets.push_back(ww9);
     mWidgets.push_back(mMiniMap);
 
     for(const auto w : mWidgets) {
         addWidget(w);
-        w->move(24*mult, 20*mult);
+        w->move(24*mult, 12*mult);
         w->hide();
     }
 
     const auto b0 = addButton(coll.fPopulation, ww0);
-    const auto b1 = addButton(coll.fHusbandry, w1);
+    const auto b1 = addButton(coll.fHusbandry, ww1);
     const auto b2 = addButton(coll.fIndustry, ww2);
     const auto b3 = addButton(coll.fDistribution, www3);
     const auto b4 = addButton(coll.fHygieneSafety, ww4);
     const auto b5 = addButton(coll.fAdministration, ww5);
     const auto b6 = addButton(coll.fCulture, ww6);
-    const auto b7 = addButton(coll.fMythology, w7);
-    const auto b8 = addButton(coll.fMilitary, w8);
+    const auto b7 = addButton(coll.fMythology, ww7);
+    const auto b8 = addButton(coll.fMilitary, ww8);
     const auto b9 = addButton(coll.fAesthetics, ww9);
     const auto b10 = addButton(coll.fOverview, mMiniMap);
 
@@ -549,8 +545,11 @@ void eGameMenu::initialize() {
 
 void eGameMenu::setGameWidget(eGameWidget* const gw) {
     mPopDataW->setGameWidget(gw);
+    mEmplDataW->setGameWidget(gw);
+    mStrgDataW->setGameWidget(gw);
     mApplDataW->setGameWidget(gw);
     mHySaDataW->setGameWidget(gw);
+    mAdminDataW->setGameWidget(gw);
     mCultureDataW->setGameWidget(gw);
 
     mWorldButton->setPressAction([this]() {

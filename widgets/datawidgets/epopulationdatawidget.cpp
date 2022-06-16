@@ -13,33 +13,31 @@ void ePopulationDataWidget::initialize() {
                      eLanguage::text("see_supplies"),
                      eViewMode::supplies,
                      window());
+    addViewButton(mSeeSupplies);
 
-    addWidget(mSeeSupplies);
-    mSeeSupplies->align(eAlignment::hcenter);
+    eDataWidget::initialize();
+
+    const auto inner = innerWidget();
 
     {
         const auto w = new eDataLabel(window());
         w->initialize(eLanguage::text("population"));
         mPopLabel = w->label();
-        addWidget(w);
+        inner->addWidget(w);
     }
 
     {
         const auto w = new eDataLabel(window());
         w->initialize(eLanguage::text("vacancies"));
         mVacLabel = w->label();
-        addWidget(w);
+        inner->addWidget(w);
     }
 
-    stackVertically();
+    inner->stackVertically();
 }
 
 void ePopulationDataWidget::setBoard(eGameBoard* const b) {
     mBoard = b;
-}
-
-void ePopulationDataWidget::setGameWidget(eGameWidget* const gw) {
-    mSeeSupplies->setGameWidget(gw);
 }
 
 void ePopulationDataWidget::paintEvent(ePainter& p) {

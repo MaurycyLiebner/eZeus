@@ -49,6 +49,14 @@ int eResolution::tinyPadding() const {
     return largePadding()/2;
 }
 
+int eResolution::veryTinyPadding() const {
+    return largePadding()/4;
+}
+
+int eResolution::veryVeryTinyPadding() const {
+    return largePadding()/6;
+}
+
 int eResolution::margin() const {
     return largePadding();
 }
