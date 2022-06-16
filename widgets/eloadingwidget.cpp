@@ -19,12 +19,6 @@ void eLoadingWidget::initialize() {
         setLoadImage(1);
     }
 
-    mPB = new eProgressBar(window());
-    mPB->fitContent();
-    mPB->setWidth(width() / 4);
-    addWidget(mPB);
-    mPB->align(eAlignment::center);
-
     if(mUseTextures) {
         const auto label = new eFramedLabel("Waiting...", window());
         mLabelW = label;
@@ -38,8 +32,14 @@ void eLoadingWidget::initialize() {
     mLabelW->fitContent();
     addWidget(mLabelW);
     mLabelW->align(eAlignment::hcenter);
-    mLabelW->setY(mPB->y() + 2*mLabelW->height());
+    mLabelW->setY(2*height()/3);
 
+    mPB = new eProgressBar(window());
+    mLabelW->addWidget(mPB);
+    mPB->setWidth(mLabelW->width());
+    mPB->setHeight(mLabelW->height()/10);
+    mPB->setY(mLabelW->height());
+    mPB->align(eAlignment::hcenter);
     mPB->setRange(0, mSize);
 }
 
@@ -95,6 +95,9 @@ void eLoadingWidget::paintEvent(ePainter& p) {
         mLabelW->fitContent();
         mLabelW->align(eAlignment::hcenter);
         setLoadImage(rand() % 12 + 1);
+
+        mPB->setWidth(mLabelW->width());
+        mPB->align(eAlignment::hcenter);
     }
     eWidget::paintEvent(p);
 }

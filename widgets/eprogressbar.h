@@ -1,11 +1,11 @@
 #ifndef EPROGRESSBAR_H
 #define EPROGRESSBAR_H
 
-#include "eframedwidget.h"
+#include "ewidget.h"
 
-class eProgressBar : public eFramedWidget {
+class eProgressBar : public eWidget {
 public:
-    eProgressBar(eMainWindow* const window);
+    using eWidget::eWidget;
 
     int value() const { return mValue; }
 

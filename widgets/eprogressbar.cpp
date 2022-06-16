@@ -1,10 +1,5 @@
 #include "eprogressbar.h"
 
-eProgressBar::eProgressBar(eMainWindow* const window) :
-    eFramedWidget(window) {
-
-}
-
 void eProgressBar::setRange(const int min, const int max) {
     mMin = min;
     mMax = max;
@@ -20,11 +15,9 @@ void eProgressBar::sizeHint(int& w, int& h) {
 }
 
 void eProgressBar::paintEvent(ePainter& p) {
-    eFramedWidget::paintEvent(p);
     const double per = double(mValue - mMin)/(mMax - mMin);
-    const int pa = padding();
-    const int w = per*(width() - 2*pa);
-    const SDL_Rect rect{pa, pa, w, height() - 2*pa};
+    const int w = per*width();
+    const SDL_Rect rect{0, 0, w, height()};
     p.fillRect(rect, {255, 255, 255, 255});
     //p.drawRect(rect, {0, 0, 0, 255} , 2);
 }
