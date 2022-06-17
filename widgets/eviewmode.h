@@ -32,7 +32,10 @@ enum class eViewMode {
 
     immortals,
 
-    distribution
+    distribution,
+
+    problems,
+    roads
 };
 
 inline eViewMode operator|(const eViewMode a, const eViewMode b) {

@@ -8,6 +8,8 @@ public:
     using eLabel::eLabel;
 
     void setPressAction(const eAction& a);
+    void setMouseEnterAction(const eAction& a);
+    void setMouseLeaveAction(const eAction& a);
 
     int lineWidth() const;
 
@@ -24,6 +26,8 @@ protected:
     bool mouseLeaveEvent(const eMouseEvent& e);
 private:
     eAction mPressAction;
+    eAction mEnterAction;
+    eAction mLeaveAction;
 
     bool mEnabled = true;
     bool mPressed = false;

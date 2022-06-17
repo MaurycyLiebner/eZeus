@@ -19,11 +19,13 @@ class eHusbandryDataWidget;
 class eMythologyDataWidget;
 class eCultureDataWidget;
 class eMilitaryDataWidget;
+class eOverviewDataWidget;
 class eMiniMap;
 class eGameWidget;
 class eEventWidget;
 class eBuildButton;
 class eBuildWidget;
+class eFramedLabel;
 enum class eEvent;
 
 struct eSubButtonData;
@@ -76,6 +78,8 @@ private:
 
     eBuildWidget* mBuildWidget = nullptr;
 
+    eFramedLabel* mNameLabel = nullptr;
+
     ePopulationDataWidget* mPopDataW = nullptr;
     eEmploymentDataWidget* mEmplDataW = nullptr;
     eHusbandryDataWidget* mHusbDataW = nullptr;
@@ -86,6 +90,7 @@ private:
     eCultureDataWidget* mCultureDataW = nullptr;
     eMythologyDataWidget* mMythDataW = nullptr;
     eMilitaryDataWidget* mMiltDataW = nullptr;
+    eOverviewDataWidget* mOverDataW = nullptr;
 
     eButton* mWorldButton = nullptr;
 

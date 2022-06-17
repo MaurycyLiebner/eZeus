@@ -88,6 +88,7 @@ administration_title "Administration"
 culture_title "Culture"
 mythology_title "Mythology"
 military_title "Military"
+overview_title "Overview"
 
 taxes "Taxes:"
 
@@ -136,6 +137,9 @@ see_distribution "See Distribution"
 
 see_industry "See Industry"
 
+see_problems "See Problems"
+see_roads "See Roads"
+
 dont_accept "Don't Accept"
 accept "Accept"
 get "Get"
@@ -168,6 +172,47 @@ sardis "Sardis"
 hattusas "Hattusas"
 
 ; game menu
+common_housing "Common Housing"
+elite_housing "Elite Housing"
+
+farms "Farms"
+orchards "Orchards"
+herding "Herding"
+land_and_sea "Land and Sea"
+
+raw_materials "Raw Materials"
+workshops "Workshops"
+
+granary "Granary"
+storehouse "Storehouse"
+agoras "Agoras"
+trade "Trade"
+
+fountain "Fountain"
+infirmary "Infirmary"
+maintenance_office "Maintenance Office"
+watchpost "Watchpost"
+
+palace "Palace"
+tax_office "Tax Office"
+water_crossing "Water Crossing"
+
+philosophy "Philosophy"
+gymnasium "Gymnasium"
+drama "Drama"
+stadium "Stadium"
+
+sanctuaries "Sanctuaries"
+heros_hall "Hero's Hall"
+artisans_guild "Artisans' Guild"
+
+fortifications "Fortifications"
+military_workshops "Military Workshops"
+
+beautification "Beautification"
+recreational_areas "Recreational Areas"
+monuments "Monuments"
+
 wheat_farm "Wheat Farm"
 carrot_farm "Carrot Farm"
 onion_farm "Onion Farm"

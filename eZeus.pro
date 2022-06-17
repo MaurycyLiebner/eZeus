@@ -273,6 +273,7 @@ SOURCES += \
         widgets/datawidgets/ehygienesafetydatawidget.cpp \
         widgets/datawidgets/emilitarydatawidget.cpp \
         widgets/datawidgets/emythologydatawidget.cpp \
+        widgets/datawidgets/eoverviewdatawidget.cpp \
         widgets/datawidgets/epopulationdatawidget.cpp \
         widgets/datawidgets/estoragedatawidget.cpp \
         widgets/datawidgets/eviewmodebutton.cpp \
@@ -618,6 +619,7 @@ HEADERS += \
     widgets/datawidgets/ehygienesafetydatawidget.h \
     widgets/datawidgets/emilitarydatawidget.h \
     widgets/datawidgets/emythologydatawidget.h \
+    widgets/datawidgets/eoverviewdatawidget.h \
     widgets/datawidgets/epopulationdatawidget.h \
     widgets/datawidgets/estoragedatawidget.h \
     widgets/datawidgets/eviewmodebutton.h \

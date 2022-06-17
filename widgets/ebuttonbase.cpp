@@ -6,6 +6,14 @@ void eButtonBase::setPressAction(const eAction& a) {
     mPressAction = a;
 }
 
+void eButtonBase::setMouseEnterAction(const eAction& a) {
+    mEnterAction = a;
+}
+
+void eButtonBase::setMouseLeaveAction(const eAction& a) {
+    mLeaveAction = a;
+}
+
 int eButtonBase::lineWidth() const {
     return std::max(1, fontSize()/15);
 }
@@ -47,12 +55,18 @@ bool eButtonBase::mouseMoveEvent(const eMouseEvent& e) {
 
 bool eButtonBase::mouseEnterEvent(const eMouseEvent& e) {
     (void)e;
+    if(mEnterAction) {
+        mEnterAction();
+    }
     mHover = true;
     return true;
 }
 
 bool eButtonBase::mouseLeaveEvent(const eMouseEvent& e) {
     (void)e;
+    if(mLeaveAction) {
+        mLeaveAction();
+    }
     mHover = false;
     return true;
 }

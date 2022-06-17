@@ -61,7 +61,7 @@ void eStorageDataWidget::initialize() {
     const auto uiScale = res.uiScale();
 
     const int iMin0 = 0;
-    const int iMax0 = tps.size()/2;
+    const int iMax0 = tps.size()/2 + 1;
     const auto w0 = sdwColumn(window(), uiScale,
                               iMin0, iMax0, tps,
                               mResourceLabels);
