@@ -169,9 +169,9 @@ const eTextureCollection& eEliteHousing::getTextureCollection(
 void eEliteHousing::updateLevel() {
     const auto& b = getBoard();
     const auto t = centerTile();
-    const int tx = t->x();
-    const int ty = t->y();
-    const double appeal = b.appeal(tx ,ty);
+    const int dx = t->dx();
+    const int dy = t->dy();
+    const double appeal = b.appeal(dx ,dy);
     const int stadium = b.hasStadium() ? 1 : 0;
     const int nVenues = mPhilosophers + mActors +
                         mAthletes + stadium;
