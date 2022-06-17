@@ -296,7 +296,10 @@ void eCartTransporterAction::waitOutside() {
 void eCartTransporterAction::spread() {
     const auto c = character();
     const auto ct = static_cast<eCartTransporter*>(c);
-    if(!ct->isOx()) return;
+    if(!ct->isOx()) {
+        c->setActionType(eCharacterActionType::stand);
+        return;
+    }
 
     const stdptr<eCartTransporter> cptr(ct);
     const auto stand = [cptr]() {
