@@ -145,10 +145,9 @@ void eGameWidget::setBoard(eGameBoard* const board) {
 
 void eGameWidget::initialize() {
     mGm = new eGameMenu(window());
-    mGm->initialize();
+    mGm->initialize(mBoard);
     addWidget(mGm);
     mGm->align(eAlignment::right | eAlignment::top);
-    mGm->setBoard(mBoard);
     mGm->setGameWidget(this);
 
     mGm->setViewTileHandler([this](eTile* const tile) {

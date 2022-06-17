@@ -42,14 +42,13 @@ struct eSPR {
 class eGameMenu : public eGameMenuBase {
 public:
     using eGameMenuBase::eGameMenuBase;
-    void initialize();
+    void initialize(eGameBoard* const b);
 
     int cityId() const { return mCityId; }
     eBuildingMode mode() const { return mMode; }
     void clearMode() { mMode = eBuildingMode::none; }
 
     void setGameWidget(eGameWidget* const gw);
-    void setBoard(eGameBoard* const b);
 
     eMiniMap* miniMap() const;
 
@@ -73,6 +72,9 @@ private:
     eBuildButton* createBuildButton(const eSPR& c);
     void openBuildWidget(const int cmx, const int cmy,
                          const std::vector<eSPR>& cs);
+
+    void displayPrice(const int price, const int loc);
+    eWidget* createPriceWidget(const eInterfaceTextures& coll);
 
     eGameBoard* mBoard{nullptr};
 
@@ -102,6 +104,9 @@ private:
     std::vector<eWidget*> mWidgets;
 
     eEventWidget* mEventW = nullptr;
+
+    std::vector<eWidget*> mPriceWidgets;
+    std::vector<eLabel*> mPriceLabels;
 };
 
 #endif // EGAMEMENU_H

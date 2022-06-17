@@ -91,7 +91,7 @@ int eResolution::verySmallFontSize() const {
 }
 
 int eResolution::tinyFontSize() const {
-    return largeFontSize()/2;
+    return 17*largeFontSize()/30;
 }
 
 int eResolution::centralWidgetWidth() const {
