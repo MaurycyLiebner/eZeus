@@ -9,11 +9,13 @@ public:
                    const eAction& failAction,
                    const eAction& finishAction);
 
-    void increment(const int by);
+    bool decide();
 protected:
     void findHouse();
     void goBack2();
     bool enterHouse();
+private:
+    bool mNoHouses = false;
 };
 
 #endif // ESETTLERACTION_H

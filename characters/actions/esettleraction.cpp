@@ -11,12 +11,16 @@ eSettlerAction::eSettlerAction(eCharacter* const c,
                                const eAction& failAction,
                                const eAction& finishAction) :
     eActionWithComeback(c, failAction, finishAction) {
-
+    setFinishOnComeback(true);
 }
 
-void eSettlerAction::increment(const int by) {
-    if(!currentAction()) findHouse();
-    eActionWithComeback::increment(by);
+bool eSettlerAction::decide() {
+    if(mNoHouses) {
+        goBack2();
+    } else {
+        findHouse();
+    }
+    return true;
 }
 
 void eSettlerAction::findHouse() {
@@ -38,14 +42,16 @@ void eSettlerAction::findHouse() {
         const bool r = enterHouse();
         if(r) {
             setState(eCharacterActionState::finished);
-        } else {
-            findHouse();
         }
     };
 
     c->setActionType(eCharacterActionType::walk);
 
     const auto a = e::make_shared<eMoveToAction>(c, failFunc, finishAction);
+    a->setFindFailAction([tptr, this]() {
+        if(!tptr) return;
+        mNoHouses = true;
+    });
     a->setRemoveLastTurn(true);
     a->setMaxDistance(200);
     a->start(finalTile);
@@ -53,9 +59,7 @@ void eSettlerAction::findHouse() {
 }
 
 void eSettlerAction::goBack2() {
-    eActionWithComeback::goBack([](eTileBase* const t) {
-        return t->walkable();
-    });
+    eActionWithComeback::goBack(eWalkableHelpers::sDefaultWalkable);
 }
 
 bool eSettlerAction::enterHouse() {
