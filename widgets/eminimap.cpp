@@ -2,6 +2,8 @@
 
 #include "textures/egametextures.h"
 
+#include "etilehelper.h"
+
 void eMiniMap::setBoard(eGameBoard* const board) {
     mBoard = board;
     if(mBoard) viewTile(board->width()/2, board->height()/2);
@@ -52,9 +54,8 @@ void eMiniMap::paintEvent(ePainter& p) {
     p.save();
     p.drawTexture(0, 0, mTexture);
     p.restore();
-    const int md = mapDimension();
-    const int w = mViewBoxW*md;
-    const int h = mViewBoxH*md;
+    const int w = mViewBoxW*mBoard->width()*mTDim;
+    const int h = mViewBoxH*mBoard->height()*mTDim/2;
     const SDL_Rect rect{width()/2 - w/2, height()/2 - h/2, w, h};
     p.drawRect(rect, {8, 65, 90, 255}, 2);
     p.drawRect(rect, {125, 235, 255, 255}, 1);
@@ -70,24 +71,20 @@ void eMiniMap::updateTexture() {
     SDL_RenderClear(rend);
     ePainter p(rend);
 
-    const int tdim = 2;
-    const int xMin = (mCenterX - width()/2)/tdim;
-    const int xMax = (mCenterX + width()/2)/tdim;
+    const int xMin = (mCenterX - width()/2)/mTDim;
+    const int xMax = (mCenterX + width()/2)/mTDim;
 
-    const int yMin = (mCenterY - height()/2)/tdim;
-    const int yMax = (mCenterY + height()/2)/tdim;
+    const int yMin = 2*(mCenterY - height()/2)/mTDim;
+    const int yMax = 2*(mCenterY + height()/2)/mTDim;
 
     const auto& intrfc = eGameTextures::interface();
     const int id = static_cast<int>(resolution().uiScale());
     const auto& coll = intrfc[id];
     const auto& ds = coll.fDiamond;
 
-    p.translate(-xMin, -yMin);
-    eTilePainter tp2(p, eTileSize::s15, tdim, tdim);
-
     for(int x = xMin; x < xMax; x++) {
         for(int y = yMin; y < yMax; y++) {
-            const auto tile = mBoard->tile(x, y);
+            const auto tile = mBoard->dtile(x, y);
             if(!tile) continue;
             SDL_Color color{75, 180, 225, 255};
             if(const auto b = tile->underBuilding()) {
@@ -125,46 +122,37 @@ void eMiniMap::updateTexture() {
                 default: break;
                 }
             }
-            const auto t = ds.getTexture(tdim/2 - 1);
+            const auto t = ds.getTexture(mTDim/2 - 1);
             t->setColorMod(color.r, color.g, color.b);
-            tp2.drawTexture(x, y, t);
+            const int px = (x - xMin)*mTDim + (y % 2 ? mTDim/2 : 0);
+            const int py = (y - yMin)*mTDim/2;
+            p.drawTexture(px, py, t);
         }
     }
 
     SDL_SetRenderTarget(rend, nullptr);
 }
 
-int eMiniMap::mapDimension() const {
-    if(!mBoard) return 0;
-    const int tdim = 2;
-    return tdim*(mBoard->width() + mBoard->height())/2;
-}
-
 void eMiniMap::viewFraction(const double fx, const double fy) {
-    const int md = mapDimension();
-    viewAbsPix(fx*md, fy*md);
+    const int px = fx*mBoard->width()*mTDim;
+    const int py = fy*mBoard->height()*mTDim/2;
+    viewAbsPix(px, py);
 }
 
 void eMiniMap::viewedFraction(double& fx, double& fy) {
-    const int md = mapDimension();
-    if(md <= 0) return;
-    fx = double(mCenterX)/md;
-    fy = double(mCenterY)/md;
+    fx = double(mCenterX)/(mBoard->width()*mTDim);
+    fy = double(mCenterY)/(mBoard->height()*mTDim/2);
 }
 
 void eMiniMap::viewTile(const int tileX, const int tileY) {
-    const int tdim = 2;
-    const int md = mapDimension();
-    const int pixX = tdim*(tileX - tileY)/2 + md/2;
-    const int pixY = tdim*(tileX + tileY)/2;
+    const int pixX = mTDim*tileX;
+    const int pixY = mTDim*tileY/2;
     viewAbsPix(pixX, pixY);
 }
 
 void eMiniMap::viewedTile(int& tileX, int& tileY) const {
-    const int tdim = 2;
-    const int md = mapDimension();
-    tileX = (mCenterX + mCenterY - md/2)/tdim;
-    tileY = (mCenterY - mCenterX + md/2)/tdim;
+    tileX = mCenterX/mTDim;
+    tileY = 2*mCenterY/mTDim;
 }
 
 void eMiniMap::setViewBoxSize(const double fx, const double fy) {
@@ -179,9 +167,8 @@ void eMiniMap::viewRelPix(const int pixX, const int pixY) {
 }
 
 void eMiniMap::viewAbsPix(const int px, const int py) {
-    const int md = mapDimension();
-    mCenterX = std::clamp(px, 0, md);
-    mCenterY = std::clamp(py, 0, md);
+    mCenterX = std::clamp(px, 0, mBoard->width()*mTDim);
+    mCenterY = std::clamp(py, 0, mBoard->height()*mTDim/2);
     scheduleUpdate();
 }
 

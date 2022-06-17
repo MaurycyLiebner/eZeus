@@ -252,8 +252,8 @@ void eGameWidget::setViewMode(const eViewMode m) {
 void eGameWidget::mapDimensions(int& mdx, int& mdy) const {
     const int w = mBoard->width();
     const int h = mBoard->height();
-    mdx = mTileW*(w + h)/2;
-    mdy = mTileH*(w + h)/2;
+    mdx = mTileW*w;
+    mdy = mTileH*h/2;
 }
 
 void eGameWidget::viewBoxSize(double& fx, double& fy) const {
@@ -268,9 +268,9 @@ void eGameWidget::viewedFraction(double& fx, double& fy) const {
     int mdx;
     int mdy;
     mapDimensions(mdx, mdy);
-
-    fx = (double(mdx)/2 + width()/2 - mDX)/mdx;
-    fy = (double(height())/2 - mDY)/mdy;
+    const int w = width() - mGm->width();
+    fx = (0.5*w - mDX)/mdx;
+    fy = (0.5*height() - mDY)/mdy;
 }
 
 void eGameWidget::tileViewFraction(eTile* const tile,
@@ -278,14 +278,11 @@ void eGameWidget::tileViewFraction(eTile* const tile,
     int mdx;
     int mdy;
     mapDimensions(mdx, mdy);
-
-    const int tx = tile->x();
-    const int ty = tile->y();
-    xf = mTileW*(tx - ty)/2. + mdx/2.;
-    yf = mTileH*(tx + ty)/2.;
-
-    xf /= mdx;
-    yf /= mdy;
+    const int w = width() - mGm->width();
+    const int tx = tile->dx()*mTileW;
+    const int ty = tile->dy()*mTileH/2;
+    xf = (0.5*w + tx)/mdx;
+    yf = (0.5*height() + ty)/mdy;
 }
 
 void eGameWidget::viewFraction(const double fx, const double fy) {
@@ -293,7 +290,8 @@ void eGameWidget::viewFraction(const double fx, const double fy) {
     int mdy;
     mapDimensions(mdx, mdy);
 
-    const int dx = -fx*mdx + mdx/2 + width()/2;
+    const int w = width() - mGm->width();
+    const int dx = -fx*mdx + w/2;
     const int dy = -fy*mdy + height()/2;
     setDX(dx);
     setDY(dy);

@@ -27,7 +27,6 @@ protected:
     void paintEvent(ePainter& p);
 private:
     void updateTexture();
-    int mapDimension() const;
     void viewRelPix(const int pixX, const int pixY);
     void viewAbsPix(const int px, const int py);
 
@@ -43,6 +42,8 @@ private:
 
     double mViewBoxW = 0.2;
     double mViewBoxH = 0.2;
+
+    int mTDim = 2;
 
     eGameBoard* mBoard = nullptr;
 

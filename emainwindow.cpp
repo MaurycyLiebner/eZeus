@@ -182,7 +182,7 @@ void eMainWindow::showGame() {
     if(mWidget == mGW) return;
     if(!mGW) {
         mBoard = new eGameBoard();
-        mBoard->initialize(100, 100);
+        mBoard->initialize(100, 200);
         eMapGenerator g(*mBoard);
         eMapGeneratorSettings sett;
         g.generate(sett);
