@@ -177,8 +177,9 @@ void eCartTransporterAction::goBack() {
 }
 
 void eCartTransporterAction::targetResourceAction(const int bx, const int by) {
-    const auto c = static_cast<eCartTransporter*>(character());
-    auto& brd = c->getBoard();
+    const auto c = character();
+    const auto ct = static_cast<eCartTransporter*>(c);
+    auto& brd = ct->getBoard();
     const auto t = brd.tile(bx, by);
     const auto b = t->underBuilding();
     if(!b) return;
@@ -188,11 +189,22 @@ void eCartTransporterAction::targetResourceAction(const int bx, const int by) {
 
 void eCartTransporterAction::targetResourceAction(eBuildingWithResource* const rb) {
     if(!rb) return;
+    const auto c = character();
+    const auto ct = static_cast<eCartTransporter*>(c);
     targetProcessTask(rb, mTask);
     auto tasks = mBuilding->cartTasks();
-    for(const auto task : tasks) {
-        const bool r = targetProcessTask(rb, task);
-        if(r) return;
+    const auto supp = support();
+    const bool supportGive = supp & eCartActionTypeSupport::give;
+    const bool supportTake = supp & eCartActionTypeSupport::take;
+    for(auto& task : tasks) {
+        if(task.fType == eCartActionType::give && !supportGive) continue;
+        if(task.fType == eCartActionType::take && !supportTake) continue;
+        if(task.fType == eCartActionType::take) {
+            if(ct->resType() == task.fResource) {
+                task.fMaxCount -= ct->resCount();
+            }
+        }
+        targetProcessTask(rb, task);
     }
 }
 
