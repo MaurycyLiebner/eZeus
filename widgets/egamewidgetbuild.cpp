@@ -864,6 +864,7 @@ bool eGameWidget::buildMouseRelease() {
                     } break;
                     case eSanctEleType::stairs: {
                         tile->setSeed(t.fId);
+                        tile->setWalkableElev(true);
 //                            const auto s = e::make_shared<eStairsRenderer>(t.fId, b);
 //                            tile->setBuilding(s);
                     } break;
