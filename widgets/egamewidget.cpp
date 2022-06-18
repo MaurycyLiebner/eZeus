@@ -986,6 +986,14 @@ void eGameWidget::paintEvent(ePainter& p) {
                 const auto& chars = tt->characters();
                 for(const auto& c : chars) {
                     if(!c->visible()) continue;
+                    const auto ct = c->type();
+                    if(ct == eCharacterType::cartTransporter ||
+                       ct == eCharacterType::ox ||
+                       ct == eCharacterType::trailer) {
+                        if(eBuilding::sSanctuaryBuilding(bt)) {
+                            continue;
+                        }
+                    }
                     const bool v = eViewModeHelpers::characterVisible(
                                        mViewMode, c->type());
                     if(!v) continue;

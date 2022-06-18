@@ -55,7 +55,15 @@ bool eBuilding::sFlatBuilding(const eBuildingType bt) {
            bt == eBuildingType::sheep ||
            bt == eBuildingType::goat ||
            bt == eBuildingType::ruins ||
-           bt == eBuildingType::wall;
+            bt == eBuildingType::wall;
+}
+
+bool eBuilding::sSanctuaryBuilding(const eBuildingType bt) {
+    const int min = static_cast<int>(eBuildingType::templeAphrodite);
+    const int max = static_cast<int>(eBuildingType::templeAltar);
+    const int bi = static_cast<int>(bt);
+    const bool r = bi >= min && bi <= max;
+    return r;
 }
 
 eTile* eBuilding::tileNeighbour(const eMoveDirection o,
