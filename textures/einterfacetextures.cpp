@@ -672,7 +672,7 @@ void eInterfaceTextures::load() {
     {
         const std::string pathBase{dir + "Zeus_Radar_"};
 
-        for(int i = 262; i < 266; i++) {
+        for(int i = 262; i < 267; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fDiamond);
         }
     }

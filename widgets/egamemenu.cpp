@@ -568,7 +568,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
 
     mOverDataW = new eOverviewDataWidget(window());
     mMiniMap = new eMiniMap(window());
-    mMiniMap->resize(dataWidWidth, dataWidWidth);
+    mMiniMap->resize(dataWidWidth, 4*dataWidWidth/5);
 
     const auto ww10 = createDataWidgetBase(mOverDataW, mMiniMap,
                                            "overview_title");

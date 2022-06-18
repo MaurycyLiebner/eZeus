@@ -260,7 +260,7 @@ void eGameWidget::viewBoxSize(double& fx, double& fy) const {
     int mdx;
     int mdy;
     mapDimensions(mdx, mdy);
-    fx = width()/double(mdx);
+    fx = (width() - mGm->width())/double(mdx);
     fy = height()/double(mdy);
 }
 
