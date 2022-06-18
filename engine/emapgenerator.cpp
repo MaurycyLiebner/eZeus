@@ -26,7 +26,7 @@ void eMapGenerator::generateTerrain(const eMGS& settings) {
     for(int x = 0; x < w; x++) {
         for(int y = 0; y < h; y++) {
             const auto tile = mBoard.dtile(x, y);
-            const double v = p.GetValue(x/div, y/div, 0.0);
+            const double v = p.GetValue(x/div, y/div/2, 0.0);
             eTerrain terr;
             if(v < -0.5) {
                 terr = eTerrain::water;
