@@ -46,8 +46,7 @@ bool eMiniMap::mouseMoveEvent(const eMouseEvent& e) {
 
 void eMiniMap::paintEvent(ePainter& p) {
     mTime++;
-    if(!mTexture || mTime % 60 == 0 ||
-       (mUpdateScheduled && mTime % 10 == 0)) {
+    if(!mTexture || mTime % 60 == 0 || mUpdateScheduled) {
         updateTexture();
         mUpdateScheduled = false;
     }
@@ -56,7 +55,9 @@ void eMiniMap::paintEvent(ePainter& p) {
     p.restore();
     const int w = mViewBoxW*mBoard->width()*mTDim;
     const int h = mViewBoxH*mBoard->height()*mTDim/2;
-    const SDL_Rect rect{width()/2 - w/2, height()/2 - h/2, w, h};
+    const int x = width()/2 - w/2 + mDrawX;
+    const int y = height()/2 - h/2 + mDrawY;
+    const SDL_Rect rect{x, y, w, h};
     p.drawRect(rect, {0, 0, 0, 255}, 2);
     p.drawRect(rect, {255, 255, 255, 255}, 1);
 }
@@ -156,11 +157,11 @@ void eMiniMap::updateTexture() {
     SDL_RenderClear(rend);
     ePainter p(rend);
 
-    const int xMin = (mCenterX - width()/2)/mTDim;
-    const int xMax = (mCenterX + width()/2)/mTDim;
+    const int xMin = (mCenterX - mDrawX - width()/2)/mTDim;
+    const int xMax = (mCenterX - mDrawX + width()/2)/mTDim;
 
-    const int yMin = 2*(mCenterY - height()/2)/mTDim;
-    const int yMax = 2*(mCenterY + height()/2)/mTDim;
+    const int yMin = 2*(mCenterY - mDrawY - height()/2)/mTDim;
+    const int yMax = 2*(mCenterY - mDrawY + height()/2)/mTDim;
 
     const auto& intrfc = eGameTextures::interface();
     const int id = static_cast<int>(resolution().uiScale());
@@ -211,14 +212,30 @@ void eMiniMap::setViewBoxSize(const double fx, const double fy) {
 }
 
 void eMiniMap::viewRelPix(const int pixX, const int pixY) {
-    const int px = mCenterX + pixX - width()/2;
-    const int py = mCenterY + pixY - height()/2;
+    const int px = mCenterX - mDrawX + pixX - width()/2;
+    const int py = mCenterY - mDrawY + pixY - height()/2;
     viewAbsPix(px, py);
 }
 
 void eMiniMap::viewAbsPix(const int px, const int py) {
-    mCenterX = std::clamp(px, 0, mBoard->width()*mTDim);
-    mCenterY = std::clamp(py, 0, mBoard->height()*mTDim/2);
+    const int w = mBoard->width()*mTDim;
+    const int h = mBoard->height()*mTDim/2;
+    mCenterX = std::clamp(px, 0, w);
+    mCenterY = std::clamp(py, 0, h);
+    if(mCenterX < width()/2) {
+        mDrawX = mCenterX - width()/2;
+    } else if(mCenterX > w - width()/2) {
+        mDrawX = mCenterX - w + width()/2;
+    } else {
+        mDrawX = 0;
+    }
+    if(mCenterY < height()/2) {
+        mDrawY = mCenterY - height()/2;
+    } else if(mCenterY > h - height()/2) {
+        mDrawY = mCenterY - h + height()/2;
+    } else {
+        mDrawY = 0;
+    }
     scheduleUpdate();
 }
 

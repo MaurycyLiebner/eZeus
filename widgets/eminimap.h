@@ -40,6 +40,9 @@ private:
     int mCenterX = 0;
     int mCenterY = 0;
 
+    int mDrawX = 0;
+    int mDrawY = 0;
+
     double mViewBoxW = 0.2;
     double mViewBoxH = 0.2;
 
