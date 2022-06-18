@@ -3,19 +3,20 @@
 
 #include "../eframedwidget.h"
 
-class eButton;
+class eOkButton;
 
 class eInfoWidget : public eFramedWidget {
 public:
     eInfoWidget(eMainWindow* const window);
 
-    void initialize();
+    void initialize(const std::string& title);
 
     void setCloseAction(const eAction& closeAction);
 protected:
-    SDL_Rect centralWidgetRect() const;
+    eWidget* centralWidget() const;
 private:
-    eButton* mOk = nullptr;
+    eWidget* mCentralWidget = nullptr;
+    eOkButton* mOk = nullptr;
 };
 
 #endif // EINFOWIDGET_H

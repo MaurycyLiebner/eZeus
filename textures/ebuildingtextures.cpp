@@ -192,6 +192,9 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
 }
 
 void eBuildingTextures::load() {
+    if(fLoaded) return;
+    fLoaded = true;
+
     eTextureLoader texLoader(fRenderer);
     texLoader.initialize();
 

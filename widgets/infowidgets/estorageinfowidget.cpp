@@ -25,10 +25,10 @@ public:
 
         const auto res = resolution();
         const double mult = res.multiplier();
-        const int rowHeight = mult*40;
+        const int rowHeight = mult*25;
         const int countWidth = mult*25;
         const int iconsWidth = mult*40;
-        const int namesWidth = mult*80;
+        const int namesWidth = mult*120;
         const int buttonsWidth = mult*120;
         const int spinsWidth = mult*90;
 
@@ -46,14 +46,16 @@ public:
             icon->setTexture(tex);
             icon->fitContent();
             icon->setHeight(rowHeight);
+            icon->setVisible(c > 0);
 
             const auto nameStr = eResourceTypeHelpers::typeName(type);
 //            const auto n = new eLabel(window());
             const auto n = new eButton(window());
-            n->setPressAction([stor, type, count]() {
+            n->setPressAction([stor, type, count, icon]() {
                 stor->add(type, 1);
                 const int c = stor->count(type);
                 count->setText(std::to_string(c));
+                icon->setVisible(c > 0);
             });
             n->setSmallFontSize();
             n->setText(nameStr);
@@ -146,7 +148,14 @@ public:
 };
 
 void eStorageInfoWidget::initialize(eStorageBuilding* const stor) {
-    eInfoWidget::initialize();
+    const auto st = stor->type();
+    std::string title;
+    if(st == eBuildingType::warehouse) {
+        title = eLanguage::text("storehouse");
+    } else if(st == eBuildingType::granary) {
+        title = eLanguage::text("granary");
+    }
+    eInfoWidget::initialize(title);
 
     eResourceType get;
     eResourceType empty;
@@ -155,48 +164,16 @@ void eStorageInfoWidget::initialize(eStorageBuilding* const stor) {
     const auto all = stor->canAccept();
     const auto& maxCount = stor->maxCount();
 
-    const auto rect = centralWidgetRect();
-
-    const auto stWid = new eWidget(window());
+    const auto stWid = centralWidget();
 
     const auto types = eResourceTypeHelpers::extractResourceTypes(all);
 
-    stWid->move(rect.x, rect.y);
-    stWid->resize(rect.w, rect.h);
-
-    if(types.size() < 7) {
-        const auto r = new eResourceStorageStack(window());
-        r->setWidth(rect.w);
-        r->setHeight(rect.h);
-        r->initialize(stor, types, get, empty, accept,
-                      mButtons, mSpinBoxes, maxCount);
-        stWid->addWidget(r);
-    } else {
-        {
-            const auto r = new eResourceStorageStack(window());
-            r->setWidth(rect.w/2);
-            r->setHeight(rect.h);
-            const std::vector<eResourceType> types1(
-                        types.begin(), types.begin() + 6);
-            r->initialize(stor, types1, get, empty, accept,
-                          mButtons, mSpinBoxes, maxCount);
-            stWid->addWidget(r);
-        }
-        {
-            const auto r = new eResourceStorageStack(window());
-            r->setWidth(rect.w/2);
-            r->setHeight(rect.h);
-            const std::vector<eResourceType> types1(
-                        types.begin() + 6, types.end());
-            r->initialize(stor, types1, get, empty, accept,
-                          mButtons, mSpinBoxes, maxCount);
-            stWid->addWidget(r);
-        }
-    }
-
-    stWid->layoutHorizontally();
-
-    addWidget(stWid);
+    const auto r = new eResourceStorageStack(window());
+    r->initialize(stor, types, get, empty, accept,
+                  mButtons, mSpinBoxes, maxCount);
+    r->fitContent();
+    stWid->addWidget(r);
+    r->align(eAlignment::center);
 }
 
 void eStorageInfoWidget::get(eResourceType& get,

@@ -88,6 +88,8 @@ public:
 
     void load();
 
+    bool fLoaded = false;
+
     const int fTileW;
     const int fTileH;
     SDL_Renderer* const fRenderer;

@@ -1,5 +1,8 @@
 #include "egyminfowidget.h"
 
+#include "elanguage.h"
+
 void eGymInfoWidget::initialize() {
-    eInfoWidget::initialize();
+    const auto title = eLanguage::text("gymnasium");
+    eInfoWidget::initialize(title);
 }

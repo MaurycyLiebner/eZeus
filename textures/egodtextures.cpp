@@ -40,6 +40,9 @@ eGodTextures::eGodTextures(const int tileW, const int tileH,
 }
 
 void eGodTextures::load() {
+    if(fLoaded) return;
+    fLoaded = true;
+
     std::string baseDir{"../ZeusTextures/"};
     baseDir += std::to_string(fTileH) + "/";
 

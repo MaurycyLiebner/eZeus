@@ -79,6 +79,8 @@ public:
 
     void load();
 
+    bool fLoaded = false;
+
     void loadAthena(const std::string& baseDir,
                     eTextureLoader& texLoader);
     void loadDemeter(const std::string& baseDir,

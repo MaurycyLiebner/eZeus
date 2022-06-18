@@ -8,7 +8,6 @@ enum class eFontColor {
 };
 
 namespace eFontColorHelpers {
-    SDL_Color color(const eFontColor c);
     void colors(const eFontColor c,
                 SDL_Color& col1,
                 SDL_Color& col2);

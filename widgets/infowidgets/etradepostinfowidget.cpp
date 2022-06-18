@@ -27,12 +27,12 @@ public:
 
         const auto res = resolution();
         const double mult = res.multiplier();
-        const int rowHeight = mult*40;
+        const int rowHeight = mult*25;
         const int countWidth = mult*25;
         const int iconsWidth = mult*40;
-        const int namesWidth = mult*100;
+        const int namesWidth = mult*120;
         const int priceWidth = mult*60;
-        const int buttonsWidth = mult*120;
+        const int buttonsWidth = mult*140;
         const int spinsWidth = mult*90;
         const int tradedWidth = mult*80;
 
@@ -201,26 +201,16 @@ public:
 };
 
 void eTradePostInfoWidget::initialize(eTradePost* const stor) {
-    eInfoWidget::initialize();
+    const auto& city = stor->city();
+    const auto str = eLanguage::text("trading_post") + city.name();
+    eInfoWidget::initialize(str);
 
     eResourceType imports;
     eResourceType exports;
     stor->getOrders(imports, exports);
     const auto& maxCount = stor->maxCount();
-    const auto& city = stor->city();
 
-    const auto rect = centralWidgetRect();
-
-    const auto stWid = new eWidget(window());
-
-    stWid->move(rect.x, rect.y);
-    stWid->resize(rect.w, rect.h);
-
-    const auto str = eLanguage::text("trading_post") + city.name();
-    const auto cityName = new eLabel(str, window());
-    cityName->fitContent();
-    stWid->addWidget(cityName);
-    cityName->align(eAlignment::hcenter);
+    const auto stWid = centralWidget();
 
     {
         const auto wrapper = new eWidget(window());
@@ -268,8 +258,6 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
     }
 
     stWid->layoutVertically();
-
-    addWidget(stWid);
 }
 
 void eTradePostInfoWidget::get(eResourceType& imports,

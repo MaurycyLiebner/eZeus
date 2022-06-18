@@ -102,6 +102,9 @@ void loadBasicTexture(eBasicCharacterTextures& tex,
 }
 
 void eCharacterTextures::load() {
+    if(fLoaded) return;
+    fLoaded = true;
+
     const std::string dir{"../ZeusTextures/" + std::to_string(fTileH) + "/"};
 
     const std::string pathBase{dir + "SprMain/SprMain_"};
