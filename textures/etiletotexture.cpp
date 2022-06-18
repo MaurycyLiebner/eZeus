@@ -20,6 +20,8 @@
 #include "ebuildingtextures.h"
 #include "emarbletile.h"
 
+#include "buildings/eresourcebuilding.h"
+
 #include "buildings/sanctuaries/etempletilebuilding.h"
 
 std::shared_ptr<eTexture> getStonesTexture(eTile* const tile,
@@ -50,6 +52,13 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
     case eBuildingType::templeArtemis: {
         const auto& coll = blds.fSanctuaryStairs;
         return coll.getTexture(seed % coll.size());
+    } break;
+    case eBuildingType::oliveTree:
+    case eBuildingType::vine:
+    case eBuildingType::orangeTree:
+    case eBuildingType::ruins: {
+        const auto b = tile->building();
+        return b->getTexture(tileSize);
     } break;
     case eBuildingType::templeTile: {
         const auto b = tile->underBuilding();
@@ -189,7 +198,10 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
         }
     }
 
-    if(hr) return tile->building()->getTexture(tileSize);
+    if(hr) {
+        const auto b = tile->building();
+        return b->getTexture(tileSize);
+    }
 
     switch(tile->terrain()) {
     case eTerrain::dry: {
@@ -338,6 +350,9 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
     } break;
 
     case eTerrain::dryBased:
+        break;
+
+    default:
         break;
     }
     return textures.fInvalidTex;
