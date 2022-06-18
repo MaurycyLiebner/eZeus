@@ -192,10 +192,13 @@ void eGameBoard::updateTileRenderingOrder() {
 //                        break;
 //                    }
                     const auto tubt = t->underBuildingType();
-                    if(!eBuilding::sFlatBuilding(tubt)) {
-                        const auto b = t->underBuilding();
-                        const auto ct = b->centerTile();
-                        lastT = ct;
+                    const auto ub = t->underBuilding();
+                    const auto sc = dynamic_cast<eSanctBuilding*>(ub);
+                    const bool r = sc && sc->progress() == 0;
+                    if(!r && !eBuilding::sFlatBuilding(tubt)) {
+//                        const auto b = t->underBuilding();
+//                        const auto ct = b->centerTile();
+                        lastT = t;
                         found = true;
                         break;
                     }

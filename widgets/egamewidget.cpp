@@ -967,7 +967,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         };
 
         const auto drawCharacters = [&]() {
-            const int dtx = 0; // -1
+            const int dtx = -1; // -1
             const int dty = 0;
 
             eTile* tt;
