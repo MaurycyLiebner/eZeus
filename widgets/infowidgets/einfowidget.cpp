@@ -39,6 +39,19 @@ void eInfoWidget::initialize(const std::string& title) {
     mOk->move(mOk->x() - 2*p, mOk->y() - 2*p);
 }
 
+eWidget* eInfoWidget::addFramedWidget(const int height) {
+    const auto cw = centralWidget();
+    const auto p = padding();
+    cw->setHeight(cw->height() - height - p);
+
+    const auto wid = new eFramedWidget(window());
+    wid->setType(eFrameType::inner);
+    addWidget(wid);
+    wid->resize(cw->width(), height);
+    wid->move(cw->x(), cw->y() + cw->height() + p);
+    return wid;
+}
+
 void eInfoWidget::setCloseAction(const eAction& closeAction) {
     mOk->setPressAction(closeAction);
 }

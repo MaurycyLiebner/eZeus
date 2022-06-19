@@ -13,6 +13,7 @@ public:
 
     void setCloseAction(const eAction& closeAction);
 protected:
+    eWidget* addFramedWidget(const int height);
     eWidget* centralWidget() const;
 private:
     eWidget* mCentralWidget = nullptr;
