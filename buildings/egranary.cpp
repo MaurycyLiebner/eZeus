@@ -16,7 +16,7 @@ std::shared_ptr<eTexture> eGranary::getTexture(const eTileSize size) const {
 std::vector<eOverlay> eGranary::getOverlays(const eTileSize size) const {
     std::vector<eOverlay> os;
     const int sizeId = static_cast<int>(size);
-    const auto texs = mTextures[sizeId];
+    const auto& texs = mTextures[sizeId];
     const auto& coll = texs.fGranaryOverlay;
     const int texId = textureTime() % coll.size();
     auto& o = os.emplace_back();

@@ -1,4 +1,4 @@
-﻿#include "estorageinfowidget.h"
+#include "estorageinfowidget.h"
 
 #include "textures/egametextures.h"
 #include "textures/einterfacetextures.h"
@@ -25,12 +25,14 @@ public:
 
         const auto res = resolution();
         const double mult = res.multiplier();
-        const int rowHeight = mult*25;
+        const int rowHeight = mult*23;
         const int countWidth = mult*25;
         const int iconsWidth = mult*40;
         const int namesWidth = mult*120;
-        const int buttonsWidth = mult*120;
+        const int buttonsWidth = mult*160;
         const int spinsWidth = mult*90;
+
+        buttonsW->setWidth(namesWidth);
 
         for(const auto type : types) {
             const auto count = new eLabel(window());
@@ -106,7 +108,7 @@ public:
 
             icon->align(eAlignment::left);
             n->align(eAlignment::left);
-            b->align(eAlignment::left);
+            b->align(eAlignment::hcenter);
 
             if(static_cast<bool>(get & type)) {
                 b->setValue(2);
@@ -125,11 +127,12 @@ public:
         buttonsW->stackVertically();
         spinsW->stackVertically();
 
-        countW->fitContent();
-        iconsW->fitContent();
-        namesW->fitContent();
-        buttonsW->fitContent();
-        spinsW->fitContent();
+        const int h = types.size()*rowHeight;
+        countW->setHeight(h);
+        iconsW->setHeight(h);
+        namesW->setHeight(h);
+        buttonsW->setHeight(h);
+        spinsW->setHeight(h);
 
         countW->setWidth(countWidth);
         iconsW->setWidth(iconsWidth);
@@ -144,6 +147,8 @@ public:
         addWidget(spinsW);
 
         stackHorizontally();
+        setNoPadding();
+        fitContent();
     }
 };
 
@@ -155,7 +160,7 @@ void eStorageInfoWidget::initialize(eStorageBuilding* const stor) {
     } else if(st == eBuildingType::granary) {
         title = eLanguage::text("granary");
     }
-    eInfoWidget::initialize(title);
+    eEmployingBuildingInfoWidget::initialize(title, stor);
 
     eResourceType get;
     eResourceType empty;
@@ -171,7 +176,6 @@ void eStorageInfoWidget::initialize(eStorageBuilding* const stor) {
     const auto r = new eResourceStorageStack(window());
     r->initialize(stor, types, get, empty, accept,
                   mButtons, mSpinBoxes, maxCount);
-    r->fitContent();
     stWid->addWidget(r);
     r->align(eAlignment::center);
 }

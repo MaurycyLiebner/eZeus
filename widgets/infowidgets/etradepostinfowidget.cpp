@@ -27,16 +27,17 @@ public:
 
         const auto res = resolution();
         const double mult = res.multiplier();
-        const int rowHeight = mult*25;
+        const int rowHeight = mult*23;
         const int countWidth = mult*25;
         const int iconsWidth = mult*40;
         const int namesWidth = mult*120;
         const int priceWidth = mult*60;
-        const int buttonsWidth = mult*140;
+        const int buttonsWidth = mult*160;
         const int spinsWidth = mult*90;
         const int tradedWidth = mult*80;
 
         priceW->setWidth(priceWidth);
+        buttonsW->setWidth(buttonsWidth);
 
         for(const auto& trade : importTypes) {
             const auto type = trade.fType;
@@ -154,7 +155,7 @@ public:
 
             icon->align(eAlignment::left);
             n->align(eAlignment::left);
-            b->align(eAlignment::left);
+            b->align(eAlignment::hcenter);
 
             if(static_cast<bool>(imports & type)) {
                 b->setValue(1);
@@ -196,6 +197,7 @@ public:
         addWidget(tradedW);
 
         stackHorizontally();
+        setNoPadding();
         fitContent();
     }
 };
@@ -203,7 +205,7 @@ public:
 void eTradePostInfoWidget::initialize(eTradePost* const stor) {
     const auto& city = stor->city();
     const auto str = eLanguage::text("trading_post") + city.name();
-    eInfoWidget::initialize(str);
+    eEmployingBuildingInfoWidget::initialize(str, stor);
 
     eResourceType imports;
     eResourceType exports;
@@ -229,6 +231,7 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
         wrapper->addWidget(importsLabel);
         wrapper->addWidget(r);
         wrapper->stackVertically();
+        wrapper->setNoPadding();
         wrapper->fitContent();
 
         stWid->addWidget(wrapper);
@@ -251,6 +254,7 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
         wrapper->addWidget(exportsLabel);
         wrapper->addWidget(r);
         wrapper->stackVertically();
+        wrapper->setNoPadding();
         wrapper->fitContent();
 
         stWid->addWidget(wrapper);

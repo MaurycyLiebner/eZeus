@@ -1,7 +1,7 @@
 #ifndef ETRADEPOSTINFOWIDGET_H
 #define ETRADEPOSTINFOWIDGET_H
 
-#include "einfowidget.h"
+#include "eemployingbuildinginfowidget.h"
 
 #include "../eswitchbutton.h"
 #include "../espinbox.h"
@@ -10,9 +10,9 @@
 
 #include "buildings/etradepost.h"
 
-class eTradePostInfoWidget : public eInfoWidget {
+class eTradePostInfoWidget : public eEmployingBuildingInfoWidget {
 public:
-    using eInfoWidget::eInfoWidget;
+    using eEmployingBuildingInfoWidget::eEmployingBuildingInfoWidget;
 
     void initialize(eTradePost* const stor);
     void get(eResourceType& imports,

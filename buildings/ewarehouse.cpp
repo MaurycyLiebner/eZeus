@@ -18,7 +18,7 @@ std::vector<eOverlay> eWarehouse::getOverlays(const eTileSize size) const {
     std::vector<eOverlay> os;
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings();
-    const auto texs = blds[sizeId];
+    const auto& texs = blds[sizeId];
     if(enabled()) {
         const auto& coll = texs.fWarehouseOverlay;
         const int texId = textureTime() % coll.size();

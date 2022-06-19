@@ -22,7 +22,7 @@ std::shared_ptr<eTexture> eHuntingLodge::getTexture(const eTileSize size) const 
 
 std::vector<eOverlay> eHuntingLodge::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
-    const auto texs = mTextures[sizeId];
+    const auto& texs = mTextures[sizeId];
     const auto& coll = texs.fHuntingLodgeOverlay;
     const int texId = textureTime() % coll.size();
     eOverlay o;

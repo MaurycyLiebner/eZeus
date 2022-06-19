@@ -19,7 +19,7 @@ std::shared_ptr<eTexture> eFarmBase::getTexture(const eTileSize size) const {
 std::vector<eOverlay> eFarmBase::getOverlays(const eTileSize size) const {
     std::vector<eOverlay> os;
     const int sizeId = static_cast<int>(size);
-    const auto texs = mTextures[sizeId];
+    const auto& texs = mTextures[sizeId];
     const std::pair<int, int> xy[5] = {{-1, -1},
                                        {0, -1},
                                        {1, -1},

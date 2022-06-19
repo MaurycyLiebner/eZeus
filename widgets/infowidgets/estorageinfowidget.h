@@ -1,7 +1,7 @@
 #ifndef ESTORAGEINFOWIDGET_H
 #define ESTORAGEINFOWIDGET_H
 
-#include "einfowidget.h"
+#include "eemployingbuildinginfowidget.h"
 
 #include "../eswitchbutton.h"
 #include "../espinbox.h"
@@ -10,9 +10,9 @@
 
 #include "buildings/estoragebuilding.h"
 
-class eStorageInfoWidget : public eInfoWidget {
+class eStorageInfoWidget : public eEmployingBuildingInfoWidget {
 public:
-    using eInfoWidget::eInfoWidget;
+    using eEmployingBuildingInfoWidget::eEmployingBuildingInfoWidget;
 
     void initialize(eStorageBuilding* const stor);
     void get(eResourceType& get,

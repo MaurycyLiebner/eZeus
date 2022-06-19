@@ -70,7 +70,7 @@ std::vector<eOverlay> eResourceCollectBuilding::
         o.fY = mOverlayY;
     }
     if(resource() > 0) {
-        const auto texs = mTextures[sizeId];
+        const auto& texs = mTextures[sizeId];
         const eTextureCollection* coll = nullptr;
         double x = -0.5;
         double y = -2;

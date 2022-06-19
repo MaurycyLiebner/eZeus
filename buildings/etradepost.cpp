@@ -33,7 +33,7 @@ std::vector<eOverlay> eTradePost::getOverlays(const eTileSize size) const {
     std::vector<eOverlay> os;
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings();
-    const auto texs = blds[sizeId];
+    const auto& texs = blds[sizeId];
     if(enabled()) {
         const auto& coll = texs.fTradingPostOverlay;
         const int texId = textureTime() % coll.size();

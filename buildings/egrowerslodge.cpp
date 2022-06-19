@@ -35,7 +35,7 @@ std::shared_ptr<eTexture> eGrowersLodge::getTexture(const eTileSize size) const 
 std::vector<eOverlay> eGrowersLodge::
     getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
-    const auto texs = mTextures[sizeId];
+    const auto& texs = mTextures[sizeId];
     std::vector<eOverlay> os;
 
     switch(mType) {

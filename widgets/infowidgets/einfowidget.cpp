@@ -27,9 +27,10 @@ void eInfoWidget::initialize(const std::string& title) {
     mCentralWidget = new eWidget(window());
     addWidget(mCentralWidget);
     const int p = padding();
-    mCentralWidget->move(p, p + titleLabel->y());
-    const int w = width() - 2*p;
-    const int h = height() - 4*p - titleLabel->height();
+    const int y = titleLabel->height() + titleLabel->y();
+    mCentralWidget->move(2*p, y);
+    const int w = width() - 4*p;
+    const int h = height() - 7*p - titleLabel->height();
     mCentralWidget->resize(w, h);
 
     mOk = new eOkButton(window());
