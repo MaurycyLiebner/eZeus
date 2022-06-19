@@ -16,6 +16,8 @@ large_textures "Large Textures: "
 back "Back"
 apply "Apply"
 
+paused "Game Paused ('P' Key Continues)"
+
 goods "Goods"
 orders "Orders"
 buys "Buys"

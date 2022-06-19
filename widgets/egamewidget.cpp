@@ -128,6 +128,8 @@
 
 #include "eiteratesquare.h"
 
+#include "elanguage.h"
+
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {}
 
@@ -1844,13 +1846,19 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
     } else if(k == SDL_Scancode::SDL_SCANCODE_P) {
         mPaused = !mPaused;
         if(mPaused && !mPausedLabel) {
-            mPausedLabel = new eFramedLabel("Paused", window());
+            const auto str = eLanguage::text("paused");
+            const auto space = "     ";
+            mPausedLabel = new eFramedLabel(space + str + space, window());
+            mPausedLabel->setType(eFrameType::message);
+            mPausedLabel->setSmallFontSize();
+            mPausedLabel->setHugePadding();
             mPausedLabel->fitContent();
             addWidget(mPausedLabel);
-            mPausedLabel->align(eAlignment::bottom);
             const int vw = width() - mGm->width();
             const int w = mPausedLabel->width();
             mPausedLabel->setX((vw - w)/2);
+            const int p = mPausedLabel->padding();
+            mPausedLabel->setY(mTopBar->height() + 2*p);
         } else if(mPausedLabel) {
             mPausedLabel->deleteLater();
             mPausedLabel = nullptr;
