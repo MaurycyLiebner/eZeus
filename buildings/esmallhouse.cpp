@@ -120,6 +120,49 @@ bool eSmallHouse::lowFood() const {
     return mFood < cfood;
 }
 
+eHouseMissing eSmallHouse::missing() const {
+    const auto& b = getBoard();
+    const auto t = centerTile();
+    if(!t) return eHouseMissing::food;
+    const int dx = t->dx();
+    const int dy = t->dy();
+    const double appeal = b.appeal(dx, dy);
+    const int stadium = b.hasStadium() ? 1 : 0;
+    const int nVenues = mPhilosophers + mActors +
+                        mAthletes + stadium;
+    if(mFood > 0) {
+        if(mWater > 0) {
+            if(nVenues > 0) {
+                if(mFleece > 0) {
+                    if(appeal > 2.0) {
+                        if(nVenues > 1) {
+                            if(mOil > 0 && appeal > 5.0) {
+                                if(appeal > 5.0) {
+                                    if(nVenues > 2) {
+                                        if(appeal > 8.0) {
+                                            return eHouseMissing::nothing;
+                                        }
+                                        return eHouseMissing::appeal;
+                                    }
+                                    return eHouseMissing::venues;
+                                }
+                                return eHouseMissing::appeal;
+                            }
+                            return eHouseMissing::oil;
+                        }
+                        return eHouseMissing::venues;
+                    }
+                    return eHouseMissing::appeal;
+                }
+                return eHouseMissing::fleece;
+            }
+            return eHouseMissing::venues;
+        }
+        return eHouseMissing::water;
+    }
+    return eHouseMissing::food;
+}
+
 void eSmallHouse::updateLevel() {
     const auto& b = getBoard();
     const auto t = centerTile();

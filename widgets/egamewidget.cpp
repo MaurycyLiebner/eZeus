@@ -107,6 +107,7 @@
 
 #include "infowidgets/estorageinfowidget.h"
 #include "infowidgets/etradepostinfowidget.h"
+#include "infowidgets/ecommonhouseinfowidget.h"
 
 #include "engine/boardData/eappealupdatetask.h"
 #include "engine/epathfinder.h"
@@ -1948,6 +1949,10 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
             const auto gymWid = new eGymInfoWidget(window());
             gymWid->initialize();
             wid = gymWid;
+        } else if(const auto house = dynamic_cast<eSmallHouse*>(b)) {
+            const auto w = new eCommonHouseInfoWidget(window());
+            w->initialize(house);
+            wid = w;
         } else if(const auto stor = dynamic_cast<eTradePost*>(b)) {
             const auto storWid = new eTradePostInfoWidget(window());
             storWid->initialize(stor);

@@ -320,3 +320,26 @@ go_to_site "Go to site of event"
 
 employees "Employees"
 needed "Needed"
+
+; common house
+unoccupied_house "Unoccupied"
+hut_house "Hut"
+shack_house "Shack"
+hovel_house "Hovel"
+homestead_house "Homestead"
+tenement_house "Tenement"
+apartment_house "Apartment"
+townhouse_house "Townhouse"
+
+occupants "Occuppants"
+extra_room "Extra room for"
+clerk_not_visited "A clerk has not visited to collect the tax."
+clerk_visited "A clerk has visited to collect the tax."
+
+missing_water "The parched residents of this house need water if this house is to evolve."
+missing_food "The residents of this house need food from an agora before the house can improve."
+missing_fleece "This house cannot evolve unless a peddler delivers some fleece."
+missing_oil "This house cannot evolve until its residents receive some olive oil from a peddler."
+missing_venues "This house needs access to more culture venues in order to evolve."
+missing_appeal "This house cannot evolve until the appeal of the neighborhood increases."
+missing_nothing "The residents of this house have everything they need."

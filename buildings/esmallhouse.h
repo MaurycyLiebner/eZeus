@@ -3,6 +3,16 @@
 
 #include "ebuilding.h"
 
+enum class eHouseMissing {
+    water,
+    food,
+    fleece,
+    oil,
+    venues,
+    appeal,
+    nothing
+};
+
 class eSmallHouse : public eBuilding {
 public:
     eSmallHouse(eGameBoard& board);
@@ -31,6 +41,8 @@ public:
     int fleece() const { return mFleece; }
     int oil() const { return mOil; }
 
+    bool paidTaxes() const { return mPaidTaxes; }
+
     int philosophers() const { return mPhilosophers; }
     int actors() const { return mActors; }
     int athletes() const { return mAthletes; }
@@ -38,6 +50,8 @@ public:
     bool lowFood() const;
     bool lowFleece() const { return mFleece < 2; }
     bool lowOil() const { return mOil < 2; }
+
+    eHouseMissing missing() const;
 private:
     void updateLevel();
     void setLevel(const int l);

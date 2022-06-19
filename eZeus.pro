@@ -330,6 +330,7 @@ SOURCES += \
         widgets/eworldmapwidget.cpp \
         widgets/eworldmenu.cpp \
         widgets/eworldwidget.cpp \
+        widgets/infowidgets/ecommonhouseinfowidget.cpp \
         widgets/infowidgets/eemployingbuildinginfowidget.cpp \
         widgets/infowidgets/egyminfowidget.cpp \
         widgets/infowidgets/einfowidget.cpp \
@@ -675,6 +676,7 @@ HEADERS += \
     widgets/eworldmapwidget.h \
     widgets/eworldmenu.h \
     widgets/eworldwidget.h \
+    widgets/infowidgets/ecommonhouseinfowidget.h \
     widgets/infowidgets/eemployingbuildinginfowidget.h \
     widgets/infowidgets/egyminfowidget.h \
     widgets/infowidgets/einfowidget.h \
