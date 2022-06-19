@@ -243,6 +243,8 @@ winery "Winery"
 olive_press "Olive Press"
 sculpture_studio "Sculpture Studio"
 
+common_agora "Common Agora"
+grand_agora "Grand Agora"
 food_vendor "Food Vendor"
 fleece_vendor "Fleece Vendor"
 oil_vendor "Oil Vendor"

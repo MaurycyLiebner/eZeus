@@ -338,7 +338,9 @@ void eGameMenu::initialize(eGameBoard* const b) {
         setMode(eBuildingMode::warehouse);
     };
     const auto a3 = [this, cmx, cmy]() {
-        const std::vector<eSPR> cs = {eSPR{eBuildingMode::foodVendor, eLanguage::text("food_vendor")},
+        const std::vector<eSPR> cs = {eSPR{eBuildingMode::commonAgora, eLanguage::text("common_agora")},
+                         eSPR{eBuildingMode::grandAgora, eLanguage::text("grand_agora")},
+                         eSPR{eBuildingMode::foodVendor, eLanguage::text("food_vendor")},
                          eSPR{eBuildingMode::fleeceVendor, eLanguage::text("fleece_vendor")},
                          eSPR{eBuildingMode::oilVendor, eLanguage::text("oil_vendor")},
                          eSPR{eBuildingMode::wineVendor, eLanguage::text("wine_vendor")},

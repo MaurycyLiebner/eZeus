@@ -54,6 +54,9 @@ enum class eBuildingType {
 
     tradePost,
 
+    commonAgora,
+    grandAgora,
+
     foodVendor,
     fleeceVendor,
     oilVendor,

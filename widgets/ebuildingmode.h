@@ -60,6 +60,9 @@ enum class eBuildingMode {
 
     tradePost,
 
+    commonAgora,
+    grandAgora,
+
     foodVendor,
     fleeceVendor,
     oilVendor,

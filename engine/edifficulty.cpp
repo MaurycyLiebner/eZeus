@@ -87,13 +87,18 @@ int costBase(const eBuildingType type) {
     case eBuildingType::tradePost:
         return 100;
 
+
+    case eBuildingType::commonAgora:
+        return 25;
+    case eBuildingType::grandAgora:
+        return 50;
     case eBuildingType::foodVendor:
     case eBuildingType::fleeceVendor:
     case eBuildingType::oilVendor:
     case eBuildingType::wineVendor:
     case eBuildingType::armsVendor:
     case eBuildingType::horseTrainer:
-        return 20;
+        return 10;
 
     case eBuildingType::fountain:
         return 16;
