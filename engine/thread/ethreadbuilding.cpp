@@ -58,7 +58,7 @@ int eThreadBuilding::resourceCount(const eResourceType type) const {
                                         mResource, mSpaceCount);
     } else {
         const auto t = mResource[0];
-        if(t != type) return 0;
+        if(!static_cast<bool>(t & type)) return 0;
         return mResourceCount[0];
     }
 }
@@ -81,7 +81,7 @@ bool eThreadBuilding::resourceHas(const eResourceType type) const {
         const int c = mResourceCount[i];
         if(c <= 0) continue;
         const auto t = mResource[i];
-        if(t != type) continue;
+        if(!static_cast<bool>(t & type)) continue;
         return true;
     }
     return false;

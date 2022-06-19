@@ -78,6 +78,20 @@ void eVendor::timeChanged(const int by) {
     ePatrolBuilding::timeChanged(by);
 }
 
+std::vector<eCartTask> eVendor::cartTasks() const {
+    const int space = spaceLeft(mResType);
+
+    if(space > 0) {
+        eCartTask task;
+        task.fType = eCartActionType::take;
+        task.fResource = mResType;
+        task.fMaxCount = space;
+        return {task};
+    }
+
+    return {};
+}
+
 stdsptr<eCharacter> eVendor::vendorGenerator() {
     const int mult = 100;
     if(mVendor) {

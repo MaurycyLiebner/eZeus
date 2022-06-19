@@ -20,13 +20,15 @@ public:
 
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
 
+    void timeChanged(const int by);
+
     int add(const eResourceType type, const int count);
     int take(const eResourceType type, const int count);
 
     int count(const eResourceType type) const;
     int spaceLeft(const eResourceType type) const;
 
-    void timeChanged(const int by);
+    std::vector<eCartTask> cartTasks() const;
 
     stdsptr<eCharacter> vendorGenerator();
 private:
