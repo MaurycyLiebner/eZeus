@@ -5,7 +5,8 @@
 
 class eOilVendor : public eVendor {
 public:
-    eOilVendor(eGameBoard& board);
+    eOilVendor(const stdsptr<eCommonAgora>& agora,
+               eGameBoard& board);
 };
 
 #endif // EOILVENDOR_H

@@ -5,7 +5,8 @@
 
 class eArmsVendor : public eVendor {
 public:
-    eArmsVendor(eGameBoard& board);
+    eArmsVendor(const stdsptr<eCommonAgora>& agora,
+                eGameBoard& board);
 };
 
 #endif // EARMSVENDOR_H

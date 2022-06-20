@@ -3,9 +3,12 @@
 
 #include "epatrolbuilding.h"
 
+class eCommonAgora;
+
 class eVendor : public ePatrolBuilding {
 public:
     eVendor(eGameBoard& board,
+            const stdsptr<eCommonAgora>& agora,
             const eResourceType resType,
             const eProvide provType,
             const eBaseTex& baseTex,
@@ -31,7 +34,10 @@ public:
     std::vector<eCartTask> cartTasks() const;
 
     stdsptr<eCharacter> vendorGenerator();
+
+    eCommonAgora* agora() const { return mAgora.get(); }
 private:
+    const stdsptr<eCommonAgora> mAgora;
     const int mMaxResource = 8;
     const eResourceType mResType;
     const eProvide mProvType;

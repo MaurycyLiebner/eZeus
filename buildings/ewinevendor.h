@@ -5,7 +5,8 @@
 
 class eWineVendor : public eVendor {
 public:
-    eWineVendor(eGameBoard& board);
+    eWineVendor(const stdsptr<eCommonAgora>& agora,
+                eGameBoard& board);
 };
 
 #endif // EWINEVENDOR_H

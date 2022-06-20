@@ -2,8 +2,10 @@
 
 #include "characters/earmsvendorchar.h"
 
-eArmsVendor::eArmsVendor(eGameBoard& board) :
-    eVendor(board, eResourceType::armor, eProvide::arms,
+eArmsVendor::eArmsVendor(const stdsptr<eCommonAgora>& agora,
+                         eGameBoard& board) :
+    eVendor(board, agora,
+            eResourceType::armor, eProvide::arms,
             &eBuildingTextures::fArmsVendor,
             -1.86, -2.39, &eBuildingTextures::fArmsVendorOverlay,
             [this]() { return e::make_shared<eArmsVendorChar>(getBoard()); },

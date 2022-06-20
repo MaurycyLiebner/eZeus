@@ -19,11 +19,14 @@ public:
         return nullptr;
     }
 
+    void erase();
+
     int nPts() const { return 3; }
     SDL_Point pt(const int id) const;
 
     eBuilding* building(const int id) const;
     void setBuilding(const int id, const stdsptr<eBuilding>& b);
+    void setBuilding(eBuilding* const space, const stdsptr<eBuilding>& b);
 
     void fillSpaces();
 private:

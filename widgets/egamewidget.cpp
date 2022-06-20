@@ -71,6 +71,8 @@
 #include "buildings/earmsvendor.h"
 #include "buildings/ehorsevendor.h"
 
+#include "buildings/eagoraspace.h"
+
 #include "buildings/epark.h"
 #include "buildings/ecolumn.h"
 #include "buildings/eavenue.h"
@@ -456,10 +458,48 @@ bool eGameWidget::canBuild(const int tx, const int ty,
     return canBuildBase(minX, maxX, minY, maxY, specReq);
 }
 
+bool eGameWidget::canBuildVendor(const int tx, const int ty) {
+    const auto t = mBoard->tile(tx, ty);
+    if(!t) return false;
+    const auto b = t->underBuilding();
+    if(!b) return false;
+    const auto bt = b->type();
+    if(bt != eBuildingType::agoraSpace) return false;
+    const auto ct = b->centerTile();
+    if(!ct) return false;
+    return ct->x() == tx && ct->y() == ty;
+}
+
 bool eGameWidget::erase(eTile* const tile) {
     if(!tile) return false;
     if(const auto b = tile->underBuilding()) {
-        if(!b->isOnFire()) b->erase();
+        if(!b->isOnFire()) {
+            switch(b->type()) {
+            case eBuildingType::agoraSpace: {
+                const auto s = static_cast<eAgoraSpace*>(b);
+                const auto a = s->agora();
+                a->erase();
+            } break;
+            case eBuildingType::foodVendor:
+            case eBuildingType::fleeceVendor:
+            case eBuildingType::oilVendor:
+            case eBuildingType::armsVendor:
+            case eBuildingType::wineVendor:
+            case eBuildingType::horseTrainer: {
+                const auto v = static_cast<eVendor*>(b);
+                v->deleteLater();
+                const auto a = v->agora();
+                a->setBuilding(v, nullptr);
+                a->fillSpaces();
+            } break;
+            case eBuildingType::road: {
+                const auto s = static_cast<eRoad*>(b);
+                const auto a = s->underAgora();
+                if(a) return false;
+            } break;
+            default: b->erase();
+            }
+        }
     }
     const auto t = tile->terrain();
     if(t == eTerrain::forest || t == eTerrain::choppedForest) {
@@ -1596,8 +1636,27 @@ void eGameWidget::paintEvent(ePainter& p) {
     }
 
     const auto& wrld = mBoard->getWorldBoard();
-    eSpecialRequirement specReq;
     if(t && mGm->visible()) {
+        eSpecialRequirement specReq;
+        std::function<bool(const int tx, const int ty,
+                           const int sw, const int sh)> canBuildFunc;
+        switch(mode) {
+        case eBuildingMode::foodVendor: {
+            canBuildFunc = [&](const int tx, const int ty,
+                               const int sw, const int sh) {
+                (void)sw;
+                (void)sh;
+                return canBuildVendor(tx, ty);
+            };
+        } break;
+        default: {
+            canBuildFunc = [&](const int tx, const int ty,
+                               const int sw, const int sh) {
+                return canBuild(tx, ty, sw, sh, specReq);
+            };
+        } break;
+        }
+
         struct eB {
             eB(const int tx, const int ty,
                const stdsptr<eBuilding>& b) :
@@ -1851,27 +1910,27 @@ void eGameWidget::paintEvent(ePainter& p) {
         } break;
 
         case eBuildingMode::foodVendor: {
-            const auto b1 = e::make_shared<eFoodVendor>(*mBoard);
+            const auto b1 = e::make_shared<eFoodVendor>(nullptr, *mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
         case eBuildingMode::fleeceVendor: {
-            const auto b1 = e::make_shared<eFleeceVendor>(*mBoard);
+            const auto b1 = e::make_shared<eFleeceVendor>(nullptr, *mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
         case eBuildingMode::oilVendor: {
-            const auto b1 = e::make_shared<eOilVendor>(*mBoard);
+            const auto b1 = e::make_shared<eOilVendor>(nullptr, *mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
         case eBuildingMode::wineVendor: {
-            const auto b1 = e::make_shared<eWineVendor>(*mBoard);
+            const auto b1 = e::make_shared<eWineVendor>(nullptr, *mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
         case eBuildingMode::armsVendor: {
-            const auto b1 = e::make_shared<eArmsVendor>(*mBoard);
+            const auto b1 = e::make_shared<eArmsVendor>(nullptr, *mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
         case eBuildingMode::horseTrainer: {
-            const auto b1 = e::make_shared<eHorseVendor>(*mBoard);
+            const auto b1 = e::make_shared<eHorseVendor>(nullptr, *mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
 
@@ -2007,9 +2066,9 @@ void eGameWidget::paintEvent(ePainter& p) {
         for(auto& eb : ebs) {
             if(!eb.fBR) eb.fBR = e::make_shared<eBuildingRenderer>(eb.fB);
             const auto b = eb.fBR;
-            const int sw =  b->spanW();
+            const int sw = b->spanW();
             const int sh = b->spanH();
-            const bool cb = canBuild(eb.fTx, eb.fTy, sw, sh, specReq);
+            const bool cb = canBuildFunc(eb.fTx, eb.fTy, sw, sh);
             if(!cb) cbg = false;
         }
         for(auto& eb : ebs) {

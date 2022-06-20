@@ -53,6 +53,8 @@
 #include "buildings/edairy.h"
 #include "buildings/ecardingshed.h"
 
+#include "buildings/eagoraspace.h"
+
 #include "buildings/efoodvendor.h"
 #include "buildings/efleecevendor.h"
 #include "buildings/eoilvendor.h"
@@ -396,6 +398,22 @@ std::vector<eTile*> eGameWidget::agoraBuildPlaceIter(
     return {};
 }
 
+template <class T>
+bool buildVendor(eGameBoard& brd, const int tx, const int ty) {
+    const auto t = brd.tile(tx, ty);
+    if(!t) return false;
+    const auto b = t->underBuilding();
+    if(!b) return false;
+    const auto bt = b->type();
+    if(bt != eBuildingType::agoraSpace) return false;
+    const auto space = static_cast<eAgoraSpace*>(b);
+    const auto agora = space->agora();
+    const auto agoraP = agora->ref<eCommonAgora>();
+    const auto fv = e::make_shared<T>(agoraP, brd);
+    agora->setBuilding(space, fv);
+    return true;
+}
+
 bool eGameWidget::buildMouseRelease() {
     const auto& wrld = mBoard->getWorldBoard();
     std::function<void(eTile* const)> apply;
@@ -482,7 +500,7 @@ bool eGameWidget::buildMouseRelease() {
             eAgoraOrientation bt;
             const auto p = agoraBuildPlaceIter(t, false, bt);
             if(p.empty()) return false;
-            const auto b = std::make_shared<eCommonAgora>(bt, *mBoard);
+            const auto b = e::make_shared<eCommonAgora>(bt, *mBoard);
             int x = __INT_MAX__;
             int y = __INT_MAX__;
             int w;
@@ -938,28 +956,22 @@ bool eGameWidget::buildMouseRelease() {
         }; break;
 
         case eBuildingMode::foodVendor: {
-            build(mHoverTX, mHoverTY, 2, 2,
-                  [this]() { return e::make_shared<eFoodVendor>(*mBoard); });
+            return buildVendor<eFoodVendor>(*mBoard, mHoverTX, mHoverTY);
         }; break;
         case eBuildingMode::fleeceVendor: {
-            build(mHoverTX, mHoverTY, 2, 2,
-                  [this]() { return e::make_shared<eFleeceVendor>(*mBoard); });
+            return buildVendor<eFleeceVendor>(*mBoard, mHoverTX, mHoverTY);
         }; break;
         case eBuildingMode::oilVendor: {
-            build(mHoverTX, mHoverTY, 2, 2,
-                  [this]() { return e::make_shared<eOilVendor>(*mBoard); });
+            return buildVendor<eOilVendor>(*mBoard, mHoverTX, mHoverTY);
         }; break;
         case eBuildingMode::wineVendor: {
-            build(mHoverTX, mHoverTY, 2, 2,
-                  [this]() { return e::make_shared<eWineVendor>(*mBoard); });
+            return buildVendor<eWineVendor>(*mBoard, mHoverTX, mHoverTY);
         }; break;
         case eBuildingMode::armsVendor: {
-            build(mHoverTX, mHoverTY, 2, 2,
-                  [this]() { return e::make_shared<eArmsVendor>(*mBoard); });
+            return buildVendor<eArmsVendor>(*mBoard, mHoverTX, mHoverTY);
         }; break;
         case eBuildingMode::horseTrainer: {
-            build(mHoverTX, mHoverTY, 2, 2,
-                  [this]() { return e::make_shared<eHorseVendor>(*mBoard); });
+            return buildVendor<eHorseVendor>(*mBoard, mHoverTX, mHoverTY);
         }; break;
 
         case eBuildingMode::park:

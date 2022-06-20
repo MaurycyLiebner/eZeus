@@ -88,6 +88,8 @@ private:
     bool canBuild(const int tx, const int ty,
                   const int sw, const int sh,
                   const eSpecialRequirement& specReq = {});
+    bool canBuildVendor(const int tx, const int ty);
+
     bool build(const int tx, const int ty,
                const int sw, const int sh,
                const eBuildingCreator& bc,

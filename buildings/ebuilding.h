@@ -174,7 +174,7 @@ public:
 
     void addUnderBuilding(eTile* const t);
 
-    void erase();
+    virtual void erase();
     void collapse();
     void catchOnFire();
     void putOutFire();
