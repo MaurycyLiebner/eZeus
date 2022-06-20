@@ -174,8 +174,8 @@ public:
     eTextureCollection fWaitingOlives;
     eTextureCollection fWaitingArmor;
 
-//    eTextureCollection fAgoraRoad;
-//    eTextureCollection fAgora;
+    eTextureCollection fAgoraRoad;
+    eTextureCollection fAgora;
 
     std::shared_ptr<eTexture> fFoodVendor;
     std::shared_ptr<eTexture> fFoodVendorOverlay;

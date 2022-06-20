@@ -92,8 +92,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fWaitingOlives(renderer),
     fWaitingArmor(renderer),
 
-//    fAgoraRoad(renderer),
-//    fAgora(renderer),
+    fAgoraRoad(renderer),
+    fAgora(renderer),
 
     fWarehouseOverlay(renderer),
 
@@ -720,12 +720,12 @@ void eBuildingTextures::load() {
         fHorseTrainer = texClass.load(11);
         fHorseTrainerOverlay = texClass.load(12);
 
-//        for(int i = 13; i < 16; i++) {
-//            eTextureLoadingHelpers::loadTex(pathBase, i, fAgoraRoad);
-//        }
-//        for(int i = 16; i < 19; i++) {
-//            eTextureLoadingHelpers::loadTex(pathBase, i, fAgora);
-//        }
+        for(int i = 13; i < 16; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fAgoraRoad);
+        }
+        for(int i = 16; i < 19; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fAgora);
+        }
 
         fWarehouse = texClass.load(23);
         fWarehouse->setOffset(-58, 60);

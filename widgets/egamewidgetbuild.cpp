@@ -109,6 +109,282 @@ const eSanctBlueprint* eGameWidget::sanctuaryBlueprint(
     return nullptr;
 }
 
+std::vector<eTile*> eGameWidget::agoraBuildPlaceBR(
+        eTile* const tile) const {
+    if(!tile || !tile->hasRoad()) return {};
+    const auto tr1 = tile->topRight<eTile>();
+    if(!tr1 || !tr1->hasRoad()) return {};
+    const auto tr2 = tr1->topRight<eTile>();
+    if(!tr2 || !tr2->hasRoad()) return {};
+    const auto tr3 = tr2->topRight<eTile>();
+    if(!tr3 || !tr3->hasRoad()) return {};
+    const auto tr4 = tr3->topRight<eTile>();
+    if(!tr4 || !tr4->hasRoad()) return {};
+    const auto tr5 = tr4->topRight<eTile>();
+    if(!tr5 || !tr5->hasRoad()) return {};
+    std::vector<eTile*> brLobeTiles;
+    brLobeTiles.push_back(tr5);
+    brLobeTiles.push_back(tr4);
+    brLobeTiles.push_back(tr3);
+    brLobeTiles.push_back(tr2);
+    brLobeTiles.push_back(tr1);
+    brLobeTiles.push_back(tile);
+    bool brLobe = true;
+    {
+        const int iMin = tile->x() + 1;
+        const int iMax = iMin + 2;
+        const int jMin = tile->y() - 5;
+        const int jMax = jMin + 6;
+        for(int i = iMin; i < iMax && brLobe; i++) {
+            for(int j = jMin; j < jMax && brLobe; j++) {
+                const auto t = mBoard->tile(i, j);
+                brLobeTiles.push_back(t);
+                if(!t || t->underBuilding() || t->isElevationTile()) {
+                    brLobe = false;
+                    break;
+                }
+            }
+        }
+    }
+    if(!brLobe) return {};
+    return brLobeTiles;
+}
+
+std::vector<eTile*> eGameWidget::agoraBuildPlaceTL(
+        eTile* const tile) const {
+    if(!tile || !tile->hasRoad()) return {};
+    const auto tr1 = tile->topRight<eTile>();
+    if(!tr1 || !tr1->hasRoad()) return {};
+    const auto tr2 = tr1->topRight<eTile>();
+    if(!tr2 || !tr2->hasRoad()) return {};
+    const auto tr3 = tr2->topRight<eTile>();
+    if(!tr3 || !tr3->hasRoad()) return {};
+    const auto tr4 = tr3->topRight<eTile>();
+    if(!tr4 || !tr4->hasRoad()) return {};
+    const auto tr5 = tr4->topRight<eTile>();
+    if(!tr5 || !tr5->hasRoad()) return {};
+    std::vector<eTile*> tlLobeTiles;
+    tlLobeTiles.push_back(tr5);
+    tlLobeTiles.push_back(tr4);
+    tlLobeTiles.push_back(tr3);
+    tlLobeTiles.push_back(tr2);
+    tlLobeTiles.push_back(tr1);
+    tlLobeTiles.push_back(tile);
+    bool tlLobe = true;
+    {
+        const int iMin = tile->x() - 3;
+        const int iMax = iMin + 2;
+        const int jMin = tile->y() - 5;
+        const int jMax = jMin + 6;
+        for(int i = iMax; i > iMin && tlLobe; i--) {
+            for(int j = jMin; j < jMax && tlLobe; j++) {
+                const auto t = mBoard->tile(i, j);
+                tlLobeTiles.push_back(t);
+                if(!t || t->underBuilding() || t->isElevationTile()) {
+                    tlLobe = false;
+                    break;
+                }
+            }
+        }
+    }
+    if(!tlLobe) return {};
+    return tlLobeTiles;
+}
+
+std::vector<eTile*> eGameWidget::agoraBuildPlaceBL(
+        eTile* const tile) const {
+    if(!tile || !tile->hasRoad()) return {};
+    const auto tl1 = tile->topLeft<eTile>();
+    if(!tl1 || !tl1->hasRoad()) return {};
+    const auto tl2 = tl1->topLeft<eTile>();
+    if(!tl2 || !tl2->hasRoad()) return {};
+    const auto tl3 = tl2->topLeft<eTile>();
+    if(!tl3 || !tl3->hasRoad()) return {};
+    const auto tl4 = tl3->topLeft<eTile>();
+    if(!tl4 || !tl4->hasRoad()) return {};
+    const auto tl5 = tl4->topLeft<eTile>();
+    if(!tl5 || !tl5->hasRoad()) return {};
+    std::vector<eTile*> blLobeTiles;
+    blLobeTiles.push_back(tl5);
+    blLobeTiles.push_back(tl4);
+    blLobeTiles.push_back(tl3);
+    blLobeTiles.push_back(tl2);
+    blLobeTiles.push_back(tl1);
+    blLobeTiles.push_back(tile);
+    bool blLobe = true;
+    {
+        const int iMin = tile->x() - 5;
+        const int iMax = iMin + 6;
+        const int jMin = tile->y() + 1;
+        const int jMax = jMin + 2;
+        for(int j = jMin; j < jMax && blLobe; j++) {
+            for(int i = iMin; i < iMax && blLobe; i++) {
+                const auto t = mBoard->tile(i, j);
+                blLobeTiles.push_back(t);
+                if(!t || t->underBuilding() || t->isElevationTile()) {
+                    blLobe = false;
+                    break;
+                }
+            }
+        }
+    }
+    if(!blLobe) return {};
+    return blLobeTiles;
+}
+
+std::vector<eTile*> eGameWidget::agoraBuildPlaceTR(
+        eTile* const tile) const {
+    if(!tile || !tile->hasRoad()) return {};
+    const auto tl1 = tile->topLeft<eTile>();
+    if(!tl1 || !tl1->hasRoad()) return {};
+    const auto tl2 = tl1->topLeft<eTile>();
+    if(!tl2 || !tl2->hasRoad()) return {};
+    const auto tl3 = tl2->topLeft<eTile>();
+    if(!tl3 || !tl3->hasRoad()) return {};
+    const auto tl4 = tl3->topLeft<eTile>();
+    if(!tl4 || !tl4->hasRoad()) return {};
+    const auto tl5 = tl4->topLeft<eTile>();
+    if(!tl5 || !tl5->hasRoad()) return {};
+    std::vector<eTile*> trLobeTiles;
+    trLobeTiles.push_back(tl5);
+    trLobeTiles.push_back(tl4);
+    trLobeTiles.push_back(tl3);
+    trLobeTiles.push_back(tl2);
+    trLobeTiles.push_back(tl1);
+    trLobeTiles.push_back(tile);
+    bool trLobe = true;
+    {
+        const int iMin = tile->x() - 5;
+        const int iMax = iMin + 6;
+        const int jMin = tile->y() - 3;
+        const int jMax = jMin + 2;
+        for(int j = jMax; j > jMin && trLobe; j--) {
+            for(int i = iMin; i < iMax && trLobe; i++) {
+                const auto t = mBoard->tile(i, j);
+                trLobeTiles.push_back(t);
+                if(!t || t->underBuilding() || t->isElevationTile()) {
+                    trLobe = false;
+                    break;
+                }
+            }
+        }
+    }
+    if(!trLobe) return {};
+    return trLobeTiles;
+}
+
+std::vector<eTile*> eGameWidget::agoraBuildPlaceIter(
+        eTile* const tile, const bool grand,
+        eAgoraBuildType& bt) const {
+    if(!tile) return {};
+    {
+        const int xMin = tile->x() - 2;
+        const int xMax = xMin + 3;
+        const int yMin = tile->y() + 2;
+        const int yMax = yMin + 3;
+        for(int x = xMin; x < xMax; x++) {
+            for(int y = yMin; y < yMax; y++) {
+                const auto t = mBoard->tile(x, y);
+                if(!t) continue;
+                const auto r = agoraBuildPlaceBR(t);
+                if(r.empty()) continue;
+                bt = eAgoraBuildType::bottomRight;
+                if(grand) {
+                    const auto rr = agoraBuildPlaceTL(t);
+                    if(rr.empty()) continue;
+                    std::vector<eTile*> rrr;
+                    rrr.reserve(r.size() + rr.size());
+                    rrr.insert(rrr.end(), rr.begin(), rr.end());
+                    rrr.insert(rrr.end(), r.begin(), r.end());
+                    return rrr;
+                }
+                return r;
+            }
+        }
+    }
+    {
+        const int xMin = tile->x();
+        const int xMax = xMin + 3;
+        const int yMin = tile->y() + 2;
+        const int yMax = yMin + 3;
+        for(int x = xMin; x < xMax; x++) {
+            for(int y = yMin; y < yMax; y++) {
+                const auto t = mBoard->tile(x, y);
+                if(!t) continue;
+                const auto r = agoraBuildPlaceTL(t);
+                if(r.empty()) continue;
+
+                if(grand) {
+                    bt = eAgoraBuildType::bottomRight;
+                    const auto rr = agoraBuildPlaceBR(t);
+                    if(rr.empty()) continue;
+                    std::vector<eTile*> rrr;
+                    rrr.reserve(r.size() + rr.size());
+                    rrr.insert(rrr.end(), r.begin(), r.end());
+                    rrr.insert(rrr.end(), rr.begin(), rr.end());
+                    return rrr;
+                } else {
+                    bt = eAgoraBuildType::topLeft;
+                }
+                return r;
+            }
+        }
+    }
+    {
+        const int xMin = tile->x() + 2;
+        const int xMax = xMin + 3;
+        const int yMin = tile->y() - 2;
+        const int yMax = yMin + 3;
+        for(int x = xMin; x < xMax; x++) {
+            for(int y = yMin; y < yMax; y++) {
+                const auto t = mBoard->tile(x, y);
+                if(!t) continue;
+                const auto r = agoraBuildPlaceBL(t);
+                if(r.empty()) continue;
+                bt = eAgoraBuildType::bottomLeft;
+                if(grand) {
+                    const auto rr = agoraBuildPlaceTR(t);
+                    if(rr.empty()) continue;
+                    std::vector<eTile*> rrr;
+                    rrr.reserve(r.size() + rr.size());
+                    rrr.insert(rrr.end(), rr.begin(), rr.end());
+                    rrr.insert(rrr.end(), r.begin(), r.end());
+                    return rrr;
+                }
+                return r;
+            }
+        }
+    }
+    {
+        const int xMin = tile->x() + 2;
+        const int xMax = xMin + 3;
+        const int yMin = tile->y();
+        const int yMax = yMin + 3;
+        for(int x = xMin; x < xMax; x++) {
+            for(int y = yMin; y < yMax; y++) {
+                const auto t = mBoard->tile(x, y);
+                if(!t) continue;
+                const auto r = agoraBuildPlaceTR(t);
+                if(r.empty()) continue;
+                if(grand) {
+                    bt = eAgoraBuildType::bottomLeft;
+                    const auto rr = agoraBuildPlaceBL(t);
+                    if(rr.empty()) continue;
+                    std::vector<eTile*> rrr;
+                    rrr.reserve(r.size() + rr.size());
+                    rrr.insert(rrr.end(), r.begin(), r.end());
+                    rrr.insert(rrr.end(), rr.begin(), rr.end());
+                    return rrr;
+                } else {
+                    bt = eAgoraBuildType::topRight;
+                }
+                return r;
+            }
+        }
+    }
+    return {};
+}
+
 bool eGameWidget::buildMouseRelease() {
     const auto& wrld = mBoard->getWorldBoard();
     std::function<void(eTile* const)> apply;

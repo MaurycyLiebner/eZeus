@@ -1345,6 +1345,222 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     }
 
+    const auto t = mBoard->tile(mHoverTX, mHoverTY);
+
+    const auto& agr = builTexs.fAgora;
+    const auto& agrr = builTexs.fAgoraRoad;
+
+    switch(mode) {
+    case eBuildingMode::commonAgora: {
+        eAgoraBuildType bt;
+        const auto p = agoraBuildPlaceIter(t, false, bt);
+        if(p.empty()) {
+            const auto& tex = trrTexs.fBuildingBase;
+            tex->setColorMod(255, 0, 0);
+            for(int i = t->x() - 1; i < t->x() + 2; i++) {
+                for(int j = t->y() - 3; j < t->y() + 3; j++) {
+                    double rx;
+                    double ry;
+                    drawXY(i, j, rx, ry, 1, 1, t->altitude());
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                }
+            }
+            tex->clearColorMod();
+            const auto& road = builTexs.fRoad.getTexture(0);
+            road->setColorMod(255, 0, 0);
+            for(int j = t->y() - 3; j < t->y() + 3; j++) {
+                double rx;
+                double ry;
+                drawXY(t->x() - 1, j, rx, ry, 1, 1, t->altitude());
+                tp.drawTexture(rx, ry, road, eAlignment::top);
+            }
+            road->clearColorMod();
+        } else {
+            if(bt == eAgoraBuildType::bottomRight) {
+                const int iMax = p.size();
+                for(int i = 0; i < iMax; i++) {
+                    const auto t = p[i];
+                    stdsptr<eTexture> tex;
+                    int dim;
+                    if(i < 6) {
+                        const int texId = t->seed() % agrr.size();
+                        tex = agrr.getTexture(texId);
+                        dim = 1;
+                        if(i == 5) i++;
+                    } else if(i < 12) {
+                        const int texId = t->seed() % agr.size();
+                        tex = agr.getTexture(texId);
+                        dim = 2;
+                        i++;
+                    } else {
+                        continue;
+                    }
+                    double rx;
+                    double ry;
+                    drawXY(t->x(), t->y(), rx, ry, dim, dim, t->altitude());
+                    tex->setColorMod(0, 255, 0);
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    tex->clearColorMod();
+                }
+            } else if(bt == eAgoraBuildType::topLeft) {
+                const int iMax = p.size();
+                for(int i = 0; i < iMax; i++) {
+                    const auto t = p[i];
+                    stdsptr<eTexture> tex;
+                    int dim;
+                    if(i < 6) {
+                        const int texId = t->seed() % agrr.size();
+                        tex = agrr.getTexture(texId);
+                        dim = 1;
+                    } else if(i > 12) {
+                        const int texId = t->seed() % agr.size();
+                        tex = agr.getTexture(texId);
+                        dim = 2;
+                        i++;
+                    } else {
+                        continue;
+                    }
+                    double rx;
+                    double ry;
+                    drawXY(t->x(), t->y(), rx, ry, dim, dim, t->altitude());
+                    tex->setColorMod(0, 255, 0);
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    tex->clearColorMod();
+                }
+            } else if(bt == eAgoraBuildType::bottomLeft) {
+                const int iMax = p.size();
+                for(int i = 0; i < iMax; i++) {
+                    const auto t = p[i];
+                    stdsptr<eTexture> tex;
+                    int dim;
+                    if(i < 6) {
+                        const int texId = t->seed() % agrr.size();
+                        tex = agrr.getTexture(texId);
+                        dim = 1;
+                    } else if(i > 11) {
+                        const int texId = t->seed() % agr.size();
+                        tex = agr.getTexture(texId);
+                        dim = 2;
+                        i++;
+                    } else {
+                        continue;
+                    }
+                    double rx;
+                    double ry;
+                    drawXY(t->x(), t->y(), rx, ry, dim, dim, t->altitude());
+                    tex->setColorMod(0, 255, 0);
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    tex->clearColorMod();
+                }
+            } else if(bt == eAgoraBuildType::topRight) {
+                const int iMax = p.size();
+                for(int i = 0; i < iMax; i++) {
+                    const auto t = p[i];
+                    stdsptr<eTexture> tex;
+                    int dim;
+                    if(i < 6) {
+                        const int texId = t->seed() % agrr.size();
+                        tex = agrr.getTexture(texId);
+                        dim = 1;
+                    } else if(i < 12) {
+                        const int texId = t->seed() % agr.size();
+                        tex = agr.getTexture(texId);
+                        dim = 2;
+                        i++;
+                    } else {
+                        continue;
+                    }
+                    double rx;
+                    double ry;
+                    drawXY(t->x(), t->y(), rx, ry, dim, dim, t->altitude());
+                    tex->setColorMod(0, 255, 0);
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    tex->clearColorMod();
+                }
+            }
+        }
+    } break;
+    case eBuildingMode::grandAgora: {
+        eAgoraBuildType bt;
+        const auto p = agoraBuildPlaceIter(t, true, bt);
+        if(p.empty()) {
+            const auto& tex = trrTexs.fBuildingBase;
+            tex->setColorMod(255, 0, 0);
+            for(int i = t->x() - 2; i < t->x() + 3; i++) {
+                for(int j = t->y() - 3; j < t->y() + 3; j++) {
+                    double rx;
+                    double ry;
+                    drawXY(i, j, rx, ry, 1, 1, t->altitude());
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                }
+            }
+            tex->clearColorMod();
+            const auto& road = builTexs.fRoad.getTexture(0);
+            road->setColorMod(255, 0, 0);
+            for(int j = t->y() - 3; j < t->y() + 3; j++) {
+                double rx;
+                double ry;
+                drawXY(t->x(), j, rx, ry, 1, 1, t->altitude());
+                tp.drawTexture(rx, ry, road, eAlignment::top);
+            }
+            road->clearColorMod();
+        } else {
+            if(bt == eAgoraBuildType::bottomRight) {
+                const int iMax = p.size();
+                for(int i = 0; i < iMax; i++) {
+                    const auto t = p[i];
+                    stdsptr<eTexture> tex;
+                    int dim;
+                    if(i < 6) {
+                        const int texId = t->seed() % agrr.size();
+                        tex = agrr.getTexture(texId);
+                        dim = 1;
+                    } else if((i > 12 && i < 18) || (i > 24 && i < 30)) {
+                        const int texId = t->seed() % agr.size();
+                        tex = agr.getTexture(texId);
+                        dim = 2;
+                        i++;
+                    } else {
+                        continue;
+                    }
+                    double rx;
+                    double ry;
+                    drawXY(t->x(), t->y(), rx, ry, dim, dim, t->altitude());
+                    tex->setColorMod(0, 255, 0);
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    tex->clearColorMod();
+                }
+            } else if(bt == eAgoraBuildType::bottomLeft) {
+                const int iMax = p.size();
+                for(int i = 0; i < iMax; i++) {
+                    const auto t = p[i];
+                    stdsptr<eTexture> tex;
+                    int dim;
+                    if(i < 6) {
+                        const int texId = t->seed() % agrr.size();
+                        tex = agrr.getTexture(texId);
+                        dim = 1;
+                    } else if((i < 12) || (i > 29 && i < 35)) {
+                        const int texId = t->seed() % agr.size();
+                        tex = agr.getTexture(texId);
+                        dim = 2;
+                        i++;
+                    } else {
+                        continue;
+                    }
+                    double rx;
+                    double ry;
+                    drawXY(t->x(), t->y(), rx, ry, dim, dim, t->altitude());
+                    tex->setColorMod(0, 255, 0);
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    tex->clearColorMod();
+                }
+            }
+        }
+    } break;
+    default: break;
+    }
+
     const auto& tex = trrTexs.fBuildingBase;
     switch(mode) {
     case eBuildingMode::templeArtemis:
@@ -1379,7 +1595,6 @@ void eGameWidget::paintEvent(ePainter& p) {
     default: break;
     }
 
-    const auto t = mBoard->tile(mHoverTX, mHoverTY);
     const auto& wrld = mBoard->getWorldBoard();
     eSpecialRequirement specReq;
     if(t && mGm->visible()) {
