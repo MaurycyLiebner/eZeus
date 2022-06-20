@@ -57,6 +57,8 @@ enum class eBuildingType {
     commonAgora,
     grandAgora,
 
+    agoraSpace,
+
     foodVendor,
     fleeceVendor,
     oilVendor,

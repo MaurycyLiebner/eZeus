@@ -79,6 +79,8 @@
 #include "buildings/sanctuaries/etemplebuilding.h"
 #include "buildings/sanctuaries/etemplerenderer.h"
 
+#include "buildings/ecommonagora.h"
+
 #include "characters/esheep.h"
 #include "characters/egoat.h"
 #include "characters/actions/eanimalaction.h"
@@ -109,19 +111,28 @@ const eSanctBlueprint* eGameWidget::sanctuaryBlueprint(
     return nullptr;
 }
 
+bool agoraRoadTile(eTile* const t) {
+    if(!t) return false;
+    if(!t->hasRoad()) return false;
+    const auto ub = t->underBuilding();
+    if(!ub) return false;
+    const auto r = static_cast<eRoad*>(ub);
+    return !r->underAgora();
+}
+
 std::vector<eTile*> eGameWidget::agoraBuildPlaceBR(
         eTile* const tile) const {
-    if(!tile || !tile->hasRoad()) return {};
+    if(!agoraRoadTile(tile)) return {};
     const auto tr1 = tile->topRight<eTile>();
-    if(!tr1 || !tr1->hasRoad()) return {};
+    if(!agoraRoadTile(tr1)) return {};
     const auto tr2 = tr1->topRight<eTile>();
-    if(!tr2 || !tr2->hasRoad()) return {};
+    if(!agoraRoadTile(tr2)) return {};
     const auto tr3 = tr2->topRight<eTile>();
-    if(!tr3 || !tr3->hasRoad()) return {};
+    if(!agoraRoadTile(tr3)) return {};
     const auto tr4 = tr3->topRight<eTile>();
-    if(!tr4 || !tr4->hasRoad()) return {};
+    if(!agoraRoadTile(tr4)) return {};
     const auto tr5 = tr4->topRight<eTile>();
-    if(!tr5 || !tr5->hasRoad()) return {};
+    if(!agoraRoadTile(tr5)) return {};
     std::vector<eTile*> brLobeTiles;
     brLobeTiles.push_back(tr5);
     brLobeTiles.push_back(tr4);
@@ -152,17 +163,17 @@ std::vector<eTile*> eGameWidget::agoraBuildPlaceBR(
 
 std::vector<eTile*> eGameWidget::agoraBuildPlaceTL(
         eTile* const tile) const {
-    if(!tile || !tile->hasRoad()) return {};
+    if(!agoraRoadTile(tile)) return {};
     const auto tr1 = tile->topRight<eTile>();
-    if(!tr1 || !tr1->hasRoad()) return {};
+    if(!agoraRoadTile(tr1)) return {};
     const auto tr2 = tr1->topRight<eTile>();
-    if(!tr2 || !tr2->hasRoad()) return {};
+    if(!agoraRoadTile(tr2)) return {};
     const auto tr3 = tr2->topRight<eTile>();
-    if(!tr3 || !tr3->hasRoad()) return {};
+    if(!agoraRoadTile(tr3)) return {};
     const auto tr4 = tr3->topRight<eTile>();
-    if(!tr4 || !tr4->hasRoad()) return {};
+    if(!agoraRoadTile(tr4)) return {};
     const auto tr5 = tr4->topRight<eTile>();
-    if(!tr5 || !tr5->hasRoad()) return {};
+    if(!agoraRoadTile(tr5)) return {};
     std::vector<eTile*> tlLobeTiles;
     tlLobeTiles.push_back(tr5);
     tlLobeTiles.push_back(tr4);
@@ -193,17 +204,17 @@ std::vector<eTile*> eGameWidget::agoraBuildPlaceTL(
 
 std::vector<eTile*> eGameWidget::agoraBuildPlaceBL(
         eTile* const tile) const {
-    if(!tile || !tile->hasRoad()) return {};
+    if(!agoraRoadTile(tile)) return {};
     const auto tl1 = tile->topLeft<eTile>();
-    if(!tl1 || !tl1->hasRoad()) return {};
+    if(!agoraRoadTile(tl1)) return {};
     const auto tl2 = tl1->topLeft<eTile>();
-    if(!tl2 || !tl2->hasRoad()) return {};
+    if(!agoraRoadTile(tl2)) return {};
     const auto tl3 = tl2->topLeft<eTile>();
-    if(!tl3 || !tl3->hasRoad()) return {};
+    if(!agoraRoadTile(tl3)) return {};
     const auto tl4 = tl3->topLeft<eTile>();
-    if(!tl4 || !tl4->hasRoad()) return {};
+    if(!agoraRoadTile(tl4)) return {};
     const auto tl5 = tl4->topLeft<eTile>();
-    if(!tl5 || !tl5->hasRoad()) return {};
+    if(!agoraRoadTile(tl5)) return {};
     std::vector<eTile*> blLobeTiles;
     blLobeTiles.push_back(tl5);
     blLobeTiles.push_back(tl4);
@@ -234,17 +245,17 @@ std::vector<eTile*> eGameWidget::agoraBuildPlaceBL(
 
 std::vector<eTile*> eGameWidget::agoraBuildPlaceTR(
         eTile* const tile) const {
-    if(!tile || !tile->hasRoad()) return {};
+    if(!agoraRoadTile(tile)) return {};
     const auto tl1 = tile->topLeft<eTile>();
-    if(!tl1 || !tl1->hasRoad()) return {};
+    if(!agoraRoadTile(tl1)) return {};
     const auto tl2 = tl1->topLeft<eTile>();
-    if(!tl2 || !tl2->hasRoad()) return {};
+    if(!agoraRoadTile(tl2)) return {};
     const auto tl3 = tl2->topLeft<eTile>();
-    if(!tl3 || !tl3->hasRoad()) return {};
+    if(!agoraRoadTile(tl3)) return {};
     const auto tl4 = tl3->topLeft<eTile>();
-    if(!tl4 || !tl4->hasRoad()) return {};
+    if(!agoraRoadTile(tl4)) return {};
     const auto tl5 = tl4->topLeft<eTile>();
-    if(!tl5 || !tl5->hasRoad()) return {};
+    if(!agoraRoadTile(tl5)) return {};
     std::vector<eTile*> trLobeTiles;
     trLobeTiles.push_back(tl5);
     trLobeTiles.push_back(tl4);
@@ -275,7 +286,7 @@ std::vector<eTile*> eGameWidget::agoraBuildPlaceTR(
 
 std::vector<eTile*> eGameWidget::agoraBuildPlaceIter(
         eTile* const tile, const bool grand,
-        eAgoraBuildType& bt) const {
+        eAgoraOrientation& bt) const {
     if(!tile) return {};
     {
         const int xMin = tile->x() - 2;
@@ -288,7 +299,7 @@ std::vector<eTile*> eGameWidget::agoraBuildPlaceIter(
                 if(!t) continue;
                 const auto r = agoraBuildPlaceBR(t);
                 if(r.empty()) continue;
-                bt = eAgoraBuildType::bottomRight;
+                bt = eAgoraOrientation::bottomRight;
                 if(grand) {
                     const auto rr = agoraBuildPlaceTL(t);
                     if(rr.empty()) continue;
@@ -315,7 +326,7 @@ std::vector<eTile*> eGameWidget::agoraBuildPlaceIter(
                 if(r.empty()) continue;
 
                 if(grand) {
-                    bt = eAgoraBuildType::bottomRight;
+                    bt = eAgoraOrientation::bottomRight;
                     const auto rr = agoraBuildPlaceBR(t);
                     if(rr.empty()) continue;
                     std::vector<eTile*> rrr;
@@ -324,7 +335,7 @@ std::vector<eTile*> eGameWidget::agoraBuildPlaceIter(
                     rrr.insert(rrr.end(), rr.begin(), rr.end());
                     return rrr;
                 } else {
-                    bt = eAgoraBuildType::topLeft;
+                    bt = eAgoraOrientation::topLeft;
                 }
                 return r;
             }
@@ -341,7 +352,7 @@ std::vector<eTile*> eGameWidget::agoraBuildPlaceIter(
                 if(!t) continue;
                 const auto r = agoraBuildPlaceBL(t);
                 if(r.empty()) continue;
-                bt = eAgoraBuildType::bottomLeft;
+                bt = eAgoraOrientation::bottomLeft;
                 if(grand) {
                     const auto rr = agoraBuildPlaceTR(t);
                     if(rr.empty()) continue;
@@ -367,7 +378,7 @@ std::vector<eTile*> eGameWidget::agoraBuildPlaceIter(
                 const auto r = agoraBuildPlaceTR(t);
                 if(r.empty()) continue;
                 if(grand) {
-                    bt = eAgoraBuildType::bottomLeft;
+                    bt = eAgoraOrientation::bottomLeft;
                     const auto rr = agoraBuildPlaceBL(t);
                     if(rr.empty()) continue;
                     std::vector<eTile*> rrr;
@@ -376,7 +387,7 @@ std::vector<eTile*> eGameWidget::agoraBuildPlaceIter(
                     rrr.insert(rrr.end(), rr.begin(), rr.end());
                     return rrr;
                 } else {
-                    bt = eAgoraBuildType::topRight;
+                    bt = eAgoraOrientation::topRight;
                 }
                 return r;
             }
@@ -460,12 +471,58 @@ bool eGameWidget::buildMouseRelease() {
                 erase(tile);
 
                 const auto diff = mBoard->difficulty();
-                const int cost = eDifficultyHelpers::buildingCost(diff, eBuildingType::erase);
+                const int cost = eDifficultyHelpers::buildingCost(
+                                     diff, eBuildingType::erase);
                 mBoard->incDrachmas(-cost);
             };
             break;
+        case eBuildingMode::commonAgora: {
+            const auto t = mBoard->tile(mHoverTX, mHoverTY);
+            if(!t) return false;
+            eAgoraOrientation bt;
+            const auto p = agoraBuildPlaceIter(t, false, bt);
+            if(p.empty()) return false;
+            const auto b = std::make_shared<eCommonAgora>(bt, *mBoard);
+            int x = __INT_MAX__;
+            int y = __INT_MAX__;
+            int w;
+            int h;
+            for(const auto t : p) {
+                const int tx = t->x();
+                const int ty = t->y();
+                if(tx < x) x = tx;
+                if(ty < y) y = ty;
+                b->addUnderBuilding(t);
+                if(t->hasRoad()) {
+                    const auto b = t->underBuilding();
+                    const auto r = static_cast<eRoad*>(b);
+                    r->setUnderAgora(true);
+                }
+            }
+            switch(bt) {
+            case eAgoraOrientation::bottomLeft:
+            case eAgoraOrientation::topRight:
+                w = 6;
+                h = 3;
+                break;
+            case eAgoraOrientation::bottomRight:
+            case eAgoraOrientation::topLeft:
+                w = 3;
+                h = 6;
+                break;
+            }
+
+            b->setTileRect(SDL_Rect{x, y, w, h});
+
+            b->fillSpaces();
+
+            const auto diff = mBoard->difficulty();
+            const int cost = eDifficultyHelpers::buildingCost(diff, b->type());
+            mBoard->incDrachmas(-cost);
+        } break;
         case eBuildingMode::road: {
             const auto startTile = mBoard->tile(mHoverTX, mHoverTY);
+            if(!startTile) return false;
             std::vector<eOrientation> path;
             const bool r = roadPath(path);
             if(r) {

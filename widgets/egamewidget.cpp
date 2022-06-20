@@ -1352,7 +1352,7 @@ void eGameWidget::paintEvent(ePainter& p) {
 
     switch(mode) {
     case eBuildingMode::commonAgora: {
-        eAgoraBuildType bt;
+        eAgoraOrientation bt;
         const auto p = agoraBuildPlaceIter(t, false, bt);
         if(p.empty()) {
             const auto& tex = trrTexs.fBuildingBase;
@@ -1376,7 +1376,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
             road->clearColorMod();
         } else {
-            if(bt == eAgoraBuildType::bottomRight) {
+            if(bt == eAgoraOrientation::bottomRight) {
                 const int iMax = p.size();
                 for(int i = 0; i < iMax; i++) {
                     const auto t = p[i];
@@ -1402,7 +1402,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
                 }
-            } else if(bt == eAgoraBuildType::topLeft) {
+            } else if(bt == eAgoraOrientation::topLeft) {
                 const int iMax = p.size();
                 for(int i = 0; i < iMax; i++) {
                     const auto t = p[i];
@@ -1427,7 +1427,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
                 }
-            } else if(bt == eAgoraBuildType::bottomLeft) {
+            } else if(bt == eAgoraOrientation::bottomLeft) {
                 const int iMax = p.size();
                 for(int i = 0; i < iMax; i++) {
                     const auto t = p[i];
@@ -1452,7 +1452,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
                 }
-            } else if(bt == eAgoraBuildType::topRight) {
+            } else if(bt == eAgoraOrientation::topRight) {
                 const int iMax = p.size();
                 for(int i = 0; i < iMax; i++) {
                     const auto t = p[i];
@@ -1481,7 +1481,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     } break;
     case eBuildingMode::grandAgora: {
-        eAgoraBuildType bt;
+        eAgoraOrientation bt;
         const auto p = agoraBuildPlaceIter(t, true, bt);
         if(p.empty()) {
             const auto& tex = trrTexs.fBuildingBase;
@@ -1505,7 +1505,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
             road->clearColorMod();
         } else {
-            if(bt == eAgoraBuildType::bottomRight) {
+            if(bt == eAgoraOrientation::bottomRight) {
                 const int iMax = p.size();
                 for(int i = 0; i < iMax; i++) {
                     const auto t = p[i];
@@ -1530,7 +1530,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
                 }
-            } else if(bt == eAgoraBuildType::bottomLeft) {
+            } else if(bt == eAgoraOrientation::bottomLeft) {
                 const int iMax = p.size();
                 for(int i = 0; i < iMax; i++) {
                     const auto t = p[i];

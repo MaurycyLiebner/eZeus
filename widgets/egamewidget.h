@@ -15,6 +15,7 @@
 #include "textures/echaractertextures.h"
 
 #include "buildings/epatrolbuilding.h"
+#include "buildings/ecommonagora.h"
 
 #include "infowidgets/egyminfowidget.h"
 
@@ -32,13 +33,6 @@ class eWorldWidget;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
 using eRendererCreator = std::function<stdsptr<eBuildingRenderer>()>;
-
-enum class eAgoraBuildType {
-    bottomRight,
-    topLeft,
-    bottomLeft,
-    topRight
-};
 
 class eGameWidget : public eWidget {
 public:
@@ -114,7 +108,7 @@ private:
     std::vector<eTile*> agoraBuildPlaceTR(eTile* const tile) const;
     std::vector<eTile*> agoraBuildPlaceIter(
             eTile* const tile, const bool grand,
-            eAgoraBuildType& bt) const;
+            eAgoraOrientation& bt) const;
 
     bool erase(eTile* const tile);
     std::vector<ePatrolGuide>::iterator

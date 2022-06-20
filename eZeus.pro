@@ -17,6 +17,7 @@ LIBS += -lnoise
 
 SOURCES += \
         buildings/eaestheticsbuilding.cpp \
+        buildings/eagoraspace.cpp \
         buildings/eanimalbuilding.cpp \
         buildings/eappeal.cpp \
         buildings/earmory.cpp \
@@ -30,6 +31,7 @@ SOURCES += \
         buildings/ecarrotfarm.cpp \
         buildings/ecollege.cpp \
         buildings/ecolumn.cpp \
+        buildings/ecommonagora.cpp \
         buildings/edairy.cpp \
         buildings/edramaschool.cpp \
         buildings/eelitehousing.cpp \
@@ -339,6 +341,7 @@ SOURCES += \
 
 HEADERS += \
     buildings/eaestheticsbuilding.h \
+    buildings/eagoraspace.h \
     buildings/eanimalbuilding.h \
     buildings/eappeal.h \
     buildings/earmory.h \
@@ -352,6 +355,7 @@ HEADERS += \
     buildings/ecarrotfarm.h \
     buildings/ecollege.h \
     buildings/ecolumn.h \
+    buildings/ecommonagora.h \
     buildings/edairy.h \
     buildings/edramaschool.h \
     buildings/eelitehousing.h \

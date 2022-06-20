@@ -13,6 +13,12 @@ eRoad::eRoad(eGameBoard& board) :
 std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& sizeColl = mTextures[sizeId];
+
+    if(mUnderAgora) {
+        const auto& coll = sizeColl.fAgoraRoad;
+        return coll.getTexture(seed() % coll.size());
+    }
+
     const auto& tbcoll = sizeColl.fToBeachRoad;
     const auto& bcoll = sizeColl.fBeachRoad;
 
@@ -264,4 +270,8 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
         return coll->getTexture(12);
     }
     return std::shared_ptr<eTexture>();
+}
+
+void eRoad::setUnderAgora(const bool u) {
+    mUnderAgora = u;
 }
