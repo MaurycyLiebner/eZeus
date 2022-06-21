@@ -534,12 +534,6 @@ void eBuildingTextures::load() {
         for(int i = 1725; i < 1773; i++) {
             texClass.load(i, fSanctuaryHOverlay);
         }
-        for(int i = 0; i < fSanctuaryHOverlay.size(); i++) {
-            auto& tex = fSanctuaryWOverlay.addTexture();
-            const auto& srcTex = fSanctuaryHOverlay.getTexture(i);
-            tex->setOffset(0, srcTex->offsetY());
-            tex->setFlipTex(srcTex);
-        }
 
         for(int i = 1773; i < 1937;) {
             for(int j = 0; j < 2; j++, i++) {
@@ -595,13 +589,6 @@ void eBuildingTextures::load() {
 
         for(int i = 3011; i < 3035; i++) {
             texClass.load(i, fPalaceHOverlay);
-        }
-
-        for(int i = 0; i < fPalaceHOverlay.size(); i++) {
-            auto& tex = fPalaceWOverlay.addTexture();
-            const auto& srcTex = fPalaceHOverlay.getTexture(i);
-            tex->setOffset(0, srcTex->offsetY());
-            tex->setFlipTex(srcTex);
         }
     }
 
@@ -1096,4 +1083,19 @@ void eBuildingTextures::load() {
     }
 
     texLoader.waitUntilFinished();
+
+    const auto generateFlipped = [](const eTextureCollection& src,
+                                    eTextureCollection& dst) {
+        for(int i = 0; i < src.size(); i++) {
+            auto& tex = dst.addTexture();
+            const auto& srcTex = src.getTexture(i);
+            const int w = srcTex->width();
+            const int ox = srcTex->offsetX();
+            const int oy = srcTex->offsetY();
+            tex->setOffset(w - ox, oy);
+            tex->setFlipTex(srcTex);
+        }
+    };
+    generateFlipped(fPalaceHOverlay, fPalaceWOverlay);
+    generateFlipped(fSanctuaryHOverlay, fSanctuaryWOverlay);
 }
