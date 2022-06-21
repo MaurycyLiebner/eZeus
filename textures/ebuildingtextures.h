@@ -179,21 +179,27 @@ public:
 
     std::shared_ptr<eTexture> fFoodVendor;
     std::shared_ptr<eTexture> fFoodVendorOverlay;
+    eTextureCollection fFoodVendorOverlay2;
 
     std::shared_ptr<eTexture> fFleeceVendor;
     std::shared_ptr<eTexture> fFleeceVendorOverlay;
+    eTextureCollection fFleeceVendorOverlay2;
 
     std::shared_ptr<eTexture> fOilVendor;
     std::shared_ptr<eTexture> fOilVendorOverlay;
+    eTextureCollection fOilVendorOverlay2;
 
     std::shared_ptr<eTexture> fArmsVendor;
     std::shared_ptr<eTexture> fArmsVendorOverlay;
+    eTextureCollection fArmsVendorOverlay2;
 
     std::shared_ptr<eTexture> fWineVendor;
     std::shared_ptr<eTexture> fWineVendorOverlay;
+    eTextureCollection fWineVendorOverlay2;
 
     std::shared_ptr<eTexture> fHorseTrainer;
     std::shared_ptr<eTexture> fHorseTrainerOverlay;
+    eTextureCollection fHorseTrainerOverlay2;
 
     std::shared_ptr<eTexture> fWarehouse;
     eTextureCollection fWarehouseOverlay;

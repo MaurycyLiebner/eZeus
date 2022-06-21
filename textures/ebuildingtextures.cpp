@@ -95,6 +95,13 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fAgoraRoad(renderer),
     fAgora(renderer),
 
+    fFoodVendorOverlay2(renderer),
+    fFleeceVendorOverlay2(renderer),
+    fOilVendorOverlay2(renderer),
+    fArmsVendorOverlay2(renderer),
+    fWineVendorOverlay2(renderer),
+    fHorseTrainerOverlay2(renderer),
+
     fWarehouseOverlay(renderer),
 
     fPier1(renderer),
@@ -553,6 +560,30 @@ void eBuildingTextures::load() {
         texClass.loadSkipFlipped(fMasonryShopOverlay2, 2017, 2097);
         texClass.loadSkipFlipped(fWaitingOverlay0, 2277, 2437);
         texClass.loadSkipFlipped(fWaitingOverlay1, 2437, 2533);
+
+        for(int i = 2639; i < 2651; i++) {
+            texClass.load(i, fFleeceVendorOverlay2);
+        }
+
+        for(int i = 2651; i < 2663; i++) {
+            texClass.load(i, fFoodVendorOverlay2);
+        }
+
+        for(int i = 2663; i < 2679; i++) {
+            texClass.load(i, fHorseTrainerOverlay2);
+        }
+
+        for(int i = 2679; i < 2719; i++) {
+            texClass.load(i, fOilVendorOverlay2);
+        }
+
+        for(int i = 429; i < 453; i++) {
+            texClass.load(i, fWineVendorOverlay2);
+        }
+
+        for(int i = 2719; i < 2759; i++) {
+            texClass.load(i, fArmsVendorOverlay2);
+        }
 
         for(int i = 2759; i < 2790; i++) {
             texClass.load(i, fFishPondOverlay);
