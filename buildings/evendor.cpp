@@ -12,6 +12,9 @@ eVendor::eVendor(eGameBoard& board,
                  const double overlayX,
                  const double overlayY,
                  const eBaseTex& overlayTex,
+                 const double overlayX2,
+                 const double overlayY2,
+                 const eOverlays& overlayTex2,
                  const eCharGenerator& charGen,
                  const eBuildingType type,
                  const int sw, const int sh,
@@ -28,7 +31,10 @@ eVendor::eVendor(eGameBoard& board,
     mCharGen(charGen),
     mOverlayX(overlayX),
     mOverlayY(overlayY),
-    mOverlayTex(overlayTex) {
+    mOverlayTex(overlayTex),
+    mOverlayX2(overlayX2),
+    mOverlayY2(overlayY2),
+    mOverlayTex2(overlayTex2) {
 
 }
 
@@ -38,14 +44,24 @@ eVendor::~eVendor() {
 
 std::vector<eOverlay> eVendor::getOverlays(const eTileSize size) const {
     if(mResource <= 0) return {};
+
     auto os = ePatrolBuilding::getOverlays(size);
     const int sizeId = static_cast<int>(size);
     const auto& texs = eGameTextures::buildings();
+
     eOverlay o;
     o.fTex = texs[sizeId].*mOverlayTex;
     o.fX = mOverlayX;
     o.fY = mOverlayY;
     os.push_back(o);
+
+    eOverlay o2;
+    const auto& coll = texs[sizeId].*mOverlayTex2;
+    o2.fTex = coll.getTexture(textureTime() % coll.size());
+    o2.fX = mOverlayX2;
+    o2.fY = mOverlayY2;
+    os.push_back(o2);
+
     return os;
 }
 

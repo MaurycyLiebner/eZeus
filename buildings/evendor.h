@@ -15,6 +15,9 @@ public:
             const double overlayX,
             const double overlayY,
             const eBaseTex& overlayTex,
+            const double overlayX2,
+            const double overlayY2,
+            const eOverlays& overlayTex2,
             const eCharGenerator& charGen,
             const eBuildingType type,
             const int sw, const int sh,
@@ -45,6 +48,9 @@ private:
     const double mOverlayX;
     const double mOverlayY;
     const eBaseTex mOverlayTex;
+    const double mOverlayX2;
+    const double mOverlayY2;
+    const eOverlays mOverlayTex2;
 
     stdsptr<eCharacter> mVendor;
 

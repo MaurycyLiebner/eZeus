@@ -1641,7 +1641,12 @@ void eGameWidget::paintEvent(ePainter& p) {
         std::function<bool(const int tx, const int ty,
                            const int sw, const int sh)> canBuildFunc;
         switch(mode) {
-        case eBuildingMode::foodVendor: {
+        case eBuildingMode::foodVendor:
+        case eBuildingMode::fleeceVendor:
+        case eBuildingMode::oilVendor:
+        case eBuildingMode::wineVendor:
+        case eBuildingMode::armsVendor:
+        case eBuildingMode::horseTrainer: {
             canBuildFunc = [&](const int tx, const int ty,
                                const int sw, const int sh) {
                 (void)sw;
