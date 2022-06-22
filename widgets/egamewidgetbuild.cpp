@@ -25,6 +25,7 @@
 #include "buildings/etaxoffice.h"
 #include "buildings/eresourcebuilding.h"
 #include "buildings/ehuntinglodge.h"
+#include "buildings/efishery.h"
 #include "buildings/emaintenanceoffice.h"
 
 #include "buildings/egranary.h"
@@ -813,6 +814,31 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::huntingLodge: {
             build(mHoverTX, mHoverTY, 2, 2,
                   [this]() { return e::make_shared<eHuntingLodge>(*mBoard); });
+        }; break;
+
+
+        case eBuildingMode::fishery: {
+            eOrientation o;
+            const bool c = canBuildFishery(mHoverTX, mHoverTY, o);
+            if(c) {
+                const auto b = e::make_shared<eFishery>(*mBoard, o);
+                const auto tile = mBoard->tile(mHoverTX, mHoverTY);
+                const auto rend = e::make_shared<eBuildingRenderer>(b);
+                tile->setBuilding(rend);
+                b->setCenterTile(tile);
+
+                const int minY = mHoverTY - 1;
+                b->setTileRect({mHoverTX, minY, 2, 2});
+                for(int x = mHoverTX; x < mHoverTX + 2; x++) {
+                    for(int y = minY; y < minY + 2; y++) {
+                        const auto t = mBoard->tile(x, y);
+                        if(t) {
+                            t->setUnderBuilding(b);
+                            b->addUnderBuilding(t);
+                        }
+                    }
+                }
+            }
         }; break;
 
 

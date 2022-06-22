@@ -47,6 +47,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
 
     fHuntingLodgeOverlay(renderer),
     fFishery(renderer),
+    fFisheryBoatBuildingW(renderer),
+    fFisheryBoatBuildingH(renderer),
     fUrchinQuay(renderer),
     fCardingShedOverlay(renderer),
     fDairyOverlay(renderer),
@@ -489,6 +491,14 @@ void eBuildingTextures::load() {
 
         for(int i = 656; i < 680; i++) {
             texClass.load(i, fTheaterOverlay);
+        }
+
+        for(int i = 982; i < 992; i++) {
+            texClass.load(i, fFisheryBoatBuildingW);
+        }
+
+        for(int i = 992; i < 1002; i++) {
+            texClass.load(i, fFisheryBoatBuildingH);
         }
 
         for(int i = 1492; i < 1510; i++) {

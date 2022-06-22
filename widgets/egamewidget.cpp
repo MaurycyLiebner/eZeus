@@ -36,6 +36,7 @@
 #include "buildings/etaxoffice.h"
 #include "buildings/eresourcebuilding.h"
 #include "buildings/ehuntinglodge.h"
+#include "buildings/efishery.h"
 #include "buildings/emaintenanceoffice.h"
 
 #include "buildings/egranary.h"
@@ -468,6 +469,152 @@ bool eGameWidget::canBuildVendor(const int tx, const int ty) {
     const auto ct = b->centerTile();
     if(!ct) return false;
     return ct->x() == tx && ct->y() == ty;
+}
+
+bool tileDry(eTile* const t) {
+    if(!t) return false;
+    return t->terrain() == eTerrain::dry ||
+           t->terrain() == eTerrain::fertile;
+}
+
+bool tileWater(eTile* const t) {
+    if(!t) return false;
+    return t->terrain() == eTerrain::water;
+}
+
+bool canBuildFisheryTR(eTile* const t) {
+    if(!t) return false;
+    if(!tileDry(t)) return false;
+
+    const auto tr = t->topRight<eTile>();
+    if(!tr) return false;
+    if(!tileWater(tr)) return false;
+
+    const auto trtl = tr->topLeft<eTile>();
+    if(!trtl) return false;
+    if(!tileWater(trtl)) return false;
+
+    const auto trbr = tr->bottomRight<eTile>();
+    if(!trbr) return false;
+    if(!tileWater(trbr)) return false;
+
+    const auto trbrbr = trbr->bottomRight<eTile>();
+    if(!trbrbr) return false;
+    if(!tileWater(trbrbr)) return false;
+
+    const auto br = t->bottomRight<eTile>();
+    if(!br) return false;
+    if(!tileDry(br)) return false;
+
+    return true;
+}
+
+bool canBuildFisheryBR(eTile* const t) {
+    if(!t) return false;
+    if(!tileDry(t)) return false;
+
+    const auto tr = t->topRight<eTile>();
+    if(!tr) return false;
+    if(!tileDry(tr)) return false;
+
+    const auto trbr = tr->bottomRight<eTile>();
+    if(!trbr) return false;
+    if(!tileWater(trbr)) return false;
+
+    const auto trbrtr = trbr->topRight<eTile>();
+    if(!trbrtr) return false;
+    if(!tileWater(trbrtr)) return false;
+
+    const auto br = t->bottomRight<eTile>();
+    if(!br) return false;
+    if(!tileWater(br)) return false;
+
+    const auto brbl = br->bottomLeft<eTile>();
+    if(!brbl) return false;
+    if(!tileWater(brbl)) return false;
+
+    return true;
+}
+
+bool canBuildFisheryBL(eTile* const t) {
+    if(!t) return false;
+    if(!tileWater(t)) return false;
+
+    const auto tl = t->topLeft<eTile>();
+    if(!tl) return false;
+    if(!tileWater(tl)) return false;
+
+    const auto tr = t->topRight<eTile>();
+    if(!tr) return false;
+    if(!tileDry(tr)) return false;
+
+    const auto trbr = tr->bottomRight<eTile>();
+    if(!trbr) return false;
+    if(!tileDry(trbr)) return false;
+
+    const auto br = t->bottomRight<eTile>();
+    if(!br) return false;
+    if(!tileWater(br)) return false;
+
+    const auto brbr = br->bottomRight<eTile>();
+    if(!brbr) return false;
+    if(!tileWater(brbr)) return false;
+
+    return true;
+}
+
+bool canBuildFisheryTL(eTile* const t) {
+    if(!t) return false;
+    if(!tileWater(t)) return false;
+
+    const auto bl = t->bottomLeft<eTile>();
+    if(!bl) return false;
+    if(!tileWater(bl)) return false;
+
+    const auto tr = t->topRight<eTile>();
+    if(!tr) return false;
+    if(!tileWater(tr)) return false;
+
+    const auto trtr = tr->topRight<eTile>();
+    if(!trtr) return false;
+    if(!tileWater(trtr)) return false;
+
+    const auto trbr = tr->bottomRight<eTile>();
+    if(!trbr) return false;
+    if(!tileDry(trbr)) return false;
+
+    const auto br = t->bottomRight<eTile>();
+    if(!br) return false;
+    if(!tileDry(br)) return false;
+
+    return true;
+}
+
+bool eGameWidget::canBuildFishery(const int tx, const int ty,
+                                  eOrientation& o) {
+    const auto t = mBoard->tile(tx, ty);
+    if(!t) return false;
+    const bool tr = canBuildFisheryTR(t);
+    if(tr) {
+        o = eOrientation::topRight;
+        return true;
+    }
+    const bool br = canBuildFisheryBR(t);
+    if(br) {
+        o = eOrientation::bottomRight;
+        return true;
+    }
+    const bool bl = canBuildFisheryBL(t);
+    if(bl) {
+        o = eOrientation::bottomLeft;
+        return true;
+    }
+    const bool tl = canBuildFisheryTL(t);
+    if(tl) {
+        o = eOrientation::topLeft;
+        return true;
+    }
+    return false;
 }
 
 bool eGameWidget::erase(eTile* const tile) {
@@ -1641,6 +1788,15 @@ void eGameWidget::paintEvent(ePainter& p) {
         std::function<bool(const int tx, const int ty,
                            const int sw, const int sh)> canBuildFunc;
         switch(mode) {
+        case eBuildingMode::fishery: {
+            canBuildFunc = [&](const int tx, const int ty,
+                               const int sw, const int sh) {
+                (void)sw;
+                (void)sh;
+                eOrientation o;
+                return canBuildFishery(tx, ty, o);
+            };
+        } break;
         case eBuildingMode::foodVendor:
         case eBuildingMode::fleeceVendor:
         case eBuildingMode::oilVendor:
@@ -1808,6 +1964,13 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         case eBuildingMode::huntingLodge: {
             const auto b1 = e::make_shared<eHuntingLodge>(*mBoard);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
+
+        case eBuildingMode::fishery: {
+            eOrientation o = eOrientation::topRight;
+            canBuildFishery(mHoverTX, mHoverTY, o);
+            const auto b1 = e::make_shared<eFishery>(*mBoard, o);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
 

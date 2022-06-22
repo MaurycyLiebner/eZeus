@@ -345,3 +345,5 @@ missing_oil "This house cannot evolve until its residents receive some olive oil
 missing_venues "This house needs access to more culture venues in order to evolve."
 missing_appeal "This house cannot evolve until the appeal of the neighborhood increases."
 missing_nothing "The residents of this house have everything they need."
+
+fishermen_building "The fishermen are busy building a seaworthy boat. Once they're finished with the boat, they'll sail the high seas in search of fish."

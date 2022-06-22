@@ -39,6 +39,7 @@ SOURCES += \
         buildings/eelitehousingrenderer.cpp \
         buildings/eemployingbuilding.cpp \
         buildings/efarmbase.cpp \
+        buildings/efishery.cpp \
         buildings/efleecevendor.cpp \
         buildings/efoodvendor.cpp \
         buildings/efoundry.cpp \
@@ -367,6 +368,7 @@ HEADERS += \
     buildings/eelitehousingrenderer.h \
     buildings/eemployingbuilding.h \
     buildings/efarmbase.h \
+    buildings/efishery.h \
     buildings/efleecevendor.h \
     buildings/efoodvendor.h \
     buildings/efoundry.h \

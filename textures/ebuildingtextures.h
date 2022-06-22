@@ -88,6 +88,8 @@ public:
     eTextureCollection fHuntingLodgeOverlay;
 
     eTextureCollection fFishery;
+    eTextureCollection fFisheryBoatBuildingW;
+    eTextureCollection fFisheryBoatBuildingH;
     eTextureCollection fUrchinQuay;
 
     std::shared_ptr<eTexture> fCardingShed;
