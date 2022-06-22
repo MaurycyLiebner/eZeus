@@ -12,7 +12,8 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
                                        SDL_Renderer* const renderer) :
     fTileW(tileW), fTileH(tileH),
     fRenderer(renderer),
-//    fFoodDistributor(renderer),
+
+    fPeddler(renderer),
     fActor(renderer),
     fTaxCollector(renderer),
     fWaterDistributor(renderer),
@@ -87,7 +88,9 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fBannerTops(renderer),
 
     fTrader(renderer),
-    fDonkey(renderer) {
+    fDonkey(renderer),
+
+    fPorter(renderer) {
 
 }
 
@@ -109,25 +112,15 @@ void eCharacterTextures::load() {
 
     const std::string pathBase{dir + "SprMain/SprMain_"};
 
-//    for(int j = 0; j < 8; j++) {
-//        fFoodDistributor.fWalk.emplace_back(fRenderer);
-//    }
-//    for(int i = 1; i < 97;) {
-//        for(int j = 0; j < 8; j++, i++) {
-//            auto& walk = fFoodDistributor.fWalk;
-//            eTextureLoadingHelpers::loadTexWithOffset(
-//                        pathBase, i, walk[j], eSprMainOffset);
-//        }
-//    }
-//    for(int i = 97; i < 105; i++) {
-//        auto& die = fFoodDistributor.fDie;
-//        eTextureLoadingHelpers::loadTexWithOffset(
-//                    pathBase, i, die, eSprMainOffset);
-//    }
-
     eTextureLoader texLoader(fRenderer);
     texLoader.initialize();
     eTextureClass texClass(pathBase, texLoader, &eSprMainOffset);
+
+    texClass.loadSkipFlipped(fPeddler.fWalk, 1, 97);
+
+    for(int i = 97; i < 105; i++) {
+        texClass.load(i, fPeddler.fDie);
+    }
 
     texClass.loadSkipFlipped(fActor.fWalk, 105, 201);
 
@@ -148,6 +141,12 @@ void eCharacterTextures::load() {
 
     for(int i = 497; i < 505; i++) {
         texClass.load(i, fOx.fDie);
+    }
+
+    texClass.loadSkipFlipped(fPorter.fWalk, 1233, 1329);
+
+    for(int i = 1329; i < 1337; i++) {
+        texClass.load(i, fPorter.fDie);
     }
 
     texClass.loadSkipFlipped(fOxHandler.fWalk, 1337, 1433);

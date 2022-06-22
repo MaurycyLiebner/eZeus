@@ -94,7 +94,8 @@ public:
     const int fTileH;
     SDL_Renderer* const fRenderer;
 
-//    eBasicCharacterTextures fFoodDistributor;
+    eBasicCharacterTextures fPeddler;
+
     eBasicCharacterTextures fActor;
     eBasicCharacterTextures fTaxCollector;
     eBasicCharacterTextures fWaterDistributor;
@@ -192,6 +193,8 @@ public:
 
     eBasicCharacterTextures fTrader;
     eBasicCharacterTextures fDonkey;
+
+    eBasicCharacterTextures fPorter;
 };
 
 #endif // ECHARACTERTEXTURES_H
