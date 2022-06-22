@@ -3,17 +3,17 @@
 
 #include "ebuilding.h"
 
-class eCommonAgora;
+class eAgoraBase;
 
 class eAgoraSpace : public eBuilding {
 public:
-    eAgoraSpace(const stdsptr<eCommonAgora>& agora, eGameBoard& board);
+    eAgoraSpace(const stdsptr<eAgoraBase>& agora, eGameBoard& board);
 
     stdsptr<eTexture> getTexture(const eTileSize size) const;
 
-    eCommonAgora* agora() const { return mAgora.get(); }
+    eAgoraBase* agora() const { return mAgora.get(); }
 private:
-    const stdsptr<eCommonAgora> mAgora;
+    const stdsptr<eAgoraBase> mAgora;
 };
 
 #endif // EAGORASPACE_H

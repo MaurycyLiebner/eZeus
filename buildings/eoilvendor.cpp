@@ -2,7 +2,7 @@
 
 #include "characters/eoilvendorchar.h"
 
-eOilVendor::eOilVendor(const stdsptr<eCommonAgora>& agora,
+eOilVendor::eOilVendor(const stdsptr<eAgoraBase>& agora,
                        eGameBoard& board) :
     eVendor(board, agora,
             eResourceType::oliveOil, eProvide::oil,

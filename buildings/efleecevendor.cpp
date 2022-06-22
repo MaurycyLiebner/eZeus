@@ -2,7 +2,7 @@
 
 #include "characters/efleecevendorchar.h"
 
-eFleeceVendor::eFleeceVendor(const stdsptr<eCommonAgora>& agora,
+eFleeceVendor::eFleeceVendor(const stdsptr<eAgoraBase>& agora,
                              eGameBoard& board) :
     eVendor(board, agora,
             eResourceType::fleece, eProvide::fleece,

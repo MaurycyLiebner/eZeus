@@ -3,7 +3,7 @@
 
 #include "epatrolbuilding.h"
 
-class eCommonAgora;
+class eAgoraBase;
 
 class eVendor : public eEmployingBuilding {
 public:
@@ -11,7 +11,7 @@ public:
     using eOverlays = eTextureCollection eBuildingTextures::*;
     using eCharGenerator =  std::function<stdsptr<eCharacter>()>;
     eVendor(eGameBoard& board,
-            const stdsptr<eCommonAgora>& agora,
+            const stdsptr<eAgoraBase>& agora,
             const eResourceType resType,
             const eProvide provType,
             const eBaseTex& baseTex,
@@ -39,11 +39,11 @@ public:
 
     std::vector<eCartTask> cartTasks() const;
 
-    eCommonAgora* agora() const { return mAgora.get(); }
+    eAgoraBase* agora() const { return mAgora.get(); }
     int takeForPeddler(const int t);
 private:
     const int mResMult = 100;
-    const stdsptr<eCommonAgora> mAgora;
+    const stdsptr<eAgoraBase> mAgora;
     const int mMaxResource = 10*mResMult;
     const eResourceType mResType;
     const eProvide mProvType;

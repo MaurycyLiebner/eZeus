@@ -2,7 +2,7 @@
 
 #include "characters/ewinevendorchar.h"
 
-eWineVendor::eWineVendor(const stdsptr<eCommonAgora>& agora,
+eWineVendor::eWineVendor(const stdsptr<eAgoraBase>& agora,
                          eGameBoard& board) :
     eVendor(board, agora,
             eResourceType::wine, eProvide::wine,

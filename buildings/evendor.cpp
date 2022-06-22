@@ -5,7 +5,7 @@
 #include "textures/egametextures.h"
 
 eVendor::eVendor(eGameBoard& board,
-                 const stdsptr<eCommonAgora>& agora,
+                 const stdsptr<eAgoraBase>& agora,
                  const eResourceType resType,
                  const eProvide provType,
                  const eBaseTex& baseTex,

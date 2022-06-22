@@ -2,7 +2,7 @@
 
 #include "characters/ehorsevendorchar.h"
 
-eHorseVendor::eHorseVendor(const stdsptr<eCommonAgora>& agora,
+eHorseVendor::eHorseVendor(const stdsptr<eAgoraBase>& agora,
                            eGameBoard& board) :
     eVendor(board, agora,
             eResourceType::horse, eProvide::horses,

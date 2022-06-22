@@ -5,7 +5,7 @@
 
 class eHorseVendor : public eVendor {
 public:
-    eHorseVendor(const stdsptr<eCommonAgora>& agora,
+    eHorseVendor(const stdsptr<eAgoraBase>& agora,
                  eGameBoard& board);
 };
 

@@ -17,6 +17,7 @@ LIBS += -lnoise
 
 SOURCES += \
         buildings/eaestheticsbuilding.cpp \
+        buildings/eagorabase.cpp \
         buildings/eagoraspace.cpp \
         buildings/eanimalbuilding.cpp \
         buildings/eappeal.cpp \
@@ -341,6 +342,7 @@ SOURCES += \
 
 HEADERS += \
     buildings/eaestheticsbuilding.h \
+    buildings/eagorabase.h \
     buildings/eagoraspace.h \
     buildings/eanimalbuilding.h \
     buildings/eappeal.h \

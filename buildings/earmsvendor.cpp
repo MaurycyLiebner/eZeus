@@ -2,7 +2,7 @@
 
 #include "characters/earmsvendorchar.h"
 
-eArmsVendor::eArmsVendor(const stdsptr<eCommonAgora>& agora,
+eArmsVendor::eArmsVendor(const stdsptr<eAgoraBase>& agora,
                          eGameBoard& board) :
     eVendor(board, agora,
             eResourceType::armor, eProvide::arms,

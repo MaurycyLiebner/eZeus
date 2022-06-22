@@ -411,7 +411,7 @@ bool buildVendor(eGameBoard& brd, const int tx, const int ty) {
     if(!ct) return false;
     if(ct->x() != tx || ct->y() != ty) return false;
     const auto agora = space->agora();
-    const auto agoraP = agora->ref<eCommonAgora>();
+    const auto agoraP = agora->ref<eAgoraBase>();
     const auto fv = e::make_shared<T>(agoraP, brd);
     agora->setBuilding(space, fv);
     return true;
