@@ -35,6 +35,8 @@ public:
     void setBuilding(eBuilding* const space, const stdsptr<eBuilding>& b);
 
     void fillSpaces();
+
+    void provide(eBuilding* const b);
 private:
     const int mNPts;
     std::vector<stdsptr<eBuilding>> mBs;

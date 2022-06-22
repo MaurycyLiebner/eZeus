@@ -26,6 +26,8 @@ public:
     }
     virtual bool canFight(eCharacter* const c);
 
+    virtual void provideToBuilding(eBuilding* const b);
+
     void incTime(const int by);
 
     void fight(eCharacter* const c);

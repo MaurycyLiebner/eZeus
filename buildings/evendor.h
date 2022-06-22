@@ -40,6 +40,10 @@ public:
     std::vector<eCartTask> cartTasks() const;
 
     eAgoraBase* agora() const { return mAgora.get(); }
+
+    eProvide provideType() const { return mProvType; }
+
+    int peddlerResource() const;
     int takeForPeddler(const int t);
 private:
     const int mResMult = 100;

@@ -21,6 +21,8 @@ enum class eCharacterType {
 
     grower,
 
+    peddler,
+
     foodVendor,
     fleeceVendor,
     oilVendor,

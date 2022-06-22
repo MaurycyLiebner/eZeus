@@ -164,6 +164,7 @@ SOURCES += \
         characters/emarbleminer.cpp \
         characters/eoilvendorchar.cpp \
         characters/eox.cpp \
+        characters/epeddler.cpp \
         characters/ephilosopher.cpp \
         characters/erangesoldier.cpp \
         characters/eresourcecollector.cpp \
@@ -491,6 +492,7 @@ HEADERS += \
     characters/emarbleminer.h \
     characters/eoilvendorchar.h \
     characters/eox.h \
+    characters/epeddler.h \
     characters/ephilosopher.h \
     characters/erangesoldier.h \
     characters/eresourcecollector.h \

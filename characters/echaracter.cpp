@@ -22,6 +22,11 @@ bool eCharacter::canFight(eCharacter* const c) {
     return true;
 }
 
+void eCharacter::provideToBuilding(eBuilding* const b) {
+    const int r = b->provide(mProvide, mProvideCount);
+    mProvideCount -= r;
+}
+
 void eCharacter::fight(eCharacter* const c) {
     const auto a = takeAction();
     a->pause();
@@ -64,8 +69,7 @@ void eCharacter::changeTile(eTile* const t) {
                 const auto tt = t->tileRel<eTile>(x, y);
                 if(!tt) continue;
                 if(const auto b = tt->underBuilding()) {
-                    const int r = b->provide(mProvide, mProvideCount);
-                    mProvideCount -= r;
+                    provideToBuilding(b);
                     if(mProvideCount <= 0) return;
                 }
             }

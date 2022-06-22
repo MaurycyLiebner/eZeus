@@ -4,6 +4,13 @@
 #include "ebuildingrenderer.h"
 #include "engine/egameboard.h"
 
+#include "efoodvendor.h"
+#include "efleecevendor.h"
+#include "eoilvendor.h"
+#include "ewinevendor.h"
+#include "earmsvendor.h"
+#include "ehorsevendor.h"
+
 eAgoraBase::eAgoraBase(eGameBoard& board,
                        const eBuildingType type,
                        const int sw, const int sh,
@@ -112,5 +119,27 @@ void eAgoraBase::fillSpaces() {
         const auto space = e::make_shared<eAgoraSpace>(
                                ref<eAgoraBase>(), brd);
         setBuilding(i, space);
+    }
+}
+
+void eAgoraBase::provide(eBuilding* const b) {
+    for(int i = 0; i < mNPts; i++) {
+        const auto fvb = building(i);
+        if(!fvb) continue;
+        const auto bt = fvb->type();
+        switch(bt) {
+        case eBuildingType::foodVendor:
+        case eBuildingType::fleeceVendor:
+        case eBuildingType::oilVendor:
+        case eBuildingType::armsVendor:
+        case eBuildingType::wineVendor:
+        case eBuildingType::horseTrainer: {
+            const auto fv = static_cast<eVendor*>(fvb);
+            const int r = fv->peddlerResource();
+            const int rr = b->provide(fv->provideType(), r);
+            fv->takeForPeddler(rr);
+        } break;
+        default: break;
+        }
     }
 }

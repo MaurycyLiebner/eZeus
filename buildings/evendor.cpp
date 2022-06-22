@@ -108,6 +108,10 @@ std::vector<eCartTask> eVendor::cartTasks() const {
     return {};
 }
 
+int eVendor::peddlerResource() const {
+    return mResource;
+}
+
 int eVendor::takeForPeddler(const int t) {
     const int tt = std::clamp(t, 0, mResource);
     mResource -= tt;

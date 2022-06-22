@@ -12,6 +12,9 @@ enum class eProvide {
     gymnast,
 
     water,
+
+    peddler,
+
     food,
     fleece,
     oil,
