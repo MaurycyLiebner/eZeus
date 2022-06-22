@@ -15,37 +15,35 @@ eVendor::eVendor(eGameBoard& board,
                  const double overlayX2,
                  const double overlayY2,
                  const eOverlays& overlayTex2,
-                 const eCharGenerator& charGen,
                  const eBuildingType type,
                  const int sw, const int sh,
                  const int maxEmployees) :
-    ePatrolBuilding(board,
-                    baseTex,
-                    0, 0, nullptr,
-                    [this]() { return vendorGenerator(); },
-                    type, sw, sh,
-                    maxEmployees),
+    eEmployingBuilding(board, type, sw, sh, maxEmployees),
     mAgora(agora),
     mResType(resType),
     mProvType(provType),
-    mCharGen(charGen),
+    mBaseTex(baseTex),
     mOverlayX(overlayX),
     mOverlayY(overlayY),
     mOverlayTex(overlayTex),
     mOverlayX2(overlayX2),
     mOverlayY2(overlayY2),
-    mOverlayTex2(overlayTex2) {
-
-}
+    mOverlayTex2(overlayTex2) {}
 
 eVendor::~eVendor() {
     if(mCart) mCart->kill();
 }
 
+std::shared_ptr<eTexture> eVendor::getTexture(const eTileSize size) const {
+    const int sizeId = static_cast<int>(size);
+    const auto& blds = eGameTextures::buildings();
+    return blds[sizeId].*mBaseTex;
+}
+
 std::vector<eOverlay> eVendor::getOverlays(const eTileSize size) const {
     if(mResource <= 0) return {};
 
-    auto os = ePatrolBuilding::getOverlays(size);
+    auto os = eEmployingBuilding::getOverlays(size);
     const int sizeId = static_cast<int>(size);
     const auto& texs = eGameTextures::buildings();
 
@@ -68,8 +66,8 @@ std::vector<eOverlay> eVendor::getOverlays(const eTileSize size) const {
 int eVendor::add(const eResourceType type, const int count) {
     if(!static_cast<bool>(type & mResType)) return 0;
 
-    const int r = std::clamp(count, 0, mMaxResource - mResource);
-    mResource += r;
+    const int r = std::clamp(count, 0, spaceLeft(type));
+    mResource += r*mResMult;
     return r;
 }
 
@@ -80,20 +78,20 @@ int eVendor::take(const eResourceType type, const int count) {
 }
 
 int eVendor::count(const eResourceType type) const {
-    if(type != mResType) return 0;
-    return mResource;
+    (void)type;
+    return 0;
 }
 
 int eVendor::spaceLeft(const eResourceType type) const {
     if(type != mResType) return 0;
-    return mMaxResource - mResource;
+    return (mMaxResource - mResource)/mResMult;
 }
 
 void eVendor::timeChanged(const int by) {
     if(enabled()) {
         if(!mCart) spawnCart(mCart, eCartActionTypeSupport::take);
     }
-    ePatrolBuilding::timeChanged(by);
+    eEmployingBuilding::timeChanged(by);
 }
 
 std::vector<eCartTask> eVendor::cartTasks() const {
@@ -110,18 +108,8 @@ std::vector<eCartTask> eVendor::cartTasks() const {
     return {};
 }
 
-stdsptr<eCharacter> eVendor::vendorGenerator() {
-    const int mult = 100;
-    if(mVendor) {
-        mResource += mVendor->provideCount()/mult;
-        mVendor.reset();
-    }
-    if(mResource <= 0) {
-        return nullptr;
-    }
-    mVendor = mCharGen();
-    const int take = std::max(mResource, 2);
-    mResource -= take;
-    mVendor->setProvide(mProvType, mult*take);
-    return mVendor;
+int eVendor::takeForPeddler(const int t) {
+    const int tt = std::clamp(t, 0, mResource);
+    mResource -= tt;
+    return tt;
 }

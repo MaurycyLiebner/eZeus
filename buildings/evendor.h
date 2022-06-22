@@ -5,8 +5,11 @@
 
 class eCommonAgora;
 
-class eVendor : public ePatrolBuilding {
+class eVendor : public eEmployingBuilding {
 public:
+    using eBaseTex = std::shared_ptr<eTexture> eBuildingTextures::*;
+    using eOverlays = eTextureCollection eBuildingTextures::*;
+    using eCharGenerator =  std::function<stdsptr<eCharacter>()>;
     eVendor(eGameBoard& board,
             const stdsptr<eCommonAgora>& agora,
             const eResourceType resType,
@@ -18,12 +21,12 @@ public:
             const double overlayX2,
             const double overlayY2,
             const eOverlays& overlayTex2,
-            const eCharGenerator& charGen,
             const eBuildingType type,
             const int sw, const int sh,
             const int maxEmployees);
     ~eVendor();
 
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
 
     void timeChanged(const int by);
@@ -36,15 +39,15 @@ public:
 
     std::vector<eCartTask> cartTasks() const;
 
-    stdsptr<eCharacter> vendorGenerator();
-
     eCommonAgora* agora() const { return mAgora.get(); }
+    int takeForPeddler(const int t);
 private:
+    const int mResMult = 100;
     const stdsptr<eCommonAgora> mAgora;
-    const int mMaxResource = 8;
+    const int mMaxResource = 10*mResMult;
     const eResourceType mResType;
     const eProvide mProvType;
-    const eCharGenerator mCharGen;
+    const eBaseTex mBaseTex;
     const double mOverlayX;
     const double mOverlayY;
     const eBaseTex mOverlayTex;
