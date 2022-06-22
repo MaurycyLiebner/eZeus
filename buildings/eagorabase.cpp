@@ -25,6 +25,45 @@ void eAgoraBase::erase() {
     eBuilding::erase();
 }
 
+SDL_Point eAgoraBase::pt(const int rx, const int ry,
+                         const eAgoraOrientation o,
+                         const int id) const {
+    int dx;
+    int dy;
+    int ddx;
+    int ddy;
+    switch(o) {
+    case eAgoraOrientation::bottomLeft:
+        dx = 0;
+        dy = 2;
+        ddx = 2;
+        ddy = 0;
+        break;
+    case eAgoraOrientation::topRight:
+        dx = 0;
+        dy = 1;
+        ddx = 2;
+        ddy = 0;
+        break;
+    case eAgoraOrientation::bottomRight:
+        dx = 1;
+        dy = 1;
+        ddx = 0;
+        ddy = 2;
+        break;
+    case eAgoraOrientation::topLeft:
+        dx = 0;
+        dy = 1;
+        ddx = 0;
+        ddy = 2;
+        break;
+    }
+
+    const int tx = rx + dx + id*ddx;
+    const int ty = ry + dy + id*ddy;
+    return {tx, ty};
+}
+
 eBuilding* eAgoraBase::building(const int id) const {
     return mBs[id].get();
 }

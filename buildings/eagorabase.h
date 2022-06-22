@@ -26,6 +26,10 @@ public:
 
     void erase();
 
+    SDL_Point pt(const int rx, const int ry,
+                 const eAgoraOrientation o,
+                 const int id) const;
+
     eBuilding* building(const int id) const;
     void setBuilding(const int id, const stdsptr<eBuilding>& b);
     void setBuilding(eBuilding* const space, const stdsptr<eBuilding>& b);

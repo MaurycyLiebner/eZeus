@@ -82,6 +82,7 @@
 #include "buildings/sanctuaries/etemplerenderer.h"
 
 #include "buildings/ecommonagora.h"
+#include "buildings/egrandagora.h"
 
 #include "characters/esheep.h"
 #include "characters/egoat.h"
@@ -529,6 +530,50 @@ bool eGameWidget::buildMouseRelease() {
             case eAgoraOrientation::bottomRight:
             case eAgoraOrientation::topLeft:
                 w = 3;
+                h = 6;
+                break;
+            }
+
+            b->setTileRect(SDL_Rect{x, y, w, h});
+
+            b->fillSpaces();
+
+            const auto diff = mBoard->difficulty();
+            const int cost = eDifficultyHelpers::buildingCost(diff, b->type());
+            mBoard->incDrachmas(-cost);
+        } break;
+        case eBuildingMode::grandAgora: {
+            const auto t = mBoard->tile(mHoverTX, mHoverTY);
+            if(!t) return false;
+            eAgoraOrientation bt;
+            const auto p = agoraBuildPlaceIter(t, true, bt);
+            if(p.empty()) return false;
+            const auto b = e::make_shared<eGrandAgora>(bt, *mBoard);
+            int x = __INT_MAX__;
+            int y = __INT_MAX__;
+            int w;
+            int h;
+            for(const auto t : p) {
+                const int tx = t->x();
+                const int ty = t->y();
+                if(tx < x) x = tx;
+                if(ty < y) y = ty;
+                b->addUnderBuilding(t);
+                if(t->hasRoad()) {
+                    const auto b = t->underBuilding();
+                    const auto r = static_cast<eRoad*>(b);
+                    r->setUnderAgora(true);
+                }
+            }
+            switch(bt) {
+            case eAgoraOrientation::bottomLeft:
+            case eAgoraOrientation::topRight:
+                w = 6;
+                h = 5;
+                break;
+            case eAgoraOrientation::bottomRight:
+            case eAgoraOrientation::topLeft:
+                w = 5;
                 h = 6;
                 break;
             }

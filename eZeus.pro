@@ -46,6 +46,7 @@ SOURCES += \
         buildings/egatehouse.cpp \
         buildings/egatehouserenderer.cpp \
         buildings/egranary.cpp \
+        buildings/egrandagora.cpp \
         buildings/egrowerslodge.cpp \
         buildings/egymnasium.cpp \
         buildings/ehorsevendor.cpp \
@@ -371,6 +372,7 @@ HEADERS += \
     buildings/egatehouse.h \
     buildings/egatehouserenderer.h \
     buildings/egranary.h \
+    buildings/egrandagora.h \
     buildings/egrowerslodge.h \
     buildings/egymnasium.h \
     buildings/ehorsevendor.h \
