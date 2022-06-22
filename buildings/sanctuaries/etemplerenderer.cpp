@@ -32,8 +32,8 @@ std::vector<eOverlay> eTempleRenderer::getOverlays(const eTileSize size) const {
         const auto& coll = blds.fSanctuaryHOverlay;
         o.fTex = coll.getTexture(tt % coll.size());
     } else {
-        o.fX = -0.45;
-        o.fY = -5.25;
+        o.fX = 1.45;
+        o.fY = -4.65;
         const auto& coll = blds.fSanctuaryWOverlay;
         o.fTex = coll.getTexture(tt % coll.size());
     }

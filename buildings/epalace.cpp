@@ -54,8 +54,8 @@ std::vector<eOverlay> ePalace::getOverlays2(const eTileSize size) const {
     } else {
         const auto& coll = texs.fPalaceWOverlay;
         eOverlay a0;
-        a0.fX = -1.0;
-        a0.fY = -4.5;
+        a0.fX = 1.15;
+        a0.fY = -3.25;
         const int ttt = tt % coll.size();
         a0.fTex = coll.getTexture(ttt);
         os.push_back(a0);
