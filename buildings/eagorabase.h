@@ -1,7 +1,8 @@
 #ifndef EAGORABASE_H
 #define EAGORABASE_H
 
-#include "buildings/ebuilding.h"
+#include "buildings/epatrolbuildingbase.h"
+#include "engine/eresourcetype.h"
 
 enum class eAgoraOrientation {
     bottomRight,
@@ -10,7 +11,7 @@ enum class eAgoraOrientation {
     topRight
 };
 
-class eAgoraBase : public eBuilding {
+class eAgoraBase : public ePatrolBuildingBase {
 public:
     eAgoraBase(eGameBoard& board,
                const eBuildingType type,
@@ -36,7 +37,8 @@ public:
 
     void fillSpaces();
 
-    void provide(eBuilding* const b);
+    void agoraProvide(eBuilding* const b);
+    int agoraCount(const eProvide r) const;
 private:
     const int mNPts;
     std::vector<stdsptr<eBuilding>> mBs;

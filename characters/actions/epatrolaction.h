@@ -8,12 +8,12 @@
 #include "buildings/ebuilding.h"
 #include "emovetoaction.h"
 
-class ePatrolBuilding;
+class ePatrolBuildingBase;
 
 class ePatrolAction : public eActionWithComeback {
 public:
     ePatrolAction(eCharacter* const c,
-                  ePatrolBuilding* const b,
+                  ePatrolBuildingBase* const b,
                   const std::vector<ePatrolGuide>& guides,
                   const eAction& failAction,
                   const eAction& finishAction);
@@ -25,7 +25,7 @@ protected:
                             eWalkableHelpers::sRoadWalkable);
 private:
     const std::vector<ePatrolGuide> mGuides;
-    ePatrolBuilding* const mBuilding;
+    ePatrolBuildingBase* const mBuilding;
 
     bool mDone = false;
 };

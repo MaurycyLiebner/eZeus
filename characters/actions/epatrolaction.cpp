@@ -6,7 +6,7 @@
 #include "buildings/epatrolbuilding.h"
 
 ePatrolAction::ePatrolAction(eCharacter* const c,
-                             ePatrolBuilding* const b,
+                             ePatrolBuildingBase* const b,
                              const std::vector<ePatrolGuide>& guides,
                              const eAction& failAction,
                              const eAction& finishAction) :

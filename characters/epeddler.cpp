@@ -5,9 +5,11 @@
 ePeddler::ePeddler(eGameBoard& board, eAgoraBase* const agora) :
     eBasicPatroler(board, &eCharacterTextures::fPeddler,
                    eCharacterType::peddler),
-    mAgora(agora) {}
+    mAgora(agora) {
+    setProvide(eProvide::peddler, 1000);
+}
 
 void ePeddler::provideToBuilding(eBuilding* const b) {
     if(!mAgora) return;
-    mAgora->provide(b);
+    mAgora->agoraProvide(b);
 }

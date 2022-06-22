@@ -509,6 +509,7 @@ bool eGameWidget::buildMouseRelease() {
             int y = __INT_MAX__;
             int w;
             int h;
+            int ri = 0;
             for(const auto t : p) {
                 const int tx = t->x();
                 const int ty = t->y();
@@ -516,9 +517,10 @@ bool eGameWidget::buildMouseRelease() {
                 if(ty < y) y = ty;
                 b->addUnderBuilding(t);
                 if(t->hasRoad()) {
-                    const auto b = t->underBuilding();
-                    const auto r = static_cast<eRoad*>(b);
+                    const auto bb = t->underBuilding();
+                    const auto r = static_cast<eRoad*>(bb);
                     r->setUnderAgora(true);
+                    if(ri++ == 3) b->setCenterTile(t);
                 }
             }
             switch(bt) {
@@ -553,6 +555,7 @@ bool eGameWidget::buildMouseRelease() {
             int y = __INT_MAX__;
             int w;
             int h;
+            int ri = 0;
             for(const auto t : p) {
                 const int tx = t->x();
                 const int ty = t->y();
@@ -560,9 +563,10 @@ bool eGameWidget::buildMouseRelease() {
                 if(ty < y) y = ty;
                 b->addUnderBuilding(t);
                 if(t->hasRoad()) {
-                    const auto b = t->underBuilding();
-                    const auto r = static_cast<eRoad*>(b);
+                    const auto bb = t->underBuilding();
+                    const auto r = static_cast<eRoad*>(bb);
                     r->setUnderAgora(true);
+                    if(ri++ == 3) b->setCenterTile(t);
                 }
             }
             switch(bt) {

@@ -62,6 +62,7 @@ SOURCES += \
         buildings/epalacerenderer.cpp \
         buildings/epark.cpp \
         buildings/epatrolbuilding.cpp \
+        buildings/epatrolbuildingbase.cpp \
         buildings/epatroltarget.cpp \
         buildings/epodium.cpp \
         buildings/eprocessingbuilding.cpp \
@@ -389,6 +390,7 @@ HEADERS += \
     buildings/epalacerenderer.h \
     buildings/epark.h \
     buildings/epatrolbuilding.h \
+    buildings/epatrolbuildingbase.h \
     buildings/epatroltarget.h \
     buildings/epodium.h \
     buildings/eprocessingbuilding.h \

@@ -14,25 +14,13 @@ ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
                                  const eBuildingType type,
                                  const int sw, const int sh,
                                  const int maxEmployees) :
-    eEmployingBuilding(board, type, sw, sh, maxEmployees),
-    mCharGenerator(charGen),
-    mActGenerator(actGen),
+    ePatrolBuildingBase(board, charGen, actGen, type, sw, sh, maxEmployees),
     mTextures(eGameTextures::buildings()),
     mBaseTex(baseTex), mOverlays(overlays),
     mOverlayX(overlayX), mOverlayY(overlayY) {
     setOverlayEnabledFunc([this]() {
-        return enabled() && mSpawnPatrolers;
+        return enabled() && spawnPatrolers();
     });
-}
-
-stdsptr<eCharacterAction> gDefaultActGenerator(
-           eCharacter* const c,
-           ePatrolBuilding* const b,
-           const std::vector<ePatrolGuide>& guides,
-           const eAction& failAction,
-           const eAction& finishActio) {
-    return e::make_shared<ePatrolAction>(
-                c, b, guides, failAction, finishActio);
 }
 
 ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
@@ -45,13 +33,9 @@ ePatrolBuilding::ePatrolBuilding(eGameBoard& board,
                                  const int sw, const int sh,
                                  const int maxEmployees) :
     ePatrolBuilding(board, baseTex, overlayX, overlayY,
-                    overlays, charGen, gDefaultActGenerator,
+                    overlays, charGen, sDefaultActGenerator,
                     type, sw, sh, maxEmployees) {
 
-}
-
-ePatrolBuilding::~ePatrolBuilding() {
-    if(mChar) mChar->kill();
 }
 
 std::shared_ptr<eTexture> ePatrolBuilding::getTexture(const eTileSize size) const {
@@ -69,55 +53,4 @@ std::vector<eOverlay> ePatrolBuilding::getOverlays(const eTileSize size) const {
     o.fX = mOverlayX;
     o.fY = mOverlayY;
     return std::vector<eOverlay>({o});
-}
-
-void ePatrolBuilding::timeChanged(const int by) {
-    const int t = time();
-    if(mSpawnPatrolers && enabled()) {
-        if(!mChar && t >= mSpawnTime) {
-            spawn();
-            mSpawnTime = t + mWaitTime;
-        }
-    }
-    eEmployingBuilding::timeChanged(by);
-}
-
-void ePatrolBuilding::setPatrolGuides(const ePatrolGuides &g) {
-    mPatrolGuides = g;
-}
-
-bool ePatrolBuilding::spawn() {
-    mChar = mCharGenerator();
-    if(!mChar) return false;
-    if(mPatrolGuides.empty()) {
-        auto dirs = gExtractDirections(eMoveDirection::allDirections);
-        std::random_shuffle(dirs.begin(), dirs.end());
-        eTile* t = nullptr;
-        for(const auto dir : dirs) {
-            t = road(dir);
-            if(t) break;
-        }
-        if(!t) return false;
-        mChar->changeTile(t);
-    } else {
-        mChar->changeTile(centerTile());
-    }
-    const eStdPointer<ePatrolBuilding> tptr(this);
-    const eStdPointer<eCharacter> cptr(mChar);
-    const auto finishAct = [tptr, this, cptr]() {
-        if(cptr) cptr->kill();
-        if(tptr) {
-            mSpawnTime = time() + mWaitTime;
-            mChar.reset();
-        }
-    };
-    const auto a = mActGenerator(mChar.get(), this,
-                                 mPatrolGuides,
-                                 finishAct, finishAct);
-    mChar->setAction(a);
-    return true;
-}
-
-void ePatrolBuilding::setSpawnPatrolers(const bool s) {
-    mSpawnPatrolers = s;
 }

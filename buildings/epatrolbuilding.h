@@ -1,22 +1,15 @@
 #ifndef EPATROLBUILDING_H
 #define EPATROLBUILDING_H
 
-#include "eemployingbuilding.h"
+#include "epatrolbuildingbase.h"
 
 #include "characters/actions/epatrolaction.h"
 #include "textures/ebuildingtextures.h"
 
-class ePatrolBuilding : public eEmployingBuilding {
+class ePatrolBuilding : public ePatrolBuildingBase {
 public:
     using eBaseTex = std::shared_ptr<eTexture> eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;
-    using eCharGenerator =  std::function<stdsptr<eCharacter>()>;
-    using eActGenerator =  std::function<stdsptr<eCharacterAction>(
-                                eCharacter* const c,
-                                ePatrolBuilding* const b,
-                                const std::vector<ePatrolGuide>& guides,
-                                const eAction& failAction,
-                                const eAction& finishAction)>;
     ePatrolBuilding(eGameBoard& board,
                     const eBaseTex baseTex,
                     const double overlayX,
@@ -37,24 +30,9 @@ public:
                     const int sw, const int sh,
                     const int maxEmployees);
 
-    ~ePatrolBuilding();
-
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
-
-    void timeChanged(const int by);
-
-    using ePatrolGuides = std::vector<ePatrolGuide>;
-    ePatrolGuides* patrolGuides() { return &mPatrolGuides; };
-    void setPatrolGuides(const ePatrolGuides& g);
-
-    bool spawn();
-
-    void setSpawnPatrolers(const bool s);
-    bool spawnPatrolers() const { return mSpawnPatrolers; }
 private:
-    const eCharGenerator mCharGenerator;
-    const eActGenerator mActGenerator;
     const std::vector<eBuildingTextures>& mTextures;
 
     const eBaseTex mBaseTex;
@@ -62,14 +40,6 @@ private:
 
     const double mOverlayX;
     const double mOverlayY;
-
-    bool mSpawnPatrolers = true;
-
-    int mWaitTime = 5000;
-    int mSpawnTime = 0;
-    stdsptr<eCharacter> mChar;
-
-    ePatrolGuides mPatrolGuides;
 };
 
 #endif // EPATROLBUILDING_H

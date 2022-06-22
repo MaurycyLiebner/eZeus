@@ -11,11 +11,15 @@
 #include "earmsvendor.h"
 #include "ehorsevendor.h"
 
+#include "characters/epeddler.h"
+
 eAgoraBase::eAgoraBase(eGameBoard& board,
                        const eBuildingType type,
                        const int sw, const int sh,
                        const int nPts) :
-    eBuilding(board, type, sw, sh),
+    ePatrolBuildingBase(board,
+                        [this]() { return e::make_shared<ePeddler>(getBoard(), this); },
+                        type, sw, sh, 0),
     mNPts(nPts) {
     for(int i = 0; i < mNPts; i++) {
         mBs.push_back(nullptr);
@@ -122,7 +126,11 @@ void eAgoraBase::fillSpaces() {
     }
 }
 
-void eAgoraBase::provide(eBuilding* const b) {
+void eAgoraBase::agoraProvide(eBuilding* const b) {
+    if(!b) return;
+    const auto bt = b->type();
+    if(bt != eBuildingType::commonHouse &&
+       bt != eBuildingType::eliteHousing) return;
     for(int i = 0; i < mNPts; i++) {
         const auto fvb = building(i);
         if(!fvb) continue;
@@ -136,10 +144,33 @@ void eAgoraBase::provide(eBuilding* const b) {
         case eBuildingType::horseTrainer: {
             const auto fv = static_cast<eVendor*>(fvb);
             const int r = fv->peddlerResource();
+            if(r <= 0) continue;
             const int rr = b->provide(fv->provideType(), r);
             fv->takeForPeddler(rr);
         } break;
         default: break;
         }
     }
+}
+
+int eAgoraBase::agoraCount(const eProvide r) const {
+    for(int i = 0; i < mNPts; i++) {
+        const auto fvb = building(i);
+        if(!fvb) continue;
+        const auto bt = fvb->type();
+        switch(bt) {
+        case eBuildingType::foodVendor:
+        case eBuildingType::fleeceVendor:
+        case eBuildingType::oilVendor:
+        case eBuildingType::armsVendor:
+        case eBuildingType::wineVendor:
+        case eBuildingType::horseTrainer: {
+            const auto fv = static_cast<eVendor*>(fvb);
+            if(fv->provideType() != r) continue;
+            return fv->peddlerResource();
+        } break;
+        default: break;
+        }
+    }
+    return 0;
 }
