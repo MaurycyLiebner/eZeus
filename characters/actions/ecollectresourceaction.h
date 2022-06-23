@@ -6,18 +6,19 @@
 #include "emovepathaction.h"
 #include "engine/emovedirection.h"
 #include "ecollectaction.h"
+#include "ewalkablehelpers.h"
 
 class eMovePathAction;
 
 class eResourceCollectorBase;
-class eResourceCollectBuilding;
+class eResourceCollectBuildingBase;
 
 class eCollectResourceAction : public eActionWithComeback {
 public:
     using eHasResource = std::function<bool(eTileBase*)>;
     using eTileAction = std::function<void(eTile*)>;
     using eTranformFunc = eTileAction;
-    eCollectResourceAction(eResourceCollectBuilding* const b,
+    eCollectResourceAction(eResourceCollectBuildingBase* const b,
                            eResourceCollectorBase* const c,
                            const eHasResource& hr,
                            const eTranformFunc& tf,
@@ -30,6 +31,12 @@ public:
 
     void setGetAtTile(const bool b) { mGetAtTile = b; }
     void setAddResource(const bool b) { mAddResource = b; }
+    void setWalkable(const eWalkable& w) { mWalkable = w; }
+
+    void setFinishOnce(const bool f) { mFinishOnce = f; }
+    void setWaitTime(const int w) { mWaitTime = w; }
+
+    void setDisabled(const bool d) { mDisabled = d; }
 private:
     bool findResourceDecision();
     bool collect(eTile* const tile);
@@ -38,9 +45,13 @@ private:
 
     const eHasResource mHasResource;
     const eTranformFunc mTransFunc;
-    eResourceCollectBuilding* const mBuilding;
+    eResourceCollectBuildingBase* const mBuilding;
     eResourceCollectorBase* const mCharacter;
     eTileAction mCollectedAction;
+    eWalkable mWalkable = eWalkableHelpers::sDefaultWalkable;
+
+    bool mDisabled = false;
+    int mWaitTime = 5000;
 
     bool mFinishOnce = true;
 

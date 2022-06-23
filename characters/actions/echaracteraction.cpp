@@ -11,6 +11,12 @@ eCharacterAction::eCharacterAction(eCharacter* const c,
 
 }
 
+eCharacterAction::~eCharacterAction() {
+    if(mState == eCharacterActionState::running) {
+        setState(eCharacterActionState::failed);
+    }
+}
+
 void eCharacterAction::pause() {
     mPauseType = mCharacter->actionType();
 }

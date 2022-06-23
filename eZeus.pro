@@ -70,6 +70,7 @@ SOURCES += \
         buildings/eresourcebuilding.cpp \
         buildings/eresourcebuildingbase.cpp \
         buildings/eresourcecollectbuilding.cpp \
+        buildings/eresourcecollectbuildingbase.cpp \
         buildings/eroad.cpp \
         buildings/eruins.cpp \
         buildings/esculpturestudio.cpp \
@@ -149,6 +150,7 @@ SOURCES += \
         characters/edonkey.cpp \
         characters/efightingpatroler.cpp \
         characters/efirefighter.cpp \
+        characters/efishingboat.cpp \
         characters/efleecevendorchar.cpp \
         characters/efoodvendorchar.cpp \
         characters/egoat.cpp \
@@ -399,6 +401,7 @@ HEADERS += \
     buildings/eresourcebuilding.h \
     buildings/eresourcebuildingbase.h \
     buildings/eresourcecollectbuilding.h \
+    buildings/eresourcecollectbuildingbase.h \
     buildings/eroad.h \
     buildings/eruins.h \
     buildings/esculpturestudio.h \
@@ -479,6 +482,7 @@ HEADERS += \
     characters/edonkey.h \
     characters/efightingpatroler.h \
     characters/efirefighter.h \
+    characters/efishingboat.h \
     characters/efleecevendorchar.h \
     characters/efoodvendorchar.h \
     characters/egoat.h \

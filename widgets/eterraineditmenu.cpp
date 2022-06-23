@@ -41,7 +41,12 @@ void eTerrainEditMenu::initialize() {
     w3->fitContent();
 
     const auto w4 = new eWidget(window());
-    const auto w5 = new eWidget(window());
+    const auto w5 = new eActionListWidget(window());
+    w5->setSmallFontSize();
+    w5->addAction("Fish", [this]() {
+        mMode = eTerrainEditMode::fish;
+    });
+    w5->fitContent();
 
     const auto w6 = new eActionListWidget(window());
     w6->setSmallFontSize();

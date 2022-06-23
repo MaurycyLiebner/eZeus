@@ -31,6 +31,7 @@ enum class eTerrainEditMode {
 
     boar,
     deer,
+    fish,
 
     fire,
 

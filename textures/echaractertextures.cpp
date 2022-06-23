@@ -426,6 +426,33 @@ void eCharacterTextures::load() {
 
     loadBasicTexture(fPhilosopher, 12128, texClass);
 
+    for(int j = 0; j < 8; j++) {
+        fFishingBoat.fSwim.emplace_back(fRenderer);
+    }
+
+    for(int i = 10797; i < 10860;) {
+        for(int j = 0; j < 8; j++, i += 2) {
+            texClass.load(i, fFishingBoat.fSwim[j]);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fFishingBoat.fCollect.emplace_back(fRenderer);
+        fFishingBoat.fDie.emplace_back(fRenderer);
+    }
+
+    for(int i = 10860; i < 10940;) {
+        for(int j = 0; j < 8; j++, i++) {
+            texClass.load(i, fFishingBoat.fCollect[j]);
+        }
+    }
+
+    for(int i = 10948; i < 11036;) {
+        for(int j = 0; j < 8; j++, i++) {
+            texClass.load(i, fFishingBoat.fDie[j]);
+        }
+    }
+
     {
         const std::string pathBase{dir + "PoseidonImps/PoseidonImps_"};
 

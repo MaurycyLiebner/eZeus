@@ -11,6 +11,14 @@ struct eBasicCharacterTextures {
     eTextureCollection fDie;
 };
 
+struct eFishingBoatTextures {
+    eFishingBoatTextures() {}
+
+    std::vector<eTextureCollection> fSwim;
+    std::vector<eTextureCollection> fCollect;
+    std::vector<eTextureCollection> fDie;
+};
+
 struct eResourceCollectorTextures : public eBasicCharacterTextures {
     using eBasicCharacterTextures::eBasicCharacterTextures;
 
@@ -195,6 +203,8 @@ public:
     eBasicCharacterTextures fDonkey;
 
     eBasicCharacterTextures fPorter;
+
+    eFishingBoatTextures fFishingBoat;
 };
 
 #endif // ECHARACTERTEXTURES_H

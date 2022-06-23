@@ -1360,6 +1360,15 @@ void eGameWidget::paintEvent(ePainter& p) {
                 drawBuildingModes();
             }
         }
+
+        if(tile->hasFish()) {
+            const auto& fh = builTexs.fFish;
+            const int t = mTime/30;
+            const auto tex = fh.getTexture(t % fh.size());
+            const auto a = eAlignment::right | eAlignment::top;
+            tp.drawTexture(rx + 1, ry, tex, a);
+        }
+
         drawCharacters();
         drawFire();
 
@@ -1374,7 +1383,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         drawMissiles();
 
         if(mLeftPressed && mMovedSincePress &&
-           mGm->mode() == eBuildingMode::none) {
+           mGm->visible() && mGm->mode() == eBuildingMode::none) {
             const int x = mPressedX > mHoverX ? mHoverX : mPressedX;
             const int y = mPressedY > mHoverY ? mHoverY : mPressedY;
             const int w = abs(mPressedX - mHoverX);

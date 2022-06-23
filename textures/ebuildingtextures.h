@@ -370,6 +370,8 @@ public:
 
     eTextureCollection fSanctuaryStairs;
     eTextureCollection fSanctuaryFire;
+
+    eTextureCollection fFish;
 };
 
 #endif // EBUILDINGTEXTURES_H

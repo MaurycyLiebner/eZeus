@@ -200,7 +200,9 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fSanctuaryWOverlay(renderer),
     fSanctuaryHOverlay(renderer),
     fSanctuaryStairs(renderer),
-    fSanctuaryFire(renderer) {
+    fSanctuaryFire(renderer),
+
+    fFish(renderer) {
 
 }
 
@@ -491,6 +493,10 @@ void eBuildingTextures::load() {
 
         for(int i = 269; i < 293; i++) {
             texClass.load(i, fWarehouseOverlay);
+        }
+
+        for(int i = 453; i < 493; i++) {
+            texClass.load(i, fFish);
         }
 
         for(int i = 656; i < 680; i++) {

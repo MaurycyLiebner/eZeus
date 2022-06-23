@@ -40,7 +40,7 @@ void eCollectAction::increment(const int by) {
         }
         mCharacter->incCollected(1);
         const bool noResLeft = mTile->resource() <= 0;
-        if(noResLeft) mTransFunc(mTile);
+        if(noResLeft && mTransFunc) mTransFunc(mTile);
         mTime = 0;
         setState(eCharacterActionState::finished);
     }

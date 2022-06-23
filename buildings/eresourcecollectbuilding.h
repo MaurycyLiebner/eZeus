@@ -1,13 +1,13 @@
 #ifndef ERESOURCECOLLECTBUILDING_H
 #define ERESOURCECOLLECTBUILDING_H
 
-#include "eresourcebuildingbase.h"
+#include "eresourcecollectbuildingbase.h"
 
 #include "textures/ebuildingtextures.h"
 
 class eResourceCollectorBase;
 
-class eResourceCollectBuilding : public eResourceBuildingBase {
+class eResourceCollectBuilding : public eResourceCollectBuildingBase {
 public:
     using eHasResource = std::function<bool(eTileBase*)>;
     using eTranformFunc = std::function<void(eTile*)>;
@@ -36,11 +36,11 @@ public:
 
     void timeChanged(const int by);
 
+    void addRaw();
+
     bool spawn();
 
     void setAddResource(const bool b) { mAddResource = b; }
-
-    void addRaw();
 protected:
     void enableSpawn() { mSpawnEnabled = true; }
     void disableSpawn() { mSpawnEnabled = false; }

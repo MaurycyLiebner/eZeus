@@ -460,6 +460,10 @@ bool eGameWidget::buildMouseRelease() {
                 if(os) delete os;
                 new eBoarSpawner(tile, *mBoard);
             };
+        } else if(mode == eTerrainEditMode::fish) {
+            apply = [](eTile* const tile) {
+                tile->setHasFish(!tile->hasFish());
+            };
         } else if(mode == eTerrainEditMode::deer) {
             apply = [this](eTile* const tile) {
                 const auto os = tile->spawner();

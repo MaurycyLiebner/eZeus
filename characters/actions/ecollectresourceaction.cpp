@@ -6,7 +6,7 @@
 #include "engine/egameboard.h"
 
 eCollectResourceAction::eCollectResourceAction(
-        eResourceCollectBuilding* const b,
+        eResourceCollectBuildingBase* const b,
         eResourceCollectorBase* const c,
         const eHasResource& hr,
         const eTranformFunc& tf,
@@ -22,10 +22,16 @@ bool eCollectResourceAction::decide() {
     const bool r = eActionWithComeback::decide();
     if(r) return r;
 
+    if(mDisabled) {
+        goBackDecision();
+        return true;
+    }
+
     const auto t = mCharacter->tile();
     const int coll = mCharacter->collected();
 
-    const bool inside = eWalkableHelpers::sTileUnderBuilding(t, mBuilding);
+    const bool inside = eWalkableHelpers::sTileUnderBuilding(t, mBuilding) ||
+                        t == startTile();
 
     if(coll > 0) {
         if(inside) {
@@ -95,8 +101,9 @@ bool eCollectResourceAction::findResourceDecision() {
     const stdptr<eCollectResourceAction> tptr(this);
 
     const auto hr = mHasResource;
-    const auto tileWalkable = [hr](eTileBase* const t) {
-        return t->walkable() || hr(t);
+    const auto w = mWalkable;
+    const auto tileWalkable = [hr, w](eTileBase* const t) {
+        return w(t) || hr(t);
     };
 
     const auto hubr = [hr](eTileBase* const t) {
@@ -151,13 +158,14 @@ void eCollectResourceAction::goBackDecision() {
     } else {
         mCharacter->setActionType(eCharacterActionType::walk);
     }
+    const auto w = mWalkable;
     const auto hr = mHasResource;
-    goBack(mBuilding, [hr](eTileBase* const t) {
-        return eWalkableHelpers::sDefaultWalkable(t) || hr(t);
+    goBack(mBuilding, [hr, w](eTileBase* const t) {
+        return w(t) || hr(t);
     });
 }
 
 void eCollectResourceAction::waitDecision() {
-    wait(5000);
+    wait(mWaitTime);
 }
 

@@ -30,6 +30,8 @@ protected:
                 const eWalkable& walkable);
     void goBack(const SDL_Rect& rect,
                 const eWalkable& walkable);
+
+    eTile* startTile() const { return mStartTile; }
 private:
     void teleportDecision();
 

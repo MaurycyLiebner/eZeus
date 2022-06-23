@@ -19,7 +19,7 @@ public:
     eCharacterAction(eCharacter* const c,
                      const eAction& failAction,
                      const eAction& finishAction);
-    virtual ~eCharacterAction() {}
+    virtual ~eCharacterAction();
 
     virtual void increment(const int by) = 0;
     virtual void pause();

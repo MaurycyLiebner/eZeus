@@ -91,6 +91,9 @@ public:
     bool walkableElev() const { return mWalkableElev; }
     void setWalkableElev(const bool w);
 
+    bool hasFish() const { return mHasFish; }
+    void setHasFish(const bool f) { mHasFish = f; }
+
     int resource() const { return mResource; }
     void decResource(const int by);
     void setResource(const int r);
@@ -111,6 +114,8 @@ private:
 
     int mX;
     int mY;
+
+    bool mHasFish{false};
 
     bool mWalkableElev{false};
 
