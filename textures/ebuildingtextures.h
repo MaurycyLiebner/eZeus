@@ -90,6 +90,11 @@ public:
     eTextureCollection fFishery;
     eTextureCollection fFisheryBoatBuildingW;
     eTextureCollection fFisheryBoatBuildingH;
+    std::vector<eTextureCollection> fFisheryOverlay;
+    eTextureCollection fFisheryUnpackingOverlayTL;
+    eTextureCollection fFisheryUnpackingOverlayTR;
+    eTextureCollection fFisheryUnpackingOverlayBL;
+    eTextureCollection fFisheryUnpackingOverlayBR;
     eTextureCollection fUrchinQuay;
 
     std::shared_ptr<eTexture> fCardingShed;

@@ -36,7 +36,8 @@ std::shared_ptr<eTexture> eFishery::getTexture(const eTileSize size) const {
 std::vector<eOverlay> eFishery::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
-    if(mBuildingBoat) {
+    switch(mState) {
+    case eFisheryState::buildingBoat: {
         eOverlay o;
         const eTextureCollection* coll;
         switch(mO) {
@@ -66,6 +67,69 @@ std::vector<eOverlay> eFishery::getOverlays(const eTileSize size) const {
         const int texId = textureTime() % coll->size();
         o.fTex = coll->getTexture(texId);
         return {o};
+    } break;
+    case eFisheryState::waiting: {
+        eOverlay o;
+        const eTextureCollection* coll;
+        switch(mO) {
+        case eOrientation::topRight:
+            coll = &blds.fFisheryOverlay[0];
+            o.fX = 0.2;
+            o.fY = -2.0;
+            break;
+        case eOrientation::bottomLeft:
+            coll = &blds.fFisheryOverlay[4];
+            o.fX = -0.3;
+            o.fY = -2.38;
+            break;
+        default:
+        case eOrientation::topLeft:
+            coll = &blds.fFisheryOverlay[6];
+            o.fX = 0.25;
+            o.fY = -2.2;
+            break;
+        case eOrientation::bottomRight:
+            coll = &blds.fFisheryOverlay[2];
+            o.fX = -0.25;
+            o.fY = -1.9;
+            break;
+        }
+
+        const int texId = textureTime() % coll->size();
+        o.fTex = coll->getTexture(texId);
+        return {o};
+    } break;
+    case eFisheryState::unpacking: {
+        eOverlay o;
+        const eTextureCollection* coll;
+        switch(mO) {
+        case eOrientation::topRight:
+            coll = &blds.fFisheryUnpackingOverlayTR;
+            o.fX = -0.3;
+            o.fY = -2.95;
+            break;
+        case eOrientation::bottomLeft:
+            coll = &blds.fFisheryUnpackingOverlayBL;
+            o.fX = -0.35;
+            o.fY = -1.75;
+            break;
+        default:
+        case eOrientation::topLeft:
+            coll = &blds.fFisheryUnpackingOverlayTL;
+            o.fX = -0.75;
+            o.fY = -2.3;
+            break;
+        case eOrientation::bottomRight:
+            coll = &blds.fFisheryUnpackingOverlayBR;
+            o.fX = 0.20;
+            o.fY = -2.3;
+            break;
+        }
+
+        const int texId = textureTime() % coll->size();
+        o.fTex = coll->getTexture(texId);
+        return {o};
+    } break;
     }
     return {};
 }

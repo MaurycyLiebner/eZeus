@@ -49,6 +49,10 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fFishery(renderer),
     fFisheryBoatBuildingW(renderer),
     fFisheryBoatBuildingH(renderer),
+    fFisheryUnpackingOverlayTL(renderer),
+    fFisheryUnpackingOverlayTR(renderer),
+    fFisheryUnpackingOverlayBL(renderer),
+    fFisheryUnpackingOverlayBR(renderer),
     fUrchinQuay(renderer),
     fCardingShedOverlay(renderer),
     fDairyOverlay(renderer),
@@ -499,6 +503,39 @@ void eBuildingTextures::load() {
 
         for(int i = 992; i < 1002; i++) {
             texClass.load(i, fFisheryBoatBuildingH);
+        }
+
+        for(int j = 0; j < 8; j++) {
+            fFisheryOverlay.emplace_back(fRenderer);
+        }
+
+        for(int i = 2117; i < 2213;) {
+            for(int j = 0; j < 8; j++, i++) {
+                if(j > 3 && j < 7) continue;
+                texClass.load(i, fFisheryOverlay[j]);
+            }
+        }
+        for(int i = 2117; i < 2213;) {
+            for(int j = 0; j < 8; j++, i++) {
+                if(j > 3 && j < 7) continue;
+                texClass.load(i, fFisheryOverlay[j]);
+            }
+        }
+
+        for(int i = 890; i < 910; i++) {
+            texClass.load(i, fFisheryUnpackingOverlayTL);
+        }
+
+        for(int i = 910; i < 930; i++) {
+            texClass.load(i, fFisheryUnpackingOverlayTR);
+        }
+
+        for(int i = 930; i < 950; i++) {
+            texClass.load(i, fFisheryUnpackingOverlayBL);
+        }
+
+        for(int i = 950; i < 970; i++) {
+            texClass.load(i, fFisheryUnpackingOverlayBR);
         }
 
         for(int i = 1492; i < 1510; i++) {
@@ -1108,4 +1145,8 @@ void eBuildingTextures::load() {
     };
     generateFlipped(fPalaceHOverlay, fPalaceWOverlay);
     generateFlipped(fSanctuaryHOverlay, fSanctuaryWOverlay);
+
+    generateFlipped(fFisheryOverlay[0], fFisheryOverlay[6]);
+    generateFlipped(fFisheryOverlay[1], fFisheryOverlay[5]);
+    generateFlipped(fFisheryOverlay[2], fFisheryOverlay[4]);
 }

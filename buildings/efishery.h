@@ -3,6 +3,12 @@
 
 #include "eresourcebuildingbase.h"
 
+enum class eFisheryState {
+    buildingBoat,
+    waiting,
+    unpacking
+};
+
 class eFishery : public eResourceBuildingBase {
 public:
     eFishery(eGameBoard& board, const eOrientation o);
@@ -12,7 +18,7 @@ public:
 private:
     const eOrientation mO;
 
-    bool mBuildingBoat = true;
+    eFisheryState mState = eFisheryState::buildingBoat;
 };
 
 #endif // EFISHERY_H
