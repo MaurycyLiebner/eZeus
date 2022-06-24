@@ -26,6 +26,7 @@
 #include "buildings/eresourcebuilding.h"
 #include "buildings/ehuntinglodge.h"
 #include "buildings/efishery.h"
+#include "buildings/epier.h"
 #include "buildings/emaintenanceoffice.h"
 
 #include "buildings/egranary.h"
@@ -842,6 +843,59 @@ bool eGameWidget::buildMouseRelease() {
                         }
                     }
                 }
+            }
+        }; break;
+
+
+        case eBuildingMode::pier: {
+            eOrientation o;
+            const bool c = canBuildPier(mHoverTX, mHoverTY, o);
+            if(c) {
+                const auto b = e::make_shared<ePier>(*mBoard, o);
+                const auto tile = mBoard->tile(mHoverTX, mHoverTY);
+                const auto rend = e::make_shared<eBuildingRenderer>(b);
+                tile->setBuilding(rend);
+                b->setCenterTile(tile);
+
+                const int minY = mHoverTY - 1;
+                b->setTileRect({mHoverTX, minY, 2, 2});
+                for(int x = mHoverTX; x < mHoverTX + 2; x++) {
+                    for(int y = minY; y < minY + 2; y++) {
+                        const auto t = mBoard->tile(x, y);
+                        if(t) {
+                            t->setUnderBuilding(b);
+                            b->addUnderBuilding(t);
+                        }
+                    }
+                }
+                int tx = mHoverTX;
+                int ty = mHoverTY;
+
+                switch(o) {
+                case eOrientation::topRight: {
+                    ty += 3;
+                } break;
+                case eOrientation::bottomRight: {
+                    tx -= 3;
+                } break;
+                case eOrientation::bottomLeft: {
+                    ty -= 3;
+                } break;
+                default:
+                case eOrientation::topLeft: {
+                    tx += 3;
+                } break;
+                }
+                const int ctid = mGm->cityId();
+                const auto cts = wrld.cities();
+                const auto ct = cts[ctid];
+                const auto tp = e::make_shared<eTradePost>(
+                                    *mBoard, *ct, eTradePostType::pier);
+                tp->setUnpackBuilding(b.get());
+                tp->setWalkable([](eTileBase* const t) {
+                    return t->terrain() == eTerrain::water;
+                });
+                build(tx, ty, 4, 4, [&]() { return tp; });
             }
         }; break;
 

@@ -354,9 +354,15 @@ void eGameMenu::initialize(eGameBoard* const b) {
         int i = 0;
         for(const auto& c : wrld.cities()) {
             if(!c->buys().empty() || !c->sells().empty()) {
-                const auto name = eLanguage::text("trading_post") + c->name();
-                const eSPR s{eBuildingMode::tradePost, name, 0, i};
-                cs.push_back(s);
+                if(c->waterTrade()) {
+                    const auto name = eLanguage::text("pier") + c->name();
+                    const eSPR s{eBuildingMode::pier, name, 0, i};
+                    cs.push_back(s);
+                } else {
+                    const auto name = eLanguage::text("trading_post") + c->name();
+                    const eSPR s{eBuildingMode::tradePost, name, 0, i};
+                    cs.push_back(s);
+                }
             }
             i++;
         }

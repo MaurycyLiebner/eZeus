@@ -91,6 +91,8 @@ private:
     bool canBuildVendor(const int tx, const int ty);
     bool canBuildFishery(const int tx, const int ty,
                          eOrientation& o);
+    bool canBuildPier(const int tx, const int ty,
+                      eOrientation& o);
 
     bool build(const int tx, const int ty,
                const int sw, const int sh,

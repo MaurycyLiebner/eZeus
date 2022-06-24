@@ -53,6 +53,7 @@ enum class eBuildingType {
     warehouse,
 
     tradePost,
+    pier,
 
     commonAgora,
     grandAgora,

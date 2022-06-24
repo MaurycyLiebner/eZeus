@@ -59,6 +59,7 @@ enum class eBuildingMode {
     warehouse,
 
     tradePost,
+    pier,
 
     commonAgora,
     grandAgora,

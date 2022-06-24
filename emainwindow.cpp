@@ -247,6 +247,7 @@ void eMainWindow::showGame() {
         wb.addCity(c1);
 
         const auto c2 = eWorldCity::sCreateTroy();
+        c2->setWaterTrade(true);
         c2->addBuys(eResourceTrade{eResourceType::armor, 0, 12, 120});
         c2->addBuys(eResourceTrade{eResourceType::wheat, 0, 12, 80});
         c2->addSells(eResourceTrade{eResourceType::sculpture, 0, 12, 200});

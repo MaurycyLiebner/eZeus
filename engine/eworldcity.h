@@ -126,6 +126,9 @@ public:
     int wealth() const { return mWealth; }
     void setWealth(const int w) { mWealth = w; }
 
+    void setWaterTrade(const bool w) { mWaterTrade = w; }
+    bool waterTrade() const { return mWaterTrade; }
+
     const std::vector<eResourceTrade>& buys() const
     { return mBuys; }
     std::vector<eResourceTrade>& buys()
@@ -167,6 +170,8 @@ public:
 private:
     int mArmy = 0;
     int mWealth = 0;
+
+    bool mWaterTrade = false;
 
     std::vector<eResourceTrade> mBuys;
     std::vector<eResourceTrade> mSells;

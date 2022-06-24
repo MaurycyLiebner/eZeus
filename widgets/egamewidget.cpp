@@ -37,6 +37,7 @@
 #include "buildings/eresourcebuilding.h"
 #include "buildings/ehuntinglodge.h"
 #include "buildings/efishery.h"
+#include "buildings/epier.h"
 #include "buildings/emaintenanceoffice.h"
 
 #include "buildings/egranary.h"
@@ -615,6 +616,35 @@ bool eGameWidget::canBuildFishery(const int tx, const int ty,
         return true;
     }
     return false;
+}
+
+bool eGameWidget::canBuildPier(const int tx, const int ty,
+                               eOrientation& o) {
+    const bool r = canBuildFishery(tx, ty, o);
+    if(!r) return false;
+    switch(o) {
+    case eOrientation::topRight: {
+        const int minX = tx - 1;
+        const int minY = ty + 1;
+        return canBuildBase(minX, minX + 4, minY, minY + 4);
+    } break;
+    case eOrientation::bottomRight: {
+        const int minX = tx - 4;
+        const int minY = ty - 2;
+        return canBuildBase(minX, minX + 4, minY, minY + 4);
+    } break;
+    case eOrientation::bottomLeft: {
+        const int minX = tx - 1;
+        const int minY = ty - 5;
+        return canBuildBase(minX, minX + 4, minY, minY + 4);
+    } break;
+    default:
+    case eOrientation::topLeft: {
+        const int minX = tx + 2;
+        const int minY = ty - 2;
+        return canBuildBase(minX, minX + 4, minY, minY + 4);
+    } break;
+    }
 }
 
 bool eGameWidget::erase(eTile* const tile) {
@@ -1806,6 +1836,14 @@ void eGameWidget::paintEvent(ePainter& p) {
                 return canBuildFishery(tx, ty, o);
             };
         } break;
+        case eBuildingMode::pier: {
+            canBuildFunc = [&](const int tx, const int ty,
+                               const int sw, const int sh) {
+                if(sw > 2 || sh > 2) return true;
+                eOrientation o;
+                return canBuildPier(tx, ty, o);
+            };
+        } break;
         case eBuildingMode::foodVendor:
         case eBuildingMode::fleeceVendor:
         case eBuildingMode::oilVendor:
@@ -1981,6 +2019,46 @@ void eGameWidget::paintEvent(ePainter& p) {
             canBuildFishery(mHoverTX, mHoverTY, o);
             const auto b1 = e::make_shared<eFishery>(*mBoard, o);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
+
+        case eBuildingMode::pier: {
+            eOrientation o = eOrientation::topRight;
+            canBuildFishery(mHoverTX, mHoverTY, o);
+            const auto b1 = e::make_shared<ePier>(*mBoard, o);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+            const int ctid = mGm->cityId();
+            const auto cts = wrld.cities();
+            const auto ct = cts[ctid];
+            const auto b2 = e::make_shared<eTradePost>(
+                                *mBoard, *ct, eTradePostType::pier);
+            int tx = mHoverTX;
+            int ty = mHoverTY;
+            switch(o) {
+            case eOrientation::topRight: {
+                ty += 3;
+            } break;
+            case eOrientation::bottomRight: {
+                tx -= 3;
+            } break;
+            case eOrientation::bottomLeft: {
+                ty -= 3;
+            } break;
+            default:
+            case eOrientation::topLeft: {
+                tx += 3;
+            } break;
+            }
+            switch(o) {
+            case eOrientation::bottomRight:
+            case eOrientation::bottomLeft:
+                ebs.insert(ebs.begin(), eB{tx, ty, b2});
+                break;
+            default:
+            case eOrientation::topRight:
+            case eOrientation::topLeft:
+                ebs.emplace_back(tx, ty, b2);
+                break;
+            }
         } break;
 
         case eBuildingMode::wheatFarm: {

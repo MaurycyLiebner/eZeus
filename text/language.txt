@@ -253,6 +253,7 @@ arms_vendor "Arms Vendor"
 horse_trainer "Horse Trainer"
 
 trading_post "Trading Post: "
+pier "Pier: "
 
 podium "Podium"
 college "College"

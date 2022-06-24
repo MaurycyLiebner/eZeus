@@ -98,6 +98,8 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
 
     case eBuildingMode::tradePost:
         return eBuildingType::tradePost;
+    case eBuildingMode::pier:
+        return eBuildingType::pier;
 
     case eBuildingMode::foodVendor:
         return eBuildingType::foodVendor;
