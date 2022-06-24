@@ -809,6 +809,7 @@ void eBuildingTextures::load() {
         }
 
         fPier2 = texClass.load(25);
+        fPier2->setOffset(-88, 90);
 
         fTradingPost = texClass.load(27);
         fTradingPost->setOffset(-88, 90);

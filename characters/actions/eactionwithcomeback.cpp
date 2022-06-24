@@ -29,7 +29,7 @@ bool eActionWithComeback::decide() {
 void eActionWithComeback::goBack(const eWalkable& walkable) {
     const auto c = character();
     const auto ct = c->tile();
-    if(ct == mStartTile) return;
+    if(ct == mStartTile) return teleportDecision();
 
     const int startX = mStartTile->x();
     const int startY = mStartTile->y();

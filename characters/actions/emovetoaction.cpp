@@ -83,16 +83,21 @@ void eMoveToAction::start(eTile* const final,
     start(finalFunc, walkable);
 }
 
-void eMoveToAction::start(eBuilding* const final,
+void eMoveToAction::start(const SDL_Rect& rect,
                           const eTileWalkable& walkable) {
-    const auto rect = final->tileRect();
     const auto finalFunc = [rect](eTileBase* const t) {
         const SDL_Point p{t->x(), t->y()};
         return SDL_PointInRect(&p, &rect);
     };
     const auto walkable2 = eWalkableHelpers::sBuildingWalkable(
-                              final, walkable);
+                              rect, walkable);
     start(finalFunc, walkable2);
+}
+
+void eMoveToAction::start(eBuilding* const final,
+                          const eTileWalkable& walkable) {
+    const auto rect = final->tileRect();
+    return start(rect, walkable);
 }
 
 void eMoveToAction::start(const eBuildingType final,

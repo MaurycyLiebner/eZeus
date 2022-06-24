@@ -10,10 +10,11 @@
 #include "characters/etrader.h"
 #include "characters/actions/etraderaction.h"
 
-eTradePost::eTradePost(eGameBoard& board, eWorldCity& city) :
+eTradePost::eTradePost(eGameBoard& board, eWorldCity& city,
+                       const eTradePostType type) :
     eWarehouseBase(board, eBuildingType::tradePost, 4, 4, 24,
-                   eResourceType::warehouse, 15),
-    mCity(city) {
+                   eResourceType::tradePost, 15),
+    mCity(city), mType(type) {
     setOverlayEnabledFunc([]() { return true; });
     setOrders(eResourceType::none, eResourceType::none);
     getBoard().registerTradePost(this);
@@ -26,7 +27,14 @@ eTradePost::~eTradePost() {
 std::shared_ptr<eTexture> eTradePost::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings();
-    return blds[sizeId].fTradingPost;
+    const auto& coll = blds[sizeId];
+    switch(mType) {
+    case eTradePostType::post:
+        return coll.fTradingPost;
+    default:
+        return coll.fPier2;
+    }
+
 }
 
 std::vector<eOverlay> eTradePost::getOverlays(const eTileSize size) const {
@@ -39,8 +47,16 @@ std::vector<eOverlay> eTradePost::getOverlays(const eTileSize size) const {
         const int texId = textureTime() % coll.size();
         auto& o = os.emplace_back();
         o.fTex = coll.getTexture(texId);
-        o.fX = -3.1;
-        o.fY = -7.2;
+        switch(mType) {
+        case eTradePostType::post:
+            o.fX = -3.1;
+            o.fY = -7.2;
+            break;
+        default:
+            o.fX = -1.75;
+            o.fY = -5.85;
+            break;
+        }
     }
     const eXY xy = {{-1.5, -3.5},
                     {-1.5, -2.5},
@@ -95,9 +111,9 @@ void eTradePost::updateRouteStart() {
     auto& tp = brd.threadPool();
 
     const auto walkable = eWalkableHelpers::sBuildingWalkable(
-                              this, eWalkableHelpers::sDefaultWalkable);
+                              mUnpackBuilding, mWalkable);
 
-    const auto t = centerTile();
+    const auto t = mUnpackBuilding->centerTile();
     const int tx = t->x();
     const int ty = t->y();
 
@@ -107,11 +123,12 @@ void eTradePost::updateRouteStart() {
 
     const auto finalTile = std::make_shared<std::pair<int, int>>();
 
-    const auto final = [tx, ty, finalTile](eTileBase* const t) {
+    const auto final = [tx, ty, finalTile, walkable](eTileBase* const t) {
         const int dx = tx - t->x();
         const int dy = ty - t->y();
         const int dist = sqrt(dx*dx + dy*dy);
         if(dist < 40) return false;
+        if(!walkable(t)) return false;
         *finalTile = {t->x(), t->y()};
         if(!t->topRight()) return true;
         if(!t->bottomRight()) return true;
@@ -128,6 +145,7 @@ void eTradePost::updateRouteStart() {
         const int tx = finalTile->first;
         const int ty = finalTile->second;
         mRouteStart = getBoard().tile(tx, ty);
+        spawnTrader();
     };
 
     const auto findFailFunc = [tptr, this]() {
@@ -153,6 +171,9 @@ void eTradePost::spawnTrader() {
     const auto ta = e::make_shared<eTraderAction>(r.get(), [](){}, [](){});
     ta->setFinishOnComeback(true);
     ta->setTradePost(this);
+    ta->setUnpackBuilding(mUnpackBuilding);
+    ta->setWalkable(eWalkableHelpers::sBuildingWalkable(
+                        mUnpackBuilding, mWalkable));
     r->setAction(ta);
 }
 
@@ -192,4 +213,12 @@ int eTradePost::sell(const int items) {
     auto& brd = getBoard();
     brd.incDrachmas(-earned);
     return earned;
+}
+
+void eTradePost::setWalkable(const eWalkable& w) {
+    mWalkable = w;
+}
+
+void eTradePost::setUnpackBuilding(eBuilding* const b) {
+    mUnpackBuilding = b;
 }

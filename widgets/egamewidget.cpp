@@ -2613,6 +2613,7 @@ void eGameWidget::setDY(const int dy) {
 }
 
 void eGameWidget::clampViewBox() {
+    return;
     const int w = mBoard->width();
     const int ww = width() - mGm->width();
     mDX = std::min(0, mDX);

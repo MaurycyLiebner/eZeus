@@ -37,6 +37,7 @@ enum class eResourceType {
 
     all = (1 << 19) - 1,
     warehouse = (all & ~food & ~silver) | wheat,
+    tradePost = all & ~silver,
 
     horse = 1 << 20,
 };

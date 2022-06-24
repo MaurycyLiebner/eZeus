@@ -12,10 +12,21 @@ struct eBasicCharacterTextures {
 };
 
 struct eFishingBoatTextures {
-    eFishingBoatTextures() {}
+    eFishingBoatTextures(SDL_Renderer* const renderer) :
+        fStand(renderer) {}
 
+    eTextureCollection fStand;
     std::vector<eTextureCollection> fSwim;
     std::vector<eTextureCollection> fCollect;
+    std::vector<eTextureCollection> fDie;
+};
+
+struct eTradeBoatTextures {
+    eTradeBoatTextures(SDL_Renderer* const renderer) :
+        fStand(renderer) {}
+
+    eTextureCollection fStand;
+    std::vector<eTextureCollection> fSwim;
     std::vector<eTextureCollection> fDie;
 };
 
@@ -205,6 +216,7 @@ public:
     eBasicCharacterTextures fPorter;
 
     eFishingBoatTextures fFishingBoat;
+    eTradeBoatTextures fTradeBoat;
 };
 
 #endif // ECHARACTERTEXTURES_H

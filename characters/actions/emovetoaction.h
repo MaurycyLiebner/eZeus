@@ -19,6 +19,9 @@ public:
     void start(eTile* const final,
                const eTileWalkable& walkable =
                     eWalkableHelpers::sDefaultWalkable);
+    void start(const SDL_Rect& rect,
+               const eTileWalkable& walkable =
+                    eWalkableHelpers::sDefaultWalkable);
     void start(eBuilding* const final,
                const eTileWalkable& walkable =
                     eWalkableHelpers::sDefaultWalkable);

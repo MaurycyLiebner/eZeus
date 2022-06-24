@@ -183,6 +183,7 @@ SOURCES += \
         characters/esoldier.cpp \
         characters/esoldierbanner.cpp \
         characters/etaxcollector.cpp \
+        characters/etradeboat.cpp \
         characters/etrader.cpp \
         characters/etrailer.cpp \
         characters/ewatchman.cpp \
@@ -515,6 +516,7 @@ HEADERS += \
     characters/esoldier.h \
     characters/esoldierbanner.h \
     characters/etaxcollector.h \
+    characters/etradeboat.h \
     characters/etrader.h \
     characters/etrailer.h \
     characters/ewatchman.h \

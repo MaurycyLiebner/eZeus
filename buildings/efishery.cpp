@@ -223,7 +223,6 @@ void eFishery::spawnBoat() {
 
     const auto finishAct = []() {};
     const auto hasRes = [](eTileBase* const tile) {
-        if(tile->hasFish()) SDL_Log("found!");
         return tile->hasFish();
     };
     const auto a = e::make_shared<eCollectResourceAction>(

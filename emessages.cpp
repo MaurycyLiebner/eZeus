@@ -1,7 +1,6 @@
 #include "emessages.h"
 
 #include <fstream>
-#include <SDL2/SDL_log.h>
 
 #include "egamedir.h"
 

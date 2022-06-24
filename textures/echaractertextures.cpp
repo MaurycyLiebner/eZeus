@@ -90,7 +90,11 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fTrader(renderer),
     fDonkey(renderer),
 
-    fPorter(renderer) {
+    fPorter(renderer),
+
+    fFishingBoat(renderer),
+
+    fTradeBoat(renderer) {
 
 }
 
@@ -447,10 +451,39 @@ void eCharacterTextures::load() {
         }
     }
 
+    for(int i = 10940; i < 10948; i++) {
+        texClass.load(i, fFishingBoat.fStand);
+    }
+
     for(int i = 10948; i < 11036;) {
         for(int j = 0; j < 8; j++, i++) {
             texClass.load(i, fFishingBoat.fDie[j]);
         }
+    }
+
+
+    for(int j = 0; j < 8; j++) {
+        fTradeBoat.fSwim.emplace_back(fRenderer);
+    }
+
+    for(int i = 10420; i < 10484;) {
+        for(int j = 0; j < 8; j++, i += 2) {
+            texClass.load(i, fTradeBoat.fSwim[j]);
+        }
+    }
+
+    for(int j = 0; j < 8; j++) {
+        fTradeBoat.fDie.emplace_back(fRenderer);
+    }
+
+    for(int i = 10484; i < 10564;) {
+        for(int j = 0; j < 8; j++, i++) {
+            texClass.load(i, fTradeBoat.fDie[j]);
+        }
+    }
+
+    for(int i = 10580; i < 10588; i++) {
+        texClass.load(i, fTradeBoat.fStand);
     }
 
     {

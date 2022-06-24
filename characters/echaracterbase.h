@@ -64,6 +64,7 @@ enum class eCharacterType {
     cartTransporter,
 
     fishingBoat,
+    tradeBoat,
 
     aphrodite,
     apollo,

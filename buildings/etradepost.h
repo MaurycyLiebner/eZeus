@@ -4,10 +4,16 @@
 #include "ewarehousebase.h"
 
 #include "engine/eworldcity.h"
+#include "ewalkablehelpers.h"
+
+enum class eTradePostType {
+    post, pier
+};
 
 class eTradePost : public eWarehouseBase {
 public:
-    eTradePost(eGameBoard& board, eWorldCity& city);
+    eTradePost(eGameBoard& board, eWorldCity& city,
+               const eTradePostType type = eTradePostType::post);
     ~eTradePost();
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
@@ -30,10 +36,17 @@ public:
 
     int buy(const int cash);
     int sell(const int items);
+
+    void setWalkable(const eWalkable& w);
+    void setUnpackBuilding(eBuilding* const b);
 private:
     eWorldCity& mCity;
+    const eTradePostType mType;
     eResourceType mImports = eResourceType::none;
     eResourceType mExports = eResourceType::none;
+
+    eWalkable mWalkable = eWalkableHelpers::sDefaultWalkable;
+    eBuilding* mUnpackBuilding = this;
 
     eTile* mRouteStart = nullptr;
 

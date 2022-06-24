@@ -7,10 +7,10 @@ bool eTraderAction::decide() {
     const bool r = eActionWithComeback::decide();
     if(r) return r;
 
-    if(mFinishedTrade || !mTradePost) {
+    if(mFinishedTrade || !mTradePost || mNotFound) {
         const auto c = character();
         c->setActionType(eCharacterActionType::walk);
-        goBack(eWalkableHelpers::sDefaultWalkable);
+        goBack(mWalkable);
     } else if(mAtTradePost) {
         trade();
     } else {
@@ -23,13 +23,21 @@ void eTraderAction::setTradePost(eTradePost* const tp) {
     mTradePost = tp;
 }
 
+void eTraderAction::setUnpackBuilding(eBuilding* const b) {
+    mUnpackBuilding = b;
+}
+
+void eTraderAction::setWalkable(const eWalkable& w) {
+    mWalkable = w;
+}
+
 void eTraderAction::goToTradePost() {
     const auto c = character();
 
     const stdptr<eTraderAction> tptr(this);
     const auto fail = [tptr, this]() {
         if(!tptr) return;
-        goBack(eWalkableHelpers::sDefaultWalkable);
+        goBack(mWalkable);
     };
     const auto finish = [tptr, this]() {
         if(!tptr) return;
@@ -41,11 +49,13 @@ void eTraderAction::goToTradePost() {
                        c, fail, finish);
     a->setRemoveLastTurn(true);
     const auto tp = mTradePost;
-    a->setFindFailAction([tp]() {
+    a->setFindFailAction([tp, tptr, this]() {
         if(!tp) return;
         tp->updateRouteStart();
+        if(!tptr) return;
+        mNotFound = true;
     });
-    a->start(mTradePost);
+    a->start(mUnpackBuilding, mWalkable);
     setCurrentAction(a);
     c->setActionType(eCharacterActionType::walk);
 }
@@ -56,7 +66,7 @@ void eTraderAction::trade() {
     const stdptr<eTraderAction> tptr(this);
     const auto fail = [tptr, this]() {
         if(!tptr) return;
-        goBack(eWalkableHelpers::sDefaultWalkable);
+        goBack(mWalkable);
     };
     const auto finish = [tptr, this]() {
         if(!tptr) return;

@@ -4,6 +4,7 @@
 #include "engine/etile.h"
 #include <SDL2/SDL_rect.h>
 
+using eWalkable = std::function<bool(eTileBase*)>;
 namespace eWalkableHelpers {
     bool sTileUnderBuilding(eTileBase* const t,
                             eBuilding* const b);
