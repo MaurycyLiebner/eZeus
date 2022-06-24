@@ -32,6 +32,7 @@ bool ePathFinder::findPath(eTileBase* const start,
                            const int maxDist,
                            const bool onlyDiagonal,
                            const int srcW, const int srcH) {
+    (void)maxDist;
     if(!start) return false;
     if(mFinish(start)) return true;
 
@@ -42,19 +43,20 @@ bool ePathFinder::findPath(eTileBase* const start,
     mData.fStart = start;
     auto& brd = mData.fBoard;
     {
-        const int startX = start->dx();
-        const int startY = start->dy();
+//        const int startX = start->dx();
+//        const int startY = start->dy();
 
-        const int minX = std::max(0, startX - maxDist);
-        int minY = std::max(0, startY - maxDist);
-        if(minY % 2) {
-            minY--;
-        }
+//        const int minX = std::max(0, startX - maxDist);
+//        int minY = std::max(0, startY - maxDist);
+//        if(minY % 2) {
+//            minY--;
+//        }
 
-        const int maxX = std::min(srcW, startX + maxDist);
-        const int maxY = std::min(srcH, startY + maxDist);
+//        const int maxX = std::min(srcW, startX + maxDist);
+//        const int maxY = std::min(srcH, startY + maxDist);
 
-        brd = ePathBoard(minX, minY, maxX - minX, maxY - minY);
+//        brd = ePathBoard(minX, minY, maxX - minX, maxY - minY);
+        brd = ePathBoard(0, 0, srcW, srcH);
     }
 
     std::deque<eTilePair> toProcess;

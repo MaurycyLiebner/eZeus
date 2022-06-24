@@ -136,26 +136,22 @@ private:
 
 template <typename T>
 T* eTileBase::left() const {
-    if(!mBottomLeft) return nullptr;
-    return mBottomLeft->topLeft<T>();
+    return tileRel<T>(-1, 1);
 }
 
 template <typename T>
 T* eTileBase::top() const {
-    if(!mTopLeft) return nullptr;
-    return mTopLeft->topRight<T>();
+    return tileRel<T>(-1, -1);
 }
 
 template <typename T>
 T* eTileBase::right() const {
-    if(!mTopRight) return nullptr;
-    return mTopRight->bottomRight<T>();
+    return tileRel<T>(1, -1);
 }
 
 template <typename T>
 T* eTileBase::bottom() const {
-    if(!mBottomLeft) return nullptr;
-    return mBottomLeft->bottomRight<T>();
+    return tileRel<T>(1, 1);
 }
 
 template <typename T>
@@ -197,11 +193,24 @@ T* eTileBase::tileRel(const int x, const int y) const {
     }
     if(x > 0) {
         const auto br = bottomRight<T>();
-        if(!br) return nullptr;
+        if(!br) {
+            if(y != 0) {
+                const auto ry = tileRel<T>(x - 1, y);
+                if(!ry) return nullptr;
+                return ry->template tileRel<T>(1, 0);
+            }
+            return nullptr;
+        }
         return br->template tileRel<T>(x - 1, y);
     } else if(x < 0) {
         const auto tl = topLeft<T>();
-        if(!tl) return nullptr;
+        if(!tl)  {
+            if(y != 0) {
+                const auto ry = tileRel<T>(x + 1, y);
+                if(!ry) return nullptr;
+                return ry->template tileRel<T>(-1, 0);
+            }
+        }
         return tl->template tileRel<T>(x + 1, y);
     }
     if(y > 0) {
