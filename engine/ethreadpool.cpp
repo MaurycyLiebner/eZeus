@@ -15,8 +15,8 @@ eThreadPool::~eThreadPool() {
 }
 
 void eThreadPool::initialize(const int w, const int h) {
-    const int hc = std::thread::hardware_concurrency();
-    const int threads = hc > 1 ? hc - 1 : 1;
+    //const int hc = std::thread::hardware_concurrency();
+    const int threads = 1;//hc > 1 ? hc - 1 : 1;
     for(int i = 0; i < threads; i++) {
         const auto b = new eThreadData;
         b->initialize(w, h);

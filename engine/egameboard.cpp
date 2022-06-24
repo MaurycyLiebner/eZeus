@@ -35,7 +35,7 @@ eGameBoard::~eGameBoard() {
 void eGameBoard::initialize(const int w, const int h) {
     mThreadPool.initialize(w, h);
 
-    const int dim = 25;
+    const int dim = 1000;
     for(int x = 0; x < w; x += dim) {
         const int ww = std::clamp(w - x, 0, dim);
         for(int y = 0; y < h; y += dim) {
