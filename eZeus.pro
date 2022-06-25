@@ -171,6 +171,7 @@ SOURCES += \
         characters/eox.cpp \
         characters/epeddler.cpp \
         characters/ephilosopher.cpp \
+        characters/eporter.cpp \
         characters/erangesoldier.cpp \
         characters/eresourcecollector.cpp \
         characters/eresourcecollectorbase.cpp \
@@ -505,6 +506,7 @@ HEADERS += \
     characters/eox.h \
     characters/epeddler.h \
     characters/ephilosopher.h \
+    characters/eporter.h \
     characters/erangesoldier.h \
     characters/eresourcecollector.h \
     characters/eresourcecollectorbase.h \

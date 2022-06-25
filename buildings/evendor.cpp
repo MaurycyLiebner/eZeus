@@ -89,7 +89,31 @@ int eVendor::spaceLeft(const eResourceType type) const {
 
 void eVendor::timeChanged(const int by) {
     if(enabled()) {
-        if(!mCart) spawnCart(mCart, eCartActionTypeSupport::take);
+        if(!mCart) {
+            spawnCart(mCart, eCartActionTypeSupport::take);
+            switch(mResType) {
+            case eResourceType::food:
+                mCart->setType(eCartTransporterType::food);
+                break;
+            case eResourceType::fleece:
+                mCart->setType(eCartTransporterType::fleece);
+                break;
+            case eResourceType::oliveOil:
+                mCart->setType(eCartTransporterType::oil);
+                break;
+            case eResourceType::wine:
+                mCart->setType(eCartTransporterType::wine);
+                break;
+            case eResourceType::armor:
+                mCart->setType(eCartTransporterType::arms);
+                break;
+            case eResourceType::horse:
+                mCart->setType(eCartTransporterType::horse);
+                break;
+            default:
+                break;
+            }
+        }
     }
     eEmployingBuilding::timeChanged(by);
 }

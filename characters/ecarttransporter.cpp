@@ -5,6 +5,7 @@
 #include "characters/actions/efollowaction.h"
 #include "etrailer.h"
 #include "eox.h"
+#include "eporter.h"
 
 eCartTransporter::eCartTransporter(eGameBoard& board) :
     eBasicPatroler(board, &eCharacterTextures::fTransporter,
@@ -13,7 +14,9 @@ eCartTransporter::eCartTransporter(eGameBoard& board) :
 }
 
 eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
-    if(mIsOx) return eBasicPatroler::getSecondaryTexture(size);
+    if(mType != eCartTransporterType::basic) {
+        return eBasicPatroler::getSecondaryTexture(size);
+    }
     const auto a = actionType();
     if(a == eCharacterActionType::none) {
         return eOverlay{0, 0, std::shared_ptr<eTexture>()};
@@ -149,10 +152,20 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
     return {xx, yy, tex};
 }
 
-void eCartTransporter::setIsOx(const bool o) {
-    if(mIsOx == o) return;
-    mIsOx = o;
-    if(mIsOx) {
+void eCartTransporter::setType(const eCartTransporterType t) {
+    if(mType == t) return;
+    mType = t;
+    switch(mType) {
+    case eCartTransporterType::basic: {
+        setCharTextures(&eCharacterTextures::fTransporter);
+
+        mOx->kill();
+        mOx.reset();
+
+        mTrailer->kill();
+        mTrailer.reset();
+    } break;
+    case eCartTransporterType::ox: {
         setCharTextures(&eCharacterTextures::fOxHandler);
 
         const auto t = tile();
@@ -171,14 +184,25 @@ void eCartTransporter::setIsOx(const bool o) {
                            []() {}, []() {});
         mTrailer->setAction(atr);
         mTrailer->changeTile(t);
-    } else {
-        setCharTextures(&eCharacterTextures::fTransporter);
-
-        mOx->kill();
-        mOx.reset();
-
-        mTrailer->kill();
-        mTrailer.reset();
+    } break;
+    case eCartTransporterType::food: {
+        setCharTextures(&eCharacterTextures::fFoodVendor);
+    } break;
+    case eCartTransporterType::fleece: {
+        setCharTextures(&eCharacterTextures::fFleeceVendor);
+    } break;
+    case eCartTransporterType::oil: {
+        setCharTextures(&eCharacterTextures::fOilVendor);
+    } break;
+    case eCartTransporterType::wine: {
+        setCharTextures(&eCharacterTextures::fWineVendor);
+    } break;
+    case eCartTransporterType::arms: {
+        setCharTextures(&eCharacterTextures::fArmsVendor);
+    } break;
+    case eCartTransporterType::horse: {
+        setCharTextures(&eCharacterTextures::fHorseVendor);
+    } break;
     }
 }
 
@@ -192,14 +216,55 @@ void eCartTransporter::setResource(const eResourceType type,
     mResourceType = type;
     mResourceCount = count;
 
-    switch(mResourceType) {
-    case eResourceType::marble:
-    case eResourceType::wood:
-    case eResourceType::sculpture:
-        setIsOx(true);
-        break;
-    default:
-        setIsOx(false);
+    if(mType == eCartTransporterType::ox ||
+       mType == eCartTransporterType::basic) {
+        switch(mResourceType) {
+        case eResourceType::marble:
+        case eResourceType::wood:
+        case eResourceType::sculpture:
+            setType(eCartTransporterType::ox);
+            break;
+        default:
+            setType(eCartTransporterType::basic);
+        }
+    }
+    switch(mType) {
+    case eCartTransporterType::food:
+    case eCartTransporterType::fleece:
+    case eCartTransporterType::oil:
+    case eCartTransporterType::wine:
+    case eCartTransporterType::arms:
+    case eCartTransporterType::horse: {
+        {
+            const int iMax = mFollowers.size();
+            for(int i = count; i < iMax; i++) {
+                const auto f = mFollowers.back();
+                mFollowers.pop_back();
+                f->kill();
+            }
+        }
+        const int iMax = count - mFollowers.size();
+        for(int i = 0; i < iMax; i++) {
+            eCharacter* follow;
+            if(mFollowers.empty()) {
+                follow = this;
+            } else {
+                follow = mFollowers.back().get();
+            }
+
+            const auto t = tile();
+            auto& board = getBoard();
+
+            const auto follower = e::make_shared<ePorter>(board);
+            const auto aox = e::make_shared<eFollowAction>(
+                               follow, follower.get(),
+                               []() {}, []() {});
+            follower->setAction(aox);
+            follower->changeTile(t);
+            mFollowers.push_back(follower);
+        }
+    } break;
+    default: break;
     }
 }
 

@@ -62,6 +62,7 @@ enum class eCharacterType {
     healer,
 
     cartTransporter,
+    porter,
 
     fishingBoat,
     tradeBoat,

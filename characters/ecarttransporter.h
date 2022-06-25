@@ -14,6 +14,17 @@ enum eCartActionTypeSupport {
     both = take | give
 };
 
+enum class eCartTransporterType {
+    basic,
+    ox,
+    food,
+    fleece,
+    oil,
+    wine,
+    arms,
+    horse
+};
+
 class eCartTransporter : public eBasicPatroler {
 public:
     eCartTransporter(eGameBoard& board);
@@ -22,7 +33,7 @@ public:
 
     bool isOx() const { return mIsOx; }
 
-    void setIsOx(const bool o);
+    void setType(const eCartTransporterType t);
     void setBigTrailer(const bool b);
 
     eResourceType resType() const { return mResourceType; }
@@ -44,6 +55,7 @@ public:
     void setWaiting(const bool w) { mWaiting = w; }
 private:
     int mResourceCount = 0;
+    eCartTransporterType mType = eCartTransporterType::basic;
     eResourceType mResourceType = eResourceType::none;
 
     eCartActionTypeSupport mSupport = eCartActionTypeSupport::both;
@@ -55,6 +67,8 @@ private:
 
     stdsptr<eOx> mOx;
     stdsptr<eTrailer> mTrailer;
+
+    std::vector<stdsptr<eCharacter>> mFollowers;
 };
 
 #endif // ECARTTRANSPORTER_H
