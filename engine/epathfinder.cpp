@@ -184,6 +184,6 @@ bool ePathFinder::extractPath(std::vector<eOrientation>& path) {
 
 bool ePathFinder::extractData(ePathFindData& data) {
     if(!mData.fFound) return false;
-    data = mData;
+    std::swap(mData, data);
     return true;
 }

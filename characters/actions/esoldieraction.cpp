@@ -330,21 +330,24 @@ void eSoldierAction::setPathForce(const int sx, const int sy,
     };
 
     const stdptr<eSoldierAction> a = this;
-    const auto finishFunc = [a](const ePathFindData& data) {
+    const auto finishFunc = [a, fx, fy](const ePathFindData& data) {
         if(!a) return;
         const auto c = a->character();
         c->setActionType(eCharacterActionType::walk);
-        a->addForce([a, data](eCharacter* const c) {
-            const auto& brd = data.fBoard;
+        a->addForce([a, data, fx, fy](eCharacter* const c) {
+            if(!a) return vec2d{0., 0.};
+            const auto& pbrd = data.fBoard;
+            const auto& brd = c->getBoard();
             vec2d force{0., 0.};
             const auto t = c->tile();
             const int tx = t->x();
             const int ty = t->y();
             int v;
-            const bool r = brd.getAbsValue(tx, ty, v);
+            const bool r = pbrd.getAbsValue(tx, ty, v);
             if(!r) return vec2d{0., 0.};
-            if(v == 0 && a) {
+            if(v == 0) {
                 a->removeForce(eForceType::reserved1);
+                return vec2d{0., 0.};
             }
             bool found = false;
             for(int i = -1; i <= 1 && !found; i++) {
@@ -352,14 +355,25 @@ void eSoldierAction::setPathForce(const int sx, const int sy,
                     if(i == 0 && j == 0) continue;
                     const int ttx = tx + i;
                     const int tty = ty + j;
+                    const auto t = brd.tile(ttx, tty);
+                    if(!t) continue;
+                    const bool w = t->walkable();
+                    if(!w) continue;
                     int vv;
-                    const bool r = brd.getAbsValue(ttx, tty, vv);
+                    const bool r = pbrd.getAbsValue(ttx, tty, vv);
                     if(!r) continue;
                     if(vv >= v) continue;
                     found = true;
                     force = vec2d{1.*i, 1.*j};
                     break;
                 }
+            }
+            if(!found) {
+                const auto t = c->tile();
+                const int ctx = t->x();
+                const int cty = t->y();
+                a->setPathForce(ctx, cty, fx, fy);
+                return vec2d{0., 0.};
             }
             force.normalize();
             return force;
