@@ -4,19 +4,9 @@
 
 #include "textures/egametextures.h"
 
-const int gMaxPeople[] = {6, 6, 10, 16, 20};
-
 eEliteHousing::eEliteHousing(eGameBoard& board) :
-    eBuilding(board, eBuildingType::eliteHousing, 4, 4) {
-    auto& popData = getBoard().populationData();
-    popData.incVacancies(gMaxPeople[0]);
-}
-
-eEliteHousing::~eEliteHousing() {
-    auto& popData = getBoard().populationData();
-    popData.incPopulation(-mPeople);
-    popData.incVacancies(-vacancies());
-}
+    eHouseBase(board, eBuildingType::eliteHousing,
+               4, 4, {6, 6, 10, 16, 20}) {}
 
 std::shared_ptr<eTexture>
 eEliteHousing::getLeftTexture(const eTileSize size) const {
@@ -134,28 +124,59 @@ void eEliteHousing::nextMonth() {
     if(mLevel > 2) mWine = std::max(0, mWine - cwine);
 }
 
-void eEliteHousing::levelUp() {
-    setLevel(mLevel + 1);
-}
-
-void eEliteHousing::levelDown() {
-    setLevel(mLevel - 1);
-}
-
-int eEliteHousing::vacancies() const {
-    return gMaxPeople[mLevel] - mPeople;
-}
-
-int eEliteHousing::moveIn(int c) {
-    c = std::clamp(c, 0, vacancies());
-    setPeople(mPeople + c);
-    return c;
-}
-
 bool eEliteHousing::lowFood() const {
     if(!mFood) return true;
     const int cfood = round((mPeople + mHorses)*0.25);
     return mFood < cfood;
+}
+
+eHouseMissing eEliteHousing::missing() const {
+    const auto& b = getBoard();
+    const auto t = centerTile();
+    if(!t) return eHouseMissing::food;
+    const int dx = t->dx();
+    const int dy = t->dy();
+    const double appeal = b.appeal(dx ,dy);
+    const int stadium = b.hasStadium() ? 1 : 0;
+    const int nVenues = mPhilosophers + mActors +
+                        mAthletes + stadium;
+    if(mFood > 0) {
+        if(mFleece > 0) {
+            if(mOil > 0) {
+                if(nVenues > 2) {
+                    if(appeal > 5.0) {
+                        if(mArms > 0) {
+                            if(appeal > 7.0) {
+                                if(mWine > 0) {
+                                    if(appeal > 9.0) {
+                                        if(mHorses > 0) {
+                                            if(nVenues > 3) {
+                                                if(appeal > 10.) {
+                                                    return eHouseMissing::nothing;
+                                                }
+                                                return eHouseMissing::appeal;
+                                            }
+                                            return eHouseMissing::venues;
+                                        }
+                                        return eHouseMissing::horse;
+                                    }
+                                    return eHouseMissing::appeal;
+                                }
+                                return eHouseMissing::wine;
+                            }
+                            return eHouseMissing::appeal;
+                        }
+                        return eHouseMissing::arms;
+                    }
+                    return eHouseMissing::appeal;
+                }
+                return eHouseMissing::venues;
+            }
+            return eHouseMissing::oil;
+        }
+        return eHouseMissing::fleece;
+    }
+    return eHouseMissing::food;
 }
 
 const eTextureCollection& eEliteHousing::getTextureCollection(
@@ -169,6 +190,7 @@ const eTextureCollection& eEliteHousing::getTextureCollection(
 void eEliteHousing::updateLevel() {
     const auto& b = getBoard();
     const auto t = centerTile();
+    if(!t) return;
     const int dx = t->dx();
     const int dy = t->dy();
     const double appeal = b.appeal(dx ,dy);
@@ -188,40 +210,4 @@ void eEliteHousing::updateLevel() {
         return setLevel(1);
     }
     setLevel(0);
-}
-
-void eEliteHousing::setLevel(const int l) {
-    if(mLevel == l) return;
-
-    const int ov = vacancies();
-    mLevel = std::clamp(l, 0, 4);
-    const int nv = vacancies();
-
-    auto& popData = getBoard().populationData();
-    popData.incVacancies(nv - ov);
-
-    evict();
-}
-
-int eEliteHousing::evict() {
-    const int e = -vacancies();
-    if(e <= 0) return 0;
-    setPeople(mPeople - e);
-    return e;
-}
-
-void eEliteHousing::setPeople(const int p) {
-    if(p == mPeople) return;
-
-    auto& popData = getBoard().populationData();
-
-    const int pc = p - mPeople;
-    popData.incPopulation(pc);
-
-    const int vb = vacancies();
-    mPeople = p;
-    const int va = vacancies();
-
-    const int vc = va - vb;
-    popData.incVacancies(vc);
 }

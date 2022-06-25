@@ -3,13 +3,13 @@
 
 #include "einfowidget.h"
 
-class eSmallHouse;
+class eHouseBase;
 
 class eCommonHouseInfoWidget : public eInfoWidget {
 public:
     eCommonHouseInfoWidget(eMainWindow* const window);
 
-    void initialize(eSmallHouse* const house);
+    void initialize(eHouseBase* const house);
 };
 
 #endif // ECOMMONHOUSEINFOWIDGET_H

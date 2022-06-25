@@ -1,12 +1,11 @@
 #ifndef EELITEHOUSING_H
 #define EELITEHOUSING_H
 
-#include "ebuilding.h"
+#include "ehousebase.h"
 
-class eEliteHousing : public eBuilding {
+class eEliteHousing : public eHouseBase {
 public:
     eEliteHousing(eGameBoard& board);
-    ~eEliteHousing();
 
     std::shared_ptr<eTexture>
     getTexture(const eTileSize) const { return nullptr; }
@@ -28,28 +27,10 @@ public:
 
     void nextMonth();
 
-    void levelUp();
-    void levelDown();
-
-    int vacancies() const;
-
-    int level() const { return mLevel; }
-    int people() const { return mPeople; }
-
-    int moveIn(int c);
-
-    int food() const { return mFood; }
-    int fleece() const { return mFleece; }
-    int oil() const { return mOil; }
-
     int wine() const { return mWine; }
     int arms() const { return mArms; }
 
     int horses() const { return mHorses; }
-
-    int philosophers() const { return mPhilosophers; }
-    int actors() const { return mActors; }
-    int athletes() const { return mAthletes; }
 
     bool lowFood() const;
     bool lowFleece() const { return mFleece < 2; }
@@ -57,23 +38,14 @@ public:
     bool lowWine() const { return mWine < 2; }
     bool lowArms() const { return !mArms; }
     bool lowHorses() const { return !mHorses; }
+
+    eHouseMissing missing() const;
 private:
     const eTextureCollection& getTextureCollection(
             const eTileSize size) const;
 
     void updateLevel();
-    void setLevel(const int l);
-    int evict();
-    void setPeople(const int p);
 
-    bool mPaidTaxes = false;
-
-    int mLevel{0};
-    int mPeople{0};
-
-    int mFood = 0;
-    int mFleece = 0;
-    int mOil = 0;
     int mWine = 0;
     int mArms = 0;
     int mHorses = 0;

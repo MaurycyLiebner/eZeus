@@ -334,6 +334,14 @@ tenement_house "Tenement"
 apartment_house "Apartment"
 townhouse_house "Townhouse"
 
+; elite housing
+vacant_residence_house "Vacant Residence"
+abandoned_residence_house "Abandoned Residence"
+residence_house "Residence"
+mansion_house "Mansion"
+manor_house "Manor"
+estate_house "Estate"
+
 occupants "Occuppants"
 extra_room "Extra room for"
 clerk_not_visited "A clerk has not visited to collect the tax."
@@ -346,6 +354,9 @@ missing_oil "This house cannot evolve until its residents receive some olive oil
 missing_venues "This house needs access to more culture venues in order to evolve."
 missing_appeal "This house cannot evolve until the appeal of the neighborhood increases."
 missing_nothing "The residents of this house have everything they need."
+missing_wine "The residents of this house want wine to drink."
+missing_arms "The residents of this house can't make improvements until they receive some armor."
+missing_horse "This house needs horses to evolve."
 
 fishermen_building "The fishermen are busy building a seaworthy boat. Once they're finished with the boat, they'll sail the high seas in search of fish."
 

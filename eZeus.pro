@@ -52,6 +52,7 @@ SOURCES += \
         buildings/egymnasium.cpp \
         buildings/ehorsevendor.cpp \
         buildings/ehospital.cpp \
+        buildings/ehousebase.cpp \
         buildings/ehuntinglodge.cpp \
         buildings/emaintenanceoffice.cpp \
         buildings/emasonryshop.cpp \
@@ -386,6 +387,7 @@ HEADERS += \
     buildings/egymnasium.h \
     buildings/ehorsevendor.h \
     buildings/ehospital.h \
+    buildings/ehousebase.h \
     buildings/ehuntinglodge.h \
     buildings/emaintenanceoffice.h \
     buildings/emasonryshop.h \

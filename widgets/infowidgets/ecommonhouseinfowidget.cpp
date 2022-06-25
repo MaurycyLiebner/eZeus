@@ -1,6 +1,7 @@
 #include "ecommonhouseinfowidget.h"
 
 #include "buildings/esmallhouse.h"
+#include "buildings/eelitehousing.h"
 #include "engine/eresourcetype.h"
 
 #include "widgets/elabel.h"
@@ -10,26 +11,42 @@
 eCommonHouseInfoWidget::eCommonHouseInfoWidget(eMainWindow* const window) :
     eInfoWidget(window, true, true) {}
 
-void eCommonHouseInfoWidget::initialize(eSmallHouse* const house) {
+void eCommonHouseInfoWidget::initialize(eHouseBase* const house) {
     std::string title;
     const int people = house->people();
     const int level = house->level();
-    if(people <= 0) {
-        title = "unoccupied_house";
-    } else if(level == 0) {
-        title = "hut_house";
-    } else if(level == 1) {
-        title = "shack_house";
-    } else if(level == 2) {
-        title = "hovel_house";
-    } else if(level == 3) {
-        title = "homestead_house";
-    } else if(level == 4) {
-        title = "tenement_house";
-    } else if(level == 5) {
-        title = "apartment_house";
-    } else if(level == 6) {
-        title = "townhouse_house";
+    if(house->type() == eBuildingType::commonHouse) {
+        if(people <= 0) {
+            title = "unoccupied_house";
+        } else if(level == 0) {
+            title = "hut_house";
+        } else if(level == 1) {
+            title = "shack_house";
+        } else if(level == 2) {
+            title = "hovel_house";
+        } else if(level == 3) {
+            title = "homestead_house";
+        } else if(level == 4) {
+            title = "tenement_house";
+        } else if(level == 5) {
+            title = "apartment_house";
+        } else if(level == 6) {
+            title = "townhouse_house";
+        }
+    } else { // elite
+        if(people <= 0) {
+            title = "vacant_residence_house";
+        } else if(level == 0) {
+            title = "abandoned_residence_house";
+        } else if(level == 1) {
+            title = "residence_house";
+        } else if(level == 2) {
+            title = "mansion_house";
+        } else if(level == 3) {
+            title = "manor_house";
+        } else if(level == 4) {
+            title = "estate_house";
+        }
     }
     eInfoWidget::initialize(eLanguage::text(title));
 
@@ -58,6 +75,15 @@ void eCommonHouseInfoWidget::initialize(eSmallHouse* const house) {
         break;
     case eHouseMissing::appeal:
         msg = "missing_appeal";
+        break;
+    case eHouseMissing::wine:
+        msg = "missing_wine";
+        break;
+    case eHouseMissing::arms:
+        msg = "missing_arms";
+        break;
+    case eHouseMissing::horse:
+        msg = "missing_horse";
         break;
     case eHouseMissing::nothing:
         msg = "missing_nothing";
@@ -102,22 +128,40 @@ void eCommonHouseInfoWidget::initialize(eSmallHouse* const house) {
         return w;
     };
 
-    const auto w = new eWidget(window());
-    w->setNoPadding();
+    const auto generateSupplyWidget = [&](const std::vector<eWidget*>& wids) {
+        const auto w = new eWidget(window());
+        w->setNoPadding();
 
-    const auto food = generateSupply(eResourceType::food, house->food());
-    const auto fleece = generateSupply(eResourceType::fleece, house->fleece());
-    const auto oil = generateSupply(eResourceType::oliveOil, house->oil());
+        for(const auto wid : wids) {
+            w->addWidget(wid);
+        }
 
-    w->addWidget(food);
-    w->addWidget(fleece);
-    w->addWidget(oil);
+        w->setWidth(cw->width());
+        w->layoutHorizontally();
+        w->fitContent();
+        cw->addWidget(w);
+        return w;
+    };
 
-    w->setWidth(cw->width());
-    w->layoutHorizontally();
-    w->fitContent();
-    cw->addWidget(w);
-    w->setY(msgLabel->y() + msgLabel->height() + p);
+    {
+        const auto food = generateSupply(eResourceType::food, house->food());
+        const auto fleece = generateSupply(eResourceType::fleece, house->fleece());
+        const auto oil = generateSupply(eResourceType::oliveOil, house->oil());
+
+        const auto w = generateSupplyWidget({food, fleece, oil});
+        w->setY(msgLabel->y() + msgLabel->height() + p);
+
+        if(house->type() == eBuildingType::eliteHousing) {
+            const auto eh = static_cast<eEliteHousing*>(house);
+
+            const auto wine = generateSupply(eResourceType::wine, eh->wine());
+            const auto arms = generateSupply(eResourceType::armor, eh->arms());
+            const auto horse = generateSupply(eResourceType::horse, eh->horses());
+
+            const auto ww = generateSupplyWidget({wine, arms, horse});
+            ww->setY(w->y() + 3*p);
+        }
+    }
 
     const auto occ = new eLabel(window());
     occ->setSmallFontSize();
@@ -160,7 +204,12 @@ void eCommonHouseInfoWidget::initialize(eSmallHouse* const house) {
         satLabel->setWidth(fw->width());
         satLabel->setWrapWidth(satLabel->width());
         std::string satstr;
-        if(house->water() && house->food()) {
+        bool water = true;
+        if(house->type() == eBuildingType::commonHouse) {
+            const auto ch = static_cast<eSmallHouse*>(house);
+            water = ch->water();
+        }
+        if(water && house->food()) {
             satstr = "residents_happy";
         } else {
             satstr = "residents_dissatisfied";

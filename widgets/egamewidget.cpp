@@ -2518,7 +2518,7 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
             const auto gymWid = new eGymInfoWidget(window());
             gymWid->initialize();
             wid = gymWid;
-        } else if(const auto house = dynamic_cast<eSmallHouse*>(b)) {
+        } else if(const auto house = dynamic_cast<eHouseBase*>(b)) {
             const auto w = new eCommonHouseInfoWidget(window());
             w->initialize(house);
             wid = w;

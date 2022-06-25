@@ -1,22 +1,11 @@
 #ifndef ESMALLHOUSE_H
 #define ESMALLHOUSE_H
 
-#include "ebuilding.h"
+#include "ehousebase.h"
 
-enum class eHouseMissing {
-    water,
-    food,
-    fleece,
-    oil,
-    venues,
-    appeal,
-    nothing
-};
-
-class eSmallHouse : public eBuilding {
+class eSmallHouse : public eHouseBase {
 public:
     eSmallHouse(eGameBoard& board);
-    ~eSmallHouse();
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 
@@ -26,26 +15,7 @@ public:
 
     void nextMonth();
 
-    void levelUp();
-    void levelDown();
-
-    int vacancies() const;
-
-    int level() const { return mLevel; }
-    int people() const { return mPeople; }
-
-    int moveIn(int c);
-
     int water() const { return mWater; }
-    int food() const { return mFood; }
-    int fleece() const { return mFleece; }
-    int oil() const { return mOil; }
-
-    bool paidTaxes() const { return mPaidTaxes; }
-
-    int philosophers() const { return mPhilosophers; }
-    int actors() const { return mActors; }
-    int athletes() const { return mAthletes; }
 
     bool lowFood() const;
     bool lowFleece() const { return mFleece < 2; }
@@ -54,23 +24,8 @@ public:
     eHouseMissing missing() const;
 private:
     void updateLevel();
-    void setLevel(const int l);
-    int evict();
-    void setPeople(const int p);
-
-    bool mPaidTaxes = false;
-
-    int mLevel{0};
-    int mPeople{0};
 
     int mWater = 0;
-    int mFood = 0;
-    int mFleece = 0;
-    int mOil = 0;
-
-    int mPhilosophers = 0;
-    int mActors = 0;
-    int mAthletes = 0;
 };
 
 #endif // ESMALLHOUSE_H
