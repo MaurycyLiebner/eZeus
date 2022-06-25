@@ -7,6 +7,9 @@
 
 #include "elanguage.h"
 
+eCommonHouseInfoWidget::eCommonHouseInfoWidget(eMainWindow* const window) :
+    eInfoWidget(window, true, true) {}
+
 void eCommonHouseInfoWidget::initialize(eSmallHouse* const house) {
     std::string title;
     const int people = house->people();
@@ -118,6 +121,7 @@ void eCommonHouseInfoWidget::initialize(eSmallHouse* const house) {
 
     const auto occ = new eLabel(window());
     occ->setSmallFontSize();
+    occ->setSmallPadding();
     auto occstr = std::to_string(house->people()) + " " +
                   eLanguage::text("occupants");
     const int vacs = house->vacancies();
@@ -129,11 +133,11 @@ void eCommonHouseInfoWidget::initialize(eSmallHouse* const house) {
     occ->fitContent();
     fw->addWidget(occ);
     occ->align(eAlignment::hcenter);
-    occ->setY(p);
 
     const bool paid = house->paidTaxes();
     const auto taxLabel = new eLabel(window());
     taxLabel->setSmallFontSize();
+    taxLabel->setSmallPadding();
     taxLabel->setWidth(fw->width());
     taxLabel->setWrapWidth(taxLabel->width());
     std::string paidstr;
@@ -145,5 +149,5 @@ void eCommonHouseInfoWidget::initialize(eSmallHouse* const house) {
     taxLabel->setText(eLanguage::text(paidstr));
     taxLabel->fitContent();
     fw->addWidget(taxLabel);
-    taxLabel->setY(occ->y() + occ->height() + p);
+    taxLabel->setY(occ->y() + occ->height());
 }

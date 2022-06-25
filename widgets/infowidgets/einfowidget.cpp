@@ -8,15 +8,20 @@
 
 #include "elanguage.h"
 
-eInfoWidget::eInfoWidget(eMainWindow* const window) :
-    eFramedWidget(window) {
+eInfoWidget::eInfoWidget(eMainWindow* const window,
+                         const bool narrow, const bool shrt) :
+    eFramedWidget(window),
+    mNarrow(narrow), mShort(shrt) {
     setType(eFrameType::message);
 }
 
 void eInfoWidget::initialize(const std::string& title) {
     const auto res = window()->resolution();
-    resize(res.centralWidgetWidth(),
-           res.centralWidgetHeight());
+    const int ww = mNarrow ? res.centralWidgetSmallWidth() :
+                             res.centralWidgetLargeWidth();
+    const int hh = mShort ? res.centralWidgetSmallHeight() :
+                            res.centralWidgetLargeHeight();
+    resize(ww, hh);
     align(eAlignment::center);
 
     const auto titleLabel = new eLabel(title, window());
@@ -30,7 +35,7 @@ void eInfoWidget::initialize(const std::string& title) {
     const int y = titleLabel->height() + titleLabel->y();
     mCentralWidget->move(2*p, y);
     const int w = width() - 4*p;
-    const int h = height() - 7*p - titleLabel->height();
+    const int h = height() - 6*p - titleLabel->height();
     mCentralWidget->resize(w, h);
 
     mOk = new eOkButton(window());
@@ -49,7 +54,13 @@ eWidget* eInfoWidget::addFramedWidget(const int height) {
     addWidget(wid);
     wid->resize(cw->width(), height);
     wid->move(cw->x(), cw->y() + cw->height() + p);
-    return wid;
+
+    const auto wwid = new eWidget(window());
+    wid->addWidget(wwid);
+    wwid->resize(wid->width() - 2*p, wid->height() - 2*p);
+    wwid->move(p, p);
+
+    return wwid;
 }
 
 void eInfoWidget::setCloseAction(const eAction& closeAction) {

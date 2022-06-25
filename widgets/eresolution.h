@@ -33,8 +33,10 @@ public:
     int verySmallFontSize() const;
     int tinyFontSize() const;
 
-    int centralWidgetWidth() const;
-    int centralWidgetHeight() const;
+    int centralWidgetLargeWidth() const;
+    int centralWidgetSmallWidth() const;
+    int centralWidgetLargeHeight() const;
+    int centralWidgetSmallHeight() const;
 
     static std::vector<eResolution> sResolutions;
 

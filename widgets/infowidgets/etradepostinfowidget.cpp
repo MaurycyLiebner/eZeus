@@ -202,6 +202,9 @@ public:
     }
 };
 
+eTradePostInfoWidget::eTradePostInfoWidget(eMainWindow* const window) :
+    eEmployingBuildingInfoWidget(window, false, false) {}
+
 void eTradePostInfoWidget::initialize(eTradePost* const stor) {
     const auto& city = stor->city();
     const auto str = eLanguage::text("trading_post") + city.name();

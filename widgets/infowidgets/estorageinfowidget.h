@@ -12,7 +12,7 @@
 
 class eStorageInfoWidget : public eEmployingBuildingInfoWidget {
 public:
-    using eEmployingBuildingInfoWidget::eEmployingBuildingInfoWidget;
+    eStorageInfoWidget(eMainWindow* const window);
 
     void initialize(eStorageBuilding* const stor);
     void get(eResourceType& get,

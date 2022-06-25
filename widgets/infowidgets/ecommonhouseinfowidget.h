@@ -7,7 +7,7 @@ class eSmallHouse;
 
 class eCommonHouseInfoWidget : public eInfoWidget {
 public:
-    using eInfoWidget::eInfoWidget;
+    eCommonHouseInfoWidget(eMainWindow* const window);
 
     void initialize(eSmallHouse* const house);
 };

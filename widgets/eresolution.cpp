@@ -94,10 +94,18 @@ int eResolution::tinyFontSize() const {
     return 17*largeFontSize()/30;
 }
 
-int eResolution::centralWidgetWidth() const {
-    return 3*centralWidgetHeight()/2;
+int eResolution::centralWidgetLargeWidth() const {
+    return 660*multiplier();
 }
 
-int eResolution::centralWidgetHeight() const {
+int eResolution::centralWidgetSmallWidth() const {
     return 480*multiplier();
+}
+
+int eResolution::centralWidgetLargeHeight() const {
+    return 480*multiplier();
+}
+
+int eResolution::centralWidgetSmallHeight() const {
+    return 360*multiplier();
 }

@@ -12,7 +12,7 @@
 
 class eTradePostInfoWidget : public eEmployingBuildingInfoWidget {
 public:
-    using eEmployingBuildingInfoWidget::eEmployingBuildingInfoWidget;
+    eTradePostInfoWidget(eMainWindow* const window);
 
     void initialize(eTradePost* const stor);
     void get(eResourceType& imports,

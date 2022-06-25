@@ -152,6 +152,9 @@ public:
     }
 };
 
+eStorageInfoWidget::eStorageInfoWidget(eMainWindow* const window) :
+    eEmployingBuildingInfoWidget(window, true, false) {}
+
 void eStorageInfoWidget::initialize(eStorageBuilding* const stor) {
     const auto st = stor->type();
     std::string title;

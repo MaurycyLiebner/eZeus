@@ -23,8 +23,8 @@ void eEmployingBuildingInfoWidget::initialize(const std::string& title,
                      "  (" + mestr + " " + memplstr +  ")";
     const auto empl = new eLabel(str, window());
     empl->setSmallFontSize();
+    empl->setSmallPadding();
     empl->fitContent();
     wid->addWidget(empl);
     empl->align(eAlignment::hcenter);
-    empl->setY(p);
 }

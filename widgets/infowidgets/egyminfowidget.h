@@ -1,11 +1,11 @@
 #ifndef EGYMINFOWIDGET_H
 #define EGYMINFOWIDGET_H
 
-#include "einfowidget.h"
+#include "eemployingbuildinginfowidget.h"
 
-class eGymInfoWidget : public eInfoWidget {
+class eGymInfoWidget : public eEmployingBuildingInfoWidget {
 public:
-    using eInfoWidget::eInfoWidget;
+    eGymInfoWidget(eMainWindow* const window);
 
     void initialize();
 };
