@@ -89,6 +89,8 @@
 #include "characters/esheep.h"
 #include "characters/egoat.h"
 #include "characters/actions/eanimalaction.h"
+#include "characters/etrader.h"
+#include "characters/etradeboat.h"
 
 #include "spawners/eboarspawner.h"
 #include "spawners/edeerspawner.h"
@@ -891,9 +893,17 @@ bool eGameWidget::buildMouseRelease() {
                 const auto ct = cts[ctid];
                 const auto tp = e::make_shared<eTradePost>(
                                     *mBoard, *ct, eTradePostType::pier);
+                tp->setOrientation(o);
+                tp->setCharacterCreator([](eTile* const tile, eGameBoard& board) {
+                    const auto r = e::make_shared<eTradeBoat>(board);
+                    r->changeTile(tile);
+                    return r;
+                });
                 tp->setUnpackBuilding(b.get());
                 tp->setWalkable([](eTileBase* const t) {
-                    return t->terrain() == eTerrain::water;
+                    const bool r = t->terrain() == eTerrain::water;
+                    if(!r) return false;
+                    return !t->isShoreTile();
                 });
                 build(tx, ty, 4, 4, [&]() { return tp; });
             }
@@ -966,7 +976,16 @@ bool eGameWidget::buildMouseRelease() {
             const auto cts = wrld.cities();
             const auto ct = cts[ctid];
             build(mHoverTX, mHoverTY, 4, 4,
-                  [this, wrld, ct]() { return e::make_shared<eTradePost>(*mBoard, *ct); });
+                  [this, wrld, ct]() {
+                const auto tp = e::make_shared<eTradePost>(*mBoard, *ct);
+                tp->setCharacterCreator([](eTile* const tile, eGameBoard& board) {
+                    const auto r = e::make_shared<eTrader>(board);
+                    r->changeTile(tile);
+                    r->createFollowers();
+                    return r;
+                });
+                return tp;
+            });
         }; break;
 
 

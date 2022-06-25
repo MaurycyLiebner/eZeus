@@ -229,7 +229,9 @@ void eFishery::spawnBoat() {
                        this, mBoat.get(), hasRes,
                        nullptr, finishAct, finishAct);
     a->setWalkable([](eTileBase* const t) {
-        return t->terrain() == eTerrain::water;
+        const bool r = t->terrain() == eTerrain::water;
+        if(!r) return false;
+        return !t->isShoreTile();
     });
     a->setWaitTime(gUnpackTime);
     a->setFinishOnce(false);

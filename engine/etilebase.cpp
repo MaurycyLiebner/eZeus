@@ -62,6 +62,20 @@ bool eTileBase::isElevationTile() const {
     return false;
 }
 
+bool eTileBase::isShoreTile() const {
+    if(mTerr != eTerrain::water) return false;
+    for(int x = -1; x < 2; x++) {
+        for(int y = -1; y < 2; y++) {
+            if(x == 0 && y == 0) continue;
+            const auto t = tileRel(x, y);
+            if(!t) continue;
+            if(t->terrain() != eTerrain::water) return true;
+        }
+    }
+
+    return false;
+}
+
 double eTileBase::sDistance(eTileBase* const t1,
                             eTileBase* const t2) {
     const int dx = t1->x() - t2->x();

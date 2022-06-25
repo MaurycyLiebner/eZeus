@@ -92,6 +92,13 @@ void eTradePost::timeChanged(const int by) {
     eWarehouseBase::timeChanged(by);
 }
 
+void eTradePost::erase() {
+    if(mUnpackBuilding) {
+        mUnpackBuilding->eBuilding::erase();
+    }
+    eBuilding::erase();
+}
+
 void eTradePost::setOrders(const eResourceType imports,
                            const eResourceType exports) {
     mImports = imports;
@@ -123,11 +130,7 @@ void eTradePost::updateRouteStart() {
 
     const auto finalTile = std::make_shared<std::pair<int, int>>();
 
-    const auto final = [tx, ty, finalTile, walkable](eTileBase* const t) {
-        const int dx = tx - t->x();
-        const int dy = ty - t->y();
-        const int dist = sqrt(dx*dx + dy*dy);
-        if(dist < 40) return false;
+    const auto final = [finalTile, walkable](eTileBase* const t) {
         if(!walkable(t)) return false;
         *finalTile = {t->x(), t->y()};
         if(!t->topRight()) return true;
@@ -164,9 +167,7 @@ void eTradePost::spawnTrader() {
     if(!mRouteStart) return updateRouteStart();
     auto& board = getBoard();
 
-    const auto r = e::make_shared<eTrader>(board);
-    r->changeTile(mRouteStart);
-    r->createFollowers();
+    const auto r = mCharGen(mRouteStart, board);
 
     const auto ta = e::make_shared<eTraderAction>(r.get(), [](){}, [](){});
     ta->setFinishOnComeback(true);
@@ -221,4 +222,16 @@ void eTradePost::setWalkable(const eWalkable& w) {
 
 void eTradePost::setUnpackBuilding(eBuilding* const b) {
     mUnpackBuilding = b;
+}
+
+void eTradePost::setOrientation(const eOrientation o) {
+    mO = o;
+}
+
+eOrientation eTradePost::orientation() const {
+    return mO;
+}
+
+void eTradePost::setCharacterCreator(const eCharacterCreator& c) {
+    mCharGen = c;
 }

@@ -39,17 +39,36 @@ void eTraderAction::goToTradePost() {
         if(!tptr) return;
         goBack(mWalkable);
     };
-    const auto finish = [tptr, this]() {
+    stdptr<eCharacter> cptr(c);
+    const auto tp = mTradePost;
+    const auto finish = [tptr, cptr, tp, this]() {
         if(!tptr) return;
         if(!mTradePost) return;
         mAtTradePost = true;
+        if(!tp) return;
+        const auto t = tp->tpType();
+        if(cptr && t == eTradePostType::pier) {
+            const auto o = tp->orientation();
+            eOrientation oo;
+            switch(o) {
+            case eOrientation::bottomLeft:
+            case eOrientation::topRight:
+                oo = eOrientation::topLeft;
+                break;
+            default:
+            case eOrientation::bottomRight:
+            case eOrientation::topLeft:
+                oo = eOrientation::topRight;
+                break;
+            }
+            cptr->setOrientation(oo);
+        }
     };
 
     const auto a = e::make_shared<eMoveToAction>(
                        c, fail, finish);
     a->setRemoveLastTurn(true);
-    const auto tp = mTradePost;
-    a->setFindFailAction([tp, tptr, this]() {
+    a->setFindFailAction([tp, tptr, cptr, this]() {
         if(!tp) return;
         tp->updateRouteStart();
         if(!tptr) return;

@@ -30,6 +30,7 @@ public:
     int y() const { return mY; }
     int altitude() const { return mAltitude; }
     bool isElevationTile() const;
+    bool isShoreTile() const;
     eTerrain terrain() const { return mTerr; }
     double scrub() const { return mScrub; }
 

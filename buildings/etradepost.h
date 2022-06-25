@@ -21,6 +21,8 @@ public:
 
     void timeChanged(const int by);
 
+    void erase();
+
     void setOrders(const eResourceType imports,
                    const eResourceType exports);
 
@@ -39,12 +41,21 @@ public:
 
     void setWalkable(const eWalkable& w);
     void setUnpackBuilding(eBuilding* const b);
+    void setOrientation(const eOrientation o);
+    eOrientation orientation() const;
+    eTradePostType tpType() const { return mType; }
+
+    using eCharacterCreator =
+        std::function<stdsptr<eCharacter>(eTile*, eGameBoard&)>;
+    void setCharacterCreator(const eCharacterCreator& c);
 private:
     eWorldCity& mCity;
     const eTradePostType mType;
     eResourceType mImports = eResourceType::none;
     eResourceType mExports = eResourceType::none;
+    eOrientation mO = eOrientation::topLeft;
 
+    eCharacterCreator mCharGen;
     eWalkable mWalkable = eWalkableHelpers::sDefaultWalkable;
     eBuilding* mUnpackBuilding = this;
 

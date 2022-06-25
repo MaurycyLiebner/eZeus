@@ -466,7 +466,7 @@ void eCharacterTextures::load() {
         fTradeBoat.fSwim.emplace_back(fRenderer);
     }
 
-    for(int i = 10420; i < 10484;) {
+    for(int i = 10421; i < 10484;) {
         for(int j = 0; j < 8; j++, i += 2) {
             texClass.load(i, fTradeBoat.fSwim[j]);
         }

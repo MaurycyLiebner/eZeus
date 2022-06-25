@@ -491,6 +491,11 @@ bool canBuildFisheryTR(eTile* const t) {
     if(!tr) return false;
     if(!tileWater(tr)) return false;
 
+    const auto trtr = tr->topRight<eTile>();
+    if(!trtr) return false;
+    if(!tileWater(trtr)) return false;
+    if(trtr->isShoreTile()) return false;
+
     const auto trtl = tr->topLeft<eTile>();
     if(!trtl) return false;
     if(!tileWater(trtl)) return false;
@@ -498,6 +503,11 @@ bool canBuildFisheryTR(eTile* const t) {
     const auto trbr = tr->bottomRight<eTile>();
     if(!trbr) return false;
     if(!tileWater(trbr)) return false;
+
+    const auto trbrtr = trbr->topRight<eTile>();
+    if(!trbrtr) return false;
+    if(!tileWater(trbrtr)) return false;
+    if(trbrtr->isShoreTile()) return false;
 
     const auto trbrbr = trbr->bottomRight<eTile>();
     if(!trbrbr) return false;
@@ -522,6 +532,11 @@ bool canBuildFisheryBR(eTile* const t) {
     if(!trbr) return false;
     if(!tileWater(trbr)) return false;
 
+    const auto trbrbr = trbr->bottomRight<eTile>();
+    if(!trbrbr) return false;
+    if(!tileWater(trbrbr)) return false;
+    if(trbrbr->isShoreTile()) return false;
+
     const auto trbrtr = trbr->topRight<eTile>();
     if(!trbrtr) return false;
     if(!tileWater(trbrtr)) return false;
@@ -529,6 +544,11 @@ bool canBuildFisheryBR(eTile* const t) {
     const auto br = t->bottomRight<eTile>();
     if(!br) return false;
     if(!tileWater(br)) return false;
+
+    const auto brbr = br->bottomRight<eTile>();
+    if(!brbr) return false;
+    if(!tileWater(brbr)) return false;
+    if(brbr->isShoreTile()) return false;
 
     const auto brbl = br->bottomLeft<eTile>();
     if(!brbl) return false;
@@ -540,6 +560,11 @@ bool canBuildFisheryBR(eTile* const t) {
 bool canBuildFisheryBL(eTile* const t) {
     if(!t) return false;
     if(!tileWater(t)) return false;
+
+    const auto bl = t->bottomLeft<eTile>();
+    if(!bl) return false;
+    if(!tileWater(bl)) return false;
+    if(bl->isShoreTile()) return false;
 
     const auto tl = t->topLeft<eTile>();
     if(!tl) return false;
@@ -557,6 +582,11 @@ bool canBuildFisheryBL(eTile* const t) {
     if(!br) return false;
     if(!tileWater(br)) return false;
 
+    const auto brbl = br->bottomLeft<eTile>();
+    if(!brbl) return false;
+    if(!tileWater(brbl)) return false;
+    if(brbl->isShoreTile()) return false;
+
     const auto brbr = br->bottomRight<eTile>();
     if(!brbr) return false;
     if(!tileWater(brbr)) return false;
@@ -568,6 +598,11 @@ bool canBuildFisheryTL(eTile* const t) {
     if(!t) return false;
     if(!tileWater(t)) return false;
 
+    const auto tl = t->topLeft<eTile>();
+    if(!tl) return false;
+    if(!tileWater(tl)) return false;
+    if(tl->isShoreTile()) return false;
+
     const auto bl = t->bottomLeft<eTile>();
     if(!bl) return false;
     if(!tileWater(bl)) return false;
@@ -575,6 +610,11 @@ bool canBuildFisheryTL(eTile* const t) {
     const auto tr = t->topRight<eTile>();
     if(!tr) return false;
     if(!tileWater(tr)) return false;
+
+    const auto trtl = tr->topLeft<eTile>();
+    if(!trtl) return false;
+    if(!tileWater(trtl)) return false;
+    if(trtl->isShoreTile()) return false;
 
     const auto trtr = tr->topRight<eTile>();
     if(!trtr) return false;
