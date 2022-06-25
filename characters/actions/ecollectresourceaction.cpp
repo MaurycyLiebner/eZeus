@@ -148,6 +148,9 @@ bool eCollectResourceAction::collect(eTile* const tile) {
     const auto a = e::make_shared<eCollectAction>(
                        mCharacter, mTransFunc,
                        failAction, finishAction);
+    a->setDeleteFailAction([tile]() {
+        tile->setBusy(false);
+    });
     setCurrentAction(a);
     return false;
 }

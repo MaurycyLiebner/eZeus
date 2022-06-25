@@ -28,11 +28,14 @@ public:
     eCharacter* character() const { return mCharacter; }
     eCharacterActionState state() const { return mState; }
     void setState(const eCharacterActionState state);
+
+    void setDeleteFailAction(const eAction& d);
 private:
     eCharacter* const mCharacter;
     eCharacterActionState mState{eCharacterActionState::running};
     const eAction mFailAction;
     const eAction mFinishAction;
+    eAction mDeleteFailAction;
     eCharacterActionType mPauseType;
 };
 

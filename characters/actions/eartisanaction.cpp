@@ -93,14 +93,12 @@ void eArtisanAction::workOnDecision(eTile* const tile) {
     if(!bb || bb->workedOn() || bb->finished() ||
        !bb->resourcesAvailable()) return;
     bb->setWorkedOn(true);
-    const auto finish = [tile]() {
-        if(const auto b = tile->underBuilding()) {
-            if(const auto bb = dynamic_cast<eSanctBuilding*>(b)) {
-                bb->setWorkedOn(false);
-                if(bb->resourcesAvailable()) {
-                    bb->incProgress();
-                }
-            }
+    const stdptr<eSanctBuilding> bbptr(bb);
+    const auto finish = [bbptr]() {
+        if(!bbptr) return;
+        bbptr->setWorkedOn(false);
+        if(bbptr->resourcesAvailable()) {
+            bbptr->incProgress();
         }
     };
     mArtisan->setActionType(eCharacterActionType::build);
@@ -129,6 +127,10 @@ void eArtisanAction::workOnDecision(eTile* const tile) {
     }
     mArtisan->setOrientation(o);
     const auto w = e::make_shared<eBuildAction>(mArtisan, finish, finish);
+    w->setDeleteFailAction([bbptr]() {
+        if(!bbptr) return;
+        bbptr->setWorkedOn(false);
+    });
     setCurrentAction(w);
 }
 

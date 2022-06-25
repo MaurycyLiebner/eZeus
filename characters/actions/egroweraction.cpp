@@ -220,6 +220,9 @@ void eGrowerAction::workOnDecision(eTile* const tile) {
     };
 
     const auto w = e::make_shared<eWaitAction>(mGrower, finish, finish);
+    w->setDeleteFailAction([tile]() {
+        tile->setBusy(false);
+    });
     w->setTime(2000);
     setCurrentAction(w);
 }

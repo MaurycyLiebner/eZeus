@@ -147,6 +147,11 @@ void eShepherdAction::collectDecision(eDomesticatedAnimal* const a) {
         mCharacter->incCollected(c);
     };
     const auto wait = e::make_shared<eWaitAction>(mCharacter, finish, finish);
+    wait->setDeleteFailAction([aa]() {
+        if(!aa) return;
+        aa->setBusy(false);
+        aa->setVisible(true);
+    });
     wait->setTime(2000);
     setCurrentAction(wait);
 }
@@ -165,6 +170,10 @@ void eShepherdAction::groomDecision(eDomesticatedAnimal* const a) {
         mGroomed++;
     };
     const auto wait = e::make_shared<eWaitAction>(mCharacter, finish, finish);
+    wait->setDeleteFailAction([aa]() {
+        if(!aa) return;
+        aa->setBusy(false);
+    });
     wait->setTime(1000);
     setCurrentAction(wait);
 }

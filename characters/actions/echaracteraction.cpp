@@ -13,7 +13,7 @@ eCharacterAction::eCharacterAction(eCharacter* const c,
 
 eCharacterAction::~eCharacterAction() {
     if(mState == eCharacterActionState::running) {
-        setState(eCharacterActionState::failed);
+        if(mDeleteFailAction) mDeleteFailAction();
     }
 }
 
@@ -33,4 +33,8 @@ void eCharacterAction::setState(const eCharacterActionState state) {
     } else if(mState == eCharacterActionState::finished) {
         if(mFinishAction) mFinishAction();
     }
+}
+
+void eCharacterAction::setDeleteFailAction(const eAction& d) {
+    mDeleteFailAction = d;
 }
