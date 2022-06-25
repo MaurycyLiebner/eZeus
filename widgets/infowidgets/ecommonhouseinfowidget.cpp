@@ -34,7 +34,7 @@ void eCommonHouseInfoWidget::initialize(eSmallHouse* const house) {
     eInfoWidget::initialize(eLanguage::text(title));
 
     const int p = padding();
-    const auto fw = addFramedWidget(14*p);
+    const auto fw = addFramedWidget(16*p);
 
     if(people <= 0) return;
 
@@ -134,20 +134,52 @@ void eCommonHouseInfoWidget::initialize(eSmallHouse* const house) {
     fw->addWidget(occ);
     occ->align(eAlignment::hcenter);
 
-    const bool paid = house->paidTaxes();
     const auto taxLabel = new eLabel(window());
-    taxLabel->setSmallFontSize();
-    taxLabel->setSmallPadding();
-    taxLabel->setWidth(fw->width());
-    taxLabel->setWrapWidth(taxLabel->width());
-    std::string paidstr;
-    if(paid) {
-        paidstr = "clerk_visited";
-    } else {
-        paidstr = "clerk_not_visited";
+    {
+        const bool paid = house->paidTaxes();
+        taxLabel->setSmallFontSize();
+        taxLabel->setTinyPadding();
+        taxLabel->setWidth(fw->width());
+        taxLabel->setWrapWidth(taxLabel->width());
+        std::string paidstr;
+        if(paid) {
+            paidstr = "clerk_visited";
+        } else {
+            paidstr = "clerk_not_visited";
+        }
+        taxLabel->setText(eLanguage::text(paidstr));
+        taxLabel->fitContent();
+        fw->addWidget(taxLabel);
+        taxLabel->setY(occ->y() + occ->height());
     }
-    taxLabel->setText(eLanguage::text(paidstr));
-    taxLabel->fitContent();
-    fw->addWidget(taxLabel);
-    taxLabel->setY(occ->y() + occ->height());
+
+    const auto satLabel = new eLabel(window());
+    {
+        satLabel->setSmallFontSize();
+        satLabel->setTinyPadding();
+        satLabel->setWidth(fw->width());
+        satLabel->setWrapWidth(satLabel->width());
+        std::string satstr;
+        if(house->water() && house->food()) {
+            satstr = "residents_happy";
+        } else {
+            satstr = "residents_dissatisfied";
+        }
+        satLabel->setText(eLanguage::text(satstr));
+        satLabel->fitContent();
+        fw->addWidget(satLabel);
+        satLabel->setY(taxLabel->y() + taxLabel->height());
+    }
+
+    if(!house->food()) {
+        const auto foodLabel = new eLabel(window());
+        foodLabel->setSmallFontSize();
+        foodLabel->setTinyPadding();
+        foodLabel->setWidth(fw->width());
+        foodLabel->setWrapWidth(foodLabel->width());
+        foodLabel->setText(eLanguage::text("residents_no_food"));
+        foodLabel->fitContent();
+        fw->addWidget(foodLabel);
+        foodLabel->setY(satLabel->y() + satLabel->height());
+    }
 }

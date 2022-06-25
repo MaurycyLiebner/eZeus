@@ -107,5 +107,5 @@ int eResolution::centralWidgetLargeHeight() const {
 }
 
 int eResolution::centralWidgetSmallHeight() const {
-    return 360*multiplier();
+    return 400*multiplier();
 }

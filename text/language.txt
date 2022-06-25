@@ -348,3 +348,7 @@ missing_appeal "This house cannot evolve until the appeal of the neighborhood in
 missing_nothing "The residents of this house have everything they need."
 
 fishermen_building "The fishermen are busy building a seaworthy boat. Once they're finished with the boat, they'll sail the high seas in search of fish."
+
+residents_happy "Residents here are happy with the city."
+residents_dissatisfied "A few residents are dissatisfied with the city."
+residents_no_food "The residents of this home forage the land for food."
