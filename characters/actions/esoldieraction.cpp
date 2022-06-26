@@ -11,6 +11,8 @@
 
 #include "characters/esoldierbanner.h"
 
+#include "emovetoaction.h"
+
 eAttackTarget::eAttackTarget() :
     mC(nullptr), mB(nullptr) {}
 
@@ -67,16 +69,14 @@ double eAttackTarget::absY() const {
     return 0.;
 }
 
+bool eSoldierAction::decide() {
+    return true;
+}
+
 void eSoldierAction::increment(const int by) {
     const int rangeAttackCheck = 500;
     const int lookForEnemyCheck = 500;
     const int missileCheck = 200;
-
-    if(mTaskCounter++ > mTaskCountCheck) {
-        mTaskCounter -= mTaskCountCheck;
-        mTaskCountCheck = mTaskCountCheckBase;
-        processPathForceTask();
-    }
 
     const auto c = character();
     if(c->dead()) return;
@@ -115,7 +115,9 @@ void eSoldierAction::increment(const int by) {
             mAttackTarget.clear();
             mAttackTime = 0;
             mRangeAttack = rangeAttackCheck;
-            c->setActionType(eCharacterActionType::walk);
+            c->setActionType(eCharacterActionType::stand);
+            setCurrentAction(nullptr);
+            mLookForEnemy = lookForEnemyCheck;
         } else {
             return;
         }
@@ -209,7 +211,7 @@ void eSoldierAction::increment(const int by) {
         }
     }
 
-    if(!hasForce(eForceType::reserved1)) {
+    if(!currentAction()) {
         mLookForEnemy += by;
         if(mLookForEnemy > lookForEnemyCheck) {
             mLookForEnemy = 0;
@@ -227,78 +229,18 @@ void eSoldierAction::increment(const int by) {
                         if(cc->playerId() == pid) continue;
                         if(cc->dead()) continue;
                         found = true;
-                        requestPathForceTask(ttx, tty, range);
+                        goTo(ttx, tty, range);
                         break;
                     }
                 }
             }
         }
     }
-    if(!hasForce(eForceType::reserved1)) {
+    if(!currentAction()) {
         goBackToBanner();
     }
-    if(!mForceGetters.empty()) {
-        vec2d force{0, 0};
-        const auto frcs = mForceGetters;
-        for(const auto& frc : frcs) {
-            force += frc.second(c);
-        }
-        const double len = force.length();
-        if(abs(len) > 0.001) {
-            const double d = c->speed()*0.005 * by;
-            force *= d/len;
-            moveBy(force.x, force.y);
-            const auto degAngle = force.angle();
-            mAngle = mAngle*0.9 + 0.1*degAngle;
-            const auto o = sAngleOrientation(mAngle);
-            c->setOrientation(o);
-        } else {
-            c->setActionType(eCharacterActionType::walk);
-        }
-    } else {
-    }
-}
 
-int eSoldierAction::addForce(const eForceGetter& force,
-                             const eForceType type) {
-    switch(type) {
-    case eForceType::regular:
-        mForceGetters[mForceId] = force;
-        return mForceId++;
-    case eForceType::reserved1:
-        mForceGetters[-1] = force;
-        return -1;
-    }
-}
-
-void eSoldierAction::removeForce(const int id) {
-    mForceGetters.erase(id);
-}
-
-void eSoldierAction::removeForce(const eForceType type) {
-    switch(type) {
-    case eForceType::regular:
-        break;
-    case eForceType::reserved1:
-        mForceGetters.erase(-1);
-        break;
-    }
-}
-
-int forceTypeId(const eForceType type) {
-    switch(type) {
-    case eForceType::regular:
-        return 0;
-    case eForceType::reserved1:
-        return -1;
-    }
-}
-
-bool eSoldierAction::hasForce(const eForceType type) const {
-    const int i = forceTypeId(type);
-    const auto it = mForceGetters.find(i);
-    const auto end = mForceGetters.end();
-    return it != end;
+    eComplexAction::increment(by);
 }
 
 void eSoldierAction::moveBy(const double dx, const double dy) {
@@ -321,101 +263,41 @@ void eSoldierAction::moveBy(const double dx, const double dy) {
     c->setY(newFY);
 }
 
-void eSoldierAction::requestPathForceTask(
-        const int fx, const int fy, const int dist) {
-    mTask.fFX = fx;
-    mTask.fFY = fy;
-    mTask.fDist = dist;
-    mTask.fValid = true;
-}
-
-void eSoldierAction::processPathForceTask() {
-    if(!mTask.fValid) return;
+void eSoldierAction::goTo(const int fx, const int fy,
+                          const int dist) {
     const auto c = character();
     const auto t = c->tile();
     const int tx = t->x();
     const int ty = t->y();
-    mTask.fValid = false;
-    setPathForce(tx, ty, mTask.fFX, mTask.fFY, mTask.fDist);
+    setPathForce(tx, ty, fx, fy, dist);
 }
 
 void eSoldierAction::setPathForce(const int sx, const int sy,
                                   const int fx, const int fy,
                                   const int dist) {
     if(abs(fx - sx) <= dist && abs(fy - sy) <= dist) return;
-    const auto empty = [](eCharacter*){ return vec2d{0., 0.}; };
-    addForce(empty, eForceType::reserved1);
 
-    const auto startTile = [fx, fy](eThreadBoard& board) {
-        return board.tile(fx, fy);
+    const stdptr<eSoldierAction> tptr(this);
+    const stdptr<eCharacter> cptr(character());
+
+    const auto hha = [fx, fy, dist](eThreadTile* const t) {
+        return abs(t->x() - fx) <= dist && abs(t->y() - fy) <= dist;
     };
 
-    const auto endTile = [sx, sy, dist](eTileBase* const t) {
-        return abs(t->x() - sx) <= dist && abs(t->y() - sy) <= dist;
+    const auto finishAct = [cptr]() {
+        if(!cptr) return;
+        cptr->setActionType(eCharacterActionType::stand);
     };
 
-    const stdptr<eSoldierAction> a(this);
-    const auto finishFunc = [a, fx, fy](const ePathFindData& data) {
-        if(!a) return;
-        const auto c = a->character();
-        c->setActionType(eCharacterActionType::walk);
-        a->addForce([a, data, fx, fy](eCharacter* const c) {
-            if(!a) return vec2d{0., 0.};
-            const auto& pbrd = data.fBoard;
-            const auto& brd = c->getBoard();
-            vec2d force{0., 0.};
-            const auto t = c->tile();
-            const int tx = t->x();
-            const int ty = t->y();
-            int v;
-            const bool r = pbrd.getAbsValue(tx, ty, v);
-            if(!r) return vec2d{0., 0.};
-            if(v == 0) {
-                a->removeForce(eForceType::reserved1);
-                return vec2d{0., 0.};
-            }
-            bool found = false;
-            for(int i = -1; i <= 1 && !found; i++) {
-                for(int j = -1; j <= 1 && !found; j++) {
-                    if(i == 0 && j == 0) continue;
-                    const int ttx = tx + i;
-                    const int tty = ty + j;
-                    const auto t = brd.tile(ttx, tty);
-                    if(!t) continue;
-                    const bool w = t->walkable();
-                    if(!w) continue;
-                    int vv;
-                    const bool r = pbrd.getAbsValue(ttx, tty, vv);
-                    if(!r) continue;
-                    if(vv >= v) continue;
-                    found = true;
-                    force = vec2d{1.*i, 1.*j};
-                    break;
-                }
-            }
-            if(!found) {
-                a->requestPathForceTask(fx, fy);
-                return vec2d{0., 0.};
-            }
-            force.normalize();
-            return force;
-        }, eForceType::reserved1);
-    };
-
-    const auto fail = [a, this]() {
-        if(!a) return;
-        removeForce(eForceType::reserved1);
-        mTaskCountCheck = 5*mTaskCountCheckBase;
-    };
-
-    const auto c = character();
-    auto& brd = c->getBoard();
-    auto& tp = brd.threadPool();
-
-    const auto pft = new ePathDataFindTask(
-                         startTile, eWalkableHelpers::sDefaultWalkable,
-                         endTile, finishFunc, fail, false, 1000);
-    tp.queueTask(pft);
+    const auto a = e::make_shared<eMoveToAction>(
+                       cptr.get(), finishAct, finishAct);
+    a->setFoundAction([tptr, cptr]() {
+        if(!tptr) return;
+        if(!cptr) return;
+        cptr->setActionType(eCharacterActionType::walk);
+    });
+    a->start(hha, eWalkableHelpers::sDefaultWalkable);
+    setCurrentAction(a);
 }
 
 void eSoldierAction::beingAttacked(eSoldier* const ss) {
@@ -427,8 +309,8 @@ void eSoldierAction::beingAttacked(eSoldier* const ss) {
 
 void eSoldierAction::beingAttacked(const int ttx, const int tty) {
     if(mAttack) return;
-    if(hasForce(eForceType::reserved1)) return;
-    requestPathForceTask(ttx, tty);
+    if(currentAction()) return;
+    goTo(ttx, tty);
 }
 
 void eSoldierAction::goBackToBanner() {
@@ -444,5 +326,5 @@ void eSoldierAction::goBackToBanner() {
 
     const int ttx = tt->x();
     const int tty = tt->y();
-    requestPathForceTask(ttx, tty);
+    goTo(ttx, tty);
 }

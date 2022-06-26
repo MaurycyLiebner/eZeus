@@ -9,11 +9,6 @@
 
 class eSoldier;
 
-enum class eForceType {
-    reserved1, // -1
-    regular
-};
-
 class eAttackTarget {
 public:
     eAttackTarget();
@@ -44,20 +39,12 @@ class eSoldierAction : public eComplexAction {
 public:
     using eComplexAction::eComplexAction;
 
-    void increment(const int by);
+    bool decide();
 
-    using eForceGetter = std::function<vec2d(eCharacter* const)>;
-    int addForce(const eForceGetter& force,
-                 const eForceType type = eForceType::regular);
-    void removeForce(const int id);
-    void removeForce(const eForceType type);
-    bool hasForce(const eForceType type) const;
+    void increment(const int by);
 
     void moveBy(const double dx, const double dy);
 
-    void requestPathForceTask(const int fx, const int fy,
-                              const int dist = 0);
-    void processPathForceTask();
     void setPathForce(const int sx, const int sy,
                       const int fx, const int fy,
                       const int dist = 0);
@@ -65,6 +52,7 @@ public:
     void beingAttacked(eSoldier* const ss);
     void beingAttacked(const int ttx, const int tty);
 private:
+    void goTo(const int fx, const int fy, const int dist = 0);
     void goBackToBanner();
 
     int mTaskCounter = 0;
@@ -73,7 +61,6 @@ private:
     ePathForceTask mTask;
 
     int mForceId = 0;
-    std::map<int, eForceGetter> mForceGetters;
     double mAngle{0.};
 
     int mMissile = 0;

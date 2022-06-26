@@ -198,11 +198,9 @@ void eMainWindow::showGame() {
             h->setPlayerId(pid);
             const auto a = e::make_shared<eSoldierAction>(h.get(), [](){}, [](){});
             h->setSoldierAction(a);
-            a->addForce(eForceHelpers::avoidUnwalkableForce);
-            a->addForce(eForceHelpers::avoidSoldiersForce);
             h->setAction(a);
             h->changeTile(mBoard->tile(x, y));
-            h->setActionType(eCharacterActionType::walk);
+            h->setActionType(eCharacterActionType::stand);
             return h;
         };
 
