@@ -275,12 +275,9 @@ void eBuildingTextures::load() {
             fTheater = texClass.load(109);
 
             fStadium2H = texClass.load(110);
-            fStadium2H->setOffset(5, 0);
             fStadium1H = texClass.load(111);
             fStadium1W = texClass.load(112);
             fStadium2W = texClass.load(113);
-            fStadium2W->setOffset(-5, 0);
-
         }
     }
 
@@ -469,11 +466,9 @@ void eBuildingTextures::load() {
             eTextureClass texClass(pathBase, texLoader);
 
             fPalace2H = texClass.load(1);
-            fPalace2H->setOffset(4, 0);
             fPalace1H = texClass.load(12);
             fPalace1W = texClass.load(13);
             fPalace2W = texClass.load(14);
-            fPalace2W->setOffset(-4, 0);
 
             texClass.load(25, fPalaceTiles);
             texClass.load(26, fPalaceTiles);

@@ -26,10 +26,10 @@ std::vector<eLoader> gGameLoaders;
 bool eGameTextures::initialize(SDL_Renderer* const r) {
     if(sInitialized) return true;
     int i = 0;
-    for(const auto& s : {std::pair<int, int>{29, 15},
-                         std::pair<int, int>{58, 30},
-                         std::pair<int, int>{87, 45},
-                         std::pair<int, int>{116, 60}}) {
+    for(const auto& s : {std::pair<int, int>{30, 15},
+                         std::pair<int, int>{60, 30},
+                         std::pair<int, int>{90, 45},
+                         std::pair<int, int>{120, 60}}) {
         sTerrainTextures.emplace_back(s.first, s.second, r);
         sGodTextures.emplace_back(s.first, s.second, r);
         sBuildingTextures.emplace_back(s.first, s.second, r);
