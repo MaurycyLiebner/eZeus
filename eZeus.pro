@@ -62,6 +62,7 @@ SOURCES += \
         buildings/eonionfarm.cpp \
         buildings/epalace.cpp \
         buildings/epalacerenderer.cpp \
+        buildings/epalacetile.cpp \
         buildings/epark.cpp \
         buildings/epatrolbuilding.cpp \
         buildings/epatrolbuildingbase.cpp \
@@ -397,6 +398,7 @@ HEADERS += \
     buildings/eonionfarm.h \
     buildings/epalace.h \
     buildings/epalacerenderer.h \
+    buildings/epalacetile.h \
     buildings/epark.h \
     buildings/epatrolbuilding.h \
     buildings/epatrolbuildingbase.h \

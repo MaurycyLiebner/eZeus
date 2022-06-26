@@ -29,6 +29,7 @@
 #include "buildings/estadiumrenderer.h"
 #include "buildings/epalace.h"
 #include "buildings/epalacerenderer.h"
+#include "buildings/epalacetile.h"
 #include "buildings/emint.h"
 #include "buildings/efoundry.h"
 #include "buildings/etimbermill.h"
@@ -1979,19 +1980,47 @@ void eGameWidget::paintEvent(ePainter& p) {
             ebs2.fBR = e::make_shared<eStadium2Renderer>(b1);
         } break;
         case eBuildingMode::palace: {
+            const int tx = mHoverTX;
+            const int ty = mHoverTY;
             const auto b1 = e::make_shared<ePalace>(*mBoard, mRotate);
-            auto& ebs1 = ebs.emplace_back(mHoverTX, mHoverTY, b1);
-            ebs1.fBR = e::make_shared<ePalace1Renderer>(b1);
+
             int dx;
             int dy;
+            int sw;
+            int sh;
+            const int tminX = tx - 2;
+            const int tminY = ty - 3;
+            int tmaxX;
+            int tmaxY;
             if(mRotate) {
                 dx = 0;
                 dy = 4;
+                sw = 4;
+                sh = 8;
+                tmaxX = tminX + 6;
+                tmaxY = tminY + 9;
             } else {
                 dx = 4;
                 dy = 0;
+                sw = 8;
+                sh = 4;
+                tmaxX = tminX + 9;
+                tmaxY = tminY + 6;
             }
-            auto& ebs2 = ebs.emplace_back(mHoverTX + dx, mHoverTY + dy, b1);
+            const SDL_Rect rect{tminX + 1, tminY + 1, sw, sh};
+            for(int x = tminX; x < tmaxX; x++) {
+                for(int y = tminY; y < tmaxY; y++) {
+                    const SDL_Point pt{x, y};
+                    const bool r = SDL_PointInRect(&pt, &rect);
+                    if(r) continue;
+                    const auto b0 = e::make_shared<ePalaceTile>(*mBoard);
+                    ebs.emplace_back(x, y, b0);
+                }
+            }
+
+            auto& ebs1 = ebs.emplace_back(tx, ty, b1);
+            ebs1.fBR = e::make_shared<ePalace1Renderer>(b1);
+            auto& ebs2 = ebs.emplace_back(tx + dx, ty + dy, b1);
             ebs2.fBR = e::make_shared<ePalace2Renderer>(b1);
         } break;
         case eBuildingMode::eliteHousing: {

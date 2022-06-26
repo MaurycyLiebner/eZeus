@@ -90,6 +90,7 @@ enum class eBuildingType {
     watchPost,
 
     palace,
+    palaceTile,
     bridge,
 
     park,

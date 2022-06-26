@@ -18,6 +18,7 @@
 #include "buildings/estadiumrenderer.h"
 #include "buildings/epalace.h"
 #include "buildings/epalacerenderer.h"
+#include "buildings/epalacetile.h"
 #include "buildings/emint.h"
 #include "buildings/efoundry.h"
 #include "buildings/etimbermill.h"
@@ -708,22 +709,48 @@ bool eGameWidget::buildMouseRelease() {
             t2->setBuilding(renderer2);
         }; break;
         case eBuildingMode::palace: {
+            const int tx = mHoverTX;
+            const int ty = mHoverTY;
             int dx;
             int dy;
             int sw;
             int sh;
+            const int tminX = tx - 2;
+            const int tminY = ty - 3;
+            int tmaxX;
+            int tmaxY;
+            const auto forAllTiles = [&](const std::function<void(int, int)>& prc) {
+                const SDL_Rect rect{tminX + 1, tminY + 1, sw, sh};
+                for(int x = tminX; x < tmaxX; x++) {
+                    for(int y = tminY; y < tmaxY; y++) {
+                        const SDL_Point pt{x, y};
+                        const bool r = SDL_PointInRect(&pt, &rect);
+                        if(r) continue;
+                        const bool cb = canBuild(x, y, 1, 1);
+                        if(!cb) return false;
+                        if(prc) prc(x, y);
+                    }
+                }
+                return true;
+            };
             if(mRotate) {
                 dx = 0;
                 dy = 4;
                 sw = 4;
                 sh = 8;
+                tmaxX = tminX + 6;
+                tmaxY = tminY + 9;
             } else {
                 dx = 4;
                 dy = 0;
                 sw = 8;
                 sh = 4;
+                tmaxX = tminX + 9;
+                tmaxY = tminY + 6;
             }
-            const auto t1 = mBoard->tile(mHoverTX, mHoverTY);
+            const bool cb0 = forAllTiles(nullptr);
+            if(!cb0) return true;
+            const auto t1 = mBoard->tile(tx, ty);
             if(!t1) return true;
             const bool cb1 = canBuild(t1->x(), t1->y(), 4, 4);
             if(!cb1) return true;
@@ -731,6 +758,11 @@ bool eGameWidget::buildMouseRelease() {
             if(!t2) return true;
             const bool cb2 = canBuild(t2->x(), t2->y(), 4, 4);
             if(!cb2) return true;
+            forAllTiles([&](const int x, const int y) {
+                build(x, y, 1, 1, [&]() {
+                    return e::make_shared<ePalaceTile>(*mBoard);
+                });
+            });
             stdsptr<ePalace> s;
             build(t1->x(), t1->y(), sw, sh, [&]() {
                 s = e::make_shared<ePalace>(*mBoard, mRotate);
