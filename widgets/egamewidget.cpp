@@ -2638,29 +2638,26 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
         const int hy = mHoverTY;
         const auto& solds = mBoard->selectedSoldiers();
 
-        const int n = solds.size();
-        if(n == 1) {
-            solds[0]->moveTo(hx, hy);
-        } else if(n > 0) {
-            int isld = 0;
-            const int slds = solds.size();
-            const int dist = 5;
+        int isld = 0;
+        const int slds = solds.size();
+        const int dist = 5;
 
-            const auto prcsTile = [&](const int i, const int j) {
-                if(isld >= slds) return;
-                const int tx = hx + i;
-                const int ty = hy + j;
-                const auto tt = mBoard->tile(tx, ty);
-                if(!tt) return;
-                if(!tt->walkable()) return;
+        const auto prcsTile = [&](const int i, const int j) {
+            if(isld >= slds) return;
+            const int tx = hx + i;
+            const int ty = hy + j;
+            const auto tt = mBoard->tile(tx, ty);
+            if(!tt) return;
+            if(!tt->walkable()) return;
+            if(tt->banner()) return;
 
-                const auto s = solds[isld++];
-                s->moveTo(tx, ty);
-            };
+            const auto s = solds[isld++];
+            s->moveTo(tx, ty);
+        };
 
-            for(int k = 0; isld < slds; k += dist) {
-                eIterateSquare::iterateSquare(k, prcsTile, dist);
-            }
+        const int kinc = slds == 1 ? 1 : dist;
+        for(int k = 0; isld < slds; k += kinc) {
+            eIterateSquare::iterateSquare(k, prcsTile, dist);
         }
     } break;
     default: return false;

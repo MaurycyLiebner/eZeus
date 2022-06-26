@@ -72,6 +72,12 @@ void eSoldierAction::increment(const int by) {
     const int lookForEnemyCheck = 500;
     const int missileCheck = 200;
 
+    if(mTaskCounter++ > mTaskCountCheck) {
+        mTaskCounter -= mTaskCountCheck;
+        mTaskCountCheck = mTaskCountCheckBase;
+        processPathForceTask();
+    }
+
     const auto c = character();
     if(c->dead()) return;
     const auto s = static_cast<eSoldier*>(c);
@@ -221,7 +227,7 @@ void eSoldierAction::increment(const int by) {
                         if(cc->playerId() == pid) continue;
                         if(cc->dead()) continue;
                         found = true;
-                        setPathForce(tx, ty, ttx, tty, range);
+                        requestPathForceTask(ttx, tty, range);
                         break;
                     }
                 }
@@ -315,9 +321,28 @@ void eSoldierAction::moveBy(const double dx, const double dy) {
     c->setY(newFY);
 }
 
+void eSoldierAction::requestPathForceTask(
+        const int fx, const int fy, const int dist) {
+    mTask.fFX = fx;
+    mTask.fFY = fy;
+    mTask.fDist = dist;
+    mTask.fValid = true;
+}
+
+void eSoldierAction::processPathForceTask() {
+    if(!mTask.fValid) return;
+    const auto c = character();
+    const auto t = c->tile();
+    const int tx = t->x();
+    const int ty = t->y();
+    mTask.fValid = false;
+    setPathForce(tx, ty, mTask.fFX, mTask.fFY, mTask.fDist);
+}
+
 void eSoldierAction::setPathForce(const int sx, const int sy,
                                   const int fx, const int fy,
                                   const int dist) {
+    if(abs(fx - sx) <= dist && abs(fy - sy) <= dist) return;
     const auto empty = [](eCharacter*){ return vec2d{0., 0.}; };
     addForce(empty, eForceType::reserved1);
 
@@ -329,7 +354,7 @@ void eSoldierAction::setPathForce(const int sx, const int sy,
         return abs(t->x() - sx) <= dist && abs(t->y() - sy) <= dist;
     };
 
-    const stdptr<eSoldierAction> a = this;
+    const stdptr<eSoldierAction> a(this);
     const auto finishFunc = [a, fx, fy](const ePathFindData& data) {
         if(!a) return;
         const auto c = a->character();
@@ -369,10 +394,7 @@ void eSoldierAction::setPathForce(const int sx, const int sy,
                 }
             }
             if(!found) {
-                const auto t = c->tile();
-                const int ctx = t->x();
-                const int cty = t->y();
-                a->setPathForce(ctx, cty, fx, fy);
+                a->requestPathForceTask(fx, fy);
                 return vec2d{0., 0.};
             }
             force.normalize();
@@ -380,9 +402,10 @@ void eSoldierAction::setPathForce(const int sx, const int sy,
         }, eForceType::reserved1);
     };
 
-    const auto fail = [a]() {
+    const auto fail = [a, this]() {
         if(!a) return;
-        a->removeForce(eForceType::reserved1);
+        removeForce(eForceType::reserved1);
+        mTaskCountCheck = 5*mTaskCountCheckBase;
     };
 
     const auto c = character();
@@ -405,11 +428,7 @@ void eSoldierAction::beingAttacked(eSoldier* const ss) {
 void eSoldierAction::beingAttacked(const int ttx, const int tty) {
     if(mAttack) return;
     if(hasForce(eForceType::reserved1)) return;
-    const auto c = character();
-    const auto t = c->tile();
-    const int tx = t->x();
-    const int ty = t->y();
-    setPathForce(tx, ty, ttx, tty);
+    requestPathForceTask(ttx, tty);
 }
 
 void eSoldierAction::goBackToBanner() {
@@ -419,14 +438,11 @@ void eSoldierAction::goBackToBanner() {
     if(!b) return;
 
     const auto ct = c->tile();
-    const int tx = ct->x();
-    const int ty = ct->y();
-
     const auto tt = b->place(s);
     if(!tt) return;
     if(ct == tt) return;
 
     const int ttx = tt->x();
     const int tty = tt->y();
-    setPathForce(tx, ty, ttx, tty);
+    requestPathForceTask(ttx, tty);
 }

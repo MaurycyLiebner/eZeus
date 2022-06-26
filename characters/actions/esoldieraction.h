@@ -33,6 +33,13 @@ private:
     stdptr<eBuilding> mB;
 };
 
+struct ePathForceTask {
+    int fFX;
+    int fFY;
+    int fDist = 0;
+    bool fValid = false;
+};
+
 class eSoldierAction : public eComplexAction {
 public:
     using eComplexAction::eComplexAction;
@@ -48,6 +55,9 @@ public:
 
     void moveBy(const double dx, const double dy);
 
+    void requestPathForceTask(const int fx, const int fy,
+                              const int dist = 0);
+    void processPathForceTask();
     void setPathForce(const int sx, const int sy,
                       const int fx, const int fy,
                       const int dist = 0);
@@ -56,6 +66,11 @@ public:
     void beingAttacked(const int ttx, const int tty);
 private:
     void goBackToBanner();
+
+    int mTaskCounter = 0;
+    const int mTaskCountCheckBase = 60;
+    int mTaskCountCheck = mTaskCountCheckBase;
+    ePathForceTask mTask;
 
     int mForceId = 0;
     std::map<int, eForceGetter> mForceGetters;

@@ -35,6 +35,8 @@ public:
     void setSelected(const bool s) { mSelected = s; }
     bool selected() const { return mSelected; }
 private:
+    void updatePlaces();
+
     const eBannerType mType;
     const int mId;
 

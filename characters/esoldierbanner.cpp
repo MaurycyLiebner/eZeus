@@ -29,11 +29,54 @@ void eSoldierBanner::moveTo(const int x, const int y) {
     mX = x;
     mY = y;
 
+    updatePlaces();
     callSoldiers();
 }
 
-
 void eSoldierBanner::callSoldiers() {
+    std::vector<eSoldier*> soldiers;
+    soldiers.reserve(mSoldiers.size());
+    for(const auto& s : mSoldiers) {
+        if(s->dead()) continue;
+        soldiers.push_back(s);
+    }
+
+    if(soldiers.empty()) return;
+
+    for(const auto s : soldiers) {
+        const auto tt = mPlaces[s];
+        const auto t = s->tile();
+        const int tx = t->x();
+        const int ty = t->y();
+
+        const int ttx = tt->x();
+        const int tty = tt->y();
+
+        const auto a = s->soldierAction();
+        a->setPathForce(tx, ty, ttx, tty);
+    }
+}
+
+void eSoldierBanner::addSoldier(eSoldier* const s) {
+    mSoldiers.push_back(s);
+    updatePlaces();
+}
+
+void eSoldierBanner::removeSoldier(eSoldier* const s) {
+    mPlaces.erase(s);
+    const auto it = std::find(mSoldiers.begin(), mSoldiers.end(), s);
+    if(it == mSoldiers.end()) return;
+    mSoldiers.erase(it);
+    updatePlaces();
+}
+
+eTile* eSoldierBanner::place(eSoldier* const s) {
+    const auto it = mPlaces.find(s);
+    if(it == mPlaces.end()) return nullptr;
+    return it->second;
+}
+
+void eSoldierBanner::updatePlaces() {
     std::vector<eSoldier*> soldiers;
     soldiers.reserve(mSoldiers.size());
     for(const auto& s : mSoldiers) {
@@ -54,35 +97,9 @@ void eSoldierBanner::callSoldiers() {
 
         const auto s = soldiers[isld++];
         mPlaces[s] = tt;
-        const auto t = s->tile();
-        const int tx = t->x();
-        const int ty = t->y();
-
-        const int ttx = tt->x();
-        const int tty = tt->y();
-
-        const auto a = s->soldierAction();
-        a->setPathForce(tx, ty, ttx, tty);
     };
 
     for(int k = 0; isld < slds; k++) {
         eIterateSquare::iterateSquare(k, prcsTile);
     }
-}
-
-void eSoldierBanner::addSoldier(eSoldier* const s) {
-    mSoldiers.push_back(s);
-}
-
-void eSoldierBanner::removeSoldier(eSoldier* const s) {
-    mPlaces.erase(s);
-    const auto it = std::find(mSoldiers.begin(), mSoldiers.end(), s);
-    if(it == mSoldiers.end()) return;
-    mSoldiers.erase(it);
-}
-
-eTile* eSoldierBanner::place(eSoldier* const s) {
-    const auto it = mPlaces.find(s);
-    if(it == mPlaces.end()) return nullptr;
-    return it->second;
 }
