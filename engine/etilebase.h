@@ -211,6 +211,7 @@ T* eTileBase::tileRel(const int x, const int y) const {
                 if(!ry) return nullptr;
                 return ry->template tileRel<T>(-1, 0);
             }
+            return nullptr;
         }
         return tl->template tileRel<T>(x + 1, y);
     }
