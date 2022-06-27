@@ -103,6 +103,7 @@ public:
 
     void registerTradePost(eTradePost* const b);
     bool unregisterTradePost(eTradePost* const b);
+    bool hasTradePost(const eWorldCity& city);
 
     void registerSpawner(eSpawner* const s);
     bool unregisterSpawner(eSpawner* const s);
@@ -181,6 +182,8 @@ public:
     { return mSelectedBanners; }
 
     void setRegisterBuildingsEnabled(const bool e);
+
+    void setButtonsVisUpdater(const eAction& u);
 private:
     void updateNeighbours();
     void updateTileRenderingOrder();
@@ -256,6 +259,8 @@ private:
     eEmploymentData mEmplData;
 
     eAppealMap mAppealMap;
+
+    eAction mButtonVisUpdater;
 };
 
 #endif // EGAMEBOARD_H

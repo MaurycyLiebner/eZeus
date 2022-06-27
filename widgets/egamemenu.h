@@ -59,6 +59,8 @@ public:
 
     void closeBuildWidget();
     void setBuildWidget(eBuildWidget* const bw);
+
+    void updateButtonsVisibility();
 protected:
     bool mousePressEvent(const eMouseEvent& e);
 private:
@@ -81,6 +83,9 @@ private:
     eBuildWidget* mBuildWidget = nullptr;
 
     eFramedLabel* mNameLabel = nullptr;
+
+    eWidget* mStadiumButton = nullptr;
+    eWidget* mPalaceButton = nullptr;
 
     ePopulationDataWidget* mPopDataW = nullptr;
     eEmploymentDataWidget* mEmplDataW = nullptr;

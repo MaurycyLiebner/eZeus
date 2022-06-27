@@ -68,6 +68,9 @@ void eGameWidget::setBoard(eGameBoard* const board) {
     mBoard->setVisibilityChecker([this](eTile* const tile) {
         return tileVisible(tile);
     });
+    mBoard->setButtonsVisUpdater([this]() {
+        mGm->updateButtonsVisibility();
+    });
 }
 
 void eGameWidget::initialize() {

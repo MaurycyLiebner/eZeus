@@ -18,6 +18,7 @@
 #include "characters/esoldierbanner.h"
 
 #include "buildings/sanctuaries/esanctbuilding.h"
+#include "buildings/etradepost.h"
 
 #include "engine/boardData/eappealupdatetask.h"
 
@@ -116,6 +117,10 @@ void eGameBoard::selectSoldier(eSoldierBanner* const c) {
 
 void eGameBoard::setRegisterBuildingsEnabled(const bool e) {
     mRegisterBuildingsEnabled = e;
+}
+
+void eGameBoard::setButtonsVisUpdater(const eAction& u) {
+    mButtonVisUpdater = u;
 }
 
 void eGameBoard::updateTileRenderingOrder() {
@@ -296,6 +301,14 @@ bool eGameBoard::unregisterTradePost(eTradePost* const b) {
     return true;
 }
 
+bool eGameBoard::hasTradePost(const eWorldCity& city) {
+    for(const auto t : mTradePosts) {
+        const bool r = &t->city() == &city;
+        if(r) return true;
+    }
+    return false;
+}
+
 void eGameBoard::registerSpawner(eSpawner* const s) {
     mSpawners.push_back(s);
 }
@@ -310,11 +323,13 @@ bool eGameBoard::unregisterSpawner(eSpawner* const s) {
 void eGameBoard::registerStadium() {
     if(!mRegisterBuildingsEnabled) return;
     mStadiumCount++;
+    mButtonVisUpdater();
 }
 
 void eGameBoard::unregisterStadium() {
     if(!mRegisterBuildingsEnabled) return;
     mStadiumCount--;
+    mButtonVisUpdater();
 }
 
 void eGameBoard::registerStorBuilding(eStorageBuilding* const b) {
@@ -344,11 +359,13 @@ bool eGameBoard::unregisterMissile(eMissile* const m) {
 void eGameBoard::registerPalace() {
     if(!mRegisterBuildingsEnabled) return;
     mPalaceCount++;
+    mButtonVisUpdater();
 }
 
 void eGameBoard::unregisterPalace() {
     if(!mRegisterBuildingsEnabled) return;
     mPalaceCount--;
+    mButtonVisUpdater();
 }
 
 void eGameBoard::incTime(const int by) {

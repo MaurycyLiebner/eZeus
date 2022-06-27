@@ -28,12 +28,17 @@
 
 #include "ebuildwidget.h"
 
+enum class eSubButtonDataType {
+    basic, stadium, palace
+};
+
 struct eSubButtonData {
     std::string fName;
     std::function<void()> fPressedFunc;
     int fPrice;
     int fPriceSpace;
     const eTextureCollection* fColl = nullptr;
+    eSubButtonDataType fType = eSubButtonDataType::basic;
 };
 
 eWidget* eGameMenu::createPriceWidget(const eInterfaceTextures& coll) {
@@ -71,6 +76,7 @@ eWidget* eGameMenu::createSubButtons(
     const int iMax = buttons.size();
     for(int i = 0; i < iMax; i++) {
         const auto& c = buttons[i];
+
         const auto b = eButton::sCreate(*c.fColl, window(), result);
         b->setPressAction(c.fPressedFunc);
         b->setMouseEnterAction([c, this]() {
@@ -84,6 +90,16 @@ eWidget* eGameMenu::createSubButtons(
         const auto& pos = poses[i];
         b->setX(pos.first);
         b->setY(pos.second);
+
+        switch(c.fType) {
+        case eSubButtonDataType::palace:
+            mPalaceButton = b;
+            break;
+        case eSubButtonDataType::stadium:
+            mStadiumButton = b;
+            break;
+        default: break;
+        }
     }
 
     result->setNoPadding();
@@ -353,15 +369,17 @@ void eGameMenu::initialize(eGameBoard* const b) {
         const auto& wrld = mBoard->getWorldBoard();
         int i = 0;
         for(const auto& c : wrld.cities()) {
-            if(!c->buys().empty() || !c->sells().empty()) {
-                if(c->waterTrade()) {
-                    const auto name = eLanguage::text("pier") + c->name();
-                    const eSPR s{eBuildingMode::pier, name, 0, i};
-                    cs.push_back(s);
-                } else {
-                    const auto name = eLanguage::text("trading_post") + c->name();
-                    const eSPR s{eBuildingMode::tradePost, name, 0, i};
-                    cs.push_back(s);
+            if(!mBoard->hasTradePost(*c)) {
+                if(!c->buys().empty() || !c->sells().empty()) {
+                    if(c->waterTrade()) {
+                        const auto name = eLanguage::text("pier") + c->name();
+                        const eSPR s{eBuildingMode::pier, name, 0, i};
+                        cs.push_back(s);
+                    } else {
+                        const auto name = eLanguage::text("trading_post") + c->name();
+                        const eSPR s{eBuildingMode::tradePost, name, 0, i};
+                        cs.push_back(s);
+                    }
                 }
             }
             i++;
@@ -440,7 +458,8 @@ void eGameMenu::initialize(eGameBoard* const b) {
                           diff, eBuildingType::bridge);
     const auto buttonsVec5 = eButtonsDataVec{
                             {eLanguage::text("palace"),
-                             p5, cost10, 0, &coll.fPalace},
+                             p5, cost10, 0, &coll.fPalace,
+                             eSubButtonDataType::palace},
                             {eLanguage::text("tax_office"),
                              tc5, cost11, 1, &coll.fTaxCollector},
                             {eLanguage::text("water_crossing"),
@@ -479,7 +498,8 @@ void eGameMenu::initialize(eGameBoard* const b) {
                             {eLanguage::text("drama"),
                              d6, 0, 2, &coll.fDrama},
                             {eLanguage::text("stadium"),
-                             s6, cost14, 3, &coll.fStadium}};
+                             s6, cost14, 3, &coll.fStadium,
+                             eSubButtonDataType::stadium}};
     const auto ww6 = createDataWidget(mCultureDataW, buttonsVec6,
                                       "culture_title");
 
@@ -752,6 +772,11 @@ void eGameMenu::closeBuildWidget() {
 void eGameMenu::setBuildWidget(eBuildWidget* const bw) {
     closeBuildWidget();
     mBuildWidget = bw;
+}
+
+void eGameMenu::updateButtonsVisibility() {
+    mPalaceButton->setVisible(!mBoard->hasPalace());
+    mStadiumButton->setVisible(!mBoard->hasStadium());
 }
 
 void eGameMenu::setMode(const eBuildingMode mode) {

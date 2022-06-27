@@ -675,6 +675,7 @@ bool eGameWidget::buildMouseRelease() {
                   [this]() { return e::make_shared<eHospital>(*mBoard); });
         }; break;
         case eBuildingMode::stadium: {
+            if(mBoard->hasStadium()) return true;
             int dx;
             int dy;
             int sw;
@@ -707,8 +708,10 @@ bool eGameWidget::buildMouseRelease() {
             t1->setBuilding(renderer1);
             const auto renderer2 = e::make_shared<eStadium2Renderer>(s);
             t2->setBuilding(renderer2);
+            mGm->clearMode();
         }; break;
         case eBuildingMode::palace: {
+            if(mBoard->hasPalace()) return true;
             const int tx = mHoverTX;
             const int ty = mHoverTY;
             int dx;
@@ -781,6 +784,7 @@ bool eGameWidget::buildMouseRelease() {
             t1->setBuilding(renderer1);
             const auto renderer2 = e::make_shared<ePalace2Renderer>(s);
             t2->setBuilding(renderer2);
+            mGm->clearMode();
         }; break;
         case eBuildingMode::eliteHousing: {
             const auto t1 = mBoard->tile(mHoverTX, mHoverTY);
@@ -947,6 +951,8 @@ bool eGameWidget::buildMouseRelease() {
                     return !t->isShoreTile();
                 });
                 build(tx, ty, 4, 4, [&]() { return tp; });
+
+                mGm->clearMode();
             }
         }; break;
 
@@ -1027,6 +1033,7 @@ bool eGameWidget::buildMouseRelease() {
                 });
                 return tp;
             });
+            mGm->clearMode();
         }; break;
 
 

@@ -1138,6 +1138,20 @@ void eGameWidget::paintEvent(ePainter& p) {
                 return canBuildPier(tx, ty, o);
             };
         } break;
+        case eBuildingMode::palace: {
+            canBuildFunc = [&](const int tx, const int ty,
+                               const int sw, const int sh) {
+                if(mBoard->hasPalace()) return false;
+                return canBuild(tx, ty, sw, sh, specReq);
+            };
+        } break;
+        case eBuildingMode::stadium: {
+            canBuildFunc = [&](const int tx, const int ty,
+                               const int sw, const int sh) {
+                if(mBoard->hasStadium()) return false;
+                return canBuild(tx, ty, sw, sh, specReq);
+            };
+        } break;
         case eBuildingMode::foodVendor:
         case eBuildingMode::fleeceVendor:
         case eBuildingMode::oilVendor:
