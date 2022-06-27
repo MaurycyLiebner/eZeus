@@ -16,6 +16,8 @@ enum class eBuildingType {
     none = -1,
     erase,
 
+    road,
+
     commonHouse,
     eliteHousing,
 
@@ -120,8 +122,6 @@ enum class eBuildingType {
     baths,
     stoneCircle,
 
-    ruins,
-
     templeAphrodite,
     templeArtemis,
     templeHephaestus,
@@ -133,7 +133,7 @@ enum class eBuildingType {
     templeMonument,
     templeAltar,
 
-    road
+    ruins
 };
 
 class eBuilding : public eObject {

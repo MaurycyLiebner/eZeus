@@ -19,6 +19,7 @@
 #include "ethreadpool.h"
 
 #include "eworldboard.h"
+#include "widgets/ebuildingmode.h"
 
 class eSpawner;
 class eCharacter;
@@ -184,6 +185,10 @@ public:
     void setRegisterBuildingsEnabled(const bool e);
 
     void setButtonsVisUpdater(const eAction& u);
+
+    void addSupportedBuilding(const eBuildingMode t);
+    void removeSupportedBuilding(const eBuildingMode t);
+    bool supportsBuilding(const eBuildingMode t) const;
 private:
     void updateNeighbours();
     void updateTileRenderingOrder();
@@ -261,6 +266,8 @@ private:
     eAppealMap mAppealMap;
 
     eAction mButtonVisUpdater;
+
+    std::vector<eBuildingMode> mSupportedBuildings;
 };
 
 #endif // EGAMEBOARD_H

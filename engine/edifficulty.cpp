@@ -86,6 +86,8 @@ int costBase(const eBuildingType type) {
 
     case eBuildingType::tradePost:
         return 100;
+    case eBuildingType::pier:
+        return 100;
 
 
     case eBuildingType::commonAgora:

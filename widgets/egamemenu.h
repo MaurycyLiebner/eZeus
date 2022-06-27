@@ -30,6 +30,8 @@ enum class eEvent;
 
 struct eSubButtonData;
 
+class eSubButton;
+
 class eContextMenu;
 
 struct eSPR {
@@ -42,6 +44,7 @@ struct eSPR {
 class eGameMenu : public eGameMenuBase {
 public:
     using eGameMenuBase::eGameMenuBase;
+    ~eGameMenu();
     void initialize(eGameBoard* const b);
 
     int cityId() const { return mCityId; }
@@ -61,6 +64,8 @@ public:
     void setBuildWidget(eBuildWidget* const bw);
 
     void updateButtonsVisibility();
+    void openBuildWidget(const int cmx, const int cmy,
+                         const std::vector<eSPR>& cs);
 protected:
     bool mousePressEvent(const eMouseEvent& e);
 private:
@@ -72,8 +77,6 @@ private:
                    const eInterfaceTextures& coll,
                    eContextMenu* const cm);
     eBuildButton* createBuildButton(const eSPR& c);
-    void openBuildWidget(const int cmx, const int cmy,
-                         const std::vector<eSPR>& cs);
 
     void displayPrice(const int price, const int loc);
     eWidget* createPriceWidget(const eInterfaceTextures& coll);
@@ -112,6 +115,8 @@ private:
 
     std::vector<eWidget*> mPriceWidgets;
     std::vector<eLabel*> mPriceLabels;
+
+    std::vector<eSubButton*> mSubButtons;
 };
 
 #endif // EGAMEMENU_H

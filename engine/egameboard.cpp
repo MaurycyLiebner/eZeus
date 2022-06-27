@@ -27,7 +27,14 @@
 #include "etilehelper.h"
 
 eGameBoard::eGameBoard() :
-    mEmplData(mPopData, *this) {}
+    mEmplData(mPopData, *this) {
+    const int min = static_cast<int>(eBuildingMode::road);
+    const int max = static_cast<int>(eBuildingMode::templeZeus);
+    for(int i = min; i <= max; i++) {
+        const auto bm = static_cast<eBuildingMode>(i);
+        mSupportedBuildings.push_back(bm);
+    }
+}
 
 eGameBoard::~eGameBoard() {
     clear();
@@ -121,6 +128,27 @@ void eGameBoard::setRegisterBuildingsEnabled(const bool e) {
 
 void eGameBoard::setButtonsVisUpdater(const eAction& u) {
     mButtonVisUpdater = u;
+}
+
+void eGameBoard::addSupportedBuilding(const eBuildingMode t) {
+    if(supportsBuilding(t)) return;
+    mSupportedBuildings.push_back(t);
+    mButtonVisUpdater();
+}
+
+void eGameBoard::removeSupportedBuilding(const eBuildingMode t) {
+    const auto it = std::find(mSupportedBuildings.begin(),
+                              mSupportedBuildings.end(), t);
+    if(it == mSupportedBuildings.end()) return;
+    mSupportedBuildings.erase(it);
+    mButtonVisUpdater();
+}
+
+bool eGameBoard::supportsBuilding(const eBuildingMode t) const {
+    const auto it = std::find(mSupportedBuildings.begin(),
+                              mSupportedBuildings.end(), t);
+    const bool s = it != mSupportedBuildings.end();
+    return s;
 }
 
 void eGameBoard::updateTileRenderingOrder() {
@@ -291,6 +319,7 @@ bool eGameBoard::unregisterBuilding(eBuilding* const b) {
 void eGameBoard::registerTradePost(eTradePost* const b) {
     if(!mRegisterBuildingsEnabled) return;
     mTradePosts.push_back(b);
+    mButtonVisUpdater();
 }
 
 bool eGameBoard::unregisterTradePost(eTradePost* const b) {
@@ -298,6 +327,7 @@ bool eGameBoard::unregisterTradePost(eTradePost* const b) {
     const auto it = std::find(mTradePosts.begin(), mTradePosts.end(), b);
     if(it == mTradePosts.end()) return false;
     mTradePosts.erase(it);
+    mButtonVisUpdater();
     return true;
 }
 

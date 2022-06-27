@@ -78,6 +78,7 @@ enum class eBuildingMode {
 
     taxOffice,
     palace,
+    bridge,
 
     park,
     doricColumn,
@@ -114,8 +115,10 @@ enum class eBuildingMode {
     baths,
     stoneCircle,
 
+    templeAphrodite,
+    templeArtemis,
     templeHephaestus,
-    templeArtemis
+    templeZeus
 };
 
 namespace eBuildingModeHelpers {

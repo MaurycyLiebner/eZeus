@@ -101,6 +101,11 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
     case eBuildingMode::pier:
         return eBuildingType::pier;
 
+
+    case eBuildingMode::commonAgora:
+        return eBuildingType::commonAgora;
+    case eBuildingMode::grandAgora:
+        return eBuildingType::grandAgora;
     case eBuildingMode::foodVendor:
         return eBuildingType::foodVendor;
     case eBuildingMode::fleeceVendor:
@@ -127,6 +132,8 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::taxOffice;
     case eBuildingMode::palace:
         return eBuildingType::palace;
+    case eBuildingMode::bridge:
+        return eBuildingType::bridge;
 
     case eBuildingMode::park:
         return eBuildingType::park;
