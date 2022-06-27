@@ -2,6 +2,7 @@
 
 #include "engine/egameboard.h"
 #include "textures/egametextures.h"
+#include "epalacetile.h"
 
 ePalace::ePalace(eGameBoard& board, const bool r) :
     eBuilding(board, eBuildingType::palace,
@@ -14,6 +15,13 @@ ePalace::ePalace(eGameBoard& board, const bool r) :
 ePalace::~ePalace() {
     auto& b = getBoard();
     b.unregisterPalace();
+}
+
+void ePalace::erase() {
+    for(const auto& t : mTiles) {
+        t->eBuilding::erase();
+    }
+    eBuilding::erase();
 }
 
 std::shared_ptr<eTexture> ePalace::getTexture1(const eTileSize size) const {
@@ -61,4 +69,8 @@ std::vector<eOverlay> ePalace::getOverlays2(const eTileSize size) const {
         os.push_back(a0);
     }
     return os;
+}
+
+void ePalace::addTile(const stdsptr<ePalaceTile>& tile) {
+    mTiles.push_back(tile);
 }

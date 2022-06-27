@@ -3,10 +3,14 @@
 
 #include "ebuilding.h"
 
+class ePalaceTile;
+
 class ePalace : public eBuilding {
 public:
     ePalace(eGameBoard& board, const bool r);
     ~ePalace();
+
+    void erase();
 
     std::shared_ptr<eTexture>
     getTexture(const eTileSize) const { return nullptr; }
@@ -18,8 +22,11 @@ public:
 
     std::vector<eOverlay>
     getOverlays2(const eTileSize size) const;
+
+    void addTile(const stdsptr<ePalaceTile>& tile);
 private:
     const bool mRotated;
+    std::vector<stdsptr<ePalaceTile>> mTiles;
 };
 
 #endif // EPALACE_H

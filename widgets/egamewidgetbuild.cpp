@@ -758,14 +758,15 @@ bool eGameWidget::buildMouseRelease() {
             if(!t2) return true;
             const bool cb2 = canBuild(t2->x(), t2->y(), 4, 4);
             if(!cb2) return true;
+            const auto s = e::make_shared<ePalace>(*mBoard, mRotate);
             forAllTiles([&](const int x, const int y) {
                 build(x, y, 1, 1, [&]() {
-                    return e::make_shared<ePalaceTile>(*mBoard);
+                    const auto t = e::make_shared<ePalaceTile>(*mBoard);
+                    s->addTile(t);
+                    return t;
                 });
             });
-            stdsptr<ePalace> s;
-            build(t1->x(), t1->y(), sw, sh, [&]() {
-                s = e::make_shared<ePalace>(*mBoard, mRotate);
+            build(tx, ty, sw, sh, [&]() {
                 return s;
             });
             const auto renderer1 = e::make_shared<ePalace1Renderer>(s);
