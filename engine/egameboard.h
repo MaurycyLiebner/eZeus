@@ -179,6 +179,8 @@ public:
     void selectSoldier(eSoldierBanner* const c);
     const std::vector<eSoldierBanner*>& selectedSoldiers() const
     { return mSelectedBanners; }
+
+    void setRegisterBuildingsEnabled(const bool e);
 private:
     void updateNeighbours();
     void updateTileRenderingOrder();
@@ -231,6 +233,8 @@ private:
                              {eResourceType::sculpture, 0}};
 
     std::vector<stdsptr<eObject>> mRubbish;
+
+    bool mRegisterBuildingsEnabled = true;
 
     std::vector<eStorageBuilding*> mStorBuildings;
     std::vector<eCharacter*> mCharacters;

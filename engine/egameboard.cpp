@@ -114,6 +114,10 @@ void eGameBoard::selectSoldier(eSoldierBanner* const c) {
     c->setSelected(true);
 }
 
+void eGameBoard::setRegisterBuildingsEnabled(const bool e) {
+    mRegisterBuildingsEnabled = e;
+}
+
 void eGameBoard::updateTileRenderingOrder() {
     std::vector<std::vector<std::pair<int, int>>> map;
     map.reserve(width());
@@ -265,11 +269,13 @@ bool eGameBoard::unregisterSoldier(eSoldier* const c) {
 }
 
 void eGameBoard::registerBuilding(eBuilding* const b) {
+    if(!mRegisterBuildingsEnabled) return;
     mTileRenderingOrderUpdateNeeded = true;
     mBuildings.push_back(b);
 }
 
 bool eGameBoard::unregisterBuilding(eBuilding* const b) {
+    if(!mRegisterBuildingsEnabled) return false;
     mTileRenderingOrderUpdateNeeded = true;
     const auto it = std::find(mBuildings.begin(), mBuildings.end(), b);
     if(it == mBuildings.end()) return false;
@@ -278,10 +284,12 @@ bool eGameBoard::unregisterBuilding(eBuilding* const b) {
 }
 
 void eGameBoard::registerTradePost(eTradePost* const b) {
+    if(!mRegisterBuildingsEnabled) return;
     mTradePosts.push_back(b);
 }
 
 bool eGameBoard::unregisterTradePost(eTradePost* const b) {
+    if(!mRegisterBuildingsEnabled) return false;
     const auto it = std::find(mTradePosts.begin(), mTradePosts.end(), b);
     if(it == mTradePosts.end()) return false;
     mTradePosts.erase(it);
@@ -300,18 +308,22 @@ bool eGameBoard::unregisterSpawner(eSpawner* const s) {
 }
 
 void eGameBoard::registerStadium() {
+    if(!mRegisterBuildingsEnabled) return;
     mStadiumCount++;
 }
 
 void eGameBoard::unregisterStadium() {
+    if(!mRegisterBuildingsEnabled) return;
     mStadiumCount--;
 }
 
 void eGameBoard::registerStorBuilding(eStorageBuilding* const b) {
+    if(!mRegisterBuildingsEnabled) return;
     mStorBuildings.push_back(b);
 }
 
 bool eGameBoard::unregisterStorBuilding(eStorageBuilding* const b) {
+    if(!mRegisterBuildingsEnabled) return false;
     const auto it = std::find(mStorBuildings.begin(), mStorBuildings.end(), b);
     if(it == mStorBuildings.end()) return false;
     mStorBuildings.erase(it);
@@ -330,10 +342,12 @@ bool eGameBoard::unregisterMissile(eMissile* const m) {
 }
 
 void eGameBoard::registerPalace() {
+    if(!mRegisterBuildingsEnabled) return;
     mPalaceCount++;
 }
 
 void eGameBoard::unregisterPalace() {
+    if(!mRegisterBuildingsEnabled) return;
     mPalaceCount--;
 }
 

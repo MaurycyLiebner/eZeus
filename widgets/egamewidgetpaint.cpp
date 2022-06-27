@@ -182,12 +182,26 @@ stdsptr<eTexture> getBasementTexture(
     return coll->getTexture(id);
 }
 
+class eGameBoardRegisterLock {
+public:
+    eGameBoardRegisterLock(eGameBoard& board) :
+        mBoard(board) {
+        mBoard.setRegisterBuildingsEnabled(false);
+    }
+    ~eGameBoardRegisterLock() {
+        mBoard.setRegisterBuildingsEnabled(true);
+    }
+private:
+    eGameBoard& mBoard;
+};
+
 void eGameWidget::paintEvent(ePainter& p) {
     mFrame++;
     if(!mPaused && !mMenu) {
         mTime += mSpeed;
         mBoard->incTime(mSpeed);
     }
+    eGameBoardRegisterLock lock(*mBoard);
 
     const int uam = mViewMode == eViewMode::appeal ? mFrame % 200 :
                                                      mFrame % 600;
@@ -1252,7 +1266,15 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const SDL_Point pt{x, y};
                     const bool r = SDL_PointInRect(&pt, &rect);
                     if(r) continue;
-                    const auto b0 = e::make_shared<ePalaceTile>(*mBoard);
+                    bool other = x == tminX && y == tminY;
+                    if(!other) {
+                        if(mRotate) {
+                            other = x == tmaxX - 1 && y == tminY;
+                        } else {
+                            other = x == tminX && y == tmaxY - 1;
+                        }
+                    }
+                    const auto b0 = e::make_shared<ePalaceTile>(*mBoard, other);
                     ebs.emplace_back(x, y, b0);
                 }
             }
