@@ -33,8 +33,8 @@ void eBuildingRenderer::draw(eTilePainter& p,
         const auto overlays = getOverlays(p.size());
         for(const auto& o : overlays) {
             const auto& tex = o.fTex;
-            const int dx = x + o.fX;
-            const int dy = y + o.fY;
+            const double dx = x + o.fX;
+            const double dy = y + o.fY;
             if(erase) tex->setColorMod(255, 175, 255);
             if(o.fAlignTop) p.drawTexture(dx, dy, tex, eAlignment::top);
             else p.drawTexture(dx, dy, tex);

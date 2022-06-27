@@ -46,7 +46,7 @@ eHedgeMaze::eHedgeMaze(eGameBoard& board) :
 
 eFishPond::eFishPond(eGameBoard& board) :
     eOverlayAesthBuilding(board, &eBuildingTextures::fFishPond,
-                          0.95, -3.18,
+                          0.87, -3.10,
                           &eBuildingTextures::fFishPondOverlay,
                           eBuildingType::fishPond, 4, 4) {
 
@@ -82,7 +82,7 @@ std::vector<eOverlay> eOverlayAesthBuilding::getOverlays(
 
 eBirdBath::eBirdBath(eGameBoard& board) :
     eOverlayAesthBuilding(board, &eBuildingTextures::fBirdBath,
-                          0.0, 0.0,
+                          -1.35, -1.7,
                           &eBuildingTextures::fBirdBathOverlay,
                           eBuildingType::birdBath, 1, 1) {
 

@@ -24,7 +24,7 @@ std::vector<eOverlay> eWarehouse::getOverlays(const eTileSize size) const {
         const int texId = textureTime() % coll.size();
         auto& o = os.emplace_back();
         o.fTex = coll.getTexture(texId);
-        o.fX = -1.20;
+        o.fX = -1.24;
         o.fY = -4.32;
     }
     const eXY xy = {{-1, -2},
