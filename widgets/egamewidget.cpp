@@ -695,6 +695,43 @@ bool eGameWidget::roadPath(std::vector<eOrientation>& path) {
     return p.extractPath(path);
 }
 
+bool eGameWidget::inErase(const int tx, const int ty) {
+    const auto mode = mGm->mode();
+    const bool e = mode == eBuildingMode::erase;
+    const bool high = mTem->visible() || e;
+    if(!high) return false;
+
+    const int sMinX = std::min(mPressedTX, mHoverTX);
+    const int sMinY = std::min(mPressedTY, mHoverTY);
+    const int sMaxX = std::max(mPressedTX, mHoverTX);
+    const int sMaxY = std::max(mPressedTY, mHoverTY);
+
+    bool s = false;
+    if(mLeftPressed &&
+       tx >= sMinX && tx <= sMaxX &&
+       ty >= sMinY && ty <= sMaxY) {
+        s = true;
+    }
+    const bool h = tx == mHoverTX && ty == mHoverTY;
+    return h || s;
+}
+
+bool eGameWidget::inErase(eBuilding* const b) {
+    const auto mode = mGm->mode();
+    const bool e = mode == eBuildingMode::erase;
+    const bool high = mTem->visible() || e;
+    if(!high) return false;
+
+    const auto rect = b->tileRect();
+    for(int x = rect.x; x < rect.x + rect.w; x++) {
+        for(int y = rect.y; y < rect.y + rect.h; y++) {
+            const bool r = inErase(x, y);
+            if(r) return true;
+        }
+    }
+    return false;
+}
+
 bool eGameWidget::build(const int tx, const int ty,
                         const int sw, const int sh,
                         const eBuildingCreator& bc,

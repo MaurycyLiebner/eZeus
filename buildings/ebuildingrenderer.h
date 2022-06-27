@@ -17,7 +17,9 @@ public:
 
     virtual bool isMain() const { return true; }
 
-    void draw(eTilePainter& p, const double x, const double y);
+    void draw(eTilePainter& p,
+              const double x, const double y,
+              const bool erase);
 private:
     const stdsptr<eBuilding> mBuilding;
 };

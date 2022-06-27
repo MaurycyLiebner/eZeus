@@ -139,6 +139,9 @@ private:
 
     bool roadPath(std::vector<eOrientation>& path);
 
+    bool inErase(const int tx, const int ty);
+    bool inErase(eBuilding* const b);
+
     bool mRotate = false;
 
     const int sSpeeds[5] = {2, 10, 25, 50, 100};

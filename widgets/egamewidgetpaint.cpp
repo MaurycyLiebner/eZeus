@@ -232,16 +232,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 rx += 1;
                 ry -= 1;
             }
-            bool s = false;
-            if(mPressedTX >= 0 && mPressedTY >= 0) {
-                if(tx >= sMinX && tx <= sMaxX &&
-                   ty >= sMinY && ty <= sMaxY) {
-                    s = true;
-                }
-            }
-            const bool h = tx == mHoverTX && ty == mHoverTY;
-            const bool e = mode == eBuildingMode::erase;
-            const bool cm = (h || s) && (mTem->visible() || e);
+            const bool cm = inErase(tx, ty);
             if(cm) tex->setColorMod(255, 175, 255);
             tp.drawTexture(rx, ry, tex, eAlignment::top);
             if(cm) tex->clearColorMod();
@@ -345,13 +336,17 @@ void eGameWidget::paintEvent(ePainter& p) {
                         rx0 += 1.0;
                         ry0 += 1.0;
                     }
+                    const bool cm = inErase(tx, ty);
+                    if(cm) tex->setColorMod(255, 175, 255);
                     tp.drawTexture(rx0, ry0, tex, eAlignment::top);
+                    if(cm) tex->clearColorMod();
                 }
             } else {
                 double rx;
                 double ry;
                 drawXY(tx, ty, rx, ry, tbr->spanW(), tbr->spanH(), a);
-                tbr->draw(tp, rx, ry);
+                const bool e = inErase(ub);
+                tbr->draw(tp, rx, ry, e);
 
 //                drawXY(tx, ty, rx, ry, 1, 1, a);
 //                tp.drawTexture(rx, ry, trrTexs.fSelectedBuildingBase, eAlignment::top);

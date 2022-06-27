@@ -22,14 +22,23 @@ int eBuildingRenderer::spanH() const {
     return mBuilding->spanH();
 }
 
-void eBuildingRenderer::draw(eTilePainter& p, const double x, const double y) {
-    p.drawTexture(x, y, getTexture(p.size()), eAlignment::top);
+void eBuildingRenderer::draw(eTilePainter& p,
+                             const double x, const double y,
+                             const bool erase) {
+    const auto tex = getTexture(p.size());
+    if(erase) tex->setColorMod(255, 175, 255);
+    p.drawTexture(x, y, tex, eAlignment::top);
+    if(erase) tex->clearColorMod();
     if(mBuilding->overlayEnabled()) {
         const auto overlays = getOverlays(p.size());
         for(const auto& o : overlays) {
-            if(o.fAlignTop) p.drawTexture(x + o.fX, y + o.fY, o.fTex,
-                                          eAlignment::top);
-            else p.drawTexture(x + o.fX, y + o.fY, o.fTex);
+            const auto& tex = o.fTex;
+            const int dx = x + o.fX;
+            const int dy = y + o.fY;
+            if(erase) tex->setColorMod(255, 175, 255);
+            if(o.fAlignTop) p.drawTexture(dx, dy, tex, eAlignment::top);
+            else p.drawTexture(dx, dy, tex);
+            if(erase) tex->clearColorMod();
         }
     }
 }
