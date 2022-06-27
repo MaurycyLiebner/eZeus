@@ -315,6 +315,7 @@ SOURCES += \
         widgets/egamewidget.cpp \
         widgets/egamewidgetbuild.cpp \
         widgets/egamewidgetevents.cpp \
+        widgets/egamewidgetpaint.cpp \
         widgets/ehelpbutton.cpp \
         widgets/elabel.cpp \
         widgets/elabelbase.cpp \
