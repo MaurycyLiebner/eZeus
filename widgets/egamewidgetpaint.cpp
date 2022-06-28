@@ -1294,7 +1294,8 @@ void eGameWidget::paintEvent(ePainter& p) {
                             other = x == tminX && y == tmaxY - 1;
                         }
                     }
-                    const auto b0 = e::make_shared<ePalaceTile>(*mBoard, other);
+                    const auto b0 = e::make_shared<ePalaceTile>(
+                                        *mBoard, b1.get(), other);
                     ebs.emplace_back(x, y, b0);
                 }
             }

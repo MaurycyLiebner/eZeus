@@ -772,7 +772,8 @@ bool eGameWidget::buildMouseRelease() {
                             other = x == tminX && y == tmaxY - 1;
                         }
                     }
-                    const auto t = e::make_shared<ePalaceTile>(*mBoard, other);
+                    const auto t = e::make_shared<ePalaceTile>(
+                                       *mBoard, s.get(), other);
                     s->addTile(t);
                     return t;
                 });

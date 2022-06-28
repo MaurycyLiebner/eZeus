@@ -1,11 +1,18 @@
 #include "epalacetile.h"
 
 #include "textures/egametextures.h"
+#include "epalace.h"
 
-ePalaceTile::ePalaceTile(eGameBoard& board, const bool other) :
+ePalaceTile::ePalaceTile(eGameBoard& board,
+                         ePalace* const palace,
+                         const bool other) :
     eBuilding(board, eBuildingType::palaceTile, 1, 1),
-    mOther(other) {
+    mPalace(palace), mOther(other) {
 
+}
+
+void ePalaceTile::erase() {
+    mPalace->erase();
 }
 
 std::shared_ptr<eTexture> ePalaceTile::getTexture(const eTileSize size) const {

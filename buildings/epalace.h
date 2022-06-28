@@ -24,6 +24,8 @@ public:
     getOverlays2(const eTileSize size) const;
 
     void addTile(const stdsptr<ePalaceTile>& tile);
+
+    const std::vector<stdsptr<ePalaceTile>>& tiles() const { return mTiles; }
 private:
     const bool mRotated;
     std::vector<stdsptr<ePalaceTile>> mTiles;

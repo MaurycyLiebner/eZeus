@@ -48,6 +48,8 @@
 #include "buildings/ebuildingrenderer.h"
 #include "buildings/sanctuaries/esanctbuilding.h"
 #include "buildings/sanctuaries/esanctuary.h"
+#include "buildings/epalace.h"
+#include "buildings/epalacetile.h"
 
 #include "widgets/eworldwidget.h"
 
@@ -688,6 +690,17 @@ bool eGameWidget::inErase(eBuilding* const b) {
     if(const auto sb = dynamic_cast<eSanctBuilding*>(b)) {
         const auto s = sb->sanctuary();
         rect = s->tileRect();
+    } else if(const auto p = dynamic_cast<ePalace*>(b)) {
+        const auto& ts = p->tiles();
+        for(const auto& t : ts) {
+            const auto tt = t->centerTile();
+            const int tx = tt->x();
+            const int ty = tt->y();
+            if(inErase(tx, ty)) return true;
+        }
+        rect = p->tileRect();
+    } else if(const auto p = dynamic_cast<ePalaceTile*>(b)) {
+        return inErase(p->palace());
     } else {
         rect = b->tileRect();
     }
