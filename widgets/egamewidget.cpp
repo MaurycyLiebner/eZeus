@@ -261,50 +261,6 @@ void eGameWidget::iterateOverVisibleTiles(const eTileAction& a) {
     }
 }
 
-void eGameWidget::sClearScrub(const int x, const int y,
-                             const int sw, const int sh,
-                             eGameBoard& board) {
-    for(int xx = x; xx < x + sw; xx++) {
-        for(int yy = y; yy < y + sh; yy++) {
-            for(int i = -6; i < 7; i++) {
-                for(int j = -6; j < 7; j++) {
-                    const int tx = xx + i;
-                    const int ty = yy + j;
-                    const auto t = board.tile(tx, ty);
-                    if(!t) continue;
-                    const int dx = xx - tx;
-                    const int dy = yy - ty;
-                    const int dist = sqrt(dx*dx + dy*dy);
-                    const double max = dist*0.15;
-                    t->setScrub(std::min(max, t->scrub()));
-                }
-            }
-        }
-    }
-}
-
-void eGameWidget::sClearForest(const int x, const int y,
-                               const int sw, const int sh,
-                               eGameBoard& board) {
-    return;
-    for(int xx = x; xx < x + sw; xx++) {
-        for(int yy = y; yy < y + sh; yy++) {
-            for(int i = 0; i < 2; i++) {
-                for(int j = 0; j < 2; j++) {
-                    const int tx = xx + i;
-                    const int ty = yy + j;
-                    const auto t = board.tile(tx, ty);
-                    if(!t) continue;
-                    if(t->terrain() == eTerrain::forest ||
-                       t->terrain() == eTerrain::choppedForest) {
-                        t->setTerrain(eTerrain::dry);
-                    }
-                }
-            }
-        }
-    }
-}
-
 void buildTiles(int& minX, int& minY,
                 int& maxX, int& maxY,
                 const int tx, const int ty,
@@ -767,11 +723,6 @@ bool eGameWidget::build(const int tx, const int ty,
                 b->addUnderBuilding(t);
             }
         }
-    }
-
-    if(b->type() != eBuildingType::road) {
-        sClearScrub(minX, minY, sw, sh, *mBoard);
-        sClearForest(minX, minY, sw, sh, *mBoard);
     }
 
     const auto diff = mBoard->difficulty();
