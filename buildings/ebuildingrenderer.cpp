@@ -26,9 +26,11 @@ void eBuildingRenderer::draw(eTilePainter& p,
                              const double x, const double y,
                              const bool erase) {
     const auto tex = getTexture(p.size());
-    if(erase) tex->setColorMod(255, 175, 255);
-    p.drawTexture(x, y, tex, eAlignment::top);
-    if(erase) tex->clearColorMod();
+    if(tex) {
+        if(erase) tex->setColorMod(255, 175, 255);
+        p.drawTexture(x, y, tex, eAlignment::top);
+        if(erase) tex->clearColorMod();
+    }
     if(mBuilding->overlayEnabled()) {
         const auto overlays = getOverlays(p.size());
         for(const auto& o : overlays) {

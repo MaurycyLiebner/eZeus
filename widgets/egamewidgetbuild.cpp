@@ -1361,11 +1361,7 @@ bool eGameWidget::buildMouseRelease() {
                     case eSanctEleType::statue: {
                         const auto tt = e::make_shared<eTempleStatueBuilding>(
                                             b.get(), god, t.fId, *mBoard);
-                        const auto r = e::make_shared<eBuildingRenderer>(tt);
-                        tile->setBuilding(r);
-                        tile->setUnderBuilding(tt);
-                        tt->setCenterTile(tile);
-                        tt->addUnderBuilding(tile);
+                        build(tx, ty, 1, 1, [tt]() { return tt; });
                         b->registerElement(tt);
                     } break;
                     case eSanctEleType::monument: {
@@ -1397,11 +1393,7 @@ bool eGameWidget::buildMouseRelease() {
                     case eSanctEleType::tile: {
                         const auto tt = e::make_shared<eTempleTileBuilding>(
                                             b.get(), t.fId, *mBoard);
-                        const auto r = e::make_shared<eBuildingRenderer>(tt);
-                        tile->setBuilding(r);
-                        tt->setCenterTile(tile);
-                        tile->setUnderBuilding(tt);
-                        tt->addUnderBuilding(tile);
+                        build(tx, ty, 1, 1, [tt]() { return tt; });
                         b->registerElement(tt);
                     } break;
                     case eSanctEleType::stairs: {
