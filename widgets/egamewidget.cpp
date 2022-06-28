@@ -46,6 +46,8 @@
 #include "buildings/eanimalbuilding.h"
 #include "buildings/eroad.h"
 #include "buildings/ebuildingrenderer.h"
+#include "buildings/sanctuaries/esanctbuilding.h"
+#include "buildings/sanctuaries/esanctuary.h"
 
 #include "widgets/eworldwidget.h"
 
@@ -676,12 +678,19 @@ bool eGameWidget::inErase(const int tx, const int ty) {
 }
 
 bool eGameWidget::inErase(eBuilding* const b) {
+    if(!b) return false;
     const auto mode = mGm->mode();
     const bool e = mode == eBuildingMode::erase;
     const bool high = mTem->visible() || e;
     if(!high) return false;
 
-    const auto rect = b->tileRect();
+    SDL_Rect rect;
+    if(const auto sb = dynamic_cast<eSanctBuilding*>(b)) {
+        const auto s = sb->sanctuary();
+        rect = s->tileRect();
+    } else {
+        rect = b->tileRect();
+    }
     for(int x = rect.x; x < rect.x + rect.w; x++) {
         for(int y = rect.y; y < rect.y + rect.h; y++) {
             const bool r = inErase(x, y);

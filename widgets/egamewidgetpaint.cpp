@@ -246,7 +246,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                 rx += 1;
                 ry -= 1;
             }
-            const bool cm = inErase(tx, ty);
+            bool cm;
+            const auto ub = tile->underBuilding();
+            if(ub) {
+                cm = inErase(ub);
+            } else {
+                cm = inErase(tx, ty);
+            }
             if(cm) tex->setColorMod(255, 175, 255);
             tp.drawTexture(rx, ry, tex, eAlignment::top);
             if(cm) tex->clearColorMod();

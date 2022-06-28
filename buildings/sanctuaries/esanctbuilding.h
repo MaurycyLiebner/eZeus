@@ -49,6 +49,8 @@ public:
 
     bool workedOn() const { return mWorkedOn; }
     void setWorkedOn(const bool w) { mWorkedOn = w; }
+
+    eSanctuary* sanctuary() const { return mSanctuary; }
 private:
     const int mMaxProgress;
     eSanctuary* const mSanctuary;
