@@ -16,6 +16,8 @@ public:
                const int maxEmployees);
     ~eSanctuary();
 
+    void erase();
+
     std::shared_ptr<eTexture>
     getTexture(const eTileSize) const
     { return nullptr; }
@@ -33,9 +35,12 @@ public:
     const eSanctCost& stored() const { return mStored; }
 
     void useResources(const eSanctCost& r);
+
+    void setAltitude(const int a) { mAltitude = a; }
 private:
     eSanctCost mStored{0, 0, 0};
     eSanctCost mUsed{0, 0, 0};
+    int mAltitude = 0;
 
     stdsptr<eCartTransporter> mCart;
 

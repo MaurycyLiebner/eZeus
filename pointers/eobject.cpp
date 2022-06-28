@@ -8,5 +8,7 @@ eObject::eObject(eGameBoard& board) :
 }
 
 void eObject::deleteLater() {
+    if(mDeleteLater) return;
+    mDeleteLater = true;
     mBoard.addRubbish(ref<eObject>());
 }

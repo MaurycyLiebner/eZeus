@@ -34,6 +34,8 @@ public:
                    const eBuildingType type,
                    const int sw, const int sh);
 
+    void erase();
+
     bool resourcesAvailable() const;
 
     bool finished() const;
@@ -53,7 +55,7 @@ private:
     eSanctCost mCost{0, 0, 0};
     eSanctCost mStored{0, 0, 0};
     bool mWorkedOn = false;
-    int mProgress = 0;
+    int mProgress = mMaxProgress;
 };
 
 #endif // ESANCTBUILDING_H

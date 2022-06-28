@@ -15,6 +15,10 @@ eSanctBuilding::eSanctBuilding(eSanctuary* const s,
     setOverlayEnabledFunc([]() { return true; });
 }
 
+void eSanctBuilding::erase() {
+    mSanctuary->erase();
+}
+
 bool eSanctBuilding::resourcesAvailable() const {
     if(finished()) return false;
     const auto s = mSanctuary->stored();

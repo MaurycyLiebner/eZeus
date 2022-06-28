@@ -1320,6 +1320,13 @@ bool eGameWidget::buildMouseRelease() {
             const int sw = h->fW;
             const int sh = h->fH;
 
+            const int minX = mHoverTX - sw/2;
+            const int maxX = minX + sw;
+            const int minY = mHoverTY - sh/2;
+            const int maxY = minY + sh;
+            const bool cb = canBuildBase(minX, maxX, minY, maxY);
+            if(!cb) return true;
+
             eGodType god;
             stdsptr<eSanctuary> b;
             switch(mode) {
@@ -1335,12 +1342,11 @@ bool eGameWidget::buildMouseRelease() {
             } break;
             }
 
-            const int minX = mHoverTX - sw/2;
-            const int maxX = minX + sw;
-            const int minY = mHoverTY - sh/2;
-            const int maxY = minY + sh;
             const bool r = canBuildBase(minX, maxX, minY, maxY);
             if(!r) return true;
+            const auto mint = mBoard->tile(minX, minY);
+            const int a = mint->altitude();
+            b->setAltitude(a);
 
             b->setTileRect({minX, minY, sw, sh});
             const auto ct = mBoard->tile((minX + maxX)/2, (minY + maxY)/2);

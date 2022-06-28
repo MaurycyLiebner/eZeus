@@ -14,6 +14,7 @@ public:
     void deleteLater();
 private:
     eGameBoard& mBoard;
+    bool mDeleteLater = false;
 };
 
 #endif // EOBJECT_H

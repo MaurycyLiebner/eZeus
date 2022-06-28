@@ -1,6 +1,7 @@
 #include "esanctuary.h"
 
 #include "characters/ecarttransporter.h"
+#include "engine/egameboard.h"
 
 eSanctuary::eSanctuary(eGameBoard& board,
                        const eBuildingType type,
@@ -10,6 +11,29 @@ eSanctuary::eSanctuary(eGameBoard& board,
 
 eSanctuary::~eSanctuary() {
     if(mCart) mCart->kill();
+}
+
+void eSanctuary::erase() {
+    const auto& brd = getBoard();
+    const auto rect = tileRect();
+    for(int x = rect.x; x < rect.x + rect.w; x++) {
+        for(int y = rect.y; y < rect.y + rect.h; y++) {
+            const auto tile = brd.tile(x, y);
+            tile->setAltitude(mAltitude);
+            tile->setWalkableElev(false);
+            const auto ub = tile->underBuilding();
+            if(ub && ub != this && !dynamic_cast<eSanctBuilding*>(ub)) {
+                ub->erase();
+            }
+            const auto t = tile->terrain();
+            const bool r = static_cast<bool>(t & eTerrain::stones);
+            if(r) tile->setTerrain(eTerrain::dry);
+        }
+    }
+    for(const auto& e : mElements) {
+        e->eBuilding::erase();
+    }
+    eBuilding::erase();
 }
 
 eSanctCost eSanctuary::cost() const {
