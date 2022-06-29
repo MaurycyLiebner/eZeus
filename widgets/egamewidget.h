@@ -110,7 +110,6 @@ private:
             eTile* const tile, const bool grand,
             eAgoraOrientation& bt) const;
 
-    bool erase(eTile* const tile);
     std::vector<ePatrolGuide>::iterator
         findGuide(const int tx, const int ty);
 
@@ -141,6 +140,7 @@ private:
     const int sSpeeds[5] = {2, 10, 25, 50, 100};
 
     bool mPaused = false;
+    bool mLocked = false;
     int mFrame{0};
     int mTime{0};
     int mSpeedId = 1;

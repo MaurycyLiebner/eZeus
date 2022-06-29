@@ -197,7 +197,7 @@ private:
 
 void eGameWidget::paintEvent(ePainter& p) {
     mFrame++;
-    if(!mPaused && !mMenu) {
+    if(!mPaused && !mLocked && !mMenu) {
         mTime += mSpeed;
         mBoard->incTime(mSpeed);
     }

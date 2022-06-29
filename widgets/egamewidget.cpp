@@ -546,45 +546,6 @@ bool eGameWidget::canBuildPier(const int tx, const int ty,
     }
 }
 
-bool eGameWidget::erase(eTile* const tile) {
-    if(!tile) return false;
-    if(const auto b = tile->underBuilding()) {
-        if(!b->isOnFire()) {
-            switch(b->type()) {
-            case eBuildingType::agoraSpace: {
-                const auto s = static_cast<eAgoraSpace*>(b);
-                const auto a = s->agora();
-                a->erase();
-            } break;
-            case eBuildingType::foodVendor:
-            case eBuildingType::fleeceVendor:
-            case eBuildingType::oilVendor:
-            case eBuildingType::armsVendor:
-            case eBuildingType::wineVendor:
-            case eBuildingType::horseTrainer: {
-                const auto v = static_cast<eVendor*>(b);
-                v->deleteLater();
-                const auto a = v->agora();
-                a->setBuilding(v, nullptr);
-                a->fillSpaces();
-            } break;
-            case eBuildingType::road: {
-                const auto s = static_cast<eRoad*>(b);
-                const auto a = s->underAgora();
-                if(a) return false;
-                s->erase();
-            } break;
-            default: b->erase();
-            }
-        }
-    }
-    const auto t = tile->terrain();
-    if(t == eTerrain::forest || t == eTerrain::choppedForest) {
-        tile->setTerrain(eTerrain::dry);
-    }
-    return true;
-}
-
 std::vector<ePatrolGuide>::iterator
     eGameWidget::findGuide(const int tx, const int ty) {
     const auto pgs = mPatrolBuilding->patrolGuides();
@@ -784,6 +745,7 @@ void eGameWidget::buildAnimal(eTile* const tile,
 }
 
 bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
+    if(mLocked) return true;
     const auto k = e.key();
     if(k == SDL_Scancode::SDL_SCANCODE_KP_PLUS ||
        k == SDL_Scancode::SDL_SCANCODE_RIGHTBRACKET) {
@@ -842,6 +804,7 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
 }
 
 bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
+    if(mLocked) return true;
     mGm->closeBuildWidget();
     mMovedSincePress = false;
     const auto b = e.button();
@@ -954,6 +917,7 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
 }
 
 bool eGameWidget::mouseMoveEvent(const eMouseEvent& e) {
+    if(mLocked) return true;
     mMovedSincePress = true;
     if(static_cast<bool>(e.buttons() & eMouseButton::middle)) {
         const int dx = e.x() - mLastX;
@@ -972,6 +936,7 @@ bool eGameWidget::mouseMoveEvent(const eMouseEvent& e) {
 }
 
 bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
+    if(mLocked) return true;
     switch(e.button()) {
     case eMouseButton::left: {
         mBoard->clearSoldierSelection();
@@ -1049,6 +1014,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
 }
 
 bool eGameWidget::mouseWheelEvent(const eMouseWheelEvent& e) {
+    if(mLocked) return true;
     const bool wheel = std::abs(mWheel) > 3;
     if(!wheel) {
         mWheel += e.dy();

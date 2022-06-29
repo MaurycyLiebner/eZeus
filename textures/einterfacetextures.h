@@ -222,6 +222,9 @@ public:
     eTextureCollection fOkButton;
     eTextureCollection fHelpButton;
 
+    eTextureCollection fAcceptButton;
+    eTextureCollection fCancelButton;
+
     eTextureCollection fColumn1;
     eTextureCollection fColumn2;
     eTextureCollection fColumn3;

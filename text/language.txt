@@ -363,3 +363,9 @@ fishermen_building "The fishermen are busy building a seaworthy boat. Once they'
 residents_happy "Residents here are happy with the city."
 residents_dissatisfied "A few residents are dissatisfied with the city."
 residents_no_food "The residents of this home forage the land for food."
+
+demolishing_title "Demolishing a building"
+demolishing_text "Are you sure you wish to demolish this important building?"
+
+demolishing_agora_title "Demolish agora and vendors"
+demolishing_agora_text "Are you sure you wish to decommission this agora and all vendors?"

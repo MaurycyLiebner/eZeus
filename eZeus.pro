@@ -291,13 +291,16 @@ SOURCES += \
         widgets/datawidgets/epopulationdatawidget.cpp \
         widgets/datawidgets/estoragedatawidget.cpp \
         widgets/datawidgets/eviewmodebutton.cpp \
+        widgets/eacceptbutton.cpp \
         widgets/eactionlistwidget.cpp \
         widgets/ebasicbutton.cpp \
         widgets/ebuildbutton.cpp \
         widgets/ebuildingmode.cpp \
+        widgets/ebuildingstoerase.cpp \
         widgets/ebuildwidget.cpp \
         widgets/ebutton.cpp \
         widgets/ebuttonbase.cpp \
+        widgets/ecancelbutton.cpp \
         widgets/echeckablebutton.cpp \
         widgets/echeckbox.cpp \
         widgets/ecombobox.cpp \
@@ -330,6 +333,7 @@ SOURCES += \
         widgets/eokbutton.cpp \
         widgets/epainter.cpp \
         widgets/eprogressbar.cpp \
+        widgets/equestionwidget.cpp \
         widgets/eresolution.cpp \
         widgets/esettingsmenu.cpp \
         widgets/espinbox.cpp \
@@ -654,13 +658,16 @@ HEADERS += \
     widgets/datawidgets/epopulationdatawidget.h \
     widgets/datawidgets/estoragedatawidget.h \
     widgets/datawidgets/eviewmodebutton.h \
+    widgets/eacceptbutton.h \
     widgets/eactionlistwidget.h \
     widgets/ebasicbutton.h \
     widgets/ebuildbutton.h \
     widgets/ebuildingmode.h \
+    widgets/ebuildingstoerase.h \
     widgets/ebuildwidget.h \
     widgets/ebutton.h \
     widgets/ebuttonbase.h \
+    widgets/ecancelbutton.h \
     widgets/echeckablebutton.h \
     widgets/echeckbox.h \
     widgets/ecombobox.h \
@@ -690,6 +697,7 @@ HEADERS += \
     widgets/eokbutton.h \
     widgets/epainter.h \
     widgets/eprogressbar.h \
+    widgets/equestionwidget.h \
     widgets/eresolution.h \
     widgets/esettingsmenu.h \
     widgets/espinbox.h \

@@ -37,6 +37,8 @@ public:
 
     void fillSpaces();
 
+    bool hasVendors() const;
+
     void agoraProvide(eBuilding* const b);
     int agoraCount(const eProvide r) const;
 private:

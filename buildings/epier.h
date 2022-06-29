@@ -12,6 +12,7 @@ public:
     void erase();
 
     void setTradePost(eBuilding* const b);
+    eBuilding* tradePost() const { return mTradePost; }
 private:
     const eOrientation mO;
     eBuilding* mTradePost = nullptr;

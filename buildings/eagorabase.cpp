@@ -142,6 +142,16 @@ void eAgoraBase::fillSpaces() {
     }
 }
 
+bool eAgoraBase::hasVendors() const {
+    for(const auto& b : mBs) {
+        if(!b) continue;
+        const auto t = b->type();
+        if(t == eBuildingType::agoraSpace) continue;
+        return true;
+    }
+    return false;
+}
+
 void eAgoraBase::agoraProvide(eBuilding* const b) {
     if(!b) return;
     const auto bt = b->type();

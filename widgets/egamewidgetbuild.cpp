@@ -97,6 +97,11 @@
 #include "spawners/edeerspawner.h"
 #include "spawners/esettlerspawner.h"
 
+#include "ebuildingstoerase.h"
+
+#include "widgets/equestionwidget.h"
+#include "elanguage.h"
+
 const eSanctBlueprint* eGameWidget::sanctuaryBlueprint(
         const eBuildingType type, const bool rotate) {
     const auto& i = eSanctBlueprints::instance;
@@ -497,16 +502,76 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::none: {
             return false;
         } break;
-        case eBuildingMode::erase:
-            apply = [this](eTile* const tile) {
-                erase(tile);
+        case eBuildingMode::erase: {
+            eBuildingsToErase eraser;
 
-                const auto diff = mBoard->difficulty();
-                const int cost = eDifficultyHelpers::buildingCost(
-                                     diff, eBuildingType::erase);
-                mBoard->incDrachmas(-cost);
+            const int minX = std::min(mPressedTX, mHoverTX);
+            const int minY = std::min(mPressedTY, mHoverTY);
+            const int maxX = std::max(mPressedTX, mHoverTX);
+            const int maxY = std::max(mPressedTY, mHoverTY);
+
+            const auto diff = mBoard->difficulty();
+            const int cost = eDifficultyHelpers::buildingCost(
+                                 diff, eBuildingType::erase);
+            int totalCost = 0;
+            for(int x = minX; x <= maxX; x++) {
+                for(int y = minY; y <= maxY; y++) {
+                    const auto tile = mBoard->tile(x, y);
+                    if(!tile) continue;
+                    if(const auto b = tile->underBuilding()) {
+                        if(b->isOnFire()) continue;
+                        eraser.addBuilding(b);
+                    } else {
+                        const auto t = tile->terrain();
+                        if(t == eTerrain::forest || t == eTerrain::choppedForest) {
+                            tile->setTerrain(eTerrain::dry);
+                            totalCost += cost;
+                        }
+                    }
+                }
+            }
+
+            const int nErased = eraser.erase(false);
+            mBoard->requestTileRenderingOrderUpdate();
+            mBoard->updateTileRenderingOrderIfNeeded();
+            totalCost += cost*nErased;
+            mBoard->incDrachmas(-totalCost);
+
+            std::string titleT;
+            std::string textT;
+            if(eraser.hasImportantBuildings()) {
+                titleT = "demolishing_title";
+                textT = "demolishing_text";
+            } else if(eraser.hasNonEmptyAgoras()) {
+                titleT = "demolishing_agora_title";
+                textT = "demolishing_agora_text";
+            } else {
+                return false;
+            }
+            const auto title = eLanguage::text(titleT);
+            const auto text = eLanguage::text(textT);
+
+            const auto cancelA = [this]() {
+                mLocked = false;
             };
-            break;
+
+            const auto acceptA = [this, cost, eraser]() {
+                auto e = eraser;
+                const int nErased = e.erase(true);
+                const int totalCost = cost*nErased;
+                mBoard->incDrachmas(-totalCost);
+                mLocked = false;
+            };
+
+            const auto qw = new eQuestionWidget(window());
+            qw->initialize(title, text, acceptA, cancelA);
+            addWidget(qw);
+            qw->align(eAlignment::vcenter);
+            const int vw = width() - mGm->width();
+            const int w = qw->width();
+            qw->setX((vw - w)/2);
+            mLocked = true;
+        } break;
         case eBuildingMode::commonAgora: {
             const auto t = mBoard->tile(mHoverTX, mHoverTY);
             if(!t) return false;
