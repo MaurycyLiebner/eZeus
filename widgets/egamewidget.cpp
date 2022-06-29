@@ -572,6 +572,7 @@ bool eGameWidget::erase(eTile* const tile) {
                 const auto s = static_cast<eRoad*>(b);
                 const auto a = s->underAgora();
                 if(a) return false;
+                s->erase();
             } break;
             default: b->erase();
             }
