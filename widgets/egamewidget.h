@@ -133,6 +133,8 @@ private:
     bool roadPath(std::vector<eOrientation>& path);
 
     bool inErase(const int tx, const int ty);
+    bool inErase(const SDL_Rect& rect);
+    bool inErase(eAgoraBase* const a);
     bool inErase(eBuilding* const b);
 
     bool mRotate = false;

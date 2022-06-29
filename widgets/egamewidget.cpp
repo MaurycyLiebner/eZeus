@@ -641,6 +641,32 @@ bool eGameWidget::inErase(const int tx, const int ty) {
     return h || s;
 }
 
+bool eGameWidget::inErase(const SDL_Rect& rect) {
+    for(int x = rect.x; x < rect.x + rect.w; x++) {
+        for(int y = rect.y; y < rect.y + rect.h; y++) {
+            const bool r = inErase(x, y);
+            if(r) return true;
+        }
+    }
+    return false;
+}
+
+bool eGameWidget::inErase(eAgoraBase* const a) {
+    const auto rr = a->tileRect();
+    for(int x = rr.x; x < rr.x + rr.w; x++) {
+        for(int y = rr.y; y < rr.y + rr.h; y++) {
+            if(!inErase(x, y)) continue;
+            const auto t = mBoard->tile(x, y);
+            if(!t) continue;
+            const auto ub = t->underBuilding();
+            if(!ub) continue;
+            const auto v = dynamic_cast<eVendor*>(ub);
+            if(!v) return true;
+        }
+    }
+    return false;
+}
+
 bool eGameWidget::inErase(eBuilding* const b) {
     if(!b) return false;
     const auto mode = mGm->mode();
@@ -652,6 +678,19 @@ bool eGameWidget::inErase(eBuilding* const b) {
     if(const auto sb = dynamic_cast<eSanctBuilding*>(b)) {
         const auto s = sb->sanctuary();
         rect = s->tileRect();
+    } else if(const auto v = dynamic_cast<eVendor*>(b)) {
+        if(inErase(b->tileRect())) return true;
+        const auto a = v->agora();
+        return inErase(a);
+    } else if(const auto as = dynamic_cast<eAgoraSpace*>(b)) {
+        const auto a = as->agora();
+        return inErase(a);
+    } else if(const auto r = dynamic_cast<eRoad*>(b)) {
+        const auto a = r->underAgora();
+        if(a) return inErase(a);
+        else rect = b->tileRect();
+    } else if(const auto a = dynamic_cast<eAgoraBase*>(b)) {
+        return inErase(a);
     } else if(const auto p = dynamic_cast<ePalace*>(b)) {
         const auto& ts = p->tiles();
         for(const auto& t : ts) {
@@ -666,13 +705,7 @@ bool eGameWidget::inErase(eBuilding* const b) {
     } else {
         rect = b->tileRect();
     }
-    for(int x = rect.x; x < rect.x + rect.w; x++) {
-        for(int y = rect.y; y < rect.y + rect.h; y++) {
-            const bool r = inErase(x, y);
-            if(r) return true;
-        }
-    }
-    return false;
+    return inErase(rect);
 }
 
 bool eGameWidget::build(const int tx, const int ty,
