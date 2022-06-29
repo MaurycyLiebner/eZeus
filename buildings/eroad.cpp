@@ -272,6 +272,6 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
     return std::shared_ptr<eTexture>();
 }
 
-void eRoad::setUnderAgora(const bool u) {
-    mUnderAgora = u;
+void eRoad::setUnderAgora(eAgoraBase* const a) {
+    mUnderAgora = a;
 }

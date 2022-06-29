@@ -524,12 +524,13 @@ bool eGameWidget::buildMouseRelease() {
                 const int ty = t->y();
                 if(tx < x) x = tx;
                 if(ty < y) y = ty;
-                b->addUnderBuilding(t);
                 if(t->hasRoad()) {
                     const auto bb = t->underBuilding();
                     const auto r = static_cast<eRoad*>(bb);
-                    r->setUnderAgora(true);
+                    r->setUnderAgora(b.get());
                     if(ri++ == 3) b->setCenterTile(t);
+                } else {
+                    b->addUnderBuilding(t);
                 }
             }
             switch(bt) {
@@ -570,12 +571,13 @@ bool eGameWidget::buildMouseRelease() {
                 const int ty = t->y();
                 if(tx < x) x = tx;
                 if(ty < y) y = ty;
-                b->addUnderBuilding(t);
                 if(t->hasRoad()) {
                     const auto bb = t->underBuilding();
                     const auto r = static_cast<eRoad*>(bb);
-                    r->setUnderAgora(true);
+                    r->setUnderAgora(b.get());
                     if(ri++ == 3) b->setCenterTile(t);
+                } else {
+                    b->addUnderBuilding(t);
                 }
             }
             switch(bt) {

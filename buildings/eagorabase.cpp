@@ -11,6 +11,8 @@
 #include "earmsvendor.h"
 #include "ehorsevendor.h"
 
+#include "eroad.h"
+
 #include "characters/epeddler.h"
 
 eAgoraBase::eAgoraBase(eGameBoard& board,
@@ -32,6 +34,20 @@ void eAgoraBase::erase() {
     }
     for(int i = 0; i < mNPts; i++) {
         setBuilding(i, nullptr);
+    }
+    const auto& brd = getBoard();
+    const auto rect = tileRect();
+    for(int x = rect.x; x < rect.x + rect.w; x++) {
+        for(int y = rect.y; y < rect.y + rect.h; y++) {
+            const auto t = brd.tile(x, y);
+            if(!t) continue;
+            const auto ub = t->underBuilding();
+            if(!ub) continue;
+            if(ub->type() == eBuildingType::road) {
+                const auto r = static_cast<eRoad*>(ub);
+                r->setUnderAgora(nullptr);
+            }
+        }
     }
     eBuilding::erase();
 }
