@@ -50,6 +50,8 @@ SOURCES += \
         buildings/egrandagora.cpp \
         buildings/egrowerslodge.cpp \
         buildings/egymnasium.cpp \
+        buildings/ehorseranch.cpp \
+        buildings/ehorseranchenclosure.cpp \
         buildings/ehorsevendor.cpp \
         buildings/ehospital.cpp \
         buildings/ehousebase.cpp \
@@ -165,6 +167,7 @@ SOURCES += \
         characters/ehealer.cpp \
         characters/ehoplite.cpp \
         characters/ehoplitebase.cpp \
+        characters/ehorse.cpp \
         characters/ehorsevendorchar.cpp \
         characters/ehunter.cpp \
         characters/elumberjack.cpp \
@@ -391,6 +394,8 @@ HEADERS += \
     buildings/egrandagora.h \
     buildings/egrowerslodge.h \
     buildings/egymnasium.h \
+    buildings/ehorseranch.h \
+    buildings/ehorseranchenclosure.h \
     buildings/ehorsevendor.h \
     buildings/ehospital.h \
     buildings/ehousebase.h \
@@ -507,6 +512,7 @@ HEADERS += \
     characters/ehealer.h \
     characters/ehoplite.h \
     characters/ehoplitebase.h \
+    characters/ehorse.h \
     characters/ehorsevendorchar.h \
     characters/ehunter.h \
     characters/elumberjack.h \

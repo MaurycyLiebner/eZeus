@@ -64,6 +64,7 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fGoat(renderer),
     fNudeSheep(renderer),
     fFleecedSheep(renderer),
+    fHorse(renderer),
 
     fSettlers1(renderer),
     fSettlers2(renderer),
@@ -266,6 +267,14 @@ void eCharacterTextures::load() {
     for(int i = 3279; i < 3287; i++) {
         texClass.load(i, fFleecedSheep.fDie);
     }
+
+    texClass.loadSkipFlipped(fHorse.fWalk, 5001, 5097);
+
+    for(int i = 5097; i < 5105; i++) {
+        texClass.load(i, fHorse.fDie);
+    }
+
+    texClass.loadSkipFlipped(fHorse.fStand, 5105, 5297);
 
     texClass.loadSkipFlipped(fShepherd.fWalk, 3415, 3511);
     for(int j = 0; j < 8; j++) {

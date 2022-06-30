@@ -68,6 +68,8 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::artisansGuild;
     case eBuildingMode::armory:
         return eBuildingType::armory;
+    case eBuildingMode::horseRanch:
+        return eBuildingType::horseRanch;
 
     case eBuildingMode::wall:
         return eBuildingType::wall;

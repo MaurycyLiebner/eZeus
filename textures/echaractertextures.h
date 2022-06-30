@@ -88,6 +88,12 @@ struct eAnimalTextures : public eBasicCharacterTextures {
     std::vector<eTextureCollection> fLayDown;
 };
 
+struct eHorseTextures : public eBasicCharacterTextures {
+    using eBasicCharacterTextures::eBasicCharacterTextures;
+
+    std::vector<eTextureCollection> fStand;
+};
+
 struct eArcherTextures : public eFightingCharacterTextures {
     using eFightingCharacterTextures::eFightingCharacterTextures;
 
@@ -166,6 +172,7 @@ public:
     eAnimalTextures fGoat;
     eAnimalTextures fNudeSheep;
     eAnimalTextures fFleecedSheep;
+    eHorseTextures fHorse;
 
     eBasicCharacterTextures fSettlers1;
     eBasicCharacterTextures fSettlers2;

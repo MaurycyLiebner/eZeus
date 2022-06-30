@@ -18,6 +18,7 @@ enum class eCharacterType {
     sheep,
     goat,
     cattle,
+    horse,
 
     grower,
 

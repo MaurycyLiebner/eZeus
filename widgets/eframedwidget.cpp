@@ -2,6 +2,8 @@
 
 #include "textures/egametextures.h"
 
+#include <random>
+
 void eFramedWidget::setType(const eFrameType type) {
     mType = type;
 }
@@ -68,13 +70,15 @@ void eFramedWidget::paintEvent(ePainter& p) {
             colls = &intrfc.fInnerBox;
         }
 
-        srand(1000);
+        std::default_random_engine rng{1};
+         std::uniform_int_distribution<> dist{0, 100000};
         for(int i = 0; i < iMax; i++) {
             const int x = i == iMax - 1 ? lastX : dim*i;
             for(int j = 0; j < jMax; j++) {
                 const int collId = texCollId(i, j);
                 const auto& coll = (*colls)[collId];
-                const int texId = rand() % coll.size();
+                const int rand = dist(rng);
+                const int texId = rand % coll.size();
                 const auto& tex = coll.getTexture(texId);
                 const int y = j == jMax - 1 ? lastY : dim*j;
                 p.drawTexture(x, y, tex);

@@ -25,13 +25,13 @@ void eAnimalAction::nextAction() {
                            c, finishAct, finishAct,
                            mSpawnerX, mSpawnerY,
                            mTileWalkable);
-        m->setTime(3000);
+        m->setTime(mWalkTime);
         setCurrentAction(m);
     } else {
         c->setActionType(eCharacterActionType::lay);
         const auto w = e::make_shared<eWaitAction>(
                            c, finishAct, finishAct);
-        w->setTime(2000);
+        w->setTime(mLayTime);
         setCurrentAction(w);
     }
 }

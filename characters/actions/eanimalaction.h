@@ -19,11 +19,16 @@ public:
 
     void nextAction();
 
+    void setLayTime(const int l) { mLayTime = l; }
+    void setWalkTime(const int w) { mWalkTime = w; }
 private:
     const int mSpawnerX;
     const int mSpawnerY;
 
     const eTileWalkable mTileWalkable;
+
+    int mLayTime = 2000;
+    int mWalkTime = 3000;
 };
 
 #endif // EANIMALACTION_H

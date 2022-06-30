@@ -790,6 +790,8 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
         mSpeed = sSpeeds[mSpeedId];
     } else if(k == SDL_Scancode::SDL_SCANCODE_R) {
         mRotate = !mRotate;
+        mRotateId++;
+        if(mRotateId > 3) mRotateId = 0;
     } else if(k == SDL_Scancode::SDL_SCANCODE_P) {
         mPaused = !mPaused;
         if(mPaused && !mPausedLabel) {

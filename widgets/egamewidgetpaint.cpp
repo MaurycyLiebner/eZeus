@@ -47,6 +47,8 @@
 #include "buildings/eolivepress.h"
 #include "buildings/esculpturestudio.h"
 #include "buildings/earmory.h"
+#include "buildings/ehorseranch.h"
+#include "buildings/ehorseranchenclosure.h"
 
 #include "buildings/eartisansguild.h"
 
@@ -1487,6 +1489,35 @@ void eGameWidget::paintEvent(ePainter& p) {
         case eBuildingMode::armory: {
             const auto b1 = e::make_shared<eArmory>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
+        case eBuildingMode::horseRanch: {
+            const int tx = mHoverTX;
+            const int ty = mHoverTY;
+            const auto b1 = e::make_shared<eHorseRanch>(*mBoard);
+            ebs.emplace_back(tx, ty, b1);
+
+            int dx = 0;
+            int dy = 0;
+            bool under = false;
+            if(mRotateId == 0) { // bottomRight
+                dx = 3;
+            } else if(mRotateId == 1) { // topRight
+                dy = -3;
+                dx = -1;
+                under = true;
+            } else if(mRotateId == 2) { // topLeft
+                dx = -4;
+                dy = 1;
+                under = true;
+            } else if(mRotateId == 3) { // bottomLeft
+                dy = 4;
+            }
+            const auto b2 = e::make_shared<eHorseRanchEnclosure>(*mBoard, b1.get());
+            if(under) {
+                ebs.insert(ebs.begin(), eB{tx + dx, ty + dy, b2});
+            } else {
+                ebs.emplace_back(tx + dx, ty + dy, b2);
+            }
         } break;
         case eBuildingMode::olivePress: {
             const auto b1 = e::make_shared<eOlivePress>(*mBoard);

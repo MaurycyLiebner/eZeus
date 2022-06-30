@@ -605,12 +605,13 @@ void eGameMenu::initialize(eGameBoard* const b) {
 
 
     const std::vector<eSPR> f8spr = {eSPR{eBuildingMode::wall, eLanguage::text("wall")},
-                     eSPR{eBuildingMode::tower, eLanguage::text("tower")},
-                     eSPR{eBuildingMode::gatehouse, eLanguage::text("gatehouse")}};
+                                     eSPR{eBuildingMode::tower, eLanguage::text("tower")},
+                                     eSPR{eBuildingMode::gatehouse, eLanguage::text("gatehouse")}};
     const auto f8 = [this, cmx, cmy, f8spr]() {
         openBuildWidget(cmx, cmy, f8spr);
     };
-    const std::vector<eSPR> mp8spr = {eSPR{eBuildingMode::armory, eLanguage::text("armory")}};
+    const std::vector<eSPR> mp8spr = {eSPR{eBuildingMode::armory, eLanguage::text("armory")},
+                                      eSPR{eBuildingMode::horseRanch, eLanguage::text("horse_ranch")}};
     const auto mp8 = [this, cmx, cmy, mp8spr]() {
         openBuildWidget(cmx, cmy, mp8spr);
     };

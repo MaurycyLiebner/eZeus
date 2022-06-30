@@ -268,6 +268,7 @@ tower "Tower"
 gatehouse "Gatehouse"
 
 armory "Armory"
+horse_ranch "Horse Ranch"
 
 park "Park"
 water_park "Water Park"

@@ -85,6 +85,7 @@ enum class eBuildingType {
 
     triremeWharf,
     horseRanch,
+    horseRanchEnclosure,
     armory,
 
     maintenanceOffice,

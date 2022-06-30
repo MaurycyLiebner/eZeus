@@ -41,6 +41,7 @@ enum class eBuildingMode {
     sculptureStudio,
     artisansGuild,
     armory,
+    horseRanch,
 
     wall,
     tower,

@@ -22,8 +22,6 @@ public:
     void setTime(const int t);
 private:
     eCharacterActionState nextTurn(eOrientation& turn);
-    eCharacterActionState nextTurn(eOrientation& turn,
-                                   const int n, const int i);
 
     int mStartTX;
     int mStartTY;

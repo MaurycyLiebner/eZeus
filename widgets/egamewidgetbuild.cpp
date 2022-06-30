@@ -41,6 +41,8 @@
 #include "buildings/eolivepress.h"
 #include "buildings/esculpturestudio.h"
 #include "buildings/earmory.h"
+#include "buildings/ehorseranch.h"
+#include "buildings/ehorseranchenclosure.h"
 
 #include "buildings/eartisansguild.h"
 
@@ -1204,6 +1206,36 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::armory: {
             build(mHoverTX, mHoverTY, 2, 2,
                   [this]() { return e::make_shared<eArmory>(*mBoard); });
+        }; break;
+        case eBuildingMode::horseRanch: {
+            const int tx = mHoverTX;
+            const int ty = mHoverTY;
+            const bool cb1 = canBuild(tx, ty, 3, 3);
+            if(!cb1) return true;
+            int dx = 0;
+            int dy = 0;
+            if(mRotateId == 0) { // bottomRight
+                dx = 3;
+            } else if(mRotateId == 1) { // topRight
+                dy = -3;
+                dx = -1;
+            } else if(mRotateId == 2) { // topLeft
+                dx = -4;
+                dy = 1;
+            } else if(mRotateId == 3) { // bottomLeft
+                dy = 4;
+            }
+            const bool cb2 = canBuild(tx + dx, ty + dy, 4, 4);
+            if(!cb2) return true;
+            const auto hr = e::make_shared<eHorseRanch>(*mBoard);
+            const auto hre = e::make_shared<eHorseRanchEnclosure>(*mBoard, hr.get());
+            hr->setEnclosure(hre.get());
+            build(tx, ty, 3, 3,
+                  [hr]() { return hr; });
+            build(tx + dx, ty + dy, 4, 4,
+                  [hre]() { return hre; });
+            hre->spawnHorse();
+            mGm->clearMode();
         }; break;
         case eBuildingMode::olivePress: {
             build(mHoverTX, mHoverTY, 2, 2,

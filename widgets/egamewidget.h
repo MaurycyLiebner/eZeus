@@ -138,6 +138,7 @@ private:
     bool inErase(eBuilding* const b);
 
     bool mRotate = false;
+    int mRotateId = 0;
 
     const int sSpeeds[5] = {2, 10, 25, 50, 100};
 
