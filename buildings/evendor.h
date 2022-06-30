@@ -45,10 +45,13 @@ public:
 
     int peddlerResource() const;
     int takeForPeddler(const int t);
+
+    void setResMult(const int m) { mResMult = m; }
+    void setMaxRes(const int m) { mMaxResource = m; }
 private:
-    const int mResMult = 100;
+    int mResMult = 100;
     const stdsptr<eAgoraBase> mAgora;
-    const int mMaxResource = 10*mResMult;
+    int mMaxResource = 10*mResMult;
     const eResourceType mResType;
     const eProvide mProvType;
     const eBaseTex mBaseTex;

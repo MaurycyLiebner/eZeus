@@ -7,6 +7,16 @@
 eHorseRanch::eHorseRanch(eGameBoard& board) :
     eEmployingBuilding(board, eBuildingType::horseRanch, 3, 3, 15) {}
 
+
+eHorseRanch::~eHorseRanch() {
+    if(mTakeCart) mTakeCart->kill();
+}
+
+void eHorseRanch::erase() {
+    mEnclosure->eBuilding::erase();
+    eBuilding::erase();
+}
+
 std::shared_ptr<eTexture> eHorseRanch::getTexture(
         const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
@@ -42,16 +52,21 @@ std::vector<eOverlay> eHorseRanch::getOverlays(
 void eHorseRanch::timeChanged(const int by) {
     const int wheat = 1000;
     const int horse = 10000;
-    if(mWheat > 0) {
-        mWheatTime += by;
-        if(mWheatTime > wheat) {
-            mWheat -= 10;
-            mWheatTime -= wheat;
+    if(enabled()) {
+        if(!mTakeCart) {
+            spawnCart(mTakeCart, eCartActionTypeSupport::take);
         }
-        mHorseTime += by;
-        if(mHorseTime > horse) {
-            mHorseTime -= horse;
-            mEnclosure->spawnHorse();
+        if(mWheat > 0) {
+            mWheatTime += by;
+            if(mWheatTime > wheat) {
+                mWheat -= 10;
+                mWheatTime -= wheat;
+            }
+            mHorseTime += by;
+            if(mHorseTime > horse) {
+                mHorseTime -= horse;
+                mEnclosure->spawnHorse();
+            }
         }
     }
     eEmployingBuilding::timeChanged(by);
@@ -60,6 +75,7 @@ void eHorseRanch::timeChanged(const int by) {
 
 int eHorseRanch::count(const eResourceType type) const {
     if(type == eResourceType::wheat) return mWheat/100;
+    if(type == eResourceType::horse) return horseCount();
     return eEmployingBuilding::count(type);
 }
 
@@ -69,6 +85,18 @@ int eHorseRanch::add(const eResourceType type, const int count) {
         return count;
     }
     return eEmployingBuilding::add(type, count);
+}
+
+int eHorseRanch::take(const eResourceType type, const int count) {
+    if(type == eResourceType::horse) {
+        const int max = horseCount();
+        const int t = std::min(max, count);
+        for(int i = 0; i < t; i++) {
+            mEnclosure->takeHorse();
+        }
+        return t;
+    }
+    return eEmployingBuilding::take(type, count);
 }
 
 int eHorseRanch::spaceLeft(const eResourceType type) const {

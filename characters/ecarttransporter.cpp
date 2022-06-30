@@ -6,6 +6,7 @@
 #include "etrailer.h"
 #include "eox.h"
 #include "eporter.h"
+#include "ehorse.h"
 
 eCartTransporter::eCartTransporter(eGameBoard& board) :
     eBasicPatroler(board, &eCharacterTextures::fTransporter,
@@ -255,7 +256,12 @@ void eCartTransporter::setResource(const eResourceType type,
             const auto t = tile();
             auto& board = getBoard();
 
-            const auto follower = e::make_shared<ePorter>(board);
+            stdsptr<eCharacter> follower;
+            if(mType == eCartTransporterType::horse) {
+                follower = e::make_shared<eHorse>(board);
+            } else {
+                follower = e::make_shared<ePorter>(board);
+            }
             const auto aox = e::make_shared<eFollowAction>(
                                follow, follower.get(),
                                []() {}, []() {});

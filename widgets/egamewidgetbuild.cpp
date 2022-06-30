@@ -1234,8 +1234,6 @@ bool eGameWidget::buildMouseRelease() {
                   [hr]() { return hr; });
             build(tx + dx, ty + dy, 4, 4,
                   [hre]() { return hre; });
-            hre->spawnHorse();
-            mGm->clearMode();
         }; break;
         case eBuildingMode::olivePress: {
             build(mHoverTX, mHoverTY, 2, 2,

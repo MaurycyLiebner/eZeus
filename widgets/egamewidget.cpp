@@ -50,6 +50,8 @@
 #include "buildings/sanctuaries/esanctuary.h"
 #include "buildings/epalace.h"
 #include "buildings/epalacetile.h"
+#include "buildings/ehorseranch.h"
+#include "buildings/ehorseranchenclosure.h"
 
 #include "widgets/eworldwidget.h"
 
@@ -702,6 +704,16 @@ bool eGameWidget::inErase(eBuilding* const b) {
         rect = p->tileRect();
     } else if(const auto p = dynamic_cast<ePalaceTile*>(b)) {
         return inErase(p->palace());
+    } else if(const auto hr = dynamic_cast<eHorseRanch*>(b)) {
+        const bool e1 = inErase(hr->tileRect());
+        if(e1) return true;
+        const auto hre = hr->enclosure();
+        rect = hre->tileRect();
+    } else if(const auto hr = dynamic_cast<eHorseRanchEnclosure*>(b)) {
+        const bool e1 = inErase(hr->tileRect());
+        if(e1) return true;
+        const auto hre = hr->ranch();
+        rect = hre->tileRect();
     } else {
         rect = b->tileRect();
     }

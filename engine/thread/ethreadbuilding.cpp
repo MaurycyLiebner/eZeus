@@ -5,6 +5,7 @@
 #include "buildings/eresourcebuildingbase.h"
 #include "buildings/eresourcebuilding.h"
 #include "buildings/sanctuaries/esanctbuilding.h"
+#include "buildings/ehorseranch.h"
 
 void eThreadBuilding::load(eBuilding* const src) {
     mVacancies = 0;
@@ -39,6 +40,11 @@ void eThreadBuilding::load(eBuilding* const src) {
         } else if(const auto b = dynamic_cast<eResourceBuildingBase*>(src)) {
             mResource[0] = b->resourceType();
             mResourceCount[0] = b->resource();
+            mSpaceCount = 1;
+        } else if(const auto b = dynamic_cast<eHorseRanch*>(src)) {
+            mResource[0] = eResourceType::horse;
+            mResourceCount[0] = b->horseCount();
+            mSpaceCount = 1;
         } else if(const auto b = dynamic_cast<eResourceBuilding*>(src)) {
             mWorkedOn = b->workedOn();
         } else if(const auto b = dynamic_cast<eSanctBuilding*>(src)) {

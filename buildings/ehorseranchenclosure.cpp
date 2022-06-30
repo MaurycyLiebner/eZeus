@@ -5,11 +5,18 @@
 #include "characters/ehorse.h"
 #include "characters/actions/eanimalaction.h"
 
+#include "ehorseranch.h"
+
 eHorseRanchEnclosure::eHorseRanchEnclosure(
         eGameBoard& board, eHorseRanch* const hr) :
     eBuilding(board, eBuildingType::horseRanchEnclosure, 4, 4),
     mRanch(hr) {
     setEnabled(true);
+}
+
+void eHorseRanchEnclosure::erase() {
+    mRanch->eBuilding::erase();
+    eBuilding::erase();
 }
 
 std::shared_ptr<eTexture> eHorseRanchEnclosure::getTexture(
