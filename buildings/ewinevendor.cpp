@@ -1,7 +1,5 @@
 #include "ewinevendor.h"
 
-#include "characters/ewinevendorchar.h"
-
 eWineVendor::eWineVendor(const stdsptr<eAgoraBase>& agora,
                          eGameBoard& board) :
     eVendor(board, agora,

@@ -142,7 +142,6 @@ SOURCES += \
         characters/eactor.cpp \
         characters/eanimal.cpp \
         characters/earcher.cpp \
-        characters/earmsvendorchar.cpp \
         characters/eartisan.cpp \
         characters/ebasicpatroler.cpp \
         characters/eboar.cpp \
@@ -156,8 +155,6 @@ SOURCES += \
         characters/efightingpatroler.cpp \
         characters/efirefighter.cpp \
         characters/efishingboat.cpp \
-        characters/efleecevendorchar.cpp \
-        characters/efoodvendorchar.cpp \
         characters/egoat.cpp \
         characters/egoatherd.cpp \
         characters/egreekhoplite.cpp \
@@ -168,11 +165,9 @@ SOURCES += \
         characters/ehoplite.cpp \
         characters/ehoplitebase.cpp \
         characters/ehorse.cpp \
-        characters/ehorsevendorchar.cpp \
         characters/ehunter.cpp \
         characters/elumberjack.cpp \
         characters/emarbleminer.cpp \
-        characters/eoilvendorchar.cpp \
         characters/eox.cpp \
         characters/epeddler.cpp \
         characters/ephilosopher.cpp \
@@ -196,7 +191,6 @@ SOURCES += \
         characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
         characters/ewildanimal.cpp \
-        characters/ewinevendorchar.cpp \
         characters/gods/eathena.cpp \
         characters/gods/ebasicgod.cpp \
         characters/gods/edemeter.cpp \
@@ -487,7 +481,6 @@ HEADERS += \
     characters/eactor.h \
     characters/eanimal.h \
     characters/earcher.h \
-    characters/earmsvendorchar.h \
     characters/eartisan.h \
     characters/ebasicpatroler.h \
     characters/eboar.h \
@@ -501,8 +494,6 @@ HEADERS += \
     characters/efightingpatroler.h \
     characters/efirefighter.h \
     characters/efishingboat.h \
-    characters/efleecevendorchar.h \
-    characters/efoodvendorchar.h \
     characters/egoat.h \
     characters/egoatherd.h \
     characters/egreekhoplite.h \
@@ -513,11 +504,9 @@ HEADERS += \
     characters/ehoplite.h \
     characters/ehoplitebase.h \
     characters/ehorse.h \
-    characters/ehorsevendorchar.h \
     characters/ehunter.h \
     characters/elumberjack.h \
     characters/emarbleminer.h \
-    characters/eoilvendorchar.h \
     characters/eox.h \
     characters/epeddler.h \
     characters/ephilosopher.h \
@@ -541,7 +530,6 @@ HEADERS += \
     characters/ewatchman.h \
     characters/ewaterdistributor.h \
     characters/ewildanimal.h \
-    characters/ewinevendorchar.h \
     characters/gods/eathena.h \
     characters/gods/ebasicgod.h \
     characters/gods/edemeter.h \

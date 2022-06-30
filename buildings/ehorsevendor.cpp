@@ -1,7 +1,5 @@
 #include "ehorsevendor.h"
 
-#include "characters/ehorsevendorchar.h"
-
 eHorseVendor::eHorseVendor(const stdsptr<eAgoraBase>& agora,
                            eGameBoard& board) :
     eVendor(board, agora,

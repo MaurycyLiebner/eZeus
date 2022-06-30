@@ -1,7 +1,5 @@
 #include "efoodvendor.h"
 
-#include "characters/efoodvendorchar.h"
-
 eFoodVendor::eFoodVendor(const stdsptr<eAgoraBase>& agora,
                          eGameBoard& board) :
     eVendor(board, agora,
