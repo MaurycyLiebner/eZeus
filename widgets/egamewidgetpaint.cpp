@@ -197,7 +197,25 @@ private:
     eGameBoard& mBoard;
 };
 
+void eGameWidget::setArmyMenuVisible(const bool v) {
+    if(mAm->visible() == v) return;
+    mAm->setVisible(v);
+    if(v) {
+        mGm->show();
+        mTem->hide();
+    } else {
+        const bool c = mMenuSwitch->checked();
+        mTem->setVisible(c);
+        mGm->setVisible(!c);
+    }
+}
+
 void eGameWidget::paintEvent(ePainter& p) {
+    {
+        const auto& ss = mBoard->selectedSoldiers();
+        const bool v = !ss.empty();
+        setArmyMenuVisible(v);
+    }
     mFrame++;
     if(!mPaused && !mLocked && !mMenu) {
         mTime += mSpeed;

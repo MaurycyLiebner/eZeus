@@ -99,6 +99,20 @@ void eGameWidget::initialize() {
         viewFraction(fx, fy);
     });
 
+    mAm = new eArmyMenu(window());
+    mAm->initialize(*mBoard);
+    addWidget(mAm);
+    mAm->align(eAlignment::right | eAlignment::top);
+    mAm->hide();
+
+    const auto mma = mAm->miniMap();
+    mma->setChangeAction([this, mma]() {
+        double fx;
+        double fy;
+        mma->viewedFraction(fx, fy);
+        viewFraction(fx, fy);
+    });
+
     mTopBar = new eTopBarWidget(window());
     mTopBar->initialize();
     addWidget(mTopBar);
@@ -114,13 +128,13 @@ void eGameWidget::initialize() {
     mTem->hide();
 
 
-    const auto swtch = new eCheckBox(window());
-    swtch->move(mGm->x(), 0);
-    swtch->setCheckAction([this](const bool c) {
+    mMenuSwitch = new eCheckBox(window());
+    mMenuSwitch->move(mGm->x(), 0);
+    mMenuSwitch->setCheckAction([this](const bool c) {
         mTem->setVisible(c);
         mGm->setVisible(!c);
     });
-    addWidget(swtch);
+    addWidget(mMenuSwitch);
 
     const auto& setts = window()->settings();
     const auto sizes = setts.availableSizes();
@@ -567,6 +581,8 @@ void eGameWidget::updateMinimap() {
     viewedFraction(fx, fy);
     const auto mm = mGm->miniMap();
     mm->viewFraction(fx, fy);
+    const auto mma = mAm->miniMap();
+    mma->viewFraction(fx, fy);
 }
 
 int eGameWidget::waterParkId() const {
@@ -1160,6 +1176,8 @@ void eGameWidget::setTileSize(const eTileSize size) {
         viewBoxSize(fx, fy);
         const auto mm = mGm->miniMap();
         mm->setViewBoxSize(fx, fy);
+        const auto mma = mAm->miniMap();
+        mma->setViewBoxSize(fx, fy);
     }
 
     clampViewBox();

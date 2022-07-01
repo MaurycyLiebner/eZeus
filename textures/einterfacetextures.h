@@ -17,6 +17,15 @@ public:
     SDL_Renderer* const fRenderer;
 
     std::shared_ptr<eTexture> fGameMenuBackground;
+    std::shared_ptr<eTexture> fGameArmyBackground;
+    std::shared_ptr<eTexture> fArmyStatus;
+    eTextureCollection fGoToCompany;
+    eTextureCollection fRotateCompany;
+    eTextureCollection fGoToBanner;
+    eTextureCollection fGoHome;
+    eTextureCollection fDefensiveTactics;
+    eTextureCollection fOffensiveTactics;
+    eTextureCollection fSpecialTactics;
 
     // normal, hover, selected, disabled
     eTextureCollection fShowInfo;

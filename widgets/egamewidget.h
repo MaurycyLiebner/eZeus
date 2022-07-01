@@ -20,11 +20,13 @@
 #include "infowidgets/egyminfowidget.h"
 
 #include "widgets/egamemenu.h"
+#include "widgets/earmymenu.h"
 #include "egamemainmenu.h"
 #include "etopbarwidget.h"
 
 #include "eviewmode.h"
 #include "emessage.h"
+#include "echeckbox.h"
 
 class eTerrainEditMenu;
 class eDomesticatedAnimal;
@@ -137,6 +139,8 @@ private:
     bool inErase(eAgoraBase* const a);
     bool inErase(eBuilding* const b);
 
+    void setArmyMenuVisible(const bool v);
+
     bool mRotate = false;
     int mRotateId = 0;
 
@@ -188,6 +192,8 @@ private:
     eInfoWidget* mInfoWidget = nullptr;
     eTerrainEditMenu* mTem = nullptr;
     eGameMenu* mGm = nullptr;
+    eArmyMenu* mAm = nullptr;
+    eCheckBox* mMenuSwitch = nullptr;
 
     eWorldWidget* mWW = nullptr;
 };

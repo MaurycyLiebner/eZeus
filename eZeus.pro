@@ -290,6 +290,7 @@ SOURCES += \
         widgets/datawidgets/eviewmodebutton.cpp \
         widgets/eacceptbutton.cpp \
         widgets/eactionlistwidget.cpp \
+        widgets/earmymenu.cpp \
         widgets/ebasicbutton.cpp \
         widgets/ebuildbutton.cpp \
         widgets/ebuildingmode.cpp \
@@ -654,6 +655,7 @@ HEADERS += \
     widgets/datawidgets/eviewmodebutton.h \
     widgets/eacceptbutton.h \
     widgets/eactionlistwidget.h \
+    widgets/earmymenu.h \
     widgets/ebasicbutton.h \
     widgets/ebuildbutton.h \
     widgets/ebuildingmode.h \

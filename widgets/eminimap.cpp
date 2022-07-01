@@ -50,6 +50,7 @@ void eMiniMap::paintEvent(ePainter& p) {
         updateTexture();
         mUpdateScheduled = false;
     }
+    if(!mTexture) return;
     p.save();
     p.drawTexture(0, 0, mTexture);
     p.restore();

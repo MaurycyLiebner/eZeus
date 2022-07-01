@@ -7,6 +7,14 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fTileW(tileW), fTileH(tileH),
     fRenderer(renderer),
 
+    fGoToCompany(renderer),
+    fRotateCompany(renderer),
+    fGoToBanner(renderer),
+    fGoHome(renderer),
+    fDefensiveTactics(renderer),
+    fOffensiveTactics(renderer),
+    fSpecialTactics(renderer),
+
     fShowInfo(renderer),
     fShowMap(renderer),
 
@@ -322,10 +330,47 @@ void eInterfaceTextures::load() {
     }
 
     {
+        const std::string pathBase{dir + "Zeus_interfaceParts_"};
+
+        fArmyStatus = std::make_shared<eTexture>();
+        fArmyStatus->load(fRenderer, pathBase + "00002.png");
+
+        for(int i = 11; i < 15; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fGoToCompany);
+        }
+
+        for(int i = 15; i < 19; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fRotateCompany);
+        }
+
+        for(int i = 19; i < 23; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fGoToBanner);
+        }
+
+        for(int i = 23; i < 27; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fGoHome);
+        }
+
+        for(int i = 27; i < 31; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fDefensiveTactics);
+        }
+
+        for(int i = 31; i < 35; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fOffensiveTactics);
+        }
+
+        for(int i = 35; i < 39; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fSpecialTactics);
+        }
+    }
+    {
         const std::string pathBase{dir + "Zeus_Interface_New_parts_"};
 
         fGameMenuBackground = std::make_shared<eTexture>();
         fGameMenuBackground->load(fRenderer, pathBase + "00002.png");
+
+        fGameArmyBackground = std::make_shared<eTexture>();
+        fGameArmyBackground->load(fRenderer, pathBase + "00003.png");
 
 
         for(int i = 5; i < 37; i++) {
