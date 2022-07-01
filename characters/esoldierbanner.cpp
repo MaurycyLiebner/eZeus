@@ -45,15 +45,12 @@ void eSoldierBanner::callSoldiers() {
 
     for(const auto s : soldiers) {
         const auto tt = mPlaces[s];
-        const auto t = s->tile();
-        const int tx = t->x();
-        const int ty = t->y();
 
         const int ttx = tt->x();
         const int tty = tt->y();
 
         const auto a = s->soldierAction();
-        a->setPathForce(tx, ty, ttx, tty);
+        a->goTo(ttx, tty);
     }
 }
 

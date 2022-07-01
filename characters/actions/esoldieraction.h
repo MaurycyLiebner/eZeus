@@ -45,14 +45,11 @@ public:
 
     void moveBy(const double dx, const double dy);
 
-    void setPathForce(const int sx, const int sy,
-                      const int fx, const int fy,
-                      const int dist = 0);
+    void goTo(const int fx, const int fy, const int dist = 0);
 
     void beingAttacked(eSoldier* const ss);
     void beingAttacked(const int ttx, const int tty);
 private:
-    void goTo(const int fx, const int fy, const int dist = 0);
     void goBackToBanner();
 
     int mTaskCounter = 0;

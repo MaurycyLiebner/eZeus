@@ -267,14 +267,8 @@ void eSoldierAction::goTo(const int fx, const int fy,
                           const int dist) {
     const auto c = character();
     const auto t = c->tile();
-    const int tx = t->x();
-    const int ty = t->y();
-    setPathForce(tx, ty, fx, fy, dist);
-}
-
-void eSoldierAction::setPathForce(const int sx, const int sy,
-                                  const int fx, const int fy,
-                                  const int dist) {
+    const int sx = t->x();
+    const int sy = t->y();
     if(abs(fx - sx) <= dist && abs(fy - sy) <= dist) return;
 
     const stdptr<eSoldierAction> tptr(this);
