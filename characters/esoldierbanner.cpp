@@ -34,13 +34,7 @@ void eSoldierBanner::moveTo(const int x, const int y) {
 }
 
 void eSoldierBanner::callSoldiers() {
-    std::vector<eSoldier*> soldiers;
-    soldiers.reserve(mSoldiers.size());
-    for(const auto& s : mSoldiers) {
-        if(s->dead()) continue;
-        soldiers.push_back(s);
-    }
-
+    const auto soldiers = notDead();
     if(soldiers.empty()) return;
 
     for(const auto s : soldiers) {
@@ -74,13 +68,7 @@ eTile* eSoldierBanner::place(eSoldier* const s) {
 }
 
 void eSoldierBanner::updatePlaces() {
-    std::vector<eSoldier*> soldiers;
-    soldiers.reserve(mSoldiers.size());
-    for(const auto& s : mSoldiers) {
-        if(s->dead()) continue;
-        soldiers.push_back(s);
-    }
-
+    const auto soldiers = notDead();
     if(soldiers.empty()) return;
 
     int isld = 0;
@@ -99,4 +87,14 @@ void eSoldierBanner::updatePlaces() {
     for(int k = 0; isld < slds; k++) {
         eIterateSquare::iterateSquare(k, prcsTile);
     }
+}
+
+std::vector<eSoldier*> eSoldierBanner::notDead() const {
+    std::vector<eSoldier*> soldiers;
+    soldiers.reserve(mSoldiers.size());
+    for(const auto& s : mSoldiers) {
+        if(s->dead()) continue;
+        soldiers.push_back(s);
+    }
+    return soldiers;
 }

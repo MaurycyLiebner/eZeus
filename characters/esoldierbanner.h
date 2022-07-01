@@ -1,4 +1,4 @@
-#ifndef ESOLDIERBANNER_H
+﻿#ifndef ESOLDIERBANNER_H
 #define ESOLDIERBANNER_H
 
 #include <vector>
@@ -36,6 +36,7 @@ public:
     bool selected() const { return mSelected; }
 private:
     void updatePlaces();
+    std::vector<eSoldier*> notDead() const;
 
     const eBannerType mType;
     const int mId;
