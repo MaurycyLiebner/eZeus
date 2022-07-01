@@ -165,6 +165,8 @@ SOURCES += \
         characters/ehoplite.cpp \
         characters/ehoplitebase.cpp \
         characters/ehorse.cpp \
+        characters/ehorseman.cpp \
+        characters/ehorsemanbase.cpp \
         characters/ehunter.cpp \
         characters/elumberjack.cpp \
         characters/emarbleminer.cpp \
@@ -505,6 +507,8 @@ HEADERS += \
     characters/ehoplite.h \
     characters/ehoplitebase.h \
     characters/ehorse.h \
+    characters/ehorseman.h \
+    characters/ehorsemanbase.h \
     characters/ehunter.h \
     characters/elumberjack.h \
     characters/emarbleminer.h \

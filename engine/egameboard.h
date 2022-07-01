@@ -189,9 +189,20 @@ public:
     void addSupportedBuilding(const eBuildingMode t);
     void removeSupportedBuilding(const eBuildingMode t);
     bool supportsBuilding(const eBuildingMode t) const;
+
+    using eBuildingValidator = std::function<bool(eBuilding*)>;
+    eBuilding* randomBuilding(const eBuildingValidator& v) const;
 private:
     void updateNeighbours();
     void updateTileRenderingOrder();
+
+    void updateMaxSoldiers();
+    void addSoldier(const eCharacterType st);
+    void removeSoldier(const eCharacterType st);
+    void distributeSoldiers();
+
+    void registerBanner(const stdsptr<eSoldierBanner>& b);
+    bool unregisterBanner(const stdsptr<eSoldierBanner>& b);
 
     eWorldBoard mWorldBoard;
 
@@ -253,6 +264,10 @@ private:
     std::vector<stdsptr<eSoldierBanner>> mBanners;
 
     std::vector<eSoldierBanner*> mSelectedBanners;
+
+    int mMaxRockThrowers = 0;
+    int mMaxHoplites = 0;
+    int mMaxHorsemen = 0;
 
     int mStadiumCount = 0;
     int mPalaceCount = 0;

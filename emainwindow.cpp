@@ -210,7 +210,7 @@ void eMainWindow::showGame() {
             for(int j = -10; j < 0; j += 1) {
                 const auto s = spawnHoplite(i, j, 1);
                 if(bi >= 8) {
-                    b = new eSoldierBanner(eBannerType::rockThrower, 0, *mBoard);
+                    b = new eSoldierBanner(eBannerType::rockThrower, *mBoard);
                     b->moveTo(i, j);
                     bi = 0;
                 }
@@ -224,7 +224,7 @@ void eMainWindow::showGame() {
             for(int j = -20; j < -10; j += 1) {
                 const auto s = spawnHoplite(i, j, 2);
                 if(bi >= 8) {
-                    b = new eSoldierBanner(eBannerType::hoplite, 0, *mBoard);
+                    b = new eSoldierBanner(eBannerType::hoplite, *mBoard);
                     b->moveTo(i, j);
                     bi = 0;
                 }

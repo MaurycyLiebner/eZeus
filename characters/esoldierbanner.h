@@ -1,8 +1,10 @@
-﻿#ifndef ESOLDIERBANNER_H
+#ifndef ESOLDIERBANNER_H
 #define ESOLDIERBANNER_H
 
 #include <vector>
 #include <map>
+
+#include "pointers/eobject.h"
 
 class eSoldier;
 class eGameBoard;
@@ -14,32 +16,41 @@ enum class eBannerType {
     rockThrower
 };
 
-class eSoldierBanner {
+class eSoldierBanner : public eObject {
 public:
     eSoldierBanner(const eBannerType type,
-                   const int id, eGameBoard& board);
+                   eGameBoard& board);
 
     eBannerType type() const { return mType; }
 
     int id() const { return mId; }
 
     void moveTo(const int x, const int y);
-
+    void goHome();
+    void backFromHome();
     void callSoldiers();
 
     void addSoldier(eSoldier* const s);
     void removeSoldier(eSoldier* const s);
+    eSoldier* takeSoldier();
 
     eTile* place(eSoldier* const s);
 
     void setSelected(const bool s) { mSelected = s; }
     bool selected() const { return mSelected; }
+
+    int count() const { return mCount; }
+    void incCount();
+    void decCount();
 private:
     void updatePlaces();
+    void updateCount();
     std::vector<eSoldier*> notDead() const;
 
     const eBannerType mType;
     const int mId;
+
+    bool mHome = true;
 
     bool mSelected = false;
 
@@ -50,8 +61,9 @@ private:
 
     eTile* mTile = nullptr;
 
-    std::map<eSoldier*, eTile*> mPlaces;
+    int mCount = 0;
 
+    std::map<eSoldier*, eTile*> mPlaces;
     std::vector<eSoldier*> mSoldiers;
 };
 

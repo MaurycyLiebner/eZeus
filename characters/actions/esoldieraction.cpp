@@ -12,6 +12,8 @@
 #include "characters/esoldierbanner.h"
 
 #include "emovetoaction.h"
+#include "buildings/esmallhouse.h"
+#include "buildings/eelitehousing.h"
 
 eAttackTarget::eAttackTarget() :
     mC(nullptr), mB(nullptr) {}
@@ -294,6 +296,29 @@ void eSoldierAction::goTo(const int fx, const int fy,
     setCurrentAction(a);
 }
 
+void eSoldierAction::goHome() {
+    const auto c = character();
+    const auto& brd = c->getBoard();
+    const auto b = sFindHome(c->type(), brd);
+    if(!b) return;
+
+    const stdptr<eSoldierAction> tptr(this);
+    const stdptr<eCharacter> cptr(c);
+    const auto finishAct = [cptr]() {
+        if(!cptr) return;
+        cptr->kill();
+    };
+
+    const auto a = e::make_shared<eMoveToAction>(
+                       cptr.get(), finishAct, finishAct);
+    a->setFoundAction([tptr, cptr]() {
+        if(!cptr) return;
+        cptr->setActionType(eCharacterActionType::walk);
+    });
+    a->start(b, eWalkableHelpers::sDefaultWalkable);
+    setCurrentAction(a);
+}
+
 void eSoldierAction::beingAttacked(eSoldier* const ss) {
     const auto tt = ss->tile();
     const int ttx = tt->x();
@@ -305,6 +330,38 @@ void eSoldierAction::beingAttacked(const int ttx, const int tty) {
     if(mAttack) return;
     if(currentAction()) return;
     goTo(ttx, tty);
+}
+
+eBuilding* eSoldierAction::sFindHome(const eCharacterType t,
+                                     const eGameBoard& brd) {
+    eGameBoard::eBuildingValidator v;
+    if(t == eCharacterType::rockThrower) {
+        v = [](eBuilding* const b) {
+            const auto bt = b->type();
+            if(bt != eBuildingType::commonHouse) return false;
+            const auto ch = static_cast<eSmallHouse*>(b);
+            if(ch->level() < 3) return false;
+            return true;
+        };
+    } else if(t == eCharacterType::hoplite) {
+        v = [](eBuilding* const b) {
+            const auto bt = b->type();
+            if(bt != eBuildingType::eliteHousing) return false;
+            const auto eh = static_cast<eEliteHousing*>(b);
+            if(eh->level() < 2) return false;
+            return true;
+        };
+    } else { // horseman
+        v = [](eBuilding* const b) {
+            const auto bt = b->type();
+            if(bt != eBuildingType::eliteHousing) return false;
+            const auto eh = static_cast<eEliteHousing*>(b);
+            if(eh->level() < 4) return false;
+            return true;
+        };
+    }
+    const auto b = brd.randomBuilding(v);
+    return b;
 }
 
 void eSoldierAction::goBackToBanner() {

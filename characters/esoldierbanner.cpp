@@ -5,14 +5,18 @@
 #include "engine/etile.h"
 #include "engine/egameboard.h"
 #include "characters/esoldier.h"
+#include "characters/erockthrower.h"
+#include "characters/ehoplite.h"
+#include "characters/ehorseman.h"
 #include "characters/actions/esoldieraction.h"
 #include "eiteratesquare.h"
 
-eSoldierBanner::eSoldierBanner(const eBannerType type,
-                               const int id, eGameBoard& board) :
-    mType(type), mId(id), mBoard(board) {
+int gNextId = 0;
 
-}
+eSoldierBanner::eSoldierBanner(const eBannerType type,
+                               eGameBoard& board) :
+    eObject(board),
+    mType(type), mId(gNextId++), mBoard(board) {}
 
 void eSoldierBanner::moveTo(const int x, const int y) {
     if(mX == x && mY == y) return;
@@ -31,6 +35,27 @@ void eSoldierBanner::moveTo(const int x, const int y) {
 
     updatePlaces();
     callSoldiers();
+}
+
+void eSoldierBanner::goHome() {
+    if(mHome) return;
+    mHome = true;
+    const auto soldiers = notDead();
+    for(const auto s : soldiers) {
+        const auto a = s->soldierAction();
+        a->goHome();
+    }
+}
+
+void eSoldierBanner::backFromHome() {
+    if(!mHome) return;
+    mHome = false;
+    const auto soldiers = notDead();
+    for(const auto s : soldiers) {
+        const auto a = s->soldierAction();
+        a->goBackToBanner();
+    }
+    updateCount();
 }
 
 void eSoldierBanner::callSoldiers() {
@@ -61,10 +86,27 @@ void eSoldierBanner::removeSoldier(eSoldier* const s) {
     updatePlaces();
 }
 
+eSoldier* eSoldierBanner::takeSoldier() {
+    if(mSoldiers.empty()) return nullptr;
+    const auto s = mSoldiers.back();
+    removeSoldier(s);
+    return s;
+}
+
 eTile* eSoldierBanner::place(eSoldier* const s) {
     const auto it = mPlaces.find(s);
     if(it == mPlaces.end()) return nullptr;
     return it->second;
+}
+
+void eSoldierBanner::incCount() {
+    mCount++;
+    updateCount();
+}
+
+void eSoldierBanner::decCount() {
+    mCount--;
+    updateCount();
 }
 
 void eSoldierBanner::updatePlaces() {
@@ -87,6 +129,54 @@ void eSoldierBanner::updatePlaces() {
     for(int k = 0; isld < slds; k++) {
         eIterateSquare::iterateSquare(k, prcsTile);
     }
+}
+
+void eSoldierBanner::updateCount() {
+    if(mHome) return;
+    const int n = mSoldiers.size();
+    for(int i = n; i < mCount; i++) {
+        eCharacterType cht;
+        switch(mType) {
+        case eBannerType::rockThrower:
+            cht = eCharacterType::rockThrower;
+            break;
+        case eBannerType::hoplite:
+            cht = eCharacterType::hoplite;
+            break;
+        case eBannerType::horseman:
+            cht = eCharacterType::horseman;
+            break;
+        }
+        const auto home = eSoldierAction::sFindHome(cht, mBoard);
+        if(!home) break;
+        stdsptr<eSoldier> h;
+        switch(mType) {
+        case eBannerType::rockThrower:
+            h = e::make_shared<eRockThrower>(mBoard);
+            break;
+        case eBannerType::hoplite:
+            h = e::make_shared<eHoplite>(mBoard);
+            break;
+        case eBannerType::horseman:
+            h = e::make_shared<eHorseman>(mBoard);
+            break;
+        }
+        h->setBanner(this);
+        const auto a = e::make_shared<eSoldierAction>(h.get(), [](){}, [](){});
+        h->setSoldierAction(a);
+        h->setAction(a);
+        h->changeTile(home->centerTile());
+        h->setActionType(eCharacterActionType::stand);
+        a->goBackToBanner();
+        addSoldier(h.get());
+    }
+
+    for(int i = mCount; i < n; i++) {
+        const auto s = mSoldiers.back();
+        const auto a = s->soldierAction();
+        a->goHome();
+    }
+    updatePlaces();
 }
 
 std::vector<eSoldier*> eSoldierBanner::notDead() const {

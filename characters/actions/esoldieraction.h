@@ -46,12 +46,15 @@ public:
     void moveBy(const double dx, const double dy);
 
     void goTo(const int fx, const int fy, const int dist = 0);
+    void goHome();
+    void goBackToBanner();
 
     void beingAttacked(eSoldier* const ss);
     void beingAttacked(const int ttx, const int tty);
-private:
-    void goBackToBanner();
 
+    static eBuilding* sFindHome(const eCharacterType t,
+                                const eGameBoard& brd);
+private:
     int mTaskCounter = 0;
     const int mTaskCountCheckBase = 60;
     int mTaskCountCheck = mTaskCountCheckBase;

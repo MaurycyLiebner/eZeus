@@ -15,10 +15,17 @@
 #include "characters/actions/egodvisitaction.h"
 
 #include "characters/esoldier.h"
+#include "characters/actions/esoldieraction.h"
+#include "characters/erockthrower.h"
+#include "characters/ehoplite.h"
+#include "characters/ehorseman.h"
 #include "characters/esoldierbanner.h"
 
 #include "buildings/sanctuaries/esanctbuilding.h"
 #include "buildings/etradepost.h"
+
+#include "buildings/esmallhouse.h"
+#include "buildings/eelitehousing.h"
 
 #include "engine/boardData/eappealupdatetask.h"
 
@@ -142,6 +149,16 @@ bool eGameBoard::supportsBuilding(const eBuildingMode t) const {
     return s;
 }
 
+eBuilding* eGameBoard::randomBuilding(const eBuildingValidator& v) const {
+    auto blds = mBuildings;
+    std::random_shuffle(blds.begin(), blds.end());
+    for(const auto b : blds) {
+        const bool r = v(b);
+        if(r) return b;
+    }
+    return nullptr;
+}
+
 void eGameBoard::updateTileRenderingOrder() {
     std::vector<std::vector<std::pair<int, int>>> map;
     map.reserve(width());
@@ -247,6 +264,156 @@ void eGameBoard::updateTileRenderingOrder() {
     iterateOverAllTiles([&](eTile* const tile) {
         updateRenderingOrder(tile);
     });
+}
+
+void eGameBoard::updateMaxSoldiers() {
+    mMaxRockThrowers = 0;
+    mMaxHoplites = 0;
+    mMaxHorsemen = 0;
+    for(const auto b : mBuildings) {
+        const auto bt = b->type();
+        if(bt == eBuildingType::commonHouse) {
+            const auto ch = static_cast<eSmallHouse*>(b);
+            const int l = ch->level();
+            if(l < 2) continue;
+            if(l == 2) mMaxRockThrowers += 5;
+            else if(l == 3) mMaxRockThrowers += 6;
+            else if(l == 4) mMaxRockThrowers += 10;
+            else if(l == 5) mMaxRockThrowers += 12;
+            else if(l == 6) mMaxRockThrowers += 15;
+        } else if(bt == eBuildingType::eliteHousing) {
+            const auto eh = static_cast<eEliteHousing*>(b);
+            const int l = eh->level();
+            if(l < 1) continue;
+            const int a = eh->arms();
+            if(l == 1) {
+                mMaxHoplites += std::min(2, a);
+            } else if(l == 2) {
+                mMaxHoplites += std::min(4, a);
+            } else if(l == 3) {
+                const int h = eh->horses();
+                const int hh = std::min(std::min(a, 4), h);
+                mMaxHorsemen += hh;
+                mMaxHoplites += std::min(4 - hh, a - hh);
+            }
+            else if(l == 3) mMaxRockThrowers += 6;
+            else if(l == 4) mMaxRockThrowers += 10;
+            else if(l == 5) mMaxRockThrowers += 12;
+            else if(l == 6) mMaxRockThrowers += 15;
+        }
+    }
+    mMaxRockThrowers /= 6;
+}
+
+void eGameBoard::addSoldier(const eCharacterType st) {
+    bool found = false;
+    for(const auto& b : mBanners) {
+        const auto bt = b->type();
+        const int c = b->count();
+        if(c >= 8) continue;
+        if(bt == eBannerType::rockThrower &&
+           st == eCharacterType::rockThrower) {
+            found = true;
+        } else if(bt == eBannerType::hoplite &&
+                  st == eCharacterType::hoplite) {
+            found = true;
+        } else if(bt == eBannerType::horseman &&
+                  st == eCharacterType::horseman){
+            found = true;
+        }
+        if(found) {
+            b->incCount();
+            break;
+        }
+    }
+    if(found) return;
+    eBannerType bt;
+    if(st == eCharacterType::rockThrower) {
+        bt = eBannerType::rockThrower;
+    } else if(st == eCharacterType::hoplite) {
+        bt = eBannerType::hoplite;
+    } else { //horseman
+        bt = eBannerType::horseman;
+    }
+    const auto b = e::make_shared<eSoldierBanner>(bt, *this);
+    registerBanner(b);
+    b->incCount();
+}
+
+void eGameBoard::removeSoldier(const eCharacterType st) {
+    for(const auto& b : mBanners) {
+        const auto bt = b->type();
+        const int c = b->count();
+        if(c <= 0) continue;
+        bool found = false;
+        if(bt == eBannerType::rockThrower &&
+           st == eCharacterType::rockThrower) {
+            found = true;
+        } else if(bt == eBannerType::hoplite &&
+                  st == eCharacterType::hoplite) {
+            found = true;
+        } else if(bt == eBannerType::horseman &&
+                  st == eCharacterType::horseman){
+            found = true;
+        }
+        if(found) {
+            b->decCount();
+            if(b->count() <= 0) {
+                unregisterBanner(b);
+            }
+            break;
+        }
+    }
+}
+
+void eGameBoard::distributeSoldiers() {
+    int cRockThrowers = 0;
+    int cHoplites = 0;
+    int cHorsemen = 0;
+    for(const auto& b : mBanners) {
+        const auto bt = b->type();
+        const int c = b->count();
+        if(bt == eBannerType::rockThrower) {
+            cRockThrowers += c;
+        } else if(bt == eBannerType::hoplite) {
+            cHoplites += c;
+        } else { //horseman
+            cHorsemen += c;
+        }
+    }
+    const int remRockThrowers = mMaxRockThrowers - cRockThrowers;
+    const int remHoplites = mMaxHoplites - cHoplites;
+    const int remHorsemen = mMaxHorsemen - cHorsemen;
+
+    for(int i = 0; i < remRockThrowers; i++) {
+        addSoldier(eCharacterType::rockThrower);
+    }
+    for(int i = 0; i < -remRockThrowers; i++) {
+        removeSoldier(eCharacterType::rockThrower);
+    }
+    for(int i = 0; i < remHoplites; i++) {
+        addSoldier(eCharacterType::hoplite);
+    }
+    for(int i = 0; i < -remHoplites; i++) {
+        removeSoldier(eCharacterType::hoplite);
+    }
+    for(int i = 0; i < remHorsemen; i++) {
+        addSoldier(eCharacterType::horseman);
+    }
+    for(int i = 0; i < -remHorsemen; i++) {
+        removeSoldier(eCharacterType::horseman);
+    }
+}
+
+void eGameBoard::registerBanner(const stdsptr<eSoldierBanner>& b) {
+    mBanners.push_back(b);
+}
+
+bool eGameBoard::unregisterBanner(const stdsptr<eSoldierBanner>& b) {
+    const auto it = std::find(mBanners.begin(), mBanners.end(), b);
+    if(it == mBanners.end()) return false;
+    mBanners.erase(it);
+    return true;
 }
 
 void eGameBoard::updateTileRenderingOrderIfNeeded() {
