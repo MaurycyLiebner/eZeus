@@ -21,9 +21,7 @@ public:
     void queueTask(eTask* const task);
     void handleFinished();
 
-    void scheduleUpdate(eGameBoard& board,
-                        const int x, const int y,
-                        const int w, const int h);
+    void scheduleUpdate(eGameBoard& board);
 private:
     void threadEntry(eThreadData* data);
 

@@ -17,9 +17,7 @@ public:
 
     eThreadBoard& board() { return mBoard; }
 
-    void scheduleUpdate(eGameBoard& board,
-                        const int x, const int y,
-                        const int w, const int h);
+    void scheduleUpdate(eGameBoard& board);
 
     void updateBoard();
 

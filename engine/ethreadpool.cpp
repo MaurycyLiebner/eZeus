@@ -72,10 +72,8 @@ void eThreadPool::handleFinished() {
     }
 }
 
-void eThreadPool::scheduleUpdate(eGameBoard& board,
-                                 const int x, const int y,
-                                 const int w, const int h) {
+void eThreadPool::scheduleUpdate(eGameBoard& board) {
     for(auto& d : mThreadData) {
-        d->scheduleUpdate(board, x, y, w, h);
+        d->scheduleUpdate(board);
     }
 }

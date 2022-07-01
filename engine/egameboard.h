@@ -211,8 +211,6 @@ private:
     eDate mDate = eDate(1, eMonth::january, -1500);
 
     eThreadPool mThreadPool;
-    int mUpdateRect = 0;
-    std::vector<SDL_Rect> mUpdateRects;
 
     int mWidth = 0;
     int mHeight = 0;
