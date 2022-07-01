@@ -315,6 +315,7 @@ void eSoldierAction::goHome() {
         if(!cptr) return;
         cptr->setActionType(eCharacterActionType::walk);
     });
+    a->setFindFailAction(finishAct);
     a->start(b, eWalkableHelpers::sDefaultWalkable);
     setCurrentAction(a);
 }
@@ -340,7 +341,7 @@ eBuilding* eSoldierAction::sFindHome(const eCharacterType t,
             const auto bt = b->type();
             if(bt != eBuildingType::commonHouse) return false;
             const auto ch = static_cast<eSmallHouse*>(b);
-            if(ch->level() < 3) return false;
+            if(ch->level() < 2) return false;
             return true;
         };
     } else if(t == eCharacterType::hoplite) {

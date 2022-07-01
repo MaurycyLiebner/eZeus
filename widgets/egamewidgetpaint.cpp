@@ -223,10 +223,6 @@ void eGameWidget::paintEvent(ePainter& p) {
     }
     eGameBoardRegisterLock lock(*mBoard);
 
-    const int uam = mViewMode == eViewMode::appeal ? mFrame % 200 :
-                                                     mFrame % 600;
-    if(uam == 0) updateAppealMap();
-
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);
     eTilePainter tp(p, mTileSize, mTileW, mTileH);

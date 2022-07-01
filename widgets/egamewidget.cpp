@@ -171,7 +171,6 @@ void eGameWidget::pixToId(const int pixX, const int pixY,
 }
 
 void eGameWidget::setViewMode(const eViewMode m) {
-    if(m == eViewMode::appeal) updateAppealMap();
     mViewMode = m;
 }
 
@@ -587,11 +586,6 @@ void eGameWidget::updateMinimap() {
 
 int eGameWidget::waterParkId() const {
     return mTime/(mSpeed*150);
-}
-
-void eGameWidget::updateAppealMap() {
-    if(!mBoard) return;
-    mBoard->updateAppealMap();
 }
 
 void eGameWidget::showMessage(eTile* const tile, const eMessageType& msg) {

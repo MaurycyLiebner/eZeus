@@ -27,6 +27,7 @@ class eBuilding;
 class eTradePost;
 class eStorageBuilding;
 class eSoldierBanner;
+class ePalace;
 
 class eThreadPool;
 
@@ -109,7 +110,7 @@ public:
     void registerSpawner(eSpawner* const s);
     bool unregisterSpawner(eSpawner* const s);
 
-    void registerStadium();
+    void registerStadium(eBuilding* const s);
     void unregisterStadium();
 
     void registerStorBuilding(eStorageBuilding* const b);
@@ -118,16 +119,16 @@ public:
     void registerMissile(eMissile* const m);
     bool unregisterMissile(eMissile* const m);
 
-    bool hasStadium() const { return mStadiumCount > 0; }
+    bool hasStadium() const { return mStadium; }
 
-    void registerPalace();
+    void registerPalace(ePalace* const p);
     void unregisterPalace();
 
     void updateResources();
     using eResources = std::vector<std::pair<eResourceType, int>>;
     const eResources& resources() const { return mResources; }
 
-    bool hasPalace() const { return mPalaceCount > 0; }
+    bool hasPalace() const { return mPalace; }
 
     void incTime(const int by);
 
@@ -172,7 +173,8 @@ public:
     using eTileAction = std::function<void(eTile* const)>;
     void iterateOverAllTiles(const eTileAction& a);
 
-    void updateAppealMap();
+    void scheduleAppealMapUpdate();
+    void updateAppealMapIfNeeded();
 
     eWorldBoard& getWorldBoard() { return mWorldBoard; }
 
@@ -181,6 +183,9 @@ public:
     void selectSoldier(eSoldierBanner* const c);
     const std::vector<eSoldierBanner*>& selectedSoldiers() const
     { return mSelectedBanners; }
+
+    void bannersGoHome();
+    void bannersBackFromHome();
 
     void setRegisterBuildingsEnabled(const bool e);
 
@@ -265,17 +270,19 @@ private:
 
     std::vector<eSoldierBanner*> mSelectedBanners;
 
+    int mSoldiersUpdate = 0;
     int mMaxRockThrowers = 0;
     int mMaxHoplites = 0;
     int mMaxHorsemen = 0;
 
-    int mStadiumCount = 0;
-    int mPalaceCount = 0;
+    eBuilding* mStadium = nullptr;
+    ePalace* mPalace = nullptr;
 
     ePopulationData mPopData;
 
     eEmploymentData mEmplData;
 
+    bool mUpdateAppeal = false;
     eAppealMap mAppealMap;
 
     eAction mButtonVisUpdater;

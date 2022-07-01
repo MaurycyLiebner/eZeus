@@ -9,7 +9,7 @@ ePalace::ePalace(eGameBoard& board, const bool r) :
               r ? 4 : 8, r ? 8 : 4),
     mRotated(r) {
     setEnabled(true);
-    board.registerPalace();
+    board.registerPalace(this);
 }
 
 ePalace::~ePalace() {

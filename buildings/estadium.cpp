@@ -12,7 +12,7 @@ eStadium::eStadium(eGameBoard& board, const bool r) :
                   [this]() { return e::make_shared<eGymnast>(getBoard()); },
                   eBuildingType::stadium, r ? 5 : 10, r ? 10 : 5, 45),
     mRotated(r) {
-    board.registerStadium();
+    board.registerStadium(this);
 }
 
 eStadium::~eStadium() {

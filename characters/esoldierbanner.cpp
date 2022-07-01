@@ -167,8 +167,8 @@ void eSoldierBanner::updateCount() {
         h->setAction(a);
         h->changeTile(home->centerTile());
         h->setActionType(eCharacterActionType::stand);
-        a->goBackToBanner();
         addSoldier(h.get());
+        a->goBackToBanner();
     }
 
     for(int i = mCount; i < n; i++) {

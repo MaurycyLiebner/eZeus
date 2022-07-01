@@ -72,12 +72,20 @@ void eArmyMenu::initialize(eGameBoard& b) {
     mGoToBanner = new eBasicButton(t5, window());
     wid->addWidget(mGoToBanner);
     mGoToBanner->setY(y + 2*ddy);
+    mGoToBanner->setPressAction([this]() {
+        mBoard->bannersBackFromHome();
+        setSoldiersHome(false);
+    });
 
     const auto t5_2 = &eInterfaceTextures::fGoHome;
     mGoHome = new eBasicButton(t5_2, window());
     wid->addWidget(mGoHome);
     mGoHome->setY(y + 2*ddy);
     mGoHome->hide();
+    mGoHome->setPressAction([this]() {
+        mBoard->bannersGoHome();
+        setSoldiersHome(true);
+    });
 
     const auto t6 = &eInterfaceTextures::fSpecialTactics;
     const auto st = new eBasicButton(t6, window());

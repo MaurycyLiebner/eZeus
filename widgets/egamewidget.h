@@ -127,8 +127,6 @@ private:
 
     int waterParkId() const;
 
-    void updateAppealMap();
-
     void showMessage(eTile* const tile, const eMessage& msg);
     void showMessage(eTile* const tile, const eMessageType& msg);
 

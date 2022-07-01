@@ -27,6 +27,9 @@
 #include "buildings/esmallhouse.h"
 #include "buildings/eelitehousing.h"
 
+#include "buildings/epalace.h"
+#include "buildings/epalacetile.h"
+
 #include "engine/boardData/eappealupdatetask.h"
 
 #include "missiles/emissile.h"
@@ -92,7 +95,13 @@ void eGameBoard::iterateOverAllTiles(const eTileAction& a) {
     }
 }
 
-void eGameBoard::updateAppealMap() {
+void eGameBoard::scheduleAppealMapUpdate() {
+    mUpdateAppeal = true;
+}
+
+void eGameBoard::updateAppealMapIfNeeded() {
+    if(!mUpdateAppeal) return;
+    mUpdateAppeal = false;
     const auto task = new eAppealUpdateTask([this](eAppealMap& map) {
         std::swap(appealMap(), map);
     });
@@ -118,6 +127,18 @@ void eGameBoard::deselectSoldier(eSoldierBanner* const c) {
 void eGameBoard::selectSoldier(eSoldierBanner* const c) {
     mSelectedBanners.push_back(c);
     c->setSelected(true);
+}
+
+void eGameBoard::bannersGoHome() {
+    for(const auto b : mSelectedBanners) {
+        b->goHome();
+    }
+}
+
+void eGameBoard::bannersBackFromHome() {
+    for(const auto b : mSelectedBanners) {
+        b->backFromHome();
+    }
 }
 
 void eGameBoard::setRegisterBuildingsEnabled(const bool e) {
@@ -338,6 +359,15 @@ void eGameBoard::addSoldier(const eCharacterType st) {
     const auto b = e::make_shared<eSoldierBanner>(bt, *this);
     registerBanner(b);
     b->incCount();
+    const auto ts = mPalace->tiles();
+    for(const auto& t : ts) {
+        const auto tt = t->centerTile();
+        if(!tt) continue;
+        const auto bb = tt->banner();
+        if(bb) continue;
+        b->moveTo(tt->x(), tt->y());
+        break;
+    }
 }
 
 void eGameBoard::removeSoldier(const eCharacterType st) {
@@ -367,6 +397,7 @@ void eGameBoard::removeSoldier(const eCharacterType st) {
 }
 
 void eGameBoard::distributeSoldiers() {
+    if(!hasPalace()) return;
     int cRockThrowers = 0;
     int cHoplites = 0;
     int cHorsemen = 0;
@@ -463,6 +494,7 @@ void eGameBoard::registerBuilding(eBuilding* const b) {
     if(!mRegisterBuildingsEnabled) return;
     mTileRenderingOrderUpdateNeeded = true;
     mBuildings.push_back(b);
+    scheduleAppealMapUpdate();
 }
 
 bool eGameBoard::unregisterBuilding(eBuilding* const b) {
@@ -471,6 +503,7 @@ bool eGameBoard::unregisterBuilding(eBuilding* const b) {
     const auto it = std::find(mBuildings.begin(), mBuildings.end(), b);
     if(it == mBuildings.end()) return false;
     mBuildings.erase(it);
+    scheduleAppealMapUpdate();
     return true;
 }
 
@@ -508,15 +541,15 @@ bool eGameBoard::unregisterSpawner(eSpawner* const s) {
     return true;
 }
 
-void eGameBoard::registerStadium() {
+void eGameBoard::registerStadium(eBuilding* const s) {
     if(!mRegisterBuildingsEnabled) return;
-    mStadiumCount++;
+    mStadium = s;
     mButtonVisUpdater();
 }
 
 void eGameBoard::unregisterStadium() {
     if(!mRegisterBuildingsEnabled) return;
-    mStadiumCount--;
+    mStadium = nullptr;
     mButtonVisUpdater();
 }
 
@@ -544,21 +577,31 @@ bool eGameBoard::unregisterMissile(eMissile* const m) {
     return true;
 }
 
-void eGameBoard::registerPalace() {
+void eGameBoard::registerPalace(ePalace* const p) {
     if(!mRegisterBuildingsEnabled) return;
-    mPalaceCount++;
+    mPalace = p;
     mButtonVisUpdater();
 }
 
 void eGameBoard::unregisterPalace() {
     if(!mRegisterBuildingsEnabled) return;
-    mPalaceCount--;
+    mPalace = nullptr;
     mButtonVisUpdater();
 }
 
 void eGameBoard::incTime(const int by) {
     mThreadPool.handleFinished();
     mThreadPool.scheduleUpdate(*this);
+
+    updateAppealMapIfNeeded();
+
+    mSoldiersUpdate += by;
+    const int sup = 2000;
+    if(mSoldiersUpdate > sup) {
+        mSoldiersUpdate -= sup;
+        updateMaxSoldiers();
+        distributeSoldiers();
+    }
 
     mTime += by;
     bool nextMonth = false;
