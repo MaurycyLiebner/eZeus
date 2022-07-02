@@ -187,51 +187,51 @@ void eMainWindow::showGame() {
         eMapGeneratorSettings sett;
         g.generate(sett);
 
-        const auto spawnHoplite = [&](const int x, const int y,
-                                      const int pid) {
-            stdsptr<eSoldier> h;
-            if(pid == 1) {
-                h = e::make_shared<eRockThrower>(*mBoard);
-            } else {
-                h = e::make_shared<eGreekHoplite>(*mBoard);
-            }
-            h->setPlayerId(pid);
-            const auto a = e::make_shared<eSoldierAction>(h.get(), [](){}, [](){});
-            h->setSoldierAction(a);
-            h->setAction(a);
-            h->changeTile(mBoard->tile(x, y));
-            h->setActionType(eCharacterActionType::stand);
-            return h;
-        };
+//        const auto spawnHoplite = [&](const int x, const int y,
+//                                      const int pid) {
+//            stdsptr<eSoldier> h;
+//            if(pid == 1) {
+//                h = e::make_shared<eRockThrower>(*mBoard);
+//            } else {
+//                h = e::make_shared<eGreekHoplite>(*mBoard);
+//            }
+//            h->setPlayerId(pid);
+//            const auto a = e::make_shared<eSoldierAction>(h.get(), [](){}, [](){});
+//            h->setSoldierAction(a);
+//            h->setAction(a);
+//            h->changeTile(mBoard->tile(x, y));
+//            h->setActionType(eCharacterActionType::stand);
+//            return h;
+//        };
 
-        eSoldierBanner* b = nullptr;
-        int bi = 8;
-        for(int i = 20; i < 30; i += 1) {
-            for(int j = -10; j < 0; j += 1) {
-                const auto s = spawnHoplite(i, j, 1);
-                if(bi >= 8) {
-                    b = new eSoldierBanner(eBannerType::rockThrower, *mBoard);
-                    b->moveTo(i, j);
-                    bi = 0;
-                }
-                s->setBanner(b);
-                bi++;
-            }
-        }
+//        eSoldierBanner* b = nullptr;
+//        int bi = 8;
+//        for(int i = 20; i < 30; i += 1) {
+//            for(int j = -10; j < 0; j += 1) {
+//                const auto s = spawnHoplite(i, j, 1);
+//                if(bi >= 8) {
+//                    b = new eSoldierBanner(eBannerType::rockThrower, *mBoard);
+//                    b->moveTo(i, j);
+//                    bi = 0;
+//                }
+//                s->setBanner(b);
+//                bi++;
+//            }
+//        }
 
-        bi = 8;
-        for(int i = 30; i < 40; i += 1) {
-            for(int j = -20; j < -10; j += 1) {
-                const auto s = spawnHoplite(i, j, 2);
-                if(bi >= 8) {
-                    b = new eSoldierBanner(eBannerType::hoplite, *mBoard);
-                    b->moveTo(i, j);
-                    bi = 0;
-                }
-                s->setBanner(b);
-                bi++;
-            }
-        }
+//        bi = 8;
+//        for(int i = 30; i < 40; i += 1) {
+//            for(int j = -20; j < -10; j += 1) {
+//                const auto s = spawnHoplite(i, j, 2);
+//                if(bi >= 8) {
+//                    b = new eSoldierBanner(eBannerType::hoplite, *mBoard);
+//                    b->moveTo(i, j);
+//                    bi = 0;
+//                }
+//                s->setBanner(b);
+//                bi++;
+//            }
+//        }
 
         auto& wb = mBoard->getWorldBoard();
 

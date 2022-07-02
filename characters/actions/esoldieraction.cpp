@@ -288,7 +288,6 @@ void eSoldierAction::goTo(const int fx, const int fy,
     const auto a = e::make_shared<eMoveToAction>(
                        cptr.get(), finishAct, finishAct);
     a->setFoundAction([tptr, cptr]() {
-        if(!tptr) return;
         if(!cptr) return;
         cptr->setActionType(eCharacterActionType::walk);
     });
@@ -300,7 +299,10 @@ void eSoldierAction::goHome() {
     const auto c = character();
     const auto& brd = c->getBoard();
     const auto b = sFindHome(c->type(), brd);
-    if(!b) return;
+    if(!b) {
+        c->kill();
+        return;
+    }
 
     const stdptr<eSoldierAction> tptr(this);
     const stdptr<eCharacter> cptr(c);

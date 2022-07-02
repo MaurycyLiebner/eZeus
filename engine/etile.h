@@ -9,6 +9,7 @@
 #include "eorientation.h"
 
 #include "pointers/estdselfref.h"
+#include "pointers/estdpointer.h"
 
 enum class eTileSize : int {
     s15, s30, s45, s60
@@ -87,7 +88,7 @@ private:
     stdsptr<eBuilding> mUnderBuilding;
     stdsptr<eBuildingRenderer> mBuilding;
     eSpawner* mSpawner = nullptr;
-    eSoldierBanner* mBanner = nullptr;
+    stdptr<eSoldierBanner> mBanner;
 };
 
 #endif // ETILE_H

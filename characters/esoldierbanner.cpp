@@ -86,13 +86,6 @@ void eSoldierBanner::removeSoldier(eSoldier* const s) {
     updatePlaces();
 }
 
-eSoldier* eSoldierBanner::takeSoldier() {
-    if(mSoldiers.empty()) return nullptr;
-    const auto s = mSoldiers.back();
-    removeSoldier(s);
-    return s;
-}
-
 eTile* eSoldierBanner::place(eSoldier* const s) {
     const auto it = mPlaces.find(s);
     if(it == mPlaces.end()) return nullptr;
@@ -133,7 +126,8 @@ void eSoldierBanner::updatePlaces() {
 
 void eSoldierBanner::updateCount() {
     if(mHome) return;
-    const int n = mSoldiers.size();
+    auto soldiers = notDead();
+    const int n = soldiers.size();
     for(int i = n; i < mCount; i++) {
         eCharacterType cht;
         switch(mType) {
@@ -167,14 +161,15 @@ void eSoldierBanner::updateCount() {
         h->setAction(a);
         h->changeTile(home->centerTile());
         h->setActionType(eCharacterActionType::stand);
-        addSoldier(h.get());
         a->goBackToBanner();
     }
 
     for(int i = mCount; i < n; i++) {
-        const auto s = mSoldiers.back();
+        const auto s = soldiers.back();
+        soldiers.pop_back();
         const auto a = s->soldierAction();
         a->goHome();
+        s->setBanner(nullptr);
     }
     updatePlaces();
 }
@@ -182,7 +177,7 @@ void eSoldierBanner::updateCount() {
 std::vector<eSoldier*> eSoldierBanner::notDead() const {
     std::vector<eSoldier*> soldiers;
     soldiers.reserve(mSoldiers.size());
-    for(const auto& s : mSoldiers) {
+    for(const auto s : mSoldiers) {
         if(s->dead()) continue;
         soldiers.push_back(s);
     }

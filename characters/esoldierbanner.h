@@ -32,7 +32,6 @@ public:
 
     void addSoldier(eSoldier* const s);
     void removeSoldier(eSoldier* const s);
-    eSoldier* takeSoldier();
 
     eTile* place(eSoldier* const s);
 
