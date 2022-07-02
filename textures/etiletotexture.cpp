@@ -41,7 +41,8 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
                              const eTileSize tileSize,
                              const bool drawElev,
                              int& futureDim,
-                             int& drawDim) {
+                             int& drawDim,
+                             const int time) {
     drawDim = 1;
     futureDim = 1;
     const int seed = tile->seed();
@@ -251,9 +252,52 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
             return texs.getTexture(texId);
         }
 
-        const int texId = seed % textures.fWaterTerrainTexs.size();
-        const auto& coll = textures.fWaterTerrainTexs;
-        return coll.getTexture(texId);
+        const auto tr = tile->topRight();
+        const auto r = tile->right();
+        const auto br = tile->bottomRight();
+        const auto b = tile->bottom();
+        const auto bl = tile->bottomLeft();
+        const auto l = tile->left();
+        const auto tl = tile->topLeft();
+        const auto t = tile->top();
+
+        const eTextureCollection* coll = nullptr;
+        if(tl && tr && tl->isShoreTile() && tr->isShoreTile()) {
+            coll = &textures.fWaterTexs[7];
+        } else if(tr && br && tr->isShoreTile() && br->isShoreTile()) {
+            coll = &textures.fWaterTexs[1];
+        } else if(tr && tr->isShoreTile()) {
+            coll = &textures.fWaterTexs[0];
+        } else if(br && bl && br->isShoreTile() && bl->isShoreTile()) {
+            coll = &textures.fWaterTexs[3];
+        } else if(br && br->isShoreTile()) {
+            coll = &textures.fWaterTexs[2];
+        } else if(bl && tl && bl->isShoreTile() && tl->isShoreTile()) {
+            coll = &textures.fWaterTexs[5];
+        } else if(bl && bl->isShoreTile()) {
+            coll = &textures.fWaterTexs[4];
+        } else if(tl && tl->isShoreTile()) {
+            coll = &textures.fWaterTexs[6];
+        } else if(r && l && r->isShoreTile() && l->isShoreTile()) {
+            coll = &textures.fWaterTexs[12];
+        } else if(b && t && b->isShoreTile() && t->isShoreTile()) {
+            coll = &textures.fWaterTexs[13];
+        } else if(r && r->isShoreTile()) {
+            coll = &textures.fWaterTexs[8];
+        } else if(b && b->isShoreTile()) {
+            coll = &textures.fWaterTexs[9];
+        } else if(l && l->isShoreTile()) {
+            coll = &textures.fWaterTexs[10];
+        } else if(t && t->isShoreTile()) {
+            coll = &textures.fWaterTexs[11];
+        } else {
+            coll = &textures.fWaterTexs[14];
+        }
+
+//        coll = &textures.fWaterTerrainTexs;
+
+        const int texId = (time + seed) % coll->size();
+        return coll->getTexture(texId);
     } break;
     case eTerrain::fertile: {
         const auto id = eFertileToDry::get(tile);

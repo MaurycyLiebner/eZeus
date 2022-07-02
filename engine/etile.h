@@ -11,6 +11,8 @@
 #include "pointers/estdselfref.h"
 #include "pointers/estdpointer.h"
 
+#include "characters/esoldierbanner.h"
+
 enum class eTileSize : int {
     s15, s30, s45, s60
 };

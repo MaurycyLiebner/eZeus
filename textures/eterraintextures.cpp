@@ -214,6 +214,16 @@ void eTerrainTextures::load() {
 
         loadWaterToX(fRenderer, 9, fWaterToBeachTerrainTexs, texClass);
 
+        for(int i = 0; i < 15; i++) {
+            fWaterTexs.emplace_back(fRenderer);
+        }
+
+        for(int i = 99; i < 189;) {
+            for(int j = 0; j < 15; j++, i++) {
+                texClass.load(i, fWaterTexs[j]);
+            }
+        }
+
         for(int i = 189; i < 195; i++) {
             texClass.load(i, fBeachTerrainTexs);
         }

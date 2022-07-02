@@ -16,7 +16,8 @@ namespace eTileToTexture {
                  const eTileSize tileSize,
                  const bool drawElev,
                  int& futureDim,
-                 int& drawDim);
+                 int& drawDim,
+                 const int time);
 };
 
 #endif // ETILETOTEXTURE_H
