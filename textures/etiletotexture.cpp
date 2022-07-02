@@ -80,16 +80,16 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
 
     const bool hr = ut == eBuildingType::road;
 
-    if(drawElev) {
-        const auto tr = tile->topRight();
-        const auto r = tile->right();
-        const auto br = tile->bottomRight();
-        const auto b = tile->bottom();
-        const auto bl = tile->bottomLeft();
-        const auto l = tile->left();
-        const auto tl = tile->topLeft();
-        const auto t = tile->top();
+    const auto tr = tile->topRight();
+    const auto r = tile->right();
+    const auto br = tile->bottomRight();
+    const auto b = tile->bottom();
+    const auto bl = tile->bottomLeft();
+    const auto l = tile->left();
+    const auto tl = tile->topLeft();
+    const auto t = tile->top();
 
+    if(drawElev) {
         const int a = tile->altitude();
 
         const int tx = tile->x();
@@ -252,49 +252,60 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
             return texs.getTexture(texId);
         }
 
-        const auto tr = tile->topRight();
-        const auto r = tile->right();
-        const auto br = tile->bottomRight();
-        const auto b = tile->bottom();
-        const auto bl = tile->bottomLeft();
-        const auto l = tile->left();
-        const auto tl = tile->topLeft();
-        const auto t = tile->top();
+        const bool trs = tr && tr->isShoreTile();
+        const bool rs = r && r->isShoreTile();
+        const bool brs = br && br->isShoreTile();
+        const bool bs = b && b->isShoreTile();
+        const bool bls = bl && bl->isShoreTile();
+        const bool ls = l && l->isShoreTile();
+        const bool tls = tl && tl->isShoreTile();
+        const bool ts = t && t->isShoreTile();
 
         const eTextureCollection* coll = nullptr;
-        if(tl && tr && tl->isShoreTile() && tr->isShoreTile()) {
+        int n = 0;
+        if(trs) n++;
+        if(brs) n++;
+        if(bls) n++;
+        if(tls) n++;
+        if(rs) n++;
+        if(ts) n++;
+        if(ls) n++;
+        if(bs) n++;
+        if(n > 5 || (trs && bls) || (tls && brs) ||
+           (ls && rs && bs) || (ls && rs && ts)) {
+            coll = &textures.fWaterTerrainTexs;
+        } else if((tls && trs) || (ls && rs && ts) ||
+                  (trs && ls) || (tls && rs)) {
             coll = &textures.fWaterTexs[7];
-        } else if(tr && br && tr->isShoreTile() && br->isShoreTile()) {
+        } else if((trs || ts) && brs) {
             coll = &textures.fWaterTexs[1];
-        } else if(tr && tr->isShoreTile()) {
+        } else if(trs || (ts && rs)) {
             coll = &textures.fWaterTexs[0];
-        } else if(br && bl && br->isShoreTile() && bl->isShoreTile()) {
+        } else if((brs || bls) && (brs || rs) && (bls || ls)) {
             coll = &textures.fWaterTexs[3];
-        } else if(br && br->isShoreTile()) {
+        } else if(brs || (rs && bs)) {
             coll = &textures.fWaterTexs[2];
-        } else if(bl && tl && bl->isShoreTile() && tl->isShoreTile()) {
+        } else if((bls || (bs && ls)) && (tls || ts)) {
             coll = &textures.fWaterTexs[5];
-        } else if(bl && bl->isShoreTile()) {
+        } else if(bls || (ls && bs)) {
             coll = &textures.fWaterTexs[4];
-        } else if(tl && tl->isShoreTile()) {
+        } else if(tls || (ls && ts)) {
             coll = &textures.fWaterTexs[6];
-        } else if(r && l && r->isShoreTile() && l->isShoreTile()) {
+        } else if(rs && ls) {
             coll = &textures.fWaterTexs[12];
-        } else if(b && t && b->isShoreTile() && t->isShoreTile()) {
+        } else if(bs && ts) {
             coll = &textures.fWaterTexs[13];
-        } else if(r && r->isShoreTile()) {
+        } else if(rs) {
             coll = &textures.fWaterTexs[8];
-        } else if(b && b->isShoreTile()) {
+        } else if(bs) {
             coll = &textures.fWaterTexs[9];
-        } else if(l && l->isShoreTile()) {
+        } else if(ls) {
             coll = &textures.fWaterTexs[10];
-        } else if(t && t->isShoreTile()) {
+        } else if(ts) {
             coll = &textures.fWaterTexs[11];
         } else {
             coll = &textures.fWaterTexs[14];
         }
-
-//        coll = &textures.fWaterTerrainTexs;
 
         const int texId = (time + seed) % coll->size();
         return coll->getTexture(texId);
