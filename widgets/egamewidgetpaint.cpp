@@ -1174,17 +1174,52 @@ void eGameWidget::paintEvent(ePainter& p) {
                 return canBuild(tx, ty, sw, sh, specReq);
             };
         } break;
-        case eBuildingMode::foodVendor:
-        case eBuildingMode::fleeceVendor:
-        case eBuildingMode::oilVendor:
-        case eBuildingMode::wineVendor:
-        case eBuildingMode::armsVendor:
+        case eBuildingMode::foodVendor: {
+            canBuildFunc = [&](const int tx, const int ty,
+                               const int sw, const int sh) {
+                (void)sw;
+                (void)sh;
+                return canBuildVendor(tx, ty, eResourceType::food);
+            };
+        } break;
+        case eBuildingMode::fleeceVendor: {
+            canBuildFunc = [&](const int tx, const int ty,
+                               const int sw, const int sh) {
+                (void)sw;
+                (void)sh;
+                return canBuildVendor(tx, ty, eResourceType::fleece);
+            };
+        } break;
+        case eBuildingMode::oilVendor: {
+            canBuildFunc = [&](const int tx, const int ty,
+                               const int sw, const int sh) {
+                (void)sw;
+                (void)sh;
+                return canBuildVendor(tx, ty, eResourceType::oliveOil);
+            };
+        } break;
+        case eBuildingMode::wineVendor: {
+            canBuildFunc = [&](const int tx, const int ty,
+                               const int sw, const int sh) {
+                (void)sw;
+                (void)sh;
+                return canBuildVendor(tx, ty, eResourceType::wine);
+            };
+        } break;
+        case eBuildingMode::armsVendor: {
+            canBuildFunc = [&](const int tx, const int ty,
+                               const int sw, const int sh) {
+                (void)sw;
+                (void)sh;
+                return canBuildVendor(tx, ty, eResourceType::armor);
+            };
+        } break;
         case eBuildingMode::horseTrainer: {
             canBuildFunc = [&](const int tx, const int ty,
                                const int sw, const int sh) {
                 (void)sw;
                 (void)sh;
-                return canBuildVendor(tx, ty);
+                return canBuildVendor(tx, ty, eResourceType::horse);
             };
         } break;
         default: {

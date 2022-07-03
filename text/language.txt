@@ -252,6 +252,11 @@ wine_vendor "Wine Vendor"
 arms_vendor "Arms Vendor"
 horse_trainer "Horse Trainer"
 
+no_vendor "No Vendor"
+no_goods "No Goods"
+not_buying "Not Buying"
+distributing "Distributing"
+
 trading_post "Trading Post: "
 pier "Pier: "
 

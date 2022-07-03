@@ -84,7 +84,8 @@ private:
     bool canBuild(const int tx, const int ty,
                   const int sw, const int sh,
                   const eSpecialRequirement& specReq = {});
-    bool canBuildVendor(const int tx, const int ty);
+    bool canBuildVendor(const int tx, const int ty,
+                        const eResourceType resType);
     bool canBuildFishery(const int tx, const int ty,
                          eOrientation& o);
     bool canBuildPier(const int tx, const int ty,

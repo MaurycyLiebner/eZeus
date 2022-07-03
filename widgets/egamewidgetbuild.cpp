@@ -412,7 +412,8 @@ std::vector<eTile*> eGameWidget::agoraBuildPlaceIter(
 }
 
 template <class T>
-bool buildVendor(eGameBoard& brd, const int tx, const int ty) {
+bool buildVendor(eGameBoard& brd, const int tx, const int ty,
+                 const eResourceType resType) {
     const auto t = brd.tile(tx, ty);
     if(!t) return false;
     const auto b = t->underBuilding();
@@ -424,6 +425,7 @@ bool buildVendor(eGameBoard& brd, const int tx, const int ty) {
     if(!ct) return false;
     if(ct->x() != tx || ct->y() != ty) return false;
     const auto agora = space->agora();
+    if(agora->vendor(resType)) return false;
     const auto agoraP = agora->ref<eAgoraBase>();
     const auto fv = e::make_shared<T>(agoraP, brd);
     agora->setBuilding(space, fv);
@@ -1254,22 +1256,28 @@ bool eGameWidget::buildMouseRelease() {
         }; break;
 
         case eBuildingMode::foodVendor: {
-            return buildVendor<eFoodVendor>(*mBoard, mHoverTX, mHoverTY);
+            return buildVendor<eFoodVendor>(*mBoard, mHoverTX, mHoverTY,
+                                            eResourceType::food);
         }; break;
         case eBuildingMode::fleeceVendor: {
-            return buildVendor<eFleeceVendor>(*mBoard, mHoverTX, mHoverTY);
+            return buildVendor<eFleeceVendor>(*mBoard, mHoverTX, mHoverTY,
+                                              eResourceType::fleece);
         }; break;
         case eBuildingMode::oilVendor: {
-            return buildVendor<eOilVendor>(*mBoard, mHoverTX, mHoverTY);
+            return buildVendor<eOilVendor>(*mBoard, mHoverTX, mHoverTY,
+                                           eResourceType::oliveOil);
         }; break;
         case eBuildingMode::wineVendor: {
-            return buildVendor<eWineVendor>(*mBoard, mHoverTX, mHoverTY);
+            return buildVendor<eWineVendor>(*mBoard, mHoverTX, mHoverTY,
+                                            eResourceType::wine);
         }; break;
         case eBuildingMode::armsVendor: {
-            return buildVendor<eArmsVendor>(*mBoard, mHoverTX, mHoverTY);
+            return buildVendor<eArmsVendor>(*mBoard, mHoverTX, mHoverTY,
+                                            eResourceType::armor);
         }; break;
         case eBuildingMode::horseTrainer: {
-            return buildVendor<eHorseVendor>(*mBoard, mHoverTX, mHoverTY);
+            return buildVendor<eHorseVendor>(*mBoard, mHoverTX, mHoverTY,
+                                             eResourceType::horse);
         }; break;
 
         case eBuildingMode::park:

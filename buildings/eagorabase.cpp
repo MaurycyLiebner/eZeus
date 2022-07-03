@@ -125,7 +125,8 @@ void eAgoraBase::setBuilding(const int id, const stdsptr<eBuilding>& b) {
     }
 }
 
-void eAgoraBase::setBuilding(eBuilding* const space, const stdsptr<eBuilding>& b) {
+void eAgoraBase::setBuilding(eBuilding* const space,
+                             const stdsptr<eBuilding>& b) {
     bool found = false;
     int id = -1;
     for(const auto& bb : mBs) {
@@ -207,4 +208,16 @@ int eAgoraBase::agoraCount(const eResourceType r) const {
         }
     }
     return 0;
+}
+
+eVendor* eAgoraBase::vendor(const eResourceType r) const {
+    for(int i = 0; i < mNPts; i++) {
+        const auto fvb = building(i);
+        const auto v = dynamic_cast<eVendor*>(fvb);
+        if(!v) continue;
+        const auto rt = v->resourceType();
+        const bool re = r == rt;
+        if(re) return v;
+    }
+    return nullptr;
 }

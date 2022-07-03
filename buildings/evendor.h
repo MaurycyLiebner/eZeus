@@ -49,6 +49,9 @@ public:
 
     void setResMult(const int m) { mResMult = m; }
     void setMaxRes(const int m) { mMaxResource = m; }
+
+    bool vendorEnabled() const { return mVendorEnabled; }
+    void setVendorEnabled(const bool e) { mVendorEnabled = e; }
 private:
     int mResMult = 100;
     const stdsptr<eAgoraBase> mAgora;
@@ -64,6 +67,8 @@ private:
     const eOverlays mOverlayTex2;
 
     stdsptr<eCharacter> mVendor;
+
+    bool mVendorEnabled = true;
 
     int mResource{0};
 

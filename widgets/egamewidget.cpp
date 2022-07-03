@@ -335,13 +335,17 @@ bool eGameWidget::canBuild(const int tx, const int ty,
     return canBuildBase(minX, maxX, minY, maxY, specReq);
 }
 
-bool eGameWidget::canBuildVendor(const int tx, const int ty) {
+bool eGameWidget::canBuildVendor(const int tx, const int ty,
+                                 const eResourceType resType) {
     const auto t = mBoard->tile(tx, ty);
     if(!t) return false;
     const auto b = t->underBuilding();
     if(!b) return false;
     const auto bt = b->type();
     if(bt != eBuildingType::agoraSpace) return false;
+    const auto space = static_cast<eAgoraSpace*>(b);
+    const auto agora = space->agora();
+    if(agora->vendor(resType)) return false;
     const auto ct = b->centerTile();
     if(!ct) return false;
     return ct->x() == tx && ct->y() == ty;

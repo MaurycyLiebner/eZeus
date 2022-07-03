@@ -11,6 +11,8 @@ enum class eAgoraOrientation {
     topRight
 };
 
+class eVendor;
+
 class eAgoraBase : public ePatrolBuildingBase {
 public:
     eAgoraBase(eGameBoard& board,
@@ -40,8 +42,8 @@ public:
     bool hasVendors() const;
 
     void agoraProvide(eBuilding* const b);
-    int agoraCount(const eProvide r) const;
     int agoraCount(const eResourceType r) const;
+    eVendor* vendor(const eResourceType r) const;
 private:
     const int mNPts;
     std::vector<stdsptr<eBuilding>> mBs;
