@@ -376,7 +376,11 @@ void eSoldierAction::goBackToBanner() {
     const auto ct = c->tile();
     const auto tt = b->place(s);
     if(!tt) return;
-    if(ct == tt) return;
+    if(ct == tt) {
+        setCurrentAction(nullptr);
+        c->setActionType(eCharacterActionType::stand);
+        return;
+    }
 
     const int ttx = tt->x();
     const int tty = tt->y();
