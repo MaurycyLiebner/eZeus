@@ -41,6 +41,7 @@ public:
 
     eAgoraBase* agora() const { return mAgora.get(); }
 
+    eResourceType resourceType() const { return mResType; }
     eProvide provideType() const { return mProvType; }
 
     int peddlerResource() const;

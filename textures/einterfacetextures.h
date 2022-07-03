@@ -234,6 +234,9 @@ public:
     eTextureCollection fAcceptButton;
     eTextureCollection fCancelButton;
 
+    eTextureCollection fButtonFrame;
+    eTextureCollection fButtonFrameHover;
+
     eTextureCollection fColumn1;
     eTextureCollection fColumn2;
     eTextureCollection fColumn3;

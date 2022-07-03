@@ -45,6 +45,7 @@ void eButton::paintEvent(ePainter& p) {
         } else {
             eLabel::paintEvent(p);
             const auto& t = texture();
+            if(!t) return;
             const int tw = t->width();
             const int ww = (width() - tw)/2;
             const int th = t->height();

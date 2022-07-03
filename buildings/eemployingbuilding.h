@@ -14,10 +14,11 @@ public:
     void timeChanged(const int by);
 
     int employed() const { return mEmployed; }
+    void setMaxEmployees(const int m) { mMaxEmployees = m; }
     int maxEmployees() const { return mMaxEmployees; }
     double employedFraction() const;
 private:
-    const int mMaxEmployees;
+    int mMaxEmployees;
     int mEmployedUpdate = 0;
     int mEmployed = 0;
 };

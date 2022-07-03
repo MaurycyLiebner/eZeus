@@ -145,6 +145,9 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fAcceptButton(renderer),
     fCancelButton(renderer),
 
+    fButtonFrame(renderer),
+    fButtonFrameHover(renderer),
+
     fColumn1(renderer),
     fColumn2(renderer),
     fColumn3(renderer),
@@ -711,6 +714,13 @@ void eInterfaceTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fCancelButton);
         }
 
+        for(int i = 348; i < 356; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fButtonFrame);
+        }
+
+        for(int i = 356; i < 364; i++) {
+            eTextureLoadingHelpers::loadTex(pathBase, i, fButtonFrameHover);
+        }
 
         for(int i = 388; i < 392; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fUpButton);

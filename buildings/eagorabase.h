@@ -41,6 +41,7 @@ public:
 
     void agoraProvide(eBuilding* const b);
     int agoraCount(const eProvide r) const;
+    int agoraCount(const eResourceType r) const;
 private:
     const int mNPts;
     std::vector<stdsptr<eBuilding>> mBs;

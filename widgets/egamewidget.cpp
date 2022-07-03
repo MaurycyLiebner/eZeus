@@ -29,6 +29,7 @@
 #include "infowidgets/estorageinfowidget.h"
 #include "infowidgets/etradepostinfowidget.h"
 #include "infowidgets/ecommonhouseinfowidget.h"
+#include "infowidgets/eagorainfowidget.h"
 
 #include "engine/boardData/eappealupdatetask.h"
 #include "engine/epathfinder.h"
@@ -945,16 +946,35 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
             wid = storWid;
             const stdptr<eStorageBuilding> storptr(stor);
             closeAct = [storptr, storWid]() {
-                if(storptr) {
-                    std::map<eResourceType, int> maxCount;
-                    eResourceType get;
-                    eResourceType empty;
-                    eResourceType accept;
-                    eResourceType dontaccept;
-                    storWid->get(get, empty, accept, dontaccept, maxCount);
-                    storptr->setOrders(get, empty, accept);
-                    storptr->setMaxCount(maxCount);
-                }
+                if(!storptr) return;
+                std::map<eResourceType, int> maxCount;
+                eResourceType get;
+                eResourceType empty;
+                eResourceType accept;
+                eResourceType dontaccept;
+                storWid->get(get, empty, accept, dontaccept, maxCount);
+                storptr->setOrders(get, empty, accept);
+                storptr->setMaxCount(maxCount);
+            };
+        }
+        eAgoraBase* a = nullptr;
+        if(const auto aa = dynamic_cast<eAgoraBase*>(b)) {
+            a = aa;
+        } else if(const auto v = dynamic_cast<eVendor*>(b)) {
+            a  = v->agora();
+        } else if(const auto v = dynamic_cast<eAgoraSpace*>(b)) {
+            a  = v->agora();
+        } else if(const auto v = dynamic_cast<eRoad*>(b)) {
+            a  = v->underAgora();
+        }
+        if(a) {
+            const auto aWid = new eAgoraInfoWidget(window());
+            aWid->initialize(a);
+            wid = aWid;
+            const stdptr<eAgoraBase> aptr(a);
+            closeAct = [aptr, aWid]() {
+                if(!aptr) return;
+
             };
         }
         if(wid) {

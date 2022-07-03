@@ -96,8 +96,16 @@ eBuilding* eAgoraBase::building(const int id) const {
 }
 
 void eAgoraBase::setBuilding(const int id, const stdsptr<eBuilding>& b) {
-    mBs[id] = b;
+    int ebefore = 0;
+    auto& before = mBs[id];
+    if(dynamic_cast<eVendor*>(before.get())) ebefore = 4;
+    before = b;
+    setMaxEmployees(maxEmployees() - ebefore);
     if(!b) return;
+    int eafter = 0;
+    if(dynamic_cast<eVendor*>(b.get())) eafter = 4;
+    setMaxEmployees(maxEmployees() + eafter);
+
     auto& brd = getBoard();
     const auto p = pt(id);
     const auto tile = brd.tile(p.x, p.y);
@@ -179,7 +187,7 @@ void eAgoraBase::agoraProvide(eBuilding* const b) {
     }
 }
 
-int eAgoraBase::agoraCount(const eProvide r) const {
+int eAgoraBase::agoraCount(const eResourceType r) const {
     for(int i = 0; i < mNPts; i++) {
         const auto fvb = building(i);
         if(!fvb) continue;
@@ -192,7 +200,7 @@ int eAgoraBase::agoraCount(const eProvide r) const {
         case eBuildingType::wineVendor:
         case eBuildingType::horseTrainer: {
             const auto fv = static_cast<eVendor*>(fvb);
-            if(fv->provideType() != r) continue;
+            if(fv->resourceType() != r) continue;
             return fv->peddlerResource();
         } break;
         default: break;

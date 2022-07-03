@@ -309,6 +309,7 @@ SOURCES += \
         widgets/eeventwidget.cpp \
         widgets/eexclamationbutton.cpp \
         widgets/efonts.cpp \
+        widgets/eframedbutton.cpp \
         widgets/eframedlabel.cpp \
         widgets/eframedwidget.cpp \
         widgets/egameloadingwidget.cpp \
@@ -349,6 +350,7 @@ SOURCES += \
         widgets/eworldmapwidget.cpp \
         widgets/eworldmenu.cpp \
         widgets/eworldwidget.cpp \
+        widgets/infowidgets/eagorainfowidget.cpp \
         widgets/infowidgets/ecommonhouseinfowidget.cpp \
         widgets/infowidgets/eemployingbuildinginfowidget.cpp \
         widgets/infowidgets/egyminfowidget.cpp \
@@ -676,6 +678,7 @@ HEADERS += \
     widgets/eeventwidget.h \
     widgets/eexclamationbutton.h \
     widgets/efonts.h \
+    widgets/eframedbutton.h \
     widgets/eframedlabel.h \
     widgets/eframedwidget.h \
     widgets/egameloadingwidget.h \
@@ -713,6 +716,7 @@ HEADERS += \
     widgets/eworldmapwidget.h \
     widgets/eworldmenu.h \
     widgets/eworldwidget.h \
+    widgets/infowidgets/eagorainfowidget.h \
     widgets/infowidgets/ecommonhouseinfowidget.h \
     widgets/infowidgets/eemployingbuildinginfowidget.h \
     widgets/infowidgets/egyminfowidget.h \
