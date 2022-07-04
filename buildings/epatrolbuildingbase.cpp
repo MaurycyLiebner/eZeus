@@ -38,11 +38,12 @@ ePatrolBuildingBase::~ePatrolBuildingBase() {
 }
 
 void ePatrolBuildingBase::timeChanged(const int by) {
-    const int t = time();
     if(mSpawnPatrolers && enabled()) {
-        if(!mChar && t >= mSpawnTime) {
+        mSpawnTime += by;
+        const int wait = mWaitTime/employedFraction();
+        if(!mChar && mSpawnTime > wait) {
+            mSpawnTime -= wait;
             spawn();
-            mSpawnTime = t + mWaitTime;
         }
     }
     eEmployingBuilding::timeChanged(by);

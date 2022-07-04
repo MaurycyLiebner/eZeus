@@ -19,14 +19,14 @@ eEmployingBuilding::~eEmployingBuilding() {
 }
 
 void eEmployingBuilding::timeChanged(const int by) {
-    const auto t = time();
-    if(t > mEmployedUpdate) {
-        mEmployedUpdate = t + 1000;
+    mEmployedUpdate += by;
+    if(mEmployedUpdate > mEmployedUpdateWait) {
+        mEmployedUpdate -= mEmployedUpdateWait;
         const auto& emplData = getBoard().employmentData();
         const double ef = emplData.employedFraction();
         const int e = std::round(ef*mMaxEmployees);
         mEmployed = std::clamp(e, 0, mMaxEmployees);
-        setEnabled(true);//ef > 0.49);
+        setEnabled(ef > 0.49);
     }
     eBuildingWithResource::timeChanged(by);
 }
@@ -34,4 +34,9 @@ void eEmployingBuilding::timeChanged(const int by) {
 double eEmployingBuilding::employedFraction() const {
     if(mMaxEmployees <= 0) return 1;
     return double(mEmployed)/mMaxEmployees;
+}
+
+double eEmployingBuilding::effectiveness() const {
+    const double ef = std::max(0.1, employedFraction());
+    return ef*ef;
 }

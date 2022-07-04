@@ -51,8 +51,8 @@ private:
     const int mRawUse;
     int mRawCount{0};
 
-    int mProcessWaitTime;
-    int mProcessTime = mProcessWaitTime;
+    const int mProcessWaitTime;
+    int mProcessTime = 0;
 };
 
 #endif // EPROCESSINGBUILDING_H

@@ -17,9 +17,11 @@ public:
     void setMaxEmployees(const int m) { mMaxEmployees = m; }
     int maxEmployees() const { return mMaxEmployees; }
     double employedFraction() const;
+    double effectiveness() const;
 private:
     int mMaxEmployees;
-    int mEmployedUpdate = 0;
+    int mEmployedUpdateWait = 1000;
+    int mEmployedUpdate = mEmployedUpdateWait;
     int mEmployed = 0;
 };
 

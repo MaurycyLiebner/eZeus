@@ -110,14 +110,15 @@ void eGrowersLodge::timeChanged(const int by) {
             }
         }
         if(mSpawnEnabled) {
+            const int wait = mWaitTime/effectiveness();
             mSpawnTime1 += by;
-            if(!mGrower1 && mSpawnTime1 > mWaitTime) {
+            if(!mGrower1 && mSpawnTime1 > wait) {
                 mSpawnTime1 -= mWaitTime;
                 spawnGrower(&eGrowersLodge::mGrower1,
                             &eGrowersLodge::mSpawnTime1);
             }
             mSpawnTime2 += by;
-            if(!mGrower2 && mSpawnTime2 > mWaitTime) {
+            if(!mGrower2 && mSpawnTime2 > wait) {
                 mSpawnTime2 -= mWaitTime;
                 spawnGrower(&eGrowersLodge::mGrower2,
                             &eGrowersLodge::mSpawnTime2);

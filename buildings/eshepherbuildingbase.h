@@ -47,6 +47,9 @@ private:
     const eCharacterType mAnimalType;
 
     stdsptr<eResourceCollectorBase> mShepherd;
+
+    int mWaitTime = 2000;
+    int mSpawnTime = mWaitTime;
 };
 
 #endif // ESHEPHERBUILDINGBASE_H

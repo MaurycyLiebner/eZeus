@@ -51,11 +51,11 @@ std::vector<eOverlay> eFarmBase::getOverlays(const eTileSize size) const {
 
 void eFarmBase::timeChanged(const int by) {
     if(enabled()) {
-        const int t = time();
-        if(t >= mNextRipe) {
-            mNextRipe = t + mWaitTime;
+        mNextRipe += by;
+        if(mNextRipe > mWaitTime) {
+            mNextRipe -= mWaitTime;
             if(++mRipe == 5) {
-                add(resourceType(), 4);
+                add(resourceType(), 4*employedFraction());
                 mRipe = 0;
             }
         }

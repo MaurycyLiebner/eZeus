@@ -53,12 +53,14 @@ void eProcessingBuilding::timeChanged(const int by) {
         if(!mTakeCart) {
             spawnCart(mTakeCart, eCartActionTypeSupport::take);
         }
-        if(time() > mProcessTime) {
+        mProcessTime += by;
+        const int wait = mProcessWaitTime/effectiveness();
+        if(mProcessTime > wait) {
+            mProcessTime -= wait;
             if(mRawCount >= mRawUse) {
                 const int c = add(resourceType(), 1);
                 mRawCount -= c*mRawUse;
             }
-            mProcessTime = time() + mProcessWaitTime;
         }
     }
     eResourceBuildingBase::timeChanged(by);

@@ -19,7 +19,7 @@ public:
 private:
     const std::vector<eBuildingTextures>& mTextures;
     const int mWaitTime = 15000;
-    int mNextRipe = time() + mWaitTime;
+    int mNextRipe = 0;
     int mRipe = 0; // 0 - 5
 };
 

@@ -18,6 +18,9 @@ public:
     bool spawnArtisan(const eArtisanPtr artisan);
 private:
     stdsptr<eArtisan> mArtisan;
+
+    int mWaitTime = 2000;
+    int mSpawnTime = mWaitTime;
 };
 
 #endif // EARTISANSGUILD_H

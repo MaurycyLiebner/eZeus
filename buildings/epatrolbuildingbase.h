@@ -51,7 +51,7 @@ private:
     bool mSpawnPatrolers = true;
 
     int mWaitTime = 5000;
-    int mSpawnTime = 0;
+    int mSpawnTime = mWaitTime;
     stdsptr<eCharacter> mChar;
 
     ePatrolGuides mPatrolGuides;
