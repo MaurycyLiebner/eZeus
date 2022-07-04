@@ -84,9 +84,9 @@ bool eGrowerAction::decide() {
 
     if(grapes > 0 || olives > 0 || oranges > 0) {
         if(inLodge) {
-            mLodge->add(eResourceType::grapes, std::ceil(grapes/5.));
-            mLodge->add(eResourceType::olives, std::ceil(olives/5.));
-            mLodge->add(eResourceType::oranges, std::ceil(oranges/5.));
+            mLodge->add(eResourceType::grapes, grapes);
+            mLodge->add(eResourceType::olives, olives);
+            mLodge->add(eResourceType::oranges, oranges);
 
             mGrower->incGrapes(-grapes);
             mGrower->incOlives(-olives);
@@ -213,6 +213,7 @@ void eGrowerAction::workOnDecision(eTile* const tile) {
                     } else if(type == eBuildingType::orangeTree) {
                         mGrower->incOranges();
                     }
+                    mGroomed += 5;
                 }
             }
         }
