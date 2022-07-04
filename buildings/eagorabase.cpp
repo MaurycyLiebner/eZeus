@@ -26,6 +26,7 @@ eAgoraBase::eAgoraBase(eGameBoard& board,
     for(int i = 0; i < mNPts; i++) {
         mBs.push_back(nullptr);
     }
+    setSpawnPatrolers(false);
 }
 
 void eAgoraBase::erase() {
@@ -100,11 +101,15 @@ void eAgoraBase::setBuilding(const int id, const stdsptr<eBuilding>& b) {
     auto& before = mBs[id];
     if(dynamic_cast<eVendor*>(before.get())) ebefore = 4;
     before = b;
-    setMaxEmployees(maxEmployees() - ebefore);
+    const int me1 = maxEmployees() - ebefore;
+    setMaxEmployees(me1);
+    if(me1 <= 0) setSpawnPatrolers(false);
     if(!b) return;
     int eafter = 0;
     if(dynamic_cast<eVendor*>(b.get())) eafter = 4;
-    setMaxEmployees(maxEmployees() + eafter);
+    const int me2 = maxEmployees() + eafter;
+    setMaxEmployees(me2);
+    if(me2 > 0) setSpawnPatrolers(true);
 
     auto& brd = getBoard();
     const auto p = pt(id);
