@@ -78,6 +78,9 @@ void eGameWidget::setBoard(eGameBoard* const board) {
     mBoard->setButtonsVisUpdater([this]() {
         mGm->updateButtonsVisibility();
     });
+    mBoard->setMessageShower([this](eTile* const t, const eMessageType& msg) {
+        showMessage(t, msg);
+    });
 }
 
 void eGameWidget::initialize() {

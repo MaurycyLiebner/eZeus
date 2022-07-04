@@ -46,8 +46,8 @@ public:
     eGameMessages fHomeGames;
     eGameMessages fIsthmianGames;
     eGameMessages fNemeanGames;
-    eGameMessages fOlympianGames;
     eGameMessages fPythianGames;
+    eGameMessages fOlympianGames;
 private:
     bool loadImpl();
     bool mLoaded = false;

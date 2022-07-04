@@ -33,6 +33,8 @@ class eThreadPool;
 
 class eSoldier;
 
+struct eMessageType;
+
 enum class eEvent {
     fire,
     collapse,
@@ -78,6 +80,13 @@ enum class eEvent {
 
     zeusVisit,
     zeusInvasion,
+};
+
+enum class eGames {
+    isthmian,
+    nemean,
+    pythian,
+    olympian
 };
 
 class eGameBoard {
@@ -165,6 +174,11 @@ public:
     using eAction = std::function<void()>;
     bool ifVisible(eTile* const tile, const eAction& func) const;
 
+    using eMessageShower = std::function<void(eTile* const, const eMessageType&)>;
+    void setMessageShower(const eMessageShower& msg);
+
+    void showMessage(eTile* const t, const eMessageType& msg);
+
     const std::string& playerName() const
     { return mPlayerName; }
 
@@ -208,6 +222,11 @@ private:
 
     void registerBanner(const stdsptr<eSoldierBanner>& b);
     bool unregisterBanner(const stdsptr<eSoldierBanner>& b);
+
+    void updateCoverage();
+
+    void handleGamesBegin(const eGames game);
+    void handleGamesEnd(const eGames game);
 
     eWorldBoard mWorldBoard;
 
@@ -270,10 +289,16 @@ private:
 
     std::vector<eSoldierBanner*> mSelectedBanners;
 
-    int mSoldiersUpdate = 0;
+    int mSoldiersUpdate = 10000;
     int mMaxRockThrowers = 0;
     int mMaxHoplites = 0;
     int mMaxHorsemen = 0;
+
+    int mCoverageUpdate = 10000;
+    int mSportCoverage = 0;
+    int mPhilosophyCoverage = 0;
+    int mDramaCoverage = 0;
+    int mAllDiscCoverage = 0;
 
     eBuilding* mStadium = nullptr;
     ePalace* mPalace = nullptr;
@@ -286,6 +311,7 @@ private:
     eAppealMap mAppealMap;
 
     eAction mButtonVisUpdater;
+    eMessageShower mMsgShower;
 
     std::vector<eBuildingMode> mSupportedBuildings;
 };

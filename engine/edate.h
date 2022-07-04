@@ -30,6 +30,10 @@ public:
 
     std::string shortString() const;
     void nextDay(bool& nextMonth, bool& nextYear);
+
+    int day() const { return mDay; }
+    eMonth month() const { return mMonth; }
+    int year() const { return mYear; }
 private:
     int mDay;
     eMonth mMonth;

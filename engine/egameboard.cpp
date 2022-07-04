@@ -36,6 +36,8 @@
 
 #include "etilehelper.h"
 
+#include "emessages.h"
+
 eGameBoard::eGameBoard() :
     mEmplData(mPopData, *this) {
     const int min = static_cast<int>(eBuildingMode::road);
@@ -447,6 +449,102 @@ bool eGameBoard::unregisterBanner(const stdsptr<eSoldierBanner>& b) {
     return true;
 }
 
+void eGameBoard::updateCoverage() {
+    int people = 0;
+    int sport = 0;
+    int phil = 0;
+    int drama = 0;
+    for(const auto b : mBuildings) {
+        if(const auto h = dynamic_cast<eHouseBase*>(b)) {
+            const int p = h->people();
+            if(h->athletes() > 0) {
+                sport += p;
+            } else if(h->philosophers() > 0) {
+                phil += p;
+            } else if(h->actors() > 0) {
+                drama += p;
+            }
+            people += p;
+        }
+    }
+    if(people <= 0) {
+        mSportCoverage = 0;
+        mPhilosophyCoverage = 0;
+        mDramaCoverage = 0;
+    } else {
+        mSportCoverage = 100*sport/people;
+        mPhilosophyCoverage = 100*phil/people;
+        mDramaCoverage = 100*drama/people;
+    }
+    mAllDiscCoverage = (mSportCoverage + mPhilosophyCoverage + mDramaCoverage)/3;
+}
+
+void eGameBoard::handleGamesBegin(const eGames game) {
+    switch(game) {
+    case eGames::isthmian:
+        showMessage(nullptr, eMessages::instance.fIsthmianGames.fBegin);
+        break;
+    case eGames::nemean:
+        showMessage(nullptr, eMessages::instance.fNemeanGames.fBegin);
+        break;
+    case eGames::pythian:
+        showMessage(nullptr, eMessages::instance.fPythianGames.fBegin);
+        break;
+    case eGames::olympian:
+        showMessage(nullptr, eMessages::instance.fOlympianGames.fBegin);
+        break;
+    }
+}
+
+void eGameBoard::handleGamesEnd(const eGames game) {
+    int coverage = 0;
+    eGameMessages* msgs = nullptr;
+    switch(game) {
+    case eGames::isthmian:
+        msgs = &eMessages::instance.fIsthmianGames;
+        coverage = mPhilosophyCoverage;
+        break;
+    case eGames::nemean:
+        msgs = &eMessages::instance.fNemeanGames;
+        coverage = mSportCoverage;
+        break;
+    case eGames::pythian:
+        msgs = &eMessages::instance.fPythianGames;
+        coverage = mDramaCoverage;
+        break;
+    case eGames::olympian:
+        msgs = &eMessages::instance.fOlympianGames;
+        coverage = mAllDiscCoverage;
+        break;
+    }
+
+    double mult;
+    const int pop = mPopData.population();
+
+    if(pop < 250) mult = 0.25;
+    else if(pop < 500) mult = 0.5;
+    else if(pop < 1000) mult = 0.75;
+    else mult = 1.;
+
+    if(mult*coverage < 35) {
+        showMessage(nullptr, msgs->fNoPart);
+    } else {
+        const double coveragef = coverage/100.;
+        const double chance = mult*coveragef*coveragef;
+        const bool won = rand() % 101 < 100*chance;
+        if(won) {
+            showMessage(nullptr, msgs->fWon);
+        } else {
+            const bool second = rand() % 101 < 100*chance;
+            if(second) {
+                showMessage(nullptr, msgs->fSecond);
+            } else {
+                showMessage(nullptr, msgs->fLost);
+            }
+        }
+    }
+}
+
 void eGameBoard::updateTileRenderingOrderIfNeeded() {
     if(mTileRenderingOrderUpdateNeeded) {
         updateTileRenderingOrder();
@@ -603,6 +701,13 @@ void eGameBoard::incTime(const int by) {
         distributeSoldiers();
     }
 
+    mCoverageUpdate += by;
+    const int cup = 2000;
+    if(mCoverageUpdate > cup) {
+        mCoverageUpdate -= cup;
+        updateCoverage();
+    }
+
     mTime += by;
     bool nextMonth = false;
     bool nextYear = false;
@@ -618,6 +723,16 @@ void eGameBoard::incTime(const int by) {
     if(nextYear) {
         const int d = mEmplData.pensions();
         incDrachmas(-d);
+    }
+    if(nextMonth) {
+        const auto m = mDate.month();
+        const int ng = std::abs(mDate.year() % 4);
+        const auto game = static_cast<eGames>(ng);
+        if(m == eMonth::june) {
+            handleGamesBegin(game);
+        } else if(m == eMonth::august) {
+            handleGamesEnd(game);
+        }
     }
     mWorldBoard.incTime(by);
     if(nextYear) mWorldBoard.nextYear();
@@ -750,6 +865,10 @@ bool eGameBoard::ifVisible(eTile* const tile, const eAction& func) const {
     const bool r = mVisibilityChecker(tile);
     if(r) func();
     return r;
+}
+
+void eGameBoard::showMessage(eTile* const t, const eMessageType& msg) {
+    mMsgShower(t, msg);
 }
 
 void eGameBoard::requestTileRenderingOrderUpdate() {
