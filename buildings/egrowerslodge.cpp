@@ -16,8 +16,7 @@ eGrowersLodge::eGrowersLodge(eGameBoard& board, const eGrowerType type) :
 
 eGrowersLodge::~eGrowersLodge() {
     if(mCart) mCart->kill();
-    if(mGrower1) mGrower1->kill();
-    if(mGrower2) mGrower2->kill();
+    if(mGrower) mGrower->kill();
 }
 
 std::shared_ptr<eTexture> eGrowersLodge::getTexture(const eTileSize size) const {
@@ -110,18 +109,13 @@ void eGrowersLodge::timeChanged(const int by) {
             }
         }
         if(mSpawnEnabled) {
-            const int wait = mWaitTime/effectiveness();
-            mSpawnTime1 += by;
-            if(!mGrower1 && mSpawnTime1 > wait) {
-                mSpawnTime1 -= mWaitTime;
-                spawnGrower(&eGrowersLodge::mGrower1,
-                            &eGrowersLodge::mSpawnTime1);
-            }
-            mSpawnTime2 += by;
-            if(!mGrower2 && mSpawnTime2 > wait) {
-                mSpawnTime2 -= mWaitTime;
-                spawnGrower(&eGrowersLodge::mGrower2,
-                            &eGrowersLodge::mSpawnTime2);
+            if(!mGrower) {
+                mSpawnTime += by;
+                const int wait = mWaitTime/effectiveness();
+                if(mSpawnTime > wait) {
+                    mSpawnTime -= wait;
+                    spawnGrower(&eGrowersLodge::mGrower);
+                }
             }
         }
     }
@@ -218,19 +212,17 @@ std::vector<eCartTask> eGrowersLodge::cartTasks() const {
     return tasks;
 }
 
-bool eGrowersLodge::spawnGrower(const eGrowerPtr grower,
-                                const eTimePtr time) {
+bool eGrowersLodge::spawnGrower(const eGrowerPtr grower) {
     const auto t = centerTile();
     auto& g = this->*grower;
     this->*grower = e::make_shared<eGrower>(getBoard(), mType);
     g->changeTile(t);
     const eStdPointer<eGrowersLodge> tptr(this);
-    const auto finishAct = [tptr, this, grower, time]() {
+    const auto finishAct = [tptr, this, grower]() {
         if(!tptr) return;
         auto& g = this->*grower;
         if(g) g->kill();
         g = nullptr;
-        this->*time = 0;
     };
     const auto a = e::make_shared<eGrowerAction>(
                        mType, this, g.get(),

@@ -27,8 +27,7 @@ public:
     std::vector<eCartTask> cartTasks() const;
 
     using eGrowerPtr = stdsptr<eGrower> eGrowersLodge::*;
-    using eTimePtr = int eGrowersLodge::*;
-    bool spawnGrower(const eGrowerPtr grower, const eTimePtr time);
+    bool spawnGrower(const eGrowerPtr grower);
 private:
     const std::vector<eBuildingTextures>& mTextures;
 
@@ -45,11 +44,9 @@ private:
     stdsptr<eCartTransporter> mCart;
 
     int mWaitTime = 5000;
-    int mSpawnTime1 = mWaitTime/2;
-    int mSpawnTime2 = mWaitTime;
+    int mSpawnTime = mWaitTime;
 
-    stdsptr<eGrower> mGrower1;
-    stdsptr<eGrower> mGrower2;
+    stdsptr<eGrower> mGrower;
 };
 
 #endif // EGROWERSLODGE_H
