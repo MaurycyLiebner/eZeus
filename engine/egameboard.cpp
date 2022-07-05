@@ -479,20 +479,40 @@ void eGameBoard::updateCoverage() {
     mAllDiscCoverage = (mAthleticsCoverage + mPhilosophyCoverage + mDramaCoverage)/3;
 }
 
+double coverageMultiplier(const int pop) {
+    if(pop < 250) return 0.125;
+    else if(pop < 500) return 0.25;
+    else if(pop < 1000) return 0.375;
+    else return 0.5;
+}
+
 void eGameBoard::handleGamesBegin(const eGames game) {
+    int coverage = 0;
+    eGameMessages* msgs = nullptr;
     switch(game) {
     case eGames::isthmian:
-        showMessage(nullptr, eMessages::instance.fIsthmianGames.fBegin);
+        msgs = &eMessages::instance.fIsthmianGames;
+        coverage = mPhilosophyCoverage;
         break;
     case eGames::nemean:
-        showMessage(nullptr, eMessages::instance.fNemeanGames.fBegin);
+        msgs = &eMessages::instance.fNemeanGames;
+        coverage = mAthleticsCoverage;
         break;
     case eGames::pythian:
-        showMessage(nullptr, eMessages::instance.fPythianGames.fBegin);
+        msgs = &eMessages::instance.fPythianGames;
+        coverage = mDramaCoverage;
         break;
     case eGames::olympian:
-        showMessage(nullptr, eMessages::instance.fOlympianGames.fBegin);
+        msgs = &eMessages::instance.fOlympianGames;
+        coverage = mAllDiscCoverage;
         break;
+    }
+    const int pop = mPopData.population();
+    const double mult = coverageMultiplier(pop);
+    if(mult*coverage > 15) {
+        showMessage(nullptr, msgs->fBegin);
+    } else {
+        showMessage(nullptr, msgs->fNoPart);
     }
 }
 
@@ -518,16 +538,11 @@ void eGameBoard::handleGamesEnd(const eGames game) {
         break;
     }
 
-    double mult;
     const int pop = mPopData.population();
+    const double mult = coverageMultiplier(pop);
 
-    if(pop < 250) mult = 0.125;
-    else if(pop < 500) mult = 0.25;
-    else if(pop < 1000) mult = 0.375;
-    else mult = 0.5;
-
-    if(mult*coverage < 35) {
-        showMessage(nullptr, msgs->fNoPart);
+    if(mult*coverage < 15) {
+        return;
     } else {
         const double coveragef = coverage/100.;
         const double chance = mult*coveragef*coveragef;
