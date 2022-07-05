@@ -1,6 +1,7 @@
 #include "eculturedatawidget.h"
 
 #include "eviewmodebutton.h"
+#include "widgets/elinewidget.h"
 
 #include "elanguage.h"
 
@@ -81,9 +82,25 @@ void eCultureDataWidget::initialize() {
 
     eDataWidget::initialize();
 
+    const auto iw = innerWidget();
+
     const auto cw = new eWidget(window());
     const int p = cw->padding()/2;
     cw->setNoPadding();
+
+    const auto title = new eLabel(window());
+    title->setTinyFontSize();
+    title->setNoPadding();
+    title->setWrapWidth(iw->width() - 2*p);
+    title->setText(eLanguage::text("games_standing"));
+    title->fitContent();
+    cw->addWidget(title);
+
+    const auto line = new eLineWidget(window());
+    line->setNoPadding();
+    line->fitContent();
+    line->setWidth(title->width());
+    cw->addWidget(line);
 
     const auto pwid = createCoverageWidget("isthmian_games",
                                            "philosophy_discipline",
@@ -105,13 +122,10 @@ void eCultureDataWidget::initialize() {
                                              &mAllCoverage);
     cw->addWidget(allwid);
 
-
     cw->stackVertically();
     cw->fitContent();
-
-    const auto iw = innerWidget();
     iw->addWidget(cw);
-    cw->move(p, p);
+    cw->move(p, p/2);
 
     updateCoverage();
 }

@@ -10,14 +10,16 @@ void eDataWidget::initialize() {
         h += b->height();
     }
 
+    const auto res = resolution();
+    const int m = res.multiplier();
     const auto space = new eWidget(window());
-    space->setTinyPadding();
+    space->setPadding(3*m);
     space->fitContent();
     addWidget(space);
 
     mInnerWidget = new eFramedWidget(window());
     mInnerWidget->setType(eFrameType::inner);
-    mInnerWidget->setHeight(height() - h);
+    mInnerWidget->setHeight(height() - h + 3*m);
     mInnerWidget->setWidth(width());
     mInnerWidget->setTinyPadding();
     addWidget(mInnerWidget);

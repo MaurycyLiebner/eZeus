@@ -324,6 +324,7 @@ SOURCES += \
         widgets/elabel.cpp \
         widgets/elabelbase.cpp \
         widgets/elabeledwidget.cpp \
+        widgets/elinewidget.cpp \
         widgets/eloadingwidget.cpp \
         widgets/emainmenu.cpp \
         widgets/emainmenubase.cpp \
@@ -690,6 +691,7 @@ HEADERS += \
     widgets/elabel.h \
     widgets/elabelbase.h \
     widgets/elabeledwidget.h \
+    widgets/elinewidget.h \
     widgets/eloadingwidget.h \
     widgets/emainmenu.h \
     widgets/emainmenubase.h \
