@@ -843,13 +843,13 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
             mPausedLabel = nullptr;
         }
     } else if(k == SDL_Scancode::SDL_SCANCODE_LEFT) {
-        setDX(mDX + 25);
+        setDX(mDX + 35);
     } else if(k == SDL_Scancode::SDL_SCANCODE_RIGHT) {
-        setDX(mDX - 25);
+        setDX(mDX - 35);
     } else if(k == SDL_Scancode::SDL_SCANCODE_UP) {
-        setDY(mDY + 25);
+        setDY(mDY + 35);
     } else if(k == SDL_Scancode::SDL_SCANCODE_DOWN) {
-        setDY(mDY - 25);
+        setDY(mDY - 35);
     } else if(k == SDL_Scancode::SDL_SCANCODE_ESCAPE) {
         if(mMenu) {
             mMenu->deleteLater();
@@ -1160,7 +1160,7 @@ void eGameWidget::setDY(const int dy) {
 }
 
 void eGameWidget::clampViewBox() {
-    return;
+    if(mTem->visible()) return;
     const int w = mBoard->width();
     const int ww = width() - mGm->width();
     mDX = std::min(0, mDX);

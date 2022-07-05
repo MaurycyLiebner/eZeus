@@ -221,6 +221,16 @@ void eGameWidget::paintEvent(ePainter& p) {
         mTime += mSpeed;
         mBoard->incTime(mSpeed);
     }
+    if(mHoverX == 0) {
+        setDX(mDX + 35);
+    } else if(mHoverX == width() - 1) {
+        setDX(mDX - 35);
+    }
+    if(mHoverY == 0) {
+        setDY(mDY + 35);
+    } else if(mHoverY == height() - 1) {
+        setDY(mDY - 35);
+    }
     eGameBoardRegisterLock lock(*mBoard);
 
     p.setFont(eFonts::defaultFont(resolution()));
