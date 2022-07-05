@@ -107,6 +107,23 @@ see_actors "See Actors"
 see_athletes "See Athletes"
 see_philosophers "See Philosophers"
 see_all_culture "See All Culture"
+
+terrible_coverage "Terrible"
+poor_coverage "Poor"
+not_bad_coverage "Not Bad"
+ok_coverage "Ok"
+good_coverage "Good"
+
+isthmian_games "Isthmian Games"
+nemean_games "Nemean Games"
+pythian_games "Pythian Games"
+olympian_games "Olympian Games"
+
+philosophy_discipline "Philosophy"
+athletics_discipline "Athletics"
+drama_discipline "Drama"
+all_discipline "All"
+
 see_husbandry "See Husbandry"
 see_immortals "See Immortals"
 see_security "See Security"

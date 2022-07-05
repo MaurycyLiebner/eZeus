@@ -468,15 +468,15 @@ void eGameBoard::updateCoverage() {
         }
     }
     if(people <= 0) {
-        mSportCoverage = 0;
+        mAthleticsCoverage = 0;
         mPhilosophyCoverage = 0;
         mDramaCoverage = 0;
     } else {
-        mSportCoverage = 100*sport/people;
+        mAthleticsCoverage = 100*sport/people;
         mPhilosophyCoverage = 100*phil/people;
         mDramaCoverage = 100*drama/people;
     }
-    mAllDiscCoverage = (mSportCoverage + mPhilosophyCoverage + mDramaCoverage)/3;
+    mAllDiscCoverage = (mAthleticsCoverage + mPhilosophyCoverage + mDramaCoverage)/3;
 }
 
 void eGameBoard::handleGamesBegin(const eGames game) {
@@ -506,7 +506,7 @@ void eGameBoard::handleGamesEnd(const eGames game) {
         break;
     case eGames::nemean:
         msgs = &eMessages::instance.fNemeanGames;
-        coverage = mSportCoverage;
+        coverage = mAthleticsCoverage;
         break;
     case eGames::pythian:
         msgs = &eMessages::instance.fPythianGames;
@@ -521,10 +521,10 @@ void eGameBoard::handleGamesEnd(const eGames game) {
     double mult;
     const int pop = mPopData.population();
 
-    if(pop < 250) mult = 0.25;
-    else if(pop < 500) mult = 0.5;
-    else if(pop < 1000) mult = 0.75;
-    else mult = 1.;
+    if(pop < 250) mult = 0.125;
+    else if(pop < 500) mult = 0.25;
+    else if(pop < 1000) mult = 0.375;
+    else mult = 0.5;
 
     if(mult*coverage < 35) {
         showMessage(nullptr, msgs->fNoPart);
@@ -535,7 +535,7 @@ void eGameBoard::handleGamesEnd(const eGames game) {
         if(won) {
             showMessage(nullptr, msgs->fWon);
         } else {
-            const bool second = rand() % 101 < 100*chance;
+            const bool second = rand() % 101 < 200*chance;
             if(second) {
                 showMessage(nullptr, msgs->fSecond);
             } else {
@@ -865,6 +865,10 @@ bool eGameBoard::ifVisible(eTile* const tile, const eAction& func) const {
     const bool r = mVisibilityChecker(tile);
     if(r) func();
     return r;
+}
+
+void eGameBoard::setMessageShower(const eMessageShower& msg) {
+    mMsgShower = msg;
 }
 
 void eGameBoard::showMessage(eTile* const t, const eMessageType& msg) {

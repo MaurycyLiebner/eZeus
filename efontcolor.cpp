@@ -9,7 +9,7 @@ void eFontColorHelpers::colors(const eFontColor c,
         col2 = SDL_Color{0, 0, 0, 255};
         break;
     case eFontColor::dark:
-        col1 = SDL_Color{16, 65, 99, 255};
+        col1 = SDL_Color{0, 0, 33, 255};
         col2 = SDL_Color{140, 210, 247, 255};
         break;
     }

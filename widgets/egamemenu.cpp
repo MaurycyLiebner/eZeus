@@ -561,7 +561,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
         setMode(eBuildingMode::stadium);
     };
 
-    mCultureDataW = new eCultureDataWidget(window());
+    mCultureDataW = new eCultureDataWidget(*mBoard, window());
     const int cost13 = eDifficultyHelpers::buildingCost(
                           diff, eBuildingType::gymnasium);
     const int cost14 = eDifficultyHelpers::buildingCost(

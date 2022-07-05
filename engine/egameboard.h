@@ -211,6 +211,11 @@ public:
 
     using eBuildingValidator = std::function<bool(eBuilding*)>;
     eBuilding* randomBuilding(const eBuildingValidator& v) const;
+
+    int philosophyCoverage() const { return mPhilosophyCoverage; }
+    int athleticsCoverage() const { return mAthleticsCoverage; }
+    int dramaCoverage() const { return mDramaCoverage; }
+    int allCoverage() const { return mAllDiscCoverage; }
 private:
     void updateNeighbours();
     void updateTileRenderingOrder();
@@ -295,7 +300,7 @@ private:
     int mMaxHorsemen = 0;
 
     int mCoverageUpdate = 10000;
-    int mSportCoverage = 0;
+    int mAthleticsCoverage = 0;
     int mPhilosophyCoverage = 0;
     int mDramaCoverage = 0;
     int mAllDiscCoverage = 0;
