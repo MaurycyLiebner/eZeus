@@ -112,6 +112,39 @@ void ePopulationDataWidget::initialize() {
 
         inner->addWidget(cw3);
         cw3->move(pp, l2->y() + l2->height() + pp);
+
+        mImiLimitedW = cw3;
+    }
+
+
+    const auto cw4 = new eWidget(window());
+    {
+        cw4->setNoPadding();
+
+        mNewcomersLabel = new eLabel("0", window());
+        mNewcomersLabel->setNoPadding();
+        mNewcomersLabel->setYellowFontColor();
+        mNewcomersLabel->fitContent();
+        cw4->addWidget(mNewcomersLabel);
+
+        const auto il1 = new eMultiLineLabel(window());
+        il1->setVerySmallFontSize();
+        il1->setNoPadding();
+        il1->setText(eLanguage::text("newcomers_arrived"));
+        cw4->addWidget(il1);
+
+        cw4->stackVertically();
+        cw4->fitContent();
+        cw4->setWidth(inner->width() - 2*pp);
+
+        il1->align(eAlignment::hcenter);
+        mNewcomersLabel->align(eAlignment::hcenter);
+
+        inner->addWidget(cw4);
+        cw4->move(pp, l2->y() + l2->height() + pp);
+
+        mNewcomersW = cw4;
+        mNewcomersW->hide();
     }
 }
 
@@ -119,6 +152,11 @@ void ePopulationDataWidget::paintEvent(ePainter& p) {
     const bool update = (++mTime % 200) == 0;
     if(update) {
         const auto& popData = mBoard.populationData();
+
+        const int a = popData.arrived();
+        mImiLimitedW->setVisible(a <= 0);
+        mNewcomersW->setVisible(a > 0);
+        mNewcomersLabel->setText(std::to_string(a));
 
         const int v = popData.vacancies();
         mVacLabel->setText(std::to_string(v));

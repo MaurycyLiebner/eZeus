@@ -18,8 +18,11 @@ protected:
 private:
     eViewModeButton* mSeeSupplies = nullptr;
 
-    eLabel* mPopLabel = nullptr;
+    eLabel* mNewcomersLabel = nullptr;
     eLabel* mVacLabel = nullptr;
+
+    eWidget* mImiLimitedW = nullptr;
+    eWidget* mNewcomersW = nullptr;
 
     int mTime{0};
 };

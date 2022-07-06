@@ -156,6 +156,7 @@ housing_for2 "more people"
 people_wish_to_come "People wish to*come to the*city."
 immigration_limited_by "Immigration*limited by"
 lack_of_housing_vacs "Lack of housing*vacancies"
+newcomers_arrived "Newcomers*arrived this*month"
 
 see_taxes "See Taxes"
 

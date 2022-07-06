@@ -750,6 +750,8 @@ void eGameBoard::incTime(const int by) {
         incDrachmas(-d);
     }
     if(nextMonth) {
+        mPopData.nextMonth();
+
         const auto m = mDate.month();
         const int ng = std::abs(mDate.year() % 4);
         const auto game = static_cast<eGames>(ng);

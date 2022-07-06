@@ -14,4 +14,9 @@ void ePopulationData::incVacancies(const int v) {
 
 void ePopulationData::incSettlers(const int s) {
     mSettlers += s;
+    if(s > 0) mArrivedThisMonth += s;
+}
+
+void ePopulationData::nextMonth() {
+    mArrivedThisMonth = 0;
 }
