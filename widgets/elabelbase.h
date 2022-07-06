@@ -23,6 +23,7 @@ public:
     { return mFontColor; }
     void setLightFontColor();
     void setDarkFontColor();
+    void setYellowFontColor();
 
     int fontSize() const;
 

@@ -66,6 +66,10 @@ void eLabelBase::setDarkFontColor() {
     setFontColor(eFontColor::dark);
 }
 
+void eLabelBase::setYellowFontColor() {
+    setFontColor(eFontColor::yellow);
+}
+
 int eLabelBase::fontSize() const {
     if(!mFont) return 0;
     return TTF_FontHeight(mFont);

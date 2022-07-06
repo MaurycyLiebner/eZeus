@@ -40,6 +40,7 @@ eWidget* eCultureDataWidget::createCoverageWidget(
     covLabel->fitContent();
     ccw->addWidget(covLabel);
     covLabel->setX(disciplineLabel->width() + p);
+    covLabel->setYellowFontColor();
 
     ccw->fitContent();
 
