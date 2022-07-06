@@ -209,6 +209,9 @@ public:
     void removeSupportedBuilding(const eBuildingMode t);
     bool supportsBuilding(const eBuildingMode t) const;
 
+    bool supportsResource(const eResourceType rt) const;
+    eResourceType supportedResources() const;
+
     using eBuildingValidator = std::function<bool(eBuilding*)>;
     eBuilding* randomBuilding(const eBuildingValidator& v) const;
 
@@ -319,6 +322,7 @@ private:
     eMessageShower mMsgShower;
 
     std::vector<eBuildingMode> mSupportedBuildings;
+    eResourceType mSupportedResources;
 };
 
 #endif // EGAMEBOARD_H

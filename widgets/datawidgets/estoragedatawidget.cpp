@@ -55,7 +55,7 @@ void eStorageDataWidget::initialize() {
 
     const auto inner = innerWidget();
 
-    const auto all = eResourceType::all & ~eResourceType::silver;
+    const auto all = mBoard->supportedResources();
     const auto tps = eResourceTypeHelpers::extractResourceTypes(all);
     const auto res = resolution();
     const auto uiScale = res.uiScale();
@@ -80,10 +80,6 @@ void eStorageDataWidget::initialize() {
 
     inner->addWidget(w);
     w->align(eAlignment::center);
-}
-
-void eStorageDataWidget::setBoard(eGameBoard* const b) {
-    mBoard = b;
 }
 
 void eStorageDataWidget::paintEvent(ePainter& p) {

@@ -6,6 +6,7 @@
 class eViewModeButton;
 class eFramedWidget;
 class eGameWidget;
+class eGameBoard;
 
 class eDataWidget : public eWidget {
 public:
@@ -13,10 +14,13 @@ public:
 
     virtual void initialize();
 
+    void setBoard(eGameBoard* const b);
     void setGameWidget(eGameWidget* const gw);
 protected:
     void addViewButton(eViewModeButton* const b);
     eFramedWidget* innerWidget() const { return mInnerWidget; }
+
+    eGameBoard* mBoard = nullptr;
 private:
     eFramedWidget* mInnerWidget = nullptr;
     std::vector<eViewModeButton*> mButtons;

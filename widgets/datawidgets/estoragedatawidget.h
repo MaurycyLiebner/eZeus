@@ -14,14 +14,10 @@ public:
     using eDataWidget::eDataWidget;
 
     void initialize();
-
-    void setBoard(eGameBoard* const b);
 protected:
     void paintEvent(ePainter& p);
 private:
     eViewModeButton* mSeeDistribution = nullptr;
-
-    eGameBoard* mBoard = nullptr;
 
     std::vector<eLabel*> mResourceLabels;
 

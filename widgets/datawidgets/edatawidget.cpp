@@ -29,6 +29,10 @@ void eDataWidget::initialize() {
     fitContent();
 }
 
+void eDataWidget::setBoard(eGameBoard* const b) {
+    mBoard = b;
+}
+
 void eDataWidget::setGameWidget(eGameWidget* const gw) {
     for(const auto b : mButtons) {
         b->setGameWidget(gw);

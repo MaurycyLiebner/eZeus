@@ -10,7 +10,7 @@ eStorageBuilding::eStorageBuilding(eGameBoard& board,
                                    const eResourceType canAccept,
                                    const int spaceCount) :
     eEmployingBuilding(board, type, sw, sh, maxEmployees),
-    mCanAccept(canAccept),
+    mCanAccept(canAccept & board.supportedResources()),
     mSpaceCount(spaceCount) {
     const auto all = eResourceTypeHelpers::extractResourceTypes(mCanAccept);
     for(const auto a : all) {

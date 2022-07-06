@@ -46,6 +46,7 @@ eGameBoard::eGameBoard() :
         const auto bm = static_cast<eBuildingMode>(i);
         mSupportedBuildings.push_back(bm);
     }
+    mSupportedResources = eResourceType::all;
 }
 
 eGameBoard::~eGameBoard() {
@@ -170,6 +171,15 @@ bool eGameBoard::supportsBuilding(const eBuildingMode t) const {
                               mSupportedBuildings.end(), t);
     const bool s = it != mSupportedBuildings.end();
     return s;
+}
+
+bool eGameBoard::supportsResource(const eResourceType rt) const {
+    const auto s = mSupportedResources & rt;
+    return static_cast<bool>(s);
+}
+
+eResourceType eGameBoard::supportedResources() const {
+    return mSupportedResources;
 }
 
 eBuilding* eGameBoard::randomBuilding(const eBuildingValidator& v) const {

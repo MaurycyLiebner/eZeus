@@ -30,15 +30,15 @@ enum class eResourceType {
     wood = 1 << 13,
     bronze = 1 << 14,
     marble = 1 << 15,
-    silver = 1 << 16,
 
-    armor = 1 << 17,
-    sculpture = 1 << 18,
+    armor = 1 << 16,
+    sculpture = 1 << 17,
 
-    all = (1 << 19) - 1,
-    warehouse = (all & ~food & ~silver) | wheat,
-    tradePost = all & ~silver,
+    all = (1 << 18) - 1,
+    warehouse = (all & ~food) | wheat,
+    tradePost = all,
 
+    silver = 1 << 19,
     horse = 1 << 20,
 };
 

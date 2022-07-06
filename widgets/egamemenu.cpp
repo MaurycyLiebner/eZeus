@@ -267,6 +267,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
         ww9->addWidget(alabel);
         dataW->setWidth(dataWidWidth);
         dataW->setHeight(dataWidHeight);
+        dataW->setBoard(b);
         dataW->initialize();
         ww9->addWidget(dataW);
         ww9->setWidth(dataWidWidth);
@@ -813,10 +814,6 @@ void eGameMenu::initialize(eGameBoard* const b) {
         addWidget(mEventW);
     }
 
-    mPopDataW->setBoard(b);
-    mEmplDataW->setBoard(b);
-    mStrgDataW->setBoard(b);
-    mAdminDataW->setBoard(b);
     mMiniMap->setBoard(b);
 }
 
