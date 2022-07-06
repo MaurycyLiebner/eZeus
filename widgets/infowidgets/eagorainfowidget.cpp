@@ -46,7 +46,7 @@ void eAgoraButton::initialize(eAgoraBase* const a,
     const int c = a->agoraCount(res);
     const auto reso = resolution();
     const auto uiScale = reso.uiScale();
-    const int m = reso.multiplier();
+    const double m = reso.multiplier();
     const auto icon = eResourceTypeHelpers::icon(uiScale, res);
     const auto name = eResourceTypeHelpers::typeName(res);
 

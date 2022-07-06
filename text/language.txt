@@ -149,8 +149,11 @@ see_hazards "See Hazards"
 see_unrest "See Unrest"
 
 see_supplies "See Supplies"
-population "Population: "
-vacancies "Vacancies: "
+housing_for1 "Housing for"
+housing_for2 "more people"
+people_wish_to_come "People wish to come to the city."
+immigration_limited_by "Immigration limited by"
+lack_of_housing_vacs "Lack of housing vacancies"
 
 see_taxes "See Taxes"
 

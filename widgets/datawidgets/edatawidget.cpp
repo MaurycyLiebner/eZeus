@@ -14,7 +14,7 @@ void eDataWidget::initialize() {
     }
 
     const auto res = resolution();
-    const int m = res.multiplier();
+    const double m = res.multiplier();
     const auto space = new eWidget(window());
     space->setPadding(3*m);
     space->fitContent();
