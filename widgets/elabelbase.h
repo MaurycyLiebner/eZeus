@@ -33,7 +33,7 @@ protected:
     bool setFont(TTF_Font* const font);
 private:
     bool updateTextTexture();
-    eResolution res() const;
+    const eResolution& res() const;
 
     int mWidth = 0;
     eMainWindow* const mWindow;

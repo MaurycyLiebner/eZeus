@@ -92,6 +92,6 @@ bool eLabelBase::updateTextTexture() {
     return true;
 }
 
-eResolution eLabelBase::res() const {
+const eResolution& eLabelBase::res() const {
     return mWindow->resolution();
 }

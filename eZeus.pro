@@ -332,6 +332,7 @@ SOURCES += \
         widgets/emessagebox.cpp \
         widgets/eminimap.cpp \
         widgets/emouseevent.cpp \
+        widgets/emultilinelabel.cpp \
         widgets/eokbutton.cpp \
         widgets/epainter.cpp \
         widgets/eprogressbar.cpp \
@@ -699,6 +700,7 @@ HEADERS += \
     widgets/emessagebox.h \
     widgets/eminimap.h \
     widgets/emouseevent.h \
+    widgets/emultilinelabel.h \
     widgets/eokbutton.h \
     widgets/epainter.h \
     widgets/eprogressbar.h \

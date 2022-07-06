@@ -5,6 +5,7 @@
 #include "eviewmodebutton.h"
 #include "edatalabel.h"
 #include "widgets/elinewidget.h"
+#include "widgets/emultilinelabel.h"
 
 #include "elanguage.h"
 
@@ -67,16 +68,15 @@ void ePopulationDataWidget::initialize() {
     inner->addWidget(l1);
     l1->setY(cw1->y() + cw1->height() + pp);
 
-    const auto cw2 = new eLabel(window());
+    const auto cw2 = new eMultiLineLabel(window());
     {
         cw2->setNoPadding();
         cw2->setVerySmallFontSize();
-        cw2->setWrapWidth(inner->width() - 2*pp);
         cw2->setText(eLanguage::text("people_wish_to_come"));
-        cw2->fitContent();
 
         inner->addWidget(cw2);
-        cw2->move(pp, l1->y() + l1->height() + pp);
+        cw2->align(eAlignment::hcenter);
+        cw2->setY(l1->y() + l1->height() + pp);
     }
 
     const auto l2 = new eLineWidget(window());
@@ -90,19 +90,17 @@ void ePopulationDataWidget::initialize() {
     {
         cw3->setNoPadding();
 
-        const auto il1 = new eLabel(window());
+        const auto il1 = new eMultiLineLabel(window());
         il1->setVerySmallFontSize();
         il1->setNoPadding();
         il1->setText(eLanguage::text("immigration_limited_by"));
-        il1->fitContent();
         cw3->addWidget(il1);
 
-        const auto il2 = new eLabel(window());
+        const auto il2 = new eMultiLineLabel(window());
         il2->setYellowFontColor();
         il2->setVerySmallFontSize();
         il2->setNoPadding();
         il2->setText(eLanguage::text("lack_of_housing_vacs"));
-        il2->fitContent();
         cw3->addWidget(il2);
 
         cw3->stackVertically();

@@ -32,10 +32,10 @@ public:
 
     int width() const { return resolution().width(); }
     int height() const { return resolution().height(); }
-    eResolution resolution() const { return mSettings.fRes; }
+    const eResolution& resolution() const { return mSettings.fRes; }
     SDL_Renderer* renderer() const { return mSdlRenderer; }
 
-    void setResolution(const eResolution res);
+    void setResolution(const eResolution& res);
     void setFullscreen(const bool f);
 
     void closeGame();

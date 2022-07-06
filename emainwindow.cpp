@@ -81,7 +81,7 @@ void eMainWindow::addSlot(const eSlot& slot) {
     mSlots.push_back(slot);
 }
 
-void eMainWindow::setResolution(const eResolution res) {
+void eMainWindow::setResolution(const eResolution& res) {
     mSettings.fRes = res;
     const int w = res.width();
     const int h = res.height();
