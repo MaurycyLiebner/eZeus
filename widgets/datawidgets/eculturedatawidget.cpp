@@ -5,10 +5,6 @@
 
 #include "elanguage.h"
 
-eCultureDataWidget::eCultureDataWidget(
-        eGameBoard& board, eMainWindow* const window) :
-    eDataWidget(window), mBoard(board) {}
-
 eWidget* eCultureDataWidget::createCoverageWidget(
         const std::string& gamesName,
         const std::string& disciplineName,
@@ -170,4 +166,12 @@ void eCultureDataWidget::updateCoverage() {
         mAllCoverage->setText(ddtt);
         mAllCoverage->fitContent();
     }
+}
+
+void eCultureDataWidget::paintEvent(ePainter& p) {
+    const bool update = (++mTime % 200) == 0;
+    if(update) {
+        updateCoverage();
+    }
+    eWidget::paintEvent(p);
 }

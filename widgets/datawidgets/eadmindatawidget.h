@@ -14,14 +14,10 @@ public:
     using eDataWidget::eDataWidget;
 
     void initialize();
-
-    void setBoard(eGameBoard* const b);
 private:
     void setTaxRate(const eTaxRate tr);
 
     eViewModeButton* mSeeTaxes = nullptr;
-
-    eGameBoard* mBoard = nullptr;
 
     eLabel* mTaxLabel = nullptr;
 

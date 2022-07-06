@@ -15,15 +15,12 @@ public:
 
     void initialize();
 
-    void setBoard(eGameBoard* const b);
 protected:
     void paintEvent(ePainter& p);
 private:
     void setWageRate(const eWageRate wr);
 
     eViewModeButton* mSeeIndustry = nullptr;
-
-    eGameBoard* mBoard = nullptr;
 
     eLabel* mPensionsLabel = nullptr;
 

@@ -55,7 +55,7 @@ void eStorageDataWidget::initialize() {
 
     const auto inner = innerWidget();
 
-    const auto all = mBoard->supportedResources();
+    const auto all = mBoard.supportedResources();
     const auto tps = eResourceTypeHelpers::extractResourceTypes(all);
     const auto res = resolution();
     const auto uiScale = res.uiScale();
@@ -84,9 +84,9 @@ void eStorageDataWidget::initialize() {
 
 void eStorageDataWidget::paintEvent(ePainter& p) {
     const bool update = (++mTime % 200) == 0;
-    if(update && mBoard) {
-        mBoard->updateResources();
-        const auto& src = mBoard->resources();
+    if(update) {
+        mBoard.updateResources();
+        const auto& src = mBoard.resources();
         const int iMax = mResourceLabels.size();
         for(int i = 0; i < iMax; i++) {
             const auto c = src[i].second;

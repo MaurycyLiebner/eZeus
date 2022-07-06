@@ -99,19 +99,14 @@ void eEmploymentDataWidget::initialize() {
         w->setX(jv->x());
         w->setY(jv->y());
     }
-}
 
-void eEmploymentDataWidget::setBoard(eGameBoard* const b) {
-    mBoard = b;
-    if(b) {
-        setWageRate(b->wageRate());
-    }
+    setWageRate(mBoard.wageRate());
 }
 
 void eEmploymentDataWidget::paintEvent(ePainter& p) {
     const bool update = (++mTime % 200) == 0;
-    if(update && mBoard) {
-        const auto& emplData = mBoard->employmentData();
+    if(update) {
+        const auto& emplData = mBoard.employmentData();
 
         const bool vacsVisible = emplData.freeJobVacancies() > 0;
         mVacanciesLabel->setVisible(vacsVisible);
@@ -137,9 +132,7 @@ void eEmploymentDataWidget::paintEvent(ePainter& p) {
 }
 
 void eEmploymentDataWidget::setWageRate(const eWageRate wr) {
-    if(mBoard) {
-        mBoard->setWageRate(wr);
-    }
+    mBoard.setWageRate(wr);
     mWageRate = wr;
     mWageLabel->setText(eWageRateHelpers::name(wr));
 }

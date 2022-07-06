@@ -36,14 +36,10 @@ void ePopulationDataWidget::initialize() {
     inner->stackVertically();
 }
 
-void ePopulationDataWidget::setBoard(eGameBoard* const b) {
-    mBoard = b;
-}
-
 void ePopulationDataWidget::paintEvent(ePainter& p) {
     const bool update = (++mTime % 200) == 0;
-    if(update && mBoard) {
-        const auto& popData = mBoard->populationData();
+    if(update) {
+        const auto& popData = mBoard.populationData();
 
         const int p = popData.population();
         mPopLabel->setText(std::to_string(p));

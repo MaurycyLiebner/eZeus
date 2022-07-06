@@ -10,18 +10,17 @@ class eViewModeButton;
 
 class eCultureDataWidget : public eDataWidget {
 public:
-    eCultureDataWidget(eGameBoard& board,
-                       eMainWindow* const window);
+    using eDataWidget::eDataWidget;
 
     void initialize();
 
     void updateCoverage();
+protected:
+    void paintEvent(ePainter& p);
 private:
     eWidget* createCoverageWidget(const std::string& gamesName,
                                   const std::string& disciplineName,
                                   eLabel** const clabel);
-
-    eGameBoard& mBoard;
 
     eViewModeButton* mSeeActors = nullptr;
     eViewModeButton* mSeeAthletes = nullptr;
@@ -32,6 +31,8 @@ private:
     eLabel* mAthleticsCoverage = nullptr;
     eLabel* mDramaCoverage = nullptr;
     eLabel* mAllCoverage = nullptr;
+
+    int mTime{0};
 };
 
 #endif // ECULTUREDATAWIDGET_H

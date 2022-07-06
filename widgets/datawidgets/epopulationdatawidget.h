@@ -13,13 +13,10 @@ public:
     using eDataWidget::eDataWidget;
 
     void initialize();
-
-    void setBoard(eGameBoard* const b);
 protected:
     void paintEvent(ePainter& p);
 private:
     eViewModeButton* mSeeSupplies = nullptr;
-    eGameBoard* mBoard = nullptr;
 
     eLabel* mPopLabel = nullptr;
     eLabel* mVacLabel = nullptr;

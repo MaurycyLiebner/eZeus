@@ -2,6 +2,9 @@
 
 #include "eviewmodebutton.h"
 
+eDataWidget::eDataWidget(eGameBoard& b, eMainWindow* const w) :
+    eWidget(w), mBoard(b) {}
+
 void eDataWidget::initialize() {
     int h = 0;
     for(const auto b : mButtons) {
@@ -27,10 +30,6 @@ void eDataWidget::initialize() {
     stackVertically();
     setNoPadding();
     fitContent();
-}
-
-void eDataWidget::setBoard(eGameBoard* const b) {
-    mBoard = b;
 }
 
 void eDataWidget::setGameWidget(eGameWidget* const gw) {

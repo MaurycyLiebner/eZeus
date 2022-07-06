@@ -267,7 +267,6 @@ void eGameMenu::initialize(eGameBoard* const b) {
         ww9->addWidget(alabel);
         dataW->setWidth(dataWidWidth);
         dataW->setHeight(dataWidHeight);
-        dataW->setBoard(b);
         dataW->initialize();
         ww9->addWidget(dataW);
         ww9->setWidth(dataWidWidth);
@@ -319,7 +318,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
         ww->setY(wy + 29*mult);
     }
 
-    mPopDataW = new ePopulationDataWidget(window());
+    mPopDataW = new ePopulationDataWidget(*b, window());
 
     const auto diff = mBoard->difficulty();
     const int cost1 = eDifficultyHelpers::buildingCost(
@@ -380,7 +379,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
 
 
 
-    mHusbDataW = new eHusbandryDataWidget(window());
+    mHusbDataW = new eHusbandryDataWidget(*b, window());
     const auto buttonsVec1 = eButtonsDataVec{
                             {eBuildingMode::none,
                              eLanguage::text("farms"),
@@ -414,7 +413,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
         setMode(eBuildingMode::artisansGuild);
     };
 
-    mEmplDataW = new eEmploymentDataWidget(window());
+    mEmplDataW = new eEmploymentDataWidget(*b, window());
     const int cost3 = eDifficultyHelpers::buildingCost(
                           diff, eBuildingType::artisansGuild);
     const auto buttonsVec2 = eButtonsDataVec{
@@ -455,7 +454,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
     };
 
 
-    mStrgDataW = new eStorageDataWidget(window());
+    mStrgDataW = new eStorageDataWidget(*b, window());
 
     const int cost4 = eDifficultyHelpers::buildingCost(
                           diff, eBuildingType::granary);
@@ -491,7 +490,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
         setMode(eBuildingMode::hospital);
     };
 
-    mHySaDataW = new eHygieneSafetyDataWidget(window());
+    mHySaDataW = new eHygieneSafetyDataWidget(*b, window());
     const int cost6 = eDifficultyHelpers::buildingCost(
                           diff, eBuildingType::fountain);
     const int cost7 = eDifficultyHelpers::buildingCost(
@@ -524,7 +523,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
     };
     const auto bb5 = [this]() {};
 
-    mAdminDataW = new eAdminDataWidget(window());
+    mAdminDataW = new eAdminDataWidget(*b, window());
     const int cost10 = eDifficultyHelpers::buildingCost(
                           diff, eBuildingType::palace);
     const int cost11 = eDifficultyHelpers::buildingCost(
@@ -593,7 +592,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
     const auto hs7 = [this, cmx, cmy]() {};
 
 
-    mMythDataW = new eMythologyDataWidget(window());
+    mMythDataW = new eMythologyDataWidget(*b, window());
     const auto buttonsVec7 = eButtonsDataVec{
                             {eBuildingMode::none,
                              eLanguage::text("sanctuaries"),
@@ -617,7 +616,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
         openBuildWidget(cmx, cmy, mp8spr);
     };
 
-    mMiltDataW = new eMilitaryDataWidget(window());
+    mMiltDataW = new eMilitaryDataWidget(*b, window());
     const auto buttonsVec8 = eButtonsDataVec{
                         {eBuildingMode::none,
                          eLanguage::text("fortifications"),
@@ -668,7 +667,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
         openBuildWidget(cmx, cmy, m9spr);
     };
 
-    mApplDataW = new eAppealDataWidget(window());
+    mApplDataW = new eAppealDataWidget(*b, window());
     const auto buttonsVec = eButtonsDataVec{
                     {eBuildingMode::none,
                      eLanguage::text("beautification"),
@@ -682,7 +681,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
     const auto ww9 = createDataWidget(mApplDataW, buttonsVec,
                                       "aesthetics_title");
 
-    mOverDataW = new eOverviewDataWidget(window());
+    mOverDataW = new eOverviewDataWidget(*b, window());
     mMiniMap = new eMiniMap(window());
     mMiniMap->resize(dataWidWidth, 4*dataWidWidth/5);
 

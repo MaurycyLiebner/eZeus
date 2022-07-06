@@ -59,19 +59,11 @@ void eAdminDataWidget::initialize() {
     }
 
     inner->stackVertically();
-}
-
-void eAdminDataWidget::setBoard(eGameBoard* const b) {
-    mBoard = b;
-    if(b) {
-        setTaxRate(b->taxRate());
-    }
+    setTaxRate(mBoard.taxRate());
 }
 
 void eAdminDataWidget::setTaxRate(const eTaxRate tr) {
-    if(mBoard) {
-        mBoard->setTaxRate(tr);
-    }
+    mBoard.setTaxRate(tr);
     mTaxRate = tr;
     mTaxLabel->setText(eTaxRateHelpers::name(tr));
 }
