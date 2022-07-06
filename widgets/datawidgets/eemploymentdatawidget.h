@@ -26,10 +26,10 @@ private:
 
     eLabel* mWorkforceLabel = nullptr;
 
-    eDataLabel* mUnemployedLabel = nullptr;
+    eWidget* mUnemployedWidget = nullptr;
     eLabel* mUnemployedNLabel = nullptr;
 
-    eDataLabel* mVacanciesLabel = nullptr;
+    eWidget* mVacanciesWidget = nullptr;
     eLabel* mVacanciesNLabel = nullptr;
 
     eLabel* mWageLabel = nullptr;

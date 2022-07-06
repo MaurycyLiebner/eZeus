@@ -4,8 +4,10 @@
 
 #include "../elabel.h"
 
-#include "../eupbutton.h"
-#include "../edownbutton.h"
+#include "widgets/eupbutton.h"
+#include "widgets/edownbutton.h"
+#include "widgets/emultilinelabel.h"
+#include "widgets/elinewidget.h"
 
 #include "widgets/eframedwidget.h"
 
@@ -25,51 +27,30 @@ void eEmploymentDataWidget::initialize() {
     eDataWidget::initialize();
     const auto inner = innerWidget();
 
-    {
-        const auto w = new eDataLabel(window());
-        w->initialize(eLanguage::text("pensions"));
-        mPensionsLabel = w->label();
-        inner->addWidget(w);
-    }
+    const auto& res = resolution();
+    const double m = res.multiplier();
 
-    {
-        const auto w = new eDataLabel(window());
-        w->initialize(eLanguage::text("workforce"));
-        mWorkforceLabel = w->label();
-        inner->addWidget(w);
-    }
+    const int pp = 3*m;
 
-    eDataLabel* jv = nullptr;
+    const auto cw1 = new eWidget(window());
     {
-        const auto w = new eDataLabel(window());
-        w->initialize(eLanguage::text("job_vacancies"));
-        mVacanciesNLabel = w->label();
-        mVacanciesLabel = w;
-        inner->addWidget(w);
-        jv = w;
-    }
+        cw1->setNoPadding();
 
-    {
-        const auto l = new eLabel(eLanguage::text("wages"), window());
-        l->setSmallPadding();
+        const auto l = new eLabel(eLanguage::text("wage_rate"), window());
+        l->setNoPadding();
         l->setVerySmallFontSize();
         l->fitContent();
-        inner->addWidget(l);
+        cw1->addWidget(l);
+
+        mWageLabel = new eLabel(eWageRateHelpers::name(eWageRate::normal), window());
+        mWageLabel->setYellowFontColor();
+        mWageLabel->setNoPadding();
+        mWageLabel->setVerySmallFontSize();
+        mWageLabel->fitContent();
+        cw1->addWidget(mWageLabel);
 
         const auto w = new eWidget(window());
         w->setNoPadding();
-        mWageLabel = new eLabel(eWageRateHelpers::name(eWageRate::normal), window());
-        mWageLabel->setSmallPadding();
-        mWageLabel->setVerySmallFontSize();
-        mWageLabel->fitContent();
-        w->addWidget(mWageLabel);
-        const auto upButton = new eUpButton(window());
-        upButton->setPressAction([this]() {
-            if(mWageRate == eWageRate::veryHigh) return;
-            const int wr = static_cast<int>(mWageRate) + 1;
-            setWageRate(static_cast<eWageRate>(wr));
-        });
-        w->addWidget(upButton);
         const auto downButton = new eDownButton(window());
         downButton->setPressAction([this]() {
             if(mWageRate == eWageRate::none) return;
@@ -77,27 +58,154 @@ void eEmploymentDataWidget::initialize() {
             setWageRate(static_cast<eWageRate>(wr));
         });
         w->addWidget(downButton);
+        const auto upButton = new eUpButton(window());
+        upButton->setPressAction([this]() {
+            if(mWageRate == eWageRate::veryHigh) return;
+            const int wr = static_cast<int>(mWageRate) + 1;
+            setWageRate(static_cast<eWageRate>(wr));
+        });
+        w->addWidget(upButton);
         w->stackHorizontally();
         w->fitContent();
-        upButton->align(eAlignment::vcenter);
-        downButton->align(eAlignment::vcenter);
-        inner->addWidget(w);
+        cw1->addWidget(w);
+
+        cw1->stackVertically();
+        cw1->fitContent();
+        l->align(eAlignment::hcenter);
+        mWageLabel->align(eAlignment::hcenter);
+        w->align(eAlignment::hcenter);
+
+        inner->addWidget(cw1);
+        cw1->align(eAlignment::hcenter);
+        cw1->setY(pp);
     }
 
-    inner->stackVertically();
-
-
+    const auto cw2 = new eWidget(window());
     {
-        const auto w = new eDataLabel(window());
-        w->initialize(eLanguage::text("unemployed"));
-        mUnemployedNLabel = w->label();
-        mUnemployedLabel = w;
-        inner->addWidget(w);
+        cw2->setNoPadding();
 
-        w->setVisible(false);
+        const auto ll = new eMultiLineLabel(window());
+        ll->setVerySmallFontSize();
+        ll->setNoPadding();
+        ll->setText(eLanguage::text("projected_payroll"));
+        cw2->addWidget(ll);
 
-        w->setX(jv->x());
-        w->setY(jv->y());
+        mPensionsLabel = new eLabel(window());
+        mPensionsLabel->setNoPadding();
+        mPensionsLabel->setSmallFontSize();
+        mPensionsLabel->setYellowFontColor();
+        mPensionsLabel->setText("0 dr");
+        mPensionsLabel->fitContent();
+        cw2->addWidget(mPensionsLabel);
+
+        cw2->stackVertically();
+        cw2->fitContent();
+        ll->align(eAlignment::hcenter);
+        mPensionsLabel->align(eAlignment::hcenter);
+
+        inner->addWidget(cw2);
+        cw2->align(eAlignment::hcenter);
+        cw2->setY(cw1->y() + cw1->height() + pp);
+    }
+
+    const auto l2 = new eLineWidget(window());
+    l2->setNoPadding();
+    l2->fitContent();
+    l2->setWidth(inner->width());
+    inner->addWidget(l2);
+    l2->setY(cw2->y() + cw2->height() + pp);
+
+
+    const auto cw3 = new eWidget(window());
+    {
+        cw3->setNoPadding();
+
+        const auto ll = new eMultiLineLabel(window());
+        ll->setVerySmallFontSize();
+        ll->setNoPadding();
+        ll->setText(eLanguage::text("employed_workforce"));
+        cw3->addWidget(ll);
+
+        mWorkforceLabel = new eLabel(window());
+        mWorkforceLabel->setNoPadding();
+        mWorkforceLabel->setSmallFontSize();
+        mWorkforceLabel->setYellowFontColor();
+        mWorkforceLabel->setText("0");
+        mWorkforceLabel->fitContent();
+        cw3->addWidget(mWorkforceLabel);
+
+        cw3->stackVertically();
+        cw3->fitContent();
+        ll->align(eAlignment::hcenter);
+        mWorkforceLabel->align(eAlignment::hcenter);
+
+        inner->addWidget(cw3);
+        cw3->align(eAlignment::hcenter);
+        cw3->setY(l2->y() + l2->height() + pp);
+    }
+
+    const auto cw4 = new eWidget(window());
+    {
+        cw4->setNoPadding();
+
+        const auto ll = new eLabel(window());
+        ll->setVerySmallFontSize();
+        ll->setNoPadding();
+        ll->setText(eLanguage::text("unemployed"));
+        ll->fitContent();
+        cw4->addWidget(ll);
+
+        mUnemployedNLabel = new eLabel(window());
+        mUnemployedNLabel->setNoPadding();
+        mUnemployedNLabel->setSmallFontSize();
+        mUnemployedNLabel->setYellowFontColor();
+        mUnemployedNLabel->setText("0");
+        mUnemployedNLabel->fitContent();
+        cw4->addWidget(mUnemployedNLabel);
+
+        cw4->stackVertically();
+        cw4->fitContent();
+        ll->align(eAlignment::hcenter);
+        mUnemployedNLabel->align(eAlignment::hcenter);
+
+        inner->addWidget(cw4);
+        cw4->align(eAlignment::hcenter);
+        cw4->setY(cw3->y() + cw3->height() + pp);
+
+        mUnemployedWidget = cw4;
+        mUnemployedWidget->hide();
+    }
+
+
+    const auto cw5 = new eWidget(window());
+    {
+        cw5->setNoPadding();
+
+        const auto ll = new eLabel(window());
+        ll->setVerySmallFontSize();
+        ll->setNoPadding();
+        ll->setText(eLanguage::text("workers_needed"));
+        ll->fitContent();
+        cw5->addWidget(ll);
+
+        mVacanciesNLabel = new eLabel(window());
+        mVacanciesNLabel->setNoPadding();
+        mVacanciesNLabel->setSmallFontSize();
+        mVacanciesNLabel->setYellowFontColor();
+        mVacanciesNLabel->setText("0");
+        mVacanciesNLabel->fitContent();
+        cw5->addWidget(mVacanciesNLabel);
+
+        cw5->stackVertically();
+        cw5->fitContent();
+        ll->align(eAlignment::hcenter);
+        mVacanciesNLabel->align(eAlignment::hcenter);
+
+        inner->addWidget(cw5);
+        cw5->align(eAlignment::hcenter);
+        cw5->setY(cw3->y() + cw3->height() + pp);
+
+        mVacanciesWidget = cw5;
     }
 
     setWageRate(mBoard.wageRate());
@@ -109,11 +217,11 @@ void eEmploymentDataWidget::paintEvent(ePainter& p) {
         const auto& emplData = mBoard.employmentData();
 
         const bool vacsVisible = emplData.freeJobVacancies() > 0;
-        mVacanciesLabel->setVisible(vacsVisible);
-        mUnemployedLabel->setVisible(!vacsVisible);
+        mVacanciesWidget->setVisible(vacsVisible);
+        mUnemployedWidget->setVisible(!vacsVisible);
 
         const int p = emplData.pensions();
-        mPensionsLabel->setText(std::to_string(p));
+        mPensionsLabel->setText(std::to_string(p) + " dr");
         mPensionsLabel->fitContent();
 
         const int w = emplData.employable();
@@ -125,7 +233,8 @@ void eEmploymentDataWidget::paintEvent(ePainter& p) {
         mVacanciesNLabel->fitContent();
 
         const int u = emplData.unemployed();
-        mUnemployedNLabel->setText(std::to_string(u));
+        const auto perStr = w ? "(" + std::to_string(100*u/w) + "%)" : "";
+        mUnemployedNLabel->setText(std::to_string(u) + " " + perStr);
         mUnemployedNLabel->fitContent();
     }
     eDataWidget::paintEvent(p);
