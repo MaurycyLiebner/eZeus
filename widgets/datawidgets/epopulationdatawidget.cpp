@@ -3,7 +3,6 @@
 #include "engine/egameboard.h"
 
 #include "eviewmodebutton.h"
-#include "edatalabel.h"
 #include "widgets/elinewidget.h"
 #include "widgets/emultilinelabel.h"
 

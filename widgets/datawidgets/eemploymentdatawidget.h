@@ -2,7 +2,6 @@
 #define EEMPLOYMENTDATAWIDGET_H
 
 #include "edatawidget.h"
-#include "edatalabel.h"
 
 #include "engine/ewagerate.h"
 
