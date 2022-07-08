@@ -123,7 +123,7 @@ private:
     bool mOnFire{false};
     bool mBusy{false};
     int mMarbleLevel = 0;
-    int mResource = 100;
+    int mResource = 1;
 
     eTileBase* mTopLeft = nullptr;
     eTileBase* mTopRight = nullptr;

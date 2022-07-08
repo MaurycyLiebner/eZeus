@@ -17,6 +17,7 @@
 #include "pointers/eobject.h"
 
 #include "ethreadpool.h"
+#include "eplannedaction.h"
 
 #include "eworldboard.h"
 #include "widgets/ebuildingmode.h"
@@ -219,6 +220,8 @@ public:
     int athleticsCoverage() const { return mAthleticsCoverage; }
     int dramaCoverage() const { return mDramaCoverage; }
     int allCoverage() const { return mAllDiscCoverage; }
+
+    void planAction(ePlannedAction* const a);
 private:
     void updateNeighbours();
     void updateTileRenderingOrder();
@@ -296,6 +299,8 @@ private:
     std::vector<stdsptr<eSoldierBanner>> mBanners;
 
     std::vector<eSoldierBanner*> mSelectedBanners;
+
+    std::vector<ePlannedAction*> mPlannedActions;
 
     int mSoldiersUpdate = 10000;
     int mMaxRockThrowers = 0;

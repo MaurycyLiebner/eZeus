@@ -192,6 +192,10 @@ eBuilding* eGameBoard::randomBuilding(const eBuildingValidator& v) const {
     return nullptr;
 }
 
+void eGameBoard::planAction(ePlannedAction* const a) {
+    mPlannedActions.emplace_back(a);
+}
+
 void eGameBoard::updateTileRenderingOrder() {
     std::vector<std::vector<std::pair<int, int>>> map;
     map.reserve(width());
@@ -717,6 +721,16 @@ void eGameBoard::incTime(const int by) {
     mThreadPool.scheduleUpdate(*this);
 
     updateAppealMapIfNeeded();
+
+    const int iMax = mPlannedActions.size() - 1;
+    for(int i = iMax; i >= 0; i--) {
+        const auto a = mPlannedActions[i];
+        a->incTime(by);
+        if(a->finished()) {
+            mPlannedActions.erase(mPlannedActions.begin() + i);
+            delete a;
+        }
+    }
 
     mSoldiersUpdate += by;
     const int sup = 2000;

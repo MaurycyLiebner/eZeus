@@ -32,15 +32,11 @@ void eCollectAction::increment(const int by) {
         });
     }
     if(mTime > 6000) {
-        const auto terr = mTile->terrain();
-        if(terr == eTerrain::marble) {
-            mTile->decResource(100);
-        } else {
-            mTile->decResource(1);
-        }
+        mTile->decResource(1);
         mCharacter->incCollected(1);
         const bool noResLeft = mTile->resource() <= 0;
-        if(noResLeft && mTransFunc) mTransFunc(mTile);
+        auto& brd = mCharacter->getBoard();
+        if(noResLeft && mTransFunc) mTransFunc(mTile, brd);
         mTime = 0;
         setState(eCharacterActionState::finished);
     }

@@ -221,6 +221,7 @@ SOURCES += \
         engine/emapgenerator.cpp \
         engine/epathboard.cpp \
         engine/epathfinder.cpp \
+        engine/eplannedaction.cpp \
         engine/eresourcetype.cpp \
         engine/etask.cpp \
         engine/etaxrate.cpp \
@@ -568,6 +569,7 @@ HEADERS += \
     engine/eorientation.h \
     engine/epathboard.h \
     engine/epathfinder.h \
+    engine/eplannedaction.h \
     engine/eprovide.h \
     engine/eresourcetype.h \
     engine/etask.h \

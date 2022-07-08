@@ -7,7 +7,7 @@
 
 class eCollectAction : public eCharacterAction {
 public:
-    using eTranformFunc = std::function<void(eTile*)>;
+    using eTranformFunc = std::function<void(eTile*, eGameBoard& board)>;
     eCollectAction(
             eResourceCollectorBase* const c,
             const eTranformFunc& tf,

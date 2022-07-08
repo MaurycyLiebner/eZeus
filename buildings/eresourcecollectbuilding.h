@@ -10,7 +10,7 @@ class eResourceCollectorBase;
 class eResourceCollectBuilding : public eResourceCollectBuildingBase {
 public:
     using eHasResource = std::function<bool(eTileBase*)>;
-    using eTranformFunc = std::function<void(eTile*)>;
+    using eTranformFunc = std::function<void(eTile*, eGameBoard& board)>;
     using eBaseTex = std::shared_ptr<eTexture> eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;
     using eCharGenerator =  std::function<stdsptr<eResourceCollectorBase>()>;

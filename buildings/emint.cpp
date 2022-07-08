@@ -3,6 +3,10 @@
 #include "characters/esilverminer.h"
 #include "textures/egametextures.h"
 
+bool hasSilver(eTileBase* const t) {
+    return t->terrain() == eTerrain::silver;
+}
+
 eMint::eMint(eGameBoard& board) :
     eResourceCollectBuilding(board,
                              &eBuildingTextures::fMint,
@@ -11,10 +15,7 @@ eMint::eMint(eGameBoard& board) :
                              3, 0.5, -1.5,
                              [this]() { return e::make_shared<eSilverMiner>(getBoard()); },
                              eBuildingType::mint,
-                             [](eTileBase* const t) {
-                                return t->terrain() == eTerrain::silver;
-                             },
-                             nullptr, 2, 2, 15,
+                             hasSilver, nullptr, 2, 2, 15,
                              eResourceType::silver) {
     setRawCountCollect(4);
 }

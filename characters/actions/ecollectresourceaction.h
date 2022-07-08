@@ -17,7 +17,7 @@ class eCollectResourceAction : public eActionWithComeback {
 public:
     using eHasResource = std::function<bool(eTileBase*)>;
     using eTileAction = std::function<void(eTile*)>;
-    using eTranformFunc = eTileAction;
+    using eTranformFunc = std::function<void(eTile*, eGameBoard& board)>;
     eCollectResourceAction(eResourceCollectBuildingBase* const b,
                            eResourceCollectorBase* const c,
                            const eHasResource& hr,
