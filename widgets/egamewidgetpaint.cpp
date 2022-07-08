@@ -284,8 +284,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         const int tx = tile->x();
         const int ty = tile->y();
 
-        if(tile->updateTerrain() || tile->hasRoad() ||
-           tile->terrain() == eTerrain::marble) {
+        if(tile->updateTerrain() || tile->hasRoad()) {
             if(!terrUpdated) {
                 updateTerrainTextures(tile, trrTexs, builTexs);
             }

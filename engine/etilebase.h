@@ -106,7 +106,7 @@ public:
     void setOnFire(const bool of);
 
     int marbleLevel() const { return mMarbleLevel; };
-    void setMarbleLevel(const int l);
+    virtual void setMarbleLevel(const int l);
 private:
     int mSeed;
 

@@ -144,6 +144,17 @@ void eTile::setTerrain(const eTerrain terr) {
     mUpdateTerrain = true;
 }
 
+void eTile::setMarbleLevel(const int l) {
+    eTileBase::setMarbleLevel(l);
+    for(int dx = -1; dx <= 1; dx++) {
+        for(int dy = -1; dy <= 1; dy++) {
+            const auto t = tileRel<eTile>(dx, dy);
+            if(!t) continue;
+            t->mUpdateTerrain = true;
+        }
+    }
+}
+
 void eTile::addCharacter(const stdsptr<eCharacter>& c) {
     mCharacters.push_back(c);
 }

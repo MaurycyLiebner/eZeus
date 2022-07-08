@@ -95,6 +95,7 @@ public:
     void terrainUpdated() { mUpdateTerrain = false; }
 
     void setTerrain(const eTerrain terr);
+    void setMarbleLevel(const int l);
 private:
     eTileTerrainPainter mTerrainPainter;
     bool mUpdateTerrain = false;
