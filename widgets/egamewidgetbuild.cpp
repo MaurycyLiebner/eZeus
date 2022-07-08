@@ -500,6 +500,7 @@ bool eGameWidget::buildMouseRelease() {
             };
         }
         mBoard->requestTileRenderingOrderUpdate();
+        mUpdateTerrain = true;
     } else {
         const auto mode = mGm->mode();
         switch(mode) {

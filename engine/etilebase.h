@@ -80,7 +80,7 @@ public:
     T* tileAbs(const int x, const int y) const;
 
     void setAltitude(const int a);
-    void setTerrain(const eTerrain terr);
+    virtual void setTerrain(const eTerrain terr);
     void setScrub(const double s);
     void incScrub(const double s);
 

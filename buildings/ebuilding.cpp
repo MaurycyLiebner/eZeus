@@ -55,7 +55,7 @@ bool eBuilding::sFlatBuilding(const eBuildingType bt) {
            bt == eBuildingType::sheep ||
            bt == eBuildingType::goat ||
            bt == eBuildingType::ruins ||
-            bt == eBuildingType::wall;
+           bt == eBuildingType::wall;
 }
 
 bool eBuilding::sSanctuaryBuilding(const eBuildingType bt) {

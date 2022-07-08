@@ -14,9 +14,7 @@ eFoundry::eFoundry(eGameBoard& board) :
                              [](eTileBase* const t) {
                                 return t->terrain() == eTerrain::copper;
                              },
-                             [](eTile* const t) {
-                                t->setTerrain(eTerrain::dry);
-                             }, 2, 2, 15,
+                             nullptr, 2, 2, 15,
                              eResourceType::bronze) {
     setRawCountCollect(4);
 }

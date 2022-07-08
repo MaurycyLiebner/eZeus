@@ -1202,6 +1202,8 @@ void eGameWidget::setTileSize(const eTileSize size) {
     }
 
     clampViewBox();
+
+    updateTerrainTextures();
 }
 
 void eGameWidget::actionOnSelectedTiles(const eTileAction& apply) {

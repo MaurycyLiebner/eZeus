@@ -6,6 +6,7 @@
 class eTile;
 class eTerrainTextures;
 class eBuildingTextures;
+class eTextureCollection;
 
 enum class eTileSize : int;
 
@@ -17,7 +18,7 @@ namespace eTileToTexture {
                  const bool drawElev,
                  int& futureDim,
                  int& drawDim,
-                 const int time);
+                 const eTextureCollection** coll);
 };
 
 #endif // ETILETOTEXTURE_H

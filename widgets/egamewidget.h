@@ -140,6 +140,13 @@ private:
 
     void setArmyMenuVisible(const bool v);
 
+    void updateTerrainTextures(eTile* const tile,
+                               const eTerrainTextures& trrTexs,
+                               const eBuildingTextures& builTexs);
+    void updateTerrainTextures();
+
+    bool mUpdateTerrain = true;
+
     bool mRotate = false;
     int mRotateId = 0;
 

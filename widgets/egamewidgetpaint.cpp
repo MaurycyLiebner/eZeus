@@ -210,6 +210,29 @@ void eGameWidget::setArmyMenuVisible(const bool v) {
     }
 }
 
+void eGameWidget::updateTerrainTextures(eTile* const tile,
+                                        const eTerrainTextures& trrTexs,
+                                        const eBuildingTextures& builTexs) {
+    auto& painter = tile->terrainPainter();
+
+    painter.fColl = nullptr;
+    painter.fTex = eTileToTexture::get(tile, trrTexs, builTexs,
+                                       mTileSize, mDrawElevation,
+                                       painter.fFutureDim,
+                                       painter.fDrawDim,
+                                       &painter.fColl);
+}
+
+void eGameWidget::updateTerrainTextures() {
+    const int tid = static_cast<int>(mTileSize);
+    const auto& trrTexs = eGameTextures::terrain().at(tid);
+    const auto& builTexs = eGameTextures::buildings().at(tid);
+
+    mBoard->iterateOverAllTiles([&](eTile* const tile) {
+        updateTerrainTextures(tile, trrTexs, builTexs);
+    });
+}
+
 void eGameWidget::paintEvent(ePainter& p) {
     {
         const auto& ss = mBoard->selectedSoldiers();
@@ -251,16 +274,34 @@ void eGameWidget::paintEvent(ePainter& p) {
     const int sMaxX = std::max(mPressedTX, mHoverTX);
     const int sMaxY = std::max(mPressedTY, mHoverTY);
 
+    const bool terrUpdated = mUpdateTerrain;
+    if(mUpdateTerrain) {
+        updateTerrainTextures();
+        mUpdateTerrain = false;
+    }
+
     const auto drawTerrain = [&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
 
-        int futureDim;
-        int drawDim;
-        const auto tex = eTileToTexture::get(tile, trrTexs, builTexs,
-                                             mTileSize, mDrawElevation,
-                                             futureDim, drawDim, mFrame/20);
-        tile->setFutureDimension(futureDim);
+        if(tile->updateTerrain() || tile->hasRoad() ||
+           tile->terrain() == eTerrain::marble) {
+            if(!terrUpdated) {
+                updateTerrainTextures(tile, trrTexs, builTexs);
+            }
+            tile->terrainUpdated();
+        }
+        auto& painter = tile->terrainPainter();
+
+        const int drawDim = painter.fDrawDim;
+        stdsptr<eTexture> tex;
+        if(const auto coll = painter.fColl) {
+            const int ff = mFrame/20;
+            const int id = ff % coll->size();
+            tex = coll->getTexture(id);
+        } else {
+            tex = painter.fTex;
+        }
 
         double rx;
         double ry;

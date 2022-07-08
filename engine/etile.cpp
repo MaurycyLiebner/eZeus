@@ -139,6 +139,11 @@ void eTile::neighboursWithTerrain(const eTerrain terr,
     l = lTerr != terr;
 }
 
+void eTile::setTerrain(const eTerrain terr) {
+    eTileBase::setTerrain(terr);
+    mUpdateTerrain = true;
+}
+
 void eTile::addCharacter(const stdsptr<eCharacter>& c) {
     mCharacters.push_back(c);
 }
@@ -180,6 +185,7 @@ bool eTile::hasRoad() const {
 
 void eTile::setUnderBuilding(const stdsptr<eBuilding>& b) {
     mUnderBuilding = b;
+    mUpdateTerrain = true;
 }
 
 eBuildingType eTile::underBuildingType() const {
@@ -196,5 +202,5 @@ void eTile::setBanner(eSoldierBanner* const b) {
 }
 
 void eTile::setFutureDimension(const int futureDim) {
-    mFutureDim = futureDim;
+    mTerrainPainter.fFutureDim = futureDim;
 }

@@ -42,7 +42,7 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
                              const bool drawElev,
                              int& futureDim,
                              int& drawDim,
-                             const int time) {
+                             const eTextureCollection** coll) {
     drawDim = 1;
     futureDim = 1;
     const int seed = tile->seed();
@@ -261,7 +261,6 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
         const bool tls = tl && tl->isShoreTile();
         const bool ts = t && t->isShoreTile();
 
-        const eTextureCollection* coll = nullptr;
         int n = 0;
         if(trs) n++;
         if(brs) n++;
@@ -272,43 +271,58 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
         if(ls) n++;
         if(bs) n++;
         if(n > 5 || (trs && bls) || (tls && brs) ||
-           (ls && rs && bs) || (ls && rs && ts)) {
-            coll = &textures.fWaterTerrainTexs;
+           (ls && rs && bs && ts) ||
+           (trs && rs && bs && ls) ||
+           (ts && rs && brs && ls) ||
+           (ts && trs && bs && ls) ||
+           (ts && brs && bs && ls) ||
+           (rs && bls && ls && tls) ||
+           (trs && rs && brs && ls) ||
+           (rs && bs && ls && tls) ||
+           (ts && brs && bs && bls) ||
+           (ts && rs && bs && tls) ||
+           (ts && trs && bs && tls) ||
+           (ts && rs && bs && bls && tls) ||
+           (rs && bs && bls && ls && tls) ||
+           (ts && rs && bls && ls && tls) ||
+           (ts && brs && bs && bls && ls) ||
+           (ts && rs && brs && bs && bls)) {
+            *coll = &textures.fWaterTerrainTexs;
+        } else if(rs && ls && n == 2) {
+            *coll = &textures.fWaterTexs[12];
+        } else if(bs && ts && n == 2) {
+            *coll = &textures.fWaterTexs[13];
+        } else if(rs && n == 1) {
+            *coll = &textures.fWaterTexs[8];
+        } else if(bs && n == 1) {
+            *coll = &textures.fWaterTexs[9];
+        } else if(ls && n == 1) {
+            *coll = &textures.fWaterTexs[10];
+        } else if(ts && n == 1) {
+            *coll = &textures.fWaterTexs[11];
         } else if((tls && trs) || (ls && rs && ts) ||
                   (trs && ls) || (tls && rs)) {
-            coll = &textures.fWaterTexs[7];
-        } else if((trs || ts) && brs) {
-            coll = &textures.fWaterTexs[1];
+            *coll = &textures.fWaterTexs[7];
+        } else if((trs || ts) && (brs || bs) && !tls && !bls && !ls) {
+            *coll = &textures.fWaterTexs[1];
         } else if(trs || (ts && rs)) {
-            coll = &textures.fWaterTexs[0];
-        } else if((brs || bls) && (brs || rs) && (bls || ls)) {
-            coll = &textures.fWaterTexs[3];
+            *coll = &textures.fWaterTexs[0];
+        } else if(((brs || bls) && (brs || rs) && (bls || ls)) ||
+                  (rs && bs && ls)) {
+            *coll = &textures.fWaterTexs[3];
         } else if(brs || (rs && bs)) {
-            coll = &textures.fWaterTexs[2];
-        } else if((bls || (bs && ls)) && (tls || ts)) {
-            coll = &textures.fWaterTexs[5];
+            *coll = &textures.fWaterTexs[2];
+        } else if((bls || bs) && (tls || ts)) {
+            *coll = &textures.fWaterTexs[5];
         } else if(bls || (ls && bs)) {
-            coll = &textures.fWaterTexs[4];
+            *coll = &textures.fWaterTexs[4];
         } else if(tls || (ls && ts)) {
-            coll = &textures.fWaterTexs[6];
-        } else if(rs && ls) {
-            coll = &textures.fWaterTexs[12];
-        } else if(bs && ts) {
-            coll = &textures.fWaterTexs[13];
-        } else if(rs) {
-            coll = &textures.fWaterTexs[8];
-        } else if(bs) {
-            coll = &textures.fWaterTexs[9];
-        } else if(ls) {
-            coll = &textures.fWaterTexs[10];
-        } else if(ts) {
-            coll = &textures.fWaterTexs[11];
+            *coll = &textures.fWaterTexs[6];
         } else {
-            coll = &textures.fWaterTexs[14];
+            *coll = &textures.fWaterTexs[14];
         }
 
-        const int texId = (time + seed) % coll->size();
-        return coll->getTexture(texId);
+        return nullptr;
     } break;
     case eTerrain::fertile: {
         const auto id = eFertileToDry::get(tile);

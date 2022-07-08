@@ -23,6 +23,15 @@ class eBuilding;
 class eBuildingRenderer;
 class eSpawner;
 class eSoldierBanner;
+class eTexture;
+class eTextureCollection;
+
+struct eTileTerrainPainter {
+    stdsptr<eTexture> fTex = nullptr;
+    const eTextureCollection* fColl = nullptr;
+    int fFutureDim = 1;
+    int fDrawDim = 1;
+};
 
 class eTile : public eTileBase {
 public:
@@ -59,7 +68,7 @@ public:
 
     // used for stones rendering
     void setFutureDimension(const int futureDim);
-    int futureDim() const { return mFutureDim; }
+    int futureDim() const { return mTerrainPainter.fFutureDim; }
 
     std::vector<eTile*> surroundingRoads() const;
     eTile* nearestRoad() const;
@@ -80,9 +89,15 @@ public:
 
     void addTerrainTile(eTile* const tile) { mTerrainTiles.push_back(tile); }
     std::vector<eTile*>& terrainTiles() { return mTerrainTiles; }
+
+    eTileTerrainPainter& terrainPainter() { return mTerrainPainter; }
+    bool updateTerrain() const { return mUpdateTerrain; }
+    void terrainUpdated() { mUpdateTerrain = false; }
+
+    void setTerrain(const eTerrain terr);
 private:
-    int mFutureDim = 0;
-private:
+    eTileTerrainPainter mTerrainPainter;
+    bool mUpdateTerrain = false;
     std::vector<eTile*> mTerrainTiles;
 
     std::vector<stdsptr<eMissile>> mMissiles;

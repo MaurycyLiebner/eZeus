@@ -14,9 +14,7 @@ eMint::eMint(eGameBoard& board) :
                              [](eTileBase* const t) {
                                 return t->terrain() == eTerrain::silver;
                              },
-                             [](eTile* const t) {
-                                t->setTerrain(eTerrain::dry);
-                             }, 2, 2, 15,
+                             nullptr, 2, 2, 15,
                              eResourceType::silver) {
     setRawCountCollect(4);
 }
