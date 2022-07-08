@@ -222,6 +222,9 @@ public:
     int allCoverage() const { return mAllDiscCoverage; }
 
     void planAction(ePlannedAction* const a);
+
+    void restockMarbleTiles();
+    void updateMarbleTiles();
 private:
     void updateNeighbours();
     void updateTileRenderingOrder();
@@ -301,6 +304,8 @@ private:
     std::vector<eSoldierBanner*> mSelectedBanners;
 
     std::vector<ePlannedAction*> mPlannedActions;
+
+    std::vector<eTile*> mMarbleTiles;
 
     int mSoldiersUpdate = 10000;
     int mMaxRockThrowers = 0;

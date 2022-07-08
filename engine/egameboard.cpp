@@ -196,6 +196,31 @@ void eGameBoard::planAction(ePlannedAction* const a) {
     mPlannedActions.emplace_back(a);
 }
 
+void eGameBoard::restockMarbleTiles() {
+    int maxLevel = 0;
+    for(const auto t : mMarbleTiles) {
+        if(t->resource() > 0) return;
+        const int l = t->marbleLevel();
+        if(l > maxLevel) {
+            maxLevel = l;
+        }
+    }
+    for(const auto t : mMarbleTiles) {
+        const int l = t->marbleLevel();
+        if(l == maxLevel) {
+            t->setResource(10000);
+        }
+    }
+}
+
+void eGameBoard::updateMarbleTiles() {
+    mMarbleTiles.clear();
+    iterateOverAllTiles([&](eTile* const t) {
+        if(t->terrain() != eTerrain::marble) return;
+        mMarbleTiles.push_back(t);
+    });
+}
+
 void eGameBoard::updateTileRenderingOrder() {
     std::vector<std::vector<std::pair<int, int>>> map;
     map.reserve(width());

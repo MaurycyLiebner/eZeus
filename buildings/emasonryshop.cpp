@@ -13,50 +13,11 @@
 #include "eiteratesquare.h"
 #include "engine/egameboard.h"
 
-void finishedMarble(eTile* const t, eGameBoard& board) {
-    std::vector<eTile*> tiles;
-    const int tx = t->dx();
-    const int ty = t->dy();
-    bool found = false;
-    int maxLevel = 0;
-    bool has = true;
-    for(int k = 0; !found && has; k++) {
-        const auto prcs = [&](const int dx, const int dy) {
-            const auto tt = board.tile(tx + dx, ty + dy);
-            if(!tt) return;
-            const auto tr = tt->terrain();
-            if(tr == eTerrain::marble) {
-                has = true;
-            } else {
-                return;
-            }
-            const bool hr = tt->resource() > 0;
-            if(hr) {
-                found = true;
-            } else {
-                tiles.push_back(tt);
-                const int l = tt->marbleLevel();
-                if(l > maxLevel) {
-                    maxLevel = l;
-                }
-            }
-        };
-        has = false;
-        eIterateSquare::iterateSquare(k, prcs);
-    }
-    if(found) return;
-    for(const auto t : tiles) {
-        if(t->marbleLevel() == maxLevel) {
-            t->setResource(100000);
-        }
-    }
-}
-
 void transformMarble(eTile* const t, eGameBoard& board) {
     if(t->resource() > 0) return;
     if(eMarbleTile::isEdge(t)) {
         t->setMarbleLevel(1);
-        finishedMarble(t, board);
+        board.restockMarbleTiles();
     } else {
         const int l = t->marbleLevel();
         if(l == 0) {
@@ -64,7 +25,7 @@ void transformMarble(eTile* const t, eGameBoard& board) {
             t->setResource(1);
         } else if(l == 1) {
             t->setMarbleLevel(2);
-            finishedMarble(t, board);
+            board.restockMarbleTiles();
         }
     }
 }
