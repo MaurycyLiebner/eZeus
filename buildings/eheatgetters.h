@@ -1,11 +1,11 @@
-#ifndef EAPPEAL_H
-#define EAPPEAL_H
+#ifndef EHEATGETTERS_H
+#define EHEATGETTERS_H
 
 #include "buildings/ebuilding.h"
 #include "engine/boardData/eheatmap.h"
 
-namespace eAppealHelpers {
+namespace eHeatGetters {
     eHeat appeal(const eBuildingType type);
 }
 
-#endif // EAPPEAL_H
+#endif // EHEATGETTERS_H

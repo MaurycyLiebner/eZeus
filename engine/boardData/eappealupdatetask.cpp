@@ -1,10 +1,10 @@
 #include "eappealupdatetask.h"
 
 #include "../thread/ethreadboard.h"
-#include "buildings/eappeal.h"
 
-eAppealUpdateTask::eAppealUpdateTask(const eFunc& finish) :
-    mFinish(finish) {
+eAppealUpdateTask::eAppealUpdateTask(const eHeatGetter& heatGetter,
+                                     const eFunc& finish) :
+    mHeatGetter(heatGetter), mFinish(finish) {
 
 }
 
@@ -18,7 +18,7 @@ void eAppealUpdateTask::run(eThreadBoard& board) {
             if(!t->mainBuildingTile()) continue;
             const auto& ub = t->underBuilding();
             const auto ubt = ub.type();
-            const auto a = eAppealHelpers::appeal(ubt);
+            const auto a = mHeatGetter(ubt);
             mMap.addHeat(a, ub.tileRect());
         }
     }

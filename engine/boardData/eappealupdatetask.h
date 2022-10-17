@@ -7,16 +7,20 @@
 
 #include "eheatmap.h"
 
+enum class eBuildingType;
+
 class eAppealUpdateTask : public eTask {
 public:
     using eFunc = std::function<void(eHeatMap&)>;
-    eAppealUpdateTask(const eFunc& finish);
+    using eHeatGetter = std::function<eHeat(eBuildingType)>;
+    eAppealUpdateTask(const eHeatGetter& heatGetter,
+                      const eFunc& finish);
 
     void run(eThreadBoard& board);
     void finish();
 private:
+    const eHeatGetter mHeatGetter;
     const eFunc mFinish;
-
     eHeatMap mMap;
 };
 

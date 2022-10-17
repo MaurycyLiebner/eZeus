@@ -20,7 +20,6 @@ SOURCES += \
         buildings/eagorabase.cpp \
         buildings/eagoraspace.cpp \
         buildings/eanimalbuilding.cpp \
-        buildings/eappeal.cpp \
         buildings/earmory.cpp \
         buildings/earmsvendor.cpp \
         buildings/eartisansguild.cpp \
@@ -50,6 +49,7 @@ SOURCES += \
         buildings/egrandagora.cpp \
         buildings/egrowerslodge.cpp \
         buildings/egymnasium.cpp \
+        buildings/eheatgetters.cpp \
         buildings/ehorseranch.cpp \
         buildings/ehorseranchenclosure.cpp \
         buildings/ehorsevendor.cpp \
@@ -365,7 +365,6 @@ HEADERS += \
     buildings/eagorabase.h \
     buildings/eagoraspace.h \
     buildings/eanimalbuilding.h \
-    buildings/eappeal.h \
     buildings/earmory.h \
     buildings/earmsvendor.h \
     buildings/eartisansguild.h \
@@ -395,6 +394,7 @@ HEADERS += \
     buildings/egrandagora.h \
     buildings/egrowerslodge.h \
     buildings/egymnasium.h \
+    buildings/eheatgetters.h \
     buildings/ehorseranch.h \
     buildings/ehorseranchenclosure.h \
     buildings/ehorsevendor.h \

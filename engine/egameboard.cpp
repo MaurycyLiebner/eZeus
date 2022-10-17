@@ -38,6 +38,8 @@
 
 #include "emessages.h"
 
+#include "buildings/eheatgetters.h"
+
 eGameBoard::eGameBoard() :
     mEmplData(mPopData, *this) {
     const int min = static_cast<int>(eBuildingMode::road);
@@ -105,9 +107,10 @@ void eGameBoard::scheduleAppealMapUpdate() {
 void eGameBoard::updateAppealMapIfNeeded() {
     if(!mUpdateAppeal) return;
     mUpdateAppeal = false;
-    const auto task = new eAppealUpdateTask([this](eHeatMap& map) {
+    const auto finish = [this](eHeatMap& map) {
         std::swap(appealMap(), map);
-    });
+    };
+    const auto task = new eAppealUpdateTask(eHeatGetters::appeal, finish);
     mThreadPool.queueTask(task);
 }
 

@@ -1,6 +1,6 @@
-#include "eappeal.h"
+#include "eheatgetters.h"
 
-eHeat eAppealHelpers::appeal(const eBuildingType type) {
+eHeat eHeatGetters::appeal(const eBuildingType type) {
     switch(type) {
     case eBuildingType::wheatFarm: return {-3, 3};
     case eBuildingType::carrotsFarm: return {-4, 3};
