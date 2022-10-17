@@ -32,8 +32,8 @@ void eHeatMap::addHeat(const eHeat& a,
     const int r = a.fRange;
     if(r <= 0) return;
     const double v = a.fValue;
-    for(int x = ax - r; x < ax + sw + r; x++) {
-        for(int y = ay - r; y < ay + sh + r; y++) {
+    for(int x = ax - r; x <= ax + sw + r; x++) {
+        for(int y = ay - r; y <= ay + sh + r; y++) {
             const double cx = ax + 0.5*sw;
             const double cy = ay + 0.5*sh;
             const double dx = std::max(abs(x - cx) - 0.5*sw, 0.);
