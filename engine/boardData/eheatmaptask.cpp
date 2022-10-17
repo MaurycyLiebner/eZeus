@@ -1,14 +1,14 @@
-#include "eappealupdatetask.h"
+#include "eheatmaptask.h"
 
 #include "../thread/ethreadboard.h"
 
-eAppealUpdateTask::eAppealUpdateTask(const eHeatGetter& heatGetter,
-                                     const eFunc& finish) :
+eHeatMapTask::eHeatMapTask(const eHeatGetter& heatGetter,
+                           const eFunc& finish) :
     mHeatGetter(heatGetter), mFinish(finish) {
 
 }
 
-void eAppealUpdateTask::run(eThreadBoard& board) {
+void eHeatMapTask::run(eThreadBoard& board) {
     const int w = board.width();
     const int h = board.height();
     mMap.initialize(w, h);
@@ -24,6 +24,6 @@ void eAppealUpdateTask::run(eThreadBoard& board) {
     }
 }
 
-void eAppealUpdateTask::finish() {
+void eHeatMapTask::finish() {
     if(mFinish) mFinish(mMap);
 }

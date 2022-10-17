@@ -31,7 +31,7 @@
 #include "infowidgets/ecommonhouseinfowidget.h"
 #include "infowidgets/eagorainfowidget.h"
 
-#include "engine/boardData/eappealupdatetask.h"
+#include "engine/boardData/eheatmaptask.h"
 #include "engine/epathfinder.h"
 
 #include "emainwindow.h"

@@ -1,5 +1,5 @@
-#ifndef EAPPEALUPDATETASK_H
-#define EAPPEALUPDATETASK_H
+#ifndef EHEATMAPTASK_H
+#define EHEATMAPTASK_H
 
 #include "../etask.h"
 
@@ -9,12 +9,12 @@
 
 enum class eBuildingType;
 
-class eAppealUpdateTask : public eTask {
+class eHeatMapTask : public eTask {
 public:
     using eFunc = std::function<void(eHeatMap&)>;
     using eHeatGetter = std::function<eHeat(eBuildingType)>;
-    eAppealUpdateTask(const eHeatGetter& heatGetter,
-                      const eFunc& finish);
+    eHeatMapTask(const eHeatGetter& heatGetter,
+                 const eFunc& finish);
 
     void run(eThreadBoard& board);
     void finish();
@@ -24,4 +24,4 @@ private:
     eHeatMap mMap;
 };
 
-#endif // EAPPEALUPDATETASK_H
+#endif // EHEATMAPTASK_H

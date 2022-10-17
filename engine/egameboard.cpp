@@ -30,7 +30,7 @@
 #include "buildings/epalace.h"
 #include "buildings/epalacetile.h"
 
-#include "engine/boardData/eappealupdatetask.h"
+#include "engine/boardData/eheatmaptask.h"
 
 #include "missiles/emissile.h"
 
@@ -110,7 +110,7 @@ void eGameBoard::updateAppealMapIfNeeded() {
     const auto finish = [this](eHeatMap& map) {
         std::swap(appealMap(), map);
     };
-    const auto task = new eAppealUpdateTask(eHeatGetters::appeal, finish);
+    const auto task = new eHeatMapTask(eHeatGetters::appeal, finish);
     mThreadPool.queueTask(task);
 }
 
