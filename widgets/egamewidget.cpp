@@ -1074,16 +1074,17 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
         const int dist = 5;
 
         const auto prcsTile = [&](const int i, const int j) {
-            if(isld >= slds) return;
+            if(isld >= slds) return false;
             const int tx = hx + i;
             const int ty = hy + j;
             const auto tt = mBoard->tile(tx, ty);
-            if(!tt) return;
-            if(!tt->walkable()) return;
-            if(tt->banner()) return;
+            if(!tt) return false;
+            if(!tt->walkable()) return false;
+            if(tt->banner()) return false;
 
             const auto s = solds[isld++];
             s->moveTo(tx, ty);
+            return false;
         };
 
         const int kinc = slds == 1 ? 1 : dist;

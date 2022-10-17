@@ -110,13 +110,14 @@ void eSoldierBanner::updatePlaces() {
     const int slds = soldiers.size();
 
     const auto prcsTile = [&](const int i, const int j) {
-        if(isld >= slds) return;
+        if(isld >= slds) return false;
         const auto tt = mBoard.tile(mX + i, mY + j);
-        if(!tt) return;
-        if(!tt->walkable()) return;
+        if(!tt) return false;
+        if(!tt->walkable()) return false;
 
         const auto s = soldiers[isld++];
         mPlaces[s] = tt;
+        return false;
     };
 
     for(int k = 0; isld < slds; k++) {

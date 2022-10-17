@@ -11,6 +11,7 @@
 #include "esounds.h"
 
 #include "characters/echaracter.h"
+#include "eiteratesquare.h"
 
 eGodVisitAction::eGodVisitAction(eCharacter* const c,
                                  const eAction& failAction,
@@ -26,10 +27,14 @@ bool eGodVisitAction::decide() {
     case eGodVisitStage::none:
         mStage = eGodVisitStage::appear;
         placeOnBoard();
-        if(mType == eGodType::hermes) {
-            run();
+        if(!c->tile()) {
+            c->kill();
         } else {
-            appear();
+            if(mType == eGodType::hermes) {
+                run();
+            } else {
+                appear();
+            }
         }
         break;
     case eGodVisitStage::appear: {
@@ -58,17 +63,31 @@ void eGodVisitAction::placeOnBoard() {
     auto& board = c->getBoard();
     const int w = board.width();
     const int h = board.height();
-    eTile* tile = nullptr;
-    for(int x = 0; x < w; x++) {
-        for(int y = 0; y < h; y++) {
-            const auto t = board.dtile(x, y);
-            if(t->hasRoad()) {
-                tile = t;
-                break;
-            }
+    const int rdx = rand() % w;
+    const int rdy = rand() % h;
+    eTile* roadTile = nullptr;
+    eTile* plainTile = nullptr;
+    const auto prcsTile = [&](const int i, const int j) {
+        const int tx = rdx + i;
+        const int ty = rdy + j;
+        const auto tt = board.dtile(tx, ty);
+        if(!tt) return false;
+        if(tt->hasRoad()) {
+            roadTile = tt;
+            return true;
+        } else if(!plainTile && tt->walkable()) {
+            plainTile = tt;
         }
+        return false;
+    };
+
+    for(int k = 0; k < 1000; k++) {
+        eIterateSquare::iterateSquare(k, prcsTile, 1);
+        if(roadTile) break;
     }
-    if(!tile) tile = board.dtile(w/2, h/2);
+
+    const auto tile = roadTile ? roadTile : plainTile;
+    if(!tile) return;
     c->changeTile(tile);
     board.ifVisible(tile, [this]() {
         eSounds::playGodSound(mType, eGodSound::appear);

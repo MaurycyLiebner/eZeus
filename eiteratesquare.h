@@ -4,7 +4,7 @@
 #include <functional>
 
 namespace eIterateSquare {
-    using eTileFunc = std::function<void(int, int)>;
+    using eTileFunc = std::function<bool(int, int)>;
     void iterateSquare(const int k, const eTileFunc& prcs,
                        const int inc = 1);
 };
