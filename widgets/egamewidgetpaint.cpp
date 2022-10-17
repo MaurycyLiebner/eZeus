@@ -389,7 +389,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                     } else {
                         coll = &builTexs.fAppeal;
                     }
-                    const double app = am.appeal(dtx, dty);
+                    const double app = am.heat(dtx, dty);
                     const double mult = app > 0 ? 1 : -1;
                     const double appS = mult*pow(abs(app), 0.75);
                     int appId = (int)std::round(appS + 2.);

@@ -5,11 +5,11 @@
 
 #include <functional>
 
-#include "eappealmap.h"
+#include "eheatmap.h"
 
 class eAppealUpdateTask : public eTask {
 public:
-    using eFunc = std::function<void(eAppealMap&)>;
+    using eFunc = std::function<void(eHeatMap&)>;
     eAppealUpdateTask(const eFunc& finish);
 
     void run(eThreadBoard& board);
@@ -17,7 +17,7 @@ public:
 private:
     const eFunc mFinish;
 
-    eAppealMap mMap;
+    eHeatMap mMap;
 };
 
 #endif // EAPPEALUPDATETASK_H

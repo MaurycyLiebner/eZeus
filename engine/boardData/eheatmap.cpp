@@ -1,12 +1,12 @@
-#include "eappealmap.h"
+#include "eheatmap.h"
 
 #include "etilehelper.h"
 
-void eAppealMap::reset() {
+void eHeatMap::reset() {
     initialize(mWidth, mHeight);
 }
 
-void eAppealMap::initialize(const int w, const int h) {
+void eHeatMap::initialize(const int w, const int h) {
     mMap.clear();
     mWidth = w;
     mHeight = h;
@@ -20,15 +20,15 @@ void eAppealMap::initialize(const int w, const int h) {
     }
 }
 
-void eAppealMap::addAppeal(const eAppeal& a,
-                           const SDL_Rect& tileRect) {
-    addAppeal(a, tileRect.x, tileRect.y,
+void eHeatMap::addHeat(const eHeat& a,
+                       const SDL_Rect& tileRect) {
+    addHeat(a, tileRect.x, tileRect.y,
               tileRect.w, tileRect.h);
 }
 
-void eAppealMap::addAppeal(const eAppeal& a,
-                           const int ax,const int ay,
-                           const int sw, const int sh) {
+void eHeatMap::addHeat(const eHeat& a,
+                       const int ax,const int ay,
+                       const int sw, const int sh) {
     const int r = a.fRange;
     if(r <= 0) return;
     const double v = a.fValue;
@@ -44,13 +44,13 @@ void eAppealMap::addAppeal(const eAppeal& a,
             int dtx;
             int dty;
             eTileHelper::tileIdToDTileId(x, y, dtx, dty);
-            addAppeal(dtx, dty, mult*v);
+            addHeat(dtx, dty, mult*v);
         }
     }
 }
 
-void eAppealMap::addAppeal(const int x, const int y,
-                           const double a) {
+void eHeatMap::addHeat(const int x, const int y,
+                       const double a) {
     if(x < 0 || y < 0 ||
        x >= mWidth || y >= mHeight) return;
     auto& tile = mMap[x][y];
@@ -58,10 +58,10 @@ void eAppealMap::addAppeal(const int x, const int y,
     tile.fAppeal += a/2;
 }
 
-bool eAppealMap::enabled(const int x, const int y) const {
+bool eHeatMap::enabled(const int x, const int y) const {
     return mMap[x][y].fEnabled;
 }
 
-double eAppealMap::appeal(const int x, const int y) const {
+double eHeatMap::heat(const int x, const int y) const {
     return mMap[x][y].fAppeal;
 }

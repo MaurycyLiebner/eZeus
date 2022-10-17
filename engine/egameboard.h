@@ -7,7 +7,7 @@
 
 #include "boardData/epopulationdata.h"
 #include "boardData/eemploymentdata.h"
-#include "boardData/eappealmap.h"
+#include "boardData/eheatmap.h"
 
 #include "edifficulty.h"
 #include "edate.h"
@@ -146,7 +146,7 @@ public:
 
     ePopulationData& populationData() { return mPopData; }
     eEmploymentData& employmentData() { return mEmplData; }
-    eAppealMap& appealMap() { return mAppealMap; }
+    eHeatMap& appealMap() { return mAppealMap; }
 
     void incDrachmas(const int d);
     int drachmas() const { return mDrachmas; }
@@ -326,7 +326,7 @@ private:
     eEmploymentData mEmplData;
 
     bool mUpdateAppeal = false;
-    eAppealMap mAppealMap;
+    eHeatMap mAppealMap;
 
     eAction mButtonVisUpdater;
     eMessageShower mMsgShower;

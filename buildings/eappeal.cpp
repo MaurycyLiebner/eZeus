@@ -1,14 +1,6 @@
 #include "eappeal.h"
 
-double eAppealHelpers::appealAtDist(
-        const eBuildingType type, const int dist) {
-    const auto app = appeal(type);
-    if(app.fValue == 0) return 0;
-    const double dd = app.fRange - dist;
-    return dd*app.fValue/app.fRange;
-}
-
-eAppeal eAppealHelpers::appeal(const eBuildingType type) {
+eHeat eAppealHelpers::appeal(const eBuildingType type) {
     switch(type) {
     case eBuildingType::wheatFarm: return {-3, 3};
     case eBuildingType::carrotsFarm: return {-4, 3};

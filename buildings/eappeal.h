@@ -2,15 +2,10 @@
 #define EAPPEAL_H
 
 #include "buildings/ebuilding.h"
-
-struct eAppeal {
-    int fValue;
-    int fRange;
-};
+#include "engine/boardData/eheatmap.h"
 
 namespace eAppealHelpers {
-    double appealAtDist(const eBuildingType type, const int dist);
-    eAppeal appeal(const eBuildingType type);
+    eHeat appeal(const eBuildingType type);
 }
 
 #endif // EAPPEAL_H

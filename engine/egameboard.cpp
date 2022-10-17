@@ -105,7 +105,7 @@ void eGameBoard::scheduleAppealMapUpdate() {
 void eGameBoard::updateAppealMapIfNeeded() {
     if(!mUpdateAppeal) return;
     mUpdateAppeal = false;
-    const auto task = new eAppealUpdateTask([this](eAppealMap& map) {
+    const auto task = new eAppealUpdateTask([this](eHeatMap& map) {
         std::swap(appealMap(), map);
     });
     mThreadPool.queueTask(task);
@@ -887,7 +887,7 @@ void eGameBoard::incDrachmas(const int d) {
 }
 
 double eGameBoard::appeal(const int tx, const int ty) const {
-    return mAppealMap.appeal(tx, ty);
+    return mAppealMap.heat(tx, ty);
 }
 
 double eGameBoard::taxRateF() const {

@@ -209,9 +209,9 @@ SOURCES += \
         emessage.cpp \
         emessages.cpp \
         emusic.cpp \
-        engine/boardData/eappealmap.cpp \
         engine/boardData/eappealupdatetask.cpp \
         engine/boardData/eemploymentdata.cpp \
+        engine/boardData/eheatmap.cpp \
         engine/boardData/epopulationdata.cpp \
         engine/edate.cpp \
         engine/edifficulty.cpp \
@@ -555,9 +555,9 @@ HEADERS += \
     emessage.h \
     emessages.h \
     emusic.h \
-    engine/boardData/eappealmap.h \
     engine/boardData/eappealupdatetask.h \
     engine/boardData/eemploymentdata.h \
+    engine/boardData/eheatmap.h \
     engine/boardData/epopulationdata.h \
     engine/edate.h \
     engine/edifficulty.h \
