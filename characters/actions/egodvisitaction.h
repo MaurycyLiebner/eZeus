@@ -12,8 +12,6 @@ public:
     using eGodAction::eGodAction;
 
     bool decide();
-
-    void placeOnBoard();
 private:
     eGodVisitStage mStage{eGodVisitStage::none};
 };

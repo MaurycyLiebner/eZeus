@@ -20,6 +20,8 @@ public:
     void patrol(const eAction& finishAct = [](){},
                 const int dist = 100);
 
+    void randomPlaceOnBoard();
+
     eGodType type() const { return mType; }
 private:
     void playAppearSound();
