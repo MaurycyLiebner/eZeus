@@ -27,3 +27,9 @@ void eComplexAction::wait(const int t) {
     w->setTime(t);
     setCurrentAction(w);
 }
+
+void eComplexAction::wait() {
+    const auto w = e::make_shared<eWaitAction>(
+                       character(), [](){}, [](){});
+    setCurrentAction(w);
+}

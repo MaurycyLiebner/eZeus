@@ -11,8 +11,10 @@ public:
                const eAction& failAction,
                const eAction& finishAction);
 
-    void appear();
-    void disappear(const bool die = false);
+    using eFunc = std::function<void()>;
+    void appear(const eFunc& finish = nullptr);
+    void disappear(const bool die = false,
+                   const eFunc& finish = nullptr);
 
     void moveAround(const eAction& finishAct = [](){},
                     const int time = 5000);

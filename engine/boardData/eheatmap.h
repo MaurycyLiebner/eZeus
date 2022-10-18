@@ -31,6 +31,9 @@ public:
 
     bool enabled(const int x, const int y) const;
     double heat(const int x, const int y) const;
+
+    int width() const { return mWidth; }
+    int height() const { return mHeight; }
 private:
     int mWidth = 0;
     int mHeight = 0;

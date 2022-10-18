@@ -17,27 +17,28 @@ eGodAction::eGodAction(eCharacter* const c,
 
 }
 
-void eGodAction::appear() {
+void eGodAction::appear(const eFunc& finish) {
     if(type() == eGodType::hermes) {
         hermesRun(true);
     } else {
         const auto c = character();
         c->setActionType(eCharacterActionType::appear);
-        const auto a = e::make_shared<eWaitAction>(c, [](){}, [](){});
+        const auto a = e::make_shared<eWaitAction>(c, finish, finish);
         a->setTime(500);
         setCurrentAction(a);
         playAppearSound();
     }
 }
 
-void eGodAction::disappear(const bool die) {
+void eGodAction::disappear(const bool die,
+                           const eFunc& finish) {
     if(type() == eGodType::hermes) {
         hermesRun(false);
     } else {
         const auto c = character();
         c->setActionType(die ? eCharacterActionType::die :
                                eCharacterActionType::disappear);
-        const auto a = e::make_shared<eWaitAction>(c, [](){}, [](){});
+        const auto a = e::make_shared<eWaitAction>(c, finish, finish);
         a->setTime(500);
         setCurrentAction(a);
         playDisappearSound();

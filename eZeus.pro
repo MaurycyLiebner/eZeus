@@ -126,6 +126,7 @@ SOURCES += \
         characters/actions/eforce.cpp \
         characters/actions/egodaction.cpp \
         characters/actions/egodvisitaction.cpp \
+        characters/actions/egodworshippedaction.cpp \
         characters/actions/egroweraction.cpp \
         characters/actions/ehuntaction.cpp \
         characters/actions/emoveaction.cpp \
@@ -212,6 +213,7 @@ SOURCES += \
         emusic.cpp \
         engine/boardData/eemploymentdata.cpp \
         engine/boardData/eheatmap.cpp \
+        engine/boardData/eheatmapdivisor.cpp \
         engine/boardData/eheatmaptask.cpp \
         engine/boardData/epopulationdata.cpp \
         engine/edate.cpp \
@@ -473,6 +475,7 @@ HEADERS += \
     characters/actions/eforce.h \
     characters/actions/egodaction.h \
     characters/actions/egodvisitaction.h \
+    characters/actions/egodworshippedaction.h \
     characters/actions/egroweraction.h \
     characters/actions/ehuntaction.h \
     characters/actions/emoveaction.h \
@@ -559,6 +562,7 @@ HEADERS += \
     emusic.h \
     engine/boardData/eemploymentdata.h \
     engine/boardData/eheatmap.h \
+    engine/boardData/eheatmapdivisor.h \
     engine/boardData/eheatmaptask.h \
     engine/boardData/epopulationdata.h \
     engine/edate.h \

@@ -14,6 +14,7 @@ protected:
     eCharacterAction* currentAction() const { return mCurrentAction.get(); }
     void setCurrentAction(const stdsptr<eCharacterAction>& a);
     void wait(const int t);
+    void wait();
 private:
     stdsptr<eCharacterAction> mCurrentAction;
 };
