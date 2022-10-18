@@ -11,11 +11,7 @@ bool eGodVisitAction::decide() {
         if(!c->tile()) {
             c->kill();
         } else {
-            if(type() == eGodType::hermes) {
-                hermesRun(true);
-            } else {
-                appear();
-            }
+            appear();
         }
         break;
     case eGodVisitStage::appear: {
@@ -26,11 +22,7 @@ bool eGodVisitAction::decide() {
     }   break;
     case eGodVisitStage::patrol:
         mStage = eGodVisitStage::disappear;
-        if(type() == eGodType::hermes) {
-            hermesRun(false);
-        } else {
-            disappear();
-        }
+        disappear();
         break;
     case eGodVisitStage::disappear:
         c->kill();

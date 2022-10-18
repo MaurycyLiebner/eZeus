@@ -14,16 +14,18 @@ public:
     void appear();
     void disappear(const bool die = false);
 
-    void hermesRun(const bool appear);
     void moveAround(const eAction& finishAct = [](){},
                     const int time = 5000);
     void patrol(const eAction& finishAct = [](){},
                 const int dist = 100);
 
     void randomPlaceOnBoard();
+    eTile* closestRoad(const int rdx, const int rdy) const;
 
     eGodType type() const { return mType; }
 private:
+    void hermesRun(const bool appear);
+
     void playAppearSound();
     void playDisappearSound();
 

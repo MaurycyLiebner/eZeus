@@ -18,22 +18,30 @@ eGodAction::eGodAction(eCharacter* const c,
 }
 
 void eGodAction::appear() {
-    const auto c = character();
-    c->setActionType(eCharacterActionType::appear);
-    const auto a = e::make_shared<eWaitAction>(c, [](){}, [](){});
-    a->setTime(500);
-    setCurrentAction(a);
-    playAppearSound();
+    if(type() == eGodType::hermes) {
+        hermesRun(true);
+    } else {
+        const auto c = character();
+        c->setActionType(eCharacterActionType::appear);
+        const auto a = e::make_shared<eWaitAction>(c, [](){}, [](){});
+        a->setTime(500);
+        setCurrentAction(a);
+        playAppearSound();
+    }
 }
 
 void eGodAction::disappear(const bool die) {
-    const auto c = character();
-    c->setActionType(die ? eCharacterActionType::die :
-                           eCharacterActionType::disappear);
-    const auto a = e::make_shared<eWaitAction>(c, [](){}, [](){});
-    a->setTime(500);
-    setCurrentAction(a);
-    playDisappearSound();
+    if(type() == eGodType::hermes) {
+        hermesRun(false);
+    } else {
+        const auto c = character();
+        c->setActionType(die ? eCharacterActionType::die :
+                               eCharacterActionType::disappear);
+        const auto a = e::make_shared<eWaitAction>(c, [](){}, [](){});
+        a->setTime(500);
+        setCurrentAction(a);
+        playDisappearSound();
+    }
 }
 
 void eGodAction::moveAround(const eAction& finishAct,
@@ -102,6 +110,14 @@ void eGodAction::randomPlaceOnBoard() {
     const int h = board.height();
     const int rdx = rand() % w;
     const int rdy = rand() % h;
+    const auto tile = closestRoad(rdx, rdy);
+    if(!tile) return;
+    c->changeTile(tile);
+}
+
+eTile* eGodAction::closestRoad(const int rdx, const int rdy) const {
+    const auto c = character();
+    auto& board = c->getBoard();
     eTile* roadTile = nullptr;
     eTile* plainTile = nullptr;
     const auto prcsTile = [&](const int i, const int j) {
@@ -124,6 +140,5 @@ void eGodAction::randomPlaceOnBoard() {
     }
 
     const auto tile = roadTile ? roadTile : plainTile;
-    if(!tile) return;
-    c->changeTile(tile);
+    return tile;
 }
