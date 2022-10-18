@@ -17,6 +17,9 @@ public:
     std::vector<eTextureCollection> fFire;
 //    std::vector<eTextureCollection> fBigFire;
 
+    eTextureCollection fBlessed;
+    eTextureCollection fCursed;
+
     eTextureCollection fRock;
     eTextureCollection fArrow;
 };

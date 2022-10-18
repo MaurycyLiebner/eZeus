@@ -211,6 +211,9 @@ public:
     bool attackable() const;
 
     std::vector<eTile*> neighbours() const;
+
+    void setBlessed(const double b) { mBlessed = b; }
+    double blessed() const { return mBlessed; }
 private:
     eTile* mCenterTile = nullptr;
     std::vector<eTile*> mUnderBuilding;
@@ -233,6 +236,8 @@ private:
     std::function<bool()> mOverlayEnabled = [this]() {
         return mEnabled;
     };
+
+    double mBlessed = 0;
 };
 
 #endif // EBUILDING_H

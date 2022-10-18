@@ -430,9 +430,24 @@ void eGameWidget::paintEvent(ePainter& p) {
             } else {
                 double rx;
                 double ry;
-                drawXY(tx, ty, rx, ry, tbr->spanW(), tbr->spanH(), a);
-                const bool e = inErase(ub);
-                tbr->draw(tp, rx, ry, e);
+                const int sw = tbr->spanW();
+                const int sh = tbr->spanH();
+                drawXY(tx, ty, rx, ry, sw, sh, a);
+                if(ub) {
+                    const bool e = inErase(ub);
+                    tbr->draw(tp, rx, ry, e);
+                    const int bx = rx;
+                    const int by = ry - sw - (sw == 3 || sw == 5 ? 1 : 0);
+                    if(ub->blessed() > 0.01) {
+                        const auto& blsd = destTexs.fBlessed;
+                        const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
+                        tp.drawTexture(bx, by, tex, eAlignment::bottom);
+                    } else if(ub->blessed() < -0.01) {
+                        const auto& blsd = destTexs.fCursed;
+                        const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
+                        tp.drawTexture(bx, by, tex, eAlignment::bottom);
+                    }
+                }
 
 //                drawXY(tx, ty, rx, ry, 1, 1, a);
 //                tp.drawTexture(rx, ry, trrTexs.fSelectedBuildingBase, eAlignment::top);
