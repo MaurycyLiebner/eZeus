@@ -227,9 +227,13 @@ void eGameWidget::viewFraction(const double fx, const double fy) {
 }
 
 void eGameWidget::viewTile(eTile* const tile) {
-    double x;
-    double y;
-    tileViewFraction(tile, x, y);
+    int mdx;
+    int mdy;
+    mapDimensions(mdx, mdy);
+    const int tx = tile->dx()*mTileW;
+    const int ty = tile->dy()*mTileH/2;
+    const double x = double(tx)/mdx;
+    const double y = double(ty)/mdy;
     viewFraction(x, y);
 }
 
