@@ -15,6 +15,7 @@ public:
     void appear(const eFunc& finish = nullptr);
     void disappear(const bool die = false,
                    const eFunc& finish = nullptr);
+    void teleport(eTile* const tile);
 
     void moveAround(const eAction& finishAct = [](){},
                     const int time = 5000);

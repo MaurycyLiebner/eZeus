@@ -43,16 +43,6 @@ bool eGodWorshippedAction::decide() {
     return true;
 }
 
-void eGodWorshippedAction::teleport(eTile* const tile) {
-    const stdptr<eGodWorshippedAction> tptr(this);
-    disappear(false, [tptr, this, tile]() {
-        if(!tptr) return;
-        const auto c = character();
-        c->changeTile(tile);
-        appear();
-    });
-}
-
 void eGodWorshippedAction::goTo() {
     const auto c = character();
     const stdptr<eGodWorshippedAction> tptr(this);

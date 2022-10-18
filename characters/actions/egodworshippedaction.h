@@ -13,7 +13,6 @@ public:
 
     bool decide();
 private:
-    void teleport(eTile* const tile);
     void goTo();
 
     eGodWorshippedStage mStage{eGodWorshippedStage::none};

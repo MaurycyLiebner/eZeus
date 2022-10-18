@@ -45,6 +45,16 @@ void eGodAction::disappear(const bool die,
     }
 }
 
+void eGodAction::teleport(eTile* const tile) {
+    const stdptr<eGodAction> tptr(this);
+    disappear(false, [tptr, this, tile]() {
+        if(!tptr) return;
+        const auto c = character();
+        c->changeTile(tile);
+        appear();
+    });
+}
+
 void eGodAction::moveAround(const eAction& finishAct,
                             const int time) {
     const auto c = character();
