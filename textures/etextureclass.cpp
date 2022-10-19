@@ -11,8 +11,9 @@ eTextureClass::eTextureClass(const std::string& pathBase,
     mOffset(offs) {}
 
 std::shared_ptr<eTexture>
-eTextureClass::load(const int i, eTextureCollection& coll) {
-    if(mOffset) {
+eTextureClass::load(const int i, eTextureCollection& coll,
+                    const bool offset) {
+    if(offset && mOffset) {
         return eTextureLoadingHelpers::queLoadTexWithOffset(
                     mPathBase, i, coll,
                     *mOffset, mTexLoader);
@@ -23,9 +24,10 @@ eTextureClass::load(const int i, eTextureCollection& coll) {
     }
 }
 
-std::shared_ptr<eTexture> eTextureClass::load(const int i) {
+std::shared_ptr<eTexture> eTextureClass::load(const int i,
+                                              const bool offset) {
     const auto tex = std::make_shared<eTexture>();
-    if(mOffset) {
+    if(offset && mOffset) {
         return eTextureLoadingHelpers::queLoadTexWithOffset(
                     mPathBase, i,
                     *mOffset, mTexLoader);

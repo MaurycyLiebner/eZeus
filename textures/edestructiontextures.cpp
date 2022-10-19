@@ -34,16 +34,16 @@ void eDestructionTextures::load() {
         }
 
         for(int i = 37; i < 63; i++) {
-            texClass.load(i, fFire[0]);
+            texClass.load(i, fFire[0], false);
         }
         for(int i = 63; i < 89; i++) {
-            texClass.load(i, fFire[1]);
+            texClass.load(i, fFire[1], false);
         }
     //    for(int i = 89; i < 115; i++) {
     //        eTextureLoadingHelpers::loadTex(pathBase, i, fFire[2]);
     //    }
         for(int i = 115; i < 133; i++) {
-            texClass.load(i, fFire[2]);
+            texClass.load(i, fFire[2], false);
         }
     //    for(int i = 133; i < 157; i++) {
     //        eTextureLoadingHelpers::loadTex(pathBase, i, fFire[4]);

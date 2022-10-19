@@ -15,10 +15,11 @@ public:
                   const eOffsets* const offs = nullptr);
 
     std::shared_ptr<eTexture>
-        load(const int i, eTextureCollection& coll);
+        load(const int i, eTextureCollection& coll,
+             const bool offset = true);
 
     std::shared_ptr<eTexture>
-        load(const int i);
+        load(const int i, const bool offset = true);
 
     void loadSkipFlipped(std::vector<eTextureCollection>& colls,
                          const int i0, const int i1);
