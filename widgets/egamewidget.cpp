@@ -913,7 +913,10 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         return true;
     case eMouseButton::right: {
         const auto& solds = mBoard->selectedSoldiers();
-        mGm->clearMode();
+        if(mGm->mode() != eBuildingMode::none) {
+            mGm->clearMode();
+            return true;
+        }
         if(!solds.empty()) return true;
         int tx;
         int ty;
