@@ -93,6 +93,9 @@ void eTerrainEditMenu::initialize() {
     w9->addAction("Fire", [this]() {
         mMode = eTerrainEditMode::fire;
     });
+    w9->addAction("Ruins", [this]() {
+        mMode = eTerrainEditMode::ruins;
+    });
     w9->fitContent();
 
     const auto w10 = new eWidget(window());

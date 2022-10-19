@@ -34,6 +34,7 @@ enum class eTerrainEditMode {
     fish,
 
     fire,
+    ruins,
 
     settlers
 };

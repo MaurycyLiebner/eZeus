@@ -15,13 +15,7 @@ eBuilding::eBuilding(eGameBoard& board,
     eObject(board),
     mSeed(rand()), mType(type),
     mSpanW(sw), mSpanH(sh) {
-    if(type != eBuildingType::road &&
-       type != eBuildingType::templeTile &&
-       type != eBuildingType::templeMonument &&
-       type != eBuildingType::templeStatue &&
-       type != eBuildingType::ruins &&
-       type != eBuildingType::wall &&
-       type != eBuildingType::gatehouse) {
+    if(sRegistered(type)) {
         getBoard().registerBuilding(this);
     }
 }
@@ -64,6 +58,29 @@ bool eBuilding::sSanctuaryBuilding(const eBuildingType bt) {
     const int bi = static_cast<int>(bt);
     const bool r = bi >= min && bi <= max;
     return r;
+}
+
+bool eBuilding::sFlammable(const eBuildingType bt) {
+    const bool s = sSanctuaryBuilding(bt);
+    if(s) return false;
+    if(bt == eBuildingType::road) return false;
+    if(bt == eBuildingType::sheep) return false;
+    if(bt == eBuildingType::goat) return false;
+    if(bt == eBuildingType::ruins) return false;
+    if(bt == eBuildingType::wall) return false;
+    if(bt == eBuildingType::gatehouse) return false;
+    if(bt == eBuildingType::tower) return false;
+    return true;
+}
+
+bool eBuilding::sRegistered(const eBuildingType bt) {
+    if(bt == eBuildingType::road) return false;
+    if(bt == eBuildingType::templeTile) return false;
+    if(bt == eBuildingType::templeMonument) return false;
+    if(bt == eBuildingType::templeStatue) return false;
+    if(bt == eBuildingType::wall) return false;
+    if(bt == eBuildingType::gatehouse) return false;
+    return true;
 }
 
 eTile* eBuilding::tileNeighbour(const eMoveDirection o,
@@ -186,6 +203,7 @@ void eBuilding::collapse() {
         ruins->setCenterTile(t);
         t->setUnderBuilding(ruins);
         ruins->addUnderBuilding(t);
+        ruins->setTileRect({t->x(), t->y(), 1, 1});
     }
 }
 
@@ -211,10 +229,7 @@ bool eBuilding::spreadFire() {
             if(!ub) return false;
             if(ub == this) return false;
             const auto t = ub->type();
-            if(t == eBuildingType::road) return false;
-            if(t == eBuildingType::sheep) return false;
-            if(t == eBuildingType::goat) return false;
-            if(t == eBuildingType::ruins) return false;
+            if(!sFlammable(t)) return false;
             return true;
         });
         if(t) break;

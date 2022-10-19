@@ -89,6 +89,8 @@
 #include "buildings/ecommonagora.h"
 #include "buildings/egrandagora.h"
 
+#include "buildings/eruins.h"
+
 #include "characters/esheep.h"
 #include "characters/egoat.h"
 #include "characters/actions/eanimalaction.h"
@@ -486,6 +488,11 @@ bool eGameWidget::buildMouseRelease() {
         } else if(mode == eTerrainEditMode::fire) {
             apply = [](eTile* const tile) {
                 tile->setOnFire(true);
+            };
+        } else if(mode == eTerrainEditMode::ruins) {
+            apply = [this](eTile* const tile) {
+                build(tile->x(), tile->y(), 1, 1,
+                      [this]() { return e::make_shared<eRuins>(*mBoard); });
             };
         } else if(mode == eTerrainEditMode::settlers) {
             apply = [this](eTile* const tile) {
