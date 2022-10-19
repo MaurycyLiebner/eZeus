@@ -25,6 +25,11 @@ public:
     void randomPlaceOnBoard();
     eTile* closestRoad(const int rdx, const int rdy) const;
 
+    void lookForBlessCurse(const int dtime,
+                           int& time, const int freq,
+                           const int range, const double bless);
+    void blessCurse(eBuilding* const b, const double bb);
+
     eGodType type() const { return mType; }
 private:
     void hermesRun(const bool appear);
@@ -32,7 +37,13 @@ private:
     void playAppearSound();
     void playDisappearSound();
 
+    void pauseAction();
+    void resumeAction();
+
     const eGodType mType;
+
+    stdsptr<eCharacterAction> mPausedAction;
+    eOrientation mOrientation;
 };
 
 #endif // EGODACTION_H

@@ -90,6 +90,9 @@ public:
     double angle() const { return mPath.angle(); }
     double height() const { return mPath.height(); }
 
+    int textureTime() const { return mTime/4; }
+    int time() const { return mTime; }
+
     template <class T>
     static stdsptr<T> sCreate(eGameBoard& brd,
                               const int tx0, const int ty0,
@@ -103,6 +106,7 @@ private:
     eGameBoard& mBoard;
     eMissilePath mPath;
 
+    int mTime = 0;
     double mSpeed = 1;
 
     eAction mFinish;

@@ -22,6 +22,9 @@ public:
 
     eTextureCollection fRock;
     eTextureCollection fArrow;
+
+    eTextureCollection fBless;
+    eTextureCollection fCurse;
 };
 
 #endif // EDESTRUCTIONTEXTURES_H

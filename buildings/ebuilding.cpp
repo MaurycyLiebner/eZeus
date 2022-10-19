@@ -60,6 +60,14 @@ bool eBuilding::sSanctuaryBuilding(const eBuildingType bt) {
     return r;
 }
 
+bool eBuilding::sAestheticsBuilding(const eBuildingType bt) {
+    const int min = static_cast<int>(eBuildingType::park);
+    const int max = static_cast<int>(eBuildingType::stoneCircle);
+    const int bi = static_cast<int>(bt);
+    const bool r = bi >= min && bi <= max;
+    return r;
+}
+
 bool eBuilding::sFlammable(const eBuildingType bt) {
     const bool s = sSanctuaryBuilding(bt);
     if(s) return false;
@@ -80,6 +88,20 @@ bool eBuilding::sRegistered(const eBuildingType bt) {
     if(bt == eBuildingType::templeStatue) return false;
     if(bt == eBuildingType::wall) return false;
     if(bt == eBuildingType::gatehouse) return false;
+    return true;
+}
+
+bool eBuilding::sBlessable(const eBuildingType bt) {
+    const bool s = sSanctuaryBuilding(bt);
+    if(s) return false;
+    if(bt == eBuildingType::road) return false;
+    if(bt == eBuildingType::sheep) return false;
+    if(bt == eBuildingType::goat) return false;
+    if(bt == eBuildingType::ruins) return false;
+    if(bt == eBuildingType::wall) return false;
+    if(bt == eBuildingType::gatehouse) return false;
+    if(bt == eBuildingType::tower) return false;
+    if(sAestheticsBuilding(bt)) return false;
     return true;
 }
 

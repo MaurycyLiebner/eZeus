@@ -14,7 +14,10 @@ eDestructionTextures::eDestructionTextures(const int tileW, const int tileH,
     fCursed(renderer),
 
     fRock(renderer),
-    fArrow(renderer) {
+    fArrow(renderer),
+
+    fBless(renderer),
+    fCurse(renderer) {
 
 }
 
@@ -69,6 +72,14 @@ void eDestructionTextures::load() {
 
         for(int i = 716; i < 740; i++) {
             texClass.load(i, fBlessed);
+        }
+
+        for(int i = 492; i < 692; i++) {
+            texClass.load(i, fBless);
+        }
+
+        for(int i = 807; i < 1007; i++) {
+            texClass.load(i, fCurse);
         }
     }
 

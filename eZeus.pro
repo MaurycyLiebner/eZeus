@@ -249,6 +249,7 @@ SOURCES += \
         ewalkablehelpers.cpp \
         main.cpp \
         missiles/earrowmissile.cpp \
+        missiles/egodmissile.cpp \
         missiles/emissile.cpp \
         missiles/erockmissile.cpp \
         pointers/eobject.cpp \
@@ -602,6 +603,7 @@ HEADERS += \
     etilehelper.h \
     ewalkablehelpers.h \
     missiles/earrowmissile.h \
+    missiles/egodmissile.h \
     missiles/emissile.h \
     missiles/erockmissile.h \
     offsets/PoseidonImps.h \

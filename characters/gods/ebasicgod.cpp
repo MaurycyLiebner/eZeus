@@ -22,6 +22,9 @@ eBasicGod::getTexture(const eTileSize size) const {
     case eCharacterActionType::stand:
         return texs.fWalk[oid].getTexture(0);
     case eCharacterActionType::bless:
+        wrap = false;
+        coll = &texs.fFight[oid];
+        break;
     case eCharacterActionType::collect:
     case eCharacterActionType::fight: {
         coll = &texs.fFight[oid];

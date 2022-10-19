@@ -21,6 +21,7 @@ std::shared_ptr<eTexture> eExtendedGod::getTexture(const eTileSize size) const {
     case eCharacterActionType::stand:
         return atn.fWalk[oid].getTexture(0);
     case eCharacterActionType::bless:
+        wrap = false;
         coll = &atn.fBless[oid];
         break;
     case eCharacterActionType::collect:

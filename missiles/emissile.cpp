@@ -14,6 +14,7 @@ eMissile::~eMissile() {
 }
 
 void eMissile::incTime(const int by) {
+    mTime += by;
     if(mPath.finished()) return;
     mPath.progress(0.025*mSpeed*by);
     const auto& pos = mPath.pos();

@@ -159,8 +159,10 @@ public:
 
     static bool sFlatBuilding(const eBuildingType bt);
     static bool sSanctuaryBuilding(const eBuildingType bt);
+    static bool sAestheticsBuilding(const eBuildingType bt);
     static bool sFlammable(const eBuildingType bt);
     static bool sRegistered(const eBuildingType bt);
+    static bool sBlessable(const eBuildingType bt);
 
     using eTileValidator = std::function<bool(eTile*)>;
     eTile* tileNeighbour(const eMoveDirection o,
