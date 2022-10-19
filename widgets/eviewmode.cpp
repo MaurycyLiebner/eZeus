@@ -71,30 +71,7 @@ bool eViewModeHelpers::buildingVisible(
     } break;
 
     case eViewMode::appeal: {
-        return bt == eBuildingType::park ||
-               bt == eBuildingType::doricColumn ||
-               bt == eBuildingType::ionicColumn ||
-               bt == eBuildingType::corinthianColumn ||
-               bt == eBuildingType::avenue ||
-
-               bt == eBuildingType::bench ||
-               bt == eBuildingType::flowerGarden ||
-               bt == eBuildingType::gazebo ||
-               bt == eBuildingType::hedgeMaze ||
-               bt == eBuildingType::fishPond ||
-
-               bt == eBuildingType::waterPark ||
-
-               bt == eBuildingType::birdBath ||
-               bt == eBuildingType::shortObelisk ||
-               bt == eBuildingType::tallObelisk ||
-               bt == eBuildingType::shellGarden ||
-               bt == eBuildingType::sundial ||
-               bt == eBuildingType::dolphinSculpture ||
-               bt == eBuildingType::spring ||
-               bt == eBuildingType::topiary ||
-               bt == eBuildingType::baths ||
-               bt == eBuildingType::stoneCircle;
+        return eBuilding::sAestheticsBuilding(bt);
     } break;
     }
 
