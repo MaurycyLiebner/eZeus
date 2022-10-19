@@ -64,15 +64,14 @@ void eGodWorshippedAction::goTo() {
         int ty;
         const bool r = divisor.randomHeatTile(tx, ty);
         if(r) {
-            auto& board = c->getBoard();
-            const auto tile = board.dtile(tx, ty);
+            const auto tile = closestRoad(tx, ty);
+            if(!tile) return setCurrentAction(nullptr);
             const auto tele = [tptr, this, tile]() {
                 if(!tptr) return;
                 teleport(tile);
             };
             const auto a = e::make_shared<eMoveToAction>(
                                c, tele, [](){});
-            a->setRemoveLastTurn(true);
             a->setFindFailAction(tele);
             a->start(tile);
             setCurrentAction(a);
