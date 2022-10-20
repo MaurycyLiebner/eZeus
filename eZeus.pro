@@ -605,6 +605,7 @@ HEADERS += \
     etilehelper.h \
     ewalkablehelpers.h \
     fileIO/ereadstream.h \
+    fileIO/estreams.h \
     fileIO/ewritestream.h \
     missiles/earrowmissile.h \
     missiles/egodmissile.h \

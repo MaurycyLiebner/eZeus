@@ -36,7 +36,7 @@ public:
     inline eReadStream& operator>>(T& val) {
         int32_t val32_t;
         read(&val32_t, sizeof(int32_t));
-        val = val32_t;
+        val = static_cast<T>(val32_t);
         return *this;
     }
 

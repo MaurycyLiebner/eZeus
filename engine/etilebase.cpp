@@ -168,3 +168,44 @@ void eTileBase::setBottomRight(eTileBase* const br) {
 void eTileBase::setBottomLeft(eTileBase* const bl) {
     mBottomLeft = bl;
 }
+
+void eTileBase::read(eReadStream& src) {
+    eTerrain terr;
+    src >> terr;
+    setTerrain(terr);
+
+    double scrub;
+    src >> scrub;
+    setScrub(scrub);
+
+    int mlevel;
+    src >> mlevel;
+    setMarbleLevel(mlevel);
+
+    int alt;
+    src >> alt;
+    setAltitude(alt);
+
+    int res;
+    src >> res;
+    setResource(res);
+
+    bool walkable;
+    src >> walkable;
+    setWalkableElev(walkable);
+
+    bool fish;
+    src >> fish;
+    setHasFish(fish);
+}
+
+void eTileBase::write(eWriteStream& dst) {
+    dst << mTerr;
+    dst << mScrub;
+    dst << mMarbleLevel;
+    dst << mAltitude;
+    dst << mResource;
+    dst << mWalkableElev;
+    dst << mHasFish;
+}
+

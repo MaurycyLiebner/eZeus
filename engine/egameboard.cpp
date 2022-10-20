@@ -224,6 +224,31 @@ void eGameBoard::updateMarbleTiles() {
     });
 }
 
+void eGameBoard::read(eReadStream& src) {
+    int w;
+    src >> w;
+    int h;
+    src >> h;
+    initialize(w, h);
+
+    for(const auto& ts : mTiles) {
+        for(const auto& t : ts) {
+            t->read(src);
+        }
+    }
+}
+
+void eGameBoard::write(eWriteStream& dst) {
+    dst << mWidth;
+    dst << mHeight;
+
+    for(const auto& ts : mTiles) {
+        for(const auto& t : ts) {
+            t->write(dst);
+        }
+    }
+}
+
 void eGameBoard::updateTileRenderingOrder() {
     std::vector<std::vector<std::pair<int, int>>> map;
     map.reserve(width());

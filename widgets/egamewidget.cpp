@@ -864,7 +864,7 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
             const auto w = window();
             mMenu->initialize([w]() {
                 w->closeGame();
-            });
+            }, mBoard);
             addWidget(mMenu);
             mMenu->align(eAlignment::center);
         }

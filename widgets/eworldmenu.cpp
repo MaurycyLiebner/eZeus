@@ -87,7 +87,7 @@ void eWorldMenu::initialize() {
 
         const auto wgw = eButton::sCreate(coll.fWorldSmallButton, window(), this);
         wgw->setPressAction([this](){
-            window()->showGame();
+            window()->showGame(nullptr);
         });
         const int wgwx = 20*mult;
         const int wgwy = 285*mult;

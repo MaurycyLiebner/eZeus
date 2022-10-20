@@ -3,6 +3,7 @@ load_game "Load Game"
 settings "Settings"
 quit "Quit"
 
+save "Save"
 exit "Exit"
 
 resolution "Resolution: "

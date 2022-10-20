@@ -43,7 +43,7 @@ public:
     void showMenuLoading();
     void showMainMenu();
     void showSettingsMenu();
-    void showGame();
+    void showGame(eGameBoard* board);
     void showWorld();
 
     const eSettings& settings() const { return mSettings; }

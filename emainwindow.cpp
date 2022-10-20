@@ -16,6 +16,8 @@
 
 #include "egamedir.h"
 
+#include "fileIO/ereadstream.h"
+
 #include <chrono>
 
 eMainWindow::eMainWindow() {}
@@ -123,19 +125,38 @@ void eMainWindow::showMainMenu() {
     mm->resize(width(), height());
     setWidget(mm);
 
-    const auto newGameAction = [this]() {
+    const auto gameAction = [this](eGameBoard* const board) {
         const auto l = new eGameLoadingWidget(this);
         l->resize(width(), height());
-        const auto show = [this]() {
-            showGame();
+        const auto show = [this, board]() {
+            showGame(board);
         };
         l->setDoneAction(show);
         setWidget(l);
         l->initialize();
     };
 
-    const auto loadGameAction = []() {
+    const auto newGameAction = [gameAction]() {
+        const auto board = new eGameBoard();
+        board->initialize(100, 200);
+        eMapGenerator g(*board);
+        eMapGeneratorSettings sett;
+        g.generate(sett);
 
+        gameAction(board);
+    };
+
+    const auto loadGameAction = [gameAction]() {
+        const std::string basedir{"../saves/"};
+        const auto path = basedir + "1.ez";
+        const auto file = SDL_RWFromFile(path.c_str(), "r+b");
+        if(!file) return;
+        eReadStream src(file);
+        const auto board = new eGameBoard();
+        board->read(src);
+        SDL_RWclose(file);
+
+        gameAction(board);
     };
 
     const auto settingsAction = [this]() {
@@ -178,14 +199,10 @@ void eMainWindow::showSettingsMenu() {
 #include "characters/egreekhoplite.h"
 #include "characters/esoldierbanner.h"
 #include "characters/actions/esoldieraction.h"
-void eMainWindow::showGame() {
+void eMainWindow::showGame(eGameBoard* board) {
     if(mWidget == mGW) return;
     if(!mGW) {
-        mBoard = new eGameBoard();
-        mBoard->initialize(100, 200);
-        eMapGenerator g(*mBoard);
-        eMapGeneratorSettings sett;
-        g.generate(sett);
+        mBoard = board;
 
 //        const auto spawnHoplite = [&](const int x, const int y,
 //                                      const int pid) {

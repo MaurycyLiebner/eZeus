@@ -7,6 +7,8 @@
 
 #include "eorientation.h"
 
+#include "fileIO/estreams.h"
+
 class eCharacterBase;
 
 enum class eBuildingType;
@@ -107,6 +109,9 @@ public:
 
     int marbleLevel() const { return mMarbleLevel; };
     virtual void setMarbleLevel(const int l);
+
+    void read(eReadStream& src);
+    void write(eWriteStream& dst);
 private:
     int mSeed;
 

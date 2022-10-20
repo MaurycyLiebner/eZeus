@@ -22,6 +22,8 @@
 #include "eworldboard.h"
 #include "widgets/ebuildingmode.h"
 
+#include "fileIO/estreams.h"
+
 class eSpawner;
 class eCharacter;
 class eBuilding;
@@ -225,6 +227,9 @@ public:
 
     void restockMarbleTiles();
     void updateMarbleTiles();
+
+    void read(eReadStream& src);
+    void write(eWriteStream& dst);
 private:
     void updateNeighbours();
     void updateTileRenderingOrder();
