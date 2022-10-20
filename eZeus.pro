@@ -247,6 +247,8 @@ SOURCES += \
         etexturecollection.cpp \
         etilehelper.cpp \
         ewalkablehelpers.cpp \
+        fileIO/ereadstream.cpp \
+        fileIO/ewritestream.cpp \
         main.cpp \
         missiles/earrowmissile.cpp \
         missiles/egodmissile.cpp \
@@ -602,6 +604,8 @@ HEADERS += \
     etexturecollection.h \
     etilehelper.h \
     ewalkablehelpers.h \
+    fileIO/ereadstream.h \
+    fileIO/ewritestream.h \
     missiles/earrowmissile.h \
     missiles/egodmissile.h \
     missiles/emissile.h \
