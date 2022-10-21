@@ -29,7 +29,7 @@ public:
     void getOrders(eResourceType& imports,
                    eResourceType& exports) const;
 
-    eWorldCity& city() { return mCity; }
+    eWorldCity& city() const { return mCity; }
 
     eTile* routeStart() const { return mRouteStart; }
     void updateRouteStart();
@@ -48,6 +48,8 @@ public:
     using eCharacterCreator =
         std::function<stdsptr<eCharacter>(eTile*, eGameBoard&)>;
     void setCharacterCreator(const eCharacterCreator& c);
+
+    eBuilding* unpackBuilding() const { return mUnpackBuilding; }
 private:
     eWorldCity& mCity;
     const eTradePostType mType;

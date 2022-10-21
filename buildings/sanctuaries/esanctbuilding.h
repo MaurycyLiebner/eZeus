@@ -27,8 +27,7 @@ class eSanctuary;
 
 class eSanctBuilding : public eBuilding {
 public:
-    eSanctBuilding(eSanctuary* const s,
-                   const eSanctCost& cost,
+    eSanctBuilding(const eSanctCost& cost,
                    const int maxProgress,
                    eGameBoard& board,
                    const eBuildingType type,
@@ -50,10 +49,11 @@ public:
     bool workedOn() const { return mWorkedOn; }
     void setWorkedOn(const bool w) { mWorkedOn = w; }
 
+    void setSanctuary(eSanctuary* const s);
     eSanctuary* sanctuary() const { return mSanctuary; }
 private:
     const int mMaxProgress;
-    eSanctuary* const mSanctuary;
+    eSanctuary* mSanctuary = nullptr;
     eSanctCost mCost{0, 0, 0};
     eSanctCost mStored{0, 0, 0};
     bool mWorkedOn = false;

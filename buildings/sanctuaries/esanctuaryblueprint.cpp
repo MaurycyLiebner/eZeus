@@ -152,6 +152,28 @@ void eSanctBlueprints::loadImpl() {
     fArtemisH = rotate(fArtemisW);
 }
 
+const eSanctBlueprint* eSanctBlueprints::sSanctuaryBlueprint(
+        const eBuildingType type, const bool rotate) {
+    const auto& i = eSanctBlueprints::instance;
+    switch(type) {
+    case eBuildingType::templeArtemis: {
+        if(rotate) {
+            return &i.fArtemisH;
+        } else {
+            return &i.fArtemisW;
+        }
+    } break;
+    case eBuildingType::templeHephaestus: {
+        if(rotate) {
+            return &i.fHephaestusH;
+        } else {
+            return &i.fHephaestusW;
+        }
+    } break;
+    }
+    return nullptr;
+}
+
 void eSanctBlueprints::load() {
     instance.loadImpl();
 }

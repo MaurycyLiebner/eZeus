@@ -111,7 +111,7 @@ public:
     virtual void setMarbleLevel(const int l);
 
     void read(eReadStream& src);
-    void write(eWriteStream& dst);
+    void write(eWriteStream& dst) const;
 private:
     int mSeed;
 

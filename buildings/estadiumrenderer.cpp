@@ -2,7 +2,7 @@
 
 eStadium1Renderer::eStadium1Renderer(
         const stdsptr<eStadium>& b) :
-    eBuildingRenderer(b),
+    eBuildingRenderer(b, eBuildingRendererType::stadium1),
     mStadium(b) {}
 
 std::shared_ptr<eTexture>
@@ -17,7 +17,7 @@ eStadium1Renderer::getOverlays(const eTileSize) const {
 
 eStadium2Renderer::eStadium2Renderer(
         const stdsptr<eStadium>& b) :
-    eBuildingRenderer(b),
+    eBuildingRenderer(b, eBuildingRendererType::stadium2),
     mStadium(b) {}
 
 std::shared_ptr<eTexture>

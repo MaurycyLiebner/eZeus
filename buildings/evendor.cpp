@@ -1,11 +1,11 @@
-#include "evendor.h"
+﻿#include "evendor.h"
 
 #include "characters/echaracter.h"
 #include "characters/ecarttransporter.h"
 #include "textures/egametextures.h"
+#include "buildings/eagorabase.h"
 
 eVendor::eVendor(eGameBoard& board,
-                 const stdsptr<eAgoraBase>& agora,
                  const eResourceType resType,
                  const eProvide provType,
                  const eBaseTex& baseTex,
@@ -19,7 +19,6 @@ eVendor::eVendor(eGameBoard& board,
                  const int sw, const int sh,
                  const int maxEmployees) :
     eEmployingBuilding(board, type, sw, sh, maxEmployees),
-    mAgora(agora),
     mResType(resType),
     mProvType(provType),
     mBaseTex(baseTex),
@@ -130,6 +129,15 @@ std::vector<eCartTask> eVendor::cartTasks() const {
     }
 
     return {};
+}
+
+void eVendor::setAgora(const stdsptr<eAgoraBase>& agora) {
+    mAgora = agora;
+}
+
+int eVendor::agoraSpaceId() const {
+    if(!mAgora) return -1;
+    return mAgora->buildingId(this);
 }
 
 int eVendor::peddlerResource() const {

@@ -1,8 +1,7 @@
 #include "efleecevendor.h"
 
-eFleeceVendor::eFleeceVendor(const stdsptr<eAgoraBase>& agora,
-                             eGameBoard& board) :
-    eVendor(board, agora,
+eFleeceVendor::eFleeceVendor(eGameBoard& board) :
+    eVendor(board,
             eResourceType::fleece, eProvide::fleece,
             &eBuildingTextures::fFleeceVendor,
             -2.00, -2.42, &eBuildingTextures::fFleeceVendorOverlay,

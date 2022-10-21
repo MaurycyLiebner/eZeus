@@ -2,94 +2,7 @@
 
 #include "eterraineditmenu.h"
 
-#include "buildings/ebuildingrenderer.h"
-
-#include "buildings/esmallhouse.h"
-#include "buildings/egymnasium.h"
-#include "buildings/eroad.h"
-#include "buildings/epodium.h"
-#include "buildings/ecollege.h"
-#include "buildings/efountain.h"
-#include "buildings/ewatchpost.h"
-#include "buildings/ehospital.h"
-#include "buildings/etheater.h"
-#include "buildings/edramaschool.h"
-#include "buildings/estadium.h"
-#include "buildings/estadiumrenderer.h"
-#include "buildings/epalace.h"
-#include "buildings/epalacerenderer.h"
-#include "buildings/epalacetile.h"
-#include "buildings/emint.h"
-#include "buildings/efoundry.h"
-#include "buildings/etimbermill.h"
-#include "buildings/emasonryshop.h"
-#include "buildings/etaxoffice.h"
-#include "buildings/eresourcebuilding.h"
-#include "buildings/ehuntinglodge.h"
-#include "buildings/efishery.h"
-#include "buildings/epier.h"
-#include "buildings/emaintenanceoffice.h"
-
-#include "buildings/egranary.h"
-#include "buildings/ewarehouse.h"
-
-#include "buildings/etradepost.h"
-
-#include "buildings/egrowerslodge.h"
-
-#include "buildings/ewinery.h"
-#include "buildings/eolivepress.h"
-#include "buildings/esculpturestudio.h"
-#include "buildings/earmory.h"
-#include "buildings/ehorseranch.h"
-#include "buildings/ehorseranchenclosure.h"
-
-#include "buildings/eartisansguild.h"
-
-#include "buildings/ewall.h"
-#include "buildings/etower.h"
-#include "buildings/egatehouse.h"
-#include "buildings/egatehouserenderer.h"
-
-#include "buildings/ewheatfarm.h"
-#include "buildings/eonionfarm.h"
-#include "buildings/ecarrotfarm.h"
-
-#include "buildings/edairy.h"
-#include "buildings/ecardingshed.h"
-
-#include "buildings/eagoraspace.h"
-
-#include "buildings/efoodvendor.h"
-#include "buildings/efleecevendor.h"
-#include "buildings/eoilvendor.h"
-#include "buildings/ewinevendor.h"
-#include "buildings/earmsvendor.h"
-#include "buildings/ehorsevendor.h"
-
-#include "buildings/epark.h"
-#include "buildings/ecolumn.h"
-#include "buildings/eavenue.h"
-
-#include "buildings/eanimalbuilding.h"
-
-#include "buildings/eelitehousing.h"
-#include "buildings/eelitehousingrenderer.h"
-
-#include "buildings/sanctuaries/ehephaestussanctuary.h"
-#include "buildings/sanctuaries/eartemissanctuary.h"
-#include "buildings/sanctuaries/estairsrenderer.h"
-#include "buildings/sanctuaries/etempletilebuilding.h"
-#include "buildings/sanctuaries/etemplestatuebuilding.h"
-#include "buildings/sanctuaries/etemplemonumentbuilding.h"
-#include "buildings/sanctuaries/etemplealtarbuilding.h"
-#include "buildings/sanctuaries/etemplebuilding.h"
-#include "buildings/sanctuaries/etemplerenderer.h"
-
-#include "buildings/ecommonagora.h"
-#include "buildings/egrandagora.h"
-
-#include "buildings/eruins.h"
+#include "buildings/allbuildings.h"
 
 #include "characters/esheep.h"
 #include "characters/egoat.h"
@@ -105,28 +18,6 @@
 
 #include "widgets/equestionwidget.h"
 #include "elanguage.h"
-
-const eSanctBlueprint* eGameWidget::sanctuaryBlueprint(
-        const eBuildingType type, const bool rotate) {
-    const auto& i = eSanctBlueprints::instance;
-    switch(type) {
-    case eBuildingType::templeArtemis: {
-        if(rotate) {
-            return &i.fArtemisH;
-        } else {
-            return &i.fArtemisW;
-        }
-    } break;
-    case eBuildingType::templeHephaestus: {
-        if(rotate) {
-            return &i.fHephaestusH;
-        } else {
-            return &i.fHephaestusW;
-        }
-    } break;
-    }
-    return nullptr;
-}
 
 bool agoraRoadTile(eTile* const t) {
     if(!t) return false;
@@ -429,7 +320,8 @@ bool buildVendor(eGameBoard& brd, const int tx, const int ty,
     const auto agora = space->agora();
     if(agora->vendor(resType)) return false;
     const auto agoraP = agora->ref<eAgoraBase>();
-    const auto fv = e::make_shared<T>(agoraP, brd);
+    const auto fv = e::make_shared<T>(brd);
+    fv->setAgora(agoraP);
     agora->setBuilding(space, fv);
     return true;
 }
@@ -853,7 +745,8 @@ bool eGameWidget::buildMouseRelease() {
                         }
                     }
                     const auto t = e::make_shared<ePalaceTile>(
-                                       *mBoard, s.get(), other);
+                                       *mBoard, other);
+                    t->setPalace(s.get());
                     s->addTile(t);
                     return t;
                 });
@@ -1015,22 +908,12 @@ bool eGameWidget::buildMouseRelease() {
                 } break;
                 }
                 const int ctid = mGm->cityId();
-                const auto cts = wrld.cities();
+                const auto& cts = wrld.cities();
                 const auto ct = cts[ctid];
                 const auto tp = e::make_shared<eTradePost>(
                                     *mBoard, *ct, eTradePostType::pier);
                 tp->setOrientation(o);
-                tp->setCharacterCreator([](eTile* const tile, eGameBoard& board) {
-                    const auto r = e::make_shared<eTradeBoat>(board);
-                    r->changeTile(tile);
-                    return r;
-                });
                 tp->setUnpackBuilding(b.get());
-                tp->setWalkable([](eTileBase* const t) {
-                    const bool r = t->terrain() == eTerrain::water;
-                    if(!r) return false;
-                    return !t->isShoreTile();
-                });
                 build(tx, ty, 4, 4, [&]() { return tp; });
 
                 mGm->clearMode();
@@ -1106,12 +989,6 @@ bool eGameWidget::buildMouseRelease() {
             build(mHoverTX, mHoverTY, 4, 4,
                   [this, wrld, ct]() {
                 const auto tp = e::make_shared<eTradePost>(*mBoard, *ct);
-                tp->setCharacterCreator([](eTile* const tile, eGameBoard& board) {
-                    const auto r = e::make_shared<eTrader>(board);
-                    r->changeTile(tile);
-                    r->createFollowers();
-                    return r;
-                });
                 return tp;
             });
             mGm->clearMode();
@@ -1239,7 +1116,8 @@ bool eGameWidget::buildMouseRelease() {
             const bool cb2 = canBuild(tx + dx, ty + dy, 4, 4);
             if(!cb2) return true;
             const auto hr = e::make_shared<eHorseRanch>(*mBoard);
-            const auto hre = e::make_shared<eHorseRanchEnclosure>(*mBoard, hr.get());
+            const auto hre = e::make_shared<eHorseRanchEnclosure>(*mBoard);
+            hre->setRanch(hr.get());
             hr->setEnclosure(hre.get());
             build(tx, ty, 3, 3,
                   [hr]() { return hr; });
@@ -1430,7 +1308,7 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::templeArtemis:
         case eBuildingMode::templeHephaestus: {
             const auto bt = eBuildingModeHelpers::toBuildingType(mode);
-            const auto h = sanctuaryBlueprint(bt, mRotate);
+            const auto h = eSanctBlueprints::sSanctuaryBlueprint(bt, mRotate);
 
             const int sw = h->fW;
             const int sh = h->fH;
@@ -1467,7 +1345,7 @@ bool eGameWidget::buildMouseRelease() {
             const auto ct = mBoard->tile((minX + maxX)/2, (minY + maxY)/2);
             b->setCenterTile(ct);
 
-            const auto tb = e::make_shared<eTempleBuilding>(b.get(), *mBoard);
+            const auto tb = e::make_shared<eTempleBuilding>(*mBoard);
             b->registerElement(tb);
             int ts = 0;
             for(const auto& tv : h->fTiles) {
@@ -1481,20 +1359,23 @@ bool eGameWidget::buildMouseRelease() {
                         break;
                     case eSanctEleType::statue: {
                         const auto tt = e::make_shared<eTempleStatueBuilding>(
-                                            b.get(), god, t.fId, *mBoard);
+                                           god, t.fId, *mBoard);
+                        tt->setSanctuary(b.get());
                         build(tx, ty, 1, 1, [tt]() { return tt; });
                         b->registerElement(tt);
                     } break;
                     case eSanctEleType::monument: {
                         const auto tt = e::make_shared<eTempleMonumentBuilding>(
-                                            b.get(), god, t.fId, *mBoard);
+                                            god, t.fId, *mBoard);
+                        tt->setSanctuary(b.get());
                         const int d = mRotate ? 1 : 0;
                         build(tx - d, ty + d, 2, 2, [tt]() { return tt; });
                         b->registerElement(tt);
                     } break;
                     case eSanctEleType::altar: {
                         const auto tt = e::make_shared<eTempleAltarBuilding>(
-                                            b.get(), *mBoard);
+                                            *mBoard);
+                        tt->setSanctuary(b.get());
                         const int d = mRotate ? 1 : 0;
                         build(tx - d, ty + d, 2, 2, [tt]() { return tt; });
                         b->registerElement(tt);
@@ -1513,7 +1394,8 @@ bool eGameWidget::buildMouseRelease() {
                     } break;
                     case eSanctEleType::tile: {
                         const auto tt = e::make_shared<eTempleTileBuilding>(
-                                            b.get(), t.fId, *mBoard);
+                                            t.fId, *mBoard);
+                        tt->setSanctuary(b.get());
                         build(tx, ty, 1, 1, [tt]() { return tt; });
                         b->registerElement(tt);
                     } break;

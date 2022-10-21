@@ -161,7 +161,7 @@ public:
     static bool sSanctuaryBuilding(const eBuildingType bt);
     static bool sAestheticsBuilding(const eBuildingType bt);
     static bool sFlammable(const eBuildingType bt);
-    static bool sRegistered(const eBuildingType bt);
+    static bool sTimedBuilding(const eBuildingType bt);
     static bool sBlessable(const eBuildingType bt);
 
     using eTileValidator = std::function<bool(eTile*)>;
@@ -199,6 +199,9 @@ public:
     void setCenterTile(eTile* const ct);
     eTile* centerTile() const;
 
+    void addRenderer(eBuildingRenderer* const r);
+    void removeRenderer(eBuildingRenderer* const r);
+
     bool enabled() const { return mEnabled; }
     void setEnabled(const bool e);
 
@@ -216,13 +219,21 @@ public:
 
     std::vector<eTile*> neighbours() const;
 
-    void setBlessed(const double b) { mBlessed = b; }
-    double blessed() const { return mBlessed; }
+    void setBlessed(const double b);
+    double blessed() const { return mBlessed; }    
+
+    void read(eReadStream& src);
+    void write(eWriteStream& dst) const;
+
+    void setIOID(const int id);
+    int ioID() const { return mIOID; }
 private:
     eTile* mCenterTile = nullptr;
     std::vector<eTile*> mUnderBuilding;
+    std::vector<eBuildingRenderer*> mRenderers;
     SDL_Rect mTileRect;
 
+    int mIOID = -1;
     int mSeed;
     const eBuildingType mType;
     const int mSpanW;
@@ -242,6 +253,7 @@ private:
     };
 
     double mBlessed = 0;
+    int mBlessTime = 0;
 };
 
 #endif // EBUILDING_H

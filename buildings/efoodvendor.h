@@ -5,8 +5,7 @@
 
 class eFoodVendor : public eVendor {
 public:
-    eFoodVendor(const stdsptr<eAgoraBase>& agora,
-                eGameBoard& board);
+    eFoodVendor(eGameBoard& board);
 };
 
 #endif // EFOODVENDOR_H

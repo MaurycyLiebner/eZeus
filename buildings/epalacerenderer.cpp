@@ -2,7 +2,7 @@
 
 ePalace1Renderer::ePalace1Renderer(
         const stdsptr<ePalace>& b) :
-    eBuildingRenderer(b),
+    eBuildingRenderer(b, eBuildingRendererType::palace1),
     mPalace(b) {}
 
 std::shared_ptr<eTexture>
@@ -17,7 +17,7 @@ ePalace1Renderer::getOverlays(const eTileSize) const {
 
 ePalace2Renderer::ePalace2Renderer(
         const stdsptr<ePalace>& b) :
-    eBuildingRenderer(b),
+    eBuildingRenderer(b, eBuildingRendererType::palace2),
     mPalace(b) {}
 
 std::shared_ptr<eTexture>

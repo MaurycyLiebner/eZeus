@@ -9,15 +9,16 @@
 
 #include "ebuildingrenderer.h"
 
+#include "fileIO/ebuildingrendererwriter.h"
+#include "fileIO/ebuildingrendererreader.h"
+
 eBuilding::eBuilding(eGameBoard& board,
                      const eBuildingType type,
                      const int sw, const int sh) :
     eObject(board),
     mSeed(rand()), mType(type),
     mSpanW(sw), mSpanH(sh) {
-    if(sRegistered(type)) {
-        getBoard().registerBuilding(this);
-    }
+    getBoard().registerBuilding(this);
 }
 
 eBuilding::~eBuilding() {
@@ -81,7 +82,7 @@ bool eBuilding::sFlammable(const eBuildingType bt) {
     return true;
 }
 
-bool eBuilding::sRegistered(const eBuildingType bt) {
+bool eBuilding::sTimedBuilding(const eBuildingType bt) {
     if(bt == eBuildingType::road) return false;
     if(bt == eBuildingType::templeTile) return false;
     if(bt == eBuildingType::templeMonument) return false;
@@ -144,6 +145,12 @@ void eBuilding::incTime(const int by) {
     auto& b = getBoard();
     mTime += by;
     mTextureTime++;
+    if(mBlessTime > 0) {
+        mBlessTime -= by;
+        if(mBlessTime <= 0) {
+            mBlessed = 0;
+        }
+    }
     if(isOnFire()) {
         if(rand() % (10000/by) == 0) {
             if(rand() % 3) {
@@ -281,6 +288,15 @@ eTile* eBuilding::centerTile() const {
     return mCenterTile;
 }
 
+void eBuilding::addRenderer(eBuildingRenderer* const r) {
+    mRenderers.push_back(r);
+}
+
+void eBuilding::removeRenderer(eBuildingRenderer* const r) {
+    const auto it = std::find(mRenderers.begin(), mRenderers.end(), r);
+    if(it != mRenderers.end()) mRenderers.erase(it);
+}
+
 void eBuilding::setEnabled(const bool e) {
     mEnabled = e;
 }
@@ -350,4 +366,78 @@ std::vector<eTile*> eBuilding::neighbours() const {
     jiter();
 
     return result;
+}
+
+void eBuilding::setBlessed(const double b) {
+    mBlessTime = 15000;
+    mBlessed = b;
+}
+
+void eBuilding::read(eReadStream& src) {
+    src >> mIOID;
+    src >> mTileRect;
+
+    auto& board = getBoard();
+
+    int ntiles;
+    src >> ntiles;
+    for(int i = 0; i < ntiles; i++) {
+        const auto tile = src.readTile(board);
+        mUnderBuilding.push_back(tile);
+        bool setUnder;
+        src >> setUnder;
+        if(setUnder) {
+            tile->setUnderBuilding(ref<eBuilding>());
+        }
+    }
+
+    int nrend;
+    src >> nrend;
+    for(int i = 0; i < nrend; i++) {
+        eBuildingRendererType type;
+        src >> type;
+        const auto r = eBuildingRendererReader::sRead(ref<eBuilding>(), type, src);
+        const auto tile = src.readTile(board);
+        tile->setBuilding(r);
+    }
+
+    mCenterTile = src.readTile(board);
+
+    src >> mSeed;
+    src >> mPlayerId;
+    src >> mHp;
+    src >> mMaintance;
+    src >> mEnabled;
+    src >> mBlessed;
+}
+
+void eBuilding::write(eWriteStream& dst) const {
+    dst << mIOID;
+    dst << mTileRect;
+
+    dst << mUnderBuilding.size();
+    for(const auto t : mUnderBuilding) {
+        dst.writeTile(t);
+        dst << (t->underBuilding() == this);
+    }
+
+    dst << mRenderers.size();
+    for(const auto r : mRenderers) {
+        dst << r->type();
+        eBuildingRendererWriter::sWrite(r, dst);
+        dst.writeTile(r->tile());
+    }
+
+    dst.writeTile(mCenterTile);
+
+    dst << mSeed;
+    dst << mPlayerId;
+    dst << mHp;
+    dst << mMaintance;
+    dst << mEnabled;
+    dst << mBlessed;
+}
+
+void eBuilding::setIOID(const int id) {
+    mIOID = id;
 }

@@ -4,10 +4,9 @@
 #include "epalace.h"
 
 ePalaceTile::ePalaceTile(eGameBoard& board,
-                         ePalace* const palace,
                          const bool other) :
     eBuilding(board, eBuildingType::palaceTile, 1, 1),
-    mPalace(palace), mOther(other) {
+    mOther(other) {
 
 }
 
@@ -21,4 +20,8 @@ std::shared_ptr<eTexture> ePalaceTile::getTexture(const eTileSize size) const {
     const auto& coll = texs[sizeId].fPalaceTiles;
     const int id = mOther ? 1 : 0;
     return coll.getTexture(id);
+}
+
+void ePalaceTile::setPalace(ePalace* const palace) {
+    mPalace = palace;
 }

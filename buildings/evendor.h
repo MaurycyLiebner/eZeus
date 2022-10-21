@@ -11,7 +11,6 @@ public:
     using eOverlays = eTextureCollection eBuildingTextures::*;
     using eCharGenerator =  std::function<stdsptr<eCharacter>()>;
     eVendor(eGameBoard& board,
-            const stdsptr<eAgoraBase>& agora,
             const eResourceType resType,
             const eProvide provType,
             const eBaseTex& baseTex,
@@ -39,7 +38,10 @@ public:
 
     std::vector<eCartTask> cartTasks() const;
 
+    void setAgora(const stdsptr<eAgoraBase>& agora);
     eAgoraBase* agora() const { return mAgora.get(); }
+
+    int agoraSpaceId() const;
 
     eResourceType resourceType() const { return mResType; }
     eProvide provideType() const { return mProvType; }
@@ -54,7 +56,7 @@ public:
     void setVendorEnabled(const bool e) { mVendorEnabled = e; }
 private:
     int mResMult = 100;
-    const stdsptr<eAgoraBase> mAgora;
+    stdsptr<eAgoraBase> mAgora;
     int mMaxResource = 10*mResMult;
     const eResourceType mResType;
     const eProvide mProvType;

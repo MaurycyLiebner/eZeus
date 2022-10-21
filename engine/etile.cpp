@@ -4,6 +4,7 @@
 #include <algorithm>
 
 #include "buildings/ebuilding.h"
+#include "buildings/ebuildingrenderer.h"
 #include "characters/echaracter.h"
 
 eTile::eTile(const int x, const int y,
@@ -186,6 +187,9 @@ bool eTile::hasCharacter(const eHasChar& func) const {
 
 void eTile::setBuilding(const stdsptr<eBuildingRenderer>& b) {
     mBuilding = b;
+    if(mBuilding) {
+        mBuilding->setTile(this);
+    }
 }
 
 bool eTile::hasRoad() const {

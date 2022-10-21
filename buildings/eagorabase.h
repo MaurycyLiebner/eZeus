@@ -36,6 +36,7 @@ public:
     eBuilding* building(const int id) const;
     void setBuilding(const int id, const stdsptr<eBuilding>& b);
     void setBuilding(eBuilding* const space, const stdsptr<eBuilding>& b);
+    int buildingId(const eBuilding* const b) const;
 
     void fillSpaces();
 

@@ -4,6 +4,8 @@
 #include <SDL2/SDL.h>
 #include <string>
 
+class eTile;
+
 class eWriteStream {
 public:
     eWriteStream(SDL_RWops* const dst);
@@ -39,12 +41,22 @@ public:
         return *this;
     }
 
+    inline eWriteStream& operator<<(const SDL_Rect& val) {
+        *this << val.x;
+        *this << val.y;
+        *this << val.w;
+        *this << val.h;
+        return *this;
+    }
+
     inline eWriteStream& operator<<(const std::string& val) {
         const int32_t size = val.size();
         *this << size;
         write(&val[0], size);
         return *this;
     }
+
+    void writeTile(eTile* const tile);
 private:
     SDL_RWops* const mDst;
 };

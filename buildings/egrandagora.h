@@ -8,6 +8,8 @@ public:
     eGrandAgora(const eAgoraOrientation o, eGameBoard& board);
 
     SDL_Point pt(const int id) const;
+
+    eAgoraOrientation orientation() const { return mO; }
 private:
     const eAgoraOrientation mO;
 };

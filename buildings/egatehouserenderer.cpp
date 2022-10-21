@@ -5,7 +5,7 @@
 eGatehouseRenderer::eGatehouseRenderer(
         const eGatehouseRendererType type,
         const stdsptr<eGatehouse>& b) :
-    eBuildingRenderer(b),
+    eBuildingRenderer(b, eBuildingRendererType::gatehouse),
     mType(type),
     mBuilding(b) {
 

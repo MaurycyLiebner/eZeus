@@ -3,9 +3,9 @@
 #include "textures/egametextures.h"
 
 eTempleStatueBuilding::eTempleStatueBuilding(
-        eSanctuary* const s, const eGodType god,
+        const eGodType god,
         const int id, eGameBoard& board) :
-    eSanctBuilding(s, {0, 0, 1}, 1, board,
+    eSanctBuilding({0, 0, 1}, 1, board,
                    eBuildingType::templeStatue, 1, 1),
     mGod(god), mId(id) {
 

@@ -1,8 +1,7 @@
 #include "ehorsevendor.h"
 
-eHorseVendor::eHorseVendor(const stdsptr<eAgoraBase>& agora,
-                           eGameBoard& board) :
-    eVendor(board, agora,
+eHorseVendor::eHorseVendor(eGameBoard& board) :
+    eVendor(board,
             eResourceType::horse, eProvide::horses,
             &eBuildingTextures::fHorseTrainer,
             -1.15, -3.40, &eBuildingTextures::fHorseTrainerOverlay,

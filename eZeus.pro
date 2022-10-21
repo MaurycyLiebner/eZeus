@@ -247,6 +247,10 @@ SOURCES += \
         etexturecollection.cpp \
         etilehelper.cpp \
         ewalkablehelpers.cpp \
+        fileIO/ebuildingreader.cpp \
+        fileIO/ebuildingrendererreader.cpp \
+        fileIO/ebuildingrendererwriter.cpp \
+        fileIO/ebuildingwriter.cpp \
         fileIO/ereadstream.cpp \
         fileIO/ewritestream.cpp \
         main.cpp \
@@ -367,6 +371,7 @@ SOURCES += \
         widgets/infowidgets/etradepostinfowidget.cpp
 
 HEADERS += \
+    buildings/allbuildings.h \
     buildings/eaestheticsbuilding.h \
     buildings/eagorabase.h \
     buildings/eagoraspace.h \
@@ -604,6 +609,10 @@ HEADERS += \
     etexturecollection.h \
     etilehelper.h \
     ewalkablehelpers.h \
+    fileIO/ebuildingreader.h \
+    fileIO/ebuildingrendererreader.h \
+    fileIO/ebuildingrendererwriter.h \
+    fileIO/ebuildingwriter.h \
     fileIO/ereadstream.h \
     fileIO/estreams.h \
     fileIO/ewritestream.h \

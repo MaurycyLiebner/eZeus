@@ -40,6 +40,9 @@
 
 #include "buildings/eheatgetters.h"
 
+#include "fileIO/ebuildingreader.h"
+#include "fileIO/ebuildingwriter.h"
+
 eGameBoard::eGameBoard() :
     mEmplData(mPopData, *this) {
     const int min = static_cast<int>(eBuildingMode::road);
@@ -186,7 +189,7 @@ eResourceType eGameBoard::supportedResources() const {
 }
 
 eBuilding* eGameBoard::randomBuilding(const eBuildingValidator& v) const {
-    auto blds = mBuildings;
+    auto blds = mTimedBuildings;
     std::random_shuffle(blds.begin(), blds.end());
     for(const auto b : blds) {
         const bool r = v(b);
@@ -236,9 +239,19 @@ void eGameBoard::read(eReadStream& src) {
             t->read(src);
         }
     }
+
+    int nbs;
+    src >> nbs;
+    for(int i = 0; i < nbs; i++) {
+        eBuildingType type;
+        src >> type;
+        eBuildingReader::sRead(*this, type, src);
+    }
+
+    src.handlePostFuncs();
 }
 
-void eGameBoard::write(eWriteStream& dst) {
+void eGameBoard::write(eWriteStream& dst) const {
     dst << mWidth;
     dst << mHeight;
 
@@ -247,6 +260,25 @@ void eGameBoard::write(eWriteStream& dst) {
             t->write(dst);
         }
     }
+
+    int id = 0;
+    for(const auto b : mAllBuildings) {
+        b->setIOID(id++);
+    }
+    const int nbs = mAllBuildings.size();
+    dst << nbs;
+    for(const auto b : mAllBuildings) {
+        dst << b->type();
+        eBuildingWriter::sWrite(b, dst);
+    }
+}
+
+eBuilding* eGameBoard::buildingWithIOID(const int id) const {
+    for(const auto b : mAllBuildings) {
+        const int bio = b->ioID();
+        if(bio == id) return b;
+    }
+    return nullptr;
 }
 
 void eGameBoard::updateTileRenderingOrder() {
@@ -360,7 +392,7 @@ void eGameBoard::updateMaxSoldiers() {
     mMaxRockThrowers = 0;
     mMaxHoplites = 0;
     mMaxHorsemen = 0;
-    for(const auto b : mBuildings) {
+    for(const auto b : mTimedBuildings) {
         const auto bt = b->type();
         if(bt == eBuildingType::commonHouse) {
             const auto ch = static_cast<eSmallHouse*>(b);
@@ -521,7 +553,7 @@ void eGameBoard::updateCoverage() {
     int sport = 0;
     int phil = 0;
     int drama = 0;
-    for(const auto b : mBuildings) {
+    for(const auto b : mTimedBuildings) {
         if(const auto h = dynamic_cast<eHouseBase*>(b)) {
             const int p = h->people();
             if(h->athletes() > 0) {
@@ -672,17 +704,25 @@ bool eGameBoard::unregisterSoldier(eSoldier* const c) {
 
 void eGameBoard::registerBuilding(eBuilding* const b) {
     if(!mRegisterBuildingsEnabled) return;
+    mAllBuildings.push_back(b);
+    if(eBuilding::sTimedBuilding(b->type())) {
+        mTimedBuildings.push_back(b);
+    }
     mTileRenderingOrderUpdateNeeded = true;
-    mBuildings.push_back(b);
     scheduleAppealMapUpdate();
 }
 
 bool eGameBoard::unregisterBuilding(eBuilding* const b) {
     if(!mRegisterBuildingsEnabled) return false;
+    {
+        const auto it = std::find(mAllBuildings.begin(), mAllBuildings.end(), b);
+        if(it != mAllBuildings.end()) mAllBuildings.erase(it);
+    }
+    {
+        const auto it = std::find(mTimedBuildings.begin(), mTimedBuildings.end(), b);
+        if(it != mTimedBuildings.end()) mTimedBuildings.erase(it);
+    }
     mTileRenderingOrderUpdateNeeded = true;
-    const auto it = std::find(mBuildings.begin(), mBuildings.end(), b);
-    if(it == mBuildings.end()) return false;
-    mBuildings.erase(it);
     scheduleAppealMapUpdate();
     return true;
 }
@@ -724,13 +764,13 @@ bool eGameBoard::unregisterSpawner(eSpawner* const s) {
 void eGameBoard::registerStadium(eBuilding* const s) {
     if(!mRegisterBuildingsEnabled) return;
     mStadium = s;
-    mButtonVisUpdater();
+    if(mButtonVisUpdater) mButtonVisUpdater();
 }
 
 void eGameBoard::unregisterStadium() {
     if(!mRegisterBuildingsEnabled) return;
     mStadium = nullptr;
-    mButtonVisUpdater();
+    if(mButtonVisUpdater) mButtonVisUpdater();
 }
 
 void eGameBoard::registerStorBuilding(eStorageBuilding* const b) {
@@ -839,7 +879,7 @@ void eGameBoard::incTime(const int by) {
     for(const auto c : solds) {
         c->incTime(by);
     }
-    const auto build = mBuildings;
+    const auto build = mTimedBuildings;
     for(const auto b : build) {
         b->incTime(by);
         if(nextMonth) b->nextMonth();

@@ -7,10 +7,8 @@
 
 #include "ehorseranch.h"
 
-eHorseRanchEnclosure::eHorseRanchEnclosure(
-        eGameBoard& board, eHorseRanch* const hr) :
-    eBuilding(board, eBuildingType::horseRanchEnclosure, 4, 4),
-    mRanch(hr) {
+eHorseRanchEnclosure::eHorseRanchEnclosure(eGameBoard& board) :
+    eBuilding(board, eBuildingType::horseRanchEnclosure, 4, 4) {
     setEnabled(true);
 }
 
@@ -84,4 +82,8 @@ bool eHorseRanchEnclosure::takeHorse() {
     h->kill();
     mHorses.pop_back();
     return true;
+}
+
+void eHorseRanchEnclosure::setRanch(eHorseRanch* const ranch) {
+    mRanch = ranch;
 }

@@ -1,8 +1,16 @@
 #include "ebuildingrenderer.h"
 
-eBuildingRenderer::eBuildingRenderer(const stdsptr<eBuilding>& b) :
+eBuildingRenderer::eBuildingRenderer(const stdsptr<eBuilding>& b,
+                                     const eBuildingRendererType type) :
     eObject(b->getBoard()),
-    mBuilding(b) {}
+    mBuilding(b),
+    mType(type) {
+    mBuilding->addRenderer(this);
+}
+
+eBuildingRenderer::~eBuildingRenderer() {
+    mBuilding->removeRenderer(this);
+}
 
 std::shared_ptr<eTexture>
 eBuildingRenderer::getTexture(const eTileSize size) const {
@@ -43,4 +51,8 @@ void eBuildingRenderer::draw(eTilePainter& p,
             if(erase) tex->clearColorMod();
         }
     }
+}
+
+void eBuildingRenderer::setTile(eTile* const tile) {
+    mTile = tile;
 }

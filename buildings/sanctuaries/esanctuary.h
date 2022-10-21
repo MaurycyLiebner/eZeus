@@ -36,6 +36,7 @@ public:
 
     void useResources(const eSanctCost& r);
 
+    int altitude() const { return mAltitude; }
     void setAltitude(const int a) { mAltitude = a; }
 private:
     eSanctCost mStored{0, 0, 0};

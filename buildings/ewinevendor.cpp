@@ -1,8 +1,7 @@
 #include "ewinevendor.h"
 
-eWineVendor::eWineVendor(const stdsptr<eAgoraBase>& agora,
-                         eGameBoard& board) :
-    eVendor(board, agora,
+eWineVendor::eWineVendor(eGameBoard& board) :
+    eVendor(board,
             eResourceType::wine, eProvide::wine,
             &eBuildingTextures::fWineVendor,
             -2.15, -2.35, &eBuildingTextures::fWineVendorOverlay,

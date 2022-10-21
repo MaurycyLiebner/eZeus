@@ -4,7 +4,8 @@
 
 eStairsRenderer::eStairsRenderer(
         const int id, const stdsptr<eBuilding>& b) :
-    eBuildingRenderer(b), mId(id) {
+    eBuildingRenderer(b, eBuildingRendererType::stairs),
+    mId(id) {
 
 }
 

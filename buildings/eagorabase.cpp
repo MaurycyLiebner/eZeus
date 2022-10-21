@@ -132,17 +132,20 @@ void eAgoraBase::setBuilding(const int id, const stdsptr<eBuilding>& b) {
 
 void eAgoraBase::setBuilding(eBuilding* const space,
                              const stdsptr<eBuilding>& b) {
-    bool found = false;
+    const int id = buildingId(space);
+    if(id == -1) return;
+    setBuilding(id, b);
+}
+
+int eAgoraBase::buildingId(const eBuilding* const b) const {
     int id = -1;
     for(const auto& bb : mBs) {
         id++;
-        if(bb.get() == space) {
-            found = true;
+        if(bb.get() == b) {
             break;
         }
     }
-    if(!found) return;
-    setBuilding(id, b);
+    return id;
 }
 
 void eAgoraBase::fillSpaces() {

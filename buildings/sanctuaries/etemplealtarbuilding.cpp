@@ -2,8 +2,8 @@
 
 #include "textures/egametextures.h"
 
-eTempleAltarBuilding::eTempleAltarBuilding(eSanctuary* const s, eGameBoard& board) :
-    eSanctBuilding(s, {0, 4, 0}, 1, board,
+eTempleAltarBuilding::eTempleAltarBuilding(eGameBoard& board) :
+    eSanctBuilding({0, 4, 0}, 1, board,
                    eBuildingType::templeAltar, 2, 2) {
 
 }

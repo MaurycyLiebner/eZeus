@@ -1173,7 +1173,7 @@ void eGameWidget::paintEvent(ePainter& p) {
     case eBuildingMode::templeArtemis:
     case eBuildingMode::templeHephaestus: {
         const auto bt = eBuildingModeHelpers::toBuildingType(mode);
-        const auto h = sanctuaryBlueprint(bt, mRotate);
+        const auto h = eSanctBlueprints::sSanctuaryBlueprint(bt, mRotate);
         const int sw = h->fW;
         const int sh = h->fH;
         const int xMin = mHoverTX - sw/2;
@@ -1411,7 +1411,8 @@ void eGameWidget::paintEvent(ePainter& p) {
                         }
                     }
                     const auto b0 = e::make_shared<ePalaceTile>(
-                                        *mBoard, b1.get(), other);
+                                        *mBoard, other);
+                    b0->setPalace(b1.get());
                     ebs.emplace_back(x, y, b0);
                 }
             }
@@ -1626,7 +1627,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             } else if(mRotateId == 3) { // bottomLeft
                 dy = 4;
             }
-            const auto b2 = e::make_shared<eHorseRanchEnclosure>(*mBoard, b1.get());
+            const auto b2 = e::make_shared<eHorseRanchEnclosure>(*mBoard);
+            b2->setRanch(b1.get());
             if(under) {
                 ebs.insert(ebs.begin(), eB{tx + dx, ty + dy, b2});
             } else {
@@ -1661,27 +1663,27 @@ void eGameWidget::paintEvent(ePainter& p) {
         } break;
 
         case eBuildingMode::foodVendor: {
-            const auto b1 = e::make_shared<eFoodVendor>(nullptr, *mBoard);
+            const auto b1 = e::make_shared<eFoodVendor>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
         case eBuildingMode::fleeceVendor: {
-            const auto b1 = e::make_shared<eFleeceVendor>(nullptr, *mBoard);
+            const auto b1 = e::make_shared<eFleeceVendor>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
         case eBuildingMode::oilVendor: {
-            const auto b1 = e::make_shared<eOilVendor>(nullptr, *mBoard);
+            const auto b1 = e::make_shared<eOilVendor>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
         case eBuildingMode::wineVendor: {
-            const auto b1 = e::make_shared<eWineVendor>(nullptr, *mBoard);
+            const auto b1 = e::make_shared<eWineVendor>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
         case eBuildingMode::armsVendor: {
-            const auto b1 = e::make_shared<eArmsVendor>(nullptr, *mBoard);
+            const auto b1 = e::make_shared<eArmsVendor>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
         case eBuildingMode::horseTrainer: {
-            const auto b1 = e::make_shared<eHorseVendor>(nullptr, *mBoard);
+            const auto b1 = e::make_shared<eHorseVendor>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
 

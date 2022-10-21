@@ -117,6 +117,7 @@ class eWaterPark : public eBuilding {
 public:
     eWaterPark(eGameBoard& board);
 
+    int id() const { return mId; }
     void setId(const int i);
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
@@ -130,6 +131,8 @@ public:
     eCommemorative(const int id, eGameBoard& board);
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
+
+    int id() const { return mId; }
 private:
     const int mId = 0;
 };

@@ -23,6 +23,8 @@ public:
     int spanH() const { return 2; }
 
     bool isMain() const { return false; }
+
+    eEliteRendererType etype() const { return mType; }
 private:
     const eEliteRendererType mType;
     const stdsptr<eEliteHousing> mBuilding;

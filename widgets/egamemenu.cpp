@@ -814,6 +814,8 @@ void eGameMenu::initialize(eGameBoard* const b) {
     }
 
     mMiniMap->setBoard(b);
+
+    updateButtonsVisibility();
 }
 
 void eGameMenu::setGameWidget(eGameWidget* const gw) {

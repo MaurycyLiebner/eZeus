@@ -8,11 +8,14 @@
 
 class eTempleMonumentBuilding : public eSanctBuilding {
 public:
-    eTempleMonumentBuilding(eSanctuary* const s, const eGodType god,
+    eTempleMonumentBuilding(const eGodType god,
                             const int id, eGameBoard& board);
 
     std::shared_ptr<eTexture>
         getTexture(const eTileSize size) const;
+
+    eGodType godType() const { return mGod; }
+    int id() const { return mId; }
 private:
     const eGodType mGod;
     const int mId;

@@ -102,9 +102,6 @@ private:
                      const eBuildingType type,
                      const eAnimalCreator& creator);
 
-    const eSanctBlueprint* sanctuaryBlueprint(
-            const eBuildingType type, const bool rotate);
-
     std::vector<eTile*> agoraBuildPlaceBR(eTile* const tile) const;
     std::vector<eTile*> agoraBuildPlaceTL(eTile* const tile) const;
     std::vector<eTile*> agoraBuildPlaceBL(eTile* const tile) const;

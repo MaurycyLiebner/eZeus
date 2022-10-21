@@ -5,7 +5,8 @@
 eTempleRenderer::eTempleRenderer(
         const int id,
         const stdsptr<eTempleBuilding>& b) :
-    eBuildingRenderer(b), mId(id), mB(b) {}
+    eBuildingRenderer(b, eBuildingRendererType::temple),
+    mId(id), mB(b) {}
 
 std::shared_ptr<eTexture> eTempleRenderer::getTexture(const eTileSize size) const {
     const int p = mB->progress();

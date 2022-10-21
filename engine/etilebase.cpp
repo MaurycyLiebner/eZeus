@@ -199,7 +199,7 @@ void eTileBase::read(eReadStream& src) {
     setHasFish(fish);
 }
 
-void eTileBase::write(eWriteStream& dst) {
+void eTileBase::write(eWriteStream& dst) const {
     dst << mTerr;
     dst << mScrub;
     dst << mMarbleLevel;

@@ -14,6 +14,8 @@ public:
     int spanH() const { return 1; }
 
     void updateId(eTile* const tile);
+
+    int id() const { return mId; }
 private:
     const int mId = 0;
 };

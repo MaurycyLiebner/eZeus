@@ -143,8 +143,6 @@ void eGameWidget::initialize() {
     const auto& setts = window()->settings();
     const auto sizes = setts.availableSizes();
     setTileSize(sizes.front());
-
-    showMessage(nullptr, eMessages::instance.fFire);
 }
 
 void eGameWidget::pixToId(const int pixX, const int pixY,

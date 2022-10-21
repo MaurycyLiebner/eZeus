@@ -18,6 +18,8 @@ public:
     getTextureEntranceBack(const eTileSize size) const;
     eOverlay
     getTextureEntranceOverlay(const eTileSize size) const;
+
+    bool rotated() const { return mRotated; }
 private:
     const bool mRotated;
 };

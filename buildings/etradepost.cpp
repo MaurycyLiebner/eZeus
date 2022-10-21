@@ -9,6 +9,7 @@
 
 #include "characters/etrader.h"
 #include "characters/actions/etraderaction.h"
+#include "characters/etradeboat.h"
 
 eTradePost::eTradePost(eGameBoard& board, eWorldCity& city,
                        const eTradePostType type) :
@@ -18,6 +19,29 @@ eTradePost::eTradePost(eGameBoard& board, eWorldCity& city,
     setOverlayEnabledFunc([]() { return true; });
     setOrders(eResourceType::none, eResourceType::none);
     getBoard().registerTradePost(this);
+
+    switch(type) {
+    case eTradePostType::pier: {
+        setCharacterCreator([](eTile* const tile, eGameBoard& board) {
+            const auto r = e::make_shared<eTradeBoat>(board);
+            r->changeTile(tile);
+            return r;
+        });
+        setWalkable([](eTileBase* const t) {
+            const bool r = t->terrain() == eTerrain::water;
+            if(!r) return false;
+            return !t->isShoreTile();
+        });
+    } break;
+    case eTradePostType::post: {
+        setCharacterCreator([](eTile* const tile, eGameBoard& board) {
+            const auto r = e::make_shared<eTrader>(board);
+            r->changeTile(tile);
+            r->createFollowers();
+            return r;
+        });
+    } break;
+    }
 }
 
 eTradePost::~eTradePost() {

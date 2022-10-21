@@ -15,6 +15,8 @@ public:
 
     std::vector<eOverlay>
     getOverlays(const eTileSize size) const;
+
+    int id() const { return mId; }
 private:
     const int mId;
     const stdsptr<eTempleBuilding> mB;

@@ -13,6 +13,8 @@ public:
 
     void setTradePost(eBuilding* const b);
     eBuilding* tradePost() const { return mTradePost; }
+
+    eOrientation orientation() const { return mO; }
 private:
     const eOrientation mO;
     eBuilding* mTradePost = nullptr;

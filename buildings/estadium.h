@@ -14,6 +14,8 @@ public:
     std::vector<eOverlay> getOverlays2(const eTileSize size) const;
 
     void timeChanged(const int by);
+
+    bool rotated() const { return mRotated; }
 protected:
     int overlayId() const { return mOverlayId; }
     int overlayTime() const { return mOverlayTime/4; }

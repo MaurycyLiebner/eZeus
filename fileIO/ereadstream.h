@@ -3,6 +3,10 @@
 
 #include <SDL2/SDL.h>
 #include <string>
+#include <functional>
+
+class eTile;
+class eGameBoard;
 
 class eReadStream {
 public:
@@ -40,6 +44,14 @@ public:
         return *this;
     }
 
+    inline eReadStream& operator>>(SDL_Rect& val) {
+        *this >> val.x;
+        *this >> val.y;
+        *this >> val.w;
+        *this >> val.h;
+        return *this;
+    }
+
     inline eReadStream& operator>>(std::string& val) {
         int32_t size;
         *this >> size;
@@ -51,7 +63,15 @@ public:
         }
         return *this;
     }
+
+    eTile* readTile(eGameBoard& board);
+
+    using eFunc = std::function<void()>;
+    void addPostFunc(const eFunc& func);
+    void handlePostFuncs();
 private:
+    std::vector<eFunc> mPostFuncs;
+
     SDL_RWops* const mSrc;
 };
 

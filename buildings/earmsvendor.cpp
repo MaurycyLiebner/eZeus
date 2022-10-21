@@ -1,8 +1,7 @@
 #include "earmsvendor.h"
 
-eArmsVendor::eArmsVendor(const stdsptr<eAgoraBase>& agora,
-                         eGameBoard& board) :
-    eVendor(board, agora,
+eArmsVendor::eArmsVendor(eGameBoard& board) :
+    eVendor(board,
             eResourceType::armor, eProvide::arms,
             &eBuildingTextures::fArmsVendor,
             -1.86, -2.39, &eBuildingTextures::fArmsVendorOverlay,

@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "buildings/ebuilding.h"
+
 enum class eSanctEleType {
     none,
     stairs,
@@ -31,6 +33,9 @@ struct eSanctBlueprint {
 class eSanctBlueprints {
 public:
     static eSanctBlueprints instance;
+
+    static const eSanctBlueprint* sSanctuaryBlueprint(
+            const eBuildingType type, const bool rotate);
 
     static void load();
     static bool loaded();

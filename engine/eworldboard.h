@@ -20,6 +20,8 @@ public:
     { return mHomeCity; }
     const std::vector<stdsptr<eWorldCity>>& cities() const
     { return mCities; }
+
+    int cityId(const eWorldCity& city) const;
 private:
     stdsptr<eWorldCityBase> mHomeCity;
     std::vector<stdsptr<eWorldCity>> mCities;

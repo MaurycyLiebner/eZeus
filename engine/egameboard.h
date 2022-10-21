@@ -229,7 +229,9 @@ public:
     void updateMarbleTiles();
 
     void read(eReadStream& src);
-    void write(eWriteStream& dst);
+    void write(eWriteStream& dst) const;
+
+    eBuilding* buildingWithIOID(const int id) const;
 private:
     void updateNeighbours();
     void updateTileRenderingOrder();
@@ -299,7 +301,8 @@ private:
     std::vector<eStorageBuilding*> mStorBuildings;
     std::vector<eCharacter*> mCharacters;
     std::vector<eSoldier*> mSoldiers;
-    std::vector<eBuilding*> mBuildings;
+    std::vector<eBuilding*> mTimedBuildings;
+    std::vector<eBuilding*> mAllBuildings;
     std::vector<eTradePost*> mTradePosts;
     std::vector<eSpawner*> mSpawners;
     std::vector<eMissile*> mMissiles;

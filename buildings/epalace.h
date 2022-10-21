@@ -26,6 +26,8 @@ public:
     void addTile(const stdsptr<ePalaceTile>& tile);
 
     const std::vector<stdsptr<ePalaceTile>>& tiles() const { return mTiles; }
+
+    bool rotated() const { return mRotated; }
 private:
     const bool mRotated;
     std::vector<stdsptr<ePalaceTile>> mTiles;

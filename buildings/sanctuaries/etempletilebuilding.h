@@ -5,8 +5,7 @@
 
 class eTempleTileBuilding : public eSanctBuilding {
 public:
-    eTempleTileBuilding(eSanctuary* const s,
-                        const int id, eGameBoard& board);
+    eTempleTileBuilding(const int id, eGameBoard& board);
 
     std::shared_ptr<eTexture>
         getTexture(const eTileSize size) const;
@@ -15,6 +14,8 @@ public:
 
     std::shared_ptr<eTexture>
         getTileTexture(const eTileSize size) const;
+
+    int id() const { return mId; }
 private:
     const int mId;
 };

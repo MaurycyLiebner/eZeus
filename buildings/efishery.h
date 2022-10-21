@@ -26,6 +26,8 @@ public:
     void addRaw();
 
     int take(const eResourceType type, const int count);
+
+    eOrientation orientation() const { return mO; }
 private:
     void spawnBoat();
     void updateDisabled();

@@ -1,8 +1,7 @@
 #include "eoilvendor.h"
 
-eOilVendor::eOilVendor(const stdsptr<eAgoraBase>& agora,
-                       eGameBoard& board) :
-    eVendor(board, agora,
+eOilVendor::eOilVendor(eGameBoard& board) :
+    eVendor(board,
             eResourceType::oliveOil, eProvide::oil,
             &eBuildingTextures::fOilVendor,
             -2.56, -3.05, &eBuildingTextures::fOilVendorOverlay,

@@ -21,6 +21,8 @@ public:
 
     int spanW() const { return 2; }
     int spanH() const { return 2; };
+
+    eGatehouseRendererType gtype() const { return mType; }
 private:
     const eGatehouseRendererType mType;
     const stdsptr<eGatehouse> mBuilding;

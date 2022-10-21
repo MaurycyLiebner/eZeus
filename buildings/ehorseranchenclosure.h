@@ -8,7 +8,7 @@ class eHorseRanch;
 
 class eHorseRanchEnclosure : public eBuilding {
 public:
-    eHorseRanchEnclosure(eGameBoard& board, eHorseRanch* const hr);
+    eHorseRanchEnclosure(eGameBoard& board);
 
     void erase();
 
@@ -20,11 +20,12 @@ public:
     bool spawnHorse();
     bool takeHorse();
 
+    void setRanch(eHorseRanch* const ranch);
     eHorseRanch* ranch() const { return mRanch; }
 private:
     std::vector<stdsptr<eHorse>> mHorses;
 
-    eHorseRanch* const mRanch;
+    eHorseRanch* mRanch = nullptr;
 };
 
 #endif // EHORSERANCHENCLOSURE_H
