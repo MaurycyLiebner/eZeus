@@ -219,8 +219,8 @@ bool eWidget::keyPress(const eKeyPressEvent& e) {
         override->keyPressEvent(ee);
         return true;
     }
-    sLastPressed = mouseEvent(e, &eWidget::keyPressEvent);
-    return sLastPressed;
+    const auto handler = mouseEvent(e, &eWidget::keyPressEvent);
+    return handler;
 }
 
 bool eWidget::mousePress(const eMouseEvent& e) {
