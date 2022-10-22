@@ -62,3 +62,17 @@ void eFarmBase::timeChanged(const int by) {
     }
     eResourceBuildingBase::timeChanged(by);
 }
+
+void eFarmBase::read(eReadStream& src) {
+    eResourceBuildingBase::read(src);
+
+    src >> mNextRipe;
+    src >> mRipe;
+}
+
+void eFarmBase::write(eWriteStream& dst) const {
+    eResourceBuildingBase::write(dst);
+
+    dst << mNextRipe;
+    dst << mRipe;
+}

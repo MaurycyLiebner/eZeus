@@ -129,3 +129,19 @@ int eHorseRanch::horseCount() const {
 bool eHorseRanch::takeHorse() {
     return mEnclosure->takeHorse();
 }
+
+void eHorseRanch::read(eReadStream& src) {
+    eEmployingBuilding::read(src);
+
+    src >> mWheat;
+    src >> mWheatTime;
+    src >> mHorseTime;
+}
+
+void eHorseRanch::write(eWriteStream& dst) const {
+    eEmployingBuilding::write(dst);
+
+    dst << mWheat;
+    dst << mWheatTime;
+    dst << mHorseTime;
+}

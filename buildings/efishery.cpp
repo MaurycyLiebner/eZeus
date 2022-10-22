@@ -245,3 +245,19 @@ void eFishery::updateDisabled() {
     mDisabled = d;
     if(mAction) mAction->setDisabled(mDisabled);
 }
+
+void eFishery::read(eReadStream& src) {
+    eResourceCollectBuildingBase::read(src);
+
+    src >> mDisabled;
+    src >> mStateCount;
+    src >> mState;
+}
+
+void eFishery::write(eWriteStream& dst) const {
+    eResourceCollectBuildingBase::write(dst);
+
+    dst << mDisabled;
+    dst << mStateCount;
+    dst << mState;
+}

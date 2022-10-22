@@ -33,7 +33,7 @@ public:
                    const eBuildingType type,
                    const int sw, const int sh);
 
-    void erase();
+    void erase() override;
 
     bool resourcesAvailable() const;
 
@@ -51,6 +51,9 @@ public:
 
     void setSanctuary(eSanctuary* const s);
     eSanctuary* sanctuary() const { return mSanctuary; }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     const int mMaxProgress;
     eSanctuary* mSanctuary = nullptr;

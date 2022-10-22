@@ -18,16 +18,19 @@ public:
     eFishery(eGameBoard& board, const eOrientation o);
     ~eFishery();
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
-    std::vector<eOverlay> getOverlays(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
+    std::vector<eOverlay> getOverlays(const eTileSize size) const override;
 
-    void addRaw();
+    void addRaw() override;
 
-    int take(const eResourceType type, const int count);
+    int take(const eResourceType type, const int count) override;
 
     eOrientation orientation() const { return mO; }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     void spawnBoat();
     void updateDisabled();

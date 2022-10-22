@@ -122,3 +122,27 @@ std::vector<eCartTask> eSanctuary::cartTasks() const {
 void eSanctuary::registerElement(const stdsptr<eSanctBuilding>& e) {
     mElements.push_back(e);
 }
+
+void eSanctuary::read(eReadStream& src) {
+    eEmployingBuilding::read(src);
+
+    src >> mStored.fMarble;
+    src >> mStored.fSculpture;
+    src >> mStored.fWood;
+
+    src >> mUsed.fMarble;
+    src >> mUsed.fSculpture;
+    src >> mUsed.fWood;
+}
+
+void eSanctuary::write(eWriteStream& dst) const {
+    eEmployingBuilding::write(dst);
+
+    dst << mStored.fMarble;
+    dst << mStored.fSculpture;
+    dst << mStored.fWood;
+
+    dst << mUsed.fMarble;
+    dst << mUsed.fSculpture;
+    dst << mUsed.fWood;
+}

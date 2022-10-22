@@ -16,18 +16,18 @@ public:
                const int maxEmployees);
     ~eSanctuary();
 
-    void erase();
+    void erase() override;
 
     std::shared_ptr<eTexture>
-    getTexture(const eTileSize) const
+    getTexture(const eTileSize) const override
     { return nullptr; }
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
 
-    int spaceLeft(const eResourceType type) const;
-    int add(const eResourceType type, const int count);
+    int spaceLeft(const eResourceType type) const override;
+    int add(const eResourceType type, const int count) override;
 
-    std::vector<eCartTask> cartTasks() const;
+    std::vector<eCartTask> cartTasks() const override;
 
     void registerElement(const stdsptr<eSanctBuilding>& e);
 
@@ -38,6 +38,9 @@ public:
 
     int altitude() const { return mAltitude; }
     void setAltitude(const int a) { mAltitude = a; }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     eSanctCost mStored{0, 0, 0};
     eSanctCost mUsed{0, 0, 0};

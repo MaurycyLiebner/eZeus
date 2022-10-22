@@ -87,3 +87,19 @@ bool eHorseRanchEnclosure::takeHorse() {
 void eHorseRanchEnclosure::setRanch(eHorseRanch* const ranch) {
     mRanch = ranch;
 }
+
+void eHorseRanchEnclosure::read(eReadStream& src) {
+    eBuilding::read(src);
+
+    int nh;
+    src >> nh;
+    for(int i = 0; i < nh; i++) {
+        spawnHorse();
+    }
+}
+
+void eHorseRanchEnclosure::write(eWriteStream& dst) const {
+    eBuilding::write(dst);
+
+    dst << mHorses.size();
+}

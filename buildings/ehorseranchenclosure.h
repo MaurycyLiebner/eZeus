@@ -10,10 +10,10 @@ class eHorseRanchEnclosure : public eBuilding {
 public:
     eHorseRanchEnclosure(eGameBoard& board);
 
-    void erase();
+    void erase() override;
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
-    std::vector<eOverlay> getOverlays(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
+    std::vector<eOverlay> getOverlays(const eTileSize size) const override;
 
     int horseCount() const { return mHorses.size(); }
 
@@ -22,6 +22,9 @@ public:
 
     void setRanch(eHorseRanch* const ranch);
     eHorseRanch* ranch() const { return mRanch; }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     std::vector<stdsptr<eHorse>> mHorses;
 
