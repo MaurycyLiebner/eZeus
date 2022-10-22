@@ -135,6 +135,16 @@ eHouseMissing eSmallHouse::missing() const {
     return eHouseMissing::food;
 }
 
+void eSmallHouse::read(eReadStream& src) {
+    eHouseBase::read(src);
+    src >> mWater;
+}
+
+void eSmallHouse::write(eWriteStream& dst) const {
+    eHouseBase::write(dst);
+    dst << mWater;
+}
+
 void eSmallHouse::updateLevel() {
     const auto& b = getBoard();
     const auto t = centerTile();

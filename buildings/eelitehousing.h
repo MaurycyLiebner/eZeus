@@ -8,7 +8,7 @@ public:
     eEliteHousing(eGameBoard& board);
 
     std::shared_ptr<eTexture>
-    getTexture(const eTileSize) const { return nullptr; }
+    getTexture(const eTileSize) const override { return nullptr; }
 
     std::shared_ptr<eTexture>
         getLeftTexture(const eTileSize size) const;
@@ -21,11 +21,11 @@ public:
     std::vector<eOverlay>
         getHorseOverlays(const eTileSize size) const;
 
-    int provide(const eProvide p, const int n);
+    int provide(const eProvide p, const int n) override;
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
 
-    void nextMonth();
+    void nextMonth() override;
 
     int wine() const { return mWine; }
     int arms() const { return mArms; }
@@ -39,7 +39,10 @@ public:
     bool lowArms() const { return !mArms; }
     bool lowHorses() const { return !mHorses; }
 
-    eHouseMissing missing() const;
+    eHouseMissing missing() const override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     const eTextureCollection& getTextureCollection(
             const eTileSize size) const;
@@ -49,10 +52,6 @@ private:
     int mWine = 0;
     int mArms = 0;
     int mHorses = 0;
-
-    int mPhilosophers = 0;
-    int mActors = 0;
-    int mAthletes = 0;
 };
 
 #endif // EELITEHOUSING_H

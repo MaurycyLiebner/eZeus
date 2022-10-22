@@ -222,8 +222,8 @@ public:
     void setBlessed(const double b);
     double blessed() const { return mBlessed; }    
 
-    void read(eReadStream& src);
-    void write(eWriteStream& dst) const;
+    virtual void read(eReadStream& src);
+    virtual void write(eWriteStream& dst) const;
 
     void setIOID(const int id);
     int ioID() const { return mIOID; }

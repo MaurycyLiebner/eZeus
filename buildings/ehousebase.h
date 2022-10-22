@@ -45,6 +45,9 @@ public:
     int moveIn(int c);
 
     int vacancies() const;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 protected:
     void setLevel(const int l);
     int evict();

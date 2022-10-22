@@ -179,6 +179,20 @@ eHouseMissing eEliteHousing::missing() const {
     return eHouseMissing::food;
 }
 
+void eEliteHousing::read(eReadStream& src) {
+    eHouseBase::read(src);
+    src >> mWine;
+    src >> mArms;
+    src >> mHorses;
+}
+
+void eEliteHousing::write(eWriteStream& dst) const {
+    eHouseBase::write(dst);
+    dst << mWine;
+    dst << mArms;
+    dst << mHorses;
+}
+
 const eTextureCollection& eEliteHousing::getTextureCollection(
         const eTileSize size) const {
     const int sizeId = static_cast<int>(size);

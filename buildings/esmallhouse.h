@@ -7,13 +7,13 @@ class eSmallHouse : public eHouseBase {
 public:
     eSmallHouse(eGameBoard& board);
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
 
-    int provide(const eProvide p, const int n);
+    int provide(const eProvide p, const int n) override;
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
 
-    void nextMonth();
+    void nextMonth() override;
 
     int water() const { return mWater; }
 
@@ -21,7 +21,10 @@ public:
     bool lowFleece() const { return mFleece < 2; }
     bool lowOil() const { return mOil < 2; }
 
-    eHouseMissing missing() const;
+    eHouseMissing missing() const override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     void updateLevel();
 

@@ -32,6 +32,48 @@ int eHouseBase::moveIn(int c) {
     return c;
 }
 
+int eHouseBase::vacancies() const {
+    return mMaxPeople[mLevel] - mPeople;
+}
+
+void eHouseBase::read(eReadStream& src) {
+    eBuilding::read(src);
+
+    src >> mPaidTaxes;
+
+    int level;
+    src >> level;
+    setLevel(level);
+    int people;
+    src >> people;
+    setPeople(people);
+
+    src >> mFood;
+    src >> mFleece;
+    src >> mOil;
+
+    src >> mPhilosophers;
+    src >> mActors;
+    src >> mAthletes;
+}
+
+void eHouseBase::write(eWriteStream& dst) const {
+    eBuilding::write(dst);
+
+    dst << mPaidTaxes;
+
+    dst << mLevel;
+    dst << mPeople;
+
+    dst << mFood;
+    dst << mFleece;
+    dst << mOil;
+
+    dst << mPhilosophers;
+    dst << mActors;
+    dst << mAthletes;
+}
+
 void eHouseBase::setLevel(const int l) {
     if(mLevel == l) return;
 
@@ -44,10 +86,6 @@ void eHouseBase::setLevel(const int l) {
     popData.incVacancies(nv - ov);
 
     evict();
-}
-
-int eHouseBase::vacancies() const {
-    return mMaxPeople[mLevel] - mPeople;
 }
 
 int eHouseBase::evict() {
