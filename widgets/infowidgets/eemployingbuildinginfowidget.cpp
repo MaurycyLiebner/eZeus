@@ -10,6 +10,8 @@ void eEmployingBuildingInfoWidget::initialize(const std::string& title,
                                               eEmployingBuilding* const b) {
     eInfoWidget::initialize(title);
 
+    addCentralWidget();
+
     const auto p = padding();
 
     const auto wid = addFramedWidget(8*p);
