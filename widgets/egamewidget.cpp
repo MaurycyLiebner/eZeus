@@ -860,9 +860,16 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
             mMenu = new eGameMainMenu(window());
             mMenu->resize(width()/4, height()/2);
             const auto w = window();
-            mMenu->initialize([w]() {
+            const auto saveAct = [w]() {
+                w->saveGame();
+            };
+            const auto loadAct = [w]() {
+                w->loadGame();
+            };
+            const auto exitAct = [w]() {
                 w->closeGame();
-            }, mBoard);
+            };
+            mMenu->initialize(saveAct, loadAct, exitAct);
             addWidget(mMenu);
             mMenu->align(eAlignment::center);
         }

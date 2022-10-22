@@ -96,6 +96,40 @@ void eMainWindow::setFullscreen(const bool f) {
     SDL_SetWindowFullscreen(mSdlWindow, f ? SDL_WINDOW_FULLSCREEN : 0);
 }
 
+void eMainWindow::startGameAction(eGameBoard* const board) {
+    const auto l = new eGameLoadingWidget(this);
+    l->resize(width(), height());
+    const auto show = [this, board]() {
+        showGame(board);
+    };
+    l->setDoneAction(show);
+    setWidget(l);
+    l->initialize();
+}
+
+void eMainWindow::saveGame() {
+    const std::string basedir{"../saves/"};
+    const auto path = basedir + "1.ez";
+    const auto file = SDL_RWFromFile(path.c_str(), "w+b");
+    if(!file) return;
+    eWriteStream dst(file);
+    mBoard->write(dst);
+    SDL_RWclose(file);
+}
+
+void eMainWindow::loadGame() {
+    const std::string basedir{"../saves/"};
+    const auto path = basedir + "1.ez";
+    const auto file = SDL_RWFromFile(path.c_str(), "r+b");
+    if(!file) return;
+    eReadStream src(file);
+    const auto board = new eGameBoard();
+    board->read(src);
+    SDL_RWclose(file);
+
+    startGameAction(board);
+}
+
 void eMainWindow::closeGame() {
     if(!mGW) return;
     if(mGW) {
@@ -125,38 +159,18 @@ void eMainWindow::showMainMenu() {
     mm->resize(width(), height());
     setWidget(mm);
 
-    const auto gameAction = [this](eGameBoard* const board) {
-        const auto l = new eGameLoadingWidget(this);
-        l->resize(width(), height());
-        const auto show = [this, board]() {
-            showGame(board);
-        };
-        l->setDoneAction(show);
-        setWidget(l);
-        l->initialize();
-    };
-
-    const auto newGameAction = [gameAction]() {
+    const auto newGameAction = [this]() {
         const auto board = new eGameBoard();
         board->initialize(100, 200);
         eMapGenerator g(*board);
         eMapGeneratorSettings sett;
         g.generate(sett);
 
-        gameAction(board);
+        startGameAction(board);
     };
 
-    const auto loadGameAction = [gameAction]() {
-        const std::string basedir{"../saves/"};
-        const auto path = basedir + "1.ez";
-        const auto file = SDL_RWFromFile(path.c_str(), "r+b");
-        if(!file) return;
-        eReadStream src(file);
-        const auto board = new eGameBoard();
-        board->read(src);
-        SDL_RWclose(file);
-
-        gameAction(board);
+    const auto loadGameAction = [this]() {
+        loadGame();
     };
 
     const auto settingsAction = [this]() {

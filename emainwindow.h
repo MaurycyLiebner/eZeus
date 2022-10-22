@@ -38,6 +38,9 @@ public:
     void setResolution(const eResolution& res);
     void setFullscreen(const bool f);
 
+    void startGameAction(eGameBoard* const board);
+    void saveGame();
+    void loadGame();
     void closeGame();
 
     void showMenuLoading();
