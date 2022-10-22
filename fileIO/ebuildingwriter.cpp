@@ -9,8 +9,11 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     const auto& wrld = board.getWorldBoard();
     const auto type = b->type();
     switch(type) {
-    case eBuildingType::road:
-        break;
+    case eBuildingType::road: {
+        const auto r = static_cast<const eRoad*>(b);
+        const auto a = r->underAgora();
+        dst.writeBuilding(a);
+    } break;
     case eBuildingType::commonAgora: {
         const auto ca = static_cast<const eCommonAgora*>(b);
         dst << ca->orientation();
@@ -41,7 +44,7 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     case eBuildingType::palaceTile: {
         const auto p = static_cast<const ePalaceTile*>(b);
         dst << p->other();
-        dst << p->palace()->ioID();
+        dst.writeBuilding(p->palace());
     } break;
     case eBuildingType::eliteHousing:
     case eBuildingType::taxOffice:
@@ -62,8 +65,7 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
         const auto p = static_cast<const ePier*>(b);
         dst << p->orientation();
         const auto tp = p->tradePost();
-        const int tpid = tp ? tp->ioID() : -1;
-        dst << tpid;
+        dst.writeBuilding(tp);
     } break;
     case eBuildingType::tradePost: {
         const auto tp = static_cast<const eTradePost*>(b);
@@ -74,8 +76,7 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
 
         if(tpt == eTradePostType::pier) {
             const auto ub = tp->unpackBuilding();
-            const int ubid = ub ? ub->ioID() : -1;
-            dst << ubid;
+            dst.writeBuilding(ub);
         }
     } break;
     case eBuildingType::dairy:
@@ -102,14 +103,12 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     case eBuildingType::horseRanch: {
         const auto hr = static_cast<const eHorseRanch*>(b);
         const auto hre = hr->enclosure();
-        const int hreid = hre ? hre->ioID() : -1;
-        dst << hreid;
+        dst.writeBuilding(hre);
     } break;
     case eBuildingType::horseRanchEnclosure: {
         const auto hre = static_cast<const eHorseRanchEnclosure*>(b);
         const auto hr = hre->ranch();
-        const int hrid = hr ? hr->ioID() : -1;
-        dst << hrid;
+        dst.writeBuilding(hr);
     } break;
 
     case eBuildingType::olivePress:
@@ -126,8 +125,7 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     case eBuildingType::horseTrainer: {
         const auto v = static_cast<const eVendor*>(b);
         const auto a = v->agora();
-        const int aid = a ? a->ioID() : -1;
-        dst << aid;
+        dst.writeBuilding(a);
         const int sid = v->agoraSpaceId();
         dst << sid;
     } break;
@@ -187,23 +185,23 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
         dst << s->godType();
         dst << s->id();
         const auto sanct = s->sanctuary();
-        dst << sanct->ioID();
+        dst.writeBuilding(sanct);
     } break;
     case eBuildingType::templeAltar: {
         const auto s = static_cast<const eTempleAltarBuilding*>(b);
         const auto sanct = s->sanctuary();
-        dst << sanct->ioID();
+        dst.writeBuilding(sanct);
     } break;
     case eBuildingType::temple: {
         const auto s = static_cast<const eTempleBuilding*>(b);
         const auto sanct = s->sanctuary();
-        dst << sanct->ioID();
+        dst.writeBuilding(sanct);
     } break;
     case eBuildingType::templeTile: {
         const auto s = static_cast<const eTempleTileBuilding*>(b);
         dst << s->id();
         const auto sanct = s->sanctuary();
-        dst << sanct->ioID();
+        dst.writeBuilding(sanct);
     } break;
     }
     b->write(dst);

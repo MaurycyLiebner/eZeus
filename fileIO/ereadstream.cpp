@@ -21,6 +21,16 @@ eTile* eReadStream::readTile(eGameBoard& board) {
     }
 }
 
+void eReadStream::readBuilding(eGameBoard* board,
+                               const eBuildingFunc& func) {
+    int bid;
+    *this >> bid;
+    addPostFunc([board, func, bid]() {
+        const auto b = board->buildingWithIOID(bid);
+        func(b);
+    });
+}
+
 void eReadStream::addPostFunc(const eFunc& func) {
     mPostFuncs.push_back(func);
 }

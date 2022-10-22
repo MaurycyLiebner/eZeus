@@ -39,7 +39,11 @@ stdsptr<eBuilding> eBuildingReader::sRead(
     stdsptr<eBuilding> b;
     switch(type) {
     case eBuildingType::road: {
-        b = e::make_shared<eRoad>(board);
+        const auto r = e::make_shared<eRoad>(board);
+        b = r;
+        src.readBuilding(&board, [r](eBuilding* const bb) {
+            r->setUnderAgora(static_cast<eAgoraBase*>(bb));
+        });
     } break;
     case eBuildingType::commonAgora: {
         eAgoraOrientation o;
@@ -96,12 +100,8 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         src >> other;
         const auto pt = e::make_shared<ePalaceTile>(board, other);
         b = pt;
-        int ioid;
-        src >> ioid;
-        src.addPostFunc([ioid, pt]() {
-            const auto& board = pt->getBoard();
-            const auto palace = board.buildingWithIOID(ioid);
-            pt->setPalace(static_cast<ePalace*>(palace));
+        src.readBuilding(&board, [pt](eBuilding* const bb) {
+             pt->setPalace(static_cast<ePalace*>(bb));
         });
     } break;
     case eBuildingType::eliteHousing: {
@@ -151,12 +151,8 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         src >> o;
         const auto p = e::make_shared<ePier>(board, o);
         b = p;
-        int tpid;
-        src >> tpid;
-        src.addPostFunc([tpid, p]() {
-            const auto& board = p->getBoard();
-            const auto tp = board.buildingWithIOID(tpid);
-            p->setTradePost(tp);
+        src.readBuilding(&board, [p](eBuilding* const bb) {
+             p->setTradePost(bb);
         });
     } break;
 
@@ -176,12 +172,8 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         tp->setOrientation(o);
 
         if(tpt == eTradePostType::pier) {
-            int pid;
-            src >> pid;
-            src.addPostFunc([pid, tp]() {
-                const auto& board = tp->getBoard();
-                const auto pier = board.buildingWithIOID(pid);
-                tp->setUnpackBuilding(pier);
+            src.readBuilding(&board, [tp](eBuilding* const bb) {
+                 tp->setUnpackBuilding(bb);
             });
         }
     } break;
@@ -239,23 +231,16 @@ stdsptr<eBuilding> eBuildingReader::sRead(
     case eBuildingType::horseRanch: {
         const auto hr = e::make_shared<eHorseRanch>(board);
         b = hr;
-        int pid;
-        src >> pid;
-        src.addPostFunc([pid, hr]() {
-            const auto& board = hr->getBoard();
-            const auto hre = board.buildingWithIOID(pid);
-            hr->setEnclosure(static_cast<eHorseRanchEnclosure*>(hre));
+
+        src.readBuilding(&board, [hr](eBuilding* const bb) {
+             hr->setEnclosure(static_cast<eHorseRanchEnclosure*>(bb));
         });
     } break;
     case eBuildingType::horseRanchEnclosure: {
         const auto hre = e::make_shared<eHorseRanchEnclosure>(board);
         b = hre;
-        int pid;
-        src >> pid;
-        src.addPostFunc([pid, hre]() {
-            const auto& board = hre->getBoard();
-            const auto hr = board.buildingWithIOID(pid);
-            hre->setRanch(static_cast<eHorseRanch*>(hr));
+        src.readBuilding(&board, [hre](eBuilding* const bb) {
+            hre->setRanch(static_cast<eHorseRanch*>(bb));
         });
     } break;
 
@@ -389,12 +374,8 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         src >> id;
         const auto ts = e::make_shared<eTempleStatueBuilding>(godType, id, board);
         b = ts;
-        int sid;
-        src >> sid;
-        src.addPostFunc([sid, ts]() {
-            const auto& board = ts->getBoard();
-            const auto s = board.buildingWithIOID(sid);
-            const auto ss = static_cast<eSanctuary*>(s);
+        src.readBuilding(&board, [ts](eBuilding* const bb) {
+            const auto ss = static_cast<eSanctuary*>(bb);
             ts->setSanctuary(ss);
             ss->registerElement(ts);
         });
@@ -406,12 +387,8 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         src >> id;
         const auto ts = e::make_shared<eTempleMonumentBuilding>(godType, id, board);
         b = ts;
-        int sid;
-        src >> sid;
-        src.addPostFunc([sid, ts]() {
-            const auto& board = ts->getBoard();
-            const auto s = board.buildingWithIOID(sid);
-            const auto ss = static_cast<eSanctuary*>(s);
+        src.readBuilding(&board, [ts](eBuilding* const bb) {
+            const auto ss = static_cast<eSanctuary*>(bb);
             ts->setSanctuary(ss);
             ss->registerElement(ts);
         });
@@ -419,12 +396,8 @@ stdsptr<eBuilding> eBuildingReader::sRead(
     case eBuildingType::templeAltar: {
         const auto ts = e::make_shared<eTempleAltarBuilding>(board);
         b = ts;
-        int sid;
-        src >> sid;
-        src.addPostFunc([sid, ts]() {
-            const auto& board = ts->getBoard();
-            const auto s = board.buildingWithIOID(sid);
-            const auto ss = static_cast<eSanctuary*>(s);
+        src.readBuilding(&board, [ts](eBuilding* const bb) {
+            const auto ss = static_cast<eSanctuary*>(bb);
             ts->setSanctuary(ss);
             ss->registerElement(ts);
         });
@@ -432,12 +405,8 @@ stdsptr<eBuilding> eBuildingReader::sRead(
     case eBuildingType::temple: {
         const auto ts = e::make_shared<eTempleBuilding>(board);
         b = ts;
-        int sid;
-        src >> sid;
-        src.addPostFunc([sid, ts]() {
-            const auto& board = ts->getBoard();
-            const auto s = board.buildingWithIOID(sid);
-            const auto ss = static_cast<eSanctuary*>(s);
+        src.readBuilding(&board, [ts](eBuilding* const bb) {
+            const auto ss = static_cast<eSanctuary*>(bb);
             ts->setSanctuary(ss);
             ss->registerElement(ts);
         });
@@ -447,12 +416,8 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         src >> id;
         const auto ts = e::make_shared<eTempleTileBuilding>(id, board);
         b = ts;
-        int sid;
-        src >> sid;
-        src.addPostFunc([sid, ts]() {
-            const auto& board = ts->getBoard();
-            const auto s = board.buildingWithIOID(sid);
-            const auto ss = static_cast<eSanctuary*>(s);
+        src.readBuilding(&board, [ts](eBuilding* const bb) {
+            const auto ss = static_cast<eSanctuary*>(bb);
             ts->setSanctuary(ss);
             ss->registerElement(ts);
         });

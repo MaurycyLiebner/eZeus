@@ -14,3 +14,8 @@ void eWriteStream::writeTile(eTile* const tile) {
         *this << tile->y();
     }
 }
+
+void eWriteStream::writeBuilding(eBuilding* const b) {
+    const int bid = b ? b->ioID() : -1;
+    *this << bid;
+}

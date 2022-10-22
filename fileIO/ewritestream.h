@@ -5,6 +5,7 @@
 #include <string>
 
 class eTile;
+class eBuilding;
 
 class eWriteStream {
 public:
@@ -57,6 +58,7 @@ public:
     }
 
     void writeTile(eTile* const tile);
+    void writeBuilding(eBuilding* const b);
 private:
     SDL_RWops* const mDst;
 };

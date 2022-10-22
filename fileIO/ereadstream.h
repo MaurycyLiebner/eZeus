@@ -6,6 +6,7 @@
 #include <functional>
 
 class eTile;
+class eBuilding;
 class eGameBoard;
 
 class eReadStream {
@@ -65,6 +66,9 @@ public:
     }
 
     eTile* readTile(eGameBoard& board);
+    using eBuildingFunc = std::function<void(eBuilding*)>;
+    void readBuilding(eGameBoard* board,
+                      const eBuildingFunc& func);
 
     using eFunc = std::function<void()>;
     void addPostFunc(const eFunc& func);
