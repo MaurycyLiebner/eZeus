@@ -1346,6 +1346,7 @@ bool eGameWidget::buildMouseRelease() {
             b->setCenterTile(ct);
 
             const auto tb = e::make_shared<eTempleBuilding>(*mBoard);
+            tb->setSanctuary(b.get());
             b->registerElement(tb);
             int ts = 0;
             for(const auto& tv : h->fTiles) {
