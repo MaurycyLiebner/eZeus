@@ -25,18 +25,18 @@ public:
             const int maxEmployees);
     ~eVendor();
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
-    std::vector<eOverlay> getOverlays(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
+    std::vector<eOverlay> getOverlays(const eTileSize size) const override;
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
 
-    int add(const eResourceType type, const int count);
-    int take(const eResourceType type, const int count);
+    int add(const eResourceType type, const int count) override;
+    int take(const eResourceType type, const int count) override;
 
-    int count(const eResourceType type) const;
-    int spaceLeft(const eResourceType type) const;
+    int count(const eResourceType type) const override;
+    int spaceLeft(const eResourceType type) const override;
 
-    std::vector<eCartTask> cartTasks() const;
+    std::vector<eCartTask> cartTasks() const override;
 
     void setAgora(const stdsptr<eAgoraBase>& agora);
     eAgoraBase* agora() const { return mAgora.get(); }
@@ -54,6 +54,9 @@ public:
 
     bool vendorEnabled() const { return mVendorEnabled; }
     void setVendorEnabled(const bool e) { mVendorEnabled = e; }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     int mResMult = 100;
     stdsptr<eAgoraBase> mAgora;

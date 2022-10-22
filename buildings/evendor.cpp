@@ -149,3 +149,17 @@ int eVendor::takeForPeddler(const int t) {
     mResource -= tt;
     return tt;
 }
+
+void eVendor::read(eReadStream& src) {
+    eEmployingBuilding::read(src);
+
+    src >> mResource;
+    src >> mVendorEnabled;
+}
+
+void eVendor::write(eWriteStream& dst) const {
+    eEmployingBuilding::write(dst);
+
+    dst << mResource;
+    dst << mVendorEnabled;
+}
