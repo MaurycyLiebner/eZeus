@@ -13,19 +13,19 @@ public:
                      const int spaceCount = 8);
     ~eStorageBuilding();
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
 
     int addNotAccept(const eResourceType type, const int count);
 
-    int add(const eResourceType type, const int count);
-    int take(const eResourceType type, const int count);
+    int add(const eResourceType type, const int count) override;
+    int take(const eResourceType type, const int count) override;
 
-    int count(const eResourceType type) const;
-    int spaceLeft(const eResourceType type) const;
+    int count(const eResourceType type) const override;
+    int spaceLeft(const eResourceType type) const override;
 
     int spaceLeftDontAccept(const eResourceType type) const;
 
-    std::vector<eCartTask> cartTasks() const;
+    std::vector<eCartTask> cartTasks() const override;
 
     static int sCount(const eResourceType type,
                       const int resourceCount[15],
@@ -64,6 +64,9 @@ public:
                    eResourceType& accept) const;
 
     int spaceCount() const { return mSpaceCount; }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     const eResourceType mCanAccept;
 

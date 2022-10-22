@@ -16,12 +16,12 @@ public:
                const eTradePostType type = eTradePostType::post);
     ~eTradePost();
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
-    std::vector<eOverlay> getOverlays(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
+    std::vector<eOverlay> getOverlays(const eTileSize size) const override;
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
 
-    void erase();
+    void erase() override;
 
     void setOrders(const eResourceType imports,
                    const eResourceType exports);
@@ -50,6 +50,9 @@ public:
     void setCharacterCreator(const eCharacterCreator& c);
 
     eBuilding* unpackBuilding() const { return mUnpackBuilding; }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     eWorldCity& mCity;
     const eTradePostType mType;

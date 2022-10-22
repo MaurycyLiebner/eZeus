@@ -259,3 +259,19 @@ eOrientation eTradePost::orientation() const {
 void eTradePost::setCharacterCreator(const eCharacterCreator& c) {
     mCharGen = c;
 }
+
+void eTradePost::read(eReadStream& src) {
+    eStorageBuilding::read(src);
+
+    src >> mImports;
+    src >> mExports;
+    src >> mRouteTimer;
+}
+
+void eTradePost::write(eWriteStream& dst) const {
+    eStorageBuilding::write(dst);
+
+    dst << mImports;
+    dst << mExports;
+    dst << mRouteTimer;
+}

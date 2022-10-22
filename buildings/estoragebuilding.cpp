@@ -200,3 +200,51 @@ void eStorageBuilding::getOrders(eResourceType& get,
     empty = mEmpty;
     accept = mAccept;
 }
+
+void eStorageBuilding::read(eReadStream& src) {
+    eEmployingBuilding::read(src);
+
+    src >> mGet;
+    src >> mEmpty;
+    src >> mAccept;
+
+    for(int i = 0; i < 15; i++) {
+        src >> mResourceCount[i];
+    }
+
+    for(int i = 0; i < 15; i++) {
+        src >> mResource[i];
+    }
+
+    int nc;
+    src >> nc;
+    for(int i = 0; i < nc; i++) {
+        eResourceType rt;
+        src >> rt;
+        int c;
+        src >> c;
+        mMaxCount[rt] = c;
+    }
+}
+
+void eStorageBuilding::write(eWriteStream& dst) const {
+    eEmployingBuilding::write(dst);
+
+    dst << mGet;
+    dst << mEmpty;
+    dst << mAccept;
+
+    for(int i = 0; i < 15; i++) {
+        dst << mResourceCount[i];
+    }
+
+    for(int i = 0; i < 15; i++) {
+        dst << mResource[i];
+    }
+
+    dst << mMaxCount.size();
+    for(const auto& trc : mMaxCount) {
+        dst << trc.first;
+        dst << trc.second;
+    }
+}
