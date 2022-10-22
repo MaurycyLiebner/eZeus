@@ -203,6 +203,9 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
         const auto sanct = s->sanctuary();
         dst.writeBuilding(sanct);
     } break;
+
+    case eBuildingType::ruins:
+        break;
     }
     b->write(dst);
 }

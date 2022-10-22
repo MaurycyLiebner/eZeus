@@ -422,6 +422,10 @@ stdsptr<eBuilding> eBuildingReader::sRead(
             ss->registerElement(ts);
         });
     } break;
+
+    case eBuildingType::ruins: {
+        b = e::make_shared<eRuins>(board);
+    } break;
     }
     if(b) b->read(src);
     return b;
