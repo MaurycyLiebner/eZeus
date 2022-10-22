@@ -14,7 +14,7 @@ public:
     void initialize(const std::string& title);
 
     void setCloseAction(const eAction& closeAction);
-protected:
+
     eWidget* addCentralWidget();
     eWidget* addFramedWidget(const int height);
     eWidget* addRegularWidget(const int height);
@@ -27,7 +27,6 @@ protected:
 
     eWidget* centralWidget() const;
 private:
-
     const bool mNarrow;
     const bool mShort;
 

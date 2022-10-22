@@ -108,6 +108,7 @@ void eAgoraInfoWidget::initialize(eAgoraBase* const a) {
     } else {
         return;
     }
+
     eEmployingBuildingInfoWidget::initialize(title, a);
 
     const auto cw = centralWidget();

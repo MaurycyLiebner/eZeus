@@ -142,6 +142,8 @@ private:
                                const eBuildingTextures& builTexs);
     void updateTerrainTextures();
 
+    eInfoWidget* openInfoWidget(eBuilding* const b);
+
     bool mUpdateTerrain = true;
 
     bool mRotate = false;

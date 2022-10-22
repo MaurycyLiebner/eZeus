@@ -49,6 +49,7 @@ void eCommonHouseInfoWidget::initialize(eHouseBase* const house) {
         }
     }
     eInfoWidget::initialize(eLanguage::text(title));
+    addCentralWidget();
 
     const int p = padding();
     const auto fw = addFramedWidget(16*p);

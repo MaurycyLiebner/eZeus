@@ -3,7 +3,7 @@ load_game "Load Game"
 settings "Settings"
 quit "Quit"
 
-save "Save"
+save "Save Game"
 exit "Exit"
 
 resolution "Resolution: "
@@ -401,3 +401,31 @@ demolishing_text "Are you sure you wish to demolish this important building?"
 
 demolishing_agora_title "Demolish agora and vendors"
 demolishing_agora_text "Are you sure you wish to decommission this agora and all vendors?"
+
+; info text
+gymnasium_info_text_empl0 "With no employees, this gymnasium is dormant, and no competitors or athletes are being trained here."
+gymnasium_info_text_empl1 "The skeleton staff that works at this gymnasium can only do so much. The gymnasium is turning out new athletes or competitors at an excruciatingly slow rate."
+gymnasium_info_text_empl2 "With only a few staff members, the youths training here are still weaklings. It's taking a very long time for any of them to attain athlete or competitor status."
+gymnasium_info_text_empl3 "This gymnasium has around half the workers it needs. Spaghetti-armed youths are the order of the day."
+gymnasium_info_text_empl4 "This gymnasium is lacking a few workers. It's taking a little longer than expected for the youths to develop strong muscles."
+gymnasium_info_text_empl5 "This gymnasium has all the workers it needs to produce athletes and world-class competitors."
+
+drama_school_info_text_empl0 "This drama school has no employees. No actors are learning to traipse across the stage here."
+drama_school_info_text_empl1 "With only one employee, this drama school cannot teach new actors very quickly at all."
+drama_school_info_text_empl2 "With just a handful of workers, this drama school is taking quite a long time to train new actors."
+drama_school_info_text_empl3 "This drama school has around half the employees it needs and is training new actors very slowly indeed."
+drama_school_info_text_empl4 "If you want high-class actors in this city, this drama school is going to need more employees. It's still turning out actors, but at a slower rate."
+drama_school_info_text_empl5 "This drama school has all the workers it needs to turn ordinary men into drama powerhouses."
+
+maintenance_office_info_text_empl0 "This maintenance office has no superintendents and isn't maintaining anything!"
+maintenance_office_info_text_empl1 "Only one superintendent works here. He's doing the best he can to care for buildings under the circumstances, but he can only do so much."
+maintenance_office_info_text_empl2 "This maintenance office desperately needs more superintendents. The safety of the buildings in the neighborhood depends upon it!"
+maintenance_office_info_text_empl3 "This maintenance office does not have all the superintendents it needs. Buildings in the area could be more at risk."
+maintenance_office_info_text_empl4 "This maintenance office doesn't have quite enough superintendents. They are doing the best they can, but some buildings in the area may not receive their services."
+maintenance_office_info_text_empl5 "This maintenance office has a full staff of superintendents, ready to keep the city's buildings in tip-top shape."
+
+fountain_info_text_empl0 "This fountain has no water bearers at all! Without workers, the local residents will have nary a drop of water to drink."
+fountain_info_text_empl1 "Only a few water bearers are working at this fountain. If the glamorous life of carrying a jug of water doesn't draw more workers soon, people could soon go without water."
+fountain_info_text_empl2 "This fountain is lacking several water bearers. Some residents could run out of water."
+fountain_info_text_empl3 "This fountain is missing a water bearer or two. The remaining water bearers are doing what they can to make sure that residents are getting the water they need."
+fountain_info_text_empl4 "With a full staff of water bearers, this fountain's water is reaching as many people as it can."

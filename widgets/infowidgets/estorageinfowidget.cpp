@@ -163,6 +163,7 @@ void eStorageInfoWidget::initialize(eStorageBuilding* const stor) {
     } else if(st == eBuildingType::granary) {
         title = eLanguage::text("granary");
     }
+
     eEmployingBuildingInfoWidget::initialize(title, stor);
 
     eResourceType get;

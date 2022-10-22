@@ -207,8 +207,9 @@ eTradePostInfoWidget::eTradePostInfoWidget(eMainWindow* const window) :
 
 void eTradePostInfoWidget::initialize(eTradePost* const stor) {
     const auto& city = stor->city();
-    const auto str = eLanguage::text("trading_post") + city.name();
-    eEmployingBuildingInfoWidget::initialize(str, stor);
+    const auto title = eLanguage::text("trading_post") + city.name();
+
+    eEmployingBuildingInfoWidget::initialize(title, stor);
 
     eResourceType imports;
     eResourceType exports;

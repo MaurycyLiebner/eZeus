@@ -329,6 +329,7 @@ SOURCES += \
         widgets/egamewidget.cpp \
         widgets/egamewidgetbuild.cpp \
         widgets/egamewidgetevents.cpp \
+        widgets/egamewidgetinfo.cpp \
         widgets/egamewidgetpaint.cpp \
         widgets/ehelpbutton.cpp \
         widgets/elabel.cpp \

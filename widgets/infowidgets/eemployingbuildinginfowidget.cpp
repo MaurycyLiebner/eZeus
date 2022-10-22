@@ -6,13 +6,27 @@
 
 #include "elanguage.h"
 
-void eEmployingBuildingInfoWidget::initialize(const std::string& title,
-                                              eEmployingBuilding* const b) {
+void eEmployingBuildingInfoWidget::initialize(
+        const std::string& title,
+        eEmployingBuilding* const b) {
     eInfoWidget::initialize(title);
-
     addCentralWidget();
+    addEmploymentWidget(b);
+}
 
-    const auto p = padding();
+void eEmployingBuildingInfoWidget::initialize(
+        const std::string& title,
+        const std::string& text,
+        eEmployingBuilding* const b,
+        const std::string& subText) {
+    eInfoWidget::initialize(title);
+    if(!text.empty()) addText(text);
+    addEmploymentWidget(b);
+    if(!subText.empty()) addText(subText);
+}
+
+void eEmployingBuildingInfoWidget::addEmploymentWidget(eEmployingBuilding* const b) {
+    const int p = padding();
 
     const auto wid = addFramedWidget(8*p);
     const int e = b->employed();

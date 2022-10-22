@@ -9,5 +9,7 @@ eGymInfoWidget::eGymInfoWidget(eMainWindow* const window) :
 
 void eGymInfoWidget::initialize(eGymnasium* const gym) {
     const auto title = eLanguage::text("gymnasium");
-    eEmployingBuildingInfoWidget::initialize(title, gym);
+    eInfoWidget::initialize(title);
+    addCentralWidget();
+    addEmploymentWidget(gym);
 }
