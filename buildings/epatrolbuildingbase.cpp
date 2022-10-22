@@ -94,3 +94,32 @@ bool ePatrolBuildingBase::spawn() {
 void ePatrolBuildingBase::setSpawnPatrolers(const bool s) {
     mSpawnPatrolers = s;
 }
+
+void ePatrolBuildingBase::read(eReadStream& src) {
+    eEmployingBuilding::read(src);
+
+    src >> mSpawnPatrolers;
+    src >> mSpawnTime;
+
+    int n;
+    src >> n;
+    for(int i = 0; i < n; i++) {
+        ePatrolGuide pg;
+        src >> pg.fX;
+        src >> pg.fY;
+        mPatrolGuides.push_back(pg);
+    }
+}
+
+void ePatrolBuildingBase::write(eWriteStream& dst) const {
+    eEmployingBuilding::write(dst);
+
+    dst << mSpawnPatrolers;
+    dst << mSpawnTime;
+
+    dst << mPatrolGuides.size();
+    for(const auto& pg : mPatrolGuides) {
+        dst << pg.fX;
+        dst << pg.fY;
+    }
+}

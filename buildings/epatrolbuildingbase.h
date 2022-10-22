@@ -34,7 +34,7 @@ public:
             const eAction& failAction,
             const eAction& finishAction);
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
 
     using ePatrolGuides = std::vector<ePatrolGuide>;
     ePatrolGuides* patrolGuides() { return &mPatrolGuides; };
@@ -44,13 +44,16 @@ public:
 
     void setSpawnPatrolers(const bool s);
     bool spawnPatrolers() const { return mSpawnPatrolers; }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     const eCharGenerator mCharGenerator;
     const eActGenerator mActGenerator;
 
     bool mSpawnPatrolers = true;
 
-    int mWaitTime = 5000;
+    const int mWaitTime = 5000;
     int mSpawnTime = mWaitTime;
     stdsptr<eCharacter> mChar;
 

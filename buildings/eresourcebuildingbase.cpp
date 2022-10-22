@@ -71,3 +71,15 @@ std::vector<eCartTask> eResourceBuildingBase::cartTasks() const {
 
     return tasks;
 }
+
+void eResourceBuildingBase::read(eReadStream& src) {
+    eEmployingBuilding::read(src);
+
+    src >> mResource;
+}
+
+void eResourceBuildingBase::write(eWriteStream& dst) const {
+    eEmployingBuilding::write(dst);
+
+    dst << mResource;
+}

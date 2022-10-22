@@ -99,3 +99,17 @@ std::vector<eCartTask> eProcessingBuilding::cartTasks() const {
 
     return tasks;
 }
+
+void eProcessingBuilding::read(eReadStream& src) {
+    eResourceBuildingBase::read(src);
+
+    src >> mRawCount;
+    src >> mProcessTime;
+}
+
+void eProcessingBuilding::write(eWriteStream& dst) const {
+    eResourceBuildingBase::write(dst);
+
+    dst << mRawCount;
+    dst << mProcessTime;
+}

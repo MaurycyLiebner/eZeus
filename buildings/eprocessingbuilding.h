@@ -24,17 +24,20 @@ public:
                         const int time);
     ~eProcessingBuilding();
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
-    std::vector<eOverlay> getOverlays(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
+    std::vector<eOverlay> getOverlays(const eTileSize size) const override;
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
 
-    int add(const eResourceType type, const int count);
+    int add(const eResourceType type, const int count) override;
 
-    int count(const eResourceType type) const;
-    int spaceLeft(const eResourceType type) const;
+    int count(const eResourceType type) const override;
+    int spaceLeft(const eResourceType type) const override;
 
-    std::vector<eCartTask> cartTasks() const;
+    std::vector<eCartTask> cartTasks() const override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     const std::vector<eBuildingTextures>& mTextures;
 
