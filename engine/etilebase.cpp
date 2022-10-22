@@ -170,6 +170,8 @@ void eTileBase::setBottomLeft(eTileBase* const bl) {
 }
 
 void eTileBase::read(eReadStream& src) {
+    src >> mSeed;
+
     eTerrain terr;
     src >> terr;
     setTerrain(terr);
@@ -200,6 +202,7 @@ void eTileBase::read(eReadStream& src) {
 }
 
 void eTileBase::write(eWriteStream& dst) const {
+    dst << mSeed;
     dst << mTerr;
     dst << mScrub;
     dst << mMarbleLevel;
