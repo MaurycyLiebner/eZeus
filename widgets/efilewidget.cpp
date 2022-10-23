@@ -8,6 +8,8 @@
 #include "escrollwidget.h"
 #include "escrollbar.h"
 
+#include "elineedit.h"
+
 #include <string>
 #include <iostream>
 #include <filesystem>
@@ -17,6 +19,8 @@ void eFileWidget::intialize(const std::string& title,
                             const std::string& folder,
                             const eFileFunc& func,
                             const eAction& closeAction) {
+    mFolder = folder;
+
     setType(eFrameType::message);
 
     const int p = padding();
@@ -48,10 +52,25 @@ void eFileWidget::intialize(const std::string& title,
     mCancel->move(mCancel->x() + 2*p, mCancel->y() - 2*p);
     mCancel->setPressAction(closeAction);
 
+    const auto lineW = new eFramedWidget(window());
+    lineW->setType(eFrameType::inner);
+    lineW->setNoPadding();
+    mLineEdit = new eLineEdit(window());
+    mLineEdit->setTinyPadding();
+    mLineEdit->setText("A");
+    mLineEdit->fitContent();
+    mLineEdit->setText("");
+    lineW->addWidget(mLineEdit);
+    mLineEdit->setX(p);
+    const int lineY = mTitleLabel->y() + mTitleLabel->height() + p;
+    lineW->setY(lineY);
+    lineW->setX(2*p);
+    addWidget(lineW);
+
     const auto scrollCont = new eWidget(window());
     addWidget(scrollCont);
-    scrollCont->resize(ww - 4*p, hh - mTitleLabel->height() - 10*p);
-    scrollCont->setY(mTitleLabel->height() + 2*p);
+    scrollCont->resize(ww - 4*p, hh - lineY - mLineEdit->height() - 10*p);
+    scrollCont->setY(lineY + mLineEdit->height() + 2*p);
     scrollCont->setX(2*p);
 
     const auto sb = new eScrollBar(window());
@@ -59,6 +78,9 @@ void eFileWidget::intialize(const std::string& title,
     scrollCont->addWidget(sb);
 
     const int swwidth = scrollCont->width() - sb->width() - p;
+
+    mLineEdit->resize(swwidth - 2*p, mLineEdit->height());
+    lineW->resize(swwidth, mLineEdit->height());
 
     const auto filesWidget = new eWidget(window());
 
@@ -75,15 +97,15 @@ void eFileWidget::intialize(const std::string& title,
         b->setMouseLeaveAction([b]() {
             b->setDarkFontColor();
         });
-        b->setTextAlignment(eAlignment::left);
+        b->setTextAlignment(eAlignment::left | eAlignment::vcenter);
         b->setNoPadding();
         b->fitContent();
         b->setWidth(swwidth);
         filesWidget->addWidget(b);
         b->setY(y);
         y += b->height();
-        b->setPressAction([this, path]() {
-            setFilePath(path);
+        b->setPressAction([this, name]() {
+            setFileName(name);
         });
     }
     filesWidget->setNoPadding();
@@ -104,10 +126,10 @@ void eFileWidget::intialize(const std::string& title,
     sb->align(eAlignment::right);
 }
 
-void eFileWidget::setFilePath(const std::string& path) {
-    mFilePath = path;
+void eFileWidget::setFileName(const std::string& path) {
+    mLineEdit->setText(path);
 }
 
 std::string eFileWidget::filePath() const {
-    return mFilePath;
+    return mFolder + mLineEdit->text() + ".ez";
 }

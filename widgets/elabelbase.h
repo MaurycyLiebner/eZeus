@@ -15,6 +15,7 @@ public:
 
     bool setFont(const eFont& font);
     bool setFontSize(const int s);
+    std::string text() const { return mText; }
     bool setText(const std::string& text);
     bool setTexture(const std::shared_ptr<eTexture>& tex);
     bool setFontColor(const eFontColor color);
@@ -31,6 +32,8 @@ public:
 
     eAlignment textAlignment() { return mTextAlign; }
     void setTextAlignment(const eAlignment a) { mTextAlign = a; }
+
+    int lineWidth() const;
 protected:
     const std::shared_ptr<eTexture>& texture() { return mTexture; }
     bool setFont(TTF_Font* const font);

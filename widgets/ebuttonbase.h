@@ -11,8 +11,6 @@ public:
     void setMouseEnterAction(const eAction& a);
     void setMouseLeaveAction(const eAction& a);
 
-    int lineWidth() const;
-
     void setEnabled(const bool b);
     bool enabled() const;
 

@@ -6,6 +6,7 @@
 class eLabel;
 class eAcceptButton;
 class eCancelButton;
+class eLineEdit;
 
 class eFileWidget : public eFramedWidget {
 public:
@@ -17,14 +18,15 @@ public:
                    const eFileFunc& func,
                    const eAction& closeAction);
 
-    void setFilePath(const std::string& path);
+    void setFileName(const std::string& path);
     std::string filePath() const;
 private:
     eLabel* mTitleLabel = nullptr;
     eAcceptButton* mOk = nullptr;
     eCancelButton* mCancel = nullptr;
+    eLineEdit* mLineEdit = nullptr;
 
-    std::string mFilePath;
+    std::string mFolder;
 };
 
 #endif // EFILEWIDGET_H

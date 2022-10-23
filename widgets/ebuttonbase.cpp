@@ -14,10 +14,6 @@ void eButtonBase::setMouseLeaveAction(const eAction& a) {
     mLeaveAction = a;
 }
 
-int eButtonBase::lineWidth() const {
-    return std::max(1, fontSize()/15);
-}
-
 void eButtonBase::setEnabled(const bool b) {
     mEnabled = b;
 }

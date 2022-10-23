@@ -57,6 +57,8 @@ private:
 
     std::vector<eSlot> mSlots;
 
+    int mShiftPressed = 0;
+
     eGameBoard* mBoard = nullptr;
     eGameWidget* mGW = nullptr;
     eWorldWidget* mWW = nullptr;

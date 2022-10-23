@@ -95,3 +95,7 @@ bool eLabelBase::updateTextTexture() {
 const eResolution& eLabelBase::res() const {
     return mWindow->resolution();
 }
+
+int eLabelBase::lineWidth() const {
+    return std::max(1, fontSize()/15);
+}
