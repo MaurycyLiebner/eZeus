@@ -124,6 +124,8 @@ void eFileWidget::intialize(const std::string& title,
     scrollCont->addWidget(swww);
 
     sb->align(eAlignment::right);
+
+    mLineEdit->grabKeyboard();
 }
 
 void eFileWidget::setFileName(const std::string& path) {
