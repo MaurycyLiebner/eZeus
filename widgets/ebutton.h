@@ -17,6 +17,8 @@ public:
     static eButton* sCreate(const eTextureCollection& texs,
                             eMainWindow* const window,
                             eWidget* const buttons = nullptr);
+
+    void setUnderline(const bool u) { mUnderline = u; }
 protected:
     void sizeHint(int& w, int& h);
     void paintEvent(ePainter& p);
@@ -30,6 +32,8 @@ private:
     std::shared_ptr<eTexture> mHoverTexture;
     std::shared_ptr<eTexture> mPressedTexture;
     std::shared_ptr<eTexture> mDisabledTexture;
+
+    bool mUnderline = true;
 };
 
 template <class T>

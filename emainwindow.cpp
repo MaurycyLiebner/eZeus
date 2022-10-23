@@ -20,6 +20,9 @@
 
 #include <chrono>
 
+#include "widgets/efilewidget.h"
+#include "elanguage.h"
+
 eMainWindow::eMainWindow() {}
 
 eMainWindow::~eMainWindow() {
@@ -117,17 +120,17 @@ void eMainWindow::saveGame() {
     SDL_RWclose(file);
 }
 
-void eMainWindow::loadGame() {
+bool eMainWindow::loadGame(const std::string& path) {
     const std::string basedir{"../saves/"};
-    const auto path = basedir + "1.ez";
     const auto file = SDL_RWFromFile(path.c_str(), "r+b");
-    if(!file) return;
+    if(!file) return false;
     eReadStream src(file);
     const auto board = new eGameBoard();
     board->read(src);
     SDL_RWclose(file);
 
     startGameAction(board);
+    return true;
 }
 
 void eMainWindow::closeGame() {
@@ -169,8 +172,19 @@ void eMainWindow::showMainMenu() {
         startGameAction(board);
     };
 
-    const auto loadGameAction = [this]() {
-        loadGame();
+    const auto loadGameAction = [this, mm]() {
+        const auto fw = new eFileWidget(this);
+        const auto func = [this](const std::string& path) {
+            return loadGame(path);
+        };
+        const auto closeAct = [mm, fw]() {
+            mm->removeWidget(fw);
+            fw->deleteLater();
+        };
+        fw->intialize(eLanguage::text("load_game"),
+                      "../saves/", func, closeAct);
+        mm->addWidget(fw);
+        fw->align(eAlignment::center);
     };
 
     const auto settingsAction = [this]() {
@@ -214,9 +228,18 @@ void eMainWindow::showSettingsMenu() {
 #include "characters/esoldierbanner.h"
 #include "characters/actions/esoldieraction.h"
 void eMainWindow::showGame(eGameBoard* board) {
-    if(mWidget == mGW) return;
-    if(!mGW) {
-        mBoard = board;
+    if(!board) board = mBoard;
+
+    if(mBoard == board && mGW) {
+        return setWidget(mGW);
+    }
+
+    if(mGW) {
+        mGW->deleteLater();
+        mGW = nullptr;
+    }
+
+    mBoard = board;
 
 //        const auto spawnHoplite = [&](const int x, const int y,
 //                                      const int pid) {
@@ -264,31 +287,31 @@ void eMainWindow::showGame(eGameBoard* board) {
 //            }
 //        }
 
-        auto& wb = mBoard->getWorldBoard();
+    auto& wb = mBoard->getWorldBoard();
 
-        const auto hc = eWorldCity::sCreateSparta(eWorldCityType::mainCity);
-        wb.setHomeCity(hc);
+    const auto hc = eWorldCity::sCreateSparta(eWorldCityType::mainCity);
+    wb.setHomeCity(hc);
 
-        const auto c1 = eWorldCity::sCreateAthens();
-        c1->addBuys(eResourceTrade{eResourceType::marble, 0, 12, 120});
-        c1->addBuys(eResourceTrade{eResourceType::wood, 0, 12, 80});
-        c1->addSells(eResourceTrade{eResourceType::fleece, 0, 12, 60});
-        wb.addCity(c1);
+    const auto c1 = eWorldCity::sCreateAthens();
+    c1->addBuys(eResourceTrade{eResourceType::marble, 0, 12, 120});
+    c1->addBuys(eResourceTrade{eResourceType::wood, 0, 12, 80});
+    c1->addSells(eResourceTrade{eResourceType::fleece, 0, 12, 60});
+    wb.addCity(c1);
 
-        const auto c2 = eWorldCity::sCreateTroy();
-        c2->setWaterTrade(true);
-        c2->addBuys(eResourceTrade{eResourceType::armor, 0, 12, 120});
-        c2->addBuys(eResourceTrade{eResourceType::wheat, 0, 12, 80});
-        c2->addSells(eResourceTrade{eResourceType::sculpture, 0, 12, 200});
-        c2->addSells(eResourceTrade{eResourceType::bronze, 0, 12, 80});
-        wb.addCity(c2);
+    const auto c2 = eWorldCity::sCreateTroy();
+    c2->setWaterTrade(true);
+    c2->addBuys(eResourceTrade{eResourceType::armor, 0, 12, 120});
+    c2->addBuys(eResourceTrade{eResourceType::wheat, 0, 12, 80});
+    c2->addSells(eResourceTrade{eResourceType::sculpture, 0, 12, 200});
+    c2->addSells(eResourceTrade{eResourceType::bronze, 0, 12, 80});
+    wb.addCity(c2);
 
-        eMusic::playRandomMusic();
-        mGW = new eGameWidget(this);
-        mGW->setBoard(mBoard);
-        mGW->resize(width(), height());
-        mGW->initialize();
-    }
+    eMusic::playRandomMusic();
+    mGW = new eGameWidget(this);
+    mGW->setBoard(mBoard);
+    mGW->resize(width(), height());
+    mGW->initialize();
+
     setWidget(mGW);
 }
 

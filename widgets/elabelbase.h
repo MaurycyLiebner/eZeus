@@ -28,6 +28,9 @@ public:
     int fontSize() const;
 
     void setWrapWidth(const int w);
+
+    eAlignment textAlignment() { return mTextAlign; }
+    void setTextAlignment(const eAlignment a) { mTextAlign = a; }
 protected:
     const std::shared_ptr<eTexture>& texture() { return mTexture; }
     bool setFont(TTF_Font* const font);
@@ -41,6 +44,7 @@ private:
     std::string mText;
     std::shared_ptr<eTexture> mTexture;
     eFontColor mFontColor = eFontColor::light;
+    eAlignment mTextAlign = eAlignment::center;
 };
 
 #endif // ELABELBASE_H

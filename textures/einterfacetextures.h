@@ -227,6 +227,9 @@ public:
     eTextureCollection fUpButton;
     eTextureCollection fDownButton;
 
+    eTextureCollection fBigUpButton;
+    eTextureCollection fBigDownButton;
+
     eTextureCollection fExclamationButton;
     eTextureCollection fOkButton;
     eTextureCollection fHelpButton;

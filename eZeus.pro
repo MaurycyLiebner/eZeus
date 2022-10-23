@@ -12,7 +12,7 @@ QMAKE_CXXFLAGS_RELEASE += -m64 -O3
 
 LIBS += -L/usr/lib/x86_64-linux-gnu
 LIBS += -lpthread
-LIBS += -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+LIBS += -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lstdc++fs
 LIBS += -lnoise
 
 SOURCES += \
@@ -318,6 +318,7 @@ SOURCES += \
         widgets/edownbutton.cpp \
         widgets/eeventwidget.cpp \
         widgets/eexclamationbutton.cpp \
+        widgets/efilewidget.cpp \
         widgets/efonts.cpp \
         widgets/eframedbutton.cpp \
         widgets/eframedlabel.cpp \
@@ -349,6 +350,7 @@ SOURCES += \
         widgets/eprogressbar.cpp \
         widgets/equestionwidget.cpp \
         widgets/eresolution.cpp \
+        widgets/escrollbar.cpp \
         widgets/escrollwidget.cpp \
         widgets/esettingsmenu.cpp \
         widgets/espinbox.cpp \
@@ -703,6 +705,7 @@ HEADERS += \
     widgets/edownbutton.h \
     widgets/eeventwidget.h \
     widgets/eexclamationbutton.h \
+    widgets/efilewidget.h \
     widgets/efonts.h \
     widgets/eframedbutton.h \
     widgets/eframedlabel.h \
@@ -730,6 +733,7 @@ HEADERS += \
     widgets/eprogressbar.h \
     widgets/equestionwidget.h \
     widgets/eresolution.h \
+    widgets/escrollbar.h \
     widgets/escrollwidget.h \
     widgets/esettingsmenu.h \
     widgets/espinbox.h \

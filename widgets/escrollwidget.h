@@ -9,6 +9,9 @@ public:
 
     void setScrollArea(eWidget* const w);
     eWidget* scrollArea() const { return mScrollArea; }
+
+    void scrollUp();
+    void scrollDown();
 protected:
     void paintEvent(ePainter& p) override;
 

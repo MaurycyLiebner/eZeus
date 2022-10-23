@@ -25,7 +25,7 @@ void eLabel::sizeHint(int& w, int& h) {
 void eLabel::paintEvent(ePainter& p) {
     const auto& tex = texture();
     if(tex) {
-        p.drawTexture(rect(), tex, eAlignment::center);
+        p.drawTexture(rect(), tex, textAlignment());
         //p.drawRect(rect(), {0, 0, 0, 255}, 1);
     }
 }

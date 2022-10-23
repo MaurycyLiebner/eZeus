@@ -62,6 +62,8 @@
 
 #include "elanguage.h"
 
+#include "widgets/efilewidget.h"
+
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {}
 
@@ -863,8 +865,19 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
             const auto saveAct = [w]() {
                 w->saveGame();
             };
-            const auto loadAct = [w]() {
-                w->loadGame();
+            const auto loadAct = [this, w]() {
+                const auto fw = new eFileWidget(w);
+                const auto func = [w](const std::string& path) {
+                    return w->loadGame(path);
+                };
+                const auto closeAct = [this, fw]() {
+                    removeWidget(fw);
+                    fw->deleteLater();
+                };
+                fw->intialize(eLanguage::text("load_game"),
+                              "../saves/", func, closeAct);
+                addWidget(fw);
+                fw->align(eAlignment::center);
             };
             const auto exitAct = [w]() {
                 w->closeGame();

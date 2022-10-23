@@ -36,32 +36,34 @@ void eButton::sizeHint(int& w, int& h) {
 
 void eButton::paintEvent(ePainter& p) {
     if(!enabled() && mDisabledTexture) {
-        p.drawTexture(rect(), mDisabledTexture, eAlignment::center);
+        p.drawTexture(rect(), mDisabledTexture, textAlignment());
     } else if(pressed() && mPressedTexture) {
-        p.drawTexture(rect(), mPressedTexture, eAlignment::center);
+        p.drawTexture(rect(), mPressedTexture, textAlignment());
     } else if(hovered()) {
         if(mHoverTexture) {
-            p.drawTexture(rect(), mHoverTexture, eAlignment::center);
+            p.drawTexture(rect(), mHoverTexture, textAlignment());
         } else {
             eLabel::paintEvent(p);
-            const auto& t = texture();
-            if(!t) return;
-            const int tw = t->width();
-            const int ww = (width() - tw)/2;
-            const int th = t->height();
-            const int hh = (height() - th)/2;
-            const int ah = height();
+            if(mUnderline) {
+                const auto& t = texture();
+                if(!t) return;
+                const int tw = t->width();
+                const int ww = (width() - tw)/2;
+                const int th = t->height();
+                const int hh = (height() - th)/2;
+                const int ah = height();
 
-            SDL_Color col1;
-            SDL_Color col2;
-            eFontColorHelpers::colors(fontColor(), col1, col2);
-            const SDL_Rect rect2{ww, ah - hh,
-                                 width() - 2*ww,
-                                 lineWidth()};
-            const SDL_Rect rect1{rect2.x + 1, rect2.y + 1,
-                                 rect2.w, rect2.h};
-            p.fillRect(rect2, col2);
-            p.fillRect(rect1, col1);
+                SDL_Color col1;
+                SDL_Color col2;
+                eFontColorHelpers::colors(fontColor(), col1, col2);
+                const SDL_Rect rect2{ww, ah - hh,
+                                     width() - 2*ww,
+                                     lineWidth()};
+                const SDL_Rect rect1{rect2.x + 1, rect2.y + 1,
+                                     rect2.w, rect2.h};
+                p.fillRect(rect2, col2);
+                p.fillRect(rect1, col1);
+            }
         }
     } else {
         eLabel::paintEvent(p);

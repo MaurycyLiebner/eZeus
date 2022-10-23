@@ -40,7 +40,7 @@ public:
 
     void startGameAction(eGameBoard* const board);
     void saveGame();
-    void loadGame();
+    bool loadGame(const std::string& path);
     void closeGame();
 
     void showMenuLoading();

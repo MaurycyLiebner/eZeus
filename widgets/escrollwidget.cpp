@@ -6,8 +6,18 @@ void eScrollWidget::setScrollArea(eWidget* const w) {
     clampDY();
 }
 
+void eScrollWidget::scrollUp() {
+    mDy -= 35;
+    clampDY();
+}
+
+void eScrollWidget::scrollDown() {
+    mDy += 35;
+    clampDY();
+}
+
 void eScrollWidget::paintEvent(ePainter& p) {
-    p.fillRect(rect(), {255, 0, 0, 255});
+    //p.fillRect(rect(), {255, 0, 0, 255});
     if(mScrollArea) {
         const auto r = rect();
         p.setClipRect(&r);
@@ -22,12 +32,10 @@ void eScrollWidget::paintEvent(ePainter& p) {
 
 bool eScrollWidget::keyPressEvent(const eKeyPressEvent& e) {
     if(e.key() == SDL_SCANCODE_UP) {
-        mDy -= 35;
-        clampDY();
+        scrollUp();
         return true;
     } else if(e.key() == SDL_SCANCODE_DOWN) {
-        mDy += 35;
-        clampDY();
+        scrollDown();
         return true;
     }
     if(!mScrollArea) return false;
