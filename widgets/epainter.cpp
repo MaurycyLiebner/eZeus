@@ -145,3 +145,13 @@ void ePainter::drawPolygon(std::vector<SDL_Point> pts,
     SDL_SetRenderDrawColor(mRenderer, color.r, color.g, color.b, color.a);
     SDL_RenderDrawLines(mRenderer, pts.data(), pts.size());
 }
+
+void ePainter::setClipRect(const SDL_Rect* const rect) {
+    if(rect) {
+        const auto r = SDL_Rect{rect->x + mX, rect->y + mY,
+                                rect->w, rect->h};
+        SDL_RenderSetClipRect(mRenderer, &r);
+    } else {
+        SDL_RenderSetClipRect(mRenderer, nullptr);
+    }
+}

@@ -79,7 +79,8 @@ private:
     template <typename T>
     using TMouseEvent = bool (eWidget::*)(const T& e);
     template <typename T>
-    eWidget* mouseEvent(const T& e, const TMouseEvent<T> event);
+    eWidget* mouseEvent(const T& e, const TMouseEvent<T> event,
+                        const bool overwrite = false);
 public:
     void grabMouse();
     bool releaseMouse();
@@ -97,6 +98,8 @@ public:
     void layoutVertically();
     void stackHorizontally();
     void layoutHorizontally();
+
+    void setMouseReceiver(eWidget* const w);
 protected:
     virtual void sizeHint(int& w, int& h);
 
@@ -156,6 +159,8 @@ private:
     eWidget* mParent = nullptr;
     std::vector<eWidget*> mChildren;
     eMainWindow* const mWindow;
+
+    eWidget* mMouseReceiver = nullptr;
 };
 
 #endif // EWIDGET_H

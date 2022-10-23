@@ -349,6 +349,7 @@ SOURCES += \
         widgets/eprogressbar.cpp \
         widgets/equestionwidget.cpp \
         widgets/eresolution.cpp \
+        widgets/escrollwidget.cpp \
         widgets/esettingsmenu.cpp \
         widgets/espinbox.cpp \
         widgets/eswitchbutton.cpp \
@@ -729,6 +730,7 @@ HEADERS += \
     widgets/eprogressbar.h \
     widgets/equestionwidget.h \
     widgets/eresolution.h \
+    widgets/escrollwidget.h \
     widgets/esettingsmenu.h \
     widgets/espinbox.h \
     widgets/eswitchbutton.h \

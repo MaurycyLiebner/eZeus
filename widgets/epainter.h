@@ -71,6 +71,8 @@ public:
                                            eAlignment::right) const;
     void drawPolygon(std::vector<SDL_Point> pts,
                      const SDL_Color& color) const;
+
+    void setClipRect(const SDL_Rect* const rect);
 private:
     std::vector<ePainterSave> mSaves;
 

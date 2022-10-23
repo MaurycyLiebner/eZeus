@@ -235,7 +235,7 @@ bool eWidget::mousePress(const eMouseEvent& e) {
         override->mousePressEvent(ee);
         return true;
     }
-    sLastPressed = mouseEvent(e, &eWidget::mousePressEvent);
+    sLastPressed = mouseEvent(e, &eWidget::mousePressEvent, true);
     return sLastPressed;
 }
 
@@ -252,10 +252,10 @@ bool eWidget::mouseRelease(const eMouseEvent& e) {
         override->mouseReleaseEvent(ee);
         override->mouseLeaveEvent(ee);
         override = nullptr;
-        return mouseEvent(e, &eWidget::mouseEnterEvent);
+        return mouseEvent(e, &eWidget::mouseEnterEvent, true);
         return true;
     }
-    return mouseEvent(e, &eWidget::mouseReleaseEvent);
+    return mouseEvent(e, &eWidget::mouseReleaseEvent, true);
 }
 
 bool eWidget::mouseMove(const eMouseEvent& e) {
@@ -270,7 +270,7 @@ bool eWidget::mouseMove(const eMouseEvent& e) {
         const auto r = override->mouseMoveEvent(we);
         return r;
     } else {
-        const auto w = mouseEvent(e, &eWidget::mouseMoveEvent);
+        const auto w = mouseEvent(e, &eWidget::mouseMoveEvent, true);
         if(w == sWidgetUnderMouse) return w;
         if(sWidgetUnderMouse) {
             sWidgetUnderMouse->mouseLeaveEvent(e);
@@ -323,13 +323,17 @@ void eWidget::removeChildren() {
 }
 
 template <typename T>
-eWidget* eWidget::mouseEvent(const T& e, const TMouseEvent<T> event) {
+eWidget* eWidget::mouseEvent(const T& e, const TMouseEvent<T> event,
+                             const bool overwrite) {
+    if(mMouseReceiver && overwrite) {
+        return mMouseReceiver->mouseEvent(e, event);
+    }
     if(!contains(e.x(), e.y())) return nullptr;
     for(auto w = mChildren.rbegin(); w != mChildren.rend(); w++) {
         const auto& ww = *w;
         if(!ww->visible()) continue;
         const auto we = e.translated(-ww->x(), -ww->y());
-        const auto www = ww->mouseEvent(we, event);
+        const auto www = ww->mouseEvent(we, event, overwrite);
         if(www) return www;
     }
     const bool r = (this->*event)(e);
@@ -444,6 +448,10 @@ void eWidget::layoutHorizontally() {
         w->setX(x);
         x += w->width() + space;
     }
+}
+
+void eWidget::setMouseReceiver(eWidget* const w) {
+    mMouseReceiver = w;
 }
 
 void eWidget::sizeHint(int& w, int& h) {
