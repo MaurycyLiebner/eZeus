@@ -862,8 +862,19 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
             mMenu = new eGameMainMenu(window());
             mMenu->resize(width()/4, height()/2);
             const auto w = window();
-            const auto saveAct = [w]() {
-                w->saveGame();
+            const auto saveAct = [this, w]() {
+                const auto fw = new eFileWidget(w);
+                const auto func = [w](const std::string& path) {
+                    return w->saveGame(path);
+                };
+                const auto closeAct = [this, fw]() {
+                    removeWidget(fw);
+                    fw->deleteLater();
+                };
+                fw->intialize(eLanguage::text("save_game"),
+                              "../saves/", func, closeAct);
+                addWidget(fw);
+                fw->align(eAlignment::center);
             };
             const auto loadAct = [this, w]() {
                 const auto fw = new eFileWidget(w);

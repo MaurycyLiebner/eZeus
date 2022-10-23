@@ -39,7 +39,7 @@ public:
     void setFullscreen(const bool f);
 
     void startGameAction(eGameBoard* const board);
-    void saveGame();
+    bool saveGame(const std::string& path);
     bool loadGame(const std::string& path);
     void closeGame();
 

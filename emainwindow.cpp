@@ -110,14 +110,13 @@ void eMainWindow::startGameAction(eGameBoard* const board) {
     l->initialize();
 }
 
-void eMainWindow::saveGame() {
-    const std::string basedir{"../saves/"};
-    const auto path = basedir + "1.ez";
+bool eMainWindow::saveGame(const std::string& path) {
     const auto file = SDL_RWFromFile(path.c_str(), "w+b");
-    if(!file) return;
+    if(!file) return false;
     eWriteStream dst(file);
     mBoard->write(dst);
     SDL_RWclose(file);
+    return true;
 }
 
 bool eMainWindow::loadGame(const std::string& path) {
