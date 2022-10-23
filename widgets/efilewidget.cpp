@@ -59,6 +59,7 @@ void eFileWidget::intialize(const std::string& title,
     mLineEdit->setTinyPadding();
     mLineEdit->setText("A");
     mLineEdit->fitContent();
+    mLineEdit->setSmallFontSize();
     mLineEdit->setText("");
     lineW->addWidget(mLineEdit);
     mLineEdit->setX(p);

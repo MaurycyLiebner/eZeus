@@ -9,6 +9,8 @@ public:
 
     bool keyPressEvent(const eKeyPressEvent& e);
     void paintEvent(ePainter& p);
+private:
+    int mTime = 0;
 };
 
 #endif // ELINEEDIT_H

@@ -3,7 +3,6 @@
 eLineEdit::eLineEdit(eMainWindow* const window) :
     eLabel(window) {
     setTextAlignment(eAlignment::left | eAlignment::vcenter);
-    setSmallFontSize();
 }
 
 bool eLineEdit::keyPressEvent(const eKeyPressEvent& e) {
@@ -100,20 +99,29 @@ bool eLineEdit::keyPressEvent(const eKeyPressEvent& e) {
 
 void eLineEdit::paintEvent(ePainter& p) {
     eLabel::paintEvent(p);
+    mTime++;
+    if(mTime > 30) {
+        if(mTime > 60) {
+            mTime = 0;
+        }
+        return;
+    }
     const auto& tex = texture();
     int texw;
     int texh;
+    const int fs = fontSize();
     if(tex) {
         texw = tex->width();
         texh = tex->height();
     } else {
         texw = 0;
-        texh = fontSize();
+        texh = fs;
     }
-    const int x = texw;
-    const int y = (height() - texh)/2;
+    const int lh = 2*texh/3;
+    const int x = texw + fs/4;
+    const int y = (height() - lh)/2;
     const int w = lineWidth();
-    const int h = texh;
+    const int h = lh;
     SDL_Color col1;
     SDL_Color col2;
     eFontColorHelpers::colors(fontColor(), col1, col2);

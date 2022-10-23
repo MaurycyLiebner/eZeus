@@ -4,7 +4,7 @@ eMouseEvent::eMouseEvent(const int x, const int y,
                          const bool shift,
                          const eMouseButton buttons,
                          const eMouseButton button) :
-    mX(x), mY(y), mButtons(buttons), mButton(button) {
+    mX(x), mY(y), mShift(shift), mButtons(buttons), mButton(button) {
 
 }
 
