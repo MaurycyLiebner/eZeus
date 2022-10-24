@@ -52,7 +52,6 @@ bool eGodWorshippedAction::decide() {
     return true;
 }
 
-using eHeatGetter = std::function<eHeat(eBuildingType)>;
 void eGodWorshippedAction::goTo() {
     const auto c = character();
     const stdptr<eGodWorshippedAction> tptr(this);
@@ -82,52 +81,7 @@ void eGodWorshippedAction::goTo() {
         }
     };
     const auto gt = type();
-    eHeatGetter hg;
-    switch(gt) {
-    case eGodType::aphrodite:
-        hg = eHeatGetters::housing;
-        break;
-    case eGodType::apollo:
-        hg = eHeatGetters::culture;
-        break;
-    case eGodType::ares:
-        hg = eHeatGetters::industry;
-        break;
-    case eGodType::artemis:
-        hg = eHeatGetters::farming;
-        break;
-    case eGodType::athena:
-        hg = eHeatGetters::industry;
-        break;
-    case eGodType::atlas:
-        hg = eHeatGetters::industry;
-        break;
-    case eGodType::demeter:
-        hg = eHeatGetters::farming;
-        break;
-    case eGodType::dionysus:
-        hg = eHeatGetters::farming;
-        break;
-    case eGodType::hades:
-        hg = eHeatGetters::storage;
-        break;
-    case eGodType::hephaestus:
-        hg = eHeatGetters::industry;
-        break;
-    case eGodType::hera:
-        hg = eHeatGetters::farming;
-        break;
-    case eGodType::hermes:
-        hg = eHeatGetters::culture;
-        break;
-    case eGodType::poseidon:
-        hg = eHeatGetters::farming;
-        break;
-    case eGodType::zeus:
-        hg = eHeatGetters::storage;
-        break;
-    }
-
+    const auto hg = eHeatGetters::godLeaning(gt);
     const auto task = new eHeatMapTask(hg, hmFinish);
     auto& board = c->getBoard();
     auto& tp = board.threadPool();

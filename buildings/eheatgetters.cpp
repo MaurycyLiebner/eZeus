@@ -1,5 +1,7 @@
 #include "eheatgetters.h"
 
+#include "characters/gods/egod.h"
+
 eHeat eHeatGetters::appeal(const eBuildingType type) {
     switch(type) {
     case eBuildingType::wheatFarm: return {-3, 3};
@@ -137,4 +139,53 @@ eHeat eHeatGetters::culture(const eBuildingType type) {
     case eBuildingType::stadium: return {10, 5};
     default: return {2, 5};
     }
+}
+
+eHeatGetters::eHeatGetter eHeatGetters::godLeaning(const eGodType gt) {
+    eHeatGetter hg;
+    switch(gt) {
+    case eGodType::aphrodite:
+        hg = eHeatGetters::housing;
+        break;
+    case eGodType::apollo:
+        hg = eHeatGetters::culture;
+        break;
+    case eGodType::ares:
+        hg = eHeatGetters::industry;
+        break;
+    case eGodType::artemis:
+        hg = eHeatGetters::farming;
+        break;
+    case eGodType::athena:
+        hg = eHeatGetters::industry;
+        break;
+    case eGodType::atlas:
+        hg = eHeatGetters::industry;
+        break;
+    case eGodType::demeter:
+        hg = eHeatGetters::farming;
+        break;
+    case eGodType::dionysus:
+        hg = eHeatGetters::farming;
+        break;
+    case eGodType::hades:
+        hg = eHeatGetters::storage;
+        break;
+    case eGodType::hephaestus:
+        hg = eHeatGetters::industry;
+        break;
+    case eGodType::hera:
+        hg = eHeatGetters::farming;
+        break;
+    case eGodType::hermes:
+        hg = eHeatGetters::culture;
+        break;
+    case eGodType::poseidon:
+        hg = eHeatGetters::farming;
+        break;
+    case eGodType::zeus:
+        hg = eHeatGetters::storage;
+        break;
+    }
+    return hg;
 }
