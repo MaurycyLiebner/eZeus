@@ -53,7 +53,7 @@ private:
     bool mRemoveLastTurn = false;
     bool mWait = true;
     bool mDiagonalOnly = false;
-    int mMaxDistance = 50;
+    int mMaxDistance = 1000;
 };
 
 #endif // EMOVETOACTION_H

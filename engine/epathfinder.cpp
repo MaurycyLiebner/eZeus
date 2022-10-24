@@ -12,7 +12,6 @@ ePathFinder::ePathFinder(const eTileWalkable& walkable,
 }
 
 using eTilePair = std::pair<eTileBase*, int*>;
-using ePFinder = std::function<void(const eTilePair&)>;
 using eTileGetter = std::function<eTilePair(eTileBase*, int, int)>;
 
 eTilePair tileGetter(ePathBoard& brd,
@@ -32,7 +31,6 @@ bool ePathFinder::findPath(eTileBase* const start,
                            const int maxDist,
                            const bool onlyDiagonal,
                            const int srcW, const int srcH) {
-    (void)maxDist;
     if(!start) return false;
     if(mFinish(start)) return true;
 
@@ -60,9 +58,9 @@ bool ePathFinder::findPath(eTileBase* const start,
     }
 
     std::deque<eTilePair> toProcess;
-    ePFinder pathFinder;
-    pathFinder = [&](const eTilePair& from) {
+    const auto pathFinder = [&](const eTilePair& from) {
         const int dist = *from.second;
+        if(dist > maxDist) return;
         const auto tile = from.first;
 
         for(const int x : {0, 1, -1}) {
