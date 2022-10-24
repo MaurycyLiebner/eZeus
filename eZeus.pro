@@ -125,6 +125,7 @@ SOURCES += \
         characters/actions/efollowaction.cpp \
         characters/actions/eforce.cpp \
         characters/actions/egodaction.cpp \
+        characters/actions/egodattackaction.cpp \
         characters/actions/egodvisitaction.cpp \
         characters/actions/egodworshippedaction.cpp \
         characters/actions/egroweraction.cpp \
@@ -487,6 +488,7 @@ HEADERS += \
     characters/actions/efollowaction.h \
     characters/actions/eforce.h \
     characters/actions/egodaction.h \
+    characters/actions/egodattackaction.h \
     characters/actions/egodvisitaction.h \
     characters/actions/egodworshippedaction.h \
     characters/actions/egroweraction.h \

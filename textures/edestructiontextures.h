@@ -25,6 +25,16 @@ public:
 
     eTextureCollection fBless;
     eTextureCollection fCurse;
+
+    eTextureCollection fGodOrangeMissile;
+    eTextureCollection fGodBlueArrow;
+    eTextureCollection fGodOrangeArrow;
+    eTextureCollection fMonsterMissile;
+    eTextureCollection fGodBlueMissile;
+    eTextureCollection fGodRedMissile;
+    eTextureCollection fGodGreenMissile;
+    eTextureCollection fGodPinkMissile;
+    eTextureCollection fGodPurpleMissile;
 };
 
 #endif // EDESTRUCTIONTEXTURES_H

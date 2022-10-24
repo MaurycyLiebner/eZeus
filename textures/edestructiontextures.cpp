@@ -17,7 +17,17 @@ eDestructionTextures::eDestructionTextures(const int tileW, const int tileH,
     fArrow(renderer),
 
     fBless(renderer),
-    fCurse(renderer) {
+    fCurse(renderer),
+
+    fGodOrangeMissile(renderer),
+    fGodBlueArrow(renderer),
+    fGodOrangeArrow(renderer),
+    fMonsterMissile(renderer),
+    fGodBlueMissile(renderer),
+    fGodRedMissile(renderer),
+    fGodGreenMissile(renderer),
+    fGodPinkMissile(renderer),
+    fGodPurpleMissile(renderer) {
 
 }
 
@@ -80,6 +90,42 @@ void eDestructionTextures::load() {
 
         for(int i = 807; i < 1007; i++) {
             texClass.load(i, fCurse);
+        }
+
+        for(int i = 1103; i < 1167; i++) {
+            texClass.load(i, fGodOrangeMissile);
+        }
+
+        for(int i = 1212; i < 1276; i++) {
+            texClass.load(i, fGodBlueArrow);
+        }
+
+        for(int i = 1276; i < 1340; i++) {
+            texClass.load(i, fGodOrangeArrow);
+        }
+
+        for(int i = 1340; i < 1404; i++) {
+            texClass.load(i, fMonsterMissile);
+        }
+
+        for(int i = 1404; i < 1468; i++) {
+            texClass.load(i, fGodBlueMissile);
+        }
+
+        for(int i = 1468; i < 1532; i++) {
+            texClass.load(i, fGodRedMissile);
+        }
+
+        for(int i = 1532; i < 1596; i++) {
+            texClass.load(i, fGodGreenMissile);
+        }
+
+        for(int i = 1596; i < 1660; i++) {
+            texClass.load(i, fGodPinkMissile);
+        }
+
+        for(int i = 1750; i < 1814; i++) {
+            texClass.load(i, fGodPurpleMissile);
         }
     }
 

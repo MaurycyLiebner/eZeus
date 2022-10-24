@@ -106,6 +106,16 @@ bool eBuilding::sBlessable(const eBuildingType bt) {
     return true;
 }
 
+bool eBuilding::sAttackable(const eBuildingType bt) {
+    const bool s = sSanctuaryBuilding(bt);
+    if(s) return false;
+    if(bt == eBuildingType::road) return false;
+    if(bt == eBuildingType::sheep) return false;
+    if(bt == eBuildingType::goat) return false;
+    if(bt == eBuildingType::ruins) return false;
+    return true;
+}
+
 eTile* eBuilding::tileNeighbour(const eMoveDirection o,
                                 const eTileValidator& v) const {
     int dx = 0;

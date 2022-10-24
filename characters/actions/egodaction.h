@@ -31,7 +31,7 @@ public:
     using eGodAct = std::function<eTile*(eTile* const t)>;
     using eTexPtr = eTextureCollection eDestructionTextures::*;
     using eFinishFunc = std::function<void(eTile* const t)>;
-    void lookForRangeAction(const int dtime,
+    bool lookForRangeAction(const int dtime,
                             int& time, const int freq,
                             const int range,
                             const eCharacterActionType at,
@@ -39,7 +39,7 @@ public:
                             const eTexPtr missileTex,
                             const eGodSound missileSound,
                             const eFinishFunc& finishA);
-    void lookForBlessCurse(const int dtime, int& time,
+    bool lookForBlessCurse(const int dtime, int& time,
                            const int freq, const int range,
                            const double bless);
 

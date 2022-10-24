@@ -162,16 +162,16 @@ eTile* eGodAction::closestRoad(const int rdx, const int rdy) const {
     return tile;
 }
 
-void eGodAction::lookForBlessCurse(const int dtime,
+bool eGodAction::lookForBlessCurse(const int dtime,
                                    int& time, const int freq,
                                    const int range,
                                    const double bless) {
-    const auto act = [bless](eTile* const t) {
+    const auto act = [](eTile* const t) {
         const auto null = static_cast<eTile*>(nullptr);
         const auto b = t->underBuilding();
         if(!b) return null;
         if(!eBuilding::sBlessable(b->type())) return null;
-        if((b->blessed() > 0) == (bless > 0)) return null;
+        if(std::abs(b->blessed()) > 0.01) return null;
         return b->centerTile();
     };
 
@@ -192,11 +192,11 @@ void eGodAction::lookForBlessCurse(const int dtime,
         s = eGodSound::curse;
         tex = &eDestructionTextures::fCurse;
     }
-    lookForRangeAction(dtime, time, freq, range,
-                       at, act, tex, s, finishA);
+    return lookForRangeAction(dtime, time, freq, range,
+                              at, act, tex, s, finishA);
 }
 
-void eGodAction::lookForRangeAction(const int dtime,
+bool eGodAction::lookForRangeAction(const int dtime,
                                     int& time, const int freq,
                                     const int range,
                                     const eCharacterActionType at,
@@ -207,36 +207,43 @@ void eGodAction::lookForRangeAction(const int dtime,
     const auto c = character();
     const auto cat = c->actionType();
     const bool walking = cat == eCharacterActionType::walk;
+    if(!walking) return false;
     auto& brd = c->getBoard();
     const auto ct = c->tile();
-    if(ct && walking) {
-        const int tx = ct->x();
-        const int ty = ct->y();
+    if(!ct) return false;
+    const int tx = ct->x();
+    const int ty = ct->y();
 
-        time += dtime;
-        if(time > freq) {
-            time -= freq;
-            bool found = false;
-            for(int i = -range; i <= range && !found; i++) {
-                for(int j = -range; j <= range && !found; j++) {
-                    const int ttx = tx + i;
-                    const int tty = ty + j;
-                    const auto t = brd.tile(ttx, tty);
-                    if(!t) continue;
-                    const auto tt = act(t);
-                    if(!tt) continue;
-                    found = true;
-
-                    const auto finishAA = [finishA, tt]() {
-                        finishA(tt);
-                    };
-
-                    spawnGodMissile(at, missileTex, tt,
-                                    missileSound, finishAA);
-                }
+    time += dtime;
+    if(time > freq) {
+        time -= freq;
+        std::vector<eTile*> tiles;
+        const int rr = 2*range + 1;
+        tiles.reserve(rr*rr);
+        for(int i = -range; i <= range; i++) {
+            for(int j = -range; j <= range; j++) {
+                const int ttx = tx + i;
+                const int tty = ty + j;
+                const auto t = brd.tile(ttx, tty);
+                if(!t) continue;
+                tiles.push_back(t);
             }
         }
+        std::random_shuffle(tiles.begin(), tiles.end());
+        for(const auto t : tiles) {
+            const auto tt = act(t);
+            if(!tt) continue;
+
+            const auto finishAA = [finishA, tt]() {
+                finishA(tt);
+            };
+
+            spawnGodMissile(at, missileTex, tt,
+                            missileSound, finishAA);
+            return true;
+        }
     }
+    return false;
 }
 
 void eGodAction::spawnGodMissile(const eCharacterActionType at,
@@ -262,17 +269,6 @@ void eGodAction::spawnGodMissile(const eCharacterActionType at,
 
         m->setFinishAction(finishA);
 
-        {
-            m->incTime(1);
-            const double a = m->angle();
-            const double inc = 360./8.;
-            const double aa = a + 90;
-            const double aaa = aa > 360. ? aa - 360. : aa;
-            const int oi = int(std::floor(aaa/inc)) % 8;
-            const auto o = static_cast<eOrientation>(oi);
-            c->setOrientation(o);
-        }
-
         auto& board = c->getBoard();
         board.ifVisible(c->tile(), [this, sound]() {
             eSounds::playGodSound(mType, sound);
@@ -282,8 +278,32 @@ void eGodAction::spawnGodMissile(const eCharacterActionType at,
     };
     const auto c = character();
     c->setActionType(at);
+    {
+        const auto ct = c->tile();
+        const int tx = ct->x();
+        const int ty = ct->y();
+        const int ttx = target->x();
+        const int tty = target->y();
+        const double dx = ttx - tx;
+        const double dy = tty - ty;
+
+        const vec2d angleLine{dx, dy};
+        const double a = angleLine.angle();
+        const double inc = 360./8.;
+        const double aa = a + 90;
+        const double aaa = aa > 360. ? aa - 360. : aa;
+        const int oi = int(std::floor(aaa/inc)) % 8;
+        const auto o = static_cast<eOrientation>(oi);
+        c->setOrientation(o);
+    }
     const auto a = e::make_shared<eWaitAction>(c, finish, finish);
-    a->setTime(500);
+    int time;
+    if(type() == eGodType::apollo) {
+        time = 300;
+    } else {
+        time = 500;
+    }
+    a->setTime(time);
     setCurrentAction(a);
 }
 

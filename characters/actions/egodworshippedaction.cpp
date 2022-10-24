@@ -1,9 +1,5 @@
 #include "egodworshippedaction.h"
 
-#include "buildings/ebuilding.h"
-#include "textures/edestructiontextures.h"
-#include "esounds.h"
-
 void eGodWorshippedAction::increment(const int by) {
     const int lookForBlessCheck = 6000;
 
@@ -25,16 +21,26 @@ bool eGodWorshippedAction::decide() {
         }
         break;
     case eGodWorshippedStage::appear:
-        mStage = eGodWorshippedStage::goTo;
+        mStage = eGodWorshippedStage::goTo1;
         goToTarget();
         break;
-    case eGodWorshippedStage::goTo: {
-        mStage = eGodWorshippedStage::patrol;
+    case eGodWorshippedStage::goTo1: {
+        mStage = eGodWorshippedStage::patrol1;
         const auto tile = c->tile();
         if(tile->hasRoad()) patrol();
         else moveAround();
     }   break;
-    case eGodWorshippedStage::patrol:
+    case eGodWorshippedStage::patrol1:
+        mStage = eGodWorshippedStage::goTo2;
+        goToTarget();
+        break;
+    case eGodWorshippedStage::goTo2: {
+        mStage = eGodWorshippedStage::patrol2;
+        const auto tile = c->tile();
+        if(tile->hasRoad()) patrol();
+        else moveAround();
+    }   break;
+    case eGodWorshippedStage::patrol2:
         mStage = eGodWorshippedStage::disappear;
         disappear();
         break;

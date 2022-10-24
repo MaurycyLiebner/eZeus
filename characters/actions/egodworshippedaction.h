@@ -4,7 +4,7 @@
 #include "egodaction.h"
 
 enum class eGodWorshippedStage {
-    none, appear, goTo, patrol, disappear
+    none, appear, goTo1, patrol1, goTo2, patrol2, disappear
 };
 
 class eGodWorshippedAction : public eGodAction {

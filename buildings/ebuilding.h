@@ -163,6 +163,7 @@ public:
     static bool sFlammable(const eBuildingType bt);
     static bool sTimedBuilding(const eBuildingType bt);
     static bool sBlessable(const eBuildingType bt);
+    static bool sAttackable(const eBuildingType bt);
 
     using eTileValidator = std::function<bool(eTile*)>;
     eTile* tileNeighbour(const eMoveDirection o,
