@@ -81,3 +81,60 @@ eHeat eHeatGetters::appeal(const eBuildingType type) {
     default: return {0, 0};
     }
 }
+
+eHeat eHeatGetters::housing(const eBuildingType type) {
+    switch(type) {
+    case eBuildingType::commonHouse: return {10, 5};
+    case eBuildingType::eliteHousing: return {10, 5};
+    default: return {2, 5};
+    }
+}
+
+eHeat eHeatGetters::industry(const eBuildingType type) {
+    switch(type) {
+    case eBuildingType::timberMill: return {10, 5};
+    case eBuildingType::masonryShop: return {10, 5};
+    case eBuildingType::mint: return {10, 5};
+    case eBuildingType::foundry: return {10, 5};
+    case eBuildingType::sculptureStudio: return {10, 5};
+    case eBuildingType::armory: return {10, 5};
+    default: return {2, 5};
+    }
+}
+
+eHeat eHeatGetters::farming(const eBuildingType type) {
+    switch(type) {
+    case eBuildingType::wheatFarm: return {10, 5};
+    case eBuildingType::carrotsFarm: return {10, 5};
+    case eBuildingType::onionsFarm: return {10, 5};
+    case eBuildingType::growersLodge: return {10, 5};
+    case eBuildingType::cardingShed: return {10, 5};
+    case eBuildingType::dairy: return {10, 5};
+    case eBuildingType::urchinQuay: return {10, 5};
+    case eBuildingType::fishery: return {10, 5};
+    case eBuildingType::huntingLodge: return {10, 5};
+    case eBuildingType::orangeTendersLodge: return {10, 5};
+    default: return {2, 5};
+    }
+}
+
+eHeat eHeatGetters::storage(const eBuildingType type) {
+    switch(type) {
+    case eBuildingType::granary: return {10, 5};
+    case eBuildingType::warehouse: return {10, 5};
+    case eBuildingType::tradePost: return {10, 5};
+    default: return {2, 5};
+    }
+}
+
+eHeat eHeatGetters::culture(const eBuildingType type) {
+    switch(type) {
+    case eBuildingType::college: return {10, 5};
+    case eBuildingType::podium: return {10, 5};
+    case eBuildingType::gymnasium: return {10, 5};
+    case eBuildingType::dramaSchool: return {10, 5};
+    case eBuildingType::theater: return {10, 5};
+    case eBuildingType::stadium: return {10, 5};
+    default: return {2, 5};
+    }
+}

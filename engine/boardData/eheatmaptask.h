@@ -11,8 +11,8 @@ enum class eBuildingType;
 
 class eHeatMapTask : public eTask {
 public:
-    using eFunc = std::function<void(eHeatMap&)>;
     using eHeatGetter = std::function<eHeat(eBuildingType)>;
+    using eFunc = std::function<void(eHeatMap&)>;
     eHeatMapTask(const eHeatGetter& heatGetter,
                  const eFunc& finish);
 
