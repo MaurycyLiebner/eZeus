@@ -38,5 +38,5 @@ double eEmployingBuilding::employedFraction() const {
 
 double eEmployingBuilding::effectiveness() const {
     const double ef = std::max(0.1, employedFraction());
-    return ef*ef;
+    return ef*(1 + 0.5*blessed());
 }
