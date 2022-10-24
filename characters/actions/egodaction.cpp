@@ -219,8 +219,38 @@ void eGodAction::spawnGodMissile(const eCharacterActionType at,
                                  const eFunc& finishA) {
     pauseAction();
     const stdptr<eGodAction> tptr(this);
-    const auto finish = [tptr, this]() {
+    const auto finish = [tptr, tex, target, sound, finishA, this]() {
         if(!tptr) return;
+        const auto c = character();
+        const auto ct = c->tile();
+        const int tx = ct->x();
+        const int ty = ct->y();
+        const int ttx = target->x();
+        const int tty = target->y();
+        auto& brd = c->getBoard();
+        const auto m = eMissile::sCreate<eGodMissile>(
+                           brd, tx, ty, 0.5,
+                           ttx, tty, 0.5, 0);
+        m->setTexture(tex);
+
+        m->setFinishAction(finishA);
+
+        {
+            m->incTime(1);
+            const double a = m->angle();
+            const double inc = 360./8.;
+            const double aa = a + 90;
+            const double aaa = aa > 360. ? aa - 360. : aa;
+            const int oi = int(std::floor(aaa/inc)) % 8;
+            const auto o = static_cast<eOrientation>(oi);
+            c->setOrientation(o);
+        }
+
+        auto& board = c->getBoard();
+        board.ifVisible(c->tile(), [this, sound]() {
+            eSounds::playGodSound(mType, sound);
+        });
+
         resumeAction();
     };
     const auto c = character();
@@ -228,35 +258,6 @@ void eGodAction::spawnGodMissile(const eCharacterActionType at,
     const auto a = e::make_shared<eWaitAction>(c, finish, finish);
     a->setTime(500);
     setCurrentAction(a);
-
-    const auto ct = c->tile();
-    const int tx = ct->x();
-    const int ty = ct->y();
-    const int ttx = target->x();
-    const int tty = target->y();
-    auto& brd = c->getBoard();
-    const auto m = eMissile::sCreate<eGodMissile>(
-                       brd, tx, ty, 0.5,
-                       ttx, tty, 0.5, 0);
-    m->setTexture(tex);
-
-    m->setFinishAction(finishA);
-
-    {
-        m->incTime(1);
-        const double a = m->angle();
-        const double inc = 360./8.;
-        const double aa = a + 90;
-        const double aaa = aa > 360. ? aa - 360. : aa;
-        const int oi = int(std::floor(aaa/inc)) % 8;
-        const auto o = static_cast<eOrientation>(oi);
-        c->setOrientation(o);
-    }
-
-    auto& board = c->getBoard();
-    board.ifVisible(c->tile(), [this, sound]() {
-        eSounds::playGodSound(mType, sound);
-    });
 }
 
 void eGodAction::pauseAction() {
