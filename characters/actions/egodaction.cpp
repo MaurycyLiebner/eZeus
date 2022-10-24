@@ -164,10 +164,49 @@ eTile* eGodAction::closestRoad(const int rdx, const int rdy) const {
 
 void eGodAction::lookForBlessCurse(const int dtime,
                                    int& time, const int freq,
-                                   const int range, const double bless) {
+                                   const int range,
+                                   const double bless) {
+    const auto act = [bless](eTile* const t) {
+        const auto null = static_cast<eTile*>(nullptr);
+        const auto b = t->underBuilding();
+        if(!b) return null;
+        if(!eBuilding::sBlessable(b->type())) return null;
+        if((b->blessed() > 0) == (bless > 0)) return null;
+        return b->centerTile();
+    };
+
+    const auto finishA = [bless](eTile* const target) {
+        const auto b = target->underBuilding();
+        if(!b) return;
+        b->setBlessed(bless);
+    };
+    eCharacterActionType at;
+    eGodSound s;
+    eTexPtr tex;
+    if(bless > 0) {
+        at = eCharacterActionType::bless;
+        s = eGodSound::santcify;
+        tex = &eDestructionTextures::fBless;
+    } else {
+        at = eCharacterActionType::bless;
+        s = eGodSound::curse;
+        tex = &eDestructionTextures::fCurse;
+    }
+    lookForRangeAction(dtime, time, freq, range,
+                       at, act, tex, s, finishA);
+}
+
+void eGodAction::lookForRangeAction(const int dtime,
+                                    int& time, const int freq,
+                                    const int range,
+                                    const eCharacterActionType at,
+                                    const eGodAct& act,
+                                    const eTexPtr missileTex,
+                                    const eGodSound missileSound,
+                                    const eFinishFunc& finishA) {
     const auto c = character();
-    const auto at = c->actionType();
-    const bool walking = at == eCharacterActionType::walk;
+    const auto cat = c->actionType();
+    const bool walking = cat == eCharacterActionType::walk;
     auto& brd = c->getBoard();
     const auto ct = c->tile();
     if(ct && walking) {
@@ -184,38 +223,20 @@ void eGodAction::lookForBlessCurse(const int dtime,
                     const int tty = ty + j;
                     const auto t = brd.tile(ttx, tty);
                     if(!t) continue;
-                    const auto b = t->underBuilding();
-                    if(!b) continue;
-                    if(!eBuilding::sBlessable(b->type())) continue;
-                    if((bless > 0) == (b->blessed() > 0)) continue;
-                    blessCurse(b, bless);
+                    const auto tt = act(t);
+                    if(!tt) continue;
                     found = true;
+
+                    const auto finishAA = [finishA, tt]() {
+                        finishA(tt);
+                    };
+
+                    spawnGodMissile(at, missileTex, tt,
+                                    missileSound, finishAA);
                 }
             }
         }
     }
-}
-
-void eGodAction::blessCurse(eBuilding* const b, const double bb) {
-    eTexPtr texPtr;
-    eGodSound sound;
-    if(bb > 0) {
-        texPtr = &eDestructionTextures::fBless;
-        sound = eGodSound::santcify;
-    } else {
-        texPtr = &eDestructionTextures::fCurse;
-        sound = eGodSound::curse;
-    }
-
-    const stdptr<eBuilding> bptr(b);
-    const auto finishA = [bptr, bb]() {
-        if(!bptr) return;
-        bptr->setBlessed(bb);
-    };
-
-    spawnGodMissile(eCharacterActionType::bless,
-                    texPtr, b->centerTile(),
-                    sound, finishA);
 }
 
 void eGodAction::spawnGodMissile(const eCharacterActionType at,

@@ -28,11 +28,21 @@ public:
     void randomPlaceOnBoard();
     eTile* closestRoad(const int rdx, const int rdy) const;
 
-    void lookForBlessCurse(const int dtime,
-                           int& time, const int freq,
-                           const int range, const double bless);
-    void blessCurse(eBuilding* const b, const double bb);
+    using eGodAct = std::function<eTile*(eTile* const t)>;
     using eTexPtr = eTextureCollection eDestructionTextures::*;
+    using eFinishFunc = std::function<void(eTile* const t)>;
+    void lookForRangeAction(const int dtime,
+                            int& time, const int freq,
+                            const int range,
+                            const eCharacterActionType at,
+                            const eGodAct& act,
+                            const eTexPtr missileTex,
+                            const eGodSound missileSound,
+                            const eFinishFunc& finishA);
+    void lookForBlessCurse(const int dtime, int& time,
+                           const int freq, const int range,
+                           const double bless);
+
     void spawnGodMissile(const eCharacterActionType at,
                          const eTexPtr tex,
                          eTile* const target,

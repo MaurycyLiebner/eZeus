@@ -1,9 +1,13 @@
 #include "egodworshippedaction.h"
 
+#include "buildings/ebuilding.h"
+#include "textures/edestructiontextures.h"
+#include "esounds.h"
+
 void eGodWorshippedAction::increment(const int by) {
     const int lookForBlessCheck = 6000;
 
-    lookForBlessCurse(by, mLookForBless, lookForBlessCheck, 10, 1.);
+    lookForBlessCurse(by, mLookForBless, lookForBlessCheck, 10, 1);
 
     eGodAction::increment(by);
 }
