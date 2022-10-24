@@ -39,6 +39,8 @@ public:
                          const eGodSound sound,
                          const eFunc& finishA);
 
+    void goToTarget();
+
     eGodType type() const { return mType; }
 private:
     void hermesRun(const bool appear);

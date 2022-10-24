@@ -14,8 +14,6 @@ public:
     void increment(const int by);
     bool decide();
 private:
-    void goTo();
-
     eGodWorshippedStage mStage{eGodWorshippedStage::none};
 
     int mLookForBless = 0;

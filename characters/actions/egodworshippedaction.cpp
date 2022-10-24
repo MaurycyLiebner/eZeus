@@ -1,16 +1,5 @@
 #include "egodworshippedaction.h"
 
-#include "characters/echaracter.h"
-
-#include "engine/egameboard.h"
-
-#include "engine/boardData/eheatmaptask.h"
-#include "engine/boardData/eheatmapdivisor.h"
-#include "buildings/eheatgetters.h"
-
-#include "emovetoaction.h"
-#include "ewaitaction.h"
-
 void eGodWorshippedAction::increment(const int by) {
     const int lookForBlessCheck = 6000;
 
@@ -33,7 +22,7 @@ bool eGodWorshippedAction::decide() {
         break;
     case eGodWorshippedStage::appear:
         mStage = eGodWorshippedStage::goTo;
-        goTo();
+        goToTarget();
         break;
     case eGodWorshippedStage::goTo: {
         mStage = eGodWorshippedStage::patrol;
@@ -50,41 +39,4 @@ bool eGodWorshippedAction::decide() {
         break;
     }
     return true;
-}
-
-void eGodWorshippedAction::goTo() {
-    const auto c = character();
-    const stdptr<eGodWorshippedAction> tptr(this);
-    const stdptr<eCharacter> cptr(c);
-    const auto hmFinish = [tptr, this, cptr, c](eHeatMap& map) {
-        if(!tptr || !cptr) return;
-        eHeatMapDivisor divisor(map);
-        divisor.divide(10);
-        int tx;
-        int ty;
-        const bool r = divisor.randomHeatTile(tx, ty);
-        if(r) {
-            const auto tile = closestRoad(tx, ty);
-            if(!tile) return setCurrentAction(nullptr);
-            const auto tele = [tptr, this, tile]() {
-                if(!tptr) return;
-                teleport(tile);
-            };
-            const auto a = e::make_shared<eMoveToAction>(
-                               c, tele, [](){});
-            a->setFindFailAction(tele);
-            a->start(tile);
-            setCurrentAction(a);
-            c->setActionType(eCharacterActionType::walk);
-        } else {
-            setCurrentAction(nullptr);
-        }
-    };
-    const auto gt = type();
-    const auto hg = eHeatGetters::godLeaning(gt);
-    const auto task = new eHeatMapTask(hg, hmFinish);
-    auto& board = c->getBoard();
-    auto& tp = board.threadPool();
-    tp.queueTask(task);
-    wait();
 }
