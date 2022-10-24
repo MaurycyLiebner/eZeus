@@ -312,16 +312,33 @@ void eGameWidget::paintEvent(ePainter& p) {
                 rx += 1;
                 ry -= 1;
             }
-            bool cm;
-            const auto ub = tile->underBuilding();
-            if(ub) {
-                cm = inErase(ub);
+            bool eraseCm = false;
+            bool patrolCm = false;
+            if(mPatrolBuilding && !mPatrolPath.empty()) {
+                const auto begin = mPatrolPath.begin();
+                const auto end = mPatrolPath.end();
+                patrolCm = std::find(begin, end, tile) != end;
+                if(patrolCm) {
+                    tex->setColorMod(175, 255, 175);
+                } else {
+                    const auto begin = mExcessPatrolPath.begin();
+                    const auto end = mExcessPatrolPath.end();
+                    patrolCm = std::find(begin, end, tile) != end;
+                    if(patrolCm) {
+                        tex->setColorMod(255, 175, 175);
+                    }
+                }
             } else {
-                cm = inErase(tx, ty);
+                const auto ub = tile->underBuilding();
+                if(ub) {
+                    eraseCm = inErase(ub);
+                } else {
+                    eraseCm = inErase(tx, ty);
+                }
+                if(eraseCm) tex->setColorMod(255, 175, 255);
             }
-            if(cm) tex->setColorMod(255, 175, 255);
             tp.drawTexture(rx, ry, tex, eAlignment::top);
-            if(cm) tex->clearColorMod();
+            if(eraseCm || patrolCm) tex->clearColorMod();
         }
     };
 
@@ -689,11 +706,17 @@ void eGameWidget::paintEvent(ePainter& p) {
                 const auto pgs = mPatrolBuilding->patrolGuides();
                 for(const auto& pg : *pgs) {
                     if(pg.fX == tx && pg.fY == ty) {
-                        const auto& coll = builTexs.fPatrolGuides;
-                        const auto tex = coll.getTexture(14);
-                        tp.drawTexture(rx, ry, tex, eAlignment::top);
-                        tp.drawTexture(rx, ry - 1, intrTexs.fSpawner,
+                        const auto begin = mPatrolPath.begin();
+                        const auto end = mPatrolPath.end();
+                        const bool invalid = std::find(begin, end, tile) == end;
+                        const auto& tex = intrTexs.fSpawner;
+                        if(invalid) tex->setColorMod(255, 125, 125);
+                        //const auto& coll = builTexs.fPatrolGuides;
+                        //const auto tex = coll.getTexture(14);
+                        //tp.drawTexture(rx, ry, tex, eAlignment::top);
+                        tp.drawTexture(rx, ry - 1, tex,
                                        eAlignment::hcenter | eAlignment::top);
+                        if(invalid) tex->clearColorMod();
                         break;
                     }
                 }

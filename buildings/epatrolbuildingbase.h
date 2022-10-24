@@ -45,6 +45,9 @@ public:
     void setSpawnPatrolers(const bool s);
     bool spawnPatrolers() const { return mSpawnPatrolers; }
 
+    void setMaxDistance(const int m) { mMaxDistance = m; }
+    int maxDistance() const { return mMaxDistance; }
+
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:
@@ -52,6 +55,8 @@ private:
     const eActGenerator mActGenerator;
 
     bool mSpawnPatrolers = true;
+
+    int mMaxDistance = 50;
 
     const int mWaitTime = 5000;
     int mSpawnTime = mWaitTime;

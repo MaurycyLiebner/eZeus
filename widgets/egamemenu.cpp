@@ -213,6 +213,10 @@ void eGameMenu::openBuildWidget(const int cmx, const int cmy,
     setBuildWidget(bw);
 }
 
+void eGameMenu::setModeChangedAction(const eAction& func) {
+    mModeChangeAct = func;
+}
+
 void eGameMenu::displayPrice(const int price, const int loc) {
     const auto w = mPriceWidgets[loc];
     const auto l = mPriceLabels[loc];
@@ -869,6 +873,7 @@ void eGameMenu::updateButtonsVisibility() {
 void eGameMenu::setMode(const eBuildingMode mode) {
     closeBuildWidget();
     mMode = mode;
+    if(mModeChangeAct) mModeChangeAct();
 }
 
 bool eGameMenu::mousePressEvent(const eMouseEvent& e) {

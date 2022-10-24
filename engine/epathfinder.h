@@ -8,6 +8,8 @@
 #include "epathboard.h"
 
 class eTileBase;
+class eTile;
+class eGameBoard;
 
 struct ePathFindData {
     ePathBoard fBoard;
@@ -42,6 +44,8 @@ public:
                   const int srcW, const int srcH);
     bool extractPath(std::vector<eOrientation>& path);
     bool extractPath(std::vector<std::pair<int, int>>& path);
+    bool extractPath(std::vector<eTile*>& path,
+                     eGameBoard& board);
     using ePathFunc = std::function<void(const eNeigh&)>;
     bool extractPath(const ePathFunc& pathFunc);
     bool extractData(ePathFindData& data);

@@ -3,6 +3,7 @@
 #include <deque>
 
 #include "engine/etilebase.h"
+#include "engine/egameboard.h"
 
 ePathFinder::ePathFinder(const eTileWalkable& walkable,
                          const eTileFinish& finish) :
@@ -132,6 +133,16 @@ bool ePathFinder::extractPath(std::vector<std::pair<int, int>>& path) {
     return extractPath([&](const eNeigh& n) {
         const auto t = n.second.first;
         path.emplace_back(std::pair<int, int>{t->x(), t->y()});
+    });
+}
+
+bool ePathFinder::extractPath(std::vector<eTile*>& path, eGameBoard& board) {
+    if(!mData.fFound) return false;
+    path.clear();
+    path.reserve(mData.fDistance);
+    return extractPath([&](const eNeigh& n) {
+        const auto t = n.second.first;
+        path.emplace_back(board.tile(t->x(), t->y()));
     });
 }
 

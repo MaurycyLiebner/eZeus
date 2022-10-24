@@ -66,6 +66,8 @@ public:
     void updateButtonsVisibility();
     void openBuildWidget(const int cmx, const int cmy,
                          const std::vector<eSPR>& cs);
+
+    void setModeChangedAction(const eAction& func);
 protected:
     bool mousePressEvent(const eMouseEvent& e);
 private:
@@ -117,6 +119,8 @@ private:
     std::vector<eLabel*> mPriceLabels;
 
     std::vector<eSubButton*> mSubButtons;
+
+    eAction mModeChangeAct;
 };
 
 #endif // EGAMEMENU_H

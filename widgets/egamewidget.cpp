@@ -97,6 +97,10 @@ void eGameWidget::initialize() {
         viewTile(tile);
     });
 
+    mGm->setModeChangedAction([this]() {
+        mPatrolBuilding = nullptr;
+    });
+
     const auto mm = mGm->miniMap();
     mm->setChangeAction([this, mm]() {
         double fx;
@@ -643,6 +647,48 @@ bool eGameWidget::roadPath(std::vector<eOrientation>& path) {
     return p.extractPath(path);
 }
 
+void eGameWidget::updatePatrolPath() {
+    mPatrolPath.clear();
+    mExcessPatrolPath.clear();
+    if(!mPatrolBuilding) return;
+    const int maxDist = mPatrolBuilding->maxDistance();
+    const auto& guides = *mPatrolBuilding->patrolGuides();
+    auto lastTile = mPatrolBuilding->centerTile();
+    for(const auto& g : guides) {
+        if(!lastTile) break;
+        ePathFinder p([&](eTileBase* const t) {
+            const auto tt = static_cast<eTile*>(t);
+            const auto ub = tt->underBuilding() == mPatrolBuilding;
+            return t->hasRoad() || ub;
+        }, [&](eTileBase* const t) {
+            return t->x() == g.fX && t->y() == g.fY;
+        });
+        const auto startTile = mBoard->tile(lastTile->x(), lastTile->y());
+        const int w = mBoard->width();
+        const int h = mBoard->height();
+        const bool r = p.findPath(startTile, 100, true, w, h);
+        if(!r) return;
+        std::vector<eTile*> path;
+        p.extractPath(path, *mBoard);
+        mPatrolPath.reserve(mPatrolPath.size() + path.size());
+        for(const auto p : path) {
+            const int s = mPatrolPath.size();
+            if(s > maxDist) {
+                mExcessPatrolPath.emplace_back(p);
+            } else {
+                mPatrolPath.emplace_back(p);
+            }
+        }
+        lastTile = mBoard->tile(g.fX, g.fY);
+        const int s = mPatrolPath.size();
+        if(s > maxDist) {
+            mExcessPatrolPath.emplace_back(lastTile);
+        } else {
+            mPatrolPath.emplace_back(lastTile);
+        }
+    }
+}
+
 bool eGameWidget::inErase(const int tx, const int ty) {
     const auto mode = mGm->mode();
     const bool e = mode == eBuildingMode::erase;
@@ -941,6 +987,7 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
                     if(tile->hasRoad()) pgs->push_back({tx, ty});
                 }
             }
+            updatePatrolPath();
         }
         return true;
     case eMouseButton::right: {
@@ -956,6 +1003,8 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         if(mPatrolBuilding) {
             setViewMode(eViewMode::defaultView);
             mPatrolBuilding = nullptr;
+            updatePatrolPath();
+            return true;
         }
         const auto tile = mBoard->tile(tx, ty);
         if(!tile) return true;
@@ -1024,6 +1073,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                         if(const auto pb = dynamic_cast<ePatrolBuilding*>(b)) {
                             setViewMode(eViewMode::patrolBuilding);
                             mPatrolBuilding = pb;
+                            updatePatrolPath();
                         }
                     }
                 }

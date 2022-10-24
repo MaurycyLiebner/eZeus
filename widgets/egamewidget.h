@@ -142,6 +142,8 @@ private:
                                const eBuildingTextures& builTexs);
     void updateTerrainTextures();
 
+    void updatePatrolPath();
+
     eInfoWidget* openInfoWidget(eBuilding* const b);
 
     bool mUpdateTerrain = true;
@@ -188,7 +190,9 @@ private:
     eGameBoard* mBoard = nullptr;
 
     bool mDrawElevation = true;
-    ePatrolBuilding* mPatrolBuilding = nullptr;
+    stdptr<ePatrolBuilding> mPatrolBuilding;
+    std::vector<eTile*> mPatrolPath;
+    std::vector<eTile*> mExcessPatrolPath;
 
     eFramedLabel* mPausedLabel = nullptr;
     eGameMainMenu* mMenu = nullptr;

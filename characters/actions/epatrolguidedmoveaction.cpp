@@ -2,9 +2,11 @@
 
 #include "emovetoaction.h"
 #include "../echaracter.h"
+#include "buildings/epatrolbuildingbase.h"
 
-ePatrolGuidedMoveAction::ePatrolGuidedMoveAction(eCharacter* const c,
-        eBuilding* const b,
+ePatrolGuidedMoveAction::ePatrolGuidedMoveAction(
+        eCharacter* const c,
+        ePatrolBuildingBase* const b,
         const std::vector<ePatrolGuide>& guides,
         const eAction& failAction,
         const eAction& finishAction) :

@@ -5,6 +5,8 @@
 
 #include <SDL2/SDL_rect.h>
 
+class ePatrolBuildingBase;
+
 struct ePatrolGuide {
     int fX;
     int fY;
@@ -13,7 +15,7 @@ struct ePatrolGuide {
 class ePatrolGuidedMoveAction : public eActionWithComeback {
 public:
     ePatrolGuidedMoveAction(eCharacter* const c,
-                            eBuilding* const b,
+                            ePatrolBuildingBase* const b,
                             const std::vector<ePatrolGuide>& guides,
                             const eAction& failAction,
                             const eAction& finishAction);
@@ -22,9 +24,8 @@ public:
     void nextGuide();
 private:
     const std::vector<ePatrolGuide> mGuides;
-    eBuilding* const mBuilding;
+    ePatrolBuildingBase* const mBuilding;
     int mNextGuide = 0;
-    int mMaxDistance = 100;
     int mWalkedDistance = 0;
 
     bool mGuideFail = false;
