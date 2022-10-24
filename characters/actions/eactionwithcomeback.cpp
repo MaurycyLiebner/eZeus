@@ -56,7 +56,14 @@ void eActionWithComeback::goBack(const eWalkable& walkable) {
             mGoBackFail = true;
         } else {
             mDefaultTry = true;
-            goBack(eWalkableHelpers::sDefaultWalkable);
+            eWalkable w;
+            if(SDL_RectEmpty(&mGoBackRect)) {
+                w = eWalkableHelpers::sDefaultWalkable;
+            } else {
+                w = eWalkableHelpers::sBuildingWalkable(
+                        mGoBackRect, eWalkableHelpers::sDefaultWalkable);
+            }
+            goBack(w);
         }
     });
     a->start(finalTile, walkable);
@@ -71,6 +78,7 @@ void eActionWithComeback::goBack(eBuilding* const b,
 
 void eActionWithComeback::goBack(const SDL_Rect& rect,
                                  const eWalkable& walkable) {
+    mGoBackRect = rect;
     const auto w = eWalkableHelpers::sBuildingWalkable(rect, walkable);
     eActionWithComeback::goBack(w);
 }

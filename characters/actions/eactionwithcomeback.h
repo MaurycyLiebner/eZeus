@@ -37,6 +37,8 @@ private:
 
     eTile* const mStartTile;
 
+    SDL_Rect mGoBackRect{0, 0, 0, 0};
+
     bool mFinishOnComeback = false;
     bool mDefaultTry = false;
     bool mGoBackFail = false;
