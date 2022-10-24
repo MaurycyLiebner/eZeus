@@ -181,6 +181,7 @@ void eGodAction::lookForBlessCurse(const int dtime,
                     const auto b = t->underBuilding();
                     if(!b) continue;
                     if(!eBuilding::sBlessable(b->type())) continue;
+                    if((bless > 0) == (b->blessed() > 0)) continue;
                     blessCurse(b, bless);
                     found = true;
                 }
@@ -190,6 +191,32 @@ void eGodAction::lookForBlessCurse(const int dtime,
 }
 
 void eGodAction::blessCurse(eBuilding* const b, const double bb) {
+    eTexPtr texPtr;
+    eGodSound sound;
+    if(bb > 0) {
+        texPtr = &eDestructionTextures::fBless;
+        sound = eGodSound::santcify;
+    } else {
+        texPtr = &eDestructionTextures::fCurse;
+        sound = eGodSound::curse;
+    }
+
+    const stdptr<eBuilding> bptr(b);
+    const auto finishA = [bptr, bb]() {
+        if(!bptr) return;
+        bptr->setBlessed(bb);
+    };
+
+    spawnGodMissile(eCharacterActionType::bless,
+                    texPtr, b->centerTile(),
+                    sound, finishA);
+}
+
+void eGodAction::spawnGodMissile(const eCharacterActionType at,
+                                 const eTexPtr tex,
+                                 eTile* const target,
+                                 const eGodSound sound,
+                                 const eFunc& finishA) {
     pauseAction();
     const stdptr<eGodAction> tptr(this);
     const auto finish = [tptr, this]() {
@@ -197,31 +224,23 @@ void eGodAction::blessCurse(eBuilding* const b, const double bb) {
         resumeAction();
     };
     const auto c = character();
-    c->setActionType(eCharacterActionType::bless);
+    c->setActionType(at);
     const auto a = e::make_shared<eWaitAction>(c, finish, finish);
     a->setTime(500);
     setCurrentAction(a);
 
-    const auto ct = b->centerTile();
-    const auto cct = c->tile();
-    const int tx = cct->x();
-    const int ty = cct->y();
-    const int ttx = ct->x();
-    const int tty = ct->y();
+    const auto ct = c->tile();
+    const int tx = ct->x();
+    const int ty = ct->y();
+    const int ttx = target->x();
+    const int tty = target->y();
     auto& brd = c->getBoard();
     const auto m = eMissile::sCreate<eGodMissile>(
                        brd, tx, ty, 0.5,
                        ttx, tty, 0.5, 0);
-    if(bb > 0) {
-        m->setTexture(&eDestructionTextures::fBless);
-    } else {
-        m->setTexture(&eDestructionTextures::fCurse);
-    }
-    const stdptr<eBuilding> bptr(b);
-    m->setFinishAction([bptr, bb]() {
-        if(!bptr) return;
-        bptr->setBlessed(bb);
-    });
+    m->setTexture(tex);
+
+    m->setFinishAction(finishA);
 
     {
         m->incTime(1);
@@ -235,12 +254,8 @@ void eGodAction::blessCurse(eBuilding* const b, const double bb) {
     }
 
     auto& board = c->getBoard();
-    board.ifVisible(c->tile(), [this, bb]() {
-        if(bb > 0) {
-            eSounds::playGodSound(mType, eGodSound::santcify);
-        } else {
-            eSounds::playGodSound(mType, eGodSound::curse);
-        }
+    board.ifVisible(c->tile(), [this, sound]() {
+        eSounds::playGodSound(mType, sound);
     });
 }
 

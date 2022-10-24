@@ -5,6 +5,9 @@
 
 #include "characters/gods/egod.h"
 
+class eDestructionTextures;
+enum class eGodSound;
+
 class eGodAction : public eComplexAction {
 public:
     eGodAction(eCharacter* const c,
@@ -29,6 +32,12 @@ public:
                            int& time, const int freq,
                            const int range, const double bless);
     void blessCurse(eBuilding* const b, const double bb);
+    using eTexPtr = eTextureCollection eDestructionTextures::*;
+    void spawnGodMissile(const eCharacterActionType at,
+                         const eTexPtr tex,
+                         eTile* const target,
+                         const eGodSound sound,
+                         const eFunc& finishA);
 
     eGodType type() const { return mType; }
 private:

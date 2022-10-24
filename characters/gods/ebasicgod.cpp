@@ -27,6 +27,7 @@ eBasicGod::getTexture(const eTileSize size) const {
         break;
     case eCharacterActionType::collect:
     case eCharacterActionType::fight: {
+        wrap = false;
         coll = &texs.fFight[oid];
     } break;
     case eCharacterActionType::carry:
