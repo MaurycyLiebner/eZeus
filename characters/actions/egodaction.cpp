@@ -233,6 +233,15 @@ void eGodAction::blessCurse(eBuilding* const b, const double bb) {
         const auto o = static_cast<eOrientation>(oi);
         c->setOrientation(o);
     }
+
+    auto& board = c->getBoard();
+    board.ifVisible(c->tile(), [this, bb]() {
+        if(bb > 0) {
+            eSounds::playGodSound(mType, eGodSound::santcify);
+        } else {
+            eSounds::playGodSound(mType, eGodSound::curse);
+        }
+    });
 }
 
 void eGodAction::pauseAction() {
