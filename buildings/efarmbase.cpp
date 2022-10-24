@@ -55,7 +55,7 @@ void eFarmBase::timeChanged(const int by) {
         if(mNextRipe > mWaitTime) {
             mNextRipe -= mWaitTime;
             if(++mRipe == 5) {
-                add(resourceType(), 4*employedFraction());
+                add(resourceType(), 4*effectiveness());
                 mRipe = 0;
             }
         }
