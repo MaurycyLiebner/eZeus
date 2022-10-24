@@ -41,8 +41,8 @@ eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
     if(options.empty()) {
         mO = !mO;
     } else {
-        std::random_shuffle(options.begin(), options.end());
-        mO = options.front().first;
+        const int rid = rand() % options.size();
+        mO = options[rid].first;
     }
     t = mO;
     const auto tt = tile->neighbour(mO);
