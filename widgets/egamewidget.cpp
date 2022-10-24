@@ -862,6 +862,10 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
             mMenu = new eGameMainMenu(window());
             mMenu->resize(width()/4, height()/2);
             const auto w = window();
+            const auto resumeAct = [this]() {
+                mMenu->deleteLater();
+                mMenu = nullptr;
+            };
             const auto saveAct = [this, w]() {
                 const auto fw = new eFileWidget(w);
                 const auto func = [w](const std::string& path) {
@@ -893,7 +897,7 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
             const auto exitAct = [w]() {
                 w->closeGame();
             };
-            mMenu->initialize(saveAct, loadAct, exitAct);
+            mMenu->initialize(resumeAct, saveAct, loadAct, exitAct);
             addWidget(mMenu);
             mMenu->align(eAlignment::center);
         }

@@ -7,10 +7,18 @@
 #include "engine/egameboard.h"
 #include "fileIO/ewritestream.h"
 
-void eGameMainMenu::initialize(const eAction& saveAct,
+void eGameMainMenu::initialize(const eAction& resumeAct,
+                               const eAction& saveAct,
                                const eAction& loadAct,
                                const eAction& exitAct) {
     setType(eFrameType::message);
+
+    const auto resButt = new eButton(window());
+    resButt->setText(eLanguage::text("resume_game"));
+    resButt->fitContent();
+    resButt->setPressAction(resumeAct);
+    addWidget(resButt);
+    resButt->align(eAlignment::hcenter);
 
     const auto saveButt = new eButton(window());
     saveButt->setText(eLanguage::text("save_game"));

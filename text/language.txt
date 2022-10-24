@@ -3,6 +3,7 @@ load_game "Load Game"
 settings "Settings"
 quit "Quit"
 
+resume_game "Resume Game"
 save_game "Save Game"
 exit "Exit"
 

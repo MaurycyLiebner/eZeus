@@ -10,7 +10,8 @@ public:
     using eFramedWidget::eFramedWidget;
 
     using eAction = std::function<void()>;
-    void initialize(const eAction& saveAct,
+    void initialize(const eAction& resumeAct,
+                    const eAction& saveAct,
                     const eAction& loadAct,
                     const eAction& exitAct);
 };
