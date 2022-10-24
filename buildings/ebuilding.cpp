@@ -369,7 +369,7 @@ std::vector<eTile*> eBuilding::neighbours() const {
 }
 
 void eBuilding::setBlessed(const double b) {
-    mBlessTime = 15000;
+    mBlessTime = 30000;
     mBlessed = b;
 }
 
