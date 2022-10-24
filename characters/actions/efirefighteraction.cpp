@@ -16,8 +16,24 @@ void eFireFighterAction::increment(const int by) {
         const int fireCheckInc = 1000;
         mFireCheck += by;
         if(mFireCheck > fireCheckInc) {
-            mFireCheck = 0;
-            lookForFire();
+            mFireCheck -= fireCheckInc;
+            const auto c = character();
+            auto& brd = c->getBoard();
+            const auto ct = c->tile();
+            const int tx = ct->x();
+            const int ty = ct->y();
+            const int range = 10;
+            bool found = false;
+            for(int i = -range; i <= range && !found; i++) {
+                for(int j = -range; j <= range && !found; j++) {
+                    const int ttx = tx + i;
+                    const int tty = ty + j;
+                    const auto t = brd.tile(ttx, tty);
+                    if(!t) continue;
+                    found = t->onFire();
+                }
+            }
+            if(found) lookForFire();
         }
     }
     ePatrolAction::increment(by);
@@ -91,6 +107,7 @@ bool eFireFighterAction::lookForFire() {
 
     const auto a = e::make_shared<eMoveToAction>(
                        c, failFunc, [](){});
+    a->setMaxDistance(50);
     a->setFoundAction([tptr, a, this]() {
         if(!tptr) return;
         mMoveToFireAction = a;
