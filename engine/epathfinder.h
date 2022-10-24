@@ -26,6 +26,9 @@ enum class ePathFinderMode {
     findAll
 };
 
+using eTilePair = std::pair<eTileBase*, int*>;
+using eNeigh = std::pair<eOrientation, eTilePair>;
+
 class ePathFinder {
 public:
     using eTileWalkable = std::function<bool(eTileBase* const)>;
@@ -38,6 +41,9 @@ public:
                   const bool onlyDiagonal,
                   const int srcW, const int srcH);
     bool extractPath(std::vector<eOrientation>& path);
+    bool extractPath(std::vector<std::pair<int, int>>& path);
+    using ePathFunc = std::function<void(const eNeigh&)>;
+    bool extractPath(const ePathFunc& pathFunc);
     bool extractData(ePathFindData& data);
 
     void setMode(const ePathFinderMode m)

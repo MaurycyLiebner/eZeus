@@ -11,7 +11,6 @@ ePathFinder::ePathFinder(const eTileWalkable& walkable,
 
 }
 
-using eTilePair = std::pair<eTileBase*, int*>;
 using eTileGetter = std::function<eTilePair(eTileBase*, int, int)>;
 
 eTilePair tileGetter(ePathBoard& brd,
@@ -119,10 +118,25 @@ bool ePathFinder::findPath(eTileBase* const start,
 
 bool ePathFinder::extractPath(std::vector<eOrientation>& path) {
     if(!mData.fFound) return false;
-
-    auto& brd = mData.fBoard;
     path.clear();
     path.reserve(mData.fDistance);
+    return extractPath([&](const eNeigh& n) {
+        path.emplace_back(n.first);
+    });
+}
+
+bool ePathFinder::extractPath(std::vector<std::pair<int, int>>& path) {
+    if(!mData.fFound) return false;
+    path.clear();
+    path.reserve(mData.fDistance);
+    return extractPath([&](const eNeigh& n) {
+        const auto t = n.second.first;
+        path.emplace_back(std::pair<int, int>{t->x(), t->y()});
+    });
+}
+
+bool ePathFinder::extractPath(const ePathFunc& pathFunc) {
+    auto& brd = mData.fBoard;
     using eBFinder = std::function<bool(const eTilePair&)>;
     eBFinder bestFinder;
     bestFinder = [&](const eTilePair& from) {
@@ -140,7 +154,6 @@ bool ePathFinder::extractPath(std::vector<eOrientation>& path) {
         const auto bl = tileGetter(brd, tile, 0, 1);
         const auto tl = tileGetter(brd, tile, -1, 0);
 
-        using eNeigh = std::pair<eOrientation, eTilePair>;
         const bool od = mData.fOnlyDiagonal;
         std::vector<eNeigh> neighs{
                 {eOrientation::bottomLeft, tr},
@@ -161,7 +174,7 @@ bool ePathFinder::extractPath(std::vector<eOrientation>& path) {
             if(!tp.first || !tp.second) continue;
             if(mWalkable(tp.first)) {
                 if(*tp.second == dist - 1) {
-                    path.emplace_back(n.first);
+                    pathFunc(n);
                     return bestFinder(tp);
                 }
             }
