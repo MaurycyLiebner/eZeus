@@ -207,11 +207,10 @@ void eGameWidget::tileViewFraction(eTile* const tile,
     int mdx;
     int mdy;
     mapDimensions(mdx, mdy);
-    const int w = width() - mGm->width();
-    const int tx = tile->dx()*mTileW;
-    const int ty = tile->dy()*mTileH/2;
-    xf = (0.5*w + tx)/mdx;
-    yf = (0.5*height() + ty)/mdy;
+    const double tx = tile->dx()*mTileW;
+    const double ty = 0.5*tile->dy()*mTileH;
+    xf = tx/mdx;
+    yf = ty/mdy;
 }
 
 void eGameWidget::viewFraction(const double fx, const double fy) {
