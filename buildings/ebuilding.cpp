@@ -407,6 +407,7 @@ void eBuilding::read(eReadStream& src) {
     src >> mEnabled;
     src >> mBlessed;
     src >> mBlessTime;
+    src >> mOnFire;
 }
 
 void eBuilding::write(eWriteStream& dst) const {
@@ -435,6 +436,7 @@ void eBuilding::write(eWriteStream& dst) const {
     dst << mEnabled;
     dst << mBlessed;
     dst << mBlessTime;
+    dst << mOnFire;
 }
 
 void eBuilding::setIOID(const int id) {
