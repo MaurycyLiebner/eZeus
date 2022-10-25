@@ -653,39 +653,49 @@ void eGameWidget::updatePatrolPath() {
     if(!mPatrolBuilding) return;
     const int maxDist = mPatrolBuilding->maxDistance();
     const auto& guides = *mPatrolBuilding->patrolGuides();
-    auto lastTile = mPatrolBuilding->centerTile();
-    for(const auto& g : guides) {
-        if(!lastTile) break;
-        ePathFinder p([&](eTileBase* const t) {
+    const auto startTile = mPatrolBuilding->centerTile();
+    auto lastTile = startTile;
+    eTile* lastValid = nullptr;
+    const auto handlePath = [&](eTile* const from, eTile* const to,
+                                const bool comeback) {
+        if(!from || !to) return false;
+        const auto valid = [&](eTileBase* const t) {
             const auto tt = static_cast<eTile*>(t);
             const auto ub = tt->underBuilding() == mPatrolBuilding;
             return t->hasRoad() || ub;
-        }, [&](eTileBase* const t) {
-            return t->x() == g.fX && t->y() == g.fY;
-        });
-        const auto startTile = mBoard->tile(lastTile->x(), lastTile->y());
+        };
+        const auto final = [&](eTileBase* const t) {
+            return t->x() == from->x() && t->y() == from->y();
+        };
+        ePathFinder p(valid, final);
         const int w = mBoard->width();
         const int h = mBoard->height();
-        const bool r = p.findPath(startTile, 100, true, w, h);
-        if(!r) return;
+        const bool r = p.findPath(to, 100, true, w, h);
+        if(!r) return false;
         std::vector<eTile*> path;
         p.extractPath(path, *mBoard);
         mPatrolPath.reserve(mPatrolPath.size() + path.size());
         for(const auto p : path) {
             const int s = mPatrolPath.size();
-            if(s > maxDist) {
+            if(s > maxDist && !comeback) {
                 mExcessPatrolPath.emplace_back(p);
             } else {
+                lastValid = p;
                 mPatrolPath.emplace_back(p);
             }
         }
-        lastTile = mBoard->tile(g.fX, g.fY);
-        const int s = mPatrolPath.size();
-        if(s > maxDist) {
-            mExcessPatrolPath.emplace_back(lastTile);
-        } else {
-            mPatrolPath.emplace_back(lastTile);
-        }
+        return true;
+    };
+    for(const auto& g : guides) {
+        if(!lastTile) break;
+        const auto guideTile = mBoard->tile(g.fX, g.fY);
+        if(!guideTile) break;
+        const bool r = handlePath(lastTile, guideTile, false);
+        if(!r) break;
+        lastTile = guideTile;
+    }
+    if(lastValid && startTile) {
+        handlePath(lastValid, startTile, true);
     }
 }
 
