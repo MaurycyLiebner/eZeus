@@ -298,11 +298,16 @@ void eGodAction::spawnGodMissile(const eCharacterActionType at,
     }
     const auto a = e::make_shared<eWaitAction>(c, finish, finish);
     int time;
-    if(type() == eGodType::apollo) {
+    switch(type()) {
+    case eGodType::apollo:
+    case eGodType::hades:
         time = 300;
-    } else {
+        break;
+    default:
         time = 500;
+        break;
     }
+
     a->setTime(time);
     setCurrentAction(a);
 }
