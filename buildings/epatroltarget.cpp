@@ -31,13 +31,13 @@ ePatrolTarget::ePatrolTarget(eGameBoard& board,
 }
 
 void ePatrolTarget::timeChanged(const int by) {
-    const int t = time();
-    mActor -= by;
-    if(mActor < 0) setSpawnPatrolers(false);
-    if(enabled()) {
-        if(!mChar && t >= mSpawnTime) {
+    mAvailable -= by;
+    if(mAvailable < 0) setSpawnPatrolers(false);
+    if(enabled() && !mChar) {
+        mSpawnTime += by;
+        if(mSpawnTime > mSpawnWaitTime) {
+            mSpawnTime -= mSpawnWaitTime;
             spawnGetActor();
-            mSpawnTime = t + mWaitTime;
         }
     }
     ePatrolBuilding::timeChanged(by);
@@ -74,7 +74,7 @@ void ePatrolTarget::spawnGetActor() {
         if(!tptr) return;
         const auto finishAction = [tptr, this]() {
             if(!tptr) return;
-            mActor = 2*mWaitTime;
+            mAvailable = mAvailableWaitTime;
             setSpawnPatrolers(true);
         };
 
@@ -88,6 +88,7 @@ void ePatrolTarget::spawnGetActor() {
             const auto failFunc = []() {};
             auto& brd = getBoard();
             const auto c = mCharGen();
+            mChar = c;
             const auto t = brd.tile(school->first, school->second);
             c->changeTile(t);
 

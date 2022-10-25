@@ -23,11 +23,12 @@ private:
     const eBuildingType mFromBuilding;
     const eCharGenerator mCharGen;
 
-    int mActor = -1;
+    int mAvailable = -1;
 
-    const int mWaitTime = 20000;
+    const int mAvailableWaitTime = 50000;
+    const int mSpawnWaitTime = 20000;
     int mSpawnTime = 0;
-    stdsptr<eCharacter> mChar;
+    stdptr<eCharacter> mChar;
 };
 
 #endif // EPATROLTARGET_H
