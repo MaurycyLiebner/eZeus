@@ -39,11 +39,13 @@ ePatrolBuildingBase::~ePatrolBuildingBase() {
 
 void ePatrolBuildingBase::timeChanged(const int by) {
     if(mSpawnPatrolers && enabled()) {
-        mSpawnTime += by;
-        const int wait = mWaitTime/effectiveness();
-        if(!mChar && mSpawnTime > wait) {
-            mSpawnTime -= wait;
-            spawn();
+        if(!mChar) {
+            mSpawnTime += by;
+            const int wait = mWaitTime/effectiveness();
+            if(mSpawnTime > wait) {
+                mSpawnTime -= wait;
+                spawn();
+            }
         }
     }
     eEmployingBuilding::timeChanged(by);
@@ -54,7 +56,8 @@ void ePatrolBuildingBase::setPatrolGuides(const ePatrolGuides &g) {
 }
 
 bool ePatrolBuildingBase::spawn() {
-    mChar = mCharGenerator();
+    const auto chr = mCharGenerator();
+    mChar = chr;
     if(!mChar) return false;
     if(mPatrolGuides.empty()) {
         eTile* t = nullptr;
@@ -80,8 +83,8 @@ bool ePatrolBuildingBase::spawn() {
     const auto finishAct = [tptr, this, cptr]() {
         if(cptr) cptr->kill();
         if(tptr) {
-            mSpawnTime = time() + mWaitTime;
-            mChar.reset();
+            mSpawnTime = 0;
+            mChar = nullptr;
         }
     };
     const auto a = mActGenerator(mChar.get(), this,

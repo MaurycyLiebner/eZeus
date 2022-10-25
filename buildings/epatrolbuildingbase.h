@@ -60,7 +60,7 @@ private:
 
     const int mWaitTime = 5000;
     int mSpawnTime = mWaitTime;
-    stdsptr<eCharacter> mChar;
+    stdptr<eCharacter> mChar;
 
     ePatrolGuides mPatrolGuides;
 };
