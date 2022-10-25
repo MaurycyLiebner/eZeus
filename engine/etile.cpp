@@ -168,8 +168,13 @@ void eTile::setMarbleLevel(const int l) {
     }
 }
 
-void eTile::addCharacter(const stdsptr<eCharacter>& c) {
-    mCharacters.push_back(c);
+void eTile::addCharacter(const stdsptr<eCharacter>& c,
+                         const bool prepend) {
+    if(prepend) {
+        mCharacters.insert(mCharacters.begin(), c);
+    } else {
+        mCharacters.push_back(c);
+    }
 }
 
 bool eTile::removeCharacter(const stdsptr<eCharacter>& c) {

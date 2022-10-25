@@ -67,11 +67,11 @@ double eCharacter::absY() const {
     return mY + mTile->y();
 }
 
-void eCharacter::changeTile(eTile* const t) {
+void eCharacter::changeTile(eTile* const t, const bool prepend) {
     const auto tsptr = ref<eCharacter>();
     if(mTile) mTile->removeCharacter(tsptr);
     mTile = t;
-    if(t) t->addCharacter(tsptr);
+    if(t) t->addCharacter(tsptr, prepend);
     else deleteLater();
     if(t && mProvide != eProvide::none && mProvideCount > 0) {
         for(const int x : {-1, 0, 1}) {

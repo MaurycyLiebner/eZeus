@@ -153,7 +153,10 @@ void eMoveAction::moveToTargetTile() {
         mStartY = 1 - targetY;
     }
 
-    c->changeTile(mTargetTile);
+    const bool prepend = mOrientation == eOrientation::bottomLeft ||
+                         mOrientation == eOrientation::bottom ||
+                         mOrientation == eOrientation::bottomRight;
+    c->changeTile(mTargetTile, prepend);
     mTargetX = 0.5;
     mTargetY = 0.5;
 

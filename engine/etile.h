@@ -40,7 +40,8 @@ public:
 
     int scrubId(const int nLevels) const;
 
-    void addCharacter(const stdsptr<eCharacter>& c);
+    void addCharacter(const stdsptr<eCharacter>& c,
+                      const bool prepend = false);
     bool removeCharacter(const stdsptr<eCharacter>& c);
     bool hasCharacter(const eHasChar& func) const;
 

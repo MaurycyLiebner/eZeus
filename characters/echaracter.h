@@ -44,7 +44,7 @@ public:
     int textureTime() const { return time()/20; }
     eOrientation orientation() const { return mOrientation; }
 
-    void changeTile(eTile* const t);
+    void changeTile(eTile* const t, const bool prepend = false);
     void setX(const double x) { mX = x; }
     void setY(const double y) { mY = y; };
     void setOrientation(const eOrientation o);
