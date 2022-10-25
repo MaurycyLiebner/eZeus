@@ -34,6 +34,11 @@ public:
     int day() const { return mDay; }
     eMonth month() const { return mMonth; }
     int year() const { return mYear; }
+
+    bool operator>(const eDate& other) const;
+    bool operator<(const eDate& other) const;
+    bool operator==(const eDate& other) const;
+    bool operator!=(const eDate& other) const;
 private:
     int mDay;
     eMonth mMonth;

@@ -31,6 +31,26 @@ void eDate::nextDay(bool& nextMonth, bool& nextYear) {
     }
 }
 
+bool eDate::operator>(const eDate& other) const {
+    return mYear > other.mYear ||
+           (mYear == other.mYear && mMonth > other.mMonth) ||
+           (mYear == other.mYear && mMonth == other.mMonth && mDay > other.mDay);
+}
+
+bool eDate::operator<(const eDate& other) const {
+    return other > *this;
+}
+
+bool eDate::operator==(const eDate& other) const {
+    return other.mDay == mDay &&
+           other.mMonth == mMonth &&
+           other.mYear == mYear;
+}
+
+bool eDate::operator!=(const eDate& other) const {
+    return !(*this == other);
+}
+
 std::string eMonthHelper::shortName(const eMonth m) {
     switch(m) {
     case eMonth::january:
