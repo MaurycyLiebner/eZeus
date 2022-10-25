@@ -32,6 +32,7 @@ public:
 
     void fight(eCharacter* const c);
     void kill();
+    void killWithCorpse();
 
     double x() const { return mX; }
     double y() const { return mY; }

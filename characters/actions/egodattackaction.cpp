@@ -76,7 +76,7 @@ bool eGodAttackAction::lookForAttack(const int dtime,
             const auto& chars = target->characters();
             if(chars.empty()) return;
             const auto chr = chars.front();
-            if(cptr != chr.get()) chr->kill();
+            if(cptr != chr.get()) chr->killWithCorpse();
         }
     };
     const auto at = eCharacterActionType::fight;
