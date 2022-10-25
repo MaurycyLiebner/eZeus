@@ -418,6 +418,19 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         };
 
+        const auto drawFire = [&](eTile* const ubt) {
+            const int tx = ubt->x();
+            const int ty = ubt->y();
+            double frx;
+            double fry;
+            drawXY(tx, ty, frx, fry, 1, 1, a);
+            const int f = (tx + ty) % destTexs.fFire.size();
+            const auto& ff = destTexs.fFire[f];
+            const int dt = mTime/8 + tx*ty;
+            const auto tex = ff.getTexture(dt % ff.size());
+            tp.drawTexture(frx + 1, fry, tex, eAlignment::hcenter | eAlignment::top);
+        };
+
         const auto drawBuilding = [&]() {
             if(bt == eBuildingType::park) {
                 int futureDim = 1;
@@ -445,16 +458,24 @@ void eGameWidget::paintEvent(ePainter& p) {
                     if(cm) tex->clearColorMod();
                 }
             } else {
-                double rx;
-                double ry;
+                double brx;
+                double bry;
                 const int sw = tbr->spanW();
                 const int sh = tbr->spanH();
-                drawXY(tx, ty, rx, ry, sw, sh, a);
+                drawXY(tx, ty, brx, bry, sw, sh, a);
                 if(ub) {
                     const bool e = inErase(ub);
-                    tbr->draw(tp, rx, ry, e);
-                    const int bx = rx;
-                    const int by = ry - sw - (sw == 3 || sw == 5 ? 1 : 0);
+                    tbr->draw(tp, brx, bry, e);
+
+                    if(ub->isOnFire()) {
+                        const auto& ubts = ub->tilesUnder();
+                        for(const auto& ubt : ubts) {
+                            drawFire(ubt);
+                        }
+                    }
+
+                    const int bx = brx;
+                    const int by = bry - sw - (sw == 3 || sw == 5 ? 1 : 0);
                     if(ub->blessed() > 0.01) {
                         const auto& blsd = destTexs.fBlessed;
                         const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
@@ -465,7 +486,6 @@ void eGameWidget::paintEvent(ePainter& p) {
                         tp.drawTexture(bx, by, tex, eAlignment::bottom);
                     }
                 }
-
 //                drawXY(tx, ty, rx, ry, 1, 1, a);
 //                tp.drawTexture(rx, ry, trrTexs.fSelectedBuildingBase, eAlignment::top);
             }
@@ -691,16 +711,6 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         };
 
-        const auto drawFire = [&]() {
-            if(tile->onFire()) {
-                const int f = (tx + ty) % destTexs.fFire.size();
-                const auto& ff = destTexs.fFire[f];
-                const int dt = mTime/8 + tx*ty;
-                const auto tex = ff.getTexture(dt % ff.size());
-                tp.drawTexture(rx - 2, ry - 3, tex, eAlignment::hcenter);
-            }
-        };
-
         const auto drawPatrolGuides = [&]() {
             if(mPatrolBuilding) {
                 const auto pgs = mPatrolBuilding->patrolGuides();
@@ -793,6 +803,9 @@ void eGameWidget::paintEvent(ePainter& p) {
             if(ub && tbr && tbr->isMain()) {
                 drawBuildingModes();
             }
+        } else if(ub && tbr) {
+            const bool of = ub->isOnFire();
+            if(of) drawFire(tile);
         }
 
         if(tile->hasFish()) {
@@ -804,7 +817,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
 
         drawCharacters();
-        drawFire();
 
         drawPatrolGuides();
         drawSpawner();

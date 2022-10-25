@@ -1,4 +1,4 @@
-﻿#ifndef ETILE_H
+#ifndef ETILE_H
 #define ETILE_H
 
 #include <vector>
@@ -93,6 +93,9 @@ public:
     eTileTerrainPainter& terrainPainter() { return mTerrainPainter; }
     bool updateTerrain() const { return mUpdateTerrain; }
     void terrainUpdated() { mUpdateTerrain = false; }
+
+    bool onFire() const;
+    void setOnFire(const bool f);
 
     void setTerrain(const eTerrain terr);
     void setMarbleLevel(const int l);

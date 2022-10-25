@@ -184,11 +184,11 @@ public:
 
     virtual void erase();
     void collapse();
-    void catchOnFire();
-    void putOutFire();
-    bool spreadFire();
 
     bool isOnFire();
+    void setOnFire(const bool f);
+
+    bool spreadFire();
 
     const std::vector<eTile*>& tilesUnder() const {
         return mUnderBuilding;
@@ -244,6 +244,8 @@ private:
     double mHp = 10000;
 
     int mMaintance = 100;
+
+    bool mOnFire = false;
 
     int mTime = 0;
     int mTextureTime = 0;

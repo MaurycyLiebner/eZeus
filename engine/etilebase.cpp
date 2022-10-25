@@ -18,10 +18,6 @@ void eTileBase::setBusy(const bool b) {
     mBusy = b;
 }
 
-void eTileBase::setOnFire(const bool of) {
-    mOnFire = of;
-}
-
 void eTileBase::setMarbleLevel(const int l) {
     mMarbleLevel = l;
 }

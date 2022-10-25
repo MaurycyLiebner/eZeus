@@ -21,7 +21,11 @@ public:
     int houseVacancies() const;
 
     bool mainBuildingTile() const { return mMainBuildingTile; }
+
+    bool onFire() const { return mOnFire; }
+    void setOnFire(const bool f) { mOnFire = f; }
 private:
+    bool mOnFire = false;
     bool mMainBuildingTile = false;
     std::vector<eThreadCharacter> mCharacters;
     eThreadBuilding mUnderBuilding;

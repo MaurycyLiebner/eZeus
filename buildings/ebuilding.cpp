@@ -167,7 +167,7 @@ void eBuilding::incTime(const int by) {
                 const bool r = spreadFire();
                 if(r) b.event(eEvent::fire, centerTile());
             } else if(mType == eBuildingType::ruins) {
-                putOutFire();
+                setOnFire(false);
             } else {
                 b.event(eEvent::collapse, centerTile());
                 collapse();
@@ -191,7 +191,7 @@ void eBuilding::incTime(const int by) {
         if(fireRisk) {
             const int firePeriod = m4/(by*fireRisk);
             if(firePeriod && rand() % firePeriod == 0) {
-                catchOnFire();
+                setOnFire(true);
                 b.event(eEvent::fire, centerTile());
             }
         }
@@ -228,33 +228,19 @@ void eBuilding::collapse() {
     const bool noRuins = tp == eBuildingType::oliveTree ||
                          tp == eBuildingType::vine ||
                          tp == eBuildingType::orangeTree;
-    if(noRuins) {
-        putOutFire();
-    }
+    const bool onFire = mOnFire;
+    setOnFire(false);
     erase();
-    if(noRuins) {
-        return;
-    }
+    if(noRuins) return;
     for(const auto t : tiles) {
         const auto ruins = e::make_shared<eRuins>(b);
+        ruins->setOnFire(onFire);
         const auto renderer = e::make_shared<eBuildingRenderer>(ruins);
         t->setBuilding(renderer);
         ruins->setCenterTile(t);
         t->setUnderBuilding(ruins);
         ruins->addUnderBuilding(t);
         ruins->setTileRect({t->x(), t->y(), 1, 1});
-    }
-}
-
-void eBuilding::catchOnFire() {
-    for(const auto t : mUnderBuilding) {
-        t->setOnFire(true);
-    }
-}
-
-void eBuilding::putOutFire() {
-    for(const auto t : mUnderBuilding) {
-        t->setOnFire(false);
     }
 }
 
@@ -276,7 +262,7 @@ bool eBuilding::spreadFire() {
     if(t) {
         const auto ub = t->underBuilding();
         if(ub) {
-            ub->catchOnFire();
+            ub->setOnFire(true);
             return true;
         }
     }
@@ -284,10 +270,11 @@ bool eBuilding::spreadFire() {
 }
 
 bool eBuilding::isOnFire() {
-    for(const auto t : mUnderBuilding) {
-        if(t->onFire()) return true;
-    }
-    return false;
+    return mOnFire;
+}
+
+void eBuilding::setOnFire(const bool f) {
+    mOnFire = f;
 }
 
 void eBuilding::setCenterTile(eTile* const ct) {

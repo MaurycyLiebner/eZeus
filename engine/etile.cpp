@@ -140,6 +140,18 @@ void eTile::neighboursWithTerrain(const eTerrain terr,
     l = lTerr != terr;
 }
 
+bool eTile::onFire() const {
+    const auto ub = underBuilding();
+    if(!ub) return false;
+    return ub->isOnFire();
+}
+
+void eTile::setOnFire(const bool f) {
+    const auto ub = underBuilding();
+    if(!ub) return;
+    ub->setOnFire(f);
+}
+
 void eTile::setTerrain(const eTerrain terr) {
     eTileBase::setTerrain(terr);
     mUpdateTerrain = true;

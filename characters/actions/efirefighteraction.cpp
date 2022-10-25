@@ -65,8 +65,8 @@ bool eFireFighterAction::decide() {
     if(mFireFighting) {
         const auto tile = c->tile();
         eOrientation oo;
-        eTile* const n = neighbourOnFire(tile, oo);
-        if(n && n->onFire()) {
+        const auto n = neighbourOnFire(tile, oo);
+        if(n) {
             c->setOrientation(oo);
             putOutFire(n);
             mUsedWater++;
@@ -126,12 +126,7 @@ void eFireFighterAction::putOutFire(eTile* const tile) {
     const auto finish = [tile, c]() {
         c->setActionType(eCharacterActionType::stand);
         if(const auto b = tile->underBuilding()) {
-            const auto& u = b->tilesUnder();
-            for(const auto t : u) {
-                t->setOnFire(false);
-            }
-        } else {
-            tile->setOnFire(false);
+            b->setOnFire(false);
         }
     };
     const auto a = e::make_shared<eWaitAction>(c, []() {}, finish);

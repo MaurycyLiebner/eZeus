@@ -23,6 +23,9 @@ public:
     virtual bool hasCharacter(const eHasChar& func) const = 0;
     virtual eBuildingType underBuildingType() const = 0;
 
+    virtual bool onFire() const = 0;
+    virtual void setOnFire(const bool f) = 0;
+
     bool walkable() const;
 
     int seed() const { return mSeed; }
@@ -104,9 +107,6 @@ public:
     bool busy() const { return mBusy; }
     void setBusy(const bool b);
 
-    bool onFire() const { return mOnFire; }
-    void setOnFire(const bool of);
-
     int marbleLevel() const { return mMarbleLevel; };
     virtual void setMarbleLevel(const int l);
 
@@ -125,7 +125,6 @@ private:
 
     bool mWalkableElev{false};
 
-    bool mOnFire{false};
     bool mBusy{false};
     int mMarbleLevel = 0;
     int mResource = 1;
