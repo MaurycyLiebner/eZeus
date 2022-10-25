@@ -98,7 +98,7 @@ void eGameWidget::initialize() {
     });
 
     mGm->setModeChangedAction([this]() {
-        mPatrolBuilding = nullptr;
+        setPatrolBuilding(nullptr);
     });
 
     const auto mm = mGm->miniMap();
@@ -699,6 +699,65 @@ void eGameWidget::updatePatrolPath() {
     }
 }
 
+void eGameWidget::setPatrolBuilding(ePatrolBuilding* const pb) {
+    if(pb) {
+        setViewMode(eViewMode::patrolBuilding);
+
+        const auto fw = new eFramedWidget(window());
+        fw->setType(eFrameType::message);
+        const int p = fw->padding();
+        fw->resize(60*p, 8*p);
+        addWidget(fw);
+        fw->align(eAlignment::bottom);
+        fw->move((width() - mGm->width() - fw->width())/2, fw->y() - 2*p);
+
+        const auto clearb = new eButton(eLanguage::text("clear"), window());
+        clearb->fitContent();
+        clearb->setPressAction([this]() {
+            if(!mPatrolBuilding) return;
+            const auto pgs = mPatrolBuilding->patrolGuides();
+            pgs->clear();
+            updatePatrolPath();
+        });
+        fw->addWidget(clearb);
+        clearb->align(eAlignment::vcenter);
+
+        const auto resetb = new eButton(eLanguage::text("restore"), window());
+        resetb->fitContent();
+        resetb->setPressAction([this]() {
+            const auto pgs = mPatrolBuilding->patrolGuides();
+            *pgs = mSavedGuides;
+            updatePatrolPath();
+        });
+        fw->addWidget(resetb);
+        resetb->align(eAlignment::vcenter);
+
+        const auto closeb = new eButton(eLanguage::text("close"), window());
+        closeb->fitContent();
+        closeb->setPressAction([this]() {
+            setPatrolBuilding(nullptr);
+        });
+        fw->addWidget(closeb);
+        closeb->align(eAlignment::vcenter);
+
+        fw->layoutHorizontally();
+
+        mPatrolPathWid = fw;
+
+        mSavedGuides = *pb->patrolGuides();
+    } else if(mViewMode == eViewMode::patrolBuilding) {
+        setViewMode(eViewMode::defaultView);
+    }
+
+    if(mPatrolPathWid && !pb) {
+        mPatrolPathWid->deleteLater();
+        mPatrolPathWid = nullptr;
+    }
+
+    mPatrolBuilding = pb;
+    updatePatrolPath();
+}
+
 bool eGameWidget::inErase(const int tx, const int ty) {
     const auto mode = mGm->mode();
     const bool e = mode == eBuildingMode::erase;
@@ -985,17 +1044,12 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         if(mPatrolBuilding) {
             const auto tile = mBoard->tile(tx, ty);
             if(!tile) return true;
-            if(tile->underBuilding() == mPatrolBuilding) {
-                const auto pgs = mPatrolBuilding->patrolGuides();
-                pgs->clear();
+            const auto pgs = mPatrolBuilding->patrolGuides();
+            const auto it = findGuide(tx, ty);
+            if(it != pgs->end()) {
+                pgs->erase(it);
             } else {
-                const auto pgs = mPatrolBuilding->patrolGuides();
-                const auto it = findGuide(tx, ty);
-                if(it != pgs->end()) {
-                    pgs->erase(it);
-                } else {
-                    if(tile->hasRoad()) pgs->push_back({tx, ty});
-                }
+                if(tile->hasRoad()) pgs->push_back({tx, ty});
             }
             updatePatrolPath();
         }
@@ -1011,9 +1065,7 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         int ty;
         pixToId(e.x(), e.y(), tx, ty);
         if(mPatrolBuilding) {
-            setViewMode(eViewMode::defaultView);
-            mPatrolBuilding = nullptr;
-            updatePatrolPath();
+            setPatrolBuilding(nullptr);
             return true;
         }
         const auto tile = mBoard->tile(tx, ty);
@@ -1081,9 +1133,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 if(!mPatrolBuilding && tile) {
                     if(const auto b = tile->underBuilding()) {
                         if(const auto pb = dynamic_cast<ePatrolBuilding*>(b)) {
-                            setViewMode(eViewMode::patrolBuilding);
-                            mPatrolBuilding = pb;
-                            updatePatrolPath();
+                            setPatrolBuilding(pb);
                         }
                     }
                 }

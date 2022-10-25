@@ -143,6 +143,7 @@ private:
     void updateTerrainTextures();
 
     void updatePatrolPath();
+    void setPatrolBuilding(ePatrolBuilding* const pb);
 
     eInfoWidget* openInfoWidget(eBuilding* const b);
 
@@ -193,6 +194,8 @@ private:
     stdptr<ePatrolBuilding> mPatrolBuilding;
     std::vector<eTile*> mPatrolPath;
     std::vector<eTile*> mExcessPatrolPath;
+    eWidget* mPatrolPathWid = nullptr;
+    std::vector<ePatrolGuide> mSavedGuides;
 
     eFramedLabel* mPausedLabel = nullptr;
     eGameMainMenu* mMenu = nullptr;

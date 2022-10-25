@@ -239,6 +239,12 @@ void eGameWidget::paintEvent(ePainter& p) {
         const bool v = !ss.empty();
         setArmyMenuVisible(v);
     }
+    {
+        const auto pbv = eViewMode::patrolBuilding;
+        if(!mPatrolBuilding && (mViewMode == pbv || mPatrolPathWid)) {
+            setPatrolBuilding(nullptr);
+        }
+    }
     mFrame++;
     if(!mPaused && !mLocked && !mMenu) {
         mTime += mSpeed;

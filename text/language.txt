@@ -18,6 +18,11 @@ large_textures "Large Textures: "
 back "Back"
 apply "Apply"
 
+clear "Clear"
+restore "Restore"
+cancel "Cancel"
+close "Close"
+
 paused "Game Paused ('P' Key Continues)"
 
 goods "Goods"
