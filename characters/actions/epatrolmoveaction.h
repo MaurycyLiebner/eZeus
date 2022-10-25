@@ -3,6 +3,7 @@
 
 #include "emoveaction.h"
 #include "engine/emovedirection.h"
+#include "ewalkablehelpers.h"
 
 #include <SDL2/SDL_rect.h>
 
@@ -17,9 +18,8 @@ public:
                       const eAction& failAction,
                       const eAction& finishAction,
                       const bool diagonalOnly = true,
-                      const eTileWalkable& walkable = sRoadWalkable);
-
-    static bool sRoadWalkable(eTileBase* const tile);
+                      const eTileWalkable& walkable =
+                        eWalkableHelpers::sRoadWalkable);
 
     void setMaxDistance(const int dist);
 private:

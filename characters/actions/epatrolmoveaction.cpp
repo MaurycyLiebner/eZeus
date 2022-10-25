@@ -16,10 +16,6 @@ ePatrolMoveAction::ePatrolMoveAction(eCharacter* const c,
     mO = c->orientation();
 }
 
-bool ePatrolMoveAction::sRoadWalkable(eTileBase* const tile) {
-    return tile->hasRoad();
-}
-
 void ePatrolMoveAction::setMaxDistance(const int dist) {
     mMaxDistance = dist;
 }
