@@ -29,7 +29,7 @@ public:
     eDate(const int day, const eMonth month, const int year);
 
     std::string shortString() const;
-    void nextDay(bool& nextMonth, bool& nextYear);
+    void nextDays(const int d, bool& nextMonth, bool& nextYear);
 
     int day() const { return mDay; }
     eMonth month() const { return mMonth; }
@@ -39,6 +39,8 @@ public:
     bool operator<(const eDate& other) const;
     bool operator==(const eDate& other) const;
     bool operator!=(const eDate& other) const;
+    eDate& operator++();
+    eDate& operator+=(const int d);
 private:
     int mDay;
     eMonth mMonth;

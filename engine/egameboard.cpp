@@ -844,14 +844,10 @@ void eGameBoard::incTime(const int by) {
     bool nextMonth = false;
     bool nextYear = false;
     const int dayLen = 350;
-    while(mTime > dayLen) {
-        bool nm;
-        bool ny;
-        mDate.nextDay(nm, ny);
-        nextMonth = nm || nextMonth;
-        nextYear = ny || nextYear;
-        mTime -= dayLen;
-    }
+    const int nd = mTime/dayLen;
+    mDate.nextDays(nd, nextMonth, nextYear);
+    mTime -= nd*dayLen;
+
     if(nextYear) {
         const int d = mEmplData.pensions();
         incDrachmas(-d);

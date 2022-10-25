@@ -17,17 +17,28 @@ std::string eDate::shortString() const {
     return d + "  " + m + "  " + y + "  " + bcad;
 }
 
-void eDate::nextDay(bool& nextMonth, bool& nextYear) {
+void eDate::nextDays(const int d, bool& nextMonth, bool& nextYear) {
+    nextMonth = false;
+    nextYear = false;
+    if(d == 0) return;
     const int maxDays = eMonthHelper::days(mMonth);
-    nextMonth = ++mDay > maxDays;
-    if(nextMonth) {
+    if(mDay + d <= maxDays) {
+        mDay += d;
+    } else {
+        const int dd = d - maxDays + mDay - 1;
         mDay = 1;
         mMonth = eMonthHelper::nextMonth(mMonth, nextYear);
+        nextMonth = true;
         if(nextYear) {
             if(++mYear == 0) mYear++;
         }
-    } else {
-        nextYear = false;
+        if(dd > 0) {
+            bool nm;
+            bool ny;
+            nextDays(dd, nm, ny);
+            nextMonth = nm || nextMonth;
+            nextYear = ny || nextYear;
+        }
     }
 }
 
@@ -49,6 +60,17 @@ bool eDate::operator==(const eDate& other) const {
 
 bool eDate::operator!=(const eDate& other) const {
     return !(*this == other);
+}
+
+eDate& eDate::operator++() {
+    return *this += 1;
+}
+
+eDate& eDate::operator+=(const int d) {
+    bool nm;
+    bool ny;
+    nextDays(d, nm, ny);
+    return *this;
 }
 
 std::string eMonthHelper::shortName(const eMonth m) {
