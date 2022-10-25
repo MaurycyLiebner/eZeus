@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "fileIO/estreams.h"
+
 enum class eMonth {
     january,
     february,
@@ -27,6 +29,7 @@ namespace eMonthHelper {
 class eDate {
 public:
     eDate(const int day, const eMonth month, const int year);
+    eDate() {}
 
     std::string shortString() const;
     void nextDays(const int d, bool& nextMonth, bool& nextYear);
@@ -41,6 +44,9 @@ public:
     bool operator!=(const eDate& other) const;
     eDate& operator++();
     eDate& operator+=(const int d);
+
+    void write(eWriteStream& dst) const;
+    void read(eReadStream& src);
 private:
     int mDay;
     eMonth mMonth;

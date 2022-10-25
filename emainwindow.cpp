@@ -156,6 +156,23 @@ void eMainWindow::showMenuLoading() {
     setWidget(mlw);
 }
 
+template <typename T>
+bool vectorContains(const std::vector<T>& v, const T& t) {
+    const auto it = std::find(v.begin(), v.end(), t);
+    return it != v.end();
+}
+
+template <typename T>
+bool vectorRemove(std::vector<T>& v, const T& t) {
+    const auto it = std::find(v.begin(), v.end(), t);
+    if(it != v.end()) {
+        v.erase(it);
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void eMainWindow::showMainMenu() {
     const auto mm = new eMainMenu(this);
     mm->resize(width(), height());
@@ -164,9 +181,91 @@ void eMainWindow::showMainMenu() {
     const auto newGameAction = [this]() {
         const auto board = new eGameBoard();
         board->initialize(100, 200);
+
+        std::vector<eResourceType> missingPos{eResourceType::oliveOil,
+                                              eResourceType::wine,
+                                              eResourceType::bronze,
+                                              eResourceType::marble,
+                                              eResourceType::food};
+        std::random_shuffle(missingPos.begin(), missingPos.end());
+
+        std::vector<eGodType> friendlyGods;
+        std::vector<eResourceType> missing;
+        for(int i = 0; i < 2; i++) {
+            const auto ms = missingPos[i];
+            switch(ms) {
+            case eResourceType::oliveOil:
+                friendlyGods.push_back(eGodType::athena);
+                break;
+            case eResourceType::wine:
+                friendlyGods.push_back(eGodType::dionysus);
+                break;
+            case eResourceType::bronze:
+                friendlyGods.push_back(eGodType::hephaestus);
+                break;
+            case eResourceType::marble:
+                friendlyGods.push_back(eGodType::atlas);
+                break;
+            case eResourceType::food:
+                friendlyGods.push_back(eGodType::demeter);
+                break;
+            default:
+                break;
+            }
+
+            missing.push_back(ms);
+        }
+
         eMapGenerator g(*board);
         eMapGeneratorSettings sett;
+
         g.generate(sett);
+
+        const int iMax = static_cast<int>(eGodType::zeus) + 1;
+        std::vector<eGodType> gods;
+        for(int i = 0; i < iMax; i++) {
+            const auto t = static_cast<eGodType>(i);
+            const bool r = vectorContains(friendlyGods, t);
+            if(r) continue;
+            gods.push_back(t);
+        }
+
+        std::random_shuffle(gods.begin(), gods.end());
+
+        for(int i = 0; i < 2; i++) {
+            const auto g = gods[i];
+            vectorRemove(gods, g);
+            friendlyGods.push_back(g);
+        }
+
+        std::vector<eGodType> hostileGods;
+        for(int i = 0; i < 2; i++) {
+            const auto g = gods[i];
+            vectorRemove(gods, g);
+            hostileGods.push_back(g);
+        }
+
+        board->setFriendlyGods(friendlyGods);
+        board->setHostileGods(hostileGods);
+
+        auto& wb = board->getWorldBoard();
+
+        const auto hc = eWorldCity::sCreateSparta(eWorldCityType::mainCity);
+        wb.setHomeCity(hc);
+
+        const auto c1 = eWorldCity::sCreateAthens();
+        c1->addBuys(eResourceTrade{eResourceType::marble, 0, 12, 120});
+        c1->addBuys(eResourceTrade{eResourceType::wood, 0, 12, 80});
+        c1->addSells(eResourceTrade{eResourceType::fleece, 0, 12, 60});
+        wb.addCity(c1);
+
+        const auto c2 = eWorldCity::sCreateTroy();
+        c2->setWaterTrade(true);
+        c2->addBuys(eResourceTrade{eResourceType::armor, 0, 12, 120});
+        c2->addBuys(eResourceTrade{eResourceType::wheat, 0, 12, 80});
+        c2->addSells(eResourceTrade{eResourceType::sculpture, 0, 12, 200});
+        c2->addSells(eResourceTrade{eResourceType::bronze, 0, 12, 80});
+        wb.addCity(c2);
 
         startGameAction(board);
     };
@@ -285,25 +384,6 @@ void eMainWindow::showGame(eGameBoard* board) {
 //                bi++;
 //            }
 //        }
-
-    auto& wb = mBoard->getWorldBoard();
-
-    const auto hc = eWorldCity::sCreateSparta(eWorldCityType::mainCity);
-    wb.setHomeCity(hc);
-
-    const auto c1 = eWorldCity::sCreateAthens();
-    c1->addBuys(eResourceTrade{eResourceType::marble, 0, 12, 120});
-    c1->addBuys(eResourceTrade{eResourceType::wood, 0, 12, 80});
-    c1->addSells(eResourceTrade{eResourceType::fleece, 0, 12, 60});
-    wb.addCity(c1);
-
-    const auto c2 = eWorldCity::sCreateTroy();
-    c2->setWaterTrade(true);
-    c2->addBuys(eResourceTrade{eResourceType::armor, 0, 12, 120});
-    c2->addBuys(eResourceTrade{eResourceType::wheat, 0, 12, 80});
-    c2->addSells(eResourceTrade{eResourceType::sculpture, 0, 12, 200});
-    c2->addSells(eResourceTrade{eResourceType::bronze, 0, 12, 80});
-    wb.addCity(c2);
 
     eMusic::playRandomMusic();
     mGW = new eGameWidget(this);

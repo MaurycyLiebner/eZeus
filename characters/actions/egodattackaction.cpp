@@ -51,32 +51,39 @@ eGodAction::eTexPtr godMissile(const eGodType gt) {
 bool eGodAttackAction::lookForAttack(const int dtime,
                                      int& time, const int freq,
                                      const int range) {
-    const auto cptr = stdptr<eCharacter>(character());
-    const auto act = [cptr](eTile* const t) {
+    const auto c = character();
+    stdptr<eCharacter> charTarget;
+    const auto act = [&](eTile* const t) {
         const auto null = static_cast<eTile*>(nullptr);
-        if(!cptr) return null;
-        if(cptr->tile() == t) return null;
+        if(c->tile() == t) return null;
         const auto b = t->underBuilding();
         if(b && eBuilding::sAttackable(b->type())) {
             return b->centerTile();
         } else {
             const auto& chars = t->characters();
             if(chars.empty()) return null;
-            return t;
+            for(const auto& cc : chars) {
+                if(c == cc.get()) continue;
+                bool isGod = false;
+                eGod::sCharacterToGodType(cc->type(), &isGod);
+                if(!isGod) {
+                    charTarget = cc;
+                    return t;
+                }
+            }
+            return null;
         }
     };
 
-    const auto finishA = [cptr](eTile* const target) {
+    const auto cptr = stdptr<eCharacter>(c);
+    const auto finishA = [cptr, charTarget](eTile* const target) {
         if(!cptr) return;
         const auto b = target->underBuilding();
         if(b && eBuilding::sAttackable(b->type())) {
             b->collapse();
             eSounds::playCollapseSound();
-        } else {
-            const auto& chars = target->characters();
-            if(chars.empty()) return;
-            const auto chr = chars.front();
-            if(cptr != chr.get()) chr->killWithCorpse();
+        } else if(charTarget) {
+            charTarget->killWithCorpse();
         }
     };
     const auto at = eCharacterActionType::fight;

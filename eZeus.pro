@@ -254,6 +254,10 @@ SOURCES += \
         fileIO/ebuildingwriter.cpp \
         fileIO/ereadstream.cpp \
         fileIO/ewritestream.cpp \
+        gameEvents/egameevent.cpp \
+        gameEvents/egameeventcycle.cpp \
+        gameEvents/egodattackevent.cpp \
+        gameEvents/egodvisitevent.cpp \
         main.cpp \
         missiles/earrowmissile.cpp \
         missiles/egodmissile.cpp \
@@ -623,6 +627,10 @@ HEADERS += \
     fileIO/ereadstream.h \
     fileIO/estreams.h \
     fileIO/ewritestream.h \
+    gameEvents/egameevent.h \
+    gameEvents/egameeventcycle.h \
+    gameEvents/egodattackevent.h \
+    gameEvents/egodvisitevent.h \
     missiles/earrowmissile.h \
     missiles/egodmissile.h \
     missiles/emissile.h \

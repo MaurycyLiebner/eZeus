@@ -73,6 +73,18 @@ eDate& eDate::operator+=(const int d) {
     return *this;
 }
 
+void eDate::write(eWriteStream& dst) const {
+    dst << mDay;
+    dst << mMonth;
+    dst << mYear;
+}
+
+void eDate::read(eReadStream& src) {
+    src >> mDay;
+    src >> mMonth;
+    src >> mYear;
+}
+
 std::string eMonthHelper::shortName(const eMonth m) {
     switch(m) {
     case eMonth::january:

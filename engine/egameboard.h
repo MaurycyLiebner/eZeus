@@ -24,6 +24,10 @@
 
 #include "fileIO/estreams.h"
 
+#include "characters/gods/egod.h"
+
+class eGameEventCycle;
+
 class eSpawner;
 class eCharacter;
 class eBuilding;
@@ -228,6 +232,9 @@ public:
     void restockMarbleTiles();
     void updateMarbleTiles();
 
+    void setFriendlyGods(const std::vector<eGodType>& gods);
+    void setHostileGods(const std::vector<eGodType>& gods);
+
     void read(eReadStream& src);
     void write(eWriteStream& dst) const;
 
@@ -243,6 +250,8 @@ private:
 
     void registerBanner(const stdsptr<eSoldierBanner>& b);
     bool unregisterBanner(const stdsptr<eSoldierBanner>& b);
+
+    void addGameEvent(const stdsptr<eGameEventCycle>& e);
 
     void updateCoverage();
 
@@ -341,6 +350,11 @@ private:
 
     std::vector<eBuildingMode> mSupportedBuildings;
     eResourceType mSupportedResources;
+
+    std::vector<stdsptr<eGameEventCycle>> mGameEvents;
+
+    std::vector<eGodType> mFriendlyGods;
+    std::vector<eGodType> mHostileGods;
 };
 
 #endif // EGAMEBOARD_H

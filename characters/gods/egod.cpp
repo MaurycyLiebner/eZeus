@@ -1,12 +1,19 @@
 #include "egod.h"
 
+#include "eathena.h"
+#include "edemeter.h"
+#include "edionysus.h"
+#include "ehermes.h"
+
 eGod::eGod(eGameBoard& board, const eGodType gt) :
     eCharacter(board, sGodToCharacterType(gt)),
     mType(gt) {
 
 }
 
-eGodType eGod::sCharacterToGodType(const eCharacterType type) {
+eGodType eGod::sCharacterToGodType(const eCharacterType type,
+                                   bool* const valid) {
+    if(valid) *valid = true;
     switch(type) {
     case eCharacterType::aphrodite: return eGodType::aphrodite;
     case eCharacterType::apollo: return eGodType::apollo;
@@ -22,7 +29,9 @@ eGodType eGod::sCharacterToGodType(const eCharacterType type) {
     case eCharacterType::hermes: return eGodType::hermes;
     case eCharacterType::poseidon: return eGodType::poseidon;
     case eCharacterType::zeus: return eGodType::zeus;
-    default: return eGodType::aphrodite;
+    default:
+        if(valid) *valid = false;
+        return eGodType::aphrodite;
     }
 }
 
@@ -43,5 +52,38 @@ eCharacterType eGod::sGodToCharacterType(const eGodType type) {
     case eGodType::poseidon: return eCharacterType::poseidon;
     case eGodType::zeus: return eCharacterType::zeus;
     default: return eCharacterType::aphrodite;
+    }
+}
+
+stdsptr<eGod> eGod::sCreateGod(const eGodType type, eGameBoard& board) {
+    switch(type) {
+    case eGodType::aphrodite:
+        return e::make_shared<eAphrodite>(board);
+    case eGodType::apollo:
+        return e::make_shared<eApollo>(board);
+    case eGodType::ares:
+        return e::make_shared<eAres>(board);
+    case eGodType::artemis:
+        return e::make_shared<eArtemis>(board);
+    case eGodType::athena:
+        return e::make_shared<eAthena>(board);
+    case eGodType::atlas:
+        return e::make_shared<eAtlas>(board);
+    case eGodType::demeter:
+        return e::make_shared<eDemeter>(board);
+    case eGodType::dionysus:
+        return e::make_shared<eDionysus>(board);
+    case eGodType::hades:
+        return e::make_shared<eHades>(board);
+    case eGodType::hephaestus:
+        return e::make_shared<eHephaestus>(board);
+    case eGodType::hera:
+        return e::make_shared<eHera>(board);
+    case eGodType::hermes:
+        return e::make_shared<eHermes>(board);
+    case eGodType::poseidon:
+        return e::make_shared<ePoseidon>(board);
+    case eGodType::zeus:
+        return e::make_shared<eZeus>(board);
     }
 }

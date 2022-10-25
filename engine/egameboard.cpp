@@ -43,6 +43,13 @@
 #include "fileIO/ebuildingreader.h"
 #include "fileIO/ebuildingwriter.h"
 
+#include "characters/actions/egodworshippedaction.h"
+#include "characters/actions/egodattackaction.h"
+
+#include "gameEvents/egameeventcycle.h"
+#include "gameEvents/egodvisitevent.h"
+#include "gameEvents/egodattackevent.h"
+
 eGameBoard::eGameBoard() :
     mEmplData(mPopData, *this) {
     const int min = static_cast<int>(eBuildingMode::road);
@@ -226,6 +233,31 @@ void eGameBoard::updateMarbleTiles() {
         mMarbleTiles.push_back(t);
     });
 }
+void eGameBoard::setFriendlyGods(const std::vector<eGodType>& gods) {
+    mFriendlyGods = gods;
+
+    const auto e = e::make_shared<eGodVisitEvent>(*this);
+    e->setTypes(gods);
+    eDate date = mDate;
+    const int period = 450;
+    date += period;
+    const auto ec = e::make_shared<eGameEventCycle>(
+                        e, date, period, 10000, *this);
+    addGameEvent(ec);
+}
+
+void eGameBoard::setHostileGods(const std::vector<eGodType>& gods) {
+    mHostileGods = gods;
+
+    const auto e = e::make_shared<eGodAttackEvent>(*this);
+    e->setTypes(gods);
+    eDate date = mDate;
+    const int period = 900;
+    date += period;
+    const auto ec = e::make_shared<eGameEventCycle>(
+                        e, date, period, 10000, *this);
+    addGameEvent(ec);
+}
 
 void eGameBoard::read(eReadStream& src) {
     int w;
@@ -246,6 +278,22 @@ void eGameBoard::read(eReadStream& src) {
         eBuildingType type;
         src >> type;
         eBuildingReader::sRead(*this, type, src);
+    }
+
+    int nfg;
+    src >> nfg;
+    for(int i = 0; i < nfg; i++) {
+        eGodType type;
+        src >> type;
+        mFriendlyGods.push_back(type);
+    }
+
+    int nrg;
+    src >> nrg;
+    for(int i = 0; i < nrg; i++) {
+        eGodType type;
+        src >> type;
+        mHostileGods.push_back(type);
     }
 
     src.handlePostFuncs();
@@ -270,6 +318,18 @@ void eGameBoard::write(eWriteStream& dst) const {
     for(const auto b : mAllBuildings) {
         dst << b->type();
         eBuildingWriter::sWrite(b, dst);
+    }
+
+    const int nfg = mFriendlyGods.size();
+    dst << nfg;
+    for(const auto g : mFriendlyGods) {
+        dst << g;
+    }
+
+    const int nrg = mHostileGods.size();
+    dst << nrg;
+    for(const auto g : mHostileGods) {
+        dst << g;
     }
 }
 
@@ -546,6 +606,10 @@ bool eGameBoard::unregisterBanner(const stdsptr<eSoldierBanner>& b) {
     if(it == mBanners.end()) return false;
     mBanners.erase(it);
     return true;
+}
+
+void eGameBoard::addGameEvent(const stdsptr<eGameEventCycle>& e) {
+    mGameEvents.push_back(e);
 }
 
 void eGameBoard::updateCoverage() {
@@ -848,6 +912,10 @@ void eGameBoard::incTime(const int by) {
     mDate.nextDays(nd, nextMonth, nextYear);
     mTime -= nd*dayLen;
 
+    for(const auto& e : mGameEvents) {
+        e->handleNewDate(mDate);
+    }
+
     if(nextYear) {
         const int d = mEmplData.pensions();
         incDrachmas(-d);
@@ -887,60 +955,6 @@ void eGameBoard::incTime(const int by) {
     const auto missiles = mMissiles;
     for(const auto m : missiles) {
         m->incTime(by);
-    }
-
-    if(rand() % 100000 < by) {
-        stdsptr<eCharacter> god;
-        eEvent e;
-        const int r = rand() % 14;
-        if(r == 0) {
-            god = e::make_shared<eAphrodite>(*this);
-            e = eEvent::aphroditeVisit;
-        } else if(r == 1) {
-            god = e::make_shared<eApollo>(*this);
-            e = eEvent::apolloVisit;
-        } else if(r == 2) {
-            god = e::make_shared<eAres>(*this);
-            e = eEvent::aresVisit;
-        } else if(r == 3) {
-            god = e::make_shared<eArtemis>(*this);
-            e = eEvent::artemisVisit;
-        } else if(r == 4) {
-            god = e::make_shared<eAthena>(*this);
-            e = eEvent::athenaVisit;
-        } else if(r == 5) {
-            god = e::make_shared<eAtlas>(*this);
-            e = eEvent::atlasVisit;
-        } else if(r == 6) {
-            god = e::make_shared<eDemeter>(*this);
-            e = eEvent::demeterVisit;
-        } else if(r == 7) {
-            god = e::make_shared<eDionysus>(*this);
-            e = eEvent::dionysusVisit;
-        } else if(r == 8) {
-            god = e::make_shared<eHades>(*this);
-            e = eEvent::hadesVisit;
-        } else if(r == 9) {
-            god = e::make_shared<eHephaestus>(*this);
-            e = eEvent::hephaestusVisit;
-        } else if(r == 10) {
-            god = e::make_shared<eHera>(*this);
-            e = eEvent::heraVisit;
-        } else if(r == 11) {
-            god = e::make_shared<eHermes>(*this);
-            e = eEvent::hermesVisit;
-        } else if(r == 12) {
-            god = e::make_shared<ePoseidon>(*this);
-            e = eEvent::poseidonVisit;
-        } else {
-            god = e::make_shared<eZeus>(*this);
-            e = eEvent::zeusVisit;
-        }
-        const auto a = e::make_shared<eGodVisitAction>(
-                           god.get(), []() {}, []() {});
-        god->setAction(a);
-        a->increment(1);
-        event(e, god->tile());
     }
 
     emptyRubbish();
