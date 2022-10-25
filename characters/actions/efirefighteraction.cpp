@@ -107,7 +107,7 @@ bool eFireFighterAction::lookForFire() {
 
     const auto a = e::make_shared<eMoveToAction>(
                        c, failFunc, [](){});
-    a->setMaxDistance(50);
+    a->setMaxFindDistance(50);
     a->setFoundAction([tptr, a, this]() {
         if(!tptr) return;
         mMoveToFireAction = a;

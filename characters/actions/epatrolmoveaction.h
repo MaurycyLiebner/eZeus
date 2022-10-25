@@ -21,7 +21,8 @@ public:
                       const eTileWalkable& walkable =
                         eWalkableHelpers::sRoadWalkable);
 
-    void setMaxDistance(const int dist);
+    void setMaxWalkDistance(const int dist)
+    { mMaxWalkDistance = dist; }
 private:
     eCharacterActionState nextTurn(eOrientation& t);
 
@@ -29,7 +30,7 @@ private:
     const eTileWalkable mWalkable;
 
     eOrientation mO{eOrientation::topRight};
-    int mMaxDistance = 100;
+    int mMaxWalkDistance = 10000;
     int mWalkedDistance = 0;
 };
 

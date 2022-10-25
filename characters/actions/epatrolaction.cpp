@@ -36,14 +36,17 @@ void ePatrolAction::patrol() {
     const auto finishFunc = [this]() {
         mDone = true;
     };
+    const int dist = mBuilding->maxDistance();
     if(mGuides.empty()) {
         const auto a = e::make_shared<ePatrolMoveAction>(
                            c, failFunc, finishFunc);
+        a->setMaxWalkDistance(dist);
         setCurrentAction(a);
     } else {
         const auto a = e::make_shared<ePatrolGuidedMoveAction>(
                            c, mBuilding, mGuides,
                            failFunc, finishFunc);
+        a->setMaxWalkDistance(dist);
         setCurrentAction(a);
     }
 }

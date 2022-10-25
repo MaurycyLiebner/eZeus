@@ -44,16 +44,23 @@ public:
     void setDiagonalOnly(const bool d)
     { mDiagonalOnly = d; }
 
-    void setMaxDistance(const int d)
-    { mMaxDistance = d; }
+    void setMaxFindDistance(const int d)
+    { mMaxFindDistance = d; }
 
+    void setMaxWalkDistance(const int d)
+    { mMaxWalkDistance = d; };
+
+    int pathLength() const
+    { return mPathLength; }
 private:
     eAction mFoundAction;
     eAction mFindFailAction;
     bool mRemoveLastTurn = false;
     bool mWait = true;
     bool mDiagonalOnly = false;
-    int mMaxDistance = 1000;
+    int mMaxFindDistance = 10000;
+    int mMaxWalkDistance = 10000;
+    int mPathLength = 0;
 };
 
 #endif // EMOVETOACTION_H

@@ -13,6 +13,9 @@ eMovePathAction::eMovePathAction(eCharacter* const c,
 
 eCharacterActionState eMovePathAction::nextTurn(eOrientation& turn) {
     if(mTurns.empty()) return eCharacterActionState::finished;
+    if(mWalkedDistance++ > mMaxDistance) {
+        return eCharacterActionState::finished;
+    }
     turn = mTurns.back();
     mTurns.pop_back();
     const auto c = character();

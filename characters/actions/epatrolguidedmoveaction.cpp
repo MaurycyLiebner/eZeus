@@ -10,26 +10,21 @@ ePatrolGuidedMoveAction::ePatrolGuidedMoveAction(
         const std::vector<ePatrolGuide>& guides,
         const eAction& failAction,
         const eAction& finishAction) :
-    eActionWithComeback(c, failAction, finishAction),
+    eComplexAction(c, failAction, finishAction),
     mGuides(guides), mBuilding(b) {
 
 }
 
 bool ePatrolGuidedMoveAction::decide() {
-    const bool r = eActionWithComeback::decide();
+    const bool r = eComplexAction::decide();
     if(r) return true;
-    if(mGuideFail) {
-        mGuideFail = false;
-        goBack(mBuilding, eWalkableHelpers::sDefaultWalkable);
-    } else {
-        nextGuide();
-    }
+    nextGuide();
     return true;
 }
 
 void ePatrolGuidedMoveAction::nextGuide() {
     const int maxG = mGuides.size();
-    if(mNextGuide >= maxG) {
+    if(mNextGuide >= maxG || mWalkedDistance > mMaxWalkDistance) {
         return setState(eCharacterActionState::finished);
     }
     const auto& g = mGuides.at(mNextGuide++);
@@ -42,11 +37,17 @@ void ePatrolGuidedMoveAction::nextGuide() {
     const stdptr<ePatrolGuidedMoveAction> tptr(this);
     const auto failFunc = [tptr, this]() {
         if(!tptr) return;
-        mGuideFail = true;
+        setState(eCharacterActionState::finished);
     };
 
     const auto a  = e::make_shared<eMoveToAction>(
                         c, failFunc, [](){});
+    a->setFoundAction([tptr, this, a]() {
+        if(!tptr) return;
+        const int pl = a->pathLength();
+        a->setMaxWalkDistance(mMaxWalkDistance - mWalkedDistance);
+        mWalkedDistance += pl;
+    });
     a->start(finalTile, eWalkableHelpers::sRoadWalkable);
     setCurrentAction(a);
 }

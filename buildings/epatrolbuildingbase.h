@@ -56,7 +56,7 @@ private:
 
     bool mSpawnPatrolers = true;
 
-    int mMaxDistance = 50;
+    int mMaxDistance = 40;
 
     const int mWaitTime = 5000;
     int mSpawnTime = mWaitTime;

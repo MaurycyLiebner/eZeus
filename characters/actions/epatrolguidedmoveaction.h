@@ -1,7 +1,7 @@
 #ifndef EPATROLGUIDEDMOVEACTION_H
 #define EPATROLGUIDEDMOVEACTION_H
 
-#include "eactionwithcomeback.h"
+#include "ecomplexaction.h"
 
 #include <SDL2/SDL_rect.h>
 
@@ -12,7 +12,7 @@ struct ePatrolGuide {
     int fY;
 };
 
-class ePatrolGuidedMoveAction : public eActionWithComeback {
+class ePatrolGuidedMoveAction : public eComplexAction {
 public:
     ePatrolGuidedMoveAction(eCharacter* const c,
                             ePatrolBuildingBase* const b,
@@ -22,13 +22,15 @@ public:
 
     bool decide();
     void nextGuide();
+
+    void setMaxWalkDistance(const int dist)
+    { mMaxWalkDistance = dist; }
 private:
     const std::vector<ePatrolGuide> mGuides;
     ePatrolBuildingBase* const mBuilding;
     int mNextGuide = 0;
+    int mMaxWalkDistance = 100;
     int mWalkedDistance = 0;
-
-    bool mGuideFail = false;
 };
 
 #endif // EPATROLGUIDEDMOVEACTION_H

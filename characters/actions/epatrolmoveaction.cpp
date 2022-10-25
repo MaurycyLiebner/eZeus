@@ -16,12 +16,8 @@ ePatrolMoveAction::ePatrolMoveAction(eCharacter* const c,
     mO = c->orientation();
 }
 
-void ePatrolMoveAction::setMaxDistance(const int dist) {
-    mMaxDistance = dist;
-}
-
 eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
-    if(mWalkedDistance++ > mMaxDistance) {
+    if(mWalkedDistance++ > mMaxWalkDistance) {
         return eCharacterActionState::finished;
     }
     const auto c = character();

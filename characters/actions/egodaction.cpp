@@ -83,7 +83,7 @@ void eGodAction::patrol(const eAction& finishAct,
     c->setActionType(eCharacterActionType::walk);
     const auto a = e::make_shared<ePatrolMoveAction>(
                        c, finishAct, finishAct);
-    a->setMaxDistance(dist);
+    a->setMaxWalkDistance(dist);
     setCurrentAction(a);
 }
 

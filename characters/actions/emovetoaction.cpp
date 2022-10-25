@@ -28,42 +28,46 @@ void eMoveToAction::start(const eTileFinal& final,
     };
 
     const stdptr<eMoveToAction> tptr(this);
-    const auto failFunc = [tptr]() {
-        if(tptr) tptr->setState(eCharacterActionState::failed);
+    const auto failFunc = [tptr, this]() {
+        if(!tptr) return;
+        setState(eCharacterActionState::failed);
     };
-    const auto finishFunc = [tptr, c, failFunc, walkable](
+    const auto finishFunc = [tptr, this, c, failFunc, walkable](
                             std::vector<eOrientation> path) {
         if(!tptr) return;
-        const auto finishAction = [tptr]() {
-            if(tptr) tptr->setState(eCharacterActionState::finished);
+        const auto finishAction = [tptr, this]() {
+            if(!tptr) return;
+            setState(eCharacterActionState::finished);
         };
 
-        if(tptr->mRemoveLastTurn && !path.empty()) {
+        if(mRemoveLastTurn && !path.empty()) {
             path.erase(path.begin());
         }
         if(path.empty()) {
             finishAction();
             return;
         }
-
-        if(tptr->mFoundAction) tptr->mFoundAction();
+        mPathLength = path.size();
+        if(mFoundAction) mFoundAction();
         if(!tptr) return;
         const auto a  = e::make_shared<eMovePathAction>(
                             c, path, walkable,
                             failFunc, finishAction);
-        tptr->setCurrentAction(a);
+        a->setMaxDistance(mMaxWalkDistance);
+        setCurrentAction(a);
     };
 
     const auto findFailFunc = [tptr, this]() {
         if(!tptr) return;
         if(mFindFailAction) mFindFailAction();
-        if(tptr) setState(eCharacterActionState::failed);
+        if(!tptr) return;
+        setState(eCharacterActionState::failed);
     };
 
     const auto pft = new ePathFindTask(startTile, walkable,
                                        final, finishFunc,
                                        findFailFunc, mDiagonalOnly,
-                                       mMaxDistance);
+                                       mMaxFindDistance);
     tp.queueTask(pft);
 
     if(mWait) {
