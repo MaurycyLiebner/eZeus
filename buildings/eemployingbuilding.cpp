@@ -26,7 +26,7 @@ void eEmployingBuilding::timeChanged(const int by) {
         const double ef = emplData.employedFraction();
         const int e = std::round(ef*mMaxEmployees);
         mEmployed = std::clamp(e, 0, mMaxEmployees);
-        setEnabled(ef > 0.49);
+        setEnabled(mEmployed > 0);
     }
     eBuildingWithResource::timeChanged(by);
 }
