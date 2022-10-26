@@ -2,16 +2,10 @@
 #define EBUILDINGSTOERASE_H
 
 #include <vector>
+#include <set>
 
 class eBuilding;
 class eTile;
-
-class eBuildingVectorClass : public std::vector<eBuilding*> {
-public:
-    using std::vector<eBuilding*>::vector;
-
-    void add(eBuilding* const b);
-};
 
 class eBuildingsToErase {
 public:
@@ -26,9 +20,9 @@ public:
 private:
     void erase(eBuilding* const b);
 
-    eBuildingVectorClass mBs;
-    eBuildingVectorClass mImpBs;
-    eBuildingVectorClass mAgoBs;
+    std::set<eBuilding*> mBs;
+    std::set<eBuilding*> mImpBs;
+    std::set<eBuilding*> mAgoBs;
 };
 
 #endif // EBUILDINGSTOERASE_H

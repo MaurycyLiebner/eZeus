@@ -14,11 +14,7 @@
 
 #include <algorithm>
 
-void eBuildingVectorClass::add(eBuilding* const b) {
-    const auto it = std::find(begin(), end(), b);
-    if(it != end()) return;
-    push_back(b);
-}
+#include "evectorhelpers.h"
 
 bool isImportant(eBuilding* const b) {
     const auto t = b->type();
@@ -62,11 +58,11 @@ void eBuildingsToErase::addBuilding(eBuilding* const b) {
         if(s) bb = s;
     }
     if(isNonEmptyAgora(bb)) {
-        mAgoBs.add(bb);
+        mAgoBs.insert(bb);
     } else if(isImportant(bb)) {
-        mImpBs.add(bb);
+        mImpBs.insert(bb);
     } else {
-        mBs.add(bb);
+        mBs.insert(bb);
     }
 }
 

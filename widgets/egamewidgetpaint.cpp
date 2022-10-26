@@ -243,15 +243,11 @@ void eGameWidget::paintEvent(ePainter& p) {
             bool eraseCm = false;
             bool patrolCm = false;
             if(mPatrolBuilding && !mPatrolPath.empty()) {
-                const auto begin = mPatrolPath.begin();
-                const auto end = mPatrolPath.end();
-                patrolCm = std::find(begin, end, tile) != end;
+                patrolCm = eVectorHelpers::contains(mPatrolPath, tile);
                 if(patrolCm) {
                     tex->setColorMod(175, 255, 175);
                 } else {
-                    const auto begin = mExcessPatrolPath.begin();
-                    const auto end = mExcessPatrolPath.end();
-                    patrolCm = std::find(begin, end, tile) != end;
+                    patrolCm = eVectorHelpers::contains(mExcessPatrolPath, tile);
                     if(patrolCm) {
                         tex->setColorMod(255, 175, 175);
                     }
@@ -653,9 +649,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 const auto pgs = mPatrolBuilding->patrolGuides();
                 for(const auto& pg : *pgs) {
                     if(pg.fX == tx && pg.fY == ty) {
-                        const auto begin = mPatrolPath.begin();
-                        const auto end = mPatrolPath.end();
-                        const bool invalid = std::find(begin, end, tile) == end;
+                        const bool invalid = !eVectorHelpers::contains(mPatrolPath, tile);
                         const auto& tex = intrTexs.fSpawner;
                         if(invalid) tex->setColorMod(255, 125, 125);
                         //const auto& coll = builTexs.fPatrolGuides;

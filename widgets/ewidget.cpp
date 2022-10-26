@@ -4,6 +4,8 @@
 
 #include <algorithm>
 
+#include "evectorhelpers.h"
+
 eWidget* eWidget::sWidgetUnderMouse = nullptr;
 eWidget* eWidget::sLastPressed = nullptr;
 eWidget* eWidget::sMouseGrabber = nullptr;
@@ -392,10 +394,8 @@ void eWidget::addWidget(eWidget* const w) {
 }
 
 void eWidget::removeWidget(eWidget* const w) {
-    const auto it = std::find(mChildren.begin(), mChildren.end(), w);
-    if(it == mChildren.end()) return;
-    mChildren.erase(it);
-    w->mParent = nullptr;
+    const bool r = eVectorHelpers::remove(mChildren, w);
+    if(r) w->mParent = nullptr;
 }
 
 void eWidget::stackVertically() {

@@ -50,6 +50,8 @@
 #include "gameEvents/egodvisitevent.h"
 #include "gameEvents/egodattackevent.h"
 
+#include "evectorhelpers.h"
+
 eGameBoard::eGameBoard() :
     mEmplData(mPopData, *this) {
     const int min = static_cast<int>(eBuildingMode::road);
@@ -132,11 +134,7 @@ void eGameBoard::clearSoldierSelection() {
 }
 
 void eGameBoard::deselectSoldier(eSoldierBanner* const c) {
-    const auto it = std::find(mSelectedBanners.begin(),
-                              mSelectedBanners.end(), c);
-    if(it != mSelectedBanners.end()) {
-        mSelectedBanners.erase(it);
-    }
+    eVectorHelpers::remove(mSelectedBanners, c);
     c->setSelected(false);
 }
 
@@ -172,18 +170,12 @@ void eGameBoard::addSupportedBuilding(const eBuildingMode t) {
 }
 
 void eGameBoard::removeSupportedBuilding(const eBuildingMode t) {
-    const auto it = std::find(mSupportedBuildings.begin(),
-                              mSupportedBuildings.end(), t);
-    if(it == mSupportedBuildings.end()) return;
-    mSupportedBuildings.erase(it);
-    mButtonVisUpdater();
+    const bool r = eVectorHelpers::remove(mSupportedBuildings, t);
+    if(r) mButtonVisUpdater();
 }
 
 bool eGameBoard::supportsBuilding(const eBuildingMode t) const {
-    const auto it = std::find(mSupportedBuildings.begin(),
-                              mSupportedBuildings.end(), t);
-    const bool s = it != mSupportedBuildings.end();
-    return s;
+    return eVectorHelpers::contains(mSupportedBuildings, t);
 }
 
 bool eGameBoard::supportsResource(const eResourceType rt) const {
@@ -602,10 +594,7 @@ void eGameBoard::registerBanner(const stdsptr<eSoldierBanner>& b) {
 }
 
 bool eGameBoard::unregisterBanner(const stdsptr<eSoldierBanner>& b) {
-    const auto it = std::find(mBanners.begin(), mBanners.end(), b);
-    if(it == mBanners.end()) return false;
-    mBanners.erase(it);
-    return true;
+    return eVectorHelpers::remove(mBanners, b);
 }
 
 void eGameBoard::addGameEvent(const stdsptr<eGameEventCycle>& e) {
@@ -748,11 +737,7 @@ void eGameBoard::registerCharacter(eCharacter* const c) {
 }
 
 bool eGameBoard::unregisterCharacter(eCharacter* const c) {
-    const auto it = std::find(mCharacters.begin(),
-                              mCharacters.end(), c);
-    if(it == mCharacters.end()) return false;
-    mCharacters.erase(it);
-    return true;
+    return eVectorHelpers::remove(mCharacters, c);
 }
 
 void eGameBoard::registerSoldier(eSoldier* const c) {
@@ -760,10 +745,7 @@ void eGameBoard::registerSoldier(eSoldier* const c) {
 }
 
 bool eGameBoard::unregisterSoldier(eSoldier* const c) {
-    const auto it = std::find(mSoldiers.begin(), mSoldiers.end(), c);
-    if(it == mSoldiers.end()) return false;
-    mSoldiers.erase(it);
-    return true;
+    return eVectorHelpers::remove(mSoldiers, c);
 }
 
 void eGameBoard::registerBuilding(eBuilding* const b) {
@@ -778,14 +760,8 @@ void eGameBoard::registerBuilding(eBuilding* const b) {
 
 bool eGameBoard::unregisterBuilding(eBuilding* const b) {
     if(!mRegisterBuildingsEnabled) return false;
-    {
-        const auto it = std::find(mAllBuildings.begin(), mAllBuildings.end(), b);
-        if(it != mAllBuildings.end()) mAllBuildings.erase(it);
-    }
-    {
-        const auto it = std::find(mTimedBuildings.begin(), mTimedBuildings.end(), b);
-        if(it != mTimedBuildings.end()) mTimedBuildings.erase(it);
-    }
+    eVectorHelpers::remove(mAllBuildings, b);
+    eVectorHelpers::remove(mTimedBuildings, b);
     mTileRenderingOrderUpdateNeeded = true;
     scheduleAppealMapUpdate();
     return true;
@@ -799,11 +775,9 @@ void eGameBoard::registerTradePost(eTradePost* const b) {
 
 bool eGameBoard::unregisterTradePost(eTradePost* const b) {
     if(!mRegisterBuildingsEnabled) return false;
-    const auto it = std::find(mTradePosts.begin(), mTradePosts.end(), b);
-    if(it == mTradePosts.end()) return false;
-    mTradePosts.erase(it);
-    mButtonVisUpdater();
-    return true;
+    const bool r = eVectorHelpers::remove(mTradePosts, b);
+    if(r) mButtonVisUpdater();
+    return r;
 }
 
 bool eGameBoard::hasTradePost(const eWorldCity& city) {
@@ -819,10 +793,7 @@ void eGameBoard::registerSpawner(eSpawner* const s) {
 }
 
 bool eGameBoard::unregisterSpawner(eSpawner* const s) {
-    const auto it = std::find(mSpawners.begin(), mSpawners.end(), s);
-    if(it == mSpawners.end()) return false;
-    mSpawners.erase(it);
-    return true;
+    return eVectorHelpers::remove(mSpawners, s);;
 }
 
 void eGameBoard::registerStadium(eBuilding* const s) {
@@ -844,9 +815,7 @@ void eGameBoard::registerStorBuilding(eStorageBuilding* const b) {
 
 bool eGameBoard::unregisterStorBuilding(eStorageBuilding* const b) {
     if(!mRegisterBuildingsEnabled) return false;
-    const auto it = std::find(mStorBuildings.begin(), mStorBuildings.end(), b);
-    if(it == mStorBuildings.end()) return false;
-    mStorBuildings.erase(it);
+    return eVectorHelpers::remove(mStorBuildings, b);
     return true;
 }
 
@@ -855,10 +824,7 @@ void eGameBoard::registerMissile(eMissile* const m) {
 }
 
 bool eGameBoard::unregisterMissile(eMissile* const m) {
-    const auto it = std::find(mMissiles.begin(), mMissiles.end(), m);
-    if(it == mMissiles.end()) return false;
-    mMissiles.erase(it);
-    return true;
+    return eVectorHelpers::remove(mMissiles, m);
 }
 
 void eGameBoard::registerPalace(ePalace* const p) {

@@ -7,6 +7,8 @@
 #include "buildings/ebuildingrenderer.h"
 #include "characters/echaracter.h"
 
+#include "evectorhelpers.h"
+
 eTile::eTile(const int x, const int y,
              const int dx, const int dy) {
     setSeed(rand());
@@ -178,10 +180,7 @@ void eTile::addCharacter(const stdsptr<eCharacter>& c,
 }
 
 bool eTile::removeCharacter(const stdsptr<eCharacter>& c) {
-    const auto it = std::find(mCharacters.begin(), mCharacters.end(), c);
-    if(it == mCharacters.end()) return false;
-    mCharacters.erase(it);
-    return true;
+    return eVectorHelpers::remove(mCharacters, c);
 }
 
 void eTile::addMissile(const stdsptr<eMissile>& m) {
@@ -189,10 +188,7 @@ void eTile::addMissile(const stdsptr<eMissile>& m) {
 }
 
 bool eTile::removeMissile(const stdsptr<eMissile>& m) {
-    const auto it = std::find(mMissiles.begin(), mMissiles.end(), m);
-    if(it == mMissiles.end()) return false;
-    mMissiles.erase(it);
-    return true;
+    return eVectorHelpers::remove(mMissiles, m);
 }
 
 bool eTile::hasCharacter(const eHasChar& func) const {

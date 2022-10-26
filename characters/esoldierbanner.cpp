@@ -11,6 +11,8 @@
 #include "characters/actions/esoldieraction.h"
 #include "eiteratesquare.h"
 
+#include "evectorhelpers.h"
+
 int gNextId = 0;
 
 eSoldierBanner::eSoldierBanner(const eBannerType type,
@@ -80,10 +82,8 @@ void eSoldierBanner::addSoldier(eSoldier* const s) {
 
 void eSoldierBanner::removeSoldier(eSoldier* const s) {
     mPlaces.erase(s);
-    const auto it = std::find(mSoldiers.begin(), mSoldiers.end(), s);
-    if(it == mSoldiers.end()) return;
-    mSoldiers.erase(it);
-    updatePlaces();
+    const bool r = eVectorHelpers::remove(mSoldiers, s);
+    if(r) updatePlaces();
 }
 
 eTile* eSoldierBanner::place(eSoldier* const s) {

@@ -12,6 +12,8 @@
 #include "fileIO/ebuildingrendererwriter.h"
 #include "fileIO/ebuildingrendererreader.h"
 
+#include "evectorhelpers.h"
+
 eBuilding::eBuilding(eGameBoard& board,
                      const eBuildingType type,
                      const int sw, const int sh) :
@@ -290,8 +292,7 @@ void eBuilding::addRenderer(eBuildingRenderer* const r) {
 }
 
 void eBuilding::removeRenderer(eBuildingRenderer* const r) {
-    const auto it = std::find(mRenderers.begin(), mRenderers.end(), r);
-    if(it != mRenderers.end()) mRenderers.erase(it);
+    eVectorHelpers::remove(mRenderers, r);
 }
 
 void eBuilding::setEnabled(const bool e) {
