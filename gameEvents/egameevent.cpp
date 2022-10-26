@@ -1,6 +1,7 @@
 #include "egameevent.h"
 
 #include "egodvisitevent.h"
+#include "egodattackevent.h"
 
 eGameEvent::eGameEvent(const eGameEventType type,
                        eGameBoard& board) :
@@ -11,5 +12,7 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
     switch(type) {
     case eGameEventType::godVisit:
         return e::make_shared<eGodVisitEvent>(board);
+    case eGameEventType::godAttack:
+        return e::make_shared<eGodAttackEvent>(board);
     }
 }
