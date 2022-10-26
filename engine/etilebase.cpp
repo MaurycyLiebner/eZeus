@@ -203,6 +203,8 @@ void eTileBase::read(eReadStream& src) {
     bool fish;
     src >> fish;
     setHasFish(fish);
+
+    src >> mRoadblock;
 }
 
 void eTileBase::write(eWriteStream& dst) const {
@@ -214,5 +216,6 @@ void eTileBase::write(eWriteStream& dst) const {
     dst << mResource;
     dst << mWalkableElev;
     dst << mHasFish;
+    dst << mRoadblock;
 }
 

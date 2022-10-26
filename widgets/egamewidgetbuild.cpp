@@ -593,6 +593,15 @@ bool eGameWidget::buildMouseRelease() {
                       [this]() { return e::make_shared<eRoad>(*mBoard); });
             }
         }; break;
+        case eBuildingMode::roadblock: {
+            const auto t = mBoard->tile(mHoverTX, mHoverTY);
+            if(t && t->hasRoad() && !t->hasBridge()) {
+                const auto b = t->underBuilding();
+                const auto r = static_cast<eRoad*>(b);
+                const bool rb = r->isRoadblock();
+                if(!rb) r->setRoadblock(true);
+            }
+        }; break;
         case eBuildingMode::bridge: {
             const auto startTile = mBoard->tile(mHoverTX, mHoverTY);
             if(!startTile) return false;

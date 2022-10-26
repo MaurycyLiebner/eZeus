@@ -42,6 +42,9 @@ public:
     eTerrain terrain() const { return mTerr; }
     double scrub() const { return mScrub; }
 
+    void setRoadblock(const bool rb) { mRoadblock = rb; }
+    bool hasRoadblock() const { return mRoadblock; }
+
     static double sDistance(eTileBase* const t1,
                             eTileBase* const t2);
 
@@ -140,6 +143,8 @@ private:
     eTerrain mTerr = eTerrain::dry;
     double mScrub = 0;
     int mAltitude = 0;
+
+    bool mRoadblock = false;
 };
 
 template <typename T>

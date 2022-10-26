@@ -373,6 +373,7 @@ public:
 
     eTextureCollection fFish;
 
+    std::shared_ptr<eTexture> fRoadblock;
     eTextureCollection fBridge;
 };
 

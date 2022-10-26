@@ -14,6 +14,7 @@ namespace eWalkableHelpers {
     using eWalkable = std::function<bool(eTileBase*)>;
     bool sDefaultWalkable(eTileBase* const t);
     bool sRoadWalkable(eTileBase* const t);
+    bool sRoadRoadblockWalkable(eTileBase* const t);
     eWalkable sBuildingWalkable(
             eBuilding* const b, const eWalkable& w);
     eWalkable sBuildingWalkable(

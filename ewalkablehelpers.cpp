@@ -36,3 +36,9 @@ bool eWalkableHelpers::sTileUnderBuilding(
     const SDL_Point p{t->x(), t->y()};
     return SDL_PointInRect(&p, &b);
 }
+
+bool eWalkableHelpers::sRoadRoadblockWalkable(eTileBase* const t) {
+    const bool hr = t->hasRoad();
+    if(!hr) return false;
+    return !t->hasRoadblock();
+}

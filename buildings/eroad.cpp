@@ -5,10 +5,7 @@
 #include "engine/egameboard.h"
 
 eRoad::eRoad(eGameBoard& board) :
-    eBuilding(board, eBuildingType::road, 1, 1),
-    mTextures(eGameTextures::buildings()) {
-
-}
+    eBuilding(board, eBuildingType::road, 1, 1) {}
 
 void eRoad::erase() {
     if(isBridge()) {
@@ -20,13 +17,16 @@ void eRoad::erase() {
             b->eBuilding::erase();
         }
     } else {
-        eBuilding::erase();
+        if(mRoadblock) setRoadblock(false);
+        else eBuilding::erase();
     }
 }
 
 std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
-    const auto& sizeColl = mTextures[sizeId];
+    const auto& sizeColl = eGameTextures::buildings()[sizeId];
+
+    if(mRoadblock) return sizeColl.fRoadblock;
 
     if(mUnderAgora) {
         const auto& coll = sizeColl.fAgoraRoad;
@@ -316,6 +316,16 @@ bool eRoad::isBridge() const {
     const auto t = centerTile();
     if(!t) return false;
     return t->hasBridge();
+}
+
+bool eRoad::isRoadblock() const {
+    return mRoadblock;
+}
+
+void eRoad::setRoadblock(const bool rb) {
+    const auto t = centerTile();
+    if(t) t->setRoadblock(rb);
+    mRoadblock = rb;
 }
 
 void eRoad::bridgeConnectedTiles(std::vector<eTile*>& tiles) const {

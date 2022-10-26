@@ -18,11 +18,13 @@ public:
     eAgoraBase* underAgora() const { return mUnderAgora; }
 
     bool isBridge() const;
+    bool isRoadblock() const;
+    void setRoadblock(const bool rb);
 
     void bridgeConnectedTiles(std::vector<eTile*>& tiles) const;
 private:
-    const std::vector<eBuildingTextures>& mTextures;
     eAgoraBase* mUnderAgora = nullptr;
+    bool mRoadblock = false;
 };
 
 #endif // EROAD_H

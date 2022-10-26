@@ -39,7 +39,8 @@ void ePatrolAction::patrol() {
     const int dist = mBuilding->maxDistance();
     if(mGuides.empty()) {
         const auto a = e::make_shared<ePatrolMoveAction>(
-                           c, failFunc, finishFunc);
+                           c, failFunc, finishFunc, true,
+                           eWalkableHelpers::sRoadRoadblockWalkable);
         a->setMaxWalkDistance(dist);
         setCurrentAction(a);
     } else {

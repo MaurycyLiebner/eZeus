@@ -8,6 +8,7 @@ enum class eBuildingMode {
     erase,
 
     road,
+    roadblock,
 
     commonHousing,
     eliteHousing,

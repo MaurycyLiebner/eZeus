@@ -1309,6 +1309,25 @@ void eGameWidget::paintEvent(ePainter& p) {
         case eBuildingMode::bridge: {
 
         } break;
+        case eBuildingMode::roadblock: {
+            const auto b1 = e::make_shared<eRoad>(*mBoard);
+            b1->setRoadblock(true);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+            canBuildFunc = [&](const int tx, const int ty,
+                               const int sw, const int sh) {
+                (void)sw;
+                (void)sh;
+                const auto t = mBoard->tile(tx, ty);
+                if(!t) return false;
+                const bool hr = t->hasRoad();
+                if(!hr) return false;
+                const bool b = t->hasBridge();
+                if(b) return false;
+                const auto ub = t->underBuilding();
+                const auto r = static_cast<eRoad*>(ub);
+                return !r->isRoadblock();
+            };
+        } break;
         case eBuildingMode::commonHousing: {
             const auto b1 = e::make_shared<eSmallHouse>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);

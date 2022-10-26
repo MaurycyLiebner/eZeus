@@ -758,7 +758,10 @@ void eGameMenu::initialize(eGameBoard* const b) {
         b->setPressAction([this]() {
             setMode(eBuildingMode::road);
         });
-        eButton::sCreate(coll.fRoadBlock, window(), btmButtons);
+        const auto rb = eButton::sCreate(coll.fRoadBlock, window(), btmButtons);
+        rb->setPressAction([this]() {
+            setMode(eBuildingMode::roadblock);
+        });
         const auto e = eButton::sCreate(coll.fClear, window(), btmButtons);
         e->setPressAction([this]() {
             setMode(eBuildingMode::erase);

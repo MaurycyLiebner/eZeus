@@ -463,6 +463,8 @@ void eBuildingTextures::load() {
 
         fWatchPost = texClass.load(65);
 
+        fRoadblock = texClass.load(76);
+
         for(int i = 77; i < 89; i++) {
             texClass.load(i, fBridge);
         }
