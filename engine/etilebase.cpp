@@ -23,12 +23,12 @@ void eTileBase::setMarbleLevel(const int l) {
 }
 
 bool eTileBase::walkable() const {
+    const auto t = underBuildingType();
+    if(t == eBuildingType::road) return true;
     const auto terr = terrain() & eTerrain::walkable;
     if(!static_cast<bool>(terr)) return false;
     if(!mWalkableElev && isElevationTile()) return false;
-    const auto t = underBuildingType();
     if(t == eBuildingType::none) return true;
-    if(t == eBuildingType::road) return true;
     if(t == eBuildingType::ruins) return true;
     if(t == eBuildingType::vine) return true;
     if(t == eBuildingType::oliveTree) return true;
