@@ -8,12 +8,25 @@ eGodVisitEvent::eGodVisitEvent(eGameBoard& board) :
 
 void eGodVisitEvent::setTypes(const std::vector<eGodType>& types) {
     mTypes = types;
+    const int nTypes = mTypes.size();
+    if(mNextId >= nTypes) mNextId = 0;
+}
+
+void eGodVisitEvent::setRandom(const bool r) {
+    mRandom = r;
 }
 
 void eGodVisitEvent::trigger() {
     if(mTypes.empty()) return;
     auto& board = getBoard();
-    const int tid = rand() % mTypes.size();
+    int tid;
+    const int nTypes = mTypes.size();
+    if(mRandom) {
+        tid = rand() % mTypes.size();
+    } else {
+        tid = mNextId;
+        if(++mNextId >= nTypes) mNextId = 0;
+    }
     const auto t = mTypes.at(tid);
     const auto god = eGod::sCreateGod(t, board);
     eEvent e;
@@ -75,6 +88,8 @@ void eGodVisitEvent::write(eWriteStream& dst) const {
     for(const auto t : mTypes) {
         dst << t;
     }
+    dst << mRandom;
+    dst << mNextId;
 }
 
 void eGodVisitEvent::read(eReadStream& src) {
@@ -86,4 +101,6 @@ void eGodVisitEvent::read(eReadStream& src) {
         src >> t;
         mTypes.push_back(t);
     }
+    src >> mRandom;
+    src >> mNextId;
 }
