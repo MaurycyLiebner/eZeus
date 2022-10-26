@@ -372,6 +372,8 @@ public:
     eTextureCollection fSanctuaryFire;
 
     eTextureCollection fFish;
+
+    eTextureCollection fBridge;
 };
 
 #endif // EBUILDINGTEXTURES_H

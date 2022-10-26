@@ -22,6 +22,14 @@ void eTileBase::setMarbleLevel(const int l) {
     mMarbleLevel = l;
 }
 
+bool eTileBase::hasBridge() const {
+    return hasRoad() && hasWater();
+}
+
+bool eTileBase::hasWater() const {
+    return terrain() == eTerrain::water;
+}
+
 bool eTileBase::walkable() const {
     const auto t = underBuildingType();
     if(t == eBuildingType::road) return true;

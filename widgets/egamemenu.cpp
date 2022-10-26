@@ -525,7 +525,9 @@ void eGameMenu::initialize(eGameBoard* const b) {
     const auto tc5 = [this]() {
         setMode(eBuildingMode::taxOffice);
     };
-    const auto bb5 = [this]() {};
+    const auto bb5 = [this]() {
+        setMode(eBuildingMode::bridge);
+    };
 
     mAdminDataW = new eAdminDataWidget(*b, window());
     const int cost10 = eDifficultyHelpers::buildingCost(

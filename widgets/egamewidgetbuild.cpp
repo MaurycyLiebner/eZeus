@@ -593,6 +593,29 @@ bool eGameWidget::buildMouseRelease() {
                       [this]() { return e::make_shared<eRoad>(*mBoard); });
             }
         }; break;
+        case eBuildingMode::bridge: {
+            const auto startTile = mBoard->tile(mHoverTX, mHoverTY);
+            if(!startTile) return false;
+            std::vector<eTile*> path;
+            bool rotated;
+            const bool r = bridgeTiles(startTile, path, rotated);
+            if(r) {
+                for(const auto t : path) {
+                    const auto b = e::make_shared<eRoad>(*mBoard);
+                    const auto rend = e::make_shared<eBuildingRenderer>(b);
+                    t->setBuilding(rend);
+                    b->setCenterTile(t);
+                    b->setTileRect({t->x(), t->y(), 1, 1});
+                    t->setUnderBuilding(b);
+                    b->addUnderBuilding(t);
+
+                    const auto diff = mBoard->difficulty();
+                    const int cost = eDifficultyHelpers::buildingCost(
+                                         diff, eBuildingType::bridge);
+                    mBoard->incDrachmas(-path.size()*cost);
+                }
+            }
+        }; break;
         case eBuildingMode::commonHousing: {
             const int sMinX = std::min(mPressedTX, mHoverTX);
             const int sMinY = std::min(mPressedTY, mHoverTY);

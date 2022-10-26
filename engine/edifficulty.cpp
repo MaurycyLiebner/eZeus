@@ -23,6 +23,8 @@ int costBase(const eBuildingType type) {
         return 1;
     case eBuildingType::road:
         return 2;
+    case eBuildingType::bridge:
+        return 5;
     case eBuildingType::commonHouse:
         return 10;
     case eBuildingType::eliteHousing:

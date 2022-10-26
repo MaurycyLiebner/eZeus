@@ -129,6 +129,8 @@ private:
     void showMessage(eTile* const tile, const eMessageType& msg);
 
     bool roadPath(std::vector<eOrientation>& path);
+    bool bridgeTiles(eTile* const t, std::vector<eTile*>& tiles,
+                     bool& rotated);
 
     bool inErase(const int tx, const int ty);
     bool inErase(const SDL_Rect& rect);

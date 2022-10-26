@@ -247,6 +247,7 @@ SOURCES += \
         etexture.cpp \
         etexturecollection.cpp \
         etilehelper.cpp \
+        evectorhelpers.cpp \
         ewalkablehelpers.cpp \
         fileIO/ebuildingreader.cpp \
         fileIO/ebuildingrendererreader.cpp \
@@ -619,6 +620,7 @@ HEADERS += \
     etexture.h \
     etexturecollection.h \
     etilehelper.h \
+    evectorhelpers.h \
     ewalkablehelpers.h \
     fileIO/ebuildingreader.h \
     fileIO/ebuildingrendererreader.h \

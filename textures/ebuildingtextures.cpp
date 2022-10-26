@@ -202,7 +202,9 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fSanctuaryStairs(renderer),
     fSanctuaryFire(renderer),
 
-    fFish(renderer) {
+    fFish(renderer),
+
+    fBridge(renderer) {
 
 }
 
@@ -460,6 +462,10 @@ void eBuildingTextures::load() {
         }
 
         fWatchPost = texClass.load(65);
+
+        for(int i = 77; i < 89; i++) {
+            texClass.load(i, fBridge);
+        }
 
         {
             const std::string pathBase{dir + "Zeus_Mun-Palace_"};

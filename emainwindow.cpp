@@ -23,6 +23,8 @@
 #include "widgets/efilewidget.h"
 #include "elanguage.h"
 
+#include "evectorhelpers.h"
+
 eMainWindow::eMainWindow() {}
 
 eMainWindow::~eMainWindow() {
@@ -156,23 +158,6 @@ void eMainWindow::showMenuLoading() {
     setWidget(mlw);
 }
 
-template <typename T>
-bool vectorContains(const std::vector<T>& v, const T& t) {
-    const auto it = std::find(v.begin(), v.end(), t);
-    return it != v.end();
-}
-
-template <typename T>
-bool vectorRemove(std::vector<T>& v, const T& t) {
-    const auto it = std::find(v.begin(), v.end(), t);
-    if(it != v.end()) {
-        v.erase(it);
-        return true;
-    } else {
-        return false;
-    }
-}
-
 void eMainWindow::showMainMenu() {
     const auto mm = new eMainMenu(this);
     mm->resize(width(), height());
@@ -225,7 +210,7 @@ void eMainWindow::showMainMenu() {
         std::vector<eGodType> gods;
         for(int i = 0; i < iMax; i++) {
             const auto t = static_cast<eGodType>(i);
-            const bool r = vectorContains(friendlyGods, t);
+            const bool r =  eVectorHelpers::contains(friendlyGods, t);
             if(r) continue;
             gods.push_back(t);
         }
@@ -234,14 +219,14 @@ void eMainWindow::showMainMenu() {
 
         for(int i = 0; i < 2; i++) {
             const auto g = gods[i];
-            vectorRemove(gods, g);
+            eVectorHelpers::remove(gods, g);
             friendlyGods.push_back(g);
         }
 
         std::vector<eGodType> hostileGods;
         for(int i = 0; i < 2; i++) {
             const auto g = gods[i];
-            vectorRemove(gods, g);
+            eVectorHelpers::remove(gods, g);
             hostileGods.push_back(g);
         }
 

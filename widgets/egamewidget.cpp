@@ -63,6 +63,7 @@
 #include "elanguage.h"
 
 #include "widgets/efilewidget.h"
+#include "evectorhelpers.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {}
@@ -647,6 +648,105 @@ bool eGameWidget::roadPath(std::vector<eOrientation>& path) {
     return p.extractPath(path);
 }
 
+bool eGameWidget::bridgeTiles(eTile* const t, std::vector<eTile*>& tiles,
+                              bool& rotated) {
+    rotated = false;
+    if(!t) return false;
+    if(!t->isShoreTile()) return false;
+    if(t->underBuilding()) return false;
+    const auto tl = t->topLeft<eTile>();
+    if(!tl) return false;
+    const auto tr = t->topRight<eTile>();
+    if(!tr) return false;
+    const auto bl = t->bottomLeft<eTile>();
+    if(!bl) return false;
+    const auto br = t->bottomRight<eTile>();
+    if(!br) return false;
+
+    if(tr->isShoreTile() && bl->isShoreTile()) {
+        if(br->hasWater()) {
+            auto tt = t;
+            tiles.push_back(tt);
+            while(true) {
+                const auto ttt = tt->bottomRight<eTile>();
+                if(!ttt || ttt->hasBridge() || !ttt->hasWater()) break;
+                tt = ttt;
+                tiles.push_back(tt);
+                if(tt->isShoreTile()) break;
+            }
+            if(!tt) return false;
+            const auto tt_tr = tt->topRight<eTile>();
+            const auto tt_bl = tt->bottomLeft<eTile>();
+            if(!tt_tr->isShoreTile() || !tt_bl->isShoreTile()) {
+                return false;
+            }
+            const auto tt_tl = tt->bottomRight<eTile>();
+            if(tt_tl->hasWater()) return false;
+        } else {
+            auto tt = t;
+            tiles.push_back(tt);
+            while(true) {
+                const auto ttt = tt->topLeft<eTile>();
+                if(!ttt || ttt->hasBridge() || !ttt->hasWater()) break;
+                tt = ttt;
+                tiles.push_back(tt);
+                if(tt->isShoreTile()) break;
+            }
+            if(!tt) return false;
+            const auto tt_tr = tt->topRight<eTile>();
+            const auto tt_bl = tt->bottomLeft<eTile>();
+            if(!tt_tr->isShoreTile() || !tt_bl->isShoreTile()) {
+                return false;
+            }
+            const auto tt_tl = tt->topLeft<eTile>();
+            if(tt_tl->hasWater()) return false;
+        }
+        return !tr->underBuilding() && !bl->underBuilding();
+    } else if(tl->isShoreTile() && br->isShoreTile()) {
+        rotated = true;
+        if(bl->hasWater()) {
+            auto tt = t;
+            tiles.push_back(tt);
+            while(true) {
+                const auto ttt = tt->bottomLeft<eTile>();
+                if(!ttt || ttt->hasBridge() || !ttt->hasWater()) break;
+                tt = ttt;
+                tiles.push_back(tt);
+                if(tt->isShoreTile()) break;
+            }
+            if(!tt) return false;
+            const auto tt_tl = tt->topLeft<eTile>();
+            const auto tt_br = tt->bottomRight<eTile>();
+            if(!tt_tl->isShoreTile() || !tt_br->isShoreTile()) {
+                return false;
+            }
+            const auto tt_bl = tt->bottomLeft<eTile>();
+            if(tt_bl->hasWater()) return false;
+        } else {
+            auto tt = t;
+            tiles.push_back(tt);
+            while(true) {
+                const auto ttt = tt->topRight<eTile>();
+                if(!ttt || ttt->hasBridge() || !ttt->hasWater()) break;
+                tt = ttt;
+                tiles.push_back(tt);
+                if(tt->isShoreTile()) break;
+            }
+            if(!tt) return false;
+            const auto tt_tl = tt->topLeft<eTile>();
+            const auto tt_br = tt->bottomRight<eTile>();
+            if(!tt_tl->isShoreTile() || !tt_br->isShoreTile()) {
+                return false;
+            }
+            const auto tt_tr = tt->topRight<eTile>();
+            if(tt_tr->hasWater()) return false;
+        }
+        return !tl->underBuilding() && !br->underBuilding();
+    }
+
+    return false;
+}
+
 void eGameWidget::updatePatrolPath() {
     mPatrolPath.clear();
     mExcessPatrolPath.clear();
@@ -824,9 +924,23 @@ bool eGameWidget::inErase(eBuilding* const b) {
         const auto a = as->agora();
         return inErase(a);
     } else if(const auto r = dynamic_cast<eRoad*>(b)) {
-        const auto a = r->underAgora();
-        if(a) return inErase(a);
-        else rect = b->tileRect();
+        if(r->isBridge()) {
+            const auto t = r->centerTile();
+            if(t) {
+                std::vector<eTile*> tiles;
+                r->bridgeConnectedTiles(tiles);
+                for(const auto t : tiles) {
+                    const bool r = inErase(t->x(), t->y());
+                    if(r) return true;
+                }
+                return false;
+            }
+            return false;
+        } else {
+            const auto a = r->underAgora();
+            if(a) return inErase(a);
+            else rect = b->tileRect();
+        }
     } else if(const auto a = dynamic_cast<eAgoraBase*>(b)) {
         return inErase(a);
     } else if(const auto p = dynamic_cast<ePalace*>(b)) {

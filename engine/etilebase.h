@@ -26,6 +26,9 @@ public:
     virtual bool onFire() const = 0;
     virtual void setOnFire(const bool f) = 0;
 
+    bool hasBridge() const;
+    bool hasWater() const;
+
     bool walkable() const;
 
     int seed() const { return mSeed; }

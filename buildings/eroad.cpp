@@ -10,6 +10,20 @@ eRoad::eRoad(eGameBoard& board) :
 
 }
 
+void eRoad::erase() {
+    if(isBridge()) {
+        std::vector<eTile*> tiles;
+        bridgeConnectedTiles(tiles);
+        for(const auto t : tiles) {
+            const auto b = t->underBuilding();
+            if(!b) continue;
+            b->eBuilding::erase();
+        }
+    } else {
+        eBuilding::erase();
+    }
+}
+
 std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& sizeColl = mTextures[sizeId];
@@ -32,6 +46,28 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
     const bool brRoad = !br || br->hasRoad();
     const bool blRoad = !bl || bl->hasRoad();
     const bool tlRoad = !tl || tl->hasRoad();
+
+    const bool bridge = ti->hasBridge();
+    if(bridge) {
+        int texId = 10;
+
+        const bool trb = tr && tr->hasBridge();
+        const bool brb = br && br->hasBridge();
+        const bool blb = bl && bl->hasBridge();
+        const bool tlb = tl && tl->hasBridge();
+
+        const bool trw = tr && tr->hasWater();
+        const bool brw = br && br->hasWater();
+        const bool blw = bl && bl->hasWater();
+        const bool tlw = tl && tl->hasWater();
+
+        if((tlb || brb) || ((trw && !trb) || (blw && !blb))) {
+            texId = 10;
+        } else if((trb || blb) || ((tlw && !tlb) || (brw && !brb))) {
+            texId = 11;
+        }
+        return sizeColl.fBridge.getTexture(texId);
+    }
 
     const auto trt = tr ? tr->underBuildingType() : eBuildingType::none;
     const auto brt = br ? br->underBuildingType() : eBuildingType::none;
@@ -274,4 +310,45 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
 
 void eRoad::setUnderAgora(eAgoraBase* const a) {
     mUnderAgora = a;
+}
+
+bool eRoad::isBridge() const {
+    const auto t = centerTile();
+    if(!t) return false;
+    return t->hasBridge();
+}
+
+void eRoad::bridgeConnectedTiles(std::vector<eTile*>& tiles) const {
+    eTile* const startTile = centerTile();
+    if(!startTile) return;
+    if(!startTile->hasBridge()) return;
+    tiles.push_back(startTile);
+    auto tl = startTile->topLeft<eTile>();
+    auto tr = startTile->topRight<eTile>();
+    auto br = startTile->bottomRight<eTile>();
+    auto bl = startTile->bottomLeft<eTile>();
+    while(tl) {
+        const bool hb = tl->hasBridge();
+        if(hb) tiles.push_back(tl);
+        else break;
+        tl = tl->topLeft<eTile>();
+    }
+    while(tr) {
+        const bool hb = tr->hasBridge();
+        if(hb) tiles.push_back(tr);
+        else break;
+        tr = tr->topRight<eTile>();
+    }
+    while(br) {
+        const bool hb = br->hasBridge();
+        if(hb) tiles.push_back(br);
+        else break;
+        br = br->bottomRight<eTile>();
+    }
+    while(bl) {
+        const bool hb = bl->hasBridge();
+        if(hb) tiles.push_back(bl);
+        else break;
+        bl = bl->bottomLeft<eTile>();
+    }
 }
