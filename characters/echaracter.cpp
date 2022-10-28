@@ -5,6 +5,8 @@
 #include "actions/edieaction.h"
 #include "actions/efightaction.h"
 
+#include "gods/egod.h"
+
 eCharacter::eCharacter(eGameBoard& board,
                        const eCharacterType type) :
     eObject(board), eCharacterBase(type) {
@@ -25,6 +27,9 @@ bool eCharacter::canFight(eCharacter* const c) {
        ct == eCharacterType::deer) {
         return tt == eCharacterType::hunter;
     }
+    bool isGod;
+    eGod::sCharacterToGodType(tt, &isGod);
+    if(isGod) return false;
     return true;
 }
 
