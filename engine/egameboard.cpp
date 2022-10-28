@@ -458,22 +458,18 @@ void eGameBoard::updateMaxSoldiers() {
         } else if(bt == eBuildingType::eliteHousing) {
             const auto eh = static_cast<eEliteHousing*>(b);
             const int l = eh->level();
-            if(l < 1) continue;
+            if(l < 2) continue;
             const int a = eh->arms();
-            if(l == 1) {
+            if(l == 2) {
                 mMaxHoplites += std::min(2, a);
-            } else if(l == 2) {
-                mMaxHoplites += std::min(4, a);
             } else if(l == 3) {
+                mMaxHoplites += std::min(4, a);
+            } else if(l == 4) {
                 const int h = eh->horses();
                 const int hh = std::min(std::min(a, 4), h);
                 mMaxHorsemen += hh;
                 mMaxHoplites += std::min(4 - hh, a - hh);
             }
-            else if(l == 3) mMaxRockThrowers += 6;
-            else if(l == 4) mMaxRockThrowers += 10;
-            else if(l == 5) mMaxRockThrowers += 12;
-            else if(l == 6) mMaxRockThrowers += 15;
         }
     }
     mMaxRockThrowers /= 6;
