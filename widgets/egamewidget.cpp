@@ -630,7 +630,7 @@ void eGameWidget::showTip(const std::string& tip) {
 
 void eGameWidget::updateTipPositions() {
     const int p = padding();
-    int y = 10*p;
+    int y = 6*p;
     for(const auto& tip : mTips) {
         const auto w = tip.fWid;
         w->setY(y);
