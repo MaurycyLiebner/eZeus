@@ -81,7 +81,9 @@ enum class eCharacterType {
     hera,
     hermes,
     poseidon,
-    zeus
+    zeus,
+
+    calydonianBoar
 };
 
 class eCharacterBase {

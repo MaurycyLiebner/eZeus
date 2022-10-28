@@ -17,6 +17,9 @@ namespace eHeatGetters {
     eHeat storage(const eBuildingType type);
 
     eHeatGetter godLeaning(const eGodType gt);
+
+    eHeat empty(const eBuildingType type);
+    eHeat any(const eBuildingType type);
 }
 
 #endif // EHEATGETTERS_H

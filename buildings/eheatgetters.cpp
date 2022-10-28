@@ -189,3 +189,13 @@ eHeatGetters::eHeatGetter eHeatGetters::godLeaning(const eGodType gt) {
     }
     return hg;
 }
+
+eHeat eHeatGetters::empty(const eBuildingType type) {
+    (void)type;
+    return {-2, 5};
+}
+
+eHeat eHeatGetters::any(const eBuildingType type) {
+    (void)type;
+    return {2, 5};
+}

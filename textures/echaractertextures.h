@@ -106,6 +106,12 @@ struct eRockThrowerTextures : public eFightingCharacterTextures {
     std::vector<eTextureCollection> fFight2;
 };
 
+struct eMonsterTextures {
+    std::vector<eTextureCollection> fWalk;
+    std::vector<eTextureCollection> fDie;
+    std::vector<eTextureCollection> fFight;
+};
+
 class eCharacterTextures {
 public:
     eCharacterTextures(const int tileW, const int tileH,
@@ -224,6 +230,8 @@ public:
 
     eFishingBoatTextures fFishingBoat;
     eTradeBoatTextures fTradeBoat;
+
+    eMonsterTextures fCalydonianBoar;
 };
 
 #endif // ECHARACTERTEXTURES_H

@@ -1,20 +1,14 @@
 #ifndef EGODACTION_H
 #define EGODACTION_H
 
-#include "ecomplexaction.h"
+#include "egodmonsteraction.h"
 
 #include "characters/gods/egod.h"
 
 class eDestructionTextures;
 enum class eGodSound;
 
-struct ePausedAction {
-    eCharacterActionType fAt;
-    stdsptr<eCharacterAction> fA;
-    eOrientation fO;
-};
-
-class eGodAction : public eComplexAction {
+class eGodAction : public eGodMonsterAction {
 public:
     eGodAction(eCharacter* const c,
                const eAction& failAction,
@@ -26,13 +20,10 @@ public:
                    const eFunc& finish = nullptr);
     void teleport(eTile* const tile);
 
-    void moveAround(const eAction& finishAct = [](){},
-                    const int time = 5000);
     void patrol(const eAction& finishAct = [](){},
                 const int dist = 100);
 
     void randomPlaceOnBoard();
-    eTile* closestRoad(const int rdx, const int rdy) const;
 
     using eGodAct = std::function<eTile*(eTile* const t)>;
     using eTexPtr = eTextureCollection eDestructionTextures::*;
@@ -77,9 +68,6 @@ public:
     void goToTarget();
 
     eGodType type() const { return mType; }
-
-    void pauseAction();
-    void resumeAction();
 private:
     void hermesRun(const bool appear);
 
@@ -87,8 +75,6 @@ private:
     void playDisappearSound();
 
     const eGodType mType;
-
-    std::vector<ePausedAction> mPausedActions;
 };
 
 #endif // EGODACTION_H

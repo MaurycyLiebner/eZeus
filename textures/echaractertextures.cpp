@@ -5,6 +5,7 @@
 #include "offsets/PoseidonImps.h"
 #include "offsets/Zeus_Greek.h"
 #include "offsets/SprAmbient.h"
+#include "offsets/zeus_calydonianboar.h"
 
 #include "etextureloader.h"
 
@@ -603,6 +604,16 @@ void eCharacterTextures::load() {
         for(int i = 204; i < 207; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fBannerTops);
         }
+    }
+
+    {
+        const std::string pathBase{dir + "zeus_calydonianboar/zeus_calydonianboar_"};
+
+        eTextureClass texClass(pathBase, texLoader, &eZeus_calydonianboarOffset);
+
+        texClass.loadSkipFlipped(fCalydonianBoar.fWalk, 1, 97);
+        texClass.loadSkipFlipped(fCalydonianBoar.fDie, 97, 201);
+        texClass.loadSkipFlipped(fCalydonianBoar.fFight, 201, 361);
     }
 
     texLoader.waitUntilFinished();

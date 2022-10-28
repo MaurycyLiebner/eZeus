@@ -126,10 +126,12 @@ SOURCES += \
         characters/actions/eforce.cpp \
         characters/actions/egodaction.cpp \
         characters/actions/egodattackaction.cpp \
+        characters/actions/egodmonsteraction.cpp \
         characters/actions/egodvisitaction.cpp \
         characters/actions/egodworshippedaction.cpp \
         characters/actions/egroweraction.cpp \
         characters/actions/ehuntaction.cpp \
+        characters/actions/emonsteraction.cpp \
         characters/actions/emoveaction.cpp \
         characters/actions/emovearoundaction.cpp \
         characters/actions/emovepathaction.cpp \
@@ -203,6 +205,8 @@ SOURCES += \
         characters/gods/eextendedgod.cpp \
         characters/gods/egod.cpp \
         characters/gods/ehermes.cpp \
+        characters/monsters/ecalydonianboar.cpp \
+        characters/monsters/emonster.cpp \
         efontcolor.cpp \
         egamedir.cpp \
         eiteratesquare.cpp \
@@ -494,10 +498,12 @@ HEADERS += \
     characters/actions/eforce.h \
     characters/actions/egodaction.h \
     characters/actions/egodattackaction.h \
+    characters/actions/egodmonsteraction.h \
     characters/actions/egodvisitaction.h \
     characters/actions/egodworshippedaction.h \
     characters/actions/egroweraction.h \
     characters/actions/ehuntaction.h \
+    characters/actions/emonsteraction.h \
     characters/actions/emoveaction.h \
     characters/actions/emovearoundaction.h \
     characters/actions/emovepathaction.h \
@@ -571,6 +577,8 @@ HEADERS += \
     characters/gods/eextendedgod.h \
     characters/gods/egod.h \
     characters/gods/ehermes.h \
+    characters/monsters/ecalydonianboar.h \
+    characters/monsters/emonster.h \
     efontcolor.h \
     egamedir.h \
     eiteratesquare.h \
@@ -655,6 +663,7 @@ HEADERS += \
     offsets/Zeus_Hermes.h \
     offsets/Zeus_Poseidon.h \
     offsets/Zeus_Zeus.h \
+    offsets/zeus_calydonianboar.h \
     pointers/eobject.h \
     pointers/eobject.h \
     pointers/estdpointer.h \
