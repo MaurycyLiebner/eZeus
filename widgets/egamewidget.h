@@ -1,4 +1,4 @@
-#ifndef EGAMEWIDGET_H
+﻿#ifndef EGAMEWIDGET_H
 #define EGAMEWIDGET_H
 
 #include "ewidget.h"
@@ -128,6 +128,9 @@ private:
     void showMessage(eTile* const tile, const eMessage& msg);
     void showMessage(eTile* const tile, const eMessageType& msg);
 
+    void showTip(const std::string& tip);
+    void updateTipPositions();
+
     bool roadPath(std::vector<eOrientation>& path);
     bool bridgeTiles(eTile* const t, std::vector<eTile*>& tiles,
                      bool& rotated);
@@ -210,6 +213,13 @@ private:
     eCheckBox* mMenuSwitch = nullptr;
 
     eWorldWidget* mWW = nullptr;
+
+    struct eTip {
+        eWidget* fWid = nullptr;
+        int fLastFrame = 0;
+    };
+
+    std::deque<eTip> mTips;
 };
 
 #endif // EGAMEWIDGET_H

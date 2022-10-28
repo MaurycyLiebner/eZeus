@@ -25,6 +25,23 @@ close "Close"
 
 paused "Game Paused ('P' Key Continues)"
 
+aphrodite "Aphrodite"
+apollo "Apollo"
+ares "Ares"
+artemis "Artemis"
+athena "Athena"
+atlas "Atlas"
+demeter "Demeter"
+dionysus "Dionysus"
+hades "Hades"
+hephaestus "Hephaestus"
+hera "Hera"
+hermes "Hermes"
+poseidon "Poseidon"
+zeus "Zeus"
+
+overpowers " overpowers "
+
 goods "Goods"
 orders "Orders"
 buys "Buys"

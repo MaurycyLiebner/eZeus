@@ -84,6 +84,9 @@ void eGameWidget::setBoard(eGameBoard* const board) {
     mBoard->setMessageShower([this](eTile* const t, const eMessageType& msg) {
         showMessage(t, msg);
     });
+    mBoard->setTipShower([this](const std::string& tip) {
+        showTip(tip);
+    });
 }
 
 void eGameWidget::initialize() {
@@ -606,6 +609,34 @@ int eGameWidget::waterParkId() const {
 
 void eGameWidget::showMessage(eTile* const tile, const eMessageType& msg) {
     showMessage(tile, msg.fFull);
+}
+
+void eGameWidget::showTip(const std::string& tip) {
+    const auto msgb = new eFramedLabel(window());
+    msgb->setType(eFrameType::message);
+    msgb->setWrapWidth(width()/2);
+    msgb->setText(tip);
+    msgb->fitContent();
+    const int p = msgb->padding();
+    addWidget(msgb);
+    msgb->resize(msgb->width() + 2*p, msgb->height() + 2*p);
+    msgb->setX((width() - mGm->width() - msgb->width())/2);
+    eTip etip;
+    etip.fWid = msgb;
+    etip.fLastFrame = mFrame + 500;
+    mTips.push_front(etip);
+    updateTipPositions();
+}
+
+void eGameWidget::updateTipPositions() {
+    const int p = padding();
+    int y = 10*p;
+    for(const auto& tip : mTips) {
+        const auto w = tip.fWid;
+        w->setY(y);
+        const int wh = w->height();
+        y += wh + 2*p;
+    }
 }
 
 void eGameWidget::showMessage(eTile* const tile, const eMessage& msg) {

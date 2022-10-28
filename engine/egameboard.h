@@ -178,6 +178,10 @@ public:
     using eVisibilityChecker = std::function<bool(eTile*)>;
     void setVisibilityChecker(const eVisibilityChecker& vc);
 
+    using eTipShower = std::function<void(const std::string&)>;
+    void setTipShower(const eTipShower& ts);
+    void showTip(const std::string& tip);
+
     using eAction = std::function<void()>;
     bool ifVisible(eTile* const tile, const eAction& func) const;
 
@@ -264,6 +268,7 @@ private:
 
     eEventHandler mEventHandler;
     eVisibilityChecker mVisibilityChecker;
+    eTipShower mTipShower;
 
     std::string mPlayerName = "Ailuropoda";
 

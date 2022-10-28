@@ -5,6 +5,8 @@
 #include "edionysus.h"
 #include "ehermes.h"
 
+#include "elanguage.h"
+
 eGod::eGod(eGameBoard& board, const eGodType gt) :
     eCharacter(board, sGodToCharacterType(gt)),
     mType(gt) {
@@ -86,4 +88,98 @@ stdsptr<eGod> eGod::sCreateGod(const eGodType type, eGameBoard& board) {
     case eGodType::zeus:
         return e::make_shared<eZeus>(board);
     }
+}
+
+eGod::eTexPtr eGod::sGodMissile(const eGodType gt) {
+    switch(gt) {
+    case eGodType::aphrodite:
+        return &eDestructionTextures::fGodBlueMissile;
+    case eGodType::apollo:
+        return &eDestructionTextures::fGodOrangeArrow;
+    case eGodType::ares:
+        return &eDestructionTextures::fGodOrangeMissile;
+    case eGodType::artemis:
+        return &eDestructionTextures::fGodBlueArrow;
+    case eGodType::athena:
+        return &eDestructionTextures::fGodRedMissile;
+    case eGodType::atlas:
+        return &eDestructionTextures::fGodPinkMissile;
+    case eGodType::demeter:
+        return &eDestructionTextures::fGodGreenMissile;
+    case eGodType::dionysus:
+        return &eDestructionTextures::fGodPurpleMissile;
+    case eGodType::hades:
+        return &eDestructionTextures::fGodOrangeMissile;
+    case eGodType::hephaestus:
+        return &eDestructionTextures::fGodOrangeMissile;
+    case eGodType::hera:
+        return &eDestructionTextures::fGodRedMissile;
+    case eGodType::hermes:
+        return &eDestructionTextures::fGodBlueMissile;
+    case eGodType::poseidon:
+        return &eDestructionTextures::fGodBlueMissile;
+    case eGodType::zeus:
+        return &eDestructionTextures::fGodBlueMissile;
+    }
+    return nullptr;
+}
+
+eGodType eGod::sFightWinner(const eGodType g1, const eGodType g2) {
+    switch(g1) {
+    case eGodType::zeus: {
+        if(g2 == eGodType::hera) return eGodType::hera;
+        return eGodType::zeus;
+    } break;
+    case eGodType::aphrodite: {
+        if(g2 == eGodType::hephaestus) return eGodType::aphrodite;
+    } break;
+    default:
+        break;
+    }
+    if(rand() % 2) return g1;
+    else return g2;
+}
+
+int eGod::sGodAttackTime(const eGodType gt) {
+    switch(gt) {
+    case eGodType::apollo:
+    case eGodType::hades:
+        return 300;
+    default:
+        return 500;
+    }
+}
+
+std::string eGod::sGodName(const eGodType gt) {
+    switch(gt) {
+    case eGodType::aphrodite:
+        return eLanguage::text("aphrodite");
+    case eGodType::apollo:
+        return eLanguage::text("apollo");
+    case eGodType::ares:
+        return eLanguage::text("ares");
+    case eGodType::artemis:
+        return eLanguage::text("artemis");
+    case eGodType::athena:
+        return eLanguage::text("athena");
+    case eGodType::atlas:
+        return eLanguage::text("atlas");
+    case eGodType::demeter:
+        return eLanguage::text("demeter");
+    case eGodType::dionysus:
+        return eLanguage::text("dionysus");
+    case eGodType::hades:
+        return eLanguage::text("hades");
+    case eGodType::hephaestus:
+        return eLanguage::text("hephaestus");
+    case eGodType::hera:
+        return eLanguage::text("hera");
+    case eGodType::hermes:
+        return eLanguage::text("hermes");
+    case eGodType::poseidon:
+        return eLanguage::text("poseidon");
+    case eGodType::zeus:
+        return eLanguage::text("zeus");
+    }
+    return "";
 }

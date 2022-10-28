@@ -16,11 +16,15 @@ public:
 
     bool lookForAttack(const int dtime, int& time,
                        const int freq, const int range);
+
+    bool lookForGodAttack(const int dtime, int& time,
+                          const int freq, const int range);
 private:
     eGodAttackStage mStage{eGodAttackStage::none};
 
     int mLookForCurse = 0;
     int mLookForAttack = 0;
+    int mLookForGod = 0;
 };
 
 #endif // EGODATTACKACTION_H

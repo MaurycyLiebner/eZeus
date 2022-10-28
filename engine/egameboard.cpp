@@ -969,6 +969,14 @@ void eGameBoard::setVisibilityChecker(const eVisibilityChecker& vc) {
     mVisibilityChecker = vc;
 }
 
+void eGameBoard::setTipShower(const eTipShower& ts) {
+    mTipShower = ts;
+}
+
+void eGameBoard::showTip(const std::string& tip) {
+    if(mTipShower) mTipShower(tip);
+}
+
 bool eGameBoard::ifVisible(eTile* const tile, const eAction& func) const {
     if(!tile) return false;
     if(!mVisibilityChecker) return false;

@@ -77,6 +77,7 @@ void eGodAttackEvent::trigger() {
 
     const auto a = e::make_shared<eGodAttackAction>(
                        god.get(), []() {}, []() {});
+    god->setAttitude(eGodAttitude::hostile);
     god->setAction(a);
     a->increment(1);
     board.event(e, god->tile());

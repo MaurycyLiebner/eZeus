@@ -166,19 +166,20 @@ bool eGodAction::lookForBlessCurse(const int dtime,
                                    int& time, const int freq,
                                    const int range,
                                    const double bless) {
-    const auto act = [](eTile* const t) {
+    const auto bTarget = std::make_shared<stdptr<eBuilding>>();
+    const auto act = [bTarget](eTile* const t) {
         const auto null = static_cast<eTile*>(nullptr);
         const auto b = t->underBuilding();
         if(!b) return null;
         if(!eBuilding::sBlessable(b->type())) return null;
         if(std::abs(b->blessed()) > 0.01) return null;
+        *bTarget = b;
         return b->centerTile();
     };
 
-    const auto finishA = [bless](eTile* const target) {
-        const auto b = target->underBuilding();
-        if(!b) return;
-        b->setBlessed(bless);
+    const auto finishA = [bless, bTarget]() {
+        if(!bTarget) return;
+        (*bTarget)->setBlessed(bless);
     };
     eCharacterActionType at;
     eGodSound s;
@@ -203,7 +204,7 @@ bool eGodAction::lookForRangeAction(const int dtime,
                                     const eGodAct& act,
                                     const eTexPtr missileTex,
                                     const eGodSound missileSound,
-                                    const eFinishFunc& finishA) {
+                                    const eFunc& finishMissileA) {
     const auto c = character();
     const auto cat = c->actionType();
     const bool walking = cat == eCharacterActionType::walk;
@@ -234,12 +235,16 @@ bool eGodAction::lookForRangeAction(const int dtime,
             const auto tt = act(t);
             if(!tt) continue;
 
-            const auto finishAA = [finishA, tt]() {
-                finishA(tt);
+            const stdptr<eGodAction> tptr(this);
+            const auto finishAttackA = [tptr, this]() {
+                if(!tptr) return;
+                resumeAction();
             };
 
+            pauseAction();
             spawnGodMissile(at, missileTex, tt,
-                            missileSound, finishAA);
+                            missileSound, finishMissileA,
+                            finishAttackA);
             return true;
         }
     }
@@ -250,10 +255,11 @@ void eGodAction::spawnGodMissile(const eCharacterActionType at,
                                  const eTexPtr tex,
                                  eTile* const target,
                                  const eGodSound sound,
-                                 const eFunc& finishA) {
-    pauseAction();
+                                 const eFunc& finishMissileA,
+                                 const eFunc& finishAttackA) {
     const stdptr<eGodAction> tptr(this);
-    const auto finish = [tptr, tex, target, sound, finishA, this]() {
+    const auto finish = [tptr, this, tex, target, sound,
+                        finishMissileA, finishAttackA]() {
         if(!tptr) return;
         const auto c = character();
         const auto ct = c->tile();
@@ -267,14 +273,14 @@ void eGodAction::spawnGodMissile(const eCharacterActionType at,
                            ttx, tty, 0.5, 0);
         m->setTexture(tex);
 
-        m->setFinishAction(finishA);
+        m->setFinishAction(finishMissileA);
 
         auto& board = c->getBoard();
         board.ifVisible(c->tile(), [this, sound]() {
             eSounds::playGodSound(mType, sound);
         });
 
-        resumeAction();
+        if(finishAttackA) finishAttackA();
     };
     const auto c = character();
     c->setActionType(at);
@@ -297,19 +303,52 @@ void eGodAction::spawnGodMissile(const eCharacterActionType at,
         c->setOrientation(o);
     }
     const auto a = e::make_shared<eWaitAction>(c, finish, finish);
-    int time;
-    switch(type()) {
-    case eGodType::apollo:
-    case eGodType::hades:
-        time = 300;
-        break;
-    default:
-        time = 500;
-        break;
-    }
-
+    const int time = eGod::sGodAttackTime(type());
     a->setTime(time);
     setCurrentAction(a);
+}
+
+void eGodAction::spawnGodMultipleMissiles(const eCharacterActionType at,
+                                          const eTexPtr tex,
+                                          eTile* const target,
+                                          const eGodSound sound,
+                                          const eFunc& finishA,
+                                          const int nMissiles) {
+    if(nMissiles <= 0) {
+        finishA();
+        return;
+    }
+    eFunc finishAA;
+    if(nMissiles == 1) {
+        finishAA = finishA;
+    } else {
+        const stdptr<eGodAction> tptr(this);
+        finishAA = [tptr, this, at, tex, target, sound, finishA, nMissiles]() {
+            if(!tptr) return;
+            spawnGodMultipleMissiles(at, tex, target, sound, finishA, nMissiles - 1);
+        };
+    }
+    spawnGodMissile(at, tex, target, sound, nullptr, finishAA);
+}
+
+void eGodAction::spawnGodTimedMissiles(const eCharacterActionType at,
+                                       const eTexPtr tex,
+                                       eTile* const target,
+                                       const eGodSound sound,
+                                       const eFunc& finishA,
+                                       const int time) {
+    const int atime = eGod::sGodAttackTime(type());
+    const int n = std::round(double(time)/atime);
+    spawnGodMultipleMissiles(at, tex, target, sound, finishA, n);
+}
+
+void eGodAction::fightGod(eGod* const g, const eFunc& finishAttackA) {
+    const auto at = eCharacterActionType::fight;
+    const auto s = eGodSound::attack;
+    const auto tex = eGod::sGodMissile(type());
+
+    spawnGodTimedMissiles(at, tex, g->tile(),
+                          s, finishAttackA, 6000);
 }
 
 void eGodAction::goToTarget() {
@@ -350,18 +389,20 @@ void eGodAction::goToTarget() {
 }
 
 void eGodAction::pauseAction() {
-    mPausedAction = currentAction()->ref<eCharacterAction>();
+    const auto ca = currentAction();
+    if(!ca) return;
+    auto& p = mPausedActions.emplace_back();
+    p.fA = ca->ref<eCharacterAction>();
     const auto c = character();
-    mOrientation = c->orientation();
-
-    pause();
+    p.fAt = c->actionType();
+    p.fO = c->orientation();
 }
 
 void eGodAction::resumeAction() {
-    setCurrentAction(mPausedAction);
-    mPausedAction = nullptr;
+    if(mPausedActions.empty()) return;
+    const auto p = mPausedActions.back();
+    mPausedActions.pop_back();
+    setCurrentAction(p.fA);
     const auto c = character();
-    c->setOrientation(mOrientation);
-
-    resume();
+    c->setActionType(p.fAt);
 }

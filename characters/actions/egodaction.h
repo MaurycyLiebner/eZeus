@@ -8,6 +8,12 @@
 class eDestructionTextures;
 enum class eGodSound;
 
+struct ePausedAction {
+    eCharacterActionType fAt;
+    stdsptr<eCharacterAction> fA;
+    eOrientation fO;
+};
+
 class eGodAction : public eComplexAction {
 public:
     eGodAction(eCharacter* const c,
@@ -30,7 +36,6 @@ public:
 
     using eGodAct = std::function<eTile*(eTile* const t)>;
     using eTexPtr = eTextureCollection eDestructionTextures::*;
-    using eFinishFunc = std::function<void(eTile* const t)>;
     bool lookForRangeAction(const int dtime,
                             int& time, const int freq,
                             const int range,
@@ -38,7 +43,7 @@ public:
                             const eGodAct& act,
                             const eTexPtr missileTex,
                             const eGodSound missileSound,
-                            const eFinishFunc& finishA);
+                            const eFunc& finishMissileA);
     bool lookForBlessCurse(const int dtime, int& time,
                            const int freq, const int range,
                            const double bless);
@@ -47,24 +52,40 @@ public:
                          const eTexPtr tex,
                          eTile* const target,
                          const eGodSound sound,
-                         const eFunc& finishA);
+                         const eFunc& finishMissileA,
+                         const eFunc& finishAttackA = nullptr);
+    void spawnGodMultipleMissiles(
+            const eCharacterActionType at,
+            const eTexPtr tex,
+            eTile* const target,
+            const eGodSound sound,
+            const eFunc& finishA,
+            const int nMissiles);
+    void spawnGodTimedMissiles(
+            const eCharacterActionType at,
+            const eTexPtr tex,
+            eTile* const target,
+            const eGodSound sound,
+            const eFunc& finishA,
+            const int time);
+
+    void fightGod(eGod* const g, const eFunc& finishAttackA);
 
     void goToTarget();
 
     eGodType type() const { return mType; }
+
+    void pauseAction();
+    void resumeAction();
 private:
     void hermesRun(const bool appear);
 
     void playAppearSound();
     void playDisappearSound();
 
-    void pauseAction();
-    void resumeAction();
-
     const eGodType mType;
 
-    stdsptr<eCharacterAction> mPausedAction;
-    eOrientation mOrientation;
+    std::vector<ePausedAction> mPausedActions;
 };
 
 #endif // EGODACTION_H

@@ -50,6 +50,7 @@ public:
     void setOrientation(const eOrientation o);
 
     void setAction(const stdsptr<eCharacterAction>& a);
+    eCharacterAction* action() const { return mAction.get(); }
 
     virtual void setActionType(const eCharacterActionType t);
     int actionStartTime() const { return mActionStartTime; }

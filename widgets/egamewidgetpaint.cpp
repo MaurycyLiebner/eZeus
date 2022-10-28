@@ -168,6 +168,18 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     }
     mFrame++;
+
+    bool updateTips = false;
+    for(int i = 0; i < int(mTips.size()); i++) {
+        const auto& tip = mTips[i];
+        if(mFrame > tip.fLastFrame) {
+            tip.fWid->deleteLater();
+            mTips.erase(mTips.begin() + i);
+            updateTips = true;
+            i--;
+        }
+    }
+    if(updateTips) updateTipPositions();
     if(!mPaused && !mLocked && !mMenu) {
         mTime += mSpeed;
         mBoard->incTime(mSpeed);
