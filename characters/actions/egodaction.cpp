@@ -259,26 +259,37 @@ void eGodAction::spawnGodMissile(const eCharacterActionType at,
                                  const eFunc& finishAttackA) {
     const stdptr<eGodAction> tptr(this);
     const auto finish = [tptr, this, tex, target, sound,
-                        finishMissileA, finishAttackA]() {
+                        finishMissileA, finishAttackA, at]() {
         if(!tptr) return;
         const auto c = character();
+        const auto g = static_cast<eGod*>(c);
+        const auto gt = g->type();
         const auto ct = c->tile();
         const int tx = ct->x();
         const int ty = ct->y();
         const int ttx = target->x();
         const int tty = target->y();
         auto& brd = c->getBoard();
+        double h;
+        if(at == eCharacterActionType::fight) {
+            switch(gt) {
+            case eGodType::apollo:
+                h = -0.5;
+                break;
+            default:
+                h = 0;
+                break;
+            }
+        } else {
+            h = 0;
+        }
+
         const auto m = eMissile::sCreate<eGodMissile>(
-                           brd, tx, ty, 0.5,
-                           ttx, tty, 0.5, 0);
+                           brd, tx, ty, h,
+                           ttx, tty, h, 0);
         m->setTexture(tex);
 
         m->setFinishAction(finishMissileA);
-
-        auto& board = c->getBoard();
-        board.ifVisible(c->tile(), [this, sound]() {
-            eSounds::playGodSound(mType, sound);
-        });
 
         if(finishAttackA) finishAttackA();
     };
@@ -306,6 +317,11 @@ void eGodAction::spawnGodMissile(const eCharacterActionType at,
     const int time = eGod::sGodAttackTime(type());
     a->setTime(time);
     setCurrentAction(a);
+
+    auto& board = c->getBoard();
+    board.ifVisible(c->tile(), [this, sound]() {
+        eSounds::playGodSound(mType, sound);
+    });
 }
 
 void eGodAction::spawnGodMultipleMissiles(const eCharacterActionType at,
