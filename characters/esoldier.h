@@ -26,7 +26,7 @@ public:
     eSoldierBanner* banner() const;
     void setBanner(eSoldierBanner* const b);
 private:
-    eSoldierBanner* mBanner = nullptr;
+    stdptr<eSoldierBanner> mBanner;
 
     int mRange = 0;
     stdsptr<eSoldierAction> mAction;
