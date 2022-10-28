@@ -2,6 +2,16 @@
 
 #include "characters/echaracter.h"
 
+void eGodVisitAction::increment(const int by) {
+    const int lookForSoldierCheck = 1500;
+    const int lookForBlessCheck = 18000;
+
+    bool r = lookForBlessCurse(by, mLookForBless, lookForBlessCheck, 10, 1);
+    if(!r) lookForSoldierAttack(by, mLookForSoldierAttack, lookForSoldierCheck, 10);
+
+    eGodAction::increment(by);
+}
+
 bool eGodVisitAction::decide() {
     const auto c = character();
     switch(mStage) {

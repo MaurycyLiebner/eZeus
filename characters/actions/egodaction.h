@@ -48,6 +48,9 @@ public:
                            const int freq, const int range,
                            const double bless);
 
+    bool lookForSoldierAttack(const int dtime, int& time,
+                              const int freq, const int range);
+
     void spawnGodMissile(const eCharacterActionType at,
                          const eTexPtr tex,
                          eTile* const target,

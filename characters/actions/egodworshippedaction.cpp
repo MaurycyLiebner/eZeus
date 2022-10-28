@@ -2,8 +2,10 @@
 
 void eGodWorshippedAction::increment(const int by) {
     const int lookForBlessCheck = 6000;
+    const int lookForSoldierCheck = 1000;
 
-    lookForBlessCurse(by, mLookForBless, lookForBlessCheck, 10, 1);
+    bool r = lookForBlessCurse(by, mLookForBless, lookForBlessCheck, 10, 1);
+    if(!r) lookForSoldierAttack(by, mLookForSoldierAttack, lookForSoldierCheck, 10);
 
     eGodAction::increment(by);
 }

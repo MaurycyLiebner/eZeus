@@ -17,6 +17,7 @@ private:
     eGodWorshippedStage mStage{eGodWorshippedStage::none};
 
     int mLookForBless = 0;
+    int mLookForSoldierAttack = 0;
 };
 
 #endif // EGODWORSHIPPEDACTION_H

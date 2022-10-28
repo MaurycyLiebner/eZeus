@@ -42,10 +42,9 @@ bool eGodAttackAction::lookForAttack(const int dtime,
                 if(c == cc.get()) continue;
                 bool isGod = false;
                 eGod::sCharacterToGodType(cc->type(), &isGod);
-                if(!isGod) {
-                    *charTarget = cc;
-                    return t;
-                }
+                if(isGod) continue;
+                *charTarget = cc;
+                return t;
             }
             return null;
         }

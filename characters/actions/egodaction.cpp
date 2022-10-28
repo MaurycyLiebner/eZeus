@@ -197,6 +197,44 @@ bool eGodAction::lookForBlessCurse(const int dtime,
                               at, act, tex, s, finishA);
 }
 
+bool eGodAction::lookForSoldierAttack(const int dtime, int& time,
+                                      const int freq, const int range) {
+    const auto c = character();
+    const auto charTarget = std::make_shared<stdptr<eCharacter>>();
+    const auto act = [c, charTarget](eTile* const t) {
+        const auto null = static_cast<eTile*>(nullptr);
+        const auto& chars = t->characters();
+        if(chars.empty()) return null;
+        for(const auto& cc : chars) {
+            if(c == cc.get()) continue;
+            bool isGod = false;
+            eGod::sCharacterToGodType(cc->type(), &isGod);
+            if(isGod) continue;
+            const bool is = cc->isSoldier();
+            if(!is) continue;
+            const int pid = cc->playerId();
+            if(pid == 1) continue;
+            *charTarget = cc;
+            return t;
+        }
+        return null;
+    };
+
+    const auto cptr = stdptr<eCharacter>(c);
+    const auto finishA = [cptr, charTarget]() {
+        if(!cptr) return;
+        if(*charTarget) {
+            (*charTarget)->killWithCorpse();
+        }
+    };
+    const auto at = eCharacterActionType::fight;
+    const auto s = eGodSound::attack;
+    const auto tex = eGod::sGodMissile(type());
+
+    return lookForRangeAction(dtime, time, freq, range,
+                              at, act, tex, s, finishA);
+}
+
 bool eGodAction::lookForRangeAction(const int dtime,
                                     int& time, const int freq,
                                     const int range,
