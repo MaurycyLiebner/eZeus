@@ -6,7 +6,7 @@
 #include "characters/monsters/emonster.h"
 
 enum class eMonsterAttackStage {
-    none, wait, attack
+    none, wait, attack, goBack
 };
 
 class eMonsterAction : public eGodMonsterAction {
@@ -18,9 +18,14 @@ public:
     bool decide();
 
     void goToTarget();
+    void goBack();
 private:
+    void destroyBuilding(eBuilding* const b);
+    eTile* closestEmptySpace(const int rdx, const int rdy) const;
     void randomPlaceOnBoard();
+    std::function<bool(eTile* const)> obsticleHandler();
 
+    eTile* mHomeTile = nullptr;
     eMonsterAttackStage mStage{eMonsterAttackStage::none};
     const eMonsterType mType;
 };

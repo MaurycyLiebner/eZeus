@@ -78,6 +78,9 @@ eEventButton::eEventButton(const eEvent e,
     case eEvent::zeusInvasion:
         coll = &texs.fGodAttackAlert;
         break;
+    case eEvent::calydonianBoarInvasion:
+        coll = &texs.fMonsterAltert;
+        break;
     default:
         return;
     }

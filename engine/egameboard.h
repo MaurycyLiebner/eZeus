@@ -25,6 +25,7 @@
 #include "fileIO/estreams.h"
 
 #include "characters/gods/egod.h"
+#include "characters/monsters/emonster.h"
 
 class eGameEventCycle;
 
@@ -87,6 +88,8 @@ enum class eEvent {
 
     zeusVisit,
     zeusInvasion,
+
+    calydonianBoarInvasion
 };
 
 enum class eGames {
@@ -238,6 +241,7 @@ public:
 
     void setFriendlyGods(const std::vector<eGodType>& gods);
     void setHostileGods(const std::vector<eGodType>& gods);
+    void setMonsters(const std::vector<eMonsterType>& monsters);
 
     void read(eReadStream& src);
     void write(eWriteStream& dst) const;
@@ -358,6 +362,7 @@ private:
 
     std::vector<stdsptr<eGameEventCycle>> mGameEvents;
 
+    std::vector<eMonsterType> mMonsters;
     std::vector<eGodType> mFriendlyGods;
     std::vector<eGodType> mHostileGods;
 };

@@ -157,6 +157,7 @@ public:
 
     virtual int provide(const eProvide p, const int n);
 
+    static bool sWalkableBuilding(const eBuildingType t);
     static bool sFlatBuilding(const eBuildingType bt);
     static bool sSanctuaryBuilding(const eBuildingType bt);
     static bool sAestheticsBuilding(const eBuildingType bt);

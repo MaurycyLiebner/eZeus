@@ -49,6 +49,7 @@
 #include "gameEvents/egameeventcycle.h"
 #include "gameEvents/egodvisitevent.h"
 #include "gameEvents/egodattackevent.h"
+#include "gameEvents/emonsterattackevent.h"
 
 #include "evectorhelpers.h"
 
@@ -246,6 +247,18 @@ void eGameBoard::setHostileGods(const std::vector<eGodType>& gods) {
     eDate date = mDate;
     const int period = 900;
     date += period;
+    const auto ec = e::make_shared<eGameEventCycle>(
+                        e, date, period, 10000, *this);
+    addGameEvent(ec);
+}
+
+void eGameBoard::setMonsters(const std::vector<eMonsterType>& monsters) {
+    mMonsters = monsters;
+
+    const auto e = e::make_shared<eMonsterAttackEvent>(*this);
+    e->setTypes(monsters);
+    const int period = 150;
+    const auto date = mDate + period;
     const auto ec = e::make_shared<eGameEventCycle>(
                         e, date, period, 10000, *this);
     addGameEvent(ec);

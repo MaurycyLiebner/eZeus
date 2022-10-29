@@ -53,6 +53,7 @@ void eMoveToAction::start(const eTileFinal& final,
         const auto a  = e::make_shared<eMovePathAction>(
                             c, path, walkable,
                             failFunc, finishAction);
+        a->setObsticleHandler(mObstHandler);
         a->setMaxDistance(mMaxWalkDistance);
         setCurrentAction(a);
     };
@@ -110,4 +111,8 @@ void eMoveToAction::start(const eBuildingType final,
         return t->underBuildingType() == final;
     };
     start(finalFunc, walkable);
+}
+
+void eMoveToAction::setObsticleHandler(const eObsticleHandler& oh) {
+    mObstHandler = oh;
 }

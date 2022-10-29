@@ -73,6 +73,12 @@ eDate& eDate::operator+=(const int d) {
     return *this;
 }
 
+eDate eDate::operator+(const int d) const {
+    auto date = *this;
+    date += d;
+    return date;
+}
+
 void eDate::write(eWriteStream& dst) const {
     dst << mDay;
     dst << mMonth;

@@ -263,6 +263,7 @@ SOURCES += \
         gameEvents/egameeventcycle.cpp \
         gameEvents/egodattackevent.cpp \
         gameEvents/egodvisitevent.cpp \
+        gameEvents/emonsterattackevent.cpp \
         main.cpp \
         missiles/earrowmissile.cpp \
         missiles/egodmissile.cpp \
@@ -641,6 +642,7 @@ HEADERS += \
     gameEvents/egameeventcycle.h \
     gameEvents/egodattackevent.h \
     gameEvents/egodvisitevent.h \
+    gameEvents/emonsterattackevent.h \
     missiles/earrowmissile.h \
     missiles/egodmissile.h \
     missiles/emissile.h \

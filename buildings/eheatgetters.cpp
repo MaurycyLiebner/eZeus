@@ -88,6 +88,12 @@ eHeat eHeatGetters::housing(const eBuildingType type) {
     switch(type) {
     case eBuildingType::commonHouse: return {10, 5};
     case eBuildingType::eliteHousing: return {10, 5};
+    case eBuildingType::ruins:
+    case eBuildingType::wall:
+    case eBuildingType::gatehouse:
+    case eBuildingType::tower:
+    case eBuildingType::road:
+        return {0, 0};
     default: return {2, 5};
     }
 }
@@ -100,6 +106,12 @@ eHeat eHeatGetters::industry(const eBuildingType type) {
     case eBuildingType::foundry: return {10, 5};
     case eBuildingType::sculptureStudio: return {10, 5};
     case eBuildingType::armory: return {10, 5};
+    case eBuildingType::ruins:
+    case eBuildingType::wall:
+    case eBuildingType::gatehouse:
+    case eBuildingType::tower:
+    case eBuildingType::road:
+        return {0, 0};
     default: return {2, 5};
     }
 }
@@ -116,6 +128,12 @@ eHeat eHeatGetters::farming(const eBuildingType type) {
     case eBuildingType::fishery: return {10, 5};
     case eBuildingType::huntingLodge: return {10, 5};
     case eBuildingType::orangeTendersLodge: return {10, 5};
+    case eBuildingType::ruins:
+    case eBuildingType::wall:
+    case eBuildingType::gatehouse:
+    case eBuildingType::tower:
+    case eBuildingType::road:
+        return {0, 0};
     default: return {2, 5};
     }
 }
@@ -125,6 +143,12 @@ eHeat eHeatGetters::storage(const eBuildingType type) {
     case eBuildingType::granary: return {10, 5};
     case eBuildingType::warehouse: return {10, 5};
     case eBuildingType::tradePost: return {10, 5};
+    case eBuildingType::ruins:
+    case eBuildingType::wall:
+    case eBuildingType::gatehouse:
+    case eBuildingType::tower:
+    case eBuildingType::road:
+        return {0, 0};
     default: return {2, 5};
     }
 }
@@ -137,6 +161,12 @@ eHeat eHeatGetters::culture(const eBuildingType type) {
     case eBuildingType::dramaSchool: return {10, 5};
     case eBuildingType::theater: return {10, 5};
     case eBuildingType::stadium: return {10, 5};
+    case eBuildingType::ruins:
+    case eBuildingType::wall:
+    case eBuildingType::gatehouse:
+    case eBuildingType::tower:
+    case eBuildingType::road:
+        return {0, 0};
     default: return {2, 5};
     }
 }
@@ -192,10 +222,26 @@ eHeatGetters::eHeatGetter eHeatGetters::godLeaning(const eGodType gt) {
 
 eHeat eHeatGetters::empty(const eBuildingType type) {
     (void)type;
-    return {-2, 5};
+    switch(type) {
+    case eBuildingType::ruins:
+    case eBuildingType::wall:
+    case eBuildingType::gatehouse:
+    case eBuildingType::tower:
+    case eBuildingType::road:
+        return {0, 0};
+    default: return {-2, 5};
+    }
 }
 
 eHeat eHeatGetters::any(const eBuildingType type) {
     (void)type;
-    return {2, 5};
+    switch(type) {
+    case eBuildingType::ruins:
+    case eBuildingType::wall:
+    case eBuildingType::gatehouse:
+    case eBuildingType::tower:
+    case eBuildingType::road:
+        return {0, 0};
+    default: return {2, 5};
+    }
 }

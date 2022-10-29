@@ -44,6 +44,7 @@ public:
     bool operator!=(const eDate& other) const;
     eDate& operator++();
     eDate& operator+=(const int d);
+    eDate operator+(const int d) const;
 
     void write(eWriteStream& dst) const;
     void read(eReadStream& src);

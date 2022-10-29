@@ -18,6 +18,9 @@ public:
 
     bool walkable(eTileBase* const tile) const;
 
+    using eObsticleHandler = std::function<bool(eTile* const)>;
+    void setObsticleHandler(const eObsticleHandler& oh);
+
     void increment(const int by);
 protected:
     bool nextTurn();
@@ -35,6 +38,8 @@ private:
     double mStartY;
     double mTargetX;
     double mTargetY;
+
+    eObsticleHandler mObstHandler;
 };
 
 #endif // EMOVEACTION_H

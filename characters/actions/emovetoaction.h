@@ -50,6 +50,9 @@ public:
     void setMaxWalkDistance(const int d)
     { mMaxWalkDistance = d; };
 
+    using eObsticleHandler = std::function<bool(eTile* const)>;
+    void setObsticleHandler(const eObsticleHandler& oh);
+
     int pathLength() const
     { return mPathLength; }
 private:
@@ -61,6 +64,7 @@ private:
     int mMaxFindDistance = 10000;
     int mMaxWalkDistance = 10000;
     int mPathLength = 0;
+    eObsticleHandler mObstHandler;
 };
 
 #endif // EMOVETOACTION_H

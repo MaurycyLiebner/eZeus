@@ -19,6 +19,10 @@ bool eMoveAction::walkable(eTileBase* const tile) const {
     return mTileWalkable(tile);
 }
 
+void eMoveAction::setObsticleHandler(const eObsticleHandler& oh) {
+    mObstHandler = oh;
+}
+
 void orientationToTargetCoords(const eOrientation o,
                                double& targetX,
                                double& targetY) {
@@ -120,9 +124,16 @@ bool eMoveAction::nextTurn() {
     c->setOrientation(turn);
     const auto t = c->tile();
     mTargetTile = t->neighbour<eTile>(turn);
-    if(!mTargetTile || !mTileWalkable(mTargetTile)) {
+    if(!mTargetTile) {
         setState(eCharacterActionState::failed);
         return false;
+    }
+    if(!mTileWalkable(mTargetTile)) {
+        if(mObstHandler && mObstHandler(mTargetTile)) {
+        } else {
+            setState(eCharacterActionState::failed);
+            return false;
+        }
     }
     mStartX = c->x();
     mStartY = c->y();

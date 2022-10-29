@@ -21,5 +21,4 @@ private:
     int mWalkedDistance = 0;
 };
 
-
 #endif // EMOVEPATHACTION_H
