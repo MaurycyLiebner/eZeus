@@ -154,6 +154,36 @@ void eMapGenerator::generateTerrain(const eMGS& settings) {
             }
         }
     }
+
+    for(int x = 0; x < w; x++) {
+        for(int y = 0; y < h; y++) {
+            const auto tile = mBoard.dtile(x, y);
+            const int alt = tile->altitude();
+            const auto tl = tile->topLeft<eTile>();
+            const auto tr = tile->topRight<eTile>();
+            const auto br = tile->bottomRight<eTile>();
+            const auto bl = tile->bottomLeft<eTile>();
+
+            const int tla = tl ? tl->altitude() : alt;
+            const int tra = tr ? tr->altitude() : alt;
+            const int bra = br ? br->altitude() : alt;
+            const int bla = bl ? bl->altitude() : alt;
+
+            double avrg = 0;
+            avrg += tla;
+            avrg += tra;
+            avrg += bra;
+            avrg += bla;
+            avrg *= 0.25;
+            const int iavrg = std::round(avrg);
+            int ndiff = 0;
+            if(tla != alt) ndiff++;
+            if(tra != alt) ndiff++;
+            if(bra != alt) ndiff++;
+            if(bla != alt) ndiff++;
+            if(ndiff > 2) tile->setAltitude(iavrg);
+        }
+    }
 }
 
 void eMapGenerator::generateStonesResource(
