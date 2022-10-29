@@ -19,6 +19,18 @@ eMonsterAction::eMonsterAction(eCharacter* const c,
     eGodMonsterAction(c, failAction, finishAction),
     mType(eMonster::sCharacterToMonsterType(c->type())) {}
 
+void eMonsterAction::increment(const int by) {
+    const auto c = character();
+    const auto at = c->actionType();
+    if(at == eCharacterActionType::walk) {
+        const int lookForAttackCheck = 8000;
+
+        lookForAttack(by, mLookForAttack, lookForAttackCheck, 10);
+    }
+
+    eGodMonsterAction::increment(by);
+}
+
 bool eMonsterAction::decide() {
     const auto c = character();
     switch(mStage) {
@@ -154,4 +166,104 @@ void eMonsterAction::destroyBuilding(eBuilding* const b) {
     };
     spawnMultipleMissiles(at, tex, 500, b->centerTile(),
                           playSound, finishAttackA, 3);
+}
+
+bool eMonsterAction::lookForAttack(const int dtime,
+                                   int& time, const int freq,
+                                   const int range) {
+    const auto c = character();
+    const auto charTarget = std::make_shared<stdptr<eCharacter>>();
+    const auto bTarget = std::make_shared<stdptr<eBuilding>>();
+    const auto act = [c, charTarget, bTarget](eTile* const t) {
+        const auto null = static_cast<eTile*>(nullptr);
+        if(c->tile() == t) return null;
+        const auto b = t->underBuilding();
+        if(b && eBuilding::sAttackable(b->type())) {
+            *bTarget = b;
+            return b->centerTile();
+        } else {
+            const auto& chars = t->characters();
+            if(chars.empty()) return null;
+            for(const auto& cc : chars) {
+                if(c == cc.get()) continue;
+                bool isGod = false;
+                eGod::sCharacterToGodType(cc->type(), &isGod);
+                if(isGod) continue;
+                *charTarget = cc;
+                return t;
+            }
+            return null;
+        }
+    };
+
+    const auto cptr = stdptr<eCharacter>(c);
+    const auto finishA = [cptr, charTarget, bTarget]() {
+        if(!cptr) return;
+        if(*bTarget) {
+            (*bTarget)->collapse();
+            eSounds::playCollapseSound();
+        } else if(*charTarget) {
+            (*charTarget)->killWithCorpse();
+        }
+    };
+    const auto at = eCharacterActionType::fight;
+    const auto playSound = []() {};
+    const auto tex = &eDestructionTextures::fMonsterMissile;
+
+    return lookForRangeAction(dtime, time, freq, range,
+                              at, act, tex, playSound, finishA);
+}
+
+bool eMonsterAction::lookForRangeAction(const int dtime,
+                                        int& time, const int freq,
+                                        const int range,
+                                        const eCharacterActionType at,
+                                        const eMonsterAct& act,
+                                        const eTexPtr missileTex,
+                                        const eFunc& missileSound,
+                                        const eFunc& finishMissileA) {
+    const auto c = character();
+    const auto cat = c->actionType();
+    const bool walking = cat == eCharacterActionType::walk;
+    if(!walking) return false;
+    auto& brd = c->getBoard();
+    const auto ct = c->tile();
+    if(!ct) return false;
+    const int tx = ct->x();
+    const int ty = ct->y();
+
+    time += dtime;
+    if(time > freq) {
+        time -= freq;
+        std::vector<eTile*> tiles;
+        const int rr = 2*range + 1;
+        tiles.reserve(rr*rr);
+        for(int i = -range; i <= range; i++) {
+            for(int j = -range; j <= range; j++) {
+                const int ttx = tx + i;
+                const int tty = ty + j;
+                const auto t = brd.tile(ttx, tty);
+                if(!t) continue;
+                tiles.push_back(t);
+            }
+        }
+        std::random_shuffle(tiles.begin(), tiles.end());
+        for(const auto t : tiles) {
+            const auto tt = act(t);
+            if(!tt) continue;
+
+            const stdptr<eMonsterAction> tptr(this);
+            const auto finishAttackA = [tptr, this]() {
+                if(!tptr) return;
+                resumeAction();
+            };
+
+            pauseAction();
+            spawnMissile(at, missileTex, 500, tt,
+                         missileSound, finishMissileA,
+                         finishAttackA);
+            return true;
+        }
+    }
+    return false;
 }
