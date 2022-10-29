@@ -149,6 +149,14 @@ bool eCharacter::isSoldier() const {
 
 bool eCharacter::defend(const double a) {
     if(dead()) return true;
+
+    bool isMonster = false;
+    eMonster::sCharacterToMonsterType(type(), &isMonster);
+    if(isMonster) return false;;
+    bool isGod = false;
+    eGod::sCharacterToGodType(type(), &isGod);
+    if(isGod) return false;
+
     setHP(hp() - a);
     if(hp() <= 0) {
         killWithCorpse();

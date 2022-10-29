@@ -43,6 +43,9 @@ bool eGodAttackAction::lookForAttack(const int dtime,
                 bool isGod = false;
                 eGod::sCharacterToGodType(cc->type(), &isGod);
                 if(isGod) continue;
+                bool isMonster = false;
+                eMonster::sCharacterToMonsterType(cc->type(), &isMonster);
+                if(isMonster) continue;
                 *charTarget = cc;
                 return t;
             }

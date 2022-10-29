@@ -30,7 +30,8 @@ eTilePair tileGetter(ePathBoard& brd,
 bool ePathFinder::findPath(eTileBase* const start,
                            const int maxDist,
                            const bool onlyDiagonal,
-                           const int srcW, const int srcH) {
+                           const int srcW, const int srcH,
+                           const eTileDistance& distance) {
     if(!start) return false;
     if(mFinish(start)) return true;
 
@@ -70,7 +71,8 @@ bool ePathFinder::findPath(eTileBase* const start,
                 if(onlyDiagonal && notDiagonal) continue;
                 const auto tt = tileGetter(brd, tile, x, y);
                 if(!tt.first || !tt.second) continue;
-                const int newDist = dist + 1;
+                const int dinc = distance ? distance(tt.first) : 1;
+                const int newDist = dist + dinc;
                 if(mFinish(tt.first)) {
                     *tt.second = newDist;
                     const int ttx = tt.first->x();

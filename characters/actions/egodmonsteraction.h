@@ -10,6 +10,8 @@
 
 #include "textures/egametextures.h"
 
+#include "ewalkablehelpers.h"
+
 struct ePausedAction {
     eCharacterActionType fAt;
     stdsptr<eCharacterAction> fA;
@@ -25,9 +27,15 @@ public:
                     const int time = 5000);
     using eFindFailFunc = std::function<void(eTile*)>;
     using eObsticleHandler = std::function<bool(eTile* const)>;
+    using eTileDistance = std::function<int(eTileBase* const)>;
+    using eTileWalkable = std::function<bool(eTileBase* const)>;
     void goToTarget(const eHeatGetters::eHeatGetter hg,
                     const eFindFailFunc& findFailFunc,
-                    const eObsticleHandler& oh = nullptr);
+                    const eObsticleHandler& oh = nullptr,
+                    const eTileDistance& tileDistance = nullptr,
+                    const eTileWalkable& pathFindWalkable =
+                        eWalkableHelpers::sDefaultWalkable,
+                    const eTileWalkable& moveWalkable = nullptr);
 
     using eTexPtr = eTextureCollection eDestructionTextures::*;
     using eFunc = std::function<void()>;

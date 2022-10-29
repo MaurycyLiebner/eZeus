@@ -51,12 +51,18 @@ void eGodMonsterAction::moveAround(const eAction& finishAct, const int time) {
 
 void eGodMonsterAction::goToTarget(const eHeatGetters::eHeatGetter hg,
                                    const eFindFailFunc& findFailFunc,
-                                   const eObsticleHandler& oh) {
+                                   const eObsticleHandler& oh,
+                                   const eTileDistance& tileDistance,
+                                   const eTileWalkable& pathFindWalkable,
+                                   const eTileWalkable& moveWalkable) {
     const auto c = character();
     const stdptr<eGodMonsterAction> tptr(this);
     const stdptr<eCharacter> cptr(c);
     const auto hmFinish = [tptr, this, cptr,
-                          c, findFailFunc, oh](eHeatMap& map) {
+                          c, findFailFunc, oh,
+                          tileDistance,
+                          pathFindWalkable,
+                          moveWalkable](eHeatMap& map) {
         if(!tptr || !cptr) return;
         eHeatMapDivisor divisor(map);
         divisor.divide(10);
@@ -72,8 +78,9 @@ void eGodMonsterAction::goToTarget(const eHeatGetters::eHeatGetter hg,
             const auto a = e::make_shared<eMoveToAction>(
                                c, ff, [](){});
             a->setObsticleHandler(oh);
+            a->setTileDistance(tileDistance);
             a->setFindFailAction(ff);
-            a->start(tile);
+            a->start(tile, pathFindWalkable, moveWalkable);
             setCurrentAction(a);
             c->setActionType(eCharacterActionType::walk);
         } else {
@@ -112,6 +119,9 @@ void eGodMonsterAction::spawnMissile(const eCharacterActionType at,
             case eCharacterType::apollo:
                 h = -0.5;
                 break;
+            case eCharacterType::calydonianBoar:
+                h = -1;
+                break;
             default:
                 h = 0;
                 break;
@@ -149,11 +159,12 @@ void eGodMonsterAction::spawnMissile(const eCharacterActionType at,
         const auto o = static_cast<eOrientation>(oi);
         c->setOrientation(o);
     }
+
+    if(playSound) playSound();
+
     const auto a = e::make_shared<eWaitAction>(c, finish, finish);
     a->setTime(attackTime);
     setCurrentAction(a);
-
-    if(playSound) playSound();
 }
 
 void eGodMonsterAction::spawnMultipleMissiles(

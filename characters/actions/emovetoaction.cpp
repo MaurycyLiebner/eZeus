@@ -10,14 +10,24 @@
 #include "ewaitaction.h"
 
 void eMoveToAction::start(const eTileFinal& final,
-                          eTileWalkable walkable) {
+                          eTileWalkable pathFindWalkable,
+                          eTileWalkable moveWalkable) {
     const auto c = character();
     const auto t = c->tile();
     auto& brd = c->getBoard();
     auto& tp = brd.threadPool();
 
     if(const auto b = t->underBuilding()) {
-        walkable = eWalkableHelpers::sBuildingWalkable(b, walkable);
+        pathFindWalkable = eWalkableHelpers::sBuildingWalkable(
+                               b, pathFindWalkable);
+        if(moveWalkable) {
+            moveWalkable = eWalkableHelpers::sBuildingWalkable(
+                               b, moveWalkable);
+        }
+    }
+
+    if(!moveWalkable) {
+        moveWalkable = pathFindWalkable;
     }
 
     const int tx = t->x();
@@ -32,7 +42,7 @@ void eMoveToAction::start(const eTileFinal& final,
         if(!tptr) return;
         setState(eCharacterActionState::failed);
     };
-    const auto finishFunc = [tptr, this, c, failFunc, walkable](
+    const auto finishFunc = [tptr, this, c, failFunc, moveWalkable](
                             std::vector<eOrientation> path) {
         if(!tptr) return;
         const auto finishAction = [tptr, this]() {
@@ -51,7 +61,7 @@ void eMoveToAction::start(const eTileFinal& final,
         if(mFoundAction) mFoundAction();
         if(!tptr) return;
         const auto a  = e::make_shared<eMovePathAction>(
-                            c, path, walkable,
+                            c, path, moveWalkable,
                             failFunc, finishAction);
         a->setObsticleHandler(mObstHandler);
         a->setMaxDistance(mMaxWalkDistance);
@@ -65,7 +75,7 @@ void eMoveToAction::start(const eTileFinal& final,
         setState(eCharacterActionState::failed);
     };
 
-    const auto pft = new ePathFindTask(startTile, walkable,
+    const auto pft = new ePathFindTask(startTile, pathFindWalkable,
                                        final, finishFunc,
                                        findFailFunc, mDiagonalOnly,
                                        mMaxFindDistance);
@@ -79,40 +89,52 @@ void eMoveToAction::start(const eTileFinal& final,
 }
 
 void eMoveToAction::start(eTile* const final,
-                          const eTileWalkable& walkable) {
+                          const eTileWalkable& pathFindWalkable,
+                          const eTileWalkable& moveWalkable) {
     const int tx = final->x();
     const int ty = final->y();
     const auto finalFunc = [tx, ty](eTileBase* const t) {
         return t->x() == tx && t->y() == ty;
     };
-    start(finalFunc, walkable);
+    start(finalFunc, pathFindWalkable, moveWalkable);
 }
 
 void eMoveToAction::start(const SDL_Rect& rect,
-                          const eTileWalkable& walkable) {
+                          eTileWalkable pathFindWalkable,
+                          eTileWalkable moveWalkable) {
     const auto finalFunc = [rect](eTileBase* const t) {
         const SDL_Point p{t->x(), t->y()};
         return SDL_PointInRect(&p, &rect);
     };
-    const auto walkable2 = eWalkableHelpers::sBuildingWalkable(
-                              rect, walkable);
-    start(finalFunc, walkable2);
+    pathFindWalkable = eWalkableHelpers::sBuildingWalkable(
+                              rect, pathFindWalkable);
+    if(moveWalkable) {
+        moveWalkable = eWalkableHelpers::sBuildingWalkable(
+                                  rect, moveWalkable);
+    }
+    start(finalFunc, pathFindWalkable, moveWalkable);
 }
 
 void eMoveToAction::start(eBuilding* const final,
-                          const eTileWalkable& walkable) {
+                          const eTileWalkable& pathFindWalkable,
+                          const eTileWalkable& moveWalkable) {
     const auto rect = final->tileRect();
-    return start(rect, walkable);
+    return start(rect, pathFindWalkable, moveWalkable);
 }
 
 void eMoveToAction::start(const eBuildingType final,
-                          const eTileWalkable& walkable) {
+                          const eTileWalkable& pathFindWalkable,
+                          const eTileWalkable& moveWalkable) {
     const auto finalFunc = [final](eTileBase* const t) {
         return t->underBuildingType() == final;
     };
-    start(finalFunc, walkable);
+    start(finalFunc, pathFindWalkable, moveWalkable);
 }
 
 void eMoveToAction::setObsticleHandler(const eObsticleHandler& oh) {
     mObstHandler = oh;
+}
+
+void eMoveToAction::setTileDistance(const eTileDistance& dist) {
+    mDistance = dist;
 }

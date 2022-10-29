@@ -38,10 +38,12 @@ public:
     ePathFinder(const eTileWalkable& walkable,
                 const eTileFinish& finish);
 
+    using eTileDistance = std::function<int(eTileBase* const)>;
     bool findPath(eTileBase* const startTile,
                   const int maxDist,
                   const bool onlyDiagonal,
-                  const int srcW, const int srcH);
+                  const int srcW, const int srcH,
+                  const eTileDistance& distance = nullptr);
     bool extractPath(std::vector<eOrientation>& path);
     bool extractPath(std::vector<std::pair<int, int>>& path);
     bool extractPath(std::vector<eTile*>& path,

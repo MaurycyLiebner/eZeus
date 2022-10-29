@@ -1,20 +1,21 @@
 #include "epathdatafindtask.h"
 
-ePathDataFindTask::ePathDataFindTask(
-        const eTileGetter& startTile,
+ePathDataFindTask::ePathDataFindTask(const eTileGetter& startTile,
         const eTileChecker& tileWalkable,
         const eTileChecker& endTile,
         const eFinishFunc& finishFunc,
         const eFailFunc& failFunc,
         const bool onlyDiagonal,
-        const int range) :
+        const int range,
+        const eTileDistance& distance) :
     mStartTile(startTile),
     mTileWalkable(tileWalkable),
     mEndTile(endTile),
     mFinish(finishFunc),
     mFailFunc(failFunc),
     mOnlyDiagonal(onlyDiagonal),
-    mRange(range) {}
+    mRange(range),
+    mDistance(distance) {}
 
 void ePathDataFindTask::run(eThreadBoard& data) {
     const auto t = mStartTile(data);
@@ -26,7 +27,8 @@ void ePathDataFindTask::run(eThreadBoard& data) {
         return mEndTile(static_cast<eThreadTile*>(t));
     });
     const bool r = pf0.findPath(t, mRange, mOnlyDiagonal,
-                                data.width(), data.height());
+                                data.width(), data.height(),
+                                mDistance);
     if(r) {
         mR = pf0.extractData(mData);
     } else {

@@ -14,20 +14,25 @@ public:
     using eTileWalkable = std::function<bool(eTileBase* const)>;
     using eTileFinal = std::function<bool(eThreadTile* const)>;
     void start(const eTileFinal& final,
-               eTileWalkable walkable =
-                   eWalkableHelpers::sDefaultWalkable);
+               eTileWalkable pathFindWalkable =
+                   eWalkableHelpers::sDefaultWalkable,
+               eTileWalkable moveWalkable = nullptr);
     void start(eTile* const final,
-               const eTileWalkable& walkable =
-                    eWalkableHelpers::sDefaultWalkable);
+               const eTileWalkable& pathFindWalkable =
+                    eWalkableHelpers::sDefaultWalkable,
+               const eTileWalkable& moveWalkable = nullptr);
     void start(const SDL_Rect& rect,
-               const eTileWalkable& walkable =
-                    eWalkableHelpers::sDefaultWalkable);
+               eTileWalkable pathFindWalkable =
+                    eWalkableHelpers::sDefaultWalkable,
+               eTileWalkable moveWalkable = nullptr);
     void start(eBuilding* const final,
-               const eTileWalkable& walkable =
-                    eWalkableHelpers::sDefaultWalkable);
+               const eTileWalkable& pathFindWalkable =
+                    eWalkableHelpers::sDefaultWalkable,
+               const eTileWalkable& moveWalkable = nullptr);
     void start(const eBuildingType final,
-               const eTileWalkable& walkable =
-                    eWalkableHelpers::sDefaultWalkable);
+               const eTileWalkable& pathFindWalkable =
+                    eWalkableHelpers::sDefaultWalkable,
+               const eTileWalkable& moveWalkable = nullptr);
 
     void setRemoveLastTurn(const bool r)
     { mRemoveLastTurn = r; }
@@ -55,6 +60,9 @@ public:
 
     int pathLength() const
     { return mPathLength; }
+
+    using eTileDistance = std::function<int(eTileBase* const)>;
+    void setTileDistance(const eTileDistance& dist);
 private:
     eAction mFoundAction;
     eAction mFindFailAction;
@@ -65,6 +73,7 @@ private:
     int mMaxWalkDistance = 10000;
     int mPathLength = 0;
     eObsticleHandler mObstHandler;
+    eTileDistance mDistance;
 };
 
 #endif // EMOVETOACTION_H

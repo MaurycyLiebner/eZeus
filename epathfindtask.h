@@ -12,13 +12,15 @@ public:
     using eTileChecker = std::function<bool(eThreadTile*)>;
     using eFinishFunc = std::function<void(const ePath&)>;
     using eFailFunc = std::function<void()>;
+    using eTileDistance = std::function<int(eTileBase* const)>;
     ePathFindTask(const eTileGetter& startTile,
                   const eTileChecker& tileWalkable,
                   const eTileChecker& endTile,
                   const eFinishFunc& finishFunc,
                   const eFailFunc& failFunc,
                   const bool onlyDiagonal,
-                  const int range);
+                  const int range,
+                  const eTileDistance& distance = nullptr);
 protected:
     void run(eThreadBoard& data);
     void finish();
@@ -30,6 +32,7 @@ private:
     const eFailFunc mFailFunc;
     const bool mOnlyDiagonal;
     const int mRange;
+    const eTileDistance mDistance;
 
     bool mR{false};
     ePath mPath;

@@ -161,9 +161,6 @@ bool eGodAction::lookForSoldierAttack(const int dtime, int& time,
         if(chars.empty()) return null;
         for(const auto& cc : chars) {
             if(c == cc.get()) continue;
-            bool isGod = false;
-            eGod::sCharacterToGodType(cc->type(), &isGod);
-            if(isGod) continue;
             const bool is = cc->isSoldier();
             if(!is) continue;
             const int pid = cc->playerId();

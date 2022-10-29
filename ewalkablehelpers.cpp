@@ -42,3 +42,15 @@ bool eWalkableHelpers::sRoadRoadblockWalkable(eTileBase* const t) {
     if(!hr) return false;
     return !t->hasRoadblock();
 }
+
+bool eWalkableHelpers::sBuildingsWalkable(eTileBase* const t) {
+    const auto terr = t->terrain() & eTerrain::walkable;
+    return static_cast<bool>(terr);
+}
+
+int eWalkableHelpers::sMonsterTileDistance(eTileBase* const tile) {
+    const auto ubt = tile->underBuildingType();
+    const bool r = eBuilding::sWalkableBuilding(ubt);
+    if(r) return 1;
+    return 4;
+}

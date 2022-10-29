@@ -115,7 +115,7 @@ void eMonsterAction::randomPlaceOnBoard() {
     //    wait();
 }
 
-std::function<bool (eTile* const)> eMonsterAction::obsticleHandler() {
+std::function<bool(eTile* const)> eMonsterAction::obsticleHandler() {
     const stdptr<eMonsterAction> tptr(this);
     return [tptr, this](eTile* const tile) {
         if(!tptr) return false;
@@ -137,7 +137,10 @@ void eMonsterAction::goToTarget() {
         setCurrentAction(nullptr);
     };
     eGodMonsterAction::goToTarget(eHeatGetters::any, tryAgain,
-                                  obsticleHandler());
+                                  obsticleHandler(),
+                                  eWalkableHelpers::sMonsterTileDistance,
+                                  eWalkableHelpers::sBuildingsWalkable,
+                                  eWalkableHelpers::sDefaultWalkable);
 }
 
 void eMonsterAction::goBack() {
@@ -146,9 +149,11 @@ void eMonsterAction::goBack() {
 
     const auto a = e::make_shared<eMoveToAction>(
                        c, [](){}, [](){});
+    a->setTileDistance(eWalkableHelpers::sMonsterTileDistance);
     a->setObsticleHandler(obsticleHandler());
     a->setFindFailAction([](){});
-    a->start(mHomeTile);
+    a->start(mHomeTile, eWalkableHelpers::sBuildingsWalkable,
+             eWalkableHelpers::sDefaultWalkable);
     setCurrentAction(a);
     c->setActionType(eCharacterActionType::walk);
 }
@@ -159,11 +164,14 @@ void eMonsterAction::destroyBuilding(eBuilding* const b) {
     const auto playSound = []() {};
     const stdptr<eMonsterAction> tptr(this);
     const stdptr<eBuilding> bptr(b);
-    const auto finishAttackA = [tptr, bptr]() {
-        if(!tptr || !bptr) return;
+    const auto finishAttackA = [tptr, this, bptr]() {
+        if(!tptr) return;
+        resumeAction();
+        if(!bptr) return;
         bptr->collapse();
         eSounds::playCollapseSound();
     };
+    pauseAction();
     spawnMultipleMissiles(at, tex, 500, b->centerTile(),
                           playSound, finishAttackA, 3);
 }
@@ -189,6 +197,9 @@ bool eMonsterAction::lookForAttack(const int dtime,
                 bool isGod = false;
                 eGod::sCharacterToGodType(cc->type(), &isGod);
                 if(isGod) continue;
+                bool isMonster = false;
+                eMonster::sCharacterToMonsterType(cc->type(), &isMonster);
+                if(isMonster) continue;
                 *charTarget = cc;
                 return t;
             }
