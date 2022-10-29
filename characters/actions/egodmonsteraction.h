@@ -21,7 +21,7 @@ public:
     eTile* closestRoad(const int rdx, const int rdy) const;
     void moveAround(const eAction& finishAct = [](){},
                     const int time = 5000);
-    using eFindFailFunc = std::function<void(eTile*>)>;
+    using eFindFailFunc = std::function<void(eTile*)>;
     void goToTarget(const eHeatGetters::eHeatGetter hg,
                     const eFindFailFunc& findFailFunc);
 

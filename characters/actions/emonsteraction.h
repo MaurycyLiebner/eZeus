@@ -15,7 +15,6 @@ public:
                    const eAction& failAction,
                    const eAction& finishAction);
 
-    void increment(const int by);
     bool decide();
 
     void goToTarget();
