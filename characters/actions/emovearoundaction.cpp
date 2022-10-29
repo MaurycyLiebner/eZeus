@@ -26,8 +26,8 @@ bool eMoveAroundAction::sFertileWalkable(eTileBase* const tile) {
 }
 
 void eMoveAroundAction::increment(const int by) {
-    eMoveAction::increment(by);
     mRemTime -= by;
+    eMoveAction::increment(by);
 }
 
 void eMoveAroundAction::setTime(const int t) {
