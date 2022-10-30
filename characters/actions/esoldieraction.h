@@ -21,6 +21,8 @@ public:
     bool dead() const;
     void clear();
 
+    bool building() const;
+
     double absX() const;
     double absY() const;
 private:
@@ -55,6 +57,9 @@ public:
     static eBuilding* sFindHome(const eCharacterType t,
                                 const eGameBoard& brd);
 private:
+    bool attackBuilding(eTile* const t);
+    std::function<bool(eTile* const)> obsticleHandler();
+
     int mTaskCounter = 0;
     const int mTaskCountCheckBase = 60;
     int mTaskCountCheck = mTaskCountCheckBase;
@@ -66,6 +71,7 @@ private:
     int mMissile = 0;
 
     int mRangeAttack = 0;
+    int mBuildingAttack = 0;
 
     int mLookForEnemy = 0;
     int mAttackTime = 0;

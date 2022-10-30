@@ -335,12 +335,6 @@ bool eBuilding::dead() const {
     return mHp <= 0;
 }
 
-bool eBuilding::attackable() const {
-    return mType != eBuildingType::road &&
-           mType != eBuildingType::ruins &&
-           mType != eBuildingType::templeTile;
-}
-
 std::vector<eTile*> eBuilding::neighbours() const {
     std::vector<eTile*> result;
 

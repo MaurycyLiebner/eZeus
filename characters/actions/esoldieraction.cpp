@@ -51,6 +51,10 @@ void eAttackTarget::clear() {
     mB = nullptr;
 }
 
+bool eAttackTarget::building() const {
+    return mB;
+}
+
 double eAttackTarget::absX() const {
     if(mC) return mC->absX();
     if(mB) {
@@ -75,10 +79,35 @@ bool eSoldierAction::decide() {
     return true;
 }
 
+void signalBeingAttack(eSoldier* const attacked,
+                       eSoldier* const by,
+                       eGameBoard& brd) {
+    const auto tt = attacked->tile();
+    const int ttx = tt->x();
+    const int tty = tt->y();
+    for(int ii = -2; ii <= 2; ii++) {
+        for(int jj = -2; jj <= 2; jj++) {
+            const auto tt = brd.tile(ttx + ii, tty + jj);
+            if(!tt) continue;
+            const auto& ccchars = tt->characters();
+            for(const auto& ccc : ccchars) {
+                if(!ccc->isSoldier()) continue;
+                if(ccc->playerId() != attacked->playerId()) continue;
+                if(ccc->dead()) continue;
+
+                const auto sss = static_cast<eSoldier*>(ccc.get());
+                const auto aaa = sss->soldierAction();
+                aaa->beingAttacked(by);
+            }
+        }
+    }
+}
+
 void eSoldierAction::increment(const int by) {
     const int rangeAttackCheck = 500;
     const int lookForEnemyCheck = 500;
     const int missileCheck = 200;
+    const int buildingCheck = 5000;
 
     const auto c = character();
     if(c->dead()) return;
@@ -92,13 +121,15 @@ void eSoldierAction::increment(const int by) {
     const int pid = c->playerId();
 
     if(mAttack) {
-        if(range > 0 && mAttackTarget.valid()) {
+        const auto tt = mAttackTarget.tile();
+        const int ttx = tt ? tt->x() : 0;
+        const int tty = tt ? tt->y() : 0;
+        const auto at = c->actionType();
+        if(range > 0 && mAttackTarget.valid() &&
+           at == eCharacterActionType::fight2) {
             mMissile += by;
             if(mMissile > missileCheck) {
                 mMissile = mMissile - missileCheck;
-                const auto tt = mAttackTarget.tile();
-                const int ttx = tt->x();
-                const int tty = tt->y();
                 eMissile::sCreate<eRockMissile>(brd, tx, ty, 0.5,
                                                 ttx, tty, 0.5, 2);
             }
@@ -106,7 +137,7 @@ void eSoldierAction::increment(const int by) {
         mAttackTime += by;
         bool finishAttack = !mAttackTarget.valid() ||
                             mAttackTarget.dead() ||
-                            mAttackTime > 1000;
+                            (mAttackTime > 1000 && !mAttackTarget.building());
         if(mAttackTarget.valid() && !mAttackTarget.dead()) {
             const double att = by*c->attack();
             const bool d = mAttackTarget.defend(att);
@@ -123,6 +154,12 @@ void eSoldierAction::increment(const int by) {
         } else {
             return;
         }
+    }
+
+    mBuildingAttack += by;
+    const bool buildingAttack = mBuildingAttack > buildingCheck;
+    if(buildingAttack) {
+        mBuildingAttack -= buildingCheck;
     }
     const vec2d cpos{c->absX(), c->absY()};
     for(int i = -1; i <= 1; i++) {
@@ -147,26 +184,17 @@ void eSoldierAction::increment(const int by) {
                 c->setOrientation(o);
                 return;
             }
-            const auto ub = t->underBuilding();
-            if(!ub) continue;
-            if(ub->playerId() == pid) continue;
-            if(!ub->attackable()) continue;
-            mAttackTarget = eAttackTarget(ub);
-            mAttack = true;
-            mAttackTime = 0;
-            c->setActionType(eCharacterActionType::fight);
-            const vec2d ccpos{1.*t->x(), 1.*t->y()};
-            const vec2d posdif = ccpos - cpos;
-            mAngle = posdif.angle();
-            const auto o = sAngleOrientation(mAngle);
-            c->setOrientation(o);
+            if(buildingAttack) {
+                const bool r = attackBuilding(t);
+                if(r) return;
+            }
         }
     }
 
     if(range > 0) {
         mRangeAttack += by;
         if(mRangeAttack > rangeAttackCheck) {
-            mRangeAttack = mRangeAttack - rangeAttackCheck;
+            mRangeAttack -= rangeAttackCheck;
             for(int i = -range; i <= range; i++) {
                 for(int j = -range; j <= range; j++) {
                     const auto t = brd.tile(tx + i, ty + j);
@@ -185,28 +213,16 @@ void eSoldierAction::increment(const int by) {
                         mAngle = posdif.angle();
                         const auto o = sAngleOrientation(mAngle);
                         c->setOrientation(o);
-
-                        const auto tt = cc->tile();
-                        const int ttx = tt->x();
-                        const int tty = tt->y();
-                        for(int ii = -2; ii <= 2; ii++) {
-                            for(int jj = -2; jj <= 2; jj++) {
-                                const auto tt = brd.tile(ttx + ii, tty + jj);
-                                if(!tt) continue;
-                                const auto& ccchars = tt->characters();
-                                for(const auto& ccc : ccchars) {
-                                    if(!ccc->isSoldier()) continue;
-                                    if(ccc->playerId() == pid) continue;
-                                    if(ccc->dead()) continue;
-
-                                    const auto sss = static_cast<eSoldier*>(ccc.get());
-                                    const auto aaa = sss->soldierAction();
-                                    aaa->beingAttacked(s);
-                                }
-                            }
-                        }
-
+                        const auto ss = static_cast<eSoldier*>(cc.get());
+                        signalBeingAttack(ss, s, brd);
                         return;
+                    }
+                    if(buildingAttack) {
+                        const bool r = attackBuilding(t);
+                        if(r) {
+                            c->setActionType(eCharacterActionType::fight2);
+                            return;
+                        }
                     }
                 }
             }
@@ -216,7 +232,7 @@ void eSoldierAction::increment(const int by) {
     if(!currentAction()) {
         mLookForEnemy += by;
         if(mLookForEnemy > lookForEnemyCheck) {
-            mLookForEnemy = 0;
+            mLookForEnemy -= lookForEnemyCheck;
             const int erange = 3 + range;
             bool found = false;
             for(int i = -erange; i <= erange && !found; i++) {
@@ -265,6 +281,20 @@ void eSoldierAction::moveBy(const double dx, const double dy) {
     c->setY(newFY);
 }
 
+std::function<bool(eTile* const)> eSoldierAction::obsticleHandler() {
+    const stdptr<eSoldierAction> tptr(this);
+    return [tptr, this](eTile* const tile) {
+        if(!tptr) return false;
+        const auto ub = tile->underBuilding();
+        if(!ub) return false;
+        const auto ubt = ub->type();
+        const bool r = eBuilding::sWalkableBuilding(ubt);
+        if(r) return false;
+        attackBuilding(tile);
+        return true;
+    };
+}
+
 void eSoldierAction::goTo(const int fx, const int fy,
                           const int dist) {
     const auto c = character();
@@ -285,13 +315,27 @@ void eSoldierAction::goTo(const int fx, const int fy,
         cptr->setActionType(eCharacterActionType::stand);
     };
 
+    const int pid = c->playerId();
+    const bool attackBuildings = pid != 1;
+    using eTileWalkable = std::function<bool(eTileBase* const)>;
+    eTileWalkable pathFindWalkable =
+        eWalkableHelpers::sDefaultWalkable;
+    eTileWalkable moveWalkable = nullptr;
+    if(attackBuildings) {
+        pathFindWalkable = eWalkableHelpers::sBuildingsWalkable;
+        moveWalkable = eWalkableHelpers::sDefaultWalkable;
+    }
+
     const auto a = e::make_shared<eMoveToAction>(
                        cptr.get(), finishAct, finishAct);
+    if(attackBuildings) {
+        a->setObsticleHandler(obsticleHandler());
+    }
     a->setFoundAction([tptr, cptr]() {
         if(!cptr) return;
         cptr->setActionType(eCharacterActionType::walk);
     });
-    a->start(hha, eWalkableHelpers::sDefaultWalkable);
+    a->start(hha, pathFindWalkable, moveWalkable);
     setCurrentAction(a);
 }
 
@@ -365,6 +409,27 @@ eBuilding* eSoldierAction::sFindHome(const eCharacterType t,
     }
     const auto b = brd.randomBuilding(v);
     return b;
+}
+
+bool eSoldierAction::attackBuilding(eTile* const t) {
+    const auto ub = t->underBuilding();
+    if(!ub) return false;
+    const auto c = character();
+    const int pid = c->playerId();
+    const vec2d cpos{c->absX(), c->absY()};
+    if(ub->playerId() == pid) return false;
+    const bool att = eBuilding::sAttackable(ub->type());
+    if(!att) return false;
+    mAttackTarget = eAttackTarget(ub);
+    mAttack = true;
+    mAttackTime = 0;
+    c->setActionType(eCharacterActionType::fight);
+    const vec2d ccpos{1.*t->x(), 1.*t->y()};
+    const vec2d posdif = ccpos - cpos;
+    mAngle = posdif.angle();
+    const auto o = sAngleOrientation(mAngle);
+    c->setOrientation(o);
+    return true;
 }
 
 void eSoldierAction::goBackToBanner() {

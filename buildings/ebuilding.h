@@ -217,8 +217,6 @@ public:
     bool defend(const double a);
     bool dead() const;
 
-    bool attackable() const;
-
     std::vector<eTile*> neighbours() const;
 
     void setBlessed(const double b);
@@ -242,7 +240,7 @@ private:
     const int mSpanH;
 
     int mPlayerId{1}; // 0 - neutral
-    double mHp = 10000;
+    double mHp = 1000;
 
     int mMaintance = 100;
 
