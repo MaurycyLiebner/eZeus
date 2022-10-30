@@ -148,6 +148,49 @@ bool eGodAttackAction::lookForGodAttack(const int dtime, int& time,
     }
     return false;
 }
+std::function<bool(eTile* const)> eGodAttackAction::obsticleHandler() {
+    const stdptr<eGodAttackAction> tptr(this);
+    return [tptr, this](eTile* const tile) {
+        if(!tptr) return false;
+        const auto ub = tile->underBuilding();
+        if(!ub) return false;
+        const auto ubt = ub->type();
+        const bool r = eBuilding::sWalkableBuilding(ubt);
+        if(r) return false;
+        destroyBuilding(ub);
+        return true;
+    };
+}
+
+void eGodAttackAction::destroyBuilding(eBuilding* const b) {
+    const stdptr<eGodAttackAction> tptr(this);
+    const stdptr<eBuilding> bptr(b);
+    const auto finishAttackA = [tptr, this, bptr]() {
+        if(!tptr) return;
+        resumeAction();
+        if(!bptr) return;
+        bptr->collapse();
+        eSounds::playCollapseSound();
+    };
+    pauseAction();
+    const auto at = eCharacterActionType::fight;
+    const auto s = eGodSound::attack;
+    const auto tex = eGod::sGodMissile(type());
+    spawnGodMultipleMissiles(at, tex, b->centerTile(),
+                             s, finishAttackA, 3);
+}
+
+void eGodAttackAction::goToTarget() {
+    const auto gt = type();
+    const auto hg = eHeatGetters::godLeaning(gt);
+    const stdptr<eGodAction> tptr(this);
+    const auto tele = [tptr, this](eTile* const tile) {
+        if(!tptr) return;
+        const auto r = closestRoad(tile->x(), tile->y());
+        teleport(r);
+    };
+    eGodMonsterAction::goToTarget(hg, tele, obsticleHandler());
+}
 
 bool eGodAttackAction::decide() {
     const auto c = character();

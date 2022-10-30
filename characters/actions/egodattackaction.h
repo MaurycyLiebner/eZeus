@@ -13,13 +13,17 @@ public:
 
     void increment(const int by);
     bool decide();
+private:
 
     bool lookForAttack(const int dtime, int& time,
                        const int freq, const int range);
 
     bool lookForGodAttack(const int dtime, int& time,
                           const int freq, const int range);
-private:
+    void goToTarget();
+    std::function<bool(eTile* const)> obsticleHandler();
+    void destroyBuilding(eBuilding* const b);
+
     eGodAttackStage mStage{eGodAttackStage::none};
 
     int mLookForCurse = 0;

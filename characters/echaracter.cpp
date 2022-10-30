@@ -30,6 +30,11 @@ bool eCharacter::canFight(eCharacter* const c) {
     bool isGod;
     eGod::sCharacterToGodType(tt, &isGod);
     if(isGod) return false;
+    bool isMonster1;
+    eMonster::sCharacterToMonsterType(tt, &isMonster1);
+    bool isMonster2;
+    eMonster::sCharacterToMonsterType(ct, &isMonster2);
+    if(isMonster1 && isMonster2) return false;
     return true;
 }
 
