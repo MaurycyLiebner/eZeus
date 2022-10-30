@@ -153,11 +153,7 @@ void eGodMonsterAction::spawnMissile(const eCharacterActionType at,
 
         const vec2d angleLine{dx, dy};
         const double a = angleLine.angle();
-        const double inc = 360./8.;
-        const double aa = a + 90;
-        const double aaa = aa > 360. ? aa - 360. : aa;
-        const int oi = int(std::floor(aaa/inc)) % 8;
-        const auto o = static_cast<eOrientation>(oi);
+        const auto o = sAngleOrientation(a);
         c->setOrientation(o);
     }
 
