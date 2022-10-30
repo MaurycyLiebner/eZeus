@@ -63,8 +63,33 @@ void eGodAction::patrol(const eAction& finishAct,
                         const int dist) {
     const auto c = character();
     c->setActionType(eCharacterActionType::walk);
+    const stdptr<eGodAction> tptr(this);
+    const stdptr<eCharacter> cptr(c);
+    const auto fail = [tptr, this, cptr, finishAct, dist]() {
+        if(!tptr || !cptr) return;
+        const auto c = cptr.get();
+        const auto t = c->tile();
+        const auto cr = closestRoad(t->x(), t->y());
+        if(cr) {
+            const auto ma = [tptr, this, finishAct]() {
+                if(!tptr) return;
+                moveAround(finishAct, 15000);
+            };
+            const auto fa = [tptr, this, finishAct, dist]() {
+                if(!tptr) return;
+                patrol(finishAct, dist);
+            };
+            const auto a = e::make_shared<eMoveToAction>(
+                               c, ma, fa);
+            a->setFindFailAction(ma);
+            a->start(cr);
+            setCurrentAction(a);
+        } else {
+            moveAround(finishAct, 15000);
+        }
+    };
     const auto a = e::make_shared<ePatrolMoveAction>(
-                       c, finishAct, finishAct);
+                       c, fail, finishAct);
     a->setMaxWalkDistance(dist);
     setCurrentAction(a);
 }
