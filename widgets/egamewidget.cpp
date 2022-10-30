@@ -333,6 +333,9 @@ bool eGameWidget::canBuildBase(const int minX, const int maxX,
             if(!static_cast<bool>(ttta)) return false;
 
             if(!t->walkableElev() && t->isElevationTile()) return false;
+
+            const auto& chars = t->characters();
+            if(!chars.empty()) return false;
         }
     }
     return true;
