@@ -20,13 +20,15 @@ public:
     void increment(const int by);
 
     void setTime(const int t);
+
+    void setMaxDistance(const int md);
 private:
     eCharacterActionState nextTurn(eOrientation& turn);
 
     int mStartTX;
     int mStartTY;
 
-    const int mMaxDist = 5;
+    int mMaxDist = 5;
     int mRemTime{__INT_MAX__};
 };
 

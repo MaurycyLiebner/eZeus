@@ -34,6 +34,10 @@ void eMoveAroundAction::setTime(const int t) {
     mRemTime = t;
 }
 
+void eMoveAroundAction::setMaxDistance(const int md) {
+    mMaxDist = md;
+}
+
 eCharacterActionState eMoveAroundAction::nextTurn(eOrientation& turn) {
     if(mRemTime <= 0) {
         return eCharacterActionState::finished;
