@@ -110,6 +110,17 @@ struct eMonsterTextures {
     std::vector<eTextureCollection> fWalk;
     std::vector<eTextureCollection> fDie;
     std::vector<eTextureCollection> fFight;
+    std::vector<eTextureCollection> fFight2;
+};
+
+struct eWaterMonsterTextures {
+    eWaterMonsterTextures(SDL_Renderer* const renderer) :
+        fDie(renderer) {}
+
+    std::vector<eTextureCollection> fWalk;
+    eTextureCollection fDie;
+    std::vector<eTextureCollection> fFight;
+    std::vector<eTextureCollection> fFight2;
 };
 
 class eCharacterTextures {
@@ -232,6 +243,21 @@ public:
     eTradeBoatTextures fTradeBoat;
 
     eMonsterTextures fCalydonianBoar;
+    eMonsterTextures fCerberus;
+    eMonsterTextures fChimera;
+    eMonsterTextures fCyclops;
+    eMonsterTextures fDragon;
+    eMonsterTextures fEchidna;
+    eMonsterTextures fHarpies;
+    eMonsterTextures fHector;
+    eMonsterTextures fHydra;
+    eWaterMonsterTextures fKraken;
+    eMonsterTextures fMaenads;
+    eMonsterTextures fMedusa;
+    eMonsterTextures fMinotaur;
+    eWaterMonsterTextures fScylla;
+    eMonsterTextures fSphinx;
+    eMonsterTextures fTalos;
 };
 
 #endif // ECHARACTERTEXTURES_H

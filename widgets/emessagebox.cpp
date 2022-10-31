@@ -10,6 +10,8 @@
 
 #include "elanguage.h"
 
+#include "estringhelpers.h"
+
 template<typename ... Args>
 std::string string_format(const std::string& format, Args... args) {
     const int size_s = std::snprintf(nullptr, 0, format.c_str(), args...) + 1; // Extra space for '\0'
@@ -18,26 +20,6 @@ std::string string_format(const std::string& format, Args... args) {
     const auto buf = std::make_unique<char[]>(size);
     std::snprintf(buf.get(), size, format.c_str(), args...);
     return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
-}
-
-void replaceAll(std::string& source, const std::string& from, const std::string& to) {
-    std::string newString;
-    newString.reserve(source.length());  // avoids a few memory allocations
-
-    std::string::size_type lastPos = 0;
-    std::string::size_type findPos;
-
-    while(std::string::npos != (findPos = source.find(from, lastPos)))
-    {
-        newString.append(source, lastPos, findPos - lastPos);
-        newString += to;
-        lastPos = findPos + from.length();
-    }
-
-    // Care for the rest after last occurrence
-    newString += source.substr(lastPos);
-
-    source.swap(newString);
 }
 
 void eMessageBox::initialize(const eAction& viewTile,
@@ -96,7 +78,7 @@ void eMessageBox::initialize(const eAction& viewTile,
     const auto text = new eLabel(window());
     text->setSmallFontSize();
     text->setWrapWidth(width() - 8*p);
-    replaceAll(msg.fText, "[player_name]", name);
+    eStringHelpers::replaceAll(msg.fText, "[player_name]", name);
     text->setText(msg.fText);
     text->fitContent();
     text->setX(p);

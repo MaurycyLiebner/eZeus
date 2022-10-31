@@ -32,6 +32,7 @@ class eTerrainEditMenu;
 class eDomesticatedAnimal;
 struct eSanctBlueprint;
 class eWorldWidget;
+struct eGodMessages;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
 using eRendererCreator = std::function<stdsptr<eBuildingRenderer>()>;
@@ -114,6 +115,9 @@ private:
         findGuide(const int tx, const int ty);
 
     void handleEvent(const eEvent e, eTile* const tile);
+    void handleGodVisitEvent(eGodMessages& msgs,
+                             const eGodType god,
+                             eTile* const tile);
 
     void mapDimensions(int& mdx, int& mdy) const;
     void viewBoxSize(double& fx, double& fy) const;

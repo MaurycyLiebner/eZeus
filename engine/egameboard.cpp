@@ -260,7 +260,7 @@ void eGameBoard::setMonsters(const std::vector<eMonsterType>& monsters) {
     const int period = 150;
     const auto date = mDate + period;
     const auto ec = e::make_shared<eGameEventCycle>(
-                        e, date, period, 10000, *this);
+                        e, date, period, 2, *this);
     addGameEvent(ec);
 }
 

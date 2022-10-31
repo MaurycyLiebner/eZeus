@@ -34,6 +34,51 @@ void eMonsterAttackEvent::trigger() {
     case eMonsterType::calydonianBoar:
         e = eEvent::calydonianBoarInvasion;
         break;
+    case eMonsterType::cerberus:
+        e = eEvent::cerberusInvasion;
+        break;
+    case eMonsterType::chimera:
+        e = eEvent::chimeraInvasion;
+        break;
+    case eMonsterType::cyclops:
+        e = eEvent::cyclopsInvasion;
+        break;
+    case eMonsterType::dragon:
+        e = eEvent::dragonInvasion;
+        break;
+    case eMonsterType::echidna:
+        e = eEvent::echidnaInvasion;
+        break;
+    case eMonsterType::harpies:
+        e = eEvent::harpiesInvasion;
+        break;
+    case eMonsterType::hector:
+        e = eEvent::hectorInvasion;
+        break;
+    case eMonsterType::hydra:
+        e = eEvent::hydraInvasion;
+        break;
+    case eMonsterType::kraken:
+        e = eEvent::krakenInvasion;
+        break;
+    case eMonsterType::maenads:
+        e = eEvent::maenadsInvasion;
+        break;
+    case eMonsterType::medusa:
+        e = eEvent::medusaInvasion;
+        break;
+    case eMonsterType::minotaur:
+        e = eEvent::minotaurInvasion;
+        break;
+    case eMonsterType::scylla:
+        e = eEvent::scyllaInvasion;
+        break;
+    case eMonsterType::sphinx:
+        e = eEvent::sphinxInvasion;
+        break;
+    case eMonsterType::talos:
+        e = eEvent::talosInvasion;
+        break;
     }
 
     const auto a = e::make_shared<eMonsterAction>(

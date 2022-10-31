@@ -11,8 +11,14 @@
 class eTile;
 
 enum class eGodSound {
-    visit,
+    wooing0,
+    jealousy1,
+    jealousy2,
     invade,
+    monster,
+    quest,
+    questFinished,
+    prayer,
     appear,
     disappear,
     attack,
@@ -30,9 +36,10 @@ struct eGodSounds {
     }
 
     ~eGodSounds() {
-        for(const auto v : fVisit) {
-            Mix_FreeChunk(v);
-        }
+        Mix_FreeChunk(fWooing0);
+        Mix_FreeChunk(fJealousy1);
+        Mix_FreeChunk(fJealousy2);
+
         Mix_FreeChunk(fInvade);
         Mix_FreeChunk(fAppear);
         Mix_FreeChunk(fDisappear);
@@ -49,11 +56,29 @@ struct eGodSounds {
 
     void play(const eGodSound s) {
         switch(s) {
-        case eGodSound::visit:
-            playVisit();
+        case eGodSound::wooing0:
+            playWooing0();
+            break;
+        case eGodSound::jealousy1:
+            playJealousy1();
+            break;
+        case eGodSound::jealousy2:
+            playJealousy2();
             break;
         case eGodSound::invade:
             playInvade();
+            break;
+        case eGodSound::monster:
+            playMonster();
+            break;
+        case eGodSound::quest:
+            playQuest();
+            break;
+        case eGodSound::questFinished:
+            playQuestFinished();
+            break;
+        case eGodSound::prayer:
+            playPrayer();
             break;
         case eGodSound::appear:
             playAppear();
@@ -76,19 +101,36 @@ struct eGodSounds {
         }
     }
 
-    void playVisit() {
-        int id;
-        if(fFirstVisit) {
-            fFirstVisit = false;
-            id = 2;
-        } else {
-            id = rand() % 3;
-        }
-        Mix_PlayChannel(-1, fVisit[id], 0);
+    void playWooing0() {
+        Mix_PlayChannel(-1, fWooing0, 0);
+    }
+
+    void playJealousy1() {
+        Mix_PlayChannel(-1, fJealousy1, 0);
+    }
+
+    void playJealousy2() {
+        Mix_PlayChannel(-1, fJealousy2, 0);
     }
 
     void playInvade() {
         Mix_PlayChannel(-1, fInvade, 0);
+    }
+
+    void playMonster() {
+        Mix_PlayChannel(-1, fMonster, 0);
+    }
+
+    void playQuest() {
+        Mix_PlayChannel(-1, fQuest, 0);
+    }
+
+    void playQuestFinished() {
+        Mix_PlayChannel(-1, fQuestFinished, 0);
+    }
+
+    void playPrayer() {
+        Mix_PlayChannel(-1, fPrayer, 0);
     }
 
     void playAppear() {
@@ -121,8 +163,15 @@ struct eGodSounds {
 
     bool fFirstVisit = true;
 
-    std::vector<Mix_Chunk*> fVisit;
+    Mix_Chunk* fWooing0 = nullptr;
+    Mix_Chunk* fJealousy1 = nullptr;
+    Mix_Chunk* fJealousy2 = nullptr;
     Mix_Chunk* fInvade = nullptr;
+    Mix_Chunk* fMonster = nullptr;
+    Mix_Chunk* fQuest = nullptr;
+    Mix_Chunk* fQuestFinished = nullptr;
+    Mix_Chunk* fPrayer = nullptr;
+
     Mix_Chunk* fAppear = nullptr;
     Mix_Chunk* fDisappear = nullptr;
 

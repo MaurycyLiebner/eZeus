@@ -5,8 +5,34 @@
 #include "egamedir.h"
 
 #include "eloadtexthelper.h"
+#include "estringhelpers.h"
 
 eMessages eMessages::instance;
+
+void eMessages::load(eGodMessages& god, const std::string& godName) {
+    god.fWooing0.fFull.fTitle = fMessages["PHRASE_" + godName + "_wooing0_title"];
+    god.fWooing0.fFull.fText = fMessages["PHRASE_" + godName + "_wooing0_initial_announcement"];
+    god.fWooing0.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_wooing0_title"];
+    god.fWooing0.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_wooing0_initial_announcement"];
+
+    god.fJealousy1.fFull.fTitle = fMessages["PHRASE_" + godName + "_jealousy1_title"];
+    god.fJealousy1.fFull.fText = fMessages["PHRASE_" + godName + "_jealousy1_initial_announcement"];
+    god.fJealousy1.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_jealousy1_title"];
+    god.fJealousy1.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_jealousy1_initial_announcement"];
+
+    god.fJealousy2.fFull.fTitle = fMessages["PHRASE_" + godName + "_jealousy2_title"];
+    god.fJealousy2.fFull.fText = fMessages["PHRASE_" + godName + "_jealousy2_initial_announcement"];
+    god.fJealousy2.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_jealousy2_title"];
+    god.fJealousy2.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_jealousy2_initial_announcement"];
+
+    god.fMonster.fFull.fTitle = fMessages["PHRASE_" + godName + "_unleashes_monster_title"];
+    const auto noReason = fMessages["PHRASE_" + godName + "_unleashes_monster_no_reason"];
+    auto& attackText = god.fMonster.fFull.fText;
+    attackText = fMessages["PHRASE_" + godName + "_unleashes_monster_city_attacked_alert"];
+    eStringHelpers::replaceAll(attackText, "[reason_phrase]", noReason);
+    god.fMonster.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_unleashes_monster_title"];
+    god.fMonster.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_unleashes_monster_city_attacked_alert"];
+}
 
 bool eMessages::loadImpl() {
     if(mLoaded) return false;
@@ -75,30 +101,20 @@ bool eMessages::loadImpl() {
     fPlagueStrikes.fFull.fText = fMessages["PHRASE_plague_initial_announcement"];
     fPlagueStrikes.fCondensed.fText = fMessages["PHRASE_CONDENSED_plague_initial_announcement"];
 
-    fAphroditeWooing.fFull.fTitle = fMessages["PHRASE_aphrodite_wooing0_title"];
-    fAphroditeWooing.fFull.fText = fMessages["PHRASE_aphrodite_wooing0_initial_announcement"];
-    fAphroditeWooing.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_aphrodite_wooing0_title"];
-    fAphroditeWooing.fCondensed.fText = fMessages["PHRASE_CONDENSED_aphrodite_wooing0_initial_announcement"];
-
-    fArtemisWooing.fFull.fTitle = fMessages["PHRASE_artemis_wooing0_title"];
-    fArtemisWooing.fFull.fText = fMessages["PHRASE_artemis_wooing0_initial_announcement"];
-    fArtemisWooing.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_artemis_wooing0_title"];
-    fArtemisWooing.fCondensed.fText = fMessages["PHRASE_CONDENSED_artemis_wooing0_initial_announcement"];
-
-    fDemeterWooing.fFull.fTitle = fMessages["PHRASE_demeter_wooing0_title"];
-    fDemeterWooing.fFull.fText = fMessages["PHRASE_demeter_wooing0_initial_announcement"];
-    fDemeterWooing.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_demeter_wooing0_title"];
-    fDemeterWooing.fCondensed.fText = fMessages["PHRASE_CONDENSED_demeter_wooing0_initial_announcement"];
-
-    fHadesWooing.fFull.fTitle = fMessages["PHRASE_hades_wooing0_title"];
-    fHadesWooing.fFull.fText = fMessages["PHRASE_hades_wooing0_initial_announcement"];
-    fHadesWooing.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_hades_wooing0_title"];
-    fHadesWooing.fCondensed.fText = fMessages["PHRASE_CONDENSED_hades_wooing0_initial_announcement"];
-
-    fZeusWooing.fFull.fTitle = fMessages["PHRASE_zeus_wooing0_title"];
-    fZeusWooing.fFull.fText = fMessages["PHRASE_zeus_wooing0_initial_announcement"];
-    fZeusWooing.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_zeus_wooing0_title"];
-    fZeusWooing.fCondensed.fText = fMessages["PHRASE_CONDENSED_zeus_wooing0_initial_announcement"];
+    load(fAphrodite, "aphrodite");
+    load(fApollo, "apollo");
+    load(fAres, "ares");
+    load(fArtemis, "artemis");
+    load(fAthena, "athena");
+    load(fAtlas, "atlas");
+    load(fDemeter, "demeter");
+    load(fDionysus, "dionysus");
+    load(fHades, "hades");
+    load(fHephaestus, "hephaestus");
+    load(fHera, "hera");
+    load(fHermes, "hermes");
+    load(fPoseidon, "poseidon");
+    load(fZeus, "zeus");
 
     fHomeGames.fBegin.fFull.fTitle = fMessages["PHRASE_home_games_begin_title"];
     fHomeGames.fBegin.fFull.fText = fMessages["PHRASE_home_games_begin_initial_announcement"];

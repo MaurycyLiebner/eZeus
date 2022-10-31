@@ -898,14 +898,16 @@ void eGodSounds::load() {
     const std::string voiceDir{eGameDir::path("Audio/Voice/Walker/")};
     const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
 
-    for(const auto& s : {fShortName + "_ev_1.mp3",
-                         fShortName + "_ev_2.mp3",
-                         fShortName + "_ev_3.mp3"}) {
-        const auto r = loadSoundBase(voiceDir + s);
-        if(r) fVisit.push_back(r);
-    }
+    fWooing0 = loadSoundBase(voiceDir + fShortName + "_ev_3.mp3");
+    fJealousy1 = loadSoundBase(voiceDir + fShortName + "_ev_2.mp3");
+    fJealousy2 = loadSoundBase(voiceDir + fShortName + "_ev_1.mp3");
 
     fInvade = loadSoundBase(voiceDir + fShortName + "_ev_4.mp3");
+
+    fMonster = loadSoundBase(voiceDir + fShortName + "_ev_5.mp3");
+    fQuest = loadSoundBase(voiceDir + fShortName + "_ev_6.mp3");
+    fQuestFinished = loadSoundBase(voiceDir + fShortName + "_ev_7.mp3");
+    fPrayer = loadSoundBase(voiceDir + fShortName + "_ev_8.mp3");
 
     fAppear = loadSoundBase(wavsDir + "G_" + fLongName + "_mat.wav");
     fDisappear = loadSoundBase(wavsDir + "G_" + fLongName + "_demat.wav");

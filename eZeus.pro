@@ -205,8 +205,10 @@ SOURCES += \
         characters/gods/eextendedgod.cpp \
         characters/gods/egod.cpp \
         characters/gods/ehermes.cpp \
+        characters/monsters/ebasicmonster.cpp \
         characters/monsters/ecalydonianboar.cpp \
         characters/monsters/emonster.cpp \
+        characters/monsters/ewatermonster.cpp \
         efontcolor.cpp \
         egamedir.cpp \
         eiteratesquare.cpp \
@@ -248,6 +250,7 @@ SOURCES += \
         epathdatafindtask.cpp \
         epathfindtask.cpp \
         esounds.cpp \
+        estringhelpers.cpp \
         etexture.cpp \
         etexturecollection.cpp \
         etilehelper.cpp \
@@ -578,8 +581,10 @@ HEADERS += \
     characters/gods/eextendedgod.h \
     characters/gods/egod.h \
     characters/gods/ehermes.h \
+    characters/monsters/ebasicmonster.h \
     characters/monsters/ecalydonianboar.h \
     characters/monsters/emonster.h \
+    characters/monsters/ewatermonster.h \
     efontcolor.h \
     egamedir.h \
     eiteratesquare.h \
@@ -626,6 +631,7 @@ HEADERS += \
     epathfindtask.h \
     esettings.h \
     esounds.h \
+    estringhelpers.h \
     etexture.h \
     etexturecollection.h \
     etilehelper.h \
@@ -649,7 +655,11 @@ HEADERS += \
     missiles/erockmissile.h \
     offsets/PoseidonImps.h \
     offsets/Poseidon_Atlas.h \
+    offsets/Poseidon_Chimera.h \
+    offsets/Poseidon_Echidna.h \
+    offsets/Poseidon_Harpie.h \
     offsets/Poseidon_Hera.h \
+    offsets/Poseidon_Sphinx.h \
     offsets/SprAmbient.h \
     offsets/SprMain.h \
     offsets/Zeus_Aphrodite.h \
@@ -665,7 +675,19 @@ HEADERS += \
     offsets/Zeus_Hermes.h \
     offsets/Zeus_Poseidon.h \
     offsets/Zeus_Zeus.h \
+    offsets/destruction.h \
     offsets/zeus_calydonianboar.h \
+    offsets/zeus_cerberus.h \
+    offsets/zeus_cyclops.h \
+    offsets/zeus_dragon.h \
+    offsets/zeus_hector.h \
+    offsets/zeus_hydra.h \
+    offsets/zeus_kraken.h \
+    offsets/zeus_maenads.h \
+    offsets/zeus_medusa.h \
+    offsets/zeus_minotaur.h \
+    offsets/zeus_scylla.h \
+    offsets/zeus_talos.h \
     pointers/eobject.h \
     pointers/eobject.h \
     pointers/estdpointer.h \

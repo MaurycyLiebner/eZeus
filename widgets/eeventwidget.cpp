@@ -79,6 +79,21 @@ eEventButton::eEventButton(const eEvent e,
         coll = &texs.fGodAttackAlert;
         break;
     case eEvent::calydonianBoarInvasion:
+    case eEvent::cerberusInvasion:
+    case eEvent::chimeraInvasion:
+    case eEvent::cyclopsInvasion:
+    case eEvent::dragonInvasion:
+    case eEvent::echidnaInvasion:
+    case eEvent::harpiesInvasion:
+    case eEvent::hectorInvasion:
+    case eEvent::hydraInvasion:
+    case eEvent::krakenInvasion:
+    case eEvent::maenadsInvasion:
+    case eEvent::medusaInvasion:
+    case eEvent::minotaurInvasion:
+    case eEvent::scyllaInvasion:
+    case eEvent::sphinxInvasion:
+    case eEvent::talosInvasion:
         coll = &texs.fMonsterAltert;
         break;
     default:

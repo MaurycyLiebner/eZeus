@@ -89,7 +89,22 @@ enum class eEvent {
     zeusVisit,
     zeusInvasion,
 
-    calydonianBoarInvasion
+    calydonianBoarInvasion,
+    cerberusInvasion,
+    chimeraInvasion,
+    cyclopsInvasion,
+    dragonInvasion,
+    echidnaInvasion,
+    harpiesInvasion,
+    hectorInvasion,
+    hydraInvasion,
+    krakenInvasion,
+    maenadsInvasion,
+    medusaInvasion,
+    minotaurInvasion,
+    scyllaInvasion,
+    sphinxInvasion,
+    talosInvasion
 };
 
 enum class eGames {

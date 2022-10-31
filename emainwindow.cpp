@@ -224,14 +224,17 @@ void eMainWindow::showMainMenu() {
         }
 
         std::vector<eGodType> hostileGods;
+        std::vector<eMonsterType> monsters;
         for(int i = 0; i < 2; i++) {
             const auto g = gods[i];
             eVectorHelpers::remove(gods, g);
             hostileGods.push_back(g);
+            monsters.push_back(eMonster::sGodsMinion(g));
         }
 
         board->setFriendlyGods(friendlyGods);
         board->setHostileGods(hostileGods);
+        board->setMonsters(monsters);
 
         auto& wb = board->getWorldBoard();
 
@@ -324,51 +327,53 @@ void eMainWindow::showGame(eGameBoard* board) {
 
     mBoard = board;
 
-//        const auto spawnHoplite = [&](const int x, const int y,
-//                                      const int pid) {
-//            stdsptr<eSoldier> h;
+        const auto spawnHoplite = [&](const int x, const int y,
+                                      const int pid) {
+            stdsptr<eSoldier> h;
 //            if(pid == 1) {
-//                h = e::make_shared<eRockThrower>(*mBoard);
+                h = e::make_shared<eRockThrower>(*mBoard);
 //            } else {
 //                h = e::make_shared<eGreekHoplite>(*mBoard);
 //            }
-//            h->setPlayerId(pid);
-//            const auto a = e::make_shared<eSoldierAction>(h.get(), [](){}, [](){});
-//            h->setSoldierAction(a);
-//            h->setAction(a);
-//            h->changeTile(mBoard->tile(x, y));
-//            h->setActionType(eCharacterActionType::stand);
-//            return h;
-//        };
+            h->setPlayerId(pid);
+            const auto a = e::make_shared<eSoldierAction>(h.get(), [](){}, [](){});
+            h->setSoldierAction(a);
+            h->setAction(a);
+            h->changeTile(mBoard->tile(x, y));
+            h->setActionType(eCharacterActionType::stand);
+            return h;
+        };
 
-//        eSoldierBanner* b = nullptr;
-//        int bi = 8;
-//        for(int i = 20; i < 30; i += 1) {
-//            for(int j = -10; j < 0; j += 1) {
-//                const auto s = spawnHoplite(i, j, 1);
-//                if(bi >= 8) {
-//                    b = new eSoldierBanner(eBannerType::rockThrower, *mBoard);
-//                    b->moveTo(i, j);
-//                    bi = 0;
-//                }
-//                s->setBanner(b);
-//                bi++;
-//            }
-//        }
+        stdsptr<eSoldierBanner> b;
+        int bi = 8;
+        for(int i = 20; i < 30; i += 1) {
+            for(int j = -10; j < 0; j += 1) {
+                const auto s = spawnHoplite(i, j, 1);
+                if(bi >= 8) {
+                    b = e::make_shared<eSoldierBanner>(eBannerType::rockThrower, *mBoard);
+                    const auto n = new stdsptr<eSoldierBanner>(b);
+                    b->moveTo(i, j);
+                    bi = 0;
+                }
+                s->setBanner(b.get());
+                bi++;
+            }
+        }
 
-//        bi = 8;
-//        for(int i = 30; i < 40; i += 1) {
-//            for(int j = -20; j < -10; j += 1) {
-//                const auto s = spawnHoplite(i, j, 2);
-//                if(bi >= 8) {
-//                    b = new eSoldierBanner(eBannerType::hoplite, *mBoard);
-//                    b->moveTo(i, j);
-//                    bi = 0;
-//                }
-//                s->setBanner(b);
-//                bi++;
-//            }
-//        }
+        bi = 8;
+        for(int i = 40; i < 50; i += 1) {
+            for(int j = -20; j < -10; j += 1) {
+                const auto s = spawnHoplite(i, j, 2);
+                if(bi >= 8) {
+                    b = e::make_shared<eSoldierBanner>(eBannerType::hoplite, *mBoard);
+                    const auto n = new stdsptr<eSoldierBanner>(b);
+                    b->moveTo(i, j);
+                    bi = 0;
+                }
+                s->setBanner(b.get());
+                bi++;
+            }
+        }
 
     eMusic::playRandomMusic();
     mGW = new eGameWidget(this);

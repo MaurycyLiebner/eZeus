@@ -131,6 +131,9 @@ eGodType eGod::sFightWinner(const eGodType g1, const eGodType g2) {
         return eGodType::zeus;
     } break;
     case eGodType::aphrodite: {
+        if(g2 == eGodType::ares) return eGodType::aphrodite;
+        if(g2 == eGodType::hermes) return eGodType::aphrodite;
+        if(g2 == eGodType::dionysus) return eGodType::aphrodite;
         if(g2 == eGodType::hephaestus) return eGodType::aphrodite;
     } break;
     default:

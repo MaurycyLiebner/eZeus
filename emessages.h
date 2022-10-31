@@ -5,6 +5,16 @@
 
 #include <map>
 
+struct eGodMessages {
+    int fLastMessage = -1;
+
+    eMessageType fWooing0;
+    eMessageType fJealousy1;
+    eMessageType fJealousy2;
+
+    eMessageType fMonster;
+};
+
 class eMessages {
 public:
     eMessages() {}
@@ -37,11 +47,20 @@ public:
     eMessageType fCollapse;
     eMessageType fPlagueStrikes;
 
-    eMessageType fAphroditeWooing;
-    eMessageType fArtemisWooing;
-    eMessageType fDemeterWooing;
-    eMessageType fHadesWooing;
-    eMessageType fZeusWooing;
+    eGodMessages fAphrodite;
+    eGodMessages fApollo;
+    eGodMessages fAres;
+    eGodMessages fArtemis;
+    eGodMessages fAthena;
+    eGodMessages fAtlas;
+    eGodMessages fDemeter;
+    eGodMessages fDionysus;
+    eGodMessages fHades;
+    eGodMessages fHephaestus;
+    eGodMessages fHera;
+    eGodMessages fHermes;
+    eGodMessages fPoseidon;
+    eGodMessages fZeus;
 
     eGameMessages fHomeGames;
     eGameMessages fIsthmianGames;
@@ -50,6 +69,7 @@ public:
     eGameMessages fOlympianGames;
 private:
     bool loadImpl();
+    void load(eGodMessages& god, const std::string& godName);
     bool mLoaded = false;
 };
 
