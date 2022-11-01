@@ -1,14 +1,14 @@
-#include "ebasicmonster.h"
+#include "ebasichero.h"
 
 #include "textures/egametextures.h"
 
-eBasicMonster::eBasicMonster(eGameBoard& board,
-                             const eCharTexs charTexs,
-                             const eMonsterType type) :
-    eMonster(board, type), mCharTexs(charTexs) {}
+eBasicHero::eBasicHero(eGameBoard& board,
+                       const eCharTexs charTexs,
+                       const eHeroType type) :
+    eHero(board, type), mCharTexs(charTexs) {}
 
 std::shared_ptr<eTexture>
-eBasicMonster::getTexture(const eTileSize size) const {
+eBasicHero::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
     const auto& gTexs = eGameTextures::characters();
     const auto& texs = gTexs[id].*mCharTexs;
@@ -22,13 +22,10 @@ eBasicMonster::getTexture(const eTileSize size) const {
         return texs.fWalk[oid].getTexture(0);
     case eCharacterActionType::collect:
     case eCharacterActionType::fight:
+    case eCharacterActionType::fight2:
     case eCharacterActionType::bless: {
         wrap = true;
         coll = &texs.fFight[oid];
-    } break;
-    case eCharacterActionType::fight2: {
-        wrap = false;
-        coll = &texs.fFight2[oid];
     } break;
     case eCharacterActionType::carry:
     case eCharacterActionType::walk: {

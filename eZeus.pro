@@ -205,6 +205,9 @@ SOURCES += \
         characters/gods/eextendedgod.cpp \
         characters/gods/egod.cpp \
         characters/gods/ehermes.cpp \
+        characters/heroes/eachilles.cpp \
+        characters/heroes/ebasichero.cpp \
+        characters/heroes/ehero.cpp \
         characters/monsters/ebasicmonster.cpp \
         characters/monsters/ecalydonianboar.cpp \
         characters/monsters/emonster.cpp \
@@ -581,6 +584,9 @@ HEADERS += \
     characters/gods/eextendedgod.h \
     characters/gods/egod.h \
     characters/gods/ehermes.h \
+    characters/heroes/eachilles.h \
+    characters/heroes/ebasichero.h \
+    characters/heroes/ehero.h \
     characters/monsters/ebasicmonster.h \
     characters/monsters/ecalydonianboar.h \
     characters/monsters/emonster.h \
@@ -654,7 +660,9 @@ HEADERS += \
     missiles/emissile.h \
     missiles/erockmissile.h \
     offsets/PoseidonImps.h \
+    offsets/Poseidon_Atalanta.h \
     offsets/Poseidon_Atlas.h \
+    offsets/Poseidon_Bellerophon.h \
     offsets/Poseidon_Chimera.h \
     offsets/Poseidon_Echidna.h \
     offsets/Poseidon_Harpie.h \
@@ -676,18 +684,24 @@ HEADERS += \
     offsets/Zeus_Poseidon.h \
     offsets/Zeus_Zeus.h \
     offsets/destruction.h \
+    offsets/zeus_achilles.h \
     offsets/zeus_calydonianboar.h \
     offsets/zeus_cerberus.h \
     offsets/zeus_cyclops.h \
     offsets/zeus_dragon.h \
     offsets/zeus_hector.h \
+    offsets/zeus_heracles.h \
     offsets/zeus_hydra.h \
+    offsets/zeus_jason.h \
     offsets/zeus_kraken.h \
     offsets/zeus_maenads.h \
     offsets/zeus_medusa.h \
     offsets/zeus_minotaur.h \
+    offsets/zeus_odysseus.h \
+    offsets/zeus_perseus.h \
     offsets/zeus_scylla.h \
     offsets/zeus_talos.h \
+    offsets/zeus_theseus.h \
     pointers/eobject.h \
     pointers/eobject.h \
     pointers/estdpointer.h \

@@ -5,6 +5,7 @@
 #include "offsets/PoseidonImps.h"
 #include "offsets/Zeus_Greek.h"
 #include "offsets/SprAmbient.h"
+
 #include "offsets/zeus_calydonianboar.h"
 #include "offsets/zeus_cerberus.h"
 #include "offsets/Poseidon_Chimera.h"
@@ -21,6 +22,15 @@
 #include "offsets/zeus_scylla.h"
 #include "offsets/Poseidon_Sphinx.h"
 #include "offsets/zeus_talos.h"
+
+#include "offsets/zeus_achilles.h"
+#include "offsets/Poseidon_Atalanta.h"
+#include "offsets/Poseidon_Bellerophon.h"
+#include "offsets/zeus_heracles.h"
+#include "offsets/zeus_jason.h"
+#include "offsets/zeus_odysseus.h"
+#include "offsets/zeus_perseus.h"
+#include "offsets/zeus_theseus.h"
 
 #include "etextureloader.h"
 
@@ -802,6 +812,86 @@ void eCharacterTextures::load() {
         texClass.loadSkipFlipped(fTalos.fDie, 153, 273);
         texClass.loadSkipFlipped(fTalos.fFight, 273, 393);
         texClass.loadSkipFlipped(fTalos.fFight2, 393, 545);
+    }
+
+    {
+        const std::string pathBase{dir + "zeus_achilles/zeus_achilles_"};
+
+        eTextureClass texClass(pathBase, texLoader, &eZeus_achillesOffset);
+
+        texClass.loadSkipFlipped(fAchilles.fWalk, 1, 257);
+        texClass.loadSkipFlipped(fAchilles.fDie, 257, 457);
+        texClass.loadSkipFlipped(fAchilles.fFight, 457, 577);
+    }
+
+    {
+        const std::string pathBase{dir + "Poseidon_Atalanta/Poseidon_Atalanta_"};
+
+        eTextureClass texClass(pathBase, texLoader, &ePoseidon_AtalantaOffset);
+
+        texClass.loadSkipFlipped(fAtalanta.fWalk, 1, 161);
+        texClass.loadSkipFlipped(fAtalanta.fDie, 161, 329);
+        texClass.loadSkipFlipped(fAtalanta.fFight, 329, 473);
+    }
+
+    {
+        const std::string pathBase{dir + "Poseidon_Bellerophon/Poseidon_Bellerophon_"};
+
+        eTextureClass texClass(pathBase, texLoader, &ePoseidon_BellerophonOffset);
+
+        texClass.loadSkipFlipped(fBellerophon.fWalk, 1, 121);
+        texClass.loadSkipFlipped(fBellerophon.fDie, 121, 289);
+        texClass.loadSkipFlipped(fBellerophon.fFight, 289, 529);
+    }
+
+    {
+        const std::string pathBase{dir + "zeus_heracles/zeus_heracles_"};
+
+        eTextureClass texClass(pathBase, texLoader, &eZeus_heraclesOffset);
+
+        texClass.loadSkipFlipped(fHercules.fWalk, 1, 185);
+        texClass.loadSkipFlipped(fHercules.fDie, 185, 345);
+        texClass.loadSkipFlipped(fHercules.fFight, 345, 481);
+    }
+
+    {
+        const std::string pathBase{dir + "zeus_jason/zeus_jason_"};
+
+        eTextureClass texClass(pathBase, texLoader, &eZeus_jasonOffset);
+
+        texClass.loadSkipFlipped(fJason.fWalk, 1, 249);
+        texClass.loadSkipFlipped(fJason.fDie, 249, 409);
+        texClass.loadSkipFlipped(fJason.fFight, 409, 657);
+    }
+
+    {
+        const std::string pathBase{dir + "zeus_odysseus/zeus_odysseus_"};
+
+        eTextureClass texClass(pathBase, texLoader, &eZeus_odysseusOffset);
+
+        texClass.loadSkipFlipped(fOdysseus.fWalk, 1, 241);
+        texClass.loadSkipFlipped(fOdysseus.fDie, 241, 489);
+        texClass.loadSkipFlipped(fOdysseus.fFight, 489, 769);
+    }
+
+    {
+        const std::string pathBase{dir + "zeus_perseus/zeus_perseus_"};
+
+        eTextureClass texClass(pathBase, texLoader, &eZeus_perseusOffset);
+
+        texClass.loadSkipFlipped(fPerseus.fWalk, 1, 129);
+        texClass.loadSkipFlipped(fPerseus.fDie, 129, 289);
+        texClass.loadSkipFlipped(fPerseus.fFight, 289, 417);
+    }
+
+    {
+        const std::string pathBase{dir + "zeus_theseus/zeus_theseus_"};
+
+        eTextureClass texClass(pathBase, texLoader, &eZeus_theseusOffset);
+
+        texClass.loadSkipFlipped(fTheseus.fWalk, 1, 185);
+        texClass.loadSkipFlipped(fTheseus.fDie, 185, 409);
+        texClass.loadSkipFlipped(fTheseus.fFight, 409, 585);
     }
 
 

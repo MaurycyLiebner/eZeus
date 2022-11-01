@@ -98,7 +98,16 @@ enum class eCharacterType {
     minotaur, // hermes, theseus
     scylla, // apollo, odysseus
     sphinx, // hera, atalanta
-    talos // hephaestus, jason
+    talos, // hephaestus, jason
+
+    achilles, // hector, maenads
+    atalanta, // harpies, sphinx
+    bellerophon, // chimera, echidna
+    hercules, // cerberus, hydra
+    jason, // dragon, talos
+    odysseus, // cyclops, scylla
+    perseus, // medusa, kraken
+    theseus // calydonianBoar, minotaur
 };
 
 class eCharacterBase {
