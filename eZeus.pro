@@ -50,6 +50,7 @@ SOURCES += \
         buildings/egrowerslodge.cpp \
         buildings/egymnasium.cpp \
         buildings/eheatgetters.cpp \
+        buildings/eheroshall.cpp \
         buildings/ehorseranch.cpp \
         buildings/ehorseranchenclosure.cpp \
         buildings/ehorsevendor.cpp \
@@ -428,6 +429,7 @@ HEADERS += \
     buildings/egrowerslodge.h \
     buildings/egymnasium.h \
     buildings/eheatgetters.h \
+    buildings/eheroshall.h \
     buildings/ehorseranch.h \
     buildings/ehorseranchenclosure.h \
     buildings/ehorsevendor.h \

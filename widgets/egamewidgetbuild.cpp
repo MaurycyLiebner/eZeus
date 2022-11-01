@@ -1337,6 +1337,19 @@ bool eGameWidget::buildMouseRelease() {
             build(mHoverTX, mHoverTY, 4, 4,
                   [this]() { return e::make_shared<eStoneCircle>(*mBoard); });
         }; break;
+        case eBuildingMode::achillesHall:
+        case eBuildingMode::atalantaHall:
+        case eBuildingMode::bellerophonHall:
+        case eBuildingMode::herculesHall:
+        case eBuildingMode::jasonHall:
+        case eBuildingMode::odysseusHall:
+        case eBuildingMode::perseusHall:
+        case eBuildingMode::theseusHall: {
+            const auto hallType = eBuildingModeHelpers::toBuildingType(mode);
+            const auto heroType = eHerosHall::sHallTypeToHeroType(hallType);
+            build(mHoverTX, mHoverTY, 4, 4,
+                  [this, heroType]() { return e::make_shared<eHerosHall>(heroType, *mBoard); });
+        } break;
         case eBuildingMode::templeArtemis:
         case eBuildingMode::templeHephaestus: {
             const auto bt = eBuildingModeHelpers::toBuildingType(mode);

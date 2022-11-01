@@ -340,7 +340,8 @@ public:
     std::shared_ptr<eTexture> fSanctuaryAltar;
 
     std::shared_ptr<eTexture> fHeroHall;
-    // achilles, hercules, jason
+    // achilles, hercules, jason, odysseus,
+    // perseus, theseus, bellerophon, atalanta
     eTextureCollection fHeroStatues;
 
     std::shared_ptr<eTexture> fBlankMonument;

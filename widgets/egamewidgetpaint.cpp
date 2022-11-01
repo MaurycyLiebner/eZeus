@@ -1340,6 +1340,19 @@ void eGameWidget::paintEvent(ePainter& p) {
                 return !r->isRoadblock();
             };
         } break;
+        case eBuildingMode::achillesHall:
+        case eBuildingMode::atalantaHall:
+        case eBuildingMode::bellerophonHall:
+        case eBuildingMode::herculesHall:
+        case eBuildingMode::jasonHall:
+        case eBuildingMode::odysseusHall:
+        case eBuildingMode::perseusHall:
+        case eBuildingMode::theseusHall: {
+            const auto hallType = eBuildingModeHelpers::toBuildingType(mode);
+            const auto heroType = eHerosHall::sHallTypeToHeroType(hallType);
+            const auto b1 = e::make_shared<eHerosHall>(heroType, *mBoard);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
         case eBuildingMode::commonHousing: {
             const auto b1 = e::make_shared<eSmallHouse>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);

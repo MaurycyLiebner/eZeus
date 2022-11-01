@@ -124,8 +124,18 @@ enum class eBuildingType {
     stoneCircle,
 
     templeAphrodite,
+    templeApollo,
+    templeAres,
     templeArtemis,
+    templeAthena,
+    templeAtlas,
+    templeDemeter,
+    templeDionysus,
+    templeHades,
     templeHephaestus,
+    templeHera,
+    templeHermes,
+    templePoseidon,
     templeZeus,
 
     temple,
@@ -133,6 +143,15 @@ enum class eBuildingType {
     templeStatue,
     templeMonument,
     templeAltar,
+
+    achillesHall,
+    atalantaHall,
+    bellerophonHall,
+    herculesHall,
+    jasonHall,
+    odysseusHall,
+    perseusHall,
+    theseusHall,
 
     ruins
 };

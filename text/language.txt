@@ -314,6 +314,15 @@ college "College"
 theater "Theater"
 drama_school "Drama School"
 
+achilles_hall "Achilles' Hall"
+atalanta_hall "Atalanta's Hall"
+bellerophon_hall "Bellerophon's Hall"
+hercules_hall "Hercules' Hall"
+jason_hall "Jason's Hall"
+odysseus_hall "Odysseus' Hall"
+perseus_hall "Perseus' Hall"
+theseus_hall "Theseus' Hall"
+
 forge_of_hephaestus "Forge of Hephaestus"
 artemis_menagerie "Artemis' Menagerie"
 

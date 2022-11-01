@@ -591,12 +591,22 @@ void eGameMenu::initialize(eGameBoard* const b) {
 
 
     const std::vector<eSPR> t7spr = {eSPR{eBuildingMode::templeHephaestus, eLanguage::text("forge_of_hephaestus"), 13},
-                     eSPR{eBuildingMode::templeArtemis, eLanguage::text("artemis_menagerie"), 20}};
+                                     eSPR{eBuildingMode::templeArtemis, eLanguage::text("artemis_menagerie"), 20}};
     const auto t7 = [this, cmx, cmy, t7spr]() {
         openBuildWidget(cmx, cmy, t7spr);
     };
-    const auto hs7 = [this, cmx, cmy]() {};
 
+    const std::vector<eSPR> hs7spr = {eSPR{eBuildingMode::achillesHall, eLanguage::text("achilles_hall")},
+                                      eSPR{eBuildingMode::atalantaHall, eLanguage::text("atalanta_hall")},
+                                      eSPR{eBuildingMode::bellerophonHall, eLanguage::text("bellerophon_hall")},
+                                      eSPR{eBuildingMode::herculesHall, eLanguage::text("hercules_hall")},
+                                      eSPR{eBuildingMode::jasonHall, eLanguage::text("jason_hall")},
+                                      eSPR{eBuildingMode::odysseusHall, eLanguage::text("odysseus_hall")},
+                                      eSPR{eBuildingMode::perseusHall, eLanguage::text("perseus_hall")},
+                                      eSPR{eBuildingMode::theseusHall, eLanguage::text("theseus_hall")}};
+    const auto hs7 = [this, cmx, cmy, hs7spr]() {
+        openBuildWidget(cmx, cmy, hs7spr);
+    };
 
     mMythDataW = new eMythologyDataWidget(*b, window());
     const auto buttonsVec7 = eButtonsDataVec{
@@ -605,7 +615,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
                              t7, 0, 0, &coll.fTemples, t7spr},
                             {eBuildingMode::none,
                              eLanguage::text("heros_hall"),
-                             hs7, 0, 1, &coll.fHeroShrines}};
+                             hs7, 0, 1, &coll.fHeroShrines, hs7spr}};
     const auto ww7 = createDataWidget(mMythDataW, buttonsVec7,
                                       "mythology_title");
 

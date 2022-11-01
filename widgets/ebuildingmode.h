@@ -118,9 +118,28 @@ enum class eBuildingMode {
     stoneCircle,
 
     templeAphrodite,
+    templeApollo,
+    templeAres,
     templeArtemis,
+    templeAthena,
+    templeAtlas,
+    templeDemeter,
+    templeDionysus,
+    templeHades,
     templeHephaestus,
-    templeZeus
+    templeHera,
+    templeHermes,
+    templePoseidon,
+    templeZeus,
+
+    achillesHall,
+    atalantaHall,
+    bellerophonHall,
+    herculesHall,
+    jasonHall,
+    odysseusHall,
+    perseusHall,
+    theseusHall
 };
 
 namespace eBuildingModeHelpers {

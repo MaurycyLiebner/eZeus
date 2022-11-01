@@ -56,7 +56,7 @@
 eGameBoard::eGameBoard() :
     mEmplData(mPopData, *this) {
     const int min = static_cast<int>(eBuildingMode::road);
-    const int max = static_cast<int>(eBuildingMode::templeZeus);
+    const int max = static_cast<int>(eBuildingMode::theseusHall);
     for(int i = min; i <= max; i++) {
         const auto bm = static_cast<eBuildingMode>(i);
         mSupportedBuildings.push_back(bm);

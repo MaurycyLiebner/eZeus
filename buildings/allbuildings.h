@@ -85,6 +85,8 @@
 #include "buildings/sanctuaries/etemplebuilding.h"
 #include "buildings/sanctuaries/etemplerenderer.h"
 
+#include "buildings/eheroshall.h"
+
 #include "buildings/ecommonagora.h"
 #include "buildings/egrandagora.h"
 

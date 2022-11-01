@@ -194,10 +194,51 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
     case eBuildingMode::stoneCircle:
         return eBuildingType::stoneCircle;
 
+    case eBuildingMode::templeAphrodite:
+        return eBuildingType::templeAphrodite;
+    case eBuildingMode::templeApollo:
+        return eBuildingType::templeApollo;
+    case eBuildingMode::templeAres:
+        return eBuildingType::templeAres;
     case eBuildingMode::templeArtemis:
         return eBuildingType::templeArtemis;
+    case eBuildingMode::templeAthena:
+        return eBuildingType::templeAthena;
+    case eBuildingMode::templeAtlas:
+        return eBuildingType::templeAtlas;
+    case eBuildingMode::templeDemeter:
+        return eBuildingType::templeDemeter;
+    case eBuildingMode::templeDionysus:
+        return eBuildingType::templeDionysus;
+    case eBuildingMode::templeHades:
+        return eBuildingType::templeHades;
     case eBuildingMode::templeHephaestus:
         return eBuildingType::templeHephaestus;
+    case eBuildingMode::templeHera:
+        return eBuildingType::templeHera;
+    case eBuildingMode::templeHermes:
+        return eBuildingType::templeHermes;
+    case eBuildingMode::templePoseidon:
+        return eBuildingType::templePoseidon;
+    case eBuildingMode::templeZeus:
+        return eBuildingType::templeZeus;
+
+    case eBuildingMode::achillesHall:
+        return eBuildingType::achillesHall;
+    case eBuildingMode::atalantaHall:
+        return eBuildingType::atalantaHall;
+    case eBuildingMode::bellerophonHall:
+        return eBuildingType::bellerophonHall;
+    case eBuildingMode::herculesHall:
+        return eBuildingType::herculesHall;
+    case eBuildingMode::jasonHall:
+        return eBuildingType::jasonHall;
+    case eBuildingMode::odysseusHall:
+        return eBuildingType::odysseusHall;
+    case eBuildingMode::perseusHall:
+        return eBuildingType::perseusHall;
+    case eBuildingMode::theseusHall:
+        return eBuildingType::theseusHall;
 
     default:
         return eBuildingType::none;
