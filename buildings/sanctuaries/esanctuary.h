@@ -7,6 +7,7 @@
 #include "esanctbuilding.h"
 
 class eBuildingTextures;
+enum class eGodType;
 
 class eSanctuary : public eEmployingBuilding {
 public:
@@ -31,6 +32,8 @@ public:
 
     void registerElement(const stdsptr<eSanctBuilding>& e);
 
+    int progress() const; // 0-100
+
     eSanctCost cost() const;
     const eSanctCost& stored() const { return mStored; }
 
@@ -38,6 +41,8 @@ public:
 
     int altitude() const { return mAltitude; }
     void setAltitude(const int a) { mAltitude = a; }
+
+    eGodType godType() const;
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;

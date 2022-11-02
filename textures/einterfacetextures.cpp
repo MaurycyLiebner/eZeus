@@ -741,7 +741,7 @@ void eInterfaceTextures::load() {
             eTextureLoadingHelpers::loadTex(pathBase, i, fDownButton);
         }
 
-        for(int i = 407; i < 409; i++) {
+        for(int i = 407; i < 411; i++) {
             eTextureLoadingHelpers::loadTex(pathBase, i, fCheckBox);
         }
     }

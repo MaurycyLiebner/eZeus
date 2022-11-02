@@ -99,17 +99,22 @@ int eEliteHousing::provide(const eProvide p, const int n) {
     default:
         return eBuilding::provide(p, n);
     }
-    const int add = std::clamp(n, 0, max - *value);
-    *value += add;
+    int add = 0;
+    if(value) {
+        add = std::clamp(n, 0, max - *value);
+        *value += add;
+    }
     updateLevel();
     return add;
 }
 
 void eEliteHousing::timeChanged(const int by) {
-    const int t = time();
-    const bool ul = t % 1000 < by;
-    if(ul) updateLevel();
-    eBuilding::timeChanged(by);
+    const int lupdate = 1000;
+    if(mUpdateLevel > lupdate) {
+        mUpdateLevel -= lupdate;
+        updateLevel();
+    }
+    eHouseBase::timeChanged(by);
 }
 
 void eEliteHousing::nextMonth() {

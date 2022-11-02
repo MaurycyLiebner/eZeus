@@ -54,6 +54,27 @@ void eSanctuary::useResources(const eSanctCost& r) {
     mUsed.fSculpture += r.fSculpture;
 }
 
+eGodType eSanctuary::godType() const {
+    const auto bt = type();
+    switch(bt) {
+    case eBuildingType::templeAphrodite: return eGodType::aphrodite;
+    case eBuildingType::templeApollo: return eGodType::apollo;
+    case eBuildingType::templeAres: return eGodType::ares;
+    case eBuildingType::templeArtemis: return eGodType::artemis;
+    case eBuildingType::templeAthena: return eGodType::athena;
+    case eBuildingType::templeAtlas: return eGodType::atlas;
+    case eBuildingType::templeDemeter: return eGodType::demeter;
+    case eBuildingType::templeDionysus: return eGodType::dionysus;
+    case eBuildingType::templeHades: return eGodType::hades;
+    case eBuildingType::templeHephaestus: return eGodType::hephaestus;
+    case eBuildingType::templeHera: return eGodType::hera;
+    case eBuildingType::templeHermes: return eGodType::hermes;
+    case eBuildingType::templePoseidon: return eGodType::poseidon;
+    case eBuildingType::templeZeus: return eGodType::zeus;
+    default: return eGodType::aphrodite;
+    }
+}
+
 void eSanctuary::timeChanged(const int by) {
     if(!mCart) spawnCart(mCart, eCartActionTypeSupport::take);
     eEmployingBuilding::timeChanged(by);
@@ -121,6 +142,16 @@ std::vector<eCartTask> eSanctuary::cartTasks() const {
 
 void eSanctuary::registerElement(const stdsptr<eSanctBuilding>& e) {
     mElements.push_back(e);
+}
+
+int eSanctuary::progress() const {
+    double did = 0;
+    double max = 0;
+    for(const auto& e : mElements) {
+        did += e->progress();
+        max += e->maxProgress();
+    }
+    return std::round(100*did/max);
 }
 
 void eSanctuary::read(eReadStream& src) {

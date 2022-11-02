@@ -30,6 +30,8 @@
 #include "buildings/epalace.h"
 #include "buildings/epalacetile.h"
 
+#include "buildings/allbuildings.h"
+
 #include "engine/boardData/eheatmaptask.h"
 
 #include "missiles/emissile.h"
@@ -196,6 +198,16 @@ eBuilding* eGameBoard::randomBuilding(const eBuildingValidator& v) const {
         if(r) return b;
     }
     return nullptr;
+}
+
+int eGameBoard::horses() const {
+    int h = 0;
+    for(const auto b : mTimedBuildings) {
+        if(b->type() != eBuildingType::horseRanch) continue;
+        const auto r = static_cast<eHorseRanch*>(b);
+        h += r->horseCount();
+    }
+    return h;
 }
 
 void eGameBoard::planAction(ePlannedAction* const a) {
@@ -519,6 +531,7 @@ void eGameBoard::addSoldier(const eCharacterType st) {
         bt = eBannerType::horseman;
     }
     const auto b = e::make_shared<eSoldierBanner>(bt, *this);
+    b->setPlayerId(1);
     registerBanner(b);
     b->incCount();
     const auto ts = mPalace->tiles();
@@ -615,15 +628,21 @@ void eGameBoard::updateCoverage() {
     int sport = 0;
     int phil = 0;
     int drama = 0;
+    int taxes = 0;
     for(const auto b : mTimedBuildings) {
         if(const auto h = dynamic_cast<eHouseBase*>(b)) {
             const int p = h->people();
             if(h->athletes() > 0) {
                 sport += p;
-            } else if(h->philosophers() > 0) {
+            }
+            if(h->philosophers() > 0) {
                 phil += p;
-            } else if(h->actors() > 0) {
+            }
+            if(h->actors() > 0) {
                 drama += p;
+            }
+            if(h->paidTaxes()) {
+                taxes += p;
             }
             people += p;
         }
@@ -632,10 +651,12 @@ void eGameBoard::updateCoverage() {
         mAthleticsCoverage = 0;
         mPhilosophyCoverage = 0;
         mDramaCoverage = 0;
+        mTaxesCoverage = 0;
     } else {
-        mAthleticsCoverage = 100*sport/people;
-        mPhilosophyCoverage = 100*phil/people;
-        mDramaCoverage = 100*drama/people;
+        mAthleticsCoverage = std::round(100.*sport/people);
+        mPhilosophyCoverage = std::round(100.*phil/people);
+        mDramaCoverage = std::round(100.*drama/people);
+        mTaxesCoverage = std::round(100.*taxes/people);
     }
     mAllDiscCoverage = (mAthleticsCoverage + mPhilosophyCoverage + mDramaCoverage)/3;
 }
@@ -710,6 +731,7 @@ void eGameBoard::handleGamesEnd(const eGames game) {
         const bool won = rand() % 101 < 100*chance;
         if(won) {
             showMessage(nullptr, msgs->fWon);
+            mWonGames++;
         } else {
             const bool second = rand() % 101 < 200*chance;
             if(second) {
@@ -1033,4 +1055,38 @@ void eGameBoard::updateResources() {
             count += s->count(type);
         }
     }
+}
+
+int eGameBoard::resourceCount(const eResourceType type) const {
+    for(auto& r : mResources) {
+        if(r.first == type) return r.second;
+    }
+    return 0;
+}
+
+int eGameBoard::eliteHouses() const {
+    int r = 0;
+    for(const auto b : mTimedBuildings) {
+        const auto bt = b->type();
+        if(bt == eBuildingType::eliteHousing) r++;
+    }
+    return r;
+}
+
+eSanctuary* eGameBoard::sanctuary(const eGodType god) const {
+    for(const auto s : mSanctuaries) {
+        if(s->godType() == god) return s;
+    }
+    return nullptr;
+}
+
+int eGameBoard::countBanners(const eBannerType bt) const {
+    int c = 0;
+    for(const auto& bn : mBanners) {
+        const int pid = bn->playerId();
+        if(pid != 1) continue;
+        if(bn->type() != bt) continue;
+        c++;
+    }
+    return c;
 }

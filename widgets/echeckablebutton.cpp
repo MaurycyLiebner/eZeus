@@ -22,6 +22,10 @@ void eCheckableButton::setCheckedTexture(const std::shared_ptr<eTexture>& tex) {
     mCheckedTexture = tex;
 }
 
+void eCheckableButton::setCheckedHoverTexture(const std::shared_ptr<eTexture>& tex) {
+    mCheckedHoverTexture = tex;
+}
+
 eCheckableButton* eCheckableButton::sCreate(
         const eTextureCollection& texs,
         eMainWindow* const window,
@@ -34,7 +38,11 @@ eCheckableButton* eCheckableButton::sCreate(
 void eCheckableButton::paintEvent(ePainter& p) {
     if(mCheckedTexture) {
         if(mChecked) {
-            p.drawTexture(rect(), mCheckedTexture, eAlignment::center);
+            if(mCheckedHoverTexture && hovered()) {
+                p.drawTexture(rect(), mCheckedHoverTexture, eAlignment::center);
+            } else {
+                p.drawTexture(rect(), mCheckedTexture, eAlignment::center);
+            }
         } else eButton::paintEvent(p);
     } else {
         eButton::paintEvent(p);

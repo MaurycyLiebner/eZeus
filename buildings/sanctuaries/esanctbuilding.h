@@ -39,6 +39,7 @@ public:
 
     bool finished() const;
     int progress() const { return mProgress; }
+    int maxProgress() const { return mMaxProgress; }
     bool incProgress();
     void destroy() { mProgress = 0; }
 

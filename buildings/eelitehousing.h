@@ -49,6 +49,8 @@ private:
 
     void updateLevel();
 
+    int mUpdateLevel = 0;
+
     int mWine = 0;
     int mArms = 0;
     int mHorses = 0;

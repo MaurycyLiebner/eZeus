@@ -18,6 +18,18 @@ eHouseBase::~eHouseBase() {
     popData.incVacancies(-vacancies());
 }
 
+void eHouseBase::timeChanged(const int by) {
+    const int cupdate = 5000;
+    mUpdateCulture += by;
+    if(mUpdateCulture > cupdate) {
+        mUpdateCulture -= cupdate;
+        mPhilosophers = std::max(0, mPhilosophers - 1);
+        mActors = std::max(0, mActors - 1);
+        mAthletes = std::max(0, mAthletes - 1);
+    }
+    eBuilding::timeChanged(by);
+}
+
 void eHouseBase::levelUp() {
     setLevel(mLevel + 1);
 }

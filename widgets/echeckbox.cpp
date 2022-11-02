@@ -11,6 +11,8 @@ eCheckBox::eCheckBox(eMainWindow* const window) :
     const auto& texs = intrfc[iRes].fCheckBox;
     setCheckedTexture(texs.getTexture(0));
     setTexture(texs.getTexture(1));
+    setCheckedHoverTexture(texs.getTexture(2));
+    setHoverTexture(texs.getTexture(3));
     setPadding(0);
     fitContent();
 }

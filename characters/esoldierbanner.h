@@ -38,6 +38,9 @@ public:
     void setSelected(const bool s) { mSelected = s; }
     bool selected() const { return mSelected; }
 
+    void setPlayerId(const int pid) { mPlayerId = pid; }
+    int playerId() const { return mPlayerId; }
+
     int count() const { return mCount; }
     void incCount();
     void decCount();
@@ -61,6 +64,8 @@ private:
     eTile* mTile = nullptr;
 
     int mCount = 0;
+
+    int mPlayerId = 1;
 
     std::map<eSoldier*, eTile*> mPlaces;
     std::vector<eSoldier*> mSoldiers;

@@ -128,11 +128,11 @@ void eCultureDataWidget::initialize() {
 }
 
 std::string coverageToText(const int c) {
-    if(c < 20) return "terrible_coverage";
-    if(c < 40) return "poor_coverage";
-    if(c < 60) return "not_bad_coverage";
-    if(c < 80) return "ok_coverage";
-    return "good_coverage";
+    if(c < 20) return "terrible_standing";
+    if(c < 40) return "poor_standing";
+    if(c < 60) return "not_bad_standing";
+    if(c < 80) return "ok_standing";
+    return "good_standing";
 }
 
 void eCultureDataWidget::updateCoverage() {

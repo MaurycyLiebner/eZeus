@@ -26,6 +26,8 @@ public:
 
     virtual eHouseMissing missing() const = 0;
 
+    void timeChanged(const int by) override;
+
     bool paidTaxes() const { return mPaidTaxes; }
 
     int food() const { return mFood; }
@@ -61,6 +63,8 @@ protected:
     int mFood = 0;
     int mFleece = 0;
     int mOil = 0;
+
+    int mUpdateCulture = 0;
 
     int mPhilosophers = 0;
     int mActors = 0;

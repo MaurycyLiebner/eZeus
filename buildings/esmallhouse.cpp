@@ -61,19 +61,28 @@ int eSmallHouse::provide(const eProvide p, const int n) {
     default:
         return eBuilding::provide(p, n);
     }
-    const int add = std::clamp(n, 0, max - *value);
-    *value += add;
+    int add = 0;
+    if(value) {
+        add = std::clamp(n, 0, max - *value);
+        *value += add;
+    }
     updateLevel();
     return add;
 }
 
 void eSmallHouse::timeChanged(const int by) {
-    const int t = time();
-    const bool decw = t % 5000 < by;
-    if(decw) mWater = std::max(0, mWater - 1);
-    const bool ul = t % 1000 < by;
-    if(ul) updateLevel();
-    eBuilding::timeChanged(by);
+    mUpdateCulture += by;
+    const int wupdate = 5000;
+    if(mUpdateWater > wupdate) {
+        mUpdateWater -= wupdate;
+        mWater = std::max(0, mWater - 1);
+    }
+    const int lupdate = 1000;
+    if(mUpdateLevel > lupdate) {
+        mUpdateLevel -= lupdate;
+        updateLevel();
+    }
+    eHouseBase::timeChanged(by);
 }
 
 void eSmallHouse::nextMonth() {

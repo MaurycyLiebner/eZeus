@@ -351,6 +351,7 @@ void eMainWindow::showGame(eGameBoard* board) {
                 const auto s = spawnHoplite(i, j, 1);
                 if(bi >= 8) {
                     b = e::make_shared<eSoldierBanner>(eBannerType::rockThrower, *mBoard);
+                    b->setPlayerId(1);
                     const auto n = new stdsptr<eSoldierBanner>(b);
                     b->moveTo(i, j);
                     bi = 0;
@@ -366,6 +367,7 @@ void eMainWindow::showGame(eGameBoard* board) {
                 const auto s = spawnHoplite(i, j, 2);
                 if(bi >= 8) {
                     b = e::make_shared<eSoldierBanner>(eBannerType::hoplite, *mBoard);
+                    b->setPlayerId(2);
                     const auto n = new stdsptr<eSoldierBanner>(b);
                     b->moveTo(i, j);
                     bi = 0;

@@ -24,6 +24,7 @@ public:
             const eHeroType type);
     static stdsptr<eHero> sCreateHero(
             const eHeroType type, eGameBoard& board);
+    static std::string sHeroName(const eHeroType ht);
 };
 
 #endif // EHERO_H

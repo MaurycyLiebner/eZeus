@@ -3,5 +3,5 @@
 ePhilosopher::ePhilosopher(eGameBoard& board) :
     eBasicPatroler(board, &eCharacterTextures::fPhilosopher,
                    eCharacterType::philosopher) {
-    setProvide(eProvide::philosopher, 1000);
+    setProvide(eProvide::philosopher, 10000);
 }

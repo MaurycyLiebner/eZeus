@@ -389,6 +389,7 @@ SOURCES += \
         widgets/infowidgets/ecommonhouseinfowidget.cpp \
         widgets/infowidgets/eemployingbuildinginfowidget.cpp \
         widgets/infowidgets/egyminfowidget.cpp \
+        widgets/infowidgets/eheroshallinfowidget.cpp \
         widgets/infowidgets/einfowidget.cpp \
         widgets/infowidgets/estorageinfowidget.cpp \
         widgets/infowidgets/etradepostinfowidget.cpp
@@ -816,6 +817,7 @@ HEADERS += \
     widgets/infowidgets/ecommonhouseinfowidget.h \
     widgets/infowidgets/eemployingbuildinginfowidget.h \
     widgets/infowidgets/egyminfowidget.h \
+    widgets/infowidgets/eheroshallinfowidget.h \
     widgets/infowidgets/einfowidget.h \
     widgets/infowidgets/estorageinfowidget.h \
     widgets/infowidgets/etradepostinfowidget.h

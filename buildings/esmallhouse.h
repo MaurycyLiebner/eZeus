@@ -28,6 +28,9 @@ public:
 private:
     void updateLevel();
 
+    int mUpdateWater = 0;
+    int mUpdateLevel = 0;
+
     int mWater = 0;
 };
 

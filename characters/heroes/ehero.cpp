@@ -2,6 +2,8 @@
 
 #include "eachilles.h"
 
+#include "elanguage.h"
+
 eHero::eHero(eGameBoard& board, const eHeroType mt) :
     eCharacter(board, sHeroToCharacterType(mt)) {}
 
@@ -56,4 +58,18 @@ stdsptr<eHero> eHero::sCreateHero(const eHeroType type, eGameBoard& board) {
     case eHeroType::theseus:
         return e::make_shared<eTheseus>(board);
     }
+}
+
+std::string eHero::sHeroName(const eHeroType ht) {
+    switch(ht) {
+    case eHeroType::achilles: return eLanguage::text("achilles");
+    case eHeroType::atalanta: return eLanguage::text("atalanta");
+    case eHeroType::bellerophon: return eLanguage::text("bellerophon");
+    case eHeroType::hercules: return eLanguage::text("hercules");
+    case eHeroType::jason: return eLanguage::text("jason");
+    case eHeroType::odysseus: return eLanguage::text("odysseus");
+    case eHeroType::perseus: return eLanguage::text("perseus");
+    case eHeroType::theseus: return eLanguage::text("theseus");
+    }
+    return "";
 }

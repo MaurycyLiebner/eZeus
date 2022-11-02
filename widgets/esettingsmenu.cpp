@@ -20,6 +20,7 @@ void eSettingsMenu::initialize(const eAction& backA,
     eMainMenuBase::initialize();
 
     const auto buttons = new eFramedWidget(window());
+    buttons->setType(eFrameType::message);
     addWidget(buttons);
 
     const auto res = resolution();

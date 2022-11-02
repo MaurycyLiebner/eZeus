@@ -6,6 +6,7 @@
 #include "infowidgets/etradepostinfowidget.h"
 #include "infowidgets/estorageinfowidget.h"
 #include "infowidgets/eagorainfowidget.h"
+#include "infowidgets/eheroshallinfowidget.h"
 
 #include "elanguage.h"
 
@@ -261,6 +262,10 @@ eInfoWidget* eGameWidget::openInfoWidget(eBuilding* const b) {
             storptr->setOrders(get, empty, accept);
             storptr->setMaxCount(maxCount);
         };
+    } else if(const auto hh = dynamic_cast<eHerosHall*>(b)) {
+        const auto hhWid = new eHerosHallInfoWidget(window(), false, false);
+        hhWid->initialize(hh);
+        wid = hhWid;
     } else {
         eAgoraBase* a = nullptr;
         if(const auto aa = dynamic_cast<eAgoraBase*>(b)) {

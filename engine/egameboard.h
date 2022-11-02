@@ -26,6 +26,7 @@
 
 #include "characters/gods/egod.h"
 #include "characters/monsters/emonster.h"
+#include "buildings/sanctuaries/esanctuary.h"
 
 class eGameEventCycle;
 
@@ -159,14 +160,28 @@ public:
     void unregisterPalace();
 
     void updateResources();
+    int resourceCount(const eResourceType type) const;
     using eResources = std::vector<std::pair<eResourceType, int>>;
     const eResources& resources() const { return mResources; }
 
+    ePalace* palace() const { return mPalace; }
     bool hasPalace() const { return mPalace; }
+
+    int eliteHouses() const;
+
+    const std::vector<eSanctuary*>& sanctuaries() const
+    { return mSanctuaries; }
+    eSanctuary* sanctuary(const eGodType god) const;
+
+    const std::vector<stdsptr<eSoldierBanner>>& banners() const
+    { return mBanners; }
+    int countBanners(const eBannerType bt) const;
 
     void incTime(const int by);
 
     eThreadPool& threadPool() { return mThreadPool; }
+
+    int population() const { return mPopData.population(); }
 
     ePopulationData& populationData() { return mPopData; }
     eEmploymentData& employmentData() { return mEmplData; }
@@ -247,7 +262,15 @@ public:
     int philosophyCoverage() const { return mPhilosophyCoverage; }
     int athleticsCoverage() const { return mAthleticsCoverage; }
     int dramaCoverage() const { return mDramaCoverage; }
-    int allCoverage() const { return mAllDiscCoverage; }
+    int allCultureCoverage() const { return mAllDiscCoverage; }
+    int taxesCoverage() const { return mTaxesCoverage; }
+    int unrest() const { return mUnrest; }
+    int popularity() const { return mPopularity; }
+    int health() const { return mHealth; }
+
+    int wonGames() const { return mWonGames; }
+
+    int horses() const;
 
     void planAction(ePlannedAction* const a);
 
@@ -331,6 +354,7 @@ private:
 
     bool mRegisterBuildingsEnabled = true;
 
+    std::vector<eSanctuary*> mSanctuaries;
     std::vector<eStorageBuilding*> mStorBuildings;
     std::vector<eCharacter*> mCharacters;
     std::vector<eSoldier*> mSoldiers;
@@ -358,6 +382,12 @@ private:
     int mPhilosophyCoverage = 0;
     int mDramaCoverage = 0;
     int mAllDiscCoverage = 0;
+    int mTaxesCoverage = 0;
+    int mUnrest = 0;
+    int mPopularity = 0;
+    int mHealth = 0;
+
+    int mWonGames = 0;
 
     eBuilding* mStadium = nullptr;
     ePalace* mPalace = nullptr;
