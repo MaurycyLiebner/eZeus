@@ -1,7 +1,7 @@
 #include "ecollectaction.h"
 
 #include "engine/egameboard.h"
-#include "esounds.h"
+#include "audio/esounds.h"
 
 eCollectAction::eCollectAction(eResourceCollectorBase* const c,
                                const eTranformFunc& tf,

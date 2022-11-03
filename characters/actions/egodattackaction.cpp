@@ -2,7 +2,7 @@
 
 #include "buildings/ebuilding.h"
 #include "textures/edestructiontextures.h"
-#include "esounds.h"
+#include "audio/esounds.h"
 #include "engine/egameboard.h"
 #include "elanguage.h"
 

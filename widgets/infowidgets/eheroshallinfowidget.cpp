@@ -2,7 +2,9 @@
 
 #include "buildings/eheroshall.h"
 #include "widgets/elabel.h"
+#include "widgets/eframedbutton.h"
 #include "textures/egametextures.h"
+#include "elanguage.h"
 
 void eHerosHallInfoWidget::initialize(eHerosHall* const b) {
     const auto ht = b->heroType();
@@ -11,6 +13,7 @@ void eHerosHallInfoWidget::initialize(eHerosHall* const b) {
 
     const int p = padding();
 
+    int met = 0;
     const auto& reqs = b->requirements();
     int y = 0;
     std::vector<eWidget*> wids;
@@ -21,6 +24,7 @@ void eHerosHallInfoWidget::initialize(eHerosHall* const b) {
         w->setWidth(widgetWidth() - 2*p);
 
         const bool finished = r.fStatusCount >= r.fRequiredCount;
+        if(finished) met++;
 
         int x = 0;
 
@@ -79,5 +83,24 @@ void eHerosHallInfoWidget::initialize(eHerosHall* const b) {
     const auto wid = addFramedWidget(y + p);
     for(const auto w : wids) {
         wid->addWidget(w);
+    }
+
+    const int reqC = reqs.size();
+    if(met >= reqC && !b->summoned()) {
+        const auto summonButton = new eFramedButton(window());
+        const auto txt = eLanguage::text("summon") + " " + eHero::sHeroName(ht);
+        summonButton->setText(txt);
+        summonButton->setSmallFontSize();
+        summonButton->fitContent();
+        summonButton->setUnderline(false);
+        const stdptr<eHerosHall> bptr(b);
+        summonButton->setPressAction([bptr, summonButton]() {
+            if(!bptr) return;
+            bptr->summon();
+            summonButton->deleteLater();
+        });
+        const auto wid = addRegularWidget(summonButton->height());
+        wid->addWidget(summonButton);
+        summonButton->align(eAlignment::center);
     }
 }

@@ -3,7 +3,6 @@
 #include "textures/egametextures.h"
 
 void eFramedButton::paintEvent(ePainter& p) {
-    eButton::paintEvent(p);
     int iRes;
     int mult;
     iResAndMult(iRes, mult);
@@ -62,4 +61,5 @@ void eFramedButton::paintEvent(ePainter& p) {
             p.drawTexture(x, y, tex);
         }
     }
+    eButton::paintEvent(p);
 }

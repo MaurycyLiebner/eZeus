@@ -1,17 +1,15 @@
 #ifndef EBUILDBUTTON_H
 #define EBUILDBUTTON_H
 
-#include "ebuttonbase.h"
+#include "eflatbutton.h"
 
-class eBuildButton : public eButtonBase {
+class eBuildButton : public eFlatButton {
 public:
-    using eButtonBase::eButtonBase;
+    using eFlatButton::eFlatButton;
 
     void initialize(const std::string& name,
                     const int marbleCost,
                     const int cost);
-protected:
-    void paintEvent(ePainter& p);
 };
 
 #endif // EBUILDBUTTON_H

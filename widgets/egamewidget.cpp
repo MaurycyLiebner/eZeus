@@ -22,7 +22,7 @@
 
 #include "echeckbox.h"
 
-#include "esounds.h"
+#include "audio/esounds.h"
 
 #include "engine/emapgenerator.h"
 

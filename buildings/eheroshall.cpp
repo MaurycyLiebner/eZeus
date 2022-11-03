@@ -257,6 +257,10 @@ std::string eHerosHall::sTitle(const eHeroType ht) {
     return title;
 }
 
+void eHerosHall::summon() const {
+
+}
+
 void eHerosHall::addRequirement(const eHeroRequirement& hr) {
     mRequirements.push_back(hr);
 }

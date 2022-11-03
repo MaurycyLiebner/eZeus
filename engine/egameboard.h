@@ -105,7 +105,16 @@ enum class eEvent {
     minotaurInvasion,
     scyllaInvasion,
     sphinxInvasion,
-    talosInvasion
+    talosInvasion,
+
+    achillesSummoned,
+    atalantaSummoned,
+    bellerophonSummoned,
+    herculesSummoned,
+    jasonSummoned,
+    odysseusSummoned,
+    perseusSummoned,
+    theseusSummoned
 };
 
 enum class eGames {

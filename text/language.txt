@@ -316,6 +316,9 @@ drama_school "Drama School"
 
 heros_hall_for "Hero's hall for"
 
+summon "Summon"
+greetings "Greetings,"
+
 achilles "Achilles"
 atalanta "Atalanta"
 bellerophon "Bellerophon"

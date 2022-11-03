@@ -1,6 +1,6 @@
 #include "egamewidget.h"
 
-#include "esounds.h"
+#include "audio/esounds.h"
 #include "emessages.h"
 
 void eGameWidget::handleGodVisitEvent(eGodMessages& msgs,
@@ -206,6 +206,39 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
     case eEvent::talosInvasion:
         eSounds::playGodSound(eGodType::hephaestus, eGodSound::monster);
         showMessage(tile, eMessages::instance.fHephaestus.fMonster);
+        break;
+
+    case eEvent::achillesSummoned:
+        eSounds::playHeroSound(eHeroType::achilles, eHeroSound::summoned);
+        showMessage(tile, eMessages::instance.fAchilles.fSummoned);
+        break;
+    case eEvent::atalantaSummoned:
+        eSounds::playHeroSound(eHeroType::atalanta, eHeroSound::summoned);
+        showMessage(tile, eMessages::instance.fAtalanta.fSummoned);
+        break;
+    case eEvent::bellerophonSummoned:
+        eSounds::playHeroSound(eHeroType::bellerophon, eHeroSound::summoned);
+        showMessage(tile, eMessages::instance.fBellerophon.fSummoned);
+        break;
+    case eEvent::herculesSummoned:
+        eSounds::playHeroSound(eHeroType::hercules, eHeroSound::summoned);
+        showMessage(tile, eMessages::instance.fHercules.fSummoned);
+        break;
+    case eEvent::jasonSummoned:
+        eSounds::playHeroSound(eHeroType::jason, eHeroSound::summoned);
+        showMessage(tile, eMessages::instance.fJason.fSummoned);
+        break;
+    case eEvent::odysseusSummoned:
+        eSounds::playHeroSound(eHeroType::odysseus, eHeroSound::summoned);
+        showMessage(tile, eMessages::instance.fOdysseus.fSummoned);
+        break;
+    case eEvent::perseusSummoned:
+        eSounds::playHeroSound(eHeroType::perseus, eHeroSound::summoned);
+        showMessage(tile, eMessages::instance.fPerseus.fSummoned);
+        break;
+    case eEvent::theseusSummoned:
+        eSounds::playHeroSound(eHeroType::theseus, eHeroSound::summoned);
+        showMessage(tile, eMessages::instance.fTheseus.fSummoned);
         break;
     }
     mGm->pushEvent(e, tile);

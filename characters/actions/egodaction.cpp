@@ -1,7 +1,7 @@
 #include "egodaction.h"
 
 #include "engine/egameboard.h"
-#include "esounds.h"
+#include "audio/esounds.h"
 
 #include "ewaitaction.h"
 #include "emovearoundaction.h"

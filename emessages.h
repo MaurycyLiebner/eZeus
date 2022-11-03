@@ -15,6 +15,11 @@ struct eGodMessages {
     eMessageType fMonster;
 };
 
+struct eHeroMessages {
+    eMessageType fSummoned;
+    eMessageType fHallAvailable;
+};
+
 class eMessages {
 public:
     eMessages() {}
@@ -62,6 +67,15 @@ public:
     eGodMessages fPoseidon;
     eGodMessages fZeus;
 
+    eHeroMessages fAchilles;
+    eHeroMessages fAtalanta;
+    eHeroMessages fBellerophon;
+    eHeroMessages fHercules;
+    eHeroMessages fJason;
+    eHeroMessages fOdysseus;
+    eHeroMessages fPerseus;
+    eHeroMessages fTheseus;
+
     eGameMessages fHomeGames;
     eGameMessages fIsthmianGames;
     eGameMessages fNemeanGames;
@@ -70,6 +84,7 @@ public:
 private:
     bool loadImpl();
     void load(eGodMessages& god, const std::string& godName);
+    void load(eHeroMessages& hero, const std::string& heroName);
     bool mLoaded = false;
 };
 

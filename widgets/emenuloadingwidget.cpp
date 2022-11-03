@@ -1,8 +1,8 @@
 #include "emenuloadingwidget.h"
 
 #include "textures/egametextures.h"
-#include "emusic.h"
-#include "esounds.h"
+#include "audio/emusic.h"
+#include "audio/esounds.h"
 #include "emessages.h"
 #include "elanguage.h"
 #include "emainwindow.h"

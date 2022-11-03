@@ -10,7 +10,7 @@
 #include "ewaitaction.h"
 #include "emovearoundaction.h"
 
-#include "esounds.h"
+#include "audio/esounds.h"
 #include "eiteratesquare.h"
 
 eMonsterAction::eMonsterAction(eCharacter* const c,

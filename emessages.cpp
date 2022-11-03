@@ -34,6 +34,21 @@ void eMessages::load(eGodMessages& god, const std::string& godName) {
     god.fMonster.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_unleashes_monster_city_attacked_alert"];
 }
 
+void eMessages::load(eHeroMessages& hero, const std::string& heroName) {
+    hero.fSummoned.fFull.fTitle = fMessages["PHRASE_" + heroName + "_arrives_title"];
+    hero.fSummoned.fFull.fText = fMessages["PHRASE_" + heroName + "_arrives_initial_announcement "];
+    hero.fSummoned.fFull.fTitle = fMessages["PHRASE_CONDENSED_" + heroName + "_arrives_title"];
+    hero.fSummoned.fFull.fText = fMessages["PHRASE_CONDENSED_" + heroName + "_arrives_initial_announcement "];
+
+    hero.fHallAvailable.fFull.fTitle = fMessages["PHRASE_" + heroName + "_hall_available_title"];
+    const auto noReason = fMessages["PHRASE_" + heroName + "_hall_available_no_reason"];
+    auto& availableText = hero.fHallAvailable.fFull.fText;
+    availableText = fMessages["PHRASE_" + heroName + "_hall_available_initial_announcement"];
+    eStringHelpers::replaceAll(availableText, "[reason_phrase]", noReason);
+    hero.fHallAvailable.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + heroName + "_hall_available_title"];
+    hero.fHallAvailable.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + heroName + "_hall_available_initial_announcement"];
+}
+
 bool eMessages::loadImpl() {
     if(mLoaded) return false;
     mLoaded = true;
@@ -115,6 +130,15 @@ bool eMessages::loadImpl() {
     load(fHermes, "hermes");
     load(fPoseidon, "poseidon");
     load(fZeus, "zeus");
+
+    load(fAchilles, "achilles");
+    load(fAtalanta, "atalanta");
+    load(fBellerophon, "bellerophon");
+    load(fHercules, "hercules");
+    load(fJason, "jason");
+    load(fOdysseus, "odysseus");
+    load(fPerseus, "perseus");
+    load(fTheseus, "theseus");
 
     fHomeGames.fBegin.fFull.fTitle = fMessages["PHRASE_home_games_begin_title"];
     fHomeGames.fBegin.fFull.fText = fMessages["PHRASE_home_games_begin_initial_announcement"];

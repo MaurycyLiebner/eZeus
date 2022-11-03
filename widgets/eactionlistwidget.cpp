@@ -1,6 +1,6 @@
 #include "eactionlistwidget.h"
 
-#include "esounds.h"
+#include "audio/esounds.h"
 
 std::shared_ptr<eTexture> eActionListWidget::textToTexture(const std::string& text) {
     const auto tex = std::make_shared<eTexture>();

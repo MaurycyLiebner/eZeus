@@ -92,6 +92,9 @@ public:
     { return mRequirements; }
 
     eHeroType heroType() const { return mType; }
+
+    void summon() const;
+    bool summoned() const { return mSummoned; }
 private:
     void addRequirement(const eHeroRequirement& hr);
     void updateRequirementsStatus();
@@ -107,6 +110,8 @@ private:
     int mPhilosophers = 0;
     int mActors = 0;
     int mAthletes = 0;
+
+    bool mSummoned = false;
 };
 
 #endif // EHEROSHALL_H

@@ -8,7 +8,7 @@
 #include "widgets/emenuloadingwidget.h"
 #include "widgets/eworldwidget.h"
 
-#include "emusic.h"
+#include "audio/emusic.h"
 
 #include "engine/ethreadpool.h"
 

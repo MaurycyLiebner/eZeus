@@ -8,7 +8,7 @@
 
 eSounds eSounds::sInstance;
 
-Mix_Chunk* loadSoundBase(const std::string& path) {
+Mix_Chunk* eSounds::loadSoundBase(const std::string& path) {
     const auto wav = Mix_LoadWAV(path.c_str());
     if(!wav) {
         printf("Failed to load sound '%s'!\n SDL_mixer Error: %s\n",
@@ -406,6 +406,29 @@ void eSounds::playGodSound(const eGodType g, const eGodSound s) {
         god = &sInstance.mZeus; break;
     }
     god->play(s);
+}
+
+void eSounds::playHeroSound(const eHeroType h, const eHeroSound s) {
+    eHeroSounds* hero = nullptr;
+    switch(h) {
+    case eHeroType::achilles:
+        hero = &sInstance.mAchilles; break;
+    case eHeroType::atalanta:
+        hero = &sInstance.mAtalanta; break;
+    case eHeroType::bellerophon:
+        hero = &sInstance.mBellerophon; break;
+    case eHeroType::hercules:
+        hero = &sInstance.mHercules; break;
+    case eHeroType::jason:
+        hero = &sInstance.mJason; break;
+    case eHeroType::odysseus:
+        hero = &sInstance.mOdysseus; break;
+    case eHeroType::perseus:
+        hero = &sInstance.mPerseus; break;
+    case eHeroType::theseus:
+        hero = &sInstance.mTheseus; break;
+    }
+    hero->play(s);
 }
 
 void eSounds::loadImpl() {
@@ -892,35 +915,13 @@ void eSounds::loadImpl() {
     mHermes.load();
     mPoseidon.load();
     mZeus.load();
-}
 
-void eGodSounds::load() {
-    const std::string voiceDir{eGameDir::path("Audio/Voice/Walker/")};
-    const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
-
-    fWooing0 = loadSoundBase(voiceDir + fShortName + "_ev_3.mp3");
-    fJealousy1 = loadSoundBase(voiceDir + fShortName + "_ev_2.mp3");
-    fJealousy2 = loadSoundBase(voiceDir + fShortName + "_ev_1.mp3");
-
-    fInvade = loadSoundBase(voiceDir + fShortName + "_ev_4.mp3");
-
-    fMonster = loadSoundBase(voiceDir + fShortName + "_ev_5.mp3");
-    fQuest = loadSoundBase(voiceDir + fShortName + "_ev_6.mp3");
-    fQuestFinished = loadSoundBase(voiceDir + fShortName + "_ev_7.mp3");
-    fPrayer = loadSoundBase(voiceDir + fShortName + "_ev_8.mp3");
-
-    fAppear = loadSoundBase(wavsDir + "G_" + fLongName + "_mat.wav");
-    fDisappear = loadSoundBase(wavsDir + "G_" + fLongName + "_demat.wav");
-
-    for(const auto& s : {"G_" + fLongName + "_atk1.wav",
-                         "G_" + fLongName + "_atk2.wav",
-                         "G_" + fLongName + "_atk3.wav",
-                         "G_" + fLongName + "_atk4.wav"}) {
-        const auto r = loadSoundBase(wavsDir + s);
-        if(r) fAttack.push_back(r);
-    }
-
-    fCurse = loadSoundBase(wavsDir + "G_" + fLongName + "_curse.wav");
-    fHit = loadSoundBase(wavsDir + "G_" + fLongName + "_hit.wav");
-    fSanctify = loadSoundBase(wavsDir + "G_" + fLongName + "_sanctify.wav");
+    mAchilles.load();
+    mAtalanta.load();
+    mBellerophon.load();
+    mHercules.load();
+    mJason.load();
+    mOdysseus.load();
+    mPerseus.load();
+    mTheseus.load();
 }

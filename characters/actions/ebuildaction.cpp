@@ -1,7 +1,7 @@
 #include "ebuildaction.h"
 
 #include "engine/egameboard.h"
-#include "esounds.h"
+#include "audio/esounds.h"
 #include "buildings/sanctuaries/esanctbuilding.h"
 
 eBuildAction::eBuildAction(eArtisan* const c,

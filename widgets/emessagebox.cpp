@@ -78,6 +78,8 @@ void eMessageBox::initialize(const eAction& viewTile,
     const auto text = new eLabel(window());
     text->setSmallFontSize();
     text->setWrapWidth(width() - 8*p);
+    eStringHelpers::replaceAll(msg.fText, "[greeting]",
+                               eLanguage::text("greetings"));
     eStringHelpers::replaceAll(msg.fText, "[player_name]", name);
     text->setText(msg.fText);
     text->fitContent();

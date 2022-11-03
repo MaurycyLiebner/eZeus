@@ -96,6 +96,16 @@ eEventButton::eEventButton(const eEvent e,
     case eEvent::talosInvasion:
         coll = &texs.fMonsterAltert;
         break;
+    case eEvent::achillesSummoned:
+    case eEvent::atalantaSummoned:
+    case eEvent::bellerophonSummoned:
+    case eEvent::herculesSummoned:
+    case eEvent::jasonSummoned:
+    case eEvent::odysseusSummoned:
+    case eEvent::perseusSummoned:
+    case eEvent::theseusSummoned:
+        coll = &texs.fHeroArrivalAlert;
+        break;
     default:
         return;
     }

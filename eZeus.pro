@@ -16,6 +16,10 @@ LIBS += -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lstdc++fs
 LIBS += -lnoise
 
 SOURCES += \
+        audio/egodsounds.cpp \
+        audio/eherosounds.cpp \
+        audio/emusic.cpp \
+        audio/esounds.cpp \
         buildings/eaestheticsbuilding.cpp \
         buildings/eagorabase.cpp \
         buildings/eagoraspace.cpp \
@@ -221,7 +225,6 @@ SOURCES += \
         emainwindow.cpp \
         emessage.cpp \
         emessages.cpp \
-        emusic.cpp \
         engine/boardData/eemploymentdata.cpp \
         engine/boardData/eheatmap.cpp \
         engine/boardData/eheatmapdivisor.cpp \
@@ -253,7 +256,6 @@ SOURCES += \
         engine/thread/ethreadtile.cpp \
         epathdatafindtask.cpp \
         epathfindtask.cpp \
-        esounds.cpp \
         estringhelpers.cpp \
         etexture.cpp \
         etexturecollection.cpp \
@@ -337,6 +339,7 @@ SOURCES += \
         widgets/eeventwidget.cpp \
         widgets/eexclamationbutton.cpp \
         widgets/efilewidget.cpp \
+        widgets/eflatbutton.cpp \
         widgets/efonts.cpp \
         widgets/eframedbutton.cpp \
         widgets/eframedlabel.cpp \
@@ -395,6 +398,10 @@ SOURCES += \
         widgets/infowidgets/etradepostinfowidget.cpp
 
 HEADERS += \
+    audio/egodsounds.h \
+    audio/eherosounds.h \
+    audio/emusic.h \
+    audio/esounds.h \
     buildings/allbuildings.h \
     buildings/eaestheticsbuilding.h \
     buildings/eagorabase.h \
@@ -602,7 +609,6 @@ HEADERS += \
     emainwindow.h \
     emessage.h \
     emessages.h \
-    emusic.h \
     engine/boardData/eemploymentdata.h \
     engine/boardData/eheatmap.h \
     engine/boardData/eheatmapdivisor.h \
@@ -639,7 +645,6 @@ HEADERS += \
     epathdatafindtask.h \
     epathfindtask.h \
     esettings.h \
-    esounds.h \
     estringhelpers.h \
     etexture.h \
     etexturecollection.h \
@@ -769,6 +774,7 @@ HEADERS += \
     widgets/eeventwidget.h \
     widgets/eexclamationbutton.h \
     widgets/efilewidget.h \
+    widgets/eflatbutton.h \
     widgets/efonts.h \
     widgets/eframedbutton.h \
     widgets/eframedlabel.h \
