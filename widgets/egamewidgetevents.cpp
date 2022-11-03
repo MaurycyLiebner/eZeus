@@ -208,37 +208,37 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
         showMessage(tile, eMessages::instance.fHephaestus.fMonster);
         break;
 
-    case eEvent::achillesSummoned:
+    case eEvent::achillesArrival:
         eSounds::playHeroSound(eHeroType::achilles, eHeroSound::summoned);
-        showMessage(tile, eMessages::instance.fAchilles.fSummoned);
+        showMessage(tile, eMessages::instance.fAchilles.fArrival);
         break;
-    case eEvent::atalantaSummoned:
+    case eEvent::atalantaArrival:
         eSounds::playHeroSound(eHeroType::atalanta, eHeroSound::summoned);
-        showMessage(tile, eMessages::instance.fAtalanta.fSummoned);
+        showMessage(tile, eMessages::instance.fAtalanta.fArrival);
         break;
-    case eEvent::bellerophonSummoned:
+    case eEvent::bellerophonArrival:
         eSounds::playHeroSound(eHeroType::bellerophon, eHeroSound::summoned);
-        showMessage(tile, eMessages::instance.fBellerophon.fSummoned);
+        showMessage(tile, eMessages::instance.fBellerophon.fArrival);
         break;
-    case eEvent::herculesSummoned:
+    case eEvent::herculesArrival:
         eSounds::playHeroSound(eHeroType::hercules, eHeroSound::summoned);
-        showMessage(tile, eMessages::instance.fHercules.fSummoned);
+        showMessage(tile, eMessages::instance.fHercules.fArrival);
         break;
-    case eEvent::jasonSummoned:
+    case eEvent::jasonArrival:
         eSounds::playHeroSound(eHeroType::jason, eHeroSound::summoned);
-        showMessage(tile, eMessages::instance.fJason.fSummoned);
+        showMessage(tile, eMessages::instance.fJason.fArrival);
         break;
-    case eEvent::odysseusSummoned:
+    case eEvent::odysseusArrival:
         eSounds::playHeroSound(eHeroType::odysseus, eHeroSound::summoned);
-        showMessage(tile, eMessages::instance.fOdysseus.fSummoned);
+        showMessage(tile, eMessages::instance.fOdysseus.fArrival);
         break;
-    case eEvent::perseusSummoned:
+    case eEvent::perseusArrival:
         eSounds::playHeroSound(eHeroType::perseus, eHeroSound::summoned);
-        showMessage(tile, eMessages::instance.fPerseus.fSummoned);
+        showMessage(tile, eMessages::instance.fPerseus.fArrival);
         break;
-    case eEvent::theseusSummoned:
+    case eEvent::theseusArrival:
         eSounds::playHeroSound(eHeroType::theseus, eHeroSound::summoned);
-        showMessage(tile, eMessages::instance.fTheseus.fSummoned);
+        showMessage(tile, eMessages::instance.fTheseus.fArrival);
         break;
     }
     mGm->pushEvent(e, tile);

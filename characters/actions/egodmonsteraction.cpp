@@ -7,34 +7,7 @@
 #include "eiteratesquare.h"
 
 #include "missiles/egodmissile.h"
-
-eTile* eGodMonsterAction::closestRoad(const int rdx, const int rdy) const {
-    const auto c = character();
-    auto& board = c->getBoard();
-    eTile* roadTile = nullptr;
-    eTile* plainTile = nullptr;
-    const auto prcsTile = [&](const int i, const int j) {
-        const int tx = rdx + i;
-        const int ty = rdy + j;
-        const auto tt = board.dtile(tx, ty);
-        if(!tt) return false;
-        if(tt->hasRoad()) {
-            roadTile = tt;
-            return true;
-        } else if(!plainTile && tt->walkable()) {
-            plainTile = tt;
-        }
-        return false;
-    };
-
-    for(int k = 0; k < 1000; k++) {
-        eIterateSquare::iterateSquare(k, prcsTile, 1);
-        if(roadTile) break;
-    }
-
-    const auto tile = roadTile ? roadTile : plainTile;
-    return tile;
-}
+#include "etilehelper.h"
 
 void eGodMonsterAction::moveAround(const eAction& finishAct, const int time) {
     const auto c = character();
@@ -71,7 +44,8 @@ void eGodMonsterAction::goToTarget(const eHeatGetters::eHeatGetter hg,
         int ty;
         const bool r = divisor.randomHeatTile(tx, ty);
         if(r) {
-            const auto tile = closestRoad(tx, ty);
+            auto& board = c->getBoard();
+            const auto tile = eTileHelper::closestRoad(tx, ty, board);
             if(!tile) return setCurrentAction(nullptr);
             const auto ff = [tile, findFailFunc]() {
                 findFailFunc(tile);

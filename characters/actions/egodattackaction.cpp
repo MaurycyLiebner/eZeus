@@ -5,6 +5,7 @@
 #include "audio/esounds.h"
 #include "engine/egameboard.h"
 #include "elanguage.h"
+#include "etilehelper.h"
 
 void eGodAttackAction::increment(const int by) {
     const auto c = character();
@@ -186,7 +187,9 @@ void eGodAttackAction::goToTarget() {
     const stdptr<eGodAction> tptr(this);
     const auto tele = [tptr, this](eTile* const tile) {
         if(!tptr) return;
-        const auto r = closestRoad(tile->x(), tile->y());
+        const auto c = character();
+        auto& board = c->getBoard();
+        const auto r = eTileHelper::closestRoad(tile->x(), tile->y(), board);
         teleport(r);
     };
     eGodMonsterAction::goToTarget(hg, tele, obsticleHandler());

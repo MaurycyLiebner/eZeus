@@ -68,6 +68,12 @@ struct eHeroRequirement {
     int fStatusCount = 0;
 };
 
+enum class eHeroSummoningStage {
+    none,
+    summoned,
+    arrived
+};
+
 class eHerosHall : public eBuilding {
 public:
     eHerosHall(const eHeroType type, eGameBoard& board);
@@ -93,8 +99,14 @@ public:
 
     eHeroType heroType() const { return mType; }
 
-    void summon() const;
-    bool summoned() const { return mSummoned; }
+    void summon();
+    void arrive();
+    void spawnHero();
+
+    eHeroSummoningStage stage() const { return mStage; }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     void addRequirement(const eHeroRequirement& hr);
     void updateRequirementsStatus();
@@ -111,7 +123,10 @@ private:
     int mActors = 0;
     int mAthletes = 0;
 
-    bool mSummoned = false;
+    eHeroSummoningStage mStage = eHeroSummoningStage::none;
+    int mArrivalCountdown = 15000;
+
+    stdptr<eHero> mHero;
 };
 
 #endif // EHEROSHALL_H

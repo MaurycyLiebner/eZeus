@@ -12,6 +12,7 @@
 #include "missiles/egodmissile.h"
 
 #include "emovetoaction.h"
+#include "etilehelper.h"
 
 eGodAction::eGodAction(eCharacter* const c,
                        const eAction& failAction,
@@ -68,8 +69,9 @@ void eGodAction::patrol(const eAction& finishAct,
     const auto fail = [tptr, this, cptr, finishAct, dist]() {
         if(!tptr || !cptr) return;
         const auto c = cptr.get();
+        auto& board = c->getBoard();
         const auto t = c->tile();
-        const auto cr = closestRoad(t->x(), t->y());
+        const auto cr = eTileHelper::closestRoad(t->x(), t->y(), board);
         if(cr) {
             const auto ma = [tptr, this, finishAct]() {
                 if(!tptr) return;
@@ -136,7 +138,10 @@ void eGodAction::randomPlaceOnBoard() {
     const int h = board.height();
     const int rdx = rand() % w;
     const int rdy = rand() % h;
-    const auto tile = closestRoad(rdx, rdy);
+    int tx;
+    int ty;
+    eTileHelper::dtileIdToTileId(rdx, rdy, tx, ty);
+    const auto tile = eTileHelper::closestRoad(tx, ty, board);
     if(!tile) return;
     c->changeTile(tile);
 }

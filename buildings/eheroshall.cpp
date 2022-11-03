@@ -7,6 +7,9 @@
 #include "buildings/epalace.h"
 #include "eiteratesquare.h"
 #include "engine/epathfinder.h"
+#include "characters/actions/emovetoaction.h"
+#include "etilehelper.h"
+#include "characters/actions/epatrolmoveaction.h"
 
 eBuildingType eHerosHall::sHeroTypeToHallType(const eHeroType type) {
     switch(type) {
@@ -257,8 +260,82 @@ std::string eHerosHall::sTitle(const eHeroType ht) {
     return title;
 }
 
-void eHerosHall::summon() const {
+void eHerosHall::summon() {
+    mStage = eHeroSummoningStage::summoned;
+    mArrivalCountdown = 15000;
+}
 
+void eHerosHall::arrive() {
+    auto& board = getBoard();
+    eEvent e;
+    switch(mType) {
+    case eHeroType::achilles:
+        e = eEvent::achillesArrival;
+        break;
+    case eHeroType::atalanta:
+        e = eEvent::atalantaArrival;
+        break;
+    case eHeroType::bellerophon:
+        e = eEvent::bellerophonArrival;
+        break;
+    case eHeroType::hercules:
+        e = eEvent::herculesArrival;
+        break;
+    case eHeroType::jason:
+        e = eEvent::jasonArrival;
+        break;
+    case eHeroType::odysseus:
+        e = eEvent::odysseusArrival;
+        break;
+    case eHeroType::perseus:
+        e = eEvent::perseusArrival;
+        break;
+    case eHeroType::theseus:
+        e = eEvent::theseusArrival;
+        break;
+    }
+
+    mStage = eHeroSummoningStage::arrived;
+
+    spawnHero();
+
+    board.event(e, mHero ? mHero->tile() : nullptr);
+}
+
+void eHerosHall::spawnHero() {
+    auto& board = getBoard();
+    const auto c = eHero::sCreateHero(mType, board);
+    mHero = c.get();
+    const auto ct = centerTile();
+    const int tx = ct->x();
+    const int ty = ct->y();
+    const auto cr = eTileHelper::closestRoad(tx, ty, board);
+    mHero->changeTile(cr);
+    const auto pa = e::make_shared<ePatrolMoveAction>(
+                        c.get(), [](){}, [](){});
+    pa->setMaxWalkDistance(100);
+    mHero->setAction(pa);
+    mHero->setActionType(eCharacterActionType::walk);
+}
+
+void eHerosHall::read(eReadStream& src) {
+    eBuilding::read(src);
+    src >> mStage;
+    src >> mArrivalCountdown;
+    src >> mPhilosophers;
+    src >> mActors;
+    src >> mAthletes;
+    src >> mUpdateCulture;
+}
+
+void eHerosHall::write(eWriteStream& dst) const {
+    eBuilding::write(dst);
+    dst << mStage;
+    dst << mArrivalCountdown;
+    dst << mPhilosophers;
+    dst << mActors;
+    dst << mAthletes;
+    dst << mUpdateCulture;
 }
 
 void eHerosHall::addRequirement(const eHeroRequirement& hr) {
@@ -558,6 +635,17 @@ void eHerosHall::timeChanged(const int by) {
         mActors = std::max(0, mActors - 1);
         mAthletes = std::max(0, mAthletes - 1);
     }
+
+    if(mStage == eHeroSummoningStage::summoned) {
+        mArrivalCountdown -= by;
+        if(mArrivalCountdown < 0) {
+            arrive();
+        }
+    }
+    if(mStage == eHeroSummoningStage::arrived) {
+        if(!mHero) spawnHero();
+    }
+
     eBuilding::timeChanged(by);
 }
 

@@ -16,7 +16,7 @@ struct eGodMessages {
 };
 
 struct eHeroMessages {
-    eMessageType fSummoned;
+    eMessageType fArrival;
     eMessageType fHallAvailable;
 };
 

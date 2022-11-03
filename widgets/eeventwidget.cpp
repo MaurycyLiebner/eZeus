@@ -96,14 +96,14 @@ eEventButton::eEventButton(const eEvent e,
     case eEvent::talosInvasion:
         coll = &texs.fMonsterAltert;
         break;
-    case eEvent::achillesSummoned:
-    case eEvent::atalantaSummoned:
-    case eEvent::bellerophonSummoned:
-    case eEvent::herculesSummoned:
-    case eEvent::jasonSummoned:
-    case eEvent::odysseusSummoned:
-    case eEvent::perseusSummoned:
-    case eEvent::theseusSummoned:
+    case eEvent::achillesArrival:
+    case eEvent::atalantaArrival:
+    case eEvent::bellerophonArrival:
+    case eEvent::herculesArrival:
+    case eEvent::jasonArrival:
+    case eEvent::odysseusArrival:
+    case eEvent::perseusArrival:
+    case eEvent::theseusArrival:
         coll = &texs.fHeroArrivalAlert;
         break;
     default:

@@ -107,14 +107,14 @@ enum class eEvent {
     sphinxInvasion,
     talosInvasion,
 
-    achillesSummoned,
-    atalantaSummoned,
-    bellerophonSummoned,
-    herculesSummoned,
-    jasonSummoned,
-    odysseusSummoned,
-    perseusSummoned,
-    theseusSummoned
+    achillesArrival,
+    atalantaArrival,
+    bellerophonArrival,
+    herculesArrival,
+    jasonArrival,
+    odysseusArrival,
+    perseusArrival,
+    theseusArrival
 };
 
 enum class eGames {

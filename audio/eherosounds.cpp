@@ -8,7 +8,7 @@ eHeroSounds::eHeroSounds(const std::string& shortName,
     fShortName(shortName), fLongName(longName) {}
 
 eHeroSounds::~eHeroSounds() {
-    Mix_FreeChunk(fSummoned);
+    Mix_FreeChunk(fArrival);
     for(const auto a : fAttack) {
         Mix_FreeChunk(a);
     }
@@ -19,7 +19,7 @@ void eHeroSounds::load() {
     const std::string voiceDir{eGameDir::path("Audio/Voice/Walker/")};
     const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
 
-    fSummoned = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_1.mp3");
+    fArrival = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_1.mp3");
     for(const auto& s : {"H_" + fLongName + "_atk1.wav",
                          "H_" + fLongName + "_atk2.wav"}) {
         const auto r = eSounds::loadSoundBase(wavsDir + s);
@@ -32,7 +32,7 @@ void eHeroSounds::load() {
 void eHeroSounds::play(const eHeroSound s) {
     switch(s) {
     case eHeroSound::summoned:
-        playSummoned();
+        playArrival();
         break;
     case eHeroSound::attack:
         playAttack();

@@ -22,7 +22,6 @@ class eGodMonsterAction : public eComplexAction {
 public:
     using eComplexAction::eComplexAction;
 
-    eTile* closestRoad(const int rdx, const int rdy) const;
     void moveAround(const eAction& finishAct = [](){},
                     const int time = 5000);
     using eFindFailFunc = std::function<void(eTile*)>;

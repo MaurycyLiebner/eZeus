@@ -35,10 +35,10 @@ void eMessages::load(eGodMessages& god, const std::string& godName) {
 }
 
 void eMessages::load(eHeroMessages& hero, const std::string& heroName) {
-    hero.fSummoned.fFull.fTitle = fMessages["PHRASE_" + heroName + "_arrives_title"];
-    hero.fSummoned.fFull.fText = fMessages["PHRASE_" + heroName + "_arrives_initial_announcement "];
-    hero.fSummoned.fFull.fTitle = fMessages["PHRASE_CONDENSED_" + heroName + "_arrives_title"];
-    hero.fSummoned.fFull.fText = fMessages["PHRASE_CONDENSED_" + heroName + "_arrives_initial_announcement "];
+    hero.fArrival.fFull.fTitle = fMessages["PHRASE_" + heroName + "_arrives_title"];
+    hero.fArrival.fFull.fText = fMessages["PHRASE_" + heroName + "_arrives_initial_announcement"];
+    hero.fArrival.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + heroName + "_arrives_title"];
+    hero.fArrival.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + heroName + "_arrives_initial_announcement"];
 
     hero.fHallAvailable.fFull.fTitle = fMessages["PHRASE_" + heroName + "_hall_available_title"];
     const auto noReason = fMessages["PHRASE_" + heroName + "_hall_available_no_reason"];

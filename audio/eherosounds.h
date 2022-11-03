@@ -25,8 +25,8 @@ public:
 
     void play(const eHeroSound s);
 
-    void playSummoned() {
-        Mix_PlayChannel(-1, fSummoned, 0);
+    void playArrival() {
+        Mix_PlayChannel(-1, fArrival, 0);
     }
 
     void playAttack() {
@@ -45,7 +45,7 @@ public:
     const std::string fShortName;
     const std::string fLongName;
 
-    Mix_Chunk* fSummoned = nullptr;
+    Mix_Chunk* fArrival = nullptr;
     std::vector<Mix_Chunk*> fAttack;
     Mix_Chunk* fHit = nullptr;
     Mix_Chunk* fDie = nullptr;
