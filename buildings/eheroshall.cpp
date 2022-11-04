@@ -7,9 +7,8 @@
 #include "buildings/epalace.h"
 #include "eiteratesquare.h"
 #include "engine/epathfinder.h"
-#include "characters/actions/emovetoaction.h"
 #include "etilehelper.h"
-#include "characters/actions/epatrolmoveaction.h"
+#include "characters/actions/eheroaction.h"
 
 eBuildingType eHerosHall::sHeroTypeToHallType(const eHeroType type) {
     switch(type) {
@@ -311,11 +310,9 @@ void eHerosHall::spawnHero() {
     const int ty = ct->y();
     const auto cr = eTileHelper::closestRoad(tx, ty, board);
     mHero->changeTile(cr);
-    const auto pa = e::make_shared<ePatrolMoveAction>(
+    const auto ha = e::make_shared<eHeroAction>(
                         c.get(), [](){}, [](){});
-    pa->setMaxWalkDistance(100);
-    mHero->setAction(pa);
-    mHero->setActionType(eCharacterActionType::walk);
+    mHero->setAction(ha);
 }
 
 void eHerosHall::read(eReadStream& src) {

@@ -6,6 +6,7 @@
 #include "actions/efightaction.h"
 
 #include "gods/egod.h"
+#include "heroes/ehero.h"
 
 eCharacter::eCharacter(eGameBoard& board,
                        const eCharacterType type) :
@@ -30,6 +31,9 @@ bool eCharacter::canFight(eCharacter* const c) {
     bool isGod;
     eGod::sCharacterToGodType(tt, &isGod);
     if(isGod) return false;
+    bool isHero = false;
+    eHero::sCharacterToHeroType(tt, &isHero);
+    if(isHero) return false;
     bool isMonster1;
     eMonster::sCharacterToMonsterType(tt, &isMonster1);
     bool isMonster2;

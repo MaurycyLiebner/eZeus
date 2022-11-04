@@ -264,8 +264,8 @@ void eGameBoard::setHostileGods(const std::vector<eGodType>& gods) {
     addGameEvent(ec);
 }
 
-void eGameBoard::setMonsters(const std::vector<eMonsterType>& monsters) {
-    mMonsters = monsters;
+void eGameBoard::setHostileMonsters(const std::vector<eMonsterType>& monsters) {
+    mHostileMonsters = monsters;
 
     const auto e = e::make_shared<eMonsterAttackEvent>(*this);
     e->setTypes(monsters);
@@ -868,6 +868,14 @@ void eGameBoard::unregisterPalace() {
     if(!mRegisterBuildingsEnabled) return;
     mPalace = nullptr;
     mButtonVisUpdater();
+}
+
+void eGameBoard::registerMonster(eMonster* const m) {
+    mMonsters.push_back(m);
+}
+
+void eGameBoard::unregisterMonster(eMonster* const m) {
+    eVectorHelpers::remove(mMonsters, m);
 }
 
 void eGameBoard::incTime(const int by) {

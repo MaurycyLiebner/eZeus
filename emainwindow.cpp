@@ -234,7 +234,7 @@ void eMainWindow::showMainMenu() {
 
         board->setFriendlyGods(friendlyGods);
         board->setHostileGods(hostileGods);
-        board->setMonsters(monsters);
+        board->setHostileMonsters(monsters);
 
         auto& wb = board->getWorldBoard();
 

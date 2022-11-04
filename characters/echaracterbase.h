@@ -121,7 +121,8 @@ public:
     double attack() const { return mAttack; }
     void setHP(const double hp);
     double hp() const { return mHP; }
-    bool dead() const { return mHP <= 0; }
+    bool dead() const { return mHP <= 0 ||
+                        mActionType == eCharacterActionType::die; }
     bool fighting() const;
 
     double speed() const { return mSpeed; }

@@ -135,6 +135,7 @@ SOURCES += \
         characters/actions/egodvisitaction.cpp \
         characters/actions/egodworshippedaction.cpp \
         characters/actions/egroweraction.cpp \
+        characters/actions/eheroaction.cpp \
         characters/actions/ehuntaction.cpp \
         characters/actions/emonsteraction.cpp \
         characters/actions/emoveaction.cpp \
@@ -519,6 +520,7 @@ HEADERS += \
     characters/actions/egodvisitaction.h \
     characters/actions/egodworshippedaction.h \
     characters/actions/egroweraction.h \
+    characters/actions/eheroaction.h \
     characters/actions/ehuntaction.h \
     characters/actions/emonsteraction.h \
     characters/actions/emoveaction.h \

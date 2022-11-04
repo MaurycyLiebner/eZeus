@@ -4,6 +4,7 @@
 #include "characters/echaracter.h"
 
 enum class eGodType;
+enum class eHeroType;
 
 enum class eMonsterType {
     calydonianBoar, // artemis, theseus
@@ -27,6 +28,7 @@ enum class eMonsterType {
 class eMonster : public eCharacter {
 public:
     eMonster(eGameBoard& board, const eMonsterType mt);
+    ~eMonster();
 
     static eMonsterType sCharacterToMonsterType(
             const eCharacterType type, bool* const valid = nullptr);
@@ -37,6 +39,7 @@ public:
     static eGodType sMonsterSender(const eMonsterType type,
                                    bool* const valid);
     static eMonsterType sGodsMinion(const eGodType type);
+    static eHeroType sSlayer(const eMonsterType type);
 };
 
 #endif // EMONSTER_H

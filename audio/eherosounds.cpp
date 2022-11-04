@@ -25,8 +25,8 @@ void eHeroSounds::load() {
         const auto r = eSounds::loadSoundBase(wavsDir + s);
         if(r) fAttack.push_back(r);
     }
-    fHit = eSounds::loadSoundBase(wavsDir + "H_" + fLongName + "_hit.mp3");
-    fDie = eSounds::loadSoundBase(wavsDir + "H_" + fLongName + "_die.mp3");
+    fHit = eSounds::loadSoundBase(wavsDir + "H_" + fLongName + "_hit.wav");
+    fDie = eSounds::loadSoundBase(wavsDir + "H_" + fLongName + "_die.wav");
 }
 
 void eHeroSounds::play(const eHeroSound s) {

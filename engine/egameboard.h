@@ -168,6 +168,11 @@ public:
     void registerPalace(ePalace* const p);
     void unregisterPalace();
 
+    void registerMonster(eMonster* const m);
+    void unregisterMonster(eMonster* const m);
+
+    const std::vector<eMonster*>& monsters() const { return mMonsters; }
+
     void updateResources();
     int resourceCount(const eResourceType type) const;
     using eResources = std::vector<std::pair<eResourceType, int>>;
@@ -288,7 +293,7 @@ public:
 
     void setFriendlyGods(const std::vector<eGodType>& gods);
     void setHostileGods(const std::vector<eGodType>& gods);
-    void setMonsters(const std::vector<eMonsterType>& monsters);
+    void setHostileMonsters(const std::vector<eMonsterType>& monsters);
 
     void read(eReadStream& src);
     void write(eWriteStream& dst) const;
@@ -372,6 +377,7 @@ private:
     std::vector<eTradePost*> mTradePosts;
     std::vector<eSpawner*> mSpawners;
     std::vector<eMissile*> mMissiles;
+    std::vector<eMonster*> mMonsters;
 
     std::vector<stdsptr<eSoldierBanner>> mBanners;
 
@@ -416,7 +422,7 @@ private:
 
     std::vector<stdsptr<eGameEventCycle>> mGameEvents;
 
-    std::vector<eMonsterType> mMonsters;
+    std::vector<eMonsterType> mHostileMonsters;
     std::vector<eGodType> mFriendlyGods;
     std::vector<eGodType> mHostileGods;
 };

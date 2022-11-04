@@ -200,6 +200,9 @@ bool eMonsterAction::lookForAttack(const int dtime,
                 bool isMonster = false;
                 eMonster::sCharacterToMonsterType(cc->type(), &isMonster);
                 if(isMonster) continue;
+                bool isHero = false;
+                eHero::sCharacterToHeroType(cc->type(), &isHero);
+                if(isHero) continue;
                 *charTarget = cc;
                 return t;
             }

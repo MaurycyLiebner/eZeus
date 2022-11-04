@@ -1,14 +1,23 @@
 #include "emonster.h"
 
 #include "characters/gods/egod.h"
+#include "characters/heroes/ehero.h"
 
 #include "ecalydonianboar.h"
+#include "engine/egameboard.h"
 
 eMonster::eMonster(eGameBoard& board, const eMonsterType mt) :
-    eCharacter(board, sMonsterToCharacterType(mt)) {}
+    eCharacter(board, sMonsterToCharacterType(mt)) {
+    board.registerMonster(this);
+}
+
+eMonster::~eMonster() {
+    auto& board = getBoard();
+    board.unregisterMonster(this);
+}
 
 eMonsterType eMonster::sCharacterToMonsterType(const eCharacterType type,
-                                   bool* const valid) {
+                                               bool* const valid) {
     if(valid) *valid = true;
     switch(type) {
     case eCharacterType::calydonianBoar: return eMonsterType::calydonianBoar;
@@ -135,5 +144,27 @@ eMonsterType eMonster::sGodsMinion(const eGodType type) {
     case eGodType::apollo: return eMonsterType::scylla;
     case eGodType::hera: return eMonsterType::sphinx;
     case eGodType::hephaestus: return eMonsterType::talos;
+    }
+}
+
+eHeroType eMonster::sSlayer(const eMonsterType type) {
+    switch(type) {
+    case eMonsterType::calydonianBoar: return eHeroType::theseus;
+    case eMonsterType::cerberus: return eHeroType::hercules;
+    case eMonsterType::chimera: return eHeroType::bellerophon;
+    case eMonsterType::cyclops: return eHeroType::odysseus;
+    case eMonsterType::dragon: return eHeroType::jason;
+    case eMonsterType::echidna: return eHeroType::bellerophon;
+    case eMonsterType::harpies: return eHeroType::atalanta;
+    case eMonsterType::hector: return eHeroType::achilles;
+    case eMonsterType::hydra: return eHeroType::hercules;
+    case eMonsterType::kraken: return eHeroType::perseus;
+    case eMonsterType::maenads: return eHeroType::achilles;
+    case eMonsterType::medusa: return eHeroType::perseus;
+    case eMonsterType::minotaur: return eHeroType::theseus;
+    case eMonsterType::scylla: return eHeroType::odysseus;
+    case eMonsterType::sphinx: return eHeroType::atalanta;
+    case eMonsterType::talos: return eHeroType::jason;
+    default: return eHeroType::jason;
     }
 }
