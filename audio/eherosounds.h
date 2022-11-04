@@ -9,7 +9,7 @@
 #include "characters/heroes/ehero.h"
 
 enum class eHeroSound {
-    summoned,
+    arrived,
     attack,
     hit,
     die

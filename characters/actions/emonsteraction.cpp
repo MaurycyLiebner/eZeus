@@ -171,9 +171,16 @@ void eMonsterAction::destroyBuilding(eBuilding* const b) {
         bptr->collapse();
         eSounds::playCollapseSound();
     };
+    const auto playHitSound = [bptr, b]() {
+        if(!bptr) return;
+        auto& board = b->getBoard();
+        board.ifVisible(b->centerTile(), [&]() {
+            eSounds::playFireballHitSound();
+        });
+    };
     pauseAction();
     spawnMultipleMissiles(at, tex, 500, b->centerTile(),
-                          playSound, finishAttackA, 3);
+                          playSound, playHitSound, finishAttackA, 3);
 }
 
 bool eMonsterAction::lookForAttack(const int dtime,

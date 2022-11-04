@@ -176,12 +176,19 @@ void eGodAttackAction::destroyBuilding(eBuilding* const b) {
         bptr->collapse();
         eSounds::playCollapseSound();
     };
+    const auto playHitSound = [bptr, b]() {
+        if(!bptr) return;
+        auto& board = b->getBoard();
+        board.ifVisible(b->centerTile(), [&]() {
+            eSounds::playFireballHitSound();
+        });
+    };
     pauseAction();
     const auto at = eCharacterActionType::fight;
     const auto s = eGodSound::attack;
     const auto tex = eGod::sGodMissile(type());
     spawnGodMultipleMissiles(at, tex, b->centerTile(),
-                             s, finishAttackA, 3);
+                             s, playHitSound, finishAttackA, 3);
 }
 
 void eGodAttackAction::goToTarget() {

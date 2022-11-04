@@ -31,7 +31,7 @@ void eHeroSounds::load() {
 
 void eHeroSounds::play(const eHeroSound s) {
     switch(s) {
-    case eHeroSound::summoned:
+    case eHeroSound::arrived:
         playArrival();
         break;
     case eHeroSound::attack:

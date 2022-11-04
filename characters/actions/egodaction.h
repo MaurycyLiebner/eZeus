@@ -53,6 +53,7 @@ public:
             const eTexPtr tex,
             eTile* const target,
             const eGodSound sound,
+            const eFunc& playHitSound,
             const eFunc& finishA,
             const int nMissiles);
     void spawnGodTimedMissiles(
@@ -60,6 +61,7 @@ public:
             const eTexPtr tex,
             eTile* const target,
             const eGodSound sound,
+            const eFunc& playHitSound,
             const eFunc& finishA,
             const int time);
 

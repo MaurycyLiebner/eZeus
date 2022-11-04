@@ -7,6 +7,7 @@
 
 #include "gods/egod.h"
 #include "heroes/ehero.h"
+#include "audio/esounds.h"
 
 eCharacter::eCharacter(eGameBoard& board,
                        const eCharacterType type) :
@@ -68,11 +69,15 @@ void eCharacter::kill() {
 }
 
 void eCharacter::killWithCorpse() {
-    const stdptr<eCharacter> c;
+    const stdptr<eCharacter> c(this);
     const auto finish = [c]() {
         if(!c) return;
         c->kill();
     };
+    auto& board = getBoard();
+    board.ifVisible(tile(), [&]() {
+        eSounds::playDieSound(this);
+    });
     const auto a = e::make_shared<eDieAction>(this, finish);
     setAction(a);
 }

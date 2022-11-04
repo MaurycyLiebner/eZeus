@@ -50,6 +50,7 @@ public:
                                const int attackTime,
                                eTile* const target,
                                const eFunc& playSound,
+                               const eFunc& playHitSound,
                                const eFunc& finishA,
                                const int nMissiles);
     void spawnTimedMissiles(const eCharacterActionType at,
@@ -57,6 +58,7 @@ public:
                             const int attackTime,
                             eTile* const target,
                             const eFunc& playSound,
+                            const eFunc& playHitSound,
                             const eFunc& finishA,
                             const int time);
 

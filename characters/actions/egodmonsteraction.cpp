@@ -144,6 +144,7 @@ void eGodMonsterAction::spawnMultipleMissiles(
           const int attackTime,
           eTile* const target,
           const eFunc& playSound,
+          const eFunc& playHitSound,
           const eFunc& finishA,
           const int nMissiles) {
     if(nMissiles <= 0) {
@@ -155,15 +156,16 @@ void eGodMonsterAction::spawnMultipleMissiles(
         finishAA = finishA;
     } else {
         const stdptr<eGodMonsterAction> tptr(this);
-        finishAA = [tptr, this, at, tex, attackTime,
-                   target, playSound, finishA, nMissiles]() {
+        finishAA = [tptr, this, at, tex, attackTime, target,
+                   playSound, playHitSound, finishA, nMissiles]() {
             if(!tptr) return;
             spawnMultipleMissiles(at, tex, attackTime, target,
-                                  playSound, finishA, nMissiles - 1);
+                                  playSound, playHitSound,
+                                  finishA, nMissiles - 1);
         };
     }
     spawnMissile(at, tex, attackTime, target,
-                 playSound, nullptr, finishAA);
+                 playSound, playHitSound, finishAA);
 }
 
 void eGodMonsterAction::spawnTimedMissiles(
@@ -172,11 +174,12 @@ void eGodMonsterAction::spawnTimedMissiles(
         const int attackTime,
         eTile* const target,
         const eFunc& playSound,
+        const eFunc& playHitSound,
         const eFunc& finishA,
         const int time) {
     const int n = std::round(double(time)/attackTime);
     spawnMultipleMissiles(at, tex, attackTime, target,
-                          playSound, finishA, n);
+                          playSound, playHitSound, finishA, n);
 }
 
 void eGodMonsterAction::pauseAction() {

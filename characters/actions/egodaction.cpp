@@ -294,6 +294,7 @@ void eGodAction::spawnGodMultipleMissiles(const eCharacterActionType at,
                                           const eTexPtr tex,
                                           eTile* const target,
                                           const eGodSound sound,
+                                          const eFunc& playHitSound,
                                           const eFunc& finishA,
                                           const int nMissiles) {
     const int time = eGod::sGodAttackTime(type());
@@ -307,26 +308,35 @@ void eGodAction::spawnGodMultipleMissiles(const eCharacterActionType at,
         });
     };
     spawnMultipleMissiles(at, tex, time, target,
-                          playSound, finishA, nMissiles);
+                          playSound, playHitSound,
+                          finishA, nMissiles);
 }
 
 void eGodAction::spawnGodTimedMissiles(const eCharacterActionType at,
                                        const eTexPtr tex,
                                        eTile* const target,
                                        const eGodSound sound,
+                                       const eFunc& playHitSound,
                                        const eFunc& finishA,
                                        const int time) {
     const int atime = eGod::sGodAttackTime(type());
     const int n = std::round(double(time)/atime);
-    spawnGodMultipleMissiles(at, tex, target, sound, finishA, n);
+    spawnGodMultipleMissiles(at, tex, target, sound, playHitSound, finishA, n);
 }
 
 void eGodAction::fightGod(eGod* const g, const eFunc& finishAttackA) {
     const auto at = eCharacterActionType::fight;
     const auto s = eGodSound::attack;
     const auto tex = eGod::sGodMissile(type());
-
-    spawnGodTimedMissiles(at, tex, g->tile(), s, finishAttackA, 6000);
+    const stdptr<eGod> gptr(g);
+    const auto playHitSound = [gptr, g]() {
+        if(!gptr) return;
+        auto& board = g->getBoard();
+        board.ifVisible(g->tile(), [&]() {
+            eSounds::playGodSound(g->type(), eGodSound::hit);
+        });
+    };
+    spawnGodTimedMissiles(at, tex, g->tile(), s, playHitSound, finishAttackA, 6000);
 }
 
 void eGodAction::goToTarget() {

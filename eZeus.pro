@@ -18,6 +18,7 @@ LIBS += -lnoise
 SOURCES += \
         audio/egodsounds.cpp \
         audio/eherosounds.cpp \
+        audio/emonstersounds.cpp \
         audio/emusic.cpp \
         audio/esounds.cpp \
         buildings/eaestheticsbuilding.cpp \
@@ -401,6 +402,7 @@ SOURCES += \
 HEADERS += \
     audio/egodsounds.h \
     audio/eherosounds.h \
+    audio/emonstersounds.h \
     audio/emusic.h \
     audio/esounds.h \
     buildings/allbuildings.h \

@@ -209,35 +209,35 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile) {
         break;
 
     case eEvent::achillesArrival:
-        eSounds::playHeroSound(eHeroType::achilles, eHeroSound::summoned);
+        eSounds::playHeroSound(eHeroType::achilles, eHeroSound::arrived);
         showMessage(tile, eMessages::instance.fAchilles.fArrival);
         break;
     case eEvent::atalantaArrival:
-        eSounds::playHeroSound(eHeroType::atalanta, eHeroSound::summoned);
+        eSounds::playHeroSound(eHeroType::atalanta, eHeroSound::arrived);
         showMessage(tile, eMessages::instance.fAtalanta.fArrival);
         break;
     case eEvent::bellerophonArrival:
-        eSounds::playHeroSound(eHeroType::bellerophon, eHeroSound::summoned);
+        eSounds::playHeroSound(eHeroType::bellerophon, eHeroSound::arrived);
         showMessage(tile, eMessages::instance.fBellerophon.fArrival);
         break;
     case eEvent::herculesArrival:
-        eSounds::playHeroSound(eHeroType::hercules, eHeroSound::summoned);
+        eSounds::playHeroSound(eHeroType::hercules, eHeroSound::arrived);
         showMessage(tile, eMessages::instance.fHercules.fArrival);
         break;
     case eEvent::jasonArrival:
-        eSounds::playHeroSound(eHeroType::jason, eHeroSound::summoned);
+        eSounds::playHeroSound(eHeroType::jason, eHeroSound::arrived);
         showMessage(tile, eMessages::instance.fJason.fArrival);
         break;
     case eEvent::odysseusArrival:
-        eSounds::playHeroSound(eHeroType::odysseus, eHeroSound::summoned);
+        eSounds::playHeroSound(eHeroType::odysseus, eHeroSound::arrived);
         showMessage(tile, eMessages::instance.fOdysseus.fArrival);
         break;
     case eEvent::perseusArrival:
-        eSounds::playHeroSound(eHeroType::perseus, eHeroSound::summoned);
+        eSounds::playHeroSound(eHeroType::perseus, eHeroSound::arrived);
         showMessage(tile, eMessages::instance.fPerseus.fArrival);
         break;
     case eEvent::theseusArrival:
-        eSounds::playHeroSound(eHeroType::theseus, eHeroSound::summoned);
+        eSounds::playHeroSound(eHeroType::theseus, eHeroSound::arrived);
         showMessage(tile, eMessages::instance.fTheseus.fArrival);
         break;
     }

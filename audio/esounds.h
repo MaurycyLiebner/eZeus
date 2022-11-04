@@ -8,6 +8,7 @@
 
 #include "egodsounds.h"
 #include "eherosounds.h"
+#include "emonstersounds.h"
 
 class eTile;
 
@@ -71,6 +72,8 @@ public:
     static void playFireSound();
     static void playCollapseSound();
 
+    static void playFireballHitSound();
+
     static void playCopperMinerSound();
     static void playSilverMinerSound();
     static void playStoneCutterSound();
@@ -82,6 +85,10 @@ public:
                              const eGodSound s);
     static void playHeroSound(const eHeroType h,
                               const eHeroSound s);
+
+    static void playAttackSound(eCharacter* const c);
+    static void playDieSound(eCharacter* const c);
+    static void playHitSound(eCharacter* const c);
 
     static Mix_Chunk* loadSoundBase(const std::string& path);
 private:
@@ -157,9 +164,38 @@ private:
 
     std::vector<Mix_Chunk*> mArtisan;
 
+    // rockthrower
+    Mix_Chunk* mActorDie = nullptr;
+    Mix_Chunk* mActorHit = nullptr;
+
+    std::vector<Mix_Chunk*> mRockthrowerAttack;
+    Mix_Chunk* mRockthrowerDie = nullptr;
+    Mix_Chunk* mRockthrowerHit = nullptr;
+
+    Mix_Chunk* mBoarAttack = nullptr;
+    Mix_Chunk* mBoarDie = nullptr;
+    Mix_Chunk* mBoarHit = nullptr;
+
+    Mix_Chunk* mBoarHunterAttack = nullptr;
+    Mix_Chunk* mBoarHunterDie = nullptr;
+    Mix_Chunk* mBoarHunterHit = nullptr;
+
+    Mix_Chunk* mDeerAttack = nullptr;
+    Mix_Chunk* mDeerDie = nullptr;
+    Mix_Chunk* mDeerHit = nullptr;
+
+    Mix_Chunk* mHopliteDie = nullptr;
+    std::vector<Mix_Chunk*> mHopliteAttack;
+    Mix_Chunk* mHopliteHit = nullptr;
+
+    std::vector<Mix_Chunk*> mGenDie;
+    std::vector<Mix_Chunk*> mGenHit;
+
     // events
     Mix_Chunk* mFire = nullptr;
     Mix_Chunk* mCollapse = nullptr;
+
+    Mix_Chunk* mFireballHit = nullptr;
 
     eGodSounds mAphrodite{"Aph", "aphrodite"};
     eGodSounds mApollo{"Apo", "apollo"};
@@ -184,6 +220,23 @@ private:
     eHeroSounds mOdysseus{"Ody", "odysseus"};
     eHeroSounds mPerseus{"Per", "perseus"};
     eHeroSounds mTheseus{"The", "theseus"};
+
+    eMonsterSounds mCalydonianBoar{"cal", "calydonian"};
+    eMonsterSounds mCerberus{"cer", "cerberus"};
+    eMonsterSounds mChimera{"chi", "chimera"};
+    eMonsterSounds mCyclops{"cyc", "cyclops"};
+    eMonsterSounds mDragon{"dra", "dragon"};
+    eMonsterSounds mEchidna{"ech", "echidna"};
+    eMonsterSounds mHarpies{"har", "harpies"};
+    eMonsterSounds mHector{"hec", "hector"};
+    eMonsterSounds mHydra{"hyd", "hydra"};
+    eMonsterSounds mKraken{"kra", "kraken"};
+    eMonsterSounds mMaenads{"mae", "maenads"};
+    eMonsterSounds mMedusa{"med", "medusa"};
+    eMonsterSounds mMinotaur{"min", "minotaur"};
+    eMonsterSounds mScylla{"scy", "scylla"};
+    eMonsterSounds mSphinx{"sph", "sphinx"};
+    eMonsterSounds mTalos{"tal", "talos"};
 };
 
 #endif // ESOUNDS_H
