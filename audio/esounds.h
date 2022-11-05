@@ -169,7 +169,7 @@ private:
     Mix_Chunk* mActorHit = nullptr;
 
     std::vector<Mix_Chunk*> mRockthrowerAttack;
-    Mix_Chunk* mRockthrowerDie = nullptr;
+    std::vector<Mix_Chunk*> mRockthrowerDie;
     Mix_Chunk* mRockthrowerHit = nullptr;
 
     Mix_Chunk* mBoarAttack = nullptr;

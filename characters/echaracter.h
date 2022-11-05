@@ -80,6 +80,7 @@ private:
     double mX = 0.5;
     double mY = 0.5;
 
+    int mSoundPlayTime = 0;
     int mTime = 0;
     bool mHasSecondaryTexture = false;
 

@@ -436,7 +436,116 @@ void eSounds::playHeroSound(const eHeroType h, const eHeroSound s) {
 }
 
 void eSounds::playAttackSound(eCharacter* const c) {
+    const auto ct = c->type();
+    switch(ct) {
+    case eCharacterType::rockThrower:
+        playRandomSound(sInstance.mRockthrowerAttack);
+        break;
+    case eCharacterType::boar:
+        Mix_PlayChannel(-1, sInstance.mBoarAttack, 0);
+        break;
+    case eCharacterType::hunter:
+        Mix_PlayChannel(-1, sInstance.mBoarHunterAttack, 0);
+        break;
+    case eCharacterType::deer:
+        Mix_PlayChannel(-1, sInstance.mDeerAttack, 0);
+        break;
+    case eCharacterType::hoplite:
+        playRandomSound(sInstance.mHopliteAttack);
+        break;
 
+//    case eCharacterType::aphrodite:
+//        sInstance.mAphrodite.playAttack();
+//        break;
+//    case eCharacterType::apollo:
+//        sInstance.mApollo.playAttack();
+//        break;
+//    case eCharacterType::ares:
+//        sInstance.mAres.playAttack();
+//        break;
+//    case eCharacterType::artemis:
+//        sInstance.mArtemis.playAttack();
+//        break;
+//    case eCharacterType::athena:
+//        sInstance.mAthena.playAttack();
+//        break;
+//    case eCharacterType::atlas:
+//        sInstance.mAtlas.playAttack();
+//        break;
+//    case eCharacterType::demeter:
+//        sInstance.mDemeter.playAttack();
+//        break;
+//    case eCharacterType::dionysus:
+//        sInstance.mDionysus.playAttack();
+//        break;
+//    case eCharacterType::hades:
+//        sInstance.mHades.playAttack();
+//        break;
+//    case eCharacterType::hephaestus:
+//        sInstance.mHephaestus.playAttack();
+//        break;
+//    case eCharacterType::hera:
+//        sInstance.mHera.playAttack();
+//        break;
+//    case eCharacterType::hermes:
+//        sInstance.mHermes.playAttack();
+//        break;
+//    case eCharacterType::poseidon:
+//        sInstance.mPoseidon.playAttack();
+//        break;
+//    case eCharacterType::zeus:
+//        sInstance.mZeus.playAttack();
+//        break;
+
+    case eCharacterType::calydonianBoar:
+        sInstance.mCalydonianBoar.playAttack();
+        break;
+    case eCharacterType::cerberus:
+        sInstance.mCerberus.playAttack();
+        break;
+    case eCharacterType::chimera:
+        sInstance.mChimera.playAttack();
+        break;
+    case eCharacterType::cyclops:
+        sInstance.mCyclops.playAttack();
+        break;
+    case eCharacterType::dragon:
+        sInstance.mDragon.playAttack();
+        break;
+    case eCharacterType::echidna:
+        sInstance.mEchidna.playAttack();
+        break;
+    case eCharacterType::harpies:
+        sInstance.mHarpies.playAttack();
+        break;
+    case eCharacterType::hector:
+        sInstance.mHector.playAttack();
+        break;
+    case eCharacterType::hydra:
+        sInstance.mHydra.playAttack();
+        break;
+    case eCharacterType::kraken:
+        sInstance.mKraken.playAttack();
+        break;
+    case eCharacterType::maenads:
+        sInstance.mMaenads.playAttack();
+        break;
+    case eCharacterType::medusa:
+        sInstance.mMedusa.playAttack();
+        break;
+    case eCharacterType::minotaur:
+        sInstance.mMinotaur.playAttack();
+        break;
+    case eCharacterType::scylla:
+        sInstance.mScylla.playAttack();
+        break;
+    case eCharacterType::sphinx:
+        sInstance.mSphinx.playAttack();
+        break;
+    case eCharacterType::talos:
+        sInstance.mTalos.playAttack();
+        break;
+    }
 }
 
 void eSounds::playDieSound(eCharacter* const c) {
@@ -446,7 +555,7 @@ void eSounds::playDieSound(eCharacter* const c) {
         Mix_PlayChannel(-1, sInstance.mActorDie, 0);
         break;
     case eCharacterType::rockThrower:
-        Mix_PlayChannel(-1, sInstance.mRockthrowerDie, 0);
+        playRandomSound(sInstance.mRockthrowerDie);
         break;
     case eCharacterType::boar:
         Mix_PlayChannel(-1, sInstance.mBoarDie, 0);
@@ -509,10 +618,9 @@ void eSounds::playDieSound(eCharacter* const c) {
     case eCharacterType::talos:
         sInstance.mTalos.playDie();
         break;
-    default: {
-        const int id = rand() % sInstance.mGenDie.size();
-        Mix_PlayChannel(-1, sInstance.mGenDie[id], 0);
-    } break;
+    default:
+        playRandomSound(sInstance.mGenDie);
+        break;
     }
 }
 
@@ -538,48 +646,48 @@ void eSounds::playHitSound(eCharacter* const c) {
         Mix_PlayChannel(-1, sInstance.mHopliteHit, 0);
         break;
 
-    case eCharacterType::aphrodite:
-        sInstance.mAphrodite.playHit();
-        break;
-    case eCharacterType::apollo:
-        sInstance.mApollo.playHit();
-        break;
-    case eCharacterType::ares:
-        sInstance.mAres.playHit();
-        break;
-    case eCharacterType::artemis:
-        sInstance.mArtemis.playHit();
-        break;
-    case eCharacterType::athena:
-        sInstance.mAthena.playHit();
-        break;
-    case eCharacterType::atlas:
-        sInstance.mAtlas.playHit();
-        break;
-    case eCharacterType::demeter:
-        sInstance.mDemeter.playHit();
-        break;
-    case eCharacterType::dionysus:
-        sInstance.mDionysus.playHit();
-        break;
-    case eCharacterType::hades:
-        sInstance.mHades.playHit();
-        break;
-    case eCharacterType::hephaestus:
-        sInstance.mHephaestus.playHit();
-        break;
-    case eCharacterType::hera:
-        sInstance.mHera.playHit();
-        break;
-    case eCharacterType::hermes:
-        sInstance.mHermes.playHit();
-        break;
-    case eCharacterType::poseidon:
-        sInstance.mPoseidon.playHit();
-        break;
-    case eCharacterType::zeus:
-        sInstance.mZeus.playHit();
-        break;
+//    case eCharacterType::aphrodite:
+//        sInstance.mAphrodite.playHit();
+//        break;
+//    case eCharacterType::apollo:
+//        sInstance.mApollo.playHit();
+//        break;
+//    case eCharacterType::ares:
+//        sInstance.mAres.playHit();
+//        break;
+//    case eCharacterType::artemis:
+//        sInstance.mArtemis.playHit();
+//        break;
+//    case eCharacterType::athena:
+//        sInstance.mAthena.playHit();
+//        break;
+//    case eCharacterType::atlas:
+//        sInstance.mAtlas.playHit();
+//        break;
+//    case eCharacterType::demeter:
+//        sInstance.mDemeter.playHit();
+//        break;
+//    case eCharacterType::dionysus:
+//        sInstance.mDionysus.playHit();
+//        break;
+//    case eCharacterType::hades:
+//        sInstance.mHades.playHit();
+//        break;
+//    case eCharacterType::hephaestus:
+//        sInstance.mHephaestus.playHit();
+//        break;
+//    case eCharacterType::hera:
+//        sInstance.mHera.playHit();
+//        break;
+//    case eCharacterType::hermes:
+//        sInstance.mHermes.playHit();
+//        break;
+//    case eCharacterType::poseidon:
+//        sInstance.mPoseidon.playHit();
+//        break;
+//    case eCharacterType::zeus:
+//        sInstance.mZeus.playHit();
+//        break;
 
     case eCharacterType::calydonianBoar:
         sInstance.mCalydonianBoar.playHit();
@@ -629,10 +737,9 @@ void eSounds::playHitSound(eCharacter* const c) {
     case eCharacterType::talos:
         sInstance.mTalos.playHit();
         break;
-    default: {
-        const int id = rand() % sInstance.mGenHit.size();
-        Mix_PlayChannel(-1, sInstance.mGenHit[id], 0);
-    } break;
+    default:
+        playRandomSound(sInstance.mGenHit);
+        break;
     }
 }
 
@@ -1116,7 +1223,11 @@ void eSounds::loadImpl() {
         const auto r = loadSoundBase(wavsDir + s);
         if(r) mRockthrowerAttack.push_back(r);
     }
-    mRockthrowerDie = loadSoundBase(wavsDir + "am_warr_die.wav");
+    for(const auto& s : {"am_arch_die.wav",
+                         "am_warr_die.wav"}) {
+        const auto r = loadSoundBase(wavsDir + s);
+        if(r) mRockthrowerDie.push_back(r);
+    }
     mRockthrowerHit = loadSoundBase(wavsDir + "am_warr_hit.wav");
 
     mBoarAttack = loadSoundBase(wavsDir + "boar_attack.wav");

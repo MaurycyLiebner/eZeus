@@ -114,6 +114,23 @@ void eCharacter::changeTile(eTile* const t, const bool prepend) {
 
 void eCharacter::incTime(const int by) {
     mTime += by;
+    const auto at = actionType();
+    if(at == eCharacterActionType::fight ||
+       at == eCharacterActionType::fight2) {
+        mSoundPlayTime += by;
+        const int soundPlayTime = 500;
+        if(mSoundPlayTime > soundPlayTime) {
+            mSoundPlayTime -= soundPlayTime;
+            auto& board = getBoard();
+            board.ifVisible(tile(), [&]() {
+                if(rand() % 2) {
+                    eSounds::playHitSound(this);
+                } else {
+                    eSounds::playAttackSound(this);
+                }
+            });
+        }
+    }
     if(mAction) {
         if(mAction->state() != eCharacterActionState::running) {
             mAction.reset();
