@@ -52,6 +52,7 @@
 #include "gameEvents/egodvisitevent.h"
 #include "gameEvents/egodattackevent.h"
 #include "gameEvents/emonsterattackevent.h"
+#include "gameEvents/einvasionevent.h"
 
 #include "evectorhelpers.h"
 
@@ -129,7 +130,7 @@ void eGameBoard::updateAppealMapIfNeeded() {
     mThreadPool.queueTask(task);
 }
 
-void eGameBoard::clearSoldierSelection() {
+void eGameBoard::clearBannerSelection() {
     for(const auto s : mSelectedBanners) {
         s->setSelected(false);
     }
@@ -274,6 +275,15 @@ void eGameBoard::setHostileMonsters(const std::vector<eMonsterType>& monsters) {
     const auto ec = e::make_shared<eGameEventCycle>(
                         e, date, period, 2, *this);
     addGameEvent(ec);
+
+    {
+        const auto e = e::make_shared<eInvasionEvent>(*this);
+        const int period = 10;
+        const auto date = mDate + period;
+        const auto ec = e::make_shared<eGameEventCycle>(
+                            e, date, period, 2, *this);
+        addGameEvent(ec);
+    }
 }
 
 void eGameBoard::read(eReadStream& src) {
@@ -693,9 +703,9 @@ void eGameBoard::handleGamesBegin(const eGames game) {
     const int pop = mPopData.population();
     const double mult = coverageMultiplier(pop);
     if(mult*coverage > 15) {
-        showMessage(nullptr, msgs->fBegin);
+        showMessage(eMessageEventType::common, nullptr, msgs->fBegin);
     } else {
-        showMessage(nullptr, msgs->fNoPart);
+        showMessage(eMessageEventType::common, nullptr, msgs->fNoPart);
     }
 }
 
@@ -731,14 +741,14 @@ void eGameBoard::handleGamesEnd(const eGames game) {
         const double chance = mult*coveragef*coveragef;
         const bool won = rand() % 101 < 100*chance;
         if(won) {
-            showMessage(nullptr, msgs->fWon);
+            showMessage(eMessageEventType::common, nullptr, msgs->fWon);
             mWonGames++;
         } else {
             const bool second = rand() % 101 < 200*chance;
             if(second) {
-                showMessage(nullptr, msgs->fSecond);
+                showMessage(eMessageEventType::common, nullptr, msgs->fSecond);
             } else {
-                showMessage(nullptr, msgs->fLost);
+                showMessage(eMessageEventType::common, nullptr, msgs->fLost);
             }
         }
     }
@@ -1001,8 +1011,9 @@ void eGameBoard::setEventHandler(const eEventHandler& eh) {
     mEventHandler = eh;
 }
 
-void eGameBoard::event(const eEvent e, eTile* const tile) {
-    if(mEventHandler) mEventHandler(e, tile);
+void eGameBoard::event(const eEvent e, eTile* const tile,
+                       eWorldCity* const city, const int bribe) {
+    if(mEventHandler) mEventHandler(e, tile, city, bribe);
 }
 
 void eGameBoard::setVisibilityChecker(const eVisibilityChecker& vc) {
@@ -1029,8 +1040,10 @@ void eGameBoard::setMessageShower(const eMessageShower& msg) {
     mMsgShower = msg;
 }
 
-void eGameBoard::showMessage(eTile* const t, const eMessageType& msg) {
-    mMsgShower(t, msg);
+void eGameBoard::showMessage(const eMessageEventType et,
+                             eTile* const t,
+                             const eMessageType& msg) {
+    mMsgShower(et, t, msg);
 }
 
 void eGameBoard::requestTileRenderingOrderUpdate() {

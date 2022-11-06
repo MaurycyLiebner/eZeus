@@ -73,8 +73,9 @@ eGameWidget::eGameWidget(eMainWindow* const window) :
 void eGameWidget::setBoard(eGameBoard* const board) {
     if(mBoard == board) return;
     mBoard = board;
-    mBoard->setEventHandler([this](const eEvent e, eTile* const tile) {
-        handleEvent(e, tile);
+    mBoard->setEventHandler([this](const eEvent e, eTile* const tile,
+                                   eWorldCity* const city, const int bribe) {
+        handleEvent(e, tile, city, bribe);
     });
     mBoard->setVisibilityChecker([this](eTile* const tile) {
         return tileVisible(tile);
@@ -82,8 +83,9 @@ void eGameWidget::setBoard(eGameBoard* const board) {
     mBoard->setButtonsVisUpdater([this]() {
         mGm->updateButtonsVisibility();
     });
-    mBoard->setMessageShower([this](eTile* const t, const eMessageType& msg) {
-        showMessage(t, msg);
+    mBoard->setMessageShower([this](const eMessageEventType et,
+                                    eTile* const t, const eMessageType& msg) {
+        showMessage(et, t, msg);
     });
     mBoard->setTipShower([this](const std::string& tip) {
         showTip(tip);
@@ -611,8 +613,10 @@ int eGameWidget::waterParkId() const {
     return mTime/(mSpeed*150);
 }
 
-void eGameWidget::showMessage(eTile* const tile, const eMessageType& msg) {
-    showMessage(tile, msg.fFull);
+void eGameWidget::showMessage(const eMessageEventType et,
+                              eTile* const tile, const eMessageType& msg,
+                              eWorldCity* const city, const int bribe) {
+    showMessage(et, tile, msg.fFull, city, bribe);
 }
 
 void eGameWidget::showTip(const std::string& tip) {
@@ -643,7 +647,9 @@ void eGameWidget::updateTipPositions() {
     }
 }
 
-void eGameWidget::showMessage(eTile* const tile, const eMessage& msg) {
+void eGameWidget::showMessage(const eMessageEventType et,
+                              eTile* const tile, const eMessage& msg,
+                              eWorldCity* const city, const int bribe) {
     const auto msgb = new eMessageBox(window());
     msgb->setHeight(height()/3);
     msgb->setWidth(width()/2);
@@ -654,7 +660,7 @@ void eGameWidget::showMessage(eTile* const tile, const eMessage& msg) {
         };
     }
     const auto& d = mBoard->date();
-    msgb->initialize(a, d, msg, mBoard->playerName());
+    msgb->initialize(et, a, d, msg, mBoard->playerName(), city, bribe);
     addWidget(msgb);
     msgb->align(eAlignment::bottom | eAlignment::hcenter);
     msgb->setY(msgb->y() - mGm->width()/10);
@@ -1251,7 +1257,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
     if(mLocked) return true;
     switch(e.button()) {
     case eMouseButton::left: {
-        mBoard->clearSoldierSelection();
+        mBoard->clearBannerSelection();
         mLeftPressed = false;
         const bool r = buildMouseRelease();
         if(!r) {

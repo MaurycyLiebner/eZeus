@@ -1,5 +1,7 @@
 #include "edifficulty.h"
 
+#include "characters/echaracter.h"
+
 std::string eDifficultyHelpers::name(const eDifficulty diff) {
     switch(diff) {
     case eDifficulty::beginner:
@@ -555,4 +557,40 @@ double eDifficultyHelpers::workerFrac(
         }
     }
     }
+}
+
+
+int soliderBribeMultiplier(const eDifficulty diff) {
+    switch(diff) {
+    case eDifficulty::beginner:
+        return 1;
+    case eDifficulty::mortal:
+        return 3;
+    case eDifficulty::hero:
+        return 4;
+    case eDifficulty::titan:
+        return 5;
+    case eDifficulty::olympian:
+        return 7;
+    }
+}
+
+int eDifficultyHelpers::soliderBribe(const eDifficulty diff,
+                                     const eCharacterType type) {
+    const int mult = soliderBribeMultiplier(diff);
+    int base = 0;
+    switch(type) {
+    case eCharacterType::rockThrower:
+        base = 25;
+        break;
+    case eCharacterType::hoplite:
+        base = 25;
+        break;
+    case eCharacterType::horseman:
+        base = 50;
+        break;
+    default:
+        return 0;
+    }
+    return mult*base;
 }

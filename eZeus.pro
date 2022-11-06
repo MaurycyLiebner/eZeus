@@ -170,6 +170,7 @@ SOURCES += \
         characters/egoat.cpp \
         characters/egoatherd.cpp \
         characters/egreekhoplite.cpp \
+        characters/egreekhorseman.cpp \
         characters/egreekrockthrower.cpp \
         characters/egrower.cpp \
         characters/egymnast.cpp \
@@ -274,6 +275,7 @@ SOURCES += \
         gameEvents/egameeventcycle.cpp \
         gameEvents/egodattackevent.cpp \
         gameEvents/egodvisitevent.cpp \
+        gameEvents/einvasionevent.cpp \
         gameEvents/emonsterattackevent.cpp \
         main.cpp \
         missiles/earrowmissile.cpp \
@@ -556,6 +558,7 @@ HEADERS += \
     characters/egoat.h \
     characters/egoatherd.h \
     characters/egreekhoplite.h \
+    characters/egreekhorseman.h \
     characters/egreekrockthrower.h \
     characters/egrower.h \
     characters/egymnast.h \
@@ -666,6 +669,7 @@ HEADERS += \
     gameEvents/egameeventcycle.h \
     gameEvents/egodattackevent.h \
     gameEvents/egodvisitevent.h \
+    gameEvents/einvasionevent.h \
     gameEvents/emonsterattackevent.h \
     missiles/earrowmissile.h \
     missiles/egodmissile.h \

@@ -220,6 +220,12 @@ bool eMessages::loadImpl() {
     fNemeanGames.fLost.fFull.fText = fMessages["PHRASE_nemean_games_conclude_initial_announcement_lost"];
     fNemeanGames.fLost.fCondensed.fText = fMessages["PHRASE_CONDENSED_nemean_games_conclude_initial_announcement_lost"];
 
+    fInvasion.fFull.fTitle = fMessages["PHRASE_invasion_title"];
+    fInvasion.fFull.fText = fMessages["PHRASE_invasion_city_attacked_alert"];
+
+    fInvasion.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_invasion_title"];
+    fInvasion.fCondensed.fText = fMessages["PHRASE_CONDENSED_invasion_city_attacked_alert"];
+
     return true;
 }
 

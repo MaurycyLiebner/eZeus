@@ -5,12 +5,14 @@
 #include "eframedwidget.h"
 #include "eokbutton.h"
 #include "eexclamationbutton.h"
+#include "eframedbutton.h"
 
 #include <stdexcept>
 
 #include "elanguage.h"
 
 #include "estringhelpers.h"
+#include "engine/eworldcity.h"
 
 template<typename ... Args>
 std::string string_format(const std::string& format, Args... args) {
@@ -22,10 +24,13 @@ std::string string_format(const std::string& format, Args... args) {
     return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
 }
 
-void eMessageBox::initialize(const eAction& viewTile,
+void eMessageBox::initialize(const eMessageEventType et,
+                             const eAction& viewTile,
                              const eDate& date,
                              eMessage msg,
-                             const std::string& name) {
+                             const std::string& name,
+                             eWorldCity* const city,
+                             const int bribe) {
     setType(eFrameType::message);
 
     const int p = padding();
@@ -81,6 +86,11 @@ void eMessageBox::initialize(const eAction& viewTile,
     eStringHelpers::replaceAll(msg.fText, "[greeting]",
                                eLanguage::text("greetings"));
     eStringHelpers::replaceAll(msg.fText, "[player_name]", name);
+    if(city) {
+        eStringHelpers::replaceAll(msg.fText, "[city_name]", city->name());
+        eStringHelpers::replaceAll(msg.fText, "[a_foreign_army]",
+                                   city->aForeignArmy());
+    }
     text->setText(msg.fText);
     text->fitContent();
     text->setX(p);
@@ -90,19 +100,58 @@ void eMessageBox::initialize(const eAction& viewTile,
     ww->fitContent();
     addWidget(ww);
 
-    const auto ok = new eOkButton(window());
-    ok->setPressAction([this]() {
-        deleteLater();
-    });
-    addWidget(ok);
+    eOkButton* ok = nullptr;
+    eWidget* wid = nullptr;
+    if(et == eMessageEventType::common) {
+        ok = new eOkButton(window());
+        ok->setPressAction([this]() {
+            deleteLater();
+        });
+        addWidget(ok);
+    } else if(et == eMessageEventType::invasion) {
+        wid = new eWidget(window());
+
+        const auto surrenderB = new eFramedButton(window());
+        surrenderB->setSmallFontSize();
+        surrenderB->setUnderline(false);
+        surrenderB->setText(eLanguage::text("surrender"));
+        surrenderB->fitContent();
+        wid->addWidget(surrenderB);
+
+        const auto bribeB = new eFramedButton(window());
+        bribeB->setSmallFontSize();
+        bribeB->setUnderline(false);
+        bribeB->setText(eLanguage::text("bribe") + " " +
+                        std::to_string(bribe) + " " +
+                        eLanguage::text("drachmas"));
+        bribeB->fitContent();
+        wid->addWidget(bribeB);
+
+        const auto fightToDefend = new eFramedButton(window());
+        fightToDefend->setSmallFontSize();
+        fightToDefend->setUnderline(false);
+        fightToDefend->setText(eLanguage::text("fight_to_defend"));
+        fightToDefend->fitContent();
+        wid->addWidget(fightToDefend);
+
+        wid->setWidth(width() - 8*p);
+        wid->layoutHorizontally();
+        wid->fitContent();
+        addWidget(wid);
+    }
 
     stackVertically();
 
     fitContent();
 
-    ok->align(eAlignment::right | eAlignment::bottom);
-    ok->setX(ok->x() - 1.5*p);
-    ok->setY(ok->y() - 1.5*p);
+    if(ok) {
+        ok->align(eAlignment::right | eAlignment::bottom);
+        ok->setX(ok->x() - 1.5*p);
+        ok->setY(ok->y() - 1.5*p);
+    }
+    if(wid) {
+        wid->align(eAlignment::hcenter);
+    }
     w0->align(eAlignment::hcenter);
     ww->align(eAlignment::hcenter);
 }

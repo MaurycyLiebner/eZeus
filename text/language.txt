@@ -478,6 +478,10 @@ dec_short "Dec."
 message_to "To"
 go_to_site "Go to site of event"
 
+surrender "Surrender"
+bribe "Bribe"
+fight_to_defend "Fight to defend city"
+
 
 employees "Employees"
 needed "Needed"

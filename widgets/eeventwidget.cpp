@@ -106,6 +106,9 @@ eEventButton::eEventButton(const eEvent e,
     case eEvent::theseusArrival:
         coll = &texs.fHeroArrivalAlert;
         break;
+    case eEvent::invasion:
+        coll = &texs.fInvasionAlert;
+        break;
     default:
         return;
     }

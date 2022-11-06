@@ -81,6 +81,8 @@ public:
     eGameMessages fNemeanGames;
     eGameMessages fPythianGames;
     eGameMessages fOlympianGames;
+
+    eMessageType fInvasion;
 private:
     bool loadImpl();
     void load(eGodMessages& god, const std::string& godName);

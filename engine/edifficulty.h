@@ -6,12 +6,20 @@
 #include "etaxrate.h"
 #include "ewagerate.h"
 
+enum class eCharacterType;
+
 enum class eDifficulty {
     beginner, mortal, hero, titan, olympian
 };
 
 namespace eDifficultyHelpers {
     std::string name(const eDifficulty diff);
+
+    int soliderBribe(const eDifficulty diff,
+                     const eCharacterType type);
+
+    int buildingCost(const eDifficulty diff,
+                     const eBuildingType type);
 
     int buildingCost(const eDifficulty diff,
                      const eBuildingType type);

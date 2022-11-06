@@ -33,6 +33,7 @@ class eDomesticatedAnimal;
 struct eSanctBlueprint;
 class eWorldWidget;
 struct eGodMessages;
+struct eHeroMessages;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
 using eRendererCreator = std::function<stdsptr<eBuildingRenderer>()>;
@@ -114,10 +115,17 @@ private:
     std::vector<ePatrolGuide>::iterator
         findGuide(const int tx, const int ty);
 
-    void handleEvent(const eEvent e, eTile* const tile);
+    void handleEvent(const eEvent e, eTile* const tile,
+                     eWorldCity* const city, const int bribe);
     void handleGodVisitEvent(eGodMessages& msgs,
                              const eGodType god,
                              eTile* const tile);
+    void handleMonsterInvasionEvent(eGodMessages& msgs,
+                                    const eGodType god,
+                                    eTile* const tile);
+    void handleHeroArrivalEvent(eHeroMessages& msgs,
+                                const eHeroType hero,
+                                eTile* const tile);
 
     void mapDimensions(int& mdx, int& mdy) const;
     void viewBoxSize(double& fx, double& fy) const;
@@ -129,8 +137,14 @@ private:
 
     int waterParkId() const;
 
-    void showMessage(eTile* const tile, const eMessage& msg);
-    void showMessage(eTile* const tile, const eMessageType& msg);
+    void showMessage(const eMessageEventType et,
+                     eTile* const tile, const eMessage& msg,
+                     eWorldCity* const city = nullptr,
+                     const int bribe = 0);
+    void showMessage(const eMessageEventType et,
+                     eTile* const tile, const eMessageType& msg,
+                     eWorldCity* const city = nullptr,
+                     const int bribe = 0);
 
     void showTip(const std::string& tip);
     void updateTipPositions();

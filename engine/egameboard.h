@@ -41,6 +41,7 @@ class ePalace;
 class eThreadPool;
 
 class eSoldier;
+enum class eMessageEventType;
 
 struct eMessageType;
 
@@ -114,7 +115,9 @@ enum class eEvent {
     jasonArrival,
     odysseusArrival,
     perseusArrival,
-    theseusArrival
+    theseusArrival,
+
+    invasion
 };
 
 enum class eGames {
@@ -218,9 +221,12 @@ public:
     void addRubbish(const stdsptr<eObject>& o);
     void emptyRubbish();
 
-    using eEventHandler = std::function<void(eEvent, eTile*)>;
+    using eEventHandler = std::function<void(eEvent, eTile*,
+                                             eWorldCity*, int)>;
     void setEventHandler(const eEventHandler& eh);
-    void event(const eEvent e, eTile* const tile);
+    void event(const eEvent e, eTile* const tile,
+               eWorldCity* const city = nullptr,
+               const int bribe = 0);
 
     using eVisibilityChecker = std::function<bool(eTile*)>;
     void setVisibilityChecker(const eVisibilityChecker& vc);
@@ -232,10 +238,13 @@ public:
     using eAction = std::function<void()>;
     bool ifVisible(eTile* const tile, const eAction& func) const;
 
-    using eMessageShower = std::function<void(eTile* const, const eMessageType&)>;
+    using eMessageShower = std::function<void(
+                const eMessageEventType,
+                eTile* const, const eMessageType&)>;
     void setMessageShower(const eMessageShower& msg);
 
-    void showMessage(eTile* const t, const eMessageType& msg);
+    void showMessage(const eMessageEventType et,
+                     eTile* const t, const eMessageType& msg);
 
     const std::string& playerName() const
     { return mPlayerName; }
@@ -250,7 +259,7 @@ public:
 
     eWorldBoard& getWorldBoard() { return mWorldBoard; }
 
-    void clearSoldierSelection();
+    void clearBannerSelection();
     void deselectBanner(eSoldierBanner* const c);
     void selectBanner(eSoldierBanner* const c);
     const std::vector<eSoldierBanner*>& selectedSoldiers() const
