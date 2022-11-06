@@ -251,8 +251,8 @@ public:
     eWorldBoard& getWorldBoard() { return mWorldBoard; }
 
     void clearSoldierSelection();
-    void deselectSoldier(eSoldierBanner* const c);
-    void selectSoldier(eSoldierBanner* const c);
+    void deselectBanner(eSoldierBanner* const c);
+    void selectBanner(eSoldierBanner* const c);
     const std::vector<eSoldierBanner*>& selectedSoldiers() const
     { return mSelectedBanners; }
 

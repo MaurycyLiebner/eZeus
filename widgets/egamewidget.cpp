@@ -64,6 +64,7 @@
 
 #include "widgets/efilewidget.h"
 #include "evectorhelpers.h"
+#include "etilehelper.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {}
@@ -1266,13 +1267,20 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 pixToId(x0, y0, t0x, t0y);
                 pixToId(x1, y1, t1x, t1y);
 
-                for(int x = t0x; x < t1x; x++) {
-                    for(int y = t0y; y < t1y; y++) {
-                        const auto tile = mBoard->tile(x, y);
+                int dt0x;
+                int dt0y;
+                eTileHelper::tileIdToDTileId(t0x, t0y, dt0x, dt0y);
+                int dt1x;
+                int dt1y;
+                eTileHelper::tileIdToDTileId(t1x, t1y, dt1x, dt1y);
+
+                for(int x = dt0x; x < dt1x; x++) {
+                    for(int y = dt0y; y < dt1y; y++) {
+                        const auto tile = mBoard->dtile(x, y);
                         if(!tile) continue;
                         const auto b = tile->banner();
                         if(b) {
-                            if(!b->selected()) mBoard->selectSoldier(b);
+                            if(!b->selected()) mBoard->selectBanner(b);
                         }
                     }
                 }

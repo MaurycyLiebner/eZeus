@@ -136,12 +136,12 @@ void eGameBoard::clearSoldierSelection() {
     mSelectedBanners.clear();
 }
 
-void eGameBoard::deselectSoldier(eSoldierBanner* const c) {
+void eGameBoard::deselectBanner(eSoldierBanner* const c) {
     eVectorHelpers::remove(mSelectedBanners, c);
     c->setSelected(false);
 }
 
-void eGameBoard::selectSoldier(eSoldierBanner* const c) {
+void eGameBoard::selectBanner(eSoldierBanner* const c) {
     mSelectedBanners.push_back(c);
     c->setSelected(true);
 }
@@ -616,6 +616,7 @@ void eGameBoard::registerBanner(const stdsptr<eSoldierBanner>& b) {
 }
 
 bool eGameBoard::unregisterBanner(const stdsptr<eSoldierBanner>& b) {
+    eVectorHelpers::remove(mSelectedBanners, b.get());
     return eVectorHelpers::remove(mBanners, b);
 }
 
