@@ -13,6 +13,7 @@
 
 #include "estringhelpers.h"
 #include "engine/eworldcity.h"
+#include "widgets/egamewidget.h"
 
 template<typename ... Args>
 std::string string_format(const std::string& format, Args... args) {
@@ -24,13 +25,9 @@ std::string string_format(const std::string& format, Args... args) {
     return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
 }
 
-void eMessageBox::initialize(const eMessageEventType et,
+void eMessageBox::initialize(const eEventData& ed,
                              const eAction& viewTile,
-                             const eDate& date,
-                             eMessage msg,
-                             const std::string& name,
-                             eWorldCity* const city,
-                             const int bribe) {
+                             eMessage msg) {
     setType(eFrameType::message);
 
     const int p = padding();
@@ -38,6 +35,10 @@ void eMessageBox::initialize(const eMessageEventType et,
     const auto w0 = new eWidget(window());
     {
         w0->setNoPadding();
+        if(ed.fCity) {
+            eStringHelpers::replaceAll(msg.fTitle, "[city_name]",
+                                       ed.fCity->name());
+        }
         const auto title = new eLabel(msg.fTitle, window());
         title->setHugeFontSize();
         title->fitContent();
@@ -54,7 +55,8 @@ void eMessageBox::initialize(const eMessageEventType et,
 
     {
         const auto to = eLanguage::text("message_to");
-        const auto str = date.shortString() + "     " + to + " " + name;
+        const auto str = ed.fDate.shortString() +
+                         "     " + to + " " + ed.fPlayerName;
         const auto d = new eLabel(str, window());
         d->setSmallFontSize();
         d->fitContent();
@@ -85,11 +87,15 @@ void eMessageBox::initialize(const eMessageEventType et,
     text->setWrapWidth(width() - 8*p);
     eStringHelpers::replaceAll(msg.fText, "[greeting]",
                                eLanguage::text("greetings"));
-    eStringHelpers::replaceAll(msg.fText, "[player_name]", name);
-    if(city) {
-        eStringHelpers::replaceAll(msg.fText, "[city_name]", city->name());
+    eStringHelpers::replaceAll(msg.fText, "[player_name]",
+                               ed.fPlayerName);
+    if(ed.fCity) {
+        eStringHelpers::replaceAll(msg.fText, "[city_name]",
+                                   ed.fCity->name());
+        eStringHelpers::replaceAll(msg.fText, "[leader_name]",
+                                   ed.fCity->leader());
         eStringHelpers::replaceAll(msg.fText, "[a_foreign_army]",
-                                   city->aForeignArmy());
+                                   eLanguage::text("an_army"));
     }
     text->setText(msg.fText);
     text->fitContent();
@@ -102,13 +108,13 @@ void eMessageBox::initialize(const eMessageEventType et,
 
     eOkButton* ok = nullptr;
     eWidget* wid = nullptr;
-    if(et == eMessageEventType::common) {
+    if(ed.fType == eMessageEventType::common) {
         ok = new eOkButton(window());
         ok->setPressAction([this]() {
             deleteLater();
         });
         addWidget(ok);
-    } else if(et == eMessageEventType::invasion) {
+    } else if(ed.fType == eMessageEventType::invasion) {
         wid = new eWidget(window());
 
         const auto surrenderB = new eFramedButton(window());
@@ -117,15 +123,25 @@ void eMessageBox::initialize(const eMessageEventType et,
         surrenderB->setText(eLanguage::text("surrender"));
         surrenderB->fitContent();
         wid->addWidget(surrenderB);
+        surrenderB->setPressAction([this, ed]() {
+            if(ed.fA0) ed.fA0();
+            deleteLater();
+        });
+        surrenderB->setVisible(bool(ed.fA0));
 
         const auto bribeB = new eFramedButton(window());
         bribeB->setSmallFontSize();
         bribeB->setUnderline(false);
         bribeB->setText(eLanguage::text("bribe") + " " +
-                        std::to_string(bribe) + " " +
+                        std::to_string(ed.fBribe) + " " +
                         eLanguage::text("drachmas"));
         bribeB->fitContent();
         wid->addWidget(bribeB);
+        bribeB->setPressAction([this, ed]() {
+            if(ed.fA1) ed.fA1();
+            deleteLater();
+        });
+        bribeB->setVisible(bool(ed.fA1));
 
         const auto fightToDefend = new eFramedButton(window());
         fightToDefend->setSmallFontSize();
@@ -133,10 +149,18 @@ void eMessageBox::initialize(const eMessageEventType et,
         fightToDefend->setText(eLanguage::text("fight_to_defend"));
         fightToDefend->fitContent();
         wid->addWidget(fightToDefend);
+        fightToDefend->setPressAction([this, ed]() {
+            if(ed.fA2) ed.fA2();
+            deleteLater();
+        });
 
         wid->setWidth(width() - 8*p);
         wid->layoutHorizontally();
         wid->fitContent();
+        surrenderB->align(eAlignment::vcenter);
+        bribeB->align(eAlignment::vcenter);
+        fightToDefend->align(eAlignment::vcenter);
+
         addWidget(wid);
     }
 
@@ -154,4 +178,9 @@ void eMessageBox::initialize(const eMessageEventType et,
     }
     w0->align(eAlignment::hcenter);
     ww->align(eAlignment::hcenter);
+}
+
+bool eMessageBox::mousePressEvent(const eMouseEvent& e) {
+    (void)e;
+    return true;
 }

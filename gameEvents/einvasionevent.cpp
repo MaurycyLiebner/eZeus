@@ -5,6 +5,10 @@
 eInvasionEvent::eInvasionEvent(eGameBoard& board) :
     eGameEvent(eGameEventType::invasion, board) {}
 
+void eInvasionEvent::setCity(const stdsptr<eWorldCity>& city) {
+    mCity = city;
+}
+
 void eInvasionEvent::setArmy(const int infantry,
                              const int cavalry,
                              const int archers) {
@@ -17,9 +21,23 @@ void eInvasionEvent::trigger() {
     auto& board = getBoard();
     const int bribe = bribeCost();
 
+    eEventData ed;
+    ed.fType = eMessageEventType::invasion;
+    ed.fBribe = bribe;
+    ed.fCity = mCity.get();
+    const auto boardPtr = &board;
+    ed.fA0 = [boardPtr]() { // surrender
 
+    };
+    if(board.drachmas() >= bribe) { // bribe
+        ed.fA1 = [boardPtr, bribe]() {
+            boardPtr->incDrachmas(-bribe);
+        };
+    }
+    ed.fA2 = [boardPtr]() { // fight
 
-    board.event(eEvent::invasion, nullptr, mCity.get(), bribe);
+    };
+    board.event(eEvent::invasion, ed);
 }
 
 void eInvasionEvent::write(eWriteStream& dst) const {

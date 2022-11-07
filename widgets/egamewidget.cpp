@@ -73,9 +73,8 @@ eGameWidget::eGameWidget(eMainWindow* const window) :
 void eGameWidget::setBoard(eGameBoard* const board) {
     if(mBoard == board) return;
     mBoard = board;
-    mBoard->setEventHandler([this](const eEvent e, eTile* const tile,
-                                   eWorldCity* const city, const int bribe) {
-        handleEvent(e, tile, city, bribe);
+    mBoard->setEventHandler([this](const eEvent e, eEventData& ed) {
+        handleEvent(e, ed);
     });
     mBoard->setVisibilityChecker([this](eTile* const tile) {
         return tileVisible(tile);
@@ -83,9 +82,8 @@ void eGameWidget::setBoard(eGameBoard* const board) {
     mBoard->setButtonsVisUpdater([this]() {
         mGm->updateButtonsVisibility();
     });
-    mBoard->setMessageShower([this](const eMessageEventType et,
-                                    eTile* const t, const eMessageType& msg) {
-        showMessage(et, t, msg);
+    mBoard->setMessageShower([this](eEventData& ed, const eMessageType& msg) {
+        showMessage(ed, msg);
     });
     mBoard->setTipShower([this](const std::string& tip) {
         showTip(tip);
@@ -613,10 +611,9 @@ int eGameWidget::waterParkId() const {
     return mTime/(mSpeed*150);
 }
 
-void eGameWidget::showMessage(const eMessageEventType et,
-                              eTile* const tile, const eMessageType& msg,
-                              eWorldCity* const city, const int bribe) {
-    showMessage(et, tile, msg.fFull, city, bribe);
+void eGameWidget::showMessage(eEventData& ed,
+                              const eMessageType& msg) {
+    showMessage(ed, msg.fFull);
 }
 
 void eGameWidget::showTip(const std::string& tip) {
@@ -647,20 +644,21 @@ void eGameWidget::updateTipPositions() {
     }
 }
 
-void eGameWidget::showMessage(const eMessageEventType et,
-                              eTile* const tile, const eMessage& msg,
-                              eWorldCity* const city, const int bribe) {
+void eGameWidget::showMessage(eEventData& ed, const eMessage& msg) {
     const auto msgb = new eMessageBox(window());
     msgb->setHeight(height()/3);
     msgb->setWidth(width()/2);
     eAction a;
-    if(tile) {
+    if(ed.fTile) {
+        const auto tile = ed.fTile;
         a = [this, tile]() {
             viewTile(tile);
         };
     }
-    const auto& d = mBoard->date();
-    msgb->initialize(et, a, d, msg, mBoard->playerName(), city, bribe);
+    ed.fDate = mBoard->date();
+    ed.fPlayerName = mBoard->playerName();
+
+    msgb->initialize(ed, a, msg);
     addWidget(msgb);
     msgb->align(eAlignment::bottom | eAlignment::hcenter);
     msgb->setY(msgb->y() - mGm->width()/10);

@@ -92,13 +92,11 @@ public:
 
     const std::string& name() const { return mName; }
     const std::string& leader() const { return mLeader; }
-    const std::string& aForeignArmy() const { return mAForeignArmy; }
 private:
     const eWorldCityType mType;
 
     const std::string mName;
     const std::string mLeader;
-    const std::string mAForeignArmy;
 
     const double mX;
     const double mY;

@@ -9,6 +9,7 @@
 #include "engine/epathfinder.h"
 #include "etilehelper.h"
 #include "characters/actions/eheroaction.h"
+#include "emessage.h"
 
 eBuildingType eHerosHall::sHeroTypeToHallType(const eHeroType type) {
     switch(type) {
@@ -298,7 +299,9 @@ void eHerosHall::arrive() {
 
     spawnHero();
 
-    board.event(e, mHero ? mHero->tile() : nullptr);
+    eEventData ed;
+    ed.fTile = mHero ? mHero->tile() : nullptr;
+    board.event(e, ed);
 }
 
 void eHerosHall::spawnHero() {

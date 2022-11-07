@@ -14,6 +14,8 @@
 
 #include "evectorhelpers.h"
 
+#include "emessage.h"
+
 eBuilding::eBuilding(eGameBoard& board,
                      const eBuildingType type,
                      const int sw, const int sh) :
@@ -184,11 +186,15 @@ void eBuilding::incTime(const int by) {
         if(rand() % (10000/by) == 0) {
             if(rand() % 3) {
                 const bool r = spreadFire();
-                if(r) b.event(eEvent::fire, centerTile());
+                eEventData ed;
+                ed.fTile = centerTile();
+                if(r) b.event(eEvent::fire, ed);
             } else if(mType == eBuildingType::ruins) {
                 setOnFire(false);
             } else {
-                b.event(eEvent::collapse, centerTile());
+                eEventData ed;
+                ed.fTile = centerTile();
+                b.event(eEvent::collapse, ed);
                 collapse();
                 return;
             }
@@ -211,14 +217,18 @@ void eBuilding::incTime(const int by) {
             const int firePeriod = m4/(by*fireRisk);
             if(firePeriod && rand() % firePeriod == 0) {
                 setOnFire(true);
-                b.event(eEvent::fire, centerTile());
+                eEventData ed;
+                ed.fTile = centerTile();
+                b.event(eEvent::fire, ed);
             }
         }
         const int damageRisk = eDifficultyHelpers::damageRisk(diff, mType);
         if(damageRisk) {
             const int damagePeriod = m4/(by*damageRisk);
             if(damagePeriod && rand() % damagePeriod == 0) {
-                b.event(eEvent::collapse, centerTile());
+                eEventData ed;
+                ed.fTile = centerTile();
+                b.event(eEvent::collapse, ed);
                 collapse();
                 return;
             }

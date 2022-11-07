@@ -120,6 +120,23 @@ enum class eEvent {
     invasion
 };
 
+enum class eMessageEventType {
+    common,
+    invasion
+};
+
+struct eEventData {
+    eMessageEventType fType = eMessageEventType::common;
+    eDate fDate;
+    std::string fPlayerName;
+    eTile* fTile = nullptr;
+    int fBribe = 0;
+    eAction fA0 = nullptr;
+    eAction fA1 = nullptr;
+    eAction fA2 = nullptr;
+    eWorldCity* fCity = nullptr;
+};
+
 enum class eGames {
     isthmian,
     nemean,
@@ -221,12 +238,9 @@ public:
     void addRubbish(const stdsptr<eObject>& o);
     void emptyRubbish();
 
-    using eEventHandler = std::function<void(eEvent, eTile*,
-                                             eWorldCity*, int)>;
+    using eEventHandler = std::function<void(eEvent, eEventData&)>;
     void setEventHandler(const eEventHandler& eh);
-    void event(const eEvent e, eTile* const tile,
-               eWorldCity* const city = nullptr,
-               const int bribe = 0);
+    void event(const eEvent e, eEventData& ed);
 
     using eVisibilityChecker = std::function<bool(eTile*)>;
     void setVisibilityChecker(const eVisibilityChecker& vc);
@@ -239,12 +253,10 @@ public:
     bool ifVisible(eTile* const tile, const eAction& func) const;
 
     using eMessageShower = std::function<void(
-                const eMessageEventType,
-                eTile* const, const eMessageType&)>;
+                eEventData&, const eMessageType&)>;
     void setMessageShower(const eMessageShower& msg);
 
-    void showMessage(const eMessageEventType et,
-                     eTile* const t, const eMessageType& msg);
+    void showMessage(eEventData& ed, const eMessageType& msg);
 
     const std::string& playerName() const
     { return mPlayerName; }
@@ -303,6 +315,8 @@ public:
     void setFriendlyGods(const std::vector<eGodType>& gods);
     void setHostileGods(const std::vector<eGodType>& gods);
     void setHostileMonsters(const std::vector<eMonsterType>& monsters);
+
+    void planInvasion();
 
     void read(eReadStream& src);
     void write(eWriteStream& dst) const;

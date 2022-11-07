@@ -7,18 +7,18 @@
 #include "engine/edate.h"
 
 class eWorldCity;
+struct eEventData;
 
 class eMessageBox : public eFramedWidget {
 public:
     using eFramedWidget::eFramedWidget;
 
-    void initialize(const eMessageEventType et,
+    void initialize(const eEventData& ed,
                     const eAction& viewTile,
-                    const eDate& date,
-                    eMessage msg,
-                    const std::string& name,
-                    eWorldCity* const city,
-                    const int bribe);
+                    eMessage msg);
+
+protected:
+    bool mousePressEvent(const eMouseEvent& e);
 };
 
 #endif // EMESSAGEBOX_H

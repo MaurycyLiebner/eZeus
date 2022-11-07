@@ -209,6 +209,8 @@ ok "Ok"
 
 of " of "
 
+an_army "an army"
+
 ; cities
 athens "Athens"
 sparta "Sparta"

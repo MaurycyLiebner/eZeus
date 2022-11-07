@@ -115,17 +115,16 @@ private:
     std::vector<ePatrolGuide>::iterator
         findGuide(const int tx, const int ty);
 
-    void handleEvent(const eEvent e, eTile* const tile,
-                     eWorldCity* const city, const int bribe);
+    void handleEvent(const eEvent e, eEventData& ed);
     void handleGodVisitEvent(eGodMessages& msgs,
                              const eGodType god,
-                             eTile* const tile);
+                             eEventData& ed);
     void handleMonsterInvasionEvent(eGodMessages& msgs,
                                     const eGodType god,
-                                    eTile* const tile);
+                                    eEventData& ed);
     void handleHeroArrivalEvent(eHeroMessages& msgs,
                                 const eHeroType hero,
-                                eTile* const tile);
+                                eEventData& ed);
 
     void mapDimensions(int& mdx, int& mdy) const;
     void viewBoxSize(double& fx, double& fy) const;
@@ -137,14 +136,8 @@ private:
 
     int waterParkId() const;
 
-    void showMessage(const eMessageEventType et,
-                     eTile* const tile, const eMessage& msg,
-                     eWorldCity* const city = nullptr,
-                     const int bribe = 0);
-    void showMessage(const eMessageEventType et,
-                     eTile* const tile, const eMessageType& msg,
-                     eWorldCity* const city = nullptr,
-                     const int bribe = 0);
+    void showMessage(eEventData& ed, const eMessage& msg);
+    void showMessage(eEventData& ed, const eMessageType& msg);
 
     void showTip(const std::string& tip);
     void updateTipPositions();

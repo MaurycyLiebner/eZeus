@@ -9,6 +9,8 @@ class eInvasionEvent : public eGameEvent {
 public:
     eInvasionEvent(eGameBoard& board);
 
+    void setCity(const stdsptr<eWorldCity>& city);
+
     void setArmy(const int infantry,
                  const int cavalry,
                  const int archers);

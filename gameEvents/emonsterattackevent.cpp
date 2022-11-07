@@ -85,7 +85,9 @@ void eMonsterAttackEvent::trigger() {
                        monster.get(), []() {}, []() {});
     monster->setAction(a);
     a->increment(1);
-    board.event(e, monster->tile());
+    eEventData ed;
+    ed.fTile = monster->tile();
+    board.event(e, ed);
 }
 
 void eMonsterAttackEvent::write(eWriteStream& dst) const {

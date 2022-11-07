@@ -80,7 +80,9 @@ void eGodVisitEvent::trigger() {
     god->setAction(a);
     god->setAttitude(eGodAttitude::friendly);
     a->increment(1);
-    board.event(e, god->tile());
+    eEventData ed;
+    ed.fTile = god->tile();
+    board.event(e, ed);
 }
 
 void eGodVisitEvent::write(eWriteStream& dst) const {

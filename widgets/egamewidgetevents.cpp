@@ -5,53 +5,49 @@
 
 void eGameWidget::handleGodVisitEvent(eGodMessages& msgs,
                                       const eGodType god,
-                                      eTile* const tile) {
+                                      eEventData& ed) {
     int& lm = msgs.fLastMessage;
     lm = lm > 2 ? 0 : (lm + 1);
     if(lm == 0) {
         eSounds::playGodSound(god, eGodSound::wooing0);
-        showMessage(eMessageEventType::common, tile, msgs.fWooing0);
+        showMessage(ed, msgs.fWooing0);
     } else if(lm == 1) {
         eSounds::playGodSound(god, eGodSound::jealousy1);
-        showMessage(eMessageEventType::common, tile, msgs.fJealousy1);
+        showMessage(ed, msgs.fJealousy1);
     } else if(lm == 2) {
         eSounds::playGodSound(god, eGodSound::jealousy2);
-        showMessage(eMessageEventType::common, tile, msgs.fJealousy2);
+        showMessage(ed, msgs.fJealousy2);
     }
 }
 
 void eGameWidget::handleMonsterInvasionEvent(eGodMessages& msgs,
                                              const eGodType god,
-                                             eTile* const tile) {
+                                             eEventData& ed) {
     eSounds::playGodSound(god, eGodSound::monster);
-    showMessage(eMessageEventType::common, tile, msgs.fMonster);
+    showMessage(ed, msgs.fMonster);
 }
 
 void eGameWidget::handleHeroArrivalEvent(eHeroMessages& msgs,
                                          const eHeroType hero,
-                                         eTile* const tile) {
+                                         eEventData& ed) {
     eSounds::playHeroSound(hero, eHeroSound::arrived);
-    showMessage(eMessageEventType::common, tile, msgs.fArrival);
+    showMessage(ed, msgs.fArrival);
 }
 
-void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
-                              eWorldCity* const city,
-                              const int bribe) {
+void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
     switch(e) {
-    case eEvent::fire:
+    case eEvent::fire: {
         eSounds::playFireSound();
-        showMessage(eMessageEventType::common, tile,
-                    eMessages::instance.fFire);
-        break;
-    case eEvent::collapse:
+        showMessage(ed, eMessages::instance.fFire);
+    } break;
+    case eEvent::collapse: {
         eSounds::playCollapseSound();
-        showMessage(eMessageEventType::common, tile,
-                    eMessages::instance.fCollapse);
-        break;
+        showMessage(ed, eMessages::instance.fCollapse);
+    } break;
 
     case eEvent::aphroditeVisit:
         handleGodVisitEvent(eMessages::instance.fAphrodite,
-                            eGodType::aphrodite, tile);
+                            eGodType::aphrodite, ed);
         break;
     case eEvent::aphroditeInvasion:
         eSounds::playGodSound(eGodType::aphrodite, eGodSound::invade);
@@ -59,7 +55,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
 
     case eEvent::apolloVisit:
         handleGodVisitEvent(eMessages::instance.fApollo,
-                            eGodType::apollo, tile);
+                            eGodType::apollo, ed);
         break;
     case eEvent::apolloInvasion:
         eSounds::playGodSound(eGodType::apollo, eGodSound::invade);
@@ -67,7 +63,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
 
     case eEvent::aresVisit:
         handleGodVisitEvent(eMessages::instance.fAres,
-                            eGodType::ares, tile);
+                            eGodType::ares, ed);
         break;
     case eEvent::aresInvasion:
         eSounds::playGodSound(eGodType::ares, eGodSound::invade);
@@ -75,7 +71,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
 
     case eEvent::artemisVisit:
         handleGodVisitEvent(eMessages::instance.fArtemis,
-                            eGodType::artemis, tile);
+                            eGodType::artemis, ed);
         break;
     case eEvent::artemisInvasion:
         eSounds::playGodSound(eGodType::artemis, eGodSound::invade);
@@ -83,7 +79,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
 
     case eEvent::athenaVisit:
         handleGodVisitEvent(eMessages::instance.fAthena,
-                            eGodType::athena, tile);
+                            eGodType::athena, ed);
         break;
     case eEvent::athenaInvasion:
         eSounds::playGodSound(eGodType::athena, eGodSound::invade);
@@ -91,7 +87,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
 
     case eEvent::atlasVisit:
         handleGodVisitEvent(eMessages::instance.fAtlas,
-                            eGodType::atlas, tile);
+                            eGodType::atlas, ed);
         break;
     case eEvent::atlasInvasion:
         eSounds::playGodSound(eGodType::atlas, eGodSound::invade);
@@ -99,7 +95,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
 
     case eEvent::demeterVisit:
         handleGodVisitEvent(eMessages::instance.fDemeter,
-                            eGodType::demeter, tile);
+                            eGodType::demeter, ed);
         break;
     case eEvent::demeterInvasion:
         eSounds::playGodSound(eGodType::demeter, eGodSound::invade);
@@ -107,7 +103,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
 
     case eEvent::dionysusVisit:
         handleGodVisitEvent(eMessages::instance.fDionysus,
-                            eGodType::dionysus, tile);
+                            eGodType::dionysus, ed);
         break;
     case eEvent::dionysusInvasion:
         eSounds::playGodSound(eGodType::dionysus, eGodSound::invade);
@@ -115,7 +111,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
 
     case eEvent::hadesVisit:
         handleGodVisitEvent(eMessages::instance.fHades,
-                            eGodType::hades, tile);
+                            eGodType::hades, ed);
         break;
     case eEvent::hadesInvasion:
         eSounds::playGodSound(eGodType::hades, eGodSound::invade);
@@ -123,7 +119,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
 
     case eEvent::hephaestusVisit:
         handleGodVisitEvent(eMessages::instance.fHephaestus,
-                            eGodType::hephaestus, tile);
+                            eGodType::hephaestus, ed);
         break;
     case eEvent::hephaestusInvasion:
         eSounds::playGodSound(eGodType::hephaestus, eGodSound::invade);
@@ -131,7 +127,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
 
     case eEvent::heraVisit:
         handleGodVisitEvent(eMessages::instance.fHera,
-                            eGodType::hera, tile);
+                            eGodType::hera, ed);
         break;
     case eEvent::heraInvasion:
         eSounds::playGodSound(eGodType::hera, eGodSound::invade);
@@ -139,7 +135,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
 
     case eEvent::hermesVisit:
         handleGodVisitEvent(eMessages::instance.fHermes,
-                            eGodType::hermes, tile);
+                            eGodType::hermes, ed);
         break;
     case eEvent::hermesInvasion:
         eSounds::playGodSound(eGodType::hermes, eGodSound::invade);
@@ -147,7 +143,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
 
     case eEvent::poseidonVisit:
         handleGodVisitEvent(eMessages::instance.fPoseidon,
-                            eGodType::poseidon, tile);
+                            eGodType::poseidon, ed);
         break;
     case eEvent::poseidonInvasion:
         eSounds::playGodSound(eGodType::poseidon, eGodSound::invade);
@@ -155,7 +151,7 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
 
     case eEvent::zeusVisit:
         handleGodVisitEvent(eMessages::instance.fZeus,
-                            eGodType::zeus, tile);
+                            eGodType::zeus, ed);
         break;
     case eEvent::zeusInvasion:
         eSounds::playGodSound(eGodType::zeus, eGodSound::invade);
@@ -163,107 +159,105 @@ void eGameWidget::handleEvent(const eEvent e, eTile* const tile,
 
     case eEvent::calydonianBoarInvasion:
         handleMonsterInvasionEvent(eMessages::instance.fArtemis,
-                                   eGodType::artemis, tile);
+                                   eGodType::artemis, ed);
         break;
     case eEvent::cerberusInvasion:
         handleMonsterInvasionEvent(eMessages::instance.fHades,
-                                   eGodType::hades, tile);
+                                   eGodType::hades, ed);
         break;
     case eEvent::chimeraInvasion:
         handleMonsterInvasionEvent(eMessages::instance.fAtlas,
-                                   eGodType::atlas, tile);
+                                   eGodType::atlas, ed);
         break;
     case eEvent::cyclopsInvasion:
         handleMonsterInvasionEvent(eMessages::instance.fZeus,
-                                   eGodType::zeus, tile);
+                                   eGodType::zeus, ed);
         break;
     case eEvent::dragonInvasion:
         handleMonsterInvasionEvent(eMessages::instance.fAres,
-                                   eGodType::ares, tile);
+                                   eGodType::ares, ed);
         break;
     case eEvent::echidnaInvasion:
 //        eSounds::playGodSound(eGodType::artemis, eGodSound::monster);
-//        showMessage(tile, eMessages::instance.fArtemis.fMonster);
+//        showMessage(ed, eMessages::instance.fArtemis.fMonster);
         break;
     case eEvent::harpiesInvasion:
 //        eSounds::playGodSound(eGodType::artemis, eGodSound::monster);
-//        showMessage(tile, eMessages::instance.fArtemis.fMonster);
+//        showMessage(ed, eMessages::instance.fArtemis.fMonster);
         break;
     case eEvent::hectorInvasion:
         handleMonsterInvasionEvent(eMessages::instance.fAphrodite,
-                                   eGodType::aphrodite, tile);
+                                   eGodType::aphrodite, ed);
         break;
     case eEvent::hydraInvasion:
         handleMonsterInvasionEvent(eMessages::instance.fAthena,
-                                   eGodType::athena, tile);
+                                   eGodType::athena, ed);
         break;
     case eEvent::krakenInvasion:
         handleMonsterInvasionEvent(eMessages::instance.fPoseidon,
-                                   eGodType::poseidon, tile);
+                                   eGodType::poseidon, ed);
         break;
     case eEvent::maenadsInvasion:
         handleMonsterInvasionEvent(eMessages::instance.fDionysus,
-                                   eGodType::dionysus, tile);
+                                   eGodType::dionysus, ed);
         break;
     case eEvent::medusaInvasion:
         handleMonsterInvasionEvent(eMessages::instance.fDemeter,
-                                   eGodType::demeter, tile);
+                                   eGodType::demeter, ed);
         break;
     case eEvent::minotaurInvasion:
         handleMonsterInvasionEvent(eMessages::instance.fHermes,
-                                   eGodType::hermes, tile);
+                                   eGodType::hermes, ed);
         break;
     case eEvent::scyllaInvasion:
         handleMonsterInvasionEvent(eMessages::instance.fApollo,
-                                   eGodType::apollo, tile);
+                                   eGodType::apollo, ed);
         break;
     case eEvent::sphinxInvasion:
         handleMonsterInvasionEvent(eMessages::instance.fHera,
-                                   eGodType::hera, tile);
+                                   eGodType::hera, ed);
         break;
     case eEvent::talosInvasion:
         handleMonsterInvasionEvent(eMessages::instance.fHephaestus,
-                                   eGodType::hephaestus, tile);
+                                   eGodType::hephaestus, ed);
         break;
 
     case eEvent::achillesArrival:
         handleHeroArrivalEvent(eMessages::instance.fAchilles,
-                               eHeroType::achilles, tile);
+                               eHeroType::achilles, ed);
         break;
     case eEvent::atalantaArrival:
         handleHeroArrivalEvent(eMessages::instance.fAtalanta,
-                               eHeroType::atalanta, tile);
+                               eHeroType::atalanta, ed);
         break;
     case eEvent::bellerophonArrival:
         handleHeroArrivalEvent(eMessages::instance.fBellerophon,
-                               eHeroType::bellerophon, tile);
+                               eHeroType::bellerophon, ed);
         break;
     case eEvent::herculesArrival:
         handleHeroArrivalEvent(eMessages::instance.fHercules,
-                               eHeroType::hercules, tile);
+                               eHeroType::hercules, ed);
         break;
     case eEvent::jasonArrival:
         handleHeroArrivalEvent(eMessages::instance.fJason,
-                               eHeroType::jason, tile);
+                               eHeroType::jason, ed);
         break;
     case eEvent::odysseusArrival:
         handleHeroArrivalEvent(eMessages::instance.fOdysseus,
-                               eHeroType::odysseus, tile);
+                               eHeroType::odysseus, ed);
         break;
     case eEvent::perseusArrival:
         handleHeroArrivalEvent(eMessages::instance.fPerseus,
-                               eHeroType::perseus, tile);
+                               eHeroType::perseus, ed);
         break;
     case eEvent::theseusArrival:
         handleHeroArrivalEvent(eMessages::instance.fTheseus,
-                               eHeroType::theseus, tile);
+                               eHeroType::theseus, ed);
         break;
 
-    case eEvent::invasion:
-        showMessage(eMessageEventType::invasion,
-                    tile, eMessages::instance.fInvasion,
-                    city, bribe);
-        break;
+    case eEvent::invasion: {
+        showMessage(ed, eMessages::instance.fInvasion);
+    } break;
     }
-    mGm->pushEvent(e, tile);
+    mGm->pushEvent(e, ed.fTile);
 }

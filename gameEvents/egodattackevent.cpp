@@ -80,7 +80,9 @@ void eGodAttackEvent::trigger() {
     god->setAttitude(eGodAttitude::hostile);
     god->setAction(a);
     a->increment(1);
-    board.event(e, god->tile());
+    eEventData ed;
+    ed.fTile = god->tile();
+    board.event(e, ed);
 }
 
 void eGodAttackEvent::write(eWriteStream& dst) const {

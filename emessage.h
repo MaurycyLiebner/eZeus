@@ -4,11 +4,6 @@
 #include <memory>
 #include <string>
 
-enum class eMessageEventType {
-    common,
-    invasion
-};
-
 struct eMessage {
     std::string fTitle;
     std::string fText;
