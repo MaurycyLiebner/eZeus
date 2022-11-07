@@ -26,12 +26,18 @@ void eInvasionEvent::trigger() {
     ed.fBribe = bribe;
     ed.fCity = mCity.get();
     const auto boardPtr = &board;
-    ed.fA0 = [boardPtr]() { // surrender
-
+    const auto city = ed.fCity;
+    ed.fA0 = [boardPtr, city]() { // surrender
+        eEventData ed;
+        ed.fCity = city;
+        boardPtr->event(eEvent::invasionDefeat, ed);
     };
     if(board.drachmas() >= bribe) { // bribe
-        ed.fA1 = [boardPtr, bribe]() {
+        ed.fA1 = [boardPtr, bribe, city]() {
             boardPtr->incDrachmas(-bribe);
+            eEventData ed;
+            ed.fCity = city;
+            boardPtr->event(eEvent::invasionBribed, ed);
         };
     }
     ed.fA2 = [boardPtr]() { // fight

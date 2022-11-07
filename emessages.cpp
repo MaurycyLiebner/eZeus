@@ -226,6 +226,24 @@ bool eMessages::loadImpl() {
     fInvasion.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_invasion_title"];
     fInvasion.fCondensed.fText = fMessages["PHRASE_CONDENSED_invasion_city_attacked_alert"];
 
+    fInvasionBribed.fFull.fTitle = fMessages["PHRASE_players_city_saved_bribery_title"];
+    fInvasionBribed.fFull.fText = fMessages["PHRASE_players_city_saved_bribery_initial_announcement"];
+
+    fInvasionBribed.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_players_city_saved_bribery_title"];
+    fInvasionBribed.fCondensed.fText = fMessages["PHRASE_CONDENSED_players_city_saved_bribery_initial_announcement"];
+
+    fInvasionBribed.fFull.fTitle = fMessages["PHRASE_players_city_saved_bribery_title"];
+    fInvasionBribed.fFull.fText = fMessages["PHRASE_players_city_saved_bribery_initial_announcement"];
+
+    fInvasionBribed.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_players_city_saved_bribery_title"];
+    fInvasionBribed.fCondensed.fText = fMessages["PHRASE_CONDENSED_players_city_saved_bribery_initial_announcement"];
+
+    fInvasionDefeat.fFull.fTitle = fMessages["PHRASE_enemy_victorious_title"];
+    fInvasionDefeat.fFull.fText = fMessages["PHRASE_enemy_victorious_initial_announcement"];
+
+    fInvasionDefeat.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_enemy_victorious_title"];
+    fInvasionDefeat.fCondensed.fText = fMessages["PHRASE_CONDENSED_enemy_victorious_initial_announcement"];
+
     return true;
 }
 

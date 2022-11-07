@@ -117,7 +117,9 @@ enum class eEvent {
     perseusArrival,
     theseusArrival,
 
-    invasion
+    invasion,
+    invasionDefeat,
+    invasionBribed
 };
 
 enum class eMessageEventType {

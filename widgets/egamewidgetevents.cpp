@@ -258,6 +258,12 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
     case eEvent::invasion: {
         showMessage(ed, eMessages::instance.fInvasion);
     } break;
+    case eEvent::invasionBribed: {
+        showMessage(ed, eMessages::instance.fInvasionBribed);
+    } break;
+    case eEvent::invasionDefeat: {
+        showMessage(ed, eMessages::instance.fInvasionDefeat);
+    } break;
     }
     mGm->pushEvent(e, ed.fTile);
 }
