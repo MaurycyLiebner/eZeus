@@ -284,8 +284,10 @@ SOURCES += \
         missiles/erockmissile.cpp \
         pointers/eobject.cpp \
         pointers/estdselfref.cpp \
+        spawners/ebanner.cpp \
         spawners/eboarspawner.cpp \
         spawners/edeerspawner.cpp \
+        spawners/elandinvasionpoint.cpp \
         spawners/esettlerspawner.cpp \
         spawners/espawner.cpp \
         textures/ebeachtodry.cpp \
@@ -722,8 +724,10 @@ HEADERS += \
     pointers/eobject.h \
     pointers/estdpointer.h \
     pointers/estdselfref.h \
+    spawners/ebanner.h \
     spawners/eboarspawner.h \
     spawners/edeerspawner.h \
+    spawners/elandinvasionpoint.h \
     spawners/esettlerspawner.h \
     spawners/espawner.h \
     textures/ebeachtodry.h \

@@ -24,11 +24,11 @@ void eSoldierBanner::moveTo(const int x, const int y) {
     if(mX == x && mY == y) return;
 
     if(mTile) {
-        mTile->setBanner(nullptr);
+        mTile->setSoldierBanner(nullptr);
     }
     const auto t = mBoard.tile(x, y);
     if(t) {
-        t->setBanner(this);
+        t->setSoldierBanner(this);
     }
     mTile = t;
 

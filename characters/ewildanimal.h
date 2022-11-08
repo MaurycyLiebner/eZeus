@@ -5,6 +5,8 @@
 
 #include "textures/echaractertextures.h"
 
+class eSpawner;
+
 class eWildAnimal : public eAnimal {
 public:
     eWildAnimal(eSpawner* const s,

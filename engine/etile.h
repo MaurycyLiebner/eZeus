@@ -21,7 +21,7 @@ class eMissile;
 class eCharacter;
 class eBuilding;
 class eBuildingRenderer;
-class eSpawner;
+class eBanner;
 class eSoldierBanner;
 class eTexture;
 class eTextureCollection;
@@ -61,11 +61,11 @@ public:
     eBuilding* underBuilding() const { return mUnderBuilding.get(); }
     eBuildingType underBuildingType() const;
 
-    void setSpawner(eSpawner* const s);
-    eSpawner* spawner() const { return mSpawner; }
+    void setBanner(eBanner* const s);
+    eBanner* banner() const { return mBanner; }
 
-    void setBanner(eSoldierBanner* const b);
-    eSoldierBanner* banner() const { return mBanner; }
+    void setSoldierBanner(eSoldierBanner* const b);
+    eSoldierBanner* soldierBanner() const { return mSoldierBanner; }
 
     // used for stones rendering
     void setFutureDimension(const int futureDim);
@@ -109,8 +109,8 @@ private:
     std::vector<stdsptr<eCharacter>> mCharacters;
     stdsptr<eBuilding> mUnderBuilding;
     stdsptr<eBuildingRenderer> mBuilding;
-    eSpawner* mSpawner = nullptr;
-    stdptr<eSoldierBanner> mBanner;
+    eBanner* mBanner = nullptr;
+    stdptr<eSoldierBanner> mSoldierBanner;
 };
 
 #endif // ETILE_H

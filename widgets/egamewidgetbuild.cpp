@@ -13,6 +13,7 @@
 #include "spawners/eboarspawner.h"
 #include "spawners/edeerspawner.h"
 #include "spawners/esettlerspawner.h"
+#include "spawners/elandinvasionpoint.h"
 
 #include "ebuildingstoerase.h"
 
@@ -331,6 +332,7 @@ bool eGameWidget::buildMouseRelease() {
     std::function<void(eTile* const)> apply;
     if(mTem->visible()) {
         const auto mode = mTem->mode();
+        const int modeId = mTem->modeId();
         if(mode == eTerrainEditMode::none) {
             return false;
         } else if(mode == eTerrainEditMode::scrub) {
@@ -363,7 +365,7 @@ bool eGameWidget::buildMouseRelease() {
             };
         } else if(mode == eTerrainEditMode::boar) {
             apply = [this](eTile* const tile) {
-                const auto os = tile->spawner();
+                const auto os = tile->banner();
                 if(os) delete os;
                 new eBoarSpawner(tile, *mBoard);
             };
@@ -373,7 +375,7 @@ bool eGameWidget::buildMouseRelease() {
             };
         } else if(mode == eTerrainEditMode::deer) {
             apply = [this](eTile* const tile) {
-                const auto os = tile->spawner();
+                const auto os = tile->banner();
                 if(os) delete os;
                 new eDeerSpawner(tile, *mBoard);
             };
@@ -388,9 +390,15 @@ bool eGameWidget::buildMouseRelease() {
             };
         } else if(mode == eTerrainEditMode::settlers) {
             apply = [this](eTile* const tile) {
-                const auto os = tile->spawner();
+                const auto os = tile->banner();
                 if(os) delete os;
                 new eSettlerSpawner(tile, *mBoard);
+            };
+        } else if(mode == eTerrainEditMode::landInvasion) {
+            apply = [this, modeId](eTile* const tile) {
+                const auto os = tile->banner();
+                if(os) delete os;
+                new eLandInvasionPoint(modeId, tile, *mBoard);
             };
         } else {
             apply = [mode](eTile* const tile) {

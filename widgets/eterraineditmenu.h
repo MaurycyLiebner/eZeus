@@ -36,7 +36,8 @@ enum class eTerrainEditMode {
     fire,
     ruins,
 
-    settlers
+    settlers,
+    landInvasion
 };
 
 class eTerrainEditMenu : public eGameMenuBase {
@@ -46,8 +47,10 @@ public:
     void initialize();
 
     eTerrainEditMode mode() const;
+    int modeId() const { return mModeId; }
 private:
     eTerrainEditMode mMode = eTerrainEditMode::dry;
+    int mModeId = 0;
 
     eCheckableButton* mB1 = nullptr;
     eCheckableButton* mB4 = nullptr;

@@ -91,6 +91,16 @@ void eGameWidget::setBoard(eGameBoard* const board) {
 }
 
 void eGameWidget::initialize() {
+    {
+        const auto font = eFonts::defaultFont(resolution());
+        const auto r = window()->renderer();
+        for(int i = 0; i < 10; i++) {
+            const auto tex = std::make_shared<eTexture>();
+            tex->loadText(r, std::to_string(i), eFontColor::light, *font);
+            mNumbers.push_back(tex);
+        }
+    }
+
     mGm = new eGameMenu(window());
     mGm->initialize(mBoard);
     addWidget(mGm);
@@ -1282,7 +1292,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     for(int y = dt0y; y < dt1y; y++) {
                         const auto tile = mBoard->dtile(x, y);
                         if(!tile) continue;
-                        const auto b = tile->banner();
+                        const auto b = tile->soldierBanner();
                         if(b) {
                             if(!b->selected()) mBoard->selectBanner(b);
                         }
@@ -1318,7 +1328,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
             const auto tt = mBoard->tile(tx, ty);
             if(!tt) return false;
             if(!tt->walkable()) return false;
-            if(tt->banner()) return false;
+            if(tt->soldierBanner()) return false;
 
             const auto s = solds[isld++];
             s->moveTo(tx, ty);

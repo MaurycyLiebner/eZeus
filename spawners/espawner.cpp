@@ -6,21 +6,19 @@ eSpawner::eSpawner(eTile* const tile,
                    const int maxCount,
                    const int spawnFreq,
                    eGameBoard& board) :
-    mTile(tile), mBoard(board),
+    eBanner(tile, board),
     mMaxCount(maxCount), mSpawnFreq(spawnFreq) {
-    mTile->setSpawner(this);
-    mBoard.registerSpawner(this);
+    board.registerSpawner(this);
 }
 
 eSpawner::~eSpawner() {
-    mTile->setSpawner(nullptr);
-    mBoard.unregisterSpawner(this);
+    board().unregisterSpawner(this);
 }
 
 void eSpawner::incTime(const int by) {
     mTime += by;
     if(mTime >= mSpawnFreq && mCount < mMaxCount) {
-        spawn(mTile);
+        spawn(tile());
         mCount++;
         mTime = 0;
     }
@@ -33,7 +31,7 @@ void eSpawner::decCount() {
 void eSpawner::spawnMax() {
     const int iMax = mMaxCount - mCount;
     for(int i = 0; i < iMax; i++) {
-        spawn(mTile);
+        spawn(tile());
         mCount++;
     }
 }

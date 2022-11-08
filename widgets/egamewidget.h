@@ -231,6 +231,8 @@ private:
     };
 
     std::deque<eTip> mTips;
+
+    std::vector<stdsptr<eTexture>> mNumbers;
 };
 
 #endif // EGAMEWIDGET_H

@@ -37,6 +37,7 @@ class eTradePost;
 class eStorageBuilding;
 class eSoldierBanner;
 class ePalace;
+class eLandInvasionPoint;
 
 class eThreadPool;
 
@@ -324,6 +325,10 @@ public:
     void write(eWriteStream& dst) const;
 
     eBuilding* buildingWithIOID(const int id) const;
+
+    eTile* landInvasionTile(const int id);
+    void addLandInvasionPoint(eLandInvasionPoint* const p);
+    void removeLandInvasionPoint(const int id);
 private:
     void updateNeighbours();
     void updateTileRenderingOrder();
@@ -407,6 +412,8 @@ private:
     std::vector<stdsptr<eSoldierBanner>> mBanners;
 
     std::vector<eSoldierBanner*> mSelectedBanners;
+
+    std::map<int, eLandInvasionPoint*> mLandInvasion;
 
     std::vector<ePlannedAction*> mPlannedActions;
 

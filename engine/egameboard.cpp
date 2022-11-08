@@ -40,6 +40,8 @@
 
 #include "emessages.h"
 
+#include "spawners/elandinvasionpoint.h"
+
 #include "buildings/eheatgetters.h"
 
 #include "fileIO/ebuildingreader.h"
@@ -367,6 +369,25 @@ eBuilding* eGameBoard::buildingWithIOID(const int id) const {
         if(bio == id) return b;
     }
     return nullptr;
+}
+
+eTile* eGameBoard::landInvasionTile(const int id) {
+    const auto it = mLandInvasion.find(id);
+    if(it == mLandInvasion.end()) return nullptr;
+    return it->second->tile();
+}
+
+void eGameBoard::addLandInvasionPoint(eLandInvasionPoint* const p) {
+    const int id = p->id();
+    const auto it = mLandInvasion.find(id);
+    if(it != mLandInvasion.end()) {
+        delete it->second;
+    }
+    mLandInvasion[id] = p;
+}
+
+void eGameBoard::removeLandInvasionPoint(const int id) {
+    mLandInvasion.erase(id);
 }
 
 void eGameBoard::updateTileRenderingOrder() {

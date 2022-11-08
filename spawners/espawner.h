@@ -1,9 +1,9 @@
 #ifndef ESPAWNER_H
 #define ESPAWNER_H
 
-#include "engine/egameboard.h"
+#include "ebanner.h"
 
-class eSpawner {
+class eSpawner : public eBanner {
 public:
     eSpawner(eTile* const tile,
              const int maxCount,
@@ -19,11 +19,7 @@ public:
     void spawnMax();
 
     int count() const { return mCount; }
-
-    eGameBoard& board() { return mBoard; }
 private:
-    eTile* const mTile;
-    eGameBoard& mBoard;
     const int mMaxCount;
     const int mSpawnFreq;
 

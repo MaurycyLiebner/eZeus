@@ -13,6 +13,8 @@
 #include "missiles/emissile.h"
 #include "characters/esoldierbanner.h"
 
+#include "spawners/elandinvasionpoint.h"
+
 #include "characters/esoldier.h"
 #include "characters/actions/esoldieraction.h"
 
@@ -677,9 +679,18 @@ void eGameWidget::paintEvent(ePainter& p) {
         };
 
         const auto drawSpawner = [&]() {
-            if(mTem->visible() && tile->spawner()) {
+            const auto b = tile->banner();
+            if(mTem->visible() && b) {
                 tp.drawTexture(rx, ry - 1, intrTexs.fSpawner,
                                eAlignment::hcenter | eAlignment::top);
+                if(const auto li = dynamic_cast<eLandInvasionPoint*>(b)) {
+                    const int id = li->id();
+                    if(id < 10) {
+                        const auto tex = mNumbers[id];
+                        tp.drawTexture(rx - 1.65, ry - 2.60, tex,
+                                       eAlignment::hcenter | eAlignment::top);
+                    }
+                }
             }
         };
 
@@ -695,7 +706,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         };
 
         const auto drawBanners = [&]() {
-            const auto b = tile->banner();
+            const auto b = tile->soldierBanner();
             if(!b) return;
             {
                 const auto& rods = charTexs.fBannerRod;

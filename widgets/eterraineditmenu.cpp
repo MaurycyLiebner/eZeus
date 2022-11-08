@@ -99,8 +99,17 @@ void eTerrainEditMenu::initialize() {
     w9->fitContent();
 
     const auto w10 = new eWidget(window());
-    const auto w11 = new eWidget(window());
 
+
+    const auto w11 = new eActionListWidget(window());
+    w11->setSmallFontSize();
+    for(int i = 0; i < 8; i++) {
+        w11->addAction("Land Invasion " + std::to_string(i), [this, i]() {
+            mMode = eTerrainEditMode::landInvasion;
+            mModeId = i;
+        });
+    }
+    w11->fitContent();
 
     const auto w12 = new eActionListWidget(window());
     w12->setSmallFontSize();

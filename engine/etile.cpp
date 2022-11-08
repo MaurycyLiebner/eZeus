@@ -221,12 +221,12 @@ eBuildingType eTile::underBuildingType() const {
     else return mUnderBuilding->type();
 }
 
-void eTile::setSpawner(eSpawner* const s) {
-    mSpawner = s;
+void eTile::setBanner(eBanner* const s) {
+    mBanner = s;
 }
 
-void eTile::setBanner(eSoldierBanner* const b) {
-    mBanner = b;
+void eTile::setSoldierBanner(eSoldierBanner* const b) {
+    mSoldierBanner = b;
 }
 
 void eTile::setFutureDimension(const int futureDim) {
