@@ -1,6 +1,8 @@
 #include "einvasionevent.h"
 
 #include "engine/egameboard.h"
+#include "characters/esoldierbanner.h"
+#include "einvasionhandler.h"
 
 eInvasionEvent::eInvasionEvent(eGameBoard& board) :
     eGameEvent(eGameEventType::invasion, board) {}
@@ -40,8 +42,15 @@ void eInvasionEvent::trigger() {
             boardPtr->event(eEvent::invasionBribed, ed);
         };
     }
-    ed.fA2 = [boardPtr]() { // fight
-
+    const int infantry = mInfantry;
+    const int cavalry = mCavalry;
+    const int archers = mArchers;
+    ed.fA2 = [boardPtr, city, infantry, cavalry, archers]() { // fight
+        auto& board = *boardPtr;
+        const auto tile = board.landInvasionTile(0);
+        if(!tile) return;
+        const auto eh = new eInvasionHandler(board, city);
+        eh->initialize(tile, infantry, cavalry, archers);
     };
     board.event(eEvent::invasion, ed);
 }

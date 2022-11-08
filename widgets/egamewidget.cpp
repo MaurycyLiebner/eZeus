@@ -1319,32 +1319,8 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
         mPressedTY = -1;
     } break;
     case eMouseButton::right: {
-        const int hx = mHoverTX;
-        const int hy = mHoverTY;
         const auto& solds = mBoard->selectedSoldiers();
-
-        int isld = 0;
-        const int slds = solds.size();
-        const int dist = 5;
-
-        const auto prcsTile = [&](const int i, const int j) {
-            if(isld >= slds) return false;
-            const int tx = hx + i;
-            const int ty = hy + j;
-            const auto tt = mBoard->tile(tx, ty);
-            if(!tt) return false;
-            if(!tt->walkable()) return false;
-            if(tt->soldierBanner()) return false;
-
-            const auto s = solds[isld++];
-            s->moveTo(tx, ty);
-            return false;
-        };
-
-        const int kinc = slds == 1 ? 1 : dist;
-        for(int k = 0; isld < slds; k += kinc) {
-            eIterateSquare::iterateSquare(k, prcsTile, dist);
-        }
+        eSoldierBanner::sPlace(solds, mHoverTX, mHoverTY, *mBoard, 5);
     } break;
     default: return false;
     }

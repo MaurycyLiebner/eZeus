@@ -85,6 +85,7 @@ public:
     eMessageType fInvasion;
     eMessageType fInvasionBribed;
     eMessageType fInvasionDefeat;
+    eMessageType fInvasionVictory;
 private:
     bool loadImpl();
     void load(eGodMessages& god, const std::string& godName);

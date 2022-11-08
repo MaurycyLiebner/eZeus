@@ -42,6 +42,7 @@ class eLandInvasionPoint;
 class eThreadPool;
 
 class eSoldier;
+class eInvasionHandler;
 enum class eMessageEventType;
 
 struct eMessageType;
@@ -120,6 +121,7 @@ enum class eEvent {
 
     invasion,
     invasionDefeat,
+    invasionVictory,
     invasionBribed
 };
 
@@ -329,6 +331,9 @@ public:
     eTile* landInvasionTile(const int id);
     void addLandInvasionPoint(eLandInvasionPoint* const p);
     void removeLandInvasionPoint(const int id);
+
+    void addInvasion(eInvasionHandler* const i);
+    void removeInvasion(eInvasionHandler* const i);
 private:
     void updateNeighbours();
     void updateTileRenderingOrder();
@@ -412,6 +417,8 @@ private:
     std::vector<stdsptr<eSoldierBanner>> mBanners;
 
     std::vector<eSoldierBanner*> mSelectedBanners;
+
+    std::vector<eInvasionHandler*> mInvasions;
 
     std::map<int, eLandInvasionPoint*> mLandInvasion;
 

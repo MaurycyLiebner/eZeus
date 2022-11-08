@@ -49,6 +49,7 @@ bool eBuilding::sWalkableBuilding(const eBuildingType t) {
     if(t == eBuildingType::sheep) return true;
     if(t == eBuildingType::goat) return true;
     if(t == eBuildingType::templeTile) return true;
+    if(t == eBuildingType::palaceTile) return true;
     const int min = static_cast<int>(eBuildingType::templeAphrodite);
     const int max = static_cast<int>(eBuildingType::templeZeus);
     const int bi = static_cast<int>(t);
@@ -71,7 +72,8 @@ bool eBuilding::sFlatBuilding(const eBuildingType bt) {
            bt == eBuildingType::sheep ||
            bt == eBuildingType::goat ||
            bt == eBuildingType::ruins ||
-           bt == eBuildingType::wall;
+           bt == eBuildingType::wall ||
+           bt == eBuildingType::palaceTile;
 }
 
 bool eBuilding::sSanctuaryBuilding(const eBuildingType bt) {
@@ -100,6 +102,7 @@ bool eBuilding::sFlammable(const eBuildingType bt) {
     if(bt == eBuildingType::wall) return false;
     if(bt == eBuildingType::gatehouse) return false;
     if(bt == eBuildingType::tower) return false;
+    if(bt == eBuildingType::palaceTile) return false;
     return true;
 }
 
@@ -110,6 +113,7 @@ bool eBuilding::sTimedBuilding(const eBuildingType bt) {
     if(bt == eBuildingType::templeStatue) return false;
     if(bt == eBuildingType::wall) return false;
     if(bt == eBuildingType::gatehouse) return false;
+    if(bt == eBuildingType::palaceTile) return false;
     return true;
 }
 
@@ -123,6 +127,7 @@ bool eBuilding::sBlessable(const eBuildingType bt) {
     if(bt == eBuildingType::wall) return false;
     if(bt == eBuildingType::gatehouse) return false;
     if(bt == eBuildingType::tower) return false;
+    if(bt == eBuildingType::palaceTile) return false;
     if(sAestheticsBuilding(bt)) return false;
     return true;
 }
@@ -134,6 +139,7 @@ bool eBuilding::sAttackable(const eBuildingType bt) {
     if(bt == eBuildingType::sheep) return false;
     if(bt == eBuildingType::goat) return false;
     if(bt == eBuildingType::ruins) return false;
+    if(bt == eBuildingType::palaceTile) return false;
     return true;
 }
 

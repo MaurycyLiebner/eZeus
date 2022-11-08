@@ -56,6 +56,8 @@
 #include "gameEvents/emonsterattackevent.h"
 #include "gameEvents/einvasionevent.h"
 
+#include "einvasionhandler.h"
+
 #include "evectorhelpers.h"
 
 eGameBoard::eGameBoard() :
@@ -388,6 +390,14 @@ void eGameBoard::addLandInvasionPoint(eLandInvasionPoint* const p) {
 
 void eGameBoard::removeLandInvasionPoint(const int id) {
     mLandInvasion.erase(id);
+}
+
+void eGameBoard::addInvasion(eInvasionHandler* const i) {
+    mInvasions.push_back(i);
+}
+
+void eGameBoard::removeInvasion(eInvasionHandler* const i) {
+    eVectorHelpers::remove(mInvasions, i);
 }
 
 void eGameBoard::updateTileRenderingOrder() {
@@ -937,6 +947,10 @@ void eGameBoard::incTime(const int by) {
         mSoldiersUpdate -= sup;
         updateMaxSoldiers();
         distributeSoldiers();
+    }
+
+    for(const auto i : mInvasions) {
+        i->incTime(by);
     }
 
     mCoverageUpdate += by;

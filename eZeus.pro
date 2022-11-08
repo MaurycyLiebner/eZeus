@@ -222,6 +222,7 @@ SOURCES += \
         characters/monsters/ewatermonster.cpp \
         efontcolor.cpp \
         egamedir.cpp \
+        einvasionhandler.cpp \
         eiteratesquare.cpp \
         elanguage.cpp \
         eloadtexthelper.cpp \
@@ -612,6 +613,7 @@ HEADERS += \
     characters/monsters/ewatermonster.h \
     efontcolor.h \
     egamedir.h \
+    einvasionhandler.h \
     eiteratesquare.h \
     elanguage.h \
     eloadtexthelper.h \

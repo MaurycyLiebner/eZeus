@@ -12,6 +12,7 @@
 #include "eiteratesquare.h"
 
 #include "evectorhelpers.h"
+#include "ewalkablehelpers.h"
 
 int gNextId = 0;
 
@@ -23,11 +24,11 @@ eSoldierBanner::eSoldierBanner(const eBannerType type,
 void eSoldierBanner::moveTo(const int x, const int y) {
     if(mX == x && mY == y) return;
 
-    if(mTile) {
+    if(mPlayerId == 1 && mTile) {
         mTile->setSoldierBanner(nullptr);
     }
     const auto t = mBoard.tile(x, y);
-    if(t) {
+    if(mPlayerId == 1 && t) {
         t->setSoldierBanner(this);
     }
     mTile = t;
@@ -86,10 +87,17 @@ void eSoldierBanner::removeSoldier(eSoldier* const s) {
     if(r) updatePlaces();
 }
 
-eTile* eSoldierBanner::place(eSoldier* const s) {
+eTile* eSoldierBanner::place(eSoldier* const s) const {
     const auto it = mPlaces.find(s);
     if(it == mPlaces.end()) return nullptr;
     return it->second;
+}
+
+void eSoldierBanner::killAll() {
+    for(const auto s : mSoldiers) {
+        s->kill();
+    }
+    mSoldiers.clear();
 }
 
 void eSoldierBanner::incCount() {
@@ -100,6 +108,41 @@ void eSoldierBanner::incCount() {
 void eSoldierBanner::decCount() {
     mCount--;
     updateCount();
+}
+
+bool eSoldierBanner::stationary() const {
+    for(const auto s : mSoldiers) {
+        const auto at = s->actionType();
+        if(at != eCharacterActionType::stand) return false;
+    }
+    return true;
+}
+
+void eSoldierBanner::sPlace(const std::vector<eSoldierBanner*>& bs,
+                            const int ctx, const int cty,
+                            eGameBoard& board, const int dist) {
+
+    int isld = 0;
+    const int slds = bs.size();
+
+    const auto prcsTile = [&](const int i, const int j) {
+        if(isld >= slds) return false;
+        const int tx = ctx + i;
+        const int ty = cty + j;
+        const auto tt = board.tile(tx, ty);
+        if(!tt) return false;
+        if(!tt->walkable()) return false;
+        if(tt->soldierBanner()) return false;
+
+        const auto s = bs[isld++];
+        s->moveTo(tx, ty);
+        return false;
+    };
+
+    const int kinc = slds == 1 ? 1 : dist;
+    for(int k = 0; isld < slds; k += kinc) {
+        eIterateSquare::iterateSquare(k, prcsTile, dist);
+    }
 }
 
 void eSoldierBanner::updatePlaces() {
@@ -113,7 +156,11 @@ void eSoldierBanner::updatePlaces() {
         if(isld >= slds) return false;
         const auto tt = mBoard.tile(mX + i, mY + j);
         if(!tt) return false;
-        if(!tt->walkable()) return false;
+        if(mPlayerId == 1) {
+            if(!eWalkableHelpers::sDefaultWalkable(tt)) return false;
+        } else {
+            if(!eWalkableHelpers::sBuildingsWalkable(tt)) return false;
+        }
 
         const auto s = soldiers[isld++];
         mPlaces[s] = tt;

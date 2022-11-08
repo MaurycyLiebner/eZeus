@@ -33,7 +33,9 @@ public:
     void addSoldier(eSoldier* const s);
     void removeSoldier(eSoldier* const s);
 
-    eTile* place(eSoldier* const s);
+    eTile* place(eSoldier* const s) const;
+
+    void killAll();
 
     void setSelected(const bool s) { mSelected = s; }
     bool selected() const { return mSelected; }
@@ -44,6 +46,12 @@ public:
     int count() const { return mCount; }
     void incCount();
     void decCount();
+
+    bool stationary() const;
+
+    static void sPlace(const std::vector<eSoldierBanner*>& bs,
+                       const int ctx, const int cty,
+                       eGameBoard& board, const int dist);
 private:
     void updatePlaces();
     void updateCount();
