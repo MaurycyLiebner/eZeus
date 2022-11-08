@@ -1196,6 +1196,7 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         mLastY = e.y();
         return true;
     case eMouseButton::left:
+        if(mInfoWidget) return true;
         mLeftPressed = true;
         int tx;
         int ty;
@@ -1218,6 +1219,11 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         }
         return true;
     case eMouseButton::right: {
+        if(mInfoWidget) {
+            mInfoWidget->deleteLater();
+            mInfoWidget = nullptr;
+            return true;
+        }
         const auto& solds = mBoard->selectedSoldiers();
         if(mGm->mode() != eBuildingMode::none) {
             mGm->clearMode();
@@ -1235,7 +1241,7 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         if(!tile) return true;
         const auto b = tile->underBuilding();
         if(!b) return true;
-        openInfoWidget(b);
+        mInfoWidget = openInfoWidget(b);
     } break;
     default: return true;
     }

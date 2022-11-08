@@ -26,6 +26,8 @@ public:
     int widgetWidth() const;
 
     eWidget* centralWidget() const;
+protected:
+    bool mousePressEvent(const eMouseEvent& e);
 private:
     const bool mNarrow;
     const bool mShort;

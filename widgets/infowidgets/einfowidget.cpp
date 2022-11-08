@@ -115,3 +115,7 @@ void eInfoWidget::setCloseAction(const eAction& closeAction) {
 eWidget* eInfoWidget::centralWidget() const {
     return mCentralWidget;
 }
+
+bool eInfoWidget::mousePressEvent(const eMouseEvent& e) {
+    return e.button() == eMouseButton::left;
+}

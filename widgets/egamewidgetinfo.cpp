@@ -309,6 +309,7 @@ eInfoWidget* eGameWidget::openInfoWidget(eBuilding* const b) {
         wid->align(eAlignment::vcenter);
         wid->setCloseAction([this, wid, closeAct]() {
             if(closeAct) closeAct();
+            mInfoWidget = nullptr;
             removeWidget(wid);
             wid->deleteLater();
         });
