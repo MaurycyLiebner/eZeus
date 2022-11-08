@@ -658,9 +658,16 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         };
 
+        const auto drawNumber = [&](const int id) {
+            const auto tex = mNumbers[id % 10];
+            tp.drawTexture(rx - 1.65, ry - 2.60, tex,
+                           eAlignment::hcenter | eAlignment::top);
+        };
+
         const auto drawPatrolGuides = [&]() {
             if(mPatrolBuilding) {
                 const auto pgs = mPatrolBuilding->patrolGuides();
+                int i = 0;
                 for(const auto& pg : *pgs) {
                     if(pg.fX == tx && pg.fY == ty) {
                         const bool invalid = !eVectorHelpers::contains(mPatrolPath, tile);
@@ -671,9 +678,11 @@ void eGameWidget::paintEvent(ePainter& p) {
                         //tp.drawTexture(rx, ry, tex, eAlignment::top);
                         tp.drawTexture(rx, ry - 1, tex,
                                        eAlignment::hcenter | eAlignment::top);
+                        drawNumber(i + 1);
                         if(invalid) tex->clearColorMod();
                         break;
                     }
+                    i++;
                 }
             }
         };
@@ -685,11 +694,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                                eAlignment::hcenter | eAlignment::top);
                 if(const auto li = dynamic_cast<eLandInvasionPoint*>(b)) {
                     const int id = li->id();
-                    if(id < 10) {
-                        const auto tex = mNumbers[id];
-                        tp.drawTexture(rx - 1.65, ry - 2.60, tex,
-                                       eAlignment::hcenter | eAlignment::top);
-                    }
+                    drawNumber(id);
                 }
             }
         };
