@@ -567,7 +567,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto bt = tt->underBuildingType();
             const int bi = static_cast<int>(bt);
             const bool r = bi >= min && bi <= max;
-            if(r || eBuilding::sFlatBuilding(bt)) {
+            if(r || eBuilding::sFlatBuilding(bt) ||
+               bt == eBuildingType::wall) {
                 const auto& chars = tt->characters();
                 for(const auto& c : chars) {
                     if(!c->visible()) continue;
@@ -753,11 +754,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         } else if(ub && !v) {
             const auto tex = getBasementTexture(tile, ub, trrTexs);
             tp.drawTexture(rx, ry, tex, eAlignment::top);
-        } else if(tbr && bt != eBuildingType::road &&
-                  bt != eBuildingType::oliveTree &&
-                  bt != eBuildingType::orangeTree &&
-                  bt != eBuildingType::vine &&
-                  bt != eBuildingType::ruins) {
+        } else if(tbr && !eBuilding::sFlatBuilding(bt)) {
             drawBuilding();
             if(ub && tbr && tbr->isMain()) {
                 drawBuildingModes();

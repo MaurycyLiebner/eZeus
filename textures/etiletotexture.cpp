@@ -57,7 +57,8 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
     case eBuildingType::oliveTree:
     case eBuildingType::vine:
     case eBuildingType::orangeTree:
-    case eBuildingType::ruins: {
+    case eBuildingType::ruins:
+    case eBuildingType::palaceTile: {
         const auto b = tile->building();
         return b->getTexture(tileSize);
     } break;
