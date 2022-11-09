@@ -119,14 +119,16 @@ void eInvasionHandler::incTime(const int by) {
         }
         eEventData ed;
         ed.fCity = mCity;
-        if(p || ss == 0) {
+        if(ss == 0) {
             mBoard.event(eEvent::invasionVictory, ed);
+        } else if(p) {
+            mStage = eInvasionStage::spread;
         } else {
             mBoard.event(eEvent::invasionDefeat, ed);
+            const int tx = mTile->x();
+            const int ty = mTile->y();
+            eSoldierBanner::sPlace(solds, tx, ty, mBoard, 5);
         }
-        const int tx = mTile->x();
-        const int ty = mTile->y();
-        eSoldierBanner::sPlace(solds, tx, ty, mBoard, 5);
     } break;
     case eInvasionStage::comeback: {
         for(const auto& b : mBanners) {
