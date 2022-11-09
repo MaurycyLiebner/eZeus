@@ -787,7 +787,7 @@ bool eGameWidget::buildMouseRelease() {
                     const auto t = e::make_shared<ePalaceTile>(
                                        *mBoard, other);
                     t->setPalace(s.get());
-                    s->addTile(t);
+                    s->addTile(t.get());
                     return t;
                 });
             });

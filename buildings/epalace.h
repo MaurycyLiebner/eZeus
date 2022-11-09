@@ -10,10 +10,10 @@ public:
     ePalace(eGameBoard& board, const bool r);
     ~ePalace();
 
-    void erase();
+    void erase() override;
 
     std::shared_ptr<eTexture>
-    getTexture(const eTileSize) const { return nullptr; }
+    getTexture(const eTileSize) const override { return nullptr; }
 
     std::shared_ptr<eTexture>
     getTexture1(const eTileSize size) const;
@@ -23,14 +23,17 @@ public:
     std::vector<eOverlay>
     getOverlays2(const eTileSize size) const;
 
-    void addTile(const stdsptr<ePalaceTile>& tile);
+    void addTile(ePalaceTile* const tile);
 
-    const std::vector<stdsptr<ePalaceTile>>& tiles() const { return mTiles; }
+    const std::vector<ePalaceTile*>& tiles() const { return mTiles; }
 
     bool rotated() const { return mRotated; }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     const bool mRotated;
-    std::vector<stdsptr<ePalaceTile>> mTiles;
+    std::vector<ePalaceTile*> mTiles;
 };
 
 #endif // EPALACE_H

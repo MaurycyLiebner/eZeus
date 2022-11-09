@@ -71,6 +71,28 @@ std::vector<eOverlay> ePalace::getOverlays2(const eTileSize size) const {
     return os;
 }
 
-void ePalace::addTile(const stdsptr<ePalaceTile>& tile) {
+void ePalace::addTile(ePalaceTile* const tile) {
     mTiles.push_back(tile);
+}
+
+void ePalace::read(eReadStream& src) {
+    eBuilding::read(src);
+
+    int tiles;
+    src >> tiles;
+    for(int i = 0; i < tiles; i++) {
+        src.readBuilding(&getBoard(), [this](eBuilding* const b) {
+            const auto pt = static_cast<ePalaceTile*>(b);
+            addTile(pt);
+        });
+    }
+}
+
+void ePalace::write(eWriteStream& dst) const {
+    eBuilding::write(dst);
+
+    dst << mTiles.size();
+    for(const auto t : mTiles) {
+        dst.writeBuilding(t);
+    }
 }

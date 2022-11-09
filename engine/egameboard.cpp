@@ -174,7 +174,7 @@ void eGameBoard::setButtonsVisUpdater(const eAction& u) {
 void eGameBoard::addSupportedBuilding(const eBuildingMode t) {
     if(supportsBuilding(t)) return;
     mSupportedBuildings.push_back(t);
-    mButtonVisUpdater();
+    if(mButtonVisUpdater) mButtonVisUpdater();
 }
 
 void eGameBoard::removeSupportedBuilding(const eBuildingMode t) {
@@ -848,7 +848,7 @@ bool eGameBoard::unregisterBuilding(eBuilding* const b) {
 void eGameBoard::registerTradePost(eTradePost* const b) {
     if(!mRegisterBuildingsEnabled) return;
     mTradePosts.push_back(b);
-    mButtonVisUpdater();
+    if(mButtonVisUpdater) mButtonVisUpdater();
 }
 
 bool eGameBoard::unregisterTradePost(eTradePost* const b) {
@@ -908,13 +908,13 @@ bool eGameBoard::unregisterMissile(eMissile* const m) {
 void eGameBoard::registerPalace(ePalace* const p) {
     if(!mRegisterBuildingsEnabled) return;
     mPalace = p;
-    mButtonVisUpdater();
+    if(mButtonVisUpdater) mButtonVisUpdater();
 }
 
 void eGameBoard::unregisterPalace() {
     if(!mRegisterBuildingsEnabled) return;
     mPalace = nullptr;
-    mButtonVisUpdater();
+    if(mButtonVisUpdater) mButtonVisUpdater();
 }
 
 void eGameBoard::registerMonster(eMonster* const m) {
