@@ -1,5 +1,8 @@
 #include "eviewmode.h"
 
+#include "engine/egameboard.h"
+#include "engine/edifficulty.h"
+
 bool eViewModeHelpers::buildingVisible(
         const eViewMode viewMode,
         const eBuilding* const b) {
@@ -33,7 +36,11 @@ bool eViewModeHelpers::buildingVisible(
                bt == eBuildingType::hospital;
     } break;
     case eViewMode::hazards: {
-        return b->maintenance() < 90;
+        auto& board = b->getBoard();
+        const auto diff = board.difficulty();
+        const int fr = eDifficultyHelpers::fireRisk(diff, bt);
+        const int dr = eDifficultyHelpers::damageRisk(diff, bt);
+        return (fr || dr) && b->maintenance() < 90;
     } break;
     case eViewMode::unrest: {
         return bt == eBuildingType::commonHouse ||
