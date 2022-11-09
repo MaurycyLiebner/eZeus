@@ -450,17 +450,22 @@ void eGameWidget::paintEvent(ePainter& p) {
                     double rxx = rx - 2.5;
                     double ryy = ry - 2;
                     tp.drawTexture(rxx, ryy, intrTexs.fSuppliesBg);
-                    rxx += 0.32;
-                    ryy += 0.32;
-                    tp.drawTexture(rxx + 0.17, ryy - 0.17,
+                    rxx += 0.49;
+                    ryy += 0.15;
+                    const double inc = 0.43;
+                    tp.drawTexture(rxx, ryy,
                                    ch->lowFood() ?
                                        intrTexs.fNHasFood :
                                        intrTexs.fHasFood);
-                    tp.drawTexture(rxx + 0.62, ryy - 0.62,
+                    rxx += inc;
+                    ryy -= inc;
+                    tp.drawTexture(rxx, ryy,
                                    ch->lowFleece() ?
                                        intrTexs.fNHasFleece :
                                        intrTexs.fHasFleece);
-                    tp.drawTexture(rxx + 1.08, ryy - 1.08,
+                    rxx += inc;
+                    ryy -= inc;
+                    tp.drawTexture(rxx, ryy,
                                    ch->lowOil() ?
                                        intrTexs.fNHasOil :
                                        intrTexs.fHasOil);
@@ -469,29 +474,40 @@ void eGameWidget::paintEvent(ePainter& p) {
                     double rxx = rx - 3.5;
                     double ryy = ry - 1.5;
                     tp.drawTexture(rxx, ryy, intrTexs.fEliteSuppliesBg);
-                    rxx += 0.32;
-                    ryy += 0.32;
-                    tp.drawTexture(rxx + 0.17, ryy - 0.17,
+                    rxx += 0.49;
+                    ryy += 0.15;
+                    const double inc = 0.43;
+                    tp.drawTexture(rxx, ryy,
                                    ch->lowFood() ?
                                        intrTexs.fNHasFood :
                                        intrTexs.fHasFood);
-                    tp.drawTexture(rxx + 0.62, ryy - 0.62,
+                    rxx += inc;
+                    ryy -= inc;
+                    tp.drawTexture(rxx, ryy,
                                    ch->lowFleece() ?
                                        intrTexs.fNHasFleece :
                                        intrTexs.fHasFleece);
-                    tp.drawTexture(rxx + 1.08, ryy - 1.08,
+                    rxx += inc;
+                    ryy -= inc;
+                    tp.drawTexture(rxx, ryy,
                                    ch->lowOil() ?
                                        intrTexs.fNHasOil :
                                        intrTexs.fHasOil);
-                    tp.drawTexture(rxx + 1.54, ryy - 1.54,
+                    rxx += inc;
+                    ryy -= inc;
+                    tp.drawTexture(rxx, ryy,
                                    ch->lowWine() ?
                                        intrTexs.fNHasWine :
                                        intrTexs.fHasWine);
-                    tp.drawTexture(rxx + 2.00, ryy - 2.00,
+                    rxx += inc;
+                    ryy -= inc;
+                    tp.drawTexture(rxx, ryy,
                                    ch->lowArms() ?
                                        intrTexs.fNHasArms :
                                        intrTexs.fHasArms);
-                    tp.drawTexture(rxx + 2.46, ryy - 2.46,
+                    rxx += inc;
+                    ryy -= inc;
+                    tp.drawTexture(rxx, ryy,
                                    ch->lowHorses() ?
                                        intrTexs.fNHasHorses :
                                        intrTexs.fHasHorses);
