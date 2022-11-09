@@ -182,7 +182,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     }
     if(updateTips) updateTipPositions();
-    if(!mPaused && !mLocked && !mMenu) {
+    if(!mPaused && !mLocked && !mMenu && !mMsgBox && !mInfoWidget) {
         mTime += mSpeed;
         mBoard->incTime(mSpeed);
     }

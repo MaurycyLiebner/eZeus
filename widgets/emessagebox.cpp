@@ -27,6 +27,7 @@ std::string string_format(const std::string& format, Args... args) {
 
 void eMessageBox::initialize(const eEventData& ed,
                              const eAction& viewTile,
+                             const eAction& close,
                              eMessage msg) {
     setType(eFrameType::message);
 
@@ -110,7 +111,8 @@ void eMessageBox::initialize(const eEventData& ed,
     eWidget* wid = nullptr;
     if(ed.fType == eMessageEventType::common) {
         ok = new eOkButton(window());
-        ok->setPressAction([this]() {
+        ok->setPressAction([this, close]() {
+            if(close) close();
             deleteLater();
         });
         addWidget(ok);
@@ -123,7 +125,8 @@ void eMessageBox::initialize(const eEventData& ed,
         surrenderB->setText(eLanguage::text("surrender"));
         surrenderB->fitContent();
         wid->addWidget(surrenderB);
-        surrenderB->setPressAction([this, ed]() {
+        surrenderB->setPressAction([this, ed, close]() {
+            if(close) close();
             if(ed.fA0) ed.fA0();
             deleteLater();
         });
@@ -137,7 +140,8 @@ void eMessageBox::initialize(const eEventData& ed,
                         eLanguage::text("drachmas"));
         bribeB->fitContent();
         wid->addWidget(bribeB);
-        bribeB->setPressAction([this, ed]() {
+        bribeB->setPressAction([this, ed, close]() {
+            if(close) close();
             if(ed.fA1) ed.fA1();
             deleteLater();
         });
@@ -149,7 +153,8 @@ void eMessageBox::initialize(const eEventData& ed,
         fightToDefend->setText(eLanguage::text("fight_to_defend"));
         fightToDefend->fitContent();
         wid->addWidget(fightToDefend);
-        fightToDefend->setPressAction([this, ed]() {
+        fightToDefend->setPressAction([this, ed, close]() {
+            if(close) close();
             if(ed.fA2) ed.fA2();
             deleteLater();
         });

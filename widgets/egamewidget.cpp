@@ -655,7 +655,14 @@ void eGameWidget::updateTipPositions() {
 }
 
 void eGameWidget::showMessage(eEventData& ed, const eMessage& msg) {
+    if(mMsgBox) {
+        auto& smsg = mSavedMsgs.emplace_back();
+        smsg.fEd = ed;
+        smsg.fMsg = &msg;
+        return;
+    }
     const auto msgb = new eMessageBox(window());
+    mMsgBox = msgb;
     msgb->setHeight(height()/3);
     msgb->setWidth(width()/2);
     eAction a;
@@ -668,7 +675,15 @@ void eGameWidget::showMessage(eEventData& ed, const eMessage& msg) {
     ed.fDate = mBoard->date();
     ed.fPlayerName = mBoard->playerName();
 
-    msgb->initialize(ed, a, msg);
+    const auto close = [this]() {
+        mMsgBox = nullptr;
+        if(mSavedMsgs.empty()) return;
+        auto& msg = mSavedMsgs.front();
+        showMessage(msg.fEd, *msg.fMsg);
+        mSavedMsgs.pop_front();
+    };
+
+    msgb->initialize(ed, a, close, msg);
     addWidget(msgb);
     msgb->align(eAlignment::bottom | eAlignment::hcenter);
     msgb->setY(msgb->y() - mGm->width()/10);

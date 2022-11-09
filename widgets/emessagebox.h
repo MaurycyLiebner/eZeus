@@ -15,6 +15,7 @@ public:
 
     void initialize(const eEventData& ed,
                     const eAction& viewTile,
+                    const eAction& close,
                     eMessage msg);
 
 protected:

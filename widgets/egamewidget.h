@@ -34,9 +34,15 @@ struct eSanctBlueprint;
 class eWorldWidget;
 struct eGodMessages;
 struct eHeroMessages;
+class eMessageBox;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
 using eRendererCreator = std::function<stdsptr<eBuildingRenderer>()>;
+
+struct eSavedMessage {
+    eEventData fEd;
+    const eMessage* fMsg;
+};
 
 class eGameWidget : public eWidget {
 public:
@@ -218,6 +224,8 @@ private:
 
     eTopBarWidget* mTopBar = nullptr;
     eInfoWidget* mInfoWidget = nullptr;
+    eMessageBox* mMsgBox = nullptr;
+    std::deque<eSavedMessage> mSavedMsgs;
     eTerrainEditMenu* mTem = nullptr;
     eGameMenu* mGm = nullptr;
     eArmyMenu* mAm = nullptr;
