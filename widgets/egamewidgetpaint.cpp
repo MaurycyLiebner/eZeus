@@ -410,6 +410,12 @@ void eGameWidget::paintEvent(ePainter& p) {
 
                     drawColumn(tp, n, rx + cdx, ry + cdy, *coll);
                 }
+            } else if(mViewMode == eViewMode::taxes) {
+                if(const auto h = dynamic_cast<eHouseBase*>(ub)) {
+                    const bool paid = h->paidTaxes();
+                    const int n = paid ? 4 : 0;
+                    drawColumn(tp, n, rx + cdx, ry + cdy, intrTexs.fColumn1);
+                }
             } else if(mViewMode == eViewMode::water) {
                 if(bt == eBuildingType::commonHouse) {
                     const auto ch = static_cast<eSmallHouse*>(ub);

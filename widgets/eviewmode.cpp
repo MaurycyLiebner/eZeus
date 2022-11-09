@@ -80,6 +80,11 @@ bool eViewModeHelpers::buildingVisible(
     case eViewMode::appeal: {
         return eBuilding::sAestheticsBuilding(bt);
     } break;
+
+    case eViewMode::taxes: {
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing;
+    } break;
     }
 
     return false;
@@ -137,6 +142,10 @@ bool eViewModeHelpers::characterVisible(
 
     case eViewMode::appeal: {
         return false;
+    } break;
+
+    case eViewMode::taxes: {
+        return c == eCharacterType::taxCollector;
     } break;
     }
 
