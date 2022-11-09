@@ -290,7 +290,7 @@ void eGameWidget::paintEvent(ePainter& p) {
     }
 
     mBoard->updateTileRenderingOrderIfNeeded();
-    iterateOverVisibleTiles([&](eTile* const tile) {
+    const auto buildingDrawer = [&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
         const int dtx = tile->dx();
@@ -312,58 +312,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         double rx;
         double ry;
         drawXY(tx, ty, rx, ry, 1, 1, a);
-
-        const auto drawSheepGoat = [&]() {
-            if(mode == eBuildingMode::sheep ||
-               mode == eBuildingMode::goat ||
-               mode == eBuildingMode::erase) {
-                if(bt == eBuildingType::sheep ||
-                   bt == eBuildingType::goat) {
-                    const auto tex = trrTexs.fBuildingBase;
-                    tp.drawTexture(rx, ry, tex, eAlignment::top);
-                    bd = true;
-                }
-            }
-        };
-
-        const auto drawPatrol = [&]() {
-            if(mViewMode == eViewMode::patrolBuilding) {
-                if(mPatrolBuilding && ub && !tile->hasRoad()) {
-                    std::shared_ptr<eTexture> tex;
-                    if(ub == mPatrolBuilding) {
-                        tex = trrTexs.fSelectedBuildingBase;
-                    } else {
-                        tex = getBasementTexture(tile, ub, trrTexs);
-                    }
-                    tp.drawTexture(rx, ry, tex, eAlignment::top);
-                    bd = true;
-                }
-            }
-        };
-
-        const auto drawAppeal = [&]() {
-            if(!v && mViewMode == eViewMode::appeal) {
-                const auto& am = mBoard->appealMap();
-                const auto ae = am.enabled(dtx, dty);
-                const bool ch = bt == eBuildingType::commonHouse;
-                if(ae || ch) {
-                    const eTextureCollection* coll;
-                    if(ch) {
-                        coll = &builTexs.fHouseAppeal;
-                    } else {
-                        coll = &builTexs.fAppeal;
-                    }
-                    const double app = am.heat(dtx, dty);
-                    const double mult = app > 0 ? 1 : -1;
-                    const double appS = mult*pow(abs(app), 0.75);
-                    int appId = (int)std::round(appS + 2.);
-                    appId = std::clamp(appId, 0, 9);
-                    const auto tex = coll->getTexture(appId);
-                    tp.drawTexture(rx, ry, tex, eAlignment::top);
-                    bd = true;
-                }
-            }
-        };
 
         const auto drawFire = [&](eTile* const ubt) {
             const int tx = ubt->x();
@@ -549,6 +497,108 @@ void eGameWidget::paintEvent(ePainter& p) {
                                        intrTexs.fHasHorses);
                 }
             }
+        };
+
+        if(bd) {
+        } else if(ub && !v) {
+//            const auto tex = getBasementTexture(tile, ub, trrTexs);
+//            tp.drawTexture(rx, ry, tex, eAlignment::top);
+        } else if(tbr && !eBuilding::sFlatBuilding(bt)) {
+            drawBuilding();
+            if(ub && tbr && tbr->isMain()) {
+                drawBuildingModes();
+            }
+        } else if(ub && tbr) {
+//            const bool of = ub->isOnFire();
+//            if(of) drawFire(tile);
+        }
+    };
+    iterateOverVisibleTiles([&](eTile* const tile) {
+        const int tx = tile->x();
+        const int ty = tile->y();
+        const int dtx = tile->dx();
+        const int dty = tile->dy();
+        const int a = mDrawElevation ? tile->altitude() : 0;
+
+        const auto mode = mGm->mode();
+
+        const auto ub = tile->underBuilding();
+        const auto bt = tile->underBuildingType();
+
+        const auto tbr = tile->building();
+
+        const bool bv = eViewModeHelpers::buildingVisible(mViewMode, ub);
+        const bool v = ub && bv;
+
+        bool bd = false;
+
+        double rx;
+        double ry;
+        drawXY(tx, ty, rx, ry, 1, 1, a);
+
+        const auto drawSheepGoat = [&]() {
+            if(mode == eBuildingMode::sheep ||
+               mode == eBuildingMode::goat ||
+               mode == eBuildingMode::erase) {
+                if(bt == eBuildingType::sheep ||
+                   bt == eBuildingType::goat) {
+                    const auto tex = trrTexs.fBuildingBase;
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    bd = true;
+                }
+            }
+        };
+
+        const auto drawPatrol = [&]() {
+            if(mViewMode == eViewMode::patrolBuilding) {
+                if(mPatrolBuilding && ub && !tile->hasRoad()) {
+                    std::shared_ptr<eTexture> tex;
+                    if(ub == mPatrolBuilding) {
+                        tex = trrTexs.fSelectedBuildingBase;
+                    } else {
+                        tex = getBasementTexture(tile, ub, trrTexs);
+                    }
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    bd = true;
+                }
+            }
+        };
+
+        const auto drawAppeal = [&]() {
+            if(!v && mViewMode == eViewMode::appeal) {
+                const auto& am = mBoard->appealMap();
+                const auto ae = am.enabled(dtx, dty);
+                const bool ch = bt == eBuildingType::commonHouse;
+                if(ae || ch) {
+                    const eTextureCollection* coll;
+                    if(ch) {
+                        coll = &builTexs.fHouseAppeal;
+                    } else {
+                        coll = &builTexs.fAppeal;
+                    }
+                    const double app = am.heat(dtx, dty);
+                    const double mult = app > 0 ? 1 : -1;
+                    const double appS = mult*pow(abs(app), 0.75);
+                    int appId = (int)std::round(appS + 2.);
+                    appId = std::clamp(appId, 0, 9);
+                    const auto tex = coll->getTexture(appId);
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                    bd = true;
+                }
+            }
+        };
+
+        const auto drawFire = [&](eTile* const ubt) {
+            const int tx = ubt->x();
+            const int ty = ubt->y();
+            double frx;
+            double fry;
+            drawXY(tx, ty, frx, fry, 1, 1, a);
+            const int f = (tx + ty) % destTexs.fFire.size();
+            const auto& ff = destTexs.fFire[f];
+            const int dt = mTime/8 + tx*ty;
+            const auto tex = ff.getTexture(dt % ff.size());
+            tp.drawTexture(frx + 1, fry, tex, eAlignment::hcenter | eAlignment::top);
         };
 
         const auto drawCharacters = [&]() {
@@ -755,10 +805,10 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto tex = getBasementTexture(tile, ub, trrTexs);
             tp.drawTexture(rx, ry, tex, eAlignment::top);
         } else if(tbr && !eBuilding::sFlatBuilding(bt)) {
-            drawBuilding();
-            if(ub && tbr && tbr->isMain()) {
-                drawBuildingModes();
-            }
+//            drawBuilding();
+//            if(ub && tbr && tbr->isMain()) {
+//                drawBuildingModes();
+//            }
         } else if(ub && tbr) {
             const bool of = ub->isOnFire();
             if(of) drawFire(tile);
@@ -809,6 +859,9 @@ void eGameWidget::paintEvent(ePainter& p) {
             SDL_Rect selRect{x - mDX, y - mDY, w, h};
             p.drawRect(selRect, SDL_Color{0, 255, 0, 255}, 1);
         }
+
+        const auto bTile = tile->topRight<eTile>();
+        if(bTile) buildingDrawer(bTile);
     });
 
     if(mPatrolBuilding) {
