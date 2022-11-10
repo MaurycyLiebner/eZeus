@@ -6,6 +6,7 @@
 #include "esanctuaryblueprint.h"
 #include "esanctbuilding.h"
 
+class eGod;
 class eBuildingTextures;
 enum class eGodType;
 
@@ -44,6 +45,8 @@ public:
 
     eGodType godType() const;
 
+    void spawnGod();
+
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:
@@ -54,6 +57,8 @@ private:
     stdsptr<eCartTransporter> mCart;
 
     std::vector<stdsptr<eSanctBuilding>> mElements;
+
+    stdptr<eGod> mGod;
 };
 
 #endif // ESANCTUARY_H

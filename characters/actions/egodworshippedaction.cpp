@@ -15,7 +15,7 @@ bool eGodWorshippedAction::decide() {
     switch(mStage) {
     case eGodWorshippedStage::none:
         mStage = eGodWorshippedStage::appear;
-        randomPlaceOnBoard();
+        if(!c->tile()) randomPlaceOnBoard();
         if(!c->tile()) {
             c->kill();
         } else {

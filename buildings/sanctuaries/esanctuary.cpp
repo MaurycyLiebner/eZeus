@@ -2,6 +2,9 @@
 
 #include "characters/ecarttransporter.h"
 #include "engine/egameboard.h"
+#include "characters/gods/egod.h"
+#include "characters/actions/egodworshippedaction.h"
+#include "etilehelper.h"
 
 eSanctuary::eSanctuary(eGameBoard& board,
                        const eBuildingType type,
@@ -75,9 +78,25 @@ eGodType eSanctuary::godType() const {
     }
 }
 
+void eSanctuary::spawnGod() {
+    auto& board = getBoard();
+    const auto c = eGod::sCreateGod(godType(), board);
+    mGod = c.get();
+    const auto ct = centerTile();
+    const int tx = ct->x();
+    const int ty = ct->y();
+    const auto cr = eTileHelper::closestRoad(tx, ty, board);
+    mGod->changeTile(cr);
+    const auto ha = e::make_shared<eGodWorshippedAction>(
+                        c.get(), [](){}, [](){});
+    mGod->setAction(ha);
+}
+
 void eSanctuary::timeChanged(const int by) {
     if(!mCart) spawnCart(mCart, eCartActionTypeSupport::take);
     eEmployingBuilding::timeChanged(by);
+
+    if(!mGod && progress() == 100) spawnGod();
 }
 
 int eSanctuary::spaceLeft(const eResourceType type) const {
