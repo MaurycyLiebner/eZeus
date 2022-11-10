@@ -1281,11 +1281,10 @@ void eGameWidget::paintEvent(ePainter& p) {
     } break;
     default: break;
     }
-
-    const auto& tex = trrTexs.fBuildingBase;
     switch(mode) {
     case eBuildingMode::templeArtemis:
     case eBuildingMode::templeHephaestus: {
+        const auto& tex = trrTexs.fBuildingBase;
         const auto bt = eBuildingModeHelpers::toBuildingType(mode);
         const auto h = eSanctBlueprints::sSanctuaryBlueprint(bt, mRotate);
         const int sw = h->fW;
