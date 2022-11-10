@@ -978,9 +978,7 @@ void eGameWidget::paintEvent(ePainter& p) {
            mode == eBuildingMode::goat) {
             const auto tex = trrTexs.fBuildingBase;
             for(int x = sMinX; x <= sMaxX; x++) {
-                for(int y = sMinY; y <= sMaxY; y += 2) {
-                    double rx;
-                    double ry;
+                for(int y = sMinY; y <= sMaxY; y++) {
                     const auto t = mBoard->tile(x, y);
                     if(!t) continue;
                     if(t->terrain() != eTerrain::fertile) continue;
@@ -989,12 +987,14 @@ void eGameWidget::paintEvent(ePainter& p) {
                     if(!t2) continue;
                     if(t2->terrain() != eTerrain::fertile) continue;
                     if(t2->underBuilding()) continue;
+                    double rx;
+                    double ry;
                     drawXY(x, y, rx, ry, 1, 1, t->altitude());
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tp.drawTexture(rx, ry + 1, tex, eAlignment::top);
+                    y++;
                 }
             }
-            return;
         }
 
         if(mode == eBuildingMode::park ||
@@ -1046,6 +1046,24 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
             return;
         }
+    }
+
+
+    if(mode == eBuildingMode::sheep ||
+       mode == eBuildingMode::goat) {
+        if(mLeftPressed) return;
+        double rx;
+        double ry;
+        const auto t = mBoard->tile(mHoverTX, mHoverTY);
+        if(!t) return;
+        const bool cb = canBuild(t->x(), t->y(), 1, 2, sTileFertile, true);
+        const auto& tex = trrTexs.fBuildingBase;
+        tex->setColorMod(cb ? 0 : 255, cb ? 255 : 0, 0);
+        drawXY(mHoverTX, mHoverTY, rx, ry, 1, 1, t->altitude());
+        tp.drawTexture(rx, ry, tex, eAlignment::top);
+        tp.drawTexture(rx, ry + 1, tex, eAlignment::top);
+        tex->clearColorMod();
+        return;
     }
 
     const auto t = mBoard->tile(mHoverTX, mHoverTY);
