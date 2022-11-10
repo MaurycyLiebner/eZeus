@@ -8,8 +8,7 @@ bool eViewModeHelpers::buildingVisible(
         const eBuilding* const b) {
     if(!b) return false;
     const auto bt = b->type();
-    if(bt == eBuildingType::road) return true;
-    if(bt == eBuildingType::ruins) return true;
+    if(eBuilding::sFlatBuilding(bt)) return true;
 
     switch(viewMode) {
     case eViewMode::defaultView: {
