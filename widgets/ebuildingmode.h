@@ -89,7 +89,7 @@ enum class eBuildingMode {
     avenue,
 
     populationMonument,
-    commemorative2,
+    victoryMonument,
     colonyMonument,
     athleteMonument,
     conquestMonument,

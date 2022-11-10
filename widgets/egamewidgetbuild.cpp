@@ -1245,7 +1245,7 @@ bool eGameWidget::buildMouseRelease() {
             build(mHoverTX, mHoverTY, 3, 3,
                   [this]() { return e::make_shared<eCommemorative>(0, *mBoard); });
         }; break;
-        case eBuildingMode::commemorative2: {
+        case eBuildingMode::victoryMonument: {
             build(mHoverTX, mHoverTY, 3, 3,
                   [this]() { return e::make_shared<eCommemorative>(1, *mBoard); });
         }; break;

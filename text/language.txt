@@ -453,7 +453,7 @@ baths "Baths"
 stone_circle "Stone Circle"
 
 population_monument "Population Monument"
-
+victory_monument "Victory Monument"
 colony_monument "Colony Monument"
 athlete_monument "Athlete Monument"
 conquest_monument "Conquest Monument"

@@ -671,7 +671,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
         openBuildWidget(cmx, cmy, r9spr);
     };
     const std::vector<eSPR> m9spr = {eSPR{eBuildingMode::populationMonument, eLanguage::text("population_monument")},
-                                     eSPR{eBuildingMode::commemorative2, "Commemorative 2"},
+                                     eSPR{eBuildingMode::victoryMonument, eLanguage::text("victory_monument")},
                                      eSPR{eBuildingMode::colonyMonument, eLanguage::text("colony_monument")},
                                      eSPR{eBuildingMode::athleteMonument, eLanguage::text("athlete_monument")},
                                      eSPR{eBuildingMode::conquestMonument, eLanguage::text("conquest_monument")},

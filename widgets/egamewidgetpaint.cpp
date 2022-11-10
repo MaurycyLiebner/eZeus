@@ -1843,7 +1843,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = e::make_shared<eCommemorative>(0, *mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
-        case eBuildingMode::commemorative2: {
+        case eBuildingMode::victoryMonument: {
             const auto b1 = e::make_shared<eCommemorative>(1, *mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;

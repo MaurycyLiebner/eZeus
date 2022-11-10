@@ -149,7 +149,7 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::avenue;
 
     case eBuildingMode::populationMonument:
-    case eBuildingMode::commemorative2:
+    case eBuildingMode::victoryMonument:
     case eBuildingMode::colonyMonument:
     case eBuildingMode::athleteMonument:
     case eBuildingMode::conquestMonument:
