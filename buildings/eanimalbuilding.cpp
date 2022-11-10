@@ -10,9 +10,7 @@ eAnimalBuilding::eAnimalBuilding(
 }
 
 eAnimalBuilding::~eAnimalBuilding() {
-    if(mA) {
-        mA->changeTile(nullptr);
-    }
+    if(mA) mA->kill();
 }
 
 void eAnimalBuilding::nextMonth() {

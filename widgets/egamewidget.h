@@ -88,10 +88,12 @@ private:
     using eSpecialRequirement = std::function<bool(eTile*)>;
     bool canBuildBase(const int minX, const int maxX,
                       const int minY, const int maxY,
-                      const eSpecialRequirement& specReq = {});
+                      const eSpecialRequirement& specReq = {},
+                      const bool flat = false);
     bool canBuild(const int tx, const int ty,
                   const int sw, const int sh,
-                  const eSpecialRequirement& specReq = {});
+                  const eSpecialRequirement& specReq = {},
+                  const bool flat = false);
     bool canBuildVendor(const int tx, const int ty,
                         const eResourceType resType);
     bool canBuildFishery(const int tx, const int ty,
@@ -103,7 +105,8 @@ private:
                const int sw, const int sh,
                const eBuildingCreator& bc,
                const eSpecialRequirement& specReq = {},
-               const eRendererCreator& rc = {});
+               const eRendererCreator& rc = {},
+               const bool flat = false);
     using eDA = eDomesticatedAnimal;
     using eAnimalCreator = std::function<stdsptr<eDA>(eGameBoard&)>;
     void buildAnimal(eTile* const tile,

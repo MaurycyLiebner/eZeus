@@ -332,7 +332,8 @@ void buildTiles(int& minX, int& minY,
 
 bool eGameWidget::canBuildBase(const int minX, const int maxX,
                                const int minY, const int maxY,
-                               const eSpecialRequirement& specReq) {
+                               const eSpecialRequirement& specReq,
+                               const bool flat) {
     for(int x = minX; x < maxX; x++) {
         for(int y = minY; y < maxY; y++) {
             const auto t = mBoard->tile(x, y);
@@ -345,8 +346,10 @@ bool eGameWidget::canBuildBase(const int minX, const int maxX,
 
             if(!t->walkableElev() && t->isElevationTile()) return false;
 
-            const auto& chars = t->characters();
-            if(!chars.empty()) return false;
+            if(!flat) {
+                const auto& chars = t->characters();
+                if(!chars.empty()) return false;
+            }
         }
     }
     return true;
@@ -354,13 +357,14 @@ bool eGameWidget::canBuildBase(const int minX, const int maxX,
 
 bool eGameWidget::canBuild(const int tx, const int ty,
                            const int sw, const int sh,
-                           const eSpecialRequirement& specReq) {
+                           const eSpecialRequirement& specReq,
+                           const bool flat) {
     int minX;
     int minY;
     int maxX;
     int maxY;
     buildTiles(minX, minY, maxX, maxY, tx, ty, sw, sh);
-    return canBuildBase(minX, maxX, minY, maxY, specReq);
+    return canBuildBase(minX, maxX, minY, maxY, specReq, flat);
 }
 
 bool eGameWidget::canBuildVendor(const int tx, const int ty,
@@ -1038,11 +1042,12 @@ bool eGameWidget::build(const int tx, const int ty,
                         const int sw, const int sh,
                         const eBuildingCreator& bc,
                         const eSpecialRequirement& specReq,
-                        const eRendererCreator& rc) {
+                        const eRendererCreator& rc,
+                        const bool flat) {
     if(!bc) return false;
     const auto tile = mBoard->tile(tx, ty);
     if(!tile) return false;
-    const bool cb = canBuild(tx, ty, sw, sh, specReq);
+    const bool cb = canBuild(tx, ty, sw, sh, specReq, flat);
     if(!cb) return false;
     const auto b = bc();
     if(!b) return false;
@@ -1083,7 +1088,7 @@ void eGameWidget::buildAnimal(eTile* const tile,
                               const eAnimalCreator& creator) {
     const int tx = tile->x();
     const int ty = tile->y();
-    const bool cb = canBuild(tx, ty, 1, 2, sTileFertile);
+    const bool cb = canBuild(tx, ty, 1, 2, sTileFertile, true);
     if(!cb) return;
     const auto sh = creator(*mBoard);
     sh->changeTile(tile);
@@ -1100,7 +1105,7 @@ void eGameWidget::buildAnimal(eTile* const tile,
     build(tx, ty, 1, 2, [this, sh, type]() {
         return e::make_shared<eAnimalBuilding>(
                     *mBoard, sh.get(), type);
-    }, sTileFertile);
+    }, sTileFertile, {}, true);
 }
 
 bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {

@@ -589,16 +589,19 @@ bool eGameWidget::buildMouseRelease() {
                 for(int i = path.size() - 1; i >= 0; i--) {
                     if(!t) break;
                     build(t->x(), t->y(), 1, 1,
-                          [this]() { return e::make_shared<eRoad>(*mBoard); });
+                          [this]() { return e::make_shared<eRoad>(*mBoard); },
+                          {}, {}, true);
                     t = t->neighbour<eTile>(path[i]);
                 }
                 if(t) {
                     build(t->x(), t->y(), 1, 1,
-                          [this]() { return e::make_shared<eRoad>(*mBoard); });
+                          [this]() { return e::make_shared<eRoad>(*mBoard); },
+                          {}, {}, true);
                 }
             } else {
                 build(startTile->x(), startTile->y(), 1, 1,
-                      [this]() { return e::make_shared<eRoad>(*mBoard); });
+                      [this]() { return e::make_shared<eRoad>(*mBoard); },
+                      {}, {}, true);
             }
         }; break;
         case eBuildingMode::roadblock: {
