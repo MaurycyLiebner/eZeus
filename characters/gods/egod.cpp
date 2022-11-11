@@ -147,6 +147,7 @@ int eGod::sGodAttackTime(const eGodType gt) {
     switch(gt) {
     case eGodType::apollo:
     case eGodType::hades:
+    case eGodType::hephaestus:
         return 300;
     case eGodType::demeter:
         return 700;
