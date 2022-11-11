@@ -23,6 +23,9 @@ bool eCharacter::canFight(eCharacter* const c) {
     if(dead()) return false;
     if(playerId() == c->playerId()) return false;
     if(attack() == 0 && c->attack() == 0) return false;
+    const auto at = c->actionType();
+    if(at == eCharacterActionType::fight ||
+       at == eCharacterActionType::fight2) return false;
     const auto ct = c->type();
     const auto tt = type();
     if(ct == eCharacterType::boar ||
