@@ -127,6 +127,7 @@ private:
     int mArrivalCountdown = 15000;
 
     stdptr<eHero> mHero;
+    int mSpawnWait = 0;
 };
 
 #endif // EHEROSHALL_H

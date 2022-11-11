@@ -90,13 +90,19 @@ void eSanctuary::spawnGod() {
     const auto ha = e::make_shared<eGodWorshippedAction>(
                         c.get(), [](){}, [](){});
     mGod->setAction(ha);
+    mSpawnWait = 5000;
 }
 
 void eSanctuary::timeChanged(const int by) {
     if(!mCart) spawnCart(mCart, eCartActionTypeSupport::take);
     eEmployingBuilding::timeChanged(by);
 
-    if(!mGod && progress() == 100) spawnGod();
+    if(!mGod && progress() == 100) {
+        mSpawnWait -= by;
+        if(mSpawnWait <= 0) {
+            spawnGod();
+        }
+    }
 }
 
 int eSanctuary::spaceLeft(const eResourceType type) const {

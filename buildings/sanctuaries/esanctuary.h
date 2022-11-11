@@ -59,6 +59,7 @@ private:
     std::vector<stdsptr<eSanctBuilding>> mElements;
 
     stdptr<eGod> mGod;
+    int mSpawnWait = 0;
 };
 
 #endif // ESANCTUARY_H

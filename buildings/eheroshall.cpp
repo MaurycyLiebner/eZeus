@@ -316,6 +316,7 @@ void eHerosHall::spawnHero() {
     const auto ha = e::make_shared<eHeroAction>(
                         c.get(), [](){}, [](){});
     mHero->setAction(ha);
+    mSpawnWait = 5000;
 }
 
 void eHerosHall::read(eReadStream& src) {
@@ -643,7 +644,12 @@ void eHerosHall::timeChanged(const int by) {
         }
     }
     if(mStage == eHeroSummoningStage::arrived) {
-        if(!mHero) spawnHero();
+        if(!mHero) {
+            mSpawnWait -= by;
+            if(mSpawnWait <= 0) {
+                spawnHero();
+            }
+        }
     }
 
     eBuilding::timeChanged(by);
