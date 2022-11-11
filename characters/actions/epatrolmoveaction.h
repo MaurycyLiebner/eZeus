@@ -11,6 +11,22 @@ class eMovePathAction;
 
 class eBuilding;
 
+class eDirectionUsage {
+public:
+    eDirectionUsage() {
+        for(int i = 0; i < 8; i++) {
+            mUsage.push_back(0);
+        }
+    }
+
+    int& usage(const eOrientation o) {
+        const int id = static_cast<int>(o);
+        return mUsage[id];
+    }
+private:
+    std::vector<int> mUsage;
+};
+
 class ePatrolMoveAction : public eMoveAction {
 public:
     using eTileWalkable = std::function<bool(eTileBase* const)>;
@@ -32,6 +48,8 @@ private:
     eOrientation mO{eOrientation::topRight};
     int mMaxWalkDistance = 10000;
     int mWalkedDistance = 0;
+
+    std::map<eTile*, eDirectionUsage> mOs;
 };
 
 #endif // EPATROLMOVEACTION_H
