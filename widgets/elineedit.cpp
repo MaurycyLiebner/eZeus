@@ -119,9 +119,10 @@ void eLineEdit::paintEvent(ePainter& p) {
     }
     const int lh = 2*texh/3;
     const int x = texw + fs/4;
-    const int y = (height() - lh)/2;
-    const int w = lineWidth();
-    const int h = lh;
+    const int y = (height() + lh)/2;
+    const int lw = lineWidth();
+    const int w = 4*lw;
+    const int h = 2*lw;
     SDL_Color col1;
     SDL_Color col2;
     eFontColorHelpers::colors(fontColor(), col1, col2);
