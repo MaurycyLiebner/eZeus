@@ -8,12 +8,13 @@ save_game "Save Game"
 exit "Exit"
 
 resolution "Resolution: "
-fullscreen "Fullscreen: "
+full_screen "Full screen"
+windowed_screen "Windowed screen"
 
-tiny_textures "Tiny Textures: "
-small_textures "Small Textures: "
-medium_textures "Medium Textures: "
-large_textures "Large Textures: "
+tiny_textures "Tiny textures"
+small_textures "Small textures"
+medium_textures "Medium textures"
+large_textures "Large textures"
 
 back "Back"
 apply "Apply"

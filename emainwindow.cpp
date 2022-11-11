@@ -292,10 +292,9 @@ void eMainWindow::showMainMenu() {
 void eMainWindow::showSettingsMenu() {
     const auto esm = new eSettingsMenu(mSettings, this);
     esm->resize(width(), height());
-    const auto backA = [this]() {
-        showMainMenu();
-    };
+
     const auto applyA = [this](const eSettings& settings) {
+        const bool loadNeeded = settings.fRes != mSettings.fRes;
         setResolution(settings.fRes);
         setFullscreen(settings.fFullscreen);
         mSettings = settings;
@@ -305,9 +304,13 @@ void eMainWindow::showSettingsMenu() {
            !mSettings.fLargeTextures) {
             mSettings.fSmallTextures = true;
         }
-        showMenuLoading();
+        if(loadNeeded) showMenuLoading();
+        else showMainMenu();
     };
-    esm->initialize(backA, applyA);
+    const auto fullscrennA = [this](const bool f) {
+        setFullscreen(f);
+    };
+    esm->initialize(applyA, fullscrennA);
     setWidget(esm);
 }
 #include "characters/ehoplite.h"
