@@ -1,6 +1,7 @@
 #include "emainmenu.h"
 
 #include "ebutton.h"
+#include "eframedbutton.h"
 
 #include "eframedwidget.h"
 
@@ -10,17 +11,14 @@ void addButton(const std::string& text,
                const eAction& a,
                eWidget* const buttons,
                eMainWindow* const window) {
-    const auto w1 = new eFramedWidget(window);
-    w1->setSmallPadding();
-    buttons->addWidget(w1);
-    const auto b1 = new eButton(window);
-    w1->addWidget(b1);
+    const auto b1 = new eFramedButton(window);
+    b1->setRenderBg(true);
+    b1->setUnderline(false);
+    buttons->addWidget(b1);
     b1->setPressAction(a);
     b1->setText(text);
     b1->fitContent();
-    w1->fitContent();
-    w1->align(eAlignment::hcenter);
-    b1->align(eAlignment::center);
+    b1->align(eAlignment::hcenter);
 }
 
 void eMainMenu::initialize(const eAction& newGameA,
