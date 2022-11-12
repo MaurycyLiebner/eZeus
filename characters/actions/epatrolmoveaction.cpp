@@ -28,11 +28,10 @@ eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
     if(!tile) return eCharacterActionState::failed;
 
     const auto neighVer = [&](eTileBase* const t) {
-        return t && mWalkable(t);
+        return t && mWalkable(t) && t->neighbour(mO) != tile;
     };
     auto options = mDiagonalOnly ? tile->diagonalNeighbours(neighVer) :
                                    tile->neighbours(neighVer);
-
     auto& uses = (*mOs)[tile];
     if(options.empty()) {
         mO = !mO;
@@ -63,7 +62,9 @@ eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
     }
     const auto& board = c->getBoard();
     const int time = board.totalTime();
-    uses.time(mO) = time;
-    (*mOs)[tt].time(!mO) = time;
+    if(options.size() > 1) {
+        uses.time(mO) = time;
+        (*mOs)[tt].time(!mO) = time;
+    }
     return eCharacterActionState::running;
 }
