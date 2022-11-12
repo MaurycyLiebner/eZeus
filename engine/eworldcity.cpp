@@ -19,6 +19,28 @@ eWorldCityBase::eWorldCityBase(const eWorldCityType type,
     }
 }
 
+void eWorldCityBase::write(eWriteStream& dst) const {
+    dst << mType;
+    dst << mName;
+    dst << mLeader;
+    dst << mX;
+    dst << mY;
+    dst << mRebellion;
+    dst << mRel;
+    dst << mAt;
+}
+
+void eWorldCityBase::read(eReadStream& src) {
+    src >> mType;
+    src >> mName;
+    src >> mLeader;
+    src >> mX;
+    src >> mY;
+    src >> mRebellion;
+    src >> mRel;
+    src >> mAt;
+}
+
 void eWorldCity::nextYear() {
     for(auto& b : mBuys) {
         b.fUsed = 0;
@@ -34,6 +56,42 @@ void eWorldCity::addBuys(const eResourceTrade& b) {
 
 void eWorldCity::addSells(const eResourceTrade& s) {
     mSells.push_back(s);
+}
+
+void swrite(eWriteStream& dst,
+            const std::vector<eResourceTrade>& v) {
+    dst << v.size();
+    for(const auto& vv : v) {
+        vv.write(dst);
+    }
+}
+
+void eWorldCity::write(eWriteStream& dst) const {
+    eWorldCityBase::write(dst);
+    dst << mArmy;
+    dst << mWealth;
+    dst << mWaterTrade;
+    swrite(dst, mBuys);
+    swrite(dst, mSells);
+}
+
+void sread(eReadStream& src,
+            std::vector<eResourceTrade>& v) {
+    int n;
+    src >> n;
+    for(int i = 0; i < n; i++) {
+        auto& vv = v.emplace_back();
+        vv.read(src);
+    }
+}
+
+void eWorldCity::read(eReadStream& src) {
+    eWorldCityBase::read(src);
+    src >> mArmy;
+    src >> mWealth;
+    src >> mWaterTrade;
+    sread(src, mBuys);
+    sread(src, mSells);
 }
 
 stdsptr<eWorldCity> eWorldCity::sCreateAthens(const eWorldCityType type) {

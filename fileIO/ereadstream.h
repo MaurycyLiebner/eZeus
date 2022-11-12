@@ -45,6 +45,17 @@ public:
         return *this;
     }
 
+    template <typename T>
+    inline eReadStream& operator<<(std::vector<T>& val) {
+        int size;
+        *this >> size;
+        for(int i = 0; i < size; i++) {
+            T& t = val.emplace_back();
+            *this >> t;
+        }
+        return *this;
+    }
+
     inline eReadStream& operator>>(SDL_Rect& val) {
         *this >> val.x;
         *this >> val.y;

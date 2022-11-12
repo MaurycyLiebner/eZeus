@@ -345,6 +345,8 @@ void eGameBoard::read(eReadStream& src) {
         mGameEvents.push_back(e);
     }
 
+    mWorldBoard.read(src);
+
     src.handlePostFuncs();
 }
 
@@ -394,6 +396,8 @@ void eGameBoard::write(eWriteStream& dst) const {
     for(const auto& e : mGameEvents) {
         e->write(dst);
     }
+
+    mWorldBoard.write(dst);
 }
 
 eBuilding* eGameBoard::buildingWithIOID(const int id) const {

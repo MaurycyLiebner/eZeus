@@ -25,15 +25,11 @@ public:
     }
 
     void read(eReadStream& src) {
-        for(int& t : mTime) {
-            src >> t;
-        }
+        src >> mTime;
     }
 
     void write(eWriteStream& dst) const {
-        for(const int t : mTime) {
-            dst << t;
-        }
+        dst << mTime;
     }
 private:
     std::vector<int> mTime;

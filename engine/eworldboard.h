@@ -13,17 +13,20 @@ public:
     void incTime(const int by);
     void nextYear();
 
-    void setHomeCity(const stdsptr<eWorldCityBase>& hc);
+    void setHomeCity(const stdsptr<eWorldCity>& hc);
     void addCity(const stdsptr<eWorldCity>& c);
 
-    const stdsptr<eWorldCityBase>& homeCity() const
+    const stdsptr<eWorldCity>& homeCity() const
     { return mHomeCity; }
     const std::vector<stdsptr<eWorldCity>>& cities() const
     { return mCities; }
 
     int cityId(const eWorldCity& city) const;
+
+    void write(eWriteStream& dst) const;
+    void read(eReadStream& src);
 private:
-    stdsptr<eWorldCityBase> mHomeCity;
+    stdsptr<eWorldCity> mHomeCity;
     std::vector<stdsptr<eWorldCity>> mCities;
 };
 

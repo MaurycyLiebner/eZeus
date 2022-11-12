@@ -5,6 +5,7 @@
 
 #include "eresourcetype.h"
 #include "pointers/estdselfref.h"
+#include "fileIO/estreams.h"
 
 enum class eWorldCityType {
     mainCity,
@@ -72,6 +73,7 @@ enum class eWorldCityAttitude {
 
 class eWorldCityBase {
 public:
+    eWorldCityBase() {}
     eWorldCityBase(const eWorldCityType type,
                    const std::string& name,
                    const double x, const double y);
@@ -92,14 +94,17 @@ public:
 
     const std::string& name() const { return mName; }
     const std::string& leader() const { return mLeader; }
+
+    virtual void write(eWriteStream& dst) const;
+    virtual void read(eReadStream& src);
 private:
-    const eWorldCityType mType;
+    eWorldCityType mType;
 
-    const std::string mName;
-    const std::string mLeader;
+    std::string mName;
+    std::string mLeader;
 
-    const double mX;
-    const double mY;
+    double mX;
+    double mY;
 
     bool mRebellion = false;
 
@@ -112,6 +117,20 @@ struct eResourceTrade {
     int fUsed;
     int fMax;
     int fPrice;
+
+    void write(eWriteStream& dst) const {
+        dst << fType;
+        dst << fUsed;
+        dst << fMax;
+        dst << fPrice;
+    }
+
+    void read(eReadStream& src) {
+        src >> fType;
+        src >> fUsed;
+        src >> fMax;
+        src >> fPrice;
+    }
 };
 
 class eWorldCity : public eWorldCityBase {
@@ -140,6 +159,9 @@ public:
     std::vector<eResourceTrade>& sells()
     { return mSells; }
     void addSells(const eResourceTrade& s);
+
+    void write(eWriteStream& dst) const override;
+    void read(eReadStream& src) override;
 
     static stdsptr<eWorldCity> sCreateAthens(
             const eWorldCityType type = eWorldCityType::greekCity);

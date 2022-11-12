@@ -1,9 +1,6 @@
 #include "eworldboard.h"
 
-eWorldBoard::eWorldBoard()
-{
-
-}
+eWorldBoard::eWorldBoard() {}
 
 void eWorldBoard::incTime(const int by) {
     (void)by;
@@ -15,7 +12,7 @@ void eWorldBoard::nextYear() {
     }
 }
 
-void eWorldBoard::setHomeCity(const stdsptr<eWorldCityBase>& hc) {
+void eWorldBoard::setHomeCity(const stdsptr<eWorldCity>& hc) {
     mHomeCity = hc;
 }
 
@@ -30,4 +27,24 @@ int eWorldBoard::cityId(const eWorldCity& city) const {
         if(c.get() == &city) return id;
     }
     return id;
+}
+
+void eWorldBoard::write(eWriteStream& dst) const {
+    mHomeCity->write(dst);
+    dst << mCities.size();
+    for(const auto& c: mCities) {
+        c->write(dst);
+    }
+}
+
+void eWorldBoard::read(eReadStream& src) {
+    mHomeCity = std::make_shared<eWorldCity>();
+    mHomeCity->read(src);
+    int nc;
+    src >> nc;
+    for(int i = 0; i < nc; i++) {
+        const auto c = std::make_shared<eWorldCity>();
+        c->read(src);
+        addCity(c);
+    }
 }

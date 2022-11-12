@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <string>
+#include <vector>
 
 class eTile;
 class eBuilding;
@@ -39,6 +40,15 @@ public:
     inline eWriteStream& operator<<(const T val) {
         const int32_t val32_t = static_cast<int32_t>(val);
         write(&val32_t, sizeof(int32_t));
+        return *this;
+    }
+
+    template <typename T>
+    inline eWriteStream& operator<<(const std::vector<T>& val) {
+        *this << val.size();
+        for(const auto& t : val) {
+            *this << t;
+        }
         return *this;
     }
 
