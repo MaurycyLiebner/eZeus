@@ -298,6 +298,12 @@ void eGameBoard::read(eReadStream& src) {
     src >> h;
     initialize(w, h);
 
+    src >> mDrachmas;
+    src >> mDifficulty;
+    src >> mWageRate;
+    src >> mTaxRate;
+
+    mDate.read(src);
     src >> mTime;
     src >> mTotalTime;
 
@@ -346,6 +352,12 @@ void eGameBoard::write(eWriteStream& dst) const {
     dst << mWidth;
     dst << mHeight;
 
+    dst << mDrachmas;
+    dst << mDifficulty;
+    dst << mWageRate;
+    dst << mTaxRate;
+
+    mDate.write(dst);
     dst << mTime;
     dst << mTotalTime;
 
