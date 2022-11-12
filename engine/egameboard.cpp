@@ -331,6 +331,14 @@ void eGameBoard::read(eReadStream& src) {
         mHostileGods.push_back(type);
     }
 
+    int nevs;
+    src >> nevs;
+    for(int i = 0; i < nevs; i++) {
+        const auto e = e::make_shared<eGameEventCycle>(*this);
+        e->read(src);
+        mGameEvents.push_back(e);
+    }
+
     src.handlePostFuncs();
 }
 
@@ -368,6 +376,11 @@ void eGameBoard::write(eWriteStream& dst) const {
     dst << nrg;
     for(const auto g : mHostileGods) {
         dst << g;
+    }
+
+    dst << mGameEvents.size();
+    for(const auto& e : mGameEvents) {
+        e->write(dst);
     }
 }
 
