@@ -16,7 +16,8 @@ public:
                   ePatrolBuildingBase* const b,
                   const std::vector<ePatrolGuide>& guides,
                   const eAction& failAction,
-                  const eAction& finishAction);
+                  const eAction& finishAction,
+                  const stdsptr<eDirectionTimes>& dirTimes = {});
 
     bool decide();
 protected:
@@ -25,6 +26,7 @@ protected:
                             eWalkableHelpers::sRoadWalkable);
 private:
     const std::vector<ePatrolGuide> mGuides;
+    const stdsptr<eDirectionTimes> mDirTimes;
     ePatrolBuildingBase* const mBuilding;
 
     bool mDone = false;

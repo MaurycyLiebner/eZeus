@@ -217,6 +217,7 @@ public:
     int countBanners(const eBannerType bt) const;
 
     void incTime(const int by);
+    int totalTime() const { return mTotalTime; }
 
     eThreadPool& threadPool() { return mThreadPool; }
 
@@ -368,6 +369,7 @@ private:
     eWageRate mWageRate{eWageRate::normal};
     eTaxRate mTaxRate{eTaxRate::normal};
 
+    int mTotalTime = 0;
     int mTime = 0;
     eDate mDate = eDate(1, eMonth::january, -1500);
 

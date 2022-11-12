@@ -19,9 +19,10 @@ ePatrolBuildingBase::sDefaultActGenerator(
            ePatrolBuildingBase* const b,
            const std::vector<ePatrolGuide>& guides,
            const eAction& failAction,
-           const eAction& finishAction) {
+           const eAction& finishAction,
+           const stdsptr<eDirectionTimes>& dirTimes) {
     return e::make_shared<ePatrolAction>(
-                c, b, guides, failAction, finishAction);
+                c, b, guides, failAction, finishAction, dirTimes);
 }
 
 ePatrolBuildingBase::ePatrolBuildingBase(
@@ -66,11 +67,11 @@ bool ePatrolBuildingBase::spawn() {
            bt == eBuildingType::grandAgora) {
             t = centerTile();
         } else {
-            auto dirs = gExtractDirections(eMoveDirection::allDirections);
-            std::random_shuffle(dirs.begin(), dirs.end());
-            for(const auto dir : dirs) {
-                t = road(dir);
-                if(t) break;
+            const auto ts = surroundingRoad(false);
+            if(!ts.empty()) {
+                const int tss = ts.size();
+                if(++mSpawnRoadId >= tss) mSpawnRoadId = 0;
+                t = ts[mSpawnRoadId];
             }
         }
         if(!t) return false;
@@ -89,7 +90,8 @@ bool ePatrolBuildingBase::spawn() {
     };
     const auto a = mActGenerator(mChar.get(), this,
                                  mPatrolGuides,
-                                 finishAct, finishAct);
+                                 finishAct, finishAct,
+                                 mDirTimes);
     mChar->setAction(a);
     return true;
 }
@@ -103,6 +105,14 @@ void ePatrolBuildingBase::read(eReadStream& src) {
 
     src >> mSpawnPatrolers;
     src >> mSpawnTime;
+    src >> mSpawnRoadId;
+
+    int dts;
+    src >> dts;
+    for(int i = 0; i < dts; i++) {
+        const auto t = src.readTile(getBoard());
+        (*mDirTimes)[t].read(src);
+    }
 
     int n;
     src >> n;
@@ -119,6 +129,13 @@ void ePatrolBuildingBase::write(eWriteStream& dst) const {
 
     dst << mSpawnPatrolers;
     dst << mSpawnTime;
+    dst << mSpawnRoadId;
+
+    dst << mDirTimes->size();
+    for(const auto& d : *mDirTimes) {
+        dst.writeTile(d.first);
+        d.second.write(dst);
+    }
 
     dst << mPatrolGuides.size();
     for(const auto& pg : mPatrolGuides) {

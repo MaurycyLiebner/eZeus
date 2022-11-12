@@ -170,10 +170,25 @@ eTile* eBuilding::tileNeighbour(const eMoveDirection o,
     return nullptr;
 }
 
-eTile* eBuilding::road(const eMoveDirection o) const {
-    return tileNeighbour(o, [](eTile* const tile) {
-        return tile->hasRoad();
-    });
+std::vector<eTile*> eBuilding::surroundingRoad(const bool diagonal) const {
+    const auto& board = getBoard();
+    const auto tr = tileRect();
+    std::vector<eTile*> r;
+    const int xMin = tr.x + (diagonal ? -1 : 0);
+    const int xMax = tr.x + tr.w + (diagonal ? 1 : 0);
+    for(int x = xMin; x < xMax; x++) {
+        const auto t = board.tile(x, tr.y - 1);
+        if(t && t->hasRoad()) r.push_back(t);
+        const auto tt = board.tile(x, tr.y + tr.h);
+        if(tt && tt->hasRoad()) r.push_back(tt);
+    }
+    for(int y = tr.y; y < tr.y + tr.h; y++) {
+        const auto t = board.tile(tr.x - 1, y);
+        if(t && t->hasRoad()) r.push_back(t);
+        const auto tt = board.tile(tr.x + tr.w, y);
+        if(tt && tt->hasRoad()) r.push_back(tt);
+    }
+    return r;
 }
 
 void eBuilding::incTime(const int by) {

@@ -298,6 +298,9 @@ void eGameBoard::read(eReadStream& src) {
     src >> h;
     initialize(w, h);
 
+    src >> mTime;
+    src >> mTotalTime;
+
     for(const auto& ts : mTiles) {
         for(const auto& t : ts) {
             t->read(src);
@@ -334,6 +337,9 @@ void eGameBoard::read(eReadStream& src) {
 void eGameBoard::write(eWriteStream& dst) const {
     dst << mWidth;
     dst << mHeight;
+
+    dst << mTime;
+    dst << mTotalTime;
 
     for(const auto& ts : mTiles) {
         for(const auto& t : ts) {
@@ -961,6 +967,7 @@ void eGameBoard::incTime(const int by) {
     }
 
     mTime += by;
+    mTotalTime += by;
     bool nextMonth = false;
     bool nextYear = false;
     const int dayLen = 350;

@@ -11,21 +11,35 @@ class eMovePathAction;
 
 class eBuilding;
 
-class eDirectionUsage {
+class eDirectionLastUseTime {
 public:
-    eDirectionUsage() {
+    eDirectionLastUseTime() {
         for(int i = 0; i < 8; i++) {
-            mUsage.push_back(0);
+            mTime.push_back(0);
         }
     }
 
-    int& usage(const eOrientation o) {
+    int& time(const eOrientation o) {
         const int id = static_cast<int>(o);
-        return mUsage[id];
+        return mTime[id];
+    }
+
+    void read(eReadStream& src) {
+        for(int& t : mTime) {
+            src >> t;
+        }
+    }
+
+    void write(eWriteStream& dst) const {
+        for(const int t : mTime) {
+            dst << t;
+        }
     }
 private:
-    std::vector<int> mUsage;
+    std::vector<int> mTime;
 };
+
+using eDirectionTimes = std::map<eTile*, eDirectionLastUseTime>;
 
 class ePatrolMoveAction : public eMoveAction {
 public:
@@ -35,7 +49,9 @@ public:
                       const eAction& finishAction,
                       const bool diagonalOnly = true,
                       const eTileWalkable& walkable =
-                        eWalkableHelpers::sRoadWalkable);
+                        eWalkableHelpers::sRoadWalkable,
+                      const stdsptr<eDirectionTimes>& os =
+                        std::make_shared<eDirectionTimes>());
 
     void setMaxWalkDistance(const int dist)
     { mMaxWalkDistance = dist; }
@@ -44,12 +60,11 @@ private:
 
     const bool mDiagonalOnly;
     const eTileWalkable mWalkable;
+    const stdsptr<eDirectionTimes> mOs;
 
     eOrientation mO{eOrientation::topRight};
     int mMaxWalkDistance = 10000;
     int mWalkedDistance = 0;
-
-    std::map<eTile*, eDirectionUsage> mOs;
 };
 
 #endif // EPATROLMOVEACTION_H

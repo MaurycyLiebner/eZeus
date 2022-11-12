@@ -9,9 +9,10 @@ ePatrolAction::ePatrolAction(eCharacter* const c,
                              ePatrolBuildingBase* const b,
                              const std::vector<ePatrolGuide>& guides,
                              const eAction& failAction,
-                             const eAction& finishAction) :
+                             const eAction& finishAction,
+                             const stdsptr<eDirectionTimes>& dirTimes) :
     eActionWithComeback(c, b->centerTile(), failAction, finishAction),
-    mGuides(guides), mBuilding(b) {
+    mGuides(guides), mDirTimes(dirTimes), mBuilding(b) {
     setFinishOnComeback(true);
 }
 
@@ -40,7 +41,8 @@ void ePatrolAction::patrol() {
     if(mGuides.empty()) {
         const auto a = e::make_shared<ePatrolMoveAction>(
                            c, failFunc, finishFunc, true,
-                           eWalkableHelpers::sRoadRoadblockWalkable);
+                           eWalkableHelpers::sRoadRoadblockWalkable,
+                           mDirTimes);
         a->setMaxWalkDistance(dist);
         setCurrentAction(a);
     } else {

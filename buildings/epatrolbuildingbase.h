@@ -13,7 +13,8 @@ public:
                                 ePatrolBuildingBase* const b,
                                 const std::vector<ePatrolGuide>& guides,
                                 const eAction& failAction,
-                                const eAction& finishAction)>;
+                                const eAction& finishAction,
+                                const stdsptr<eDirectionTimes>& dirTimes)>;
     ePatrolBuildingBase(eGameBoard& board,
                         const eCharGenerator& charGen,
                         const eActGenerator& actGen,
@@ -32,7 +33,8 @@ public:
             ePatrolBuildingBase* const b,
             const std::vector<ePatrolGuide>& guides,
             const eAction& failAction,
-            const eAction& finishAction);
+            const eAction& finishAction,
+            const stdsptr<eDirectionTimes>& dirTimes);
 
     void timeChanged(const int by) override;
 
@@ -53,6 +55,10 @@ public:
 private:
     const eCharGenerator mCharGenerator;
     const eActGenerator mActGenerator;
+
+    int mSpawnRoadId = 0;
+    stdsptr<eDirectionTimes> mDirTimes =
+            std::make_shared<eDirectionTimes>();
 
     bool mSpawnPatrolers = true;
 

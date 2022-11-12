@@ -9,9 +9,10 @@ stdsptr<eCharacterAction> gFireFighterActGenerator(
            ePatrolBuildingBase* const b,
            const std::vector<ePatrolGuide>& guides,
            const eAction& failAction,
-           const eAction& finishActio) {
+           const eAction& finishActio,
+           const stdsptr<eDirectionTimes>& dirTimes) {
     return e::make_shared<eFireFighterAction>(
-                c, b, guides, failAction, finishActio);
+                c, b, guides, failAction, finishActio, dirTimes);
 }
 
 eMaintenanceOffice::eMaintenanceOffice(eGameBoard& board) :

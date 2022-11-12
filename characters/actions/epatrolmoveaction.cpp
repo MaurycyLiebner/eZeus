@@ -4,15 +4,18 @@
 #include "engine/etile.h"
 #include "emovepathaction.h"
 #include "engine/epathfinder.h"
+#include "engine/egameboard.h"
 
 ePatrolMoveAction::ePatrolMoveAction(eCharacter* const c,
                                      const eAction& failAction,
                                      const eAction& finishAction,
                                      const bool diagonalOnly,
-                                     const eTileWalkable& walkable) :
+                                     const eTileWalkable& walkable,
+                                     const stdsptr<eDirectionTimes>& os) :
     eMoveAction(c, walkable, failAction, finishAction),
     mDiagonalOnly(diagonalOnly),
-    mWalkable(walkable) {
+    mWalkable(walkable),
+    mOs(os) {
     mO = c->orientation();
 }
 
@@ -25,21 +28,21 @@ eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
     if(!tile) return eCharacterActionState::failed;
 
     const auto neighVer = [&](eTileBase* const t) {
-        return t && mWalkable(t) && t->neighbour(mO) != tile;
+        return t && mWalkable(t);
     };
     auto options = mDiagonalOnly ? tile->diagonalNeighbours(neighVer) :
                                    tile->neighbours(neighVer);
 
+    auto& uses = (*mOs)[tile];
     if(options.empty()) {
         mO = !mO;
     } else {
-        auto& uses = mOs[tile];
         int min = __INT_MAX__;
         std::vector<eOrientation> minOs;
         minOs.reserve(options.size());
         for(const auto& o : options) {
             const auto oo = o.first;
-            int& u = uses.usage(oo);
+            int& u = uses.time(oo);
             if(u < min) {
                 minOs.clear();
                 minOs.push_back(oo);
@@ -58,7 +61,9 @@ eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
     if(!tt) {
         return eCharacterActionState::failed;
     }
-    mOs[tile].usage(mO)++;
-    mOs[tt].usage(!mO)++;
+    const auto& board = c->getBoard();
+    const int time = board.totalTime();
+    uses.time(mO) = time;
+    (*mOs)[tt].time(!mO) = time;
     return eCharacterActionState::running;
 }
