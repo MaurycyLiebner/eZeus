@@ -10,7 +10,8 @@ eBoarSpawner::eBoarSpawner(eTile* const tile,
 }
 
 void eBoarSpawner::spawn(eTile* const tile) {
-    const auto b = e::make_shared<eBoar>(this, board());
+    const auto b = e::make_shared<eBoar>(board());
+    b->setSpawner(this);
     b->changeTile(tile);
     const auto e = []() {};
     b->setAction(e::make_shared<eAnimalAction>(

@@ -6,15 +6,16 @@
 
 class eTrailer : public eCharacter {
 public:
-    eTrailer(eCartTransporter* const follow,
-             eGameBoard& board);
+    eTrailer(eGameBoard& board);
 
     std::shared_ptr<eTexture>
         getTexture(const eTileSize size) const;
 
+    void setFollow(eCartTransporter* const c) { mFollow = c; }
+
     void setBig(const bool b) { mIsBig = b; }
 private:
-    const stdptr<eCartTransporter> mFollow;
+    stdptr<eCartTransporter> mFollow;
 
     bool mIsBig = false;
 

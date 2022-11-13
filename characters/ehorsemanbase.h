@@ -6,7 +6,8 @@
 class eHorsemanBase : public eSoldier {
 public:
     using eCharTexs = eFightingCharacterTextures eCharacterTextures::*;
-    eHorsemanBase(eGameBoard& board, const eCharTexs charTexs);
+    eHorsemanBase(eGameBoard& board, const eCharTexs charTexs,
+                  const eCharacterType type);
 };
 
 #endif // EHORSEMANBASE_H

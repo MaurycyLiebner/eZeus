@@ -24,13 +24,6 @@ enum class eCharacterType {
 
     peddler,
 
-    foodVendor,
-    fleeceVendor,
-    oilVendor,
-    wineVendor,
-    armsVendor,
-    horseTrainer,
-
     trailer,
     ox,
     marbleMiner,
@@ -59,6 +52,10 @@ enum class eCharacterType {
     rockThrower,
     hoplite,
     horseman,
+
+    greekRockThrower,
+    greekHoplite,
+    greekHorseman,
 
     healer,
 

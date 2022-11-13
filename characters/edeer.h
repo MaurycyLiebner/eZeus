@@ -5,7 +5,7 @@
 
 class eDeer : public eWildAnimal {
 public:
-    eDeer(eSpawner* const s, eGameBoard& board);
+    eDeer(eGameBoard& board);
 };
 
 #endif // EDEER_H

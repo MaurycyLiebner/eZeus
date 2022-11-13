@@ -20,7 +20,11 @@ eAgoraBase::eAgoraBase(eGameBoard& board,
                        const int sw, const int sh,
                        const int nPts) :
     ePatrolBuildingBase(board,
-                        [this]() { return e::make_shared<ePeddler>(getBoard(), this); },
+                        [this]() {
+                            const auto p = e::make_shared<ePeddler>(getBoard());
+                            p->setAgora(this);
+                            return p;
+                        },
                         type, sw, sh, 0),
     mNPts(nPts) {
     for(int i = 0; i < mNPts; i++) {

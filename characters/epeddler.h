@@ -7,11 +7,13 @@ class eAgoraBase;
 
 class ePeddler : public eBasicPatroler {
 public:
-    ePeddler(eGameBoard& board, eAgoraBase* const agora);
+    ePeddler(eGameBoard& board);
 
     void provideToBuilding(eBuilding* const b);
+
+    void setAgora(eAgoraBase* const a);
 private:
-    const stdptr<eAgoraBase> mAgora;
+    stdptr<eAgoraBase> mAgora;
 };
 
 #endif // EPEDDLER_H

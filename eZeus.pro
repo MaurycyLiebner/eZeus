@@ -161,6 +161,7 @@ SOURCES += \
         characters/ecarttransporter.cpp \
         characters/echaracter.cpp \
         characters/echaracterbase.cpp \
+        characters/echaractercreator.cpp \
         characters/edeer.cpp \
         characters/edomesticatedanimal.cpp \
         characters/edonkey.cpp \

@@ -2,15 +2,11 @@
 
 #include "spawners/espawner.h"
 
-eWildAnimal::eWildAnimal(eSpawner* const s,
-                         eGameBoard& board,
+eWildAnimal::eWildAnimal(eGameBoard& board,
                          const eCharTexs charTexs,
                          const eCharacterType type) :
-    eAnimal(board, charTexs, type),
-    mSpawner(s) {
-
-}
+    eAnimal(board, charTexs, type) {}
 
 eWildAnimal::~eWildAnimal() {
-    mSpawner->decCount();
+    if(mSpawner) mSpawner->decCount();
 }

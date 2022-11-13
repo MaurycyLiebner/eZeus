@@ -67,6 +67,9 @@ public:
     bool isSoldier() const;
 
     bool defend(const double a);
+
+    static stdsptr<eCharacter> sCreate(
+            const eCharacterType t, eGameBoard& board);
 private:
     stdsptr<eCharacterAction> takeAction();
 

@@ -2,10 +2,8 @@
 
 #include "textures/egametextures.h"
 
-eTrailer::eTrailer(eCartTransporter* const follow,
-                   eGameBoard& board) :
-    eCharacter(board, eCharacterType::trailer),
-    mFollow(follow) {}
+eTrailer::eTrailer(eGameBoard& board) :
+    eCharacter(board, eCharacterType::trailer) {}
 
 std::shared_ptr<eTexture>
 eTrailer::getTexture(const eTileSize size) const {

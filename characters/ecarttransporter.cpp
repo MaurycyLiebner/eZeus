@@ -178,7 +178,8 @@ void eCartTransporter::setType(const eCartTransporterType t) {
                            []() {}, []() {});
         mOx->setAction(aox);
         mOx->changeTile(t);
-        mTrailer = e::make_shared<eTrailer>(this, board);
+        mTrailer = e::make_shared<eTrailer>(board);
+        mTrailer->setFollow(this);
         mTrailer->setBig(mBigTrailer);
         const auto atr = e::make_shared<eFollowAction>(
                            mOx.get(), mTrailer.get(),

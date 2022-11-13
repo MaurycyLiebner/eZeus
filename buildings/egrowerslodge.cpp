@@ -215,7 +215,8 @@ std::vector<eCartTask> eGrowersLodge::cartTasks() const {
 bool eGrowersLodge::spawnGrower(const eGrowerPtr grower) {
     const auto t = centerTile();
     auto& g = this->*grower;
-    this->*grower = e::make_shared<eGrower>(getBoard(), mType);
+    g = e::make_shared<eGrower>(getBoard());
+    g->setGrowerType(mType);
     g->changeTile(t);
     const eStdPointer<eGrowersLodge> tptr(this);
     const auto finishAct = [tptr, this, grower]() {

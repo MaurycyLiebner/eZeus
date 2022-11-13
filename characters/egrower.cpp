@@ -2,11 +2,8 @@
 
 #include "textures/egametextures.h"
 
-eGrower::eGrower(eGameBoard& board, const eGrowerType type) :
-    eCharacter(board, eCharacterType::grower),
-    mType(type) {
-
-}
+eGrower::eGrower(eGameBoard& board) :
+    eCharacter(board, eCharacterType::grower) {}
 
 void eGrower::incGrapes(const int i) {
     mGrapes += i;

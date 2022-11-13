@@ -9,13 +9,15 @@ class eSpawner;
 
 class eWildAnimal : public eAnimal {
 public:
-    eWildAnimal(eSpawner* const s,
-                eGameBoard& board,
+    eWildAnimal(eGameBoard& board,
                 const eCharTexs charTexs,
                 const eCharacterType type);
     ~eWildAnimal();
+
+    void setSpawner(eSpawner* const s)
+    { mSpawner = s; }
 private:
-    eSpawner* const mSpawner;
+    eSpawner* mSpawner = nullptr;
 };
 
 #endif // EWILDANIMAL_H

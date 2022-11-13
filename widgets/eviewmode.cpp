@@ -103,12 +103,8 @@ bool eViewModeHelpers::characterVisible(
 
     case eViewMode::supplies: {
         return c == eCharacterType::waterDistributor ||
-               c == eCharacterType::foodVendor ||
-               c == eCharacterType::fleeceVendor ||
-               c == eCharacterType::oilVendor ||
-               c == eCharacterType::wineVendor ||
-               c == eCharacterType::armsVendor ||
-               c == eCharacterType::horseTrainer;
+               c == eCharacterType::cartTransporter ||
+               c == eCharacterType::peddler;
     } break;
 
     case eViewMode::water: {

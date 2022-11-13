@@ -1,7 +1,7 @@
 #include "edeer.h"
 
-eDeer::eDeer(eSpawner* const s, eGameBoard& board) :
-    eWildAnimal(s, board, &eCharacterTextures::fDeer,
+eDeer::eDeer(eGameBoard& board) :
+    eWildAnimal(board, &eCharacterTextures::fDeer,
                 eCharacterType::deer) {
     setPlayerId(0);
     setAttack(0);
