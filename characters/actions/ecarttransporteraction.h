@@ -7,14 +7,14 @@
 #include "buildings/ebuildingwithresource.h"
 
 class eCartTransporterAction : public eActionWithComeback {
+    friend class eCTA_findTargetFinish;
 public:
-    eCartTransporterAction(eBuildingWithResource* const b,
-                           eCartTransporter* const c,
-                           const eAction& failAction,
-                           const eAction& finishAction);
+    eCartTransporterAction(eCharacter* const c,
+                           eBuildingWithResource* const b);
+    eCartTransporterAction(eCharacter* const c);
 
-    void increment(const int by);
-    bool decide();
+    void increment(const int by) override;
+    bool decide() override;
 
     eCartActionTypeSupport support() const;
 
@@ -32,6 +32,9 @@ protected:
 
     void startResourceAction(const eCartTask& task);
     void finishResourceAction(const eCartTask& task);
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     void updateWaiting();
 
@@ -41,7 +44,7 @@ private:
 
     void disappear();
 
-    eBuildingWithResource* const mBuilding;
+    eBuildingWithResource* mBuilding = nullptr;
 
     eCartTask mTask;
 
@@ -49,6 +52,45 @@ private:
 
     bool mNoTarget = false;
     bool mWaitOutside = false;
+};
+
+class eCTA_findTargetFinish : public eCharActFunc {
+public:
+    eCTA_findTargetFinish(eGameBoard& board) :
+        eCharActFunc(board, eCharActFuncType::CTA_findTargetFinish) {}
+    eCTA_findTargetFinish(eGameBoard& board,
+                          eCartTransporterAction* const ca) :
+        eCharActFunc(board, eCharActFuncType::CTA_findTargetFinish),
+        mTptr(ca) {}
+
+    void call() override {
+        if(!mTptr) return;
+        const auto t = mTptr.get();
+        t->targetResourceAction(mBx, mBy);
+    }
+
+    void read(eReadStream& src) override {
+        src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
+            mTptr = static_cast<eCartTransporterAction*>(ca);
+        });
+        src >> mBx;
+        src >> mBy;
+    }
+
+    void write(eWriteStream& dst) const override {
+        dst.writeCharacterAction(mTptr);
+        dst << mBx;
+        dst << mBy;
+    }
+
+    void setXY(const int x, const int y) {
+        mBx = x;
+        mBy = y;
+    }
+private:
+    stdptr<eCartTransporterAction> mTptr;
+    int mBx = -1;
+    int mBy = -1;
 };
 
 #endif // ECARTTRANSPORTERACTION_H

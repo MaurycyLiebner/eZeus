@@ -176,9 +176,11 @@ void eCharacter::setProvide(const eProvide p, const int n) {
 
 bool eCharacter::isSoldier() const {
     const auto t = type();
-    return t == eCharacterType::hoplite ||
-           t == eCharacterType::horseman ||
-           t == eCharacterType::rockThrower;
+    const int min = static_cast<int>(eCharacterType::rockThrower);
+    const int max = static_cast<int>(eCharacterType::greekHorseman);
+    const int bi = static_cast<int>(t);
+    if(bi >= min && bi <= max) return true;
+    return false;
 }
 
 bool eCharacter::defend(const double a) {
@@ -186,10 +188,13 @@ bool eCharacter::defend(const double a) {
 
     bool isMonster = false;
     eMonster::sCharacterToMonsterType(type(), &isMonster);
-    if(isMonster) return false;;
+    if(isMonster) return false;
     bool isGod = false;
     eGod::sCharacterToGodType(type(), &isGod);
     if(isGod) return false;
+    bool isHero = false;
+    eHero::sCharacterToHeroType(type(), &isHero);
+    if(isHero) return false;
 
     setHP(hp() - a);
     if(hp() <= 0) {
@@ -199,4 +204,49 @@ bool eCharacter::defend(const double a) {
         return false;
     }
     return dead();
+}
+
+void eCharacter::read(eReadStream& src) {
+    eCharacterBase::read(src);
+    src >> mIOID;
+    src >> mVisible;
+    src >> mProvide;
+    src >> mProvideCount;
+    mTile = src.readTile(getBoard());
+    src >> mOrientation;
+    src >> mX;
+    src >> mY;
+    src >> mSoundPlayTime;
+    src >> mTime;
+    src >> mHasSecondaryTexture;
+    bool hasAction;
+    src >> hasAction;
+    if(hasAction) {
+        eCharActionType type;
+        src >> type;
+        mAction = eCharacterAction::sCreate(this, type);
+        mAction->read(src);
+    }
+    src >> mActionStartTime;
+}
+
+void eCharacter::write(eWriteStream& dst) const {
+    eCharacterBase::write(dst);
+    dst << mIOID;
+    dst << mVisible;
+    dst << mProvide;
+    dst << mProvideCount;
+    dst.writeTile(mTile);
+    dst << mOrientation;
+    dst << mX;
+    dst << mY;
+    dst << mSoundPlayTime;
+    dst << mTime;
+    dst << mHasSecondaryTexture;
+    dst << (mAction != nullptr);
+    if(mAction) {
+        dst << mAction->type();
+        mAction->write(dst);
+    }
+    dst << mActionStartTime;
 }

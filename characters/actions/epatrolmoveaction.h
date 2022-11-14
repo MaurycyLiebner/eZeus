@@ -39,13 +39,10 @@ using eDirectionTimes = std::map<eTile*, eDirectionLastUseTime>;
 
 class ePatrolMoveAction : public eMoveAction {
 public:
-    using eTileWalkable = std::function<bool(eTileBase* const)>;
     ePatrolMoveAction(eCharacter* const c,
-                      const eAction& failAction,
-                      const eAction& finishAction,
                       const bool diagonalOnly = true,
-                      const eTileWalkable& walkable =
-                        eWalkableHelpers::sRoadWalkable,
+                      const stdsptr<eWalkableObject>& walkable =
+                        eWalkableObject::sCreateRoad(),
                       const stdsptr<eDirectionTimes>& os =
                         std::make_shared<eDirectionTimes>());
 
@@ -54,9 +51,9 @@ public:
 private:
     eCharacterActionState nextTurn(eOrientation& t);
 
-    const bool mDiagonalOnly;
-    const eTileWalkable mWalkable;
-    const stdsptr<eDirectionTimes> mOs;
+    bool mDiagonalOnly;
+    stdsptr<eWalkableObject> mWalkable;
+    stdsptr<eDirectionTimes> mOs;
 
     eOrientation mO{eOrientation::topRight};
     int mMaxWalkDistance = 10000;

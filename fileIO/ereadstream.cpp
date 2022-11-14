@@ -1,6 +1,8 @@
 #include "ereadstream.h"
 
 #include "engine/egameboard.h"
+#include "characters/actions/walkable/ewalkableobject.h"
+#include "characters/actions/walkable/ehasresourceobject.h"
 
 eReadStream::eReadStream(SDL_RWops* const src) :
     mSrc(src) {
@@ -29,6 +31,54 @@ void eReadStream::readBuilding(eGameBoard* board,
         const auto b = board->buildingWithIOID(bid);
         func(b);
     });
+}
+
+void eReadStream::readCharacter(eGameBoard* board,
+                                const eCharFunc& func) {
+    int cid;
+    *this >> cid;
+    addPostFunc([board, func, cid]() {
+        const auto b = board->characterWithIOID(cid);
+        func(b);
+    });
+}
+
+void eReadStream::readCharacterAction(eGameBoard* board,
+                                      const eCharActFunc& func) {
+    int caid;
+    *this >> caid;
+    addPostFunc([board, func, caid]() {
+        const auto b = board->characterActionWithIOID(caid);
+        func(b);
+    });
+}
+
+stdsptr<eWalkableObject> eReadStream::readWalkable() {
+    bool valid;
+    *this >> valid;
+    if(valid) {
+        eWalkableObjectType type;
+        *this >> type;
+        const auto r = eWalkableObject::sCreate(type);
+        r->read(*this);
+        return r;
+    } else {
+        return nullptr;
+    }
+}
+
+stdsptr<eHasResourceObject> eReadStream::readHasResource() {
+    bool valid;
+    *this >> valid;
+    if(valid) {
+        eHasResourceObjectType type;
+        *this >> type;
+        const auto r = eHasResourceObject::sCreate(type);
+        r->read(*this);
+        return r;
+    } else {
+        return nullptr;
+    }
 }
 
 void eReadStream::addPostFunc(const eFunc& func) {

@@ -8,10 +8,8 @@
 ePatrolAction::ePatrolAction(eCharacter* const c,
                              ePatrolBuildingBase* const b,
                              const std::vector<ePatrolGuide>& guides,
-                             const eAction& failAction,
-                             const eAction& finishAction,
                              const stdsptr<eDirectionTimes>& dirTimes) :
-    eActionWithComeback(c, b->centerTile(), failAction, finishAction),
+    eActionWithComeback(c, b->centerTile()),
     mGuides(guides), mDirTimes(dirTimes), mBuilding(b) {
     setFinishOnComeback(true);
 }
@@ -41,7 +39,7 @@ void ePatrolAction::patrol() {
     if(mGuides.empty()) {
         const auto a = e::make_shared<ePatrolMoveAction>(
                            c, failFunc, finishFunc, true,
-                           eWalkableHelpers::sRoadRoadblockWalkable,
+                           eWalkableObject::sCreateRoadblock(),
                            mDirTimes);
         a->setMaxWalkDistance(dist);
         setCurrentAction(a);
@@ -54,6 +52,6 @@ void ePatrolAction::patrol() {
     }
 }
 
-void ePatrolAction::goBackDecision(const eWalkable& w) {
+void ePatrolAction::goBackDecision(const stdsptr<eWalkableObject>& w) {
     goBack(mBuilding, w);
 }

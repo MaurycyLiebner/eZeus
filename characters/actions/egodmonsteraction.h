@@ -33,7 +33,7 @@ public:
                     const eObsticleHandler& oh = nullptr,
                     const eTileDistance& tileDistance = nullptr,
                     const eTileWalkable& pathFindWalkable =
-                        eWalkableHelpers::sDefaultWalkable,
+                        eWalkableObject::sCreateDefault(),
                     const eTileWalkable& moveWalkable = nullptr);
 
     using eTexPtr = eTextureCollection eDestructionTextures::*;

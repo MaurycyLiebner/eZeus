@@ -7,17 +7,15 @@
 
 class eBuildAction : public eCharacterAction {
 public:
-    eBuildAction(eArtisan* const c,
-                 const eAction& failAction,
-                 const eAction& finishAction);
-
+    eBuildAction(eCharacter* const c);
 
     void increment(const int by);
+
+    void read(eReadStream& src);
+    void write(eWriteStream& dst) const;
 private:
     int mSoundTime = 0;
     int mTime = 0;
-    eArtisan* const mCharacter;
-    eTile* const mTile;
 };
 
 #endif // EBUILDACTION_H

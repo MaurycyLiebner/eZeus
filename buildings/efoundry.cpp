@@ -16,7 +16,7 @@ eFoundry::eFoundry(eGameBoard& board) :
                              2, 1.0, -2.0,
                              [this]() { return e::make_shared<eBronzeMiner>(getBoard()); },
                              eBuildingType::foundry,
-                             hasCopper, nullptr, 2, 2, 15,
+                             hasCopper, 2, 2, 15,
                              eResourceType::bronze) {
     setRawCountCollect(4);
 }

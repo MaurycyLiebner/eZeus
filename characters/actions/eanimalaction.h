@@ -5,27 +5,32 @@
 
 #include "emovearoundaction.h"
 
+#include "walkable/ewalkableobject.h"
+
 class eTileBase;
 
 class eAnimalAction : public eComplexAction {
 public:
-    using eTileWalkable = std::function<bool(eTileBase* const)>;
     eAnimalAction(eCharacter* const c,
-                  const eAction& failAction,
-                  const eAction& finishAction,
                   const int spawnerX, const int spawnerY,
-                  const eTileWalkable& tileWalkable =
-                        eMoveAroundAction::sDefaultWalkable);
+                  const stdsptr<eWalkableObject>& tileWalkable =
+                        eWalkableObject::sCreateDefault());
+    eAnimalAction(eCharacter* const c);
+
+    bool decide();
 
     void nextAction();
 
     void setLayTime(const int l) { mLayTime = l; }
     void setWalkTime(const int w) { mWalkTime = w; }
-private:
-    const int mSpawnerX;
-    const int mSpawnerY;
 
-    const eTileWalkable mTileWalkable;
+    void read(eReadStream& src);
+    void write(eWriteStream& dst) const;
+private:
+    int mSpawnerX;
+    int mSpawnerY;
+
+    stdsptr<eWalkableObject> mTileWalkable;
 
     int mLayTime = 2000;
     int mWalkTime = 3000;

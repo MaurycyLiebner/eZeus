@@ -15,15 +15,13 @@ public:
     ePatrolAction(eCharacter* const c,
                   ePatrolBuildingBase* const b,
                   const std::vector<ePatrolGuide>& guides,
-                  const eAction& failAction,
-                  const eAction& finishAction,
                   const stdsptr<eDirectionTimes>& dirTimes = {});
 
     bool decide();
 protected:
     void patrol();
-    void goBackDecision(const eWalkable& w =
-                            eWalkableHelpers::sRoadWalkable);
+    void goBackDecision(const stdsptr<eWalkableObject>& w =
+                            eWalkableObject::sCreateRoad());
 private:
     const std::vector<ePatrolGuide> mGuides;
     const stdsptr<eDirectionTimes> mDirTimes;

@@ -9,12 +9,8 @@ class eTile;
 
 class eMoveAction : public eCharacterAction {
 public:
-    using eTileWalkable = std::function<bool(eTileBase* const)>;
-
     eMoveAction(eCharacter* const c,
-                const eTileWalkable& tileWalkable,
-                const eAction& failAction,
-                const eAction& finishAction);
+                const stdsptr<eWalkableObject>& tileWalkable);
 
     bool walkable(eTileBase* const tile) const;
 
@@ -29,7 +25,7 @@ private:
     void moveBy(const double inc);
     void moveToTargetTile();
 
-    const eTileWalkable mTileWalkable;
+    stdsptr<eWalkableObject> mTileWalkable;
 
     eOrientation mOrientation;
     eTile* mTargetTile = nullptr;

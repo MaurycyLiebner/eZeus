@@ -4,11 +4,8 @@
 #include "audio/esounds.h"
 #include "buildings/sanctuaries/esanctbuilding.h"
 
-eBuildAction::eBuildAction(eArtisan* const c,
-                           const eAction& failAction,
-                           const eAction& finishAction) :
-    eCharacterAction(c, failAction, finishAction),
-    mCharacter(c), mTile(c->tile()) {}
+eBuildAction::eBuildAction(eCharacter* const c) :
+    eCharacterAction(c, eCharActionType::buildAction) {}
 
 void eBuildAction::increment(const int by) {
     mTime += by;
@@ -24,4 +21,16 @@ void eBuildAction::increment(const int by) {
     if(mTime > 2000) {
         setState(eCharacterActionState::finished);
     }
+}
+
+void eBuildAction::read(eReadStream& src) {
+    eCharacterAction::read(src);
+    src >> mSoundTime;
+    src >> mTime;
+}
+
+void eBuildAction::write(eWriteStream& dst) const {
+    eCharacterAction::write(dst);
+    dst << mSoundTime;
+    dst << mTime;
 }

@@ -1,14 +1,13 @@
 #include "emoveaction.h"
 
 #include "../echaracter.h"
+#include "walkable/ewalkableobject.h"
 
 #include "vec2.h"
 
 eMoveAction::eMoveAction(eCharacter* const c,
-                         const eTileWalkable& tileWalkable,
-                         const eAction& failAction,
-                         const eAction& finishAction) :
-    eCharacterAction(c, failAction, finishAction),
+                         const stdsptr<eWalkableObject>& tileWalkable) :
+    eCharacterAction(c),
     mTileWalkable(tileWalkable) {
     mStartX = c->x();
     mStartY = c->y();
@@ -16,7 +15,7 @@ eMoveAction::eMoveAction(eCharacter* const c,
 }
 
 bool eMoveAction::walkable(eTileBase* const tile) const {
-    return mTileWalkable(tile);
+    return mTileWalkable->walkable(tile);
 }
 
 void eMoveAction::setObsticleHandler(const eObsticleHandler& oh) {
@@ -128,7 +127,7 @@ bool eMoveAction::nextTurn() {
         setState(eCharacterActionState::failed);
         return false;
     }
-    if(!mTileWalkable(mTargetTile)) {
+    if(!mTileWalkable->walkable(mTargetTile)) {
         if(mObstHandler && mObstHandler(mTargetTile)) {
         } else {
             setState(eCharacterActionState::failed);

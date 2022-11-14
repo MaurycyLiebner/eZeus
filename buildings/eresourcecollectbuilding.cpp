@@ -16,7 +16,6 @@ eResourceCollectBuilding::eResourceCollectBuilding(eGameBoard& board,
         const eCharGenerator& charGen,
         const eBuildingType type,
         const eHasResource& hr,
-        const eTranformFunc& tf,
         const int sw, const int sh,
         const int maxEmployees,
         const eResourceType resType) :
@@ -28,7 +27,7 @@ eResourceCollectBuilding::eResourceCollectBuilding(eGameBoard& board,
     mOverlayX(overlayX), mOverlayY(overlayY),
     mWaitingOO(waitingOO),
     mWaitingOX(waitingOX), mWaitingOY(waitingOY),
-    mHasRes(hr), mTransFunc(tf) {
+    mHasRes(hr) {
 
 }
 
@@ -165,7 +164,7 @@ bool eResourceCollectBuilding::spawn() {
 
     const auto a = e::make_shared<eCollectResourceAction>(
                        this, mCollector.get(), mHasRes,
-                       mTransFunc, finishAct, finishAct);
+                       finishAct, finishAct);
     a->setAddResource(mAddResource);
     a->setCollectedAction(mCollectedAction);
     switch(resourceType()) {
@@ -183,6 +182,6 @@ void eResourceCollectBuilding::addRaw() {
     if(mRawCount > mRawCountCollect) disableSpawn();
 }
 
-void eResourceCollectBuilding::setCollectedAction(const eTileAction& a) {
+void eResourceCollectBuilding::setCollectedAction(const eTileActionType a) {
     mCollectedAction = a;
 }

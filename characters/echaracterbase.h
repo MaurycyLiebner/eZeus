@@ -3,6 +3,8 @@
 
 #include "actions/echaracteractiontype.h"
 
+#include "fileIO/estreams.h"
+
 enum class eCharacterType {
     none,
 
@@ -52,7 +54,9 @@ enum class eCharacterType {
     rockThrower,
     hoplite,
     horseman,
+    // put new soldiers below
 
+    // put new soldiers above
     greekRockThrower,
     greekHoplite,
     greekHorseman,
@@ -133,6 +137,9 @@ public:
 
     void setType(eCharacterType type) { mType = type; }
     eCharacterType type() const { return mType; }
+
+    virtual void read(eReadStream& src);
+    virtual void write(eWriteStream& dst) const;
 private:
     eCharacterType mType;
     eCharacterActionType mActionType{eCharacterActionType::none};

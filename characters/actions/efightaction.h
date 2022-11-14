@@ -7,12 +7,14 @@
 class eFightAction : public eCharacterAction {
 public:
     eFightAction(eCharacter* const c,
-                 eCharacter* const o,
-                 const eAction& finishAction);
+                 eCharacter* const o);
 
-    void increment(const int by);
+    void increment(const int by) override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
-    const stdptr<eCharacter> mOpponent;
+    stdptr<eCharacter> mOpponent;
 
     int mTime = 0;
 };

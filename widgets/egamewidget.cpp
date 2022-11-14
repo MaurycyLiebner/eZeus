@@ -1095,7 +1095,7 @@ void eGameWidget::buildAnimal(eTile* const tile,
     const auto e = []() {};
     sh->setAction(e::make_shared<eAnimalAction>(
                      sh.get(), e, e, tx, ty,
-                     eMoveAroundAction::sFertileWalkable));
+                     eWalkableObject::sCreateFertile()));
 
     const auto diff = mBoard->difficulty();
     const int cost = eDifficultyHelpers::buildingCost(

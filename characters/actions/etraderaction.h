@@ -20,7 +20,7 @@ private:
     void trade();
     void tradeIncrement();
 
-    eWalkable mWalkable = eWalkableHelpers::sDefaultWalkable;
+    eWalkable mWalkable = eWalkableObject::sCreateDefault();
 
     int mCash = 1000;
     int mItems = 1000;

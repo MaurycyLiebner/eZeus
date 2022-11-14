@@ -3,19 +3,17 @@
 
 #include "emoveaction.h"
 
+#include "walkable/ewalkableobject.h"
+
 #include <vector>
 
 class eMoveAroundAction : public eMoveAction {
 public:
     using eTileWalkable = std::function<bool(eTileBase* const)>;
     eMoveAroundAction(eCharacter* const c,
-                      const eAction& failAction,
-                      const eAction& finishAction,
                       const int startX, const int startY,
-                      const eTileWalkable& walkable = sDefaultWalkable);
-
-    static bool sDefaultWalkable(eTileBase* const tile);
-    static bool sFertileWalkable(eTileBase* const tile);
+                      const stdsptr<eWalkableObject>& walkable =
+                            eWalkableObject::sCreateDefault());
 
     void increment(const int by);
 

@@ -4,13 +4,13 @@
 #include "eresourcecollectbuildingbase.h"
 
 #include "textures/ebuildingtextures.h"
+#include "characters/actions/ecollectresourceaction.h"
 
 class eResourceCollectorBase;
 
 class eResourceCollectBuilding : public eResourceCollectBuildingBase {
 public:
     using eHasResource = std::function<bool(eTileBase*)>;
-    using eTranformFunc = std::function<void(eTile*, eGameBoard& board)>;
     using eBaseTex = std::shared_ptr<eTexture> eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;
     using eCharGenerator =  std::function<stdsptr<eResourceCollectorBase>()>;
@@ -25,7 +25,6 @@ public:
                              const eCharGenerator& charGen,
                              const eBuildingType type,
                              const eHasResource& hr,
-                             const eTranformFunc& tf,
                              const int sw, const int sh,
                              const int maxEmployees,
                              const eResourceType resType);
@@ -45,8 +44,7 @@ protected:
     void enableSpawn() { mSpawnEnabled = true; }
     void disableSpawn() { mSpawnEnabled = false; }
 
-    using eTileAction = std::function<void(eTile*)>;
-    void setCollectedAction(const eTileAction& a);
+    void setCollectedAction(const eTileActionType a);
 
     int rawCount() const { return mRawCount; }
     void setRawInc(const int i) { mRawInc = i; }
@@ -67,9 +65,8 @@ private:
     const double mWaitingOY = 0;
 
     const eHasResource mHasRes;
-    const eTranformFunc mTransFunc;
 
-    eTileAction mCollectedAction;
+    eTileActionType mCollectedAction = eTileActionType::none;
 
     stdsptr<eResourceCollectorBase> mCollector;
 

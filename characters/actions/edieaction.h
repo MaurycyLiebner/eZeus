@@ -5,10 +5,12 @@
 
 class eDieAction : public eCharacterAction {
 public:
-    eDieAction(eCharacter* const c,
-               const eAction& finishAction);
+    eDieAction(eCharacter* const c);
 
-    void increment(const int by);
+    void increment(const int by) override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     int mTime = 0;
 };

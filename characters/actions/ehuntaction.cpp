@@ -144,7 +144,7 @@ void eHuntAction::findResourceDecision() {
 void eHuntAction::goBackDecision() {
     mHunter->setActionType(eCharacterActionType::carry);
     const auto rect = mLodge->tileRect();
-    eActionWithComeback::goBack(rect, eWalkableHelpers::sDefaultWalkable);
+    eActionWithComeback::goBack(rect, eWalkableObject::sCreateDefault());
 }
 
 void eHuntAction::waitDecision() {

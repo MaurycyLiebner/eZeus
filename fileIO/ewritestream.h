@@ -7,6 +7,10 @@
 
 class eTile;
 class eBuilding;
+class eCharacter;
+class eCharacterAction;
+class eWalkableObject;
+class eHasResourceObject;
 
 class eWriteStream {
 public:
@@ -69,6 +73,10 @@ public:
 
     void writeTile(eTile* const tile);
     void writeBuilding(eBuilding* const b);
+    void writeCharacter(eCharacter* const c);
+    void writeCharacterAction(eCharacterAction* const ca);
+    void writeWalkable(eWalkableObject* const w);
+    void writeHasResource(eHasResourceObject* const hr);
 private:
     SDL_RWops* const mDst;
 };

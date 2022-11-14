@@ -5,16 +5,44 @@
 #include "emovepathaction.h"
 
 eFollowAction::eFollowAction(eCharacter* const f,
-                             eCharacter* const c,
-                             const eAction& failAction,
-                             const eAction& finishAction) :
-    eComplexAction(c, failAction, finishAction),
+                             eCharacter* const c) :
+    eComplexAction(c, eCharActionType::followAction),
     mFollow(f) {
     c->setActionType(eCharacterActionType::stand);
 }
 
+eFollowAction::eFollowAction(eCharacter* const c) :
+    eFollowAction(nullptr, c) {}
+
 void eFollowAction::setDistance(const int d) {
     mDistance = d;
+}
+
+void eFollowAction::read(eReadStream& src) {
+    eComplexAction::read(src);
+    src.readCharacter(&board(), [this](eCharacter* const c) {
+        mFollow = c;
+    });
+    src >> mDistance;
+    int s;
+    src >> s;
+    for(int i = 0; i < s; i++) {
+        ePathNode n;
+        n.fTile = src.readTile(board());
+        src >> n.fO;
+        mTiles.push_back(n);
+    }
+}
+
+void eFollowAction::write(eWriteStream& dst) const {
+    eComplexAction::write(dst);
+    dst.writeCharacter(mFollow);
+    dst << mDistance;
+    dst << mTiles.size();
+    for(const auto& t : mTiles) {
+        dst.writeTile(t.fTile);
+        dst << t.fO;
+    }
 }
 
 void eFollowAction::increment(const int by) {
@@ -32,11 +60,10 @@ void eFollowAction::increment(const int by) {
             for(int i = 0; i < mDistance && !mTiles.empty(); i++) {
                 const auto& f = mTiles.front();
                 path.push_back(f.fO);
-                mTiles.pop();
+                mTiles.pop_front();
             }
             mTiles = {};
-            const auto a = e::make_shared<eMovePathAction>(
-                               c, path, walkable, []() {}, []() {});
+            const auto a = e::make_shared<eMovePathAction>(c, path, walkable);
             setCurrentAction(a);
         }
         return eComplexAction::increment(by);
@@ -49,18 +76,17 @@ void eFollowAction::increment(const int by) {
             return;
         }
     }
-    mTiles.push({ft, mFollow->orientation()});
+    mTiles.push_back({ft, mFollow->orientation()});
     const int nt = mTiles.size();
     if(nt < mDistance + 2) return;
-    if(nt > mDistance + 2) mTiles.pop();
+    if(nt > mDistance + 2) mTiles.pop_front();
     const auto pn = mTiles.front();
     c->setActionType(eCharacterActionType::walk);
     c->changeTile(pn.fTile);
     c->setOrientation(pn.fO);
     const auto walkable = [](eTileBase* const) { return true; };
     const std::vector<eOrientation> path = {pn.fO};
-    const auto a = e::make_shared<eMovePathAction>(
-                       c, path, walkable, []() {}, []() {});
+    const auto a = e::make_shared<eMovePathAction>(c, path, walkable);
     setCurrentAction(a);
     eComplexAction::increment(by);
 }

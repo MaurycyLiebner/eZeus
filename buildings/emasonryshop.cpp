@@ -13,23 +13,6 @@
 #include "eiteratesquare.h"
 #include "engine/egameboard.h"
 
-void transformMarble(eTile* const t, eGameBoard& board) {
-    if(t->resource() > 0) return;
-    if(eMarbleTile::isEdge(t)) {
-        t->setMarbleLevel(1);
-        board.restockMarbleTiles();
-    } else {
-        const int l = t->marbleLevel();
-        if(l == 0) {
-            t->setMarbleLevel(1);
-            t->setResource(1);
-        } else if(l == 1) {
-            t->setMarbleLevel(2);
-            board.restockMarbleTiles();
-        }
-    }
-}
-
 bool hasMarble(eTileBase* const t) {
     const int r = t->resource();
     if(r <= 0) return false;
@@ -43,7 +26,7 @@ eMasonryShop::eMasonryShop(eGameBoard& board) :
                              3, 0.5, -1.5,
                              [this]() { return e::make_shared<eMarbleMiner>(getBoard()); },
                              eBuildingType::masonryShop,
-                             hasMarble, transformMarble, 2, 2, 15,
+                             hasMarble, 2, 2, 15,
                              eResourceType::marble) {
     setAddResource(false);
     setRawInc(8);
@@ -110,24 +93,5 @@ void eMasonryShop::timeChanged(const int by) {
 }
 
 void eMasonryShop::setCollectAction() {
-    const stdptr<eMasonryShop> tptr(this);
-    setCollectedAction([tptr, this](eTile* const tile) {
-        if(!tptr) return;
-        auto& board = getBoard();
-
-        const auto r = e::make_shared<eCartTransporter>(board);
-        r->changeTile(tile);
-        r->setBigTrailer(true);
-        r->setResource(eResourceType::marble, 1);
-
-        const auto finish = [tptr, this]() {
-            if(!tptr) return;
-            addRaw();
-        };
-        const auto a = e::make_shared<eMoveToAction>(
-                           r.get(), [](){}, finish);
-        a->start(this);
-        r->setAction(a);
-        r->setActionType(eCharacterActionType::walk);
-    });
+    setCollectedAction(eTileActionType::masonry);
 }

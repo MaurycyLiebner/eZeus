@@ -59,7 +59,7 @@ void eSettlerAction::findHouse() {
 }
 
 void eSettlerAction::goBack2() {
-    eActionWithComeback::goBack(eWalkableHelpers::sDefaultWalkable);
+    eActionWithComeback::goBack(eWalkableObject::sCreateDefault());
 }
 
 bool eSettlerAction::enterHouse() {

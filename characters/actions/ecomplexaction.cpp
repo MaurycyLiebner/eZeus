@@ -17,6 +17,27 @@ void eComplexAction::increment(const int by) {
     }
 }
 
+void eComplexAction::read(eReadStream& src) {
+    eCharacterAction::read(src);
+    bool hasAction;
+    src >> hasAction;
+    if(hasAction) {
+        eCharActionType type;
+        src >> type;
+        mCurrentAction = eCharacterAction::sCreate(character(), type);
+        mCurrentAction->read(src);
+    }
+}
+
+void eComplexAction::write(eWriteStream& dst) const {
+    eCharacterAction::write(dst);
+    dst << (mCurrentAction != nullptr);
+    if(mCurrentAction) {
+        dst << mCurrentAction->type();
+        mCurrentAction->write(dst);
+    }
+}
+
 void eComplexAction::setCurrentAction(const stdsptr<eCharacterAction>& a) {
     mCurrentAction = a;
 }

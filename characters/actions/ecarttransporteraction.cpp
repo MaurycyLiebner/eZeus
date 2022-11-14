@@ -6,12 +6,13 @@
 #include "emovetoaction.h"
 
 eCartTransporterAction::eCartTransporterAction(
-        eBuildingWithResource* const b,
-        eCartTransporter* const c,
-        const eAction& failAction,
-        const eAction& finishAction) :
-    eActionWithComeback(c, failAction, finishAction),
+        eCharacter* const c,
+        eBuildingWithResource* const b) :
+    eActionWithComeback(c, eCharActionType::cartTransporterAction),
     mBuilding(b) {}
+
+eCartTransporterAction::eCartTransporterAction(eCharacter* const c) :
+    eCartTransporterAction(c, nullptr){}
 
 void eCartTransporterAction::increment(const int by) {
     updateWaiting();
@@ -145,14 +146,14 @@ void eCartTransporterAction::findTarget(const std::vector<eCartTask>& tasks) {
     };
     const stdptr<eCartTransporterAction> tptr(this);
 
-    const auto finishAction = [tptr, this, bx, by]() {
-        if(!tptr) return;
-        targetResourceAction(*bx, *by);
-    };
+    const auto finishAction = std::make_shared<eCTA_findTargetFinish>(
+                                  board(), this);
 
-    const auto a = e::make_shared<eMoveToAction>(c, [](){}, finishAction);
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFinishAction(finishAction);
 
-    a->setFoundAction([tptr, this, c, ttask]() {
+    a->setFoundAction([tptr, this, c, ttask, bx, by, finishAction]() {
+        finishAction->setXY(*bx, *by);
         if(!tptr) return;
         mWaitOutside = false;
         mTask = *ttask;
@@ -165,15 +166,15 @@ void eCartTransporterAction::findTarget(const std::vector<eCartTask>& tasks) {
     });
     a->setRemoveLastTurn(true);
     a->setMaxFindDistance(200);
-    const auto w = eWalkableHelpers::sBuildingWalkable(
-                       buildingRect, eWalkableHelpers::sRoadWalkable);
+    const auto w = eWalkableObject::sCreateRect(
+                       buildingRect, eWalkableObject::sCreateRoad());
     a->start(finalTile, w);
 
     setCurrentAction(a);
 }
 
 void eCartTransporterAction::goBack() {
-    eActionWithComeback::goBack(mBuilding, eWalkableHelpers::sRoadWalkable);
+    eActionWithComeback::goBack(mBuilding, eWalkableObject::sCreateRoad());
 }
 
 void eCartTransporterAction::targetResourceAction(const int bx, const int by) {
@@ -269,6 +270,34 @@ void eCartTransporterAction::finishResourceAction(const eCartTask& task) {
     }
 }
 
+void eCartTransporterAction::read(eReadStream& src) {
+    eActionWithComeback::read(src);
+    src.readBuilding(&board(), [this](eBuilding* const b) {
+        mBuilding = static_cast<eBuildingWithResource*>(b);
+    });
+
+    src >> mTask.fMaxCount;
+    src >> mTask.fResource;
+    src >> mTask.fType;
+
+    src >> mUpdateWaiting;
+    src >> mNoTarget;
+    src >> mWaitOutside;
+}
+
+void eCartTransporterAction::write(eWriteStream& dst) const {
+    eActionWithComeback::write(dst);
+    dst.writeBuilding(mBuilding);
+
+    dst << mTask.fMaxCount;
+    dst << mTask.fResource;
+    dst << mTask.fType;
+
+    dst << mUpdateWaiting;
+    dst << mNoTarget;
+    dst << mWaitOutside;
+}
+
 void eCartTransporterAction::updateWaiting() {
     const auto c = static_cast<eCartTransporter*>(character());
     const bool r = eWalkableHelpers::sTileUnderBuilding(
@@ -298,8 +327,8 @@ void eCartTransporterAction::waitOutside() {
     const auto a = e::make_shared<eMoveToAction>(c, stand, stand);
 
     const auto buildingRect = mBuilding->tileRect();
-    const auto w = eWalkableHelpers::sBuildingWalkable(
-                       buildingRect, eWalkableHelpers::sRoadWalkable);
+    const auto w = eWalkableObject::sCreateRect(
+                       buildingRect, eWalkableObject::sCreateRoad());
     a->start(tt, w);
 
     setCurrentAction(a);
@@ -332,7 +361,7 @@ void eCartTransporterAction::spread() {
         return sqrt(dx*dx + dy*dy) > 4;
     };
     a->setRemoveLastTurn(true);
-    a->start(finalFunc, eWalkableHelpers::sRoadWalkable);
+    a->start(finalFunc, eWalkableObject::sCreateRoad());
 
     setCurrentAction(a);
 }

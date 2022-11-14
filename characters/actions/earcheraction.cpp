@@ -15,6 +15,9 @@
 
 #include "edieaction.h"
 
+eArcherAction::eArcherAction(eCharacter* const c) :
+    eComplexAction(c, eCharActionType::archerAction) {}
+
 void eArcherAction::increment(const int by) {
     const int rangeAttackCheck = 500;
     const int missileCheck = 200;
@@ -117,30 +120,32 @@ void eArcherAction::increment(const int by) {
 bool eArcherAction::decide() {
     const auto c = character();
     c->setActionType(eCharacterActionType::walk);
-    const auto walkable = [](eTileBase* const tile) {
-        const auto checker = [](eTileBase* const t) {
-            if(!t) return false;
-            const auto ubt = t->underBuildingType();
-            return ubt == eBuildingType::wall ||
-                   ubt == eBuildingType::tower;
-        };
-        if(!checker(tile)) return false;
-        const auto bl = tile->tileRel(0, 1);
-        if(!checker(bl)) return false;
-        const auto br = tile->tileRel(1, 0);
-        if(!checker(br)) return false;
-        const auto b = tile->tileRel(1, 1);
-        if(!checker(b)) return false;
-        return true;
-    };
-    const auto fail = [this]() {
-        setState(eCharacterActionState::failed);
-    };
-    const auto finish = [this]() {
-        setState(eCharacterActionState::finished);
-    };
+    const auto fail = std::make_shared<eAA_patrolFail>(board(), this);
+    const auto finish = std::make_shared<eAA_patrolFinish>(board(), this);
     const auto a = std::make_shared<ePatrolMoveAction>(
-                       c, fail, finish, false, walkable);
+                       c, false, eWalkableObject::sCreateWall());
+    a->setFinishAction(fail);
+    a->setFinishAction(finish);
     setCurrentAction(a);
     return true;
+}
+
+void eArcherAction::read(eReadStream& src) {
+    eComplexAction::read(src);
+    src >> mMissile;
+    src >> mRangeAttack;
+    src >> mAttackTime;
+    src >> mAttack;
+    src.readCharacter(&board(), [this](eCharacter* const c) {
+        mAttackTarget = c;
+    });
+}
+
+void eArcherAction::write(eWriteStream& dst) const {
+    eComplexAction::write(dst);
+    dst << mMissile;
+    dst << mRangeAttack;
+    dst << mAttackTime;
+    dst << mAttack;
+    dst.writeCharacter(mAttackTarget.get());
 }

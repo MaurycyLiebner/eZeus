@@ -7,32 +7,33 @@
 #include "engine/thread/ethreadtile.h"
 #include "ewalkablehelpers.h"
 
+using eAction = std::function<void()>;
+
 class eMoveToAction : public eComplexAction {
 public:
     using eComplexAction::eComplexAction;
 
-    using eTileWalkable = std::function<bool(eTileBase* const)>;
     using eTileFinal = std::function<bool(eThreadTile* const)>;
     void start(const eTileFinal& final,
-               eTileWalkable pathFindWalkable =
-                   eWalkableHelpers::sDefaultWalkable,
-               eTileWalkable moveWalkable = nullptr);
+               stdsptr<eWalkableObject> pathFindWalkable =
+                   eWalkableObject::sCreateDefault(),
+               stdsptr<eWalkableObject> moveWalkable = nullptr);
     void start(eTile* const final,
-               const eTileWalkable& pathFindWalkable =
-                    eWalkableHelpers::sDefaultWalkable,
-               const eTileWalkable& moveWalkable = nullptr);
+               const stdsptr<eWalkableObject>& pathFindWalkable =
+                    eWalkableObject::sCreateDefault(),
+               const stdsptr<eWalkableObject>& moveWalkable = nullptr);
     void start(const SDL_Rect& rect,
-               eTileWalkable pathFindWalkable =
-                    eWalkableHelpers::sDefaultWalkable,
-               eTileWalkable moveWalkable = nullptr);
+               stdsptr<eWalkableObject> pathFindWalkable =
+                    eWalkableObject::sCreateDefault(),
+               stdsptr<eWalkableObject> moveWalkable = nullptr);
     void start(eBuilding* const final,
-               const eTileWalkable& pathFindWalkable =
-                    eWalkableHelpers::sDefaultWalkable,
-               const eTileWalkable& moveWalkable = nullptr);
+               const stdsptr<eWalkableObject>& pathFindWalkable =
+                    eWalkableObject::sCreateDefault(),
+               const stdsptr<eWalkableObject>& moveWalkable = nullptr);
     void start(const eBuildingType final,
-               const eTileWalkable& pathFindWalkable =
-                    eWalkableHelpers::sDefaultWalkable,
-               const eTileWalkable& moveWalkable = nullptr);
+               const stdsptr<eWalkableObject>& pathFindWalkable =
+                    eWalkableObject::sCreateDefault(),
+               const stdsptr<eWalkableObject>& moveWalkable = nullptr);
 
     void setRemoveLastTurn(const bool r)
     { mRemoveLastTurn = r; }

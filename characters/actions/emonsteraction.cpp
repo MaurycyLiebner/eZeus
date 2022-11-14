@@ -139,8 +139,8 @@ void eMonsterAction::goToTarget() {
     eGodMonsterAction::goToTarget(eHeatGetters::any, tryAgain,
                                   obsticleHandler(),
                                   eWalkableHelpers::sMonsterTileDistance,
-                                  eWalkableHelpers::sBuildingsWalkable,
-                                  eWalkableHelpers::sDefaultWalkable);
+                                  eWalkableHelpers::eWalkableObject::sCreateTerrain(),
+                                  eWalkableObject::sCreateDefault());
 }
 
 void eMonsterAction::goBack() {
@@ -152,8 +152,8 @@ void eMonsterAction::goBack() {
     a->setTileDistance(eWalkableHelpers::sMonsterTileDistance);
     a->setObsticleHandler(obsticleHandler());
     a->setFindFailAction([](){});
-    a->start(mHomeTile, eWalkableHelpers::sBuildingsWalkable,
-             eWalkableHelpers::sDefaultWalkable);
+    a->start(mHomeTile, eWalkableHelpers::eWalkableObject::sCreateTerrain(),
+             eWalkableObject::sCreateDefault());
     setCurrentAction(a);
     c->setActionType(eCharacterActionType::walk);
 }

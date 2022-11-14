@@ -5,14 +5,11 @@
 #include "emovetoaction.h"
 #include "ewaitaction.h"
 
+eFireFighterAction::eFireFighterAction(eCharacter* const c) :
+    ePatrolAction(c, eCharActionType::fireFighterAction) {}
+
 void eFireFighterAction::increment(const int by) {
-    if(mMoveToFireAction) {
-        mFireFighting = true;
-        setCurrentAction(mMoveToFireAction);
-        mMoveToFireAction = nullptr;
-        const auto c = character();
-        c->setActionType(eCharacterActionType::carry);
-    } else if(!mFireFighting) {
+    if(!mFireFighting) {
         const int fireCheckInc = 1000;
         mFireCheck += by;
         if(mFireCheck > fireCheckInc) {
@@ -73,7 +70,7 @@ bool eFireFighterAction::decide() {
         } else {
             if(mUsedWater >= 5) {
                 c->setActionType(eCharacterActionType::walk);
-                goBackDecision(eWalkableHelpers::sDefaultWalkable);
+                goBackDecision(eWalkableObject::sCreateDefault());
             } else {
                 c->setActionType(eCharacterActionType::stand);
                 lookForFire();
@@ -88,29 +85,40 @@ bool eFireFighterAction::decide() {
     return true;
 }
 
+void eFireFighterAction::read(eReadStream& src) {
+    ePatrolAction::read(src);
+    src >> mFireFighting;
+    src >> mFireCheck;
+    src >> mUsedWater;
+}
+
+void eFireFighterAction::write(eWriteStream& dst) const {
+    ePatrolAction::write(dst);
+    dst << mFireFighting;
+    dst << mFireCheck;
+    dst << mUsedWater;
+}
+
 bool eFireFighterAction::lookForFire() {
     const auto c = character();
 
-    const stdptr<eFireFighterAction> tptr(this);
-    const auto failFunc = [tptr, this, c]() {
-        if(!tptr) return;
-        if(mFireFighting) {
-            mFireFighting = false;
-            c->setActionType(eCharacterActionType::walk);
-            goBackDecision(eWalkableHelpers::sDefaultWalkable);
-        }
-    };
+    const auto failFunc = std::make_shared<eFFA_lookForFireFail>(
+                              board(), this);
 
     const auto onFire = [](eTileBase* const tile) {
         return tile->onFire();
     };
 
-    const auto a = e::make_shared<eMoveToAction>(
-                       c, failFunc, [](){});
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFailAction(failFunc);
     a->setMaxFindDistance(50);
+    const stdptr<eFireFighterAction> tptr(this);
     a->setFoundAction([tptr, a, this]() {
         if(!tptr) return;
-        mMoveToFireAction = a;
+        mFireFighting = true;
+        setCurrentAction(a);
+        const auto c = character();
+        c->setActionType(eCharacterActionType::carry);
     });
     a->setRemoveLastTurn(true);
 
@@ -123,13 +131,10 @@ bool eFireFighterAction::lookForFire() {
 void eFireFighterAction::putOutFire(eTile* const tile) {
     const auto c = character();
     c->setActionType(eCharacterActionType::fight);
-    const auto finish = [tile, c]() {
-        c->setActionType(eCharacterActionType::stand);
-        if(const auto b = tile->underBuilding()) {
-            b->setOnFire(false);
-        }
-    };
-    const auto a = e::make_shared<eWaitAction>(c, []() {}, finish);
+    const auto finish = std::make_shared<eFFA_putOutFireFinish>(
+                            board(), c, tile);
+    const auto a = e::make_shared<eWaitAction>(c);
+    a->setFinishAction(finish);
     if(tile->underBuilding()) {
         a->setTime(1600);
     } else {

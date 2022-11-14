@@ -70,8 +70,16 @@ public:
 
     static stdsptr<eCharacter> sCreate(
             const eCharacterType t, eGameBoard& board);
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
+
+    void setIOID(const int id) { mIOID = id; }
+    int ioID() const { return mIOID; }
 private:
     stdsptr<eCharacterAction> takeAction();
+
+    int mIOID = -1;
 
     bool mVisible = true;
 

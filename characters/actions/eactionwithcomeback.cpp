@@ -1,4 +1,4 @@
-#include "eactionwithcomeback.h"
+﻿#include "eactionwithcomeback.h"
 
 #include "characters/echaracter.h"
 #include "emovetoaction.h"
@@ -6,16 +6,13 @@
 eActionWithComeback::eActionWithComeback(
         eCharacter* const c,
         eTile* const startTile,
-        const eAction& failAction,
-        const eAction& finishAction) :
-    eComplexAction(c, failAction, finishAction),
+        const eCharActionType type) :
+    eComplexAction(c, type),
     mStartTile(startTile) {}
 
-eActionWithComeback::eActionWithComeback(
-        eCharacter* const c,
-        const eAction& failAction,
-        const eAction& finishAction) :
-    eActionWithComeback(c, c->tile(), failAction, finishAction) {}
+eActionWithComeback::eActionWithComeback(eCharacter* const c,
+                                         const eCharActionType type) :
+    eActionWithComeback(c, c->tile(), type) {}
 
 bool eActionWithComeback::decide() {
     if(mGoBackFail) {
@@ -26,7 +23,25 @@ bool eActionWithComeback::decide() {
     return false;
 }
 
-void eActionWithComeback::goBack(const eWalkable& walkable) {
+void eActionWithComeback::read(eReadStream& src) {
+    eComplexAction::read(src);
+    mStartTile = src.readTile(board());
+    src >> mGoBackRect;
+    src >> mFinishOnComeback;
+    src >> mDefaultTry;
+    src >> mGoBackFail;
+}
+
+void eActionWithComeback::write(eWriteStream& dst) const {
+    eComplexAction::write(dst);
+    dst.writeTile(mStartTile);
+    dst << mGoBackRect;
+    dst << mFinishOnComeback;
+    dst << mDefaultTry;
+    dst << mGoBackFail;
+}
+
+void eActionWithComeback::goBack(const stdsptr<eWalkableObject>& walkable) {
     const auto c = character();
     const auto ct = c->tile();
     if(ct == mStartTile) return teleportDecision();
@@ -36,32 +51,29 @@ void eActionWithComeback::goBack(const eWalkable& walkable) {
     const auto finalTile = [startX, startY](eTileBase* const t) {
         return t->x() == startX && t->y() == startY;
     };
-    const stdptr<eActionWithComeback> tptr(this);
-    const auto failFunc = [tptr, this, walkable]() {
-        if(!tptr) return;
-        goBack(walkable);
-    };
+    const auto failFunc = std::make_shared<eAWC_goBackFail>(board(), this, walkable);
 
-    eAction finishFunc;
+    stdsptr<eAWC_goBackFinish> finishFunc;
     if(mFinishOnComeback) {
-        finishFunc = [tptr, this]() {
-            if(!tptr) return;
-            setState(eCharacterActionState::finished);
-        };
+        finishFunc = std::make_shared<eAWC_goBackFinish>(board(), this);
     }
-    const auto a = e::make_shared<eMoveToAction>(c, failFunc, finishFunc);
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFinishAction(finishFunc);
+    a->setFailAction(failFunc);
+
+    const stdptr<eActionWithComeback> tptr(this);
     a->setFindFailAction([tptr, this, walkable]() {
         if(!tptr) return;
         if(mDefaultTry) {
             mGoBackFail = true;
         } else {
             mDefaultTry = true;
-            eWalkable w;
+            stdsptr<eWalkableObject> w;
             if(SDL_RectEmpty(&mGoBackRect)) {
-                w = eWalkableHelpers::sDefaultWalkable;
+                w = eWalkableObject::sCreateDefault();
             } else {
-                w = eWalkableHelpers::sBuildingWalkable(
-                        mGoBackRect, eWalkableHelpers::sDefaultWalkable);
+                w = eWalkableObject::sCreateRect(
+                        mGoBackRect, eWalkableObject::sCreateDefault());
             }
             goBack(w);
         }
@@ -71,15 +83,15 @@ void eActionWithComeback::goBack(const eWalkable& walkable) {
 }
 
 void eActionWithComeback::goBack(eBuilding* const b,
-                                 const eWalkable& walkable) {
+                                 const stdsptr<eWalkableObject>& walkable) {
     const auto rect = b->tileRect();
     goBack(rect, walkable);
 }
 
 void eActionWithComeback::goBack(const SDL_Rect& rect,
-                                 const eWalkable& walkable) {
+                                 const stdsptr<eWalkableObject>& walkable) {
     mGoBackRect = rect;
-    const auto w = eWalkableHelpers::sBuildingWalkable(rect, walkable);
+    const auto w = eWalkableObject::sCreateRect(rect, walkable);
     eActionWithComeback::goBack(w);
 }
 

@@ -122,6 +122,9 @@ SOURCES += \
         characters/actions/ebuildaction.cpp \
         characters/actions/ecarttransporteraction.cpp \
         characters/actions/echaracteraction.cpp \
+        characters/actions/echaracteractioncreator.cpp \
+        characters/actions/echaracteractionfunction.cpp \
+        characters/actions/echaracteractionfunctioncreator.cpp \
         characters/actions/ecollectaction.cpp \
         characters/actions/ecollectresourceaction.cpp \
         characters/actions/ecomplexaction.cpp \
@@ -129,7 +132,6 @@ SOURCES += \
         characters/actions/efightaction.cpp \
         characters/actions/efirefighteraction.cpp \
         characters/actions/efollowaction.cpp \
-        characters/actions/eforce.cpp \
         characters/actions/egodaction.cpp \
         characters/actions/egodattackaction.cpp \
         characters/actions/egodmonsteraction.cpp \
@@ -151,6 +153,17 @@ SOURCES += \
         characters/actions/esoldieraction.cpp \
         characters/actions/etraderaction.cpp \
         characters/actions/ewaitaction.cpp \
+        characters/actions/walkable/edefaultwalkableobject.cpp \
+        characters/actions/walkable/efertilewalkableobject.cpp \
+        characters/actions/walkable/ehasnonbusyresourceobject.cpp \
+        characters/actions/walkable/ehasresourceobject.cpp \
+        characters/actions/walkable/ehasresourcewalkableobject.cpp \
+        characters/actions/walkable/erectwalkableobject.cpp \
+        characters/actions/walkable/eroadblockwalkableobject.cpp \
+        characters/actions/walkable/eroadwalkableobject.cpp \
+        characters/actions/walkable/eterrainwalkableobject.cpp \
+        characters/actions/walkable/ewalkableobject.cpp \
+        characters/actions/walkable/ewallwalkableobject.cpp \
         characters/eactor.cpp \
         characters/eanimal.cpp \
         characters/earcher.cpp \
@@ -513,6 +526,7 @@ HEADERS += \
     characters/actions/ebuildaction.h \
     characters/actions/ecarttransporteraction.h \
     characters/actions/echaracteraction.h \
+    characters/actions/echaracteractionfunction.h \
     characters/actions/echaracteractiontype.h \
     characters/actions/ecollectaction.h \
     characters/actions/ecollectresourceaction.h \
@@ -521,7 +535,6 @@ HEADERS += \
     characters/actions/efightaction.h \
     characters/actions/efirefighteraction.h \
     characters/actions/efollowaction.h \
-    characters/actions/eforce.h \
     characters/actions/egodaction.h \
     characters/actions/egodattackaction.h \
     characters/actions/egodmonsteraction.h \
@@ -543,6 +556,17 @@ HEADERS += \
     characters/actions/esoldieraction.h \
     characters/actions/etraderaction.h \
     characters/actions/ewaitaction.h \
+    characters/actions/walkable/edefaultwalkableobject.h \
+    characters/actions/walkable/efertilewalkableobject.h \
+    characters/actions/walkable/ehasnonbusyresourceobject.h \
+    characters/actions/walkable/ehasresourceobject.h \
+    characters/actions/walkable/ehasresourcewalkableobject.h \
+    characters/actions/walkable/erectwalkableobject.h \
+    characters/actions/walkable/eroadblockwalkableobject.h \
+    characters/actions/walkable/eroadwalkableobject.h \
+    characters/actions/walkable/eterrainwalkableobject.h \
+    characters/actions/walkable/ewalkableobject.h \
+    characters/actions/walkable/ewallwalkableobject.h \
     characters/eactor.h \
     characters/eanimal.h \
     characters/earcher.h \

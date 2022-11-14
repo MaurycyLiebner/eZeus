@@ -130,19 +130,8 @@ bool eGodAttackAction::lookForGodAttack(const int dtime, int& time,
                 const auto winnerA = g1t == wt ? g1Aptr : g2Aptr;
                 const auto loserA = g1t == wt ? g2Aptr : g1Aptr;
                 const auto board = &thisGod->getBoard();
-                const auto finishA = [winnerA, loserA, wt, lt, board](){
-                    if(winnerA) winnerA->resumeAction();
-                    if(loserA) {
-                        loserA->disappear(true, [loserA]() {
-                            if(!loserA) return;
-                            const auto c = loserA->character();
-                            c->kill();
-                        });
-                    }
-                    const auto wn = eGod::sGodName(wt);
-                    const auto ln = eGod::sGodName(lt);
-                    board->showTip(wn + eLanguage::text("overpowers") + ln);
-                };
+                const auto finishA = std::make_shared<eGAA_fightFinish>(
+                                        board, winnerA, loserA, wt, lt);
                 pauseAction();
                 fightGod(otherGod, finishA);
                 otherAction->pauseAction();

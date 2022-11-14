@@ -7,12 +7,16 @@ class eComplexAction : public eCharacterAction {
 public:
     using eCharacterAction::eCharacterAction;
 
-    virtual bool decide() { return false; };
+    virtual bool decide() = 0;
 
-    void increment(const int by);
-protected:
+    void increment(const int by) override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
+
     eCharacterAction* currentAction() const { return mCurrentAction.get(); }
     void setCurrentAction(const stdsptr<eCharacterAction>& a);
+protected:
     void wait(const int t);
     void wait();
 private:

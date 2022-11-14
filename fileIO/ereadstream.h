@@ -5,9 +5,15 @@
 #include <string>
 #include <functional>
 
+#include "pointers/estdpointer.h"
+
 class eTile;
 class eBuilding;
+class eCharacter;
+class eCharacterAction;
 class eGameBoard;
+class eWalkableObject;
+class eHasResourceObject;
 
 class eReadStream {
 public:
@@ -80,6 +86,14 @@ public:
     using eBuildingFunc = std::function<void(eBuilding*)>;
     void readBuilding(eGameBoard* board,
                       const eBuildingFunc& func);
+    using eCharFunc = std::function<void(eCharacter*)>;
+    void readCharacter(eGameBoard* board,
+                       const eCharFunc& func);
+    using eCharActFunc = std::function<void(eCharacterAction*)>;
+    void readCharacterAction(eGameBoard* board,
+                             const eCharActFunc& func);
+    stdsptr<eWalkableObject> readWalkable();
+    stdsptr<eHasResourceObject> readHasResource();
 
     using eFunc = std::function<void()>;
     void addPostFunc(const eFunc& func);

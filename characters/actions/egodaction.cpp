@@ -12,12 +12,9 @@
 #include "missiles/egodmissile.h"
 
 #include "emovetoaction.h"
-#include "etilehelper.h"
 
-eGodAction::eGodAction(eCharacter* const c,
-                       const eAction& failAction,
-                       const eAction& finishAction) :
-    eGodMonsterAction(c, failAction, finishAction),
+eGodAction::eGodAction(eCharacter* const c) :
+    eGodMonsterAction(c, eCharActionType::godAction),
     mType(eGod::sCharacterToGodType(c->type())) {
 
 }
@@ -36,14 +33,16 @@ void eGodAction::appear(const eFunc& finish) {
 }
 
 void eGodAction::disappear(const bool die,
-                           const eFunc& finish) {
+                           const stdsptr<eCharActFunc>& finish) {
     if(type() == eGodType::hermes) {
         hermesRun(false);
     } else {
         const auto c = character();
         c->setActionType(die ? eCharacterActionType::die :
                                eCharacterActionType::disappear);
-        const auto a = e::make_shared<eWaitAction>(c, finish, finish);
+        const auto a = e::make_shared<eWaitAction>(c);
+        a->setFinishAction(finish);
+        a->setFailAction(finish);
         a->setTime(500);
         setCurrentAction(a);
         playDisappearSound();
@@ -52,46 +51,22 @@ void eGodAction::disappear(const bool die,
 
 void eGodAction::teleport(eTile* const tile) {
     const stdptr<eGodAction> tptr(this);
-    disappear(false, [tptr, this, tile]() {
-        if(!tptr) return;
-        const auto c = character();
-        c->changeTile(tile);
-        appear();
-    });
+    const auto finish = std::make_shared<eGA_teleportFinish>(
+                            board(), this, tile);
+    disappear(false, finish);
 }
 
-void eGodAction::patrol(const eAction& finishAct,
+void eGodAction::patrol(const stdsptr<eCharActFunc>& finishAct,
                         const int dist) {
     const auto c = character();
     c->setActionType(eCharacterActionType::walk);
     const stdptr<eGodAction> tptr(this);
     const stdptr<eCharacter> cptr(c);
-    const auto fail = [tptr, this, cptr, finishAct, dist]() {
-        if(!tptr || !cptr) return;
-        const auto c = cptr.get();
-        auto& board = c->getBoard();
-        const auto t = c->tile();
-        const auto cr = eTileHelper::closestRoad(t->x(), t->y(), board);
-        if(cr) {
-            const auto ma = [tptr, this, finishAct]() {
-                if(!tptr) return;
-                moveAround(finishAct, 15000);
-            };
-            const auto fa = [tptr, this, finishAct, dist]() {
-                if(!tptr) return;
-                patrol(finishAct, dist);
-            };
-            const auto a = e::make_shared<eMoveToAction>(
-                               c, ma, fa);
-            a->setFindFailAction(ma);
-            a->start(cr);
-            setCurrentAction(a);
-        } else {
-            moveAround(finishAct, 15000);
-        }
-    };
-    const auto a = e::make_shared<ePatrolMoveAction>(
-                       c, fail, finishAct);
+    const auto failAct = std::make_shared<eGA_patrolFail>(
+                             board(), this, c, finishAct, dist);
+    const auto a = e::make_shared<ePatrolMoveAction>(c);
+    a->setFailAction(failAct);
+    a->setFinishAction(finishAct);
     a->setMaxWalkDistance(dist);
     setCurrentAction(a);
 }
@@ -118,11 +93,8 @@ void eGodAction::hermesRun(const bool appear) {
     c->setSpeed(2.0);
     const auto tile = c->tile();
     const stdptr<eGodAction> tptr(this);
-    const auto finish = [tptr, c, appear]() {
-        if(!tptr) return;
-        c->setSpeed(1.);
-        if(!appear) tptr->playDisappearSound();
-    };
+    const auto finish = std::make_shared<eGA_hermesRunFinish>(
+                            board(), this, c, appear);
     if(tile->hasRoad()) {
         patrol(finish, 20);
     } else {
@@ -223,7 +195,7 @@ bool eGodAction::lookForRangeAction(const int dtime,
                                     const eGodAct& act,
                                     const eTexPtr missileTex,
                                     const eGodSound missileSound,
-                                    const eFunc& finishMissileA) {
+                                    const stdsptr<eCharActFunc>& finishMissileA) {
     const auto c = character();
     const auto cat = c->actionType();
     const bool walking = cat == eCharacterActionType::walk;
@@ -274,8 +246,8 @@ void eGodAction::spawnGodMissile(const eCharacterActionType at,
                                  const eTexPtr tex,
                                  eTile* const target,
                                  const eGodSound sound,
-                                 const eFunc& finishMissileA,
-                                 const eFunc& finishAttackA) {
+                                 const stdsptr<eCharActFunc>& finishMissileA,
+                                 const stdsptr<eCharActFunc>& finishAttackA) {
     const int time = eGod::sGodAttackTime(type());
     const stdptr<eGodMonsterAction> tptr(this);
     const auto playSound = [tptr, this, sound]() {
@@ -294,8 +266,8 @@ void eGodAction::spawnGodMultipleMissiles(const eCharacterActionType at,
                                           const eTexPtr tex,
                                           eTile* const target,
                                           const eGodSound sound,
-                                          const eFunc& playHitSound,
-                                          const eFunc& finishA,
+                                          const stdsptr<eCharActFunc>& playHitSound,
+                                          const stdsptr<eCharActFunc>& finishA,
                                           const int nMissiles) {
     const int time = eGod::sGodAttackTime(type());
     const stdptr<eGodMonsterAction> tptr(this);
@@ -316,15 +288,15 @@ void eGodAction::spawnGodTimedMissiles(const eCharacterActionType at,
                                        const eTexPtr tex,
                                        eTile* const target,
                                        const eGodSound sound,
-                                       const eFunc& playHitSound,
-                                       const eFunc& finishA,
+                                       const stdsptr<eCharActFunc>& playHitSound,
+                                       const stdsptr<eCharActFunc>& finishA,
                                        const int time) {
     const int atime = eGod::sGodAttackTime(type());
     const int n = std::round(double(time)/atime);
     spawnGodMultipleMissiles(at, tex, target, sound, playHitSound, finishA, n);
 }
 
-void eGodAction::fightGod(eGod* const g, const eFunc& finishAttackA) {
+void eGodAction::fightGod(eGod* const g, const stdsptr<eCharActFunc>& finishAttackA) {
     const auto at = eCharacterActionType::fight;
     const auto s = eGodSound::attack;
     const auto tex = eGod::sGodMissile(type());

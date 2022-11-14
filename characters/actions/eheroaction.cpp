@@ -19,7 +19,7 @@ bool eHeroAction::decide() {
         const auto failFunc = [tptr, this, c]() {
             if(!tptr) return;
             c->setActionType(eCharacterActionType::walk);
-            goBack(eWalkableHelpers::sDefaultWalkable);
+            goBack(eWalkableObject::sCreateDefault());
         };
         const auto pa = e::make_shared<ePatrolMoveAction>(
                             c, failFunc, failFunc);
@@ -31,7 +31,7 @@ bool eHeroAction::decide() {
     } else {
         mStage = eHeroActionStage::goBack;
         c->setActionType(eCharacterActionType::walk);
-        goBack(eWalkableHelpers::sDefaultWalkable);
+        goBack(eWalkableObject::sCreateDefault());
     }
     return true;
 }
@@ -142,7 +142,7 @@ void eHeroAction::huntMonster(eMonster* const m) {
     const auto failFunc = [tptr, this, c]() {
         if(!tptr) return;
         c->setActionType(eCharacterActionType::walk);
-        goBack(eWalkableHelpers::sDefaultWalkable);
+        goBack(eWalkableObject::sCreateDefault());
     };
 
     const auto monsterTile = [mtx, mty](eTileBase* const tile) {

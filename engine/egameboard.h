@@ -166,6 +166,9 @@ public:
     void registerCharacter(eCharacter* const c);
     bool unregisterCharacter(eCharacter* const c);
 
+    void registerCharacterAction(eCharacterAction* const ca);
+    bool unregisterCharacterAction(eCharacterAction* const ca);
+
     void registerSoldier(eSoldier* const c);
     bool unregisterSoldier(eSoldier* const c);
 
@@ -328,6 +331,8 @@ public:
     void write(eWriteStream& dst) const;
 
     eBuilding* buildingWithIOID(const int id) const;
+    eCharacter* characterWithIOID(const int id) const;
+    eCharacterAction* characterActionWithIOID(const int id) const;
 
     eTile* landInvasionTile(const int id);
     void addLandInvasionPoint(eLandInvasionPoint* const p);
@@ -408,6 +413,7 @@ private:
     std::vector<eSanctuary*> mSanctuaries;
     std::vector<eStorageBuilding*> mStorBuildings;
     std::vector<eCharacter*> mCharacters;
+    std::vector<eCharacterAction*> mCharacterActions;
     std::vector<eSoldier*> mSoldiers;
     std::vector<eBuilding*> mTimedBuildings;
     std::vector<eBuilding*> mAllBuildings;

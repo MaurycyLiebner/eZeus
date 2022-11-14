@@ -48,6 +48,6 @@ void ePatrolGuidedMoveAction::nextGuide() {
         a->setMaxWalkDistance(mMaxWalkDistance - mWalkedDistance);
         mWalkedDistance += pl;
     });
-    a->start(finalTile, eWalkableHelpers::sRoadWalkable);
+    a->start(finalTile, eWalkableObject::sCreateRoad());
     setCurrentAction(a);
 }

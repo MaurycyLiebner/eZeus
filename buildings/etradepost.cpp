@@ -141,7 +141,7 @@ void eTradePost::updateRouteStart() {
     auto& brd = getBoard();
     auto& tp = brd.threadPool();
 
-    const auto walkable = eWalkableHelpers::sBuildingWalkable(
+    const auto walkable = eWalkableObject::sCreateRect(
                               mUnpackBuilding, mWalkable);
 
     const auto t = mUnpackBuilding->centerTile();
@@ -155,7 +155,7 @@ void eTradePost::updateRouteStart() {
     const auto finalTile = std::make_shared<std::pair<int, int>>();
 
     const auto final = [finalTile, walkable](eTileBase* const t) {
-        if(!walkable(t)) return false;
+        if(!walkable->walkable(t)) return false;
         *finalTile = {t->x(), t->y()};
         if(!t->topRight()) return true;
         if(!t->bottomRight()) return true;
@@ -197,7 +197,7 @@ void eTradePost::spawnTrader() {
     ta->setFinishOnComeback(true);
     ta->setTradePost(this);
     ta->setUnpackBuilding(mUnpackBuilding);
-    ta->setWalkable(eWalkableHelpers::sBuildingWalkable(
+    ta->setWalkable(eWalkableObject::sCreateRect(
                         mUnpackBuilding, mWalkable));
     r->setAction(ta);
 }
@@ -240,7 +240,7 @@ int eTradePost::sell(const int items) {
     return earned;
 }
 
-void eTradePost::setWalkable(const eWalkable& w) {
+void eTradePost::setWalkable(const stdsptr<eWalkableObject>& w) {
     mWalkable = w;
 }
 

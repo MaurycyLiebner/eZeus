@@ -313,12 +313,27 @@ void eGameBoard::read(eReadStream& src) {
         }
     }
 
-    int nbs;
-    src >> nbs;
-    for(int i = 0; i < nbs; i++) {
-        eBuildingType type;
-        src >> type;
-        eBuildingReader::sRead(*this, type, src);
+    {
+        int nbs;
+        src >> nbs;
+        for(int i = 0; i < nbs; i++) {
+            eBuildingType type;
+            src >> type;
+            eBuildingReader::sRead(*this, type, src);
+        }
+    }
+
+
+    {
+        int ncs;
+        src >> ncs;
+
+        for(int i = 0; i < ncs; i++) {
+            eCharacterType type;
+            src >> type;
+            const auto c = eCharacter::sCreate(type, *this);
+            c->read(src);
+        }
     }
 
     int nfg;
@@ -369,15 +384,38 @@ void eGameBoard::write(eWriteStream& dst) const {
         }
     }
 
-    int id = 0;
-    for(const auto b : mAllBuildings) {
-        b->setIOID(id++);
+    {
+        int id = 0;
+        for(const auto b : mAllBuildings) {
+            b->setIOID(id++);
+        }
+        const int nbs = mAllBuildings.size();
+        dst << nbs;
+        for(const auto b : mAllBuildings) {
+            dst << b->type();
+            eBuildingWriter::sWrite(b, dst);
+        }
     }
-    const int nbs = mAllBuildings.size();
-    dst << nbs;
-    for(const auto b : mAllBuildings) {
-        dst << b->type();
-        eBuildingWriter::sWrite(b, dst);
+
+
+    {
+        int id = 0;
+        for(const auto ca : mCharacterActions) {
+            ca->setIOID(id++);
+        }
+    }
+
+    {
+        int id = 0;
+        for(const auto c : mCharacters) {
+            c->setIOID(id++);
+        }
+        const int ncs = mCharacters.size();
+        dst << ncs;
+        for(const auto c : mCharacters) {
+            dst << c->type();
+            c->write(dst);
+        }
     }
 
     const int nfg = mFriendlyGods.size();
@@ -404,6 +442,22 @@ eBuilding* eGameBoard::buildingWithIOID(const int id) const {
     for(const auto b : mAllBuildings) {
         const int bio = b->ioID();
         if(bio == id) return b;
+    }
+    return nullptr;
+}
+
+eCharacter* eGameBoard::characterWithIOID(const int id) const {
+    for(const auto c : mCharacters) {
+        const int bio = c->ioID();
+        if(bio == id) return c;
+    }
+    return nullptr;
+}
+
+eCharacterAction* eGameBoard::characterActionWithIOID(const int id) const {
+    for(const auto ca : mCharacterActions) {
+        const int bio = ca->ioID();
+        if(bio == id) return ca;
     }
     return nullptr;
 }
@@ -851,6 +905,14 @@ void eGameBoard::registerCharacter(eCharacter* const c) {
 
 bool eGameBoard::unregisterCharacter(eCharacter* const c) {
     return eVectorHelpers::remove(mCharacters, c);
+}
+
+void eGameBoard::registerCharacterAction(eCharacterAction* const ca) {
+    mCharacterActions.push_back(ca);
+}
+
+bool eGameBoard::unregisterCharacterAction(eCharacterAction* const ca) {
+    return eVectorHelpers::remove(mCharacterActions, ca);
 }
 
 void eGameBoard::registerSoldier(eSoldier* const c) {

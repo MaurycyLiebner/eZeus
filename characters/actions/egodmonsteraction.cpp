@@ -17,7 +17,7 @@ void eGodMonsterAction::moveAround(const eAction& finishAct, const int time) {
     const int ty = t->y();
     const auto a = e::make_shared<eMoveAroundAction>(
                        c, finishAct, finishAct, tx, ty,
-                       eMoveAroundAction::sDefaultWalkable);
+                       eWalkableObject::sCreateDefault());
     a->setMaxDistance(10);
     a->setTime(time);
     setCurrentAction(a);

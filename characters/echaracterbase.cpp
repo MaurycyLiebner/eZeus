@@ -23,3 +23,21 @@ bool eCharacterBase::fighting() const {
 void eCharacterBase::setActionType(const eCharacterActionType t) {
     mActionType = t;
 }
+
+void eCharacterBase::read(eReadStream& src) {
+    src >> mActionType;
+    src >> mPlayerId;
+    src >> mBusy;
+    src >> mHP;
+    src >> mAttack;
+    src >> mSpeed;
+}
+
+void eCharacterBase::write(eWriteStream& dst) const {
+    dst << mActionType;
+    dst << mPlayerId;
+    dst << mBusy;
+    dst << mHP;
+    dst << mAttack;
+    dst << mSpeed;
+}

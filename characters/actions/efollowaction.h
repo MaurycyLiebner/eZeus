@@ -1,7 +1,7 @@
 #ifndef EFOLLOWACTION_H
 #define EFOLLOWACTION_H
 
-#include <queue>
+#include <deque>
 
 #include "ecomplexaction.h"
 
@@ -14,22 +14,24 @@ class eTile;
 class eFollowAction : public eComplexAction {
 public:
     eFollowAction(eCharacter* const f,
-                  eCharacter* const c,
-                  const eAction& failAction,
-                  const eAction& finishAction);
+                  eCharacter* const c);
+    eFollowAction(eCharacter* const c);
 
     void setDistance(const int d);
-private:
-    void increment(const int by);
 
-    const stdptr<eCharacter> mFollow;
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
+private:
+    void increment(const int by) override;
+
+    stdptr<eCharacter> mFollow;
 
     struct ePathNode {
         eTile* fTile;
         eOrientation fO;
     };
 
-    std::queue<ePathNode> mTiles;
+    std::deque<ePathNode> mTiles;
 
     int mDistance = 1;
 };

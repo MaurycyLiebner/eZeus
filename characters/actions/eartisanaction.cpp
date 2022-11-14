@@ -5,12 +5,13 @@
 #include "characters/actions/ebuildaction.h"
 #include "engine/egameboard.h"
 
-eArtisanAction::eArtisanAction(eArtisansGuild* const guild,
-                               eArtisan* const c,
-                               const eAction& failAction,
-                               const eAction& finishAction) :
-    eActionWithComeback(c, failAction, finishAction),
-    mArtisan(c), mGuild(guild) {}
+eArtisanAction::eArtisanAction(eCharacter* const c,
+                               eArtisansGuild* const guild) :
+    eActionWithComeback(c, eCharActionType::artisanAction),
+    mGuild(guild) {}
+
+eArtisanAction::eArtisanAction(eCharacter* const c) :
+    eArtisanAction(c, nullptr) {}
 
 bool hasTarget(eThreadTile* const tile) {
     const auto& b = tile->underBuilding();
@@ -21,7 +22,8 @@ bool eArtisanAction::decide() {
     const bool r = eActionWithComeback::decide();
     if(r) return r;
 
-    const auto t = mArtisan->tile();
+    const auto c = character();
+    const auto t = c->tile();
 
     const bool inGuild = eWalkableHelpers::sTileUnderBuilding(t, mGuild);
 
@@ -36,7 +38,7 @@ bool eArtisanAction::decide() {
         mNoTarget = false;
         goBackDecision();
     } else {
-        const auto& brd = mArtisan->getBoard();
+        const auto& brd = board();
         eTile* tt = nullptr;
         for(int i = -1; i < 2; i++) {
             for(int j = -1; j < 2; j++) {
@@ -62,6 +64,20 @@ bool eArtisanAction::decide() {
     return true;
 }
 
+void eArtisanAction::read(eReadStream& src) {
+    eActionWithComeback::read(src);
+    src.readBuilding(&board(), [this](eBuilding* const b) {
+        mGuild = static_cast<eArtisansGuild*>(b);
+    });
+    src >> mNoTarget;
+}
+
+void eArtisanAction::write(eWriteStream& dst) const {
+    eActionWithComeback::write(dst);
+    dst.writeBuilding(mGuild);
+    dst << mNoTarget;
+}
+
 bool eArtisanAction::findTargetDecision() {
     const stdptr<eArtisanAction> tptr(this);
 
@@ -69,12 +85,13 @@ bool eArtisanAction::findTargetDecision() {
         return hasTarget(tile);
     };
 
+    const auto c = character();
     const auto a = e::make_shared<eMoveToAction>(
-                       mArtisan, [](){}, [](){});
-    a->setFoundAction([tptr, this]() {
-        if(!tptr) return;
-        if(!mArtisan) return;
-        mArtisan->setActionType(eCharacterActionType::walk);
+                       c, [](){}, [](){});
+    const stdptr<eCharacter> cptr(c);
+    a->setFoundAction([cptr]() {
+        if(!cptr) return;
+        cptr->setActionType(eCharacterActionType::walk);
     });
     const auto findFailFunc = [tptr, this]() {
         if(tptr) mNoTarget = true;
@@ -82,7 +99,7 @@ bool eArtisanAction::findTargetDecision() {
 
     a->setFindFailAction(findFailFunc);
     a->setRemoveLastTurn(true);
-    a->start(hha, eWalkableHelpers::sDefaultWalkable);
+    a->start(hha, eWalkableObject::sCreateDefault());
     setCurrentAction(a);
     return true;
 }
@@ -93,16 +110,9 @@ void eArtisanAction::workOnDecision(eTile* const tile) {
     if(!bb || bb->workedOn() || bb->finished() ||
        !bb->resourcesAvailable()) return;
     bb->setWorkedOn(true);
-    const stdptr<eSanctBuilding> bbptr(bb);
-    const auto finish = [bbptr]() {
-        if(!bbptr) return;
-        bbptr->setWorkedOn(false);
-        if(bbptr->resourcesAvailable()) {
-            bbptr->incProgress();
-        }
-    };
-    mArtisan->setActionType(eCharacterActionType::build);
-    const auto t = mArtisan->tile();
+    const auto c = character();
+    c->setActionType(eCharacterActionType::build);
+    const auto t = c->tile();
     const int dx = t->x() - tile->x();
     const int dy = t->y() - tile->y();
     eOrientation o;
@@ -125,16 +135,18 @@ void eArtisanAction::workOnDecision(eTile* const tile) {
     } else {
         o = eOrientation::topLeft;
     }
-    mArtisan->setOrientation(o);
-    const auto w = e::make_shared<eBuildAction>(mArtisan, finish, finish);
-    w->setDeleteFailAction([bbptr]() {
-        if(!bbptr) return;
-        bbptr->setWorkedOn(false);
-    });
+    c->setOrientation(o);
+    const auto w = e::make_shared<eBuildAction>(c);
+    const auto finish = std::make_shared<eArtA_buildFinish>(board(), bb);
+    w->setFailAction(finish);
+    w->setFinishAction(finish);
+    const auto deleteFail = std::make_shared<eArtA_buildDelete>(board(), bb);
+    w->setDeleteFailAction(deleteFail);
     setCurrentAction(w);
 }
 
 void eArtisanAction::goBackDecision() {
-    mArtisan->setActionType(eCharacterActionType::walk);
-    goBack(mGuild, eWalkableHelpers::sDefaultWalkable);
+    const auto c = character();
+    c->setActionType(eCharacterActionType::walk);
+    goBack(mGuild, eWalkableObject::sCreateDefault());
 }

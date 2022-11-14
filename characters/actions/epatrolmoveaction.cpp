@@ -7,12 +7,10 @@
 #include "engine/egameboard.h"
 
 ePatrolMoveAction::ePatrolMoveAction(eCharacter* const c,
-                                     const eAction& failAction,
-                                     const eAction& finishAction,
                                      const bool diagonalOnly,
-                                     const eTileWalkable& walkable,
+                                     const stdsptr<eWalkableObject>& walkable,
                                      const stdsptr<eDirectionTimes>& os) :
-    eMoveAction(c, walkable, failAction, finishAction),
+    eMoveAction(c, walkable),
     mDiagonalOnly(diagonalOnly),
     mWalkable(walkable),
     mOs(os) {
@@ -28,7 +26,7 @@ eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
     if(!tile) return eCharacterActionState::failed;
 
     const auto neighVer = [&](eTileBase* const t) {
-        return t && mWalkable(t) && t->neighbour(mO) != tile;
+        return t && mWalkable->walkable(t) && t->neighbour(mO) != tile;
     };
     auto options = mDiagonalOnly ? tile->diagonalNeighbours(neighVer) :
                                    tile->neighbours(neighVer);

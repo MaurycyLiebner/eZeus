@@ -51,9 +51,12 @@ eTower::getOverlays(const eTileSize size) const {
 void eTower::timeChanged(const int by) {
     const int waitTime = 5000;
     if(enabled()) {
-        mSpawnTime += by;
-        if(!mArcher && mSpawnTime > waitTime) {
-            spawn();
+        if(!mArcher) {
+            mSpawnTime += by;
+            if(mSpawnTime > waitTime) {
+                spawn();
+                mSpawnTime = 0;
+            }
         }
 
         const int rangeAttackCheck = 500;
@@ -152,17 +155,7 @@ void eTower::timeChanged(const int by) {
 bool eTower::spawn() {
     mArcher = e::make_shared<eArcher>(getBoard());
     mArcher->changeTile(centerTile());
-    const eStdPointer<eTower> tptr(this);
-    const eStdPointer<eArcher> cptr(mArcher);
-    const auto finishAct = [tptr, this, cptr]() {
-        if(cptr) cptr->changeTile(nullptr);
-        if(tptr) {
-            mSpawnTime = 0;
-            mArcher.reset();
-        }
-    };
-    const auto a = e::make_shared<eArcherAction>(
-                       mArcher.get(), finishAct, finishAct);
+    const auto a = e::make_shared<eArcherAction>(mArcher.get());
     mArcher->setAction(a);
     return true;
 }

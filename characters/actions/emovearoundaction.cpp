@@ -3,26 +3,11 @@
 #include "characters/echaracter.h"
 
 eMoveAroundAction::eMoveAroundAction(eCharacter* const c,
-                                     const eAction& failAction,
-                                     const eAction& finishAction,
                                      const int startX, const int startY,
-                                     const eTileWalkable& walkable) :
-    eMoveAction(c,
-                walkable,
-                failAction,
-                finishAction) {
+                                     const stdsptr<eWalkableObject>& walkable) :
+    eMoveAction(c, walkable) {
     mStartTX = startX;
     mStartTY = startY;
-}
-
-bool eMoveAroundAction::sDefaultWalkable(eTileBase* const tile) {
-    return tile->walkable();
-}
-
-bool eMoveAroundAction::sFertileWalkable(eTileBase* const tile) {
-    const bool r = sDefaultWalkable(tile);
-    if(!r) return false;
-    return tile->terrain() == eTerrain::fertile;
 }
 
 void eMoveAroundAction::increment(const int by) {

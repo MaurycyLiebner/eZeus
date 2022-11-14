@@ -239,7 +239,7 @@ public:
     std::vector<eTile*> neighbours() const;
 
     void setBlessed(const double b);
-    double blessed() const { return mBlessed; }    
+    double blessed() const { return mBlessed; }
 
     virtual void read(eReadStream& src);
     virtual void write(eWriteStream& dst) const;

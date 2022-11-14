@@ -4,34 +4,47 @@
 #include "ewaitaction.h"
 
 eAnimalAction::eAnimalAction(eCharacter* const c,
-                             const eAction& failAction,
-                             const eAction& finishAction,
                              const int spawnerX, const int spawnerY,
-                             const eTileWalkable& tileWalkable) :
-    eComplexAction(c, failAction, finishAction),
+                             const stdsptr<eWalkableObject>& tileWalkable) :
+    eComplexAction(c, eCharActionType::animalAction),
     mSpawnerX(spawnerX), mSpawnerY(spawnerY),
-    mTileWalkable(tileWalkable) {
-    nextAction();
-}
+    mTileWalkable(tileWalkable) {}
 
-void eAnimalAction::nextAction() {
+eAnimalAction::eAnimalAction(eCharacter* const c) :
+    eAnimalAction(c, 0, 0) {}
+
+bool eAnimalAction::decide() {
     const auto c = character();
-    const auto finishAct = [this]() {
-        nextAction();
-    };
     if(rand() % 2 == 0) {
         c->setActionType(eCharacterActionType::walk);
         const auto m = e::make_shared<eMoveAroundAction>(
-                           c, finishAct, finishAct,
-                           mSpawnerX, mSpawnerY,
+                           c, mSpawnerX, mSpawnerY,
                            mTileWalkable);
         m->setTime(mWalkTime);
         setCurrentAction(m);
     } else {
         c->setActionType(eCharacterActionType::lay);
-        const auto w = e::make_shared<eWaitAction>(
-                           c, finishAct, finishAct);
+        const auto w = e::make_shared<eWaitAction>(c);
         w->setTime(mLayTime);
         setCurrentAction(w);
     }
+    return true;
+}
+
+void eAnimalAction::read(eReadStream& src) {
+    eComplexAction::read(src);
+    src >> mSpawnerX;
+    src >> mSpawnerY;
+    mTileWalkable = src.readWalkable();
+    src >> mLayTime;
+    src >> mWalkTime;
+}
+
+void eAnimalAction::write(eWriteStream& dst) const {
+    eComplexAction::write(dst);
+    dst << mSpawnerX;
+    dst << mSpawnerY;
+    dst.writeWalkable(mTileWalkable.get());
+    dst << mLayTime;
+    dst << mWalkTime;
 }

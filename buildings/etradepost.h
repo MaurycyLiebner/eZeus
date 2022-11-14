@@ -39,7 +39,7 @@ public:
     int buy(const int cash);
     int sell(const int items);
 
-    void setWalkable(const eWalkable& w);
+    void setWalkable(const stdsptr<eWalkableObject>& w);
     void setUnpackBuilding(eBuilding* const b);
     void setOrientation(const eOrientation o);
     eOrientation orientation() const;
@@ -61,7 +61,7 @@ private:
     eOrientation mO = eOrientation::topLeft;
 
     eCharacterCreator mCharGen;
-    eWalkable mWalkable = eWalkableHelpers::sDefaultWalkable;
+    stdsptr<eWalkableObject> mWalkable = eWalkableObject::sCreateDefault();
     eBuilding* mUnpackBuilding = this;
 
     eTile* mRouteStart = nullptr;

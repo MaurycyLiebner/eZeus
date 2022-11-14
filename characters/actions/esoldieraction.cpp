@@ -319,11 +319,11 @@ void eSoldierAction::goTo(const int fx, const int fy,
     const bool attackBuildings = pid != 1;
     using eTileWalkable = std::function<bool(eTileBase* const)>;
     eTileWalkable pathFindWalkable =
-        eWalkableHelpers::sDefaultWalkable;
+        eWalkableObject::sCreateDefault();
     eTileWalkable moveWalkable = nullptr;
     if(attackBuildings) {
-        pathFindWalkable = eWalkableHelpers::sBuildingsWalkable;
-        moveWalkable = eWalkableHelpers::sDefaultWalkable;
+        pathFindWalkable = eWalkableHelpers::eWalkableObject::sCreateTerrain();
+        moveWalkable = eWalkableObject::sCreateDefault();
     }
 
     const auto a = e::make_shared<eMoveToAction>(
@@ -362,7 +362,7 @@ void eSoldierAction::goHome() {
         cptr->setActionType(eCharacterActionType::walk);
     });
     a->setFindFailAction(finishAct);
-    a->start(b, eWalkableHelpers::sDefaultWalkable);
+    a->start(b, eWalkableObject::sCreateDefault());
     setCurrentAction(a);
 }
 
