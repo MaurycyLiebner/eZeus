@@ -356,6 +356,18 @@ void eGameBoard::read(eReadStream& src) {
     }
 
     {
+        int nb;
+        src >> nb;
+
+        for(int i = 0; i < nb; i++) {
+            eBannerType type;
+            src >> type;
+            const auto b = e::make_shared<eSoldierBanner>(type, *this);
+            b->read(src);
+        }
+    }
+
+    {
         int ncs;
         src >> ncs;
 
@@ -468,6 +480,15 @@ void eGameBoard::write(eWriteStream& dst) const {
         for(const auto c : mCharacters) {
             dst << c->type();
             c->write(dst);
+        }
+    }
+
+    {
+        const int nb = mBanners.size();
+        dst << nb;
+        for(const auto& b : mBanners) {
+            dst << b->type();
+            b->write(dst);
         }
     }
 

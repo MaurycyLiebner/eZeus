@@ -118,6 +118,57 @@ bool eSoldierBanner::stationary() const {
     return true;
 }
 
+void eSoldierBanner::read(eReadStream& src) {
+    src >> mHome;
+    src >> mX;
+    src >> mY;
+    mTile = src.readTile(mBoard);
+    if(mPlayerId == 1 && mTile) {
+        mTile->setSoldierBanner(this);
+    }
+    src >> mCount;
+    src >> mPlayerId;
+
+    int np;
+    src >> np;
+    for(int i = 0; i < np; i++) {
+        const auto t = src.readTile(mBoard);
+        src.readCharacter(&mBoard, [this, t](eCharacter* const c) {
+            const auto s = static_cast<eSoldier*>(c);
+            mPlaces[s] = t;
+        });
+    }
+
+    int ns;
+    src >> ns;
+    for(int i = 0; i < ns; i++) {
+        src.readCharacter(&mBoard, [this](eCharacter* const c) {
+            const auto s = static_cast<eSoldier*>(c);
+            mSoldiers.push_back(s);
+        });
+    }
+}
+
+void eSoldierBanner::write(eWriteStream& dst) const {
+    dst << mHome;
+    dst << mX;
+    dst << mY;
+    dst.writeTile(mTile);
+    dst << mCount;
+    dst << mPlayerId;
+
+    dst << mPlaces.size();
+    for(const auto& p : mPlaces) {
+        dst.writeTile(p.second);
+        dst.writeCharacter(p.first);
+    }
+
+    dst << mSoldiers.size();
+    for(const auto s : mSoldiers) {
+        dst.writeCharacter(s);
+    }
+}
+
 void eSoldierBanner::sPlace(const std::vector<eSoldierBanner*>& bs,
                             const int ctx, const int cty,
                             eGameBoard& board, const int dist) {

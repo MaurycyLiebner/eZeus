@@ -5,6 +5,7 @@
 #include <map>
 
 #include "pointers/eobject.h"
+#include "fileIO/estreams.h"
 
 class eSoldier;
 class eGameBoard;
@@ -48,6 +49,9 @@ public:
     void decCount();
 
     bool stationary() const;
+
+    void read(eReadStream& src);
+    void write(eWriteStream& dst) const;
 
     static void sPlace(const std::vector<eSoldierBanner*>& bs,
                        const int ctx, const int cty,
