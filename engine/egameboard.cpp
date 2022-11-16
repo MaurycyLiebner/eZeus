@@ -364,6 +364,17 @@ void eGameBoard::read(eReadStream& src) {
             src >> type;
             const auto b = e::make_shared<eSoldierBanner>(type, *this);
             b->read(src);
+            registerBanner(b);
+        }
+    }
+
+    {
+        int ni;
+        src >> ni;
+
+        for(int i = 0; i < ni; i++) {
+            const auto ii = new eInvasionHandler(*this, nullptr);
+            ii->read(src);
         }
     }
 
@@ -489,6 +500,14 @@ void eGameBoard::write(eWriteStream& dst) const {
         for(const auto& b : mBanners) {
             dst << b->type();
             b->write(dst);
+        }
+    }
+
+    {
+        const int ni = mInvasions.size();
+        dst << ni;
+        for(const auto i : mInvasions) {
+            i->write(dst);
         }
     }
 

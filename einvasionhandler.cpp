@@ -8,8 +8,8 @@
 #include "etilehelper.h"
 #include "buildings/epalace.h"
 
-eInvasionHandler::eInvasionHandler(
-        eGameBoard& board, eWorldCity* const city) :
+eInvasionHandler::eInvasionHandler(eGameBoard& board,
+                                   const stdsptr<eWorldCity>& city) :
     mBoard(board), mCity(city) {
     board.addInvasion(this);
 }
@@ -117,7 +117,7 @@ void eInvasionHandler::incTime(const int by) {
             ss += b->count();
         }
         eEventData ed;
-        ed.fCity = mCity;
+        ed.fCity = mCity.get();
         if(ss == 0) {
             mBoard.event(eEvent::invasionVictory, ed);
         } else if(p) {
@@ -136,4 +136,44 @@ void eInvasionHandler::incTime(const int by) {
         delete this;
     } break;
     }
+}
+
+void eInvasionHandler::read(eReadStream& src) {
+    src.readCity(&mBoard, [this](const stdsptr<eWorldCity>& c) {
+        mCity = c;
+    });
+    mTile = src.readTile(mBoard);
+    src >> mStage;
+
+    {
+        int nb;
+        src >> nb;
+
+        for(int i = 0; i < nb; i++) {
+            eBannerType type;
+            src >> type;
+            const auto b = e::make_shared<eSoldierBanner>(type, mBoard);
+            b->read(src);
+            mBanners.push_back(b);
+        }
+    }
+
+    src >> mWait;
+}
+
+void eInvasionHandler::write(eWriteStream& dst) const {
+    dst.writeCity(mCity.get());
+    dst.writeTile(mTile);
+    dst << mStage;
+
+    {
+        const int nb = mBanners.size();
+        dst << nb;
+        for(const auto& b : mBanners) {
+            dst << b->type();
+            b->write(dst);
+        }
+    }
+
+    dst << mWait;
 }
