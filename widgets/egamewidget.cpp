@@ -107,12 +107,11 @@ void eGameWidget::setSettings(const eGameWidgetSettings& s) {
     mPaused = s.fPaused;
     mSpeedId = s.fSpeedId;
     mSpeed = s.fSpeed;
-    mDX = s.fDX;
-    mDY = s.fDY;
     mTileSize = s.fTileSize;
     mTileW = s.fTileW;
     mTileH = s.fTileH;
-    updateMinimap();
+    setDX(s.fDX);
+    setDY(s.fDY);
 }
 
 void eGameWidget::initialize() {
