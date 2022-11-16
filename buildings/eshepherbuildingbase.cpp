@@ -61,18 +61,12 @@ void eShepherBuildingBase::timeChanged(const int by) {
 bool eShepherBuildingBase::spawn() {
     if(resource() >= maxResource()) return false;
     const auto t = centerTile();
-    mShepherd = mCharGenerator(getBoard());
-    mShepherd->changeTile(t);
-    const eStdPointer<eShepherBuildingBase> tptr(this);
-    const auto finishAct = [tptr, this]() {
-        if(!tptr) return;
-        if(mShepherd) mShepherd->kill();
-        mShepherd = nullptr;
-    };
+    const auto s = mCharGenerator(getBoard());
+    mShepherd = s.get();
+    s->changeTile(t);
     const auto a = e::make_shared<eShepherdAction>(
-                       this, mShepherd.get(),
-                       mAnimalType,
-                       finishAct, finishAct);
-    mShepherd->setAction(a);
+                       this, s.get(),
+                       mAnimalType);
+    s->setAction(a);
     return true;
 }

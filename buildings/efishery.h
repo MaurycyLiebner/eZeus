@@ -37,8 +37,7 @@ private:
 
     bool mDisabled = false;
     const eOrientation mO;
-    stdsptr<eFishingBoat> mBoat;
-    stdptr<eCollectResourceAction> mAction;
+    stdptr<eFishingBoat> mBoat;
     int mStateCount = 0;
     eFisheryState mState = eFisheryState::buildingBoat;
 

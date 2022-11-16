@@ -7,7 +7,7 @@
 class eFightAction : public eCharacterAction {
 public:
     eFightAction(eCharacter* const c,
-                 eCharacter* const o);
+                 eCharacter* const o = nullptr);
 
     void increment(const int by) override;
 

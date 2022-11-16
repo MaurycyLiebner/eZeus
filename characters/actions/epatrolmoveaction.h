@@ -48,8 +48,11 @@ public:
 
     void setMaxWalkDistance(const int dist)
     { mMaxWalkDistance = dist; }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
-    eCharacterActionState nextTurn(eOrientation& t);
+    eCharacterActionState nextTurn(eOrientation& t) override;
 
     bool mDiagonalOnly;
     stdsptr<eWalkableObject> mWalkable;

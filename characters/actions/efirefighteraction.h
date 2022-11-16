@@ -8,6 +8,10 @@
 class eFireFighterAction : public ePatrolAction {
     friend class eFFA_lookForFireFail;
 public:
+    eFireFighterAction(eCharacter* const c,
+                      ePatrolBuildingBase* const b,
+                      const std::vector<ePatrolGuide>& guides,
+                      const stdsptr<eDirectionTimes>& dirTimes = {});
     eFireFighterAction(eCharacter* const c);
 
     bool decide() override;

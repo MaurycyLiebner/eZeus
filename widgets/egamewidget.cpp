@@ -1092,10 +1092,9 @@ void eGameWidget::buildAnimal(eTile* const tile,
     if(!cb) return;
     const auto sh = creator(*mBoard);
     sh->changeTile(tile);
-    const auto e = []() {};
-    sh->setAction(e::make_shared<eAnimalAction>(
-                     sh.get(), e, e, tx, ty,
-                     eWalkableObject::sCreateFertile()));
+    const auto w = eWalkableObject::sCreateFertile();
+    const auto a = e::make_shared<eAnimalAction>(sh.get(), tx, ty, w);
+    sh->setAction(a);
 
     const auto diff = mBoard->difficulty();
     const int cost = eDifficultyHelpers::buildingCost(
@@ -1156,6 +1155,7 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
             mMenu->deleteLater();
             mMenu = nullptr;
         } else {
+            mBoard->waitUntilFinished();
             mMenu = new eGameMainMenu(window());
             mMenu->resize(width()/4, height()/2);
             const auto w = window();

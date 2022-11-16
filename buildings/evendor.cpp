@@ -89,7 +89,7 @@ int eVendor::spaceLeft(const eResourceType type) const {
 void eVendor::timeChanged(const int by) {
     if(enabled()) {
         if(!mCart) {
-            spawnCart(mCart, eCartActionTypeSupport::take);
+            mCart = spawnCart(eCartActionTypeSupport::take);
             switch(mResType) {
             case eResourceType::food:
                 mCart->setType(eCartTransporterType::food);
@@ -152,14 +152,16 @@ int eVendor::takeForPeddler(const int t) {
 
 void eVendor::read(eReadStream& src) {
     eEmployingBuilding::read(src);
-
     src >> mResource;
     src >> mVendorEnabled;
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mCart = static_cast<eCartTransporter*>(c);
+    });
 }
 
 void eVendor::write(eWriteStream& dst) const {
     eEmployingBuilding::write(dst);
-
     dst << mResource;
     dst << mVendorEnabled;
+    dst.writeCharacter(mCart);
 }

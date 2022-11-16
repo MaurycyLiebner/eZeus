@@ -46,7 +46,7 @@ private:
 
     const eCharacterType mAnimalType;
 
-    stdsptr<eResourceCollectorBase> mShepherd;
+    stdptr<eResourceCollectorBase> mShepherd;
 
     int mWaitTime = 2000;
     int mSpawnTime = mWaitTime;

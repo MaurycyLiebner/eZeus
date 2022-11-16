@@ -24,8 +24,7 @@ stdsptr<eSoldier> spawnSoldier(eGameBoard& board,
                                eSoldierBanner* const b) {
     const auto h = e::make_shared<T>(board);
     h->setPlayerId(2);
-    const auto a = e::make_shared<eSoldierAction>(h.get(), [](){}, [](){});
-    h->setSoldierAction(a);
+    const auto a = e::make_shared<eSoldierAction>(h.get());
     h->setAction(a);
     h->changeTile(tile);
     h->setActionType(eCharacterActionType::walk);

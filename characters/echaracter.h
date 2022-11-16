@@ -10,9 +10,19 @@
 #include "etexture.h"
 #include "echaracterbase.h"
 #include "engine/eprovide.h"
+#include "characters/actions/echaracteractionfunction.h"
+
+#include "actions/earcheraction.h"
+#include "actions/edieaction.h"
 
 class eGameBoard;
 class eCharacterAction;
+
+struct ePausedAction {
+    eCharacterActionType fAt;
+    stdsptr<eCharacterAction> fA;
+    eOrientation fO;
+};
 
 class eCharacter : public eObject, public eCharacterBase {
 public:
@@ -76,8 +86,11 @@ public:
 
     void setIOID(const int id) { mIOID = id; }
     int ioID() const { return mIOID; }
-private:
-    stdsptr<eCharacterAction> takeAction();
+
+    void pauseAction();
+    void resumeAction();
+private:    
+    std::vector<ePausedAction> mPausedActions;
 
     int mIOID = -1;
 
@@ -97,6 +110,65 @@ private:
 
     stdsptr<eCharacterAction> mAction;
     int mActionStartTime{0};
+};
+
+class eChar_fightFinish : public eCharActFunc {
+public:
+    eChar_fightFinish(eGameBoard& board) :
+        eCharActFunc(board, eCharActFuncType::Char_fightFinish) {}
+    eChar_fightFinish(eGameBoard& board, eCharacter* const t) :
+        eCharActFunc(board, eCharActFuncType::Char_fightFinish),
+        mTptr(t) {}
+
+    void call() override {
+        if(!mTptr) return;
+        const auto t = mTptr.get();
+        if(t->dead()) {
+            const auto d = e::make_shared<eDieAction>(t);
+            t->setAction(d);
+        } else {
+            t->resumeAction();
+        }
+    }
+
+    void read(eReadStream& src) override {
+        src.readCharacter(&board(), [this](eCharacter* const c) {
+            mTptr = c;
+        });
+    }
+
+    void write(eWriteStream& dst) const override {
+        dst.writeCharacter(mTptr);
+    }
+private:
+    stdptr<eCharacter> mTptr;
+};
+
+class eChar_killWithCorpseFinish : public eCharActFunc {
+public:
+    eChar_killWithCorpseFinish(eGameBoard& board) :
+        eCharActFunc(board, eCharActFuncType::Char_killWithCorpseFinish) {}
+    eChar_killWithCorpseFinish(eGameBoard& board, eCharacter* const t) :
+        eCharActFunc(board, eCharActFuncType::Char_killWithCorpseFinish),
+        mTptr(t) {}
+
+    void call() override {
+        if(!mTptr) return;
+        const auto t = mTptr.get();
+        t->kill();
+    }
+
+    void read(eReadStream& src) override {
+        src.readCharacter(&board(), [this](eCharacter* const c) {
+            mTptr = c;
+        });
+    }
+
+    void write(eWriteStream& dst) const override {
+        dst.writeCharacter(mTptr);
+    }
+private:
+    stdptr<eCharacter> mTptr;
 };
 
 #endif // ECHARACTER_H

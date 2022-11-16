@@ -14,7 +14,10 @@ enum class eWalkableObjectType {
     fertile,
     wall,
     rect,
-    hasResource
+    hasResource,
+    water,
+    ranch,
+    all
 };
 
 class eHasResourceObject;
@@ -24,10 +27,10 @@ public:
     eWalkableObject(const eWalkableObjectType t) :
         mType(t) {}
 
-    virtual bool walkable(eTileBase* const t) const = 0;
+    virtual bool walkable(eTileBase* const t) const;
 
-    virtual void read(eReadStream& src) {}
-    virtual void write(eWriteStream& dst) const {}
+    virtual void read(eReadStream&) {}
+    virtual void write(eWriteStream&) const {}
 
     eWalkableObjectType type() const { return mType; }
 
@@ -39,6 +42,9 @@ public:
     static stdsptr<eWalkableObject> sCreateTerrain();
     static stdsptr<eWalkableObject> sCreateFertile();
     static stdsptr<eWalkableObject> sCreateWall();
+    static stdsptr<eWalkableObject> sCreateWater();
+    static stdsptr<eWalkableObject> sCreateAll();
+    static stdsptr<eWalkableObject> sCreateRanch();
     static stdsptr<eWalkableObject> sCreateRect(const SDL_Rect& rect);
     static stdsptr<eWalkableObject> sCreateRect(eBuilding* const b);
     static stdsptr<eWalkableObject> sCreateRect(

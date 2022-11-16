@@ -29,6 +29,8 @@ stdsptr<eSanctuary> createSanctuary(const eBuildingType type,
         return e::make_shared<eArtemisSanctuary>(sw, sh, board);
     case eBuildingType::templeHephaestus:
         return e::make_shared<eHephaestusSanctuary>(sw, sh, board);
+    default:
+        return nullptr;
     }
 }
 
@@ -360,12 +362,7 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         int sh;
         src >> sh;
 
-        const auto s = createSanctuary(type, sw, sh, board);
-        b = s;
-
-        int alt;
-        src >> alt;
-        s->setAltitude(alt);
+        b = createSanctuary(type, sw, sh, board);
     } break;
     case eBuildingType::templeStatue: {
         eGodType godType;
@@ -426,6 +423,8 @@ stdsptr<eBuilding> eBuildingReader::sRead(
     case eBuildingType::ruins: {
         b = e::make_shared<eRuins>(board);
     } break;
+    default:
+        return nullptr;
     }
     if(b) b->read(src);
     return b;

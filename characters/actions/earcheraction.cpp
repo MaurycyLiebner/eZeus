@@ -51,7 +51,7 @@ void eArcherAction::increment(const int by) {
             const double att = by*c->attack();
             const bool d = mAttackTarget->defend(att);
             if(d) {
-                const auto a = e::make_shared<eDieAction>(mAttackTarget, []() {});
+                const auto a = e::make_shared<eDieAction>(mAttackTarget);
                 mAttackTarget->setAction(a);
                 finishAttack = true;
             }

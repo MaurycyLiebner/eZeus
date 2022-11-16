@@ -95,8 +95,8 @@ private:
 
     std::map<eResourceType, int> mMaxCount;
 
-    stdsptr<eCartTransporter> mCart1;
-    stdsptr<eCartTransporter> mCart2;
+    stdptr<eCartTransporter> mCart1;
+    stdptr<eCartTransporter> mCart2;
 };
 
 #endif // ESTORAGEBUILDING_H

@@ -1,9 +1,10 @@
 #include "epathfindtask.h"
 
 #include "engine/epathfinder.h"
+#include "characters/actions/walkable/ewalkableobject.h"
 
 ePathFindTask::ePathFindTask(const eTileGetter& startTile,
-                             const eTileChecker& tileWalkable,
+                             const stdsptr<eWalkableObject>& tileWalkable,
                              const eTileChecker& endTile,
                              const eFinishFunc& finishFunc,
                              const eFailFunc& failFunc,
@@ -23,7 +24,7 @@ void ePathFindTask::run(eThreadBoard& data) {
     const auto t = mStartTile(data);
     ePathFinder pf0(
     [&](eTileBase* const t) {
-        return mTileWalkable(static_cast<eThreadTile*>(t));
+        return mTileWalkable->walkable(t);
     },
     [&](eTileBase* const t) {
         return mEndTile(static_cast<eThreadTile*>(t));

@@ -5,7 +5,8 @@
 #include "textures/egametextures.h"
 #include "engine/egameboard.h"
 
-eResourceCollectBuilding::eResourceCollectBuilding(eGameBoard& board,
+eResourceCollectBuilding::eResourceCollectBuilding(
+        eGameBoard& board,
         const eBaseTex baseTex,
         const double overlayX,
         const double overlayY,
@@ -15,7 +16,7 @@ eResourceCollectBuilding::eResourceCollectBuilding(eGameBoard& board,
         const double waitingOY,
         const eCharGenerator& charGen,
         const eBuildingType type,
-        const eHasResource& hr,
+        const stdsptr<eHasResourceObject>& hr,
         const int sw, const int sh,
         const int maxEmployees,
         const eResourceType resType) :
@@ -152,19 +153,12 @@ bool eResourceCollectBuilding::spawn() {
     if(resource() >= maxResource()) return false;
     if(!mSpawnEnabled) return false;
     const auto t = centerTile();
-    mCollector = mCharGenerator();
-    mCollector->changeTile(t);
-    const eStdPointer<eResourceCollectBuilding> tptr(this);
-    const auto finishAct = [tptr, this]() {
-        if(!tptr) return;
-        if(mCollector) mCollector->kill();
-        mCollector = nullptr;
-        mSpawnTime = 0;
-    };
+    const auto c = mCharGenerator();
+    mCollector = c.get();
+    c->changeTile(t);
 
     const auto a = e::make_shared<eCollectResourceAction>(
-                       this, mCollector.get(), mHasRes,
-                       finishAct, finishAct);
+                       this, c.get(), mHasRes);
     a->setAddResource(mAddResource);
     a->setCollectedAction(mCollectedAction);
     switch(resourceType()) {
@@ -173,7 +167,7 @@ bool eResourceCollectBuilding::spawn() {
         a->setGetAtTile(false);
     default: break;
     }
-    mCollector->setAction(a);
+    c->setAction(a);
     return true;
 }
 

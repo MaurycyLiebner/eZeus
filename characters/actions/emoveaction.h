@@ -3,6 +3,7 @@
 
 #include "echaracteraction.h"
 #include "engine/eorientation.h"
+#include "walkable/eobsticlehandler.h"
 
 class eTileBase;
 class eTile;
@@ -10,14 +11,18 @@ class eTile;
 class eMoveAction : public eCharacterAction {
 public:
     eMoveAction(eCharacter* const c,
-                const stdsptr<eWalkableObject>& tileWalkable);
+                const stdsptr<eWalkableObject>& tileWalkable,
+                const eCharActionType type);
+    eMoveAction(eCharacter* const c, const eCharActionType type);
 
     bool walkable(eTileBase* const tile) const;
 
-    using eObsticleHandler = std::function<bool(eTile* const)>;
-    void setObsticleHandler(const eObsticleHandler& oh);
+    void setObsticleHandler(const stdsptr<eObsticleHandler>& oh);
 
-    void increment(const int by);
+    void increment(const int by) override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 protected:
     bool nextTurn();
 private:
@@ -35,7 +40,7 @@ private:
     double mTargetX;
     double mTargetY;
 
-    eObsticleHandler mObstHandler;
+    stdsptr<eObsticleHandler> mObstHandler;
 };
 
 #endif // EMOVEACTION_H

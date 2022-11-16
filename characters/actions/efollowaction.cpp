@@ -3,6 +3,7 @@
 #include "../echaracter.h"
 
 #include "emovepathaction.h"
+#include "walkable/ewalkableobject.h"
 
 eFollowAction::eFollowAction(eCharacter* const f,
                              eCharacter* const c) :
@@ -54,7 +55,7 @@ void eFollowAction::increment(const int by) {
         if(mTiles.empty()) {
             return setState(eCharacterActionState::finished);
         } else {
-            const auto walkable = [](eTileBase* const) { return true; };
+            const auto walkable = eWalkableObject::sCreateAll();
             std::vector<eOrientation> path;
             path.reserve(mTiles.size());
             for(int i = 0; i < mDistance && !mTiles.empty(); i++) {
@@ -84,7 +85,7 @@ void eFollowAction::increment(const int by) {
     c->setActionType(eCharacterActionType::walk);
     c->changeTile(pn.fTile);
     c->setOrientation(pn.fO);
-    const auto walkable = [](eTileBase* const) { return true; };
+    const auto walkable = eWalkableObject::sCreateAll();
     const std::vector<eOrientation> path = {pn.fO};
     const auto a = e::make_shared<eMovePathAction>(c, path, walkable);
     setCurrentAction(a);

@@ -170,6 +170,8 @@ const eSanctBlueprint* eSanctBlueprints::sSanctuaryBlueprint(
             return &i.fHephaestusW;
         }
     } break;
+    default:
+        return nullptr;
     }
     return nullptr;
 }

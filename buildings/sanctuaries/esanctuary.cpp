@@ -87,14 +87,13 @@ void eSanctuary::spawnGod() {
     const int ty = ct->y();
     const auto cr = eTileHelper::closestRoad(tx, ty, board);
     mGod->changeTile(cr);
-    const auto ha = e::make_shared<eGodWorshippedAction>(
-                        c.get(), [](){}, [](){});
+    const auto ha = e::make_shared<eGodWorshippedAction>(c.get());
     mGod->setAction(ha);
     mSpawnWait = 5000;
 }
 
 void eSanctuary::timeChanged(const int by) {
-    if(!mCart) spawnCart(mCart, eCartActionTypeSupport::take);
+    if(!mCart) mCart = spawnCart(eCartActionTypeSupport::take);
     eEmployingBuilding::timeChanged(by);
 
     if(!mGod && progress() == 100) {
@@ -189,6 +188,16 @@ void eSanctuary::read(eReadStream& src) {
     src >> mUsed.fMarble;
     src >> mUsed.fSculpture;
     src >> mUsed.fWood;
+
+    src >> mAltitude;
+
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mCart = static_cast<eCartTransporter*>(c);
+    });
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mGod = static_cast<eGod*>(c);
+    });
+    src >> mSpawnWait;
 }
 
 void eSanctuary::write(eWriteStream& dst) const {
@@ -201,4 +210,10 @@ void eSanctuary::write(eWriteStream& dst) const {
     dst << mUsed.fMarble;
     dst << mUsed.fSculpture;
     dst << mUsed.fWood;
+
+    dst << mAltitude;
+
+    dst.writeCharacter(mCart);
+    dst.writeCharacter(mGod);
+    dst << mSpawnWait;
 }

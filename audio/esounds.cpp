@@ -545,6 +545,8 @@ void eSounds::playAttackSound(eCharacter* const c) {
     case eCharacterType::talos:
         sInstance.mTalos.playAttack();
         break;
+    default:
+        break;
     }
 }
 

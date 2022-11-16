@@ -14,6 +14,8 @@ enum class eCharacterActionFunctionType {
     ArtA_buildDelete,
 
     CTA_findTargetFinish,
+    CTA_waitOutsideFinish,
+    CTA_spreadFinish,
 
     CRA_collectFinish,
     CRA_collectFail,
@@ -26,11 +28,54 @@ enum class eCharacterActionFunctionType {
     GA_patrolFailFail,
     GA_patrolFailFinish,
     GA_lookForSoldierAttackFinish,
+    GA_lookForRangeActionFinish,
     GA_teleportFinish,
     GA_hermesRunFinish,
+    GA_spawnGodMissilePlaySound,
 
     GAA_loserDisappearFinish,
-    GAA_fightFinish
+    GAA_fightFinish,
+    GAA_destroyBuildingFinish,
+
+    GMA_spawnMultipleMissilesFinish,
+    GMA_spawnMissileFinish,
+    GMA_goToTargetFail,
+
+    GRA_workOnDecisionFinish,
+    GRA_workOnDecisionDeleteFail,
+
+    HA_patrolFail,
+    HA_huntMonsterFail,
+    HA_huntMonsterFinish,
+    HA_fightMonsterDie,
+
+    MA_destroyBuildingFinish,
+    MA_lookForRangeActionFinishAttack,
+
+    PA_patrolFail,
+    PA_patrolFinish,
+
+    SA_findHouseFail,
+    SA_findHouseFinish,
+
+    SA_collectDecisionFinish,
+    SA_collectDecisionDeleteFail,
+    SA_groomDecisionFinish,
+    SA_groomDecisionDeleteFail,
+
+    SA_goToFinish,
+    SA_goHomeFinish,
+
+    TA_tradeFail,
+    TA_tradeFinish,
+    TA_goToTradePostFinish,
+
+    PT_spawnGetActorFinish,
+
+    Char_fightFinish,
+    Char_killWithCorpseFinish,
+
+    SS_spawnFinish
 };
 
 using eCharActFuncType = eCharacterActionFunctionType;

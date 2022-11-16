@@ -3,6 +3,10 @@
 #include "engine/egameboard.h"
 #include "characters/actions/walkable/ewalkableobject.h"
 #include "characters/actions/walkable/ehasresourceobject.h"
+#include "characters/actions/echaracteraction.h"
+#include "characters/actions/egodaction.h"
+#include "characters/actions/walkable/eobsticlehandler.h"
+#include "characters/actions/epatrolaction.h"
 
 eReadStream::eReadStream(SDL_RWops* const src) :
     mSrc(src) {
@@ -79,6 +83,62 @@ stdsptr<eHasResourceObject> eReadStream::readHasResource() {
     } else {
         return nullptr;
     }
+}
+
+stdsptr<eCharacterActionFunction> eReadStream::readCharActFunc(
+        eGameBoard& board) {
+    bool hasFinish;
+    *this >> hasFinish;
+    if(hasFinish) {
+        eCharActFuncType type;
+        *this >> type;
+        const auto f = eCharacterActionFunction::sCreate(board, type);
+        f->read(*this);
+        return f;
+    }
+    return nullptr;
+}
+
+stdsptr<eGodAct> eReadStream::readGodAct(eGameBoard& board) {
+    bool hasFinish;
+    *this >> hasFinish;
+    if(hasFinish) {
+        eGodActType type;
+        *this >> type;
+        const auto f = eGodAct::sCreate(board, type);
+        f->read(*this);
+        return f;
+    }
+    return nullptr;
+}
+
+stdsptr<eObsticleHandler> eReadStream::readObsticleHandler(
+        eGameBoard& board) {
+    bool valid;
+    *this >> valid;
+    if(valid) {
+        eObsticleHandlerType type;
+        *this >> type;
+        const auto r = eObsticleHandler::sCreate(board, type);
+        r->read(*this);
+        return r;
+    } else {
+        return nullptr;
+    }
+}
+
+stdsptr<eDirectionTimes> eReadStream::readDirectionTimes(
+        eGameBoard& board) {
+    const auto r = std::make_shared<eDirectionTimes>();
+    int n;
+    *this >> n;
+    for(int i = 0; i < n; i++) {
+        const auto tile = readTile(board);
+        eDirectionLastUseTime u;
+        u.read(*this);
+        (*r)[tile] = u;
+    }
+    return r;
 }
 
 void eReadStream::addPostFunc(const eFunc& func) {

@@ -26,7 +26,24 @@ enum class eCharActionType {
     fightAction,
     fireFighterAction,
     followAction,
-    godAction
+    godAttackAction,
+    godVisitAction,
+    godWorshippedAction,
+    growerAction,
+    heroAction,
+    huntAction,
+    monsterAction,
+    moveAroundAction,
+    movePathAction,
+    moveToAction,
+    patrolAction,
+    patrolGuidedMoveAction,
+    patrolMoveAction,
+    settlerAction,
+    shepherdAction,
+    soldierAction,
+    traderAction,
+    waitAction
 };
 
 class eCharacterAction : public eStdSelfRef {
@@ -36,8 +53,6 @@ public:
     virtual ~eCharacterAction();
 
     virtual void increment(const int by) = 0;
-    virtual void pause();
-    virtual void resume();
 
     eCharacter* character() const { return mCharacter; }
     eCharacterActionState state() const { return mState; }

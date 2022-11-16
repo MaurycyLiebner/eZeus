@@ -1,5 +1,8 @@
 #include "egodworshippedaction.h"
 
+eGodWorshippedAction::eGodWorshippedAction(eCharacter* const c) :
+    eGodAction(c, eCharActionType::godWorshippedAction) {}
+
 void eGodWorshippedAction::increment(const int by) {
     const int lookForBlessCheck = 6000;
     const int lookForSoldierCheck = 1000;
@@ -51,4 +54,18 @@ bool eGodWorshippedAction::decide() {
         break;
     }
     return true;
+}
+
+void eGodWorshippedAction::read(eReadStream& src) {
+    eGodAction::read(src);
+    src >> mStage;
+    src >> mLookForBless;
+    src >> mLookForSoldierAttack;
+}
+
+void eGodWorshippedAction::write(eWriteStream& dst) const {
+    eGodAction::write(dst);
+    dst << mStage;
+    dst << mLookForBless;
+    dst << mLookForSoldierAttack;
 }

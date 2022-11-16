@@ -341,8 +341,7 @@ void eMainWindow::showGame(eGameBoard* board) {
 //                h = e::make_shared<eGreekHoplite>(*mBoard);
 //            }
             h->setPlayerId(pid);
-            const auto a = e::make_shared<eSoldierAction>(h.get(), [](){}, [](){});
-            h->setSoldierAction(a);
+            const auto a = e::make_shared<eSoldierAction>(h.get());
             h->setAction(a);
             h->changeTile(mBoard->tile(x, y));
             h->setActionType(eCharacterActionType::stand);

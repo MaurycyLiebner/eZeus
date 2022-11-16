@@ -75,8 +75,7 @@ void eGodAttackEvent::trigger() {
         break;
     }
 
-    const auto a = e::make_shared<eGodAttackAction>(
-                       god.get(), []() {}, []() {});
+    const auto a = e::make_shared<eGodAttackAction>(god.get());
     god->setAttitude(eGodAttitude::hostile);
     god->setAction(a);
     a->increment(1);

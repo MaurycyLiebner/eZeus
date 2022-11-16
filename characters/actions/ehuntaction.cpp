@@ -10,30 +10,14 @@
 
 #include "buildings/ehuntinglodge.h"
 
-eHuntAction::eHuntAction(
-        eHuntingLodge* const b,
-        eHunter* const c,
-        const eAction& failAction,
-        const eAction& finishAction) :
-    eActionWithComeback(c, failAction, finishAction),
-    mLodge(b),
-    mHunter(c) {}
-
-bool hasAnimal(eTileBase* const tile, eCharacterType& type) {
-    return tile->hasCharacter([&type](const eCharacterBase& c) {
-        const bool b = c.type() == eCharacterType::boar && !c.fighting();
-        if(b) {
-            type = eCharacterType::boar;
-            return true;
-        }
-        const bool d = c.type() == eCharacterType::deer && !c.fighting();
-        if(d) {
-            type = eCharacterType::deer;
-            return true;
-        }
-        return false;
-    });
+eHuntAction::eHuntAction(eHuntingLodge* const b, eCharacter* const c) :
+    eActionWithComeback(c, eCharActionType::huntAction),
+    mLodge(b), mHunter(static_cast<eHunter*>(c)) {
+    setFinishOnComeback(true);
 }
+
+eHuntAction::eHuntAction(eCharacter* const c) :
+    eHuntAction(nullptr, c) {}
 
 bool tryToCollect(eTile* const tile) {
     const auto cs = tile->characters();
@@ -54,6 +38,33 @@ bool tryToCollect(eTile* const tile) {
         }
     }
     return false;
+}
+
+void eHuntAction::increment(const int by) {
+    if(mHunter) {
+        const auto t = mHunter->tile();
+        if(t && tryToCollect(t)) {
+            setCurrentAction(nullptr);
+            return;
+        }
+    }
+    eActionWithComeback::increment(by);
+}
+
+bool hasAnimal(eTileBase* const tile, eCharacterType& type) {
+    return tile->hasCharacter([&type](const eCharacterBase& c) {
+        const bool b = c.type() == eCharacterType::boar && !c.fighting();
+        if(b) {
+            type = eCharacterType::boar;
+            return true;
+        }
+        const bool d = c.type() == eCharacterType::deer && !c.fighting();
+        if(d) {
+            type = eCharacterType::deer;
+            return true;
+        }
+        return false;
+    });
 }
 
 bool eHuntAction::decide() {
@@ -101,15 +112,22 @@ bool eHuntAction::decide() {
     return true;
 }
 
-void eHuntAction::resume() {
-    if(mHunter) {
-        const auto t = mHunter->tile();
-        if(t && tryToCollect(t)) {
-            setCurrentAction(nullptr);
-            return;
-        }
-    }
-    eActionWithComeback::resume();
+void eHuntAction::read(eReadStream& src) {
+    eActionWithComeback::read(src);
+    src.readBuilding(&board(), [this](eBuilding* const b) {
+        mLodge = static_cast<eHuntingLodge*>(b);
+    });
+    src.readCharacter(&board(), [this](eCharacter* const c) {
+        mHunter = static_cast<eHunter*>(c);
+    });
+    src >> mNoResource;
+}
+
+void eHuntAction::write(eWriteStream& dst) const {
+    eActionWithComeback::write(dst);
+    dst.writeBuilding(mLodge);
+    dst.writeCharacter(mHunter);
+    dst << mNoResource;
 }
 
 void eHuntAction::findResourceDecision() {
@@ -126,7 +144,7 @@ void eHuntAction::findResourceDecision() {
         return r;
     };
 
-    const auto a = e::make_shared<eMoveToAction>(c, [](){}, [](){});
+    const auto a = e::make_shared<eMoveToAction>(c);
     a->setFoundAction([this, c, aType]() {
         if(*aType == eCharacterType::deer) {
             mHunter->setDeerHunter(true);
@@ -148,8 +166,7 @@ void eHuntAction::goBackDecision() {
 }
 
 void eHuntAction::waitDecision() {
-    const auto w = e::make_shared<eWaitAction>(
-                       mHunter, [](){}, [](){});
+    const auto w = e::make_shared<eWaitAction>(mHunter);
     w->setTime(5000);
     setCurrentAction(w);
 }

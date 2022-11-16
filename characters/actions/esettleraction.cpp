@@ -7,10 +7,8 @@
 #include "buildings/esmallhouse.h"
 #include "buildings/eelitehousing.h"
 
-eSettlerAction::eSettlerAction(eCharacter* const c,
-                               const eAction& failAction,
-                               const eAction& finishAction) :
-    eActionWithComeback(c, failAction, finishAction) {
+eSettlerAction::eSettlerAction(eCharacter* const c) :
+    eActionWithComeback(c, eCharActionType::settlerAction) {
     setFinishOnComeback(true);
 }
 
@@ -23,6 +21,16 @@ bool eSettlerAction::decide() {
     return true;
 }
 
+void eSettlerAction::read(eReadStream& src) {
+    eActionWithComeback::read(src);
+    src >> mNoHouses;
+}
+
+void eSettlerAction::write(eWriteStream& dst) const {
+    eActionWithComeback::write(dst);
+    dst << mNoHouses;
+}
+
 void eSettlerAction::findHouse() {
     const auto c = character();
 
@@ -33,21 +41,16 @@ void eSettlerAction::findHouse() {
         return h && t->houseVacancies() > 0;
     };
     const stdptr<eCharacterAction> tptr(this);
-    const auto failFunc = [tptr, this]() {
-        if(tptr) goBack2();
-    };
-
-    const auto finishAction = [tptr, this]() {
-        if(!tptr) return;
-        const bool r = enterHouse();
-        if(r) {
-            setState(eCharacterActionState::finished);
-        }
-    };
+    const auto failFunc = std::make_shared<eSA_findHouseFail>(
+                              board(), this);
+    const auto finishAction = std::make_shared<eSA_findHouseFinish>(
+                                  board(), this);
 
     c->setActionType(eCharacterActionType::walk);
 
-    const auto a = e::make_shared<eMoveToAction>(c, failFunc, finishAction);
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFailAction(failFunc);
+    a->setFinishAction(finishAction);
     a->setFindFailAction([tptr, this]() {
         if(!tptr) return;
         mNoHouses = true;

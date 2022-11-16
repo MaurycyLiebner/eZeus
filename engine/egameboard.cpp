@@ -489,6 +489,11 @@ void eGameBoard::removeInvasion(eInvasionHandler* const i) {
     eVectorHelpers::remove(mInvasions, i);
 }
 
+void eGameBoard::waitUntilFinished() {
+    mThreadPool.waitFinished();
+    mThreadPool.handleFinished();
+}
+
 void eGameBoard::updateTileRenderingOrder() {
     std::vector<std::vector<std::pair<int, int>>> map;
     map.reserve(width());

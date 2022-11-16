@@ -25,8 +25,7 @@ class eAA_patrolFail : public eCharActFunc {
 public:
     eAA_patrolFail(eGameBoard& board) :
         eCharActFunc(board, eCharActFuncType::AA_patrolFail) {}
-    eAA_patrolFail(eGameBoard& board,
-                   eArcherAction* const t) :
+    eAA_patrolFail(eGameBoard& board, eCharacterAction* const t) :
         eCharActFunc(board, eCharActFuncType::AA_patrolFail),
         mTptr(t) {}
 
@@ -38,7 +37,7 @@ public:
 
     void read(eReadStream& src) override {
         src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
-            mTptr = static_cast<eArcherAction*>(ca);
+            mTptr = ca;
         });
     }
 
@@ -46,14 +45,14 @@ public:
         dst.writeCharacterAction(mTptr);
     }
 private:
-    stdptr<eArcherAction> mTptr;
+    stdptr<eCharacterAction> mTptr;
 };
 
 class eAA_patrolFinish : public eCharActFunc {
 public:
     eAA_patrolFinish(eGameBoard& board) :
         eCharActFunc(board, eCharActFuncType::AA_patrolFinish) {}
-    eAA_patrolFinish(eGameBoard& board, eArcherAction* const t) :
+    eAA_patrolFinish(eGameBoard& board, eCharacterAction* const t) :
         eCharActFunc(board, eCharActFuncType::AA_patrolFinish),
         mTptr(t) {}
 
@@ -65,7 +64,7 @@ public:
 
     void read(eReadStream& src) override {
         src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
-            mTptr = static_cast<eArcherAction*>(ca);
+            mTptr = ca;
         });
     }
 
@@ -73,7 +72,7 @@ public:
         dst.writeCharacterAction(mTptr);
     }
 private:
-    stdptr<eArcherAction> mTptr;
+    stdptr<eCharacterAction> mTptr;
 };
 
 #endif // EARCHERACTION_H

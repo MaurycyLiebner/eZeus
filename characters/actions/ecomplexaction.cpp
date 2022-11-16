@@ -43,14 +43,12 @@ void eComplexAction::setCurrentAction(const stdsptr<eCharacterAction>& a) {
 }
 
 void eComplexAction::wait(const int t) {
-    const auto w = e::make_shared<eWaitAction>(
-                       character(), [](){}, [](){});
+    const auto w = e::make_shared<eWaitAction>(character());
     w->setTime(t);
     setCurrentAction(w);
 }
 
 void eComplexAction::wait() {
-    const auto w = e::make_shared<eWaitAction>(
-                       character(), [](){}, [](){});
+    const auto w = e::make_shared<eWaitAction>(character());
     setCurrentAction(w);
 }

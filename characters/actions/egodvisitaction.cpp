@@ -2,6 +2,9 @@
 
 #include "characters/echaracter.h"
 
+eGodVisitAction::eGodVisitAction(eCharacter* const c) :
+    eGodAction(c, eCharActionType::godVisitAction) {}
+
 void eGodVisitAction::increment(const int by) {
     const int lookForSoldierCheck = 1500;
     const int lookForBlessCheck = 18000;
@@ -39,4 +42,18 @@ bool eGodVisitAction::decide() {
         break;
     }
     return true;
+}
+
+void eGodVisitAction::read(eReadStream& src) {
+    eGodAction::read(src);
+    src >> mStage;
+    src >> mLookForBless;
+    src >> mLookForSoldierAttack;
+}
+
+void eGodVisitAction::write(eWriteStream& dst) const {
+    eGodAction::write(dst);
+    dst << mStage;
+    dst << mLookForBless;
+    dst << mLookForSoldierAttack;
 }

@@ -12,6 +12,23 @@
 #include "efirefighteraction.h"
 #include "efollowaction.h"
 #include "egodaction.h"
+#include "egodattackaction.h"
+#include "egodvisitaction.h"
+#include "egodworshippedaction.h"
+#include "egroweraction.h"
+#include "eheroaction.h"
+#include "ehuntaction.h"
+#include "emonsteraction.h"
+#include "emovearoundaction.h"
+#include "emovepathaction.h"
+#include "emovetoaction.h"
+#include "epatrolaction.h"
+#include "epatrolguidedmoveaction.h"
+#include "esettleraction.h"
+#include "eshepherdaction.h"
+#include "esoldieraction.h"
+#include "etraderaction.h"
+#include "ewaitaction.h"
 
 stdsptr<eCharacterAction> eCharacterAction::sCreate(
         eCharacter* const c, const eCharActionType type) {
@@ -38,7 +55,41 @@ stdsptr<eCharacterAction> eCharacterAction::sCreate(
         return e::make_shared<eFireFighterAction>(c);
     case eCharActionType::followAction:
         return e::make_shared<eFollowAction>(c);
-    case eCharActionType::godAction:
-        return e::make_shared<eGodAction>(c);
+    case eCharActionType::godAttackAction:
+        return e::make_shared<eGodAttackAction>(c);
+    case eCharActionType::godVisitAction:
+        return e::make_shared<eGodVisitAction>(c);
+    case eCharActionType::godWorshippedAction:
+        return e::make_shared<eGodWorshippedAction>(c);
+    case eCharActionType::growerAction:
+        return e::make_shared<eGrowerAction>(c);
+    case eCharActionType::heroAction:
+        return e::make_shared<eHeroAction>(c);
+    case eCharActionType::huntAction:
+        return e::make_shared<eHuntAction>(c);
+    case eCharActionType::monsterAction:
+        return e::make_shared<eMonsterAction>(c);
+    case eCharActionType::moveAroundAction:
+        return e::make_shared<eMoveAroundAction>(c);
+    case eCharActionType::movePathAction:
+        return e::make_shared<eMovePathAction>(c);
+    case eCharActionType::moveToAction:
+        return e::make_shared<eMoveToAction>(c);
+    case eCharActionType::patrolAction:
+        return e::make_shared<ePatrolAction>(c);
+    case eCharActionType::patrolGuidedMoveAction:
+        return e::make_shared<ePatrolGuidedMoveAction>(c);
+    case eCharActionType::patrolMoveAction:
+        return e::make_shared<ePatrolMoveAction>(c);
+    case eCharActionType::settlerAction:
+        return e::make_shared<eSettlerAction>(c);
+    case eCharActionType::shepherdAction:
+        return e::make_shared<eShepherdAction>(c);
+    case eCharActionType::soldierAction:
+        return e::make_shared<eSoldierAction>(c);
+    case eCharActionType::traderAction:
+        return e::make_shared<eTraderAction>(c);
+    case eCharActionType::waitAction:
+        return e::make_shared<eWaitAction>(c);
     }
 }

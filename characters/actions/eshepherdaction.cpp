@@ -6,15 +6,20 @@
 #include "ewaitaction.h"
 #include "emovetoaction.h"
 
-eShepherdAction::eShepherdAction(eShepherBuildingBase* const shed,
+eShepherdAction::eShepherdAction(
+        eShepherBuildingBase* const shed,
         eResourceCollectorBase* const c,
-        const eCharacterType animalType,
-        const eAction& failAction,
-        const eAction& finishAction) :
-    eActionWithComeback(c, failAction, finishAction),
+        const eCharacterType animalType) :
+    eActionWithComeback(c, eCharActionType::shepherdAction),
     mAnimalType(animalType),
     mCharacter(c),
-    mShed(shed) {}
+    mShed(shed) {
+    setFinishOnComeback(true);
+}
+
+eShepherdAction::eShepherdAction(eCharacter* const c) :
+    eShepherdAction(nullptr, static_cast<eResourceCollectorBase*>(c),
+                    eCharacterType::sheep) {}
 
 bool hasAnimal(eTileBase* const tile, const eCharacterType type) {
     return tile->hasCharacter([&type](const eCharacterBase& c) {
@@ -107,6 +112,28 @@ bool eShepherdAction::decide() {
     return true;
 }
 
+void eShepherdAction::read(eReadStream& src) {
+    eActionWithComeback::read(src);
+    src >> mAnimalType;
+    src.readCharacter(&board(), [this](eCharacter* const c) {
+        mCharacter = static_cast<eResourceCollectorBase*>(c);
+    });
+    src.readBuilding(&board(), [this](eBuilding* const b) {
+        mShed = static_cast<eShepherBuildingBase*>(b);
+    });
+    src >> mGroomed;
+    src >> mNoResource;
+}
+
+void eShepherdAction::write(eWriteStream& dst) const {
+    eActionWithComeback::write(dst);
+    dst << mAnimalType;
+    dst.writeCharacter(mCharacter);
+    dst.writeBuilding(mShed);
+    dst << mGroomed;
+    dst << mNoResource;
+}
+
 bool eShepherdAction::findResourceDecision() {
     const stdptr<eShepherdAction> tptr(this);
 
@@ -115,7 +142,7 @@ bool eShepherdAction::findResourceDecision() {
         return hasAnimal(tile, aType);
     };
 
-    const auto a = e::make_shared<eMoveToAction>(mCharacter, [](){}, [](){});
+    const auto a = e::make_shared<eMoveToAction>(mCharacter);
     a->setFoundAction([tptr, this]() {
         if(!tptr) return;
         if(!mCharacter) return;
@@ -136,22 +163,14 @@ void eShepherdAction::collectDecision(eDomesticatedAnimal* const a) {
     mCharacter->setActionType(eCharacterActionType::collect);
     const stdptr<eCharacterAction> tptr(this);
     const stdptr<eDomesticatedAnimal> aa(a);
-    const auto finish = [tptr, this, aa]() {
-        int c = 0;
-        if(aa) {
-            c = aa->collect();
-            aa->setBusy(false);
-            aa->setVisible(true);
-        }
-        if(!tptr) return;
-        mCharacter->incCollected(c);
-    };
-    const auto wait = e::make_shared<eWaitAction>(mCharacter, finish, finish);
-    wait->setDeleteFailAction([aa]() {
-        if(!aa) return;
-        aa->setBusy(false);
-        aa->setVisible(true);
-    });
+    const auto finish = std::make_shared<eSA_collectDecisionFinish>(
+                            board(), this, a);;
+    const auto wait = e::make_shared<eWaitAction>(mCharacter);
+    wait->setFailAction(finish);
+    wait->setFinishAction(finish);
+    const auto deleteFail = std::make_shared<eSA_collectDecisionDeleteFail>(
+                                board(), a);
+    wait->setDeleteFailAction(deleteFail);
     wait->setTime(2000);
     setCurrentAction(wait);
 }
@@ -161,19 +180,14 @@ void eShepherdAction::groomDecision(eDomesticatedAnimal* const a) {
     mCharacter->setActionType(eCharacterActionType::fight);
     const stdptr<eCharacterAction> tptr(this);
     const stdptr<eDomesticatedAnimal> aa(a);
-    const auto finish = [tptr, this, aa]() {
-        if(aa) {
-            aa->groom();
-            aa->setBusy(false);
-        }
-        if(!tptr) return;
-        mGroomed++;
-    };
-    const auto wait = e::make_shared<eWaitAction>(mCharacter, finish, finish);
-    wait->setDeleteFailAction([aa]() {
-        if(!aa) return;
-        aa->setBusy(false);
-    });
+    const auto finish = std::make_shared<eSA_groomDecisionFinish>(
+                            board(), this, a);
+    const auto wait = e::make_shared<eWaitAction>(mCharacter);
+    wait->setFailAction(finish);
+    wait->setFinishAction(finish);
+    const auto deleteFail = std::make_shared<eSA_groomDecisionDeleteFail>(
+                                board(), a);
+    wait->setDeleteFailAction(deleteFail);
     wait->setTime(1000);
     setCurrentAction(wait);
 }

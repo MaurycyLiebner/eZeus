@@ -18,11 +18,8 @@ ePatrolBuildingBase::sDefaultActGenerator(
            eCharacter* const c,
            ePatrolBuildingBase* const b,
            const std::vector<ePatrolGuide>& guides,
-           const eAction& failAction,
-           const eAction& finishAction,
            const stdsptr<eDirectionTimes>& dirTimes) {
-    return e::make_shared<ePatrolAction>(
-                c, b, guides, failAction, finishAction, dirTimes);
+    return e::make_shared<ePatrolAction>(c, b, guides, dirTimes);
 }
 
 ePatrolBuildingBase::ePatrolBuildingBase(
@@ -58,7 +55,7 @@ void ePatrolBuildingBase::setPatrolGuides(const ePatrolGuides &g) {
 
 bool ePatrolBuildingBase::spawn() {
     const auto chr = mCharGenerator();
-    mChar = chr;
+    mChar = chr.get();
     if(!mChar) return false;
     if(mPatrolGuides.empty()) {
         eTile* t = nullptr;
@@ -75,24 +72,14 @@ bool ePatrolBuildingBase::spawn() {
             }
         }
         if(!t) return false;
-        mChar->changeTile(t);
+        chr->changeTile(t);
     } else {
-        mChar->changeTile(centerTile());
+        chr->changeTile(centerTile());
     }
-    const eStdPointer<ePatrolBuildingBase> tptr(this);
-    const eStdPointer<eCharacter> cptr(mChar);
-    const auto finishAct = [tptr, this, cptr]() {
-        if(cptr) cptr->kill();
-        if(tptr) {
-            mSpawnTime = 0;
-            mChar = nullptr;
-        }
-    };
-    const auto a = mActGenerator(mChar.get(), this,
+    const auto a = mActGenerator(chr.get(), this,
                                  mPatrolGuides,
-                                 finishAct, finishAct,
                                  mDirTimes);
-    mChar->setAction(a);
+    chr->setAction(a);
     return true;
 }
 
@@ -107,12 +94,11 @@ void ePatrolBuildingBase::read(eReadStream& src) {
     src >> mSpawnTime;
     src >> mSpawnRoadId;
 
-    int dts;
-    src >> dts;
-    for(int i = 0; i < dts; i++) {
-        const auto t = src.readTile(getBoard());
-        (*mDirTimes)[t].read(src);
-    }
+    mDirTimes = src.readDirectionTimes(getBoard());
+
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mChar = c;
+    });
 
     int n;
     src >> n;
@@ -131,11 +117,9 @@ void ePatrolBuildingBase::write(eWriteStream& dst) const {
     dst << mSpawnTime;
     dst << mSpawnRoadId;
 
-    dst << mDirTimes->size();
-    for(const auto& d : *mDirTimes) {
-        dst.writeTile(d.first);
-        d.second.write(dst);
-    }
+    dst.writeDirectionTimes(mDirTimes.get());
+
+    dst.writeCharacter(mChar);
 
     dst << mPatrolGuides.size();
     for(const auto& pg : mPatrolGuides) {

@@ -319,12 +319,11 @@ void eCartTransporterAction::waitOutside() {
     if(!tt) return;
     mWaitOutside = true;
 
-    const stdptr<eCartTransporterAction> tptr(this);
-    const auto stand = [tptr]() {
-        if(!tptr) return;
-        tptr->spread();
-    };
-    const auto a = e::make_shared<eMoveToAction>(c, stand, stand);
+    const auto stand = std::make_shared<eCTA_waitOutsideFinish>(
+                           board(), this);
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFinishAction(stand);
+    a->setFailAction(stand);
 
     const auto buildingRect = mBuilding->tileRect();
     const auto w = eWalkableObject::sCreateRect(
@@ -342,12 +341,11 @@ void eCartTransporterAction::spread() {
         return;
     }
 
-    const stdptr<eCartTransporter> cptr(ct);
-    const auto stand = [cptr]() {
-        if(!cptr) return;
-        cptr->setActionType(eCharacterActionType::stand);
-    };
-    const auto a = e::make_shared<eMoveToAction>(c, stand, stand);
+    const auto stand = std::make_shared<eCTA_spreadFinish>(
+                           board(), ct);
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFailAction(stand);
+    a->setFinishAction(stand);
 
     const auto ctt = ct->tile();
     const int tx = ctt->x();

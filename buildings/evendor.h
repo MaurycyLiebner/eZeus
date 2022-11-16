@@ -71,13 +71,11 @@ private:
     const double mOverlayY2;
     const eOverlays mOverlayTex2;
 
-    stdsptr<eCharacter> mVendor;
-
     bool mVendorEnabled = true;
 
     int mResource{0};
 
-    stdsptr<eCartTransporter> mCart;
+    stdptr<eCartTransporter> mCart;
 };
 
 #endif // EVENDOR_H

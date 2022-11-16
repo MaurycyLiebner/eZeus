@@ -27,11 +27,7 @@ eTradePost::eTradePost(eGameBoard& board, eWorldCity& city,
             r->changeTile(tile);
             return r;
         });
-        setWalkable([](eTileBase* const t) {
-            const bool r = t->terrain() == eTerrain::water;
-            if(!r) return false;
-            return !t->isShoreTile();
-        });
+        setWalkable(eWalkableObject::sCreate(eWalkableObjectType::water));;
     } break;
     case eTradePostType::post: {
         setCharacterCreator([](eTile* const tile, eGameBoard& board) {
@@ -193,7 +189,7 @@ void eTradePost::spawnTrader() {
 
     const auto r = mCharGen(mRouteStart, board);
 
-    const auto ta = e::make_shared<eTraderAction>(r.get(), [](){}, [](){});
+    const auto ta = e::make_shared<eTraderAction>(r.get());
     ta->setFinishOnComeback(true);
     ta->setTradePost(this);
     ta->setUnpackBuilding(mUnpackBuilding);

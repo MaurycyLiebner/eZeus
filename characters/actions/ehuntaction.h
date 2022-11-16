@@ -10,19 +10,21 @@ class eHuntingLodge;
 class eHuntAction : public eActionWithComeback {
 public:
     eHuntAction(eHuntingLodge* const b,
-                eHunter* const c,
-                const eAction& failAction,
-                const eAction& finishAction);
+                eCharacter* const c);
+    eHuntAction(eCharacter* const c);
 
-    bool decide();
-    void resume();
+    void increment(const int by) override;
+    bool decide() override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     void findResourceDecision();
     void goBackDecision();
     void waitDecision();
 
-    eHuntingLodge* const mLodge;
-    eHunter* const mHunter;
+    eHuntingLodge* mLodge = nullptr;
+    eHunter* mHunter = nullptr;
 
     bool mNoResource = false;
 };

@@ -8,6 +8,7 @@
 
 class eCartTransporterAction : public eActionWithComeback {
     friend class eCTA_findTargetFinish;
+    friend class eCTA_waitOutsideFinish;
 public:
     eCartTransporterAction(eCharacter* const c,
                            eBuildingWithResource* const b);
@@ -91,6 +92,61 @@ private:
     stdptr<eCartTransporterAction> mTptr;
     int mBx = -1;
     int mBy = -1;
+};
+
+class eCTA_waitOutsideFinish : public eCharActFunc {
+public:
+    eCTA_waitOutsideFinish(eGameBoard& board) :
+        eCharActFunc(board, eCharActFuncType::CTA_waitOutsideFinish) {}
+    eCTA_waitOutsideFinish(eGameBoard& board,
+                           eCartTransporterAction* const ca) :
+        eCharActFunc(board, eCharActFuncType::CTA_waitOutsideFinish),
+        mTptr(ca) {}
+
+    void call() override {
+        if(!mTptr) return;
+        const auto t = mTptr.get();
+        t->spread();
+    }
+
+    void read(eReadStream& src) override {
+        src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
+            mTptr = static_cast<eCartTransporterAction*>(ca);
+        });
+    }
+
+    void write(eWriteStream& dst) const override {
+        dst.writeCharacterAction(mTptr);
+    }
+private:
+    stdptr<eCartTransporterAction> mTptr;
+};
+
+class eCTA_spreadFinish : public eCharActFunc {
+public:
+    eCTA_spreadFinish(eGameBoard& board) :
+        eCharActFunc(board, eCharActFuncType::CTA_spreadFinish) {}
+    eCTA_spreadFinish(eGameBoard& board, eCharacter* const c) :
+        eCharActFunc(board, eCharActFuncType::CTA_spreadFinish),
+        mCptr(c) {}
+
+    void call() override {
+        if(!mCptr) return;
+        const auto c = mCptr.get();
+        c->setActionType(eCharacterActionType::stand);
+    }
+
+    void read(eReadStream& src) override {
+        src.readCharacter(&board(), [this](eCharacter* const c) {
+            mCptr = c;
+        });
+    }
+
+    void write(eWriteStream& dst) const override {
+        dst.writeCharacter(mCptr);
+    }
+private:
+    stdptr<eCharacter> mCptr;
 };
 
 #endif // ECARTTRANSPORTERACTION_H

@@ -54,7 +54,7 @@ void eHorseRanch::timeChanged(const int by) {
     const int horse = 10000;
     if(enabled()) {
         if(!mTakeCart) {
-            spawnCart(mTakeCart, eCartActionTypeSupport::take);
+            mTakeCart = spawnCart(eCartActionTypeSupport::take);
         }
         if(mWheat > 0) {
             mWheatTime += by;

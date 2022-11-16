@@ -5,6 +5,14 @@
 #include "emovetoaction.h"
 #include "ewaitaction.h"
 
+eFireFighterAction::eFireFighterAction(
+        eCharacter* const c,
+        ePatrolBuildingBase* const b,
+        const std::vector<ePatrolGuide>& guides,
+        const stdsptr<eDirectionTimes>& dirTimes) :
+    ePatrolAction(c, b, guides, dirTimes,
+                  eCharActionType::fireFighterAction) {}
+
 eFireFighterAction::eFireFighterAction(eCharacter* const c) :
     ePatrolAction(c, eCharActionType::fireFighterAction) {}
 

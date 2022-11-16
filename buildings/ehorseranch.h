@@ -39,7 +39,7 @@ private:
     int mHorseTime = 0;
     eHorseRanchEnclosure* mEnclosure = nullptr;
 
-    stdsptr<eCartTransporter> mTakeCart;
+    stdptr<eCartTransporter> mTakeCart;
 };
 
 #endif // EHORSERANCH_H

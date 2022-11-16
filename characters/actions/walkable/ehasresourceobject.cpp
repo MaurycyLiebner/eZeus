@@ -7,6 +7,8 @@ stdsptr<eHasResourceObject> eHasResourceObject::sCreate(
     switch(type) {
     case eHasResourceObjectType::nonBusy:
         return std::make_shared<eHasNonBusyResourceObject>();
+    case eHasResourceObjectType::fish:
+        return std::make_shared<eHasResourceObject>(type);
     }
 }
 

@@ -9,10 +9,7 @@ eGrowersLodge::eGrowersLodge(eGameBoard& board, const eGrowerType type) :
                        type == eGrowerType::grapesAndOlives ?
                            eBuildingType::growersLodge :
                            eBuildingType::orangeTendersLodge, 2, 2, 12),
-    mTextures(eGameTextures::buildings()),
-    mType(type) {
-
-}
+    mType(type) {}
 
 eGrowersLodge::~eGrowersLodge() {
     if(mCart) mCart->kill();
@@ -21,7 +18,7 @@ eGrowersLodge::~eGrowersLodge() {
 
 std::shared_ptr<eTexture> eGrowersLodge::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
-    const auto& texs = mTextures[sizeId];
+    const auto& texs = eGameTextures::buildings()[sizeId];
     switch(mType) {
     case eGrowerType::grapesAndOlives:
         return texs.fGrowersLodge;
@@ -34,7 +31,7 @@ std::shared_ptr<eTexture> eGrowersLodge::getTexture(const eTileSize size) const 
 std::vector<eOverlay> eGrowersLodge::
     getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
-    const auto& texs = mTextures[sizeId];
+    const auto& texs = eGameTextures::buildings()[sizeId];
     std::vector<eOverlay> os;
 
     switch(mType) {
@@ -95,7 +92,7 @@ void eGrowersLodge::timeChanged(const int by) {
     if(enabled()) {
         const bool hasRes = mGrapes > 0 || mOlives > 0 || mOranges > 0;
         if(!mCart) {
-            spawnCart(mCart, eCartActionTypeSupport::give);
+            mCart = spawnCart(eCartActionTypeSupport::give);
         } else if(mCart && mCart->waiting() && hasRes) {
             if(mGrapes > 0) {
                 const int a = mCart->add(eResourceType::grapes, mGrapes);
@@ -212,22 +209,42 @@ std::vector<eCartTask> eGrowersLodge::cartTasks() const {
     return tasks;
 }
 
+void eGrowersLodge::read(eReadStream& src) {
+    eEmployingBuilding::read(src);
+    src >> mSpawnEnabled;
+    src >> mGrapes;
+    src >> mOlives;
+    src >> mOranges;
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mCart = static_cast<eCartTransporter*>(c);
+    });
+    src >> mWaitTime;
+    src >> mSpawnTime;
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mGrower = static_cast<eGrower*>(c);
+    });
+}
+
+void eGrowersLodge::write(eWriteStream& dst) const {
+    eEmployingBuilding::write(dst);
+    dst << mSpawnEnabled;
+    dst << mGrapes;
+    dst << mOlives;
+    dst << mOranges;
+    dst.writeCharacter(mCart);
+    dst << mWaitTime;
+    dst << mSpawnTime;
+    dst.writeCharacter(mGrower);
+}
+
 bool eGrowersLodge::spawnGrower(const eGrowerPtr grower) {
     const auto t = centerTile();
-    auto& g = this->*grower;
-    g = e::make_shared<eGrower>(getBoard());
+    const auto g = e::make_shared<eGrower>(getBoard());
     g->setGrowerType(mType);
     g->changeTile(t);
-    const eStdPointer<eGrowersLodge> tptr(this);
-    const auto finishAct = [tptr, this, grower]() {
-        if(!tptr) return;
-        auto& g = this->*grower;
-        if(g) g->kill();
-        g = nullptr;
-    };
     const auto a = e::make_shared<eGrowerAction>(
-                       mType, this, g.get(),
-                       finishAct, finishAct);
+                       mType, this, g.get());
     g->setAction(a);
+    this->*grower = g.get();
     return true;
 }

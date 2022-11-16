@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <string>
 #include <vector>
+#include <map>
 
 class eTile;
 class eBuilding;
@@ -11,6 +12,12 @@ class eCharacter;
 class eCharacterAction;
 class eWalkableObject;
 class eHasResourceObject;
+class eCharacterActionFunction;
+class eGodAct;
+class eObsticleHandler;
+class eDirectionLastUseTime;
+
+using eDirectionTimes = std::map<eTile*, eDirectionLastUseTime>;
 
 class eWriteStream {
 public:
@@ -77,6 +84,10 @@ public:
     void writeCharacterAction(eCharacterAction* const ca);
     void writeWalkable(eWalkableObject* const w);
     void writeHasResource(eHasResourceObject* const hr);
+    void writeCharActFunc(eCharacterActionFunction* const caf);
+    void writeGodAct(eGodAct* const ga);
+    void writeObsticleHandler(eObsticleHandler* const w);
+    void writeDirectionTimes(eDirectionTimes* const d);
 private:
     SDL_RWops* const mDst;
 };

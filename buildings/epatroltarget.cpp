@@ -43,6 +43,22 @@ void ePatrolTarget::timeChanged(const int by) {
     ePatrolBuilding::timeChanged(by);
 }
 
+void ePatrolTarget::read(eReadStream& src) {
+    ePatrolBuilding::read(src);
+    src >> mAvailable;
+    src >> mSpawnTime;
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mChar = c;
+    });
+}
+
+void ePatrolTarget::write(eWriteStream& dst) const {
+    ePatrolBuilding::write(dst);
+    dst << mAvailable;
+    dst << mSpawnTime;
+    dst.writeCharacter(mChar);
+}
+
 void ePatrolTarget::spawnGetActor() {
     const auto t = centerTile();
     auto& tp = getBoard().threadPool();
@@ -62,30 +78,23 @@ void ePatrolTarget::spawnGetActor() {
         return t->underBuildingType() == fromBuilding;
     };
     const auto failFunc = []() {};
-    const auto walkable = [buildingRect](eTileBase* const t) {
-        const SDL_Point p{t->x(), t->y()};
-        const bool r = SDL_PointInRect(&p, &buildingRect);
-        if(r) return true;
-        return t->hasRoad();
-    };
+    const auto rw = eWalkableObject::sCreateRoad();
+    const auto walkable = eWalkableObject::sCreateRect(
+                              buildingRect, rw);
     const stdptr<ePatrolTarget> tptr(this);
     const auto finishFunc = [tptr, this, school, walkable](
                             std::vector<eOrientation> path) {
         if(!tptr) return;
-        const auto finishAction = [tptr, this]() {
-            if(!tptr) return;
-            mAvailable = mAvailableWaitTime;
-            setSpawnPatrolers(true);
-        };
+        const auto finishAction = std::make_shared<ePT_spawnGetActorFinish>(
+                                      getBoard(), this);
 
         if(path.empty()) {
-            finishAction();
+            finishAction->call();
         } else {
             std::reverse(path.begin(), path.end());
             path.erase(path.begin());
             for(auto& o : path) o = !o;
 
-            const auto failFunc = []() {};
             auto& brd = getBoard();
             const auto c = mCharGen();
             mChar = c;
@@ -94,8 +103,8 @@ void ePatrolTarget::spawnGetActor() {
 
             c->setActionType(eCharacterActionType::walk);
             const auto a = e::make_shared<eMovePathAction>(
-                               c.get(), path, walkable,
-                               failFunc, finishAction);
+                               c.get(), path, walkable);
+            a->setFinishAction(finishAction);
             c->setAction(a);
         }
     };

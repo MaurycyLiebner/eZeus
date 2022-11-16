@@ -7,6 +7,9 @@
 #include "elanguage.h"
 #include "etilehelper.h"
 
+eGodAttackAction::eGodAttackAction(eCharacter* const c) :
+    eGodAction(c, eCharActionType::godAttackAction) {}
+
 void eGodAttackAction::increment(const int by) {
     const auto c = character();
     const auto at = c->actionType();
@@ -27,52 +30,14 @@ bool eGodAttackAction::lookForAttack(const int dtime,
                                      int& time, const int freq,
                                      const int range) {
     const auto c = character();
-    const auto charTarget = std::make_shared<stdptr<eCharacter>>();
-    const auto bTarget = std::make_shared<stdptr<eBuilding>>();
-    const auto act = [c, charTarget, bTarget](eTile* const t) {
-        const auto null = static_cast<eTile*>(nullptr);
-        if(c->tile() == t) return null;
-        const auto b = t->underBuilding();
-        if(b && eBuilding::sAttackable(b->type())) {
-            *bTarget = b;
-            return b->centerTile();
-        } else {
-            const auto& chars = t->characters();
-            if(chars.empty()) return null;
-            for(const auto& cc : chars) {
-                if(c == cc.get()) continue;
-                bool isGod = false;
-                eGod::sCharacterToGodType(cc->type(), &isGod);
-                if(isGod) continue;
-                bool isMonster = false;
-                eMonster::sCharacterToMonsterType(cc->type(), &isMonster);
-                if(isMonster) continue;
-                bool isHero = false;
-                eHero::sCharacterToHeroType(cc->type(), &isHero);
-                if(isHero) continue;
-                *charTarget = cc;
-                return t;
-            }
-            return null;
-        }
-    };
+    const auto act = std::make_shared<eLookForAttackGodAct>(board(), c);
 
-    const auto cptr = stdptr<eCharacter>(c);
-    const auto finishA = [cptr, charTarget, bTarget]() {
-        if(!cptr) return;
-        if(*bTarget) {
-            (*bTarget)->collapse();
-            eSounds::playCollapseSound();
-        } else if(*charTarget) {
-            (*charTarget)->killWithCorpse();
-        }
-    };
     const auto at = eCharacterActionType::fight;
     const auto s = eGodSound::attack;
-    const auto tex = eGod::sGodMissile(type());
+    const auto chart = c->type();
 
     return lookForRangeAction(dtime, time, freq, range,
-                              at, act, tex, s, finishA);
+                              at, act, chart, s);
 }
 
 bool eGodAttackAction::lookForGodAttack(const int dtime, int& time,
@@ -129,7 +94,7 @@ bool eGodAttackAction::lookForGodAttack(const int dtime, int& time,
                 const auto lt = g1t == wt ? g2t : g1t;
                 const auto winnerA = g1t == wt ? g1Aptr : g2Aptr;
                 const auto loserA = g1t == wt ? g2Aptr : g1Aptr;
-                const auto board = &thisGod->getBoard();
+                auto& board = thisGod->getBoard();
                 const auto finishA = std::make_shared<eGAA_fightFinish>(
                                         board, winnerA, loserA, wt, lt);
                 pauseAction();
@@ -141,42 +106,22 @@ bool eGodAttackAction::lookForGodAttack(const int dtime, int& time,
     }
     return false;
 }
-std::function<bool(eTile* const)> eGodAttackAction::obsticleHandler() {
-    const stdptr<eGodAttackAction> tptr(this);
-    return [tptr, this](eTile* const tile) {
-        if(!tptr) return false;
-        const auto ub = tile->underBuilding();
-        if(!ub) return false;
-        const auto ubt = ub->type();
-        const bool r = eBuilding::sWalkableBuilding(ubt);
-        if(r) return false;
-        destroyBuilding(ub);
-        return true;
-    };
+
+stdsptr<eObsticleHandler> eGodAttackAction::obsticleHandler() {
+    return std::make_shared<eGodObsticleHandler>(board(), this);
 }
 
 void eGodAttackAction::destroyBuilding(eBuilding* const b) {
-    const stdptr<eGodAttackAction> tptr(this);
-    const stdptr<eBuilding> bptr(b);
-    const auto finishAttackA = [tptr, this, bptr]() {
-        if(!tptr) return;
-        resumeAction();
-        if(!bptr) return;
-        bptr->collapse();
-        eSounds::playCollapseSound();
-    };
-    const auto playHitSound = [bptr, b]() {
-        if(!bptr) return;
-        auto& board = b->getBoard();
-        board.ifVisible(b->centerTile(), [&]() {
-            eSounds::playFireballHitSound();
-        });
-    };
+    const auto finishAttackA = std::make_shared<eGAA_destroyBuildingFinish>(
+                                   board(), this, b);
+    const auto playHitSound = std::make_shared<ePlayMonsterBuildingAttackSoundGodAct>(
+                                  board(), b);
     pauseAction();
     const auto at = eCharacterActionType::fight;
     const auto s = eGodSound::attack;
-    const auto tex = eGod::sGodMissile(type());
-    spawnGodMultipleMissiles(at, tex, b->centerTile(),
+    const auto c = character();
+    const auto chart = c->type();
+    spawnGodMultipleMissiles(at, chart, b->centerTile(),
                              s, playHitSound, finishAttackA, 3);
 }
 
@@ -184,13 +129,7 @@ void eGodAttackAction::goToTarget() {
     const auto gt = type();
     const auto hg = eHeatGetters::godLeaning(gt);
     const stdptr<eGodAction> tptr(this);
-    const auto tele = [tptr, this](eTile* const tile) {
-        if(!tptr) return;
-        const auto c = character();
-        auto& board = c->getBoard();
-        const auto r = eTileHelper::closestRoad(tile->x(), tile->y(), board);
-        teleport(r);
-    };
+    const auto tele = std::make_shared<eTeleportFindFailFunc>(board(), this);
     eGodMonsterAction::goToTarget(hg, tele, obsticleHandler());
 }
 
@@ -235,4 +174,20 @@ bool eGodAttackAction::decide() {
         break;
     }
     return true;
+}
+
+void eGodAttackAction::read(eReadStream& src) {
+    eGodAction::read(src);
+    src >> mStage;
+    src >> mLookForCurse;
+    src >> mLookForAttack;
+    src >> mLookForGod;
+}
+
+void eGodAttackAction::write(eWriteStream& dst) const {
+    eGodAction::write(dst);
+    dst << mStage;
+    dst << mLookForCurse;
+    dst << mLookForAttack;
+    dst << mLookForGod;
 }

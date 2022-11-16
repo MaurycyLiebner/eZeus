@@ -9,26 +9,31 @@
 #include "missiles/egodmissile.h"
 #include "etilehelper.h"
 
-void eGodMonsterAction::moveAround(const eAction& finishAct, const int time) {
+#include "egodattackaction.h"
+#include "emonsteraction.h"
+
+void eGodMonsterAction::moveAround(const stdsptr<eCharActFunc>& finishAct,
+                                   const int time) {
     const auto c = character();
     c->setActionType(eCharacterActionType::walk);
     const auto t = c->tile();
     const int tx = t->x();
     const int ty = t->y();
     const auto a = e::make_shared<eMoveAroundAction>(
-                       c, finishAct, finishAct, tx, ty,
-                       eWalkableObject::sCreateDefault());
+                       c, tx, ty, eWalkableObject::sCreateDefault());
+    a->setFinishAction(finishAct);
+    a->setFailAction(finishAct);
     a->setMaxDistance(10);
     a->setTime(time);
     setCurrentAction(a);
 }
 
 void eGodMonsterAction::goToTarget(const eHeatGetters::eHeatGetter hg,
-                                   const eFindFailFunc& findFailFunc,
-                                   const eObsticleHandler& oh,
+                                   const stdsptr<eFindFailFunc>& findFailFunc,
+                                   const stdsptr<eObsticleHandler>& oh,
                                    const eTileDistance& tileDistance,
-                                   const eTileWalkable& pathFindWalkable,
-                                   const eTileWalkable& moveWalkable) {
+                                   const stdsptr<eWalkableObject>& pathFindWalkable,
+                                   const stdsptr<eWalkableObject>& moveWalkable) {
     const auto c = character();
     const stdptr<eGodMonsterAction> tptr(this);
     const stdptr<eCharacter> cptr(c);
@@ -47,14 +52,15 @@ void eGodMonsterAction::goToTarget(const eHeatGetters::eHeatGetter hg,
             auto& board = c->getBoard();
             const auto tile = eTileHelper::closestRoad(tx, ty, board);
             if(!tile) return setCurrentAction(nullptr);
-            const auto ff = [tile, findFailFunc]() {
-                findFailFunc(tile);
-            };
-            const auto a = e::make_shared<eMoveToAction>(
-                               c, ff, [](){});
+            const auto ff = std::make_shared<eGMA_goToTargetFail>(
+                                board, tile, findFailFunc);
+            const auto a = e::make_shared<eMoveToAction>(c);
+            a->setFailAction(ff);
             a->setObsticleHandler(oh);
             a->setTileDistance(tileDistance);
-            a->setFindFailAction(ff);
+            a->setFindFailAction([ff]() {
+                ff->call();
+            });
             a->start(tile, pathFindWalkable, moveWalkable);
             setCurrentAction(a);
             c->setActionType(eCharacterActionType::walk);
@@ -70,50 +76,17 @@ void eGodMonsterAction::goToTarget(const eHeatGetters::eHeatGetter hg,
 }
 
 void eGodMonsterAction::spawnMissile(const eCharacterActionType at,
-                                     const eTexPtr tex,
+                                     const eCharacterType chart,
                                      const int attackTime,
                                      eTile* const target,
-                                     const eFunc& playSound,
-                                     const eFunc& finishMissileA,
-                                     const eFunc& finishAttackA) {
+                                     const stdsptr<eCharActFunc>& playSound,
+                                     const stdsptr<eGodAct>& hitAct,
+                                     const stdsptr<eCharActFunc>& finishAttackA) {
     const stdptr<eGodMonsterAction> tptr(this);
-    const auto finish = [tptr, this, tex, target,
-                        finishMissileA, finishAttackA, at]() {
-        if(!tptr) return;
-        const auto c = character();
-        const auto charType = c->type();
-        const auto ct = c->tile();
-        const int tx = ct->x();
-        const int ty = ct->y();
-        const int ttx = target->x();
-        const int tty = target->y();
-        auto& brd = c->getBoard();
-        double h;
-        if(at == eCharacterActionType::fight) {
-            switch(charType) {
-            case eCharacterType::apollo:
-                h = -0.5;
-                break;
-            case eCharacterType::calydonianBoar:
-                h = -1;
-                break;
-            default:
-                h = 0;
-                break;
-            }
-        } else {
-            h = 0;
-        }
-
-        const auto m = eMissile::sCreate<eGodMissile>(
-                           brd, tx, ty, h,
-                           ttx, tty, h, 0);
-        m->setTexture(tex);
-
-        m->setFinishAction(finishMissileA);
-
-        if(finishAttackA) finishAttackA();
-    };
+    const auto finish = std::make_shared<eGMA_spawnMissileFinish>(
+                            board(), character(),
+                            at, chart, target, playSound,
+                            hitAct, finishAttackA);
     const auto c = character();
     c->setActionType(at);
     {
@@ -131,54 +104,52 @@ void eGodMonsterAction::spawnMissile(const eCharacterActionType at,
         c->setOrientation(o);
     }
 
-    if(playSound) playSound();
+    if(playSound) playSound->call();
 
-    const auto a = e::make_shared<eWaitAction>(c, finish, finish);
+    const auto a = e::make_shared<eWaitAction>(c);
+    a->setFailAction(finish);
+    a->setFinishAction(finish);
     a->setTime(attackTime);
     setCurrentAction(a);
 }
 
 void eGodMonsterAction::spawnMultipleMissiles(
           const eCharacterActionType at,
-          const eTexPtr tex,
+          const eCharacterType ct,
           const int attackTime,
           eTile* const target,
-          const eFunc& playSound,
-          const eFunc& playHitSound,
-          const eFunc& finishA,
+          const stdsptr<eCharActFunc>& playSound,
+          const stdsptr<eGodAct>& playHitSound,
+          const stdsptr<eCharActFunc>& finishA,
           const int nMissiles) {
     if(nMissiles <= 0) {
-        finishA();
+        if(finishA) finishA->call();
         return;
     }
-    eFunc finishAA;
+    stdsptr<eCharActFunc> finishAA;
     if(nMissiles == 1) {
         finishAA = finishA;
     } else {
-        const stdptr<eGodMonsterAction> tptr(this);
-        finishAA = [tptr, this, at, tex, attackTime, target,
-                   playSound, playHitSound, finishA, nMissiles]() {
-            if(!tptr) return;
-            spawnMultipleMissiles(at, tex, attackTime, target,
-                                  playSound, playHitSound,
-                                  finishA, nMissiles - 1);
-        };
+        finishAA = std::make_shared<eGMA_spawnMultipleMissilesFinish>(
+                       board(), this, at, ct, attackTime,
+                       target, playSound, playHitSound,
+                       finishA, nMissiles);
     }
-    spawnMissile(at, tex, attackTime, target,
+    spawnMissile(at, ct, attackTime, target,
                  playSound, playHitSound, finishAA);
 }
 
 void eGodMonsterAction::spawnTimedMissiles(
         const eCharacterActionType at,
-        const eTexPtr tex,
+        const eCharacterType ct,
         const int attackTime,
         eTile* const target,
-        const eFunc& playSound,
-        const eFunc& playHitSound,
-        const eFunc& finishA,
+        const stdsptr<eCharActFunc>& playSound,
+        const stdsptr<eGodAct>& playHitSound,
+        const stdsptr<eCharActFunc>& finishA,
         const int time) {
     const int n = std::round(double(time)/attackTime);
-    spawnMultipleMissiles(at, tex, attackTime, target,
+    spawnMultipleMissiles(at, ct, attackTime, target,
                           playSound, playHitSound, finishA, n);
 }
 
@@ -199,4 +170,49 @@ void eGodMonsterAction::resumeAction() {
     setCurrentAction(p.fA);
     const auto c = character();
     c->setActionType(p.fAt);
+}
+
+void eGodMonsterAction::read(eReadStream& src) {
+    eComplexAction::read(src);
+    int s;
+    src >> s;
+    for(int i = 0; i < s; i++) {
+        auto& a = mPausedActions.emplace_back();
+        src >> a.fAt;
+        bool hasAction;
+        src >> hasAction;
+        if(hasAction) {
+            eCharActionType type;
+            src >> type;
+            a.fA = eCharacterAction::sCreate(character(), type);
+            a.fA->read(src);
+        }
+        src >> a.fO;
+    }
+}
+
+void eGodMonsterAction::write(eWriteStream& dst) const {
+    eComplexAction::write(dst);
+    dst << mPausedActions.size();
+    for(const auto& a : mPausedActions) {
+        dst << a.fAt;
+        dst << (a.fA != nullptr);
+        if(a.fA) {
+            dst << a.fA->type();
+            a.fA->write(dst);
+        }
+        dst << a.fO;
+    }
+}
+
+stdsptr<eFindFailFunc> eFindFailFunc::sCreate(eGameBoard& board,
+                                              const eFindFailFuncType type) {
+    switch(type) {
+    case eFindFailFuncType::teleport:
+        return std::make_shared<eTeleportFindFailFunc>(board);
+    case eFindFailFuncType::teleport2:
+        return std::make_shared<eGoToTargetTeleport>(board);
+    case eFindFailFuncType::tryAgain:
+        return std::make_shared<eGoToTargetTryAgain>(board);
+    }
 }

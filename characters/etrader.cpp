@@ -14,9 +14,7 @@ void eTrader::createFollowers() {
     for(int i = 0; i < 2; i++) {
         const auto d = e::make_shared<eDonkey>(board);
         eCharacter* follow = i == 0 ? this : mFollowers.back().get();
-        const auto aox = e::make_shared<eFollowAction>(
-                           follow, d.get(),
-                           []() {}, []() {});
+        const auto aox = e::make_shared<eFollowAction>(follow, d.get());
         d->setAction(aox);
         d->changeTile(t);
         mFollowers.push_back(d);

@@ -14,7 +14,7 @@ public:
     using eFailFunc = std::function<void()>;
     using eTileDistance = std::function<int(eTileBase* const)>;
     ePathFindTask(const eTileGetter& startTile,
-                  const eTileChecker& tileWalkable,
+                  const stdsptr<eWalkableObject>& tileWalkable,
                   const eTileChecker& endTile,
                   const eFinishFunc& finishFunc,
                   const eFailFunc& failFunc,
@@ -26,7 +26,7 @@ protected:
     void finish();
 private:
     const eTileGetter mStartTile;
-    const eTileChecker mTileWalkable;
+    const stdsptr<eWalkableObject> mTileWalkable;
     const eTileChecker mEndTile;
     const eFinishFunc mFinish;
     const eFailFunc mFailFunc;

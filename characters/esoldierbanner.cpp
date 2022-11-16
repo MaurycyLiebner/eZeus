@@ -204,8 +204,7 @@ void eSoldierBanner::updateCount() {
             break;
         }
         h->setBanner(this);
-        const auto a = e::make_shared<eSoldierAction>(h.get(), [](){}, [](){});
-        h->setSoldierAction(a);
+        const auto a = e::make_shared<eSoldierAction>(h.get());
         h->setAction(a);
         h->changeTile(home->centerTile());
         h->setActionType(eCharacterActionType::stand);

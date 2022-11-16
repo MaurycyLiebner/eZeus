@@ -13,12 +13,6 @@
 #include "eiteratesquare.h"
 #include "engine/egameboard.h"
 
-bool hasMarble(eTileBase* const t) {
-    const int r = t->resource();
-    if(r <= 0) return false;
-    return t->terrain() == eTerrain::marble;
-}
-
 eMasonryShop::eMasonryShop(eGameBoard& board) :
     eResourceCollectBuilding(board,
                              &eBuildingTextures::fMasonryShop,
@@ -26,8 +20,8 @@ eMasonryShop::eMasonryShop(eGameBoard& board) :
                              3, 0.5, -1.5,
                              [this]() { return e::make_shared<eMarbleMiner>(getBoard()); },
                              eBuildingType::masonryShop,
-                             hasMarble, 2, 2, 15,
-                             eResourceType::marble) {
+                             eHasResourceObject::sCreate(eHasResourceObjectType::marble),
+                             2, 2, 15, eResourceType::marble) {
     setAddResource(false);
     setRawInc(8);
     setRawCountCollect(0);

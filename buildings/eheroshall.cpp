@@ -313,8 +313,7 @@ void eHerosHall::spawnHero() {
     const int ty = ct->y();
     const auto cr = eTileHelper::closestRoad(tx, ty, board);
     mHero->changeTile(cr);
-    const auto ha = e::make_shared<eHeroAction>(
-                        c.get(), [](){}, [](){});
+    const auto ha = e::make_shared<eHeroAction>(c.get());
     mHero->setAction(ha);
     mSpawnWait = 5000;
 }

@@ -16,9 +16,10 @@ void eSettlerSpawner::spawn(eTile* const tile) {
     popData.incSettlers(8);
     const auto b = e::make_shared<eSettler>(board());
     b->changeTile(tile);
-    const auto fa = [this]() {
-        auto& popData = board().populationData();
-        popData.incSettlers(-8);
-    };
-    b->setAction(e::make_shared<eSettlerAction>(b.get(), fa, fa));
+    const auto fa = std::make_shared<eSS_spawnFinish>(board());
+    const auto a = e::make_shared<eSettlerAction>(b.get());
+    a->setFailAction(fa);
+    a->setFinishAction(fa);
+    a->setDeleteFailAction(fa);
+    b->setAction(a);
 }

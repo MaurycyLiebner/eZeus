@@ -340,6 +340,8 @@ public:
 
     void addInvasion(eInvasionHandler* const i);
     void removeInvasion(eInvasionHandler* const i);
+
+    void waitUntilFinished();
 private:
     void updateNeighbours();
     void updateTileRenderingOrder();

@@ -65,6 +65,8 @@ private:
     std::vector<ePathPoint> mPts;
 };
 
+class eGodAct;
+
 class eMissile : public eStdSelfRef {
 public:
     eMissile(eGameBoard& board,
@@ -82,7 +84,7 @@ public:
     double x() const;
     double y() const;
 
-    void setFinishAction(const eAction& a);
+    void setFinishAction(const stdsptr<eGodAct>& act);
 
     void setSpeed(const double s) { mSpeed = s; }
     double speed() const { return mSpeed; }
@@ -109,7 +111,7 @@ private:
     int mTime = 0;
     double mSpeed = 1;
 
-    eAction mFinish;
+    stdsptr<eGodAct> mFinish;
 
     eTile* mTile = nullptr;
 };

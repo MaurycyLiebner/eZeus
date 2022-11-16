@@ -81,8 +81,7 @@ void eMonsterAttackEvent::trigger() {
         break;
     }
 
-    const auto a = e::make_shared<eMonsterAction>(
-                       monster.get(), []() {}, []() {});
+    const auto a = e::make_shared<eMonsterAction>(monster.get());
     monster->setAction(a);
     a->increment(1);
     eEventData ed;

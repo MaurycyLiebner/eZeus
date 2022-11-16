@@ -20,7 +20,7 @@ eResourceBuildingBase::~eResourceBuildingBase() {
 void eResourceBuildingBase::timeChanged(const int by) {
     if(enabled()) {
         if(!mCart) {
-            spawnCart(mCart, eCartActionTypeSupport::give);
+            mCart = spawnCart(eCartActionTypeSupport::give);
         } else if(mCart && mCart->waiting() && mResource > 0) {
             const int a = mCart->add(mResType, mResource);
             mResource -= a;
@@ -76,10 +76,14 @@ void eResourceBuildingBase::read(eReadStream& src) {
     eEmployingBuilding::read(src);
 
     src >> mResource;
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mCart = static_cast<eCartTransporter*>(c);
+    });
 }
 
 void eResourceBuildingBase::write(eWriteStream& dst) const {
     eEmployingBuilding::write(dst);
 
     dst << mResource;
+    dst.writeCharacter(mCart);
 }

@@ -153,17 +153,12 @@ SOURCES += \
         characters/actions/esoldieraction.cpp \
         characters/actions/etraderaction.cpp \
         characters/actions/ewaitaction.cpp \
-        characters/actions/walkable/edefaultwalkableobject.cpp \
-        characters/actions/walkable/efertilewalkableobject.cpp \
         characters/actions/walkable/ehasnonbusyresourceobject.cpp \
         characters/actions/walkable/ehasresourceobject.cpp \
         characters/actions/walkable/ehasresourcewalkableobject.cpp \
+        characters/actions/walkable/eobsticlehandler.cpp \
         characters/actions/walkable/erectwalkableobject.cpp \
-        characters/actions/walkable/eroadblockwalkableobject.cpp \
-        characters/actions/walkable/eroadwalkableobject.cpp \
-        characters/actions/walkable/eterrainwalkableobject.cpp \
         characters/actions/walkable/ewalkableobject.cpp \
-        characters/actions/walkable/ewallwalkableobject.cpp \
         characters/eactor.cpp \
         characters/eanimal.cpp \
         characters/earcher.cpp \
@@ -556,17 +551,12 @@ HEADERS += \
     characters/actions/esoldieraction.h \
     characters/actions/etraderaction.h \
     characters/actions/ewaitaction.h \
-    characters/actions/walkable/edefaultwalkableobject.h \
-    characters/actions/walkable/efertilewalkableobject.h \
     characters/actions/walkable/ehasnonbusyresourceobject.h \
     characters/actions/walkable/ehasresourceobject.h \
     characters/actions/walkable/ehasresourcewalkableobject.h \
+    characters/actions/walkable/eobsticlehandler.h \
     characters/actions/walkable/erectwalkableobject.h \
-    characters/actions/walkable/eroadblockwalkableobject.h \
-    characters/actions/walkable/eroadwalkableobject.h \
-    characters/actions/walkable/eterrainwalkableobject.h \
     characters/actions/walkable/ewalkableobject.h \
-    characters/actions/walkable/ewallwalkableobject.h \
     characters/eactor.h \
     characters/eanimal.h \
     characters/earcher.h \

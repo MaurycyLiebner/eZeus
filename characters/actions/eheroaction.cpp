@@ -9,20 +9,20 @@
 #include "engine/egameboard.h"
 #include "vec2.h"
 
+eHeroAction::eHeroAction(eCharacter* const c) :
+    eActionWithComeback(c, eCharActionType::heroAction) {}
+
 bool eHeroAction::decide() {
     setFinishOnComeback(true);
 
     const auto c = character();
     if(mStage == eHeroActionStage::none) {
         mStage = eHeroActionStage::patrol;
-        const stdptr<eHeroAction> tptr(this);
-        const auto failFunc = [tptr, this, c]() {
-            if(!tptr) return;
-            c->setActionType(eCharacterActionType::walk);
-            goBack(eWalkableObject::sCreateDefault());
-        };
-        const auto pa = e::make_shared<ePatrolMoveAction>(
-                            c, failFunc, failFunc);
+        const auto failFunc = std::make_shared<eHA_patrolFail>(
+                                  board(), this);
+        const auto pa = e::make_shared<ePatrolMoveAction>(c);
+        pa->setFailAction(failFunc);
+        pa->setFinishAction(failFunc);
         pa->setMaxWalkDistance(200);
         setCurrentAction(pa);
         c->setActionType(eCharacterActionType::walk);
@@ -49,6 +49,18 @@ void eHeroAction::increment(const int by) {
         lookForMonsterFight();
     }
     eActionWithComeback::increment(by);
+}
+
+void eHeroAction::read(eReadStream& src) {
+    eActionWithComeback::read(src);
+    src >> mStage;
+    src >> mLookForMonster;
+}
+
+void eHeroAction::write(eWriteStream& dst) const {
+    eActionWithComeback::write(dst);
+    dst << mStage;
+    dst << mLookForMonster;
 }
 
 void eHeroAction::lookForMonster() {
@@ -116,12 +128,11 @@ bool eHeroAction::fightMonster(eMonster* const m) {
     m->setOrientation(mo);
     m->setActionType(eCharacterActionType::fight);
     const stdptr<eMonster> mptr(m);
-    const auto mdie = [mptr, m]() {
-        if(!mptr) return;
-        m->killWithCorpse();
-    };
-    const auto w = e::make_shared<eWaitAction>(
-                       character(), mdie, mdie);
+    const auto mdie = std::make_shared<eHA_fightMonsterDie>(
+                          board(), m);
+    const auto w = e::make_shared<eWaitAction>(character());
+    w->setFailAction(mdie);
+    w->setFinishAction(mdie);
     w->setTime(fightTime);
     m->setAction(w);
 
@@ -139,25 +150,20 @@ void eHeroAction::huntMonster(eMonster* const m) {
     const auto c = character();
 
     const stdptr<eHeroAction> tptr(this);
-    const auto failFunc = [tptr, this, c]() {
-        if(!tptr) return;
-        c->setActionType(eCharacterActionType::walk);
-        goBack(eWalkableObject::sCreateDefault());
-    };
+    const auto failFunc = std::make_shared<eHA_huntMonsterFail>(
+                              board(), this);
 
     const auto monsterTile = [mtx, mty](eTileBase* const tile) {
         return tile->x() == mtx && tile->y() == mty;
     };
 
     const stdptr<eMonster> mptr(m);
-    const auto finish = [tptr, this, mptr]() {
-        if(!tptr) return;
-        if(!mptr) return;
-        huntMonster(mptr);
-    };
+    const auto finish = std::make_shared<eHA_huntMonsterFinish>(
+                            board(), this, m);
 
-    const auto a = e::make_shared<eMoveToAction>(
-                       c, failFunc, finish);
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFailAction(failFunc);
+    a->setFinishAction(finish);
     a->setFoundAction([tptr, this, a, c]() {
         if(!tptr) return;
         mStage = eHeroActionStage::hunt;

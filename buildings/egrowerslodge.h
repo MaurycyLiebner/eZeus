@@ -13,24 +13,25 @@ public:
     eGrowersLodge(eGameBoard& board, const eGrowerType type);
     ~eGrowersLodge();
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
-    std::vector<eOverlay> getOverlays(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
+    std::vector<eOverlay> getOverlays(const eTileSize size) const override;
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
 
-    int add(const eResourceType type, const int count);
-    int take(const eResourceType type, const int count);
+    int add(const eResourceType type, const int count) override;
+    int take(const eResourceType type, const int count) override;
 
-    int count(const eResourceType type) const;
-    int spaceLeft(const eResourceType type) const;
+    int count(const eResourceType type) const override;
+    int spaceLeft(const eResourceType type) const override;
 
-    std::vector<eCartTask> cartTasks() const;
+    std::vector<eCartTask> cartTasks() const override;
 
-    using eGrowerPtr = stdsptr<eGrower> eGrowersLodge::*;
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
+
+    using eGrowerPtr = stdptr<eGrower> eGrowersLodge::*;
     bool spawnGrower(const eGrowerPtr grower);
 private:
-    const std::vector<eBuildingTextures>& mTextures;
-
     const int mMaxResource = 8;
 
     const eGrowerType mType;
@@ -41,12 +42,12 @@ private:
     int mOlives{0};
     int mOranges{0};
 
-    stdsptr<eCartTransporter> mCart;
+    stdptr<eCartTransporter> mCart;
 
     int mWaitTime = 5000;
     int mSpawnTime = mWaitTime;
 
-    stdsptr<eGrower> mGrower;
+    stdptr<eGrower> mGrower;
 };
 
 #endif // EGROWERSLODGE_H

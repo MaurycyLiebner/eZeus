@@ -28,7 +28,7 @@ public:
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
-protected:
+
     void goBack(const stdsptr<eWalkableObject>& walkable);
     void goBack(eBuilding* const b,
                 const stdsptr<eWalkableObject>& walkable);

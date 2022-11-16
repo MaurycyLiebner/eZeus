@@ -14,11 +14,7 @@ public:
              const eCharacterType type);
     ~eSoldier();
 
-    bool selected() const { return mSelected; }
-    void setSelected(const bool s) { mSelected = s; }
-
     eSoldierAction* soldierAction() const;
-    void setSoldierAction(const stdsptr<eSoldierAction>& a);
 
     int range() const { return mRange; }
     void setRange(const int r) { mRange = r; }
@@ -29,8 +25,6 @@ private:
     stdptr<eSoldierBanner> mBanner;
 
     int mRange = 0;
-    stdsptr<eSoldierAction> mAction;
-    bool mSelected = false;
 };
 
 #endif // ESOLDIER_H

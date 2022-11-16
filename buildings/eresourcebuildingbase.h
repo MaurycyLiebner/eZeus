@@ -37,7 +37,7 @@ private:
 
     int mResource{0};
 
-    stdsptr<eCartTransporter> mCart;
+    stdptr<eCartTransporter> mCart;
 };
 
 #endif // ERESOURCEBUILDINGBASE_H

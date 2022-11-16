@@ -173,17 +173,14 @@ void eCartTransporter::setType(const eCartTransporterType t) {
         auto& board = getBoard();
 
         mOx = e::make_shared<eOx>(board);
-        const auto aox = e::make_shared<eFollowAction>(
-                           this, mOx.get(),
-                           []() {}, []() {});
+        const auto aox = e::make_shared<eFollowAction>(this, mOx.get());
         mOx->setAction(aox);
         mOx->changeTile(t);
         mTrailer = e::make_shared<eTrailer>(board);
         mTrailer->setFollow(this);
         mTrailer->setBig(mBigTrailer);
         const auto atr = e::make_shared<eFollowAction>(
-                           mOx.get(), mTrailer.get(),
-                           []() {}, []() {});
+                           mOx.get(), mTrailer.get());
         mTrailer->setAction(atr);
         mTrailer->changeTile(t);
     } break;
@@ -264,8 +261,7 @@ void eCartTransporter::setResource(const eResourceType type,
                 follower = e::make_shared<ePorter>(board);
             }
             const auto aox = e::make_shared<eFollowAction>(
-                               follow, follower.get(),
-                               []() {}, []() {});
+                               follow, follower.get());
             follower->setAction(aox);
             follower->changeTile(t);
             mFollowers.push_back(follower);

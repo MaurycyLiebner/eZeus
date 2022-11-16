@@ -4,6 +4,7 @@
 
 #include "actions/edieaction.h"
 #include "actions/efightaction.h"
+#include "actions/earcheraction.h"
 
 #include "gods/egod.h"
 #include "heroes/ehero.h"
@@ -52,19 +53,13 @@ void eCharacter::provideToBuilding(eBuilding* const b) {
 }
 
 void eCharacter::fight(eCharacter* const c) {
-    const auto a = takeAction();
-    a->pause();
-    setAction(e::make_shared<eFightAction>(this, c, [this, a]() {
-        if(dead()) {
-            setAction(e::make_shared<eDieAction>(this, [a]() {
-                a->setState(eCharacterActionState::failed);
-            }));
-        } else {
-            const auto aa = a;
-            setAction(aa);
-            aa->resume();
-        }
-    }));
+    pauseAction();
+    const auto ff = std::make_shared<eChar_fightFinish>(
+                        getBoard(), this);
+    const auto fa = e::make_shared<eFightAction>(this, c);
+    fa->setFailAction(ff);
+    fa->setFinishAction(ff);
+    setAction(fa);
 }
 
 void eCharacter::kill() {
@@ -73,15 +68,15 @@ void eCharacter::kill() {
 
 void eCharacter::killWithCorpse() {
     const stdptr<eCharacter> c(this);
-    const auto finish = [c]() {
-        if(!c) return;
-        c->kill();
-    };
+    const auto finish = std::make_shared<eChar_killWithCorpseFinish>(
+                            getBoard(), this);
     auto& board = getBoard();
     board.ifVisible(tile(), [&]() {
         eSounds::playDieSound(this);
     });
-    const auto a = e::make_shared<eDieAction>(this, finish);
+    const auto a = e::make_shared<eDieAction>(this);
+    a->setFailAction(finish);
+    a->setFinishAction(finish);
     setAction(a);
 }
 
@@ -154,12 +149,6 @@ void eCharacter::setAction(const stdsptr<eCharacterAction>& a) {
     mAction = a;
 }
 
-stdsptr<eCharacterAction> eCharacter::takeAction() {
-    const auto a = mAction;
-    mAction.reset();
-    return a;
-}
-
 void eCharacter::setActionType(const eCharacterActionType t) {
     mActionStartTime = textureTime();
     eCharacterBase::setActionType(t);
@@ -206,13 +195,31 @@ bool eCharacter::defend(const double a) {
     return dead();
 }
 
+void eCharacter::pauseAction() {
+    const auto ca = mAction;
+    if(!ca) return;
+    auto& p = mPausedActions.emplace_back();
+    p.fA = ca->ref<eCharacterAction>();
+    p.fAt = actionType();
+    p.fO = orientation();
+}
+
+void eCharacter::resumeAction() {
+    if(mPausedActions.empty()) return;
+    const auto p = mPausedActions.back();
+    mPausedActions.pop_back();
+    setAction(p.fA);
+    setActionType(p.fAt);
+}
+
 void eCharacter::read(eReadStream& src) {
     eCharacterBase::read(src);
     src >> mIOID;
     src >> mVisible;
     src >> mProvide;
     src >> mProvideCount;
-    mTile = src.readTile(getBoard());
+    const auto tile = src.readTile(getBoard());
+    changeTile(tile);
     src >> mOrientation;
     src >> mX;
     src >> mY;
@@ -228,6 +235,22 @@ void eCharacter::read(eReadStream& src) {
         mAction->read(src);
     }
     src >> mActionStartTime;
+
+    int s;
+    src >> s;
+    for(int i = 0; i < s; i++) {
+        auto& a = mPausedActions.emplace_back();
+        src >> a.fAt;
+        bool hasAction;
+        src >> hasAction;
+        if(hasAction) {
+            eCharActionType type;
+            src >> type;
+            a.fA = eCharacterAction::sCreate(this, type);
+            a.fA->read(src);
+        }
+        src >> a.fO;
+    }
 }
 
 void eCharacter::write(eWriteStream& dst) const {
@@ -249,4 +272,15 @@ void eCharacter::write(eWriteStream& dst) const {
         mAction->write(dst);
     }
     dst << mActionStartTime;
+
+    dst << mPausedActions.size();
+    for(const auto& a : mPausedActions) {
+        dst << a.fAt;
+        dst << (a.fA != nullptr);
+        if(a.fA) {
+            dst << a.fA->type();
+            a.fA->write(dst);
+        }
+        dst << a.fO;
+    }
 }

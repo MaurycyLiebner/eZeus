@@ -2,34 +2,80 @@
 
 #include "buildings/ebuilding.h"
 
-#include "edefaultwalkableobject.h"
-#include "eroadwalkableobject.h"
-#include "eroadblockwalkableobject.h"
-#include "eterrainwalkableobject.h"
-#include "efertilewalkableobject.h"
-#include "ewallwalkableobject.h"
 #include "erectwalkableobject.h"
 #include "ehasresourcewalkableobject.h"
+
+bool eWalkableObject::walkable(eTileBase* const t) const {
+    switch(mType) {
+    case eWalkableObjectType::ddefault:
+        return t->walkable();
+    case eWalkableObjectType::road:
+        return t->hasRoad();
+    case eWalkableObjectType::roadblock: {
+        const bool hr = t->hasRoad();
+        if(!hr) return false;
+        return !t->hasRoadblock();
+    }
+    case eWalkableObjectType::terrain: {
+        const auto terr = t->terrain() & eTerrain::walkable;
+        return static_cast<bool>(terr);
+    }
+    case eWalkableObjectType::fertile: {
+        const bool r = t->walkable();
+        if(!r) return false;
+        return t->terrain() == eTerrain::fertile;
+    }
+    case eWalkableObjectType::wall: {
+        const auto checker = [](eTileBase* const t) {
+            if(!t) return false;
+            const auto ubt = t->underBuildingType();
+            return ubt == eBuildingType::wall ||
+                   ubt == eBuildingType::tower;
+        };
+        if(!checker(t)) return false;
+        const auto bl = t->tileRel(0, 1);
+        if(!checker(bl)) return false;
+        const auto br = t->tileRel(1, 0);
+        if(!checker(br)) return false;
+        const auto b = t->tileRel(1, 1);
+        if(!checker(b)) return false;
+        return true;
+    }
+    case eWalkableObjectType::water: {
+        const bool r = t->terrain() == eTerrain::water;
+        if(!r) return false;
+        return !t->isShoreTile();
+    }
+    case eWalkableObjectType::ranch: {
+        const auto tt = t->underBuildingType();
+        if(tt != eBuildingType::horseRanchEnclosure) return false;
+
+        const auto bl = t->bottomLeft();
+        if(!bl) return false;
+        const auto blt = bl->underBuildingType();
+        if(blt != eBuildingType::horseRanchEnclosure) return false;
+
+        const auto br = t->bottomRight();
+        if(!br) return false;
+        const auto brt = br->underBuildingType();
+        if(brt != eBuildingType::horseRanchEnclosure) return false;
+
+        return true;
+    }
+    default:
+        return true;
+    }
+}
 
 stdsptr<eWalkableObject> eWalkableObject::sCreate(
         const eWalkableObjectType type) {
     switch(type) {
-    case eWalkableObjectType::ddefault:
-        return std::make_shared<eDefaultWalkableObject>();
-    case eWalkableObjectType::road:
-        return std::make_shared<eRoadWalkableObject>();
-    case eWalkableObjectType::roadblock:
-        return std::make_shared<eRoadblockWalkableObject>();
-    case eWalkableObjectType::terrain:
-        return std::make_shared<eTerrainWalkableObject>();
-    case eWalkableObjectType::fertile:
-        return std::make_shared<eFertileWalkableObject>();
-    case eWalkableObjectType::wall:
-        return std::make_shared<eWallWalkableObject>();
     case eWalkableObjectType::rect:
         return std::make_shared<eRectWalkableObject>();
     case eWalkableObjectType::hasResource:
         return std::make_shared<eHasResourceWalkableObject>();
+    default:
+        return std::make_shared<eWalkableObject>(type);
     }
 }
 
@@ -55,6 +101,18 @@ stdsptr<eWalkableObject> eWalkableObject::sCreateFertile() {
 
 stdsptr<eWalkableObject> eWalkableObject::sCreateWall() {
     return sCreate(eWalkableObjectType::wall);
+}
+
+stdsptr<eWalkableObject> eWalkableObject::sCreateWater() {
+    return sCreate(eWalkableObjectType::water);
+}
+
+stdsptr<eWalkableObject> eWalkableObject::sCreateAll() {
+    return sCreate(eWalkableObjectType::all);
+}
+
+stdsptr<eWalkableObject> eWalkableObject::sCreateRanch() {
+    return sCreate(eWalkableObjectType::ranch);
 }
 
 stdsptr<eWalkableObject> eWalkableObject::sCreateRect(const SDL_Rect& rect) {

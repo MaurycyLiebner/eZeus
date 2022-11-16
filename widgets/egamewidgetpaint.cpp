@@ -716,12 +716,6 @@ void eGameWidget::paintEvent(ePainter& p) {
                         x -= da;
                         y -= da;
                     }
-                    if(c->isSoldier()) {
-                        const auto s = static_cast<eSoldier*>(c.get());
-                        if(s->selected()) {
-                            tp.drawTexture(x - 0.55, y - 0.20, charTexs.fSelected);
-                        }
-                    }
                     const auto tex = c->getTexture(mTileSize);
                     tp.drawTexture(x, y, tex);
                     if(!c->hasSecondaryTexture()) continue;

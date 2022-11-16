@@ -32,8 +32,8 @@ eStorageBuilding::~eStorageBuilding() {
 void eStorageBuilding::timeChanged(const int by) {
     eEmployingBuilding::timeChanged(by);
     if(enabled()) {
-        if(!mCart1) spawnCart(mCart1);
-        if(!mCart2) spawnCart(mCart2);
+        if(!mCart1) mCart1 = spawnCart();
+        if(!mCart2) mCart2 = spawnCart();
     }
 }
 
@@ -225,6 +225,13 @@ void eStorageBuilding::read(eReadStream& src) {
         src >> c;
         mMaxCount[rt] = c;
     }
+
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mCart1 = static_cast<eCartTransporter*>(c);
+    });
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mCart2 = static_cast<eCartTransporter*>(c);
+    });
 }
 
 void eStorageBuilding::write(eWriteStream& dst) const {
@@ -247,4 +254,6 @@ void eStorageBuilding::write(eWriteStream& dst) const {
         dst << trc.first;
         dst << trc.second;
     }
+    dst.writeCharacter(mCart1);
+    dst.writeCharacter(mCart2);
 }

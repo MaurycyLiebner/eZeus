@@ -8,6 +8,10 @@
 #include "engine/ethreadpool.h"
 #include "epathfindtask.h"
 #include "ewaitaction.h"
+#include "earcheraction.h"
+
+eMoveToAction::eMoveToAction(eCharacter* const c) :
+    eComplexAction(c, eCharActionType::moveToAction) {}
 
 void eMoveToAction::start(const eTileFinal& final,
                           stdsptr<eWalkableObject> pathFindWalkable,
@@ -38,31 +42,28 @@ void eMoveToAction::start(const eTileFinal& final,
     };
 
     const stdptr<eMoveToAction> tptr(this);
-    const auto failFunc = [tptr, this]() {
-        if(!tptr) return;
-        setState(eCharacterActionState::failed);
-    };
-    const auto finishFunc = [tptr, this, c, failFunc, moveWalkable](
+    const auto finishFunc = [tptr, this, c, moveWalkable](
                             std::vector<eOrientation> path) {
         if(!tptr) return;
-        const auto finishAction = [tptr, this]() {
-            if(!tptr) return;
-            setState(eCharacterActionState::finished);
-        };
+        const auto failFunc = std::make_shared<eAA_patrolFail>(
+                                  board(), this);
+        const auto finishAction = std::make_shared<eAA_patrolFinish>(
+                                  board(), this);
 
         if(mRemoveLastTurn && !path.empty()) {
             path.erase(path.begin());
         }
         if(path.empty()) {
-            finishAction();
+            finishAction->call();
             return;
         }
         mPathLength = path.size();
         if(mFoundAction) mFoundAction();
         if(!tptr) return;
         const auto a  = e::make_shared<eMovePathAction>(
-                            c, path, moveWalkable,
-                            failFunc, finishAction);
+                            c, path, moveWalkable);
+        a->setFailAction(failFunc);
+        a->setFinishAction(finishAction);
         a->setObsticleHandler(mObstHandler);
         a->setMaxDistance(mMaxWalkDistance);
         setCurrentAction(a);
@@ -83,8 +84,7 @@ void eMoveToAction::start(const eTileFinal& final,
     tp.queueTask(pft);
 
     if(mWait) {
-        const auto w = e::make_shared<eWaitAction>(
-                           c, []() {}, []() {});
+        const auto w = e::make_shared<eWaitAction>(c);
         setCurrentAction(w);
     }
 }
@@ -132,7 +132,7 @@ void eMoveToAction::start(const eBuildingType final,
     start(finalFunc, pathFindWalkable, moveWalkable);
 }
 
-void eMoveToAction::setObsticleHandler(const eObsticleHandler& oh) {
+void eMoveToAction::setObsticleHandler(const stdsptr<eObsticleHandler>& oh) {
     mObstHandler = oh;
 }
 

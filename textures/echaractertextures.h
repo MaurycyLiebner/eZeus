@@ -234,8 +234,6 @@ public:
     eFightingCharacterTextures fGreekHoplite;
     eFightingCharacterTextures fGreekHorseman;
 
-    std::shared_ptr<eTexture> fSelected;
-
     eTextureCollection fBannerRod;
     std::vector<eTextureCollection> fBanners;
     eTextureCollection fBannerTops;

@@ -4,6 +4,9 @@
 #include "characters/actions/echaracteraction.h"
 #include "characters/actions/walkable/ewalkableobject.h"
 #include "characters/actions/walkable/ehasresourceobject.h"
+#include "characters/actions/egodaction.h"
+#include "characters/actions/walkable/eobsticlehandler.h"
+#include "characters/actions/epatrolmoveaction.h"
 
 eWriteStream::eWriteStream(SDL_RWops* const dst) :
     mDst(dst) {
@@ -46,5 +49,39 @@ void eWriteStream::writeHasResource(eHasResourceObject* const hr) {
     if(hr) {
         *this << hr->type();
         hr->write(*this);
+    }
+}
+
+void eWriteStream::writeCharActFunc(eCharacterActionFunction* const caf) {
+    const bool hasFinish = caf != nullptr;
+    *this << hasFinish;
+    if(hasFinish) {
+        *this << caf->type();
+        caf->write(*this);
+    }
+}
+
+void eWriteStream::writeGodAct(eGodAct* const ga) {
+    const bool hasFinish = ga != nullptr;
+    *this << hasFinish;
+    if(hasFinish) {
+        *this << ga->type();
+        ga->write(*this);
+    }
+}
+
+void eWriteStream::writeObsticleHandler(eObsticleHandler* const w) {
+    *this << bool(w);
+    if(w) {
+        *this << w->type();
+        w->write(*this);
+    }
+}
+
+void eWriteStream::writeDirectionTimes(eDirectionTimes* const d) {
+    *this << d->size();
+    for(const auto& dt : *d) {
+        writeTile(dt.first);
+        dt.second.write(*this);
     }
 }

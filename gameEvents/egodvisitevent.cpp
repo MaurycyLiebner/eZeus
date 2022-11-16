@@ -75,8 +75,7 @@ void eGodVisitEvent::trigger() {
         break;
     }
 
-    const auto a = e::make_shared<eGodVisitAction>(
-                       god.get(), []() {}, []() {});
+    const auto a = e::make_shared<eGodVisitAction>(god.get());
     god->setAction(a);
     god->setAttitude(eGodAttitude::friendly);
     a->increment(1);

@@ -5,9 +5,12 @@
 
 class eWaitAction : public eCharacterAction {
 public:
-    using eCharacterAction::eCharacterAction;
+    eWaitAction(eCharacter* const c);
 
-    void increment(const int by);
+    void increment(const int by) override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 
     void setTime(const int t);
 private:

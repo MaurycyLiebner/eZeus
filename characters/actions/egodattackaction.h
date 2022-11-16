@@ -3,17 +3,22 @@
 
 #include "egodaction.h"
 #include "elanguage.h"
+#include "walkable/eobsticlehandler.h"
 
 enum class eGodAttackStage {
     none, appear, goTo1, patrol1, goTo2, patrol2, disappear
 };
 
 class eGodAttackAction : public eGodAction {
+    friend class eGodObsticleHandler;
 public:
-    using eGodAction::eGodAction;
+    eGodAttackAction(eCharacter* const c);
 
-    void increment(const int by);
-    bool decide();
+    void increment(const int by) override;
+    bool decide() override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
 
     bool lookForAttack(const int dtime, int& time,
@@ -22,7 +27,7 @@ private:
     bool lookForGodAttack(const int dtime, int& time,
                           const int freq, const int range);
     void goToTarget();
-    std::function<bool(eTile* const)> obsticleHandler();
+    stdsptr<eObsticleHandler> obsticleHandler();
     void destroyBuilding(eBuilding* const b);
 
     eGodAttackStage mStage{eGodAttackStage::none};
@@ -105,6 +110,104 @@ private:
     stdptr<eGodAction> mLoserPtr;
     eGodType mWt;
     eGodType mLt;
+};
+
+class eGAA_destroyBuildingFinish : public eCharActFunc {
+public:
+    eGAA_destroyBuildingFinish(eGameBoard& board) :
+        eCharActFunc(board, eCharActFuncType::GAA_destroyBuildingFinish) {}
+    eGAA_destroyBuildingFinish(eGameBoard& board,
+                               eGodAttackAction* const tptr,
+                               eBuilding* const b) :
+        eCharActFunc(board, eCharActFuncType::GAA_destroyBuildingFinish),
+        mTptr(tptr), mBptr(b) {}
+
+    void call() override {
+        if(!mTptr) return;
+        mTptr->resumeAction();
+        if(!mBptr) return;
+        mBptr->collapse();
+        eSounds::playCollapseSound();
+    }
+
+    void read(eReadStream& src) override {
+        src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
+            mTptr = static_cast<eGodAttackAction*>(ca);
+        });
+        src.readBuilding(&board(), [this](eBuilding* const b) {
+            mBptr = b;
+        });
+    }
+
+    void write(eWriteStream& dst) const override {
+        dst.writeCharacterAction(mTptr);
+        dst.writeBuilding(mBptr);
+    }
+private:
+    stdptr<eGodAttackAction> mTptr;
+    stdptr<eBuilding> mBptr;
+};
+
+class eTeleportFindFailFunc : public eFindFailFunc {
+public:
+    eTeleportFindFailFunc(eGameBoard& board) :
+        eFindFailFunc(board, eFindFailFuncType::teleport) {}
+    eTeleportFindFailFunc(eGameBoard& board, eGodAction* const ca) :
+        eFindFailFunc(board, eFindFailFuncType::teleport),
+        mTptr(ca) {}
+
+    void call(eTile* const tile) {
+        if(!mTptr) return;
+        const auto c = mTptr->character();
+        auto& board = c->getBoard();
+        const auto r = eTileHelper::closestRoad(tile->x(), tile->y(), board);
+        mTptr->teleport(r);
+    }
+
+    void read(eReadStream& src) {
+        src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
+            mTptr = static_cast<eGodAction*>(ca);
+        });
+    }
+
+    void write(eWriteStream& dst) const {
+        dst.writeCharacterAction(mTptr);
+    }
+private:
+    stdptr<eGodAction> mTptr;
+};
+
+class eGodObsticleHandler : public eObsticleHandler {
+public:
+    eGodObsticleHandler(eGameBoard& board) :
+        eObsticleHandler(board, eObsticleHandlerType::god) {}
+    eGodObsticleHandler(eGameBoard& board,
+                        eGodAttackAction* const t) :
+        eObsticleHandler(board, eObsticleHandlerType::god),
+        mTptr(t) {}
+
+    bool handle(eTile* const tile) override {
+        if(!mTptr) return false;
+        const auto ub = tile->underBuilding();
+        if(!ub) return false;
+        const auto ubt = ub->type();
+        const bool r = eBuilding::sWalkableBuilding(ubt);
+        if(r) return false;
+        mTptr->destroyBuilding(ub);
+        return true;
+    }
+
+    void read(eReadStream& src) override {
+        src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
+            mTptr = static_cast<eGodAttackAction*>(ca);
+        });
+    }
+
+    void write(eWriteStream& dst) const override {
+        dst.writeCharacterAction(mTptr);
+    }
+private:
+    stdptr<eGodAttackAction> mTptr;
 };
 
 #endif // EGODATTACKACTION_H

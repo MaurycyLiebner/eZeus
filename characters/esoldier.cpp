@@ -2,6 +2,7 @@
 
 #include "engine/egameboard.h"
 #include "esoldierbanner.h"
+#include "actions/esoldieraction.h"
 
 eSoldier::eSoldier(eGameBoard& board,
                    const eCharTexs charTexs,
@@ -17,11 +18,7 @@ eSoldier::~eSoldier() {
 }
 
 eSoldierAction* eSoldier::soldierAction() const {
-    return mAction.get();
-}
-
-void eSoldier::setSoldierAction(const stdsptr<eSoldierAction>& a) {
-    mAction = a;
+    return static_cast<eSoldierAction*>(action());
 }
 
 eSoldierBanner* eSoldier::banner() const {

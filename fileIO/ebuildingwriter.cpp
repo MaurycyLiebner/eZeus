@@ -206,6 +206,8 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
 
     case eBuildingType::ruins:
         break;
+    default:
+        return;
     }
     b->write(dst);
 }

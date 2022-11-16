@@ -10,7 +10,6 @@ class eResourceCollectorBase;
 
 class eResourceCollectBuilding : public eResourceCollectBuildingBase {
 public:
-    using eHasResource = std::function<bool(eTileBase*)>;
     using eBaseTex = std::shared_ptr<eTexture> eBuildingTextures::*;
     using eOverlays = eTextureCollection eBuildingTextures::*;
     using eCharGenerator =  std::function<stdsptr<eResourceCollectorBase>()>;
@@ -24,7 +23,7 @@ public:
                              const double waitingOY,
                              const eCharGenerator& charGen,
                              const eBuildingType type,
-                             const eHasResource& hr,
+                             const stdsptr<eHasResourceObject>& hr,
                              const int sw, const int sh,
                              const int maxEmployees,
                              const eResourceType resType);
@@ -64,11 +63,11 @@ private:
     const double mWaitingOX = 0;
     const double mWaitingOY = 0;
 
-    const eHasResource mHasRes;
+    const stdsptr<eHasResourceObject> mHasRes;
 
     eTileActionType mCollectedAction = eTileActionType::none;
 
-    stdsptr<eResourceCollectorBase> mCollector;
+    stdptr<eResourceCollectorBase> mCollector;
 
     bool mSpawnEnabled = true;
 

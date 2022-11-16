@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <string>
 #include <functional>
+#include <map>
 
 #include "pointers/estdpointer.h"
 
@@ -14,6 +15,12 @@ class eCharacterAction;
 class eGameBoard;
 class eWalkableObject;
 class eHasResourceObject;
+class eCharacterActionFunction;
+class eGodAct;
+class eObsticleHandler;
+class eDirectionLastUseTime;
+
+using eDirectionTimes = std::map<eTile*, eDirectionLastUseTime>;
 
 class eReadStream {
 public:
@@ -52,7 +59,7 @@ public:
     }
 
     template <typename T>
-    inline eReadStream& operator<<(std::vector<T>& val) {
+    inline eReadStream& operator>>(std::vector<T>& val) {
         int size;
         *this >> size;
         for(int i = 0; i < size; i++) {
@@ -94,6 +101,13 @@ public:
                              const eCharActFunc& func);
     stdsptr<eWalkableObject> readWalkable();
     stdsptr<eHasResourceObject> readHasResource();
+    stdsptr<eCharacterActionFunction> readCharActFunc(
+            eGameBoard& board);
+    stdsptr<eGodAct> readGodAct(eGameBoard& board);
+    stdsptr<eObsticleHandler> readObsticleHandler(
+            eGameBoard& board);
+    stdsptr<eDirectionTimes> readDirectionTimes(
+            eGameBoard& board);
 
     using eFunc = std::function<void()>;
     void addPostFunc(const eFunc& func);

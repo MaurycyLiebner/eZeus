@@ -4,27 +4,17 @@
 #include "characters/actions/ecarttransporteraction.h"
 #include "characters/actions/efollowaction.h"
 
-bool eBuildingWithResource::spawnCart(
-        stdsptr<eCartTransporter>& cart,
+stdptr<eCartTransporter> eBuildingWithResource::spawnCart(
         const eCartActionTypeSupport s) {
     const auto t = centerTile();
     auto& board = getBoard();
 
-    cart = e::make_shared<eCartTransporter>(board);
-    cart->changeTile(t);
+    const auto c = e::make_shared<eCartTransporter>(board);
+    c->changeTile(t);
 
-    const eStdPointer<eBuildingWithResource> tptr(this);
-    const auto finishAct = [tptr, &cart] {
-        if(!tptr) return;
-        if(cart) {
-            cart->changeTile(nullptr);
-            cart.reset();
-        }
-    };
     const auto a = e::make_shared<eCartTransporterAction>(
-                       this, cart.get(),
-                       finishAct, finishAct);
-    cart->setAction(a);
-    cart->setSupport(s);
-    return true;
+                       c.get(), this);
+    c->setAction(a);
+    c->setSupport(s);
+    return c.get();
 }

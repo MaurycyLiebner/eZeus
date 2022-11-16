@@ -3,6 +3,9 @@
 #include "emovetoaction.h"
 #include "ewaitaction.h"
 
+eTraderAction::eTraderAction(eCharacter* const c) :
+    eActionWithComeback(c, eCharActionType::traderAction) {}
+
 bool eTraderAction::decide() {
     const bool r = eActionWithComeback::decide();
     if(r) return r;
@@ -19,6 +22,34 @@ bool eTraderAction::decide() {
     return true;
 }
 
+void eTraderAction::read(eReadStream& src) {
+    eActionWithComeback::read(src);
+    mWalkable = src.readWalkable();
+    src >> mCash;
+    src >> mItems;
+    src.readBuilding(&board(), [this](eBuilding* const b) {
+        mTradePost = static_cast<eTradePost*>(b);
+    });
+    src.readBuilding(&board(), [this](eBuilding* const b) {
+        mUnpackBuilding = b;
+    });
+    src >> mAtTradePost;
+    src >> mFinishedTrade;
+    src >> mNotFound;
+}
+
+void eTraderAction::write(eWriteStream& dst) const {
+    eActionWithComeback::write(dst);
+    dst.writeWalkable(mWalkable.get());
+    dst << mCash;
+    dst << mItems;
+    dst.writeBuilding(mTradePost);
+    dst.writeBuilding(mUnpackBuilding);
+    dst << mAtTradePost;
+    dst << mFinishedTrade;
+    dst << mNotFound;
+}
+
 void eTraderAction::setTradePost(eTradePost* const tp) {
     mTradePost = tp;
 }
@@ -27,7 +58,7 @@ void eTraderAction::setUnpackBuilding(eBuilding* const b) {
     mUnpackBuilding = b;
 }
 
-void eTraderAction::setWalkable(const eWalkable& w) {
+void eTraderAction::setWalkable(const stdsptr<eWalkableObject>& w) {
     mWalkable = w;
 }
 
@@ -35,38 +66,16 @@ void eTraderAction::goToTradePost() {
     const auto c = character();
 
     const stdptr<eTraderAction> tptr(this);
-    const auto fail = [tptr, this]() {
-        if(!tptr) return;
-        goBack(mWalkable);
-    };
+    const auto fail = std::make_shared<eTA_tradeFail>(
+                          board(), this);
     stdptr<eCharacter> cptr(c);
     const auto tp = mTradePost;
-    const auto finish = [tptr, cptr, tp, this]() {
-        if(!tptr) return;
-        if(!mTradePost) return;
-        mAtTradePost = true;
-        if(!tp) return;
-        const auto t = tp->tpType();
-        if(cptr && t == eTradePostType::pier) {
-            const auto o = tp->orientation();
-            eOrientation oo;
-            switch(o) {
-            case eOrientation::bottomLeft:
-            case eOrientation::topRight:
-                oo = eOrientation::topLeft;
-                break;
-            default:
-            case eOrientation::bottomRight:
-            case eOrientation::topLeft:
-                oo = eOrientation::topRight;
-                break;
-            }
-            cptr->setOrientation(oo);
-        }
-    };
+    const auto finish = std::make_shared<eTA_goToTradePostFinish>(
+                            board(), this);
 
-    const auto a = e::make_shared<eMoveToAction>(
-                       c, fail, finish);
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFailAction(fail);
+    a->setFinishAction(finish);
     a->setRemoveLastTurn(true);
     a->setFindFailAction([tp, tptr, cptr, this]() {
         if(!tp) return;
@@ -83,15 +92,13 @@ void eTraderAction::trade() {
     const auto c = character();
 
     const stdptr<eTraderAction> tptr(this);
-    const auto fail = [tptr, this]() {
-        if(!tptr) return;
-        goBack(mWalkable);
-    };
-    const auto finish = [tptr, this]() {
-        if(!tptr) return;
-        tradeIncrement();
-    };
-    const auto a = e::make_shared<eWaitAction>(c, fail, finish);
+    const auto fail = std::make_shared<eTA_tradeFail>(
+                          board(), this);
+    const auto finish = std::make_shared<eTA_tradeFinish>(
+                            board(), this);
+    const auto a = e::make_shared<eWaitAction>(c);
+    a->setFailAction(fail);
+    a->setFinishAction(finish);
     a->setTime(500);
     setCurrentAction(a);
     c->setActionType(eCharacterActionType::stand);

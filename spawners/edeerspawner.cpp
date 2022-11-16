@@ -13,7 +13,7 @@ void eDeerSpawner::spawn(eTile* const tile) {
     const auto b = e::make_shared<eDeer>(board());
     b->setSpawner(this);
     b->changeTile(tile);
-    const auto e = []() {};
-    b->setAction(e::make_shared<eAnimalAction>(
-                     b.get(), e, e, tile->x(), tile->y()));
+    const auto a = e::make_shared<eAnimalAction>(
+                       b.get(), tile->x(), tile->y());
+    b->setAction(a);
 }

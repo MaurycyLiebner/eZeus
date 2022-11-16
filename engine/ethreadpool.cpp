@@ -37,6 +37,7 @@ void eThreadPool::threadEntry(eThreadData* data) {
 
             if(mTasks.empty()) return;
 
+            mBusy++;
             task = mTasks.front();
             mTasks.pop();
         }
@@ -50,6 +51,8 @@ void eThreadPool::threadEntry(eThreadData* data) {
             }
             std::lock_guard lock(mFinishedTasksMutex);
             mFinishedTasks.push_back(task);
+            mBusy--;
+            mCvFinished.notify_one();
         }
     }
 }
@@ -76,4 +79,11 @@ void eThreadPool::scheduleUpdate(eGameBoard& board) {
     for(auto& d : mThreadData) {
         d->scheduleUpdate(board);
     }
+}
+
+void eThreadPool::waitFinished() {
+    std::unique_lock<std::mutex> lock(mTasksMutex);
+    mCvFinished.wait(lock, [this]() {
+        return mTasks.empty() && (mBusy == 0);
+    });
 }

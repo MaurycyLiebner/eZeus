@@ -11,61 +11,306 @@
 #include "textures/egametextures.h"
 
 #include "ewalkablehelpers.h"
+#include "characters/gods/egod.h"
+#include "missiles/egodmissile.h"
 
-struct ePausedAction {
-    eCharacterActionType fAt;
-    stdsptr<eCharacterAction> fA;
-    eOrientation fO;
+class eGodAct;
+
+enum class eFindFailFuncType {
+    teleport,
+    teleport2,
+    tryAgain
+};
+
+class eFindFailFunc {
+public:
+    eFindFailFunc(eGameBoard& board, const eFindFailFuncType type) :
+        mBoard(board), mType(type) {}
+
+    virtual void call(eTile* const tile) = 0;
+
+    eFindFailFuncType type() const { return mType; }
+
+    eGameBoard& board() { return mBoard; }
+
+    virtual void read(eReadStream& src) = 0;
+    virtual void write(eWriteStream& dst) const = 0;
+
+    static stdsptr<eFindFailFunc> sCreate(eGameBoard& board,
+                                          const eFindFailFuncType type);
+private:
+    eGameBoard& mBoard;
+    const eFindFailFuncType mType;
 };
 
 class eGodMonsterAction : public eComplexAction {
 public:
     using eComplexAction::eComplexAction;
 
-    void moveAround(const eAction& finishAct = [](){},
+    void moveAround(const stdsptr<eCharActFunc>& finishAct = nullptr,
                     const int time = 5000);
-    using eFindFailFunc = std::function<void(eTile*)>;
-    using eObsticleHandler = std::function<bool(eTile* const)>;
     using eTileDistance = std::function<int(eTileBase* const)>;
-    using eTileWalkable = std::function<bool(eTileBase* const)>;
     void goToTarget(const eHeatGetters::eHeatGetter hg,
-                    const eFindFailFunc& findFailFunc,
-                    const eObsticleHandler& oh = nullptr,
+                    const stdsptr<eFindFailFunc>& findFailFunc,
+                    const stdsptr<eObsticleHandler>& oh = nullptr,
                     const eTileDistance& tileDistance = nullptr,
-                    const eTileWalkable& pathFindWalkable =
+                    const stdsptr<eWalkableObject>& pathFindWalkable =
                         eWalkableObject::sCreateDefault(),
-                    const eTileWalkable& moveWalkable = nullptr);
+                    const stdsptr<eWalkableObject>& moveWalkable = nullptr);
 
     using eTexPtr = eTextureCollection eDestructionTextures::*;
     using eFunc = std::function<void()>;
     void spawnMissile(const eCharacterActionType at,
-                      const eTexPtr tex,
+                      const eCharacterType chart,
                       const int attackTime,
                       eTile* const target,
-                      const eFunc& playSound,
-                      const eFunc& finishMissileA,
-                      const eFunc& finishAttackA = nullptr);
+                      const stdsptr<eCharActFunc>& playSound,
+                      const stdsptr<eGodAct>& hitAct,
+                      const stdsptr<eCharActFunc>& finishAttackA = nullptr);
     void spawnMultipleMissiles(const eCharacterActionType at,
-                               const eTexPtr tex,
+                               const eCharacterType ct,
                                const int attackTime,
                                eTile* const target,
-                               const eFunc& playSound,
-                               const eFunc& playHitSound,
-                               const eFunc& finishA,
+                               const stdsptr<eCharActFunc>& playSound,
+                               const stdsptr<eGodAct>& playHitSound,
+                               const stdsptr<eCharActFunc>& finishA,
                                const int nMissiles);
     void spawnTimedMissiles(const eCharacterActionType at,
-                            const eTexPtr tex,
+                            const eCharacterType ct,
                             const int attackTime,
                             eTile* const target,
-                            const eFunc& playSound,
-                            const eFunc& playHitSound,
-                            const eFunc& finishA,
+                            const stdsptr<eCharActFunc>& playSound,
+                            const stdsptr<eGodAct>& playHitSound,
+                            const stdsptr<eCharActFunc>& finishA,
                             const int time);
 
     void pauseAction();
     void resumeAction();
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     std::vector<ePausedAction> mPausedActions;
+};
+
+class eGMA_spawnMissileFinish : public eCharActFunc {
+public:
+    eGMA_spawnMissileFinish(eGameBoard& board) :
+        eCharActFunc(board, eCharActFuncType::GMA_spawnMissileFinish) {}
+    eGMA_spawnMissileFinish(eGameBoard& board,
+                            eCharacter* const c,
+                            const eCharacterActionType at,
+                            const eCharacterType chart,
+                            eTile* const target,
+                            const stdsptr<eCharActFunc>& playSound,
+                            const stdsptr<eGodAct>& hitAct,
+                            const stdsptr<eCharActFunc>& finishAttackA) :
+        eCharActFunc(board, eCharActFuncType::GMA_spawnMissileFinish),
+        mCptr(c), mAt(at), mChart(chart),
+        mTarget(target), mPlaySound(playSound),
+        mHitAct(hitAct), mFinishAttackA(finishAttackA) {}
+
+    void call() override {
+        if(!mCptr) return;
+        const auto c = mCptr;
+        const auto charType = c->type();
+        const auto ct = c->tile();
+        const int tx = ct->x();
+        const int ty = ct->y();
+        const int ttx = mTarget->x();
+        const int tty = mTarget->y();
+        auto& brd = c->getBoard();
+        double h;
+        if(mAt == eCharacterActionType::fight) {
+            switch(charType) {
+            case eCharacterType::apollo:
+                h = -0.5;
+                break;
+            case eCharacterType::calydonianBoar:
+                h = -1;
+                break;
+            default:
+                h = 0;
+                break;
+            }
+        } else {
+            h = 0;
+        }
+
+        const auto m = eMissile::sCreate<eGodMissile>(
+                           brd, tx, ty, h,
+                           ttx, tty, h, 0);
+        using eTexPtr = eTextureCollection eDestructionTextures::*;
+        eTexPtr texptr;
+        if(mAt == eCharacterActionType::bless) {
+            texptr = &eDestructionTextures::fBless;
+        } else if(mAt == eCharacterActionType::curse) {
+            texptr = &eDestructionTextures::fCurse;
+        } else {
+            switch(mChart) {
+            case eCharacterType::aphrodite:
+            case eCharacterType::apollo:
+            case eCharacterType::ares:
+            case eCharacterType::artemis:
+            case eCharacterType::athena:
+            case eCharacterType::atlas:
+            case eCharacterType::demeter:
+            case eCharacterType::dionysus:
+            case eCharacterType::hades:
+            case eCharacterType::hephaestus:
+            case eCharacterType::hera:
+            case eCharacterType::hermes:
+            case eCharacterType::poseidon:
+            case eCharacterType::zeus: {
+                const auto gt = eGod::sCharacterToGodType(mChart);
+                texptr = eGod::sGodMissile(gt);
+            } break;
+            default:
+                texptr = &eDestructionTextures::fMonsterMissile;
+            }
+        }
+
+        m->setTexture(texptr);
+
+        m->setFinishAction(mHitAct);
+
+        if(mFinishAttackA) mFinishAttackA->call();
+    }
+
+    void read(eReadStream& src) override {
+        src.readCharacter(&board(), [this](eCharacter* const c) {
+            mCptr = c;
+        });
+        src >> mAt;
+        src >> mChart;
+        mTarget = src.readTile(board());
+
+        mPlaySound = src.readCharActFunc(board());
+        mHitAct = src.readGodAct(board());
+        mFinishAttackA = src.readCharActFunc(board());
+    }
+
+    void write(eWriteStream& dst) const override {
+        dst.writeCharacter(mCptr);
+        dst << mAt;
+        dst << mChart;
+        dst.writeTile(mTarget);
+
+        dst.writeCharActFunc(mPlaySound.get());
+        dst.writeGodAct(mHitAct.get());
+        dst.writeCharActFunc(mFinishAttackA.get());
+    }
+private:
+    stdptr<eCharacter> mCptr;
+    eCharacterActionType mAt;
+    eCharacterType mChart;
+    eTile* mTarget = nullptr;
+    stdsptr<eCharActFunc> mPlaySound;
+    stdsptr<eGodAct> mHitAct;
+    stdsptr<eCharActFunc> mFinishAttackA;
+};
+
+class eGMA_spawnMultipleMissilesFinish : public eCharActFunc {
+public:
+    eGMA_spawnMultipleMissilesFinish(eGameBoard& board) :
+        eCharActFunc(board, eCharActFuncType::GMA_spawnMultipleMissilesFinish) {}
+    eGMA_spawnMultipleMissilesFinish(eGameBoard& board,
+                                     eGodMonsterAction* const ca,
+                                     const eCharacterActionType at,
+                                     const eCharacterType chart,
+                                     const int attackTime,
+                                     eTile* const target,
+                                     const stdsptr<eCharActFunc>& playSound,
+                                     const stdsptr<eGodAct>& playHitSound,
+                                     const stdsptr<eCharActFunc>& finishA,
+                                     const int nMissiles) :
+        eCharActFunc(board, eCharActFuncType::GMA_spawnMultipleMissilesFinish),
+        mTptr(ca), mAt(at), mChart(chart), mAttackTime(attackTime),
+        mTarget(target), mPlaySound(playSound),
+        mPlayHitSound(playHitSound), mFinishA(finishA),
+        mNMissiles(nMissiles) {}
+
+    void call() override {
+        if(!mTptr) return;
+        mTptr->spawnMultipleMissiles(mAt, mChart, mAttackTime,
+                                     mTarget, mPlaySound, mPlayHitSound,
+                                     mFinishA, mNMissiles - 1);
+    }
+
+    void read(eReadStream& src) override {
+        src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
+            mTptr = static_cast<eGodMonsterAction*>(ca);
+        });
+        src >> mAt;
+        src >> mChart;
+        src >> mAttackTime;
+        mTarget = src.readTile(board());
+        mPlaySound = src.readCharActFunc(board());
+        mPlayHitSound = src.readGodAct(board());
+        mFinishA = src.readCharActFunc(board());
+        src >> mNMissiles;
+    }
+
+    void write(eWriteStream& dst) const override {
+        dst.writeCharacterAction(mTptr);
+        dst << mAt;
+        dst << mChart;
+        dst << mAttackTime;
+        dst.writeTile(mTarget);
+        dst.writeCharActFunc(mPlaySound.get());
+        dst.writeGodAct(mPlayHitSound.get());
+        dst.writeCharActFunc(mFinishA.get());
+        dst << mNMissiles;
+    }
+private:
+    stdptr<eGodMonsterAction> mTptr;
+    eCharacterActionType mAt;
+    eCharacterType mChart;
+    int mAttackTime = 0;
+    eTile* mTarget = nullptr;
+    stdsptr<eCharActFunc> mPlaySound;
+    stdsptr<eGodAct> mPlayHitSound;
+    stdsptr<eCharActFunc> mFinishA;
+    int mNMissiles = 1;
+};
+
+class eGMA_goToTargetFail : public eCharActFunc {
+public:
+    eGMA_goToTargetFail(eGameBoard& board) :
+        eCharActFunc(board, eCharActFuncType::GMA_goToTargetFail) {}
+    eGMA_goToTargetFail(eGameBoard& board, eTile* const tile,
+                        const stdsptr<eFindFailFunc>& func) :
+        eCharActFunc(board, eCharActFuncType::GMA_goToTargetFail),
+        mTile(tile), mFunc(func) {}
+
+    void call() override {
+        if(mFunc) mFunc->call(mTile);
+    }
+
+    void read(eReadStream& src) override {
+        mTile = src.readTile(board());
+        bool hasFunc;
+        src >> hasFunc;
+        if(hasFunc) {
+            eFindFailFuncType type;
+            src >> type;
+            mFunc = eFindFailFunc::sCreate(board(), type);
+            mFunc->read(src);
+        }
+    }
+
+    void write(eWriteStream& dst) const override {
+        dst.writeTile(mTile);
+        const bool hasFunc = mFunc != nullptr;
+        dst << hasFunc;
+        if(hasFunc) {
+            dst << mFunc->type();
+            mFunc->write(dst);
+        }
+    }
+private:
+    eTile* mTile = nullptr;
+    stdsptr<eFindFailFunc> mFunc;
 };
 
 #endif // EGODMONSTERACTION_H

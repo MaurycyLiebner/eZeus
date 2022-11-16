@@ -8,7 +8,9 @@
 eArtisanAction::eArtisanAction(eCharacter* const c,
                                eArtisansGuild* const guild) :
     eActionWithComeback(c, eCharActionType::artisanAction),
-    mGuild(guild) {}
+    mGuild(guild) {
+    setFinishOnComeback(true);
+}
 
 eArtisanAction::eArtisanAction(eCharacter* const c) :
     eArtisanAction(c, nullptr) {}
@@ -86,8 +88,7 @@ bool eArtisanAction::findTargetDecision() {
     };
 
     const auto c = character();
-    const auto a = e::make_shared<eMoveToAction>(
-                       c, [](){}, [](){});
+    const auto a = e::make_shared<eMoveToAction>(c);
     const stdptr<eCharacter> cptr(c);
     a->setFoundAction([cptr]() {
         if(!cptr) return;

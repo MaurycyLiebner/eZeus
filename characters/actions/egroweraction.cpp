@@ -6,12 +6,15 @@
 
 eGrowerAction::eGrowerAction(const eGrowerType type,
                              eGrowersLodge* const lodge,
-                             eGrower* const c,
-                             const eAction& failAction,
-                             const eAction& finishAction) :
-    eActionWithComeback(c, failAction, finishAction),
-    mType(type), mGrower(c),
-    mLodge(lodge) {}
+                             eCharacter* const c) :
+    eActionWithComeback(c, eCharActionType::growerAction),
+    mType(type), mGrower(static_cast<eGrower*>(c)),
+    mLodge(lodge) {
+    setFinishOnComeback(true);
+}
+
+eGrowerAction::eGrowerAction(eCharacter* const c) :
+    eGrowerAction(eGrowerType::grapesAndOlives, nullptr, c) {}
 
 bool hasResource(eThreadTile* const tile, const eGrowerType gt) {
     if(rand() % 2) return false;
@@ -141,6 +144,30 @@ bool eGrowerAction::decide() {
     return true;
 }
 
+void eGrowerAction::read(eReadStream& src) {
+    eActionWithComeback::read(src);
+    src >> mType;
+    src.readCharacter(&board(), [this](eCharacter* const c) {
+        mGrower = static_cast<eGrower*>(c);
+    });
+    src.readBuilding(&board(), [this](eBuilding* const b) {
+        mLodge = static_cast<eGrowersLodge*>(b);
+    });
+    src >> mFinishOnce;
+    src >> mGroomed;
+    src >> mNoResource;
+}
+
+void eGrowerAction::write(eWriteStream& dst) const {
+    eActionWithComeback::write(dst);
+    dst << mType;
+    dst.writeCharacter(mGrower);
+    dst.writeBuilding(mLodge);
+    dst << mFinishOnce;
+    dst << mGroomed;
+    dst << mNoResource;
+}
+
 bool eGrowerAction::findResourceDecision() {
     const stdptr<eGrowerAction> tptr(this);
 
@@ -149,8 +176,7 @@ bool eGrowerAction::findResourceDecision() {
         return hasResource(tile, gt);
     };
 
-    const auto a = e::make_shared<eMoveToAction>(
-                       mGrower, [](){}, [](){});
+    const auto a = e::make_shared<eMoveToAction>(mGrower);
     a->setFoundAction([tptr, this]() {
         if(!tptr) return;
         if(!mGrower) return;
@@ -198,32 +224,15 @@ void eGrowerAction::workOnDecision(eTile* const tile) {
     }
 
     const stdptr<eCharacterAction> tptr(this);
-    const auto finish = [tptr, this, tile, type]() {
-        tile->setBusy(false);
-        if(!tptr) return;
-        if(const auto b = tile->underBuilding()) {
-            if(const auto bb = dynamic_cast<eResourceBuilding*>(b)) {
-                bb->workOn();
-                const int took = bb->takeResource(1);
-                if(took > 0) {
-                    if(type == eBuildingType::vine) {
-                        mGrower->incGrapes();
-                    } else if(type == eBuildingType::oliveTree) {
-                        mGrower->incOlives();
-                    } else if(type == eBuildingType::orangeTree) {
-                        mGrower->incOranges();
-                    }
-                    mGroomed += 5;
-                }
-            }
-        }
-        mGroomed++;
-    };
+    const auto finish = std::make_shared<eGRA_workOnDecisionFinish>(
+                            board(), this, tile, type);
 
-    const auto w = e::make_shared<eWaitAction>(mGrower, finish, finish);
-    w->setDeleteFailAction([tile]() {
-        tile->setBusy(false);
-    });
+    const auto w = e::make_shared<eWaitAction>(mGrower);
+    w->setFailAction(finish);
+    w->setFinishAction(finish);
+    const auto deleteFail = std::make_shared<eGRA_workOnDecisionDeleteFail>(
+                            board(), tile);
+    w->setDeleteFailAction(deleteFail);
     w->setTime(2000);
     setCurrentAction(w);
 }

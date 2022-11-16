@@ -16,14 +16,6 @@ eCharacterAction::~eCharacterAction() {
     }
 }
 
-void eCharacterAction::pause() {
-    mPauseType = mCharacter->actionType();
-}
-
-void eCharacterAction::resume() {
-    mCharacter->setActionType(mPauseType);
-}
-
 void eCharacterAction::setState(const eCharacterActionState state) {
     if(state == mState) return;
     mState = state;
@@ -52,39 +44,9 @@ void eCharacterAction::read(eReadStream& src) {
     src >> mState;
     src >> mPauseType;
 
-    {
-        bool hasFinish;
-        src >> hasFinish;
-        if(hasFinish) {
-            eCharActFuncType type;
-            src >> type;
-            const auto f = eCharActFunc::sCreate(board(), type);
-            f->read(src);
-            setFinishAction(f);
-        }
-    }
-    {
-        bool hasFail;
-        src >> hasFail;
-        if(hasFail) {
-            eCharActFuncType type;
-            src >> type;
-            const auto f = eCharActFunc::sCreate(board(), type);
-            f->read(src);
-            setFailAction(f);
-        }
-    }
-    {
-        bool hasDeleteFail;
-        src >> hasDeleteFail;
-        if(hasDeleteFail) {
-            eCharActFuncType type;
-            src >> type;
-            const auto f = eCharActFunc::sCreate(board(), type);
-            f->read(src);
-            setDeleteFailAction(f);
-        }
-    }
+    mFinishAction = src.readCharActFunc(board());
+    mFailAction = src.readCharActFunc(board());
+    mDeleteFailAction = src.readCharActFunc(board());
 }
 
 void eCharacterAction::write(eWriteStream& dst) const {
@@ -92,28 +54,8 @@ void eCharacterAction::write(eWriteStream& dst) const {
 
     dst << mState;
     dst << mPauseType;
-    {
-        const bool hasFinish = mFinishAction != nullptr;
-        dst << hasFinish;
-        if(hasFinish) {
-            dst << mFinishAction->type();
-            mFinishAction->write(dst);
-        }
-    }
-    {
-        const bool hasFail = mFailAction != nullptr;
-        dst << hasFail;
-        if(hasFail) {
-            dst << mFailAction->type();
-            mFailAction->write(dst);
-        }
-    }
-    {
-        const bool hasDeleteFail = mDeleteFailAction != nullptr;
-        dst << hasDeleteFail;
-        if(hasDeleteFail) {
-            dst << mDeleteFailAction->type();
-            mDeleteFailAction->write(dst);
-        }
-    }
+
+    dst.writeCharActFunc(mFinishAction.get());
+    dst.writeCharActFunc(mFailAction.get());
+    dst.writeCharActFunc(mDeleteFailAction.get());
 }

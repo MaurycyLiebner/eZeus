@@ -19,6 +19,8 @@ public:
 
     void setDistance(const int d);
 
+    bool decide() override { return false; }
+
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:

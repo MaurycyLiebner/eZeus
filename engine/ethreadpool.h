@@ -22,14 +22,19 @@ public:
     void handleFinished();
 
     void scheduleUpdate(eGameBoard& board);
+
+    void waitFinished();
 private:
     void threadEntry(eThreadData* data);
 
 
     bool mQuit = false;
 
+    int mBusy = 0;
+
     std::mutex mTasksMutex;
     std::condition_variable mCv;
+    std::condition_variable mCvFinished;
     std::queue<eTask*> mTasks;
 
     std::mutex mFinishedTasksMutex;

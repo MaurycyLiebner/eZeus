@@ -10,11 +10,31 @@ ePatrolMoveAction::ePatrolMoveAction(eCharacter* const c,
                                      const bool diagonalOnly,
                                      const stdsptr<eWalkableObject>& walkable,
                                      const stdsptr<eDirectionTimes>& os) :
-    eMoveAction(c, walkable),
+    eMoveAction(c, walkable, eCharActionType::patrolMoveAction),
     mDiagonalOnly(diagonalOnly),
     mWalkable(walkable),
     mOs(os) {
     mO = c->orientation();
+}
+
+void ePatrolMoveAction::read(eReadStream& src) {
+    eMoveAction::read(src);
+    src >> mDiagonalOnly;
+    mWalkable = src.readWalkable();
+    mOs = src.readDirectionTimes(board());
+    src >> mO;
+    src >> mMaxWalkDistance;
+    src >> mWalkedDistance;
+}
+
+void ePatrolMoveAction::write(eWriteStream& dst) const {
+    eMoveAction::write(dst);
+    dst << mDiagonalOnly;
+    dst.writeWalkable(mWalkable.get());
+    dst.writeDirectionTimes(mOs.get());
+    dst << mO;
+    dst << mMaxWalkDistance;
+    dst << mWalkedDistance;
 }
 
 eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {

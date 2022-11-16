@@ -48,27 +48,11 @@ bool eHorseRanchEnclosure::spawnHorse() {
     const auto h = e::make_shared<eHorse>(getBoard());
     const auto tile = centerTile();
     h->changeTile(tile);
-    const auto e = []() {};
-    const auto walkable = [](eTileBase* const tile) {
-        const auto t = tile->underBuildingType();
-        if(t != eBuildingType::horseRanchEnclosure) return false;
-
-        const auto bl = tile->bottomLeft();
-        if(!bl) return false;
-        const auto blt = bl->underBuildingType();
-        if(blt != eBuildingType::horseRanchEnclosure) return false;
-
-        const auto br = tile->bottomRight();
-        if(!br) return false;
-        const auto brt = br->underBuildingType();
-        if(brt != eBuildingType::horseRanchEnclosure) return false;
-
-        return true;
-    };
+    const auto walkable = eWalkableObject::sCreateRanch();
     const int tx = tile->x();
     const int ty = tile->y();
     const auto a = e::make_shared<eAnimalAction>(
-                       h.get(), e, e, tx, ty, walkable);
+                       h.get(), tx, ty, walkable);
     a->setLayTime(500);
     a->setWalkTime(1);
     h->setAction(a);

@@ -19,9 +19,7 @@ public:
 
     bool spawn();
 private:
-    const std::vector<eBuildingTextures>& mTextures;
-
-    stdsptr<eHunter> mHunter;
+    stdptr<eHunter> mHunter;
 };
 
 #endif // EHUNTINGLODGE_H

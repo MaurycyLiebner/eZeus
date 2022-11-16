@@ -45,9 +45,8 @@ public:
         return {};
     }
 protected:
-    bool spawnCart(stdsptr<eCartTransporter>& cart,
-                   const eCartActionTypeSupport s =
-                    eCartActionTypeSupport::both);
+    stdptr<eCartTransporter> spawnCart(const eCartActionTypeSupport s =
+                                    eCartActionTypeSupport::both);
 };
 
 #endif // EBUILDINGWITHRESOURCE_H

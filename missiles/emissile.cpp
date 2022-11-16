@@ -2,6 +2,7 @@
 
 #include "engine/egameboard.h"
 #include "engine/etile.h"
+#include "characters/actions/egodaction.h"
 
 eMissile::eMissile(eGameBoard& board,
                    const std::vector<ePathPoint>& path) :
@@ -24,7 +25,7 @@ void eMissile::incTime(const int by) {
     changeTile(t);
     const bool f = mPath.finished();
     if(f) {
-        if(mFinish) mFinish();
+        if(mFinish) mFinish->act();
         changeTile(nullptr);
     }
 }
@@ -45,8 +46,8 @@ double eMissile::y() const {
     }
 }
 
-void eMissile::setFinishAction(const eAction& a) {
-    mFinish = a;
+void eMissile::setFinishAction(const stdsptr<eGodAct>& act) {
+    mFinish = act;
 }
 
 void eMissile::changeTile(eTile* const t) {

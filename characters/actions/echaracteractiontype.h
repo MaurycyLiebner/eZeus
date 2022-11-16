@@ -20,6 +20,7 @@ enum class eCharacterActionType {
     appear,
     disappear,
     bless,
+    curse,
     patrol,
     build,
     buildStanding

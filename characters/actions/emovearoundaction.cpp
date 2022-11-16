@@ -5,10 +5,13 @@
 eMoveAroundAction::eMoveAroundAction(eCharacter* const c,
                                      const int startX, const int startY,
                                      const stdsptr<eWalkableObject>& walkable) :
-    eMoveAction(c, walkable) {
+    eMoveAction(c, walkable, eCharActionType::moveAroundAction) {
     mStartTX = startX;
     mStartTY = startY;
 }
+
+eMoveAroundAction::eMoveAroundAction(eCharacter* const c) :
+    eMoveAroundAction(c, 0, 0, nullptr) {}
 
 void eMoveAroundAction::increment(const int by) {
     mRemTime -= by;
@@ -21,6 +24,22 @@ void eMoveAroundAction::setTime(const int t) {
 
 void eMoveAroundAction::setMaxDistance(const int md) {
     mMaxDist = md;
+}
+
+void eMoveAroundAction::read(eReadStream& src) {
+    eMoveAction::read(src);
+    src >> mStartTX;
+    src >> mStartTY;
+    src >> mMaxDist;
+    src >> mRemTime;
+}
+
+void eMoveAroundAction::write(eWriteStream& dst) const {
+    eMoveAction::write(dst);
+    dst << mStartTX;
+    dst << mStartTY;
+    dst << mMaxDist;
+    dst << mRemTime;
 }
 
 eCharacterActionState eMoveAroundAction::nextTurn(eOrientation& turn) {

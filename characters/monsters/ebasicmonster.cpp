@@ -22,7 +22,8 @@ eBasicMonster::getTexture(const eTileSize size) const {
         return texs.fWalk[oid].getTexture(0);
     case eCharacterActionType::collect:
     case eCharacterActionType::fight:
-    case eCharacterActionType::bless: {
+    case eCharacterActionType::bless:
+    case eCharacterActionType::curse: {
         wrap = true;
         coll = &texs.fFight[oid];
     } break;

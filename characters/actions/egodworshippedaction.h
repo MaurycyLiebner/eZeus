@@ -9,10 +9,13 @@ enum class eGodWorshippedStage {
 
 class eGodWorshippedAction : public eGodAction {
 public:
-    using eGodAction::eGodAction;
+    eGodWorshippedAction(eCharacter* const c);
 
-    void increment(const int by);
-    bool decide();
+    void increment(const int by) override;
+    bool decide() override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     eGodWorshippedStage mStage{eGodWorshippedStage::none};
 

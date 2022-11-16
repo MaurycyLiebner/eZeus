@@ -23,7 +23,8 @@ eBasicHero::getTexture(const eTileSize size) const {
     case eCharacterActionType::collect:
     case eCharacterActionType::fight:
     case eCharacterActionType::fight2:
-    case eCharacterActionType::bless: {
+    case eCharacterActionType::bless:
+    case eCharacterActionType::curse: {
         wrap = true;
         coll = &texs.fFight[oid];
     } break;

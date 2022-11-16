@@ -51,7 +51,7 @@ std::vector<eOverlay> eProcessingBuilding::getOverlays(
 void eProcessingBuilding::timeChanged(const int by) {
     if(enabled()) {
         if(!mTakeCart) {
-            spawnCart(mTakeCart, eCartActionTypeSupport::take);
+            mTakeCart = spawnCart(eCartActionTypeSupport::take);
         }
         mProcessTime += by;
         const int wait = mProcessWaitTime/effectiveness();
@@ -103,12 +103,18 @@ std::vector<eCartTask> eProcessingBuilding::cartTasks() const {
 void eProcessingBuilding::read(eReadStream& src) {
     eResourceBuildingBase::read(src);
 
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mTakeCart = static_cast<eCartTransporter*>(c);
+    });
+
     src >> mRawCount;
     src >> mProcessTime;
 }
 
 void eProcessingBuilding::write(eWriteStream& dst) const {
     eResourceBuildingBase::write(dst);
+
+    dst.writeCharacter(mTakeCart);
 
     dst << mRawCount;
     dst << mProcessTime;

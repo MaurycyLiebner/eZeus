@@ -597,9 +597,6 @@ void eCharacterTextures::load() {
                 r->setOffset(r->offsetX(), r->offsetY() + 10);
             }
         }
-
-        fSelected = std::make_shared<eTexture>();
-        fSelected->load(fRenderer, pathBase + "08436.png");
     }
 
     {

@@ -6,19 +6,24 @@
 #include "vec2.h"
 
 eMoveAction::eMoveAction(eCharacter* const c,
-                         const stdsptr<eWalkableObject>& tileWalkable) :
-    eCharacterAction(c),
+                         const stdsptr<eWalkableObject>& tileWalkable,
+                         const eCharActionType type) :
+    eCharacterAction(c, type),
     mTileWalkable(tileWalkable) {
     mStartX = c->x();
     mStartY = c->y();
     mOrientation = c->orientation();
 }
 
+eMoveAction::eMoveAction(eCharacter* const c,
+                         const eCharActionType type) :
+    eMoveAction(c, nullptr, type) {}
+
 bool eMoveAction::walkable(eTileBase* const tile) const {
     return mTileWalkable->walkable(tile);
 }
 
-void eMoveAction::setObsticleHandler(const eObsticleHandler& oh) {
+void eMoveAction::setObsticleHandler(const stdsptr<eObsticleHandler>& oh) {
     mObstHandler = oh;
 }
 
@@ -84,6 +89,30 @@ void eMoveAction::increment(const int by) {
     moveBy(c->speed()*0.005 * by);
 }
 
+void eMoveAction::read(eReadStream& src) {
+    eCharacterAction::read(src);
+    mTileWalkable = src.readWalkable();
+    src >> mOrientation;
+    mTargetTile = src.readTile(board());
+    src >> mStartX;
+    src >> mStartY;
+    src >> mTargetX;
+    src >> mTargetY;
+    mObstHandler = src.readObsticleHandler(board());
+}
+
+void eMoveAction::write(eWriteStream& dst) const {
+    eCharacterAction::write(dst);
+    dst.writeWalkable(mTileWalkable.get());
+    dst << mOrientation;
+    dst.writeTile(mTargetTile);
+    dst << mStartX;
+    dst << mStartY;
+    dst << mTargetX;
+    dst << mTargetY;
+    dst.writeObsticleHandler(mObstHandler.get());
+}
+
 void eMoveAction::moveBy(const double inc) {
     const auto c = character();
     const double x = c->x();
@@ -128,7 +157,7 @@ bool eMoveAction::nextTurn() {
         return false;
     }
     if(!mTileWalkable->walkable(mTargetTile)) {
-        if(mObstHandler && mObstHandler(mTargetTile)) {
+        if(mObstHandler && mObstHandler->handle(mTargetTile)) {
         } else {
             setState(eCharacterActionState::failed);
             return false;

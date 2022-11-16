@@ -14,10 +14,10 @@ public:
 
     void timeChanged(const int by);
 
-    using eArtisanPtr = stdsptr<eArtisan> eArtisansGuild::*;
+    using eArtisanPtr = stdptr<eArtisan> eArtisansGuild::*;
     bool spawnArtisan(const eArtisanPtr artisan);
 private:
-    stdsptr<eArtisan> mArtisan;
+    stdptr<eArtisan> mArtisan;
 
     int mWaitTime = 2000;
     int mSpawnTime = mWaitTime;

@@ -75,6 +75,9 @@ double eAttackTarget::absY() const {
     return 0.;
 }
 
+eSoldierAction::eSoldierAction(eCharacter* const c) :
+    eComplexAction(c, eCharActionType::soldierAction) {}
+
 bool eSoldierAction::decide() {
     return true;
 }
@@ -261,6 +264,30 @@ void eSoldierAction::increment(const int by) {
     eComplexAction::increment(by);
 }
 
+void eSoldierAction::read(eReadStream& src) {
+    eComplexAction::read(src);
+    src >> mAngle;
+    src >> mMissile;
+    src >> mRangeAttack;
+    src >> mBuildingAttack;
+    src >> mLookForEnemy;
+    src >> mAttackTime;
+    src >> mAttack;
+    mAttackTarget.read(board(), src);
+}
+
+void eSoldierAction::write(eWriteStream& dst) const {
+    eComplexAction::write(dst);
+    dst << mAngle;
+    dst << mMissile;
+    dst << mRangeAttack;
+    dst << mBuildingAttack;
+    dst << mLookForEnemy;
+    dst << mAttackTime;
+    dst << mAttack;
+    mAttackTarget.write(dst);
+}
+
 void eSoldierAction::moveBy(const double dx, const double dy) {
     const auto c = character();
     const auto ct = c->tile();
@@ -281,18 +308,9 @@ void eSoldierAction::moveBy(const double dx, const double dy) {
     c->setY(newFY);
 }
 
-std::function<bool(eTile* const)> eSoldierAction::obsticleHandler() {
-    const stdptr<eSoldierAction> tptr(this);
-    return [tptr, this](eTile* const tile) {
-        if(!tptr) return false;
-        const auto ub = tile->underBuilding();
-        if(!ub) return false;
-        const auto ubt = ub->type();
-        const bool r = eBuilding::sWalkableBuilding(ubt);
-        if(r) return false;
-        attackBuilding(tile);
-        return true;
-    };
+stdsptr<eObsticleHandler> eSoldierAction::obsticleHandler() {
+    return std::make_shared<eSoldierObsticleHandler>(
+                board(), this);
 }
 
 void eSoldierAction::goTo(const int fx, const int fy,
@@ -303,34 +321,32 @@ void eSoldierAction::goTo(const int fx, const int fy,
     const int sy = t->y();
     if(abs(fx - sx) <= dist && abs(fy - sy) <= dist) return;
 
-    const stdptr<eSoldierAction> tptr(this);
-    const stdptr<eCharacter> cptr(character());
-
     const auto hha = [fx, fy, dist](eThreadTile* const t) {
         return abs(t->x() - fx) <= dist && abs(t->y() - fy) <= dist;
     };
 
-    const auto finishAct = [cptr]() {
-        if(!cptr) return;
-        cptr->setActionType(eCharacterActionType::stand);
-    };
+    const auto finishAct = std::make_shared<eSA_goToFinish>(
+                               board(), c);
 
     const int pid = c->playerId();
     const bool attackBuildings = pid != 1;
-    using eTileWalkable = std::function<bool(eTileBase* const)>;
-    eTileWalkable pathFindWalkable =
+    stdsptr<eWalkableObject> pathFindWalkable =
         eWalkableObject::sCreateDefault();
-    eTileWalkable moveWalkable = nullptr;
+    stdsptr<eWalkableObject> moveWalkable = nullptr;
     if(attackBuildings) {
-        pathFindWalkable = eWalkableHelpers::eWalkableObject::sCreateTerrain();
+        pathFindWalkable = eWalkableObject::sCreateTerrain();
         moveWalkable = eWalkableObject::sCreateDefault();
     }
 
-    const auto a = e::make_shared<eMoveToAction>(
-                       cptr.get(), finishAct, finishAct);
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFailAction(finishAct);
+    a->setFinishAction(finishAct);
     if(attackBuildings) {
         a->setObsticleHandler(obsticleHandler());
     }
+
+    const stdptr<eSoldierAction> tptr(this);
+    const stdptr<eCharacter> cptr(character());
     a->setFoundAction([tptr, cptr]() {
         if(!cptr) return;
         cptr->setActionType(eCharacterActionType::walk);
@@ -350,18 +366,19 @@ void eSoldierAction::goHome() {
 
     const stdptr<eSoldierAction> tptr(this);
     const stdptr<eCharacter> cptr(c);
-    const auto finishAct = [cptr]() {
-        if(!cptr) return;
-        cptr->kill();
-    };
+    const auto finishAct = std::make_shared<eSA_goHomeFinish>(
+                               board(), c);
 
-    const auto a = e::make_shared<eMoveToAction>(
-                       cptr.get(), finishAct, finishAct);
+    const auto a = e::make_shared<eMoveToAction>(cptr.get());
+    a->setFailAction(finishAct);
+    a->setFinishAction(finishAct);
     a->setFoundAction([tptr, cptr]() {
         if(!cptr) return;
         cptr->setActionType(eCharacterActionType::walk);
     });
-    a->setFindFailAction(finishAct);
+    a->setFindFailAction([finishAct]() {
+        finishAct->call();
+    });
     a->start(b, eWalkableObject::sCreateDefault());
     setCurrentAction(a);
 }

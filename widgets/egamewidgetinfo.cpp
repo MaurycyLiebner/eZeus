@@ -181,7 +181,7 @@ std::string nameForBuilding(eBuilding* const b) {
         const auto c = static_cast<eCommemorative*>(b);
         const int id = c->id();
         if(id == 0) return "population_monument";
-        else if(id == 1) return "";
+        else if(id == 1) return "victory_monument";
         else if(id == 2) return "colony_monument";
         else if(id == 3) return "athlete_monument";
         else if(id == 4) return "conquest_monument";

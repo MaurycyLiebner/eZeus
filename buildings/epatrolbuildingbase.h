@@ -12,8 +12,6 @@ public:
                                 eCharacter* const c,
                                 ePatrolBuildingBase* const b,
                                 const std::vector<ePatrolGuide>& guides,
-                                const eAction& failAction,
-                                const eAction& finishAction,
                                 const stdsptr<eDirectionTimes>& dirTimes)>;
     ePatrolBuildingBase(eGameBoard& board,
                         const eCharGenerator& charGen,
@@ -32,8 +30,6 @@ public:
             eCharacter* const c,
             ePatrolBuildingBase* const b,
             const std::vector<ePatrolGuide>& guides,
-            const eAction& failAction,
-            const eAction& finishAction,
             const stdsptr<eDirectionTimes>& dirTimes);
 
     void timeChanged(const int by) override;
@@ -49,6 +45,9 @@ public:
 
     void setMaxDistance(const int m) { mMaxDistance = m; }
     int maxDistance() const { return mMaxDistance; }
+
+    const stdsptr<eDirectionTimes>& dirTimes() const
+    { return mDirTimes; }
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;

@@ -48,7 +48,7 @@ private:
 
     const eResourceType mRawMaterial;
 
-    stdsptr<eCartTransporter> mTakeCart;
+    stdptr<eCartTransporter> mTakeCart;
 
     const int mMaxRaw = 4;
     const int mRawUse;

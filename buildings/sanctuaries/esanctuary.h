@@ -54,7 +54,7 @@ private:
     eSanctCost mUsed{0, 0, 0};
     int mAltitude = 0;
 
-    stdsptr<eCartTransporter> mCart;
+    stdptr<eCartTransporter> mCart;
 
     std::vector<stdsptr<eSanctBuilding>> mElements;
 

@@ -11,7 +11,9 @@ using eAction = std::function<void()>;
 
 class eMoveToAction : public eComplexAction {
 public:
-    using eComplexAction::eComplexAction;
+    eMoveToAction(eCharacter* const c);
+
+    bool decide() { return false; }
 
     using eTileFinal = std::function<bool(eThreadTile* const)>;
     void start(const eTileFinal& final,
@@ -56,8 +58,7 @@ public:
     void setMaxWalkDistance(const int d)
     { mMaxWalkDistance = d; };
 
-    using eObsticleHandler = std::function<bool(eTile* const)>;
-    void setObsticleHandler(const eObsticleHandler& oh);
+    void setObsticleHandler(const stdsptr<eObsticleHandler>& oh);
 
     int pathLength() const
     { return mPathLength; }
@@ -73,7 +74,7 @@ private:
     int mMaxFindDistance = 10000;
     int mMaxWalkDistance = 10000;
     int mPathLength = 0;
-    eObsticleHandler mObstHandler;
+    stdsptr<eObsticleHandler> mObstHandler;
     eTileDistance mDistance;
 };
 

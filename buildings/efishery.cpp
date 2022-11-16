@@ -196,7 +196,8 @@ int eFishery::take(const eResourceType type, const int count) {
 
 void eFishery::spawnBoat() {
     if(mBoat) return;
-    mBoat = e::make_shared<eFishingBoat>(getBoard());
+    const auto b = e::make_shared<eFishingBoat>(getBoard());
+    mBoat = b.get();
     eTile* t;
     const auto ct = centerTile();
     switch(mO) {
@@ -219,23 +220,17 @@ void eFishery::spawnBoat() {
     } break;
     }
     if(!t) return;
-    mBoat->changeTile(t);
+    b->changeTile(t);
 
-    const auto finishAct = []() {};
-    const auto hasRes = [](eTileBase* const tile) {
-        return tile->hasFish();
-    };
+    const auto hasRes = eHasResourceObject::sCreate(
+                            eHasResourceObjectType::fish);
     const auto a = e::make_shared<eCollectResourceAction>(
-                       this, mBoat.get(), hasRes,
-                       nullptr, finishAct, finishAct);
-    a->setWalkable([](eTileBase* const t) {
-        const bool r = t->terrain() == eTerrain::water;
-        if(!r) return false;
-        return !t->isShoreTile();
-    });
+                       this, b.get(), hasRes);
+    const auto w = eWalkableObject::sCreateWater();
+    a->setWalkable(w);
     a->setWaitTime(gUnpackTime);
     a->setFinishOnce(false);
-    mBoat->setAction(a);
+    b->setAction(a);
 }
 
 void eFishery::updateDisabled() {
@@ -243,7 +238,6 @@ void eFishery::updateDisabled() {
     const bool d = s <= 0;
     if(mDisabled == d) return;
     mDisabled = d;
-    if(mAction) mAction->setDisabled(mDisabled);
 }
 
 void eFishery::read(eReadStream& src) {
