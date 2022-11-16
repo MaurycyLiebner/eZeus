@@ -307,6 +307,25 @@ void eGameBoard::read(eReadStream& src) {
     src >> mTime;
     src >> mTotalTime;
 
+    src >> mSoldiersUpdate;
+    src >> mMaxRockThrowers;
+    src >> mMaxHoplites;
+    src >> mMaxHorsemen;
+
+    src >> mCoverageUpdate;
+    src >> mAthleticsCoverage;
+    src >> mPhilosophyCoverage;
+    src >> mDramaCoverage;
+    src >> mAllDiscCoverage;
+    src >> mTaxesCoverage;
+    src >> mUnrest;
+    src >> mPopularity;
+    src >> mHealth;
+
+    src >> mWonGames;
+
+    mUpdateAppeal = true;
+
     for(const auto& ts : mTiles) {
         for(const auto& t : ts) {
             t->read(src);
@@ -389,6 +408,23 @@ void eGameBoard::write(eWriteStream& dst) const {
     mDate.write(dst);
     dst << mTime;
     dst << mTotalTime;
+
+    dst << mSoldiersUpdate;
+    dst << mMaxRockThrowers;
+    dst << mMaxHoplites;
+    dst << mMaxHorsemen;
+
+    dst << mCoverageUpdate;
+    dst << mAthleticsCoverage;
+    dst << mPhilosophyCoverage;
+    dst << mDramaCoverage;
+    dst << mAllDiscCoverage;
+    dst << mTaxesCoverage;
+    dst << mUnrest;
+    dst << mPopularity;
+    dst << mHealth;
+
+    dst << mWonGames;
 
     {
         int id = 0;

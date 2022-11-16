@@ -44,6 +44,39 @@ struct eSavedMessage {
     const eMessage* fMsg;
 };
 
+struct eGameWidgetSettings {
+    bool fPaused = false;
+    int fSpeedId = 1;
+    int fSpeed = 10;
+    int fDX = 0;
+    int fDY = 0;
+    eTileSize fTileSize = eTileSize::s30;
+    int fTileW = 60;
+    int fTileH = 30;
+
+    void read(eReadStream& src) {
+        src >> fPaused;
+        src >> fSpeedId;
+        src >> fSpeed;
+        src >> fDX;
+        src >> fDY;
+        src >> fTileSize;
+        src >> fTileW;
+        src >> fTileH;
+    }
+
+    void write(eWriteStream& dst) const {
+        dst << fPaused;
+        dst << fSpeedId;
+        dst << fSpeed;
+        dst << fDX;
+        dst << fDY;
+        dst << fTileSize;
+        dst << fTileW;
+        dst << fTileH;
+    }
+};
+
 class eGameWidget : public eWidget {
 public:
     eGameWidget(eMainWindow* const window);
@@ -61,6 +94,9 @@ public:
     bool tileVisible(eTile* const tile) const;
 
     void setBoard(eGameBoard* const board);
+
+    eGameWidgetSettings settings() const;
+    void setSettings(const eGameWidgetSettings& s);
 protected:
     void paintEvent(ePainter& p);
 
@@ -208,7 +244,7 @@ private:
     eViewMode mViewMode = eViewMode::defaultView;
 
     eTileSize mTileSize = eTileSize::s30;
-    int mTileW = 58;
+    int mTileW = 60;
     int mTileH = 30;
 
     int mUpdateRect = 0;

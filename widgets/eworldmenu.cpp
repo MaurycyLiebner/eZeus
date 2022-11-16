@@ -5,6 +5,7 @@
 #include "ebutton.h"
 #include "emainwindow.h"
 #include "eworldgoodswidget.h"
+#include "egamewidget.h"
 
 #include "elanguage.h"
 
@@ -87,7 +88,7 @@ void eWorldMenu::initialize() {
 
         const auto wgw = eButton::sCreate(coll.fWorldSmallButton, window(), this);
         wgw->setPressAction([this](){
-            window()->showGame(nullptr);
+            window()->showGame(nullptr, eGameWidgetSettings());
         });
         const int wgwx = 20*mult;
         const int wgwy = 285*mult;

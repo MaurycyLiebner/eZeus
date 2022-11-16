@@ -15,6 +15,8 @@ class eGameBoard;
 class eGameWidget;
 class eWorldWidget;
 
+struct eGameWidgetSettings;
+
 class eMainWindow {
 public:
     eMainWindow();
@@ -38,7 +40,8 @@ public:
     void setResolution(const eResolution& res);
     void setFullscreen(const bool f);
 
-    void startGameAction(eGameBoard* const board);
+    void startGameAction(eGameBoard* const board,
+                         const eGameWidgetSettings& settings);
     bool saveGame(const std::string& path);
     bool loadGame(const std::string& path);
     void closeGame();
@@ -46,7 +49,8 @@ public:
     void showMenuLoading();
     void showMainMenu();
     void showSettingsMenu();
-    void showGame(eGameBoard* board);
+    void showGame(eGameBoard* board,
+                  const eGameWidgetSettings& settings);
     void showWorld();
 
     const eSettings& settings() const { return mSettings; }

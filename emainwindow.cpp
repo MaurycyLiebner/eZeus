@@ -101,11 +101,12 @@ void eMainWindow::setFullscreen(const bool f) {
     SDL_SetWindowFullscreen(mSdlWindow, f ? SDL_WINDOW_FULLSCREEN : 0);
 }
 
-void eMainWindow::startGameAction(eGameBoard* const board) {
+void eMainWindow::startGameAction(eGameBoard* const board,
+                                  const eGameWidgetSettings& settings) {
     const auto l = new eGameLoadingWidget(this);
     l->resize(width(), height());
-    const auto show = [this, board]() {
-        showGame(board);
+    const auto show = [this, board, settings]() {
+        showGame(board, settings);
     };
     l->setDoneAction(show);
     setWidget(l);
@@ -116,21 +117,24 @@ bool eMainWindow::saveGame(const std::string& path) {
     const auto file = SDL_RWFromFile(path.c_str(), "w+b");
     if(!file) return false;
     eWriteStream dst(file);
+    const auto s = mGW->settings();
+    s.write(dst);
     mBoard->write(dst);
     SDL_RWclose(file);
     return true;
 }
 
 bool eMainWindow::loadGame(const std::string& path) {
-    const std::string basedir{"../saves/"};
     const auto file = SDL_RWFromFile(path.c_str(), "r+b");
     if(!file) return false;
     eReadStream src(file);
+    eGameWidgetSettings s;
+    s.read(src);
     const auto board = new eGameBoard();
     board->read(src);
     SDL_RWclose(file);
 
-    startGameAction(board);
+    startGameAction(board, s);
     return true;
 }
 
@@ -257,7 +261,7 @@ void eMainWindow::showMainMenu() {
 
         board->planInvasion();
 
-        startGameAction(board);
+        startGameAction(board, eGameWidgetSettings());
     };
 
     const auto loadGameAction = [this, mm]() {
@@ -318,7 +322,8 @@ void eMainWindow::showSettingsMenu() {
 #include "characters/egreekhoplite.h"
 #include "characters/esoldierbanner.h"
 #include "characters/actions/esoldieraction.h"
-void eMainWindow::showGame(eGameBoard* board) {
+void eMainWindow::showGame(eGameBoard* board,
+                           const eGameWidgetSettings& settings) {
     if(!board) board = mBoard;
 
     if(mBoard == board && mGW) {
@@ -386,6 +391,7 @@ void eMainWindow::showGame(eGameBoard* board) {
     mGW->setBoard(mBoard);
     mGW->resize(width(), height());
     mGW->initialize();
+    mGW->setSettings(settings);
 
     setWidget(mGW);
 }

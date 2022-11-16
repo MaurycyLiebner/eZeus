@@ -90,6 +90,31 @@ void eGameWidget::setBoard(eGameBoard* const board) {
     });
 }
 
+eGameWidgetSettings eGameWidget::settings() const {
+    eGameWidgetSettings r;
+    r.fPaused = mPaused;
+    r.fSpeedId = mSpeedId;
+    r.fSpeed = mSpeed;
+    r.fDX = mDX;
+    r.fDY = mDY;
+    r.fTileSize = mTileSize;
+    r.fTileW = mTileW;
+    r.fTileH = mTileH;
+    return r;
+}
+
+void eGameWidget::setSettings(const eGameWidgetSettings& s) {
+    mPaused = s.fPaused;
+    mSpeedId = s.fSpeedId;
+    mSpeed = s.fSpeed;
+    mDX = s.fDX;
+    mDY = s.fDY;
+    mTileSize = s.fTileSize;
+    mTileW = s.fTileW;
+    mTileH = s.fTileH;
+    updateMinimap();
+}
+
 void eGameWidget::initialize() {
     {
         const auto font = eFonts::defaultFont(resolution());
