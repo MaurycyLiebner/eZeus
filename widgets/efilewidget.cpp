@@ -15,6 +15,13 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
+template <typename TP>
+time_t to_time_t(TP tp) {
+    using namespace std::chrono;
+    auto sctp = time_point_cast<system_clock::duration>(tp - TP::clock::now() + system_clock::now());
+    return system_clock::to_time_t(sctp);
+}
+
 void eFileWidget::intialize(const std::string& title,
                             const std::string& folder,
                             const eFileFunc& func,
@@ -85,10 +92,20 @@ void eFileWidget::intialize(const std::string& title,
 
     const auto filesWidget = new eWidget(window());
 
-    int y = 0;
-    for(const auto & entry : fs::directory_iterator(folder)) {
+    std::map<time_t, fs::path> sorted;
+    for(const auto& entry : fs::directory_iterator(folder)) {
         const auto path = entry.path();
-        const auto name = entry.path().filename().stem();
+        const auto ext = path.extension();
+        if(ext != ".ez") continue;
+        const auto lwt = fs::last_write_time(path);
+        const auto time = to_time_t(lwt);
+        sorted[-time] = path;
+    }
+
+    int y = 0;
+    for(const auto& entry : sorted) {
+        const auto path = entry.second;
+        const auto name = path.filename().stem();
         const auto b = new eButton(name, window());
         b->setUnderline(false);
         b->setDarkFontColor();
