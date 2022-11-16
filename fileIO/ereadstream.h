@@ -19,6 +19,7 @@ class eCharacterActionFunction;
 class eGodAct;
 class eObsticleHandler;
 class eDirectionLastUseTime;
+class eWorldCity;
 
 using eDirectionTimes = std::map<eTile*, eDirectionLastUseTime>;
 
@@ -108,6 +109,9 @@ public:
             eGameBoard& board);
     stdsptr<eDirectionTimes> readDirectionTimes(
             eGameBoard& board);
+    using eCityFunc = std::function<void(stdsptr<eWorldCity>)>;
+    void readCity(eGameBoard* board,
+                  const eCityFunc& func);
 
     using eFunc = std::function<void()>;
     void addPostFunc(const eFunc& func);

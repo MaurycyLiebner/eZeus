@@ -95,9 +95,14 @@ public:
     const std::string& name() const { return mName; }
     const std::string& leader() const { return mLeader; }
 
+    void setIOID(const int id) { mIOID = id; }
+    int ioID() const { return mIOID; }
+
     virtual void write(eWriteStream& dst) const;
     virtual void read(eReadStream& src);
 private:
+    int mIOID = -1;
+
     eWorldCityType mType;
 
     std::string mName;

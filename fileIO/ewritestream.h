@@ -16,6 +16,7 @@ class eCharacterActionFunction;
 class eGodAct;
 class eObsticleHandler;
 class eDirectionLastUseTime;
+class eWorldCity;
 
 using eDirectionTimes = std::map<eTile*, eDirectionLastUseTime>;
 
@@ -88,6 +89,7 @@ public:
     void writeGodAct(eGodAct* const ga);
     void writeObsticleHandler(eObsticleHandler* const w);
     void writeDirectionTimes(eDirectionTimes* const d);
+    void writeCity(eWorldCity* const c);
 private:
     SDL_RWops* const mDst;
 };

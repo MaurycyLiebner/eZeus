@@ -141,6 +141,16 @@ stdsptr<eDirectionTimes> eReadStream::readDirectionTimes(
     return r;
 }
 
+void eReadStream::readCity(eGameBoard* board, const eCityFunc& func) {
+    int cid;
+    *this >> cid;
+    addPostFunc([board, func, cid]() {
+        auto& wb = board->getWorldBoard();
+        const auto c = wb.cityWithIOID(cid);
+        func(c);
+    });
+}
+
 void eReadStream::addPostFunc(const eFunc& func) {
     mPostFuncs.push_back(func);
 }

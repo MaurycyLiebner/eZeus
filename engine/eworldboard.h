@@ -23,6 +23,9 @@ public:
 
     int cityId(const eWorldCity& city) const;
 
+    stdsptr<eWorldCity> cityWithIOID(const int id) const;
+    void setIOIDs() const;
+
     void write(eWriteStream& dst) const;
     void read(eReadStream& src);
 private:

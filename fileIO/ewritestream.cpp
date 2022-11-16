@@ -85,3 +85,8 @@ void eWriteStream::writeDirectionTimes(eDirectionTimes* const d) {
         dt.second.write(*this);
     }
 }
+
+void eWriteStream::writeCity(eWorldCity* const c) {
+    const int cid = c ? c->ioID() : -1;
+    *this << cid;
+}

@@ -20,6 +20,7 @@ eWorldCityBase::eWorldCityBase(const eWorldCityType type,
 }
 
 void eWorldCityBase::write(eWriteStream& dst) const {
+    dst << mIOID;
     dst << mType;
     dst << mName;
     dst << mLeader;
@@ -31,6 +32,7 @@ void eWorldCityBase::write(eWriteStream& dst) const {
 }
 
 void eWorldCityBase::read(eReadStream& src) {
+    src >> mIOID;
     src >> mType;
     src >> mName;
     src >> mLeader;

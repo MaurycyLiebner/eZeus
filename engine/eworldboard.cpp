@@ -29,10 +29,32 @@ int eWorldBoard::cityId(const eWorldCity& city) const {
     return id;
 }
 
+stdsptr<eWorldCity> eWorldBoard::cityWithIOID(const int id) const {
+    if(mHomeCity) {
+        const int i = mHomeCity->ioID();
+        if(id == i) {
+            return mHomeCity;
+        }
+    }
+    for(const auto& c : mCities) {
+        const int i = c->ioID();
+        if(id == i) return c;
+    }
+    return nullptr;
+}
+
+void eWorldBoard::setIOIDs() const {
+    int id = 0;
+    mHomeCity->setIOID(id++);
+    for(const auto& c : mCities) {
+        c->setIOID(id++);
+    }
+}
+
 void eWorldBoard::write(eWriteStream& dst) const {
     mHomeCity->write(dst);
     dst << mCities.size();
-    for(const auto& c: mCities) {
+    for(const auto& c : mCities) {
         c->write(dst);
     }
 }

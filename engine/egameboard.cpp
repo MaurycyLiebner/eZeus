@@ -445,6 +445,8 @@ void eGameBoard::write(eWriteStream& dst) const {
         }
     }
 
+    mWorldBoard.setIOIDs();
+
     for(const auto& ts : mTiles) {
         for(const auto& t : ts) {
             t->write(dst);

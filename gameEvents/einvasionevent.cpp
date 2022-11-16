@@ -56,12 +56,18 @@ void eInvasionEvent::trigger() {
 }
 
 void eInvasionEvent::write(eWriteStream& dst) const {
+    dst.writeCity(mCity.get());
+
     dst << mInfantry;
     dst << mCavalry;
     dst << mArchers;
 }
 
 void eInvasionEvent::read(eReadStream& src) {
+    src.readCity(&getBoard(), [this](const stdsptr<eWorldCity>& c) {
+        mCity = c;
+    });
+
     src >> mInfantry;
     src >> mCavalry;
     src >> mArchers;
