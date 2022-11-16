@@ -23,6 +23,7 @@ public:
 
     void scheduleUpdate(eGameBoard& board);
 
+    bool finished();
     void waitFinished();
 private:
     void threadEntry(eThreadData* data);

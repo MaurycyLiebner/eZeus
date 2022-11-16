@@ -336,6 +336,18 @@ void eGameBoard::read(eReadStream& src) {
         }
     }
 
+    {
+        int ncs;
+        src >> ncs;
+
+        for(int i = 0; i < ncs; i++) {
+            eMissileType type;
+            src >> type;
+            const auto c = eMissile::sCreate(*this, type);
+            c->read(src);
+        }
+    }
+
     int nfg;
     src >> nfg;
     for(int i = 0; i < nfg; i++) {
@@ -378,6 +390,25 @@ void eGameBoard::write(eWriteStream& dst) const {
     dst << mTime;
     dst << mTotalTime;
 
+    {
+        int id = 0;
+        for(const auto b : mAllBuildings) {
+            b->setIOID(id++);
+        }
+    }
+    {
+        int id = 0;
+        for(const auto c : mCharacters) {
+            c->setIOID(id++);
+        }
+    }
+    {
+        int id = 0;
+        for(const auto ca : mCharacterActions) {
+            ca->setIOID(id++);
+        }
+    }
+
     for(const auto& ts : mTiles) {
         for(const auto& t : ts) {
             t->write(dst);
@@ -385,10 +416,6 @@ void eGameBoard::write(eWriteStream& dst) const {
     }
 
     {
-        int id = 0;
-        for(const auto b : mAllBuildings) {
-            b->setIOID(id++);
-        }
         const int nbs = mAllBuildings.size();
         dst << nbs;
         for(const auto b : mAllBuildings) {
@@ -397,22 +424,19 @@ void eGameBoard::write(eWriteStream& dst) const {
         }
     }
 
-
     {
-        int id = 0;
-        for(const auto ca : mCharacterActions) {
-            ca->setIOID(id++);
+        const int ncs = mCharacters.size();
+        dst << ncs;
+        for(const auto c : mCharacters) {
+            dst << c->type();
+            c->write(dst);
         }
     }
 
     {
-        int id = 0;
-        for(const auto c : mCharacters) {
-            c->setIOID(id++);
-        }
-        const int ncs = mCharacters.size();
+        const int ncs = mMissiles.size();
         dst << ncs;
-        for(const auto c : mCharacters) {
+        for(const auto c : mMissiles) {
             dst << c->type();
             c->write(dst);
         }
@@ -490,8 +514,10 @@ void eGameBoard::removeInvasion(eInvasionHandler* const i) {
 }
 
 void eGameBoard::waitUntilFinished() {
-    mThreadPool.waitFinished();
-    mThreadPool.handleFinished();
+    while(!mThreadPool.finished()) {
+        mThreadPool.waitFinished();
+        mThreadPool.handleFinished();
+    }
 }
 
 void eGameBoard::updateTileRenderingOrder() {

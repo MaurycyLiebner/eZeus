@@ -11,13 +11,16 @@ public:
                        const int maxEmployees);
     ~eEmployingBuilding();
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
 
     int employed() const { return mEmployed; }
     void setMaxEmployees(const int m) { mMaxEmployees = m; }
     int maxEmployees() const { return mMaxEmployees; }
     double employedFraction() const;
     double effectiveness() const;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     int mMaxEmployees;
     int mEmployedUpdateWait = 1000;

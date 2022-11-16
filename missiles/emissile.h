@@ -12,12 +12,22 @@ class eTile;
 enum class eTileSize : int;
 class eGameBoard;
 
-using eAction = std::function<void()>;
-
 struct ePathPoint {
     double fX;
     double fY;
     double fHeight;
+
+    void read(eReadStream& src) {
+        src >> fX;
+        src >> fY;
+        src >> fHeight;
+    }
+
+    void write(eWriteStream& dst) const {
+        dst << fX;
+        dst << fY;
+        dst << fHeight;
+    }
 };
 
 class eMissilePath {
@@ -58,6 +68,28 @@ public:
     const ePathPoint& pos() const { return mPos; }
     double angle() const { return mAngle; }
     double height() const { return mPos.fHeight; }
+
+    void read(eReadStream& src) {
+        src >> mAngle;
+        mPos.read(src);
+        src >> mPtId;
+        int n;
+        src >> n;
+        for(int i = 0; i < n; i++) {
+            auto& pt = mPts.emplace_back();
+            pt.read(src);
+        }
+    }
+
+    void write(eWriteStream& dst) const {
+        dst << mAngle;
+        mPos.write(dst);
+        dst << mPtId;
+        dst << mPts.size();
+        for(const auto& pt : mPts) {
+            pt.write(dst);
+        }
+    }
 private:
     double mAngle;
     ePathPoint mPos;
@@ -67,10 +99,16 @@ private:
 
 class eGodAct;
 
+enum class eMissileType {
+    arrow,
+    god,
+    rock
+};
+
 class eMissile : public eStdSelfRef {
 public:
-    eMissile(eGameBoard& board,
-             const std::vector<ePathPoint>& path);
+    eMissile(eGameBoard& board, const eMissileType type,
+             const std::vector<ePathPoint>& path = {});
     ~eMissile();
 
     void incTime(const int by);
@@ -95,6 +133,11 @@ public:
     int textureTime() const { return mTime/4; }
     int time() const { return mTime; }
 
+    eMissileType type() const { return mType; }
+
+    virtual void read(eReadStream& src);
+    virtual void write(eWriteStream& dst) const;
+
     template <class T>
     static stdsptr<T> sCreate(eGameBoard& brd,
                               const int tx0, const int ty0,
@@ -102,8 +145,12 @@ public:
                               const int tx1, const int ty1,
                               const double h1,
                               const double dh);
+    static stdsptr<eMissile> sCreate(eGameBoard& brd,
+                                     const eMissileType type);
 private:
     void changeTile(eTile* const t);
+
+    const eMissileType mType;
 
     eGameBoard& mBoard;
     eMissilePath mPath;

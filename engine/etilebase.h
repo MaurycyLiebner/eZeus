@@ -116,8 +116,8 @@ public:
     int marbleLevel() const { return mMarbleLevel; };
     virtual void setMarbleLevel(const int l);
 
-    void read(eReadStream& src);
-    void write(eWriteStream& dst) const;
+    virtual void read(eReadStream& src);
+    virtual void write(eWriteStream& dst) const;
 private:
     int mSeed;
 

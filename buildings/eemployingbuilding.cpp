@@ -40,3 +40,19 @@ double eEmployingBuilding::effectiveness() const {
     const double ef = std::max(0.1, employedFraction());
     return ef*(1 + 0.5*blessed());
 }
+
+void eEmployingBuilding::read(eReadStream& src) {
+    eBuildingWithResource::read(src);
+    src >> mMaxEmployees;
+    src >> mEmployedUpdateWait;
+    src >> mEmployedUpdate;
+    src >> mEmployed;
+}
+
+void eEmployingBuilding::write(eWriteStream& dst) const {
+    eBuildingWithResource::write(dst);
+    dst << mMaxEmployees;
+    dst << mEmployedUpdateWait;
+    dst << mEmployedUpdate;
+    dst << mEmployed;
+}

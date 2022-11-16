@@ -81,6 +81,11 @@ void eThreadPool::scheduleUpdate(eGameBoard& board) {
     }
 }
 
+bool eThreadPool::finished() {
+    std::lock_guard lock(mTasksMutex);
+    return mTasks.empty() && (mBusy == 0);
+}
+
 void eThreadPool::waitFinished() {
     std::unique_lock<std::mutex> lock(mTasksMutex);
     mCvFinished.wait(lock, [this]() {

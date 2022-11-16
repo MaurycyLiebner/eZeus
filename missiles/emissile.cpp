@@ -4,9 +4,13 @@
 #include "engine/etile.h"
 #include "characters/actions/egodaction.h"
 
-eMissile::eMissile(eGameBoard& board,
+#include "erockmissile.h"
+#include "egodmissile.h"
+#include "earrowmissile.h"
+
+eMissile::eMissile(eGameBoard& board, const eMissileType type,
                    const std::vector<ePathPoint>& path) :
-    mBoard(board), mPath(path) {
+    mType(type), mBoard(board), mPath(path) {
     mBoard.registerMissile(this);
 }
 
@@ -48,6 +52,35 @@ double eMissile::y() const {
 
 void eMissile::setFinishAction(const stdsptr<eGodAct>& act) {
     mFinish = act;
+}
+
+void eMissile::read(eReadStream& src) {
+    mPath.read(src);
+    src >> mTime;
+    src >> mSpeed;
+    mFinish = src.readGodAct(mBoard);
+    const auto t = src.readTile(mBoard);
+    changeTile(t);
+}
+
+void eMissile::write(eWriteStream& dst) const {
+    mPath.write(dst);
+    dst << mTime;
+    dst << mSpeed;
+    dst.writeGodAct(mFinish.get());
+    dst.writeTile(mTile);
+}
+
+stdsptr<eMissile> eMissile::sCreate(
+        eGameBoard& brd, const eMissileType type) {
+    switch(type) {
+    case eMissileType::rock:
+        return e::make_shared<eRockMissile>(brd);
+    case eMissileType::god:
+        return e::make_shared<eGodMissile>(brd);
+    case eMissileType::arrow:
+        return e::make_shared<eArrowMissile>(brd);
+    }
 }
 
 void eMissile::changeTile(eTile* const t) {

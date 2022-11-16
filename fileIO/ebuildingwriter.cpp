@@ -171,7 +171,6 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
         const auto s = static_cast<const eSanctuary*>(b);
         dst << s->spanW();
         dst << s->spanH();
-        dst << s->altitude();
     } break;
     case eBuildingType::templeStatue: {
         const auto s = static_cast<const eTempleStatueBuilding*>(b);

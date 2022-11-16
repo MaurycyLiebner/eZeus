@@ -2,6 +2,10 @@
 
 #include "textures/egametextures.h"
 
+eRockMissile::eRockMissile(eGameBoard& board,
+                           const std::vector<ePathPoint>& path) :
+    eMissile(board, eMissileType::rock, path) {}
+
 std::shared_ptr<eTexture> eRockMissile::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
     const auto& textures = eGameTextures::destrution();

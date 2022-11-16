@@ -140,37 +140,8 @@ public:
         const auto m = eMissile::sCreate<eGodMissile>(
                            brd, tx, ty, h,
                            ttx, tty, h, 0);
-        using eTexPtr = eTextureCollection eDestructionTextures::*;
-        eTexPtr texptr;
-        if(mAt == eCharacterActionType::bless) {
-            texptr = &eDestructionTextures::fBless;
-        } else if(mAt == eCharacterActionType::curse) {
-            texptr = &eDestructionTextures::fCurse;
-        } else {
-            switch(mChart) {
-            case eCharacterType::aphrodite:
-            case eCharacterType::apollo:
-            case eCharacterType::ares:
-            case eCharacterType::artemis:
-            case eCharacterType::athena:
-            case eCharacterType::atlas:
-            case eCharacterType::demeter:
-            case eCharacterType::dionysus:
-            case eCharacterType::hades:
-            case eCharacterType::hephaestus:
-            case eCharacterType::hera:
-            case eCharacterType::hermes:
-            case eCharacterType::poseidon:
-            case eCharacterType::zeus: {
-                const auto gt = eGod::sCharacterToGodType(mChart);
-                texptr = eGod::sGodMissile(gt);
-            } break;
-            default:
-                texptr = &eDestructionTextures::fMonsterMissile;
-            }
-        }
 
-        m->setTexture(texptr);
+        m->setTexture(mChart, mAt);
 
         m->setFinishAction(mHitAct);
 

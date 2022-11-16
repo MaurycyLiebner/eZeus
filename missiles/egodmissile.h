@@ -6,14 +6,19 @@
 
 class eGodMissile : public eMissile {
 public:
-    using eMissile::eMissile;
+    eGodMissile(eGameBoard& board,
+                const std::vector<ePathPoint>& path = {});
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 
-    using eTexPtr = eTextureCollection eDestructionTextures::*;
-    void setTexture(const eTexPtr tex);
+    void setTexture(const eCharacterType ct,
+                    const eCharacterActionType cat);
+
+    void read(eReadStream& src);
+    void write(eWriteStream& dst) const;
 private:
-    eTexPtr mTex;
+    eCharacterType mCharType;
+    eCharacterActionType mActionType;
 };
 
 #endif // EGODMISSILE_H

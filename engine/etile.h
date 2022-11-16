@@ -43,7 +43,7 @@ public:
     void addCharacter(const stdsptr<eCharacter>& c,
                       const bool prepend = false);
     bool removeCharacter(const stdsptr<eCharacter>& c);
-    bool hasCharacter(const eHasChar& func) const;
+    bool hasCharacter(const eHasChar& func) const override;
 
     const std::vector<stdsptr<eCharacter>>& characters() const
     { return mCharacters; }
@@ -56,10 +56,10 @@ public:
 
     void setBuilding(const stdsptr<eBuildingRenderer>& b);
     eBuildingRenderer* building() const { return mBuilding.get(); }
-    bool hasRoad() const;
+    bool hasRoad() const override;
     void setUnderBuilding(const stdsptr<eBuilding>& b);
     eBuilding* underBuilding() const { return mUnderBuilding.get(); }
-    eBuildingType underBuildingType() const;
+    eBuildingType underBuildingType() const override;
 
     void setBanner(eBanner* const s);
     eBanner* banner() const { return mBanner; }
@@ -95,11 +95,14 @@ public:
     bool updateTerrain() const { return mUpdateTerrain; }
     void terrainUpdated() { mUpdateTerrain = false; }
 
-    bool onFire() const;
-    void setOnFire(const bool f);
+    bool onFire() const override;
+    void setOnFire(const bool f) override;
 
-    void setTerrain(const eTerrain terr);
-    void setMarbleLevel(const int l);
+    void setTerrain(const eTerrain terr) override;
+    void setMarbleLevel(const int l) override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     eTileTerrainPainter mTerrainPainter;
     bool mUpdateTerrain = false;
