@@ -33,7 +33,8 @@ struct ePathPoint {
 class eMissilePath {
 public:
     eMissilePath(const std::vector<ePathPoint>& pts) :
-        mPos(pts[0]), mPts(pts) {
+        mPos(pts.empty() ? ePathPoint{0., 0., 0.} : pts[0]),
+        mPts(pts) {
         progress(0.011);
     }
 
