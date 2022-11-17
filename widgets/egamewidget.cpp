@@ -104,7 +104,7 @@ eGameWidgetSettings eGameWidget::settings() const {
 }
 
 void eGameWidget::setSettings(const eGameWidgetSettings& s) {
-    mPaused = s.fPaused;
+    if(mPaused != s.fPaused) switchPause();
     mSpeedId = s.fSpeedId;
     mSpeed = s.fSpeed;
     mTileSize = s.fTileSize;
@@ -1131,6 +1131,28 @@ void eGameWidget::buildAnimal(eTile* const tile,
     }, sTileFertile, {}, true);
 }
 
+void eGameWidget::switchPause() {
+    mPaused = !mPaused;
+    if(mPaused && !mPausedLabel) {
+        const auto str = eLanguage::text("paused");
+        const auto space = "     ";
+        mPausedLabel = new eFramedLabel(space + str + space, window());
+        mPausedLabel->setType(eFrameType::message);
+        mPausedLabel->setSmallFontSize();
+        mPausedLabel->setHugePadding();
+        mPausedLabel->fitContent();
+        addWidget(mPausedLabel);
+        const int vw = width() - mGm->width();
+        const int w = mPausedLabel->width();
+        mPausedLabel->setX((vw - w)/2);
+        const int p = mPausedLabel->padding();
+        mPausedLabel->setY(mTopBar->height() + 2*p);
+    } else if(mPausedLabel) {
+        mPausedLabel->deleteLater();
+        mPausedLabel = nullptr;
+    }
+}
+
 bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
     if(mLocked) return true;
     const auto k = e.key();
@@ -1147,25 +1169,7 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
         mRotateId++;
         if(mRotateId > 3) mRotateId = 0;
     } else if(k == SDL_Scancode::SDL_SCANCODE_P) {
-        mPaused = !mPaused;
-        if(mPaused && !mPausedLabel) {
-            const auto str = eLanguage::text("paused");
-            const auto space = "     ";
-            mPausedLabel = new eFramedLabel(space + str + space, window());
-            mPausedLabel->setType(eFrameType::message);
-            mPausedLabel->setSmallFontSize();
-            mPausedLabel->setHugePadding();
-            mPausedLabel->fitContent();
-            addWidget(mPausedLabel);
-            const int vw = width() - mGm->width();
-            const int w = mPausedLabel->width();
-            mPausedLabel->setX((vw - w)/2);
-            const int p = mPausedLabel->padding();
-            mPausedLabel->setY(mTopBar->height() + 2*p);
-        } else if(mPausedLabel) {
-            mPausedLabel->deleteLater();
-            mPausedLabel = nullptr;
-        }
+        switchPause();
     } else if(k == SDL_Scancode::SDL_SCANCODE_LEFT) {
         setDX(mDX + 35);
     } else if(k == SDL_Scancode::SDL_SCANCODE_RIGHT) {

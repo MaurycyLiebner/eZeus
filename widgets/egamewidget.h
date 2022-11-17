@@ -208,6 +208,8 @@ private:
 
     eInfoWidget* openInfoWidget(eBuilding* const b);
 
+    void switchPause();
+
     bool mUpdateTerrain = true;
 
     bool mRotate = false;
