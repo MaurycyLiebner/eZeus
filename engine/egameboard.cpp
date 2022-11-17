@@ -329,6 +329,15 @@ void eGameBoard::read(eReadStream& src) {
     for(const auto& ts : mTiles) {
         for(const auto& t : ts) {
             t->read(src);
+            bool hasB;
+            src >> hasB;
+            if(!hasB) continue;
+            eBannerTypeS type;
+            src >> type;
+            int id;
+            src >> id;
+            const auto b = eBanner::sCreate(id, t, *this, type);
+            b->read(src);
         }
     }
 
@@ -364,7 +373,7 @@ void eGameBoard::read(eReadStream& src) {
             src >> type;
             const auto b = e::make_shared<eSoldierBanner>(type, *this);
             b->read(src);
-            registerBanner(b);
+            registerSoldierBanner(b);
         }
     }
 
@@ -467,12 +476,25 @@ void eGameBoard::write(eWriteStream& dst) const {
             ca->setIOID(id++);
         }
     }
+    {
+        int id = 0;
+        for(const auto b : mBanners) {
+            b->setIOID(id++);
+        }
+    }
 
     mWorldBoard.setIOIDs();
 
     for(const auto& ts : mTiles) {
         for(const auto& t : ts) {
             t->write(dst);
+            const auto b = t->banner();
+            const bool has = b != nullptr;
+            dst << has;
+            if(!has) continue;
+            dst << b->type();
+            dst << b->id();
+            b->write(dst);
         }
     }
 
@@ -495,9 +517,9 @@ void eGameBoard::write(eWriteStream& dst) const {
     }
 
     {
-        const int nb = mBanners.size();
+        const int nb = mSoldierBanners.size();
         dst << nb;
-        for(const auto& b : mBanners) {
+        for(const auto& b : mSoldierBanners) {
             dst << b->type();
             b->write(dst);
         }
@@ -560,6 +582,14 @@ eCharacterAction* eGameBoard::characterActionWithIOID(const int id) const {
     for(const auto ca : mCharacterActions) {
         const int bio = ca->ioID();
         if(bio == id) return ca;
+    }
+    return nullptr;
+}
+
+eBanner* eGameBoard::bannerWithIOID(const int id) const {
+    for(const auto b : mBanners) {
+        const int bio = b->ioID();
+        if(bio == id) return b;
     }
     return nullptr;
 }
@@ -742,7 +772,7 @@ void eGameBoard::updateMaxSoldiers() {
 
 void eGameBoard::addSoldier(const eCharacterType st) {
     bool found = false;
-    for(const auto& b : mBanners) {
+    for(const auto& b : mSoldierBanners) {
         const auto bt = b->type();
         const int c = b->count();
         if(c >= 8) continue;
@@ -772,7 +802,7 @@ void eGameBoard::addSoldier(const eCharacterType st) {
     }
     const auto b = e::make_shared<eSoldierBanner>(bt, *this);
     b->setPlayerId(1);
-    registerBanner(b);
+    registerSoldierBanner(b);
     b->incCount();
     const auto ts = mPalace->tiles();
     for(const auto& t : ts) {
@@ -786,7 +816,7 @@ void eGameBoard::addSoldier(const eCharacterType st) {
 }
 
 void eGameBoard::removeSoldier(const eCharacterType st) {
-    for(const auto& b : mBanners) {
+    for(const auto& b : mSoldierBanners) {
         const auto bt = b->type();
         const int c = b->count();
         if(c <= 0) continue;
@@ -804,7 +834,7 @@ void eGameBoard::removeSoldier(const eCharacterType st) {
         if(found) {
             b->decCount();
             if(b->count() <= 0) {
-                unregisterBanner(b);
+                unregisterSoldierBanner(b);
             }
             break;
         }
@@ -816,7 +846,7 @@ void eGameBoard::distributeSoldiers() {
     int cRockThrowers = 0;
     int cHoplites = 0;
     int cHorsemen = 0;
-    for(const auto& b : mBanners) {
+    for(const auto& b : mSoldierBanners) {
         const auto bt = b->type();
         const int c = b->count();
         if(bt == eBannerType::rockThrower) {
@@ -851,13 +881,13 @@ void eGameBoard::distributeSoldiers() {
     }
 }
 
-void eGameBoard::registerBanner(const stdsptr<eSoldierBanner>& b) {
-    mBanners.push_back(b);
+void eGameBoard::registerSoldierBanner(const stdsptr<eSoldierBanner>& b) {
+    mSoldierBanners.push_back(b);
 }
 
-bool eGameBoard::unregisterBanner(const stdsptr<eSoldierBanner>& b) {
+bool eGameBoard::unregisterSoldierBanner(const stdsptr<eSoldierBanner>& b) {
     eVectorHelpers::remove(mSelectedBanners, b.get());
-    return eVectorHelpers::remove(mBanners, b);
+    return eVectorHelpers::remove(mSoldierBanners, b);
 }
 
 void eGameBoard::addGameEvent(const stdsptr<eGameEventCycle>& e) {
@@ -1131,6 +1161,14 @@ void eGameBoard::unregisterMonster(eMonster* const m) {
     eVectorHelpers::remove(mMonsters, m);
 }
 
+void eGameBoard::registerBanner(eBanner* const b) {
+    mBanners.push_back(b);
+}
+
+void eGameBoard::unregisterBanner(eBanner* const b) {
+    eVectorHelpers::remove(mBanners, b);
+}
+
 void eGameBoard::incTime(const int by) {
     mThreadPool.handleFinished();
     mThreadPool.scheduleUpdate(*this);
@@ -1349,7 +1387,7 @@ eSanctuary* eGameBoard::sanctuary(const eGodType god) const {
 
 int eGameBoard::countBanners(const eBannerType bt) const {
     int c = 0;
-    for(const auto& bn : mBanners) {
+    for(const auto& bn : mSoldierBanners) {
         const int pid = bn->playerId();
         if(pid != 1) continue;
         if(bn->type() != bt) continue;

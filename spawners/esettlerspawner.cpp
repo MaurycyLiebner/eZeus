@@ -3,10 +3,12 @@
 #include "characters/esettler.h"
 #include "characters/actions/esettleraction.h"
 
-eSettlerSpawner::eSettlerSpawner(eTile* const tile, eGameBoard& board) :
-    eSpawner(tile, __INT_MAX__, 500, board) {
-
-}
+eSettlerSpawner::eSettlerSpawner(
+        const int id,
+        eTile* const tile,
+        eGameBoard& board) :
+    eSpawner(eBannerTypeS::settler, id, tile,
+             __INT_MAX__, 500, board) {}
 
 void eSettlerSpawner::spawn(eTile* const tile) {
     auto& popData = board().populationData();

@@ -5,7 +5,8 @@
 
 class eSettlerSpawner : public eSpawner {
 public:
-    eSettlerSpawner(eTile* const tile,
+    eSettlerSpawner(const int id,
+                    eTile* const tile,
                     eGameBoard& board);
 
     void spawn(eTile* const tile);

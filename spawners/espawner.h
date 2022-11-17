@@ -5,13 +5,18 @@
 
 class eSpawner : public eBanner {
 public:
-    eSpawner(eTile* const tile,
+    eSpawner(const eBannerTypeS type,
+             const int id,
+             eTile* const tile,
              const int maxCount,
              const int spawnFreq,
              eGameBoard& board);
     virtual ~eSpawner();
 
     virtual void spawn(eTile* const tile) = 0;
+
+    void read(eReadStream& src);
+    void write(eWriteStream& dst) const;
 
     void incTime(const int by);
     void decCount();
@@ -20,8 +25,8 @@ public:
 
     int count() const { return mCount; }
 private:
-    const int mMaxCount;
-    const int mSpawnFreq;
+    int mMaxCount;
+    int mSpawnFreq;
 
     int mCount = 0;
 

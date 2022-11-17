@@ -9,10 +9,6 @@ public:
                        eTile* const tile,
                        eGameBoard& board);
     ~eLandInvasionPoint();
-
-    int id() const { return mId; }
-private:
-    const int mId;
 };
 
 #endif // ELANDINVASIONPOINT_H

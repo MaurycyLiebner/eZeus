@@ -367,7 +367,7 @@ bool eGameWidget::buildMouseRelease() {
             apply = [this](eTile* const tile) {
                 const auto os = tile->banner();
                 if(os) delete os;
-                new eBoarSpawner(tile, *mBoard);
+                new eBoarSpawner(0, tile, *mBoard);
             };
         } else if(mode == eTerrainEditMode::fish) {
             apply = [](eTile* const tile) {
@@ -377,7 +377,7 @@ bool eGameWidget::buildMouseRelease() {
             apply = [this](eTile* const tile) {
                 const auto os = tile->banner();
                 if(os) delete os;
-                new eDeerSpawner(tile, *mBoard);
+                new eDeerSpawner(0, tile, *mBoard);
             };
         } else if(mode == eTerrainEditMode::fire) {
             apply = [](eTile* const tile) {
@@ -392,7 +392,7 @@ bool eGameWidget::buildMouseRelease() {
             apply = [this](eTile* const tile) {
                 const auto os = tile->banner();
                 if(os) delete os;
-                new eSettlerSpawner(tile, *mBoard);
+                new eSettlerSpawner(0, tile, *mBoard);
             };
         } else if(mode == eTerrainEditMode::landInvasion) {
             apply = [this, modeId](eTile* const tile) {

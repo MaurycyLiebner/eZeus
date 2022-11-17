@@ -3,10 +3,10 @@
 eLandInvasionPoint::eLandInvasionPoint(const int id,
                                        eTile* const tile,
                                        eGameBoard& board) :
-    eBanner(tile, board), mId(id) {
+    eBanner(eBannerTypeS::landInvasion, id, tile, board) {
     board.addLandInvasionPoint(this);
 }
 
 eLandInvasionPoint::~eLandInvasionPoint() {
-    board().removeLandInvasionPoint(mId);
+    board().removeLandInvasionPoint(id());
 }

@@ -7,6 +7,7 @@
 #include "characters/actions/egodaction.h"
 #include "characters/actions/walkable/eobsticlehandler.h"
 #include "characters/actions/epatrolmoveaction.h"
+#include "spawners/ebanner.h"
 
 eWriteStream::eWriteStream(SDL_RWops* const dst) :
     mDst(dst) {
@@ -89,4 +90,9 @@ void eWriteStream::writeDirectionTimes(eDirectionTimes* const d) {
 void eWriteStream::writeCity(eWorldCity* const c) {
     const int cid = c ? c->ioID() : -1;
     *this << cid;
+}
+
+void eWriteStream::writeBanner(eBanner* const b) {
+    const int bid = b ? b->ioID() : -1;
+    *this << bid;
 }

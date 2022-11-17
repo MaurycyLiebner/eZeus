@@ -2,17 +2,34 @@
 
 #include "engine/egameboard.h"
 
-eSpawner::eSpawner(eTile* const tile,
+eSpawner::eSpawner(const eBannerTypeS type,
+                   const int id, eTile* const tile,
                    const int maxCount,
                    const int spawnFreq,
                    eGameBoard& board) :
-    eBanner(tile, board),
+    eBanner(type, id, tile, board),
     mMaxCount(maxCount), mSpawnFreq(spawnFreq) {
     board.registerSpawner(this);
 }
 
 eSpawner::~eSpawner() {
     board().unregisterSpawner(this);
+}
+
+void eSpawner::read(eReadStream& src) {
+    eBanner::read(src);
+    src >> mMaxCount;
+    src >> mSpawnFreq;
+    src >> mCount;
+    src >> mTime;
+}
+
+void eSpawner::write(eWriteStream& dst) const {
+    eBanner::write(dst);
+    dst << mMaxCount;
+    dst << mSpawnFreq;
+    dst << mCount;
+    dst << mTime;
 }
 
 void eSpawner::incTime(const int by) {

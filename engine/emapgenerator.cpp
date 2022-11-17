@@ -254,9 +254,9 @@ void eMapGenerator::generateAnimals(const eMGS& settings) {
         }
         eSpawner* spawner;
         if(rand() % 2) {
-            spawner = new eBoarSpawner(tile, mBoard);
+            spawner = new eBoarSpawner(0, tile, mBoard);
         } else {
-            spawner = new eDeerSpawner(tile, mBoard);
+            spawner = new eDeerSpawner(0, tile, mBoard);
         }
         tile->setBanner(spawner);
     }

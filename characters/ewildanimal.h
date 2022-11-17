@@ -16,6 +16,9 @@ public:
 
     void setSpawner(eSpawner* const s)
     { mSpawner = s; }
+
+    void read(eReadStream& src);
+    void write(eWriteStream& dst) const;
 private:
     eSpawner* mSpawner = nullptr;
 };

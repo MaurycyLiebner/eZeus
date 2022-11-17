@@ -199,6 +199,9 @@ public:
     void registerMonster(eMonster* const m);
     void unregisterMonster(eMonster* const m);
 
+    void registerBanner(eBanner* const b);
+    void unregisterBanner(eBanner* const b);
+
     const std::vector<eMonster*>& monsters() const { return mMonsters; }
 
     void updateResources();
@@ -216,7 +219,7 @@ public:
     eSanctuary* sanctuary(const eGodType god) const;
 
     const std::vector<stdsptr<eSoldierBanner>>& banners() const
-    { return mBanners; }
+    { return mSoldierBanners; }
     int countBanners(const eBannerType bt) const;
 
     void incTime(const int by);
@@ -333,6 +336,7 @@ public:
     eBuilding* buildingWithIOID(const int id) const;
     eCharacter* characterWithIOID(const int id) const;
     eCharacterAction* characterActionWithIOID(const int id) const;
+    eBanner* bannerWithIOID(const int id) const;
 
     eTile* landInvasionTile(const int id);
     void addLandInvasionPoint(eLandInvasionPoint* const p);
@@ -351,8 +355,8 @@ private:
     void removeSoldier(const eCharacterType st);
     void distributeSoldiers();
 
-    void registerBanner(const stdsptr<eSoldierBanner>& b);
-    bool unregisterBanner(const stdsptr<eSoldierBanner>& b);
+    void registerSoldierBanner(const stdsptr<eSoldierBanner>& b);
+    bool unregisterSoldierBanner(const stdsptr<eSoldierBanner>& b);
 
     void addGameEvent(const stdsptr<eGameEventCycle>& e);
 
@@ -423,8 +427,9 @@ private:
     std::vector<eSpawner*> mSpawners;
     std::vector<eMissile*> mMissiles;
     std::vector<eMonster*> mMonsters;
+    std::vector<eBanner*> mBanners;
 
-    std::vector<stdsptr<eSoldierBanner>> mBanners;
+    std::vector<stdsptr<eSoldierBanner>> mSoldierBanners;
 
     std::vector<eSoldierBanner*> mSelectedBanners;
 

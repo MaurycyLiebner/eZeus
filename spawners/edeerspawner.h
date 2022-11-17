@@ -5,7 +5,7 @@
 
 class eDeerSpawner : public eSpawner {
 public:
-    eDeerSpawner(eTile* const tile,
+    eDeerSpawner(const int id, eTile* const tile,
                  eGameBoard& board);
 
     void spawn(eTile* const tile);

@@ -3,11 +3,10 @@
 #include "characters/edeer.h"
 #include "characters/actions/eanimalaction.h"
 
-eDeerSpawner::eDeerSpawner(eTile* const tile,
+eDeerSpawner::eDeerSpawner(const int id,
+                           eTile* const tile,
                            eGameBoard& board) :
-    eSpawner(tile, 8, 3000, board) {
-
-}
+    eSpawner(eBannerTypeS::deer, id, tile, 8, 3000, board) {}
 
 void eDeerSpawner::spawn(eTile* const tile) {
     const auto b = e::make_shared<eDeer>(board());

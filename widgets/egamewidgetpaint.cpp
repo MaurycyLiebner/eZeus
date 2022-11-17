@@ -761,10 +761,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             if(mTem->visible() && b) {
                 tp.drawTexture(rx, ry - 1, intrTexs.fSpawner,
                                eAlignment::hcenter | eAlignment::top);
-                if(const auto li = dynamic_cast<eLandInvasionPoint*>(b)) {
-                    const int id = li->id();
-                    drawNumber(id);
-                }
+                const int id = b->id();
+                drawNumber(id);
             }
         };
 

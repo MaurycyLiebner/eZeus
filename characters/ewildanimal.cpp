@@ -10,3 +10,15 @@ eWildAnimal::eWildAnimal(eGameBoard& board,
 eWildAnimal::~eWildAnimal() {
     if(mSpawner) mSpawner->decCount();
 }
+
+void eWildAnimal::read(eReadStream& src) {
+    eAnimal::read(src);
+    src.readBanner(&getBoard(), [this](eBanner* const b) {
+        mSpawner = static_cast<eSpawner*>(b);
+    });
+}
+
+void eWildAnimal::write(eWriteStream& dst) const {
+    eAnimal::write(dst);
+    dst.writeBanner(mSpawner);
+}

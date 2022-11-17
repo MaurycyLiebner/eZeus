@@ -151,6 +151,15 @@ void eReadStream::readCity(eGameBoard* board, const eCityFunc& func) {
     });
 }
 
+void eReadStream::readBanner(eGameBoard* board, const eBannerFunc& func) {
+    int bid;
+    *this >> bid;
+    addPostFunc([board, func, bid]() {
+        const auto b = board->bannerWithIOID(bid);
+        func(b);
+    });
+}
+
 void eReadStream::addPostFunc(const eFunc& func) {
     mPostFuncs.push_back(func);
 }
