@@ -35,12 +35,12 @@ private:
     void spawnBoat();
     void updateDisabled();
 
-    bool mDisabled = false;
     const eOrientation mO;
-    stdptr<eFishingBoat> mBoat;
+
+    bool mDisabled = false;
     int mStateCount = 0;
     eFisheryState mState = eFisheryState::buildingBoat;
-
+    stdptr<eFishingBoat> mBoat;
 };
 
 #endif // EFISHERY_H

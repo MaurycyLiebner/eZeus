@@ -246,6 +246,9 @@ void eFishery::read(eReadStream& src) {
     src >> mDisabled;
     src >> mStateCount;
     src >> mState;
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mBoat = static_cast<eFishingBoat*>(c);
+    });
 }
 
 void eFishery::write(eWriteStream& dst) const {
@@ -254,4 +257,5 @@ void eFishery::write(eWriteStream& dst) const {
     dst << mDisabled;
     dst << mStateCount;
     dst << mState;
+    dst.writeCharacter(mBoat);
 }
