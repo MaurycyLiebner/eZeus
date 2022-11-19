@@ -24,25 +24,25 @@ bool eCharacter::canFight(eCharacter* const c) {
     if(dead()) return false;
     if(playerId() == c->playerId()) return false;
     if(attack() == 0 && c->attack() == 0) return false;
-    const auto at = c->actionType();
+    const auto at = actionType();
     if(at == eCharacterActionType::fight ||
        at == eCharacterActionType::fight2) return false;
     const auto ct = c->type();
-    const auto tt = type();
+    const auto t = type();
     if(ct == eCharacterType::boar ||
        ct == eCharacterType::deer) {
-        const bool h = tt == eCharacterType::hunter;
+        const bool h = t == eCharacterType::hunter;
         if(!h) return false;
         return at != eCharacterActionType::carry;
     }
     bool isGod;
-    eGod::sCharacterToGodType(tt, &isGod);
+    eGod::sCharacterToGodType(t, &isGod);
     if(isGod) return false;
     bool isHero = false;
-    eHero::sCharacterToHeroType(tt, &isHero);
+    eHero::sCharacterToHeroType(t, &isHero);
     if(isHero) return false;
     bool isMonster1;
-    eMonster::sCharacterToMonsterType(tt, &isMonster1);
+    eMonster::sCharacterToMonsterType(t, &isMonster1);
     bool isMonster2;
     eMonster::sCharacterToMonsterType(ct, &isMonster2);
     if(isMonster1 && isMonster2) return false;
