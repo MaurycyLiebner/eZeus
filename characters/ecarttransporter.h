@@ -29,7 +29,7 @@ class eCartTransporter : public eBasicPatroler {
 public:
     eCartTransporter(eGameBoard& board);
 
-    eOverlay getSecondaryTexture(const eTileSize size) const;
+    eOverlay getSecondaryTexture(const eTileSize size) const override;
 
     bool isOx() const { return mIsOx; }
 
@@ -46,14 +46,19 @@ public:
     int add(const eResourceType type, const int count);
     int take(const eResourceType type, const int count);
 
-    void setActionType(const eCharacterActionType t);
+    void setActionType(const eCharacterActionType t) override;
 
     void setSupport(const eCartActionTypeSupport s) { mSupport = s; }
     eCartActionTypeSupport support() const { return mSupport; }
 
     bool waiting() const { return mWaiting; }
     void setWaiting(const bool w) { mWaiting = w; }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
+    void updateTextures();
+
     int mResourceCount = 0;
     eCartTransporterType mType = eCartTransporterType::basic;
     eResourceType mResourceType = eResourceType::none;
@@ -65,10 +70,10 @@ private:
     bool mIsOx = false;
     bool mBigTrailer = false;
 
-    stdsptr<eOx> mOx;
-    stdsptr<eTrailer> mTrailer;
+    stdptr<eOx> mOx;
+    stdptr<eTrailer> mTrailer;
 
-    std::vector<stdsptr<eCharacter>> mFollowers;
+    std::vector<stdptr<eCharacter>> mFollowers;
 };
 
 #endif // ECARTTRANSPORTER_H

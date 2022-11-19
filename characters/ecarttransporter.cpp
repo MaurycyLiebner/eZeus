@@ -156,17 +156,10 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
 void eCartTransporter::setType(const eCartTransporterType t) {
     if(mType == t) return;
     mType = t;
-    switch(mType) {
-    case eCartTransporterType::basic: {
-        setCharTextures(&eCharacterTextures::fTransporter);
-
-        mOx->kill();
-        mOx.reset();
-
-        mTrailer->kill();
-        mTrailer.reset();
-    } break;
-    case eCartTransporterType::ox: {
+    updateTextures();
+    if(mOx) mOx->kill();
+    if(mTrailer) mTrailer->kill();
+    if(mType == eCartTransporterType::ox) {
         setCharTextures(&eCharacterTextures::fOxHandler);
 
         const auto t = tile();
@@ -183,25 +176,6 @@ void eCartTransporter::setType(const eCartTransporterType t) {
                            mOx.get(), mTrailer.get());
         mTrailer->setAction(atr);
         mTrailer->changeTile(t);
-    } break;
-    case eCartTransporterType::food: {
-        setCharTextures(&eCharacterTextures::fFoodVendor);
-    } break;
-    case eCartTransporterType::fleece: {
-        setCharTextures(&eCharacterTextures::fFleeceVendor);
-    } break;
-    case eCartTransporterType::oil: {
-        setCharTextures(&eCharacterTextures::fOilVendor);
-    } break;
-    case eCartTransporterType::wine: {
-        setCharTextures(&eCharacterTextures::fWineVendor);
-    } break;
-    case eCartTransporterType::arms: {
-        setCharTextures(&eCharacterTextures::fArmsVendor);
-    } break;
-    case eCartTransporterType::horse: {
-        setCharTextures(&eCharacterTextures::fHorseVendor);
-    } break;
     }
 }
 
@@ -295,4 +269,77 @@ int eCartTransporter::take(const eResourceType type, const int count) {
 void eCartTransporter::setActionType(const eCharacterActionType t) {
     eCharacterBase::setActionType(t);
     if(mOx) mOx->setActionType(t);
+}
+
+void eCartTransporter::read(eReadStream& src) {
+    eBasicPatroler::read(src);
+    src >> mResourceCount;
+    src >> mType;
+    src >> mResourceType;
+    src >> mSupport;
+    src >> mWaiting;
+    src >> mIsOx;
+    src >> mBigTrailer;
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mOx = static_cast<eOx*>(c);
+    });
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mTrailer = static_cast<eTrailer*>(c);
+    });
+    int nf;
+    src >> nf;
+    for(int i = 0; i < nf; i++) {
+        src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+            if(!c) return;
+            mFollowers.push_back(c);
+        });
+    }
+    updateTextures();
+}
+
+void eCartTransporter::write(eWriteStream& dst) const {
+    eBasicPatroler::write(dst);
+    dst << mResourceCount;
+    dst << mType;
+    dst << mResourceType;
+    dst << mSupport;
+    dst << mWaiting;
+    dst << mIsOx;
+    dst << mBigTrailer;
+    dst.writeCharacter(mOx);
+    dst.writeCharacter(mTrailer);
+
+    dst << mFollowers.size();
+    for(const auto& f : mFollowers) {
+        dst.writeCharacter(f);
+    }
+}
+
+void eCartTransporter::updateTextures() {
+    switch(mType) {
+    case eCartTransporterType::basic: {
+        setCharTextures(&eCharacterTextures::fTransporter);
+    } break;
+    case eCartTransporterType::ox: {
+        setCharTextures(&eCharacterTextures::fOxHandler);
+    } break;
+    case eCartTransporterType::food: {
+        setCharTextures(&eCharacterTextures::fFoodVendor);
+    } break;
+    case eCartTransporterType::fleece: {
+        setCharTextures(&eCharacterTextures::fFleeceVendor);
+    } break;
+    case eCartTransporterType::oil: {
+        setCharTextures(&eCharacterTextures::fOilVendor);
+    } break;
+    case eCartTransporterType::wine: {
+        setCharTextures(&eCharacterTextures::fWineVendor);
+    } break;
+    case eCartTransporterType::arms: {
+        setCharTextures(&eCharacterTextures::fArmsVendor);
+    } break;
+    case eCartTransporterType::horse: {
+        setCharTextures(&eCharacterTextures::fHorseVendor);
+    } break;
+    }
 }
