@@ -15,3 +15,15 @@ void eHunter::setDeerHunter(const bool h) {
     }
 }
 
+void eHunter::read(eReadStream& src) {
+    eResourceCollector::read(src);
+    bool deerHunter;
+    src >> deerHunter;
+    setDeerHunter(deerHunter);
+}
+
+void eHunter::write(eWriteStream& dst) const {
+    eResourceCollector::write(dst);
+    dst << mDeerHunter;
+}
+
