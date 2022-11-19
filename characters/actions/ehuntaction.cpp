@@ -42,6 +42,7 @@ void eHuntAction::increment(const int by) {
     if(mHunter) {
         const auto t = mHunter->tile();
         if(t && tryToCollect(t)) {
+            mHunter->incCollected(1);
             setCurrentAction(nullptr);
             return;
         }
