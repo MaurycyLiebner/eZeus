@@ -29,16 +29,19 @@ public:
                              const eResourceType resType);
     ~eResourceCollectBuilding();
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
-    std::vector<eOverlay> getOverlays(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
+    std::vector<eOverlay> getOverlays(const eTileSize size) const override;
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
 
-    void addRaw();
+    void addRaw() override;
 
     bool spawn();
 
     void setAddResource(const bool b) { mAddResource = b; }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 protected:
     void enableSpawn() { mSpawnEnabled = true; }
     void disableSpawn() { mSpawnEnabled = false; }
@@ -79,7 +82,7 @@ private:
     int mProcessDuration = 10000;
     int mProcessTime = 0;
 
-    int mWaitTime = 1500;
+    int mWaitTime = 5000;
     int mSpawnTime = mWaitTime;
 };
 

@@ -149,6 +149,38 @@ void eResourceCollectBuilding::timeChanged(const int by) {
     }
 }
 
+void eResourceCollectBuilding::read(eReadStream& src) {
+    eResourceCollectBuildingBase::read(src);
+    src >> mCollectedAction;
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mCollector = static_cast<eResourceCollectorBase*>(c);
+    });
+    src >> mSpawnEnabled;
+    src >> mAddResource;
+    src >> mRawCount;
+    src >> mRawCountCollect;
+    src >> mRawInc;
+    src >> mProcessDuration;
+    src >> mProcessTime;
+    src >> mWaitTime;
+    src >> mSpawnTime;
+}
+
+void eResourceCollectBuilding::write(eWriteStream& dst) const {
+    eResourceCollectBuildingBase::write(dst);
+    dst << mCollectedAction;
+    dst.writeCharacter(mCollector);
+    dst << mSpawnEnabled;
+    dst << mAddResource;
+    dst << mRawCount;
+    dst << mRawCountCollect;
+    dst << mRawInc;
+    dst << mProcessDuration;
+    dst << mProcessTime;
+    dst << mWaitTime;
+    dst << mSpawnTime;
+}
+
 bool eResourceCollectBuilding::spawn() {
     if(resource() >= maxResource()) return false;
     if(!mSpawnEnabled) return false;
