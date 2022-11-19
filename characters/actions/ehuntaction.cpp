@@ -12,9 +12,7 @@
 
 eHuntAction::eHuntAction(eHuntingLodge* const b, eCharacter* const c) :
     eActionWithComeback(c, eCharActionType::huntAction),
-    mLodge(b), mHunter(static_cast<eHunter*>(c)) {
-    setFinishOnComeback(true);
-}
+    mLodge(b), mHunter(static_cast<eHunter*>(c)) {}
 
 eHuntAction::eHuntAction(eCharacter* const c) :
     eHuntAction(nullptr, c) {}
@@ -26,13 +24,13 @@ bool tryToCollect(eTile* const tile) {
         if(t == eCharacterType::boar) {
             const auto b = static_cast<eBoar*>(c.get());
             if(b->dead()) {
-                b->setActionType(eCharacterActionType::none);
+                b->kill();
                 return true;
             }
         } else if(t == eCharacterType::deer) {
             const auto d = static_cast<eDeer*>(c.get());
             if(d->dead()) {
-                d->setActionType(eCharacterActionType::none);
+                d->kill();
                 return true;
             }
         }
@@ -72,6 +70,7 @@ bool eHuntAction::decide() {
     if(r) return r;
 
     const auto t = mHunter->tile();
+    if(!t) return false;
 
     if(tryToCollect(t)) mHunter->incCollected(1);
     const int coll = mHunter->collected();
@@ -84,7 +83,7 @@ bool eHuntAction::decide() {
         if(inLodge) {
             mLodge->add(eResourceType::meat, coll);
             mHunter->incCollected(-coll);
-            waitDecision();
+            setState(eCharacterActionState::finished);
         } else {
             goBackDecision();
         }
