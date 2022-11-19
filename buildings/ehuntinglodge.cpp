@@ -40,7 +40,28 @@ std::vector<eOverlay> eHuntingLodge::getOverlays(const eTileSize size) const {
 
 void eHuntingLodge::timeChanged(const int by) {
     eResourceBuildingBase::timeChanged(by);
-    if(!mHunter) spawn();
+    if(!mHunter) {
+        mSpawnTime += by;
+        const int wait = mWaitTime/effectiveness();
+        if(mSpawnTime > wait) {
+            mSpawnTime -= wait;
+            spawn();
+        }
+    }
+}
+
+void eHuntingLodge::read(eReadStream& src) {
+    eResourceBuildingBase::read(src);
+    src >> mSpawnTime;
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mHunter = static_cast<eHunter*>(c);
+    });
+}
+
+void eHuntingLodge::write(eWriteStream& dst) const {
+    eResourceBuildingBase::write(dst);
+    dst << mSpawnTime;
+    dst.writeCharacter(mHunter);
 }
 
 bool eHuntingLodge::spawn() {

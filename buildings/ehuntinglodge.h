@@ -12,14 +12,19 @@ public:
     eHuntingLodge(eGameBoard& board);
     ~eHuntingLodge();
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
-    std::vector<eOverlay> getOverlays(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
+    std::vector<eOverlay> getOverlays(const eTileSize size) const override;
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
 
-    bool spawn();
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
+    bool spawn();
+
     stdptr<eHunter> mHunter;
+    const int mWaitTime = 5000;
+    int mSpawnTime = mWaitTime;
 };
 
 #endif // EHUNTINGLODGE_H
