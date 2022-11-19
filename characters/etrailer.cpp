@@ -56,3 +56,21 @@ eTrailer::getTexture(const eTileSize size) const {
 
     return coll->getTexture(oid);
 }
+
+void eTrailer::read(eReadStream& src) {
+    eCharacter::read(src);
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mFollow = static_cast<eCartTransporter*>(c);
+    });
+    src >> mIsBig;
+    src >> mResCount;
+    src >> mResType;
+}
+
+void eTrailer::write(eWriteStream& dst) const {
+    eCharacter::write(dst);
+    dst.writeCharacter(mFollow);
+    dst << mIsBig;
+    dst << mResCount;
+    dst << mResType;
+}
