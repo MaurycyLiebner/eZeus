@@ -31,7 +31,9 @@ bool eCharacter::canFight(eCharacter* const c) {
     const auto tt = type();
     if(ct == eCharacterType::boar ||
        ct == eCharacterType::deer) {
-        return tt == eCharacterType::hunter;
+        const bool h = tt == eCharacterType::hunter;
+        if(!h) return false;
+        return at != eCharacterActionType::carry;
     }
     bool isGod;
     eGod::sCharacterToGodType(tt, &isGod);
