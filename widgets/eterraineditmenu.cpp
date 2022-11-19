@@ -113,20 +113,30 @@ void eTerrainEditMenu::initialize() {
 
     const auto w12 = new eActionListWidget(window());
     w12->setSmallFontSize();
-    w12->addAction("Settlers", [this]() {
-        mMode = eTerrainEditMode::settlers;
-    });
+    for(int i = 0; i < 3; i++) {
+        w12->addAction("Settlers " + std::to_string(i), [this, i]() {
+            mMode = eTerrainEditMode::settlers;
+            mModeId = i;
+        });
+    }
     w12->fitContent();
 
 
     const auto w13 = new eActionListWidget(window());
     w13->setSmallFontSize();
-    w13->addAction("Boar", [this]() {
-        mMode = eTerrainEditMode::boar;
-    });
-    w13->addAction("Deer", [this]() {
-        mMode = eTerrainEditMode::deer;
-    });
+    w12->setSmallFontSize();
+    for(int i = 0; i < 3; i++) {
+        w13->addAction("Boar " + std::to_string(i), [this, i]() {
+            mMode = eTerrainEditMode::boar;
+            mModeId = i;
+        });
+    }
+    for(int i = 0; i < 3; i++) {
+        w13->addAction("Deer " + std::to_string(i), [this, i]() {
+            mMode = eTerrainEditMode::deer;
+            mModeId = i;
+        });
+    }
     w13->fitContent();
 
     mWidgets.push_back(w0);

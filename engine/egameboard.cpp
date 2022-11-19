@@ -1162,6 +1162,16 @@ void eGameBoard::unregisterMonster(eMonster* const m) {
 }
 
 void eGameBoard::registerBanner(eBanner* const b) {
+    const int id = b->id();
+    const auto type = b->type();
+    for(const auto b : mBanners) {
+        const int bid = b->id();
+        if(bid != id) continue;
+        const auto btype = b->type();
+        if(btype != type) continue;
+        delete b;
+        break;
+    }
     mBanners.push_back(b);
 }
 

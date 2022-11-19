@@ -364,20 +364,20 @@ bool eGameWidget::buildMouseRelease() {
                 tile->setWalkableElev(!tile->walkableElev());
             };
         } else if(mode == eTerrainEditMode::boar) {
-            apply = [this](eTile* const tile) {
+            apply = [this, modeId](eTile* const tile) {
                 const auto os = tile->banner();
                 if(os) delete os;
-                new eBoarSpawner(0, tile, *mBoard);
+                new eBoarSpawner(modeId, tile, *mBoard);
             };
         } else if(mode == eTerrainEditMode::fish) {
             apply = [](eTile* const tile) {
                 tile->setHasFish(!tile->hasFish());
             };
         } else if(mode == eTerrainEditMode::deer) {
-            apply = [this](eTile* const tile) {
+            apply = [this, modeId](eTile* const tile) {
                 const auto os = tile->banner();
                 if(os) delete os;
-                new eDeerSpawner(0, tile, *mBoard);
+                new eDeerSpawner(modeId, tile, *mBoard);
             };
         } else if(mode == eTerrainEditMode::fire) {
             apply = [](eTile* const tile) {
@@ -389,10 +389,10 @@ bool eGameWidget::buildMouseRelease() {
                       [this]() { return e::make_shared<eRuins>(*mBoard); });
             };
         } else if(mode == eTerrainEditMode::settlers) {
-            apply = [this](eTile* const tile) {
+            apply = [this, modeId](eTile* const tile) {
                 const auto os = tile->banner();
                 if(os) delete os;
-                new eSettlerSpawner(0, tile, *mBoard);
+                new eSettlerSpawner(modeId, tile, *mBoard);
             };
         } else if(mode == eTerrainEditMode::landInvasion) {
             apply = [this, modeId](eTile* const tile) {
