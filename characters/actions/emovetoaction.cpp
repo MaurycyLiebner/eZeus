@@ -53,12 +53,12 @@ void eMoveToAction::start(const eTileFinal& final,
         if(mRemoveLastTurn && !path.empty()) {
             path.erase(path.begin());
         }
+        mPathLength = path.size();
+        if(mFoundAction) mFoundAction();
         if(path.empty()) {
             finishAction->call();
             return;
         }
-        mPathLength = path.size();
-        if(mFoundAction) mFoundAction();
         if(!tptr) return;
         const auto a  = e::make_shared<eMovePathAction>(
                             c, path, moveWalkable);
