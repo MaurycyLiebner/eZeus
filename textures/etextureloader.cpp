@@ -4,6 +4,10 @@ eTextureLoader::eTextureLoader(SDL_Renderer* const renderer) :
     mRenderer(renderer) {}
 
 eTextureLoader::~eTextureLoader() {
+    if(mUseBMPs) {
+        if(mRFile) SDL_RWclose(mRFile);
+        if(mWFile) SDL_RWclose(mWFile);
+    }
     {
         std::unique_lock<std::mutex> lock(mTasksMutex);
 
@@ -15,11 +19,23 @@ eTextureLoader::~eTextureLoader() {
     }
 }
 
-void eTextureLoader::initialize() {
-    const int hc = std::thread::hardware_concurrency();
-    const int threads = hc > 1 ? hc : 1;
-    for(int i = 0; i < threads; i++) {
-        mThreads.emplace_back(std::bind(&eTextureLoader::threadEntry, this));
+void eTextureLoader::initialize(const std::string& path) {
+    if(mUseBMPs) {
+        if(path.empty()) return;
+        mRFile = SDL_RWFromFile(path.c_str(), "r+b");
+        if(!mRFile) {
+            mWFile = SDL_RWFromFile(path.c_str(), "w+b");
+            if(!mWFile) {
+                printf("Unable to open %s! SDL_error Error: %s\n",
+                       path.c_str(), SDL_GetError());
+            }
+        }
+    } else {
+        const int hc = std::thread::hardware_concurrency();
+        const int threads = hc > 1 ? hc : 1;
+        for(int i = 0; i < threads; i++) {
+            mThreads.emplace_back(std::bind(&eTextureLoader::threadEntry, this));
+        }
     }
 }
 
@@ -62,10 +78,25 @@ void eTextureLoader::threadEntry() {
 }
 
 void eTextureLoader::queueTask(const eTextureLoadTask& task) {
-    mQuedTasks++;
-    std::unique_lock<std::mutex> lock(mTasksMutex);
-    mTasks.emplace(task);
-    mCv.notify_one();
+    if(mUseBMPs) {
+        SDL_Surface* surf = nullptr;
+        if(mRFile) {
+            surf = SDL_LoadBMP_RW(mRFile, 0);
+        } else {
+            surf = IMG_Load(task.fPath.c_str());
+            if(mWFile) SDL_SaveBMP_RW(surf, mWFile, 0);
+        }
+        if(!surf) {
+            printf("Unable to load image %s! SDL_image Error: %s\n",
+                   task.fPath.c_str(), IMG_GetError());
+        }
+        task.fTex->load(mRenderer, surf);
+    } else {
+        mQuedTasks++;
+        std::unique_lock<std::mutex> lock(mTasksMutex);
+        mTasks.emplace(task);
+        mCv.notify_one();
+    }
 }
 
 void eTextureLoader::handleFinished() {

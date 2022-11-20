@@ -100,7 +100,7 @@ void loadStones(int i0, eTextureCollection& result,
 
 void eTerrainTextures::load() {
     eTextureLoader texLoader(fRenderer);
-    texLoader.initialize();
+    texLoader.initialize("../textures/" + std::to_string(fTileH) + "/terrain.ei");
 
     std::string terrDir{"../ZeusTextures/"};
     terrDir += std::to_string(fTileH) + "/";

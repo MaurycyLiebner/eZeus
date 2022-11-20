@@ -213,7 +213,7 @@ void eBuildingTextures::load() {
     fLoaded = true;
 
     eTextureLoader texLoader(fRenderer);
-    texLoader.initialize();
+    texLoader.initialize("../textures/" + std::to_string(fTileH) + "/buildings.ei");
 
     std::string basedir{"../ZeusTextures/"};
     basedir += std::to_string(fTileH) + "/";

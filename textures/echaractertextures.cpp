@@ -147,7 +147,7 @@ void eCharacterTextures::load() {
     const std::string pathBase{dir + "SprMain/SprMain_"};
 
     eTextureLoader texLoader(fRenderer);
-    texLoader.initialize();
+    texLoader.initialize("../textures/" + std::to_string(fTileH) + "/characters.ei");
     eTextureClass texClass(pathBase, texLoader, &eSprMainOffset);
 
     texClass.loadSkipFlipped(fPeddler.fWalk, 1, 97);

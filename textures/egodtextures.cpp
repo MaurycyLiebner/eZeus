@@ -47,7 +47,7 @@ void eGodTextures::load() {
     baseDir += std::to_string(fTileH) + "/";
 
     eTextureLoader texLoader(fRenderer);
-    texLoader.initialize();
+    texLoader.initialize("../textures/" + std::to_string(fTileH) + "/gods.ei");
 
 
     fAphrodite.load(baseDir + "Zeus_Aphrodite/Zeus_Aphrodite_",

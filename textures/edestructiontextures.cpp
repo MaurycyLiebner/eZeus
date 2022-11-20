@@ -33,7 +33,7 @@ eDestructionTextures::eDestructionTextures(const int tileW, const int tileH,
 
 void eDestructionTextures::load() {
     eTextureLoader texLoader(fRenderer);
-    texLoader.initialize();
+    texLoader.initialize("../textures/" + std::to_string(fTileH) + "/destruction.ei");
 
     std::string basedir{"../ZeusTextures/"};
     basedir += std::to_string(fTileH) + "/";

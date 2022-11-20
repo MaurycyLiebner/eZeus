@@ -21,7 +21,7 @@ public:
     eTextureLoader(SDL_Renderer* const renderer);
     ~eTextureLoader();
 
-    void initialize();
+    void initialize(const std::string& path);
 
     void queueTask(const eTextureLoadTask& task);
     void waitUntilFinished();
@@ -32,6 +32,11 @@ private:
 
     void handleFinished();
     bool finished();
+
+    const bool mUseBMPs = true;
+
+    SDL_RWops* mWFile = nullptr;
+    SDL_RWops* mRFile = nullptr;
 
     int mFinished = 0;
     int mQuedTasks = 0;
