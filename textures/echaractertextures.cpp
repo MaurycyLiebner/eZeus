@@ -32,6 +32,8 @@
 #include "offsets/zeus_perseus.h"
 #include "offsets/zeus_theseus.h"
 
+#include "spriteData/peddler.h"
+
 #include "etextureloader.h"
 
 eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
@@ -128,6 +130,76 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
 }
 
+void eCharacterTextures::loadPeddler() {
+    const std::string dir = "/home/ailuropoda/.eZeus/textures/30/";
+    const std::string name = "peddler";
+    std::map<int, std::shared_ptr<eTexture>> texs;
+    const auto loadTex = [&](const int i) {
+        const auto tex = std::make_shared<eTexture>();
+        tex->load(fRenderer, dir + name + "_" + std::to_string(i) + ".png");
+        texs[i] = tex;
+    };
+    const auto getTex = [&](const int i) {
+        if(texs.find(i) == texs.end()) {
+            loadTex(i);
+        }
+        return texs[i];
+    };
+
+    const auto load = [&](const int doff, const int i,
+                          eTextureCollection& coll,
+                          const std::vector<eSpriteData>& sds,
+                          const eOffsets* const offs = nullptr) {
+        const auto& sd = sds[i - 1 - doff];
+        const int tid = sd.fTexId;
+        const auto t = getTex(tid);
+        const SDL_Rect rect{sd.fX, sd.fY, sd.fW, sd.fH};
+        const auto& tex = coll.addTexture();
+        tex->setParentTexture(rect, t);
+        if(offs) {
+            const auto& off = (*offs)[i - 1];
+            tex->setOffset(off.first, off.second);
+        }
+    };
+
+    const auto loadSkipFlipped = [&](const int doff,
+                                     const int min, const int max,
+                                     const std::vector<eSpriteData>& sds,
+                                     std::vector<eTextureCollection>& colls,
+                                     const eOffsets* const offs = nullptr) {
+        for(int j = 0; j < 8; j++) {
+            colls.emplace_back(fRenderer);
+        }
+        int k = 0;
+        for(int i = min; i < max;) {
+            for(int j = 0; j < 8; j++, i++) {
+                auto& coll = colls[j];
+                if(j > 3 && j < 7) {
+                    const auto& flipTex = colls[6 - j].getTexture(k);
+                    auto& tex = coll.addTexture();
+                    tex->setFlipTex(flipTex);
+                    if(offs) {
+                        const auto& offset = (*offs)[i - 1];
+                        tex->setOffset(offset.first, offset.second);
+                    }
+                } else {
+                    load(doff, i, coll, sds, offs);
+                }
+            }
+            k++;
+        }
+    };
+
+    loadSkipFlipped(0, 1, 97, ePeddlerSpriteData,
+                    fPeddler.fWalk, &eSprMainOffset);
+
+    for(int i = 97; i < 105; i++) {
+        load(0, i, fPeddler.fDie,
+             ePeddlerSpriteData,
+             &eSprMainOffset);
+    }
+}
+
 void loadBasicTexture(eBasicCharacterTextures& tex,
                       const int start,
                       eTextureClass& texClass) {
@@ -150,11 +222,11 @@ void eCharacterTextures::load() {
     texLoader.initialize("../textures/" + std::to_string(fTileH) + "/characters.ei");
     eTextureClass texClass(pathBase, texLoader, &eSprMainOffset);
 
-    texClass.loadSkipFlipped(fPeddler.fWalk, 1, 97);
+//    texClass.loadSkipFlipped(fPeddler.fWalk, 1, 97);
 
-    for(int i = 97; i < 105; i++) {
-        texClass.load(i, fPeddler.fDie);
-    }
+//    for(int i = 97; i < 105; i++) {
+//        texClass.load(i, fPeddler.fDie);
+//    }
 
     texClass.loadSkipFlipped(fActor.fWalk, 105, 201);
 

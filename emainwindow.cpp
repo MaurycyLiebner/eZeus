@@ -66,6 +66,7 @@ bool eMainWindow::initialize(const eResolution& res) {
     const std::string icoPath = eGameDir::path("zeus.ico");
     const auto icon = IMG_Load(icoPath.c_str());
     SDL_SetWindowIcon(window, icon);
+    eGameTextures::setSettings(mSettings);
     return true;
 }
 
@@ -308,6 +309,7 @@ void eMainWindow::showSettingsMenu() {
            !mSettings.fLargeTextures) {
             mSettings.fSmallTextures = true;
         }
+        eGameTextures::setSettings(mSettings);
         if(loadNeeded) showMenuLoading();
         else showMainMenu();
     };

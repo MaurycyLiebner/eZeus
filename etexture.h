@@ -37,12 +37,14 @@ public:
 
     void render(SDL_Renderer* const r,
                 const SDL_Rect& srcRect,
-                const SDL_Rect& dstRect) const;
+                const SDL_Rect& dstRect,
+                const bool flipped = false) const;
     void render(SDL_Renderer* const r,
                 const int x, const int y,
-                const SDL_Rect& srcRect) const;
-    void render(SDL_Renderer* const r,
-                const int x, const int y) const;
+                const bool flipped = false) const;
+
+    int x() const { return mX; }
+    int y() const { return mY; }
 
     int width() const { return mWidth; }
     int height() const { return mHeight; }
@@ -60,7 +62,12 @@ public:
     void clearColorMod();
 
     void setFlipTex(const std::shared_ptr<eTexture>& tex);
+    void setParentTexture(const SDL_Rect& rect,
+                          const std::shared_ptr<eTexture>& tex);
 private:
+    std::shared_ptr<eTexture> mParentTex;
+    int mX = 0;
+    int mY = 0;
     int mWidth = 0;
     int mHeight = 0;
     int mOffsetX = 0;

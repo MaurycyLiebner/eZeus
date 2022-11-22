@@ -134,6 +134,8 @@ public:
     eCharacterTextures(const int tileW, const int tileH,
                        SDL_Renderer* const renderer);
 
+    void loadPeddler();
+
     void load();
 
     bool fLoaded = false;

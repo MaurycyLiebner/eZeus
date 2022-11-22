@@ -33,7 +33,7 @@ private:
     void handleFinished();
     bool finished();
 
-    const bool mUseBMPs = true;
+    const bool mUseBMPs = false;
 
     SDL_RWops* mWFile = nullptr;
     SDL_RWops* mRFile = nullptr;

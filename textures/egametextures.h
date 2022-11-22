@@ -1,4 +1,4 @@
-#ifndef EGAMETEXTURES_H
+﻿#ifndef EGAMETEXTURES_H
 #define EGAMETEXTURES_H
 
 #include "eterraintextures.h"
@@ -31,6 +31,10 @@ public:
         return sDestructionTextures;
     }
 
+    static void loadTexture(const std::function<void(int)>& func);
+
+    static void loadPeddler();
+
     static bool initialize(SDL_Renderer* const r);
     static bool loadNextMenu(const eSettings& settings,
                              std::string& text);
@@ -38,7 +42,10 @@ public:
                              std::string& text);
     static int gameSize(const eSettings& settings);
     static int menuSize();
+
+    static void setSettings(const eSettings& s);
 private:
+    static eSettings sSettings;
     static bool sInitialized;
     static std::vector<eTerrainTextures> sTerrainTextures;
     static std::vector<eGodTextures> sGodTextures;

@@ -9,6 +9,7 @@ std::vector<eBuildingTextures> eGameTextures::sBuildingTextures;
 std::vector<eCharacterTextures> eGameTextures::sCharacterTextures;
 std::vector<eInterfaceTextures> eGameTextures::sInterfaceTextures;
 std::vector<eDestructionTextures> eGameTextures::sDestructionTextures;
+eSettings eGameTextures::sSettings;
 
 struct eLoader {
     using eFunc = std::function<void(std::string&)>;
@@ -22,6 +23,23 @@ struct eLoader {
 
 std::vector<eLoader> gMenuLoaders;
 std::vector<eLoader> gGameLoaders;
+
+void eGameTextures::loadTexture(const std::function<void(int)>& func) {
+    for(int i = 0; i < 4; i++) {
+        if(i == 0 && !sSettings.fTinyTextures) continue;
+        if(i == 1 && !sSettings.fSmallTextures) continue;
+        if(i == 2 && !sSettings.fMediumTextures) continue;
+        if(i == 3 && !sSettings.fLargeTextures) continue;
+        func(i);
+    }
+}
+
+void eGameTextures::loadPeddler() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadPeddler();
+    });
+}
 
 bool eGameTextures::initialize(SDL_Renderer* const r) {
     if(sInitialized) return true;
@@ -190,4 +208,8 @@ int eGameTextures::gameSize(const eSettings& settings) {
 
 int eGameTextures::menuSize() {
     return sInterfaceTextures.size();
+}
+
+void eGameTextures::setSettings(const eSettings& s) {
+    sSettings = s;
 }

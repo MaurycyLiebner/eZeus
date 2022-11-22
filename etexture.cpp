@@ -156,29 +156,28 @@ bool eTexture::loadText(SDL_Renderer* const r,
 
 void eTexture::render(SDL_Renderer* const r,
                       const SDL_Rect& srcRect,
-                      const SDL_Rect& dstRect) const {
+                      const SDL_Rect& dstRect,
+                      const bool flipped) const {
     if(mFlipTex) {
-        SDL_RenderCopyEx(r, mFlipTex->mTex, &srcRect, &dstRect, 0, nullptr,
-                         SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
+        mFlipTex->render(r, srcRect, dstRect, true);
+    } else if(mParentTex) {
+        mParentTex->render(r, srcRect, dstRect, flipped);
     } else if(mTex) {
-        SDL_RenderCopy(r, mTex, &srcRect, &dstRect);
+        if(flipped) {
+            SDL_RenderCopyEx(r, mTex, &srcRect, &dstRect, 0, nullptr,
+                             SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
+        } else {
+            SDL_RenderCopy(r, mTex, &srcRect, &dstRect);
+        }
     }
 }
 
 void eTexture::render(SDL_Renderer* const r,
                       const int x, const int y,
-                      const SDL_Rect& srcRect) const {
-    const SDL_Rect dstRect{x, y, srcRect.w, srcRect.h};
-    render(r, srcRect, dstRect);
-}
-
-void eTexture::render(SDL_Renderer* const r,
-                      const int x, const int y) const {
-    const int w = mFlipTex ? mFlipTex->width() : mWidth;
-    const int h = mFlipTex ? mFlipTex->height() : mHeight;
-    const SDL_Rect srcRect{0, 0, w, h};
-    const SDL_Rect dstRect{x, y, w, h};
-    render(r, srcRect, dstRect);
+                      const bool flipped) const {
+    const SDL_Rect srcRect{mX, mY, mWidth, mHeight};
+    const SDL_Rect dstRect{x, y, mWidth, mHeight};
+    render(r, srcRect, dstRect, flipped);
 }
 
 void eTexture::setOffset(const int x, const int y) {
@@ -210,4 +209,17 @@ void eTexture::clearColorMod() {
 
 void eTexture::setFlipTex(const std::shared_ptr<eTexture>& tex) {
     mFlipTex = tex;
+    mX = mFlipTex->x();
+    mY = mFlipTex->y();
+    mWidth = mFlipTex->width();
+    mHeight = mFlipTex->height();
+}
+
+void eTexture::setParentTexture(const SDL_Rect& rect,
+                                const std::shared_ptr<eTexture>& tex) {
+    mParentTex = tex;
+    mX = rect.x;
+    mY = rect.y;
+    mWidth = rect.w;
+    mHeight = rect.h;
 }
