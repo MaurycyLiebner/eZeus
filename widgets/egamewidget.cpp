@@ -95,11 +95,9 @@ eGameWidgetSettings eGameWidget::settings() const {
     r.fPaused = mPaused;
     r.fSpeedId = mSpeedId;
     r.fSpeed = mSpeed;
+    r.fTileSize = mTileSize;
     r.fDX = mDX;
     r.fDY = mDY;
-    r.fTileSize = mTileSize;
-    r.fTileW = mTileW;
-    r.fTileH = mTileH;
     return r;
 }
 
@@ -107,9 +105,7 @@ void eGameWidget::setSettings(const eGameWidgetSettings& s) {
     if(mPaused != s.fPaused) switchPause();
     mSpeedId = s.fSpeedId;
     mSpeed = s.fSpeed;
-    mTileSize = s.fTileSize;
-    mTileW = s.fTileW;
-    mTileH = s.fTileH;
+    setTileSize(s.fTileSize);
     setDX(s.fDX);
     setDY(s.fDY);
 }
@@ -1452,7 +1448,13 @@ void eGameWidget::clampViewBox() {
 }
 
 void eGameWidget::setTileSize(const eTileSize size) {
-    mTileSize = size;
+    const auto& setts = window()->settings();
+    const auto sizes = setts.availableSizes();
+    if(eVectorHelpers::contains(sizes, size)) {
+        mTileSize = size;
+    } else {
+        mTileSize = sizes[0];
+    }
     const int tid = static_cast<int>(mTileSize);
     const auto& trrTexs = eGameTextures::terrain().at(tid);
     const int newW = trrTexs.fTileW;

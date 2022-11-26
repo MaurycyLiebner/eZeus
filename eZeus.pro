@@ -671,7 +671,6 @@ HEADERS += \
     epathdatafindtask.h \
     epathfindtask.h \
     esettings.h \
-    espritedata.h \
     estringhelpers.h \
     etexture.h \
     etexturecollection.h \
@@ -748,7 +747,11 @@ HEADERS += \
     spawners/elandinvasionpoint.h \
     spawners/esettlerspawner.h \
     spawners/espawner.h \
-    spriteData/peddler.h \
+    spriteData/espritedata.h \
+    spriteData/peddler15.h \
+    spriteData/peddler30.h \
+    spriteData/peddler45.h \
+    spriteData/peddler60.h \
     textures/ebeachtodry.h \
     textures/ebuildingtextures.h \
     textures/echaractertextures.h \

@@ -51,8 +51,6 @@ struct eGameWidgetSettings {
     int fDX = 0;
     int fDY = 0;
     eTileSize fTileSize = eTileSize::s30;
-    int fTileW = 60;
-    int fTileH = 30;
 
     void read(eReadStream& src) {
         src >> fPaused;
@@ -61,8 +59,6 @@ struct eGameWidgetSettings {
         src >> fDX;
         src >> fDY;
         src >> fTileSize;
-        src >> fTileW;
-        src >> fTileH;
     }
 
     void write(eWriteStream& dst) const {
@@ -72,8 +68,6 @@ struct eGameWidgetSettings {
         dst << fDX;
         dst << fDY;
         dst << fTileSize;
-        dst << fTileW;
-        dst << fTileH;
     }
 };
 

@@ -175,8 +175,12 @@ void eTexture::render(SDL_Renderer* const r,
 void eTexture::render(SDL_Renderer* const r,
                       const int x, const int y,
                       const bool flipped) const {
-    const SDL_Rect srcRect{mX, mY, mWidth, mHeight};
-    const SDL_Rect dstRect{x, y, mWidth, mHeight};
+    const int sx = mFlipTex ? mFlipTex->x() : mX;
+    const int sy = mFlipTex ? mFlipTex->y() : mY;
+    const int width = mFlipTex ? mFlipTex->width() : mWidth;
+    const int height = mFlipTex ? mFlipTex->height() : mHeight;
+    const SDL_Rect srcRect{sx, sy, width, height};
+    const SDL_Rect dstRect{x, y, width, height};
     render(r, srcRect, dstRect, flipped);
 }
 
@@ -186,6 +190,7 @@ void eTexture::setOffset(const int x, const int y) {
 }
 
 bool eTexture::isNull() const {
+    if(mFlipTex) return mFlipTex->isNull();
     return mWidth <= 0 || mHeight <= 0;
 }
 

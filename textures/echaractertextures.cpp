@@ -32,7 +32,10 @@
 #include "offsets/zeus_perseus.h"
 #include "offsets/zeus_theseus.h"
 
-#include "spriteData/peddler.h"
+#include "spriteData/peddler15.h"
+#include "spriteData/peddler30.h"
+#include "spriteData/peddler45.h"
+#include "spriteData/peddler60.h"
 
 #include "etextureloader.h"
 
@@ -130,45 +133,20 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
 }
 
-void eCharacterTextures::loadPeddler() {
-    const std::string dir = "/home/ailuropoda/.eZeus/textures/30/";
-    const std::string name = "peddler";
-    std::map<int, std::shared_ptr<eTexture>> texs;
-    const auto loadTex = [&](const int i) {
-        const auto tex = std::make_shared<eTexture>();
-        tex->load(fRenderer, dir + name + "_" + std::to_string(i) + ".png");
-        texs[i] = tex;
-    };
-    const auto getTex = [&](const int i) {
-        if(texs.find(i) == texs.end()) {
-            loadTex(i);
-        }
-        return texs[i];
-    };
+class eSpriteLoader {
+public:
+    eSpriteLoader(const int size,
+                  const std::string& name,
+                  SDL_Renderer* const r) :
+        mSize(std::to_string(size)), mName(name), mRenderer(r) {}
 
-    const auto load = [&](const int doff, const int i,
-                          eTextureCollection& coll,
-                          const std::vector<eSpriteData>& sds,
-                          const eOffsets* const offs = nullptr) {
-        const auto& sd = sds[i - 1 - doff];
-        const int tid = sd.fTexId;
-        const auto t = getTex(tid);
-        const SDL_Rect rect{sd.fX, sd.fY, sd.fW, sd.fH};
-        const auto& tex = coll.addTexture();
-        tex->setParentTexture(rect, t);
-        if(offs) {
-            const auto& off = (*offs)[i - 1];
-            tex->setOffset(off.first, off.second);
-        }
-    };
-
-    const auto loadSkipFlipped = [&](const int doff,
-                                     const int min, const int max,
-                                     const std::vector<eSpriteData>& sds,
-                                     std::vector<eTextureCollection>& colls,
-                                     const eOffsets* const offs = nullptr) {
+    void loadSkipFlipped(const int doff,
+                         const int min, const int max,
+                         const std::vector<eSpriteData>& sds,
+                         std::vector<eTextureCollection>& colls,
+                         const eOffsets* const offs = nullptr) {
         for(int j = 0; j < 8; j++) {
-            colls.emplace_back(fRenderer);
+            colls.emplace_back(mRenderer);
         }
         int k = 0;
         for(int i = min; i < max;) {
@@ -188,15 +166,68 @@ void eCharacterTextures::loadPeddler() {
             }
             k++;
         }
+    }
+
+    void load(const int doff, const int i,
+              eTextureCollection& coll,
+              const std::vector<eSpriteData>& sds,
+              const eOffsets* const offs = nullptr) {
+        const auto& sd = sds[i - 1 - doff];
+        const int tid = sd.fTexId;
+        const auto t = getTex(tid);
+        const SDL_Rect rect{sd.fX, sd.fY, sd.fW, sd.fH};
+        const auto& tex = coll.addTexture();
+        tex->setParentTexture(rect, t);
+        if(offs) {
+            const auto& off = (*offs)[i - 1];
+            tex->setOffset(off.first, off.second);
+        }
+    }
+private:
+    void loadTex(const int i) {
+        const auto tex = std::make_shared<eTexture>();
+        const std::string dir = "../textures/" + mSize + "/";
+        tex->load(mRenderer, dir + mName + "_" + std::to_string(i) + ".png");
+        mTexs[i] = tex;
+    }
+
+    const std::shared_ptr<eTexture>& getTex(const int i) {
+        if(mTexs.find(i) == mTexs.end()) {
+            loadTex(i);
+        }
+        return mTexs[i];
     };
 
-    loadSkipFlipped(0, 1, 97, ePeddlerSpriteData,
-                    fPeddler.fWalk, &eSprMainOffset);
+    const std::string mSize;
+    const std::string mName;
+    SDL_Renderer* const mRenderer;
+    std::map<int, std::shared_ptr<eTexture>> mTexs;
+};
+
+const std::vector<eSpriteData>&  spriteData(const int size,
+                                            const std::vector<eSpriteData>& s15,
+                                            const std::vector<eSpriteData>& s30,
+                                            const std::vector<eSpriteData>& s45,
+                                            const std::vector<eSpriteData>& s60) {
+    if(size == 15) return s15;
+    if(size == 30) return s30;
+    if(size == 45) return s45;
+    if(size == 60) return s60;
+    return s30;
+}
+
+void eCharacterTextures::loadPeddler() {
+    eSpriteLoader loader(fTileH, "peddler", fRenderer);
+
+    const auto& sds = spriteData(fTileH,
+                                 ePeddlerSpriteData15,
+                                 ePeddlerSpriteData30,
+                                 ePeddlerSpriteData45,
+                                 ePeddlerSpriteData60);
+    loader.loadSkipFlipped(0, 1, 97, sds, fPeddler.fWalk, &eSprMainOffset);
 
     for(int i = 97; i < 105; i++) {
-        load(0, i, fPeddler.fDie,
-             ePeddlerSpriteData,
-             &eSprMainOffset);
+        loader.load(0, i, fPeddler.fDie, sds, &eSprMainOffset);
     }
 }
 
