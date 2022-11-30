@@ -4,4 +4,6 @@
 
 eHoplite::eHoplite(eGameBoard& board) :
     eHopliteBase(board, &eCharacterTextures::fHoplite,
-                 eCharacterType::hoplite) {}
+                 eCharacterType::hoplite) {
+    eGameTextures::loadHoplite();
+}

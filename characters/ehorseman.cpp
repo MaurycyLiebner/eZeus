@@ -4,4 +4,6 @@
 
 eHorseman::eHorseman(eGameBoard& board) :
     eHorsemanBase(board, &eCharacterTextures::fHorseman,
-                  eCharacterType::horseman) {}
+                  eCharacterType::horseman) {
+    eGameTextures::loadHorseman();
+}

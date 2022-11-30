@@ -4,6 +4,7 @@
 
 eArcher::eArcher(eGameBoard& board) :
     eCharacter(board, eCharacterType::archer) {
+    eGameTextures::loadArcher();
     setAttack(0.5);
 }
 

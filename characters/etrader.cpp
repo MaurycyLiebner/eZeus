@@ -3,9 +3,13 @@
 #include "edonkey.h"
 #include "characters/actions/efollowaction.h"
 
+#include "textures/egametextures.h"
+
 eTrader::eTrader(eGameBoard& board) :
     eBasicPatroler(board, &eCharacterTextures::fTrader,
-                   eCharacterType::trader) {}
+                   eCharacterType::trader) {
+    eGameTextures::loadTrader();
+}
 
 void eTrader::createFollowers() {
     const auto t = tile();

@@ -11,6 +11,9 @@
 eCartTransporter::eCartTransporter(eGameBoard& board) :
     eBasicPatroler(board, &eCharacterTextures::fTransporter,
                    eCharacterType::cartTransporter) {
+    eGameTextures::loadOxHandler();
+    eGameTextures::loadTransporter();
+    eGameTextures::loadCart();
     setHasSecondaryTexture(true);
 }
 

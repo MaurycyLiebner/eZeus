@@ -1,5 +1,9 @@
 #include "ewatchman.h"
 
+#include "textures/egametextures.h"
+
 eWatchman::eWatchman(eGameBoard& board) :
     eFightingPatroler(board, &eCharacterTextures::fWatchman,
-                      eCharacterType::watchman) {}
+                      eCharacterType::watchman) {
+    eGameTextures::loadWatchman();
+}

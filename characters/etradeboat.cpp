@@ -4,7 +4,7 @@
 
 eTradeBoat::eTradeBoat(eGameBoard& board) :
     eCharacter(board, eCharacterType::tradeBoat) {
-
+    eGameTextures::loadTradeBoat();
 }
 
 std::shared_ptr<eTexture> eTradeBoat::getTexture(const eTileSize size) const {

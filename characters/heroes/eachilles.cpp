@@ -1,33 +1,51 @@
 #include "eachilles.h"
 
+#include "textures/egametextures.h"
+
 eAchilles::eAchilles(eGameBoard& board) :
     eBasicHero(board, &eCharacterTextures::fAchilles,
-               eHeroType::achilles) {}
+               eHeroType::achilles) {
+    eGameTextures::loadAchilles();
+}
 
 eAtalanta::eAtalanta(eGameBoard& board) :
     eBasicHero(board, &eCharacterTextures::fAtalanta,
-               eHeroType::atalanta) {}
+               eHeroType::atalanta) {
+    eGameTextures::loadAtalanta();
+}
 
 eBellerophon::eBellerophon(eGameBoard& board) :
     eBasicHero(board, &eCharacterTextures::fBellerophon,
-               eHeroType::bellerophon) {}
+               eHeroType::bellerophon) {
+    eGameTextures::loadBellerophon();
+}
 
 eHercules::eHercules(eGameBoard& board) :
     eBasicHero(board, &eCharacterTextures::fHercules,
-               eHeroType::hercules) {}
+               eHeroType::hercules) {
+    eGameTextures::loadHeracles();
+}
 
 eJason::eJason(eGameBoard& board) :
     eBasicHero(board, &eCharacterTextures::fJason,
-               eHeroType::jason) {}
+               eHeroType::jason) {
+    eGameTextures::loadJason();
+}
 
 eOdysseus::eOdysseus(eGameBoard& board) :
     eBasicHero(board, &eCharacterTextures::fOdysseus,
-               eHeroType::odysseus) {}
+               eHeroType::odysseus) {
+    eGameTextures::loadOdysseus();
+}
 
 ePerseus::ePerseus(eGameBoard& board) :
     eBasicHero(board, &eCharacterTextures::fPerseus,
-               eHeroType::perseus) {}
+               eHeroType::perseus) {
+    eGameTextures::loadPerseus();
+}
 
 eTheseus::eTheseus(eGameBoard& board) :
     eBasicHero(board, &eCharacterTextures::fTheseus,
-               eHeroType::theseus) {}
+               eHeroType::theseus) {
+    eGameTextures::loadTheseus();
+}

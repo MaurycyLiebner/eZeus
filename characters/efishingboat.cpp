@@ -4,7 +4,7 @@
 
 eFishingBoat::eFishingBoat(eGameBoard& board) :
     eResourceCollectorBase(board, eCharacterType::fishingBoat) {
-
+    eGameTextures::loadFishingBoat();
 }
 
 std::shared_ptr<eTexture> eFishingBoat::getTexture(const eTileSize size) const {

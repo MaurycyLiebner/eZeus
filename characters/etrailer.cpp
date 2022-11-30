@@ -3,7 +3,9 @@
 #include "textures/egametextures.h"
 
 eTrailer::eTrailer(eGameBoard& board) :
-    eCharacter(board, eCharacterType::trailer) {}
+    eCharacter(board, eCharacterType::trailer) {
+    eGameTextures::loadTrailer();
+}
 
 std::shared_ptr<eTexture>
 eTrailer::getTexture(const eTileSize size) const {

@@ -2,7 +2,7 @@
 
 #include "espritedata.h"
 
-const auto ePeddlerSpriteData = std::vector<eSpriteData> {
+const auto ePeddlerSpriteData30 = std::vector<eSpriteData> {
    eSpriteData{0, 0, 0, 46, 52}, // 1
    eSpriteData{0, 46, 0, 57, 41}, // 2
    eSpriteData{0, 103, 0, 49, 55}, // 3

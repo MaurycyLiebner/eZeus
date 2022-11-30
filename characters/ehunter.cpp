@@ -1,8 +1,11 @@
 #include "ehunter.h"
 
+#include "textures/egametextures.h"
+
 eHunter::eHunter(eGameBoard& board) :
     eResourceCollector(board, &eCharacterTextures::fHunter,
                        eCharacterType::hunter) {
+    eGameTextures::loadHunter();
     setAttack(0.3);
 }
 

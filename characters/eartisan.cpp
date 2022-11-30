@@ -4,7 +4,7 @@
 
 eArtisan::eArtisan(eGameBoard& board) :
     eCharacter(board, eCharacterType::artisan) {
-
+    eGameTextures::loadArtisan();
 }
 
 std::shared_ptr<eTexture> eArtisan::getTexture(const eTileSize size) const {

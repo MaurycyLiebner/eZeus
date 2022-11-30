@@ -4,4 +4,6 @@
 
 eGreekHorseman::eGreekHorseman(eGameBoard& board) :
     eHorsemanBase(board, &eCharacterTextures::fGreekHorseman,
-                  eCharacterType::greekHorseman) {}
+                  eCharacterType::greekHorseman) {
+    eGameTextures::loadGreekHorseman();
+}

@@ -6,6 +6,7 @@ eFireFighter::eFireFighter(eGameBoard& board) :
     eCharacter(board, eCharacterType::fireFighter),
     mTextures(eGameTextures::characters()),
     mCharTexs(&eCharacterTextures::fFireFighter) {
+    eGameTextures::loadFireFighter();
     setProvide(eProvide::maintanance, __INT_MAX__);
 }
 

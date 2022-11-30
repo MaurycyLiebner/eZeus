@@ -4,4 +4,6 @@
 
 eGreekRockThrower::eGreekRockThrower(eGameBoard& board) :
     eRockThrowerBase(board, &eCharacterTextures::fGreekRockThrower,
-                     eCharacterType::greekRockThrower) {}
+                     eCharacterType::greekRockThrower) {
+    eGameTextures::loadGreekRockThrower();
+}

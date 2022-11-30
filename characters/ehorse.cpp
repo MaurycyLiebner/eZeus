@@ -3,7 +3,9 @@
 #include "textures/egametextures.h"
 
 eHorse::eHorse(eGameBoard& board) :
-    eCharacter(board, eCharacterType::horse) {}
+    eCharacter(board, eCharacterType::horse) {
+    eGameTextures::loadHorse();
+}
 
 std::shared_ptr<eTexture> eHorse::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
