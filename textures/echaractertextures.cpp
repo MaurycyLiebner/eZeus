@@ -422,6 +422,8 @@
 #include "spriteData/theseus45.h"
 #include "spriteData/theseus60.h"
 
+#include "espriteloader.h"
+
 #include "etextureloader.h"
 
 eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
@@ -516,92 +518,6 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fKraken(renderer),
     fScylla(renderer) {
 
-}
-
-class eSpriteLoader {
-public:
-    eSpriteLoader(const int size,
-                  const std::string& name,
-                  const std::vector<eSpriteData>& sds,
-                  const eOffsets* const offs,
-                  SDL_Renderer* const r) :
-        mSize(std::to_string(size)), mName(name),
-        mSds(sds), mOffs(offs), mRenderer(r) {}
-
-    void loadSkipFlipped(const int doff,
-                         const int min, const int max,
-                         std::vector<eTextureCollection>& colls) {
-        for(int j = 0; j < 8; j++) {
-            colls.emplace_back(mRenderer);
-        }
-        int k = 0;
-        for(int i = min; i < max;) {
-            for(int j = 0; j < 8; j++, i++) {
-                auto& coll = colls[j];
-                if(j > 3 && j < 7) {
-                    const auto& flipTex = colls[6 - j].getTexture(k);
-                    auto& tex = coll.addTexture();
-                    tex->setFlipTex(flipTex);
-                    if(mOffs) {
-                        const auto& offset = (*mOffs)[i - 1];
-                        tex->setOffset(offset.first, offset.second);
-                    }
-                } else {
-                    load(doff, i, coll);
-                }
-            }
-            k++;
-        }
-    }
-
-    const std::shared_ptr<eTexture>& load(
-            const int doff, const int i,
-            eTextureCollection& coll) {
-        const auto& sd = mSds[i - doff];
-        const int tid = sd.fTexId;
-        const auto t = getTex(tid);
-        const SDL_Rect rect{sd.fX, sd.fY, sd.fW, sd.fH};
-        const auto& tex = coll.addTexture();
-        tex->setParentTexture(rect, t);
-        if(mOffs) {
-            const auto& off = (*mOffs)[i - 1];
-            tex->setOffset(off.first, off.second);
-        }
-        return tex;
-    }
-private:
-    void loadTex(const int i) {
-        const auto tex = std::make_shared<eTexture>();
-        const std::string dir = "../textures/" + mSize + "/";
-        tex->load(mRenderer, dir + mName + "_" + std::to_string(i) + ".png");
-        mTexs[i] = tex;
-    }
-
-    const std::shared_ptr<eTexture>& getTex(const int i) {
-        if(mTexs.find(i) == mTexs.end()) {
-            loadTex(i);
-        }
-        return mTexs[i];
-    };
-
-    const std::string mSize;
-    const std::string mName;
-    const std::vector<eSpriteData> mSds;
-    const eOffsets* const mOffs;
-    SDL_Renderer* const mRenderer;
-    std::map<int, std::shared_ptr<eTexture>> mTexs;
-};
-
-const std::vector<eSpriteData>&  spriteData(const int size,
-                                            const std::vector<eSpriteData>& s15,
-                                            const std::vector<eSpriteData>& s30,
-                                            const std::vector<eSpriteData>& s45,
-                                            const std::vector<eSpriteData>& s60) {
-    if(size == 15) return s15;
-    if(size == 30) return s30;
-    if(size == 45) return s45;
-    if(size == 60) return s60;
-    return s30;
 }
 
 void loadBasicTexture(eBasicCharacterTextures& tex,

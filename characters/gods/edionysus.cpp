@@ -3,7 +3,9 @@
 #include "textures/egametextures.h"
 
 eDionysus::eDionysus(eGameBoard& board) :
-    eGod(board, eGodType::dionysus) {}
+    eGod(board, eGodType::dionysus) {
+    eGameTextures::loadDionysus();
+}
 
 std::shared_ptr<eTexture>
 eDionysus::getTexture(const eTileSize size) const {

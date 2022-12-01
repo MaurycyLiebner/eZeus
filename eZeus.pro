@@ -311,6 +311,7 @@ SOURCES += \
         textures/einterfacetextures.cpp \
         textures/emarbletile.cpp \
         textures/eparktexture.cpp \
+        textures/espriteloader.cpp \
         textures/estonestodry.cpp \
         textures/esurroundingterrain.cpp \
         textures/eterraintextures.cpp \
@@ -755,14 +756,30 @@ HEADERS += \
     spriteData/actor30.h \
     spriteData/actor45.h \
     spriteData/actor60.h \
+    spriteData/aphrodite15.h \
+    spriteData/aphrodite30.h \
+    spriteData/aphrodite45.h \
+    spriteData/aphrodite60.h \
+    spriteData/apollo15.h \
+    spriteData/apollo30.h \
+    spriteData/apollo45.h \
+    spriteData/apollo60.h \
     spriteData/archer15.h \
     spriteData/archer30.h \
     spriteData/archer45.h \
     spriteData/archer60.h \
+    spriteData/ares15.h \
+    spriteData/ares30.h \
+    spriteData/ares45.h \
+    spriteData/ares60.h \
     spriteData/armsVendor15.h \
     spriteData/armsVendor30.h \
     spriteData/armsVendor45.h \
     spriteData/armsVendor60.h \
+    spriteData/artemis15.h \
+    spriteData/artemis30.h \
+    spriteData/artemis45.h \
+    spriteData/artemis60.h \
     spriteData/artisan15.h \
     spriteData/artisan30.h \
     spriteData/artisan45.h \
@@ -771,6 +788,14 @@ HEADERS += \
     spriteData/atalanta30.h \
     spriteData/atalanta45.h \
     spriteData/atalanta60.h \
+    spriteData/athena15.h \
+    spriteData/athena30.h \
+    spriteData/athena45.h \
+    spriteData/athena60.h \
+    spriteData/atlas15.h \
+    spriteData/atlas30.h \
+    spriteData/atlas45.h \
+    spriteData/atlas60.h \
     spriteData/bellerophon15.h \
     spriteData/bellerophon30.h \
     spriteData/bellerophon45.h \
@@ -811,6 +836,14 @@ HEADERS += \
     spriteData/deerHunter30.h \
     spriteData/deerHunter45.h \
     spriteData/deerHunter60.h \
+    spriteData/demeter15.h \
+    spriteData/demeter30.h \
+    spriteData/demeter45.h \
+    spriteData/demeter60.h \
+    spriteData/dionysus15.h \
+    spriteData/dionysus30.h \
+    spriteData/dionysus45.h \
+    spriteData/dionysus60.h \
     spriteData/donkey15.h \
     spriteData/donkey30.h \
     spriteData/donkey45.h \
@@ -876,6 +909,10 @@ HEADERS += \
     spriteData/gymnast30.h \
     spriteData/gymnast45.h \
     spriteData/gymnast60.h \
+    spriteData/hades15.h \
+    spriteData/hades30.h \
+    spriteData/hades45.h \
+    spriteData/hades60.h \
     spriteData/harpie15.h \
     spriteData/harpie30.h \
     spriteData/harpie45.h \
@@ -888,10 +925,22 @@ HEADERS += \
     spriteData/hector30.h \
     spriteData/hector45.h \
     spriteData/hector60.h \
+    spriteData/hephaestus15.h \
+    spriteData/hephaestus30.h \
+    spriteData/hephaestus45.h \
+    spriteData/hephaestus60.h \
+    spriteData/hera15.h \
+    spriteData/hera30.h \
+    spriteData/hera45.h \
+    spriteData/hera60.h \
     spriteData/heracles15.h \
     spriteData/heracles30.h \
     spriteData/heracles45.h \
     spriteData/heracles60.h \
+    spriteData/hermes15.h \
+    spriteData/hermes30.h \
+    spriteData/hermes45.h \
+    spriteData/hermes60.h \
     spriteData/hoplite15.h \
     spriteData/hoplite30.h \
     spriteData/hoplite45.h \
@@ -989,6 +1038,10 @@ HEADERS += \
     spriteData/porter30.h \
     spriteData/porter45.h \
     spriteData/porter60.h \
+    spriteData/poseidon15.h \
+    spriteData/poseidon30.h \
+    spriteData/poseidon45.h \
+    spriteData/poseidon60.h \
     spriteData/rockThrower15.h \
     spriteData/rockThrower30.h \
     spriteData/rockThrower45.h \
@@ -1061,6 +1114,10 @@ HEADERS += \
     spriteData/wolf30.h \
     spriteData/wolf45.h \
     spriteData/wolf60.h \
+    spriteData/zeus15.h \
+    spriteData/zeus30.h \
+    spriteData/zeus45.h \
+    spriteData/zeus60.h \
     textures/ebeachtodry.h \
     textures/ebuildingtextures.h \
     textures/echaractertextures.h \
@@ -1072,6 +1129,7 @@ HEADERS += \
     textures/einterfacetextures.h \
     textures/emarbletile.h \
     textures/eparktexture.h \
+    textures/espriteloader.h \
     textures/estonestodry.h \
     textures/esurroundingterrain.h \
     textures/eterraintextures.h \

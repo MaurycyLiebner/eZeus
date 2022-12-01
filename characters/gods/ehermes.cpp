@@ -3,7 +3,9 @@
 #include "textures/egametextures.h"
 
 eHermes::eHermes(eGameBoard& board) :
-    eGod(board, eGodType::hermes) {}
+    eGod(board, eGodType::hermes) {
+    eGameTextures::loadHermes();
+}
 
 std::shared_ptr<eTexture>
 eHermes::getTexture(const eTileSize size) const {

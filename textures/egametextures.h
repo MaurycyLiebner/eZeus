@@ -108,6 +108,21 @@ public:
     static void loadPerseus();
     static void loadTheseus();
 
+    static void loadAphrodite();
+    static void loadApollo();
+    static void loadAres();
+    static void loadArtemis();
+    static void loadAthena();
+    static void loadAtlas();
+    static void loadDemeter();
+    static void loadDionysus();
+    static void loadHades();
+    static void loadHephaestus();
+    static void loadHera();
+    static void loadHermes();
+    static void loadPoseidon();
+    static void loadZeus();
+
     static bool initialize(SDL_Renderer* const r);
     static bool loadNextMenu(const eSettings& settings,
                              std::string& text);

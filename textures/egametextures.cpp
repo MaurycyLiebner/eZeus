@@ -538,6 +538,104 @@ void eGameTextures::loadTheseus() {
     });
 }
 
+void eGameTextures::loadAphrodite() {
+    loadTexture([](const int i) {
+        auto& c = sGodTextures[i];
+        c.loadAphrodite();
+    });
+}
+
+void eGameTextures::loadApollo() {
+    loadTexture([](const int i) {
+        auto& c = sGodTextures[i];
+        c.loadApollo();
+    });
+}
+
+void eGameTextures::loadAres() {
+    loadTexture([](const int i) {
+        auto& c = sGodTextures[i];
+        c.loadAres();
+    });
+}
+
+void eGameTextures::loadArtemis() {
+    loadTexture([](const int i) {
+        auto& c = sGodTextures[i];
+        c.loadArtemis();
+    });
+}
+
+void eGameTextures::loadAthena() {
+    loadTexture([](const int i) {
+        auto& c = sGodTextures[i];
+        c.loadAthena();
+    });
+}
+
+void eGameTextures::loadAtlas() {
+    loadTexture([](const int i) {
+        auto& c = sGodTextures[i];
+        c.loadAtlas();
+    });
+}
+
+void eGameTextures::loadDemeter() {
+    loadTexture([](const int i) {
+        auto& c = sGodTextures[i];
+        c.loadDemeter();
+    });
+}
+
+void eGameTextures::loadDionysus() {
+    loadTexture([](const int i) {
+        auto& c = sGodTextures[i];
+        c.loadDionysus();
+    });
+}
+
+void eGameTextures::loadHades() {
+    loadTexture([](const int i) {
+        auto& c = sGodTextures[i];
+        c.loadHades();
+    });
+}
+
+void eGameTextures::loadHephaestus() {
+    loadTexture([](const int i) {
+        auto& c = sGodTextures[i];
+        c.loadHephaestus();
+    });
+}
+
+void eGameTextures::loadHera() {
+    loadTexture([](const int i) {
+        auto& c = sGodTextures[i];
+        c.loadHera();
+    });
+}
+
+void eGameTextures::loadHermes() {
+    loadTexture([](const int i) {
+        auto& c = sGodTextures[i];
+        c.loadHermes();
+    });
+}
+
+void eGameTextures::loadPoseidon() {
+    loadTexture([](const int i) {
+        auto& c = sGodTextures[i];
+        c.loadPoseidon();
+    });
+}
+
+void eGameTextures::loadZeus() {
+    loadTexture([](const int i) {
+        auto& c = sGodTextures[i];
+        c.loadZeus();
+    });
+}
+
 bool eGameTextures::initialize(SDL_Renderer* const r) {
     if(sInitialized) return true;
     int i = 0;

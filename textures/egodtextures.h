@@ -81,12 +81,34 @@ public:
 
     bool fLoaded = false;
 
-    void loadAthena(const std::string& baseDir,
-                    eTextureLoader& texLoader);
-    void loadDemeter(const std::string& baseDir,
-                     eTextureLoader& texLoader);
-    void loadHades(const std::string& baseDir,
-                   eTextureLoader& texLoader);
+    bool fAphroditeLoaded = false;
+    void loadAphrodite();
+    bool fApolloLoaded = false;
+    void loadApollo();
+    bool fAresLoaded = false;
+    void loadAres();
+    bool fArtemisLoaded = false;
+    void loadArtemis();
+    bool fAthenaLoaded = false;
+    void loadAthena();
+    bool fAtlasLoaded = false;
+    void loadAtlas();
+    bool fDemeterLoaded = false;
+    void loadDemeter();
+    bool fDionysusLoaded = false;
+    void loadDionysus();
+    bool fHadesLoaded = false;
+    void loadHades();
+    bool fHephaestusLoaded = false;
+    void loadHephaestus();
+    bool fHeraLoaded = false;
+    void loadHera();
+    bool fHermesLoaded = false;
+    void loadHermes();
+    bool fPoseidonLoaded = false;
+    void loadPoseidon();
+    bool fZeusLoaded = false;
+    void loadZeus();
 
     const int fTileW;
     const int fTileH;
