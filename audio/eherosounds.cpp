@@ -13,9 +13,12 @@ eHeroSounds::~eHeroSounds() {
         Mix_FreeChunk(a);
     }
     Mix_FreeChunk(fHit);
+    Mix_FreeChunk(fDie);
 }
 
 void eHeroSounds::load() {
+    if(fLoaded) return;
+    fLoaded = true;
     const std::string voiceDir{eGameDir::path("Audio/Voice/Walker/")};
     const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
 

@@ -35,59 +35,73 @@ struct eGodSounds {
     void play(const eGodSound s);
 
     void playWooing0() {
+        load();
         Mix_PlayChannel(-1, fWooing0, 0);
     }
 
     void playJealousy1() {
+        load();
         Mix_PlayChannel(-1, fJealousy1, 0);
     }
 
     void playJealousy2() {
+        load();
         Mix_PlayChannel(-1, fJealousy2, 0);
     }
 
     void playInvade() {
+        load();
         Mix_PlayChannel(-1, fInvade, 0);
     }
 
     void playMonster() {
+        load();
         Mix_PlayChannel(-1, fMonster, 0);
     }
 
     void playQuest() {
+        load();
         Mix_PlayChannel(-1, fQuest, 0);
     }
 
     void playQuestFinished() {
+        load();
         Mix_PlayChannel(-1, fQuestFinished, 0);
     }
 
     void playPrayer() {
+        load();
         Mix_PlayChannel(-1, fPrayer, 0);
     }
 
     void playAppear() {
+        load();
         Mix_PlayChannel(-1, fAppear, 0);
     }
 
     void playDisappear() {
+        load();
         Mix_PlayChannel(-1, fDisappear, 0);
     }
 
     void playAttack() {
+        load();
         const int id = rand() % fAttack.size();
         Mix_PlayChannel(-1, fAttack[id], 0);
     }
 
     void playCurse() {
+        load();
         Mix_PlayChannel(-1, fCurse, 0);
     }
 
     void playHit() {
+        load();
         Mix_PlayChannel(-1, fHit, 0);
     }
 
     void playSanctify() {
+        load();
         Mix_PlayChannel(-1, fSanctify, 0);
     }
 
@@ -95,6 +109,8 @@ struct eGodSounds {
     const std::string fLongName;
 
     bool fFirstVisit = true;
+
+    bool fLoaded = false;
 
     Mix_Chunk* fWooing0 = nullptr;
     Mix_Chunk* fJealousy1 = nullptr;

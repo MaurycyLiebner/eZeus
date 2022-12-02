@@ -26,6 +26,9 @@ eGodSounds::~eGodSounds() {
 }
 
 void eGodSounds::load() {
+    if(fLoaded) return;
+    fLoaded = true;
+
     const std::string voiceDir{eGameDir::path("Audio/Voice/Walker/")};
     const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
 

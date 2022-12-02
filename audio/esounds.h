@@ -12,6 +12,26 @@
 
 class eTile;
 
+class eSoundVector {
+public:
+    int soundCount() const { return mPaths.size(); }
+
+    void addPath(const std::string& path) {
+        mPaths.push_back({nullptr, path});
+    }
+
+    void deleteSounds() const {
+        for(const auto& s : mPaths) {
+            if(!s.first) continue;
+            Mix_FreeChunk(s.first);
+        }
+    }
+
+    void play(const int id);
+private:
+    std::vector<std::pair<Mix_Chunk*, std::string>> mPaths;
+};
+
 class eSounds {
 public:
     eSounds();
@@ -40,6 +60,8 @@ public:
     static void playGymnasiumSound();
     static void playStadiumSound();
 
+    static void playArtisansGuildSound();
+
     static void playFountainSound();
     static void playTaxesSound();
     static void playPalaceSound();
@@ -50,6 +72,7 @@ public:
     static void playTimberMillSound();
 
     static void playArmorySound();
+    static void playHorseRanchSound();
 
     static void playHuntingSound();
     static void playBoarSound();
@@ -100,76 +123,76 @@ private:
 
     Mix_Chunk* mButton = nullptr;
 
-    std::vector<Mix_Chunk*> mEnvironment;
+    eSoundVector mEnvironment;
 
-    std::vector<Mix_Chunk*> mMaintenance;
-    std::vector<Mix_Chunk*> mCommonHousing;
-    std::vector<Mix_Chunk*> mEliteHousing;
-    std::vector<Mix_Chunk*> mFarming;
-    std::vector<Mix_Chunk*> mOrchard;
-    std::vector<Mix_Chunk*> mSheepFarm;
-    std::vector<Mix_Chunk*> mGoatFarm;
-    std::vector<Mix_Chunk*> mSea;
-    std::vector<Mix_Chunk*> mTriremeWharf;
-    std::vector<Mix_Chunk*> mHunting;
-    std::vector<Mix_Chunk*> mTimberMill;
-    std::vector<Mix_Chunk*> mMarble;
-    std::vector<Mix_Chunk*> mMint;
-    std::vector<Mix_Chunk*> mFoundry;
-    std::vector<Mix_Chunk*> mWorkshops;
-    std::vector<Mix_Chunk*> mStorage;
-    std::vector<Mix_Chunk*> mAgoraFood;
-    std::vector<Mix_Chunk*> mAgoraFleece;
-    std::vector<Mix_Chunk*> mAgoraOil;
-    std::vector<Mix_Chunk*> mAgoraWine;
-    std::vector<Mix_Chunk*> mAgoraArms;
-    std::vector<Mix_Chunk*> mAgoraHorse;
-    std::vector<Mix_Chunk*> mTrade;
-    std::vector<Mix_Chunk*> mTaxes;
-    std::vector<Mix_Chunk*> mPalace;
-    std::vector<Mix_Chunk*> mDefensive;
-    std::vector<Mix_Chunk*> mInfirmary;
-    std::vector<Mix_Chunk*> mTheatre;
-    std::vector<Mix_Chunk*> mDrama;
-    std::vector<Mix_Chunk*> mPhilosophy;
-    std::vector<Mix_Chunk*> mGymnasium;
-    std::vector<Mix_Chunk*> mStadium;
-    std::vector<Mix_Chunk*> mSanctuary;
-    std::vector<Mix_Chunk*> mArmory;
-    std::vector<Mix_Chunk*> mHorseRanch;
-    std::vector<Mix_Chunk*> mBeautification;
-    std::vector<Mix_Chunk*> mFountain;
-    std::vector<Mix_Chunk*> mArtisansGuild;
+    eSoundVector mMaintenance;
+    eSoundVector mCommonHousing;
+    eSoundVector mEliteHousing;
+    eSoundVector mFarming;
+    eSoundVector mOrchard;
+    eSoundVector mSheepFarm;
+    eSoundVector mGoatFarm;
+    eSoundVector mSea;
+    eSoundVector mTriremeWharf;
+    eSoundVector mHunting;
+    eSoundVector mTimberMill;
+    eSoundVector mMarble;
+    eSoundVector mMint;
+    eSoundVector mFoundry;
+    eSoundVector mWorkshops;
+    eSoundVector mStorage;
+    eSoundVector mAgoraFood;
+    eSoundVector mAgoraFleece;
+    eSoundVector mAgoraOil;
+    eSoundVector mAgoraWine;
+    eSoundVector mAgoraArms;
+    eSoundVector mAgoraHorse;
+    eSoundVector mTrade;
+    eSoundVector mTaxes;
+    eSoundVector mPalace;
+    eSoundVector mDefensive;
+    eSoundVector mInfirmary;
+    eSoundVector mTheatre;
+    eSoundVector mDrama;
+    eSoundVector mPhilosophy;
+    eSoundVector mGymnasium;
+    eSoundVector mStadium;
+    eSoundVector mSanctuary;
+    eSoundVector mArmory;
+    eSoundVector mHorseRanch;
+    eSoundVector mBeautification;
+    eSoundVector mFountain;
+    eSoundVector mArtisansGuild;
 
     // terrain
-    std::vector<Mix_Chunk*> mMeadow;
-    std::vector<Mix_Chunk*> mFarmland;
-    std::vector<Mix_Chunk*> mBeach;
-    std::vector<Mix_Chunk*> mRocky;
-    std::vector<Mix_Chunk*> mVegetation;
-    std::vector<Mix_Chunk*> mWater;
+    eSoundVector mMeadow;
+    eSoundVector mFarmland;
+    eSoundVector mBeach;
+    eSoundVector mRocky;
+    eSoundVector mVegetation;
+    eSoundVector mWater;
     // animals
-    std::vector<Mix_Chunk*> mBoar;
-    std::vector<Mix_Chunk*> mGoat;
-    std::vector<Mix_Chunk*> mWolf;
-    std::vector<Mix_Chunk*> mSheep;
-    std::vector<Mix_Chunk*> mCattle;
-    std::vector<Mix_Chunk*> mDeer;
+    eSoundVector mBoar;
+    eSoundVector mGoat;
+    eSoundVector mWolf;
+    eSoundVector mSheep;
+    eSoundVector mCattle;
+    eSoundVector mDeer;
 
     // collectors
-    std::vector<Mix_Chunk*> mCopperMiner;
-    std::vector<Mix_Chunk*> mSilverMiner;
-    std::vector<Mix_Chunk*> mTreeCutter;
-    std::vector<Mix_Chunk*> mStoneCutter;
+    eSoundVector mCopperMiner;
+    eSoundVector mSilverMiner;
+    eSoundVector mTreeCutter;
+    eSoundVector mStoneCutter;
 
-    std::vector<Mix_Chunk*> mArtisan;
+    eSoundVector mArtisan;
 
     // rockthrower
     Mix_Chunk* mActorDie = nullptr;
     Mix_Chunk* mActorHit = nullptr;
 
-    std::vector<Mix_Chunk*> mRockthrowerAttack;
-    std::vector<Mix_Chunk*> mRockthrowerDie;
+    eSoundVector mRockthrowerAttack;
+    eSoundVector mRockthrowerDie;
     Mix_Chunk* mRockthrowerHit = nullptr;
 
     Mix_Chunk* mBoarAttack = nullptr;
@@ -185,11 +208,11 @@ private:
     Mix_Chunk* mDeerHit = nullptr;
 
     Mix_Chunk* mHopliteDie = nullptr;
-    std::vector<Mix_Chunk*> mHopliteAttack;
+    eSoundVector mHopliteAttack;
     Mix_Chunk* mHopliteHit = nullptr;
 
-    std::vector<Mix_Chunk*> mGenDie;
-    std::vector<Mix_Chunk*> mGenHit;
+    eSoundVector mGenDie;
+    eSoundVector mGenHit;
 
     // events
     Mix_Chunk* mFire = nullptr;

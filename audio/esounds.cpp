@@ -22,10 +22,8 @@ eSounds::eSounds() {
 
 }
 
-void deleteSounds(const std::vector<Mix_Chunk*>& sounds) {
-    for(const auto s : sounds) {
-        Mix_FreeChunk(s);
-    }
+void deleteSounds(const eSoundVector& sounds) {
+    sounds.deleteSounds();
 }
 
 eSounds::~eSounds() {
@@ -102,7 +100,7 @@ eSounds::~eSounds() {
 
 void eSounds::loadButtonSound() {
     const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
-    sInstance.mButton = loadSoundBase(wavsDir + "button.wav");
+    sInstance.mButton = eSounds::loadSoundBase(wavsDir + "button.wav");
 }
 
 void eSounds::load() {
@@ -165,6 +163,11 @@ void eSounds::playSoundForTile(eTile* const tile) {
             return eSounds::playArmsVendorSound();
         case eBuildingType::horseTrainer:
             return eSounds::playHorseTrainerSound();
+        case eBuildingType::horseRanch:
+        case eBuildingType::horseRanchEnclosure:
+            return eSounds::playHorseRanchSound();
+        case eBuildingType::artisansGuild:
+            return eSounds::playArtisansGuildSound();
         default: break;
         }
     }
@@ -211,10 +214,11 @@ void eSounds::playSoundForTile(eTile* const tile) {
     eSounds::playEnvironmentSound();
 }
 
-void playRandomSound(const std::vector<Mix_Chunk*>& sounds) {
-    if(sounds.empty()) return;
-    const int id = rand() % sounds.size();
-    Mix_PlayChannel(-1, sounds[id], 0);
+void playRandomSound(eSoundVector& sounds) {
+    const int sc = sounds.soundCount();
+    if(sc <= 0) return;
+    const int id = rand() % sc;
+    sounds.play(id);
 }
 
 void eSounds::playEnvironmentSound() {
@@ -257,6 +261,10 @@ void eSounds::playStadiumSound() {
     playRandomSound(sInstance.mStadium);
 }
 
+void eSounds::playArtisansGuildSound() {
+    playRandomSound(sInstance.mArtisansGuild);
+}
+
 void eSounds::playFountainSound() {
     playRandomSound(sInstance.mFountain);
 }
@@ -287,6 +295,10 @@ void eSounds::playTimberMillSound() {
 
 void eSounds::playArmorySound() {
     playRandomSound(sInstance.mArmory);
+}
+
+void eSounds::playHorseRanchSound() {
+    playRandomSound(sInstance.mHorseRanch);
 }
 
 void eSounds::playHuntingSound() {
@@ -772,8 +784,7 @@ void eSounds::loadImpl() {
                              "voice.wav",
                              "shimmer6.wav",
                              "shimmer7.wav"}) {
-            const auto r = loadSoundBase(layer1Dir + s);
-            if(r) mEnvironment.push_back(r);
+            mEnvironment.addPath(layer1Dir + s);
         }
     }
     const std::string layer2Dir{eGameDir::path("Audio/Ambient/Layer2/")};
@@ -782,8 +793,7 @@ void eSounds::loadImpl() {
                          "maintenance2.wav",
                          "maintenance3.wav",
                          "maintenance4.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mMaintenance.push_back(r);
+        mMaintenance.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"wagon1.wav",
@@ -795,16 +805,14 @@ void eSounds::loadImpl() {
                          "city5.wav",
                          "city8.wav",
                          "city9.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mCommonHousing.push_back(r);
+        mCommonHousing.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"elite1.wav",
                          "elite2.wav",
                          "city2.wav",
                          "city7.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mEliteHousing.push_back(r);
+        mEliteHousing.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"dig3.wav",
@@ -815,30 +823,26 @@ void eSounds::loadImpl() {
                          "dig8.wav",
                          "bird1.wav",
                          "bird2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mFarming.push_back(r);
+        mFarming.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"rustling1.wav",
                          "rustling2.wav",
                          "orchard1.wav",
                          "orchard2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mOrchard.push_back(r);
+        mOrchard.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"shearing1.wav",
                          "shearing2.wav",
                          "shearing3.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mSheepFarm.push_back(r);
+        mSheepFarm.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"goatherd1.wav",
                          "goatherd2.wav",
                          "goatherd3.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mGoatFarm.push_back(r);
+        mGoatFarm.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"dock1.wav",
@@ -847,43 +851,37 @@ void eSounds::loadImpl() {
                          "urchin1.wav",
                          "urchin2.wav",
                          "urchin3.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mSea.push_back(r);
+        mSea.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"trireme1.wav",
                          "trireme2.wav",
                          "trireme3.wav",
                          "trireme4.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mTriremeWharf.push_back(r);
+        mTriremeWharf.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"hunting1.wav",
                          "hunting2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mHunting.push_back(r);
+        mHunting.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"timber_mill1.wav",
                          "timber_mill2.wav",
                          "timber_mill3.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mTimberMill.push_back(r);
+        mTimberMill.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"marble1.wav",
                          "marble2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mMarble.push_back(r);
+        mMarble.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"mint1.wav",
                          "mint2.wav",
                          "mint3.wav",
                          "mint4.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mMint.push_back(r);
+        mMint.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"foundry1.wav",
@@ -891,16 +889,14 @@ void eSounds::loadImpl() {
                          "foundry3.wav",
                          "foundry4.wav",
                          "foundry5.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mFoundry.push_back(r);
+        mFoundry.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"wagon4.wav",
                          "wagon5.wav",
                          "wagon6.wav",
                          "wagon7.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mWorkshops.push_back(r);
+        mWorkshops.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"chest1.wav",
@@ -910,90 +906,77 @@ void eSounds::loadImpl() {
                          "drop_wood.wav",
                          "storage_cart1.wav",
                          "warehouse.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mStorage.push_back(r);
+        mStorage.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"agora_food1.wav",
                          "agora_food2.wav",
                          "agora_food3.wav",
                          "agora_food4.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mAgoraFood.push_back(r);
+        mAgoraFood.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"agora_fleece1.wav",
                          "agora_fleece2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mAgoraFleece.push_back(r);
+        mAgoraFleece.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"agora_fleece1.wav",
                          "agora_fleece2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mAgoraFleece.push_back(r);
+        mAgoraFleece.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"agora_oil.wav",
                          "agora_gen1.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mAgoraOil.push_back(r);
+        mAgoraOil.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"agora_wine1.wav",
                          "agora_wine2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mAgoraWine.push_back(r);
+        mAgoraWine.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"agora_arms1.wav",
                          "agora_arms2.wav",
                          "agora_gen2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mAgoraArms.push_back(r);
+        mAgoraArms.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"agora_horse1.wav",
                          "agora_horse2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mAgoraHorse.push_back(r);
+        mAgoraHorse.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"trade1.wav",
                          "trade2.wav",
                          "trade3.wav",
                          "trade4.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mTrade.push_back(r);
+        mTrade.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"tax1.wav",
                          "tax2.wav",
                          "tax3.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mTaxes.push_back(r);
+        mTaxes.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"palace1.wav",
                          "palace2.wav",
                          "palace3.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mPalace.push_back(r);
+        mPalace.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"defensive1.wav",
                          "defensive2.wav",
                          "defensive3.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mDefensive.push_back(r);
+        mDefensive.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"infirmary1.wav",
                          "infirmary2.wav",
                          "infirmary3.wav",
                          "infirmary4.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mInfirmary.push_back(r);
+        mInfirmary.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"drama1.wav",
@@ -1005,14 +988,12 @@ void eSounds::loadImpl() {
                          "thtr_mumbl3.wav",
                          "thtr_women.wav",
         }) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mTheatre.push_back(r);
+        mTheatre.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"thtr_spin1.wav",
                          "thtr_spin2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mDrama.push_back(r);
+        mDrama.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"Plato.wav",
@@ -1021,36 +1002,31 @@ void eSounds::loadImpl() {
                          "college.wav",
                          "college2.wav",
                          "podium1.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mPhilosophy.push_back(r);
+        mPhilosophy.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"gym1.wav",
                          "gym2.wav",
                          "gym3.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mGymnasium.push_back(r);
+        mGymnasium.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"cheer.wav",
                          "javelin.wav",
                          "wrestling.wav",
                          "cheer2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mStadium.push_back(r);
+        mStadium.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"sanctuary1.wav",
                          "sanctuary2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mSanctuary.push_back(r);
+        mSanctuary.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"armory1.wav",
                          "armory2.wav",
                          "armory3.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mArmory.push_back(r);
+        mArmory.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"horse1.wav",
@@ -1058,27 +1034,23 @@ void eSounds::loadImpl() {
                          "horse3.wav",
                          "horse4.wav",
                          "horse5.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mHorseRanch.push_back(r);
+        mHorseRanch.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"win_chime1.wav",
                          "win_chime2.wav",
                          "recreation1.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mBeautification.push_back(r);
+        mBeautification.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"fountain1.wav",
                          "fountain2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mFountain.push_back(r);
+        mFountain.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"artisan_guild1.wav",
                          "artisan_guild2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mArtisansGuild.push_back(r);
+        mArtisansGuild.addPath(layer2Dir + s);
     }
 
 
@@ -1088,8 +1060,7 @@ void eSounds::loadImpl() {
                          "finch2.wav",
                          "sparrow1.wav",
                          "bird3.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mMeadow.push_back(r);
+        mMeadow.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"bird1.wav",
@@ -1097,36 +1068,31 @@ void eSounds::loadImpl() {
                          "bird4.wav",
                          "rustling1.wav",
                          "rustling2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mFarmland.push_back(r);
+        mFarmland.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"wave1.wav",
                          "wave2.wav",
                          "wave3.wav",
                          "wave4.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mBeach.push_back(r);
+        mBeach.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"rumble.wav",
                          "rockslide1.wav",
                          "rockslide2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mRocky.push_back(r);
+        mRocky.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"bird3.wav",
                          "bird4.wav",
                          "bird5.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mVegetation.push_back(r);
+        mVegetation.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"water_space1.wav",
                          "water_space2.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mWater.push_back(r);
+        mWater.addPath(layer2Dir + s);
     }
 
 
@@ -1135,110 +1101,97 @@ void eSounds::loadImpl() {
                          "boar2.wav",
                          "boar3.wav",
                          "boar4.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mBoar.push_back(r);
+        mBoar.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"goat1.wav",
                          "goat2.wav",
                          "goat3.wav",
                          "goat4.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mGoat.push_back(r);
+        mGoat.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"wolf1.wav",
                          "wolf2.wav",
                          "wolf3.wav",
                          "wolf4.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mWolf.push_back(r);
+        mWolf.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"sheep1.wav",
                          "sheep2.wav",
                          "sheep3.wav",
                          "sheep4.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mSheep.push_back(r);
+        mSheep.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"cattle1.wav",
                          "cattle2.wav",
                          "cattle3.wav",
                          "cattle4.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mCattle.push_back(r);
+        mCattle.addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"deer1.wav",
                          "deer2.wav",
                          "deer3.wav",
                          "deer4.wav"}) {
-        const auto r = loadSoundBase(layer2Dir + s);
-        if(r) mDeer.push_back(r);
+        mDeer.addPath(layer2Dir + s);
     }
 
 
     const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
-    mFire = loadSoundBase(wavsDir + "Fire.wav");
-    mCollapse = loadSoundBase(wavsDir + "collapse.wav");
+    mFire = eSounds::loadSoundBase(wavsDir + "Fire.wav");
+    mCollapse = eSounds::loadSoundBase(wavsDir + "collapse.wav");
 
-    mFireballHit = loadSoundBase(wavsDir + "Fireball_hit.wav");
+    mFireballHit = eSounds::loadSoundBase(wavsDir + "Fireball_hit.wav");
 
 
     for(const auto& s : {"copperminer1.wav",
                          "copperminer2.wav"}) {
-        const auto r = loadSoundBase(wavsDir + s);
-        if(r) mCopperMiner.push_back(r);
+        mCopperMiner.addPath(wavsDir + s);
     }
 
     for(const auto& s : {"silverminer1.wav",
                          "silverminer2.wav"}) {
-        const auto r = loadSoundBase(wavsDir + s);
-        if(r) mSilverMiner.push_back(r);
+        mSilverMiner.addPath(wavsDir + s);
     }
 
     for(const auto& s : {"treecutter1.wav",
                          "treecutter2.wav"}) {
-        const auto r = loadSoundBase(wavsDir + s);
-        if(r) mTreeCutter.push_back(r);
+        mTreeCutter.addPath(wavsDir + s);
     }
 
     for(const auto& s : {"stonecutter1.wav",
                          "stonecutter2.wav"}) {
-        const auto r = loadSoundBase(wavsDir + s);
-        if(r) mStoneCutter.push_back(r);
+        mStoneCutter.addPath(wavsDir + s);
     }
 
     for(const auto& s : {"artisan1.wav",
                          "artisan2.wav"}) {
-        const auto r = loadSoundBase(wavsDir + s);
-        if(r) mArtisan.push_back(r);
+        mArtisan.addPath(wavsDir + s);
     }
 
-    mActorDie = loadSoundBase(wavsDir + "actor_die.wav");
-    mActorHit = loadSoundBase(wavsDir + "actor_hit.wav");
+    mActorDie = eSounds::loadSoundBase(wavsDir + "actor_die.wav");
+    mActorHit = eSounds::loadSoundBase(wavsDir + "actor_hit.wav");
 
     for(const auto& s : {"am_warr_atk1.wav",
                          "am_warr_atk2.wav"}) {
-        const auto r = loadSoundBase(wavsDir + s);
-        if(r) mRockthrowerAttack.push_back(r);
+        mRockthrowerAttack.addPath(wavsDir + s);
     }
     for(const auto& s : {"am_arch_die.wav",
                          "am_warr_die.wav"}) {
-        const auto r = loadSoundBase(wavsDir + s);
-        if(r) mRockthrowerDie.push_back(r);
+        mRockthrowerDie.addPath(wavsDir + s);
     }
-    mRockthrowerHit = loadSoundBase(wavsDir + "am_warr_hit.wav");
+    mRockthrowerHit = eSounds::loadSoundBase(wavsDir + "am_warr_hit.wav");
 
-    mBoarAttack = loadSoundBase(wavsDir + "boar_attack.wav");
-    mBoarDie = loadSoundBase(wavsDir + "boar_die.wav");
-    mBoarHit = loadSoundBase(wavsDir + "boar_hit.wav");
+    mBoarAttack = eSounds::loadSoundBase(wavsDir + "boar_attack.wav");
+    mBoarDie = eSounds::loadSoundBase(wavsDir + "boar_die.wav");
+    mBoarHit = eSounds::loadSoundBase(wavsDir + "boar_hit.wav");
 
-    mDeerAttack = loadSoundBase(wavsDir + "deer_attack.wav");
-    mDeerDie = loadSoundBase(wavsDir + "deer_die.wav");
-    mDeerHit = loadSoundBase(wavsDir + "deer_hit.wav");
+    mDeerAttack = eSounds::loadSoundBase(wavsDir + "deer_attack.wav");
+    mDeerDie = eSounds::loadSoundBase(wavsDir + "deer_die.wav");
+    mDeerHit = eSounds::loadSoundBase(wavsDir + "deer_hit.wav");
 
     for(const auto& s : {"gen_die1.wav",
                          "gen_die2.wav",
@@ -1248,8 +1201,7 @@ void eSounds::loadImpl() {
                          "gen_die6.wav",
                          "gen_die7.wav",
                          "gen_die8.wav"}) {
-        const auto r = loadSoundBase(wavsDir + s);
-        if(r) mGenDie.push_back(r);
+        mGenDie.addPath(wavsDir + s);
     }
 
     for(const auto& s : {"gen_hit1.wav",
@@ -1260,48 +1212,14 @@ void eSounds::loadImpl() {
                          "gen_hit6.wav",
                          "gen_hit7.wav",
                          "gen_hit8.wav"}) {
-        const auto r = loadSoundBase(wavsDir + s);
-        if(r) mGenHit.push_back(r);
+        mGenHit.addPath(wavsDir + s);
     }
+}
 
-    mAphrodite.load();
-    mApollo.load();
-    mAres.load();
-    mArtemis.load();
-    mAthena.load();
-    mAtlas.load();
-    mDemeter.load();
-    mDionysus.load();
-    mHades.load();
-    mHephaestus.load();
-    mHera.load();
-    mHermes.load();
-    mPoseidon.load();
-    mZeus.load();
-
-    mAchilles.load();
-    mAtalanta.load();
-    mBellerophon.load();
-    mHercules.load();
-    mJason.load();
-    mOdysseus.load();
-    mPerseus.load();
-    mTheseus.load();
-
-    mCalydonianBoar.load();
-    mCerberus.load();
-    mChimera.load();
-    mCyclops.load();
-    mDragon.load();
-    mEchidna.load();
-    mHarpies.load();
-    mHector.load();
-    mHydra.load();
-    mKraken.load();
-    mMaenads.load();
-    mMedusa.load();
-    mMinotaur.load();
-    mScylla.load();
-    mSphinx.load();
-    mTalos.load();
+void eSoundVector::play(const int id) {
+    auto& p = mPaths[id];
+    if(!p.first) {
+        p.first = eSounds::loadSoundBase(p.second);
+    }
+    Mix_PlayChannel(-1, p.first, 0);
 }

@@ -1,4 +1,4 @@
-#include "emusic.h"
+﻿#include "emusic.h"
 
 #include "egamedir.h"
 
