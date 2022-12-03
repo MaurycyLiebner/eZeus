@@ -37,6 +37,8 @@ public:
 
     void setCity(const stdsptr<eWorldCity>& c);
 private:
+    void updateTradeY() const;
+
     eLabel* mGoodsLabel = nullptr;
     eButton* mOrdersButton = nullptr;
 

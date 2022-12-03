@@ -80,7 +80,6 @@ void eWorldTradeWidget::initialize(const std::string& name) {
     mTradeTypesWidget->setY(nameLabel->height());
     mTradeTypesWidget->initialize();
     mTradeTypesWidget->setWidth(width());
-    mTradeTypesWidget->setHeight(mult*12);
     addWidget(mTradeTypesWidget);
 
     setNoPadding();
@@ -126,8 +125,7 @@ void eWorldGoodsWidget::initialize() {
     mSellsWidget->initialize(eLanguage::text("sells"));
     addWidget(mSellsWidget);
 
-    mSellsWidget->setY(height() - mSellsWidget->height());
-    mBuysWidget->setY(mSellsWidget->y() - mBuysWidget->height());
+    updateTradeY();
 }
 
 void eWorldGoodsWidget::setCity(const stdsptr<eWorldCity>& c) {
@@ -139,4 +137,10 @@ void eWorldGoodsWidget::setCity(const stdsptr<eWorldCity>& c) {
     mSellsWidget->setVisible(!sells.empty());
     mGoodsLabel->setVisible(c.get());
     mOrdersButton->setVisible(!buys.empty() || !sells.empty());
+    updateTradeY();
+}
+
+void eWorldGoodsWidget::updateTradeY() const {
+    mSellsWidget->setY(height() - mSellsWidget->height());
+    mBuysWidget->setY(mSellsWidget->y() - mBuysWidget->height());
 }
