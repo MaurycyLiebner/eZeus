@@ -5,6 +5,13 @@
 #include "offsets/SprAmbient.h"
 #include "offsets/destruction.h"
 
+#include "spriteData/destruction15.h"
+#include "spriteData/destruction30.h"
+#include "spriteData/destruction45.h"
+#include "spriteData/destruction60.h"
+
+#include "textures/espriteloader.h"
+
 eDestructionTextures::eDestructionTextures(const int tileW, const int tileH,
                                            SDL_Renderer* const renderer) :
     fTileW(tileW), fTileH(tileH),
@@ -38,6 +45,7 @@ void eDestructionTextures::load() {
     std::string basedir{"../ZeusTextures/"};
     basedir += std::to_string(fTileH) + "/";
     {
+
         std::string dir = basedir + "destruction/";
         const std::string pathBase{dir + "destruction_"};
         eTextureClass texClass(pathBase, texLoader, &eDestructionOffset);
@@ -76,56 +84,65 @@ void eDestructionTextures::load() {
     //        eTextureLoadingHelpers::loadTex(pathBase, i, fBigFire[1]);
     //    }
 
-        for(int i = 692; i < 716; i++) {
-            texClass.load(i, fCursed);
-        }
+        {
+            const auto& sds = spriteData(fTileH,
+                                         eDestructionSpriteData15,
+                                         eDestructionSpriteData30,
+                                         eDestructionSpriteData45,
+                                         eDestructionSpriteData60);
+            eSpriteLoader loader(fTileH, "destruction", sds,
+                                 nullptr, fRenderer);
+            for(int i = 492; i < 692; i++) {
+                loader.load(492, i, fBless);
+            }
 
-        for(int i = 716; i < 740; i++) {
-            texClass.load(i, fBlessed);
-        }
+            for(int i = 692; i < 716; i++) {
+                loader.load(492, i, fCursed);
+            }
 
-        for(int i = 492; i < 692; i++) {
-            texClass.load(i, fBless);
-        }
+            for(int i = 716; i < 740; i++) {
+                loader.load(492, i, fBlessed);
+            }
 
-        for(int i = 807; i < 1007; i++) {
-            texClass.load(i, fCurse);
-        }
+            for(int i = 807; i < 1007; i++) {
+                loader.load(492, i, fCurse);
+            }
 
-        for(int i = 1103; i < 1167; i++) {
-            texClass.load(i, fGodOrangeMissile);
-        }
+            for(int i = 1103; i < 1167; i++) {
+                loader.load(492, i, fGodOrangeMissile);
+            }
 
-        for(int i = 1212; i < 1276; i++) {
-            texClass.load(i, fGodBlueArrow);
-        }
+            for(int i = 1212; i < 1276; i++) {
+                loader.load(492, i, fGodBlueArrow);
+            }
 
-        for(int i = 1276; i < 1340; i++) {
-            texClass.load(i, fGodOrangeArrow);
-        }
+            for(int i = 1276; i < 1340; i++) {
+                loader.load(492, i, fGodOrangeArrow);
+            }
 
-        for(int i = 1340; i < 1404; i++) {
-            texClass.load(i, fMonsterMissile);
-        }
+            for(int i = 1340; i < 1404; i++) {
+                loader.load(492, i, fMonsterMissile);
+            }
 
-        for(int i = 1404; i < 1468; i++) {
-            texClass.load(i, fGodBlueMissile);
-        }
+            for(int i = 1404; i < 1468; i++) {
+                loader.load(492, i, fGodBlueMissile);
+            }
 
-        for(int i = 1468; i < 1532; i++) {
-            texClass.load(i, fGodRedMissile);
-        }
+            for(int i = 1468; i < 1532; i++) {
+                loader.load(492, i, fGodRedMissile);
+            }
 
-        for(int i = 1532; i < 1596; i++) {
-            texClass.load(i, fGodGreenMissile);
-        }
+            for(int i = 1532; i < 1596; i++) {
+                loader.load(492, i, fGodGreenMissile);
+            }
 
-        for(int i = 1596; i < 1660; i++) {
-            texClass.load(i, fGodPinkMissile);
-        }
+            for(int i = 1596; i < 1660; i++) {
+                loader.load(492, i, fGodPinkMissile);
+            }
 
-        for(int i = 1750; i < 1814; i++) {
-            texClass.load(i, fGodPurpleMissile);
+            for(int i = 1750; i < 1814; i++) {
+                loader.load(492, i, fGodPurpleMissile);
+            }
         }
     }
 

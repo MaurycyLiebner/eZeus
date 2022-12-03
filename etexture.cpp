@@ -191,11 +191,13 @@ void eTexture::setOffset(const int x, const int y) {
 
 bool eTexture::isNull() const {
     if(mFlipTex) return mFlipTex->isNull();
+    else if(mParentTex) mParentTex->isNull();
     return mWidth <= 0 || mHeight <= 0;
 }
 
 void eTexture::setAlpha(const Uint8 alpha) {
     if(mFlipTex) mFlipTex->setAlpha(alpha);
+    else if(mParentTex) mParentTex->setAlpha(alpha);
     else SDL_SetTextureAlphaMod(mTex, alpha);
 }
 
@@ -205,6 +207,7 @@ void eTexture::clearAlphaMod() {
 
 void eTexture::setColorMod(const Uint8 r, const Uint8 g, const Uint8 b) {
     if(mFlipTex) mFlipTex->setColorMod(r, g, b);
+    else if(mParentTex) mParentTex->setColorMod(r, g, b);
     else SDL_SetTextureColorMod(mTex, r, g, b);
 }
 

@@ -756,6 +756,10 @@ HEADERS += \
     spriteData/actor30.h \
     spriteData/actor45.h \
     spriteData/actor60.h \
+    spriteData/aesthetic15.h \
+    spriteData/aesthetic30.h \
+    spriteData/aesthetic45.h \
+    spriteData/aesthetic60.h \
     spriteData/aphrodite15.h \
     spriteData/aphrodite30.h \
     spriteData/aphrodite45.h \
@@ -796,6 +800,14 @@ HEADERS += \
     spriteData/atlas30.h \
     spriteData/atlas45.h \
     spriteData/atlas60.h \
+    spriteData/banners15.h \
+    spriteData/banners30.h \
+    spriteData/banners45.h \
+    spriteData/banners60.h \
+    spriteData/beautification215.h \
+    spriteData/beautification230.h \
+    spriteData/beautification245.h \
+    spriteData/beautification260.h \
     spriteData/bellerophon15.h \
     spriteData/bellerophon30.h \
     spriteData/bellerophon45.h \
@@ -824,6 +836,10 @@ HEADERS += \
     spriteData/chimera30.h \
     spriteData/chimera45.h \
     spriteData/chimera60.h \
+    spriteData/culture15.h \
+    spriteData/culture30.h \
+    spriteData/culture45.h \
+    spriteData/culture60.h \
     spriteData/cyclops15.h \
     spriteData/cyclops30.h \
     spriteData/cyclops45.h \
@@ -840,6 +856,10 @@ HEADERS += \
     spriteData/demeter30.h \
     spriteData/demeter45.h \
     spriteData/demeter60.h \
+    spriteData/destruction15.h \
+    spriteData/destruction30.h \
+    spriteData/destruction45.h \
+    spriteData/destruction60.h \
     spriteData/dionysus15.h \
     spriteData/dionysus30.h \
     spriteData/dionysus45.h \
@@ -921,6 +941,10 @@ HEADERS += \
     spriteData/healer30.h \
     spriteData/healer45.h \
     spriteData/healer60.h \
+    spriteData/healthNSan15.h \
+    spriteData/healthNSan30.h \
+    spriteData/healthNSan45.h \
+    spriteData/healthNSan60.h \
     spriteData/hector15.h \
     spriteData/hector30.h \
     spriteData/hector45.h \
@@ -957,14 +981,26 @@ HEADERS += \
     spriteData/horseman30.h \
     spriteData/horseman45.h \
     spriteData/horseman60.h \
+    spriteData/housing15.h \
+    spriteData/housing30.h \
+    spriteData/housing45.h \
+    spriteData/housing60.h \
     spriteData/hunter15.h \
     spriteData/hunter30.h \
     spriteData/hunter45.h \
     spriteData/hunter60.h \
+    spriteData/husbandry15.h \
+    spriteData/husbandry30.h \
+    spriteData/husbandry45.h \
+    spriteData/husbandry60.h \
     spriteData/hydra15.h \
     spriteData/hydra30.h \
     spriteData/hydra45.h \
     spriteData/hydra60.h \
+    spriteData/industry15.h \
+    spriteData/industry30.h \
+    spriteData/industry45.h \
+    spriteData/industry60.h \
     spriteData/jason15.h \
     spriteData/jason30.h \
     spriteData/jason45.h \
@@ -989,10 +1025,26 @@ HEADERS += \
     spriteData/medusa30.h \
     spriteData/medusa45.h \
     spriteData/medusa60.h \
+    spriteData/military15.h \
+    spriteData/military30.h \
+    spriteData/military45.h \
+    spriteData/military60.h \
     spriteData/minotaur15.h \
     spriteData/minotaur30.h \
     spriteData/minotaur45.h \
     spriteData/minotaur60.h \
+    spriteData/mun-Palace15.h \
+    spriteData/mun-Palace30.h \
+    spriteData/mun-Palace45.h \
+    spriteData/mun-Palace60.h \
+    spriteData/mun_Palace15.h \
+    spriteData/mun_Palace30.h \
+    spriteData/mun_Palace45.h \
+    spriteData/mun_Palace60.h \
+    spriteData/municipal15.h \
+    spriteData/municipal30.h \
+    spriteData/municipal45.h \
+    spriteData/municipal60.h \
     spriteData/nudeSheep15.h \
     spriteData/nudeSheep30.h \
     spriteData/nudeSheep45.h \
@@ -1042,6 +1094,10 @@ HEADERS += \
     spriteData/poseidon30.h \
     spriteData/poseidon45.h \
     spriteData/poseidon60.h \
+    spriteData/religion15.h \
+    spriteData/religion30.h \
+    spriteData/religion45.h \
+    spriteData/religion60.h \
     spriteData/rockThrower15.h \
     spriteData/rockThrower30.h \
     spriteData/rockThrower45.h \
@@ -1070,6 +1126,22 @@ HEADERS += \
     spriteData/sphinx30.h \
     spriteData/sphinx45.h \
     spriteData/sphinx60.h \
+    spriteData/stor-bays15.h \
+    spriteData/stor-bays30.h \
+    spriteData/stor-bays45.h \
+    spriteData/stor-bays60.h \
+    spriteData/storNDist15.h \
+    spriteData/storNDist30.h \
+    spriteData/storNDist45.h \
+    spriteData/storNDist60.h \
+    spriteData/stor_bays15.h \
+    spriteData/stor_bays30.h \
+    spriteData/stor_bays45.h \
+    spriteData/stor_bays60.h \
+    spriteData/storage15.h \
+    spriteData/storage30.h \
+    spriteData/storage45.h \
+    spriteData/storage60.h \
     spriteData/talos15.h \
     spriteData/talos30.h \
     spriteData/talos45.h \

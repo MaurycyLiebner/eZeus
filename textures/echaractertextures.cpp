@@ -422,6 +422,11 @@
 #include "spriteData/theseus45.h"
 #include "spriteData/theseus60.h"
 
+#include "spriteData/banners15.h"
+#include "spriteData/banners30.h"
+#include "spriteData/banners45.h"
+#include "spriteData/banners60.h"
+
 #include "espriteloader.h"
 
 #include "etextureloader.h"
@@ -2420,10 +2425,16 @@ void eCharacterTextures::load() {
 //    }
 
     {
-        const std::string pathBase{dir + "Zeus_General/Zeus_Banners_"};
+        const auto& sds = spriteData(fTileH,
+                                     eBannersSpriteData15,
+                                     eBannersSpriteData30,
+                                     eBannersSpriteData45,
+                                     eBannersSpriteData60);
+        eSpriteLoader loader(fTileH, "banners", sds,
+                             nullptr, fRenderer);
 
         for(int i = 1; i < 22; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fBannerRod);
+            loader.load(1, i, fBannerRod);
         }
 
         int ban = 0;
@@ -2431,12 +2442,12 @@ void eCharacterTextures::load() {
             fBanners.emplace_back(fRenderer);
             auto& bani = fBanners[ban++];
             for(int j = 0; j < 7; j++, i++) {
-                eTextureLoadingHelpers::loadTex(pathBase, i, bani);
+                loader.load(1, i, bani);
             }
         }
 
         for(int i = 204; i < 207; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fBannerTops);
+            loader.load(1, i, fBannerTops);
         }
     }
 

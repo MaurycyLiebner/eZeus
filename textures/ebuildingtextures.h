@@ -169,8 +169,6 @@ public:
     eTextureCollection fRoad;
     eTextureCollection fPrettyRoad;
 
-    eTextureCollection fPatrolGuides;
-
     eTextureCollection fWaitingMeat;
     eTextureCollection fWaitingCheese;
     eTextureCollection fWaitingWheat;
