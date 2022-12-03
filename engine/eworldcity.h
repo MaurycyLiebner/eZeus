@@ -113,8 +113,8 @@ private:
 
     bool mRebellion = false;
 
-    eWorldCityRelationship mRel;
-    eWorldCityAttitude mAt;
+    eWorldCityRelationship mRel{eWorldCityRelationship::ally};
+    eWorldCityAttitude mAt{eWorldCityAttitude::philanthropic};
 };
 
 struct eResourceTrade {
@@ -165,6 +165,9 @@ public:
     { return mSells; }
     void addSells(const eResourceTrade& s);
 
+    eResourceType tributeType() const { return mTributeType; }
+    int tributeCount() const { return mTributeCount; }
+
     void write(eWriteStream& dst) const override;
     void read(eReadStream& src) override;
 
@@ -202,6 +205,9 @@ private:
 
     std::vector<eResourceTrade> mBuys;
     std::vector<eResourceTrade> mSells;
+
+    eResourceType mTributeType = eResourceType::silver;
+    int mTributeCount = 1000;
 };
 
 #endif // EWORLDCITY_H

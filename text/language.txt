@@ -48,6 +48,9 @@ orders "Orders"
 buys "Buys"
 sells "Sells"
 
+paying_tribute "Paying tribute"
+yearly "yearly"
+
 philanthropic "Philanthropic"
 resentful "Resentful"
 

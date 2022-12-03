@@ -5,6 +5,7 @@
 #include "ebutton.h"
 #include "emainwindow.h"
 #include "eworldgoodswidget.h"
+#include "eworldtributewidget.h"
 #include "egamewidget.h"
 
 #include "elanguage.h"
@@ -154,13 +155,37 @@ void eWorldMenu::initialize() {
         mGoodsWidget->initialize();
     }
 
+    {
+        mTributeWidget = new eWorldTributeWidget(window());
+        addWidget(mTributeWidget);
+
+        mTributeWidget->setX(mult*10);
+        mTributeWidget->setY(mult*205);
+
+        mTributeWidget->setWidth(mult*75);
+        mTributeWidget->setHeight(mult*24);
+
+        mTributeWidget->initialize();
+    }
+
     setCity(nullptr);
 }
 
 void eWorldMenu::setCity(const stdsptr<eWorldCity>& c) {
     mCity = c;
 
+    bool vassalOrColony = false;
+    bool distant = false;
+
     if(c) {
+        const auto rel = c->relationship();
+        vassalOrColony = rel == eWorldCityRelationship::ally ||
+                         rel == eWorldCityRelationship::collony;
+        const int min = static_cast<int>(eWorldCityType::distantCity);
+        const int max = static_cast<int>(eWorldCityType::distantCityNW);
+        const auto type = c->type();
+        const int typei = static_cast<int>(type);
+        distant = typei >= min && typei <= max;
         {
             std::string atStr;
             switch(c->attitude()) {
@@ -265,11 +290,12 @@ void eWorldMenu::setCity(const stdsptr<eWorldCity>& c) {
         mLeaderLabel->setText("");
     }
 
-    mRequestButton->setEnabled(c.get());
-    mFulfillButton->setEnabled(c.get());
-    mGiftButton->setEnabled(c.get());
-    mRaidButton->setEnabled(c.get());
-    mConquerButton->setEnabled(c.get());
+    mRequestButton->setEnabled(c.get() && !distant);
+    mFulfillButton->setEnabled(c.get() && !distant);
+    mGiftButton->setEnabled(c.get() && !distant);
+    mRaidButton->setEnabled(c.get() && !vassalOrColony && !distant);
+    mConquerButton->setEnabled(c.get() && !vassalOrColony && !distant);
 
     mGoodsWidget->setCity(c);
+    mTributeWidget->setCity(c);
 }

@@ -170,6 +170,9 @@ std::shared_ptr<eTexture> eResourceTypeHelpers::icon(
         return coll.fWineUnit;
     case eResourceType::food:
         return coll.fFoodUnit;
+
+    case eResourceType::silver:
+        return coll.fDrachmasUnit;
     default:
         return nullptr;
     }

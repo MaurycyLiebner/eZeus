@@ -404,6 +404,7 @@ SOURCES += \
         widgets/eworldgoodswidget.cpp \
         widgets/eworldmapwidget.cpp \
         widgets/eworldmenu.cpp \
+        widgets/eworldtributewidget.cpp \
         widgets/eworldwidget.cpp \
         widgets/infowidgets/eagorainfowidget.cpp \
         widgets/infowidgets/ecommonhouseinfowidget.cpp \
@@ -1291,6 +1292,7 @@ HEADERS += \
     widgets/eworldgoodswidget.h \
     widgets/eworldmapwidget.h \
     widgets/eworldmenu.h \
+    widgets/eworldtributewidget.h \
     widgets/eworldwidget.h \
     widgets/infowidgets/eagorainfowidget.h \
     widgets/infowidgets/ecommonhouseinfowidget.h \

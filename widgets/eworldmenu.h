@@ -8,6 +8,7 @@
 #include "pointers/estdselfref.h"
 
 class eWorldGoodsWidget;
+class eWorldTributeWidget;
 
 class eWorldMenu : public eLabel {
 public:
@@ -24,6 +25,7 @@ private:
     eLabel* mAttitudeLabel = nullptr;
 
     eWorldGoodsWidget* mGoodsWidget = nullptr;
+    eWorldTributeWidget* mTributeWidget = nullptr;
 
     eButton* mRequestButton = nullptr;
     eButton* mFulfillButton = nullptr;
