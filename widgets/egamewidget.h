@@ -175,8 +175,10 @@ private:
 
     int waterParkId() const;
 
-    void showMessage(eEventData& ed, const eMessage& msg);
-    void showMessage(eEventData& ed, const eMessageType& msg);
+    void showMessage(eEventData& ed, const eMessage& msg,
+                     const bool prepend = false);
+    void showMessage(eEventData& ed, const eMessageType& msg,
+                     const bool prepend = false);
 
     void showTip(const std::string& tip);
     void updateTipPositions();

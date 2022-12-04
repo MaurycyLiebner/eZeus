@@ -197,6 +197,7 @@ see_roads "See Roads"
 
 dont_accept "Don't Accept"
 accept "Accept"
+decline "Decline"
 get "Get"
 empty "Empty"
 

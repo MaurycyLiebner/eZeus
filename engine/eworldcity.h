@@ -207,7 +207,7 @@ private:
     std::vector<eResourceTrade> mSells;
 
     eResourceType mTributeType = eResourceType::silver;
-    int mTributeCount = 1000;
+    int mTributeCount = 500;
 };
 
 #endif // EWORLDCITY_H

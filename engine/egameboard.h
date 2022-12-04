@@ -122,12 +122,18 @@ enum class eEvent {
     invasion,
     invasionDefeat,
     invasionVictory,
-    invasionBribed
+    invasionBribed,
+
+    tributePaid,
+    tributeAccepted,
+    tributeDeclined
 };
 
 enum class eMessageEventType {
     common,
-    invasion
+    invasion,
+    tribute,
+    tributePartialRefused
 };
 
 struct eEventData {
@@ -140,6 +146,8 @@ struct eEventData {
     eAction fA1 = nullptr;
     eAction fA2 = nullptr;
     eWorldCity* fCity = nullptr;
+    eResourceType fResourceType;
+    int fResourceCount = 0;
 };
 
 enum class eGames {
@@ -344,6 +352,10 @@ public:
 
     void addInvasion(eInvasionHandler* const i);
     void removeInvasion(eInvasionHandler* const i);
+
+    int addResource(const eResourceType type,
+                    const int count);
+    void payTribute(eWorldCity* const c);
 
     void waitUntilFinished();
 private:

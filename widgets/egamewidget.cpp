@@ -646,8 +646,9 @@ int eGameWidget::waterParkId() const {
 }
 
 void eGameWidget::showMessage(eEventData& ed,
-                              const eMessageType& msg) {
-    showMessage(ed, msg.fFull);
+                              const eMessageType& msg,
+                              const bool prepend) {
+    showMessage(ed, msg.fFull, prepend);
 }
 
 void eGameWidget::showTip(const std::string& tip) {
@@ -678,9 +679,11 @@ void eGameWidget::updateTipPositions() {
     }
 }
 
-void eGameWidget::showMessage(eEventData& ed, const eMessage& msg) {
+void eGameWidget::showMessage(eEventData& ed, const eMessage& msg,
+                              const bool prepend) {
     if(mMsgBox) {
-        auto& smsg = mSavedMsgs.emplace_back();
+        auto& smsg = prepend ? mSavedMsgs.emplace_front() :
+                               mSavedMsgs.emplace_back();
         smsg.fEd = ed;
         smsg.fMsg = &msg;
         return;

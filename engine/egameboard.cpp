@@ -621,6 +621,49 @@ void eGameBoard::removeInvasion(eInvasionHandler* const i) {
     eVectorHelpers::remove(mInvasions, i);
 }
 
+int eGameBoard::addResource(const eResourceType type,
+                            const int count) {
+    if(type == eResourceType::silver) {
+        incDrachmas(count);
+        return count;
+    }
+    int rem = count;
+    for(const auto s : mStorBuildings) {
+        const int c = s->add(type, rem);
+        rem -= c;
+        if(c <= 0) break;
+    }
+    return count - rem;
+}
+
+void eGameBoard::payTribute(eWorldCity* const c) {
+    const auto type = c->tributeType();
+    const auto count = c->tributeCount();
+
+    eEventData ed;
+    ed.fType = eMessageEventType::tribute;
+    ed.fCity = c;
+    ed.fA0 = [this, c, type, count]() { // accept
+        const int a = addResource(type, count);
+        if(a == count) return;
+        eEventData ed;
+        ed.fType = eMessageEventType::tributePartialRefused;
+        ed.fCity = c;
+        ed.fResourceType = type;
+        ed.fResourceCount = a;
+        event(eEvent::tributeAccepted, ed);
+    };
+    ed.fA1 = [this, c, type, count]() { // decline
+        eEventData ed;
+        ed.fType = eMessageEventType::tributePartialRefused;
+        ed.fCity = c;
+        ed.fResourceType = type;
+        ed.fResourceCount = count;
+        event(eEvent::tributeDeclined, ed);
+    };
+    event(eEvent::tributePaid, ed);
+}
+
 void eGameBoard::waitUntilFinished() {
     while(!mThreadPool.finished()) {
         mThreadPool.waitFinished();
@@ -1244,7 +1287,13 @@ void eGameBoard::incTime(const int by) {
         }
     }
     mWorldBoard.incTime(by);
-    if(nextYear) mWorldBoard.nextYear();
+    if(nextYear) {
+        mWorldBoard.nextYear();
+        const auto cs = mWorldBoard.getTribute();
+        for(const auto& c : cs) {
+            payTribute(c);
+        }
+    }
     const auto chars = mCharacters;
     for(const auto c : chars) {
         if(c->isSoldier()) continue;

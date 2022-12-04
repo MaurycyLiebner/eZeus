@@ -8,6 +8,7 @@
 
 class eWorldCity;
 struct eEventData;
+enum class eResourceType;
 
 class eMessageBox : public eFramedWidget {
 public:
@@ -18,6 +19,8 @@ public:
                     const eAction& close,
                     eMessage msg);
 
+    eWidget* createTributeWidget(const eResourceType type,
+                                 const int count);
 protected:
     bool mousePressEvent(const eMouseEvent& e);
 };

@@ -12,6 +12,18 @@ void eWorldBoard::nextYear() {
     }
 }
 
+std::vector<eWorldCity*> eWorldBoard::getTribute() const {
+    std::vector<eWorldCity*> r;
+    for(const auto& c : mCities) {
+        const auto rel = c->relationship();
+//        if(rel == eWorldCityRelationship::collony ||
+//           rel == eWorldCityRelationship::vassal) {
+            r.push_back(c.get());
+//        }
+    }
+    return r;
+}
+
 void eWorldBoard::setHomeCity(const stdsptr<eWorldCity>& hc) {
     mHomeCity = hc;
 }

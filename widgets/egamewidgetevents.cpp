@@ -270,6 +270,18 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, eMessages::instance.fInvasionVictory);
         return;
     } break;
+    case eEvent::tributePaid: {
+        showMessage(ed, eMessages::instance.fTributePaidGranted);
+        return;
+    } break;
+    case eEvent::tributeAccepted: {
+        showMessage(ed, eMessages::instance.fTributePaidAccepted, true);
+        return;
+    } break;
+    case eEvent::tributeDeclined: {
+        showMessage(ed, eMessages::instance.fTributePaidRefused, true);
+        return;
+    } break;
     }
     mGm->pushEvent(e, ed.fTile);
 }

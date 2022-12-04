@@ -98,25 +98,23 @@ void eMessageBox::initialize(const eEventData& ed,
         eStringHelpers::replaceAll(msg.fText, "[a_foreign_army]",
                                    eLanguage::text("an_army"));
     }
-    text->setText(msg.fText);
-    text->fitContent();
-    text->setX(p);
 
     ww->addWidget(text);
-    ww->stackVertically();
-    ww->fitContent();
     addWidget(ww);
 
     eOkButton* ok = nullptr;
     eWidget* wid = nullptr;
-    if(ed.fType == eMessageEventType::common) {
+    const bool addOk = ed.fType == eMessageEventType::common ||
+                       ed.fType == eMessageEventType::tributePartialRefused;
+    if(addOk) {
         ok = new eOkButton(window());
         ok->setPressAction([this, close]() {
             if(close) close();
             deleteLater();
         });
         addWidget(ok);
-    } else if(ed.fType == eMessageEventType::invasion) {
+    }
+    if(ed.fType == eMessageEventType::invasion) {
         wid = new eWidget(window());
 
         const auto surrenderB = new eFramedButton(window());
@@ -167,10 +165,80 @@ void eMessageBox::initialize(const eEventData& ed,
         fightToDefend->align(eAlignment::vcenter);
 
         addWidget(wid);
+    } else if(ed.fType == eMessageEventType::tribute) {
+        const auto c = ed.fCity;
+        if(!c) return;
+        const auto type = c->tributeType();
+        const auto name = eResourceTypeHelpers::typeName(type);
+        const int count = c->tributeCount();
+        const auto countStr = std::to_string(count);
+        const auto tributeWid = createTributeWidget(type, count);
+
+        eStringHelpers::replaceAll(msg.fText, "[amount]",
+                                   countStr);
+        eStringHelpers::replaceAll(msg.fText, "[item]",
+                                   name);
+
+        ww->addWidget(tributeWid);
+        tributeWid->setX(p);
+
+        wid = new eWidget(window());
+
+        const auto acceptB = new eFramedButton(window());
+        acceptB->setSmallFontSize();
+        acceptB->setUnderline(false);
+        acceptB->setText(eLanguage::text("accept"));
+        acceptB->fitContent();
+        wid->addWidget(acceptB);
+        acceptB->setPressAction([this, ed, close]() {
+            if(close) close();
+            if(ed.fA0) ed.fA0();
+            deleteLater();
+        });
+
+        const auto declineB = new eFramedButton(window());
+        declineB->setSmallFontSize();
+        declineB->setUnderline(false);
+        declineB->setText(eLanguage::text("decline"));
+        declineB->fitContent();
+        wid->addWidget(declineB);
+        declineB->setPressAction([this, ed, close]() {
+            if(close) close();
+            if(ed.fA1) ed.fA1();
+            deleteLater();
+        });
+
+        wid->setWidth(width() - 8*p);
+        wid->layoutHorizontally();
+        wid->fitContent();
+        acceptB->align(eAlignment::vcenter);
+        declineB->align(eAlignment::vcenter);
+
+        addWidget(wid);
+    } else if(ed.fType == eMessageEventType::tributePartialRefused) {
+        const auto type = ed.fResourceType;
+        const auto name = eResourceTypeHelpers::typeName(type);
+        const int count = ed.fResourceCount;
+        const auto countStr = std::to_string(count);
+        const auto tributeWid = createTributeWidget(type, count);
+
+        eStringHelpers::replaceAll(msg.fText, "[amount]",
+                                   countStr);
+        eStringHelpers::replaceAll(msg.fText, "[item]",
+                                   name);
+
+        ww->addWidget(tributeWid);
+        tributeWid->setX(p);
     }
 
-    stackVertically();
+    text->setText(msg.fText);
+    text->fitContent();
+    text->setX(p);
 
+    ww->stackVertically();
+    ww->fitContent();
+
+    stackVertically();
     fitContent();
 
     if(ok) {
@@ -183,6 +251,41 @@ void eMessageBox::initialize(const eEventData& ed,
     }
     w0->align(eAlignment::hcenter);
     ww->align(eAlignment::hcenter);
+}
+
+eWidget* eMessageBox::createTributeWidget(const eResourceType type,
+                                          const int count) {
+    const auto res = resolution();
+    const auto uiScale = res.uiScale();
+    const auto tributeWid = new eWidget(window());
+    tributeWid->setNoPadding();
+    const auto countStr = std::to_string(count);
+
+    const auto typeIcon = new eLabel(window());
+    const auto icon = eResourceTypeHelpers::icon(uiScale, type);
+    typeIcon->setTexture(icon);
+    typeIcon->setNoPadding();
+    typeIcon->fitContent();
+    tributeWid->addWidget(typeIcon);
+
+    const auto countLabel = new eLabel(window());
+    countLabel->setSmallFontSize();
+    countLabel->setNoPadding();
+    countLabel->setText(countStr);
+    countLabel->fitContent();
+    tributeWid->addWidget(countLabel);
+
+    const auto name = eResourceTypeHelpers::typeName(type);
+    const auto nameLabel = new eLabel(window());
+    nameLabel->setSmallFontSize();
+    nameLabel->setNoPadding();
+    nameLabel->setText(" " + name);
+    nameLabel->fitContent();
+    tributeWid->addWidget(nameLabel);
+
+    tributeWid->stackHorizontally();
+    tributeWid->fitContent();
+    return tributeWid;
 }
 
 bool eMessageBox::mousePressEvent(const eMouseEvent& e) {

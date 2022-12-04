@@ -250,6 +250,21 @@ bool eMessages::loadImpl() {
     fInvasionVictory.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_players_city_saved_title"];
     fInvasionVictory.fCondensed.fText = fMessages["PHRASE_CONDENSED_players_city_saved_initial_announcement"];
 
+    fTributePaidGranted.fFull.fTitle = fMessages["PHRASE_tribute_paid_title"];
+    fTributePaidGranted.fFull.fText = fMessages["PHRASE_tribute_paid_granted"];
+    fTributePaidGranted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_tribute_paid_title"];
+    fTributePaidGranted.fCondensed.fText = fMessages["PHRASE_CONDENSED_tribute_paid_granted"];
+
+    fTributePaidAccepted.fFull.fTitle = fMessages["PHRASE_tribute_paid_title"];
+    fTributePaidAccepted.fFull.fText = fMessages["PHRASE_tribute_paid_accepted"];
+    fTributePaidAccepted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_tribute_paid_title"];
+    fTributePaidAccepted.fCondensed.fText = fMessages["PHRASE_CONDENSED_tribute_paid_accepted"];
+
+    fTributePaidRefused.fFull.fTitle = fMessages["PHRASE_tribute_paid_title"];
+    fTributePaidRefused.fFull.fText = fMessages["PHRASE_tribute_paid_refused"];
+    fTributePaidRefused.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_tribute_paid_title"];
+    fTributePaidRefused.fCondensed.fText = fMessages["PHRASE_CONDENSED_tribute_paid_refused"];
+
     return true;
 }
 

@@ -86,6 +86,10 @@ public:
     eMessageType fInvasionBribed;
     eMessageType fInvasionDefeat;
     eMessageType fInvasionVictory;
+
+    eMessageType fTributePaidGranted;
+    eMessageType fTributePaidAccepted;
+    eMessageType fTributePaidRefused;
 private:
     bool loadImpl();
     void load(eGodMessages& god, const std::string& godName);
