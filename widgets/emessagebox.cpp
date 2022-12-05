@@ -116,6 +116,7 @@ void eMessageBox::initialize(const eEventData& ed,
     }
     if(ed.fType == eMessageEventType::invasion) {
         wid = new eWidget(window());
+        wid->setNoPadding();
 
         const auto surrenderB = new eFramedButton(window());
         surrenderB->setSmallFontSize();
@@ -124,8 +125,8 @@ void eMessageBox::initialize(const eEventData& ed,
         surrenderB->fitContent();
         wid->addWidget(surrenderB);
         surrenderB->setPressAction([this, ed, close]() {
-            if(close) close();
             if(ed.fA0) ed.fA0();
+            if(close) close();
             deleteLater();
         });
         surrenderB->setVisible(bool(ed.fA0));
@@ -139,8 +140,8 @@ void eMessageBox::initialize(const eEventData& ed,
         bribeB->fitContent();
         wid->addWidget(bribeB);
         bribeB->setPressAction([this, ed, close]() {
-            if(close) close();
             if(ed.fA1) ed.fA1();
+            if(close) close();
             deleteLater();
         });
         bribeB->setVisible(bool(ed.fA1));
@@ -152,14 +153,17 @@ void eMessageBox::initialize(const eEventData& ed,
         fightToDefend->fitContent();
         wid->addWidget(fightToDefend);
         fightToDefend->setPressAction([this, ed, close]() {
-            if(close) close();
             if(ed.fA2) ed.fA2();
+            if(close) close();
             deleteLater();
         });
 
-        wid->setWidth(width() - 8*p);
+        const int w = width() - 8*p;
+        wid->setWidth(w);
         wid->layoutHorizontally();
         wid->fitContent();
+        wid->setWidth(w);
+
         surrenderB->align(eAlignment::vcenter);
         bribeB->align(eAlignment::vcenter);
         fightToDefend->align(eAlignment::vcenter);
@@ -172,7 +176,8 @@ void eMessageBox::initialize(const eEventData& ed,
         const auto name = eResourceTypeHelpers::typeName(type);
         const int count = c->tributeCount();
         const auto countStr = std::to_string(count);
-        const auto tributeWid = createTributeWidget(type, count);
+        const int space = ed.fSpaceCount;
+        const auto tributeWid = createTributeWidget(type, count, space);
 
         eStringHelpers::replaceAll(msg.fText, "[amount]",
                                    countStr);
@@ -183,18 +188,37 @@ void eMessageBox::initialize(const eEventData& ed,
         tributeWid->setX(p);
 
         wid = new eWidget(window());
+        wid->setNoPadding();
 
-        const auto acceptB = new eFramedButton(window());
-        acceptB->setSmallFontSize();
-        acceptB->setUnderline(false);
-        acceptB->setText(eLanguage::text("accept"));
-        acceptB->fitContent();
-        wid->addWidget(acceptB);
-        acceptB->setPressAction([this, ed, close]() {
-            if(close) close();
-            if(ed.fA0) ed.fA0();
-            deleteLater();
-        });
+        eFramedButton* acceptB = nullptr;
+        if(space > 0) {
+            acceptB = new eFramedButton(window());
+            acceptB->setSmallFontSize();
+            acceptB->setUnderline(false);
+            acceptB->setText(eLanguage::text("accept"));
+            acceptB->fitContent();
+            wid->addWidget(acceptB);
+            acceptB->setPressAction([this, ed, close]() {
+                if(ed.fA0) ed.fA0();
+                if(close) close();
+                deleteLater();
+            });
+        }
+
+        eFramedButton* postponeB = nullptr;
+        if(ed.fA1 && type != eResourceType::silver) {
+            postponeB = new eFramedButton(window());
+            postponeB->setSmallFontSize();
+            postponeB->setUnderline(false);
+            postponeB->setText(eLanguage::text("postpone"));
+            postponeB->fitContent();
+            wid->addWidget(postponeB);
+            postponeB->setPressAction([this, ed, close]() {
+                if(ed.fA1) ed.fA1();
+                if(close) close();
+                deleteLater();
+            });
+        }
 
         const auto declineB = new eFramedButton(window());
         declineB->setSmallFontSize();
@@ -203,15 +227,18 @@ void eMessageBox::initialize(const eEventData& ed,
         declineB->fitContent();
         wid->addWidget(declineB);
         declineB->setPressAction([this, ed, close]() {
+            if(ed.fA2) ed.fA2();
             if(close) close();
-            if(ed.fA1) ed.fA1();
             deleteLater();
         });
 
-        wid->setWidth(width() - 8*p);
+        const int w = width() - 8*p;
+        wid->setWidth(w);
         wid->layoutHorizontally();
         wid->fitContent();
-        acceptB->align(eAlignment::vcenter);
+        wid->setWidth(w);
+        if(acceptB) acceptB->align(eAlignment::vcenter);
+        if(postponeB) postponeB->align(eAlignment::vcenter);
         declineB->align(eAlignment::vcenter);
 
         addWidget(wid);
@@ -220,7 +247,7 @@ void eMessageBox::initialize(const eEventData& ed,
         const auto name = eResourceTypeHelpers::typeName(type);
         const int count = ed.fResourceCount;
         const auto countStr = std::to_string(count);
-        const auto tributeWid = createTributeWidget(type, count);
+        const auto tributeWid = createTributeWidget(type, count, -1);
 
         eStringHelpers::replaceAll(msg.fText, "[amount]",
                                    countStr);
@@ -254,7 +281,7 @@ void eMessageBox::initialize(const eEventData& ed,
 }
 
 eWidget* eMessageBox::createTributeWidget(const eResourceType type,
-                                          const int count) {
+                                          const int count, const int space) {
     const auto res = resolution();
     const auto uiScale = res.uiScale();
     const auto tributeWid = new eWidget(window());
@@ -282,6 +309,39 @@ eWidget* eMessageBox::createTributeWidget(const eResourceType type,
     nameLabel->setText(" " + name);
     nameLabel->fitContent();
     tributeWid->addWidget(nameLabel);
+
+    if(space != -1 && type != eResourceType::silver) {
+        const auto countStr = std::to_string(std::min(count, space));
+
+        const auto textLabel = new eLabel(window());
+        textLabel->setSmallFontSize();
+        textLabel->setNoPadding();
+        textLabel->setText(" / " + eLanguage::text("can_accept") + " ");
+        textLabel->fitContent();
+        tributeWid->addWidget(textLabel);
+
+        const auto typeIcon = new eLabel(window());
+        const auto icon = eResourceTypeHelpers::icon(uiScale, type);
+        typeIcon->setTexture(icon);
+        typeIcon->setNoPadding();
+        typeIcon->fitContent();
+        tributeWid->addWidget(typeIcon);
+
+        const auto countLabel = new eLabel(window());
+        countLabel->setSmallFontSize();
+        countLabel->setNoPadding();
+        countLabel->setText(countStr);
+        countLabel->fitContent();
+        tributeWid->addWidget(countLabel);
+
+        const auto name = eResourceTypeHelpers::typeName(type);
+        const auto nameLabel = new eLabel(window());
+        nameLabel->setSmallFontSize();
+        nameLabel->setNoPadding();
+        nameLabel->setText(" " + name);
+        nameLabel->fitContent();
+        tributeWid->addWidget(nameLabel);
+    }
 
     tributeWid->stackHorizontally();
     tributeWid->fitContent();

@@ -90,6 +90,7 @@ public:
     eMessageType fTributePaidGranted;
     eMessageType fTributePaidAccepted;
     eMessageType fTributePaidRefused;
+    eMessageType fTributePostponed;
 private:
     bool loadImpl();
     void load(eGodMessages& god, const std::string& godName);

@@ -55,6 +55,7 @@
 #include "gameEvents/egodattackevent.h"
 #include "gameEvents/emonsterattackevent.h"
 #include "gameEvents/einvasionevent.h"
+#include "gameEvents/epaytributeevent.h"
 
 #include "einvasionhandler.h"
 
@@ -631,32 +632,59 @@ int eGameBoard::addResource(const eResourceType type,
     for(const auto s : mStorBuildings) {
         const int c = s->add(type, rem);
         rem -= c;
-        if(c <= 0) break;
+        if(rem <= 0) break;
     }
     return count - rem;
 }
 
-void eGameBoard::payTribute(eWorldCity* const c) {
+int eGameBoard::spaceForResource(const eResourceType type) {
+    int r = 0;
+    for(const auto s : mStorBuildings) {
+        r += s->spaceLeft(type);
+    }
+    return r;
+}
+
+void eGameBoard::payTribute(const stdsptr<eWorldCity>& c,
+                            const bool postpone) {
     const auto type = c->tributeType();
     const auto count = c->tributeCount();
 
     eEventData ed;
     ed.fType = eMessageEventType::tribute;
-    ed.fCity = c;
+    ed.fCity = c.get();
+    ed.fSpaceCount = spaceForResource(type);
     ed.fA0 = [this, c, type, count]() { // accept
         const int a = addResource(type, count);
         if(a == count) return;
         eEventData ed;
         ed.fType = eMessageEventType::tributePartialRefused;
-        ed.fCity = c;
+        ed.fCity = c.get();
         ed.fResourceType = type;
         ed.fResourceCount = a;
         event(eEvent::tributeAccepted, ed);
     };
-    ed.fA1 = [this, c, type, count]() { // decline
+    if(postpone) {
+        ed.fA1 = [this, c, type, count]() { // postpone
+            eEventData ed;
+            ed.fType = eMessageEventType::tributePartialRefused;
+            ed.fCity = c.get();
+            ed.fResourceType = type;
+            ed.fResourceCount = count;
+            event(eEvent::tributePostponed, ed);
+
+            const auto e = e::make_shared<ePayTributeEvent>(*this);
+            e->setCity(c);
+            const auto date = mDate + 31;
+            const auto ec = e::make_shared<eGameEventCycle>(
+                                e, date, *this);
+            addGameEvent(ec);
+        };
+    }
+    ed.fA2 = [this, c, type, count]() { // decline
         eEventData ed;
         ed.fType = eMessageEventType::tributePartialRefused;
-        ed.fCity = c;
+        ed.fCity = c.get();
         ed.fResourceType = type;
         ed.fResourceCount = count;
         event(eEvent::tributeDeclined, ed);
@@ -1291,7 +1319,7 @@ void eGameBoard::incTime(const int by) {
         mWorldBoard.nextYear();
         const auto cs = mWorldBoard.getTribute();
         for(const auto& c : cs) {
-            payTribute(c);
+            payTribute(c, true);
         }
     }
     const auto chars = mCharacters;

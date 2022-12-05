@@ -20,7 +20,7 @@ public:
                     eMessage msg);
 
     eWidget* createTributeWidget(const eResourceType type,
-                                 const int count);
+                                 const int count, const int space);
 protected:
     bool mousePressEvent(const eMouseEvent& e);
 };

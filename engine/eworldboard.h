@@ -13,7 +13,7 @@ public:
     void incTime(const int by);
     void nextYear();
 
-    std::vector<eWorldCity*> getTribute() const;
+    std::vector<stdsptr<eWorldCity>> getTribute() const;
 
     void setHomeCity(const stdsptr<eWorldCity>& hc);
     void addCity(const stdsptr<eWorldCity>& c);

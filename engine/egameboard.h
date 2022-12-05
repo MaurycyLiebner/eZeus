@@ -1,4 +1,4 @@
-#ifndef EGAMEBOARD_H
+﻿#ifndef EGAMEBOARD_H
 #define EGAMEBOARD_H
 
 #include <vector>
@@ -126,7 +126,8 @@ enum class eEvent {
 
     tributePaid,
     tributeAccepted,
-    tributeDeclined
+    tributeDeclined,
+    tributePostponed
 };
 
 enum class eMessageEventType {
@@ -148,6 +149,7 @@ struct eEventData {
     eWorldCity* fCity = nullptr;
     eResourceType fResourceType;
     int fResourceCount = 0;
+    int fSpaceCount = 0;
 };
 
 enum class eGames {
@@ -355,7 +357,9 @@ public:
 
     int addResource(const eResourceType type,
                     const int count);
-    void payTribute(eWorldCity* const c);
+    int spaceForResource(const eResourceType type);
+    void payTribute(const stdsptr<eWorldCity>& c,
+                    const bool postpone);
 
     void waitUntilFinished();
 private:

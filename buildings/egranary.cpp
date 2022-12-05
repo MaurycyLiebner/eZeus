@@ -6,6 +6,7 @@ eGranary::eGranary(eGameBoard& board) :
     eStorageBuilding(board, eBuildingType::granary,
                      4, 4, 18, eResourceType::food),
     mTextures(eGameTextures::buildings()) {
+    setOverlayEnabledFunc([]() { return true; });
 }
 
 std::shared_ptr<eTexture> eGranary::getTexture(const eTileSize size) const {
@@ -17,12 +18,14 @@ std::vector<eOverlay> eGranary::getOverlays(const eTileSize size) const {
     std::vector<eOverlay> os;
     const int sizeId = static_cast<int>(size);
     const auto& texs = mTextures[sizeId];
-    const auto& coll = texs.fGranaryOverlay;
-    const int texId = textureTime() % coll.size();
-    auto& o = os.emplace_back();
-    o.fTex = coll.getTexture(texId);
-    o.fX = 0.38;
-    o.fY = -3.78;
+    if(enabled()) {
+        const auto& coll = texs.fGranaryOverlay;
+        const int texId = textureTime() % coll.size();
+        auto& o = os.emplace_back();
+        o.fTex = coll.getTexture(texId);
+        o.fX = 0.38;
+        o.fY = -3.78;
+    }
     const std::pair<double, double> xy[8] = {{-3.11, -5.1},
                                              {-3, -5.65},
                                              {-2.89, -6.25},

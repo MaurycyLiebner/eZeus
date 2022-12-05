@@ -282,6 +282,10 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, eMessages::instance.fTributePaidRefused, true);
         return;
     } break;
+    case eEvent::tributePostponed: {
+        showMessage(ed, eMessages::instance.fTributePostponed, true);
+        return;
+    } break;
     }
     mGm->pushEvent(e, ed.fTile);
 }

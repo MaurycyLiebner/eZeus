@@ -10,7 +10,8 @@ enum class eGameEventType {
     godVisit,
     godAttack,
     monsterAttack,
-    invasion
+    invasion,
+    payTribute
 };
 
 class eGameEvent : public eObject {
