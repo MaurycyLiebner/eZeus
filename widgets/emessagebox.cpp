@@ -158,9 +158,9 @@ void eMessageBox::initialize(const eEventData& ed,
             deleteLater();
         });
 
-        const int w = width() - 8*p;
+        const int w = width() - 4*p;
         wid->setWidth(w);
-        wid->layoutHorizontally();
+        wid->layoutHorizontallyWithoutSpaces();
         wid->fitContent();
         wid->setWidth(w);
 
@@ -190,35 +190,31 @@ void eMessageBox::initialize(const eEventData& ed,
         wid = new eWidget(window());
         wid->setNoPadding();
 
-        eFramedButton* acceptB = nullptr;
-        if(space > 0) {
-            acceptB = new eFramedButton(window());
-            acceptB->setSmallFontSize();
-            acceptB->setUnderline(false);
-            acceptB->setText(eLanguage::text("accept"));
-            acceptB->fitContent();
-            wid->addWidget(acceptB);
-            acceptB->setPressAction([this, ed, close]() {
-                if(ed.fA0) ed.fA0();
-                if(close) close();
-                deleteLater();
-            });
-        }
+        const auto acceptB = new eFramedButton(window());
+        acceptB->setSmallFontSize();
+        acceptB->setUnderline(false);
+        acceptB->setText(eLanguage::text("accept"));
+        acceptB->fitContent();
+        wid->addWidget(acceptB);
+        acceptB->setPressAction([this, ed, close]() {
+            if(ed.fA0) ed.fA0();
+            if(close) close();
+            deleteLater();
+        });
+        acceptB->setVisible(space > 0 || type == eResourceType::silver);
 
-        eFramedButton* postponeB = nullptr;
-        if(ed.fA1 && type != eResourceType::silver) {
-            postponeB = new eFramedButton(window());
-            postponeB->setSmallFontSize();
-            postponeB->setUnderline(false);
-            postponeB->setText(eLanguage::text("postpone"));
-            postponeB->fitContent();
-            wid->addWidget(postponeB);
-            postponeB->setPressAction([this, ed, close]() {
-                if(ed.fA1) ed.fA1();
-                if(close) close();
-                deleteLater();
-            });
-        }
+        const auto postponeB = new eFramedButton(window());
+        postponeB->setSmallFontSize();
+        postponeB->setUnderline(false);
+        postponeB->setText(eLanguage::text("postpone"));
+        postponeB->fitContent();
+        wid->addWidget(postponeB);
+        postponeB->setPressAction([this, ed, close]() {
+            if(ed.fA1) ed.fA1();
+            if(close) close();
+            deleteLater();
+        });
+        postponeB->setVisible(ed.fA1 && type != eResourceType::silver);
 
         const auto declineB = new eFramedButton(window());
         declineB->setSmallFontSize();
@@ -232,13 +228,13 @@ void eMessageBox::initialize(const eEventData& ed,
             deleteLater();
         });
 
-        const int w = width() - 8*p;
+        const int w = width() - 4*p;
         wid->setWidth(w);
-        wid->layoutHorizontally();
+        wid->layoutHorizontallyWithoutSpaces();
         wid->fitContent();
         wid->setWidth(w);
-        if(acceptB) acceptB->align(eAlignment::vcenter);
-        if(postponeB) postponeB->align(eAlignment::vcenter);
+        acceptB->align(eAlignment::vcenter);
+        postponeB->align(eAlignment::vcenter);
         declineB->align(eAlignment::vcenter);
 
         addWidget(wid);
@@ -275,6 +271,7 @@ void eMessageBox::initialize(const eEventData& ed,
     }
     if(wid) {
         wid->align(eAlignment::hcenter);
+        wid->setY(wid->y() + p/2);
     }
     w0->align(eAlignment::hcenter);
     ww->align(eAlignment::hcenter);

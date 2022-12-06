@@ -98,6 +98,7 @@ public:
     void layoutVertically();
     void stackHorizontally();
     void layoutHorizontally();
+    void layoutHorizontallyWithoutSpaces();
 
     void setMouseReceiver(eWidget* const w);
 protected:

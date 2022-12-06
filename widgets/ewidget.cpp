@@ -450,6 +450,21 @@ void eWidget::layoutHorizontally() {
     }
 }
 
+void eWidget::layoutHorizontallyWithoutSpaces() {
+    const int spaces = mChildren.size() - 1;
+    if(spaces <= 0) return;
+    int wsWidth = 0;
+    for(const auto w : mChildren) {
+        wsWidth += w->width();
+    }
+    const int space = (width() - wsWidth)/spaces;
+    int x = 0;
+    for(const auto w : mChildren) {
+        w->setX(x);
+        x += w->width() + space;
+    }
+}
+
 void eWidget::setMouseReceiver(eWidget* const w) {
     mMouseReceiver = w;
 }
