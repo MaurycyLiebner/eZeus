@@ -1181,7 +1181,7 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
         if(mMenu) {
             mMenu->deleteLater();
             mMenu = nullptr;
-        } else {
+        } else if(!mMsgBox) {
             mBoard->waitUntilFinished();
             mMenu = new eGameMainMenu(window());
             mMenu->resize(width()/4, height()/2);
