@@ -270,6 +270,11 @@ bool eMessages::loadImpl() {
     fTributePostponed.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_tribute_paid_title"];
     fTributePostponed.fCondensed.fText = fMessages["PHRASE_CONDENSED_tribute_paid_postponed"];
 
+    fRequestGranted.fFull.fTitle = fMessages["PHRASE_request_granted_title"];
+    fRequestGranted.fFull.fText = fMessages["PHRASE_request_granted_granted"];
+    fRequestGranted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_request_granted_title"];
+    fRequestGranted.fCondensed.fText = fMessages["PHRASE_CONDENSED_request_granted_granted"];
+
     return true;
 }
 

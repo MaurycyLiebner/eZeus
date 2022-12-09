@@ -14,7 +14,12 @@ public:
     void initialize();
 
     void setBoard(eGameBoard* const board);
+protected:
+    bool keyPressEvent(const eKeyPressEvent& e);
 private:
+    void openRequestDialog();
+
+    stdsptr<eWorldCity> mCity;
     eWorldMenu* mWM = nullptr;
     eWorldMapWidget* mWMW = nullptr;
     eGameBoard* mBoard = nullptr;

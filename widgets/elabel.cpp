@@ -17,8 +17,7 @@ void eLabel::sizeHint(int& w, int& h) {
         w = tex->width();
         h = tex->height();
     } else {
-        w = 0;
-        h = 0;
+        eWidget::sizeHint(w, h);
     }
 }
 

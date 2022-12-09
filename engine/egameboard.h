@@ -127,14 +127,17 @@ enum class eEvent {
     tributePaid,
     tributeAccepted,
     tributeDeclined,
-    tributePostponed
+    tributePostponed,
+
+    requestGranted
 };
 
 enum class eMessageEventType {
     common,
     invasion,
     tribute,
-    tributePartialRefused
+    tributePartialRefused,
+    requestGranted
 };
 
 struct eEventData {
@@ -146,7 +149,7 @@ struct eEventData {
     eAction fA0 = nullptr;
     eAction fA1 = nullptr;
     eAction fA2 = nullptr;
-    eWorldCity* fCity = nullptr;
+    stdsptr<eWorldCity> fCity;
     eResourceType fResourceType;
     int fResourceCount = 0;
     int fSpaceCount = 0;
@@ -358,6 +361,10 @@ public:
     int addResource(const eResourceType type,
                     const int count);
     int spaceForResource(const eResourceType type);
+    void request(const stdsptr<eWorldCity>& c,
+                      const eResourceType type);
+    void grantRequest(const stdsptr<eWorldCity>& c,
+                      const eResourceType type);
     void payTribute(const stdsptr<eWorldCity>& c,
                     const bool postpone);
 

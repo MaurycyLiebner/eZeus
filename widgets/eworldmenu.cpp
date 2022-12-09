@@ -10,7 +10,7 @@
 
 #include "elanguage.h"
 
-void eWorldMenu::initialize() {
+void eWorldMenu::initialize(const std::function<void()>& openRequest) {
     int iRes;
     int mult;
     iResAndMult(iRes, mult);
@@ -66,6 +66,7 @@ void eWorldMenu::initialize() {
 
         mRequestButton->setX(xwrb);
         mRequestButton->setY(ywrb);
+        mRequestButton->setPressAction(openRequest);
 
         mFulfillButton->setX(xwfb);
         mFulfillButton->setY(ywfb);

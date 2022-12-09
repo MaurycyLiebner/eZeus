@@ -117,7 +117,7 @@ void eInvasionHandler::incTime(const int by) {
             ss += b->count();
         }
         eEventData ed;
-        ed.fCity = mCity.get();
+        ed.fCity = mCity;
         if(ss == 0) {
             mBoard.event(eEvent::invasionVictory, ed);
         } else if(p) {

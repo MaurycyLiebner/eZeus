@@ -40,6 +40,7 @@ enum class eResourceType {
 
     silver = 1 << 19,
     horse = 1 << 20,
+    drachmas = 1 << 21
 };
 
 inline eResourceType operator|(const eResourceType a, const eResourceType b) {
@@ -58,6 +59,7 @@ namespace eResourceTypeHelpers {
     std::vector<eResourceType> extractResourceTypes(
             const eResourceType from);
     std::string typeName(const eResourceType type);
+    std::string typeLongName(const eResourceType type);
     std::shared_ptr<eTexture> icon(const eUIScale scale, const eResourceType type);
     int transportSize(const eResourceType type);
 }

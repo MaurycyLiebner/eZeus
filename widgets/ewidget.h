@@ -70,6 +70,8 @@ public:
     bool mouseMove(const eMouseEvent& e);
     bool mouseWheel(const eMouseWheelEvent& e);
 
+    const std::vector<eWidget*>& children() const { return mChildren; }
+
     void deleteLater();
 
     eWidget* lastAncestor();

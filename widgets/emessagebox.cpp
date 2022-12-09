@@ -40,6 +40,12 @@ void eMessageBox::initialize(const eEventData& ed,
             eStringHelpers::replaceAll(msg.fTitle, "[city_name]",
                                        ed.fCity->name());
         }
+        {
+            const auto type = ed.fResourceType;
+            const auto nameShort = eResourceTypeHelpers::typeName(type);
+            eStringHelpers::replaceAll(msg.fTitle, "[itemshort]",
+                                       nameShort);
+        }
         const auto title = new eLabel(msg.fTitle, window());
         title->setHugeFontSize();
         title->fitContent();
@@ -169,12 +175,14 @@ void eMessageBox::initialize(const eEventData& ed,
         fightToDefend->align(eAlignment::vcenter);
 
         addWidget(wid);
-    } else if(ed.fType == eMessageEventType::tribute) {
+    } else if(ed.fType == eMessageEventType::tribute ||
+              ed.fType == eMessageEventType::requestGranted) {
         const auto c = ed.fCity;
         if(!c) return;
-        const auto type = c->tributeType();
-        const auto name = eResourceTypeHelpers::typeName(type);
-        const int count = c->tributeCount();
+        const auto type = ed.fResourceType;
+        const auto nameShort = eResourceTypeHelpers::typeName(type);
+        const auto name = eResourceTypeHelpers::typeLongName(type);
+        const int count = ed.fResourceCount;
         const auto countStr = std::to_string(count);
         const int space = ed.fSpaceCount;
         const auto tributeWid = createTributeWidget(type, count, space);
@@ -201,7 +209,7 @@ void eMessageBox::initialize(const eEventData& ed,
             if(close) close();
             deleteLater();
         });
-        acceptB->setVisible(space > 0 || type == eResourceType::silver);
+        acceptB->setVisible(space > 0 || type == eResourceType::drachmas);
 
         const auto postponeB = new eFramedButton(window());
         postponeB->setSmallFontSize();
@@ -214,7 +222,7 @@ void eMessageBox::initialize(const eEventData& ed,
             if(close) close();
             deleteLater();
         });
-        postponeB->setVisible(ed.fA1 && type != eResourceType::silver);
+        postponeB->setVisible(ed.fA1 && type != eResourceType::drachmas);
 
         const auto declineB = new eFramedButton(window());
         declineB->setSmallFontSize();
@@ -240,7 +248,7 @@ void eMessageBox::initialize(const eEventData& ed,
         addWidget(wid);
     } else if(ed.fType == eMessageEventType::tributePartialRefused) {
         const auto type = ed.fResourceType;
-        const auto name = eResourceTypeHelpers::typeName(type);
+        const auto name = eResourceTypeHelpers::typeLongName(type);
         const int count = ed.fResourceCount;
         const auto countStr = std::to_string(count);
         const auto tributeWid = createTributeWidget(type, count, -1);
@@ -299,7 +307,7 @@ eWidget* eMessageBox::createTributeWidget(const eResourceType type,
     countLabel->fitContent();
     tributeWid->addWidget(countLabel);
 
-    const auto name = eResourceTypeHelpers::typeName(type);
+    const auto name = eResourceTypeHelpers::typeLongName(type);
     const auto nameLabel = new eLabel(window());
     nameLabel->setSmallFontSize();
     nameLabel->setNoPadding();
@@ -307,7 +315,7 @@ eWidget* eMessageBox::createTributeWidget(const eResourceType type,
     nameLabel->fitContent();
     tributeWid->addWidget(nameLabel);
 
-    if(space != -1 && type != eResourceType::silver) {
+    if(space != -1 && type != eResourceType::drachmas) {
         const auto countStr = std::to_string(std::min(count, space));
 
         const auto textLabel = new eLabel(window());
@@ -331,7 +339,7 @@ eWidget* eMessageBox::createTributeWidget(const eResourceType type,
         countLabel->fitContent();
         tributeWid->addWidget(countLabel);
 
-        const auto name = eResourceTypeHelpers::typeName(type);
+        const auto name = eResourceTypeHelpers::typeLongName(type);
         const auto nameLabel = new eLabel(window());
         nameLabel->setSmallFontSize();
         nameLabel->setNoPadding();

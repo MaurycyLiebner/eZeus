@@ -285,6 +285,7 @@ SOURCES += \
         gameEvents/egameeventcycle.cpp \
         gameEvents/egodattackevent.cpp \
         gameEvents/egodvisitevent.cpp \
+        gameEvents/egrantrequestevent.cpp \
         gameEvents/einvasionevent.cpp \
         gameEvents/emonsterattackevent.cpp \
         gameEvents/epaytributeevent.cpp \
@@ -354,6 +355,7 @@ SOURCES += \
         widgets/ecombobox.cpp \
         widgets/econtextmenu.cpp \
         widgets/edownbutton.cpp \
+        widgets/eeventbackground.cpp \
         widgets/eeventwidget.cpp \
         widgets/eexclamationbutton.cpp \
         widgets/efilewidget.cpp \
@@ -389,6 +391,7 @@ SOURCES += \
         widgets/epainter.cpp \
         widgets/eprogressbar.cpp \
         widgets/equestionwidget.cpp \
+        widgets/erequestdialog.cpp \
         widgets/eresolution.cpp \
         widgets/escrollbar.cpp \
         widgets/escrollwidget.cpp \
@@ -691,6 +694,7 @@ HEADERS += \
     gameEvents/egameeventcycle.h \
     gameEvents/egodattackevent.h \
     gameEvents/egodvisitevent.h \
+    gameEvents/egrantrequestevent.h \
     gameEvents/einvasionevent.h \
     gameEvents/emonsterattackevent.h \
     gameEvents/epaytributeevent.h \
@@ -1247,6 +1251,7 @@ HEADERS += \
     widgets/ecombobox.h \
     widgets/econtextmenu.h \
     widgets/edownbutton.h \
+    widgets/eeventbackground.h \
     widgets/eeventwidget.h \
     widgets/eexclamationbutton.h \
     widgets/efilewidget.h \
@@ -1278,6 +1283,7 @@ HEADERS += \
     widgets/epainter.h \
     widgets/eprogressbar.h \
     widgets/equestionwidget.h \
+    widgets/erequestdialog.h \
     widgets/eresolution.h \
     widgets/escrollbar.h \
     widgets/escrollwidget.h \

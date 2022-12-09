@@ -346,11 +346,9 @@ odysseus_hall "Odysseus' Hall"
 perseus_hall "Perseus' Hall"
 theseus_hall "Theseus' Hall"
 
-suits_of_armor "suits of armor"
 hoplite_companies "hoplite companies"
 sanctuaries "sanctuaries"
 no_unrest "No unrest in the city"
-amphorae_of_wine "amphorae of wine"
 
 excellent_hall_culture_access "Hall has excellent culture access"
 win_pan_hellenic_game "Win any Pan-Hellenic game"
@@ -359,16 +357,26 @@ people_in_city "people in the city"
 
 horsemen_companies "horsemen companies"
 horses_in_city "horses in the city"
-crates_of_food "crates of food"
 
 excellect_popularity "Excellent popularity"
 excellect_health "Excellent city-wide health"
 elite_houses "elite houses"
-jugs_of_oil "jugs of olive oil"
 
+crates_of_food "crates of food"
+jars_of_olives "jars of olives"
+jugs_of_oil "jugs of olive oil"
+amphorae_of_wine "amphorae of wine"
 drachmas "drachmas"
 skeins_of_fleece "skeins of fleece"
+bunches_of_grapes "bunches of grapes"
 pieces_of_sculpture "pieces of sculpture"
+slabs_of_marble "slabs of marble"
+bars_of_bronze "bars of bronze"
+planks_of_wood "planks of wood"
+suits_of_armor "suits of armor"
+
+order "Order"
+request "Request"
 
 hall_near_palace "Build hall near palace"
 good_appeal_around_hall "Good appeal around the hall"
@@ -491,6 +499,7 @@ surrender "Surrender"
 bribe "Bribe"
 fight_to_defend "Fight to defend city"
 
+request_of "Request of"
 
 employees "Employees"
 needed "Needed"

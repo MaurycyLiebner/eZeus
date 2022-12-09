@@ -98,11 +98,90 @@ std::string eResourceTypeHelpers::typeName(const eResourceType type) {
     case eResourceType::silver:
         key = "silver";
         break;
+    case eResourceType::drachmas:
+        key = "drachmas";
+        break;
     case eResourceType::armor:
         key = "armor";
         break;
     case eResourceType::sculpture:
         key = "sculpture";
+        break;
+    case eResourceType::horse:
+        key = "horse";
+        break;
+    default:
+        key = "invalid";
+        break;
+    }
+    return eLanguage::text(key);
+}
+
+std::string eResourceTypeHelpers::typeLongName(const eResourceType type) {
+    std::string key;
+    switch(type) {
+    case eResourceType::urchin:
+        key = "urchin";
+        break;
+    case eResourceType::fish:
+        key = "fish";
+        break;
+    case eResourceType::meat:
+        key = "meat";
+        break;
+    case eResourceType::cheese:
+        key = "cheese";
+        break;
+    case eResourceType::carrots:
+        key = "carrots";
+        break;
+    case eResourceType::onions:
+        key = "onions";
+        break;
+    case eResourceType::wheat:
+        key = "wheat";
+        break;
+    case eResourceType::oranges:
+        key = "oranges";
+        break;
+    case eResourceType::food:
+        key = "crates_of_food";
+        break;
+    case eResourceType::grapes:
+        key = "bunches_of_grapes";
+        break;
+    case eResourceType::olives:
+        key = "jars_of_olives";
+        break;
+    case eResourceType::wine:
+        key = "amphorae_of_wine";
+        break;
+    case eResourceType::oliveOil:
+        key = "jugs_of_oil";
+        break;
+    case eResourceType::fleece:
+        key = "skeins_of_fleece";
+        break;
+    case eResourceType::wood:
+        key = "planks_of_wood";
+        break;
+    case eResourceType::bronze:
+        key = "bars_of_bronze";
+        break;
+    case eResourceType::marble:
+        key = "slabs_of_marble";
+        break;
+    case eResourceType::silver:
+        key = "silver";
+        break;
+    case eResourceType::drachmas:
+        key = "drachmas";
+        break;
+    case eResourceType::armor:
+        key = "suits_of_armor";
+        break;
+    case eResourceType::sculpture:
+        key = "pieces_of_sculpture";
         break;
     case eResourceType::horse:
         key = "horse";
@@ -172,6 +251,7 @@ std::shared_ptr<eTexture> eResourceTypeHelpers::icon(
         return coll.fFoodUnit;
 
     case eResourceType::silver:
+    case eResourceType::drachmas:
         return coll.fDrachmasUnit;
     default:
         return nullptr;

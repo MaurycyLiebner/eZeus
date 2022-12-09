@@ -286,6 +286,10 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, eMessages::instance.fTributePostponed, true);
         return;
     } break;
+    case eEvent::requestGranted: {
+        showMessage(ed, eMessages::instance.fRequestGranted, true);
+        return;
+    } break;
     }
     mGm->pushEvent(e, ed.fTile);
 }

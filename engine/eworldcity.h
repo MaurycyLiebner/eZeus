@@ -206,7 +206,7 @@ private:
     std::vector<eResourceTrade> mBuys;
     std::vector<eResourceTrade> mSells;
 
-    eResourceType mTributeType = eResourceType::silver;
+    eResourceType mTributeType = eResourceType::drachmas;
     int mTributeCount = 500;
 };
 
