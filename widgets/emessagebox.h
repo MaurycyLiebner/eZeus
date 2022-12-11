@@ -16,13 +16,20 @@ public:
 
     void initialize(const eEventData& ed,
                     const eAction& viewTile,
-                    const eAction& close,
+                    const eAction& closeFunc,
                     eMessage msg);
+
+    void close();
+    bool closable() const { return mClosable; }
 
     eWidget* createTributeWidget(const eResourceType type,
                                  const int count, const int space);
 protected:
+    bool keyPressEvent(const eKeyPressEvent& e);
     bool mousePressEvent(const eMouseEvent& e);
+private:
+    bool mClosable = false;
+    eAction mCloseFunc;
 };
 
 #endif // EMESSAGEBOX_H

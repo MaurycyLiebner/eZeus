@@ -43,7 +43,7 @@ void eWorldWidget::openRequestDialog() {
     d->align(eAlignment::vcenter);
     d->setX(mWMW->x() + (mWMW->width() - d->width())/2);
     const auto bg = new eEventBackground(window());
-    bg->initialize(this, d);
+    bg->initialize(this, d, true, nullptr);
 }
 
 bool eWorldWidget::keyPressEvent(const eKeyPressEvent& e) {

@@ -93,6 +93,13 @@ public:
     eMessageType fTributePostponed;
 
     eMessageType fRequestGranted;
+    eMessageType fRequestPartialSpace;
+    eMessageType fRequestInsufficientSpace;
+    eMessageType fRequestLastChance;
+    eMessageType fRequestAccepted;
+    eMessageType fRequestPostponed;
+    eMessageType fRequestRefused;
+    eMessageType fRequestForfeited;
 private:
     bool loadImpl();
     void load(eGodMessages& god, const std::string& godName);

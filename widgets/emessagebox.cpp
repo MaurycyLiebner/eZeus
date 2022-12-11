@@ -27,8 +27,9 @@ std::string string_format(const std::string& format, Args... args) {
 
 void eMessageBox::initialize(const eEventData& ed,
                              const eAction& viewTile,
-                             const eAction& close,
+                             const eAction& closeFunc,
                              eMessage msg) {
+    mCloseFunc = closeFunc;
     setType(eFrameType::message);
 
     const int p = padding();
@@ -111,12 +112,12 @@ void eMessageBox::initialize(const eEventData& ed,
     eOkButton* ok = nullptr;
     eWidget* wid = nullptr;
     const bool addOk = ed.fType == eMessageEventType::common ||
-                       ed.fType == eMessageEventType::tributePartialRefused;
+                       ed.fType == eMessageEventType::resourceGranted ||
+                       (!ed.fA0 && !ed.fA1 && !ed.fA2);
     if(addOk) {
         ok = new eOkButton(window());
-        ok->setPressAction([this, close]() {
-            if(close) close();
-            deleteLater();
+        ok->setPressAction([this]() {
+            close();
         });
         addWidget(ok);
     }
@@ -130,10 +131,9 @@ void eMessageBox::initialize(const eEventData& ed,
         surrenderB->setText(eLanguage::text("surrender"));
         surrenderB->fitContent();
         wid->addWidget(surrenderB);
-        surrenderB->setPressAction([this, ed, close]() {
+        surrenderB->setPressAction([this, ed]() {
             if(ed.fA0) ed.fA0();
-            if(close) close();
-            deleteLater();
+            close();
         });
         surrenderB->setVisible(bool(ed.fA0));
 
@@ -145,10 +145,9 @@ void eMessageBox::initialize(const eEventData& ed,
                         eLanguage::text("drachmas"));
         bribeB->fitContent();
         wid->addWidget(bribeB);
-        bribeB->setPressAction([this, ed, close]() {
+        bribeB->setPressAction([this, ed]() {
             if(ed.fA1) ed.fA1();
-            if(close) close();
-            deleteLater();
+            close();
         });
         bribeB->setVisible(bool(ed.fA1));
 
@@ -158,10 +157,9 @@ void eMessageBox::initialize(const eEventData& ed,
         fightToDefend->setText(eLanguage::text("fight_to_defend"));
         fightToDefend->fitContent();
         wid->addWidget(fightToDefend);
-        fightToDefend->setPressAction([this, ed, close]() {
+        fightToDefend->setPressAction([this, ed]() {
             if(ed.fA2) ed.fA2();
-            if(close) close();
-            deleteLater();
+            close();
         });
 
         const int w = width() - 4*p;
@@ -175,8 +173,7 @@ void eMessageBox::initialize(const eEventData& ed,
         fightToDefend->align(eAlignment::vcenter);
 
         addWidget(wid);
-    } else if(ed.fType == eMessageEventType::tribute ||
-              ed.fType == eMessageEventType::requestGranted) {
+    } else if(ed.fType == eMessageEventType::requestTributeGranted) {
         const auto c = ed.fCity;
         if(!c) return;
         const auto type = ed.fResourceType;
@@ -204,10 +201,9 @@ void eMessageBox::initialize(const eEventData& ed,
         acceptB->setText(eLanguage::text("accept"));
         acceptB->fitContent();
         wid->addWidget(acceptB);
-        acceptB->setPressAction([this, ed, close]() {
+        acceptB->setPressAction([this, ed]() {
             if(ed.fA0) ed.fA0();
-            if(close) close();
-            deleteLater();
+            close();
         });
         acceptB->setVisible(space > 0 || type == eResourceType::drachmas);
 
@@ -217,10 +213,9 @@ void eMessageBox::initialize(const eEventData& ed,
         postponeB->setText(eLanguage::text("postpone"));
         postponeB->fitContent();
         wid->addWidget(postponeB);
-        postponeB->setPressAction([this, ed, close]() {
+        postponeB->setPressAction([this, ed]() {
             if(ed.fA1) ed.fA1();
-            if(close) close();
-            deleteLater();
+            close();
         });
         postponeB->setVisible(ed.fA1 && type != eResourceType::drachmas);
 
@@ -230,10 +225,9 @@ void eMessageBox::initialize(const eEventData& ed,
         declineB->setText(eLanguage::text("decline"));
         declineB->fitContent();
         wid->addWidget(declineB);
-        declineB->setPressAction([this, ed, close]() {
+        declineB->setPressAction([this, ed]() {
             if(ed.fA2) ed.fA2();
-            if(close) close();
-            deleteLater();
+            close();
         });
 
         const int w = width() - 4*p;
@@ -246,7 +240,7 @@ void eMessageBox::initialize(const eEventData& ed,
         declineB->align(eAlignment::vcenter);
 
         addWidget(wid);
-    } else if(ed.fType == eMessageEventType::tributePartialRefused) {
+    } else if(ed.fType == eMessageEventType::resourceGranted) {
         const auto type = ed.fResourceType;
         const auto name = eResourceTypeHelpers::typeLongName(type);
         const int count = ed.fResourceCount;
@@ -273,6 +267,7 @@ void eMessageBox::initialize(const eEventData& ed,
     fitContent();
 
     if(ok) {
+        mClosable = true;
         ok->align(eAlignment::right | eAlignment::bottom);
         ok->setX(ok->x() - 1.5*p);
         ok->setY(ok->y() - 1.5*p);
@@ -283,6 +278,11 @@ void eMessageBox::initialize(const eEventData& ed,
     }
     w0->align(eAlignment::hcenter);
     ww->align(eAlignment::hcenter);
+}
+
+void eMessageBox::close() {
+    if(mCloseFunc) mCloseFunc();
+    deleteLater();
 }
 
 eWidget* eMessageBox::createTributeWidget(const eResourceType type,
@@ -353,7 +353,20 @@ eWidget* eMessageBox::createTributeWidget(const eResourceType type,
     return tributeWid;
 }
 
+bool eMessageBox::keyPressEvent(const eKeyPressEvent& e) {
+    if(!mClosable) return true;
+    const auto k = e.key();
+    if(k == SDL_SCANCODE_ESCAPE) {
+        close();
+    }
+    return true;
+}
+
 bool eMessageBox::mousePressEvent(const eMouseEvent& e) {
-    (void)e;
+    if(!mClosable) return true;
+    const auto b = e.button();
+    if(b == eMouseButton::right) {
+        close();
+    }
     return true;
 }

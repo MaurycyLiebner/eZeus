@@ -9,7 +9,7 @@ class ePayTributeEvent : public eGameEvent {
 public:
     ePayTributeEvent(eGameBoard& board);
 
-    void setCity(const stdsptr<eWorldCity>& city);
+    void initialize(const stdsptr<eWorldCity>& c);
 
     void trigger() override;
 

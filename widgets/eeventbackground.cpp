@@ -1,11 +1,15 @@
 #include "eeventbackground.h"
 
 void eEventBackground::initialize(eWidget* const parent,
-                                  eWidget* const child) {
+                                  eWidget* const child,
+                                  const bool closable,
+                                  const eAction &closeFunc) {
     parent->removeWidget(child);
     addWidget(child);
     parent->addWidget(this);
     resize(parent->width(), parent->height());
+    mClosable = closable;
+    mCloseFunc = closeFunc;
 }
 
 void eEventBackground::paintEvent(ePainter& p) {
@@ -14,17 +18,24 @@ void eEventBackground::paintEvent(ePainter& p) {
 }
 
 bool eEventBackground::keyPressEvent(const eKeyPressEvent& e) {
+    if(!mClosable) return true;
     const auto k = e.key();
     if(k == SDL_SCANCODE_ESCAPE) {
-        deleteLater();
+        close();
     }
     return true;
 }
 
 bool eEventBackground::mousePressEvent(const eMouseEvent& e) {
+    if(!mClosable) return true;
     const auto b = e.button();
     if(b == eMouseButton::right) {
-        deleteLater();
+        close();
     }
     return true;
+}
+
+void eEventBackground::close() {
+    if(mCloseFunc) mCloseFunc();
+    deleteLater();
 }

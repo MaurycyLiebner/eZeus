@@ -129,15 +129,21 @@ enum class eEvent {
     tributeDeclined,
     tributePostponed,
 
-    requestGranted
+    requestGranted,
+    requestPartialSpace,
+    requestInsufficientSpace,
+    requestLastChance,
+    requestAccepted,
+    requestPostponed,
+    requestRefused,
+    requestForfeited
 };
 
 enum class eMessageEventType {
     common,
     invasion,
-    tribute,
-    tributePartialRefused,
-    requestGranted
+    requestTributeGranted,
+    resourceGranted
 };
 
 struct eEventData {
@@ -364,7 +370,8 @@ public:
     void request(const stdsptr<eWorldCity>& c,
                       const eResourceType type);
     void grantRequest(const stdsptr<eWorldCity>& c,
-                      const eResourceType type);
+                      const eResourceType type,
+                      const bool postpone);
     void payTribute(const stdsptr<eWorldCity>& c,
                     const bool postpone);
 

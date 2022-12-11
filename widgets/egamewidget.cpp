@@ -66,6 +66,8 @@
 #include "evectorhelpers.h"
 #include "etilehelper.h"
 
+#include "eeventbackground.h"
+
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {}
 
@@ -715,6 +717,9 @@ void eGameWidget::showMessage(eEventData& ed, const eMessage& msg,
     msgb->align(eAlignment::bottom | eAlignment::hcenter);
     msgb->setY(msgb->y() - mGm->width()/10);
     msgb->setX(msgb->x() - mGm->width()/2);
+
+    const auto bg = new eEventBackground(window());
+    bg->initialize(this, msgb, msgb->closable(), close);
 }
 
 bool eGameWidget::roadPath(std::vector<eOrientation>& path) {

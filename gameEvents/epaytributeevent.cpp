@@ -5,9 +5,10 @@
 ePayTributeEvent::ePayTributeEvent(eGameBoard& board) :
     eGameEvent(eGameEventType::payTribute, board) {}
 
-void ePayTributeEvent::setCity(const stdsptr<eWorldCity>& city) {
-    mCity = city;
+void ePayTributeEvent::initialize(const stdsptr<eWorldCity>& c) {
+    mCity = c;
 }
+
 void ePayTributeEvent::trigger() {
     auto& board = getBoard();
     board.payTribute(mCity, false);

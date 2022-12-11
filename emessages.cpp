@@ -275,6 +275,41 @@ bool eMessages::loadImpl() {
     fRequestGranted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_request_granted_title"];
     fRequestGranted.fCondensed.fText = fMessages["PHRASE_CONDENSED_request_granted_granted"];
 
+    fRequestPartialSpace.fFull.fTitle = fMessages["PHRASE_request_granted_title"];
+    fRequestPartialSpace.fFull.fText = fMessages["PHRASE_request_granted_partial_space"];
+    fRequestPartialSpace.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_request_granted_title"];
+    fRequestPartialSpace.fCondensed.fText = fMessages["PHRASE_CONDENSED_request_granted_partial_space"];
+
+    fRequestInsufficientSpace.fFull.fTitle = fMessages["PHRASE_request_granted_title"];
+    fRequestInsufficientSpace.fFull.fText = fMessages["PHRASE_request_granted_insufficient_space"];
+    fRequestInsufficientSpace.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_request_granted_title"];
+    fRequestInsufficientSpace.fCondensed.fText = fMessages["PHRASE_CONDENSED_request_granted_insufficient_space"];
+
+    fRequestLastChance.fFull.fTitle = fMessages["PHRASE_request_granted_title"];
+    fRequestLastChance.fFull.fText = fMessages["PHRASE_request_granted_last_chance"];
+    fRequestLastChance.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_request_granted_title"];
+    fRequestLastChance.fCondensed.fText = fMessages["PHRASE_CONDENSED_request_granted_last_chance"];
+
+    fRequestAccepted.fFull.fTitle = fMessages["PHRASE_request_granted_title"];
+    fRequestAccepted.fFull.fText = fMessages["PHRASE_request_granted_accepted"];
+    fRequestAccepted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_request_granted_title"];
+    fRequestAccepted.fCondensed.fText = fMessages["PHRASE_CONDENSED_request_granted_accepted"];
+
+    fRequestPostponed.fFull.fTitle = fMessages["PHRASE_request_granted_title"];
+    fRequestPostponed.fFull.fText = fMessages["PHRASE_request_granted_postponed"];
+    fRequestPostponed.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_request_granted_title"];
+    fRequestPostponed.fCondensed.fText = fMessages["PHRASE_CONDENSED_request_granted_postponed"];
+
+    fRequestRefused.fFull.fTitle = fMessages["PHRASE_request_granted_title"];
+    fRequestRefused.fFull.fText = fMessages["PHRASE_request_granted_refused"];
+    fRequestRefused.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_request_granted_title"];
+    fRequestRefused.fCondensed.fText = fMessages["PHRASE_CONDENSED_request_granted_refused"];
+
+    fRequestForfeited.fFull.fTitle = fMessages["PHRASE_request_granted_title"];
+    fRequestForfeited.fFull.fText = fMessages["PHRASE_request_granted_forfeited"];
+    fRequestForfeited.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_request_granted_title"];
+    fRequestForfeited.fCondensed.fText = fMessages["PHRASE_CONDENSED_request_granted_forfeited"];
+
     return true;
 }
 

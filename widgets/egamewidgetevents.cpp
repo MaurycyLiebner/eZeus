@@ -287,7 +287,35 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         return;
     } break;
     case eEvent::requestGranted: {
-        showMessage(ed, eMessages::instance.fRequestGranted, true);
+        showMessage(ed, eMessages::instance.fRequestGranted);
+        return;
+    } break;
+    case eEvent::requestPartialSpace: {
+        showMessage(ed, eMessages::instance.fRequestPartialSpace);
+        return;
+    } break;
+    case eEvent::requestInsufficientSpace: {
+        showMessage(ed, eMessages::instance.fRequestInsufficientSpace);
+        return;
+    } break;
+    case eEvent::requestLastChance: {
+        showMessage(ed, eMessages::instance.fRequestLastChance);
+        return;
+    } break;
+    case eEvent::requestAccepted: {
+        showMessage(ed, eMessages::instance.fRequestAccepted, true);
+        return;
+    } break;
+    case eEvent::requestPostponed: {
+        showMessage(ed, eMessages::instance.fRequestPostponed, true);
+        return;
+    } break;
+    case eEvent::requestRefused: {
+        showMessage(ed, eMessages::instance.fRequestRefused, true);
+        return;
+    } break;
+    case eEvent::requestForfeited: {
+        showMessage(ed, eMessages::instance.fRequestForfeited, true);
         return;
     } break;
     }
