@@ -8,17 +8,7 @@
 
 #include "buildings/estoragebuilding.h"
 
-#include "characters/gods/eathena.h"
-#include "characters/gods/edemeter.h"
-#include "characters/gods/edionysus.h"
-#include "characters/gods/ehermes.h"
-#include "characters/actions/egodvisitaction.h"
-
 #include "characters/esoldier.h"
-#include "characters/actions/esoldieraction.h"
-#include "characters/erockthrower.h"
-#include "characters/ehoplite.h"
-#include "characters/ehorseman.h"
 #include "characters/esoldierbanner.h"
 
 #include "buildings/sanctuaries/esanctbuilding.h"
@@ -30,7 +20,7 @@
 #include "buildings/epalace.h"
 #include "buildings/epalacetile.h"
 
-#include "buildings/allbuildings.h"
+#include "buildings/ehorseranch.h"
 
 #include "engine/boardData/eheatmaptask.h"
 
@@ -46,9 +36,6 @@
 
 #include "fileIO/ebuildingreader.h"
 #include "fileIO/ebuildingwriter.h"
-
-#include "characters/actions/egodworshippedaction.h"
-#include "characters/actions/egodattackaction.h"
 
 #include "gameEvents/egameeventcycle.h"
 #include "gameEvents/egodvisitevent.h"
