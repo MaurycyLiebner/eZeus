@@ -69,26 +69,46 @@ void eRequestDialog::initialize(const stdsptr<eWorldCity>& c,
     for(const auto& ts : tradeSells) {
         sells.push_back(ts.fType);
     }
-
+    const int att = c->attitude();
+    const auto rel = c->relationship();
     sells.push_back(eResourceType::drachmas);
-    for(const auto s : sells) {
-        const auto b = new eFramedButtonWithIcon(window());
-        b->setPressAction([s, func]() {
-            func(s);
-        });
-        const auto icon = eResourceTypeHelpers::icon(uiScale, s);
-        std::string request;
-        const auto rel = c->relationship();
-        if(rel == eWorldCityRelationship::collony ||
-           rel == eWorldCityRelationship::vassal) {
-            request = eLanguage::text("order");
-        } else {
-            request = eLanguage::text("request");
+    if(att <= 50 && rel != eWorldCityRelationship::rival) {
+        const auto notReg = eLanguage::text("not_regarded_enough");
+        const int p = std::round(13*mult);
+        const int h = 2*p;
+        for(const auto s : sells) {
+            const auto typeName = eResourceTypeHelpers::typeLongName(s);
+            const auto text = notReg + " " + typeName;
+            const auto l = new eLabel(window());
+            l->setTinyFontSize();
+            l->setText(text);
+            l->fitContent();
+            l->setHeight(h);
+            l->setTextAlignment(eAlignment::vcenter);
+            innerWid->addWidget(l);
         }
-        const auto typeName = eResourceTypeHelpers::typeLongName(s);
-        const auto text = request + " " + typeName;
-        b->initialize(icon, text);
-        innerWid->addWidget(b);
+    } else {
+        for(const auto s : sells) {
+            const auto b = new eFramedButtonWithIcon(window());
+            b->setPressAction([s, func]() {
+                func(s);
+            });
+            const auto icon = eResourceTypeHelpers::icon(uiScale, s);
+            std::string request;
+            const auto rel = c->relationship();
+            if(rel == eWorldCityRelationship::collony ||
+               rel == eWorldCityRelationship::vassal) {
+                request = eLanguage::text("order");
+            } else if(rel == eWorldCityRelationship::rival) {
+                request = eLanguage::text("demand");
+            } else {
+                request = eLanguage::text("request");
+            }
+            const auto typeName = eResourceTypeHelpers::typeLongName(s);
+            const auto text = request + " " + typeName;
+            b->initialize(icon, text);
+            innerWid->addWidget(b);
+        }
     }
 
     innerWid->stackVertically();

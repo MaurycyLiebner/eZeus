@@ -36,6 +36,13 @@ void eWorldWidget::openRequestDialog() {
     const auto d = new eRequestDialog(window());
     const auto func = [this, d](const eResourceType type) {
         mBoard->request(mCity, type);
+        const auto wb = mBoard->getWorldBoard();
+        const auto& cts = wb.cities();
+        for(const auto& ct : cts) {
+            ct->incAttitude(-10);
+        }
+        mCity->incAttitude(-10);
+        mWM->updateRelationshipLabel();
         d->deleteLater();
     };
     d->initialize(mCity, func);

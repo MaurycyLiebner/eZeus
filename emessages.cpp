@@ -310,6 +310,36 @@ bool eMessages::loadImpl() {
     fRequestForfeited.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_request_granted_title"];
     fRequestForfeited.fCondensed.fText = fMessages["PHRASE_CONDENSED_request_granted_forfeited"];
 
+    fDemandRefused.fFull.fTitle = fMessages["PHRASE_demand_refused_title"];
+    fDemandRefused.fFull.fText = fMessages["PHRASE_demand_refused_initial_announcement"];
+    fDemandRefused.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_demand_refused_title"];
+    fDemandRefused.fCondensed.fText = fMessages["PHRASE_CONDENSED_demand_refused_initial_announcement"];
+
+    fGiftReceivedDrachmas.fFull.fTitle = fMessages["PHRASE_gift_received_money_title"];
+    fGiftReceivedDrachmas.fFull.fText = fMessages["PHRASE_gift_received_money_initial_announcement"];
+    fGiftReceivedDrachmas.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_received_money_title"];
+    fGiftReceivedDrachmas.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_received_money_initial_announcement"];
+
+    fGiftReceivedNeeded.fFull.fTitle = fMessages["PHRASE_gift_received_needs_title"];
+    fGiftReceivedNeeded.fFull.fText = fMessages["PHRASE_gift_received_needs_initial_announcement"];
+    fGiftReceivedNeeded.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_received_needs_title"];
+    fGiftReceivedNeeded.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_received_needs_initial_announcement"];
+
+    fGiftReceivedSells.fFull.fTitle = fMessages["PHRASE_gift_received_produces_title"];
+    fGiftReceivedSells.fFull.fText = fMessages["PHRASE_gift_received_produces_initial_announcement"];
+    fGiftReceivedSells.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_received_produces_title"];
+    fGiftReceivedSells.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_received_produces_initial_announcement"];
+
+    fGiftReceivedNotNeeded.fFull.fTitle = fMessages["PHRASE_gift_received_doesnt_need_title"];
+    fGiftReceivedNotNeeded.fFull.fText = fMessages["PHRASE_gift_received_doesnt_need_initial_announcement"];
+    fGiftReceivedNotNeeded.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_received_doesnt_need_title"];
+    fGiftReceivedNotNeeded.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_received_doesnt_need_initial_announcement"];
+
+    fGiftReceivedRefuse.fFull.fTitle = fMessages["PHRASE_gift_refused_title"];
+    fGiftReceivedRefuse.fFull.fText = fMessages["PHRASE_gift_refused_initial_announcement"];
+    fGiftReceivedRefuse.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_refused_title"];
+    fGiftReceivedRefuse.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_refused_initial_announcement"];
+
     return true;
 }
 

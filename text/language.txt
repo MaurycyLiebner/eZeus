@@ -47,6 +47,8 @@ goods "Goods"
 orders "Orders"
 buys "Buys"
 sells "Sells"
+produces "Produces"
+needs "Needs"
 
 paying_tribute "Paying tribute"
 yearly "yearly"
@@ -377,6 +379,8 @@ suits_of_armor "suits of armor"
 
 order "Order"
 request "Request"
+demand "Demand"
+not_regarded_enough "You're not regarded highly enough to request"
 
 hall_near_palace "Build hall near palace"
 good_appeal_around_hall "Good appeal around the hall"

@@ -17,6 +17,7 @@ public:
     void initialize(const std::function<void()>& openRequest);
 
     void setCity(const stdsptr<eWorldCity>& c);
+    void updateRelationshipLabel() const;
 private:
     eLabel* mRelationshipLabel = nullptr;
     eLabel* mNameLabel = nullptr;

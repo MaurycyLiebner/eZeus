@@ -1,6 +1,7 @@
 #include "eworldcity.h"
 
 #include "elanguage.h"
+#include "evectorhelpers.h"
 
 eWorldCityBase::eWorldCityBase(const eWorldCityType type,
                                const std::string& name,
@@ -17,6 +18,14 @@ eWorldCityBase::eWorldCityBase(const eWorldCityType type,
         setRelationship(eWorldCityRelationship::ally);
         break;
     }
+}
+
+void eWorldCityBase::setAttitude(const int a) {
+    mAt = std::clamp(a, 0, 100);
+}
+
+void eWorldCityBase::incAttitude(const int a) {
+    setAttitude(mAt + a);
 }
 
 void eWorldCityBase::write(eWriteStream& dst) const {
@@ -50,10 +59,25 @@ void eWorldCity::nextYear() {
     for(auto& s : mSells) {
         s.fUsed = 0;
     }
+    mReceived.clear();
+}
+
+bool eWorldCity::buys(const eResourceType type) const {
+    for(const auto& rt : mBuys) {
+        if(rt.fType == type) return true;
+    }
+    return false;
 }
 
 void eWorldCity::addBuys(const eResourceTrade& b) {
     mBuys.push_back(b);
+}
+
+bool eWorldCity::sells(const eResourceType type) const {
+    for(const auto& rt : mSells) {
+        if(rt.fType == type) return true;
+    }
+    return false;
 }
 
 void eWorldCity::addSells(const eResourceTrade& s) {
@@ -94,6 +118,13 @@ void eWorldCity::read(eReadStream& src) {
     src >> mWaterTrade;
     sread(src, mBuys);
     sread(src, mSells);
+}
+
+bool eWorldCity::acceptsGift(const eResourceType type,
+                             const int count) const {
+    (void)count;
+    const bool c = eVectorHelpers::contains(mReceived, type);
+    return !c;
 }
 
 stdsptr<eWorldCity> eWorldCity::sCreateAthens(const eWorldCityType type) {

@@ -100,6 +100,14 @@ public:
     eMessageType fRequestPostponed;
     eMessageType fRequestRefused;
     eMessageType fRequestForfeited;
+
+    eMessageType fDemandRefused;
+
+    eMessageType fGiftReceivedDrachmas;
+    eMessageType fGiftReceivedNeeded;
+    eMessageType fGiftReceivedSells;
+    eMessageType fGiftReceivedNotNeeded;
+    eMessageType fGiftReceivedRefuse;
 private:
     bool loadImpl();
     void load(eGodMessages& god, const std::string& godName);

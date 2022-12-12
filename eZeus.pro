@@ -283,6 +283,7 @@ SOURCES += \
         fileIO/ewritestream.cpp \
         gameEvents/egameevent.cpp \
         gameEvents/egameeventcycle.cpp \
+        gameEvents/egiftevent.cpp \
         gameEvents/egodattackevent.cpp \
         gameEvents/egodvisitevent.cpp \
         gameEvents/egrantrequestevent.cpp \
@@ -692,6 +693,7 @@ HEADERS += \
     fileIO/ewritestream.h \
     gameEvents/egameevent.h \
     gameEvents/egameeventcycle.h \
+    gameEvents/egiftevent.h \
     gameEvents/egodattackevent.h \
     gameEvents/egodvisitevent.h \
     gameEvents/egrantrequestevent.h \

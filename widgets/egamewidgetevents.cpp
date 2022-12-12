@@ -318,6 +318,30 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, eMessages::instance.fRequestForfeited, true);
         return;
     } break;
+    case eEvent::demandRefused: {
+        showMessage(ed, eMessages::instance.fDemandRefused, true);
+        return;
+    } break;
+    case eEvent::giftReceivedDrachmas: {
+        showMessage(ed, eMessages::instance.fGiftReceivedDrachmas, true);
+        return;
+    } break;
+    case eEvent::giftReceivedNeeded: {
+        showMessage(ed, eMessages::instance.fGiftReceivedNeeded, true);
+        return;
+    } break;
+    case eEvent::giftReceivedSells: {
+        showMessage(ed, eMessages::instance.fGiftReceivedSells, true);
+        return;
+    } break;
+    case eEvent::giftReceivedNotNeeded: {
+        showMessage(ed, eMessages::instance.fGiftReceivedNotNeeded, true);
+        return;
+    } break;
+    case eEvent::giftReceivedRefuse: {
+        showMessage(ed, eMessages::instance.fGiftReceivedRefuse, true);
+        return;
+    } break;
     }
     mGm->pushEvent(e, ed.fTile);
 }

@@ -12,7 +12,8 @@ enum class eGameEventType {
     monsterAttack,
     invasion,
     payTribute,
-    grantRequest
+    grantRequest,
+    gift
 };
 
 class eGameEvent : public eObject {

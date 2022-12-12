@@ -89,8 +89,9 @@ public:
     eWorldCityRelationship relationship() const { return mRel; }
     void setRelationship(const eWorldCityRelationship r) { mRel = r; }
 
-    eWorldCityAttitude attitude() const { return mAt; }
-    void setAttitude(const eWorldCityAttitude a) { mAt = a; }
+    int attitude() const { return mAt; }
+    void setAttitude(const int a);
+    void incAttitude(const int a);
 
     const std::string& name() const { return mName; }
     const std::string& leader() const { return mLeader; }
@@ -114,7 +115,7 @@ private:
     bool mRebellion = false;
 
     eWorldCityRelationship mRel{eWorldCityRelationship::ally};
-    eWorldCityAttitude mAt{eWorldCityAttitude::philanthropic};
+    int mAt{60};
 };
 
 struct eResourceTrade {
@@ -157,12 +158,14 @@ public:
     { return mBuys; }
     std::vector<eResourceTrade>& buys()
     { return mBuys; }
+    bool buys(const eResourceType type) const;
     void addBuys(const eResourceTrade& b);
 
     const std::vector<eResourceTrade>& sells() const
     { return mSells; }
     std::vector<eResourceTrade>& sells()
     { return mSells; }
+    bool sells(const eResourceType type) const;
     void addSells(const eResourceTrade& s);
 
     eResourceType tributeType() const { return mTributeType; }
@@ -170,6 +173,9 @@ public:
 
     void write(eWriteStream& dst) const override;
     void read(eReadStream& src) override;
+
+    bool acceptsGift(const eResourceType type,
+                     const int count) const;
 
     static stdsptr<eWorldCity> sCreateAthens(
             const eWorldCityType type = eWorldCityType::greekCity);
@@ -205,6 +211,8 @@ private:
 
     std::vector<eResourceTrade> mBuys;
     std::vector<eResourceTrade> mSells;
+
+    std::vector<eResourceType> mReceived;
 
     eResourceType mTributeType = eResourceType::drachmas;
     int mTributeCount = 500;

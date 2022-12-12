@@ -24,8 +24,10 @@ public:
     using eWidget::eWidget;
 
     void initialize(const std::string& name);
+    void setName(const std::string& name);
     void setTrade(const std::vector<eResourceTrade>& trade);
 private:
+    eLabel* mNameLabel = nullptr;
     eTradeTypesWidget* mTradeTypesWidget = nullptr;;
 };
 

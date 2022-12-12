@@ -44,6 +44,7 @@
 #include "gameEvents/einvasionevent.h"
 #include "gameEvents/epaytributeevent.h"
 #include "gameEvents/egrantrequestevent.h"
+#include "gameEvents/egiftevent.h"
 
 #include "einvasionhandler.h"
 
@@ -687,9 +688,20 @@ void eGameBoard::grantRequest(const stdsptr<eWorldCity>& c,
     const int space = spaceForResource(type);
     eEventData ed;
     ed.fCity = c;
-    ed.fSpaceCount = spaceForResource(type);
+    ed.fSpaceCount = space;
     ed.fResourceType = type;
     ed.fResourceCount = count;
+
+    const auto rel = c->relationship();
+    if(rel == eWorldCityRelationship::rival) {
+        ed.fType = eMessageEventType::resourceGranted;
+        const bool refuse = true;
+        if(refuse) {
+            event(eEvent::demandRefused, ed);
+        }
+        return;
+    }
+
     if(space == 0) {
         ed.fType = eMessageEventType::resourceGranted;
 
@@ -808,6 +820,47 @@ void eGameBoard::payTribute(const stdsptr<eWorldCity>& c,
         event(eEvent::tributeDeclined, ed);
     };
     event(eEvent::tributePaid, ed);
+}
+
+void eGameBoard::gift(const stdsptr<eWorldCity>& c,
+                      const eResourceType type,
+                      const int count) {
+    const auto e = e::make_shared<eGiftEvent>(*this);
+    e->initialize(c, type, count);
+    const auto date = mDate + 90;
+    const auto ec = e::make_shared<eGameEventCycle>(
+                        e, date, *this);
+    addGameEvent(ec);
+}
+
+void eGameBoard::giftReceived(const stdsptr<eWorldCity>& c,
+                              const eResourceType type,
+                              const int count) {
+    const bool a = c->acceptsGift(type, count);
+    eEventData ed;
+    ed.fType = eMessageEventType::resourceGranted;
+    ed.fCity = c;
+    ed.fResourceType = type;
+    ed.fResourceCount = count;
+    if(a) {
+        const bool b = c->buys(type);
+        const bool s = c->sells(type);
+        if(type == eResourceType::drachmas) {
+            event(eEvent::giftReceivedDrachmas, ed);
+            c->incAttitude(10);
+        } else if(b) {
+            event(eEvent::giftReceivedNeeded, ed);
+            c->incAttitude(10);
+        } else if(s) {
+            event(eEvent::giftReceivedSells, ed);
+            c->incAttitude(5);
+        } else {
+            event(eEvent::giftReceivedNotNeeded, ed);
+            c->incAttitude(5);
+        }
+    } else {
+        event(eEvent::giftReceivedRefuse, ed);
+    }
 }
 
 void eGameBoard::waitUntilFinished() {

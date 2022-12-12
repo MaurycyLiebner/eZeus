@@ -136,7 +136,15 @@ enum class eEvent {
     requestAccepted,
     requestPostponed,
     requestRefused,
-    requestForfeited
+    requestForfeited,
+
+    demandRefused,
+
+    giftReceivedDrachmas,
+    giftReceivedNeeded,
+    giftReceivedSells,
+    giftReceivedNotNeeded,
+    giftReceivedRefuse
 };
 
 enum class eMessageEventType {
@@ -368,12 +376,18 @@ public:
                     const int count);
     int spaceForResource(const eResourceType type);
     void request(const stdsptr<eWorldCity>& c,
-                      const eResourceType type);
+                 const eResourceType type);
     void grantRequest(const stdsptr<eWorldCity>& c,
                       const eResourceType type,
                       const bool postpone);
     void payTribute(const stdsptr<eWorldCity>& c,
                     const bool postpone);
+    void gift(const stdsptr<eWorldCity>& c,
+              const eResourceType type,
+              const int count);
+    void giftReceived(const stdsptr<eWorldCity>& c,
+                      const eResourceType type,
+                      const int count);
 
     void waitUntilFinished();
 private:

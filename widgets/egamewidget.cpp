@@ -681,7 +681,8 @@ void eGameWidget::updateTipPositions() {
     }
 }
 
-void eGameWidget::showMessage(eEventData& ed, const eMessage& msg,
+void eGameWidget::showMessage(eEventData& ed,
+                              const eMessage& msg,
                               const bool prepend) {
     if(mMsgBox) {
         auto& smsg = prepend ? mSavedMsgs.emplace_front() :

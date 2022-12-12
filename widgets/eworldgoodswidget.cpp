@@ -69,21 +69,28 @@ void eWorldTradeWidget::initialize(const std::string& name) {
 
     setWidth(mult*75);
 
-    const auto nameLabel = new eLabel(name, window());
-    nameLabel->setTinyPadding();
-    nameLabel->setSmallFontSize();
-    nameLabel->fitContent();
-    addWidget(nameLabel);
-    nameLabel->align(eAlignment::top | eAlignment::hcenter);
+    mNameLabel = new eLabel(name, window());
+    mNameLabel->setTinyPadding();
+    mNameLabel->setSmallFontSize();
+    mNameLabel->fitContent();
+    addWidget(mNameLabel);
+    mNameLabel->align(eAlignment::top | eAlignment::hcenter);
 
     mTradeTypesWidget = new eTradeTypesWidget(window());
-    mTradeTypesWidget->setY(nameLabel->height());
+    mTradeTypesWidget->setY(mNameLabel->height());
     mTradeTypesWidget->initialize();
     mTradeTypesWidget->setWidth(width());
     addWidget(mTradeTypesWidget);
 
     setNoPadding();
     fitContent();
+}
+
+void eWorldTradeWidget::setName(const std::string &name) {
+    mNameLabel->setText(name);
+    mNameLabel->fitContent();
+    addWidget(mNameLabel);
+    mNameLabel->align(eAlignment::top | eAlignment::hcenter);
 }
 
 void eWorldTradeWidget::setTrade(const std::vector<eResourceTrade>& trade) {
@@ -138,6 +145,17 @@ void eWorldGoodsWidget::setCity(const stdsptr<eWorldCity>& c) {
     mGoodsLabel->setVisible(c.get());
     mOrdersButton->setVisible(!buys.empty() || !sells.empty());
     updateTradeY();
+
+    if(c) {
+        const auto rel = c->relationship();
+        if(rel == eWorldCityRelationship::rival) {
+            mBuysWidget->setName(eLanguage::text("needs"));
+            mSellsWidget->setName(eLanguage::text("produces"));
+        } else {
+            mBuysWidget->setName(eLanguage::text("buys"));
+            mSellsWidget->setName(eLanguage::text("sells"));
+        }
+    }
 }
 
 void eWorldGoodsWidget::updateTradeY() const {
