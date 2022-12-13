@@ -133,7 +133,11 @@ bool eTexture::loadText(SDL_Renderer* const r,
 
         const SDL_Rect dstRect2{0, 0, w, h};
         SDL_RenderCopy(r, tex2, NULL, &dstRect2);
+        SDL_SetTextureAlphaMod(tex2, 128);
+        SDL_RenderCopy(r, tex2, NULL, &dstRect2);
         const SDL_Rect dstRect1{dx, dy, w, h};
+        SDL_RenderCopy(r, tex1, NULL, &dstRect1);
+        SDL_SetTextureAlphaMod(tex1, 128);
         SDL_RenderCopy(r, tex1, NULL, &dstRect1);
 
         SDL_DestroyTexture(tex2);
