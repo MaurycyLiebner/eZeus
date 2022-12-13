@@ -18,6 +18,7 @@ protected:
     bool keyPressEvent(const eKeyPressEvent& e);
 private:
     void openRequestDialog();
+    void openGiftDialog();
 
     stdsptr<eWorldCity> mCity;
     eWorldMenu* mWM = nullptr;

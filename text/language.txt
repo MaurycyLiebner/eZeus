@@ -504,6 +504,8 @@ bribe "Bribe"
 fight_to_defend "Fight to defend city"
 
 request_of "Request of"
+give_to "Give to"
+no_gifts_possible "No gifts possible"
 
 employees "Employees"
 needed "Needed"

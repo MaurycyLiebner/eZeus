@@ -375,6 +375,7 @@ public:
     int addResource(const eResourceType type,
                     const int count);
     int spaceForResource(const eResourceType type);
+    int countResource(const eResourceType type);
     void request(const stdsptr<eWorldCity>& c,
                  const eResourceType type);
     void grantRequest(const stdsptr<eWorldCity>& c,

@@ -3,15 +3,20 @@
 #include "eworldmenu.h"
 #include "eworldmapwidget.h"
 #include "erequestdialog.h"
+#include "egiftdialog.h"
 #include "eeventbackground.h"
 #include "emainwindow.h"
 #include "egamewidget.h"
 
 void eWorldWidget::initialize() {
     mWM = new eWorldMenu(window());
-    mWM->initialize([this]() {
+    const auto requestFunc = [this]() {
         openRequestDialog();
-    });
+    };
+    const auto giftFunc = [this]() {
+        openGiftDialog();
+    };
+    mWM->initialize(requestFunc, giftFunc);
 
     mWMW = new eWorldMapWidget(window());
     mWMW->initialize();
@@ -47,6 +52,19 @@ void eWorldWidget::openRequestDialog() {
         d->deleteLater();
     };
     d->initialize(mCity, func);
+    addWidget(d);
+    d->align(eAlignment::vcenter);
+    d->setX(mWMW->x() + (mWMW->width() - d->width())/2);
+    const auto bg = new eEventBackground(window());
+    bg->initialize(this, d, true, nullptr);
+}
+
+void eWorldWidget::openGiftDialog() {
+    const auto d = new eGiftDialog(window());
+    const auto func = [this, d](const eResourceType type) {
+
+    };
+    d->initialize(mCity, func, *mBoard);
     addWidget(d);
     d->align(eAlignment::vcenter);
     d->setX(mWMW->x() + (mWMW->width() - d->width())/2);

@@ -363,6 +363,7 @@ SOURCES += \
         widgets/eflatbutton.cpp \
         widgets/efonts.cpp \
         widgets/eframedbutton.cpp \
+        widgets/eframedbuttonwithicon.cpp \
         widgets/eframedlabel.cpp \
         widgets/eframedwidget.cpp \
         widgets/egameloadingwidget.cpp \
@@ -374,6 +375,7 @@ SOURCES += \
         widgets/egamewidgetevents.cpp \
         widgets/egamewidgetinfo.cpp \
         widgets/egamewidgetpaint.cpp \
+        widgets/egiftdialog.cpp \
         widgets/ehelpbutton.cpp \
         widgets/elabel.cpp \
         widgets/elabelbase.cpp \
@@ -1260,6 +1262,7 @@ HEADERS += \
     widgets/eflatbutton.h \
     widgets/efonts.h \
     widgets/eframedbutton.h \
+    widgets/eframedbuttonwithicon.h \
     widgets/eframedlabel.h \
     widgets/eframedwidget.h \
     widgets/egameloadingwidget.h \
@@ -1267,6 +1270,7 @@ HEADERS += \
     widgets/egamemenu.h \
     widgets/egamemenubase.h \
     widgets/egamewidget.h \
+    widgets/egiftdialog.h \
     widgets/ehelpbutton.h \
     widgets/elabel.h \
     widgets/elabelbase.h \

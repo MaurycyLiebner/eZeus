@@ -634,6 +634,14 @@ int eGameBoard::spaceForResource(const eResourceType type) {
     return r;
 }
 
+int eGameBoard::countResource(const eResourceType type) {
+    int r = 0;
+    for(const auto s : mStorBuildings) {
+        r += s->count(type);
+    }
+    return r;
+}
+
 void eGameBoard::request(const stdsptr<eWorldCity>& c,
                          const eResourceType type) {
     const auto e = e::make_shared<eGrantRequestEvent>(*this);
@@ -1621,6 +1629,9 @@ void eGameBoard::updateResources() {
 }
 
 int eGameBoard::resourceCount(const eResourceType type) const {
+    if(type == eResourceType::drachmas) {
+        return mDrachmas;
+    }
     for(auto& r : mResources) {
         if(r.first == type) return r.second;
     }

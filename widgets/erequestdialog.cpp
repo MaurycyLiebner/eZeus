@@ -2,48 +2,11 @@
 
 #include "elanguage.h"
 #include "elabel.h"
-#include "eframedbutton.h"
-
-class eFramedButtonWithIcon : public eFramedButton {
-public:
-    using eFramedButton::eFramedButton;
-
-    void initialize(const std::shared_ptr<eTexture>& icon,
-                    const std::string& text) {
-        const auto r = resolution();
-        const double mult = r.multiplier();
-
-        const int p = std::round(13*mult);
-        const int w = r.centralWidgetSmallWidth();
-        setWidth(w);
-        setHeight(2*p);
-        setNoPadding();
-
-        const auto iconLabel = new eLabel(window());
-        iconLabel->setNoPadding();
-        iconLabel->setTexture(icon);
-        iconLabel->fitContent();
-        addWidget(iconLabel);
-
-        const auto textLabel = new eLabel(window());
-        textLabel->setNoPadding();
-        textLabel->setTinyFontSize();
-        textLabel->setText(text);
-        textLabel->fitContent();
-        addWidget(textLabel);
-
-        iconLabel->setX(p);
-        textLabel->setX(iconLabel->x() + iconLabel->width() + p);
-
-        iconLabel->align(eAlignment::vcenter);
-        textLabel->align(eAlignment::vcenter);
-    }
-};
+#include "eframedbuttonwithicon.h"
 
 void eRequestDialog::initialize(const stdsptr<eWorldCity>& c,
                                 const eRequestFunction& func) {
     const auto r = resolution();
-    const auto uiScale = r.uiScale();
     const double mult = r.multiplier();
 
     setType(eFrameType::message);
@@ -93,7 +56,6 @@ void eRequestDialog::initialize(const stdsptr<eWorldCity>& c,
             b->setPressAction([s, func]() {
                 func(s);
             });
-            const auto icon = eResourceTypeHelpers::icon(uiScale, s);
             std::string request;
             const auto rel = c->relationship();
             if(rel == eWorldCityRelationship::collony ||
@@ -106,7 +68,7 @@ void eRequestDialog::initialize(const stdsptr<eWorldCity>& c,
             }
             const auto typeName = eResourceTypeHelpers::typeLongName(s);
             const auto text = request + " " + typeName;
-            b->initialize(icon, text);
+            b->initialize(s, text);
             innerWid->addWidget(b);
         }
     }

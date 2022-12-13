@@ -14,7 +14,8 @@ class eWorldMenu : public eLabel {
 public:
     using eLabel::eLabel;
 
-    void initialize(const std::function<void()>& openRequest);
+    void initialize(const eAction& openRequest,
+                    const eAction& openGift);
 
     void setCity(const stdsptr<eWorldCity>& c);
     void updateRelationshipLabel() const;
