@@ -70,7 +70,7 @@ void eSettingsMenu::initialize(const eApplyAction& settingsA,
 
     const int colm = 2*p;
     const int colw = (inner->width() - 2*colm)/3;
-    const int colh = inner->height() - 2*p;
+    const int colh = inner->height() + 2*p;
 
     const auto col1 = new eWidget(window());
     col1->setNoPadding();
