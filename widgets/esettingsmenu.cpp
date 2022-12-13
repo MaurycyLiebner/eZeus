@@ -94,14 +94,15 @@ void eSettingsMenu::initialize(const eApplyAction& settingsA,
 
     {
         const auto res = mSettings.fRes;
-
+        const auto& ress = eResolution::sResolutions;
         int y = 0;
         eWidget* col = col2;
         const auto currentButton = std::make_shared<eFramedButton*>();
-        const int iMax = eResolution::sResolutions.size();
+        const int iMax = ress.size();
         for(int i = 0; i < iMax; i++) {
-            const auto& r = eResolution::sResolutions[i];
+            const auto& r = ress[i];
             const auto b = new eFramedButton(window());
+            b->setSmallPadding();
             b->setUnderline(false);
             b->setText(r.name());
             b->fitContent();

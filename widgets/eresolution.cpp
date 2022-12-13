@@ -15,15 +15,14 @@ std::vector<eResolution> eResolution::sResolutions{
     eResolution{1920, 1200},
     eResolution{2560, 1080},
     eResolution{2560, 1440},
+    eResolution{2560, 1600},
     eResolution{3440, 1440},
     eResolution{3840, 2160},
 };
 
 eResolution::eResolution(const int width, const int height) :
     mWidth(width), mHeight(height) {
-    if(height <= 600) {
-        mUIScale = eUIScale::tiny;
-    } else if(height <= 800) {
+    if(height <= 800) {
         mUIScale = eUIScale::small;
     } else if(height <= 1200) {
         mUIScale = eUIScale::medium;

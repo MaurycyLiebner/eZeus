@@ -101,24 +101,42 @@ int main() {
 
     eGameDir::initialize();
 
-    SDL_DisplayMode mode;
-    const bool r0 = getDisplayResolution(mode);
-    eResolution resolution;
+//    SDL_DisplayMode mode;
+//    const bool r0 = getDisplayResolution(mode);
+//    eResolution resolution;
 //    if(r0) {
 //        resolution = eResolution(mode.w, mode.h);
 //    } else {
-        resolution = eResolution(1280, 720);
+//        resolution = eResolution(1280, 720);
 //    }
 
-    std::vector<SDL_DisplayMode> resolutions;
-    const bool r1 = getDisplayResolutions(resolutions);
-    if(r1 && !resolutions.empty()) {
-        eResolution::sResolutions = std::vector<eResolution>();
-        for(const auto& m : resolutions) {
-            eResolution::sResolutions.emplace_back(m.w, m.h);
+//    std::vector<SDL_DisplayMode> resolutions;
+//    const bool r1 = getDisplayResolutions(resolutions);
+//    if(r1 && !resolutions.empty()) {
+//        eResolution::sResolutions = std::vector<eResolution>();
+//        for(const auto& m : resolutions) {
+//            eResolution::sResolutions.emplace_back(m.w, m.h);
+//        }
+//    }
+    std::vector<SDL_DisplayMode> ress;
+    const int displayCount = SDL_GetNumVideoDisplays();
+
+    for(int i = 0; i < displayCount; i++) {
+        SDL_DisplayMode dm;
+        SDL_GetCurrentDisplayMode(i, &dm);
+        bool contains = false;
+        for(const auto& rr : eResolution::sResolutions) {
+            contains = dm.w == rr.width() &&
+                       dm.h == rr.height();
+            if(contains) break;
+        }
+        if(!contains) {
+            const auto res = eResolution(dm.w, dm.h);
+            eResolution::sResolutions.push_back(res);
         }
     }
 
+    const auto resolution = eResolution(1280, 720);
     eMainWindow w;
     const bool i = w.initialize(resolution);
     if(!i) return 1;
