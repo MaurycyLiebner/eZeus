@@ -12,8 +12,6 @@ void eWorldWidget::initialize() {
     mWM->initialize([this]() {
         openRequestDialog();
     });
-    addWidget(mWM);
-    mWM->align(eAlignment::right | eAlignment::top);
 
     mWMW = new eWorldMapWidget(window());
     mWMW->initialize();
@@ -25,6 +23,9 @@ void eWorldWidget::initialize() {
         mCity = ct;
         mWM->setCity(ct);
     });
+
+    addWidget(mWM);
+    mWM->align(eAlignment::right | eAlignment::top);
 }
 
 void eWorldWidget::setBoard(eGameBoard* const board) {
