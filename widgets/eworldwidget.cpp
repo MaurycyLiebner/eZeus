@@ -7,6 +7,7 @@
 #include "eeventbackground.h"
 #include "emainwindow.h"
 #include "egamewidget.h"
+#include "egiftsizedialog.h"
 
 void eWorldWidget::initialize() {
     mWM = new eWorldMenu(window());
@@ -62,7 +63,19 @@ void eWorldWidget::openRequestDialog() {
 void eWorldWidget::openGiftDialog() {
     const auto d = new eGiftDialog(window());
     const auto func = [this, d](const eResourceType type) {
-
+        const auto dd = new eGiftSizeDialog(window());
+        const auto func = [this, d, dd](const eResourceType type,
+                                        const int count) {
+            mBoard->gift(mCity, type, count);
+            d->deleteLater();
+            dd->deleteLater();
+        };
+        dd->initialize(type, mCity, func, *mBoard);
+        addWidget(dd);
+        dd->align(eAlignment::vcenter);
+        dd->setX(mWMW->x() + (mWMW->width() - dd->width())/2);
+        const auto bg = new eEventBackground(window());
+        bg->initialize(this, dd, true, nullptr);
     };
     d->initialize(mCity, func, *mBoard);
     addWidget(d);

@@ -232,7 +232,6 @@ public:
     const std::vector<eMonster*>& monsters() const { return mMonsters; }
 
     void updateResources();
-    int resourceCount(const eResourceType type) const;
     using eResources = std::vector<std::pair<eResourceType, int>>;
     const eResources& resources() const { return mResources; }
 
@@ -375,7 +374,9 @@ public:
     int addResource(const eResourceType type,
                     const int count);
     int spaceForResource(const eResourceType type);
-    int countResource(const eResourceType type);
+    int resourceCount(const eResourceType type) const;
+    int takeResource(const eResourceType type,
+                     const int count);
     void request(const stdsptr<eWorldCity>& c,
                  const eResourceType type);
     void grantRequest(const stdsptr<eWorldCity>& c,

@@ -79,19 +79,3 @@ void eRequestDialog::initialize(const stdsptr<eWorldCity>& c,
     fitContent();
     rofLabel->align(eAlignment::hcenter);
 }
-
-bool eRequestDialog::keyPressEvent(const eKeyPressEvent& e) {
-    const auto k = e.key();
-    if(k == SDL_SCANCODE_ESCAPE) {
-        deleteLater();
-    }
-    return true;
-}
-
-bool eRequestDialog::mousePressEvent(const eMouseEvent& e) {
-    const auto b = e.button();
-    if(b == eMouseButton::right) {
-        deleteLater();
-    }
-    return true;
-}

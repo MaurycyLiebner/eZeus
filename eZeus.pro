@@ -248,6 +248,7 @@ SOURCES += \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
+        engine/egifthelpers.cpp \
         engine/emapgenerator.cpp \
         engine/epathboard.cpp \
         engine/epathfinder.cpp \
@@ -353,6 +354,7 @@ SOURCES += \
         widgets/ecancelbutton.cpp \
         widgets/echeckablebutton.cpp \
         widgets/echeckbox.cpp \
+        widgets/eclosabledialog.cpp \
         widgets/ecombobox.cpp \
         widgets/econtextmenu.cpp \
         widgets/edownbutton.cpp \
@@ -376,6 +378,7 @@ SOURCES += \
         widgets/egamewidgetinfo.cpp \
         widgets/egamewidgetpaint.cpp \
         widgets/egiftdialog.cpp \
+        widgets/egiftsizedialog.cpp \
         widgets/ehelpbutton.cpp \
         widgets/elabel.cpp \
         widgets/elabelbase.cpp \
@@ -654,6 +657,7 @@ HEADERS += \
     engine/efunctask.h \
     engine/egameboard.h \
     engine/egameboarditerator.h \
+    engine/egifthelpers.h \
     engine/emapgenerator.h \
     engine/emovedirection.h \
     engine/eorientation.h \
@@ -1252,6 +1256,7 @@ HEADERS += \
     widgets/ecancelbutton.h \
     widgets/echeckablebutton.h \
     widgets/echeckbox.h \
+    widgets/eclosabledialog.h \
     widgets/ecombobox.h \
     widgets/econtextmenu.h \
     widgets/edownbutton.h \
@@ -1271,6 +1276,7 @@ HEADERS += \
     widgets/egamemenubase.h \
     widgets/egamewidget.h \
     widgets/egiftdialog.h \
+    widgets/egiftsizedialog.h \
     widgets/ehelpbutton.h \
     widgets/elabel.h \
     widgets/elabelbase.h \

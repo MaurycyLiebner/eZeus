@@ -1,7 +1,7 @@
 #include "eworldcity.h"
 
 #include "elanguage.h"
-#include "evectorhelpers.h"
+#include "egifthelpers.h"
 
 eWorldCityBase::eWorldCityBase(const eWorldCityType type,
                                const std::string& name,
@@ -120,11 +120,32 @@ void eWorldCity::read(eReadStream& src) {
     sread(src, mSells);
 }
 
+void eWorldCity::gifted(const eResourceType type, const int count) {
+    const auto comp = [type](const std::pair<eResourceType, int>& r) {
+        return r.first == type;
+    };
+    const auto it = std::find_if(mReceived.begin(), mReceived.end(), comp);
+    if(it == mReceived.end()) {
+        mReceived.push_back({type, count});
+    } else {
+        it->second += count;
+    }
+}
+
 bool eWorldCity::acceptsGift(const eResourceType type,
                              const int count) const {
+    if(type == eResourceType::drachmas) return true;
     (void)count;
-    const bool c = eVectorHelpers::contains(mReceived, type);
-    return !c;
+    const auto comp = [type](const std::pair<eResourceType, int>& r) {
+        return r.first == type;
+    };
+    const auto it = std::find_if(mReceived.begin(), mReceived.end(), comp);
+    if(it == mReceived.end()) {
+        return true;
+    } else {
+        const int max = 3 * eGiftHelpers::giftCount(type);
+        return it->second < max;
+    }
 }
 
 stdsptr<eWorldCity> eWorldCity::sCreateAthens(const eWorldCityType type) {

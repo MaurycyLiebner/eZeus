@@ -49,6 +49,7 @@
 #include "einvasionhandler.h"
 
 #include "evectorhelpers.h"
+#include "egifthelpers.h"
 
 eGameBoard::eGameBoard() :
     mEmplData(mPopData, *this) {
@@ -634,14 +635,6 @@ int eGameBoard::spaceForResource(const eResourceType type) {
     return r;
 }
 
-int eGameBoard::countResource(const eResourceType type) {
-    int r = 0;
-    for(const auto s : mStorBuildings) {
-        r += s->count(type);
-    }
-    return r;
-}
-
 void eGameBoard::request(const stdsptr<eWorldCity>& c,
                          const eResourceType type) {
     const auto e = e::make_shared<eGrantRequestEvent>(*this);
@@ -655,43 +648,7 @@ void eGameBoard::request(const stdsptr<eWorldCity>& c,
 void eGameBoard::grantRequest(const stdsptr<eWorldCity>& c,
                               const eResourceType type,
                               const bool postpone) {
-    int count;
-    switch(type) {
-    case eResourceType::drachmas:
-        count = 500;
-        break;
-    case eResourceType::urchin:
-    case eResourceType::fish:
-    case eResourceType::meat:
-    case eResourceType::cheese:
-    case eResourceType::carrots:
-    case eResourceType::onions:
-    case eResourceType::wheat:
-    case eResourceType::oranges:
-    case eResourceType::food:
-        count = 24;
-        break;
-    case eResourceType::grapes:
-    case eResourceType::olives:
-    case eResourceType::wine:
-    case eResourceType::oliveOil:
-    case eResourceType::fleece:
-
-    case eResourceType::wood:
-    case eResourceType::bronze:
-        count = 16;
-        break;
-    case eResourceType::marble:
-    case eResourceType::armor:
-        count = 8;
-        break;
-    case eResourceType::sculpture:
-        count = 2;
-        break;
-    default:
-        count = 0;
-        break;
-    };
+    const int count = 2*eGiftHelpers::giftCount(type);
 
     const int space = spaceForResource(type);
     eEventData ed;
@@ -833,6 +790,7 @@ void eGameBoard::payTribute(const stdsptr<eWorldCity>& c,
 void eGameBoard::gift(const stdsptr<eWorldCity>& c,
                       const eResourceType type,
                       const int count) {
+    takeResource(type, count);
     const auto e = e::make_shared<eGiftEvent>(*this);
     e->initialize(c, type, count);
     const auto date = mDate + 90;
@@ -866,6 +824,7 @@ void eGameBoard::giftReceived(const stdsptr<eWorldCity>& c,
             event(eEvent::giftReceivedNotNeeded, ed);
             c->incAttitude(5);
         }
+        c->gifted(type, count);
     } else {
         event(eEvent::giftReceivedRefuse, ed);
     }
@@ -1636,6 +1595,19 @@ int eGameBoard::resourceCount(const eResourceType type) const {
         if(r.first == type) return r.second;
     }
     return 0;
+}
+
+int eGameBoard::takeResource(const eResourceType type, const int count) {
+    if(type == eResourceType::drachmas) {
+        mDrachmas -= count;
+        return count;
+    }
+    int r = 0;
+    for(const auto s : mStorBuildings) {
+        if(r >= count) return count;
+        r += s->take(type, count - r);
+    }
+    return count - r;
 }
 
 int eGameBoard::eliteHouses() const {

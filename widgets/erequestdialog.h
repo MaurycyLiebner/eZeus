@@ -1,20 +1,17 @@
 #ifndef EREQUESTDIALOG_H
 #define EREQUESTDIALOG_H
 
-#include "eframedwidget.h"
+#include "eclosabledialog.h"
 
 #include "engine/eworldcity.h"
 
-class eRequestDialog : public eFramedWidget {
+class eRequestDialog : public eClosableDialog {
 public:
-    using eFramedWidget::eFramedWidget;
+    using eClosableDialog::eClosableDialog;
 
     using eRequestFunction = std::function<void(eResourceType)>;
     void initialize(const stdsptr<eWorldCity>& c,
                     const eRequestFunction& func);
-protected:
-    bool keyPressEvent(const eKeyPressEvent& e);
-    bool mousePressEvent(const eMouseEvent& e);
 private:
     stdsptr<eWorldCity> mCity;
 };

@@ -174,8 +174,8 @@ public:
     void write(eWriteStream& dst) const override;
     void read(eReadStream& src) override;
 
-    bool acceptsGift(const eResourceType type,
-                     const int count) const;
+    void gifted(const eResourceType type, const int count);
+    bool acceptsGift(const eResourceType type, const int count) const;
 
     static stdsptr<eWorldCity> sCreateAthens(
             const eWorldCityType type = eWorldCityType::greekCity);
@@ -212,7 +212,7 @@ private:
     std::vector<eResourceTrade> mBuys;
     std::vector<eResourceTrade> mSells;
 
-    std::vector<eResourceType> mReceived;
+    std::vector<std::pair<eResourceType, int>> mReceived;
 
     eResourceType mTributeType = eResourceType::drachmas;
     int mTributeCount = 500;

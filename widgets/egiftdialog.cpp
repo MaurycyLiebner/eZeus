@@ -4,6 +4,7 @@
 #include "elabel.h"
 #include "eframedbuttonwithicon.h"
 #include "engine/egameboard.h"
+#include "engine/egifthelpers.h"
 
 void eGiftDialog::initialize(const stdsptr<eWorldCity>& c,
                              const eRequestFunction& func,
@@ -34,7 +35,7 @@ void eGiftDialog::initialize(const stdsptr<eWorldCity>& c,
                 eResourceType::all);
     all.push_back(eResourceType::drachmas);
     for(const auto r : all) {
-        const int count = giftCount(r);
+        const int count = eGiftHelpers::giftCount(r);
         const int c = board.resourceCount(r);
 
         if(c >= count) gifts.push_back(r);
@@ -70,20 +71,4 @@ void eGiftDialog::initialize(const stdsptr<eWorldCity>& c,
     fitContent();
     rofLabel->align(eAlignment::hcenter);
     if(ng) ng->align(eAlignment::hcenter);
-}
-
-bool eGiftDialog::keyPressEvent(const eKeyPressEvent& e) {
-    const auto k = e.key();
-    if(k == SDL_SCANCODE_ESCAPE) {
-        deleteLater();
-    }
-    return true;
-}
-
-bool eGiftDialog::mousePressEvent(const eMouseEvent& e) {
-    const auto b = e.button();
-    if(b == eMouseButton::right) {
-        deleteLater();
-    }
-    return true;
 }
