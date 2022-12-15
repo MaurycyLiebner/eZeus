@@ -340,6 +340,51 @@ bool eMessages::loadImpl() {
     fGiftReceivedRefuse.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_refused_title"];
     fGiftReceivedRefuse.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_refused_initial_announcement"];
 
+    fGeneralRequestInitialS.fFull.fTitle = fMessages["PHRASE_general_request_title_S"];
+    fGeneralRequestInitialS.fFull.fText = fMessages["PHRASE_general_request_initial_announcement_S"];
+    fGeneralRequestInitialS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
+    fGeneralRequestInitialS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_initial_announcement_S"];
+
+    fGeneralRequestReminderS.fFull.fTitle = fMessages["PHRASE_general_request_title_S"];
+    fGeneralRequestReminderS.fFull.fText = fMessages["PHRASE_general_request_reminder_S"];
+    fGeneralRequestReminderS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
+    fGeneralRequestReminderS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_reminder_S"];
+
+    fGeneralRequestOverdueS.fFull.fTitle = fMessages["PHRASE_general_request_title_S"];
+    fGeneralRequestOverdueS.fFull.fText = fMessages["PHRASE_general_request_overdue_S"];
+    fGeneralRequestOverdueS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
+    fGeneralRequestOverdueS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_overdue_S"];
+
+    fGeneralRequestWarningS.fFull.fTitle = fMessages["PHRASE_general_request_title_S"];
+    fGeneralRequestWarningS.fFull.fText = fMessages["PHRASE_general_request_warning_S"];
+    fGeneralRequestWarningS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
+    fGeneralRequestWarningS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_warning_S"];
+
+    fGeneralRequestComplyS.fFull.fTitle = fMessages["PHRASE_general_request_title_S"];
+    fGeneralRequestComplyS.fFull.fText = fMessages["PHRASE_general_request_comply_reason_S"];
+    fGeneralRequestComplyS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
+    fGeneralRequestComplyS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_comply_reason_S"];
+
+    fGeneralRequestTooLateS.fFull.fTitle = fMessages["PHRASE_general_request_title_S"];
+    fGeneralRequestTooLateS.fFull.fText = fMessages["PHRASE_general_request_too_late_reason_S"];
+    fGeneralRequestTooLateS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
+    fGeneralRequestTooLateS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_too_late_reason_S"];
+
+    fGeneralRequestRefuseS.fFull.fTitle = fMessages["PHRASE_general_request_title_S"];
+    fGeneralRequestRefuseS.fFull.fText = fMessages["PHRASE_general_request_refuse_reason_S"];
+    fGeneralRequestRefuseS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
+    fGeneralRequestRefuseS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_refuse_reason_S"];
+
+    fIncreasedFavor.fFull.fTitle = fMessages["PHRASE_favor_change_title_I"];
+    fIncreasedFavor.fFull.fText = fMessages["PHRASE_favor_change_initial_announcement_I"];
+    fIncreasedFavor.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_favor_change_title_I"];
+    fIncreasedFavor.fCondensed.fText = fMessages["PHRASE_CONDENSED_favor_change_initial_announcement_I"];
+
+    fDecreasedFavor.fFull.fTitle = fMessages["PHRASE_favor_change_title_D"];
+    fDecreasedFavor.fFull.fText = fMessages["PHRASE_favor_change_initial_announcement_D"];
+    fDecreasedFavor.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_favor_change_title_D"];
+    fDecreasedFavor.fCondensed.fText = fMessages["PHRASE_CONDENSED_favor_change_initial_announcement_D"];
+
     return true;
 }
 
@@ -353,4 +398,22 @@ bool eMessages::loaded() {
 
 const std::string& eMessages::message(const std::string& key) {
     return instance.fMessages[key];
+}
+
+eMessageType eMessages::favorMessage(const eMessageType& reason) {
+    auto ifavor = instance.fIncreasedFavor;
+    eMessageType msg = ifavor;
+    auto& text = msg.fFull.fText;
+    eStringHelpers::replaceAll(text, "[reason_phrase]",
+                               reason.fFull.fText);
+    return msg;
+}
+
+eMessageType eMessages::dfavorMessage(const eMessageType& reason) {
+    auto ifavor = instance.fDecreasedFavor;
+    eMessageType msg = ifavor;
+    auto& text = msg.fFull.fText;
+    eStringHelpers::replaceAll(text, "[reason_phrase]",
+                               reason.fFull.fText);
+    return msg;
 }

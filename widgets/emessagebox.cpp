@@ -111,9 +111,7 @@ void eMessageBox::initialize(const eEventData& ed,
 
     eOkButton* ok = nullptr;
     eWidget* wid = nullptr;
-    const bool addOk = ed.fType == eMessageEventType::common ||
-                       ed.fType == eMessageEventType::resourceGranted ||
-                       (!ed.fA0 && !ed.fA1 && !ed.fA2);
+    const bool addOk = !ed.fA0 && !ed.fA1 && !ed.fA2;
     if(addOk) {
         ok = new eOkButton(window());
         ok->setPressAction([this]() {
@@ -254,6 +252,77 @@ void eMessageBox::initialize(const eEventData& ed,
 
         ww->addWidget(tributeWid);
         tributeWid->setX(p);
+    } else if(ed.fType == eMessageEventType::generalRequestGranted) {
+        const auto c = ed.fCity;
+        if(!c) return;
+        const auto type = ed.fResourceType;
+        const auto nameShort = eResourceTypeHelpers::typeName(type);
+        const auto name = eResourceTypeHelpers::typeLongName(type);
+        const int count = ed.fResourceCount;
+        const auto countStr = std::to_string(count);
+        const int space = ed.fSpaceCount;
+        const int time = ed.fTime;
+        const auto timeStr = std::to_string(time);
+        const auto tributeWid = createTributeWidget(type, count, space, time);
+
+        eStringHelpers::replaceAll(msg.fText, "[amount]",
+                                   countStr);
+        eStringHelpers::replaceAll(msg.fText, "[item]",
+                                   name);
+        eStringHelpers::replaceAll(msg.fText, "[time_allotted]",
+                                   timeStr);
+
+        ww->addWidget(tributeWid);
+        tributeWid->setX(p);
+
+        wid = new eWidget(window());
+        wid->setNoPadding();
+
+        const auto a0B = new eFramedButton(window());
+        a0B->setSmallFontSize();
+        a0B->setUnderline(false);
+        a0B->setText(ed.fA0Key);
+        a0B->fitContent();
+        wid->addWidget(a0B);
+        a0B->setPressAction([this, ed]() {
+            if(ed.fA0) ed.fA0();
+            close();
+        });
+        a0B->setVisible(ed.fA0 != nullptr);
+
+        const auto a1B = new eFramedButton(window());
+        a1B->setSmallFontSize();
+        a1B->setUnderline(false);
+        a1B->setText(eLanguage::text(ed.fA1Key));
+        a1B->fitContent();
+        wid->addWidget(a1B);
+        a1B->setPressAction([this, ed]() {
+            if(ed.fA1) ed.fA1();
+            close();
+        });
+        a1B->setVisible(ed.fA1 != nullptr);
+
+        const auto a2B = new eFramedButton(window());
+        a2B->setSmallFontSize();
+        a2B->setUnderline(false);
+        a2B->setText(eLanguage::text(ed.fA2Key));
+        a2B->fitContent();
+        wid->addWidget(a2B);
+        a2B->setPressAction([this, ed]() {
+            if(ed.fA2) ed.fA2();
+            close();
+        });
+
+        const int w = width() - 4*p;
+        wid->setWidth(w);
+        wid->layoutHorizontallyWithoutSpaces();
+        wid->fitContent();
+        wid->setWidth(w);
+        a0B->align(eAlignment::vcenter);
+        a1B->align(eAlignment::vcenter);
+        a2B->align(eAlignment::vcenter);
+
+        addWidget(wid);
     }
 
     text->setText(msg.fText);
@@ -286,7 +355,9 @@ void eMessageBox::close() {
 }
 
 eWidget* eMessageBox::createTributeWidget(const eResourceType type,
-                                          const int count, const int space) {
+                                          const int count,
+                                          const int space,
+                                          const int months) {
     const auto res = resolution();
     const auto uiScale = res.uiScale();
     const auto tributeWid = new eWidget(window());
@@ -315,7 +386,17 @@ eWidget* eMessageBox::createTributeWidget(const eResourceType type,
     nameLabel->fitContent();
     tributeWid->addWidget(nameLabel);
 
-    if(space != -1 && type != eResourceType::drachmas) {
+    if(months != -1) {
+        const auto monthsStr = std::to_string(months);
+
+        const auto textLabel = new eLabel(window());
+        textLabel->setSmallFontSize();
+        textLabel->setNoPadding();
+        const auto mtc = eLanguage::text("months_to_comply");
+        textLabel->setText("        " + mtc + " " + monthsStr);
+        textLabel->fitContent();
+        tributeWid->addWidget(textLabel);
+    } else if(space != -1 && type != eResourceType::drachmas) {
         const auto countStr = std::to_string(std::min(count, space));
 
         const auto textLabel = new eLabel(window());

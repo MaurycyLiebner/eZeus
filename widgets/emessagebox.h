@@ -23,7 +23,8 @@ public:
     bool closable() const { return mClosable; }
 
     eWidget* createTributeWidget(const eResourceType type,
-                                 const int count, const int space);
+                                 const int count, const int space,
+                                 const int months = -1);
 protected:
     bool keyPressEvent(const eKeyPressEvent& e);
     bool mousePressEvent(const eMouseEvent& e);

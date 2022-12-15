@@ -287,6 +287,7 @@ SOURCES += \
         gameEvents/egiftevent.cpp \
         gameEvents/egodattackevent.cpp \
         gameEvents/egodvisitevent.cpp \
+        gameEvents/egrantgeneralrequestevent.cpp \
         gameEvents/egrantrequestevent.cpp \
         gameEvents/einvasionevent.cpp \
         gameEvents/emonsterattackevent.cpp \
@@ -702,6 +703,7 @@ HEADERS += \
     gameEvents/egiftevent.h \
     gameEvents/egodattackevent.h \
     gameEvents/egodvisitevent.h \
+    gameEvents/egrantgeneralrequestevent.h \
     gameEvents/egrantrequestevent.h \
     gameEvents/einvasionevent.h \
     gameEvents/emonsterattackevent.h \

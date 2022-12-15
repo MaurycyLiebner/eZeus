@@ -35,18 +35,19 @@ void eGameWidget::handleHeroArrivalEvent(eHeroMessages& msgs,
 }
 
 void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
+    auto& inst = eMessages::instance;
     switch(e) {
     case eEvent::fire: {
         eSounds::playFireSound();
-        showMessage(ed, eMessages::instance.fFire);
+        showMessage(ed, inst.fFire);
     } break;
     case eEvent::collapse: {
         eSounds::playCollapseSound();
-        showMessage(ed, eMessages::instance.fCollapse);
+        showMessage(ed, inst.fCollapse);
     } break;
 
     case eEvent::aphroditeVisit:
-        handleGodVisitEvent(eMessages::instance.fAphrodite,
+        handleGodVisitEvent(inst.fAphrodite,
                             eGodType::aphrodite, ed);
         break;
     case eEvent::aphroditeInvasion:
@@ -54,7 +55,7 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::apolloVisit:
-        handleGodVisitEvent(eMessages::instance.fApollo,
+        handleGodVisitEvent(inst.fApollo,
                             eGodType::apollo, ed);
         break;
     case eEvent::apolloInvasion:
@@ -62,7 +63,7 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::aresVisit:
-        handleGodVisitEvent(eMessages::instance.fAres,
+        handleGodVisitEvent(inst.fAres,
                             eGodType::ares, ed);
         break;
     case eEvent::aresInvasion:
@@ -70,7 +71,7 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::artemisVisit:
-        handleGodVisitEvent(eMessages::instance.fArtemis,
+        handleGodVisitEvent(inst.fArtemis,
                             eGodType::artemis, ed);
         break;
     case eEvent::artemisInvasion:
@@ -78,7 +79,7 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::athenaVisit:
-        handleGodVisitEvent(eMessages::instance.fAthena,
+        handleGodVisitEvent(inst.fAthena,
                             eGodType::athena, ed);
         break;
     case eEvent::athenaInvasion:
@@ -86,7 +87,7 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::atlasVisit:
-        handleGodVisitEvent(eMessages::instance.fAtlas,
+        handleGodVisitEvent(inst.fAtlas,
                             eGodType::atlas, ed);
         break;
     case eEvent::atlasInvasion:
@@ -94,7 +95,7 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::demeterVisit:
-        handleGodVisitEvent(eMessages::instance.fDemeter,
+        handleGodVisitEvent(inst.fDemeter,
                             eGodType::demeter, ed);
         break;
     case eEvent::demeterInvasion:
@@ -102,7 +103,7 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::dionysusVisit:
-        handleGodVisitEvent(eMessages::instance.fDionysus,
+        handleGodVisitEvent(inst.fDionysus,
                             eGodType::dionysus, ed);
         break;
     case eEvent::dionysusInvasion:
@@ -110,7 +111,7 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::hadesVisit:
-        handleGodVisitEvent(eMessages::instance.fHades,
+        handleGodVisitEvent(inst.fHades,
                             eGodType::hades, ed);
         break;
     case eEvent::hadesInvasion:
@@ -118,7 +119,7 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::hephaestusVisit:
-        handleGodVisitEvent(eMessages::instance.fHephaestus,
+        handleGodVisitEvent(inst.fHephaestus,
                             eGodType::hephaestus, ed);
         break;
     case eEvent::hephaestusInvasion:
@@ -126,7 +127,7 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::heraVisit:
-        handleGodVisitEvent(eMessages::instance.fHera,
+        handleGodVisitEvent(inst.fHera,
                             eGodType::hera, ed);
         break;
     case eEvent::heraInvasion:
@@ -134,7 +135,7 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::hermesVisit:
-        handleGodVisitEvent(eMessages::instance.fHermes,
+        handleGodVisitEvent(inst.fHermes,
                             eGodType::hermes, ed);
         break;
     case eEvent::hermesInvasion:
@@ -142,7 +143,7 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::poseidonVisit:
-        handleGodVisitEvent(eMessages::instance.fPoseidon,
+        handleGodVisitEvent(inst.fPoseidon,
                             eGodType::poseidon, ed);
         break;
     case eEvent::poseidonInvasion:
@@ -150,7 +151,7 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::zeusVisit:
-        handleGodVisitEvent(eMessages::instance.fZeus,
+        handleGodVisitEvent(inst.fZeus,
                             eGodType::zeus, ed);
         break;
     case eEvent::zeusInvasion:
@@ -158,188 +159,222 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::calydonianBoarInvasion:
-        handleMonsterInvasionEvent(eMessages::instance.fArtemis,
+        handleMonsterInvasionEvent(inst.fArtemis,
                                    eGodType::artemis, ed);
         break;
     case eEvent::cerberusInvasion:
-        handleMonsterInvasionEvent(eMessages::instance.fHades,
+        handleMonsterInvasionEvent(inst.fHades,
                                    eGodType::hades, ed);
         break;
     case eEvent::chimeraInvasion:
-        handleMonsterInvasionEvent(eMessages::instance.fAtlas,
+        handleMonsterInvasionEvent(inst.fAtlas,
                                    eGodType::atlas, ed);
         break;
     case eEvent::cyclopsInvasion:
-        handleMonsterInvasionEvent(eMessages::instance.fZeus,
+        handleMonsterInvasionEvent(inst.fZeus,
                                    eGodType::zeus, ed);
         break;
     case eEvent::dragonInvasion:
-        handleMonsterInvasionEvent(eMessages::instance.fAres,
+        handleMonsterInvasionEvent(inst.fAres,
                                    eGodType::ares, ed);
         break;
     case eEvent::echidnaInvasion:
 //        eSounds::playGodSound(eGodType::artemis, eGodSound::monster);
-//        showMessage(ed, eMessages::instance.fArtemis.fMonster);
+//        showMessage(ed, inst.fArtemis.fMonster);
         break;
     case eEvent::harpiesInvasion:
 //        eSounds::playGodSound(eGodType::artemis, eGodSound::monster);
-//        showMessage(ed, eMessages::instance.fArtemis.fMonster);
+//        showMessage(ed, inst.fArtemis.fMonster);
         break;
     case eEvent::hectorInvasion:
-        handleMonsterInvasionEvent(eMessages::instance.fAphrodite,
+        handleMonsterInvasionEvent(inst.fAphrodite,
                                    eGodType::aphrodite, ed);
         break;
     case eEvent::hydraInvasion:
-        handleMonsterInvasionEvent(eMessages::instance.fAthena,
+        handleMonsterInvasionEvent(inst.fAthena,
                                    eGodType::athena, ed);
         break;
     case eEvent::krakenInvasion:
-        handleMonsterInvasionEvent(eMessages::instance.fPoseidon,
+        handleMonsterInvasionEvent(inst.fPoseidon,
                                    eGodType::poseidon, ed);
         break;
     case eEvent::maenadsInvasion:
-        handleMonsterInvasionEvent(eMessages::instance.fDionysus,
+        handleMonsterInvasionEvent(inst.fDionysus,
                                    eGodType::dionysus, ed);
         break;
     case eEvent::medusaInvasion:
-        handleMonsterInvasionEvent(eMessages::instance.fDemeter,
+        handleMonsterInvasionEvent(inst.fDemeter,
                                    eGodType::demeter, ed);
         break;
     case eEvent::minotaurInvasion:
-        handleMonsterInvasionEvent(eMessages::instance.fHermes,
+        handleMonsterInvasionEvent(inst.fHermes,
                                    eGodType::hermes, ed);
         break;
     case eEvent::scyllaInvasion:
-        handleMonsterInvasionEvent(eMessages::instance.fApollo,
+        handleMonsterInvasionEvent(inst.fApollo,
                                    eGodType::apollo, ed);
         break;
     case eEvent::sphinxInvasion:
-        handleMonsterInvasionEvent(eMessages::instance.fHera,
+        handleMonsterInvasionEvent(inst.fHera,
                                    eGodType::hera, ed);
         break;
     case eEvent::talosInvasion:
-        handleMonsterInvasionEvent(eMessages::instance.fHephaestus,
+        handleMonsterInvasionEvent(inst.fHephaestus,
                                    eGodType::hephaestus, ed);
         break;
 
     case eEvent::achillesArrival:
-        handleHeroArrivalEvent(eMessages::instance.fAchilles,
+        handleHeroArrivalEvent(inst.fAchilles,
                                eHeroType::achilles, ed);
         break;
     case eEvent::atalantaArrival:
-        handleHeroArrivalEvent(eMessages::instance.fAtalanta,
+        handleHeroArrivalEvent(inst.fAtalanta,
                                eHeroType::atalanta, ed);
         break;
     case eEvent::bellerophonArrival:
-        handleHeroArrivalEvent(eMessages::instance.fBellerophon,
+        handleHeroArrivalEvent(inst.fBellerophon,
                                eHeroType::bellerophon, ed);
         break;
     case eEvent::herculesArrival:
-        handleHeroArrivalEvent(eMessages::instance.fHercules,
+        handleHeroArrivalEvent(inst.fHercules,
                                eHeroType::hercules, ed);
         break;
     case eEvent::jasonArrival:
-        handleHeroArrivalEvent(eMessages::instance.fJason,
+        handleHeroArrivalEvent(inst.fJason,
                                eHeroType::jason, ed);
         break;
     case eEvent::odysseusArrival:
-        handleHeroArrivalEvent(eMessages::instance.fOdysseus,
+        handleHeroArrivalEvent(inst.fOdysseus,
                                eHeroType::odysseus, ed);
         break;
     case eEvent::perseusArrival:
-        handleHeroArrivalEvent(eMessages::instance.fPerseus,
+        handleHeroArrivalEvent(inst.fPerseus,
                                eHeroType::perseus, ed);
         break;
     case eEvent::theseusArrival:
-        handleHeroArrivalEvent(eMessages::instance.fTheseus,
+        handleHeroArrivalEvent(inst.fTheseus,
                                eHeroType::theseus, ed);
         break;
 
     case eEvent::invasion: {
-        showMessage(ed, eMessages::instance.fInvasion);
+        showMessage(ed, inst.fInvasion);
     } break;
     case eEvent::invasionBribed: {
-        showMessage(ed, eMessages::instance.fInvasionBribed);
+        showMessage(ed, inst.fInvasionBribed);
         return;
     } break;
     case eEvent::invasionDefeat: {
-        showMessage(ed, eMessages::instance.fInvasionDefeat);
+        showMessage(ed, inst.fInvasionDefeat);
         return;
     } break;
     case eEvent::invasionVictory: {
-        showMessage(ed, eMessages::instance.fInvasionVictory);
+        showMessage(ed, inst.fInvasionVictory);
         return;
     } break;
     case eEvent::tributePaid: {
-        showMessage(ed, eMessages::instance.fTributePaidGranted);
+        showMessage(ed, inst.fTributePaidGranted);
         return;
     } break;
     case eEvent::tributeAccepted: {
-        showMessage(ed, eMessages::instance.fTributePaidAccepted, true);
+        showMessage(ed, inst.fTributePaidAccepted, true);
         return;
     } break;
     case eEvent::tributeDeclined: {
-        showMessage(ed, eMessages::instance.fTributePaidRefused, true);
+        showMessage(ed, inst.fTributePaidRefused, true);
         return;
     } break;
     case eEvent::tributePostponed: {
-        showMessage(ed, eMessages::instance.fTributePostponed, true);
+        showMessage(ed, inst.fTributePostponed, true);
         return;
     } break;
     case eEvent::requestGranted: {
-        showMessage(ed, eMessages::instance.fRequestGranted);
+        showMessage(ed, inst.fRequestGranted);
         return;
     } break;
     case eEvent::requestPartialSpace: {
-        showMessage(ed, eMessages::instance.fRequestPartialSpace);
+        showMessage(ed, inst.fRequestPartialSpace);
         return;
     } break;
     case eEvent::requestInsufficientSpace: {
-        showMessage(ed, eMessages::instance.fRequestInsufficientSpace);
+        showMessage(ed, inst.fRequestInsufficientSpace);
         return;
     } break;
     case eEvent::requestLastChance: {
-        showMessage(ed, eMessages::instance.fRequestLastChance);
+        showMessage(ed, inst.fRequestLastChance);
         return;
     } break;
     case eEvent::requestAccepted: {
-        showMessage(ed, eMessages::instance.fRequestAccepted, true);
+        showMessage(ed, inst.fRequestAccepted, true);
         return;
     } break;
     case eEvent::requestPostponed: {
-        showMessage(ed, eMessages::instance.fRequestPostponed, true);
+        showMessage(ed, inst.fRequestPostponed, true);
         return;
     } break;
     case eEvent::requestRefused: {
-        showMessage(ed, eMessages::instance.fRequestRefused, true);
+        showMessage(ed, inst.fRequestRefused, true);
         return;
     } break;
     case eEvent::requestForfeited: {
-        showMessage(ed, eMessages::instance.fRequestForfeited, true);
+        showMessage(ed, inst.fRequestForfeited, true);
         return;
     } break;
     case eEvent::demandRefused: {
-        showMessage(ed, eMessages::instance.fDemandRefused, true);
+        showMessage(ed, inst.fDemandRefused, true);
         return;
     } break;
     case eEvent::giftReceivedDrachmas: {
-        showMessage(ed, eMessages::instance.fGiftReceivedDrachmas, true);
+        showMessage(ed, inst.fGiftReceivedDrachmas, true);
         return;
     } break;
     case eEvent::giftReceivedNeeded: {
-        showMessage(ed, eMessages::instance.fGiftReceivedNeeded, true);
+        showMessage(ed, inst.fGiftReceivedNeeded, true);
         return;
     } break;
     case eEvent::giftReceivedSells: {
-        showMessage(ed, eMessages::instance.fGiftReceivedSells, true);
+        showMessage(ed, inst.fGiftReceivedSells, true);
         return;
     } break;
     case eEvent::giftReceivedNotNeeded: {
-        showMessage(ed, eMessages::instance.fGiftReceivedNotNeeded, true);
+        showMessage(ed, inst.fGiftReceivedNotNeeded, true);
         return;
     } break;
     case eEvent::giftReceivedRefuse: {
-        showMessage(ed, eMessages::instance.fGiftReceivedRefuse, true);
+        showMessage(ed, inst.fGiftReceivedRefuse, true);
+        return;
+    } break;
+    case eEvent::generalRequestInitial: {
+        showMessage(ed, inst.fGeneralRequestInitialS, true);
+        return;
+    } break;
+    case eEvent::generalRequestReminder: {
+        showMessage(ed, inst.fGeneralRequestReminderS, true);
+        return;
+    } break;
+    case eEvent::generalRequestOverdue: {
+        showMessage(ed, inst.fGeneralRequestOverdueS, true);
+        return;
+    } break;
+    case eEvent::generalRequestWarning: {
+        showMessage(ed, inst.fGeneralRequestWarningS, true);
+        return;
+    } break;
+    case eEvent::generalRequestComply: {
+        const auto m = eMessages::favorMessage(
+                    inst.fGeneralRequestComplyS);
+        showMessage(ed, m, true);
+        return;
+    } break;
+    case eEvent::generalRequestTooLate: {
+        const auto m = eMessages::dfavorMessage(
+                    inst.fGeneralRequestTooLateS);
+        showMessage(ed, m, true);
+        return;
+    } break;
+    case eEvent::generalRequestRefuse: {
+        const auto m = eMessages::dfavorMessage(
+                    inst.fGeneralRequestRefuseS);
+        showMessage(ed, m, true);
         return;
     } break;
     }

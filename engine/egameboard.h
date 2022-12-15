@@ -144,14 +144,31 @@ enum class eEvent {
     giftReceivedNeeded,
     giftReceivedSells,
     giftReceivedNotNeeded,
-    giftReceivedRefuse
+    giftReceivedRefuse,
+
+    generalRequestInitial,
+    generalRequestReminder,
+    generalRequestOverdue,
+    generalRequestWarning,
+    generalRequestComply,
+    generalRequestTooLate,
+    generalRequestRefuse,
+
+    generalRequestRivalInitial,
+    generalRequestRivalReminder,
+    generalRequestRivalOverdue,
+    generalRequestRivalWarning,
+    generalRequestRivalComply,
+    generalRequestRivalTooLate,
+    generalRequestRivalRefuse
 };
 
 enum class eMessageEventType {
     common,
     invasion,
     requestTributeGranted,
-    resourceGranted
+    resourceGranted,
+    generalRequestGranted
 };
 
 struct eEventData {
@@ -161,12 +178,16 @@ struct eEventData {
     eTile* fTile = nullptr;
     int fBribe = 0;
     eAction fA0 = nullptr;
+    std::string fA0Key;
     eAction fA1 = nullptr;
+    std::string fA1Key;
     eAction fA2 = nullptr;
+    std::string fA2Key;
     stdsptr<eWorldCity> fCity;
     eResourceType fResourceType;
     int fResourceCount = 0;
     int fSpaceCount = 0;
+    int fTime = 0;
 };
 
 enum class eGames {
@@ -377,6 +398,10 @@ public:
     int resourceCount(const eResourceType type) const;
     int takeResource(const eResourceType type,
                      const int count);
+    void grantGeneralRequest(const stdsptr<eWorldCity>& c,
+                             const eResourceType type,
+                             const int count,
+                             const int postpone);
     void request(const stdsptr<eWorldCity>& c,
                  const eResourceType type);
     void grantRequest(const stdsptr<eWorldCity>& c,

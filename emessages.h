@@ -30,6 +30,8 @@ public:
     static bool loaded();
 
     static const std::string& message(const std::string& key);
+    static eMessageType favorMessage(const eMessageType& reason);
+    static eMessageType dfavorMessage(const eMessageType& reason);
 
     std::map<std::string, std::string> fMessages;
 
@@ -108,6 +110,17 @@ public:
     eMessageType fGiftReceivedSells;
     eMessageType fGiftReceivedNotNeeded;
     eMessageType fGiftReceivedRefuse;
+
+    eMessageType fGeneralRequestInitialS;
+    eMessageType fGeneralRequestReminderS;
+    eMessageType fGeneralRequestOverdueS;
+    eMessageType fGeneralRequestWarningS;
+    eMessageType fGeneralRequestComplyS;
+    eMessageType fGeneralRequestTooLateS;
+    eMessageType fGeneralRequestRefuseS;
+
+    eMessageType fIncreasedFavor;
+    eMessageType fDecreasedFavor;
 private:
     bool loadImpl();
     void load(eGodMessages& god, const std::string& godName);
