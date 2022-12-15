@@ -44,11 +44,7 @@ void eTopBarWidget::initialize() {
     addWidget(mDateLabel);
     addWidget(s3);
 
-    setHeight(16*mult);
-    setWidth(s0->width() +
-             mDrachmasWidget->width() + s1->width() +
-             mPopulationWidget->width() + s2->width() +
-             mDateLabel->width() + s3->width());
+    setHeight(12*mult);
 
     mDrachmasWidget->align(eAlignment::vcenter);
     mPopulationWidget->align(eAlignment::vcenter);
@@ -62,16 +58,28 @@ void eTopBarWidget::setBoard(eGameBoard* const b) {
 }
 
 void eTopBarWidget::paintEvent(ePainter& p) {
-    const bool update = (++mTime % 60) == 0;
-    if(update && mBoard) {
+    // const bool update = (++mTime % 60) == 0;
+    if(mBoard) {
         const auto& popData = mBoard->populationData();
         const int pop = popData.population();
         mPopulationWidget->setText(std::to_string(pop));
 
-        const int d =  mBoard->drachmas();
+        const int d = mBoard->drachmas();
         mDrachmasWidget->setText(std::to_string(d));
 
         mDateLabel->setText(mBoard->date().shortString());
+
+        int iRes;
+        int mult;
+        iResAndMult(iRes, mult);
+        const auto& intrfc = eGameTextures::interface()[iRes];
+        const auto& tex = intrfc.fGameTopBar;
+        const int texWidth = tex->width();
+        const auto& rend = p.renderer();
+        bool flip = false;
+        for(int x = width() - texWidth; x > -texWidth; x -= texWidth) {
+            tex->render(rend, x, 0, flip);
+            flip = !flip;
+        }
     }
-    eFramedWidget::paintEvent(p);
 }

@@ -161,11 +161,11 @@ void eGameWidget::initialize() {
     });
 
     mTopBar = new eTopBarWidget(window());
+    const int gw = width() - mGm->width();
+    mTopBar->setWidth(gw);
     mTopBar->initialize();
     addWidget(mTopBar);
     mTopBar->align(eAlignment::top);
-    const int gw = width() - mGm->width();
-    mTopBar->setX(gw/2 - mTopBar->width()/2);
     mTopBar->setBoard(mBoard);
 
     mTem = new eTerrainEditMenu(window());
@@ -173,7 +173,6 @@ void eGameWidget::initialize() {
     addWidget(mTem);
     mTem->align(eAlignment::right | eAlignment::top);
     mTem->hide();
-
 
     mMenuSwitch = new eCheckBox(window());
     mMenuSwitch->move(mGm->x(), 0);

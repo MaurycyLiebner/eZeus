@@ -16,6 +16,7 @@ public:
     const int fTileH;
     SDL_Renderer* const fRenderer;
 
+    std::shared_ptr<eTexture> fGameTopBar;
     std::shared_ptr<eTexture> fGameMenuBackground;
     std::shared_ptr<eTexture> fGameArmyBackground;
     std::shared_ptr<eTexture> fArmyStatus;

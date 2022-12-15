@@ -373,6 +373,9 @@ void eInterfaceTextures::load() {
     {
         const std::string pathBase{dir + "Zeus_Interface_New_parts_"};
 
+        fGameTopBar = std::make_shared<eTexture>();
+        fGameTopBar->load(fRenderer, pathBase + "00001.png");
+
         fGameMenuBackground = std::make_shared<eTexture>();
         fGameMenuBackground->load(fRenderer, pathBase + "00002.png");
 

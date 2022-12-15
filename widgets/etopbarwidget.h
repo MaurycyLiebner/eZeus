@@ -41,9 +41,9 @@ private:
     eLabel* mText = nullptr;
 };
 
-class eTopBarWidget : public eFramedWidget {
+class eTopBarWidget : public eWidget {
 public:
-    using eFramedWidget::eFramedWidget;
+    using eWidget::eWidget;
 
     void setBoard(eGameBoard* const b);
     void initialize();
