@@ -100,10 +100,6 @@ bool eMessages::loadImpl() {
     fHappinessMonument.fFull.fText = fMessages["PHRASE_happiness_monument_initial_announcement"];
     fHappinessMonument.fCondensed.fText = fMessages["PHRASE_CONDENSED_happiness_monument_initial_announcement"];
 
-    fEmployeesNeeded.fFull.fTitle = fMessages["PHRASE_employees_needed_title"];
-    fEmployeesNeeded.fFull.fText = fMessages["PHRASE_employees_needed_initial_announcement"];
-    fEmployeesNeeded.fCondensed.fText = fMessages["PHRASE_CONDENSED_employees_needed_initial_announcement"];
-
     fFire.fFull.fTitle = fMessages["PHRASE_fire_title"];
     fFire.fFull.fText = fMessages["PHRASE_fire_initial_announcement"];
     fFire.fCondensed.fText = fMessages["PHRASE_CONDENSED_fire_initial_announcement"];
@@ -384,6 +380,16 @@ bool eMessages::loadImpl() {
     fDecreasedFavor.fFull.fText = fMessages["PHRASE_favor_change_initial_announcement_D"];
     fDecreasedFavor.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_favor_change_title_D"];
     fDecreasedFavor.fCondensed.fText = fMessages["PHRASE_CONDENSED_favor_change_initial_announcement_D"];
+
+    fUnemployment.fFull.fTitle = fMessages[";PHRASE_unemployment_title"];
+    fUnemployment.fFull.fText = fMessages[";PHRASE_unemployment_initial_announcement"];
+    fUnemployment.fCondensed.fTitle = fMessages[";PHRASE_CONDENSED_unemployment_title"];
+    fUnemployment.fCondensed.fText = fMessages[";PHRASE_CONDENSED_unemployment_initial_announcement"];
+
+    fEmployees.fFull.fTitle = fMessages["PHRASE_employees_needed_title"];
+    fEmployees.fFull.fText = fMessages["PHRASE_employees_needed_initial_announcement"];
+    fEmployees.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_employees_needed_title"];
+    fEmployees.fCondensed.fText = fMessages["PHRASE_CONDENSED_employees_needed_initial_announcement"];
 
     return true;
 }

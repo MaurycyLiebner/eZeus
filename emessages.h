@@ -48,8 +48,6 @@ public:
 
     eMessageType fHappinessMonument;
 
-    eMessageType fEmployeesNeeded;
-
     eMessageType fFire;
     eMessageType fCollapse;
     eMessageType fPlagueStrikes;
@@ -121,6 +119,9 @@ public:
 
     eMessageType fIncreasedFavor;
     eMessageType fDecreasedFavor;
+
+    eMessageType fUnemployment;
+    eMessageType fEmployees;
 private:
     bool loadImpl();
     void load(eGodMessages& god, const std::string& godName);

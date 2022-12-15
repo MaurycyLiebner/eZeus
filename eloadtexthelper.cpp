@@ -13,7 +13,10 @@ bool eLoadTextHelper::load(const std::string& path, eMap& map) {
         if(str.empty()) continue;
         if(str.front() == '\r') continue;
         if(str.front() == '\t') continue;
-        if(str.front() == ';') continue;
+        if(str.front() == ';') {
+            if(str.size() < 7) continue;
+            if(str.substr(1, 6) != "PHRASE") continue;
+        }
         const auto keyEnd1 = str.find(' ');
         const auto keyEnd2 = str.find('\t');
         const auto keyEnd = std::min(keyEnd1, keyEnd2);

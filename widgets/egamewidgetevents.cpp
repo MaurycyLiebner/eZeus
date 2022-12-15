@@ -377,6 +377,14 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, m, true);
         return;
     } break;
+    case eEvent::unemployment: {
+        showMessage(ed, inst.fUnemployment, true);
+        return;
+    } break;
+    case eEvent::employees: {
+        showMessage(ed, inst.fEmployees, true);
+        return;
+    } break;
     }
     mGm->pushEvent(e, ed.fTile);
 }
