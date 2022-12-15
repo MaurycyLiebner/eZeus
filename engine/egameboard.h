@@ -160,7 +160,10 @@ enum class eEvent {
     generalRequestRivalWarning,
     generalRequestRivalComply,
     generalRequestRivalTooLate,
-    generalRequestRivalRefuse
+    generalRequestRivalRefuse,
+
+    unemployment,
+    employees
 };
 
 enum class eMessageEventType {

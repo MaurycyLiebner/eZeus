@@ -663,7 +663,7 @@ void eGameBoard::grantGeneralRequest(const stdsptr<eWorldCity>& c,
     }
 
     if(postpone > 3) {
-        ed.fType = eMessageEventType::common;
+        ed.fType = eMessageEventType::resourceGranted;
         event(eEvent::generalRequestRefuse, ed);
         c->incAttitude(-15);
         return;
