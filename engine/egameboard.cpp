@@ -643,7 +643,7 @@ void eGameBoard::grantGeneralRequest(const stdsptr<eWorldCity>& c,
     eEventData ed;
     ed.fCity = c;
     ed.fResourceType = type;
-    ed.fResourceCount = count;
+    ed.fResourceCount = count < 0 ? -count : count;
     ed.fTime = 6;
     ed.fA0Key = "dispatch_now";
     ed.fA1Key = "postpone";
@@ -678,7 +678,7 @@ void eGameBoard::grantGeneralRequest(const stdsptr<eWorldCity>& c,
             takeResource(type, count);
             const auto e = e::make_shared<eGrantGeneralRequestEvent>(
                         *this);
-            e->initialize(postpone, type, 0, c);
+            e->initialize(postpone, type, -count, c);
             const auto date = mDate + 3*31;
             const auto ec = e::make_shared<eGameEventCycle>(
                                 e, date, *this);
