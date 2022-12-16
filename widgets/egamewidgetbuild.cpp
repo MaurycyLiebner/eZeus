@@ -660,6 +660,7 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::podium: {
             build(mHoverTX, mHoverTY, 2, 2,
                   [this]() { return e::make_shared<ePodium>(*mBoard); });
+            showTip(eLanguage::text("build_college"));
         }; break;
         case eBuildingMode::fountain: {
             build(mHoverTX, mHoverTY, 2, 2,
@@ -676,14 +677,17 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::college: {
             build(mHoverTX, mHoverTY, 3, 3,
                   [this]() { return e::make_shared<eCollege>(*mBoard); });
+            showTip(eLanguage::text("build_podiums"));
         }; break;
         case eBuildingMode::dramaSchool: {
             build(mHoverTX, mHoverTY, 3, 3,
                   [this]() { return e::make_shared<eDramaSchool>(*mBoard); });
+            showTip(eLanguage::text("build_theater"));
         }; break;
         case eBuildingMode::theater: {
             build(mHoverTX, mHoverTY, 5, 5,
                   [this]() { return e::make_shared<eTheater>(*mBoard); });
+            showTip(eLanguage::text("build_drama_school"));
         }; break;
         case eBuildingMode::hospital: {
             build(mHoverTX, mHoverTY, 4, 4,

@@ -328,6 +328,11 @@ college "College"
 theater "Theater"
 drama_school "Drama School"
 
+build_podiums "Build podiums for your philosophers"
+build_college "Build college to train philosophers"
+build_drama_school "Build drama school to train actors"
+build_theater "Build theaters for your actors"
+
 heros_hall_for "Hero's hall for"
 
 summon "Summon"

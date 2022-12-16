@@ -1503,7 +1503,7 @@ void eGameBoard::incTime(const int by) {
         }
     }
 
-    if(mTime == 0) {
+    if(mTotalTime == 0) {
         grantGeneralRequest(mWorldBoard.cities()[0],
                             eResourceType::fleece, 9, 0);
     }

@@ -656,6 +656,7 @@ void eGameWidget::showTip(const std::string& tip) {
     const auto msgb = new eFramedLabel(window());
     msgb->setType(eFrameType::message);
     msgb->setWrapWidth(width()/2);
+    msgb->setSmallFontSize();
     msgb->setText(tip);
     msgb->fitContent();
     const int p = msgb->padding();
@@ -665,13 +666,18 @@ void eGameWidget::showTip(const std::string& tip) {
     eTip etip;
     etip.fWid = msgb;
     etip.fLastFrame = mFrame + 500;
-    mTips.push_front(etip);
+    mTips.push_back(etip);
     updateTipPositions();
 }
 
 void eGameWidget::updateTipPositions() {
     const int p = padding();
-    int y = 6*p;
+    int y;
+    if(mPausedLabel) {
+        y = mPausedLabel->y() + mPausedLabel->height() + 3*p;
+    } else {
+        y = 6*p;;
+    }
     for(const auto& tip : mTips) {
         const auto w = tip.fWid;
         w->setY(y);
