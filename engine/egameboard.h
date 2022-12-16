@@ -456,6 +456,8 @@ private:
 
     int mTotalTime = 0;
     int mTime = 0;
+    int mEmploymentCheckTime = 0;
+    int mLastEmploymentState = 0;
     eDate mDate = eDate(1, eMonth::january, -1500);
 
     eThreadPool mThreadPool;

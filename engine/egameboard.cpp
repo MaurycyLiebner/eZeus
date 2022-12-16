@@ -1556,6 +1556,33 @@ void eGameBoard::incTime(const int by) {
             handleGamesEnd(game);
         }
     }
+
+    const int ect = 5000;
+    mEmploymentCheckTime += by;
+    if(mEmploymentCheckTime > ect) {
+        mEmploymentCheckTime -= ect;
+        const double employable = mEmplData.employable();
+        const double jobVacs = mEmplData.totalJobVacancies();
+        int emplState = 0;
+        if(employable < jobVacs*0.75) {
+            emplState = 1;
+        } else if(employable > jobVacs*1.25) {
+            emplState = -1;
+        } else {
+            emplState = 0;
+        }
+        if(mLastEmploymentState != emplState) {
+            const auto& inst = eMessages::instance;
+            eEventData ed;
+            if(emplState == -1) { // unemployed
+                showMessage(ed, inst.fUnemployment);
+            } else if(emplState == 1) { // employed
+                showMessage(ed, inst.fEmployees);
+            }
+        }
+        mLastEmploymentState = emplState;
+    }
+
     mWorldBoard.incTime(by);
     if(nextYear) {
         mWorldBoard.nextYear();
