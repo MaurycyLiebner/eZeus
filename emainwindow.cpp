@@ -260,7 +260,7 @@ void eMainWindow::showMainMenu() {
         c2->addSells(eResourceTrade{eResourceType::bronze, 0, 12, 80});
         wb.addCity(c2);
 
-        board->planInvasion();
+        board->planInvasion(0, 36);
 
         startGameAction(board, eGameWidgetSettings());
     };

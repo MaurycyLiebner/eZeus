@@ -32,6 +32,9 @@ public:
     static const std::string& message(const std::string& key);
     static eMessageType favorMessage(const eMessageType& reason);
     static eMessageType dfavorMessage(const eMessageType& reason);
+    static eMessageType invasionMessage(const eMessageType& baseMsg,
+                                        const std::string& reason,
+                                        const int months);
 
     std::map<std::string, std::string> fMessages;
 
@@ -82,7 +85,13 @@ public:
     eGameMessages fPythianGames;
     eGameMessages fOlympianGames;
 
+    eMessageType fInvasion36;
+    eMessageType fInvasion24;
+    eMessageType fInvasion12;
+    eMessageType fInvasion6;
+    eMessageType fInvasion1;
     eMessageType fInvasion;
+    std::string fInvasionNoReason;
     eMessageType fInvasionBribed;
     eMessageType fInvasionDefeat;
     eMessageType fInvasionVictory;

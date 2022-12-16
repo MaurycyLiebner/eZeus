@@ -216,9 +216,33 @@ bool eMessages::loadImpl() {
     fNemeanGames.fLost.fFull.fText = fMessages["PHRASE_nemean_games_conclude_initial_announcement_lost"];
     fNemeanGames.fLost.fCondensed.fText = fMessages["PHRASE_CONDENSED_nemean_games_conclude_initial_announcement_lost"];
 
+    fInvasion36.fFull.fTitle = fMessages["PHRASE_invasion_title"];
+    fInvasion36.fFull.fText = fMessages["PHRASE_invasion_initial_announcement"];
+    fInvasion36.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_invasion_title"];
+    fInvasion36.fCondensed.fText = fMessages["PHRASE_CONDENSED_invasion_initial_announcement"];
+
+    fInvasion24.fFull.fTitle = fMessages["PHRASE_invasion_title"];
+    fInvasion24.fFull.fText = fMessages["PHRASE_invasion_2year_reminder"];
+    fInvasion24.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_invasion_title"];
+    fInvasion24.fCondensed.fText = fMessages["PHRASE_CONDENSED_invasion_2year_reminder"];
+
+    fInvasion12.fFull.fTitle = fMessages["PHRASE_invasion_title"];
+    fInvasion12.fFull.fText = fMessages["PHRASE_invasion_1year_reminder"];
+    fInvasion12.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_invasion_title"];
+    fInvasion12.fCondensed.fText = fMessages["PHRASE_CONDENSED_invasion_1year_reminder"];
+
+    fInvasion6.fFull.fTitle = fMessages["PHRASE_invasion_title"];
+    fInvasion6.fFull.fText = fMessages["PHRASE_invasion_6month_warning"];
+    fInvasion6.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_invasion_title"];
+    fInvasion6.fCondensed.fText = fMessages["PHRASE_CONDENSED_invasion_6month_warning"];
+
+    fInvasion1.fFull.fTitle = fMessages["PHRASE_invasion_title"];
+    fInvasion1.fFull.fText = fMessages["PHRASE_invasion_1month_Warning"];
+    fInvasion1.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_invasion_title"];
+    fInvasion1.fCondensed.fText = fMessages["PHRASE_invasion_1month_Warning"];
+
     fInvasion.fFull.fTitle = fMessages["PHRASE_invasion_title"];
     fInvasion.fFull.fText = fMessages["PHRASE_invasion_city_attacked_alert"];
-
     fInvasion.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_invasion_title"];
     fInvasion.fCondensed.fText = fMessages["PHRASE_CONDENSED_invasion_city_attacked_alert"];
 
@@ -407,7 +431,7 @@ const std::string& eMessages::message(const std::string& key) {
 }
 
 eMessageType eMessages::favorMessage(const eMessageType& reason) {
-    auto ifavor = instance.fIncreasedFavor;
+    const auto& ifavor = instance.fIncreasedFavor;
     eMessageType msg = ifavor;
     auto& text = msg.fFull.fText;
     eStringHelpers::replaceAll(text, "[reason_phrase]",
@@ -416,10 +440,28 @@ eMessageType eMessages::favorMessage(const eMessageType& reason) {
 }
 
 eMessageType eMessages::dfavorMessage(const eMessageType& reason) {
-    auto ifavor = instance.fDecreasedFavor;
+    const auto& ifavor = instance.fDecreasedFavor;
     eMessageType msg = ifavor;
     auto& text = msg.fFull.fText;
     eStringHelpers::replaceAll(text, "[reason_phrase]",
                                reason.fFull.fText);
+    return msg;
+}
+
+eMessageType eMessages::invasionMessage(const eMessageType& baseMsg,
+                                        const std::string& reason,
+                                        const int months) {
+    eMessageType msg = baseMsg;
+    auto& text = msg.fFull.fText;
+    if(reason.empty()) {
+        const auto& inst = eMessages::instance;
+        eStringHelpers::replaceAll(text, "[reason_phrase]",
+                                   inst.fInvasionNoReason);
+    } else {
+        eStringHelpers::replaceAll(text, "[reason_phrase]",
+                                   reason);
+    }
+    eStringHelpers::replaceAll(text, "[time_until_attack]",
+                               std::to_string(months));
     return msg;
 }

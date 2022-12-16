@@ -9,7 +9,8 @@ class eInvasionEvent : public eGameEvent {
 public:
     eInvasionEvent(eGameBoard& board);
 
-    void setCity(const stdsptr<eWorldCity>& city);
+    void initialize(const int stage,
+                    const stdsptr<eWorldCity>& city);
 
     void setArmy(const int infantry,
                  const int cavalry,
@@ -22,6 +23,7 @@ public:
 private:
     int bribeCost() const;
 
+    int mStage = 0;
     stdsptr<eWorldCity> mCity;
 
     int mInfantry = 10;

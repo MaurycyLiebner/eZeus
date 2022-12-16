@@ -256,8 +256,23 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
                                eHeroType::theseus, ed);
         break;
 
+    case eEvent::invasion36: {
+        showMessage(ed, eMessages::invasionMessage(inst.fInvasion36, "", 36));
+    } break;
+    case eEvent::invasion24: {
+        showMessage(ed, eMessages::invasionMessage(inst.fInvasion24, "", 24));
+    } break;
+    case eEvent::invasion12: {
+        showMessage(ed, eMessages::invasionMessage(inst.fInvasion12, "", 12));
+    } break;
+    case eEvent::invasion6: {
+        showMessage(ed, eMessages::invasionMessage(inst.fInvasion6, "", 6));
+    } break;
+    case eEvent::invasion1: {
+        showMessage(ed, eMessages::invasionMessage(inst.fInvasion1, "", 1));
+    } break;
     case eEvent::invasion: {
-        showMessage(ed, inst.fInvasion);
+        showMessage(ed, eMessages::invasionMessage(inst.fInvasion, "", 0));
     } break;
     case eEvent::invasionBribed: {
         showMessage(ed, inst.fInvasionBribed);

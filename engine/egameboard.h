@@ -119,6 +119,11 @@ enum class eEvent {
     perseusArrival,
     theseusArrival,
 
+    invasion36,
+    invasion24,
+    invasion12,
+    invasion6,
+    invasion1,
     invasion,
     invasionDefeat,
     invasionVictory,
@@ -378,7 +383,7 @@ public:
     void setHostileGods(const std::vector<eGodType>& gods);
     void setHostileMonsters(const std::vector<eMonsterType>& monsters);
 
-    void planInvasion();
+    void planInvasion(int stage, int months);
 
     void read(eReadStream& src);
     void write(eWriteStream& dst) const;
