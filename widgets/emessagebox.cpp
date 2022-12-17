@@ -104,6 +104,10 @@ void eMessageBox::initialize(const eEventData& ed,
                                    ed.fCity->leader());
         eStringHelpers::replaceAll(msg.fText, "[a_foreign_army]",
                                    eLanguage::text("an_army"));
+        if(ed.fType == eMessageEventType::invasionMessage) {
+            eStringHelpers::replaceAll(msg.fText, "[time_until_attack]",
+                                      std::to_string(ed.fTime));
+        }
     }
 
     ww->addWidget(text);

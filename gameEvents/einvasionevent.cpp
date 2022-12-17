@@ -1,20 +1,19 @@
 #include "einvasionevent.h"
 
 #include "engine/egameboard.h"
-#include "characters/esoldierbanner.h"
 #include "einvasionhandler.h"
 
 eInvasionEvent::eInvasionEvent(eGameBoard& board) :
     eGameEvent(eGameEventType::invasion, board) {}
 
-void eInvasionEvent::initialize(const int stage, const stdsptr<eWorldCity>& city) {
+void eInvasionEvent::initialize(const int stage,
+                                const stdsptr<eWorldCity>& city,
+                                const int infantry,
+                                const int cavalry,
+                                const int archers) {
     mStage = stage;
     mCity = city;
-}
 
-void eInvasionEvent::setArmy(const int infantry,
-                             const int cavalry,
-                             const int archers) {
     mInfantry = infantry;
     mCavalry = cavalry;
     mArchers = archers;
@@ -57,10 +56,7 @@ void eInvasionEvent::trigger() {
         board.event(eEvent::invasion, ed);
     } else {
         int months;
-        if(mStage == 0) {
-            months = 12;
-            board.event(eEvent::invasion36, ed);
-        } else if(mStage == 1) {
+        if(mStage == 1) {
             months = 12;
             board.event(eEvent::invasion24, ed);
         } else if(mStage == 2) {
@@ -75,7 +71,8 @@ void eInvasionEvent::trigger() {
         } else {
             months = 0;
         }
-        board.planInvasion(mStage, months);
+        board.planInvasion(mStage, months, mInfantry,
+                           mCavalry, mArchers);
     }
 }
 

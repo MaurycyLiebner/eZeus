@@ -260,8 +260,6 @@ void eMainWindow::showMainMenu() {
         c2->addSells(eResourceTrade{eResourceType::bronze, 0, 12, 80});
         wb.addCity(c2);
 
-        board->planInvasion(0, 36);
-
         startGameAction(board, eGameWidgetSettings());
     };
 
@@ -339,54 +337,54 @@ void eMainWindow::showGame(eGameBoard* board,
 
     mBoard = board;
 
-        const auto spawnHoplite = [&](const int x, const int y,
-                                      const int pid) {
-            stdsptr<eSoldier> h;
+    const auto spawnHoplite = [&](const int x, const int y,
+                                  const int pid) {
+        stdsptr<eSoldier> h;
 //            if(pid == 1) {
-                h = e::make_shared<eRockThrower>(*mBoard);
+            h = e::make_shared<eRockThrower>(*mBoard);
 //            } else {
 //                h = e::make_shared<eGreekHoplite>(*mBoard);
 //            }
-            h->setPlayerId(pid);
-            const auto a = e::make_shared<eSoldierAction>(h.get());
-            h->setAction(a);
-            h->changeTile(mBoard->tile(x, y));
-            h->setActionType(eCharacterActionType::stand);
-            return h;
-        };
+        h->setPlayerId(pid);
+        const auto a = e::make_shared<eSoldierAction>(h.get());
+        h->setAction(a);
+        h->changeTile(mBoard->tile(x, y));
+        h->setActionType(eCharacterActionType::stand);
+        return h;
+    };
 
-        stdsptr<eSoldierBanner> b;
-        int bi = 8;
-        for(int i = 20; i < 30; i += 1) {
-            for(int j = -10; j < 0; j += 1) {
-                const auto s = spawnHoplite(i, j, 1);
-                if(bi >= 8) {
-                    b = e::make_shared<eSoldierBanner>(eBannerType::rockThrower, *mBoard);
-                    b->setPlayerId(1);
-                    const auto n = new stdsptr<eSoldierBanner>(b);
-                    b->moveTo(i, j);
-                    bi = 0;
-                }
-                s->setBanner(b.get());
-                bi++;
+    stdsptr<eSoldierBanner> b;
+    int bi = 8;
+    for(int i = 20; i < 30; i += 1) {
+        for(int j = -10; j < 0; j += 1) {
+            const auto s = spawnHoplite(i, j, 1);
+            if(bi >= 8) {
+                b = e::make_shared<eSoldierBanner>(eBannerType::rockThrower, *mBoard);
+                b->setPlayerId(1);
+                const auto n = new stdsptr<eSoldierBanner>(b);
+                b->moveTo(i, j);
+                bi = 0;
             }
+            s->setBanner(b.get());
+            bi++;
         }
+    }
 
-        bi = 8;
-        for(int i = 40; i < 50; i += 1) {
-            for(int j = -20; j < -10; j += 1) {
-                const auto s = spawnHoplite(i, j, 2);
-                if(bi >= 8) {
-                    b = e::make_shared<eSoldierBanner>(eBannerType::hoplite, *mBoard);
-                    b->setPlayerId(2);
-                    const auto n = new stdsptr<eSoldierBanner>(b);
-                    b->moveTo(i, j);
-                    bi = 0;
-                }
-                s->setBanner(b.get());
-                bi++;
+    bi = 8;
+    for(int i = 40; i < 50; i += 1) {
+        for(int j = -20; j < -10; j += 1) {
+            const auto s = spawnHoplite(i, j, 2);
+            if(bi >= 8) {
+                b = e::make_shared<eSoldierBanner>(eBannerType::hoplite, *mBoard);
+                b->setPlayerId(2);
+                const auto n = new stdsptr<eSoldierBanner>(b);
+                b->moveTo(i, j);
+                bi = 0;
             }
+            s->setBanner(b.get());
+            bi++;
         }
+    }
 
     eMusic::playRandomMusic();
     mGW = new eGameWidget(this);
@@ -394,6 +392,8 @@ void eMainWindow::showGame(eGameBoard* board,
     mGW->resize(width(), height());
     mGW->initialize();
     mGW->setSettings(settings);
+
+    board->planInvasion(0, 36, 10, 10, 10);
 
     setWidget(mGW);
 }

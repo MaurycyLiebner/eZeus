@@ -176,7 +176,8 @@ enum class eMessageEventType {
     invasion,
     requestTributeGranted,
     resourceGranted,
-    generalRequestGranted
+    generalRequestGranted,
+    invasionMessage
 };
 
 struct eEventData {
@@ -383,7 +384,10 @@ public:
     void setHostileGods(const std::vector<eGodType>& gods);
     void setHostileMonsters(const std::vector<eMonsterType>& monsters);
 
-    void planInvasion(int stage, int months);
+    void planInvasion(int stage, int months,
+                      const int infantry,
+                      const int cavalry,
+                      const int archers);
 
     void read(eReadStream& src);
     void write(eWriteStream& dst) const;

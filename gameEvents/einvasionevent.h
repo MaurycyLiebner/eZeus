@@ -10,11 +10,10 @@ public:
     eInvasionEvent(eGameBoard& board);
 
     void initialize(const int stage,
-                    const stdsptr<eWorldCity>& city);
-
-    void setArmy(const int infantry,
-                 const int cavalry,
-                 const int archers);
+                    const stdsptr<eWorldCity>& city,
+                    const int infantry,
+                    const int cavalry,
+                    const int archers);
 
     void trigger() override;
 
