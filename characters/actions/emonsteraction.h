@@ -8,7 +8,7 @@
 #include "characters/actions/walkable/eobsticlehandler.h"
 
 enum class eMonsterAttackStage {
-    none, wait, attack, goBack
+    none, wait, goTo, patrol, goBack
 };
 
 class eMonsterAction : public eGodMonsterAction {

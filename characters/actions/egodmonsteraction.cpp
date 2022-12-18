@@ -159,12 +159,34 @@ void eGodMonsterAction::patrol(
     const auto c = character();
     c->setActionType(eCharacterActionType::walk);
     const auto failAct = std::make_shared<eGMA_patrolFail>(
-                board(), this, c, finishAct, dist);
+                board(), this, finishAct, dist);
     const auto a = e::make_shared<ePatrolMoveAction>(c);
     a->setFailAction(failAct);
     a->setFinishAction(finishAct);
     a->setMaxWalkDistance(dist);
     setCurrentAction(a);
+}
+
+void eGodMonsterAction::goToNearestRoad(
+        const stdsptr<eCharActFunc>& finishAct,
+        const int dist) {
+    const auto c = character();
+    const auto t = c->tile();
+    if(t->hasRoad()) return;
+    const auto cr = eTileHelper::closestRoad(t->x(), t->y(), board());
+    if(cr) {
+        const auto fail = std::make_shared<eGMA_patrolFailFail>(
+                              board(), this, finishAct);
+        const auto finish = std::make_shared<eGMA_patrolFailFinish>(
+                                board(), this, finishAct, dist);
+        const auto a = e::make_shared<eMoveToAction>(c);
+        a->setFailAction(fail);
+        a->setFinishAction(finish);
+        a->start(cr);
+        setCurrentAction(a);
+    } else {
+        moveAround(finishAct, 15000);
+    }
 }
 
 void eGodMonsterAction::pauseAction() {

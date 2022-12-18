@@ -1,11 +1,7 @@
 #include "egodattackaction.h"
 
 #include "buildings/ebuilding.h"
-#include "textures/edestructiontextures.h"
-#include "audio/esounds.h"
 #include "engine/egameboard.h"
-#include "elanguage.h"
-#include "etilehelper.h"
 
 eGodAttackAction::eGodAttackAction(eCharacter* const c) :
     eGodAction(c, eCharActionType::godAttackAction) {}
@@ -151,9 +147,7 @@ bool eGodAttackAction::decide() {
         break;
     case eGodAttackStage::goTo1: {
         mStage = eGodAttackStage::patrol1;
-        const auto tile = c->tile();
-        if(tile->hasRoad()) patrol();
-        else moveAround();
+        goToNearestRoad();
     }   break;
     case eGodAttackStage::patrol1:
         mStage = eGodAttackStage::goTo2;
@@ -161,9 +155,7 @@ bool eGodAttackAction::decide() {
         break;
     case eGodAttackStage::goTo2: {
         mStage = eGodAttackStage::patrol2;
-        const auto tile = c->tile();
-        if(tile->hasRoad()) patrol();
-        else moveAround();
+        goToNearestRoad();
     }   break;
     case eGodAttackStage::patrol2:
         mStage = eGodAttackStage::disappear;

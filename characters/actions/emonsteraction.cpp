@@ -3,14 +3,9 @@
 #include "engine/egameboard.h"
 
 #include "engine/boardData/eheatmaptask.h"
-#include "engine/boardData/eheatmapdivisor.h"
 #include "buildings/eheatgetters.h"
 
 #include "emovetoaction.h"
-#include "ewaitaction.h"
-#include "emovearoundaction.h"
-
-#include "audio/esounds.h"
 #include "eiteratesquare.h"
 
 #include "egodaction.h"
@@ -40,10 +35,14 @@ bool eMonsterAction::decide() {
         if(!c->tile()) c->kill();
         break;
     case eMonsterAttackStage::wait:
-        mStage = eMonsterAttackStage::attack;
+        mStage = eMonsterAttackStage::goTo;
         goToTarget();
         break;
-    case eMonsterAttackStage::attack:
+    case eMonsterAttackStage::goTo:
+        mStage = eMonsterAttackStage::patrol;
+        goToNearestRoad();
+        break;
+    case eMonsterAttackStage::patrol:
         mStage = eMonsterAttackStage::goBack;
         goBack();
         break;
