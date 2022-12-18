@@ -376,9 +376,6 @@ void eSoldierAction::goHome() {
         if(!cptr) return;
         cptr->setActionType(eCharacterActionType::walk);
     });
-    a->setFindFailAction([finishAct]() {
-        finishAct->call();
-    });
     a->start(b, eWalkableObject::sCreateDefault());
     setCurrentAction(a);
 }

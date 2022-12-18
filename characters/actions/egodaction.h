@@ -425,9 +425,6 @@ public:
             const auto a = e::make_shared<eMoveToAction>(c);
             a->setFailAction(fail);
             a->setFinishAction(finish);
-            a->setFindFailAction([fail]() {
-                fail->call();
-            });
             a->start(cr);
             mTptr->setCurrentAction(a);
         } else {

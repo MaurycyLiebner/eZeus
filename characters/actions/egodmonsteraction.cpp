@@ -59,9 +59,6 @@ void eGodMonsterAction::goToTarget(const eHeatGetters::eHeatGetter hg,
             a->setFailAction(ff);
             a->setObsticleHandler(oh);
             a->setTileDistance(tileDistance);
-            a->setFindFailAction([ff]() {
-                ff->call();
-            });
             a->start(tile, pathFindWalkable, moveWalkable);
             setCurrentAction(a);
             c->setActionType(eCharacterActionType::walk);
