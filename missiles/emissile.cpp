@@ -81,6 +81,7 @@ stdsptr<eMissile> eMissile::sCreate(
     case eMissileType::arrow:
         return e::make_shared<eArrowMissile>(brd);
     }
+    return nullptr;
 }
 
 void eMissile::changeTile(eTile* const t) {

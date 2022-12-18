@@ -1,6 +1,8 @@
 #include "einvasionevent.h"
 
 #include "engine/egameboard.h"
+#include "engine/eevent.h"
+#include "engine/eeventdata.h"
 #include "einvasionhandler.h"
 
 eInvasionEvent::eInvasionEvent(eGameBoard& board) :

@@ -4,14 +4,7 @@
 #include "audio/esounds.h"
 
 #include "ewaitaction.h"
-#include "emovearoundaction.h"
 #include "epatrolmoveaction.h"
-
-#include "eiteratesquare.h"
-
-#include "missiles/egodmissile.h"
-
-#include "emovetoaction.h"
 
 eGodAction::eGodAction(eCharacter* const c, const eCharActionType type) :
     eGodMonsterAction(c, type),
@@ -48,7 +41,6 @@ void eGodAction::disappear(const bool die,
 }
 
 void eGodAction::teleport(eTile* const tile) {
-    const stdptr<eGodAction> tptr(this);
     const auto finish = std::make_shared<eGA_teleportFinish>(
                             board(), this, tile);
     disappear(false, finish);
@@ -58,8 +50,6 @@ void eGodAction::patrol(const stdsptr<eCharActFunc>& finishAct,
                         const int dist) {
     const auto c = character();
     c->setActionType(eCharacterActionType::walk);
-    const stdptr<eGodAction> tptr(this);
-    const stdptr<eCharacter> cptr(c);
     const auto failAct = std::make_shared<eGA_patrolFail>(
                              board(), this, c, finishAct, dist);
     const auto a = e::make_shared<ePatrolMoveAction>(c);
@@ -257,7 +247,6 @@ void eGodAction::fightGod(eGod* const g, const stdsptr<eCharActFunc>& finishAtta
 void eGodAction::goToTarget() {
     const auto gt = type();
     const auto hg = eHeatGetters::godLeaning(gt);
-    const stdptr<eGodAction> tptr(this);
     const auto tele = std::make_shared<eGoToTargetTeleport>(
                           board(), this);
     eGodMonsterAction::goToTarget(hg, tele);

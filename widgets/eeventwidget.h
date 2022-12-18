@@ -1,9 +1,12 @@
 #ifndef EEVENTWIDGET_H
 #define EEVENTWIDGET_H
 
-#include "engine/egameboard.h"
 #include "ewidget.h"
 #include "ebutton.h"
+
+class eGameBoard;
+class eTile;
+enum class eEvent;
 
 class eEventButton : public eButton {
 public:

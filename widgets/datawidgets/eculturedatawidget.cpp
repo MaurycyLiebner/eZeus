@@ -2,6 +2,7 @@
 
 #include "eviewmodebutton.h"
 #include "widgets/elinewidget.h"
+#include "engine/egameboard.h"
 
 #include "elanguage.h"
 

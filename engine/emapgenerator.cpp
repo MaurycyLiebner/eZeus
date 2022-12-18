@@ -1,11 +1,12 @@
 #include "emapgenerator.h"
-
 #include <libnoise/noise.h>
 #include <libnoise/module/perlin.h>
 using namespace noise;
 
 #include "spawners/eboarspawner.h"
 #include "spawners/edeerspawner.h"
+
+#include "egameboard.h"
 
 eMapGenerator::eMapGenerator(eGameBoard& board) :
     mBoard(board) {

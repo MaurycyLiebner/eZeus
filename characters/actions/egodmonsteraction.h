@@ -4,14 +4,9 @@
 #include "characters/echaracter.h"
 #include "ecomplexaction.h"
 
-#include "engine/boardData/eheatmaptask.h"
-#include "engine/boardData/eheatmapdivisor.h"
 #include "buildings/eheatgetters.h"
+#include "characters/actions/walkable/ewalkableobject.h"
 
-#include "textures/egametextures.h"
-
-#include "ewalkablehelpers.h"
-#include "characters/gods/egod.h"
 #include "missiles/egodmissile.h"
 
 class eGodAct;

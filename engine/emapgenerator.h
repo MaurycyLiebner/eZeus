@@ -1,7 +1,8 @@
 #ifndef EMAPGENERATOR_H
 #define EMAPGENERATOR_H
 
-#include "egameboard.h"
+enum class eTerrain;
+class eGameBoard;
 
 struct eMapGeneratorSettings {
     bool fCoppper = true;

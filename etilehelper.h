@@ -1,7 +1,8 @@
 #ifndef ETILEHELPER_H
 #define ETILEHELPER_H
 
-#include "engine/egameboard.h"
+class eGameBoard;
+class eTile;
 
 namespace eTileHelper {
     void dtileIdToTileId(const int dtx, const int dty,

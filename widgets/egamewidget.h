@@ -1,23 +1,17 @@
 ﻿#ifndef EGAMEWIDGET_H
 #define EGAMEWIDGET_H
 
+#include <deque>
+
 #include "ewidget.h"
 #include "eframedlabel.h"
-#include "etexturecollection.h"
 
 #include "engine/etile.h"
-#include "engine/egameboard.h"
-#include "engine/ethreadpool.h"
 
 #include "textures/eterraintextures.h"
-#include "textures/egodtextures.h"
 #include "textures/ebuildingtextures.h"
-#include "textures/echaractertextures.h"
 
 #include "buildings/epatrolbuilding.h"
-#include "buildings/ecommonagora.h"
-
-#include "infowidgets/egyminfowidget.h"
 
 #include "widgets/egamemenu.h"
 #include "widgets/earmymenu.h"
@@ -28,6 +22,8 @@
 #include "emessage.h"
 #include "echeckbox.h"
 
+#include "engine/eeventdata.h"
+
 class eTerrainEditMenu;
 class eDomesticatedAnimal;
 struct eSanctBlueprint;
@@ -35,6 +31,12 @@ class eWorldWidget;
 struct eGodMessages;
 struct eHeroMessages;
 class eMessageBox;
+class eGameBoard;
+class eAgoraBase;
+class eInfoWidget;
+enum class eAgoraOrientation;
+enum class eGodType;
+enum class eHeroType;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
 using eRendererCreator = std::function<stdsptr<eBuildingRenderer>()>;

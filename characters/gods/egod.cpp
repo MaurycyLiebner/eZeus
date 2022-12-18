@@ -88,6 +88,7 @@ stdsptr<eGod> eGod::sCreateGod(const eGodType type, eGameBoard& board) {
     case eGodType::zeus:
         return e::make_shared<eZeus>(board);
     }
+    return nullptr;
 }
 
 eGod::eTexPtr eGod::sGodMissile(const eGodType gt) {

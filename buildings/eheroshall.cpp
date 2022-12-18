@@ -9,7 +9,8 @@
 #include "engine/epathfinder.h"
 #include "etilehelper.h"
 #include "characters/actions/eheroaction.h"
-#include "emessage.h"
+#include "engine/eevent.h"
+#include "engine/eeventdata.h"
 
 eBuildingType eHerosHall::sHeroTypeToHallType(const eHeroType type) {
     switch(type) {
@@ -22,6 +23,7 @@ eBuildingType eHerosHall::sHeroTypeToHallType(const eHeroType type) {
     case eHeroType::perseus: return eBuildingType::perseusHall;
     case eHeroType::theseus: return eBuildingType::theseusHall;
     }
+    return eBuildingType::theseusHall;
 }
 
 eHeroType eHerosHall::sHallTypeToHeroType(const eBuildingType type,

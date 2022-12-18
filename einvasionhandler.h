@@ -1,9 +1,17 @@
 #ifndef EINVASIONHANDLER_H
 #define EINVASIONHANDLER_H
 
-#include "engine/egameboard.h"
+#include <vector>
 
+#include "pointers/estdselfref.h"
+
+class eGameBoard;
 class eInvasionEvent;
+class eTile;
+class eReadStream;
+class eWriteStream;
+class eWorldCity;
+class eSoldierBanner;
 
 enum class eInvasionStage {
     spread, invade, comeback

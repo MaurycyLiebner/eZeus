@@ -1,6 +1,8 @@
 #include "egodattackevent.h"
 
 #include "engine/egameboard.h"
+#include "engine/eevent.h"
+#include "engine/eeventdata.h"
 #include "characters/actions/egodattackaction.h"
 
 eGodAttackEvent::eGodAttackEvent(eGameBoard& board) :

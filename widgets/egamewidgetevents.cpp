@@ -2,6 +2,7 @@
 
 #include "audio/esounds.h"
 #include "emessages.h"
+#include "engine/eevent.h"
 
 void eGameWidget::handleGodVisitEvent(eGodMessages& msgs,
                                       const eGodType god,

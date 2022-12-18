@@ -29,6 +29,7 @@ std::shared_ptr<eTexture> eGrower::getTexture(const eTileSize size) const {
     case eGrowerType::oranges:
         return getOrangesTex(colls);
     }
+    return nullptr;
 }
 
 std::shared_ptr<eTexture> eGrower::getGrapesAndOlivesTex(

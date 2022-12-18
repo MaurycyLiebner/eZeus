@@ -15,4 +15,5 @@ stdsptr<eObsticleHandler> eObsticleHandler::sCreate(
     case eObsticleHandlerType::soldier:
         return std::make_shared<eSoldierObsticleHandler>(board);
     }
+    return nullptr;
 }

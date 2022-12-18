@@ -1,8 +1,9 @@
 #ifndef EBANNER_H
 #define EBANNER_H
 
-#include "engine/egameboard.h"
-
+class eGameBoard;
+class eReadStream;
+class eWriteStream;
 class eTile;
 
 enum class eBannerTypeS {

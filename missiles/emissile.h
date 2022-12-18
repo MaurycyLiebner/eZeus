@@ -4,13 +4,11 @@
 #include <functional>
 
 #include "pointers/estdselfref.h"
-#include "textures/edestructiontextures.h"
 #include "vec2.h"
 #include "engine/egameboard.h"
 
 class eTile;
 enum class eTileSize : int;
-class eGameBoard;
 
 struct ePathPoint {
     double fX;

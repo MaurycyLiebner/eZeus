@@ -37,6 +37,9 @@
 #include "fileIO/ebuildingreader.h"
 #include "fileIO/ebuildingwriter.h"
 
+#include "eevent.h"
+#include "emessageeventtype.h"
+
 #include "gameEvents/egameeventcycle.h"
 #include "gameEvents/egodvisitevent.h"
 #include "gameEvents/egodattackevent.h"
@@ -46,6 +49,8 @@
 #include "gameEvents/egrantrequestevent.h"
 #include "gameEvents/egiftevent.h"
 #include "gameEvents/egrantgeneralrequestevent.h"
+
+#include "eeventdata.h"
 
 #include "einvasionhandler.h"
 

@@ -153,4 +153,5 @@ stdsptr<eCharActFunc> eCharActFunc::sCreate(
     case eCharActFuncType::SS_spawnFinish:
         return std::make_shared<eSS_spawnFinish>(board);
     }
+    return nullptr;
 }

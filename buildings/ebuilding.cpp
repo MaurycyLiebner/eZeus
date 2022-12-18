@@ -1,6 +1,8 @@
 #include "ebuilding.h"
 
 #include "engine/egameboard.h"
+#include "engine/eevent.h"
+#include "engine/eeventdata.h"
 #include "engine/etile.h"
 #include "eruins.h"
 
@@ -13,8 +15,6 @@
 #include "fileIO/ebuildingrendererreader.h"
 
 #include "evectorhelpers.h"
-
-#include "emessage.h"
 
 eBuilding::eBuilding(eGameBoard& board,
                      const eBuildingType type,

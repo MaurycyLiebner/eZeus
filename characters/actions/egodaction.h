@@ -267,6 +267,7 @@ inline stdsptr<eGodAct> eGodAct::sCreate(
     case eGodActType::lookForAttack:
         return std::make_shared<eLookForAttackGodAct>(board);
     }
+    return nullptr;
 }
 
 class eGodAction : public eGodMonsterAction {

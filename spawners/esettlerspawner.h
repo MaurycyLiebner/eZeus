@@ -3,6 +3,8 @@
 
 #include "espawner.h"
 
+#include "characters/actions/echaracteractionfunction.h"
+
 class eSettlerSpawner : public eSpawner {
 public:
     eSettlerSpawner(const int id,
@@ -17,13 +19,9 @@ public:
     eSS_spawnFinish(eGameBoard& board) :
         eCharActFunc(board, eCharActFuncType::SS_spawnFinish) {}
 
-    void call() override {
-        auto& popData = board().populationData();
-        popData.incSettlers(-8);
-    }
+    void call() override;
 
     void read(eReadStream&) override {}
-
     void write(eWriteStream&) const override {}
 };
 

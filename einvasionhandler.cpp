@@ -1,9 +1,15 @@
 #include "einvasionhandler.h"
 
+#include "engine/egameboard.h"
+
+#include "engine/eeventdata.h"
+
 #include "characters/actions/esoldieraction.h"
 #include "characters/egreekrockthrower.h"
 #include "characters/egreekhoplite.h"
 #include "characters/egreekhorseman.h"
+
+#include "engine/eevent.h"
 
 #include "etilehelper.h"
 #include "buildings/epalace.h"

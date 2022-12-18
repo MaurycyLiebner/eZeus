@@ -99,6 +99,7 @@ stdsptr<eMonster> eMonster::sCreateMonster(const eMonsterType type, eGameBoard& 
     case eMonsterType::talos:
         return e::make_shared<eTalos>(board);
     }
+    return nullptr;
 }
 
 eGodType eMonster::sMonsterSender(const eMonsterType type, bool* const valid) {
@@ -125,6 +126,7 @@ eGodType eMonster::sMonsterSender(const eMonsterType type, bool* const valid) {
         if(valid) *valid = false;
         return eGodType::artemis;
     }
+    return eGodType::athena;
 }
 
 eMonsterType eMonster::sGodsMinion(const eGodType type) {
@@ -145,6 +147,7 @@ eMonsterType eMonster::sGodsMinion(const eGodType type) {
     case eGodType::hera: return eMonsterType::sphinx;
     case eGodType::hephaestus: return eMonsterType::talos;
     }
+    return eMonsterType::talos;
 }
 
 eHeroType eMonster::sSlayer(const eMonsterType type) {

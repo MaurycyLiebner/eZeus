@@ -4,9 +4,10 @@
 #include "emovearoundaction.h"
 #include "emovetoaction.h"
 #include "engine/egameboard.h"
-#include "eiteratesquare.h"
+#include "engine/boardData/eheatmap.h"
+#include "engine/boardData/eheatmapdivisor.h"
+#include "engine/boardData/eheatmaptask.h"
 
-#include "missiles/egodmissile.h"
 #include "etilehelper.h"
 
 #include "egodattackaction.h"
@@ -215,4 +216,5 @@ stdsptr<eFindFailFunc> eFindFailFunc::sCreate(eGameBoard& board,
     case eFindFailFuncType::tryAgain:
         return std::make_shared<eGoToTargetTryAgain>(board);
     }
+    return nullptr;
 }

@@ -1,5 +1,6 @@
 #include "esettlerspawner.h"
 
+#include "engine/egameboard.h"
 #include "characters/esettler.h"
 #include "characters/actions/esettleraction.h"
 
@@ -24,4 +25,9 @@ void eSettlerSpawner::spawn(eTile* const tile) {
     a->setFinishAction(fa);
     a->setDeleteFailAction(fa);
     b->setAction(a);
+}
+
+void eSS_spawnFinish::call() {
+    auto& popData = board().populationData();
+    popData.incSettlers(-8);
 }

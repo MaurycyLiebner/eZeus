@@ -30,4 +30,5 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
     case eGameEventType::gift:
         return e::make_shared<eGiftEvent>(board);
     }
+    return nullptr;
 }

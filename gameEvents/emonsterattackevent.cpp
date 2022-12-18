@@ -1,6 +1,8 @@
 #include "emonsterattackevent.h"
 
 #include "engine/egameboard.h"
+#include "engine/eeventdata.h"
+#include "engine/eevent.h"
 #include "characters/actions/emonsteraction.h"
 
 eMonsterAttackEvent::eMonsterAttackEvent(eGameBoard& board) :

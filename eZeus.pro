@@ -655,11 +655,14 @@ HEADERS += \
     engine/boardData/epopulationdata.h \
     engine/edate.h \
     engine/edifficulty.h \
+    engine/eevent.h \
+    engine/eeventdata.h \
     engine/efunctask.h \
     engine/egameboard.h \
     engine/egameboarditerator.h \
     engine/egifthelpers.h \
     engine/emapgenerator.h \
+    engine/emessageeventtype.h \
     engine/emovedirection.h \
     engine/eorientation.h \
     engine/epathboard.h \

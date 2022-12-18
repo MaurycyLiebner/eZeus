@@ -1,5 +1,7 @@
 #include "egamewidget.h"
 
+#include "engine/egameboard.h"
+
 #include "eterraineditmenu.h"
 #include "etilepainter.h"
 

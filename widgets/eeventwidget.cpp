@@ -1,5 +1,7 @@
 #include "eeventwidget.h"
 
+#include "engine/egameboard.h"
+#include "engine/eevent.h"
 #include "textures/egametextures.h"
 
 void eEventWidget::pushEvent(const eEvent e, eTile* const tile) {

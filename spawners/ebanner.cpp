@@ -1,5 +1,7 @@
 #include "ebanner.h"
 
+#include "engine/egameboard.h"
+
 #include "eboarspawner.h"
 #include "edeerspawner.h"
 #include "elandinvasionpoint.h"
@@ -41,4 +43,5 @@ eBanner* eBanner::sCreate(const int id,
     case eBannerTypeS::settler:
         return new eSettlerSpawner(id, tile, board);
     }
+    return nullptr;
 }

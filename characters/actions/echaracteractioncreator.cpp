@@ -92,4 +92,5 @@ stdsptr<eCharacterAction> eCharacterAction::sCreate(
     case eCharActionType::waitAction:
         return e::make_shared<eWaitAction>(c);
     }
+    return nullptr;
 }
