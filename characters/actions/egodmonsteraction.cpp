@@ -12,6 +12,7 @@
 
 #include "egodattackaction.h"
 #include "emonsteraction.h"
+#include "epatrolmoveaction.h"
 
 void eGodMonsterAction::moveAround(const stdsptr<eCharActFunc>& finishAct,
                                    const int time) {
@@ -148,7 +149,22 @@ void eGodMonsterAction::spawnTimedMissiles(
         const int time) {
     const int n = std::round(double(time)/attackTime);
     spawnMultipleMissiles(at, ct, attackTime, target,
-                          playSound, playHitSound, finishA, n);
+                          playSound, playHitSound,
+                          finishA, n);
+}
+
+void eGodMonsterAction::patrol(
+        const stdsptr<eCharActFunc>& finishAct,
+        const int dist) {
+    const auto c = character();
+    c->setActionType(eCharacterActionType::walk);
+    const auto failAct = std::make_shared<eGMA_patrolFail>(
+                board(), this, c, finishAct, dist);
+    const auto a = e::make_shared<ePatrolMoveAction>(c);
+    a->setFailAction(failAct);
+    a->setFinishAction(finishAct);
+    a->setMaxWalkDistance(dist);
+    setCurrentAction(a);
 }
 
 void eGodMonsterAction::pauseAction() {
@@ -182,7 +198,8 @@ void eGodMonsterAction::read(eReadStream& src) {
         if(hasAction) {
             eCharActionType type;
             src >> type;
-            a.fA = eCharacterAction::sCreate(character(), type);
+            a.fA = eCharacterAction::sCreate(character(),
+                                             type);
             a.fA->read(src);
         }
         src >> a.fO;
@@ -203,8 +220,9 @@ void eGodMonsterAction::write(eWriteStream& dst) const {
     }
 }
 
-stdsptr<eFindFailFunc> eFindFailFunc::sCreate(eGameBoard& board,
-                                              const eFindFailFuncType type) {
+stdsptr<eFindFailFunc> eFindFailFunc::sCreate(
+        eGameBoard& board,
+        const eFindFailFuncType type) {
     switch(type) {
     case eFindFailFuncType::teleport:
         return std::make_shared<eTeleportFindFailFunc>(board);

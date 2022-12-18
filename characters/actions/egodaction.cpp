@@ -4,9 +4,9 @@
 #include "audio/esounds.h"
 
 #include "ewaitaction.h"
-#include "epatrolmoveaction.h"
 
-eGodAction::eGodAction(eCharacter* const c, const eCharActionType type) :
+eGodAction::eGodAction(eCharacter* const c,
+                       const eCharActionType type) :
     eGodMonsterAction(c, type),
     mType(eGod::sCharacterToGodType(c->type())) {}
 
@@ -23,8 +23,9 @@ void eGodAction::appear() {
     }
 }
 
-void eGodAction::disappear(const bool die,
-                           const stdsptr<eCharActFunc>& finish) {
+void eGodAction::disappear(
+        const bool die,
+        const stdsptr<eCharActFunc>& finish) {
     if(type() == eGodType::hermes) {
         hermesRun(false);
     } else {
@@ -41,22 +42,10 @@ void eGodAction::disappear(const bool die,
 }
 
 void eGodAction::teleport(eTile* const tile) {
-    const auto finish = std::make_shared<eGA_teleportFinish>(
+    using eGA_TF = eGA_teleportFinish;
+    const auto finish = std::make_shared<eGA_TF>(
                             board(), this, tile);
     disappear(false, finish);
-}
-
-void eGodAction::patrol(const stdsptr<eCharActFunc>& finishAct,
-                        const int dist) {
-    const auto c = character();
-    c->setActionType(eCharacterActionType::walk);
-    const auto failAct = std::make_shared<eGA_patrolFail>(
-                             board(), this, c, finishAct, dist);
-    const auto a = e::make_shared<ePatrolMoveAction>(c);
-    a->setFailAction(failAct);
-    a->setFinishAction(finishAct);
-    a->setMaxWalkDistance(dist);
-    setCurrentAction(a);
 }
 
 void eGodAction::playAppearSound() {
@@ -81,7 +70,8 @@ void eGodAction::hermesRun(const bool appear) {
     c->setSpeed(2.0);
     const auto tile = c->tile();
     const stdptr<eGodAction> tptr(this);
-    const auto finish = std::make_shared<eGA_hermesRunFinish>(
+    using eGA_HRF = eGA_hermesRunFinish;
+    const auto finish = std::make_shared<eGA_HRF>(
                             board(), this, c, appear);
     if(tile->hasRoad()) {
         patrol(finish, 20);
@@ -101,16 +91,19 @@ void eGodAction::randomPlaceOnBoard() {
     int tx;
     int ty;
     eTileHelper::dtileIdToTileId(rdx, rdy, tx, ty);
-    const auto tile = eTileHelper::closestRoad(tx, ty, board);
+    const auto tile = eTileHelper::closestRoad(tx, ty,
+                                               board);
     if(!tile) return;
     c->changeTile(tile);
 }
 
-bool eGodAction::lookForBlessCurse(const int dtime,
-                                   int& time, const int freq,
-                                   const int range,
-                                   const double bless) {
-    const auto act = std::make_shared<eLookForBlessGodAct>(
+bool eGodAction::lookForBlessCurse(
+        const int dtime,
+        int& time, const int freq,
+        const int range,
+        const double bless) {
+    using eLFBG = eLookForBlessGodAct;
+    const auto act = std::make_shared<eLFBG>(
                          board(), bless);
     eCharacterActionType at;
     eGodSound s;
@@ -127,10 +120,11 @@ bool eGodAction::lookForBlessCurse(const int dtime,
                               at, act, chart, s);
 }
 
-bool eGodAction::lookForSoldierAttack(const int dtime, int& time,
-                                      const int freq, const int range) {
-    const auto act = std::make_shared<eLookForSoldierAttackGodAct>(
-                         board());
+bool eGodAction::lookForSoldierAttack(
+        const int dtime, int& time,
+        const int freq, const int range) {
+    using eLFSAGA = eLookForSoldierAttackGodAct;
+    const auto act = std::make_shared<eLFSAGA>(board());
 
     const auto at = eCharacterActionType::fight;
     const auto s = eGodSound::attack;
@@ -141,13 +135,14 @@ bool eGodAction::lookForSoldierAttack(const int dtime, int& time,
                               at, act, chart, s);
 }
 
-bool eGodAction::lookForRangeAction(const int dtime,
-                                    int& time, const int freq,
-                                    const int range,
-                                    const eCharacterActionType at,
-                                    const stdsptr<eGodAct>& act,
-                                    const eCharacterType chart,
-                                    const eGodSound missileSound) {
+bool eGodAction::lookForRangeAction(
+        const int dtime,
+        int& time, const int freq,
+        const int range,
+        const eCharacterActionType at,
+        const stdsptr<eGodAct>& act,
+        const eCharacterType chart,
+        const eGodSound missileSound) {
     const auto c = character();
     const auto cat = c->actionType();
     const bool walking = cat == eCharacterActionType::walk;
@@ -178,8 +173,9 @@ bool eGodAction::lookForRangeAction(const int dtime,
             const auto tt = act->find(t);
             if(!tt) continue;
 
+            using eGA_LFRAF = eGA_lookForRangeActionFinish;
             const auto finishAttackA =
-                    std::make_shared<eGA_lookForRangeActionFinish>(
+                    std::make_shared<eGA_LFRAF>(
                         board(), this);
 
             pauseAction();
@@ -192,52 +188,62 @@ bool eGodAction::lookForRangeAction(const int dtime,
     return false;
 }
 
-void eGodAction::spawnGodMissile(const eCharacterActionType at,
-                                 const eCharacterType chart,
-                                 eTile* const target,
-                                 const eGodSound sound,
-                                 const stdsptr<eGodAct>& act,
-                                 const stdsptr<eCharActFunc>& finishAttackA) {
+void eGodAction::spawnGodMissile(
+        const eCharacterActionType at,
+        const eCharacterType chart,
+        eTile* const target,
+        const eGodSound sound,
+        const stdsptr<eGodAct>& act,
+        const stdsptr<eCharActFunc>& finishAttackA) {
     const int time = eGod::sGodAttackTime(type());
     const auto c = character();
-    const auto playSound = std::make_shared<eGA_spawnGodMissilePlaySound>(
+    using eGA_SGMPS = eGA_spawnGodMissilePlaySound;
+    const auto playSound = std::make_shared<eGA_SGMPS>(
                                board(), sound, c);
     spawnMissile(at, chart, time, target,
                  playSound, act, finishAttackA);
 }
 
-void eGodAction::spawnGodMultipleMissiles(const eCharacterActionType at,
-                                          const eCharacterType chart,
-                                          eTile* const target,
-                                          const eGodSound sound,
-                                          const stdsptr<eGodAct>& playHitSound,
-                                          const stdsptr<eCharActFunc>& finishA,
-                                          const int nMissiles) {
+void eGodAction::spawnGodMultipleMissiles(
+        const eCharacterActionType at,
+        const eCharacterType chart,
+        eTile* const target,
+        const eGodSound sound,
+        const stdsptr<eGodAct>& playHitSound,
+        const stdsptr<eCharActFunc>& finishA,
+        const int nMissiles) {
     const int time = eGod::sGodAttackTime(type());
     const auto c = character();
-    const auto playSound = std::make_shared<eGA_spawnGodMissilePlaySound>(
+    using eGA_SGMPS = eGA_spawnGodMissilePlaySound;
+    const auto playSound = std::make_shared<eGA_SGMPS>(
                                board(), sound, c);
     spawnMultipleMissiles(at, chart, time, target,
                           playSound, playHitSound,
                           finishA, nMissiles);
 }
 
-void eGodAction::spawnGodTimedMissiles(const eCharacterActionType at,
-                                       const eCharacterType chart,
-                                       eTile* const target,
-                                       const eGodSound sound,
-                                       const stdsptr<eGodAct>& playHitSound,
-                                       const stdsptr<eCharActFunc>& finishA,
-                                       const int time) {
+void eGodAction::spawnGodTimedMissiles(
+        const eCharacterActionType at,
+         const eCharacterType chart,
+        eTile* const target,
+        const eGodSound sound,
+        const stdsptr<eGodAct>& playHitSound,
+        const stdsptr<eCharActFunc>& finishA,
+        const int time) {
     const int atime = eGod::sGodAttackTime(type());
     const int n = std::round(double(time)/atime);
-    spawnGodMultipleMissiles(at, chart, target, sound, playHitSound, finishA, n);
+    spawnGodMultipleMissiles(at, chart, target,
+                             sound, playHitSound,
+                             finishA, n);
 }
 
-void eGodAction::fightGod(eGod* const g, const stdsptr<eCharActFunc>& finishAttackA) {
+void eGodAction::fightGod(
+        eGod* const g,
+        const stdsptr<eCharActFunc>& finishAttackA) {
     const auto at = eCharacterActionType::fight;
     const auto s = eGodSound::attack;
-    const auto playHitSound = std::make_shared<ePlayFightGodHitSoundGodAct>(
+    using ePFGHSGA = ePlayFightGodHitSoundGodAct;
+    const auto playHitSound = std::make_shared<ePFGHSGA>(
                                   board(), g);
     const auto c = character();
     spawnGodTimedMissiles(at, c->type(), g->tile(), s,
@@ -247,7 +253,7 @@ void eGodAction::fightGod(eGod* const g, const stdsptr<eCharActFunc>& finishAtta
 void eGodAction::goToTarget() {
     const auto gt = type();
     const auto hg = eHeatGetters::godLeaning(gt);
-    const auto tele = std::make_shared<eGoToTargetTeleport>(
-                          board(), this);
+    using eGTTT = eGoToTargetTeleport;
+    const auto tele = std::make_shared<eGTTT>(board(), this);
     eGodMonsterAction::goToTarget(hg, tele);
 }

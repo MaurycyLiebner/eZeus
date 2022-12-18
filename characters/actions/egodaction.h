@@ -279,9 +279,6 @@ public:
                    const stdsptr<eCharActFunc>& finish = nullptr);
     void teleport(eTile* const tile);
 
-    void patrol(const stdsptr<eCharActFunc>& finishAct = nullptr,
-                const int dist = 100);
-
     void randomPlaceOnBoard();
 
     using eTexPtr = eTextureCollection eDestructionTextures::*;
@@ -333,127 +330,6 @@ private:
     void hermesRun(const bool appear);
 
     const eGodType mType;
-};
-
-class eGA_patrolFailFail : public eCharActFunc {
-public:
-    eGA_patrolFailFail(eGameBoard& board) :
-        eCharActFunc(board, eCharActFuncType::GA_patrolFailFail) {}
-    eGA_patrolFailFail(eGameBoard& board, eGodAction* const ca,
-                       const stdsptr<eCharActFunc>& finishAct) :
-        eCharActFunc(board, eCharActFuncType::GA_patrolFailFail),
-        mTptr(ca), mFinishAct(finishAct) {}
-
-    void call() override {
-        if(!mTptr) return;
-        const auto t = mTptr.get();
-        t->moveAround(mFinishAct, 15000);
-    }
-
-    void read(eReadStream& src) override {
-        src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
-            mTptr = static_cast<eGodAction*>(ca);
-        });
-        mFinishAct = src.readCharActFunc(board());
-    }
-
-    void write(eWriteStream& dst) const override {
-        dst.writeCharacterAction(mTptr);
-        dst.writeCharActFunc(mFinishAct.get());
-    }
-private:
-    stdptr<eGodAction> mTptr;
-    stdsptr<eCharActFunc> mFinishAct;
-};
-
-class eGA_patrolFailFinish : public eCharActFunc {
-public:
-    eGA_patrolFailFinish(eGameBoard& board) :
-        eCharActFunc(board, eCharActFuncType::GA_patrolFailFinish) {}
-    eGA_patrolFailFinish(eGameBoard& board, eGodAction* const ca,
-                         const stdsptr<eCharActFunc>& finishAct,
-                         const int dist) :
-        eCharActFunc(board, eCharActFuncType::GA_patrolFailFinish),
-        mTptr(ca), mFinishAct(finishAct), mDist(dist) {}
-
-    void call() override {
-        if(!mTptr) return;
-        const auto t = mTptr.get();
-        t->patrol(mFinishAct, mDist);
-    }
-
-    void read(eReadStream& src) override {
-        src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
-            mTptr = static_cast<eGodAction*>(ca);
-        });
-        mFinishAct = src.readCharActFunc(board());
-        src >> mDist;
-    }
-
-    void write(eWriteStream& dst) const override {
-        dst.writeCharacterAction(mTptr);
-        dst.writeCharActFunc(mFinishAct.get());
-        dst << mDist;
-    }
-private:
-    stdptr<eGodAction> mTptr;
-    stdsptr<eCharActFunc> mFinishAct;
-    int mDist = 100;
-};
-
-class eGA_patrolFail : public eCharActFunc {
-public:
-    eGA_patrolFail(eGameBoard& board) :
-        eCharActFunc(board, eCharActFuncType::GA_patrolFail) {}
-    eGA_patrolFail(eGameBoard& board, eGodAction* const ca,
-                   eCharacter* const c,
-                   const stdsptr<eCharActFunc>& finishAct,
-                   const int dist) :
-        eCharActFunc(board, eCharActFuncType::GA_patrolFail),
-        mTptr(ca), mCptr(c), mFinishAct(finishAct), mDist(dist) {}
-
-    void call() override {
-        if(!mTptr || !mCptr) return;
-        const auto c = mCptr.get();
-        const auto t = c->tile();
-        const auto cr = eTileHelper::closestRoad(t->x(), t->y(), board());
-        if(cr) {
-            const auto fail = std::make_shared<eGA_patrolFailFail>(
-                                  board(), mTptr.get(), mFinishAct);
-            const auto finish = std::make_shared<eGA_patrolFailFinish>(
-                                    board(), mTptr.get(), mFinishAct, mDist);
-            const auto a = e::make_shared<eMoveToAction>(c);
-            a->setFailAction(fail);
-            a->setFinishAction(finish);
-            a->start(cr);
-            mTptr->setCurrentAction(a);
-        } else {
-            mTptr->moveAround(mFinishAct, 15000);
-        }
-    }
-
-    void read(eReadStream& src) override {
-        src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
-            mTptr = static_cast<eGodAction*>(ca);
-        });
-        src.readCharacter(&board(), [this](eCharacter* const c) {
-            mCptr = c;
-        });
-        mFinishAct = src.readCharActFunc(board());
-        src >> mDist;
-    }
-
-    void write(eWriteStream& dst) const override {
-        dst.writeCharacterAction(mTptr);
-        dst.writeCharacter(mCptr);
-        dst.writeCharActFunc(mFinishAct.get());
-        dst << mDist;
-    }
-private:
-    stdptr<eGodAction> mTptr;
-    stdptr<eCharacter> mCptr;
-    stdsptr<eCharActFunc> mFinishAct;
-    int mDist = 100;
 };
 
 class eGA_lookForSoldierAttackFinish : public eCharActFunc {

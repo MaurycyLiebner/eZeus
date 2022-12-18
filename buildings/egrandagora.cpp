@@ -9,6 +9,7 @@ int swGA(const eAgoraOrientation o) {
     case eAgoraOrientation::topLeft:
         return 5;
     }
+    return 0;
 }
 
 int shGA(const eAgoraOrientation o) {
@@ -20,6 +21,7 @@ int shGA(const eAgoraOrientation o) {
     case eAgoraOrientation::topLeft:
         return 6;
     }
+    return 0;
 }
 
 eGrandAgora::eGrandAgora(const eAgoraOrientation o, eGameBoard& board) :
@@ -42,4 +44,5 @@ SDL_Point eGrandAgora::pt(const int id) const {
         else return eAgoraBase::pt(rx, ry + 2, eAgoraOrientation::bottomLeft, id - 3);
     } break;
     }
+    return {0, 0};
 }

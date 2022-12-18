@@ -23,10 +23,6 @@ enum class eCharacterActionFunctionType {
 
     FFA_lookForFireFail,
     FFA_putOutFireFinish,
-
-    GA_patrolFail,
-    GA_patrolFailFail,
-    GA_patrolFailFinish,
     GA_lookForSoldierAttackFinish,
     GA_lookForRangeActionFinish,
     GA_teleportFinish,
@@ -37,6 +33,9 @@ enum class eCharacterActionFunctionType {
     GAA_fightFinish,
     GAA_destroyBuildingFinish,
 
+    GMA_patrolFail,
+    GMA_patrolFailFail,
+    GMA_patrolFailFinish,
     GMA_spawnMultipleMissilesFinish,
     GMA_spawnMissileFinish,
     GMA_goToTargetFail,

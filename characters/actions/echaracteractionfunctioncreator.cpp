@@ -61,12 +61,6 @@ stdsptr<eCharActFunc> eCharActFunc::sCreate(
     case eCharActFuncType::FFA_putOutFireFinish:
         return std::make_shared<eFFA_putOutFireFinish>(board);
 
-    case eCharActFuncType::GA_patrolFail:
-        return std::make_shared<eGA_patrolFail>(board);
-    case eCharActFuncType::GA_patrolFailFail:
-        return std::make_shared<eGA_patrolFailFail>(board);
-    case eCharActFuncType::GA_patrolFailFinish:
-        return std::make_shared<eGA_patrolFailFinish>(board);
     case eCharActFuncType::GA_lookForRangeActionFinish:
         return std::make_shared<eGA_lookForRangeActionFinish>(board);
     case eCharActFuncType::GA_lookForSoldierAttackFinish:
@@ -85,6 +79,12 @@ stdsptr<eCharActFunc> eCharActFunc::sCreate(
     case eCharActFuncType::GAA_destroyBuildingFinish:
         return std::make_shared<eGAA_destroyBuildingFinish>(board);
 
+    case eCharActFuncType::GMA_patrolFail:
+        return std::make_shared<eGMA_patrolFail>(board);
+    case eCharActFuncType::GMA_patrolFailFail:
+        return std::make_shared<eGMA_patrolFailFail>(board);
+    case eCharActFuncType::GMA_patrolFailFinish:
+        return std::make_shared<eGMA_patrolFailFinish>(board);
     case eCharActFuncType::GMA_spawnMultipleMissilesFinish:
         return std::make_shared<eGMA_spawnMultipleMissilesFinish>(board);
     case eCharActFuncType::GMA_spawnMissileFinish:

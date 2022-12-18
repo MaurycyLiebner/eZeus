@@ -1,6 +1,6 @@
 #include "edifficulty.h"
 
-#include "characters/echaracter.h"
+#include "characters/echaracterbase.h".h"
 
 std::string eDifficultyHelpers::name(const eDifficulty diff) {
     switch(diff) {
@@ -210,6 +210,7 @@ double costMultiplier(const eDifficulty diff) {
     case eDifficulty::olympian:
         return 3.25;
     }
+    return 1;
 }
 
 int eDifficultyHelpers::buildingCost(
@@ -306,6 +307,7 @@ double fireRiskMultiplier(const eDifficulty diff) {
     case eDifficulty::olympian:
         return 2.5;
     }
+    return 1;
 }
 
 int eDifficultyHelpers::fireRisk(
@@ -391,6 +393,7 @@ double damageRiskMultiplier(const eDifficulty diff) {
     case eDifficulty::olympian:
         return 2.5;
     }
+    return 1;
 }
 
 int eDifficultyHelpers::damageRisk(
@@ -557,6 +560,7 @@ double eDifficultyHelpers::workerFrac(
         }
     }
     }
+    return 0;
 }
 
 
@@ -573,6 +577,7 @@ int soliderBribeMultiplier(const eDifficulty diff) {
     case eDifficulty::olympian:
         return 7;
     }
+    return 1;
 }
 
 int eDifficultyHelpers::soliderBribe(const eDifficulty diff,

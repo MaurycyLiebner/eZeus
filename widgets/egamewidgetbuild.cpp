@@ -8,9 +8,6 @@
 
 #include "characters/esheep.h"
 #include "characters/egoat.h"
-#include "characters/actions/eanimalaction.h"
-#include "characters/etrader.h"
-#include "characters/etradeboat.h"
 
 #include "spawners/eboarspawner.h"
 #include "spawners/edeerspawner.h"
@@ -1395,6 +1392,8 @@ bool eGameWidget::buildMouseRelease() {
                 b = e::make_shared<eHephaestusSanctuary>(
                         sw, sh, *mBoard);
             } break;
+            default:
+                break;
             }
 
             const bool r = canBuildBase(minX, maxX, minY, maxY);
