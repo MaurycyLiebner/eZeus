@@ -43,8 +43,8 @@ void eSoldierBanner::moveTo(const int x, const int y) {
 void eSoldierBanner::goHome() {
     if(mHome) return;
     mHome = true;
-    const auto soldiers = notDead();
-    for(const auto s : soldiers) {
+    for(const auto s : mSoldiers) {
+        if(s->dead()) continue;
         const auto a = s->soldierAction();
         a->goHome();
     }
@@ -53,8 +53,8 @@ void eSoldierBanner::goHome() {
 void eSoldierBanner::backFromHome() {
     if(!mHome) return;
     mHome = false;
-    const auto soldiers = notDead();
-    for(const auto s : soldiers) {
+    for(const auto s : mSoldiers) {
+        if(s->dead()) continue;
         const auto a = s->soldierAction();
         a->goBackToBanner();
     }
@@ -62,10 +62,8 @@ void eSoldierBanner::backFromHome() {
 }
 
 void eSoldierBanner::callSoldiers() {
-    const auto soldiers = notDead();
-    if(soldiers.empty()) return;
-
-    for(const auto s : soldiers) {
+    for(const auto s : mSoldiers) {
+        if(s->dead()) continue;
         const auto tt = mPlaces[s];
 
         const int ttx = tt->x();

@@ -60,9 +60,14 @@ public:
 
     void moveBy(const double dx, const double dy);
 
-    void goTo(const int fx, const int fy, const int dist = 0);
+    using eAction = std::function<void()>;
+    void goTo(const int fx, const int fy,
+              const int dist = 0,
+              const eAction& findFailAct = nullptr,
+              const eAction& findFinishAct = nullptr);
     void goHome();
-    void goBackToBanner();
+    void goBackToBanner(const eAction& findFailAct = nullptr,
+                        const eAction& findFinishAct = nullptr);
 
     void beingAttacked(eSoldier* const ss);
     void beingAttacked(const int ttx, const int tty);
@@ -73,6 +78,7 @@ private:
     bool attackBuilding(eTile* const t);
     stdsptr<eObsticleHandler> obsticleHandler();
 
+    int mGoToBannerCountdown = 0;
     double mAngle{0.};
 
     int mMissile = 0;

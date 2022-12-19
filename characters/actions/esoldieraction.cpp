@@ -4,8 +4,6 @@
 #include "engine/egameboard.h"
 
 #include <math.h>
-#include "epathdatafindtask.h"
-#include "ewalkablehelpers.h"
 
 #include "missiles/erockmissile.h"
 
@@ -258,7 +256,16 @@ void eSoldierAction::increment(const int by) {
         }
     }
     if(!currentAction()) {
-        goBackToBanner();
+        mGoToBannerCountdown -= by;
+        if(mGoToBannerCountdown < 0) {
+            mGoToBannerCountdown = __INT_MAX__;
+            const stdptr<eSoldierAction> tptr;
+            const auto taskFinished = [tptr]() {
+                if(!tptr) return;
+                tptr->mGoToBannerCountdown = 500;
+            };
+            goBackToBanner(taskFinished, taskFinished);
+        }
     }
 
     eComplexAction::increment(by);
@@ -314,7 +321,9 @@ stdsptr<eObsticleHandler> eSoldierAction::obsticleHandler() {
 }
 
 void eSoldierAction::goTo(const int fx, const int fy,
-                          const int dist) {
+                          const int dist,
+                          const eAction& findFailAct,
+                          const eAction& findFinishAct) {
     const auto c = character();
     const auto t = c->tile();
     const int sx = t->x();
@@ -341,15 +350,18 @@ void eSoldierAction::goTo(const int fx, const int fy,
     const auto a = e::make_shared<eMoveToAction>(c);
     a->setFailAction(finishAct);
     a->setFinishAction(finishAct);
+    a->setFindFailAction(findFailAct);
     if(attackBuildings) {
         a->setObsticleHandler(obsticleHandler());
     }
 
-    const stdptr<eSoldierAction> tptr(this);
     const stdptr<eCharacter> cptr(character());
-    a->setFoundAction([tptr, cptr]() {
+    const stdptr<eSoldierAction> tptr(this);
+    a->setFoundAction([cptr, tptr, findFinishAct]() {
         if(!cptr) return;
         cptr->setActionType(eCharacterActionType::walk);
+        if(!tptr) return;
+        if(findFinishAct) findFinishAct();
     });
     a->start(hha, pathFindWalkable, moveWalkable);
     setCurrentAction(a);
@@ -446,7 +458,8 @@ bool eSoldierAction::attackBuilding(eTile* const t) {
     return true;
 }
 
-void eSoldierAction::goBackToBanner() {
+void eSoldierAction::goBackToBanner(const eAction& findFailAct,
+                                    const eAction& findFinishAct) {
     const auto c = character();
     const auto s = static_cast<eSoldier*>(c);
     const auto b = s->banner();
@@ -463,5 +476,5 @@ void eSoldierAction::goBackToBanner() {
 
     const int ttx = tt->x();
     const int tty = tt->y();
-    goTo(ttx, tty);
+    goTo(ttx, tty, 0, findFailAct, findFinishAct);
 }
