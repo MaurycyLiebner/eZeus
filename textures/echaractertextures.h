@@ -230,6 +230,7 @@ public:
     void loadGreekRockThrower();
     bool fDonkeyLoaded = false;
     void loadDonkey();
+
     bool fCalydonianBoarLoaded = false;
     void loadCalydonianBoar();
     bool fCerberusLoaded = false;
@@ -262,6 +263,7 @@ public:
     void loadSphinx();
     bool fTalosLoaded = false;
     void loadTalos();
+
     bool fAchillesLoaded = false;
     void loadAchilles();
     bool fAtalantaLoaded = false;

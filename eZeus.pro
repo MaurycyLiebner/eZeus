@@ -308,6 +308,10 @@ SOURCES += \
         textures/ebeachtodry.cpp \
         textures/ebuildingtextures.cpp \
         textures/echaractertextures.cpp \
+        textures/echaractertextures1.cpp \
+        textures/echaractertextures2.cpp \
+        textures/echaractertextures3.cpp \
+        textures/echaractertextures4.cpp \
         textures/edestructiontextures.cpp \
         textures/efertiletodry.cpp \
         textures/eforesttodry.cpp \
@@ -653,6 +657,7 @@ HEADERS += \
     engine/boardData/eheatmapdivisor.h \
     engine/boardData/eheatmaptask.h \
     engine/boardData/epopulationdata.h \
+    engine/eboardbase.h \
     engine/edate.h \
     engine/edifficulty.h \
     engine/eevent.h \
