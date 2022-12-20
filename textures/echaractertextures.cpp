@@ -1,8 +1,9 @@
 #include "echaractertextures.h"
 
+#include "espriteloader.h"
 #include "etextureloadinghelpers.h"
+
 #include "offsets/SprMain.h"
-#include "offsets/PoseidonImps.h"
 #include "offsets/Zeus_Greek.h"
 #include "offsets/SprAmbient.h"
 
@@ -230,26 +231,6 @@
 #include "spriteData/tradeBoat30.h"
 #include "spriteData/tradeBoat45.h"
 #include "spriteData/tradeBoat60.h"
-
-#include "spriteData/deerHunter15.h"
-#include "spriteData/deerHunter30.h"
-#include "spriteData/deerHunter45.h"
-#include "spriteData/deerHunter60.h"
-
-#include "spriteData/deer15.h"
-#include "spriteData/deer30.h"
-#include "spriteData/deer45.h"
-#include "spriteData/deer60.h"
-
-#include "spriteData/orangesCart15.h"
-#include "spriteData/orangesCart30.h"
-#include "spriteData/orangesCart45.h"
-#include "spriteData/orangesCart60.h"
-
-#include "spriteData/orangeTender15.h"
-#include "spriteData/orangeTender30.h"
-#include "spriteData/orangeTender45.h"
-#include "spriteData/orangeTender60.h"
 
 #include "spriteData/greekHoplite15.h"
 #include "spriteData/greekHoplite30.h"
@@ -926,23 +907,7 @@ void eCharacterTextures::loadGrower() {
             loader.load(5505, i, fGrower.fDie);
         }
     }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eOrangeTenderSpriteData15,
-                                     eOrangeTenderSpriteData30,
-                                     eOrangeTenderSpriteData45,
-                                     eOrangeTenderSpriteData60);
-        eSpriteLoader loader(fTileH, "orangeTender", sds,
-                             &ePoseidonImpsOffset, fRenderer);
-
-        loader.loadSkipFlipped(1211, 1211, 1307, fOrangeTender.fWalk);
-        loader.loadSkipFlipped(1211, 1315, 1411, fOrangeTender.fWorkOnTree);
-        loader.loadSkipFlipped(1211, 1411, 1507, fOrangeTender.fCollect);
-
-        for(int i = 1307; i < 1315; i++) {
-            loader.load(1211, i, fOrangeTender.fDie);
-        }
-    }
+    loadOrangeTender();
 }
 
 void eCharacterTextures::loadTrader() {
@@ -1075,17 +1040,7 @@ void eCharacterTextures::loadCart() {
         loader.loadSkipFlipped(8428, 8700, 8716, fOliveOilCart);
         loader.loadSkipFlipped(8428, 8716, 8732, fWineCart);
     }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eOrangesCartSpriteData15,
-                                     eOrangesCartSpriteData30,
-                                     eOrangesCartSpriteData45,
-                                     eOrangesCartSpriteData60);
-        eSpriteLoader loader(fTileH, "orangesCart", sds,
-                             &ePoseidonImpsOffset, fRenderer);
-
-        loader.loadSkipFlipped(1091, 1091, 1115, fWineCart);
-    }
+    loadOrangesCart();
 }
 
 void eCharacterTextures::loadBoar() {
@@ -1182,23 +1137,7 @@ void eCharacterTextures::loadHunter() {
             loader.load(11820, i, fHunter.fDie);
         }
     }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eDeerHunterSpriteData15,
-                                     eDeerHunterSpriteData30,
-                                     eDeerHunterSpriteData45,
-                                     eDeerHunterSpriteData60);
-
-        eSpriteLoader loader(fTileH, "deerHunter", sds,
-                             &ePoseidonImpsOffset, fRenderer);
-        loader.loadSkipFlipped(183, 183, 279, fDeerHunter.fWalk);
-        loader.loadSkipFlipped(183, 287, 407, fDeerHunter.fCollect);
-        loader.loadSkipFlipped(183, 435, 531, fDeerHunter.fCarry);
-
-        for(int i = 279; i < 287; i++) {
-            loader.load(183, i, fDeerHunter.fDie);
-        }
-    }
+    loadDeerHunter();
 }
 
 void eCharacterTextures::loadPhilosopher() {
@@ -1295,27 +1234,6 @@ void eCharacterTextures::loadTradeBoat() {
         loader.load(10421, i, fTradeBoat.fStand);
     }
 }
-
-void eCharacterTextures::loadDeer() {
-    if(fDeerLoaded) return;
-    fDeerLoaded = true;
-
-    const auto& sds = spriteData(fTileH,
-                                 eDeerSpriteData15,
-                                 eDeerSpriteData30,
-                                 eDeerSpriteData45,
-                                 eDeerSpriteData60);
-    eSpriteLoader loader(fTileH, "deer", sds,
-                         &ePoseidonImpsOffset, fRenderer);
-    loader.loadSkipFlipped(531, 531, 627, fDeer.fWalk);
-    loader.loadSkipFlipped(531, 635, 859, fDeer.fFight);
-    loader.loadSkipFlipped(531, 859, 955, fDeer.fLayDown);
-
-    for(int i = 627; i < 635; i++) {
-        loader.load(531, i, fDeer.fDie);
-    }
-}
-
 
 void eCharacterTextures::loadGreekRockThrower() {
     if(fGreekRockThrowerLoaded) return;

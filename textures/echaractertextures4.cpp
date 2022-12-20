@@ -2,191 +2,187 @@
 
 #include "espriteloader.h"
 
-#include "offsets/zeus_hydra.h"
-#include "offsets/zeus_kraken.h"
-#include "offsets/zeus_maenads.h"
-#include "offsets/zeus_medusa.h"
-#include "offsets/zeus_minotaur.h"
-#include "offsets/zeus_scylla.h"
-#include "offsets/Poseidon_Sphinx.h"
-#include "offsets/zeus_talos.h"
+#include "offsets/zeus_calydonianboar.h"
+#include "offsets/zeus_cerberus.h"
+#include "offsets/Poseidon_Chimera.h"
+#include "offsets/zeus_cyclops.h"
+#include "offsets/zeus_dragon.h"
+#include "offsets/Poseidon_Echidna.h"
+#include "offsets/Poseidon_Harpie.h"
+#include "offsets/zeus_hector.h"
 
-#include "spriteData/hydra15.h"
-#include "spriteData/hydra30.h"
-#include "spriteData/hydra45.h"
-#include "spriteData/hydra60.h"
+#include "spriteData/calydonianBoar15.h"
+#include "spriteData/calydonianBoar30.h"
+#include "spriteData/calydonianBoar45.h"
+#include "spriteData/calydonianBoar60.h"
 
-#include "spriteData/kraken15.h"
-#include "spriteData/kraken30.h"
-#include "spriteData/kraken45.h"
-#include "spriteData/kraken60.h"
+#include "spriteData/cerberus15.h"
+#include "spriteData/cerberus30.h"
+#include "spriteData/cerberus45.h"
+#include "spriteData/cerberus60.h"
 
-#include "spriteData/maenads15.h"
-#include "spriteData/maenads30.h"
-#include "spriteData/maenads45.h"
-#include "spriteData/maenads60.h"
+#include "spriteData/chimera15.h"
+#include "spriteData/chimera30.h"
+#include "spriteData/chimera45.h"
+#include "spriteData/chimera60.h"
 
-#include "spriteData/medusa15.h"
-#include "spriteData/medusa30.h"
-#include "spriteData/medusa45.h"
-#include "spriteData/medusa60.h"
+#include "spriteData/cyclops15.h"
+#include "spriteData/cyclops30.h"
+#include "spriteData/cyclops45.h"
+#include "spriteData/cyclops60.h"
 
-#include "spriteData/minotaur15.h"
-#include "spriteData/minotaur30.h"
-#include "spriteData/minotaur45.h"
-#include "spriteData/minotaur60.h"
+#include "spriteData/dragon15.h"
+#include "spriteData/dragon30.h"
+#include "spriteData/dragon45.h"
+#include "spriteData/dragon60.h"
 
-#include "spriteData/scylla15.h"
-#include "spriteData/scylla30.h"
-#include "spriteData/scylla45.h"
-#include "spriteData/scylla60.h"
+#include "spriteData/echidna15.h"
+#include "spriteData/echidna30.h"
+#include "spriteData/echidna45.h"
+#include "spriteData/echidna60.h"
 
-#include "spriteData/sphinx15.h"
-#include "spriteData/sphinx30.h"
-#include "spriteData/sphinx45.h"
-#include "spriteData/sphinx60.h"
+#include "spriteData/harpie15.h"
+#include "spriteData/harpie30.h"
+#include "spriteData/harpie45.h"
+#include "spriteData/harpie60.h"
 
-#include "spriteData/talos15.h"
-#include "spriteData/talos30.h"
-#include "spriteData/talos45.h"
-#include "spriteData/talos60.h"
+#include "spriteData/hector15.h"
+#include "spriteData/hector30.h"
+#include "spriteData/hector45.h"
+#include "spriteData/hector60.h"
 
-void eCharacterTextures::loadHydra() {
-    if(fHydraLoaded) return;
+void eCharacterTextures::loadCalydonianBoar() {
+    if(fCalydonianBoarLoaded) return;
     const auto& sds = spriteData(fTileH,
-                                 eHydraSpriteData15,
-                                 eHydraSpriteData30,
-                                 eHydraSpriteData45,
-                                 eHydraSpriteData60);
-    fHydraLoaded = true;
-    eSpriteLoader loader(fTileH, "hydra", sds,
-                         &eZeus_hydraOffset, fRenderer);
+                                 eCalydonianBoarSpriteData15,
+                                 eCalydonianBoarSpriteData30,
+                                 eCalydonianBoarSpriteData45,
+                                 eCalydonianBoarSpriteData60);
+    fCalydonianBoarLoaded = true;
+    eSpriteLoader loader(fTileH, "calydonianBoar", sds,
+                         &eZeus_calydonianboarOffset, fRenderer);
 
-    loader.loadSkipFlipped(1, 1, 121, fHydra.fWalk);
-    loader.loadSkipFlipped(1, 121, 289, fHydra.fDie);
-    loader.loadSkipFlipped(1, 289, 473, fHydra.fFight);
-    loader.loadSkipFlipped(1, 473, 609, fHydra.fFight2);
+    loader.loadSkipFlipped(1, 1, 97, fCalydonianBoar.fWalk);
+    loader.loadSkipFlipped(1, 97, 201, fCalydonianBoar.fDie);
+    loader.loadSkipFlipped(1, 201, 361, fCalydonianBoar.fFight);
+    loader.loadSkipFlipped(1, 361, 457, fCalydonianBoar.fFight2);
 }
 
-void eCharacterTextures::loadKraken() {
-    if(fKrakenLoaded) return;
+void eCharacterTextures::loadCerberus() {
+    if(fCerberusLoaded) return;
     const auto& sds = spriteData(fTileH,
-                                 eKrakenSpriteData15,
-                                 eKrakenSpriteData30,
-                                 eKrakenSpriteData45,
-                                 eKrakenSpriteData60);
-    fKrakenLoaded = true;
-    eSpriteLoader loader(fTileH, "kraken", sds,
-                         &eZeus_krakenOffset, fRenderer);
+                                 eCerberusSpriteData15,
+                                 eCerberusSpriteData30,
+                                 eCerberusSpriteData45,
+                                 eCerberusSpriteData60);
+    fCerberusLoaded = true;
+    eSpriteLoader loader(fTileH, "cerberus", sds,
+                         &eZeus_cerberusOffset, fRenderer);
 
-    loader.loadSkipFlipped(1, 1, 169, fKraken.fWalk);
-    for(int i = 169; i < 200; i++) {
-        loader.load(1, i, fKraken.fDie);
-    }
-    loader.loadSkipFlipped(1, 200, 488, fKraken.fFight);
-    loader.loadSkipFlipped(1, 488, 728, fKraken.fFight2);
+    loader.loadSkipFlipped(1, 1, 185, fCerberus.fWalk);
+    loader.loadSkipFlipped(1, 185, 361, fCerberus.fDie);
+    loader.loadSkipFlipped(1, 361, 465, fCerberus.fFight);
+    loader.loadSkipFlipped(1, 465, 633, fCerberus.fFight2);
 }
 
-void eCharacterTextures::loadMaenads() {
-    if(fMaenadsLoaded) return;
+void eCharacterTextures::loadChimera() {
+    if(fChimeraLoaded) return;
     const auto& sds = spriteData(fTileH,
-                                 eMaenadsSpriteData15,
-                                 eMaenadsSpriteData30,
-                                 eMaenadsSpriteData45,
-                                 eMaenadsSpriteData60);
-    fMaenadsLoaded = true;
-    eSpriteLoader loader(fTileH, "maenads", sds,
-                         &eZeus_maenadsOffset, fRenderer);
+                                 eChimeraSpriteData15,
+                                 eChimeraSpriteData30,
+                                 eChimeraSpriteData45,
+                                 eChimeraSpriteData60);
+    fChimeraLoaded = true;
+    eSpriteLoader loader(fTileH, "chimera", sds,
+                         &ePoseidon_ChimeraOffset, fRenderer);
 
-    loader.loadSkipFlipped(1, 1, 129, fMaenads.fWalk);
-    loader.loadSkipFlipped(1, 129, 289, fMaenads.fDie);
-    loader.loadSkipFlipped(1, 289, 457, fMaenads.fFight);
-    loader.loadSkipFlipped(1, 457, 561, fMaenads.fFight2);
+    loader.loadSkipFlipped(1, 1, 129, fChimera.fWalk);
+    loader.loadSkipFlipped(1, 129, 289, fChimera.fDie);
+    loader.loadSkipFlipped(1, 289, 489, fChimera.fFight);
+    loader.loadSkipFlipped(1, 489, 641, fChimera.fFight2);
 }
 
-void eCharacterTextures::loadMedusa() {
-    if(fMedusaLoaded) return;
+void eCharacterTextures::loadCyclops() {
+    if(fCyclopsLoaded) return;
     const auto& sds = spriteData(fTileH,
-                                 eMedusaSpriteData15,
-                                 eMedusaSpriteData30,
-                                 eMedusaSpriteData45,
-                                 eMedusaSpriteData60);
-    fMedusaLoaded = true;
-    eSpriteLoader loader(fTileH, "medusa", sds,
-                         &eZeus_medusaOffset, fRenderer);
+                                 eCyclopsSpriteData15,
+                                 eCyclopsSpriteData30,
+                                 eCyclopsSpriteData45,
+                                 eCyclopsSpriteData60);
+    fCyclopsLoaded = true;
+    eSpriteLoader loader(fTileH, "cyclops", sds,
+                         &eZeus_cyclopsOffset, fRenderer);
 
-    loader.loadSkipFlipped(1, 1, 129, fMedusa.fWalk);
-    loader.loadSkipFlipped(1, 129, 273, fMedusa.fDie);
-    loader.loadSkipFlipped(1, 273, 409, fMedusa.fFight);
-    loader.loadSkipFlipped(1, 409, 545, fMedusa.fFight2);
+    loader.loadSkipFlipped(1, 1, 129, fCyclops.fWalk);
+    loader.loadSkipFlipped(1, 129, 289, fCyclops.fDie);
+    loader.loadSkipFlipped(1, 289, 425, fCyclops.fFight);
+    loader.loadSkipFlipped(1, 425, 553, fCyclops.fFight2);
 }
 
-void eCharacterTextures::loadMinotaur() {
-    if(fMinotaurLoaded) return;
+void eCharacterTextures::loadDragon() {
+    if(fDragonLoaded) return;
     const auto& sds = spriteData(fTileH,
-                                 eMinotaurSpriteData15,
-                                 eMinotaurSpriteData30,
-                                 eMinotaurSpriteData45,
-                                 eMinotaurSpriteData60);
-    fMinotaurLoaded = true;
-    eSpriteLoader loader(fTileH, "minotaur", sds,
-                         &eZeus_minotaurOffset, fRenderer);
+                                 eDragonSpriteData15,
+                                 eDragonSpriteData30,
+                                 eDragonSpriteData45,
+                                 eDragonSpriteData60);
+    fDragonLoaded = true;
+    eSpriteLoader loader(fTileH, "dragon", sds,
+                         &eZeus_dragonOffset, fRenderer);
 
-    loader.loadSkipFlipped(1, 1, 161, fMinotaur.fWalk);
-    loader.loadSkipFlipped(1, 161, 321, fMinotaur.fDie);
-    loader.loadSkipFlipped(1, 321, 481, fMinotaur.fFight);
-    loader.loadSkipFlipped(1, 481, 641, fMinotaur.fFight2);
+    loader.loadSkipFlipped(1, 1, 161, fDragon.fWalk);
+    loader.loadSkipFlipped(1, 161,409, fDragon.fDie);
+    loader.loadSkipFlipped(1, 409, 553, fDragon.fFight);
+    loader.loadSkipFlipped(1, 553, 697, fDragon.fFight2);
 }
 
-void eCharacterTextures::loadScylla() {
-    if(fScyllaLoaded) return;
+void eCharacterTextures::loadEchidna() {
+    if(fEchidnaLoaded) return;
     const auto& sds = spriteData(fTileH,
-                                 eScyllaSpriteData15,
-                                 eScyllaSpriteData30,
-                                 eScyllaSpriteData45,
-                                 eScyllaSpriteData60);
-    fScyllaLoaded = true;
-    eSpriteLoader loader(fTileH, "scylla", sds,
-                         &eZeus_scyllaOffset, fRenderer);
+                                 eEchidnaSpriteData15,
+                                 eEchidnaSpriteData30,
+                                 eEchidnaSpriteData45,
+                                 eEchidnaSpriteData60);
+    fEchidnaLoaded = true;
+    eSpriteLoader loader(fTileH, "echidna", sds,
+                         &ePoseidon_EchidnaOffset, fRenderer);
 
-    loader.loadSkipFlipped(1, 1, 161, fScylla.fWalk);
-    for(int i = 161; i < 192; i++) {
-        loader.load(1, i, fScylla.fDie);
-    }
-    loader.loadSkipFlipped(1, 192, 432, fScylla.fFight);
-    loader.loadSkipFlipped(1, 432, 680, fScylla.fFight2);
+    loader.loadSkipFlipped(1, 1, 153, fEchidna.fWalk);
+    loader.loadSkipFlipped(1, 153, 345, fEchidna.fDie);
+    loader.loadSkipFlipped(1, 345, 513, fEchidna.fFight);
+    loader.loadSkipFlipped(1, 513, 649, fEchidna.fFight2);
 }
 
-void eCharacterTextures::loadSphinx() {
-    if(fSphinxLoaded) return;
+void eCharacterTextures::loadHarpie() {
+    if(fHarpieLoaded) return;
     const auto& sds = spriteData(fTileH,
-                                 eSphinxSpriteData15,
-                                 eSphinxSpriteData30,
-                                 eSphinxSpriteData45,
-                                 eSphinxSpriteData60);
-    fSphinxLoaded = true;
-    eSpriteLoader loader(fTileH, "sphinx", sds,
-                         &ePoseidon_SphinxOffset, fRenderer);
+                                 eHarpieSpriteData15,
+                                 eHarpieSpriteData30,
+                                 eHarpieSpriteData45,
+                                 eHarpieSpriteData60);
+    fHarpieLoaded = true;
+    eSpriteLoader loader(fTileH, "harpie", sds,
+                         &ePoseidon_HarpieOffset, fRenderer);
 
-    loader.loadSkipFlipped(1, 1, 137, fSphinx.fWalk);
-    loader.loadSkipFlipped(1, 137, 321, fSphinx.fDie);
-    loader.loadSkipFlipped(1, 321, 529, fSphinx.fFight);
-    loader.loadSkipFlipped(1, 529, 793, fSphinx.fFight2);
+    loader.loadSkipFlipped(1, 1, 337, fHarpies.fWalk);
+    loader.loadSkipFlipped(1, 337, 617, fHarpies.fDie);
+    loader.loadSkipFlipped(1, 617, 769, fHarpies.fFight);
+    loader.loadSkipFlipped(1, 769, 929, fHarpies.fFight2);
 }
 
-void eCharacterTextures::loadTalos() {
-    if(fTalosLoaded) return;
+void eCharacterTextures::loadHector() {
+    if(fHectorLoaded) return;
     const auto& sds = spriteData(fTileH,
-                                 eTalosSpriteData15,
-                                 eTalosSpriteData30,
-                                 eTalosSpriteData45,
-                                 eTalosSpriteData60);
-    fTalosLoaded = true;
-    eSpriteLoader loader(fTileH, "talos", sds,
-                         &eZeus_talosOffset, fRenderer);
+                                 eHectorSpriteData15,
+                                 eHectorSpriteData30,
+                                 eHectorSpriteData45,
+                                 eHectorSpriteData60);
+    fHectorLoaded = true;
+    eSpriteLoader loader(fTileH, "hector", sds,
+                         &eZeus_hectorOffset, fRenderer);
 
-    loader.loadSkipFlipped(1, 1, 153, fTalos.fWalk);
-    loader.loadSkipFlipped(1, 153, 273, fTalos.fDie);
-    loader.loadSkipFlipped(1, 273, 393, fTalos.fFight);
-    loader.loadSkipFlipped(1, 393, 545, fTalos.fFight2);
+    loader.loadSkipFlipped(1, 1, 121, fHector.fWalk);
+    loader.loadSkipFlipped(1, 121, 201, fHector.fDie);
+    loader.loadSkipFlipped(1, 201, 329, fHector.fFight);
+    loader.loadSkipFlipped(1, 329, 465, fHector.fFight2);
 }

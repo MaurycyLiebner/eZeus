@@ -190,6 +190,7 @@ public:
     void loadTransporter();
     bool fGrowerLoaded = false;
     void loadGrower();
+    void loadOrangeTender();
     bool fTraderLoaded = false;
     void loadTrader();
     bool fWaterDistributorLoaded = false;
@@ -204,6 +205,7 @@ public:
     void loadHealer();
     bool fCartLoaded = false;
     void loadCart();
+    void loadOrangesCart();
     bool fBoarLoaded = false;
     void loadBoar();
     bool fGymnastLoaded = false;
@@ -214,6 +216,7 @@ public:
     void loadWolf();
     bool fHunterLoaded = false;
     void loadHunter();
+    void loadDeerHunter();
     bool fPhilosopherLoaded = false;
     void loadPhilosopher();
     bool fFishingBoatLoaded = false;

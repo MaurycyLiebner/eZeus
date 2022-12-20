@@ -1,92 +1,94 @@
 #include "echaractertextures.h"
 
+#include "etextureloadinghelpers.h"
 #include "espriteloader.h"
 
-#include "offsets/zeus_jason.h"
-#include "offsets/zeus_odysseus.h"
-#include "offsets/zeus_perseus.h"
-#include "offsets/zeus_theseus.h"
+#include "offsets/PoseidonImps.h"
 
-#include "spriteData/jason15.h"
-#include "spriteData/jason30.h"
-#include "spriteData/jason45.h"
-#include "spriteData/jason60.h"
+#include "spriteData/deerHunter15.h"
+#include "spriteData/deerHunter30.h"
+#include "spriteData/deerHunter45.h"
+#include "spriteData/deerHunter60.h"
 
-#include "spriteData/odysseus15.h"
-#include "spriteData/odysseus30.h"
-#include "spriteData/odysseus45.h"
-#include "spriteData/odysseus60.h"
+#include "spriteData/deer15.h"
+#include "spriteData/deer30.h"
+#include "spriteData/deer45.h"
+#include "spriteData/deer60.h"
 
-#include "spriteData/perseus15.h"
-#include "spriteData/perseus30.h"
-#include "spriteData/perseus45.h"
-#include "spriteData/perseus60.h"
+#include "spriteData/orangesCart15.h"
+#include "spriteData/orangesCart30.h"
+#include "spriteData/orangesCart45.h"
+#include "spriteData/orangesCart60.h"
 
-#include "spriteData/theseus15.h"
-#include "spriteData/theseus30.h"
-#include "spriteData/theseus45.h"
-#include "spriteData/theseus60.h"
+#include "spriteData/orangeTender15.h"
+#include "spriteData/orangeTender30.h"
+#include "spriteData/orangeTender45.h"
+#include "spriteData/orangeTender60.h"
 
-void eCharacterTextures::loadJason() {
-    if(fJasonLoaded) return;
+void eCharacterTextures::loadOrangeTender() {
     const auto& sds = spriteData(fTileH,
-                                 eJasonSpriteData15,
-                                 eJasonSpriteData30,
-                                 eJasonSpriteData45,
-                                 eJasonSpriteData60);
-    fJasonLoaded = true;
-    eSpriteLoader loader(fTileH, "jason", sds,
-                         &eZeus_jasonOffset, fRenderer);
+                                 eOrangeTenderSpriteData15,
+                                 eOrangeTenderSpriteData30,
+                                 eOrangeTenderSpriteData45,
+                                 eOrangeTenderSpriteData60);
+    eSpriteLoader loader(fTileH, "orangeTender", sds,
+                         &ePoseidonImpsOffset, fRenderer);
 
-    loader.loadSkipFlipped(1, 1, 249, fJason.fWalk);
-    loader.loadSkipFlipped(1, 249, 409, fJason.fDie);
-    loader.loadSkipFlipped(1, 409, 657, fJason.fFight);
+    loader.loadSkipFlipped(1211, 1211, 1307, fOrangeTender.fWalk);
+    loader.loadSkipFlipped(1211, 1315, 1411, fOrangeTender.fWorkOnTree);
+    loader.loadSkipFlipped(1211, 1411, 1507, fOrangeTender.fCollect);
+
+    for(int i = 1307; i < 1315; i++) {
+        loader.load(1211, i, fOrangeTender.fDie);
+    }
 }
 
-void eCharacterTextures::loadOdysseus() {
-    if(fOdysseusLoaded) return;
+void eCharacterTextures::loadOrangesCart() {
     const auto& sds = spriteData(fTileH,
-                                 eOdysseusSpriteData15,
-                                 eOdysseusSpriteData30,
-                                 eOdysseusSpriteData45,
-                                 eOdysseusSpriteData60);
-    fOdysseusLoaded = true;
-    eSpriteLoader loader(fTileH, "odysseus", sds,
-                         &eZeus_odysseusOffset, fRenderer);
+                                 eOrangesCartSpriteData15,
+                                 eOrangesCartSpriteData30,
+                                 eOrangesCartSpriteData45,
+                                 eOrangesCartSpriteData60);
+    eSpriteLoader loader(fTileH, "orangesCart", sds,
+                         &ePoseidonImpsOffset, fRenderer);
 
-    loader.loadSkipFlipped(1, 1, 241, fOdysseus.fWalk);
-    loader.loadSkipFlipped(1, 241, 489, fOdysseus.fDie);
-    loader.loadSkipFlipped(1, 489, 769, fOdysseus.fFight);
+    loader.loadSkipFlipped(1091, 1091, 1115, fWineCart);
 }
 
-void eCharacterTextures::loadPerseus() {
-    if(fPerseusLoaded) return;
+void eCharacterTextures::loadDeerHunter() {
     const auto& sds = spriteData(fTileH,
-                                 ePerseusSpriteData15,
-                                 ePerseusSpriteData30,
-                                 ePerseusSpriteData45,
-                                 ePerseusSpriteData60);
-    fPerseusLoaded = true;
-    eSpriteLoader loader(fTileH, "perseus", sds,
-                         &eZeus_perseusOffset, fRenderer);
+                                 eDeerHunterSpriteData15,
+                                 eDeerHunterSpriteData30,
+                                 eDeerHunterSpriteData45,
+                                 eDeerHunterSpriteData60);
 
-    loader.loadSkipFlipped(1, 1, 129, fPerseus.fWalk);
-    loader.loadSkipFlipped(1, 129, 289, fPerseus.fDie);
-    loader.loadSkipFlipped(1, 289, 417, fPerseus.fFight);
+    eSpriteLoader loader(fTileH, "deerHunter", sds,
+                         &ePoseidonImpsOffset, fRenderer);
+    loader.loadSkipFlipped(183, 183, 279, fDeerHunter.fWalk);
+    loader.loadSkipFlipped(183, 287, 407, fDeerHunter.fCollect);
+    loader.loadSkipFlipped(183, 435, 531, fDeerHunter.fCarry);
+
+    for(int i = 279; i < 287; i++) {
+        loader.load(183, i, fDeerHunter.fDie);
+    }
 }
 
-void eCharacterTextures::loadTheseus() {
-    if(fTheseusLoaded) return;
-    const auto& sds = spriteData(fTileH,
-                                 eTheseusSpriteData15,
-                                 eTheseusSpriteData30,
-                                 eTheseusSpriteData45,
-                                 eTheseusSpriteData60);
-    fTheseusLoaded = true;
-    eSpriteLoader loader(fTileH, "theseus", sds,
-                         &eZeus_theseusOffset, fRenderer);
+void eCharacterTextures::loadDeer() {
+    if(fDeerLoaded) return;
+    fDeerLoaded = true;
 
-    loader.loadSkipFlipped(1, 1, 185, fTheseus.fWalk);
-    loader.loadSkipFlipped(1, 185, 409, fTheseus.fDie);
-    loader.loadSkipFlipped(1, 409, 585, fTheseus.fFight);
+    const auto& sds = spriteData(fTileH,
+                                 eDeerSpriteData15,
+                                 eDeerSpriteData30,
+                                 eDeerSpriteData45,
+                                 eDeerSpriteData60);
+    eSpriteLoader loader(fTileH, "deer", sds,
+                         &ePoseidonImpsOffset, fRenderer);
+    loader.loadSkipFlipped(531, 531, 627, fDeer.fWalk);
+    loader.loadSkipFlipped(531, 635, 859, fDeer.fFight);
+    loader.loadSkipFlipped(531, 859, 955, fDeer.fLayDown);
+
+    for(int i = 627; i < 635; i++) {
+        loader.load(531, i, fDeer.fDie);
+    }
 }

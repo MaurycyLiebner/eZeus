@@ -312,6 +312,7 @@ SOURCES += \
         textures/echaractertextures2.cpp \
         textures/echaractertextures3.cpp \
         textures/echaractertextures4.cpp \
+        textures/echaractertextures5.cpp \
         textures/edestructiontextures.cpp \
         textures/efertiletodry.cpp \
         textures/eforesttodry.cpp \
