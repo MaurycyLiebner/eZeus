@@ -15,19 +15,21 @@ public:
     using eTileDistance = std::function<int(eTileBase* const)>;
     ePathFindTask(const eTileGetter& startTile,
                   const stdsptr<eWalkableObject>& tileWalkable,
-                  const eTileChecker& endTile,
+                  const eTileChecker& endTileFunc,
                   const eFinishFunc& finishFunc,
                   const eFailFunc& failFunc,
                   const bool onlyDiagonal,
                   const int range,
-                  const eTileDistance& distance = nullptr);
+                  const eTileDistance& distance = nullptr,
+                  const eTileGetter& endTile = nullptr);
 protected:
     void run(eThreadBoard& data);
     void finish();
 private:
     const eTileGetter mStartTile;
+    const eTileGetter mEndTile;
     const stdsptr<eWalkableObject> mTileWalkable;
-    const eTileChecker mEndTile;
+    const eTileChecker mEndTileFunc;
     const eFinishFunc mFinish;
     const eFailFunc mFailFunc;
     const bool mOnlyDiagonal;

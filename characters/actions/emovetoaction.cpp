@@ -15,7 +15,8 @@ eMoveToAction::eMoveToAction(eCharacter* const c) :
 
 void eMoveToAction::start(const eTileFinal& final,
                           stdsptr<eWalkableObject> pathFindWalkable,
-                          stdsptr<eWalkableObject> moveWalkable) {
+                          stdsptr<eWalkableObject> moveWalkable,
+                          const eTileGetter& endTile) {
     const auto c = character();
     const auto t = c->tile();
     auto& brd = c->getBoard();
@@ -76,11 +77,13 @@ void eMoveToAction::start(const eTileFinal& final,
         setState(eCharacterActionState::failed);
     };
 
-    const auto pft = new ePathFindTask(startTile, pathFindWalkable,
+    const auto pft = new ePathFindTask(startTile,
+                                       pathFindWalkable,
                                        final, finishFunc,
                                        findFailFunc, mDiagonalOnly,
                                        mMaxFindDistance,
-                                       mDistance);
+                                       mDistance,
+                                       endTile);
     tp.queueTask(pft);
 
     if(mWait) {
@@ -91,18 +94,20 @@ void eMoveToAction::start(const eTileFinal& final,
 
 void eMoveToAction::start(eTile* const final,
                           const stdsptr<eWalkableObject>& pathFindWalkable,
-                          const stdsptr<eWalkableObject>& moveWalkable) {
+                          const stdsptr<eWalkableObject>& moveWalkable,
+                          const eTileGetter& endTile) {
     const int tx = final->x();
     const int ty = final->y();
     const auto finalFunc = [tx, ty](eTileBase* const t) {
         return t->x() == tx && t->y() == ty;
     };
-    start(finalFunc, pathFindWalkable, moveWalkable);
+    start(finalFunc, pathFindWalkable, moveWalkable, endTile);
 }
 
 void eMoveToAction::start(const SDL_Rect& rect,
                           stdsptr<eWalkableObject> pathFindWalkable,
-                          stdsptr<eWalkableObject> moveWalkable) {
+                          stdsptr<eWalkableObject> moveWalkable,
+                          const eTileGetter& endTile) {
     const auto finalFunc = [rect](eTileBase* const t) {
         const SDL_Point p{t->x(), t->y()};
         return SDL_PointInRect(&p, &rect);
@@ -113,23 +118,25 @@ void eMoveToAction::start(const SDL_Rect& rect,
         moveWalkable = eWalkableObject::sCreateRect(
                                   rect, moveWalkable);
     }
-    start(finalFunc, pathFindWalkable, moveWalkable);
+    start(finalFunc, pathFindWalkable, moveWalkable, endTile);
 }
 
 void eMoveToAction::start(eBuilding* const final,
                           const stdsptr<eWalkableObject>& pathFindWalkable,
-                          const stdsptr<eWalkableObject>& moveWalkable) {
+                          const stdsptr<eWalkableObject>& moveWalkable,
+                          const eTileGetter& endTile) {
     const auto rect = final->tileRect();
-    return start(rect, pathFindWalkable, moveWalkable);
+    return start(rect, pathFindWalkable, moveWalkable, endTile);
 }
 
 void eMoveToAction::start(const eBuildingType final,
                           const stdsptr<eWalkableObject>& pathFindWalkable,
-                          const stdsptr<eWalkableObject>& moveWalkable) {
+                          const stdsptr<eWalkableObject>& moveWalkable,
+                          const eTileGetter& endTile) {
     const auto finalFunc = [final](eTileBase* const t) {
         return t->underBuildingType() == final;
     };
-    start(finalFunc, pathFindWalkable, moveWalkable);
+    start(finalFunc, pathFindWalkable, moveWalkable, endTile);
 }
 
 void eMoveToAction::setObsticleHandler(const stdsptr<eObsticleHandler>& oh) {

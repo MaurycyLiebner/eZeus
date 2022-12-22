@@ -1,4 +1,4 @@
-#include "epathfinder.h"
+#include "eknownendpathfinder.h"
 
 #include <deque>
 #include <map>
@@ -6,18 +6,31 @@
 #include "engine/etilebase.h"
 #include "engine/egameboard.h"
 
-ePathFinder::ePathFinder(const eTileWalkable& walkable,
-                         const eTileFinish& finish) :
+eKnownEndPathFinder::eKnownEndPathFinder(
+        const eTileWalkable& walkable,
+        eTileBase* const endTile) :
     mWalkable(walkable),
-    mFinish(finish) {}
+    mEndTile(endTile) {}
 
-bool ePathFinder::findPath(eTileBase* const start,
-                           const int maxDist,
-                           const bool onlyDiagonal,
-                           const int srcW, const int srcH,
-                           const eTileDistance& distance) {
+int manhattanDistance(const int x0, const int y0,
+                      const int x1, const int y1) {
+    return std::abs(x0 - x1) + std::abs(y0 - y1);
+}
+
+int manhattanDistance(const eTileBase* const t0,
+                      const eTileBase* const t1) {
+    return manhattanDistance(t0->x(), t0->y(),
+                             t1->x(), t1->y());
+}
+
+bool eKnownEndPathFinder::findPath(
+        eTileBase* const start,
+        const int maxDist,
+        const bool onlyDiagonal,
+        const int srcW, const int srcH,
+        const eTileDistance& distance) {
     if(!start) return false;
-    if(mFinish(start)) return true;
+    if(mEndTile == start) return true;
 
     const bool finishOnFound = mMode == ePathFinderMode::findSingle;
 
@@ -42,7 +55,7 @@ bool ePathFinder::findPath(eTileBase* const start,
         brd = ePathBoard(0, 0, srcW, srcH);
     }
 
-    std::deque<eTilePair> toProcess;
+    std::map<int, std::vector<eTilePair>> toProcess;
     const auto processTile = [&](eTilePair* const tile,
                                  const int x, const int y,
                                  const int dist) {
@@ -53,7 +66,7 @@ bool ePathFinder::findPath(eTileBase* const start,
         if(!tt.first || !tt.second) return;
         const int dinc = distance ? distance(tt.first) : 1;
         const int newDist = dist + dinc;
-        if(mFinish(tt.first)) {
+        if(mEndTile == tt.first) {
             *tt.second = newDist;
             const int ttx = tt.first->x();
             const int tty = tt.first->y();
@@ -121,7 +134,7 @@ bool ePathFinder::findPath(eTileBase* const start,
         }
         if(*tt.second > newDist) {
             *tt.second = newDist;
-            toProcess.push_back(tt);
+            toProcess[manhattanDistance(mEndTile, tt.first)].push_back(tt);
         }
     };
     const auto pathFinder = [&](eTilePair& from) {
@@ -139,16 +152,20 @@ bool ePathFinder::findPath(eTileBase* const start,
     const auto t = tileGetter(brd, start, 0, 0);
     if(!t.first || !t.second) return false;
     *t.second = 0;
-    toProcess.push_back(t);
+    toProcess[manhattanDistance(mEndTile, t.first)].push_back(t);
     while((!mData.fFound || !finishOnFound) && !toProcess.empty()) {
-        auto t = toProcess.front();
-        toProcess.pop_front();
+        const auto it = toProcess.begin();
+        auto& vec = it->second;
+        auto t = vec.back();
+        vec.pop_back();
+        if(vec.empty()) toProcess.erase(it);
         pathFinder(t);
     }
     return mData.fFound;
 }
 
-bool ePathFinder::extractPath(std::vector<eOrientation>& path) {
+bool eKnownEndPathFinder::extractPath(
+        std::vector<eOrientation>& path) {
     if(!mData.fFound) return false;
     path.clear();
     path.reserve(mData.fDistance);
@@ -157,7 +174,8 @@ bool ePathFinder::extractPath(std::vector<eOrientation>& path) {
     });
 }
 
-bool ePathFinder::extractPath(std::vector<std::pair<int, int>>& path) {
+bool eKnownEndPathFinder::extractPath(
+        std::vector<std::pair<int, int>>& path) {
     if(!mData.fFound) return false;
     path.clear();
     path.reserve(mData.fDistance);
@@ -167,7 +185,8 @@ bool ePathFinder::extractPath(std::vector<std::pair<int, int>>& path) {
     });
 }
 
-bool ePathFinder::extractPath(std::vector<eTile*>& path, eGameBoard& board) {
+bool eKnownEndPathFinder::extractPath(
+        std::vector<eTile*>& path, eGameBoard& board) {
     if(!mData.fFound) return false;
     path.clear();
     path.reserve(mData.fDistance);
@@ -177,7 +196,8 @@ bool ePathFinder::extractPath(std::vector<eTile*>& path, eGameBoard& board) {
     });
 }
 
-bool ePathFinder::extractPath(const ePathFunc& pathFunc) {
+bool eKnownEndPathFinder::extractPath(
+        const ePathFunc& pathFunc) {
     auto& brd = mData.fBoard;
     using eBFinder = std::function<bool(const eTilePair&)>;
     eBFinder bestFinder;
@@ -235,7 +255,7 @@ bool ePathFinder::extractPath(const ePathFunc& pathFunc) {
     return r;
 }
 
-bool ePathFinder::extractData(ePathFindData& data) {
+bool eKnownEndPathFinder::extractData(ePathFindData& data) {
     if(!mData.fFound) return false;
     std::swap(mData, data);
     return true;

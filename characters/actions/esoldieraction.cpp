@@ -363,7 +363,10 @@ void eSoldierAction::goTo(const int fx, const int fy,
         if(!tptr) return;
         if(findFinishAct) findFinishAct();
     });
-    a->start(hha, pathFindWalkable, moveWalkable);
+    a->start(hha, pathFindWalkable, moveWalkable,
+             [fx, fy](eThreadBoard& board) {
+        return board.tile(fx, fy);
+    });
     setCurrentAction(a);
 }
 

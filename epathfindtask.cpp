@@ -1,19 +1,22 @@
 #include "epathfindtask.h"
 
 #include "engine/epathfinder.h"
+#include "engine/eknownendpathfinder.h"
 #include "characters/actions/walkable/ewalkableobject.h"
 
 ePathFindTask::ePathFindTask(const eTileGetter& startTile,
                              const stdsptr<eWalkableObject>& tileWalkable,
-                             const eTileChecker& endTile,
+                             const eTileChecker& endTileFunc,
                              const eFinishFunc& finishFunc,
                              const eFailFunc& failFunc,
                              const bool onlyDiagonal,
                              const int range,
-                             const eTileDistance& distance) :
+                             const eTileDistance& distance,
+                             const eTileGetter& endTile) :
     mStartTile(startTile),
-    mTileWalkable(tileWalkable),
     mEndTile(endTile),
+    mTileWalkable(tileWalkable),
+    mEndTileFunc(endTileFunc),
     mFinish(finishFunc),
     mFailFunc(failFunc),
     mOnlyDiagonal(onlyDiagonal),
@@ -21,21 +24,38 @@ ePathFindTask::ePathFindTask(const eTileGetter& startTile,
     mDistance(distance) {}
 
 void ePathFindTask::run(eThreadBoard& data) {
-    const auto t = mStartTile(data);
-    ePathFinder pf0(
-    [&](eTileBase* const t) {
-        return mTileWalkable->walkable(t);
-    },
-    [&](eTileBase* const t) {
-        return mEndTile(static_cast<eThreadTile*>(t));
-    });
-    const bool r = pf0.findPath(t, mRange, mOnlyDiagonal,
-                                data.width(), data.height(),
-                                mDistance);
-    if(r) {
-        mR = pf0.extractPath(mPath);
-    } else {
-        mR = false;
+    if(mEndTile) {
+        const auto startT = mStartTile(data);
+        const auto endT = mEndTile(data);
+        eKnownEndPathFinder pf0(
+        [&](eTileBase* const t) {
+            return mTileWalkable->walkable(t);
+        }, endT);
+        const bool r = pf0.findPath(startT, mRange, mOnlyDiagonal,
+                                    data.width(), data.height(),
+                                    mDistance);
+        if(r) {
+            mR = pf0.extractPath(mPath);
+        } else {
+            mR = false;
+        }
+    } else if(mEndTileFunc) {
+        const auto t = mStartTile(data);
+        ePathFinder pf0(
+        [&](eTileBase* const t) {
+            return mTileWalkable->walkable(t);
+        },
+        [&](eTileBase* const t) {
+           return mEndTileFunc(static_cast<eThreadTile*>(t));
+        });
+        const bool r = pf0.findPath(t, mRange, mOnlyDiagonal,
+                                    data.width(), data.height(),
+                                    mDistance);
+        if(r) {
+            mR = pf0.extractPath(mPath);
+        } else {
+            mR = false;
+        }
     }
 }
 

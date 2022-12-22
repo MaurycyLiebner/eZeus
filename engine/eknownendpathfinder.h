@@ -1,14 +1,14 @@
-#ifndef EPATHFINDER_H
-#define EPATHFINDER_H
+#ifndef EKNOWNENDPATHFINDER_H
+#define EKNOWNENDPATHFINDER_H
 
 #include "epathfinderbase.h"
 
-class ePathFinder {
+class eKnownEndPathFinder {
 public:
     using eTileWalkable = std::function<bool(eTileBase* const)>;
     using eTileFinish = std::function<bool(eTileBase* const)>;
-    ePathFinder(const eTileWalkable& walkable,
-                const eTileFinish& finish);
+    eKnownEndPathFinder(const eTileWalkable& walkable,
+                        eTileBase* const endTile);
 
     using eTileDistance = std::function<int(eTileBase* const)>;
     bool findPath(eTileBase* const startTile,
@@ -28,11 +28,11 @@ public:
     { mMode = m; }
 private:
     const eTileWalkable mWalkable;
-    const eTileFinish mFinish;
+    eTileBase* const mEndTile;
 
     ePathFinderMode mMode = ePathFinderMode::findSingle;
 
     ePathFindData mData;
 };
 
-#endif // EPATHFINDER_H
+#endif // EKNOWNENDPATHFINDER_H

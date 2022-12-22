@@ -3,24 +3,15 @@
 #include "engine/egameboard.h"
 
 #include "eterraineditmenu.h"
-#include "etilepainter.h"
 
 #include "textures/egametextures.h"
 
-#include "emainmenu.h"
 #include "egamemenu.h"
 #include "eminimap.h"
 
-#include "characters/esheep.h"
-#include "characters/egoat.h"
 #include "characters/actions/eanimalaction.h"
 
-#include "spawners/eboarspawner.h"
-#include "spawners/edeerspawner.h"
-#include "spawners/esettlerspawner.h"
-
 #include "characters/esoldierbanner.h"
-#include "characters/esoldier.h"
 
 #include "echeckbox.h"
 
@@ -28,24 +19,17 @@
 
 #include "engine/emapgenerator.h"
 
-#include "infowidgets/estorageinfowidget.h"
-#include "infowidgets/etradepostinfowidget.h"
-#include "infowidgets/ecommonhouseinfowidget.h"
-#include "infowidgets/eagorainfowidget.h"
-
 #include "engine/boardData/eheatmaptask.h"
 #include "engine/epathfinder.h"
 
 #include "emainwindow.h"
 
+#include "widgets/infowidgets/einfowidget.h"
 #include "emessagebox.h"
-#include "emessages.h"
 
-#include "buildings/sanctuaries/esanctuaryblueprint.h"
 #include "buildings/eagoraspace.h"
-#include "buildings/esmallhouse.h"
+#include "buildings/eagorabase.h"
 #include "buildings/evendor.h"
-#include "buildings/egymnasium.h"
 #include "buildings/eanimalbuilding.h"
 #include "buildings/eroad.h"
 #include "buildings/ebuildingrenderer.h"
@@ -55,13 +39,7 @@
 #include "buildings/epalacetile.h"
 #include "buildings/ehorseranch.h"
 #include "buildings/ehorseranchenclosure.h"
-
-#include "widgets/eworldwidget.h"
-
-#include "epathdatafindtask.h"
-
-#include "eiteratesquare.h"
-
+\
 #include "elanguage.h"
 
 #include "widgets/efilewidget.h"

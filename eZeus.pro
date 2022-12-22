@@ -249,6 +249,7 @@ SOURCES += \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
         engine/egifthelpers.cpp \
+        engine/eknownendpathfinder.cpp \
         engine/emapgenerator.cpp \
         engine/epathboard.cpp \
         engine/epathfinder.cpp \
@@ -268,7 +269,6 @@ SOURCES += \
         engine/thread/ethreadcharacter.cpp \
         engine/thread/ethreaddata.cpp \
         engine/thread/ethreadtile.cpp \
-        epathdatafindtask.cpp \
         epathfindtask.cpp \
         estringhelpers.cpp \
         etexture.cpp \
@@ -667,12 +667,14 @@ HEADERS += \
     engine/egameboard.h \
     engine/egameboarditerator.h \
     engine/egifthelpers.h \
+    engine/eknownendpathfinder.h \
     engine/emapgenerator.h \
     engine/emessageeventtype.h \
     engine/emovedirection.h \
     engine/eorientation.h \
     engine/epathboard.h \
     engine/epathfinder.h \
+    engine/epathfinderbase.h \
     engine/eplannedaction.h \
     engine/eprovide.h \
     engine/eresourcetype.h \
@@ -691,7 +693,6 @@ HEADERS += \
     engine/thread/ethreaddata.h \
     engine/thread/ethreadtile.h \
     eoverlay.h \
-    epathdatafindtask.h \
     epathfindtask.h \
     esettings.h \
     estringhelpers.h \

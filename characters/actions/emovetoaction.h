@@ -7,7 +7,10 @@
 #include "engine/thread/ethreadtile.h"
 #include "ewalkablehelpers.h"
 
+class eThreadBoard;
+
 using eAction = std::function<void()>;
+using eTileGetter = std::function<eThreadTile*(eThreadBoard&)>;
 
 class eMoveToAction : public eComplexAction {
 public:
@@ -19,23 +22,28 @@ public:
     void start(const eTileFinal& final,
                stdsptr<eWalkableObject> pathFindWalkable =
                    eWalkableObject::sCreateDefault(),
-               stdsptr<eWalkableObject> moveWalkable = nullptr);
+               stdsptr<eWalkableObject> moveWalkable = nullptr,
+               const eTileGetter& endTile = nullptr);
     void start(eTile* const final,
                const stdsptr<eWalkableObject>& pathFindWalkable =
                     eWalkableObject::sCreateDefault(),
-               const stdsptr<eWalkableObject>& moveWalkable = nullptr);
+               const stdsptr<eWalkableObject>& moveWalkable = nullptr,
+               const eTileGetter& endTile = nullptr);
     void start(const SDL_Rect& rect,
                stdsptr<eWalkableObject> pathFindWalkable =
                     eWalkableObject::sCreateDefault(),
-               stdsptr<eWalkableObject> moveWalkable = nullptr);
+               stdsptr<eWalkableObject> moveWalkable = nullptr,
+               const eTileGetter& endTile = nullptr);
     void start(eBuilding* const final,
                const stdsptr<eWalkableObject>& pathFindWalkable =
                     eWalkableObject::sCreateDefault(),
-               const stdsptr<eWalkableObject>& moveWalkable = nullptr);
+               const stdsptr<eWalkableObject>& moveWalkable = nullptr,
+               const eTileGetter& endTile = nullptr);
     void start(const eBuildingType final,
                const stdsptr<eWalkableObject>& pathFindWalkable =
                     eWalkableObject::sCreateDefault(),
-               const stdsptr<eWalkableObject>& moveWalkable = nullptr);
+               const stdsptr<eWalkableObject>& moveWalkable = nullptr,
+               const eTileGetter& endTile = nullptr);
 
     void setRemoveLastTurn(const bool r)
     { mRemoveLastTurn = r; }
