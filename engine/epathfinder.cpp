@@ -1,6 +1,7 @@
 #include "epathfinder.h"
 
 #include <deque>
+#include <map>
 
 #include "engine/etilebase.h"
 #include "engine/egameboard.h"
@@ -8,11 +9,8 @@
 ePathFinder::ePathFinder(const eTileWalkable& walkable,
                          const eTileFinish& finish) :
     mWalkable(walkable),
-    mFinish(finish) {
+    mFinish(finish) {}
 
-}
-
-using eTileGetter = std::function<eTilePair(eTileBase*, int, int)>;
 
 eTilePair tileGetter(ePathBoard& brd,
                      eTileBase* const from,
@@ -59,49 +57,95 @@ bool ePathFinder::findPath(eTileBase* const start,
     }
 
     std::deque<eTilePair> toProcess;
-    const auto pathFinder = [&](const eTilePair& from) {
+    const auto processTile = [&](eTilePair* const tile,
+                                 const int x, const int y,
+                                 const int dist) {
+        if(x == 0 && y == 0) return;
+        const bool notDiagonal = x != 0 && y != 0;
+        if(onlyDiagonal && notDiagonal) return;
+        auto tt = tileGetter(brd, tile->first, x, y);
+        if(!tt.first || !tt.second) return;
+        const int dinc = distance ? distance(tt.first) : 1;
+        const int newDist = dist + dinc;
+        if(mFinish(tt.first)) {
+            *tt.second = newDist;
+            const int ttx = tt.first->x();
+            const int tty = tt.first->y();
+            mData.fFound = true;
+            mData.fDistance = newDist;
+            mData.fFinalX = ttx;
+            mData.fFinalY = tty;
+            if(finishOnFound) return;
+        }
+        if(!mWalkable(tt.first)) return;
+        if(notDiagonal) {
+            if(x == -1 && y == -1) { // top
+                {
+                    const auto ttt = tileGetter(brd, tile->first, 0, -1);
+                    if(ttt.first && ttt.second) {
+                        if(!mWalkable(ttt.first)) return;
+                    }
+                }
+                {
+                    const auto ttt = tileGetter(brd, tile->first, -1, 0);
+                    if(ttt.first && ttt.second) {
+                        if(!mWalkable(ttt.first)) return;
+                    }
+                }
+            } else if(x == -1 && y == 1) { // left
+                {
+                    const auto ttt = tileGetter(brd, tile->first, -1, 0);
+                    if(ttt.first && ttt.second) {
+                        if(!mWalkable(ttt.first)) return;
+                    }
+                }
+                {
+                    const auto ttt = tileGetter(brd, tile->first, 0, 1);
+                    if(ttt.first && ttt.second) {
+                        if(!mWalkable(ttt.first)) return;
+                    }
+                }
+            } else if(x == 1 && y == 1) { // bottom
+                {
+                    const auto ttt = tileGetter(brd, tile->first, 1, 0);
+                    if(ttt.first && ttt.second) {
+                        if(!mWalkable(ttt.first)) return;
+                    }
+                }
+                {
+                    const auto ttt = tileGetter(brd, tile->first, 0, 1);
+                    if(ttt.first && ttt.second) {
+                        if(!mWalkable(ttt.first)) return;
+                    }
+                }
+            } else if(x == 1 && y == -1) { // right
+                {
+                    const auto ttt = tileGetter(brd, tile->first, 1, 0);
+                    if(ttt.first && ttt.second) {
+                        if(!mWalkable(ttt.first)) return;
+                    }
+                }
+                {
+                    const auto ttt = tileGetter(brd, tile->first, 0, -1);
+                    if(ttt.first && ttt.second) {
+                        if(!mWalkable(ttt.first)) return;
+                    }
+                }
+            }
+        }
+        if(*tt.second > newDist) {
+            *tt.second = newDist;
+            toProcess.push_back(tt);
+        }
+    };
+    const auto pathFinder = [&](eTilePair& from) {
+        if(!from.first || !from.second) return;
         const int dist = *from.second;
         if(dist > maxDist) return;
-        const auto tile = from.first;
 
         for(const int x : {0, 1, -1}) {
             for(const int y : {0, 1, -1}) {
-                if(x == 0 && y == 0) continue;
-                const bool notDiagonal = x != 0 && y != 0;
-                if(onlyDiagonal && notDiagonal) continue;
-                const auto tt = tileGetter(brd, tile, x, y);
-                if(!tt.first || !tt.second) continue;
-                const int dinc = distance ? distance(tt.first) : 1;
-                const int newDist = dist + dinc;
-                if(mFinish(tt.first)) {
-                    *tt.second = newDist;
-                    const int ttx = tt.first->x();
-                    const int tty = tt.first->y();
-                    mData.fFound = true;
-                    mData.fDistance = newDist;
-                    mData.fFinalX = ttx;
-                    mData.fFinalY = tty;
-                    if(finishOnFound) return;
-                }
-                if(!mWalkable(tt.first)) continue;
-                if(notDiagonal) {
-                    {
-                        const auto ttt = tileGetter(brd, tile, 0, -y);
-                        if(ttt.first && ttt.second) {
-                            if(!mWalkable(ttt.first)) continue;
-                        }
-                    }
-                    {
-                        const auto ttt = tileGetter(brd, tile, -x, 0);
-                        if(ttt.first && ttt.second) {
-                            if(!mWalkable(ttt.first)) continue;
-                        }
-                    }
-                }
-                if(*tt.second > newDist) {
-                    *tt.second = newDist;
-                    toProcess.push_back(tt);
-                }
+                processTile(&from, x, y, dist);
             }
         }
     };
@@ -111,11 +155,10 @@ bool ePathFinder::findPath(eTileBase* const start,
     *t.second = 0;
     toProcess.push_back(t);
     while((!mData.fFound || !finishOnFound) && !toProcess.empty()) {
-        const auto t = toProcess.front();
+        auto t = toProcess.front();
         toProcess.pop_front();
         pathFinder(t);
     }
-
     return mData.fFound;
 }
 
@@ -185,6 +228,7 @@ bool ePathFinder::extractPath(const ePathFunc& pathFunc) {
         for(const auto& n : neighs) {
             const auto& tp = n.second;
             if(!tp.first || !tp.second) continue;
+
             if(mWalkable(tp.first)) {
                 if(*tp.second == dist - 1) {
                     pathFunc(n);
@@ -192,7 +236,6 @@ bool ePathFinder::extractPath(const ePathFunc& pathFunc) {
                 }
             }
         }
-
         return false;
     };
 

@@ -35,7 +35,7 @@ bool eTileBase::walkable() const {
     if(t == eBuildingType::road) return true;
     const auto terr = terrain() & eTerrain::walkable;
     if(!static_cast<bool>(terr)) return false;
-    if(!mWalkableElev && isElevationTile()) return false;
+    if(mWalkableElev && isElevationTile()) return true;
     return eBuilding::sWalkableBuilding(t);
 }
 
