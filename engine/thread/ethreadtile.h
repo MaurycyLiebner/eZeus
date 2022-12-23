@@ -9,7 +9,6 @@
 class eThreadTile : public eTileBase {
 public:
     void load(eTile* const src);
-    void load(const eThreadTile& src);
 
     bool hasRoad() const;
     bool hasCharacter(const eHasChar& func) const;

@@ -37,7 +37,8 @@ public:
     int x() const { return mX; }
     int y() const { return mY; }
     int altitude() const { return mAltitude; }
-    bool isElevationTile() const;
+    bool isElevationTile() const { return mElevation; }
+    void updateIsElevationTile();
     bool isShoreTile() const;
     eTerrain terrain() const { return mTerr; }
     double scrub() const { return mScrub; }
@@ -90,7 +91,7 @@ public:
     template <typename T = eTileBase>
     T* tileAbs(const int x, const int y) const;
 
-    void setAltitude(const int a);
+    void setAltitude(const int a, const bool update = true);
     virtual void setTerrain(const eTerrain terr);
     void setScrub(const double s);
     void incScrub(const double s);
@@ -102,6 +103,7 @@ public:
 
     bool walkableElev() const { return mWalkableElev; }
     void setWalkableElev(const bool w);
+    void setElevation(const bool e);
 
     bool hasFish() const { return mHasFish; }
     void setHasFish(const bool f) { mHasFish = f; }
@@ -129,6 +131,7 @@ private:
 
     bool mHasFish{false};
 
+    bool mElevation{false};
     bool mWalkableElev{false};
 
     bool mBusy{false};

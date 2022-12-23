@@ -1,7 +1,6 @@
 #include "ethreadtile.h"
 
 #include "characters/echaracter.h"
-#include "buildings/esmallhouse.h"
 
 void eThreadTile::load(eTile* const src) {
     setSeed(src->seed());
@@ -10,11 +9,12 @@ void eThreadTile::load(eTile* const src) {
     setDX(src->dx());
     setDY(src->dy());
     setWalkableElev(src->walkableElev());
+    setElevation(src->isElevationTile());
     setBusy(src->busy());
     setResource(src->resource());
     setTerrain(src->terrain());
     setScrub(src->scrub());
-    setAltitude(src->altitude());
+    setAltitude(src->altitude(), false);
     setOnFire(src->onFire());
     setHasFish(src->hasFish());
 
@@ -25,25 +25,6 @@ void eThreadTile::load(eTile* const src) {
     }
     mMainBuildingTile = src->building();
     mUnderBuilding.load(src->underBuilding());
-}
-
-void eThreadTile::load(const eThreadTile& src) {
-    setSeed(src.seed());
-    setX(src.x());
-    setY(src.y());
-    setDX(src.dx());
-    setDY(src.dy());
-    setWalkableElev(src.walkableElev());
-    setBusy(src.busy());
-    setResource(src.resource());
-    setTerrain(src.terrain());
-    setScrub(src.scrub());
-    setAltitude(src.altitude());
-    setOnFire(src.onFire());
-    setHasFish(src.hasFish());
-
-    mCharacters = src.mCharacters;
-    mUnderBuilding = src.mUnderBuilding;
 }
 
 bool eThreadTile::hasRoad() const {
