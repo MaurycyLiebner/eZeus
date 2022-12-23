@@ -1364,8 +1364,20 @@ bool eGameWidget::buildMouseRelease() {
             build(mHoverTX, mHoverTY, 4, 4,
                   [this, heroType]() { return e::make_shared<eHerosHall>(heroType, *mBoard); });
         } break;
+        case eBuildingMode::templeAphrodite:
+        case eBuildingMode::templeApollo:
+        case eBuildingMode::templeAres:
         case eBuildingMode::templeArtemis:
-        case eBuildingMode::templeHephaestus: {
+        case eBuildingMode::templeAthena:
+        case eBuildingMode::templeAtlas:
+        case eBuildingMode::templeDemeter:
+        case eBuildingMode::templeDionysus:
+        case eBuildingMode::templeHades:
+        case eBuildingMode::templeHephaestus:
+        case eBuildingMode::templeHera:
+        case eBuildingMode::templeHermes:
+        case eBuildingMode::templePoseidon:
+        case eBuildingMode::templeZeus: {
             const auto bt = eBuildingModeHelpers::toBuildingType(mode);
             const auto h = eSanctBlueprints::sSanctuaryBlueprint(bt, mRotate);
 
@@ -1382,6 +1394,11 @@ bool eGameWidget::buildMouseRelease() {
             eGodType god;
             stdsptr<eSanctuary> b;
             switch(mode) {
+            case eBuildingMode::templeZeus: {
+                god = eGodType::zeus;
+                b = e::make_shared<eZeusSanctuary>(
+                        sw, sh, *mBoard);
+            } break;
             case eBuildingMode::templeArtemis: {
                 god = eGodType::artemis;
                 b = e::make_shared<eArtemisSanctuary>(

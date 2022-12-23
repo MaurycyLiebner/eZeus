@@ -49,8 +49,20 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
 
     const auto ut = tile->underBuildingType();
     switch(ut) {
+    case eBuildingType::templeAphrodite:
+    case eBuildingType::templeApollo:
+    case eBuildingType::templeAres:
+    case eBuildingType::templeArtemis:
+    case eBuildingType::templeAthena:
+    case eBuildingType::templeAtlas:
+    case eBuildingType::templeDemeter:
+    case eBuildingType::templeDionysus:
+    case eBuildingType::templeHades:
     case eBuildingType::templeHephaestus:
-    case eBuildingType::templeArtemis: {
+    case eBuildingType::templeHera:
+    case eBuildingType::templeHermes:
+    case eBuildingType::templePoseidon:
+    case eBuildingType::templeZeus: {
         const auto& coll = blds.fSanctuaryStairs;
         return coll.getTexture(seed % coll.size());
     } break;

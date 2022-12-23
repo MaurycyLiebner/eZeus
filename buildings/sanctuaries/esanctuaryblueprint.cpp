@@ -145,6 +145,9 @@ void eSanctBlueprints::loadImpl() {
     mLoaded = true;
     const std::string dir = "../Sanctuaries/";
 
+    loadBP(fZeusW, dir + "zeus.txt");
+    fZeusH = rotate(fZeusW);
+
     loadBP(fHephaestusW, dir + "hephaestus.txt");
     fHephaestusH = rotate(fHephaestusW);
 
@@ -156,6 +159,13 @@ const eSanctBlueprint* eSanctBlueprints::sSanctuaryBlueprint(
         const eBuildingType type, const bool rotate) {
     const auto& i = eSanctBlueprints::instance;
     switch(type) {
+    case eBuildingType::templeZeus: {
+        if(rotate) {
+            return &i.fZeusH;
+        } else {
+            return &i.fZeusW;
+        }
+    } break;
     case eBuildingType::templeArtemis: {
         if(rotate) {
             return &i.fArtemisH;

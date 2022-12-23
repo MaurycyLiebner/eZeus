@@ -1,6 +1,6 @@
 #include "edifficulty.h"
 
-#include "characters/echaracterbase.h".h"
+#include "characters/echaracterbase.h"
 
 std::string eDifficultyHelpers::name(const eDifficulty diff) {
     switch(diff) {
@@ -187,10 +187,34 @@ int costBase(const eBuildingType type) {
     case eBuildingType::stoneCircle:
         return 60;
 
+    case eBuildingType::templeZeus:
+        return 2920;
+    case eBuildingType::templePoseidon:
+        return 2480;
+    case eBuildingType::templeHades:
+        return 1320;
+    case eBuildingType::templeHera:
+        return 1760;
+    case eBuildingType::templeDemeter:
+        return 840;
+    case eBuildingType::templeAthena:
+        return 2160;
     case eBuildingType::templeArtemis:
         return 1520;
+    case eBuildingType::templeApollo:
+        return 920;
+    case eBuildingType::templeAtlas:
+        return 1760;
+    case eBuildingType::templeAres:
+        return 960;
     case eBuildingType::templeHephaestus:
         return 760;
+    case eBuildingType::templeAphrodite:
+        return 720;
+    case eBuildingType::templeHermes:
+        return 640;
+    case eBuildingType::templeDionysus:
+        return 400;
 
     default:
         return 0;

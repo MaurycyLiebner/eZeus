@@ -1274,8 +1274,20 @@ void eGameWidget::paintEvent(ePainter& p) {
     default: break;
     }
     switch(mode) {
+    case eBuildingMode::templeAphrodite:
+    case eBuildingMode::templeApollo:
+    case eBuildingMode::templeAres:
     case eBuildingMode::templeArtemis:
-    case eBuildingMode::templeHephaestus: {
+    case eBuildingMode::templeAthena:
+    case eBuildingMode::templeAtlas:
+    case eBuildingMode::templeDemeter:
+    case eBuildingMode::templeDionysus:
+    case eBuildingMode::templeHades:
+    case eBuildingMode::templeHephaestus:
+    case eBuildingMode::templeHera:
+    case eBuildingMode::templeHermes:
+    case eBuildingMode::templePoseidon:
+    case eBuildingMode::templeZeus: {
         const auto& tex = trrTexs.fBuildingBase;
         const auto bt = eBuildingModeHelpers::toBuildingType(mode);
         const auto h = eSanctBlueprints::sSanctuaryBlueprint(bt, mRotate);

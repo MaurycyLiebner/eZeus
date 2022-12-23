@@ -590,8 +590,20 @@ void eGameMenu::initialize(eGameBoard* const b) {
 
 
 
-    const std::vector<eSPR> t7spr = {eSPR{eBuildingMode::templeHephaestus, eLanguage::text("forge_of_hephaestus"), 13},
-                                     eSPR{eBuildingMode::templeArtemis, eLanguage::text("artemis_menagerie"), 20}};
+    const std::vector<eSPR> t7spr = {eSPR{eBuildingMode::templeZeus, eLanguage::text("zeus_stronghold"), 48},
+                                     eSPR{eBuildingMode::templePoseidon, eLanguage::text("promontery_of_poseidon"), 37},
+                                     eSPR{eBuildingMode::templeHades, eLanguage::text("gates_of_hades"), 37},
+                                     eSPR{eBuildingMode::templeHera, eLanguage::text("orchard_of_hera"), 30},
+                                     eSPR{eBuildingMode::templeDemeter, eLanguage::text("garden_of_demeter"), 27},
+                                     eSPR{eBuildingMode::templeAthena, eLanguage::text("arbor_of_athena"), 24},
+                                     eSPR{eBuildingMode::templeArtemis, eLanguage::text("artemis_menagerie"), 20},
+                                     eSPR{eBuildingMode::templeApollo, eLanguage::text("oracle_of_apollo"), 20},
+                                     eSPR{eBuildingMode::templeAtlas, eLanguage::text("pillar_of_atlas"), 25},
+                                     eSPR{eBuildingMode::templeAres, eLanguage::text("ares_fortress"), 13},
+                                     eSPR{eBuildingMode::templeHephaestus, eLanguage::text("forge_of_hephaestus"), 13},
+                                     eSPR{eBuildingMode::templeAphrodite, eLanguage::text("aphrodites_heaven"), 11},
+                                     eSPR{eBuildingMode::templeHermes, eLanguage::text("hermes_refuge"), 9},
+                                     eSPR{eBuildingMode::templeDionysus, eLanguage::text("grove_of_dionysus"), 8}};
     const auto t7 = [this, cmx, cmy, t7spr]() {
         openBuildWidget(cmx, cmy, t7spr);
     };

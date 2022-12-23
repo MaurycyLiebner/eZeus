@@ -23,6 +23,9 @@ std::vector<eOverlay> eTempleRenderer::getOverlays(const eTileSize size) const {
     if(p < 3) {
         return {};
     }
+    if(mId != 0 && mId != 1) {
+        return {};
+    }
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
     const int tt = mB->textureTime();

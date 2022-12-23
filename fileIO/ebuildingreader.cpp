@@ -355,8 +355,20 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         b = e::make_shared<eStoneCircle>(board);
     } break;
 
+    case eBuildingType::templeAphrodite:
+    case eBuildingType::templeApollo:
+    case eBuildingType::templeAres:
     case eBuildingType::templeArtemis:
-    case eBuildingType::templeHephaestus: {
+    case eBuildingType::templeAthena:
+    case eBuildingType::templeAtlas:
+    case eBuildingType::templeDemeter:
+    case eBuildingType::templeDionysus:
+    case eBuildingType::templeHades:
+    case eBuildingType::templeHephaestus:
+    case eBuildingType::templeHera:
+    case eBuildingType::templeHermes:
+    case eBuildingType::templePoseidon:
+    case eBuildingType::templeZeus: {
         int sw;
         src >> sw;
         int sh;

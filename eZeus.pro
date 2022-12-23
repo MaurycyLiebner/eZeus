@@ -115,6 +115,7 @@ SOURCES += \
         buildings/sanctuaries/etemplerenderer.cpp \
         buildings/sanctuaries/etemplestatuebuilding.cpp \
         buildings/sanctuaries/etempletilebuilding.cpp \
+        buildings/sanctuaries/ezeussanctuary.cpp \
         characters/actions/eactionwithcomeback.cpp \
         characters/actions/eanimalaction.cpp \
         characters/actions/earcheraction.cpp \
@@ -532,6 +533,7 @@ HEADERS += \
     buildings/sanctuaries/etemplerenderer.h \
     buildings/sanctuaries/etemplestatuebuilding.h \
     buildings/sanctuaries/etempletilebuilding.h \
+    buildings/sanctuaries/ezeussanctuary.h \
     characters/actions/eactionwithcomeback.h \
     characters/actions/eanimalaction.h \
     characters/actions/earcheraction.h \

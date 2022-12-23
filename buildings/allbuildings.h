@@ -75,6 +75,7 @@
 #include "buildings/eelitehousing.h"
 #include "buildings/eelitehousingrenderer.h"
 
+#include "buildings/sanctuaries/ezeussanctuary.h"
 #include "buildings/sanctuaries/ehephaestussanctuary.h"
 #include "buildings/sanctuaries/eartemissanctuary.h"
 #include "buildings/sanctuaries/estairsrenderer.h"

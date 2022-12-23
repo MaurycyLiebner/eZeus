@@ -40,6 +40,9 @@ public:
     static void load();
     static bool loaded();
 
+    eSanctBlueprint fZeusW;
+    eSanctBlueprint fZeusH;
+
     eSanctBlueprint fHephaestusW;
     eSanctBlueprint fHephaestusH;
 

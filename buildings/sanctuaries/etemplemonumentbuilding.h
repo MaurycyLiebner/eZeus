@@ -20,4 +20,5 @@ private:
     const eGodType mGod;
     const int mId;
 };
+
 #endif // ETEMPLEMONUMENTBUILDING_H

@@ -166,8 +166,20 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     case eBuildingType::stoneCircle:
         break;
 
+    case eBuildingType::templeAphrodite:
+    case eBuildingType::templeApollo:
+    case eBuildingType::templeAres:
     case eBuildingType::templeArtemis:
-    case eBuildingType::templeHephaestus: {
+    case eBuildingType::templeAthena:
+    case eBuildingType::templeAtlas:
+    case eBuildingType::templeDemeter:
+    case eBuildingType::templeDionysus:
+    case eBuildingType::templeHades:
+    case eBuildingType::templeHephaestus:
+    case eBuildingType::templeHera:
+    case eBuildingType::templeHermes:
+    case eBuildingType::templePoseidon:
+    case eBuildingType::templeZeus: {
         const auto s = static_cast<const eSanctuary*>(b);
         dst << s->spanW();
         dst << s->spanH();
