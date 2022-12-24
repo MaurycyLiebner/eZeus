@@ -2,7 +2,8 @@
 
 #include "textures/egametextures.h"
 
-eTempleTileBuilding::eTempleTileBuilding(const int id, eGameBoard& board) :
+eTempleTileBuilding::eTempleTileBuilding(
+        const int id, eGameBoard& board) :
     eSanctBuilding({0, 1, 0}, 1, board,
                    eBuildingType::templeTile, 1, 1),
     mId(id) {

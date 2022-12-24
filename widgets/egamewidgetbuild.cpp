@@ -1415,7 +1415,7 @@ bool eGameWidget::buildMouseRelease() {
 
             const bool r = canBuildBase(minX, maxX, minY, maxY);
             if(!r) return true;
-            const auto mint = mBoard->tile(minX, minY);
+            const auto mint = mBoard->tile(mHoverTX, mHoverTY);
             const int a = mint->altitude();
             b->setAltitude(a);
 

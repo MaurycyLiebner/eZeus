@@ -1273,51 +1273,6 @@ void eGameWidget::paintEvent(ePainter& p) {
     } break;
     default: break;
     }
-    switch(mode) {
-    case eBuildingMode::templeAphrodite:
-    case eBuildingMode::templeApollo:
-    case eBuildingMode::templeAres:
-    case eBuildingMode::templeArtemis:
-    case eBuildingMode::templeAthena:
-    case eBuildingMode::templeAtlas:
-    case eBuildingMode::templeDemeter:
-    case eBuildingMode::templeDionysus:
-    case eBuildingMode::templeHades:
-    case eBuildingMode::templeHephaestus:
-    case eBuildingMode::templeHera:
-    case eBuildingMode::templeHermes:
-    case eBuildingMode::templePoseidon:
-    case eBuildingMode::templeZeus: {
-        const auto& tex = trrTexs.fBuildingBase;
-        const auto bt = eBuildingModeHelpers::toBuildingType(mode);
-        const auto h = eSanctBlueprints::sSanctuaryBlueprint(bt, mRotate);
-        const int sw = h->fW;
-        const int sh = h->fH;
-        const int xMin = mHoverTX - sw/2;
-        const int yMin = mHoverTY - sh/2;
-        const int xMax = xMin + sw;
-        const int yMax = yMin + sh;
-        const bool cb = canBuildBase(xMin, xMax, yMin, yMax);
-        if(!cb) {
-            tex->setColorMod(255, 0, 0);
-        }
-        for(int x = xMin; x < xMax; x++) {
-            for(int y = yMin; y < yMax; y++) {
-                double rx;
-                double ry;
-                const auto t = mBoard->tile(x, y);
-                if(!t) continue;
-                if(t->underBuilding()) continue;
-                drawXY(x, y, rx, ry, 1, 1, t->altitude());
-                tp.drawTexture(rx, ry, tex, eAlignment::top);
-            }
-        }
-        if(!cb) {
-            tex->clearColorMod();
-        }
-    } break;
-    default: break;
-    }
 
     const auto& wrld = mBoard->getWorldBoard();
     if(t && mGm->visible()) {
@@ -1425,6 +1380,183 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         std::vector<eB> ebs;
         switch(mode) {
+        case eBuildingMode::templeAphrodite:
+        case eBuildingMode::templeApollo:
+        case eBuildingMode::templeAres:
+        case eBuildingMode::templeArtemis:
+        case eBuildingMode::templeAthena:
+        case eBuildingMode::templeAtlas:
+        case eBuildingMode::templeDemeter:
+        case eBuildingMode::templeDionysus:
+        case eBuildingMode::templeHades:
+        case eBuildingMode::templeHephaestus:
+        case eBuildingMode::templeHera:
+        case eBuildingMode::templeHermes:
+        case eBuildingMode::templePoseidon:
+        case eBuildingMode::templeZeus: {
+            const auto bt = eBuildingModeHelpers::toBuildingType(mode);
+            const auto h = eSanctBlueprints::sSanctuaryBlueprint(bt, mRotate);
+            const int sw = h->fW;
+            const int sh = h->fH;
+            const int minX = mHoverTX - sw/2;
+            const int maxX = minX + sw;
+            const int minY = mHoverTY - sh/2;
+            const int maxY = minY + sh;
+            const bool cb = canBuildBase(minX, maxX, minY, maxY);
+            const int rmod = cb ? 0 : 255;
+            const int gmod = cb ? 255 : 0;
+
+            eGodType god;
+            stdsptr<eSanctuary> b;
+            switch(mode) {
+            case eBuildingMode::templeZeus: {
+                god = eGodType::zeus;
+                b = e::make_shared<eZeusSanctuary>(
+                        sw, sh, *mBoard);
+            } break;
+            case eBuildingMode::templeArtemis: {
+                god = eGodType::artemis;
+                b = e::make_shared<eArtemisSanctuary>(
+                        sw, sh, *mBoard);
+            } break;
+            case eBuildingMode::templeHephaestus: {
+                god = eGodType::hephaestus;
+                b = e::make_shared<eHephaestusSanctuary>(
+                        sw, sh, *mBoard);
+            } break;
+            default:
+                break;
+            }
+
+            const auto mint = mBoard->tile(mHoverTX, mHoverTY);
+            if(!mint) return;
+            const int a = mint->altitude();
+            b->setAltitude(a);
+
+            b->setTileRect({minX, minY, sw, sh});
+            const auto ct = mBoard->tile((minX + maxX)/2, (minY + maxY)/2);
+            b->setCenterTile(ct);
+
+            const auto tb = e::make_shared<eTempleBuilding>(*mBoard);
+            tb->setSanctuary(b.get());
+            b->registerElement(tb);
+
+            for(const auto& tv : h->fTiles) {
+                for(const auto& t : tv) {
+                    const double tx = minX + t.fX + 0.5;
+                    const double ty = minY + t.fY + 1.5;
+                    const int alt = a + t.fA;
+                    switch(t.fType) {
+                    case eSanctEleType::tile: {
+                        const auto tt = e::make_shared<eTempleTileBuilding>(
+                                            t.fId, *mBoard);
+                        tt->setSanctuary(b.get());
+                        b->registerElement(tt);
+                        const auto tex = tt->getTileTexture(tp.size());
+                        tex->setColorMod(rmod, gmod, 0);
+                        tp.drawTexture(tx - alt, ty - alt, tex, eAlignment::top);
+                        tex->clearColorMod();
+                    } break;
+                    case eSanctEleType::stairs: {
+                        const auto s = e::make_shared<eStairsRenderer>(t.fId, b);
+                        const auto tex = s->getTexture(tp.size());
+                        tex->setColorMod(rmod, gmod, 0);
+                        tp.drawTexture(tx - alt, ty - alt, tex, eAlignment::top);
+                        tex->clearColorMod();
+                    } break;
+                    default:
+                        break;
+                    };
+                }
+            }
+            for(const auto& tv : h->fTiles) {
+                for(const auto& t : tv) {
+                    const double tx = minX + t.fX + 0.5;
+                    const double ty = minY + t.fY + 1.5;
+                    const auto tile = mBoard->tile(tx, ty);
+                    if(!tile) continue;
+                    const int alt = a + t.fA;
+                    switch(t.fType) {
+                    case eSanctEleType::copper: {
+                        const int tid = static_cast<int>(mTileSize);
+                        const auto& textures = eGameTextures::terrain().at(tid);
+                        const auto tex = textures.fBronzeTerrainTexs.getTexture(0);
+                        tex->setColorMod(rmod, gmod, 0);
+                        tp.drawTexture(tx - alt, ty - alt, tex, eAlignment::top);
+                        tex->clearColorMod();
+                    } break;
+                    case eSanctEleType::statue: {
+                        const auto tt = e::make_shared<eTempleStatueBuilding>(
+                                           god, t.fId, *mBoard);
+                        tt->setSanctuary(b.get());
+                        b->registerElement(tt);
+                        const auto tex = tt->getTexture(tp.size());
+                        tex->setColorMod(rmod, gmod, 0);
+                        tp.drawTexture(tx - alt, ty - alt, tex, eAlignment::top);
+                        tex->clearColorMod();
+                    } break;
+                    case eSanctEleType::monument: {
+                        const auto tt = e::make_shared<eTempleMonumentBuilding>(
+                                            god, t.fId, *mBoard);
+                        tt->setSanctuary(b.get());
+                        const int d = mRotate ? 1 : 0;
+                        b->registerElement(tt);
+                        const auto tex = tt->getTexture(tp.size());
+                        tex->setColorMod(rmod, gmod, 0);
+                        tp.drawTexture(tx - alt - d + 0.5, ty - alt + d + 0.5,
+                                       tex, eAlignment::top);
+                        tex->clearColorMod();
+                    } break;
+                    case eSanctEleType::altar: {
+                        const auto tt = e::make_shared<eTempleAltarBuilding>(
+                                            *mBoard);
+                        tt->setSanctuary(b.get());
+                        const int d = mRotate ? 1 : 0;
+                        b->registerElement(tt);
+                        const auto tex = tt->getTexture(tp.size());
+                        tex->setColorMod(rmod, gmod, 0);
+                        tp.drawTexture(tx - alt - d + 0.5, ty - alt + d + 0.5,
+                                       tex, eAlignment::top);
+                        tex->clearColorMod();
+                    } break;
+                    case eSanctEleType::sanctuary: {
+                        int dx;
+                        int dy;
+                        if(mRotate) {
+                            dx = -2;
+                            dy = 2;
+                        } else {
+                            dx = 1;
+                            dy = -1;
+                        }
+                        const auto tt = e::make_shared<eTempleRenderer>(t.fId, tb);
+                        const auto tex = tt->getTexture(tp.size());
+                        tex->setColorMod(rmod, gmod, 0);
+                        tp.drawTexture(tx - alt + dx + 0.5, ty - alt + dy + 0.5 + 2, tex, eAlignment::top);
+                        tex->clearColorMod();
+                    } break;
+                    default:
+                        break;
+                    }
+                }
+            }
+//            tb->setCost({ts*5, ts*5, 0});
+//            for(const auto& tv : h->fTiles) {
+//                for(const auto& t : tv) {
+//                    const int tx = minX + t.fX;
+//                    const int ty = minY + t.fY;
+//                    const auto tile = mBoard->tile(tx, ty);
+//                    tile->setAltitude(tile->altitude() + t.fA);
+//                    const auto trr = tile->terrain();
+//                    const bool bldbl = static_cast<bool>(
+//                                           trr & eTerrain::buildable);
+//                    if(!tile->underBuilding() && bldbl) {
+//                        tile->setUnderBuilding(b);
+//                        b->addUnderBuilding(tile);
+//                    }
+//                }
+//            }
+        } break;
         case eBuildingMode::road: {
             const auto b1 = e::make_shared<eRoad>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
