@@ -1340,4 +1340,5 @@ HEADERS += \
 DISTFILES += \
     sanctuaries/artemis.txt \
     sanctuaries/hephaestus.txt \
+    sanctuaries/zeus.txt \
     text/language.txt
