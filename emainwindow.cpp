@@ -46,8 +46,8 @@ bool eMainWindow::initialize(const eResolution& res) {
                SDL_GetError());
         return false;
     }
-    const Uint32 flags = SDL_RENDERER_ACCELERATED |
-                         SDL_RENDERER_PRESENTVSYNC;
+    const Uint32 flags = SDL_RENDERER_ACCELERATED/* |
+                         SDL_RENDERER_PRESENTVSYNC*/;
     const auto renderer = SDL_CreateRenderer(window, -1, flags);
     if(!renderer) {
         printf("Renderer could not be created! SDL Error: %s\n",
@@ -420,13 +420,10 @@ int eMainWindow::exec() {
 
     SDL_Event e;
 
-    auto end = high_resolution_clock::now();
-    auto start = high_resolution_clock::now();
-
     int c = 0;
-
+    int fpsVal = 0;
     while(!mQuit) {
-        const auto nstart = high_resolution_clock::now();
+        const auto fpsStart = high_resolution_clock::now();
 
         while(SDL_PollEvent(&e)) {
             int x, y;
@@ -499,9 +496,7 @@ int eMainWindow::exec() {
         if(mWidget) mWidget->paint(p);
 
         p.setFont(eFonts::defaultFont(resolution()));
-        const duration<double> elapsed = end - start;
-        const int fps = (int)std::round(1/elapsed.count());
-        p.drawText(0, 0, std::to_string(fps), eFontColor::dark);
+        p.drawText(0, 0, std::to_string(fpsVal), eFontColor::dark);
 
         SDL_RenderPresent(mSdlRenderer);
 
@@ -510,10 +505,17 @@ int eMainWindow::exec() {
         }
         mSlots.clear();
 
+        const auto fpsEnd = high_resolution_clock::now();
+        const duration<double, std::milli> fpsElapsed = fpsEnd - fpsStart;
+        const duration<double, std::milli> fpsDuration(1000./20);
+        const duration<double, std::milli> fpsSleep(fpsDuration - fpsElapsed);
+        std::this_thread::sleep_for(fpsSleep);
+
         c++;
         if(c % 25 == 0) {
-            start = nstart;
-            end = high_resolution_clock::now();
+            const auto fpsEnd = high_resolution_clock::now();
+            const duration<double, std::milli> fpsElapsed = fpsEnd - fpsStart;
+            fpsVal = (int)std::round(1000./fpsElapsed.count());
         }
     }
 
