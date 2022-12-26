@@ -9,4 +9,10 @@ public:
                    eGameBoard& board);
 };
 
+class eApolloSanctuary: public eSanctuary  {
+public:
+    eApolloSanctuary(const int sw, const int sh,
+                   eGameBoard& board);
+};
+
 #endif // EZEUSSANCTUARY_H

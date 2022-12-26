@@ -1399,6 +1399,11 @@ bool eGameWidget::buildMouseRelease() {
                 b = e::make_shared<eZeusSanctuary>(
                         sw, sh, *mBoard);
             } break;
+            case eBuildingMode::templeApollo: {
+                god = eGodType::apollo;
+                b = e::make_shared<eApolloSanctuary>(
+                        sw, sh, *mBoard);
+            } break;
             case eBuildingMode::templeArtemis: {
                 god = eGodType::artemis;
                 b = e::make_shared<eArtemisSanctuary>(
@@ -1432,13 +1437,75 @@ bool eGameWidget::buildMouseRelease() {
                     const int tx = minX + t.fX;
                     const int ty = minY + t.fY;
                     const auto tile = mBoard->tile(tx, ty);
+                    eGodType statueType;
+                    switch(t.fType) {
+                    case eSanctEleType::aphroditeStatue:
+                        statueType = eGodType::aphrodite;
+                        break;
+                    case eSanctEleType::apolloStatue:
+                        statueType = eGodType::apollo;
+                        break;
+                    case eSanctEleType::aresStatue:
+                        statueType = eGodType::ares;
+                        break;
+                    case eSanctEleType::artemisStatue:
+                        statueType = eGodType::artemis;
+                        break;
+                    case eSanctEleType::athenaStatue:
+                        statueType = eGodType::athena;
+                        break;
+                    case eSanctEleType::atlasStatue:
+                        statueType = eGodType::atlas;
+                        break;
+                    case eSanctEleType::demeterStatue:
+                        statueType = eGodType::demeter;
+                        break;
+                    case eSanctEleType::dionysusStatue:
+                        statueType = eGodType::dionysus;
+                        break;
+                    case eSanctEleType::hadesStatue:
+                        statueType = eGodType::hades;
+                        break;
+                    case eSanctEleType::hephaestusStatue:
+                        statueType = eGodType::hephaestus;
+                        break;
+                    case eSanctEleType::heraStatue:
+                        statueType = eGodType::hera;
+                        break;
+                    case eSanctEleType::hermesStatue:
+                        statueType = eGodType::hermes;
+                        break;
+                    case eSanctEleType::poseidonStatue:
+                        statueType = eGodType::poseidon;
+                        break;
+                    case eSanctEleType::zeusStatue:
+                        statueType = eGodType::zeus;
+                        break;
+                    default:
+                        statueType = god;
+                    }
+
                     switch(t.fType) {
                     case eSanctEleType::copper:
                         tile->setTerrain(eTerrain::copper);
                         break;
-                    case eSanctEleType::statue: {
+                    case eSanctEleType::defaultStatue:
+                    case eSanctEleType::aphroditeStatue:
+                    case eSanctEleType::apolloStatue:
+                    case eSanctEleType::aresStatue:
+                    case eSanctEleType::artemisStatue:
+                    case eSanctEleType::athenaStatue:
+                    case eSanctEleType::atlasStatue:
+                    case eSanctEleType::demeterStatue:
+                    case eSanctEleType::dionysusStatue:
+                    case eSanctEleType::hadesStatue:
+                    case eSanctEleType::hephaestusStatue:
+                    case eSanctEleType::heraStatue:
+                    case eSanctEleType::hermesStatue:
+                    case eSanctEleType::poseidonStatue:
+                    case eSanctEleType::zeusStatue: {
                         const auto tt = e::make_shared<eTempleStatueBuilding>(
-                                           god, t.fId, *mBoard);
+                                           statueType, t.fId, *mBoard);
                         tt->setSanctuary(b.get());
                         build(tx, ty, 1, 1, [tt]() { return tt; });
                         b->registerElement(tt);

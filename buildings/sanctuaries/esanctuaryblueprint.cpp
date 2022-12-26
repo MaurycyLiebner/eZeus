@@ -28,17 +28,17 @@ bool loadLineBP(const int x,
         const auto codeStr = codem.str();
 
         const auto idm = matches[3];
-        const auto idStr = idm.str();
+        auto idStr = idm.str();
 
         eSanctEle ele;
         ele.fA = alt;
         ele.fX = x;
         ele.fY = y++;
-        ele.fId = idStr.empty() ? 0 : std::stoi(idStr);
+
         if(codeStr == "s") {
             ele.fType = eSanctEleType::stairs;
         } else if(codeStr == "y") {
-            ele.fType = eSanctEleType::statue;
+            ele.fType = eSanctEleType::defaultStatue;
         } else if(codeStr == "b") {
             ele.fType = eSanctEleType::sanctuary;
         } else if(codeStr == "m") {
@@ -52,6 +52,17 @@ bool loadLineBP(const int x,
         } else { // x
             ele.fType = eSanctEleType::none;
         }
+
+        if(codeStr == "y" && idStr.size() > 1) {
+            const auto godIdStr = idStr.substr(1, idStr.size() - 1);
+            idStr = idStr.substr(0, 1);
+            const int godId = std::stoi(godIdStr);
+            const auto aphEle = eSanctEleType::aphroditeStatue;
+            const int id0 = static_cast<int>(aphEle);
+            const auto god = static_cast<eSanctEleType>(id0 + godId);
+            ele.fType = god;
+        }
+        ele.fId = idStr.empty() ? 0 : std::stoi(idStr);
 
         bp.push_back(ele);
     }
@@ -106,7 +117,21 @@ eSanctEle rotate(const eSanctEle& src) {
         else if(id == 9) id = 11;
         else if(id == 6) id = 2;
         else if(id == 0) id = 0;
-    } else if(result.fType == eSanctEleType::statue ||
+    } else if(result.fType == eSanctEleType::defaultStatue ||
+              result.fType == eSanctEleType::aphroditeStatue ||
+              result.fType == eSanctEleType::apolloStatue ||
+              result.fType == eSanctEleType::aresStatue ||
+              result.fType == eSanctEleType::artemisStatue ||
+              result.fType == eSanctEleType::athenaStatue ||
+              result.fType == eSanctEleType::atlasStatue ||
+              result.fType == eSanctEleType::demeterStatue ||
+              result.fType == eSanctEleType::dionysusStatue ||
+              result.fType == eSanctEleType::hadesStatue ||
+              result.fType == eSanctEleType::hephaestusStatue ||
+              result.fType == eSanctEleType::heraStatue ||
+              result.fType == eSanctEleType::hermesStatue ||
+              result.fType == eSanctEleType::poseidonStatue ||
+              result.fType == eSanctEleType::zeusStatue ||
               result.fType == eSanctEleType::monument) {
         int& id = result.fId;
         if(id == 1) id = 2;
@@ -148,6 +173,9 @@ void eSanctBlueprints::loadImpl() {
     loadBP(fZeusW, dir + "zeus.txt");
     fZeusH = rotate(fZeusW);
 
+    loadBP(fApolloW, dir + "apollo.txt");
+    fApolloH = rotate(fApolloW);
+
     loadBP(fHephaestusW, dir + "hephaestus.txt");
     fHephaestusH = rotate(fHephaestusW);
 
@@ -164,6 +192,13 @@ const eSanctBlueprint* eSanctBlueprints::sSanctuaryBlueprint(
             return &i.fZeusH;
         } else {
             return &i.fZeusW;
+        }
+    } break;
+    case eBuildingType::templeApollo: {
+        if(rotate) {
+            return &i.fApolloH;
+        } else {
+            return &i.fApolloW;
         }
     } break;
     case eBuildingType::templeArtemis: {

@@ -9,11 +9,26 @@ enum class eSanctEleType {
     none,
     stairs,
     tile,
-    statue,
     monument,
     altar,
     sanctuary,
-    copper
+    copper,
+
+    defaultStatue,
+    aphroditeStatue,
+    apolloStatue,
+    aresStatue,
+    artemisStatue,
+    athenaStatue,
+    atlasStatue,
+    demeterStatue,
+    dionysusStatue,
+    hadesStatue,
+    hephaestusStatue,
+    heraStatue,
+    hermesStatue,
+    poseidonStatue,
+    zeusStatue,
 };
 
 struct eSanctEle {
@@ -42,6 +57,9 @@ public:
 
     eSanctBlueprint fZeusW;
     eSanctBlueprint fZeusH;
+
+    eSanctBlueprint fApolloW;
+    eSanctBlueprint fApolloH;
 
     eSanctBlueprint fHephaestusW;
     eSanctBlueprint fHephaestusH;
