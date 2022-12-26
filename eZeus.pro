@@ -1341,6 +1341,7 @@ DISTFILES += \
     sanctuaries/apollo.txt \
     sanctuaries/artemis.txt \
     sanctuaries/athena.txt \
+    sanctuaries/dionysus.txt \
     sanctuaries/hephaestus.txt \
     sanctuaries/zeus.txt \
     text/language.txt

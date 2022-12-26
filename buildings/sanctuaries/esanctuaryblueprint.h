@@ -14,6 +14,7 @@ enum class eSanctEleType {
     sanctuary,
     copper,
     oliveTree,
+    vine,
 
     defaultStatue,
     aphroditeStatue,
@@ -64,6 +65,9 @@ public:
 
     eSanctBlueprint fAthenaW;
     eSanctBlueprint fAthenaH;
+
+    eSanctBlueprint fDionysusW;
+    eSanctBlueprint fDionysusH;
 
     eSanctBlueprint fHephaestusW;
     eSanctBlueprint fHephaestusH;

@@ -18,7 +18,13 @@ public:
 class eAthenaSanctuary: public eSanctuary  {
 public:
     eAthenaSanctuary(const int sw, const int sh,
-                    eGameBoard& board);
+                     eGameBoard& board);
+};
+
+class eDionysusSanctuary: public eSanctuary  {
+public:
+    eDionysusSanctuary(const int sw, const int sh,
+                       eGameBoard& board);
 };
 
 #endif // EZEUSSANCTUARY_H

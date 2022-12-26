@@ -49,6 +49,8 @@ bool loadLineBP(const int x,
             ele.fType = eSanctEleType::copper;
         } else if(codeStr == "ot") {
             ele.fType = eSanctEleType::oliveTree;
+        } else if(codeStr == "v") {
+            ele.fType = eSanctEleType::vine;
         } else if(codeStr == "t") {
             ele.fType = eSanctEleType::tile;
         } else { // x
@@ -181,6 +183,9 @@ void eSanctBlueprints::loadImpl() {
     loadBP(fAthenaW, dir + "athena.txt");
     fAthenaH = rotate(fAthenaW);
 
+    loadBP(fDionysusW, dir + "dionysus.txt");
+    fDionysusH = rotate(fDionysusW);
+
     loadBP(fHephaestusW, dir + "hephaestus.txt");
     fHephaestusH = rotate(fHephaestusW);
 
@@ -218,6 +223,13 @@ const eSanctBlueprint* eSanctBlueprints::sSanctuaryBlueprint(
             return &i.fArtemisH;
         } else {
             return &i.fArtemisW;
+        }
+    } break;
+    case eBuildingType::templeDionysus: {
+        if(rotate) {
+            return &i.fDionysusH;
+        } else {
+            return &i.fDionysusW;
         }
     } break;
     case eBuildingType::templeHephaestus: {
