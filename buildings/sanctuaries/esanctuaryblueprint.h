@@ -13,6 +13,7 @@ enum class eSanctEleType {
     altar,
     sanctuary,
     copper,
+    oliveTree,
 
     defaultStatue,
     aphroditeStatue,
@@ -60,6 +61,9 @@ public:
 
     eSanctBlueprint fApolloW;
     eSanctBlueprint fApolloH;
+
+    eSanctBlueprint fAthenaW;
+    eSanctBlueprint fAthenaH;
 
     eSanctBlueprint fHephaestusW;
     eSanctBlueprint fHephaestusH;

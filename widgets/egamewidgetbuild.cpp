@@ -1404,6 +1404,11 @@ bool eGameWidget::buildMouseRelease() {
                 b = e::make_shared<eApolloSanctuary>(
                         sw, sh, *mBoard);
             } break;
+            case eBuildingMode::templeAthena: {
+                god = eGodType::athena;
+                b = e::make_shared<eAthenaSanctuary>(
+                        sw, sh, *mBoard);
+            } break;
             case eBuildingMode::templeArtemis: {
                 god = eGodType::artemis;
                 b = e::make_shared<eArtemisSanctuary>(
@@ -1488,6 +1493,11 @@ bool eGameWidget::buildMouseRelease() {
                     switch(t.fType) {
                     case eSanctEleType::copper:
                         tile->setTerrain(eTerrain::copper);
+                        break;
+                    case eSanctEleType::oliveTree:
+                        build(tile->x(), tile->y(), 1, 1,
+                              [this]() { return e::make_shared<eResourceBuilding>(
+                                        *mBoard, eResourceBuildingType::oliveTree); });
                         break;
                     case eSanctEleType::defaultStatue:
                     case eSanctEleType::aphroditeStatue:
