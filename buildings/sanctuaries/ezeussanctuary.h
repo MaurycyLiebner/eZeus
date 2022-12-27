@@ -27,4 +27,10 @@ public:
                        eGameBoard& board);
 };
 
+class eHeraSanctuary: public eSanctuary  {
+public:
+    eHeraSanctuary(const int sw, const int sh,
+                   eGameBoard& board);
+};
+
 #endif // EZEUSSANCTUARY_H

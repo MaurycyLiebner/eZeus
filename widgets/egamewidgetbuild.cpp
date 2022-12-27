@@ -1424,6 +1424,11 @@ bool eGameWidget::buildMouseRelease() {
                 b = e::make_shared<eHephaestusSanctuary>(
                         sw, sh, *mBoard);
             } break;
+            case eBuildingMode::templeHera: {
+                god = eGodType::hera;
+                b = e::make_shared<eHeraSanctuary>(
+                        sw, sh, *mBoard);
+            } break;
             default:
                 break;
             }
@@ -1508,6 +1513,11 @@ bool eGameWidget::buildMouseRelease() {
                         build(tile->x(), tile->y(), 1, 1,
                               [this]() { return e::make_shared<eResourceBuilding>(
                                         *mBoard, eResourceBuildingType::vine); });
+                        break;
+                    case eSanctEleType::orangeTree:
+                        build(tile->x(), tile->y(), 1, 1,
+                              [this]() { return e::make_shared<eResourceBuilding>(
+                                        *mBoard, eResourceBuildingType::orangeTree); });
                         break;
                     case eSanctEleType::defaultStatue:
                     case eSanctEleType::aphroditeStatue:
