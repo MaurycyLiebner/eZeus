@@ -256,12 +256,14 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
             bool eraseCm = false;
             bool patrolCm = false;
-            if(mPatrolBuilding && !mPatrolPath.empty()) {
-                patrolCm = eVectorHelpers::contains(mPatrolPath, tile);
+            if(mPatrolBuilding && (!mPatrolPath.empty() || !mPatrolPath1.empty())) {
+                patrolCm = eVectorHelpers::contains(mPatrolPath, tile) ||
+                           eVectorHelpers::contains(mPatrolPath1, tile);
                 if(patrolCm) {
                     tex->setColorMod(175, 255, 175);
                 } else {
-                    patrolCm = eVectorHelpers::contains(mExcessPatrolPath, tile);
+                    patrolCm = eVectorHelpers::contains(mExcessPatrolPath, tile) ||
+                               eVectorHelpers::contains(mExcessPatrolPath1, tile);
                     if(patrolCm) {
                         tex->setColorMod(255, 175, 175);
                     }
@@ -735,23 +737,32 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         const auto drawPatrolGuides = [&]() {
             if(mPatrolBuilding) {
-                const auto pgs = mPatrolBuilding->patrolGuides();
-                int i = 0;
-                for(const auto& pg : *pgs) {
-                    if(pg.fX == tx && pg.fY == ty) {
-                        const bool invalid = !eVectorHelpers::contains(mPatrolPath, tile);
-                        const auto& tex = intrTexs.fSpawner;
-                        if(invalid) tex->setColorMod(255, 125, 125);
-                        //const auto& coll = builTexs.fPatrolGuides;
-                        //const auto tex = coll.getTexture(14);
-                        //tp.drawTexture(rx, ry, tex, eAlignment::top);
-                        tp.drawTexture(rx, ry - 1, tex,
-                                       eAlignment::hcenter | eAlignment::top);
-                        drawNumber(i + 1);
-                        if(invalid) tex->clearColorMod();
-                        break;
+                using ePatrolGuides = std::vector<ePatrolGuide>;
+                const auto drawPGS = [&](const ePatrolGuides& pgs) {
+                    int i = 0;
+                    for(const auto& pg : pgs) {
+                        if(pg.fX == tx && pg.fY == ty) {
+                            const bool invalid = !eVectorHelpers::contains(mPatrolPath, tile) &&
+                                                 !eVectorHelpers::contains(mPatrolPath1, tile);
+                            const auto& tex = intrTexs.fSpawner;
+                            if(invalid) tex->setColorMod(255, 125, 125);
+                            //const auto& coll = builTexs.fPatrolGuides;
+                            //const auto tex = coll.getTexture(14);
+                            //tp.drawTexture(rx, ry, tex, eAlignment::top);
+                            tp.drawTexture(rx, ry - 1, tex,
+                                           eAlignment::hcenter | eAlignment::top);
+                            drawNumber(i + 1);
+                            if(invalid) tex->clearColorMod();
+                            break;
+                        }
+                        i++;
                     }
-                    i++;
+                };
+                const auto& pgs = mPatrolBuilding->patrolGuides();
+                drawPGS(pgs);
+                if(mPatrolBuilding->bothDirections()) {
+                    const auto pgs = mPatrolBuilding->reversePatrolGuides();
+                    drawPGS(pgs);
                 }
             }
         };
@@ -881,15 +892,15 @@ void eGameWidget::paintEvent(ePainter& p) {
     });
 
     if(mPatrolBuilding) {
-        const auto pgs = mPatrolBuilding->patrolGuides();
-        if(!pgs->empty()) {
+        const auto& pgs = mPatrolBuilding->patrolGuides();
+        if(!pgs.empty()) {
             const auto t = mPatrolBuilding->centerTile();
             const int tx = t->x();
             const int ty = t->y();
             std::vector<SDL_Point> polygon;
-            polygon.reserve(pgs->size() + 2);
+            polygon.reserve(pgs.size() + 2);
             polygon.push_back({tx, ty});
-            for(const auto& pg : *pgs) {
+            for(const auto& pg : pgs) {
                 polygon.push_back({pg.fX, pg.fY});
             }
             polygon.push_back({tx, ty});

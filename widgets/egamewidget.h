@@ -255,6 +255,8 @@ private:
     stdptr<ePatrolBuilding> mPatrolBuilding;
     std::vector<eTile*> mPatrolPath;
     std::vector<eTile*> mExcessPatrolPath;
+    std::vector<eTile*> mPatrolPath1;
+    std::vector<eTile*> mExcessPatrolPath1;
     eWidget* mPatrolPathWid = nullptr;
     std::vector<ePatrolGuide> mSavedGuides;
 

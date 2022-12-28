@@ -49,8 +49,19 @@ void ePatrolBuildingBase::timeChanged(const int by) {
     eEmployingBuilding::timeChanged(by);
 }
 
+using ePatrolGuides = std::vector<ePatrolGuide>;
+ePatrolGuides ePatrolBuildingBase::reversePatrolGuides() const {
+    auto guides = mPatrolGuides;
+    std::reverse(guides.begin(), guides.end());
+    return guides;
+}
+
 void ePatrolBuildingBase::setPatrolGuides(const ePatrolGuides &g) {
     mPatrolGuides = g;
+}
+
+void ePatrolBuildingBase::setBothDirections(const bool both) {
+    mBothDirections = both;
 }
 
 bool ePatrolBuildingBase::spawn() {
@@ -76,9 +87,15 @@ bool ePatrolBuildingBase::spawn() {
     } else {
         chr->changeTile(centerTile());
     }
+    auto guides = mPatrolGuides;
+    if(mBothDirections) {
+        mLastDirection = !mLastDirection;
+        if(mLastDirection) {
+            std::reverse(guides.begin(), guides.end());
+        }
+    }
     const auto a = mActGenerator(chr.get(), this,
-                                 mPatrolGuides,
-                                 mDirTimes);
+                                 guides, mDirTimes);
     chr->setAction(a);
     return true;
 }
@@ -89,6 +106,9 @@ void ePatrolBuildingBase::setSpawnPatrolers(const bool s) {
 
 void ePatrolBuildingBase::read(eReadStream& src) {
     eEmployingBuilding::read(src);
+
+    src >> mBothDirections;
+    src >> mLastDirection;
 
     src >> mSpawnPatrolers;
     src >> mSpawnTime;
@@ -112,6 +132,9 @@ void ePatrolBuildingBase::read(eReadStream& src) {
 
 void ePatrolBuildingBase::write(eWriteStream& dst) const {
     eEmployingBuilding::write(dst);
+
+    dst << mBothDirections;
+    dst << mLastDirection;
 
     dst << mSpawnPatrolers;
     dst << mSpawnTime;

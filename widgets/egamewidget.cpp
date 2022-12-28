@@ -601,15 +601,15 @@ bool eGameWidget::canBuildPier(const int tx, const int ty,
 
 std::vector<ePatrolGuide>::iterator
     eGameWidget::findGuide(const int tx, const int ty) {
-    const auto pgs = mPatrolBuilding->patrolGuides();
-    const int iMax = pgs->size();
+    auto& pgs = mPatrolBuilding->patrolGuides();
+    const int iMax = pgs.size();
     for(int i = 0; i < iMax; i++) {
-        auto& pg = (*pgs)[i];
+        auto& pg = pgs[i];
         if(pg.fX == tx && pg.fY == ty) {
-            return pgs->begin() + i;
+            return pgs.begin() + i;
         }
     }
-    return pgs->end();
+    return pgs.end();
 }
 
 void eGameWidget::updateMinimap() {
@@ -829,55 +829,69 @@ bool eGameWidget::bridgeTiles(eTile* const t, std::vector<eTile*>& tiles,
     return false;
 }
 
+using ePatrolGuides = std::vector<ePatrolGuide>;
 void eGameWidget::updatePatrolPath() {
     mPatrolPath.clear();
     mExcessPatrolPath.clear();
+    mPatrolPath1.clear();
+    mExcessPatrolPath1.clear();
     if(!mPatrolBuilding) return;
-    const int maxDist = mPatrolBuilding->maxDistance();
-    const auto& guides = *mPatrolBuilding->patrolGuides();
-    const auto startTile = mPatrolBuilding->centerTile();
-    auto lastTile = startTile;
-    eTile* lastValid = nullptr;
-    const auto handlePath = [&](eTile* const from, eTile* const to,
-                                const bool comeback) {
-        if(!from || !to) return false;
-        const auto valid = [&](eTileBase* const t) {
-            const auto tt = static_cast<eTile*>(t);
-            const auto ub = tt->underBuilding() == mPatrolBuilding;
-            return t->hasRoad() || ub;
-        };
-        const auto final = [&](eTileBase* const t) {
-            return t->x() == from->x() && t->y() == from->y();
-        };
-        ePathFinder p(valid, final);
-        const int w = mBoard->width();
-        const int h = mBoard->height();
-        const bool r = p.findPath(to, 100, true, w, h);
-        if(!r) return false;
-        std::vector<eTile*> path;
-        p.extractPath(path, *mBoard);
-        mPatrolPath.reserve(mPatrolPath.size() + path.size());
-        for(const auto p : path) {
-            const int s = mPatrolPath.size();
-            if(s > maxDist && !comeback) {
-                mExcessPatrolPath.emplace_back(p);
-            } else {
-                lastValid = p;
-                mPatrolPath.emplace_back(p);
+    const auto handlePatrolPath = [&](std::vector<eTile*>& patrolPath,
+                                      std::vector<eTile*>& excessPath,
+                                      const ePatrolGuides& guides) {
+        const int maxDist = mPatrolBuilding->maxDistance();
+        const auto startTile = mPatrolBuilding->centerTile();
+        auto lastTile = startTile;
+        eTile* lastValid = nullptr;
+        const auto handlePath = [&](eTile* const from, eTile* const to,
+                                    const bool comeback) {
+            if(!from || !to) return false;
+            const auto valid = [&](eTileBase* const t) {
+                const auto tt = static_cast<eTile*>(t);
+                const auto ub = tt->underBuilding() == mPatrolBuilding;
+                return t->hasRoad() || ub;
+            };
+            const auto final = [&](eTileBase* const t) {
+                return t->x() == from->x() && t->y() == from->y();
+            };
+            ePathFinder p(valid, final);
+            const int w = mBoard->width();
+            const int h = mBoard->height();
+            const bool r = p.findPath(to, 100, true, w, h);
+            if(!r) return false;
+            std::vector<eTile*> path;
+            p.extractPath(path, *mBoard);
+            patrolPath.reserve(patrolPath.size() + path.size());
+            for(const auto p : path) {
+                const int s = patrolPath.size();
+                if(s > maxDist && !comeback) {
+                    excessPath.emplace_back(p);
+                } else {
+                    lastValid = p;
+                    patrolPath.emplace_back(p);
+                }
             }
+            return true;
+        };
+        for(const auto& g : guides) {
+            if(!lastTile) break;
+            const auto guideTile = mBoard->tile(g.fX, g.fY);
+            if(!guideTile) break;
+            const bool r = handlePath(lastTile, guideTile, false);
+            if(!r) break;
+            lastTile = guideTile;
         }
-        return true;
+        if(lastValid && startTile) {
+            handlePath(lastValid, startTile, true);
+        }
     };
-    for(const auto& g : guides) {
-        if(!lastTile) break;
-        const auto guideTile = mBoard->tile(g.fX, g.fY);
-        if(!guideTile) break;
-        const bool r = handlePath(lastTile, guideTile, false);
-        if(!r) break;
-        lastTile = guideTile;
+    {
+        const auto& guides = mPatrolBuilding->patrolGuides();
+        handlePatrolPath(mPatrolPath, mExcessPatrolPath, guides);
     }
-    if(lastValid && startTile) {
-        handlePath(lastValid, startTile, true);
+    if(mPatrolBuilding->bothDirections()){
+        const auto guides = mPatrolBuilding->reversePatrolGuides();
+        handlePatrolPath(mPatrolPath1, mExcessPatrolPath1, guides);
     }
 }
 
@@ -897,8 +911,8 @@ void eGameWidget::setPatrolBuilding(ePatrolBuilding* const pb) {
         clearb->fitContent();
         clearb->setPressAction([this]() {
             if(!mPatrolBuilding) return;
-            const auto pgs = mPatrolBuilding->patrolGuides();
-            pgs->clear();
+            auto& pgs = mPatrolBuilding->patrolGuides();
+            pgs.clear();
             updatePatrolPath();
         });
         fw->addWidget(clearb);
@@ -907,12 +921,28 @@ void eGameWidget::setPatrolBuilding(ePatrolBuilding* const pb) {
         const auto resetb = new eButton(eLanguage::text("restore"), window());
         resetb->fitContent();
         resetb->setPressAction([this]() {
-            const auto pgs = mPatrolBuilding->patrolGuides();
-            *pgs = mSavedGuides;
+            auto& pgs = mPatrolBuilding->patrolGuides();
+            pgs = mSavedGuides;
             updatePatrolPath();
         });
         fw->addWidget(resetb);
         resetb->align(eAlignment::vcenter);
+
+        const bool bd = pb->bothDirections();
+        const auto bothTxt = bd ? eLanguage::text("both_directions") :
+                                  eLanguage::text("one_direction");
+        const auto bothb = new eButton(bothTxt, window());
+        bothb->fitContent();
+        bothb->setPressAction([this, bothb]() {
+            const bool bd = mPatrolBuilding->bothDirections();
+            mPatrolBuilding->setBothDirections(!bd);
+            const auto bothTxt = bd ? eLanguage::text("one_direction") :
+                                      eLanguage::text("both_directions");
+            bothb->setText(bothTxt);
+            updatePatrolPath();
+        });
+        fw->addWidget(bothb);
+        bothb->align(eAlignment::vcenter);
 
         const auto closeb = new eButton(eLanguage::text("close"), window());
         closeb->fitContent();
@@ -926,7 +956,7 @@ void eGameWidget::setPatrolBuilding(ePatrolBuilding* const pb) {
 
         mPatrolPathWid = fw;
 
-        mSavedGuides = *pb->patrolGuides();
+        mSavedGuides = pb->patrolGuides();
     } else if(mViewMode == eViewMode::patrolBuilding) {
         setViewMode(eViewMode::defaultView);
     }
@@ -1246,12 +1276,12 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
         if(mPatrolBuilding) {
             const auto tile = mBoard->tile(tx, ty);
             if(!tile) return true;
-            const auto pgs = mPatrolBuilding->patrolGuides();
+            auto& pgs = mPatrolBuilding->patrolGuides();
             const auto it = findGuide(tx, ty);
-            if(it != pgs->end()) {
-                pgs->erase(it);
+            if(it != pgs.end()) {
+                pgs.erase(it);
             } else {
-                if(tile->hasRoad()) pgs->push_back({tx, ty});
+                if(tile->hasRoad()) pgs.push_back({tx, ty});
             }
             updatePatrolPath();
         }

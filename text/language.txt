@@ -23,6 +23,8 @@ clear "Clear"
 restore "Restore"
 cancel "Cancel"
 close "Close"
+both_directions "Both directions"
+one_direction "One directions"
 
 paused "Game Paused ('P' Key Continues)"
 

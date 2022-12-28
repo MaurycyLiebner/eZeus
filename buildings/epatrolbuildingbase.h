@@ -35,8 +35,11 @@ public:
     void timeChanged(const int by) override;
 
     using ePatrolGuides = std::vector<ePatrolGuide>;
-    ePatrolGuides* patrolGuides() { return &mPatrolGuides; };
+    ePatrolGuides& patrolGuides() { return mPatrolGuides; };
+    ePatrolGuides reversePatrolGuides() const;
     void setPatrolGuides(const ePatrolGuides& g);
+    bool bothDirections() const { return mBothDirections; }
+    void setBothDirections(const bool both);
 
     bool spawn();
 
@@ -55,6 +58,8 @@ private:
     const eCharGenerator mCharGenerator;
     const eActGenerator mActGenerator;
 
+    bool mBothDirections = false;
+    bool mLastDirection = false;
     int mSpawnRoadId = 0;
     stdsptr<eDirectionTimes> mDirTimes =
             std::make_shared<eDirectionTimes>();
