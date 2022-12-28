@@ -4,6 +4,10 @@ eZeusSanctuary::eZeusSanctuary(
         const int sw, const int sh, eGameBoard& board) :
     eSanctuary(board, eBuildingType::templeZeus, sw, sh, 60) {}
 
+eAresSanctuary::eAresSanctuary(
+        const int sw, const int sh, eGameBoard& board) :
+    eSanctuary(board, eBuildingType::templeAres, sw, sh, 60) {}
+
 eAphroditeSanctuary::eAphroditeSanctuary(
         const int sw, const int sh, eGameBoard& board) :
     eSanctuary(board, eBuildingType::templeAphrodite, sw, sh, 60) {}

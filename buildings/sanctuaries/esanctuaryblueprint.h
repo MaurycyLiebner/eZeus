@@ -61,6 +61,9 @@ public:
     eSanctBlueprint fZeusW;
     eSanctBlueprint fZeusH;
 
+    eSanctBlueprint fAresW;
+    eSanctBlueprint fAresH;
+
     eSanctBlueprint fAphroditeW;
     eSanctBlueprint fAphroditeH;
 

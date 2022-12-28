@@ -1340,6 +1340,7 @@ HEADERS += \
 DISTFILES += \
     sanctuaries/aphrodite.txt \
     sanctuaries/apollo.txt \
+    sanctuaries/ares.txt \
     sanctuaries/artemis.txt \
     sanctuaries/athena.txt \
     sanctuaries/dionysus.txt \
