@@ -179,6 +179,9 @@ void eSanctBlueprints::loadImpl() {
     loadBP(fZeusW, dir + "zeus.txt");
     fZeusH = rotate(fZeusW);
 
+    loadBP(fAphroditeW, dir + "aphrodite.txt");
+    fAphroditeH = rotate(fAphroditeW);
+
     loadBP(fApolloW, dir + "apollo.txt");
     fApolloH = rotate(fApolloW);
 
@@ -207,6 +210,13 @@ const eSanctBlueprint* eSanctBlueprints::sSanctuaryBlueprint(
             return &i.fZeusH;
         } else {
             return &i.fZeusW;
+        }
+    } break;
+    case eBuildingType::templeAphrodite: {
+        if(rotate) {
+            return &i.fAphroditeH;
+        } else {
+            return &i.fAphroditeW;
         }
     } break;
     case eBuildingType::templeApollo: {

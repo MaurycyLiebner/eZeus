@@ -1338,6 +1338,7 @@ HEADERS += \
     widgets/infowidgets/etradepostinfowidget.h
 
 DISTFILES += \
+    sanctuaries/aphrodite.txt \
     sanctuaries/apollo.txt \
     sanctuaries/artemis.txt \
     sanctuaries/athena.txt \

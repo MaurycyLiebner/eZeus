@@ -1399,6 +1399,11 @@ bool eGameWidget::buildMouseRelease() {
                 b = e::make_shared<eZeusSanctuary>(
                         sw, sh, *mBoard);
             } break;
+            case eBuildingMode::templeAphrodite: {
+                god = eGodType::aphrodite;
+                b = e::make_shared<eAphroditeSanctuary>(
+                        sw, sh, *mBoard);
+            } break;
             case eBuildingMode::templeApollo: {
                 god = eGodType::apollo;
                 b = e::make_shared<eApolloSanctuary>(
