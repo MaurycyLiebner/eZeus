@@ -87,6 +87,9 @@ public:
 
     eSanctBlueprint fHeraW;
     eSanctBlueprint fHeraH;
+
+    eSanctBlueprint fHermesW;
+    eSanctBlueprint fHermesH;
 private:
     void loadImpl();
 

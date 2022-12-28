@@ -51,4 +51,10 @@ public:
                    eGameBoard& board);
 };
 
+class eHermesSanctuary: public eSanctuary  {
+public:
+    eHermesSanctuary(const int sw, const int sh,
+                     eGameBoard& board);
+};
+
 #endif // EZEUSSANCTUARY_H

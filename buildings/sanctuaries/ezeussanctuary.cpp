@@ -31,3 +31,7 @@ eDionysusSanctuary::eDionysusSanctuary(
 eHeraSanctuary::eHeraSanctuary(
         const int sw, const int sh, eGameBoard& board) :
     eSanctuary(board, eBuildingType::templeHera, sw, sh, 60) {}
+
+eHermesSanctuary::eHermesSanctuary(
+        const int sw, const int sh, eGameBoard& board) :
+    eSanctuary(board, eBuildingType::templeHermes, sw, sh, 60) {}

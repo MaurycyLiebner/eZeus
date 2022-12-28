@@ -1444,6 +1444,11 @@ bool eGameWidget::buildMouseRelease() {
                 b = e::make_shared<eHeraSanctuary>(
                         sw, sh, *mBoard);
             } break;
+            case eBuildingMode::templeHermes: {
+                god = eGodType::hermes;
+                b = e::make_shared<eHermesSanctuary>(
+                        sw, sh, *mBoard);
+            } break;
             default:
                 break;
             }

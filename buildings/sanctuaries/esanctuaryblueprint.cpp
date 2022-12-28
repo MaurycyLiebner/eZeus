@@ -205,6 +205,9 @@ void eSanctBlueprints::loadImpl() {
 
     loadBP(fHeraW, dir + "hera.txt");
     fHeraH = rotate(fHeraW);
+
+    loadBP(fHermesW, dir + "hermes.txt");
+    fHermesH = rotate(fHermesW);
 }
 
 const eSanctBlueprint* eSanctBlueprints::sSanctuaryBlueprint(
@@ -279,6 +282,13 @@ const eSanctBlueprint* eSanctBlueprints::sSanctuaryBlueprint(
             return &i.fHeraH;
         } else {
             return &i.fHeraW;
+        }
+    } break;
+    case eBuildingType::templeHermes: {
+        if(rotate) {
+            return &i.fHermesH;
+        } else {
+            return &i.fHermesW;
         }
     } break;
     default:
