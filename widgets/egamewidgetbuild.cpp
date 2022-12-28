@@ -1424,6 +1424,11 @@ bool eGameWidget::buildMouseRelease() {
                 b = e::make_shared<eArtemisSanctuary>(
                         sw, sh, *mBoard);
             } break;
+            case eBuildingMode::templeDemeter: {
+                god = eGodType::demeter;
+                b = e::make_shared<eDemeterSanctuary>(
+                        sw, sh, *mBoard);
+            } break;
             case eBuildingMode::templeDionysus: {
                 god = eGodType::dionysus;
                 b = e::make_shared<eDionysusSanctuary>(
@@ -1449,9 +1454,27 @@ bool eGameWidget::buildMouseRelease() {
             const int a = mint->altitude();
             b->setAltitude(a);
 
-            b->setTileRect({minX, minY, sw, sh});
+            const SDL_Rect sanctRect{minX, minY, sw, sh};
+            b->setTileRect(sanctRect);
             const auto ct = mBoard->tile((minX + maxX)/2, (minY + maxY)/2);
             b->setCenterTile(ct);
+
+            if(god == eGodType::demeter) {
+                const int xMin = sanctRect.x - 3;
+                const int yMin = sanctRect.y - 3;
+                const int xMax = sanctRect.x + sanctRect.w + 3;
+                const int yMax = sanctRect.y + sanctRect.h + 3;
+                for(int x = xMin; x < xMax; x++) {
+                    for(int y = yMin; y < yMax; y++) {
+                        const SDL_Point pt{x, y};
+                        const bool in = SDL_PointInRect(&pt, &sanctRect);
+                        if(in) continue;
+                        const auto tile = mBoard->tile(x, y);
+                        if(!tile) continue;
+                        tile->setTerrain(eTerrain::fertile);
+                    }
+                }
+            }
 
             const auto tb = e::make_shared<eTempleBuilding>(*mBoard);
             tb->setSanctuary(b.get());

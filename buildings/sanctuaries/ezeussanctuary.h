@@ -15,7 +15,6 @@ public:
                    eGameBoard& board);
 };
 
-
 class eAphroditeSanctuary: public eSanctuary  {
 public:
     eAphroditeSanctuary(const int sw, const int sh,
@@ -32,6 +31,12 @@ class eAthenaSanctuary: public eSanctuary  {
 public:
     eAthenaSanctuary(const int sw, const int sh,
                      eGameBoard& board);
+};
+
+class eDemeterSanctuary: public eSanctuary  {
+public:
+    eDemeterSanctuary(const int sw, const int sh,
+                      eGameBoard& board);
 };
 
 class eDionysusSanctuary: public eSanctuary  {

@@ -73,6 +73,12 @@ public:
     eSanctBlueprint fAthenaW;
     eSanctBlueprint fAthenaH;
 
+    eSanctBlueprint fArtemisW;
+    eSanctBlueprint fArtemisH;
+
+    eSanctBlueprint fDemeterW;
+    eSanctBlueprint fDemeterH;
+
     eSanctBlueprint fDionysusW;
     eSanctBlueprint fDionysusH;
 
@@ -81,9 +87,6 @@ public:
 
     eSanctBlueprint fHeraW;
     eSanctBlueprint fHeraH;
-
-    eSanctBlueprint fArtemisW;
-    eSanctBlueprint fArtemisH;
 private:
     void loadImpl();
 

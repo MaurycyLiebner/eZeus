@@ -1343,6 +1343,7 @@ DISTFILES += \
     sanctuaries/ares.txt \
     sanctuaries/artemis.txt \
     sanctuaries/athena.txt \
+    sanctuaries/demeter.txt \
     sanctuaries/dionysus.txt \
     sanctuaries/hephaestus.txt \
     sanctuaries/hera.txt \
