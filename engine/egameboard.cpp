@@ -800,14 +800,15 @@ void eGameBoard::grantRequest(const stdsptr<eWorldCity>& c,
 
     if(space == 0) {
         ed.fType = eMessageEventType::resourceGranted;
-
-        const auto e = e::make_shared<eGrantRequestEvent>(
-                    *this);
-        e->initialize(false, type, c);
-        const auto date = mDate + 31;
-        const auto ec = e::make_shared<eGameEventCycle>(
-                            e, date, *this);
-        addGameEvent(ec);
+        if(postpone) {
+            const auto e = e::make_shared<eGrantRequestEvent>(
+                        *this);
+            e->initialize(false, type, c);
+            const auto date = mDate + 31;
+            const auto ec = e::make_shared<eGameEventCycle>(
+                                e, date, *this);
+            addGameEvent(ec);
+        }
     } else {
         ed.fType = eMessageEventType::requestTributeGranted;
         if(space != 0) {
@@ -881,14 +882,15 @@ void eGameBoard::giftFrom(const stdsptr<eWorldCity>& c,
 
     if(space == 0) {
         ed.fType = eMessageEventType::resourceGranted;
-
-        const auto e = e::make_shared<eGiftFromEvent>(
-                    *this);
-        e->initialize(false, type, count, c);
-        const auto date = mDate + 31;
-        const auto ec = e::make_shared<eGameEventCycle>(
-                            e, date, *this);
-        addGameEvent(ec);
+        if(postpone) {
+            const auto e = e::make_shared<eGiftFromEvent>(
+                        *this);
+            e->initialize(false, type, count, c);
+            const auto date = mDate + 31;
+            const auto ec = e::make_shared<eGameEventCycle>(
+                                e, date, *this);
+            addGameEvent(ec);
+        }
     } else {
         ed.fType = eMessageEventType::requestTributeGranted;
         if(space != 0) {
