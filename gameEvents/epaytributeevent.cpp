@@ -11,7 +11,7 @@ void ePayTributeEvent::initialize(const stdsptr<eWorldCity>& c) {
 
 void ePayTributeEvent::trigger() {
     auto& board = getBoard();
-    board.payTribute(mCity, false);
+    board.tributeFrom(mCity, false);
 }
 
 void ePayTributeEvent::write(eWriteStream& dst) const {

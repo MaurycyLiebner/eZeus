@@ -395,6 +395,56 @@ bool eMessages::loadImpl() {
     fGeneralRequestRefuseS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
     fGeneralRequestRefuseS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_refuse_reason_S"];
 
+    fGiftGranted.fFull.fTitle = fMessages["PHRASE_gift_title"];
+    fGiftGranted.fFull.fText = fMessages["PHRASE_gift_granted"];
+    fGiftGranted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
+    fGiftGranted.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_granted"];
+
+    fGiftCashGranted.fFull.fTitle = fMessages["PHRASE_gift_title"];
+    fGiftCashGranted.fFull.fText = fMessages["PHRASE_gift_cash_granted"];
+    fGiftCashGranted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
+    fGiftCashGranted.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_cash_granted"];
+
+    fGiftPartialSpace.fFull.fTitle = fMessages["PHRASE_gift_title"];
+    fGiftPartialSpace.fFull.fText = fMessages["PHRASE_gift_partial_space"];
+    fGiftPartialSpace.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
+    fGiftPartialSpace.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_partial_space"];
+
+    fGiftInsufficientSpace.fFull.fTitle = fMessages["PHRASE_gift_title"];
+    fGiftInsufficientSpace.fFull.fText = fMessages["PHRASE_gift_insufficient_space"];
+    fGiftInsufficientSpace.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
+    fGiftInsufficientSpace.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_insufficient_space"];
+
+    fGiftLastChance.fFull.fTitle = fMessages["PHRASE_gift_title"];
+    fGiftLastChance.fFull.fText = fMessages["PHRASE_gift_last_chance"];
+    fGiftLastChance.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
+    fGiftLastChance.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_last_chance"];
+
+    fGiftForfeited.fFull.fTitle = fMessages["PHRASE_gift_title"];
+    fGiftForfeited.fFull.fText = fMessages["PHRASE_gift_forfeited"];
+    fGiftForfeited.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
+    fGiftForfeited.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_forfeited"];
+
+    fGiftAccepted.fFull.fTitle = fMessages["PHRASE_gift_title"];
+    fGiftAccepted.fFull.fText = fMessages["PHRASE_gift_accepted"];
+    fGiftAccepted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
+    fGiftAccepted.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_accepted"];
+
+    fGiftCashAccepted.fFull.fTitle = fMessages["PHRASE_gift_title"];
+    fGiftCashAccepted.fFull.fText = fMessages["PHRASE_gift_cash_accepted"];
+    fGiftCashAccepted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
+    fGiftCashAccepted.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_cash_accepted"];
+
+    fGiftPostponed.fFull.fTitle = fMessages["PHRASE_gift_title"];
+    fGiftPostponed.fFull.fText = fMessages["PHRASE_gift_postponed"];
+    fGiftPostponed.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
+    fGiftPostponed.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_postponed"];
+
+    fGiftRefused.fFull.fTitle = fMessages["PHRASE_gift_title"];
+    fGiftRefused.fFull.fText = fMessages["PHRASE_gift_refused"];
+    fGiftRefused.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
+    fGiftRefused.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_refused"];
+
     fIncreasedFavor.fFull.fTitle = fMessages["PHRASE_favor_change_title_I"];
     fIncreasedFavor.fFull.fText = fMessages["PHRASE_favor_change_initial_announcement_I"];
     fIncreasedFavor.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_favor_change_title_I"];

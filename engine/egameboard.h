@@ -264,15 +264,22 @@ public:
                              const int postpone);
     void request(const stdsptr<eWorldCity>& c,
                  const eResourceType type);
+    void planGiftFrom(const stdsptr<eWorldCity>& c,
+                      const eResourceType type,
+                      const int count);
     void grantRequest(const stdsptr<eWorldCity>& c,
                       const eResourceType type,
                       const bool postpone);
-    void payTribute(const stdsptr<eWorldCity>& c,
+    void giftFrom(const stdsptr<eWorldCity>& c,
+                  const eResourceType type,
+                  const int count,
+                  const bool postpone);
+    void tributeFrom(const stdsptr<eWorldCity>& c,
                     const bool postpone);
-    void gift(const stdsptr<eWorldCity>& c,
+    void giftTo(const stdsptr<eWorldCity>& c,
               const eResourceType type,
               const int count);
-    void giftReceived(const stdsptr<eWorldCity>& c,
+    void giftToReceived(const stdsptr<eWorldCity>& c,
                       const eResourceType type,
                       const int count);
 

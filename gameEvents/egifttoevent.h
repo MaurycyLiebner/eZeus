@@ -1,13 +1,13 @@
-#ifndef EGIFTEVENT_H
-#define EGIFTEVENT_H
+#ifndef EGIFTTOEVENT_H
+#define EGIFTTOEVENT_H
 
 #include "egameevent.h"
 
 #include "engine/eworldcity.h"
 
-class eGiftEvent : public eGameEvent {
+class eGiftToEvent : public eGameEvent {
 public:
-    eGiftEvent(eGameBoard& board);
+    eGiftToEvent(eGameBoard& board);
 
     void initialize(const stdsptr<eWorldCity>& c,
                     const eResourceType type,
@@ -23,4 +23,4 @@ private:
     int mCount;
 };
 
-#endif // EGIFTEVENT_H
+#endif // EGIFTTOEVENT_H

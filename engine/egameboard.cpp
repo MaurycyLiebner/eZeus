@@ -47,7 +47,8 @@
 #include "gameEvents/einvasionevent.h"
 #include "gameEvents/epaytributeevent.h"
 #include "gameEvents/egrantrequestevent.h"
-#include "gameEvents/egiftevent.h"
+#include "gameEvents/egifttoevent.h"
+#include "gameEvents/egiftfromevent.h".h"
 #include "gameEvents/egrantgeneralrequestevent.h"
 
 #include "eeventdata.h"
@@ -764,6 +765,17 @@ void eGameBoard::grantGeneralRequest(const stdsptr<eWorldCity>& c,
     }
 }
 
+void eGameBoard::planGiftFrom(const stdsptr<eWorldCity>& c,
+                              const eResourceType type,
+                              const int count) {
+    const auto e = e::make_shared<eGiftFromEvent>(*this);
+    e->initialize(true, type, count, c);
+    const auto date = mDate + 31;
+    const auto ec = e::make_shared<eGameEventCycle>(
+                        e, date, *this);
+    addGameEvent(ec);
+}
+
 void eGameBoard::request(const stdsptr<eWorldCity>& c,
                          const eResourceType type) {
     const auto e = e::make_shared<eGrantRequestEvent>(*this);
@@ -785,16 +797,6 @@ void eGameBoard::grantRequest(const stdsptr<eWorldCity>& c,
     ed.fSpaceCount = space;
     ed.fResourceType = type;
     ed.fResourceCount = count;
-
-    const auto rel = c->relationship();
-    if(rel == eWorldCityRelationship::rival) {
-        ed.fType = eMessageEventType::resourceGranted;
-        const bool refuse = true;
-        if(refuse) {
-            event(eEvent::demandRefused, ed);
-        }
-        return;
-    }
 
     if(space == 0) {
         ed.fType = eMessageEventType::resourceGranted;
@@ -866,8 +868,93 @@ void eGameBoard::grantRequest(const stdsptr<eWorldCity>& c,
     }
 }
 
-void eGameBoard::payTribute(const stdsptr<eWorldCity>& c,
-                            const bool postpone) {
+void eGameBoard::giftFrom(const stdsptr<eWorldCity>& c,
+                          const eResourceType type,
+                          const int count,
+                          const bool postpone) {
+    const int space = spaceForResource(type);
+    eEventData ed;
+    ed.fCity = c;
+    ed.fSpaceCount = space;
+    ed.fResourceType = type;
+    ed.fResourceCount = count;
+
+    if(space == 0) {
+        ed.fType = eMessageEventType::resourceGranted;
+
+        const auto e = e::make_shared<eGiftFromEvent>(
+                    *this);
+        e->initialize(false, type, count, c);
+        const auto date = mDate + 31;
+        const auto ec = e::make_shared<eGameEventCycle>(
+                            e, date, *this);
+        addGameEvent(ec);
+    } else {
+        ed.fType = eMessageEventType::requestTributeGranted;
+        if(space != 0) {
+            ed.fA0 = [this, c, type, count]() { // accept
+                const int a = addResource(type, count);
+                eEventData ed;
+                ed.fType = eMessageEventType::resourceGranted;
+                ed.fCity = c;
+                ed.fResourceType = type;
+                ed.fResourceCount = a;
+                if(type == eResourceType::drachmas) {
+                    event(eEvent::giftCashAccepted, ed);
+                } else {
+                    if(a == count) return;
+                    event(eEvent::giftAccepted, ed);
+                }
+            };
+        }
+
+        if(postpone) {
+            ed.fA1 = [this, c, type, count]() { // postpone
+                eEventData ed;
+                ed.fType = eMessageEventType::resourceGranted;
+                ed.fCity = c;
+                ed.fResourceType = type;
+                ed.fResourceCount = count;
+                event(eEvent::giftPostponed, ed);
+
+                const auto e = e::make_shared<eGiftFromEvent>(
+                            *this);
+                e->initialize(false, type, count, c);
+                const auto date = mDate + 31;
+                const auto ec = e::make_shared<eGameEventCycle>(
+                                    e, date, *this);
+                addGameEvent(ec);
+            };
+        }
+
+        ed.fA2 = [this, c, type, count]() { // decline
+            eEventData ed;
+            ed.fType = eMessageEventType::resourceGranted;
+            ed.fCity = c;
+            ed.fResourceType = type;
+            ed.fResourceCount = count;
+            event(eEvent::giftRefused, ed);
+        };
+    }
+    if(!postpone) {
+        if(space == 0) {
+            event(eEvent::giftForfeited, ed);
+        } else if(space >= count) {
+            event(eEvent::giftGranted, ed);
+        } else {
+            event(eEvent::giftLastChance, ed);
+        }
+    } else if(space == 0) {
+        event(eEvent::giftInsufficientSpace, ed);
+    } else if(space >= count) {
+        event(eEvent::giftGranted, ed);
+    } else {
+        event(eEvent::giftPartialSpace, ed);
+    }
+}
+
+void eGameBoard::tributeFrom(const stdsptr<eWorldCity>& c,
+                             const bool postpone) {
     const auto type = c->tributeType();
     const auto count = c->tributeCount();
 
@@ -916,11 +1003,11 @@ void eGameBoard::payTribute(const stdsptr<eWorldCity>& c,
     event(eEvent::tributePaid, ed);
 }
 
-void eGameBoard::gift(const stdsptr<eWorldCity>& c,
-                      const eResourceType type,
-                      const int count) {
+void eGameBoard::giftTo(const stdsptr<eWorldCity>& c,
+                        const eResourceType type,
+                        const int count) {
     takeResource(type, count);
-    const auto e = e::make_shared<eGiftEvent>(*this);
+    const auto e = e::make_shared<eGiftToEvent>(*this);
     e->initialize(c, type, count);
     const auto date = mDate + 90;
     const auto ec = e::make_shared<eGameEventCycle>(
@@ -928,9 +1015,9 @@ void eGameBoard::gift(const stdsptr<eWorldCity>& c,
     addGameEvent(ec);
 }
 
-void eGameBoard::giftReceived(const stdsptr<eWorldCity>& c,
-                              const eResourceType type,
-                              const int count) {
+void eGameBoard::giftToReceived(const stdsptr<eWorldCity>& c,
+                                const eResourceType type,
+                                const int count) {
     const bool a = c->acceptsGift(type, count);
     eEventData ed;
     ed.fType = eMessageEventType::resourceGranted;
@@ -1534,8 +1621,10 @@ void eGameBoard::incTime(const int by) {
     }
 
     if(mTotalTime == 0) {
-        grantGeneralRequest(mWorldBoard.cities()[0],
-                            eResourceType::fleece, 9, 0);
+//        grantGeneralRequest(mWorldBoard.cities()[0],
+//                            eResourceType::fleece, 9, 0);
+        planGiftFrom(mWorldBoard.cities()[0],
+                     eResourceType::fleece, 16);
     }
 
     mSoldiersUpdate += by;
@@ -1618,7 +1707,7 @@ void eGameBoard::incTime(const int by) {
         mWorldBoard.nextYear();
         const auto cs = mWorldBoard.getTribute();
         for(const auto& c : cs) {
-            payTribute(c, true);
+            tributeFrom(c, true);
         }
     }
     const auto chars = mCharacters;

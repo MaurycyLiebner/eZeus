@@ -66,7 +66,7 @@ void eWorldWidget::openGiftDialog() {
         const auto dd = new eGiftSizeDialog(window());
         const auto func = [this, d, dd](const eResourceType type,
                                         const int count) {
-            mBoard->gift(mCity, type, count);
+            mBoard->giftTo(mCity, type, count);
             d->deleteLater();
             dd->deleteLater();
         };

@@ -1,11 +1,11 @@
-#include "egiftevent.h"
+#include "egifttoevent.h"
 
 #include "engine/egameboard.h"
 
-eGiftEvent::eGiftEvent(eGameBoard& board) :
-    eGameEvent(eGameEventType::gift, board) {}
+eGiftToEvent::eGiftToEvent(eGameBoard& board) :
+    eGameEvent(eGameEventType::giftTo, board) {}
 
-void eGiftEvent::initialize(const stdsptr<eWorldCity>& c,
+void eGiftToEvent::initialize(const stdsptr<eWorldCity>& c,
                             const eResourceType type,
                             const int count) {
     mCity = c;
@@ -13,19 +13,19 @@ void eGiftEvent::initialize(const stdsptr<eWorldCity>& c,
     mCount = count;
 }
 
-void eGiftEvent::trigger() {
+void eGiftToEvent::trigger() {
     auto& board = getBoard();
-    board.giftReceived(mCity, mResource, mCount);
+    board.giftToReceived(mCity, mResource, mCount);
 }
 
-void eGiftEvent::write(eWriteStream& dst) const {
+void eGiftToEvent::write(eWriteStream& dst) const {
     eGameEvent::write(dst);
     dst << mCount;
     dst << mResource;
     dst.writeCity(mCity.get());
 }
 
-void eGiftEvent::read(eReadStream& src) {
+void eGiftToEvent::read(eReadStream& src) {
     eGameEvent::read(src);
     src >> mCount;
     src >> mResource;

@@ -121,6 +121,17 @@ enum class eEvent {
     generalRequestRivalTooLate,
     generalRequestRivalRefuse,
 
+    giftGranted,
+    giftCashGranted,
+    giftPartialSpace,
+    giftInsufficientSpace,
+    giftLastChance,
+    giftForfeited,
+    giftAccepted,
+    giftCashAccepted,
+    giftPostponed,
+    giftRefused,
+
     unemployment,
     employees
 };

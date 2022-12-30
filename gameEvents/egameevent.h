@@ -13,7 +13,8 @@ enum class eGameEventType {
     invasion,
     payTribute,
     grantRequest,
-    gift
+    giftTo,
+    giftFrom
 };
 
 class eGameEvent : public eObject {

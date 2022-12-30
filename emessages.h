@@ -126,6 +126,17 @@ public:
     eMessageType fGeneralRequestTooLateS;
     eMessageType fGeneralRequestRefuseS;
 
+    eMessageType fGiftGranted;
+    eMessageType fGiftCashGranted;
+    eMessageType fGiftPartialSpace;
+    eMessageType fGiftInsufficientSpace;
+    eMessageType fGiftLastChance;
+    eMessageType fGiftForfeited;
+    eMessageType fGiftAccepted;
+    eMessageType fGiftCashAccepted;
+    eMessageType fGiftPostponed;
+    eMessageType fGiftRefused;
+
     eMessageType fIncreasedFavor;
     eMessageType fDecreasedFavor;
 
