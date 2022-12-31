@@ -524,18 +524,62 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         };
 
-        if(bd) {
-        } else if(ub && !v) {
-//            const auto tex = getBasementTexture(tile, ub, trrTexs);
-//            tp.drawTexture(rx, ry, tex, eAlignment::top);
-        } else if(tbr && !eBuilding::sFlatBuilding(bt)) {
-            drawBuilding();
-            if(ub && tbr && tbr->isMain()) {
-                drawBuildingModes();
+        if(ub && !eBuilding::sFlatBuilding(bt)) {
+            const auto getDisplacement =
+            [](const int w, const int h,
+               double& dx, double& dy) {
+                if(w == 2 && h == 2) {
+                    dx = -1.;
+                    dy = 1.;
+                } else if(w == 3 && h == 3) {
+                    dx = -1.5;
+                    dy = 1.5;
+                } else if(w == 4 && h == 4) {
+                    dx = -2.;
+                    dy = 2.;
+                } else if(w == 5 && h == 5) {
+                    dx = -2.5;
+                    dy = 2.5;
+                } else {
+                    dx = 0.;
+                    dy = 0.;
+                }
+            };
+            const auto ubRect = ub->tileRect();
+            const int fitY = ubRect.y + ubRect.h - 1;
+            const int fitX = ubRect.x + ubRect.w - 1;
+            double dx;
+            double dy;
+            getDisplacement(ubRect.w, ubRect.h, dx, dy);
+            const double drawX = fitX + dx + 1;
+            const double drawY = fitY + dy + 1;
+            if(ty == fitY || tx == fitX) {
+                const int xPart = tx - ubRect.x;
+                const int yPart = ubRect.y + ubRect.h - ty - 1;
+                const int partNumber = xPart + yPart;
+                const int srcX = mTileW*partNumber/2;
+                const bool erase = inErase(ub);
+                const auto tex = ub->getTexture(tp.size());
+                if(tex) {
+                    if(erase) tex->setColorMod(255, 175, 255);
+                    tp.drawTexturePortion(drawX, drawY,
+                                          srcX, mTileW/2, tex,
+                                          eAlignment::top);
+                    if(erase) tex->clearColorMod();
+                }
+                if(ub->overlayEnabled()) {
+                    const auto overlays = ub->getOverlays(tp.size());
+                    for(const auto& o : overlays) {
+                        const auto& tex = o.fTex;
+                        const double oX = drawX + o.fX;
+                        const double oY = drawY + o.fY;
+                        if(erase) tex->setColorMod(255, 175, 255);
+                        if(o.fAlignTop) tp.drawTexture(oX, oY, tex, eAlignment::top);
+                        else tp.drawTexture(oX, oY, tex);
+                        if(erase) tex->clearColorMod();
+                    }
+                }
             }
-        } else if(ub && tbr) {
-//            const bool of = ub->isOnFire();
-//            if(of) drawFire(tile);
         }
     };
     iterateOverVisibleTiles([&](eTile* const tile) {
@@ -865,7 +909,9 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         };
 
-        drawTerrain(tile);
+        if(!ub || eBuilding::sFlatBuilding(bt)) {
+            drawTerrain(tile);
+        }
 
         drawBridge();
         drawPatrolGuides();
@@ -884,8 +930,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             p.drawRect(selRect, SDL_Color{0, 255, 0, 255}, 1);
         }
 
-        const auto bTile = tile->topRight<eTile>();
-        if(bTile) buildingDrawer(bTile);
+        buildingDrawer(tile);
     });
 
     if(mPatrolBuilding) {

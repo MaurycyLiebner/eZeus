@@ -39,6 +39,21 @@ void eTilePainter::drawTexture(const double x, const double y,
     mP.drawTexture(pixX, pixY, tex, align);
 }
 
+void eTilePainter::drawTexturePortion(
+        const double dstX, const double dstY,
+        const int srcX, const int srcW,
+        const std::shared_ptr<eTexture>& tex,
+        const eAlignment align) const {
+    if(!tex) return;
+    const double dx = mTileH*tex->offsetX()/30.;
+    const double dy = mTileH*tex->offsetY()/30.;
+    int pixX;
+    int pixY;
+    drawPositon(dstX, dstY, pixX, pixY, dx, dy);
+    mP.drawTexturePortion(pixX, pixY, srcX, srcW,
+                          tex, align);
+}
+
 void eTilePainter::drawTexture(const double x, const double y,
                                const std::shared_ptr<eTexture>& tex) const {
     if(!tex) return;

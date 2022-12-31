@@ -46,6 +46,16 @@ public:
 
     void setFont(TTF_Font* const font);
 
+    void drawTexturePortion(
+            const int x, const int y,
+            const int srcX, const int srcW,
+            const std::shared_ptr<eTexture>& tex,
+            const eAlignment align) const;
+    void drawTexturePortion(
+            const int dstX, const int dstY,
+            const int srcX, const int srcW,
+            const std::shared_ptr<eTexture>& tex) const;
+
     void drawTexture(const int x, const int y,
                      const std::shared_ptr<eTexture>& tex,
                      const eAlignment align) const;

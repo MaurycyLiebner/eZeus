@@ -188,6 +188,22 @@ void eTexture::render(SDL_Renderer* const r,
     render(r, srcRect, dstRect, flipped);
 }
 
+void eTexture::renderRelPortion(SDL_Renderer* const r,
+                                const int dstX,
+                                const int dstY,
+                                const int srcX,
+                                const int w,
+                                const bool flipped) const {
+    const int sx = mFlipTex ? mFlipTex->x() : mX;
+    const int sy = mFlipTex ? mFlipTex->y() : mY;
+    const int width = mFlipTex ? mFlipTex->width() : mWidth;
+    const int height = mFlipTex ? mFlipTex->height() : mHeight;
+    const int ww = std::min(w, width);
+    const SDL_Rect srcRect{sx + srcX, sy, ww, height};
+    const SDL_Rect dstRect{dstX + srcX, dstY, ww, height};
+    render(r, srcRect, dstRect, flipped);
+}
+
 void eTexture::setOffset(const int x, const int y) {
     mOffsetX = x;
     mOffsetY = y;

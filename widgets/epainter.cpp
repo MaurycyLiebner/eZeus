@@ -31,6 +31,37 @@ void ePainter::setFont(TTF_Font* const font) {
     mFont = font;
 }
 
+void ePainter::drawTexturePortion(
+        const int x, const int y,
+        const int srcX, const int srcW,
+        const std::shared_ptr<eTexture>& tex,
+        const eAlignment align) const {
+    int xx = x;
+    if(static_cast<bool>(align & eAlignment::left)) {
+        xx -= tex->width();
+    } else if(static_cast<bool>(align & eAlignment::hcenter)) {
+        xx -= tex->width()/2;
+    }
+
+    int yy = y;
+    if(static_cast<bool>(align & eAlignment::top)) {
+        yy -= tex->height();
+    } else if(static_cast<bool>(align & eAlignment::vcenter)) {
+        yy -= tex->height()/2;
+    }
+
+    drawTexturePortion(xx, yy, srcX, srcW, tex);
+}
+
+void ePainter::drawTexturePortion(
+        const int dstX, const int dstY,
+        const int srcX, const int srcW,
+        const std::shared_ptr<eTexture>& tex) const {
+    tex->renderRelPortion(mRenderer,
+                          mX + dstX, mY + dstY,
+                          srcX, srcW, false);
+}
+
 void ePainter::drawTexture(const int x, const int y,
                            const std::shared_ptr<eTexture>& tex,
                            const eAlignment align) const {
