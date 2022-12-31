@@ -291,7 +291,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         bridgeValid = bridgeTiles(startTile, bridgetTs, bridgeRot);
     }
 
-    mBoard->updateTileRenderingOrderIfNeeded();
     const auto buildingDrawer = [&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
@@ -866,14 +865,12 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         };
 
+        drawTerrain(tile);
+
         drawBridge();
         drawPatrolGuides();
         drawSpawner();
         drawBanners();
-
-        for(const auto t : tile->terrainTiles()) {
-            drawTerrain(t);
-        }
 
         drawMissiles();
 

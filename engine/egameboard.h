@@ -177,8 +177,6 @@ public:
     const std::string& playerName() const
     { return mPlayerName; }
 
-    void requestTileRenderingOrderUpdate();
-    void updateTileRenderingOrderIfNeeded();
     using eTileAction = std::function<void(eTile* const)>;
     void iterateOverAllTiles(const eTileAction& a);
 
@@ -286,7 +284,6 @@ public:
     void waitUntilFinished();
 private:
     void updateNeighbours();
-    void updateTileRenderingOrder();
 
     void updateMaxSoldiers();
     void addSoldier(const eCharacterType st);
@@ -304,8 +301,6 @@ private:
     void handleGamesEnd(const eGames game);
 
     eWorldBoard mWorldBoard;
-
-    bool mTileRenderingOrderUpdateNeeded = true;
 
     eEventHandler mEventHandler;
     eVisibilityChecker mVisibilityChecker;

@@ -405,7 +405,6 @@ bool eGameWidget::buildMouseRelease() {
                 tile->setTerrain(terr);
             };
         }
-        mBoard->requestTileRenderingOrderUpdate();
         mBoard->updateMarbleTiles();
         mUpdateTerrain = true;
     } else {
@@ -444,8 +443,6 @@ bool eGameWidget::buildMouseRelease() {
             }
 
             const int nErased = eraser.erase(false);
-            mBoard->requestTileRenderingOrderUpdate();
-            mBoard->updateTileRenderingOrderIfNeeded();
             totalCost += cost*nErased;
             mBoard->incDrachmas(-totalCost);
 

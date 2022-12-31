@@ -1055,113 +1055,6 @@ void eGameBoard::waitUntilFinished() {
     }
 }
 
-void eGameBoard::updateTileRenderingOrder() {
-    std::vector<std::vector<std::pair<int, int>>> map;
-    map.reserve(width());
-    for(int x = 0; x < width(); x++) {
-        auto& m = map.emplace_back();
-        m.reserve(height());
-        for(int y = 0; y < height(); y++) {
-            m.push_back({0, 0});
-        }
-    }
-
-    const auto updateRenderingOrder = [&](eTile* const tile) {
-        tile->terrainTiles().clear();
-        bool elev = false;
-        const int a = tile->altitude();
-        for(int x = 0; x < 2 && !elev; x++) {
-            for(int y = 0; y < 2 && !elev; y++) {
-                if(x == 0 && y == 0) continue;
-                const auto t = tile->tileRel(x, y);
-                if(!t) continue;
-                const int ta = t->altitude();
-                if(ta > a) elev = true;
-            }
-        }
-        if(elev) {
-            tile->addTerrainTile(tile);
-            const int dx = tile->dx();
-            const int dy = tile->dy();
-            map[dx][dy] = {dx, dy};
-            return;
-        }
-        const auto ubt = tile->underBuildingType();
-        const auto ub = tile->underBuilding();
-        const auto sc = dynamic_cast<eSanctBuilding*>(ub);
-        const bool r = sc && sc->progress() == 0;
-        if(r || eBuilding::sFlatBuilding(ubt)) {
-            const int tx = tile->dx();
-            const int ty = tile->dy();
-            bool found = false;
-            eTile* lastT = tile;
-            int ttx;
-            int tty;
-
-            int mmx = 0;
-            int mmy = 0;
-
-            for(int i = 1; i < 3 && !found; i++) {
-                tty = ty - i;
-                const int w = i + 1;
-                const int ddx = ty % 2 == 0 ? 1 : 0;
-                const int dx = -(i + ddx)/2;
-                ttx = tx + i + dx;
-                for(int j = 0; j < w && !found; j++, ttx--) {
-                    const auto t = eGameBoard::dtile(ttx, tty);
-                    if(!t) continue;
-                    {
-                        const auto& coords = map[ttx][tty];
-                        const int cx = coords.first;
-                        const int cy = coords.second;
-                        if(cy > mmy) {
-                            mmy = cy;
-                            mmx = cx;
-                        } else if(cy == mmy) {
-                            if(cx > mmx) {
-                                mmx = cx;
-                            }
-                        }
-                        if(tty < mmy || (tty == mmy && ttx < mmx)) {
-                            found = true;
-                            break;
-                        }
-                    }
-                    lastT = t;
-//                    if(t->altitude() < tile->altitude()) {
-//                        found = true;
-//                        break;
-//                    }
-                    const auto tubt = t->underBuildingType();
-                    const auto ub = t->underBuilding();
-                    const auto sc = dynamic_cast<eSanctBuilding*>(ub);
-                    const bool r = sc && sc->progress() == 0;
-                    if(!r && !eBuilding::sFlatBuilding(tubt)) {
-//                        const auto b = t->underBuilding();
-//                        const auto ct = b->centerTile();
-                        lastT = t;
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            if(lastT) {
-                lastT->addTerrainTile(tile);
-                const int dx = tile->dx();
-                const int dy = tile->dy();
-                const int ddx = lastT->dx();
-                const int ddy = lastT->dy();
-                map[dx][dy] = {ddx, ddy};
-            }
-        }
-    };
-
-    iterateOverAllTiles([&](eTile* const tile) {
-        updateRenderingOrder(tile);
-    });
-}
-
 void eGameBoard::updateMaxSoldiers() {
     mMaxRockThrowers = 0;
     mMaxHoplites = 0;
@@ -1445,13 +1338,6 @@ void eGameBoard::handleGamesEnd(const eGames game) {
     }
 }
 
-void eGameBoard::updateTileRenderingOrderIfNeeded() {
-    if(mTileRenderingOrderUpdateNeeded) {
-        updateTileRenderingOrder();
-        mTileRenderingOrderUpdateNeeded = false;
-    }
-}
-
 eTile* eGameBoard::tile(const int x, const int y) const {
     int dtx;
     int dty;
@@ -1495,7 +1381,6 @@ void eGameBoard::registerBuilding(eBuilding* const b) {
     if(eBuilding::sTimedBuilding(b->type())) {
         mTimedBuildings.push_back(b);
     }
-    mTileRenderingOrderUpdateNeeded = true;
     scheduleAppealMapUpdate();
 }
 
@@ -1503,7 +1388,6 @@ bool eGameBoard::unregisterBuilding(eBuilding* const b) {
     if(!mRegisterBuildingsEnabled) return false;
     eVectorHelpers::remove(mAllBuildings, b);
     eVectorHelpers::remove(mTimedBuildings, b);
-    mTileRenderingOrderUpdateNeeded = true;
     scheduleAppealMapUpdate();
     return true;
 }
@@ -1804,10 +1688,6 @@ void eGameBoard::setMessageShower(const eMessageShower& msg) {
 void eGameBoard::showMessage(eEventData& ed,
                              const eMessageType& msg) {
     mMsgShower(ed, msg);
-}
-
-void eGameBoard::requestTileRenderingOrderUpdate() {
-    mTileRenderingOrderUpdateNeeded = true;
 }
 
 void eGameBoard::updateNeighbours() {
