@@ -554,30 +554,36 @@ void eGameWidget::paintEvent(ePainter& p) {
             const double drawX = fitX + dx + 1;
             const double drawY = fitY + dy + 1;
             if(ty == fitY || tx == fitX) {
-                const int xPart = tx - ubRect.x;
-                const int yPart = ubRect.y + ubRect.h - ty - 1;
-                const int partNumber = xPart + yPart;
-                const int srcX = mTileW*partNumber/2;
-                const bool erase = inErase(ub);
-                const auto tex = ub->getTexture(tp.size());
-                if(tex) {
-                    if(erase) tex->setColorMod(255, 175, 255);
-                    tp.drawTexturePortion(drawX, drawY,
-                                          srcX, mTileW/2, tex,
-                                          eAlignment::top);
-                    if(erase) tex->clearColorMod();
-                }
-                if(ub->overlayEnabled()) {
-                    const auto overlays = ub->getOverlays(tp.size());
-                    for(const auto& o : overlays) {
-                        const auto& tex = o.fTex;
-                        const double oX = drawX + o.fX;
-                        const double oY = drawY + o.fY;
+                const auto bRender = [&](const int tx, const int ty) {
+                    const int xPart = tx - ubRect.x;
+                    const int yPart = ubRect.y + ubRect.h - ty + (tx == ubRect.x + ubRect.w - 1 ? 0 : -1);
+                    const int partNumber = xPart + yPart;
+                    const int srcX = mTileW*partNumber/2;
+                    const bool erase = inErase(ub);
+                    const auto tex = ub->getTexture(tp.size());
+                    if(tex) {
                         if(erase) tex->setColorMod(255, 175, 255);
-                        if(o.fAlignTop) tp.drawTexture(oX, oY, tex, eAlignment::top);
-                        else tp.drawTexture(oX, oY, tex);
+                        tp.drawTexturePortion(drawX, drawY,
+                                              srcX, mTileW/2, tex,
+                                              eAlignment::top);
                         if(erase) tex->clearColorMod();
                     }
+                    if(ub->overlayEnabled()) {
+                        const auto overlays = ub->getOverlays(tp.size());
+                        for(const auto& o : overlays) {
+                            const auto& tex = o.fTex;
+                            const double oX = drawX + o.fX;
+                            const double oY = drawY + o.fY;
+                            if(erase) tex->setColorMod(255, 175, 255);
+                            if(o.fAlignTop) tp.drawTexture(oX, oY, tex, eAlignment::top);
+                            else tp.drawTexture(oX, oY, tex);
+                            if(erase) tex->clearColorMod();
+                        }
+                    }
+                };
+                bRender(tx, ty);
+                if(tx == fitX && ty == fitY) {
+                    bRender(tx + 1, ty + 1);
                 }
             }
         }
