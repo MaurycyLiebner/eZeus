@@ -551,8 +551,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             double dx;
             double dy;
             getDisplacement(ubRect.w, ubRect.h, dx, dy);
-            const double drawX = fitX + dx + 1;
-            const double drawY = fitY + dy + 1;
+            const double drawX = fitX + dx + 1 - a;
+            const double drawY = fitY + dy + 1 - a;
             if(ty == fitY || tx == fitX) {
                 const auto bRender = [&](const int tx, const int ty) {
                     const int xPart = tx - ubRect.x;

@@ -198,7 +198,7 @@ void eTexture::renderRelPortion(SDL_Renderer* const r,
     const int sy = mFlipTex ? mFlipTex->y() : mY;
     const int width = mFlipTex ? mFlipTex->width() : mWidth;
     const int height = mFlipTex ? mFlipTex->height() : mHeight;
-    const int ww = std::min(w, width);
+    const int ww = std::min(w + srcX, width) - srcX;
     const SDL_Rect srcRect{sx + srcX, sy, ww, height};
     const SDL_Rect dstRect{dstX + srcX, dstY, ww, height};
     render(r, srcRect, dstRect, flipped);
