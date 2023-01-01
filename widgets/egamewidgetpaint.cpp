@@ -568,16 +568,27 @@ void eGameWidget::paintEvent(ePainter& p) {
                                               eAlignment::top);
                         if(erase) tex->clearColorMod();
                     }
-                    if(ub->overlayEnabled()) {
+                    if(true || ub->overlayEnabled()) {
                         const auto overlays = ub->getOverlays(tp.size());
                         for(const auto& o : overlays) {
                             const auto& tex = o.fTex;
                             const double oX = drawX + o.fX;
                             const double oY = drawY + o.fY;
-                            if(erase) tex->setColorMod(255, 175, 255);
-                            if(o.fAlignTop) tp.drawTexture(oX, oY, tex, eAlignment::top);
-                            else tp.drawTexture(oX, oY, tex);
-                            if(erase) tex->clearColorMod();
+                            const int dx = std::round((o.fX - o.fY)*(mTileW/2));
+                            const int srcXX = srcX - dx;
+                            if(srcXX >= 0) {
+                                if(erase) tex->setColorMod(255, 175, 255);
+                                if(o.fAlignTop) {
+                                    tp.drawTexturePortion(oX, oY,
+                                                          srcXX, mTileW/2, tex,
+                                                          eAlignment::top);
+                                } else {
+                                    tp.drawTexturePortion(oX, oY,
+                                                          srcXX, mTileW/2, tex,
+                                                          eAlignment::none);
+                                }
+                                if(erase) tex->clearColorMod();
+                            }
                         }
                     }
                 };
