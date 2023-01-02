@@ -199,8 +199,34 @@ void eTexture::renderRelPortion(SDL_Renderer* const r,
     const int width = mFlipTex ? mFlipTex->width() : mWidth;
     const int height = mFlipTex ? mFlipTex->height() : mHeight;
     const int ww = std::min(w + srcX, width) - srcX;
-    const SDL_Rect srcRect{sx + srcX, sy, ww, height};
-    const SDL_Rect dstRect{dstX + srcX, dstY, ww, height};
+    SDL_Rect srcRect{sx + srcX, sy, ww, height};
+    SDL_Rect dstRect{dstX + srcX, dstY, ww, height};
+    if(srcRect.x < sx) {
+        const int dx = sx - srcRect.x;
+        srcRect.x += dx;
+        dstRect.x += dx;
+        srcRect.w -= dx;
+        dstRect.w -= dx;
+    }
+    if(srcRect.y < sy) {
+        const int dy = sy - srcRect.y;
+        srcRect.y += dy;
+        dstRect.y += dy;
+        srcRect.h -= dy;
+        dstRect.h -= dy;
+    }
+    if(srcRect.x + srcRect.w > sx + width) {
+        const int dw = sx + width - srcRect.x;
+        srcRect.w += dw;
+        dstRect.w += dw;
+    }
+    if(srcRect.y + srcRect.h > sy + height) {
+        const int dh = sy + height - srcRect.y;
+        srcRect.h += dh;
+        dstRect.h += dh;
+    }
+    if(srcRect.w <= 0 || srcRect.h <= 0 ||
+       dstRect.w <= 0 || dstRect.h <= 0) return;
     render(r, srcRect, dstRect, flipped);
 }
 
