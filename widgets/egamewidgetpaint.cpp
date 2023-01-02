@@ -574,21 +574,21 @@ void eGameWidget::paintEvent(ePainter& p) {
                             const auto& tex = o.fTex;
                             const double oX = drawX + o.fX;
                             const double oY = drawY + o.fY;
-                            const int dx = std::round((o.fX - o.fY)*(mTileW/2));
-                            const int srcXX = srcX - dx;
-                            if(srcXX >= 0) {
-                                if(erase) tex->setColorMod(255, 175, 255);
-                                if(o.fAlignTop) {
-                                    tp.drawTexturePortion(oX, oY,
-                                                          srcXX, mTileW/2, tex,
-                                                          eAlignment::top);
-                                } else {
-                                    tp.drawTexturePortion(oX, oY,
-                                                          srcXX, mTileW/2, tex,
-                                                          eAlignment::none);
-                                }
-                                if(erase) tex->clearColorMod();
+
+                            const double dx = (o.fX - o.fY)*(mTileW/2);
+                            const int oSrcX = std::round(srcX - dx);
+
+                            if(erase) tex->setColorMod(255, 175, 255);
+                            if(o.fAlignTop) {
+                                tp.drawTexturePortion(oX, oY,
+                                                      oSrcX, mTileW/2, tex,
+                                                      eAlignment::top);
+                            } else {
+                                tp.drawTexturePortion(oX, oY,
+                                                      oSrcX, mTileW/2, tex,
+                                                      eAlignment::none);
                             }
+                            if(erase) tex->clearColorMod();
                         }
                     }
                 };
