@@ -528,7 +528,10 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto getDisplacement =
             [](const int w, const int h,
                double& dx, double& dy) {
-                if(w == 2 && h == 2) {
+                if(w == 1 && h == 1) {
+                    dx = -0.5;
+                    dy = 0.5;
+                } else if(w == 2 && h == 2) {
                     dx = -1.;
                     dy = 1.;
                 } else if(w == 3 && h == 3) {
