@@ -689,10 +689,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             tp.drawTexture(frx + 1, fry, tex, eAlignment::hcenter | eAlignment::top);
         };
 
-        const auto drawCharacters = [&]() {
-            const int dtx = -1; // -1
-            const int dty = 0;
-
+        const auto drawCharacters = [&](
+                const int dtx, const int dty) {
             eTile* tt;
             if(dtx == 0 && dty == 0) {
                 tt = tile;
@@ -911,7 +909,11 @@ void eGameWidget::paintEvent(ePainter& p) {
             tp.drawTexture(rx + 1, ry, tex, a);
         }
 
-        drawCharacters();
+        for(int dx = -3; dx <= 3; dx++) {
+            for(int dy = -3; dy <= 3; dy++) {
+                drawCharacters(dx, dy);
+            }
+        }
 
         const auto drawBridge = [&]() {
             if(mode == eBuildingMode::bridge) {
