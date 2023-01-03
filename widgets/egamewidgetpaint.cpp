@@ -572,10 +572,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                         const auto overlays = ub->getOverlays(tp.size());
                         for(const auto& o : overlays) {
                             const auto& tex = o.fTex;
+                            const int xOffset = tex->offsetX();
+
                             const double oX = drawX + o.fX;
                             const double oY = drawY + o.fY;
 
-                            const double dx = (o.fX - o.fY)*(mTileW/2);
+                            const double dx = (o.fX - o.fY)*(mTileW/2) - xOffset;
                             const int oSrcX = std::round(srcX - dx);
 
                             if(erase) tex->setColorMod(255, 175, 255);
