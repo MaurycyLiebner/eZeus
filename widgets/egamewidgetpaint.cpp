@@ -701,6 +701,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 tt = mBoard->tile(tx + dtx, ty + dty);
             }
             if(!tt) return;
+            const int a = tt->altitude();
             const int min = static_cast<int>(eBuildingType::templeAphrodite);
             const int max = static_cast<int>(eBuildingType::templeZeus);
             const auto bt = tt->underBuildingType();
@@ -724,14 +725,14 @@ void eGameWidget::paintEvent(ePainter& p) {
                     if(!v) continue;
                     double x = tx - a + c->x() + 0.25 + dtx;
                     double y = ty - a + c->y() + 0.25 + dty;
-                    const auto t = tile->top<eTile>();
-                    const auto l = tile->left<eTile>();
-                    const auto r = tile->right<eTile>();
-                    const auto b = tile->bottom<eTile>();
-                    const auto tl = tile->topLeft<eTile>();
-                    const auto tr = tile->topRight<eTile>();
-                    const auto bl = tile->bottomLeft<eTile>();
-                    const auto br = tile->bottomRight<eTile>();
+                    const auto t = tt->top<eTile>();
+                    const auto l = tt->left<eTile>();
+                    const auto r = tt->right<eTile>();
+                    const auto b = tt->bottom<eTile>();
+                    const auto tl = tt->topLeft<eTile>();
+                    const auto tr = tt->topRight<eTile>();
+                    const auto bl = tt->bottomLeft<eTile>();
+                    const auto br = tt->bottomRight<eTile>();
                     if(tl && tl->altitude() > a) {
                         const double mult = 1 - c->x();
                         const int tla = tl->altitude();
