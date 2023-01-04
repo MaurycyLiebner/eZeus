@@ -5,7 +5,6 @@
 #include "buildings/epalacerenderer.h"
 #include "buildings/estadiumrenderer.h"
 #include "buildings/sanctuaries/estairsrenderer.h"
-#include "buildings/sanctuaries/etemplerenderer.h"
 
 #include "buildings/eelitehousing.h"
 #include "buildings/egatehouse.h"
@@ -44,12 +43,6 @@ stdsptr<eBuildingRenderer> eBuildingRendererReader::sRead(
         int id;
         src >> id;
         return e::make_shared<eStairsRenderer>(id, b);
-    } break;
-    case eBuildingRendererType::temple: {
-        int id;
-        src >> id;
-        const auto tb = b->ref<eTempleBuilding>();
-        return e::make_shared<eTempleRenderer>(id, tb);
     } break;
     }
     return nullptr;

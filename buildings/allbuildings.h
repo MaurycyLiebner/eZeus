@@ -84,7 +84,6 @@
 #include "buildings/sanctuaries/etemplemonumentbuilding.h"
 #include "buildings/sanctuaries/etemplealtarbuilding.h"
 #include "buildings/sanctuaries/etemplebuilding.h"
-#include "buildings/sanctuaries/etemplerenderer.h"
 
 #include "buildings/eheroshall.h"
 

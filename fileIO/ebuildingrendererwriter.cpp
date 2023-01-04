@@ -3,7 +3,6 @@
 #include "buildings/eelitehousingrenderer.h"
 #include "buildings/egatehouserenderer.h"
 #include "buildings/sanctuaries/estairsrenderer.h"
-#include "buildings/sanctuaries/etemplerenderer.h"
 
 void eBuildingRendererWriter::sWrite(const eBuildingRenderer* const b,
                                      eWriteStream& dst) {
@@ -28,10 +27,6 @@ void eBuildingRendererWriter::sWrite(const eBuildingRenderer* const b,
     case eBuildingRendererType::stairs: {
         const auto s = static_cast<const eStairsRenderer*>(b);
         dst << s->id();
-    } break;
-    case eBuildingRendererType::temple: {
-        const auto t = static_cast<const eTempleRenderer*>(b);
-        dst << t->id();
     } break;
     }
 }

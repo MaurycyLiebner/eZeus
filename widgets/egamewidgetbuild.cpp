@@ -1478,10 +1478,6 @@ bool eGameWidget::buildMouseRelease() {
                 }
             }
 
-            const auto tb = e::make_shared<eTempleBuilding>(*mBoard);
-            tb->setSanctuary(b.get());
-            b->registerElement(tb);
-            int ts = 0;
             for(const auto& tv : h->fTiles) {
                 for(const auto& t : tv) {
                     const int tx = minX + t.fX;
@@ -1592,16 +1588,16 @@ bool eGameWidget::buildMouseRelease() {
                         b->registerElement(tt);
                     } break;
                     case eSanctEleType::sanctuary: {
-                        ts++;
+                        const auto tb = e::make_shared<eTempleBuilding>(
+                                    t.fId, *mBoard);
+                        tb->setSanctuary(b.get());
+                        b->registerElement(tb);
                         if(mRotate) {
-                            build(tx - 2, ty + 2, 4, 4, [tb]() { return tb; },
-                            nullptr,
-                            [&]() { return e::make_shared<eTempleRenderer>(t.fId, tb); });
+                            build(tx - 2, ty + 2, 4, 4, [tb]() { return tb; });
                         } else {
-                            build(tx + 1, ty - 1, 4, 4, [tb]() { return tb; },
-                            nullptr,
-                            [&]() { return e::make_shared<eTempleRenderer>(t.fId, tb); });
+                            build(tx + 1, ty - 1, 4, 4, [tb]() { return tb; });
                         }
+                        tb->setCost({5, 5, 0});
                     } break;
                     case eSanctEleType::tile: {
                         const auto tt = e::make_shared<eTempleTileBuilding>(
@@ -1621,7 +1617,6 @@ bool eGameWidget::buildMouseRelease() {
                     }
                 }
             }
-            tb->setCost({ts*5, ts*5, 0});
             for(const auto& tv : h->fTiles) {
                 for(const auto& t : tv) {
                     const int tx = minX + t.fX;
