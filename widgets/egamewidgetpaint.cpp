@@ -790,8 +790,8 @@ void eGameWidget::paintEvent(ePainter& p) {
                         const int dstY = std::round(0.5*(x + y)*mTileH - offY);
                         const int ddstX = mDX + dstX;
                         const int ddstY = mDY + dstY;
-                        const int w = mTileW/2;
-                        const int srcX = ((dtx - dty)*mTileW/2);
+                        const int w = mTileW;
+                        const int srcX = 0;//((dtx - dty)*mTileW/2);
 //                        p.drawTexturePortion(srcRect, dstRect, tex);
                         const auto r = p.renderer();
                         {
@@ -799,12 +799,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                             const int clipY = mDY + (tx + ty - 2 - a)*(mTileH/2);
                             const SDL_Rect clipRect{clipX, clipY, mTileW, mTileH};
                             SDL_RenderSetClipRect(r, &clipRect);
-//                            SDL_SetRenderDrawColor(r, 255, 0, 0, 255);
+//                            SDL_SetRenderDrawColor(r, ((tx + ty) % 2) ? 255 : 0, ((2*tx - ty) % 2) ? 255 : 0, 0, 255);
 //                            SDL_RenderFillRect(r, &clipRect);
                         }
 
-                        tex->renderRelPortion(r, ddstX, ddstY,
-                                              srcX, w, false);
+//                        tex->renderRelPortion(r, ddstX, ddstY,
+//                                              srcX, w, false);
+                        tex->render(r, ddstX, ddstY, false);
                         SDL_RenderSetClipRect(r, nullptr);
 //                      tp.drawTexture(x, y, tex);
                     }
