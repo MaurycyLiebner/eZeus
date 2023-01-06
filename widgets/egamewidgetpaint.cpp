@@ -783,7 +783,31 @@ void eGameWidget::paintEvent(ePainter& p) {
                         y -= da;
                     }
                     const auto tex = c->getTexture(mTileSize);
-                    tp.drawTexture(x, y, tex);
+                    if(tex) {
+                        const double offX = mTileH*tex->offsetX()/30.;
+                        const double offY = mTileH*tex->offsetY()/30.;
+                        const int dstX = std::round(0.5*(x - y)*mTileW - offX);
+                        const int dstY = std::round(0.5*(x + y)*mTileH - offY);
+                        const int ddstX = mDX + dstX;
+                        const int ddstY = mDY + dstY;
+                        const int w = mTileW/2;
+                        const int srcX = ((dtx - dty)*mTileW/2);
+//                        p.drawTexturePortion(srcRect, dstRect, tex);
+                        const auto r = p.renderer();
+                        {
+                            const int clipX = mDX + (tx - ty - 1 - a)*(mTileW/2);
+                            const int clipY = mDY + (tx + ty - 2 - a)*(mTileH/2);
+                            const SDL_Rect clipRect{clipX, clipY, mTileW, mTileH};
+                            SDL_RenderSetClipRect(r, &clipRect);
+//                            SDL_SetRenderDrawColor(r, 255, 0, 0, 255);
+//                            SDL_RenderFillRect(r, &clipRect);
+                        }
+
+                        tex->renderRelPortion(r, ddstX, ddstY,
+                                              srcX, w, false);
+                        SDL_RenderSetClipRect(r, nullptr);
+//                      tp.drawTexture(x, y, tex);
+                    }
                     if(!c->hasSecondaryTexture()) continue;
                     const auto stex = c->getSecondaryTexture(mTileSize);
                     if(stex.fTex) {

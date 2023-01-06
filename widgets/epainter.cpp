@@ -62,6 +62,16 @@ void ePainter::drawTexturePortion(
                           srcX, srcW, false);
 }
 
+void ePainter::drawTexturePortion(
+        const SDL_Rect& srcRect,
+        const SDL_Rect& dstRect,
+        const std::shared_ptr<eTexture>& tex) const {
+    SDL_Rect dstRect1 = dstRect;
+    dstRect1.x += mX;
+    dstRect1.y += mY;
+    tex->render(mRenderer, srcRect, dstRect1);
+}
+
 void ePainter::drawTexture(const int x, const int y,
                            const std::shared_ptr<eTexture>& tex,
                            const eAlignment align) const {
