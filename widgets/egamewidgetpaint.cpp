@@ -938,12 +938,6 @@ void eGameWidget::paintEvent(ePainter& p) {
             tp.drawTexture(rx + 1, ry, tex, a);
         }
 
-        for(int dx = -3; dx <= 3; dx++) {
-            for(int dy = -3; dy <= 3; dy++) {
-                drawCharacters(dx, dy);
-            }
-        }
-
         const auto drawBridge = [&]() {
             if(mode == eBuildingMode::bridge) {
                 const bool r = eVectorHelpers::contains(bridgetTs, tile);
@@ -981,6 +975,12 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
 
         buildingDrawer(tile);
+
+        for(int dx = -3; dx <= 3; dx++) {
+            for(int dy = -3; dy <= 3; dy++) {
+                drawCharacters(dx, dy);
+            }
+        }
     });
 
     if(mPatrolBuilding) {
