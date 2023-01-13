@@ -795,9 +795,20 @@ void eGameWidget::paintEvent(ePainter& p) {
 //                        p.drawTexturePortion(srcRect, dstRect, tex);
                         const auto r = p.renderer();
                         {
-                            const int clipX = mDX + (tx - ty - 1 - a)*(mTileW/2);
-                            const int clipY = mDY + (tx + ty - 2 - a)*(mTileH/2);
-                            const SDL_Rect clipRect{clipX, clipY, mTileW, mTileH};
+                            const int greenBottom = mDY + (tt->x() + tt->y() - a)*(mTileH/2);
+                            const int redTop = mDY + (tx + ty - 2 - a)*(mTileH/2);
+                            const int redBottom = redTop + mTileH/2;
+                            SDL_Rect clipRect;
+                            if(dtx == 0 && dty == 0) {
+                                clipRect = {-10000, -10000, 20000, 10000 + greenBottom};
+                                tex->setColorMod(0, 255, 0);
+                            } else if(redBottom > greenBottom) {
+                                const int clipX = mDX + (tx - ty - 1 - a)*(mTileW/2);
+                                clipRect = {clipX, redTop, mTileW, mTileH/2};
+                                tex->setColorMod(255, 0, 0);
+                            } else {
+                                continue;
+                            }
                             SDL_RenderSetClipRect(r, &clipRect);
 //                            SDL_SetRenderDrawColor(r, ((tx + ty) % 2) ? 255 : 0, ((2*tx - ty) % 2) ? 255 : 0, 0, 255);
 //                            SDL_RenderFillRect(r, &clipRect);
@@ -807,6 +818,7 @@ void eGameWidget::paintEvent(ePainter& p) {
 //                                              srcX, w, false);
                         tex->render(r, ddstX, ddstY, false);
                         SDL_RenderSetClipRect(r, nullptr);
+                        tex->clearColorMod();
 //                      tp.drawTexture(x, y, tex);
                     }
                     if(!c->hasSecondaryTexture()) continue;
