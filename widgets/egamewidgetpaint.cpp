@@ -799,7 +799,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                             const int redTop = mDY + (tx + ty - 2 - a)*(mTileH/2);
                             const int redBottom = redTop + mTileH/2;
                             SDL_Rect clipRect;
-                            if(dtx == 0 && dty == 0) {
+                            if(dtx == -1 && dty == 0) {
                                 clipRect = {-10000, -10000, 20000, 10000 + greenBottom};
                                 tex->setColorMod(0, 255, 0);
                             } else if(redBottom > greenBottom) {
