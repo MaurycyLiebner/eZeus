@@ -702,13 +702,9 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
             if(!tt) return;
             const int a = tt->altitude();
-            const int min = static_cast<int>(eBuildingType::templeAphrodite);
-            const int max = static_cast<int>(eBuildingType::templeZeus);
-            const auto bt = tt->underBuildingType();
-            const int bi = static_cast<int>(bt);
-            const bool r = bi >= min && bi <= max;
-            if(r || eBuilding::sFlatBuilding(bt) ||
-               bt == eBuildingType::wall) {
+            const auto bttt = tt->underBuildingType();
+            const bool flat = eBuilding::sFlatBuilding(bttt);
+            if(flat || bttt == eBuildingType::wall) {
                 const auto& chars = tt->characters();
                 for(const auto& c : chars) {
                     if(!c->visible()) continue;
@@ -716,7 +712,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                     if(ct == eCharacterType::cartTransporter ||
                        ct == eCharacterType::ox ||
                        ct == eCharacterType::trailer) {
-                        if(eBuilding::sSanctuaryBuilding(bt)) {
+                        if(eBuilding::sSanctuaryBuilding(bttt)) {
                             continue;
                         }
                     }
@@ -795,23 +791,74 @@ void eGameWidget::paintEvent(ePainter& p) {
 //                        p.drawTexturePortion(srcRect, dstRect, tex);
                         const auto r = p.renderer();
                         {
-                            const int greenBottom = mDY + (tt->x() + tt->y() - a)*(mTileH/2);
-                            const int redTop = mDY + (tx + ty - 2 - a)*(mTileH/2);
-                            const int redBottom = redTop + mTileH/2;
-                            SDL_Rect clipRect;
-                            if(dtx == -1 && dty == 0) {
-                                clipRect = {-10000, -10000, 20000, 10000 + greenBottom};
-                                tex->setColorMod(0, 255, 0);
-                            } else if(redBottom > greenBottom) {
-                                const int clipX = mDX + (tx - ty - 1 - a)*(mTileW/2);
-                                clipRect = {clipX, redTop, mTileW, mTileH/2};
-                                tex->setColorMod(255, 0, 0);
+                            const auto o = c->orientation();
+                            if(c->type() == eCharacterType::scylla) {
+
                             } else {
-                                continue;
+                                SDL_Rect clipRect;
+                                clipRect.w = mTileW/2;
+                                clipRect.y = -10000;
+                                clipRect.h = 20000;
+                                bool clip = false;
+                                switch(o) {
+                                case eOrientation::topRight:
+                                case eOrientation::bottomLeft: {
+                                    if(dtx == 0 && dty == -1) {
+                                    } else if(dtx == 0 && dty == 0) {
+                                    } else if(dtx == 0 && dty == 1) {
+                                    } else {
+                                        continue;
+                                    }
+                                } break;
+                                case eOrientation::right: {
+                                    clip = false;
+                                    if(dtx == 1 && dty == 0) {
+
+                                    } else {
+                                        continue;
+                                    }
+                                } break;
+                                case eOrientation::bottomRight:
+                                case eOrientation::topLeft: {
+                                    if(dtx == -1 && dty == 0) {
+                                    } else if(dtx == 0 && dty == 0) {
+                                    } else if(dtx == 1 && dty == 0) {
+                                    } else {
+                                        continue;
+                                    }
+                                } break;
+                                case eOrientation::bottom: {
+                                    clip = false;
+                                    if(dtx == 1 && dty == 1) {
+
+                                    } else {
+                                        continue;
+                                    }
+                                } break;
+                                case eOrientation::left: {
+                                    clip = false;
+                                    if(dtx == 0 && dty == 1) {
+
+                                    } else {
+                                        continue;
+                                    }
+                                } break;
+                                case eOrientation::top: {
+                                    clip = false;
+                                    if(dtx == 0 && dty == 0) {
+
+                                    } else {
+                                        continue;
+                                    }
+                                } break;
+                                }
+
+                                clipRect.x = mDX + (tt->x() - tt->y() - a - 1)*mTileW/2;
+                                if(clip) SDL_RenderSetClipRect(r, &clipRect);
+    //                            SDL_SetRenderDrawColor(r, ((tx + ty) % 2) ? 255 : 0, ((2*tx - ty) % 2) ? 255 : 0, 0, 255);
+    //                            SDL_RenderFillRect(r, &clipRect);
+
                             }
-                            SDL_RenderSetClipRect(r, &clipRect);
-//                            SDL_SetRenderDrawColor(r, ((tx + ty) % 2) ? 255 : 0, ((2*tx - ty) % 2) ? 255 : 0, 0, 255);
-//                            SDL_RenderFillRect(r, &clipRect);
                         }
 
 //                        tex->renderRelPortion(r, ddstX, ddstY,
