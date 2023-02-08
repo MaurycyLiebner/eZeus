@@ -798,7 +798,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                                 SDL_Rect clipRect;
                                 clipRect.y = -10000;
                                 clipRect.h = 20000;
-                                clipRect.x = mDX + (tt->x() - tt->y() - a - 1)*mTileW/2;
+                                clipRect.x = mDX + (t->x() - t->y() - a - 1)*mTileW/2;
                                 const bool half = dtx != 0 || dty != 0;
                                 clipRect.w = half ? mTileW/2 : mTileW;
                                 bool clip = true;
@@ -806,9 +806,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                                 case eOrientation::topRight:
                                 case eOrientation::bottomLeft: {
                                     if(dtx == 0 && dty == -1) {
+                                        tex->setColorMod(255, 0, 0);
+                                        clipRect.x -= mTileW/2;
                                     } else if(dtx == 0 && dty == 0) {
                                     } else if(dtx == 0 && dty == 1) {
-                                        clipRect.x += mTileW/2;
+                                        tex->setColorMod(0, 255, 0);
+                                        clipRect.x += mTileW;
                                     } else {
                                         continue;
                                     }
