@@ -826,9 +826,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                                 case eOrientation::bottomRight:
                                 case eOrientation::topLeft: {
                                     if(dtx == -1 && dty == 0) {
-                                        clipRect.x += mTileW/2;
+                                        tex->setColorMod(255, 0, 0);
+                                        clipRect.x += mTileW;
                                     } else if(dtx == 0 && dty == 0) {
                                     } else if(dtx == 1 && dty == 0) {
+                                        tex->setColorMod(0, 255, 0);
+                                        clipRect.x -= mTileW/2;
                                     } else {
                                         continue;
                                     }
