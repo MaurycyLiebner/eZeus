@@ -796,24 +796,26 @@ void eGameWidget::paintEvent(ePainter& p) {
 
                             } else {
                                 SDL_Rect clipRect;
-                                clipRect.w = mTileW/2;
                                 clipRect.y = -10000;
                                 clipRect.h = 20000;
-                                bool clip = false;
+                                clipRect.x = mDX + (tt->x() - tt->y() - a - 1)*mTileW/2;
+                                const bool half = dtx != 0 || dty != 0;
+                                clipRect.w = half ? mTileW/2 : mTileW;
+                                bool clip = true;
                                 switch(o) {
                                 case eOrientation::topRight:
                                 case eOrientation::bottomLeft: {
                                     if(dtx == 0 && dty == -1) {
                                     } else if(dtx == 0 && dty == 0) {
                                     } else if(dtx == 0 && dty == 1) {
+                                        clipRect.x += mTileW/2;
                                     } else {
                                         continue;
                                     }
                                 } break;
                                 case eOrientation::right: {
                                     clip = false;
-                                    if(dtx == 1 && dty == 0) {
-
+                                    if(dtx == -1 && dty == 0) {
                                     } else {
                                         continue;
                                     }
@@ -821,6 +823,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                                 case eOrientation::bottomRight:
                                 case eOrientation::topLeft: {
                                     if(dtx == -1 && dty == 0) {
+                                        clipRect.x += mTileW/2;
                                     } else if(dtx == 0 && dty == 0) {
                                     } else if(dtx == 1 && dty == 0) {
                                     } else {
@@ -829,31 +832,27 @@ void eGameWidget::paintEvent(ePainter& p) {
                                 } break;
                                 case eOrientation::bottom: {
                                     clip = false;
-                                    if(dtx == 1 && dty == 1) {
-
+                                    if(dtx == -1 && dty == -1) {
                                     } else {
                                         continue;
                                     }
                                 } break;
                                 case eOrientation::left: {
                                     clip = false;
-                                    if(dtx == 0 && dty == 1) {
-
+                                    if(dtx == -1 && dty == 0) {
                                     } else {
                                         continue;
                                     }
                                 } break;
                                 case eOrientation::top: {
                                     clip = false;
-                                    if(dtx == 0 && dty == 0) {
-
+                                    if(dtx == -1 && dty == -1) {
                                     } else {
                                         continue;
                                     }
                                 } break;
                                 }
 
-                                clipRect.x = mDX + (tt->x() - tt->y() - a - 1)*mTileW/2;
                                 if(clip) SDL_RenderSetClipRect(r, &clipRect);
     //                            SDL_SetRenderDrawColor(r, ((tx + ty) % 2) ? 255 : 0, ((2*tx - ty) % 2) ? 255 : 0, 0, 255);
     //                            SDL_RenderFillRect(r, &clipRect);
