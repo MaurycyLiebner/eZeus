@@ -694,6 +694,8 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         const auto drawCharacters = [&](
                 const int dtx, const int dty) {
+            const int ddx = 0;
+            const int ddy = -1;
             eTile* tt;
             if(dtx == 0 && dty == 0) {
                 tt = tile;
@@ -799,17 +801,17 @@ void eGameWidget::paintEvent(ePainter& p) {
                                 clipRect.y = -10000;
                                 clipRect.h = 20000;
                                 clipRect.x = mDX + (t->x() - t->y() - a - 1)*mTileW/2;
-                                const bool half = dtx != 0 || dty != 0;
+                                const bool half = dtx != ddx || dty != ddy;
                                 clipRect.w = half ? mTileW/2 : mTileW;
                                 bool clip = true;
                                 switch(o) {
                                 case eOrientation::topRight:
                                 case eOrientation::bottomLeft: {
-                                    if(dtx == 0 && dty == -1) {
+                                    if(dtx == ddx && dty == ddy - 1) {
                                         tex->setColorMod(255, 0, 0);
                                         clipRect.x -= mTileW/2;
-                                    } else if(dtx == 0 && dty == 0) {
-                                    } else if(dtx == 0 && dty == 1) {
+                                    } else if(dtx == ddx && dty == ddy) {
+                                    } else if(dtx == ddx && dty == ddy + 1) {
                                         tex->setColorMod(0, 255, 0);
                                         clipRect.x += mTileW;
                                     } else {
@@ -818,18 +820,18 @@ void eGameWidget::paintEvent(ePainter& p) {
                                 } break;
                                 case eOrientation::right: {
                                     clip = false;
-                                    if(dtx == -1 && dty == 0) {
+                                    if(dtx == ddx - 1 && dty == ddy) {
                                     } else {
                                         continue;
                                     }
                                 } break;
                                 case eOrientation::bottomRight:
                                 case eOrientation::topLeft: {
-                                    if(dtx == -1 && dty == 0) {
+                                    if(dtx == ddx - 1 && dty == ddy) {
                                         tex->setColorMod(255, 0, 0);
                                         clipRect.x += mTileW;
-                                    } else if(dtx == 0 && dty == 0) {
-                                    } else if(dtx == 1 && dty == 0) {
+                                    } else if(dtx == ddx && dty == ddy) {
+                                    } else if(dtx == ddx + 1 && dty == ddy) {
                                         tex->setColorMod(0, 255, 0);
                                         clipRect.x -= mTileW/2;
                                     } else {
@@ -838,21 +840,21 @@ void eGameWidget::paintEvent(ePainter& p) {
                                 } break;
                                 case eOrientation::bottom: {
                                     clip = false;
-                                    if(dtx == -1 && dty == -1) {
+                                    if(dtx == ddx - 1 && dty == ddy - 1) {
                                     } else {
                                         continue;
                                     }
                                 } break;
                                 case eOrientation::left: {
                                     clip = false;
-                                    if(dtx == -1 && dty == 0) {
+                                    if(dtx == ddx - 1 && dty == ddy) {
                                     } else {
                                         continue;
                                     }
                                 } break;
                                 case eOrientation::top: {
                                     clip = false;
-                                    if(dtx == -1 && dty == -1) {
+                                    if(dtx == ddx - 1 && dty == ddy - 1) {
                                     } else {
                                         continue;
                                     }
@@ -1022,6 +1024,24 @@ void eGameWidget::paintEvent(ePainter& p) {
         drawSpawner();
         drawBanners();
 
+
+        if(ub && !eBuilding::sFlatBuilding(bt)) {
+            const auto terrTile = mBoard->tile(tx, ty + 1);
+            if(terrTile) {
+                const auto terrUb = terrTile->underBuilding();
+                const auto terrBt = terrTile->underBuildingType();
+                if(!terrUb || eBuilding::sFlatBuilding(terrBt)) {
+                    if(terrTile) drawTerrain(terrTile);
+                }
+            }
+        }
+
+        for(int dx = -3; dx <= 3; dx++) {
+            for(int dy = -3; dy <= 3; dy++) {
+                drawCharacters(dx, dy);
+            }
+        }
+
         buildingDrawer(tile);
 
         {
@@ -1036,12 +1056,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
 
         drawMissiles();
-
-        for(int dx = -3; dx <= 3; dx++) {
-            for(int dy = -3; dy <= 3; dy++) {
-                drawCharacters(dx, dy);
-            }
-        }
 
         if(mLeftPressed && mMovedSincePress &&
            mGm->visible() && mGm->mode() == eBuildingMode::none) {
