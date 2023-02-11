@@ -1017,16 +1017,31 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         };
 
-        if(!ub || eBuilding::sFlatBuilding(bt)) {
-            drawTerrain(tile);
-        }
-
         drawBridge();
         drawPatrolGuides();
         drawSpawner();
         drawBanners();
 
+        buildingDrawer(tile);
+
+        {
+            const auto terrTile = mBoard->tile(tx + 1, ty);
+            if(terrTile) {
+                const auto terrUb = terrTile->underBuilding();
+                const auto terrBt = terrTile->underBuildingType();
+                if(!terrUb || eBuilding::sFlatBuilding(terrBt)) {
+                    if(terrTile) drawTerrain(terrTile);
+                }
+            }
+        }
+
         drawMissiles();
+
+        for(int dx = -3; dx <= 3; dx++) {
+            for(int dy = -3; dy <= 3; dy++) {
+                drawCharacters(dx, dy);
+            }
+        }
 
         if(mLeftPressed && mMovedSincePress &&
            mGm->visible() && mGm->mode() == eBuildingMode::none) {
@@ -1036,14 +1051,6 @@ void eGameWidget::paintEvent(ePainter& p) {
             const int h = abs(mPressedY - mHoverY);
             SDL_Rect selRect{x - mDX, y - mDY, w, h};
             p.drawRect(selRect, SDL_Color{0, 255, 0, 255}, 1);
-        }
-
-        buildingDrawer(tile);
-
-        for(int dx = -3; dx <= 3; dx++) {
-            for(int dy = -3; dy <= 3; dy++) {
-                drawCharacters(dx, dy);
-            }
         }
     });
 
