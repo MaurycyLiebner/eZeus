@@ -9,7 +9,9 @@
 #include "characters/actions/esoldieraction.h"
 
 eTower::eTower(eGameBoard& board) :
-    eEmployingBuilding(board, eBuildingType::tower, 2, 2, 15) {}
+    eEmployingBuilding(board, eBuildingType::tower, 2, 2, 15) {
+    eGameTextures::loadArcher();
+}
 
 std::shared_ptr<eTexture>
 eTower::getTexture(const eTileSize size) const {
