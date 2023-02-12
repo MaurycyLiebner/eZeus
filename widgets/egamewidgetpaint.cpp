@@ -801,18 +801,17 @@ void eGameWidget::paintEvent(ePainter& p) {
                                 clipRect.y = -10000;
                                 clipRect.h = 20000;
                                 clipRect.x = mDX + (t->x() - t->y() - a - 1)*mTileW/2;
-                                const bool half = dtx != ddx || dty != ddy;
-                                clipRect.w = half ? mTileW/2 : mTileW;
+                                clipRect.w = mTileW;
                                 bool clip = true;
                                 switch(o) {
                                 case eOrientation::topRight:
                                 case eOrientation::bottomLeft: {
                                     if(dtx == ddx && dty == ddy - 1) {
-                                        tex->setColorMod(255, 0, 0);
-                                        clipRect.x -= mTileW/2;
+//                                        tex->setColorMod(255, 0, 0);
+                                        clipRect.x -= mTileW;
                                     } else if(dtx == ddx && dty == ddy) {
                                     } else if(dtx == ddx && dty == ddy + 1) {
-                                        tex->setColorMod(0, 255, 0);
+//                                        tex->setColorMod(0, 255, 0);
                                         clipRect.x += mTileW;
                                     } else {
                                         continue;
@@ -828,12 +827,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                                 case eOrientation::bottomRight:
                                 case eOrientation::topLeft: {
                                     if(dtx == ddx - 1 && dty == ddy) {
-                                        tex->setColorMod(255, 0, 0);
+//                                        tex->setColorMod(255, 0, 0);
                                         clipRect.x += mTileW;
                                     } else if(dtx == ddx && dty == ddy) {
                                     } else if(dtx == ddx + 1 && dty == ddy) {
-                                        tex->setColorMod(0, 255, 0);
-                                        clipRect.x -= mTileW/2;
+//                                        tex->setColorMod(0, 255, 0);
+                                        clipRect.x -= mTileW;
                                     } else {
                                         continue;
                                     }
