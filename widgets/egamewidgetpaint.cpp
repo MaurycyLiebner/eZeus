@@ -1024,18 +1024,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         drawSpawner();
         drawBanners();
 
-
-        if(ub && !eBuilding::sFlatBuilding(bt)) {
-            const auto terrTile = mBoard->tile(tx, ty + 1);
-            if(terrTile) {
-                const auto terrUb = terrTile->underBuilding();
-                const auto terrBt = terrTile->underBuildingType();
-                if(!terrUb || eBuilding::sFlatBuilding(terrBt)) {
-                    if(terrTile) drawTerrain(terrTile);
-                }
-            }
-        }
-
         for(int dx = -3; dx <= 3; dx++) {
             for(int dy = -3; dy <= 3; dy++) {
                 drawCharacters(dx, dy);
@@ -1044,14 +1032,12 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         buildingDrawer(tile);
 
-        {
-            const auto terrTile = mBoard->tile(tx + 1, ty);
-            if(terrTile) {
-                const auto terrUb = terrTile->underBuilding();
-                const auto terrBt = terrTile->underBuildingType();
-                if(!terrUb || eBuilding::sFlatBuilding(terrBt)) {
-                    if(terrTile) drawTerrain(terrTile);
-                }
+        const auto terrTile = mBoard->tile(tx, ty + 1);
+        if(terrTile) {
+            const auto terrUb = terrTile->underBuilding();
+            const auto terrBt = terrTile->underBuildingType();
+            if(!terrUb || eBuilding::sFlatBuilding(terrBt)) {
+                if(terrTile) drawTerrain(terrTile);
             }
         }
 
