@@ -784,10 +784,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                     if(tex) {
                         const double offX = mTileH*tex->offsetX()/30.;
                         const double offY = mTileH*tex->offsetY()/30.;
-                        const int dstX = std::round(0.5*(x - y)*mTileW - offX);
-                        const int dstY = std::round(0.5*(x + y)*mTileH - offY);
-                        const int ddstX = mDX + dstX;
-                        const int ddstY = mDY + dstY;
+                        const double dstXf = 0.5*(x - y)*mTileW - offX;
+                        const double dstYf = 0.5*(x + y)*mTileH - offY;
+                        const int ddstXf = mDX + dstXf;
+                        const int ddstYf = mDY + dstYf;
+                        const int ddstX = std::round(ddstXf);
+                        const int ddstY = std::round(ddstYf);
                         const int w = mTileW;
                         const int srcX = 0;//((dtx - dty)*mTileW/2);
 //                        p.drawTexturePortion(srcRect, dstRect, tex);
@@ -870,14 +872,24 @@ void eGameWidget::paintEvent(ePainter& p) {
 //                        tex->renderRelPortion(r, ddstX, ddstY,
 //                                              srcX, w, false);
                         tex->render(r, ddstX, ddstY, false);
+                        if(c->hasSecondaryTexture()) {
+                            const auto stex = c->getSecondaryTexture(mTileSize);
+                            const auto stexTex = stex.fTex;
+                            if(stexTex) {
+                                const double offX = mTileH*stexTex->offsetX()/30.;
+                                const double offY = mTileH*stexTex->offsetY()/30.;
+                                const double sdstXf = 0.5*(x + stex.fX - y - stex.fY)*mTileW - offX;
+                                const double sdstYf = 0.5*(x + stex.fX + y + stex.fY)*mTileH - offY;
+                                const double sddstXf = mDX + sdstXf;
+                                const double sddstYf = mDY + sdstYf;
+                                const int sddstX = std::round(sddstXf);
+                                const int sddstY = std::round(sddstYf);
+                                stexTex->render(r, sddstX, sddstY, false);
+                            }
+                        }
                         SDL_RenderSetClipRect(r, nullptr);
-                        tex->clearColorMod();
+//                        tex->clearColorMod();
 //                      tp.drawTexture(x, y, tex);
-                    }
-                    if(!c->hasSecondaryTexture()) continue;
-                    const auto stex = c->getSecondaryTexture(mTileSize);
-                    if(stex.fTex) {
-                        tp.drawTexture(x + stex.fX, y + stex.fY, stex.fTex);
                     }
                 }
             }
