@@ -91,7 +91,7 @@ void eDestructionTextures::load() {
                                          eDestructionSpriteData45,
                                          eDestructionSpriteData60);
             eSpriteLoader loader(fTileH, "destruction", sds,
-                                 nullptr, fRenderer);
+                                 &eDestructionOffset, fRenderer);
             for(int i = 492; i < 692; i++) {
                 loader.load(492, i, fBless);
             }
