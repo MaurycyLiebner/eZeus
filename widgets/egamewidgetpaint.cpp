@@ -523,6 +523,23 @@ void eGameWidget::paintEvent(ePainter& p) {
                 }
             }
         };
+        const bool oldBuildingRendering = true;
+        if(oldBuildingRendering) {
+            if(bd) {
+            } else if(ub && !v) {
+                const auto tex = getBasementTexture(tile, ub, trrTexs);
+                tp.drawTexture(rx, ry, tex, eAlignment::top);
+            } else if(tbr && !eBuilding::sFlatBuilding(bt)) {
+                drawBuilding();
+                if(ub && tbr && tbr->isMain()) {
+                    drawBuildingModes();
+                }
+            } else if(ub && tbr) {
+                const bool of = ub->isOnFire();
+                if(of) drawFire(tile);
+            }
+            return;
+        }
 
         if(ub && !eBuilding::sFlatBuilding(bt)) {
             const auto getDisplacement =
@@ -992,20 +1009,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         drawSheepGoat();
         drawPatrol();
         drawAppeal();
-
-        if(bd) {
-        } else if(ub && !v) {
-            const auto tex = getBasementTexture(tile, ub, trrTexs);
-            tp.drawTexture(rx, ry, tex, eAlignment::top);
-        } else if(tbr && !eBuilding::sFlatBuilding(bt)) {
-//            drawBuilding();
-//            if(ub && tbr && tbr->isMain()) {
-//                drawBuildingModes();
-//            }
-        } else if(ub && tbr) {
-            const bool of = ub->isOnFire();
-            if(of) drawFire(tile);
-        }
 
         if(tile->hasFish()) {
             const auto& fh = builTexs.fFish;
