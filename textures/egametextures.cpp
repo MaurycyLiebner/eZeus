@@ -671,19 +671,6 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
         }, i);
 
         gGameLoaders.emplace_back([i](std::string& text) {
-            sGodTextures[i].load();
-            if(i == 0) {
-                text = "Loading tiny god textures...";
-            } else if(i == 1) {
-                text = "Loading small god textures...";
-            } else if(i == 2) {
-                text = "Loading medium god textures...";
-            } else if(i == 3) {
-                text = "Loading large god textures...";
-            }
-        }, i);
-
-        gGameLoaders.emplace_back([i](std::string& text) {
             sBuildingTextures[i].load();
             if(i == 0) {
                 text = "Loading tiny building textures...";

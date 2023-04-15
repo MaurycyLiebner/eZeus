@@ -77,10 +77,6 @@ public:
     eGodTextures(const int tileW, const int tileH,
                  SDL_Renderer* const renderer);
 
-    void load();
-
-    bool fLoaded = false;
-
     bool fAphroditeLoaded = false;
     void loadAphrodite();
     bool fApolloLoaded = false;
