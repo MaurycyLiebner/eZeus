@@ -370,8 +370,6 @@ public:
 
     std::vector<eTextureCollection> fOrangesCart;
 
-    std::vector<eTextureCollection> fFoodCart;
-
     eOrangeTenderTextures fOrangeTender;
 
     eArcherTextures fArcher;

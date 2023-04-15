@@ -145,9 +145,6 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
         case eResourceType::armor:
             tex = texs.fArmorCart[oi].getTexture(ci);
             break;
-        case eResourceType::food:
-            tex = texs.fFoodCart[oi].getTexture(0);
-            break;
         default:
             tex = texs.fEmptyCart.getTexture(oi);
             break;
