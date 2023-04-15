@@ -697,19 +697,6 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
         }, i);
 
         gGameLoaders.emplace_back([i](std::string& text) {
-            sCharacterTextures[i].load();
-            if(i == 0) {
-                text = "Loading tiny character textures...";
-            } else if(i == 1) {
-                text = "Loading small character textures...";
-            } else if(i == 2) {
-                text = "Loading medium character textures...";
-            } else if(i == 3) {
-                text = "Loading large character textures...";
-            }
-        }, i);
-
-        gGameLoaders.emplace_back([i](std::string& text) {
             sDestructionTextures[i].load();
             if(i == 0) {
                 text = "Loading tiny destruction textures...";
