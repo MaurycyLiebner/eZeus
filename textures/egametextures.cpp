@@ -370,6 +370,13 @@ void eGameTextures::loadDonkey() {
     });
 }
 
+void eGameTextures::loadBanners() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadBanners();
+    });
+}
+
 void eGameTextures::loadCalydonianBoar() {
     loadTexture([](const int i) {
         auto& c = sCharacterTextures[i];

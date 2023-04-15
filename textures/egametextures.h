@@ -82,6 +82,8 @@ public:
     static void loadGreekRockThrower();
     static void loadDonkey();
 
+    static void loadBanners();
+
     static void loadCalydonianBoar();
     static void loadCerberus();
     static void loadChimera();

@@ -284,6 +284,9 @@ public:
     bool fTheseusLoaded = false;
     void loadTheseus();
 
+    void loadBanners();
+    bool fBannersLoaded = false;
+
     void load();
 
     bool fLoaded = false;

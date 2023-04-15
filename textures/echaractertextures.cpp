@@ -1307,15 +1307,46 @@ void eCharacterTextures::loadDonkey() {
     loadBasicTexture(fDonkey, 529, loader);
 }
 
-void loadBasicTexture(eBasicCharacterTextures& tex,
-                      const int start,
-                      eTextureClass& texClass) {
-    texClass.loadSkipFlipped(tex.fWalk, start, start + 96);
+void eCharacterTextures::loadBanners() {
+    if(fBannersLoaded) return;
+    fBannersLoaded = true;
 
-    for(int i = start + 96; i < start + 104; i++) {
-        texClass.load(i, tex.fDie);
+    const auto& sds = spriteData(fTileH,
+                                 eBannersSpriteData15,
+                                 eBannersSpriteData30,
+                                 eBannersSpriteData45,
+                                 eBannersSpriteData60);
+    eSpriteLoader loader(fTileH, "banners", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 1; i < 22; i++) {
+        loader.load(1, i, fBannerRod);
+    }
+
+    int ban = 0;
+    for(int i = 43; i < 204;) {
+        fBanners.emplace_back(fRenderer);
+        auto& bani = fBanners[ban++];
+        for(int j = 0; j < 7; j++, i++) {
+            loader.load(1, i, bani);
+        }
+    }
+
+    for(int i = 204; i < 207; i++) {
+        loader.load(1, i, fBannerTops);
     }
 }
+
+
+//void loadBasicTexture(eBasicCharacterTextures& tex,
+//                      const int start,
+//                      eTextureClass& texClass) {
+//    texClass.loadSkipFlipped(tex.fWalk, start, start + 96);
+
+//    for(int i = start + 96; i < start + 104; i++) {
+//        texClass.load(i, tex.fDie);
+//    }
+//}
 
 void eCharacterTextures::load() {
     if(fLoaded) return;
@@ -1778,32 +1809,32 @@ void eCharacterTextures::load() {
 //        }
 //    }
 
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eBannersSpriteData15,
-                                     eBannersSpriteData30,
-                                     eBannersSpriteData45,
-                                     eBannersSpriteData60);
-        eSpriteLoader loader(fTileH, "banners", sds,
-                             nullptr, fRenderer);
+//    {
+//        const auto& sds = spriteData(fTileH,
+//                                     eBannersSpriteData15,
+//                                     eBannersSpriteData30,
+//                                     eBannersSpriteData45,
+//                                     eBannersSpriteData60);
+//        eSpriteLoader loader(fTileH, "banners", sds,
+//                             nullptr, fRenderer);
 
-        for(int i = 1; i < 22; i++) {
-            loader.load(1, i, fBannerRod);
-        }
+//        for(int i = 1; i < 22; i++) {
+//            loader.load(1, i, fBannerRod);
+//        }
 
-        int ban = 0;
-        for(int i = 43; i < 204;) {
-            fBanners.emplace_back(fRenderer);
-            auto& bani = fBanners[ban++];
-            for(int j = 0; j < 7; j++, i++) {
-                loader.load(1, i, bani);
-            }
-        }
+//        int ban = 0;
+//        for(int i = 43; i < 204;) {
+//            fBanners.emplace_back(fRenderer);
+//            auto& bani = fBanners[ban++];
+//            for(int j = 0; j < 7; j++, i++) {
+//                loader.load(1, i, bani);
+//            }
+//        }
 
-        for(int i = 204; i < 207; i++) {
-            loader.load(1, i, fBannerTops);
-        }
-    }
+//        for(int i = 204; i < 207; i++) {
+//            loader.load(1, i, fBannerTops);
+//        }
+//    }
 
 //    {
 //        const std::string pathBase{dir + "zeus_calydonianboar/zeus_calydonianboar_"};

@@ -975,6 +975,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b = tile->soldierBanner();
             if(!b) return;
             {
+                eGameTextures::loadBanners();
                 const auto& rods = charTexs.fBannerRod;
                 const auto rod = rods.getTexture(0);
                 tp.drawTexture(rx, ry - 1, rod,
