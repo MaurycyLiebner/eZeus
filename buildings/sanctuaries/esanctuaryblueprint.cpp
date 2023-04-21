@@ -191,6 +191,9 @@ void eSanctBlueprints::loadImpl() {
     loadBP(fAthenaW, dir + "athena.txt");
     fAthenaH = rotate(fAthenaW);
 
+    loadBP(fAtlasW, dir + "atlas.txt");
+    fAtlasH = rotate(fAtlasW);
+
     loadBP(fArtemisW, dir + "artemis.txt");
     fArtemisH = rotate(fArtemisW);
 
@@ -247,6 +250,13 @@ const eSanctBlueprint* eSanctBlueprints::sSanctuaryBlueprint(
             return &i.fAthenaH;
         } else {
             return &i.fAthenaW;
+        }
+    } break;
+    case eBuildingType::templeAtlas: {
+        if(rotate) {
+            return &i.fAtlasH;
+        } else {
+            return &i.fAtlasW;
         }
     } break;
     case eBuildingType::templeArtemis: {

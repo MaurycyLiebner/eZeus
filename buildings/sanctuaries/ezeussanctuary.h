@@ -27,6 +27,12 @@ public:
                     eGameBoard& board);
 };
 
+class eAtlasSanctuary: public eSanctuary  {
+public:
+    eAtlasSanctuary(const int sw, const int sh,
+                    eGameBoard& board);
+};
+
 class eAthenaSanctuary: public eSanctuary  {
 public:
     eAthenaSanctuary(const int sw, const int sh,

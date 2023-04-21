@@ -16,6 +16,10 @@ eApolloSanctuary::eApolloSanctuary(
         const int sw, const int sh, eGameBoard& board) :
     eSanctuary(board, eBuildingType::templeApollo, sw, sh, 60) {}
 
+eAtlasSanctuary::eAtlasSanctuary(
+        const int sw, const int sh, eGameBoard& board) :
+    eSanctuary(board, eBuildingType::templeAtlas, sw, sh, 60) {}
+
 eAthenaSanctuary::eAthenaSanctuary(
         const int sw, const int sh, eGameBoard& board) :
     eSanctuary(board, eBuildingType::templeAthena, sw, sh, 60) {}

@@ -73,6 +73,9 @@ public:
     eSanctBlueprint fAthenaW;
     eSanctBlueprint fAthenaH;
 
+    eSanctBlueprint fAtlasW;
+    eSanctBlueprint fAtlasH;
+
     eSanctBlueprint fArtemisW;
     eSanctBlueprint fArtemisH;
 
