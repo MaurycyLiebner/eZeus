@@ -529,7 +529,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             } else if(ub && !v) {
                 const auto tex = getBasementTexture(tile, ub, trrTexs);
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
-            } else if(tbr && !eBuilding::sFlatBuilding(bt)) {
+            } else if(tbr && (!eBuilding::sFlatBuilding(bt)
+                              || bt == eBuildingType::templeTile)) {
                 drawBuilding();
                 if(ub && tbr && tbr->isMain()) {
                     drawBuildingModes();
