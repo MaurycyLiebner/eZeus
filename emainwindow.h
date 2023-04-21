@@ -54,6 +54,11 @@ public:
     void showWorld();
 
     const eSettings& settings() const { return mSettings; }
+
+    void execDialog(eWidget* const d,
+                    const bool closable = true,
+                    const eAction& closeFunc = nullptr,
+                    eWidget* const parent = nullptr);
 private:
     eSettings mSettings{false, true, false, false, false, eResolution()};
 

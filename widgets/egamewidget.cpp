@@ -48,8 +48,6 @@
 #include "evectorhelpers.h"
 #include "etilehelper.h"
 
-#include "eeventbackground.h"
-
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {}
 
@@ -171,13 +169,8 @@ void eGameWidget::initialize() {
         settingsMenu->resize(width()/2, height()/2);
         settingsMenu->initialize(this, *mBoard);
 
-        const auto bg = new eEventBackground(window());
-        const auto close = [settingsMenu]() {
-            settingsMenu->deleteLater();
-        };
-        addWidget(settingsMenu);
+        window()->execDialog(settingsMenu);
         settingsMenu->align(eAlignment::center);
-        bg->initialize(this, settingsMenu, true, close);
     });
 
     mMenuSwitch = new eCheckBox(window());
@@ -726,13 +719,11 @@ void eGameWidget::showMessage(eEventData& ed,
     };
 
     msgb->initialize(ed, a, close, msg);
-    addWidget(msgb);
+
+    window()->execDialog(msgb, msgb->closable(), close, this);
     msgb->align(eAlignment::bottom | eAlignment::hcenter);
     msgb->setY(msgb->y() - mGm->width()/10);
     msgb->setX(msgb->x() - mGm->width()/2);
-
-    const auto bg = new eEventBackground(window());
-    bg->initialize(this, msgb, msgb->closable(), close);
 }
 
 bool eGameWidget::roadPath(std::vector<eOrientation>& path) {

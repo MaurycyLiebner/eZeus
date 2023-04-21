@@ -8,7 +8,7 @@
 #include "ecancelbutton.h"
 #include "echoosebutton.h"
 
-#include "eeventbackground.h"
+#include "emainwindow.h".h"
 
 void eMultipleSelectionWidget::initialize(
         eWidget* const parent,
@@ -35,13 +35,8 @@ void eMultipleSelectionWidget::initialize(
         };
         choose->initialize(8, labels, act);
 
-        const auto bg = new eEventBackground(window());
-        const auto close = [choose]() {
-            choose->deleteLater();
-        };
-        parent->addWidget(choose);
+        window()->execDialog(choose);
         choose->align(eAlignment::center);
-        bg->initialize(parent, choose, true, close);
     });
     for(const int i : ini) {
         addButton(parent, setActAct, labels, i);
@@ -67,13 +62,8 @@ void eMultipleSelectionWidget::addButton(eWidget* const parent,
         };
         choose->initialize(8, labels, act);
 
-        const auto bg = new eEventBackground(window());
-        const auto close = [choose]() {
-            choose->deleteLater();
-        };
-        parent->addWidget(choose);
+        window()->execDialog(choose);
         choose->align(eAlignment::center);
-        bg->initialize(parent, choose, true, close);
     });
     const auto c = new eCancelButton(window());
     c->setPressAction([this, setActAct, b]() {

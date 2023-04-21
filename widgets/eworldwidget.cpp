@@ -4,7 +4,6 @@
 #include "eworldmapwidget.h"
 #include "erequestdialog.h"
 #include "egiftdialog.h"
-#include "eeventbackground.h"
 #include "emainwindow.h"
 #include "egamewidget.h"
 #include "egiftsizedialog.h"
@@ -56,8 +55,7 @@ void eWorldWidget::openRequestDialog() {
     addWidget(d);
     d->align(eAlignment::vcenter);
     d->setX(mWMW->x() + (mWMW->width() - d->width())/2);
-    const auto bg = new eEventBackground(window());
-    bg->initialize(this, d, true, nullptr);
+    window()->execDialog(d);
 }
 
 void eWorldWidget::openGiftDialog() {
@@ -74,15 +72,13 @@ void eWorldWidget::openGiftDialog() {
         addWidget(dd);
         dd->align(eAlignment::vcenter);
         dd->setX(mWMW->x() + (mWMW->width() - dd->width())/2);
-        const auto bg = new eEventBackground(window());
-        bg->initialize(this, dd, true, nullptr);
+        window()->execDialog(dd);
     };
     d->initialize(mCity, func, *mBoard);
     addWidget(d);
     d->align(eAlignment::vcenter);
     d->setX(mWMW->x() + (mWMW->width() - d->width())/2);
-    const auto bg = new eEventBackground(window());
-    bg->initialize(this, d, true, nullptr);
+    window()->execDialog(d);
 }
 
 bool eWorldWidget::keyPressEvent(const eKeyPressEvent& e) {

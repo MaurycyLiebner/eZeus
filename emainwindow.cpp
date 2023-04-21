@@ -25,6 +25,8 @@
 
 #include "evectorhelpers.h"
 
+#include "widgets/eeventbackground.h"
+
 eMainWindow::eMainWindow() {}
 
 eMainWindow::~eMainWindow() {
@@ -407,6 +409,22 @@ void eMainWindow::showWorld() {
         mWW->setBoard(mBoard);
     }
     setWidget(mWW);
+}
+
+void eMainWindow::execDialog(
+        eWidget* const d, const bool closable,
+        const eAction &closeFunc,
+        eWidget* const parent) {
+    if(!mWidget) return;
+    const auto bg = new eEventBackground(this);
+    if(closeFunc) {
+        bg->initialize(parent ? parent : mWidget, d, closable, closeFunc);
+    } else {
+        const auto closeFunc = [d]() {
+            d->deleteLater();
+        };
+        bg->initialize(parent ? parent : mWidget, d, closable, closeFunc);
+    }
 }
 
 int eMainWindow::exec() {

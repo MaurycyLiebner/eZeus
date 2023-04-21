@@ -2,12 +2,12 @@
 
 #include "eframedbutton.h"
 #include "elanguage.h"
-#include "eeventbackground.h"
 
 #include "characters/gods/egod.h"
 #include "emultipleselectionwidget.h"
 
 #include "engine/egameboard.h"
+#include "emainwindow.h"
 
 void eEditorSettingsMenu::initialize(eWidget* const parent,
                                      eGameBoard& board) {
@@ -50,14 +50,9 @@ void eEditorSettingsMenu::initialize(eWidget* const parent,
             }
             choose->initialize(parent, godNames, act, ini);
 
-            const auto bg = new eEventBackground(window());
-            const auto close = [choose]() {
-                choose->deleteLater();
-            };
-            parent->addWidget(choose);
+            window()->execDialog(choose);
             choose->resize(width(), height());
             choose->align(eAlignment::center);
-            bg->initialize(parent, choose, true, close);
         };
 
         const auto friendGodsButt = new eFramedButton(window());
@@ -86,14 +81,9 @@ void eEditorSettingsMenu::initialize(eWidget* const parent,
             }
             choose->initialize(parent, godNames, act, ini);
 
-            const auto bg = new eEventBackground(window());
-            const auto close = [choose]() {
-                choose->deleteLater();
-            };
-            parent->addWidget(choose);
+            window()->execDialog(choose);
             choose->resize(width(), height());
             choose->align(eAlignment::center);
-            bg->initialize(parent, choose, true, close);
         };
 
         const auto hostileGodsButt = new eFramedButton(window());
@@ -177,14 +167,9 @@ void eEditorSettingsMenu::initialize(eWidget* const parent,
             }
             choose->initialize(parent, monsterNames, act, ini);
 
-            const auto bg = new eEventBackground(window());
-            const auto close = [choose]() {
-                choose->deleteLater();
-            };
-            parent->addWidget(choose);
+            window()->execDialog(choose);
             choose->resize(width(), height());
             choose->align(eAlignment::center);
-            bg->initialize(parent, choose, true, close);
         };
 
         const auto monstersButt = new eFramedButton(window());
@@ -195,14 +180,9 @@ void eEditorSettingsMenu::initialize(eWidget* const parent,
         mythMenu->addWidget(monstersButt);
         monstersButt->align(eAlignment::hcenter);
 
-        const auto bg = new eEventBackground(window());
-        const auto close = [mythMenu]() {
-            mythMenu->deleteLater();
-        };
-        parent->addWidget(mythMenu);
+        window()->execDialog(mythMenu);
         mythMenu->align(eAlignment::center);
         mythMenu->layoutVertically();
-        bg->initialize(parent, mythMenu, true, close);
     };
 
     const auto mythButt = new eFramedButton(window());
