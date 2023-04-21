@@ -361,10 +361,12 @@ SOURCES += \
         widgets/ecancelbutton.cpp \
         widgets/echeckablebutton.cpp \
         widgets/echeckbox.cpp \
+        widgets/echoosebutton.cpp \
         widgets/eclosabledialog.cpp \
         widgets/ecombobox.cpp \
         widgets/econtextmenu.cpp \
         widgets/edownbutton.cpp \
+        widgets/eeditorsettingsmenu.cpp \
         widgets/eeventbackground.cpp \
         widgets/eeventwidget.cpp \
         widgets/eexclamationbutton.cpp \
@@ -400,6 +402,7 @@ SOURCES += \
         widgets/eminimap.cpp \
         widgets/emouseevent.cpp \
         widgets/emultilinelabel.cpp \
+        widgets/emultipleselectionwidget.cpp \
         widgets/eokbutton.cpp \
         widgets/epainter.cpp \
         widgets/eprogressbar.cpp \
@@ -408,6 +411,7 @@ SOURCES += \
         widgets/eresolution.cpp \
         widgets/escrollbar.cpp \
         widgets/escrollwidget.cpp \
+        widgets/eselectionbutton.cpp \
         widgets/esettingsmenu.cpp \
         widgets/espinbox.cpp \
         widgets/eswitchbutton.cpp \
@@ -1270,10 +1274,12 @@ HEADERS += \
     widgets/ecancelbutton.h \
     widgets/echeckablebutton.h \
     widgets/echeckbox.h \
+    widgets/echoosebutton.h \
     widgets/eclosabledialog.h \
     widgets/ecombobox.h \
     widgets/econtextmenu.h \
     widgets/edownbutton.h \
+    widgets/eeditorsettingsmenu.h \
     widgets/eeventbackground.h \
     widgets/eeventwidget.h \
     widgets/eexclamationbutton.h \
@@ -1305,6 +1311,7 @@ HEADERS += \
     widgets/eminimap.h \
     widgets/emouseevent.h \
     widgets/emultilinelabel.h \
+    widgets/emultipleselectionwidget.h \
     widgets/eokbutton.h \
     widgets/epainter.h \
     widgets/eprogressbar.h \
@@ -1313,6 +1320,7 @@ HEADERS += \
     widgets/eresolution.h \
     widgets/escrollbar.h \
     widgets/escrollwidget.h \
+    widgets/eselectionbutton.h \
     widgets/esettingsmenu.h \
     widgets/espinbox.h \
     widgets/eswitchbutton.h \

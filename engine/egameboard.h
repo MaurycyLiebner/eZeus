@@ -230,6 +230,10 @@ public:
     void setHostileGods(const std::vector<eGodType>& gods);
     void setHostileMonsters(const std::vector<eMonsterType>& monsters);
 
+    const std::vector<eGodType>& friendlyGods() { return mFriendlyGods; }
+    const std::vector<eGodType>& hostileGods() { return mHostileGods; }
+    const std::vector<eMonsterType>& hostileMonsters() { return mHostileMonsters; }
+
     void planInvasion(int stage, int months,
                       const int infantry,
                       const int cavalry,

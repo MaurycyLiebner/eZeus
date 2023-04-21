@@ -40,6 +40,8 @@ public:
                                    bool* const valid);
     static eMonsterType sGodsMinion(const eGodType type);
     static eHeroType sSlayer(const eMonsterType type);
+
+    static std::string sMonsterName(const eMonsterType type);
 };
 
 #endif // EMONSTER_H

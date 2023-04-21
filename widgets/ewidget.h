@@ -95,6 +95,7 @@ public:
     void prependWidget(eWidget* const w);
     void addWidget(eWidget* const w);
     void removeWidget(eWidget* const w);
+    void removeAllWidgets();
 
     void stackVertically();
     void layoutVertically();

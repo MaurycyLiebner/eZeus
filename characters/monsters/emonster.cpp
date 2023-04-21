@@ -6,6 +6,8 @@
 #include "ecalydonianboar.h"
 #include "engine/egameboard.h"
 
+#include "elanguage.h"
+
 eMonster::eMonster(eGameBoard& board, const eMonsterType mt) :
     eCharacter(board, sMonsterToCharacterType(mt)) {
     board.registerMonster(this);
@@ -169,5 +171,27 @@ eHeroType eMonster::sSlayer(const eMonsterType type) {
     case eMonsterType::sphinx: return eHeroType::atalanta;
     case eMonsterType::talos: return eHeroType::jason;
     default: return eHeroType::jason;
+    }
+}
+
+std::string eMonster::sMonsterName(const eMonsterType type) {
+    switch(type) {
+    case eMonsterType::calydonianBoar: return eLanguage::text("calydonian_boar");
+    case eMonsterType::cerberus: return eLanguage::text("cerberus");
+    case eMonsterType::chimera: return eLanguage::text("chimera");
+    case eMonsterType::cyclops: return eLanguage::text("cyclops");
+    case eMonsterType::dragon: return eLanguage::text("dragon");
+    case eMonsterType::echidna: return eLanguage::text("echidna");
+    case eMonsterType::harpies: return eLanguage::text("harpies");
+    case eMonsterType::hector: return eLanguage::text("hector");
+    case eMonsterType::hydra: return eLanguage::text("hydra");
+    case eMonsterType::kraken: return eLanguage::text("kraken");
+    case eMonsterType::maenads: return eLanguage::text("maenads");
+    case eMonsterType::medusa: return eLanguage::text("medusa");
+    case eMonsterType::minotaur: return eLanguage::text("minotaur");
+    case eMonsterType::scylla: return eLanguage::text("scylla");
+    case eMonsterType::sphinx: return eLanguage::text("sphinx");
+    case eMonsterType::talos: return eLanguage::text("talos");
+    default: return eLanguage::text("talos");
     }
 }

@@ -24,6 +24,8 @@
 
 #include "emainwindow.h"
 
+#include "eframedbutton.h"
+#include "widgets/eeditorsettingsmenu.h"
 #include "widgets/infowidgets/einfowidget.h"
 #include "emessagebox.h"
 
@@ -154,11 +156,36 @@ void eGameWidget::initialize() {
     mTem->align(eAlignment::right | eAlignment::top);
     mTem->hide();
 
+    const auto str = eLanguage::text("settings");
+    const auto settingsButt = new eFramedButton(str, window());
+    settingsButt->fitContent();
+    addWidget(settingsButt);
+    const int p = padding();
+    settingsButt->move(mGm->x() - settingsButt->width() - p,
+                       mTopBar->height() + p);
+    settingsButt->hide();
+    settingsButt->setUnderline(false);
+    settingsButt->setRenderBg(true);
+    settingsButt->setPressAction([this]() {
+        const auto settingsMenu = new eEditorSettingsMenu(window());
+        settingsMenu->resize(width()/2, height()/2);
+        settingsMenu->initialize(this, *mBoard);
+
+        const auto bg = new eEventBackground(window());
+        const auto close = [settingsMenu]() {
+            settingsMenu->deleteLater();
+        };
+        addWidget(settingsMenu);
+        settingsMenu->align(eAlignment::center);
+        bg->initialize(this, settingsMenu, true, close);
+    });
+
     mMenuSwitch = new eCheckBox(window());
     mMenuSwitch->move(mGm->x(), 0);
-    mMenuSwitch->setCheckAction([this](const bool c) {
+    mMenuSwitch->setCheckAction([this, settingsButt](const bool c) {
         mTem->setVisible(c);
         mGm->setVisible(!c);
+        settingsButt->setVisible(c);
     });
     addWidget(mMenuSwitch);
 

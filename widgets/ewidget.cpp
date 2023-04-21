@@ -398,6 +398,13 @@ void eWidget::removeWidget(eWidget* const w) {
     if(r) w->mParent = nullptr;
 }
 
+void eWidget::removeAllWidgets() {
+    for(const auto w : mChildren) {
+        w->mParent = nullptr;
+    }
+    mChildren.clear();
+}
+
 void eWidget::stackVertically() {
     int y = 0;
     for(const auto w : mChildren) {
