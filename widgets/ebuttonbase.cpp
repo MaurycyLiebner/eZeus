@@ -31,17 +31,23 @@ bool eButtonBase::hovered() const {
 }
 
 bool eButtonBase::mousePressEvent(const eMouseEvent& e) {
-    (void)e;
-    mPressed = true;
-    return true;
+    if(e.button() == eMouseButton::left) {
+        mPressed = true;
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool eButtonBase::mouseReleaseEvent(const eMouseEvent& e) {
-    (void)e;
-    mPressed = false;
-    if(mPressAction) mPressAction();
-    eSounds::playButtonSound();
-    return true;
+    if(e.button() == eMouseButton::left) {
+        mPressed = false;
+        if(mPressAction) mPressAction();
+        eSounds::playButtonSound();
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool eButtonBase::mouseMoveEvent(const eMouseEvent& e) {
