@@ -8,7 +8,7 @@
 #include "ecancelbutton.h"
 #include "echoosebutton.h"
 
-#include "emainwindow.h".h"
+#include "emainwindow.h"
 
 void eMultipleSelectionWidget::initialize(
         eWidget* const parent,

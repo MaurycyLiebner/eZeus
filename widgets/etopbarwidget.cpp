@@ -3,6 +3,10 @@
 #include "engine/egameboard.h"
 #include "engine/boardData/epopulationdata.h"
 #include "textures/egametextures.h"
+#include "ebutton.h"
+#include "edatewidget.h"
+
+#include "emainwindow.h"
 
 void eTopBarWidget::initialize() {
     const auto& intrfc = eGameTextures::interface();
@@ -27,11 +31,20 @@ void eTopBarWidget::initialize() {
     const auto s2 = new eWidget(window());
     s2->setWidth(mult*25);
 
-    mDateLabel = new eLabel(window());
+    mDateLabel = new eButton(window());
     const eDate date(30, eMonth::january, -1500);
     mDateLabel->setSmallFontSize();
     mDateLabel->setText(date.shortString());
     mDateLabel->fitContent();
+    mDateLabel->setPressAction([this]() {
+        const auto dw = new eDateWidget(window());
+        dw->initialize([this](const eDate& d) {
+            mBoard->setDate(d);
+            mDateLabel->setText(d.shortString());
+        });
+        window()->execDialog(dw);
+        dw->align(eAlignment::center);
+    });
 
     const auto s3 = new eWidget(window());
     s3->setWidth(mult*20);

@@ -91,6 +91,35 @@ void eDate::read(eReadStream& src) {
     src >> mYear;
 }
 
+std::string eMonthHelper::name(const eMonth m) {
+    switch(m) {
+    case eMonth::january:
+        return eLanguage::text("january");
+    case eMonth::february:
+        return eLanguage::text("february");
+    case eMonth::march:
+        return eLanguage::text("march");
+    case eMonth::april:
+        return eLanguage::text("april");
+    case eMonth::may:
+        return eLanguage::text("may");
+    case eMonth::june:
+        return eLanguage::text("june");
+    case eMonth::july:
+        return eLanguage::text("july");
+    case eMonth::august:
+        return eLanguage::text("august");
+    case eMonth::september:
+        return eLanguage::text("september");
+    case eMonth::october:
+        return eLanguage::text("october");
+    case eMonth::november:
+        return eLanguage::text("november");
+    case eMonth::december:
+        return eLanguage::text("december");
+    }
+}
+
 std::string eMonthHelper::shortName(const eMonth m) {
     switch(m) {
     case eMonth::january:

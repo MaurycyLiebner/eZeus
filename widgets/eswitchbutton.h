@@ -1,9 +1,9 @@
 #ifndef ESWITCHBUTTON_H
 #define ESWITCHBUTTON_H
 
-#include "ebutton.h"
+#include "eframedbutton.h"
 
-class eSwitchButton : public eButton {
+class eSwitchButton : public eFramedButton {
 public:
     eSwitchButton(eMainWindow* const window);
 
@@ -15,6 +15,8 @@ public:
 
     using eSwitchAction = std::function<void(int)>;
     void setSwitchAction(const eSwitchAction& a);
+
+    void fitValialbeContent();
 private:
     int mCurrentValue = 0;
     std::vector<std::string> mValues;

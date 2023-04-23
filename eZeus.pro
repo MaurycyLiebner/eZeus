@@ -245,6 +245,7 @@ SOURCES += \
         engine/boardData/epopulationdata.cpp \
         engine/edate.cpp \
         engine/edifficulty.cpp \
+        engine/eeventtime.cpp \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
@@ -365,9 +366,11 @@ SOURCES += \
         widgets/eclosabledialog.cpp \
         widgets/ecombobox.cpp \
         widgets/econtextmenu.cpp \
+        widgets/edatewidget.cpp \
         widgets/edownbutton.cpp \
         widgets/eeditorsettingsmenu.cpp \
         widgets/eeventbackground.cpp \
+        widgets/eeventtimewidget.cpp \
         widgets/eeventwidget.cpp \
         widgets/eexclamationbutton.cpp \
         widgets/efilewidget.cpp \
@@ -403,6 +406,7 @@ SOURCES += \
         widgets/emouseevent.cpp \
         widgets/emultilinelabel.cpp \
         widgets/emultipleselectionwidget.cpp \
+        widgets/enumlineedit.cpp \
         widgets/eokbutton.cpp \
         widgets/epainter.cpp \
         widgets/eprogressbar.cpp \
@@ -668,6 +672,7 @@ HEADERS += \
     engine/edifficulty.h \
     engine/eevent.h \
     engine/eeventdata.h \
+    engine/eeventtime.h \
     engine/efunctask.h \
     engine/egameboard.h \
     engine/egameboarditerator.h \
@@ -1278,9 +1283,11 @@ HEADERS += \
     widgets/eclosabledialog.h \
     widgets/ecombobox.h \
     widgets/econtextmenu.h \
+    widgets/edatewidget.h \
     widgets/edownbutton.h \
     widgets/eeditorsettingsmenu.h \
     widgets/eeventbackground.h \
+    widgets/eeventtimewidget.h \
     widgets/eeventwidget.h \
     widgets/eexclamationbutton.h \
     widgets/efilewidget.h \
@@ -1312,6 +1319,7 @@ HEADERS += \
     widgets/emouseevent.h \
     widgets/emultilinelabel.h \
     widgets/emultipleselectionwidget.h \
+    widgets/enumlineedit.h \
     widgets/eokbutton.h \
     widgets/epainter.h \
     widgets/eprogressbar.h \

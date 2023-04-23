@@ -5,6 +5,10 @@ eLineEdit::eLineEdit(eMainWindow* const window) :
     setTextAlignment(eAlignment::left | eAlignment::vcenter);
 }
 
+void eLineEdit::setChangeAction(const eAction a) {
+    mChangeAction = a;
+}
+
 bool eLineEdit::keyPressEvent(const eKeyPressEvent& e) {
     const auto k = e.key();
     auto txt = text();
@@ -12,6 +16,7 @@ bool eLineEdit::keyPressEvent(const eKeyPressEvent& e) {
         if(txt.empty()) return true;
         txt.pop_back();
         setText(txt);
+        if(mChangeAction) mChangeAction();
         return true;
     }
     std::string add;
@@ -94,6 +99,7 @@ bool eLineEdit::keyPressEvent(const eKeyPressEvent& e) {
         std::transform(add.begin(), add.end(), add.begin(), ::toupper);
     }
     setText(txt + add);
+    if(mChangeAction) mChangeAction();
     return true;
 }
 

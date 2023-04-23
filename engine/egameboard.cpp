@@ -1626,6 +1626,10 @@ void eGameBoard::incDrachmas(const int d) {
     mDrachmas += d;
 }
 
+void eGameBoard::setDate(const eDate& d) {
+    mDate = d;
+}
+
 double eGameBoard::appeal(const int tx, const int ty) const {
     return mAppealMap.heat(tx, ty);
 }

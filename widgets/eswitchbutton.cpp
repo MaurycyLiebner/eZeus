@@ -1,7 +1,7 @@
 #include "eswitchbutton.h"
 
 eSwitchButton::eSwitchButton(eMainWindow* const window) :
-    eButton(window) {
+    eFramedButton(window) {
     setPressAction([this]() { switchValue(); });
 }
 
@@ -25,4 +25,15 @@ void eSwitchButton::setValue(const int v) {
 
 void eSwitchButton::setSwitchAction(const eSwitchAction& a) {
     mSwitchAction = a;
+}
+
+void eSwitchButton::fitValialbeContent() {
+    int w = 0;
+    for(const auto& v : mValues) {
+        setText(v);
+        fitContent();
+        const int wv = width();
+        if(wv > w) w = wv;
+    }
+    setWidth(w);
 }

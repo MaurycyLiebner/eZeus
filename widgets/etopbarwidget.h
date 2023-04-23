@@ -5,6 +5,7 @@
 #include "elabel.h"
 
 class eGameBoard;
+class eButton;
 
 class eTopWidget : public eWidget {
 public:
@@ -53,7 +54,7 @@ private:
     eGameBoard* mBoard = nullptr;
     eTopWidget* mDrachmasWidget = nullptr;
     eTopWidget* mPopulationWidget = nullptr;
-    eLabel* mDateLabel = nullptr;
+    eButton* mDateLabel = nullptr;
     int mTime = 0;
 };
 

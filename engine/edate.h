@@ -21,6 +21,7 @@ enum class eMonth {
 };
 
 namespace eMonthHelper {
+    std::string name(const eMonth m);
     std::string shortName(const eMonth m);
     int days(const eMonth m);
     eMonth nextMonth(const eMonth m, bool& nextYear);
