@@ -1628,6 +1628,9 @@ void eGameBoard::incDrachmas(const int d) {
 
 void eGameBoard::setDate(const eDate& d) {
     mDate = d;
+    for(const auto& e : mGameEvents) {
+        e->rewind(mDate);
+    }
 }
 
 double eGameBoard::appeal(const int tx, const int ty) const {

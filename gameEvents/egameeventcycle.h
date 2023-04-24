@@ -18,16 +18,21 @@ public:
     eGameEventCycle(eGameBoard& board);
 
     void handleNewDate(const eDate& date);
+    void rewind(const eDate& date);
     void trigger();
-    bool finished() const { return mNRuns <= 0; }
+    bool finished() const { return mRemNRuns <= 0; }
 
     void write(eWriteStream& dst) const;
     void read(eReadStream& src);
 private:
     stdsptr<eGameEvent> mEvent;
-    eDate mNextDate;
+
+    eDate mStartDate;
     int mCycleDays;
-    int mNRuns;
+    int mTotNRuns;
+
+    int mRemNRuns;
+    eDate mNextDate;
 };
 
 #endif // EGAMEEVENTCYCLE_H

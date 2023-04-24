@@ -7,9 +7,11 @@ eGameEventCycle::eGameEventCycle(const stdsptr<eGameEvent>& event,
                                  eGameBoard& board) :
     eObject(board),
     mEvent(event),
-    mNextDate(startDate),
+    mStartDate(startDate),
     mCycleDays(cycleDays),
-    mNRuns(nRuns) {}
+    mTotNRuns(nRuns),
+    mRemNRuns(nRuns),
+    mNextDate(startDate) {}
 
 eGameEventCycle::eGameEventCycle(const stdsptr<eGameEvent>& event,
                                  const eDate& date, eGameBoard& board) :
@@ -22,7 +24,21 @@ void eGameEventCycle::handleNewDate(const eDate& date) {
     if(finished()) return;
     if(date > mNextDate) {
         trigger();
-        mNRuns--;
+        mRemNRuns--;
+        mNextDate += mCycleDays;
+    }
+}
+
+void eGameEventCycle::rewind(const eDate& date) {
+    mNextDate = mStartDate;
+    mRemNRuns = mTotNRuns;
+    if(mCycleDays <= 0) {
+        if(date > mStartDate) mRemNRuns--;
+        return;
+    }
+    while(date > mNextDate) {
+        mRemNRuns--;
+        if(mRemNRuns <= 0) break;
         mNextDate += mCycleDays;
     }
 }
@@ -35,8 +51,10 @@ void eGameEventCycle::write(eWriteStream& dst) const {
     dst << mEvent->type();
     mEvent->write(dst);
     mNextDate.write(dst);
+    mStartDate.write(dst);
     dst << mCycleDays;
-    dst << mNRuns;
+    dst << mTotNRuns;
+    dst << mRemNRuns;
 }
 
 void eGameEventCycle::read(eReadStream& src) {
@@ -45,6 +63,8 @@ void eGameEventCycle::read(eReadStream& src) {
     mEvent = eGameEvent::sCreate(type, getBoard());
     mEvent->read(src);
     mNextDate.read(src);
+    mStartDate.read(src);
     src >> mCycleDays;
-    src >> mNRuns;
+    src >> mTotNRuns;
+    src >> mRemNRuns;
 }
