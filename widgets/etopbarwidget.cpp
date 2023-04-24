@@ -41,7 +41,7 @@ void eTopBarWidget::initialize() {
         dw->initialize([this](const eDate& d) {
             mBoard->setDate(d);
             mDateLabel->setText(d.shortString());
-        });
+        }, false);
         window()->execDialog(dw);
         dw->align(eAlignment::center);
     });

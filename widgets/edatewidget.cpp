@@ -3,19 +3,23 @@
 #include "echoosebutton.h"
 #include "eframedbutton.h"
 #include "enumlineedit.h"
+#include "eokbutton.h"
 
 #include "emainwindow.h"
 
-void eDateWidget::initialize(const eDateAction& a) {
+void eDateWidget::initialize(const eDateAction& a,
+                             const bool actOnChange) {
     setType(eFrameType::message);
 
     mDayEdit = new eNumLineEdit(window());
     mDayEdit->setRange(1, eMonthHelper::days(mMonth));
     mDayEdit->setValue(10);
     mDayEdit->fitContent();
-    mDayEdit->setChangeAction([this, a]() {
-        if(a) a(date());
-    });
+    if(actOnChange) {
+        mDayEdit->setChangeAction([this, a]() {
+            if(a) a(date());
+        });
+    }
 
     mMonthEdit = new eFramedButton(window());
     mMonthEdit->fitContent();
@@ -32,15 +36,16 @@ void eDateWidget::initialize(const eDateAction& a) {
     }
     mMonthEdit->setText(eMonthHelper::name(mMonth));
     mMonthEdit->setWidth(w);
-    mMonthEdit->setPressAction([this, monthStrs, a]() {
+    mMonthEdit->setPressAction([this, monthStrs, a, actOnChange]() {
         const auto choose = new eChooseButton(window());
-        choose->initialize(4, monthStrs, [this, a](const int i) {
+        const auto cact = [this, a, actOnChange](const int i) {
             mMonth = static_cast<eMonth>(i);
             const int days = eMonthHelper::days(mMonth);
             mDayEdit->setRange(1, days);
             mMonthEdit->setText(eMonthHelper::name(mMonth));
-            if(a) a(date());
-        });
+            if(a && actOnChange) a(date());
+        };
+        choose->initialize(4, monthStrs, cact);
         window()->execDialog(choose);
         choose->align(eAlignment::center);
     });
@@ -49,9 +54,11 @@ void eDateWidget::initialize(const eDateAction& a) {
     mYearEdit->setRange(-9999, 9999);
     mYearEdit->setValue(-1500);
     mYearEdit->fitContent();
-    mYearEdit->setChangeAction([this, a]() {
-        if(a) a(date());
-    });
+    if(actOnChange) {
+        mYearEdit->setChangeAction([this, a]() {
+            if(a) a(date());
+        });
+    }
 
     addWidget(mDayEdit);
     addWidget(mMonthEdit);
@@ -69,6 +76,20 @@ void eDateWidget::initialize(const eDateAction& a) {
     mYearEdit->setY(2*p);
 
     fitContent();
+
+    if(!actOnChange) {
+        setWidth(width() + 2*p);
+        setHeight(height() + 2*p);
+        const auto ok = new eOkButton(window());
+        ok->setPressAction([this, a]() {
+            if(a) a(date());
+            deleteLater();
+        });
+        addWidget(ok);
+        ok->align(eAlignment::right | eAlignment::bottom);
+        ok->setX(ok->x() - 1.5*p);
+        ok->setY(ok->y() - 1.5*p);
+    }
 }
 
 eDate eDateWidget::date() const {

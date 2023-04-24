@@ -13,11 +13,13 @@ public:
     using eFramedWidget::eFramedWidget;
 
     using eDateAction = std::function<void(const eDate&)>;
-    void initialize(const eDateAction& a);
+    void initialize(const eDateAction& a,
+                    const bool actOnChange);
 
     eDate date() const;
     void setDate(const eDate& date);
 private:
+    bool mActOnChange = false;
     eNumLineEdit* mDayEdit = nullptr;
     eFramedButton* mMonthEdit = nullptr;
     eMonth mMonth = eMonth::january;
