@@ -93,13 +93,15 @@ void eFileWidget::intialize(const std::string& title,
     const auto filesWidget = new eWidget(window());
 
     std::map<time_t, fs::path> sorted;
-    for(const auto& entry : fs::directory_iterator(folder)) {
-        const auto path = entry.path();
-        const auto ext = path.extension();
-        if(ext != ".ez") continue;
-        const auto lwt = fs::last_write_time(path);
-        const auto time = to_time_t(lwt);
-        sorted[-time] = path;
+    if(std::filesystem::exists(folder)) {
+        for(const auto& entry : fs::directory_iterator(folder)) {
+            const auto path = entry.path();
+            const auto ext = path.extension();
+            if(ext != ".ez") continue;
+            const auto lwt = fs::last_write_time(path);
+            const auto time = to_time_t(lwt);
+            sorted[-time] = path;
+        }
     }
 
     int y = 0;

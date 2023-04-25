@@ -19,6 +19,7 @@
 #include "fileIO/ereadstream.h"
 
 #include <chrono>
+#include <filesystem>
 
 #include "widgets/efilewidget.h"
 #include "elanguage.h"
@@ -117,6 +118,9 @@ void eMainWindow::startGameAction(eGameBoard* const board,
 }
 
 bool eMainWindow::saveGame(const std::string& path) {
+    const auto fsp = std::filesystem::path(path);
+    const auto fspd = fsp.parent_path();
+    std::filesystem::create_directories(fspd);
     const auto file = SDL_RWFromFile(path.c_str(), "w+b");
     if(!file) return false;
     eWriteStream dst(file);
