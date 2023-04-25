@@ -3,8 +3,7 @@
 
 #include "eframedwidget.h"
 
-class eFramedButton;
-class eSelectionButton;
+class eButtonsListWidget;
 
 class eMultipleSelectionWidget : public eFramedWidget {
 public:
@@ -15,13 +14,10 @@ public:
     void initialize(const eLabels& labels,
                     const eSetAction& setAct,
                     const std::vector<int>& ini);
-    void addButton(const eAction& setActAct,
-                   const eLabels& labels, const int i);
 private:
-    void updateButtons();
+    std::vector<int> mValues;
 
-    std::vector<eSelectionButton*> mButtons;
-    eFramedButton* mNewButton = nullptr;
+    eButtonsListWidget* mBLW = nullptr;
 };
 
 #endif // EMULTIPLESELECTIONWIDGET_H

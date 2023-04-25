@@ -47,10 +47,10 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
                 const int i = static_cast<int>(g);
                 ini.push_back(i);
             }
+            choose->resize(width(), height());
             choose->initialize(godNames, act, ini);
 
             window()->execDialog(choose);
-            choose->resize(width(), height());
             choose->align(eAlignment::center);
         };
 
@@ -78,10 +78,10 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
                 const int i = static_cast<int>(g);
                 ini.push_back(i);
             }
+            choose->resize(width(), height());
             choose->initialize(godNames, act, ini);
 
             window()->execDialog(choose);
-            choose->resize(width(), height());
             choose->align(eAlignment::center);
         };
 
@@ -164,10 +164,10 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
                 const int i = static_cast<int>(g);
                 ini.push_back(i);
             }
+            choose->resize(width(), height());
             choose->initialize(monsterNames, act, ini);
 
             window()->execDialog(choose);
-            choose->resize(width(), height());
             choose->align(eAlignment::center);
         };
 

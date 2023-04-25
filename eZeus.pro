@@ -359,6 +359,7 @@ SOURCES += \
         widgets/ebuildwidget.cpp \
         widgets/ebutton.cpp \
         widgets/ebuttonbase.cpp \
+        widgets/ebuttonslistwidget.cpp \
         widgets/ecancelbutton.cpp \
         widgets/echeckablebutton.cpp \
         widgets/echeckbox.cpp \
@@ -416,7 +417,6 @@ SOURCES += \
         widgets/eresolution.cpp \
         widgets/escrollbar.cpp \
         widgets/escrollwidget.cpp \
-        widgets/eselectionbutton.cpp \
         widgets/esettingsmenu.cpp \
         widgets/espinbox.cpp \
         widgets/eswitchbutton.cpp \
@@ -1277,6 +1277,7 @@ HEADERS += \
     widgets/ebuildwidget.h \
     widgets/ebutton.h \
     widgets/ebuttonbase.h \
+    widgets/ebuttonslistwidget.h \
     widgets/ecancelbutton.h \
     widgets/echeckablebutton.h \
     widgets/echeckbox.h \
@@ -1330,7 +1331,6 @@ HEADERS += \
     widgets/eresolution.h \
     widgets/escrollbar.h \
     widgets/escrollwidget.h \
-    widgets/eselectionbutton.h \
     widgets/esettingsmenu.h \
     widgets/espinbox.h \
     widgets/eswitchbutton.h \

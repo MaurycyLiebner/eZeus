@@ -1,97 +1,57 @@
 #include "emultipleselectionwidget.h"
 
-#include "eselectionbutton.h"
-#include "elanguage.h"
-#include "eframedbutton.h"
-#include "evectorhelpers.h"
-
-#include "ecancelbutton.h"
 #include "echoosebutton.h"
 
 #include "emainwindow.h"
+
+#include "ebuttonslistwidget.h"
 
 void eMultipleSelectionWidget::initialize(
         const eLabels& labels,
         const eSetAction& setAct,
         const std::vector<int>& ini) {
-    const auto setActAct = [this, setAct]() {
-        std::vector<int> values;
-        for(const auto w : mButtons) {
-            values.push_back(w->value());
-        }
-        setAct(values);
-    };
     setType(eFrameType::message);
-    const auto addStr = eLanguage::text("add");
-    mNewButton = new eFramedButton(addStr, window());
-    mNewButton->fitContent();
-    mNewButton->setUnderline(false);
-    mNewButton->setPressAction([this, setActAct, labels]() {
-        const auto choose = new eChooseButton(window());
-        const auto act = [this, setActAct, labels](const int n) {
-            addButton(setActAct, labels, n);
-            setActAct();
-        };
-        choose->initialize(8, labels, act);
 
-        window()->execDialog(choose);
-        choose->align(eAlignment::center);
-    });
-    for(const int i : ini) {
-        addButton(setActAct, labels, i);
-    }
-    updateButtons();
-}
-
-void eMultipleSelectionWidget::addButton(
-        const eAction& setActAct,
-        const eLabels& labels, const int i) {
-    const auto b = new eSelectionButton(window());
-    b->initialize(i, mButtons.size());
-    const auto bb = new eFramedButton(labels[i], window());
-    bb->setUnderline(false);
-    bb->fitContent();
-    b->addWidget(bb);
-    bb->setPressAction([this, b, bb, setActAct, labels]() {
-        const auto choose = new eChooseButton(window());
-        const auto act = [b, bb, setActAct, labels](const int n) {
-            b->setValue(n);
-            bb->setText(labels[n]);
-            setActAct();
-        };
-        choose->initialize(8, labels, act);
-
-        window()->execDialog(choose);
-        choose->align(eAlignment::center);
-    });
-    const auto c = new eCancelButton(window());
-    c->setPressAction([this, setActAct, b]() {
-        eVectorHelpers::remove(mButtons, b);
-        updateButtons();
-        setActAct();
-        b->deleteLater();
-    });
-    b->addWidget(c);
-    b->stackHorizontally();
-    b->fitContent();
-    c->align(eAlignment::vcenter);
-    mButtons.push_back(b);
-    updateButtons();
-}
-
-void eMultipleSelectionWidget::updateButtons() {
-    removeAllWidgets();
+    mBLW = new eButtonsListWidget(window());
     const int p = padding();
-    int y = 2*p;
-    int i = 0;
-    for(const auto b : mButtons) {
-        addWidget(b);
-        b->setX(2*p);
-        b->setY(y);
-        b->setId(i++);
-        y += b->height() + p;
+    mBLW->resize(width() - 4*p, height() - 4*p);
+    mBLW->initialize();
+    mBLW->move(2*p, 2*p);
+    addWidget(mBLW);
+
+    mBLW->setButtonPressEvent([this, labels, setAct](const int id) {
+        const auto choose = new eChooseButton(window());
+        const auto act = [this, setAct, labels, id](const int val) {
+            mBLW->setText(id, labels[val]);
+            mValues[id] = val;
+            setAct(mValues);
+        };
+        choose->initialize(8, labels, act);
+
+        window()->execDialog(choose);
+        choose->align(eAlignment::center);
+    });
+
+    mBLW->setButtonCreateEvent([this, labels, setAct]() {
+        const auto choose = new eChooseButton(window());
+        const auto act = [this, setAct, labels](const int val) {
+            mBLW->addButton(labels[val]);
+            mValues.push_back(val);
+            setAct(mValues);
+        };
+        choose->initialize(8, labels, act);
+
+        window()->execDialog(choose);
+        choose->align(eAlignment::center);
+    });
+
+    mBLW->setButtonRemoveEvent([this, setAct](const int id) {
+        mValues.erase(mValues.begin() + id);
+        setAct(mValues);
+    });
+
+    mValues = ini;
+    for(const int i : ini) {
+        mBLW->addButton(labels[i]);
     }
-    addWidget(mNewButton);
-    mNewButton->setX(2*p);
-    mNewButton->setY(y);
 }
