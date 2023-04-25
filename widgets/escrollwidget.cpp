@@ -58,6 +58,7 @@ void eScrollWidget::clampDY() {
             const int maxH = sh - h;
             mDy = std::clamp(mDy, 0, maxH);
         }
+        setMouseReceiverDXDY(0, mDy);
     } else {
         mDy = 0;
     }

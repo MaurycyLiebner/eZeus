@@ -5,8 +5,7 @@
 #include "eacceptbutton.h"
 #include "ecancelbutton.h"
 
-#include "escrollwidget.h"
-#include "escrollbar.h"
+#include "escrollwidgetcomplete.h"
 
 #include "elineedit.h"
 
@@ -75,20 +74,13 @@ void eFileWidget::intialize(const std::string& title,
     lineW->setX(2*p);
     addWidget(lineW);
 
-    const auto scrollCont = new eWidget(window());
+    const auto scrollCont = new eScrollWidgetComplete(window());
     addWidget(scrollCont);
     scrollCont->resize(ww - 4*p, hh - lineY - mLineEdit->height() - 10*p);
     scrollCont->setY(lineY + mLineEdit->height() + 2*p);
     scrollCont->setX(2*p);
-
-    const auto sb = new eScrollBar(window());
-    sb->initialize(scrollCont->height());
-    scrollCont->addWidget(sb);
-
-    const int swwidth = scrollCont->width() - sb->width() - p;
-
-    mLineEdit->resize(swwidth - 2*p, mLineEdit->height());
-    lineW->resize(swwidth, mLineEdit->height());
+    scrollCont->initialize();
+    const int swwidth = scrollCont->listWidth();
 
     const auto filesWidget = new eWidget(window());
 
@@ -131,19 +123,10 @@ void eFileWidget::intialize(const std::string& title,
     filesWidget->setNoPadding();
     filesWidget->fitContent();
 
-    const auto swww = new eFramedWidget(window());
-    swww->setNoPadding();
-    swww->setType(eFrameType::inner);
-    const auto sw = new eScrollWidget(window());
-    swww->addWidget(sw);
-    sw->resize(swwidth - 2*p, scrollCont->height() - 2*p);
-    sw->move(p, p);
-    swww->resize(swwidth, scrollCont->height());
-    sw->setScrollArea(filesWidget);
-    sb->setScrollWidget(sw);
-    scrollCont->addWidget(swww);
+    scrollCont->setScrollArea(filesWidget);
 
-    sb->align(eAlignment::right);
+    mLineEdit->resize(swwidth - 2*p, mLineEdit->height());
+    lineW->resize(swwidth, mLineEdit->height());
 
     mLineEdit->grabKeyboard();
 }

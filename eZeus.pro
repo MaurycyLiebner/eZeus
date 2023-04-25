@@ -416,7 +416,9 @@ SOURCES += \
         widgets/erequestdialog.cpp \
         widgets/eresolution.cpp \
         widgets/escrollbar.cpp \
+        widgets/escrollbuttonslist.cpp \
         widgets/escrollwidget.cpp \
+        widgets/escrollwidgetcomplete.cpp \
         widgets/esettingsmenu.cpp \
         widgets/espinbox.cpp \
         widgets/eswitchbutton.cpp \
@@ -1330,7 +1332,9 @@ HEADERS += \
     widgets/erequestdialog.h \
     widgets/eresolution.h \
     widgets/escrollbar.h \
+    widgets/escrollbuttonslist.h \
     widgets/escrollwidget.h \
+    widgets/escrollwidgetcomplete.h \
     widgets/esettingsmenu.h \
     widgets/espinbox.h \
     widgets/eswitchbutton.h \

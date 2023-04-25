@@ -75,6 +75,12 @@ void eWidget::fitContent() {
     resize(w + 2*mPadding, h + 2*mPadding);
 }
 
+void eWidget::fitHeight() {
+    const int w = width();
+    fitContent();
+    setWidth(w);
+}
+
 void eWidget::show() {
     mVisible = true;
 }
@@ -328,7 +334,9 @@ template <typename T>
 eWidget* eWidget::mouseEvent(const T& e, const TMouseEvent<T> event,
                              const bool overwrite) {
     if(mMouseReceiver && overwrite) {
-        return mMouseReceiver->mouseEvent(e, event);
+        const auto te = e.translated(mMouseReceiverDx,
+                                     mMouseReceiverDy);
+        return mMouseReceiver->mouseEvent(te, event);
     }
     if(!contains(e.x(), e.y())) return nullptr;
     for(auto w = mChildren.rbegin(); w != mChildren.rend(); w++) {
@@ -466,6 +474,11 @@ void eWidget::layoutHorizontallyWithoutSpaces() {
 
 void eWidget::setMouseReceiver(eWidget* const w) {
     mMouseReceiver = w;
+}
+
+void eWidget::setMouseReceiverDXDY(const int dx, const int dy) {
+    mMouseReceiverDx = dx;
+    mMouseReceiverDy = dy;
 }
 
 void eWidget::sizeHint(int& w, int& h) {

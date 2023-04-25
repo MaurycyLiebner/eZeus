@@ -193,6 +193,7 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
     mythButt->align(eAlignment::hcenter);
 
     const auto eventsAct = []() {
+
     };
 
     const auto eventsButt = new eFramedButton(window());

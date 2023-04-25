@@ -12,17 +12,17 @@ void eMultipleSelectionWidget::initialize(
         const std::vector<int>& ini) {
     setType(eFrameType::message);
 
-    mBLW = new eButtonsListWidget(window());
+    const auto blw = new eButtonsListWidget(window());
     const int p = padding();
-    mBLW->resize(width() - 4*p, height() - 4*p);
-    mBLW->initialize();
-    mBLW->move(2*p, 2*p);
-    addWidget(mBLW);
+    blw->resize(width() - 4*p, height() - 4*p);
+    blw->initialize();
+    blw->move(2*p, 2*p);
+    addWidget(blw);
 
-    mBLW->setButtonPressEvent([this, labels, setAct](const int id) {
+    blw->setButtonPressEvent([this, blw, labels, setAct](const int id) {
         const auto choose = new eChooseButton(window());
-        const auto act = [this, setAct, labels, id](const int val) {
-            mBLW->setText(id, labels[val]);
+        const auto act = [this, blw, labels, setAct, id](const int val) {
+            blw->setText(id, labels[val]);
             mValues[id] = val;
             setAct(mValues);
         };
@@ -32,10 +32,10 @@ void eMultipleSelectionWidget::initialize(
         choose->align(eAlignment::center);
     });
 
-    mBLW->setButtonCreateEvent([this, labels, setAct]() {
+    blw->setButtonCreateEvent([this, blw, labels, setAct]() {
         const auto choose = new eChooseButton(window());
-        const auto act = [this, setAct, labels](const int val) {
-            mBLW->addButton(labels[val]);
+        const auto act = [this, blw, labels, setAct](const int val) {
+            blw->addButton(labels[val]);
             mValues.push_back(val);
             setAct(mValues);
         };
@@ -45,13 +45,13 @@ void eMultipleSelectionWidget::initialize(
         choose->align(eAlignment::center);
     });
 
-    mBLW->setButtonRemoveEvent([this, setAct](const int id) {
+    blw->setButtonRemoveEvent([this, setAct](const int id) {
         mValues.erase(mValues.begin() + id);
         setAct(mValues);
     });
 
     mValues = ini;
     for(const int i : ini) {
-        mBLW->addButton(labels[i]);
+        blw->addButton(labels[i]);
     }
 }

@@ -16,8 +16,6 @@ public:
                     const std::vector<int>& ini);
 private:
     std::vector<int> mValues;
-
-    eButtonsListWidget* mBLW = nullptr;
 };
 
 #endif // EMULTIPLESELECTIONWIDGET_H

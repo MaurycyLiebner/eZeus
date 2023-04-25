@@ -29,6 +29,7 @@ public:
     void setHeight(const int h);
     void setPadding(const int padding);
     void fitContent();
+    void fitHeight();
     void show();
     void hide();
     void setVisible(const bool v);
@@ -104,6 +105,7 @@ public:
     void layoutHorizontallyWithoutSpaces();
 
     void setMouseReceiver(eWidget* const w);
+    void setMouseReceiverDXDY(const int dx, const int dy);
 protected:
     virtual void sizeHint(int& w, int& h);
 
@@ -165,6 +167,8 @@ private:
     eMainWindow* const mWindow;
 
     eWidget* mMouseReceiver = nullptr;
+    int mMouseReceiverDx = 0;
+    int mMouseReceiverDy = 0;
 };
 
 #endif // EWIDGET_H
