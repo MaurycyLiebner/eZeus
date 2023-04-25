@@ -3,7 +3,7 @@
 #include "engine/egameboard.h"
 
 eGiftFromEvent::eGiftFromEvent(eGameBoard& board) :
-    eGameEvent(eGameEventType::giftTo, board) {}
+    eGameEvent(eGameEventType::giftFrom, board) {}
 
 void eGiftFromEvent::initialize(
         const bool postpone,
