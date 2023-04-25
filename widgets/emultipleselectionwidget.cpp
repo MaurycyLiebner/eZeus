@@ -11,7 +11,6 @@
 #include "emainwindow.h"
 
 void eMultipleSelectionWidget::initialize(
-        eWidget* const parent,
         const eLabels& labels,
         const eSetAction& setAct,
         const std::vector<int>& ini) {
@@ -27,10 +26,10 @@ void eMultipleSelectionWidget::initialize(
     mNewButton = new eFramedButton(addStr, window());
     mNewButton->fitContent();
     mNewButton->setUnderline(false);
-    mNewButton->setPressAction([this, parent, setActAct, labels]() {
+    mNewButton->setPressAction([this, setActAct, labels]() {
         const auto choose = new eChooseButton(window());
-        const auto act = [this, parent, setActAct, labels](const int n) {
-            addButton(parent, setActAct, labels, n);
+        const auto act = [this, setActAct, labels](const int n) {
+            addButton(setActAct, labels, n);
             setActAct();
         };
         choose->initialize(8, labels, act);
@@ -39,12 +38,12 @@ void eMultipleSelectionWidget::initialize(
         choose->align(eAlignment::center);
     });
     for(const int i : ini) {
-        addButton(parent, setActAct, labels, i);
+        addButton(setActAct, labels, i);
     }
     updateButtons();
 }
 
-void eMultipleSelectionWidget::addButton(eWidget* const parent,
+void eMultipleSelectionWidget::addButton(
         const eAction& setActAct,
         const eLabels& labels, const int i) {
     const auto b = new eSelectionButton(window());
@@ -53,7 +52,7 @@ void eMultipleSelectionWidget::addButton(eWidget* const parent,
     bb->setUnderline(false);
     bb->fitContent();
     b->addWidget(bb);
-    bb->setPressAction([this, parent, b, bb, setActAct, labels]() {
+    bb->setPressAction([this, b, bb, setActAct, labels]() {
         const auto choose = new eChooseButton(window());
         const auto act = [b, bb, setActAct, labels](const int n) {
             b->setValue(n);

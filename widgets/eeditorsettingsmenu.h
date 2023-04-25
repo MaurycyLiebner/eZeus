@@ -9,8 +9,7 @@ class eEditorSettingsMenu : public eFramedWidget {
 public:
     using eFramedWidget::eFramedWidget;
 
-    void initialize(eWidget* const parent,
-                    eGameBoard& board);
+    void initialize(eGameBoard& board);
 };
 
 #endif // EEDITORSETTINGSMENU_H

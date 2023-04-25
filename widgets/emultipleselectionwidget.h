@@ -12,12 +12,10 @@ public:
 
     using eSetAction = std::function<void(const std::vector<int>&)>;
     using eLabels = std::vector<std::string>;
-    void initialize(eWidget* const parent,
-                    const eLabels& labels,
+    void initialize(const eLabels& labels,
                     const eSetAction& setAct,
                     const std::vector<int>& ini);
-    void addButton(eWidget* const parent,
-                   const eAction& setActAct,
+    void addButton(const eAction& setActAct,
                    const eLabels& labels, const int i);
 private:
     void updateButtons();

@@ -9,12 +9,11 @@
 #include "engine/egameboard.h"
 #include "emainwindow.h"
 
-void eEditorSettingsMenu::initialize(eWidget* const parent,
-                                     eGameBoard& board) {
+void eEditorSettingsMenu::initialize(eGameBoard& board) {
     setType(eFrameType::message);
 
     const auto boardPtr = &board;
-    const auto mythologyAct = [this, parent, boardPtr]() {
+    const auto mythologyAct = [this, boardPtr]() {
         const auto mythMenu = new eFramedWidget(window());
         mythMenu->setType(eFrameType::message);
         mythMenu->resize(width(), height());
@@ -32,7 +31,7 @@ void eEditorSettingsMenu::initialize(eWidget* const parent,
             godNames.push_back(eGod::sGodName(g));
         }
 
-        const auto friendGodsAct = [this, parent, gods, godNames, boardPtr]() {
+        const auto friendGodsAct = [this, gods, godNames, boardPtr]() {
             const auto choose = new eMultipleSelectionWidget(window());
             const auto act = [gods, boardPtr](const std::vector<int>& ns) {
                 std::vector<eGodType> godNs;
@@ -48,7 +47,7 @@ void eEditorSettingsMenu::initialize(eWidget* const parent,
                 const int i = static_cast<int>(g);
                 ini.push_back(i);
             }
-            choose->initialize(parent, godNames, act, ini);
+            choose->initialize(godNames, act, ini);
 
             window()->execDialog(choose);
             choose->resize(width(), height());
@@ -63,7 +62,7 @@ void eEditorSettingsMenu::initialize(eWidget* const parent,
         mythMenu->addWidget(friendGodsButt);
         friendGodsButt->align(eAlignment::hcenter);
 
-        const auto hostileGodsAct = [this, parent, gods, godNames, boardPtr]() {
+        const auto hostileGodsAct = [this, gods, godNames, boardPtr]() {
             const auto choose = new eMultipleSelectionWidget(window());
             const auto act = [gods, boardPtr](const std::vector<int>& ns) {
                 std::vector<eGodType> godNs;
@@ -79,7 +78,7 @@ void eEditorSettingsMenu::initialize(eWidget* const parent,
                 const int i = static_cast<int>(g);
                 ini.push_back(i);
             }
-            choose->initialize(parent, godNames, act, ini);
+            choose->initialize(godNames, act, ini);
 
             window()->execDialog(choose);
             choose->resize(width(), height());
@@ -94,7 +93,7 @@ void eEditorSettingsMenu::initialize(eWidget* const parent,
         mythMenu->addWidget(hostileGodsButt);
         hostileGodsButt->align(eAlignment::hcenter);
 
-        const auto monstersAct = [this, parent, boardPtr]() {
+        const auto monstersAct = [this, boardPtr]() {
             std::vector<eMonsterType> monsters;
             const int iMin = static_cast<int>(eMonsterType::calydonianBoar);
             const int iMax = static_cast<int>(eMonsterType::talos);
@@ -165,7 +164,7 @@ void eEditorSettingsMenu::initialize(eWidget* const parent,
                 const int i = static_cast<int>(g);
                 ini.push_back(i);
             }
-            choose->initialize(parent, monsterNames, act, ini);
+            choose->initialize(monsterNames, act, ini);
 
             window()->execDialog(choose);
             choose->resize(width(), height());
@@ -194,7 +193,6 @@ void eEditorSettingsMenu::initialize(eWidget* const parent,
     mythButt->align(eAlignment::hcenter);
 
     const auto eventsAct = []() {
-
     };
 
     const auto eventsButt = new eFramedButton(window());
