@@ -2,7 +2,10 @@
 
 eSwitchButton::eSwitchButton(eMainWindow* const window) :
     eFramedButton(window) {
-    setPressAction([this]() { switchValue(); });
+    setPressAction([this]() {
+        switchValue();
+        if(mSwitchAction) mSwitchAction(mCurrentValue);
+    });
 }
 
 int eSwitchButton::addValue(const std::string& v) {
@@ -20,7 +23,6 @@ void eSwitchButton::setValue(const int v) {
     const int maxVal = mValues.size();
     mCurrentValue = v % maxVal;
     setText(mValues[mCurrentValue]);
-    if(mSwitchAction) mSwitchAction(mCurrentValue);
 }
 
 void eSwitchButton::setSwitchAction(const eSwitchAction& a) {

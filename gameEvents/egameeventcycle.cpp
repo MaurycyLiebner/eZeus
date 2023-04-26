@@ -26,6 +26,10 @@ std::string eGameEventCycle::longName() const {
     return dateStr + " " + eventName;
 }
 
+void eGameEventCycle::setStartDate(const eDate& d) {
+    mStartDate = d;
+}
+
 void eGameEventCycle::handleNewDate(const eDate& date) {
     if(finished()) return;
     if(date > mNextDate) {

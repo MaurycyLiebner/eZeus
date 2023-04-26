@@ -3,25 +3,43 @@
 #include "widgets/eswitchbutton.h"
 #include "elanguage.h"
 
-#include "gameEvents/egodattackevent.h"
+#include "widgets/egodselectionwidget.h"
 
-void eGodAttackEventWidget::initialize() {
-    mRandomButton = new eSwitchButton(window());
-    mRandomButton->addValue(eLanguage::text("iterative"));
-    mRandomButton->addValue(eLanguage::text("random"));
-    mRandomButton->setSwitchAction([this](const int v) {
-        mRandom = v;
+#include "emainwindow.h"
+
+void eGodAttackEventWidget::initialize(eWidget* const parent,
+                                       eGodAttackEvent* const e) {
+    const auto randomButton = new eSwitchButton(window());
+    randomButton->addValue(eLanguage::text("iterative"));
+    randomButton->addValue(eLanguage::text("random"));
+    randomButton->setSwitchAction([e](const int v) {
+        e->setRandom(v);
     });
-}
+    randomButton->fitValialbeContent();
+    randomButton->setUnderline(false);
+    randomButton->setValue(e->random() ? 1 : 0);
+    addWidget(randomButton);
 
-void eGodAttackEventWidget::load(const eGodAttackEvent& e) {
-    mTypes = e.types();
-    mRandom = e.random();
+    const auto godsStr = eLanguage::text("gods");
+    const auto godsButton = new eFramedButton(godsStr, window());
+    godsButton->fitContent();
+    godsButton->setUnderline(false);
+    godsButton->setPressAction([this, parent, e]() {
+        const auto choose = new eGodSelectionWidget(window());
+        const auto act = [e](const std::vector<eGodType>& godNs) {
+            e->setTypes(godNs);
+        };
 
-    mRandomButton->setValue(mRandom ? 1 : 0);
-}
+        choose->resize(parent->width(), parent->height());
+        choose->initialize(act, e->types());
 
-void eGodAttackEventWidget::save(eGodAttackEvent& e) const {
-    e.setTypes(mTypes);
-    e.setRandom(mRandom);
+        window()->execDialog(choose);
+        choose->align(eAlignment::center);
+    });
+    addWidget(godsButton);
+
+    const int p = padding();
+    stackVertically(p);
+    setNoPadding();
+    fitContent();
 }

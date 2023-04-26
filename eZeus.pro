@@ -429,6 +429,7 @@ SOURCES += \
         widgets/etilepainter.cpp \
         widgets/etopbarwidget.cpp \
         widgets/eupbutton.cpp \
+        widgets/eventwidgets/eeventwidgetbase.cpp \
         widgets/eventwidgets/egodattackeventwidget.cpp \
         widgets/eviewmode.cpp \
         widgets/ewidget.cpp \
@@ -1348,6 +1349,7 @@ HEADERS += \
     widgets/etilepainter.h \
     widgets/etopbarwidget.h \
     widgets/eupbutton.h \
+    widgets/eventwidgets/eeventwidgetbase.h \
     widgets/eventwidgets/egodattackeventwidget.h \
     widgets/eviewmode.h \
     widgets/ewidget.h \

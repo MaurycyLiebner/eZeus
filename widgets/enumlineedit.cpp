@@ -30,6 +30,7 @@ bool eNumLineEdit::keyPressEvent(const eKeyPressEvent& e) {
 }
 int eNumLineEdit::value() const {
     const auto str = text();
+    if(str == "" || str == "-") return mMin;
     return std::stoi(str);
 }
 

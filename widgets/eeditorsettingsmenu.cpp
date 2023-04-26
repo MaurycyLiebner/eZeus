@@ -12,6 +12,7 @@
 #include "emainwindow.h"
 
 #include "gameEvents/egameeventcycle.h"
+#include "widgets/eventwidgets/eeventwidgetbase.h"
 
 void eEditorSettingsMenu::initialize(eGameBoard& board) {
     setType(eFrameType::message);
@@ -112,6 +113,17 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
             const auto eStr = e->longName();
             choose->addButton(eStr);
         }
+
+        choose->setButtonPressEvent([this, iniEs, boardPtr](const int id) {
+            const auto& e = iniEs[id];
+
+            const auto settings = new eEventWidgetBase(window());
+            settings->resize(width(), height());
+            settings->initialize(e, boardPtr);
+
+            window()->execDialog(settings);
+            settings->align(eAlignment::center);
+        });
 
         window()->execDialog(choose);
         choose->align(eAlignment::center);

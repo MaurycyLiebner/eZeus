@@ -12,13 +12,11 @@ void eLabeledWidget::setup(const std::string& label, eWidget* const w) {
     addWidget(l);
     addWidget(w);
 
-    fitContent();
+    const int p = padding();
+    stackHorizontally(p);
 
-    const int margin = resolution().margin();
-    setWidth(3*margin + l->width() + w->width());
+    fitContent();
 
     l->align(eAlignment::vcenter);
     w->align(eAlignment::vcenter);
-
-    layoutHorizontally();
 }

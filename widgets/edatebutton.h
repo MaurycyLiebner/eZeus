@@ -11,9 +11,13 @@ public:
 
     void initialize();
 
+    using eDateChangeAction = std::function<void(const eDate&)>;
+    void setDateChangeAction(const eDateChangeAction& a);
+
     void setDate(const eDate& d);
     const eDate& date() const { return mDate; }
 private:
+    eDateChangeAction mDateChangeAction;
     eDate mDate;
 };
 

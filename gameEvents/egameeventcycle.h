@@ -20,6 +20,11 @@ public:
 
     std::string longName() const;
 
+    const eDate& startDate() const { return mStartDate; }
+    void setStartDate(const eDate& d);
+
+    const stdsptr<eGameEvent>& event() const { return mEvent; }
+
     void handleNewDate(const eDate& date);
     void rewind(const eDate& date);
     void trigger();

@@ -9,13 +9,18 @@ void eDateButton::initialize() {
         const auto dw = new eDateWidget(window());
         dw->initialize([this](const eDate& d) {
             setDate(d);
+            if(mDateChangeAction) mDateChangeAction(d);
         }, false);
         dw->setDate(mDate);
         window()->execDialog(dw);
         dw->align(eAlignment::center);
     });
-    setDate(eDate(31, eMonth::september, -9999));
+    setDate(eDate(20, eMonth::june, -2000));
     fitContent();
+}
+
+void eDateButton::setDateChangeAction(const eDateChangeAction& a) {
+    mDateChangeAction = a;
 }
 
 void eDateButton::setDate(const eDate& d) {

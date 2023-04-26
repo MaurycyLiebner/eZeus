@@ -413,11 +413,11 @@ void eWidget::removeAllWidgets() {
     mChildren.clear();
 }
 
-void eWidget::stackVertically() {
+void eWidget::stackVertically(const int p) {
     int y = 0;
     for(const auto w : mChildren) {
         w->setY(y);
-        y += w->height();
+        y += w->height() + p;
     }
 }
 
@@ -435,11 +435,11 @@ void eWidget::layoutVertically() {
     }
 }
 
-void eWidget::stackHorizontally() {
+void eWidget::stackHorizontally(const int p) {
     int x = 0;
     for(const auto w : mChildren) {
         w->setX(x);
-        x += w->width();
+        x += w->width() + p;
     }
 }
 

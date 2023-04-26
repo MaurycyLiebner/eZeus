@@ -98,9 +98,9 @@ public:
     void removeWidget(eWidget* const w);
     void removeAllWidgets();
 
-    void stackVertically();
+    void stackVertically(const int p = 0);
     void layoutVertically();
-    void stackHorizontally();
+    void stackHorizontally(const int p = 0);
     void layoutHorizontally();
     void layoutHorizontallyWithoutSpaces();
 

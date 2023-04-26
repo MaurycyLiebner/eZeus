@@ -3,25 +3,16 @@
 
 #include "../ewidget.h"
 
-#include "characters/gods/egod.h"
+#include "gameEvents/egodattackevent.h"
 
 class eSwitchButton;
-
-class eGodAttackEvent;
 
 class eGodAttackEventWidget : public eWidget {
 public:
     using eWidget::eWidget;
 
-    void initialize();
-
-    void load(const eGodAttackEvent& e);
-    void save(eGodAttackEvent& e) const;
-private:
-    std::vector<eGodType> mTypes;
-    bool mRandom = false;
-
-    eSwitchButton* mRandomButton = nullptr;
+    void initialize(eWidget* const parent,
+                    eGodAttackEvent* const e);
 };
 
 #endif // EGODATTACKEVENTWIDGET_H
