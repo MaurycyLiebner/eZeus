@@ -12,6 +12,7 @@ public:
     void initialize(const stdsptr<eWorldCity>& c);
 
     void trigger() override;
+    std::string longName() const override;
 
     void write(eWriteStream& dst) const override ;
     void read(eReadStream& src) override;

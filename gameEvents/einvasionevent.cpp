@@ -4,6 +4,8 @@
 #include "engine/eevent.h"
 #include "engine/eeventdata.h"
 #include "einvasionhandler.h"
+#include "elanguage.h"
+#include "estringhelpers.h"
 
 eInvasionEvent::eInvasionEvent(eGameBoard& board) :
     eGameEvent(eGameEventType::invasion, board) {}
@@ -76,6 +78,12 @@ void eInvasionEvent::trigger() {
         board.planInvasion(mStage, months, mInfantry,
                            mCavalry, mArchers);
     }
+}
+
+std::string eInvasionEvent::longName() const {
+    auto tmpl = eLanguage::text("invasion_by");
+    eStringHelpers::replace(tmpl, "%1", mCity->name());
+    return tmpl;
 }
 
 void eInvasionEvent::write(eWriteStream& dst) const {

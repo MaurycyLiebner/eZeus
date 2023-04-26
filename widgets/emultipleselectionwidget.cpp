@@ -15,7 +15,7 @@ void eMultipleSelectionWidget::initialize(
     const auto blw = new eButtonsListWidget(window());
     const int p = padding();
     blw->resize(width() - 4*p, height() - 4*p);
-    blw->initialize();
+    blw->initialize(true);
     blw->move(2*p, 2*p);
     addWidget(blw);
 

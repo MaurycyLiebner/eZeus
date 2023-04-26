@@ -12,7 +12,9 @@ public:
     using eWidget::eWidget;
 
     void initialize(const std::string& text,
-                    const int id);
+                    const int id,
+                    const bool renderBg,
+                    const bool small);
 
     int id() const { return mId; }
     void setId(const int id);
@@ -39,7 +41,7 @@ class eButtonsListWidget : public eWidget {
 public:
     using eWidget::eWidget;
 
-    void initialize();
+    void initialize(const bool newButton);
 
     using eButtonPressedEvent = std::function<void(int)>;
     void setButtonPressEvent(const eButtonPressedEvent& e);
@@ -51,8 +53,14 @@ public:
     void setText(const int id, const std::string& text);
     int addButton(const std::string& text);
     void removeButton(const int id);
+
+    void setSmallSize(const bool b);
+    void setRenderButtonBg(const bool b);
 private:
     void updateButtons();
+
+    bool mSmallSize = true;
+    bool mRenderButtonBg = false;
 
     eButtonPressedEvent mPressE;
     eButtonCreateEvent mCreateE;

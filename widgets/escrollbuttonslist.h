@@ -21,11 +21,16 @@ public:
     void setText(const int id, const std::string& text);
     int addButton(const std::string& text);
     void removeButton(const int id);
+
+    void setSmallSize(const bool b);
 private:
     void updateWidgetSize();
 
+    bool mSmallSize = true;
+
     eWidget* mSA = nullptr;
     eButtonsListWidget* mBLW = nullptr;
+    eFramedButton* mNewButton = nullptr;
 };
 
 #endif // ESCROLLBUTTONSLIST_H

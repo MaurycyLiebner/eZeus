@@ -5,9 +5,12 @@
 
 #include "characters/gods/egod.h"
 #include "emultipleselectionwidget.h"
+#include "escrollbuttonslist.h"
 
 #include "engine/egameboard.h"
 #include "emainwindow.h"
+
+#include "gameEvents/egameeventcycle.h"
 
 void eEditorSettingsMenu::initialize(eGameBoard& board) {
     setType(eFrameType::message);
@@ -192,8 +195,20 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
     addWidget(mythButt);
     mythButt->align(eAlignment::hcenter);
 
-    const auto eventsAct = []() {
+    const auto eventsAct = [this, boardPtr]() {
+        const auto choose = new eScrollButtonsList(window());
 
+        choose->resize(width(), height());
+        choose->initialize();
+
+        const auto& iniEs = boardPtr->gameEvents();
+        for(const auto& e : iniEs) {
+            const auto eStr = e->longName();
+            choose->addButton(eStr);
+        }
+
+        window()->execDialog(choose);
+        choose->align(eAlignment::center);
     };
 
     const auto eventsButt = new eFramedButton(window());

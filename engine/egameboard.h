@@ -235,6 +235,9 @@ public:
     const std::vector<eGodType>& hostileGods() { return mHostileGods; }
     const std::vector<eMonsterType>& hostileMonsters() { return mHostileMonsters; }
 
+    using eGameEvents = std::vector<stdsptr<eGameEventCycle>>;
+    const eGameEvents& gameEvents() const { return mGameEvents; }
+
     void planInvasion(int stage, int months,
                       const int infantry,
                       const int cavalry,

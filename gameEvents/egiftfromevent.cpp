@@ -1,6 +1,8 @@
 #include "egiftfromevent.h"
 
 #include "engine/egameboard.h"
+#include "elanguage.h"
+#include "estringhelpers.h"
 
 eGiftFromEvent::eGiftFromEvent(eGameBoard& board) :
     eGameEvent(eGameEventType::giftFrom, board) {}
@@ -19,6 +21,15 @@ void eGiftFromEvent::initialize(
 void eGiftFromEvent::trigger() {
     auto& board = getBoard();
     board.giftFrom(mCity, mResource, mCount, mPostpone);
+}
+
+std::string eGiftFromEvent::longName() const {
+    auto tmpl = eLanguage::text("gift_of_from");
+    const auto resName = eResourceTypeHelpers::typeName(mResource);
+    const auto cStr = std::to_string(mCount);
+    eStringHelpers::replace(tmpl, "%1", cStr + " " + resName);
+    eStringHelpers::replace(tmpl, "%2", mCity->name());
+    return tmpl;
 }
 
 void eGiftFromEvent::write(eWriteStream& dst) const {

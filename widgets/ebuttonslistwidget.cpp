@@ -6,9 +6,15 @@
 
 #include "elanguage.h"
 
-void eListButton::initialize(const std::string& text, const int id) {
+void eListButton::initialize(const std::string& text, const int id,
+                             const bool renderBg, const bool small) {
     setNoPadding();
+
     mIdLabel = new eLabel(std::to_string(id + 1), window());
+    if(small) {
+        mIdLabel->setSmallFontSize();
+        mIdLabel->setSmallPadding();
+    }
     mIdLabel->fitContent();
     mIdLabel->setWidth(mIdLabel->height());
     addWidget(mIdLabel);
@@ -16,6 +22,12 @@ void eListButton::initialize(const std::string& text, const int id) {
     setId(id);
 
     mButton = new eFramedButton(text, window());
+    if(small) {
+        mButton->setSmallFontSize();
+        mButton->setSmallPadding();
+    }
+    mButton->setUnderline(false);
+    mButton->setRenderBg(renderBg);
     mButton->setPressAction([this]() {
         if(mPressAction) mPressAction(mId);
     });
@@ -55,14 +67,20 @@ void eListButton::fitToWidth(const int w) {
     layoutHorizontallyWithoutSpaces();
 }
 
-void eButtonsListWidget::initialize() {
-    const auto addStr = eLanguage::text("add");
-    mNewButton = new eFramedButton(addStr, window());
-    mNewButton->fitContent();
-    mNewButton->setUnderline(false);
-    mNewButton->setPressAction([this]() {
-        if(mCreateE) mCreateE();
-    });
+void eButtonsListWidget::initialize(const bool newButton) {
+    if(newButton) {
+        const auto addStr = eLanguage::text("add");
+        mNewButton = new eFramedButton(addStr, window());
+        if(mSmallSize) {
+            mNewButton->setSmallFontSize();
+            mNewButton->setSmallPadding();
+        }
+        mNewButton->fitContent();
+        mNewButton->setUnderline(false);
+        mNewButton->setPressAction([this]() {
+            if(mCreateE) mCreateE();
+        });
+    }
 
     updateButtons();
 }
@@ -86,7 +104,7 @@ void eButtonsListWidget::setText(const int id, const std::string& text) {
 int eButtonsListWidget::addButton(const std::string& text) {
     const int id = mButtons.size();
     const auto b = new eListButton(window());
-    b->initialize(text, id);
+    b->initialize(text, id, mRenderButtonBg, mSmallSize);
     b->setPressAction([this](const int id) {
         if(mPressE) mPressE(id);
     });
@@ -104,6 +122,14 @@ void eButtonsListWidget::removeButton(const int id) {
     updateButtons();
 }
 
+void eButtonsListWidget::setSmallSize(const bool b) {
+    mSmallSize = b;
+}
+
+void eButtonsListWidget::setRenderButtonBg(const bool b) {
+    mRenderButtonBg = b;
+}
+
 void eButtonsListWidget::updateButtons() {
     removeAllWidgets();
     const int p = padding();
@@ -116,7 +142,9 @@ void eButtonsListWidget::updateButtons() {
         b->setId(i++);
         y += b->height() + p;
     }
-    addWidget(mNewButton);
-    mNewButton->setY(y);
-    mNewButton->setWidth(width());
+    if(mNewButton) {
+        addWidget(mNewButton);
+        mNewButton->setY(y);
+        mNewButton->setWidth(width());
+    }
 }

@@ -2,7 +2,7 @@
 #define EGAMEEVENT_H
 
 #include "pointers/eobject.h"
-#include "engine/edate.h"
+#include "fileIO/estreams.h"
 
 #include <functional>
 
@@ -23,6 +23,8 @@ public:
     eGameEvent(const eGameEventType type, eGameBoard& board);
 
     virtual void trigger() = 0;
+
+    virtual std::string longName() const = 0;
 
     static stdsptr<eGameEvent> sCreate(const eGameEventType type,
                                        eGameBoard& board);

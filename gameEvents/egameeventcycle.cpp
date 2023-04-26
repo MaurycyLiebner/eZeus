@@ -20,6 +20,12 @@ eGameEventCycle::eGameEventCycle(const stdsptr<eGameEvent>& event,
 eGameEventCycle::eGameEventCycle(eGameBoard& board) :
     eObject(board) {}
 
+std::string eGameEventCycle::longName() const {
+    const auto dateStr = mStartDate.shortString();
+    const auto eventName = mEvent->longName();
+    return dateStr + " " + eventName;
+}
+
 void eGameEventCycle::handleNewDate(const eDate& date) {
     if(finished()) return;
     if(date > mNextDate) {

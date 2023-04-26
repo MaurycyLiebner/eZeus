@@ -86,6 +86,10 @@ void eGodAttackEvent::trigger() {
     board.event(e, ed);
 }
 
+std::string eGodAttackEvent::longName() const {
+    return eLanguage::text("god_attack");
+}
+
 void eGodAttackEvent::write(eWriteStream& dst) const {
     eGameEvent::write(dst);
     dst << mTypes.size();

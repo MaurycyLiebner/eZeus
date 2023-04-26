@@ -4,6 +4,7 @@
 #include "engine/eeventdata.h"
 #include "engine/eevent.h"
 #include "characters/actions/emonsteraction.h"
+#include "elanguage.h"
 
 eMonsterAttackEvent::eMonsterAttackEvent(eGameBoard& board) :
     eGameEvent(eGameEventType::monsterAttack, board) {}
@@ -89,6 +90,10 @@ void eMonsterAttackEvent::trigger() {
     eEventData ed;
     ed.fTile = monster->tile();
     board.event(e, ed);
+}
+
+std::string eMonsterAttackEvent::longName() const {
+    return eLanguage::text("monster_attack");
 }
 
 void eMonsterAttackEvent::write(eWriteStream& dst) const {

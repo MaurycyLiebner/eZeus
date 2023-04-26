@@ -4,6 +4,7 @@
 #include "pointers/eobject.h"
 
 #include "egameevent.h"
+#include "engine/edate.h"
 
 class eGameEventCycle : public eObject {
 public:
@@ -16,6 +17,8 @@ public:
                     const eDate& date,
                     eGameBoard& board);
     eGameEventCycle(eGameBoard& board);
+
+    std::string longName() const;
 
     void handleNewDate(const eDate& date);
     void rewind(const eDate& date);

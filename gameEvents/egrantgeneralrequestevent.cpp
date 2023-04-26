@@ -1,6 +1,8 @@
-#include "egrantgeneralrequestevent.h".h"
+#include "egrantgeneralrequestevent.h"
 
 #include "engine/egameboard.h"
+#include "elanguage.h"
+#include "estringhelpers.h"
 
 eGrantGeneralRequestEvent::eGrantGeneralRequestEvent(
         eGameBoard& board) :
@@ -20,6 +22,15 @@ void eGrantGeneralRequestEvent::initialize(
 void eGrantGeneralRequestEvent::trigger() {
     auto& board = getBoard();
     board.grantGeneralRequest(mCity, mResource, mCount, mPostpone);
+}
+
+std::string eGrantGeneralRequestEvent::longName() const {
+    auto tmpl = eLanguage::text("receive_request");
+    const auto resName = eResourceTypeHelpers::typeName(mResource);
+    const auto cStr = std::to_string(mCount);
+    eStringHelpers::replace(tmpl, "%1", cStr + " " + resName);
+    eStringHelpers::replace(tmpl, "%2", mCity->name());
+    return tmpl;
 }
 
 void eGrantGeneralRequestEvent::write(eWriteStream& dst) const {

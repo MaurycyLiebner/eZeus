@@ -4,6 +4,7 @@
 #include "engine/eevent.h"
 #include "engine/eeventdata.h"
 #include "characters/actions/egodvisitaction.h"
+#include "elanguage.h"
 
 eGodVisitEvent::eGodVisitEvent(eGameBoard& board) :
     eGameEvent(eGameEventType::godVisit, board) {}
@@ -84,6 +85,10 @@ void eGodVisitEvent::trigger() {
     eEventData ed;
     ed.fTile = god->tile();
     board.event(e, ed);
+}
+
+std::string eGodVisitEvent::longName() const {
+    return eLanguage::text("god_visit");
 }
 
 void eGodVisitEvent::write(eWriteStream& dst) const {
