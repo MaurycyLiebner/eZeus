@@ -406,6 +406,7 @@ SOURCES += \
         widgets/emenuloadingwidget.cpp \
         widgets/emessagebox.cpp \
         widgets/eminimap.cpp \
+        widgets/emonsterselectionwidget.cpp \
         widgets/emouseevent.cpp \
         widgets/emultilinelabel.cpp \
         widgets/emultipleselectionwidget.cpp \
@@ -1324,6 +1325,7 @@ HEADERS += \
     widgets/emenuloadingwidget.h \
     widgets/emessagebox.h \
     widgets/eminimap.h \
+    widgets/emonsterselectionwidget.h \
     widgets/emouseevent.h \
     widgets/emultilinelabel.h \
     widgets/emultipleselectionwidget.h \

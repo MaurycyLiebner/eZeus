@@ -4,9 +4,9 @@
 #include "elanguage.h"
 
 #include "characters/gods/egod.h"
-#include "emultipleselectionwidget.h"
 #include "escrollbuttonslist.h"
 #include "egodselectionwidget.h"
+#include "emonsterselectionwidget.h"
 
 #include "engine/egameboard.h"
 #include "emainwindow.h"
@@ -67,78 +67,14 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
         hostileGodsButt->align(eAlignment::hcenter);
 
         const auto monstersAct = [this, boardPtr]() {
-            std::vector<eMonsterType> monsters;
-            const int iMin = static_cast<int>(eMonsterType::calydonianBoar);
-            const int iMax = static_cast<int>(eMonsterType::talos);
-            for(int i = iMin; i <= iMax; i++) {
-                const auto mi = static_cast<eMonsterType>(i);
-                monsters.push_back(mi);
-            }
-
-            const std::vector<std::string> monsterGods {
-                eLanguage::text("artemis"),
-                eLanguage::text("hades"),
-                eLanguage::text("atlas"),
-                eLanguage::text("zeus"),
-                eLanguage::text("ares"),
-                "-",
-                "-",
-                eLanguage::text("aphrodite"),
-                eLanguage::text("athena"),
-                eLanguage::text("poseidon"),
-                eLanguage::text("dionysus"),
-                eLanguage::text("demeter"),
-                eLanguage::text("hermes"),
-                eLanguage::text("apollo"),
-                eLanguage::text("hera"),
-                eLanguage::text("hephaestus")
-            };
-            const std::vector<std::string> monsterHeroes {
-                eLanguage::text("theseus"),
-                eLanguage::text("hercules"),
-                eLanguage::text("bellerophon"),
-                eLanguage::text("odysseus"),
-                eLanguage::text("jason"),
-                eLanguage::text("bellerophon"),
-                eLanguage::text("atalanta"),
-                eLanguage::text("achilles"),
-                eLanguage::text("hercules"),
-                eLanguage::text("perseus"),
-                eLanguage::text("achilles"),
-                eLanguage::text("perseus"),
-                eLanguage::text("theseus"),
-                eLanguage::text("odysseus"),
-                eLanguage::text("atalanta"),
-                eLanguage::text("jason")
+            const auto choose = new eMonsterSelectionWidget(window());
+            const auto act = [boardPtr](const std::vector<eMonsterType>& monsters) {
+                boardPtr->setHostileMonsters(monsters);
             };
 
-            std::vector<std::string> monsterNames;
-            const int iMax2 = monsters.size();
-            for(int i = 0; i < iMax2; i++) {
-                const auto& m = monsters[i];
-                const auto& g = monsterGods[i];
-                const auto& h = monsterHeroes[i];
-                monsterNames.push_back(eMonster::sMonsterName(m) + " (" +
-                                       g + ", " + h + ")");
-            }
-
-            const auto choose = new eMultipleSelectionWidget(window());
-            const auto act = [monsters, boardPtr](const std::vector<int>& ns) {
-                std::vector<eMonsterType> godNs;
-                for(const int n : ns) {
-                    godNs.push_back(monsters[n]);
-                }
-                boardPtr->setHostileMonsters(godNs);
-            };
-
-            const auto& iniG = boardPtr->hostileMonsters();
-            std::vector<int> ini;
-            for(const auto g : iniG) {
-                const int i = static_cast<int>(g);
-                ini.push_back(i);
-            }
+            const auto& iniM = boardPtr->hostileMonsters();
             choose->resize(width(), height());
-            choose->initialize(monsterNames, act, ini);
+            choose->initialize(act, iniM);
 
             window()->execDialog(choose);
             choose->align(eAlignment::center);
