@@ -6,6 +6,7 @@
 #include "characters/gods/egod.h"
 #include "emultipleselectionwidget.h"
 #include "escrollbuttonslist.h"
+#include "egodselectionwidget.h"
 
 #include "engine/egameboard.h"
 #include "emainwindow.h"
@@ -21,37 +22,15 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
         mythMenu->setType(eFrameType::message);
         mythMenu->resize(width(), height());
 
-        std::vector<eGodType> gods;
-        const int iMin = static_cast<int>(eGodType::aphrodite);
-        const int iMax = static_cast<int>(eGodType::zeus);
-        for(int i = iMin; i <= iMax; i++) {
-            const auto mi = static_cast<eGodType>(i);
-            gods.push_back(mi);
-        }
-
-        std::vector<std::string> godNames;
-        for(const auto g : gods) {
-            godNames.push_back(eGod::sGodName(g));
-        }
-
-        const auto friendGodsAct = [this, gods, godNames, boardPtr]() {
-            const auto choose = new eMultipleSelectionWidget(window());
-            const auto act = [gods, boardPtr](const std::vector<int>& ns) {
-                std::vector<eGodType> godNs;
-                for(const int n : ns) {
-                    godNs.push_back(gods[n]);
-                }
+        const auto friendGodsAct = [this, boardPtr]() {
+            const auto choose = new eGodSelectionWidget(window());
+            const auto act = [boardPtr](const std::vector<eGodType>& godNs) {
                 boardPtr->setFriendlyGods(godNs);
             };
 
             const auto& iniG = boardPtr->friendlyGods();
-            std::vector<int> ini;
-            for(const auto g : iniG) {
-                const int i = static_cast<int>(g);
-                ini.push_back(i);
-            }
             choose->resize(width(), height());
-            choose->initialize(godNames, act, ini);
+            choose->initialize(act, iniG);
 
             window()->execDialog(choose);
             choose->align(eAlignment::center);
@@ -65,24 +44,15 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
         mythMenu->addWidget(friendGodsButt);
         friendGodsButt->align(eAlignment::hcenter);
 
-        const auto hostileGodsAct = [this, gods, godNames, boardPtr]() {
-            const auto choose = new eMultipleSelectionWidget(window());
-            const auto act = [gods, boardPtr](const std::vector<int>& ns) {
-                std::vector<eGodType> godNs;
-                for(const int n : ns) {
-                    godNs.push_back(gods[n]);
-                }
+        const auto hostileGodsAct = [this, boardPtr]() {
+            const auto choose = new eGodSelectionWidget(window());
+            const auto act = [boardPtr](const std::vector<eGodType>& godNs) {
                 boardPtr->setHostileGods(godNs);
             };
 
             const auto& iniG = boardPtr->hostileGods();
-            std::vector<int> ini;
-            for(const auto g : iniG) {
-                const int i = static_cast<int>(g);
-                ini.push_back(i);
-            }
             choose->resize(width(), height());
-            choose->initialize(godNames, act, ini);
+            choose->initialize(act, iniG);
 
             window()->execDialog(choose);
             choose->align(eAlignment::center);

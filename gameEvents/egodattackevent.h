@@ -12,6 +12,7 @@ public:
     void setTypes(const std::vector<eGodType>& types);
 
     void setRandom(const bool r);
+    bool random() const { return mRandom; }
 
     void trigger() override;
     std::string longName() const override;

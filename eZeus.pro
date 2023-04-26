@@ -393,6 +393,7 @@ SOURCES += \
         widgets/egamewidgetpaint.cpp \
         widgets/egiftdialog.cpp \
         widgets/egiftsizedialog.cpp \
+        widgets/egodselectionwidget.cpp \
         widgets/ehelpbutton.cpp \
         widgets/elabel.cpp \
         widgets/elabelbase.cpp \
@@ -427,6 +428,7 @@ SOURCES += \
         widgets/etilepainter.cpp \
         widgets/etopbarwidget.cpp \
         widgets/eupbutton.cpp \
+        widgets/eventwidgets/egodattackeventwidget.cpp \
         widgets/eviewmode.cpp \
         widgets/ewidget.cpp \
         widgets/eworldgoodswidget.cpp \
@@ -1309,6 +1311,7 @@ HEADERS += \
     widgets/egamewidget.h \
     widgets/egiftdialog.h \
     widgets/egiftsizedialog.h \
+    widgets/egodselectionwidget.h \
     widgets/ehelpbutton.h \
     widgets/elabel.h \
     widgets/elabelbase.h \
@@ -1343,6 +1346,7 @@ HEADERS += \
     widgets/etilepainter.h \
     widgets/etopbarwidget.h \
     widgets/eupbutton.h \
+    widgets/eventwidgets/egodattackeventwidget.h \
     widgets/eviewmode.h \
     widgets/ewidget.h \
     widgets/eworldgoodswidget.h \
