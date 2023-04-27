@@ -411,6 +411,7 @@ SOURCES += \
         widgets/emultilinelabel.cpp \
         widgets/emultipleselectionwidget.cpp \
         widgets/enumlineedit.cpp \
+        widgets/enumlineeditwidget.cpp \
         widgets/eokbutton.cpp \
         widgets/epainter.cpp \
         widgets/eprogressbar.cpp \
@@ -429,8 +430,10 @@ SOURCES += \
         widgets/etilepainter.cpp \
         widgets/etopbarwidget.cpp \
         widgets/eupbutton.cpp \
+        widgets/evaluebutton.cpp \
         widgets/eventwidgets/eeventwidgetbase.cpp \
         widgets/eventwidgets/egodattackeventwidget.cpp \
+        widgets/eventwidgets/emonsterattackeventwidget.cpp \
         widgets/eviewmode.cpp \
         widgets/ewidget.cpp \
         widgets/eworldgoodswidget.cpp \
@@ -1331,6 +1334,7 @@ HEADERS += \
     widgets/emultilinelabel.h \
     widgets/emultipleselectionwidget.h \
     widgets/enumlineedit.h \
+    widgets/enumlineeditwidget.h \
     widgets/eokbutton.h \
     widgets/epainter.h \
     widgets/eprogressbar.h \
@@ -1349,8 +1353,10 @@ HEADERS += \
     widgets/etilepainter.h \
     widgets/etopbarwidget.h \
     widgets/eupbutton.h \
+    widgets/evaluebutton.h \
     widgets/eventwidgets/eeventwidgetbase.h \
     widgets/eventwidgets/egodattackeventwidget.h \
+    widgets/eventwidgets/emonsterattackeventwidget.h \
     widgets/eviewmode.h \
     widgets/ewidget.h \
     widgets/eworldgoodswidget.h \

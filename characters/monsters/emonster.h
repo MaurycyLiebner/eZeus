@@ -42,6 +42,9 @@ public:
     static eHeroType sSlayer(const eMonsterType type);
 
     static std::string sMonsterName(const eMonsterType type);
+
+    static void sMonsterStrings(std::vector<eMonsterType>& mnstrs,
+                                std::vector<std::string>& monsterStrs);
 };
 
 #endif // EMONSTER_H

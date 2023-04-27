@@ -8,8 +8,10 @@ public:
     eNumLineEdit(eMainWindow* const window);
 
     int value() const;
+    int clampedValue() const;
     void setValue(const int value);
     void setRange(const int min, const int max);
+    void clamp();
 
     bool keyPressEvent(const eKeyPressEvent& e);
 private:

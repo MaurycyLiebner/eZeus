@@ -8,10 +8,8 @@ class eMonsterAttackEvent : public eGameEvent {
 public:
     eMonsterAttackEvent(eGameBoard& board);
 
-    const std::vector<eMonsterType>& types() const { return mTypes; }
-    void setTypes(const std::vector<eMonsterType>& types);
-
-    void setRandom(const bool r);
+    eMonsterType type() const { return mType; }
+    void setType(const eMonsterType type);
 
     void trigger() override;
     std::string longName() const override;
@@ -19,9 +17,8 @@ public:
     void write(eWriteStream& dst) const override ;
     void read(eReadStream& src) override;
 private:
-    std::vector<eMonsterType> mTypes;
-    int mNextId = 0;
-    bool mRandom = false;
+    eMonsterType mType = eMonsterType::calydonianBoar;
+    int mPointId = 0;
 };
 
 #endif // EMONSTERATTACKEVENT_H

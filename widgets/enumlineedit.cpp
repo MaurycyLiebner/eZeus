@@ -28,19 +28,28 @@ bool eNumLineEdit::keyPressEvent(const eKeyPressEvent& e) {
     }
     return false;
 }
+
 int eNumLineEdit::value() const {
     const auto str = text();
-    if(str == "" || str == "-") return mMin;
+    if(str == "" || str == "-") return 0;
     return std::stoi(str);
 }
 
+int eNumLineEdit::clampedValue() const {
+    const int v = std::clamp(value(), mMin, mMax);
+    return v;
+}
+
 void eNumLineEdit::setValue(const int value) {
-    const int v = std::clamp(value, mMin, mMax);
-    setText(std::to_string(v));
+    setText(std::to_string(value));
 }
 
 void eNumLineEdit::setRange(const int min, const int max) {
     mMin = min;
     mMax = max;
-    setValue(value());
+}
+
+void eNumLineEdit::clamp() {;
+    const int v = clampedValue();
+    setText(std::to_string(v));
 }

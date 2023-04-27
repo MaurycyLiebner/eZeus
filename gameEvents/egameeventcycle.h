@@ -23,6 +23,12 @@ public:
     const eDate& startDate() const { return mStartDate; }
     void setStartDate(const eDate& d);
 
+    int period() const { return mPeriodDays; }
+    void setPeriod(const int p);
+
+    int repeat() const { return mTotNRuns; }
+    void setRepeat(const int r);
+
     const stdsptr<eGameEvent>& event() const { return mEvent; }
 
     void handleNewDate(const eDate& date);
@@ -36,7 +42,7 @@ private:
     stdsptr<eGameEvent> mEvent;
 
     eDate mStartDate;
-    int mCycleDays;
+    int mPeriodDays;
     int mTotNRuns;
 
     int mRemNRuns;

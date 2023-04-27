@@ -22,6 +22,8 @@ monster_attack "Monster attack"
 receive_tribute_from "Receive tribute from %1"
 
 date: "Date:"
+period: "Period:"
+repeat: "Repeat:"
 
 iterative "Iterative"
 random "Random"

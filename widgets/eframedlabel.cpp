@@ -26,6 +26,6 @@ void eFramedLabel::paintEvent(ePainter& p) {
     eFramedWidget::paintEvent(p);
     const auto& tex = texture();
     if(tex) {
-        p.drawTexture(rect(), tex, eAlignment::center);
+        p.drawTexture(rect(), tex, textAlignment());
     }
 }

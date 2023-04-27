@@ -1,12 +1,17 @@
 #include "elineedit.h"
 
 eLineEdit::eLineEdit(eMainWindow* const window) :
-    eLabel(window) {
+    eFramedLabel(window) {
+    setType(eFrameType::inner);
     setTextAlignment(eAlignment::left | eAlignment::vcenter);
 }
 
 void eLineEdit::setChangeAction(const eAction a) {
     mChangeAction = a;
+}
+
+void eLineEdit::setRenderBg(const bool r) {
+    mRenderBg = r;
 }
 
 bool eLineEdit::keyPressEvent(const eKeyPressEvent& e) {
@@ -104,15 +109,19 @@ bool eLineEdit::keyPressEvent(const eKeyPressEvent& e) {
 }
 
 void eLineEdit::paintEvent(ePainter& p) {
-    eLabel::paintEvent(p);
+    if(mRenderBg) eFramedWidget::paintEvent(p);
+    const auto& tex = texture();
+    if(tex) {
+        p.drawTexture(rect(), tex, textAlignment());
+    }
     mTime++;
-    if(mTime > 30) {
-        if(mTime > 60) {
+    if(mTime > 10) {
+        if(mTime > 20) {
             mTime = 0;
         }
         return;
     }
-    const auto& tex = texture();
+
     int texw;
     int texh;
     const int fs = fontSize();

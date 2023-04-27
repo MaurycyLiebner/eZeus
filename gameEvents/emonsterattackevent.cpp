@@ -9,31 +9,15 @@
 eMonsterAttackEvent::eMonsterAttackEvent(eGameBoard& board) :
     eGameEvent(eGameEventType::monsterAttack, board) {}
 
-void eMonsterAttackEvent::setTypes(const std::vector<eMonsterType>& types) {
-    mTypes = types;
-    const int nTypes = mTypes.size();
-    if(mNextId >= nTypes) mNextId = 0;
-}
-
-void eMonsterAttackEvent::setRandom(const bool r) {
-    mRandom = r;
+void eMonsterAttackEvent::setType(const eMonsterType type) {
+    mType = type;
 }
 
 void eMonsterAttackEvent::trigger() {
-    if(mTypes.empty()) return;
     auto& board = getBoard();
-    int tid;
-    const int nTypes = mTypes.size();
-    if(mRandom) {
-        tid = rand() % mTypes.size();
-    } else {
-        tid = mNextId;
-        if(++mNextId >= nTypes) mNextId = 0;
-    }
-    const auto t = mTypes.at(tid);
-    const auto monster = eMonster::sCreateMonster(t, board);
+    const auto monster = eMonster::sCreateMonster(mType, board);
     eEvent e;
-    switch(t) {
+    switch(mType) {
     case eMonsterType::calydonianBoar:
         e = eEvent::calydonianBoarInvasion;
         break;
@@ -98,23 +82,10 @@ std::string eMonsterAttackEvent::longName() const {
 
 void eMonsterAttackEvent::write(eWriteStream& dst) const {
     eGameEvent::write(dst);
-    dst << mTypes.size();
-    for(const auto t : mTypes) {
-        dst << t;
-    }
-    dst << mRandom;
-    dst << mNextId;
+    dst << mType;
 }
 
 void eMonsterAttackEvent::read(eReadStream& src) {
     eGameEvent::read(src);
-    int n;
-    src >> n;
-    for(int i = 0; i < n; i++) {
-        eMonsterType t;
-        src >> t;
-        mTypes.push_back(t);
-    }
-    src >> mRandom;
-    src >> mNextId;
+    src >> mType;
 }

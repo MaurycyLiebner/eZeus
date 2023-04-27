@@ -48,7 +48,7 @@
 #include "gameEvents/epaytributeevent.h"
 #include "gameEvents/egrantrequestevent.h"
 #include "gameEvents/egifttoevent.h"
-#include "gameEvents/egiftfromevent.h".h"
+#include "gameEvents/egiftfromevent.h"
 #include "gameEvents/egrantgeneralrequestevent.h"
 
 #include "eeventdata.h"
@@ -270,13 +270,13 @@ void eGameBoard::setHostileGods(const std::vector<eGodType>& gods) {
 void eGameBoard::setHostileMonsters(const std::vector<eMonsterType>& monsters) {
     mHostileMonsters = monsters;
 
-    const auto e = e::make_shared<eMonsterAttackEvent>(*this);
-    e->setTypes(monsters);
-    const int period = 150;
-    const auto date = mDate + period;
-    const auto ec = e::make_shared<eGameEventCycle>(
-                        e, date, period, 2, *this);
-    addGameEvent(ec);
+//    const auto e = e::make_shared<eMonsterAttackEvent>(*this);
+//    e->setTypes(monsters);
+//    const int period = 150;
+//    const auto date = mDate + period;
+//    const auto ec = e::make_shared<eGameEventCycle>(
+//                        e, date, period, 2, *this);
+//    addGameEvent(ec);
 }
 
 void eGameBoard::planInvasion(int stage, int months,

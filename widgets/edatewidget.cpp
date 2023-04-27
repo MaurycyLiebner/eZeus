@@ -12,6 +12,7 @@ void eDateWidget::initialize(const eDateAction& a,
     setType(eFrameType::message);
 
     mDayEdit = new eNumLineEdit(window());
+    mDayEdit->setRenderBg(true);
     mDayEdit->setRange(1, eMonthHelper::days(mMonth));
     mDayEdit->setValue(10);
     mDayEdit->fitContent();
@@ -42,6 +43,7 @@ void eDateWidget::initialize(const eDateAction& a,
             mMonth = static_cast<eMonth>(i);
             const int days = eMonthHelper::days(mMonth);
             mDayEdit->setRange(1, days);
+            mDayEdit->clamp();
             mMonthEdit->setText(eMonthHelper::name(mMonth));
             if(a && actOnChange) a(date());
         };
@@ -51,6 +53,7 @@ void eDateWidget::initialize(const eDateAction& a,
     });
 
     mYearEdit = new eNumLineEdit(window());
+    mYearEdit->setRenderBg(true);
     mYearEdit->setRange(-9999, 9999);
     mYearEdit->setValue(-1500);
     mYearEdit->fitContent();
@@ -93,8 +96,8 @@ void eDateWidget::initialize(const eDateAction& a,
 }
 
 eDate eDateWidget::date() const {
-    const int d = mDayEdit->value();
-    const int y = mYearEdit->value();
+    const int d = mDayEdit->clampedValue();
+    const int y = mYearEdit->clampedValue();
     return eDate(d, mMonth, y);
 }
 
