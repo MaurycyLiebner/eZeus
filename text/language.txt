@@ -25,6 +25,17 @@ date: "Date:"
 period: "Period:"
 repeat: "Repeat:"
 
+monster: "Monster:"
+
+god_visit "God visit"
+god_attack "God attack"
+monster_attack "Monster attack"
+invasion "Invasion"
+pay_tribute "Pay tribute"
+grant_request "Grant request"
+gift_to "Gift to"
+gift_from "Gift from"
+
 iterative "Iterative"
 random "Random"
 gods "Gods"

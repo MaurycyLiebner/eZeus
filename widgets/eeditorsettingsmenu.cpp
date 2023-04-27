@@ -13,6 +13,9 @@
 
 #include "gameEvents/egameeventcycle.h"
 #include "widgets/eventwidgets/eeventwidgetbase.h"
+#include "widgets/echoosebutton.h"
+
+#include "gameEvents/emonsterattackevent.h"
 
 void eEditorSettingsMenu::initialize(eGameBoard& board) {
     setType(eFrameType::message);
@@ -114,15 +117,89 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
             choose->addButton(eStr);
         }
 
-        choose->setButtonPressEvent([this, iniEs, boardPtr](const int id) {
-            const auto& e = iniEs[id];
-
+        const auto editEvent = [this, boardPtr](const stdsptr<eGameEventCycle>& e) {
             const auto settings = new eEventWidgetBase(window());
             settings->resize(width(), height());
             settings->initialize(e, boardPtr);
 
             window()->execDialog(settings);
             settings->align(eAlignment::center);
+        };
+
+        choose->setButtonPressEvent([boardPtr, editEvent](const int id) {
+            const auto& es = boardPtr->gameEvents();
+            const auto& e = es[id];
+            editEvent(e);
+        });
+
+        choose->setButtonCreateEvent([this, choose, boardPtr, editEvent]() {
+            const std::vector<eGameEventType> types = {
+                eGameEventType::godVisit,
+                eGameEventType::godAttack,
+                eGameEventType::monsterAttack,
+                eGameEventType::invasion,
+                eGameEventType::payTribute,
+                eGameEventType::grantRequest,
+                eGameEventType::giftTo,
+                eGameEventType::giftFrom
+            };
+            const std::vector<std::string> labels = {
+                eLanguage::text("god_visit"),
+                eLanguage::text("god_attack"),
+                eLanguage::text("monster_attack"),
+                eLanguage::text("invasion"),
+                eLanguage::text("pay_tribute"),
+                eLanguage::text("grant_request"),
+                eLanguage::text("gift_to"),
+                eLanguage::text("gift_from")
+            };
+            const auto echoose = new eChooseButton(window());
+            const auto act = [this, choose, boardPtr, types, labels, editEvent](const int val) {
+                const auto type = types[val];
+                stdsptr<eGameEvent> e;
+                switch(type) {
+                case eGameEventType::godVisit: {
+
+                } break;
+                case eGameEventType::godAttack: {
+
+                } break;
+                case eGameEventType::monsterAttack: {
+                    e = e::make_shared<eMonsterAttackEvent>(*boardPtr);
+                } break;
+                case eGameEventType::invasion: {
+
+                } break;
+                case eGameEventType::payTribute: {
+
+                } break;
+                case eGameEventType::grantRequest: {
+
+                } break;
+                case eGameEventType::giftTo: {
+
+                } break;
+                case eGameEventType::giftFrom: {
+
+                } break;
+                default:
+                    break;
+                }
+                if(e) {
+                    const auto boardDate = boardPtr->date();
+                    const int period = 150;
+                    const auto date = boardDate + period;
+                    const auto ec = e::make_shared<eGameEventCycle>(
+                                        e, date, period, 1, *boardPtr);
+                    boardPtr->addGameEvent(ec);
+                    editEvent(ec);
+                    choose->addButton(ec->longName());
+                }
+            };
+            echoose->initialize(8, labels, act);
+
+            window()->execDialog(echoose);
+            echoose->align(eAlignment::center);
         });
 
         window()->execDialog(choose);

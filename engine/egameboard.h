@@ -238,6 +238,8 @@ public:
     using eGameEvents = std::vector<stdsptr<eGameEventCycle>>;
     const eGameEvents& gameEvents() const { return mGameEvents; }
 
+    void addGameEvent(const stdsptr<eGameEventCycle>& e);
+
     void planInvasion(int stage, int months,
                       const int infantry,
                       const int cavalry,
@@ -300,8 +302,6 @@ private:
 
     void registerSoldierBanner(const stdsptr<eSoldierBanner>& b);
     bool unregisterSoldierBanner(const stdsptr<eSoldierBanner>& b);
-
-    void addGameEvent(const stdsptr<eGameEventCycle>& e);
 
     void updateCoverage();
 
