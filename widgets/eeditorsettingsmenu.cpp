@@ -18,6 +18,7 @@
 #include "gameEvents/emonsterattackevent.h"
 #include "gameEvents/egodattackevent.h"
 #include "gameEvents/einvasionevent.h"
+#include "gameEvents/egiftfromevent.h"
 
 void eEditorSettingsMenu::initialize(eGameBoard& board) {
     setType(eFrameType::message);
@@ -182,7 +183,7 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
 
                 } break;
                 case eGameEventType::giftFrom: {
-
+                    e = e::make_shared<eGiftFromEvent>(*boardPtr);
                 } break;
                 default:
                     break;

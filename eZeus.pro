@@ -364,6 +364,7 @@ SOURCES += \
         widgets/echeckablebutton.cpp \
         widgets/echeckbox.cpp \
         widgets/echoosebutton.cpp \
+        widgets/ecitybutton.cpp \
         widgets/eclosabledialog.cpp \
         widgets/ecombobox.cpp \
         widgets/econtextmenu.cpp \
@@ -418,6 +419,7 @@ SOURCES += \
         widgets/equestionwidget.cpp \
         widgets/erequestdialog.cpp \
         widgets/eresolution.cpp \
+        widgets/eresourcebutton.cpp \
         widgets/escrollbar.cpp \
         widgets/escrollbuttonslist.cpp \
         widgets/escrollwidget.cpp \
@@ -432,6 +434,7 @@ SOURCES += \
         widgets/eupbutton.cpp \
         widgets/evaluebutton.cpp \
         widgets/eventwidgets/eeventwidgetbase.cpp \
+        widgets/eventwidgets/egiftfromeventwidget.cpp \
         widgets/eventwidgets/egodattackeventwidget.cpp \
         widgets/eventwidgets/einvasioneventwidget.cpp \
         widgets/eventwidgets/emonsterattackeventwidget.cpp \
@@ -1292,6 +1295,7 @@ HEADERS += \
     widgets/echeckablebutton.h \
     widgets/echeckbox.h \
     widgets/echoosebutton.h \
+    widgets/ecitybutton.h \
     widgets/eclosabledialog.h \
     widgets/ecombobox.h \
     widgets/econtextmenu.h \
@@ -1342,6 +1346,7 @@ HEADERS += \
     widgets/equestionwidget.h \
     widgets/erequestdialog.h \
     widgets/eresolution.h \
+    widgets/eresourcebutton.h \
     widgets/escrollbar.h \
     widgets/escrollbuttonslist.h \
     widgets/escrollwidget.h \
@@ -1356,6 +1361,7 @@ HEADERS += \
     widgets/eupbutton.h \
     widgets/evaluebutton.h \
     widgets/eventwidgets/eeventwidgetbase.h \
+    widgets/eventwidgets/egiftfromeventwidget.h \
     widgets/eventwidgets/egodattackeventwidget.h \
     widgets/eventwidgets/einvasioneventwidget.h \
     widgets/eventwidgets/emonsterattackeventwidget.h \

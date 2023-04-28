@@ -27,8 +27,10 @@ std::string eGiftFromEvent::longName() const {
     auto tmpl = eLanguage::text("gift_of_from");
     const auto resName = eResourceTypeHelpers::typeName(mResource);
     const auto cStr = std::to_string(mCount);
+    const auto none = eLanguage::text("none");
+    const auto ctstr = mCity ? mCity->name() : none;
     eStringHelpers::replace(tmpl, "%1", cStr + " " + resName);
-    eStringHelpers::replace(tmpl, "%2", mCity->name());
+    eStringHelpers::replace(tmpl, "%2", ctstr);
     return tmpl;
 }
 
@@ -48,4 +50,16 @@ void eGiftFromEvent::read(eReadStream& src) {
     src.readCity(&getBoard(), [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
+}
+
+void eGiftFromEvent::setCity(const stdsptr<eWorldCity>& c) {
+    mCity = c;
+}
+
+void eGiftFromEvent::setResourceType(const eResourceType type) {
+    mResource = type;
+}
+
+void eGiftFromEvent::setResourceCount(const int c) {
+    mCount = c;
 }

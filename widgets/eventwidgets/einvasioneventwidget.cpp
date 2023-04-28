@@ -8,34 +8,17 @@
 #include "emainwindow.h"
 #include "widgets/elabeledwidget.h"
 #include "widgets/evaluebutton.h"
+#include "widgets/ecitybutton.h"
 
 void eInvasionEventWidget::initialize(eInvasionEvent* const e) {
     const auto cityButtonL = new eLabeledWidget(window());
     const auto cc = e->city();
-    const auto lcity = eLanguage::text("none");
-    const auto ccname = cc ? cc->name() : lcity;
-    const auto cityButton = new eFramedButton(ccname, window());
-    cityButton->setPressAction([this, cityButton, e]() {
-        auto& board = e->getBoard();
-        auto& world = board.getWorldBoard();
-        const auto& cities = world.cities();
-        std::vector<std::string> cityNames;
-        for(const auto& c : cities) {
-            cityNames.push_back(c->name());
-        }
-        const auto choose = new eChooseButton(window());
-        const auto act = [cities, cityNames, e, cityButton](const int val) {
-            const auto c = cities[val];
-            cityButton->setText(cityNames[val]);
-            cityButton->fitContent();
-            e->setCity(c);
-        };
-        choose->initialize(8, cityNames, act);
-
-        window()->execDialog(choose);
-        choose->align(eAlignment::center);
+    const auto cityButton = new eCityButton(window());
+    auto& board = e->getBoard();
+    cityButton->initialize(board, [e](const stdsptr<eWorldCity>& c){
+        e->setCity(c);
     });
-    cityButton->fitContent();
+    cityButton->setCity(cc);
     cityButtonL->setup(eLanguage::text("city:"), cityButton);
     addWidget(cityButtonL);
 

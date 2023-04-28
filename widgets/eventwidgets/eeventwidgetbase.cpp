@@ -11,6 +11,7 @@
 #include "egodattackeventwidget.h"
 #include "emonsterattackeventwidget.h"
 #include "einvasioneventwidget.h"
+#include "egiftfromeventwidget.h"
 
 void eEventWidgetBase::initialize(const stdsptr<eGameEventCycle>& e,
                                   eGameBoard* const boardPtr) {
@@ -75,6 +76,12 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEventCycle>& e,
         const auto eew = new eInvasionEventWidget(window());
         const auto iee = static_cast<eInvasionEvent*>(ee.get());
         eew->initialize(iee);
+        cont->addWidget(eew);
+    } break;
+    case eGameEventType::giftFrom: {
+        const auto eew = new eGiftFromEventWidget(window());
+        const auto gfee = static_cast<eGiftFromEvent*>(ee.get());
+        eew->initialize(gfee);
         cont->addWidget(eew);
     } break;
     default:

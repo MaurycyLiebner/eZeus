@@ -32,6 +32,9 @@ infantry: "Infantry:"
 cavalry: "Cavalry:"
 archers: "Archers:"
 
+resource_type: "Resource type:"
+resource: "Resource:"
+
 god_visit "God visit"
 god_attack "God attack"
 monster_attack "Monster attack"
