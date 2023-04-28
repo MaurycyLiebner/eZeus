@@ -13,7 +13,7 @@ enum class eGameEventType {
     invasion,
     payTribute,
     receiveRequest,
-    grantRequest,
+    makeRequest,
     giftTo,
     giftFrom
 };

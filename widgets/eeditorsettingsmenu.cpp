@@ -142,7 +142,7 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
                 eGameEventType::monsterAttack,
                 eGameEventType::invasion,
                 eGameEventType::payTribute,
-                eGameEventType::grantRequest,
+                eGameEventType::makeRequest,
                 eGameEventType::giftTo,
                 eGameEventType::giftFrom
             };
@@ -176,7 +176,7 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
                 case eGameEventType::payTribute: {
 
                 } break;
-                case eGameEventType::grantRequest: {
+                case eGameEventType::makeRequest: {
 
                 } break;
                 case eGameEventType::giftTo: {

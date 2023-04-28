@@ -1,14 +1,14 @@
-#include "egrantrequestevent.h"
+#include "emakerequestevent.h"
 
 #include "engine/egameboard.h"
 #include "elanguage.h"
 #include "estringhelpers.h"
 
-eGrantRequestEvent::eGrantRequestEvent(
+eMakeRequestEvent::eMakeRequestEvent(
         eGameBoard& board) :
-    eGameEvent(eGameEventType::grantRequest, board) {}
+    eGameEvent(eGameEventType::makeRequest, board) {}
 
-void eGrantRequestEvent::initialize(
+void eMakeRequestEvent::initialize(
         const bool postpone,
         const eResourceType res,
         const stdsptr<eWorldCity> &c) {
@@ -17,12 +17,12 @@ void eGrantRequestEvent::initialize(
     mCity = c;
 }
 
-void eGrantRequestEvent::trigger() {
+void eMakeRequestEvent::trigger() {
     auto& board = getBoard();
-    board.grantRequest(mCity, mResource, mPostpone);
+    board.makeRequest(mCity, mResource, mPostpone);
 }
 
-std::string eGrantRequestEvent::longName() const {
+std::string eMakeRequestEvent::longName() const {
     auto tmpl = eLanguage::text("make_request");
     const auto resName = eResourceTypeHelpers::typeName(mResource);
     eStringHelpers::replace(tmpl, "%1", resName);
@@ -30,14 +30,14 @@ std::string eGrantRequestEvent::longName() const {
     return tmpl;
 }
 
-void eGrantRequestEvent::write(eWriteStream& dst) const {
+void eMakeRequestEvent::write(eWriteStream& dst) const {
     eGameEvent::write(dst);
     dst << mPostpone;
     dst << mResource;
     dst.writeCity(mCity.get());
 }
 
-void eGrantRequestEvent::read(eReadStream& src) {
+void eMakeRequestEvent::read(eReadStream& src) {
     eGameEvent::read(src);
     src >> mPostpone;
     src >> mResource;

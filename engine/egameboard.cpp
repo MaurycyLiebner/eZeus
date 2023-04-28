@@ -46,7 +46,7 @@
 #include "gameEvents/emonsterattackevent.h"
 #include "gameEvents/einvasionevent.h"
 #include "gameEvents/epaytributeevent.h"
-#include "gameEvents/egrantrequestevent.h"
+#include "gameEvents/emakerequestevent.h"
 #include "gameEvents/egifttoevent.h"
 #include "gameEvents/egiftfromevent.h"
 #include "gameEvents/ereceiverequestevent.h"
@@ -778,7 +778,7 @@ void eGameBoard::planGiftFrom(const stdsptr<eWorldCity>& c,
 
 void eGameBoard::request(const stdsptr<eWorldCity>& c,
                          const eResourceType type) {
-    const auto e = e::make_shared<eGrantRequestEvent>(*this);
+    const auto e = e::make_shared<eMakeRequestEvent>(*this);
     e->initialize(true, type, c);
     const auto date = mDate + 90;
     const auto ec = e::make_shared<eGameEventCycle>(
@@ -786,9 +786,9 @@ void eGameBoard::request(const stdsptr<eWorldCity>& c,
     addGameEvent(ec);
 }
 
-void eGameBoard::grantRequest(const stdsptr<eWorldCity>& c,
-                              const eResourceType type,
-                              const bool postpone) {
+void eGameBoard::makeRequest(const stdsptr<eWorldCity>& c,
+                             const eResourceType type,
+                             const bool postpone) {
     const int count = 2*eGiftHelpers::giftCount(type);
 
     const int space = spaceForResource(type);
@@ -801,7 +801,7 @@ void eGameBoard::grantRequest(const stdsptr<eWorldCity>& c,
     if(space == 0) {
         ed.fType = eMessageEventType::resourceGranted;
         if(postpone) {
-            const auto e = e::make_shared<eGrantRequestEvent>(
+            const auto e = e::make_shared<eMakeRequestEvent>(
                         *this);
             e->initialize(false, type, c);
             const auto date = mDate + 31;
@@ -833,7 +833,7 @@ void eGameBoard::grantRequest(const stdsptr<eWorldCity>& c,
                 ed.fResourceCount = count;
                 event(eEvent::requestPostponed, ed);
 
-                const auto e = e::make_shared<eGrantRequestEvent>(
+                const auto e = e::make_shared<eMakeRequestEvent>(
                             *this);
                 e->initialize(false, type, c);
                 const auto date = mDate + 31;

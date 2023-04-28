@@ -289,8 +289,8 @@ SOURCES += \
         gameEvents/egifttoevent.cpp \
         gameEvents/egodattackevent.cpp \
         gameEvents/egodvisitevent.cpp \
-        gameEvents/egrantrequestevent.cpp \
         gameEvents/einvasionevent.cpp \
+        gameEvents/emakerequestevent.cpp \
         gameEvents/emonsterattackevent.cpp \
         gameEvents/epaytributeevent.cpp \
         gameEvents/ereceiverequestevent.cpp \
@@ -738,8 +738,8 @@ HEADERS += \
     gameEvents/egifttoevent.h \
     gameEvents/egodattackevent.h \
     gameEvents/egodvisitevent.h \
-    gameEvents/egrantrequestevent.h \
     gameEvents/einvasionevent.h \
+    gameEvents/emakerequestevent.h \
     gameEvents/emonsterattackevent.h \
     gameEvents/epaytributeevent.h \
     gameEvents/ereceiverequestevent.h \
