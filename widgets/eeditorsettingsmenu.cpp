@@ -19,6 +19,8 @@
 #include "gameEvents/egodattackevent.h"
 #include "gameEvents/einvasionevent.h"
 #include "gameEvents/egiftfromevent.h"
+#include "gameEvents/emakerequestevent.h"
+#include "gameEvents/ereceiverequestevent.h"
 
 void eEditorSettingsMenu::initialize(eGameBoard& board) {
     setType(eFrameType::message);
@@ -143,6 +145,7 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
                 eGameEventType::invasion,
                 eGameEventType::payTribute,
                 eGameEventType::makeRequest,
+                eGameEventType::receiveRequest,
                 eGameEventType::giftTo,
                 eGameEventType::giftFrom
             };
@@ -152,7 +155,8 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
                 eLanguage::text("monster_attack"),
                 eLanguage::text("invasion"),
                 eLanguage::text("pay_tribute"),
-                eLanguage::text("grant_request"),
+                eLanguage::text("make_request"),
+                eLanguage::text("receive_request"),
                 eLanguage::text("gift_to"),
                 eLanguage::text("gift_from")
             };
@@ -177,7 +181,10 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
 
                 } break;
                 case eGameEventType::makeRequest: {
-
+                    e = e::make_shared<eMakeRequestEvent>(*boardPtr);
+                } break;
+                case eGameEventType::receiveRequest: {
+                    e = e::make_shared<eReceiveRequestEvent>(*boardPtr);
                 } break;
                 case eGameEventType::giftTo: {
 

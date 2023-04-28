@@ -25,7 +25,9 @@ std::string eGiftToEvent::longName() const {
     const auto resName = eResourceTypeHelpers::typeName(mResource);
     const auto cStr = std::to_string(mCount);
     eStringHelpers::replace(tmpl, "%1", cStr + " " + resName);
-    eStringHelpers::replace(tmpl, "%2", mCity->name());
+    const auto none = eLanguage::text("none");
+    const auto ctstr = mCity ? mCity->name() : none;
+    eStringHelpers::replace(tmpl, "%2", ctstr);
     return tmpl;
 }
 

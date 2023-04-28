@@ -18,6 +18,12 @@ public:
 
     void write(eWriteStream& dst) const override ;
     void read(eReadStream& src) override;
+
+    const stdsptr<eWorldCity>& city() const { return mCity; }
+    void setCity(const stdsptr<eWorldCity>& c);
+
+    eResourceType resourceType() const { return mResource; }
+    void setResourceType(const eResourceType type);
 private:
     bool mPostpone;
     eResourceType mResource;

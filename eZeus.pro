@@ -438,6 +438,7 @@ SOURCES += \
         widgets/eventwidgets/egodattackeventwidget.cpp \
         widgets/eventwidgets/einvasioneventwidget.cpp \
         widgets/eventwidgets/emonsterattackeventwidget.cpp \
+        widgets/eventwidgets/ereceiverequesteventwidget.cpp \
         widgets/eviewmode.cpp \
         widgets/ewidget.cpp \
         widgets/eworldgoodswidget.cpp \
@@ -1365,6 +1366,7 @@ HEADERS += \
     widgets/eventwidgets/egodattackeventwidget.h \
     widgets/eventwidgets/einvasioneventwidget.h \
     widgets/eventwidgets/emonsterattackeventwidget.h \
+    widgets/eventwidgets/ereceiverequesteventwidget.h \
     widgets/eviewmode.h \
     widgets/ewidget.h \
     widgets/eworldgoodswidget.h \

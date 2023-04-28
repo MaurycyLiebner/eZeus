@@ -18,7 +18,9 @@ void ePayTributeEvent::trigger() {
 
 std::string ePayTributeEvent::longName() const {
     auto tmpl = eLanguage::text("receive_tribute_from");
-    eStringHelpers::replace(tmpl, "%1", mCity->name());
+    const auto none = eLanguage::text("none");
+    const auto ctstr = mCity ? mCity->name() : none;
+    eStringHelpers::replace(tmpl, "%1", ctstr);
     return tmpl;
 }
 

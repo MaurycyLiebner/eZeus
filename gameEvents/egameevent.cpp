@@ -6,6 +6,7 @@
 #include "einvasionevent.h"
 #include "epaytributeevent.h"
 #include "emakerequestevent.h"
+#include "ereceiverequestevent.h"
 #include "egifttoevent.h"
 #include "egiftfromevent.h"
 
@@ -28,6 +29,8 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
         return e::make_shared<ePayTributeEvent>(board);
     case eGameEventType::makeRequest:
         return e::make_shared<eMakeRequestEvent>(board);
+    case eGameEventType::receiveRequest:
+        return e::make_shared<eReceiveRequestEvent>(board);
     case eGameEventType::giftTo:
         return e::make_shared<eGiftToEvent>(board);
     case eGameEventType::giftFrom:

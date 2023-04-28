@@ -26,7 +26,9 @@ std::string eMakeRequestEvent::longName() const {
     auto tmpl = eLanguage::text("make_request");
     const auto resName = eResourceTypeHelpers::typeName(mResource);
     eStringHelpers::replace(tmpl, "%1", resName);
-    eStringHelpers::replace(tmpl, "%2", mCity->name());
+    const auto none = eLanguage::text("none");
+    const auto ctstr = mCity ? mCity->name() : none;
+    eStringHelpers::replace(tmpl, "%2", ctstr);
     return tmpl;
 }
 
@@ -44,4 +46,12 @@ void eMakeRequestEvent::read(eReadStream& src) {
     src.readCity(&getBoard(), [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
+}
+
+void eMakeRequestEvent::setCity(const stdsptr<eWorldCity>& c) {
+    mCity = c;
+}
+
+void eMakeRequestEvent::setResourceType(const eResourceType type) {
+    mResource = type;
 }
