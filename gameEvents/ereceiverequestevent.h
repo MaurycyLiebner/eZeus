@@ -1,13 +1,13 @@
-#ifndef EGRANTGENERALREQUESTEVENT_H
-#define EGRANTGENERALREQUESTEVENT_H
+#ifndef ERECEIVEREQUESTEVENT_H
+#define ERECEIVEREQUESTEVENT_H
 
 #include "egameevent.h"
 
 #include "engine/eworldcity.h"
 
-class eGrantGeneralRequestEvent : public eGameEvent {
+class eReceiveRequestEvent : public eGameEvent {
 public:
-    eGrantGeneralRequestEvent(eGameBoard& board);
+    eReceiveRequestEvent(eGameBoard& board);
 
     void initialize(const int postpone,
                     const eResourceType res,
@@ -26,4 +26,4 @@ private:
     stdsptr<eWorldCity> mCity;
 };
 
-#endif // EGRANTGENERALREQUESTEVENT_H
+#endif // ERECEIVEREQUESTEVENT_H

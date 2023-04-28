@@ -49,7 +49,7 @@
 #include "gameEvents/egrantrequestevent.h"
 #include "gameEvents/egifttoevent.h"
 #include "gameEvents/egiftfromevent.h"
-#include "gameEvents/egrantgeneralrequestevent.h"
+#include "gameEvents/ereceiverequestevent.h"
 
 #include "eeventdata.h"
 
@@ -667,7 +667,7 @@ int eGameBoard::spaceForResource(const eResourceType type) {
     return r;
 }
 
-void eGameBoard::grantGeneralRequest(const stdsptr<eWorldCity>& c,
+void eGameBoard::receiveRequest(const stdsptr<eWorldCity>& c,
                                      const eResourceType type,
                                      const int count,
                                      const int postpone) {
@@ -707,7 +707,7 @@ void eGameBoard::grantGeneralRequest(const stdsptr<eWorldCity>& c,
     if(avCount >= count) {
         ed.fA0 = [this, c, type, count, postpone]() { // dispatch now
             takeResource(type, count);
-            const auto e = e::make_shared<eGrantGeneralRequestEvent>(
+            const auto e = e::make_shared<eReceiveRequestEvent>(
                         *this);
             e->initialize(postpone, type, -count, c);
             const auto date = mDate + 3*31;
@@ -719,7 +719,7 @@ void eGameBoard::grantGeneralRequest(const stdsptr<eWorldCity>& c,
 
     if(postpone < 4) {
         ed.fA1 = [this, c, type, count, postpone]() { // postpone
-            const auto e = e::make_shared<eGrantGeneralRequestEvent>(
+            const auto e = e::make_shared<eReceiveRequestEvent>(
                         *this);
             e->initialize(postpone + 1, type, count, c);
             const auto date = mDate + 6*31;
@@ -730,7 +730,7 @@ void eGameBoard::grantGeneralRequest(const stdsptr<eWorldCity>& c,
     }
 
     ed.fA2 = [this, c, type, count]() { // refuse
-        const auto e = e::make_shared<eGrantGeneralRequestEvent>(
+        const auto e = e::make_shared<eReceiveRequestEvent>(
                     *this);
         e->initialize(5, type, count, c);
         const auto date = mDate + 31;
@@ -1507,7 +1507,7 @@ void eGameBoard::incTime(const int by) {
     }
 
     if(mTotalTime == 0) {
-//        grantGeneralRequest(mWorldBoard.cities()[0],
+//        receiveRequest(mWorldBoard.cities()[0],
 //                            eResourceType::fleece, 9, 0);
         planGiftFrom(mWorldBoard.cities()[0],
                      eResourceType::fleece, 16);

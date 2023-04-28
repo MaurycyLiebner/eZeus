@@ -266,7 +266,7 @@ public:
     int resourceCount(const eResourceType type) const;
     int takeResource(const eResourceType type,
                      const int count);
-    void grantGeneralRequest(const stdsptr<eWorldCity>& c,
+    void receiveRequest(const stdsptr<eWorldCity>& c,
                              const eResourceType type,
                              const int count,
                              const int postpone);

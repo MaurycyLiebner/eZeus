@@ -1,14 +1,14 @@
-#include "egrantgeneralrequestevent.h"
+#include "ereceiverequestevent.h"
 
 #include "engine/egameboard.h"
 #include "elanguage.h"
 #include "estringhelpers.h"
 
-eGrantGeneralRequestEvent::eGrantGeneralRequestEvent(
+eReceiveRequestEvent::eReceiveRequestEvent(
         eGameBoard& board) :
-    eGameEvent(eGameEventType::grantRequest, board) {}
+    eGameEvent(eGameEventType::receiveRequest, board) {}
 
-void eGrantGeneralRequestEvent::initialize(
+void eReceiveRequestEvent::initialize(
         const int postpone,
         const eResourceType res,
         const int count,
@@ -19,12 +19,12 @@ void eGrantGeneralRequestEvent::initialize(
     mCity = c;
 }
 
-void eGrantGeneralRequestEvent::trigger() {
+void eReceiveRequestEvent::trigger() {
     auto& board = getBoard();
-    board.grantGeneralRequest(mCity, mResource, mCount, mPostpone);
+    board.receiveRequest(mCity, mResource, mCount, mPostpone);
 }
 
-std::string eGrantGeneralRequestEvent::longName() const {
+std::string eReceiveRequestEvent::longName() const {
     auto tmpl = eLanguage::text("receive_request");
     const auto resName = eResourceTypeHelpers::typeName(mResource);
     const auto cStr = std::to_string(mCount);
@@ -33,7 +33,7 @@ std::string eGrantGeneralRequestEvent::longName() const {
     return tmpl;
 }
 
-void eGrantGeneralRequestEvent::write(eWriteStream& dst) const {
+void eReceiveRequestEvent::write(eWriteStream& dst) const {
     eGameEvent::write(dst);
     dst << mPostpone;
     dst << mResource;
@@ -41,7 +41,7 @@ void eGrantGeneralRequestEvent::write(eWriteStream& dst) const {
     dst.writeCity(mCity.get());
 }
 
-void eGrantGeneralRequestEvent::read(eReadStream& src) {
+void eReceiveRequestEvent::read(eReadStream& src) {
     eGameEvent::read(src);
     src >> mPostpone;
     src >> mResource;

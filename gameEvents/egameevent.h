@@ -12,6 +12,7 @@ enum class eGameEventType {
     monsterAttack,
     invasion,
     payTribute,
+    receiveRequest,
     grantRequest,
     giftTo,
     giftFrom

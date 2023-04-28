@@ -289,11 +289,11 @@ SOURCES += \
         gameEvents/egifttoevent.cpp \
         gameEvents/egodattackevent.cpp \
         gameEvents/egodvisitevent.cpp \
-        gameEvents/egrantgeneralrequestevent.cpp \
         gameEvents/egrantrequestevent.cpp \
         gameEvents/einvasionevent.cpp \
         gameEvents/emonsterattackevent.cpp \
         gameEvents/epaytributeevent.cpp \
+        gameEvents/ereceiverequestevent.cpp \
         main.cpp \
         missiles/earrowmissile.cpp \
         missiles/egodmissile.cpp \
@@ -738,11 +738,11 @@ HEADERS += \
     gameEvents/egifttoevent.h \
     gameEvents/egodattackevent.h \
     gameEvents/egodvisitevent.h \
-    gameEvents/egrantgeneralrequestevent.h \
     gameEvents/egrantrequestevent.h \
     gameEvents/einvasionevent.h \
     gameEvents/emonsterattackevent.h \
     gameEvents/epaytributeevent.h \
+    gameEvents/ereceiverequestevent.h \
     missiles/earrowmissile.h \
     missiles/egodmissile.h \
     missiles/emissile.h \
