@@ -82,7 +82,9 @@ void eInvasionEvent::trigger() {
 
 std::string eInvasionEvent::longName() const {
     auto tmpl = eLanguage::text("invasion_by");
-    eStringHelpers::replace(tmpl, "%1", mCity->name());
+    const auto none = eLanguage::text("none");
+    const auto cstr = mCity ? mCity->name() : none;
+    eStringHelpers::replace(tmpl, "%1", cstr);
     return tmpl;
 }
 
@@ -104,6 +106,10 @@ void eInvasionEvent::read(eReadStream& src) {
     src >> mInfantry;
     src >> mCavalry;
     src >> mArchers;
+}
+
+void eInvasionEvent::setCity(const stdsptr<eWorldCity>& c) {
+    mCity = c;
 }
 
 int eInvasionEvent::bribeCost() const {

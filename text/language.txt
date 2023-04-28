@@ -27,6 +27,11 @@ repeat: "Repeat:"
 
 monster: "Monster:"
 
+city: "City:"
+infantry: "Infantry:"
+cavalry: "Cavalry:"
+archers: "Archers:"
+
 god_visit "God visit"
 god_attack "God attack"
 monster_attack "Monster attack"

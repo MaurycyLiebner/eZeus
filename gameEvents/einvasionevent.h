@@ -20,6 +20,16 @@ public:
 
     void write(eWriteStream& dst) const override ;
     void read(eReadStream& src) override;
+
+    const stdsptr<eWorldCity>& city() const { return mCity; }
+    void setCity(const stdsptr<eWorldCity>& c);
+
+    int infantry() const { return mInfantry; }
+    void setInfantry(const int i) { mInfantry = i; }
+    int cavalry() const { return mCavalry; }
+    void setCavalry(const int c) { mCavalry = c; }
+    int archers() const { return mArchers; }
+    void setArchers(const int a) { mArchers = a; }
 private:
     int bribeCost() const;
 

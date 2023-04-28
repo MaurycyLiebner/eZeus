@@ -433,6 +433,7 @@ SOURCES += \
         widgets/evaluebutton.cpp \
         widgets/eventwidgets/eeventwidgetbase.cpp \
         widgets/eventwidgets/egodattackeventwidget.cpp \
+        widgets/eventwidgets/einvasioneventwidget.cpp \
         widgets/eventwidgets/emonsterattackeventwidget.cpp \
         widgets/eviewmode.cpp \
         widgets/ewidget.cpp \
@@ -1356,6 +1357,7 @@ HEADERS += \
     widgets/evaluebutton.h \
     widgets/eventwidgets/eeventwidgetbase.h \
     widgets/eventwidgets/egodattackeventwidget.h \
+    widgets/eventwidgets/einvasioneventwidget.h \
     widgets/eventwidgets/emonsterattackeventwidget.h \
     widgets/eviewmode.h \
     widgets/ewidget.h \

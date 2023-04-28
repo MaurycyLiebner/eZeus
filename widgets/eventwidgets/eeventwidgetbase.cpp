@@ -10,6 +10,7 @@
 
 #include "egodattackeventwidget.h"
 #include "emonsterattackeventwidget.h"
+#include "einvasioneventwidget.h"
 
 void eEventWidgetBase::initialize(const stdsptr<eGameEventCycle>& e,
                                   eGameBoard* const boardPtr) {
@@ -68,6 +69,12 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEventCycle>& e,
         const auto eew = new eMonsterAttackEventWidget(window());
         const auto maee = static_cast<eMonsterAttackEvent*>(ee.get());
         eew->initialize(maee);
+        cont->addWidget(eew);
+    } break;
+    case eGameEventType::invasion: {
+        const auto eew = new eInvasionEventWidget(window());
+        const auto iee = static_cast<eInvasionEvent*>(ee.get());
+        eew->initialize(iee);
         cont->addWidget(eew);
     } break;
     default:

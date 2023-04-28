@@ -16,6 +16,8 @@
 #include "widgets/echoosebutton.h"
 
 #include "gameEvents/emonsterattackevent.h"
+#include "gameEvents/egodattackevent.h"
+#include "gameEvents/einvasionevent.h"
 
 void eEditorSettingsMenu::initialize(eGameBoard& board) {
     setType(eFrameType::message);
@@ -162,13 +164,13 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
 
                 } break;
                 case eGameEventType::godAttack: {
-
+                    e = e::make_shared<eGodAttackEvent>(*boardPtr);
                 } break;
                 case eGameEventType::monsterAttack: {
                     e = e::make_shared<eMonsterAttackEvent>(*boardPtr);
                 } break;
                 case eGameEventType::invasion: {
-
+                    e = e::make_shared<eInvasionEvent>(*boardPtr);
                 } break;
                 case eGameEventType::payTribute: {
 

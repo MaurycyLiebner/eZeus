@@ -40,6 +40,8 @@ void eNumLineEditWidget::initialize(const eValueAction& a,
         ok->setX(ok->x() - 1.5*p);
         ok->setY(ok->y() - 1.5*p);
     }
+
+    mEdit->grabKeyboard();
 }
 
 int eNumLineEditWidget::value() const {

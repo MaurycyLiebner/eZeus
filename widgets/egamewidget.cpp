@@ -166,7 +166,7 @@ void eGameWidget::initialize() {
     settingsButt->setRenderBg(true);
     settingsButt->setPressAction([this]() {
         const auto settingsMenu = new eEditorSettingsMenu(window());
-        settingsMenu->resize(width()/2, height()/2);
+        settingsMenu->resize(width()/2, 2*height()/3);
         settingsMenu->initialize(*mBoard);
 
         window()->execDialog(settingsMenu);
