@@ -29,7 +29,6 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEventCycle>& e,
     const auto dateButton = new eDateButton(window());
     dateButton->setDateChangeAction([e, boardPtr](const eDate& d) {
         e->setStartDate(d);
-        e->rewind(boardPtr->date());
     });
     dateButton->initialize();
     dateButton->setDate(e->startDate());
@@ -40,7 +39,6 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEventCycle>& e,
     const auto periodButton = new eValueButton(window());
     periodButton->setValueChangeAction([e, boardPtr](const int p) {
         e->setPeriod(p);
-        e->rewind(boardPtr->date());
     });
     periodButton->initialize(31, 99999);
     periodButton->setValue(e->period());
@@ -51,7 +49,6 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEventCycle>& e,
     const auto repeatButton = new eValueButton(window());
     repeatButton->setValueChangeAction([e, boardPtr](const int p) {
         e->setRepeat(p);
-        e->rewind(boardPtr->date());
     });
     repeatButton->initialize(0, 99999);
     repeatButton->setValue(e->repeat());

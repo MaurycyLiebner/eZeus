@@ -1,5 +1,7 @@
 #include "egameeventcycle.h"
 
+#include "engine/egameboard.h"
+
 eGameEventCycle::eGameEventCycle(const stdsptr<eGameEvent>& event,
                                  const eDate& startDate,
                                  const int cycleDays,
@@ -20,6 +22,20 @@ eGameEventCycle::eGameEventCycle(const stdsptr<eGameEvent>& event,
 eGameEventCycle::eGameEventCycle(eGameBoard& board) :
     eObject(board) {}
 
+void eGameEventCycle::addWarning(const int daysBefore,
+                                 const stdsptr<eGameEvent>& event) {
+    auto& board = getBoard();
+    const auto startDate = mStartDate - daysBefore;
+    const auto cycle = e::make_shared<eGameEventCycle>(
+                event, startDate, mPeriodDays, mTotNRuns, board);
+    mWarnings.emplace_back(daysBefore, cycle);
+}
+
+void eGameEventCycle::addConsequence(
+        const stdsptr<eGameEventCycle>& event) {
+    mConsequences.push_back(event);
+}
+
 std::string eGameEventCycle::longName() const {
     const auto dateStr = mStartDate.shortString();
     const auto eventName = mEvent->longName();
@@ -28,17 +44,35 @@ std::string eGameEventCycle::longName() const {
 
 void eGameEventCycle::setStartDate(const eDate& d) {
     mStartDate = d;
+    for(const auto& w : mWarnings) {
+        w.second->setStartDate(d - w.first);
+    }
+    rewind();
 }
 
 void eGameEventCycle::setPeriod(const int p) {
     mPeriodDays = p;
+    for(const auto& w : mWarnings) {
+        w.second->setPeriod(p);
+    }
+    rewind();
 }
 
 void eGameEventCycle::setRepeat(const int r) {
     mTotNRuns = r;
+    for(const auto& w : mWarnings) {
+        w.second->setRepeat(r);
+    }
+    rewind();
 }
 
 void eGameEventCycle::handleNewDate(const eDate& date) {
+    for(const auto& w : mWarnings) {
+        w.second->handleNewDate(date);
+    }
+    for(const auto& c : mConsequences) {
+        c->handleNewDate(date);
+    }
     if(finished()) return;
     if(date > mNextDate) {
         trigger();
@@ -47,7 +81,18 @@ void eGameEventCycle::handleNewDate(const eDate& date) {
     }
 }
 
+void eGameEventCycle::rewind() {
+    const auto& board = getBoard();
+    const auto date = board.date();
+    rewind(date);
+}
+
 void eGameEventCycle::rewind(const eDate& date) {
+    for(const auto& w : mWarnings) {
+        w.second->rewind(date);
+    }
+    mConsequences.clear();
+
     mNextDate = mStartDate;
     mRemNRuns = mTotNRuns;
     if(mPeriodDays <= 0) {
@@ -73,6 +118,17 @@ void eGameEventCycle::write(eWriteStream& dst) const {
     dst << mPeriodDays;
     dst << mTotNRuns;
     dst << mRemNRuns;
+
+    dst << mWarnings.size();
+    for(const auto& w : mWarnings) {
+        dst << w.first;
+        w.second->write(dst);
+    }
+
+    dst << mConsequences.size();
+    for(const auto& c : mConsequences) {
+        c->write(dst);
+    }
 }
 
 void eGameEventCycle::read(eReadStream& src) {
@@ -85,4 +141,22 @@ void eGameEventCycle::read(eReadStream& src) {
     src >> mPeriodDays;
     src >> mTotNRuns;
     src >> mRemNRuns;
+
+    int nws;
+    src >> nws;
+    for(int i = 0; i < nws; i++) {
+        int days;
+        src >> days;
+        const auto e = e::make_shared<eGameEventCycle>(*this);
+        e->read(src);
+        mWarnings.emplace_back(eWarning(days, e));
+    }
+
+    int ncs;
+    src >> ncs;
+    for(int i = 0; i < ncs; i++) {
+        const auto e = e::make_shared<eGameEventCycle>(*this);
+        e->read(src);
+        mConsequences.emplace_back(e);
+    }
 }

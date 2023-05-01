@@ -2,9 +2,11 @@
 #define EGAMEEVENT_H
 
 #include "pointers/eobject.h"
-#include "fileIO/estreams.h"
 
 #include <functional>
+
+class eWriteStream;
+class eReadStream;
 
 enum class eGameEventType {
     godVisit,

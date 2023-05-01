@@ -42,6 +42,31 @@ void eDate::nextDays(const int d, bool& nextMonth, bool& nextYear) {
     }
 }
 
+void eDate::prevDays(const int d, bool& prevMonth, bool& prevYear) {
+    prevMonth = false;
+    prevYear = false;
+    if(d == 0) return;
+    if(mDay - d >= 1) {
+        mDay -= d;
+    } else {
+        mMonth = eMonthHelper::prevMonth(mMonth, prevYear);
+        const int maxDays = eMonthHelper::days(mMonth);
+        const int dd = d - mDay;
+        mDay = maxDays;
+        prevMonth = true;
+        if(prevYear) {
+            if(--mYear == 0) mYear--;
+        }
+        if(dd > 0) {
+            bool pm;
+            bool py;
+            prevDays(dd, pm, py);
+            prevMonth = pm || prevMonth;
+            prevYear = py || prevYear;
+        }
+    }
+}
+
 bool eDate::operator>(const eDate& other) const {
     return mYear > other.mYear ||
            (mYear == other.mYear && mMonth > other.mMonth) ||
@@ -76,6 +101,19 @@ eDate& eDate::operator+=(const int d) {
 eDate eDate::operator+(const int d) const {
     auto date = *this;
     date += d;
+    return date;
+}
+
+eDate& eDate::operator-=(const int d) {
+    bool pm;
+    bool py;
+    prevDays(d, pm, py);
+    return *this;
+}
+
+eDate eDate::operator-(const int d) const {
+    auto date = *this;
+    date -= d;
     return date;
 }
 
@@ -186,5 +224,16 @@ eMonth eMonthHelper::nextMonth(const eMonth m, bool& nextYear) {
         nextYear = false;
         const int i = static_cast<int>(m);
         return static_cast<eMonth>(i + 1);
+    }
+}
+
+eMonth eMonthHelper::prevMonth(const eMonth m, bool& prevYear) {
+    if(m == eMonth::january) {
+        prevYear = true;
+        return eMonth::december;
+    } else {
+        prevYear = false;
+        const int i = static_cast<int>(m);
+        return static_cast<eMonth>(i - 1);
     }
 }

@@ -18,6 +18,10 @@ public:
                     eGameBoard& board);
     eGameEventCycle(eGameBoard& board);
 
+    void addWarning(const int daysBefore,
+                    const stdsptr<eGameEvent>& event);
+    void addConsequence(const stdsptr<eGameEventCycle>& event);
+
     std::string longName() const;
 
     const eDate& startDate() const { return mStartDate; }
@@ -32,6 +36,7 @@ public:
     const stdsptr<eGameEvent>& event() const { return mEvent; }
 
     void handleNewDate(const eDate& date);
+    void rewind();
     void rewind(const eDate& date);
     void trigger();
     bool finished() const { return mRemNRuns <= 0; }
@@ -39,7 +44,10 @@ public:
     void write(eWriteStream& dst) const;
     void read(eReadStream& src);
 private:
+    using eWarning = std::pair<int, stdsptr<eGameEventCycle>>;
+    std::vector<eWarning> mWarnings;
     stdsptr<eGameEvent> mEvent;
+    std::vector<stdsptr<eGameEventCycle>> mConsequences;
 
     eDate mStartDate;
     int mPeriodDays;

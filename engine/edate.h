@@ -25,6 +25,7 @@ namespace eMonthHelper {
     std::string shortName(const eMonth m);
     int days(const eMonth m);
     eMonth nextMonth(const eMonth m, bool& nextYear);
+    eMonth prevMonth(const eMonth m, bool& prevYear);
 }
 
 class eDate {
@@ -34,6 +35,7 @@ public:
 
     std::string shortString() const;
     void nextDays(const int d, bool& nextMonth, bool& nextYear);
+    void prevDays(const int d, bool& prevMonth, bool& prevYear);
 
     int day() const { return mDay; }
     eMonth month() const { return mMonth; }
@@ -46,6 +48,8 @@ public:
     eDate& operator++();
     eDate& operator+=(const int d);
     eDate operator+(const int d) const;
+    eDate& operator-=(const int d);
+    eDate operator-(const int d) const;
 
     void write(eWriteStream& dst) const;
     void read(eReadStream& src);
