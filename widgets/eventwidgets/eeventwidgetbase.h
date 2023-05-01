@@ -5,15 +5,14 @@
 
 #include "pointers/estdselfref.h"
 
-class eGameEventCycle;
+class eGameEvent;
 class eGameBoard;
 
 class eEventWidgetBase : public eFramedWidget {
 public:
     using eFramedWidget::eFramedWidget;
 
-    void initialize(const stdsptr<eGameEventCycle>& e,
-                    eGameBoard* const boardPtr);
+    void initialize(const stdsptr<eGameEvent>& e);
 };
 
 #endif // EEVENTWIDGETBASE_H

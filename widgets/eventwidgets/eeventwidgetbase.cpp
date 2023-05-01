@@ -1,6 +1,6 @@
 #include "eeventwidgetbase.h"
 
-#include "gameEvents/egameeventcycle.h"
+#include "gameEvents/egameevent.h"
 
 #include "widgets/edatebutton.h"
 #include "widgets/evaluebutton.h"
@@ -14,8 +14,7 @@
 #include "egiftfromeventwidget.h"
 #include "ereceiverequesteventwidget.h"
 
-void eEventWidgetBase::initialize(const stdsptr<eGameEventCycle>& e,
-                                  eGameBoard* const boardPtr) {
+void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
     setType(eFrameType::message);
 
     const auto cont = new eWidget(window());
@@ -27,7 +26,7 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEventCycle>& e,
 
     const auto dateButtonL = new eLabeledWidget(window());
     const auto dateButton = new eDateButton(window());
-    dateButton->setDateChangeAction([e, boardPtr](const eDate& d) {
+    dateButton->setDateChangeAction([e](const eDate& d) {
         e->setStartDate(d);
     });
     dateButton->initialize();
@@ -37,7 +36,7 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEventCycle>& e,
 
     const auto periodButtonL = new eLabeledWidget(window());
     const auto periodButton = new eValueButton(window());
-    periodButton->setValueChangeAction([e, boardPtr](const int p) {
+    periodButton->setValueChangeAction([e](const int p) {
         e->setPeriod(p);
     });
     periodButton->initialize(31, 99999);
@@ -47,7 +46,7 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEventCycle>& e,
 
     const auto repeatButtonL = new eLabeledWidget(window());
     const auto repeatButton = new eValueButton(window());
-    repeatButton->setValueChangeAction([e, boardPtr](const int p) {
+    repeatButton->setValueChangeAction([e](const int p) {
         e->setRepeat(p);
     });
     repeatButton->initialize(0, 99999);
@@ -55,36 +54,35 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEventCycle>& e,
     repeatButtonL->setup(eLanguage::text("repeat:"), repeatButton);
     cont->addWidget(repeatButtonL);
 
-    const auto ee = e->event();
-    const auto eet = ee->type();
-    switch(eet) {
+    const auto et = e->type();
+    switch(et) {
     case eGameEventType::godAttack: {
         const auto eew = new eGodAttackEventWidget(window());
-        const auto gaee = static_cast<eGodAttackEvent*>(ee.get());
+        const auto gaee = static_cast<eGodAttackEvent*>(e.get());
         eew->initialize(this, gaee);
         cont->addWidget(eew);
     } break;
     case eGameEventType::monsterAttack: {
         const auto eew = new eMonsterAttackEventWidget(window());
-        const auto maee = static_cast<eMonsterAttackEvent*>(ee.get());
+        const auto maee = static_cast<eMonsterAttackEvent*>(e.get());
         eew->initialize(maee);
         cont->addWidget(eew);
     } break;
     case eGameEventType::invasion: {
         const auto eew = new eInvasionEventWidget(window());
-        const auto iee = static_cast<eInvasionEvent*>(ee.get());
+        const auto iee = static_cast<eInvasionEvent*>(e.get());
         eew->initialize(iee);
         cont->addWidget(eew);
     } break;
     case eGameEventType::giftFrom: {
         const auto eew = new eGiftFromEventWidget(window());
-        const auto gfee = static_cast<eGiftFromEvent*>(ee.get());
+        const auto gfee = static_cast<eGiftFromEvent*>(e.get());
         eew->initialize(gfee);
         cont->addWidget(eew);
     } break;
     case eGameEventType::receiveRequest: {
         const auto eew = new eReceiveRequestEventWidget(window());
-        const auto rree = static_cast<eReceiveRequestEvent*>(ee.get());
+        const auto rree = static_cast<eReceiveRequestEvent*>(e.get());
         eew->initialize(rree);
         cont->addWidget(eew);
     } break;

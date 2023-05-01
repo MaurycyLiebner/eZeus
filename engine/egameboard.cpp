@@ -40,7 +40,6 @@
 #include "eevent.h"
 #include "emessageeventtype.h"
 
-#include "gameEvents/egameeventcycle.h"
 #include "gameEvents/egodvisitevent.h"
 #include "gameEvents/egodattackevent.h"
 #include "gameEvents/emonsterattackevent.h"
@@ -245,26 +244,24 @@ void eGameBoard::setFriendlyGods(const std::vector<eGodType>& gods) {
     mFriendlyGods = gods;
 
     const auto e = e::make_shared<eGodVisitEvent>(*this);
-    e->setTypes(gods);
     eDate date = mDate;
     const int period = 450;
     date += period;
-    const auto ec = e::make_shared<eGameEventCycle>(
-                        e, date, period, 10000, *this);
-    addGameEvent(ec);
+    e->initializeDate(date, period, 10000);
+    e->setTypes(gods);
+    addGameEvent(e);
 }
 
 void eGameBoard::setHostileGods(const std::vector<eGodType>& gods) {
     mHostileGods = gods;
 
     const auto e = e::make_shared<eGodAttackEvent>(*this);
-    e->setTypes(gods);
     eDate date = mDate;
     const int period = 900;
     date += period;
-    const auto ec = e::make_shared<eGameEventCycle>(
-                        e, date, period, 10000, *this);
-    addGameEvent(ec);
+    e->initializeDate(date, period, 10000);
+    e->setTypes(gods);
+    addGameEvent(e);
 }
 
 void eGameBoard::setHostileMonsters(const std::vector<eMonsterType>& monsters) {
@@ -309,9 +306,8 @@ void eGameBoard::planInvasion(int stage, int months,
     e->initialize(stage + 1, city, infantry, cavalry, archers);
     const int days = months*31;
     const auto date = mDate + days;
-    const auto ec = e::make_shared<eGameEventCycle>(
-                        e, date, days, 1, *this);
-    addGameEvent(ec);
+    e->initializeDate(date, days, 1);
+    addGameEvent(e);
 }
 
 void eGameBoard::read(eReadStream& src) {
@@ -441,7 +437,9 @@ void eGameBoard::read(eReadStream& src) {
     int nevs;
     src >> nevs;
     for(int i = 0; i < nevs; i++) {
-        const auto e = e::make_shared<eGameEventCycle>(*this);
+        eGameEventType type;
+        src >> type;
+        const auto e = eGameEvent::sCreate(type, *this);
         e->read(src);
         mGameEvents.push_back(e);
     }
@@ -579,6 +577,7 @@ void eGameBoard::write(eWriteStream& dst) const {
 
     dst << mGameEvents.size();
     for(const auto& e : mGameEvents) {
+        dst << e->type();
         e->write(dst);
     }
 
@@ -711,9 +710,8 @@ void eGameBoard::receiveRequest(const stdsptr<eWorldCity>& c,
                         *this);
             e->initialize(postpone, type, -count, c);
             const auto date = mDate + 3*31;
-            const auto ec = e::make_shared<eGameEventCycle>(
-                                e, date, *this);
-            addGameEvent(ec);
+            e->initializeDate(date);
+            addGameEvent(e);
         };
     }
 
@@ -723,9 +721,8 @@ void eGameBoard::receiveRequest(const stdsptr<eWorldCity>& c,
                         *this);
             e->initialize(postpone + 1, type, count, c);
             const auto date = mDate + 6*31;
-            const auto ec = e::make_shared<eGameEventCycle>(
-                                e, date, *this);
-            addGameEvent(ec);
+            e->initializeDate(date);
+            addGameEvent(e);
         };
     }
 
@@ -734,9 +731,8 @@ void eGameBoard::receiveRequest(const stdsptr<eWorldCity>& c,
                     *this);
         e->initialize(5, type, count, c);
         const auto date = mDate + 31;
-        const auto ec = e::make_shared<eGameEventCycle>(
-                            e, date, *this);
-        addGameEvent(ec);
+        e->initializeDate(date);
+        addGameEvent(e);
     };
 
 
@@ -771,9 +767,8 @@ void eGameBoard::planGiftFrom(const stdsptr<eWorldCity>& c,
     const auto e = e::make_shared<eGiftFromEvent>(*this);
     e->initialize(true, type, count, c);
     const auto date = mDate + 31;
-    const auto ec = e::make_shared<eGameEventCycle>(
-                        e, date, *this);
-    addGameEvent(ec);
+    e->initializeDate(date);
+    addGameEvent(e);
 }
 
 void eGameBoard::request(const stdsptr<eWorldCity>& c,
@@ -781,9 +776,8 @@ void eGameBoard::request(const stdsptr<eWorldCity>& c,
     const auto e = e::make_shared<eMakeRequestEvent>(*this);
     e->initialize(true, type, c);
     const auto date = mDate + 90;
-    const auto ec = e::make_shared<eGameEventCycle>(
-                        e, date, *this);
-    addGameEvent(ec);
+    e->initializeDate(date);
+    addGameEvent(e);
 }
 
 void eGameBoard::makeRequest(const stdsptr<eWorldCity>& c,
@@ -805,9 +799,8 @@ void eGameBoard::makeRequest(const stdsptr<eWorldCity>& c,
                         *this);
             e->initialize(false, type, c);
             const auto date = mDate + 31;
-            const auto ec = e::make_shared<eGameEventCycle>(
-                                e, date, *this);
-            addGameEvent(ec);
+            e->initializeDate(date);
+            addGameEvent(e);
         }
     } else {
         ed.fType = eMessageEventType::requestTributeGranted;
@@ -837,9 +830,8 @@ void eGameBoard::makeRequest(const stdsptr<eWorldCity>& c,
                             *this);
                 e->initialize(false, type, c);
                 const auto date = mDate + 31;
-                const auto ec = e::make_shared<eGameEventCycle>(
-                                    e, date, *this);
-                addGameEvent(ec);
+                e->initializeDate(date);
+                addGameEvent(e);
             };
         }
 
@@ -887,9 +879,8 @@ void eGameBoard::giftFrom(const stdsptr<eWorldCity>& c,
                         *this);
             e->initialize(false, type, count, c);
             const auto date = mDate + 31;
-            const auto ec = e::make_shared<eGameEventCycle>(
-                                e, date, *this);
-            addGameEvent(ec);
+            e->initializeDate(date);
+            addGameEvent(e);
         }
     } else {
         ed.fType = eMessageEventType::requestTributeGranted;
@@ -923,9 +914,8 @@ void eGameBoard::giftFrom(const stdsptr<eWorldCity>& c,
                             *this);
                 e->initialize(false, type, count, c);
                 const auto date = mDate + 31;
-                const auto ec = e::make_shared<eGameEventCycle>(
-                                    e, date, *this);
-                addGameEvent(ec);
+                e->initializeDate(date);
+                addGameEvent(e);
             };
         }
 
@@ -989,9 +979,8 @@ void eGameBoard::tributeFrom(const stdsptr<eWorldCity>& c,
                         *this);
             e->initialize(c);
             const auto date = mDate + 31;
-            const auto ec = e::make_shared<eGameEventCycle>(
-                                e, date, *this);
-            addGameEvent(ec);
+            e->initializeDate(date);
+            addGameEvent(e);
         };
     }
     ed.fA2 = [this, c, type, count]() { // decline
@@ -1012,9 +1001,8 @@ void eGameBoard::giftTo(const stdsptr<eWorldCity>& c,
     const auto e = e::make_shared<eGiftToEvent>(*this);
     e->initialize(c, type, count);
     const auto date = mDate + 90;
-    const auto ec = e::make_shared<eGameEventCycle>(
-                        e, date, *this);
-    addGameEvent(ec);
+    e->initializeDate(date);
+    addGameEvent(e);
 }
 
 void eGameBoard::giftToReceived(const stdsptr<eWorldCity>& c,
@@ -1210,7 +1198,7 @@ bool eGameBoard::unregisterSoldierBanner(const stdsptr<eSoldierBanner>& b) {
     return eVectorHelpers::remove(mSoldierBanners, b);
 }
 
-void eGameBoard::addGameEvent(const stdsptr<eGameEventCycle>& e) {
+void eGameBoard::addGameEvent(const stdsptr<eGameEvent>& e) {
     mGameEvents.push_back(e);
 }
 

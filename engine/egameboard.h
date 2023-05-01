@@ -26,7 +26,7 @@
 #include "characters/monsters/emonster.h"
 #include "buildings/sanctuaries/esanctuary.h"
 
-class eGameEventCycle;
+class eGameEvent;
 
 class eSpawner;
 class eCharacter;
@@ -235,10 +235,10 @@ public:
     const std::vector<eGodType>& hostileGods() { return mHostileGods; }
     const std::vector<eMonsterType>& hostileMonsters() { return mHostileMonsters; }
 
-    using eGameEvents = std::vector<stdsptr<eGameEventCycle>>;
+    using eGameEvents = std::vector<stdsptr<eGameEvent>>;
     const eGameEvents& gameEvents() const { return mGameEvents; }
 
-    void addGameEvent(const stdsptr<eGameEventCycle>& e);
+    void addGameEvent(const stdsptr<eGameEvent>& e);
 
     void planInvasion(int stage, int months,
                       const int infantry,
@@ -417,7 +417,7 @@ private:
     std::vector<eBuildingMode> mSupportedBuildings;
     eResourceType mSupportedResources;
 
-    std::vector<stdsptr<eGameEventCycle>> mGameEvents;
+    std::vector<stdsptr<eGameEvent>> mGameEvents;
 
     std::vector<eMonsterType> mHostileMonsters;
     std::vector<eGodType> mFriendlyGods;

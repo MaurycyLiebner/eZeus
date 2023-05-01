@@ -11,7 +11,7 @@
 #include "engine/egameboard.h"
 #include "emainwindow.h"
 
-#include "gameEvents/egameeventcycle.h"
+#include "gameEvents/egameevent.h"
 #include "widgets/eventwidgets/eeventwidgetbase.h"
 #include "widgets/echoosebutton.h"
 
@@ -118,14 +118,14 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
 
         const auto& iniEs = boardPtr->gameEvents();
         for(const auto& e : iniEs) {
-            const auto eStr = e->longName();
+            const auto eStr = e->longDatedName();
             choose->addButton(eStr);
         }
 
-        const auto editEvent = [this, boardPtr](const stdsptr<eGameEventCycle>& e) {
+        const auto editEvent = [this](const stdsptr<eGameEvent>& e) {
             const auto settings = new eEventWidgetBase(window());
             settings->resize(width(), height());
-            settings->initialize(e, boardPtr);
+            settings->initialize(e);
 
             window()->execDialog(settings);
             settings->align(eAlignment::center);
@@ -199,11 +199,10 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
                     const auto boardDate = boardPtr->date();
                     const int period = 150;
                     const auto date = boardDate + period;
-                    const auto ec = e::make_shared<eGameEventCycle>(
-                                        e, date, period, 1, *boardPtr);
-                    boardPtr->addGameEvent(ec);
-                    editEvent(ec);
-                    choose->addButton(ec->longName());
+                    e->initializeDate(date, period, 1);
+                    boardPtr->addGameEvent(e);
+                    editEvent(e);
+                    choose->addButton(e->longDatedName());
                 }
             };
             echoose->initialize(8, labels, act);

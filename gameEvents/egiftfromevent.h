@@ -17,7 +17,7 @@ public:
     void trigger() override;
     std::string longName() const override;
 
-    void write(eWriteStream& dst) const override ;
+    void write(eWriteStream& dst) const override;
     void read(eReadStream& src) override;
 
     const stdsptr<eWorldCity>& city() const { return mCity; }
