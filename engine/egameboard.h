@@ -36,6 +36,7 @@ class eStorageBuilding;
 class eSoldierBanner;
 class ePalace;
 class eLandInvasionPoint;
+class eReceiveRequestEvent;
 
 class eThreadPool;
 
@@ -266,10 +267,6 @@ public:
     int resourceCount(const eResourceType type) const;
     int takeResource(const eResourceType type,
                      const int count);
-    void receiveRequest(const stdsptr<eWorldCity>& c,
-                             const eResourceType type,
-                             const int count,
-                             const int postpone);
     void request(const stdsptr<eWorldCity>& c,
                  const eResourceType type);
     void planGiftFrom(const stdsptr<eWorldCity>& c,

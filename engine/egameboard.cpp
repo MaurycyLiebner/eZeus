@@ -1,3 +1,4 @@
+
 #include "egameboard.h"
 
 #include <random>
@@ -641,101 +642,6 @@ int eGameBoard::spaceForResource(const eResourceType type) {
         r += s->spaceLeft(type);
     }
     return r;
-}
-
-void eGameBoard::receiveRequest(const stdsptr<eWorldCity>& c,
-                                     const eResourceType type,
-                                     const int count,
-                                     const int postpone) {
-    eEventData ed;
-    ed.fCity = c;
-    ed.fResourceType = type;
-    ed.fResourceCount = count < 0 ? -count : count;
-    ed.fTime = 6;
-    ed.fA0Key = "dispatch_now";
-    ed.fA1Key = "postpone";
-    ed.fA2Key = "refuse";
-
-    if(count <= 0) {
-        if(postpone > 1 && postpone < 5) {
-            ed.fType = eMessageEventType::resourceGranted;
-            event(eEvent::generalRequestTooLate, ed);
-            c->incAttitude(-5);
-        } else {
-            ed.fType = eMessageEventType::resourceGranted;
-            event(eEvent::generalRequestComply, ed);
-            c->incAttitude(10);
-        }
-        return;
-    }
-
-    if(postpone > 3) {
-        ed.fType = eMessageEventType::resourceGranted;
-        event(eEvent::generalRequestRefuse, ed);
-        c->incAttitude(-15);
-        return;
-    }
-
-    const int avCount = resourceCount(type);
-    ed.fSpaceCount = avCount;
-
-    ed.fType = eMessageEventType::requestTributeGranted;
-    if(avCount >= count) {
-        ed.fA0 = [this, c, type, count, postpone]() { // dispatch now
-            takeResource(type, count);
-            const auto e = e::make_shared<eReceiveRequestEvent>(
-                        *this);
-            e->initialize(postpone, type, -count, c);
-            const auto date = mDate + 3*31;
-            e->initializeDate(date);
-            addGameEvent(e);
-        };
-    }
-
-    if(postpone < 4) {
-        ed.fA1 = [this, c, type, count, postpone]() { // postpone
-            const auto e = e::make_shared<eReceiveRequestEvent>(
-                        *this);
-            e->initialize(postpone + 1, type, count, c);
-            const auto date = mDate + 6*31;
-            e->initializeDate(date);
-            addGameEvent(e);
-        };
-    }
-
-    ed.fA2 = [this, c, type, count]() { // refuse
-        const auto e = e::make_shared<eReceiveRequestEvent>(
-                    *this);
-        e->initialize(5, type, count, c);
-        const auto date = mDate + 31;
-        e->initializeDate(date);
-        addGameEvent(e);
-    };
-
-
-    ed.fType = eMessageEventType::generalRequestGranted;
-    const auto rel = c->relationship();
-    if(rel == eWorldCityRelationship::rival) {
-        if(postpone == 0) { // initial
-            event(eEvent::generalRequestRivalInitial, ed);
-        } else if(postpone == 1) { // reminder
-            event(eEvent::generalRequestRivalReminder, ed);
-        } else if(postpone == 2) { // overdue
-            event(eEvent::generalRequestRivalReminder, ed);
-        } else if(postpone == 3) { // warning
-            event(eEvent::generalRequestRivalWarning, ed);
-        }
-    } else {
-        if(postpone == 0) { // initial
-            event(eEvent::generalRequestInitial, ed);
-        } else if(postpone == 1) { // reminder
-            event(eEvent::generalRequestReminder, ed);
-        } else if(postpone == 2) { // overdue
-            event(eEvent::generalRequestReminder, ed);
-        } else if(postpone == 3) { // warning
-            event(eEvent::generalRequestWarning, ed);
-        }
-    }
 }
 
 void eGameBoard::planGiftFrom(const stdsptr<eWorldCity>& c,
