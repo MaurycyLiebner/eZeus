@@ -1392,6 +1392,7 @@ DISTFILES += \
     sanctuaries/atlas.txt \
     sanctuaries/demeter.txt \
     sanctuaries/dionysus.txt \
+    sanctuaries/hades.txt \
     sanctuaries/hephaestus.txt \
     sanctuaries/hera.txt \
     sanctuaries/hermes.txt \

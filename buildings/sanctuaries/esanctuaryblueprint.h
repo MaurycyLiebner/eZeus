@@ -13,6 +13,7 @@ enum class eSanctEleType {
     altar,
     sanctuary,
     copper,
+    silver,
     oliveTree,
     vine,
     orangeTree,
@@ -84,6 +85,9 @@ public:
 
     eSanctBlueprint fDionysusW;
     eSanctBlueprint fDionysusH;
+
+    eSanctBlueprint fHadesW;
+    eSanctBlueprint fHadesH;
 
     eSanctBlueprint fHephaestusW;
     eSanctBlueprint fHephaestusH;

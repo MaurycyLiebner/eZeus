@@ -51,6 +51,12 @@ public:
                        eGameBoard& board);
 };
 
+class eHadesSanctuary: public eSanctuary  {
+public:
+    eHadesSanctuary(const int sw, const int sh,
+                    eGameBoard& board);
+};
+
 class eHeraSanctuary: public eSanctuary  {
 public:
     eHeraSanctuary(const int sw, const int sh,
