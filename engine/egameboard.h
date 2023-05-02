@@ -272,10 +272,6 @@ public:
     void planGiftFrom(const stdsptr<eWorldCity>& c,
                       const eResourceType type,
                       const int count);
-    void giftFrom(const stdsptr<eWorldCity>& c,
-                  const eResourceType type,
-                  const int count,
-                  const bool postpone);
     void tributeFrom(const stdsptr<eWorldCity>& c,
                     const bool postpone);
     void giftTo(const stdsptr<eWorldCity>& c,

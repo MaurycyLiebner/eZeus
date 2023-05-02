@@ -3,6 +3,8 @@
 #include "engine/egameboard.h"
 #include "elanguage.h"
 #include "estringhelpers.h"
+#include "engine/eeventdata.h"
+#include "engine/eevent.h"
 
 eGiftFromEvent::eGiftFromEvent(eGameBoard& board) :
     eGameEvent(eGameEventType::giftFrom, board) {}
@@ -19,8 +21,89 @@ void eGiftFromEvent::initialize(
 }
 
 void eGiftFromEvent::trigger() {
+    if(!mCity) return;
     auto& board = getBoard();
-    board.giftFrom(mCity, mResource, mCount, mPostpone);
+    const int space = board.spaceForResource(mResource);
+    eEventData ed;
+    ed.fCity = mCity;
+    ed.fSpaceCount = space;
+    ed.fResourceType = mResource;
+    ed.fResourceCount = mCount;
+
+    if(space == 0) {
+        ed.fType = eMessageEventType::resourceGranted;
+        if(mPostpone) {
+            const auto e = e::make_shared<eGiftFromEvent>(
+                        *this);
+            e->initialize(false, mResource, mCount, mCity);
+            const auto date = board.date() + 31;
+            e->initializeDate(date);
+            addConsequence(e);
+        }
+    } else {
+        ed.fType = eMessageEventType::requestTributeGranted;
+        if(space != 0) {
+            ed.fA0 = [this]() { // accept
+                auto& board = getBoard();
+                const int a = board.addResource(mResource, mCount);
+                eEventData ed;
+                ed.fType = eMessageEventType::resourceGranted;
+                ed.fCity = mCity;
+                ed.fResourceType = mResource;
+                ed.fResourceCount = a;
+                if(mResource == eResourceType::drachmas) {
+                    board.event(eEvent::giftCashAccepted, ed);
+                } else {
+                    if(a == mCount) return;
+                    board.event(eEvent::giftAccepted, ed);
+                }
+            };
+        }
+
+        if(mPostpone) {
+            ed.fA1 = [this]() { // postpone
+                auto& board = getBoard();
+                eEventData ed;
+                ed.fType = eMessageEventType::resourceGranted;
+                ed.fCity = mCity;
+                ed.fResourceType = mResource;
+                ed.fResourceCount = mCount;
+                board.event(eEvent::giftPostponed, ed);
+
+                const auto e = e::make_shared<eGiftFromEvent>(
+                            *this);
+                e->initialize(false, mResource, mCount, mCity);
+                const auto date = board.date() + 31;
+                e->initializeDate(date);
+                addConsequence(e);
+            };
+        }
+
+        ed.fA2 = [this]() { // decline
+            auto& board = getBoard();
+            eEventData ed;
+            ed.fType = eMessageEventType::resourceGranted;
+            ed.fCity = mCity;
+            ed.fResourceType = mResource;
+            ed.fResourceCount = mCount;
+            board.event(eEvent::giftRefused, ed);
+        };
+    }
+    if(!mPostpone) {
+        if(space == 0) {
+            board.event(eEvent::giftForfeited, ed);
+        } else if(space >= mCount) {
+            board.event(eEvent::giftGranted, ed);
+        } else {
+            board.event(eEvent::giftLastChance, ed);
+        }
+    } else if(space == 0) {
+        board.event(eEvent::giftInsufficientSpace, ed);
+    } else if(space >= mCount) {
+        board.event(eEvent::giftGranted, ed);
+    } else {
+        board.event(eEvent::giftPartialSpace, ed);
+    }
 }
 
 std::string eGiftFromEvent::longName() const {
