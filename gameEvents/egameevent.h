@@ -15,6 +15,7 @@ enum class eGameEventType {
     godAttack,
     monsterAttack,
     invasion,
+    invasionWarning,
     payTribute,
     receiveRequest,
     makeRequest,
@@ -45,6 +46,7 @@ public:
 
     void addWarning(const int daysBefore,
                     const stdsptr<eGameEvent>& event);
+    void clearWarnings();
     void addConsequence(const stdsptr<eGameEvent>& event);
 
     std::string longDatedName() const;
@@ -62,10 +64,12 @@ public:
     void rewind();
     void rewind(const eDate& date);
     bool finished() const { return mRemNRuns <= 0; }
+
+    using eWarning = std::pair<int, stdsptr<eGameEvent>>;
+    const std::vector<eWarning>& warnings() const { return mWarnings; }
 private:
     const eGameEventType mType;
 
-    using eWarning = std::pair<int, stdsptr<eGameEvent>>;
     std::vector<eWarning> mWarnings;
     std::vector<stdsptr<eGameEvent>> mConsequences;
 

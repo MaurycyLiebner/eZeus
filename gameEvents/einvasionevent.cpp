@@ -6,78 +6,90 @@
 #include "einvasionhandler.h"
 #include "elanguage.h"
 #include "estringhelpers.h"
+#include "einvasionwarningevent.h"
 
 eInvasionEvent::eInvasionEvent(eGameBoard& board) :
     eGameEvent(eGameEventType::invasion, board) {}
 
-void eInvasionEvent::initialize(const int stage,
-                                const stdsptr<eWorldCity>& city,
+void eInvasionEvent::initialize(const stdsptr<eWorldCity>& city,
                                 const int infantry,
                                 const int cavalry,
                                 const int archers) {
-    mStage = stage;
     mCity = city;
 
     mInfantry = infantry;
     mCavalry = cavalry;
     mArchers = archers;
+
+    auto& board = getBoard();
+
+    const auto warnTypes = {
+        eInvasionWarningType::warning36,
+        eInvasionWarningType::warning24,
+        eInvasionWarningType::warning12,
+        eInvasionWarningType::warning6,
+        eInvasionWarningType::warning1
+    };
+    for(const auto w : warnTypes) {
+        int months;
+        switch(w) {
+        case eInvasionWarningType::warning36:
+            months = 36;
+            break;
+        case eInvasionWarningType::warning24:
+            months = 24;
+            break;
+        case eInvasionWarningType::warning12:
+            months = 12;
+            break;
+        case eInvasionWarningType::warning6:
+            months = 6;
+            break;
+        case eInvasionWarningType::warning1:
+            months = 1;
+            break;
+        }
+        const int wdays = 31*months;
+        const auto e = e::make_shared<eInvasionWarningEvent>(board);
+        e->initialize(w, mCity);
+        addWarning(wdays, e);
+    }
 }
 
 void eInvasionEvent::trigger() {
     auto& board = getBoard();
     eEventData ed;
     ed.fCity = mCity;
-    if(mStage >= 5) {
-        ed.fType = eMessageEventType::invasion;
-        const int bribe = bribeCost();
-        ed.fBribe = bribe;
+    ed.fType = eMessageEventType::invasion;
+    const int bribe = bribeCost();
+    ed.fBribe = bribe;
 
-        const auto boardPtr = &board;
-        const auto city = mCity;
-        ed.fA0 = [boardPtr, city]() { // surrender
+    const auto boardPtr = &board;
+    const auto city = mCity;
+    ed.fA0 = [boardPtr, city]() { // surrender
+        eEventData ed;
+        ed.fCity = city;
+        boardPtr->event(eEvent::invasionDefeat, ed);
+    };
+    if(board.drachmas() >= bribe) { // bribe
+        ed.fA1 = [boardPtr, bribe, city]() {
+            boardPtr->incDrachmas(-bribe);
             eEventData ed;
             ed.fCity = city;
-            boardPtr->event(eEvent::invasionDefeat, ed);
+            boardPtr->event(eEvent::invasionBribed, ed);
         };
-        if(board.drachmas() >= bribe) { // bribe
-            ed.fA1 = [boardPtr, bribe, city]() {
-                boardPtr->incDrachmas(-bribe);
-                eEventData ed;
-                ed.fCity = city;
-                boardPtr->event(eEvent::invasionBribed, ed);
-            };
-        }
-        const int infantry = mInfantry;
-        const int cavalry = mCavalry;
-        const int archers = mArchers;
-        ed.fA2 = [boardPtr, city, infantry, cavalry, archers]() { // fight
-            auto& board = *boardPtr;
-            const auto tile = board.landInvasionTile(0);
-            if(!tile) return;
-            const auto eh = new eInvasionHandler(board, city);
-            eh->initialize(tile, infantry, cavalry, archers);
-        };
-        board.event(eEvent::invasion, ed);
-    } else {
-        int months;
-        if(mStage == 1) {
-            months = 12;
-            board.event(eEvent::invasion24, ed);
-        } else if(mStage == 2) {
-            months = 6;
-            board.event(eEvent::invasion12, ed);
-        } else if(mStage == 3) {
-            months = 5;
-            board.event(eEvent::invasion6, ed);
-        } else if(mStage == 4) {
-            months = 1;
-            board.event(eEvent::invasion1, ed);
-        } else {
-            months = 0;
-        }
-        board.planInvasion(mStage, months, mInfantry,
-                           mCavalry, mArchers);
     }
+    const int infantry = mInfantry;
+    const int cavalry = mCavalry;
+    const int archers = mArchers;
+    ed.fA2 = [boardPtr, city, infantry, cavalry, archers]() { // fight
+        auto& board = *boardPtr;
+        const auto tile = board.landInvasionTile(0);
+        if(!tile) return;
+        const auto eh = new eInvasionHandler(board, city);
+        eh->initialize(tile, infantry, cavalry, archers);
+    };
+    board.event(eEvent::invasion, ed);
 }
 
 std::string eInvasionEvent::longName() const {
@@ -89,20 +101,20 @@ std::string eInvasionEvent::longName() const {
 }
 
 void eInvasionEvent::write(eWriteStream& dst) const {
+    eGameEvent::write(dst);
     dst.writeCity(mCity.get());
 
-    dst << mStage;
     dst << mInfantry;
     dst << mCavalry;
     dst << mArchers;
 }
 
 void eInvasionEvent::read(eReadStream& src) {
+    eGameEvent::read(src);
     src.readCity(&getBoard(), [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
 
-    src >> mStage;
     src >> mInfantry;
     src >> mCavalry;
     src >> mArchers;
@@ -110,6 +122,13 @@ void eInvasionEvent::read(eReadStream& src) {
 
 void eInvasionEvent::setCity(const stdsptr<eWorldCity>& c) {
     mCity = c;
+
+    const auto& ws = warnings();
+    for(const auto& w : ws) {
+        const auto& ws = w.second;
+        const auto iw = static_cast<eInvasionWarningEvent*>(ws.get());
+        iw->setCity(c);
+    }
 }
 
 int eInvasionEvent::bribeCost() const {

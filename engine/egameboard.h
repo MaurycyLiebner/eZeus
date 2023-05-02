@@ -240,7 +240,7 @@ public:
 
     void addGameEvent(const stdsptr<eGameEvent>& e);
 
-    void planInvasion(int stage, int months,
+    void planInvasion(const eDate& date,
                       const int infantry,
                       const int cavalry,
                       const int archers);

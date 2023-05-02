@@ -399,7 +399,7 @@ void eMainWindow::showGame(eGameBoard* board,
     mGW->initialize();
     mGW->setSettings(settings);
 
-    board->planInvasion(0, 36, 10, 10, 10);
+    board->planInvasion(board->date() + 37*31, 10, 10, 10);
 
     setWidget(mGW);
 }

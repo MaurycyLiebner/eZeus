@@ -6,6 +6,7 @@
 #include "egodattackevent.h"
 #include "emonsterattackevent.h"
 #include "einvasionevent.h"
+#include "einvasionwarningevent.h"
 #include "epaytributeevent.h"
 #include "emakerequestevent.h"
 #include "ereceiverequestevent.h"
@@ -27,6 +28,8 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
         return e::make_shared<eMonsterAttackEvent>(board);
     case eGameEventType::invasion:
         return e::make_shared<eInvasionEvent>(board);
+    case eGameEventType::invasionWarning:
+        return e::make_shared<eInvasionWarningEvent>(board);
     case eGameEventType::payTribute:
         return e::make_shared<ePayTributeEvent>(board);
     case eGameEventType::makeRequest:
@@ -44,19 +47,21 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
 void eGameEvent::initializeDate(const eDate& startDate,
                                 const int cycleDays,
                                 const int nRuns) {
-    mStartDate = startDate;
-    mPeriodDays = cycleDays;
-    mTotNRuns = nRuns;
-    mRemNRuns = nRuns;
-    mNextDate = startDate;
+    setStartDate(startDate);
+    setPeriod(cycleDays);
+    setRepeat(nRuns);
     rewind();
 }
 
 void eGameEvent::addWarning(const int daysBefore,
                             const stdsptr<eGameEvent>& event) {
     const auto startDate = mStartDate - daysBefore;
-    event->initializeDate(startDate);
+    event->initializeDate(startDate, period(), repeat());
     mWarnings.emplace_back(daysBefore, event);
+}
+
+void eGameEvent::clearWarnings() {
+    mWarnings.clear();
 }
 
 void eGameEvent::addConsequence(

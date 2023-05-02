@@ -276,37 +276,14 @@ void eGameBoard::setHostileMonsters(const std::vector<eMonsterType>& monsters) {
 //    addGameEvent(ec);
 }
 
-void eGameBoard::planInvasion(int stage, int months,
+void eGameBoard::planInvasion(const eDate& date,
                               const int infantry,
                               const int cavalry,
                               const int archers) {
     const auto e = e::make_shared<eInvasionEvent>(*this);
     const auto city = mWorldBoard.cities().front();
-    const int totalMonths = months;
-    if(stage == 0) {
-        if(totalMonths > 24) {
-            stage = 0;
-            months -= 24;
-        } else if(totalMonths > 12) {
-            stage = 1;
-            months -= 12;
-        } else if(totalMonths > 6) {
-            stage = 2;
-            months -= 6;
-        } else if(totalMonths > 1) {
-            stage = 3;
-            months -= 1;
-        }
-        eEventData ed;
-        ed.fType = eMessageEventType::invasionMessage;
-        ed.fCity = city;
-        ed.fTime = totalMonths;
-        event(eEvent::invasion36, ed);
-    }
-    e->initialize(stage + 1, city, infantry, cavalry, archers);
-    const int days = months*31;
-    const auto date = mDate + days;
-    e->initializeDate(date, days, 1);
+    e->initialize(city, infantry, cavalry, archers);
+    e->initializeDate(date, 0, 1);
     addGameEvent(e);
 }
 
