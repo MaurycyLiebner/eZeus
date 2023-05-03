@@ -69,4 +69,10 @@ public:
                      eGameBoard& board);
 };
 
+class ePoseidonSanctuary: public eSanctuary  {
+public:
+    ePoseidonSanctuary(const int sw, const int sh,
+                      eGameBoard& board);
+};
+
 #endif // EZEUSSANCTUARY_H

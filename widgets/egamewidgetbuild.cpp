@@ -1456,6 +1456,11 @@ bool eGameWidget::buildMouseRelease() {
                 b = e::make_shared<eHermesSanctuary>(
                         sw, sh, *mBoard);
             } break;
+            case eBuildingMode::templePoseidon: {
+                god = eGodType::poseidon;
+                b = e::make_shared<ePoseidonSanctuary>(
+                        sw, sh, *mBoard);
+            } break;
             default:
                 break;
             }

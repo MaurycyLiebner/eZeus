@@ -97,6 +97,9 @@ public:
 
     eSanctBlueprint fHermesW;
     eSanctBlueprint fHermesH;
+
+    eSanctBlueprint fPoseidonW;
+    eSanctBlueprint fPoseidonH;
 private:
     void loadImpl();
 

@@ -216,6 +216,9 @@ void eSanctBlueprints::loadImpl() {
 
     loadBP(fHermesW, dir + "hermes.txt");
     fHermesH = rotate(fHermesW);
+
+    loadBP(fPoseidonW, dir + "poseidon.txt");
+    fPoseidonH = rotate(fPoseidonW);
 }
 
 const eSanctBlueprint* eSanctBlueprints::sSanctuaryBlueprint(
@@ -311,6 +314,13 @@ const eSanctBlueprint* eSanctBlueprints::sSanctuaryBlueprint(
             return &i.fHermesH;
         } else {
             return &i.fHermesW;
+        }
+    } break;
+    case eBuildingType::templePoseidon: {
+        if(rotate) {
+            return &i.fPoseidonH;
+        } else {
+            return &i.fPoseidonW;
         }
     } break;
     default:

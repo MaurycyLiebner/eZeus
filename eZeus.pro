@@ -1396,5 +1396,6 @@ DISTFILES += \
     sanctuaries/hephaestus.txt \
     sanctuaries/hera.txt \
     sanctuaries/hermes.txt \
+    sanctuaries/poseidon.txt \
     sanctuaries/zeus.txt \
     text/language.txt
