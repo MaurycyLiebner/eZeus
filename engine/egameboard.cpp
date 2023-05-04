@@ -60,12 +60,6 @@
 
 eGameBoard::eGameBoard() :
     mEmplData(mPopData, *this) {
-    const int min = static_cast<int>(eBuildingMode::road);
-    const int max = static_cast<int>(eBuildingMode::theseusHall);
-    for(int i = min; i <= max; i++) {
-        const auto bm = static_cast<eBuildingMode>(i);
-        mSupportedBuildings.push_back(bm);
-    }
     mSupportedResources = eResourceType::all;
 }
 
@@ -169,19 +163,33 @@ void eGameBoard::setButtonsVisUpdater(const eAction& u) {
     mButtonVisUpdater = u;
 }
 
-void eGameBoard::addSupportedBuilding(const eBuildingMode t) {
-    if(supportsBuilding(t)) return;
-    mSupportedBuildings.push_back(t);
+bool eGameBoard::supportsBuilding(const eBuildingMode mode) const {
+    const auto type = eBuildingModeHelpers::toBuildingType(mode);
+    const int id = eBuildingModeHelpers::toCommemorativeId(mode);
+    return availableBuilding(type, id);
+}
+
+bool eGameBoard::availableBuilding(const eBuildingType type,
+                                   const int id) const {
+    return mAvailableBuildings.available(type, id);
+}
+
+void eGameBoard::built(const eBuildingType type,
+                       const int id) {
+    mAvailableBuildings.built(type, id);
     if(mButtonVisUpdater) mButtonVisUpdater();
 }
 
-void eGameBoard::removeSupportedBuilding(const eBuildingMode t) {
-    const bool r = eVectorHelpers::remove(mSupportedBuildings, t);
-    if(r) mButtonVisUpdater();
+void eGameBoard::destroyed(const eBuildingType type,
+                           const int id) {
+    mAvailableBuildings.destroyed(type, id);
+    if(mButtonVisUpdater) mButtonVisUpdater();
 }
 
-bool eGameBoard::supportsBuilding(const eBuildingMode t) const {
-    return eVectorHelpers::contains(mSupportedBuildings, t);
+void eGameBoard::allow(const eBuildingType type,
+                       const int id) {
+    mAvailableBuildings.allow(type, id);
+    if(mButtonVisUpdater) mButtonVisUpdater();
 }
 
 bool eGameBoard::supportsResource(const eResourceType rt) const {
@@ -243,6 +251,59 @@ void eGameBoard::updateMarbleTiles() {
 }
 void eGameBoard::setFriendlyGods(const std::vector<eGodType>& gods) {
     mFriendlyGods = gods;
+
+    for(const auto g : gods) {
+        eBuildingType bt;
+        switch(g) {
+        case eGodType::aphrodite:
+            bt = eBuildingType::templeAphrodite;
+            break;
+        case eGodType::apollo:
+            bt = eBuildingType::templeApollo;
+            break;
+        case eGodType::ares:
+            bt = eBuildingType::templeAres;
+            break;
+        case eGodType::artemis:
+            bt = eBuildingType::templeArtemis;
+            break;
+        case eGodType::athena:
+            bt = eBuildingType::templeAthena;
+            break;
+        case eGodType::atlas:
+            bt = eBuildingType::templeAtlas;
+            break;
+        case eGodType::demeter:
+            bt = eBuildingType::templeDemeter;
+            break;
+        case eGodType::dionysus:
+            bt = eBuildingType::templeDionysus;
+            break;
+        case eGodType::hades:
+            bt = eBuildingType::templeHades;
+            break;
+        case eGodType::hephaestus:
+            bt = eBuildingType::templeHephaestus;
+            break;
+        case eGodType::hera:
+            bt = eBuildingType::templeHera;
+            break;
+        case eGodType::hermes:
+            bt = eBuildingType::templeHermes;
+            break;
+        case eGodType::poseidon:
+            bt = eBuildingType::templePoseidon;
+            break;
+        case eGodType::zeus:
+            bt = eBuildingType::templeZeus;
+            break;
+        default:
+            bt = eBuildingType::none;
+            break;
+        }
+
+        allow(bt);
+    }
 
     const auto e = e::make_shared<eGodVisitEvent>(*this);
     eDate date = mDate;
@@ -422,6 +483,8 @@ void eGameBoard::read(eReadStream& src) {
         mGameEvents.push_back(e);
     }
 
+    mAvailableBuildings.read(src);
+
     mWorldBoard.read(src);
 
     src.handlePostFuncs();
@@ -558,6 +621,8 @@ void eGameBoard::write(eWriteStream& dst) const {
         dst << e->type();
         e->write(dst);
     }
+
+    mAvailableBuildings.write(dst);
 
     mWorldBoard.write(dst);
 }

@@ -28,6 +28,7 @@ SOURCES += \
         buildings/earmory.cpp \
         buildings/earmsvendor.cpp \
         buildings/eartisansguild.cpp \
+        buildings/eavailablebuildings.cpp \
         buildings/eavenue.cpp \
         buildings/ebuilding.cpp \
         buildings/ebuildingrenderer.cpp \
@@ -469,6 +470,7 @@ HEADERS += \
     buildings/earmory.h \
     buildings/earmsvendor.h \
     buildings/eartisansguild.h \
+    buildings/eavailablebuildings.h \
     buildings/eavenue.h \
     buildings/ebuilding.h \
     buildings/ebuildingrenderer.h \

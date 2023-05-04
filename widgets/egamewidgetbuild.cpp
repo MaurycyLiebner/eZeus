@@ -1241,43 +1241,59 @@ bool eGameWidget::buildMouseRelease() {
             };
             break;
 
-        case eBuildingMode::populationMonument: {
-            build(mHoverTX, mHoverTY, 3, 3,
-                  [this]() { return e::make_shared<eCommemorative>(0, *mBoard); });
-        }; break;
-        case eBuildingMode::victoryMonument: {
-            build(mHoverTX, mHoverTY, 3, 3,
-                  [this]() { return e::make_shared<eCommemorative>(1, *mBoard); });
-        }; break;
-        case eBuildingMode::colonyMonument: {
-            build(mHoverTX, mHoverTY, 3, 3,
-                  [this]() { return e::make_shared<eCommemorative>(2, *mBoard); });
-        }; break;
-        case eBuildingMode::athleteMonument: {
-            build(mHoverTX, mHoverTY, 3, 3,
-                  [this]() { return e::make_shared<eCommemorative>(3, *mBoard); });
-        }; break;
-        case eBuildingMode::conquestMonument: {
-            build(mHoverTX, mHoverTY, 3, 3,
-                  [this]() { return e::make_shared<eCommemorative>(4, *mBoard); });
-        }; break;
-        case eBuildingMode::happinessMonument: {
-            build(mHoverTX, mHoverTY, 3, 3,
-                  [this]() { return e::make_shared<eCommemorative>(5, *mBoard); });
-        }; break;
-        case eBuildingMode::commemorative7: {
-            build(mHoverTX, mHoverTY, 3, 3,
-                  [this]() { return e::make_shared<eCommemorative>(6, *mBoard); });
-        }; break;
-        case eBuildingMode::commemorative8: {
-            build(mHoverTX, mHoverTY, 3, 3,
-                  [this]() { return e::make_shared<eCommemorative>(7, *mBoard); });
-        }; break;
-        case eBuildingMode::scholarMonument: {
-            build(mHoverTX, mHoverTY, 3, 3,
-                  [this]() { return e::make_shared<eCommemorative>(8, *mBoard); });
-        }; break;
 
+        case eBuildingMode::populationMonument:
+        case eBuildingMode::victoryMonument:
+        case eBuildingMode::colonyMonument:
+        case eBuildingMode::athleteMonument:
+        case eBuildingMode::conquestMonument:
+        case eBuildingMode::happinessMonument:
+        case eBuildingMode::commemorative7:
+        case eBuildingMode::commemorative8:
+        case eBuildingMode::scholarMonument: {
+            int id = -1;
+            switch(mode) {
+            case eBuildingMode::populationMonument:
+                id = 0;
+                break;
+            case eBuildingMode::victoryMonument:
+                id = 1;
+                break;
+            case eBuildingMode::colonyMonument:
+                id = 2;
+                break;
+            case eBuildingMode::athleteMonument:
+                id = 3;
+                break;
+            case eBuildingMode::conquestMonument:
+                id = 4;
+                break;
+            case eBuildingMode::happinessMonument:
+                id = 5;
+                break;
+            case eBuildingMode::commemorative7:
+                id = 6;
+                break;
+            case eBuildingMode::commemorative8:
+                id = 7;
+                break;
+            case eBuildingMode::scholarMonument:
+                id = 8;
+                break;
+            default:
+                id = -1;
+                break;
+            }
+            const auto builder = [this, id]() {
+                return e::make_shared<eCommemorative>(id, *mBoard);
+            };
+            const bool r = build(mHoverTX, mHoverTY, 3, 3, builder);
+            if(r) {
+                mBoard->built(eBuildingType::commemorative, id);
+                const bool s = mBoard->supportsBuilding(mode);
+                if(!s) mGm->clearMode();
+            }
+        }; break;
 
         case eBuildingMode::bench: {
             build(mHoverTX, mHoverTY, 1, 1,
@@ -1358,8 +1374,14 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::theseusHall: {
             const auto hallType = eBuildingModeHelpers::toBuildingType(mode);
             const auto heroType = eHerosHall::sHallTypeToHeroType(hallType);
-            build(mHoverTX, mHoverTY, 4, 4,
-                  [this, heroType]() { return e::make_shared<eHerosHall>(heroType, *mBoard); });
+            const auto builder = [this, heroType]() {
+                return e::make_shared<eHerosHall>(heroType, *mBoard);
+            };
+            const bool r = build(mHoverTX, mHoverTY, 4, 4, builder);
+            if(r) {
+                mBoard->built(hallType);
+                mGm->clearMode();
+            }
         } break;
         case eBuildingMode::templeAphrodite:
         case eBuildingMode::templeApollo:
@@ -1467,6 +1489,9 @@ bool eGameWidget::buildMouseRelease() {
 
             const bool r = canBuildBase(minX, maxX, minY, maxY);
             if(!r) return true;
+            else mBoard->built(bt);
+            mGm->clearMode();
+
             const auto mint = mBoard->tile(mHoverTX, mHoverTY);
             const int a = mint->altitude();
             b->setAltitude(a);

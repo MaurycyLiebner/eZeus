@@ -26,6 +26,8 @@
 #include "characters/monsters/emonster.h"
 #include "buildings/sanctuaries/esanctuary.h"
 
+#include "buildings/eavailablebuildings.h"
+
 class eGameEvent;
 
 class eSpawner;
@@ -200,9 +202,15 @@ public:
 
     void setButtonsVisUpdater(const eAction& u);
 
-    void addSupportedBuilding(const eBuildingMode t);
-    void removeSupportedBuilding(const eBuildingMode t);
-    bool supportsBuilding(const eBuildingMode t) const;
+    bool supportsBuilding(const eBuildingMode mode) const;
+    bool availableBuilding(const eBuildingType type,
+                           const int id = -1) const;
+    void built(const eBuildingType type,
+               const int id = -1);
+    void destroyed(const eBuildingType type,
+                   const int id = -1);
+    void allow(const eBuildingType type,
+               const int id = -1);
 
     bool supportsResource(const eResourceType rt) const;
     eResourceType supportedResources() const;
@@ -404,7 +412,7 @@ private:
     eAction mButtonVisUpdater;
     eMessageShower mMsgShower;
 
-    std::vector<eBuildingMode> mSupportedBuildings;
+    eAvailableBuildings mAvailableBuildings;
     eResourceType mSupportedResources;
 
     std::vector<stdsptr<eGameEvent>> mGameEvents;

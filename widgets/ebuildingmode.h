@@ -144,6 +144,7 @@ enum class eBuildingMode {
 
 namespace eBuildingModeHelpers {
     eBuildingType toBuildingType(const eBuildingMode mode);
+    int toCommemorativeId(const eBuildingMode mode);
 }
 
 #endif // EBUILDINGMODE_H

@@ -77,6 +77,7 @@ enum class eHeroSummoningStage {
 class eHerosHall : public eBuilding {
 public:
     eHerosHall(const eHeroType type, eGameBoard& board);
+    ~eHerosHall();
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
     std::vector<eOverlay> getOverlays(const eTileSize size) const override;

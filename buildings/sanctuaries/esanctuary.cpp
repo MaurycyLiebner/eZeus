@@ -14,6 +14,8 @@ eSanctuary::eSanctuary(eGameBoard& board,
 
 eSanctuary::~eSanctuary() {
     if(mCart) mCart->kill();
+    auto& board = getBoard();
+    board.destroyed(type());
 }
 
 void eSanctuary::erase() {

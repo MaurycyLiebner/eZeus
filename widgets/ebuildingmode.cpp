@@ -244,3 +244,29 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::none;
     }
 }
+
+int eBuildingModeHelpers::toCommemorativeId(const eBuildingMode mode) {
+    switch(mode) {
+    case eBuildingMode::populationMonument:
+        return 0;
+    case eBuildingMode::victoryMonument:
+        return 1;
+    case eBuildingMode::colonyMonument:
+        return 2;
+    case eBuildingMode::athleteMonument:
+        return 3;
+    case eBuildingMode::conquestMonument:
+        return 4;
+    case eBuildingMode::happinessMonument:
+        return 5;
+    case eBuildingMode::commemorative7:
+        return 6;
+    case eBuildingMode::commemorative8:
+        return 7;
+    case eBuildingMode::scholarMonument:
+        return 8;
+    default:
+        return -1;
+    }
+    return -1;
+}
