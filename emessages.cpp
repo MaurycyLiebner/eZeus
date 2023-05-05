@@ -7,6 +7,8 @@
 #include "eloadtexthelper.h"
 #include "estringhelpers.h"
 
+#include "characters/heroes/ehero.h"
+
 eMessages eMessages::instance;
 
 void eMessages::load(eGodMessages& god, const std::string& godName) {
@@ -514,4 +516,26 @@ eMessageType eMessages::invasionMessage(const eMessageType& baseMsg,
     eStringHelpers::replaceAll(text, "[time_until_attack]",
                                std::to_string(months));
     return msg;
+}
+
+const eHeroMessages* eMessages::heroMessages(const eHeroType heroType) const {
+    switch(heroType) {
+    case eHeroType::achilles:
+        return &fAchilles;
+    case eHeroType::atalanta:
+        return &fAtalanta;
+    case eHeroType::bellerophon:
+        return &fBellerophon;
+    case eHeroType::hercules:
+        return &fHercules;
+    case eHeroType::jason:
+        return &fJason;
+    case eHeroType::odysseus:
+        return &fOdysseus;
+    case eHeroType::perseus:
+        return &fPerseus;
+    case eHeroType::theseus:
+        return &fTheseus;
+    }
+    return nullptr;
 }

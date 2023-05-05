@@ -57,6 +57,7 @@
 
 #include "evectorhelpers.h"
 #include "egifthelpers.h"
+#include "buildings/eheroshall.h"
 
 eGameBoard::eGameBoard() :
     mEmplData(mPopData, *this) {
@@ -335,7 +336,17 @@ void eGameBoard::setHostileMonsters(const std::vector<eMonsterType>& monsters) {
 //    const auto date = mDate + period;
 //    const auto ec = e::make_shared<eGameEventCycle>(
 //                        e, date, period, 2, *this);
-//    addGameEvent(ec);
+    //    addGameEvent(ec);
+}
+
+void eGameBoard::allowHero(const eHeroType heroType) {
+    const auto hallType = eHerosHall::sHeroTypeToHallType(heroType);
+    allow(hallType);
+    const auto& inst = eMessages::instance;
+    const auto hm = inst.heroMessages(heroType);
+    if(!hm) return;
+    eEventData ed;
+    showMessage(ed, hm->fHallAvailable);
 }
 
 void eGameBoard::planInvasion(const eDate& date,

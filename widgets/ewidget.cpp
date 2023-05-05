@@ -485,7 +485,7 @@ void eWidget::sizeHint(int& w, int& h) {
     w = 0;
     h = 0;
     for(const auto c : mChildren) {
-        if(!c->visible()) continue;
+//        if(!c->visible()) continue;
         w = std::max(w, c->x() + c->width());
         h = std::max(h, c->y() + c->height());
     }

@@ -79,15 +79,15 @@ public:
 
     bool fArmory = false;
 
-    int fPopulationMonument = 1;
-    int fVictoryMonument = 1;
-    int fColonyMonument = 1;
-    int fAthleteMonument = 1;
-    int fConquestMonument = 1;
-    int fHappinessMonument = 1;
-    int f7Monument = 1;
-    int f8Monument = 1;
-    int fScholarMonument = 1;
+    int fPopulationMonument = 0;
+    int fVictoryMonument = 0;
+    int fColonyMonument = 0;
+    int fAthleteMonument = 0;
+    int fConquestMonument = 0;
+    int fHappinessMonument = 0;
+    int f7Monument = 0;
+    int f8Monument = 0;
+    int fScholarMonument = 0;
 };
 
 #endif // EAVAILABLEBUILDINGS_H

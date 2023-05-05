@@ -5,6 +5,7 @@
 #include "engine/eevent.h"
 #include "characters/actions/emonsteraction.h"
 #include "elanguage.h"
+#include "buildings/eheroshall.h"
 
 eMonsterAttackEvent::eMonsterAttackEvent(eGameBoard& board) :
     eGameEvent(eGameEventType::monsterAttack, board) {}
@@ -74,6 +75,9 @@ void eMonsterAttackEvent::trigger() {
     eEventData ed;
     ed.fTile = monster->tile();
     board.event(e, ed);
+
+    const auto heroType = eMonster::sSlayer(mType);
+    board.allowHero(heroType);
 }
 
 std::string eMonsterAttackEvent::longName() const {

@@ -244,6 +244,8 @@ public:
     const std::vector<eGodType>& hostileGods() { return mHostileGods; }
     const std::vector<eMonsterType>& hostileMonsters() { return mHostileMonsters; }
 
+    void allowHero(const eHeroType heroType);
+
     using eGameEvents = std::vector<stdsptr<eGameEvent>>;
     const eGameEvents& gameEvents() const { return mGameEvents; }
 

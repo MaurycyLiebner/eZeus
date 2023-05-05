@@ -5,6 +5,8 @@
 
 #include <map>
 
+enum class eHeroType;
+
 struct eGodMessages {
     int fLastMessage = -1;
 
@@ -69,6 +71,8 @@ public:
     eGodMessages fHermes;
     eGodMessages fPoseidon;
     eGodMessages fZeus;
+
+    const eHeroMessages* heroMessages(const eHeroType heroType) const;
 
     eHeroMessages fAchilles;
     eHeroMessages fAtalanta;
