@@ -693,7 +693,7 @@ void eGameWidget::showMessage(eEventData& ed,
         auto& smsg = prepend ? mSavedMsgs.emplace_front() :
                                mSavedMsgs.emplace_back();
         smsg.fEd = ed;
-        smsg.fMsg = &msg;
+        smsg.fMsg = msg;
         return;
     }
     const auto msgb = new eMessageBox(window());
@@ -714,7 +714,7 @@ void eGameWidget::showMessage(eEventData& ed,
         mMsgBox = nullptr;
         if(mSavedMsgs.empty()) return;
         auto& msg = mSavedMsgs.front();
-        showMessage(msg.fEd, *msg.fMsg);
+        showMessage(msg.fEd, msg.fMsg);
         mSavedMsgs.pop_front();
     };
 

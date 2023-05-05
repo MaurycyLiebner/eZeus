@@ -43,7 +43,7 @@ using eRendererCreator = std::function<stdsptr<eBuildingRenderer>()>;
 
 struct eSavedMessage {
     eEventData fEd;
-    const eMessage* fMsg;
+    eMessage fMsg;
 };
 
 struct eGameWidgetSettings {

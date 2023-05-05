@@ -5,7 +5,7 @@
 #include "engine/eevent.h"
 #include "characters/actions/emonsteraction.h"
 #include "elanguage.h"
-#include "buildings/eheroshall.h"
+#include "emessages.h"
 
 eMonsterAttackEvent::eMonsterAttackEvent(eGameBoard& board) :
     eGameEvent(eGameEventType::monsterAttack, board) {}
@@ -77,7 +77,14 @@ void eMonsterAttackEvent::trigger() {
     board.event(e, ed);
 
     const auto heroType = eMonster::sSlayer(mType);
-    board.allowHero(heroType);
+    bool validGod = false;
+    const auto godType = eMonster::sMonsterSender(mType, &validGod);
+    if(!validGod) return board.allowHero(heroType);
+    const auto& inst = eMessages::instance;
+    const auto gm = inst.godMessages(godType);
+    if(!gm) return board.allowHero(heroType);
+    const auto& m = gm->fMonster;
+    board.allowHero(heroType, m.fReason);
 }
 
 std::string eMonsterAttackEvent::longName() const {

@@ -14,6 +14,15 @@ struct eMessageType {
     eMessage fCondensed;
 };
 
+struct eEventMessageType : public eMessageType {
+    std::string fReason;
+    std::string fNoReason;
+};
+
+struct eConsequenceMessageType : public eMessageType {
+    std::string fNoReason;
+};
+
 struct eGameMessages {
     eMessageType fBegin;
     eMessageType fNoPart;

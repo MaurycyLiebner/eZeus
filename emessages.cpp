@@ -7,6 +7,7 @@
 #include "eloadtexthelper.h"
 #include "estringhelpers.h"
 
+#include "characters/gods/egod.h"
 #include "characters/heroes/ehero.h"
 
 eMessages eMessages::instance;
@@ -28,10 +29,10 @@ void eMessages::load(eGodMessages& god, const std::string& godName) {
     god.fJealousy2.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_jealousy2_initial_announcement"];
 
     god.fMonster.fFull.fTitle = fMessages["PHRASE_" + godName + "_unleashes_monster_title"];
-    const auto noReason = fMessages["PHRASE_" + godName + "_unleashes_monster_no_reason"];
-    auto& attackText = god.fMonster.fFull.fText;
-    attackText = fMessages["PHRASE_" + godName + "_unleashes_monster_city_attacked_alert"];
-    eStringHelpers::replaceAll(attackText, "[reason_phrase]", noReason);
+    god.fMonster.fFull.fText = fMessages["PHRASE_" + godName + "_unleashes_monster_city_attacked_alert"];
+    god.fMonster.fNoReason = fMessages["PHRASE_" + godName + "_unleashes_monster_no_reason"];
+    eStringHelpers::replaceAll(god.fMonster.fFull.fText, "[reason_phrase]", god.fMonster.fNoReason);
+    god.fMonster.fReason = fMessages["PHRASE_" + godName + "_unleashes_monster_reason"];
     god.fMonster.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_unleashes_monster_title"];
     god.fMonster.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_unleashes_monster_city_attacked_alert"];
 }
@@ -43,10 +44,8 @@ void eMessages::load(eHeroMessages& hero, const std::string& heroName) {
     hero.fArrival.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + heroName + "_arrives_initial_announcement"];
 
     hero.fHallAvailable.fFull.fTitle = fMessages["PHRASE_" + heroName + "_hall_available_title"];
-    const auto noReason = fMessages["PHRASE_" + heroName + "_hall_available_no_reason"];
-    auto& availableText = hero.fHallAvailable.fFull.fText;
-    availableText = fMessages["PHRASE_" + heroName + "_hall_available_initial_announcement"];
-    eStringHelpers::replaceAll(availableText, "[reason_phrase]", noReason);
+    hero.fHallAvailable.fNoReason = fMessages["PHRASE_" + heroName + "_hall_available_no_reason"];
+    hero.fHallAvailable.fFull.fText = fMessages["PHRASE_" + heroName + "_hall_available_initial_announcement"];
     hero.fHallAvailable.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + heroName + "_hall_available_title"];
     hero.fHallAvailable.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + heroName + "_hall_available_initial_announcement"];
 }
@@ -516,6 +515,40 @@ eMessageType eMessages::invasionMessage(const eMessageType& baseMsg,
     eStringHelpers::replaceAll(text, "[time_until_attack]",
                                std::to_string(months));
     return msg;
+}
+
+const eGodMessages* eMessages::godMessages(const eGodType godType) const {
+    switch(godType) {
+    case eGodType::aphrodite:
+        return &fAphrodite;
+    case eGodType::apollo:
+        return &fApollo;
+    case eGodType::ares:
+        return &fAres;
+    case eGodType::artemis:
+        return &fArtemis;
+    case eGodType::athena:
+        return &fAthena;
+    case eGodType::atlas:
+        return &fAtlas;
+    case eGodType::demeter:
+        return &fDemeter;
+    case eGodType::dionysus:
+        return &fDionysus;
+    case eGodType::hades:
+        return &fHades;
+    case eGodType::hephaestus:
+        return &fHephaestus;
+    case eGodType::hera:
+        return &fHera;
+    case eGodType::hermes:
+        return &fHermes;
+    case eGodType::poseidon:
+        return &fPoseidon;
+    case eGodType::zeus:
+        return &fZeus;
+    }
+    return nullptr;
 }
 
 const eHeroMessages* eMessages::heroMessages(const eHeroType heroType) const {

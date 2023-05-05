@@ -5,6 +5,7 @@
 
 #include <map>
 
+enum class eGodType;
 enum class eHeroType;
 
 struct eGodMessages {
@@ -14,12 +15,12 @@ struct eGodMessages {
     eMessageType fJealousy1;
     eMessageType fJealousy2;
 
-    eMessageType fMonster;
+    eEventMessageType fMonster;
 };
 
 struct eHeroMessages {
-    eMessageType fArrival;
-    eMessageType fHallAvailable;
+    eEventMessageType fArrival;
+    eConsequenceMessageType fHallAvailable;
 };
 
 class eMessages {
@@ -56,6 +57,8 @@ public:
     eMessageType fFire;
     eMessageType fCollapse;
     eMessageType fPlagueStrikes;
+
+    const eGodMessages* godMessages(const eGodType godType) const;
 
     eGodMessages fAphrodite;
     eGodMessages fApollo;

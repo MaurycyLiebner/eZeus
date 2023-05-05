@@ -57,6 +57,8 @@
 
 #include "evectorhelpers.h"
 #include "egifthelpers.h"
+#include "estringhelpers.h"
+
 #include "buildings/eheroshall.h"
 
 eGameBoard::eGameBoard() :
@@ -339,14 +341,18 @@ void eGameBoard::setHostileMonsters(const std::vector<eMonsterType>& monsters) {
     //    addGameEvent(ec);
 }
 
-void eGameBoard::allowHero(const eHeroType heroType) {
+void eGameBoard::allowHero(const eHeroType heroType,
+                           const std::string& reason) {
     const auto hallType = eHerosHall::sHeroTypeToHallType(heroType);
     allow(hallType);
     const auto& inst = eMessages::instance;
     const auto hm = inst.heroMessages(heroType);
     if(!hm) return;
     eEventData ed;
-    showMessage(ed, hm->fHallAvailable);
+    auto msg = hm->fHallAvailable;
+    eStringHelpers::replaceAll(msg.fFull.fText, "[reason_phrase]",
+                               reason.empty() ? msg.fNoReason : reason);
+    showMessage(ed, msg);
 }
 
 void eGameBoard::planInvasion(const eDate& date,
