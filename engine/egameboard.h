@@ -211,6 +211,8 @@ public:
                    const int id = -1);
     void allow(const eBuildingType type,
                const int id = -1);
+    void disallow(const eBuildingType type,
+                  const int id = -1);
 
     bool supportsResource(const eResourceType rt) const;
     eResourceType supportedResources() const;

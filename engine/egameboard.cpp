@@ -195,6 +195,12 @@ void eGameBoard::allow(const eBuildingType type,
     if(mButtonVisUpdater) mButtonVisUpdater();
 }
 
+void eGameBoard::disallow(const eBuildingType type,
+                          const int id) {
+    mAvailableBuildings.disallow(type, id);
+    if(mButtonVisUpdater) mButtonVisUpdater();
+}
+
 bool eGameBoard::supportsResource(const eResourceType rt) const {
     const auto s = mSupportedResources & rt;
     return static_cast<bool>(s);

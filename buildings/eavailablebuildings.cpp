@@ -30,6 +30,8 @@ void eAvailableBuildings::read(eReadStream& src) {
     src >> fOlivePress;
     src >> fSculptureStudio;
 
+    src >> fArmory;
+
     src >> fAphroditeSanctuary;
     src >> fApolloSanctuary;
     src >> fAresSanctuary;
@@ -53,8 +55,6 @@ void eAvailableBuildings::read(eReadStream& src) {
     src >> fOdysseusHall;
     src >> fPerseusHall;
     src >> fTheseusHall;
-
-    src >> fArmory;
 
     src >> fPopulationMonument;
     src >> fVictoryMonument;
@@ -92,6 +92,8 @@ void eAvailableBuildings::write(eWriteStream& dst) const {
     dst << fOlivePress;
     dst << fSculptureStudio;
 
+    dst << fArmory;
+
     dst << fAphroditeSanctuary;
     dst << fApolloSanctuary;
     dst << fAresSanctuary;
@@ -115,8 +117,6 @@ void eAvailableBuildings::write(eWriteStream& dst) const {
     dst << fOdysseusHall;
     dst << fPerseusHall;
     dst << fTheseusHall;
-
-    dst << fArmory;
 
     dst << fPopulationMonument;
     dst << fVictoryMonument;
@@ -180,6 +180,9 @@ bool eAvailableBuildings::available(
     case eBuildingType::sculptureStudio:
         return fSculptureStudio;
 
+    case eBuildingType::armory:
+        return fArmory;
+
     case eBuildingType::templeAphrodite:
         return fAphroditeSanctuary == eAvailable::available;
     case eBuildingType::templeApollo:
@@ -225,9 +228,6 @@ bool eAvailableBuildings::available(
         return fPerseusHall == eAvailable::available;
     case eBuildingType::theseusHall:
         return fTheseusHall == eAvailable::available;
-
-    case eBuildingType::armory:
-        return fArmory;
 
     case eBuildingType::commemorative:
         if(id == 0) return fPopulationMonument;
@@ -341,75 +341,88 @@ void eAvailableBuildings::allow(
     } break;
 
 
-    case eBuildingType::templeAphrodite:
-    case eBuildingType::templeApollo:
-    case eBuildingType::templeAres:
-    case eBuildingType::templeArtemis:
-    case eBuildingType::templeAthena:
-    case eBuildingType::templeAtlas:
-    case eBuildingType::templeDemeter:
-    case eBuildingType::templeDionysus:
-    case eBuildingType::templeHades:
-    case eBuildingType::templeHephaestus:
-    case eBuildingType::templeHera:
-    case eBuildingType::templeHermes:
-    case eBuildingType::templePoseidon:
-    case eBuildingType::templeZeus:
-
-    case eBuildingType::achillesHall:
-    case eBuildingType::atalantaHall:
-    case eBuildingType::bellerophonHall:
-    case eBuildingType::herculesHall:
-    case eBuildingType::jasonHall:
-    case eBuildingType::odysseusHall:
-    case eBuildingType::perseusHall:
-    case eBuildingType::theseusHall: {
+    default: {
         const auto a = availablePtr(type);
-        if(!a) return;
-        if(*a == eAvailable::built) return;
-        *a = eAvailable::available;
+        if(a) {
+            if(*a == eAvailable::built) return;
+            *a = eAvailable::available;
+            return;
+        }
+        const auto aa = allowedPtr(type);
+        if(aa) {
+            *aa = true;
+            return;
+        }
     } break;
-
-    default:
-        break;
     }
 }
 
 void eAvailableBuildings::disallow(
         const eBuildingType type, const int id) {
     (void)id;
-    switch(type) {
-    case eBuildingType::templeAphrodite:
-    case eBuildingType::templeApollo:
-    case eBuildingType::templeAres:
-    case eBuildingType::templeArtemis:
-    case eBuildingType::templeAthena:
-    case eBuildingType::templeAtlas:
-    case eBuildingType::templeDemeter:
-    case eBuildingType::templeDionysus:
-    case eBuildingType::templeHades:
-    case eBuildingType::templeHephaestus:
-    case eBuildingType::templeHera:
-    case eBuildingType::templeHermes:
-    case eBuildingType::templePoseidon:
-    case eBuildingType::templeZeus:
-
-    case eBuildingType::achillesHall:
-    case eBuildingType::atalantaHall:
-    case eBuildingType::bellerophonHall:
-    case eBuildingType::herculesHall:
-    case eBuildingType::jasonHall:
-    case eBuildingType::odysseusHall:
-    case eBuildingType::perseusHall:
-    case eBuildingType::theseusHall: {
-        const auto a = availablePtr(type);
-        if(!a) return;
+    const auto a = availablePtr(type);
+    if(a) {
         *a = eAvailable::notAvailable;
-    } break;
+        return;
+    }
+    const auto aa = allowedPtr(type);
+    if(aa) {
+        *aa = false;
+        return;
+    }
+}
+
+bool* eAvailableBuildings::allowedPtr(const eBuildingType type) {
+    switch(type) {
+    case eBuildingType::wheatFarm:
+        return &fWheatFarm;
+    case eBuildingType::carrotsFarm:
+        return &fCarrotsFarm;
+    case eBuildingType::onionsFarm:
+        return &fOnionFarm;
+
+    case eBuildingType::vine:
+        return &fVine;
+    case eBuildingType::oliveTree:
+        return &fOliveTree;
+    case eBuildingType::orangeTree:
+        return &fOrangeTree;
+
+    case eBuildingType::dairy:
+        return &fDairy;
+    case eBuildingType::cardingShed:
+        return &fCardingShed;
+
+    case eBuildingType::fishery:
+        return &fFishery;
+    case eBuildingType::urchinQuay:
+        return &fUrchinQuay;
+    case eBuildingType::huntingLodge:
+        return &fHuntingLodge;
+
+    case eBuildingType::mint:
+        return &fMint;
+    case eBuildingType::foundry:
+        return &fFoundry;
+    case eBuildingType::timberMill:
+        return &fTimberMill;
+    case eBuildingType::masonryShop:
+        return &fMasonryShop;
+
+    case eBuildingType::winery:
+        return &fWinery;
+    case eBuildingType::olivePress:
+        return &fOlivePress;
+    case eBuildingType::sculptureStudio:
+        return &fSculptureStudio;
+
+    case eBuildingType::armory:
+        return &fArmory;
 
     default:
-        break;
+        return nullptr;
     }
+    return nullptr;
 }
 
 eAvailable* eAvailableBuildings::availablePtr(const eBuildingType type) {

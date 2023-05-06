@@ -27,6 +27,7 @@ struct eAvailableBuildings {
     void disallow(const eBuildingType type,
                   const int id = -1);
 private:
+    bool* allowedPtr(const eBuildingType type);
     eAvailable* availablePtr(const eBuildingType type);
 public:
     bool fWheatFarm = false;
@@ -53,6 +54,8 @@ public:
     bool fOlivePress = false;
     bool fSculptureStudio = false;
 
+    bool fArmory = false;
+
     eAvailable  fAphroditeSanctuary = eAvailable::notAvailable;
     eAvailable  fApolloSanctuary = eAvailable::notAvailable;
     eAvailable  fAresSanctuary = eAvailable::notAvailable;
@@ -76,8 +79,6 @@ public:
     eAvailable  fOdysseusHall = eAvailable::notAvailable;
     eAvailable  fPerseusHall = eAvailable::notAvailable;
     eAvailable  fTheseusHall = eAvailable::notAvailable;
-
-    bool fArmory = false;
 
     int fPopulationMonument = 0;
     int fVictoryMonument = 0;

@@ -14,6 +14,7 @@
 #include "gameEvents/egameevent.h"
 #include "widgets/eventwidgets/eeventwidgetbase.h"
 #include "widgets/echoosebutton.h"
+#include "widgets/echeckablebutton.h"
 
 #include "gameEvents/emonsterattackevent.h"
 #include "gameEvents/egodattackevent.h"
@@ -222,6 +223,97 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
     eventsButt->setPressAction(eventsAct);
     addWidget(eventsButt);
     eventsButt->align(eAlignment::hcenter);
+
+    const auto buildingsAct = [this, boardPtr]() {
+        const auto buildMenu = new eFramedWidget(window());
+        buildMenu->setType(eFrameType::message);
+        buildMenu->resize(width(), height());
+
+        const auto basicAllower = [boardPtr](const eBuildingType type) {
+            return [boardPtr, type](const bool b) {
+                if(b) {
+                    boardPtr->allow(type);
+                } else {
+                    boardPtr->disallow(type);
+                }
+            };
+        };
+
+        using eBVs = std::vector<std::pair<std::string, eBuildingType>>;
+        const eBVs bv {
+            {eLanguage::text("wheat_farm"), eBuildingType::wheatFarm},
+            {eLanguage::text("carrot_farm"), eBuildingType::carrotsFarm},
+            {eLanguage::text("onion_farm"), eBuildingType::onionsFarm},
+
+            {eLanguage::text("vine"), eBuildingType::vine},
+            {eLanguage::text("olive_tree"), eBuildingType::oliveTree},
+            {eLanguage::text("orange_tree"), eBuildingType::orangeTree},
+
+            {eLanguage::text("dairy"), eBuildingType::dairy},
+            {eLanguage::text("carding_shed"), eBuildingType::cardingShed},
+
+            {eLanguage::text("fishery"), eBuildingType::fishery},
+            {eLanguage::text("urchin_quay"), eBuildingType::urchinQuay},
+            {eLanguage::text("hunting_lodge"), eBuildingType::huntingLodge},
+
+            {eLanguage::text("mint"), eBuildingType::mint},
+            {eLanguage::text("foundry"), eBuildingType::foundry},
+            {eLanguage::text("timber_mill"), eBuildingType::timberMill},
+            {eLanguage::text("masonry_shop"), eBuildingType::masonryShop},
+
+            {eLanguage::text("winery"), eBuildingType::winery},
+            {eLanguage::text("olive_press"), eBuildingType::olivePress},
+            {eLanguage::text("sculpture_studio"), eBuildingType::sculptureStudio},
+
+            {eLanguage::text("armory"), eBuildingType::armory}
+        };
+
+        int w = 0;
+        std::vector<eCheckableButton*> buttons;
+        for(const auto& b : bv) {
+            const auto bb = new eCheckableButton(window());
+            bb->setSmallFontSize();
+            bb->setSmallPadding();
+            bb->setText(b.first);
+            bb->fitContent();
+            w = std::max(w, bb->width());
+            const auto type = b.second;
+            bb->setChecked(boardPtr->availableBuilding(type));
+            bb->setCheckAction([type, boardPtr](const bool b) {
+                if(b) {
+                    boardPtr->allow(type);
+                } else {
+                    boardPtr->disallow(type);
+                }
+            });
+            buttons.push_back(bb);
+            buildMenu->addWidget(bb);
+        }
+        const int p = padding();
+        int x = 2*p;
+        int y = 2*p;
+        for(const auto b : buttons) {
+            b->setWidth(w);
+            const int bh = b->height();
+            if(y + bh + 2*p > buildMenu->height()) {
+                x += w;
+                y = 2*p;
+            }
+            b->move(x, y);
+            y += bh + p;
+        }
+
+        window()->execDialog(buildMenu);
+        buildMenu->align(eAlignment::center);
+    };
+
+    const auto buildingsButt = new eFramedButton(window());
+    buildingsButt->setUnderline(false);
+    buildingsButt->setText(eLanguage::text("buildings"));
+    buildingsButt->fitContent();
+    buildingsButt->setPressAction(buildingsAct);
+    addWidget(buildingsButt);
+    buildingsButt->align(eAlignment::hcenter);
 
     layoutVertically();
 }
