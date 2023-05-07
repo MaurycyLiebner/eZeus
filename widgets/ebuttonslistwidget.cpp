@@ -7,7 +7,8 @@
 #include "elanguage.h"
 
 void eListButton::initialize(const std::string& text, const int id,
-                             const bool renderBg, const bool small) {
+                             const bool renderBg, const bool small,
+                             const bool closeButtons) {
     setNoPadding();
 
     mIdLabel = new eLabel(std::to_string(id + 1), window());
@@ -33,14 +34,16 @@ void eListButton::initialize(const std::string& text, const int id,
     });
     mButton->fitContent();
     addWidget(mButton);
-
-    mCloseButton = new eCancelButton(window());
-    mCloseButton->setPressAction([this]() {
-        if(mCloseAction) mCloseAction(mId);
-    });
-    addWidget(mCloseButton);
     fitContent();
-    mCloseButton->align(eAlignment::vcenter);
+
+    if(closeButtons) {
+        mCloseButton = new eCancelButton(window());
+        mCloseButton->setPressAction([this]() {
+            if(mCloseAction) mCloseAction(mId);
+        });
+        addWidget(mCloseButton);
+        mCloseButton->align(eAlignment::vcenter);
+    }
 }
 
 void eListButton::setId(const int id) {
@@ -62,12 +65,14 @@ void eListButton::setPressAction(const ePressAction& pa) {
 
 void eListButton::fitToWidth(const int w) {
     setWidth(w);
-    const int bw = w - mIdLabel->width() - mCloseButton->width();
+    const int cw = mCloseButton ? mCloseButton->width() : 0;
+    const int bw = w - mIdLabel->width() - cw;
     mButton->setWidth(bw);
     layoutHorizontallyWithoutSpaces();
 }
 
-void eButtonsListWidget::initialize(const bool newButton) {
+void eButtonsListWidget::initialize(const bool newButton,
+                                    const bool closeButtons) {
     if(newButton) {
         const auto addStr = eLanguage::text("add");
         mNewButton = new eFramedButton(addStr, window());
@@ -81,7 +86,7 @@ void eButtonsListWidget::initialize(const bool newButton) {
             if(mCreateE) mCreateE();
         });
     }
-
+    mCloseButtons = closeButtons;
     updateButtons();
 }
 
@@ -104,7 +109,8 @@ void eButtonsListWidget::setText(const int id, const std::string& text) {
 int eButtonsListWidget::addButton(const std::string& text) {
     const int id = mButtons.size();
     const auto b = new eListButton(window());
-    b->initialize(text, id, mRenderButtonBg, mSmallSize);
+    b->initialize(text, id, mRenderButtonBg, mSmallSize,
+                  mCloseButtons);
     b->setPressAction([this](const int id) {
         if(mPressE) mPressE(id);
     });

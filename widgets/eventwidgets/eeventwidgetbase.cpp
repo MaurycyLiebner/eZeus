@@ -7,6 +7,9 @@
 #include "engine/egameboard.h"
 #include "widgets/elabeledwidget.h"
 #include "elanguage.h"
+#include "emainwindow.h"
+#include "widgets/etriggerselectionwidget.h"
+#include "widgets/eeventselectionwidget.h"
 
 #include "egodattackeventwidget.h"
 #include "emonsterattackeventwidget.h"
@@ -88,6 +91,48 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
     } break;
     default:
         break;
+    }
+
+    const auto& ts = e->triggers();
+    if(!ts.empty()) {
+        const auto triggersButt = new eFramedButton(eLanguage::text("triggers"),
+                                                    window());
+        triggersButt->setUnderline(false);
+        triggersButt->fitContent();
+        triggersButt->setPressAction([this, e]() {
+            const auto choose = new eTriggerSelectionWidget(window());
+
+            choose->resize(width(), height());
+            std::vector<std::string> labels;
+            const auto& ts = e->triggers();
+            for(const auto& t : ts) {
+                labels.push_back(t->name());
+            }
+            const auto act = [this, e](const int id) {
+                const auto& ts = e->triggers();
+                const auto& t = ts[id];
+                const auto boardPtr = &e->getBoard();
+
+                const auto choose = new eEventSelectionWidget(window());
+
+                choose->resize(width(), height());
+                const auto get = [t]() {
+                    return t->events();
+                };
+                const auto add = [t](const stdsptr<eGameEvent>& e) {
+                    t->addEvent(e);
+                };
+                choose->initialize(get, add, *boardPtr);
+
+                window()->execDialog(choose);
+                choose->align(eAlignment::center);
+            };
+            choose->initialize(labels, act);
+
+            window()->execDialog(choose);
+            choose->align(eAlignment::center);
+        });
+        cont->addWidget(triggersButt);
     }
 
     cont->stackVertically(p);

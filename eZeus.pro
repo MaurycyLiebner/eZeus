@@ -284,6 +284,7 @@ SOURCES += \
         fileIO/ebuildingwriter.cpp \
         fileIO/ereadstream.cpp \
         fileIO/ewritestream.cpp \
+        gameEvents/eeventtrigger.cpp \
         gameEvents/egameevent.cpp \
         gameEvents/egiftfromevent.cpp \
         gameEvents/egifttoevent.cpp \
@@ -374,6 +375,7 @@ SOURCES += \
         widgets/edownbutton.cpp \
         widgets/eeditorsettingsmenu.cpp \
         widgets/eeventbackground.cpp \
+        widgets/eeventselectionwidget.cpp \
         widgets/eeventtimewidget.cpp \
         widgets/eeventwidget.cpp \
         widgets/eexclamationbutton.cpp \
@@ -432,6 +434,7 @@ SOURCES += \
         widgets/eterraineditmenu.cpp \
         widgets/etilepainter.cpp \
         widgets/etopbarwidget.cpp \
+        widgets/etriggerselectionwidget.cpp \
         widgets/eupbutton.cpp \
         widgets/evaluebutton.cpp \
         widgets/eventwidgets/eeventwidgetbase.cpp \
@@ -735,6 +738,7 @@ HEADERS += \
     fileIO/ereadstream.h \
     fileIO/estreams.h \
     fileIO/ewritestream.h \
+    gameEvents/eeventtrigger.h \
     gameEvents/egameevent.h \
     gameEvents/egiftfromevent.h \
     gameEvents/egifttoevent.h \
@@ -1307,6 +1311,7 @@ HEADERS += \
     widgets/edownbutton.h \
     widgets/eeditorsettingsmenu.h \
     widgets/eeventbackground.h \
+    widgets/eeventselectionwidget.h \
     widgets/eeventtimewidget.h \
     widgets/eeventwidget.h \
     widgets/eexclamationbutton.h \
@@ -1361,6 +1366,7 @@ HEADERS += \
     widgets/eterraineditmenu.h \
     widgets/etilepainter.h \
     widgets/etopbarwidget.h \
+    widgets/etriggerselectionwidget.h \
     widgets/eupbutton.h \
     widgets/evaluebutton.h \
     widgets/eventwidgets/eeventwidgetbase.h \

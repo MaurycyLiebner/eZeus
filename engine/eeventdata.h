@@ -24,6 +24,7 @@ struct eEventData {
     int fResourceCount = 0;
     int fSpaceCount = 0;
     int fTime = 0;
+    std::string fReason;
 };
 
 #endif // EEVENTDATA_H

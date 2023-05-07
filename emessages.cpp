@@ -396,6 +396,16 @@ bool eMessages::loadImpl() {
     fGeneralRequestRefuseS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
     fGeneralRequestRefuseS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_refuse_reason_S"];
 
+    fGeneralRequestEarlyReasonS.fFull = fMessages["PHRASE_general_request_early_reason_S"];
+    fGeneralRequestComplyReasonS.fFull = fMessages["PHRASE_general_request_comply_reason_S"];
+    fGeneralRequestTooLateReasonS.fFull = fMessages["PHRASE_general_request_too_late_reason_S"];
+    fGeneralRequestRefuseReasonS.fFull = fMessages["PHRASE_general_request_refuse_reason_S"];
+
+    fGeneralRequestEarlyReasonS.fCondensed = fMessages["PHRASE_CONDENSED_general_request_early_reason_S"];
+    fGeneralRequestComplyReasonS.fCondensed = fMessages["PHRASE_CONDENSED_general_request_comply_reason_S"];
+    fGeneralRequestTooLateReasonS.fCondensed = fMessages["PHRASE_CONDENSED_general_request_too_late_reason_S"];
+    fGeneralRequestRefuseReasonS.fCondensed = fMessages["PHRASE_CONDENSED_general_request_refuse_reason_S"];
+
     fGiftGranted.fFull.fTitle = fMessages["PHRASE_gift_title"];
     fGiftGranted.fFull.fText = fMessages["PHRASE_gift_granted"];
     fGiftGranted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];

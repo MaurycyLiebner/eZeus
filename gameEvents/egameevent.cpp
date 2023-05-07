@@ -75,6 +75,10 @@ std::string eGameEvent::longDatedName() const {
     return dateStr + " " + eventName;
 }
 
+void eGameEvent::setReason(const std::string& r) {
+    mReason = r;
+}
+
 void eGameEvent::setStartDate(const eDate& d) {
     mStartDate = d;
     for(const auto& w : mWarnings) {
@@ -139,6 +143,10 @@ void eGameEvent::rewind(const eDate& date) {
     }
 }
 
+void eGameEvent::addTrigger(const stdsptr<eEventTrigger>& et) {
+    mTriggers.push_back(et);
+}
+
 void eGameEvent::write(eWriteStream& dst) const {
     mNextDate.write(dst);
     mStartDate.write(dst);
@@ -157,6 +165,10 @@ void eGameEvent::write(eWriteStream& dst) const {
     for(const auto& c : mConsequences) {
         dst << c->type();
         c->write(dst);
+    }
+
+    for(const auto& et : mTriggers) {
+        et->write(dst);
     }
 }
 
@@ -187,5 +199,9 @@ void eGameEvent::read(eReadStream& src) {
         const auto e = eGameEvent::sCreate(type, getBoard());
         e->read(src);
         mConsequences.emplace_back(e);
+    }
+
+    for(const auto& et : mTriggers) {
+        et->read(src);
     }
 }

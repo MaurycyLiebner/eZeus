@@ -5,6 +5,8 @@
 
 #include "engine/eworldcity.h"
 
+struct eReason;
+
 class eReceiveRequestEvent : public eGameEvent {
 public:
     eReceiveRequestEvent(eGameBoard& board);
@@ -29,10 +31,17 @@ public:
     int resourceCount() const { return mCount; }
     void setResourceCount(const int c);
 private:
+    void finished(eEventTrigger& t, const eReason& r);
+
     int mPostpone;
     eResourceType mResource = eResourceType::fleece;
     int mCount = 16;
     stdsptr<eWorldCity> mCity;
+
+    stdsptr<eEventTrigger> mEarlyTrigger;
+    stdsptr<eEventTrigger> mComplyTrigger;
+    stdsptr<eEventTrigger> mTooLateTrigger;
+    stdsptr<eEventTrigger> mRefuseTrigger;
 };
 
 #endif // ERECEIVEREQUESTEVENT_H

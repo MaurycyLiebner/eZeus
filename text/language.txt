@@ -22,6 +22,13 @@ invasion_by "Invasion by %1"
 monster_attack "Monster attack"
 receive_tribute_from "Receive tribute from %1"
 
+triggers "Triggers"
+
+early "Ealry"
+comply "Comply"
+refuse "Refuse"
+too_late "Too late"
+
 date: "Date:"
 period: "Period:"
 repeat: "Repeat:"

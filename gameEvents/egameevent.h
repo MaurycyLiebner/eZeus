@@ -4,6 +4,7 @@
 #include "pointers/eobject.h"
 
 #include "engine/edate.h"
+#include "eeventtrigger.h"
 
 #include <functional>
 
@@ -35,6 +36,11 @@ public:
     virtual void write(eWriteStream& dst) const;
     virtual void read(eReadStream& src);
 
+    virtual stdsptr<eGameEvent> makeCopy(const std::string& reason) const {
+        (void)reason;
+        return nullptr;
+    }
+
     static stdsptr<eGameEvent> sCreate(const eGameEventType type,
                                        eGameBoard& board);
 
@@ -51,6 +57,9 @@ public:
 
     std::string longDatedName() const;
 
+    void setReason(const std::string& r);
+    const std::string& reason() const { return mReason; }
+
     const eDate& startDate() const { return mStartDate; }
     void setStartDate(const eDate& d);
 
@@ -66,12 +75,21 @@ public:
     bool finished() const { return mRemNRuns <= 0; }
 
     using eWarning = std::pair<int, stdsptr<eGameEvent>>;
-    const std::vector<eWarning>& warnings() const { return mWarnings; }
+    const std::vector<eWarning>& warnings() const
+    { return mWarnings; }
+
+    const std::vector<stdsptr<eEventTrigger>>& triggers() const
+    { return mTriggers; }
+protected:
+    void addTrigger(const stdsptr<eEventTrigger>& et);
 private:
     const eGameEventType mType;
 
     std::vector<eWarning> mWarnings;
     std::vector<stdsptr<eGameEvent>> mConsequences;
+    std::vector<stdsptr<eEventTrigger>> mTriggers;
+
+    std::string mReason;
 
     eDate mStartDate;
     int mPeriodDays;

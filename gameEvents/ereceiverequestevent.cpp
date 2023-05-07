@@ -5,10 +5,25 @@
 #include "estringhelpers.h"
 #include "engine/eeventdata.h"
 #include "engine/eevent.h"
+#include "emessages.h"
 
 eReceiveRequestEvent::eReceiveRequestEvent(
         eGameBoard& board) :
-    eGameEvent(eGameEventType::receiveRequest, board) {}
+    eGameEvent(eGameEventType::receiveRequest, board) {
+    const auto e1 = eLanguage::text("early");
+    mEarlyTrigger = e::make_shared<eEventTrigger>(e1, board);
+    const auto e2 = eLanguage::text("comply");
+    mComplyTrigger = e::make_shared<eEventTrigger>(e2, board);
+    const auto e3 = eLanguage::text("refuse");
+    mTooLateTrigger = e::make_shared<eEventTrigger>(e3, board);
+    const auto e4 = eLanguage::text("too_late");
+    mRefuseTrigger = e::make_shared<eEventTrigger>(e4, board);
+
+    addTrigger(mEarlyTrigger);
+    addTrigger(mComplyTrigger);
+    addTrigger(mTooLateTrigger);
+    addTrigger(mRefuseTrigger);
+}
 
 void eReceiveRequestEvent::initialize(
         const int postpone,
@@ -38,10 +53,18 @@ void eReceiveRequestEvent::trigger() {
             ed.fType = eMessageEventType::resourceGranted;
             board.event(eEvent::generalRequestTooLate, ed);
             mCity->incAttitude(-5);
+
+            auto& msgs = eMessages::instance;
+            auto& reason = msgs.fGeneralRequestTooLateReasonS;
+            finished(*mTooLateTrigger, reason);
         } else {
             ed.fType = eMessageEventType::resourceGranted;
             board.event(eEvent::generalRequestComply, ed);
             mCity->incAttitude(10);
+
+            auto& msgs = eMessages::instance;
+            auto& reason = msgs.fGeneralRequestComplyReasonS;
+            finished(*mComplyTrigger, reason);
         }
         return;
     }
@@ -50,6 +73,10 @@ void eReceiveRequestEvent::trigger() {
         ed.fType = eMessageEventType::resourceGranted;
         board.event(eEvent::generalRequestRefuse, ed);
         mCity->incAttitude(-15);
+
+        auto& msgs = eMessages::instance;
+        auto& reason = msgs.fGeneralRequestRefuseReasonS;
+        finished(*mRefuseTrigger, reason);
         return;
     }
 
@@ -157,4 +184,15 @@ void eReceiveRequestEvent::setResourceType(const eResourceType type) {
 
 void eReceiveRequestEvent::setResourceCount(const int c) {
     mCount = c;
+}
+
+void eReceiveRequestEvent::finished(eEventTrigger& t, const eReason& r) {
+    const auto& board = getBoard();
+    const auto date = board.date();
+    auto rFull = r.fFull;
+    const auto amount = std::to_string(mCount);
+    eStringHelpers::replaceAll(rFull, "[amount]", amount);
+    const auto item = eResourceTypeHelpers::typeLongName(mResource);
+    eStringHelpers::replaceAll(rFull, "[item]", item);
+    t.trigger(*this, date, rFull);
 }

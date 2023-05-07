@@ -132,6 +132,10 @@ public:
     eMessageType fGeneralRequestComplyS;
     eMessageType fGeneralRequestTooLateS;
     eMessageType fGeneralRequestRefuseS;
+    eReason fGeneralRequestEarlyReasonS;
+    eReason fGeneralRequestComplyReasonS;
+    eReason fGeneralRequestTooLateReasonS;
+    eReason fGeneralRequestRefuseReasonS;
 
     eMessageType fGiftGranted;
     eMessageType fGiftCashGranted;

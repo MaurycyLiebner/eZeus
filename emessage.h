@@ -9,6 +9,11 @@ struct eMessage {
     std::string fText;
 };
 
+struct eReason {
+    std::string fFull;
+    std::string fCondensed;
+};
+
 struct eMessageType {
     eMessage fFull;
     eMessage fCondensed;

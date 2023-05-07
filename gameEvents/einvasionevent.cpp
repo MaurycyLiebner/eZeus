@@ -51,6 +51,7 @@ void eInvasionEvent::initialize(const stdsptr<eWorldCity>& city,
         }
         const int wdays = 31*months;
         const auto e = e::make_shared<eInvasionWarningEvent>(board);
+        e->setReason(reason());
         e->initialize(w, mCity);
         addWarning(wdays, e);
     }
@@ -63,6 +64,7 @@ void eInvasionEvent::trigger() {
     ed.fType = eMessageEventType::invasion;
     const int bribe = bribeCost();
     ed.fBribe = bribe;
+    ed.fReason = reason();
 
     const auto boardPtr = &board;
     const auto city = mCity;
@@ -118,6 +120,13 @@ void eInvasionEvent::read(eReadStream& src) {
     src >> mInfantry;
     src >> mCavalry;
     src >> mArchers;
+}
+
+stdsptr<eGameEvent> eInvasionEvent::makeCopy(const std::string& reason) const {
+    const auto c = e::make_shared<eInvasionEvent>(getBoard());
+    c->setReason(reason);
+    c->initialize(mCity, mInfantry, mCavalry, mArchers);
+    return c;
 }
 
 void eInvasionEvent::setCity(const stdsptr<eWorldCity>& c) {
