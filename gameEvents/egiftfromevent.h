@@ -29,7 +29,7 @@ public:
     int resourceCount() const { return mCount; }
     void setResourceCount(const int c);
 private:
-    bool mPostpone;
+    bool mPostpone = true;
     eResourceType mResource = eResourceType::fleece;
     int mCount = 16;
     stdsptr<eWorldCity> mCity;

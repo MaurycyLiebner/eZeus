@@ -25,7 +25,7 @@ public:
     eResourceType resourceType() const { return mResource; }
     void setResourceType(const eResourceType type);
 private:
-    bool mPostpone;
+    bool mPostpone = true;
     eResourceType mResource;
     stdsptr<eWorldCity> mCity;
 };

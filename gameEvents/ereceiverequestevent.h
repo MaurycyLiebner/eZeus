@@ -33,7 +33,7 @@ public:
 private:
     void finished(eEventTrigger& t, const eReason& r);
 
-    int mPostpone;
+    int mPostpone = 0;
     eResourceType mResource = eResourceType::fleece;
     int mCount = 16;
     stdsptr<eWorldCity> mCity;
