@@ -289,6 +289,7 @@ SOURCES += \
         gameEvents/egiftfromevent.cpp \
         gameEvents/egifttoevent.cpp \
         gameEvents/egodattackevent.cpp \
+        gameEvents/egodquestevent.cpp \
         gameEvents/egodvisitevent.cpp \
         gameEvents/einvasionevent.cpp \
         gameEvents/einvasionwarningevent.cpp \
@@ -397,8 +398,10 @@ SOURCES += \
         widgets/egamewidgetpaint.cpp \
         widgets/egiftdialog.cpp \
         widgets/egiftsizedialog.cpp \
+        widgets/egodbutton.cpp \
         widgets/egodselectionwidget.cpp \
         widgets/ehelpbutton.cpp \
+        widgets/eherobutton.cpp \
         widgets/elabel.cpp \
         widgets/elabelbase.cpp \
         widgets/elabeledwidget.cpp \
@@ -410,6 +413,7 @@ SOURCES += \
         widgets/emenuloadingwidget.cpp \
         widgets/emessagebox.cpp \
         widgets/eminimap.cpp \
+        widgets/emonsterbutton.cpp \
         widgets/emonsterselectionwidget.cpp \
         widgets/emouseevent.cpp \
         widgets/emultilinelabel.cpp \
@@ -440,6 +444,7 @@ SOURCES += \
         widgets/eventwidgets/eeventwidgetbase.cpp \
         widgets/eventwidgets/egiftfromeventwidget.cpp \
         widgets/eventwidgets/egodattackeventwidget.cpp \
+        widgets/eventwidgets/egodquesteventwidget.cpp \
         widgets/eventwidgets/einvasioneventwidget.cpp \
         widgets/eventwidgets/emonsterattackeventwidget.cpp \
         widgets/eventwidgets/ereceiverequesteventwidget.cpp \
@@ -743,6 +748,7 @@ HEADERS += \
     gameEvents/egiftfromevent.h \
     gameEvents/egifttoevent.h \
     gameEvents/egodattackevent.h \
+    gameEvents/egodquestevent.h \
     gameEvents/egodvisitevent.h \
     gameEvents/einvasionevent.h \
     gameEvents/einvasionwarningevent.h \
@@ -1329,8 +1335,10 @@ HEADERS += \
     widgets/egamewidget.h \
     widgets/egiftdialog.h \
     widgets/egiftsizedialog.h \
+    widgets/egodbutton.h \
     widgets/egodselectionwidget.h \
     widgets/ehelpbutton.h \
+    widgets/eherobutton.h \
     widgets/elabel.h \
     widgets/elabelbase.h \
     widgets/elabeledwidget.h \
@@ -1342,6 +1350,7 @@ HEADERS += \
     widgets/emenuloadingwidget.h \
     widgets/emessagebox.h \
     widgets/eminimap.h \
+    widgets/emonsterbutton.h \
     widgets/emonsterselectionwidget.h \
     widgets/emouseevent.h \
     widgets/emultilinelabel.h \
@@ -1372,6 +1381,7 @@ HEADERS += \
     widgets/eventwidgets/eeventwidgetbase.h \
     widgets/eventwidgets/egiftfromeventwidget.h \
     widgets/eventwidgets/egodattackeventwidget.h \
+    widgets/eventwidgets/egodquesteventwidget.h \
     widgets/eventwidgets/einvasioneventwidget.h \
     widgets/eventwidgets/emonsterattackeventwidget.h \
     widgets/eventwidgets/ereceiverequesteventwidget.h \

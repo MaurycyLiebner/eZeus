@@ -73,3 +73,18 @@ std::string eHero::sHeroName(const eHeroType ht) {
     }
     return "";
 }
+
+void eHero::sHeroStrings(std::vector<eHeroType>& heros,
+                       std::vector<std::string>& heroNames) {
+    heros.push_back(eHeroType::achilles);
+    heros.push_back(eHeroType::atalanta);
+    heros.push_back(eHeroType::bellerophon);
+    heros.push_back(eHeroType::hercules);
+    heros.push_back(eHeroType::jason);
+    heros.push_back(eHeroType::odysseus);
+    heros.push_back(eHeroType::perseus);
+    heros.push_back(eHeroType::theseus);
+    for(const auto h : heros) {
+        heroNames.push_back(sHeroName(h));
+    }
+}

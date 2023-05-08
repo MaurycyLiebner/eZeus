@@ -35,6 +35,34 @@ void eMessages::load(eGodMessages& god, const std::string& godName) {
     god.fMonster.fReason = fMessages["PHRASE_" + godName + "_unleashes_monster_reason"];
     god.fMonster.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_unleashes_monster_title"];
     god.fMonster.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_unleashes_monster_city_attacked_alert"];
+
+    god.fQuest1.fQuest.fFull.fTitle = fMessages["PHRASE_" + godName + "_quest_title"];
+    god.fQuest1.fQuest.fFull.fText = fMessages["PHRASE_" + godName + "_quest_initial_announcement"];
+    god.fQuest1.fQuest.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_quest_title"];
+    god.fQuest1.fQuest.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_quest_initial_announcement"];
+    god.fQuest1.fQuest.fNoReason = fMessages["PHRASE_" + godName + "_quest_no_reason"];
+    god.fQuest1.fQuest.fReason = fMessages["PHRASE_" + godName + "_quest_reason"];
+
+    god.fQuest1.fFulfilled.fFull.fTitle = fMessages["PHRASE_" + godName + "_quest_fulfilled_title"];
+    god.fQuest1.fFulfilled.fFull.fText = fMessages["PHRASE_" + godName + "_quest_fulfilled_initial_announcement"];
+    god.fQuest1.fFulfilled.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_quest_fulfilled_title"];
+    god.fQuest1.fFulfilled.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_quest_fulfilled_initial_announcement"];
+    god.fQuest1.fFulfilled.fNoReason = fMessages["PHRASE_" + godName + "_quest_fulfilled_no_reason"];
+    god.fQuest1.fFulfilled.fReason = fMessages["PHRASE_" + godName + "_quest_fulfilled_reason"];
+
+    god.fQuest2.fQuest.fFull.fTitle = fMessages["PHRASE_" + godName + "_quest2_title"];
+    god.fQuest2.fQuest.fFull.fText = fMessages["PHRASE_" + godName + "_quest2_initial_announcement"];
+    god.fQuest2.fQuest.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_quest2_title"];
+    god.fQuest2.fQuest.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_quest2_initial_announcement"];
+    god.fQuest2.fQuest.fNoReason = fMessages["PHRASE_" + godName + "_quest2_no_reason"];
+    god.fQuest2.fQuest.fReason = fMessages["PHRASE_" + godName + "_quest2_reason"];
+
+    god.fQuest2.fFulfilled.fFull.fTitle = fMessages["PHRASE_" + godName + "_quest2_fulfilled_title"];
+    god.fQuest2.fFulfilled.fFull.fText = fMessages["PHRASE_" + godName + "_quest2_fulfilled_initial_announcement"];
+    god.fQuest2.fFulfilled.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_quest2_fulfilled_title"];
+    god.fQuest2.fFulfilled.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_quest2_fulfilled_initial_announcement"];
+    god.fQuest2.fFulfilled.fNoReason = fMessages["PHRASE_" + godName + "_quest2_fulfilled_no_reason"];
+    god.fQuest2.fFulfilled.fReason = fMessages["PHRASE_" + godName + "_quest2_fulfilled_reason"];
 }
 
 void eMessages::load(eHeroMessages& hero, const std::string& heroName) {

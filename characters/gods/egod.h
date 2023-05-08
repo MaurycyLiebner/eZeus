@@ -22,6 +22,11 @@ enum class eGodType {
     zeus
 };
 
+enum class eGodQuestId {
+    godQuest1,
+    godQuest2
+};
+
 enum class eGodAttitude {
     friendly,
     hostile,
@@ -45,6 +50,9 @@ public:
     static int sGodAttackTime(const eGodType gt);
 
     static std::string sGodName(const eGodType gt);
+
+    static void sGodStrings(std::vector<eGodType>& gods,
+                            std::vector<std::string>& godNames);
 
     eGodType type() const { return mType; }
 

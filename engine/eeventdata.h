@@ -7,6 +7,10 @@
 
 using eAction = std::function<void()>;
 
+enum class eGodType;
+enum class eHeroType;
+enum class eGodQuestId;
+
 struct eEventData {
     eMessageEventType fType = eMessageEventType::common;
     eDate fDate;
@@ -25,6 +29,9 @@ struct eEventData {
     int fSpaceCount = 0;
     int fTime = 0;
     std::string fReason;
+    eGodType fGod;
+    eGodQuestId fQuestId;
+    eHeroType fHero;
 };
 
 #endif // EEVENTDATA_H

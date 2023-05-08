@@ -47,6 +47,9 @@ enum class eEvent {
     zeusVisit,
     zeusInvasion,
 
+    godQuest,
+    godQuestFulfilled,
+
     calydonianBoarInvasion,
     cerberusInvasion,
     chimeraInvasion,

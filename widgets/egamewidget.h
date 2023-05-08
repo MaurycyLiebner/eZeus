@@ -37,6 +37,7 @@ class eInfoWidget;
 enum class eAgoraOrientation;
 enum class eGodType;
 enum class eHeroType;
+enum class eGodQuestId;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
 using eRendererCreator = std::function<stdsptr<eBuildingRenderer>()>;
@@ -157,6 +158,8 @@ private:
         findGuide(const int tx, const int ty);
 
     void handleEvent(const eEvent e, eEventData& ed);
+    void handleGodQuestEvent(eEventData& ed,
+                             const bool fulfilled);
     void handleGodVisitEvent(eGodMessages& msgs,
                              const eGodType god,
                              eEventData& ed);

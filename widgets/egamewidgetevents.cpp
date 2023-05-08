@@ -3,6 +3,42 @@
 #include "audio/esounds.h"
 #include "emessages.h"
 #include "engine/eevent.h"
+#include "estringhelpers.h"
+
+void eGameWidget::handleGodQuestEvent(eEventData& ed,
+                                      const bool fulfilled) {
+    const auto hero = ed.fHero;
+    const auto id = ed.fQuestId;
+    const auto god = ed.fGod;
+    if(fulfilled) {
+        eSounds::playGodSound(god, eGodSound::questFinished);
+    } else {
+        eSounds::playGodSound(god, eGodSound::quest);
+    }
+    const auto& inst = eMessages::instance;
+    const auto gm = inst.godMessages(god);
+    if(!gm) return;
+    const eQuestMessages* qm = nullptr;
+    switch(id) {
+    case eGodQuestId::godQuest1:
+        qm = &gm->fQuest1;
+        break;
+    case eGodQuestId::godQuest2:
+        qm = &gm->fQuest2;
+        break;
+    }
+    const eEventMessageType* emt = nullptr;
+    if(fulfilled) {
+        emt = &qm->fFulfilled;
+    } else {
+        emt = &qm->fQuest;
+    }
+    auto msg = emt->fFull;
+    const auto hm = eHero::sHeroName(hero);
+    eStringHelpers::replaceAll(msg.fTitle, "[hero_needed]", hm);
+    eStringHelpers::replaceAll(msg.fText, "[hero_needed]", hm);
+    showMessage(ed, msg);
+}
 
 void eGameWidget::handleGodVisitEvent(eGodMessages& msgs,
                                       const eGodType god,
@@ -439,6 +475,11 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
     } break;
     case eEvent::employees: {
         showMessage(ed, inst.fEmployees, true);
+        return;
+    } break;
+    case eEvent::godQuest:
+    case eEvent::godQuestFulfilled: {
+        handleGodQuestEvent(ed, e == eEvent::godQuestFulfilled);
         return;
     } break;
     }

@@ -12,6 +12,7 @@
 #include "ereceiverequestevent.h"
 #include "egifttoevent.h"
 #include "egiftfromevent.h"
+#include "egodquestevent.h"
 
 eGameEvent::eGameEvent(const eGameEventType type,
                        eGameBoard& board) :
@@ -40,6 +41,8 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
         return e::make_shared<eGiftToEvent>(board);
     case eGameEventType::giftFrom:
         return e::make_shared<eGiftFromEvent>(board);
+    case eGameEventType::godQuest:
+        return e::make_shared<eGodQuestEvent>(board);
     }
     return nullptr;
 }

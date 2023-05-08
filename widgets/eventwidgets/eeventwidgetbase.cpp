@@ -16,6 +16,7 @@
 #include "einvasioneventwidget.h"
 #include "egiftfromeventwidget.h"
 #include "ereceiverequesteventwidget.h"
+#include "egodquesteventwidget.h".h"
 
 void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
     setType(eFrameType::message);
@@ -87,6 +88,12 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
         const auto eew = new eReceiveRequestEventWidget(window());
         const auto rree = static_cast<eReceiveRequestEvent*>(e.get());
         eew->initialize(rree);
+        cont->addWidget(eew);
+    } break;
+    case eGameEventType::godQuest: {
+        const auto eew = new eGodQuestEventWidget(window());
+        const auto gqee = static_cast<eGodQuestEvent*>(e.get());
+        eew->initialize(gqee);
         cont->addWidget(eew);
     } break;
     default:

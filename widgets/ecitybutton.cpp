@@ -7,6 +7,7 @@
 
 void eCityButton::initialize(eGameBoard& board,
                              const eCityAction& cact) {
+    setUnderline(false);
     const auto boardPtr = &board;
     setPressAction([this, boardPtr, cact]() {
         auto& world = boardPtr->getWorldBoard();

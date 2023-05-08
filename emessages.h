@@ -8,6 +8,11 @@
 enum class eGodType;
 enum class eHeroType;
 
+struct eQuestMessages {
+    eEventMessageType fQuest;
+    eEventMessageType fFulfilled;
+};
+
 struct eGodMessages {
     int fLastMessage = -1;
 
@@ -16,6 +21,9 @@ struct eGodMessages {
     eMessageType fJealousy2;
 
     eEventMessageType fMonster;
+
+    eQuestMessages fQuest1;
+    eQuestMessages fQuest2;
 };
 
 struct eHeroMessages {

@@ -190,3 +190,24 @@ std::string eGod::sGodName(const eGodType gt) {
     }
     return "";
 }
+
+void eGod::sGodStrings(std::vector<eGodType>& gods,
+                       std::vector<std::string>& godNames) {
+    gods.push_back(eGodType::aphrodite);
+    gods.push_back(eGodType::apollo);
+    gods.push_back(eGodType::ares);
+    gods.push_back(eGodType::artemis);
+    gods.push_back(eGodType::athena);
+    gods.push_back(eGodType::atlas);
+    gods.push_back(eGodType::demeter);
+    gods.push_back(eGodType::dionysus);
+    gods.push_back(eGodType::hades);
+    gods.push_back(eGodType::hephaestus);
+    gods.push_back(eGodType::hera);
+    gods.push_back(eGodType::hermes);
+    gods.push_back(eGodType::poseidon);
+    gods.push_back(eGodType::zeus);
+    for(const auto g : gods) {
+        godNames.push_back(sGodName(g));
+    }
+}
