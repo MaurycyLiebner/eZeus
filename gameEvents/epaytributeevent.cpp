@@ -12,6 +12,7 @@ void ePayTributeEvent::initialize(const stdsptr<eWorldCity>& c) {
 }
 
 void ePayTributeEvent::trigger() {
+    if(!mCity) return;
     auto& board = getBoard();
     board.tributeFrom(mCity, false);
 }

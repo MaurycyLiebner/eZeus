@@ -17,8 +17,10 @@ public:
     void trigger() override;
     std::string longName() const override;
 
-    void write(eWriteStream& dst) const override ;
+    void write(eWriteStream& dst) const override;
     void read(eReadStream& src) override;
+
+    stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
 private:
     std::vector<eGodType> mTypes;
     int mNextId = 0;

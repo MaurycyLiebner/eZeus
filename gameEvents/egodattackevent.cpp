@@ -112,3 +112,12 @@ void eGodAttackEvent::read(eReadStream& src) {
     src >> mRandom;
     src >> mNextId;
 }
+
+stdsptr<eGameEvent> eGodAttackEvent::makeCopy(const std::string& reason) const {
+    const auto c = e::make_shared<eGodAttackEvent>(getBoard());
+    c->mTypes = mTypes;
+    c->mNextId = mNextId;
+    c->mRandom = mRandom;
+    c->setReason(reason);
+    return c;
+}

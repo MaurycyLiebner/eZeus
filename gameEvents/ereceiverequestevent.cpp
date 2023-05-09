@@ -174,6 +174,13 @@ void eReceiveRequestEvent::read(eReadStream& src) {
     });
 }
 
+stdsptr<eGameEvent> eReceiveRequestEvent::makeCopy(const std::string& reason) const {
+    const auto c = e::make_shared<eReceiveRequestEvent>(getBoard());
+    c->initialize(mPostpone, mResource, mCount, mCity);
+    c->setReason(reason);
+    return c;
+}
+
 void eReceiveRequestEvent::setCity(const stdsptr<eWorldCity>& c) {
     mCity = c;
 }

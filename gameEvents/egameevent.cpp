@@ -164,6 +164,7 @@ void eGameEvent::write(eWriteStream& dst) const {
     dst << mPeriodDays;
     dst << mTotNRuns;
     dst << mRemNRuns;
+    dst << mReason;
 
     dst << mWarnings.size();
     for(const auto& w : mWarnings) {
@@ -189,6 +190,7 @@ void eGameEvent::read(eReadStream& src) {
     src >> mPeriodDays;
     src >> mTotNRuns;
     src >> mRemNRuns;
+    src >> mReason;
 
     int nws;
     src >> nws;

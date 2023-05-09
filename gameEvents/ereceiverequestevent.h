@@ -19,8 +19,10 @@ public:
     void trigger() override;
     std::string longName() const override;
 
-    void write(eWriteStream& dst) const override ;
+    void write(eWriteStream& dst) const override;
     void read(eReadStream& src) override;
+
+    stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
 
     const stdsptr<eWorldCity>& city() const { return mCity; }
     void setCity(const stdsptr<eWorldCity>& c);

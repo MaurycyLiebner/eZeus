@@ -100,3 +100,10 @@ void eMonsterAttackEvent::read(eReadStream& src) {
     eGameEvent::read(src);
     src >> mType;
 }
+
+stdsptr<eGameEvent> eMonsterAttackEvent::makeCopy(const std::string& reason) const {
+    const auto c = e::make_shared<eMonsterAttackEvent>(getBoard());
+    c->mType = mType;
+    c->setReason(reason);
+    return c;
+}

@@ -135,6 +135,13 @@ void eGiftFromEvent::read(eReadStream& src) {
     });
 }
 
+stdsptr<eGameEvent> eGiftFromEvent::makeCopy(const std::string& reason) const {
+    const auto c = e::make_shared<eGiftFromEvent>(getBoard());
+    c->setReason(reason);
+    c->initialize(mPostpone, mResource, mCount, mCity);
+    return c;
+}
+
 void eGiftFromEvent::setCity(const stdsptr<eWorldCity>& c) {
     mCity = c;
 }

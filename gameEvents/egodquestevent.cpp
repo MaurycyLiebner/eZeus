@@ -61,3 +61,12 @@ void eGodQuestEvent::read(eReadStream& src) {
     src >> mId;
     src >> mHero;
 }
+
+stdsptr<eGameEvent> eGodQuestEvent::makeCopy(const std::string& reason) const {
+    const auto c = e::make_shared<eGodQuestEvent>(getBoard());
+    c->setReason(reason);
+    c->mGod = mGod;
+    c->mId = mId;
+    c->mHero = mHero;
+    return c;
+}

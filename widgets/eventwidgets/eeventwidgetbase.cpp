@@ -16,7 +16,7 @@
 #include "einvasioneventwidget.h"
 #include "egiftfromeventwidget.h"
 #include "ereceiverequesteventwidget.h"
-#include "egodquesteventwidget.h".h"
+#include "egodquesteventwidget.h"
 
 void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
     setType(eFrameType::message);
