@@ -81,6 +81,7 @@ public:
 
     const std::vector<stdsptr<eEventTrigger>>& triggers() const
     { return mTriggers; }
+    int triggerEventsCount() const;
 protected:
     void addTrigger(const stdsptr<eEventTrigger>& et);
 private:

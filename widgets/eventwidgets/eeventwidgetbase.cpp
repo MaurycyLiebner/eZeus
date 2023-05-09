@@ -102,8 +102,10 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
 
     const auto& ts = e->triggers();
     if(!ts.empty()) {
-        const auto triggersButt = new eFramedButton(eLanguage::text("triggers"),
-                                                    window());
+        const int ec = e->triggerEventsCount();
+        const auto ecStr = std::to_string(ec);
+        const auto str = eLanguage::text("triggers") + " (" + ecStr + ")";
+        const auto triggersButt = new eFramedButton(str, window());
         triggersButt->setUnderline(false);
         triggersButt->fitContent();
         triggersButt->setPressAction([this, e]() {
@@ -113,7 +115,9 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
             std::vector<std::string> labels;
             const auto& ts = e->triggers();
             for(const auto& t : ts) {
-                labels.push_back(t->name());
+                const int ec = t->eventCount();
+                const auto ecStr = std::to_string(ec);
+                labels.push_back("(" + ecStr + ") " + t->name());
             }
             const auto act = [this, e](const int id) {
                 const auto& ts = e->triggers();

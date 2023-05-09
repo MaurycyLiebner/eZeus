@@ -146,6 +146,14 @@ void eGameEvent::rewind(const eDate& date) {
     }
 }
 
+int eGameEvent::triggerEventsCount() const {
+    int r = 0;
+    for(const auto& t : mTriggers) {
+        r += t->eventCount();
+    }
+    return r;
+}
+
 void eGameEvent::addTrigger(const stdsptr<eEventTrigger>& et) {
     mTriggers.push_back(et);
 }
