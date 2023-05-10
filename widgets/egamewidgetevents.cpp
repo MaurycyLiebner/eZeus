@@ -41,7 +41,7 @@ void eGameWidget::handleGodQuestEvent(eEventData& ed,
 }
 
 void eGameWidget::handleGodVisitEvent(const eGodType god) {
-    auto& inst = eMessages::instance;
+    const auto& inst = eMessages::instance;
     const auto msgs = inst.godMessages(god);
     int& lm = msgs->fLastMessage;
     lm = lm > 2 ? 0 : (lm + 1);
@@ -59,29 +59,31 @@ void eGameWidget::handleGodVisitEvent(const eGodType god) {
 }
 
 void eGameWidget::handleSanctuaryComplete(const eGodType god) {
-    auto& inst = eMessages::instance;
+    const auto& inst = eMessages::instance;
     const auto gm = inst.godMessages(god);
     if(!gm) return;
     eEventData ed;
     showMessage(ed, gm->fSanctuaryComplete);
 }
 
-void eGameWidget::handleMonsterInvasionEvent(eGodMessages& msgs,
-                                             const eGodType god,
-                                             eEventData& ed) {
-    eSounds::playGodSound(god, eGodSound::monster);
-    showMessage(ed, msgs.fMonster);
+void eGameWidget::handleMonsterInvasionEvent(eEventData& ed) {
+    const auto& inst = eMessages::instance;
+    const auto gm = inst.godMessages(ed.fGod);
+    if(!gm) return;
+    eSounds::playGodSound(ed.fGod, eGodSound::monster);
+    showMessage(ed, gm->fMonster);
 }
 
-void eGameWidget::handleHeroArrivalEvent(eHeroMessages& msgs,
-                                         const eHeroType hero,
-                                         eEventData& ed) {
-    eSounds::playHeroSound(hero, eHeroSound::arrived);
-    showMessage(ed, msgs.fArrival);
+void eGameWidget::handleHeroArrivalEvent(eEventData& ed) {
+    const auto& inst = eMessages::instance;
+    const auto gm = inst.heroMessages(ed.fHero);
+    if(!gm) return;
+    eSounds::playHeroSound(ed.fHero, eHeroSound::arrived);
+    showMessage(ed, gm->fArrival);
 }
 
 void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
-    auto& inst = eMessages::instance;
+    const auto& inst = eMessages::instance;
     switch(e) {
     case eEvent::fire: {
         eSounds::playFireSound();
@@ -99,102 +101,12 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         eSounds::playGodSound(ed.fGod, eGodSound::invade);
         break;
 
-    case eEvent::calydonianBoarInvasion:
-        handleMonsterInvasionEvent(inst.fArtemis,
-                                   eGodType::artemis, ed);
-        break;
-    case eEvent::cerberusInvasion:
-        handleMonsterInvasionEvent(inst.fHades,
-                                   eGodType::hades, ed);
-        break;
-    case eEvent::chimeraInvasion:
-        handleMonsterInvasionEvent(inst.fAtlas,
-                                   eGodType::atlas, ed);
-        break;
-    case eEvent::cyclopsInvasion:
-        handleMonsterInvasionEvent(inst.fZeus,
-                                   eGodType::zeus, ed);
-        break;
-    case eEvent::dragonInvasion:
-        handleMonsterInvasionEvent(inst.fAres,
-                                   eGodType::ares, ed);
-        break;
-    case eEvent::echidnaInvasion:
-//        eSounds::playGodSound(eGodType::artemis, eGodSound::monster);
-//        showMessage(ed, inst.fArtemis.fMonster);
-        break;
-    case eEvent::harpiesInvasion:
-//        eSounds::playGodSound(eGodType::artemis, eGodSound::monster);
-//        showMessage(ed, inst.fArtemis.fMonster);
-        break;
-    case eEvent::hectorInvasion:
-        handleMonsterInvasionEvent(inst.fAphrodite,
-                                   eGodType::aphrodite, ed);
-        break;
-    case eEvent::hydraInvasion:
-        handleMonsterInvasionEvent(inst.fAthena,
-                                   eGodType::athena, ed);
-        break;
-    case eEvent::krakenInvasion:
-        handleMonsterInvasionEvent(inst.fPoseidon,
-                                   eGodType::poseidon, ed);
-        break;
-    case eEvent::maenadsInvasion:
-        handleMonsterInvasionEvent(inst.fDionysus,
-                                   eGodType::dionysus, ed);
-        break;
-    case eEvent::medusaInvasion:
-        handleMonsterInvasionEvent(inst.fDemeter,
-                                   eGodType::demeter, ed);
-        break;
-    case eEvent::minotaurInvasion:
-        handleMonsterInvasionEvent(inst.fHermes,
-                                   eGodType::hermes, ed);
-        break;
-    case eEvent::scyllaInvasion:
-        handleMonsterInvasionEvent(inst.fApollo,
-                                   eGodType::apollo, ed);
-        break;
-    case eEvent::sphinxInvasion:
-        handleMonsterInvasionEvent(inst.fHera,
-                                   eGodType::hera, ed);
-        break;
-    case eEvent::talosInvasion:
-        handleMonsterInvasionEvent(inst.fHephaestus,
-                                   eGodType::hephaestus, ed);
+    case eEvent::godMonsterUnleash:
+        handleMonsterInvasionEvent(ed);
         break;
 
-    case eEvent::achillesArrival:
-        handleHeroArrivalEvent(inst.fAchilles,
-                               eHeroType::achilles, ed);
-        break;
-    case eEvent::atalantaArrival:
-        handleHeroArrivalEvent(inst.fAtalanta,
-                               eHeroType::atalanta, ed);
-        break;
-    case eEvent::bellerophonArrival:
-        handleHeroArrivalEvent(inst.fBellerophon,
-                               eHeroType::bellerophon, ed);
-        break;
-    case eEvent::herculesArrival:
-        handleHeroArrivalEvent(inst.fHercules,
-                               eHeroType::hercules, ed);
-        break;
-    case eEvent::jasonArrival:
-        handleHeroArrivalEvent(inst.fJason,
-                               eHeroType::jason, ed);
-        break;
-    case eEvent::odysseusArrival:
-        handleHeroArrivalEvent(inst.fOdysseus,
-                               eHeroType::odysseus, ed);
-        break;
-    case eEvent::perseusArrival:
-        handleHeroArrivalEvent(inst.fPerseus,
-                               eHeroType::perseus, ed);
-        break;
-    case eEvent::theseusArrival:
-        handleHeroArrivalEvent(inst.fTheseus,
-                               eHeroType::theseus, ed);
+    case eEvent::heroArrival:
+        handleHeroArrivalEvent(ed);
         break;
 
     case eEvent::invasion36: {

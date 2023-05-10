@@ -54,32 +54,10 @@ eEventButton::eEventButton(const eEvent e,
     case eEvent::godInvasion:
         coll = &texs.fGodAttackAlert;
         break;
-    case eEvent::calydonianBoarInvasion:
-    case eEvent::cerberusInvasion:
-    case eEvent::chimeraInvasion:
-    case eEvent::cyclopsInvasion:
-    case eEvent::dragonInvasion:
-    case eEvent::echidnaInvasion:
-    case eEvent::harpiesInvasion:
-    case eEvent::hectorInvasion:
-    case eEvent::hydraInvasion:
-    case eEvent::krakenInvasion:
-    case eEvent::maenadsInvasion:
-    case eEvent::medusaInvasion:
-    case eEvent::minotaurInvasion:
-    case eEvent::scyllaInvasion:
-    case eEvent::sphinxInvasion:
-    case eEvent::talosInvasion:
+    case eEvent::godMonsterUnleash:
         coll = &texs.fMonsterAltert;
         break;
-    case eEvent::achillesArrival:
-    case eEvent::atalantaArrival:
-    case eEvent::bellerophonArrival:
-    case eEvent::herculesArrival:
-    case eEvent::jasonArrival:
-    case eEvent::odysseusArrival:
-    case eEvent::perseusArrival:
-    case eEvent::theseusArrival:
+    case eEvent::heroArrival:
         coll = &texs.fHeroArrivalAlert;
         break;
     case eEvent::invasion:

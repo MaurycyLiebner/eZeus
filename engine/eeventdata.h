@@ -10,6 +10,7 @@ using eAction = std::function<void()>;
 enum class eGodType;
 enum class eHeroType;
 enum class eGodQuestId;
+enum class eMonsterType;
 
 struct eEventData {
     eMessageEventType fType = eMessageEventType::common;
@@ -32,6 +33,7 @@ struct eEventData {
     eGodType fGod;
     eGodQuestId fQuestId;
     eHeroType fHero;
+    eMonsterType fMonster;
 };
 
 #endif // EEVENTDATA_H

@@ -14,7 +14,7 @@ struct eQuestMessages {
 };
 
 struct eGodMessages {
-    int fLastMessage = -1;
+    mutable int fLastMessage = -1;
 
     eMessageType fWooing0;
     eMessageType fJealousy1;
@@ -68,7 +68,7 @@ public:
     eMessageType fCollapse;
     eMessageType fPlagueStrikes;
 
-    eGodMessages* godMessages(const eGodType godType);
+    const eGodMessages* godMessages(const eGodType godType) const;
 
     eGodMessages fAphrodite;
     eGodMessages fApollo;

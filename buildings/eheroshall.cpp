@@ -269,41 +269,15 @@ void eHerosHall::summon() {
 
 void eHerosHall::arrive() {
     auto& board = getBoard();
-    eEvent e;
-    switch(mType) {
-    case eHeroType::achilles:
-        e = eEvent::achillesArrival;
-        break;
-    case eHeroType::atalanta:
-        e = eEvent::atalantaArrival;
-        break;
-    case eHeroType::bellerophon:
-        e = eEvent::bellerophonArrival;
-        break;
-    case eHeroType::hercules:
-        e = eEvent::herculesArrival;
-        break;
-    case eHeroType::jason:
-        e = eEvent::jasonArrival;
-        break;
-    case eHeroType::odysseus:
-        e = eEvent::odysseusArrival;
-        break;
-    case eHeroType::perseus:
-        e = eEvent::perseusArrival;
-        break;
-    case eHeroType::theseus:
-        e = eEvent::theseusArrival;
-        break;
-    }
 
     mStage = eHeroSummoningStage::arrived;
 
     spawnHero();
 
     eEventData ed;
+    ed.fHero = mType;
     ed.fTile = mHero ? mHero->tile() : nullptr;
-    board.event(e, ed);
+    board.event(eEvent::heroArrival, ed);
 }
 
 void eHerosHall::spawnHero() {

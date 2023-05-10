@@ -162,12 +162,8 @@ private:
                              const bool fulfilled);
     void handleGodVisitEvent(const eGodType god);
     void handleSanctuaryComplete(const eGodType god);
-    void handleMonsterInvasionEvent(eGodMessages& msgs,
-                                    const eGodType god,
-                                    eEventData& ed);
-    void handleHeroArrivalEvent(eHeroMessages& msgs,
-                                const eHeroType hero,
-                                eEventData& ed);
+    void handleMonsterInvasionEvent(eEventData& ed);
+    void handleHeroArrivalEvent(eEventData& ed);
 
     void mapDimensions(int& mdx, int& mdy) const;
     void viewBoxSize(double& fx, double& fy) const;
