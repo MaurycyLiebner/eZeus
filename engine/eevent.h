@@ -50,6 +50,8 @@ enum class eEvent {
     godQuest,
     godQuestFulfilled,
 
+    sanctuaryComplete,
+
     calydonianBoarInvasion,
     cerberusInvasion,
     chimeraInvasion,

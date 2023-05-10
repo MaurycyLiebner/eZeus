@@ -24,6 +24,8 @@ struct eGodMessages {
 
     eQuestMessages fQuest1;
     eQuestMessages fQuest2;
+
+    eMessageType fSanctuaryComplete;
 };
 
 struct eHeroMessages {

@@ -63,6 +63,11 @@ void eMessages::load(eGodMessages& god, const std::string& godName) {
     god.fQuest2.fFulfilled.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_quest2_fulfilled_initial_announcement"];
     god.fQuest2.fFulfilled.fNoReason = fMessages["PHRASE_" + godName + "_quest2_fulfilled_no_reason"];
     god.fQuest2.fFulfilled.fReason = fMessages["PHRASE_" + godName + "_quest2_fulfilled_reason"];
+
+    god.fSanctuaryComplete.fFull.fTitle = fMessages["PHRASE_" + godName + "_sanctuary_complete_title"];
+    god.fSanctuaryComplete.fFull.fText = fMessages["PHRASE_" + godName + "_sanctuary_complete_initial_announcement"];
+    god.fSanctuaryComplete.fCondensed.fTitle = fMessages["PHRASE_" + godName + "_sanctuary_complete_title"];
+    god.fSanctuaryComplete.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_sanctuary_complete_initial_announcement"];
 }
 
 void eMessages::load(eHeroMessages& hero, const std::string& heroName) {

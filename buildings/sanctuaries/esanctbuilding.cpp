@@ -38,6 +38,7 @@ bool eSanctBuilding::incProgress() {
         mStored = mCost;
     }
     mProgress++;
+    mSanctuary->buildingProgressed();
     return true;
 }
 

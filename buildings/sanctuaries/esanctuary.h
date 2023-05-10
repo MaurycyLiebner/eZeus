@@ -34,6 +34,7 @@ public:
     void registerElement(const stdsptr<eSanctBuilding>& e);
 
     int progress() const; // 0-100
+    bool finished() const;
 
     eSanctCost cost() const;
     const eSanctCost& stored() const { return mStored; }
@@ -46,6 +47,8 @@ public:
     eGodType godType() const;
 
     void spawnGod();
+
+    void buildingProgressed();
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;

@@ -163,6 +163,7 @@ private:
     void handleGodVisitEvent(eGodMessages& msgs,
                              const eGodType god,
                              eEventData& ed);
+    void handleSanctuaryComplete(const eGodType god);
     void handleMonsterInvasionEvent(eGodMessages& msgs,
                                     const eGodType god,
                                     eEventData& ed);

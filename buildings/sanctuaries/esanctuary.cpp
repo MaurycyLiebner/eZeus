@@ -5,6 +5,8 @@
 #include "characters/gods/egod.h"
 #include "characters/actions/egodworshippedaction.h"
 #include "etilehelper.h"
+#include "engine/eevent.h"
+#include "engine/eeventdata.h"
 
 eSanctuary::eSanctuary(eGameBoard& board,
                        const eBuildingType type,
@@ -94,11 +96,21 @@ void eSanctuary::spawnGod() {
     mSpawnWait = 5000;
 }
 
+void eSanctuary::buildingProgressed() {
+    const bool f = finished();
+    if(f) {
+        eEventData ed;
+        ed.fGod = godType();
+        auto& board = getBoard();
+        board.event(eEvent::sanctuaryComplete, ed);
+    }
+}
+
 void eSanctuary::timeChanged(const int by) {
     if(!mCart) mCart = spawnCart(eCartActionTypeSupport::take);
     eEmployingBuilding::timeChanged(by);
 
-    if(!mGod && progress() == 100) {
+    if(!mGod && finished()) {
         mSpawnWait -= by;
         if(mSpawnWait <= 0) {
             spawnGod();
@@ -178,6 +190,10 @@ int eSanctuary::progress() const {
         max += e->maxProgress();
     }
     return std::round(100*did/max);
+}
+
+bool eSanctuary::finished() const {
+    return progress() >= 100;
 }
 
 void eSanctuary::read(eReadStream& src) {

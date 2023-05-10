@@ -57,6 +57,14 @@ void eGameWidget::handleGodVisitEvent(eGodMessages& msgs,
     }
 }
 
+void eGameWidget::handleSanctuaryComplete(const eGodType god) {
+    const auto& inst = eMessages::instance;
+    const auto gm = inst.godMessages(god);
+    if(!gm) return;
+    eEventData ed;
+    showMessage(ed, gm->fSanctuaryComplete);
+}
+
 void eGameWidget::handleMonsterInvasionEvent(eGodMessages& msgs,
                                              const eGodType god,
                                              eEventData& ed) {
@@ -480,6 +488,10 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
     case eEvent::godQuest:
     case eEvent::godQuestFulfilled: {
         handleGodQuestEvent(ed, e == eEvent::godQuestFulfilled);
+        return;
+    } break;
+    case eEvent::sanctuaryComplete: {
+        handleSanctuaryComplete(ed.fGod);
         return;
     } break;
     }
