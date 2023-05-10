@@ -33,6 +33,12 @@ void eMessages::load(eGodMessages& god, const std::string& godName) {
     god.fInvades.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_invades_title"];
     god.fInvades.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_invades_initial_announcement"];
 
+    god.fHelps.fFull.fTitle = fMessages["PHRASE_" + godName + "_help_title"];
+    god.fHelps.fFull.fText = fMessages["PHRASE_" + godName + "_help_initial_announcement"];
+    god.fHelps.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_help_title"];
+    god.fHelps.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_help_initial_announcement"];
+    god.fHelps.fReason = fMessages["PHRASE_" + godName + "_help_reason"];
+
     god.fMonster.fFull.fTitle = fMessages["PHRASE_" + godName + "_unleashes_monster_title"];
     god.fMonster.fFull.fText = fMessages["PHRASE_" + godName + "_unleashes_monster_city_attacked_alert"];
     god.fMonster.fNoReason = fMessages["PHRASE_" + godName + "_unleashes_monster_no_reason"];

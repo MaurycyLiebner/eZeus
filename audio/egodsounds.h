@@ -16,7 +16,7 @@ enum class eGodSound {
     monster,
     quest,
     questFinished,
-    prayer,
+    help,
     appear,
     disappear,
     attack,
@@ -69,9 +69,9 @@ struct eGodSounds {
         Mix_PlayChannel(-1, fQuestFinished, 0);
     }
 
-    void playPrayer() {
+    void playHelp() {
         load();
-        Mix_PlayChannel(-1, fPrayer, 0);
+        Mix_PlayChannel(-1, fHelp, 0);
     }
 
     void playAppear() {
@@ -119,7 +119,7 @@ struct eGodSounds {
     Mix_Chunk* fMonster = nullptr;
     Mix_Chunk* fQuest = nullptr;
     Mix_Chunk* fQuestFinished = nullptr;
-    Mix_Chunk* fPrayer = nullptr;
+    Mix_Chunk* fHelp = nullptr;
 
     Mix_Chunk* fAppear = nullptr;
     Mix_Chunk* fDisappear = nullptr;

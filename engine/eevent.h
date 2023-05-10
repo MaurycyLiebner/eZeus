@@ -7,13 +7,12 @@ enum class eEvent {
 
     godVisit,
     godInvasion,
-
+    godHelp,
     godQuest,
     godQuestFulfilled,
+    godMonsterUnleash,
 
     sanctuaryComplete,
-
-    godMonsterUnleash,
 
     heroArrival,
 

@@ -41,7 +41,7 @@ void eGodSounds::load() {
     fMonster = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_5.mp3");
     fQuest = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_6.mp3");
     fQuestFinished = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_7.mp3");
-    fPrayer = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_8.mp3");
+    fHelp = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_8.mp3");
 
     fAppear = eSounds::loadSoundBase(wavsDir + "G_" + fLongName + "_mat.wav");
     fDisappear = eSounds::loadSoundBase(wavsDir + "G_" + fLongName + "_demat.wav");
@@ -82,8 +82,8 @@ void eGodSounds::play(const eGodSound s) {
     case eGodSound::questFinished:
         playQuestFinished();
         break;
-    case eGodSound::prayer:
-        playPrayer();
+    case eGodSound::help:
+        playHelp();
         break;
     case eGodSound::appear:
         playAppear();

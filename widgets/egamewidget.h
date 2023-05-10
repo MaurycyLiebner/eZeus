@@ -162,6 +162,7 @@ private:
                              const bool fulfilled);
     void handleGodVisitEvent(const eGodType god);
     void handleGodInvasionEvent(eEventData& ed);
+    void handleGodHelpEvent(eEventData& ed);
     void handleSanctuaryComplete(const eGodType god);
     void handleMonsterInvasionEvent(eEventData& ed);
     void handleHeroArrivalEvent(eEventData& ed);

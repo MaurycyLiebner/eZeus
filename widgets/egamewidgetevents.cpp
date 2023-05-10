@@ -65,6 +65,13 @@ void eGameWidget::handleGodInvasionEvent(eEventData& ed) {
     eSounds::playGodSound(ed.fGod, eGodSound::invade);
 }
 
+void eGameWidget::handleGodHelpEvent(eEventData& ed) {
+    const auto& inst = eMessages::instance;
+    const auto msgs = inst.godMessages(ed.fGod);
+    showMessage(ed, msgs->fHelps);
+    eSounds::playGodSound(ed.fGod, eGodSound::help);
+}
+
 void eGameWidget::handleSanctuaryComplete(const eGodType god) {
     const auto& inst = eMessages::instance;
     const auto gm = inst.godMessages(god);
@@ -106,6 +113,9 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
     case eEvent::godInvasion:
         handleGodInvasionEvent(ed);
+        break;
+    case eEvent::godHelp:
+        handleGodHelpEvent(ed);
         break;
 
     case eEvent::godMonsterUnleash:

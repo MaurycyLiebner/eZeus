@@ -20,6 +20,7 @@ struct eGodMessages {
     eMessageType fJealousy1;
     eMessageType fJealousy2;
     eMessageType fInvades;
+    eEventMessageType fHelps;
 
     eEventMessageType fMonster;
 
