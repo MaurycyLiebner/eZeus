@@ -461,6 +461,7 @@ SOURCES += \
         widgets/infowidgets/egyminfowidget.cpp \
         widgets/infowidgets/eheroshallinfowidget.cpp \
         widgets/infowidgets/einfowidget.cpp \
+        widgets/infowidgets/esanctuaryinfowidget.cpp \
         widgets/infowidgets/estorageinfowidget.cpp \
         widgets/infowidgets/etradepostinfowidget.cpp
 
@@ -1398,6 +1399,7 @@ HEADERS += \
     widgets/infowidgets/egyminfowidget.h \
     widgets/infowidgets/eheroshallinfowidget.h \
     widgets/infowidgets/einfowidget.h \
+    widgets/infowidgets/esanctuaryinfowidget.h \
     widgets/infowidgets/estorageinfowidget.h \
     widgets/infowidgets/etradepostinfowidget.h
 

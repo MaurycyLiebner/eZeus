@@ -7,202 +7,18 @@
 #include "infowidgets/estorageinfowidget.h"
 #include "infowidgets/eagorainfowidget.h"
 #include "infowidgets/eheroshallinfowidget.h"
+#include "infowidgets/esanctuaryinfowidget.h".h"
 
 #include "elanguage.h"
 
-std::string nameForBuilding(eBuilding* const b) {
-    if(!b) return "";
-    std::string t;
-    switch(b->type()) {
-    case eBuildingType::commonHouse:
-        return "common_housing";
-    case eBuildingType::eliteHousing:
-        return "elite_housing";
-
-    case eBuildingType::fountain:
-        return "fountain";
-    case eBuildingType::hospital:
-        return "infirmary";
-    case eBuildingType::maintenanceOffice:
-        return "maintenance_office";
-    case eBuildingType::watchPost:
-        return "watchpost";
-
-    case eBuildingType::palace:
-        return "palace";
-    case eBuildingType::taxOffice:
-        return "tax_office";
-    case eBuildingType::bridge:
-        return "water_crossing";
-
-    case eBuildingType::gymnasium:
-        return "gymnasium";
-    case eBuildingType::stadium:
-        return "stadium";
-
-    case eBuildingType::wheatFarm:
-        return "wheat_farm";
-    case eBuildingType::carrotsFarm:
-        return "carrot_farm";
-    case eBuildingType::onionsFarm:
-        return "onion_farm";
-
-    case eBuildingType::vine:
-        return "vine";
-    case eBuildingType::oliveTree:
-        return "olive_tree";
-    case eBuildingType::orangeTree:
-        return "orange_tree";
-    case eBuildingType::orangeTendersLodge:
-        return "orange_tenders_lodge";
-    case eBuildingType::growersLodge:
-        return "growers_lodge";
-
-    case eBuildingType::dairy:
-        return "dairy";
-    case eBuildingType::goat:
-        return "goat";
-    case eBuildingType::cardingShed:
-        return "carding_shed";
-    case eBuildingType::sheep:
-        return "sheep";
-
-    case eBuildingType::fishery:
-        return "fishery";
-    case eBuildingType::urchinQuay:
-        return "urchin_quay";
-    case eBuildingType::huntingLodge:
-        return "hunting_lodge";
-
-    case eBuildingType::mint:
-        return "mint";
-    case eBuildingType::foundry:
-        return "foundry";
-    case eBuildingType::timberMill:
-        return "timber_mill";
-    case eBuildingType::masonryShop:
-        return "masonry_shop";
-
-    case eBuildingType::winery:
-        return "winery";
-    case eBuildingType::olivePress:
-        return "olive_press";
-    case eBuildingType::sculptureStudio:
-        return "sculpture_studio";
-
-    case eBuildingType::commonAgora:
-        return "common_agora";
-    case eBuildingType::grandAgora:
-        return "grand_agora";
-    case eBuildingType::foodVendor:
-        return "food_vendor";
-    case eBuildingType::fleeceVendor:
-        return "fleece_vendor";
-    case eBuildingType::oilVendor:
-        return "oil_vendor";
-    case eBuildingType::wineVendor:
-        return "wine_vendor";
-    case eBuildingType::armsVendor:
-        return "arms_vendor";
-    case eBuildingType::horseTrainer:
-        return "horse_trainer";
-
-    case eBuildingType::podium:
-        return "podium";
-    case eBuildingType::college:
-        return "college";
-    case eBuildingType::theater:
-        return "theater";
-    case eBuildingType::dramaSchool:
-        return "drama_school";
-
-    case eBuildingType::templeHephaestus:
-        return "forge_of_hephaestus";
-    case eBuildingType::templeArtemis:
-        return "artemis_menagerie";
-
-    case eBuildingType::wall:
-        return "wall";
-    case eBuildingType::tower:
-        return "tower";
-    case eBuildingType::gatehouse:
-        return "gatehouse";
-
-    case eBuildingType::armory:
-        return "armory";
-    case eBuildingType::horseRanch:
-        return "horse_ranch";
-
-    case eBuildingType::park:
-        return "park";
-    case eBuildingType::waterPark:
-        return "water_park";
-    case eBuildingType::doricColumn:
-        return "doric_column";
-    case eBuildingType::ionicColumn:
-        return "ionic_column";
-    case eBuildingType::corinthianColumn:
-        return "corinthian_column";
-    case eBuildingType::avenue:
-        return "avenue";
-
-    case eBuildingType::bench:
-        return "bench";
-    case eBuildingType::birdBath:
-        return "bird_bath";
-    case eBuildingType::shortObelisk:
-        return "short_obelisk";
-    case eBuildingType::tallObelisk:
-        return "tall_obelisk";
-    case eBuildingType::flowerGarden:
-        return "flower_garden";
-    case eBuildingType::gazebo:
-        return "gazebo";
-    case eBuildingType::shellGarden:
-        return "shell_garden";
-    case eBuildingType::sundial:
-        return "sundial";
-    case eBuildingType::hedgeMaze:
-        return "hedge_maze";
-    case eBuildingType::dolphinSculpture:
-        return "dolphin_sculpture";
-    case eBuildingType::spring:
-        return "spring";
-    case eBuildingType::topiary:
-        return "topiary";
-    case eBuildingType::fishPond:
-        return "fish_pond";
-    case eBuildingType::baths:
-        return "baths";
-    case eBuildingType::stoneCircle:
-        return "stone_circle";
-
-    case eBuildingType::commemorative:
-        const auto c = static_cast<eCommemorative*>(b);
-        const int id = c->id();
-        if(id == 0) return "population_monument";
-        else if(id == 1) return "victory_monument";
-        else if(id == 2) return "colony_monument";
-        else if(id == 3) return "athlete_monument";
-        else if(id == 4) return "conquest_monument";
-        else if(id == 5) return "happiness_monument";
-        else if(id == 6) return "";
-        else if(id == 7) return "";
-        else if(id == 8) return "scholar_monument";
-        break;
-
-    }
-    return "";
-}
-
 std::string titleForBuilding(eBuilding* const b) {
-    const auto name = nameForBuilding(b);
+    const auto name = eBuilding::sNameForBuilding(b);
     return eLanguage::text(name);
 }
 
 std::string employmentInfoText(const int nem, eEmployingBuilding* const b) {
     if(nem == 0) return "";
-    const auto name = nameForBuilding(b);
+    const auto name = eBuilding::sNameForBuilding(b);
     const auto prefix = name + "_info_text_empl";
     const double e = b->employedFraction();
     const double es = 1./nem;
@@ -286,6 +102,10 @@ eInfoWidget* eGameWidget::openInfoWidget(eBuilding* const b) {
                 if(!aptr) return;
 
             };
+        } else if(const auto s = dynamic_cast<eSanctuary*>(b)) {
+            const auto sWid = new eSanctuaryInfoWidget(window());
+            sWid->initialize(s);
+            wid = sWid;
         } else if(const auto sb = dynamic_cast<eSanctBuilding*>(b)) {
             return openInfoWidget(sb->sanctuary());
         } else if(const auto eb = dynamic_cast<eEmployingBuilding*>(b)) {

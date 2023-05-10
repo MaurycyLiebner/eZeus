@@ -538,6 +538,8 @@ aphrodites_heaven "Aphrodite's Heaven"
 hermes_refuge "Hermes' Refuge"
 grove_of_dionysus "Grove of Dionysus"
 
+pray_to "Pray to %1"
+
 wall "Wall"
 tower "Tower"
 gatehouse "Gatehouse"

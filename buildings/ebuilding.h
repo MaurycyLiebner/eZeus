@@ -185,6 +185,8 @@ public:
     static bool sBlessable(const eBuildingType bt);
     static bool sAttackable(const eBuildingType bt);
 
+    static std::string sNameForBuilding(eBuilding* const b);
+
     using eTileValidator = std::function<bool(eTile*)>;
     eTile* tileNeighbour(const eMoveDirection o,
                          const eTileValidator& v) const;
