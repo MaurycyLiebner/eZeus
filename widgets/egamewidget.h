@@ -160,9 +160,7 @@ private:
     void handleEvent(const eEvent e, eEventData& ed);
     void handleGodQuestEvent(eEventData& ed,
                              const bool fulfilled);
-    void handleGodVisitEvent(eGodMessages& msgs,
-                             const eGodType god,
-                             eEventData& ed);
+    void handleGodVisitEvent(const eGodType god);
     void handleSanctuaryComplete(const eGodType god);
     void handleMonsterInvasionEvent(eGodMessages& msgs,
                                     const eGodType god,

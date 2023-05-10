@@ -40,25 +40,26 @@ void eGameWidget::handleGodQuestEvent(eEventData& ed,
     showMessage(ed, msg);
 }
 
-void eGameWidget::handleGodVisitEvent(eGodMessages& msgs,
-                                      const eGodType god,
-                                      eEventData& ed) {
-    int& lm = msgs.fLastMessage;
+void eGameWidget::handleGodVisitEvent(const eGodType god) {
+    auto& inst = eMessages::instance;
+    const auto msgs = inst.godMessages(god);
+    int& lm = msgs->fLastMessage;
     lm = lm > 2 ? 0 : (lm + 1);
+    eEventData ed;
     if(lm == 0) {
         eSounds::playGodSound(god, eGodSound::wooing0);
-        showMessage(ed, msgs.fWooing0);
+        showMessage(ed, msgs->fWooing0);
     } else if(lm == 1) {
         eSounds::playGodSound(god, eGodSound::jealousy1);
-        showMessage(ed, msgs.fJealousy1);
+        showMessage(ed, msgs->fJealousy1);
     } else if(lm == 2) {
         eSounds::playGodSound(god, eGodSound::jealousy2);
-        showMessage(ed, msgs.fJealousy2);
+        showMessage(ed, msgs->fJealousy2);
     }
 }
 
 void eGameWidget::handleSanctuaryComplete(const eGodType god) {
-    const auto& inst = eMessages::instance;
+    auto& inst = eMessages::instance;
     const auto gm = inst.godMessages(god);
     if(!gm) return;
     eEventData ed;
@@ -91,116 +92,11 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, inst.fCollapse);
     } break;
 
-    case eEvent::aphroditeVisit:
-        handleGodVisitEvent(inst.fAphrodite,
-                            eGodType::aphrodite, ed);
+    case eEvent::godVisit:
+        handleGodVisitEvent(ed.fGod);
         break;
-    case eEvent::aphroditeInvasion:
-        eSounds::playGodSound(eGodType::aphrodite, eGodSound::invade);
-        break;
-
-    case eEvent::apolloVisit:
-        handleGodVisitEvent(inst.fApollo,
-                            eGodType::apollo, ed);
-        break;
-    case eEvent::apolloInvasion:
-        eSounds::playGodSound(eGodType::apollo, eGodSound::invade);
-        break;
-
-    case eEvent::aresVisit:
-        handleGodVisitEvent(inst.fAres,
-                            eGodType::ares, ed);
-        break;
-    case eEvent::aresInvasion:
-        eSounds::playGodSound(eGodType::ares, eGodSound::invade);
-        break;
-
-    case eEvent::artemisVisit:
-        handleGodVisitEvent(inst.fArtemis,
-                            eGodType::artemis, ed);
-        break;
-    case eEvent::artemisInvasion:
-        eSounds::playGodSound(eGodType::artemis, eGodSound::invade);
-        break;
-
-    case eEvent::athenaVisit:
-        handleGodVisitEvent(inst.fAthena,
-                            eGodType::athena, ed);
-        break;
-    case eEvent::athenaInvasion:
-        eSounds::playGodSound(eGodType::athena, eGodSound::invade);
-        break;
-
-    case eEvent::atlasVisit:
-        handleGodVisitEvent(inst.fAtlas,
-                            eGodType::atlas, ed);
-        break;
-    case eEvent::atlasInvasion:
-        eSounds::playGodSound(eGodType::atlas, eGodSound::invade);
-        break;
-
-    case eEvent::demeterVisit:
-        handleGodVisitEvent(inst.fDemeter,
-                            eGodType::demeter, ed);
-        break;
-    case eEvent::demeterInvasion:
-        eSounds::playGodSound(eGodType::demeter, eGodSound::invade);
-        break;
-
-    case eEvent::dionysusVisit:
-        handleGodVisitEvent(inst.fDionysus,
-                            eGodType::dionysus, ed);
-        break;
-    case eEvent::dionysusInvasion:
-        eSounds::playGodSound(eGodType::dionysus, eGodSound::invade);
-        break;
-
-    case eEvent::hadesVisit:
-        handleGodVisitEvent(inst.fHades,
-                            eGodType::hades, ed);
-        break;
-    case eEvent::hadesInvasion:
-        eSounds::playGodSound(eGodType::hades, eGodSound::invade);
-        break;
-
-    case eEvent::hephaestusVisit:
-        handleGodVisitEvent(inst.fHephaestus,
-                            eGodType::hephaestus, ed);
-        break;
-    case eEvent::hephaestusInvasion:
-        eSounds::playGodSound(eGodType::hephaestus, eGodSound::invade);
-        break;
-
-    case eEvent::heraVisit:
-        handleGodVisitEvent(inst.fHera,
-                            eGodType::hera, ed);
-        break;
-    case eEvent::heraInvasion:
-        eSounds::playGodSound(eGodType::hera, eGodSound::invade);
-        break;
-
-    case eEvent::hermesVisit:
-        handleGodVisitEvent(inst.fHermes,
-                            eGodType::hermes, ed);
-        break;
-    case eEvent::hermesInvasion:
-        eSounds::playGodSound(eGodType::hermes, eGodSound::invade);
-        break;
-
-    case eEvent::poseidonVisit:
-        handleGodVisitEvent(inst.fPoseidon,
-                            eGodType::poseidon, ed);
-        break;
-    case eEvent::poseidonInvasion:
-        eSounds::playGodSound(eGodType::poseidon, eGodSound::invade);
-        break;
-
-    case eEvent::zeusVisit:
-        handleGodVisitEvent(inst.fZeus,
-                            eGodType::zeus, ed);
-        break;
-    case eEvent::zeusInvasion:
-        eSounds::playGodSound(eGodType::zeus, eGodSound::invade);
+    case eEvent::godInvasion:
+        eSounds::playGodSound(ed.fGod, eGodSound::invade);
         break;
 
     case eEvent::calydonianBoarInvasion:

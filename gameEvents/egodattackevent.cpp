@@ -31,51 +31,6 @@ void eGodAttackEvent::trigger() {
     }
     const auto t = mTypes.at(tid);
     const auto god = eGod::sCreateGod(t, board);
-    eEvent e;
-    switch(t) {
-    case eGodType::aphrodite:
-        e = eEvent::aphroditeInvasion;
-        break;
-    case eGodType::apollo:
-        e = eEvent::apolloInvasion;
-        break;
-    case eGodType::ares:
-        e = eEvent::aresInvasion;
-        break;
-    case eGodType::artemis:
-        e = eEvent::artemisInvasion;
-        break;
-    case eGodType::athena:
-        e = eEvent::athenaInvasion;
-        break;
-    case eGodType::atlas:
-        e = eEvent::atlasInvasion;
-        break;
-    case eGodType::demeter:
-        e = eEvent::demeterInvasion;
-        break;
-    case eGodType::dionysus:
-        e = eEvent::dionysusInvasion;
-        break;
-    case eGodType::hades:
-        e = eEvent::hadesInvasion;
-        break;
-    case eGodType::hephaestus:
-        e = eEvent::hephaestusInvasion;
-        break;
-    case eGodType::hera:
-        e = eEvent::heraInvasion;
-        break;
-    case eGodType::hermes:
-        e = eEvent::hermesInvasion;
-        break;
-    case eGodType::poseidon:
-        e = eEvent::poseidonInvasion;
-        break;
-    case eGodType::zeus:
-        e = eEvent::zeusInvasion;
-        break;
-    }
 
     const auto a = e::make_shared<eGodAttackAction>(god.get());
     god->setAttitude(eGodAttitude::hostile);
@@ -83,7 +38,8 @@ void eGodAttackEvent::trigger() {
     a->increment(1);
     eEventData ed;
     ed.fTile = god->tile();
-    board.event(e, ed);
+    ed.fGod = t;
+    board.event(eEvent::godInvasion, ed);
 }
 
 std::string eGodAttackEvent::longName() const {

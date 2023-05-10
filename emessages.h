@@ -68,7 +68,7 @@ public:
     eMessageType fCollapse;
     eMessageType fPlagueStrikes;
 
-    const eGodMessages* godMessages(const eGodType godType) const;
+    eGodMessages* godMessages(const eGodType godType);
 
     eGodMessages fAphrodite;
     eGodMessages fApollo;

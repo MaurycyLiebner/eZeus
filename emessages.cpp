@@ -560,7 +560,7 @@ eMessageType eMessages::invasionMessage(const eMessageType& baseMsg,
     return msg;
 }
 
-const eGodMessages* eMessages::godMessages(const eGodType godType) const {
+eGodMessages* eMessages::godMessages(const eGodType godType) {
     switch(godType) {
     case eGodType::aphrodite:
         return &fAphrodite;

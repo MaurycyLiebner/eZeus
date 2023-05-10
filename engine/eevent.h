@@ -5,47 +5,8 @@ enum class eEvent {
     fire,
     collapse,
 
-    aphroditeVisit,
-    aphroditeInvasion,
-
-    apolloVisit,
-    apolloInvasion,
-
-    aresVisit,
-    aresInvasion,
-
-    artemisVisit,
-    artemisInvasion,
-
-    athenaVisit,
-    athenaInvasion,
-
-    atlasVisit,
-    atlasInvasion,
-
-    demeterVisit,
-    demeterInvasion,
-
-    dionysusVisit,
-    dionysusInvasion,
-
-    hadesVisit,
-    hadesInvasion,
-
-    hephaestusVisit,
-    hephaestusInvasion,
-
-    heraVisit,
-    heraInvasion,
-
-    hermesVisit,
-    hermesInvasion,
-
-    poseidonVisit,
-    poseidonInvasion,
-
-    zeusVisit,
-    zeusInvasion,
+    godVisit,
+    godInvasion,
 
     godQuest,
     godQuestFulfilled,

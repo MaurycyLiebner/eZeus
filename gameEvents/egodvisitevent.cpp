@@ -32,51 +32,6 @@ void eGodVisitEvent::trigger() {
     }
     const auto t = mTypes.at(tid);
     const auto god = eGod::sCreateGod(t, board);
-    eEvent e;
-    switch(t) {
-    case eGodType::aphrodite:
-        e = eEvent::aphroditeVisit;
-        break;
-    case eGodType::apollo:
-        e = eEvent::apolloVisit;
-        break;
-    case eGodType::ares:
-        e = eEvent::aresVisit;
-        break;
-    case eGodType::artemis:
-        e = eEvent::artemisVisit;
-        break;
-    case eGodType::athena:
-        e = eEvent::athenaVisit;
-        break;
-    case eGodType::atlas:
-        e = eEvent::atlasVisit;
-        break;
-    case eGodType::demeter:
-        e = eEvent::demeterVisit;
-        break;
-    case eGodType::dionysus:
-        e = eEvent::dionysusVisit;
-        break;
-    case eGodType::hades:
-        e = eEvent::hadesVisit;
-        break;
-    case eGodType::hephaestus:
-        e = eEvent::hephaestusVisit;
-        break;
-    case eGodType::hera:
-        e = eEvent::heraVisit;
-        break;
-    case eGodType::hermes:
-        e = eEvent::hermesVisit;
-        break;
-    case eGodType::poseidon:
-        e = eEvent::poseidonVisit;
-        break;
-    case eGodType::zeus:
-        e = eEvent::zeusVisit;
-        break;
-    }
 
     const auto a = e::make_shared<eGodVisitAction>(god.get());
     god->setAction(a);
@@ -84,7 +39,8 @@ void eGodVisitEvent::trigger() {
     a->increment(1);
     eEventData ed;
     ed.fTile = god->tile();
-    board.event(e, ed);
+    ed.fGod = t;
+    board.event(eEvent::godVisit, ed);
 }
 
 std::string eGodVisitEvent::longName() const {
