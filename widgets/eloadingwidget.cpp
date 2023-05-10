@@ -41,6 +41,9 @@ void eLoadingWidget::initialize() {
     mPB->setY(mLabelW->height());
     mPB->align(eAlignment::hcenter);
     mPB->setRange(0, mSize);
+
+    mPB->hide();
+    mLabelW->hide();
 }
 
 void eLoadingWidget::setDoneAction(const eAction& a) {
