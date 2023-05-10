@@ -28,6 +28,11 @@ void eMessages::load(eGodMessages& god, const std::string& godName) {
     god.fJealousy2.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_jealousy2_title"];
     god.fJealousy2.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_jealousy2_initial_announcement"];
 
+    god.fInvades.fFull.fTitle = fMessages["PHRASE_" + godName + "_invades_title"];
+    god.fInvades.fFull.fText = fMessages["PHRASE_" + godName + "_invades_initial_announcement"];
+    god.fInvades.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_invades_title"];
+    god.fInvades.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_invades_initial_announcement"];
+
     god.fMonster.fFull.fTitle = fMessages["PHRASE_" + godName + "_unleashes_monster_title"];
     god.fMonster.fFull.fText = fMessages["PHRASE_" + godName + "_unleashes_monster_city_attacked_alert"];
     god.fMonster.fNoReason = fMessages["PHRASE_" + godName + "_unleashes_monster_no_reason"];
