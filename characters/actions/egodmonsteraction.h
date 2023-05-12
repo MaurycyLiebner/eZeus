@@ -52,6 +52,14 @@ public:
                     const stdsptr<eWalkableObject>& pathFindWalkable =
                         eWalkableObject::sCreateDefault(),
                     const stdsptr<eWalkableObject>& moveWalkable = nullptr);
+    void goToTile(eTile* const tile,
+                  const stdsptr<eFindFailFunc>& findFailFunc,
+                  const stdsptr<eObsticleHandler>& oh = nullptr,
+                  const eTileDistance& tileDistance = nullptr,
+                  const stdsptr<eWalkableObject>& pathFindWalkable =
+                      eWalkableObject::sCreateDefault(),
+                  const stdsptr<eWalkableObject>& moveWalkable = nullptr);
+
 
     using eTexPtr = eTextureCollection eDestructionTextures::*;
     using eFunc = std::function<void()>;

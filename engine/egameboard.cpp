@@ -724,10 +724,25 @@ int eGameBoard::addResource(const eResourceType type,
     return count - rem;
 }
 
-int eGameBoard::spaceForResource(const eResourceType type) {
+int eGameBoard::spaceForResource(const eResourceType type) const {
     int r = 0;
     for(const auto s : mStorBuildings) {
         r += s->spaceLeft(type);
+    }
+    return r;
+}
+
+int eGameBoard::maxSingleSpaceForResource(
+        const eResourceType type,
+        eStorageBuilding** b) const {
+    *b = nullptr;
+    int r = 0;
+    for(const auto s : mStorBuildings) {
+        const int ss = s->spaceLeft(type);
+        if(ss > r) {
+            *b = s;
+            r = ss;
+        }
     }
     return r;
 }

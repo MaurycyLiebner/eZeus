@@ -133,6 +133,7 @@ SOURCES += \
         characters/actions/efightaction.cpp \
         characters/actions/efirefighteraction.cpp \
         characters/actions/efollowaction.cpp \
+        characters/actions/egodactcreator.cpp \
         characters/actions/egodaction.cpp \
         characters/actions/egodattackaction.cpp \
         characters/actions/egodmonsteraction.cpp \
@@ -154,6 +155,9 @@ SOURCES += \
         characters/actions/esoldieraction.cpp \
         characters/actions/etraderaction.cpp \
         characters/actions/ewaitaction.cpp \
+        characters/actions/godHelp/eartemishelpaction.cpp \
+        characters/actions/godHelp/edemeterhelpaction.cpp \
+        characters/actions/godHelp/eprovideresourcehelpaction.cpp \
         characters/actions/walkable/ehasnonbusyresourceobject.cpp \
         characters/actions/walkable/ehasresourceobject.cpp \
         characters/actions/walkable/ehasresourcewalkableobject.cpp \
@@ -604,6 +608,9 @@ HEADERS += \
     characters/actions/esoldieraction.h \
     characters/actions/etraderaction.h \
     characters/actions/ewaitaction.h \
+    characters/actions/godHelp/eartemishelpaction.h \
+    characters/actions/godHelp/edemeterhelpaction.h \
+    characters/actions/godHelp/eprovideresourcehelpaction.h \
     characters/actions/walkable/ehasnonbusyresourceobject.h \
     characters/actions/walkable/ehasresourceobject.h \
     characters/actions/walkable/ehasresourcewalkableobject.h \

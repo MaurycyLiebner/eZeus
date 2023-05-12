@@ -53,16 +53,8 @@ void eGodMonsterAction::goToTarget(const eHeatGetters::eHeatGetter hg,
         if(r) {
             auto& board = c->getBoard();
             const auto tile = eTileHelper::closestRoad(tx, ty, board);
-            if(!tile) return setCurrentAction(nullptr);
-            const auto ff = std::make_shared<eGMA_goToTargetFail>(
-                                board, tile, findFailFunc);
-            const auto a = e::make_shared<eMoveToAction>(c);
-            a->setFailAction(ff);
-            a->setObsticleHandler(oh);
-            a->setTileDistance(tileDistance);
-            a->start(tile, pathFindWalkable, moveWalkable);
-            setCurrentAction(a);
-            c->setActionType(eCharacterActionType::walk);
+            goToTile(tile, findFailFunc, oh, tileDistance,
+                     pathFindWalkable, moveWalkable);
         } else {
             setCurrentAction(nullptr);
         }
@@ -72,6 +64,27 @@ void eGodMonsterAction::goToTarget(const eHeatGetters::eHeatGetter hg,
     auto& tp = board.threadPool();
     tp.queueTask(task);
     wait();
+}
+
+void eGodMonsterAction::goToTile(
+        eTile* const tile,
+        const stdsptr<eFindFailFunc>& findFailFunc,
+        const stdsptr<eObsticleHandler>& oh,
+        const eTileDistance& tileDistance,
+        const stdsptr<eWalkableObject>& pathFindWalkable,
+        const stdsptr<eWalkableObject>& moveWalkable) {
+    const auto c = character();
+    if(!tile || !c) return setCurrentAction(nullptr);
+    auto& board = c->getBoard();
+    const auto ff = std::make_shared<eGMA_goToTargetFail>(
+                        board, tile, findFailFunc);
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFailAction(ff);
+    a->setObsticleHandler(oh);
+    a->setTileDistance(tileDistance);
+    a->start(tile, pathFindWalkable, moveWalkable);
+    setCurrentAction(a);
+    c->setActionType(eCharacterActionType::walk);
 }
 
 void eGodMonsterAction::spawnMissile(const eCharacterActionType at,

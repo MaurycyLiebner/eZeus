@@ -11,7 +11,6 @@
 #include "efightaction.h"
 #include "efirefighteraction.h"
 #include "efollowaction.h"
-#include "egodaction.h"
 #include "egodattackaction.h"
 #include "egodvisitaction.h"
 #include "egodworshippedaction.h"
@@ -29,6 +28,8 @@
 #include "esoldieraction.h"
 #include "etraderaction.h"
 #include "ewaitaction.h"
+#include "godHelp/eartemishelpaction.h"
+#include "godHelp/edemeterhelpaction.h"
 
 stdsptr<eCharacterAction> eCharacterAction::sCreate(
         eCharacter* const c, const eCharActionType type) {
@@ -91,6 +92,10 @@ stdsptr<eCharacterAction> eCharacterAction::sCreate(
         return e::make_shared<eTraderAction>(c);
     case eCharActionType::waitAction:
         return e::make_shared<eWaitAction>(c);
+    case eCharActionType::artemisHelpAction:
+        return e::make_shared<eArtemisHelpAction>(c);
+    case eCharActionType::demeterHelpAction:
+        return e::make_shared<eDemeterHelpAction>(c);
     }
     return nullptr;
 }

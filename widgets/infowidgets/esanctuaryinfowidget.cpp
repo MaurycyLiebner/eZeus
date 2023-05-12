@@ -25,6 +25,10 @@ void eSanctuaryInfoWidget::initialize(eSanctuary* const s) {
         pb->fitContent();
         cw->addWidget(pb);
         pb->align(eAlignment::center);
+        pb->setPressAction([s]() {
+            eHelpDenialReason reason;
+            const bool r = s->askForHelp(reason);
+        });
     } else {
 
     }

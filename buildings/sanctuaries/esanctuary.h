@@ -5,10 +5,16 @@
 
 #include "esanctuaryblueprint.h"
 #include "esanctbuilding.h"
+#include "characters/gods/egod.h"
+#include "engine/edate.h"
 
-class eGod;
 class eBuildingTextures;
-enum class eGodType;
+
+enum class eHelpDenialReason {
+    tooSoon,
+    noTarget,
+    error
+};
 
 class eSanctuary : public eEmployingBuilding {
 public:
@@ -31,6 +37,13 @@ public:
 
     std::vector<eCartTask> cartTasks() const override;
 
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
+
+    bool askForHelp(eHelpDenialReason& reason);
+
+    eGod* god() const { return mGod; }
+
     void registerElement(const stdsptr<eSanctBuilding>& e);
 
     int progress() const; // 0-100
@@ -46,12 +59,10 @@ public:
 
     eGodType godType() const;
 
-    void spawnGod();
+    eGod* spawnGod();
+    void spawnPatrolingGod();
 
     void buildingProgressed();
-
-    void read(eReadStream& src) override;
-    void write(eWriteStream& dst) const override;
 private:
     eSanctCost mStored{0, 0, 0};
     eSanctCost mUsed{0, 0, 0};
@@ -63,6 +74,8 @@ private:
 
     stdptr<eGod> mGod;
     int mSpawnWait = 0;
+
+    int mHelpTimer = 100000;
 };
 
 #endif // ESANCTUARY_H

@@ -26,9 +26,14 @@ enum class eCharActionType {
     fightAction,
     fireFighterAction,
     followAction,
+
     godAttackAction,
     godVisitAction,
     godWorshippedAction,
+
+    artemisHelpAction,
+    demeterHelpAction,
+
     growerAction,
     heroAction,
     huntAction,

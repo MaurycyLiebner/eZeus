@@ -122,6 +122,16 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         handleMonsterInvasionEvent(ed);
         break;
 
+    case eEvent::godQuest:
+    case eEvent::godQuestFulfilled: {
+        handleGodQuestEvent(ed, e == eEvent::godQuestFulfilled);
+        return;
+    } break;
+    case eEvent::sanctuaryComplete: {
+        handleSanctuaryComplete(ed.fGod);
+        return;
+    } break;
+
     case eEvent::heroArrival:
         handleHeroArrivalEvent(ed);
         break;
@@ -308,15 +318,6 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
     } break;
     case eEvent::employees: {
         showMessage(ed, inst.fEmployees, true);
-        return;
-    } break;
-    case eEvent::godQuest:
-    case eEvent::godQuestFulfilled: {
-        handleGodQuestEvent(ed, e == eEvent::godQuestFulfilled);
-        return;
-    } break;
-    case eEvent::sanctuaryComplete: {
-        handleSanctuaryComplete(ed.fGod);
         return;
     } break;
     }

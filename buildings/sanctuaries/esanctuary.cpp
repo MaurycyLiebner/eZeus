@@ -8,6 +8,9 @@
 #include "engine/eevent.h"
 #include "engine/eeventdata.h"
 
+#include "characters/actions/godHelp/eartemishelpaction.h"
+#include "characters/actions/godHelp/edemeterhelpaction.h"
+
 eSanctuary::eSanctuary(eGameBoard& board,
                        const eBuildingType type,
                        const int sw, const int sh,
@@ -82,7 +85,7 @@ eGodType eSanctuary::godType() const {
     }
 }
 
-void eSanctuary::spawnGod() {
+eGod* eSanctuary::spawnGod() {
     auto& board = getBoard();
     const auto c = eGod::sCreateGod(godType(), board);
     mGod = c.get();
@@ -90,8 +93,15 @@ void eSanctuary::spawnGod() {
     const int tx = ct->x();
     const int ty = ct->y();
     const auto cr = eTileHelper::closestRoad(tx, ty, board);
+    if(!cr) return nullptr;
     mGod->changeTile(cr);
-    const auto ha = e::make_shared<eGodWorshippedAction>(c.get());
+    return c.get();
+}
+
+void eSanctuary::spawnPatrolingGod() {
+    const auto c = spawnGod();
+    if(!c) return;
+    const auto ha = e::make_shared<eGodWorshippedAction>(c);
     mGod->setAction(ha);
     mSpawnWait = 5000;
 }
@@ -107,13 +117,14 @@ void eSanctuary::buildingProgressed() {
 }
 
 void eSanctuary::timeChanged(const int by) {
+    mHelpTimer += by;
     if(!mCart) mCart = spawnCart(eCartActionTypeSupport::take);
     eEmployingBuilding::timeChanged(by);
 
     if(!mGod && finished()) {
         mSpawnWait -= by;
         if(mSpawnWait <= 0) {
-            spawnGod();
+            spawnPatrolingGod();
         }
     }
 }
@@ -216,6 +227,8 @@ void eSanctuary::read(eReadStream& src) {
         mGod = static_cast<eGod*>(c);
     });
     src >> mSpawnWait;
+
+    src >> mHelpTimer;
 }
 
 void eSanctuary::write(eWriteStream& dst) const {
@@ -234,4 +247,60 @@ void eSanctuary::write(eWriteStream& dst) const {
     dst.writeCharacter(mCart);
     dst.writeCharacter(mGod);
     dst << mSpawnWait;
+
+    dst << mHelpTimer;
+}
+
+bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
+    if(mHelpTimer < 10000) {
+        reason = eHelpDenialReason::tooSoon;
+        return false;
+    }
+    auto& board = getBoard();
+    const auto type = godType();
+    switch(type) {
+    case eGodType::artemis: {
+        const bool r = eArtemisHelpAction::sHelpNeeded(board);
+        if(!r) {
+            reason = eHelpDenialReason::noTarget;
+            return false;
+        }
+    } break;
+    case eGodType::demeter: {
+        const bool r = eDemeterHelpAction::sHelpNeeded(board);
+        if(!r) {
+            reason = eHelpDenialReason::noTarget;
+            return false;
+        }
+    } break;
+    }
+    stdsptr<eCharacterAction> a;
+    eCharacter* c = nullptr;
+    if(const auto g = god()) {
+        c = g;
+    } else {
+        c = spawnGod();
+    }
+    if(!c) {
+        reason = eHelpDenialReason::error;
+        return false;
+    }
+    switch(type) {
+    case eGodType::artemis:
+        a = e::make_shared<eArtemisHelpAction>(c);
+        break;
+    case eGodType::demeter:
+        a = e::make_shared<eDemeterHelpAction>(c);
+        break;
+    }
+    if(!a) {
+        reason = eHelpDenialReason::error;
+        return false;
+    }
+    mHelpTimer = 0;
+    c->setAction(a);
+    eEventData ed;
+    ed.fGod = type;
+    board.event(eEvent::godHelp, ed);
+    return true;
 }

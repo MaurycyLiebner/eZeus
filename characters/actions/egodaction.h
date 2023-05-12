@@ -16,7 +16,9 @@ enum class eGodActType {
     lookForBless,
     playMonsterBuildingAttackSound,
     playFightGodHitSoundGodAct,
-    lookForAttack
+    lookForAttack,
+
+    provideResource
 };
 
 class eGodAct {
@@ -252,23 +254,6 @@ private:
     stdptr<eCharacter> mCTarget;
     stdptr<eBuilding> mBTarget;
 };
-
-inline stdsptr<eGodAct> eGodAct::sCreate(
-        eGameBoard& board, const eGodActType t) {
-    switch(t) {
-    case eGodActType::lookForSoldierAttack:
-        return std::make_shared<eLookForSoldierAttackGodAct>(board);
-    case eGodActType::lookForBless:
-        return std::make_shared<eLookForBlessGodAct>(board);
-    case eGodActType::playMonsterBuildingAttackSound:
-        return std::make_shared<ePlayMonsterBuildingAttackSoundGodAct>(board);
-    case eGodActType::playFightGodHitSoundGodAct:
-        return std::make_shared<ePlayFightGodHitSoundGodAct>(board);
-    case eGodActType::lookForAttack:
-        return std::make_shared<eLookForAttackGodAct>(board);
-    }
-    return nullptr;
-}
 
 class eGodAction : public eGodMonsterAction {
 public:
