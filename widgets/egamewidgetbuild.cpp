@@ -1513,7 +1513,10 @@ bool eGameWidget::buildMouseRelease() {
                         if(in) continue;
                         const auto tile = mBoard->tile(x, y);
                         if(!tile) continue;
-                        tile->setTerrain(eTerrain::fertile);
+                        const auto terr = tile->terrain();
+                        if(terr == eTerrain::dry) {
+                            tile->setTerrain(eTerrain::fertile);
+                        }
                     }
                 }
             }
