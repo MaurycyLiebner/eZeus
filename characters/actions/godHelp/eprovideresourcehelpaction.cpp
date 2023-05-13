@@ -10,54 +10,25 @@ eProvideResourceHelpAction::eProvideResourceHelpAction(
     mCount(count) {}
 
 bool eProvideResourceHelpAction::decide() {
-    const auto c = character();
     switch(mStage) {
     case eProvideResourceHelpStage::none:
         mStage = eProvideResourceHelpStage::appear;
         appear();
         break;
-    case eProvideResourceHelpStage::appear: {
+    case eProvideResourceHelpStage::appear:
         mStage = eProvideResourceHelpStage::goTo;
-        auto& board = this->board();
-        using eGTTT = eGoToTargetTeleport;
-        const auto tele = std::make_shared<eGTTT>(board, this);
-        eStorageBuilding* target = nullptr;
-        board.maxSingleSpaceForResource(mResource, &target);
-        mTarget = target;
-        if(mTarget) {
-            const auto ct = mTarget->centerTile();
-            const int tx = ct->x();
-            const int ty = ct->y();
-            const auto tile = eTileHelper::closestRoad(tx, ty, board);
-            goToTile(tile, tele);
-        } else {
-            disappear();
-        }
-    } break;
-    case eProvideResourceHelpStage::goTo: {
+        goToTarget();
+        break;
+    case eProvideResourceHelpStage::goTo:
         mStage = eProvideResourceHelpStage::give;
-        if(mTarget) {
-            const auto targetTile = mTarget->centerTile();
-            using eGA_LFRAF = eGA_lookForRangeActionFinish;
-            const auto finishAttackA =
-                    std::make_shared<eGA_LFRAF>(
-                        board(), this);
-            using eGPRA = eGodProvideResourceAct;
-            const auto act = std::make_shared<eGPRA>(
-                        board(), mTarget,
-                        mResource, mCount);
-            pauseAction();
-            spawnGodMissile(eCharacterActionType::bless,
-                            c->type(), targetTile,
-                            eGodSound::santcify, act,
-                            finishAttackA);
-        }
-    } break;
+        give();
+        break;
     case eProvideResourceHelpStage::give:
         mStage = eProvideResourceHelpStage::disappear;
         disappear();
         break;
     case eProvideResourceHelpStage::disappear:
+        const auto c = character();
         c->kill();
         break;
     }
@@ -88,5 +59,42 @@ bool eProvideResourceHelpAction::sHelpNeeded(const eGameBoard& board,
     eStorageBuilding* b = nullptr;
     const int r = board.maxSingleSpaceForResource(res, &b);
     return r > minSpace;
+}
+
+void eProvideResourceHelpAction::goToTarget() {
+    auto& board = this->board();
+    using eGTTT = eGoToTargetTeleport;
+    const auto tele = std::make_shared<eGTTT>(board, this);
+    eStorageBuilding* target = nullptr;
+    board.maxSingleSpaceForResource(mResource, &target);
+    mTarget = target;
+    if(mTarget) {
+        const auto ct = mTarget->centerTile();
+        const int tx = ct->x();
+        const int ty = ct->y();
+        const auto tile = eTileHelper::closestRoad(tx, ty, board);
+        goToTile(tile, tele);
+    } else {
+        disappear();
+    }
+}
+
+void eProvideResourceHelpAction::give() {
+    if(!mTarget) return;
+    const auto c = character();
+    const auto targetTile = mTarget->centerTile();
+    using eGA_LFRAF = eGA_lookForRangeActionFinish;
+    const auto finishAttackA =
+            std::make_shared<eGA_LFRAF>(
+                board(), this);
+    using eGPRA = eGodProvideResourceAct;
+    const auto act = std::make_shared<eGPRA>(
+                board(), mTarget,
+                mResource, mCount);
+    pauseAction();
+    spawnGodMissile(eCharacterActionType::bless,
+                    c->type(), targetTile,
+                    eGodSound::santcify, act,
+                    finishAttackA);
 }
 

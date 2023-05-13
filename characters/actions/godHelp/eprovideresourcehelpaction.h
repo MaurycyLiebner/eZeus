@@ -23,6 +23,9 @@ public:
                             const eResourceType res,
                             const int minSpace);
 private:
+    void goToTarget();
+    void give();
+
     eProvideResourceHelpStage mStage{eProvideResourceHelpStage::none};
     stdptr<eStorageBuilding> mTarget;
     eResourceType mResource = eResourceType::wheat;
