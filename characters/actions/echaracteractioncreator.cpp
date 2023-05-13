@@ -29,7 +29,9 @@
 #include "etraderaction.h"
 #include "ewaitaction.h"
 #include "godHelp/eartemishelpaction.h"
+#include "godHelp/eathenahelpaction.h"
 #include "godHelp/edemeterhelpaction.h"
+#include "godHelp/edionysushelpaction.h"
 
 stdsptr<eCharacterAction> eCharacterAction::sCreate(
         eCharacter* const c, const eCharActionType type) {
@@ -94,8 +96,12 @@ stdsptr<eCharacterAction> eCharacterAction::sCreate(
         return e::make_shared<eWaitAction>(c);
     case eCharActionType::artemisHelpAction:
         return e::make_shared<eArtemisHelpAction>(c);
+    case eCharActionType::athenaHelpAction:
+        return e::make_shared<eAthenaHelpAction>(c);
     case eCharActionType::demeterHelpAction:
         return e::make_shared<eDemeterHelpAction>(c);
+    case eCharActionType::dionysusHelpAction:
+        return e::make_shared<eDionysusHelpAction>(c);
     }
     return nullptr;
 }

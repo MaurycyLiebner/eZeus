@@ -32,7 +32,9 @@ enum class eCharActionType {
     godWorshippedAction,
 
     artemisHelpAction,
+    athenaHelpAction,
     demeterHelpAction,
+    dionysusHelpAction,
 
     growerAction,
     heroAction,

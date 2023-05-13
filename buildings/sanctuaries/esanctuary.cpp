@@ -9,7 +9,9 @@
 #include "engine/eeventdata.h"
 
 #include "characters/actions/godHelp/eartemishelpaction.h"
+#include "characters/actions/godHelp/eathenahelpaction.h"
 #include "characters/actions/godHelp/edemeterhelpaction.h"
+#include "characters/actions/godHelp/edionysushelpaction.h"
 
 eSanctuary::eSanctuary(eGameBoard& board,
                        const eBuildingType type,
@@ -266,8 +268,22 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
             return false;
         }
     } break;
+    case eGodType::athena: {
+        const bool r = eAthenaHelpAction::sHelpNeeded(board);
+        if(!r) {
+            reason = eHelpDenialReason::noTarget;
+            return false;
+        }
+    } break;
     case eGodType::demeter: {
         const bool r = eDemeterHelpAction::sHelpNeeded(board);
+        if(!r) {
+            reason = eHelpDenialReason::noTarget;
+            return false;
+        }
+    } break;
+    case eGodType::dionysus: {
+        const bool r = eDionysusHelpAction::sHelpNeeded(board);
         if(!r) {
             reason = eHelpDenialReason::noTarget;
             return false;
@@ -289,8 +305,14 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
     case eGodType::artemis:
         a = e::make_shared<eArtemisHelpAction>(c);
         break;
+    case eGodType::athena:
+        a = e::make_shared<eAthenaHelpAction>(c);
+        break;
     case eGodType::demeter:
         a = e::make_shared<eDemeterHelpAction>(c);
+        break;
+    case eGodType::dionysus:
+        a = e::make_shared<eDionysusHelpAction>(c);
         break;
     }
     if(!a) {
