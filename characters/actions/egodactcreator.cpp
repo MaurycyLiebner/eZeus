@@ -1,5 +1,6 @@
 #include "egodaction.h"
 #include "godHelp/eartemishelpaction.h"
+#include "godHelp/eherahelpaction.h"
 
 stdsptr<eGodAct> eGodAct::sCreate(
         eGameBoard& board, const eGodActType t) {
@@ -17,6 +18,8 @@ stdsptr<eGodAct> eGodAct::sCreate(
 
     case eGodActType::provideResource:
         return std::make_shared<eGodProvideResourceAct>(board);
+    case eGodActType::provideAgora:
+        return std::make_shared<eGodProvideAgoraAct>(board);
     }
     return nullptr;
 }

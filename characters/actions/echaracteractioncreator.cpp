@@ -32,6 +32,7 @@
 #include "godHelp/eathenahelpaction.h"
 #include "godHelp/edemeterhelpaction.h"
 #include "godHelp/edionysushelpaction.h"
+#include "godHelp/eherahelpaction.h"
 
 stdsptr<eCharacterAction> eCharacterAction::sCreate(
         eCharacter* const c, const eCharActionType type) {
@@ -102,6 +103,8 @@ stdsptr<eCharacterAction> eCharacterAction::sCreate(
         return e::make_shared<eDemeterHelpAction>(c);
     case eCharActionType::dionysusHelpAction:
         return e::make_shared<eDionysusHelpAction>(c);
+    case eCharActionType::heraHelpAction:
+        return e::make_shared<eHeraHelpAction>(c);
     }
     return nullptr;
 }

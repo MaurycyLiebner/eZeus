@@ -4,12 +4,7 @@
 #include "ebuildingrenderer.h"
 #include "engine/egameboard.h"
 
-#include "efoodvendor.h"
-#include "efleecevendor.h"
-#include "eoilvendor.h"
-#include "ewinevendor.h"
-#include "earmsvendor.h"
-#include "ehorsevendor.h"
+#include "evendor.h"
 
 #include "eroad.h"
 
@@ -55,6 +50,18 @@ void eAgoraBase::erase() {
         }
     }
     eBuilding::erase();
+}
+
+int eAgoraBase::add(const eResourceType type, const int count) {
+    const auto v = vendor(type);
+    if(!v) return 0;
+    return v->add(type, count);
+}
+
+int eAgoraBase::spaceLeft(const eResourceType type) const {
+    const auto v = vendor(type);
+    if(!v) return 0;
+    return v->spaceLeft(type);
 }
 
 SDL_Point eAgoraBase::pt(const int rx, const int ry,

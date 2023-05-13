@@ -268,3 +268,46 @@ stdsptr<eFindFailFunc> eFindFailFunc::sCreate(
     }
     return nullptr;
 }
+
+void eGMA_spawnMissileFinish::call() {
+    if(!mCptr) return;
+    const auto c = mCptr;
+    const auto charType = c->type();
+    const auto ct = c->tile();
+    const int tx = ct->x();
+    const int ty = ct->y();
+    const int ttx = mTarget->x();
+    const int tty = mTarget->y();
+    if(tx == ttx && ty == tty) {
+        if(mFinishAttackA) mFinishAttackA->call();
+        if(mHitAct) mHitAct->act();
+    } else {
+        auto& brd = c->getBoard();
+        double h;
+        if(mAt == eCharacterActionType::fight) {
+            switch(charType) {
+            case eCharacterType::apollo:
+                h = -0.5;
+                break;
+            case eCharacterType::calydonianBoar:
+                h = -1;
+                break;
+            default:
+                h = 0;
+                break;
+            }
+        } else {
+            h = 0;
+        }
+
+        const auto m = eMissile::sCreate<eGodMissile>(
+                    brd, tx, ty, h,
+                    ttx, tty, h, 0);
+
+        m->setTexture(mChart, mAt);
+
+        m->setFinishAction(mHitAct);
+
+        if(mFinishAttackA) mFinishAttackA->call();
+    }
+}

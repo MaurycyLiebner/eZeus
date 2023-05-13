@@ -18,7 +18,8 @@ enum class eGodActType {
     playFightGodHitSoundGodAct,
     lookForAttack,
 
-    provideResource
+    provideResource,
+    provideAgora
 };
 
 class eGodAct {

@@ -76,5 +76,4 @@ private:
     int mCount;
 };
 
-
 #endif // EPROVIDERESOURCEHELPACTION_H

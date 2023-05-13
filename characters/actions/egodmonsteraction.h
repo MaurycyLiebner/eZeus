@@ -219,43 +219,7 @@ public:
         mTarget(target), mPlaySound(playSound),
         mHitAct(hitAct), mFinishAttackA(finishAttackA) {}
 
-    void call() override {
-        if(!mCptr) return;
-        const auto c = mCptr;
-        const auto charType = c->type();
-        const auto ct = c->tile();
-        const int tx = ct->x();
-        const int ty = ct->y();
-        const int ttx = mTarget->x();
-        const int tty = mTarget->y();
-        auto& brd = c->getBoard();
-        double h;
-        if(mAt == eCharacterActionType::fight) {
-            switch(charType) {
-            case eCharacterType::apollo:
-                h = -0.5;
-                break;
-            case eCharacterType::calydonianBoar:
-                h = -1;
-                break;
-            default:
-                h = 0;
-                break;
-            }
-        } else {
-            h = 0;
-        }
-
-        const auto m = eMissile::sCreate<eGodMissile>(
-                           brd, tx, ty, h,
-                           ttx, tty, h, 0);
-
-        m->setTexture(mChart, mAt);
-
-        m->setFinishAction(mHitAct);
-
-        if(mFinishAttackA) mFinishAttackA->call();
-    }
+    void call() override;
 
     void read(eReadStream& src) override {
         src.readCharacter(&board(), [this](eCharacter* const c) {

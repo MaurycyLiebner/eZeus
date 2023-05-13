@@ -3,6 +3,7 @@
 
 #include <random>
 
+#include "buildings/eagorabase.h"
 #include "characters/echaracter.h"
 #include "buildings/ebuilding.h"
 #include "spawners/espawner.h"
@@ -1297,6 +1298,16 @@ void eGameBoard::registerBanner(eBanner* const b) {
 
 void eGameBoard::unregisterBanner(eBanner* const b) {
     eVectorHelpers::remove(mBanners, b);
+}
+
+std::vector<eAgoraBase*> eGameBoard::agoras() const {
+    std::vector<eAgoraBase*> r;
+    for(const auto b : mAllBuildings) {
+        const auto a = dynamic_cast<eAgoraBase*>(b);
+        if(!a) continue;
+        r.push_back(a);
+    }
+    return r;
 }
 
 void eGameBoard::incTime(const int by) {

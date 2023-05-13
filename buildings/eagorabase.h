@@ -22,12 +22,15 @@ public:
 
     virtual SDL_Point pt(const int id) const = 0;
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const {
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const override {
         (void)size;
         return nullptr;
     }
 
-    void erase();
+    void erase() override;
+
+    int add(const eResourceType type, const int count) override;
+    int spaceLeft(const eResourceType type) const override;
 
     SDL_Point pt(const int rx, const int ry,
                  const eAgoraOrientation o,

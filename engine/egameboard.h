@@ -39,6 +39,7 @@ class eSoldierBanner;
 class ePalace;
 class eLandInvasionPoint;
 class eReceiveRequestEvent;
+class eAgoraBase;
 
 class eThreadPool;
 
@@ -111,6 +112,8 @@ public:
     void unregisterBanner(eBanner* const b);
 
     const std::vector<eMonster*>& monsters() const { return mMonsters; }
+
+    std::vector<eAgoraBase*> agoras() const;
 
     void updateResources();
     using eResources = std::vector<std::pair<eResourceType, int>>;
