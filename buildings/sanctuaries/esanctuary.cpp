@@ -12,6 +12,7 @@
 #include "characters/actions/godHelp/eathenahelpaction.h"
 #include "characters/actions/godHelp/edemeterhelpaction.h"
 #include "characters/actions/godHelp/edionysushelpaction.h"
+#include "characters/actions/godHelp/ehadeshelpaction.h"
 #include "characters/actions/godHelp/eherahelpaction.h"
 
 eSanctuary::eSanctuary(eGameBoard& board,
@@ -290,6 +291,13 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
             return false;
         }
     } break;
+    case eGodType::hades: {
+        const bool r = eHadesHelpAction::sHelpNeeded(board);
+        if(!r) {
+            reason = eHelpDenialReason::noTarget;
+            return false;
+        }
+    } break;
     case eGodType::hera: {
         const bool r = eHeraHelpAction::sHelpNeeded(board);
         if(!r) {
@@ -321,6 +329,9 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
         break;
     case eGodType::dionysus:
         a = e::make_shared<eDionysusHelpAction>(c);
+        break;
+    case eGodType::hades:
+        a = e::make_shared<eHadesHelpAction>(c);
         break;
     case eGodType::hera:
         a = e::make_shared<eHeraHelpAction>(c);

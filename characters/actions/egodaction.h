@@ -19,7 +19,8 @@ enum class eGodActType {
     lookForAttack,
 
     provideResource,
-    provideAgora
+    provideAgora,
+    provideDrachmas
 };
 
 class eGodAct {
