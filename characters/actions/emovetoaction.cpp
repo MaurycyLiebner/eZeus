@@ -22,12 +22,14 @@ void eMoveToAction::start(const eTileFinal& final,
     auto& brd = c->getBoard();
     auto& tp = brd.threadPool();
 
-    if(const auto b = t->underBuilding()) {
-        pathFindWalkable = eWalkableObject::sCreateRect(
-                               b, pathFindWalkable);
-        if(moveWalkable) {
-            moveWalkable = eWalkableObject::sCreateRect(
-                               b, moveWalkable);
+    if(!t->walkable()) {
+        if(const auto b = t->underBuilding()) {
+            pathFindWalkable = eWalkableObject::sCreateRect(
+                                   b, pathFindWalkable);
+            if(moveWalkable) {
+                moveWalkable = eWalkableObject::sCreateRect(
+                                   b, moveWalkable);
+            }
         }
     }
 
