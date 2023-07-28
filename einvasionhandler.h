@@ -32,6 +32,8 @@ public:
 
     void read(eReadStream& src);
     void write(eWriteStream& dst) const;
+
+    void killAllWithCorpse();
 private:
     eGameBoard& mBoard;
     stdsptr<eWorldCity> mCity;

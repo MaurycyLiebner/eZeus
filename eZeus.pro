@@ -164,6 +164,7 @@ SOURCES += \
         characters/actions/godHelp/eherahelpaction.cpp \
         characters/actions/godHelp/eposeidonhelpaction.cpp \
         characters/actions/godHelp/eprovideresourcehelpaction.cpp \
+        characters/actions/godHelp/ezeushelpaction.cpp \
         characters/actions/walkable/ehasnonbusyresourceobject.cpp \
         characters/actions/walkable/ehasresourceobject.cpp \
         characters/actions/walkable/ehasresourcewalkableobject.cpp \
@@ -623,6 +624,7 @@ HEADERS += \
     characters/actions/godHelp/eherahelpaction.h \
     characters/actions/godHelp/eposeidonhelpaction.h \
     characters/actions/godHelp/eprovideresourcehelpaction.h \
+    characters/actions/godHelp/ezeushelpaction.h \
     characters/actions/walkable/ehasnonbusyresourceobject.h \
     characters/actions/walkable/ehasresourceobject.h \
     characters/actions/walkable/ehasresourcewalkableobject.h \

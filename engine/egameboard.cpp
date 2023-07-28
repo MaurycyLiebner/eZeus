@@ -702,6 +702,10 @@ void eGameBoard::removeLandInvasionPoint(const int id) {
     mLandInvasion.erase(id);
 }
 
+const eGameBoard::eIV& eGameBoard::invasions() const {
+    return mInvasions;
+}
+
 void eGameBoard::addInvasion(eInvasionHandler* const i) {
     mInvasions.push_back(i);
 }

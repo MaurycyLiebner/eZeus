@@ -183,3 +183,10 @@ void eInvasionHandler::write(eWriteStream& dst) const {
 
     dst << mWait;
 }
+
+void eInvasionHandler::killAllWithCorpse() {
+    mWait = 0;
+    for(const auto& b : mBanners) {
+        b->killAllWithCorpse();
+    }
+}

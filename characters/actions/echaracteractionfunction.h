@@ -74,7 +74,9 @@ enum class eCharacterActionFunctionType {
     Char_fightFinish,
     Char_killWithCorpseFinish,
 
-    SS_spawnFinish
+    SS_spawnFinish,
+
+    ZHA_killFinish
 };
 
 using eCharActFuncType = eCharacterActionFunctionType;

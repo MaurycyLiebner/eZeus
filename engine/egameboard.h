@@ -276,6 +276,8 @@ public:
     void addLandInvasionPoint(eLandInvasionPoint* const p);
     void removeLandInvasionPoint(const int id);
 
+    using eIV = std::vector<eInvasionHandler*>;
+    const eIV& invasions() const;
     void addInvasion(eInvasionHandler* const i);
     void removeInvasion(eInvasionHandler* const i);
 

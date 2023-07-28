@@ -16,6 +16,7 @@
 #include "characters/actions/godHelp/ehadeshelpaction.h"
 #include "characters/actions/godHelp/eherahelpaction.h"
 #include "characters/actions/godHelp/eposeidonhelpaction.h"
+#include "characters/actions/godHelp/ezeushelpaction.h"
 
 eSanctuary::eSanctuary(eGameBoard& board,
                        const eBuildingType type,
@@ -267,63 +268,39 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
     }
     auto& board = getBoard();
     const auto type = godType();
+    bool r = false;
     switch(type) {
     case eGodType::artemis: {
-        const bool r = eArtemisHelpAction::sHelpNeeded(board);
-        if(!r) {
-            reason = eHelpDenialReason::noTarget;
-            return false;
-        }
+        r = eArtemisHelpAction::sHelpNeeded(board);
     } break;
     case eGodType::athena: {
-        const bool r = eAthenaHelpAction::sHelpNeeded(board);
-        if(!r) {
-            reason = eHelpDenialReason::noTarget;
-            return false;
-        }
+        r = eAthenaHelpAction::sHelpNeeded(board);
     } break;
     case eGodType::atlas: {
-        const bool r = eAtlasHelpAction::sHelpNeeded(board);
-        if(!r) {
-            reason = eHelpDenialReason::noTarget;
-            return false;
-        }
+        r = eAtlasHelpAction::sHelpNeeded(board);
     } break;
     case eGodType::demeter: {
-        const bool r = eDemeterHelpAction::sHelpNeeded(board);
-        if(!r) {
-            reason = eHelpDenialReason::noTarget;
-            return false;
-        }
+        r = eDemeterHelpAction::sHelpNeeded(board);
     } break;
     case eGodType::dionysus: {
-        const bool r = eDionysusHelpAction::sHelpNeeded(board);
-        if(!r) {
-            reason = eHelpDenialReason::noTarget;
-            return false;
-        }
+        r = eDionysusHelpAction::sHelpNeeded(board);
     } break;
     case eGodType::hades: {
-        const bool r = eHadesHelpAction::sHelpNeeded(board);
-        if(!r) {
-            reason = eHelpDenialReason::noTarget;
-            return false;
-        }
+        r = eHadesHelpAction::sHelpNeeded(board);
     } break;
     case eGodType::hera: {
-        const bool r = eHeraHelpAction::sHelpNeeded(board);
-        if(!r) {
-            reason = eHelpDenialReason::noTarget;
-            return false;
-        }
+        r = eHeraHelpAction::sHelpNeeded(board);
     } break;
     case eGodType::poseidon: {
-        const bool r = ePoseidonHelpAction::sHelpNeeded(board);
-        if(!r) {
-            reason = eHelpDenialReason::noTarget;
-            return false;
-        }
+        r = ePoseidonHelpAction::sHelpNeeded(board);
     } break;
+    case eGodType::zeus: {
+        r = eZeusHelpAction::sHelpNeeded(board);
+    } break;
+    }
+    if(!r) {
+        reason = eHelpDenialReason::noTarget;
+        return false;
     }
     stdsptr<eCharacterAction> a;
     eCharacter* c = nullptr;
@@ -360,6 +337,9 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
         break;
     case eGodType::poseidon:
         a = e::make_shared<ePoseidonHelpAction>(c);
+        break;
+    case eGodType::zeus:
+        a = e::make_shared<eZeusHelpAction>(c);
         break;
     }
     if(!a) {

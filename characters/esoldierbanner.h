@@ -37,6 +37,7 @@ public:
     eTile* place(eSoldier* const s) const;
 
     void killAll();
+    void killAllWithCorpse();
 
     void setSelected(const bool s) { mSelected = s; }
     bool selected() const { return mSelected; }

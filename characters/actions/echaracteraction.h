@@ -39,6 +39,7 @@ enum class eCharActionType {
     hadesHelpAction,
     heraHelpAction,
     poseidonHelpAction,
+    zeusHelpAction,
 
     growerAction,
     heroAction,

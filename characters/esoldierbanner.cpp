@@ -98,6 +98,13 @@ void eSoldierBanner::killAll() {
     mSoldiers.clear();
 }
 
+void eSoldierBanner::killAllWithCorpse() {
+    for(const auto s : mSoldiers) {
+        s->killWithCorpse();
+    }
+    mSoldiers.clear();
+}
+
 void eSoldierBanner::incCount() {
     mCount++;
     updateCount();
