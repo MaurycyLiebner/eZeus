@@ -41,7 +41,7 @@ public:
     int progress() const { return mProgress; }
     int maxProgress() const { return mMaxProgress; }
     bool incProgress();
-    void destroy() { mProgress = 0; }
+    void destroy();
 
     const eSanctCost& cost() const { return mCost; }
 
@@ -56,12 +56,14 @@ public:
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:
+    void scheduleTerrainUpdate();
+
     const int mMaxProgress;
     eSanctuary* mSanctuary = nullptr;
     eSanctCost mCost{0, 0, 0};
     eSanctCost mStored{0, 0, 0};
     bool mWorkedOn = false;
-    int mProgress = mMaxProgress;
+    int mProgress = 0;
 };
 
 #endif // ESANCTBUILDING_H

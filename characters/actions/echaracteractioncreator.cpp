@@ -30,6 +30,7 @@
 #include "ewaitaction.h"
 #include "godHelp/eartemishelpaction.h"
 #include "godHelp/eathenahelpaction.h"
+#include "godHelp/eatlashelpaction.h"
 #include "godHelp/edemeterhelpaction.h"
 #include "godHelp/edionysushelpaction.h"
 #include "godHelp/ehadeshelpaction.h"
@@ -101,6 +102,8 @@ stdsptr<eCharacterAction> eCharacterAction::sCreate(
         return e::make_shared<eArtemisHelpAction>(c);
     case eCharActionType::athenaHelpAction:
         return e::make_shared<eAthenaHelpAction>(c);
+    case eCharActionType::atlasHelpAction:
+        return e::make_shared<eAtlasHelpAction>(c);
     case eCharActionType::demeterHelpAction:
         return e::make_shared<eDemeterHelpAction>(c);
     case eCharActionType::dionysusHelpAction:

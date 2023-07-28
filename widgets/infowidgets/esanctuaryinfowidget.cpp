@@ -15,7 +15,7 @@ void eSanctuaryInfoWidget::initialize(eSanctuary* const s) {
     const auto title = eLanguage::text(titles);
     eInfoWidget::initialize(title);
     const auto cw = addCentralWidget();
-    if(s->finished()) {
+    if(s->finished() || true) {
         const auto gt = s->godType();
         const auto gn  = eGod::sGodName(gt);
         auto pbStr = eLanguage::text("pray_to");

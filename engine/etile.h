@@ -93,6 +93,7 @@ public:
 
     eTileTerrainPainter& terrainPainter() { return mTerrainPainter; }
     bool updateTerrain() const { return mUpdateTerrain; }
+    void scheduleTerrainUpdate() { mUpdateTerrain = true; }
     void terrainUpdated() { mUpdateTerrain = false; }
 
     bool onFire() const override;

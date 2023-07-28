@@ -157,6 +157,7 @@ SOURCES += \
         characters/actions/ewaitaction.cpp \
         characters/actions/godHelp/eartemishelpaction.cpp \
         characters/actions/godHelp/eathenahelpaction.cpp \
+        characters/actions/godHelp/eatlashelpaction.cpp \
         characters/actions/godHelp/edemeterhelpaction.cpp \
         characters/actions/godHelp/edionysushelpaction.cpp \
         characters/actions/godHelp/ehadeshelpaction.cpp \
@@ -615,6 +616,7 @@ HEADERS += \
     characters/actions/ewaitaction.h \
     characters/actions/godHelp/eartemishelpaction.h \
     characters/actions/godHelp/eathenahelpaction.h \
+    characters/actions/godHelp/eatlashelpaction.h \
     characters/actions/godHelp/edemeterhelpaction.h \
     characters/actions/godHelp/edionysushelpaction.h \
     characters/actions/godHelp/ehadeshelpaction.h \

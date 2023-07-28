@@ -1,6 +1,5 @@
 #include "esanctbuilding.h"
 
-#include "textures/egametextures.h"
 #include "esanctuary.h"
 
 eSanctBuilding::eSanctBuilding(const eSanctCost& cost,
@@ -38,8 +37,14 @@ bool eSanctBuilding::incProgress() {
         mStored = mCost;
     }
     mProgress++;
+    scheduleTerrainUpdate();
     mSanctuary->buildingProgressed();
     return true;
+}
+
+void eSanctBuilding::destroy() {
+    mProgress = 0;
+    scheduleTerrainUpdate();
 }
 
 void eSanctBuilding::setCost(const eSanctCost& c) {
@@ -76,4 +81,12 @@ void eSanctBuilding::write(eWriteStream& dst) const {
     dst << mStored.fWood;
 
     dst << mProgress;
+}
+
+void eSanctBuilding::scheduleTerrainUpdate() {
+    const auto bt = type();
+    if(bt == eBuildingType::templeTile) {
+        const auto t = centerTile();
+        if(t) t->scheduleTerrainUpdate();
+    }
 }

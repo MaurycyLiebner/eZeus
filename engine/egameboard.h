@@ -97,6 +97,9 @@ public:
     void registerStorBuilding(eStorageBuilding* const b);
     bool unregisterStorBuilding(eStorageBuilding* const b);
 
+    void registerSanctuary(eSanctuary* const b);
+    bool unregisterSanctuary(eSanctuary* const b);
+
     void registerMissile(eMissile* const m);
     bool unregisterMissile(eMissile* const m);
 
@@ -279,6 +282,7 @@ public:
     int addResource(const eResourceType type,
                     const int count);
     int spaceForResource(const eResourceType type) const;
+    int maxSanctuarySpaceForResource(eSanctuary** b) const;
     int maxSingleSpaceForResource(const eResourceType type,
                                   eStorageBuilding** b) const;
     int resourceCount(const eResourceType type) const;

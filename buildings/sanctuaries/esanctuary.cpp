@@ -10,6 +10,7 @@
 
 #include "characters/actions/godHelp/eartemishelpaction.h"
 #include "characters/actions/godHelp/eathenahelpaction.h"
+#include "characters/actions/godHelp/eatlashelpaction.h"
 #include "characters/actions/godHelp/edemeterhelpaction.h"
 #include "characters/actions/godHelp/edionysushelpaction.h"
 #include "characters/actions/godHelp/ehadeshelpaction.h"
@@ -20,12 +21,15 @@ eSanctuary::eSanctuary(eGameBoard& board,
                        const eBuildingType type,
                        const int sw, const int sh,
                        const int maxEmployees) :
-    eEmployingBuilding(board, type, sw, sh, maxEmployees) {}
+    eEmployingBuilding(board, type, sw, sh, maxEmployees) {
+    board.registerSanctuary(this);
+}
 
 eSanctuary::~eSanctuary() {
     if(mCart) mCart->kill();
     auto& board = getBoard();
     board.destroyed(type());
+    board.unregisterSanctuary(this);
 }
 
 void eSanctuary::erase() {
@@ -278,6 +282,13 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
             return false;
         }
     } break;
+    case eGodType::atlas: {
+        const bool r = eAtlasHelpAction::sHelpNeeded(board);
+        if(!r) {
+            reason = eHelpDenialReason::noTarget;
+            return false;
+        }
+    } break;
     case eGodType::demeter: {
         const bool r = eDemeterHelpAction::sHelpNeeded(board);
         if(!r) {
@@ -331,6 +342,9 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
         break;
     case eGodType::athena:
         a = e::make_shared<eAthenaHelpAction>(c);
+        break;
+    case eGodType::atlas:
+        a = e::make_shared<eAtlasHelpAction>(c);
         break;
     case eGodType::demeter:
         a = e::make_shared<eDemeterHelpAction>(c);

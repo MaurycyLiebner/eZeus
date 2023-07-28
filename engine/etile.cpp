@@ -156,7 +156,7 @@ void eTile::setOnFire(const bool f) {
 
 void eTile::setTerrain(const eTerrain terr) {
     eTileBase::setTerrain(terr);
-    mUpdateTerrain = true;
+    scheduleTerrainUpdate();
 }
 
 void eTile::setMarbleLevel(const int l) {
@@ -165,7 +165,7 @@ void eTile::setMarbleLevel(const int l) {
         for(int dy = -1; dy <= 1; dy++) {
             const auto t = tileRel<eTile>(dx, dy);
             if(!t) continue;
-            t->mUpdateTerrain = true;
+            scheduleTerrainUpdate();
         }
     }
 }
@@ -223,7 +223,7 @@ bool eTile::hasRoad() const {
 
 void eTile::setUnderBuilding(const stdsptr<eBuilding>& b) {
     mUnderBuilding = b;
-    mUpdateTerrain = true;
+    scheduleTerrainUpdate();
 }
 
 eBuildingType eTile::underBuildingType() const {

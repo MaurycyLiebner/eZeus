@@ -529,8 +529,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             } else if(ub && !v) {
                 const auto tex = getBasementTexture(tile, ub, trrTexs);
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
-            } else if(tbr && (!eBuilding::sFlatBuilding(bt)
-                              || bt == eBuildingType::templeTile)) {
+            } else if(tbr && !eBuilding::sFlatBuilding(bt)) {
                 drawBuilding();
                 if(ub && tbr && tbr->isMain()) {
                     drawBuildingModes();
@@ -1052,8 +1051,15 @@ void eGameWidget::paintEvent(ePainter& p) {
         if(terrTile) {
             const auto terrUb = terrTile->underBuilding();
             const auto terrBt = terrTile->underBuildingType();
-            if(!terrUb || eBuilding::sFlatBuilding(terrBt)) {
-                if(terrTile) drawTerrain(terrTile);
+            bool flatSanct = false;
+            if(terrUb) {
+                if(const auto sb = dynamic_cast<eSanctBuilding*>(terrUb)) {
+                    flatSanct = sb->progress() <= 0;
+                }
+            }
+            if(!terrUb || flatSanct ||
+                eBuilding::sFlatBuilding(terrBt)) {
+                drawTerrain(terrTile);
             }
         }
 

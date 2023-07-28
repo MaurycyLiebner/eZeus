@@ -748,6 +748,22 @@ int eGameBoard::maxSingleSpaceForResource(
     return r;
 }
 
+int eGameBoard::maxSanctuarySpaceForResource(
+        eSanctuary** b) const {
+    *b = nullptr;
+    int r = 0;
+    for(const auto s : mSanctuaries) {
+        int ss = s->spaceLeft(eResourceType::wood);
+        ss += s->spaceLeft(eResourceType::marble);
+        ss += s->spaceLeft(eResourceType::sculpture);
+        if(ss > r) {
+            *b = s;
+            r = ss;
+        }
+    }
+    return r;
+}
+
 void eGameBoard::planGiftFrom(const stdsptr<eWorldCity>& c,
                               const eResourceType type,
                               const int count) {
@@ -1251,6 +1267,17 @@ void eGameBoard::registerStorBuilding(eStorageBuilding* const b) {
 bool eGameBoard::unregisterStorBuilding(eStorageBuilding* const b) {
     if(!mRegisterBuildingsEnabled) return false;
     return eVectorHelpers::remove(mStorBuildings, b);
+    return true;
+}
+
+void eGameBoard::registerSanctuary(eSanctuary* const b) {
+    if(!mRegisterBuildingsEnabled) return;
+    mSanctuaries.push_back(b);
+}
+
+bool eGameBoard::unregisterSanctuary(eSanctuary* const b) {
+    if(!mRegisterBuildingsEnabled) return false;
+    return eVectorHelpers::remove(mSanctuaries, b);
     return true;
 }
 
