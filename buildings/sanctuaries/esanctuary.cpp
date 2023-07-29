@@ -350,6 +350,7 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
     c->setAction(a);
     eEventData ed;
     ed.fGod = type;
+    ed.fTile = c->tile();
     board.event(eEvent::godHelp, ed);
     return true;
 }
