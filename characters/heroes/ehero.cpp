@@ -25,6 +25,20 @@ eHeroType eHero::sCharacterToHeroType(const eCharacterType type,
     }
 }
 
+bool eHero::sRangedHero(const eHeroType ht) {
+    return ht == eHeroType::atalanta;
+}
+
+eHero::eTexPtr eHero::sHeroMissile(const eHeroType gt) {
+    switch(gt) {
+    case eHeroType::atalanta:
+        return &eDestructionTextures::fGodBlueArrow;
+    default:
+        return nullptr;
+    }
+    return nullptr;
+}
+
 eCharacterType eHero::sHeroToCharacterType(const eHeroType type) {
     switch(type) {
     case eHeroType::achilles: return eCharacterType::achilles;

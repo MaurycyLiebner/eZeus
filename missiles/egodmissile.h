@@ -2,7 +2,6 @@
 #define EGODMISSILE_H
 
 #include "emissile.h"
-#include "textures/egametextures.h"
 
 class eGodMissile : public eMissile {
 public:

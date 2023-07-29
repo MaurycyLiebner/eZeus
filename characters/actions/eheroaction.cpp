@@ -89,8 +89,10 @@ void eHeroAction::lookForMonsterFight() {
     auto& brd = c->getBoard();
     const auto ctype = c->type();
     const auto ht = eHero::sCharacterToHeroType(ctype);
-    for(int i = -1; i <= 1; i++) {
-        for(int j = -1; j <= 1; j++) {
+    const bool ranged = rangedHero();
+    const int range = ranged ? 5 : 1;
+    for(int i = -range; i <= range; i++) {
+        for(int j = -range; j <= range; j++) {
             const auto t = brd.tile(tx + i, ty + j);
             if(!t) continue;
             const auto& chars = t->characters();
@@ -111,30 +113,37 @@ void eHeroAction::lookForMonsterFight() {
 }
 
 bool eHeroAction::fightMonster(eMonster* const m) {
+    const bool ranged = rangedHero();
+
     const auto c = character();
     const vec2d cpos{c->absX(), c->absY()};
     const vec2d mpos{m->absX(), m->absY()};
     const vec2d posdif = mpos - cpos;
     const double dist = posdif.length();
-    if(dist > 1.) return false;
+    const double range = ranged ? 5. : 1.;
+    if(dist > range) return false;
     const auto angle = posdif.angle();
     const auto o = sAngleOrientation(angle);
     c->setOrientation(o);
     c->setActionType(eCharacterActionType::fight);
+    const auto w = e::make_shared<eWaitAction>(c);
     const int fightTime = 5000;
-    wait(fightTime);
-
-    const auto mo = !o;
-    m->setOrientation(mo);
-    m->setActionType(eCharacterActionType::fight);
-    const stdptr<eMonster> mptr(m);
+    w->setTime(fightTime);
     const auto mdie = std::make_shared<eHA_fightMonsterDie>(
                           board(), m);
-    const auto w = e::make_shared<eWaitAction>(character());
     w->setFailAction(mdie);
     w->setFinishAction(mdie);
     w->setTime(fightTime);
-    m->setAction(w);
+    setCurrentAction(w);
+
+    if(!ranged) {
+        const auto mo = !o;
+        m->setOrientation(mo);
+        m->setActionType(eCharacterActionType::fight);
+
+        const auto mw = e::make_shared<eWaitAction>(c);
+        m->setAction(mw);
+    }
 
     mStage = eHeroActionStage::fight;
 
@@ -173,4 +182,17 @@ void eHeroAction::huntMonster(eMonster* const m) {
     a->setRemoveLastTurn(true);
     a->setWait(false);
     a->start(monsterTile);
+}
+
+eHeroType eHeroAction::heroType() const {
+    const auto c = character();
+    const auto ctype = c->type();
+    const auto ht = eHero::sCharacterToHeroType(ctype);
+    return ht;
+}
+
+bool eHeroAction::rangedHero() const {
+    const auto ht = heroType();
+    const bool r = eHero::sRangedHero(ht);
+    return r;
 }

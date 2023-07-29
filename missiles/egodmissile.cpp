@@ -1,5 +1,7 @@
 #include "egodmissile.h"
 
+#include "textures/egametextures.h"
+
 eGodMissile::eGodMissile(eGameBoard& board,
                          const std::vector<ePathPoint>& path) :
     eMissile(board, eMissileType::god, path) {}
@@ -30,6 +32,10 @@ eGodMissile::getTexture(const eTileSize size) const {
         case eCharacterType::zeus: {
             const auto gt = eGod::sCharacterToGodType(mCharType);
             texptr = eGod::sGodMissile(gt);
+        } break;
+        case eCharacterType::atalanta: {
+            const auto ht = eHero::sCharacterToHeroType(mCharType);
+            texptr = eHero::sHeroMissile(ht);
         } break;
         default:
             texptr = &eDestructionTextures::fMonsterMissile;

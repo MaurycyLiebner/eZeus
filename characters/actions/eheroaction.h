@@ -26,6 +26,9 @@ private:
     bool fightMonster(eMonster* const m);
     void huntMonster(eMonster* const m);
 
+    eHeroType heroType() const;
+    bool rangedHero() const;
+
     eHeroActionStage mStage = eHeroActionStage::none;
     int mLookForMonster = 0;
 };

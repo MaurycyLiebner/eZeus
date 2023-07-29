@@ -3,6 +3,8 @@
 
 #include "characters/echaracter.h"
 
+#include "textures/egametextures.h"
+
 enum class eHeroType {
     achilles, // hector, maenads
     atalanta, // harpies, sphinx
@@ -20,6 +22,11 @@ public:
 
     static eHeroType sCharacterToHeroType(
             const eCharacterType type, bool* const valid = nullptr);
+    static bool sRangedHero(const eHeroType ht);
+
+    using eTexPtr = eTextureCollection eDestructionTextures::*;
+    static eTexPtr sHeroMissile(const eHeroType gt);
+
     static eCharacterType sHeroToCharacterType(
             const eHeroType type);
     static stdsptr<eHero> sCreateHero(
