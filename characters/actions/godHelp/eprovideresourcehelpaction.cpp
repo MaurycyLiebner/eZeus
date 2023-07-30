@@ -1,5 +1,7 @@
 #include "eprovideresourcehelpaction.h"
 
+#include "etilehelper.h"
+
 eProvideResourceHelpAction::eProvideResourceHelpAction(
         eCharacter* const c,
         const eCharActionType type,

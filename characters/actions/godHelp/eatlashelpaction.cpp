@@ -1,5 +1,7 @@
 #include "eatlashelpaction.h"
 
+#include "etilehelper.h"
+
 eAtlasHelpAction::eAtlasHelpAction(
         eCharacter* const c) :
     eGodAction(c, eCharActionType::atlasHelpAction) {}

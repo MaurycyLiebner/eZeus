@@ -2,6 +2,7 @@
 
 #include "engine/egameboard.h"
 #include "audio/esounds.h"
+#include "etilehelper.h"
 
 #include "ewaitaction.h"
 

@@ -7,7 +7,7 @@
 #include "buildings/eheatgetters.h"
 #include "characters/actions/walkable/ewalkableobject.h"
 
-#include "missiles/egodmissile.h"
+#include "textures/edestructiontextures.h"
 
 class eGodAct;
 
@@ -15,6 +15,35 @@ enum class eFindFailFuncType {
     teleport,
     teleport2,
     tryAgain
+};
+
+class eMissileTarget {
+public:
+    eMissileTarget() {}
+    eMissileTarget(eTile* const tile) :
+        mTile(tile) {}
+    eMissileTarget(eCharacter* const c) :
+        mChar(c) {}
+
+    eTile* target() const {
+        if(mChar) return mChar->tile();
+        return mTile;
+    }
+
+    void read(eReadStream& src, eGameBoard& board) {
+        mTile = src.readTile(board);
+        src.readCharacter(&board, [this](eCharacter* const c) {
+            mChar = c;
+        });
+    }
+
+    void write(eWriteStream& dst) const {
+        dst.writeTile(mTile);
+        dst.writeCharacter(mChar);
+    }
+private:
+    eTile* mTile = nullptr;
+    stdptr<eCharacter> mChar;
 };
 
 class eFindFailFunc {
@@ -73,7 +102,7 @@ public:
     void spawnMultipleMissiles(const eCharacterActionType at,
                                const eCharacterType ct,
                                const int attackTime,
-                               eTile* const target,
+                               const eMissileTarget& target,
                                const stdsptr<eCharActFunc>& playSound,
                                const stdsptr<eGodAct>& playHitSound,
                                const stdsptr<eCharActFunc>& finishA,
@@ -211,13 +240,13 @@ public:
                             const eCharacterActionType at,
                             const eCharacterType chart,
                             eTile* const target,
-                            const stdsptr<eCharActFunc>& playSound,
                             const stdsptr<eGodAct>& hitAct,
                             const stdsptr<eCharActFunc>& finishAttackA) :
         eCharActFunc(board, eCharActFuncType::GMA_spawnMissileFinish),
         mCptr(c), mAt(at), mChart(chart),
-        mTarget(target), mPlaySound(playSound),
-        mHitAct(hitAct), mFinishAttackA(finishAttackA) {}
+        mTarget(target),
+        mHitAct(hitAct),
+        mFinishAttackA(finishAttackA) {}
 
     void call() override;
 
@@ -229,7 +258,6 @@ public:
         src >> mChart;
         mTarget = src.readTile(board());
 
-        mPlaySound = src.readCharActFunc(board());
         mHitAct = src.readGodAct(board());
         mFinishAttackA = src.readCharActFunc(board());
     }
@@ -240,7 +268,6 @@ public:
         dst << mChart;
         dst.writeTile(mTarget);
 
-        dst.writeCharActFunc(mPlaySound.get());
         dst.writeGodAct(mHitAct.get());
         dst.writeCharActFunc(mFinishAttackA.get());
     }
@@ -249,7 +276,6 @@ private:
     eCharacterActionType mAt;
     eCharacterType mChart;
     eTile* mTarget = nullptr;
-    stdsptr<eCharActFunc> mPlaySound;
     stdsptr<eGodAct> mHitAct;
     stdsptr<eCharActFunc> mFinishAttackA;
 };
@@ -263,7 +289,7 @@ public:
                                      const eCharacterActionType at,
                                      const eCharacterType chart,
                                      const int attackTime,
-                                     eTile* const target,
+                                     const eMissileTarget& target,
                                      const stdsptr<eCharActFunc>& playSound,
                                      const stdsptr<eGodAct>& playHitSound,
                                      const stdsptr<eCharActFunc>& finishA,
@@ -288,7 +314,7 @@ public:
         src >> mAt;
         src >> mChart;
         src >> mAttackTime;
-        mTarget = src.readTile(board());
+        mTarget.read(src, board());
         mPlaySound = src.readCharActFunc(board());
         mPlayHitSound = src.readGodAct(board());
         mFinishA = src.readCharActFunc(board());
@@ -300,7 +326,7 @@ public:
         dst << mAt;
         dst << mChart;
         dst << mAttackTime;
-        dst.writeTile(mTarget);
+        mTarget.write(dst);
         dst.writeCharActFunc(mPlaySound.get());
         dst.writeGodAct(mPlayHitSound.get());
         dst.writeCharActFunc(mFinishA.get());
@@ -311,7 +337,7 @@ private:
     eCharacterActionType mAt;
     eCharacterType mChart;
     int mAttackTime = 0;
-    eTile* mTarget = nullptr;
+    eMissileTarget mTarget;
     stdsptr<eCharActFunc> mPlaySound;
     stdsptr<eGodAct> mPlayHitSound;
     stdsptr<eCharActFunc> mFinishA;

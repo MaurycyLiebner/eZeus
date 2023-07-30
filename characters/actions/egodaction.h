@@ -4,8 +4,7 @@
 #include "egodmonsteraction.h"
 
 #include "characters/gods/egod.h"
-#include "etilehelper.h"
-#include "emovetoaction.h"
+#include "engine/egameboard.h"
 #include "audio/esounds.h"
 
 class eDestructionTextures;

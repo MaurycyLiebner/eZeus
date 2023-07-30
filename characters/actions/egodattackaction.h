@@ -4,6 +4,7 @@
 #include "egodaction.h"
 #include "elanguage.h"
 #include "walkable/eobsticlehandler.h"
+#include "etilehelper.h"
 
 enum class eGodAttackStage {
     none, appear, goTo1, patrol1, goTo2, patrol2, disappear

@@ -1,5 +1,6 @@
 #include "ehadeshelpaction.h"
 
+#include "etilehelper.h"
 #include "buildings/epalace.h"
 
 eHadesHelpAction::eHadesHelpAction(eCharacter* const c) :

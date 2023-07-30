@@ -9,6 +9,7 @@
 #include "engine/boardData/eheatmaptask.h"
 
 #include "etilehelper.h"
+#include "missiles/egodmissile.h"
 
 #include "egodattackaction.h"
 #include "emonsteraction.h"
@@ -97,7 +98,7 @@ void eGodMonsterAction::spawnMissile(const eCharacterActionType at,
     const stdptr<eGodMonsterAction> tptr(this);
     const auto finish = std::make_shared<eGMA_spawnMissileFinish>(
                             board(), character(),
-                            at, chart, target, playSound,
+                            at, chart, target,
                             hitAct, finishAttackA);
     const auto c = character();
     c->setActionType(at);
@@ -129,7 +130,7 @@ void eGodMonsterAction::spawnMultipleMissiles(
           const eCharacterActionType at,
           const eCharacterType ct,
           const int attackTime,
-          eTile* const target,
+          const eMissileTarget& target,
           const stdsptr<eCharActFunc>& playSound,
           const stdsptr<eGodAct>& playHitSound,
           const stdsptr<eCharActFunc>& finishA,
@@ -147,7 +148,7 @@ void eGodMonsterAction::spawnMultipleMissiles(
                        target, playSound, playHitSound,
                        finishA, nMissiles);
     }
-    spawnMissile(at, ct, attackTime, target,
+    spawnMissile(at, ct, attackTime, target.target(),
                  playSound, playHitSound, finishAA);
 }
 
