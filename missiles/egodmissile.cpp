@@ -1,6 +1,7 @@
 #include "egodmissile.h"
 
 #include "textures/egametextures.h"
+#include "characters/heroes/ehero.h"
 
 eGodMissile::eGodMissile(eGameBoard& board,
                          const std::vector<ePathPoint>& path) :
