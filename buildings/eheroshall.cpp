@@ -431,7 +431,9 @@ void eHerosHall::updateRequirementStatus(eHeroRequirement& hr) {
         }
     } break;
     case eHeroRequirementType::appeal: {
-        const double a = board.appeal(tx, ty);
+        const int dx = t->dx();
+        const int dy = t->dy();
+        const double a = board.appeal(dx, dy);
         if(a < 2.) {
             sc = 0;
         } else if(a < 4.) {
