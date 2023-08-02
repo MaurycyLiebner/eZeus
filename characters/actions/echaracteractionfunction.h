@@ -44,7 +44,6 @@ enum class eCharacterActionFunctionType {
     GRA_workOnDecisionDeleteFail,
 
     HA_patrolFail,
-    HA_huntMonsterFail,
     HA_huntMonsterFinish,
     HA_fightMonsterDie,
 

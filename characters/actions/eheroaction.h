@@ -20,8 +20,9 @@ public:
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
-private:
+
     void lookForMonster();
+private:
     void lookForMonsterFight();
     bool fightMonster(eMonster* const m);
     void huntMonster(eMonster* const m);
@@ -62,68 +63,30 @@ private:
     stdptr<eHeroAction> mTptr;
 };
 
-class eHA_huntMonsterFail : public eCharActFunc {
-public:
-    eHA_huntMonsterFail(eGameBoard& board) :
-        eCharActFunc(board, eCharActFuncType::HA_huntMonsterFail) {}
-    eHA_huntMonsterFail(eGameBoard& board, eHeroAction* const ca) :
-        eCharActFunc(board, eCharActFuncType::HA_huntMonsterFail),
-        mTptr(ca) {}
-
-    void call() {
-        if(!mTptr) return;
-        const auto t = mTptr.get();
-        const auto c = t->character();
-        c->setActionType(eCharacterActionType::walk);
-        t->goBack(eWalkableObject::sCreateDefault());
-    }
-
-    void read(eReadStream& src) {
-        src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
-            mTptr = static_cast<eHeroAction*>(ca);
-        });
-    }
-
-    void write(eWriteStream& dst) const {
-        dst.writeCharacterAction(mTptr);
-    }
-private:
-    stdptr<eHeroAction> mTptr;
-};
-
 class eHA_huntMonsterFinish : public eCharActFunc {
 public:
     eHA_huntMonsterFinish(eGameBoard& board) :
         eCharActFunc(board, eCharActFuncType::HA_huntMonsterFinish) {}
-    eHA_huntMonsterFinish(eGameBoard& board, eHeroAction* const ca,
-                          eMonster* const m) :
+    eHA_huntMonsterFinish(eGameBoard& board, eHeroAction* const ca) :
         eCharActFunc(board, eCharActFuncType::HA_huntMonsterFinish),
-        mTptr(ca), mMptr(m) {}
+        mTptr(ca) {}
 
     void call() {
         if(!mTptr) return;
-        const auto t = mTptr.get();
-        const auto c = t->character();
-        c->setActionType(eCharacterActionType::walk);
-        t->goBack(eWalkableObject::sCreateDefault());
+        mTptr->lookForMonster();
     }
 
     void read(eReadStream& src) {
         src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
             mTptr = static_cast<eHeroAction*>(ca);
         });
-        src.readCharacter(&board(), [this](eCharacter* const c) {
-            mMptr = static_cast<eMonster*>(c);
-        });
     }
 
     void write(eWriteStream& dst) const {
         dst.writeCharacterAction(mTptr);
-        dst.writeCharacter(mMptr);
     }
 private:
     stdptr<eHeroAction> mTptr;
-    stdptr<eMonster> mMptr;
 };
 
 class eHA_fightMonsterDie : public eCharActFunc {

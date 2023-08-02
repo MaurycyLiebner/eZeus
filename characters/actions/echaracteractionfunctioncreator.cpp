@@ -101,8 +101,6 @@ stdsptr<eCharActFunc> eCharActFunc::sCreate(
 
     case eCharActFuncType::HA_patrolFail:
         return std::make_shared<eHA_patrolFail>(board);
-    case eCharActFuncType::HA_huntMonsterFail:
-        return std::make_shared<eHA_huntMonsterFail>(board);
     case eCharActFuncType::HA_huntMonsterFinish:
         return std::make_shared<eHA_huntMonsterFinish>(board);
     case eCharActFuncType::HA_fightMonsterDie:

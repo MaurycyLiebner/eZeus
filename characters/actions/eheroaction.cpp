@@ -11,11 +11,11 @@
 #include "vec2.h"
 
 eHeroAction::eHeroAction(eCharacter* const c) :
-    eActionWithComeback(c, eCharActionType::heroAction) {}
+    eActionWithComeback(c, eCharActionType::heroAction) {
+    setFinishOnComeback(true);
+}
 
 bool eHeroAction::decide() {
-    setFinishOnComeback(true);
-
     const auto c = character();
     if(mStage == eHeroActionStage::none) {
         mStage = eHeroActionStage::patrol;
@@ -77,7 +77,6 @@ void eHeroAction::lookForMonster() {
         const auto sl = eMonster::sSlayer(mt);
         if(sl != ht) continue;
         huntMonster(m);
-        break;
     }
 }
 
@@ -170,21 +169,17 @@ void eHeroAction::huntMonster(eMonster* const m) {
 
     const auto c = character();
 
-    const stdptr<eHeroAction> tptr(this);
-    const auto failFunc = std::make_shared<eHA_huntMonsterFail>(
-                              board(), this);
-
     const auto monsterTile = [mtx, mty](eTileBase* const tile) {
         return tile->x() == mtx && tile->y() == mty;
     };
 
-    const stdptr<eMonster> mptr(m);
     const auto finish = std::make_shared<eHA_huntMonsterFinish>(
-                            board(), this, m);
+                            board(), this);
 
     const auto a = e::make_shared<eMoveToAction>(c);
-    a->setFailAction(failFunc);
+    a->setFailAction(finish);
     a->setFinishAction(finish);
+    const stdptr<eHeroAction> tptr(this);
     a->setFoundAction([tptr, this, a, c]() {
         if(!tptr) return;
         mStage = eHeroActionStage::hunt;
