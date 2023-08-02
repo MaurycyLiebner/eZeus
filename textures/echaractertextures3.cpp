@@ -54,9 +54,9 @@ void eCharacterTextures::loadAtalanta() {
     eSpriteLoader loader(fTileH, "atalanta", sds,
                          &ePoseidon_AtalantaOffset, fRenderer);
 
-    loader.loadSkipFlipped(1, 1, 257, fAtalanta.fWalk);
-    loader.loadSkipFlipped(1, 257, 457, fAtalanta.fDie);
-    loader.loadSkipFlipped(1, 457, 577, fAtalanta.fFight);
+    loader.loadSkipFlipped(1, 1, 161, fAtalanta.fWalk);
+    loader.loadSkipFlipped(1, 161, 329, fAtalanta.fDie);
+    loader.loadSkipFlipped(1, 329, 473, fAtalanta.fFight);
 }
 
 void eCharacterTextures::loadBellerophon() {
