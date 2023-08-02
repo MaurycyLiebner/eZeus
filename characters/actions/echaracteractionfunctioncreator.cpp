@@ -17,6 +17,8 @@
 #include "esoldieraction.h"
 #include "etraderaction.h"
 
+#include "godHelp/ezeushelpaction.h"
+
 #include "buildings/epatroltarget.h"
 
 #include "characters/echaracter.h"
@@ -152,6 +154,9 @@ stdsptr<eCharActFunc> eCharActFunc::sCreate(
 
     case eCharActFuncType::SS_spawnFinish:
         return std::make_shared<eSS_spawnFinish>(board);
+
+    case eCharActFuncType::ZHA_killFinish:
+        return std::make_shared<eZHA_killFinish>(board);
     }
     return nullptr;
 }

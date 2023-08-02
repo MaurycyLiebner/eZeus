@@ -156,7 +156,7 @@ void eGodMonsterAction::spawnTimedMissiles(
         const eCharacterActionType at,
         const eCharacterType ct,
         const int attackTime,
-        eTile* const target,
+        const eMissileTarget& target,
         const stdsptr<eCharActFunc>& playSound,
         const stdsptr<eGodAct>& playHitSound,
         const stdsptr<eCharActFunc>& finishA,

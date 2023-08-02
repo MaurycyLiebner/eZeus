@@ -3,6 +3,7 @@
 #include "characters/monsters/emonster.h"
 #include "characters/heroes/ehero.h"
 
+#include "characters/actions/egodmonsteraction.h"
 #include "characters/actions/emovetoaction.h"
 #include "characters/actions/epatrolmoveaction.h"
 #include "ewaitaction.h"
@@ -113,7 +114,7 @@ void eHeroAction::lookForMonsterFight() {
 }
 
 bool eHeroAction::fightMonster(eMonster* const m) {
-    const bool ranged = rangedHero();
+    const bool ranged = false;//rangedHero();
 
     const auto c = character();
     const vec2d cpos{c->absX(), c->absY()};
@@ -126,15 +127,26 @@ bool eHeroAction::fightMonster(eMonster* const m) {
     const auto o = sAngleOrientation(angle);
     c->setOrientation(o);
     c->setActionType(eCharacterActionType::fight);
-    const auto w = e::make_shared<eWaitAction>(c);
+    stdsptr<eCharacterAction> ca;
     const int fightTime = 5000;
-    w->setTime(fightTime);
+    if(ranged) {
+        const int attackTime = 500;
+        const auto gm = e::make_shared<eGodMonsterActionInd>(c);
+        gm->spawnTimedMissiles(eCharacterActionType::fight,
+                               c->type(), attackTime, m,
+                               nullptr, nullptr, nullptr,
+                               fightTime);
+        ca = gm;
+    } else {
+        const auto w = e::make_shared<eWaitAction>(c);
+        w->setTime(fightTime);
+        ca = w;
+    }
     const auto mdie = std::make_shared<eHA_fightMonsterDie>(
                           board(), m);
-    w->setFailAction(mdie);
-    w->setFinishAction(mdie);
-    w->setTime(fightTime);
-    setCurrentAction(w);
+    ca->setFailAction(mdie);
+    ca->setFinishAction(mdie);
+    setCurrentAction(ca);
 
     if(!ranged) {
         const auto mo = !o;

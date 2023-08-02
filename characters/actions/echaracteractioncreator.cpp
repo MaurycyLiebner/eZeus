@@ -117,6 +117,8 @@ stdsptr<eCharacterAction> eCharacterAction::sCreate(
         return e::make_shared<ePoseidonHelpAction>(c);
     case eCharActionType::zeusHelpAction:
         return e::make_shared<eZeusHelpAction>(c);
+    case eCharActionType::godMonsterActionInd:
+        return e::make_shared<eGodMonsterActionInd>(c);
     }
     return nullptr;
 }
