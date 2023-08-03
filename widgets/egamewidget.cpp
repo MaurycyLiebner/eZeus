@@ -1481,7 +1481,7 @@ void eGameWidget::clampViewBox() {
     const int w = mBoard->width();
     const int ww = width() - mGm->width();
     mDX = std::min(0, mDX);
-    mDX = std::max(-w*mTileW + ww + mTileW/2, mDX);
+    mDX = std::max(-w*mTileW + ww + mTileW, mDX);
 
     const int h = mBoard->height();
     const int hh = height();
