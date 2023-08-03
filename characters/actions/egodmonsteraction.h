@@ -388,7 +388,10 @@ public:
     eGodMonsterActionInd(eCharacter* const c) :
         eGodMonsterAction(c, eCharActionType::godMonsterActionInd) {}
 
-    bool decide() override { return false; }
+    bool decide() override {
+        setState(eCharacterActionState::finished);
+        return false;
+    }
 };
 
 #endif // EGODMONSTERACTION_H

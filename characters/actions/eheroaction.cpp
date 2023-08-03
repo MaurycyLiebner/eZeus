@@ -113,7 +113,7 @@ void eHeroAction::lookForMonsterFight() {
 }
 
 bool eHeroAction::fightMonster(eMonster* const m) {
-    const bool ranged = false;//rangedHero();
+    const bool ranged = rangedHero();
 
     const auto c = character();
     const vec2d cpos{c->absX(), c->absY()};
@@ -129,7 +129,7 @@ bool eHeroAction::fightMonster(eMonster* const m) {
     stdsptr<eCharacterAction> ca;
     const int fightTime = 5000;
     if(ranged) {
-        const int attackTime = 500;
+        const int attackTime = 150;
         const auto gm = e::make_shared<eGodMonsterActionInd>(c);
         gm->spawnTimedMissiles(eCharacterActionType::fight,
                                c->type(), attackTime, m,

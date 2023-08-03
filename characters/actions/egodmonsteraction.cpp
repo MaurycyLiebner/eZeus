@@ -288,6 +288,7 @@ void eGMA_spawnMissileFinish::call() {
         if(mAt == eCharacterActionType::fight) {
             switch(charType) {
             case eCharacterType::apollo:
+            case eCharacterType::atalanta:
                 h = -0.5;
                 break;
             case eCharacterType::calydonianBoar:
