@@ -709,22 +709,15 @@ void eGameWidget::paintEvent(ePainter& p) {
             tp.drawTexture(frx + 1, fry, tex, eAlignment::hcenter | eAlignment::top);
         };
 
-        const auto drawCharacters = [&](
-                const int dtx, const int dty) {
-            const int ddx = 0;
-            const int ddy = -1;
-            eTile* tt;
-            if(dtx == 0 && dty == 0) {
-                tt = tile;
-            } else {
-                tt = mBoard->tile(tx + dtx, ty + dty);
-            }
-            if(!tt) return;
-            const int a = tt->altitude();
-            const auto bttt = tt->underBuildingType();
+        const auto drawCharacters = [&](eTile* const tile,
+                                        const bool big) {
+            if(!tile) return;
+            const int a = tile->altitude();
+            const auto bttt = tile->underBuildingType();
             const bool flat = eBuilding::sFlatBuilding(bttt);
             if(flat || bttt == eBuildingType::wall) {
-                const auto& chars = tt->characters();
+                const auto r = p.renderer();
+                const auto& chars = tile->characters();
                 for(const auto& c : chars) {
                     if(!c->visible()) continue;
                     const auto ct = c->type();
@@ -735,67 +728,72 @@ void eGameWidget::paintEvent(ePainter& p) {
                             continue;
                         }
                     }
+                    const bool cbig = ct == eCharacterType::scylla ||
+                                      ct == eCharacterType::kraken;
+                    if(big != cbig) continue;
                     const bool v = eViewModeHelpers::characterVisible(
                                        mViewMode, c->type());
                     if(!v) continue;
-                    double x = tx - a + c->x() + 0.25 + dtx;
-                    double y = ty - a + c->y() + 0.25 + dty;
-                    const auto t = tt->top<eTile>();
-                    const auto l = tt->left<eTile>();
-                    const auto r = tt->right<eTile>();
-                    const auto b = tt->bottom<eTile>();
-                    const auto tl = tt->topLeft<eTile>();
-                    const auto tr = tt->topRight<eTile>();
-                    const auto bl = tt->bottomLeft<eTile>();
-                    const auto br = tt->bottomRight<eTile>();
-                    if(tl && tl->altitude() > a) {
-                        const double mult = 1 - c->x();
-                        const int tla = tl->altitude();
-                        const double da = mult*(tla - a);
-                        x -= da;
-                        y -= da;
-                    } else if(tr && tr->altitude() > a) {
-                        const double mult = 1 - c->y();
-                        const int tra = tr->altitude();
-                        const double da = mult*(tra - a);
-                        x -= da;
-                        y -= da;
-                    } else if(bl && bl->altitude() > a) {
-                        const double mult = c->y();
-                        const int bla = bl->altitude();
-                        const double da = mult*(bla - a);
-                        x -= da;
-                        y -= da;
-                    } else if(br && br->altitude() > a) {
-                        const double mult = c->x();
-                        const int bra = br->altitude();
-                        const double da = mult*(bra - a);
-                        x -= da;
-                        y -= da;
-                    } else if(t && t->altitude() > a) {
-                        const double mult = (1 - c->x())*(1 - c->y());
-                        const int ta = t->altitude();
-                        const double da = mult*(ta - a);
-                        x -= da;
-                        y -= da;
-                    } else if(l && l->altitude() > a) {
-                        const double mult = (1 - c->x())*c->y();
-                        const int la = l->altitude();
-                        const double da = mult*(la - a);
-                        x -= da;
-                        y -= da;
-                    } else if(r && r->altitude() > a) {
-                        const double mult = c->x()*(1 - c->y());
-                        const int ra = r->altitude();
-                        const double da = mult*(ra - a);
-                        x -= da;
-                        y -= da;
-                    } else if(b && b->altitude() > a) {
-                        const double mult = c->x()*c->y();
-                        const int ba = b->altitude();
-                        const double da = mult*(ba - a);
-                        x -= da;
-                        y -= da;
+                    double x = tile->x() - a + c->x() + 0.25;
+                    double y = tile->y() - a + c->y() + 0.25;
+                    {
+                        const auto t = tile->top<eTile>();
+                        const auto l = tile->left<eTile>();
+                        const auto r = tile->right<eTile>();
+                        const auto b = tile->bottom<eTile>();
+                        const auto tl = tile->topLeft<eTile>();
+                        const auto tr = tile->topRight<eTile>();
+                        const auto bl = tile->bottomLeft<eTile>();
+                        const auto br = tile->bottomRight<eTile>();
+                        if(tl && tl->altitude() > a) {
+                            const double mult = 1 - c->x();
+                            const int tla = tl->altitude();
+                            const double da = mult*(tla - a);
+                            x -= da;
+                            y -= da;
+                        } else if(tr && tr->altitude() > a) {
+                            const double mult = 1 - c->y();
+                            const int tra = tr->altitude();
+                            const double da = mult*(tra - a);
+                            x -= da;
+                            y -= da;
+                        } else if(bl && bl->altitude() > a) {
+                            const double mult = c->y();
+                            const int bla = bl->altitude();
+                            const double da = mult*(bla - a);
+                            x -= da;
+                            y -= da;
+                        } else if(br && br->altitude() > a) {
+                            const double mult = c->x();
+                            const int bra = br->altitude();
+                            const double da = mult*(bra - a);
+                            x -= da;
+                            y -= da;
+                        } else if(t && t->altitude() > a) {
+                            const double mult = (1 - c->x())*(1 - c->y());
+                            const int ta = t->altitude();
+                            const double da = mult*(ta - a);
+                            x -= da;
+                            y -= da;
+                        } else if(l && l->altitude() > a) {
+                            const double mult = (1 - c->x())*c->y();
+                            const int la = l->altitude();
+                            const double da = mult*(la - a);
+                            x -= da;
+                            y -= da;
+                        } else if(r && r->altitude() > a) {
+                            const double mult = c->x()*(1 - c->y());
+                            const int ra = r->altitude();
+                            const double da = mult*(ra - a);
+                            x -= da;
+                            y -= da;
+                        } else if(b && b->altitude() > a) {
+                            const double mult = c->x()*c->y();
+                            const int ba = b->altitude();
+                            const double da = mult*(ba - a);
+                            x -= da;
+                            y -= da;
+                        }
                     }
                     const auto tex = c->getTexture(mTileSize);
                     if(tex) {
@@ -807,107 +805,26 @@ void eGameWidget::paintEvent(ePainter& p) {
                         const int ddstYf = mDY + dstYf;
                         const int ddstX = std::round(ddstXf);
                         const int ddstY = std::round(ddstYf);
-                        const int w = mTileW;
-                        const int srcX = 0;//((dtx - dty)*mTileW/2);
-//                        p.drawTexturePortion(srcRect, dstRect, tex);
-                        const auto r = p.renderer();
-                        {
-                            const auto o = c->orientation();
-                            if(c->type() == eCharacterType::scylla) {
 
-                            } else {
-                                SDL_Rect clipRect;
-                                clipRect.y = -10000;
-                                clipRect.h = 20000;
-                                clipRect.x = mDX + (t->x() - t->y() - a - 1)*mTileW/2;
-                                clipRect.w = mTileW;
-                                bool clip = true;
-                                switch(o) {
-                                case eOrientation::topRight:
-                                case eOrientation::bottomLeft: {
-                                    if(dtx == ddx && dty == ddy - 1) {
-//                                        tex->setColorMod(255, 0, 0);
-                                        clipRect.x -= mTileW;
-                                    } else if(dtx == ddx && dty == ddy) {
-                                    } else if(dtx == ddx && dty == ddy + 1) {
-//                                        tex->setColorMod(0, 255, 0);
-                                        clipRect.x += mTileW;
-                                    } else {
-                                        continue;
-                                    }
-                                } break;
-                                case eOrientation::right: {
-                                    clip = false;
-                                    if(dtx == ddx - 1 && dty == ddy) {
-                                    } else {
-                                        continue;
-                                    }
-                                } break;
-                                case eOrientation::bottomRight:
-                                case eOrientation::topLeft: {
-                                    if(dtx == ddx - 1 && dty == ddy) {
-//                                        tex->setColorMod(255, 0, 0);
-                                        clipRect.x += mTileW;
-                                    } else if(dtx == ddx && dty == ddy) {
-                                    } else if(dtx == ddx + 1 && dty == ddy) {
-//                                        tex->setColorMod(0, 255, 0);
-                                        clipRect.x -= mTileW;
-                                    } else {
-                                        continue;
-                                    }
-                                } break;
-                                case eOrientation::bottom: {
-                                    clip = false;
-                                    if(dtx == ddx - 1 && dty == ddy - 1) {
-                                    } else {
-                                        continue;
-                                    }
-                                } break;
-                                case eOrientation::left: {
-                                    clip = false;
-                                    if(dtx == ddx - 1 && dty == ddy) {
-                                    } else {
-                                        continue;
-                                    }
-                                } break;
-                                case eOrientation::top: {
-                                    clip = false;
-                                    if(dtx == ddx - 1 && dty == ddy - 1) {
-                                    } else {
-                                        continue;
-                                    }
-                                } break;
-                                }
-
-                                if(clip) SDL_RenderSetClipRect(r, &clipRect);
-    //                            SDL_SetRenderDrawColor(r, ((tx + ty) % 2) ? 255 : 0, ((2*tx - ty) % 2) ? 255 : 0, 0, 255);
-    //                            SDL_RenderFillRect(r, &clipRect);
-
-                            }
-                        }
-
-//                        tex->renderRelPortion(r, ddstX, ddstY,
-//                                              srcX, w, false);
                         tex->render(r, ddstX, ddstY, false);
-                        if(c->hasSecondaryTexture()) {
-                            const auto stex = c->getSecondaryTexture(mTileSize);
-                            const auto stexTex = stex.fTex;
-                            if(stexTex) {
-                                const double offX = mTileH*stexTex->offsetX()/30.;
-                                const double offY = mTileH*stexTex->offsetY()/30.;
-                                const double sdstXf = 0.5*(x + stex.fX - y - stex.fY)*mTileW - offX;
-                                const double sdstYf = 0.5*(x + stex.fX + y + stex.fY)*mTileH - offY;
-                                const double sddstXf = mDX + sdstXf;
-                                const double sddstYf = mDY + sdstYf;
-                                const int sddstX = std::round(sddstXf);
-                                const int sddstY = std::round(sddstYf);
-                                stexTex->render(r, sddstX, sddstY, false);
-                            }
+                    }
+                    if(c->hasSecondaryTexture()) {
+                        const auto stex = c->getSecondaryTexture(mTileSize);
+                        const auto stexTex = stex.fTex;
+                        if(stexTex) {
+                            const double offX = mTileH*stexTex->offsetX()/30.;
+                            const double offY = mTileH*stexTex->offsetY()/30.;
+                            const double sdstXf = 0.5*(x + stex.fX - y - stex.fY)*mTileW - offX;
+                            const double sdstYf = 0.5*(x + stex.fX + y + stex.fY)*mTileH - offY;
+                            const double sddstXf = mDX + sdstXf;
+                            const double sddstYf = mDY + sdstYf;
+                            const int sddstX = std::round(sddstXf);
+                            const int sddstY = std::round(sddstYf);
+                            stexTex->render(r, sddstX, sddstY, false);
                         }
-                        SDL_RenderSetClipRect(r, nullptr);
+                    }
 //                        tex->clearColorMod();
 //                      tp.drawTexture(x, y, tex);
-                    }
                 }
             }
         };
@@ -1039,9 +956,78 @@ void eGameWidget::paintEvent(ePainter& p) {
         drawSpawner();
         drawBanners();
 
-        for(int dx = -3; dx <= 3; dx++) {
-            for(int dy = -3; dy <= 3; dy++) {
-                drawCharacters(dx, dy);
+        const auto r = p.renderer();
+        const auto clipTileRect = [&]() {
+            SDL_Rect clipRect;
+            clipRect.y = -10000;
+            clipRect.h = 20000;
+            clipRect.x = mDX + (tile->x() - tile->y() - 1)*mTileW/2;
+            clipRect.w = mTileW;
+            SDL_RenderSetClipRect(r, &clipRect);
+        };
+
+        enum class eCharRenderOrder {
+            x0y1x1y0,
+            x1y1
+        };
+
+        const auto tileCharRenderOrder = [](const eTile* tile) {
+            const auto tileFlat = [](const eTile* const tile) {
+                const auto bt = tile->underBuildingType();
+                const bool flat = eBuilding::sFlatBuilding(bt);
+                return flat;
+            };
+            {
+                const auto t_x0y1 = tile->bottomLeft<eTile>();
+                if(t_x0y1) {
+                    const bool flat = tileFlat(t_x0y1);
+                    if(!flat) return eCharRenderOrder::x0y1x1y0;
+                }
+            }
+            {
+                const auto t_x1y0 = tile->bottomLeft<eTile>();
+                if(t_x1y0) {
+                    const bool flat = tileFlat(t_x1y0);
+                    if(!flat) return eCharRenderOrder::x0y1x1y0;
+                }
+            }
+            return eCharRenderOrder::x1y1;
+        };
+        {
+            const auto tt = tile->tileRel<eTile>(-2, -2);
+            if(tt) {
+                drawCharacters(tt, true);
+            }
+        }
+        {
+            const auto t = tile->top<eTile>();
+            if(t) {
+                const auto order = tileCharRenderOrder(t);
+                if(order == eCharRenderOrder::x1y1) {
+                    drawCharacters(t, false);
+                }
+            }
+        }
+        {
+            const auto tl = tile->topLeft<eTile>();
+            if(tl) {
+                const auto order = tileCharRenderOrder(tl);
+                if(order == eCharRenderOrder::x0y1x1y0) {
+                    clipTileRect();
+                    drawCharacters(tl, false);
+                    SDL_RenderSetClipRect(r, nullptr);
+                }
+            }
+        }
+        {
+            const auto tr = tile->topRight<eTile>();
+            if(tr) {
+                const auto order = tileCharRenderOrder(tr);
+                if(order == eCharRenderOrder::x0y1x1y0) {
+                    clipTileRect();
+                    drawCharacters(tr, false);
+                    SDL_RenderSetClipRect(r, nullptr);
+                }
             }
         }
 
