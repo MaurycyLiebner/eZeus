@@ -156,6 +156,11 @@ enum class eBuildingType {
     ruins
 };
 
+struct eTextureSpace {
+    std::shared_ptr<eTexture> fTex;
+    SDL_Rect fRect{0, 0, 0, 0};
+};
+
 class eBuilding : public eObject {
 public:
     eBuilding(eGameBoard& board,
@@ -170,6 +175,10 @@ public:
         (void)size;
         return std::vector<eOverlay>();
     }
+
+    virtual eTextureSpace
+    getTextureSpace(const int tx, const int ty,
+                    const eTileSize size) const;
 
     virtual void timeChanged(const int by) { (void)by; }
     virtual void nextMonth() {}

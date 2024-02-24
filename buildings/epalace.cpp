@@ -24,6 +24,23 @@ void ePalace::erase() {
     eBuilding::erase();
 }
 
+eTextureSpace ePalace::getTextureSpace(const int tx, const int ty,
+                                       const eTileSize size) const {
+    const SDL_Point p{tx, ty};
+    const auto r = tileRect();
+    if(!SDL_PointInRect(&p, &r)) return {nullptr};
+    const auto& blds = eGameTextures::buildings();
+    const int sizeId = static_cast<int>(size);
+    const auto& plcs = blds[sizeId];
+    if(mRotated) {
+        if(ty - r.y > 3) return {plcs.fPalace2H, SDL_Rect{r.x, r.y + 4, 4, 4}};
+        else return {plcs.fPalace1H, SDL_Rect{r.x, r.y, 4, 4}};
+    } else {
+        if(tx - r.x > 3) return {plcs.fPalace2W, SDL_Rect{r.x + 4, r.y, 4, 4}};
+        else return {plcs.fPalace1W, SDL_Rect{r.x, r.y, 4, 4}};
+    }
+}
+
 std::shared_ptr<eTexture> ePalace::getTexture1(const eTileSize size) const {
     const auto& blds = eGameTextures::buildings();
     const int sizeId = static_cast<int>(size);

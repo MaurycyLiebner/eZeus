@@ -30,6 +30,15 @@ eBuilding::~eBuilding() {
     getBoard().unregisterBuilding(this);
 }
 
+eTextureSpace eBuilding::getTextureSpace(const int tx, const int ty,
+                                         const eTileSize size) const {
+    const SDL_Point p{tx, ty};
+    const auto r = tileRect();
+    if(!SDL_PointInRect(&p, &r)) return {nullptr};
+    const auto tex = getTexture(size);
+    return eTextureSpace{tex, r};
+}
+
 int eBuilding::provide(const eProvide p, const int n) {
     (void)n;
     if(p == eProvide::maintanance) {

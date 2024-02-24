@@ -523,7 +523,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 }
             }
         };
-        const bool oldBuildingRendering = true;
+        const bool oldBuildingRendering = false;
         if(oldBuildingRendering) {
             if(bd) {
             } else if(ub && !v) {
@@ -565,22 +565,23 @@ void eGameWidget::paintEvent(ePainter& p) {
                     dy = 0.;
                 }
             };
-            const auto ubRect = ub->tileRect();
-            const int fitY = ubRect.y + ubRect.h - 1;
-            const int fitX = ubRect.x + ubRect.w - 1;
+            const auto ts = ub->getTextureSpace(tx, ty, tp.size());
+            const auto tsRect = ts.fRect;
+            const int fitY = tsRect.y + tsRect.h - 1;
+            const int fitX = tsRect.x + tsRect.w - 1;
             double dx;
             double dy;
-            getDisplacement(ubRect.w, ubRect.h, dx, dy);
+            getDisplacement(tsRect.w, tsRect.h, dx, dy);
             const double drawX = fitX + dx + 1 - a;
             const double drawY = fitY + dy + 1 - a;
             if(ty == fitY || tx == fitX) {
                 const auto bRender = [&](const int tx, const int ty) {
-                    const int xPart = tx - ubRect.x;
-                    const int yPart = ubRect.y + ubRect.h - ty + (tx == ubRect.x + ubRect.w - 1 ? 0 : -1);
+                    const int xPart = tx - tsRect.x;
+                    const int yPart = tsRect.y + tsRect.h - ty + (tx == tsRect.x + tsRect.w - 1 ? 0 : -1);
                     const int partNumber = xPart + yPart;
                     const int srcX = mTileW*partNumber/2;
                     const bool erase = inErase(ub);
-                    const auto tex = ub->getTexture(tp.size());
+                    const auto tex = ts.fTex;
                     if(tex) {
                         if(erase) tex->setColorMod(255, 175, 255);
                         tp.drawTexturePortion(drawX, drawY,

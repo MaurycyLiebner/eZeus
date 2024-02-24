@@ -15,6 +15,10 @@ public:
     std::shared_ptr<eTexture>
     getTexture(const eTileSize) const override { return nullptr; }
 
+    eTextureSpace
+    getTextureSpace(const int tx, const int ty,
+                    const eTileSize size) const override;
+
     std::shared_ptr<eTexture>
     getTexture1(const eTileSize size) const;
     std::shared_ptr<eTexture>
