@@ -38,11 +38,17 @@ eTextureSpace eStadium::getTextureSpace(const int tx, const int ty,
     const int sizeId = static_cast<int>(size);
     const auto& plcs = blds[sizeId];
     if(mRotated) {
-        if(ty - r.y > 4) return {plcs.fStadium2H, SDL_Rect{r.x, r.y + 5, 5, 5}};
-        else return {plcs.fStadium1H, SDL_Rect{r.x, r.y, 5, 5}};
+        if(ty - r.y > 4) {
+            return {plcs.fStadium2H, true, SDL_Rect{r.x, r.y + 5, 5, 5}};
+        } else {
+            return {plcs.fStadium1H, false, SDL_Rect{r.x, r.y, 5, 5}};
+        }
     } else {
-        if(tx - r.x > 4) return {plcs.fStadium2W, SDL_Rect{r.x + 5, r.y, 5, 5}};
-        else return {plcs.fStadium1W, SDL_Rect{r.x, r.y, 5, 5}};
+        if(tx - r.x > 4) {
+            return {plcs.fStadium2W, true, SDL_Rect{r.x + 5, r.y, 5, 5}};
+        } else {
+            return {plcs.fStadium1W, false, SDL_Rect{r.x, r.y, 5, 5}};
+        }
     }
 }
 
@@ -66,7 +72,7 @@ std::shared_ptr<eTexture> eStadium::getTexture2(const eTileSize size) const {
     }
 }
 
-std::vector<eOverlay> eStadium::getOverlays2(const eTileSize size) const {
+std::vector<eOverlay> eStadium::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& texs = eGameTextures::buildings()[sizeId];
 

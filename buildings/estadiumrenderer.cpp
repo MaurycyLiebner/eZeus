@@ -27,5 +27,5 @@ eStadium2Renderer::getTexture(const eTileSize size) const {
 
 std::vector<eOverlay>
 eStadium2Renderer::getOverlays(const eTileSize size) const {
-    return mStadium->getOverlays2(size);
+    return mStadium->getOverlays(size);
 }

@@ -589,7 +589,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                                               eAlignment::top);
                         if(erase) tex->clearColorMod();
                     }
-                    if(true || ub->overlayEnabled()) {
+                    if((true || ub->overlayEnabled()) && ts.fOvelays) {
                         const auto overlays = ub->getOverlays(tp.size());
                         for(const auto& o : overlays) {
                             const auto& tex = o.fTex;

@@ -158,6 +158,7 @@ enum class eBuildingType {
 
 struct eTextureSpace {
     std::shared_ptr<eTexture> fTex;
+    bool fOvelays = false;
     SDL_Rect fRect{0, 0, 0, 0};
 };
 

@@ -27,5 +27,5 @@ ePalace2Renderer::getTexture(const eTileSize size) const {
 
 std::vector<eOverlay>
 ePalace2Renderer::getOverlays(const eTileSize size) const {
-    return mPalace->getOverlays2(size);
+    return mPalace->getOverlays(size);
 }

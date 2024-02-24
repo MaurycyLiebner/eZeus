@@ -33,11 +33,17 @@ eTextureSpace ePalace::getTextureSpace(const int tx, const int ty,
     const int sizeId = static_cast<int>(size);
     const auto& plcs = blds[sizeId];
     if(mRotated) {
-        if(ty - r.y > 3) return {plcs.fPalace2H, SDL_Rect{r.x, r.y + 4, 4, 4}};
-        else return {plcs.fPalace1H, SDL_Rect{r.x, r.y, 4, 4}};
+        if(ty - r.y > 3) {
+            return {plcs.fPalace2H, true, SDL_Rect{r.x, r.y + 4, 4, 4}};
+        } else {
+            return {plcs.fPalace1H, false, SDL_Rect{r.x, r.y, 4, 4}};
+        }
     } else {
-        if(tx - r.x > 3) return {plcs.fPalace2W, SDL_Rect{r.x + 4, r.y, 4, 4}};
-        else return {plcs.fPalace1W, SDL_Rect{r.x, r.y, 4, 4}};
+        if(tx - r.x > 3) {
+            return {plcs.fPalace2W, true, SDL_Rect{r.x + 4, r.y, 4, 4}};
+        } else {
+            return {plcs.fPalace1W, false, SDL_Rect{r.x, r.y, 4, 4}};
+        }
     }
 }
 
@@ -61,7 +67,7 @@ std::shared_ptr<eTexture> ePalace::getTexture2(const eTileSize size) const {
     }
 }
 
-std::vector<eOverlay> ePalace::getOverlays2(const eTileSize size) const {
+std::vector<eOverlay> ePalace::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& texs = eGameTextures::buildings()[sizeId];
 
