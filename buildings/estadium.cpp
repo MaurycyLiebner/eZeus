@@ -29,6 +29,23 @@ void eStadium::timeChanged(const int by) {
     ePatrolTarget::timeChanged(by);
 }
 
+eTextureSpace eStadium::getTextureSpace(const int tx, const int ty,
+                                        const eTileSize size) const {
+    const SDL_Point p{tx, ty};
+    const auto r = tileRect();
+    if(!SDL_PointInRect(&p, &r)) return {nullptr};
+    const auto& blds = eGameTextures::buildings();
+    const int sizeId = static_cast<int>(size);
+    const auto& plcs = blds[sizeId];
+    if(mRotated) {
+        if(ty - r.y > 4) return {plcs.fStadium2H, SDL_Rect{r.x, r.y + 5, 5, 5}};
+        else return {plcs.fStadium1H, SDL_Rect{r.x, r.y, 5, 5}};
+    } else {
+        if(tx - r.x > 4) return {plcs.fStadium2W, SDL_Rect{r.x + 5, r.y, 5, 5}};
+        else return {plcs.fStadium1W, SDL_Rect{r.x, r.y, 5, 5}};
+    }
+}
+
 std::shared_ptr<eTexture> eStadium::getTexture1(const eTileSize size) const {
     const auto& blds = eGameTextures::buildings();
     const int sizeId = static_cast<int>(size);
