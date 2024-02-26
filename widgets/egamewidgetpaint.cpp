@@ -575,7 +575,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             const double drawX = fitX + dx + 1 - a;
             const double drawY = fitY + dy + 1 - a;
             if(ty == fitY || tx == fitX) {
-                const auto bRender = [&](const int tx, const int ty) {
+                const auto bRender = [&](const int tx, const int ty,
+                                         const bool mid) {
                     const int xPart = tx - tsRect.x;
                     const int yPart = tsRect.y + tsRect.h - ty + (tx == tsRect.x + tsRect.w - 1 ? 0 : -1);
                     const int partNumber = xPart + yPart;
@@ -614,10 +615,24 @@ void eGameWidget::paintEvent(ePainter& p) {
                             if(erase) tex->clearColorMod();
                         }
                     }
+
+                    if(ts.fOvelays && mid && tex) {
+                        const int bx = drawX;
+                        const int by = drawY - tsRect.h;
+                        if(ub->blessed() > 0.01) {
+                            const auto& blsd = destTexs.fBlessed;
+                            const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
+                            tp.drawTexture(bx, by, tex, eAlignment::bottom);
+                        } else if(ub->blessed() < -0.01) {
+                            const auto& blsd = destTexs.fCursed;
+                            const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
+                            tp.drawTexture(bx, by, tex, eAlignment::bottom);
+                        }
+                    }
                 };
-                bRender(tx, ty);
+                bRender(tx, ty, false);
                 if(tx == fitX && ty == fitY) {
-                    bRender(tx + 1, ty + 1);
+                    bRender(tx + 1, ty + 1, true);
                 }
             }
         }
