@@ -579,37 +579,37 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const int xPart = tx - tsRect.x;
                     const int yPart = tsRect.y + tsRect.h - ty + (tx == tsRect.x + tsRect.w - 1 ? 0 : -1);
                     const int partNumber = xPart + yPart;
-                    const int srcX = mTileW*partNumber/2;
+                    const int relX = mTileW*partNumber/2;
                     const bool erase = inErase(ub);
                     const auto tex = ts.fTex;
                     if(tex) {
                         if(erase) tex->setColorMod(255, 175, 255);
-                        tp.drawTexturePortion(drawX, drawY,
-                                              srcX, mTileW/2, tex,
-                                              eAlignment::top);
+                        tp.drawTexturePortion(drawX, drawY, relX, 0,
+                                              relX, mTileW/2, tex,
+                                              eAlignment::top, true);
                         if(erase) tex->clearColorMod();
                     }
                     if((true || ub->overlayEnabled()) && ts.fOvelays) {
                         const auto overlays = ub->getOverlays(tp.size());
                         for(const auto& o : overlays) {
                             const auto& tex = o.fTex;
-                            const int xOffset = tex->offsetX();
 
-                            const double oX = drawX + o.fX;
-                            const double oY = drawY + o.fY;
-
-                            const double dx = (o.fX - o.fY)*(mTileW/2) - xOffset;
-                            const int oSrcX = std::round(srcX - dx);
+                            const double xOffset = mTileH*tex->offsetX()/30.;
+                            const double dx = (o.fX - o.fY)*(mTileW/2);
+                            const int oSrcX = std::round(relX - dx + xOffset);
+                            const int dPixX = relX;
+                            const double dy = (o.fX + o.fY)*(mTileH/2.);
+                            const int dPixY = std::round(dy);
 
                             if(erase) tex->setColorMod(255, 175, 255);
                             if(o.fAlignTop) {
-                                tp.drawTexturePortion(oX, oY,
+                                tp.drawTexturePortion(drawX, drawY, dPixX, dPixY,
                                                       oSrcX, mTileW/2, tex,
-                                                      eAlignment::top);
+                                                      eAlignment::top, false);
                             } else {
-                                tp.drawTexturePortion(oX, oY,
+                                tp.drawTexturePortion(drawX, drawY, dPixX, dPixY,
                                                       oSrcX, mTileW/2, tex,
-                                                      eAlignment::none);
+                                                      eAlignment::none, false);
                             }
                             if(erase) tex->clearColorMod();
                         }

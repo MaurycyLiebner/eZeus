@@ -23,9 +23,10 @@ public:
     void translate(const double x, const double y);
     void drawTexturePortion(
             const double dstX, const double dstY,
+            const int dPixX, const int dPixY,
             const int srcX, const int srcW,
             const std::shared_ptr<eTexture>& tex,
-            const eAlignment align) const;
+            const eAlignment align, const bool xOffset) const;
 
     void drawTexture(const double x, const double y,
                      const std::shared_ptr<eTexture>& tex,
