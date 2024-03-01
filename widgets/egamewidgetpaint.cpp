@@ -523,7 +523,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 }
             }
         };
-        const bool oldBuildingRendering = false;
+        const bool oldBuildingRendering = ub && !v;
         if(oldBuildingRendering) {
             if(bd) {
             } else if(ub && !v) {
@@ -576,7 +576,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             const double drawY = fitY + dy + 1 - a;
             if(ty == fitY || tx == fitX) {
                 const auto bRender = [&](const int tx, const int ty,
-                                         const bool mid) {
+                                         const bool last) {
                     const int xPart = tx - tsRect.x;
                     const int yPart = tsRect.y + tsRect.h - ty + (tx == tsRect.x + tsRect.w - 1 ? 0 : -1);
                     const int partNumber = xPart + yPart;
@@ -590,7 +590,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                                               eAlignment::top, true);
                         if(erase) tex->clearColorMod();
                     }
-                    if((true || ub->overlayEnabled()) && ts.fOvelays) {
+                    if(ub->overlayEnabled() && ts.fOvelays) {
                         const auto overlays = ub->getOverlays(tp.size());
                         for(const auto& o : overlays) {
                             const auto& tex = o.fTex;
@@ -616,18 +616,21 @@ void eGameWidget::paintEvent(ePainter& p) {
                         }
                     }
 
-                    if(ts.fOvelays && mid && tex) {
-                        const int bx = drawX;
-                        const int by = drawY - tsRect.h;
-                        if(ub->blessed() > 0.01) {
-                            const auto& blsd = destTexs.fBlessed;
-                            const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
-                            tp.drawTexture(bx, by, tex, eAlignment::bottom);
-                        } else if(ub->blessed() < -0.01) {
-                            const auto& blsd = destTexs.fCursed;
-                            const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
-                            tp.drawTexture(bx, by, tex, eAlignment::bottom);
+                    if(last) {
+                        if(ts.fOvelays && tex) {
+                            const int bx = drawX;
+                            const int by = drawY - tsRect.h;
+                            if(ub->blessed() > 0.01) {
+                                const auto& blsd = destTexs.fBlessed;
+                                const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
+                                tp.drawTexture(bx, by, tex, eAlignment::bottom);
+                            } else if(ub->blessed() < -0.01) {
+                                const auto& blsd = destTexs.fCursed;
+                                const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
+                                tp.drawTexture(bx, by, tex, eAlignment::bottom);
+                            }
                         }
+                        drawBuildingModes();
                     }
                 };
                 bRender(tx, ty, false);
