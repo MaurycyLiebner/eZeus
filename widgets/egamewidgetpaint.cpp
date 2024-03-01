@@ -1013,7 +1013,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             return eCharRenderOrder::x1y1;
         };
         {
-            const auto tt = tile->tileRel<eTile>(-2, -2);
+            const auto tt = tile->tileRel<eTile>(-3, -3);
             if(tt) {
                 drawCharacters(tt, true);
             }
