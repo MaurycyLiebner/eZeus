@@ -879,10 +879,6 @@ void eGameWidget::paintEvent(ePainter& p) {
                 };
                 const auto& pgs = mPatrolBuilding->patrolGuides();
                 drawPGS(pgs);
-                if(mPatrolBuilding->bothDirections()) {
-                    const auto pgs = mPatrolBuilding->reversePatrolGuides();
-                    drawPGS(pgs);
-                }
             }
         };
 
