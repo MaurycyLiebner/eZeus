@@ -527,8 +527,10 @@ void eGameWidget::paintEvent(ePainter& p) {
         if(oldBuildingRendering) {
             if(bd) {
             } else if(ub && !v) {
-                const auto tex = getBasementTexture(tile, ub, trrTexs);
-                tp.drawTexture(rx, ry, tex, eAlignment::top);
+                if(ub != mPatrolBuilding) {
+                    const auto tex = getBasementTexture(tile, ub, trrTexs);
+                    tp.drawTexture(rx, ry, tex, eAlignment::top);
+                }
             } else if(tbr && !eBuilding::sFlatBuilding(bt)) {
                 drawBuilding();
                 if(ub && tbr && tbr->isMain()) {
