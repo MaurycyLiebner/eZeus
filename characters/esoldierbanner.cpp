@@ -46,7 +46,7 @@ void eSoldierBanner::goHome() {
     for(const auto s : mSoldiers) {
         if(s->dead()) continue;
         const auto a = s->soldierAction();
-        a->goHome();
+        if(a) a->goHome();
     }
 }
 
@@ -56,7 +56,7 @@ void eSoldierBanner::backFromHome() {
     for(const auto s : mSoldiers) {
         if(s->dead()) continue;
         const auto a = s->soldierAction();
-        a->goBackToBanner();
+        if(a) a->goBackToBanner();
     }
     updateCount();
 }
@@ -70,7 +70,7 @@ void eSoldierBanner::callSoldiers() {
         const int tty = tt->y();
 
         const auto a = s->soldierAction();
-        a->goTo(ttx, tty);
+        if(a) a->goTo(ttx, tty);
     }
 }
 
@@ -271,7 +271,7 @@ void eSoldierBanner::updateCount() {
         const auto s = soldiers.back();
         soldiers.pop_back();
         const auto a = s->soldierAction();
-        a->goHome();
+        if(a) a->goHome();
         s->setBanner(nullptr);
     }
     updatePlaces();

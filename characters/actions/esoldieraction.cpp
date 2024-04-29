@@ -99,7 +99,7 @@ void signalBeingAttack(eSoldier* const attacked,
 
                 const auto sss = static_cast<eSoldier*>(ccc.get());
                 const auto aaa = sss->soldierAction();
-                aaa->beingAttacked(by);
+                if(aaa) aaa->beingAttacked(by);
             }
         }
     }

@@ -104,7 +104,7 @@ void eArcherAction::increment(const int by) {
 
                                 const auto sss = static_cast<eSoldier*>(ccc.get());
                                 const auto aaa = sss->soldierAction();
-                                aaa->beingAttacked(tx, ty);
+                                if(aaa) aaa->beingAttacked(tx, ty);
                             }
                         }
                     }

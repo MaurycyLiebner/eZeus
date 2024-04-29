@@ -18,7 +18,7 @@ eSoldier::~eSoldier() {
 }
 
 eSoldierAction* eSoldier::soldierAction() const {
-    return static_cast<eSoldierAction*>(action());
+    return dynamic_cast<eSoldierAction*>(action());
 }
 
 eSoldierBanner* eSoldier::banner() const {
