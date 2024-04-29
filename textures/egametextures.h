@@ -80,6 +80,9 @@ public:
     static void loadGreekHoplite();
     static void loadGreekHorseman();
     static void loadGreekRockThrower();
+    static void loadAmazonSpear();
+    static void loadAmazonArcher();
+    static void loadAresWarrior();
     static void loadDonkey();
 
     static void loadBanners();

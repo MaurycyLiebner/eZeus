@@ -172,8 +172,10 @@ SOURCES += \
         characters/actions/walkable/erectwalkableobject.cpp \
         characters/actions/walkable/ewalkableobject.cpp \
         characters/eactor.cpp \
+        characters/eamazon.cpp \
         characters/eanimal.cpp \
         characters/earcher.cpp \
+        characters/eareswarrior.cpp \
         characters/eartisan.cpp \
         characters/ebasicpatroler.cpp \
         characters/eboar.cpp \
@@ -329,6 +331,7 @@ SOURCES += \
         textures/echaractertextures3.cpp \
         textures/echaractertextures4.cpp \
         textures/echaractertextures5.cpp \
+        textures/echaractertextures6.cpp \
         textures/edestructiontextures.cpp \
         textures/efertiletodry.cpp \
         textures/eforesttodry.cpp \
@@ -632,8 +635,10 @@ HEADERS += \
     characters/actions/walkable/erectwalkableobject.h \
     characters/actions/walkable/ewalkableobject.h \
     characters/eactor.h \
+    characters/eamazon.h \
     characters/eanimal.h \
     characters/earcher.h \
+    characters/eareswarrior.h \
     characters/eartisan.h \
     characters/ebasicpatroler.h \
     characters/eboar.h \
@@ -796,6 +801,7 @@ HEADERS += \
     offsets/Zeus_Aphrodite.h \
     offsets/Zeus_Apollo.h \
     offsets/Zeus_Ares.h \
+    offsets/Zeus_AresWarriors.h \
     offsets/Zeus_Artemis.h \
     offsets/Zeus_Athena.h \
     offsets/Zeus_Demeter.h \
@@ -806,6 +812,7 @@ HEADERS += \
     offsets/Zeus_Hermes.h \
     offsets/Zeus_Poseidon.h \
     offsets/Zeus_Zeus.h \
+    offsets/Zeus_amazon.h \
     offsets/destruction.h \
     offsets/zeus_achilles.h \
     offsets/zeus_calydonianboar.h \
@@ -847,6 +854,14 @@ HEADERS += \
     spriteData/aesthetic30.h \
     spriteData/aesthetic45.h \
     spriteData/aesthetic60.h \
+    spriteData/amazonArcher15.h \
+    spriteData/amazonArcher30.h \
+    spriteData/amazonArcher45.h \
+    spriteData/amazonArcher60.h \
+    spriteData/amazonSpear15.h \
+    spriteData/amazonSpear30.h \
+    spriteData/amazonSpear45.h \
+    spriteData/amazonSpear60.h \
     spriteData/aphrodite15.h \
     spriteData/aphrodite30.h \
     spriteData/aphrodite45.h \
@@ -863,6 +878,10 @@ HEADERS += \
     spriteData/ares30.h \
     spriteData/ares45.h \
     spriteData/ares60.h \
+    spriteData/aresWarrior15.h \
+    spriteData/aresWarrior30.h \
+    spriteData/aresWarrior45.h \
+    spriteData/aresWarrior60.h \
     spriteData/armsVendor15.h \
     spriteData/armsVendor30.h \
     spriteData/armsVendor45.h \

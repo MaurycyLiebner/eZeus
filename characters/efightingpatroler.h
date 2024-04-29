@@ -12,8 +12,10 @@ public:
                       const eCharacterType type);
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
+
+    void setCharTexs(const eCharTexs& texs);
 private:
-    const eCharTexs mCharTexs;
+    eCharTexs mCharTexs;
 };
 
 #endif // EFIGHTINGPATROLER_H

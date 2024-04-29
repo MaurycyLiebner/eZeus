@@ -363,6 +363,27 @@ void eGameTextures::loadGreekRockThrower() {
     });
 }
 
+void eGameTextures::loadAmazonSpear() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadAmazonSpear();
+    });
+}
+
+void eGameTextures::loadAmazonArcher() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadAmazonArcher();
+    });
+}
+
+void eGameTextures::loadAresWarrior() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadAresWarrior();
+    });
+}
+
 void eGameTextures::loadDonkey() {
     loadTexture([](const int i) {
         auto& c = sCharacterTextures[i];

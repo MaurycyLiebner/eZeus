@@ -356,7 +356,10 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fTradeBoat(renderer),
 
     fKraken(renderer),
-    fScylla(renderer) {
+    fScylla(renderer),
+
+    fAmazonSpear(renderer),
+    fAmazonArcher(renderer) {
 
 }
 

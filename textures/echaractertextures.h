@@ -119,6 +119,12 @@ struct eHeroTextures {
     std::vector<eTextureCollection> fFight;
 };
 
+struct eAresWarriorTextures {
+    std::vector<eTextureCollection> fWalk;
+    std::vector<eTextureCollection> fDie;
+    std::vector<eTextureCollection> fFight;
+};
+
 struct eWaterMonsterTextures {
     eWaterMonsterTextures(SDL_Renderer* const renderer) :
         fDie(renderer) {}
@@ -201,6 +207,12 @@ public:
     void loadHoplite();
     bool fHorsemanLoaded = false;
     void loadHorseman();
+    bool fAmazonSpearLoaded = false;
+    void loadAmazonSpear();
+    bool fAmazonArcherLoaded = false;
+    void loadAmazonArcher();
+    bool fAresWarriorLoaded = false;
+    void loadAresWarrior();
     bool fHealerLoaded = false;
     void loadHealer();
     bool fCartLoaded = false;
@@ -380,6 +392,11 @@ public:
     eRockThrowerTextures fGreekRockThrower;
     eFightingCharacterTextures fGreekHoplite;
     eFightingCharacterTextures fGreekHorseman;
+
+    eFightingCharacterTextures fAmazonSpear;
+    eFightingCharacterTextures fAmazonArcher;
+
+    eAresWarriorTextures fAresWarrior;
 
     eTextureCollection fBannerRod;
     std::vector<eTextureCollection> fBanners;

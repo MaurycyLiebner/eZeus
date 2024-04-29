@@ -40,3 +40,7 @@ std::shared_ptr<eTexture> eFightingPatroler::getTexture(const eTileSize size) co
     const int texId = t % s;
     return coll->getTexture(texId);
 }
+
+void eFightingPatroler::setCharTexs(const eCharTexs& texs) {
+    mCharTexs = texs;
+}
