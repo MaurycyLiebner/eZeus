@@ -307,6 +307,11 @@ public:
     void waitUntilFinished();
 
     void registerSoldierBanner(const stdsptr<eSoldierBanner>& b);
+    bool unregisterSoldierBanner(const stdsptr<eSoldierBanner>& b);
+
+    void rockThrowerKilled();
+    void hopliteKilled();
+    void horsemanKilled();
 private:
     void updateNeighbours();
 
@@ -314,8 +319,6 @@ private:
     void addSoldier(const eCharacterType st);
     void removeSoldier(const eCharacterType st);
     void distributeSoldiers();
-
-    bool unregisterSoldierBanner(const stdsptr<eSoldierBanner>& b);
 
     void updateCoverage();
 

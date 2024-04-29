@@ -39,6 +39,9 @@ public:
     bool lowArms() const { return !mArms; }
     bool lowHorses() const { return !mHorses; }
 
+    void removeArmor();
+    void removeHorse();
+
     eHouseMissing missing() const override;
 
     void read(eReadStream& src) override;

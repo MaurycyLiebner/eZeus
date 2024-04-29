@@ -1,4 +1,4 @@
-#ifndef ESOLDIER_H
+﻿#ifndef ESOLDIER_H
 #define ESOLDIER_H
 
 #include "efightingpatroler.h"
@@ -13,6 +13,8 @@ public:
              const eCharTexs charTexs,
              const eCharacterType type);
     ~eSoldier();
+
+    void beingKilled();
 
     eSoldierAction* soldierAction() const;
 

@@ -372,6 +372,7 @@ void eMainWindow::showGame(eGameBoard* board,
                 bi = 0;
             }
             s->setBanner(b.get());
+            b->incCount();
             bi++;
         }
     }
@@ -388,6 +389,7 @@ void eMainWindow::showGame(eGameBoard* board,
                 bi = 0;
             }
             s->setBanner(b.get());
+            b->incCount();
             bi++;
         }
     }

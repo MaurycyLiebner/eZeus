@@ -135,6 +135,16 @@ bool eEliteHousing::lowFood() const {
     return mFood < cfood;
 }
 
+void eEliteHousing::removeArmor() {
+    mArms = std::max(0, mArms - 1);
+    updateLevel();
+}
+
+void eEliteHousing::removeHorse() {
+    mHorses = std::max(0, mHorses - 1);
+    updateLevel();
+}
+
 eHouseMissing eEliteHousing::missing() const {
     const auto& b = getBoard();
     const auto t = centerTile();

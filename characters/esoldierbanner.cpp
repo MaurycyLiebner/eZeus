@@ -72,7 +72,7 @@ void eSoldierBanner::moveToDefault() {
         if(!s) return;
         const auto ts = s->warriorTiles();
         for(const auto& t : ts) {
-            const auto bb = t->banner();
+            const auto bb = t->soldierBanner();
             if(bb) continue;
             moveTo(t->x(), t->y());
             break;
@@ -302,9 +302,22 @@ void eSoldierBanner::updatePlaces() {
 }
 
 void eSoldierBanner::updateCount() {
-    if(mHome) return;
     auto soldiers = notDead();
     const int n = soldiers.size();
+    if(mCount <= 0 && n == 0) {
+        switch(mType) {
+        case eBannerType::rockThrower:
+        case eBannerType::hoplite:
+        case eBannerType::horseman:
+            mBoard.unregisterSoldierBanner(ref<eSoldierBanner>());
+            break;
+        case eBannerType::amazon:
+        case eBannerType::aresWarrior:
+            break;
+        }
+        return;
+    }
+    if(mHome) return;
     for(int i = n; i < mCount; i++) {
         eCharacterType cht;
         switch(mType) {

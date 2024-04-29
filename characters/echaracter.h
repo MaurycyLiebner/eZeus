@@ -38,6 +38,8 @@ public:
 
     virtual void provideToBuilding(eBuilding* const b);
 
+    virtual void beingKilled() {}
+
     void incTime(const int by);
 
     void fight(eCharacter* const c);

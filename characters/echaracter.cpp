@@ -10,6 +10,8 @@
 #include "heroes/ehero.h"
 #include "audio/esounds.h"
 
+#include "esoldier.h"
+
 eCharacter::eCharacter(eGameBoard& board,
                        const eCharacterType type) :
     eObject(board), eCharacterBase(type) {
@@ -69,6 +71,7 @@ void eCharacter::kill() {
 }
 
 void eCharacter::killWithCorpse() {
+    beingKilled();
     const stdptr<eCharacter> c(this);
     const auto finish = std::make_shared<eChar_killWithCorpseFinish>(
                             getBoard(), this);

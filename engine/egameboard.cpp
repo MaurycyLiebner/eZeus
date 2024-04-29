@@ -895,11 +895,15 @@ void eGameBoard::updateMaxSoldiers() {
             const auto ch = static_cast<eSmallHouse*>(b);
             const int l = ch->level();
             if(l < 2) continue;
-            if(l == 2) mMaxRockThrowers += 5;
-            else if(l == 3) mMaxRockThrowers += 6;
-            else if(l == 4) mMaxRockThrowers += 10;
-            else if(l == 5) mMaxRockThrowers += 12;
-            else if(l == 6) mMaxRockThrowers += 15;
+            int lvlMax = 0;
+            if(l == 2) lvlMax = 5;
+            else if(l == 3) lvlMax = 6;
+            else if(l == 4) lvlMax = 10;
+            else if(l == 5) lvlMax = 12;
+            else if(l == 6) lvlMax = 15;
+            const int pop = ch->people();
+            const int popMax = pop/4;
+            mMaxRockThrowers += std::min(lvlMax, popMax);
         } else if(bt == eBuildingType::eliteHousing) {
             const auto eh = static_cast<eEliteHousing*>(b);
             const int l = eh->level();
@@ -977,9 +981,6 @@ void eGameBoard::removeSoldier(const eCharacterType st) {
         }
         if(found) {
             b->decCount();
-            if(b->count() <= 0) {
-                unregisterSoldierBanner(b);
-            }
             break;
         }
     }
@@ -1022,6 +1023,54 @@ void eGameBoard::distributeSoldiers() {
     }
     for(int i = 0; i < -remHorsemen; i++) {
         removeSoldier(eCharacterType::horseman);
+    }
+}
+
+void eGameBoard::rockThrowerKilled() {
+    int toKill = 24;
+    auto bs = mTimedBuildings;
+    std::random_shuffle(bs.begin(), bs.end());
+    for(const auto b : bs) {
+        const auto bt = b->type();
+        if(bt == eBuildingType::commonHouse) {
+            const auto sh = static_cast<eSmallHouse*>(b);
+            const int pop = sh->people();
+            const int shk = std::min(toKill, pop);
+            toKill -= shk;
+            sh->kill(shk);
+            if(toKill <= 0) break;
+        }
+    }
+}
+
+void eGameBoard::hopliteKilled() {
+    auto bs = mTimedBuildings;
+    std::random_shuffle(bs.begin(), bs.end());
+    for(const auto b : bs) {
+        const auto bt = b->type();
+        if(bt == eBuildingType::eliteHousing) {
+            const auto eh = static_cast<eEliteHousing*>(b);
+            const int pop = eh->people();
+            const int shk = std::min(4, pop);
+            eh->kill(shk);
+            eh->removeArmor();
+        }
+    }
+}
+
+void eGameBoard::horsemanKilled() {
+    auto bs = mTimedBuildings;
+    std::random_shuffle(bs.begin(), bs.end());
+    for(const auto b : bs) {
+        const auto bt = b->type();
+        if(bt == eBuildingType::eliteHousing) {
+            const auto eh = static_cast<eEliteHousing*>(b);
+            const int pop = eh->people();
+            const int shk = std::min(4, pop);
+            eh->kill(shk);
+            eh->removeArmor();
+            eh->removeHorse();
+        }
     }
 }
 

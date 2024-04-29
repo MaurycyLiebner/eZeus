@@ -34,3 +34,25 @@ void eSoldier::setBanner(eSoldierBanner* const b) {
         mBanner->addSoldier(this);
     }
 }
+
+void eSoldier::beingKilled() {
+    if(mBanner) mBanner->decCount();
+    setBanner(nullptr);
+    if(playerId() == 1) {
+        auto& brd = getBoard();
+        const auto ct = type();
+        switch(ct) {
+        case eCharacterType::rockThrower:
+            brd.rockThrowerKilled();
+            break;
+        case eCharacterType::hoplite:
+            brd.hopliteKilled();
+            break;
+        case eCharacterType::horseman:
+            brd.horsemanKilled();
+            break;
+        default:
+            break;
+        }
+    }
+}

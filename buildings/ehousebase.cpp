@@ -38,6 +38,12 @@ void eHouseBase::levelDown() {
     setLevel(mLevel - 1);
 }
 
+int eHouseBase::kill(int k) {
+    k = std::clamp(k, 0, mPeople);
+    setPeople(mPeople - k);
+    return k;
+}
+
 int eHouseBase::moveIn(int c) {
     c = std::clamp(c, 0, vacancies());
     setPeople(mPeople + c);

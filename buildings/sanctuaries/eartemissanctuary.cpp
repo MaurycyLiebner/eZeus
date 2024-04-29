@@ -13,19 +13,8 @@ eAresSanctuary::eAresSanctuary(
                            sw, sh, 60) {}
 
 void eSanctuaryWithWarriors::timeChanged(const int by) {
-    mSoldierSpawn += by;
-    const int ssr = 5000;
-    if(mSoldierSpawn > ssr) {
-        mSoldierSpawn -= ssr;
-        bool found = false;
-        for(const auto& b : mSoldierBanners) {
-            const int count = b->count();
-            if(count >= 8) continue;
-            b->incCount();
-            found = true;
-            break;
-        }
-        if(!found && mSoldierBanners.size() < 2) {
+    if(finished()) {
+        while(mSoldierBanners.size() < 2) {
             auto& board = getBoard();
             const auto gt = godType();
             eBannerType bt;
@@ -40,8 +29,18 @@ void eSanctuaryWithWarriors::timeChanged(const int by) {
             mSoldierBanners.push_back(b);
             b->setPlayerId(1);
             board.registerSoldierBanner(b);
-            b->incCount();
             b->moveToDefault();
+        }
+        mSoldierSpawn += by;
+        const int ssr = 20000;
+        if(mSoldierSpawn > ssr) {
+            mSoldierSpawn -= ssr;
+            for(const auto& b : mSoldierBanners) {
+                const int count = b->count();
+                if(count >= 8) continue;
+                b->incCount();
+                break;
+            }
         }
     }
     eSanctuary::timeChanged(by);

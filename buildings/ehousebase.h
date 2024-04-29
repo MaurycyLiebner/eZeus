@@ -44,6 +44,7 @@ public:
     int level() const { return mLevel; }
     int people() const { return mPeople; }
 
+    int kill(int k);
     int moveIn(int c);
 
     int vacancies() const;
