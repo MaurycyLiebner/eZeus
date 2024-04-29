@@ -6,6 +6,7 @@
 #include <math.h>
 
 #include "missiles/erockmissile.h"
+#include "missiles/earrowmissile.h"
 
 #include "characters/esoldierbanner.h"
 
@@ -122,17 +123,23 @@ void eSoldierAction::increment(const int by) {
     const int pid = c->playerId();
 
     if(mAttack) {
-        const auto tt = mAttackTarget.tile();
-        const int ttx = tt ? tt->x() : 0;
-        const int tty = tt ? tt->y() : 0;
         const auto at = c->actionType();
         if(range > 0 && mAttackTarget.valid() &&
            at == eCharacterActionType::fight2) {
             mMissile += by;
             if(mMissile > missileCheck) {
                 mMissile = mMissile - missileCheck;
-                eMissile::sCreate<eRockMissile>(brd, tx, ty, 0.5,
-                                                ttx, tty, 0.5, 2);
+                const auto tt = mAttackTarget.tile();
+                const int ttx = tt ? tt->x() : 0;
+                const int tty = tt ? tt->y() : 0;
+                const auto ct = c->type();
+                if(ct == eCharacterType::amazon) {
+                    eMissile::sCreate<eArrowMissile>(brd, tx, ty, 0.5,
+                                                     ttx, tty, 0.5, 2);
+                } else {
+                    eMissile::sCreate<eRockMissile>(brd, tx, ty, 0.5,
+                                                    ttx, tty, 0.5, 2);
+                }
             }
         }
         mAttackTime += by;
