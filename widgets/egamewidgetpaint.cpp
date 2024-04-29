@@ -982,7 +982,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         drawBridge();
         drawPatrolGuides();
         drawSpawner();
-        drawBanners();
 
         const auto r = p.renderer();
         const auto clipTileRect = [&]() {
@@ -1058,6 +1057,8 @@ void eGameWidget::paintEvent(ePainter& p) {
                 }
             }
         }
+
+        drawBanners();
 
         buildingDrawer(tile);
 
