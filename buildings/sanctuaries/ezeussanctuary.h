@@ -9,12 +9,6 @@ public:
                    eGameBoard& board);
 };
 
-class eAresSanctuary: public eSanctuary  {
-public:
-    eAresSanctuary(const int sw, const int sh,
-                   eGameBoard& board);
-};
-
 class eAphroditeSanctuary: public eSanctuary  {
 public:
     eAphroditeSanctuary(const int sw, const int sh,

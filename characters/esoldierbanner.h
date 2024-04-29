@@ -14,7 +14,9 @@ class eTile;
 enum class eBannerType {
     hoplite,
     horseman,
-    rockThrower
+    rockThrower,
+    amazon,
+    aresWarrior
 };
 
 class eSoldierBanner : public eObject {
@@ -27,6 +29,7 @@ public:
     int id() const { return mId; }
 
     void moveTo(const int x, const int y);
+    void moveToDefault();
     void goHome();
     void backFromHome();
     void callSoldiers();
@@ -54,7 +57,7 @@ public:
     void read(eReadStream& src);
     void write(eWriteStream& dst) const;
 
-    static void sPlace(const std::vector<eSoldierBanner*>& bs,
+    static void sPlace(std::vector<eSoldierBanner*> bs,
                        const int ctx, const int cty,
                        eGameBoard& board, const int dist);
 private:

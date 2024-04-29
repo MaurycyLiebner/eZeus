@@ -933,7 +933,7 @@ void eGameBoard::addSoldier(const eCharacterType st) {
                   st == eCharacterType::hoplite) {
             found = true;
         } else if(bt == eBannerType::horseman &&
-                  st == eCharacterType::horseman){
+                  st == eCharacterType::horseman) {
             found = true;
         }
         if(found) {
@@ -947,22 +947,16 @@ void eGameBoard::addSoldier(const eCharacterType st) {
         bt = eBannerType::rockThrower;
     } else if(st == eCharacterType::hoplite) {
         bt = eBannerType::hoplite;
-    } else { //horseman
+    } else if(st == eCharacterType::horseman) {
         bt = eBannerType::horseman;
+    } else {
+        return;
     }
     const auto b = e::make_shared<eSoldierBanner>(bt, *this);
     b->setPlayerId(1);
     registerSoldierBanner(b);
     b->incCount();
-    const auto ts = mPalace->tiles();
-    for(const auto& t : ts) {
-        const auto tt = t->centerTile();
-        if(!tt) continue;
-        const auto bb = tt->banner();
-        if(bb) continue;
-        b->moveTo(tt->x(), tt->y());
-        break;
-    }
+    b->moveToDefault();
 }
 
 void eGameBoard::removeSoldier(const eCharacterType st) {

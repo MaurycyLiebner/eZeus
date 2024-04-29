@@ -261,6 +261,14 @@ void eSanctuary::write(eWriteStream& dst) const {
     dst << mHelpTimer;
 }
 
+std::vector<eTile*> eSanctuary::warriorTiles() const {
+    return mWarriorTiles;
+}
+
+void eSanctuary::addWarriorTile(eTile* const t) {
+    mWarriorTiles.push_back(t);
+}
+
 bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
     if(mHelpTimer < 10000) {
         reason = eHelpDenialReason::tooSoon;

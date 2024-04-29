@@ -41,6 +41,7 @@ struct eSanctEle {
     int fA;
     int fId;
     eSanctEleType fType;
+    bool fWarrior = false;
 };
 
 struct eSanctBlueprint {

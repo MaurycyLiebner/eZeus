@@ -13,6 +13,7 @@
 #include "emovetoaction.h"
 #include "buildings/esmallhouse.h"
 #include "buildings/eelitehousing.h"
+#include "buildings/sanctuaries/etemplebuilding.h"
 
 eAttackTarget::eAttackTarget() :
     mC(nullptr), mB(nullptr) {}
@@ -434,7 +435,7 @@ eBuilding* eSoldierAction::sFindHome(const eCharacterType t,
             if(eh->level() < 2) return false;
             return true;
         };
-    } else { // horseman
+     } else if(t == eCharacterType::horseman) {
         v = [](eBuilding* const b) {
             const auto bt = b->type();
             if(bt != eBuildingType::eliteHousing) return false;
@@ -442,6 +443,28 @@ eBuilding* eSoldierAction::sFindHome(const eCharacterType t,
             if(eh->level() < 4) return false;
             return true;
         };
+    } else if(t == eCharacterType::amazon) {
+        v = [](eBuilding* const b) {
+            const auto bt = b->type();
+            if(bt != eBuildingType::temple) return false;
+            const auto eh = static_cast<eTempleBuilding*>(b);
+            if(!eh->finished()) return false;
+            const auto s = eh->sanctuary();
+            if(s->godType() != eGodType::artemis) return false;
+            return true;
+        };
+    } else if(t == eCharacterType::aresWarrior) {
+        v = [](eBuilding* const b) {
+            const auto bt = b->type();
+            if(bt != eBuildingType::temple) return false;
+            const auto eh = static_cast<eTempleBuilding*>(b);
+            if(!eh->finished()) return false;
+            const auto s = eh->sanctuary();
+            if(s->godType() != eGodType::ares) return false;
+            return true;
+        };
+    } else {
+        return nullptr;
     }
     const auto b = brd.randomBuilding(v);
     return b;

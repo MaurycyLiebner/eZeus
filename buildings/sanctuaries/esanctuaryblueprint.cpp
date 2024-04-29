@@ -57,6 +57,9 @@ bool loadLineBP(const int x,
             ele.fType = eSanctEleType::vine;
         } else if(codeStr == "t") {
             ele.fType = eSanctEleType::tile;
+        } else if(codeStr == "tw") {
+            ele.fType = eSanctEleType::tile;
+            ele.fWarrior = true;
         } else { // x
             ele.fType = eSanctEleType::none;
         }

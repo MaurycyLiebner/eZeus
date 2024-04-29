@@ -40,6 +40,9 @@ public:
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 
+    std::vector<eTile*> warriorTiles() const;
+    void addWarriorTile(eTile* const t);
+
     bool askForHelp(eHelpDenialReason& reason);
 
     eGod* god() const { return mGod; }
@@ -76,6 +79,8 @@ private:
     int mSpawnWait = 0;
 
     int mHelpTimer = 100000;
+
+    std::vector<eTile*> mWarriorTiles;
 };
 
 #endif // ESANCTUARY_H

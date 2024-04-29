@@ -3,11 +3,26 @@
 
 #include "esanctuary.h"
 
-class eArtemisSanctuary : public eSanctuary {
+class eSanctuaryWithWarriors : public eSanctuary {
+public:
+    using eSanctuary::eSanctuary;
+
+    void timeChanged(const int by);
+private:
+    int mSoldierSpawn = 0;
+    std::vector<stdsptr<eSoldierBanner>> mSoldierBanners;
+};
+
+class eArtemisSanctuary: public eSanctuaryWithWarriors  {
 public:
     eArtemisSanctuary(const int sw, const int sh,
                       eGameBoard& board);
 };
 
+class eAresSanctuary: public eSanctuaryWithWarriors  {
+public:
+    eAresSanctuary(const int sw, const int sh,
+                   eGameBoard& board);
+};
 
 #endif // EARTEMISSANCTUARY_H

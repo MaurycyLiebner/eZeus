@@ -934,10 +934,19 @@ void eGameWidget::paintEvent(ePainter& p) {
             {
                 const auto type = b->type();
                 const auto& tps = charTexs.fBannerTops;
-                const int itype = static_cast<int>(type);
-                const auto top = tps.getTexture(itype);
-                tp.drawTexture(rx - 2.5, ry -  3.5, top,
-                               eAlignment::hcenter | eAlignment::top);
+                int itype;
+                if(type == eBannerType::aresWarrior) {
+                    itype = 0;
+                } else if(type == eBannerType::amazon) {
+                    itype = -1;
+                } else {
+                    itype = static_cast<int>(type);
+                }
+                if(itype != -1) {
+                    const auto top = tps.getTexture(itype);
+                    tp.drawTexture(rx - 2.5, ry -  3.5, top,
+                                   eAlignment::hcenter | eAlignment::top);
+                }
             }
         };
 

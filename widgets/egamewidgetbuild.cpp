@@ -1651,6 +1651,7 @@ bool eGameWidget::buildMouseRelease() {
                         tt->setSanctuary(b.get());
                         build(tx, ty, 1, 1, [tt]() { return tt; });
                         b->registerElement(tt);
+                        if(t.fWarrior) b->addWarriorTile(tile);
                     } break;
                     case eSanctEleType::stairs: {
                         tile->setSeed(t.fId);

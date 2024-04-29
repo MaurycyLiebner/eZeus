@@ -8,11 +8,16 @@
 #include "characters/erockthrower.h"
 #include "characters/ehoplite.h"
 #include "characters/ehorseman.h"
+#include "characters/eamazon.h"
+#include "characters/eareswarrior.h"
 #include "characters/actions/esoldieraction.h"
 #include "eiteratesquare.h"
 
 #include "evectorhelpers.h"
 #include "ewalkablehelpers.h"
+
+#include "buildings/epalace.h"
+#include "buildings/epalacetile.h"
 
 int gNextId = 0;
 
@@ -23,11 +28,13 @@ eSoldierBanner::eSoldierBanner(const eBannerType type,
 
 void eSoldierBanner::moveTo(const int x, const int y) {
     if(mX == x && mY == y) return;
+    const auto t = mBoard.tile(x, y);
+    if(!t) return;
+
 
     if(mPlayerId == 1 && mTile) {
         mTile->setSoldierBanner(nullptr);
     }
-    const auto t = mBoard.tile(x, y);
     if(mPlayerId == 1 && t) {
         t->setSoldierBanner(this);
     }
@@ -38,6 +45,40 @@ void eSoldierBanner::moveTo(const int x, const int y) {
 
     updatePlaces();
     callSoldiers();
+}
+
+void eSoldierBanner::moveToDefault() {
+    switch(mType) {
+    case eBannerType::rockThrower:
+    case eBannerType::hoplite:
+    case eBannerType::horseman: {
+        const auto palace = mBoard.palace();
+        if(!palace) return;
+        const auto ts = palace->tiles();
+        for(const auto& t : ts) {
+            const auto tt = t->centerTile();
+            if(!tt) continue;
+            const auto bb = tt->banner();
+            if(bb) continue;
+            moveTo(tt->x(), tt->y());
+            break;
+        }
+    } break;
+    case eBannerType::amazon:
+    case eBannerType::aresWarrior: {
+        const auto s = mType == eBannerType::amazon ?
+                            mBoard.sanctuary(eGodType::artemis) :
+                            mBoard.sanctuary(eGodType::ares);
+        if(!s) return;
+        const auto ts = s->warriorTiles();
+        for(const auto& t : ts) {
+            const auto bb = t->banner();
+            if(bb) continue;
+            moveTo(t->x(), t->y());
+            break;
+        }
+    } break;
+    }
 }
 
 void eSoldierBanner::goHome() {
@@ -174,9 +215,39 @@ void eSoldierBanner::write(eWriteStream& dst) const {
     }
 }
 
-void eSoldierBanner::sPlace(const std::vector<eSoldierBanner*>& bs,
+void eSoldierBanner::sPlace(std::vector<eSoldierBanner*> bs,
                             const int ctx, const int cty,
                             eGameBoard& board, const int dist) {
+    const auto tt = board.tile(ctx, cty);
+    if(tt) {
+        const auto b = tt->underBuilding();
+        if(b) {
+            const auto bt = b->type();
+            if(bt == eBuildingType::palace ||
+               bt == eBuildingType::palaceTile) {
+                for(const auto bb : bs) {
+                    const auto bbt = bb->type();
+                    if(bbt == eBannerType::hoplite ||
+                       bbt == eBannerType::rockThrower ||
+                       bbt == eBannerType::horseman) {
+                        bb->moveToDefault();
+                        eVectorHelpers::remove(bs, bb);
+                    }
+                }
+            } else if(const auto sb = dynamic_cast<eSanctBuilding*>(b)) {
+                const auto s = sb->sanctuary();
+                const auto gt = s->godType();
+                for(const auto bb : bs) {
+                    const auto bbt = bb->type();
+                    if((bbt == eBannerType::amazon && gt == eGodType::artemis) ||
+                       (bbt == eBannerType::aresWarrior && gt == eGodType::ares)) {
+                        bb->moveToDefault();
+                        eVectorHelpers::remove(bs, bb);
+                    }
+                }
+            }
+        }
+    }
 
     int isld = 0;
     const int slds = bs.size();
@@ -197,6 +268,7 @@ void eSoldierBanner::sPlace(const std::vector<eSoldierBanner*>& bs,
 
     const int kinc = slds == 1 ? 1 : dist;
     for(int k = 0; isld < slds; k += kinc) {
+        (void)isld;
         eIterateSquare::iterateSquare(k, prcsTile, dist);
     }
 }
@@ -224,6 +296,7 @@ void eSoldierBanner::updatePlaces() {
     };
 
     for(int k = 0; isld < slds; k++) {
+        (void)isld;
         eIterateSquare::iterateSquare(k, prcsTile);
     }
 }
@@ -244,6 +317,12 @@ void eSoldierBanner::updateCount() {
         case eBannerType::horseman:
             cht = eCharacterType::horseman;
             break;
+        case eBannerType::amazon:
+            cht = eCharacterType::amazon;
+            break;
+        case eBannerType::aresWarrior:
+            cht = eCharacterType::aresWarrior;
+            break;
         }
         const auto home = eSoldierAction::sFindHome(cht, mBoard);
         if(!home) break;
@@ -257,6 +336,12 @@ void eSoldierBanner::updateCount() {
             break;
         case eBannerType::horseman:
             h = e::make_shared<eHorseman>(mBoard);
+            break;
+        case eBannerType::amazon:
+            h = e::make_shared<eAmazon>(mBoard);
+            break;
+        case eBannerType::aresWarrior:
+            h = e::make_shared<eAresWarrior>(mBoard);
             break;
         }
         h->setBanner(this);
