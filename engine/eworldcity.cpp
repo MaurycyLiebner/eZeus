@@ -15,7 +15,7 @@ eWorldCityBase::eWorldCityBase(const eWorldCityType type,
         setRelationship(eWorldCityRelationship::collony);
         break;
     default:
-        setRelationship(eWorldCityRelationship::ally);
+        setRelationship(eWorldCityRelationship::rival);
         break;
     }
 }

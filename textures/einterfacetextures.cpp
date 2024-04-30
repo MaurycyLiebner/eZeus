@@ -2,6 +2,13 @@
 
 #include "etextureloadinghelpers.h"
 
+#include "spriteData/interfaceBanners15.h"
+#include "spriteData/interfaceBanners30.h"
+#include "spriteData/interfaceBanners45.h"
+#include "spriteData/interfaceBanners60.h"
+
+#include "espriteloader.h"
+
 eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
                                        SDL_Renderer* const renderer) :
     fTileW(tileW), fTileH(tileH),
@@ -166,11 +173,16 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
 
     fCityArmy(renderer),
     fCityWealth(renderer),
-    fCityRebellion(renderer) {}
+    fCityRebellion(renderer),
+
+    fInterfaceBanners(renderer),
+    fInterfaceBannerTops(renderer) {}
 
 void eInterfaceTextures::load() {
     if(fLoaded) return;
     fLoaded = true;
+
+    loadInterfaceBanners();
 
     const std::string basedir{"../ZeusTextures/" + std::to_string(fTileH) + "/"};
     const auto dir = basedir + "Zeus_Interface/";
@@ -913,5 +925,26 @@ void eInterfaceTextures::load() {
         fNHasArms->load(fRenderer, pathBase + "00160.png");
         fNHasHorses = std::make_shared<eTexture>();
         fNHasHorses->load(fRenderer, pathBase + "00164.png");
+    }
+}
+
+void eInterfaceTextures::loadInterfaceBanners() {
+    if(fInterfaceBannersLoaded) return;
+    fInterfaceBannersLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eInterfaceBannersSpriteData15,
+                                 eInterfaceBannersSpriteData30,
+                                 eInterfaceBannersSpriteData45,
+                                 eInterfaceBannersSpriteData60);
+    eSpriteLoader loader(fTileH, "interfaceBanners", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 147; i < 167; i++) {
+        loader.load(147, i, fInterfaceBanners);
+    }
+
+    for(int i = 167; i < 184; i++) {
+        loader.load(147, i, fInterfaceBannerTops);
     }
 }

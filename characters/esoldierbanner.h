@@ -54,6 +54,8 @@ public:
 
     bool stationary() const;
 
+    const std::string& name() const { return mName; }
+
     void read(eReadStream& src);
     void write(eWriteStream& dst) const;
 
@@ -67,6 +69,7 @@ private:
 
     const eBannerType mType;
     const int mId;
+    std::string mName;
 
     bool mHome = true;
 

@@ -100,6 +100,7 @@ public:
 
     void stackVertically(const int p = 0);
     void layoutVertically();
+    void layoutVerticallyWithoutSpaces();
     void stackHorizontally(const int p = 0);
     void layoutHorizontally();
     void layoutHorizontallyWithoutSpaces();

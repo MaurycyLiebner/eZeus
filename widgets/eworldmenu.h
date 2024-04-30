@@ -15,7 +15,9 @@ public:
     using eLabel::eLabel;
 
     void initialize(const eAction& openRequest,
-                    const eAction& openGift);
+                    const eAction& openGift,
+                    const eAction& openRaid,
+                    const eAction& openConquer);
 
     void setCity(const stdsptr<eWorldCity>& c);
     void updateRelationshipLabel() const;

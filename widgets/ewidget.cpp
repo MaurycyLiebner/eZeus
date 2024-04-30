@@ -435,6 +435,21 @@ void eWidget::layoutVertically() {
     }
 }
 
+void eWidget::layoutVerticallyWithoutSpaces() {
+    const int spaces = mChildren.size() - 1;
+    if(spaces <= 0) return;
+    int wsHeight = 0;
+    for(const auto w : mChildren) {
+        wsHeight += w->height();
+    }
+    const int space = (height() - wsHeight)/spaces;
+    int y = 0;
+    for(const auto w : mChildren) {
+        w->setY(y);
+        y += w->height() + space;
+    }
+}
+
 void eWidget::stackHorizontally(const int p) {
     int x = 0;
     for(const auto w : mChildren) {

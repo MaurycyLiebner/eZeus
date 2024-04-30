@@ -11,7 +11,9 @@
 #include "elanguage.h"
 
 void eWorldMenu::initialize(const eAction& openRequest,
-                            const eAction& openGift) {
+                            const eAction& openGift,
+                            const eAction& openRaid,
+                            const eAction& openConquer) {
     int iRes;
     int mult;
     iResAndMult(iRes, mult);
@@ -78,10 +80,11 @@ void eWorldMenu::initialize(const eAction& openRequest,
 
         mRaidButton->setX(xwrdb);
         mRaidButton->setY(ywrdb);
+        mRaidButton->setPressAction(openRaid);
 
         mConquerButton->setX(xwcb);
         mConquerButton->setY(ywcb);
-
+        mConquerButton->setPressAction(openConquer);
 
         const auto wh = eButton::sCreate(coll.fHelpButton, window(), this);
         const int whx = 6*mult;

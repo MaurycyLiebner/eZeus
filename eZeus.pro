@@ -389,6 +389,7 @@ SOURCES += \
         widgets/edatewidget.cpp \
         widgets/edownbutton.cpp \
         widgets/eeditorsettingsmenu.cpp \
+        widgets/eenlistforcesdialog.cpp \
         widgets/eeventbackground.cpp \
         widgets/eeventselectionwidget.cpp \
         widgets/eeventtimewidget.cpp \
@@ -1107,6 +1108,10 @@ HEADERS += \
     spriteData/industry30.h \
     spriteData/industry45.h \
     spriteData/industry60.h \
+    spriteData/interfaceBanners15.h \
+    spriteData/interfaceBanners30.h \
+    spriteData/interfaceBanners45.h \
+    spriteData/interfaceBanners60.h \
     spriteData/jason15.h \
     spriteData/jason30.h \
     spriteData/jason45.h \
@@ -1357,6 +1362,7 @@ HEADERS += \
     widgets/edatewidget.h \
     widgets/edownbutton.h \
     widgets/eeditorsettingsmenu.h \
+    widgets/eenlistforcesdialog.h \
     widgets/eeventbackground.h \
     widgets/eeventselectionwidget.h \
     widgets/eeventtimewidget.h \

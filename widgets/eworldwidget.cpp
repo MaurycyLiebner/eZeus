@@ -16,7 +16,13 @@ void eWorldWidget::initialize() {
     const auto giftFunc = [this]() {
         openGiftDialog();
     };
-    mWM->initialize(requestFunc, giftFunc);
+    const auto raidFunc = [this]() {
+        openEnlistForcesDialog(nullptr);
+    };
+    const auto conquerFunc = [this]() {
+        openEnlistForcesDialog(nullptr);
+    };
+    mWM->initialize(requestFunc, giftFunc, raidFunc, conquerFunc);
 
     mWMW = new eWorldMapWidget(window());
     mWMW->initialize();
@@ -75,6 +81,47 @@ void eWorldWidget::openGiftDialog() {
         window()->execDialog(dd);
     };
     d->initialize(mCity, func, *mBoard);
+    addWidget(d);
+    d->align(eAlignment::vcenter);
+    d->setX(mWMW->x() + (mWMW->width() - d->width())/2);
+    window()->execDialog(d);
+}
+
+void eWorldWidget::openEnlistForcesDialog(const eEnlistAction& a) {
+    eEnlistedForces f;
+
+    f.fHeroes.push_back(eHeroType::achilles);
+    f.fHeroes.push_back(eHeroType::hercules);
+    f.fHeroes.push_back(eHeroType::bellerophon);
+
+    for(int i = 0; i < 5; i ++) {
+        const auto b = e::make_shared<eSoldierBanner>(eBannerType::hoplite, *mBoard);
+        b->incCount();
+        const auto n = new stdsptr<eSoldierBanner>(b);
+        f.fSoldiers.push_back(b);
+    }
+
+    for(int i = 0; i < 4; i ++) {
+        const auto b = e::make_shared<eSoldierBanner>(eBannerType::horseman, *mBoard);
+        b->incCount();
+        const auto n = new stdsptr<eSoldierBanner>(b);
+        f.fSoldiers.push_back(b);
+    }
+
+
+    for(int i = 0; i < 2; i ++) {
+        const auto b = e::make_shared<eSoldierBanner>(eBannerType::amazon, *mBoard);
+        b->incCount();
+        const auto n = new stdsptr<eSoldierBanner>(b);
+        f.fSoldiers.push_back(b);
+    }
+
+    const auto& wBoard = mBoard->getWorldBoard();
+    const auto& citites = wBoard.cities();
+    if(citites.size() > 0) f.fAllies.push_back(citites[0]);
+
+    const auto d = new eEnlistForcesDialog(window());
+    d->initialize(f, a);
     addWidget(d);
     d->align(eAlignment::vcenter);
     d->setX(mWMW->x() + (mWMW->width() - d->width())/2);

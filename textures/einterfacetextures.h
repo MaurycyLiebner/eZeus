@@ -9,8 +9,10 @@ public:
                        SDL_Renderer* const renderer);
 
     void load();
-
     bool fLoaded = false;
+
+    void loadInterfaceBanners();
+    bool fInterfaceBannersLoaded = false;
 
     const int fTileW;
     const int fTileH;
@@ -261,6 +263,9 @@ public:
     eTextureCollection fCityRebellion;
 
     std::shared_ptr<eTexture> fMapOfGreece;
+
+    eTextureCollection fInterfaceBanners;
+    eTextureCollection fInterfaceBannerTops;
 };
 
 #endif // EINTERFACETEXTURES_H

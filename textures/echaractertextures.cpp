@@ -343,6 +343,9 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fGreekHoplite(renderer),
     fGreekHorseman(renderer),
 
+    fAmazonSpear(renderer),
+    fAmazonArcher(renderer),
+
     fBannerRod(renderer),
     fBannerTops(renderer),
 
@@ -356,10 +359,7 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fTradeBoat(renderer),
 
     fKraken(renderer),
-    fScylla(renderer),
-
-    fAmazonSpear(renderer),
-    fAmazonArcher(renderer) {
+    fScylla(renderer) {
 
 }
 

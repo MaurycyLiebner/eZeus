@@ -4,6 +4,8 @@
 #include "ewidget.h"
 #include "engine/egameboard.h"
 
+#include "widgets/eenlistforcesdialog.h"
+
 class eWorldMenu;
 class eWorldMapWidget;
 
@@ -17,6 +19,8 @@ public:
 protected:
     bool keyPressEvent(const eKeyPressEvent& e);
 private:
+    using eEnlistAction = eEnlistForcesDialog::eEnlistAction;
+    void openEnlistForcesDialog(const eEnlistAction& a);
     void openRequestDialog();
     void openGiftDialog();
 
