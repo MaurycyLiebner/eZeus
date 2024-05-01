@@ -7,6 +7,7 @@
 #include "emainwindow.h"
 #include "egamewidget.h"
 #include "egiftsizedialog.h"
+#include "evectorhelpers.h"
 
 void eWorldWidget::initialize() {
     mWM = new eWorldMenu(window());
@@ -17,10 +18,10 @@ void eWorldWidget::initialize() {
         openGiftDialog();
     };
     const auto raidFunc = [this]() {
-        openEnlistForcesDialog(nullptr);
+        openEnlistForcesDialog(nullptr, mCity);
     };
     const auto conquerFunc = [this]() {
-        openEnlistForcesDialog(nullptr);
+        openEnlistForcesDialog(nullptr, mCity);
     };
     mWM->initialize(requestFunc, giftFunc, raidFunc, conquerFunc);
 
@@ -87,38 +88,39 @@ void eWorldWidget::openGiftDialog() {
     window()->execDialog(d);
 }
 
-void eWorldWidget::openEnlistForcesDialog(const eEnlistAction& a) {
-    eEnlistedForces f;
+void eWorldWidget::openEnlistForcesDialog(
+        const eEnlistAction& a,
+        const stdsptr<eWorldCity>& exclude) {
+    auto f = mBoard->getEnlistableForces();
+    eVectorHelpers::remove(f.fAllies, exclude);
 
-    f.fHeroes.push_back(eHeroType::achilles);
-    f.fHeroes.push_back(eHeroType::hercules);
-    f.fHeroes.push_back(eHeroType::bellerophon);
+    {
+        f.fHeroes.push_back(eHeroType::achilles);
+        f.fHeroes.push_back(eHeroType::hercules);
+        f.fHeroes.push_back(eHeroType::bellerophon);
 
-    for(int i = 0; i < 5; i ++) {
-        const auto b = e::make_shared<eSoldierBanner>(eBannerType::hoplite, *mBoard);
-        b->incCount();
-        const auto n = new stdsptr<eSoldierBanner>(b);
-        f.fSoldiers.push_back(b);
+        for(int i = 0; i < 5; i ++) {
+            const auto b = e::make_shared<eSoldierBanner>(eBannerType::hoplite, *mBoard);
+            b->incCount();
+            const auto n = new stdsptr<eSoldierBanner>(b);
+            f.fSoldiers.push_back(b);
+        }
+
+        for(int i = 0; i < 4; i ++) {
+            const auto b = e::make_shared<eSoldierBanner>(eBannerType::horseman, *mBoard);
+            b->incCount();
+            const auto n = new stdsptr<eSoldierBanner>(b);
+            f.fSoldiers.push_back(b);
+        }
+
+
+        for(int i = 0; i < 2; i ++) {
+            const auto b = e::make_shared<eSoldierBanner>(eBannerType::amazon, *mBoard);
+            b->incCount();
+            const auto n = new stdsptr<eSoldierBanner>(b);
+            f.fSoldiers.push_back(b);
+        }
     }
-
-    for(int i = 0; i < 4; i ++) {
-        const auto b = e::make_shared<eSoldierBanner>(eBannerType::horseman, *mBoard);
-        b->incCount();
-        const auto n = new stdsptr<eSoldierBanner>(b);
-        f.fSoldiers.push_back(b);
-    }
-
-
-    for(int i = 0; i < 2; i ++) {
-        const auto b = e::make_shared<eSoldierBanner>(eBannerType::amazon, *mBoard);
-        b->incCount();
-        const auto n = new stdsptr<eSoldierBanner>(b);
-        f.fSoldiers.push_back(b);
-    }
-
-    const auto& wBoard = mBoard->getWorldBoard();
-    const auto& citites = wBoard.cities();
-    if(citites.size() > 0) f.fAllies.push_back(citites[0]);
 
     const auto d = new eEnlistForcesDialog(window());
     d->initialize(f, a);

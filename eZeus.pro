@@ -650,6 +650,7 @@ HEADERS += \
     characters/edeer.h \
     characters/edomesticatedanimal.h \
     characters/edonkey.h \
+    characters/eenlistedforces.h \
     characters/efightingpatroler.h \
     characters/efirefighter.h \
     characters/efishingboat.h \

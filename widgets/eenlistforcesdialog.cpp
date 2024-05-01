@@ -20,10 +20,12 @@ public:
                     const std::string& title,
                     const int troops,
                     const eAction& pressAction) {
+        mType = type;
         setNoPadding();
         setPressAction([this, pressAction]() {
-            setSelected(!mSelected);
+            const bool s = mSelected;
             if(pressAction) pressAction();
+            setSelected(!s);
         });
 
         int iRes;
@@ -96,28 +98,32 @@ public:
             troopsl->setText(troopsStr);
             troopsl->fitContent();
             addWidget(troopsl);
-            troopsl->setX(2*width()/3 + 2*troopsl->width());
+            const int x = 2*width()/3 + 4*mult - troopsl->width()/2;
+            troopsl->setX(x);
 
             mLabels.push_back(troopsl);
         }
 
         mEnlistedLabel = new eLabel(window());
         const auto etxt = eLanguage::text("enlisted");
+        mEnlistedLabel->setYellowFontColor();
         mEnlistedLabel->setNoPadding();
         mEnlistedLabel->setTinyFontSize();
         mEnlistedLabel->setText(etxt);
         mEnlistedLabel->fitContent();
         addWidget(mEnlistedLabel);
-        mEnlistedLabel->setX(width() - mEnlistedLabel->width());
+        mEnlistedLabel->setX(width() - mEnlistedLabel->width() - mult*5);
 
         setSelected(false);
     }
 
+    eEnlistType type() const { return mType; }
+
     void setSelected(const bool b) {
         mSelected = b;
         for(const auto l : mLabels) {
-            if(b) l->setLightFontColor();
-            else l->setDarkFontColor();
+            if(b) l->setYellowFontColor();
+            else l->setLightFontColor();
         }
         mEnlistedLabel->setVisible(b);
     }
@@ -132,6 +138,7 @@ protected:
     }
 private:
     bool mSelected = false;
+    eEnlistType mType;
 
     std::vector<eLabel*> mLabels;
     eLabel* mEnlistedLabel = nullptr;
@@ -216,6 +223,7 @@ public:
                 if(selected) {
                     eVectorHelpers::remove(mSelected.fAllies, a);
                 } else {
+                    clearCities();
                     mSelected.fAllies.push_back(a);
                 }
                 selectionChanged();
@@ -233,6 +241,15 @@ public:
         stackVertically();
     }
 
+    void clearCities() {
+        mSelected.fAllies.clear();
+        for(const auto b : mButtons) {
+            const auto t = b->type();
+            if(t != eEnlistType::ally) continue;
+            b->setSelected(false);
+        }
+    }
+
     void clearAll() {
         mSelected.clear();
         for(const auto b : mButtons) {
@@ -242,7 +259,23 @@ public:
 
     void selectAll() {
         mSelected = mAll;
+        auto& allies = mSelected.fAllies;
+        if(!allies.empty()) {
+            allies.clear();
+            allies.push_back(mAll.fAllies[0]);
+        }
+        bool citySelected = false;
         for(const auto b : mButtons) {
+            const auto t = b->type();
+            const bool isAlly = t == eEnlistType::ally;
+            if(isAlly) {
+                if(citySelected) {
+                    b->setSelected(false);
+                    continue;
+                }
+                citySelected = true;
+            }
+
             b->setSelected(true);
         }
     }

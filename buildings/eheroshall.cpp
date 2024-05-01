@@ -491,6 +491,7 @@ void eHerosHall::updateRequirementStatus(eHeroRequirement& hr) {
 eHerosHall::eHerosHall(const eHeroType type, eGameBoard& board) :
     eBuilding(board, sHeroTypeToHallType(type), 4, 4),
     mType(type) {
+    board.registerHeroHall(this);
     setOverlayEnabledFunc([]() { return true; });
 
     switch(mType) {
@@ -555,6 +556,7 @@ eHerosHall::eHerosHall(const eHeroType type, eGameBoard& board) :
 eHerosHall::~eHerosHall() {
     auto& board = getBoard();
     board.destroyed(type());
+    board.unregisterHeroHall(this);
 }
 
 std::shared_ptr<eTexture> eHerosHall::getTexture(const eTileSize size) const {

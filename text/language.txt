@@ -177,6 +177,18 @@ mythical_warriors "Mythical Warriors"
 support_from_allies "Support from Allies"
 enlisted "Enlisted"
 
+soldier_banner_name_0 "Athena's Pride"
+soldier_banner_name_1 "The Lions"
+soldier_banner_name_2 "The Tigers"
+soldier_banner_name_3 "The Pillars"
+soldier_banner_name_4 "The Clashers"
+
+amazon_banner_name_0 "Artemis' Warriors"
+amazon_banner_name_1 "Artemis' Squadron"
+
+ares_warrior_banner_name_0 "Ares' Warriors"
+ares_warrior_banner_name_1 "Ares' Squadron"
+
 urchin "Urchin"
 fish "Fish"
 meat "Meat"

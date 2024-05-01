@@ -253,18 +253,29 @@ void eMainWindow::showMainMenu() {
         wb.setHomeCity(hc);
 
         const auto c1 = eWorldCity::sCreateAthens();
+        c1->setRelationship(eWorldCityRelationship::ally);
         c1->addBuys(eResourceTrade{eResourceType::marble, 0, 12, 120});
         c1->addBuys(eResourceTrade{eResourceType::wood, 0, 12, 80});
         c1->addSells(eResourceTrade{eResourceType::fleece, 0, 12, 60});
         wb.addCity(c1);
 
         const auto c2 = eWorldCity::sCreateTroy();
+        c2->setRelationship(eWorldCityRelationship::rival);
         c2->setWaterTrade(true);
         c2->addBuys(eResourceTrade{eResourceType::armor, 0, 12, 120});
         c2->addBuys(eResourceTrade{eResourceType::wheat, 0, 12, 80});
         c2->addSells(eResourceTrade{eResourceType::sculpture, 0, 12, 200});
         c2->addSells(eResourceTrade{eResourceType::bronze, 0, 12, 80});
         wb.addCity(c2);
+
+        const auto c3 = eWorldCity::sCreateMtPelion();
+        c3->setRelationship(eWorldCityRelationship::ally);
+        c3->setWaterTrade(true);
+        c3->addBuys(eResourceTrade{eResourceType::armor, 0, 12, 120});
+        c3->addBuys(eResourceTrade{eResourceType::wheat, 0, 12, 80});
+        c3->addSells(eResourceTrade{eResourceType::sculpture, 0, 12, 200});
+        c3->addSells(eResourceTrade{eResourceType::bronze, 0, 12, 80});
+        wb.addCity(c3);
 
         startGameAction(board, eGameWidgetSettings());
     };

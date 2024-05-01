@@ -55,6 +55,7 @@ public:
     bool stationary() const;
 
     const std::string& name() const { return mName; }
+    void setName(const std::string& n) { mName = n; }
 
     void read(eReadStream& src);
     void write(eWriteStream& dst) const;

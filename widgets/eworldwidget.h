@@ -20,7 +20,9 @@ protected:
     bool keyPressEvent(const eKeyPressEvent& e);
 private:
     using eEnlistAction = eEnlistForcesDialog::eEnlistAction;
-    void openEnlistForcesDialog(const eEnlistAction& a);
+    void openEnlistForcesDialog(
+            const eEnlistAction& a,
+            const stdsptr<eWorldCity>& exclude);
     void openRequestDialog();
     void openGiftDialog();
 

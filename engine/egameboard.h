@@ -28,6 +28,8 @@
 
 #include "buildings/eavailablebuildings.h"
 
+#include "characters/eenlistedforces.h"
+
 class eGameEvent;
 
 class eSpawner;
@@ -40,6 +42,7 @@ class ePalace;
 class eLandInvasionPoint;
 class eReceiveRequestEvent;
 class eAgoraBase;
+class eHerosHall;
 
 class eThreadPool;
 
@@ -100,6 +103,9 @@ public:
     void registerSanctuary(eSanctuary* const b);
     bool unregisterSanctuary(eSanctuary* const b);
 
+    void registerHeroHall(eHerosHall* const b);
+    bool unregisterHeroHall(eHerosHall* const b);
+
     void registerMissile(eMissile* const m);
     bool unregisterMissile(eMissile* const m);
 
@@ -130,6 +136,10 @@ public:
     const std::vector<eSanctuary*>& sanctuaries() const
     { return mSanctuaries; }
     eSanctuary* sanctuary(const eGodType god) const;
+
+    const std::vector<eHerosHall*>& heroHalls() const
+    { return mHeroHalls; }
+    eHerosHall* heroHall(const eHeroType hero) const;
 
     const std::vector<stdsptr<eSoldierBanner>>& banners() const
     { return mSoldierBanners; }
@@ -312,6 +322,8 @@ public:
     void rockThrowerKilled();
     void hopliteKilled();
     void horsemanKilled();
+
+    eEnlistedForces getEnlistableForces() const;
 private:
     void updateNeighbours();
 
@@ -377,6 +389,7 @@ private:
     bool mRegisterBuildingsEnabled = true;
 
     std::vector<eSanctuary*> mSanctuaries;
+    std::vector<eHerosHall*> mHeroHalls;
     std::vector<eStorageBuilding*> mStorBuildings;
     std::vector<eCharacter*> mCharacters;
     std::vector<eCharacterAction*> mCharacterActions;

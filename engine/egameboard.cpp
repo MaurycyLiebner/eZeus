@@ -1074,6 +1074,48 @@ void eGameBoard::horsemanKilled() {
     }
 }
 
+eEnlistedForces eGameBoard::getEnlistableForces() const {
+    eEnlistedForces result;
+
+    for(const auto& s : mSoldierBanners) {
+        if(s->count() <= 0) continue;
+        switch(s->type()) {
+        case eBannerType::hoplite:
+        case eBannerType::horseman:
+        case eBannerType::amazon:
+        case eBannerType::aresWarrior:
+            result.fSoldiers.push_back(s);
+            break;
+        default:
+            break;
+        }
+    }
+
+    for(const auto& h : mHeroHalls) {
+        const auto s = h->stage();
+        if(s != eHeroSummoningStage::arrived) continue;
+        const auto ht = h->heroType();
+        result.fHeroes.push_back(ht);
+    }
+
+    const auto& cts = mWorldBoard.cities();
+    for(const auto& c : cts) {
+        switch(c->relationship()) {
+        case eWorldCityRelationship::ally:
+        case eWorldCityRelationship::vassal:
+        case eWorldCityRelationship::collony: {
+            if(c->attitude() > 50) {
+                result.fAllies.push_back(c);
+            }
+        } break;
+        default:
+            break;
+        }
+    }
+
+    return result;
+}
+
 void eGameBoard::registerSoldierBanner(const stdsptr<eSoldierBanner>& b) {
     mSoldierBanners.push_back(b);
 }
@@ -1325,6 +1367,17 @@ void eGameBoard::registerSanctuary(eSanctuary* const b) {
 bool eGameBoard::unregisterSanctuary(eSanctuary* const b) {
     if(!mRegisterBuildingsEnabled) return false;
     return eVectorHelpers::remove(mSanctuaries, b);
+    return true;
+}
+
+void eGameBoard::registerHeroHall(eHerosHall* const b) {
+    if(!mRegisterBuildingsEnabled) return;
+    mHeroHalls.push_back(b);
+}
+
+bool eGameBoard::unregisterHeroHall(eHerosHall* const b) {
+    if(!mRegisterBuildingsEnabled) return false;
+    return eVectorHelpers::remove(mHeroHalls, b);
     return true;
 }
 
@@ -1655,6 +1708,13 @@ int eGameBoard::eliteHouses() const {
 eSanctuary* eGameBoard::sanctuary(const eGodType god) const {
     for(const auto s : mSanctuaries) {
         if(s->godType() == god) return s;
+    }
+    return nullptr;
+}
+
+eHerosHall* eGameBoard::heroHall(const eHeroType hero) const {
+    for(const auto h : mHeroHalls) {
+        if(h->heroType() == hero) return h;
     }
     return nullptr;
 }

@@ -19,12 +19,19 @@
 #include "buildings/epalace.h"
 #include "buildings/epalacetile.h"
 
+#include "elanguage.h"
+
 int gNextId = 0;
 
 eSoldierBanner::eSoldierBanner(const eBannerType type,
                                eGameBoard& board) :
     eObject(board),
-    mType(type), mId(gNextId++), mBoard(board) {}
+    mType(type), mId(gNextId++), mBoard(board) {
+    const int nameId = mId % 5;
+    const auto nameIdStr = std::to_string(nameId);
+    const auto namet = "soldier_banner_name_" + nameIdStr;
+    setName(eLanguage::text(namet));
+}
 
 void eSoldierBanner::moveTo(const int x, const int y) {
     if(mX == x && mY == y) return;
