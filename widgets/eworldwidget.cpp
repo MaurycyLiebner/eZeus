@@ -99,7 +99,7 @@ void eWorldWidget::openEnlistForcesDialog(
         f.fHeroes.push_back(eHeroType::hercules);
         f.fHeroes.push_back(eHeroType::bellerophon);
 
-        for(int i = 0; i < 5; i ++) {
+        for(int i = 0; i < 20; i ++) {
             const auto b = e::make_shared<eSoldierBanner>(eBannerType::hoplite, *mBoard);
             b->incCount();
             const auto n = new stdsptr<eSoldierBanner>(b);

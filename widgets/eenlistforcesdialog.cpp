@@ -3,6 +3,7 @@
 #include "eframedbutton.h"
 #include "elanguage.h"
 #include "evectorhelpers.h"
+#include "escrollwidget.h"
 
 enum class eEnlistType {
     horseman, hoplite, navy,
@@ -330,12 +331,17 @@ public:
         }
 
         mArea = new eEnlistArea(window());
-        innerWid->addWidget(mArea);
+
         const int ww = innerWid->width();
         const int hh = innerWid->height() - titleLabel->height();
         mArea->resize(ww, hh);
-        mArea->align(eAlignment::bottom | eAlignment::hcenter);
         mArea->initialize(e, selectionChanged);
+        mArea->fitHeight();
+        const auto scrollW = new eScrollWidget(window());
+        scrollW->setScrollArea(mArea);
+        scrollW->resize(ww, hh);
+        innerWid->addWidget(scrollW);
+        scrollW->align(eAlignment::bottom | eAlignment::hcenter);
     }
 
     void clearAll() {
