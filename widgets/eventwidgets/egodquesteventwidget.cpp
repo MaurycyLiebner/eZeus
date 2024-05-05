@@ -11,9 +11,12 @@
 
 void eGodQuestEventWidget::initialize(
         eGodQuestEvent* const e) {
+    mE = e;
+
     const auto godButtonL = new eLabeledWidget(window());
-    const auto act = [e](const eGodType type) {
+    const auto act = [this, e](const eGodType type) {
         e->setGod(type);
+        setDefaultHero();
     };
     const auto godButton = new eGodButton(window());
     godButton->initialize(act);
@@ -23,8 +26,11 @@ void eGodQuestEventWidget::initialize(
     addWidget(godButtonL);
 
     const auto idButtonL = new eLabeledWidget(window());
-    const auto switchAct = [e](const int id) {
-        e->setId(id == 0 ? eGodQuestId::godQuest1 : eGodQuestId::godQuest2);
+    const auto switchAct = [this, e](const int id) {
+        const auto eid = id == 0 ? eGodQuestId::godQuest1 :
+                                   eGodQuestId::godQuest2;
+        e->setId(eid);
+        setDefaultHero();
     };
     const auto idButton = new eSwitchButton(window());
     idButton->addValue("1");
@@ -40,15 +46,25 @@ void eGodQuestEventWidget::initialize(
     const auto hact = [e](const eHeroType type) {
         e->setHero(type);
     };
-    const auto heroButton = new eHeroButton(window());
-    heroButton->initialize(hact);
+
+    mHeroButton = new eHeroButton(window());
+    mHeroButton->initialize(hact);
     const auto iniH = e->hero();
-    heroButton->setType(iniH);
-    heroButtonL->setup(eLanguage::text("hero:"), heroButton);
+    mHeroButton->setType(iniH);
+    heroButtonL->setup(eLanguage::text("hero:"), mHeroButton);
     addWidget(heroButtonL);
 
     const int p = padding();
     stackVertically(p);
     setNoPadding();
     fitContent();
+}
+
+void eGodQuestEventWidget::setDefaultHero() {
+    if(!mE) return;
+    const auto id = mE->id();
+    const auto godType = mE->god();
+    const auto heroType = eGodQuest::sDefaultHero(godType, id);
+    mHeroButton->setType(heroType);
+    mE->setHero(heroType);
 }

@@ -6,6 +6,10 @@
 #include "characters/gods/egod.h"
 #include "characters/heroes/ehero.h"
 
+namespace eGodQuest {
+    eHeroType sDefaultHero(const eGodType gt, const eGodQuestId gqi);
+};
+
 class eGodQuestEvent : public eGameEvent {
 public:
     eGodQuestEvent(eGameBoard& board);
@@ -29,7 +33,7 @@ public:
 private:
     eGodType mGod = eGodType::zeus;
     eGodQuestId mId = eGodQuestId::godQuest1;
-    eHeroType mHero = eHeroType::hercules;
+    eHeroType mHero = eGodQuest::sDefaultHero(mGod, mId);
 };
 
 #endif // EGODQUESTEVENT_H
