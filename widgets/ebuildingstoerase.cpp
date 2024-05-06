@@ -10,6 +10,7 @@
 #include "buildings/epier.h"
 #include "buildings/sanctuaries/esanctbuilding.h"
 #include "buildings/sanctuaries/esanctuary.h"
+#include "buildings/eaestheticsbuilding.h"
 #include "engine/etile.h"
 
 #include <algorithm>
@@ -48,6 +49,10 @@ void eBuildingsToErase::addBuilding(eBuilding* const b) {
     } else if(t == eBuildingType::palaceTile) {
         const auto pt = static_cast<ePalaceTile*>(b);
         const auto p = pt->palace();
+        if(p) bb = p;
+    } else if(t == eBuildingType::godMonumentTile) {
+        const auto pt = static_cast<eGodMonumentTile*>(b);
+        const auto p = pt->monument();
         if(p) bb = p;
     } else if(t == eBuildingType::pier) {
         const auto pt = static_cast<ePier*>(b);

@@ -11,6 +11,43 @@ eTempleMonumentBuilding::eTempleMonumentBuilding(
 
 }
 
+const eTextureCollection* eTempleMonumentBuilding::sGodMonumentTextureCollection(
+        const eTileSize size, const eGodType god) {
+    const int sizeId = static_cast<int>(size);
+    const auto& blds = eGameTextures::buildings()[sizeId];
+    switch(god) {
+    case eGodType::aphrodite:
+        return &blds.fAphroditeMonuments;
+    case eGodType::apollo:
+        return &blds.fApolloMonuments;
+    case eGodType::ares:
+        return &blds.fAresMonuments;
+    case eGodType::artemis:
+        return &blds.fArtemisMonuments;
+    case eGodType::athena:
+        return &blds.fAthenaMonuments;
+    case eGodType::atlas:
+        return &blds.fAtlasMonuments;
+    case eGodType::demeter:
+        return &blds.fDemeterMonuments;
+    case eGodType::dionysus:
+        return &blds.fDionysusMonuments;
+    case eGodType::hades:
+        return &blds.fHadesMonuments;
+    case eGodType::hephaestus:
+        return &blds.fHephaestusMonuments;
+    case eGodType::hera:
+        return &blds.fHeraMonuments;
+    case eGodType::hermes:
+        return &blds.fHermesMonuments;
+    case eGodType::poseidon:
+        return &blds.fPoseidonMonuments;
+    case eGodType::zeus:
+        return &blds.fZeusMonuments;
+    }
+    return nullptr;
+}
+
 std::shared_ptr<eTexture>
 eTempleMonumentBuilding::getTexture(const eTileSize size) const {
     const int p = progress();
@@ -20,51 +57,7 @@ eTempleMonumentBuilding::getTexture(const eTileSize size) const {
     if(p == 1) {
         return blds.fBlankMonument;
     }
-    const eTextureCollection* coll = nullptr;
-    switch(mGod) {
-    case eGodType::aphrodite:
-        coll = &blds.fAphroditeMonuments;
-        break;
-    case eGodType::apollo:
-        coll = &blds.fApolloMonuments;
-        break;
-    case eGodType::ares:
-        coll = &blds.fAresMonuments;
-        break;
-    case eGodType::artemis:
-        coll = &blds.fArtemisMonuments;
-        break;
-    case eGodType::athena:
-        coll = &blds.fAthenaMonuments;
-        break;
-    case eGodType::atlas:
-        coll = &blds.fAtlasMonuments;
-        break;
-    case eGodType::demeter:
-        coll = &blds.fDemeterMonuments;
-        break;
-    case eGodType::dionysus:
-        coll = &blds.fDionysusMonuments;
-        break;
-    case eGodType::hades:
-        coll = &blds.fHadesMonuments;
-        break;
-    case eGodType::hephaestus:
-        coll = &blds.fHephaestusMonuments;
-        break;
-    case eGodType::hera:
-        coll = &blds.fHeraMonuments;
-        break;
-    case eGodType::hermes:
-        coll = &blds.fHermesMonuments;
-        break;
-    case eGodType::poseidon:
-        coll = &blds.fPoseidonMonuments;
-        break;
-    case eGodType::zeus:
-        coll = &blds.fZeusMonuments;
-        break;
-    }
+    const auto coll = sGodMonumentTextureCollection(size, mGod);
 
     if(!coll) return nullptr;
     return coll->getTexture(mId);

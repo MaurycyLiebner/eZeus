@@ -10,7 +10,7 @@
 #include "emainwindow.h"
 
 void eGodQuestEventWidget::initialize(
-        eGodQuestEvent* const e) {
+        eGodQuestEventBase* const e) {
     mE = e;
 
     const auto godButtonL = new eLabeledWidget(window());

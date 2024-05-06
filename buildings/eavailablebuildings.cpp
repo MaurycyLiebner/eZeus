@@ -65,6 +65,12 @@ void eAvailableBuildings::read(eReadStream& src) {
     src >> f7Monument;
     src >> f8Monument;
     src >> fScholarMonument;
+
+    const int iMax = static_cast<int>(eGodType::zeus) + 1;
+    for(int i = 0; i < iMax; i++) {
+        const auto t = static_cast<eGodType>(i);
+        src >> mGodMonuments[t];
+    }
 }
 
 void eAvailableBuildings::write(eWriteStream& dst) const {
@@ -127,6 +133,12 @@ void eAvailableBuildings::write(eWriteStream& dst) const {
     dst << f7Monument;
     dst << f8Monument;
     dst << fScholarMonument;
+
+    const int iMax = static_cast<int>(eGodType::zeus) + 1;
+    for(int i = 0; i < iMax; i++) {
+        const auto t = static_cast<eGodType>(i);
+        dst << mGodMonuments.at(t);
+    }
 }
 
 bool eAvailableBuildings::available(
@@ -239,6 +251,11 @@ bool eAvailableBuildings::available(
         if(id == 6) return f7Monument;
         if(id == 7) return f8Monument;
         if(id == 8) return fScholarMonument;
+        break;
+    case eBuildingType::godMonument: {
+        const auto t = static_cast<eGodType>(id);
+        return mGodMonuments.at(t);
+    } break;
     default:
         return true;
     }
@@ -261,6 +278,11 @@ void eAvailableBuildings::built(
         else if(id == 8) c = &fScholarMonument;
         if(!c) return;
         *c = std::max(0, *c - 1);
+    } break;
+    case eBuildingType::godMonument: {
+        const auto t = static_cast<eGodType>(id);
+        int& c = mGodMonuments[t];
+        c = std::max(0, c - 1);
     } break;
 
     case eBuildingType::templeAphrodite:
@@ -340,6 +362,11 @@ void eAvailableBuildings::allow(
         (*c)++;
     } break;
 
+    case eBuildingType::godMonument: {
+        const auto t = static_cast<eGodType>(id);
+        int& c = mGodMonuments[t];
+        c++;
+    } break;
 
     default: {
         const auto a = availablePtr(type);

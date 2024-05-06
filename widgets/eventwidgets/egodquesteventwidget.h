@@ -11,11 +11,11 @@ class eGodQuestEventWidget : public eWidget {
 public:
     using eWidget::eWidget;
 
-    void initialize(eGodQuestEvent* const e);
+    void initialize(eGodQuestEventBase* const e);
 private:
     void setDefaultHero();
 
-    eGodQuestEvent* mE = nullptr;
+    eGodQuestEventBase* mE = nullptr;
     eHeroButton* mHeroButton = nullptr;
 };
 

@@ -264,6 +264,7 @@ SOURCES += \
         engine/egameboard.cpp \
         engine/egameboarditerator.cpp \
         engine/egifthelpers.cpp \
+        engine/egodquest.cpp \
         engine/eknownendpathfinder.cpp \
         engine/emapgenerator.cpp \
         engine/epathboard.cpp \
@@ -303,6 +304,8 @@ SOURCES += \
         gameEvents/egifttoevent.cpp \
         gameEvents/egodattackevent.cpp \
         gameEvents/egodquestevent.cpp \
+        gameEvents/egodquesteventbase.cpp \
+        gameEvents/egodquestfulfilledevent.cpp \
         gameEvents/egodvisitevent.cpp \
         gameEvents/einvasionevent.cpp \
         gameEvents/einvasionwarningevent.cpp \
@@ -731,6 +734,7 @@ HEADERS += \
     engine/egameboard.h \
     engine/egameboarditerator.h \
     engine/egifthelpers.h \
+    engine/egodquest.h \
     engine/eknownendpathfinder.h \
     engine/emapgenerator.h \
     engine/emessageeventtype.h \
@@ -778,6 +782,8 @@ HEADERS += \
     gameEvents/egifttoevent.h \
     gameEvents/egodattackevent.h \
     gameEvents/egodquestevent.h \
+    gameEvents/egodquesteventbase.h \
+    gameEvents/egodquestfulfilledevent.h \
     gameEvents/egodvisitevent.h \
     gameEvents/einvasionevent.h \
     gameEvents/einvasionwarningevent.h \

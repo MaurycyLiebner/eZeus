@@ -22,6 +22,7 @@ invasion_by "Invasion by %1"
 monster_attack "Monster attack"
 receive_tribute_from "Receive tribute from %1"
 god_quest "God quest"
+god_quest_fulfilled "God quest fulfilled"
 
 triggers "Triggers"
 
@@ -604,6 +605,21 @@ happiness_monument "Happiness Monument"
 
 
 scholar_monument "Scholar Monument"
+
+aphrodite_monument "Aphrodite Monument"
+apollo_monument "Apollo Monument"
+ares_monument "Ares Monument"
+artemis_monument "Artemis Monument"
+athena_monument "Athena Monument"
+atlas_monument "Atlas Monument"
+demeter_monument "Demeter Monument"
+dionysus_monument "Dionysus Monument"
+hades_monument "Hades Monument"
+hephaestus_monument "Hephaestus Monument"
+hera_monument "Hera Monument"
+hermes_monument "Hermes Monument"
+poseidon_monument "Poseidon Monument"
+zeus_monument "Zeus Monument"
 
 ; months
 january "January"

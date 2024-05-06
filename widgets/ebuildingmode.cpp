@@ -159,6 +159,22 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
     case eBuildingMode::scholarMonument:
         return eBuildingType::commemorative;
 
+    case eBuildingMode::aphroditeMonument:
+    case eBuildingMode::apolloMonument:
+    case eBuildingMode::aresMonument:
+    case eBuildingMode::artemisMonument:
+    case eBuildingMode::athenaMonument:
+    case eBuildingMode::atlasMonument:
+    case eBuildingMode::demeterMonument:
+    case eBuildingMode::dionysusMonument:
+    case eBuildingMode::hadesMonument:
+    case eBuildingMode::hephaestusMonument:
+    case eBuildingMode::heraMonument:
+    case eBuildingMode::hermesMonument:
+    case eBuildingMode::poseidonMonument:
+    case eBuildingMode::zeusMonument:
+        return eBuildingType::godMonument;
+
     case eBuildingMode::bench:
         return eBuildingType::bench;
     case eBuildingMode::flowerGarden:
@@ -269,4 +285,12 @@ int eBuildingModeHelpers::toCommemorativeId(const eBuildingMode mode) {
         return -1;
     }
     return -1;
+}
+
+eGodType eBuildingModeHelpers::toGodType(const eBuildingMode mode) {
+    const auto am = eBuildingMode::aphroditeMonument;
+    const int id = static_cast<int>(mode) -
+                   static_cast<int>(am);
+    const auto gt = static_cast<eGodType>(id);
+    return gt;
 }

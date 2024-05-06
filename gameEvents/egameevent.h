@@ -22,7 +22,8 @@ enum class eGameEventType {
     makeRequest,
     giftTo,
     giftFrom,
-    godQuest
+    godQuest,
+    godQuestFulfilled
 };
 
 class eGameEvent : public eObject {

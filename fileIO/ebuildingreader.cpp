@@ -300,6 +300,19 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         b = e::make_shared<eCommemorative>(id, board);
     } break;
 
+    case eBuildingType::godMonument: {
+        eGodType type;
+        src >> type;
+        b = e::make_shared<eGodMonument>(type, board);
+    } break;
+    case eBuildingType::godMonumentTile: {
+        const auto pt = e::make_shared<eGodMonumentTile>(board);
+        b = pt;
+        src.readBuilding(&board, [pt](eBuilding* const bb) {
+             pt->setMonument(static_cast<eGodMonument*>(bb));
+        });
+    } break;
+
     case eBuildingType::bench: {
         b = e::make_shared<eBench>(board);
     } break;

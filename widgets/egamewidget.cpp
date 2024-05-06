@@ -41,7 +41,8 @@
 #include "buildings/epalacetile.h"
 #include "buildings/ehorseranch.h"
 #include "buildings/ehorseranchenclosure.h"
-\
+#include "buildings/eaestheticsbuilding.h"
+
 #include "elanguage.h"
 
 #include "widgets/efilewidget.h"
@@ -1084,6 +1085,17 @@ bool eGameWidget::inErase(eBuilding* const b) {
         rect = p->tileRect();
     } else if(const auto p = dynamic_cast<ePalaceTile*>(b)) {
         return inErase(p->palace());
+    } else if(const auto p = dynamic_cast<eGodMonument*>(b)) {
+        const auto& ts = p->tiles();
+        for(const auto& t : ts) {
+            const auto tt = t->centerTile();
+            const int tx = tt->x();
+            const int ty = tt->y();
+            if(inErase(tx, ty)) return true;
+        }
+        rect = p->tileRect();
+    } else if(const auto t = dynamic_cast<eGodMonumentTile*>(b)) {
+        return inErase(t->monument());
     } else if(const auto hr = dynamic_cast<eHorseRanch*>(b)) {
         const bool e1 = inErase(hr->tileRect());
         if(e1) return true;

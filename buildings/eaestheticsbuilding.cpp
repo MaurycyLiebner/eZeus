@@ -215,3 +215,43 @@ eCommemorative::getTexture(const eTileSize size) const {
     const auto& texs = eGameTextures::buildings()[sizeId];
     return texs.fCommemorative.getTexture(mId);
 }
+
+eGodMonument::eGodMonument(const eGodType god, eGameBoard& board) :
+    eBuilding(board, eBuildingType::godMonument, 2, 2),
+    mGod(god) {}
+
+void eGodMonument::erase() {
+    for(const auto& t : mTiles) {
+        t->eBuilding::erase();
+    }
+    eBuilding::erase();
+}
+
+#include "buildings/sanctuaries/etemplemonumentbuilding.h"
+
+std::shared_ptr<eTexture> eGodMonument::getTexture(const eTileSize size) const {
+    const auto coll = eTempleMonumentBuilding::sGodMonumentTextureCollection(size, mGod);
+    return coll->getTexture(1);
+}
+
+void eGodMonument::addTile(eGodMonumentTile* const tile) {
+    mTiles.push_back(tile);
+}
+
+eGodMonumentTile::eGodMonumentTile(eGameBoard& board) :
+    eBuilding(board, eBuildingType::godMonumentTile, 1, 1) {}
+
+void eGodMonumentTile::erase() {
+    mMonument->erase();
+}
+
+std::shared_ptr<eTexture> eGodMonumentTile::getTexture(const eTileSize size) const {
+    const int sizeId = static_cast<int>(size);
+    const auto& texs = eGameTextures::buildings();
+    const auto& coll = texs[sizeId].fPalaceTiles;
+    return coll.getTexture(0);
+}
+
+void eGodMonumentTile::setMonument(eGodMonument *const mon) {
+    mMonument = mon;
+}

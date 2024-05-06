@@ -3,6 +3,8 @@
 
 #include "buildings/ebuilding.h"
 
+#include "characters/gods/egod.h"
+
 enum class eBuildingMode {
     none,
     erase,
@@ -98,6 +100,21 @@ enum class eBuildingMode {
     commemorative8,
     scholarMonument,
 
+    aphroditeMonument,
+    apolloMonument,
+    aresMonument,
+    artemisMonument,
+    athenaMonument,
+    atlasMonument,
+    demeterMonument,
+    dionysusMonument,
+    hadesMonument,
+    hephaestusMonument,
+    heraMonument,
+    hermesMonument,
+    poseidonMonument,
+    zeusMonument,
+
     bench,
     flowerGarden,
     gazebo,
@@ -145,6 +162,7 @@ enum class eBuildingMode {
 namespace eBuildingModeHelpers {
     eBuildingType toBuildingType(const eBuildingMode mode);
     int toCommemorativeId(const eBuildingMode mode);
+    eGodType toGodType(const eBuildingMode mode);
 }
 
 #endif // EBUILDINGMODE_H

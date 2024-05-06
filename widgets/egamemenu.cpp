@@ -690,7 +690,22 @@ void eGameMenu::initialize(eGameBoard* const b) {
                                      eSPR{eBuildingMode::happinessMonument, eLanguage::text("happiness_monument")},
                                      eSPR{eBuildingMode::commemorative7, "Commemorative 7"},
                                      eSPR{eBuildingMode::commemorative8, "Commemorative 8"},
-                                     eSPR{eBuildingMode::scholarMonument, eLanguage::text("scholar_monument")}};
+                                     eSPR{eBuildingMode::scholarMonument, eLanguage::text("scholar_monument")},
+
+                                     eSPR{eBuildingMode::aphroditeMonument, eLanguage::text("aphrodite_monument")},
+                                     eSPR{eBuildingMode::apolloMonument, eLanguage::text("apollo_monument")},
+                                     eSPR{eBuildingMode::aresMonument, eLanguage::text("ares_monument")},
+                                     eSPR{eBuildingMode::artemisMonument, eLanguage::text("artemis_monument")},
+                                     eSPR{eBuildingMode::athenaMonument, eLanguage::text("athena_monument")},
+                                     eSPR{eBuildingMode::atlasMonument, eLanguage::text("atlas_monument")},
+                                     eSPR{eBuildingMode::demeterMonument, eLanguage::text("demeter_monument")},
+                                     eSPR{eBuildingMode::dionysusMonument, eLanguage::text("dionysus_monument")},
+                                     eSPR{eBuildingMode::hadesMonument, eLanguage::text("hades_monument")},
+                                     eSPR{eBuildingMode::hephaestusMonument, eLanguage::text("hephaestus_monument")},
+                                     eSPR{eBuildingMode::heraMonument, eLanguage::text("hera_monument")},
+                                     eSPR{eBuildingMode::hermesMonument, eLanguage::text("hermes_monument")},
+                                     eSPR{eBuildingMode::poseidonMonument, eLanguage::text("poseidon_monument")},
+                                     eSPR{eBuildingMode::zeusMonument, eLanguage::text("zeus_monument")}};
     const auto m9 = [this, cmx, cmy, m9spr]() {
         openBuildWidget(cmx, cmy, m9spr);
     };

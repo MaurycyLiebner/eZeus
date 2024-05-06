@@ -4,6 +4,7 @@
 #include "ebuilding.h"
 
 #include "textures/ebuildingtextures.h"
+#include "characters/gods/egod.h"
 
 class eAestheticsBuilding : public eBuilding {
 public:
@@ -135,6 +136,38 @@ public:
     int id() const { return mId; }
 private:
     const int mId = 0;
+};
+
+class eGodMonumentTile;
+
+class eGodMonument : public eBuilding {
+public:
+    eGodMonument(const eGodType god, eGameBoard& board);
+
+    void erase() override;
+
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
+
+    eGodType god() const { return mGod; }
+    void addTile(eGodMonumentTile* const tile);
+    const std::vector<eGodMonumentTile*>& tiles() const { return mTiles; }
+private:
+    const eGodType mGod;
+    std::vector<eGodMonumentTile*> mTiles;
+};
+
+class eGodMonumentTile : public eBuilding {
+public:
+    eGodMonumentTile(eGameBoard& board);
+
+    void erase();
+
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
+
+    void setMonument(eGodMonument* const mon);
+    eGodMonument* monument() const { return mMonument; }
+private:
+    eGodMonument* mMonument = nullptr;
 };
 
 #endif // EAESTHETICSBUILDING_H

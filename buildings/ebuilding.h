@@ -103,6 +103,8 @@ enum class eBuildingType {
     avenue,
 
     commemorative,
+    godMonument,
+    godMonumentTile,
 
     bench,
     flowerGarden,

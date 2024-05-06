@@ -2265,6 +2265,44 @@ void eGameWidget::paintEvent(ePainter& p) {
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
 
+        case eBuildingMode::aphroditeMonument:
+        case eBuildingMode::apolloMonument:
+        case eBuildingMode::aresMonument:
+        case eBuildingMode::artemisMonument:
+        case eBuildingMode::athenaMonument:
+        case eBuildingMode::atlasMonument:
+        case eBuildingMode::demeterMonument:
+        case eBuildingMode::dionysusMonument:
+        case eBuildingMode::hadesMonument:
+        case eBuildingMode::hephaestusMonument:
+        case eBuildingMode::heraMonument:
+        case eBuildingMode::hermesMonument:
+        case eBuildingMode::poseidonMonument:
+        case eBuildingMode::zeusMonument: {
+            const int tx = mHoverTX;
+            const int ty = mHoverTY;
+            const int tminX = tx - 1;
+            const int tminY = ty - 2;
+            const int tmaxX = tminX + 4;
+            const int tmaxY = tminY + 4;
+            const auto am = eBuildingMode::aphroditeMonument;
+            const int id = static_cast<int>(mode) -
+                           static_cast<int>(am);
+            const auto gt = static_cast<eGodType>(id);
+            const auto b1 = e::make_shared<eGodMonument>(gt, *mBoard);
+
+            for(int x = tminX; x < tmaxX; x++) {
+                for(int y = tminY; y < tmaxY; y++) {
+                    const auto b0 = e::make_shared<eGodMonumentTile>(
+                                        *mBoard);
+                    b0->setMonument(b1.get());
+                    ebs.emplace_back(x, y, b0);
+                }
+            }
+
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
+
         case eBuildingMode::bench: {
             const auto b1 = e::make_shared<eBench>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);

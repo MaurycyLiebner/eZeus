@@ -142,6 +142,15 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
         dst << p->id();
     } break;
 
+    case eBuildingType::godMonument: {
+        const auto gm = static_cast<const eGodMonument*>(b);
+        dst << gm->god();
+    } break;
+    case eBuildingType::godMonumentTile: {
+        const auto gmt = static_cast<const eGodMonumentTile*>(b);
+        dst.writeBuilding(gmt->monument());
+    } break;
+
     case eBuildingType::bench:
     case eBuildingType::flowerGarden:
     case eBuildingType::gazebo:

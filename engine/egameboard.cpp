@@ -1,4 +1,4 @@
-
+﻿
 #include "egameboard.h"
 
 #include <random>
@@ -169,7 +169,40 @@ void eGameBoard::setButtonsVisUpdater(const eAction& u) {
 
 bool eGameBoard::supportsBuilding(const eBuildingMode mode) const {
     const auto type = eBuildingModeHelpers::toBuildingType(mode);
-    const int id = eBuildingModeHelpers::toCommemorativeId(mode);
+    int id = -1;
+    switch(mode) {
+    case eBuildingMode::populationMonument:
+    case eBuildingMode::victoryMonument:
+    case eBuildingMode::colonyMonument:
+    case eBuildingMode::athleteMonument:
+    case eBuildingMode::conquestMonument:
+    case eBuildingMode::happinessMonument:
+    case eBuildingMode::commemorative7:
+    case eBuildingMode::commemorative8:
+    case eBuildingMode::scholarMonument:
+        id = eBuildingModeHelpers::toCommemorativeId(mode);
+        break;
+    case eBuildingMode::aphroditeMonument:
+    case eBuildingMode::apolloMonument:
+    case eBuildingMode::aresMonument:
+    case eBuildingMode::artemisMonument:
+    case eBuildingMode::athenaMonument:
+    case eBuildingMode::atlasMonument:
+    case eBuildingMode::demeterMonument:
+    case eBuildingMode::dionysusMonument:
+    case eBuildingMode::hadesMonument:
+    case eBuildingMode::hephaestusMonument:
+    case eBuildingMode::heraMonument:
+    case eBuildingMode::hermesMonument:
+    case eBuildingMode::poseidonMonument:
+    case eBuildingMode::zeusMonument: {
+        const auto gt = eBuildingModeHelpers::toGodType(mode);
+        id = static_cast<int>(gt);
+    } break;
+    default:
+        break;
+    }
+
     return availableBuilding(type, id);
 }
 

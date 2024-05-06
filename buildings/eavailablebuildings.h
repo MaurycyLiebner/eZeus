@@ -1,6 +1,10 @@
 #ifndef EAVAILABLEBUILDINGS_H
 #define EAVAILABLEBUILDINGS_H
 
+#include <map>
+
+#include "characters/gods/egod.h"
+
 class eReadStream;
 class eWriteStream;
 
@@ -89,6 +93,22 @@ public:
     int f7Monument = 0;
     int f8Monument = 0;
     int fScholarMonument = 0;
+
+    std::map<eGodType, int> mGodMonuments =
+        {{eGodType::aphrodite, 0},
+         {eGodType::apollo, 0},
+         {eGodType::ares, 0},
+         {eGodType::artemis, 0},
+         {eGodType::athena, 0},
+         {eGodType::atlas, 0},
+         {eGodType::demeter, 0},
+         {eGodType::dionysus, 0},
+         {eGodType::hades, 0},
+         {eGodType::hephaestus, 0},
+         {eGodType::hera, 0},
+         {eGodType::hermes, 0},
+         {eGodType::poseidon, 0},
+         {eGodType::zeus, 0}};
 };
 
 #endif // EAVAILABLEBUILDINGS_H

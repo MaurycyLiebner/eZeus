@@ -1295,6 +1295,58 @@ bool eGameWidget::buildMouseRelease() {
             }
         }; break;
 
+        case eBuildingMode::aphroditeMonument:
+        case eBuildingMode::apolloMonument:
+        case eBuildingMode::aresMonument:
+        case eBuildingMode::artemisMonument:
+        case eBuildingMode::athenaMonument:
+        case eBuildingMode::atlasMonument:
+        case eBuildingMode::demeterMonument:
+        case eBuildingMode::dionysusMonument:
+        case eBuildingMode::hadesMonument:
+        case eBuildingMode::hephaestusMonument:
+        case eBuildingMode::heraMonument:
+        case eBuildingMode::hermesMonument:
+        case eBuildingMode::poseidonMonument:
+        case eBuildingMode::zeusMonument: {
+            const int tx = mHoverTX;
+            const int ty = mHoverTY;
+            const int tminX = tx - 1;
+            const int tminY = ty - 2;
+            const int tmaxX = tminX + 4;
+            const int tmaxY = tminY + 4;
+
+            const bool cb = canBuild(tx, ty, 4, 4);
+            if(!cb) return true;
+
+            const auto am = eBuildingMode::aphroditeMonument;
+            const int id = static_cast<int>(mode) -
+                           static_cast<int>(am);
+            const auto gt = static_cast<eGodType>(id);
+            const auto s = e::make_shared<eGodMonument>(gt, *mBoard);
+            const bool b = build(tminX + 1, tminY + 2, 2, 2, [&]() {
+                return s;
+            });
+            for(int x = tminX; x < tmaxX; x++) {
+                for(int y = tminY; y < tmaxY; y++) {
+                    const bool cb = canBuild(x, y, 1, 1);
+                    if(!cb) continue;
+                    build(x, y, 1, 1, [&]() {
+                        const auto t = e::make_shared<eGodMonumentTile>(
+                                           *mBoard);
+                        t->setMonument(s.get());
+                        s->addTile(t.get());
+                        return t;
+                    });
+                }
+            }
+            if(b) {
+                mBoard->built(eBuildingType::godMonument, id);
+                const bool ss = mBoard->supportsBuilding(mode);
+                if(!ss) mGm->clearMode();
+            }
+        }; break;
+
         case eBuildingMode::bench: {
             build(mHoverTX, mHoverTY, 1, 1,
                   [this]() { return e::make_shared<eBench>(*mBoard); });

@@ -90,9 +90,10 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
         eew->initialize(rree);
         cont->addWidget(eew);
     } break;
-    case eGameEventType::godQuest: {
+    case eGameEventType::godQuest:
+    case eGameEventType::godQuestFulfilled:{
         const auto eew = new eGodQuestEventWidget(window());
-        const auto gqee = static_cast<eGodQuestEvent*>(e.get());
+        const auto gqee = static_cast<eGodQuestEventBase*>(e.get());
         eew->initialize(gqee);
         cont->addWidget(eew);
     } break;
