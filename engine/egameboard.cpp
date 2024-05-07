@@ -758,7 +758,7 @@ void eGameBoard::distributeSoldiers() {
             cRockThrowers += c;
         } else if(bt == eBannerType::hoplite) {
             cHoplites += c;
-        } else { //horseman
+        } else if(bt == eBannerType::horseman) {
             cHorsemen += c;
         }
     }
