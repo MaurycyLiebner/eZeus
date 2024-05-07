@@ -223,19 +223,23 @@ void eEmploymentDataWidget::paintEvent(ePainter& p) {
         const int p = emplData.pensions();
         mPensionsLabel->setText(std::to_string(p) + " dr");
         mPensionsLabel->fitContent();
+        mPensionsLabel->align(eAlignment::hcenter);
 
         const int w = emplData.employable();
         mWorkforceLabel->setText(std::to_string(w));
         mWorkforceLabel->fitContent();
+        mWorkforceLabel->align(eAlignment::hcenter);
 
         const int v = emplData.freeJobVacancies();
         mVacanciesNLabel->setText(std::to_string(v));
         mVacanciesNLabel->fitContent();
+        mVacanciesNLabel->align(eAlignment::hcenter);
 
         const int u = emplData.unemployed();
         const auto perStr = w ? "(" + std::to_string(100*u/w) + "%)" : "";
         mUnemployedNLabel->setText(std::to_string(u) + " " + perStr);
         mUnemployedNLabel->fitContent();
+        mUnemployedNLabel->align(eAlignment::hcenter);
     }
     eDataWidget::paintEvent(p);
 }
