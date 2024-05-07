@@ -786,8 +786,7 @@ void eGameBoard::distributeSoldiers() {
     }
 }
 
-void eGameBoard::rockThrowerKilled() {
-    int toKill = 24;
+void eGameBoard::killCommonFolks(int toKill) {
     auto bs = mTimedBuildings;
     std::random_shuffle(bs.begin(), bs.end());
     for(const auto b : bs) {
@@ -801,6 +800,14 @@ void eGameBoard::rockThrowerKilled() {
             if(toKill <= 0) break;
         }
     }
+}
+
+void eGameBoard::walkerKilled() {
+    killCommonFolks(5);
+}
+
+void eGameBoard::rockThrowerKilled() {
+    killCommonFolks(24);
 }
 
 void eGameBoard::hopliteKilled() {

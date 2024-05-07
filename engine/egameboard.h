@@ -323,6 +323,8 @@ public:
     void registerSoldierBanner(const stdsptr<eSoldierBanner>& b);
     bool unregisterSoldierBanner(const stdsptr<eSoldierBanner>& b);
 
+    void killCommonFolks(int toKill);
+    void walkerKilled();
     void rockThrowerKilled();
     void hopliteKilled();
     void horsemanKilled();

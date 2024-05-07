@@ -1,6 +1,7 @@
 #include "ebasicpatroler.h"
 
 #include "textures/egametextures.h"
+#include "engine/egameboard.h"
 
 eBasicPatroler::eBasicPatroler(eGameBoard& board,
                                const eCharTexs charTexs,
@@ -40,6 +41,13 @@ std::shared_ptr<eTexture> eBasicPatroler::getTexture(const eTileSize size) const
     if(!wrap) t = std::clamp(t, 0, s - 1);
     const int texId = t % s;
     return coll->getTexture(texId);
+}
+
+void eBasicPatroler::beingKilled() {
+    if(playerId() == 1) {
+        auto& brd = getBoard();
+        brd.walkerKilled();
+    }
 }
 
 void eBasicPatroler::setCharTextures(const eCharTexs& texs) {
