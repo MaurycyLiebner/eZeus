@@ -1504,7 +1504,7 @@ std::vector<eAgoraBase*> eGameBoard::agoras() const {
 
 void eGameBoard::incTime(const int by) {
     mThreadPool.handleFinished();
-    mThreadPool.scheduleUpdate(*this);
+    mThreadPool.scheduleDataUpdate();
 
     updateAppealMapIfNeeded();
 

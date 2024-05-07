@@ -13,7 +13,7 @@
 
 class eThreadPool {
 public:
-    eThreadPool();
+    eThreadPool(eGameBoard& board);
     ~eThreadPool();
 
     void initialize(const int w, const int h);
@@ -21,13 +21,16 @@ public:
     void queueTask(eTask* const task);
     void handleFinished();
 
-    void scheduleUpdate(eGameBoard& board);
+    void scheduleDataUpdate();
 
     bool finished();
     void waitFinished();
 private:
     void threadEntry(eThreadData* data);
+    void updateData();
 
+    eGameBoard& mBoard;
+    bool mDataUpdateScheduled = false;
 
     bool mQuit = false;
 

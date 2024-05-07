@@ -1,6 +1,7 @@
 #include "ethreadpool.h"
 
-eThreadPool::eThreadPool() {}
+eThreadPool::eThreadPool(eGameBoard& board) :
+    mBoard(board) {}
 
 eThreadPool::~eThreadPool() {
     {
@@ -57,7 +58,15 @@ void eThreadPool::threadEntry(eThreadData* data) {
     }
 }
 
+void eThreadPool::updateData() {
+    mDataUpdateScheduled = false;
+    for(auto& d : mThreadData) {
+        d->scheduleUpdate(mBoard);
+    }
+}
+
 void eThreadPool::queueTask(eTask* const task) {
+    if(mDataUpdateScheduled) updateData();
     std::unique_lock<std::mutex> lock(mTasksMutex);
     mTasks.emplace(task);
     mCv.notify_one();
@@ -75,10 +84,10 @@ void eThreadPool::handleFinished() {
     }
 }
 
-void eThreadPool::scheduleUpdate(eGameBoard& board) {
-    for(auto& d : mThreadData) {
-        d->scheduleUpdate(board);
-    }
+void eThreadPool::scheduleDataUpdate() {
+    mDataUpdateScheduled = true;
+    std::lock_guard lock(mTasksMutex);
+    if(!mTasks.empty()) updateData();
 }
 
 bool eThreadPool::finished() {
