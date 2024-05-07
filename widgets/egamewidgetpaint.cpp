@@ -322,7 +322,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             drawXY(tx, ty, frx, fry, 1, 1, a);
             const int f = (tx + ty) % destTexs.fFire.size();
             const auto& ff = destTexs.fFire[f];
-            const int dt = mTime/8 + tx*ty;
+            const int dt = mTime/8 + std::abs(tx*ty);
             const auto tex = ff.getTexture(dt % ff.size());
             tp.drawTexture(frx + 1, fry, tex, eAlignment::hcenter | eAlignment::top);
         };
@@ -619,6 +619,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                     }
 
                     if(last) {
+                        if(ub->isOnFire()) {
+                            const auto& ubts = ub->tilesUnder();
+                            for(const auto& ubt : ubts) {
+                                drawFire(ubt);
+                            }
+                        }
                         if(ts.fOvelays && tex) {
                             const int bx = drawX;
                             const int by = drawY - tsRect.h;
@@ -638,6 +644,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                 bRender(tx, ty, false);
                 if(tx == fitX && ty == fitY) {
                     bRender(tx + 1, ty + 1, true);
+                }
+            }
+        } else if(ub) {
+            if(ub->isOnFire()) {
+                const auto& ubts = ub->tilesUnder();
+                for(const auto& ubt : ubts) {
+                    drawFire(ubt);
                 }
             }
         }
@@ -715,19 +728,6 @@ void eGameWidget::paintEvent(ePainter& p) {
                     bd = true;
                 }
             }
-        };
-
-        const auto drawFire = [&](eTile* const ubt) {
-            const int tx = ubt->x();
-            const int ty = ubt->y();
-            double frx;
-            double fry;
-            drawXY(tx, ty, frx, fry, 1, 1, a);
-            const int f = (tx + ty) % destTexs.fFire.size();
-            const auto& ff = destTexs.fFire[f];
-            const int dt = mTime/8 + tx*ty;
-            const auto tex = ff.getTexture(dt % ff.size());
-            tp.drawTexture(frx + 1, fry, tex, eAlignment::hcenter | eAlignment::top);
         };
 
         const auto drawCharacters = [&](eTile* const tile,
