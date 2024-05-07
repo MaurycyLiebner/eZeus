@@ -845,7 +845,7 @@ bool eGameWidget::buildMouseRelease() {
                 build(tile->x(), tile->y(), 1, 1,
                       [this]() { return e::make_shared<eResourceBuilding>(
                                 *mBoard, eResourceBuildingType::oliveTree); },
-                      sTileFertile);
+                      true);
             };
             break;
         case eBuildingMode::vine:
@@ -853,7 +853,7 @@ bool eGameWidget::buildMouseRelease() {
                 build(tile->x(), tile->y(), 1, 1,
                       [this]() { return e::make_shared<eResourceBuilding>(
                                 *mBoard, eResourceBuildingType::vine); },
-                      sTileFertile);
+                      true);
             };
             break;
         case eBuildingMode::orangeTree:
@@ -861,7 +861,7 @@ bool eGameWidget::buildMouseRelease() {
                 build(tile->x(), tile->y(), 1, 1,
                       [this]() { return e::make_shared<eResourceBuilding>(
                                 *mBoard, eResourceBuildingType::orangeTree); },
-                      sTileFertile);
+                      true);
             };
             break;
 
@@ -979,17 +979,17 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::wheatFarm: {
             build(mHoverTX, mHoverTY, 3, 3,
                   [this]() { return e::make_shared<eWheatFarm>(*mBoard); },
-                  sTileFertile);
+                  true);
         }; break;
         case eBuildingMode::onionFarm: {
             build(mHoverTX, mHoverTY, 3, 3,
                   [this]() { return e::make_shared<eOnionFarm>(*mBoard); },
-                  sTileFertile);
+                  true);
         }; break;
         case eBuildingMode::carrotFarm: {
             build(mHoverTX, mHoverTY, 3, 3,
                   [this]() { return e::make_shared<eCarrotFarm>(*mBoard); },
-                  sTileFertile);
+                  true);
         }; break;
         case eBuildingMode::growersLodge: {
             build(mHoverTX, mHoverTY, 2, 2,

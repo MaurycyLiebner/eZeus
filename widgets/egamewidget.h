@@ -115,8 +115,6 @@ private:
 
     bool buildMouseRelease();
 
-    static bool sTileFertile(eTile* const tile);
-
     using eTileAction = std::function<void(eTile* const)>;
     void iterateOverVisibleTiles(const eTileAction& a);
 
@@ -127,11 +125,11 @@ private:
     using eSpecialRequirement = std::function<bool(eTile*)>;
     bool canBuildBase(const int minX, const int maxX,
                       const int minY, const int maxY,
-                      const eSpecialRequirement& specReq = {},
+                      const bool fertile = false,
                       const bool flat = false);
     bool canBuild(const int tx, const int ty,
                   const int sw, const int sh,
-                  const eSpecialRequirement& specReq = {},
+                  const bool fertile = false,
                   const bool flat = false);
     bool canBuildVendor(const int tx, const int ty,
                         const eResourceType resType);
@@ -143,7 +141,7 @@ private:
     bool build(const int tx, const int ty,
                const int sw, const int sh,
                const eBuildingCreator& bc,
-               const eSpecialRequirement& specReq = {},
+               const bool fertile = false,
                const eRendererCreator& rc = {},
                const bool flat = false);
     using eDA = eDomesticatedAnimal;

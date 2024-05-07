@@ -1257,7 +1257,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         double ry;
         const auto t = mBoard->tile(mHoverTX, mHoverTY);
         if(!t) return;
-        const bool cb = canBuild(t->x(), t->y(), 1, 2, sTileFertile, true);
+        const bool cb = canBuild(t->x(), t->y(), 1, 2, true, true);
         const auto& tex = trrTexs.fBuildingBase;
         tex->setColorMod(cb ? 0 : 255, cb ? 255 : 0, 0);
         drawXY(mHoverTX, mHoverTY, rx, ry, 1, 1, t->altitude());
@@ -1485,7 +1485,7 @@ void eGameWidget::paintEvent(ePainter& p) {
 
     const auto& wrld = mBoard->getWorldBoard();
     if(t && mGm->visible()) {
-        eSpecialRequirement specReq;
+        bool fertile = false;
         std::function<bool(const int tx, const int ty,
                            const int sw, const int sh)> canBuildFunc;
         switch(mode) {
@@ -1510,14 +1510,14 @@ void eGameWidget::paintEvent(ePainter& p) {
             canBuildFunc = [&](const int tx, const int ty,
                                const int sw, const int sh) {
                 if(mBoard->hasPalace()) return false;
-                return canBuild(tx, ty, sw, sh, specReq);
+                return canBuild(tx, ty, sw, sh, fertile);
             };
         } break;
         case eBuildingMode::stadium: {
             canBuildFunc = [&](const int tx, const int ty,
                                const int sw, const int sh) {
                 if(mBoard->hasStadium()) return false;
-                return canBuild(tx, ty, sw, sh, specReq);
+                return canBuild(tx, ty, sw, sh, fertile);
             };
         } break;
         case eBuildingMode::foodVendor: {
@@ -1571,7 +1571,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         default: {
             canBuildFunc = [&](const int tx, const int ty,
                                const int sw, const int sh) {
-                return canBuild(tx, ty, sw, sh, specReq);
+                return canBuild(tx, ty, sw, sh, fertile);
             };
         } break;
         }
@@ -1982,19 +1982,19 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = e::make_shared<eResourceBuilding>(
                                 *mBoard, eResourceBuildingType::oliveTree);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
-            specReq = sTileFertile;
+            fertile = true;
         } break;
         case eBuildingMode::vine: {
             const auto b1 = e::make_shared<eResourceBuilding>(
                                 *mBoard, eResourceBuildingType::vine);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
-            specReq = sTileFertile;
+            fertile = true;
         } break;
         case eBuildingMode::orangeTree: {
             const auto b1 = e::make_shared<eResourceBuilding>(
                                 *mBoard, eResourceBuildingType::orangeTree);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
-            specReq = sTileFertile;
+            fertile = true;
         } break;
 
         case eBuildingMode::huntingLodge: {
@@ -2052,17 +2052,17 @@ void eGameWidget::paintEvent(ePainter& p) {
         case eBuildingMode::wheatFarm: {
             const auto b1 = e::make_shared<eWheatFarm>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
-            specReq = sTileFertile;
+            fertile = true;
         } break;
         case eBuildingMode::onionFarm: {
             const auto b1 = e::make_shared<eOnionFarm>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
-            specReq = sTileFertile;
+            fertile = true;
         } break;
         case eBuildingMode::carrotFarm: {
             const auto b1 = e::make_shared<eCarrotFarm>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
-            specReq = sTileFertile;
+            fertile = true;
         } break;
 
         case eBuildingMode::growersLodge: {
