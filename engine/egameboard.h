@@ -148,6 +148,8 @@ public:
     int countBanners(const eBannerType bt) const;
 
     void incTime(const int by);
+    void handleFinishedTasks();
+    void scheduleDataUpdate();
     int totalTime() const { return mTotalTime; }
 
     eThreadPool& threadPool() { return mThreadPool; }

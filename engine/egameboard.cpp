@@ -1207,11 +1207,6 @@ std::vector<eAgoraBase*> eGameBoard::agoras() const {
 }
 
 void eGameBoard::incTime(const int by) {
-    mThreadPool.handleFinished();
-    mThreadPool.scheduleDataUpdate();
-
-    updateAppealMapIfNeeded();
-
     const int iMax = mPlannedActions.size() - 1;
     for(int i = iMax; i >= 0; i--) {
         const auto a = mPlannedActions[i];
@@ -1222,12 +1217,12 @@ void eGameBoard::incTime(const int by) {
         }
     }
 
-    if(mTotalTime == 0) {
-//        receiveRequest(mWorldBoard.cities()[0],
-//                            eResourceType::fleece, 9, 0);
-        planGiftFrom(mWorldBoard.cities()[0],
-                     eResourceType::fleece, 16);
-    }
+//    if(mTotalTime == 0) {
+////        receiveRequest(mWorldBoard.cities()[0],
+////                            eResourceType::fleece, 9, 0);
+//        planGiftFrom(mWorldBoard.cities()[0],
+//                     eResourceType::fleece, 16);
+//    }
 
     mSoldiersUpdate += by;
     const int sup = 2000;
@@ -1336,6 +1331,14 @@ void eGameBoard::incTime(const int by) {
     }
 
     emptyRubbish();
+}
+
+void eGameBoard::handleFinishedTasks() {
+    mThreadPool.handleFinished();
+}
+
+void eGameBoard::scheduleDataUpdate() {
+    mThreadPool.scheduleDataUpdate();
 }
 
 void eGameBoard::incDrachmas(const int d) {

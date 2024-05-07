@@ -20,6 +20,17 @@
 
 #include "evectorhelpers.h"
 
+bool sDontDrawAppeal(const eTerrain terr) {
+    return terr == eTerrain::forest ||
+           terr == eTerrain::choppedForest ||
+           terr == eTerrain::stones ||
+           terr == eTerrain::flatStones ||
+           terr == eTerrain::tallStones ||
+           terr == eTerrain::copper ||
+           terr == eTerrain::silver ||
+           terr == eTerrain::water;
+}
+
 void drawColumn(eTilePainter& tp, const int n,
                 const double rx, const double ry,
                 const eTextureCollection& coll) {
@@ -182,6 +193,9 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     }
     if(updateTips) updateTipPositions();
+    mBoard->scheduleDataUpdate();
+    mBoard->updateAppealMapIfNeeded();
+    mBoard->handleFinishedTasks();
     if(!mPaused && !mLocked && !mMenu && !mMsgBox && !mInfoWidget) {
         mTime += mSpeed;
         mBoard->incTime(mSpeed);
@@ -457,7 +471,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         };
 
         if(ub && !v) {
-            if(ub != mPatrolBuilding) {
+            if(ub != mPatrolBuilding && mViewMode != eViewMode::appeal) {
                 const auto tex = getBasementTexture(tile, ub, trrTexs);
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
             }
@@ -623,6 +637,8 @@ void eGameWidget::paintEvent(ePainter& p) {
         };
 
         const auto drawAppeal = [&]() {
+            const auto terr = tile->terrain();
+            if(sDontDrawAppeal(terr)) return;
             if(!v && mViewMode == eViewMode::appeal) {
                 const auto& am = mBoard->appealMap();
                 const auto ae = am.enabled(dtx, dty);
@@ -976,7 +992,7 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         buildingDrawer(tile);
 
-        const auto terrTile = mBoard->tile(tx, ty + 1);
+        const auto terrTile = mBoard->tile(tx, ty);
         if(terrTile) {
             const auto terrUb = terrTile->underBuilding();
             const auto terrBt = terrTile->underBuildingType();
@@ -986,9 +1002,17 @@ void eGameWidget::paintEvent(ePainter& p) {
                     flatSanct = sb->progress() <= 0;
                 }
             }
+            const auto terr = terrTile->terrain();
             if(!terrUb || flatSanct ||
-                eBuilding::sFlatBuilding(terrBt)) {
-                drawTerrain(terrTile);
+               eBuilding::sFlatBuilding(terrBt)) {
+                if(mViewMode == eViewMode::appeal && !terrUb &&
+                   !sDontDrawAppeal(terr)) {
+                    const auto& am = mBoard->appealMap();
+                    const auto ae = am.enabled(dtx, dty);
+                    if(!ae) drawTerrain(terrTile);
+                } else {
+                    drawTerrain(terrTile);
+                }
             }
         }
 
