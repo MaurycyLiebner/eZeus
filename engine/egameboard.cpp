@@ -63,6 +63,7 @@
 #include "buildings/eheroshall.h"
 
 eGameBoard::eGameBoard() :
+    mThreadPool(*this),
     mEmplData(mPopData, *this) {
     mSupportedResources = eResourceType::all;
 }
@@ -703,6 +704,7 @@ void eGameBoard::write(eWriteStream& dst) const {
 }
 
 eBuilding* eGameBoard::buildingWithIOID(const int id) const {
+    if(id == -1) return nullptr;
     for(const auto b : mAllBuildings) {
         const int bio = b->ioID();
         if(bio == id) return b;
@@ -711,6 +713,7 @@ eBuilding* eGameBoard::buildingWithIOID(const int id) const {
 }
 
 eCharacter* eGameBoard::characterWithIOID(const int id) const {
+    if(id == -1) return nullptr;
     for(const auto c : mCharacters) {
         const int bio = c->ioID();
         if(bio == id) return c;
@@ -719,6 +722,7 @@ eCharacter* eGameBoard::characterWithIOID(const int id) const {
 }
 
 eCharacterAction* eGameBoard::characterActionWithIOID(const int id) const {
+    if(id == -1) return nullptr;
     for(const auto ca : mCharacterActions) {
         const int bio = ca->ioID();
         if(bio == id) return ca;
@@ -727,6 +731,7 @@ eCharacterAction* eGameBoard::characterActionWithIOID(const int id) const {
 }
 
 eBanner* eGameBoard::bannerWithIOID(const int id) const {
+    if(id == -1) return nullptr;
     for(const auto b : mBanners) {
         const int bio = b->ioID();
         if(bio == id) return b;

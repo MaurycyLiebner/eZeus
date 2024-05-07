@@ -57,6 +57,8 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         src >> o;
         b = e::make_shared<eGrandAgora>(o, board);
     } break;
+    case eBuildingType::agoraSpace:
+        return nullptr;
     case eBuildingType::commonHouse: {
         b = e::make_shared<eSmallHouse>(board);
     } break;

@@ -28,6 +28,7 @@ public:
     }
 
     void erase() override;
+    void read(eReadStream& src) override;
 
     int add(const eResourceType type, const int count) override;
     int spaceLeft(const eResourceType type) const override;

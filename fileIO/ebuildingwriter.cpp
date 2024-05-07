@@ -22,6 +22,8 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
         const auto ga = static_cast<const eGrandAgora*>(b);
         dst << ga->orientation();
     } break;
+    case eBuildingType::agoraSpace:
+        return;
     case eBuildingType::commonHouse:
     case eBuildingType::gymnasium:
     case eBuildingType::podium:

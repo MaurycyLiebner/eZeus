@@ -52,6 +52,11 @@ void eAgoraBase::erase() {
     eBuilding::erase();
 }
 
+void eAgoraBase::read(eReadStream& src) {
+    ePatrolBuildingBase::read(src);
+    fillSpaces();
+}
+
 int eAgoraBase::add(const eResourceType type, const int count) {
     const auto v = vendor(type);
     if(!v) return 0;
