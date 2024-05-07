@@ -31,8 +31,13 @@ bool eHeroAction::decide() {
         return false;
     } else {
         mStage = eHeroActionStage::goBack;
-        c->setActionType(eCharacterActionType::walk);
-        goBack(eWalkableObject::sCreateDefault());
+        if(mQuestWaiting) {
+            mQuestWaiting = false;
+            sendOnQuest();
+        } else {
+            c->setActionType(eCharacterActionType::walk);
+            goBack(eWalkableObject::sCreateDefault());
+        }
     }
     return true;
 }
@@ -68,7 +73,7 @@ void eHeroAction::lookForMonster() {
     const auto c = character();
     const auto ct = c->type();
     const auto ht = eHero::sCharacterToHeroType(ct);
-    const auto& board = c->getBoard();
+    const auto& board = eHeroAction::board();
     const auto& ms = board.monsters();
     for(const auto m : ms) {
         if(m->dead()) continue;
@@ -78,6 +83,40 @@ void eHeroAction::lookForMonster() {
         if(sl != ht) continue;
         huntMonster(m);
     }
+}
+
+void eHeroAction::sendOnQuest() {
+    if(mStage == eHeroActionStage::fight) {
+        mQuestWaiting = true;
+        return;
+    }
+    const auto c = character();
+    auto& board = eHeroAction::board();
+    const auto hero = static_cast<eHero*>(c);
+    const stdptr<eHero> cptr(hero);
+    const auto fail = std::make_shared<eHA_leaveFinishFail>(
+                          board, hero);
+    const auto finish = std::make_shared<eHA_leaveFinishFail>(
+                            board, hero);
+
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFailAction(fail);
+    a->setFinishAction(finish);
+    a->setFindFailAction([cptr]() {
+        if(cptr) cptr->kill();
+    });
+    setCurrentAction(a);
+    c->setActionType(eCharacterActionType::walk);
+    const int bw = board.width();
+    const int bh = board.height();
+    const auto edgeTile = [bw, bh](eTileBase* const tile) {
+        const int tx = tile->dx();
+        if(tx == 0 || tx >= bw) return true;
+        const int ty = tile->dy();
+        if(ty == 0 || ty >= bh) return true;
+        return false;
+    };
+    a->start(edgeTile);
 }
 
 void eHeroAction::lookForMonsterFight() {

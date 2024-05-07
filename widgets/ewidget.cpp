@@ -19,7 +19,9 @@ eWidget::eWidget(eMainWindow* const window) :
 }
 
 eWidget::~eWidget() {
-    removeChildren();
+    for(const auto w : mChildren) {
+        delete w;
+    }
     clearWidgetPointers();
 }
 
@@ -325,7 +327,7 @@ eWidget* eWidget::lastAncestor() {
 
 void eWidget::removeChildren() {
     for(const auto w : mChildren) {
-        delete w;
+        w->deleteLater();
     }
     mChildren.clear();
 }

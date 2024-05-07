@@ -30,6 +30,8 @@
 
 #include "characters/eenlistedforces.h"
 
+#include "engine/egodquest.h"
+
 class eGameEvent;
 
 class eSpawner;
@@ -324,6 +326,10 @@ public:
     void horsemanKilled();
 
     eEnlistedForces getEnlistableForces() const;
+
+    const std::vector<eGodQuest>& godQuests() const { return mGodQuests; }
+    void addGodQuest(const eGodQuest q);
+    void removeGodQuest(const eGodQuest q);
 private:
     void updateNeighbours();
 
@@ -387,6 +393,8 @@ private:
     std::vector<stdsptr<eObject>> mRubbish;
 
     bool mRegisterBuildingsEnabled = true;
+
+    std::vector<eGodQuest> mGodQuests;
 
     std::vector<eSanctuary*> mSanctuaries;
     std::vector<eHerosHall*> mHeroHalls;

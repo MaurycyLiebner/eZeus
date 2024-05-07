@@ -20,6 +20,12 @@ struct eGodQuest {
         src >> fHero;
     }
 
+    bool operator==(const eGodQuest& o) {
+        return fGod == o.fGod &&
+               fId == o.fId &&
+               fHero == o.fHero;
+    }
+
     eGodType fGod = eGodType::zeus;
     eGodQuestId fId = eGodQuestId::godQuest1;
     eHeroType fHero = eGodQuest::sDefaultHero(fGod, fId);

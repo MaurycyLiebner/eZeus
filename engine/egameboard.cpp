@@ -457,6 +457,16 @@ void eGameBoard::read(eReadStream& src) {
     }
 
     {
+        int nq;
+        src >> nq;
+        for(int i = 0; i < nq; i++) {
+            eGodQuest q;
+            q.read(src);
+            mGodQuests.push_back(q);
+        }
+    }
+
+    {
         int nbs;
         src >> nbs;
         for(int i = 0; i < nbs; i++) {
@@ -614,6 +624,14 @@ void eGameBoard::write(eWriteStream& dst) const {
             dst << b->type();
             dst << b->id();
             b->write(dst);
+        }
+    }
+
+    {
+        const int nq = mGodQuests.size();
+        dst << nq;
+        for(const auto q : mGodQuests) {
+            q.write(dst);
         }
     }
 
@@ -1147,6 +1165,15 @@ eEnlistedForces eGameBoard::getEnlistableForces() const {
     }
 
     return result;
+}
+
+void eGameBoard::addGodQuest(const eGodQuest q) {
+    eVectorHelpers::remove(mGodQuests, q);
+    mGodQuests.push_back(q);
+}
+
+void eGameBoard::removeGodQuest(const eGodQuest q) {
+    eVectorHelpers::remove(mGodQuests, q);
 }
 
 void eGameBoard::registerSoldierBanner(const stdsptr<eSoldierBanner>& b) {

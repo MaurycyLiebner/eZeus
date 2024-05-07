@@ -4,6 +4,7 @@
 #include "emessages.h"
 #include "engine/eevent.h"
 #include "estringhelpers.h"
+#include "engine/egameboard.h"
 
 void eGameWidget::handleGodQuestEvent(eEventData& ed,
                                       const bool fulfilled) {
@@ -14,6 +15,11 @@ void eGameWidget::handleGodQuestEvent(eEventData& ed,
         eSounds::playGodSound(god, eGodSound::questFinished);
     } else {
         eSounds::playGodSound(god, eGodSound::quest);
+        eGodQuest q;
+        q.fGod = god;
+        q.fHero = hero;
+        q.fId = id;
+        mBoard->addGodQuest(q);
     }
     const auto& inst = eMessages::instance;
     const auto gm = inst.godMessages(god);
@@ -38,6 +44,7 @@ void eGameWidget::handleGodQuestEvent(eEventData& ed,
     eStringHelpers::replaceAll(msg.fTitle, "[hero_needed]", hm);
     eStringHelpers::replaceAll(msg.fText, "[hero_needed]", hm);
     showMessage(ed, msg);
+    updateGodQuestButtons();
 }
 
 void eGameWidget::handleGodVisitEvent(const eGodType god) {

@@ -11,6 +11,8 @@
 #include "characters/actions/eheroaction.h"
 #include "engine/eevent.h"
 #include "engine/eeventdata.h"
+#include "characters/actions/emovetoaction.h"
+#include "estringhelpers.h"
 
 eBuildingType eHerosHall::sHeroTypeToHallType(const eHeroType type) {
     switch(type) {
@@ -257,9 +259,9 @@ std::string eHerosHall::sHeroRequirementStatusText(const eHeroRequirement& hr) {
 
 std::string eHerosHall::sTitle(const eHeroType ht) {
     const auto name = eHero::sHeroName(ht);
-    const auto hhf = eLanguage::text("heros_hall_for");
-    const auto title = hhf + " " + name;
-    return title;
+    auto hhf = eLanguage::text("heros_hall_for");
+    eStringHelpers::replace(hhf, "%1", name);
+    return hhf;
 }
 
 void eHerosHall::summon() {
@@ -292,6 +294,22 @@ void eHerosHall::spawnHero() {
     const auto ha = e::make_shared<eHeroAction>(c.get());
     mHero->setAction(ha);
     mSpawnWait = 5000;
+}
+
+void eHerosHall::setHeroOnQuest(const bool b) {
+    mHeroOnQuest = b;
+}
+
+void eHerosHall::sendHeroOnQuest() {
+    setHeroOnQuest(true);
+    if(!mHero) spawnHero();
+    if(!mHero) return;
+    const auto ca = mHero->action();
+    if(const auto ha = dynamic_cast<eHeroAction*>(ca)) {
+        ha->sendOnQuest();
+    } else {
+        mHero->kill();
+    }
 }
 
 void eHerosHall::read(eReadStream& src) {
@@ -557,6 +575,7 @@ eHerosHall::~eHerosHall() {
     auto& board = getBoard();
     board.destroyed(type());
     board.unregisterHeroHall(this);
+    if(mHero) mHero->kill();
 }
 
 std::shared_ptr<eTexture> eHerosHall::getTexture(const eTileSize size) const {
@@ -628,7 +647,7 @@ void eHerosHall::timeChanged(const int by) {
         }
     }
     if(mStage == eHeroSummoningStage::arrived) {
-        if(!mHero) {
+        if(!mHero && !mHeroOnQuest) {
             mSpawnWait -= by;
             if(mSpawnWait <= 0) {
                 spawnHero();

@@ -10,10 +10,14 @@ class eOverviewDataWidget : public eDataWidget {
 public:
     using eDataWidget::eDataWidget;
 
-    void initialize();
+    void initialize() override;
+
+    void updateQuestButtons();
 private:
     eViewModeButton* mSeeProblems = nullptr;
     eViewModeButton* mSeeRoads = nullptr;
+
+    eWidget* mQuestButtons = nullptr;
 };
 
 #endif // EOVERVIEWDATAWIDGET_H

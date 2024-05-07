@@ -24,6 +24,12 @@ receive_tribute_from "Receive tribute from %1"
 god_quest "God quest"
 god_quest_fulfilled "God quest fulfilled"
 
+quest_button "Quest %1"
+quest_tip_build_hh "Build Hero's Hall for %1 to fulfill quest"
+quest_tip_summon_hero "Summon %1 to fulfill quest"
+quest_question_title "Send hero on a quest"
+quest_question "Are you sure you want to send %1 to fulfill a quest?"
+
 triggers "Triggers"
 
 early "Ealry"
@@ -436,7 +442,7 @@ build_college "Build college to train philosophers"
 build_drama_school "Build drama school to train actors"
 build_theater "Build theaters for your actors"
 
-heros_hall_for "Hero's hall for"
+heros_hall_for "Hero's hall for %1"
 
 summon "Summon"
 greetings "Greetings,"

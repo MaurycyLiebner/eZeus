@@ -68,6 +68,8 @@ public:
                          const std::vector<eSPR>& cs);
 
     void setModeChangedAction(const eAction& func);
+
+    void updateGodQuestButtons();
 protected:
     bool mousePressEvent(const eMouseEvent& e);
 private:

@@ -459,27 +459,13 @@ bool eGameWidget::buildMouseRelease() {
             }
             const auto title = eLanguage::text(titleT);
             const auto text = eLanguage::text(textT);
-
-            const auto cancelA = [this]() {
-                mLocked = false;
-            };
-
             const auto acceptA = [this, cost, eraser]() {
                 auto e = eraser;
                 const int nErased = e.erase(true);
                 const int totalCost = cost*nErased;
                 mBoard->incDrachmas(-totalCost);
-                mLocked = false;
             };
-
-            const auto qw = new eQuestionWidget(window());
-            qw->initialize(title, text, acceptA, cancelA);
-            addWidget(qw);
-            qw->align(eAlignment::vcenter);
-            const int vw = width() - mGm->width();
-            const int w = qw->width();
-            qw->setX((vw - w)/2);
-            mLocked = true;
+            showQuestion(title, text, acceptA);
         } break;
         case eBuildingMode::commonAgora: {
             const auto t = mBoard->tile(mHoverTX, mHoverTY);

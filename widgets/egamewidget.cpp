@@ -48,6 +48,7 @@
 #include "widgets/efilewidget.h"
 #include "evectorhelpers.h"
 #include "etilehelper.h"
+#include "widgets/equestionwidget.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {}
@@ -669,6 +670,30 @@ void eGameWidget::showTip(const std::string& tip) {
     etip.fLastFrame = mFrame + 500;
     mTips.push_back(etip);
     updateTipPositions();
+}
+
+void eGameWidget::showQuestion(
+        const std::string& title,
+        const std::string& q,
+        const eAction& action) {
+
+    const auto cancelA = [this]() {
+        mLocked = false;
+    };
+
+    const auto acceptA = [this, action]() {
+        action();
+        mLocked = false;
+    };
+
+    const auto qw = new eQuestionWidget(window());
+    qw->initialize(title, q, acceptA, cancelA);
+    addWidget(qw);
+    qw->align(eAlignment::vcenter);
+    const int vw = width() - mGm->width();
+    const int w = qw->width();
+    qw->setX((vw - w)/2);
+    mLocked = true;
 }
 
 void eGameWidget::updateTipPositions() {
@@ -1555,4 +1580,8 @@ void eGameWidget::actionOnSelectedTiles(const eTileAction& apply) {
             apply(tile);
         }
     }
+}
+
+void eGameWidget::updateGodQuestButtons() {
+    mGm->updateGodQuestButtons();
 }

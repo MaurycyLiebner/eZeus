@@ -106,6 +106,10 @@ public:
 
     eHeroSummoningStage stage() const { return mStage; }
 
+    bool heroOnQuest() const { return mHeroOnQuest; }
+    void setHeroOnQuest(const bool b);
+    void sendHeroOnQuest();
+
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:
@@ -129,6 +133,7 @@ private:
 
     stdptr<eHero> mHero;
     int mSpawnWait = 0;
+    bool mHeroOnQuest = false;
 };
 
 #endif // EHEROSHALL_H

@@ -94,6 +94,12 @@ public:
 
     eGameWidgetSettings settings() const;
     void setSettings(const eGameWidgetSettings& s);
+
+    void updateGodQuestButtons();
+    void showTip(const std::string& tip);
+    void showQuestion(const std::string& title,
+                      const std::string& q,
+                      const eAction& action);
 protected:
     void paintEvent(ePainter& p);
 
@@ -182,7 +188,6 @@ private:
     void showMessage(eEventData& ed, const eMessageType& msg,
                      const bool prepend = false);
 
-    void showTip(const std::string& tip);
     void updateTipPositions();
 
     bool roadPath(std::vector<eOrientation>& path);

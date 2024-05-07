@@ -6,6 +6,8 @@
 #include "elanguage.h"
 #include "emessages.h"
 
+#include "buildings/eheroshall.h"
+
 eGodQuestFulfilledEvent::eGodQuestFulfilledEvent(eGameBoard& board) :
     eGodQuestEventBase(eGameEventType::godQuestFulfilled, board) {}
 
@@ -17,6 +19,8 @@ void eGodQuestFulfilledEvent::trigger() {
     auto& board = getBoard();
     board.event(eEvent::godQuestFulfilled, ed);
     board.allow(eBuildingType::godMonument, static_cast<int>(god()));
+    const auto hh = board.heroHall(hero());
+    if(hh) hh->setHeroOnQuest(false);
 }
 
 std::string eGodQuestFulfilledEvent::longName() const {

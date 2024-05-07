@@ -4,8 +4,7 @@
 #include "eactionwithcomeback.h"
 
 #include "characters/monsters/emonster.h"
-
-class eMonster;
+#include "characters/heroes/ehero.h"
 
 enum class eHeroActionStage {
     none, patrol, hunt, fight, goBack
@@ -22,6 +21,7 @@ public:
     void write(eWriteStream& dst) const override;
 
     void lookForMonster();
+    void sendOnQuest();
 private:
     void lookForMonsterFight();
     bool fightMonster(eMonster* const m);
@@ -30,8 +30,36 @@ private:
     eHeroType heroType() const;
     bool rangedHero() const;
 
+    bool mQuestWaiting = false;
+
     eHeroActionStage mStage = eHeroActionStage::none;
     int mLookForMonster = 0;
+};
+
+class eHA_leaveFinishFail : public eCharActFunc {
+public:
+    eHA_leaveFinishFail(eGameBoard& board) :
+        eCharActFunc(board, eCharActFuncType::HA_leaveFinishFail) {}
+    eHA_leaveFinishFail(eGameBoard& board, eHero* const c) :
+        eCharActFunc(board, eCharActFuncType::HA_leaveFinishFail),
+        mCptr(c) {}
+
+    void call() {
+        if(!mCptr) return;
+        mCptr->kill();
+    }
+
+    void read(eReadStream& src) {
+        src.readCharacter(&board(), [this](eCharacter* const c) {
+            mCptr = static_cast<eHero*>(c);
+        });
+    }
+
+    void write(eWriteStream& dst) const {
+        dst.writeCharacter(mCptr);
+    }
+private:
+    stdptr<eHero> mCptr;
 };
 
 class eHA_patrolFail : public eCharActFunc {

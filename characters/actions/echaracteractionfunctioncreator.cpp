@@ -99,6 +99,8 @@ stdsptr<eCharActFunc> eCharActFunc::sCreate(
     case eCharActFuncType::GRA_workOnDecisionDeleteFail:
         return std::make_shared<eGRA_workOnDecisionDeleteFail>(board);
 
+    case eCharActFuncType::HA_leaveFinishFail:
+        return std::make_shared<eHA_leaveFinishFail>(board);
     case eCharActFuncType::HA_patrolFail:
         return std::make_shared<eHA_patrolFail>(board);
     case eCharActFuncType::HA_huntMonsterFinish:

@@ -33,6 +33,7 @@ void eDataWidget::initialize() {
 }
 
 void eDataWidget::setGameWidget(eGameWidget* const gw) {
+    mGW = gw;
     for(const auto b : mButtons) {
         b->setGameWidget(gw);
     }
