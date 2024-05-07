@@ -24,6 +24,8 @@
 
 #include "buildings/sanctuaries/etempletilebuilding.h"
 
+#include "textures/eparktexture.h"
+
 std::shared_ptr<eTexture> getStonesTexture(eTile* const tile,
                           const eTextureCollection& small,
                           const eTextureCollection& large,
@@ -88,6 +90,14 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
     case eBuildingType::templeAltar: {
         const auto& coll = blds.fSanctuarySpace;
         return coll.getTexture(seed % coll.size());
+    } break;
+    case eBuildingType::park: {
+        return eVaryingSizeTex::getVaryingTexture(
+                             eParkTexture::get, tile,
+                             blds.fPark,
+                             blds.fLargePark,
+                             blds.fHugePark,
+                             futureDim, drawDim);
     } break;
     default: break;
     }

@@ -294,21 +294,13 @@ void eGameWidget::paintEvent(ePainter& p) {
     const auto buildingDrawer = [&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
-        const int dtx = tile->dx();
-        const int dty = tile->dy();
         const int a = mDrawElevation ? tile->altitude() : 0;
-
-        const auto mode = mGm->mode();
 
         const auto ub = tile->underBuilding();
         const auto bt = tile->underBuildingType();
 
-        const auto tbr = tile->building();
-
         const bool bv = eViewModeHelpers::buildingVisible(mViewMode, ub);
         const bool v = ub && bv;
-
-        bool bd = false;
 
         double rx;
         double ry;
@@ -325,66 +317,6 @@ void eGameWidget::paintEvent(ePainter& p) {
             const int dt = mTime/8 + std::abs(tx*ty);
             const auto tex = ff.getTexture(dt % ff.size());
             tp.drawTexture(frx + 1, fry, tex, eAlignment::hcenter | eAlignment::top);
-        };
-
-        const auto drawBuilding = [&]() {
-            if(bt == eBuildingType::park) {
-                int futureDim = 1;
-                int drawDim = 1;
-                const auto tex = eVaryingSizeTex::getVaryingTexture(
-                                     eParkTexture::get, tile,
-                                     builTexs.fPark,
-                                     builTexs.fLargePark,
-                                     builTexs.fHugePark,
-                                     futureDim, drawDim);
-                tile->setFutureDimension(futureDim);
-                if(drawDim > 0) {
-                    double rx0 = rx;
-                    double ry0 = ry;
-                    if(drawDim == 2) {
-                        rx0 += 0.5;
-                        ry0 += 0.5;
-                    } else if(drawDim == 3) {
-                        rx0 += 1.0;
-                        ry0 += 1.0;
-                    }
-                    const bool cm = inErase(tx, ty);
-                    if(cm) tex->setColorMod(255, 175, 255);
-                    tp.drawTexture(rx0, ry0, tex, eAlignment::top);
-                    if(cm) tex->clearColorMod();
-                }
-            } else {
-                double brx;
-                double bry;
-                const int sw = tbr->spanW();
-                const int sh = tbr->spanH();
-                drawXY(tx, ty, brx, bry, sw, sh, a);
-                if(ub) {
-                    const bool e = inErase(ub);
-                    tbr->draw(tp, brx, bry, e);
-
-                    if(ub->isOnFire()) {
-                        const auto& ubts = ub->tilesUnder();
-                        for(const auto& ubt : ubts) {
-                            drawFire(ubt);
-                        }
-                    }
-
-                    const int bx = brx;
-                    const int by = bry - sw - (sw == 3 || sw == 5 ? 1 : 0);
-                    if(ub->blessed() > 0.01) {
-                        const auto& blsd = destTexs.fBlessed;
-                        const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
-                        tp.drawTexture(bx, by, tex, eAlignment::bottom);
-                    } else if(ub->blessed() < -0.01) {
-                        const auto& blsd = destTexs.fCursed;
-                        const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
-                        tp.drawTexture(bx, by, tex, eAlignment::bottom);
-                    }
-                }
-//                drawXY(tx, ty, rx, ry, 1, 1, a);
-//                tp.drawTexture(rx, ry, trrTexs.fSelectedBuildingBase, eAlignment::top);
-            }
         };
 
         const auto drawBuildingModes = [&]() {
@@ -523,27 +455,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                 }
             }
         };
-        const bool oldBuildingRendering = ub && !v;
-        if(oldBuildingRendering) {
-            if(bd) {
-            } else if(ub && !v) {
-                if(ub != mPatrolBuilding) {
-                    const auto tex = getBasementTexture(tile, ub, trrTexs);
-                    tp.drawTexture(rx, ry, tex, eAlignment::top);
-                }
-            } else if(tbr && !eBuilding::sFlatBuilding(bt)) {
-                drawBuilding();
-                if(ub && tbr && tbr->isMain()) {
-                    drawBuildingModes();
-                }
-            } else if(ub && tbr) {
-                const bool of = ub->isOnFire();
-                if(of) drawFire(tile);
-            }
-            return;
-        }
 
-        if(ub && !eBuilding::sFlatBuilding(bt)) {
+        if(ub && !v) {
+            if(ub != mPatrolBuilding) {
+                const auto tex = getBasementTexture(tile, ub, trrTexs);
+                tp.drawTexture(rx, ry, tex, eAlignment::top);
+            }
+        } else if(ub && !eBuilding::sFlatBuilding(bt)) {
             const auto getDisplacement =
             [](const int w, const int h,
                double& dx, double& dy) {
@@ -666,8 +584,6 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         const auto ub = tile->underBuilding();
         const auto bt = tile->underBuildingType();
-
-        const auto tbr = tile->building();
 
         const bool bv = eViewModeHelpers::buildingVisible(mViewMode, ub);
         const bool v = ub && bv;

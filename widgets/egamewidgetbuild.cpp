@@ -445,6 +445,7 @@ bool eGameWidget::buildMouseRelease() {
             const int nErased = eraser.erase(false);
             totalCost += cost*nErased;
             mBoard->incDrachmas(-totalCost);
+            mUpdateTerrain = true;
 
             std::string titleT;
             std::string textT;
@@ -1201,6 +1202,7 @@ bool eGameWidget::buildMouseRelease() {
                 build(tile->x(), tile->y(), 1, 1,
                       [this]() { return e::make_shared<ePark>(*mBoard); });
             };
+            mUpdateTerrain = true;
             break;
         case eBuildingMode::doricColumn:
             apply = [this](eTile* const tile) {
