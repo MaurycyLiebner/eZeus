@@ -21,9 +21,7 @@
 #include "evectorhelpers.h"
 
 bool sDontDrawAppeal(const eTerrain terr) {
-    return terr == eTerrain::forest ||
-           terr == eTerrain::choppedForest ||
-           terr == eTerrain::stones ||
+    return terr == eTerrain::stones ||
            terr == eTerrain::flatStones ||
            terr == eTerrain::tallStones ||
            terr == eTerrain::copper ||
@@ -643,7 +641,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 const auto& am = mBoard->appealMap();
                 const auto ae = am.enabled(dtx, dty);
                 const bool ch = bt == eBuildingType::commonHouse;
-                if(ae || ch) {
+                if(ae || ch || tile->underBuilding()) {
                     const eTextureCollection* coll;
                     if(ch) {
                         coll = &builTexs.fHouseAppeal;
@@ -880,6 +878,32 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         };
 
+
+        const auto terrTile = mBoard->tile(tx, ty);
+        if(terrTile) {
+            const auto terrUb = terrTile->underBuilding();
+            const auto terrBt = terrTile->underBuildingType();
+            bool flatSanct = false;
+            if(terrUb) {
+                if(const auto sb = dynamic_cast<eSanctBuilding*>(terrUb)) {
+                    flatSanct = sb->progress() <= 0;
+                }
+            }
+            const auto terr = terrTile->terrain();
+            if(!terrUb || flatSanct ||
+               eBuilding::sFlatBuilding(terrBt)) {
+                if(mViewMode == eViewMode::appeal && !terrUb &&
+                   !sDontDrawAppeal(terr)) {
+                    const auto& am = mBoard->appealMap();
+                    const int ttdx = terrTile->dx();
+                    const int ttdy = terrTile->dy();
+                    const auto ae = am.enabled(ttdx, ttdy);
+                    if(!ae) drawTerrain(terrTile);
+                } else {
+                    drawTerrain(terrTile);
+                }
+            }
+        }
         //drawTerrain(tile);
 
         drawSheepGoat();
@@ -991,30 +1015,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         drawBanners();
 
         buildingDrawer(tile);
-
-        const auto terrTile = mBoard->tile(tx, ty);
-        if(terrTile) {
-            const auto terrUb = terrTile->underBuilding();
-            const auto terrBt = terrTile->underBuildingType();
-            bool flatSanct = false;
-            if(terrUb) {
-                if(const auto sb = dynamic_cast<eSanctBuilding*>(terrUb)) {
-                    flatSanct = sb->progress() <= 0;
-                }
-            }
-            const auto terr = terrTile->terrain();
-            if(!terrUb || flatSanct ||
-               eBuilding::sFlatBuilding(terrBt)) {
-                if(mViewMode == eViewMode::appeal && !terrUb &&
-                   !sDontDrawAppeal(terr)) {
-                    const auto& am = mBoard->appealMap();
-                    const auto ae = am.enabled(dtx, dty);
-                    if(!ae) drawTerrain(terrTile);
-                } else {
-                    drawTerrain(terrTile);
-                }
-            }
-        }
 
         drawMissiles();
 

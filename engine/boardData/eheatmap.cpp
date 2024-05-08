@@ -27,7 +27,7 @@ void eHeatMap::addHeat(const eHeat& a,
 }
 
 void eHeatMap::addHeat(const eHeat& a,
-                       const int ax,const int ay,
+                       const int ax, const int ay,
                        const int sw, const int sh) {
     const int r = a.fRange;
     if(r <= 0) return;
