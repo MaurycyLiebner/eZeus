@@ -156,10 +156,13 @@ void ePopulationDataWidget::paintEvent(ePainter& p) {
         mImiLimitedW->setVisible(a <= 0);
         mNewcomersW->setVisible(a > 0);
         mNewcomersLabel->setText(std::to_string(a));
+        mNewcomersLabel->fitContent();
+        mNewcomersLabel->align(eAlignment::hcenter);
 
         const int v = popData.vacancies();
         mVacLabel->setText(std::to_string(v));
         mVacLabel->fitContent();
+        mVacLabel->align(eAlignment::hcenter);
     }
     eWidget::paintEvent(p);
 }
