@@ -1397,7 +1397,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
         mBoard->clearBannerSelection();
         mLeftPressed = false;
         const bool r = buildMouseRelease();
-        if(!r) {
+        if(!r && mGm->mode() == eBuildingMode::none) {
             if(mMovedSincePress) {
                 const int x0 = mPressedX > mHoverX ? mHoverX : mPressedX;
                 const int y0 = mPressedY > mHoverY ? mHoverY : mPressedY;

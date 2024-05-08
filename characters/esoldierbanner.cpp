@@ -226,6 +226,7 @@ void eSoldierBanner::write(eWriteStream& dst) const {
 void eSoldierBanner::sPlace(std::vector<eSoldierBanner*> bs,
                             const int ctx, const int cty,
                             eGameBoard& board, const int dist) {
+    if(bs.empty()) return;
     const auto tt = board.tile(ctx, cty);
     if(tt) {
         const auto b = tt->underBuilding();
