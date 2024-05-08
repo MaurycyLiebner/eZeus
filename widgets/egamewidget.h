@@ -205,7 +205,7 @@ private:
     void updateTerrainTextures();
 
     void updatePatrolPath();
-    void setPatrolBuilding(ePatrolBuilding* const pb);
+    void setPatrolBuilding(ePatrolBuildingBase* const pb);
 
     eInfoWidget* openInfoWidget(eBuilding* const b);
 
@@ -255,7 +255,7 @@ private:
     eGameBoard* mBoard = nullptr;
 
     bool mDrawElevation = true;
-    stdptr<ePatrolBuilding> mPatrolBuilding;
+    stdptr<ePatrolBuildingBase> mPatrolBuilding;
     std::vector<eTile*> mPatrolPath;
     std::vector<eTile*> mExcessPatrolPath;
     std::vector<eTile*> mPatrolPath1;

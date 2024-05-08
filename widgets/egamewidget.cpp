@@ -943,7 +943,7 @@ void eGameWidget::updatePatrolPath() {
     }
 }
 
-void eGameWidget::setPatrolBuilding(ePatrolBuilding* const pb) {
+void eGameWidget::setPatrolBuilding(ePatrolBuildingBase* const pb) {
     if(pb) {
         setViewMode(eViewMode::patrolBuilding);
 
@@ -1433,6 +1433,10 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                     if(const auto b = tile->underBuilding()) {
                         if(const auto pb = dynamic_cast<ePatrolBuilding*>(b)) {
                             setPatrolBuilding(pb);
+                        } else if(const auto v = dynamic_cast<eVendor*>(b)) {
+                            setPatrolBuilding(v->agora());
+                        } else if(const auto s = dynamic_cast<eAgoraSpace*>(b)) {
+                            setPatrolBuilding(s->agora());
                         }
                     }
                 }

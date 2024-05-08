@@ -303,6 +303,18 @@ void eGameWidget::paintEvent(ePainter& p) {
         bridgeValid = bridgeTiles(startTile, bridgetTs, bridgeRot);
     }
 
+    const auto isPatrolSelected = [&](eBuilding* const ub) {
+        bool selected = false;
+        if(const auto v = dynamic_cast<eVendor*>(ub)) {
+            selected = v->agora() == mPatrolBuilding;
+        } else if(const auto s = dynamic_cast<eAgoraSpace*>(ub)) {
+            selected = s->agora() == mPatrolBuilding;
+        } else {
+            selected = ub == mPatrolBuilding;
+        }
+        return selected;
+    };
+
     const auto buildingDrawer = [&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
@@ -469,7 +481,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         };
 
         if(ub && !v) {
-            if(ub != mPatrolBuilding && mViewMode != eViewMode::appeal) {
+            if(!isPatrolSelected(ub) && mViewMode != eViewMode::appeal) {
                 const auto tex = getBasementTexture(tile, ub, trrTexs);
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
             }
@@ -621,16 +633,17 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         const auto drawPatrol = [&]() {
             if(mViewMode == eViewMode::patrolBuilding) {
-                if(mPatrolBuilding && ub && !tile->hasRoad()) {
-                    std::shared_ptr<eTexture> tex;
-                    if(ub == mPatrolBuilding) {
-                        tex = trrTexs.fSelectedBuildingBase;
-                    } else {
-                        tex = getBasementTexture(tile, ub, trrTexs);
-                    }
-                    tp.drawTexture(rx, ry, tex, eAlignment::top);
-                    bd = true;
+                if(!ub || !mPatrolBuilding) return;
+                const auto ubt = ub->type();
+                if(eBuilding::sFlatBuilding(ubt)) return;
+                std::shared_ptr<eTexture> tex;
+                if(isPatrolSelected(ub)) {
+                    tex = trrTexs.fSelectedBuildingBase;
+                } else {
+                    tex = getBasementTexture(tile, ub, trrTexs);
                 }
+                tp.drawTexture(rx, ry, tex, eAlignment::top);
+                bd = true;
             }
         };
 
