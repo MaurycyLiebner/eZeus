@@ -19,10 +19,7 @@ void ePopulationDataWidget::initialize() {
 
     const auto inner = innerWidget();
 
-    const auto& res = resolution();
-    const double m = res.multiplier();
-
-    const int pp = 3*m;
+    const int pp = spacing();
 
     const auto cw1 = new eWidget(window());
     {
@@ -50,14 +47,13 @@ void ePopulationDataWidget::initialize() {
 
         cw1->stackVertically();
         cw1->fitContent();
-        cw1->setWidth(inner->width() - 2*pp);
+        cw1->setWidth(inner->width());
 
         hfor1->align(eAlignment::hcenter);
         mVacLabel->align(eAlignment::hcenter);
         hfor2->align(eAlignment::hcenter);
 
         inner->addWidget(cw1);
-        cw1->move(pp, pp);
     }
 
     const auto l1 = new eLineWidget(window());
@@ -110,7 +106,7 @@ void ePopulationDataWidget::initialize() {
         il2->align(eAlignment::hcenter);
 
         inner->addWidget(cw3);
-        cw3->move(pp, l2->y() + l2->height() + pp);
+        cw3->setY(l2->y() + l2->height() + pp);
 
         mImiLimitedW = cw3;
     }
@@ -140,7 +136,7 @@ void ePopulationDataWidget::initialize() {
         mNewcomersLabel->align(eAlignment::hcenter);
 
         inner->addWidget(cw4);
-        cw4->move(pp, l2->y() + l2->height() + pp);
+        cw4->setY(l2->y() + l2->height() + pp);
 
         mNewcomersW = cw4;
         mNewcomersW->hide();

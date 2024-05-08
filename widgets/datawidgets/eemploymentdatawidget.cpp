@@ -27,10 +27,7 @@ void eEmploymentDataWidget::initialize() {
     eDataWidget::initialize();
     const auto inner = innerWidget();
 
-    const auto& res = resolution();
-    const double m = res.multiplier();
-
-    const int pp = 3*m;
+    const int pp = spacing();
 
     const auto cw1 = new eWidget(window());
     {
@@ -77,7 +74,6 @@ void eEmploymentDataWidget::initialize() {
 
         inner->addWidget(cw1);
         cw1->align(eAlignment::hcenter);
-        cw1->setY(pp);
     }
 
     const auto cw2 = new eWidget(window());

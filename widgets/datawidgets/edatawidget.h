@@ -4,7 +4,6 @@
 #include "../ewidget.h"
 
 class eViewModeButton;
-class eFramedWidget;
 class eGameWidget;
 class eGameBoard;
 
@@ -17,13 +16,14 @@ public:
     void setGameWidget(eGameWidget* const gw);
 protected:
     void addViewButton(eViewModeButton* const b);
-    eFramedWidget* innerWidget() const { return mInnerWidget; }
+    eWidget* innerWidget() const { return mInnerWidget; }
     eGameWidget* gameWidget() const { return mGW; }
+    int spacing() const;
 
     eGameBoard& mBoard;
 private:
     eGameWidget* mGW = nullptr;
-    eFramedWidget* mInnerWidget = nullptr;
+    eWidget* mInnerWidget = nullptr;
     std::vector<eViewModeButton*> mButtons;
 };
 

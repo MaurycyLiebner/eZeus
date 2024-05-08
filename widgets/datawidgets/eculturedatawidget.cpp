@@ -37,7 +37,7 @@ eWidget* eCultureDataWidget::createCoverageWidget(
     const int p = covLabel->padding()/2;
     covLabel->setNoPadding();
     covLabel->setTinyFontSize();
-    covLabel->setText("Terrible");
+    covLabel->setText(eLanguage::text("terrible_standing"));
     covLabel->fitContent();
     ccw->addWidget(covLabel);
     covLabel->setX(disciplineLabel->width() + p);
@@ -83,13 +83,12 @@ void eCultureDataWidget::initialize() {
     const auto iw = innerWidget();
 
     const auto cw = new eWidget(window());
-    const int p = cw->padding()/2;
     cw->setNoPadding();
 
     const auto title = new eLabel(window());
     title->setTinyFontSize();
     title->setNoPadding();
-    title->setWrapWidth(iw->width() - 2*p);
+    title->setWrapWidth(iw->width());
     title->setText(eLanguage::text("games_standing"));
     title->fitContent();
     cw->addWidget(title);
@@ -123,7 +122,7 @@ void eCultureDataWidget::initialize() {
     cw->stackVertically();
     cw->fitContent();
     iw->addWidget(cw);
-    cw->move(p, p/2);
+    cw->setX(spacing()/2);
 
     updateCoverage();
 }

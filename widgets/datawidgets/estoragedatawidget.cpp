@@ -7,37 +7,44 @@
 
 #include "elanguage.h"
 
-eWidget* sdwColumn(eMainWindow* const window,
-                   const eUIScale uiScale,
-                   const int iMin, const int iMax,
-                   const std::vector<eResourceType>& tps,
-                   std::vector<eLabel*>& lbls) {
-    const auto w0 = new eWidget(window);
+eWidget* eStorageDataWidget::sdwColumn(
+        const eUIScale uiScale,
+        const int iMin, const int iMax,
+        const std::vector<eResourceType>& tps,
+        std::vector<eLabel*>& lbls) {
+    const int pp = spacing();
+    const auto w0 = new eWidget(window());
     w0->setNoPadding();
     for(int i = iMin; i < iMax; i++) {
         const auto t = tps[i];
         const auto icon = eResourceTypeHelpers::icon(uiScale, t);
-        const auto w = new eWidget(window);
+        const auto w = new eWidget(window());
         w->setNoPadding();
-        const auto ic = new eLabel(window);
+        const auto ic = new eLabel(window());
         ic->setTexture(icon);
-        ic->setPadding(ic->padding()/4);
+        ic->setNoPadding();
         ic->fitContent();
-        const auto l = new eLabel("-", window);
+
+        const auto lw = new eWidget(window());
+        lw->setNoPadding();
+        const auto l = new eLabel("-", window());
         l->setTinyFontSize();
-        l->setPadding(l->padding()/4);
+        l->setNoPadding();
         l->fitContent();
         lbls.push_back(l);
+        lw->addWidget(l);
+        l->align(eAlignment::right);
 
-        w->addWidget(l);
+        w->addWidget(lw);
         w->addWidget(ic);
-        w->stackHorizontally();
+        w->stackHorizontally(2*pp);
         w->fitContent();
         ic->align(eAlignment::vcenter);
         l->align(eAlignment::vcenter);
+        lw->align(eAlignment::vcenter);
         w0->addWidget(w);
     }
-    w0->stackVertically();
+    w0->stackVertically(2*pp);
     w0->fitContent();
     return w0;
 }
@@ -62,12 +69,12 @@ void eStorageDataWidget::initialize() {
 
     const int iMin0 = 0;
     const int iMax0 = tps.size()/2 + 1;
-    const auto w0 = sdwColumn(window(), uiScale,
+    const auto w0 = sdwColumn(uiScale,
                               iMin0, iMax0, tps,
                               mResourceLabels);
     const int iMin1 = iMax0;
     const int iMax1 = tps.size();
-    const auto w1 = sdwColumn(window(), uiScale,
+    const auto w1 = sdwColumn(uiScale,
                               iMin1, iMax1, tps,
                               mResourceLabels);
 
@@ -75,15 +82,17 @@ void eStorageDataWidget::initialize() {
     w->setNoPadding();
     w->addWidget(w0);
     w->addWidget(w1);
-    w->stackHorizontally();
+    const int pp = spacing();
+    w->stackHorizontally(10*pp);
     w->fitContent();
 
     inner->addWidget(w);
     w->align(eAlignment::center);
+    w->setX(w->x() + 2*pp);
 }
 
 void eStorageDataWidget::paintEvent(ePainter& p) {
-    const bool update = (++mTime % 200) == 0;
+    const bool update = (++mTime % 20) == 0;
     if(update) {
         mBoard.updateResources();
         const auto& src = mBoard.resources();
@@ -92,6 +101,8 @@ void eStorageDataWidget::paintEvent(ePainter& p) {
             const auto c = src[i].second;
             const auto l = mResourceLabels[i];
             l->setText(std::to_string(c));
+            l->fitContent();
+            l->align(eAlignment::right);
         }
     }
     eWidget::paintEvent(p);

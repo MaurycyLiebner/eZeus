@@ -231,7 +231,7 @@ mythology_title "Mythology"
 military_title "Military"
 overview_title "Overview"
 
-taxes "Taxes:"
+tax_rate "Tax Rate"
 
 none "none"
 low "low"
