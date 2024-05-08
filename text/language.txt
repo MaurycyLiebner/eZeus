@@ -238,6 +238,25 @@ current_food_can_support_2 "people"
 stored_food_for_1 "Stored food for"
 stored_food_for_2 "months"
 
+far_too_little "Far too little"
+much_too_little "Much too little"
+just_enough "Just enough"
+plenty "Plenty"
+surplus "Surplus"
+
+city_hygiene "City Hygiene"
+excellent "Excellent"
+very_good "Very Good"
+good "Good"
+ok "Ok"
+
+unrest "Unrest"
+there_is_no_unrest "There is no*unrest in the*city"
+there_is_a_lot_of_unrest "There is a lot*of unrest in*the*city"
+
+forces_in_city "Forces in city"
+standing_down "Standing down"
+
 none "none"
 low "low"
 very_low "very low"
@@ -297,9 +316,14 @@ see_unrest "See Unrest"
 see_supplies "See Supplies"
 housing_for1 "Housing for"
 housing_for2 "more people"
-people_wish_to_come "People wish to*come to the*city."
+
+people_wish_to_come "People wish to*come to the*city"
+people_are_leaving_the_city "People are*leaving the*city"
+
 immigration_limited_by "Immigration*limited by"
 lack_of_housing_vacs "Lack of housing*vacancies"
+lack_of_food "Lack of food in*granaries"
+
 newcomers_arrived "Newcomers*arrived this*month"
 
 see_taxes "See Taxes"

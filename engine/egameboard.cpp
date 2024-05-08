@@ -246,6 +246,15 @@ eResourceType eGameBoard::supportedResources() const {
     return mSupportedResources;
 }
 
+std::vector<eBuilding*> eGameBoard::buildings(const eBuildingValidator& v) const {
+    std::vector<eBuilding*> result;
+    for(const auto b : mTimedBuildings) {
+        const bool r = v(b);
+        if(r) result.push_back(b);
+    }
+    return result;
+}
+
 eBuilding* eGameBoard::randomBuilding(const eBuildingValidator& v) const {
     auto blds = mTimedBuildings;
     std::random_shuffle(blds.begin(), blds.end());

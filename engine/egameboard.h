@@ -240,6 +240,7 @@ public:
     eResourceType supportedResources() const;
 
     using eBuildingValidator = std::function<bool(eBuilding*)>;
+    std::vector<eBuilding*> buildings(const eBuildingValidator& v) const;
     eBuilding* randomBuilding(const eBuildingValidator& v) const;
 
     int philosophyCoverage() const { return mPhilosophyCoverage; }

@@ -17,6 +17,7 @@ private:
     eViewModeButton* mSeeHusbandry = nullptr;
 
     eLabel* mCanSupportLabel = nullptr;
+    eLabel* mOpinionLabel = nullptr;
     eLabel* mStoredFoodLabel = nullptr;
 
     int mTime{0};

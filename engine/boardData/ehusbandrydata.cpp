@@ -9,7 +9,25 @@ eHusbandryData::eHusbandryData(const ePopulationData& popData,
     mPopData(popData), mBoard(board) {}
 
 int eHusbandryData::canSupport() const {
-    return 0;
+    const auto validator = [](eBuilding* const b) {
+        const auto bt = b->type();
+        switch(bt) {
+        case eBuildingType::wheatFarm:
+        case eBuildingType::carrotsFarm:
+        case eBuildingType::onionsFarm:
+        case eBuildingType::huntingLodge:
+        case eBuildingType::fishery:
+        case eBuildingType::urchinQuay:
+        case eBuildingType::dairy:
+        case eBuildingType::growersLodge:
+        case eBuildingType::orangeTendersLodge:
+            return true;
+        default:
+            return false;
+        }
+    };
+    const auto buildings = mBoard.buildings(validator);
+    return buildings.size()*256;
 }
 
 int eHusbandryData::storedFood() const {

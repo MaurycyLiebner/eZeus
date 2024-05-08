@@ -19,7 +19,6 @@ void eHusbandryDataWidget::initialize() {
 
     eDataWidget::initialize();
 
-
     const auto iw = innerWidget();
 
     const auto canSupport1 = new eMultiLineLabel(window());
@@ -44,6 +43,15 @@ void eHusbandryDataWidget::initialize() {
     canSupport2->fitContent();
     iw->addWidget(canSupport2);
     canSupport2->align(eAlignment::hcenter);
+
+    mOpinionLabel = new eLabel(window());
+    mOpinionLabel->setNoPadding();
+    mOpinionLabel->setYellowFontColor();
+    mOpinionLabel->setTinyFontSize();
+    mOpinionLabel->setText(eLanguage::text("far_too_little"));
+    mOpinionLabel->fitContent();
+    iw->addWidget(mOpinionLabel);
+    mOpinionLabel->align(eAlignment::hcenter);
 
     const auto spacer1 = new eWidget(window());
     spacer1->setHeight(spacing());
@@ -95,6 +103,23 @@ void eHusbandryDataWidget::paintEvent(ePainter& p) {
         mCanSupportLabel->setText(std::to_string(a));
         mCanSupportLabel->fitContent();
         mCanSupportLabel->align(eAlignment::hcenter);
+
+        std::string txt;
+        const int pop = mBoard.population();
+        if(pop == 0 || a < 0.75*pop) {
+            txt = "far_too_little";
+        } else if(a < 0.9*pop) {
+            txt = "much_too_little";
+        } else if(a < 1.2*pop) {
+            txt = "just_enough";
+        } else if(a < 1.5*pop) {
+            txt = "plenty";
+        } else {
+            txt = "surplus";
+        }
+        mOpinionLabel->setText(eLanguage::text(txt));
+        mOpinionLabel->fitContent();
+        mOpinionLabel->align(eAlignment::hcenter);
 
         const int v = husbData.storedFood();
         mStoredFoodLabel->setText(std::to_string(v));

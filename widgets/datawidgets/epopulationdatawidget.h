@@ -5,6 +5,7 @@
 
 class eGameBoard;
 class eLabel;
+class eMultiLineLabel;
 class eGameWidget;
 class eViewModeButton;
 
@@ -21,7 +22,10 @@ private:
     eLabel* mNewcomersLabel = nullptr;
     eLabel* mVacLabel = nullptr;
 
+    eMultiLineLabel* mPeopleDirection = nullptr;
+
     eWidget* mImiLimitedW = nullptr;
+    eMultiLineLabel* mImiLimitedReason = nullptr;
     eWidget* mNewcomersW = nullptr;
 
     int mTime{0};

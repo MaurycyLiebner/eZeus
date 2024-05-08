@@ -63,15 +63,15 @@ void ePopulationDataWidget::initialize() {
     inner->addWidget(l1);
     l1->setY(cw1->y() + cw1->height() + pp);
 
-    const auto cw2 = new eMultiLineLabel(window());
     {
-        cw2->setNoPadding();
-        cw2->setVerySmallFontSize();
-        cw2->setText(eLanguage::text("people_wish_to_come"));
+        mPeopleDirection = new eMultiLineLabel(window());
+        mPeopleDirection->setNoPadding();
+        mPeopleDirection->setVerySmallFontSize();
+        mPeopleDirection->setText(eLanguage::text("people_wish_to_come"));
 
-        inner->addWidget(cw2);
-        cw2->align(eAlignment::hcenter);
-        cw2->setY(l1->y() + l1->height() + pp);
+        inner->addWidget(mPeopleDirection);
+        mPeopleDirection->align(eAlignment::hcenter);
+        mPeopleDirection->setY(l1->y() + l1->height() + pp);
     }
 
     const auto l2 = new eLineWidget(window());
@@ -79,36 +79,34 @@ void ePopulationDataWidget::initialize() {
     l2->fitContent();
     l2->setWidth(inner->width());
     inner->addWidget(l2);
-    l2->setY(cw2->y() + cw2->height() + pp);
+    l2->setY(mPeopleDirection->y() + mPeopleDirection->height() + pp);
 
-    const auto cw3 = new eWidget(window());
     {
-        cw3->setNoPadding();
+        mImiLimitedW = new eWidget(window());
+        mImiLimitedW->setNoPadding();
 
         const auto il1 = new eMultiLineLabel(window());
         il1->setVerySmallFontSize();
         il1->setNoPadding();
         il1->setText(eLanguage::text("immigration_limited_by"));
-        cw3->addWidget(il1);
+        mImiLimitedW->addWidget(il1);
 
-        const auto il2 = new eMultiLineLabel(window());
-        il2->setYellowFontColor();
-        il2->setVerySmallFontSize();
-        il2->setNoPadding();
-        il2->setText(eLanguage::text("lack_of_housing_vacs"));
-        cw3->addWidget(il2);
+        mImiLimitedReason = new eMultiLineLabel(window());
+        mImiLimitedReason->setYellowFontColor();
+        mImiLimitedReason->setVerySmallFontSize();
+        mImiLimitedReason->setNoPadding();
+        mImiLimitedReason->setText(eLanguage::text("lack_of_housing_vacs"));
+        mImiLimitedW->addWidget(mImiLimitedReason);
 
-        cw3->stackVertically();
-        cw3->fitContent();
-        cw3->setWidth(inner->width() - 2*pp);
+        mImiLimitedW->stackVertically();
+        mImiLimitedW->fitContent();
+        mImiLimitedW->setWidth(inner->width() - 2*pp);
 
         il1->align(eAlignment::hcenter);
-        il2->align(eAlignment::hcenter);
+        mImiLimitedReason->align(eAlignment::hcenter);
 
-        inner->addWidget(cw3);
-        cw3->setY(l2->y() + l2->height() + pp);
-
-        mImiLimitedW = cw3;
+        inner->addWidget(mImiLimitedW);
+        mImiLimitedW->setY(l2->y() + l2->height() + pp);
     }
 
 
@@ -155,10 +153,32 @@ void ePopulationDataWidget::paintEvent(ePainter& p) {
         mNewcomersLabel->fitContent();
         mNewcomersLabel->align(eAlignment::hcenter);
 
+        const int l = popData.left();
+        std::string pdtxt;
+        if(l > a) {
+            pdtxt = "people_are_leaving_the_city";
+        } else {
+            pdtxt = "people_wish_to_come";
+        }
+        mPeopleDirection->setText(eLanguage::text(pdtxt));
+        mPeopleDirection->fitContent();
+        mPeopleDirection->align(eAlignment::hcenter);
+
         const int v = popData.vacancies();
         mVacLabel->setText(std::to_string(v));
         mVacLabel->fitContent();
         mVacLabel->align(eAlignment::hcenter);
+
+        const auto husbData = mBoard.husbandryData();
+        std::string ilrtxt;
+        if(v <= 0) {
+            ilrtxt = "lack_of_housing_vacs";
+        } else if(husbData.storedFood() < 1) {
+            ilrtxt = "lack_of_food";
+        } else {
+            ilrtxt = "lack_of_housing_vacs";
+        }
+        mImiLimitedReason->setText(eLanguage::text(ilrtxt));
     }
     eWidget::paintEvent(p);
 }
