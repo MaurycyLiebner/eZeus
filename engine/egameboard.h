@@ -6,6 +6,7 @@
 #include "etile.h"
 
 #include "boardData/epopulationdata.h"
+#include "boardData/ehusbandrydata.h"
 #include "boardData/eemploymentdata.h"
 #include "boardData/eheatmap.h"
 
@@ -157,6 +158,7 @@ public:
     int population() const { return mPopData.population(); }
 
     ePopulationData& populationData() { return mPopData; }
+    eHusbandryData& husbandryData() { return mHusbData; }
     eEmploymentData& employmentData() { return mEmplData; }
     eHeatMap& appealMap() { return mAppealMap; }
 
@@ -449,7 +451,7 @@ private:
     ePalace* mPalace = nullptr;
 
     ePopulationData mPopData;
-
+    eHusbandryData mHusbData;
     eEmploymentData mEmplData;
 
     bool mUpdateAppeal = false;

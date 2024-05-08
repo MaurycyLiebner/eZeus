@@ -64,6 +64,7 @@
 
 eGameBoard::eGameBoard() :
     mThreadPool(*this),
+    mHusbData(mPopData, *this),
     mEmplData(mPopData, *this) {
     mSupportedResources = eResourceType::all;
 }
@@ -1525,10 +1526,12 @@ int eGameBoard::resourceCount(const eResourceType type) const {
     if(type == eResourceType::drachmas) {
         return mDrachmas;
     }
+    int result = 0;
     for(auto& r : mResources) {
-        if(r.first == type) return r.second;
+        if(!static_cast<bool>(r.first & type)) continue;
+        result += r.second;
     }
-    return 0;
+    return result;
 }
 
 int eGameBoard::takeResource(const eResourceType type, const int count) {

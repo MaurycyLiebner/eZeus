@@ -233,6 +233,11 @@ overview_title "Overview"
 
 tax_rate "Tax Rate"
 
+current_food_can_support_1 "Current food*production and*importation can*support"
+current_food_can_support_2 "people"
+stored_food_for_1 "Stored food for"
+stored_food_for_2 "months"
+
 none "none"
 low "low"
 very_low "very low"

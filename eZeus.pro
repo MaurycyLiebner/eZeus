@@ -256,6 +256,7 @@ SOURCES += \
         engine/boardData/eheatmap.cpp \
         engine/boardData/eheatmapdivisor.cpp \
         engine/boardData/eheatmaptask.cpp \
+        engine/boardData/ehusbandrydata.cpp \
         engine/boardData/epopulationdata.cpp \
         engine/edate.cpp \
         engine/edifficulty.cpp \
@@ -724,6 +725,7 @@ HEADERS += \
     engine/boardData/eheatmap.h \
     engine/boardData/eheatmapdivisor.h \
     engine/boardData/eheatmaptask.h \
+    engine/boardData/ehusbandrydata.h \
     engine/boardData/epopulationdata.h \
     engine/eboardbase.h \
     engine/edate.h \
