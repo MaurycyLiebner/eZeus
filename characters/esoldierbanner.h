@@ -34,6 +34,8 @@ public:
     void backFromHome();
     void callSoldiers();
 
+    bool isHome() const { return mHome; }
+
     void addSoldier(eSoldier* const s);
     void removeSoldier(eSoldier* const s);
 

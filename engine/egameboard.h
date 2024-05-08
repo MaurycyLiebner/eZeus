@@ -337,6 +337,7 @@ public:
 private:
     void updateNeighbours();
 
+    void consolidateSoldiers();
     void updateMaxSoldiers();
     void addSoldier(const eCharacterType st);
     void removeSoldier(const eCharacterType st);
@@ -415,6 +416,7 @@ private:
     std::vector<eBanner*> mBanners;
 
     std::vector<stdsptr<eSoldierBanner>> mSoldierBanners;
+    std::vector<stdsptr<eSoldierBanner>> mPalaceSoldierBanners;
 
     std::vector<eSoldierBanner*> mSelectedBanners;
 
@@ -427,7 +429,7 @@ private:
     std::vector<eTile*> mMarbleTiles;
 
     int mSoldiersUpdate = 10000;
-    int mMaxRockThrowers = 0;
+    int mMaxRabble = 0;
     int mMaxHoplites = 0;
     int mMaxHorsemen = 0;
 

@@ -645,10 +645,57 @@ void eGameBoard::waitUntilFinished() {
     }
 }
 
+void eGameBoard::consolidateSoldiers() {
+    using eSoldierBanners = std::vector<stdsptr<eSoldierBanner>>;
+    eSoldierBanners rabble;
+    eSoldierBanners hoplites;
+    eSoldierBanners horsemen;
+    for(const auto& s : mPalaceSoldierBanners) {
+        if(!s->isHome()) continue;
+        switch(s->type()) {
+        case eBannerType::rockThrower:
+            rabble.push_back(s);
+            break;
+        case eBannerType::hoplite:
+            hoplites.push_back(s);
+            break;
+        case eBannerType::horseman:
+            horsemen.push_back(s);
+            break;
+        default:
+            break;
+        }
+    }
+    const auto consolidator = [](const eSoldierBanners& banners) {
+        for(int i = 0; i < static_cast<int>(banners.size()); i++) {
+            const auto s = banners[i];
+            const int sc = s->count();
+            int sSpace = 8 - sc;
+            if(sSpace <= 0) continue;
+            for(int j = banners.size() - 1; j > i; j--) {
+                const auto ss = banners[j];
+                const int ssc = ss->count();
+                const int kMax = std::min(sSpace, ssc);
+                for(int k = 0; k < kMax; k++) {
+                    ss->decCount();
+                    s->incCount();
+                    sSpace--;
+                    if(sSpace <= 0) break;
+                }
+                if(sSpace <= 0) break;
+            }
+        }
+    };
+    consolidator(rabble);
+    consolidator(hoplites);
+    consolidator(horsemen);
+}
+
 void eGameBoard::updateMaxSoldiers() {
-    mMaxRockThrowers = 0;
+    mMaxRabble = 0;
     mMaxHoplites = 0;
     mMaxHorsemen = 0;
+    if(!palace()) return;
     for(const auto b : mTimedBuildings) {
         const auto bt = b->type();
         if(bt == eBuildingType::commonHouse) {
@@ -663,7 +710,7 @@ void eGameBoard::updateMaxSoldiers() {
             else if(l == 6) lvlMax = 15;
             const int pop = ch->people();
             const int popMax = pop/4;
-            mMaxRockThrowers += std::min(lvlMax, popMax);
+            mMaxRabble += std::min(lvlMax, popMax);
         } else if(bt == eBuildingType::eliteHousing) {
             const auto eh = static_cast<eEliteHousing*>(b);
             const int l = eh->level();
@@ -681,12 +728,22 @@ void eGameBoard::updateMaxSoldiers() {
             }
         }
     }
-    mMaxRockThrowers /= 6;
+    mMaxRabble /= 6;
+
+    const int nSpaces = 20;
+    mMaxHorsemen = std::min(8*nSpaces, mMaxHorsemen);
+    mMaxHorsemen = std::max(0, mMaxHorsemen);
+    const int nHorsemenB = std::ceil(mMaxHorsemen/8.);
+    mMaxHoplites = std::min(8*nSpaces - 8*nHorsemenB, mMaxHoplites);
+    mMaxHoplites = std::max(0, mMaxHoplites);
+    const int nHoplitesB = std::ceil(mMaxHoplites/8.);
+    mMaxRabble = std::min(8*nSpaces - 8*nHorsemenB - 8*nHoplitesB, mMaxRabble);
+    mMaxRabble = std::max(0, mMaxRabble);
 }
 
 void eGameBoard::addSoldier(const eCharacterType st) {
     bool found = false;
-    for(const auto& b : mSoldierBanners) {
+    for(const auto& b : mPalaceSoldierBanners) {
         const auto bt = b->type();
         const int c = b->count();
         if(c >= 8) continue;
@@ -706,6 +763,8 @@ void eGameBoard::addSoldier(const eCharacterType st) {
         }
     }
     if(found) return;
+    const int nSpaces = 20;
+    if(mPalaceSoldierBanners.size() >= nSpaces) return;
     eBannerType bt;
     if(st == eCharacterType::rockThrower) {
         bt = eBannerType::rockThrower;
@@ -724,7 +783,7 @@ void eGameBoard::addSoldier(const eCharacterType st) {
 }
 
 void eGameBoard::removeSoldier(const eCharacterType st) {
-    for(const auto& b : mSoldierBanners) {
+    for(const auto& b : mPalaceSoldierBanners) {
         const auto bt = b->type();
         const int c = b->count();
         if(c <= 0) continue;
@@ -747,42 +806,41 @@ void eGameBoard::removeSoldier(const eCharacterType st) {
 }
 
 void eGameBoard::distributeSoldiers() {
-    if(!hasPalace()) return;
-    int cRockThrowers = 0;
+    int cRabble = 0;
     int cHoplites = 0;
     int cHorsemen = 0;
-    for(const auto& b : mSoldierBanners) {
+    for(const auto& b : mPalaceSoldierBanners) {
         const auto bt = b->type();
         const int c = b->count();
         if(bt == eBannerType::rockThrower) {
-            cRockThrowers += c;
+            cRabble += c;
         } else if(bt == eBannerType::hoplite) {
             cHoplites += c;
         } else if(bt == eBannerType::horseman) {
             cHorsemen += c;
         }
     }
-    const int remRockThrowers = mMaxRockThrowers - cRockThrowers;
+    const int remRabble = mMaxRabble - cRabble;
     const int remHoplites = mMaxHoplites - cHoplites;
     const int remHorsemen = mMaxHorsemen - cHorsemen;
 
-    for(int i = 0; i < remRockThrowers; i++) {
-        addSoldier(eCharacterType::rockThrower);
-    }
-    for(int i = 0; i < -remRockThrowers; i++) {
+    for(int i = 0; i < -remRabble; i++) {
         removeSoldier(eCharacterType::rockThrower);
-    }
-    for(int i = 0; i < remHoplites; i++) {
-        addSoldier(eCharacterType::hoplite);
     }
     for(int i = 0; i < -remHoplites; i++) {
         removeSoldier(eCharacterType::hoplite);
     }
+    for(int i = 0; i < -remHorsemen; i++) {
+        removeSoldier(eCharacterType::horseman);
+    }
     for(int i = 0; i < remHorsemen; i++) {
         addSoldier(eCharacterType::horseman);
     }
-    for(int i = 0; i < -remHorsemen; i++) {
-        removeSoldier(eCharacterType::horseman);
+    for(int i = 0; i < remHoplites; i++) {
+        addSoldier(eCharacterType::hoplite);
+    }
+    for(int i = 0; i < remRabble; i++) {
+        addSoldier(eCharacterType::rockThrower);
     }
 }
 
@@ -894,10 +952,20 @@ void eGameBoard::removeGodQuest(const eGodQuest q) {
 
 void eGameBoard::registerSoldierBanner(const stdsptr<eSoldierBanner>& b) {
     mSoldierBanners.push_back(b);
+    switch(b->type()) {
+    case eBannerType::rockThrower:
+    case eBannerType::hoplite:
+    case eBannerType::horseman:
+        mPalaceSoldierBanners.push_back(b);
+        break;
+    default:
+        break;
+    }
 }
 
 bool eGameBoard::unregisterSoldierBanner(const stdsptr<eSoldierBanner>& b) {
     eVectorHelpers::remove(mSelectedBanners, b.get());
+    eVectorHelpers::remove(mPalaceSoldierBanners, b);
     return eVectorHelpers::remove(mSoldierBanners, b);
 }
 
@@ -1232,11 +1300,12 @@ void eGameBoard::incTime(const int by) {
 //    }
 
     mSoldiersUpdate += by;
-    const int sup = 2000;
+    const int sup = 1000;
     if(mSoldiersUpdate > sup) {
         mSoldiersUpdate -= sup;
         updateMaxSoldiers();
         distributeSoldiers();
+        consolidateSoldiers();
     }
 
     for(const auto i : mInvasions) {

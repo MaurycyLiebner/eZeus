@@ -63,9 +63,10 @@ void eSoldierBanner::moveToDefault() {
         if(!palace) return;
         const auto ts = palace->tiles();
         for(const auto& t : ts) {
+            if(t->other()) continue;
             const auto tt = t->centerTile();
             if(!tt) continue;
-            const auto bb = tt->banner();
+            const auto bb = tt->soldierBanner();
             if(bb) continue;
             moveTo(tt->x(), tt->y());
             break;
@@ -311,7 +312,63 @@ void eSoldierBanner::updatePlaces() {
 void eSoldierBanner::updateCount() {
     auto soldiers = notDead();
     const int n = soldiers.size();
-    if(mCount <= 0 && n == 0) {
+    if(!mHome) {
+        for(int i = n; i < mCount; i++) {
+            eCharacterType cht;
+            switch(mType) {
+            case eBannerType::rockThrower:
+                cht = eCharacterType::rockThrower;
+                break;
+            case eBannerType::hoplite:
+                cht = eCharacterType::hoplite;
+                break;
+            case eBannerType::horseman:
+                cht = eCharacterType::horseman;
+                break;
+            case eBannerType::amazon:
+                cht = eCharacterType::amazon;
+                break;
+            case eBannerType::aresWarrior:
+                cht = eCharacterType::aresWarrior;
+                break;
+            }
+            const auto home = eSoldierAction::sFindHome(cht, mBoard);
+            if(!home) break;
+            stdsptr<eSoldier> h;
+            switch(mType) {
+            case eBannerType::rockThrower:
+                h = e::make_shared<eRockThrower>(mBoard);
+                break;
+            case eBannerType::hoplite:
+                h = e::make_shared<eHoplite>(mBoard);
+                break;
+            case eBannerType::horseman:
+                h = e::make_shared<eHorseman>(mBoard);
+                break;
+            case eBannerType::amazon:
+                h = e::make_shared<eAmazon>(mBoard);
+                break;
+            case eBannerType::aresWarrior:
+                h = e::make_shared<eAresWarrior>(mBoard);
+                break;
+            }
+            h->setBanner(this);
+            const auto a = e::make_shared<eSoldierAction>(h.get());
+            h->setAction(a);
+            h->changeTile(home->centerTile());
+            h->setActionType(eCharacterActionType::stand);
+            a->goBackToBanner();
+        }
+
+        for(int i = mCount; i < n; i++) {
+            const auto s = soldiers.back();
+            soldiers.pop_back();
+            const auto a = s->soldierAction();
+            if(a) a->goHome();
+            s->setBanner(nullptr);
+        }
+    }
+    if(mCount <= 0 && soldiers.size() == 0) {
         switch(mType) {
         case eBannerType::rockThrower:
         case eBannerType::hoplite:
@@ -323,61 +380,6 @@ void eSoldierBanner::updateCount() {
             break;
         }
         return;
-    }
-    if(mHome) return;
-    for(int i = n; i < mCount; i++) {
-        eCharacterType cht;
-        switch(mType) {
-        case eBannerType::rockThrower:
-            cht = eCharacterType::rockThrower;
-            break;
-        case eBannerType::hoplite:
-            cht = eCharacterType::hoplite;
-            break;
-        case eBannerType::horseman:
-            cht = eCharacterType::horseman;
-            break;
-        case eBannerType::amazon:
-            cht = eCharacterType::amazon;
-            break;
-        case eBannerType::aresWarrior:
-            cht = eCharacterType::aresWarrior;
-            break;
-        }
-        const auto home = eSoldierAction::sFindHome(cht, mBoard);
-        if(!home) break;
-        stdsptr<eSoldier> h;
-        switch(mType) {
-        case eBannerType::rockThrower:
-            h = e::make_shared<eRockThrower>(mBoard);
-            break;
-        case eBannerType::hoplite:
-            h = e::make_shared<eHoplite>(mBoard);
-            break;
-        case eBannerType::horseman:
-            h = e::make_shared<eHorseman>(mBoard);
-            break;
-        case eBannerType::amazon:
-            h = e::make_shared<eAmazon>(mBoard);
-            break;
-        case eBannerType::aresWarrior:
-            h = e::make_shared<eAresWarrior>(mBoard);
-            break;
-        }
-        h->setBanner(this);
-        const auto a = e::make_shared<eSoldierAction>(h.get());
-        h->setAction(a);
-        h->changeTile(home->centerTile());
-        h->setActionType(eCharacterActionType::stand);
-        a->goBackToBanner();
-    }
-
-    for(int i = mCount; i < n; i++) {
-        const auto s = soldiers.back();
-        soldiers.pop_back();
-        const auto a = s->soldierAction();
-        if(a) a->goHome();
-        s->setBanner(nullptr);
     }
     updatePlaces();
 }

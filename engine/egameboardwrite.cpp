@@ -20,7 +20,7 @@ void eGameBoard::write(eWriteStream& dst) const {
     dst << mTotalTime;
 
     dst << mSoldiersUpdate;
-    dst << mMaxRockThrowers;
+    dst << mMaxRabble;
     dst << mMaxHoplites;
     dst << mMaxHorsemen;
 

@@ -23,7 +23,7 @@ void eGameBoard::read(eReadStream& src) {
     src >> mTotalTime;
 
     src >> mSoldiersUpdate;
-    src >> mMaxRockThrowers;
+    src >> mMaxRabble;
     src >> mMaxHoplites;
     src >> mMaxHorsemen;
 
