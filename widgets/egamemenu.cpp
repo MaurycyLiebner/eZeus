@@ -254,7 +254,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
     fitContent();
 
     const int cmx = -padding();
-    const int cmy = 3*height()/4;
+    const int cmy = 5*height()/8;
 
     const int dataWidWidth = 65*mult;
     const int dataWidHeight = 113*mult;
