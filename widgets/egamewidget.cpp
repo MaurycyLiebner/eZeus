@@ -268,6 +268,7 @@ void eGameWidget::viewFraction(const double fx, const double fy) {
 }
 
 void eGameWidget::viewTile(eTile* const tile) {
+    if(!tile) return;
     int mdx;
     int mdy;
     mapDimensions(mdx, mdy);

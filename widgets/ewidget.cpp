@@ -104,6 +104,10 @@ void eWidget::clearWidgetPointers() {
     if(sKeyboardGrabber == this) sKeyboardGrabber = nullptr;
 }
 
+void eWidget::setTooltip(const std::string& tt) {
+    mTooltip = tt;
+}
+
 void eWidget::setHugePadding() {
     mPadding = resolution().hugePadding();
 }
@@ -330,6 +334,11 @@ void eWidget::removeChildren() {
         w->deleteLater();
     }
     mChildren.clear();
+}
+
+std::string eWidget::sTooltip() {
+    if(sWidgetUnderMouse) return sWidgetUnderMouse->mTooltip;
+    return "";
 }
 
 template <typename T>

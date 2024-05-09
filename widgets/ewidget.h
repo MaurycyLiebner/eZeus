@@ -34,6 +34,7 @@ public:
     void hide();
     void setVisible(const bool v);
     void clearWidgetPointers();
+    void setTooltip(const std::string& tt);
 
     void setHugePadding();
     void setLargePadding();
@@ -78,6 +79,8 @@ public:
     eWidget* lastAncestor();
 
     void removeChildren();
+
+    static std::string sTooltip();
 private:
     template <typename T>
     using TMouseEvent = bool (eWidget::*)(const T& e);
@@ -166,6 +169,8 @@ private:
     eWidget* mParent = nullptr;
     std::vector<eWidget*> mChildren;
     eMainWindow* const mWindow;
+
+    std::string mTooltip;
 
     eWidget* mMouseReceiver = nullptr;
     int mMouseReceiverDx = 0;

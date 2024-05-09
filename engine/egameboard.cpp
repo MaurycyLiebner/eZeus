@@ -961,6 +961,7 @@ void eGameBoard::removeGodQuest(const eGodQuest q) {
 }
 
 void eGameBoard::registerSoldierBanner(const stdsptr<eSoldierBanner>& b) {
+    b->setRegistered(true);
     mSoldierBanners.push_back(b);
     switch(b->type()) {
     case eBannerType::rockThrower:
@@ -974,6 +975,7 @@ void eGameBoard::registerSoldierBanner(const stdsptr<eSoldierBanner>& b) {
 }
 
 bool eGameBoard::unregisterSoldierBanner(const stdsptr<eSoldierBanner>& b) {
+    b->setRegistered(false);
     eVectorHelpers::remove(mSelectedBanners, b.get());
     eVectorHelpers::remove(mPalaceSoldierBanners, b);
     return eVectorHelpers::remove(mSoldierBanners, b);

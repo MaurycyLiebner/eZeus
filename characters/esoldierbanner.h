@@ -39,6 +39,7 @@ public:
     void addSoldier(eSoldier* const s);
     void removeSoldier(eSoldier* const s);
 
+    eTile* tile() const { return mTile; }
     eTile* place(eSoldier* const s) const;
 
     void killAll();
@@ -62,6 +63,9 @@ public:
     void read(eReadStream& src);
     void write(eWriteStream& dst) const;
 
+    void setRegistered(const bool r) { mRegistered = r; }
+    bool registered() const { return mRegistered; }
+
     static void sPlace(std::vector<eSoldierBanner*> bs,
                        const int ctx, const int cty,
                        eGameBoard& board, const int dist);
@@ -73,6 +77,8 @@ private:
     const eBannerType mType;
     const int mId;
     std::string mName;
+
+    bool mRegistered = false;
 
     bool mHome = true;
 

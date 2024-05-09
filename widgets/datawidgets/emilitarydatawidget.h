@@ -7,16 +7,21 @@
 class eGameBoard;
 class eSoldierBanner;
 
+using eSB = stdsptr<eSoldierBanner>;
+using eSoldierBanners = std::vector<eSB>;
+using eSoldierBannerAction = std::function<void(const eSB&)>;
+
 class eForcesWidget : public eWidget {
 public:
     using eWidget::eWidget;
 
     void initialize(const std::string& title);
 
-    using eSoldierBanners = std::vector<stdsptr<eSoldierBanner>>;
-    void setBanners(const eSoldierBanners& ss);
+    void setBanners(const eSoldierBanners& ss,
+                    const eSoldierBannerAction& act);
 private:
     eWidget* mWidget = nullptr;
+    eSoldierBanners mBanners;
 };
 
 class eMilitaryDataWidget : public eDataWidget {

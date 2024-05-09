@@ -23,7 +23,20 @@ void eForcesWidget::initialize(const std::string& title) {
     fitHeight();
 }
 
-void eForcesWidget::setBanners(const eSoldierBanners& ss) {
+void eForcesWidget::setBanners(const eSoldierBanners& ss,
+                               const eSoldierBannerAction& act) {
+    if(mBanners.size() == ss.size()) {
+        bool foundDifference = false;
+        const int iMax = mBanners.size();
+        for(int i = 0; i < iMax; i++) {
+            if(mBanners[i] != ss[i]) {
+                foundDifference = true;
+                break;
+            }
+        }
+        if(!foundDifference) return;
+    }
+    mBanners = ss;
     int iRes;
     int mult;
     iResAndMult(iRes, mult);
@@ -49,6 +62,10 @@ void eForcesWidget::setBanners(const eSoldierBanners& ss) {
         }
         const auto button = new eButtonBase(window());
         button->setNoPadding();
+        button->setTooltip(s->name());
+        button->setPressAction([s, act]() {
+            if(act) act(s);
+        });
 
         {
             int topId = 0;
@@ -130,15 +147,27 @@ void eMilitaryDataWidget::paintEvent(ePainter& p) {
                 inCity.push_back(s);
             }
         }
-        mInCity->setBanners(inCity);
+        const auto act = [this](const eSB& s) {
+            if(!s->registered()) return;
+            mBoard.clearBannerSelection();
+            mBoard.selectBanner(s.get());
+            const auto t = s->tile();
+            const auto gw = gameWidget();
+            gw->viewTile(t);
+        };
+        mInCity->setBanners(inCity, act);
         if(inCity.empty()) {
             mInCity->hide();
             mInCity->setHeight(0);
+        } else {
+            mInCity->show();
         }
-        mStandingDown->setBanners(standingDown);
+        mStandingDown->setBanners(standingDown, act);
         if(standingDown.empty()) {
             mStandingDown->hide();
             mStandingDown->setHeight(0);
+        } else {
+            mStandingDown->show();
         }
         inner->stackVertically();
     }

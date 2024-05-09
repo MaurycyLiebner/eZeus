@@ -9,6 +9,8 @@ eTexture::~eTexture() {
 void eTexture::reset() {
     if(mTex) SDL_DestroyTexture(mTex);
     mTex = nullptr;
+    mWidth = 0;
+    mHeight = 0;
 }
 
 bool eTexture::create(SDL_Renderer* const r,
