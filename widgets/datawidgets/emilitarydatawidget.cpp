@@ -6,6 +6,7 @@
 #include "elanguage.h"
 
 void eForcesWidget::initialize(const std::string& title) {
+    setNoPadding();
     const auto titleLabel = new eLabel(window());
     titleLabel->setTinyFontSize();
     titleLabel->setNoPadding();
@@ -103,11 +104,13 @@ void eMilitaryDataWidget::initialize() {
     mInCity->setWidth(inner->width());
     mInCity->initialize(eLanguage::text("forces_in_city"));
     inner->addWidget(mInCity);
+    mInCity->hide();
 
     mStandingDown = new eForcesWidget(window());
     mStandingDown->setWidth(inner->width());
     mStandingDown->initialize(eLanguage::text("standing_down"));
     inner->addWidget(mStandingDown);
+    mStandingDown->hide();
 
     inner->stackVertically();
 }
@@ -128,7 +131,15 @@ void eMilitaryDataWidget::paintEvent(ePainter& p) {
             }
         }
         mInCity->setBanners(inCity);
+        if(inCity.empty()) {
+            mInCity->hide();
+            mInCity->setHeight(0);
+        }
         mStandingDown->setBanners(standingDown);
+        if(standingDown.empty()) {
+            mStandingDown->hide();
+            mStandingDown->setHeight(0);
+        }
         inner->stackVertically();
     }
     eWidget::paintEvent(p);
