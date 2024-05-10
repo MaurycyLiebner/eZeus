@@ -391,6 +391,20 @@ void eGameTextures::loadDonkey() {
     });
 }
 
+void eGameTextures::loadDisgruntled() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadDisgruntled();
+    });
+}
+
+void eGameTextures::loadSick() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadSick();
+    });
+}
+
 void eGameTextures::loadBanners() {
     loadTexture([](const int i) {
         auto& c = sCharacterTextures[i];

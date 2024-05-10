@@ -63,6 +63,9 @@ eEventButton::eEventButton(const eEvent e,
     case eEvent::invasion:
         coll = &texs.fInvasionAlert;
         break;
+    case eEvent::plague:
+        coll = &texs.fIllnessAlert;
+        break;
     default:
         return;
     }

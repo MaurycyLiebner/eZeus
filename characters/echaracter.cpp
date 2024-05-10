@@ -31,6 +31,10 @@ bool eCharacter::canFight(eCharacter* const c) {
        at == eCharacterActionType::fight2) return false;
     const auto ct = c->type();
     const auto t = type();
+    if(t == eCharacterType::disgruntled) {
+        if(ct == eCharacterType::watchman) return true;
+        else if(rand() % 10) return false;
+    }
     if(ct == eCharacterType::boar ||
        ct == eCharacterType::deer) {
         const bool h = t == eCharacterType::hunter;

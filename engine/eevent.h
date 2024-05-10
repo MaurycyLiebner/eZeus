@@ -76,7 +76,9 @@ enum class eEvent {
     giftRefused,
 
     unemployment,
-    employees
+    employees,
+
+    plague
 };
 
 #endif // EEVENT_H

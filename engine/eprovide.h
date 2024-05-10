@@ -20,7 +20,9 @@ enum class eProvide {
     oil,
     wine,
     arms,
-    horses
+    horses,
+
+    hygiene
 };
 
 #endif // EPROVIDE_H

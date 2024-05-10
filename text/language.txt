@@ -264,6 +264,7 @@ excellent "Excellent"
 very_good "Very Good"
 good "Good"
 ok "Ok"
+bad "Bad"
 
 unrest "Unrest"
 there_is_no_unrest "There is no*unrest in the*city"
@@ -390,6 +391,8 @@ sardis "Sardis"
 hattusas "Hattusas"
 
 ; game menu
+road "Road"
+
 common_housing "Common Housing"
 elite_housing "Elite Housing"
 

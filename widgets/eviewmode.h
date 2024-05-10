@@ -12,6 +12,12 @@ enum class eViewMode {
 
     supplies,
 
+    husbandry,
+
+    industry,
+
+    distribution,
+
     water,
     hygiene,
     hazards,
@@ -22,17 +28,13 @@ enum class eViewMode {
     philosophers,
     allCulture,
 
-    appeal,
-
     taxes,
-
-    industry,
-
-    husbandry,
 
     immortals,
 
-    distribution,
+    security,
+
+    appeal,
 
     problems,
     roads

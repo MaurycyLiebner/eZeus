@@ -165,6 +165,8 @@ public:
 
     eMessageType fUnemployment;
     eMessageType fEmployees;
+
+    eMessageType fPlague;
 private:
     bool loadImpl();
     void load(eGodMessages& god, const std::string& godName);

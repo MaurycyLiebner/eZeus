@@ -327,6 +327,9 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, inst.fEmployees, true);
         return;
     } break;
+    case eEvent::plague: {
+        showMessage(ed, inst.fPlague, true);
+    } break;
     }
     mGm->pushEvent(e, ed.fTile);
 }

@@ -246,6 +246,11 @@ public:
     bool fDonkeyLoaded = false;
     void loadDonkey();
 
+    bool fDisgruntledLoaded = false;
+    void loadDisgruntled();
+    bool fSickLoaded = false;
+    void loadSick();
+
     bool fCalydonianBoarLoaded = false;
     void loadCalydonianBoar();
     bool fCerberusLoaded = false;
@@ -409,6 +414,9 @@ public:
 
     eFishingBoatTextures fFishingBoat;
     eTradeBoatTextures fTradeBoat;
+
+    eFightingCharacterTextures fDisgruntled;
+    eFightingCharacterTextures fSick;
 
     eMonsterTextures fCalydonianBoar;
     eMonsterTextures fCerberus;

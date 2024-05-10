@@ -29,7 +29,7 @@ void eMessages::load(eGodMessages& god, const std::string& godName) {
     god.fJealousy2.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_jealousy2_initial_announcement"];
 
     god.fInvades.fFull.fTitle = fMessages["PHRASE_" + godName + "_invades_title"];
-    god.fInvades.fFull.fText = fMessages["PHRASE_" + godName + "_invades_initial_announcement"];
+    god.fInvades.fFull.fText = fMessages["PHRASE_" + godName + "_invades_city_attacked_alert"];
     god.fInvades.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + godName + "_invades_title"];
     god.fInvades.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_invades_initial_announcement"];
 
@@ -519,6 +519,11 @@ bool eMessages::loadImpl() {
     fEmployees.fFull.fText = fMessages["PHRASE_employees_needed_initial_announcement"];
     fEmployees.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_employees_needed_title"];
     fEmployees.fCondensed.fText = fMessages["PHRASE_CONDENSED_employees_needed_initial_announcement"];
+
+    fPlague.fFull.fTitle = fMessages["PHRASE_plague_title"];
+    fPlague.fFull.fText = fMessages["PHRASE_plague_initial_announcement"];
+    fPlague.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_plague_title"];
+    fPlague.fCondensed.fText = fMessages["PHRASE_CONDENSED_plague_initial_announcement"];
 
     return true;
 }

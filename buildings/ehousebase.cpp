@@ -19,6 +19,7 @@ eHouseBase::~eHouseBase() {
 }
 
 void eHouseBase::timeChanged(const int by) {
+    if(mPeople <= 0) return;
     const int cupdate = 5000;
     mUpdateCulture += by;
     if(mUpdateCulture > cupdate) {
@@ -73,6 +74,8 @@ void eHouseBase::read(eReadStream& src) {
     src >> mPhilosophers;
     src >> mActors;
     src >> mAthletes;
+
+    src >> mUpdateCulture;
 }
 
 void eHouseBase::write(eWriteStream& dst) const {
@@ -90,6 +93,8 @@ void eHouseBase::write(eWriteStream& dst) const {
     dst << mPhilosophers;
     dst << mActors;
     dst << mAthletes;
+
+    dst << mUpdateCulture;
 }
 
 void eHouseBase::setLevel(const int l) {

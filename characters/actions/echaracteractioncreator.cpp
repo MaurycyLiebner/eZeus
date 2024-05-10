@@ -28,6 +28,7 @@
 #include "esoldieraction.h"
 #include "etraderaction.h"
 #include "ewaitaction.h"
+#include "esickdisgruntledaction.h"
 #include "godHelp/eartemishelpaction.h"
 #include "godHelp/eathenahelpaction.h"
 #include "godHelp/eatlashelpaction.h"
@@ -119,6 +120,8 @@ stdsptr<eCharacterAction> eCharacterAction::sCreate(
         return e::make_shared<eZeusHelpAction>(c);
     case eCharActionType::godMonsterActionInd:
         return e::make_shared<eGodMonsterActionInd>(c);
+    case eCharActionType::sickDisgruntledAction:
+        return e::make_shared<eSickDisgruntledAction>(c, nullptr);
     }
     return nullptr;
 }

@@ -61,6 +61,7 @@
 #include "estringhelpers.h"
 
 #include "buildings/eheroshall.h"
+#include "eplague.h"
 
 eGameBoard::eGameBoard() :
     mThreadPool(*this),
@@ -960,6 +961,37 @@ void eGameBoard::removeGodQuest(const eGodQuest q) {
     eVectorHelpers::remove(mGodQuests, q);
 }
 
+void eGameBoard::startPlague(eSmallHouse* const h) {
+    const auto plague = std::make_shared<ePlague>(*this);
+    plague->spreadFrom(h);
+    mPlagues.push_back(plague);
+    eEventData ed;
+    ed.fTile = h->centerTile();
+    event(eEvent::plague, ed);
+}
+
+stdsptr<ePlague> eGameBoard::plagueForHouse(eSmallHouse* const h) {
+    for(const auto& p : mPlagues) {
+        if(p->hasHouse(h)) return p;
+    }
+    return nullptr;
+}
+
+void eGameBoard::healPlague(const stdsptr<ePlague>& p) {
+    p->healAll();
+    eVectorHelpers::remove(mPlagues, p);
+}
+
+void eGameBoard::healHouse(eSmallHouse* const h) {
+    const auto p = plagueForHouse(h);
+    if(p) {
+        if(p->houseCount() == 1) healPlague(p);
+        else p->healHouse(h);
+    } else {
+        h->setPlague(false);
+    }
+}
+
 void eGameBoard::registerSoldierBanner(const stdsptr<eSoldierBanner>& b) {
     b->setRegistered(true);
     mSoldierBanners.push_back(b);
@@ -986,11 +1018,15 @@ void eGameBoard::addGameEvent(const stdsptr<eGameEvent>& e) {
 }
 
 void eGameBoard::updateCoverage() {
-    int people = 0;
+    int totalPeople = 0;
+    int commonPeople = 0;
     int sport = 0;
     int phil = 0;
     int drama = 0;
     int taxes = 0;
+    double totalUnrest = 0;
+    int totalSatisfaction = 0;
+    int totalHygiene = 0;
     for(const auto b : mTimedBuildings) {
         if(const auto h = dynamic_cast<eHouseBase*>(b)) {
             const int p = h->people();
@@ -1006,21 +1042,37 @@ void eGameBoard::updateCoverage() {
             if(h->paidTaxes()) {
                 taxes += p;
             }
-            people += p;
+            if(const auto ch = dynamic_cast<eSmallHouse*>(b)) {
+                totalUnrest += p*ch->disgruntled();
+                totalSatisfaction += p*ch->satisfaction();
+                totalHygiene += p*ch->hygiene();
+                commonPeople += p;
+            }
+            totalPeople += p;
         }
     }
-    if(people <= 0) {
+    if(totalPeople <= 0) {
         mAthleticsCoverage = 0;
         mPhilosophyCoverage = 0;
         mDramaCoverage = 0;
         mTaxesCoverage = 0;
     } else {
-        mAthleticsCoverage = std::round(100.*sport/people);
-        mPhilosophyCoverage = std::round(100.*phil/people);
-        mDramaCoverage = std::round(100.*drama/people);
-        mTaxesCoverage = std::round(100.*taxes/people);
+        mAthleticsCoverage = std::round(100.*sport/totalPeople);
+        mPhilosophyCoverage = std::round(100.*phil/totalPeople);
+        mDramaCoverage = std::round(100.*drama/totalPeople);
+        mTaxesCoverage = std::round(100.*taxes/totalPeople);
     }
     mAllDiscCoverage = (mAthleticsCoverage + mPhilosophyCoverage + mDramaCoverage)/3;
+
+    if(commonPeople == 0) {
+        mUnrest = 0;
+        mPopularity = 100;
+        mHealth = 100;
+    } else {
+        mUnrest = std::round(100.*totalUnrest/commonPeople);
+        mPopularity = std::round(1.*totalSatisfaction/commonPeople);
+        mHealth = std::round(1.*totalHygiene/commonPeople);
+    }
 }
 
 double coverageMultiplier(const int pop) {
@@ -1159,6 +1211,15 @@ bool eGameBoard::unregisterBuilding(eBuilding* const b) {
     if(!mRegisterBuildingsEnabled) return false;
     eVectorHelpers::remove(mAllBuildings, b);
     eVectorHelpers::remove(mTimedBuildings, b);
+    if(b->type() == eBuildingType::commonHouse) {
+        const auto ch = static_cast<eSmallHouse*>(b);
+        const auto p = plagueForHouse(ch);
+        if(p) {
+            p->removeHouse(ch);
+            const int c = p->houseCount();
+            if(c <= 0) healPlague(p);
+        }
+    }
     scheduleAppealMapUpdate();
     return true;
 }
@@ -1311,6 +1372,12 @@ void eGameBoard::incTime(const int by) {
 //                     eResourceType::fleece, 16);
 //    }
 
+    for(const auto& p : mPlagues) {
+        const int r = rand() % 5000;
+        const bool spread = r/by == 0;
+        if(spread) p->randomSpread();
+    }
+
     mSoldiersUpdate += by;
     const int sup = 1000;
     if(mSoldiersUpdate > sup) {
@@ -1417,8 +1484,6 @@ void eGameBoard::incTime(const int by) {
     for(const auto m : missiles) {
         m->incTime(by);
     }
-
-    emptyRubbish();
 }
 
 void eGameBoard::handleFinishedTasks() {

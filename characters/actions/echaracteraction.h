@@ -57,7 +57,8 @@ enum class eCharActionType {
     shepherdAction,
     soldierAction,
     traderAction,
-    waitAction
+    waitAction,
+    sickDisgruntledAction
 };
 
 class eCharacterAction : public eStdSelfRef {

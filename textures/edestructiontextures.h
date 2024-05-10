@@ -26,6 +26,8 @@ public:
     eTextureCollection fBless;
     eTextureCollection fCurse;
 
+    eTextureCollection fPlague;
+
     eTextureCollection fGodOrangeMissile;
     eTextureCollection fGodBlueArrow;
     eTextureCollection fGodOrangeArrow;

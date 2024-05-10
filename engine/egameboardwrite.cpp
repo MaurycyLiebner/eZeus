@@ -5,6 +5,7 @@
 #include "einvasionhandler.h"
 #include "missiles/emissile.h"
 #include "gameEvents/egameevent.h"
+#include "eplague.h"
 
 void eGameBoard::write(eWriteStream& dst) const {
     dst << mWidth;
@@ -116,6 +117,14 @@ void eGameBoard::write(eWriteStream& dst) const {
         dst << ni;
         for(const auto i : mInvasions) {
             i->write(dst);
+        }
+    }
+
+    {
+        dst << mPlagues.size();
+
+        for(const auto& p : mPlagues) {
+            p->write(dst);
         }
     }
 

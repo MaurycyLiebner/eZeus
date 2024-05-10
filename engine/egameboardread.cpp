@@ -5,6 +5,7 @@
 #include "einvasionhandler.h"
 #include "missiles/emissile.h"
 #include "gameEvents/egameevent.h"
+#include "eplague.h"
 
 void eGameBoard::read(eReadStream& src) {
     int w;
@@ -109,6 +110,17 @@ void eGameBoard::read(eReadStream& src) {
         for(int i = 0; i < ni; i++) {
             const auto ii = new eInvasionHandler(*this, nullptr);
             ii->read(src);
+        }
+    }
+
+    {
+        int n;
+        src >> n;
+
+        for(int i = 0; i < n; i++) {
+            const auto p = std::make_shared<ePlague>(*this);
+            p->read(src);
+            mPlagues.push_back(p);
         }
     }
 

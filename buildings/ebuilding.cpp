@@ -167,6 +167,9 @@ bool eBuilding::sAttackable(const eBuildingType bt) {
 std::string eBuilding::sNameForBuilding(eBuilding* const b) {
     if(!b) return "";
     switch(b->type()) {
+    case eBuildingType::road:
+        return "road";
+
     case eBuildingType::commonHouse:
         return "common_housing";
     case eBuildingType::eliteHousing:
@@ -460,10 +463,10 @@ void eBuilding::incTime(const int by) {
             mMaintance = std::max(0, mMaintance - 1);
         }
     } else {
-        const int m4 = pow(mMaintance, 4);
+        const int m4 = 10 + pow(mMaintance, 4);
         const auto diff = b.difficulty();
         const int fireRisk = eDifficultyHelpers::fireRisk(diff, mType);
-        if(fireRisk) {
+        if(fireRisk && by) {
             const int firePeriod = m4/(by*fireRisk);
             if(firePeriod && rand() % firePeriod == 0) {
                 setOnFire(true);
@@ -473,7 +476,7 @@ void eBuilding::incTime(const int by) {
             }
         }
         const int damageRisk = eDifficultyHelpers::damageRisk(diff, mType);
-        if(damageRisk) {
+        if(damageRisk && by) {
             const int damagePeriod = m4/(by*damageRisk);
             if(damagePeriod && rand() % damagePeriod == 0) {
                 eEventData ed;

@@ -14,6 +14,59 @@ bool eViewModeHelpers::buildingVisible(
     case eViewMode::defaultView: {
         return true;
     } break;
+    case eViewMode::problems: {
+        return false;
+    } break;
+
+    case eViewMode::security: {
+        return bt == eBuildingType::wall ||
+               bt == eBuildingType::tower ||
+               bt == eBuildingType::gatehouse;
+    } break;
+
+    case eViewMode::husbandry: {
+        return bt == eBuildingType::oliveTree ||
+               bt == eBuildingType::vine ||
+               bt == eBuildingType::orangeTree ||
+               bt == eBuildingType::wheatFarm ||
+               bt == eBuildingType::carrotsFarm ||
+               bt == eBuildingType::onionsFarm ||
+               bt == eBuildingType::huntingLodge ||
+               bt == eBuildingType::fishery ||
+               bt == eBuildingType::urchinQuay ||
+               bt == eBuildingType::cardingShed ||
+               bt == eBuildingType::dairy ||
+               bt == eBuildingType::growersLodge ||
+               bt == eBuildingType::orangeTendersLodge;
+    } break;
+
+    case eViewMode::immortals: {
+        const int iMin = static_cast<int>(eBuildingType::templeAphrodite);
+        const int iMax = static_cast<int>(eBuildingType::theseusHall);
+        const int ibt = static_cast<int>(bt);
+        return ibt >= iMin && ibt <= iMax;
+    } break;
+
+    case eViewMode::roads: {
+        return false;
+    } break;
+
+    case eViewMode::industry: {
+        return bt == eBuildingType::timberMill ||
+               bt == eBuildingType::masonryShop ||
+               bt == eBuildingType::mint ||
+               bt == eBuildingType::foundry ||
+               bt == eBuildingType::winery ||
+               bt == eBuildingType::sculptureStudio ||
+               bt == eBuildingType::armory;
+    } break;
+
+    case eViewMode::distribution: {
+        return bt == eBuildingType::tradePost ||
+               bt == eBuildingType::pier ||
+               bt == eBuildingType::granary ||
+               bt == eBuildingType::warehouse;
+    } break;
 
     case eViewMode::patrolBuilding: {
         return false;
@@ -82,7 +135,8 @@ bool eViewModeHelpers::buildingVisible(
 
     case eViewMode::taxes: {
         return bt == eBuildingType::commonHouse ||
-               bt == eBuildingType::eliteHousing;
+               bt == eBuildingType::eliteHousing ||
+               bt == eBuildingType::taxOffice;
     } break;
     }
 
@@ -97,7 +151,79 @@ bool eViewModeHelpers::characterVisible(
         return true;
     } break;
 
+    case eViewMode::security: {
+        const int ic = static_cast<int>(c);
+        const int godMin = static_cast<int>(eCharacterType::aphrodite);
+        const int godMax = static_cast<int>(eCharacterType::zeus);
+        if(ic >= godMin && ic <= godMax) return true;
+        const int monsterMin = static_cast<int>(eCharacterType::calydonianBoar);
+        const int monsterMax = static_cast<int>(eCharacterType::talos);
+        if(ic >= monsterMin && ic <= monsterMax) return true;
+        const int heroMin = static_cast<int>(eCharacterType::achilles);
+        const int heroMax = static_cast<int>(eCharacterType::theseus);
+        if(ic >= heroMin && ic <= heroMax) return true;
+        const int iMin = static_cast<int>(eCharacterType::rockThrower);
+        const int iMax = static_cast<int>(eCharacterType::greekHorseman);
+        if(ic >= iMin && ic <= iMax) return true;
+        return c == eCharacterType::watchman;
+    } break;
+
     case eViewMode::patrolBuilding: {
+        return true;
+    } break;
+
+    case eViewMode::industry: {
+        return c == eCharacterType::marbleMiner ||
+               c == eCharacterType::lumberjack ||
+               c == eCharacterType::bronzeMiner ||
+               c == eCharacterType::silverMiner;
+    } break;
+
+    case eViewMode::husbandry: {
+        return c == eCharacterType::grower ||
+               c == eCharacterType::boar ||
+               c == eCharacterType::deer ||
+               c == eCharacterType::wolf ||
+               c == eCharacterType::shepherd ||
+               c == eCharacterType::goatherd ||
+               c == eCharacterType::sheep ||
+               c == eCharacterType::goat ||
+               c == eCharacterType::cattle ||
+               c == eCharacterType::horse ||
+               c == eCharacterType::hunter ||
+               c == eCharacterType::fishingBoat;
+    } break;
+
+    case eViewMode::immortals: {
+        const int ic = static_cast<int>(c);
+        const int godMin = static_cast<int>(eCharacterType::aphrodite);
+        const int godMax = static_cast<int>(eCharacterType::zeus);
+        if(ic >= godMin && ic <= godMax) return true;
+        const int monsterMin = static_cast<int>(eCharacterType::calydonianBoar);
+        const int monsterMax = static_cast<int>(eCharacterType::talos);
+        if(ic >= monsterMin && ic <= monsterMax) return true;
+        const int heroMin = static_cast<int>(eCharacterType::achilles);
+        const int heroMax = static_cast<int>(eCharacterType::theseus);
+        if(ic >= heroMin && ic <= heroMax) return true;
+        return false;
+    } break;
+
+    case eViewMode::distribution: {
+        return c == eCharacterType::cartTransporter ||
+               c == eCharacterType::porter ||
+               c == eCharacterType::ox ||
+               c == eCharacterType::trailer ||
+               c == eCharacterType::tradeBoat ||
+               c == eCharacterType::trader ||
+               c == eCharacterType::donkey;
+    } break;
+
+    case eViewMode::problems: {
+        return c == eCharacterType::disgruntled ||
+               c == eCharacterType::sick;
+    } break;
+
+    case eViewMode::roads: {
         return true;
     } break;
 
@@ -111,7 +237,8 @@ bool eViewModeHelpers::characterVisible(
         return c == eCharacterType::waterDistributor;
     } break;
     case eViewMode::hygiene: {
-        return c == eCharacterType::healer;
+        return c == eCharacterType::healer ||
+               c == eCharacterType::sick;
     } break;
     case eViewMode::hazards: {
         return c == eCharacterType::fireFighter;

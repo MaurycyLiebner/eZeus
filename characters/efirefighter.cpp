@@ -1,6 +1,7 @@
 #include "efirefighter.h"
 
 #include "textures/egametextures.h"
+#include "engine/egameboard.h"
 
 eFireFighter::eFireFighter(eGameBoard& board) :
     eCharacter(board, eCharacterType::fireFighter),
@@ -8,6 +9,13 @@ eFireFighter::eFireFighter(eGameBoard& board) :
     mCharTexs(&eCharacterTextures::fFireFighter) {
     eGameTextures::loadFireFighter();
     setProvide(eProvide::maintanance, __INT_MAX__);
+}
+
+void eFireFighter::beingKilled() {
+    if(playerId() == 1) {
+        auto& brd = getBoard();
+        brd.walkerKilled();
+    }
 }
 
 std::shared_ptr<eTexture> eFireFighter::getTexture(const eTileSize size) const {

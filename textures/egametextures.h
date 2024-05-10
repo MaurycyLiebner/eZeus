@@ -84,6 +84,8 @@ public:
     static void loadAmazonArcher();
     static void loadAresWarrior();
     static void loadDonkey();
+    static void loadDisgruntled();
+    static void loadSick();
 
     static void loadBanners();
 

@@ -3,6 +3,7 @@
 #include "eviewmodebutton.h"
 #include "widgets/emultilinelabel.h"
 #include "widgets/elinewidget.h"
+#include "engine/egameboard.h"
 
 #include "elanguage.h"
 
@@ -94,7 +95,29 @@ void eHygieneSafetyDataWidget::initialize() {
 void eHygieneSafetyDataWidget::paintEvent(ePainter& p) {
     const bool update = (++mTime % 20) == 0;
     if(update) {
+        const int hygiene = mBoard.health();
+        std::string hygTxt;
+        if(hygiene > 90) {
+            hygTxt = "excellent";
+        } else if(hygiene > 80) {
+            hygTxt = "very_good";
+        } else if(hygiene > 70) {
+            hygTxt = "good";
+        } else if(hygiene > 50) {
+            hygTxt = "ok";
+        } else { // bad
+            hygTxt = "bad";
+        }
+        mHygieneLabel->setText(eLanguage::text(hygTxt));
 
+        const int unrest = mBoard.unrest();
+        std::string unTxt;
+        if(unrest > 5) {
+            unTxt = "there_is_a_lot_of_unrest";
+        } else {
+            unTxt = "there_is_no_unrest";
+        }
+        mUnrestLabel->setText(eLanguage::text(unTxt));
     }
     eWidget::paintEvent(p);
 }

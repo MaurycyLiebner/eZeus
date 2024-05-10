@@ -5,6 +5,11 @@
 #include "offsets/SprAmbient.h"
 #include "offsets/destruction.h"
 
+#include "spriteData/plague15.h"
+#include "spriteData/plague30.h"
+#include "spriteData/plague45.h"
+#include "spriteData/plague60.h"
+
 #include "spriteData/destruction15.h"
 #include "spriteData/destruction30.h"
 #include "spriteData/destruction45.h"
@@ -25,6 +30,8 @@ eDestructionTextures::eDestructionTextures(const int tileW, const int tileH,
 
     fBless(renderer),
     fCurse(renderer),
+
+    fPlague(renderer),
 
     fGodOrangeMissile(renderer),
     fGodBlueArrow(renderer),
@@ -106,6 +113,18 @@ void eDestructionTextures::load() {
 
             for(int i = 807; i < 1007; i++) {
                 loader.load(492, i, fCurse);
+            }
+            {
+                const auto& sds = spriteData(fTileH,
+                                             ePlagueSpriteData15,
+                                             ePlagueSpriteData30,
+                                             ePlagueSpriteData45,
+                                             ePlagueSpriteData60);
+                eSpriteLoader loader(fTileH, "plague", sds,
+                                     &eDestructionOffset, fRenderer);
+                for(int i = 1085; i < 1103; i++) {
+                    loader.load(1085, i, fPlague);
+                }
             }
 
             for(int i = 1103; i < 1167; i++) {

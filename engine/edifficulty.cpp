@@ -342,6 +342,45 @@ int eDifficultyHelpers::fireRisk(
     return std::round(mult*base);
 }
 
+double plagueRiskMultiplier(const eDifficulty diff) {
+    switch(diff) {
+    case eDifficulty::beginner:
+        return 1.0;
+    case eDifficulty::mortal:
+        return 1.5;
+    case eDifficulty::hero:
+        return 1.875;
+    case eDifficulty::titan:
+        return 2.25;
+    case eDifficulty::olympian:
+        return 2.5;
+    }
+    return 1;
+}
+
+int eDifficultyHelpers::plagueRisk(const eDifficulty diff) {
+    return plagueRiskMultiplier(diff);
+}
+
+double crimeRiskMultiplier(const eDifficulty diff) {
+    switch(diff) {
+    case eDifficulty::beginner:
+        return 1.0;
+    case eDifficulty::mortal:
+        return 1.5;
+    case eDifficulty::hero:
+        return 1.875;
+    case eDifficulty::titan:
+        return 2.25;
+    case eDifficulty::olympian:
+        return 2.5;
+    }
+    return 1;
+}
+
+int eDifficultyHelpers::crimeRisk(const eDifficulty diff) {
+    return crimeRiskMultiplier(diff);
+}
 
 int damageRiskBase(const eBuildingType type) {
     switch(type) {

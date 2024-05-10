@@ -49,6 +49,9 @@ enum class eCharacterType {
     waterDistributor,
     fireFighter,
 
+    disgruntled,
+    sick,
+
     archer,
 
     rockThrower,

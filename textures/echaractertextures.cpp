@@ -358,6 +358,9 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
     fTradeBoat(renderer),
 
+    fDisgruntled(renderer),
+    fSick(renderer),
+
     fKraken(renderer),
     fScylla(renderer) {
 

@@ -56,6 +56,8 @@ enum class eMessageEventType;
 struct eMessageType;
 struct eEventData;
 enum class eEvent;
+class ePlague;
+class eSmallHouse;
 
 enum class eGames {
     isthmian,
@@ -337,6 +339,13 @@ public:
     const std::vector<eGodQuest>& godQuests() const { return mGodQuests; }
     void addGodQuest(const eGodQuest q);
     void removeGodQuest(const eGodQuest q);
+
+    void startPlague(eSmallHouse* const h);
+    stdsptr<ePlague> plagueForHouse(eSmallHouse* const h);
+    void healPlague(const stdsptr<ePlague>& p);
+    void healHouse(eSmallHouse* const h);
+    using ePlagues = std::vector<stdsptr<ePlague>>;
+    const ePlagues& plagues() const { return mPlagues; }
 private:
     void updateNeighbours();
 
@@ -442,7 +451,7 @@ private:
     int mDramaCoverage = 0;
     int mAllDiscCoverage = 0;
     int mTaxesCoverage = 0;
-    int mUnrest = 0;
+    int mUnrest = 0; // percent
     int mPopularity = 0;
     int mHealth = 0;
 
@@ -469,6 +478,8 @@ private:
     std::vector<eMonsterType> mHostileMonsters;
     std::vector<eGodType> mFriendlyGods;
     std::vector<eGodType> mHostileGods;
+
+    std::vector<stdsptr<ePlague>> mPlagues;
 };
 
 #endif // EGAMEBOARD_H

@@ -198,6 +198,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         mTime += mSpeed;
         mBoard->incTime(mSpeed);
     }
+    mBoard->emptyRubbish();
     if(mHoverX == 0) {
         setDX(mDX + 35);
     } else if(mHoverX == width() - 1) {
@@ -350,7 +351,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                 const auto diff = mBoard->difficulty();
                 const int fr = eDifficultyHelpers::fireRisk(diff, bt);
                 const int dr = eDifficultyHelpers::damageRisk(diff, bt);
-
+                if(const auto h = dynamic_cast<eHouseBase*>(ub)) {
+                    if(h->people() == 0) return;
+                }
                 const int h = 100 - ub->maintenance();
                 if((fr || dr) && h > 5) {
                     const int n = h/15;
@@ -369,6 +372,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 }
             } else if(mViewMode == eViewMode::taxes) {
                 if(const auto h = dynamic_cast<eHouseBase*>(ub)) {
+                    if(h->people() == 0) return;
                     const bool paid = h->paidTaxes();
                     const int n = paid ? 4 : 0;
                     drawColumn(tp, n, rx + cdx, ry + cdy, intrTexs.fColumn1);
@@ -376,42 +380,88 @@ void eGameWidget::paintEvent(ePainter& p) {
             } else if(mViewMode == eViewMode::water) {
                 if(bt == eBuildingType::commonHouse) {
                     const auto ch = static_cast<eSmallHouse*>(ub);
+                    if(ch->people() == 0) return;
                     const int w = ch->water()/2;
                     drawColumn(tp, w, rx + cdx, ry + cdy, intrTexs.fColumn5);
+                }
+            } else if(mViewMode == eViewMode::hygiene) {
+                if(bt == eBuildingType::commonHouse) {
+                    const auto ch = static_cast<eSmallHouse*>(ub);
+                    if(ch->people() == 0) return;
+                    const int h = 100 - ch->hygiene();
+                    const int n = h/15;
+                    const eTextureCollection* coll = nullptr;
+                    if(n < 2) {
+                        coll = &intrTexs.fColumn1;
+                    } else if(n < 3) {
+                        coll = &intrTexs.fColumn2;
+                    } else if(n < 4) {
+                        coll = &intrTexs.fColumn3;
+                    } else {
+                        coll = &intrTexs.fColumn4;
+                    }
+
+                    drawColumn(tp, n, rx + cdx, ry + cdy, *coll);
+                }
+            } else if(mViewMode == eViewMode::unrest) {
+                if(bt == eBuildingType::commonHouse) {
+                    const auto ch = static_cast<eSmallHouse*>(ub);
+                    if(ch->people() == 0) return;
+                    const int h = 100 - ch->satisfaction();
+                    const int n = h/15;
+                    const eTextureCollection* coll = nullptr;
+                    if(n < 2) {
+                        coll = &intrTexs.fColumn1;
+                    } else if(n < 3) {
+                        coll = &intrTexs.fColumn2;
+                    } else if(n < 4) {
+                        coll = &intrTexs.fColumn3;
+                    } else {
+                        coll = &intrTexs.fColumn4;
+                    }
+
+                    drawColumn(tp, n, rx + cdx, ry + cdy, *coll);
                 }
             } else if(mViewMode == eViewMode::actors) {
                 if(bt == eBuildingType::commonHouse) {
                     const auto ch = static_cast<eSmallHouse*>(ub);
+                    if(ch->people() == 0) return;
                     const int a = ch->actors()/2;
                     drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
                 } else if(bt == eBuildingType::eliteHousing) {
                     const auto ch = static_cast<eEliteHousing*>(ub);
+                    if(ch->people() == 0) return;
                     const int a = ch->actors()/2;
                     drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
                 }
             } else if(mViewMode == eViewMode::philosophers) {
                 if(bt == eBuildingType::commonHouse) {
                     const auto ch = static_cast<eSmallHouse*>(ub);
+                    if(ch->people() == 0) return;
                     const int a = ch->philosophers()/2;
                     drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
                 } else if(bt == eBuildingType::eliteHousing) {
                     const auto ch = static_cast<eEliteHousing*>(ub);
+                    if(ch->people() == 0) return;
                     const int a = ch->philosophers()/2;
                     drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
                 }
             } else if(mViewMode == eViewMode::athletes) {
                 if(bt == eBuildingType::commonHouse) {
                     const auto ch = static_cast<eSmallHouse*>(ub);
+                    if(ch->people() == 0) return;
                     const int a = ch->athletes()/2;
                     drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
                 } else if(bt == eBuildingType::eliteHousing) {
                     const auto ch = static_cast<eEliteHousing*>(ub);
+                    if(ch->people() == 0) return;
                     const int a = ch->athletes()/2;
                     drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
                 }
             } else if(mViewMode == eViewMode::supplies) {
                 if(bt == eBuildingType::commonHouse) {
                     const auto ch = static_cast<eSmallHouse*>(ub);
+                    if(ch->people() == 0) return;
                     double rxx = rx - 2.5;
                     double ryy = ry - 2;
                     tp.drawTexture(rxx, ryy, intrTexs.fSuppliesBg);
@@ -436,6 +486,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                                        intrTexs.fHasOil);
                 } else if(bt == eBuildingType::eliteHousing) {
                     const auto ch = static_cast<eEliteHousing*>(ub);
+                    if(ch->people() == 0) return;
                     double rxx = rx - 3.5;
                     double ryy = ry - 1.5;
                     tp.drawTexture(rxx, ryy, intrTexs.fEliteSuppliesBg);
@@ -561,6 +612,16 @@ void eGameWidget::paintEvent(ePainter& p) {
                     }
 
                     if(last) {
+                        if(const auto ch = dynamic_cast<eSmallHouse*>(ub)) {
+                            const bool p = ch->plague();
+                            if(p && ch->people()) {
+                                const auto& blsd = destTexs.fPlague;
+                                const int texId = ub->textureTime() % blsd.size();
+                                const auto tex = blsd.getTexture(texId);
+
+                                tp.drawTexture(drawX + 3, drawY + 1, tex, eAlignment::top);
+                            }
+                        }
                         if(ub->isOnFire()) {
                             const auto& ubts = ub->tilesUnder();
                             for(const auto& ubt : ubts) {
@@ -951,12 +1012,24 @@ void eGameWidget::paintEvent(ePainter& p) {
         drawSpawner();
 
         const auto r = p.renderer();
-        const auto clipTileRect = [&]() {
+        enum class eTileClipSide {
+            left, right
+        };
+
+        const auto clipTileRect = [&](const eTileClipSide side) {
             SDL_Rect clipRect;
             clipRect.y = -10000;
             clipRect.h = 20000;
-            clipRect.x = mDX + (tile->x() - tile->y() - 1)*mTileW/2;
-            clipRect.w = mTileW;
+            switch(side) {
+            case eTileClipSide::left: {
+                clipRect.x = mDX + (tile->x() - tile->y() - 1)*mTileW/2;
+                clipRect.w = 10000;
+            } break;
+            case eTileClipSide::right: {
+                clipRect.x = mDX + (tile->x() - tile->y() - 1)*mTileW/2 - 10000;
+                clipRect.w = mTileW + 10000;
+            } break;
+            }
             SDL_RenderSetClipRect(r, &clipRect);
         };
 
@@ -1007,7 +1080,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             if(tl) {
                 const auto order = tileCharRenderOrder(tl);
                 if(order == eCharRenderOrder::x0y1x1y0) {
-                    clipTileRect();
+                    clipTileRect(eTileClipSide::left);
                     drawCharacters(tl, false);
                     SDL_RenderSetClipRect(r, nullptr);
                 }
@@ -1018,7 +1091,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             if(tr) {
                 const auto order = tileCharRenderOrder(tr);
                 if(order == eCharRenderOrder::x0y1x1y0) {
-                    clipTileRect();
+                    clipTileRect(eTileClipSide::right);
                     drawCharacters(tr, false);
                     SDL_RenderSetClipRect(r, nullptr);
                 }

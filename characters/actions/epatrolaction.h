@@ -33,7 +33,7 @@ protected:
 private:
     std::vector<ePatrolGuide> mGuides;
     stdsptr<eDirectionTimes> mDirTimes;
-    ePatrolBuildingBase* mBuilding;
+    ePatrolBuildingBase* mBuilding = nullptr;
 
     bool mDone = false;
 };

@@ -152,6 +152,7 @@ SOURCES += \
         characters/actions/epatrolmoveaction.cpp \
         characters/actions/esettleraction.cpp \
         characters/actions/eshepherdaction.cpp \
+        characters/actions/esickdisgruntledaction.cpp \
         characters/actions/esoldieraction.cpp \
         characters/actions/etraderaction.cpp \
         characters/actions/ewaitaction.cpp \
@@ -185,6 +186,7 @@ SOURCES += \
         characters/echaracterbase.cpp \
         characters/echaractercreator.cpp \
         characters/edeer.cpp \
+        characters/edisgruntled.cpp \
         characters/edomesticatedanimal.cpp \
         characters/edonkey.cpp \
         characters/efightingpatroler.cpp \
@@ -219,6 +221,7 @@ SOURCES += \
         characters/esheep.cpp \
         characters/eshepherd.cpp \
         characters/eshepherdbase.cpp \
+        characters/esick.cpp \
         characters/esilverminer.cpp \
         characters/esoldier.cpp \
         characters/esoldierbanner.cpp \
@@ -271,6 +274,7 @@ SOURCES += \
         engine/emapgenerator.cpp \
         engine/epathboard.cpp \
         engine/epathfinder.cpp \
+        engine/eplague.cpp \
         engine/eplannedaction.cpp \
         engine/eresourcetype.cpp \
         engine/etask.cpp \
@@ -621,6 +625,7 @@ HEADERS += \
     characters/actions/epatrolmoveaction.h \
     characters/actions/esettleraction.h \
     characters/actions/eshepherdaction.h \
+    characters/actions/esickdisgruntledaction.h \
     characters/actions/esoldieraction.h \
     characters/actions/etraderaction.h \
     characters/actions/ewaitaction.h \
@@ -653,6 +658,7 @@ HEADERS += \
     characters/echaracter.h \
     characters/echaracterbase.h \
     characters/edeer.h \
+    characters/edisgruntled.h \
     characters/edomesticatedanimal.h \
     characters/edonkey.h \
     characters/eenlistedforces.h \
@@ -688,6 +694,7 @@ HEADERS += \
     characters/esheep.h \
     characters/eshepherd.h \
     characters/eshepherdbase.h \
+    characters/esick.h \
     characters/esilverminer.h \
     characters/esoldier.h \
     characters/esoldierbanner.h \
@@ -745,6 +752,7 @@ HEADERS += \
     engine/epathboard.h \
     engine/epathfinder.h \
     engine/epathfinderbase.h \
+    engine/eplague.h \
     engine/eplannedaction.h \
     engine/eprovide.h \
     engine/eresourcetype.h \
@@ -980,6 +988,10 @@ HEADERS += \
     spriteData/dionysus30.h \
     spriteData/dionysus45.h \
     spriteData/dionysus60.h \
+    spriteData/disgruntled15.h \
+    spriteData/disgruntled30.h \
+    spriteData/disgruntled45.h \
+    spriteData/disgruntled60.h \
     spriteData/donkey15.h \
     spriteData/donkey30.h \
     spriteData/donkey45.h \
@@ -1206,6 +1218,10 @@ HEADERS += \
     spriteData/philosopher30.h \
     spriteData/philosopher45.h \
     spriteData/philosopher60.h \
+    spriteData/plague15.h \
+    spriteData/plague30.h \
+    spriteData/plague45.h \
+    spriteData/plague60.h \
     spriteData/porter15.h \
     spriteData/porter30.h \
     spriteData/porter45.h \
@@ -1238,6 +1254,10 @@ HEADERS += \
     spriteData/shepherd30.h \
     spriteData/shepherd45.h \
     spriteData/shepherd60.h \
+    spriteData/sick15.h \
+    spriteData/sick30.h \
+    spriteData/sick45.h \
+    spriteData/sick60.h \
     spriteData/silverMiner15.h \
     spriteData/silverMiner30.h \
     spriteData/silverMiner45.h \
