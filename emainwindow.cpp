@@ -212,6 +212,7 @@ void eMainWindow::showMainMenu() {
             missing.push_back(ms);
         }
 
+
         eMapGenerator g(*board);
         eMapGeneratorSettings sett;
 
@@ -233,6 +234,7 @@ void eMainWindow::showMainMenu() {
             eVectorHelpers::remove(gods, g);
             friendlyGods.push_back(g);
         }
+        friendlyGods.push_back(eGodType::apollo);
 
         std::vector<eGodType> hostileGods;
         std::vector<eMonsterType> monsters;

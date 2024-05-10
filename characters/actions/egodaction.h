@@ -20,7 +20,8 @@ enum class eGodActType {
     provideResource,
     provideAgora,
     provideDrachmas,
-    atlasHelp
+    atlasHelp,
+    apolloHelp
 };
 
 class eGodAct {

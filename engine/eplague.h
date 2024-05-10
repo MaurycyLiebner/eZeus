@@ -22,12 +22,14 @@ public:
     bool hasHouse(eSmallHouse* const h) const;
     void removeHouse(eSmallHouse* const h);
     int houseCount() const { return mHouses.size(); }
+    using eHouses = std::vector<eSmallHouse*>;
+    const eHouses& houses() const { return mHouses; }
 
     void read(eReadStream& src);
     void write(eWriteStream& dst) const;
 private:
     eGameBoard& mBoard;
-    std::vector<eSmallHouse*> mHouses;
+    eHouses mHouses;
 };
 
 #endif // EPLAGUE_H

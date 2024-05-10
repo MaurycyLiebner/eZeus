@@ -156,6 +156,7 @@ SOURCES += \
         characters/actions/esoldieraction.cpp \
         characters/actions/etraderaction.cpp \
         characters/actions/ewaitaction.cpp \
+        characters/actions/godHelp/eapollohelpaction.cpp \
         characters/actions/godHelp/eartemishelpaction.cpp \
         characters/actions/godHelp/eathenahelpaction.cpp \
         characters/actions/godHelp/eatlashelpaction.cpp \
@@ -629,6 +630,7 @@ HEADERS += \
     characters/actions/esoldieraction.h \
     characters/actions/etraderaction.h \
     characters/actions/ewaitaction.h \
+    characters/actions/godHelp/eapollohelpaction.h \
     characters/actions/godHelp/eartemishelpaction.h \
     characters/actions/godHelp/eathenahelpaction.h \
     characters/actions/godHelp/eatlashelpaction.h \

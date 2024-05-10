@@ -8,6 +8,7 @@
 #include "engine/eevent.h"
 #include "engine/eeventdata.h"
 
+#include "characters/actions/godHelp/eapollohelpaction.h"
 #include "characters/actions/godHelp/eartemishelpaction.h"
 #include "characters/actions/godHelp/eathenahelpaction.h"
 #include "characters/actions/godHelp/eatlashelpaction.h"
@@ -278,6 +279,9 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
     const auto type = godType();
     bool r = false;
     switch(type) {
+    case eGodType::apollo: {
+        r = eApolloHelpAction::sHelpNeeded(board);
+    } break;
     case eGodType::artemis: {
         r = eArtemisHelpAction::sHelpNeeded(board);
     } break;
@@ -322,6 +326,9 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
         return false;
     }
     switch(type) {
+    case eGodType::apollo:
+        a = e::make_shared<eApolloHelpAction>(c);
+        break;
     case eGodType::artemis:
         a = e::make_shared<eArtemisHelpAction>(c);
         break;
