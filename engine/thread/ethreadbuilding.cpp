@@ -19,7 +19,11 @@ void eThreadBuilding::load(eBuilding* const src) {
         mTileRect = src->tileRect();
         if(mType == eBuildingType::commonHouse) {
             const auto h = static_cast<eSmallHouse*>(src);
-            mVacancies = h->vacancies();
+            if(h->leftCounter() > 0) {
+                mVacancies = 0;
+            } else {
+                mVacancies = h->vacancies();
+            }
         } else if(mType == eBuildingType::eliteHousing) {
             const auto h = static_cast<eEliteHousing*>(src);
             mVacancies = h->vacancies();

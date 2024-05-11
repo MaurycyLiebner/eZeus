@@ -15,18 +15,21 @@ public:
 
     virtual void spawn(eTile* const tile) = 0;
 
-    void read(eReadStream& src);
-    void write(eWriteStream& dst) const;
+    virtual void incTime(const int by);
 
-    void incTime(const int by);
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
+
     void decCount();
 
     void spawnMax();
 
     int count() const { return mCount; }
+
+    void setSpawnPeriod(const int p);
 private:
-    int mMaxCount;
-    int mSpawnFreq;
+    int mMaxCount = 0;
+    int mSpawnPeriod = 100;
 
     int mCount = 0;
 

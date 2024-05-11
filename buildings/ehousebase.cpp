@@ -59,6 +59,7 @@ void eHouseBase::read(eReadStream& src) {
     eBuilding::read(src);
 
     src >> mPaidTaxes;
+    src >> mPaidTaxesLastMonth;
 
     int level;
     src >> level;
@@ -82,6 +83,7 @@ void eHouseBase::write(eWriteStream& dst) const {
     eBuilding::write(dst);
 
     dst << mPaidTaxes;
+    dst << mPaidTaxesLastMonth;
 
     dst << mLevel;
     dst << mPeople;

@@ -13,6 +13,11 @@
 #include "buildings/eaestheticsbuilding.h"
 #include "engine/etile.h"
 
+#include "characters/ehomeless.h"
+#include "characters/actions/esettleraction.h"
+#include "characters/actions/ekillcharacterfinishfail.h"
+#include "buildings/ehousebase.h"
+
 #include <algorithm>
 
 #include "evectorhelpers.h"
@@ -84,6 +89,25 @@ void eBuildingsToErase::erase(eBuilding* const b) {
         const auto a = v->agora();
         a->setBuilding(v, nullptr);
         a->fillSpaces();
+    } break;
+    case eBuildingType::eliteHousing:
+    case eBuildingType::commonHouse: {
+        const auto hb = static_cast<eHouseBase*>(b);
+        const int people = hb->people();
+        if(people > 0) {
+            auto& board = b->getBoard();
+            const auto tile = b->centerTile();
+            const auto h = e::make_shared<eHomeless>(board);
+            h->changeTile(tile);
+            const auto fa = std::make_shared<eKillCharacterFinishFail>(board);
+            const auto a = e::make_shared<eSettlerAction>(h.get());
+            a->setNumberPeople(people);
+            a->setFailAction(fa);
+            a->setFinishAction(fa);
+            a->setDeleteFailAction(fa);
+            h->setAction(a);
+        }
+        b->erase();
     } break;
     default:
         b->erase();

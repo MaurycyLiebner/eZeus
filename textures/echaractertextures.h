@@ -250,6 +250,8 @@ public:
     void loadDisgruntled();
     bool fSickLoaded = false;
     void loadSick();
+    bool fHomelessLoaded = false;
+    void loadHomeless();
 
     bool fCalydonianBoarLoaded = false;
     void loadCalydonianBoar();
@@ -417,6 +419,7 @@ public:
 
     eFightingCharacterTextures fDisgruntled;
     eFightingCharacterTextures fSick;
+    eBasicCharacterTextures fHomeless;
 
     eMonsterTextures fCalydonianBoar;
     eMonsterTextures fCerberus;

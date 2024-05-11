@@ -35,7 +35,10 @@ public:
     int foodSatisfaction() const { return mFoodSatisfaction; }
     int waterSatisfaction() const { return mWaterSatisfaction; }
     int workSatisfaction() const { return mWorkSatisfaction; }
+    int taxSatisfaction() const { return mTaxSatisfaction; }
     int satisfaction() const { return mSatisfaction; }
+
+    int leftCounter() const { return mLeftCounter; }
 
     eHouseMissing missing() const override;
 
@@ -48,12 +51,14 @@ private:
     void spawnCharacter(const stdsptr<eCharacter>& c);
     void spawnSick();
     void spawnDisgruntled();
+    void leave();
 
     int mUpdateSatisfaction = 0;
     int mSatisfaction = 100;
     int mFoodSatisfaction = 100;
     int mWaterSatisfaction = 100;
     int mWorkSatisfaction = 100;
+    int mTaxSatisfaction = 100;
 
     int mUpdateWater = 0;
     int mUpdateHygiene = 8;
@@ -63,6 +68,8 @@ private:
     int mHygiene = 100; // 0-100
     bool mPlague = false;
     bool mDisgruntled = false;
+
+    int mLeftCounter = 0;
 
     int mSpawnSick = 0;
     stdptr<eSick> mSick;

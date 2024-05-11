@@ -8,7 +8,7 @@ eSpawner::eSpawner(const eBannerTypeS type,
                    const int spawnFreq,
                    eGameBoard& board) :
     eBanner(type, id, tile, board),
-    mMaxCount(maxCount), mSpawnFreq(spawnFreq) {
+    mMaxCount(maxCount), mSpawnPeriod(spawnFreq) {
     board.registerSpawner(this);
 }
 
@@ -19,7 +19,7 @@ eSpawner::~eSpawner() {
 void eSpawner::read(eReadStream& src) {
     eBanner::read(src);
     src >> mMaxCount;
-    src >> mSpawnFreq;
+    src >> mSpawnPeriod;
     src >> mCount;
     src >> mTime;
 }
@@ -27,17 +27,17 @@ void eSpawner::read(eReadStream& src) {
 void eSpawner::write(eWriteStream& dst) const {
     eBanner::write(dst);
     dst << mMaxCount;
-    dst << mSpawnFreq;
+    dst << mSpawnPeriod;
     dst << mCount;
     dst << mTime;
 }
 
 void eSpawner::incTime(const int by) {
     mTime += by;
-    if(mTime >= mSpawnFreq && mCount < mMaxCount) {
+    if(mTime >= mSpawnPeriod && mCount < mMaxCount) {
         spawn(tile());
         mCount++;
-        mTime = 0;
+        mTime -= mSpawnPeriod;
     }
 }
 
@@ -51,4 +51,8 @@ void eSpawner::spawnMax() {
         spawn(tile());
         mCount++;
     }
+}
+
+void eSpawner::setSpawnPeriod(const int p) {
+    mSpawnPeriod = p;
 }

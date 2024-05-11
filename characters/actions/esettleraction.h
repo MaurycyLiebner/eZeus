@@ -13,11 +13,16 @@ public:
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
+
+    void setNumberPeople(const int p);
+    int nPeople() const { return mNPeople; }
 protected:
     void findHouse();
     void goBack2();
+    void leave();
     bool enterHouse();
 private:
+    int mNPeople = 8;
     bool mNoHouses = false;
 };
 
@@ -32,7 +37,7 @@ public:
     void call() override {
         if(!mTptr) return;
         const auto t = mTptr.get();
-        t->goBack2();
+        t->findHouse();
     }
 
     void read(eReadStream& src) override {
@@ -60,7 +65,8 @@ public:
         if(!mTptr) return;
         const auto t = mTptr.get();
         const bool r = t->enterHouse();
-        if(r) {
+        const int nPeople = t->nPeople();
+        if(r && nPeople <= 0) {
             t->setState(eCharacterActionState::finished);
         }
     }

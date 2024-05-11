@@ -43,7 +43,7 @@ enum class eCharacterActionFunctionType {
     GRA_workOnDecisionFinish,
     GRA_workOnDecisionDeleteFail,
 
-    HA_leaveFinishFail,
+    killCharacterFinishFail,
     HA_patrolFail,
     HA_huntMonsterFinish,
     HA_fightMonsterDie,
@@ -103,6 +103,5 @@ private:
 };
 
 using eCharActFunc = eCharacterActionFunction;
-
 
 #endif // ECHARACTERACTIONFUNCTION_H

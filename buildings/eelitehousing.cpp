@@ -118,6 +118,7 @@ void eEliteHousing::timeChanged(const int by) {
 }
 
 void eEliteHousing::nextMonth() {
+    mPaidTaxesLastMonth = mPaidTaxes;
     mPaidTaxes = false;
     const int cfood = round((mPeople + mHorses)*0.25);
     const int cfleece = 2;

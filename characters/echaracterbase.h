@@ -9,6 +9,7 @@ enum class eCharacterType {
     none,
 
     settler,
+    homeless,
 
     boar,
     deer,

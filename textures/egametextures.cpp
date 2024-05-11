@@ -83,6 +83,13 @@ void eGameTextures::loadSettlers() {
     });
 }
 
+void eGameTextures::loadHomeless() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadHomeless();
+    });
+}
+
 void eGameTextures::loadFireFighter() {
     loadTexture([](const int i) {
         auto& c = sCharacterTextures[i];

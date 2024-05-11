@@ -463,7 +463,7 @@ void eBuilding::incTime(const int by) {
             mMaintance = std::max(0, mMaintance - 1);
         }
     } else {
-        const int m4 = 10 + pow(mMaintance, 4);
+        const int m4 = 10000 + pow(mMaintance, 4);
         const auto diff = b.difficulty();
         const int fireRisk = eDifficultyHelpers::fireRisk(diff, mType);
         if(fireRisk && by) {

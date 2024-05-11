@@ -27,6 +27,11 @@
 #include "spriteData/sick45.h"
 #include "spriteData/sick60.h"
 
+#include "spriteData/homeless15.h"
+#include "spriteData/homeless30.h"
+#include "spriteData/homeless45.h"
+#include "spriteData/homeless60.h"
+
 #include "offsets/Zeus_amazon.h"
 #include "offsets/Zeus_AresWarriors.h"
 #include "offsets/SprMain.h"
@@ -66,6 +71,24 @@ void eCharacterTextures::loadSick() {
 
     for(int i = 12328; i < 12336; i++) {
         loader.load(12232, i, fSick.fDie);
+    }
+}
+
+void eCharacterTextures::loadHomeless() {
+    if(fHomelessLoaded) return;
+    fHomelessLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eHomelessSpriteData15,
+                                 eHomelessSpriteData30,
+                                 eHomelessSpriteData45,
+                                 eHomelessSpriteData60);
+    eSpriteLoader loader(fTileH, "homeless", sds,
+                         &eSprMainOffset, fRenderer);
+
+    loader.loadSkipFlipped(1441, 1441, 1537, fHomeless.fWalk);
+
+    for(int i = 1537; i < 1545; i++) {
+        loader.load(1441, i, fHomeless.fDie);
     }
 }
 

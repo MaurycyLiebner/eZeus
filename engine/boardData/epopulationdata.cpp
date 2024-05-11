@@ -17,6 +17,11 @@ void ePopulationData::incSettlers(const int s) {
     if(s > 0) mArrivedThisMonth += s;
 }
 
+void ePopulationData::incLeft(const int s) {
+    mLeftThisMonth += s;
+}
+
 void ePopulationData::nextMonth() {
     mArrivedThisMonth = 0;
+    mLeftThisMonth = 0;
 }

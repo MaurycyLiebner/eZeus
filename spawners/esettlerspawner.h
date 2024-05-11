@@ -11,7 +11,8 @@ public:
                     eTile* const tile,
                     eGameBoard& board);
 
-    void spawn(eTile* const tile);
+    void incTime(const int by) override;
+    void spawn(eTile* const tile) override;
 };
 
 class eSS_spawnFinish : public eCharActFunc {

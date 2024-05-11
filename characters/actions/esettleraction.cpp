@@ -6,6 +6,8 @@
 #include "emovetoaction.h"
 #include "buildings/esmallhouse.h"
 #include "buildings/eelitehousing.h"
+#include "engine/egameboard.h"
+#include "ekillcharacterfinishfail.h"
 
 eSettlerAction::eSettlerAction(eCharacter* const c) :
     eActionWithComeback(c, eCharActionType::settlerAction) {
@@ -14,7 +16,13 @@ eSettlerAction::eSettlerAction(eCharacter* const c) :
 
 bool eSettlerAction::decide() {
     if(mNoHouses) {
-        goBack2();
+        const auto c = character();
+        const auto ct = c->type();
+        if(ct == eCharacterType::settler) {
+            goBack2();
+        } else {
+            leave();
+        }
     } else {
         findHouse();
     }
@@ -31,7 +39,12 @@ void eSettlerAction::write(eWriteStream& dst) const {
     dst << mNoHouses;
 }
 
+void eSettlerAction::setNumberPeople(const int p) {
+    mNPeople = p;
+}
+
 void eSettlerAction::findHouse() {
+    if(mNoHouses) return;
     const auto c = character();
 
     const auto finalTile = [](eThreadTile* const t) {
@@ -71,6 +84,35 @@ void eSettlerAction::goBack2() {
     eActionWithComeback::goBack(eWalkableObject::sCreateDefault());
 }
 
+void eSettlerAction::leave() {
+    auto& board = eSettlerAction::board();
+    const auto c = character();
+    const stdptr<eCharacter> cptr(c);
+    const auto fail = std::make_shared<eKillCharacterFinishFail>(
+                          board, c);
+    const auto finish = std::make_shared<eKillCharacterFinishFail>(
+                            board, c);
+
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFailAction(fail);
+    a->setFinishAction(finish);
+    a->setFindFailAction([cptr]() {
+        if(cptr) cptr->kill();
+    });
+    c->setAction(a);
+    c->setActionType(eCharacterActionType::walk);
+    const int bw = board.width();
+    const int bh = board.height();
+    const auto edgeTile = [bw, bh](eTileBase* const tile) {
+        const int tx = tile->dx();
+        if(tx == 0 || tx >= bw) return true;
+        const int ty = tile->dy();
+        if(ty == 0 || ty >= bh) return true;
+        return false;
+    };
+    a->start(edgeTile);
+}
+
 bool eSettlerAction::enterHouse() {
     const auto c = character();
     const auto t = c->tile();
@@ -95,13 +137,13 @@ bool eSettlerAction::enterHouse() {
             const auto ch = static_cast<eSmallHouse*>(b);
             const int v = ch->vacancies();
             if(v <= 0) continue;
-            ch->moveIn(8);
+            mNPeople -= ch->moveIn(mNPeople);
             return true;
         } else if(t == eBuildingType::eliteHousing) {
             const auto ch = static_cast<eEliteHousing*>(b);
             const int v = ch->vacancies();
             if(v <= 0) continue;
-            ch->moveIn(8);
+            mNPeople -= ch->moveIn(mNPeople);
             return true;
         }
     }

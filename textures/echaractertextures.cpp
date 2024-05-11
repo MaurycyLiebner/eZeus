@@ -360,6 +360,7 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
     fDisgruntled(renderer),
     fSick(renderer),
+    fHomeless(renderer),
 
     fKraken(renderer),
     fScylla(renderer) {

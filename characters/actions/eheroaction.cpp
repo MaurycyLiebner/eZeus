@@ -6,6 +6,7 @@
 #include "characters/actions/egodmonsteraction.h"
 #include "characters/actions/emovetoaction.h"
 #include "characters/actions/epatrolmoveaction.h"
+#include "ekillcharacterfinishfail.h"
 #include "ewaitaction.h"
 #include "engine/egameboard.h"
 #include "vec2.h"
@@ -94,9 +95,9 @@ void eHeroAction::sendOnQuest() {
     auto& board = eHeroAction::board();
     const auto hero = static_cast<eHero*>(c);
     const stdptr<eHero> cptr(hero);
-    const auto fail = std::make_shared<eHA_leaveFinishFail>(
+    const auto fail = std::make_shared<eKillCharacterFinishFail>(
                           board, hero);
-    const auto finish = std::make_shared<eHA_leaveFinishFail>(
+    const auto finish = std::make_shared<eKillCharacterFinishFail>(
                             board, hero);
 
     const auto a = e::make_shared<eMoveToAction>(c);

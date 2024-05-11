@@ -142,6 +142,7 @@ SOURCES += \
         characters/actions/egroweraction.cpp \
         characters/actions/eheroaction.cpp \
         characters/actions/ehuntaction.cpp \
+        characters/actions/ekillcharacterfinishfail.cpp \
         characters/actions/emonsteraction.cpp \
         characters/actions/emoveaction.cpp \
         characters/actions/emovearoundaction.cpp \
@@ -201,6 +202,7 @@ SOURCES += \
         characters/egrower.cpp \
         characters/egymnast.cpp \
         characters/ehealer.cpp \
+        characters/ehomeless.cpp \
         characters/ehoplite.cpp \
         characters/ehoplitebase.cpp \
         characters/ehorse.cpp \
@@ -616,6 +618,7 @@ HEADERS += \
     characters/actions/egroweraction.h \
     characters/actions/eheroaction.h \
     characters/actions/ehuntaction.h \
+    characters/actions/ekillcharacterfinishfail.h \
     characters/actions/emonsteraction.h \
     characters/actions/emoveaction.h \
     characters/actions/emovearoundaction.h \
@@ -675,6 +678,7 @@ HEADERS += \
     characters/egrower.h \
     characters/egymnast.h \
     characters/ehealer.h \
+    characters/ehomeless.h \
     characters/ehoplite.h \
     characters/ehoplitebase.h \
     characters/ehorse.h \
@@ -1095,6 +1099,10 @@ HEADERS += \
     spriteData/hermes30.h \
     spriteData/hermes45.h \
     spriteData/hermes60.h \
+    spriteData/homeless15.h \
+    spriteData/homeless30.h \
+    spriteData/homeless45.h \
+    spriteData/homeless60.h \
     spriteData/hoplite15.h \
     spriteData/hoplite30.h \
     spriteData/hoplite45.h \

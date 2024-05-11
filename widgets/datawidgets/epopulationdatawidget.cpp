@@ -157,19 +157,21 @@ void ePopulationDataWidget::paintEvent(ePainter& p) {
         std::string pdtxt;
         if(l > a) {
             pdtxt = "people_are_leaving_the_city";
-        } else {
+        } else if(a > l) {
             pdtxt = "people_wish_to_come";
         }
-        mPeopleDirection->setText(eLanguage::text(pdtxt));
-        mPeopleDirection->fitContent();
-        mPeopleDirection->align(eAlignment::hcenter);
+        if(!pdtxt.empty()) {
+            mPeopleDirection->setText(eLanguage::text(pdtxt));
+            mPeopleDirection->fitContent();
+            mPeopleDirection->align(eAlignment::hcenter);
+        }
 
         const int v = popData.vacancies();
         mVacLabel->setText(std::to_string(v));
         mVacLabel->fitContent();
         mVacLabel->align(eAlignment::hcenter);
 
-        const auto husbData = mBoard.husbandryData();
+        const auto& husbData = mBoard.husbandryData();
         std::string ilrtxt;
         if(v <= 0) {
             ilrtxt = "lack_of_housing_vacs";

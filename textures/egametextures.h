@@ -40,6 +40,7 @@ public:
     static void loadOxHandler();
     static void loadTrailer();
     static void loadSettlers();
+    static void loadHomeless();
     static void loadFireFighter();
     static void loadWatchman();
     static void loadGoatherd();

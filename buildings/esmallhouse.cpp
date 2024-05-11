@@ -9,6 +9,10 @@
 #include "characters/edisgruntled.h"
 #include "characters/actions/esickdisgruntledaction.h"
 
+#include "characters/esettler.h"
+#include "characters/actions/emovetoaction.h"
+#include "characters/actions/ekillcharacterfinishfail.h"
+
 eSmallHouse::eSmallHouse(eGameBoard& board) :
     eHouseBase(board, eBuildingType::commonHouse, 2, 2,
                {8, 16, 24, 32, 40, 48, 60}) {}
@@ -85,6 +89,9 @@ int eSmallHouse::provide(const eProvide p, const int n) {
 }
 
 void eSmallHouse::timeChanged(const int by) {
+    if(mLeftCounter > 0) {
+        mLeftCounter = std::max(0, mLeftCounter - by);
+    }
     if(mPeople <= 0) {
         mHygiene = 100;
         if(mPlague) {
@@ -96,6 +103,7 @@ void eSmallHouse::timeChanged(const int by) {
         mFoodSatisfaction = 100;
         mWaterSatisfaction = 100;
         mWorkSatisfaction = 100;
+        mTaxSatisfaction = 100;
         return;
     }
     mUpdateCulture += by;
@@ -116,7 +124,7 @@ void eSmallHouse::timeChanged(const int by) {
 
     auto& b = getBoard();
     if(!mPlague) {
-        const int m4 = 1000000 + pow(mHygiene, 4);
+        const int m4 = 10000 + pow(mHygiene, 3);
         const auto diff = b.difficulty();
         const int plagueRisk = eDifficultyHelpers::plagueRisk(diff);
         if(plagueRisk && by) {
@@ -128,19 +136,31 @@ void eSmallHouse::timeChanged(const int by) {
     }
 
     if(mDisgruntled) {
-        if(mSatisfaction > 30) {
-            if(rand() % (50000/mSatisfaction) == 0) {
+        if(mSatisfaction > 30 && by > 0) {
+            if(rand() % (500000/(mSatisfaction*by)) == 0) {
                 setDisgruntled(false);
             }
         }
     } else {
-        const int m4 = 10000 + pow(mSatisfaction, 4);
+        const int m4 = 10000 + pow(mSatisfaction, 3);
         const auto diff = b.difficulty();
         const int crimeRisk = eDifficultyHelpers::crimeRisk(diff);
         if(crimeRisk && by) {
             const int crimePeriod = m4/(by*crimeRisk);
             if(crimePeriod && rand() % crimePeriod == 0) {
                 setDisgruntled(true);
+            }
+        }
+    }
+
+    {
+        const int m4 = 10000 + pow(mSatisfaction, 3);
+        const auto diff = b.difficulty();
+        const int leaveRisk = eDifficultyHelpers::crimeRisk(diff);
+        if(leaveRisk && by) {
+            const int leavePeriod = m4/(by*leaveRisk);
+            if(leavePeriod && rand() % leavePeriod == 0) {
+                leave();
             }
         }
     }
@@ -179,10 +199,11 @@ void eSmallHouse::timeChanged(const int by) {
 }
 
 void eSmallHouse::nextMonth() {
+    mPaidTaxesLastMonth = mPaidTaxes;
     mPaidTaxes = false;
     const int cfood = round(mPeople*0.25);
-    const int cfleece = mLevel > 2 ? 2 : 0;
-    const int coil = mLevel > 4 ? 2 : 0;
+    const int cfleece = (mLevel > 2 && mPeople > 0) ? 2 : 0;
+    const int coil = (mLevel > 4 && mPeople > 0) ? 2 : 0;
     mFood = std::max(0, mFood - cfood);
     mFleece = std::max(0, mFleece - cfleece);
     mOil = std::max(0, mOil - coil);
@@ -255,6 +276,7 @@ void eSmallHouse::read(eReadStream& src) {
     src >> mFoodSatisfaction;
     src >> mWaterSatisfaction;
     src >> mWorkSatisfaction;
+    src >> mTaxSatisfaction;
 
     src >> mUpdateWater;
     src >> mUpdateHygiene;
@@ -283,6 +305,7 @@ void eSmallHouse::write(eWriteStream& dst) const {
     dst << mFoodSatisfaction;
     dst << mWaterSatisfaction;
     dst << mWorkSatisfaction;
+    dst << mTaxSatisfaction;
 
     dst << mUpdateWater;
     dst << mUpdateHygiene;
@@ -345,8 +368,18 @@ void eSmallHouse::updateSatisfaction() {
     const int workSat = 100*std::pow(empData.employedFraction(), 4);
     mWorkSatisfaction = (weight*mWorkSatisfaction + workSat)/div;
 
+    const auto taxRate = board.taxRate();
+    const auto diff = board.difficulty();
+    const int ts = eDifficultyHelpers::taxSentiment(diff, taxRate);
+    const int taxSatIfPaid = std::round(100.*(ts + 7.)/14.);
+    const int taxSat = mPaidTaxesLastMonth ? taxSatIfPaid : 100;
+    mTaxSatisfaction = (weight*mTaxSatisfaction + taxSat)/div;
+
     const int m1 = std::min(mFoodSatisfaction, mWaterSatisfaction);
-    const int sat = std::min(m1, mWorkSatisfaction);
+    const int m2 = std::min(m1, mWorkSatisfaction);
+    const int satMin = mTaxSatisfaction - 50;
+    const int satMax = 50 + mTaxSatisfaction;
+    const int sat = std::clamp(m2, satMin, satMax);
     mSatisfaction = (weight*mSatisfaction + sat)/div;
 }
 
@@ -375,4 +408,39 @@ void eSmallHouse::spawnDisgruntled() {
     mDisg = c.get();
     mDisg->setPlayerId(2);
     spawnCharacter(c);
+}
+
+void eSmallHouse::leave() {
+    if(mPeople <= 0) return;
+    mLeftCounter = 10000;
+    auto& board = getBoard();
+    auto& popData = board.populationData();
+    popData.incLeft(mPeople);
+    setPeople(0);
+
+    const auto c = e::make_shared<eSettler>(getBoard());
+    const stdptr<eSettler> cptr(c.get());
+    const auto fail = std::make_shared<eKillCharacterFinishFail>(
+                          board, c.get());
+    const auto finish = std::make_shared<eKillCharacterFinishFail>(
+                            board, c.get());
+
+    const auto a = e::make_shared<eMoveToAction>(c.get());
+    a->setFailAction(fail);
+    a->setFinishAction(finish);
+    a->setFindFailAction([cptr]() {
+        if(cptr) cptr->kill();
+    });
+    c->setAction(a);
+    c->setActionType(eCharacterActionType::walk);
+    const int bw = board.width();
+    const int bh = board.height();
+    const auto edgeTile = [bw, bh](eTileBase* const tile) {
+        const int tx = tile->dx();
+        if(tx == 0 || tx >= bw) return true;
+        const int ty = tile->dy();
+        if(ty == 0 || ty >= bh) return true;
+        return false;
+    };
+    a->start(edgeTile);
 }
