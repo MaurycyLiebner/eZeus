@@ -116,7 +116,7 @@ void eSmallHouse::timeChanged(const int by) {
 
     auto& b = getBoard();
     if(!mPlague) {
-        const int m4 = 50000 + pow(mHygiene, 4);
+        const int m4 = 1000000 + pow(mHygiene, 4);
         const auto diff = b.difficulty();
         const int plagueRisk = eDifficultyHelpers::plagueRisk(diff);
         if(plagueRisk && by) {
