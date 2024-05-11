@@ -345,6 +345,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         };
 
         const auto drawBuildingModes = [&]() {
+            if(!ub) return;
             const double cdx = -0.65;
             const double cdy = -0.65;
             if(mViewMode == eViewMode::hazards) {
@@ -737,7 +738,6 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto drawCharacters = [&](eTile* const tile,
                                         const bool big) {
             if(!tile) return;
-            const int a = tile->altitude();
             const auto bttt = tile->underBuildingType();
             const bool flat = eBuilding::sFlatBuilding(bttt);
             if(flat || bttt == eBuildingType::wall) {
@@ -1011,6 +1011,22 @@ void eGameWidget::paintEvent(ePainter& p) {
         drawPatrolGuides();
         drawSpawner();
 
+        if(bt == eBuildingType::templeTile) {
+            const auto t = static_cast<eTempleTileBuilding*>(ub);
+            const int tid = t ? t->id() : 0;
+            if(tid >= 10) {
+                const auto s = t ? t->sanctuary() : nullptr;
+                const int f = s && s->finished();
+                if(f) {
+                    const auto& coll = builTexs.fSanctuaryFire;
+                    const int textureTime = mFrame/4;
+                    const int texId = textureTime % coll.size();
+                    const auto& tex = coll.getTexture(texId);
+                    tp.drawTexture(tx - a, ty - a, tex, eAlignment::bottom);
+                }
+            }
+        }
+
         const auto r = p.renderer();
         enum class eTileClipSide {
             left, right
@@ -1121,13 +1137,18 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto t = mPatrolBuilding->centerTile();
             const int tx = t->x();
             const int ty = t->y();
+            const int ta = t->altitude();
             std::vector<SDL_Point> polygon;
             polygon.reserve(pgs.size() + 2);
-            polygon.push_back({tx, ty});
+            polygon.push_back({tx - ta, ty - ta});
             for(const auto& pg : pgs) {
-                polygon.push_back({pg.fX, pg.fY});
+                const int tx = pg.fX;
+                const int ty = pg.fY;
+                const auto t = mBoard->tile(tx, ty);
+                const int ta = t->altitude();
+                polygon.push_back({pg.fX - ta, pg.fY - ta});
             }
-            polygon.push_back({tx, ty});
+            polygon.push_back({tx - ta, ty - ta});
             tp.drawPolygon(polygon, {0, 0, 0, 255});
         }
     }
@@ -1162,7 +1183,10 @@ void eGameWidget::paintEvent(ePainter& p) {
             tex->setColorMod(255, 0, 0);
             double rx;
             double ry;
-            drawXY(hoverTile->x(), hoverTile->y(), rx, ry, 1, 1, hoverTile->altitude());
+            const int hx = hoverTile->x();
+            const int hy = hoverTile->y();
+            const int ha = hoverTile->altitude();
+            drawXY(hx, hy, rx, ry, 1, 1, ha);
             tp.drawTexture(rx, ry, tex, eAlignment::top);
             tex->clearColorMod();
         }
@@ -1193,7 +1217,8 @@ void eGameWidget::paintEvent(ePainter& p) {
                     if(!t) continue;
                     if(t->terrain() != eTerrain::fertile) continue;
                     if(t->underBuilding()) continue;
-                    drawXY(x, y, rx, ry, 1, 1, t->altitude());
+                    const int a = t->altitude();
+                    drawXY(x, y, rx, ry, 1, 1, a);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                 }
             }
@@ -1216,7 +1241,8 @@ void eGameWidget::paintEvent(ePainter& p) {
                     if(t2->underBuilding()) continue;
                     double rx;
                     double ry;
-                    drawXY(x, y, rx, ry, 1, 1, t->altitude());
+                    const int a = t->altitude();
+                    drawXY(x, y, rx, ry, 1, 1, a);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tp.drawTexture(rx, ry + 1, tex, eAlignment::top);
                     y++;
@@ -1235,7 +1261,8 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const auto t = mBoard->tile(x, y);
                     if(!t) continue;
                     if(t->underBuilding()) continue;
-                    drawXY(x, y, rx, ry, 1, 1, t->altitude());
+                    const int a = t->altitude();
+                    drawXY(x, y, rx, ry, 1, 1, a);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                 }
             }
@@ -1263,7 +1290,8 @@ void eGameWidget::paintEvent(ePainter& p) {
                     double ry;
                     const auto t = mBoard->tile(x, y);
                     if(!t) continue;
-                    drawXY(x, y, rx, ry, 1, 1, t->altitude());
+                    const int a = t->altitude();
+                    drawXY(x, y, rx, ry, 1, 1, a);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tp.drawTexture(rx + 1, ry, tex, eAlignment::top);
                     tp.drawTexture(rx, ry + 1, tex, eAlignment::top);
@@ -1283,10 +1311,13 @@ void eGameWidget::paintEvent(ePainter& p) {
         double ry;
         const auto t = mBoard->tile(mHoverTX, mHoverTY);
         if(!t) return;
-        const bool cb = canBuild(t->x(), t->y(), 1, 2, true, true);
+        const int tx = t->x();
+        const int ty = t->y();
+        const bool cb = canBuild(tx, ty, 1, 2, true, true);
         const auto& tex = trrTexs.fBuildingBase;
         tex->setColorMod(cb ? 0 : 255, cb ? 255 : 0, 0);
-        drawXY(mHoverTX, mHoverTY, rx, ry, 1, 1, t->altitude());
+        const int a = t->altitude();
+        drawXY(mHoverTX, mHoverTY, rx, ry, 1, 1, a);
         tp.drawTexture(rx, ry, tex, eAlignment::top);
         tp.drawTexture(rx, ry + 1, tex, eAlignment::top);
         tex->clearColorMod();
@@ -1309,7 +1340,8 @@ void eGameWidget::paintEvent(ePainter& p) {
                 for(int j = t->y() - 3; j < t->y() + 3; j++) {
                     double rx;
                     double ry;
-                    drawXY(i, j, rx, ry, 1, 1, t->altitude());
+                    const int a = t->altitude();
+                    drawXY(i, j, rx, ry, 1, 1, a);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                 }
             }
@@ -1319,7 +1351,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             for(int j = t->y() - 3; j < t->y() + 3; j++) {
                 double rx;
                 double ry;
-                drawXY(t->x() - 1, j, rx, ry, 1, 1, t->altitude());
+                const int a = t->altitude();
+                drawXY(t->x() - 1, j, rx, ry, 1, 1, a);
                 tp.drawTexture(rx, ry, road, eAlignment::top);
             }
             road->clearColorMod();
@@ -1345,7 +1378,10 @@ void eGameWidget::paintEvent(ePainter& p) {
                     }
                     double rx;
                     double ry;
-                    drawXY(t->x(), t->y(), rx, ry, dim, dim, t->altitude());
+                    const int tx = t->x();
+                    const int ty = t->y();
+                    const int a = t->altitude();
+                    drawXY(tx, ty, rx, ry, dim, dim, a);
                     tex->setColorMod(0, 255, 0);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
@@ -1370,7 +1406,10 @@ void eGameWidget::paintEvent(ePainter& p) {
                     }
                     double rx;
                     double ry;
-                    drawXY(t->x(), t->y(), rx, ry, dim, dim, t->altitude());
+                    const int tx = t->x();
+                    const int ty = t->y();
+                    const int a = t->altitude();
+                    drawXY(tx, ty, rx, ry, dim, dim, a);
                     tex->setColorMod(0, 255, 0);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
@@ -1395,7 +1434,10 @@ void eGameWidget::paintEvent(ePainter& p) {
                     }
                     double rx;
                     double ry;
-                    drawXY(t->x(), t->y(), rx, ry, dim, dim, t->altitude());
+                    const int tx = t->x();
+                    const int ty = t->y();
+                    const int a = t->altitude();
+                    drawXY(tx, ty, rx, ry, dim, dim, a);
                     tex->setColorMod(0, 255, 0);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
@@ -1420,7 +1462,10 @@ void eGameWidget::paintEvent(ePainter& p) {
                     }
                     double rx;
                     double ry;
-                    drawXY(t->x(), t->y(), rx, ry, dim, dim, t->altitude());
+                    const int tx = t->x();
+                    const int ty = t->y();
+                    const int a = t->altitude();
+                    drawXY(tx, ty, rx, ry, dim, dim, a);
                     tex->setColorMod(0, 255, 0);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
@@ -1431,24 +1476,27 @@ void eGameWidget::paintEvent(ePainter& p) {
     case eBuildingMode::grandAgora: {
         eAgoraOrientation bt;
         const auto p = agoraBuildPlaceIter(t, true, bt);
+        const int tx = t->x();
+        const int ty = t->y();
+        const int a = t->altitude();
         if(p.empty()) {
             const auto& tex = trrTexs.fBuildingBase;
             tex->setColorMod(255, 0, 0);
-            for(int i = t->x() - 2; i < t->x() + 3; i++) {
-                for(int j = t->y() - 3; j < t->y() + 3; j++) {
+            for(int i = tx - 2; i < tx + 3; i++) {
+                for(int j = ty - 3; j < ty + 3; j++) {
                     double rx;
                     double ry;
-                    drawXY(i, j, rx, ry, 1, 1, t->altitude());
+                    drawXY(i, j, rx, ry, 1, 1, a);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                 }
             }
             tex->clearColorMod();
             const auto& road = builTexs.fRoad.getTexture(0);
             road->setColorMod(255, 0, 0);
-            for(int j = t->y() - 3; j < t->y() + 3; j++) {
+            for(int j = ty - 3; j < ty + 3; j++) {
                 double rx;
                 double ry;
-                drawXY(t->x(), j, rx, ry, 1, 1, t->altitude());
+                drawXY(tx, j, rx, ry, 1, 1, a);
                 tp.drawTexture(rx, ry, road, eAlignment::top);
             }
             road->clearColorMod();
@@ -1473,7 +1521,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                     }
                     double rx;
                     double ry;
-                    drawXY(t->x(), t->y(), rx, ry, dim, dim, t->altitude());
+                    drawXY(tx, ty, rx, ry, dim, dim, a);
                     tex->setColorMod(0, 255, 0);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
@@ -1498,7 +1546,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                     }
                     double rx;
                     double ry;
-                    drawXY(t->x(), t->y(), rx, ry, dim, dim, t->altitude());
+                    drawXY(tx, ty, rx, ry, dim, dim, a);
                     tex->setColorMod(0, 255, 0);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
@@ -1649,7 +1697,8 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const auto t = mBoard->tile(x, y);
                     if(!t) continue;
                     if(t->underBuilding()) continue;
-                    drawXY(x, y, rx, ry, 1, 1, t->altitude());
+                    const int a = t->altitude();
+                    drawXY(x, y, rx, ry, 1, 1, a);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                 }
             }

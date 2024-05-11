@@ -235,6 +235,7 @@ void eMainWindow::showMainMenu() {
             friendlyGods.push_back(g);
         }
         friendlyGods.push_back(eGodType::apollo);
+        friendlyGods.push_back(eGodType::hephaestus);
 
         std::vector<eGodType> hostileGods;
         std::vector<eMonsterType> monsters;

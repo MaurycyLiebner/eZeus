@@ -55,6 +55,12 @@ void eSettlerAction::findHouse() {
         if(!tptr) return;
         mNoHouses = true;
     });
+    a->setFoundAction([tptr, this]() {
+        if(!tptr) return;
+        const auto c = character();
+        if(!c) return;
+        c->setVisible(true);
+    });
     a->setRemoveLastTurn(true);
     a->setMaxFindDistance(200);
     a->start(finalTile);

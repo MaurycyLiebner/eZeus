@@ -18,8 +18,8 @@ eTempleTileBuilding::getTexture(const eTileSize size) const {
 
 std::shared_ptr<eTexture>
 eTempleTileBuilding::getTileTexture(const eTileSize size) const {
-    const int p = progress();
-    if(p <= 0) return nullptr;
+    const int f = finished();
+    if(!f) return nullptr;
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
     const auto& coll = blds.fSanctuaryTiles;
@@ -29,8 +29,8 @@ eTempleTileBuilding::getTileTexture(const eTileSize size) const {
 
 std::vector<eOverlay>
 eTempleTileBuilding::getOverlays(const eTileSize size) const {
-    const int p = progress();
-    if(!p) return {};
+    const int f = finished();
+    if(!f) return {};
     if(mId < 10) return {};
     eOverlay o;
     o.fX = 0.5;

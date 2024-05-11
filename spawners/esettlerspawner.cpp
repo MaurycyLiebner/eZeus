@@ -18,6 +18,7 @@ void eSettlerSpawner::spawn(eTile* const tile) {
     if(s >= v) return;
     popData.incSettlers(8);
     const auto b = e::make_shared<eSettler>(board());
+    b->setVisible(false);
     b->changeTile(tile);
     const auto fa = std::make_shared<eSS_spawnFinish>(board());
     const auto a = e::make_shared<eSettlerAction>(b.get());
