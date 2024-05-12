@@ -738,6 +738,9 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto drawCharacters = [&](eTile* const tile,
                                         const bool big) {
             if(!tile) return;
+            const int tx = tile->x();
+            const int ty = tile->y();
+            const int a = tile->altitude();
             const auto bttt = tile->underBuildingType();
             const bool flat = eBuilding::sFlatBuilding(bttt);
             if(flat || bttt == eBuildingType::wall) {
@@ -759,8 +762,10 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const bool v = eViewModeHelpers::characterVisible(
                                        mViewMode, c->type());
                     if(!v) continue;
-                    double x = tile->x() - a + c->x() + 0.25;
-                    double y = tile->y() - a + c->y() + 0.25;
+                    const double cx = c->x();
+                    const double cy = c->y();
+                    double x = tx - a + cx + 0.25;
+                    double y = ty - a + cy + 0.25;
                     {
                         const auto t = tile->top<eTile>();
                         const auto l = tile->left<eTile>();
@@ -771,49 +776,49 @@ void eGameWidget::paintEvent(ePainter& p) {
                         const auto bl = tile->bottomLeft<eTile>();
                         const auto br = tile->bottomRight<eTile>();
                         if(tl && tl->altitude() > a) {
-                            const double mult = 1 - c->x();
+                            const double mult = 1 - cx;
                             const int tla = tl->altitude();
                             const double da = mult*(tla - a);
                             x -= da;
                             y -= da;
                         } else if(tr && tr->altitude() > a) {
-                            const double mult = 1 - c->y();
+                            const double mult = 1 - cy;
                             const int tra = tr->altitude();
                             const double da = mult*(tra - a);
                             x -= da;
                             y -= da;
                         } else if(bl && bl->altitude() > a) {
-                            const double mult = c->y();
+                            const double mult = cy;
                             const int bla = bl->altitude();
                             const double da = mult*(bla - a);
                             x -= da;
                             y -= da;
                         } else if(br && br->altitude() > a) {
-                            const double mult = c->x();
+                            const double mult = cx;
                             const int bra = br->altitude();
                             const double da = mult*(bra - a);
                             x -= da;
                             y -= da;
                         } else if(t && t->altitude() > a) {
-                            const double mult = (1 - c->x())*(1 - c->y());
+                            const double mult = (1 - cx)*(1 - cy);
                             const int ta = t->altitude();
                             const double da = mult*(ta - a);
                             x -= da;
                             y -= da;
                         } else if(l && l->altitude() > a) {
-                            const double mult = (1 - c->x())*c->y();
+                            const double mult = (1 - cx)*cy;
                             const int la = l->altitude();
                             const double da = mult*(la - a);
                             x -= da;
                             y -= da;
                         } else if(r && r->altitude() > a) {
-                            const double mult = c->x()*(1 - c->y());
+                            const double mult = cx*(1 - cy);
                             const int ra = r->altitude();
                             const double da = mult*(ra - a);
                             x -= da;
                             y -= da;
                         } else if(b && b->altitude() > a) {
-                            const double mult = c->x()*c->y();
+                            const double mult = cx*cy;
                             const int ba = b->altitude();
                             const double da = mult*(ba - a);
                             x -= da;
