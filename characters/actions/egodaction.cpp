@@ -197,7 +197,7 @@ void eGodAction::spawnGodMissile(
         const stdsptr<eGodAct>& act,
         const stdsptr<eCharActFunc>& finishAttackA) {
     const int time = at == eCharacterActionType::bless ?
-                         1000 :
+                         750 :
                          eGod::sGodAttackTime(type());
     const auto c = character();
     using eGA_SGMPS = eGA_spawnGodMissilePlaySound;

@@ -15,7 +15,6 @@ bool eApolloHelpAction::decide() {
         appear();
         break;
     case eApolloHelpStage::appear:
-        mStage = eApolloHelpStage::goTo;
         goToTarget();
         break;
     case eApolloHelpStage::goTo:
@@ -23,8 +22,7 @@ bool eApolloHelpAction::decide() {
         heal();
         break;
     case eApolloHelpStage::heal:
-        mStage = eApolloHelpStage::disappear;
-        disappear();
+        goToTarget();
         break;
     case eApolloHelpStage::disappear:
         const auto c = character();
@@ -53,13 +51,16 @@ void eApolloHelpAction::goToTarget() {
     auto& board = this->board();
     const auto& plagues = board.plagues();
     if(plagues.empty()) {
+        mStage = eApolloHelpStage::disappear;
         disappear();
     } else {
         const auto p = plagues[0];
         const auto& hs = p->houses();
         if(hs.empty()) {
+            mStage = eApolloHelpStage::disappear;
             disappear();
         } else {
+            mStage = eApolloHelpStage::goTo;
             const auto h = hs[0];
             const auto ct = h->centerTile();
             const int tx = ct->x();
@@ -107,7 +108,7 @@ void eApolloHelpAction::heal() {
     using eGA_LFRAF = eGA_lookForRangeActionFinish;
     const auto finishAttackA = std::make_shared<eGA_LFRAF>(
                                    board(), this);
-    const auto act = std::make_shared<eApolloHelpAct>(board());
+    const auto act = std::make_shared<eApolloHelpAct>(board(), house);
     pauseAction();
     spawnGodMissile(eCharacterActionType::bless,
                     c->type(), targetTile,

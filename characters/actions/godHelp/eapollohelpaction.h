@@ -3,6 +3,8 @@
 
 #include "characters/actions/egodaction.h"
 
+#include "buildings/esmallhouse.h"
+
 enum class eApolloHelpStage {
     none, appear, goTo, heal, disappear
 };
@@ -26,8 +28,13 @@ private:
 
 class eApolloHelpAct : public eGodAct {
 public:
+    eApolloHelpAct(eGameBoard& board,
+                   eSmallHouse* const target) :
+        eGodAct(board, eGodActType::apolloHelp),
+        mTarget(target) {}
+
     eApolloHelpAct(eGameBoard& board) :
-        eGodAct(board, eGodActType::apolloHelp) {}
+        eApolloHelpAct(board, nullptr) {}
 
     eTile* find(eTile* const t) {
         (void)t;
@@ -36,19 +43,21 @@ public:
 
     void act() {
         auto& board = eGodAct::board();
-        const auto ps = board.plagues();
-        for(const auto& p : ps) {
-            board.healPlague(p);
-        }
+        const auto p = board.plagueForHouse(mTarget);
+        if(p) board.healPlague(p);
     }
 
     void read(eReadStream& src) {
-        (void)src;
+        src.readBuilding(&board(), [this](eBuilding* const b) {
+            mTarget = static_cast<eSmallHouse*>(b);
+        });
     }
 
     void write(eWriteStream& dst) const {
-        (void)dst;
+        dst.writeBuilding(mTarget);
     }
+private:
+    stdptr<eSmallHouse> mTarget;
 };
 
 #endif // EAPOLLOHELPACTION_H
