@@ -1022,7 +1022,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const int textureTime = mFrame/4;
                     const int texId = textureTime % coll.size();
                     const auto& tex = coll.getTexture(texId);
-                    tp.drawTexture(tx - a, ty - a, tex, eAlignment::bottom);
+                    tp.drawTexture(rx + 0.5, ry - 0.5, tex, eAlignment::bottom);
                 }
             }
         }
