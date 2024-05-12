@@ -419,6 +419,7 @@ void eSmallHouse::leave() {
     setPeople(0);
 
     const auto c = e::make_shared<eSettler>(getBoard());
+    c->changeTile(centerTile());
     const stdptr<eSettler> cptr(c.get());
     const auto fail = std::make_shared<eKillCharacterFinishFail>(
                           board, c.get());
