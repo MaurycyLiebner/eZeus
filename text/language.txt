@@ -49,7 +49,7 @@ id: "Id:"
 city: "City:"
 infantry: "Infantry:"
 cavalry: "Cavalry:"
-archers: "Archers:"
+range: "Range:"
 
 resource_type: "Resource type:"
 resource: "Resource:"

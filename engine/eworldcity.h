@@ -18,6 +18,12 @@ enum class eWorldCityType {
     centaurCity,
     amazonCity,
 
+    egyptianCity,
+    mayanCity,
+    phoenicianCity,
+    oceanidCity,
+    atlanteansCity,
+
     place,
     ruins,
 

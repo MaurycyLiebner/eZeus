@@ -5,9 +5,40 @@
 #include "engine/eeventdata.h"
 
 #include "characters/actions/esoldieraction.h"
-#include "characters/egreekrockthrower.h"
+
 #include "characters/egreekhoplite.h"
 #include "characters/egreekhorseman.h"
+#include "characters/egreekrockthrower.h"
+
+#include "characters/etrojanhoplite.h"
+#include "characters/etrojanspearthrower.h"
+#include "characters/etrojanhorseman.h"
+
+#include "characters/ecentaurhorseman.h"
+#include "characters/ecentaurarcher.h"
+
+#include "characters/epersianhoplite.h"
+#include "characters/epersianhorseman.h"
+#include "characters/epersianarcher.h"
+
+#include "characters/eegyptianhoplite.h"
+#include "characters/eegyptianchariot.h"
+#include "characters/eegyptianarcher.h"
+
+#include "characters/eatlanteanhoplite.h"
+#include "characters/eatlanteanchariot.h"
+#include "characters/eatlanteanarcher.h"
+
+#include "characters/emayanhoplite.h"
+#include "characters/emayanarcher.h"
+
+#include "characters/eoceanidhoplite.h"
+#include "characters/eoceanidspearthrower.h"
+
+#include "characters/ephoenicianhorseman.h"
+#include "characters/ephoenicianarcher.h"
+
+#include "characters/eamazon.h"
 
 #include "engine/eevent.h"
 
@@ -25,16 +56,14 @@ eInvasionHandler::~eInvasionHandler() {
 }
 
 template <typename T>
-stdsptr<eSoldier> spawnSoldier(eGameBoard& board,
-                               eTile* const tile,
-                               eSoldierBanner* const b) {
+stdsptr<T> spawnSoldier(eGameBoard& board,
+                        eTile* const tile) {
     const auto h = e::make_shared<T>(board);
     h->setPlayerId(2);
     const auto a = e::make_shared<eSoldierAction>(h.get());
     h->setAction(a);
     h->changeTile(tile);
     h->setActionType(eCharacterActionType::walk);
-    h->setBanner(b);
     return h;
 }
 
@@ -49,37 +78,148 @@ void eInvasionHandler::initialize(eTile* const tile,
 
     std::vector<eSoldierBanner*> solds;
 
-    if(infantry > 0) {
-        const auto b = e::make_shared<eSoldierBanner>(eBannerType::hoplite,
-                                                      mBoard);
-        mBanners.push_back(b);
-        solds.push_back(b.get());
-        b->setPlayerId(2);
-        b->moveTo(tx, ty);
-        for(int i = 0; i < infantry; i++) {
-            spawnSoldier<eGreekHoplite>(mBoard, tile, b.get());
+    stdsptr<eSoldierBanner> b;
+    const auto requestBanner = [&]() {
+        if(!b || b->count() >= 8) {
+            b = e::make_shared<eSoldierBanner>(
+                    eBannerType::hoplite, mBoard);
+            mBanners.push_back(b);
+            solds.push_back(b.get());
+            b->setPlayerId(2);
+            b->moveTo(tx, ty);
+        }
+    };
+
+    const auto cType = mCity->type();
+
+    for(int i = 0; i < infantry; i++) {
+        stdsptr<eSoldier> s;
+        switch(cType) {
+        case eWorldCityType::greekCity:
+            s = spawnSoldier<eGreekHoplite>(mBoard, tile);
+            break;
+        case eWorldCityType::trojanCity:
+            s = spawnSoldier<eTrojanHoplite>(mBoard, tile);
+            break;
+        case eWorldCityType::persianCity:
+            s = spawnSoldier<ePersianHoplite>(mBoard, tile);
+            break;
+        case eWorldCityType::centaurCity:
+            break;
+        case eWorldCityType::amazonCity: {
+            const auto a = spawnSoldier<eAmazon>(mBoard, tile);
+            a->setIsArcher(false);
+            s = a;
+        } break;
+
+        case eWorldCityType::egyptianCity:
+            s = spawnSoldier<eEgyptianHoplite>(mBoard, tile);
+            break;
+        case eWorldCityType::mayanCity:
+            s = spawnSoldier<eMayanHoplite>(mBoard, tile);
+            break;
+        case eWorldCityType::phoenicianCity:
+            break;
+        case eWorldCityType::oceanidCity:
+            s = spawnSoldier<eOceanidHoplite>(mBoard, tile);
+            break;
+        case eWorldCityType::atlanteansCity:
+            s = spawnSoldier<eAtlanteanHoplite>(mBoard, tile);
+            break;
+
+        default:
+            break;
+        }
+        if(s) {
+            requestBanner();
+            s->setBanner(b.get());
         }
     }
-    if(cavalry > 0) {
-        const auto b = e::make_shared<eSoldierBanner>(eBannerType::horseman,
-                                                      mBoard);
-        mBanners.push_back(b);
-        solds.push_back(b.get());
-        b->setPlayerId(2);
-        b->moveTo(tx, ty);
-        for(int i = 0; i < cavalry; i++) {
-            spawnSoldier<eGreekHorseman>(mBoard, tile, b.get());
+    b.reset();
+    for(int i = 0; i < cavalry; i++) {
+        stdsptr<eSoldier> s;
+        switch(cType) {
+        case eWorldCityType::greekCity:
+            s = spawnSoldier<eGreekHorseman>(mBoard, tile);
+            break;
+        case eWorldCityType::trojanCity:
+            s = spawnSoldier<eTrojanHorseman>(mBoard, tile);
+            break;
+        case eWorldCityType::persianCity:
+            s = spawnSoldier<ePersianHorseman>(mBoard, tile);
+            break;
+        case eWorldCityType::centaurCity:
+            s = spawnSoldier<eCentaurHorseman>(mBoard, tile);
+            break;
+        case eWorldCityType::amazonCity:
+            break;
+
+        case eWorldCityType::egyptianCity:
+            s = spawnSoldier<eEgyptianChariot>(mBoard, tile);
+            break;
+        case eWorldCityType::mayanCity:
+            break;
+        case eWorldCityType::phoenicianCity:
+            s = spawnSoldier<ePhoenicianHorseman>(mBoard, tile);
+            break;
+        case eWorldCityType::oceanidCity:
+            break;
+        case eWorldCityType::atlanteansCity:
+            s = spawnSoldier<eAtlanteanChariot>(mBoard, tile);
+            break;
+
+        default:
+            break;
+        }
+        if(s) {
+            requestBanner();
+            s->setBanner(b.get());
         }
     }
-    if(archers > 0) {
-        const auto b = e::make_shared<eSoldierBanner>(eBannerType::rockThrower,
-                                                      mBoard);
-        mBanners.push_back(b);
-        solds.push_back(b.get());
-        b->setPlayerId(2);
-        b->moveTo(tx, ty);
-        for(int i = 0; i < archers; i++) {
-            spawnSoldier<eGreekRockThrower>(mBoard, tile, b.get());
+    b.reset();
+    for(int i = 0; i < archers; i++) {
+        stdsptr<eSoldier> s;
+        switch(cType) {
+        case eWorldCityType::greekCity:
+            spawnSoldier<eGreekRockThrower>(mBoard, tile);
+            break;
+        case eWorldCityType::trojanCity:
+            s = spawnSoldier<eTrojanSpearthrower>(mBoard, tile);
+            break;
+        case eWorldCityType::persianCity:
+            s = spawnSoldier<ePersianArcher>(mBoard, tile);
+            break;
+        case eWorldCityType::centaurCity:
+            s = spawnSoldier<eCentaurArcher>(mBoard, tile);
+            break;
+        case eWorldCityType::amazonCity: {
+            const auto a = spawnSoldier<eAmazon>(mBoard, tile);
+            a->setIsArcher(true);
+            s = a;
+        } break;
+
+        case eWorldCityType::egyptianCity:
+            s = spawnSoldier<eEgyptianArcher>(mBoard, tile);
+            break;
+        case eWorldCityType::mayanCity:
+            s = spawnSoldier<eMayanArcher>(mBoard, tile);
+            break;
+        case eWorldCityType::phoenicianCity:
+            s = spawnSoldier<ePhoenicianArcher>(mBoard, tile);
+            break;
+        case eWorldCityType::oceanidCity:
+            s = spawnSoldier<eOceanidSpearthrower>(mBoard, tile);
+            break;
+        case eWorldCityType::atlanteansCity:
+            s = spawnSoldier<eAtlanteanArcher>(mBoard, tile);
+            break;
+
+        default:
+            break;
+        }
+        if(s) {
+            requestBanner();
+            s->setBanner(b.get());
         }
     }
 

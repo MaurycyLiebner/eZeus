@@ -15,44 +15,109 @@ void eInvasionEventWidget::initialize(eInvasionEvent* const e) {
     const auto cc = e->city();
     const auto cityButton = new eCityButton(window());
     auto& board = e->getBoard();
-    cityButton->initialize(board, [e](const stdsptr<eWorldCity>& c){
+    cityButton->initialize(board, [this, e](const stdsptr<eWorldCity>& c){
         e->setCity(c);
+        setCity(c.get());
     });
     cityButton->setCity(cc);
     cityButtonL->setup(eLanguage::text("city:"), cityButton);
     addWidget(cityButtonL);
 
-    const auto infantryButtonL = new eLabeledWidget(window());
+    mInfantryButtonL = new eLabeledWidget(window());
     const auto infantryButton = new eValueButton(window());
     infantryButton->setValueChangeAction([e](const int p) {
         e->setInfantry(p);
     });
     infantryButton->initialize(0, 999);
     infantryButton->setValue(e->infantry());
-    infantryButtonL->setup(eLanguage::text("infantry:"), infantryButton);
-    addWidget(infantryButtonL);
+    mInfantryButtonL->setup(eLanguage::text("infantry:"), infantryButton);
+    addWidget(mInfantryButtonL);
 
-    const auto cavalryButtonL = new eLabeledWidget(window());
+    mCavalryButtonL = new eLabeledWidget(window());
     const auto cavalryButton = new eValueButton(window());
     cavalryButton->setValueChangeAction([e](const int p) {
         e->setCavalry(p);
     });
     cavalryButton->initialize(0, 999);
     cavalryButton->setValue(e->cavalry());
-    cavalryButtonL->setup(eLanguage::text("cavalry:"), cavalryButton);
-    addWidget(cavalryButtonL);
+    mCavalryButtonL->setup(eLanguage::text("cavalry:"), cavalryButton);
+    addWidget(mCavalryButtonL);
 
-    const auto archersButtonL = new eLabeledWidget(window());
+    mArchersButtonL = new eLabeledWidget(window());
     const auto archersButton = new eValueButton(window());
     archersButton->setValueChangeAction([e](const int p) {
         e->setArchers(p);
     });
     archersButton->initialize(0, 999);
     archersButton->setValue(e->archers());
-    archersButtonL->setup(eLanguage::text("archers:"), archersButton);
-    addWidget(archersButtonL);
+    mArchersButtonL->setup(eLanguage::text("range:"), archersButton);
+    addWidget(mArchersButtonL);
 
     const int p = padding();
     stackVertically(p);
     fitContent();
+
+    setCity(cc.get());
+}
+
+void eInvasionEventWidget::setCity(eWorldCity* const c) {
+    const auto type = c ? c->type() : eWorldCityType::ruins; ;
+    bool infantryVisible = false;
+    bool cavalryVisible = false;
+    bool archersVisible = false;
+    switch(type) {
+    case eWorldCityType::greekCity:
+        infantryVisible = true;
+        cavalryVisible = true;
+        archersVisible = true;
+        break;
+    case eWorldCityType::trojanCity:
+        infantryVisible = true;
+        cavalryVisible = true;
+        archersVisible = true;
+        break;
+    case eWorldCityType::persianCity:
+        infantryVisible = true;
+        cavalryVisible = true;
+        archersVisible = true;
+        break;
+    case eWorldCityType::centaurCity:
+        cavalryVisible = true;
+        archersVisible = true;
+        break;
+    case eWorldCityType::amazonCity:
+        infantryVisible = true;
+        archersVisible = true;
+        break;
+
+    case eWorldCityType::egyptianCity:
+        infantryVisible = true;
+        cavalryVisible = true;
+        archersVisible = true;
+        break;
+    case eWorldCityType::mayanCity:
+        infantryVisible = true;
+        archersVisible = true;
+        break;
+    case eWorldCityType::phoenicianCity:
+        cavalryVisible = true;
+        archersVisible = true;
+        break;
+    case eWorldCityType::oceanidCity:
+        infantryVisible = true;
+        archersVisible = true;
+        break;
+    case eWorldCityType::atlanteansCity:
+        infantryVisible = true;
+        cavalryVisible = true;
+        archersVisible = true;
+        break;
+
+    default:
+        break;
+    }
+
+    mInfantryButtonL->setVisible(infantryVisible);
+    mCavalryButtonL->setVisible(cavalryVisible);
+    mArchersButtonL->setVisible(archersVisible);
 }

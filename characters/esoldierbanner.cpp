@@ -55,6 +55,7 @@ void eSoldierBanner::moveTo(const int x, const int y) {
 }
 
 void eSoldierBanner::moveToDefault() {
+    if(mPlayerId != 1) return;
     switch(mType) {
     case eBannerType::rockThrower:
     case eBannerType::hoplite:
@@ -90,6 +91,7 @@ void eSoldierBanner::moveToDefault() {
 }
 
 void eSoldierBanner::goHome() {
+    if(mPlayerId != 1) return;
     if(mHome) return;
     mHome = true;
     for(const auto s : mSoldiers) {
@@ -311,6 +313,7 @@ void eSoldierBanner::updatePlaces() {
 }
 
 void eSoldierBanner::updateCount() {
+    if(mPlayerId != 1) return;
     auto soldiers = notDead();
     const int n = soldiers.size();
     if(!mHome) {
