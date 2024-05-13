@@ -62,6 +62,7 @@
 
 #include "buildings/eheroshall.h"
 #include "eplague.h"
+#include "audio/emusic.h"
 
 eGameBoard::eGameBoard() :
     mThreadPool(*this),
@@ -478,11 +479,13 @@ const eGameBoard::eIV& eGameBoard::invasions() const {
 }
 
 void eGameBoard::addInvasion(eInvasionHandler* const i) {
+    if(mInvasions.empty()) eMusic::playRandomBattleMusic();
     mInvasions.push_back(i);
 }
 
 void eGameBoard::removeInvasion(eInvasionHandler* const i) {
     eVectorHelpers::remove(mInvasions, i);
+    if(mInvasions.empty()) eMusic::playRandomMusic();
 }
 
 int eGameBoard::addResource(const eResourceType type,
