@@ -178,19 +178,29 @@ SOURCES += \
         characters/eamazon.cpp \
         characters/eanimal.cpp \
         characters/earcher.cpp \
+        characters/earcherbase.cpp \
         characters/eareswarrior.cpp \
         characters/eartisan.cpp \
+        characters/eatlanteanarcher.cpp \
+        characters/eatlanteanchariot.cpp \
+        characters/eatlanteanhoplite.cpp \
         characters/ebasicpatroler.cpp \
         characters/eboar.cpp \
         characters/ebronzeminer.cpp \
         characters/ecarttransporter.cpp \
+        characters/ecentaurarcher.cpp \
+        characters/ecentaurhorseman.cpp \
         characters/echaracter.cpp \
         characters/echaracterbase.cpp \
         characters/echaractercreator.cpp \
+        characters/echariotbase.cpp \
         characters/edeer.cpp \
         characters/edisgruntled.cpp \
         characters/edomesticatedanimal.cpp \
         characters/edonkey.cpp \
+        characters/eegyptianarcher.cpp \
+        characters/eegyptianchariot.cpp \
+        characters/eegyptianhoplite.cpp \
         characters/efightingpatroler.cpp \
         characters/efirefighter.cpp \
         characters/efishingboat.cpp \
@@ -211,9 +221,18 @@ SOURCES += \
         characters/ehunter.cpp \
         characters/elumberjack.cpp \
         characters/emarbleminer.cpp \
+        characters/emayanarcher.cpp \
+        characters/emayanhoplite.cpp \
+        characters/eoceanidhoplite.cpp \
+        characters/eoceanidspearthrower.cpp \
         characters/eox.cpp \
         characters/epeddler.cpp \
+        characters/epersianarcher.cpp \
+        characters/epersianhoplite.cpp \
+        characters/epersianhorseman.cpp \
         characters/ephilosopher.cpp \
+        characters/ephoenicianarcher.cpp \
+        characters/ephoenicianhorseman.cpp \
         characters/eporter.cpp \
         characters/erangesoldier.cpp \
         characters/eresourcecollector.cpp \
@@ -228,10 +247,14 @@ SOURCES += \
         characters/esilverminer.cpp \
         characters/esoldier.cpp \
         characters/esoldierbanner.cpp \
+        characters/espearthrowerbase.cpp \
         characters/etaxcollector.cpp \
         characters/etradeboat.cpp \
         characters/etrader.cpp \
         characters/etrailer.cpp \
+        characters/etrojanhoplite.cpp \
+        characters/etrojanhorseman.cpp \
+        characters/etrojanspearthrower.cpp \
         characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
         characters/ewildanimal.cpp \
@@ -344,6 +367,7 @@ SOURCES += \
         textures/echaractertextures4.cpp \
         textures/echaractertextures5.cpp \
         textures/echaractertextures6.cpp \
+        textures/echaractertextures7.cpp \
         textures/edestructiontextures.cpp \
         textures/efertiletodry.cpp \
         textures/eforesttodry.cpp \
@@ -654,18 +678,28 @@ HEADERS += \
     characters/eamazon.h \
     characters/eanimal.h \
     characters/earcher.h \
+    characters/earcherbase.h \
     characters/eareswarrior.h \
     characters/eartisan.h \
+    characters/eatlanteanarcher.h \
+    characters/eatlanteanchariot.h \
+    characters/eatlanteanhoplite.h \
     characters/ebasicpatroler.h \
     characters/eboar.h \
     characters/ebronzeminer.h \
     characters/ecarttransporter.h \
+    characters/ecentaurarcher.h \
+    characters/ecentaurhorseman.h \
     characters/echaracter.h \
     characters/echaracterbase.h \
+    characters/echariotbase.h \
     characters/edeer.h \
     characters/edisgruntled.h \
     characters/edomesticatedanimal.h \
     characters/edonkey.h \
+    characters/eegyptianarcher.h \
+    characters/eegyptianchariot.h \
+    characters/eegyptianhoplite.h \
     characters/eenlistedforces.h \
     characters/efightingpatroler.h \
     characters/efirefighter.h \
@@ -687,9 +721,18 @@ HEADERS += \
     characters/ehunter.h \
     characters/elumberjack.h \
     characters/emarbleminer.h \
+    characters/emayanarcher.h \
+    characters/emayanhoplite.h \
+    characters/eoceanidhoplite.h \
+    characters/eoceanidspearthrower.h \
     characters/eox.h \
     characters/epeddler.h \
+    characters/epersianarcher.h \
+    characters/epersianhoplite.h \
+    characters/epersianhorseman.h \
     characters/ephilosopher.h \
+    characters/ephoenicianarcher.h \
+    characters/ephoenicianhorseman.h \
     characters/eporter.h \
     characters/erangesoldier.h \
     characters/eresourcecollector.h \
@@ -704,10 +747,14 @@ HEADERS += \
     characters/esilverminer.h \
     characters/esoldier.h \
     characters/esoldierbanner.h \
+    characters/espearthrowerbase.h \
     characters/etaxcollector.h \
     characters/etradeboat.h \
     characters/etrader.h \
     characters/etrailer.h \
+    characters/etrojanhoplite.h \
+    characters/etrojanhorseman.h \
+    characters/etrojanspearthrower.h \
     characters/ewatchman.h \
     characters/ewaterdistributor.h \
     characters/ewildanimal.h \
@@ -813,12 +860,17 @@ HEADERS += \
     missiles/erockmissile.h \
     offsets/PoseidonImps.h \
     offsets/Poseidon_Atalanta.h \
+    offsets/Poseidon_Atlantean.h \
     offsets/Poseidon_Atlas.h \
     offsets/Poseidon_Bellerophon.h \
     offsets/Poseidon_Chimera.h \
     offsets/Poseidon_Echidna.h \
+    offsets/Poseidon_Egyptian.h \
     offsets/Poseidon_Harpie.h \
     offsets/Poseidon_Hera.h \
+    offsets/Poseidon_Mayan.h \
+    offsets/Poseidon_Oceanid.h \
+    offsets/Poseidon_Phoenician.h \
     offsets/Poseidon_Sphinx.h \
     offsets/SprAmbient.h \
     offsets/SprMain.h \
@@ -837,6 +889,9 @@ HEADERS += \
     offsets/Zeus_Poseidon.h \
     offsets/Zeus_Zeus.h \
     offsets/Zeus_amazon.h \
+    offsets/Zeus_centaur.h \
+    offsets/Zeus_persian.h \
+    offsets/Zeus_trojan.h \
     offsets/destruction.h \
     offsets/zeus_achilles.h \
     offsets/zeus_calydonianboar.h \
@@ -926,6 +981,18 @@ HEADERS += \
     spriteData/athena30.h \
     spriteData/athena45.h \
     spriteData/athena60.h \
+    spriteData/atlanteanArcher15.h \
+    spriteData/atlanteanArcher30.h \
+    spriteData/atlanteanArcher45.h \
+    spriteData/atlanteanArcher60.h \
+    spriteData/atlanteanChariot15.h \
+    spriteData/atlanteanChariot30.h \
+    spriteData/atlanteanChariot45.h \
+    spriteData/atlanteanChariot60.h \
+    spriteData/atlanteanHoplite15.h \
+    spriteData/atlanteanHoplite30.h \
+    spriteData/atlanteanHoplite45.h \
+    spriteData/atlanteanHoplite60.h \
     spriteData/atlas15.h \
     spriteData/atlas30.h \
     spriteData/atlas45.h \
@@ -958,6 +1025,14 @@ HEADERS += \
     spriteData/cart30.h \
     spriteData/cart45.h \
     spriteData/cart60.h \
+    spriteData/centaurArcher15.h \
+    spriteData/centaurArcher30.h \
+    spriteData/centaurArcher45.h \
+    spriteData/centaurArcher60.h \
+    spriteData/centaurHorseman15.h \
+    spriteData/centaurHorseman30.h \
+    spriteData/centaurHorseman45.h \
+    spriteData/centaurHorseman60.h \
     spriteData/cerberus15.h \
     spriteData/cerberus30.h \
     spriteData/cerberus45.h \
@@ -1010,6 +1085,18 @@ HEADERS += \
     spriteData/echidna30.h \
     spriteData/echidna45.h \
     spriteData/echidna60.h \
+    spriteData/egyptianArcher15.h \
+    spriteData/egyptianArcher30.h \
+    spriteData/egyptianArcher45.h \
+    spriteData/egyptianArcher60.h \
+    spriteData/egyptianChariot15.h \
+    spriteData/egyptianChariot30.h \
+    spriteData/egyptianChariot45.h \
+    spriteData/egyptianChariot60.h \
+    spriteData/egyptianHoplite15.h \
+    spriteData/egyptianHoplite30.h \
+    spriteData/egyptianHoplite45.h \
+    spriteData/egyptianHoplite60.h \
     spriteData/espritedata.h \
     spriteData/fireFighter15.h \
     spriteData/fireFighter30.h \
@@ -1163,6 +1250,14 @@ HEADERS += \
     spriteData/marbleMiner30.h \
     spriteData/marbleMiner45.h \
     spriteData/marbleMiner60.h \
+    spriteData/mayanArcher15.h \
+    spriteData/mayanArcher30.h \
+    spriteData/mayanArcher45.h \
+    spriteData/mayanArcher60.h \
+    spriteData/mayanHoplite15.h \
+    spriteData/mayanHoplite30.h \
+    spriteData/mayanHoplite45.h \
+    spriteData/mayanHoplite60.h \
     spriteData/medusa15.h \
     spriteData/medusa30.h \
     spriteData/medusa45.h \
@@ -1191,6 +1286,14 @@ HEADERS += \
     spriteData/nudeSheep30.h \
     spriteData/nudeSheep45.h \
     spriteData/nudeSheep60.h \
+    spriteData/oceanidHoplite15.h \
+    spriteData/oceanidHoplite30.h \
+    spriteData/oceanidHoplite45.h \
+    spriteData/oceanidHoplite60.h \
+    spriteData/oceanidSpearthrower15.h \
+    spriteData/oceanidSpearthrower30.h \
+    spriteData/oceanidSpearthrower45.h \
+    spriteData/oceanidSpearthrower60.h \
     spriteData/odysseus15.h \
     spriteData/odysseus30.h \
     spriteData/odysseus45.h \
@@ -1224,10 +1327,30 @@ HEADERS += \
     spriteData/perseus30.h \
     spriteData/perseus45.h \
     spriteData/perseus60.h \
+    spriteData/persianArcher15.h \
+    spriteData/persianArcher30.h \
+    spriteData/persianArcher45.h \
+    spriteData/persianArcher60.h \
+    spriteData/persianHoplite15.h \
+    spriteData/persianHoplite30.h \
+    spriteData/persianHoplite45.h \
+    spriteData/persianHoplite60.h \
+    spriteData/persianHorseman15.h \
+    spriteData/persianHorseman30.h \
+    spriteData/persianHorseman45.h \
+    spriteData/persianHorseman60.h \
     spriteData/philosopher15.h \
     spriteData/philosopher30.h \
     spriteData/philosopher45.h \
     spriteData/philosopher60.h \
+    spriteData/phoenicianArcher15.h \
+    spriteData/phoenicianArcher30.h \
+    spriteData/phoenicianArcher45.h \
+    spriteData/phoenicianArcher60.h \
+    spriteData/phoenicianHorseman15.h \
+    spriteData/phoenicianHorseman30.h \
+    spriteData/phoenicianHorseman45.h \
+    spriteData/phoenicianHorseman60.h \
     spriteData/plague15.h \
     spriteData/plague30.h \
     spriteData/plague45.h \
@@ -1320,6 +1443,18 @@ HEADERS += \
     spriteData/transporter30.h \
     spriteData/transporter45.h \
     spriteData/transporter60.h \
+    spriteData/trojanHoplite15.h \
+    spriteData/trojanHoplite30.h \
+    spriteData/trojanHoplite45.h \
+    spriteData/trojanHoplite60.h \
+    spriteData/trojanHorseman15.h \
+    spriteData/trojanHorseman30.h \
+    spriteData/trojanHorseman45.h \
+    spriteData/trojanHorseman60.h \
+    spriteData/trojanSpearthrower15.h \
+    spriteData/trojanSpearthrower30.h \
+    spriteData/trojanSpearthrower45.h \
+    spriteData/trojanSpearthrower60.h \
     spriteData/watchman15.h \
     spriteData/watchman30.h \
     spriteData/watchman45.h \

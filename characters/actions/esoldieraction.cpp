@@ -134,7 +134,14 @@ void eSoldierAction::increment(const int by) {
                 const int ttx = tt ? tt->x() : 0;
                 const int tty = tt ? tt->y() : 0;
                 const auto ct = c->type();
-                if(ct == eCharacterType::amazon) {
+                if(ct == eCharacterType::amazon ||
+                   ct == eCharacterType::centaurArcher ||
+                   ct == eCharacterType::trojanSpearthrower ||
+                   ct == eCharacterType::egyptianArcher ||
+                   ct == eCharacterType::atlanteanArcher ||
+                   ct == eCharacterType::phoenicianArcher ||
+                   ct == eCharacterType::persianArcher ||
+                   ct == eCharacterType::oceanidSpearthrower) {
                     eMissile::sCreate<eArrowMissile>(brd, tx, ty, 0.5,
                                                      ttx, tty, 0.5, 2);
                 } else {

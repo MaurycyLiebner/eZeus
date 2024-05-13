@@ -32,9 +32,52 @@
 #include "spriteData/homeless45.h"
 #include "spriteData/homeless60.h"
 
+#include "spriteData/trojanHoplite15.h"
+#include "spriteData/trojanHoplite30.h"
+#include "spriteData/trojanHoplite45.h"
+#include "spriteData/trojanHoplite60.h"
+
+#include "spriteData/trojanSpearthrower15.h"
+#include "spriteData/trojanSpearthrower30.h"
+#include "spriteData/trojanSpearthrower45.h"
+#include "spriteData/trojanSpearthrower60.h"
+
+#include "spriteData/trojanHorseman15.h"
+#include "spriteData/trojanHorseman30.h"
+#include "spriteData/trojanHorseman45.h"
+#include "spriteData/trojanHorseman60.h"
+
+#include "spriteData/centaurHorseman15.h"
+#include "spriteData/centaurHorseman30.h"
+#include "spriteData/centaurHorseman45.h"
+#include "spriteData/centaurHorseman60.h"
+
+#include "spriteData/centaurArcher15.h"
+#include "spriteData/centaurArcher30.h"
+#include "spriteData/centaurArcher45.h"
+#include "spriteData/centaurArcher60.h"
+
+#include "spriteData/persianHoplite15.h"
+#include "spriteData/persianHoplite30.h"
+#include "spriteData/persianHoplite45.h"
+#include "spriteData/persianHoplite60.h"
+
+#include "spriteData/persianHorseman15.h"
+#include "spriteData/persianHorseman30.h"
+#include "spriteData/persianHorseman45.h"
+#include "spriteData/persianHorseman60.h"
+
+#include "spriteData/persianArcher15.h"
+#include "spriteData/persianArcher30.h"
+#include "spriteData/persianArcher45.h"
+#include "spriteData/persianArcher60.h"
+
 #include "offsets/Zeus_amazon.h"
 #include "offsets/Zeus_AresWarriors.h"
 #include "offsets/SprMain.h"
+#include "offsets/Zeus_trojan.h"
+#include "offsets/Zeus_centaur.h"
+#include "offsets/Zeus_persian.h"
 
 void eCharacterTextures::loadDisgruntled() {
     if(fDisgruntledLoaded) return;
@@ -89,6 +132,158 @@ void eCharacterTextures::loadHomeless() {
 
     for(int i = 1537; i < 1545; i++) {
         loader.load(1441, i, fHomeless.fDie);
+    }
+}
+
+void eCharacterTextures::loadPersianHoplite() {
+    if(fPersianHopliteLoaded) return;
+    fPersianHopliteLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 ePersianHopliteSpriteData15,
+                                 ePersianHopliteSpriteData30,
+                                 ePersianHopliteSpriteData45,
+                                 ePersianHopliteSpriteData60);
+    eSpriteLoader loader(fTileH, "persianHoplite", sds,
+                         &eZeus_persianOffset, fRenderer);
+
+    loader.loadSkipFlipped(1, 1, 121, fPersianHoplite.fWalk);
+    loader.loadSkipFlipped(1, 121, 241, fPersianHoplite.fFight);
+
+    for(int i = 241; i < 257; i++) {
+        loader.load(1, i, fPersianHoplite.fDie);
+    }
+}
+
+void eCharacterTextures::loadPersianArcher() {
+    if(fPersianArcherLoaded) return;
+    fPersianArcherLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 ePersianArcherSpriteData15,
+                                 ePersianArcherSpriteData30,
+                                 ePersianArcherSpriteData45,
+                                 ePersianArcherSpriteData60);
+    eSpriteLoader loader(fTileH, "persianArcher", sds,
+                         &eZeus_persianOffset, fRenderer);
+
+    loader.loadSkipFlipped(257, 257, 377, fPersianArcher.fWalk);
+    loader.loadSkipFlipped(257, 377, 521, fPersianArcher.fFight);
+
+    for(int i = 521; i < 532; i++) {
+        loader.load(257, i, fPersianArcher.fDie);
+    }
+}
+
+void eCharacterTextures::loadPersianHorseman() {
+    if(fPersianHorsemanLoaded) return;
+    fPersianHorsemanLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 ePersianHorsemanSpriteData15,
+                                 ePersianHorsemanSpriteData30,
+                                 ePersianHorsemanSpriteData45,
+                                 ePersianHorsemanSpriteData60);
+    eSpriteLoader loader(fTileH, "persianHorseman", sds,
+                         &eZeus_persianOffset, fRenderer);
+
+    loader.loadSkipFlipped(532, 532, 652, fPersianHorseman.fWalk);
+    loader.loadSkipFlipped(532, 652, 772, fPersianHorseman.fFight);
+
+    for(int i = 772; i < 787; i++) {
+        loader.load(532, i, fPersianHorseman.fDie);
+    }
+}
+
+void eCharacterTextures::loadTrojanHoplite() {
+    if(fTrojanHopliteLoaded) return;
+    fTrojanHopliteLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eTrojanHopliteSpriteData15,
+                                 eTrojanHopliteSpriteData30,
+                                 eTrojanHopliteSpriteData45,
+                                 eTrojanHopliteSpriteData60);
+    eSpriteLoader loader(fTileH, "trojanHoplite", sds,
+                         &eZeus_trojanOffset, fRenderer);
+
+    loader.loadSkipFlipped(1, 1, 97, fTrojanHoplite.fWalk);
+    loader.loadSkipFlipped(1, 105, 185, fTrojanHoplite.fFight);
+
+    for(int i = 97; i < 105; i++) {
+        loader.load(1, i, fTrojanHoplite.fDie);
+    }
+}
+
+void eCharacterTextures::loadTrojanSpearthrower() {
+    if(fTrojanSpearthrowerLoaded) return;
+    fTrojanSpearthrowerLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eTrojanSpearthrowerSpriteData15,
+                                 eTrojanSpearthrowerSpriteData30,
+                                 eTrojanSpearthrowerSpriteData45,
+                                 eTrojanSpearthrowerSpriteData60);
+    eSpriteLoader loader(fTileH, "trojanSpearthrower", sds,
+                         &eZeus_trojanOffset, fRenderer);
+
+    loader.loadSkipFlipped(185, 185, 281, fTrojanSpearthrower.fWalk);
+    loader.loadSkipFlipped(185, 289, 369, fTrojanSpearthrower.fFight);
+
+    for(int i = 281; i < 289; i++) {
+        loader.load(185, i, fTrojanSpearthrower.fDie);
+    }
+}
+
+void eCharacterTextures::loadTrojanHorseman() {
+    if(fTrojanHorsemanLoaded) return;
+    fTrojanHorsemanLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eTrojanHorsemanSpriteData15,
+                                 eTrojanHorsemanSpriteData30,
+                                 eTrojanHorsemanSpriteData45,
+                                 eTrojanHorsemanSpriteData60);
+    eSpriteLoader loader(fTileH, "trojanHorseman", sds,
+                         &eZeus_trojanOffset, fRenderer);
+
+    loader.loadSkipFlipped(369, 369, 465, fTrojanHorseman.fWalk);
+    loader.loadSkipFlipped(369, 473, 569, fTrojanHorseman.fFight);
+
+    for(int i = 465; i < 473; i++) {
+        loader.load(369, i, fTrojanHorseman.fDie);
+    }
+}
+
+void eCharacterTextures::loadCentaurHorseman() {
+    if(fCentaurHorsemanLoaded) return;
+    fCentaurHorsemanLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eCentaurHorsemanSpriteData15,
+                                 eCentaurHorsemanSpriteData30,
+                                 eCentaurHorsemanSpriteData45,
+                                 eCentaurHorsemanSpriteData60);
+    eSpriteLoader loader(fTileH, "centaurHorseman", sds,
+                         &eZeus_centaurOffset, fRenderer);
+
+    loader.loadSkipFlipped(1, 1, 153, fCentaurHorseman.fWalk);
+    loader.loadSkipFlipped(1, 153, 265, fCentaurHorseman.fFight);
+
+    for(int i = 265; i < 280; i++) {
+        loader.load(1, i, fCentaurHorseman.fDie);
+    }
+}
+
+void eCharacterTextures::loadCentaurArcher() {
+    if(fCentaurArcherLoaded) return;
+    fCentaurArcherLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eCentaurArcherSpriteData15,
+                                 eCentaurArcherSpriteData30,
+                                 eCentaurArcherSpriteData45,
+                                 eCentaurArcherSpriteData60);
+    eSpriteLoader loader(fTileH, "centaurArcher", sds,
+                         &eZeus_centaurOffset, fRenderer);
+
+    loader.loadSkipFlipped(280, 280, 416, fCentaurArcher.fWalk);
+    loader.loadSkipFlipped(280, 416, 536, fCentaurArcher.fFight);
+
+    for(int i = 536; i < 551; i++) {
+        loader.load(280, i, fCentaurArcher.fDie);
     }
 }
 

@@ -346,6 +346,32 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fAmazonSpear(renderer),
     fAmazonArcher(renderer),
 
+    fTrojanHoplite(renderer),
+    fTrojanSpearthrower(renderer),
+    fTrojanHorseman(renderer),
+
+    fCentaurHorseman(renderer),
+    fCentaurArcher(renderer),
+
+    fEgyptianHoplite(renderer),
+    fEgyptianArcher(renderer),
+
+    fMayanHoplite(renderer),
+    fMayanArcher(renderer),
+
+    fPhoenicianHorseman(renderer),
+    fPhoenicianArcher(renderer),
+
+    fOceanidHoplite(renderer),
+    fOceanidSpearthrower(renderer),
+
+    fPersianHoplite(renderer),
+    fPersianHorseman(renderer),
+    fPersianArcher(renderer),
+
+    fAtlanteanHoplite(renderer),
+    fAtlanteanArcher(renderer),
+
     fBannerRod(renderer),
     fBannerTops(renderer),
 

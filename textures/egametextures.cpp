@@ -370,6 +370,146 @@ void eGameTextures::loadGreekRockThrower() {
     });
 }
 
+void eGameTextures::loadTrojanHoplite() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadTrojanHoplite();
+    });
+}
+
+void eGameTextures::loadTrojanHorseman() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadTrojanHorseman();
+    });
+}
+
+void eGameTextures::loadTrojanSpearthrower() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadTrojanSpearthrower();
+    });
+}
+
+void eGameTextures::loadCentaurHorseman() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadCentaurHorseman();
+    });
+}
+
+void eGameTextures::loadCentaurArcher() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadCentaurArcher();
+    });
+}
+
+void eGameTextures::loadEgyptianHoplite() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadEgyptianHoplite();
+    });
+}
+
+void eGameTextures::loadEgyptianChariot() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadEgyptianChariot();
+    });
+}
+
+void eGameTextures::loadEgyptianArcher() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadEgyptianArcher();
+    });
+}
+
+void eGameTextures::loadMayanHoplite() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadMayanHoplite();
+    });
+}
+
+void eGameTextures::loadMayanArcher() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadMayanArcher();
+    });
+}
+
+void eGameTextures::loadPhoenicianHorseman() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadPhoenicianHorseman();
+    });
+}
+
+void eGameTextures::loadPhoenicianArcher() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadPhoenicianArcher();
+    });
+}
+
+void eGameTextures::loadOceanidHoplite() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadOceanidHoplite();
+    });
+}
+
+void eGameTextures::loadOceanidSpearthrower() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadOceanidSpearthrower();
+    });
+}
+
+void eGameTextures::loadAtlanteanHoplite() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadAtlanteanHoplite();
+    });
+}
+
+void eGameTextures::loadAtlanteanChariot() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadAtlanteanChariot();
+    });
+}
+
+void eGameTextures::loadAtlanteanArcher() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadAtlanteanArcher();
+    });
+}
+
+void eGameTextures::loadPersianHoplite() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadPersianHoplite();
+    });
+}
+
+void eGameTextures::loadPersianHorseman() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadPersianHorseman();
+    });
+}
+
+void eGameTextures::loadPersianArcher() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadPersianArcher();
+    });
+}
+
 void eGameTextures::loadAmazonSpear() {
     loadTexture([](const int i) {
         auto& c = sCharacterTextures[i];

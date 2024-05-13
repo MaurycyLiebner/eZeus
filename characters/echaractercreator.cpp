@@ -15,6 +15,28 @@
 #include "egreekhoplite.h"
 #include "egreekhorseman.h"
 #include "egreekrockthrower.h"
+#include "etrojanhoplite.h"
+#include "etrojanspearthrower.h"
+#include "etrojanhorseman.h"
+#include "ecentaurhorseman.h"
+#include "ecentaurarcher.h"
+#include "epersianhoplite.h"
+#include "epersianhorseman.h"
+#include "epersianarcher.h"
+#include "eegyptianhoplite.h"
+#include "eegyptianchariot.h"
+#include "eegyptianarcher.h"
+#include "eatlanteanhoplite.h"
+#include "eatlanteanchariot.h"
+#include "eatlanteanarcher.h"
+#include "emayanhoplite.h"
+#include "emayanarcher.h"
+#include "eoceanidhoplite.h"
+#include "eoceanidspearthrower.h"
+#include "ephoenicianhorseman.h"
+#include "ephoenicianarcher.h"
+#include "eamazon.h"
+#include "eareswarrior.h"
 #include "egrower.h"
 #include "egymnast.h"
 #include "ehealer.h"
@@ -39,6 +61,9 @@
 #include "etrailer.h"
 #include "ewatchman.h"
 #include "ewaterdistributor.h"
+#include "ehomeless.h"
+#include "edisgruntled.h"
+#include "esick.h"
 
 #include "monsters/ecalydonianboar.h"
 
@@ -86,6 +111,50 @@ stdsptr<eCharacter> eCharacter::sCreate(
         return e::make_shared<eGreekHorseman>(board);
     case eCharacterType::greekRockThrower:
         return e::make_shared<eGreekRockThrower>(board);
+    case eCharacterType::trojanHoplite:
+        return e::make_shared<eTrojanHoplite>(board);
+    case eCharacterType::trojanHorseman:
+        return e::make_shared<eTrojanHorseman>(board);
+    case eCharacterType::trojanSpearthrower:
+        return e::make_shared<eTrojanSpearthrower>(board);
+    case eCharacterType::centaurHorseman:
+        return e::make_shared<eCentaurHorseman>(board);
+    case eCharacterType::centaurArcher:
+        return e::make_shared<eCentaurArcher>(board);
+    case eCharacterType::egyptianHoplite:
+        return e::make_shared<eEgyptianHoplite>(board);
+    case eCharacterType::egyptianChariot:
+        return e::make_shared<eEgyptianChariot>(board);
+    case eCharacterType::egyptianArcher:
+        return e::make_shared<eEgyptianArcher>(board);
+    case eCharacterType::atlanteanHoplite:
+        return e::make_shared<eAtlanteanHoplite>(board);
+    case eCharacterType::atlanteanChariot:
+        return e::make_shared<eAtlanteanChariot>(board);
+    case eCharacterType::atlanteanArcher:
+        return e::make_shared<eAtlanteanArcher>(board);
+    case eCharacterType::mayanHoplite:
+        return e::make_shared<eMayanHoplite>(board);
+    case eCharacterType::mayanArcher:
+        return e::make_shared<eMayanArcher>(board);
+    case eCharacterType::oceanidHoplite:
+        return e::make_shared<eOceanidHoplite>(board);
+    case eCharacterType::oceanidSpearthrower:
+        return e::make_shared<eOceanidSpearthrower>(board);
+    case eCharacterType::phoenicianHorseman:
+        return e::make_shared<ePhoenicianHorseman>(board);
+    case eCharacterType::phoenicianArcher:
+        return e::make_shared<ePhoenicianArcher>(board);
+    case eCharacterType::persianHoplite:
+        return e::make_shared<ePersianHoplite>(board);
+    case eCharacterType::persianHorseman:
+        return e::make_shared<ePersianHorseman>(board);
+    case eCharacterType::persianArcher:
+        return e::make_shared<ePersianArcher>(board);
+    case eCharacterType::amazon:
+        return e::make_shared<eAmazon>(board);
+    case eCharacterType::aresWarrior:
+        return e::make_shared<eAresWarrior>(board);
     case eCharacterType::grower:
         return e::make_shared<eGrower>(board);
     case eCharacterType::gymnast:
@@ -134,6 +203,12 @@ stdsptr<eCharacter> eCharacter::sCreate(
         return e::make_shared<eWatchman>(board);
     case eCharacterType::waterDistributor:
         return e::make_shared<eWaterDistributor>(board);
+    case eCharacterType::homeless:
+        return e::make_shared<eHomeless>(board);
+    case eCharacterType::disgruntled:
+        return e::make_shared<eDisgruntled>(board);
+    case eCharacterType::sick:
+        return e::make_shared<eSick>(board);
 
     case eCharacterType::calydonianBoar:
         return e::make_shared<eCalydonianBoar>(board);

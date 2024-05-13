@@ -63,6 +63,34 @@ enum class eCharacterType {
     amazon,
     aresWarrior,
 
+    trojanHoplite,
+    trojanSpearthrower,
+    trojanHorseman,
+
+    centaurHorseman,
+    centaurArcher,
+
+    persianHoplite,
+    persianArcher,
+    persianHorseman,
+
+    oceanidHoplite,
+    oceanidSpearthrower,
+
+    egyptianHoplite,
+    egyptianArcher,
+    egyptianChariot,
+
+    atlanteanHoplite,
+    atlanteanArcher,
+    atlanteanChariot,
+
+    phoenicianHorseman,
+    phoenicianArcher,
+
+    mayanHoplite,
+    mayanArcher,
+
     // put new soldiers above
     greekRockThrower,
     greekHoplite,

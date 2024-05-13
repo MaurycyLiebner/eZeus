@@ -6,4 +6,5 @@ eHorsemanBase::eHorsemanBase(eGameBoard& board,
     eSoldier(board, charTexs, type) {
     setAttack(0.6);
     setSpeed(1.5);
+    setHP(500);
 }

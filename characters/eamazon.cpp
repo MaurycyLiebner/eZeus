@@ -13,10 +13,14 @@ void eAmazon::setIsArcher(const bool a) {
         eGameTextures::loadAmazonArcher();
         setCharTexs(&eCharacterTextures::fAmazonArcher);
         setRange(4);
+        setAttack(0.05);
+        setHP(300);
     } else {
         eGameTextures::loadAmazonSpear();
         setCharTexs(&eCharacterTextures::fAmazonSpear);
         setRange(0);
+        setAttack(0.5);
+        setHP(500);
     }
 }
 

@@ -125,6 +125,12 @@ struct eAresWarriorTextures {
     std::vector<eTextureCollection> fFight;
 };
 
+struct eChariotTextures {
+    std::vector<eTextureCollection> fWalk;
+    std::vector<eTextureCollection> fDie;
+    std::vector<eTextureCollection> fFight;
+};
+
 struct eWaterMonsterTextures {
     eWaterMonsterTextures(SDL_Renderer* const renderer) :
         fDie(renderer) {}
@@ -201,18 +207,70 @@ public:
     void loadTrader();
     bool fWaterDistributorLoaded = false;
     void loadWaterDistributor();
+
     bool fRockThrowerLoaded = false;
     void loadRockThrower();
     bool fHopliteLoaded = false;
     void loadHoplite();
     bool fHorsemanLoaded = false;
     void loadHorseman();
+
     bool fAmazonSpearLoaded = false;
     void loadAmazonSpear();
     bool fAmazonArcherLoaded = false;
     void loadAmazonArcher();
+
+    bool fTrojanHopliteLoaded = false;
+    void loadTrojanHoplite();
+    bool fTrojanSpearthrowerLoaded = false;
+    void loadTrojanSpearthrower();
+    bool fTrojanHorsemanLoaded = false;
+    void loadTrojanHorseman();
+
+    bool fCentaurHorsemanLoaded = false;
+    void loadCentaurHorseman();
+    bool fCentaurArcherLoaded = false;
+    void loadCentaurArcher();
+
+    bool fPersianHopliteLoaded = false;
+    void loadPersianHoplite();
+    bool fPersianHorsemanLoaded = false;
+    void loadPersianHorseman();
+    bool fPersianArcherLoaded = false;
+    void loadPersianArcher();
+
+    bool fEgyptianHopliteLoaded = false;
+    void loadEgyptianHoplite();
+    bool fEgyptianChariotLoaded = false;
+    void loadEgyptianChariot();
+    bool fEgyptianArcherLoaded = false;
+    void loadEgyptianArcher();
+
+    bool fMayanHopliteLoaded = false;
+    void loadMayanHoplite();
+    bool fMayanArcherLoaded = false;
+    void loadMayanArcher();
+
+    bool fOceanidHopliteLoaded = false;
+    void loadOceanidHoplite();
+    bool fOceanidSpearthrowerLoaded = false;
+    void loadOceanidSpearthrower();
+
+    bool fPhoenicianHorsemanLoaded = false;
+    void loadPhoenicianHorseman();
+    bool fPhoenicianArcherLoaded = false;
+    void loadPhoenicianArcher();
+
+    bool fAtlanteanHopliteLoaded = false;
+    void loadAtlanteanHoplite();
+    bool fAtlanteanChariotLoaded = false;
+    void loadAtlanteanChariot();
+    bool fAtlanteanArcherLoaded = false;
+    void loadAtlanteanArcher();
+
     bool fAresWarriorLoaded = false;
     void loadAresWarrior();
+
     bool fHealerLoaded = false;
     void loadHealer();
     bool fCartLoaded = false;
@@ -402,6 +460,34 @@ public:
 
     eFightingCharacterTextures fAmazonSpear;
     eFightingCharacterTextures fAmazonArcher;
+
+    eFightingCharacterTextures fTrojanHoplite;
+    eFightingCharacterTextures fTrojanSpearthrower;
+    eFightingCharacterTextures fTrojanHorseman;
+
+    eFightingCharacterTextures fCentaurHorseman;
+    eFightingCharacterTextures fCentaurArcher;
+
+    eFightingCharacterTextures fEgyptianHoplite;
+    eChariotTextures fEgyptianChariot;
+    eFightingCharacterTextures fEgyptianArcher;
+
+    eFightingCharacterTextures fMayanHoplite;
+    eFightingCharacterTextures fMayanArcher;
+
+    eFightingCharacterTextures fPhoenicianHorseman;
+    eFightingCharacterTextures fPhoenicianArcher;
+
+    eFightingCharacterTextures fOceanidHoplite;
+    eFightingCharacterTextures fOceanidSpearthrower;
+
+    eFightingCharacterTextures fPersianHoplite;
+    eFightingCharacterTextures fPersianHorseman;
+    eFightingCharacterTextures fPersianArcher;
+
+    eFightingCharacterTextures fAtlanteanHoplite;
+    eChariotTextures fAtlanteanChariot;
+    eFightingCharacterTextures fAtlanteanArcher;
 
     eAresWarriorTextures fAresWarrior;
 
