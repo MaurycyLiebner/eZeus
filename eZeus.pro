@@ -258,6 +258,7 @@ SOURCES += \
         characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
         characters/ewildanimal.cpp \
+        characters/ewolf.cpp \
         characters/gods/eathena.cpp \
         characters/gods/ebasicgod.cpp \
         characters/gods/edemeter.cpp \
@@ -758,6 +759,7 @@ HEADERS += \
     characters/ewatchman.h \
     characters/ewaterdistributor.h \
     characters/ewildanimal.h \
+    characters/ewolf.h \
     characters/gods/eathena.h \
     characters/gods/ebasicgod.h \
     characters/gods/edemeter.h \

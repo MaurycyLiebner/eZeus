@@ -7,6 +7,7 @@
 #include "ebronzeminer.h"
 #include "ecarttransporter.h"
 #include "edeer.h"
+#include "ewolf.h"
 #include "edonkey.h"
 #include "efirefighter.h"
 #include "efishingboat.h"
@@ -78,7 +79,6 @@ stdsptr<eCharacter> eCharacter::sCreate(
         const eCharacterType t, eGameBoard& board) {
     switch(t) {
     case eCharacterType::none:
-    case eCharacterType::wolf:
     case eCharacterType::cattle:
         return nullptr;
     case eCharacterType::actor:
@@ -95,6 +95,8 @@ stdsptr<eCharacter> eCharacter::sCreate(
         return e::make_shared<eCartTransporter>(board);
     case eCharacterType::deer:
         return e::make_shared<eDeer>(board);
+    case eCharacterType::wolf:
+        return e::make_shared<eWolf>(board);
     case eCharacterType::donkey:
         return e::make_shared<eDonkey>(board);
     case eCharacterType::fireFighter:
@@ -289,4 +291,5 @@ stdsptr<eCharacter> eCharacter::sCreate(
     case eCharacterType::theseus:
         return e::make_shared<eTheseus>(board);
     }
+    return nullptr;
 }
