@@ -278,6 +278,7 @@ void eHerosHall::arrive() {
 
     eEventData ed;
     ed.fHero = mType;
+    ed.fChar = mHero;
     ed.fTile = mHero ? mHero->tile() : nullptr;
     board.event(eEvent::heroArrival, ed);
 }

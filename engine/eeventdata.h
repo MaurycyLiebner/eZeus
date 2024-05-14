@@ -17,6 +17,7 @@ struct eEventData {
     eDate fDate;
     std::string fPlayerName;
     eTile* fTile = nullptr;
+    stdptr<eCharacter> fChar;
     int fBribe = 0;
     eAction fA0 = nullptr;
     std::string fA0Key;

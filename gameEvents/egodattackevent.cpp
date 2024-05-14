@@ -37,8 +37,10 @@ void eGodAttackEvent::trigger() {
     god->setAction(a);
     a->increment(1);
     eEventData ed;
+    ed.fChar = god.get();
     ed.fTile = god->tile();
     ed.fGod = t;
+    board.registerAttackingGod(god.get());
     board.event(eEvent::godInvasion, ed);
 }
 

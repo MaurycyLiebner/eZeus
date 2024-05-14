@@ -21,6 +21,21 @@ namespace eVectorHelpers {
             return false;
         }
     }
+
+    template <typename T>
+    bool same(const std::vector<T>& v1, const std::vector<T>& v2) {
+        if(v1.size() == v2.size()) {
+            const int iMax = v1.size();
+            for(int i = 0; i < iMax; i++) {
+                const auto& s1 = v1[i];
+                const auto& s2 = v2[i];
+                if(s1 != s2) return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
 };
 
 #endif // EVECTORHELPERS_H

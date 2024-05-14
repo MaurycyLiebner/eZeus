@@ -136,6 +136,26 @@ void eGameBoard::read(eReadStream& src) {
         }
     }
 
+    {
+        int ngs;
+        src >> ngs;
+        for(int i = 0; i < ngs; i++) {
+            src.readCharacter(this, [this](eCharacter* const c) {
+                mAttackingGods.push_back(c);
+            });
+        }
+    }
+
+    {
+        int nms;
+        src >> nms;
+        for(int i = 0; i < nms; i++) {
+            src.readCharacter(this, [this](eCharacter* const c) {
+                mAttackingMonsters.push_back(c);
+            });
+        }
+    }
+
     int nfg;
     src >> nfg;
     for(int i = 0; i < nfg; i++) {

@@ -137,6 +137,22 @@ void eGameBoard::write(eWriteStream& dst) const {
         }
     }
 
+    {
+        const int ngs = mAttackingGods.size();
+        dst << ngs;
+        for(const auto g : mAttackingGods) {
+            dst.writeCharacter(g);
+        }
+    }
+
+    {
+        const int nms = mAttackingMonsters.size();
+        dst << nms;
+        for(const auto g : mAttackingMonsters) {
+            dst.writeCharacter(g);
+        }
+    }
+
     const int nfg = mFriendlyGods.size();
     dst << nfg;
     for(const auto g : mFriendlyGods) {

@@ -4,6 +4,7 @@
 
 #include "engine/egameboard.h"
 #include "elanguage.h"
+#include "evectorhelpers.h"
 
 void eForcesWidget::initialize(const std::string& title) {
     setNoPadding();
@@ -25,17 +26,8 @@ void eForcesWidget::initialize(const std::string& title) {
 
 void eForcesWidget::setBanners(const eSoldierBanners& ss,
                                const eSoldierBannerAction& act) {
-    if(mBanners.size() == ss.size()) {
-        bool foundDifference = false;
-        const int iMax = mBanners.size();
-        for(int i = 0; i < iMax; i++) {
-            if(mBanners[i] != ss[i]) {
-                foundDifference = true;
-                break;
-            }
-        }
-        if(!foundDifference) return;
-    }
+    const bool changed = !eVectorHelpers::same(mBanners, ss);
+    if(!changed) return;
     mBanners = ss;
     int iRes;
     int mult;

@@ -306,7 +306,14 @@ drama_discipline "Drama"
 all_discipline "All"
 
 see_husbandry "See Husbandry"
+
 see_immortals "See Immortals"
+
+sanctuaries "Sanctuaries"
+working "Working"
+gods_attacking "Gods attacking"
+monsters_attacking "Monsters attacking"
+
 see_security "See Security"
 
 pensions "Pensions: "

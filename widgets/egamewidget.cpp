@@ -732,7 +732,18 @@ void eGameWidget::showMessage(eEventData& ed,
     msgb->setHeight(height()/3);
     msgb->setWidth(width()/2);
     eAction a;
-    if(ed.fTile) {
+    if(ed.fChar) {
+        const auto ch = ed.fChar;
+        const auto tile = ed.fTile;
+        a = [this, ch, tile]() {
+            if(ch) {
+                const auto t = ch->tile();
+                viewTile(t);
+            } else {
+                viewTile(tile);
+            }
+        };
+    } else if(ed.fTile) {
         const auto tile = ed.fTile;
         a = [this, tile]() {
             viewTile(tile);

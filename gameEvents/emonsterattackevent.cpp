@@ -25,10 +25,12 @@ void eMonsterAttackEvent::trigger() {
     const auto godType = eMonster::sMonsterSender(mType, &validGod);
 
     eEventData ed;
+    ed.fChar = monster.get();
     ed.fTile = monster->tile();
     ed.fGod = godType;
     ed.fMonster = mType;
     board.event(eEvent::godMonsterUnleash, ed);
+    board.registerAttackingMonster(monster.get());
 
     const auto heroType = eMonster::sSlayer(mType);
     if(!validGod) return board.allowHero(heroType);

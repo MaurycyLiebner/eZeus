@@ -38,6 +38,7 @@ void eGodVisitEvent::trigger() {
     god->setAttitude(eGodAttitude::friendly);
     a->increment(1);
     eEventData ed;
+    ed.fChar = god.get();
     ed.fTile = god->tile();
     ed.fGod = t;
     board.event(eEvent::godVisit, ed);
