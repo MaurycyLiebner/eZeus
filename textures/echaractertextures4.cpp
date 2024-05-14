@@ -113,8 +113,8 @@ void eCharacterTextures::loadCyclops() {
     eSpriteLoader loader(fTileH, "cyclops", sds,
                          &eZeus_cyclopsOffset, fRenderer);
 
-    loader.loadSkipFlipped(1, 1, 129, fCyclops.fWalk);
-    loader.loadSkipFlipped(1, 129, 289, fCyclops.fDie);
+    loader.loadSkipFlipped(1, 1, 121, fCyclops.fWalk);
+    loader.loadSkipFlipped(1, 121, 289, fCyclops.fDie);
     loader.loadSkipFlipped(1, 289, 425, fCyclops.fFight);
     loader.loadSkipFlipped(1, 425, 553, fCyclops.fFight2);
 }
