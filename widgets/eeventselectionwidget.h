@@ -14,8 +14,10 @@ public:
 
     using eEventsGetter = std::function<std::vector<stdsptr<eGameEvent>>()>;
     using eEventAdder = std::function<void(const stdsptr<eGameEvent>&)>;
+    using eEventRemover = std::function<void(const stdsptr<eGameEvent>&)>;
     void initialize(const eEventsGetter& get,
                     const eEventAdder& add,
+                    const eEventRemover& remove,
                     eGameBoard& board);
 };
 

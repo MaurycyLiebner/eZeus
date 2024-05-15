@@ -20,6 +20,7 @@
 void eEventSelectionWidget::initialize(
         const eEventsGetter& get,
         const eEventAdder& add,
+        const eEventRemover& remove,
         eGameBoard& board) {
     eScrollButtonsList::initialize();
     const auto boardPtr = &board;
@@ -91,5 +92,11 @@ void eEventSelectionWidget::initialize(
 
         window()->execDialog(echoose);
         echoose->align(eAlignment::center);
+    });
+
+    setButtonRemoveEvent([get, remove](const int id) {
+        const auto es = get();
+        const auto& e = es[id];
+        remove(e);
     });
 }

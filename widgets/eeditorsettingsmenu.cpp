@@ -112,7 +112,10 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
         const auto add = [boardPtr](const stdsptr<eGameEvent>& e) {
             boardPtr->addGameEvent(e);
         };
-        choose->initialize(get, add, *boardPtr);
+        const auto remove = [boardPtr](const stdsptr<eGameEvent>& e) {
+            boardPtr->removeGameEvent(e);
+        };
+        choose->initialize(get, add, remove, *boardPtr);
 
         window()->execDialog(choose);
         choose->align(eAlignment::center);

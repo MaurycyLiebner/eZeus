@@ -23,6 +23,7 @@ public:
     void read(eReadStream& src);
 
     void addEvent(const stdsptr<eGameEvent>& e);
+    void removeEvent(const stdsptr<eGameEvent>& e);
     const std::vector<stdsptr<eGameEvent>>& events() const
     { return mEvents; }
     int eventCount() const { return mEvents.size(); }

@@ -1,6 +1,7 @@
 #include "eeventtrigger.h"
 
 #include "egameevent.h"
+#include "evectorhelpers.h"
 
 eEventTrigger::eEventTrigger(const std::string& name,
                              eGameBoard& board) :
@@ -42,4 +43,8 @@ void eEventTrigger::read(eReadStream& src) {
 
 void eEventTrigger::addEvent(const stdsptr<eGameEvent>& e) {
     mEvents.push_back(e);
+}
+
+void eEventTrigger::removeEvent(const stdsptr<eGameEvent>& e) {
+    eVectorHelpers::remove(mEvents, e);
 }
