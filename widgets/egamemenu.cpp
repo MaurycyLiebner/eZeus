@@ -217,8 +217,8 @@ void eGameMenu::setModeChangedAction(const eAction& func) {
     mModeChangeAct = func;
 }
 
-void eGameMenu::updateGodQuestButtons() {
-    mOverDataW->updateQuestButtons();
+void eGameMenu::updateRequestButtons() {
+    mOverDataW->updateRequestButtons();
 }
 
 void eGameMenu::displayPrice(const int price, const int loc) {

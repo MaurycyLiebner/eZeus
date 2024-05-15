@@ -13,9 +13,9 @@ class eMythologyDataWidget : public eDataWidget {
 public:
     using eDataWidget::eDataWidget;
 
-    void initialize();
+    void initialize() override;
 protected:
-    void paintEvent(ePainter& p);
+    void paintEvent(ePainter& p) override;
 private:
     eViewModeButton* mSeeImmortals = nullptr;
 

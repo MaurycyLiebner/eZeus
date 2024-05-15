@@ -958,10 +958,38 @@ eEnlistedForces eGameBoard::getEnlistableForces() const {
 void eGameBoard::addGodQuest(const eGodQuest q) {
     eVectorHelpers::remove(mGodQuests, q);
     mGodQuests.push_back(q);
+    if(mRequestUpdateHandler) mRequestUpdateHandler();
 }
 
 void eGameBoard::removeGodQuest(const eGodQuest q) {
     eVectorHelpers::remove(mGodQuests, q);
+    if(mRequestUpdateHandler) mRequestUpdateHandler();
+}
+
+void eGameBoard::addCityRequest(const eCityRequest q) {
+    mCityRequests.push_back(q);
+    if(mRequestUpdateHandler) mRequestUpdateHandler();
+}
+
+void eGameBoard::removeCityRequest(const eCityRequest q) {
+    eVectorHelpers::remove(mCityRequests, q);
+    if(mRequestUpdateHandler) mRequestUpdateHandler();
+}
+
+void eGameBoard::fulfillCityRequest(const eCityRequest q) {
+    for(const auto& e : mGameEvents) {
+        const auto date = eGameBoard::date();
+        const bool active = e->hasActiveConsequences(date);
+        if(!active) continue;
+        const auto type = e->type();
+        if(type != eGameEventType::receiveRequest) continue;
+        const auto ee = static_cast<eReceiveRequestEvent*>(e.get());
+        const auto qq = ee->cityRequest();
+        if(q == qq) {
+            ee->dispatch();
+            break;
+        }
+    }
 }
 
 void eGameBoard::registerAttackingGod(eCharacter* const c) {
@@ -1026,6 +1054,10 @@ bool eGameBoard::unregisterSoldierBanner(const stdsptr<eSoldierBanner>& b) {
 
 void eGameBoard::addGameEvent(const stdsptr<eGameEvent>& e) {
     mGameEvents.push_back(e);
+}
+
+void eGameBoard::removeGameEvent(const stdsptr<eGameEvent>& e) {
+    eVectorHelpers::remove(mGameEvents, e);
 }
 
 void eGameBoard::updateCoverage() {
@@ -1543,6 +1575,10 @@ void eGameBoard::emptyRubbish() {
         std::vector<stdsptr<eObject>> r;
         std::swap(mRubbish, r);
     }
+}
+
+void eGameBoard::setRequestUpdateHandler(const eAction& ru) {
+    mRequestUpdateHandler = ru;
 }
 
 void eGameBoard::setEventHandler(const eEventHandler& eh) {

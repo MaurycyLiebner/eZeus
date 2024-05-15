@@ -60,6 +60,9 @@ void eGameWidget::setBoard(eGameBoard* const board) {
     mBoard->setEventHandler([this](const eEvent e, eEventData& ed) {
         handleEvent(e, ed);
     });
+    mBoard->setRequestUpdateHandler([this]() {
+        updateRequestButtons();
+    });
     mBoard->setVisibilityChecker([this](eTile* const tile) {
         return tileVisible(tile);
     });
@@ -1598,6 +1601,6 @@ void eGameWidget::actionOnSelectedTiles(const eTileAction& apply) {
     }
 }
 
-void eGameWidget::updateGodQuestButtons() {
-    mGm->updateGodQuestButtons();
+void eGameWidget::updateRequestButtons() {
+    mGm->updateRequestButtons();
 }

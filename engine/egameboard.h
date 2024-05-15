@@ -32,6 +32,7 @@
 #include "characters/eenlistedforces.h"
 
 #include "engine/egodquest.h"
+#include "ecityrequest.h"
 
 class eGameEvent;
 
@@ -186,6 +187,8 @@ public:
     void setEventHandler(const eEventHandler& eh);
     void event(const eEvent e, eEventData& ed);
 
+    void setRequestUpdateHandler(const eAction& ru);
+
     using eVisibilityChecker = std::function<bool(eTile*)>;
     void setVisibilityChecker(const eVisibilityChecker& vc);
 
@@ -277,6 +280,7 @@ public:
     const eGameEvents& gameEvents() const { return mGameEvents; }
 
     void addGameEvent(const stdsptr<eGameEvent>& e);
+    void removeGameEvent(const stdsptr<eGameEvent>& e);
 
     void planInvasion(const eDate& date,
                       const int infantry,
@@ -341,6 +345,12 @@ public:
     void addGodQuest(const eGodQuest q);
     void removeGodQuest(const eGodQuest q);
 
+    using eRequests = std::vector<eCityRequest>;
+    const eRequests& cityRequests() const { return mCityRequests; }
+    void addCityRequest(const eCityRequest q);
+    void removeCityRequest(const eCityRequest q);
+    void fulfillCityRequest(const eCityRequest q);
+
     using eChars = std::vector<eCharacter*>;
     const eChars& attackingGods() const { return mAttackingGods; }
     void registerAttackingGod(eCharacter* const c);
@@ -370,6 +380,7 @@ private:
     eWorldBoard mWorldBoard;
 
     eEventHandler mEventHandler;
+    eAction mRequestUpdateHandler;
     eVisibilityChecker mVisibilityChecker;
     eTipShower mTipShower;
 
@@ -419,6 +430,8 @@ private:
     bool mRegisterBuildingsEnabled = true;
 
     std::vector<eGodQuest> mGodQuests;
+
+    std::vector<eCityRequest> mCityRequests;
 
     std::vector<eSanctuary*> mSanctuaries;
     std::vector<eHerosHall*> mHeroHalls;

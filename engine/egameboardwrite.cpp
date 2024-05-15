@@ -80,7 +80,15 @@ void eGameBoard::write(eWriteStream& dst) const {
     {
         const int nq = mGodQuests.size();
         dst << nq;
-        for(const auto q : mGodQuests) {
+        for(const auto& q : mGodQuests) {
+            q.write(dst);
+        }
+    }
+
+    {
+        const int nq = mCityRequests.size();
+        dst << nq;
+        for(const auto& q : mCityRequests) {
             q.write(dst);
         }
     }

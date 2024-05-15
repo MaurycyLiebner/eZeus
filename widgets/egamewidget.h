@@ -95,7 +95,7 @@ public:
     eGameWidgetSettings settings() const;
     void setSettings(const eGameWidgetSettings& s);
 
-    void updateGodQuestButtons();
+    void updateRequestButtons();
     void showTip(const std::string& tip);
     void showQuestion(const std::string& title,
                       const std::string& q,

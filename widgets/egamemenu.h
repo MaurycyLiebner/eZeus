@@ -69,7 +69,7 @@ public:
 
     void setModeChangedAction(const eAction& func);
 
-    void updateGodQuestButtons();
+    void updateRequestButtons();
 protected:
     bool mousePressEvent(const eMouseEvent& e);
 private:

@@ -44,7 +44,6 @@ void eGameWidget::handleGodQuestEvent(eEventData& ed,
     eStringHelpers::replaceAll(msg.fTitle, "[hero_needed]", hm);
     eStringHelpers::replaceAll(msg.fText, "[hero_needed]", hm);
     showMessage(ed, msg);
-    updateGodQuestButtons();
 }
 
 void eGameWidget::handleGodVisitEvent(const eGodType god) {

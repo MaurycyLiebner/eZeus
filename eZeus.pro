@@ -288,6 +288,7 @@ SOURCES += \
         engine/boardData/eheatmaptask.cpp \
         engine/boardData/ehusbandrydata.cpp \
         engine/boardData/epopulationdata.cpp \
+        engine/ecityrequest.cpp \
         engine/edate.cpp \
         engine/edifficulty.cpp \
         engine/eeventtime.cpp \
@@ -790,6 +791,7 @@ HEADERS += \
     engine/boardData/ehusbandrydata.h \
     engine/boardData/epopulationdata.h \
     engine/eboardbase.h \
+    engine/ecityrequest.h \
     engine/edate.h \
     engine/edifficulty.h \
     engine/eevent.h \
@@ -1320,6 +1322,10 @@ HEADERS += \
     spriteData/oxHandler30.h \
     spriteData/oxHandler45.h \
     spriteData/oxHandler60.h \
+    spriteData/paneling15.h \
+    spriteData/paneling30.h \
+    spriteData/paneling45.h \
+    spriteData/paneling60.h \
     spriteData/peddler15.h \
     spriteData/peddler30.h \
     spriteData/peddler30.h \

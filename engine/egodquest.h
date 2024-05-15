@@ -20,7 +20,7 @@ struct eGodQuest {
         src >> fHero;
     }
 
-    bool operator==(const eGodQuest& o) {
+    bool operator==(const eGodQuest& o) const {
         return fGod == o.fGod &&
                fId == o.fId &&
                fHero == o.fHero;

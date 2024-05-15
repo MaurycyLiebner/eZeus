@@ -6,6 +6,7 @@
 #include "engine/eworldcity.h"
 
 struct eReason;
+struct eCityRequest;
 
 class eReceiveRequestEvent : public eGameEvent {
 public:
@@ -32,6 +33,9 @@ public:
 
     int resourceCount() const { return mCount; }
     void setResourceCount(const int c);
+
+    eCityRequest cityRequest() const;
+    void dispatch();
 private:
     void finished(eEventTrigger& t, const eReason& r);
 

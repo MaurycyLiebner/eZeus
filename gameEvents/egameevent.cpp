@@ -75,6 +75,20 @@ void eGameEvent::addConsequence(
     mConsequences.push_back(event);
 }
 
+void eGameEvent::clearConsequences() {
+    mConsequences.clear();
+}
+
+bool eGameEvent::hasActiveConsequences(const eDate& date) const {
+    for(const auto& c : mConsequences) {
+        const auto cDate = c->startDate();
+        const auto cc = c->hasActiveConsequences(date);
+        const bool cFuture = cDate > date || cc;
+        if(cFuture) return true;
+    }
+    return false;
+}
+
 std::string eGameEvent::longDatedName() const {
     const auto dateStr = mStartDate.shortString();
     const auto eventName = longName();

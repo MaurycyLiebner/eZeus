@@ -68,6 +68,16 @@ void eGameBoard::read(eReadStream& src) {
     }
 
     {
+        int nq;
+        src >> nq;
+        for(int i = 0; i < nq; i++) {
+            eCityRequest q;
+            q.read(*this, src);
+            mCityRequests.push_back(q);
+        }
+    }
+
+    {
         int nbs;
         src >> nbs;
         for(int i = 0; i < nbs; i++) {

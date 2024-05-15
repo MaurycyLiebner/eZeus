@@ -6,6 +6,7 @@
 #include "engine/eeventdata.h"
 #include "engine/eevent.h"
 #include "emessages.h"
+#include "engine/ecityrequest.h"
 
 eReceiveRequestEvent::eReceiveRequestEvent(
         eGameBoard& board) :
@@ -36,6 +37,8 @@ void eReceiveRequestEvent::initialize(
     mCity = c;
 }
 
+const int gPostponeDays = 6*31;
+
 void eReceiveRequestEvent::trigger() {
     if(!mCity) return;
     auto& board = getBoard();
@@ -49,7 +52,7 @@ void eReceiveRequestEvent::trigger() {
     ed.fA2Key = "refuse";
 
     if(mCount <= 0) {
-        if(mPostpone > 1 && mPostpone < 5) {
+        if(mPostpone > 1) {
             ed.fType = eMessageEventType::resourceGranted;
             board.event(eEvent::generalRequestTooLate, ed);
             mCity->incAttitude(-5);
@@ -86,31 +89,26 @@ void eReceiveRequestEvent::trigger() {
     ed.fType = eMessageEventType::requestTributeGranted;
     if(avCount >= mCount) {
         ed.fA0 = [this]() { // dispatch now
-            auto& board = getBoard();
-            board.takeResource(mResource, mCount);
-            const auto e = e::make_shared<eReceiveRequestEvent>(
-                        *this);
-            e->initialize(mPostpone, mResource, -mCount, mCity);
-            const auto date = board.date() + 3*31;
-            e->initializeDate(date);
-            addConsequence(e);
+            dispatch();
         };
     }
 
-    if(mPostpone < 4) {
+    if(mPostpone < 3) {
         ed.fA1 = [this]() { // postpone
             const auto& board = getBoard();
             const auto e = e::make_shared<eReceiveRequestEvent>(
                         *this);
             e->initialize(mPostpone + 1, mResource, mCount, mCity);
-            const auto date = board.date() + 6*31;
+            const auto date = board.date() + gPostponeDays;
             e->initializeDate(date);
             addConsequence(e);
         };
     }
 
     ed.fA2 = [this]() { // refuse
-        const auto& board = getBoard();
+        auto& board = getBoard();
+        const auto request = cityRequest();
+        board.removeCityRequest(request);
         const auto e = e::make_shared<eReceiveRequestEvent>(
                     *this);
         e->initialize(5, mResource, mCount, mCity);
@@ -122,6 +120,10 @@ void eReceiveRequestEvent::trigger() {
 
     ed.fType = eMessageEventType::generalRequestGranted;
     const auto rel = mCity->relationship();
+    if(mPostpone == 0) { // initial
+        const auto request = cityRequest();
+        board.addCityRequest(request);
+    }
     if(rel == eWorldCityRelationship::rival) {
         if(mPostpone == 0) { // initial
             board.event(eEvent::generalRequestRivalInitial, ed);
@@ -191,6 +193,35 @@ void eReceiveRequestEvent::setResourceType(const eResourceType type) {
 
 void eReceiveRequestEvent::setResourceCount(const int c) {
     mCount = c;
+}
+
+eCityRequest eReceiveRequestEvent::cityRequest() const {
+    eCityRequest request;
+    request.fCity = mCity;
+    request.fType = mResource;
+    request.fCount = mCount;
+    return request;
+}
+
+void eReceiveRequestEvent::dispatch() {
+    auto& board = getBoard();
+    const auto request = cityRequest();
+    board.removeCityRequest(request);
+    board.takeResource(mResource, mCount);
+    const auto e = e::make_shared<eReceiveRequestEvent>(
+                *this);
+    int postpone = mPostpone - 1;
+    auto date = startDate();
+    const auto currentDate = board.date();
+    while(date < currentDate) {
+        date += gPostponeDays;
+        postpone++;
+    }
+    e->initialize(postpone, mResource, -mCount, mCity);
+    const auto edate = currentDate + 3*31;
+    e->initializeDate(edate);
+    clearConsequences();
+    addConsequence(e);
 }
 
 void eReceiveRequestEvent::finished(eEventTrigger& t, const eReason& r) {

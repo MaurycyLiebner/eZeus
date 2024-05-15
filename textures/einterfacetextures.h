@@ -177,6 +177,9 @@ public:
     eTextureCollection fCheckBox;
     eTextureCollection fLargeCheckBox;
 
+    eTextureCollection fRequestWaitingBox;
+    eTextureCollection fRequestFulfilledBox;
+
     eTextureCollection fSeeButton;
 
     std::shared_ptr<eTexture> fSpawner;
@@ -186,6 +189,22 @@ public:
     std::shared_ptr<eTexture> fDrachmasTopMenu;
     std::shared_ptr<eTexture> fPopulationTopMenu;
     std::shared_ptr<eTexture> fDrachmasUnit;
+
+    std::shared_ptr<eTexture> fZeusQuestIcon;
+    std::shared_ptr<eTexture> fPoseidonQuestIcon;
+    std::shared_ptr<eTexture> fDemeterQuestIcon;
+    std::shared_ptr<eTexture> fApolloQuestIcon;
+    std::shared_ptr<eTexture> fArtemisQuestIcon;
+    std::shared_ptr<eTexture> fAresQuestIcon;
+    std::shared_ptr<eTexture> fAphroditeQuestIcon;
+    std::shared_ptr<eTexture> fHermesQuestIcon;
+    std::shared_ptr<eTexture> fAthenaQuestIcon;
+    std::shared_ptr<eTexture> fHephaestusQuestIcon;
+    std::shared_ptr<eTexture> fDionysusQuestIcon;
+    std::shared_ptr<eTexture> fHadesQuestIcon;
+
+    std::shared_ptr<eTexture> fHeraQuestIcon;
+    std::shared_ptr<eTexture> fAtlasQuestIcon;
 
     std::shared_ptr<eTexture> fUrchinUnit;
     std::shared_ptr<eTexture> fFishUnit;

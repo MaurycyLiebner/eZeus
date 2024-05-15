@@ -56,6 +56,8 @@ public:
                     const stdsptr<eGameEvent>& event);
     void clearWarnings();
     void addConsequence(const stdsptr<eGameEvent>& event);
+    void clearConsequences();
+    bool hasActiveConsequences(const eDate& date) const;
 
     std::string longDatedName() const;
 
