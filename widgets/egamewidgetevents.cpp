@@ -284,35 +284,88 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, inst.fGiftReceivedRefuse, true);
         return;
     } break;
-    case eEvent::generalRequestInitial: {
+
+    case eEvent::generalRequestAllyInitial: {
         showMessage(ed, inst.fGeneralRequestInitialS, true);
         return;
     } break;
-    case eEvent::generalRequestReminder: {
+    case eEvent::generalRequestAllyReminder: {
         showMessage(ed, inst.fGeneralRequestReminderS, true);
         return;
     } break;
-    case eEvent::generalRequestOverdue: {
+    case eEvent::generalRequestAllyOverdue: {
         showMessage(ed, inst.fGeneralRequestOverdueS, true);
         return;
     } break;
-    case eEvent::generalRequestWarning: {
+    case eEvent::generalRequestAllyWarning: {
         showMessage(ed, inst.fGeneralRequestWarningS, true);
         return;
     } break;
-    case eEvent::generalRequestComply: {
+
+    case eEvent::generalRequestRivalInitial: {
+        showMessage(ed, inst.fGeneralRequestInitialD, true);
+        return;
+    } break;
+    case eEvent::generalRequestRivalReminder: {
+        showMessage(ed, inst.fGeneralRequestReminderD, true);
+        return;
+    } break;
+    case eEvent::generalRequestRivalOverdue: {
+        showMessage(ed, inst.fGeneralRequestOverdueD, true);
+        return;
+    } break;
+    case eEvent::generalRequestRivalWarning: {
+        showMessage(ed, inst.fGeneralRequestWarningD, true);
+        return;
+    } break;
+
+    case eEvent::generalRequestSubjectInitial: {
+        showMessage(ed, inst.fGeneralRequestInitialP, true);
+        return;
+    } break;
+    case eEvent::generalRequestSubjectReminder: {
+        showMessage(ed, inst.fGeneralRequestReminderP, true);
+        return;
+    } break;
+    case eEvent::generalRequestSubjectOverdue: {
+        showMessage(ed, inst.fGeneralRequestOverdueP, true);
+        return;
+    } break;
+    case eEvent::generalRequestSubjectWarning: {
+        showMessage(ed, inst.fGeneralRequestWarningP, true);
+        return;
+    } break;
+
+    case eEvent::generalRequestParentInitial: {
+        showMessage(ed, inst.fGeneralRequestInitialR, true);
+        return;
+    } break;
+    case eEvent::generalRequestParentReminder: {
+        showMessage(ed, inst.fGeneralRequestReminderR, true);
+        return;
+    } break;
+    case eEvent::generalRequestParentOverdue: {
+        showMessage(ed, inst.fGeneralRequestOverdueR, true);
+        return;
+    } break;
+    case eEvent::generalRequestParentWarning: {
+        showMessage(ed, inst.fGeneralRequestWarningR, true);
+        return;
+    } break;
+
+    case eEvent::generalRequestAllyComply: {
         const auto m = eMessages::favorMessage(
                     inst.fGeneralRequestComplyS);
         showMessage(ed, m, true);
         return;
     } break;
-    case eEvent::generalRequestTooLate: {
+    case eEvent::generalRequestAllyTooLate: {
         const auto m = eMessages::dfavorMessage(
                     inst.fGeneralRequestTooLateS);
         showMessage(ed, m, true);
         return;
     } break;
-    case eEvent::generalRequestRefuse: {
+    case eEvent::generalRequestAllyRefuse: {
         const auto m = eMessages::dfavorMessage(
                     inst.fGeneralRequestRefuseS);
         showMessage(ed, m, true);

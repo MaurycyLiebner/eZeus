@@ -15,9 +15,9 @@ eReceiveRequestEvent::eReceiveRequestEvent(
     mEarlyTrigger = e::make_shared<eEventTrigger>(e1, board);
     const auto e2 = eLanguage::text("comply");
     mComplyTrigger = e::make_shared<eEventTrigger>(e2, board);
-    const auto e3 = eLanguage::text("refuse");
+    const auto e3 = eLanguage::text("too_late");
     mTooLateTrigger = e::make_shared<eEventTrigger>(e3, board);
-    const auto e4 = eLanguage::text("too_late");
+    const auto e4 = eLanguage::text("refuse");
     mRefuseTrigger = e::make_shared<eEventTrigger>(e4, board);
 
     addTrigger(mEarlyTrigger);
@@ -30,11 +30,13 @@ void eReceiveRequestEvent::initialize(
         const int postpone,
         const eResourceType res,
         const int count,
-        const stdsptr<eWorldCity> &c) {
+        const stdsptr<eWorldCity> &c,
+        const bool finish) {
     mPostpone = postpone;
     mResource = res;
     mCount = count;
     mCity = c;
+    mFinish = finish;
 }
 
 const int gPostponeDays = 6*31;
@@ -45,41 +47,44 @@ void eReceiveRequestEvent::trigger() {
     eEventData ed;
     ed.fCity = mCity;
     ed.fResourceType = mResource;
-    ed.fResourceCount = mCount < 0 ? -mCount : mCount;
+    ed.fResourceCount = mCount;
     ed.fTime = 6;
     ed.fA0Key = "dispatch_now";
     ed.fA1Key = "postpone";
     ed.fA2Key = "refuse";
 
-    if(mCount <= 0) {
+    if(mFinish) {
         if(mPostpone > 1) {
             ed.fType = eMessageEventType::resourceGranted;
-            board.event(eEvent::generalRequestTooLate, ed);
+            board.event(eEvent::generalRequestAllyTooLate, ed);
             mCity->incAttitude(-5);
 
             auto& msgs = eMessages::instance;
             auto& reason = msgs.fGeneralRequestTooLateReasonS;
-            finished(*mTooLateTrigger, reason);
+            const auto me = mainEvent<eReceiveRequestEvent>();
+            me->finished(*mTooLateTrigger, reason);
         } else {
             ed.fType = eMessageEventType::resourceGranted;
-            board.event(eEvent::generalRequestComply, ed);
+            board.event(eEvent::generalRequestAllyComply, ed);
             mCity->incAttitude(10);
 
             auto& msgs = eMessages::instance;
             auto& reason = msgs.fGeneralRequestComplyReasonS;
-            finished(*mComplyTrigger, reason);
+            const auto me = mainEvent<eReceiveRequestEvent>();
+            me->finished(*mComplyTrigger, reason);
         }
         return;
     }
 
     if(mPostpone > 3) {
         ed.fType = eMessageEventType::resourceGranted;
-        board.event(eEvent::generalRequestRefuse, ed);
+        board.event(eEvent::generalRequestAllyRefuse, ed);
         mCity->incAttitude(-15);
 
         auto& msgs = eMessages::instance;
         auto& reason = msgs.fGeneralRequestRefuseReasonS;
-        finished(*mRefuseTrigger, reason);
+        const auto me = mainEvent<eReceiveRequestEvent>();
+        me->finished(*mRefuseTrigger, reason);
         return;
     }
 
@@ -130,19 +135,40 @@ void eReceiveRequestEvent::trigger() {
         } else if(mPostpone == 1) { // reminder
             board.event(eEvent::generalRequestRivalReminder, ed);
         } else if(mPostpone == 2) { // overdue
-            board.event(eEvent::generalRequestRivalReminder, ed);
+            board.event(eEvent::generalRequestRivalOverdue, ed);
         } else if(mPostpone == 3) { // warning
             board.event(eEvent::generalRequestRivalWarning, ed);
         }
-    } else {
+    } else if(rel == eWorldCityRelationship::vassal ||
+              rel == eWorldCityRelationship::collony) {
         if(mPostpone == 0) { // initial
-            board.event(eEvent::generalRequestInitial, ed);
+            board.event(eEvent::generalRequestSubjectInitial, ed);
         } else if(mPostpone == 1) { // reminder
-            board.event(eEvent::generalRequestReminder, ed);
+            board.event(eEvent::generalRequestSubjectReminder, ed);
         } else if(mPostpone == 2) { // overdue
-            board.event(eEvent::generalRequestReminder, ed);
+            board.event(eEvent::generalRequestSubjectOverdue, ed);
         } else if(mPostpone == 3) { // warning
-            board.event(eEvent::generalRequestWarning, ed);
+            board.event(eEvent::generalRequestSubjectWarning, ed);
+        }
+    } else if(rel == eWorldCityRelationship::mainCity) {
+        if(mPostpone == 0) { // initial
+            board.event(eEvent::generalRequestParentInitial, ed);
+        } else if(mPostpone == 1) { // reminder
+            board.event(eEvent::generalRequestParentReminder, ed);
+        } else if(mPostpone == 2) { // overdue
+            board.event(eEvent::generalRequestParentOverdue, ed);
+        } else if(mPostpone == 3) { // warning
+            board.event(eEvent::generalRequestParentWarning, ed);
+        }
+    } else { // ally
+        if(mPostpone == 0) { // initial
+            board.event(eEvent::generalRequestAllyInitial, ed);
+        } else if(mPostpone == 1) { // reminder
+            board.event(eEvent::generalRequestAllyReminder, ed);
+        } else if(mPostpone == 2) { // overdue
+            board.event(eEvent::generalRequestAllyOverdue, ed);
+        } else if(mPostpone == 3) { // warning
+            board.event(eEvent::generalRequestAllyWarning, ed);
         }
     }
 }
@@ -160,6 +186,7 @@ std::string eReceiveRequestEvent::longName() const {
 
 void eReceiveRequestEvent::write(eWriteStream& dst) const {
     eGameEvent::write(dst);
+    dst << mFinish;
     dst << mPostpone;
     dst << mResource;
     dst << mCount;
@@ -168,6 +195,7 @@ void eReceiveRequestEvent::write(eWriteStream& dst) const {
 
 void eReceiveRequestEvent::read(eReadStream& src) {
     eGameEvent::read(src);
+    src >> mFinish;
     src >> mPostpone;
     src >> mResource;
     src >> mCount;
@@ -178,7 +206,7 @@ void eReceiveRequestEvent::read(eReadStream& src) {
 
 stdsptr<eGameEvent> eReceiveRequestEvent::makeCopy(const std::string& reason) const {
     const auto c = e::make_shared<eReceiveRequestEvent>(getBoard());
-    c->initialize(mPostpone, mResource, mCount, mCity);
+    c->initialize(mPostpone, mResource, mCount, mCity, mFinish);
     c->setReason(reason);
     return c;
 }
@@ -208,16 +236,15 @@ void eReceiveRequestEvent::dispatch() {
     const auto request = cityRequest();
     board.removeCityRequest(request);
     board.takeResource(mResource, mCount);
-    const auto e = e::make_shared<eReceiveRequestEvent>(
-                *this);
+    const auto e = e::make_shared<eReceiveRequestEvent>(*this);
     int postpone = mPostpone - 1;
     auto date = startDate();
     const auto currentDate = board.date();
-    while(date < currentDate) {
+    while(date <= currentDate) {
         date += gPostponeDays;
         postpone++;
     }
-    e->initialize(postpone, mResource, -mCount, mCity);
+    e->initialize(postpone, mResource, mCount, mCity, true);
     const auto edate = currentDate + 3*31;
     e->initializeDate(edate);
     clearConsequences();

@@ -43,6 +43,8 @@ public:
 
     bool operator>(const eDate& other) const;
     bool operator<(const eDate& other) const;
+    bool operator<=(const eDate& other) const;
+    bool operator>=(const eDate& other) const;
     bool operator==(const eDate& other) const;
     bool operator!=(const eDate& other) const;
     eDate& operator++();

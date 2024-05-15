@@ -14,6 +14,7 @@ void eEventTrigger::trigger(eGameEvent& parent,
     for(const auto& e : mEvents) {
         const auto c = e->makeCopy(reason);
         if(!c) continue;
+        c->setIsMainEvent();
         const int delay = e->period();
         const auto d = date + delay;
         c->initializeDate(d);

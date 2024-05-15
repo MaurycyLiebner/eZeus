@@ -94,6 +94,65 @@ void eMessages::load(eHeroMessages& hero, const std::string& heroName) {
     hero.fHallAvailable.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + heroName + "_hall_available_initial_announcement"];
 }
 
+void eMessages::loadGeneralRequest(
+        eMessageType& initial,
+        eMessageType& reminder,
+        eMessageType& overdue,
+        eMessageType& warning,
+        eMessageType& comply,
+        eMessageType& tooLate,
+        eMessageType& refuse,
+        eReason& earlyReason,
+        eReason& complyReason,
+        eReason& tooLateReason,
+        eReason& refuseReason,
+        const std::string& letter) {
+    initial.fFull.fTitle = fMessages["PHRASE_general_request_title_" + letter];
+    initial.fFull.fText = fMessages["PHRASE_general_request_initial_announcement_" + letter];
+    initial.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_" + letter];
+    initial.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_initial_announcement_" + letter];
+
+    reminder.fFull.fTitle = fMessages["PHRASE_general_request_title_" + letter];
+    reminder.fFull.fText = fMessages["PHRASE_general_request_reminder_" + letter];
+    reminder.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_" + letter];
+    reminder.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_reminder_" + letter];
+
+    overdue.fFull.fTitle = fMessages["PHRASE_general_request_title_" + letter];
+    overdue.fFull.fText = fMessages["PHRASE_general_request_overdue_" + letter];
+    overdue.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_" + letter];
+    overdue.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_overdue_" + letter];
+
+    warning.fFull.fTitle = fMessages["PHRASE_general_request_title_" + letter];
+    warning.fFull.fText = fMessages["PHRASE_general_request_warning_" + letter];
+    warning.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_" + letter];
+    warning.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_warning_" + letter];
+
+    comply.fFull.fTitle = fMessages["PHRASE_general_request_title_" + letter];
+    comply.fFull.fText = fMessages["PHRASE_general_request_comply_reason_" + letter];
+    comply.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_" + letter];
+    comply.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_comply_reason_" + letter];
+
+    tooLate.fFull.fTitle = fMessages["PHRASE_general_request_title_" + letter];
+    tooLate.fFull.fText = fMessages["PHRASE_general_request_too_late_reason_" + letter];
+    tooLate.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_" + letter];
+    tooLate.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_too_late_reason_" + letter];
+
+    refuse.fFull.fTitle = fMessages["PHRASE_general_request_title_" + letter];
+    refuse.fFull.fText = fMessages["PHRASE_general_request_refuse_reason_" + letter];
+    refuse.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_" + letter];
+    refuse.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_refuse_reason_" + letter];
+
+    earlyReason.fFull = fMessages["PHRASE_general_request_early_reason_" + letter];
+    complyReason.fFull = fMessages["PHRASE_general_request_comply_reason_" + letter];
+    tooLateReason.fFull = fMessages["PHRASE_general_request_too_late_reason_" + letter];
+    refuseReason.fFull = fMessages["PHRASE_general_request_refuse_reason_" + letter];
+
+    earlyReason.fCondensed = fMessages["PHRASE_CONDENSED_general_request_early_reason_" + letter];
+    complyReason.fCondensed = fMessages["PHRASE_CONDENSED_general_request_comply_reason_" + letter];
+    tooLateReason.fCondensed = fMessages["PHRASE_CONDENSED_general_request_too_late_reason_" + letter];
+    refuseReason.fCondensed = fMessages["PHRASE_CONDENSED_general_request_refuse_reason_" + letter];
+}
+
 bool eMessages::loadImpl() {
     if(mLoaded) return false;
     mLoaded = true;
@@ -405,50 +464,30 @@ bool eMessages::loadImpl() {
     fGiftReceivedRefuse.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_refused_title"];
     fGiftReceivedRefuse.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_refused_initial_announcement"];
 
-    fGeneralRequestInitialS.fFull.fTitle = fMessages["PHRASE_general_request_title_S"];
-    fGeneralRequestInitialS.fFull.fText = fMessages["PHRASE_general_request_initial_announcement_S"];
-    fGeneralRequestInitialS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
-    fGeneralRequestInitialS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_initial_announcement_S"];
-
-    fGeneralRequestReminderS.fFull.fTitle = fMessages["PHRASE_general_request_title_S"];
-    fGeneralRequestReminderS.fFull.fText = fMessages["PHRASE_general_request_reminder_S"];
-    fGeneralRequestReminderS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
-    fGeneralRequestReminderS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_reminder_S"];
-
-    fGeneralRequestOverdueS.fFull.fTitle = fMessages["PHRASE_general_request_title_S"];
-    fGeneralRequestOverdueS.fFull.fText = fMessages["PHRASE_general_request_overdue_S"];
-    fGeneralRequestOverdueS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
-    fGeneralRequestOverdueS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_overdue_S"];
-
-    fGeneralRequestWarningS.fFull.fTitle = fMessages["PHRASE_general_request_title_S"];
-    fGeneralRequestWarningS.fFull.fText = fMessages["PHRASE_general_request_warning_S"];
-    fGeneralRequestWarningS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
-    fGeneralRequestWarningS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_warning_S"];
-
-    fGeneralRequestComplyS.fFull.fTitle = fMessages["PHRASE_general_request_title_S"];
-    fGeneralRequestComplyS.fFull.fText = fMessages["PHRASE_general_request_comply_reason_S"];
-    fGeneralRequestComplyS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
-    fGeneralRequestComplyS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_comply_reason_S"];
-
-    fGeneralRequestTooLateS.fFull.fTitle = fMessages["PHRASE_general_request_title_S"];
-    fGeneralRequestTooLateS.fFull.fText = fMessages["PHRASE_general_request_too_late_reason_S"];
-    fGeneralRequestTooLateS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
-    fGeneralRequestTooLateS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_too_late_reason_S"];
-
-    fGeneralRequestRefuseS.fFull.fTitle = fMessages["PHRASE_general_request_title_S"];
-    fGeneralRequestRefuseS.fFull.fText = fMessages["PHRASE_general_request_refuse_reason_S"];
-    fGeneralRequestRefuseS.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_general_request_title_S"];
-    fGeneralRequestRefuseS.fCondensed.fText = fMessages["PHRASE_CONDENSED_general_request_refuse_reason_S"];
-
-    fGeneralRequestEarlyReasonS.fFull = fMessages["PHRASE_general_request_early_reason_S"];
-    fGeneralRequestComplyReasonS.fFull = fMessages["PHRASE_general_request_comply_reason_S"];
-    fGeneralRequestTooLateReasonS.fFull = fMessages["PHRASE_general_request_too_late_reason_S"];
-    fGeneralRequestRefuseReasonS.fFull = fMessages["PHRASE_general_request_refuse_reason_S"];
-
-    fGeneralRequestEarlyReasonS.fCondensed = fMessages["PHRASE_CONDENSED_general_request_early_reason_S"];
-    fGeneralRequestComplyReasonS.fCondensed = fMessages["PHRASE_CONDENSED_general_request_comply_reason_S"];
-    fGeneralRequestTooLateReasonS.fCondensed = fMessages["PHRASE_CONDENSED_general_request_too_late_reason_S"];
-    fGeneralRequestRefuseReasonS.fCondensed = fMessages["PHRASE_CONDENSED_general_request_refuse_reason_S"];
+    loadGeneralRequest(fGeneralRequestInitialS, fGeneralRequestReminderS,
+                       fGeneralRequestOverdueS, fGeneralRequestWarningS,
+                       fGeneralRequestComplyS, fGeneralRequestTooLateS,
+                       fGeneralRequestRefuseS, fGeneralRequestEarlyReasonS,
+                       fGeneralRequestComplyReasonS, fGeneralRequestTooLateReasonS,
+                       fGeneralRequestRefuseReasonS, "S");
+    loadGeneralRequest(fGeneralRequestInitialD, fGeneralRequestReminderD,
+                       fGeneralRequestOverdueD, fGeneralRequestWarningD,
+                       fGeneralRequestComplyD, fGeneralRequestTooLateD,
+                       fGeneralRequestRefuseD, fGeneralRequestEarlyReasonD,
+                       fGeneralRequestComplyReasonD, fGeneralRequestTooLateReasonD,
+                       fGeneralRequestRefuseReasonD, "D");
+    loadGeneralRequest(fGeneralRequestInitialP, fGeneralRequestReminderP,
+                       fGeneralRequestOverdueP, fGeneralRequestWarningP,
+                       fGeneralRequestComplyP, fGeneralRequestTooLateP,
+                       fGeneralRequestRefuseP, fGeneralRequestEarlyReasonP,
+                       fGeneralRequestComplyReasonP, fGeneralRequestTooLateReasonP,
+                       fGeneralRequestRefuseReasonP, "P");
+    loadGeneralRequest(fGeneralRequestInitialR, fGeneralRequestReminderR,
+                       fGeneralRequestOverdueR, fGeneralRequestWarningR,
+                       fGeneralRequestComplyR, fGeneralRequestTooLateR,
+                       fGeneralRequestRefuseR, fGeneralRequestEarlyReasonR,
+                       fGeneralRequestComplyReasonR, fGeneralRequestTooLateReasonR,
+                       fGeneralRequestRefuseReasonR, "R");
 
     fGiftGranted.fFull.fTitle = fMessages["PHRASE_gift_title"];
     fGiftGranted.fFull.fText = fMessages["PHRASE_gift_granted"];

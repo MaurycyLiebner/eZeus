@@ -137,6 +137,7 @@ public:
     eMessageType fGiftReceivedNotNeeded;
     eMessageType fGiftReceivedRefuse;
 
+    // ally
     eMessageType fGeneralRequestInitialS;
     eMessageType fGeneralRequestReminderS;
     eMessageType fGeneralRequestOverdueS;
@@ -148,6 +149,45 @@ public:
     eReason fGeneralRequestComplyReasonS;
     eReason fGeneralRequestTooLateReasonS;
     eReason fGeneralRequestRefuseReasonS;
+
+    // rival
+    eMessageType fGeneralRequestInitialD;
+    eMessageType fGeneralRequestReminderD;
+    eMessageType fGeneralRequestOverdueD;
+    eMessageType fGeneralRequestWarningD;
+    eMessageType fGeneralRequestComplyD;
+    eMessageType fGeneralRequestTooLateD;
+    eMessageType fGeneralRequestRefuseD;
+    eReason fGeneralRequestEarlyReasonD;
+    eReason fGeneralRequestComplyReasonD;
+    eReason fGeneralRequestTooLateReasonD;
+    eReason fGeneralRequestRefuseReasonD;
+
+    // subject
+    eMessageType fGeneralRequestInitialP;
+    eMessageType fGeneralRequestReminderP;
+    eMessageType fGeneralRequestOverdueP;
+    eMessageType fGeneralRequestWarningP;
+    eMessageType fGeneralRequestComplyP;
+    eMessageType fGeneralRequestTooLateP;
+    eMessageType fGeneralRequestRefuseP;
+    eReason fGeneralRequestEarlyReasonP;
+    eReason fGeneralRequestComplyReasonP;
+    eReason fGeneralRequestTooLateReasonP;
+    eReason fGeneralRequestRefuseReasonP;
+
+    // parent
+    eMessageType fGeneralRequestInitialR;
+    eMessageType fGeneralRequestReminderR;
+    eMessageType fGeneralRequestOverdueR;
+    eMessageType fGeneralRequestWarningR;
+    eMessageType fGeneralRequestComplyR;
+    eMessageType fGeneralRequestTooLateR;
+    eMessageType fGeneralRequestRefuseR;
+    eReason fGeneralRequestEarlyReasonR;
+    eReason fGeneralRequestComplyReasonR;
+    eReason fGeneralRequestTooLateReasonR;
+    eReason fGeneralRequestRefuseReasonR;
 
     eMessageType fGiftGranted;
     eMessageType fGiftCashGranted;
@@ -171,6 +211,20 @@ private:
     bool loadImpl();
     void load(eGodMessages& god, const std::string& godName);
     void load(eHeroMessages& hero, const std::string& heroName);
+
+    void loadGeneralRequest(eMessageType& initial,
+                            eMessageType& reminder,
+                            eMessageType& overdue,
+                            eMessageType& warning,
+                            eMessageType& comply,
+                            eMessageType& tooLate,
+                            eMessageType& refuse,
+                            eReason& earlyReason,
+                            eReason& complyReason,
+                            eReason& tooLateReason,
+                            eReason& refuseReason,
+                            const std::string& letter);
+
     bool mLoaded = false;
 };
 

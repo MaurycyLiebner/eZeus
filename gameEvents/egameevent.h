@@ -52,12 +52,21 @@ public:
                         const int cycleDays = 0,
                         const int nRuns = 1);
 
+    void setIsMainEvent();
+
     void addWarning(const int daysBefore,
                     const stdsptr<eGameEvent>& event);
     void clearWarnings();
     void addConsequence(const stdsptr<eGameEvent>& event);
     void clearConsequences();
     bool hasActiveConsequences(const eDate& date) const;
+
+    template <typename T>
+    T* mainEvent() {
+        if(mIsMainEvent) return static_cast<T*>(this);
+        if(mParent) return mParent->mainEvent<T>();
+        return nullptr;
+    }
 
     std::string longDatedName() const;
 
@@ -89,6 +98,9 @@ protected:
     void addTrigger(const stdsptr<eEventTrigger>& et);
 private:
     const eGameEventType mType;
+    bool mIsMainEvent = false;
+
+    stdptr<eGameEvent> mParent;
 
     std::vector<eWarning> mWarnings;
     std::vector<stdsptr<eGameEvent>> mConsequences;

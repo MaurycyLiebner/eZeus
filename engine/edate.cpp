@@ -77,6 +77,14 @@ bool eDate::operator<(const eDate& other) const {
     return other > *this;
 }
 
+bool eDate::operator<=(const eDate& other) const {
+    return other < *this || other == *this;
+}
+
+bool eDate::operator>=(const eDate& other) const {
+    return other > *this || other == *this;
+}
+
 bool eDate::operator==(const eDate& other) const {
     return other.mDay == mDay &&
            other.mMonth == mMonth &&

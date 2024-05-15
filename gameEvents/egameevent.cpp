@@ -59,6 +59,10 @@ void eGameEvent::initializeDate(const eDate& startDate,
     rewind();
 }
 
+void eGameEvent::setIsMainEvent() {
+    mIsMainEvent = true;
+}
+
 void eGameEvent::addWarning(const int daysBefore,
                             const stdsptr<eGameEvent>& event) {
     const auto startDate = mStartDate - daysBefore;
@@ -70,9 +74,9 @@ void eGameEvent::clearWarnings() {
     mWarnings.clear();
 }
 
-void eGameEvent::addConsequence(
-        const stdsptr<eGameEvent>& event) {
+void eGameEvent::addConsequence(const stdsptr<eGameEvent>& event) {
     mConsequences.push_back(event);
+    event->mParent = this;
 }
 
 void eGameEvent::clearConsequences() {
@@ -178,6 +182,7 @@ void eGameEvent::addTrigger(const stdsptr<eEventTrigger>& et) {
 void eGameEvent::write(eWriteStream& dst) const {
     mNextDate.write(dst);
     mStartDate.write(dst);
+    dst << mIsMainEvent;
     dst << mPeriodDays;
     dst << mTotNRuns;
     dst << mRemNRuns;
@@ -204,6 +209,7 @@ void eGameEvent::write(eWriteStream& dst) const {
 void eGameEvent::read(eReadStream& src) {
     mNextDate.read(src);
     mStartDate.read(src);
+    src >> mIsMainEvent;
     src >> mPeriodDays;
     src >> mTotNRuns;
     src >> mRemNRuns;
@@ -228,7 +234,7 @@ void eGameEvent::read(eReadStream& src) {
         src >> type;
         const auto e = eGameEvent::sCreate(type, getBoard());
         e->read(src);
-        mConsequences.emplace_back(e);
+        addConsequence(e);
     }
 
     for(const auto& et : mTriggers) {

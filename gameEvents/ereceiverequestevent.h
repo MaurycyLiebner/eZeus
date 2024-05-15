@@ -15,7 +15,8 @@ public:
     void initialize(const int postpone,
                     const eResourceType res,
                     const int count,
-                    const stdsptr<eWorldCity>& c);
+                    const stdsptr<eWorldCity>& c,
+                    const bool finish = false);
 
     void trigger() override;
     std::string longName() const override;
@@ -39,6 +40,7 @@ public:
 private:
     void finished(eEventTrigger& t, const eReason& r);
 
+    bool mFinish = false;
     int mPostpone = 0;
     eResourceType mResource = eResourceType::fleece;
     int mCount = 16;
