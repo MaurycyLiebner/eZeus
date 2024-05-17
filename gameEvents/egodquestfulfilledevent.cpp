@@ -24,6 +24,8 @@ void eGodQuestFulfilledEvent::trigger() {
     const auto hh = board.heroHall(hero());
     if(hh) hh->setHeroOnQuest(false);
     board.removeGodQuest(mainEvent<eGodQuestEvent>());
+    const auto me = mainEvent<eGodQuestEvent>();
+    me->fulfilled();
 }
 
 std::string eGodQuestFulfilledEvent::longName() const {

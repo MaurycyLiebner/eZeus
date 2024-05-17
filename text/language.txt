@@ -40,6 +40,8 @@ comply "Comply"
 refuse "Refuse"
 too_late "Too late"
 
+fulfilled_trigger "Fulfilled"
+
 date: "Date:"
 period: "Period:"
 repeat: "Repeat:"

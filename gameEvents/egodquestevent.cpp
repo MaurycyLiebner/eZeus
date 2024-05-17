@@ -7,10 +7,16 @@
 #include "emessages.h"
 #include "egodquestfulfilledevent.h"
 #include "buildings/eheroshall.h"
+#include "estringhelpers.h"
 
 eGodQuestEvent::eGodQuestEvent(const eGameEventBranch branch,
                                eGameBoard& board) :
-    eGodQuestEventBase(eGameEventType::godQuest, branch, board) {}
+    eGodQuestEventBase(eGameEventType::godQuest, branch, board) {
+    const auto e4 = eLanguage::text("fulfilled_trigger");
+    mFulfilledTrigger = e::make_shared<eEventTrigger>(e4, board);
+
+    addTrigger(mFulfilledTrigger);
+}
 
 eGodQuestEvent::~eGodQuestEvent() {
     auto& board = getBoard();
@@ -73,4 +79,24 @@ void eGodQuestEvent::fulfill() {
     e->setHero(hero());
     e->setId(id());
     addConsequence(e);
+}
+
+void eGodQuestEvent::fulfilled() {
+    const auto& board = getBoard();
+    const auto date = board.date();
+    const auto& msgs = eMessages::instance;
+    const auto godMsgs = msgs.godMessages(god());
+    const eQuestMessages* qMsgs = nullptr;
+    switch(id()) {
+    case eGodQuestId::godQuest1:
+        qMsgs = &godMsgs->fQuest1;
+        break;
+    case eGodQuestId::godQuest2:
+        qMsgs = &godMsgs->fQuest2;
+        break;
+    }
+    auto rFull = qMsgs->fFulfilled.fReason;
+    const auto heroName = eHero::sHeroName(hero());
+    eStringHelpers::replaceAll(rFull, "[hero_needed]", heroName);
+    mFulfilledTrigger->trigger(*this, date, rFull);
 }

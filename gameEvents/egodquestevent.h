@@ -14,6 +14,9 @@ public:
     stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
 
     void fulfill();
+    void fulfilled();
+private:
+    stdsptr<eEventTrigger> mFulfilledTrigger;
 };
 
 #endif // EGODQUESTEVENT_H
