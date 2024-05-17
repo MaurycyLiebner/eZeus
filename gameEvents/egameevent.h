@@ -37,6 +37,7 @@ public:
     eGameEvent(const eGameEventType type,
                const eGameEventBranch branch,
                eGameBoard& board);
+    ~eGameEvent();
 
     virtual void trigger() = 0;
 
@@ -52,6 +53,9 @@ public:
                                        eGameBoard& board);
 
     eGameEventType type() const { return mType; }
+
+    void setIOID(const int id) { mIOID = id; }
+    int ioID() const { return mIOID; }
 
     void initializeDate(const eDate& startDate,
                         const int period = 0,
@@ -133,6 +137,8 @@ private:
 
     int mRemNRuns;
     eDate mNextDate;
+
+    int mIOID = -1;
 };
 
 #endif // EGAMEEVENT_H

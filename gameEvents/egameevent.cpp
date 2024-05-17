@@ -18,7 +18,14 @@
 eGameEvent::eGameEvent(const eGameEventType type,
                        const eGameEventBranch branch,
                        eGameBoard& board) :
-    eObject(board), mType(type), mBranch(branch) {}
+    eObject(board), mType(type), mBranch(branch) {
+    board.addGameEvent(this);
+}
+
+eGameEvent::~eGameEvent() {
+    auto& board = getBoard();
+    board.removeGameEvent(this);
+}
 
 stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
                                         const eGameEventBranch branch,
@@ -212,6 +219,7 @@ void eGameEvent::addTrigger(const stdsptr<eEventTrigger>& et) {
 }
 
 void eGameEvent::write(eWriteStream& dst) const {
+    dst << mIOID;
     mNextDate.write(dst);
     mStartDate.write(dst);
     dst << mPeriodDays;
@@ -242,6 +250,7 @@ void eGameEvent::write(eWriteStream& dst) const {
 }
 
 void eGameEvent::read(eReadStream& src) {
+    src >> mIOID;
     mNextDate.read(src);
     mStartDate.read(src);
     src >> mPeriodDays;

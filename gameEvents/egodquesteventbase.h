@@ -9,6 +9,8 @@ class eGodQuestEventBase : public eGameEvent {
 public:
     using eGameEvent::eGameEvent;
 
+    const eGodQuest& godQuest() const { return mQuest; }
+
     eGodType god() const { return mQuest.fGod; }
     void setGod(const eGodType g);
 

@@ -368,7 +368,7 @@ void eGameBoard::setFriendlyGods(const std::vector<eGodType>& gods) {
     date += period;
     e->initializeDate(date, period, 10000);
     e->setTypes(gods);
-    addGameEvent(e);
+    addRootGameEvent(e);
 }
 
 void eGameBoard::setHostileGods(const std::vector<eGodType>& gods) {
@@ -381,7 +381,7 @@ void eGameBoard::setHostileGods(const std::vector<eGodType>& gods) {
     date += period;
     e->initializeDate(date, period, 10000);
     e->setTypes(gods);
-    addGameEvent(e);
+    addRootGameEvent(e);
 }
 
 void eGameBoard::setHostileMonsters(const std::vector<eMonsterType>& monsters) {
@@ -419,7 +419,7 @@ void eGameBoard::planInvasion(const eDate& date,
     const auto city = mWorldBoard.cities().front();
     e->initialize(city, infantry, cavalry, archers);
     e->initializeDate(date, 0, 1);
-    addGameEvent(e);
+    addRootGameEvent(e);
 }
 
 eBuilding* eGameBoard::buildingWithIOID(const int id) const {
@@ -454,6 +454,15 @@ eBanner* eGameBoard::bannerWithIOID(const int id) const {
     for(const auto b : mBanners) {
         const int bio = b->ioID();
         if(bio == id) return b;
+    }
+    return nullptr;
+}
+
+eGameEvent* eGameBoard::eventWithIOID(const int id) const {
+    if(id == -1) return nullptr;
+    for(const auto e : mAllGameEvents) {
+        const int eio = e->ioID();
+        if(eio == id) return e;
     }
     return nullptr;
 }
@@ -553,7 +562,7 @@ void eGameBoard::planGiftFrom(const stdsptr<eWorldCity>& c,
     e->initialize(true, type, count, c);
     const auto date = mDate + 31;
     e->initializeDate(date);
-    addGameEvent(e);
+    addRootGameEvent(e);
 }
 
 void eGameBoard::request(const stdsptr<eWorldCity>& c,
@@ -563,7 +572,7 @@ void eGameBoard::request(const stdsptr<eWorldCity>& c,
     e->initialize(true, type, c);
     const auto date = mDate + 90;
     e->initializeDate(date);
-    addGameEvent(e);
+    addRootGameEvent(e);
 }
 
 void eGameBoard::tributeFrom(const stdsptr<eWorldCity>& c,
@@ -601,7 +610,7 @@ void eGameBoard::tributeFrom(const stdsptr<eWorldCity>& c,
             e->initialize(c);
             const auto date = mDate + 31;
             e->initializeDate(date);
-            addGameEvent(e);
+            addRootGameEvent(e);
         };
     }
     ed.fA2 = [this, c, type, count]() { // decline
@@ -624,7 +633,7 @@ void eGameBoard::giftTo(const stdsptr<eWorldCity>& c,
     e->initialize(c, type, count);
     const auto date = mDate + 90;
     e->initializeDate(date);
-    addGameEvent(e);
+    addRootGameEvent(e);
 }
 
 void eGameBoard::giftToReceived(const stdsptr<eWorldCity>& c,
@@ -961,41 +970,25 @@ eEnlistedForces eGameBoard::getEnlistableForces() const {
     return result;
 }
 
-void eGameBoard::addGodQuest(const eGodQuest q) {
+void eGameBoard::addGodQuest(eGodQuestEvent* const q) {
     eVectorHelpers::remove(mGodQuests, q);
     mGodQuests.push_back(q);
     if(mRequestUpdateHandler) mRequestUpdateHandler();
 }
 
-void eGameBoard::removeGodQuest(const eGodQuest q) {
+void eGameBoard::removeGodQuest(eGodQuestEvent* const q) {
     eVectorHelpers::remove(mGodQuests, q);
     if(mRequestUpdateHandler) mRequestUpdateHandler();
 }
 
-void eGameBoard::addCityRequest(const eCityRequest q) {
+void eGameBoard::addCityRequest(eReceiveRequestEvent* const q) {
     mCityRequests.push_back(q);
     if(mRequestUpdateHandler) mRequestUpdateHandler();
 }
 
-void eGameBoard::removeCityRequest(const eCityRequest q) {
+void eGameBoard::removeCityRequest(eReceiveRequestEvent* const q) {
     eVectorHelpers::remove(mCityRequests, q);
     if(mRequestUpdateHandler) mRequestUpdateHandler();
-}
-
-void eGameBoard::fulfillCityRequest(const eCityRequest q) {
-    for(const auto& e : mGameEvents) {
-        const auto date = eGameBoard::date();
-        const bool active = e->hasActiveConsequences(date);
-        if(!active) continue;
-        const auto type = e->type();
-        if(type != eGameEventType::receiveRequest) continue;
-        const auto ee = static_cast<eReceiveRequestEvent*>(e.get());
-        const auto qq = ee->cityRequest();
-        if(q == qq) {
-            ee->dispatch();
-            break;
-        }
-    }
 }
 
 void eGameBoard::registerAttackingGod(eCharacter* const c) {
@@ -1058,12 +1051,20 @@ bool eGameBoard::unregisterSoldierBanner(const stdsptr<eSoldierBanner>& b) {
     return eVectorHelpers::remove(mSoldierBanners, b);
 }
 
-void eGameBoard::addGameEvent(const stdsptr<eGameEvent>& e) {
+void eGameBoard::addRootGameEvent(const stdsptr<eGameEvent>& e) {
     mGameEvents.push_back(e);
 }
 
-void eGameBoard::removeGameEvent(const stdsptr<eGameEvent>& e) {
+void eGameBoard::removeRootGameEvent(const stdsptr<eGameEvent>& e) {
     eVectorHelpers::remove(mGameEvents, e);
+}
+
+void eGameBoard::addGameEvent(eGameEvent* const e) {
+    mAllGameEvents.push_back(e);
+}
+
+void eGameBoard::removeGameEvent(eGameEvent* const e) {
+    eVectorHelpers::remove(mAllGameEvents, e);
 }
 
 void eGameBoard::updateCoverage() {

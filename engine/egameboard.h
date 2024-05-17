@@ -33,6 +33,7 @@
 
 #include "engine/egodquest.h"
 #include "ecityrequest.h"
+#include "gameEvents/egodquestevent.h"
 
 class eGameEvent;
 
@@ -279,8 +280,11 @@ public:
     using eGameEvents = std::vector<stdsptr<eGameEvent>>;
     const eGameEvents& gameEvents() const { return mGameEvents; }
 
-    void addGameEvent(const stdsptr<eGameEvent>& e);
-    void removeGameEvent(const stdsptr<eGameEvent>& e);
+    void addRootGameEvent(const stdsptr<eGameEvent>& e);
+    void removeRootGameEvent(const stdsptr<eGameEvent>& e);
+
+    void addGameEvent(eGameEvent* const e);
+    void removeGameEvent(eGameEvent* const e);
 
     void planInvasion(const eDate& date,
                       const int infantry,
@@ -294,6 +298,7 @@ public:
     eCharacter* characterWithIOID(const int id) const;
     eCharacterAction* characterActionWithIOID(const int id) const;
     eBanner* bannerWithIOID(const int id) const;
+    eGameEvent* eventWithIOID(const int id) const;
 
     eTile* landInvasionTile(const int id);
     void addLandInvasionPoint(eLandInvasionPoint* const p);
@@ -340,16 +345,15 @@ public:
 
     eEnlistedForces getEnlistableForces() const;
 
-    using eQuests = std::vector<eGodQuest>;
+    using eQuests = std::vector<eGodQuestEvent*>;
     const eQuests& godQuests() const { return mGodQuests; }
-    void addGodQuest(const eGodQuest q);
-    void removeGodQuest(const eGodQuest q);
+    void addGodQuest(eGodQuestEvent* const q);
+    void removeGodQuest(eGodQuestEvent* const q);
 
-    using eRequests = std::vector<eCityRequest>;
+    using eRequests = std::vector<eReceiveRequestEvent*>;
     const eRequests& cityRequests() const { return mCityRequests; }
-    void addCityRequest(const eCityRequest q);
-    void removeCityRequest(const eCityRequest q);
-    void fulfillCityRequest(const eCityRequest q);
+    void addCityRequest(eReceiveRequestEvent* const q);
+    void removeCityRequest(eReceiveRequestEvent* const q);
 
     using eChars = std::vector<eCharacter*>;
     const eChars& attackingGods() const { return mAttackingGods; }
@@ -429,9 +433,9 @@ private:
 
     bool mRegisterBuildingsEnabled = true;
 
-    std::vector<eGodQuest> mGodQuests;
+    std::vector<eGodQuestEvent*> mGodQuests;
 
-    std::vector<eCityRequest> mCityRequests;
+    std::vector<eReceiveRequestEvent*> mCityRequests;
 
     std::vector<eSanctuary*> mSanctuaries;
     std::vector<eHerosHall*> mHeroHalls;
@@ -493,6 +497,7 @@ private:
     eAvailableBuildings mAvailableBuildings;
     eResourceType mSupportedResources;
 
+    std::vector<eGameEvent*> mAllGameEvents;
     std::vector<stdsptr<eGameEvent>> mGameEvents;
 
     std::vector<eMonsterType> mHostileMonsters;

@@ -112,10 +112,10 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
             return boardPtr->gameEvents();
         };
         const auto add = [boardPtr](const stdsptr<eGameEvent>& e) {
-            boardPtr->addGameEvent(e);
+            boardPtr->addRootGameEvent(e);
         };
         const auto remove = [boardPtr](const stdsptr<eGameEvent>& e) {
-            boardPtr->removeGameEvent(e);
+            boardPtr->removeRootGameEvent(e);
         };
         choose->initialize(get, add, remove, *boardPtr);
 

@@ -9,7 +9,7 @@
 #include "engine/egameboard.h"
 #include "estringhelpers.h"
 #include "buildings/eheroshall.h"
-#include "gameEvents/egodquestfulfilledevent.h"
+#include "gameEvents/ereceiverequestevent.h"
 #include "widgets/elinewidget.h"
 
 class eOverviewEntry : public eWidget {
@@ -352,21 +352,8 @@ void eOverviewDataWidget::paintEvent(ePainter& p) {
     eWidget::paintEvent(p);
 }
 
-eHerosHall* sHerosHall(eGameBoard& board, const eHeroType hero) {
-    const auto& hhs = board.heroHalls();
-    eHerosHall* hh = nullptr;
-    for(const auto hhh : hhs) {
-        const auto hhht = hhh->heroType();
-        if(hhht == hero) {
-            hh = hhh;
-            break;
-        }
-    }
-    return hh;
-}
-
 bool sHeroReady(eGameBoard& board, const eHeroType hero) {
-    const auto hh = sHerosHall(board, hero);
+    const auto hh = board.heroHall(hero);
     if(!hh) return false;
     const auto s = hh->stage();
     return s == eHeroSummoningStage::arrived;
@@ -374,34 +361,23 @@ bool sHeroReady(eGameBoard& board, const eHeroType hero) {
 
 void eOverviewDataWidget::addGodQuests() {
     const auto& qs = mBoard.godQuests();
-    for(const auto q : qs) {
+    for(const auto qq : qs) {
+        const auto q = qq->godQuest();
         const auto god = q.fGod;
         const auto b = new eGodQuestButton(window());
         b->setWidth(mQuestButtons->width());
         b->initialize(god, [this, q]() {
             return sHeroReady(mBoard, q.fHero);
         });
-        b->setPressAction([this, q]() {
-            const auto hh = sHerosHall(mBoard, q.fHero);
+        b->setPressAction([this, q, qq]() {
+            const auto hh = mBoard.heroHall(q.fHero);
             const auto heroName = eHero::sHeroName(q.fHero);
             const auto gw = gameWidget();
             if(hh) {
                 const auto s = hh->stage();
                 if(s == eHeroSummoningStage::arrived) {
-                    const auto acceptA = [this, hh, q]() {
-                        hh->sendHeroOnQuest();
-                        mBoard.removeGodQuest(q);
-
-                        const auto e = e::make_shared<eGodQuestFulfilledEvent>(
-                                           eGameEventBranch::root, mBoard);
-                        const auto boardDate = mBoard.date();
-                        const int period = 150;
-                        const auto date = boardDate + period;
-                        e->initializeDate(date, period, 1);
-                        e->setGod(q.fGod);
-                        e->setHero(q.fHero);
-                        e->setId(q.fId);
-                        mBoard.addGameEvent(e);
+                    const auto acceptA = [qq]() {
+                        qq->fulfill();
                     };
                     const auto title = eLanguage::text("quest_question_title");
                     auto text = eLanguage::text("quest_question");
@@ -424,19 +400,20 @@ void eOverviewDataWidget::addGodQuests() {
 
 void eOverviewDataWidget::addCityRequests() {
     const auto& qs = mBoard.cityRequests();
-    for(const auto& q : qs) {
+    for(const auto& qq : qs) {
+        const auto q = qq->cityRequest();
         const auto b = new eResourceRequestButton(window());
         b->setWidth(mQuestButtons->width());
         b->initialize(q.fType, q.fCity, [this, q]() {
             const auto count = mBoard.resourceCount(q.fType);
             return count >= q.fCount;
         });
-        b->setPressAction([this, q]() {
+        b->setPressAction([this, q, qq]() {
             const auto gw = gameWidget();
             const auto count = mBoard.resourceCount(q.fType);
             if(count >= q.fCount) {
-                const auto acceptA = [this, q]() {
-                    mBoard.fulfillCityRequest(q);
+                const auto acceptA = [qq]() {
+                    qq->dispatch();
                 };
                 const auto title = eLanguage::text("request");
                 const auto text = eLanguage::text("dispatch_goods");

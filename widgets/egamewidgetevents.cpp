@@ -15,11 +15,6 @@ void eGameWidget::handleGodQuestEvent(eEventData& ed,
         eSounds::playGodSound(god, eGodSound::questFinished);
     } else {
         eSounds::playGodSound(god, eGodSound::quest);
-        eGodQuest q;
-        q.fGod = god;
-        q.fHero = hero;
-        q.fId = id;
-        mBoard->addGodQuest(q);
     }
     const auto& inst = eMessages::instance;
     const auto gm = inst.godMessages(god);

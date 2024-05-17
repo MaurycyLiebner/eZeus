@@ -23,6 +23,7 @@ void eGodQuestFulfilledEvent::trigger() {
     board.allow(eBuildingType::godMonument, static_cast<int>(god()));
     const auto hh = board.heroHall(hero());
     if(hh) hh->setHeroOnQuest(false);
+    board.removeGodQuest(mainEvent<eGodQuestEvent>());
 }
 
 std::string eGodQuestFulfilledEvent::longName() const {

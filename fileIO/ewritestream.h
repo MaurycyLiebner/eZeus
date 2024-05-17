@@ -18,6 +18,7 @@ class eObsticleHandler;
 class eDirectionLastUseTime;
 class eWorldCity;
 class eBanner;
+class eGameEvent;
 
 using eDirectionTimes = std::map<eTile*, eDirectionLastUseTime>;
 
@@ -92,6 +93,7 @@ public:
     void writeDirectionTimes(eDirectionTimes* const d);
     void writeCity(eWorldCity* const c);
     void writeBanner(eBanner* const b);
+    void writeGameEvent(eGameEvent* const e);
 private:
     SDL_RWops* const mDst;
 };

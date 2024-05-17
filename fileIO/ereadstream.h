@@ -21,6 +21,7 @@ class eObsticleHandler;
 class eDirectionLastUseTime;
 class eWorldCity;
 class eBanner;
+class eGameEvent;
 
 using eDirectionTimes = std::map<eTile*, eDirectionLastUseTime>;
 
@@ -111,10 +112,11 @@ public:
     stdsptr<eDirectionTimes> readDirectionTimes(
             eGameBoard& board);
     using eCityFunc = std::function<void(stdsptr<eWorldCity>)>;
-    void readCity(eGameBoard* board,
-                  const eCityFunc& func);
+    void readCity(eGameBoard* board, const eCityFunc& func);
     using eBannerFunc = std::function<void(eBanner*)>;
     void readBanner(eGameBoard* board, const eBannerFunc& func);
+    using eEventFunc = std::function<void(eGameEvent*)>;
+    void readGameEvent(eGameBoard* board, const eEventFunc& func);
 
     using eFunc = std::function<void()>;
     void addPostFunc(const eFunc& func);

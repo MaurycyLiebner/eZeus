@@ -160,6 +160,15 @@ void eReadStream::readBanner(eGameBoard* board, const eBannerFunc& func) {
     });
 }
 
+void eReadStream::readGameEvent(eGameBoard* board, const eEventFunc& func) {
+    int eid;
+    *this >> eid;
+    addPostFunc([board, func, eid]() {
+        const auto b = board->eventWithIOID(eid);
+        func(b);
+    });
+}
+
 void eReadStream::addPostFunc(const eFunc& func) {
     mPostFuncs.push_back(func);
 }

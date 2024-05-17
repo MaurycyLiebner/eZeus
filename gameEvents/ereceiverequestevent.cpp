@@ -27,6 +27,11 @@ eReceiveRequestEvent::eReceiveRequestEvent(
     addTrigger(mRefuseTrigger);
 }
 
+eReceiveRequestEvent::~eReceiveRequestEvent() {
+    auto& board = getBoard();
+    board.removeCityRequest(this);
+}
+
 void eReceiveRequestEvent::initialize(
         const int postpone,
         const eResourceType res,
@@ -113,8 +118,7 @@ void eReceiveRequestEvent::trigger() {
 
     ed.fA2 = [this]() { // refuse
         auto& board = getBoard();
-        const auto request = cityRequest();
-        board.removeCityRequest(request);
+        board.removeCityRequest(mainEvent<eReceiveRequestEvent>());
         const auto e = e::make_shared<eReceiveRequestEvent>(
                            eGameEventBranch::child, board);
         e->initialize(5, mResource, mCount, mCity);
@@ -128,7 +132,7 @@ void eReceiveRequestEvent::trigger() {
     const auto rel = mCity->relationship();
     if(mPostpone == 0) { // initial
         const auto request = cityRequest();
-        board.addCityRequest(request);
+        board.addCityRequest(mainEvent<eReceiveRequestEvent>());
     }
     if(rel == eWorldCityRelationship::rival) {
         if(mPostpone == 0) { // initial
@@ -235,8 +239,7 @@ eCityRequest eReceiveRequestEvent::cityRequest() const {
 
 void eReceiveRequestEvent::dispatch() {
     auto& board = getBoard();
-    const auto request = cityRequest();
-    board.removeCityRequest(request);
+    board.removeCityRequest(mainEvent<eReceiveRequestEvent>());
     board.takeResource(mResource, mCount);
     const auto e = e::make_shared<eReceiveRequestEvent>(*this);
     int postpone = mPostpone - 1;

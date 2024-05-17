@@ -5,6 +5,7 @@
 #include "einvasionhandler.h"
 #include "missiles/emissile.h"
 #include "gameEvents/egameevent.h"
+#include "gameEvents/ereceiverequestevent.h"
 #include "eplague.h"
 
 void eGameBoard::write(eWriteStream& dst) const {
@@ -61,6 +62,12 @@ void eGameBoard::write(eWriteStream& dst) const {
             b->setIOID(id++);
         }
     }
+    {
+        int id = 0;
+        for(const auto e : mAllGameEvents) {
+            e->setIOID(id++);
+        }
+    }
 
     mWorldBoard.setIOIDs();
 
@@ -81,7 +88,7 @@ void eGameBoard::write(eWriteStream& dst) const {
         const int nq = mGodQuests.size();
         dst << nq;
         for(const auto& q : mGodQuests) {
-            q.write(dst);
+            dst.writeGameEvent(q);
         }
     }
 
@@ -89,7 +96,7 @@ void eGameBoard::write(eWriteStream& dst) const {
         const int nq = mCityRequests.size();
         dst << nq;
         for(const auto& q : mCityRequests) {
-            q.write(dst);
+            dst.writeGameEvent(q);
         }
     }
 

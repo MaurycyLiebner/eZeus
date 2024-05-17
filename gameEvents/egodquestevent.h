@@ -7,10 +7,13 @@ class eGodQuestEvent : public eGodQuestEventBase {
 public:
     eGodQuestEvent(const eGameEventBranch branch,
                    eGameBoard& board);
+    ~eGodQuestEvent();
 
     void trigger() override;
     std::string longName() const override;
     stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
+
+    void fulfill();
 };
 
 #endif // EGODQUESTEVENT_H

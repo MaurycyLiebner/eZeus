@@ -5,6 +5,7 @@
 #include "einvasionhandler.h"
 #include "missiles/emissile.h"
 #include "gameEvents/egameevent.h"
+#include "gameEvents/ereceiverequestevent.h"
 #include "eplague.h"
 
 void eGameBoard::read(eReadStream& src) {
@@ -61,9 +62,10 @@ void eGameBoard::read(eReadStream& src) {
         int nq;
         src >> nq;
         for(int i = 0; i < nq; i++) {
-            eGodQuest q;
-            q.read(src);
-            mGodQuests.push_back(q);
+            src.readGameEvent(this, [this](eGameEvent* const e) {
+                const auto ge = static_cast<eGodQuestEvent*>(e);
+                mGodQuests.push_back(ge);
+            });
         }
     }
 
@@ -71,9 +73,10 @@ void eGameBoard::read(eReadStream& src) {
         int nq;
         src >> nq;
         for(int i = 0; i < nq; i++) {
-            eCityRequest q;
-            q.read(*this, src);
-            mCityRequests.push_back(q);
+            src.readGameEvent(this, [this](eGameEvent* const e) {
+                const auto re = static_cast<eReceiveRequestEvent*>(e);
+                mCityRequests.push_back(re);
+            });
         }
     }
 
