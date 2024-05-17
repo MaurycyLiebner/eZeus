@@ -64,6 +64,12 @@ void eGameBoard::write(eWriteStream& dst) const {
     }
     {
         int id = 0;
+        for(const auto b : mAllSoldierBanners) {
+            b->setIOID(id++);
+        }
+    }
+    {
+        int id = 0;
         for(const auto e : mAllGameEvents) {
             e->setIOID(id++);
         }

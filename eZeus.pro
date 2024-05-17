@@ -201,6 +201,7 @@ SOURCES += \
         characters/eegyptianarcher.cpp \
         characters/eegyptianchariot.cpp \
         characters/eegyptianhoplite.cpp \
+        characters/eenlistedforces.cpp \
         characters/efightingpatroler.cpp \
         characters/efirefighter.cpp \
         characters/efishingboat.cpp \
@@ -332,6 +333,7 @@ SOURCES += \
         fileIO/ebuildingwriter.cpp \
         fileIO/ereadstream.cpp \
         fileIO/ewritestream.cpp \
+        gameEvents/earmyreturnevent.cpp \
         gameEvents/eeventtrigger.cpp \
         gameEvents/egameevent.cpp \
         gameEvents/egiftfromevent.cpp \
@@ -346,6 +348,7 @@ SOURCES += \
         gameEvents/emakerequestevent.cpp \
         gameEvents/emonsterattackevent.cpp \
         gameEvents/epaytributeevent.cpp \
+        gameEvents/eplayerconquestevent.cpp \
         gameEvents/ereceiverequestevent.cpp \
         main.cpp \
         missiles/earrowmissile.cpp \
@@ -843,6 +846,7 @@ HEADERS += \
     fileIO/ereadstream.h \
     fileIO/estreams.h \
     fileIO/ewritestream.h \
+    gameEvents/earmyreturnevent.h \
     gameEvents/eeventtrigger.h \
     gameEvents/egameevent.h \
     gameEvents/egiftfromevent.h \
@@ -857,6 +861,7 @@ HEADERS += \
     gameEvents/emakerequestevent.h \
     gameEvents/emonsterattackevent.h \
     gameEvents/epaytributeevent.h \
+    gameEvents/eplayerconquestevent.h \
     gameEvents/ereceiverequestevent.h \
     missiles/earrowmissile.h \
     missiles/egodmissile.h \

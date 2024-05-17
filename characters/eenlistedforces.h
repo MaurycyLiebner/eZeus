@@ -10,23 +10,12 @@ struct eEnlistedForces {
     std::vector<eHeroType> fHeroes;
     std::vector<stdsptr<eWorldCity>> fAllies;
 
-    void clear() {
-        fSoldiers.clear();
-        fHeroes.clear();
-        fAllies.clear();
-    }
+    void read(eGameBoard& board, eReadStream& src);
+    void write(eWriteStream& dst) const;
 
-    void add(const eEnlistedForces& o) {
-        for(const auto& s : o.fSoldiers) {
-            fSoldiers.push_back(s);
-        }
-        for(const auto& h : o.fHeroes) {
-            fHeroes.push_back(h);
-        }
-        for(const auto& a : o.fAllies) {
-            fAllies.push_back(a);
-        }
-    }
+    void clear();
+
+    void add(const eEnlistedForces& o);
 };
 
 #endif // EENLISTEDFORCES_H

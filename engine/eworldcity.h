@@ -100,6 +100,7 @@ public:
     void incAttitude(const int a);
 
     const std::string& name() const { return mName; }
+    std::string nationality() const;
     const std::string& leader() const { return mLeader; }
 
     void setIOID(const int id) { mIOID = id; }
@@ -160,6 +161,9 @@ public:
     void setWaterTrade(const bool w) { mWaterTrade = w; }
     bool waterTrade() const { return mWaterTrade; }
 
+    void setAbroad(const bool a) { mAbroad = a; }
+    bool abroad() const { return mAbroad; }
+
     const std::vector<eResourceTrade>& buys() const
     { return mBuys; }
     std::vector<eResourceTrade>& buys()
@@ -210,8 +214,10 @@ public:
     static stdsptr<eWorldCity> sCreateHattusas(
             const eWorldCityType type = eWorldCityType::persianCity);
 private:
-    int mArmy = 0;
-    int mWealth = 0;
+    bool mAbroad = false;
+
+    int mArmy = 1; // 1-5
+    int mWealth = 1; // 1-5
 
     bool mWaterTrade = false;
 

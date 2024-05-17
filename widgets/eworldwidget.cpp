@@ -9,6 +9,10 @@
 #include "egiftsizedialog.h"
 #include "evectorhelpers.h"
 
+#include "gameEvents/eplayerconquestevent.h"
+
+#include "buildings/eheroshall.h"
+
 void eWorldWidget::initialize() {
     mWM = new eWorldMenu(window());
     const auto requestFunc = [this]() {
@@ -17,13 +21,24 @@ void eWorldWidget::initialize() {
     const auto giftFunc = [this]() {
         openGiftDialog();
     };
-    const auto enlistAction = [this](const eEnlistedForces& forces) {
-        mBoard->enlistForces(forces);
-    };
-    const auto raidFunc = [this, enlistAction]() {
+    const auto raidFunc = [this]() {
+        const auto enlistAction = [this](const eEnlistedForces& forces) {
+            mBoard->enlistForces(forces);
+        };
         openEnlistForcesDialog(enlistAction, mCity);
     };
-    const auto conquerFunc = [this, enlistAction]() {
+    const auto conquerFunc = [this]() {
+        const auto enlistAction = [this](const eEnlistedForces& forces) {
+            mBoard->enlistForces(forces);
+            const auto e = e::make_shared<ePlayerConquestEvent>(
+                               eGameEventBranch::root, *mBoard);
+            const auto boardDate = mBoard->date();
+            const int period = 150;
+            const auto date = boardDate + period;
+            e->initializeDate(date, period, 1);
+            e->initialize(forces, mCity);
+            mBoard->addRootGameEvent(e);
+        };
         openEnlistForcesDialog(enlistAction, mCity);
     };
     mWM->initialize(requestFunc, giftFunc, raidFunc, conquerFunc);
@@ -126,7 +141,13 @@ void eWorldWidget::openEnlistForcesDialog(
 //    }
 
     const auto d = new eEnlistForcesDialog(window());
-    d->initialize(f, a);
+    std::vector<bool> heroesAbroad;
+    for(const auto h : f.fHeroes) {
+        const auto hh = mBoard->heroHall(h);
+        const bool abroad = !hh ? true : hh->heroOnQuest();
+        heroesAbroad.push_back(abroad);
+    }
+    d->initialize(f, heroesAbroad, a);
     addWidget(d);
     d->align(eAlignment::vcenter);
     d->setX(mWMW->x() + (mWMW->width() - d->width())/2);

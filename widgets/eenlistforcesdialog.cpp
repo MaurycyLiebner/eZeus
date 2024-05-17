@@ -16,18 +16,22 @@ class eEnlistButton : public eButtonBase {
 public:
     using eButtonBase::eButtonBase;
 
-    void initialize(const eEnlistType type,
+    void initialize(const bool abroad,
+                    const eEnlistType type,
                     const int id,
                     const std::string& title,
                     const int troops,
                     const eAction& pressAction) {
+        mAbroad = abroad;
         mType = type;
         setNoPadding();
-        setPressAction([this, pressAction]() {
-            const bool s = mSelected;
-            if(pressAction) pressAction();
-            setSelected(!s);
-        });
+        if(!abroad) {
+            setPressAction([this, pressAction]() {
+                const bool s = mSelected;
+                if(pressAction) pressAction();
+                setSelected(!s);
+            });
+        }
 
         int iRes;
         int mult;
@@ -106,16 +110,21 @@ public:
         }
 
         mEnlistedLabel = new eLabel(window());
-        const auto etxt = eLanguage::text("enlisted");
         mEnlistedLabel->setYellowFontColor();
         mEnlistedLabel->setNoPadding();
         mEnlistedLabel->setTinyFontSize();
-        mEnlistedLabel->setText(etxt);
+        if(abroad) {
+            const auto etxt = eLanguage::text("abroad");
+            mEnlistedLabel->setText(etxt);
+        } else {
+            const auto etxt = eLanguage::text("enlisted");
+            mEnlistedLabel->setText(etxt);
+        }
         mEnlistedLabel->fitContent();
         addWidget(mEnlistedLabel);
         mEnlistedLabel->setX(width() - mEnlistedLabel->width() - mult*5);
 
-        setSelected(false);
+        setSelected(abroad);
     }
 
     eEnlistType type() const { return mType; }
@@ -130,14 +139,16 @@ public:
     }
 
     bool selected() const { return mSelected; }
+    bool abroad() const { return mAbroad; }
 protected:
     void paintEvent(ePainter& p) {
-        if(hovered()) {
+        if(!mAbroad && hovered()) {
             p.drawRect(rect(), {0, 0, 0, 255}, 1);
         }
         eButtonBase::paintEvent(p);
     }
 private:
+    bool mAbroad = false;
     bool mSelected = false;
     eEnlistType mType;
 
@@ -150,6 +161,7 @@ public:
     using eWidget::eWidget;
 
     struct eEnlistData {
+        bool fAbroad;
         eEnlistType fType;
         int fId;
         std::string fTitle;
@@ -158,6 +170,7 @@ public:
     };
 
     void initialize(const eEnlistedForces& e,
+                    const std::vector<bool>& heroesAbroad,
                     const eAction& selectionChanged) {
         std::vector<eEnlistData> data;
         for(const auto& s : e.fSoldiers) {
@@ -179,6 +192,7 @@ public:
                 continue;
                 break;
             }
+            d.fAbroad = s->isAbroad();
             d.fTitle = s->name();
             d.fId = s->id();
             d.fTroops = s->count();
@@ -194,8 +208,11 @@ public:
             };
         }
 
-        for(const auto h : e.fHeroes) {
+        const int iMax = e.fHeroes.size();
+        for(int i = 0; i < iMax; i++) {
+            const auto h = e.fHeroes[i];
             auto& d = data.emplace_back();
+            d.fAbroad = heroesAbroad[i];
             d.fType = eEnlistType::hero;
             d.fTitle = eHero::sHeroName(h);
             d.fId = static_cast<int>(h);
@@ -214,6 +231,7 @@ public:
 
         for(const auto& a : e.fAllies) {
             auto& d = data.emplace_back();
+            d.fAbroad = a->abroad();
             d.fType = eEnlistType::ally;
             d.fTitle = a->name();
             d.fId = -1;
@@ -234,8 +252,8 @@ public:
         for(const auto& d : data) {
             const auto b = new eEnlistButton(window());
             b->setWidth(width());
-            b->initialize(d.fType, d.fId, d.fTitle, d.fTroops,
-                          d.fAction);
+            b->initialize(d.fAbroad, d.fType, d.fId,
+                          d.fTitle, d.fTroops, d.fAction);
             addWidget(b);
             mButtons.push_back(b);
         }
@@ -247,14 +265,16 @@ public:
         for(const auto b : mButtons) {
             const auto t = b->type();
             if(t != eEnlistType::ally) continue;
-            b->setSelected(false);
+            const bool abroad = b->abroad();
+            if(!abroad) b->setSelected(false);
         }
     }
 
     void clearAll() {
         mSelected.clear();
         for(const auto b : mButtons) {
-            b->setSelected(false);
+            const bool abroad = b->abroad();
+            if(!abroad) b->setSelected(false);
         }
     }
 
@@ -263,13 +283,19 @@ public:
         auto& allies = mSelected.fAllies;
         if(!allies.empty()) {
             allies.clear();
-            allies.push_back(mAll.fAllies[0]);
+            for(const auto& a : mAll.fAllies) {
+                const bool abroad = a->abroad();
+                if(abroad) continue;
+                allies.push_back(a);
+                break;
+            }
         }
         bool citySelected = false;
         for(const auto b : mButtons) {
             const auto t = b->type();
             const bool isAlly = t == eEnlistType::ally;
-            if(isAlly) {
+            const bool isAbroad = b->abroad();
+            if(isAlly && !isAbroad) {
                 if(citySelected) {
                     b->setSelected(false);
                     continue;
@@ -295,6 +321,7 @@ public:
     using eFramedWidget::eFramedWidget;
 
     void initialize(const eEnlistedForces& e,
+                    const std::vector<bool>& heroesAbroad,
                     const eAction& selectionChanged,
                     const std::string& title,
                     const bool troops) {
@@ -334,7 +361,7 @@ public:
         const int ww = innerWid->width();
         const int hh = innerWid->height() - titleLabel->height();
         mArea->resize(ww, hh);
-        mArea->initialize(e, selectionChanged);
+        mArea->initialize(e, heroesAbroad, selectionChanged);
         mArea->fitHeight();
         const auto scrollW = new eScrollWidget(window());
         scrollW->setScrollArea(mArea);
@@ -372,6 +399,7 @@ eEnlistedForces extractType(const eBannerType type,
 
 void eEnlistForcesDialog::initialize(
         const eEnlistedForces& enlistable,
+        const std::vector<bool>& heroesAbroad,
         const eEnlistAction& action) {
     const auto r = resolution();
 
@@ -522,13 +550,13 @@ void eEnlistForcesDialog::initialize(
 
             horsemen->resize(www, hhhh);
             const auto hef = extractType(eBannerType::horseman, enlistable);
-            horsemen->initialize(hef, selectionChanged,
+            horsemen->initialize(hef, {}, selectionChanged,
                                  eLanguage::text("horsemen"), true);
             col1->addWidget(horsemen);
 
             hoplite->resize(www, hhhh);
             const auto hhef = extractType(eBannerType::hoplite, enlistable);
-            hoplite->initialize(hhef, selectionChanged,
+            hoplite->initialize(hhef, {}, selectionChanged,
                                 eLanguage::text("hoplite"), true);
             col1->addWidget(hoplite);
 
@@ -543,14 +571,14 @@ void eEnlistForcesDialog::initialize(
             const int hhhh = hhh/4 - pp;
 
             navy->resize(www, hhhh);
-            navy->initialize(eEnlistedForces(), selectionChanged,
+            navy->initialize(eEnlistedForces(), {}, selectionChanged,
                              eLanguage::text("navy"), false);
             col2->addWidget(navy);
 
             heroes->resize(www, hhhh);
             eEnlistedForces efh;
             efh.fHeroes = enlistable.fHeroes;
-            heroes->initialize(efh, selectionChanged,
+            heroes->initialize(efh, heroesAbroad, selectionChanged,
                                eLanguage::text("heroes"), false);
             col2->addWidget(heroes);
 
@@ -563,14 +591,14 @@ void eEnlistForcesDialog::initialize(
                     hhef.fSoldiers.push_back(s);
                 }
             }
-            mythical->initialize(hhef, selectionChanged,
+            mythical->initialize(hhef, {}, selectionChanged,
                                 eLanguage::text("mythical_warriors"), true);
             col2->addWidget(mythical);
 
             allies->resize(www, hhhh);
             eEnlistedForces efa;
             efa.fAllies = enlistable.fAllies;
-            allies->initialize(efa, selectionChanged,
+            allies->initialize(efa, {}, selectionChanged,
                                eLanguage::text("support_from_allies"), false);
             col2->addWidget(allies);
 

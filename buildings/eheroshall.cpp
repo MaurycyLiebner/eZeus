@@ -58,7 +58,7 @@ std::string eHerosHall::sHeroRequirementText(const eHeroRequirement& hr) {
     case eHeroRequirementType::noUnrest:
         return eLanguage::text("no_unrest");
     case eHeroRequirementType::wine:
-        return eLanguage::text("amphorae_of_wine");
+        return cstr + " " + eLanguage::text("amphorae_of_wine");
 
     case eHeroRequirementType::hallCultureAccess:
         return eLanguage::text("excellent_hall_culture_access");

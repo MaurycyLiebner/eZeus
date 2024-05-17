@@ -534,6 +534,21 @@ bool eMessages::loadImpl() {
     fPlague.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_plague_title"];
     fPlague.fCondensed.fText = fMessages["PHRASE_CONDENSED_plague_initial_announcement"];
 
+    fCityConqueredByPlayer.fFull.fTitle = fMessages["PHRASE_city_conquered_by_player_title"];
+    fCityConqueredByPlayer.fFull.fText = fMessages["PHRASE_city_conquered_by_player_initial_announcement"];
+    fCityConqueredByPlayer.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_city_conquered_by_player_title"];
+    fCityConqueredByPlayer.fCondensed.fText = fMessages["PHRASE_CONDENSED_city_conquered_by_player_initial_announcement"];
+
+    fCityConquerFailedByPlayer.fFull.fTitle = fMessages["PHRASE_players_conquest_fails_title"];
+    fCityConquerFailedByPlayer.fFull.fText = fMessages["PHRASE_players_conquest_fails_initial_announcement"];
+    fCityConquerFailedByPlayer.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_players_conquest_fails_title"];
+    fCityConquerFailedByPlayer.fCondensed.fText = fMessages["PHRASE_CONDENSED_players_conquest_fails_initial_announcement"];
+
+    fArmyReturns.fFull.fTitle = fMessages["PHRASE_army_returns_title"];
+    fArmyReturns.fFull.fText = fMessages["PHRASE_army_returns_initial_announcement"];
+    fArmyReturns.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_army_returns_title"];
+    fArmyReturns.fCondensed.fText = fMessages["PHRASE_CONDENSED_army_returns_initial_announcement"];
+
     return true;
 }
 

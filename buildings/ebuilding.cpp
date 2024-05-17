@@ -105,6 +105,14 @@ bool eBuilding::sAestheticsBuilding(const eBuildingType bt) {
     return r;
 }
 
+bool eBuilding::sHeroHall(const eBuildingType bt) {
+    const int min = static_cast<int>(eBuildingType::achillesHall);
+    const int max = static_cast<int>(eBuildingType::theseusHall);
+    const int bi = static_cast<int>(bt);
+    const bool r = bi >= min && bi <= max;
+    return r;
+}
+
 bool eBuilding::sFlammable(const eBuildingType bt) {
     const bool s = sSanctuaryBuilding(bt);
     if(s) return false;
@@ -147,6 +155,7 @@ bool eBuilding::sBlessable(const eBuildingType bt) {
     if(bt == eBuildingType::tower) return false;
     if(bt == eBuildingType::palaceTile) return false;
     if(bt == eBuildingType::godMonumentTile) return false;
+    if(sHeroHall(bt)) return false;
     if(sAestheticsBuilding(bt)) return false;
     return true;
 }

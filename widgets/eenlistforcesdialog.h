@@ -11,6 +11,7 @@ public:
 
     using eEnlistAction = std::function<void(const eEnlistedForces&)>;
     void initialize(const eEnlistedForces& enlistable,
+                    const std::vector<bool>& heroesAbroad,
                     const eEnlistAction& action);
 private:
     eEnlistedForces mSelected;

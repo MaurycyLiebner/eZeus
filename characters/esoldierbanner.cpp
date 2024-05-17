@@ -27,10 +27,15 @@ eSoldierBanner::eSoldierBanner(const eBannerType type,
                                eGameBoard& board) :
     eObject(board),
     mType(type), mId(gNextId++), mBoard(board) {
+    mBoard.registerAllSoldierBanner(this);
     const int nameId = mId % 20;
     const auto nameIdStr = std::to_string(nameId);
     const auto namet = "soldier_banner_name_" + nameIdStr;
     setName(eLanguage::text(namet));
+}
+
+eSoldierBanner::~eSoldierBanner() {
+    mBoard.unregisterAllSoldierBanner(this);
 }
 
 void eSoldierBanner::moveTo(const int x, const int y) {
@@ -116,6 +121,13 @@ void eSoldierBanner::goAbroad() {
     }
 }
 
+void eSoldierBanner::backFromAbroad() {
+    if(!mAbroad) return;
+    mAbroad = false;
+    moveToDefault();
+    goHome();
+}
+
 void eSoldierBanner::backFromHome() {
     if(!mHome) return;
     mHome = false;
@@ -190,6 +202,7 @@ bool eSoldierBanner::stationary() const {
 }
 
 void eSoldierBanner::read(eReadStream& src) {
+    src >> mIOID;
     src >> mHome;
     src >> mAbroad;
     src >> mX;
@@ -222,6 +235,7 @@ void eSoldierBanner::read(eReadStream& src) {
 }
 
 void eSoldierBanner::write(eWriteStream& dst) const {
+    dst << mIOID;
     dst << mHome;
     dst << mAbroad;
     dst << mX;
@@ -333,7 +347,7 @@ void eSoldierBanner::updateCount() {
     if(mPlayerId != 1) return;
     auto soldiers = notDead();
     const int n = soldiers.size();
-    if(!mHome) {
+    if(!mHome && !mAbroad) {
         for(int i = n; i < mCount; i++) {
             eCharacterType cht;
             switch(mType) {
@@ -389,12 +403,13 @@ void eSoldierBanner::updateCount() {
             s->setBanner(nullptr);
         }
     }
+    const auto tptr = ref<eSoldierBanner>();
     if(mCount <= 0 && soldiers.size() == 0) {
         switch(mType) {
         case eBannerType::rockThrower:
         case eBannerType::hoplite:
         case eBannerType::horseman:
-            mBoard.unregisterSoldierBanner(ref<eSoldierBanner>());
+            mBoard.unregisterSoldierBanner(tptr);
             break;
         case eBannerType::amazon:
         case eBannerType::aresWarrior:

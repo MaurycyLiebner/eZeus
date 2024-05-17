@@ -174,6 +174,10 @@ public:
     eMessageType fEmployees;
 
     eMessageType fPlague;
+
+    eMessageType fCityConqueredByPlayer;
+    eMessageType fCityConquerFailedByPlayer;
+    eMessageType fArmyReturns;
 private:
     bool loadImpl();
     void load(eGodMessages& god, const std::string& godName);

@@ -28,6 +28,46 @@ void eWorldCityBase::incAttitude(const int a) {
     setAttitude(mAt + a);
 }
 
+std::string eWorldCityBase::nationality() const {
+    std::string txt;
+    switch(mType) {
+    case eWorldCityType::greekCity:
+        txt = "greek_nationality";
+        break;
+    case eWorldCityType::trojanCity:
+        txt = "trojan_nationality";
+        break;
+    case eWorldCityType::persianCity:
+        txt = "persian_nationality";
+        break;
+    case eWorldCityType::centaurCity:
+        txt = "centaur_nationality";
+        break;
+    case eWorldCityType::amazonCity:
+        txt = "amazon_nationality";
+        break;
+
+    case eWorldCityType::egyptianCity:
+        txt = "egyptian_nationality";
+        break;
+    case eWorldCityType::mayanCity:
+        txt = "mayan_nationality";
+        break;
+    case eWorldCityType::phoenicianCity:
+        txt = "phoenician_nationality";
+        break;
+    case eWorldCityType::oceanidCity:
+        txt = "oceanid_nationality";
+        break;
+    case eWorldCityType::atlanteansCity:
+        txt = "atlanteans_nationality";
+        break;
+    default:
+        break;
+    }
+    return eLanguage::text(txt);
+}
+
 void eWorldCityBase::write(eWriteStream& dst) const {
     dst << mIOID;
     dst << mType;
@@ -94,6 +134,7 @@ void swrite(eWriteStream& dst,
 
 void eWorldCity::write(eWriteStream& dst) const {
     eWorldCityBase::write(dst);
+    dst << mAbroad;
     dst << mArmy;
     dst << mWealth;
     dst << mWaterTrade;
@@ -113,6 +154,7 @@ void sread(eReadStream& src,
 
 void eWorldCity::read(eReadStream& src) {
     eWorldCityBase::read(src);
+    src >> mAbroad;
     src >> mArmy;
     src >> mWealth;
     src >> mWaterTrade;

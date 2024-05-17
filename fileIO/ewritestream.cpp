@@ -97,6 +97,11 @@ void eWriteStream::writeBanner(eBanner* const b) {
     *this << bid;
 }
 
+void eWriteStream::writeSoldierBanner(eSoldierBanner* const b) {
+    const int bid = b ? b->ioID() : -1;
+    *this << bid;
+}
+
 void eWriteStream::writeGameEvent(eGameEvent* const e) {
     const int eid = e ? e->ioID() : -1;
     *this << eid;

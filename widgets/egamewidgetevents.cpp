@@ -431,6 +431,16 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
     case eEvent::plague: {
         showMessage(ed, inst.fPlague, true);
     } break;
+
+    case eEvent::cityConquered: {
+        showMessage(ed, inst.fCityConqueredByPlayer, true);
+    } break;
+    case eEvent::cityConquerFailed: {
+        showMessage(ed, inst.fCityConquerFailedByPlayer, true);
+    } break;
+    case eEvent::armyReturns: {
+        showMessage(ed, inst.fArmyReturns, true);
+    } break;
     }
     mGm->pushEvent(e, ed.fTile);
 }

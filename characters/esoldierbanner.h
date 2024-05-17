@@ -23,16 +23,21 @@ class eSoldierBanner : public eObject {
 public:
     eSoldierBanner(const eBannerType type,
                    eGameBoard& board);
+    ~eSoldierBanner();
 
     eBannerType type() const { return mType; }
 
     int id() const { return mId; }
 
+    void setIOID(const int id) { mIOID = id; }
+    int ioID() const { return mIOID; }
+
     void moveTo(const int x, const int y);
     void moveToDefault();
     void goHome();
-    void goAbroad();
     void backFromHome();
+    void goAbroad();
+    void backFromAbroad();
     void callSoldiers();
 
     bool isHome() const { return mHome; }
@@ -79,6 +84,8 @@ private:
     const eBannerType mType;
     const int mId;
     std::string mName;
+
+    int mIOID = -1;
 
     bool mRegistered = false;
 

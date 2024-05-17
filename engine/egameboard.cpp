@@ -143,6 +143,9 @@ void eGameBoard::enlistForces(const eEnlistedForces& forces) {
         if(!hh) continue;
         hh->sendHeroOnQuest();
     }
+    for(const auto& a : forces.fAllies) {
+        a->setAbroad(true);
+    }
 }
 
 void eGameBoard::clearBannerSelection() {
@@ -463,6 +466,15 @@ eCharacterAction* eGameBoard::characterActionWithIOID(const int id) const {
 eBanner* eGameBoard::bannerWithIOID(const int id) const {
     if(id == -1) return nullptr;
     for(const auto b : mBanners) {
+        const int bio = b->ioID();
+        if(bio == id) return b;
+    }
+    return nullptr;
+}
+
+eSoldierBanner* eGameBoard::soldierBannerWithIOID(const int id) const {
+    if(id == -1) return nullptr;
+    for(const auto b : mAllSoldierBanners) {
         const int bio = b->ioID();
         if(bio == id) return b;
     }
@@ -1408,6 +1420,14 @@ void eGameBoard::registerBanner(eBanner* const b) {
 
 void eGameBoard::unregisterBanner(eBanner* const b) {
     eVectorHelpers::remove(mBanners, b);
+}
+
+void eGameBoard::registerAllSoldierBanner(eSoldierBanner* const b) {
+    mAllSoldierBanners.push_back(b);
+}
+
+void eGameBoard::unregisterAllSoldierBanner(eSoldierBanner* const b) {
+    eVectorHelpers::remove(mAllSoldierBanners, b);
 }
 
 std::vector<eAgoraBase*> eGameBoard::agoras() const {

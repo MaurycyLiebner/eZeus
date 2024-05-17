@@ -98,6 +98,8 @@ void eMessageBox::initialize(const eEventData& ed,
     eStringHelpers::replaceAll(msg.fText, "[player_name]",
                                ed.fPlayerName);
     if(ed.fCity) {
+        eStringHelpers::replaceAll(msg.fText, "[nationality]",
+                                   ed.fCity->nationality());
         eStringHelpers::replaceAll(msg.fText, "[city_name]",
                                    ed.fCity->name());
         eStringHelpers::replaceAll(msg.fText, "[leader_name]",

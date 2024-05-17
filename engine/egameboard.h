@@ -127,6 +127,9 @@ public:
     void registerBanner(eBanner* const b);
     void unregisterBanner(eBanner* const b);
 
+    void registerAllSoldierBanner(eSoldierBanner* const b);
+    void unregisterAllSoldierBanner(eSoldierBanner* const b);
+
     const std::vector<eMonster*>& monsters() const { return mMonsters; }
 
     std::vector<eAgoraBase*> agoras() const;
@@ -299,6 +302,7 @@ public:
     eCharacter* characterWithIOID(const int id) const;
     eCharacterAction* characterActionWithIOID(const int id) const;
     eBanner* bannerWithIOID(const int id) const;
+    eSoldierBanner* soldierBannerWithIOID(const int id) const;
     eGameEvent* eventWithIOID(const int id) const;
 
     eTile* landInvasionTile(const int id);
@@ -452,6 +456,7 @@ private:
     std::vector<eMonster*> mMonsters;
     std::vector<eBanner*> mBanners;
 
+    std::vector<eSoldierBanner*> mAllSoldierBanners;
     std::vector<stdsptr<eSoldierBanner>> mSoldierBanners;
     std::vector<stdsptr<eSoldierBanner>> mPalaceSoldierBanners;
 

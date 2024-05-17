@@ -94,7 +94,11 @@ enum class eEvent {
     unemployment,
     employees,
 
-    plague
+    plague,
+
+    cityConquered,
+    cityConquerFailed,
+    armyReturns
 };
 
 #endif // EEVENT_H

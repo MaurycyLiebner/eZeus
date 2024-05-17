@@ -23,7 +23,9 @@ enum class eGameEventType {
     giftTo,
     giftFrom,
     godQuest,
-    godQuestFulfilled
+    godQuestFulfilled,
+    playerConquestEvent,
+    armyReturnEvent
 };
 
 enum class eGameEventBranch {
