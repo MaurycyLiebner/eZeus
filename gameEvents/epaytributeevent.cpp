@@ -4,8 +4,9 @@
 #include "elanguage.h"
 #include "estringhelpers.h"
 
-ePayTributeEvent::ePayTributeEvent(eGameBoard& board) :
-    eGameEvent(eGameEventType::payTribute, board) {}
+ePayTributeEvent::ePayTributeEvent(const eGameEventBranch branch,
+                                   eGameBoard& board) :
+    eGameEvent(eGameEventType::payTribute, branch, board) {}
 
 void ePayTributeEvent::initialize(const stdsptr<eWorldCity>& c) {
     mCity = c;
@@ -35,4 +36,11 @@ void ePayTributeEvent::read(eReadStream& src) {
     src.readCity(&getBoard(), [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
+}
+
+stdsptr<eGameEvent> ePayTributeEvent::makeCopy(const std::string& reason) const {
+    const auto c = e::make_shared<ePayTributeEvent>(branch(), getBoard());
+    c->setReason(reason);
+    c->initialize(mCity);
+    return c;
 }

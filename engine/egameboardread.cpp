@@ -187,7 +187,8 @@ void eGameBoard::read(eReadStream& src) {
     for(int i = 0; i < nevs; i++) {
         eGameEventType type;
         src >> type;
-        const auto e = eGameEvent::sCreate(type, *this);
+        const auto branch = eGameEventBranch::root;
+        const auto e = eGameEvent::sCreate(type, branch, *this);
         e->read(src);
         mGameEvents.push_back(e);
     }

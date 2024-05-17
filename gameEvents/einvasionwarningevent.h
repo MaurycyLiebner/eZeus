@@ -13,7 +13,8 @@ enum class eInvasionWarningType {
 
 class eInvasionWarningEvent : public eGameEvent {
 public:
-    eInvasionWarningEvent(eGameBoard& board);
+    eInvasionWarningEvent(const eGameEventBranch branch,
+                          eGameBoard& board);
 
     void initialize(const eInvasionWarningType type,
                     const stdsptr<eWorldCity>& city);
@@ -23,6 +24,8 @@ public:
 
     void write(eWriteStream& dst) const override ;
     void read(eReadStream& src) override;
+
+    stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
 
     const stdsptr<eWorldCity>& city() const { return mCity; }
     void setCity(const stdsptr<eWorldCity>& c);

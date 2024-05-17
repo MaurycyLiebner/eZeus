@@ -7,7 +7,8 @@
 
 class eGiftToEvent : public eGameEvent {
 public:
-    eGiftToEvent(eGameBoard& board);
+    eGiftToEvent(const eGameEventBranch branch,
+                 eGameBoard& board);
 
     void initialize(const stdsptr<eWorldCity>& c,
                     const eResourceType type,

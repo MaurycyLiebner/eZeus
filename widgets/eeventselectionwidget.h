@@ -8,9 +8,12 @@
 class eGameEvent;
 class eGameBoard;
 
+enum class eGameEventBranch;
+
 class eEventSelectionWidget : public eScrollButtonsList {
 public:
-    using eScrollButtonsList::eScrollButtonsList;
+    eEventSelectionWidget(const eGameEventBranch branch,
+                          eMainWindow* const window);
 
     using eEventsGetter = std::function<std::vector<stdsptr<eGameEvent>>()>;
     using eEventAdder = std::function<void(const stdsptr<eGameEvent>&)>;
@@ -19,6 +22,8 @@ public:
                     const eEventAdder& add,
                     const eEventRemover& remove,
                     eGameBoard& board);
+private:
+    const eGameEventBranch mBranch;
 };
 
 #endif // EEVENTSELECTIONWIDGET_H

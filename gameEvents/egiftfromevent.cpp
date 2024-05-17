@@ -6,8 +6,9 @@
 #include "engine/eeventdata.h"
 #include "engine/eevent.h"
 
-eGiftFromEvent::eGiftFromEvent(eGameBoard& board) :
-    eGameEvent(eGameEventType::giftFrom, board) {}
+eGiftFromEvent::eGiftFromEvent(const eGameEventBranch branch,
+                               eGameBoard& board) :
+    eGameEvent(eGameEventType::giftFrom, branch, board) {}
 
 void eGiftFromEvent::initialize(
         const bool postpone,
@@ -136,7 +137,7 @@ void eGiftFromEvent::read(eReadStream& src) {
 }
 
 stdsptr<eGameEvent> eGiftFromEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eGiftFromEvent>(getBoard());
+    const auto c = e::make_shared<eGiftFromEvent>(branch(), getBoard());
     c->setReason(reason);
     c->initialize(mPostpone, mResource, mCount, mCity);
     return c;

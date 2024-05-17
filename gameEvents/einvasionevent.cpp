@@ -8,20 +8,9 @@
 #include "estringhelpers.h"
 #include "einvasionwarningevent.h"
 
-eInvasionEvent::eInvasionEvent(eGameBoard& board) :
-    eGameEvent(eGameEventType::invasion, board) {}
-
-void eInvasionEvent::initialize(const stdsptr<eWorldCity>& city,
-                                const int infantry,
-                                const int cavalry,
-                                const int archers) {
-    mCity = city;
-
-    mInfantry = infantry;
-    mCavalry = cavalry;
-    mArchers = archers;
-
-    auto& board = getBoard();
+eInvasionEvent::eInvasionEvent(const eGameEventBranch branch,
+                               eGameBoard& board) :
+    eGameEvent(eGameEventType::invasion, branch, board) {
 
     const auto warnTypes = {
         eInvasionWarningType::warning36,
@@ -49,12 +38,23 @@ void eInvasionEvent::initialize(const stdsptr<eWorldCity>& city,
             months = 1;
             break;
         }
-        const int wdays = 31*months;
-        const auto e = e::make_shared<eInvasionWarningEvent>(board);
-        e->setReason(reason());
+        const int daysBefore = 31*months;
+        const auto e = e::make_shared<eInvasionWarningEvent>(
+                           eGameEventBranch::child, board);
         e->initialize(w, mCity);
-        addWarning(wdays, e);
+        addWarning(daysBefore, e);
     }
+}
+
+void eInvasionEvent::initialize(const stdsptr<eWorldCity>& city,
+                                const int infantry,
+                                const int cavalry,
+                                const int archers) {
+    mCity = city;
+
+    mInfantry = infantry;
+    mCavalry = cavalry;
+    mArchers = archers;
 }
 
 void eInvasionEvent::trigger() {
@@ -123,7 +123,7 @@ void eInvasionEvent::read(eReadStream& src) {
 }
 
 stdsptr<eGameEvent> eInvasionEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eInvasionEvent>(getBoard());
+    const auto c = e::make_shared<eInvasionEvent>(branch(), getBoard());
     c->setReason(reason);
     c->initialize(mCity, mInfantry, mCavalry, mArchers);
     return c;
@@ -131,7 +131,6 @@ stdsptr<eGameEvent> eInvasionEvent::makeCopy(const std::string& reason) const {
 
 void eInvasionEvent::setCity(const stdsptr<eWorldCity>& c) {
     mCity = c;
-
     const auto& ws = warnings();
     for(const auto& w : ws) {
         const auto& ws = w.second;

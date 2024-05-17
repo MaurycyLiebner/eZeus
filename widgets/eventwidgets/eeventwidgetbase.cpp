@@ -125,7 +125,9 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
                 const auto& t = ts[id];
                 const auto boardPtr = &e->getBoard();
 
-                const auto choose = new eEventSelectionWidget(window());
+                const auto choose = new eEventSelectionWidget(
+                                        eGameEventBranch::trigger,
+                                        window());
 
                 choose->resize(width(), height());
                 const auto get = [t]() {

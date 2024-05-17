@@ -392,7 +392,8 @@ void eOverviewDataWidget::addGodQuests() {
                         hh->sendHeroOnQuest();
                         mBoard.removeGodQuest(q);
 
-                        const auto e = e::make_shared<eGodQuestFulfilledEvent>(mBoard);
+                        const auto e = e::make_shared<eGodQuestFulfilledEvent>(
+                                           eGameEventBranch::root, mBoard);
                         const auto boardDate = mBoard.date();
                         const int period = 150;
                         const auto date = boardDate + period;

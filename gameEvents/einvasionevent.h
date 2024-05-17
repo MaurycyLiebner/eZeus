@@ -7,7 +7,8 @@
 
 class eInvasionEvent : public eGameEvent {
 public:
-    eInvasionEvent(eGameBoard& board);
+    eInvasionEvent(const eGameEventBranch branch,
+                   eGameBoard& board);
 
     void initialize(const stdsptr<eWorldCity>& city,
                     const int infantry,

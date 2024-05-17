@@ -8,8 +8,10 @@
 
 #include "buildings/eheroshall.h"
 
-eGodQuestFulfilledEvent::eGodQuestFulfilledEvent(eGameBoard& board) :
-    eGodQuestEventBase(eGameEventType::godQuestFulfilled, board) {}
+eGodQuestFulfilledEvent::eGodQuestFulfilledEvent(
+        const eGameEventBranch branch,
+        eGameBoard& board) :
+    eGodQuestEventBase(eGameEventType::godQuestFulfilled, branch, board) {}
 
 void eGodQuestFulfilledEvent::trigger() {
     eEventData ed;
@@ -27,8 +29,10 @@ std::string eGodQuestFulfilledEvent::longName() const {
     return eLanguage::text("god_quest_fulfilled");
 }
 
-stdsptr<eGameEvent> eGodQuestFulfilledEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eGodQuestFulfilledEvent>(getBoard());
+stdsptr<eGameEvent> eGodQuestFulfilledEvent::makeCopy(
+        const std::string& reason) const {
+    const auto c = e::make_shared<eGodQuestFulfilledEvent>(
+                       branch(), getBoard());
     c->setReason(reason);
     c->setGod(god());
     c->setId(id());

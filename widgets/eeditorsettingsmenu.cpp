@@ -103,7 +103,9 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
     mythButt->align(eAlignment::hcenter);
 
     const auto eventsAct = [this, boardPtr]() {
-        const auto choose = new eEventSelectionWidget(window());
+        const auto choose = new eEventSelectionWidget(
+                                eGameEventBranch::root,
+                                window());
 
         choose->resize(width(), height());
         const auto get = [boardPtr]() {

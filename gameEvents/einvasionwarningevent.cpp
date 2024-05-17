@@ -7,8 +7,9 @@
 #include "engine/eevent.h"
 #include "engine/eeventdata.h"
 
-eInvasionWarningEvent::eInvasionWarningEvent(eGameBoard& board) :
-    eGameEvent(eGameEventType::invasionWarning, board) {}
+eInvasionWarningEvent::eInvasionWarningEvent(
+        const eGameEventBranch branch, eGameBoard& board) :
+    eGameEvent(eGameEventType::invasionWarning, branch, board) {}
 
 void eInvasionWarningEvent::initialize(
         const eInvasionWarningType type,
@@ -60,6 +61,16 @@ void eInvasionWarningEvent::read(eReadStream& src) {
     src.readCity(&getBoard(), [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
+}
+
+stdsptr<eGameEvent> eInvasionWarningEvent::makeCopy(
+        const std::string& reason) const {
+    const auto c = e::make_shared<eInvasionWarningEvent>(
+                       branch(), getBoard());
+    c->setReason(reason);
+    c->mType = mType;
+    c->mCity = mCity;
+    return c;
 }
 
 void eInvasionWarningEvent::setCity(const stdsptr<eWorldCity>& c) {

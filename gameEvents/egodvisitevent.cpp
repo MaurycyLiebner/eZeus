@@ -6,8 +6,9 @@
 #include "characters/actions/egodvisitaction.h"
 #include "elanguage.h"
 
-eGodVisitEvent::eGodVisitEvent(eGameBoard& board) :
-    eGameEvent(eGameEventType::godVisit, board) {}
+eGodVisitEvent::eGodVisitEvent(const eGameEventBranch branch,
+                               eGameBoard& board) :
+    eGameEvent(eGameEventType::godVisit, branch, board) {}
 
 void eGodVisitEvent::setTypes(const std::vector<eGodType>& types) {
     mTypes = types;
@@ -72,7 +73,7 @@ void eGodVisitEvent::read(eReadStream& src) {
 }
 
 stdsptr<eGameEvent> eGodVisitEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eGodVisitEvent>(getBoard());
+    const auto c = e::make_shared<eGodVisitEvent>(branch(), getBoard());
     c->mTypes = mTypes;
     c->mNextId = mNextId;
     c->mRandom = mRandom;

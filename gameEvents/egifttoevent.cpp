@@ -4,8 +4,9 @@
 #include "elanguage.h"
 #include "estringhelpers.h"
 
-eGiftToEvent::eGiftToEvent(eGameBoard& board) :
-    eGameEvent(eGameEventType::giftTo, board) {}
+eGiftToEvent::eGiftToEvent(const eGameEventBranch branch,
+                           eGameBoard& board) :
+    eGameEvent(eGameEventType::giftTo, branch, board) {}
 
 void eGiftToEvent::initialize(const stdsptr<eWorldCity>& c,
                               const eResourceType type,
@@ -48,7 +49,7 @@ void eGiftToEvent::read(eReadStream& src) {
 }
 
 stdsptr<eGameEvent> eGiftToEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eGiftToEvent>(getBoard());
+    const auto c = e::make_shared<eGiftToEvent>(branch(), getBoard());
     c->setReason(reason);
     c->initialize(mCity, mResource, mCount);
     return c;

@@ -5,8 +5,9 @@
 #include "engine/eeventdata.h"
 #include "characters/actions/egodattackaction.h"
 
-eGodAttackEvent::eGodAttackEvent(eGameBoard& board) :
-    eGameEvent(eGameEventType::godAttack, board) {}
+eGodAttackEvent::eGodAttackEvent(const eGameEventBranch branch,
+                                 eGameBoard& board) :
+    eGameEvent(eGameEventType::godAttack, branch, board) {}
 
 void eGodAttackEvent::setTypes(const std::vector<eGodType>& types) {
     mTypes = types;
@@ -72,7 +73,7 @@ void eGodAttackEvent::read(eReadStream& src) {
 }
 
 stdsptr<eGameEvent> eGodAttackEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eGodAttackEvent>(getBoard());
+    const auto c = e::make_shared<eGodAttackEvent>(branch(), getBoard());
     c->mTypes = mTypes;
     c->mNextId = mNextId;
     c->mRandom = mRandom;

@@ -7,8 +7,10 @@
 #include "elanguage.h"
 #include "emessages.h"
 
-eMonsterAttackEvent::eMonsterAttackEvent(eGameBoard& board) :
-    eGameEvent(eGameEventType::monsterAttack, board) {}
+eMonsterAttackEvent::eMonsterAttackEvent(
+        const eGameEventBranch branch,
+        eGameBoard& board) :
+    eGameEvent(eGameEventType::monsterAttack, branch, board) {}
 
 void eMonsterAttackEvent::setType(const eMonsterType type) {
     mType = type;
@@ -56,8 +58,9 @@ void eMonsterAttackEvent::read(eReadStream& src) {
 }
 
 stdsptr<eGameEvent> eMonsterAttackEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eMonsterAttackEvent>(getBoard());
+    const auto c = e::make_shared<eMonsterAttackEvent>(branch(), getBoard());
     c->mType = mType;
+    c->mPointId = mPointId;
     c->setReason(reason);
     return c;
 }

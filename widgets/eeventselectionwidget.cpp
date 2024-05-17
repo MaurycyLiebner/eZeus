@@ -17,6 +17,12 @@
 
 #include "engine/egameboard.h"
 
+eEventSelectionWidget::eEventSelectionWidget(
+        const eGameEventBranch branch,
+        eMainWindow* const window) :
+    eScrollButtonsList(window),
+    mBranch(branch) {}
+
 void eEventSelectionWidget::initialize(
         const eEventsGetter& get,
         const eEventAdder& add,
@@ -57,8 +63,7 @@ void eEventSelectionWidget::initialize(
             eGameEventType::receiveRequest,
             eGameEventType::giftTo,
             eGameEventType::giftFrom,
-            eGameEventType::godQuest,
-            eGameEventType::godQuestFulfilled
+            eGameEventType::godQuest
         };
         const std::vector<std::string> labels = {
             eLanguage::text("god_visit"),
@@ -70,14 +75,12 @@ void eEventSelectionWidget::initialize(
             eLanguage::text("receive_request"),
             eLanguage::text("gift_to"),
             eLanguage::text("gift_from"),
-            eLanguage::text("god_quest"),
-            eLanguage::text("god_quest_fulfilled")
+            eLanguage::text("god_quest")
         };
         const auto echoose = new eChooseButton(window());
         const auto act = [this, add, boardPtr, types, labels, editEvent](const int val) {
             const auto type = types[val];
-            const auto e = eGameEvent::sCreate(type, *boardPtr);
-            e->setIsMainEvent();
+            const auto e = eGameEvent::sCreate(type, mBranch, *boardPtr);
 
             if(e) {
                 const auto boardDate = boardPtr->date();

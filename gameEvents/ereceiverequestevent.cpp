@@ -9,8 +9,9 @@
 #include "engine/ecityrequest.h"
 
 eReceiveRequestEvent::eReceiveRequestEvent(
+        const eGameEventBranch branch,
         eGameBoard& board) :
-    eGameEvent(eGameEventType::receiveRequest, board) {
+    eGameEvent(eGameEventType::receiveRequest, branch, board) {
     const auto e1 = eLanguage::text("early");
     mEarlyTrigger = e::make_shared<eEventTrigger>(e1, board);
     const auto e2 = eLanguage::text("comply");
@@ -100,9 +101,9 @@ void eReceiveRequestEvent::trigger() {
 
     if(mPostpone < 3) {
         ed.fA1 = [this]() { // postpone
-            const auto& board = getBoard();
+            auto& board = getBoard();
             const auto e = e::make_shared<eReceiveRequestEvent>(
-                        *this);
+                               eGameEventBranch::child, board);
             e->initialize(mPostpone + 1, mResource, mCount, mCity);
             const auto date = board.date() + gPostponeDays;
             e->initializeDate(date);
@@ -115,7 +116,7 @@ void eReceiveRequestEvent::trigger() {
         const auto request = cityRequest();
         board.removeCityRequest(request);
         const auto e = e::make_shared<eReceiveRequestEvent>(
-                    *this);
+                           eGameEventBranch::child, board);
         e->initialize(5, mResource, mCount, mCity);
         const auto date = board.date() + 31;
         e->initializeDate(date);
@@ -205,7 +206,8 @@ void eReceiveRequestEvent::read(eReadStream& src) {
 }
 
 stdsptr<eGameEvent> eReceiveRequestEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eReceiveRequestEvent>(getBoard());
+    const auto c = e::make_shared<eReceiveRequestEvent>(
+                       branch(), getBoard());
     c->initialize(mPostpone, mResource, mCount, mCity, mFinish);
     c->setReason(reason);
     return c;

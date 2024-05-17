@@ -8,8 +8,9 @@
 #include "engine/egifthelpers.h"
 
 eMakeRequestEvent::eMakeRequestEvent(
+        const eGameEventBranch branch,
         eGameBoard& board) :
-    eGameEvent(eGameEventType::makeRequest, board) {}
+    eGameEvent(eGameEventType::makeRequest, branch, board) {}
 
 void eMakeRequestEvent::initialize(
         const bool postpone,
@@ -131,7 +132,7 @@ void eMakeRequestEvent::read(eReadStream& src) {
 }
 
 stdsptr<eGameEvent> eMakeRequestEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eMakeRequestEvent>(getBoard());
+    const auto c = e::make_shared<eMakeRequestEvent>(branch(), getBoard());
     c->initialize(mPostpone, mResource, mCity);
     c->setReason(reason);
     return c;

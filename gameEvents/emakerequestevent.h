@@ -7,7 +7,8 @@
 
 class eMakeRequestEvent : public eGameEvent {
 public:
-    eMakeRequestEvent(eGameBoard& board);
+    eMakeRequestEvent(const eGameEventBranch branch,
+                      eGameBoard& board);
 
     void initialize(const bool postpone,
                     const eResourceType res,

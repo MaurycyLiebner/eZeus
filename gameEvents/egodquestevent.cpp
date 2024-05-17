@@ -6,8 +6,9 @@
 #include "elanguage.h"
 #include "emessages.h"
 
-eGodQuestEvent::eGodQuestEvent(eGameBoard& board) :
-    eGodQuestEventBase(eGameEventType::godQuest, board) {}
+eGodQuestEvent::eGodQuestEvent(const eGameEventBranch branch,
+                               eGameBoard& board) :
+    eGodQuestEventBase(eGameEventType::godQuest, branch, board) {}
 
 void eGodQuestEvent::trigger() {
     eEventData ed;
@@ -37,7 +38,7 @@ std::string eGodQuestEvent::longName() const {
 }
 
 stdsptr<eGameEvent> eGodQuestEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eGodQuestEvent>(getBoard());
+    const auto c = e::make_shared<eGodQuestEvent>(branch(), getBoard());
     c->setReason(reason);
     c->setGod(god());
     c->setId(id());

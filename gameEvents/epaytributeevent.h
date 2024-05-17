@@ -7,7 +7,8 @@
 
 class ePayTributeEvent : public eGameEvent {
 public:
-    ePayTributeEvent(eGameBoard& board);
+    ePayTributeEvent(const eGameEventBranch branch,
+                     eGameBoard& board);
 
     void initialize(const stdsptr<eWorldCity>& c);
 
@@ -16,6 +17,8 @@ public:
 
     void write(eWriteStream& dst) const override;
     void read(eReadStream& src) override;
+
+    stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
 private:
     stdsptr<eWorldCity> mCity;
 };

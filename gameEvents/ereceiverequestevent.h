@@ -10,7 +10,8 @@ struct eCityRequest;
 
 class eReceiveRequestEvent : public eGameEvent {
 public:
-    eReceiveRequestEvent(eGameBoard& board);
+    eReceiveRequestEvent(const eGameEventBranch branch,
+                         eGameBoard& board);
 
     void initialize(const int postpone,
                     const eResourceType res,

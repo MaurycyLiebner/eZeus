@@ -14,7 +14,6 @@ void eEventTrigger::trigger(eGameEvent& parent,
     for(const auto& e : mEvents) {
         const auto c = e->makeCopy(reason);
         if(!c) continue;
-        c->setIsMainEvent();
         const int delay = e->period();
         const auto d = date + delay;
         c->initializeDate(d);
@@ -36,7 +35,8 @@ void eEventTrigger::read(eReadStream& src) {
     for(int i = 0; i < ncs; i++) {
         eGameEventType type;
         src >> type;
-        const auto e = eGameEvent::sCreate(type, getBoard());
+        const auto branch = eGameEventBranch::trigger;
+        const auto e = eGameEvent::sCreate(type, branch, getBoard());
         e->read(src);
         mEvents.emplace_back(e);
     }

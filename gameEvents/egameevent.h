@@ -26,44 +26,62 @@ enum class eGameEventType {
     godQuestFulfilled
 };
 
+enum class eGameEventBranch {
+    root,
+    child,
+    trigger
+};
+
 class eGameEvent : public eObject {
 public:
-    using eAction = std::function<void()>;
-    eGameEvent(const eGameEventType type, eGameBoard& board);
+    eGameEvent(const eGameEventType type,
+               const eGameEventBranch branch,
+               eGameBoard& board);
 
     virtual void trigger() = 0;
 
     virtual std::string longName() const = 0;
 
+    virtual stdsptr<eGameEvent> makeCopy(const std::string& reason) const = 0;
+
     virtual void write(eWriteStream& dst) const;
     virtual void read(eReadStream& src);
 
-    virtual stdsptr<eGameEvent> makeCopy(const std::string& reason) const {
-        (void)reason;
-        return nullptr;
-    }
-
     static stdsptr<eGameEvent> sCreate(const eGameEventType type,
+                                       const eGameEventBranch branch,
                                        eGameBoard& board);
 
     eGameEventType type() const { return mType; }
 
     void initializeDate(const eDate& startDate,
-                        const int cycleDays = 0,
+                        const int period = 0,
                         const int nRuns = 1);
 
-    void setIsMainEvent();
+    bool isMainEvent() const;
+    bool isRootEvent() const;
+    bool isTriggerEvent() const;
+    bool isChildEvent() const;
+    eGameEventBranch branch() const { return mBranch; }
 
     void addWarning(const int daysBefore,
                     const stdsptr<eGameEvent>& event);
     void clearWarnings();
+
     void addConsequence(const stdsptr<eGameEvent>& event);
     void clearConsequences();
     bool hasActiveConsequences(const eDate& date) const;
+    bool hasActiveNonTriggerConsequences(const eDate& date) const;
 
-    template <typename T>
+    template <typename T = eGameEvent>
+    T* rootEvent() {
+        if(isRootEvent()) return static_cast<T*>(this);
+        if(mParent) return mParent->rootEvent<T>();
+        return nullptr;
+    }
+
+    template <typename T = eGameEvent>
     T* mainEvent() {
-        if(mIsMainEvent) return static_cast<T*>(this);
+        if(isMainEvent()) return static_cast<T*>(this);
         if(mParent) return mParent->mainEvent<T>();
         return nullptr;
     }
@@ -82,9 +100,10 @@ public:
     int repeat() const { return mTotNRuns; }
     void setRepeat(const int r);
 
-    void handleNewDate(const eDate& date);
     void rewind();
     void rewind(const eDate& date);
+
+    void handleNewDate(const eDate& date);
     bool finished() const { return mRemNRuns <= 0; }
 
     using eWarning = std::pair<int, stdsptr<eGameEvent>>;
@@ -98,12 +117,12 @@ protected:
     void addTrigger(const stdsptr<eEventTrigger>& et);
 private:
     const eGameEventType mType;
-    bool mIsMainEvent = false;
+    const eGameEventBranch mBranch;
 
     stdptr<eGameEvent> mParent;
 
-    std::vector<eWarning> mWarnings;
     std::vector<stdsptr<eGameEvent>> mConsequences;
+    std::vector<eWarning> mWarnings;
     std::vector<stdsptr<eEventTrigger>> mTriggers;
 
     std::string mReason;
