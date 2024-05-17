@@ -217,6 +217,7 @@ public:
 
     eWorldBoard& getWorldBoard() { return mWorldBoard; }
 
+    void enlistForces(const eEnlistedForces& forces);
     void clearBannerSelection();
     void deselectBanner(eSoldierBanner* const c);
     void selectBanner(eSoldierBanner* const c);

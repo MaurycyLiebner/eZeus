@@ -101,6 +101,21 @@ void eSoldierBanner::goHome() {
     }
 }
 
+void eSoldierBanner::goAbroad() {
+    if(mAbroad) return;
+    if(mSelected) mBoard.deselectBanner(this);
+    if(mHome) backFromHome();
+    mAbroad = true;
+    for(const auto s : mSoldiers) {
+        if(s->dead()) continue;
+        const auto a = s->soldierAction();
+        if(a) a->goAbroad();
+    }
+    if(mTile) {
+        mTile->setSoldierBanner(nullptr);
+    }
+}
+
 void eSoldierBanner::backFromHome() {
     if(!mHome) return;
     mHome = false;
@@ -176,6 +191,7 @@ bool eSoldierBanner::stationary() const {
 
 void eSoldierBanner::read(eReadStream& src) {
     src >> mHome;
+    src >> mAbroad;
     src >> mX;
     src >> mY;
     mTile = src.readTile(mBoard);
@@ -207,6 +223,7 @@ void eSoldierBanner::read(eReadStream& src) {
 
 void eSoldierBanner::write(eWriteStream& dst) const {
     dst << mHome;
+    dst << mAbroad;
     dst << mX;
     dst << mY;
     dst.writeTile(mTile);

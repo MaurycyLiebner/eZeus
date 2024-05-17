@@ -134,6 +134,17 @@ void eGameBoard::updateAppealMapIfNeeded() {
     mThreadPool.queueTask(task);
 }
 
+void eGameBoard::enlistForces(const eEnlistedForces& forces) {
+    for(const auto& b : forces.fSoldiers) {
+        b->goAbroad();
+    }
+    for(const auto h : forces.fHeroes) {
+        const auto hh = heroHall(h);
+        if(!hh) continue;
+        hh->sendHeroOnQuest();
+    }
+}
+
 void eGameBoard::clearBannerSelection() {
     for(const auto s : mSelectedBanners) {
         s->setSelected(false);
@@ -681,6 +692,7 @@ void eGameBoard::consolidateSoldiers() {
     eSoldierBanners horsemen;
     for(const auto& s : mPalaceSoldierBanners) {
         if(!s->isHome()) continue;
+        if(s->isAbroad()) continue;
         switch(s->type()) {
         case eBannerType::rockThrower:
             rabble.push_back(s);
@@ -773,6 +785,7 @@ void eGameBoard::updateMaxSoldiers() {
 void eGameBoard::addSoldier(const eCharacterType st) {
     bool found = false;
     for(const auto& b : mPalaceSoldierBanners) {
+        if(b->isAbroad()) continue;
         const auto bt = b->type();
         const int c = b->count();
         if(c >= 8) continue;
@@ -813,6 +826,7 @@ void eGameBoard::addSoldier(const eCharacterType st) {
 
 void eGameBoard::removeSoldier(const eCharacterType st) {
     for(const auto& b : mPalaceSoldierBanners) {
+        if(b->isAbroad()) continue;
         const auto bt = b->type();
         const int c = b->count();
         if(c <= 0) continue;

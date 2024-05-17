@@ -17,11 +17,14 @@ void eWorldWidget::initialize() {
     const auto giftFunc = [this]() {
         openGiftDialog();
     };
-    const auto raidFunc = [this]() {
-        openEnlistForcesDialog(nullptr, mCity);
+    const auto enlistAction = [this](const eEnlistedForces& forces) {
+        mBoard->enlistForces(forces);
     };
-    const auto conquerFunc = [this]() {
-        openEnlistForcesDialog(nullptr, mCity);
+    const auto raidFunc = [this, enlistAction]() {
+        openEnlistForcesDialog(enlistAction, mCity);
+    };
+    const auto conquerFunc = [this, enlistAction]() {
+        openEnlistForcesDialog(enlistAction, mCity);
     };
     mWM->initialize(requestFunc, giftFunc, raidFunc, conquerFunc);
 
@@ -94,33 +97,33 @@ void eWorldWidget::openEnlistForcesDialog(
     auto f = mBoard->getEnlistableForces();
     eVectorHelpers::remove(f.fAllies, exclude);
 
-    {
-        f.fHeroes.push_back(eHeroType::achilles);
-        f.fHeroes.push_back(eHeroType::hercules);
-        f.fHeroes.push_back(eHeroType::bellerophon);
+//    {
+//        f.fHeroes.push_back(eHeroType::achilles);
+//        f.fHeroes.push_back(eHeroType::hercules);
+//        f.fHeroes.push_back(eHeroType::bellerophon);
 
-        for(int i = 0; i < 20; i ++) {
-            const auto b = e::make_shared<eSoldierBanner>(eBannerType::hoplite, *mBoard);
-            b->incCount();
-            const auto n = new stdsptr<eSoldierBanner>(b);
-            f.fSoldiers.push_back(b);
-        }
+//        for(int i = 0; i < 20; i ++) {
+//            const auto b = e::make_shared<eSoldierBanner>(eBannerType::hoplite, *mBoard);
+//            b->incCount();
+//            const auto n = new stdsptr<eSoldierBanner>(b);
+//            f.fSoldiers.push_back(b);
+//        }
 
-        for(int i = 0; i < 4; i ++) {
-            const auto b = e::make_shared<eSoldierBanner>(eBannerType::horseman, *mBoard);
-            b->incCount();
-            const auto n = new stdsptr<eSoldierBanner>(b);
-            f.fSoldiers.push_back(b);
-        }
+//        for(int i = 0; i < 4; i ++) {
+//            const auto b = e::make_shared<eSoldierBanner>(eBannerType::horseman, *mBoard);
+//            b->incCount();
+//            const auto n = new stdsptr<eSoldierBanner>(b);
+//            f.fSoldiers.push_back(b);
+//        }
 
 
-        for(int i = 0; i < 2; i ++) {
-            const auto b = e::make_shared<eSoldierBanner>(eBannerType::amazon, *mBoard);
-            b->incCount();
-            const auto n = new stdsptr<eSoldierBanner>(b);
-            f.fSoldiers.push_back(b);
-        }
-    }
+//        for(int i = 0; i < 2; i ++) {
+//            const auto b = e::make_shared<eSoldierBanner>(eBannerType::amazon, *mBoard);
+//            b->incCount();
+//            const auto n = new stdsptr<eSoldierBanner>(b);
+//            f.fSoldiers.push_back(b);
+//        }
+//    }
 
     const auto d = new eEnlistForcesDialog(window());
     d->initialize(f, a);

@@ -66,6 +66,7 @@ public:
               const eAction& findFailAct = nullptr,
               const eAction& findFinishAct = nullptr);
     void goHome();
+    void goAbroad();
     void goBackToBanner(const eAction& findFailAct = nullptr,
                         const eAction& findFinishAct = nullptr);
 

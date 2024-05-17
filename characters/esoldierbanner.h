@@ -31,10 +31,12 @@ public:
     void moveTo(const int x, const int y);
     void moveToDefault();
     void goHome();
+    void goAbroad();
     void backFromHome();
     void callSoldiers();
 
     bool isHome() const { return mHome; }
+    bool isAbroad() const { return mAbroad; }
 
     void addSoldier(eSoldier* const s);
     void removeSoldier(eSoldier* const s);
@@ -81,6 +83,7 @@ private:
     bool mRegistered = false;
 
     bool mHome = true;
+    bool mAbroad = false;
 
     bool mSelected = false;
 

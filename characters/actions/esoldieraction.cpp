@@ -14,6 +14,7 @@
 #include "buildings/esmallhouse.h"
 #include "buildings/eelitehousing.h"
 #include "buildings/sanctuaries/etemplebuilding.h"
+#include "ekillcharacterfinishfail.h"
 
 eAttackTarget::eAttackTarget() :
     mC(nullptr), mB(nullptr) {}
@@ -408,6 +409,36 @@ void eSoldierAction::goHome() {
     });
     a->start(b, eWalkableObject::sCreateDefault());
     setCurrentAction(a);
+}
+
+void eSoldierAction::goAbroad() {
+    const auto c = character();
+    auto& board = eSoldierAction::board();
+    const auto hero = static_cast<eCharacter*>(c);
+    const stdptr<eCharacter> cptr(hero);
+    const auto fail = std::make_shared<eKillCharacterFinishFail>(
+                          board, hero);
+    const auto finish = std::make_shared<eKillCharacterFinishFail>(
+                            board, hero);
+
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFailAction(fail);
+    a->setFinishAction(finish);
+    a->setFindFailAction([cptr]() {
+        if(cptr) cptr->kill();
+    });
+    setCurrentAction(a);
+    c->setActionType(eCharacterActionType::walk);
+    const int bw = board.width();
+    const int bh = board.height();
+    const auto edgeTile = [bw, bh](eTileBase* const tile) {
+        const int tx = tile->dx();
+        if(tx == 0 || tx >= bw) return true;
+        const int ty = tile->dy();
+        if(ty == 0 || ty >= bh) return true;
+        return false;
+    };
+    a->start(edgeTile);
 }
 
 void eSoldierAction::beingAttacked(eSoldier* const ss) {

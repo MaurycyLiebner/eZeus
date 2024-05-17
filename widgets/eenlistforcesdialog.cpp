@@ -299,7 +299,6 @@ public:
                     const std::string& title,
                     const bool troops) {
         const auto r = resolution();
-        const double mult = r.multiplier();
 
         setType(eFrameType::inner);
         const int w = width();
@@ -375,7 +374,6 @@ void eEnlistForcesDialog::initialize(
         const eEnlistedForces& enlistable,
         const eEnlistAction& action) {
     const auto r = resolution();
-    const double mult = r.multiplier();
 
     setType(eFrameType::message);
     const int w = r.centralWidgetLargeWidth();
