@@ -35,6 +35,20 @@ struct eHeroMessages {
     eConsequenceMessageType fHallAvailable;
 };
 
+struct eReceiveRequestMessages {
+    eMessageType fInitial;
+    eMessageType fReminder;
+    eMessageType fOverdue;
+    eMessageType fWarning;
+    eMessageType fComply;
+    eMessageType fTooLate;
+    eMessageType fRefuse;
+    eReason fEarlyReason;
+    eReason fComplyReason;
+    eReason fTooLateReason;
+    eReason fRefuseReason;
+};
+
 class eMessages {
 public:
     eMessages() {}
@@ -137,57 +151,10 @@ public:
     eMessageType fGiftReceivedNotNeeded;
     eMessageType fGiftReceivedRefuse;
 
-    // ally
-    eMessageType fGeneralRequestInitialS;
-    eMessageType fGeneralRequestReminderS;
-    eMessageType fGeneralRequestOverdueS;
-    eMessageType fGeneralRequestWarningS;
-    eMessageType fGeneralRequestComplyS;
-    eMessageType fGeneralRequestTooLateS;
-    eMessageType fGeneralRequestRefuseS;
-    eReason fGeneralRequestEarlyReasonS;
-    eReason fGeneralRequestComplyReasonS;
-    eReason fGeneralRequestTooLateReasonS;
-    eReason fGeneralRequestRefuseReasonS;
-
-    // rival
-    eMessageType fGeneralRequestInitialD;
-    eMessageType fGeneralRequestReminderD;
-    eMessageType fGeneralRequestOverdueD;
-    eMessageType fGeneralRequestWarningD;
-    eMessageType fGeneralRequestComplyD;
-    eMessageType fGeneralRequestTooLateD;
-    eMessageType fGeneralRequestRefuseD;
-    eReason fGeneralRequestEarlyReasonD;
-    eReason fGeneralRequestComplyReasonD;
-    eReason fGeneralRequestTooLateReasonD;
-    eReason fGeneralRequestRefuseReasonD;
-
-    // subject
-    eMessageType fGeneralRequestInitialP;
-    eMessageType fGeneralRequestReminderP;
-    eMessageType fGeneralRequestOverdueP;
-    eMessageType fGeneralRequestWarningP;
-    eMessageType fGeneralRequestComplyP;
-    eMessageType fGeneralRequestTooLateP;
-    eMessageType fGeneralRequestRefuseP;
-    eReason fGeneralRequestEarlyReasonP;
-    eReason fGeneralRequestComplyReasonP;
-    eReason fGeneralRequestTooLateReasonP;
-    eReason fGeneralRequestRefuseReasonP;
-
-    // parent
-    eMessageType fGeneralRequestInitialR;
-    eMessageType fGeneralRequestReminderR;
-    eMessageType fGeneralRequestOverdueR;
-    eMessageType fGeneralRequestWarningR;
-    eMessageType fGeneralRequestComplyR;
-    eMessageType fGeneralRequestTooLateR;
-    eMessageType fGeneralRequestRefuseR;
-    eReason fGeneralRequestEarlyReasonR;
-    eReason fGeneralRequestComplyReasonR;
-    eReason fGeneralRequestTooLateReasonR;
-    eReason fGeneralRequestRefuseReasonR;
+    eReceiveRequestMessages fGeneralRequestAllyS;
+    eReceiveRequestMessages fGeneralRequestRivalD;
+    eReceiveRequestMessages fGeneralRequestSubjectP;
+    eReceiveRequestMessages fGeneralRequestParentR;
 
     eMessageType fGiftGranted;
     eMessageType fGiftCashGranted;
@@ -212,17 +179,7 @@ private:
     void load(eGodMessages& god, const std::string& godName);
     void load(eHeroMessages& hero, const std::string& heroName);
 
-    void loadGeneralRequest(eMessageType& initial,
-                            eMessageType& reminder,
-                            eMessageType& overdue,
-                            eMessageType& warning,
-                            eMessageType& comply,
-                            eMessageType& tooLate,
-                            eMessageType& refuse,
-                            eReason& earlyReason,
-                            eReason& complyReason,
-                            eReason& tooLateReason,
-                            eReason& refuseReason,
+    void loadGeneralRequest(eReceiveRequestMessages& request,
                             const std::string& letter);
 
     bool mLoaded = false;

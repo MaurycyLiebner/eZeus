@@ -59,23 +59,56 @@ void eReceiveRequestEvent::trigger() {
     ed.fA1Key = "postpone";
     ed.fA2Key = "refuse";
 
+    const auto rel = mCity->relationship();
+
     if(mFinish) {
+        auto& msgs = eMessages::instance;
         if(mPostpone > 1) {
             ed.fType = eMessageEventType::resourceGranted;
-            board.event(eEvent::generalRequestAllyTooLate, ed);
+            eEvent event;
+            eReceiveRequestMessages* rrmsgs = nullptr;
+            if(rel == eWorldCityRelationship::rival) {
+                event = eEvent::generalRequestRivalTooLate;
+                rrmsgs = &msgs.fGeneralRequestRivalD;
+            } else if(rel == eWorldCityRelationship::vassal ||
+                      rel == eWorldCityRelationship::collony) {
+                event = eEvent::generalRequestSubjectTooLate;
+                rrmsgs = &msgs.fGeneralRequestSubjectP;
+            } else if(rel == eWorldCityRelationship::mainCity) {
+                event = eEvent::generalRequestParentTooLate;
+                rrmsgs = &msgs.fGeneralRequestParentR;
+            } else { // ally
+                event = eEvent::generalRequestAllyTooLate;
+                rrmsgs = &msgs.fGeneralRequestAllyS;
+            }
+            board.event(event, ed);
             mCity->incAttitude(-5);
 
-            auto& msgs = eMessages::instance;
-            auto& reason = msgs.fGeneralRequestTooLateReasonS;
+            const auto& reason = rrmsgs->fTooLateReason;
             const auto me = mainEvent<eReceiveRequestEvent>();
             me->finished(*mTooLateTrigger, reason);
         } else {
             ed.fType = eMessageEventType::resourceGranted;
-            board.event(eEvent::generalRequestAllyComply, ed);
+            eEvent event;
+            eReceiveRequestMessages* rrmsgs = nullptr;
+            if(rel == eWorldCityRelationship::rival) {
+                event = eEvent::generalRequestRivalComply;
+                rrmsgs = &msgs.fGeneralRequestRivalD;
+            } else if(rel == eWorldCityRelationship::vassal ||
+                      rel == eWorldCityRelationship::collony) {
+                event = eEvent::generalRequestSubjectComply;
+                rrmsgs = &msgs.fGeneralRequestSubjectP;
+            } else if(rel == eWorldCityRelationship::mainCity) {
+                event = eEvent::generalRequestParentComply;
+                rrmsgs = &msgs.fGeneralRequestParentR;
+            } else { // ally
+                event = eEvent::generalRequestAllyComply;
+                rrmsgs = &msgs.fGeneralRequestAllyS;
+            }
+            board.event(event, ed);
             mCity->incAttitude(10);
 
-            auto& msgs = eMessages::instance;
-            auto& reason = msgs.fGeneralRequestComplyReasonS;
+            const auto& reason = rrmsgs->fComplyReason;
             const auto me = mainEvent<eReceiveRequestEvent>();
             me->finished(*mComplyTrigger, reason);
         }
@@ -84,11 +117,27 @@ void eReceiveRequestEvent::trigger() {
 
     if(mPostpone > 3) {
         ed.fType = eMessageEventType::resourceGranted;
-        board.event(eEvent::generalRequestAllyRefuse, ed);
+        eEvent event;
+        eReceiveRequestMessages* rrmsgs = nullptr;
+        auto& msgs = eMessages::instance;
+        if(rel == eWorldCityRelationship::rival) {
+            event = eEvent::generalRequestRivalRefuse;
+            rrmsgs = &msgs.fGeneralRequestRivalD;
+        } else if(rel == eWorldCityRelationship::vassal ||
+                  rel == eWorldCityRelationship::collony) {
+            event = eEvent::generalRequestSubjectRefuse;
+            rrmsgs = &msgs.fGeneralRequestSubjectP;
+        } else if(rel == eWorldCityRelationship::mainCity) {
+            event = eEvent::generalRequestParentRefuse;
+            rrmsgs = &msgs.fGeneralRequestParentR;
+        } else { // ally
+            event = eEvent::generalRequestAllyRefuse;
+            rrmsgs = &msgs.fGeneralRequestAllyS;
+        }
+        board.event(event, ed);
         mCity->incAttitude(-15);
 
-        auto& msgs = eMessages::instance;
-        auto& reason = msgs.fGeneralRequestRefuseReasonS;
+        auto& reason = rrmsgs->fRefuseReason;
         const auto me = mainEvent<eReceiveRequestEvent>();
         me->finished(*mRefuseTrigger, reason);
         return;
@@ -129,7 +178,6 @@ void eReceiveRequestEvent::trigger() {
 
 
     ed.fType = eMessageEventType::generalRequestGranted;
-    const auto rel = mCity->relationship();
     if(mPostpone == 0) { // initial
         const auto request = cityRequest();
         board.addCityRequest(mainEvent<eReceiveRequestEvent>());
