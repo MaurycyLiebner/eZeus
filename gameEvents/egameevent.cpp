@@ -191,6 +191,7 @@ void eGameEvent::rewind(const eDate& date) {
         mNextDate += mPeriodDays;
     }
 }
+
 void eGameEvent::handleNewDate(const eDate& date) {
     for(const auto& w : mWarnings) {
         w.second->handleNewDate(date);

@@ -50,7 +50,7 @@ void eInvasionEvent::initialize(const stdsptr<eWorldCity>& city,
                                 const int infantry,
                                 const int cavalry,
                                 const int archers) {
-    mCity = city;
+    setCity(city);
 
     mInfantry = infantry;
     mCavalry = cavalry;

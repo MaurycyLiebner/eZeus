@@ -86,7 +86,7 @@ void eReceiveRequestEvent::trigger() {
 
             const auto& reason = rrmsgs->fTooLateReason;
             const auto me = mainEvent<eReceiveRequestEvent>();
-            me->finished(*mTooLateTrigger, reason);
+            me->finished(*me->mTooLateTrigger, reason);
         } else {
             ed.fType = eMessageEventType::resourceGranted;
             eEvent event;
@@ -110,7 +110,7 @@ void eReceiveRequestEvent::trigger() {
 
             const auto& reason = rrmsgs->fComplyReason;
             const auto me = mainEvent<eReceiveRequestEvent>();
-            me->finished(*mComplyTrigger, reason);
+            me->finished(*me->mComplyTrigger, reason);
         }
         return;
     }
@@ -139,7 +139,7 @@ void eReceiveRequestEvent::trigger() {
 
         auto& reason = rrmsgs->fRefuseReason;
         const auto me = mainEvent<eReceiveRequestEvent>();
-        me->finished(*mRefuseTrigger, reason);
+        me->finished(*me->mRefuseTrigger, reason);
         return;
     }
 

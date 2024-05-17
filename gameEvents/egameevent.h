@@ -131,12 +131,12 @@ private:
 
     std::string mReason;
 
-    eDate mStartDate;
-    int mPeriodDays;
-    int mTotNRuns;
+    eDate mStartDate{1, eMonth::january, 1};
+    int mPeriodDays = 100;
+    int mTotNRuns = 1;
 
-    int mRemNRuns;
-    eDate mNextDate;
+    int mRemNRuns = 0;
+    eDate mNextDate = mStartDate;
 
     int mIOID = -1;
 };
