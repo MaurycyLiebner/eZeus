@@ -185,6 +185,8 @@ public:
     eResourceGrantedMessages fRaidGranted;
     eMessageType fCityRaidFailedByPlayer;
 
+    eMessageType fAllyAttackedByPlayer;
+
     eMessageType fArmyReturns;
 private:
     bool loadImpl();

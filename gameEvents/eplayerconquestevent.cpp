@@ -38,12 +38,20 @@ void ePlayerConquestEvent::trigger() {
 
     eEventData ed;
     ed.fCity = mCity;
+    const auto rel = mCity->relationship();
+    if(rel == eWorldCityRelationship::ally) {
+        auto& worldBoard = board.getWorldBoard();
+        worldBoard.attackedAlly();
+        board.event(eEvent::allyAttackedByPlayer, ed);
+    }
     if(conquered) {
         board.event(eEvent::cityConquered, ed);
         board.allow(eBuildingType::commemorative, 4);
+        mCity->setRelationship(eWorldCityRelationship::vassal);
     } else {
         board.event(eEvent::cityConquerFailed, ed);
     }
+    mCity->incAttitude(-50);
 
     const auto e = e::make_shared<eArmyReturnEvent>(
                        eGameEventBranch::child, board);

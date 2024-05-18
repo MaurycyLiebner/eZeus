@@ -185,7 +185,7 @@ void eWorldMenu::setCity(const stdsptr<eWorldCity>& c) {
 
     if(c) {
         const auto rel = c->relationship();
-        vassalOrColony = rel == eWorldCityRelationship::ally ||
+        vassalOrColony = rel == eWorldCityRelationship::vassal ||
                          rel == eWorldCityRelationship::collony;
         const int min = static_cast<int>(eWorldCityType::distantCity);
         const int max = static_cast<int>(eWorldCityType::distantCityNW);

@@ -110,6 +110,8 @@ enum class eEvent {
     raidPostponed,
     raidRefused,
 
+    allyAttackedByPlayer,
+
     cityRaidFailed,
     armyReturns
 };

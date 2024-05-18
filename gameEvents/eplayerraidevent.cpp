@@ -39,7 +39,14 @@ void ePlayerRaidEvent::trigger() {
     }
 
     const bool raided = str > 0.75*enemyStr;
-
+    eEventData ed;
+    ed.fCity = mCity;
+    const auto rel = mCity->relationship();
+    if(rel == eWorldCityRelationship::ally) {
+        auto& worldBoard = board.getWorldBoard();
+        worldBoard.attackedAlly();
+        board.event(eEvent::allyAttackedByPlayer, ed);
+    }
     if(raided) {
         eResourceType res = mResource;
         if(res == eResourceType::none) {
@@ -65,8 +72,6 @@ void ePlayerRaidEvent::trigger() {
         e->initialize(true, res, count, mCity);
         addConsequence(e);
     } else {
-        eEventData ed;
-        ed.fCity = mCity;
         board.event(eEvent::cityRaidFailed, ed);
     }
 

@@ -556,6 +556,11 @@ bool eMessages::loadImpl() {
 
     loadResourceGranted(fRaidGranted, "raiding_party_returns");
 
+    fAllyAttackedByPlayer.fFull.fTitle = fMessages["PHRASE_allies_hate_you_title"];
+    fAllyAttackedByPlayer.fFull.fText = fMessages["PHRASE_allies_hate_you_initial_announcement"];
+    fAllyAttackedByPlayer.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_allies_hate_you_title"];
+    fAllyAttackedByPlayer.fCondensed.fText = fMessages["PHRASE_CONDENSED_allies_hate_you_initial_announcement"];
+
     fArmyReturns.fFull.fTitle = fMessages["PHRASE_army_returns_title"];
     fArmyReturns.fFull.fText = fMessages["PHRASE_army_returns_initial_announcement"];
     fArmyReturns.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_army_returns_title"];

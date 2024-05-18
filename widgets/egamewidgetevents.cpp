@@ -490,6 +490,11 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         return;
     } break;
 
+    case eEvent::allyAttackedByPlayer: {
+        showMessage(ed, inst.fAllyAttackedByPlayer, true);
+        return;
+    } break;
+
     case eEvent::armyReturns: {
         showMessage(ed, inst.fArmyReturns, true);
     } break;

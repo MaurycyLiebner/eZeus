@@ -82,3 +82,12 @@ void eWorldBoard::read(eReadStream& src) {
         addCity(c);
     }
 }
+
+void eWorldBoard::attackedAlly() {
+    for(const auto& c : mCities) {
+        const auto rel = c->relationship();
+        if(rel == eWorldCityRelationship::ally) {
+            c->incAttitude(-25);
+        }
+    }
+}

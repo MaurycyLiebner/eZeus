@@ -30,6 +30,8 @@ public:
 
     void write(eWriteStream& dst) const;
     void read(eReadStream& src);
+
+    void attackedAlly();
 private:
     stdsptr<eWorldCity> mHomeCity;
     std::vector<stdsptr<eWorldCity>> mCities;
