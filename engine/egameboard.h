@@ -252,6 +252,8 @@ public:
     using eBuildingValidator = std::function<bool(eBuilding*)>;
     std::vector<eBuilding*> buildings(const eBuildingValidator& v) const;
     eBuilding* randomBuilding(const eBuildingValidator& v) const;
+    const std::vector<eBuilding*>& commemorativeBuildings() const
+    { return mCommemorativeBuildings; }
 
     int philosophyCoverage() const { return mPhilosophyCoverage; }
     int athleticsCoverage() const { return mAthleticsCoverage; }
@@ -453,6 +455,7 @@ private:
     std::vector<eSoldier*> mSoldiers;
     std::vector<eBuilding*> mTimedBuildings;
     std::vector<eBuilding*> mAllBuildings;
+    std::vector<eBuilding*> mCommemorativeBuildings;
     std::vector<eTradePost*> mTradePosts;
     std::vector<eSpawner*> mSpawners;
     std::vector<eMissile*> mMissiles;

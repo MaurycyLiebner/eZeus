@@ -1302,8 +1302,13 @@ bool eGameBoard::unregisterSoldier(eSoldier* const c) {
 void eGameBoard::registerBuilding(eBuilding* const b) {
     if(!mRegisterBuildingsEnabled) return;
     mAllBuildings.push_back(b);
-    if(eBuilding::sTimedBuilding(b->type())) {
+    const auto bt = b->type();
+    if(eBuilding::sTimedBuilding(bt)) {
         mTimedBuildings.push_back(b);
+    }
+    if(bt == eBuildingType::commemorative ||
+       bt == eBuildingType::godMonument) {
+        mCommemorativeBuildings.push_back(b);
     }
     scheduleAppealMapUpdate();
 }
@@ -1312,6 +1317,7 @@ bool eGameBoard::unregisterBuilding(eBuilding* const b) {
     if(!mRegisterBuildingsEnabled) return false;
     eVectorHelpers::remove(mAllBuildings, b);
     eVectorHelpers::remove(mTimedBuildings, b);
+    eVectorHelpers::remove(mCommemorativeBuildings, b);
     if(b->type() == eBuildingType::commonHouse) {
         const auto ch = static_cast<eSmallHouse*>(b);
         const auto p = plagueForHouse(ch);

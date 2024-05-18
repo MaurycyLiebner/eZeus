@@ -307,6 +307,20 @@ very_high "very high"
 outrageous "outrageous"
 
 see_appeal "See Appeal"
+
+commemorative_monuments_data_widget "Commemorative*Monuments"
+no_commemorative_monuments_data_widget "No Commemorative*Monuments"
+
+population_monument_data_widget "Population"
+victory_monument_data_widget "Victory"
+colony_monument_data_widget "Colony"
+athlete_monument_data_widget "Athlete"
+conquest_monument_data_widget "Conquest"
+happiness_monument_data_widget "Happiness"
+commemorative7_monument_data_widget "7"
+commemorative8_monument_data_widget "8"
+scholar_monument_data_widget "Scholar"
+
 see_actors "See Actors"
 see_athletes "See Athletes"
 see_philosophers "See Philosophers"
