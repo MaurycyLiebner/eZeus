@@ -92,7 +92,7 @@ void eStorageDataWidget::initialize() {
 }
 
 void eStorageDataWidget::paintEvent(ePainter& p) {
-    const bool update = (++mTime % 20) == 0;
+    const bool update = ((mTime++) % 20) == 0;
     if(update) {
         mBoard.updateResources();
         const auto& src = mBoard.resources();

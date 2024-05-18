@@ -271,8 +271,6 @@ mythology_title "Mythology"
 military_title "Military"
 overview_title "Overview"
 
-tax_rate "Tax Rate"
-
 current_food_can_support_1 "Current food*production and*importation can*support"
 current_food_can_support_2 "people"
 stored_food_for_1 "Stored food for"
@@ -297,14 +295,6 @@ there_is_a_lot_of_unrest "There is a lot*of unrest in*the*city"
 
 forces_in_city "Forces in city"
 standing_down "Standing down"
-
-none "none"
-low "low"
-very_low "very low"
-normal "normal"
-high "high"
-very_high "very high"
-outrageous "outrageous"
 
 see_appeal "See Appeal"
 
@@ -389,6 +379,20 @@ lack_of_food "Lack of food in*granaries"
 newcomers_arrived "Newcomers*arrived this*month"
 
 see_taxes "See Taxes"
+
+tax_rate "Tax Rate"
+
+none_taxes "none"
+low_taxes "low"
+very_low_taxes "very low"
+normal_taxes "normal"
+high_taxes "high"
+very_high_taxes "very high"
+outrageous_taxes "outrageous"
+
+taxes_yield_data_widget "Yields an estimated*%1 drachma"
+population_visited_by_clerk_data_widget "%1% of population*visited by clerk"
+uncollected_this_year_date_widget "%1 dr uncollected*this year"
 
 see_distribution "See Distribution"
 

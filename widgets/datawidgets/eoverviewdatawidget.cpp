@@ -277,7 +277,7 @@ void eOverviewDataWidget::updateRequestButtons() {
 }
 
 void eOverviewDataWidget::paintEvent(ePainter& p) {
-    const bool update = (++mTime % 20) == 0;
+    const bool update = ((mTime++) % 20) == 0;
     if(update) {
         {
             const int pop = mBoard.popularity();

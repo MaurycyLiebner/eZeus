@@ -1527,6 +1527,10 @@ void eGameBoard::incTime(const int by) {
     }
 
     if(nextYear) {
+        mTaxesPaidLastYear = mTaxesPaidThisYear;
+        mTaxesPaidThisYear = 0;
+        mPeoplePaidTaxesLastYear = mPeoplePaidTaxesThisYear;
+        mPeoplePaidTaxesThisYear = 0;
         const int d = mEmplData.pensions();
         incDrachmas(-d);
     }
@@ -1607,6 +1611,12 @@ void eGameBoard::handleFinishedTasks() {
 
 void eGameBoard::scheduleDataUpdate() {
     mThreadPool.scheduleDataUpdate();
+}
+
+void eGameBoard::payTaxes(const int d, const int people) {
+    incDrachmas(d);
+    mTaxesPaidThisYear += d;
+    mPeoplePaidTaxesThisYear += people;
 }
 
 void eGameBoard::incDrachmas(const int d) {

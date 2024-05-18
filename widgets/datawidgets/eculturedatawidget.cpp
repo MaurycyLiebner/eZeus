@@ -161,7 +161,7 @@ void eCultureDataWidget::updateCoverage() {
     }
 
     {
-        const int ddc = mBoard.dramaCoverage();
+        const int ddc = mBoard.allCultureCoverage();
         const auto ddt = coverageToText(ddc);
         const auto ddtt = eLanguage::text(ddt);
         mAllCoverage->setText(ddtt);
@@ -170,7 +170,7 @@ void eCultureDataWidget::updateCoverage() {
 }
 
 void eCultureDataWidget::paintEvent(ePainter& p) {
-    const bool update = (++mTime % 200) == 0;
+    const bool update = ((mTime++) % 20) == 0;
     if(update) {
         updateCoverage();
     }

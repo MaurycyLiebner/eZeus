@@ -5,26 +5,26 @@
 std::string eTaxRateHelpers::name(const eTaxRate tr) {
     switch(tr) {
     case eTaxRate::none:
-        return eLanguage::text("none");
+        return eLanguage::text("none_taxes");
     case eTaxRate::low:
-        return eLanguage::text("low");;
+        return eLanguage::text("low_taxes");;
     case eTaxRate::veryLow:
-        return eLanguage::text("very_low");
+        return eLanguage::text("very_low_taxes");
     case eTaxRate::normal:
-        return eLanguage::text("normal");
+        return eLanguage::text("normal_taxes");
     case eTaxRate::high:
-        return eLanguage::text("high");
+        return eLanguage::text("high_taxes");
     case eTaxRate::veryHigh:
-        return eLanguage::text("very_high");
+        return eLanguage::text("very_high_taxes");
     case eTaxRate::outrageous:
-        return eLanguage::text("outrageous");
+        return eLanguage::text("outrageous_taxes");
     }
 }
 
 double eTaxRateHelpers::getRate(const eTaxRate tr) {
     switch(tr) {
     case eTaxRate::none:
-        return 0.03;
+        return 0.00;
     case eTaxRate::low:
         return 0.03;
     case eTaxRate::veryLow:

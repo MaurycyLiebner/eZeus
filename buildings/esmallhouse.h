@@ -53,6 +53,8 @@ private:
     void spawnDisgruntled();
     void leave();
 
+    bool mSatisfactionProvidedThisMonth = false;
+
     int mUpdateSatisfaction = 0;
     int mSatisfaction = 100;
     int mFoodSatisfaction = 100;

@@ -169,6 +169,7 @@ public:
     eEmploymentData& employmentData() { return mEmplData; }
     eHeatMap& appealMap() { return mAppealMap; }
 
+    void payTaxes(const int d, const int people);
     void incDrachmas(const int d);
     int drachmas() const { return mDrachmas; }
     eDifficulty difficulty() const { return mDifficulty; }
@@ -183,6 +184,11 @@ public:
 
     void setTaxRate(const eTaxRate tr);
     void setWageRate(const eWageRate wr);
+
+    int taxesPaidThisYear() const { return mTaxesPaidThisYear; }
+    int taxesPaidLastYear() const { return mTaxesPaidLastYear; }
+    int peoplePaidTaxesThisYear() const { return mPeoplePaidTaxesThisYear; }
+    int peoplePaidTaxesLastYear() const { return mPeoplePaidTaxesLastYear; }
 
     void addRubbish(const stdsptr<eObject>& o);
     void emptyRubbish();
@@ -404,6 +410,12 @@ private:
     eDifficulty mDifficulty{eDifficulty::beginner};
     eWageRate mWageRate{eWageRate::normal};
     eTaxRate mTaxRate{eTaxRate::normal};
+
+    int mTaxesPaidLastYear = 0;
+    int mTaxesPaidThisYear = 0;
+
+    int mPeoplePaidTaxesLastYear = 0;
+    int mPeoplePaidTaxesThisYear = 0;
 
     int mTotalTime = 0;
     int mTime = 0;

@@ -73,8 +73,15 @@ int eSmallHouse::provide(const eProvide p, const int n) {
                                 diff, type(), mLevel);
         const double tax = mPeople * taxMult * b.taxRateF();
         const int iTax = std::round(tax);
-        b.incDrachmas(iTax);
+        b.payTaxes(iTax, mPeople);
         return iTax;
+    }
+
+    case eProvide::satisfaction: {
+        if(mSatisfactionProvidedThisMonth) return 0;
+        mSatisfactionProvidedThisMonth = true;
+        mSatisfaction = std::clamp(mSatisfaction + 25, 0, 100);
+        return 0;
     }
     default:
         return eBuilding::provide(p, n);
@@ -201,6 +208,7 @@ void eSmallHouse::timeChanged(const int by) {
 void eSmallHouse::nextMonth() {
     mPaidTaxesLastMonth = mPaidTaxes;
     mPaidTaxes = false;
+    mSatisfactionProvidedThisMonth = false;
     const int cfood = round(mPeople*0.25);
     const int cfleece = (mLevel > 2 && mPeople > 0) ? 2 : 0;
     const int coil = (mLevel > 4 && mPeople > 0) ? 2 : 0;
@@ -271,6 +279,7 @@ eHouseMissing eSmallHouse::missing() const {
 void eSmallHouse::read(eReadStream& src) {
     eHouseBase::read(src);
 
+    src >> mSatisfactionProvidedThisMonth;
     src >> mUpdateSatisfaction;
     src >> mSatisfaction;
     src >> mFoodSatisfaction;
@@ -300,6 +309,7 @@ void eSmallHouse::read(eReadStream& src) {
 void eSmallHouse::write(eWriteStream& dst) const {
     eHouseBase::write(dst);
 
+    dst << mSatisfactionProvidedThisMonth;
     dst << mUpdateSatisfaction;
     dst << mSatisfaction;
     dst << mFoodSatisfaction;

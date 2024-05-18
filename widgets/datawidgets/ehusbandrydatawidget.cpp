@@ -94,7 +94,7 @@ void eHusbandryDataWidget::initialize() {
 }
 
 void eHusbandryDataWidget::paintEvent(ePainter& p) {
-    const bool update = (++mTime % 20) == 0;
+    const bool update = ((mTime++) % 20) == 0;
     if(update) {
         mBoard.updateResources();
         const auto& husbData = mBoard.husbandryData();

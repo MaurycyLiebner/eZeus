@@ -125,7 +125,7 @@ void eMilitaryDataWidget::initialize() {
 }
 
 void eMilitaryDataWidget::paintEvent(ePainter& p) {
-    const bool update = (++mTime % 20) == 0;
+    const bool update = ((mTime++) % 20) == 0;
     if(update) {
         const auto inner = innerWidget();
         const auto& ss = mBoard.banners();

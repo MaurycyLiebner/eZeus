@@ -93,7 +93,7 @@ int eEliteHousing::provide(const eProvide p, const int n) {
                                 diff, type(), mLevel);
         const double tax = mPeople * taxMult * b.taxRateF();
         const int iTax = std::round(tax);
-        b.incDrachmas(iTax);
+        b.payTaxes(iTax, mPeople);
         return iTax;
     }
     default:

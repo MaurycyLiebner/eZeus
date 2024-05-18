@@ -389,17 +389,17 @@ void eGameWidget::paintEvent(ePainter& p) {
                 if(bt == eBuildingType::commonHouse) {
                     const auto ch = static_cast<eSmallHouse*>(ub);
                     if(ch->people() == 0) return;
-                    const int h = 100 - ch->hygiene();
+                    const int h = ch->hygiene();
                     const int n = h/15;
                     const eTextureCollection* coll = nullptr;
                     if(n < 2) {
-                        coll = &intrTexs.fColumn1;
-                    } else if(n < 3) {
-                        coll = &intrTexs.fColumn2;
-                    } else if(n < 4) {
-                        coll = &intrTexs.fColumn3;
-                    } else {
                         coll = &intrTexs.fColumn4;
+                    } else if(n < 3) {
+                        coll = &intrTexs.fColumn3;
+                    } else if(n < 4) {
+                        coll = &intrTexs.fColumn2;
+                    } else {
+                        coll = &intrTexs.fColumn1;
                     }
 
                     drawColumn(tp, n, rx + cdx, ry + cdy, *coll);

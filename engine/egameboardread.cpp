@@ -19,6 +19,10 @@ void eGameBoard::read(eReadStream& src) {
     src >> mDifficulty;
     src >> mWageRate;
     src >> mTaxRate;
+    src >> mTaxesPaidLastYear;
+    src >> mTaxesPaidThisYear;
+    src >> mPeoplePaidTaxesLastYear;
+    src >> mPeoplePaidTaxesThisYear;
 
     mDate.read(src);
     src >> mTime;

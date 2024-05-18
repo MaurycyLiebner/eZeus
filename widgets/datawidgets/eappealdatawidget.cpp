@@ -82,7 +82,7 @@ private:
 };
 
 void eAppealDataWidget::paintEvent(ePainter& p) {
-    const bool update = (++mTime % 20) == 0;
+    const bool update = ((mTime++) % 20) == 0;
     if(update) {
         const auto& bs = mBoard.commemorativeBuildings();
         const bool changed = !eVectorHelpers::same(bs, mBuildings);

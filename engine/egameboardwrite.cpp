@@ -16,6 +16,10 @@ void eGameBoard::write(eWriteStream& dst) const {
     dst << mDifficulty;
     dst << mWageRate;
     dst << mTaxRate;
+    dst << mTaxesPaidLastYear;
+    dst << mTaxesPaidThisYear;
+    dst << mPeoplePaidTaxesLastYear;
+    dst << mPeoplePaidTaxesThisYear;
 
     mDate.write(dst);
     dst << mTime;

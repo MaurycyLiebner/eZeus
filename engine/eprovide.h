@@ -22,7 +22,8 @@ enum class eProvide {
     arms,
     horses,
 
-    hygiene
+    hygiene,
+    satisfaction
 };
 
 #endif // EPROVIDE_H

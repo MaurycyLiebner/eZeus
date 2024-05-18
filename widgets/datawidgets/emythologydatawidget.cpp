@@ -134,7 +134,7 @@ void eMythologyDataWidget::initialize() {
 }
 
 void eMythologyDataWidget::paintEvent(ePainter& p) {
-    const bool update = (++mTime % 20) == 0;
+    const bool update = ((mTime++) % 20) == 0;
     if(update) {
         {
             const auto ss = mBoard.sanctuaries();
