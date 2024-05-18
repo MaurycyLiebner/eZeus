@@ -65,6 +65,7 @@ public:
               const int dist = 0,
               const eAction& findFailAct = nullptr,
               const eAction& findFinishAct = nullptr);
+    void waitAndGoHome(const int w);
     void goHome();
     void goAbroad();
     void goBackToBanner(const eAction& findFailAct = nullptr,
@@ -176,6 +177,32 @@ public:
     }
 private:
     stdptr<eCharacter> mCptr;
+};
+
+class eSA_waitAndGoHomeFinish : public eCharActFunc {
+public:
+    eSA_waitAndGoHomeFinish(eGameBoard& board) :
+        eCharActFunc(board, eCharActFuncType::SA_waitAndGoHomeFinish) {}
+    eSA_waitAndGoHomeFinish(eGameBoard& board, eSoldierAction* const a) :
+        eCharActFunc(board, eCharActFuncType::SA_waitAndGoHomeFinish),
+        mAptr(a) {}
+
+    void call() override {
+        if(!mAptr) return;
+        mAptr->goHome();
+    }
+
+    void read(eReadStream& src) override {
+        src.readCharacterAction(&board(), [this](eCharacterAction* const a) {
+            mAptr = static_cast<eSoldierAction*>(a);
+        });
+    }
+
+    void write(eWriteStream& dst) const override {
+        dst.writeCharacterAction(mAptr);
+    }
+private:
+    stdptr<eSoldierAction> mAptr;
 };
 
 #endif // ESOLDIERACTION_H

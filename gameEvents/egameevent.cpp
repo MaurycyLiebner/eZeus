@@ -15,6 +15,8 @@
 #include "egodquestevent.h"
 #include "egodquestfulfilledevent.h"
 #include "eplayerconquestevent.h"
+#include "eplayerraidevent.h"
+#include "eraidresourceevent.h"
 #include "earmyreturnevent.h"
 
 eGameEvent::eGameEvent(const eGameEventType type,
@@ -59,6 +61,10 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
         return e::make_shared<eGodQuestFulfilledEvent>(branch, board);
     case eGameEventType::playerConquestEvent:
         return e::make_shared<ePlayerConquestEvent>(branch, board);
+    case eGameEventType::raidResourceReceive:
+        return e::make_shared<eRaidResourceEvent>(branch, board);
+    case eGameEventType::playerRaidEvent:
+        return e::make_shared<ePlayerRaidEvent>(branch, board);
     case eGameEventType::armyReturnEvent:
         return e::make_shared<eArmyReturnEvent>(branch, board);
     }

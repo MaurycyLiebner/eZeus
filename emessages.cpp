@@ -143,6 +143,59 @@ void eMessages::loadGeneralRequest(
     request.fRefuseReason.fCondensed = fMessages["PHRASE_CONDENSED_general_request_refuse_reason_" + letter];
 }
 
+void eMessages::loadResourceGranted(eResourceGrantedMessages& granted,
+                                    const std::string& name) {
+    granted.fGranted.fFull.fTitle = fMessages["PHRASE_" + name + "_title"];
+    granted.fGranted.fFull.fText = fMessages["PHRASE_" + name + "_granted"];
+    granted.fGranted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + name + "_title"];
+    granted.fGranted.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + name + "_granted"];
+
+    granted.fCashGranted.fFull.fTitle = fMessages["PHRASE_" + name + "_title"];
+    granted.fCashGranted.fFull.fText = fMessages["PHRASE_" + name + "_cash_granted"];
+    granted.fCashGranted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + name + "_title"];
+    granted.fCashGranted.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + name + "_cash_granted"];
+
+    granted.fPartialSpace.fFull.fTitle = fMessages["PHRASE_" + name + "_title"];
+    granted.fPartialSpace.fFull.fText = fMessages["PHRASE_" + name + "_partial_space"];
+    granted.fPartialSpace.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + name + "_title"];
+    granted.fPartialSpace.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + name + "_partial_space"];
+
+    granted.fInsufficientSpace.fFull.fTitle = fMessages["PHRASE_" + name + "_title"];
+    granted.fInsufficientSpace.fFull.fText = fMessages["PHRASE_" + name + "_insufficient_space"];
+    granted.fInsufficientSpace.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + name + "_title"];
+    granted.fInsufficientSpace.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + name + "_insufficient_space"];
+
+    granted.fLastChance.fFull.fTitle = fMessages["PHRASE_" + name + "_title"];
+    granted.fLastChance.fFull.fText = fMessages["PHRASE_" + name + "_last_chance"];
+    granted.fLastChance.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + name + "_title"];
+    granted.fLastChance.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + name + "_last_chance"];
+
+    granted.fForfeited.fFull.fTitle = fMessages["PHRASE_" + name + "_title"];
+    granted.fForfeited.fFull.fText = fMessages["PHRASE_" + name + "_forfeited"];
+    granted.fForfeited.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + name + "_title"];
+    granted.fForfeited.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + name + "_forfeited"];
+
+    granted.fAccepted.fFull.fTitle = fMessages["PHRASE_" + name + "_title"];
+    granted.fAccepted.fFull.fText = fMessages["PHRASE_" + name + "_accepted"];
+    granted.fAccepted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + name + "_title"];
+    granted.fAccepted.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + name + "_accepted"];
+
+    granted.fCashAccepted.fFull.fTitle = fMessages["PHRASE_" + name + "_title"];
+    granted.fCashAccepted.fFull.fText = fMessages["PHRASE_" + name + "_cash_accepted"];
+    granted.fCashAccepted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + name + "_title"];
+    granted.fCashAccepted.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + name + "_cash_accepted"];
+
+    granted.fPostponed.fFull.fTitle = fMessages["PHRASE_" + name + "_title"];
+    granted.fPostponed.fFull.fText = fMessages["PHRASE_" + name + "_postponed"];
+    granted.fPostponed.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + name + "_title"];
+    granted.fPostponed.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + name + "_postponed"];
+
+    granted.fRefused.fFull.fTitle = fMessages["PHRASE_" + name + "_title"];
+    granted.fRefused.fFull.fText = fMessages["PHRASE_" + name + "_refused"];
+    granted.fRefused.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + name + "_title"];
+    granted.fRefused.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_refused"];
+}
+
 bool eMessages::loadImpl() {
     if(mLoaded) return false;
     mLoaded = true;
@@ -459,55 +512,7 @@ bool eMessages::loadImpl() {
     loadGeneralRequest(fGeneralRequestSubjectP, "P");
     loadGeneralRequest(fGeneralRequestParentR, "R");
 
-    fGiftGranted.fFull.fTitle = fMessages["PHRASE_gift_title"];
-    fGiftGranted.fFull.fText = fMessages["PHRASE_gift_granted"];
-    fGiftGranted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
-    fGiftGranted.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_granted"];
-
-    fGiftCashGranted.fFull.fTitle = fMessages["PHRASE_gift_title"];
-    fGiftCashGranted.fFull.fText = fMessages["PHRASE_gift_cash_granted"];
-    fGiftCashGranted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
-    fGiftCashGranted.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_cash_granted"];
-
-    fGiftPartialSpace.fFull.fTitle = fMessages["PHRASE_gift_title"];
-    fGiftPartialSpace.fFull.fText = fMessages["PHRASE_gift_partial_space"];
-    fGiftPartialSpace.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
-    fGiftPartialSpace.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_partial_space"];
-
-    fGiftInsufficientSpace.fFull.fTitle = fMessages["PHRASE_gift_title"];
-    fGiftInsufficientSpace.fFull.fText = fMessages["PHRASE_gift_insufficient_space"];
-    fGiftInsufficientSpace.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
-    fGiftInsufficientSpace.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_insufficient_space"];
-
-    fGiftLastChance.fFull.fTitle = fMessages["PHRASE_gift_title"];
-    fGiftLastChance.fFull.fText = fMessages["PHRASE_gift_last_chance"];
-    fGiftLastChance.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
-    fGiftLastChance.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_last_chance"];
-
-    fGiftForfeited.fFull.fTitle = fMessages["PHRASE_gift_title"];
-    fGiftForfeited.fFull.fText = fMessages["PHRASE_gift_forfeited"];
-    fGiftForfeited.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
-    fGiftForfeited.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_forfeited"];
-
-    fGiftAccepted.fFull.fTitle = fMessages["PHRASE_gift_title"];
-    fGiftAccepted.fFull.fText = fMessages["PHRASE_gift_accepted"];
-    fGiftAccepted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
-    fGiftAccepted.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_accepted"];
-
-    fGiftCashAccepted.fFull.fTitle = fMessages["PHRASE_gift_title"];
-    fGiftCashAccepted.fFull.fText = fMessages["PHRASE_gift_cash_accepted"];
-    fGiftCashAccepted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
-    fGiftCashAccepted.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_cash_accepted"];
-
-    fGiftPostponed.fFull.fTitle = fMessages["PHRASE_gift_title"];
-    fGiftPostponed.fFull.fText = fMessages["PHRASE_gift_postponed"];
-    fGiftPostponed.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
-    fGiftPostponed.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_postponed"];
-
-    fGiftRefused.fFull.fTitle = fMessages["PHRASE_gift_title"];
-    fGiftRefused.fFull.fText = fMessages["PHRASE_gift_refused"];
-    fGiftRefused.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_gift_title"];
-    fGiftRefused.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_refused"];
+    loadResourceGranted(fGiftGranted, "gift");
 
     fIncreasedFavor.fFull.fTitle = fMessages["PHRASE_favor_change_title_I"];
     fIncreasedFavor.fFull.fText = fMessages["PHRASE_favor_change_initial_announcement_I"];
@@ -543,6 +548,13 @@ bool eMessages::loadImpl() {
     fCityConquerFailedByPlayer.fFull.fText = fMessages["PHRASE_players_conquest_fails_initial_announcement"];
     fCityConquerFailedByPlayer.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_players_conquest_fails_title"];
     fCityConquerFailedByPlayer.fCondensed.fText = fMessages["PHRASE_CONDENSED_players_conquest_fails_initial_announcement"];
+
+    fCityRaidFailedByPlayer.fFull.fTitle = fMessages["PHRASE_raiding_party_wiped_out_title"];
+    fCityRaidFailedByPlayer.fFull.fText = fMessages["PHRASE_raiding_party_wiped_out_initial_announcement"];
+    fCityRaidFailedByPlayer.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_raiding_party_wiped_out_title"];
+    fCityRaidFailedByPlayer.fCondensed.fText = fMessages["PHRASE_CONDENSED_raiding_party_wiped_out_initial_announcement"];
+
+    loadResourceGranted(fRaidGranted, "raiding_party_returns");
 
     fArmyReturns.fFull.fTitle = fMessages["PHRASE_army_returns_title"];
     fArmyReturns.fFull.fText = fMessages["PHRASE_army_returns_initial_announcement"];

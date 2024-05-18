@@ -98,6 +98,19 @@ enum class eEvent {
 
     cityConquered,
     cityConquerFailed,
+
+    raidGranted,
+    raidCashGranted,
+    raidPartialSpace,
+    raidInsufficientSpace,
+    raidLastChance,
+    raidForfeited,
+    raidAccepted,
+    raidCashAccepted,
+    raidPostponed,
+    raidRefused,
+
+    cityRaidFailed,
     armyReturns
 };
 

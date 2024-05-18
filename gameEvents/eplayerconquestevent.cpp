@@ -22,42 +22,11 @@ void ePlayerConquestEvent::trigger() {
     if(!mCity) return;
     auto& board = getBoard();
 
-    const int enemyStr = (10 + (rand() % 3))*mCity->army();
-
-    int str = 0;
-    for(const auto& s : mForces.fSoldiers) {
-        double mult = 1.;
-        switch(s->type()) {
-        case eBannerType::horseman:
-            mult = 1.5;
-            break;
-        default:
-            break;
-        }
-
-        str += std::floor(mult*s->count());
-    }
-    for(const auto& c : mForces.fAllies) {
-        str += 3*c->army();
-    }
-    str += 10*mForces.fHeroes.size();
+    const int enemyStr = mCity->strength();
+    const int str = mForces.strength();
 
     const double killFrac = std::clamp(0.5*enemyStr/str, 0., 1.);
-
-    for(const auto& s : mForces.fSoldiers) {
-        const int oC = s->count();
-        int nC = std::round((1 - killFrac)*oC);
-        nC = std::clamp(nC, 0, 8);
-        for(int i = nC; i < oC; i++) {
-            s->decCount();
-        }
-    }
-
-    for(const auto& c : mForces.fAllies) {
-        const int oA = c->army();
-        const int nA = std::clamp(oA - 1, 1, 5);
-        c->setArmy(nA);
-    }
+    mForces.kill(killFrac);
 
     if(str > 0.75*enemyStr) {
         const int oA = mCity->army();
@@ -71,6 +40,7 @@ void ePlayerConquestEvent::trigger() {
     ed.fCity = mCity;
     if(conquered) {
         board.event(eEvent::cityConquered, ed);
+        board.allow(eBuildingType::commemorative, 4);
     } else {
         board.event(eEvent::cityConquerFailed, ed);
     }

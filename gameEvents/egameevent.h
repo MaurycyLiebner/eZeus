@@ -25,6 +25,8 @@ enum class eGameEventType {
     godQuest,
     godQuestFulfilled,
     playerConquestEvent,
+    playerRaidEvent,
+    raidResourceReceive,
     armyReturnEvent
 };
 

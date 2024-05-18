@@ -215,46 +215,48 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, inst.fRequestForfeited, true);
         return;
     } break;
+
     case eEvent::giftGranted: {
-        showMessage(ed, inst.fGiftGranted);
+        showMessage(ed, inst.fGiftGranted.fGranted);
         return;
     } break;
     case eEvent::giftPartialSpace: {
-        showMessage(ed, inst.fGiftPartialSpace);
+        showMessage(ed, inst.fGiftGranted.fPartialSpace);
         return;
     } break;
     case eEvent::giftInsufficientSpace: {
-        showMessage(ed, inst.fGiftInsufficientSpace);
+        showMessage(ed, inst.fGiftGranted.fInsufficientSpace);
         return;
     } break;
     case eEvent::giftLastChance: {
-        showMessage(ed, inst.fGiftLastChance);
+        showMessage(ed, inst.fGiftGranted.fLastChance);
         return;
     } break;
     case eEvent::giftAccepted: {
-        showMessage(ed, inst.fGiftAccepted, true);
+        showMessage(ed, inst.fGiftGranted.fAccepted, true);
         return;
     } break;
     case eEvent::giftPostponed: {
-        showMessage(ed, inst.fGiftPostponed, true);
+        showMessage(ed, inst.fGiftGranted.fPostponed, true);
         return;
     } break;
     case eEvent::giftRefused: {
-        showMessage(ed, inst.fGiftRefused, true);
+        showMessage(ed, inst.fGiftGranted.fRefused, true);
         return;
     } break;
     case eEvent::giftForfeited: {
-        showMessage(ed, inst.fGiftForfeited, true);
+        showMessage(ed, inst.fGiftGranted.fForfeited, true);
         return;
     } break;
     case eEvent::giftCashGranted: {
-        showMessage(ed, inst.fGiftCashGranted, true);
+        showMessage(ed, inst.fGiftGranted.fCashGranted, true);
         return;
     } break;
     case eEvent::giftCashAccepted: {
-        showMessage(ed, inst.fGiftCashAccepted, true);
+        showMessage(ed, inst.fGiftGranted.fCashAccepted, true);
         return;
     } break;
+
     case eEvent::demandRefused: {
         showMessage(ed, inst.fDemandRefused, true);
         return;
@@ -434,13 +436,63 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
 
     case eEvent::cityConquered: {
         showMessage(ed, inst.fCityConqueredByPlayer, true);
+        return;
     } break;
     case eEvent::cityConquerFailed: {
         showMessage(ed, inst.fCityConquerFailedByPlayer, true);
+        return;
     } break;
+
+
+    case eEvent::raidGranted: {
+        showMessage(ed, inst.fRaidGranted.fGranted);
+        return;
+    } break;
+    case eEvent::raidPartialSpace: {
+        showMessage(ed, inst.fRaidGranted.fPartialSpace);
+        return;
+    } break;
+    case eEvent::raidInsufficientSpace: {
+        showMessage(ed, inst.fRaidGranted.fInsufficientSpace);
+        return;
+    } break;
+    case eEvent::raidLastChance: {
+        showMessage(ed, inst.fRaidGranted.fLastChance);
+        return;
+    } break;
+    case eEvent::raidAccepted: {
+        showMessage(ed, inst.fRaidGranted.fAccepted, true);
+        return;
+    } break;
+    case eEvent::raidPostponed: {
+        showMessage(ed, inst.fRaidGranted.fPostponed, true);
+        return;
+    } break;
+    case eEvent::raidRefused: {
+        showMessage(ed, inst.fRaidGranted.fRefused, true);
+        return;
+    } break;
+    case eEvent::raidForfeited: {
+        showMessage(ed, inst.fRaidGranted.fForfeited, true);
+        return;
+    } break;
+    case eEvent::raidCashGranted: {
+        showMessage(ed, inst.fRaidGranted.fCashGranted, true);
+        return;
+    } break;
+    case eEvent::raidCashAccepted: {
+        showMessage(ed, inst.fRaidGranted.fCashAccepted, true);
+        return;
+    } break;
+
+    case eEvent::cityRaidFailed: {
+        showMessage(ed, inst.fCityRaidFailedByPlayer, true);
+        return;
+    } break;
+
     case eEvent::armyReturns: {
         showMessage(ed, inst.fArmyReturns, true);
     } break;
     }
-    mGm->pushEvent(e, ed.fTile);
+    mGm->pushEvent(e, ed);
 }

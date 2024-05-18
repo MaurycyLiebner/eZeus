@@ -64,6 +64,7 @@ enum class eCharacterActionFunctionType {
 
     SA_goToFinish,
     SA_goHomeFinish,
+    SA_waitAndGoHomeFinish,
 
     TA_tradeFail,
     TA_tradeFinish,

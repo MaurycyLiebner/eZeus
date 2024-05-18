@@ -19,6 +19,9 @@
 #include "buildings/epalace.h"
 #include "buildings/epalacetile.h"
 
+#include "eiteratesquare.h"
+#include "engine/epathfinder.h"
+
 #include "elanguage.h"
 
 int gNextId = 0;
@@ -38,11 +41,39 @@ eSoldierBanner::~eSoldierBanner() {
     mBoard.unregisterAllSoldierBanner(this);
 }
 
+eCharacterType eSoldierBanner::characterType() const {
+    switch(mType) {
+    case eBannerType::hoplite:
+        return eCharacterType::hoplite;
+    case eBannerType::horseman:
+        return eCharacterType::horseman;
+    case eBannerType::rockThrower:
+        return eCharacterType::rockThrower;
+    case eBannerType::amazon:
+        return eCharacterType::amazon;
+    case eBannerType::aresWarrior:
+        return eCharacterType::aresWarrior;
+    }
+}
+
+stdsptr<eSoldier> eSoldierBanner::createSoldier(eTile* const t) {
+    const auto ct = characterType();
+    const auto c = eCharacter::sCreate(ct, mBoard);
+    const auto s = c->ref<eSoldier>();;
+    s->setBanner(this);
+    const auto a = e::make_shared<eSoldierAction>(s.get());
+    c->setAction(a);
+    c->changeTile(t);
+    c->setActionType(eCharacterActionType::stand);
+    if(mHome) a->goHome();
+    else a->goBackToBanner();
+    return s;
+}
+
 void eSoldierBanner::moveTo(const int x, const int y) {
     if(mX == x && mY == y) return;
     const auto t = mBoard.tile(x, y);
     if(!t) return;
-
 
     if(mPlayerId == 1 && mTile) {
         mTile->setSoldierBanner(nullptr);
@@ -121,9 +152,19 @@ void eSoldierBanner::goAbroad() {
     }
 }
 
-void eSoldierBanner::backFromAbroad() {
+void eSoldierBanner::backFromAbroad(int& wait) {
     if(!mAbroad) return;
     mAbroad = false;
+    const auto entryPoint = mBoard.entryPoint();
+    if(entryPoint) {
+        while((int)mSoldiers.size() < mCount) {
+            const auto s = createSoldier(entryPoint);
+            const auto a = s->soldierAction();
+            if(!a) continue;
+            a->waitAndGoHome(wait);
+            wait += 150;
+        }
+    }
     moveToDefault();
     goHome();
 }
@@ -369,30 +410,7 @@ void eSoldierBanner::updateCount() {
             }
             const auto home = eSoldierAction::sFindHome(cht, mBoard);
             if(!home) break;
-            stdsptr<eSoldier> h;
-            switch(mType) {
-            case eBannerType::rockThrower:
-                h = e::make_shared<eRockThrower>(mBoard);
-                break;
-            case eBannerType::hoplite:
-                h = e::make_shared<eHoplite>(mBoard);
-                break;
-            case eBannerType::horseman:
-                h = e::make_shared<eHorseman>(mBoard);
-                break;
-            case eBannerType::amazon:
-                h = e::make_shared<eAmazon>(mBoard);
-                break;
-            case eBannerType::aresWarrior:
-                h = e::make_shared<eAresWarrior>(mBoard);
-                break;
-            }
-            h->setBanner(this);
-            const auto a = e::make_shared<eSoldierAction>(h.get());
-            h->setAction(a);
-            h->changeTile(home->centerTile());
-            h->setActionType(eCharacterActionType::stand);
-            a->goBackToBanner();
+            createSoldier(home->centerTile());
         }
 
         for(int i = mCount; i < n; i++) {

@@ -5,6 +5,7 @@
 #include "engine/eevent.h"
 #include "elanguage.h"
 #include "buildings/eheroshall.h"
+#include "characters/actions/eheroaction.h"
 
 eArmyReturnEvent::eArmyReturnEvent(
         const eGameEventBranch branch,
@@ -21,15 +22,24 @@ void eArmyReturnEvent::initialize(
 void eArmyReturnEvent::trigger() {
     if(!mCity) return;
     auto& board = getBoard();
+    const auto entryPoint = board.entryPoint();
 
+    int wait = 0;
     for(const auto& s : mForces.fSoldiers) {
-        s->backFromAbroad();
+        s->backFromAbroad(wait);
     }
 
     for(const auto h : mForces.fHeroes) {
         const auto hh = board.heroHall(h);
         if(!hh) continue;
         hh->setHeroOnQuest(false);
+        if(!entryPoint) continue;
+        const auto hero = hh->spawnHero();
+        const auto a = hero->action();
+        const auto ha = dynamic_cast<eHeroAction*>(a);
+        if(!ha) continue;
+        hero->changeTile(entryPoint);
+        ha->goBackToHall();
     }
 
     for(const auto& a : mForces.fAllies) {
@@ -37,6 +47,7 @@ void eArmyReturnEvent::trigger() {
     }
 
     eEventData ed;
+    ed.fTile = entryPoint;
     ed.fCity = mCity;
     board.event(eEvent::armyReturns, ed);
 }

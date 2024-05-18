@@ -10,6 +10,7 @@
 class eSoldier;
 class eGameBoard;
 class eTile;
+enum class eCharacterType;
 
 enum class eBannerType {
     hoplite,
@@ -26,6 +27,8 @@ public:
     ~eSoldierBanner();
 
     eBannerType type() const { return mType; }
+    eCharacterType characterType() const;
+    stdsptr<eSoldier> createSoldier(eTile* const t);
 
     int id() const { return mId; }
 
@@ -37,7 +40,7 @@ public:
     void goHome();
     void backFromHome();
     void goAbroad();
-    void backFromAbroad();
+    void backFromAbroad(int& wait);
     void callSoldiers();
 
     bool isHome() const { return mHome; }

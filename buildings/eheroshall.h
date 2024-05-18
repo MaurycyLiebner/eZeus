@@ -102,7 +102,8 @@ public:
 
     void summon();
     void arrive();
-    void spawnHero();
+    eHero* spawnHero();
+    eHero* hero() const { return mHero; }
 
     eHeroSummoningStage stage() const { return mStage; }
 

@@ -49,6 +49,19 @@ struct eReceiveRequestMessages {
     eReason fRefuseReason;
 };
 
+struct eResourceGrantedMessages {
+    eMessageType fGranted;
+    eMessageType fCashGranted;
+    eMessageType fPartialSpace;
+    eMessageType fInsufficientSpace;
+    eMessageType fLastChance;
+    eMessageType fForfeited;
+    eMessageType fAccepted;
+    eMessageType fCashAccepted;
+    eMessageType fPostponed;
+    eMessageType fRefused;
+};
+
 class eMessages {
 public:
     eMessages() {}
@@ -156,16 +169,7 @@ public:
     eReceiveRequestMessages fGeneralRequestSubjectP;
     eReceiveRequestMessages fGeneralRequestParentR;
 
-    eMessageType fGiftGranted;
-    eMessageType fGiftCashGranted;
-    eMessageType fGiftPartialSpace;
-    eMessageType fGiftInsufficientSpace;
-    eMessageType fGiftLastChance;
-    eMessageType fGiftForfeited;
-    eMessageType fGiftAccepted;
-    eMessageType fGiftCashAccepted;
-    eMessageType fGiftPostponed;
-    eMessageType fGiftRefused;
+    eResourceGrantedMessages fGiftGranted;
 
     eMessageType fIncreasedFavor;
     eMessageType fDecreasedFavor;
@@ -177,6 +181,10 @@ public:
 
     eMessageType fCityConqueredByPlayer;
     eMessageType fCityConquerFailedByPlayer;
+
+    eResourceGrantedMessages fRaidGranted;
+    eMessageType fCityRaidFailedByPlayer;
+
     eMessageType fArmyReturns;
 private:
     bool loadImpl();
@@ -185,6 +193,8 @@ private:
 
     void loadGeneralRequest(eReceiveRequestMessages& request,
                             const std::string& letter);
+    void loadResourceGranted(eResourceGrantedMessages& granted,
+                             const std::string& name);
 
     bool mLoaded = false;
 };

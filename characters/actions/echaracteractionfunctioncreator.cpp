@@ -24,7 +24,7 @@
 
 #include "characters/echaracter.h"
 
-#include "spawners/esettlerspawner.h"
+#include "spawners/eentrypoint.h"
 
 stdsptr<eCharActFunc> eCharActFunc::sCreate(
         eGameBoard& board,
@@ -137,6 +137,8 @@ stdsptr<eCharActFunc> eCharActFunc::sCreate(
         return std::make_shared<eSA_goToFinish>(board);
     case eCharActFuncType::SA_goHomeFinish:
         return std::make_shared<eSA_goHomeFinish>(board);
+    case eCharActFuncType::SA_waitAndGoHomeFinish:
+        return std::make_shared<eSA_waitAndGoHomeFinish>(board);
 
     case eCharActFuncType::TA_tradeFail:
         return std::make_shared<eTA_tradeFail>(board);

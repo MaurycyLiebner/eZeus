@@ -20,9 +20,11 @@ protected:
     bool keyPressEvent(const eKeyPressEvent& e);
 private:
     using eEnlistAction = eEnlistForcesDialog::eEnlistAction;
+    using ePlunderAction = eEnlistForcesDialog::ePlunderAction;
     void openEnlistForcesDialog(
             const eEnlistAction& a,
-            const stdsptr<eWorldCity>& exclude);
+            const stdsptr<eWorldCity>& exclude,
+            const std::vector<eResourceType>& plunderResources = {});
     void openRequestDialog();
     void openGiftDialog();
 

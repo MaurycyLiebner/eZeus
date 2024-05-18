@@ -27,6 +27,7 @@ class eBuildButton;
 class eBuildWidget;
 class eFramedLabel;
 enum class eEvent;
+struct eEventData;
 
 struct eSubButtonData;
 
@@ -55,7 +56,7 @@ public:
 
     eMiniMap* miniMap() const;
 
-    void pushEvent(const eEvent e, eTile* const tile);
+    void pushEvent(const eEvent e, const eEventData& ed);
 
     using eViewTileHandler = std::function<void(eTile*)>;
     void setViewTileHandler(const eViewTileHandler& h);

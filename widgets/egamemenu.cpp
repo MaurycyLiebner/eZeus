@@ -889,8 +889,8 @@ eMiniMap* eGameMenu::miniMap() const {
     return mMiniMap;
 }
 
-void eGameMenu::pushEvent(const eEvent e, eTile* const tile) {
-    mEventW->pushEvent(e, tile);
+void eGameMenu::pushEvent(const eEvent e, const eEventData& ed) {
+    mEventW->pushEvent(e, ed);
 }
 
 void eGameMenu::setViewTileHandler(const eViewTileHandler& h) {

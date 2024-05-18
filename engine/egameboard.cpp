@@ -539,6 +539,9 @@ int eGameBoard::addResource(const eResourceType type,
 }
 
 int eGameBoard::spaceForResource(const eResourceType type) const {
+    if(type == eResourceType::drachmas) {
+        return __INT_MAX__/2;
+    }
     int r = 0;
     for(const auto s : mStorBuildings) {
         r += s->spaceLeft(type);
@@ -1054,6 +1057,26 @@ void eGameBoard::healHouse(eSmallHouse* const h) {
     } else {
         h->setPlague(false);
     }
+}
+
+eTile* eGameBoard::entryPoint() const {
+    for(const auto b : mBanners) {
+        const auto type = b->type();
+        if(type == eBannerTypeS::entryPoint) {
+            return b->tile();
+        }
+    }
+    return nullptr;
+}
+
+eTile* eGameBoard::exitPoint() const {
+    for(const auto b : mBanners) {
+        const auto type = b->type();
+        if(type == eBannerTypeS::exitPoint) {
+            return b->tile();
+        }
+    }
+    return nullptr;
 }
 
 void eGameBoard::registerSoldierBanner(const stdsptr<eSoldierBanner>& b) {

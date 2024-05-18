@@ -89,7 +89,6 @@ void eWorldTradeWidget::initialize(const std::string& name) {
 void eWorldTradeWidget::setName(const std::string &name) {
     mNameLabel->setText(name);
     mNameLabel->fitContent();
-    addWidget(mNameLabel);
     mNameLabel->align(eAlignment::top | eAlignment::hcenter);
 }
 

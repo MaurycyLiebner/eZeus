@@ -67,3 +67,41 @@ void eEnlistedForces::add(const eEnlistedForces& o) {
         fAllies.push_back(a);
     }
 }
+
+int eEnlistedForces::strength() const {
+    int str = 0;
+    for(const auto& s : fSoldiers) {
+        double mult = 1.;
+        switch(s->type()) {
+        case eBannerType::horseman:
+            mult = 1.5;
+            break;
+        default:
+            break;
+        }
+
+        str += std::floor(mult*s->count());
+    }
+    for(const auto& c : fAllies) {
+        str += 3*c->army();
+    }
+    str += 10*fHeroes.size();
+    return str;
+}
+
+void eEnlistedForces::kill(const double killFrac) {
+    for(const auto& s : fSoldiers) {
+        const int oC = s->count();
+        int nC = std::round((1 - killFrac)*oC);
+        nC = std::clamp(nC, 0, 8);
+        for(int i = nC; i < oC; i++) {
+            s->decCount();
+        }
+    }
+
+    for(const auto& c : fAllies) {
+        const int oA = c->army();
+        const int nA = std::clamp(oA - 1, 1, 5);
+        c->setArmy(nA);
+    }
+}

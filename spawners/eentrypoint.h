@@ -1,15 +1,15 @@
-#ifndef ESETTLERSPAWNER_H
-#define ESETTLERSPAWNER_H
+#ifndef eentrypoint_H
+#define eentrypoint_H
 
 #include "espawner.h"
 
 #include "characters/actions/echaracteractionfunction.h"
 
-class eSettlerSpawner : public eSpawner {
+class eEntryPoint : public eSpawner {
 public:
-    eSettlerSpawner(const int id,
-                    eTile* const tile,
-                    eGameBoard& board);
+    eEntryPoint(const int id,
+                eTile* const tile,
+                eGameBoard& board);
 
     void incTime(const int by) override;
     void spawn(eTile* const tile) override;
@@ -26,4 +26,4 @@ public:
     void write(eWriteStream&) const override {}
 };
 
-#endif // ESETTLERSPAWNER_H
+#endif // eentrypoint_H

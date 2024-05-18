@@ -3,8 +3,9 @@
 #include "engine/egameboard.h"
 #include "engine/eevent.h"
 #include "textures/egametextures.h"
+#include "engine/eeventdata.h"
 
-void eEventWidget::pushEvent(const eEvent e, eTile* const tile) {
+void eEventWidget::pushEvent(const eEvent e, const eEventData& ed) {
     const auto button = new eEventButton(e, window());
     mButtons.insert(mButtons.begin(), button);
     if(mButtons.size() > 4) {
@@ -13,9 +14,16 @@ void eEventWidget::pushEvent(const eEvent e, eTile* const tile) {
         mButtons.pop_back();
     }
     prependWidget(button);
-    button->setPressAction([this, tile]() {
+    button->setPressAction([this, ed]() {
         if(mViewTileHandler) {
-            mViewTileHandler(tile);
+            const auto ch = ed.fChar;
+            if(ch) {
+                const auto tile = ch->tile();
+                mViewTileHandler(tile);
+            } else {
+                const auto tile = ed.fTile;
+                mViewTileHandler(tile);
+            }
         }
     });
     setHeight(button->height());
@@ -65,6 +73,9 @@ eEventButton::eEventButton(const eEvent e,
         break;
     case eEvent::plague:
         coll = &texs.fIllnessAlert;
+        break;
+    case eEvent::armyReturns:
+        coll = &texs.fArmyComebackAlert;
         break;
     default:
         return;

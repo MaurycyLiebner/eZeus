@@ -4,6 +4,9 @@
 #include "elanguage.h"
 #include "evectorhelpers.h"
 #include "escrollwidget.h"
+#include "econtextmenu.h"
+#include "emainwindow.h"
+#include "echoosebutton.h"
 
 enum class eEnlistType {
     horseman, hoplite, navy,
@@ -400,7 +403,8 @@ eEnlistedForces extractType(const eBannerType type,
 void eEnlistForcesDialog::initialize(
         const eEnlistedForces& enlistable,
         const std::vector<bool>& heroesAbroad,
-        const eEnlistAction& action) {
+        const eEnlistAction& action,
+        const std::vector<eResourceType>& plunderResources) {
     const auto r = resolution();
 
     setType(eFrameType::message);
@@ -423,13 +427,77 @@ void eEnlistForcesDialog::initialize(
     int hhh = hh;
 
     {
-        const auto text = eLanguage::text("enlist_forces");
-        const auto titleLabel = new eLabel(text, window());
-        titleLabel->setTinyPadding();
-        titleLabel->fitContent();
-        innerWid->addWidget(titleLabel);
-        titleLabel->align(eAlignment::top | eAlignment::hcenter);
-        hhh -= titleLabel->height();
+        const auto titleW = new eWidget(window());
+        titleW->setNoPadding();
+        titleW->setWidth(innerWid->width());
+        innerWid->addWidget(titleW);
+
+        {
+            const auto text = eLanguage::text("enlist_forces");
+            const auto titleLabel = new eLabel(window());
+            titleLabel->setTinyPadding();
+            titleLabel->setText(text);
+            titleLabel->fitContent();
+            titleW->addWidget(titleLabel);
+            if(plunderResources.empty()) {
+                titleLabel->align(eAlignment::top | eAlignment::hcenter);
+            } else {
+                titleLabel->align(eAlignment::top | eAlignment::left);
+            }
+        }
+
+        if(!plunderResources.empty()) {
+            const auto plunderW = new eWidget(window());
+            plunderW->setNoPadding();
+            titleW->addWidget(plunderW);
+
+            const auto text = eLanguage::text("select_plunder");
+            const auto titleLabel = new eLabel(window());
+            titleLabel->setSmallFontSize();
+            titleLabel->setSmallPadding();
+            titleLabel->setText(text);
+            titleLabel->fitContent();
+            plunderW->addWidget(titleLabel);
+
+            const auto button = new eFramedButton(window());
+            button->setUnderline(false);
+            button->setSmallPadding();
+            button->setSmallFontSize();
+            button->setText(eLanguage::text("any_resource_plunder"));
+            button->fitContent();
+            button->setWidth(titleLabel->width());
+            plunderW->addWidget(button);
+
+            button->setPressAction([this, button, plunderResources]() {
+                const auto choose = new eChooseButton(window());
+                std::vector<std::string> names;
+                for(const auto r : plunderResources) {
+                    const auto name = r == eResourceType::none ?
+                                          eLanguage::text("any_resource_plunder") :
+                                          eResourceTypeHelpers::typeName(r);
+                    names.push_back(name);
+                }
+                const auto act = [this, button, plunderResources, names](const int val) {
+                    const auto r = plunderResources[val];
+                    button->setText(names[val]);
+                    mSelectedPlunder = r;
+                };
+                choose->initialize(8, names, act);
+
+                window()->execDialog(choose);
+                choose->align(eAlignment::center);
+            });
+
+            plunderW->stackHorizontally();
+            plunderW->fitContent();
+            plunderW->align(eAlignment::right);
+
+            titleLabel->align(eAlignment::vcenter);
+            button->align(eAlignment::vcenter);
+        }
+
+        titleW->fitHeight();
+        hhh -= titleW->height();
     }
 
     const auto horsemen = new eEnlistWidget(window());
@@ -504,7 +572,7 @@ void eEnlistForcesDialog::initialize(
         dispatchButt->setText(eLanguage::text("dispatch"));
         dispatchButt->fitContent();
         const auto dispatchAct = [this, action]() {
-            if(action) action(mSelected);
+            if(action) action(mSelected, mSelectedPlunder);
             deleteLater();
         };
         dispatchButt->setPressAction(dispatchAct);

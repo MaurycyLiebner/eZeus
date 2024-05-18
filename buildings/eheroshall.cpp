@@ -283,7 +283,8 @@ void eHerosHall::arrive() {
     board.event(eEvent::heroArrival, ed);
 }
 
-void eHerosHall::spawnHero() {
+eHero* eHerosHall::spawnHero() {
+    if(mHero) mHero->kill();
     auto& board = getBoard();
     const auto c = eHero::sCreateHero(mType, board);
     mHero = c.get();
@@ -295,6 +296,7 @@ void eHerosHall::spawnHero() {
     const auto ha = e::make_shared<eHeroAction>(c.get());
     mHero->setAction(ha);
     mSpawnWait = 5000;
+    return mHero;
 }
 
 void eHerosHall::setHeroOnQuest(const bool b) {

@@ -1,41 +1,16 @@
 #ifndef EGIFTFROMEVENT_H
 #define EGIFTFROMEVENT_H
 
-#include "egameevent.h"
+#include "eresourcegrantedeventbase.h"
 
-#include "engine/eworldcity.h"
-
-class eGiftFromEvent : public eGameEvent {
+class eGiftFromEvent : public eResourceGrantedEventBase {
 public:
     eGiftFromEvent(const eGameEventBranch branch,
                    eGameBoard& board);
 
-    void initialize(const bool postpone,
-                    const eResourceType res,
-                    const int count,
-                    const stdsptr<eWorldCity>& c);
-
-    void trigger() override;
     std::string longName() const override;
 
-    void write(eWriteStream& dst) const override;
-    void read(eReadStream& src) override;
-
     stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
-
-    const stdsptr<eWorldCity>& city() const { return mCity; }
-    void setCity(const stdsptr<eWorldCity>& c);
-
-    eResourceType resourceType() const { return mResource; }
-    void setResourceType(const eResourceType type);
-
-    int resourceCount() const { return mCount; }
-    void setResourceCount(const int c);
-private:
-    bool mPostpone = true;
-    eResourceType mResource = eResourceType::fleece;
-    int mCount = 16;
-    stdsptr<eWorldCity> mCity;
 };
 
 #endif // EGIFTFROMEVENT_H

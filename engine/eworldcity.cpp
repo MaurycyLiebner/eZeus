@@ -102,6 +102,10 @@ void eWorldCity::nextYear() {
     mReceived.clear();
 }
 
+int eWorldCity::strength() const {
+    return (10 + (rand() % 3))*mArmy;
+}
+
 bool eWorldCity::buys(const eResourceType type) const {
     for(const auto& rt : mBuys) {
         if(rt.fType == type) return true;

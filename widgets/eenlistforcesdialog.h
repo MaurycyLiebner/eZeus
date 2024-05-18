@@ -9,12 +9,15 @@ class eEnlistForcesDialog : public eClosableDialog {
 public:
     using eClosableDialog::eClosableDialog;
 
-    using eEnlistAction = std::function<void(const eEnlistedForces&)>;
+    using eEnlistAction = std::function<void(const eEnlistedForces&, eResourceType)>;
+    using ePlunderAction = std::function<void(eResourceType)>;
     void initialize(const eEnlistedForces& enlistable,
                     const std::vector<bool>& heroesAbroad,
-                    const eEnlistAction& action);
+                    const eEnlistAction& action,
+                    const std::vector<eResourceType>& plunderResources = {});
 private:
     eEnlistedForces mSelected;
+    eResourceType mSelectedPlunder = eResourceType::none;
 };
 
 #endif // EENLISTFORCESDIALOG_H

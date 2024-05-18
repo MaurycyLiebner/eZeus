@@ -113,18 +113,19 @@ void eTerrainEditMenu::initialize() {
 
     const auto w12 = new eActionListWidget(window());
     w12->setSmallFontSize();
-    for(int i = 0; i < 3; i++) {
-        w12->addAction("Settlers " + std::to_string(i), [this, i]() {
-            mMode = eTerrainEditMode::settlers;
-            mModeId = i;
-        });
-    }
+    w12->addAction("Entry Point", [this]() {
+        mMode = eTerrainEditMode::entryPoint;
+        mModeId = 0;
+    });
+    w12->addAction("Exit Point", [this]() {
+        mMode = eTerrainEditMode::exitPoint;
+        mModeId = 0;
+    });
     w12->fitContent();
 
 
     const auto w13 = new eActionListWidget(window());
     w13->setSmallFontSize();
-    w12->setSmallFontSize();
     for(int i = 0; i < 3; i++) {
         w13->addAction("Boar " + std::to_string(i), [this, i]() {
             mMode = eTerrainEditMode::boar;

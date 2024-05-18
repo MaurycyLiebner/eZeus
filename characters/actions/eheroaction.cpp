@@ -10,6 +10,7 @@
 #include "ewaitaction.h"
 #include "engine/egameboard.h"
 #include "vec2.h"
+#include "buildings/eheroshall.h"
 
 eHeroAction::eHeroAction(eCharacter* const c) :
     eActionWithComeback(c, eCharActionType::heroAction) {
@@ -108,16 +109,45 @@ void eHeroAction::sendOnQuest() {
     });
     setCurrentAction(a);
     c->setActionType(eCharacterActionType::walk);
-    const int bw = board.width();
-    const int bh = board.height();
-    const auto edgeTile = [bw, bh](eTileBase* const tile) {
-        const int tx = tile->dx();
-        if(tx == 0 || tx >= bw) return true;
-        const int ty = tile->dy();
-        if(ty == 0 || ty >= bh) return true;
-        return false;
-    };
-    a->start(edgeTile);
+
+    const auto exitPoint = board.exitPoint();
+    if(exitPoint) {
+        a->start(exitPoint);
+    } else {
+        const int bw = board.width();
+        const int bh = board.height();
+        const auto edgeTile = [bw, bh](eTileBase* const tile) {
+            const int tx = tile->dx();
+            if(tx == 0 || tx >= bw) return true;
+            const int ty = tile->dy();
+            if(ty == 0 || ty >= bh) return true;
+            return false;
+        };
+        a->start(edgeTile);
+    }
+}
+
+void eHeroAction::goBackToHall() {
+    auto& board = eHeroAction::board();
+    const auto hh = board.heroHall(heroType());
+    if(!hh) return;
+    const auto c = character();
+    const auto hero = static_cast<eHero*>(c);
+    const stdptr<eHero> cptr(hero);
+    const auto fail = std::make_shared<eKillCharacterFinishFail>(
+                          board, hero);
+    const auto finish = std::make_shared<eKillCharacterFinishFail>(
+                            board, hero);
+
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFailAction(fail);
+    a->setFinishAction(finish);
+    a->setFindFailAction([cptr]() {
+        if(cptr) cptr->kill();
+    });
+    setCurrentAction(a);
+    c->setActionType(eCharacterActionType::walk);
+    a->start(hh);
 }
 
 void eHeroAction::lookForMonsterFight() {

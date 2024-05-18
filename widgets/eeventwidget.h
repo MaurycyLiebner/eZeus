@@ -7,6 +7,7 @@
 class eGameBoard;
 class eTile;
 enum class eEvent;
+struct eEventData;
 
 class eEventButton : public eButton {
 public:
@@ -18,7 +19,7 @@ class eEventWidget : public eWidget {
 public:
     using eWidget::eWidget;
 
-    void pushEvent(const eEvent e, eTile* const tile);
+    void pushEvent(const eEvent e, const eEventData& ed);
     void clear();
 
     using eViewTileHandler = std::function<void(eTile*)>;

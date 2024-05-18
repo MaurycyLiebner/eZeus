@@ -349,7 +349,10 @@ SOURCES += \
         gameEvents/emonsterattackevent.cpp \
         gameEvents/epaytributeevent.cpp \
         gameEvents/eplayerconquestevent.cpp \
+        gameEvents/eplayerraidevent.cpp \
+        gameEvents/eraidresourceevent.cpp \
         gameEvents/ereceiverequestevent.cpp \
+        gameEvents/eresourcegrantedeventbase.cpp \
         main.cpp \
         missiles/earrowmissile.cpp \
         missiles/egodmissile.cpp \
@@ -360,8 +363,9 @@ SOURCES += \
         spawners/ebanner.cpp \
         spawners/eboarspawner.cpp \
         spawners/edeerspawner.cpp \
+        spawners/eentrypoint.cpp \
+        spawners/eexitpoint.cpp \
         spawners/elandinvasionpoint.cpp \
-        spawners/esettlerspawner.cpp \
         spawners/espawner.cpp \
         textures/ebeachtodry.cpp \
         textures/ebuildingtextures.cpp \
@@ -862,7 +866,10 @@ HEADERS += \
     gameEvents/emonsterattackevent.h \
     gameEvents/epaytributeevent.h \
     gameEvents/eplayerconquestevent.h \
+    gameEvents/eplayerraidevent.h \
+    gameEvents/eraidresourceevent.h \
     gameEvents/ereceiverequestevent.h \
+    gameEvents/eresourcegrantedeventbase.h \
     missiles/earrowmissile.h \
     missiles/egodmissile.h \
     missiles/emissile.h \
@@ -927,8 +934,9 @@ HEADERS += \
     spawners/ebanner.h \
     spawners/eboarspawner.h \
     spawners/edeerspawner.h \
+    spawners/eentrypoint.h \
+    spawners/eexitpoint.h \
     spawners/elandinvasionpoint.h \
-    spawners/esettlerspawner.h \
     spawners/espawner.h \
     spriteData/achilles15.h \
     spriteData/achilles30.h \

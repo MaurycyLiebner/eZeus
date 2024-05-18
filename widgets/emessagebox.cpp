@@ -183,6 +183,7 @@ void eMessageBox::initialize(const eEventData& ed,
         const auto type = ed.fResourceType;
         const auto nameShort = eResourceTypeHelpers::typeName(type);
         const auto name = eResourceTypeHelpers::typeLongName(type);
+        const auto itemshort = eResourceTypeHelpers::typeName(type);
         const int count = ed.fResourceCount;
         const auto countStr = std::to_string(count);
         const int space = ed.fSpaceCount;
@@ -192,6 +193,8 @@ void eMessageBox::initialize(const eEventData& ed,
                                    countStr);
         eStringHelpers::replaceAll(msg.fText, "[item]",
                                    name);
+        eStringHelpers::replaceAll(msg.fText, "[itemshort]",
+                                   itemshort);
 
         ww->addWidget(tributeWid);
         tributeWid->setX(p);
@@ -247,6 +250,7 @@ void eMessageBox::initialize(const eEventData& ed,
     } else if(ed.fType == eMessageEventType::resourceGranted) {
         const auto type = ed.fResourceType;
         const auto name = eResourceTypeHelpers::typeLongName(type);
+        const auto itemshort = eResourceTypeHelpers::typeName(type);
         const int count = ed.fResourceCount;
         const auto countStr = std::to_string(count);
         const auto tributeWid = createTributeWidget(type, count, -1);
@@ -255,6 +259,8 @@ void eMessageBox::initialize(const eEventData& ed,
                                    countStr);
         eStringHelpers::replaceAll(msg.fText, "[item]",
                                    name);
+        eStringHelpers::replaceAll(msg.fText, "[itemshort]",
+                                   itemshort);
 
         ww->addWidget(tributeWid);
         tributeWid->setX(p);
@@ -264,6 +270,7 @@ void eMessageBox::initialize(const eEventData& ed,
         const auto type = ed.fResourceType;
         const auto nameShort = eResourceTypeHelpers::typeName(type);
         const auto name = eResourceTypeHelpers::typeLongName(type);
+        const auto itemshort = eResourceTypeHelpers::typeName(type);
         const int count = ed.fResourceCount;
         const auto countStr = std::to_string(count);
         const int space = ed.fSpaceCount;
@@ -275,6 +282,8 @@ void eMessageBox::initialize(const eEventData& ed,
                                    countStr);
         eStringHelpers::replaceAll(msg.fText, "[item]",
                                    name);
+        eStringHelpers::replaceAll(msg.fText, "[itemshort]",
+                                   itemshort);
         eStringHelpers::replaceAll(msg.fText, "[time_allotted]",
                                    timeStr);
 

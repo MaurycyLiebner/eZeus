@@ -22,6 +22,7 @@ public:
 
     void lookForMonster();
     void sendOnQuest();
+    void goBackToHall();
 private:
     void lookForMonsterFight();
     bool fightMonster(eMonster* const m);

@@ -5,7 +5,8 @@
 #include "eboarspawner.h"
 #include "edeerspawner.h"
 #include "elandinvasionpoint.h"
-#include "esettlerspawner.h"
+#include "eentrypoint.h"
+#include "eexitpoint.h"
 
 eBanner::eBanner(const eBannerTypeS type,
                  const int id,
@@ -40,8 +41,10 @@ eBanner* eBanner::sCreate(const int id,
         return new eDeerSpawner(id, tile, board);
     case eBannerTypeS::landInvasion:
         return new eLandInvasionPoint(id, tile, board);
-    case eBannerTypeS::settler:
-        return new eSettlerSpawner(id, tile, board);
+    case eBannerTypeS::entryPoint:
+        return new eEntryPoint(id, tile, board);
+    case eBannerTypeS::exitPoint:
+        return new eExitPoint(id, tile, board);
     }
     return nullptr;
 }

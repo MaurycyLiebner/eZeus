@@ -1,25 +1,24 @@
-#include "esettlerspawner.h"
+#include "eentrypoint.h"
 
 #include "engine/egameboard.h"
 #include "characters/esettler.h"
 #include "characters/actions/esettleraction.h"
 
-eSettlerSpawner::eSettlerSpawner(
-        const int id,
-        eTile* const tile,
-        eGameBoard& board) :
-    eSpawner(eBannerTypeS::settler, id, tile,
+eEntryPoint::eEntryPoint(const int id,
+                         eTile* const tile,
+                         eGameBoard& board) :
+    eSpawner(eBannerTypeS::entryPoint, id, tile,
              __INT_MAX__, 500, board) {}
 
-void eSettlerSpawner::incTime(const int by) {
-    auto& board = eSettlerSpawner::board();
+void eEntryPoint::incTime(const int by) {
+    auto& board = eEntryPoint::board();
     const int pop = board.popularity();
     setSpawnPeriod(500*(115 - pop)/15);
     eSpawner::incTime(by);
 }
 
-void eSettlerSpawner::spawn(eTile* const tile) {
-    auto& board = eSettlerSpawner::board();
+void eEntryPoint::spawn(eTile* const tile) {
+    auto& board = eEntryPoint::board();
     const int pop = board.popularity();
     if(pop < 50) {
         const auto& husbData = board.husbandryData();

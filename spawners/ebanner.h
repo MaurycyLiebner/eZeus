@@ -10,7 +10,8 @@ enum class eBannerTypeS {
     boar,
     deer,
     landInvasion,
-    settler
+    entryPoint,
+    exitPoint
 };
 
 class eBanner {

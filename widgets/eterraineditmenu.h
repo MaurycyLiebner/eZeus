@@ -36,7 +36,8 @@ enum class eTerrainEditMode {
     fire,
     ruins,
 
-    settlers,
+    entryPoint,
+    exitPoint,
     landInvasion
 };
 

@@ -11,7 +11,8 @@
 
 #include "spawners/eboarspawner.h"
 #include "spawners/edeerspawner.h"
-#include "spawners/esettlerspawner.h"
+#include "spawners/eentrypoint.h"
+#include "spawners/eexitpoint.h"
 #include "spawners/elandinvasionpoint.h"
 
 #include "ebuildingstoerase.h"
@@ -387,11 +388,17 @@ bool eGameWidget::buildMouseRelease() {
                 build(tile->x(), tile->y(), 1, 1,
                       [this]() { return e::make_shared<eRuins>(*mBoard); });
             };
-        } else if(mode == eTerrainEditMode::settlers) {
+        } else if(mode == eTerrainEditMode::entryPoint) {
             apply = [this, modeId](eTile* const tile) {
                 const auto os = tile->banner();
                 if(os) delete os;
-                new eSettlerSpawner(modeId, tile, *mBoard);
+                new eEntryPoint(modeId, tile, *mBoard);
+            };
+        } else if(mode == eTerrainEditMode::exitPoint) {
+            apply = [this, modeId](eTile* const tile) {
+                const auto os = tile->banner();
+                if(os) delete os;
+                new eExitPoint(modeId, tile, *mBoard);
             };
         } else if(mode == eTerrainEditMode::landInvasion) {
             apply = [this, modeId](eTile* const tile) {

@@ -10,6 +10,7 @@
 #include "evectorhelpers.h"
 
 #include "gameEvents/eplayerconquestevent.h"
+#include "gameEvents/eplayerraidevent.h"
 
 #include "buildings/eheroshall.h"
 
@@ -22,13 +23,31 @@ void eWorldWidget::initialize() {
         openGiftDialog();
     };
     const auto raidFunc = [this]() {
-        const auto enlistAction = [this](const eEnlistedForces& forces) {
+        const auto enlistAction = [this](const eEnlistedForces& forces,
+                                         const eResourceType r) {
             mBoard->enlistForces(forces);
+            const auto e = e::make_shared<ePlayerRaidEvent>(
+                               eGameEventBranch::root, *mBoard);
+            const auto boardDate = mBoard->date();
+            const int period = 150;
+            const auto date = boardDate + period;
+            e->initializeDate(date, period, 1);
+            e->initialize(forces, mCity, r);
+            mBoard->addRootGameEvent(e);
         };
-        openEnlistForcesDialog(enlistAction, mCity);
+        std::vector<eResourceType> resources;
+        resources.push_back(eResourceType::none);
+        resources.push_back(eResourceType::drachmas);
+        const auto& sells = mCity->sells();
+        for(const auto& s : sells) {
+            resources.push_back(s.fType);
+        }
+        openEnlistForcesDialog(enlistAction, mCity, resources);
     };
     const auto conquerFunc = [this]() {
-        const auto enlistAction = [this](const eEnlistedForces& forces) {
+        const auto enlistAction = [this](const eEnlistedForces& forces,
+                                         const eResourceType r) {
+            (void)r;
             mBoard->enlistForces(forces);
             const auto e = e::make_shared<ePlayerConquestEvent>(
                                eGameEventBranch::root, *mBoard);
@@ -108,7 +127,8 @@ void eWorldWidget::openGiftDialog() {
 
 void eWorldWidget::openEnlistForcesDialog(
         const eEnlistAction& a,
-        const stdsptr<eWorldCity>& exclude) {
+        const stdsptr<eWorldCity>& exclude,
+        const std::vector<eResourceType>& plunderResources) {
     auto f = mBoard->getEnlistableForces();
     eVectorHelpers::remove(f.fAllies, exclude);
 
@@ -147,7 +167,7 @@ void eWorldWidget::openEnlistForcesDialog(
         const bool abroad = !hh ? true : hh->heroOnQuest();
         heroesAbroad.push_back(abroad);
     }
-    d->initialize(f, heroesAbroad, a);
+    d->initialize(f, heroesAbroad, a, plunderResources);
     addWidget(d);
     d->align(eAlignment::vcenter);
     d->setX(mWMW->x() + (mWMW->width() - d->width())/2);

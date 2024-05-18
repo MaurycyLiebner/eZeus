@@ -152,6 +152,8 @@ public:
 
     void nextYear();
 
+    int strength() const;
+
     int army() const { return mArmy; }
     void setArmy(const int a) { mArmy = a; }
 
