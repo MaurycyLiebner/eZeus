@@ -48,14 +48,5 @@ std::shared_ptr<eTexture> eExtendedGod::getTexture(const eTileSize size) const {
         return nullptr;
     }
 
-    if(!coll) return nullptr;
-    const int s = coll->size();
-    if(s == 0) return nullptr;
-    int t = textureTime() - actionStartTime();
-    if(reverse) {
-        t = coll->size() - t;
-    }
-    if(!wrap) t = std::clamp(t, 0, s - 1);
-    const int texId = t % s;
-    return coll->getTexture(texId);
+    return eCharacter::getTexture(coll, wrap, reverse);
 }

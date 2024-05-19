@@ -91,6 +91,10 @@ public:
 
     void pauseAction();
     void resumeAction();
+protected:
+    std::shared_ptr<eTexture> getTexture(
+            const eTextureCollection* const coll,
+            const bool wrap, const bool reverse) const;
 private:    
     std::vector<ePausedAction> mPausedActions;
 

@@ -48,8 +48,9 @@ std::shared_ptr<eTexture> eFireFighter::getTexture(const eTileSize size) const {
         wrap = false;
         coll = &charTexs.fDie;
     }
+    if(!coll) return nullptr;
     const int s = coll->size();
-    if(!coll || s == 0) return std::shared_ptr<eTexture>();
+    if(s == 0) return nullptr;
     int t = textureTime() - actionStartTime();
     if(!wrap) {
         t = std::clamp(t, 0, s - 1);

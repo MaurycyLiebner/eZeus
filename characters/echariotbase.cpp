@@ -18,7 +18,6 @@ eChariotBase::getTexture(const eTileSize size) const {
     const auto& gTexs = eGameTextures::characters();
     const auto& texs = gTexs[id].*mCharTexs;
     const eTextureCollection* coll = nullptr;
-    bool reverse = false;
     bool wrap = true;
     const int oid = static_cast<int>(orientation());
     const auto a = actionType();
@@ -43,16 +42,8 @@ eChariotBase::getTexture(const eTileSize size) const {
         coll = &texs.fDie[oid];
         break;
     default:
-        return std::shared_ptr<eTexture>();
+        return nullptr;
     }
 
-    const int s = coll->size();
-    if(!coll || s == 0) return std::shared_ptr<eTexture>();
-    int t = textureTime() - actionStartTime();
-    if(reverse) {
-        t = coll->size() - t;
-    }
-    if(!wrap) t = std::clamp(t, 0, s - 1);
-    const int texId = t % s;
-    return coll->getTexture(texId);
+    return eCharacter::getTexture(coll, wrap, false);
 }

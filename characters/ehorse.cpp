@@ -30,11 +30,9 @@ std::shared_ptr<eTexture> eHorse::getTexture(const eTileSize size) const {
         wrap = false;
         coll = &charTexs.fDie;
         break;
-    default: return std::shared_ptr<eTexture>();
+    default:
+        return nullptr;
     }
-    if(!coll || coll->size() == 0) return std::shared_ptr<eTexture>();
-    int t = textureTime() - actionStartTime();
-    if(!wrap) t = std::clamp(t, 0, coll->size() - 1);
-    const int texId = t % coll->size();
-    return coll->getTexture(texId);
+
+    return eCharacter::getTexture(coll, wrap, false);
 }

@@ -221,6 +221,19 @@ void eCharacter::resumeAction() {
     setActionType(p.fAt);
 }
 
+std::shared_ptr<eTexture> eCharacter::getTexture(
+        const eTextureCollection* const coll,
+        const bool wrap, const bool reverse) const {
+    if(!coll) return nullptr;
+    const int s = coll->size();
+    if(s == 0) return nullptr;
+    int t = textureTime() - actionStartTime();
+    if(reverse) t = coll->size() - t - 1;
+    if(!wrap) t = std::clamp(t, 0, s - 1);
+    const int texId = t % s;
+    return coll->getTexture(texId);
+}
+
 void eCharacter::read(eReadStream& src) {
     eCharacterBase::read(src);
     src >> mIOID;

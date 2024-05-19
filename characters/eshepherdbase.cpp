@@ -42,13 +42,9 @@ eShepherdBase::getTexture(const eTileSize size) const {
         wrap = false;
         coll = &charTexs.fDie;
         break;
-    default: return std::shared_ptr<eTexture>();
+    default:
+        return nullptr;
     }
-    if(!coll) return std::shared_ptr<eTexture>();
-    const int s = coll->size();
-    if(s == 0) return std::shared_ptr<eTexture>();
-    int t = textureTime() - actionStartTime();
-    if(!wrap) t = std::clamp(t, 0, s - 1);
-    const int texId = t % s;
-    return coll->getTexture(texId);
+
+    return eCharacter::getTexture(coll, wrap, false);
 }
