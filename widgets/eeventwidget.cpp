@@ -62,6 +62,7 @@ eEventButton::eEventButton(const eEvent e,
     case eEvent::godInvasion:
         coll = &texs.fGodAttackAlert;
         break;
+    case eEvent::monsterInvasion:
     case eEvent::godMonsterUnleash:
         coll = &texs.fMonsterAltert;
         break;

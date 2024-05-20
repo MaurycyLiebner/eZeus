@@ -4,7 +4,8 @@
 
 #include "egodvisitevent.h"
 #include "egodattackevent.h"
-#include "emonsterattackevent.h"
+#include "emonsterunleashedevent.h"
+#include "emonsterinvasionevent.h"
 #include "einvasionevent.h"
 #include "einvasionwarningevent.h"
 #include "epaytributeevent.h"
@@ -39,8 +40,12 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
         return e::make_shared<eGodVisitEvent>(branch, board);
     case eGameEventType::godAttack:
         return e::make_shared<eGodAttackEvent>(branch, board);
-    case eGameEventType::monsterAttack:
-        return e::make_shared<eMonsterAttackEvent>(branch, board);
+    case eGameEventType::monsterUnleashed:
+        return e::make_shared<eMonsterUnleashedEvent>(branch, board);
+    case eGameEventType::monsterInvasion:
+        return e::make_shared<eMonsterInvasionEvent>(branch, board);
+    case eGameEventType::monsterInvasionWarning:
+        return e::make_shared<eMonsterInvasionWarningEvent>(branch, board);
     case eGameEventType::invasion:
         return e::make_shared<eInvasionEvent>(branch, board);
     case eGameEventType::invasionWarning:

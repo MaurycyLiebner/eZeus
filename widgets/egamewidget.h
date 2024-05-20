@@ -168,7 +168,13 @@ private:
     void handleGodInvasionEvent(eEventData& ed);
     void handleGodHelpEvent(eEventData& ed);
     void handleSanctuaryComplete(const eGodType god);
+    void handleMonsterUnleashEvent(eEventData& ed);
+    void handleMonsterInvasion24Event(eEventData& ed);
+    void handleMonsterInvasion12Event(eEventData& ed);
+    void handleMonsterInvasion6Event(eEventData& ed);
+    void handleMonsterInvasion1Event(eEventData& ed);
     void handleMonsterInvasionEvent(eEventData& ed);
+    void handleMonsterSlainEvent(eEventData& ed);
     void handleHeroArrivalEvent(eEventData& ed);
 
     void mapDimensions(int& mdx, int& mdy) const;

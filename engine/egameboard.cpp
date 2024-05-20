@@ -44,7 +44,7 @@
 
 #include "gameEvents/egodvisitevent.h"
 #include "gameEvents/egodattackevent.h"
-#include "gameEvents/emonsterattackevent.h"
+#include "gameEvents/emonsterunleashedevent.h"
 #include "gameEvents/einvasionevent.h"
 #include "gameEvents/epaytributeevent.h"
 #include "gameEvents/emakerequestevent.h"

@@ -198,12 +198,15 @@ std::string eMonster::sMonsterName(const eMonsterType type) {
 
 void eMonster::sMonsterStrings(
         std::vector<eMonsterType>& mnstrs,
-        std::vector<std::string>& monsterStrs) {
+        std::vector<std::string>& monsterStrs,
+        const bool withGodsOnly,
+        const bool showGodNames) {
     const int iMin = static_cast<int>(eMonsterType::calydonianBoar);
     const int iMax = static_cast<int>(eMonsterType::talos);
+    std::vector<eMonsterType> allMonsters;
     for(int i = iMin; i <= iMax; i++) {
         const auto mi = static_cast<eMonsterType>(i);
-        mnstrs.push_back(mi);
+        allMonsters.push_back(mi);
     }
 
     const std::vector<std::string> monsterGods {
@@ -243,12 +246,23 @@ void eMonster::sMonsterStrings(
         eLanguage::text("jason")
     };
 
-    const int iMax2 = mnstrs.size();
+    const int iMax2 = allMonsters.size();
     for(int i = 0; i < iMax2; i++) {
-        const auto& m = mnstrs[i];
+        const auto m = allMonsters[i];
+        if(withGodsOnly) {
+            if(m == eMonsterType::echidna || m == eMonsterType::harpies) {
+                continue;
+            }
+        }
         const auto& g = monsterGods[i];
         const auto& h = monsterHeroes[i];
-        monsterStrs.push_back(eMonster::sMonsterName(m) + " (" +
-                              g + ", " + h + ")");
+        mnstrs.push_back(m);
+        std::string str = eMonster::sMonsterName(m);
+        if(showGodNames) {
+            str = str + " (" + g + ", " + h + ")";
+        } else {
+            str = str + " (" + h + ")";
+        }
+        monsterStrs.push_back(str);
     }
 }

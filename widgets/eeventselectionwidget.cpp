@@ -8,7 +8,6 @@
 
 #include "widgets/echoosebutton.h"
 
-#include "gameEvents/emonsterattackevent.h"
 #include "gameEvents/egodattackevent.h"
 #include "gameEvents/einvasionevent.h"
 #include "gameEvents/egiftfromevent.h"
@@ -56,7 +55,8 @@ void eEventSelectionWidget::initialize(
         const std::vector<eGameEventType> types = {
             eGameEventType::godVisit,
             eGameEventType::godAttack,
-            eGameEventType::monsterAttack,
+            eGameEventType::monsterUnleashed,
+            eGameEventType::monsterInvasion,
             eGameEventType::invasion,
             eGameEventType::payTribute,
             eGameEventType::makeRequest,
@@ -68,7 +68,8 @@ void eEventSelectionWidget::initialize(
         const std::vector<std::string> labels = {
             eLanguage::text("god_visit"),
             eLanguage::text("god_attack"),
-            eLanguage::text("monster_attack"),
+            eLanguage::text("monster_unleash_long_name"),
+            eLanguage::text("monster_invasion_long_name"),
             eLanguage::text("invasion"),
             eLanguage::text("pay_tribute"),
             eLanguage::text("make_request"),

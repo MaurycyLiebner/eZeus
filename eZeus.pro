@@ -346,7 +346,9 @@ SOURCES += \
         gameEvents/einvasionevent.cpp \
         gameEvents/einvasionwarningevent.cpp \
         gameEvents/emakerequestevent.cpp \
-        gameEvents/emonsterattackevent.cpp \
+        gameEvents/emonsterinvasionevent.cpp \
+        gameEvents/emonsterinvasioneventbase.cpp \
+        gameEvents/emonsterunleashedevent.cpp \
         gameEvents/epaytributeevent.cpp \
         gameEvents/eplayerconquestevent.cpp \
         gameEvents/eplayerraidevent.cpp \
@@ -863,7 +865,9 @@ HEADERS += \
     gameEvents/einvasionevent.h \
     gameEvents/einvasionwarningevent.h \
     gameEvents/emakerequestevent.h \
-    gameEvents/emonsterattackevent.h \
+    gameEvents/emonsterinvasionevent.h \
+    gameEvents/emonsterinvasioneventbase.h \
+    gameEvents/emonsterunleashedevent.h \
     gameEvents/epaytributeevent.h \
     gameEvents/eplayerconquestevent.h \
     gameEvents/eplayerraidevent.h \

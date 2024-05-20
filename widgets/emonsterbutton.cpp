@@ -3,13 +3,16 @@
 #include "echoosebutton.h"
 #include "emainwindow.h"
 
-void eMonsterButton::initialize(const eMonsterAction& mact) {
+void eMonsterButton::initialize(const eMonsterAction& mact,
+                                const bool withGodsOnly,
+                                const bool showGodNames) {
     setUnderline(false);
-    setPressAction([this, mact]() {
+    setPressAction([this, mact, withGodsOnly, showGodNames]() {
         const auto choose = new eChooseButton(window());
         std::vector<eMonsterType> monsters;
         std::vector<std::string> monsterNames;
-        eMonster::sMonsterStrings(monsters, monsterNames);
+        eMonster::sMonsterStrings(monsters, monsterNames,
+                                  withGodsOnly, showGodNames);
         const auto act = [this, monsters, mact](const int val) {
             const auto t = monsters[val];
             setType(t);

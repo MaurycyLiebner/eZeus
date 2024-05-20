@@ -16,6 +16,14 @@ enum class eEvent {
 
     heroArrival,
 
+    monsterInvasionAny,
+    monsterInvasion24,
+    monsterInvasion12,
+    monsterInvasion6,
+    monsterInvasion1,
+    monsterInvasion,
+    monsterSlain,
+
     invasion36,
     invasion24,
     invasion12,

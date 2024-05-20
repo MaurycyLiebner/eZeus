@@ -44,7 +44,9 @@ public:
     static std::string sMonsterName(const eMonsterType type);
 
     static void sMonsterStrings(std::vector<eMonsterType>& mnstrs,
-                                std::vector<std::string>& monsterStrs);
+                                std::vector<std::string>& monsterStrs,
+                                const bool withGodsOnly = false,
+                                const bool showGodNames = true);
 };
 
 #endif // EMONSTER_H

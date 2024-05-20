@@ -7,7 +7,7 @@
 #include "infowidgets/estorageinfowidget.h"
 #include "infowidgets/eagorainfowidget.h"
 #include "infowidgets/eheroshallinfowidget.h"
-#include "infowidgets/esanctuaryinfowidget.h".h"
+#include "infowidgets/esanctuaryinfowidget.h"
 
 #include "elanguage.h"
 

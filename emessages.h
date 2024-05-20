@@ -7,6 +7,7 @@
 
 enum class eGodType;
 enum class eHeroType;
+enum class eMonsterType;
 
 struct eQuestMessages {
     eEventMessageType fQuest;
@@ -28,6 +29,20 @@ struct eGodMessages {
     eQuestMessages fQuest2;
 
     eMessageType fSanctuaryComplete;
+};
+
+struct eMonsterMessages {
+    eMessageType fPrediction;
+    eMessageType fInvasionAny;
+    eMessageType fInvasion24;
+    eMessageType fInvasion12;
+    eMessageType fInvasion6;
+    eMessageType fInvasion1;
+    eMessageType fInvasion;
+    eMessageType fSlain;
+    std::string fToSlainReason;
+    std::string fSlainReason;
+    std::string fMonsterAttackReason;
 };
 
 struct eHeroMessages {
@@ -125,6 +140,25 @@ public:
     eHeroMessages fPerseus;
     eHeroMessages fTheseus;
 
+    const eMonsterMessages* monsterMessages(const eMonsterType monsterType) const;
+
+    eMonsterMessages fCalydonianBoar;
+    eMonsterMessages fCerberus;
+    eMonsterMessages fChimera;
+    eMonsterMessages fCyclops;
+    eMonsterMessages fDragon;
+    eMonsterMessages fEchidna;
+    eMonsterMessages fHarpies;
+    eMonsterMessages fHector;
+    eMonsterMessages fHydra;
+    eMonsterMessages fKraken;
+    eMonsterMessages fMaenads;
+    eMonsterMessages fMedusa;
+    eMonsterMessages fMinotaur;
+    eMonsterMessages fScylla;
+    eMonsterMessages fSphinx;
+    eMonsterMessages fTalos;
+
     eGameMessages fHomeGames;
     eGameMessages fIsthmianGames;
     eGameMessages fNemeanGames;
@@ -192,6 +226,9 @@ private:
     bool loadImpl();
     void load(eGodMessages& god, const std::string& godName);
     void load(eHeroMessages& hero, const std::string& heroName);
+    void load(eMonsterMessages& monster,
+              const std::string& monsterName1,
+              const std::string& monsterName2);
 
     void loadGeneralRequest(eReceiveRequestMessages& request,
                             const std::string& letter);

@@ -6,6 +6,10 @@
 #include "characters/monsters/emonster.h"
 #include "characters/heroes/ehero.h"
 
+#include "engine/egameboard.h"
+#include "engine/eeventdata.h"
+#include "engine/eevent.h"
+
 enum class eHeroActionStage {
     none, patrol, hunt, fight, goBack
 };
@@ -102,6 +106,12 @@ public:
 
     void call() {
         if(!mMptr) return;
+        auto& board = eCharActFunc::board();
+        eEventData ed;
+        const auto ct = mMptr->type();
+        ed.fMonster = eMonster::sCharacterToMonsterType(ct);
+        ed.fTile = mMptr->tile();
+        board.event(eEvent::monsterSlain, ed);
         mMptr->killWithCorpse();
     }
 

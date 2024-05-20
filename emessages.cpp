@@ -9,6 +9,7 @@
 
 #include "characters/gods/egod.h"
 #include "characters/heroes/ehero.h"
+#include "characters/monsters/emonster.h"
 
 eMessages eMessages::instance;
 
@@ -92,6 +93,55 @@ void eMessages::load(eHeroMessages& hero, const std::string& heroName) {
     hero.fHallAvailable.fFull.fText = fMessages["PHRASE_" + heroName + "_hall_available_initial_announcement"];
     hero.fHallAvailable.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + heroName + "_hall_available_title"];
     hero.fHallAvailable.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + heroName + "_hall_available_initial_announcement"];
+}
+
+void eMessages::load(eMonsterMessages& monster,
+                     const std::string& monsterName1,
+                     const std::string& monsterName2) {
+    monster.fSlain.fFull.fTitle = fMessages["PHRASE_" + monsterName2 + "_slain_title"];
+    monster.fSlain.fFull.fText = fMessages["PHRASE_" + monsterName2 + "_slain_initial_announcement"];
+    monster.fSlain.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_" + monsterName2 + "_slain_title"];
+    monster.fSlain.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + monsterName2 + "_slain_initial_announcement"];
+
+    monster.fSlainReason = fMessages["PHRASE_" + monsterName1 + "_slain_reason"];
+
+    monster.fPrediction.fFull.fTitle = fMessages["PHRASE_independent_" + monsterName2 + "_invades_title"];
+    monster.fPrediction.fFull.fText = fMessages["PHRASE_independent_" + monsterName2 + "_invades_oracle_prediction"];
+    monster.fPrediction.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_title"];
+    monster.fPrediction.fCondensed.fText = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_oracle_prediction"];
+
+    monster.fInvasionAny.fFull.fTitle = fMessages["PHRASE_independent_" + monsterName2 + "_invades_title"];
+    monster.fInvasionAny.fFull.fText = fMessages["PHRASE_independent_" + monsterName2 + "_invades_initial_announcement"];
+    monster.fInvasionAny.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_title"];
+    monster.fInvasionAny.fCondensed.fText = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_initial_announcement"];
+
+    monster.fInvasion24.fFull.fTitle = fMessages["PHRASE_independent_" + monsterName2 + "_invades_title"];
+    monster.fInvasion24.fFull.fText = fMessages["PHRASE_independent_" + monsterName2 + "_invades_2year_reminder"];
+    monster.fInvasion24.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_title"];
+    monster.fInvasion24.fCondensed.fText = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_2year_reminder"];
+
+    monster.fInvasion12.fFull.fTitle = fMessages["PHRASE_independent_" + monsterName2 + "_invades_title"];
+    monster.fInvasion12.fFull.fText = fMessages["PHRASE_independent_" + monsterName2 + "_invades_1year_reminder"];
+    monster.fInvasion12.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_title"];
+    monster.fInvasion12.fCondensed.fText = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_1year_reminder"];
+
+    monster.fInvasion6.fFull.fTitle = fMessages["PHRASE_independent_" + monsterName2 + "_invades_title"];
+    monster.fInvasion6.fFull.fText = fMessages["PHRASE_independent_" + monsterName2 + "_invades_6month_warning"];
+    monster.fInvasion6.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_title"];
+    monster.fInvasion6.fCondensed.fText = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_6month_warning"];
+
+    monster.fInvasion1.fFull.fTitle = fMessages["PHRASE_independent_" + monsterName2 + "_invades_title"];
+    monster.fInvasion1.fFull.fText = fMessages["PHRASE_independent_" + monsterName2 + "_invades_1month_Warning"];
+    monster.fInvasion1.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_title"];
+    monster.fInvasion1.fCondensed.fText = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_1month_Warning"];
+
+    monster.fInvasion.fFull.fTitle = fMessages["PHRASE_independent_" + monsterName2 + "_invades_title"];
+    monster.fInvasion.fFull.fText = fMessages["PHRASE_independent_" + monsterName2 + "_invades_city_attacked_alert"];
+    monster.fInvasion.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_title"];
+    monster.fInvasion.fCondensed.fText = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_city_attacked_alert"];
+
+    monster.fToSlainReason = fMessages["PHRASE_independent_" + monsterName2 + "_invades_reason"];
+    monster.fMonsterAttackReason = fMessages["PHRASE_independent_" + monsterName2 + "_invades_no_reason"];
 }
 
 void eMessages::loadGeneralRequest(
@@ -282,6 +332,23 @@ bool eMessages::loadImpl() {
     load(fOdysseus, "odysseus");
     load(fPerseus, "perseus");
     load(fTheseus, "theseus");
+
+    load(fCalydonianBoar, "calydonian_boar", "calydonianboar");
+    load(fCerberus, "cerberus", "cerberus");
+    load(fChimera, "chimera", "chimera");
+    load(fCyclops, "cyclops", "cyclops");
+    load(fDragon, "dragon", "dragon");
+    load(fEchidna, "echidna", "echidna");
+    load(fHarpies, "harpies", "harpies");
+    load(fHector, "hector", "hector");
+    load(fHydra, "hydra", "hydra");
+    load(fKraken, "kraken", "kraken");
+    load(fMaenads, "maenads", "maenads");
+    load(fMedusa, "medusa", "medusa");
+    load(fMinotaur, "minotaur", "minotaur");
+    load(fScylla, "scylla", "scylla");
+    load(fSphinx, "sphinx", "sphinx");
+    load(fTalos, "talos", "talos");
 
     fHomeGames.fBegin.fFull.fTitle = fMessages["PHRASE_home_games_begin_title"];
     fHomeGames.fBegin.fFull.fText = fMessages["PHRASE_home_games_begin_initial_announcement"];
@@ -669,6 +736,44 @@ const eHeroMessages* eMessages::heroMessages(const eHeroType heroType) const {
         return &fPerseus;
     case eHeroType::theseus:
         return &fTheseus;
+    }
+    return nullptr;
+}
+
+const eMonsterMessages* eMessages::monsterMessages(const eMonsterType monsterType) const {
+    switch(monsterType) {
+    case eMonsterType::calydonianBoar:
+        return &fCalydonianBoar;
+    case eMonsterType::cerberus:
+        return &fCerberus;
+    case eMonsterType::chimera:
+        return &fChimera;
+    case eMonsterType::cyclops:
+        return &fCyclops;
+    case eMonsterType::dragon:
+        return &fDragon;
+    case eMonsterType::echidna:
+        return &fEchidna;
+    case eMonsterType::harpies:
+        return &fHarpies;
+    case eMonsterType::hector:
+        return &fHector;
+    case eMonsterType::hydra:
+        return &fHydra;
+    case eMonsterType::kraken:
+        return &fKraken;
+    case eMonsterType::maenads:
+        return &fMaenads;
+    case eMonsterType::medusa:
+        return &fMedusa;
+    case eMonsterType::minotaur:
+        return &fMinotaur;
+    case eMonsterType::scylla:
+        return &fScylla;
+    case eMonsterType::sphinx:
+        return &fSphinx;
+    case eMonsterType::talos:
+        return &fTalos;
     }
     return nullptr;
 }

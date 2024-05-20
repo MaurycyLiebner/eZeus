@@ -81,12 +81,54 @@ void eGameWidget::handleSanctuaryComplete(const eGodType god) {
     showMessage(ed, gm->fSanctuaryComplete);
 }
 
-void eGameWidget::handleMonsterInvasionEvent(eEventData& ed) {
+void eGameWidget::handleMonsterUnleashEvent(eEventData& ed) {
     const auto& inst = eMessages::instance;
     const auto gm = inst.godMessages(ed.fGod);
     if(!gm) return;
     eSounds::playGodSound(ed.fGod, eGodSound::monster);
-    showMessage(ed, gm->fMonster);
+    showMessage(ed, gm->fMonster, true);
+}
+
+void eGameWidget::handleMonsterInvasion24Event(eEventData& ed) {
+    const auto& inst = eMessages::instance;
+    const auto gm = inst.monsterMessages(ed.fMonster);
+    if(!gm) return;
+    showMessage(ed, gm->fInvasion24);
+}
+
+void eGameWidget::handleMonsterInvasion12Event(eEventData& ed) {
+    const auto& inst = eMessages::instance;
+    const auto gm = inst.monsterMessages(ed.fMonster);
+    if(!gm) return;
+    showMessage(ed, gm->fInvasion12);
+}
+
+void eGameWidget::handleMonsterInvasion6Event(eEventData& ed) {
+    const auto& inst = eMessages::instance;
+    const auto gm = inst.monsterMessages(ed.fMonster);
+    if(!gm) return;
+    showMessage(ed, gm->fInvasion6);
+}
+
+void eGameWidget::handleMonsterInvasion1Event(eEventData& ed) {
+    const auto& inst = eMessages::instance;
+    const auto gm = inst.monsterMessages(ed.fMonster);
+    if(!gm) return;
+    showMessage(ed, gm->fInvasion1);
+}
+
+void eGameWidget::handleMonsterInvasionEvent(eEventData& ed) {
+    const auto& inst = eMessages::instance;
+    const auto gm = inst.monsterMessages(ed.fMonster);
+    if(!gm) return;
+    showMessage(ed, gm->fInvasion, true);
+}
+
+void eGameWidget::handleMonsterSlainEvent(eEventData& ed) {
+    const auto& inst = eMessages::instance;
+    const auto gm = inst.monsterMessages(ed.fMonster);
+    if(!gm) return;
+    showMessage(ed, gm->fSlain);
 }
 
 void eGameWidget::handleHeroArrivalEvent(eEventData& ed) {
@@ -120,8 +162,29 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         break;
 
     case eEvent::godMonsterUnleash:
+        handleMonsterUnleashEvent(ed);
+        break;
+
+    case eEvent::monsterInvasionAny:
+        return;
+    case eEvent::monsterInvasion24:
+        handleMonsterInvasion24Event(ed);
+        return;
+    case eEvent::monsterInvasion12:
+        handleMonsterInvasion12Event(ed);
+        return;
+    case eEvent::monsterInvasion6:
+        handleMonsterInvasion6Event(ed);
+        return;
+    case eEvent::monsterInvasion1:
+        handleMonsterInvasion1Event(ed);
+        return;
+    case eEvent::monsterInvasion:
         handleMonsterInvasionEvent(ed);
         break;
+    case eEvent::monsterSlain:
+        handleMonsterSlainEvent(ed);
+        return;
 
     case eEvent::godQuest:
     case eEvent::godQuestFulfilled: {

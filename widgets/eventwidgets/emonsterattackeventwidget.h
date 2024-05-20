@@ -3,7 +3,7 @@
 
 #include "../ewidget.h"
 
-#include "gameEvents/emonsterattackevent.h"
+#include "gameEvents/emonsterinvasioneventbase.h"
 
 class eSwitchButton;
 
@@ -11,7 +11,7 @@ class eMonsterAttackEventWidget : public eWidget {
 public:
     using eWidget::eWidget;
 
-    void initialize(eMonsterAttackEvent* const e);
+    void initialize(eMonsterInvasionEventBase* const e);
 };
 
 #endif // EMONSTERATTACKEVENTWIDGET_H

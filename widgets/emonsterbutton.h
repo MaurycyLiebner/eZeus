@@ -12,7 +12,9 @@ public:
     using eFramedButton::eFramedButton;
 
     using eMonsterAction = std::function<void(const eMonsterType)>;
-    void initialize(const eMonsterAction& mact);
+    void initialize(const eMonsterAction& mact,
+                    const bool withGodsOnly = false,
+                    const bool showGodNames = true);
 
     eMonsterType type() const { return mType; }
     void setType(const eMonsterType type);

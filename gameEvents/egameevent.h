@@ -14,7 +14,9 @@ class eReadStream;
 enum class eGameEventType {
     godVisit,
     godAttack,
-    monsterAttack,
+    monsterUnleashed,
+    monsterInvasion,
+    monsterInvasionWarning,
     invasion,
     invasionWarning,
     payTribute,
