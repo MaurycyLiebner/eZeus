@@ -321,6 +321,47 @@ std::string eBuilding::sNameForBuilding(eBuilding* const b) {
     case eBuildingType::templeDionysus:
         return "grove_of_dionysus";
 
+    case eBuildingType::artisansGuild:
+        return "artisans_guild";
+
+    case eBuildingType::achillesHall:
+        return "achilles_hall";
+    case eBuildingType::atalantaHall:
+        return "atalanta_hall";
+    case eBuildingType::bellerophonHall:
+        return "bellerophon_hall";
+    case eBuildingType::herculesHall:
+        return "hercules_hall";
+    case eBuildingType::jasonHall:
+        return "jason_hall";
+    case eBuildingType::odysseusHall:
+        return "odysseus_hall";
+    case eBuildingType::perseusHall:
+        return "perseus_hall";
+    case eBuildingType::theseusHall:
+        return "theseus_hall";
+
+    case eBuildingType::godMonument: {
+        const auto gm = static_cast<eGodMonument*>(b);
+        const auto g = gm->god();
+        switch(g) {
+        case eGodType::aphrodite: return "aphrodite_monument";
+        case eGodType::apollo: return "apollo_monument";
+        case eGodType::ares: return "ares_monument";
+        case eGodType::artemis: return "artemis_monument";
+        case eGodType::athena: return "athena_monument";
+        case eGodType::atlas: return "atlas_monument";
+        case eGodType::demeter: return "demeter_monument";
+        case eGodType::dionysus: return "dionysus_monument";
+        case eGodType::hades: return "hades_monument";
+        case eGodType::hephaestus: return "hephaestus_monument";
+        case eGodType::hera: return "hera_monument";
+        case eGodType::hermes: return "hermes_monument";
+        case eGodType::poseidon: return "poseidon_monument";
+        case eGodType::zeus: return "zeus_monument";
+        }
+    } break;
+
     case eBuildingType::wall:
         return "wall";
     case eBuildingType::tower:
