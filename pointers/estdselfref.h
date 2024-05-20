@@ -19,12 +19,14 @@ public:
 
     template<class T>
     inline std::shared_ptr<T> ref() const {
+        if(!mReady) printf("ref used before initialization\n");
         return std::static_pointer_cast<T>(
                     std::shared_ptr<eStdSelfRef>(mThisWeak));
     }
 private:
     template<class T>
     inline std::weak_ptr<T> weakRef() const {
+        if(!mReady) printf("weakRef used before initialization\n");
         if(mThisWeak.expired()) return std::weak_ptr<T>();
         return ref<T>();
     }
@@ -33,9 +35,11 @@ private:
     std::shared_ptr<T> iniRef() {
         std::shared_ptr<T> thisRef = std::shared_ptr<T>(static_cast<T*>(this));
         this->mThisWeak = std::static_pointer_cast<eStdSelfRef>(thisRef);
+        this->mReady = true;
         return thisRef;
     }
 private:
+    bool mReady = false;
     std::weak_ptr<eStdSelfRef> mThisWeak;
 };
 

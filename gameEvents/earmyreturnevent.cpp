@@ -6,6 +6,7 @@
 #include "elanguage.h"
 #include "buildings/eheroshall.h"
 #include "characters/actions/eheroaction.h"
+#include "characters/actions/egodworshippedaction.h"
 
 eArmyReturnEvent::eArmyReturnEvent(
         const eGameEventBranch branch,
@@ -44,6 +45,22 @@ void eArmyReturnEvent::trigger() {
 
     for(const auto& a : mForces.fAllies) {
         a->setAbroad(false);
+    }
+
+    if(mForces.fAres) {
+        const auto as = board.sanctuary(eGodType::ares);
+        if(as) {
+            as->godComeback();
+            if(entryPoint) {
+                const auto god = as->spawnGod();
+                if(god) {
+                    const auto ga = e::make_shared<eGodWorshippedAction>(god);
+                    god->setAction(ga);
+                    god->changeTile(entryPoint);
+                    ga->goBackToSanctuary();
+                }
+            }
+        }
     }
 
     eEventData ed;

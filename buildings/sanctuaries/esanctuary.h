@@ -66,6 +66,9 @@ public:
     void spawnPatrolingGod();
 
     void buildingProgressed();
+
+    void godComeback();
+    bool godAbroad() const { return mGodAbroad; }
 private:
     eSanctCost mStored{0, 0, 0};
     eSanctCost mUsed{0, 0, 0};
@@ -76,6 +79,7 @@ private:
     std::vector<stdsptr<eSanctBuilding>> mElements;
 
     stdptr<eGod> mGod;
+    bool mGodAbroad = false;
     int mSpawnWait = 0;
 
     int mHelpTimer = 100000;

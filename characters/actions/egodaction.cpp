@@ -5,6 +5,8 @@
 #include "etilehelper.h"
 
 #include "ewaitaction.h"
+#include "characters/actions/emovetoaction.h"
+#include "ekillcharacterfinishfail.h"
 
 eGodAction::eGodAction(eCharacter* const c,
                        const eCharActionType type) :
@@ -252,6 +254,29 @@ void eGodAction::fightGod(
     const auto c = character();
     spawnGodTimedMissiles(at, c->type(), g->tile(), s,
                           playHitSound, finishAttackA, 6000);
+}
+
+void eGodAction::goBackToSanctuary() {
+    auto& board = eGodAction::board();
+    const auto s = board.sanctuary(type());
+    if(!s) return;
+    const auto c = character();
+    const auto god = static_cast<eGod*>(c);
+    const stdptr<eGod> cptr(god);
+    const auto fail = std::make_shared<eKillCharacterFinishFail>(
+                          board, god);
+    const auto finish = std::make_shared<eKillCharacterFinishFail>(
+                            board, god);
+
+    const auto a = e::make_shared<eMoveToAction>(c);
+    a->setFailAction(fail);
+    a->setFinishAction(finish);
+    a->setFindFailAction([cptr]() {
+        if(cptr) cptr->kill();
+    });
+    setCurrentAction(a);
+    c->setActionType(eCharacterActionType::walk);
+    a->start(s);
 }
 
 void eGodAction::goToTarget() {

@@ -1,12 +1,9 @@
 #ifndef EPLAYERRAIDEVENT_H
 #define EPLAYERRAIDEVENT_H
 
-#include "egameevent.h"
+#include "eplayerconquesteventbase.h"
 
-#include "characters/eenlistedforces.h"
-#include "engine/eworldcity.h"
-
-class ePlayerRaidEvent : public eGameEvent {
+class ePlayerRaidEvent : public ePlayerConquestEventBase {
 public:
     ePlayerRaidEvent(const eGameEventBranch branch,
                      eGameBoard& board);
@@ -23,8 +20,6 @@ public:
 
     stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
 private:
-    eEnlistedForces mForces;
-    stdsptr<eWorldCity> mCity;
     eResourceType mResource;
 };
 

@@ -4,12 +4,14 @@
 #include "engine/eeventdata.h"
 #include "engine/eevent.h"
 #include "elanguage.h"
-#include "earmyreturnevent.h"
 
 ePlayerConquestEvent::ePlayerConquestEvent(
         const eGameEventBranch branch,
         eGameBoard& board) :
-    eGameEvent(eGameEventType::playerConquestEvent, branch, board) {}
+    ePlayerConquestEventBase(eGameEventType::playerConquestEvent,
+                             branch, board) {
+    board.addConquest(this);
+}
 
 void ePlayerConquestEvent::initialize(
         const eEnlistedForces& forces,
@@ -19,8 +21,9 @@ void ePlayerConquestEvent::initialize(
 }
 
 void ePlayerConquestEvent::trigger() {
-    if(!mCity) return;
     auto& board = getBoard();
+    board.removeConquest(this);
+    if(!mCity) return;
 
     const int enemyStr = mCity->strength();
     const int str = mForces.strength();
@@ -53,14 +56,7 @@ void ePlayerConquestEvent::trigger() {
     }
     mCity->incAttitude(-50);
 
-    const auto e = e::make_shared<eArmyReturnEvent>(
-                       eGameEventBranch::child, board);
-    const auto boardDate = board.date();
-    const int period = 150;
-    const auto date = boardDate + period;
-    e->initializeDate(date, period, 1);
-    e->initialize(mForces, mCity);
-    addConsequence(e);
+    postTrigger();
 }
 
 std::string ePlayerConquestEvent::longName() const {

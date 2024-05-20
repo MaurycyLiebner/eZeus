@@ -99,9 +99,6 @@ private:
 
     eGameBoard& mBoard;
 
-    int mX = -1;
-    int mY = -1;
-
     eTile* mTile = nullptr;
 
     int mCount = 0;

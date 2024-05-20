@@ -31,6 +31,8 @@ void eEnlistedForces::read(eGameBoard& board, eReadStream& src) {
             src.readCity(&board, func);
         }
     }
+
+    src >> fAres;
 }
 
 void eEnlistedForces::write(eWriteStream& dst) const {
@@ -48,12 +50,15 @@ void eEnlistedForces::write(eWriteStream& dst) const {
     for(const auto& c : fAllies) {
         dst.writeCity(c.get());
     }
+
+    dst << fAres;
 }
 
 void eEnlistedForces::clear() {
     fSoldiers.clear();
     fHeroes.clear();
     fAllies.clear();
+    fAres = false;
 }
 
 void eEnlistedForces::add(const eEnlistedForces& o) {
@@ -66,6 +71,7 @@ void eEnlistedForces::add(const eEnlistedForces& o) {
     for(const auto& a : o.fAllies) {
         fAllies.push_back(a);
     }
+    fAres = fAres || o.fAres;
 }
 
 int eEnlistedForces::strength() const {
@@ -85,7 +91,8 @@ int eEnlistedForces::strength() const {
     for(const auto& c : fAllies) {
         str += 3*c->army();
     }
-    str += 10*fHeroes.size();
+    str += 8*fHeroes.size();
+    if(fAres) str += 8;
     return str;
 }
 

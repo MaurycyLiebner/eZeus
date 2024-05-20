@@ -33,6 +33,9 @@ void eSanctuaryWithWarriors::timeChanged(const int by) {
             namet = namet + std::to_string(id);
             const auto name = eLanguage::text(namet);
             const auto b = e::make_shared<eSoldierBanner>(bt, board);
+            for(int i = 0; i < 8; i++) {
+                b->incCount();
+            }
             b->setName(name);
             mSoldierBanners.push_back(b);
             b->setPlayerId(1);

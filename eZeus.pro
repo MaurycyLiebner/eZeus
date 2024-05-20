@@ -158,6 +158,7 @@ SOURCES += \
         characters/actions/etraderaction.cpp \
         characters/actions/ewaitaction.cpp \
         characters/actions/godHelp/eapollohelpaction.cpp \
+        characters/actions/godHelp/eareshelpaction.cpp \
         characters/actions/godHelp/eartemishelpaction.cpp \
         characters/actions/godHelp/eathenahelpaction.cpp \
         characters/actions/godHelp/eatlashelpaction.cpp \
@@ -351,6 +352,7 @@ SOURCES += \
         gameEvents/emonsterunleashedevent.cpp \
         gameEvents/epaytributeevent.cpp \
         gameEvents/eplayerconquestevent.cpp \
+        gameEvents/eplayerconquesteventbase.cpp \
         gameEvents/eplayerraidevent.cpp \
         gameEvents/eraidresourceevent.cpp \
         gameEvents/ereceiverequestevent.cpp \
@@ -669,6 +671,7 @@ HEADERS += \
     characters/actions/etraderaction.h \
     characters/actions/ewaitaction.h \
     characters/actions/godHelp/eapollohelpaction.h \
+    characters/actions/godHelp/eareshelpaction.h \
     characters/actions/godHelp/eartemishelpaction.h \
     characters/actions/godHelp/eathenahelpaction.h \
     characters/actions/godHelp/eatlashelpaction.h \
@@ -870,6 +873,7 @@ HEADERS += \
     gameEvents/emonsterunleashedevent.h \
     gameEvents/epaytributeevent.h \
     gameEvents/eplayerconquestevent.h \
+    gameEvents/eplayerconquesteventbase.h \
     gameEvents/eplayerraidevent.h \
     gameEvents/eraidresourceevent.h \
     gameEvents/ereceiverequestevent.h \

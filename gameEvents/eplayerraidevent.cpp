@@ -4,14 +4,16 @@
 #include "engine/eeventdata.h"
 #include "engine/eevent.h"
 #include "elanguage.h"
-#include "earmyreturnevent.h"
 #include "engine/egifthelpers.h"
 #include "eraidresourceevent.h"
 
 ePlayerRaidEvent::ePlayerRaidEvent(
         const eGameEventBranch branch,
         eGameBoard& board) :
-    eGameEvent(eGameEventType::playerRaidEvent, branch, board) {}
+    ePlayerConquestEventBase(eGameEventType::playerRaidEvent,
+                             branch, board) {
+    board.addConquest(this);
+}
 
 void ePlayerRaidEvent::initialize(
         const eEnlistedForces& forces,
@@ -23,8 +25,9 @@ void ePlayerRaidEvent::initialize(
 }
 
 void ePlayerRaidEvent::trigger() {
-    if(!mCity) return;
     auto& board = getBoard();
+    board.removeConquest(this);
+    if(!mCity) return;
 
     const int enemyStr = mCity->strength();
     const int str = mForces.strength();
@@ -75,14 +78,7 @@ void ePlayerRaidEvent::trigger() {
         board.event(eEvent::cityRaidFailed, ed);
     }
 
-    const auto e = e::make_shared<eArmyReturnEvent>(
-                       eGameEventBranch::child, board);
-    const auto boardDate = board.date();
-    const int period = 150;
-    const auto date = boardDate + period;
-    e->initializeDate(date, period, 1);
-    e->initialize(mForces, mCity);
-    addConsequence(e);
+    postTrigger();
 }
 
 std::string ePlayerRaidEvent::longName() const {

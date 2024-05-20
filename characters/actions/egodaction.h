@@ -308,6 +308,7 @@ public:
 
     void fightGod(eGod* const g, const stdsptr<eCharActFunc>& finishAttackA);
 
+    void goBackToSanctuary();
     void goToTarget();
 
     eGodType type() const { return mType; }

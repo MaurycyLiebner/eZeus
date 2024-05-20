@@ -53,6 +53,7 @@ class eThreadPool;
 
 class eSoldier;
 class eInvasionHandler;
+class ePlayerConquestEventBase;
 enum class eMessageEventType;
 
 struct eMessageType;
@@ -368,6 +369,11 @@ public:
     void addCityRequest(eReceiveRequestEvent* const q);
     void removeCityRequest(eReceiveRequestEvent* const q);
 
+    using eConquests = std::vector<ePlayerConquestEventBase*>;
+    const eConquests& conquests() const { return mConquests; }
+    void addConquest(ePlayerConquestEventBase* const q);
+    void removeConquest(ePlayerConquestEventBase* const q);
+
     using eChars = std::vector<eCharacter*>;
     const eChars& attackingGods() const { return mAttackingGods; }
     void registerAttackingGod(eCharacter* const c);
@@ -456,7 +462,7 @@ private:
     bool mRegisterBuildingsEnabled = true;
 
     std::vector<eGodQuestEvent*> mGodQuests;
-
+    std::vector<ePlayerConquestEventBase*> mConquests;
     std::vector<eReceiveRequestEvent*> mCityRequests;
 
     std::vector<eSanctuary*> mSanctuaries;

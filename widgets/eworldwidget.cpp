@@ -29,7 +29,7 @@ void eWorldWidget::initialize() {
             const auto e = e::make_shared<ePlayerRaidEvent>(
                                eGameEventBranch::root, *mBoard);
             const auto boardDate = mBoard->date();
-            const int period = 150;
+            const int period = ePlayerConquestEventBase::sWaitTime;
             const auto date = boardDate + period;
             e->initializeDate(date, period, 1);
             e->initialize(forces, mCity, r);
@@ -52,7 +52,7 @@ void eWorldWidget::initialize() {
             const auto e = e::make_shared<ePlayerConquestEvent>(
                                eGameEventBranch::root, *mBoard);
             const auto boardDate = mBoard->date();
-            const int period = 150;
+            const int period = ePlayerConquestEventBase::sWaitTime;
             const auto date = boardDate + period;
             e->initializeDate(date, period, 1);
             e->initialize(forces, mCity);

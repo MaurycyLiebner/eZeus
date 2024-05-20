@@ -7,8 +7,10 @@
 #include "etilehelper.h"
 #include "engine/eevent.h"
 #include "engine/eeventdata.h"
+#include "gameEvents/eplayerconquesteventbase.h"
 
 #include "characters/actions/godHelp/eapollohelpaction.h"
+#include "characters/actions/godHelp/eareshelpaction.h"
 #include "characters/actions/godHelp/eartemishelpaction.h"
 #include "characters/actions/godHelp/eathenahelpaction.h"
 #include "characters/actions/godHelp/eatlashelpaction.h"
@@ -127,12 +129,16 @@ void eSanctuary::buildingProgressed() {
     }
 }
 
+void eSanctuary::godComeback() {
+    mGodAbroad = false;
+}
+
 void eSanctuary::timeChanged(const int by) {
     mHelpTimer += by;
     if(!mCart) mCart = spawnCart(eCartActionTypeSupport::take);
     eEmployingBuilding::timeChanged(by);
 
-    if(!mGod && finished()) {
+    if(!mGod && !mGodAbroad && finished()) {
         mSpawnWait -= by;
         if(mSpawnWait <= 0) {
             spawnPatrolingGod();
@@ -238,6 +244,7 @@ void eSanctuary::read(eReadStream& src) {
         mGod = static_cast<eGod*>(c);
     });
     src >> mSpawnWait;
+    src >> mGodAbroad;
 
     src >> mHelpTimer;
 }
@@ -258,6 +265,7 @@ void eSanctuary::write(eWriteStream& dst) const {
     dst.writeCharacter(mCart);
     dst.writeCharacter(mGod);
     dst << mSpawnWait;
+    dst << mGodAbroad;
 
     dst << mHelpTimer;
 }
@@ -271,7 +279,7 @@ void eSanctuary::addWarriorTile(eTile* const t) {
 }
 
 bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
-    if(mHelpTimer < 10000) {
+    if(mGodAbroad || mHelpTimer < 10000) {
         reason = eHelpDenialReason::tooSoon;
         return false;
     }
@@ -281,6 +289,9 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
     switch(type) {
     case eGodType::apollo: {
         r = eApolloHelpAction::sHelpNeeded(board);
+    } break;
+    case eGodType::ares: {
+        r = eAresHelpAction::sHelpNeeded(board);
     } break;
     case eGodType::artemis: {
         r = eArtemisHelpAction::sHelpNeeded(board);
@@ -317,7 +328,12 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
     stdsptr<eCharacterAction> a;
     eCharacter* c = nullptr;
     if(const auto g = god()) {
-        c = g;
+        const auto tile = g->tile();
+        if(tile) {
+            c = g;
+        } else {
+            c = spawnGod();
+        }
     } else {
         c = spawnGod();
     }
@@ -328,6 +344,9 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
     switch(type) {
     case eGodType::apollo:
         a = e::make_shared<eApolloHelpAction>(c);
+        break;
+    case eGodType::ares:
+        a = e::make_shared<eAresHelpAction>(c);
         break;
     case eGodType::artemis:
         a = e::make_shared<eArtemisHelpAction>(c);
@@ -368,5 +387,11 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
     ed.fChar = c;
     ed.fTile = c->tile();
     board.event(eEvent::godHelp, ed);
+    if(type == eGodType::ares) {
+        const auto& cs = board.conquests();
+        if(cs.empty()) return true;
+        cs[0]->addAres();
+        mGodAbroad = true;
+    }
     return true;
 }

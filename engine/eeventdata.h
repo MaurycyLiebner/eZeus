@@ -26,7 +26,7 @@ struct eEventData {
     eAction fA2 = nullptr;
     std::string fA2Key;
     stdsptr<eWorldCity> fCity;
-    eResourceType fResourceType;
+    eResourceType fResourceType = eResourceType::drachmas;
     int fResourceCount = 0;
     int fSpaceCount = 0;
     int fTime = 0;

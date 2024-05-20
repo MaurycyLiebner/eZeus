@@ -54,6 +54,7 @@ eCharacterType eSoldierBanner::characterType() const {
     case eBannerType::aresWarrior:
         return eCharacterType::aresWarrior;
     }
+    return eCharacterType::hoplite;
 }
 
 stdsptr<eSoldier> eSoldierBanner::createSoldier(eTile* const t) {
@@ -71,9 +72,8 @@ stdsptr<eSoldier> eSoldierBanner::createSoldier(eTile* const t) {
 }
 
 void eSoldierBanner::moveTo(const int x, const int y) {
-    if(mX == x && mY == y) return;
     const auto t = mBoard.tile(x, y);
-    if(!t) return;
+    if(!t || t == mTile) return;
 
     if(mPlayerId == 1 && mTile) {
         mTile->setSoldierBanner(nullptr);
@@ -82,9 +82,6 @@ void eSoldierBanner::moveTo(const int x, const int y) {
         t->setSoldierBanner(this);
     }
     mTile = t;
-
-    mX = x;
-    mY = y;
 
     updatePlaces();
     callSoldiers();
@@ -99,7 +96,7 @@ void eSoldierBanner::moveToDefault() {
         const auto palace = mBoard.palace();
         if(!palace) return;
         const auto ts = palace->tiles();
-        for(const auto& t : ts) {
+        for(const auto t : ts) {
             if(t->other()) continue;
             const auto tt = t->centerTile();
             if(!tt) continue;
@@ -116,7 +113,7 @@ void eSoldierBanner::moveToDefault() {
                             mBoard.sanctuary(eGodType::ares);
         if(!s) return;
         const auto ts = s->warriorTiles();
-        for(const auto& t : ts) {
+        for(const auto t : ts) {
             const auto bb = t->soldierBanner();
             if(bb) continue;
             moveTo(t->x(), t->y());
@@ -155,6 +152,7 @@ void eSoldierBanner::goAbroad() {
 void eSoldierBanner::backFromAbroad(int& wait) {
     if(!mAbroad) return;
     mAbroad = false;
+    moveToDefault();
     const auto entryPoint = mBoard.entryPoint();
     if(entryPoint) {
         while((int)mSoldiers.size() < mCount) {
@@ -164,9 +162,10 @@ void eSoldierBanner::backFromAbroad(int& wait) {
             a->waitAndGoHome(wait);
             wait += 150;
         }
+        mHome = true;
+    } else {
+        goHome();
     }
-    moveToDefault();
-    goHome();
 }
 
 void eSoldierBanner::backFromHome() {
@@ -246,8 +245,6 @@ void eSoldierBanner::read(eReadStream& src) {
     src >> mIOID;
     src >> mHome;
     src >> mAbroad;
-    src >> mX;
-    src >> mY;
     mTile = src.readTile(mBoard);
     if(mPlayerId == 1 && mTile) {
         mTile->setSoldierBanner(this);
@@ -279,8 +276,6 @@ void eSoldierBanner::write(eWriteStream& dst) const {
     dst << mIOID;
     dst << mHome;
     dst << mAbroad;
-    dst << mX;
-    dst << mY;
     dst.writeTile(mTile);
     dst << mCount;
     dst << mPlayerId;
@@ -365,7 +360,10 @@ void eSoldierBanner::updatePlaces() {
 
     const auto prcsTile = [&](const int i, const int j) {
         if(isld >= slds) return false;
-        const auto tt = mBoard.tile(mX + i, mY + j);
+        if(!mTile) return false;
+        const int tx = mTile->x();
+        const int ty = mTile->y();
+        const auto tt = mBoard.tile(tx + i, ty + j);
         if(!tt) return false;
         if(mPlayerId == 1) {
             if(!eWalkableHelpers::sDefaultWalkable(tt)) return false;

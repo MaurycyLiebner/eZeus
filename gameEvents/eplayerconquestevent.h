@@ -1,12 +1,9 @@
 #ifndef EPLAYERCONQUESTEVENT_H
 #define EPLAYERCONQUESTEVENT_H
 
-#include "egameevent.h"
+#include "eplayerconquesteventbase.h"
 
-#include "characters/eenlistedforces.h"
-#include "engine/eworldcity.h"
-
-class ePlayerConquestEvent : public eGameEvent {
+class ePlayerConquestEvent : public ePlayerConquestEventBase {
 public:
     ePlayerConquestEvent(const eGameEventBranch branch,
                          eGameBoard& board);
@@ -21,9 +18,6 @@ public:
     void read(eReadStream& src) override;
 
     stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
-private:
-    eEnlistedForces mForces;
-    stdsptr<eWorldCity> mCity;
 };
 
 #endif // EPLAYERCONQUESTEVENT_H

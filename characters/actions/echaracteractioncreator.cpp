@@ -40,6 +40,7 @@
 #include "godHelp/eposeidonhelpaction.h"
 #include "godHelp/ezeushelpaction.h"
 #include "godHelp/eapollohelpaction.h"
+#include "godHelp/eareshelpaction.h"
 
 stdsptr<eCharacterAction> eCharacterAction::sCreate(
         eCharacter* const c, const eCharActionType type) {
@@ -105,6 +106,8 @@ stdsptr<eCharacterAction> eCharacterAction::sCreate(
 
     case eCharActionType::apolloHelpAction:
         return e::make_shared<eApolloHelpAction>(c);
+    case eCharActionType::aresHelpAction:
+        return e::make_shared<eAresHelpAction>(c);
     case eCharActionType::artemisHelpAction:
         return e::make_shared<eArtemisHelpAction>(c);
     case eCharActionType::athenaHelpAction:

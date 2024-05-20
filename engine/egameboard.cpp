@@ -1020,6 +1020,14 @@ void eGameBoard::removeCityRequest(eReceiveRequestEvent* const q) {
     if(mRequestUpdateHandler) mRequestUpdateHandler();
 }
 
+void eGameBoard::addConquest(ePlayerConquestEventBase* const q) {
+    mConquests.push_back(q);
+}
+
+void eGameBoard::removeConquest(ePlayerConquestEventBase* const q) {
+    eVectorHelpers::remove(mConquests, q);
+}
+
 void eGameBoard::registerAttackingGod(eCharacter* const c) {
     mAttackingGods.push_back(c);
 }
