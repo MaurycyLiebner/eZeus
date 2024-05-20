@@ -261,6 +261,11 @@ std::string eBuilding::sNameForBuilding(eBuilding* const b) {
     case eBuildingType::sculptureStudio:
         return "sculpture_studio";
 
+    case eBuildingType::warehouse:
+        return "storehouse";
+    case eBuildingType::granary:
+        return "granary";
+
     case eBuildingType::commonAgora:
         return "common_agora";
     case eBuildingType::grandAgora:
