@@ -52,6 +52,7 @@ int eBuilding::provide(const eProvide p, const int n) {
 bool eBuilding::sWalkableBuilding(const eBuildingType t) {
     if(t == eBuildingType::none) return true;
     if(t == eBuildingType::road) return true;
+    if(t == eBuildingType::bridge) return true;
     if(t == eBuildingType::ruins) return true;
     if(t == eBuildingType::vine) return true;
     if(t == eBuildingType::park) return true;
@@ -77,6 +78,7 @@ bool eBuilding::sFlatBuilding(const eBuildingType bt) {
     return r ||
            bt == eBuildingType::none ||
            bt == eBuildingType::road ||
+           bt == eBuildingType::bridge ||
            bt == eBuildingType::templeTile ||
            bt == eBuildingType::vine ||
            bt == eBuildingType::park ||
@@ -126,6 +128,7 @@ bool eBuilding::sFlammable(const eBuildingType bt) {
     if(bt == eBuildingType::tower) return false;
     if(bt == eBuildingType::palaceTile) return false;
     if(bt == eBuildingType::godMonumentTile) return false;
+    if(bt == eBuildingType::bridge) return false;
     return true;
 }
 
@@ -139,6 +142,7 @@ bool eBuilding::sTimedBuilding(const eBuildingType bt) {
     if(bt == eBuildingType::gatehouse) return false;
     if(bt == eBuildingType::palaceTile) return false;
     if(bt == eBuildingType::godMonumentTile) return false;
+    if(bt == eBuildingType::bridge) return false;
     return true;
 }
 
@@ -155,6 +159,7 @@ bool eBuilding::sBlessable(const eBuildingType bt) {
     if(bt == eBuildingType::tower) return false;
     if(bt == eBuildingType::palaceTile) return false;
     if(bt == eBuildingType::godMonumentTile) return false;
+    if(bt == eBuildingType::bridge) return false;
     if(sHeroHall(bt)) return false;
     if(sAestheticsBuilding(bt)) return false;
     return true;
@@ -170,6 +175,7 @@ bool eBuilding::sAttackable(const eBuildingType bt) {
     if(bt == eBuildingType::park) return false;
     if(bt == eBuildingType::palaceTile) return false;
     if(bt == eBuildingType::godMonumentTile) return false;
+    if(bt == eBuildingType::bridge) return false;
     return true;
 }
 
