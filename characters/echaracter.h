@@ -53,7 +53,8 @@ public:
 
     eTile* tile() const { return mTile; }
     int time() const { return mTime; }
-    int textureTime() const { return time()/20; }
+    static const int sTextureTimeDivisor = 20;
+    int textureTime() const { return time()/sTextureTimeDivisor; }
     eOrientation orientation() const { return mOrientation; }
 
     void changeTile(eTile* const t, const bool prepend = false);
@@ -94,7 +95,8 @@ public:
 protected:
     std::shared_ptr<eTexture> getTexture(
             const eTextureCollection* const coll,
-            const bool wrap, const bool reverse) const;
+            const bool wrap, const bool reverse,
+            const bool disappear = false) const;
 private:    
     std::vector<ePausedAction> mPausedActions;
 

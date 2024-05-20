@@ -18,7 +18,8 @@ void eGodAction::appear() {
         const auto c = character();
         c->setActionType(eCharacterActionType::appear);
         const auto a = e::make_shared<eWaitAction>(c);
-        a->setTime(500);
+        const int time = eGod::sGodAppearTime(type());
+        a->setTime(time);
         setCurrentAction(a);
         playAppearSound();
     }
@@ -197,7 +198,7 @@ void eGodAction::spawnGodMissile(
         const stdsptr<eGodAct>& act,
         const stdsptr<eCharActFunc>& finishAttackA) {
     const int time = at == eCharacterActionType::bless ?
-                         750 :
+                         eGod::sGodBlessTime(type()) :
                          eGod::sGodAttackTime(type());
     const auto c = character();
     using eGA_SGMPS = eGA_spawnGodMissilePlaySound;
@@ -227,7 +228,7 @@ void eGodAction::spawnGodMultipleMissiles(
 
 void eGodAction::spawnGodTimedMissiles(
         const eCharacterActionType at,
-         const eCharacterType chart,
+        const eCharacterType chart,
         eTile* const target,
         const eGodSound sound,
         const stdsptr<eGodAct>& playHitSound,

@@ -16,6 +16,7 @@ eBasicGod::getTexture(const eTileSize size) const {
     const eTextureCollection* coll = nullptr;
     bool reverse = false;
     bool wrap = true;
+    bool disappear = false;
     const int oid = static_cast<int>(orientation());
     const auto a = actionType();
     switch(a) {
@@ -38,6 +39,7 @@ eBasicGod::getTexture(const eTileSize size) const {
     case eCharacterActionType::disappear:
     case eCharacterActionType::die:
         wrap = false;
+        disappear = true;
         coll = &texs.fDisappear;
         break;
     case eCharacterActionType::appear:
@@ -49,5 +51,5 @@ eBasicGod::getTexture(const eTileSize size) const {
         return nullptr;
     }
 
-    return eCharacter::getTexture(coll, wrap, reverse);
+    return eCharacter::getTexture(coll, wrap, reverse, disappear);
 }

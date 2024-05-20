@@ -15,6 +15,7 @@ eDionysus::getTexture(const eTileSize size) const {
     const eTextureCollection* coll = nullptr;
     bool reverse = false;
     bool wrap = true;
+    bool disappear = false;
     const int oid = static_cast<int>(orientation());
     const auto a = actionType();
     switch(a) {
@@ -36,11 +37,13 @@ eDionysus::getTexture(const eTileSize size) const {
     } break;
     case eCharacterActionType::die:
         wrap = false;
+        disappear = true;
         coll = &texs.fDisappear;
         break;
     case eCharacterActionType::disappear:
         reverse = true;
         wrap = false;
+        disappear = true;
         coll = &texs.fAppear;
         break;
     case eCharacterActionType::appear:
@@ -51,5 +54,5 @@ eDionysus::getTexture(const eTileSize size) const {
         return nullptr;
     }
 
-    return eCharacter::getTexture(coll, wrap, reverse);
+    return eCharacter::getTexture(coll, wrap, reverse, disappear);
 }

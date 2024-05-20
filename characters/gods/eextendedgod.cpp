@@ -15,6 +15,7 @@ std::shared_ptr<eTexture> eExtendedGod::getTexture(const eTileSize size) const {
     const eTextureCollection* coll = nullptr;
     bool reverse = false;
     bool wrap = true;
+    bool disappear = false;
     const int oid = static_cast<int>(orientation());
     const auto a = actionType();
     switch(a) {
@@ -37,6 +38,7 @@ std::shared_ptr<eTexture> eExtendedGod::getTexture(const eTileSize size) const {
     case eCharacterActionType::disappear:
     case eCharacterActionType::die:
         wrap = false;
+        disappear = true;
         coll = &atn.fDisappear;
         break;
     case eCharacterActionType::appear:
@@ -48,5 +50,5 @@ std::shared_ptr<eTexture> eExtendedGod::getTexture(const eTileSize size) const {
         return nullptr;
     }
 
-    return eCharacter::getTexture(coll, wrap, reverse);
+    return eCharacter::getTexture(coll, wrap, reverse, disappear);
 }

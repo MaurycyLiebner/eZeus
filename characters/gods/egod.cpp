@@ -9,9 +9,7 @@
 
 eGod::eGod(eGameBoard& board, const eGodType gt) :
     eCharacter(board, sGodToCharacterType(gt)),
-    mType(gt) {
-
-}
+    mType(gt) {}
 
 eGodType eGod::sCharacterToGodType(const eCharacterType type,
                                    bool* const valid) {
@@ -144,17 +142,79 @@ eGodType eGod::sFightWinner(const eGodType g1, const eGodType g2) {
     else return g2;
 }
 
-int eGod::sGodAttackTime(const eGodType gt) {
+int sGodAttackSpriteLength(const eGodType gt) {
     switch(gt) {
-    case eGodType::apollo:
-    case eGodType::hades:
-    case eGodType::hephaestus:
-        return 300;
-    case eGodType::demeter:
-        return 700;
-    default:
-        return 500;
+    case eGodType::aphrodite: return eGodTextures::sAphroditeFBTime;
+    case eGodType::apollo: return eGodTextures::sApolloFTime;
+    case eGodType::ares: return eGodTextures::sAresFBTime;
+    case eGodType::artemis: return eGodTextures::sArtemisFTime;
+    case eGodType::athena: return eGodTextures::sAthenaFTime;
+    case eGodType::atlas: return eGodTextures::sAtlasFTime;
+    case eGodType::demeter: return eGodTextures::sDemeterFBTime;
+    case eGodType::dionysus: return eGodTextures::sDionysusFBTime;
+    case eGodType::hades: return eGodTextures::sHadesFBTime;
+    case eGodType::hephaestus: return eGodTextures::sHephaestusFBTime;
+    case eGodType::hera: return eGodTextures::sHeraFBTime;
+    case eGodType::hermes: return eGodTextures::sHermesFBTime;
+    case eGodType::poseidon: return eGodTextures::sPoseidonFBTime;
+    case eGodType::zeus: return eGodTextures::sZeusFTime;
     }
+    return 0;
+}
+
+int eGod::sGodAttackTime(const eGodType gt) {
+    const int sl = sGodAttackSpriteLength(gt);
+    return sl*eCharacter::sTextureTimeDivisor;
+}
+
+int sGodBlessSpriteLength(const eGodType gt) {
+    switch(gt) {
+    case eGodType::aphrodite: return eGodTextures::sAphroditeFBTime;
+    case eGodType::apollo: return eGodTextures::sApolloBTime;
+    case eGodType::ares: return eGodTextures::sAresFBTime;
+    case eGodType::artemis: return eGodTextures::sArtemisBTime;
+    case eGodType::athena: return eGodTextures::sAthenaBTime;
+    case eGodType::atlas: return eGodTextures::sAtlasBTime;
+    case eGodType::demeter: return eGodTextures::sDemeterFBTime;
+    case eGodType::dionysus: return eGodTextures::sDionysusFBTime;
+    case eGodType::hades: return eGodTextures::sHadesFBTime;
+    case eGodType::hephaestus: return eGodTextures::sHephaestusFBTime;
+    case eGodType::hera: return eGodTextures::sHeraFBTime;
+    case eGodType::hermes: return eGodTextures::sHermesFBTime;
+    case eGodType::poseidon: return eGodTextures::sPoseidonFBTime;
+    case eGodType::zeus: return eGodTextures::sZeusBTime;
+    }
+    return 0;
+}
+
+int eGod::sGodBlessTime(const eGodType gt) {
+    const int sl = sGodBlessSpriteLength(gt);
+    return sl*eCharacter::sTextureTimeDivisor;
+}
+
+int sGodAppearSpriteLength(const eGodType gt) {
+    switch(gt) {
+    case eGodType::aphrodite: return eGodTextures::sAphroditeDTime;
+    case eGodType::apollo: return eGodTextures::sApolloDTime;
+    case eGodType::ares: return eGodTextures::sAresDTime;
+    case eGodType::artemis: return eGodTextures::sArtemisDTime;
+    case eGodType::athena: return eGodTextures::sAthenaDTime;
+    case eGodType::atlas: return eGodTextures::sAtlasDTime;
+    case eGodType::demeter: return eGodTextures::sDemeterDTime;
+    case eGodType::dionysus: return eGodTextures::sDionysusATime;
+    case eGodType::hades: return eGodTextures::sHadesDTime;
+    case eGodType::hephaestus: return eGodTextures::sHephaestusDTime;
+    case eGodType::hera: return eGodTextures::sHeraDTime;
+    case eGodType::hermes: return 0;
+    case eGodType::poseidon: return eGodTextures::sPoseidonDTime;
+    case eGodType::zeus: return eGodTextures::sZeusDTime;
+    }
+    return 0;
+}
+
+int eGod::sGodAppearTime(const eGodType gt) {
+    const int sl = sGodAppearSpriteLength(gt);
+    return sl*eCharacter::sTextureTimeDivisor;
 }
 
 std::string eGod::sGodName(const eGodType gt) {

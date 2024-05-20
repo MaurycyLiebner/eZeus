@@ -14,6 +14,7 @@ eHermes::getTexture(const eTileSize size) const {
     const auto& texs = godTexs.fHermes;
     const eTextureCollection* coll = nullptr;
     bool wrap = true;
+    bool disappear = false;
     const int oid = static_cast<int>(orientation());
     const auto a = actionType();
     switch(a) {
@@ -33,8 +34,10 @@ eHermes::getTexture(const eTileSize size) const {
     case eCharacterActionType::walk: {
         coll = &texs.fWalk[oid];
     } break;
+    case eCharacterActionType::disappear:
     case eCharacterActionType::die:
         wrap = false;
+        disappear = true;
         coll = &texs.fDisappear;
         break;
     case eCharacterActionType::appear:
@@ -44,6 +47,6 @@ eHermes::getTexture(const eTileSize size) const {
         return nullptr;
     }
 
-    return eCharacter::getTexture(coll, wrap, false);
+    return eCharacter::getTexture(coll, wrap, false, disappear);
 }
 

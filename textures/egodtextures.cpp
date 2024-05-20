@@ -206,7 +206,7 @@ void eGodTextures::loadArtemis() {
                                  eArtemisSpriteData45,
                                  eArtemisSpriteData60);
     eSpriteLoader loader(fTileH, "artemis", sds,
-                         &eZeus_ArtemisOffset, fRenderer);
+                         &eZeus_ArtemisOffset, fRenderer);//wdfb
     loadExtendedGod(fArtemis, 1, 105, 105, 122, 122, 266, 267, 403, loader);
 }
 

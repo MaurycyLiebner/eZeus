@@ -48,6 +48,8 @@ public:
     static eGodType sFightWinner(const eGodType g1, const eGodType g2);
 
     static int sGodAttackTime(const eGodType gt);
+    static int sGodBlessTime(const eGodType gt);
+    static int sGodAppearTime(const eGodType gt);
 
     static std::string sGodName(const eGodType gt);
 

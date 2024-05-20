@@ -223,12 +223,14 @@ void eCharacter::resumeAction() {
 
 std::shared_ptr<eTexture> eCharacter::getTexture(
         const eTextureCollection* const coll,
-        const bool wrap, const bool reverse) const {
+        const bool wrap, const bool reverse,
+        const bool disappear) const {
     if(!coll) return nullptr;
     const int s = coll->size();
     if(s == 0) return nullptr;
     int t = textureTime() - actionStartTime();
-    if(reverse) t = coll->size() - t - 1;
+    if(disappear && t >= s) return nullptr;
+    if(reverse) t = s - t - 1;
     if(!wrap) t = std::clamp(t, 0, s - 1);
     const int texId = t % s;
     return coll->getTexture(texId);
