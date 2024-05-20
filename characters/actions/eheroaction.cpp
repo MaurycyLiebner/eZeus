@@ -199,7 +199,7 @@ bool eHeroAction::fightMonster(eMonster* const m) {
     stdsptr<eCharacterAction> ca;
     const int fightTime = 5000;
     if(ranged) {
-        const int attackTime = 150;
+        const int attackTime = 360;
         const auto gm = e::make_shared<eGodMonsterActionInd>(c);
         gm->spawnTimedMissiles(eCharacterActionType::fight,
                                c->type(), attackTime, m,
