@@ -59,7 +59,7 @@ std::string eWorldCityBase::nationality() const {
     case eWorldCityType::oceanidCity:
         txt = "oceanid_nationality";
         break;
-    case eWorldCityType::atlanteansCity:
+    case eWorldCityType::atlanteanCity:
         txt = "atlanteans_nationality";
         break;
     default:

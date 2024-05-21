@@ -54,6 +54,7 @@ class eThreadPool;
 class eSoldier;
 class eInvasionHandler;
 class ePlayerConquestEventBase;
+class eArmyEventBase;
 enum class eMessageEventType;
 
 struct eMessageType;
@@ -374,6 +375,11 @@ public:
     void addConquest(ePlayerConquestEventBase* const q);
     void removeConquest(ePlayerConquestEventBase* const q);
 
+    using eArmyEvents = std::vector<eArmyEventBase*>;
+    const eArmyEvents& armyEvents() const { return mArmyEvents; }
+    void addArmyEvent(eArmyEventBase* const q);
+    void removeArmyEvent(eArmyEventBase* const q);
+
     using eChars = std::vector<eCharacter*>;
     const eChars& attackingGods() const { return mAttackingGods; }
     void registerAttackingGod(eCharacter* const c);
@@ -389,6 +395,8 @@ public:
 
     eTile* entryPoint() const;
     eTile* exitPoint() const;
+
+    bool poseidonMode() const { return mPoseidonMode; }
 private:
     void updateNeighbours();
 
@@ -403,6 +411,7 @@ private:
     void handleGamesBegin(const eGames game);
     void handleGamesEnd(const eGames game);
 
+    bool mPoseidonMode = false;
     eWorldBoard mWorldBoard;
 
     eEventHandler mEventHandler;
@@ -463,6 +472,7 @@ private:
 
     std::vector<eGodQuestEvent*> mGodQuests;
     std::vector<ePlayerConquestEventBase*> mConquests;
+    std::vector<eArmyEventBase*> mArmyEvents;
     std::vector<eReceiveRequestEvent*> mCityRequests;
 
     std::vector<eSanctuary*> mSanctuaries;

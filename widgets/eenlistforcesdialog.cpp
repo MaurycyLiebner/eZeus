@@ -175,6 +175,7 @@ public:
     void initialize(const eEnlistedForces& e,
                     const std::vector<bool>& heroesAbroad,
                     const eAction& selectionChanged) {
+        mAll = e;
         std::vector<eEnlistData> data;
         for(const auto& s : e.fSoldiers) {
             auto& d = data.emplace_back();
@@ -381,7 +382,7 @@ public:
         mArea->selectAll();
     }
 
-    eEnlistedForces selected() const {
+    const eEnlistedForces& selected() const {
         return mArea->selected();
     }
 private:
@@ -539,6 +540,8 @@ void eEnlistForcesDialog::initialize(
             heroes->selectAll();
             mythical->selectAll();
             allies->selectAll();
+            const auto& as = allies->selected();
+            mSelected.fAllies = as.fAllies;
         };
         enlistAllButt->setPressAction(enlistAllAct);
         buttonsWid->addWidget(enlistAllButt);

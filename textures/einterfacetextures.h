@@ -271,7 +271,60 @@ public:
     eTextureCollection fDiamond;
 
     // world
-    eTextureCollection fWorldCities;
+    std::shared_ptr<eTexture> fZeusMainCity;
+    std::shared_ptr<eTexture> fZeusCollony;
+    std::shared_ptr<eTexture> fZeusDisabledCollony;
+    std::shared_ptr<eTexture> fZeusGreekCity;
+    std::shared_ptr<eTexture> fZeusTrojanCity;
+    std::shared_ptr<eTexture> fZeusPersianCity;
+    std::shared_ptr<eTexture> fZeusCentaurCity;
+    std::shared_ptr<eTexture> fZeusAmazonCity;
+
+    std::shared_ptr<eTexture> fZeusPlace;
+    std::shared_ptr<eTexture> fZeusRuins;
+
+    std::shared_ptr<eTexture> fZeusDistantCity;
+    std::shared_ptr<eTexture> fZeusDistantCityN;
+    std::shared_ptr<eTexture> fZeusDistantCityNE;
+    std::shared_ptr<eTexture> fZeusDistantCityE;
+    std::shared_ptr<eTexture> fZeusDistantCitySE;
+    std::shared_ptr<eTexture> fZeusDistantCityS;
+    std::shared_ptr<eTexture> fZeusDistantCitySW;
+    std::shared_ptr<eTexture> fZeusDistantCityW;
+    std::shared_ptr<eTexture> fZeusDistantCityNW;
+
+    std::shared_ptr<eTexture> fPoseidonMainCity;
+    std::shared_ptr<eTexture> fPoseidonCollony;
+    std::shared_ptr<eTexture> fPoseidonDisabledCollony;
+    std::shared_ptr<eTexture> fPoseidonEgyptianCity;
+    std::shared_ptr<eTexture> fPoseidonMayanCity;
+    std::shared_ptr<eTexture> fPoseidonPhoenicianCity;
+    std::shared_ptr<eTexture> fPoseidonOceanidCity;
+    std::shared_ptr<eTexture> fPoseidonAtlanteanCity;
+
+    std::shared_ptr<eTexture> fZeusAchilles;
+    std::shared_ptr<eTexture> fZeusHercules;
+    std::shared_ptr<eTexture> fZeusJason;
+    std::shared_ptr<eTexture> fZeusOdysseus;
+    std::shared_ptr<eTexture> fZeusPerseus;
+    std::shared_ptr<eTexture> fZeusTheseus;
+
+    std::shared_ptr<eTexture> fPoseidonAtalanta;
+    std::shared_ptr<eTexture> fPoseidonBellerophon;
+
+    eTextureCollection fZeusPlayerArmy;
+    eTextureCollection fZeusGreekArmy;
+    eTextureCollection fZeusTrojanArmy;
+    eTextureCollection fZeusPersianArmy;
+    eTextureCollection fZeusCentaurArmy;
+    eTextureCollection fZeusAmazonArmy;
+
+    eTextureCollection fPoseidonPlayerArmy;
+    eTextureCollection fPoseidonEgyptianArmy;
+    eTextureCollection fPoseidonMayanArmy;
+    eTextureCollection fPoseidonPhoenicianArmy;
+    eTextureCollection fPoseidonOceanidArmy;
+    eTextureCollection fPoseidonAtlanteanArmy;
 
     std::shared_ptr<eTexture> fMainCityFlag;
     std::shared_ptr<eTexture> fEmpireCityFlag;

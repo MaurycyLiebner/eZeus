@@ -17,6 +17,21 @@
 #include "spriteData/paneling45.h"
 #include "spriteData/paneling60.h"
 
+#include "spriteData/empireBits15.h"
+#include "spriteData/empireBits30.h"
+#include "spriteData/empireBits45.h"
+#include "spriteData/empireBits60.h"
+
+#include "spriteData/empireFigures15.h"
+#include "spriteData/empireFigures30.h"
+#include "spriteData/empireFigures45.h"
+#include "spriteData/empireFigures60.h"
+
+#include "spriteData/poseidonInterface15.h"
+#include "spriteData/poseidonInterface30.h"
+#include "spriteData/poseidonInterface45.h"
+#include "spriteData/poseidonInterface60.h"
+
 #include "espriteloader.h"
 
 eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
@@ -180,7 +195,19 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
 
     fDiamond(renderer),
 
-    fWorldCities(renderer),
+    fZeusPlayerArmy(renderer),
+    fZeusGreekArmy(renderer),
+    fZeusTrojanArmy(renderer),
+    fZeusPersianArmy(renderer),
+    fZeusCentaurArmy(renderer),
+    fZeusAmazonArmy(renderer),
+
+    fPoseidonPlayerArmy(renderer),
+    fPoseidonEgyptianArmy(renderer),
+    fPoseidonMayanArmy(renderer),
+    fPoseidonPhoenicianArmy(renderer),
+    fPoseidonOceanidArmy(renderer),
+    fPoseidonAtlanteanArmy(renderer),
 
     fAllyCityFlag(renderer),
 
@@ -199,39 +226,6 @@ void eInterfaceTextures::load() {
 
     const std::string basedir{"../ZeusTextures/" + std::to_string(fTileH) + "/"};
     const auto dir = basedir + "Zeus_Interface/";
-
-    {
-        const std::string pathBase{dir + "Zeus_empire_bits_"};
-
-        for(int i = 1; i < 9; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldCities);
-        }
-        for(int i = 17; i < 28; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldCities);
-        }
-
-        fMainCityFlag = std::make_shared<eTexture>();
-        fMainCityFlag->load(fRenderer, pathBase + "00009.png");
-
-        fEmpireCityFlag = std::make_shared<eTexture>();
-        fEmpireCityFlag->load(fRenderer, pathBase + "00010.png");
-
-        for(int i = 11; i < 17; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fAllyCityFlag);
-        }
-
-        for(int i = 33; i < 38; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fCityArmy);
-        }
-
-        for(int i = 38; i < 43; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fCityWealth);
-        }
-
-        for(int i = 43; i < 49; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fCityRebellion);
-        }
-    }
 
     {
         const std::string pathBase{dir + "Zeus_Interface_New_Bbuttons_"};
@@ -643,6 +637,133 @@ void eInterfaceTextures::load() {
         }
     }
 
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eEmpireBitsSpriteData15,
+                                     eEmpireBitsSpriteData30,
+                                     eEmpireBitsSpriteData45,
+                                     eEmpireBitsSpriteData60);
+        eSpriteLoader loader(fTileH, "empireBits", sds,
+                             nullptr, fRenderer);
+
+        fZeusMainCity = loader.load(1, 1);
+        fZeusCollony = loader.load(1, 2);
+        fZeusDisabledCollony = loader.load(1, 3);
+        fZeusGreekCity = loader.load(1, 4);
+        fZeusTrojanCity = loader.load(1, 5);
+        fZeusPersianCity = loader.load(1, 6);
+        fZeusCentaurCity = loader.load(1, 7);
+        fZeusAmazonCity = loader.load(1, 8);
+
+        fZeusPlace = loader.load(1, 17);
+        fZeusRuins = loader.load(1, 18);
+
+        fZeusDistantCity = loader.load(1, 19);
+        fZeusDistantCityN = loader.load(1, 20);
+        fZeusDistantCityNE = loader.load(1, 21);
+        fZeusDistantCityE = loader.load(1, 22);
+        fZeusDistantCitySE = loader.load(1, 23);
+        fZeusDistantCityS = loader.load(1, 24);
+        fZeusDistantCitySW = loader.load(1, 25);
+        fZeusDistantCityW = loader.load(1, 26);
+        fZeusDistantCityNW = loader.load(1, 27);
+
+        fMainCityFlag = loader.load(1, 9);
+        fEmpireCityFlag = loader.load(1, 10);
+
+        for(int i = 11; i < 17; i++) {
+            loader.load(1, i, fAllyCityFlag);
+        }
+
+        for(int i = 33; i < 38; i++) {
+            loader.load(1, i, fCityArmy);
+        }
+
+        for(int i = 38; i < 43; i++) {
+            loader.load(1, i, fCityWealth);
+        }
+
+        for(int i = 43; i < 49; i++) {
+            loader.load(1, i, fCityRebellion);
+        }
+    }
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eEmpireFiguresSpriteData15,
+                                     eEmpireFiguresSpriteData30,
+                                     eEmpireFiguresSpriteData45,
+                                     eEmpireFiguresSpriteData60);
+        eSpriteLoader loader(fTileH, "empireFigures", sds,
+                             nullptr, fRenderer);
+
+        for(int i = 1; i < 4; i++) {
+            loader.load(1, i, fZeusPlayerArmy);
+        }
+        for(int i = 4; i < 7; i++) {
+            loader.load(1, i, fZeusGreekArmy);
+        }
+        for(int i = 7; i < 10; i++) {
+            loader.load(1, i, fZeusTrojanArmy);
+        }
+        for(int i = 10; i < 13; i++) {
+            loader.load(1, i, fZeusPersianArmy);
+        }
+        for(int i = 13; i < 16; i++) {
+            loader.load(1, i, fZeusCentaurArmy);
+        }
+        for(int i = 16; i < 19; i++) {
+            loader.load(1, i, fZeusAmazonArmy);
+        }
+
+        fZeusAchilles = loader.load(1, 25);
+        fZeusHercules = loader.load(1, 26);
+        fZeusJason = loader.load(1, 27);
+        fZeusOdysseus = loader.load(1, 28);
+        fZeusPerseus = loader.load(1, 29);
+        fZeusTheseus = loader.load(1, 30);
+    }
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     ePoseidonInterfaceSpriteData15,
+                                     ePoseidonInterfaceSpriteData30,
+                                     ePoseidonInterfaceSpriteData45,
+                                     ePoseidonInterfaceSpriteData60);
+        eSpriteLoader loader(fTileH, "poseidonInterface", sds,
+                             nullptr, fRenderer);
+
+        fPoseidonMainCity = loader.load(1, 47);
+        fPoseidonCollony = loader.load(1, 48);
+        fPoseidonDisabledCollony = loader.load(1, 49);
+        fPoseidonEgyptianCity = loader.load(1, 50);
+        fPoseidonMayanCity = loader.load(1, 51);
+        fPoseidonPhoenicianCity = loader.load(1, 52);
+        fPoseidonOceanidCity = loader.load(1, 53);
+        fPoseidonAtlanteanCity = loader.load(1, 54);
+
+        fPoseidonAtalanta = loader.load(1, 55);
+        fPoseidonBellerophon = loader.load(1, 56);
+
+        for(int i = 63; i < 66; i++) {
+            loader.load(1, i, fPoseidonPlayerArmy);
+        }
+        for(int i = 66; i < 69; i++) {
+            loader.load(1, i, fPoseidonAtlanteanArmy);
+        }
+        for(int i = 69; i < 72; i++) {
+            loader.load(1, i, fPoseidonEgyptianArmy);
+        }
+        for(int i = 72; i < 75; i++) {
+            loader.load(1, i, fPoseidonMayanArmy);
+        }
+        for(int i = 75; i < 78; i++) {
+            loader.load(1, i, fPoseidonPhoenicianArmy);
+        }
+        for(int i = 78; i < 81; i++) {
+            loader.load(1, i, fPoseidonOceanidArmy);
+        }
+    }
     {
         const auto& sds = spriteData(fTileH,
                                      ePanelingSpriteData15,

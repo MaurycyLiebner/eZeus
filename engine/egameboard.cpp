@@ -1028,6 +1028,14 @@ void eGameBoard::removeConquest(ePlayerConquestEventBase* const q) {
     eVectorHelpers::remove(mConquests, q);
 }
 
+void eGameBoard::addArmyEvent(eArmyEventBase* const q) {
+    mArmyEvents.push_back(q);
+}
+
+void eGameBoard::removeArmyEvent(eArmyEventBase* const q) {
+    eVectorHelpers::remove(mArmyEvents, q);
+}
+
 void eGameBoard::registerAttackingGod(eCharacter* const c) {
     mAttackingGods.push_back(c);
 }

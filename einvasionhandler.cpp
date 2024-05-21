@@ -123,7 +123,7 @@ void eInvasionHandler::initialize(eTile* const tile,
         case eWorldCityType::oceanidCity:
             s = spawnSoldier<eOceanidHoplite>(mBoard, tile);
             break;
-        case eWorldCityType::atlanteansCity:
+        case eWorldCityType::atlanteanCity:
             s = spawnSoldier<eAtlanteanHoplite>(mBoard, tile);
             break;
 
@@ -164,7 +164,7 @@ void eInvasionHandler::initialize(eTile* const tile,
             break;
         case eWorldCityType::oceanidCity:
             break;
-        case eWorldCityType::atlanteansCity:
+        case eWorldCityType::atlanteanCity:
             s = spawnSoldier<eAtlanteanChariot>(mBoard, tile);
             break;
 
@@ -210,7 +210,7 @@ void eInvasionHandler::initialize(eTile* const tile,
         case eWorldCityType::oceanidCity:
             s = spawnSoldier<eOceanidSpearthrower>(mBoard, tile);
             break;
-        case eWorldCityType::atlanteansCity:
+        case eWorldCityType::atlanteanCity:
             s = spawnSoldier<eAtlanteanArcher>(mBoard, tile);
             break;
 

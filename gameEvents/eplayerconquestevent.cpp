@@ -9,9 +9,7 @@ ePlayerConquestEvent::ePlayerConquestEvent(
         const eGameEventBranch branch,
         eGameBoard& board) :
     ePlayerConquestEventBase(eGameEventType::playerConquestEvent,
-                             branch, board) {
-    board.addConquest(this);
-}
+                             branch, board) {}
 
 void ePlayerConquestEvent::initialize(
         const eEnlistedForces& forces,
@@ -21,9 +19,10 @@ void ePlayerConquestEvent::initialize(
 }
 
 void ePlayerConquestEvent::trigger() {
-    auto& board = getBoard();
-    board.removeConquest(this);
+    removeArmyEvent();
+    removeConquestEvent();
     if(!mCity) return;
+    auto& board = getBoard();
 
     const int enemyStr = mCity->strength();
     const int str = mForces.strength();
@@ -56,7 +55,7 @@ void ePlayerConquestEvent::trigger() {
     }
     mCity->incAttitude(-50);
 
-    postTrigger();
+    planArmyReturn();
 }
 
 std::string ePlayerConquestEvent::longName() const {

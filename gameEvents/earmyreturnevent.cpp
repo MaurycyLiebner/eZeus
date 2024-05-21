@@ -11,7 +11,7 @@
 eArmyReturnEvent::eArmyReturnEvent(
         const eGameEventBranch branch,
         eGameBoard& board) :
-    eGameEvent(eGameEventType::armyReturnEvent, branch, board) {}
+    eArmyEventBase(eGameEventType::armyReturnEvent, branch, board) {}
 
 void eArmyReturnEvent::initialize(
         const eEnlistedForces& forces,
@@ -21,6 +21,7 @@ void eArmyReturnEvent::initialize(
 }
 
 void eArmyReturnEvent::trigger() {
+    removeArmyEvent();
     if(!mCity) return;
     auto& board = getBoard();
     const auto entryPoint = board.entryPoint();

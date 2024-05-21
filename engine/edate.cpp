@@ -99,6 +99,10 @@ eDate& eDate::operator++() {
     return *this += 1;
 }
 
+eDate& eDate::operator--() {
+    return *this -= 1;
+}
+
 eDate& eDate::operator+=(const int d) {
     bool nm;
     bool ny;
@@ -123,6 +127,17 @@ eDate eDate::operator-(const int d) const {
     auto date = *this;
     date -= d;
     return date;
+}
+
+int eDate::operator-(const eDate& d) const {
+    if(d > *this) return d - *this;
+    int nd = 0;
+    eDate dd = *this;
+    while(dd != d) {
+        dd -= 1;
+        nd++;
+    }
+    return nd;
 }
 
 void eDate::write(eWriteStream& dst) const {

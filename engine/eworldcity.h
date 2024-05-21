@@ -22,7 +22,7 @@ enum class eWorldCityType {
     mayanCity,
     phoenicianCity,
     oceanidCity,
-    atlanteansCity,
+    atlanteanCity,
 
     place,
     ruins,

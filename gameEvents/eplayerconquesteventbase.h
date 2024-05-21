@@ -1,22 +1,19 @@
 #ifndef EPLAYERCONQUESTEVENTBASE_H
 #define EPLAYERCONQUESTEVENTBASE_H
 
-#include "egameevent.h"
+#include "earmyeventbase.h"
 
-#include "characters/eenlistedforces.h"
-#include "engine/eworldcity.h"
-
-class ePlayerConquestEventBase : public eGameEvent {
+class ePlayerConquestEventBase : public eArmyEventBase {
 public:
-    using eGameEvent::eGameEvent;
+    ePlayerConquestEventBase(const eGameEventType type,
+                             const eGameEventBranch branch,
+                             eGameBoard& board);
+    ~ePlayerConquestEventBase();
 
-    static const int sWaitTime = 50;
     void addAres();
 protected:
-    void postTrigger();
-
-    eEnlistedForces mForces;
-    stdsptr<eWorldCity> mCity;
+    void removeConquestEvent();
+    void planArmyReturn();
 };
 
 #endif // EPLAYERCONQUESTEVENTBASE_H

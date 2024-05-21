@@ -48,10 +48,12 @@ public:
     bool operator==(const eDate& other) const;
     bool operator!=(const eDate& other) const;
     eDate& operator++();
+    eDate& operator--();
     eDate& operator+=(const int d);
     eDate operator+(const int d) const;
     eDate& operator-=(const int d);
     eDate operator-(const int d) const;
+    int operator-(const eDate& d) const;
 
     void write(eWriteStream& dst) const;
     void read(eReadStream& src);

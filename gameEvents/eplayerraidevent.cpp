@@ -11,9 +11,7 @@ ePlayerRaidEvent::ePlayerRaidEvent(
         const eGameEventBranch branch,
         eGameBoard& board) :
     ePlayerConquestEventBase(eGameEventType::playerRaidEvent,
-                             branch, board) {
-    board.addConquest(this);
-}
+                             branch, board) {}
 
 void ePlayerRaidEvent::initialize(
         const eEnlistedForces& forces,
@@ -25,9 +23,10 @@ void ePlayerRaidEvent::initialize(
 }
 
 void ePlayerRaidEvent::trigger() {
-    auto& board = getBoard();
-    board.removeConquest(this);
+    removeArmyEvent();
+    removeConquestEvent();
     if(!mCity) return;
+    auto& board = getBoard();
 
     const int enemyStr = mCity->strength();
     const int str = mForces.strength();
@@ -78,7 +77,7 @@ void ePlayerRaidEvent::trigger() {
         board.event(eEvent::cityRaidFailed, ed);
     }
 
-    postTrigger();
+    planArmyReturn();
 }
 
 std::string ePlayerRaidEvent::longName() const {

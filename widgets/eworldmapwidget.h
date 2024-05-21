@@ -11,7 +11,7 @@ public:
 
     void initialize();
 
-    void setBoard(eWorldBoard* const b);
+    void setBoard(eGameBoard* const b);
 
     using eSelectCityAction = std::function<void(const stdsptr<eWorldCity>&)>;
     void setSelectCityAction(const eSelectCityAction& s);
@@ -19,7 +19,8 @@ protected:
     void paintEvent(ePainter& p);
     bool mousePressEvent(const eMouseEvent& e);
 private:
-    eWorldBoard* mBoard = nullptr;
+    eGameBoard* mGameBoard = nullptr;
+    eWorldBoard* mWorldBoard = nullptr;
     int mFrame = 0;
 
     std::map<std::string, stdsptr<eTexture>> mNames;

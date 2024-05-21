@@ -107,7 +107,7 @@ void eInvasionEventWidget::setCity(eWorldCity* const c) {
         infantryVisible = true;
         archersVisible = true;
         break;
-    case eWorldCityType::atlanteansCity:
+    case eWorldCityType::atlanteanCity:
         infantryVisible = true;
         cavalryVisible = true;
         archersVisible = true;

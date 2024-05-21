@@ -1,11 +1,9 @@
 #ifndef EARMYRETURNEVENT_H
 #define EARMYRETURNEVENT_H
 
-#include "egameevent.h"
-#include "characters/eenlistedforces.h"
-#include "engine/eworldcity.h"
+#include "earmyeventbase.h"
 
-class eArmyReturnEvent : public eGameEvent {
+class eArmyReturnEvent : public eArmyEventBase {
 public:
     eArmyReturnEvent(const eGameEventBranch branch,
                      eGameBoard& board);
@@ -20,9 +18,6 @@ public:
     void read(eReadStream& src) override;
 
     stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
-private:
-    eEnlistedForces mForces;
-    stdsptr<eWorldCity> mCity;
 };
 
 

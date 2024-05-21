@@ -334,6 +334,7 @@ SOURCES += \
         fileIO/ebuildingwriter.cpp \
         fileIO/ereadstream.cpp \
         fileIO/ewritestream.cpp \
+        gameEvents/earmyeventbase.cpp \
         gameEvents/earmyreturnevent.cpp \
         gameEvents/eeventtrigger.cpp \
         gameEvents/egameevent.cpp \
@@ -855,6 +856,7 @@ HEADERS += \
     fileIO/ereadstream.h \
     fileIO/estreams.h \
     fileIO/ewritestream.h \
+    gameEvents/earmyeventbase.h \
     gameEvents/earmyreturnevent.h \
     gameEvents/eeventtrigger.h \
     gameEvents/egameevent.h \
@@ -1122,6 +1124,14 @@ HEADERS += \
     spriteData/egyptianHoplite30.h \
     spriteData/egyptianHoplite45.h \
     spriteData/egyptianHoplite60.h \
+    spriteData/empireBits15.h \
+    spriteData/empireBits30.h \
+    spriteData/empireBits45.h \
+    spriteData/empireBits60.h \
+    spriteData/empireFigures15.h \
+    spriteData/empireFigures30.h \
+    spriteData/empireFigures45.h \
+    spriteData/empireFigures60.h \
     spriteData/espritedata.h \
     spriteData/fireFighter15.h \
     spriteData/fireFighter30.h \
@@ -1392,6 +1402,10 @@ HEADERS += \
     spriteData/poseidon30.h \
     spriteData/poseidon45.h \
     spriteData/poseidon60.h \
+    spriteData/poseidonInterface15.h \
+    spriteData/poseidonInterface30.h \
+    spriteData/poseidonInterface45.h \
+    spriteData/poseidonInterface60.h \
     spriteData/religion15.h \
     spriteData/religion30.h \
     spriteData/religion45.h \
