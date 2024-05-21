@@ -33,7 +33,7 @@ struct eGodMessages {
 
 struct eMonsterMessages {
     eMessageType fPrediction;
-    eMessageType fInvasionAny;
+    eMessageType fInvasion36;
     eMessageType fInvasion24;
     eMessageType fInvasion12;
     eMessageType fInvasion6;

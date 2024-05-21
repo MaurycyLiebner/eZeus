@@ -4,6 +4,7 @@
 #include "emonsterinvasioneventbase.h"
 
 enum class eMonsterInvasionWarningType {
+    warning36,
     warning24,
     warning12,
     warning6,

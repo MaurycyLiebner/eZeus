@@ -89,6 +89,16 @@ void eGameWidget::handleMonsterUnleashEvent(eEventData& ed) {
     showMessage(ed, gm->fMonster, true);
 }
 
+void eGameWidget::handleMonsterInvasion36Event(eEventData& ed) {
+    const auto& inst = eMessages::instance;
+    const auto gm = inst.monsterMessages(ed.fMonster);
+    if(!gm) return;
+    eMessageType msg = gm->fInvasion36;
+    eStringHelpers::replace(msg.fFull.fText, "[time_until_attack]", "36");
+    eStringHelpers::replace(msg.fCondensed.fText, "[time_until_attack]", "36");
+    showMessage(ed, msg);
+}
+
 void eGameWidget::handleMonsterInvasion24Event(eEventData& ed) {
     const auto& inst = eMessages::instance;
     const auto gm = inst.monsterMessages(ed.fMonster);
@@ -165,7 +175,8 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         handleMonsterUnleashEvent(ed);
         break;
 
-    case eEvent::monsterInvasionAny:
+    case eEvent::monsterInvasion36:
+        handleMonsterInvasion36Event(ed);
         return;
     case eEvent::monsterInvasion24:
         handleMonsterInvasion24Event(ed);

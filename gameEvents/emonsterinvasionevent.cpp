@@ -26,6 +26,9 @@ void eMonsterInvasionWarningEvent::trigger() {
     eEventData ed;
     ed.fMonster = mMonster;
     switch(mType) {
+    case eMonsterInvasionWarningType::warning36: {
+        board.event(eEvent::monsterInvasion36, ed);
+    } break;
     case eMonsterInvasionWarningType::warning24: {
         board.event(eEvent::monsterInvasion24, ed);
     } break;
@@ -72,6 +75,7 @@ eMonsterInvasionEvent::eMonsterInvasionEvent(
     eMonsterInvasionEventBase(eGameEventType::monsterInvasion,
                               branch, board) {
     const auto warnTypes = {
+        eMonsterInvasionWarningType::warning36,
         eMonsterInvasionWarningType::warning24,
         eMonsterInvasionWarningType::warning12,
         eMonsterInvasionWarningType::warning6,
@@ -80,6 +84,9 @@ eMonsterInvasionEvent::eMonsterInvasionEvent(
     for(const auto w : warnTypes) {
         int months;
         switch(w) {
+        case eMonsterInvasionWarningType::warning36:
+            months = 36;
+            break;
         case eMonsterInvasionWarningType::warning24:
             months = 24;
             break;

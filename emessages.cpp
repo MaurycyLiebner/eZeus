@@ -110,10 +110,10 @@ void eMessages::load(eMonsterMessages& monster,
     monster.fPrediction.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_title"];
     monster.fPrediction.fCondensed.fText = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_oracle_prediction"];
 
-    monster.fInvasionAny.fFull.fTitle = fMessages["PHRASE_independent_" + monsterName2 + "_invades_title"];
-    monster.fInvasionAny.fFull.fText = fMessages["PHRASE_independent_" + monsterName2 + "_invades_initial_announcement"];
-    monster.fInvasionAny.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_title"];
-    monster.fInvasionAny.fCondensed.fText = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_initial_announcement"];
+    monster.fInvasion36.fFull.fTitle = fMessages["PHRASE_independent_" + monsterName2 + "_invades_title"];
+    monster.fInvasion36.fFull.fText = fMessages["PHRASE_independent_" + monsterName2 + "_invades_initial_announcement"];
+    monster.fInvasion36.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_title"];
+    monster.fInvasion36.fCondensed.fText = fMessages["PHRASE_CONDENSED_independent_" + monsterName2 + "_invades_initial_announcement"];
 
     monster.fInvasion24.fFull.fTitle = fMessages["PHRASE_independent_" + monsterName2 + "_invades_title"];
     monster.fInvasion24.fFull.fText = fMessages["PHRASE_independent_" + monsterName2 + "_invades_2year_reminder"];
