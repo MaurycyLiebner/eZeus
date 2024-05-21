@@ -692,6 +692,20 @@ aphrodites_heaven "Aphrodite's Heaven"
 hermes_refuge "Hermes' Refuge"
 grove_of_dionysus "Grove of Dionysus"
 
+artemis_sanctuary_desc "If any prey animals live in your city, Artemis will hunt them on your behalf when your city needs food. Two companies of fierce Amazons reside within Artemis' Menagerie, and they will help you in any of your military pursuits. Artemis herself will hunt down predatory animals in your city. If Artemis fulfills your prayer, she will provide you with meat."
+artemis_help_no_target "Artemis has heard your prayer, but she can't fulfill it. She'll fulfill your prayer later if she can."
+artemis_help_too_soon "Artemis has refused you. She procured some meat not too long ago and doesn't want to overhunt the stock."
+artemis_help_agree "The chaste huntress Artemis has heard your prayer! Soon, she will deliver a plentiful supply of meat to your granaries!"
+
+hephaestus_sanctuary_desc "Hephaestus will instruct Talos to defend your city from harm. Hephaestus will grant you copper from his forge when there os a Sanctuary to him in the city. He will also protect your city's buildings from fire. When Hephaestus answers your prayer, he enlists Talos to defend your city, just as he defended Crete."
+hephaestus_help_no_target ""
+hephaestus_help_too_soon "Hephaestus is too busy in his forge to grant your request. Plus, he loaned you Talos not that long ago."
+hephaestus_help_agree "Hephaestus has heard your prayers! His fearsome Talos will soon protect your city!"
+
+zeus_sanctuary_desc "Zeus will protect your city from invaders in time of need. Zeus' Stronghold will endow your city with an oracle. Zeus himself will protect you from all other Olympians, and you will earn respect throughout the world for worshiping the Master of Olympus. If Zeus hears your prayer, he will reward you by striking down the next enemy army that invades your city."
+zeus_help_no_target "Zeus has heard your prayer to strike down an enemy, but can't filfill it yet. He will when the opportunity presents itself."
+zeus_help_too_soon "Zeus is in no mood to hear another one of your prayers. Maybe he'll be more agreeable later."
+
 pray_to "Pray to %1"
 
 wall "Wall"
