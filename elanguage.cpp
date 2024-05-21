@@ -2,10 +2,20 @@
 
 #include "eloadtexthelper.h"
 
+#include "exmlparser.h"
+
 eLanguage eLanguage::instance;
 
 const std::string& eLanguage::text(const std::string& key) {
     return instance.fText[key];
+}
+
+const std::string& eLanguage::zeusText(const int g, const int s) {
+    return instance.fZeusText[g][s];
+}
+
+const std::string& eLanguage::zeusEditorText(const int g, const int s) {
+    return instance.fZeusEditorText[g][s];
 }
 
 bool eLanguage::load() {
@@ -19,6 +29,9 @@ bool eLanguage::loaded() {
 bool eLanguage::loadImpl() {
     if(mLoaded) return false;
     mLoaded = true;
+
+    eXmlParser::sParse(fZeusText, "../Zeus_Text.xml");
+    eXmlParser::sParse(fZeusEditorText, "../Zeus_Editor_Text.xml");
 
     const std::string path = "../Text/language.txt";
     return eLoadTextHelper::load(path, fText);

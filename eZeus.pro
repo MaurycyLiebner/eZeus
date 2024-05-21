@@ -328,6 +328,7 @@ SOURCES += \
         etilehelper.cpp \
         evectorhelpers.cpp \
         ewalkablehelpers.cpp \
+        exmlparser.cpp \
         fileIO/ebuildingreader.cpp \
         fileIO/ebuildingrendererreader.cpp \
         fileIO/ebuildingrendererwriter.cpp \
@@ -849,6 +850,7 @@ HEADERS += \
     etilehelper.h \
     evectorhelpers.h \
     ewalkablehelpers.h \
+    exmlparser.h \
     fileIO/ebuildingreader.h \
     fileIO/ebuildingrendererreader.h \
     fileIO/ebuildingrendererwriter.h \

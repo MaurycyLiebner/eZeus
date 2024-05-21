@@ -15,7 +15,13 @@ public:
 
     static const std::string& text(const std::string& key);
 
+    static const std::string& zeusText(const int g, const int s);
+    static const std::string& zeusEditorText(const int g, const int s);
+
     std::map<std::string, std::string> fText;
+
+    std::map<int, std::map<int, std::string>> fZeusText;
+    std::map<int, std::map<int, std::string>> fZeusEditorText;
 private:
     bool loadImpl();
     bool mLoaded = false;
