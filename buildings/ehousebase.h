@@ -28,8 +28,8 @@ public:
 
     void timeChanged(const int by) override;
 
-    bool paidTaxes() const { return mPaidTaxes; }
-    bool paidTaxesLastMonth() const { return mPaidTaxesLastMonth; }
+    int paidTaxes() const { return mPaidTaxes; }
+    int paidTaxesLastMonth() const { return mPaidTaxesLastMonth; }
 
     int food() const { return mFood; }
     int fleece() const { return mFleece; }
@@ -57,8 +57,8 @@ protected:
     int evict();
     void setPeople(const int p);
 
-    bool mPaidTaxes = false;
-    bool mPaidTaxesLastMonth = false;
+    int mPaidTaxes = 0;
+    int mPaidTaxesLastMonth = 0;
 
     int mLevel{0};
     int mPeople{0};

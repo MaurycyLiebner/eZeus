@@ -66,7 +66,6 @@ int eSmallHouse::provide(const eProvide p, const int n) {
 
     case eProvide::taxes: {
         if(mPaidTaxes) return 0;
-        mPaidTaxes = true;
         auto& b = getBoard();
         const auto diff = b.difficulty();
         const int taxMult = eDifficultyHelpers::taxMultiplier(
@@ -74,6 +73,7 @@ int eSmallHouse::provide(const eProvide p, const int n) {
         const double tax = mPeople * taxMult * b.taxRateF();
         const int iTax = std::round(tax);
         b.payTaxes(iTax, mPeople);
+        mPaidTaxes = iTax;
         return iTax;
     }
 
@@ -207,7 +207,7 @@ void eSmallHouse::timeChanged(const int by) {
 
 void eSmallHouse::nextMonth() {
     mPaidTaxesLastMonth = mPaidTaxes;
-    mPaidTaxes = false;
+    mPaidTaxes = 0;
     mSatisfactionProvidedThisMonth = false;
     const int cfood = round(mPeople*0.25);
     const int cfleece = (mLevel > 2 && mPeople > 0) ? 2 : 0;

@@ -12,43 +12,47 @@ eCommonHouseInfoWidget::eCommonHouseInfoWidget(eMainWindow* const window) :
     eInfoWidget(window, true, true) {}
 
 void eCommonHouseInfoWidget::initialize(eHouseBase* const house) {
-    std::string title;
     const int people = house->people();
     const int level = house->level();
-    if(house->type() == eBuildingType::commonHouse) {
+    const auto type = house->type();
+    int titleGroup = 29;
+    int titleString = 0;
+    if(type == eBuildingType::commonHouse) {
         if(people <= 0) {
-            title = "unoccupied_house";
+            titleGroup = 128;
+            titleString = 0;
         } else if(level == 0) {
-            title = "hut_house";
+            titleString = 0;
         } else if(level == 1) {
-            title = "shack_house";
+            titleString = 1;
         } else if(level == 2) {
-            title = "hovel_house";
+            titleString = 2;
         } else if(level == 3) {
-            title = "homestead_house";
+            titleString = 3;
         } else if(level == 4) {
-            title = "tenement_house";
+            titleString = 4;
         } else if(level == 5) {
-            title = "apartment_house";
+            titleString = 5;
         } else if(level == 6) {
-            title = "townhouse_house";
+            titleString = 6;
         }
     } else { // elite
         if(people <= 0) {
-            title = "vacant_residence_house";
+            titleString = 7;
         } else if(level == 0) {
-            title = "abandoned_residence_house";
+            titleString = 8;
         } else if(level == 1) {
-            title = "residence_house";
+            titleString = 9;
         } else if(level == 2) {
-            title = "mansion_house";
+            titleString = 10;
         } else if(level == 3) {
-            title = "manor_house";
+            titleString = 11;
         } else if(level == 4) {
-            title = "estate_house";
+            titleString = 12;
         }
     }
-    eInfoWidget::initialize(eLanguage::text(title));
+    const auto title = eLanguage::zeusText(titleGroup, titleString);
+    eInfoWidget::initialize(title);
     addCentralWidget();
 
     const int p = padding();
@@ -57,39 +61,40 @@ void eCommonHouseInfoWidget::initialize(eHouseBase* const house) {
     if(people <= 0) return;
 
     const auto miss = house->missing();
-    std::string msg;
+    int needString;
     switch(miss) {
     case eHouseMissing::water:
-        msg = "missing_water";
+        needString = 49;
         break;
     case eHouseMissing::food:
-        msg = "missing_food";
+        needString = 51;
         break;
     case eHouseMissing::fleece:
-        msg = "missing_fleece";
+        needString = 54;
         break;
     case eHouseMissing::oil:
-        msg = "missing_oil";
+        needString = 55;
         break;
     case eHouseMissing::venues:
-        msg = "missing_venues";
+        needString = 50;
         break;
     case eHouseMissing::appeal:
-        msg = "missing_appeal";
+        needString = 48;
         break;
     case eHouseMissing::wine:
-        msg = "missing_wine";
+        needString = 53;
         break;
     case eHouseMissing::arms:
-        msg = "missing_arms";
+        needString = 57;
         break;
     case eHouseMissing::horse:
-        msg = "missing_horse";
+        needString = 56;
         break;
     case eHouseMissing::nothing:
-        msg = "missing_nothing";
+        needString = 46;
         break;
     }
+    const auto msg = eLanguage::zeusText(127, needString);
 
     const auto cw = centralWidget();
     const auto msgLabel = new eLabel(window());
@@ -168,10 +173,10 @@ void eCommonHouseInfoWidget::initialize(eHouseBase* const house) {
     occ->setSmallFontSize();
     occ->setSmallPadding();
     auto occstr = std::to_string(house->people()) + " " +
-                  eLanguage::text("occupants");
+                  eLanguage::zeusText(127, 15);
     const int vacs = house->vacancies();
     if(vacs) {
-        occstr += "  " + eLanguage::text("extra_room") + " " +
+        occstr += "  " + eLanguage::zeusText(127, 17) + " " +
                   std::to_string(vacs);
     }
     occ->setText(occstr);
@@ -181,18 +186,21 @@ void eCommonHouseInfoWidget::initialize(eHouseBase* const house) {
 
     const auto taxLabel = new eLabel(window());
     {
-        const bool paid = house->paidTaxes();
+        const int paid = house->paidTaxes();
         taxLabel->setSmallFontSize();
         taxLabel->setTinyPadding();
         taxLabel->setWidth(fw->width());
         taxLabel->setWrapWidth(taxLabel->width());
-        std::string paidstr;
+        std::string taxStr;
         if(paid) {
-            paidstr = "clerk_visited";
+            taxStr = eLanguage::zeusText(127, 19);
+            taxStr += " " + std::to_string(paid) + " ";
+            taxStr += eLanguage::zeusText(8, 1) + " ";
+            taxStr += eLanguage::zeusText(127, 20);
         } else {
-            paidstr = "clerk_not_visited";
+            taxStr = eLanguage::zeusText(127, 18);
         }
-        taxLabel->setText(eLanguage::text(paidstr));
+        taxLabel->setText(taxStr);
         taxLabel->fitContent();
         fw->addWidget(taxLabel);
         taxLabel->setY(occ->y() + occ->height());
@@ -205,15 +213,14 @@ void eCommonHouseInfoWidget::initialize(eHouseBase* const house) {
         satLabel->setWidth(fw->width());
         satLabel->setWrapWidth(satLabel->width());
         std::string satstr;
-        bool water = true;
-        if(house->type() == eBuildingType::commonHouse) {
+        if(type == eBuildingType::commonHouse) {
             const auto ch = static_cast<eSmallHouse*>(house);
-            water = ch->water();
-        }
-        if(water && house->food()) {
-            satstr = "residents_happy";
-        } else {
-            satstr = "residents_dissatisfied";
+            const int sat = ch->satisfaction();
+            int n = std::floor((100 - sat)/(100./7));
+            n = std::clamp(n, 0, 6);
+            satstr = eLanguage::zeusText(127, 21 + n);
+        } else { // elite
+            satstr = eLanguage::zeusText(127, 21);
         }
         satLabel->setText(eLanguage::text(satstr));
         satLabel->fitContent();
@@ -227,7 +234,7 @@ void eCommonHouseInfoWidget::initialize(eHouseBase* const house) {
         foodLabel->setTinyPadding();
         foodLabel->setWidth(fw->width());
         foodLabel->setWrapWidth(foodLabel->width());
-        foodLabel->setText(eLanguage::text("residents_no_food"));
+        foodLabel->setText(eLanguage::zeusText(127, 28));
         foodLabel->fitContent();
         fw->addWidget(foodLabel);
         foodLabel->setY(satLabel->y() + satLabel->height());

@@ -86,7 +86,6 @@ int eEliteHousing::provide(const eProvide p, const int n) {
 
     case eProvide::taxes: {
         if(mPaidTaxes) return 0;
-        mPaidTaxes = true;
         auto& b = getBoard();
         const auto diff = b.difficulty();
         const int taxMult = eDifficultyHelpers::taxMultiplier(
@@ -94,6 +93,7 @@ int eEliteHousing::provide(const eProvide p, const int n) {
         const double tax = mPeople * taxMult * b.taxRateF();
         const int iTax = std::round(tax);
         b.payTaxes(iTax, mPeople);
+        mPaidTaxes = iTax;
         return iTax;
     }
     default:
@@ -119,7 +119,7 @@ void eEliteHousing::timeChanged(const int by) {
 
 void eEliteHousing::nextMonth() {
     mPaidTaxesLastMonth = mPaidTaxes;
-    mPaidTaxes = false;
+    mPaidTaxes = 0;
     const int cfood = round((mPeople + mHorses)*0.25);
     const int cfleece = 2;
     const int coil = 2;
