@@ -254,7 +254,8 @@ public:
     std::vector<eTile*> neighbours() const;
 
     void setBlessed(const double b);
-    double blessed() const { return mBlessed; }
+    bool blessed() const { return mBlessed > 0.01; }
+    bool cursed() const { return mBlessed < -0.01; }
 
     virtual void read(eReadStream& src);
     virtual void write(eWriteStream& dst) const;

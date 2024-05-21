@@ -38,7 +38,13 @@ double eEmployingBuilding::employedFraction() const {
 
 double eEmployingBuilding::effectiveness() const {
     const double ef = std::max(0.1, employedFraction());
-    return ef*(1 + 0.5*blessed());
+    double blessed = 0.;
+    if(eBuilding::blessed()) {
+        blessed = 1.;
+    } else if(eBuilding::cursed()) {
+        blessed = -1.;
+    }
+    return ef*(1 + 0.5*blessed);
 }
 
 void eEmployingBuilding::read(eReadStream& src) {

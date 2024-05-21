@@ -16,28 +16,38 @@ std::string titleForBuilding(eBuilding* const b) {
     return eLanguage::text(name);
 }
 
-std::string employmentInfoText(const int nem, eEmployingBuilding* const b) {
-    if(nem == 0) return "";
-    const auto name = eBuilding::sNameForBuilding(b);
-    const auto prefix = name + "_info_text_empl";
-    const double e = b->employedFraction();
-    const double es = 1./nem;
-    const int eid = std::round(e/es);
-    return eLanguage::text(prefix + std::to_string(eid));
-}
-
-int numberEmplInfos(eBuilding* const b) {
-    switch(b->type()) {
-    case eBuildingType::gymnasium:
-        return 5;
-    case eBuildingType::dramaSchool:
-        return 5;
-    case eBuildingType::maintenanceOffice:
-        return 5;
-    case eBuildingType::fountain:
-        return 4;
+std::string employmentInfoText(eEmployingBuilding* const b) {
+    const int e = b->employed();
+    const int maxE = b->maxEmployees();
+    const auto bt = b->type();
+    const bool blessed = b->blessed();
+    const bool cursed = b->cursed();
+    const bool onFire = b->isOnFire();
+    int group = 0;
+    int string = 0;
+    switch(bt) {
+    case eBuildingType::hospital: {
+        group = 76;
+        if(cursed) {
+            string = 9;
+        } else if(onFire) {
+            string = 8;
+        } else if(e == 0) {
+            string = 7;
+        } else if(e == 1) {
+            string = 6;
+        } else if(e == maxE) {
+            string = 2;
+        } else if(e > 7) {
+            string = 3;
+        } else if(e > 4) {
+            string = 4;
+        } else {
+            string = 5;
+        }
+    } break;
     }
-    return 0;
+    return eLanguage::zeusText(group, string);
 }
 
 eInfoWidget* eGameWidget::openInfoWidget(eBuilding* const b) {
@@ -97,11 +107,6 @@ eInfoWidget* eGameWidget::openInfoWidget(eBuilding* const b) {
             const auto aWid = new eAgoraInfoWidget(window());
             aWid->initialize(a);
             wid = aWid;
-            const stdptr<eAgoraBase> aptr(a);
-            closeAct = [aptr, aWid]() {
-                if(!aptr) return;
-
-            };
         } else if(const auto s = dynamic_cast<eSanctuary*>(b)) {
             const auto sWid = new eSanctuaryInfoWidget(window());
             sWid->initialize(s);
@@ -112,8 +117,7 @@ eInfoWidget* eGameWidget::openInfoWidget(eBuilding* const b) {
             const auto ebWid = new eEmployingBuildingInfoWidget(
                                     window(), true, true);
             const auto title = titleForBuilding(b);
-            const int nei = numberEmplInfos(b);
-            const auto text = employmentInfoText(nei, eb);
+            const auto text = employmentInfoText(eb);
             ebWid->initialize(title, text, eb, "");
             wid = ebWid;
         } else {

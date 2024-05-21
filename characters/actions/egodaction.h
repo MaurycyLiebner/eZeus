@@ -122,11 +122,10 @@ public:
         eLookForBlessGodAct(board, 0) {}
 
     eTile* find(eTile* const t) {
-        const auto null = static_cast<eTile*>(nullptr);
         const auto b = t->underBuilding();
-        if(!b) return null;
-        if(!eBuilding::sBlessable(b->type())) return null;
-        if(std::abs(b->blessed()) > 0.01) return null;
+        if(!b) return nullptr;
+        if(!eBuilding::sBlessable(b->type())) return nullptr;
+        if(b->blessed() || b->cursed()) return nullptr;
         mTarget = b;
         return b->centerTile();
     }
@@ -157,9 +156,8 @@ public:
         eGodAct(board, eGodActType::lookForSoldierAttack) {}
 
     eTile* find(eTile* const t) {
-        const auto null = static_cast<eTile*>(nullptr);
         const auto& chars = t->characters();
-        if(chars.empty()) return null;
+        if(chars.empty()) return nullptr;
         for(const auto& cc : chars) {
             const bool is = cc->isSoldier();
             if(!is) continue;
@@ -168,7 +166,7 @@ public:
             mTarget = cc;
             return t;
         }
-        return null;
+        return nullptr;
     }
 
     void act() {
@@ -197,16 +195,15 @@ public:
         mCptr(c) {}
 
     eTile* find(eTile* const t) {
-        const auto null = static_cast<eTile*>(nullptr);
-        if(!mCptr) return null;
-        if(mCptr->tile() == t) return null;
+        if(!mCptr) return nullptr;
+        if(mCptr->tile() == t) return nullptr;
         const auto b = t->underBuilding();
         if(b && eBuilding::sAttackable(b->type())) {
             mBTarget = b;
             return b->centerTile();
         } else {
             const auto& chars = t->characters();
-            if(chars.empty()) return null;
+            if(chars.empty()) return nullptr;
             for(const auto& cc : chars) {
                 if(mCptr == cc.get()) continue;
                 bool isGod = false;
@@ -221,7 +218,7 @@ public:
                 mCTarget = cc;
                 return t;
             }
-            return null;
+            return nullptr;
         }
     }
 

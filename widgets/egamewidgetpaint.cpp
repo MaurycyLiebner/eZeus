@@ -632,11 +632,11 @@ void eGameWidget::paintEvent(ePainter& p) {
                         if(ts.fOvelays && tex) {
                             const int bx = drawX;
                             const int by = drawY - tsRect.h;
-                            if(ub->blessed() > 0.01) {
+                            if(ub->blessed()) {
                                 const auto& blsd = destTexs.fBlessed;
                                 const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
                                 tp.drawTexture(bx, by, tex, eAlignment::bottom);
-                            } else if(ub->blessed() < -0.01) {
+                            } else if(ub->cursed()) {
                                 const auto& blsd = destTexs.fCursed;
                                 const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
                                 tp.drawTexture(bx, by, tex, eAlignment::bottom);
