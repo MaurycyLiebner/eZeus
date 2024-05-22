@@ -7,6 +7,7 @@
 enum class eHasResourceObjectType {
     nonBusy,
     fish,
+    urchin,
     silver,
     copper,
     forest,
@@ -22,6 +23,8 @@ public:
         switch(mType) {
         case eHasResourceObjectType::fish:
             return t->hasFish();
+        case eHasResourceObjectType::urchin:
+            return t->hasUrchin();
         case eHasResourceObjectType::silver:
             return t->terrain() == eTerrain::silver;
         case eHasResourceObjectType::copper:

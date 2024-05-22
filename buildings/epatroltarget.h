@@ -17,6 +17,8 @@ public:
                   const int sw, const int sh,
                   const int maxEmployees);
 
+    bool available() const { return mAvailable > 0; }
+
     void timeChanged(const int by) override;
 
     void read(eReadStream& src) override;

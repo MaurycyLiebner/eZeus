@@ -996,6 +996,13 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto a = eAlignment::right | eAlignment::top;
             tp.drawTexture(rx + 1, ry, tex, a);
         }
+        if(tile->hasUrchin()) {
+            const auto& fh = builTexs.fUrchin;
+            const int t = mTime/30;
+            const auto tex = fh.getTexture(t % fh.size());
+            const auto a = eAlignment::bottom;
+            tp.drawTexture(rx + 0.5, ry - 0.5, tex, a);
+        }
 
         const auto drawBridge = [&]() {
             if(mode == eBuildingMode::bridge) {
@@ -1568,6 +1575,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         std::function<bool(const int tx, const int ty,
                            const int sw, const int sh)> canBuildFunc;
         switch(mode) {
+        case eBuildingMode::urchinQuay:
         case eBuildingMode::fishery: {
             canBuildFunc = [&](const int tx, const int ty,
                                const int sw, const int sh) {
@@ -2082,6 +2090,13 @@ void eGameWidget::paintEvent(ePainter& p) {
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
 
+        case eBuildingMode::urchinQuay: {
+            eOrientation o = eOrientation::topRight;
+            canBuildFishery(mHoverTX, mHoverTY, o);
+            const auto b1 = e::make_shared<eUrchinQuay>(*mBoard, o);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
+
         case eBuildingMode::fishery: {
             eOrientation o = eOrientation::topRight;
             canBuildFishery(mHoverTX, mHoverTY, o);
@@ -2332,11 +2347,11 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = e::make_shared<eCommemorative>(5, *mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
-        case eBuildingMode::commemorative7: {
+        case eBuildingMode::heroicFigureMonument: {
             const auto b1 = e::make_shared<eCommemorative>(6, *mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
-        case eBuildingMode::commemorative8: {
+        case eBuildingMode::diplomacyMonument: {
             const auto b1 = e::make_shared<eCommemorative>(7, *mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
@@ -2369,7 +2384,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             const int id = static_cast<int>(mode) -
                            static_cast<int>(am);
             const auto gt = static_cast<eGodType>(id);
-            const auto b1 = e::make_shared<eGodMonument>(gt, *mBoard);
+            const auto b1 = e::make_shared<eGodMonument>(
+                                gt, eGodQuestId::godQuest1, *mBoard);
 
             for(int x = tminX; x < tmaxX; x++) {
                 for(int y = tminY; y < tmaxY; y++) {

@@ -1,41 +1,33 @@
-#include "efishery.h"
+#include "eurchinquay.h"
 
-#include "characters/efishingboat.h"
+#include "characters/eurchingatherer.h"
 #include "characters/actions/ecollectresourceaction.h"
 #include "textures/egametextures.h"
 
-eFishery::eFishery(eGameBoard& board, const eOrientation o) :
-    eResourceCollectBuildingBase(board, eBuildingType::fishery,
-                                 2, 2, 10, eResourceType::fish),
+eUrchinQuay::eUrchinQuay(eGameBoard& board, const eOrientation o) :
+    eResourceCollectBuildingBase(board, eBuildingType::urchinQuay,
+                                 2, 2, 10, eResourceType::urchin),
     mO(o) {}
 
-eFishery::~eFishery() {
-    if(mBoat) mBoat->kill();
+eUrchinQuay::~eUrchinQuay() {
+    if(mGatherer) mGatherer->kill();
 }
 
 const int gUnpackTime = 5000;
 
-void eFishery::timeChanged(const int by) {
+void eUrchinQuay::timeChanged(const int by) {
     if(enabled()) {
         mStateCount += by;
-        if(!mBoat) {
-            mState = eFisheryState::buildingBoat;
-            mStateCount = 0;
+        if(!mGatherer) {
+            spawnGatherer();
+            mState = eUrchinQuayState::waiting;
         }
         switch(mState) {
-        case eFisheryState::buildingBoat: {
-            const int buildTime = 5000;
-            if(mStateCount > buildTime) {
-                mStateCount -= buildTime;
-                mState = eFisheryState::waiting;
-                spawnBoat();
-            }
-        } break;
-        case eFisheryState::unpacking: {
+        case eUrchinQuayState::unpacking: {
             if(mStateCount > gUnpackTime) {
                 mStateCount -= gUnpackTime;
-                mState = eFisheryState::waiting;
-                eResourceBuildingBase::add(eResourceType::fish, 3);
+                mState = eUrchinQuayState::waiting;
+                eResourceBuildingBase::add(eResourceType::urchin, 3);
                 updateDisabled();
             }
         } break;
@@ -45,10 +37,10 @@ void eFishery::timeChanged(const int by) {
     eResourceBuildingBase::timeChanged(by);
 }
 
-std::shared_ptr<eTexture> eFishery::getTexture(const eTileSize size) const {
+std::shared_ptr<eTexture> eUrchinQuay::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings();
-    const auto& coll = blds[sizeId].fFishery;
+    const auto& coll = blds[sizeId].fUrchinQuay;
     int id = 3;
     switch(mO) {
     case eOrientation::topRight:
@@ -71,65 +63,34 @@ std::shared_ptr<eTexture> eFishery::getTexture(const eTileSize size) const {
     return coll.getTexture(id);
 }
 
-std::vector<eOverlay> eFishery::getOverlays(const eTileSize size) const {
+std::vector<eOverlay> eUrchinQuay::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
     switch(mState) {
-    case eFisheryState::buildingBoat: {
-        eOverlay o;
-        const eTextureCollection* coll;
-        switch(mO) {
-        case eOrientation::topRight:
-            coll = &blds.fFisheryBoatBuildingH;
-            o.fX = 0.2;
-            o.fY = -2.25;
-            break;
-        case eOrientation::bottomLeft:
-            coll = &blds.fFisheryBoatBuildingH;
-            o.fX = -0.3;
-            o.fY = -2.38;
-            break;
-        default:
-        case eOrientation::topLeft:
-            coll = &blds.fFisheryBoatBuildingW;
-            o.fX = 0.0;
-            o.fY = -2.0;
-            break;
-        case eOrientation::bottomRight:
-            coll = &blds.fFisheryBoatBuildingW;
-            o.fX = -0.25;
-            o.fY = -1.9;
-            break;
-        }
-
-        const int texId = textureTime() % coll->size();
-        o.fTex = coll->getTexture(texId);
-        return {o};
-    } break;
-    case eFisheryState::waiting: {
+    case eUrchinQuayState::waiting: {
         eOverlay o;
         const eTextureCollection* coll;
         switch(mO) {
         case eOrientation::topRight:
             coll = &blds.fFisheryOverlay[0];
-            o.fX = 0.2;
-            o.fY = -2.0;
+            o.fX = -0.25;
+            o.fY = -2.5;
             break;
         case eOrientation::bottomLeft:
             coll = &blds.fFisheryOverlay[4];
-            o.fX = -0.3;
-            o.fY = -2.38;
+            o.fX = 0.25;
+            o.fY = -1.38;
             break;
         default:
         case eOrientation::topLeft:
             coll = &blds.fFisheryOverlay[6];
-            o.fX = 0.25;
+            o.fX = -0.75;
             o.fY = -2.2;
             break;
         case eOrientation::bottomRight:
             coll = &blds.fFisheryOverlay[2];
-            o.fX = -0.25;
-            o.fY = -1.9;
+            o.fX = 0.5;
+            o.fY = -2.25;
             break;
         }
 
@@ -137,30 +98,30 @@ std::vector<eOverlay> eFishery::getOverlays(const eTileSize size) const {
         o.fTex = coll->getTexture(texId);
         return {o};
     } break;
-    case eFisheryState::unpacking: {
+    case eUrchinQuayState::unpacking: {
         eOverlay o;
         const eTextureCollection* coll;
         switch(mO) {
         case eOrientation::topRight:
-            coll = &blds.fFisheryUnpackingOverlayTR;
-            o.fX = -0.3;
-            o.fY = -2.95;
+            coll = &blds.fUrchinQuayUnpackingOverlayTR;
+            o.fX = 0.19;
+            o.fY = -1.84;
             break;
         case eOrientation::bottomLeft:
-            coll = &blds.fFisheryUnpackingOverlayBL;
-            o.fX = -0.35;
-            o.fY = -1.75;
+            coll = &blds.fUrchinQuayUnpackingOverlayBL;
+            o.fX = 0.05;
+            o.fY = -1.40;
             break;
         default:
         case eOrientation::topLeft:
-            coll = &blds.fFisheryUnpackingOverlayTL;
-            o.fX = -0.75;
-            o.fY = -2.3;
+            coll = &blds.fUrchinQuayUnpackingOverlayTL;
+            o.fX = 0.05;
+            o.fY = -2.1;
             break;
         case eOrientation::bottomRight:
-            coll = &blds.fFisheryUnpackingOverlayBR;
-            o.fX = 0.20;
-            o.fY = -2.3;
+            coll = &blds.fUrchinQuayUnpackingOverlayBR;
+            o.fX = 0.60;
+            o.fY = -1.45;
             break;
         }
 
@@ -172,10 +133,10 @@ std::vector<eOverlay> eFishery::getOverlays(const eTileSize size) const {
     return {};
 }
 
-void eFishery::addRaw() {
-    mState = eFisheryState::unpacking;
+void eUrchinQuay::addRaw() {
+    mState = eUrchinQuayState::unpacking;
     mStateCount = 0;
-    if(mBoat) {
+    if(mGatherer) {
         eOrientation o;
         switch(mO) {
         case eOrientation::bottomLeft:
@@ -188,20 +149,20 @@ void eFishery::addRaw() {
             o = eOrientation::topRight;
             break;
         }
-        mBoat->setOrientation(o);
+        mGatherer->setOrientation(o);
     }
 }
 
-int eFishery::take(const eResourceType type, const int count) {
+int eUrchinQuay::take(const eResourceType type, const int count) {
     const int r = eResourceCollectBuildingBase::take(type, count);
     updateDisabled();
     return r;
 }
 
-void eFishery::spawnBoat() {
-    if(mBoat) return;
-    const auto b = e::make_shared<eFishingBoat>(getBoard());
-    mBoat = b.get();
+void eUrchinQuay::spawnGatherer() {
+    if(mGatherer) return;
+    const auto b = e::make_shared<eUrchinGatherer>(getBoard());
+    mGatherer = b.get();
     eTile* t;
     const auto ct = centerTile();
     switch(mO) {
@@ -227,7 +188,7 @@ void eFishery::spawnBoat() {
     b->changeTile(t);
 
     const auto hasRes = eHasResourceObject::sCreate(
-                            eHasResourceObjectType::fish);
+                            eHasResourceObjectType::urchin);
     const auto a = e::make_shared<eCollectResourceAction>(
                        this, b.get(), hasRes);
     const auto w = eWalkableObject::sCreateWater();
@@ -237,29 +198,29 @@ void eFishery::spawnBoat() {
     b->setAction(a);
 }
 
-void eFishery::updateDisabled() {
-    const int s = eResourceBuildingBase::spaceLeft(eResourceType::fish);
+void eUrchinQuay::updateDisabled() {
+    const int s = eResourceBuildingBase::spaceLeft(eResourceType::urchin);
     const bool d = s <= 0;
     if(mDisabled == d) return;
     mDisabled = d;
 }
 
-void eFishery::read(eReadStream& src) {
+void eUrchinQuay::read(eReadStream& src) {
     eResourceCollectBuildingBase::read(src);
 
     src >> mDisabled;
     src >> mStateCount;
     src >> mState;
     src.readCharacter(&getBoard(), [this](eCharacter* const c) {
-        mBoat = static_cast<eFishingBoat*>(c);
+        mGatherer = static_cast<eUrchinGatherer*>(c);
     });
 }
 
-void eFishery::write(eWriteStream& dst) const {
+void eUrchinQuay::write(eWriteStream& dst) const {
     eResourceCollectBuildingBase::write(dst);
 
     dst << mDisabled;
     dst << mStateCount;
     dst << mState;
-    dst.writeCharacter(mBoat);
+    dst.writeCharacter(mGatherer);
 }

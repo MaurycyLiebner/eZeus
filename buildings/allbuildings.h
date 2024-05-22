@@ -25,6 +25,7 @@
 #include "buildings/etaxoffice.h"
 #include "buildings/eresourcebuilding.h"
 #include "buildings/ehuntinglodge.h"
+#include "buildings/eurchinquay.h"
 #include "buildings/efishery.h"
 #include "buildings/epier.h"
 #include "buildings/emaintenanceoffice.h"

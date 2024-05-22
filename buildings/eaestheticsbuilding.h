@@ -79,6 +79,11 @@ public:
     eTallObelisk(eGameBoard& board);
 };
 
+class eOrrery : public eAestheticsBuilding {
+public:
+    eOrrery(eGameBoard& board);
+};
+
 class eShellGarden : public eAestheticsBuilding {
 public:
     eShellGarden(eGameBoard& board);
@@ -142,17 +147,21 @@ class eGodMonumentTile;
 
 class eGodMonument : public eBuilding {
 public:
-    eGodMonument(const eGodType god, eGameBoard& board);
+    eGodMonument(const eGodType god,
+                 const eGodQuestId id,
+                 eGameBoard& board);
 
     void erase() override;
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
 
     eGodType god() const { return mGod; }
+    eGodQuestId id() const { return mId; }
     void addTile(eGodMonumentTile* const tile);
     const std::vector<eGodMonumentTile*>& tiles() const { return mTiles; }
 private:
     const eGodType mGod;
+    const eGodQuestId mId;
     std::vector<eGodMonumentTile*> mTiles;
 };
 

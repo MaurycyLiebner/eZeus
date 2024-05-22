@@ -21,6 +21,17 @@ struct eFishingBoatTextures {
     std::vector<eTextureCollection> fDie;
 };
 
+struct eUrchinGathererTextures {
+    eUrchinGathererTextures(SDL_Renderer* const renderer) :
+        fDie(renderer) {}
+
+    std::vector<eTextureCollection> fSwim;
+    std::vector<eTextureCollection> fCollect;
+    std::vector<eTextureCollection> fCarry;
+    std::vector<eTextureCollection> fDeposit;
+    eTextureCollection fDie;
+};
+
 struct eTradeBoatTextures {
     eTradeBoatTextures(SDL_Renderer* const renderer) :
         fStand(renderer) {}
@@ -289,6 +300,8 @@ public:
     void loadDeerHunter();
     bool fPhilosopherLoaded = false;
     void loadPhilosopher();
+    bool fUrchinGathererLoaded = false;
+    void loadUrchinGatherer();
     bool fFishingBoatLoaded = false;
     void loadFishingBoat();
     bool fTradeBoatLoaded = false;
@@ -501,6 +514,7 @@ public:
     eBasicCharacterTextures fPorter;
 
     eFishingBoatTextures fFishingBoat;
+    eUrchinGathererTextures fUrchinGatherer;
     eTradeBoatTextures fTradeBoat;
 
     eFightingCharacterTextures fDisgruntled;

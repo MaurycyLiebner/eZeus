@@ -31,10 +31,15 @@ public:
 
     using eGrowerPtr = stdptr<eGrower> eGrowersLodge::*;
     bool spawnGrower(const eGrowerPtr grower);
+
+    void setNoTarget(const bool t);
+    bool noTarget() const { return mNoTarget; }
 private:
     const int mMaxResource = 8;
 
     const eGrowerType mType;
+
+    bool mNoTarget = false;
 
     bool mSpawnEnabled = true;
 

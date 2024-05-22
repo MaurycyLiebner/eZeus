@@ -96,8 +96,8 @@ enum class eBuildingMode {
     athleteMonument,
     conquestMonument,
     happinessMonument,
-    commemorative7,
-    commemorative8,
+    heroicFigureMonument,
+    diplomacyMonument,
     scholarMonument,
 
     aphroditeMonument,

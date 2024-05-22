@@ -260,18 +260,6 @@ sculpture "Sculpture"
 horse "Horse"
 invalid "Invalid"
 
-population_title "Population"
-husbandry_title "Husbandry"
-aesthetics_title "Aesthetics"
-industry_title "Industry"
-distribution_title "Distribution"
-hygiene_safety_title "Hygiene/Safety"
-administration_title "Administration"
-culture_title "Culture"
-mythology_title "Mythology"
-military_title "Military"
-overview_title "Overview"
-
 current_food_can_support_1 "Current food*production and*importation can*support"
 current_food_can_support_2 "people"
 stored_food_for_1 "Stored food for"
@@ -464,87 +452,6 @@ troy "Troy"
 mt_pelion "Mt. Pelion"
 sardis "Sardis"
 hattusas "Hattusas"
-
-; game menu
-road "Road"
-
-common_housing "Common Housing"
-elite_housing "Elite Housing"
-
-farms "Farms"
-orchards "Orchards"
-herding "Herding"
-land_and_sea "Land and Sea"
-
-raw_materials "Raw Materials"
-workshops "Workshops"
-
-granary "Granary"
-storehouse "Storehouse"
-agoras "Agoras"
-trade "Trade"
-
-fountain "Fountain"
-infirmary "Infirmary"
-maintenance_office "Maintenance Office"
-watchpost "Watchpost"
-
-palace "Palace"
-tax_office "Tax Office"
-water_crossing "Water Crossing"
-
-philosophy "Philosophy"
-gymnasium "Gymnasium"
-drama "Drama"
-stadium "Stadium"
-
-sanctuaries "Sanctuaries"
-heros_hall "Hero's Hall"
-artisans_guild "Artisans' Guild"
-
-fortifications "Fortifications"
-military_workshops "Military Workshops"
-
-beautification "Beautification"
-recreational_areas "Recreational Areas"
-monuments "Monuments"
-
-wheat_farm "Wheat Farm"
-carrot_farm "Carrot Farm"
-onion_farm "Onion Farm"
-
-vine "Vine"
-olive_tree "Olive Tree"
-orange_tree "Orange Tree"
-orange_tenders_lodge "Orange Tenders' Lodge"
-growers_lodge "Growers' Lodge"
-
-dairy "Dairy"
-goat "Goat"
-carding_shed "Carding Shed"
-sheep "Sheep"
-
-fishery "Fishery"
-urchin_quay "Urchin Quay"
-hunting_lodge "Hunting Lodge"
-
-mint "Mint"
-foundry "Foundry"
-timber_mill "Timber Mill"
-masonry_shop "Masonry Shop"
-
-winery "Winery"
-olive_press "Olive Press"
-sculpture_studio "Sculpture Studio"
-
-common_agora "Common Agora"
-grand_agora "Grand Agora"
-food_vendor "Food Vendor"
-fleece_vendor "Fleece Vendor"
-oil_vendor "Oil Vendor"
-wine_vendor "Wine Vendor"
-arms_vendor "Arms Vendor"
-horse_trainer "Horse Trainer"
 
 no_vendor "No Vendor"
 no_goods "No Goods"

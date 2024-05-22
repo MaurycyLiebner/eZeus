@@ -193,6 +193,7 @@ void eTileBase::read(eReadStream& src) {
     src >> mResource;
     src >> mElevation;
     src >> mWalkableElev;
+    src >> mHasUrchin;
     src >> mHasFish;
     src >> mRoadblock;
 }
@@ -206,6 +207,7 @@ void eTileBase::write(eWriteStream& dst) const {
     dst << mResource;
     dst << mElevation;
     dst << mWalkableElev;
+    dst << mHasUrchin;
     dst << mHasFish;
     dst << mRoadblock;
 }

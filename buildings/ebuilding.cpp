@@ -17,6 +17,8 @@
 
 #include "evectorhelpers.h"
 
+#include "elanguage.h"
+
 eBuilding::eBuilding(eGameBoard& board,
                      const eBuildingType type,
                      const int sw, const int sh) :
@@ -181,259 +183,364 @@ bool eBuilding::sAttackable(const eBuildingType bt) {
 
 std::string eBuilding::sNameForBuilding(eBuilding* const b) {
     if(!b) return "";
-    switch(b->type()) {
+    int group = 28;
+    int string = -1;
+    const auto type = b->type();
+    switch(type) {
     case eBuildingType::road:
-        return "road";
+        string = 28;
+        break;
 
     case eBuildingType::commonHouse:
-        return "common_housing";
+        string = 2;
+        break;
     case eBuildingType::eliteHousing:
-        return "elite_housing";
+        string = 9;
+        break;
 
     case eBuildingType::fountain:
-        return "fountain";
+        string = 74;
+        break;
     case eBuildingType::hospital:
-        return "infirmary";
+        string = 76;
+        break;
     case eBuildingType::maintenanceOffice:
-        return "maintenance_office";
+        string = 121;
+        break;
     case eBuildingType::watchPost:
-        return "watchpost";
+        string = 124;
+        break;
 
     case eBuildingType::palace:
-        return "palace";
+        string = 117;
+        break;
     case eBuildingType::taxOffice:
-        return "tax_office";
+        string = 122;
+        break;
     case eBuildingType::bridge:
-        return "water_crossing";
+        string = 120;
+        break;
 
     case eBuildingType::gymnasium:
-        return "gymnasium";
+        string = 79;
+        break;
     case eBuildingType::stadium:
-        return "stadium";
+        string = 80;
+        break;
 
     case eBuildingType::wheatFarm:
-        return "wheat_farm";
+        string = 31;
+        break;
     case eBuildingType::carrotsFarm:
-        return "carrot_farm";
+        string = 33;
+        break;
     case eBuildingType::onionsFarm:
-        return "onion_farm";
+        string = 32;
+        break;
 
     case eBuildingType::vine:
-        return "vine";
+        string = 35;
+        break;
     case eBuildingType::oliveTree:
-        return "olive_tree";
+        string = 36;
+        break;
     case eBuildingType::orangeTree:
-        return "orange_tree";
+        string = 217;
+        break;
     case eBuildingType::orangeTendersLodge:
-        return "orange_tenders_lodge";
+        string = 214;
+        break;
     case eBuildingType::growersLodge:
-        return "growers_lodge";
+        string = 37;
+        break;
 
     case eBuildingType::dairy:
-        return "dairy";
+        string = 42;
+        break;
     case eBuildingType::goat:
-        return "goat";
+        string = 39;
+        break;
     case eBuildingType::cardingShed:
-        return "carding_shed";
+        string = 41;
+        break;
     case eBuildingType::sheep:
-        return "sheep";
+        string = 40;
+        break;
 
     case eBuildingType::fishery:
-        return "fishery";
+        string = 44;
+        break;
     case eBuildingType::urchinQuay:
-        return "urchin_quay";
+        string = 45;
+        break;
     case eBuildingType::huntingLodge:
-        return "hunting_lodge";
+        string = 46;
+        break;
 
     case eBuildingType::mint:
-        return "mint";
+        string = 48;
+        break;
     case eBuildingType::foundry:
-        return "foundry";
+        string = 50;
+        break;
     case eBuildingType::timberMill:
-        return "timber_mill";
+        string = 51;
+        break;
     case eBuildingType::masonryShop:
-        return "masonry_shop";
+        string = 49;
+        break;
 
     case eBuildingType::winery:
-        return "winery";
+        string = 53;
+        break;
     case eBuildingType::olivePress:
-        return "olive_press";
+        string = 54;
+        break;
     case eBuildingType::sculptureStudio:
-        return "sculpture_studio";
+        string = 55;
+        break;
 
     case eBuildingType::warehouse:
-        return "storehouse";
+        string = 58;
+        break;
     case eBuildingType::granary:
-        return "granary";
+        string = 57;
+        break;
 
     case eBuildingType::commonAgora:
-        return "common_agora";
+        string = 63;
+        break;
     case eBuildingType::grandAgora:
-        return "grand_agora";
+        string = 64;
+        break;
     case eBuildingType::foodVendor:
-        return "food_vendor";
+        string = 68;
+        break;
     case eBuildingType::fleeceVendor:
-        return "fleece_vendor";
+        string = 69;
+        break;
     case eBuildingType::oilVendor:
-        return "oil_vendor";
+        string = 70;
+        break;
     case eBuildingType::wineVendor:
-        return "wine_vendor";
+        string = 71;
+        break;
     case eBuildingType::armsVendor:
-        return "arms_vendor";
+        string = 72;
+        break;
     case eBuildingType::horseTrainer:
-        return "horse_trainer";
+        string = 73;
+        break;
 
     case eBuildingType::podium:
-        return "podium";
+        string = 81;
+        break;
     case eBuildingType::college:
-        return "college";
+        string = 77;
+        break;
     case eBuildingType::theater:
-        return "theater";
+        string = 82;
+        break;
     case eBuildingType::dramaSchool:
-        return "drama_school";
+        string = 78;
+        break;
 
     case eBuildingType::templeZeus:
-        return "zeus_stronghold";
+        string = 84;
+        break;
     case eBuildingType::templePoseidon:
-        return "promontery_of_poseidon";
+        string = 85;
+        break;
     case eBuildingType::templeHades:
-        return "gates_of_hades";
+        string = 95;
+        break;
     case eBuildingType::templeHera:
-        return "orchard_of_hera";
+        string = 96;
+        break;
     case eBuildingType::templeDemeter:
-        return "garden_of_demeter";
+        string = 86;
+        break;
     case eBuildingType::templeAthena:
-        return "arbor_of_athena";
+        string = 92;
+        break;
     case eBuildingType::templeArtemis:
-        return "artemis_menagerie";
+        string = 88;
+        break;
     case eBuildingType::templeApollo:
-        return "oracle_of_apollo";
+        string = 87;
+        break;
     case eBuildingType::templeAtlas:
-        return "pillar_of_atlas";
+        string = 97;
+        break;
     case eBuildingType::templeAres:
-        return "ares_fortress";
+        string = 89;
+        break;
     case eBuildingType::templeHephaestus:
-        return "forge_of_hephaestus";
+        string = 93;
+        break;
     case eBuildingType::templeAphrodite:
-        return "aphrodites_heaven";
+        string = 90;
+        break;
     case eBuildingType::templeHermes:
-        return "hermes_refuge";
+        string = 91;
+        break;
     case eBuildingType::templeDionysus:
-        return "grove_of_dionysus";
+        string = 94;
+        break;
 
     case eBuildingType::artisansGuild:
-        return "artisans_guild";
+        string = 56;
+        break;
 
     case eBuildingType::achillesHall:
-        return "achilles_hall";
+        group = 185;
+        string = 8;
+        break;
     case eBuildingType::atalantaHall:
-        return "atalanta_hall";
+        group = 185;
+        string = 14;
+        break;
     case eBuildingType::bellerophonHall:
-        return "bellerophon_hall";
+        group = 185;
+        string = 15;
+        break;
     case eBuildingType::herculesHall:
-        return "hercules_hall";
+        group = 185;
+        string = 9;
+        break;
     case eBuildingType::jasonHall:
-        return "jason_hall";
+        group = 185;
+        string = 10;
+        break;
     case eBuildingType::odysseusHall:
-        return "odysseus_hall";
+        group = 185;
+        string = 11;
+        break;
     case eBuildingType::perseusHall:
-        return "perseus_hall";
+        group = 185;
+        string = 12;
+        break;
     case eBuildingType::theseusHall:
-        return "theseus_hall";
+        group = 185;
+        string = 13;
+        break;
 
-    case eBuildingType::godMonument: {
-        const auto gm = static_cast<eGodMonument*>(b);
-        const auto g = gm->god();
-        switch(g) {
-        case eGodType::aphrodite: return "aphrodite_monument";
-        case eGodType::apollo: return "apollo_monument";
-        case eGodType::ares: return "ares_monument";
-        case eGodType::artemis: return "artemis_monument";
-        case eGodType::athena: return "athena_monument";
-        case eGodType::atlas: return "atlas_monument";
-        case eGodType::demeter: return "demeter_monument";
-        case eGodType::dionysus: return "dionysus_monument";
-        case eGodType::hades: return "hades_monument";
-        case eGodType::hephaestus: return "hephaestus_monument";
-        case eGodType::hera: return "hera_monument";
-        case eGodType::hermes: return "hermes_monument";
-        case eGodType::poseidon: return "poseidon_monument";
-        case eGodType::zeus: return "zeus_monument";
+    case eBuildingType::godMonument:
+        string = 119;
+        break;
+
+    case eBuildingType::wall:
+        string = 130;
+        break;
+    case eBuildingType::tower:
+        string = 132;
+        break;
+    case eBuildingType::gatehouse:
+        string = 131;
+        break;
+
+    case eBuildingType::armory:
+        string = 135;
+        break;
+    case eBuildingType::horseRanch:
+        string = 133;
+        break;
+
+    case eBuildingType::park:
+        string = 128;
+        break;
+    case eBuildingType::waterPark:
+        string = 25;
+        break;
+    case eBuildingType::doricColumn:
+        string = 129;
+        break;
+    case eBuildingType::ionicColumn:
+        string = 145;
+        break;
+    case eBuildingType::corinthianColumn:
+        string = 146;
+        break;
+    case eBuildingType::avenue:
+        string = 118;
+        break;
+
+    case eBuildingType::bench:
+        string = 127;
+        break;
+    case eBuildingType::birdBath:
+        string = 152;
+        break;
+    case eBuildingType::shortObelisk:
+        string = 24;
+        break;
+    case eBuildingType::tallObelisk:
+        string = 19;
+        break;
+    case eBuildingType::flowerGarden:
+        string = 15;
+        break;
+    case eBuildingType::gazebo:
+        string = 16;
+        break;
+    case eBuildingType::shellGarden:
+        string = 150;
+        break;
+    case eBuildingType::sundial:
+        string = 20;
+        break;
+    case eBuildingType::hedgeMaze:
+        string = 17;
+        break;
+    case eBuildingType::dolphinSculpture:
+        string = 148;
+        break;
+    case eBuildingType::orrery:
+        string = 149;
+        break;
+    case eBuildingType::spring:
+        string = 22;
+        break;
+    case eBuildingType::topiary:
+        string = 21;
+        break;
+    case eBuildingType::fishPond:
+        string = 18;
+        break;
+    case eBuildingType::baths:
+        string = 151;
+        break;
+    case eBuildingType::stoneCircle:
+        string = 23;
+        break;
+
+    case eBuildingType::commemorative: {
+        const auto c = static_cast<eCommemorative*>(b);
+        const int id = c->id();
+        group = 90;
+        if(id == 0) {
+            string = 1;
+        } else if(id == 1) {
+            string = 2;
+        } else if(id == 2) {
+            string = 3;
+        } else if(id == 3) {
+            string = 4;
+        } else if(id == 4) {
+            string = 5;
+        } else if(id == 5) {
+            string = 6;
+        } else if(id == 6) {
+            string = 7;
+        } else if(id == 7) {
+            string = 8;
+        } else if(id == 8) {
+            string = 9;
         }
     } break;
 
-    case eBuildingType::wall:
-        return "wall";
-    case eBuildingType::tower:
-        return "tower";
-    case eBuildingType::gatehouse:
-        return "gatehouse";
-
-    case eBuildingType::armory:
-        return "armory";
-    case eBuildingType::horseRanch:
-        return "horse_ranch";
-
-    case eBuildingType::park:
-        return "park";
-    case eBuildingType::waterPark:
-        return "water_park";
-    case eBuildingType::doricColumn:
-        return "doric_column";
-    case eBuildingType::ionicColumn:
-        return "ionic_column";
-    case eBuildingType::corinthianColumn:
-        return "corinthian_column";
-    case eBuildingType::avenue:
-        return "avenue";
-
-    case eBuildingType::bench:
-        return "bench";
-    case eBuildingType::birdBath:
-        return "bird_bath";
-    case eBuildingType::shortObelisk:
-        return "short_obelisk";
-    case eBuildingType::tallObelisk:
-        return "tall_obelisk";
-    case eBuildingType::flowerGarden:
-        return "flower_garden";
-    case eBuildingType::gazebo:
-        return "gazebo";
-    case eBuildingType::shellGarden:
-        return "shell_garden";
-    case eBuildingType::sundial:
-        return "sundial";
-    case eBuildingType::hedgeMaze:
-        return "hedge_maze";
-    case eBuildingType::dolphinSculpture:
-        return "dolphin_sculpture";
-    case eBuildingType::spring:
-        return "spring";
-    case eBuildingType::topiary:
-        return "topiary";
-    case eBuildingType::fishPond:
-        return "fish_pond";
-    case eBuildingType::baths:
-        return "baths";
-    case eBuildingType::stoneCircle:
-        return "stone_circle";
-
-    case eBuildingType::commemorative:
-        const auto c = static_cast<eCommemorative*>(b);
-        const int id = c->id();
-        if(id == 0) return "population_monument";
-        else if(id == 1) return "victory_monument";
-        else if(id == 2) return "colony_monument";
-        else if(id == 3) return "athlete_monument";
-        else if(id == 4) return "conquest_monument";
-        else if(id == 5) return "happiness_monument";
-        else if(id == 6) return "";
-        else if(id == 7) return "";
-        else if(id == 8) return "scholar_monument";
-        break;
-
     }
-    return "";
+    return eLanguage::zeusText(group, string);
 }
 
 eTile* eBuilding::tileNeighbour(const eMoveDirection o,
@@ -576,6 +683,8 @@ void eBuilding::collapse() {
     erase();
     if(noRuins) return;
     for(const auto t : tiles) {
+        const auto terrain = t->terrain();
+        if(terrain == eTerrain::water) continue;
         const auto ruins = e::make_shared<eRuins>(b);
         ruins->setOnFire(onFire);
         const auto renderer = e::make_shared<eBuildingRenderer>(ruins);

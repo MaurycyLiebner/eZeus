@@ -126,6 +126,10 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fFisheryUnpackingOverlayBL(renderer),
     fFisheryUnpackingOverlayBR(renderer),
     fUrchinQuay(renderer),
+    fUrchinQuayUnpackingOverlayTL(renderer),
+    fUrchinQuayUnpackingOverlayTR(renderer),
+    fUrchinQuayUnpackingOverlayBL(renderer),
+    fUrchinQuayUnpackingOverlayBR(renderer),
     fCardingShedOverlay(renderer),
     fDairyOverlay(renderer),
     fGrowersLodgeOverlay(renderer),
@@ -273,6 +277,7 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fSanctuaryFire(renderer),
 
     fFish(renderer),
+    fUrchin(renderer),
 
     fBridge(renderer) {
 
@@ -599,6 +604,10 @@ void eBuildingTextures::load() {
             texClass.load(i, fFish);
         }
 
+        for(int i = 3035; i < 3051; i++) {
+            texClass.load(i, fUrchin);
+        }
+
         for(int i = 656; i < 680; i++) {
             texClass.load(i, fTheaterOverlay);
         }
@@ -626,6 +635,22 @@ void eBuildingTextures::load() {
                 if(j > 3 && j < 7) continue;
                 texClass.load(i, fFisheryOverlay[j]);
             }
+        }
+
+        for(int i = 680; i < 730; i++) {
+            texClass.load(i, fUrchinQuayUnpackingOverlayTL);
+        }
+
+        for(int i = 730; i < 780; i++) {
+            texClass.load(i, fUrchinQuayUnpackingOverlayTR);
+        }
+
+        for(int i = 780; i < 830; i++) {
+            texClass.load(i, fUrchinQuayUnpackingOverlayBL);
+        }
+
+        for(int i = 830; i < 880; i++) {
+            texClass.load(i, fUrchinQuayUnpackingOverlayBR);
         }
 
         for(int i = 890; i < 910; i++) {
@@ -1070,6 +1095,7 @@ void eBuildingTextures::load() {
                 loader.load(1, i, fStoneCircleOverlay);
             }
             fDolphinSculpture = loader.load(1, 33);
+            fOrrery = loader.load(1, 34);
             fShellGarden = loader.load(1, 35);
 
             fBaths = loader.load(1, 36);

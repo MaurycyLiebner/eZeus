@@ -108,6 +108,9 @@ public:
     bool hasFish() const { return mHasFish; }
     void setHasFish(const bool f) { mHasFish = f; }
 
+    bool hasUrchin() const { return mHasUrchin; }
+    void setHasUrchin(const bool f) { mHasUrchin = f; }
+
     int resource() const { return mResource; }
     void decResource(const int by);
     void setResource(const int r);
@@ -130,6 +133,7 @@ private:
     int mY;
 
     bool mHasFish{false};
+    bool mHasUrchin{false};
 
     bool mElevation{false};
     bool mWalkableElev{false};

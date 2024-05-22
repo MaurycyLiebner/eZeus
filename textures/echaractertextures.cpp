@@ -227,6 +227,11 @@
 #include "spriteData/fishingBoat45.h"
 #include "spriteData/fishingBoat60.h"
 
+#include "spriteData/urchinGatherer15.h"
+#include "spriteData/urchinGatherer30.h"
+#include "spriteData/urchinGatherer45.h"
+#include "spriteData/urchinGatherer60.h"
+
 #include "spriteData/tradeBoat15.h"
 #include "spriteData/tradeBoat30.h"
 #include "spriteData/tradeBoat45.h"
@@ -381,6 +386,7 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fPorter(renderer),
 
     fFishingBoat(renderer),
+    fUrchinGatherer(renderer),
 
     fTradeBoat(renderer),
 
@@ -1185,6 +1191,27 @@ void eCharacterTextures::loadPhilosopher() {
     eSpriteLoader loader(fTileH, "philosopher", sds,
                          &eSprMainOffset, fRenderer);
     loadBasicTexture(fPhilosopher, 12128, loader);
+}
+
+void eCharacterTextures::loadUrchinGatherer() {
+    if(fUrchinGathererLoaded) return;
+    fUrchinGathererLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eUrchinGathererSpriteData15,
+                                 eUrchinGathererSpriteData30,
+                                 eUrchinGathererSpriteData45,
+                                 eUrchinGathererSpriteData60);
+    eSpriteLoader loader(fTileH, "urchinGatherer", sds,
+                         &eSprMainOffset, fRenderer);
+
+    loader.loadSkipFlipped(9508, 9508, 9604, fUrchinGatherer.fSwim);
+    loader.loadSkipFlipped(9508, 9604, 9924, fUrchinGatherer.fCollect);
+    loader.loadSkipFlipped(9508, 9924, 10020, fUrchinGatherer.fCarry);
+    loader.loadSkipFlipped(9508, 10020, 10116, fUrchinGatherer.fDeposit);
+    for(int i = 10116; i < 10124; i++) {
+        loader.load(9508, i, fUrchinGatherer.fDie);
+    }
 }
 
 void eCharacterTextures::loadFishingBoat() {

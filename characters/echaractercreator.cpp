@@ -11,6 +11,7 @@
 #include "edonkey.h"
 #include "efirefighter.h"
 #include "efishingboat.h"
+#include "eurchingatherer.h"
 #include "egoat.h"
 #include "egoatherd.h"
 #include "egreekhoplite.h"
@@ -101,6 +102,8 @@ stdsptr<eCharacter> eCharacter::sCreate(
         return e::make_shared<eDonkey>(board);
     case eCharacterType::fireFighter:
         return e::make_shared<eFireFighter>(board);
+    case eCharacterType::urchinGatherer:
+        return e::make_shared<eUrchinGatherer>(board);
     case eCharacterType::fishingBoat:
         return e::make_shared<eFishingBoat>(board);
     case eCharacterType::goat:

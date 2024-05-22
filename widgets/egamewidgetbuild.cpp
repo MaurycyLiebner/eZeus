@@ -373,6 +373,10 @@ bool eGameWidget::buildMouseRelease() {
             apply = [](eTile* const tile) {
                 tile->setHasFish(!tile->hasFish());
             };
+        } else if(mode == eTerrainEditMode::urchin) {
+            apply = [](eTile* const tile) {
+                tile->setHasUrchin(!tile->hasUrchin());
+            };
         } else if(mode == eTerrainEditMode::deer) {
             apply = [this, modeId](eTile* const tile) {
                 const auto os = tile->banner();
@@ -880,6 +884,29 @@ bool eGameWidget::buildMouseRelease() {
         }; break;
 
 
+        case eBuildingMode::urchinQuay: {
+            eOrientation o;
+            const bool c = canBuildFishery(mHoverTX, mHoverTY, o);
+            if(c) {
+                const auto b = e::make_shared<eUrchinQuay>(*mBoard, o);
+                const auto tile = mBoard->tile(mHoverTX, mHoverTY);
+                const auto rend = e::make_shared<eBuildingRenderer>(b);
+                tile->setBuilding(rend);
+                b->setCenterTile(tile);
+
+                const int minY = mHoverTY - 1;
+                b->setTileRect({mHoverTX, minY, 2, 2});
+                for(int x = mHoverTX; x < mHoverTX + 2; x++) {
+                    for(int y = minY; y < minY + 2; y++) {
+                        const auto t = mBoard->tile(x, y);
+                        if(t) {
+                            t->setUnderBuilding(b);
+                            b->addUnderBuilding(t);
+                        }
+                    }
+                }
+            }
+        }; break;
         case eBuildingMode::fishery: {
             eOrientation o;
             const bool c = canBuildFishery(mHoverTX, mHoverTY, o);
@@ -1243,8 +1270,8 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::athleteMonument:
         case eBuildingMode::conquestMonument:
         case eBuildingMode::happinessMonument:
-        case eBuildingMode::commemorative7:
-        case eBuildingMode::commemorative8:
+        case eBuildingMode::heroicFigureMonument:
+        case eBuildingMode::diplomacyMonument:
         case eBuildingMode::scholarMonument: {
             int id = -1;
             switch(mode) {
@@ -1266,10 +1293,10 @@ bool eGameWidget::buildMouseRelease() {
             case eBuildingMode::happinessMonument:
                 id = 5;
                 break;
-            case eBuildingMode::commemorative7:
+            case eBuildingMode::heroicFigureMonument:
                 id = 6;
                 break;
-            case eBuildingMode::commemorative8:
+            case eBuildingMode::diplomacyMonument:
                 id = 7;
                 break;
             case eBuildingMode::scholarMonument:
@@ -1318,7 +1345,8 @@ bool eGameWidget::buildMouseRelease() {
             const int id = static_cast<int>(mode) -
                            static_cast<int>(am);
             const auto gt = static_cast<eGodType>(id);
-            const auto s = e::make_shared<eGodMonument>(gt, *mBoard);
+            const auto s = e::make_shared<eGodMonument>(
+                               gt, eGodQuestId::godQuest1, *mBoard);
             const bool b = build(tminX + 1, tminY + 2, 2, 2, [&]() {
                 return s;
             });

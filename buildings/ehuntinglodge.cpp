@@ -5,7 +5,7 @@
 #include "characters/actions/ehuntaction.h"
 
 eHuntingLodge::eHuntingLodge(eGameBoard& board) :
-    eResourceBuildingBase(board, eBuildingType::huntingLodge,
+    eResourceCollectBuildingBase(board, eBuildingType::huntingLodge,
                           2, 2, 8, eResourceType::meat) {}
 
 eHuntingLodge::~eHuntingLodge() {
@@ -39,7 +39,7 @@ std::vector<eOverlay> eHuntingLodge::getOverlays(const eTileSize size) const {
 }
 
 void eHuntingLodge::timeChanged(const int by) {
-    eResourceBuildingBase::timeChanged(by);
+    eResourceCollectBuildingBase::timeChanged(by);
     if(!mHunter) {
         mSpawnTime += by;
         const int wait = mWaitTime/effectiveness();
@@ -51,7 +51,7 @@ void eHuntingLodge::timeChanged(const int by) {
 }
 
 void eHuntingLodge::read(eReadStream& src) {
-    eResourceBuildingBase::read(src);
+    eResourceCollectBuildingBase::read(src);
     src >> mSpawnTime;
     src.readCharacter(&getBoard(), [this](eCharacter* const c) {
         mHunter = static_cast<eHunter*>(c);
@@ -59,7 +59,7 @@ void eHuntingLodge::read(eReadStream& src) {
 }
 
 void eHuntingLodge::write(eWriteStream& dst) const {
-    eResourceBuildingBase::write(dst);
+    eResourceCollectBuildingBase::write(dst);
     dst << mSpawnTime;
     dst.writeCharacter(mHunter);
 }

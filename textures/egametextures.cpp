@@ -328,6 +328,13 @@ void eGameTextures::loadPhilosopher() {
     });
 }
 
+void eGameTextures::loadUrchinGatherer() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadUrchinGatherer();
+    });
+}
+
 void eGameTextures::loadFishingBoat() {
     loadTexture([](const int i) {
         auto& c = sCharacterTextures[i];

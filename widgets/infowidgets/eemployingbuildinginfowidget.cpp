@@ -16,10 +16,12 @@ void eEmployingBuildingInfoWidget::initialize(
 
 void eEmployingBuildingInfoWidget::initialize(
         const std::string& title,
+        const std::string& info,
         const std::string& text,
         eEmployingBuilding* const b,
         const std::string& subText) {
     eInfoWidget::initialize(title);
+    if(!info.empty()) addText(info);
     if(!text.empty()) addText(text);
     addEmploymentWidget(b);
     if(!subText.empty()) addText(subText);
@@ -33,10 +35,10 @@ void eEmployingBuildingInfoWidget::addEmploymentWidget(eEmployingBuilding* const
     const int me = b->maxEmployees();
     const auto estr = std::to_string(e);
     const auto mestr = std::to_string(me);
-    const auto emplstr = eLanguage::text("employees");
-    const auto memplstr = eLanguage::text("needed");
+    const auto emplstr = eLanguage::zeusText(8, 13);
+    const auto memplstr = eLanguage::zeusText(69, 0);
     const auto str = estr + " " + emplstr +
-                     "  (" + mestr + " " + memplstr +  ")";
+                     "  (" + mestr + " " + memplstr;
     const auto empl = new eLabel(str, window());
     empl->setSmallFontSize();
     empl->setSmallPadding();

@@ -156,13 +156,7 @@ eStorageInfoWidget::eStorageInfoWidget(eMainWindow* const window) :
     eEmployingBuildingInfoWidget(window, true, false) {}
 
 void eStorageInfoWidget::initialize(eStorageBuilding* const stor) {
-    const auto st = stor->type();
-    std::string title;
-    if(st == eBuildingType::warehouse) {
-        title = eLanguage::text("storehouse");
-    } else if(st == eBuildingType::granary) {
-        title = eLanguage::text("granary");
-    }
+    const auto title = eBuilding::sNameForBuilding(stor);
 
     eEmployingBuildingInfoWidget::initialize(title, stor);
 

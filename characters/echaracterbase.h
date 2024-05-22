@@ -101,6 +101,7 @@ enum class eCharacterType {
     cartTransporter,
     porter,
 
+    urchinGatherer,
     fishingBoat,
     tradeBoat,
 

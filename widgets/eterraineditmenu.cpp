@@ -46,6 +46,9 @@ void eTerrainEditMenu::initialize() {
     w5->addAction("Fish", [this]() {
         mMode = eTerrainEditMode::fish;
     });
+    w5->addAction("Urchin", [this]() {
+        mMode = eTerrainEditMode::urchin;
+    });
     w5->fitContent();
 
     const auto w6 = new eActionListWidget(window());

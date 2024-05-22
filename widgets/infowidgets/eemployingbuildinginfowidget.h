@@ -12,6 +12,7 @@ public:
     void initialize(const std::string& title,
                     eEmployingBuilding* const b);
     void initialize(const std::string& title,
+                    const std::string& info,
                     const std::string& text,
                     eEmployingBuilding* const b,
                     const std::string& subText);

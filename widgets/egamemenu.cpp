@@ -45,11 +45,11 @@ void tradePosts(std::vector<eSPR>& cs, eGameBoard& board) {
         if(!board.hasTradePost(*c)) {
             if(!c->buys().empty() || !c->sells().empty()) {
                 if(c->waterTrade()) {
-                    const auto name = eLanguage::text("pier") + c->name();
+                    const auto name = eLanguage::zeusText(28, 60) + " " + c->name();
                     const eSPR s{eBuildingMode::pier, name, 0, i};
                     cs.push_back(s);
                 } else {
-                    const auto name = eLanguage::text("trading_post") + c->name();
+                    const auto name = eLanguage::zeusText(28, 62) + " " + c->name();
                     const eSPR s{eBuildingMode::tradePost, name, 0, i};
                     cs.push_back(s);
                 }
@@ -343,43 +343,43 @@ void eGameMenu::initialize(eGameBoard* const b) {
 
     const auto buttonsVec0 = eButtonsDataVec{
                     {eBuildingMode::commonHousing,
-                     eLanguage::text("common_housing"),
+                     eLanguage::zeusText(28, 2),
                      cha0, cost1, 0, &coll.fCommonHousing},
                     {eBuildingMode::eliteHousing,
-                     eLanguage::text("elite_housing"),
+                     eLanguage::zeusText(28, 9),
                      eha0, cost2, 1, &coll.fEliteHousing}};
     const auto ww0 = createDataWidget(mPopDataW, buttonsVec0,
-                                      "population_title");
+                                      eLanguage::zeusText(88, 0));
 
-    const std::vector<eSPR> ff1spr = {eSPR{eBuildingMode::wheatFarm, eLanguage::text("wheat_farm")},
-                                      eSPR{eBuildingMode::carrotFarm, eLanguage::text("carrot_farm")},
-                                      eSPR{eBuildingMode::onionFarm, eLanguage::text("onion_farm")}};
+    const std::vector<eSPR> ff1spr = {eSPR{eBuildingMode::wheatFarm, eLanguage::zeusText(28, 31)},
+                                      eSPR{eBuildingMode::carrotFarm, eLanguage::zeusText(28, 33)},
+                                      eSPR{eBuildingMode::onionFarm, eLanguage::zeusText(28, 32)}};
 
     const auto ff1 = [this, cmx, cmy, ff1spr]() {
         openBuildWidget(cmx, cmy, ff1spr);
     };
 
-    const std::vector<eSPR> of1spr = {eSPR{eBuildingMode::vine, eLanguage::text("vine")},
-                                      eSPR{eBuildingMode::oliveTree, eLanguage::text("olive_tree")},
-                                      eSPR{eBuildingMode::orangeTree, eLanguage::text("orange_tree")},
-                                      eSPR{eBuildingMode::orangeTendersLodge, eLanguage::text("orange_tenders_lodge")},
-                                      eSPR{eBuildingMode::growersLodge, eLanguage::text("growers_lodge")}};
+    const std::vector<eSPR> of1spr = {eSPR{eBuildingMode::vine, eLanguage::zeusText(28, 35)},
+                                      eSPR{eBuildingMode::oliveTree, eLanguage::zeusText(28, 36)},
+                                      eSPR{eBuildingMode::orangeTree, eLanguage::zeusText(28, 217)},
+                                      eSPR{eBuildingMode::orangeTendersLodge, eLanguage::zeusText(28, 214)},
+                                      eSPR{eBuildingMode::growersLodge, eLanguage::zeusText(28, 37)}};
 
     const auto of1 = [this, cmx, cmy, of1spr]() {
         openBuildWidget(cmx, cmy, of1spr);
     };
 
-    const std::vector<eSPR> af1spr = {eSPR{eBuildingMode::dairy, eLanguage::text("dairy")},
-                                      eSPR{eBuildingMode::goat, eLanguage::text("goat")},
-                                      eSPR{eBuildingMode::cardingShed, eLanguage::text("carding_shed")},
-                                      eSPR{eBuildingMode::sheep, eLanguage::text("sheep")}};
+    const std::vector<eSPR> af1spr = {eSPR{eBuildingMode::dairy, eLanguage::zeusText(28, 42)},
+                                      eSPR{eBuildingMode::goat, eLanguage::zeusText(28, 39)},
+                                      eSPR{eBuildingMode::cardingShed, eLanguage::zeusText(28, 41)},
+                                      eSPR{eBuildingMode::sheep, eLanguage::zeusText(28, 40)}};
     const auto af1 = [this, cmx, cmy, af1spr]() {
         openBuildWidget(cmx, cmy, af1spr);
     };
 
-    const std::vector<eSPR> ah1spr = {eSPR{eBuildingMode::fishery, eLanguage::text("fishery")},
-                                      eSPR{eBuildingMode::urchinQuay, eLanguage::text("urchin_quay")},
-                                      eSPR{eBuildingMode::huntingLodge, eLanguage::text("hunting_lodge")}};
+    const std::vector<eSPR> ah1spr = {eSPR{eBuildingMode::fishery, eLanguage::zeusText(28, 44)},
+                                      eSPR{eBuildingMode::urchinQuay, eLanguage::zeusText(28, 45)},
+                                      eSPR{eBuildingMode::huntingLodge, eLanguage::zeusText(28, 46)}};
 
     const auto ah1 = [this, cmx, cmy, ah1spr]() {
         openBuildWidget(cmx, cmy, ah1spr);
@@ -390,30 +390,30 @@ void eGameMenu::initialize(eGameBoard* const b) {
     mHusbDataW = new eHusbandryDataWidget(*b, window());
     const auto buttonsVec1 = eButtonsDataVec{
                             {eBuildingMode::none,
-                             eLanguage::text("farms"),
+                             eLanguage::zeusText(28, 30),
                              ff1, 0, 0, &coll.fFoodFarming, ff1spr},
                             {eBuildingMode::none,
-                             eLanguage::text("orchards"),
+                             eLanguage::zeusText(28, 34),
                              of1, 0, 1, &coll.fOtherFarming, of1spr},
                             {eBuildingMode::none,
-                             eLanguage::text("herding"),
+                             eLanguage::zeusText(28, 38),
                              af1, 0, 2, &coll.fAnimalFarming, af1spr},
                             {eBuildingMode::none,
-                             eLanguage::text("land_and_sea"),
+                             eLanguage::zeusText(28, 43),
                              ah1, 0, 3, &coll.fAnimalHunting, ah1spr}};
     const auto ww1 = createDataWidget(mHusbDataW, buttonsVec1,
-                                      "husbandry_title");
+                                      eLanguage::zeusText(88, 1));
 
-    const std::vector<eSPR> r2spr = {eSPR{eBuildingMode::mint, eLanguage::text("mint")},
-                                     eSPR{eBuildingMode::foundry, eLanguage::text("foundry")},
-                                     eSPR{eBuildingMode::timberMill, eLanguage::text("timber_mill")},
-                                     eSPR{eBuildingMode::masonryShop, eLanguage::text("masonry_shop")}};
+    const std::vector<eSPR> r2spr = {eSPR{eBuildingMode::mint, eLanguage::zeusText(28, 48)},
+                                     eSPR{eBuildingMode::foundry, eLanguage::zeusText(28, 50)},
+                                     eSPR{eBuildingMode::timberMill, eLanguage::zeusText(28, 51)},
+                                     eSPR{eBuildingMode::masonryShop, eLanguage::zeusText(28, 49)}};
     const auto r2 = [this, cmx, cmy, r2spr]() {
         openBuildWidget(cmx, cmy, r2spr);
     };
-    const std::vector<eSPR> p2spr = {eSPR{eBuildingMode::winery, eLanguage::text("winery")},
-                                     eSPR{eBuildingMode::olivePress, eLanguage::text("olive_press")},
-                                     eSPR{eBuildingMode::sculptureStudio, eLanguage::text("sculpture_studio")}};
+    const std::vector<eSPR> p2spr = {eSPR{eBuildingMode::winery, eLanguage::zeusText(28, 53)},
+                                     eSPR{eBuildingMode::olivePress, eLanguage::zeusText(28, 54)},
+                                     eSPR{eBuildingMode::sculptureStudio, eLanguage::zeusText(28, 55)}};
     const auto p2 = [this, cmx, cmy, p2spr]() {
         openBuildWidget(cmx, cmy, p2spr);
     };
@@ -426,16 +426,16 @@ void eGameMenu::initialize(eGameBoard* const b) {
                           diff, eBuildingType::artisansGuild);
     const auto buttonsVec2 = eButtonsDataVec{
                             {eBuildingMode::none,
-                             eLanguage::text("raw_materials"),
+                             eLanguage::zeusText(28, 47),
                              r2, 0, 0, &coll.fResources, r2spr},
                             {eBuildingMode::none,
-                             eLanguage::text("workshops"),
+                             eLanguage::zeusText(28, 52),
                              p2, 0, 1, &coll.fProcessing, p2spr},
                             {eBuildingMode::artisansGuild,
-                             eLanguage::text("artisans_guild"),
+                             eLanguage::zeusText(28, 56),
                              bg2, cost3, 2, &coll.fArtisansGuild}};
     const auto ww2 = createDataWidget(mEmplDataW, buttonsVec2,
-                                      "industry_title");
+                                      eLanguage::zeusText(88, 2));
 
 
     const auto g3 = [this]() {
@@ -444,14 +444,14 @@ void eGameMenu::initialize(eGameBoard* const b) {
     const auto ww3 = [this]() {
         setMode(eBuildingMode::warehouse);
     };
-    const std::vector<eSPR> a3spr = {eSPR{eBuildingMode::commonAgora, eLanguage::text("common_agora")},
-                                     eSPR{eBuildingMode::grandAgora, eLanguage::text("grand_agora")},
-                                     eSPR{eBuildingMode::foodVendor, eLanguage::text("food_vendor")},
-                                     eSPR{eBuildingMode::fleeceVendor, eLanguage::text("fleece_vendor")},
-                                     eSPR{eBuildingMode::oilVendor, eLanguage::text("oil_vendor")},
-                                     eSPR{eBuildingMode::wineVendor, eLanguage::text("wine_vendor")},
-                                     eSPR{eBuildingMode::armsVendor, eLanguage::text("arms_vendor")},
-                                     eSPR{eBuildingMode::horseTrainer, eLanguage::text("horse_trainer")}};
+    const std::vector<eSPR> a3spr = {eSPR{eBuildingMode::commonAgora, eLanguage::zeusText(28, 63)},
+                                     eSPR{eBuildingMode::grandAgora, eLanguage::zeusText(28, 64)},
+                                     eSPR{eBuildingMode::foodVendor, eLanguage::zeusText(28, 68)},
+                                     eSPR{eBuildingMode::fleeceVendor, eLanguage::zeusText(28, 69)},
+                                     eSPR{eBuildingMode::oilVendor, eLanguage::zeusText(28, 70)},
+                                     eSPR{eBuildingMode::wineVendor, eLanguage::zeusText(28, 71)},
+                                     eSPR{eBuildingMode::armsVendor, eLanguage::zeusText(28, 72)},
+                                     eSPR{eBuildingMode::horseTrainer, eLanguage::zeusText(28, 73)}};
     const auto a3 = [this, cmx, cmy, a3spr]() {
         openBuildWidget(cmx, cmy, a3spr);
     };
@@ -470,19 +470,19 @@ void eGameMenu::initialize(eGameBoard* const b) {
                           diff, eBuildingType::warehouse);
     const auto buttonsVec3 = eButtonsDataVec{
                             {eBuildingMode::granary,
-                             eLanguage::text("granary"),
+                             eLanguage::zeusText(28, 57),
                              g3, cost4, 0, &coll.fGranary},
                             {eBuildingMode::warehouse,
-                             eLanguage::text("storehouse"),
+                             eLanguage::zeusText(28, 58),
                              ww3, cost5, 1, &coll.fWarehouse},
                             {eBuildingMode::none,
-                             eLanguage::text("agoras"),
+                             eLanguage::zeusText(28, 67),
                              a3, 0, 2, &coll.fAgoras, a3spr},
                             {eBuildingMode::tradePost,
-                             eLanguage::text("trade"),
+                             eLanguage::zeusText(28, 26),
                              t3, 0, 3, &coll.fTrade}};
     const auto www3 = createDataWidget(mStrgDataW, buttonsVec3,
-                                       "distribution_title");
+                                       eLanguage::zeusText(88, 3));
 
 
     const auto ff4 = [this]() {
@@ -509,19 +509,19 @@ void eGameMenu::initialize(eGameBoard* const b) {
                           diff, eBuildingType::watchPost);
     const auto buttonsVec4 = eButtonsDataVec{
                             {eBuildingMode::fountain,
-                             eLanguage::text("fountain"),
+                             eLanguage::zeusText(28, 74),
                              f4, cost6, 0, &coll.fFountain},
                             {eBuildingMode::hospital,
-                             eLanguage::text("infirmary"),
+                             eLanguage::zeusText(28, 76),
                              h4, cost7, 1, &coll.fHospital},
                             {eBuildingMode::maintenanceOffice,
-                             eLanguage::text("maintenance_office"),
+                             eLanguage::zeusText(28, 121),
                              ff4, cost8, 2, &coll.fFireFighter},
                             {eBuildingMode::watchpost,
-                             eLanguage::text("watchpost"),
+                             eLanguage::zeusText(28, 124),
                              p4, cost9, 3, &coll.fPolice}};
     const auto ww4 = createDataWidget(mHySaDataW, buttonsVec4,
-                                      "hygiene_safety_title");
+                                      eLanguage::zeusText(88, 4));
 
     const auto p5 = [this]() {
         setMode(eBuildingMode::palace);
@@ -542,28 +542,28 @@ void eGameMenu::initialize(eGameBoard* const b) {
                           diff, eBuildingType::bridge);
     const auto buttonsVec5 = eButtonsDataVec{
                             {eBuildingMode::palace,
-                             eLanguage::text("palace"),
+                             eLanguage::zeusText(28, 117),
                              p5, cost10, 0, &coll.fPalace},
                             {eBuildingMode::taxOffice,
-                             eLanguage::text("tax_office"),
+                             eLanguage::zeusText(28, 122),
                              tc5, cost11, 1, &coll.fTaxCollector},
                             {eBuildingMode::bridge,
-                             eLanguage::text("water_crossing"),
+                             eLanguage::zeusText(28, 120),
                              bb5, cost12, 2, &coll.fBridge}};
     const auto ww5 = createDataWidget(mAdminDataW, buttonsVec5,
-                                      "administration_title");
+                                      eLanguage::zeusText(88, 5));
 
 
-    const std::vector<eSPR> p6spr = {eSPR{eBuildingMode::podium, eLanguage::text("podium")},
-                                     eSPR{eBuildingMode::college, eLanguage::text("college")}};
+    const std::vector<eSPR> p6spr = {eSPR{eBuildingMode::podium, eLanguage::zeusText(28, 81)},
+                                     eSPR{eBuildingMode::college, eLanguage::zeusText(28, 77)}};
     const auto p6 = [this, cmx, cmy, p6spr]() {
         openBuildWidget(cmx, cmy, p6spr);
     };
     const auto g6 = [this]() {
         setMode(eBuildingMode::gymnasium);
     };
-    const std::vector<eSPR> d6spr = {eSPR{eBuildingMode::theater, eLanguage::text("theater")},
-                                     eSPR{eBuildingMode::dramaSchool, eLanguage::text("drama_school")}};
+    const std::vector<eSPR> d6spr = {eSPR{eBuildingMode::theater, eLanguage::zeusText(28, 82)},
+                                     eSPR{eBuildingMode::dramaSchool, eLanguage::zeusText(28, 78)}};
     const auto d6 = [this, cmx, cmy, d6spr]() {
         openBuildWidget(cmx, cmy, d6spr);
     };
@@ -578,48 +578,48 @@ void eGameMenu::initialize(eGameBoard* const b) {
                           diff, eBuildingType::stadium);
     const auto buttonsVec6 = eButtonsDataVec{
                             {eBuildingMode::none,
-                             eLanguage::text("philosophy"),
+                             eLanguage::zeusText(28, 137),
                              p6, 0, 0, &coll.fPhilosophy, p6spr},
                             {eBuildingMode::gymnasium,
-                             eLanguage::text("gymnasium"),
+                             eLanguage::zeusText(28, 79),
                              g6, cost13, 1, &coll.fGymnasium},
                             {eBuildingMode::none,
-                             eLanguage::text("drama"),
+                             eLanguage::zeusText(28, 27),
                              d6, 0, 2, &coll.fDrama, d6spr},
                             {eBuildingMode::stadium,
-                             eLanguage::text("stadium"),
+                             eLanguage::zeusText(28, 80),
                              s6, cost14, 3, &coll.fStadium}};
     const auto ww6 = createDataWidget(mCultureDataW, buttonsVec6,
-                                      "culture_title");
+                                      eLanguage::zeusText(88, 6));
 
 
 
-    const std::vector<eSPR> t7spr = {eSPR{eBuildingMode::templeZeus, eLanguage::text("zeus_stronghold"), 48},
-                                     eSPR{eBuildingMode::templePoseidon, eLanguage::text("promontery_of_poseidon"), 37},
-                                     eSPR{eBuildingMode::templeHades, eLanguage::text("gates_of_hades"), 37},
-                                     eSPR{eBuildingMode::templeHera, eLanguage::text("orchard_of_hera"), 30},
-                                     eSPR{eBuildingMode::templeDemeter, eLanguage::text("garden_of_demeter"), 27},
-                                     eSPR{eBuildingMode::templeAthena, eLanguage::text("arbor_of_athena"), 24},
-                                     eSPR{eBuildingMode::templeArtemis, eLanguage::text("artemis_menagerie"), 20},
-                                     eSPR{eBuildingMode::templeApollo, eLanguage::text("oracle_of_apollo"), 20},
-                                     eSPR{eBuildingMode::templeAtlas, eLanguage::text("pillar_of_atlas"), 25},
-                                     eSPR{eBuildingMode::templeAres, eLanguage::text("ares_fortress"), 13},
-                                     eSPR{eBuildingMode::templeHephaestus, eLanguage::text("forge_of_hephaestus"), 13},
-                                     eSPR{eBuildingMode::templeAphrodite, eLanguage::text("aphrodites_heaven"), 11},
-                                     eSPR{eBuildingMode::templeHermes, eLanguage::text("hermes_refuge"), 9},
-                                     eSPR{eBuildingMode::templeDionysus, eLanguage::text("grove_of_dionysus"), 8}};
+    const std::vector<eSPR> t7spr = {eSPR{eBuildingMode::templeZeus, eLanguage::zeusText(28, 84), 48},
+                                     eSPR{eBuildingMode::templePoseidon, eLanguage::zeusText(28, 85), 37},
+                                     eSPR{eBuildingMode::templeHades, eLanguage::zeusText(28, 95), 37},
+                                     eSPR{eBuildingMode::templeHera, eLanguage::zeusText(28, 96), 30},
+                                     eSPR{eBuildingMode::templeDemeter, eLanguage::zeusText(28, 86), 27},
+                                     eSPR{eBuildingMode::templeAthena, eLanguage::zeusText(28, 92), 24},
+                                     eSPR{eBuildingMode::templeArtemis, eLanguage::zeusText(28, 88), 20},
+                                     eSPR{eBuildingMode::templeApollo, eLanguage::zeusText(28, 87), 20},
+                                     eSPR{eBuildingMode::templeAtlas, eLanguage::zeusText(28, 97), 25},
+                                     eSPR{eBuildingMode::templeAres, eLanguage::zeusText(28, 89), 13},
+                                     eSPR{eBuildingMode::templeHephaestus, eLanguage::zeusText(28, 93), 13},
+                                     eSPR{eBuildingMode::templeAphrodite, eLanguage::zeusText(28, 90), 11},
+                                     eSPR{eBuildingMode::templeHermes, eLanguage::zeusText(28, 91), 9},
+                                     eSPR{eBuildingMode::templeDionysus, eLanguage::zeusText(28, 94), 8}};
     const auto t7 = [this, cmx, cmy, t7spr]() {
         openBuildWidget(cmx, cmy, t7spr);
     };
 
-    const std::vector<eSPR> hs7spr = {eSPR{eBuildingMode::achillesHall, eLanguage::text("achilles_hall")},
-                                      eSPR{eBuildingMode::atalantaHall, eLanguage::text("atalanta_hall")},
-                                      eSPR{eBuildingMode::bellerophonHall, eLanguage::text("bellerophon_hall")},
-                                      eSPR{eBuildingMode::herculesHall, eLanguage::text("hercules_hall")},
-                                      eSPR{eBuildingMode::jasonHall, eLanguage::text("jason_hall")},
-                                      eSPR{eBuildingMode::odysseusHall, eLanguage::text("odysseus_hall")},
-                                      eSPR{eBuildingMode::perseusHall, eLanguage::text("perseus_hall")},
-                                      eSPR{eBuildingMode::theseusHall, eLanguage::text("theseus_hall")}};
+    const std::vector<eSPR> hs7spr = {eSPR{eBuildingMode::achillesHall, eLanguage::zeusText(185, 8)},
+                                      eSPR{eBuildingMode::atalantaHall, eLanguage::zeusText(185, 14)},
+                                      eSPR{eBuildingMode::bellerophonHall, eLanguage::zeusText(185, 15)},
+                                      eSPR{eBuildingMode::herculesHall, eLanguage::zeusText(185, 9)},
+                                      eSPR{eBuildingMode::jasonHall, eLanguage::zeusText(185, 10)},
+                                      eSPR{eBuildingMode::odysseusHall, eLanguage::zeusText(185, 11)},
+                                      eSPR{eBuildingMode::perseusHall, eLanguage::zeusText(185, 12)},
+                                      eSPR{eBuildingMode::theseusHall, eLanguage::zeusText(185, 13)}};
     const auto hs7 = [this, cmx, cmy, hs7spr]() {
         openBuildWidget(cmx, cmy, hs7spr);
     };
@@ -627,23 +627,23 @@ void eGameMenu::initialize(eGameBoard* const b) {
     mMythDataW = new eMythologyDataWidget(*b, window());
     const auto buttonsVec7 = eButtonsDataVec{
                             {eBuildingMode::none,
-                             eLanguage::text("sanctuaries"),
+                             eLanguage::zeusText(28, 83),
                              t7, 0, 0, &coll.fTemples, t7spr},
                             {eBuildingMode::none,
-                             eLanguage::text("heros_hall"),
+                             eLanguage::zeusText(28, 125),
                              hs7, 0, 1, &coll.fHeroShrines, hs7spr}};
     const auto ww7 = createDataWidget(mMythDataW, buttonsVec7,
-                                      "mythology_title");
+                                      eLanguage::zeusText(88, 7));
 
 
-    const std::vector<eSPR> f8spr = {eSPR{eBuildingMode::wall, eLanguage::text("wall")},
-                                     eSPR{eBuildingMode::tower, eLanguage::text("tower")},
-                                     eSPR{eBuildingMode::gatehouse, eLanguage::text("gatehouse")}};
+    const std::vector<eSPR> f8spr = {eSPR{eBuildingMode::wall, eLanguage::zeusText(28, 130)},
+                                     eSPR{eBuildingMode::tower, eLanguage::zeusText(28, 132)},
+                                     eSPR{eBuildingMode::gatehouse, eLanguage::zeusText(28, 131)}};
     const auto f8 = [this, cmx, cmy, f8spr]() {
         openBuildWidget(cmx, cmy, f8spr);
     };
-    const std::vector<eSPR> mp8spr = {eSPR{eBuildingMode::armory, eLanguage::text("armory")},
-                                      eSPR{eBuildingMode::horseRanch, eLanguage::text("horse_ranch")}};
+    const std::vector<eSPR> mp8spr = {eSPR{eBuildingMode::armory, eLanguage::zeusText(28, 135)},
+                                      eSPR{eBuildingMode::horseRanch, eLanguage::zeusText(28, 133)}};
     const auto mp8 = [this, cmx, cmy, mp8spr]() {
         openBuildWidget(cmx, cmy, mp8spr);
     };
@@ -651,65 +651,65 @@ void eGameMenu::initialize(eGameBoard* const b) {
     mMiltDataW = new eMilitaryDataWidget(*b, window());
     const auto buttonsVec8 = eButtonsDataVec{
                         {eBuildingMode::none,
-                         eLanguage::text("fortifications"),
+                         eLanguage::zeusText(28, 139),
                          f8, 0, 0, &coll.fFortifications, f8spr},
                         {eBuildingMode::none,
-                         eLanguage::text("military_workshops"),
+                         eLanguage::zeusText(28, 140),
                          mp8, 0, 1, &coll.fMilitaryProduction, mp8spr}};
     const auto ww8 = createDataWidget(mMiltDataW, buttonsVec8,
-                                      "military_title");
+                                      eLanguage::zeusText(88, 8));
 
-    const std::vector<eSPR> bb9spr = {eSPR{eBuildingMode::park, eLanguage::text("park")},
-                                      eSPR{eBuildingMode::waterPark, eLanguage::text("water_park")},
-                                      eSPR{eBuildingMode::doricColumn, eLanguage::text("doric_column")},
-                                      eSPR{eBuildingMode::ionicColumn, eLanguage::text("ionic_column")},
-                                      eSPR{eBuildingMode::corinthianColumn, eLanguage::text("corinthian_column")},
-                                      eSPR{eBuildingMode::avenue, eLanguage::text("avenue")}};
+    const std::vector<eSPR> bb9spr = {eSPR{eBuildingMode::park, eLanguage::zeusText(28, 128)},
+                                      eSPR{eBuildingMode::waterPark, eLanguage::zeusText(28, 25)},
+                                      eSPR{eBuildingMode::doricColumn, eLanguage::zeusText(28, 129)},
+                                      eSPR{eBuildingMode::ionicColumn, eLanguage::zeusText(28, 145)},
+                                      eSPR{eBuildingMode::corinthianColumn, eLanguage::zeusText(28, 146)},
+                                      eSPR{eBuildingMode::avenue, eLanguage::zeusText(28, 118)}};
     const auto bb9 = [this, cmx, cmy, bb9spr]() {
         openBuildWidget(cmx, cmy, bb9spr);
     };
-    const std::vector<eSPR> r9spr = {eSPR{eBuildingMode::bench, eLanguage::text("bench")},
-                                     eSPR{eBuildingMode::birdBath, eLanguage::text("bird_bath")},
-                                     eSPR{eBuildingMode::shortObelisk, eLanguage::text("short_obelisk")},
-                                     eSPR{eBuildingMode::tallObelisk, eLanguage::text("tall_obelisk")},
-                                     eSPR{eBuildingMode::flowerGarden, eLanguage::text("flower_garden")},
-                                     eSPR{eBuildingMode::gazebo, eLanguage::text("gazebo")},
-                                     eSPR{eBuildingMode::shellGarden, eLanguage::text("shell_garden")},
-                                     eSPR{eBuildingMode::sundial, eLanguage::text("sundial")},
-                                     eSPR{eBuildingMode::hedgeMaze, eLanguage::text("hedge_maze")},
-                                     eSPR{eBuildingMode::dolphinSculpture, eLanguage::text("dolphin_sculpture")},
-                                     eSPR{eBuildingMode::spring, eLanguage::text("spring")},
-                                     eSPR{eBuildingMode::topiary, eLanguage::text("topiary")},
-                                     eSPR{eBuildingMode::fishPond, eLanguage::text("fish_pond")},
-                                     eSPR{eBuildingMode::baths, eLanguage::text("baths")},
-                                     eSPR{eBuildingMode::stoneCircle, eLanguage::text("stone_circle")}};
+    const std::vector<eSPR> r9spr = {eSPR{eBuildingMode::bench, eLanguage::zeusText(28, 127)},
+                                     eSPR{eBuildingMode::birdBath, eLanguage::zeusText(28, 152)},
+                                     eSPR{eBuildingMode::shortObelisk, eLanguage::zeusText(28, 24)},
+                                     eSPR{eBuildingMode::tallObelisk, eLanguage::zeusText(28, 19)},
+                                     eSPR{eBuildingMode::flowerGarden, eLanguage::zeusText(28, 15)},
+                                     eSPR{eBuildingMode::gazebo, eLanguage::zeusText(28, 16)},
+                                     eSPR{eBuildingMode::shellGarden, eLanguage::zeusText(28, 150)},
+                                     eSPR{eBuildingMode::sundial, eLanguage::zeusText(28, 20)},
+                                     eSPR{eBuildingMode::hedgeMaze, eLanguage::zeusText(28, 17)},
+                                     eSPR{eBuildingMode::dolphinSculpture, eLanguage::zeusText(28, 148)},
+                                     eSPR{eBuildingMode::spring, eLanguage::zeusText(28, 22)},
+                                     eSPR{eBuildingMode::topiary, eLanguage::zeusText(28, 21)},
+                                     eSPR{eBuildingMode::fishPond, eLanguage::zeusText(28, 18)},
+                                     eSPR{eBuildingMode::baths, eLanguage::zeusText(28, 151)},
+                                     eSPR{eBuildingMode::stoneCircle, eLanguage::zeusText(28, 23)}};
     const auto r9 = [this, cmx, cmy, r9spr]() {
         openBuildWidget(cmx, cmy, r9spr);
     };
-    const std::vector<eSPR> m9spr = {eSPR{eBuildingMode::populationMonument, eLanguage::text("population_monument")},
-                                     eSPR{eBuildingMode::victoryMonument, eLanguage::text("victory_monument")},
-                                     eSPR{eBuildingMode::colonyMonument, eLanguage::text("colony_monument")},
-                                     eSPR{eBuildingMode::athleteMonument, eLanguage::text("athlete_monument")},
-                                     eSPR{eBuildingMode::conquestMonument, eLanguage::text("conquest_monument")},
-                                     eSPR{eBuildingMode::happinessMonument, eLanguage::text("happiness_monument")},
-                                     eSPR{eBuildingMode::commemorative7, "Commemorative 7"},
-                                     eSPR{eBuildingMode::commemorative8, "Commemorative 8"},
-                                     eSPR{eBuildingMode::scholarMonument, eLanguage::text("scholar_monument")},
+    const std::vector<eSPR> m9spr = {eSPR{eBuildingMode::populationMonument, eLanguage::zeusText(198, 1)},
+                                     eSPR{eBuildingMode::victoryMonument, eLanguage::zeusText(198, 2)},
+                                     eSPR{eBuildingMode::colonyMonument, eLanguage::zeusText(198, 3)},
+                                     eSPR{eBuildingMode::athleteMonument, eLanguage::zeusText(198, 4)},
+                                     eSPR{eBuildingMode::conquestMonument, eLanguage::zeusText(198, 5)},
+                                     eSPR{eBuildingMode::happinessMonument, eLanguage::zeusText(198, 6)},
+                                     eSPR{eBuildingMode::heroicFigureMonument, eLanguage::zeusText(198, 7)},
+                                     eSPR{eBuildingMode::diplomacyMonument, eLanguage::zeusText(198, 8)},
+                                     eSPR{eBuildingMode::scholarMonument, eLanguage::zeusText(198, 9)},
 
-                                     eSPR{eBuildingMode::aphroditeMonument, eLanguage::text("aphrodite_monument")},
-                                     eSPR{eBuildingMode::apolloMonument, eLanguage::text("apollo_monument")},
-                                     eSPR{eBuildingMode::aresMonument, eLanguage::text("ares_monument")},
-                                     eSPR{eBuildingMode::artemisMonument, eLanguage::text("artemis_monument")},
-                                     eSPR{eBuildingMode::athenaMonument, eLanguage::text("athena_monument")},
-                                     eSPR{eBuildingMode::atlasMonument, eLanguage::text("atlas_monument")},
-                                     eSPR{eBuildingMode::demeterMonument, eLanguage::text("demeter_monument")},
-                                     eSPR{eBuildingMode::dionysusMonument, eLanguage::text("dionysus_monument")},
-                                     eSPR{eBuildingMode::hadesMonument, eLanguage::text("hades_monument")},
-                                     eSPR{eBuildingMode::hephaestusMonument, eLanguage::text("hephaestus_monument")},
-                                     eSPR{eBuildingMode::heraMonument, eLanguage::text("hera_monument")},
-                                     eSPR{eBuildingMode::hermesMonument, eLanguage::text("hermes_monument")},
-                                     eSPR{eBuildingMode::poseidonMonument, eLanguage::text("poseidon_monument")},
-                                     eSPR{eBuildingMode::zeusMonument, eLanguage::text("zeus_monument")}};
+                                     eSPR{eBuildingMode::aphroditeMonument, eLanguage::zeusText(198, 16)},
+                                     eSPR{eBuildingMode::apolloMonument, eLanguage::zeusText(198, 13)},
+                                     eSPR{eBuildingMode::aresMonument, eLanguage::zeusText(198, 15)},
+                                     eSPR{eBuildingMode::artemisMonument, eLanguage::zeusText(198, 14)},
+                                     eSPR{eBuildingMode::athenaMonument, eLanguage::zeusText(198, 18)},
+                                     eSPR{eBuildingMode::atlasMonument, eLanguage::zeusText(198, 35)},
+                                     eSPR{eBuildingMode::demeterMonument, eLanguage::zeusText(198, 12)},
+                                     eSPR{eBuildingMode::dionysusMonument, eLanguage::zeusText(198, 20)},
+                                     eSPR{eBuildingMode::hadesMonument, eLanguage::zeusText(198, 21)},
+                                     eSPR{eBuildingMode::hephaestusMonument, eLanguage::zeusText(198, 19)},
+                                     eSPR{eBuildingMode::heraMonument, eLanguage::zeusText(198, 34)},
+                                     eSPR{eBuildingMode::hermesMonument, eLanguage::zeusText(198, 17)},
+                                     eSPR{eBuildingMode::poseidonMonument, eLanguage::zeusText(198, 11)},
+                                     eSPR{eBuildingMode::zeusMonument, eLanguage::zeusText(198, 10)}};
     const auto m9 = [this, cmx, cmy, m9spr]() {
         openBuildWidget(cmx, cmy, m9spr);
     };
@@ -717,23 +717,23 @@ void eGameMenu::initialize(eGameBoard* const b) {
     mApplDataW = new eAppealDataWidget(*b, window());
     const auto buttonsVec = eButtonsDataVec{
                     {eBuildingMode::none,
-                     eLanguage::text("beautification"),
+                     eLanguage::zeusText(28, 142),
                      bb9, 0, 0, &coll.fBeautification, bb9spr},
                     {eBuildingMode::none,
-                     eLanguage::text("recreational_areas"),
+                     eLanguage::zeusText(28, 141),
                      r9, 0, 1, &coll.fRecreation, r9spr},
                     {eBuildingMode::none,
-                     eLanguage::text("monuments"),
+                     eLanguage::zeusText(28, 157),
                      m9, 0, 2, &coll.fMonuments, m9spr}};
     const auto ww9 = createDataWidget(mApplDataW, buttonsVec,
-                                      "aesthetics_title");
+                                      eLanguage::zeusText(88, 9));
 
     mOverDataW = new eOverviewDataWidget(*b, window());
     mMiniMap = new eMiniMap(window());
     mMiniMap->resize(dataWidWidth, 4*dataWidWidth/5);
 
     const auto ww10 = createDataWidgetBase(mOverDataW, mMiniMap,
-                                           "overview_title");
+                                           eLanguage::zeusText(88, 10));
     mWidgets.push_back(ww0);
     mWidgets.push_back(ww1);
     mWidgets.push_back(ww2);
@@ -774,17 +774,17 @@ void eGameMenu::initialize(eGameBoard* const b) {
         });
     };
 
-    setupButtonHover(b0, eLanguage::text("population_title"));
-    setupButtonHover(b1, eLanguage::text("husbandry_title"));
-    setupButtonHover(b2, eLanguage::text("industry_title"));
-    setupButtonHover(b3, eLanguage::text("distribution_title"));
-    setupButtonHover(b4, eLanguage::text("hygiene_safety_title"));
-    setupButtonHover(b5, eLanguage::text("administration_title"));
-    setupButtonHover(b6, eLanguage::text("culture_title"));
-    setupButtonHover(b7, eLanguage::text("mythology_title"));
-    setupButtonHover(b8, eLanguage::text("military_title"));
-    setupButtonHover(b9, eLanguage::text("aesthetics_title"));
-    setupButtonHover(b10, eLanguage::text("overview_title"));
+    setupButtonHover(b0, eLanguage::zeusText(88, 0));
+    setupButtonHover(b1, eLanguage::zeusText(88, 1));
+    setupButtonHover(b2, eLanguage::zeusText(88, 2));
+    setupButtonHover(b3, eLanguage::zeusText(88, 3));
+    setupButtonHover(b4, eLanguage::zeusText(88, 4));
+    setupButtonHover(b5, eLanguage::zeusText(88, 5));
+    setupButtonHover(b6, eLanguage::zeusText(88, 6));
+    setupButtonHover(b7, eLanguage::zeusText(88, 7));
+    setupButtonHover(b8, eLanguage::zeusText(88, 8));
+    setupButtonHover(b9, eLanguage::zeusText(88, 9));
+    setupButtonHover(b10, eLanguage::zeusText(88, 10));
 
     b10->setChecked(true);
     ww10->setVisible(true);

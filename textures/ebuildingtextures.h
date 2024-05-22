@@ -96,6 +96,10 @@ public:
     eTextureCollection fFisheryUnpackingOverlayBL;
     eTextureCollection fFisheryUnpackingOverlayBR;
     eTextureCollection fUrchinQuay;
+    eTextureCollection fUrchinQuayUnpackingOverlayTL;
+    eTextureCollection fUrchinQuayUnpackingOverlayTR;
+    eTextureCollection fUrchinQuayUnpackingOverlayBL;
+    eTextureCollection fUrchinQuayUnpackingOverlayBR;
 
     std::shared_ptr<eTexture> fCardingShed;
     eTextureCollection fCardingShedOverlay;
@@ -301,6 +305,7 @@ public:
     std::shared_ptr<eTexture> fShortObelisk;
     std::shared_ptr<eTexture> fTallObelisk;
     std::shared_ptr<eTexture> fShellGarden;
+    std::shared_ptr<eTexture> fOrrery;
     std::shared_ptr<eTexture> fSundial;
     std::shared_ptr<eTexture> fDolphinSculpture;
 
@@ -371,6 +376,7 @@ public:
     eTextureCollection fSanctuaryFire;
 
     eTextureCollection fFish;
+    eTextureCollection fUrchin;
 
     std::shared_ptr<eTexture> fRoadblock;
     eTextureCollection fBridge;

@@ -38,6 +38,8 @@ public:
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
+
+    int rawCount() const { return mRawCount; }
 private:
     const std::vector<eBuildingTextures>& mTextures;
 

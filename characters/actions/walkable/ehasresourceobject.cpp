@@ -8,6 +8,11 @@ stdsptr<eHasResourceObject> eHasResourceObject::sCreate(
     case eHasResourceObjectType::nonBusy:
         return std::make_shared<eHasNonBusyResourceObject>();
     case eHasResourceObjectType::fish:
+    case eHasResourceObjectType::urchin:
+    case eHasResourceObjectType::silver:
+    case eHasResourceObjectType::copper:
+    case eHasResourceObjectType::forest:
+    case eHasResourceObjectType::marble:
         return std::make_shared<eHasResourceObject>(type);
     }
 }

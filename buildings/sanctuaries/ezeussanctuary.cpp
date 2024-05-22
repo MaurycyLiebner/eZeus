@@ -2,7 +2,7 @@
 
 eZeusSanctuary::eZeusSanctuary(
         const int sw, const int sh, eGameBoard& board) :
-    eSanctuary(board, eBuildingType::templeZeus, sw, sh, 60) {}
+    eSanctuary(board, eBuildingType::templeZeus, sw, sh, 75) {}
 
 eAphroditeSanctuary::eAphroditeSanctuary(
         const int sw, const int sh, eGameBoard& board) :

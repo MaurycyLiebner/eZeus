@@ -100,6 +100,12 @@ eTallObelisk::eTallObelisk(eGameBoard& board) :
 
 }
 
+eOrrery::eOrrery(eGameBoard& board) :
+    eAestheticsBuilding(board, &eBuildingTextures::fOrrery,
+                        eBuildingType::orrery, 3, 3) {
+
+}
+
 eShellGarden::eShellGarden(eGameBoard& board) :
     eAestheticsBuilding(board, &eBuildingTextures::fShellGarden,
                         eBuildingType::shellGarden, 2, 2) {
@@ -216,9 +222,11 @@ eCommemorative::getTexture(const eTileSize size) const {
     return texs.fCommemorative.getTexture(mId);
 }
 
-eGodMonument::eGodMonument(const eGodType god, eGameBoard& board) :
+eGodMonument::eGodMonument(const eGodType god,
+                           const eGodQuestId id,
+                           eGameBoard& board) :
     eBuilding(board, eBuildingType::godMonument, 2, 2),
-    mGod(god) {}
+    mGod(god), mId(id) {}
 
 void eGodMonument::erase() {
     for(const auto& t : mTiles) {

@@ -1,20 +1,19 @@
-#ifndef EFISHERY_H
-#define EFISHERY_H
+#ifndef EURCHINQUAY_H
+#define EURCHINQUAY_H
 
 #include "eresourcecollectbuildingbase.h"
 
-class eFishingBoat;
+class eUrchinGatherer;
 
-enum class eFisheryState {
-    buildingBoat,
+enum class eUrchinQuayState {
     waiting,
     unpacking
 };
 
-class eFishery : public eResourceCollectBuildingBase {
+class eUrchinQuay : public eResourceCollectBuildingBase {
 public:
-    eFishery(eGameBoard& board, const eOrientation o);
-    ~eFishery();
+    eUrchinQuay(eGameBoard& board, const eOrientation o);
+    ~eUrchinQuay();
 
     void timeChanged(const int by) override;
 
@@ -30,17 +29,17 @@ public:
 
     eOrientation orientation() const { return mO; }
 
-    eFisheryState state() const { return mState; }
+    eUrchinQuayState state() const { return mState; }
 private:
-    void spawnBoat();
+    void spawnGatherer();
     void updateDisabled();
 
     const eOrientation mO;
 
     bool mDisabled = false;
     int mStateCount = 0;
-    eFisheryState mState = eFisheryState::buildingBoat;
-    stdptr<eFishingBoat> mBoat;
+    eUrchinQuayState mState = eUrchinQuayState::waiting;
+    stdptr<eUrchinGatherer> mGatherer;
 };
 
-#endif // EFISHERY_H
+#endif // EURCHINQUAY_H

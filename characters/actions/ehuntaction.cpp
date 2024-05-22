@@ -145,14 +145,20 @@ void eHuntAction::findResourceDecision() {
     };
 
     const auto a = e::make_shared<eMoveToAction>(c);
-    a->setFoundAction([this, c, aType]() {
-        if(*aType == eCharacterType::deer) {
-            mHunter->setDeerHunter(true);
+    a->setFoundAction([tptr, this, c, aType]() {
+        if(tptr) {
+            if(*aType == eCharacterType::deer) {
+                mHunter->setDeerHunter(true);
+            }
+            mLodge->setNoTarget(false);
         }
         c->setActionType(eCharacterActionType::walk);
     });
-    const auto findFailFunc = [tptr]() {
-        if(tptr) tptr->mNoResource = true;
+    const auto findFailFunc = [tptr, this]() {
+        if(tptr) {
+            mNoResource = true;
+            mLodge->setNoTarget(true);
+        }
     };
     a->setFindFailAction(findFailFunc);
     a->start(hha);

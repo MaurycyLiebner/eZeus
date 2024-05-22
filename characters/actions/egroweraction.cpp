@@ -179,11 +179,15 @@ bool eGrowerAction::findResourceDecision() {
     const auto a = e::make_shared<eMoveToAction>(mGrower);
     a->setFoundAction([tptr, this]() {
         if(!tptr) return;
+        if(mLodge) mLodge->setNoTarget(false);
         if(!mGrower) return;
         mGrower->setActionType(eCharacterActionType::walk);
     });
     const auto findFailFunc = [tptr, this]() {
-        if(tptr) mNoResource = true;
+        if(tptr) {
+            mNoResource = true;
+            if(mLodge) mLodge->setNoTarget(true);
+        }
     };
     a->setFindFailAction(findFailFunc);
     a->start(hha);

@@ -96,6 +96,7 @@ SOURCES += \
         buildings/etimbermill.cpp \
         buildings/etower.cpp \
         buildings/etradepost.cpp \
+        buildings/eurchinquay.cpp \
         buildings/evendor.cpp \
         buildings/ewall.cpp \
         buildings/ewarehouse.cpp \
@@ -257,6 +258,7 @@ SOURCES += \
         characters/etrojanhoplite.cpp \
         characters/etrojanhorseman.cpp \
         characters/etrojanspearthrower.cpp \
+        characters/eurchingatherer.cpp \
         characters/ewatchman.cpp \
         characters/ewaterdistributor.cpp \
         characters/ewildanimal.cpp \
@@ -524,7 +526,6 @@ SOURCES += \
         widgets/infowidgets/eagorainfowidget.cpp \
         widgets/infowidgets/ecommonhouseinfowidget.cpp \
         widgets/infowidgets/eemployingbuildinginfowidget.cpp \
-        widgets/infowidgets/egyminfowidget.cpp \
         widgets/infowidgets/eheroshallinfowidget.cpp \
         widgets/infowidgets/einfowidget.cpp \
         widgets/infowidgets/esanctuaryinfowidget.cpp \
@@ -613,6 +614,7 @@ HEADERS += \
     buildings/etimbermill.h \
     buildings/etower.h \
     buildings/etradepost.h \
+    buildings/eurchinquay.h \
     buildings/evendor.h \
     buildings/ewall.h \
     buildings/ewarehouse.h \
@@ -771,6 +773,7 @@ HEADERS += \
     characters/etrojanhoplite.h \
     characters/etrojanhorseman.h \
     characters/etrojanspearthrower.h \
+    characters/eurchingatherer.h \
     characters/ewatchman.h \
     characters/ewaterdistributor.h \
     characters/ewildanimal.h \
@@ -1500,6 +1503,10 @@ HEADERS += \
     spriteData/trojanSpearthrower30.h \
     spriteData/trojanSpearthrower45.h \
     spriteData/trojanSpearthrower60.h \
+    spriteData/urchinGatherer15.h \
+    spriteData/urchinGatherer30.h \
+    spriteData/urchinGatherer45.h \
+    spriteData/urchinGatherer60.h \
     spriteData/watchman15.h \
     spriteData/watchman30.h \
     spriteData/watchman45.h \
@@ -1661,7 +1668,6 @@ HEADERS += \
     widgets/infowidgets/eagorainfowidget.h \
     widgets/infowidgets/ecommonhouseinfowidget.h \
     widgets/infowidgets/eemployingbuildinginfowidget.h \
-    widgets/infowidgets/egyminfowidget.h \
     widgets/infowidgets/eheroshallinfowidget.h \
     widgets/infowidgets/einfowidget.h \
     widgets/infowidgets/esanctuaryinfowidget.h \

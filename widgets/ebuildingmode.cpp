@@ -154,8 +154,8 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
     case eBuildingMode::athleteMonument:
     case eBuildingMode::conquestMonument:
     case eBuildingMode::happinessMonument:
-    case eBuildingMode::commemorative7:
-    case eBuildingMode::commemorative8:
+    case eBuildingMode::heroicFigureMonument:
+    case eBuildingMode::diplomacyMonument:
     case eBuildingMode::scholarMonument:
         return eBuildingType::commemorative;
 
@@ -275,9 +275,9 @@ int eBuildingModeHelpers::toCommemorativeId(const eBuildingMode mode) {
         return 4;
     case eBuildingMode::happinessMonument:
         return 5;
-    case eBuildingMode::commemorative7:
+    case eBuildingMode::heroicFigureMonument:
         return 6;
-    case eBuildingMode::commemorative8:
+    case eBuildingMode::diplomacyMonument:
         return 7;
     case eBuildingMode::scholarMonument:
         return 8;

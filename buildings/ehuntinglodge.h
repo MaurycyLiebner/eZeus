@@ -1,13 +1,13 @@
 #ifndef EHUNTINGLODGE_H
 #define EHUNTINGLODGE_H
 
-#include "eresourcebuildingbase.h"
+#include "eresourcecollectbuildingbase.h"
 
 #include "textures/ebuildingtextures.h"
 
 class eHunter;
 
-class eHuntingLodge : public eResourceBuildingBase {
+class eHuntingLodge : public eResourceCollectBuildingBase {
 public:
     eHuntingLodge(eGameBoard& board);
     ~eHuntingLodge();
@@ -19,6 +19,8 @@ public:
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
+
+    void addRaw() override {}
 private:
     bool spawn();
 

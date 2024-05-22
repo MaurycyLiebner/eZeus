@@ -75,6 +75,7 @@ public:
     static void loadWolf();
     static void loadHunter();
     static void loadPhilosopher();
+    static void loadUrchinGatherer();
     static void loadFishingBoat();
     static void loadTradeBoat();
     static void loadDeer();

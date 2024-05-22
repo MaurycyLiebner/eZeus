@@ -59,6 +59,10 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     case eBuildingType::orangeTree:
     case eBuildingType::huntingLodge:
         break;
+    case eBuildingType::urchinQuay: {
+        const auto p = static_cast<const eUrchinQuay*>(b);
+        dst << p->orientation();
+    } break;
     case eBuildingType::fishery: {
         const auto p = static_cast<const eFishery*>(b);
         dst << p->orientation();
@@ -147,6 +151,7 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     case eBuildingType::godMonument: {
         const auto gm = static_cast<const eGodMonument*>(b);
         dst << gm->god();
+        dst << gm->id();
     } break;
     case eBuildingType::godMonumentTile: {
         const auto gmt = static_cast<const eGodMonumentTile*>(b);

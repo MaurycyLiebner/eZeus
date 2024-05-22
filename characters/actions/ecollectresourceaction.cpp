@@ -42,6 +42,10 @@ bool eCollectResourceAction::decide() {
                 setState(eCharacterActionState::finished);
                 return true;
             } else {
+                const auto ct = c->type();
+                if(ct == eCharacterType::urchinGatherer) {
+                    c->setActionType(eCharacterActionType::deposit);
+                }
                 waitDecision();
             }
         } else {
@@ -163,13 +167,21 @@ bool eCollectResourceAction::findResourceDecision() {
     const auto a = e::make_shared<eMoveToAction>(c);
 
     const stdptr<eCharacter> cptr(c);
-    a->setFoundAction([cptr]() {
-        if(!cptr) return;
-        cptr->setActionType(eCharacterActionType::walk);
+    a->setFoundAction([cptr, tptr, this]() {
+        if(cptr) {
+            cptr->setActionType(eCharacterActionType::walk);
+        }
+        if(tptr) {
+            mNoTarget = false;
+            mBuilding->setNoTarget(false);
+        }
     });
 
     const auto findFailFunc = [tptr, this]() {
-        if(tptr) mNoTarget = true;
+        if(tptr) {
+            mNoTarget = true;
+            mBuilding->setNoTarget(true);
+        }
     };
     a->setFindFailAction(findFailFunc);
     a->setRemoveLastTurn(!mGetAtTile);
@@ -213,6 +225,8 @@ void eCollectResourceAction::goBackDecision() {
 }
 
 void eCollectResourceAction::waitDecision() {
+    const auto c = character();
+    c->setActionType(eCharacterActionType::stand);
     wait(mWaitTime);
 }
 

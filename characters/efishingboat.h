@@ -3,8 +3,6 @@
 
 #include "eresourcecollectorbase.h"
 
-class eCharacterTextures;
-
 class eFishingBoat : public eResourceCollectorBase {
 public:
     eFishingBoat(eGameBoard& board);

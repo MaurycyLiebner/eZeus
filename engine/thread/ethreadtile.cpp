@@ -17,6 +17,7 @@ void eThreadTile::load(eTile* const src) {
     setAltitude(src->altitude(), false);
     setOnFire(src->onFire());
     setHasFish(src->hasFish());
+    setHasUrchin(src->hasUrchin());
 
     mCharacters.clear();
     const auto& chars = src->characters();

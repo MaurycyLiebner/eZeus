@@ -144,6 +144,11 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         b = e::make_shared<eHuntingLodge>(board);
     } break;
 
+    case eBuildingType::urchinQuay: {
+        eOrientation o;
+        src >> o;
+        b = e::make_shared<eUrchinQuay>(board, o);
+    } break;
     case eBuildingType::fishery: {
         eOrientation o;
         src >> o;
@@ -305,7 +310,9 @@ stdsptr<eBuilding> eBuildingReader::sRead(
     case eBuildingType::godMonument: {
         eGodType type;
         src >> type;
-        b = e::make_shared<eGodMonument>(type, board);
+        eGodQuestId id;
+        src >> id;
+        b = e::make_shared<eGodMonument>(type, id, board);
     } break;
     case eBuildingType::godMonumentTile: {
         const auto pt = e::make_shared<eGodMonumentTile>(board);

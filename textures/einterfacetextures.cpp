@@ -988,6 +988,12 @@ void eInterfaceTextures::load() {
         const auto pathBase = dir + "Poseidon_Storage_";
         fOrangesUnit = std::make_shared<eTexture>();
         fOrangesUnit->load(fRenderer, pathBase + "00114.png");
+
+        fAtlasQuestIcon = std::make_shared<eTexture>();
+        fAtlasQuestIcon->load(fRenderer, pathBase + "00129.png");
+
+        fHeraQuestIcon = std::make_shared<eTexture>();
+        fHeraQuestIcon->load(fRenderer, pathBase + "00130.png");
     }
 
     {

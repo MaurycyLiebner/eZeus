@@ -195,8 +195,8 @@ bool eGameBoard::supportsBuilding(const eBuildingMode mode) const {
     case eBuildingMode::athleteMonument:
     case eBuildingMode::conquestMonument:
     case eBuildingMode::happinessMonument:
-    case eBuildingMode::commemorative7:
-    case eBuildingMode::commemorative8:
+    case eBuildingMode::heroicFigureMonument:
+    case eBuildingMode::diplomacyMonument:
     case eBuildingMode::scholarMonument:
         id = eBuildingModeHelpers::toCommemorativeId(mode);
         break;

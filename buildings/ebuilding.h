@@ -120,6 +120,7 @@ enum class eBuildingType {
     shellGarden,
     sundial,
     dolphinSculpture,
+    orrery,
     spring,
     topiary,
     baths,

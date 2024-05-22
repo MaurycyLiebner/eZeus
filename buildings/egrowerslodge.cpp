@@ -211,6 +211,7 @@ std::vector<eCartTask> eGrowersLodge::cartTasks() const {
 
 void eGrowersLodge::read(eReadStream& src) {
     eEmployingBuilding::read(src);
+    src >> mNoTarget;
     src >> mSpawnEnabled;
     src >> mGrapes;
     src >> mOlives;
@@ -227,6 +228,7 @@ void eGrowersLodge::read(eReadStream& src) {
 
 void eGrowersLodge::write(eWriteStream& dst) const {
     eEmployingBuilding::write(dst);
+    dst << mNoTarget;
     dst << mSpawnEnabled;
     dst << mGrapes;
     dst << mOlives;
@@ -247,4 +249,8 @@ bool eGrowersLodge::spawnGrower(const eGrowerPtr grower) {
     g->setAction(a);
     this->*grower = g.get();
     return true;
+}
+
+void eGrowersLodge::setNoTarget(const bool t) {
+    mNoTarget = t;
 }

@@ -23,7 +23,8 @@ enum class eCharacterActionType {
     curse,
     patrol,
     build,
-    buildStanding
+    buildStanding,
+    deposit
 };
 
 #endif // ECHARACTERACTIONTYPE_H
