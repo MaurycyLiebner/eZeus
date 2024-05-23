@@ -11,6 +11,39 @@ eGod::eGod(eGameBoard& board, const eGodType gt) :
     eCharacter(board, sGodToCharacterType(gt)),
     mType(gt) {}
 
+int sGodTextId(const eGodType type) {
+    switch(type) {
+    case eGodType::aphrodite:
+        return 6;
+    case eGodType::apollo:
+        return 3;
+    case eGodType::ares:
+        return 5;
+    case eGodType::artemis:
+        return 4;
+    case eGodType::athena:
+        return 8;
+    case eGodType::atlas:
+        return 13;
+    case eGodType::demeter:
+        return 2;
+    case eGodType::dionysus:
+        return 10;
+    case eGodType::hades:
+        return 11;
+    case eGodType::hephaestus:
+        return 9;
+    case eGodType::hera:
+        return 12;
+    case eGodType::hermes:
+        return 7;
+    case eGodType::poseidon:
+        return 1;
+    case eGodType::zeus:
+        return 0;
+    }
+}
+
 eGodType eGod::sCharacterToGodType(const eCharacterType type,
                                    bool* const valid) {
     if(valid) *valid = true;
@@ -123,23 +156,230 @@ eGod::eTexPtr eGod::sGodMissile(const eGodType gt) {
     return nullptr;
 }
 
+std::map<std::pair<eGodType, eGodType>, eGodType> gFightWinner {
+    {{eGodType::zeus, eGodType::zeus}, eGodType::zeus},
+    {{eGodType::zeus, eGodType::poseidon}, eGodType::zeus},
+    {{eGodType::zeus, eGodType::demeter}, eGodType::zeus},
+    {{eGodType::zeus, eGodType::apollo}, eGodType::zeus},
+    {{eGodType::zeus, eGodType::artemis}, eGodType::zeus},
+    {{eGodType::zeus, eGodType::ares}, eGodType::zeus},
+    {{eGodType::zeus, eGodType::aphrodite}, eGodType::zeus},
+    {{eGodType::zeus, eGodType::hermes}, eGodType::zeus},
+    {{eGodType::zeus, eGodType::athena}, eGodType::zeus},
+    {{eGodType::zeus, eGodType::hephaestus}, eGodType::zeus},
+    {{eGodType::zeus, eGodType::dionysus}, eGodType::zeus},
+    {{eGodType::zeus, eGodType::hades}, eGodType::zeus},
+    {{eGodType::zeus, eGodType::hera}, eGodType::hera},
+    {{eGodType::zeus, eGodType::atlas}, eGodType::zeus},
+
+    {{eGodType::poseidon, eGodType::zeus}, eGodType::zeus},
+    {{eGodType::poseidon, eGodType::poseidon}, eGodType::poseidon},
+    {{eGodType::poseidon, eGodType::demeter}, eGodType::poseidon},
+    {{eGodType::poseidon, eGodType::apollo}, eGodType::poseidon},
+    {{eGodType::poseidon, eGodType::artemis}, eGodType::poseidon},
+    {{eGodType::poseidon, eGodType::ares}, eGodType::poseidon},
+    {{eGodType::poseidon, eGodType::aphrodite}, eGodType::poseidon},
+    {{eGodType::poseidon, eGodType::hermes}, eGodType::poseidon},
+    {{eGodType::poseidon, eGodType::athena}, eGodType::poseidon},
+    {{eGodType::poseidon, eGodType::hephaestus}, eGodType::poseidon},
+    {{eGodType::poseidon, eGodType::dionysus}, eGodType::poseidon},
+    {{eGodType::poseidon, eGodType::hades}, eGodType::poseidon},
+    {{eGodType::poseidon, eGodType::hera}, eGodType::poseidon},
+    {{eGodType::poseidon, eGodType::atlas}, eGodType::poseidon},
+
+    {{eGodType::demeter, eGodType::zeus}, eGodType::zeus},
+    {{eGodType::demeter, eGodType::poseidon}, eGodType::poseidon},
+    {{eGodType::demeter, eGodType::demeter}, eGodType::demeter},
+    {{eGodType::demeter, eGodType::apollo}, eGodType::demeter},
+    {{eGodType::demeter, eGodType::artemis}, eGodType::demeter},
+    {{eGodType::demeter, eGodType::ares}, eGodType::demeter},
+    {{eGodType::demeter, eGodType::aphrodite}, eGodType::demeter},
+    {{eGodType::demeter, eGodType::hermes}, eGodType::demeter},
+    {{eGodType::demeter, eGodType::athena}, eGodType::demeter},
+    {{eGodType::demeter, eGodType::hephaestus}, eGodType::demeter},
+    {{eGodType::demeter, eGodType::dionysus}, eGodType::demeter},
+    {{eGodType::demeter, eGodType::hades}, eGodType::hades},
+    {{eGodType::demeter, eGodType::hera}, eGodType::hera},
+    {{eGodType::demeter, eGodType::atlas}, eGodType::demeter},
+
+    {{eGodType::apollo, eGodType::zeus}, eGodType::zeus},
+    {{eGodType::apollo, eGodType::poseidon}, eGodType::poseidon},
+    {{eGodType::apollo, eGodType::demeter}, eGodType::demeter},
+    {{eGodType::apollo, eGodType::apollo}, eGodType::apollo},
+    {{eGodType::apollo, eGodType::artemis}, eGodType::artemis},
+    {{eGodType::apollo, eGodType::ares}, eGodType::apollo},
+    {{eGodType::apollo, eGodType::aphrodite}, eGodType::apollo},
+    {{eGodType::apollo, eGodType::hermes}, eGodType::apollo},
+    {{eGodType::apollo, eGodType::athena}, eGodType::athena},
+    {{eGodType::apollo, eGodType::hephaestus}, eGodType::apollo},
+    {{eGodType::apollo, eGodType::dionysus}, eGodType::apollo},
+    {{eGodType::apollo, eGodType::hades}, eGodType::hades},
+    {{eGodType::apollo, eGodType::hera}, eGodType::hera},
+    {{eGodType::apollo, eGodType::atlas}, eGodType::apollo},
+
+    {{eGodType::artemis, eGodType::zeus}, eGodType::zeus},
+    {{eGodType::artemis, eGodType::poseidon}, eGodType::poseidon},
+    {{eGodType::artemis, eGodType::demeter}, eGodType::demeter},
+    {{eGodType::artemis, eGodType::apollo}, eGodType::artemis},
+    {{eGodType::artemis, eGodType::artemis}, eGodType::artemis},
+    {{eGodType::artemis, eGodType::ares}, eGodType::artemis},
+    {{eGodType::artemis, eGodType::aphrodite}, eGodType::artemis},
+    {{eGodType::artemis, eGodType::hermes}, eGodType::artemis},
+    {{eGodType::artemis, eGodType::athena}, eGodType::athena},
+    {{eGodType::artemis, eGodType::hephaestus}, eGodType::artemis},
+    {{eGodType::artemis, eGodType::dionysus}, eGodType::artemis},
+    {{eGodType::artemis, eGodType::hades}, eGodType::hades},
+    {{eGodType::artemis, eGodType::hera}, eGodType::hera},
+    {{eGodType::artemis, eGodType::atlas}, eGodType::artemis},
+
+    {{eGodType::ares, eGodType::zeus}, eGodType::zeus},
+    {{eGodType::ares, eGodType::poseidon}, eGodType::poseidon},
+    {{eGodType::ares, eGodType::demeter}, eGodType::demeter},
+    {{eGodType::ares, eGodType::apollo}, eGodType::apollo},
+    {{eGodType::ares, eGodType::artemis}, eGodType::artemis},
+    {{eGodType::ares, eGodType::ares}, eGodType::ares},
+    {{eGodType::ares, eGodType::aphrodite}, eGodType::aphrodite},
+    {{eGodType::ares, eGodType::hermes}, eGodType::ares},
+    {{eGodType::ares, eGodType::athena}, eGodType::athena},
+    {{eGodType::ares, eGodType::hephaestus}, eGodType::ares},
+    {{eGodType::ares, eGodType::dionysus}, eGodType::ares},
+    {{eGodType::ares, eGodType::hades}, eGodType::hades},
+    {{eGodType::ares, eGodType::hera}, eGodType::hera},
+    {{eGodType::ares, eGodType::atlas}, eGodType::atlas},
+
+    {{eGodType::aphrodite, eGodType::zeus}, eGodType::zeus},
+    {{eGodType::aphrodite, eGodType::poseidon}, eGodType::poseidon},
+    {{eGodType::aphrodite, eGodType::demeter}, eGodType::demeter},
+    {{eGodType::aphrodite, eGodType::apollo}, eGodType::apollo},
+    {{eGodType::aphrodite, eGodType::artemis}, eGodType::artemis},
+    {{eGodType::aphrodite, eGodType::ares}, eGodType::aphrodite},
+    {{eGodType::aphrodite, eGodType::aphrodite}, eGodType::aphrodite},
+    {{eGodType::aphrodite, eGodType::hermes}, eGodType::aphrodite},
+    {{eGodType::aphrodite, eGodType::athena}, eGodType::athena},
+    {{eGodType::aphrodite, eGodType::hephaestus}, eGodType::aphrodite},
+    {{eGodType::aphrodite, eGodType::dionysus}, eGodType::aphrodite},
+    {{eGodType::aphrodite, eGodType::hades}, eGodType::hades},
+    {{eGodType::aphrodite, eGodType::hera}, eGodType::hera},
+    {{eGodType::aphrodite, eGodType::atlas}, eGodType::atlas},
+
+    {{eGodType::hermes, eGodType::zeus}, eGodType::zeus},
+    {{eGodType::hermes, eGodType::poseidon}, eGodType::poseidon},
+    {{eGodType::hermes, eGodType::demeter}, eGodType::demeter},
+    {{eGodType::hermes, eGodType::apollo}, eGodType::apollo},
+    {{eGodType::hermes, eGodType::artemis}, eGodType::artemis},
+    {{eGodType::hermes, eGodType::ares}, eGodType::ares},
+    {{eGodType::hermes, eGodType::aphrodite}, eGodType::aphrodite},
+    {{eGodType::hermes, eGodType::hermes}, eGodType::hermes},
+    {{eGodType::hermes, eGodType::athena}, eGodType::athena},
+    {{eGodType::hermes, eGodType::hephaestus}, eGodType::hephaestus},
+    {{eGodType::hermes, eGodType::dionysus}, eGodType::hermes},
+    {{eGodType::hermes, eGodType::hades}, eGodType::hades},
+    {{eGodType::hermes, eGodType::hera}, eGodType::hera},
+    {{eGodType::hermes, eGodType::atlas}, eGodType::atlas},
+
+    {{eGodType::athena, eGodType::zeus}, eGodType::zeus},
+    {{eGodType::athena, eGodType::poseidon}, eGodType::poseidon},
+    {{eGodType::athena, eGodType::demeter}, eGodType::demeter},
+    {{eGodType::athena, eGodType::apollo}, eGodType::athena},
+    {{eGodType::athena, eGodType::artemis}, eGodType::athena},
+    {{eGodType::athena, eGodType::ares}, eGodType::athena},
+    {{eGodType::athena, eGodType::aphrodite}, eGodType::athena},
+    {{eGodType::athena, eGodType::hermes}, eGodType::athena},
+    {{eGodType::athena, eGodType::athena}, eGodType::athena},
+    {{eGodType::athena, eGodType::hephaestus}, eGodType::athena},
+    {{eGodType::athena, eGodType::dionysus}, eGodType::athena},
+    {{eGodType::athena, eGodType::hades}, eGodType::hades},
+    {{eGodType::athena, eGodType::hera}, eGodType::hera},
+    {{eGodType::athena, eGodType::atlas}, eGodType::athena},
+
+    {{eGodType::hephaestus, eGodType::zeus}, eGodType::zeus},
+    {{eGodType::hephaestus, eGodType::poseidon}, eGodType::poseidon},
+    {{eGodType::hephaestus, eGodType::demeter}, eGodType::demeter},
+    {{eGodType::hephaestus, eGodType::apollo}, eGodType::apollo},
+    {{eGodType::hephaestus, eGodType::artemis}, eGodType::artemis},
+    {{eGodType::hephaestus, eGodType::ares}, eGodType::ares},
+    {{eGodType::hephaestus, eGodType::aphrodite}, eGodType::aphrodite},
+    {{eGodType::hephaestus, eGodType::hermes}, eGodType::hephaestus},
+    {{eGodType::hephaestus, eGodType::athena}, eGodType::athena},
+    {{eGodType::hephaestus, eGodType::hephaestus}, eGodType::hephaestus},
+    {{eGodType::hephaestus, eGodType::dionysus}, eGodType::hephaestus},
+    {{eGodType::hephaestus, eGodType::hades}, eGodType::hades},
+    {{eGodType::hephaestus, eGodType::hera}, eGodType::hera},
+    {{eGodType::hephaestus, eGodType::atlas}, eGodType::atlas},
+
+    {{eGodType::dionysus, eGodType::zeus}, eGodType::zeus},
+    {{eGodType::dionysus, eGodType::poseidon}, eGodType::poseidon},
+    {{eGodType::dionysus, eGodType::demeter}, eGodType::demeter},
+    {{eGodType::dionysus, eGodType::apollo}, eGodType::apollo},
+    {{eGodType::dionysus, eGodType::artemis}, eGodType::artemis},
+    {{eGodType::dionysus, eGodType::ares}, eGodType::ares},
+    {{eGodType::dionysus, eGodType::aphrodite}, eGodType::aphrodite},
+    {{eGodType::dionysus, eGodType::hermes}, eGodType::hermes},
+    {{eGodType::dionysus, eGodType::athena}, eGodType::athena},
+    {{eGodType::dionysus, eGodType::hephaestus}, eGodType::hephaestus},
+    {{eGodType::dionysus, eGodType::dionysus}, eGodType::dionysus},
+    {{eGodType::dionysus, eGodType::hades}, eGodType::hades},
+    {{eGodType::dionysus, eGodType::hera}, eGodType::hera},
+    {{eGodType::dionysus, eGodType::atlas}, eGodType::atlas},
+
+    {{eGodType::hades, eGodType::zeus}, eGodType::zeus},
+    {{eGodType::hades, eGodType::poseidon}, eGodType::poseidon},
+    {{eGodType::hades, eGodType::demeter}, eGodType::hades},
+    {{eGodType::hades, eGodType::apollo}, eGodType::hades},
+    {{eGodType::hades, eGodType::artemis}, eGodType::hades},
+    {{eGodType::hades, eGodType::ares}, eGodType::hades},
+    {{eGodType::hades, eGodType::aphrodite}, eGodType::hades},
+    {{eGodType::hades, eGodType::hermes}, eGodType::hades},
+    {{eGodType::hades, eGodType::athena}, eGodType::hades},
+    {{eGodType::hades, eGodType::hephaestus}, eGodType::hades},
+    {{eGodType::hades, eGodType::dionysus}, eGodType::hades},
+    {{eGodType::hades, eGodType::hades}, eGodType::hades},
+    {{eGodType::hades, eGodType::hera}, eGodType::hades},
+    {{eGodType::hades, eGodType::atlas}, eGodType::hades},
+
+    {{eGodType::hera, eGodType::zeus}, eGodType::hera},
+    {{eGodType::hera, eGodType::poseidon}, eGodType::poseidon},
+    {{eGodType::hera, eGodType::demeter}, eGodType::hera},
+    {{eGodType::hera, eGodType::apollo}, eGodType::hera},
+    {{eGodType::hera, eGodType::artemis}, eGodType::hera},
+    {{eGodType::hera, eGodType::ares}, eGodType::hera},
+    {{eGodType::hera, eGodType::aphrodite}, eGodType::hera},
+    {{eGodType::hera, eGodType::hermes}, eGodType::hera},
+    {{eGodType::hera, eGodType::athena}, eGodType::hera},
+    {{eGodType::hera, eGodType::hephaestus}, eGodType::hera},
+    {{eGodType::hera, eGodType::dionysus}, eGodType::hera},
+    {{eGodType::hera, eGodType::hades}, eGodType::hades},
+    {{eGodType::hera, eGodType::hera}, eGodType::hera},
+    {{eGodType::hera, eGodType::atlas}, eGodType::hera},
+
+    {{eGodType::atlas, eGodType::zeus}, eGodType::zeus},
+    {{eGodType::atlas, eGodType::poseidon}, eGodType::poseidon},
+    {{eGodType::atlas, eGodType::demeter}, eGodType::demeter},
+    {{eGodType::atlas, eGodType::apollo}, eGodType::apollo},
+    {{eGodType::atlas, eGodType::artemis}, eGodType::artemis},
+    {{eGodType::atlas, eGodType::ares}, eGodType::atlas},
+    {{eGodType::atlas, eGodType::aphrodite}, eGodType::atlas},
+    {{eGodType::atlas, eGodType::hermes}, eGodType::atlas},
+    {{eGodType::atlas, eGodType::athena}, eGodType::athena},
+    {{eGodType::atlas, eGodType::hephaestus}, eGodType::atlas},
+    {{eGodType::atlas, eGodType::dionysus}, eGodType::atlas},
+    {{eGodType::atlas, eGodType::hades}, eGodType::hades},
+    {{eGodType::atlas, eGodType::hera}, eGodType::hera},
+    {{eGodType::atlas, eGodType::atlas}, eGodType::atlas},
+};
+
 eGodType eGod::sFightWinner(const eGodType g1, const eGodType g2) {
-    switch(g1) {
-    case eGodType::zeus: {
-        if(g2 == eGodType::hera) return eGodType::hera;
-        return eGodType::zeus;
-    } break;
-    case eGodType::aphrodite: {
-        if(g2 == eGodType::ares) return eGodType::aphrodite;
-        if(g2 == eGodType::hermes) return eGodType::aphrodite;
-        if(g2 == eGodType::dionysus) return eGodType::aphrodite;
-        if(g2 == eGodType::hephaestus) return eGodType::aphrodite;
-    } break;
-    default:
-        break;
-    }
-    if(rand() % 2) return g1;
-    else return g2;
+    return gFightWinner[{g1, g2}];
+}
+
+std::string eGod::sFightResultString(const eGodType g1, const eGodType g2) {
+    const auto w = sFightWinner(g1, g2);
+    const auto l = g1 == w ? g2 : g1;
+    const int wi = sGodTextId(w);
+    const int li = sGodTextId(l);
+    const int group = 332;
+    const int string = 14*wi + li;
+    return eLanguage::zeusText(group, string);
 }
 
 int sGodAttackSpriteLength(const eGodType gt) {
@@ -218,37 +458,9 @@ int eGod::sGodAppearTime(const eGodType gt) {
 }
 
 std::string eGod::sGodName(const eGodType gt) {
-    switch(gt) {
-    case eGodType::aphrodite:
-        return eLanguage::text("aphrodite");
-    case eGodType::apollo:
-        return eLanguage::text("apollo");
-    case eGodType::ares:
-        return eLanguage::text("ares");
-    case eGodType::artemis:
-        return eLanguage::text("artemis");
-    case eGodType::athena:
-        return eLanguage::text("athena");
-    case eGodType::atlas:
-        return eLanguage::text("atlas");
-    case eGodType::demeter:
-        return eLanguage::text("demeter");
-    case eGodType::dionysus:
-        return eLanguage::text("dionysus");
-    case eGodType::hades:
-        return eLanguage::text("hades");
-    case eGodType::hephaestus:
-        return eLanguage::text("hephaestus");
-    case eGodType::hera:
-        return eLanguage::text("hera");
-    case eGodType::hermes:
-        return eLanguage::text("hermes");
-    case eGodType::poseidon:
-        return eLanguage::text("poseidon");
-    case eGodType::zeus:
-        return eLanguage::text("zeus");
-    }
-    return "";
+    const int group = 157;
+    const int string = sGodTextId(gt);
+    return eLanguage::zeusText(group, string);
 }
 
 void eGod::sGodStrings(std::vector<eGodType>& gods,

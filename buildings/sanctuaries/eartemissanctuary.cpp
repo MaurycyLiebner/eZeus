@@ -19,19 +19,18 @@ void eSanctuaryWithWarriors::timeChanged(const int by) {
         while(mSoldierBanners.size() < 2) {
             auto& board = getBoard();
             const auto gt = godType();
-            std::string namet;
+            int string = -1;
             eBannerType bt;
             if(gt == eGodType::artemis) {
                 bt = eBannerType::amazon;
-                namet = "amazon_banner_name_";
+                string = 30 + id;
             } else if(gt == eGodType::ares) {
                 bt = eBannerType::aresWarrior;
-                namet = "ares_warrior_banner_name_";
+                string = 32 + id;
             } else {
                 return;
             }
-            namet = namet + std::to_string(id);
-            const auto name = eLanguage::text(namet);
+            const auto name = eLanguage::zeusText(138, string);
             const auto b = e::make_shared<eSoldierBanner>(bt, board);
             for(int i = 0; i < 8; i++) {
                 b->incCount();
@@ -56,4 +55,37 @@ void eSanctuaryWithWarriors::timeChanged(const int by) {
         }
     }
     eSanctuary::timeChanged(by);
+}
+
+void eSanctuaryWithWarriors::read(eReadStream& src) {
+    eSanctuary::read(src);
+
+    auto& board = getBoard();
+    int nb;
+    src >> nb;
+    for(int i = 0; i < nb; i++) {
+        src.readSoldierBanner(&board, [this, i](const stdsptr<eSoldierBanner>& b) {
+            const auto gt = godType();
+            int string = -1;
+            if(gt == eGodType::artemis) {
+                string = 30 + i;
+            } else if(gt == eGodType::ares) {
+                string = 32 + i;
+            } else {
+                return;
+            }
+            const auto name = eLanguage::zeusText(138, string);
+            b->setName(name);
+            mSoldierBanners.push_back(b);
+        });
+    }
+}
+
+void eSanctuaryWithWarriors::write(eWriteStream& dst) const {
+    eSanctuary::write(dst);
+
+    dst << mSoldierBanners.size();
+    for(const auto& b: mSoldierBanners) {
+        dst.writeSoldierBanner(b.get());
+    }
 }

@@ -140,7 +140,7 @@ public:
             t->setSmallFontSize();
             const int cc = trade.fUsed;
             const int ccc = trade.fMax;
-            t->setText(std::to_string(cc) + eLanguage::text("of") + std::to_string(ccc));
+            t->setText(std::to_string(cc) + " " + eLanguage::zeusText(44, 148) + " " + std::to_string(ccc));
             t->fitContent();
             t->setHeight(rowHeight);
 
@@ -207,7 +207,7 @@ eTradePostInfoWidget::eTradePostInfoWidget(eMainWindow* const window) :
 
 void eTradePostInfoWidget::initialize(eTradePost* const stor) {
     const auto& city = stor->city();
-    const auto title = eLanguage::text("trading_post") + city.name();
+    const auto title = eLanguage::zeusText(28, 62) + ": " + city.name();
 
     eEmployingBuildingInfoWidget::initialize(title, stor);
 
@@ -220,7 +220,7 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
 
     {
         const auto wrapper = new eWidget(window());
-        const auto importsLabel = new eLabel(eLanguage::text("imports"), window());
+        const auto importsLabel = new eLabel(eLanguage::zeusText(130, 17), window());
         importsLabel->fitContent();
 
         const auto r = new eResourceStorageStack(window());
@@ -229,8 +229,8 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
 
         r->initialize(stor, csells, imports,
                       mImportButtons, mSpinBoxes, maxCount,
-                      eLanguage::text("not_buying"),
-                      eLanguage::text("buying"));
+                      eLanguage::zeusText(130, 20),
+                      eLanguage::zeusText(130, 12));
 
         wrapper->addWidget(importsLabel);
         wrapper->addWidget(r);
@@ -243,7 +243,7 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
     }
     {
         const auto wrapper = new eWidget(window());
-        const auto exportsLabel = new eLabel(eLanguage::text("exports"), window());
+        const auto exportsLabel = new eLabel(eLanguage::zeusText(130, 18), window());
         exportsLabel->fitContent();
 
         const auto r = new eResourceStorageStack(window());
@@ -252,8 +252,8 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
 
         r->initialize(stor, cbuys, exports,
                       mExportButtons, mSpinBoxes, maxCount,
-                      eLanguage::text("not_selling"),
-                      eLanguage::text("selling"));
+                      eLanguage::zeusText(130, 21),
+                      eLanguage::zeusText(130, 13));
 
         wrapper->addWidget(exportsLabel);
         wrapper->addWidget(r);

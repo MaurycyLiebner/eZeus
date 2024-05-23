@@ -88,7 +88,7 @@ bool eLabelBase::updateTextTexture() {
     if(!mFont) return false;
     mTexture = std::make_shared<eTexture>();
     const auto r = mWindow->renderer();
-    mTexture->loadText(r, mText, mFontColor, *mFont, mWidth);
+    mTexture->loadText(r, mText, mFontColor, *mFont, mWidth, mWrapAlign);
     return true;
 }
 

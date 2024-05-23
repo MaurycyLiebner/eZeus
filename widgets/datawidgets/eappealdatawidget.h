@@ -6,7 +6,7 @@
 class eGameWidget;
 class eViewModeButton;
 class eBuilding;
-class eMultiLineLabel;
+class eLabel;
 
 class eAppealDataWidget : public eDataWidget {
 public:
@@ -18,7 +18,7 @@ protected:
 private:
     eViewModeButton* mSeeAppeal = nullptr;
 
-    eMultiLineLabel* mNoMonumentsWidget = nullptr;
+    eLabel* mNoMonumentsWidget = nullptr;
     eWidget* mMonumentsWidget = nullptr;
 
     std::vector<eBuilding*> mBuildings;

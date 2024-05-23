@@ -74,7 +74,9 @@ enum class eWorldCityAttitude {
     respectful,
     apatheticR,
     displeased,
-    furious
+    furious,
+
+    insubordinate
 };
 
 class eWorldCityBase {
@@ -102,6 +104,7 @@ public:
     const std::string& name() const { return mName; }
     std::string nationality() const;
     const std::string& leader() const { return mLeader; }
+    std::string anArmy() const;
 
     void setIOID(const int id) { mIOID = id; }
     int ioID() const { return mIOID; }

@@ -105,7 +105,7 @@ void eMessageBox::initialize(const eEventData& ed,
         eStringHelpers::replaceAll(msg.fText, "[leader_name]",
                                    ed.fCity->leader());
         eStringHelpers::replaceAll(msg.fText, "[a_foreign_army]",
-                                   eLanguage::text("an_army"));
+                                   ed.fCity->anArmy());
         if(ed.fType == eMessageEventType::invasionMessage) {
             eStringHelpers::replaceAll(msg.fText, "[time_until_attack]",
                                       std::to_string(ed.fTime));
@@ -132,7 +132,7 @@ void eMessageBox::initialize(const eEventData& ed,
         const auto surrenderB = new eFramedButton(window());
         surrenderB->setSmallFontSize();
         surrenderB->setUnderline(false);
-        surrenderB->setText(eLanguage::text("surrender"));
+        surrenderB->setText(eLanguage::zeusText(44, 282));
         surrenderB->fitContent();
         wid->addWidget(surrenderB);
         surrenderB->setPressAction([this, ed]() {
@@ -144,9 +144,10 @@ void eMessageBox::initialize(const eEventData& ed,
         const auto bribeB = new eFramedButton(window());
         bribeB->setSmallFontSize();
         bribeB->setUnderline(false);
-        bribeB->setText(eLanguage::text("bribe") + " " +
-                        std::to_string(ed.fBribe) + " " +
-                        eLanguage::text("drachmas"));
+        auto bribeStr = eLanguage::zeusText(44, 281);
+        eStringHelpers::replace(bribeStr, "[bribe_amount]",
+                                std::to_string(ed.fBribe));
+        bribeB->setText(bribeStr);
         bribeB->fitContent();
         wid->addWidget(bribeB);
         bribeB->setPressAction([this, ed]() {
@@ -158,7 +159,7 @@ void eMessageBox::initialize(const eEventData& ed,
         const auto fightToDefend = new eFramedButton(window());
         fightToDefend->setSmallFontSize();
         fightToDefend->setUnderline(false);
-        fightToDefend->setText(eLanguage::text("fight_to_defend"));
+        fightToDefend->setText(eLanguage::zeusText(44, 283));
         fightToDefend->fitContent();
         wid->addWidget(fightToDefend);
         fightToDefend->setPressAction([this, ed]() {
@@ -205,7 +206,7 @@ void eMessageBox::initialize(const eEventData& ed,
         const auto acceptB = new eFramedButton(window());
         acceptB->setSmallFontSize();
         acceptB->setUnderline(false);
-        acceptB->setText(eLanguage::text("accept"));
+        acceptB->setText(eLanguage::zeusText(44, 209));
         acceptB->fitContent();
         wid->addWidget(acceptB);
         acceptB->setPressAction([this, ed]() {
@@ -217,7 +218,7 @@ void eMessageBox::initialize(const eEventData& ed,
         const auto postponeB = new eFramedButton(window());
         postponeB->setSmallFontSize();
         postponeB->setUnderline(false);
-        postponeB->setText(eLanguage::text("postpone"));
+        postponeB->setText(eLanguage::zeusText(44, 211));
         postponeB->fitContent();
         wid->addWidget(postponeB);
         postponeB->setPressAction([this, ed]() {
@@ -229,7 +230,7 @@ void eMessageBox::initialize(const eEventData& ed,
         const auto declineB = new eFramedButton(window());
         declineB->setSmallFontSize();
         declineB->setUnderline(false);
-        declineB->setText(eLanguage::text("decline"));
+        declineB->setText(eLanguage::zeusText(44, 210));
         declineB->fitContent();
         wid->addWidget(declineB);
         declineB->setPressAction([this, ed]() {

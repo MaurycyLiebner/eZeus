@@ -46,6 +46,7 @@ public:
     static eTexPtr sGodMissile(const eGodType gt);
 
     static eGodType sFightWinner(const eGodType g1, const eGodType g2);
+    static std::string sFightResultString(const eGodType g1, const eGodType g2);
 
     static int sGodAttackTime(const eGodType gt);
     static int sGodBlessTime(const eGodType gt);

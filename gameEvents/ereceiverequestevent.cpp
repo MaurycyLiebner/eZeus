@@ -55,9 +55,9 @@ void eReceiveRequestEvent::trigger() {
     ed.fResourceType = mResource;
     ed.fResourceCount = mCount;
     ed.fTime = 6;
-    ed.fA0Key = "dispatch_now";
-    ed.fA1Key = "postpone";
-    ed.fA2Key = "refuse";
+    ed.fA0Key = eLanguage::zeusText(44, 275);
+    ed.fA1Key = eLanguage::zeusText(44, 211);
+    ed.fA2Key = eLanguage::zeusText(44, 212);
 
     const auto rel = mCity->relationship();
 

@@ -22,15 +22,15 @@ public:
         bool dark = true;
         if(const auto v = a->vendor(res)) {
             if(!v->vendorEnabled()) {
-                text = "not_buying";
+                text = eLanguage::zeusText(97, 11); // not buying
             } else if(c == 0) {
-                text = "no_goods";
+                text = eLanguage::zeusText(97, 12); // no goods
             } else {
-                text = "distributing";
+                text = eLanguage::zeusText(97, 17); // distributing
                 dark = false;
             }
         } else {
-            text = "no_vendor";
+            text = eLanguage::zeusText(97, 10); // no vendor
         }
         if(dark) mStateLabel->setDarkFontColor();
         else mStateLabel->setLightFontColor();
@@ -100,14 +100,7 @@ eAgoraInfoWidget::eAgoraInfoWidget(eMainWindow* const window) :
     eEmployingBuildingInfoWidget(window, true, true) {}
 
 void eAgoraInfoWidget::initialize(eAgoraBase* const a) {
-    std::string title;
-    if(dynamic_cast<eCommonAgora*>(a)) {
-        title = eLanguage::text("common_agora");
-    } else if(dynamic_cast<eGrandAgora*>(a)) {
-        title = eLanguage::text("grand_agora");
-    } else {
-        return;
-    }
+    const auto title = eBuilding::sNameForBuilding(a);
 
     eEmployingBuildingInfoWidget::initialize(title, a);
 

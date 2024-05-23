@@ -84,9 +84,8 @@ public:
                                     board(), mLoserPtr);
             mLoserPtr->disappear(true, finish);
         }
-        const auto wn = eGod::sGodName(mWt);
-        const auto ln = eGod::sGodName(mLt);
-        board().showTip(wn + eLanguage::text("overpowers") + ln);
+        const auto tip = eGod::sFightResultString(mWt, mLt);
+        board().showTip(tip);
     }
 
     void read(eReadStream& src) override {

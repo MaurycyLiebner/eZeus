@@ -3,6 +3,7 @@
 #include "elanguage.h"
 #include "elabel.h"
 #include "eframedbuttonwithicon.h"
+#include "estringhelpers.h"
 
 void eRequestDialog::initialize(const stdsptr<eWorldCity>& c,
                                 const eRequestFunction& func) {
@@ -18,7 +19,8 @@ void eRequestDialog::initialize(const stdsptr<eWorldCity>& c,
     innerWid->move(p, p/2);
 
     const auto name = c->name();
-    const auto rof = eLanguage::text("request_of") + " " + name;
+    auto rof = eLanguage::zeusText(41, 1); // request of
+    eStringHelpers::replace(rof, "[city_name]", name);
     const auto rofLabel = new eLabel(window());
     rofLabel->setTinyFontSize();
     rofLabel->setSmallPadding();
@@ -36,12 +38,13 @@ void eRequestDialog::initialize(const stdsptr<eWorldCity>& c,
     const auto rel = c->relationship();
     sells.push_back(eResourceType::drachmas);
     if(att <= 50 && rel != eWorldCityRelationship::rival) {
-        const auto notReg = eLanguage::text("not_regarded_enough");
+        const auto notReg = eLanguage::zeusText(41, 11); // not regarded
         const int p = std::round(13*mult);
         const int h = 2*p;
         for(const auto s : sells) {
             const auto typeName = eResourceTypeHelpers::typeLongName(s);
-            const auto text = notReg + " " + typeName;
+            auto text = notReg;
+            eStringHelpers::replace(text, "[item]", typeName);
             const auto l = new eLabel(window());
             l->setTinyFontSize();
             l->setText(text);
@@ -60,15 +63,15 @@ void eRequestDialog::initialize(const stdsptr<eWorldCity>& c,
             const auto rel = c->relationship();
             if(rel == eWorldCityRelationship::collony ||
                rel == eWorldCityRelationship::vassal) {
-                request = eLanguage::text("order");
+                request = eLanguage::zeusText(41, 5); // order
             } else if(rel == eWorldCityRelationship::rival) {
-                request = eLanguage::text("demand");
+                request = eLanguage::zeusText(41, 4); // demand
             } else {
-                request = eLanguage::text("request");
+                request = eLanguage::zeusText(41, 3); // request
             }
             const auto typeName = eResourceTypeHelpers::typeLongName(s);
-            const auto text = request + " " + typeName;
-            b->initialize(s, text);
+            eStringHelpers::replace(request, "[item]", typeName);
+            b->initialize(s, request);
             innerWid->addWidget(b);
         }
     }

@@ -117,10 +117,10 @@ public:
         mEnlistedLabel->setNoPadding();
         mEnlistedLabel->setTinyFontSize();
         if(abroad) {
-            const auto etxt = eLanguage::text("abroad");
+            const auto etxt = eLanguage::zeusText(283, 16);
             mEnlistedLabel->setText(etxt);
         } else {
-            const auto etxt = eLanguage::text("enlisted");
+            const auto etxt = eLanguage::zeusText(283, 13);
             mEnlistedLabel->setText(etxt);
         }
         mEnlistedLabel->fitContent();
@@ -350,7 +350,7 @@ public:
         titleLabel->align(eAlignment::top | eAlignment::left);
 
         if(troops) {
-            const auto text = eLanguage::text("troops");
+            const auto text = eLanguage::zeusText(283, 11);
             const auto troopsLabel = new eLabel(text, window());
             troopsLabel->setTinyFontSize();
             troopsLabel->setNoPadding();
@@ -434,7 +434,7 @@ void eEnlistForcesDialog::initialize(
         innerWid->addWidget(titleW);
 
         {
-            const auto text = eLanguage::text("enlist_forces");
+            const auto text = eLanguage::zeusText(283, 0);
             const auto titleLabel = new eLabel(window());
             titleLabel->setTinyPadding();
             titleLabel->setText(text);
@@ -452,7 +452,7 @@ void eEnlistForcesDialog::initialize(
             plunderW->setNoPadding();
             titleW->addWidget(plunderW);
 
-            const auto text = eLanguage::text("select_plunder");
+            const auto text = eLanguage::zeusText(283, 22);
             const auto titleLabel = new eLabel(window());
             titleLabel->setSmallFontSize();
             titleLabel->setSmallPadding();
@@ -464,7 +464,7 @@ void eEnlistForcesDialog::initialize(
             button->setUnderline(false);
             button->setSmallPadding();
             button->setSmallFontSize();
-            button->setText(eLanguage::text("any_resource_plunder"));
+            button->setText(eLanguage::zeusText(283, 23));
             button->fitContent();
             button->setWidth(titleLabel->width());
             plunderW->addWidget(button);
@@ -474,7 +474,7 @@ void eEnlistForcesDialog::initialize(
                 std::vector<std::string> names;
                 for(const auto r : plunderResources) {
                     const auto name = r == eResourceType::none ?
-                                          eLanguage::text("any_resource_plunder") :
+                                          eLanguage::zeusText(283, 23) :
                                           eResourceTypeHelpers::typeName(r);
                     names.push_back(name);
                 }
@@ -513,7 +513,7 @@ void eEnlistForcesDialog::initialize(
         const auto cancelButt = new eFramedButton(window());
         cancelButt->setTinyFontSize();
         cancelButt->setUnderline(false);
-        cancelButt->setText(eLanguage::text("cancel"));
+        cancelButt->setText(eLanguage::zeusText(283, 18));
         cancelButt->fitContent();
         const auto cancelAct = [this]() {
             deleteLater();
@@ -524,7 +524,7 @@ void eEnlistForcesDialog::initialize(
         const auto enlistAllButt = new eFramedButton(window());
         enlistAllButt->setTinyFontSize();
         enlistAllButt->setUnderline(false);
-        enlistAllButt->setText(eLanguage::text("enlist_all"));
+        enlistAllButt->setText(eLanguage::zeusText(283, 19));
         enlistAllButt->fitContent();
         const auto enlistAllAct = [this, enlistable,
                                   horsemen,
@@ -549,7 +549,7 @@ void eEnlistForcesDialog::initialize(
         const auto clearAllButt = new eFramedButton(window());
         clearAllButt->setTinyFontSize();
         clearAllButt->setUnderline(false);
-        clearAllButt->setText(eLanguage::text("clear_all"));
+        clearAllButt->setText(eLanguage::zeusText(283, 20));
         clearAllButt->fitContent();
         const auto clearAllAct = [this,
                                  horsemen,
@@ -572,7 +572,7 @@ void eEnlistForcesDialog::initialize(
         const auto dispatchButt = new eFramedButton(window());
         dispatchButt->setTinyFontSize();
         dispatchButt->setUnderline(false);
-        dispatchButt->setText(eLanguage::text("dispatch"));
+        dispatchButt->setText(eLanguage::zeusText(283, 21));
         dispatchButt->fitContent();
         const auto dispatchAct = [this, action]() {
             if(action) action(mSelected, mSelectedPlunder);
@@ -622,13 +622,13 @@ void eEnlistForcesDialog::initialize(
             horsemen->resize(www, hhhh);
             const auto hef = extractType(eBannerType::horseman, enlistable);
             horsemen->initialize(hef, {}, selectionChanged,
-                                 eLanguage::text("horsemen"), true);
+                                 eLanguage::zeusText(283, 7), true);
             col1->addWidget(horsemen);
 
             hoplite->resize(www, hhhh);
             const auto hhef = extractType(eBannerType::hoplite, enlistable);
             hoplite->initialize(hhef, {}, selectionChanged,
-                                eLanguage::text("hoplite"), true);
+                                eLanguage::zeusText(283, 14), true);
             col1->addWidget(hoplite);
 
             col1->layoutVerticallyWithoutSpaces();
@@ -643,14 +643,14 @@ void eEnlistForcesDialog::initialize(
 
             navy->resize(www, hhhh);
             navy->initialize(eEnlistedForces(), {}, selectionChanged,
-                             eLanguage::text("navy"), false);
+                             eLanguage::zeusText(283, 6), false);
             col2->addWidget(navy);
 
             heroes->resize(www, hhhh);
             eEnlistedForces efh;
             efh.fHeroes = enlistable.fHeroes;
             heroes->initialize(efh, heroesAbroad, selectionChanged,
-                               eLanguage::text("heroes"), false);
+                               eLanguage::zeusText(283, 9), false);
             col2->addWidget(heroes);
 
             mythical->resize(www, hhhh);
@@ -663,14 +663,14 @@ void eEnlistForcesDialog::initialize(
                 }
             }
             mythical->initialize(hhef, {}, selectionChanged,
-                                eLanguage::text("mythical_warriors"), true);
+                                eLanguage::zeusText(283, 10), true);
             col2->addWidget(mythical);
 
             allies->resize(www, hhhh);
             eEnlistedForces efa;
             efa.fAllies = enlistable.fAllies;
             allies->initialize(efa, {}, selectionChanged,
-                               eLanguage::text("support_from_allies"), false);
+                               eLanguage::zeusText(283, 24), false);
             col2->addWidget(allies);
 
             col2->layoutVerticallyWithoutSpaces();

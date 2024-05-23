@@ -9,7 +9,7 @@ enum class eHeroRequirementType {
     // achilles
     armor, // 32
     hoplite, // 3
-    sanctuary, // 1
+    sanctuaryAthena, // 1 // originally to Athena or Hephaestus
     noUnrest,
     wine, // 16
 
@@ -35,7 +35,7 @@ enum class eHeroRequirementType {
     // wine, 16
 
     // perseus
-    // sanctuary, // 2
+    sanctuaryHades, // 2 // originally to Athena, Hermes, Zeus or Hades
     drachmas, // 3000
     fleece, // 16
     sculpture, // 6
@@ -92,8 +92,6 @@ public:
 
     static std::string sHeroRequirementText(const eHeroRequirement& hr);
     static std::string sHeroRequirementStatusText(const eHeroRequirement& hr);
-
-    static std::string sTitle(const eHeroType ht);
 
     const std::vector<eHeroRequirement>& requirements() const
     { return mRequirements; }

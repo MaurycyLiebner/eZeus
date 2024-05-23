@@ -100,7 +100,8 @@ void eWorldMenu::initialize(const eAction& openRequest,
         const int wgwx = 20*mult;
         const int wgwy = 285*mult;
 
-        const auto wgwtxt = new eLabel(eLanguage::text("back_to_city"), window());
+        const auto backToCityStr = eLanguage::zeusText(47, 8);
+        const auto wgwtxt = new eLabel(backToCityStr, window());
         wgwtxt->setSmallFontSize();
         wgwtxt->fitContent();
         wgw->addWidget(wgwtxt);
@@ -112,7 +113,7 @@ void eWorldMenu::initialize(const eAction& openRequest,
 
         const auto wat = eButton::sCreate(coll.fWorldBigButton, window(), this);
 
-        mAttitudeLabel = new eLabel(eLanguage::text("unknown"), window());
+        mAttitudeLabel = new eLabel("unknown", window());
         mAttitudeLabel->setSmallFontSize();
         mAttitudeLabel->fitContent();
         wat->addWidget(mAttitudeLabel);
@@ -240,96 +241,106 @@ void eWorldMenu::updateRelationshipLabel() const {
         else if(iat < 80) at = eWorldCityAttitude::respectful;
         else at = eWorldCityAttitude::admiring;
     }
-    std::string atStr;
+    const int group = 65;
+    int string = -1;
     switch(at) {
     case eWorldCityAttitude::philanthropic:
-        atStr = eLanguage::text("philanthropic");
+        string = 15;
         break;
     case eWorldCityAttitude::resentful:
-        atStr = eLanguage::text("resentful");
+        string = 16;
         break;
 
     case eWorldCityAttitude::helpful:
-        atStr = eLanguage::text("helpful");
+        string = 0;
         break;
     case eWorldCityAttitude::congenial:
-        atStr = eLanguage::text("congenial");
+        string = 1;
         break;
     case eWorldCityAttitude::sympathetic:
-        atStr = eLanguage::text("sympathetic");
+        string = 2;
         break;
     case eWorldCityAttitude::apatheticA:
-        atStr = eLanguage::text("apatheticA");
+        string = 3;
         break;
     case eWorldCityAttitude::annoyed:
-        atStr = eLanguage::text("annoyed");
+        string = 4;
         break;
 
 
     case eWorldCityAttitude::devoted:
-        atStr = eLanguage::text("devoted");
+        string = 10;
         break;
     case eWorldCityAttitude::dedicated:
-        atStr = eLanguage::text("dedicated");
+        string = 11;
         break;
     case eWorldCityAttitude::loyal:
-        atStr = eLanguage::text("loyal");
+        string = 12;
         break;
     case eWorldCityAttitude::bitter:
-        atStr = eLanguage::text("bitter");
+        string = 13;
         break;
     case eWorldCityAttitude::angry:
-        atStr = eLanguage::text("angry");
+        string = 14;
         break;
 
 
     case eWorldCityAttitude::docile:
-        atStr = eLanguage::text("docile");
+        string = 17;
         break;
     case eWorldCityAttitude::hostile:
-        atStr = eLanguage::text("hostile");
+        string = 18;
         break;
 
     case eWorldCityAttitude::admiring:
-        atStr = eLanguage::text("admiring");
+        string = 5;
         break;
     case eWorldCityAttitude::respectful:
-        atStr = eLanguage::text("respectful");
+        string = 6;
         break;
     case eWorldCityAttitude::apatheticR:
-        atStr = eLanguage::text("apatheticR");
+        string = 7;
         break;
     case eWorldCityAttitude::displeased:
-        atStr = eLanguage::text("displeased");
+        string = 8;
         break;
     case eWorldCityAttitude::furious:
-        atStr = eLanguage::text("furious");
+        string = 9;
         break;
     default:
-        atStr = eLanguage::text("unknown");
+    case eWorldCityAttitude::insubordinate:
+        string = 19;
         break;
     }
-
+    const auto atStr = eLanguage::zeusText(group, string);
     mAttitudeLabel->setText(atStr);
+    mAttitudeLabel->fitContent();
+    mAttitudeLabel->align(eAlignment::center);
 
-    std::string relStr;
-    switch(rel) {
-    case eWorldCityRelationship::mainCity:
-        relStr = eLanguage::text("our_city");
-        break;
-    case eWorldCityRelationship::collony:
-        relStr = eLanguage::text("collony");
-        break;
-    case eWorldCityRelationship::vassal:
-        relStr = eLanguage::text("vassal");
-        break;
-    case eWorldCityRelationship::ally:
-        relStr = eLanguage::text("ally");
-        break;
-    case eWorldCityRelationship::rival:
-        relStr = eLanguage::text("rival");
-        break;
+    {
+        int group = 253;
+        int string = -1;
+        switch(rel) {
+        case eWorldCityRelationship::mainCity:
+            group = 47;
+            string = 0;
+            break;
+        case eWorldCityRelationship::collony:
+            string = 3;
+            break;
+        case eWorldCityRelationship::vassal:
+            string = 2;
+            break;
+        case eWorldCityRelationship::ally:
+            string = 0;
+            break;
+        case eWorldCityRelationship::rival:
+            string = 1;
+            break;
+        }
+        const auto relStr = eLanguage::zeusText(group, string);
+        mRelationshipLabel->setText(relStr);
+        mRelationshipLabel->fitContent();
+        mRelationshipLabel->align(eAlignment::hcenter);
     }
-
-    mRelationshipLabel->setText(relStr);
 }

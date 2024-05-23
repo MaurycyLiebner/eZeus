@@ -7,7 +7,10 @@ class eSanctuaryWithWarriors : public eSanctuary {
 public:
     using eSanctuary::eSanctuary;
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     int mSoldierSpawn = 0;
     std::vector<stdsptr<eSoldierBanner>> mSoldierBanners;

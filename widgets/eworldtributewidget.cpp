@@ -3,7 +3,7 @@
 #include "elanguage.h"
 
 void eWorldTributeWidget::initialize() {
-    const auto titleStr = eLanguage::text("paying_tribute");
+    const auto titleStr = eLanguage::zeusText(44, 320);
     const auto titleW = new eLabel(titleStr, window());
     titleW->setTinyFontSize();
     titleW->setNoPadding();
@@ -38,7 +38,7 @@ void eWorldTributeWidget::setCity(const stdsptr<eWorldCity>& c) {
         mTypeIcon->setTexture(icon);
         mTypeIcon->fitContent();
         const auto name = eResourceTypeHelpers::typeName(type);
-        const auto yearly = eLanguage::text("yearly");
+        const auto yearly = eLanguage::zeusText(44, 322);
         const auto text = std::to_string(count) + " " + name + " " + yearly;
         mTextLabel->setText(text);
         mTextLabel->fitContent();

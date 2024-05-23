@@ -107,7 +107,8 @@ void eWorldGoodsWidget::initialize() {
     const auto& intrfc = eGameTextures::interface();
     const auto& coll = intrfc[iRes];
 
-    mGoodsLabel = new eLabel(eLanguage::text("goods"), window());
+    const auto goodsStr = eLanguage::zeusText(47, 6);
+    mGoodsLabel = new eLabel(goodsStr, window());
     mGoodsLabel->setSmallFontSize();
     mGoodsLabel->setTinyPadding();
     mGoodsLabel->fitContent();
@@ -115,7 +116,9 @@ void eWorldGoodsWidget::initialize() {
     mGoodsLabel->align(eAlignment::top | eAlignment::hcenter);
 
     mOrdersButton = eButton::sCreate(coll.fWorldSmallButton, window(), this);
-    const auto ordersTxt = new eLabel(eLanguage::text("orders"), window());
+
+    const auto ordersStr = eLanguage::zeusText(47, 7);
+    const auto ordersTxt = new eLabel(ordersStr, window());
     ordersTxt->setSmallFontSize();
     ordersTxt->fitContent();
     mOrdersButton->addWidget(ordersTxt);
@@ -124,11 +127,11 @@ void eWorldGoodsWidget::initialize() {
     mOrdersButton->setY(mGoodsLabel->y() + mGoodsLabel->height());
 
     mBuysWidget = new eWorldTradeWidget(window());
-    mBuysWidget->initialize(eLanguage::text("buys"));
+    mBuysWidget->initialize(eLanguage::zeusText(47, 1));
     addWidget(mBuysWidget);
 
     mSellsWidget = new eWorldTradeWidget(window());
-    mSellsWidget->initialize(eLanguage::text("sells"));
+    mSellsWidget->initialize(eLanguage::zeusText(47, 2));
     addWidget(mSellsWidget);
 
     updateTradeY();
@@ -148,11 +151,11 @@ void eWorldGoodsWidget::setCity(const stdsptr<eWorldCity>& c) {
     if(c) {
         const auto rel = c->relationship();
         if(rel == eWorldCityRelationship::rival) {
-            mBuysWidget->setName(eLanguage::text("needs"));
-            mSellsWidget->setName(eLanguage::text("produces"));
+            mBuysWidget->setName(eLanguage::zeusText(47, 3));
+            mSellsWidget->setName(eLanguage::zeusText(47, 4));
         } else {
-            mBuysWidget->setName(eLanguage::text("buys"));
-            mSellsWidget->setName(eLanguage::text("sells"));
+            mBuysWidget->setName(eLanguage::zeusText(47, 1));
+            mSellsWidget->setName(eLanguage::zeusText(47, 2));
         }
     }
 }

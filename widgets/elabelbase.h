@@ -33,6 +33,8 @@ public:
     eAlignment textAlignment() { return mTextAlign; }
     void setTextAlignment(const eAlignment a) { mTextAlign = a; }
 
+    void setWrapAlignment(const eAlignment a) { mWrapAlign = a; }
+
     int lineWidth() const;
 protected:
     const std::shared_ptr<eTexture>& texture() { return mTexture; }
@@ -48,6 +50,7 @@ private:
     std::shared_ptr<eTexture> mTexture;
     eFontColor mFontColor = eFontColor::light;
     eAlignment mTextAlign = eAlignment::center;
+    eAlignment mWrapAlign = eAlignment::left;
 };
 
 #endif // ELABELBASE_H

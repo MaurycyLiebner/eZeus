@@ -42,155 +42,157 @@ std::vector<eResourceType> eResourceTypeHelpers::extractResourceTypes(const eRes
 }
 
 std::string eResourceTypeHelpers::typeName(const eResourceType type) {
-    std::string key;
+    int group = 23;
+    int string = -1;
     switch(type) {
     case eResourceType::urchin:
-        key = "urchin";
+        string = 1;
         break;
     case eResourceType::fish:
-        key = "fish";
+        string = 2;
         break;
     case eResourceType::meat:
-        key = "meat";
+        string = 3;
         break;
     case eResourceType::cheese:
-        key = "cheese";
+        string = 4;
         break;
     case eResourceType::carrots:
-        key = "carrots";
+        string = 5;
         break;
     case eResourceType::onions:
-        key = "onions";
+        string = 6;
         break;
     case eResourceType::wheat:
-        key = "wheat";
+        string = 7;
         break;
     case eResourceType::oranges:
-        key = "oranges";
+        string = 8;
         break;
     case eResourceType::food:
-        key = "food";
+        string = 25;
         break;
     case eResourceType::grapes:
-        key = "grapes";
+        string = 12;
         break;
     case eResourceType::olives:
-        key = "olives";
+        string = 13;
         break;
     case eResourceType::wine:
-        key = "wine";
+        string = 21;
         break;
     case eResourceType::oliveOil:
-        key = "olive_oil";
+        string = 20;
         break;
     case eResourceType::fleece:
-        key = "fleece";
+        string = 14;
         break;
     case eResourceType::wood:
-        key = "wood";
+        string = 9;
         break;
     case eResourceType::bronze:
-        key = "bronze";
+        string = 10;
         break;
     case eResourceType::marble:
-        key = "marble";
+        string = 11;
         break;
     case eResourceType::silver:
-        key = "silver";
+        group = 50;
+        string = 55;
         break;
     case eResourceType::drachmas:
-        key = "drachmas";
+        string = 23;
         break;
     case eResourceType::armor:
-        key = "armor";
+        string = 18;
         break;
     case eResourceType::sculpture:
-        key = "sculpture";
+        string = 19;
         break;
     case eResourceType::horse:
-        key = "horse";
+        string = 15;
         break;
     default:
-        key = "invalid";
         break;
     }
-    return eLanguage::text(key);
+    return eLanguage::zeusText(group, string);
 }
 
 std::string eResourceTypeHelpers::typeLongName(const eResourceType type) {
-    std::string key;
+    int group = 98;
+    int string = -1;
     switch(type) {
     case eResourceType::urchin:
-        key = "urchin";
+        string = 1;
         break;
     case eResourceType::fish:
-        key = "fish";
+        string = 2;
         break;
     case eResourceType::meat:
-        key = "meat";
+        string = 3;
         break;
     case eResourceType::cheese:
-        key = "cheese";
+        string = 4;
         break;
     case eResourceType::carrots:
-        key = "carrots";
+        string = 5;
         break;
     case eResourceType::onions:
-        key = "onions";
+        string = 6;
         break;
     case eResourceType::wheat:
-        key = "wheat";
+        string = 7;
         break;
     case eResourceType::oranges:
-        key = "oranges";
+        string = 8;
         break;
     case eResourceType::food:
-        key = "crates_of_food";
+        string = 25;
         break;
     case eResourceType::grapes:
-        key = "bunches_of_grapes";
+        string = 12;
         break;
     case eResourceType::olives:
-        key = "jars_of_olives";
+        string = 13;
         break;
     case eResourceType::wine:
-        key = "amphorae_of_wine";
+        string = 21;
         break;
     case eResourceType::oliveOil:
-        key = "jugs_of_oil";
+        string = 20;
         break;
     case eResourceType::fleece:
-        key = "skeins_of_fleece";
+        string = 14;
         break;
     case eResourceType::wood:
-        key = "planks_of_wood";
+        string = 9;
         break;
     case eResourceType::bronze:
-        key = "bars_of_bronze";
+        string = 10;
         break;
     case eResourceType::marble:
-        key = "slabs_of_marble";
+        string = 11;
         break;
     case eResourceType::silver:
-        key = "silver";
+        group = 50;
+        string = 55;
         break;
     case eResourceType::drachmas:
-        key = "drachmas";
+        string = 23;
         break;
     case eResourceType::armor:
-        key = "suits_of_armor";
+        string = 18;
         break;
     case eResourceType::sculpture:
-        key = "pieces_of_sculpture";
+        string = 19;
         break;
     case eResourceType::horse:
-        key = "horse";
+        string = 15;
         break;
     default:
-        key = "invalid";
         break;
     }
-    return eLanguage::text(key);
+    return eLanguage::zeusText(group, string);
 }
 
 std::shared_ptr<eTexture> eResourceTypeHelpers::icon(

@@ -461,11 +461,11 @@ bool eGameWidget::buildMouseRelease() {
             std::string titleT;
             std::string textT;
             if(eraser.hasImportantBuildings()) {
-                titleT = "demolishing_title";
-                textT = "demolishing_text";
+                titleT = eLanguage::zeusText(5, 104);
+                textT = eLanguage::zeusText(5, 105);
             } else if(eraser.hasNonEmptyAgoras()) {
-                titleT = "demolishing_agora_title";
-                textT = "demolishing_agora_text";
+                titleT = eLanguage::zeusText(5, 16);
+                textT = eLanguage::zeusText(5, 17);
             } else {
                 return false;
             }
@@ -654,7 +654,7 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::podium: {
             build(mHoverTX, mHoverTY, 2, 2,
                   [this]() { return e::make_shared<ePodium>(*mBoard); });
-            showTip(eLanguage::text("build_college"));
+            showTip(eLanguage::zeusText(19, 223)); // build college
         }; break;
         case eBuildingMode::fountain: {
             build(mHoverTX, mHoverTY, 2, 2,
@@ -671,17 +671,17 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::college: {
             build(mHoverTX, mHoverTY, 3, 3,
                   [this]() { return e::make_shared<eCollege>(*mBoard); });
-            showTip(eLanguage::text("build_podiums"));
+            showTip(eLanguage::zeusText(19, 222)); // build podiums
         }; break;
         case eBuildingMode::dramaSchool: {
             build(mHoverTX, mHoverTY, 3, 3,
                   [this]() { return e::make_shared<eDramaSchool>(*mBoard); });
-            showTip(eLanguage::text("build_theater"));
+            showTip(eLanguage::zeusText(19, 225)); // build theater
         }; break;
         case eBuildingMode::theater: {
             build(mHoverTX, mHoverTY, 5, 5,
                   [this]() { return e::make_shared<eTheater>(*mBoard); });
-            showTip(eLanguage::text("build_drama_school"));
+            showTip(eLanguage::zeusText(19, 226)); // build a drama school
         }; break;
         case eBuildingMode::hospital: {
             build(mHoverTX, mHoverTY, 4, 4,

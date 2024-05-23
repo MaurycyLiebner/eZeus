@@ -175,25 +175,59 @@ eHeroType eMonster::sSlayer(const eMonsterType type) {
 }
 
 std::string eMonster::sMonsterName(const eMonsterType type) {
+    const int group = 190;
+    int string = -1;
     switch(type) {
-    case eMonsterType::calydonianBoar: return eLanguage::text("calydonian_boar");
-    case eMonsterType::cerberus: return eLanguage::text("cerberus");
-    case eMonsterType::chimera: return eLanguage::text("chimera");
-    case eMonsterType::cyclops: return eLanguage::text("cyclops");
-    case eMonsterType::dragon: return eLanguage::text("dragon");
-    case eMonsterType::echidna: return eLanguage::text("echidna");
-    case eMonsterType::harpies: return eLanguage::text("harpies");
-    case eMonsterType::hector: return eLanguage::text("hector");
-    case eMonsterType::hydra: return eLanguage::text("hydra");
-    case eMonsterType::kraken: return eLanguage::text("kraken");
-    case eMonsterType::maenads: return eLanguage::text("maenads");
-    case eMonsterType::medusa: return eLanguage::text("medusa");
-    case eMonsterType::minotaur: return eLanguage::text("minotaur");
-    case eMonsterType::scylla: return eLanguage::text("scylla");
-    case eMonsterType::sphinx: return eLanguage::text("sphinx");
-    case eMonsterType::talos: return eLanguage::text("talos");
-    default: return eLanguage::text("talos");
+    case eMonsterType::calydonianBoar:
+        string = 6;
+        break;
+    case eMonsterType::cerberus:
+        string = 2;
+        break;
+    case eMonsterType::chimera:
+        string = 13;
+        break;
+    case eMonsterType::cyclops:
+        string = 3;
+        break;
+    case eMonsterType::dragon:
+        string = 7;
+        break;
+    case eMonsterType::echidna:
+        string = 15;
+        break;
+    case eMonsterType::harpies:
+        string = 14;
+        break;
+    case eMonsterType::hector:
+        string = 9;
+        break;
+    case eMonsterType::hydra:
+        string = 0;
+        break;
+    case eMonsterType::kraken:
+        string = 1;
+        break;
+    case eMonsterType::maenads:
+        string = 11;
+        break;
+    case eMonsterType::medusa:
+        string = 5;
+        break;
+    case eMonsterType::minotaur:
+        string = 4;
+        break;
+    case eMonsterType::scylla:
+        string = 10;
+        break;
+    case eMonsterType::sphinx:
+        string = 12;
+        break;
+    case eMonsterType::talos:
+        string = 8;
+        break;
     }
+    return eLanguage::zeusText(group, string);
 }
 
 void eMonster::sMonsterStrings(
@@ -210,40 +244,40 @@ void eMonster::sMonsterStrings(
     }
 
     const std::vector<std::string> monsterGods {
-        eLanguage::text("artemis"),
-        eLanguage::text("hades"),
-        eLanguage::text("atlas"),
-        eLanguage::text("zeus"),
-        eLanguage::text("ares"),
+        eGod::sGodName(eGodType::artemis),
+        eGod::sGodName(eGodType::hades),
+        eGod::sGodName(eGodType::atlas),
+        eGod::sGodName(eGodType::zeus),
+        eGod::sGodName(eGodType::ares),
         "-",
         "-",
-        eLanguage::text("aphrodite"),
-        eLanguage::text("athena"),
-        eLanguage::text("poseidon"),
-        eLanguage::text("dionysus"),
-        eLanguage::text("demeter"),
-        eLanguage::text("hermes"),
-        eLanguage::text("apollo"),
-        eLanguage::text("hera"),
-        eLanguage::text("hephaestus")
+        eGod::sGodName(eGodType::aphrodite),
+        eGod::sGodName(eGodType::athena),
+        eGod::sGodName(eGodType::poseidon),
+        eGod::sGodName(eGodType::dionysus),
+        eGod::sGodName(eGodType::demeter),
+        eGod::sGodName(eGodType::hermes),
+        eGod::sGodName(eGodType::apollo),
+        eGod::sGodName(eGodType::hera),
+        eGod::sGodName(eGodType::hephaestus)
     };
     const std::vector<std::string> monsterHeroes {
-        eLanguage::text("theseus"),
-        eLanguage::text("hercules"),
-        eLanguage::text("bellerophon"),
-        eLanguage::text("odysseus"),
-        eLanguage::text("jason"),
-        eLanguage::text("bellerophon"),
-        eLanguage::text("atalanta"),
-        eLanguage::text("achilles"),
-        eLanguage::text("hercules"),
-        eLanguage::text("perseus"),
-        eLanguage::text("achilles"),
-        eLanguage::text("perseus"),
-        eLanguage::text("theseus"),
-        eLanguage::text("odysseus"),
-        eLanguage::text("atalanta"),
-        eLanguage::text("jason")
+        eHero::sHeroName(eHeroType::theseus),
+        eHero::sHeroName(eHeroType::hercules),
+        eHero::sHeroName(eHeroType::bellerophon),
+        eHero::sHeroName(eHeroType::odysseus),
+        eHero::sHeroName(eHeroType::jason),
+        eHero::sHeroName(eHeroType::bellerophon),
+        eHero::sHeroName(eHeroType::atalanta),
+        eHero::sHeroName(eHeroType::achilles),
+        eHero::sHeroName(eHeroType::hercules),
+        eHero::sHeroName(eHeroType::perseus),
+        eHero::sHeroName(eHeroType::achilles),
+        eHero::sHeroName(eHeroType::perseus),
+        eHero::sHeroName(eHeroType::theseus),
+        eHero::sHeroName(eHeroType::odysseus),
+        eHero::sHeroName(eHeroType::atalanta),
+        eHero::sHeroName(eHeroType::jason)
     };
 
     const int iMax2 = allMonsters.size();

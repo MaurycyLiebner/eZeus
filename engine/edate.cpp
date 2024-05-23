@@ -12,8 +12,8 @@ std::string eDate::shortString() const {
     const auto m = eMonthHelper::shortName(mMonth);
     const auto y = std::to_string(std::abs(mYear));
     std::string bcad;
-    if(mYear < 0) bcad = "BC";
-    else bcad = "AD";
+    if(mYear < 0) bcad = eLanguage::zeusText(20, 0);
+    else bcad = eLanguage::zeusText(20, 1);
     return d + "  " + m + "  " + y + "  " + bcad;
 }
 
@@ -153,61 +153,15 @@ void eDate::read(eReadStream& src) {
 }
 
 std::string eMonthHelper::name(const eMonth m) {
-    switch(m) {
-    case eMonth::january:
-        return eLanguage::text("january");
-    case eMonth::february:
-        return eLanguage::text("february");
-    case eMonth::march:
-        return eLanguage::text("march");
-    case eMonth::april:
-        return eLanguage::text("april");
-    case eMonth::may:
-        return eLanguage::text("may");
-    case eMonth::june:
-        return eLanguage::text("june");
-    case eMonth::july:
-        return eLanguage::text("july");
-    case eMonth::august:
-        return eLanguage::text("august");
-    case eMonth::september:
-        return eLanguage::text("september");
-    case eMonth::october:
-        return eLanguage::text("october");
-    case eMonth::november:
-        return eLanguage::text("november");
-    case eMonth::december:
-        return eLanguage::text("december");
-    }
+    const int group = 160;
+    const int string = static_cast<int>(m);
+    return eLanguage::zeusText(group, string);
 }
 
 std::string eMonthHelper::shortName(const eMonth m) {
-    switch(m) {
-    case eMonth::january:
-        return eLanguage::text("jan_short");
-    case eMonth::february:
-        return eLanguage::text("feb_short");
-    case eMonth::march:
-        return eLanguage::text("mar_short");
-    case eMonth::april:
-        return eLanguage::text("apr_short");
-    case eMonth::may:
-        return eLanguage::text("may_short");
-    case eMonth::june:
-        return eLanguage::text("jun_short");
-    case eMonth::july:
-        return eLanguage::text("jul_short");
-    case eMonth::august:
-        return eLanguage::text("aug_short");
-    case eMonth::september:
-        return eLanguage::text("sep_short");
-    case eMonth::october:
-        return eLanguage::text("oct_short");
-    case eMonth::november:
-        return eLanguage::text("nov_short");
-    case eMonth::december:
-        return eLanguage::text("dec_short");
-    }
+    const int group = 25;
+    const int string = static_cast<int>(m);
+    return eLanguage::zeusText(group, string);
 }
 
 int eMonthHelper::days(const eMonth m) {

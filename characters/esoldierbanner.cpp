@@ -23,6 +23,7 @@
 #include "engine/epathfinder.h"
 
 #include "elanguage.h"
+#include "estringhelpers.h"
 
 int gNextId = 0;
 
@@ -31,10 +32,10 @@ eSoldierBanner::eSoldierBanner(const eBannerType type,
     eObject(board),
     mType(type), mId(gNextId++), mBoard(board) {
     mBoard.registerAllSoldierBanner(this);
-    const int nameId = mId % 20;
-    const auto nameIdStr = std::to_string(nameId);
-    const auto namet = "soldier_banner_name_" + nameIdStr;
-    setName(eLanguage::text(namet));
+    const int nameId = mId % 30;
+    auto name = eLanguage::zeusText(138, nameId);
+    eStringHelpers::replaceAll(name, "&quot;", "\"");
+    setName(name);
 }
 
 eSoldierBanner::~eSoldierBanner() {

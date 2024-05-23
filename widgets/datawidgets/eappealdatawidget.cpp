@@ -20,11 +20,15 @@ void eAppealDataWidget::initialize() {
     eDataWidget::initialize();
 
     const auto inner = innerWidget();
+    const int iw = inner->width();
 
-    const auto title = new eMultiLineLabel(window());
+    const auto title = new eLabel(window());
     title->setNoPadding();
     title->setVerySmallFontSize();
-    title->setText(eLanguage::text("commemorative_monuments_data_widget"));
+    title->setWrapWidth(iw);
+    title->setWrapAlignment(eAlignment::hcenter);
+    title->setText(eLanguage::zeusText(133, 1)); // commemorative monuments
+    title->fitContent();
     inner->addWidget(title);
 
     mMonumentsWidget = new eWidget(window());
@@ -36,12 +40,15 @@ void eAppealDataWidget::initialize() {
     inner->stackVertically();
     title->align(eAlignment::hcenter);
 
-    mNoMonumentsWidget = new eMultiLineLabel(window());
+    mNoMonumentsWidget = new eLabel(window());
+    mNoMonumentsWidget->setWrapWidth(iw);
+    mNoMonumentsWidget->setWrapAlignment(eAlignment::hcenter);
     mNoMonumentsWidget->setYellowFontColor();
     mNoMonumentsWidget->setNoPadding();
     mNoMonumentsWidget->setTinyFontSize();
-    const auto text = eLanguage::text("no_commemorative_monuments_data_widget");
+    const auto text = eLanguage::zeusText(133, 2); // no commemorative monuments
     mNoMonumentsWidget->setText(text);
+    mNoMonumentsWidget->fitContent();
     inner->addWidget(mNoMonumentsWidget);
     mNoMonumentsWidget->setY(mMonumentsWidget->y());
     mNoMonumentsWidget->align(eAlignment::hcenter);

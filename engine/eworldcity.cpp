@@ -29,43 +29,85 @@ void eWorldCityBase::incAttitude(const int a) {
 }
 
 std::string eWorldCityBase::nationality() const {
-    std::string txt;
+    const int group  = 37;
+    int string = -1;
     switch(mType) {
     case eWorldCityType::greekCity:
-        txt = "greek_nationality";
+        string = 0;
         break;
     case eWorldCityType::trojanCity:
-        txt = "trojan_nationality";
+        string = 1;
         break;
     case eWorldCityType::persianCity:
-        txt = "persian_nationality";
+        string = 2;
         break;
     case eWorldCityType::centaurCity:
-        txt = "centaur_nationality";
+        string = 3;
         break;
     case eWorldCityType::amazonCity:
-        txt = "amazon_nationality";
+        string = 4;
         break;
 
     case eWorldCityType::egyptianCity:
-        txt = "egyptian_nationality";
+        string = 5;
         break;
     case eWorldCityType::mayanCity:
-        txt = "mayan_nationality";
+        string = 6;
         break;
     case eWorldCityType::phoenicianCity:
-        txt = "phoenician_nationality";
+        string = 7;
         break;
     case eWorldCityType::oceanidCity:
-        txt = "oceanid_nationality";
+        string = 8;
         break;
     case eWorldCityType::atlanteanCity:
-        txt = "atlanteans_nationality";
+        string = 9;
         break;
     default:
         break;
     }
-    return eLanguage::text(txt);
+    return eLanguage::zeusText(group, string);
+}
+
+std::string eWorldCityBase::anArmy() const {
+    const int group  = 37;
+    int string = -1;
+    switch(mType) {
+    case eWorldCityType::greekCity:
+        string = 0;
+        break;
+    case eWorldCityType::trojanCity:
+        string = 1;
+        break;
+    case eWorldCityType::persianCity:
+        string = 2;
+        break;
+    case eWorldCityType::centaurCity:
+        string = 3;
+        break;
+    case eWorldCityType::amazonCity:
+        string = 4;
+        break;
+
+    case eWorldCityType::egyptianCity:
+        string = 5;
+        break;
+    case eWorldCityType::mayanCity:
+        string = 6;
+        break;
+    case eWorldCityType::phoenicianCity:
+        string = 7;
+        break;
+    case eWorldCityType::oceanidCity:
+        string = 8;
+        break;
+    case eWorldCityType::atlanteanCity:
+        string = 9;
+        break;
+    default:
+        break;
+    }
+    return eLanguage::zeusText(group, 22 + string);
 }
 
 void eWorldCityBase::write(eWriteStream& dst) const {

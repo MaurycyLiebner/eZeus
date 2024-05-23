@@ -23,7 +23,7 @@ void eGameMainMenu::initialize(const eAction& resumeAct,
 
     const auto saveButt = new eFramedButton(window());
     saveButt->setUnderline(false);
-    saveButt->setText(eLanguage::text("save_game"));
+    saveButt->setText(eLanguage::zeusText(1, 4));
     saveButt->fitContent();
     saveButt->setPressAction(saveAct);
     addWidget(saveButt);
@@ -31,7 +31,7 @@ void eGameMainMenu::initialize(const eAction& resumeAct,
 
     const auto loadButt = new eFramedButton(window());
     loadButt->setUnderline(false);
-    loadButt->setText(eLanguage::text("load_game"));
+    loadButt->setText(eLanguage::zeusText(1, 3));
     loadButt->fitContent();
     loadButt->setPressAction(loadAct);
     addWidget(loadButt);
@@ -39,7 +39,7 @@ void eGameMainMenu::initialize(const eAction& resumeAct,
 
     const auto exitButt = new eFramedButton(window());
     exitButt->setUnderline(false);
-    exitButt->setText(eLanguage::text("exit"));
+    exitButt->setText(eLanguage::zeusText(1, 5));
     exitButt->fitContent();
     exitButt->setPressAction(exitAct);
     addWidget(exitButt);

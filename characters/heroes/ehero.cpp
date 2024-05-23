@@ -75,17 +75,35 @@ stdsptr<eHero> eHero::sCreateHero(const eHeroType type, eGameBoard& board) {
 }
 
 std::string eHero::sHeroName(const eHeroType ht) {
+    const int group = 163;
+    int string = -1;
     switch(ht) {
-    case eHeroType::achilles: return eLanguage::text("achilles");
-    case eHeroType::atalanta: return eLanguage::text("atalanta");
-    case eHeroType::bellerophon: return eLanguage::text("bellerophon");
-    case eHeroType::hercules: return eLanguage::text("hercules");
-    case eHeroType::jason: return eLanguage::text("jason");
-    case eHeroType::odysseus: return eLanguage::text("odysseus");
-    case eHeroType::perseus: return eLanguage::text("perseus");
-    case eHeroType::theseus: return eLanguage::text("theseus");
+    case eHeroType::achilles:
+        string = 0;
+        break;
+    case eHeroType::atalanta:
+        string = 6;
+        break;
+    case eHeroType::bellerophon:
+        string = 7;
+        break;
+    case eHeroType::hercules:
+        string = 1;
+        break;
+    case eHeroType::jason:
+        string = 2;
+        break;
+    case eHeroType::odysseus:
+        string = 3;
+        break;
+    case eHeroType::perseus:
+        string = 4;
+        break;
+    case eHeroType::theseus:
+        string = 5;
+        break;
     }
-    return "";
+    return eLanguage::zeusText(group, string);
 }
 
 void eHero::sHeroStrings(std::vector<eHeroType>& heros,

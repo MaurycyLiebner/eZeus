@@ -75,10 +75,10 @@ public:
             });
 
             b->setSmallFontSize();
-            b->addValue(eLanguage::text("dont_accept"));
-            b->addValue(eLanguage::text("accept"));
-            b->addValue(eLanguage::text("get"));
-            b->addValue(eLanguage::text("empty"));
+            b->addValue(eLanguage::zeusText(130, 1)); // don't accept
+            b->addValue(eLanguage::zeusText(130, 0)); // accept
+            b->addValue(eLanguage::zeusText(130, 2)); // get
+            b->addValue(eLanguage::zeusText(130, 3)); // empty
             b->fitContent();
             b->setHeight(rowHeight);
 

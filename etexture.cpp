@@ -63,9 +63,9 @@ SDL_Texture* generateTextTexture(SDL_Renderer* const r,
                                  int& w, int& h) {
     SDL_Surface* surf;
     if(width) {
-        surf = TTF_RenderText_Blended_Wrapped(&font, text.c_str(), color, width);
+        surf = TTF_RenderUTF8_Blended_Wrapped(&font, text.c_str(), color, width);
     } else {
-        surf = TTF_RenderText_Blended(&font, text.c_str(), color);
+        surf = TTF_RenderUTF8_Blended(&font, text.c_str(), color);
     }
     if(!surf) {
         printf("Unable to render text! SDL_ttf Error: %s\n",
@@ -84,12 +84,103 @@ SDL_Texture* generateTextTexture(SDL_Renderer* const r,
     return tex;
 }
 
+std::vector<std::string> textLines(const std::string& text,
+                                   TTF_Font& font,
+                                   const int width) {
+    std::vector<std::string> result;
+    const int ts = text.size();
+    std::string word;
+    std::string line;
+    int index = 0;
+    while(index < ts) {
+        const bool isLast = index == ts - 1;
+        const auto c = text[index++];
+        if(c == ' ' || isLast) {
+            if(isLast && c != ' ') word += c;
+            int w = 0;
+            int h = 0;
+            const auto newLine = line + (line.empty() ? "" : " ") +  word;
+            TTF_SizeUTF8(&font, newLine.c_str(), &w, &h);
+            if(line.empty() || w < width) {
+                line = newLine;
+            } else {
+                result.push_back(line);
+                line = word;
+            }
+            word = "";
+        } else {
+            word += c;
+        }
+    }
+    if(!word.empty()) line += (line.empty() ? "" : " ") + word;
+    if(!line.empty()) result.push_back(line);
+    return result;
+}
+
 bool eTexture::loadText(SDL_Renderer* const r,
                         const std::string& text,
                         const eFontColor color,
                         TTF_Font& font,
-                        const int width) {
+                        const int width,
+                        const eAlignment align) {
     reset();
+
+    if(width && static_cast<bool>(align & eAlignment::hcenter)) {
+        int w;
+        int h;
+        TTF_SizeUTF8(&font, text.c_str(), &w, &h);
+        if(w > width) {
+            const auto lines = textLines(text, font, width);
+            mWidth = 0;
+            mHeight = 0;
+            std::vector<std::shared_ptr<eTexture>> texs;
+            for(const auto& l : lines) {
+                auto& tex = texs.emplace_back();
+                tex = std::make_shared<eTexture>();
+                tex->loadText(r, l, color, font);
+                mHeight += tex->height();
+                mWidth = std::max(mWidth, tex->width());
+            }
+
+            mTex = SDL_CreateTexture(r, SDL_PIXELFORMAT_ARGB8888,
+                                     SDL_TEXTUREACCESS_TARGET, mWidth, mHeight);
+
+            if(!mTex) {
+                printf("Unable to create texture! "
+                       "SDL Error: %s\n", SDL_GetError());
+                return false;
+            }
+            {
+                SDL_SetRenderTarget(r, mTex);
+                const auto bm = SDL_ComposeCustomBlendMode(
+                                    SDL_BLENDFACTOR_ONE,
+                                    SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA,
+                                    SDL_BLENDOPERATION_ADD,
+
+                                    SDL_BLENDFACTOR_ONE,
+                                    SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA,
+                                    SDL_BLENDOPERATION_ADD);
+                SDL_SetTextureBlendMode(mTex, bm);
+
+                SDL_SetRenderDrawBlendMode(r, SDL_BLENDMODE_NONE);
+                SDL_SetRenderDrawColor(r, 0, 0, 0, 0);
+                SDL_RenderFillRect(r, NULL);
+
+                int y = 0;
+                for(const auto& tex : texs) {
+                    const int w = tex->width();
+                    const int x = (mWidth - w)/2;
+                    const SDL_Rect dstRect{x, y, w, tex->height()};
+                    SDL_RenderCopy(r, tex->mTex, NULL, &dstRect);
+                    y += dstRect.h;
+                }
+
+                SDL_SetRenderTarget(r, nullptr);
+            }
+
+            return true;
+        }
+    }
 
     SDL_Color col1;
     SDL_Color col2;
@@ -154,10 +245,11 @@ bool eTexture::loadText(SDL_Renderer* const r,
                         const std::string& text,
                         const eFontColor color,
                         const eFont& font,
-                        const int width) {
+                        const int width,
+                        const eAlignment align) {
     const auto ttf = eFonts::requestFont(font);
     if(!ttf) return false;
-    return loadText(r, text, color, *ttf, width);
+    return loadText(r, text, color, *ttf, width, align);
 }
 
 void eTexture::render(SDL_Renderer* const r,

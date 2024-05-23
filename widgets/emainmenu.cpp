@@ -37,10 +37,10 @@ void eMainMenu::initialize(const eAction& newGameA,
 
     buttons->align(eAlignment::center);
 
-    addButton(eLanguage::text("new_game"), newGameA, buttons, window());
-    addButton(eLanguage::text("load_game"), loadGameA, buttons, window());
-    addButton(eLanguage::text("settings"), settingsA, buttons, window());
-    addButton(eLanguage::text("quit"), quitA, buttons, window());
+    addButton(eLanguage::zeusText(1, 1), newGameA, buttons, window());
+    addButton(eLanguage::zeusText(1, 3), loadGameA, buttons, window());
+    addButton(eLanguage::zeusText(2, 0), settingsA, buttons, window());
+    addButton(eLanguage::zeusText(1, 5), quitA, buttons, window());
 
     buttons->layoutVertically();
 }

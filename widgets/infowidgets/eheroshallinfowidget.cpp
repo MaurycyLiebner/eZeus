@@ -8,7 +8,7 @@
 
 void eHerosHallInfoWidget::initialize(eHerosHall* const b) {
     const auto ht = b->heroType();
-    const auto title = eHerosHall::sTitle(ht);
+    const auto title = eBuilding::sNameForBuilding(b);
     eInfoWidget::initialize(title);
 
     const int p = padding();
@@ -89,7 +89,7 @@ void eHerosHallInfoWidget::initialize(eHerosHall* const b) {
     const auto stage = b->stage();
     if(true) {//met >= reqC && stage == eHeroSummoningStage::none) {
         const auto summonButton = new eFramedButton(window());
-        const auto txt = eLanguage::text("summon") + " " + eHero::sHeroName(ht);
+        const auto txt = eLanguage::zeusText(185, 62) + " " + eHero::sHeroName(ht);
         summonButton->setText(txt);
         summonButton->setSmallFontSize();
         summonButton->fitContent();

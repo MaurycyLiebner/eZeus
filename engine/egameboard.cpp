@@ -1158,7 +1158,7 @@ void eGameBoard::updateCoverage() {
                 taxes += p;
             }
             if(const auto ch = dynamic_cast<eSmallHouse*>(b)) {
-                totalUnrest += p*ch->disgruntled();
+                if(ch->disgruntled()) totalUnrest += p;
                 totalSatisfaction += p*ch->satisfaction();
                 totalHygiene += p*ch->hygiene();
                 commonPeople += p;

@@ -292,7 +292,7 @@ void eMainWindow::showMainMenu() {
             mm->removeWidget(fw);
             fw->deleteLater();
         };
-        fw->intialize(eLanguage::text("load_game"),
+        fw->intialize(eLanguage::zeusText(1, 3),
                       "../saves/", func, closeAct);
         mm->addWidget(fw);
         fw->align(eAlignment::center);

@@ -1224,7 +1224,7 @@ void eGameWidget::buildAnimal(eTile* const tile,
 void eGameWidget::switchPause() {
     mPaused = !mPaused;
     if(mPaused && !mPausedLabel) {
-        const auto str = eLanguage::text("paused");
+        const auto str = eLanguage::zeusText(13, 2);
         const auto space = "     ";
         mPausedLabel = new eFramedLabel(space + str + space, window());
         mPausedLabel->setType(eFrameType::message);
@@ -1290,7 +1290,7 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
                     removeWidget(fw);
                     fw->deleteLater();
                 };
-                fw->intialize(eLanguage::text("save_game"),
+                fw->intialize(eLanguage::zeusText(1, 4),
                               "../saves/", func, closeAct);
                 addWidget(fw);
                 fw->align(eAlignment::center);
@@ -1304,7 +1304,7 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
                     removeWidget(fw);
                     fw->deleteLater();
                 };
-                fw->intialize(eLanguage::text("load_game"),
+                fw->intialize(eLanguage::zeusText(1, 3),
                               "../saves/", func, closeAct);
                 addWidget(fw);
                 fw->align(eAlignment::center);
