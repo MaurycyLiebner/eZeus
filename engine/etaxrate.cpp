@@ -3,22 +3,32 @@
 #include "elanguage.h"
 
 std::string eTaxRateHelpers::name(const eTaxRate tr) {
+    const int group = 286;
+    int string = -1;
     switch(tr) {
     case eTaxRate::none:
-        return eLanguage::text("none_taxes");
+        string = 0;
+        break;
     case eTaxRate::low:
-        return eLanguage::text("low_taxes");;
+        string = 1;
+        break;
     case eTaxRate::veryLow:
-        return eLanguage::text("very_low_taxes");
+        string = 2;
+        break;
     case eTaxRate::normal:
-        return eLanguage::text("normal_taxes");
+        string = 3;
+        break;
     case eTaxRate::high:
-        return eLanguage::text("high_taxes");
+        string = 4;
+        break;
     case eTaxRate::veryHigh:
-        return eLanguage::text("very_high_taxes");
+        string = 5;
+        break;
     case eTaxRate::outrageous:
-        return eLanguage::text("outrageous_taxes");
+        string = 6;
+        break;
     }
+    return eLanguage::zeusText(group, string);
 }
 
 double eTaxRateHelpers::getRate(const eTaxRate tr) {

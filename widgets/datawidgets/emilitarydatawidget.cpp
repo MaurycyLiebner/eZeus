@@ -99,7 +99,7 @@ void eForcesWidget::setBanners(const eSoldierBanners& ss,
 void eMilitaryDataWidget::initialize() {
     {
         mSeeSecurity = new eViewModeButton(
-                        eLanguage::text("see_security"),
+                        eLanguage::zeusText(14, 16),
                         eViewMode::husbandry,
                         window());
         addViewButton(mSeeSecurity);
@@ -108,16 +108,23 @@ void eMilitaryDataWidget::initialize() {
     eDataWidget::initialize();
 
     const auto inner = innerWidget();
+    const int iw = inner->width();
+
+    mAbroad = new eForcesWidget(window());
+    mAbroad->setWidth(iw);
+    mAbroad->initialize(eLanguage::zeusText(51, 1)); // forces abroad
+    inner->addWidget(mAbroad);
+    mAbroad->hide();
 
     mInCity = new eForcesWidget(window());
-    mInCity->setWidth(inner->width());
-    mInCity->initialize(eLanguage::text("forces_in_city"));
+    mInCity->setWidth(iw);
+    mInCity->initialize(eLanguage::zeusText(51, 0)); // forces in city
     inner->addWidget(mInCity);
     mInCity->hide();
 
     mStandingDown = new eForcesWidget(window());
-    mStandingDown->setWidth(inner->width());
-    mStandingDown->initialize(eLanguage::text("standing_down"));
+    mStandingDown->setWidth(iw);
+    mStandingDown->initialize(eLanguage::zeusText(51, 2)); // standing down
     inner->addWidget(mStandingDown);
     mStandingDown->hide();
 
@@ -130,10 +137,13 @@ void eMilitaryDataWidget::paintEvent(ePainter& p) {
         const auto inner = innerWidget();
         const auto& ss = mBoard.banners();
         using eSoldierBanners = std::vector<stdsptr<eSoldierBanner>>;
+        eSoldierBanners abroad;
         eSoldierBanners inCity;
         eSoldierBanners standingDown;
         for(const auto& s : ss) {
-            if(s->isHome()) {
+            if(s->isAbroad()) {
+                abroad.push_back(s);
+            } else if(s->isHome()) {
                 standingDown.push_back(s);
             } else {
                 inCity.push_back(s);
@@ -147,6 +157,13 @@ void eMilitaryDataWidget::paintEvent(ePainter& p) {
             const auto gw = gameWidget();
             gw->viewTile(t);
         };
+        mAbroad->setBanners(abroad, act);
+        if(abroad.empty()) {
+            mAbroad->hide();
+            mAbroad->setHeight(0);
+        } else {
+            mAbroad->show();
+        }
         mInCity->setBanners(inCity, act);
         if(inCity.empty()) {
             mInCity->hide();

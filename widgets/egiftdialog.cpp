@@ -5,6 +5,7 @@
 #include "eframedbuttonwithicon.h"
 #include "engine/egameboard.h"
 #include "engine/egifthelpers.h"
+#include "estringhelpers.h"
 
 void eGiftDialog::initialize(const stdsptr<eWorldCity>& c,
                              const eRequestFunction& func,
@@ -21,7 +22,8 @@ void eGiftDialog::initialize(const stdsptr<eWorldCity>& c,
     innerWid->move(p, p/2);
 
     const auto name = c->name();
-    const auto rof = eLanguage::text("give_to") + " " + name;
+    auto rof = eLanguage::zeusText(41, 0); // give to
+    eStringHelpers::replace(rof, "[city_name]", name);
     const auto rofLabel = new eLabel(window());
     rofLabel->setTinyFontSize();
     rofLabel->setSmallPadding();
@@ -43,7 +45,7 @@ void eGiftDialog::initialize(const stdsptr<eWorldCity>& c,
 
     eWidget* ng = nullptr;
     if(gifts.empty()) {
-        const auto rof = eLanguage::text("no_gifts_possible") + " " + name;
+        const auto rof = eLanguage::zeusText(41, 20); // no gifts possible
         const auto label = new eLabel(window());
         label->setTinyFontSize();
         label->setSmallPadding();

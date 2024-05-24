@@ -22,10 +22,10 @@ private:
     eLabel* mNewcomersLabel = nullptr;
     eLabel* mVacLabel = nullptr;
 
-    eMultiLineLabel* mPeopleDirection = nullptr;
+    eLabel* mPeopleDirection = nullptr;
 
     eWidget* mImiLimitedW = nullptr;
-    eMultiLineLabel* mImiLimitedReason = nullptr;
+    eLabel* mImiLimitedReason = nullptr;
     eWidget* mNewcomersW = nullptr;
 
     int mTime{0};

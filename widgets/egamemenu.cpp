@@ -269,7 +269,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
             const std::string& name) {
         const auto ww9 = new eWidget(window());
         const auto alabel = new eLabel(window());
-        alabel->setText(eLanguage::text(name));
+        alabel->setText(name);
         alabel->setSmallFontSize();
         alabel->fitContent();
         ww9->addWidget(alabel);

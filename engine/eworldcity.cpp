@@ -237,60 +237,60 @@ bool eWorldCity::acceptsGift(const eResourceType type,
 }
 
 stdsptr<eWorldCity> eWorldCity::sCreateAthens(const eWorldCityType type) {
-    const auto name = eLanguage::text("athens");
+    const auto name = eLanguage::zeusText(21, 4); // athens
     return std::make_shared<eWorldCity>(type, name, 0.464, 0.514);
 }
 
 stdsptr<eWorldCity> eWorldCity::sCreateSparta(const eWorldCityType type) {
-    const auto name = eLanguage::text("sparta");
+    const auto name = eLanguage::zeusText(21, 57); // sparta
     return std::make_shared<eWorldCity>(type, name, 0.320, 0.615);
 }
 
 stdsptr<eWorldCity> eWorldCity::sCreateKnossos(const eWorldCityType type) {
-    const auto name = eLanguage::text("knossos");
+    const auto name = eLanguage::zeusText(21, 29); // knossos
     return std::make_shared<eWorldCity>(type, name, 0.588, 0.825);
 }
 
 stdsptr<eWorldCity> eWorldCity::sCreateCorinth(const eWorldCityType type) {
-    const auto name = eLanguage::text("corinth");
+    const auto name = eLanguage::zeusText(21, 10); // corinth
     return std::make_shared<eWorldCity>(type, name, 0.401, 0.522);
 }
 
 stdsptr<eWorldCity> eWorldCity::sCreateOlympia(const eWorldCityType type) {
-    const auto name = eLanguage::text("olympia");
+    const auto name = eLanguage::zeusText(21, 45); // olympia
     return std::make_shared<eWorldCity>(type, name, 0.263, 0.542);
 }
 
 
 stdsptr<eWorldCity> eWorldCity::sCreateEgypt(const eWorldCityType type) {
-    const auto name = eLanguage::text("egypt");
+    const auto name = eLanguage::zeusText(21, 16); // egypt
     return std::make_shared<eWorldCity>(type, name, 0.350, 0.820);
 }
 
 stdsptr<eWorldCity> eWorldCity::sCreateCyprus(const eWorldCityType type) {
-    const auto name = eLanguage::text("cyprus");
+    const auto name = eLanguage::zeusText(21, 13); // cyprus
     return std::make_shared<eWorldCity>(type, name, 0.790, 0.814);
 }
 
 
 stdsptr<eWorldCity> eWorldCity::sCreateTroy(const eWorldCityType type) {
-    const auto name = eLanguage::text("troy");
+    const auto name = eLanguage::zeusText(21, 68); // troy
     return std::make_shared<eWorldCity>(type, name, 0.693, 0.245);
 }
 
 
 stdsptr<eWorldCity> eWorldCity::sCreateMtPelion(const eWorldCityType type) {
-    const auto name = eLanguage::text("mt_pelion");
+    const auto name = eLanguage::zeusText(21, 46); // mt. pelion
     return std::make_shared<eWorldCity>(type, name, 0.356, 0.276);
 }
 
 
 stdsptr<eWorldCity> eWorldCity::sCreateSardis(const eWorldCityType type) {
-    const auto name = eLanguage::text("sardis");
+    const auto name = eLanguage::zeusText(21, 54); // sardis
     return std::make_shared<eWorldCity>(type, name, 0.835, 0.443);
 }
 
 stdsptr<eWorldCity> eWorldCity::sCreateHattusas(const eWorldCityType type) {
-    const auto name = eLanguage::text("hattusas");
+    const auto name = eLanguage::zeusText(21, 24); // hattusas
     return std::make_shared<eWorldCity>(type, name, 0.835, 0.340);
 }

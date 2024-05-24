@@ -18,7 +18,7 @@
 void eEmploymentDataWidget::initialize() {
     {
         mSeeIndustry = new eViewModeButton(
-                        eLanguage::text("see_industry"),
+                        eLanguage::zeusText(14, 3),
                         eViewMode::industry,
                         window());
         addViewButton(mSeeIndustry);
@@ -26,6 +26,7 @@ void eEmploymentDataWidget::initialize() {
 
     eDataWidget::initialize();
     const auto inner = innerWidget();
+    const int iw =inner->width();
 
     const int pp = spacing();
 
@@ -33,16 +34,19 @@ void eEmploymentDataWidget::initialize() {
     {
         cw1->setNoPadding();
 
-        const auto l = new eLabel(eLanguage::text("wage_rate"), window());
+        const auto l = new eLabel(window());
         l->setNoPadding();
         l->setVerySmallFontSize();
+        l->setText(eLanguage::zeusText(131, 1)); // wage rate
         l->fitContent();
         cw1->addWidget(l);
 
-        mWageLabel = new eLabel(eWageRateHelpers::name(eWageRate::normal), window());
+        mWageLabel = new eLabel(window());
         mWageLabel->setYellowFontColor();
         mWageLabel->setNoPadding();
         mWageLabel->setVerySmallFontSize();
+        const auto wrn = eWageRateHelpers::name(eWageRate::normal);
+        mWageLabel->setText(wrn);
         mWageLabel->fitContent();
         cw1->addWidget(mWageLabel);
 
@@ -80,10 +84,13 @@ void eEmploymentDataWidget::initialize() {
     {
         cw2->setNoPadding();
 
-        const auto ll = new eMultiLineLabel(window());
+        const auto ll = new eLabel(window());
+        ll->setWrapWidth(iw);
+        ll->setWrapAlignment(eAlignment::hcenter);
         ll->setVerySmallFontSize();
         ll->setNoPadding();
-        ll->setText(eLanguage::text("projected_payroll"));
+        ll->setText(eLanguage::zeusText(50, 16)); // projected payroll this year
+        ll->fitContent();
         cw2->addWidget(ll);
 
         mPensionsLabel = new eLabel(window());
@@ -116,10 +123,13 @@ void eEmploymentDataWidget::initialize() {
     {
         cw3->setNoPadding();
 
-        const auto ll = new eMultiLineLabel(window());
+        const auto ll = new eLabel(window());
+        ll->setWrapWidth(iw);
+        ll->setWrapAlignment(eAlignment::hcenter);
         ll->setVerySmallFontSize();
         ll->setNoPadding();
-        ll->setText(eLanguage::text("employed_workforce"));
+        ll->setText(eLanguage::zeusText(50, 12)); // employed workforce
+        ll->fitContent();
         cw3->addWidget(ll);
 
         mWorkforceLabel = new eLabel(window());
@@ -147,7 +157,7 @@ void eEmploymentDataWidget::initialize() {
         const auto ll = new eLabel(window());
         ll->setVerySmallFontSize();
         ll->setNoPadding();
-        ll->setText(eLanguage::text("unemployed"));
+        ll->setText(eLanguage::zeusText(50, 13)); // unemployed
         ll->fitContent();
         cw4->addWidget(ll);
 
@@ -178,9 +188,11 @@ void eEmploymentDataWidget::initialize() {
         cw5->setNoPadding();
 
         const auto ll = new eLabel(window());
+        ll->setWrapWidth(iw);
+        ll->setWrapAlignment(eAlignment::hcenter);
         ll->setVerySmallFontSize();
         ll->setNoPadding();
-        ll->setText(eLanguage::text("workers_needed"));
+        ll->setText(eLanguage::zeusText(61, 13)); // workers needed
         ll->fitContent();
         cw5->addWidget(ll);
 
@@ -217,7 +229,9 @@ void eEmploymentDataWidget::paintEvent(ePainter& p) {
         mUnemployedWidget->setVisible(!vacsVisible);
 
         const int p = emplData.pensions();
-        mPensionsLabel->setText(std::to_string(p) + " dr");
+        const auto pStr = std::to_string(p);
+        const auto dr = eLanguage::zeusText(6, 0);
+        mPensionsLabel->setText(pStr + " " + dr);
         mPensionsLabel->fitContent();
         mPensionsLabel->align(eAlignment::hcenter);
 
@@ -232,8 +246,8 @@ void eEmploymentDataWidget::paintEvent(ePainter& p) {
         mVacanciesNLabel->align(eAlignment::hcenter);
 
         const int u = emplData.unemployed();
-        const auto perStr = w ? "(" + std::to_string(100*u/w) + "%)" : "";
-        mUnemployedNLabel->setText(std::to_string(u) + " " + perStr);
+        const auto perStr = w ? " (" + std::to_string(100*u/w) + "%)" : "";
+        mUnemployedNLabel->setText(std::to_string(u) + perStr);
         mUnemployedNLabel->fitContent();
         mUnemployedNLabel->align(eAlignment::hcenter);
     }

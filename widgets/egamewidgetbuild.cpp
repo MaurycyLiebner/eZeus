@@ -458,19 +458,17 @@ bool eGameWidget::buildMouseRelease() {
             mBoard->incDrachmas(-totalCost);
             mUpdateTerrain = true;
 
-            std::string titleT;
-            std::string textT;
+            std::string title;
+            std::string text;
             if(eraser.hasImportantBuildings()) {
-                titleT = eLanguage::zeusText(5, 104);
-                textT = eLanguage::zeusText(5, 105);
+                title = eLanguage::zeusText(5, 104);
+                text = eLanguage::zeusText(5, 105);
             } else if(eraser.hasNonEmptyAgoras()) {
-                titleT = eLanguage::zeusText(5, 16);
-                textT = eLanguage::zeusText(5, 17);
+                title = eLanguage::zeusText(5, 16);
+                text = eLanguage::zeusText(5, 17);
             } else {
                 return false;
             }
-            const auto title = eLanguage::text(titleT);
-            const auto text = eLanguage::text(textT);
             const auto acceptA = [this, cost, eraser]() {
                 auto e = eraser;
                 const int nErased = e.erase(true);

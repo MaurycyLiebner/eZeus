@@ -45,8 +45,7 @@ int sTextGodId(const eGodType god) {
 }
 
 void eSanctuaryInfoWidget::initialize(eSanctuary* const s) {
-    const auto titles = eBuilding::sNameForBuilding(s);
-    const auto title = eLanguage::text(titles);
+    const auto title = eBuilding::sNameForBuilding(s);
     eInfoWidget::initialize(title);
     const auto cw = addCentralWidget();
     addEmploymentWidget(s);

@@ -134,8 +134,8 @@ void eSettingsMenu::initialize(const eApplyAction& settingsA,
         const auto fs = new eFramedButton(window());
         fs->setUnderline(false);
         fs->setText(mSettings.fFullscreen ?
-                        eLanguage::text("windowed_screen") :
-                        eLanguage::text("full_screen"));
+                        eLanguage::zeusText(42, 2) : // windowed screen
+                        eLanguage::zeusText(42, 1)); // full screen
         fs->fitContent();
         col1->addWidget(fs);
 
@@ -143,8 +143,8 @@ void eSettingsMenu::initialize(const eApplyAction& settingsA,
             const bool f = !mSettings.fFullscreen;
             mSettings.fFullscreen = f;
             fullscreenA(f);
-            fs->setText(f ? eLanguage::text("windowed_screen") :
-                            eLanguage::text("full_screen"));
+            fs->setText(f ? eLanguage::zeusText(42, 2) : // windowed screen
+                            eLanguage::zeusText(42, 1)); // full screen
             fs->fitContent();
             fs->align(eAlignment::hcenter);
         });

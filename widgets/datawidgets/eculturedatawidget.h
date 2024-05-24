@@ -18,8 +18,8 @@ public:
 protected:
     void paintEvent(ePainter& p);
 private:
-    eWidget* createCoverageWidget(const std::string& gamesName,
-                                  const std::string& disciplineName,
+    eWidget* createCoverageWidget(const int gamesName,
+                                  const int disciplineName,
                                   eLabel** const clabel);
 
     eViewModeButton* mSeeActors = nullptr;

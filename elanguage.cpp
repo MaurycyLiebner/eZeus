@@ -14,10 +14,6 @@ const std::string& eLanguage::zeusText(const int g, const int s) {
     return instance.fZeusText[g][s];
 }
 
-const std::string& eLanguage::zeusEditorText(const int g, const int s) {
-    return instance.fZeusEditorText[g][s];
-}
-
 bool eLanguage::load() {
     return instance.loadImpl();
 }
@@ -31,7 +27,6 @@ bool eLanguage::loadImpl() {
     mLoaded = true;
 
     eXmlParser::sParse(fZeusText, "../Zeus_Text.xml");
-    eXmlParser::sParse(fZeusEditorText, "../Zeus_Editor_Text.xml");
 
     const std::string path = "../Text/language.txt";
     return eLoadTextHelper::load(path, fText);

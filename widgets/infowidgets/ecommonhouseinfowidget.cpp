@@ -101,7 +101,7 @@ void eCommonHouseInfoWidget::initialize(eHouseBase* const house) {
     msgLabel->setSmallFontSize();
     msgLabel->setWidth(cw->width() - 2*p);
     msgLabel->setWrapWidth(msgLabel->width());
-    msgLabel->setText(eLanguage::text(msg));
+    msgLabel->setText(msg);
     msgLabel->fitContent();
     cw->addWidget(msgLabel);
 
@@ -222,7 +222,7 @@ void eCommonHouseInfoWidget::initialize(eHouseBase* const house) {
         } else { // elite
             satstr = eLanguage::zeusText(127, 21);
         }
-        satLabel->setText(eLanguage::text(satstr));
+        satLabel->setText(satstr);
         satLabel->fitContent();
         fw->addWidget(satLabel);
         satLabel->setY(taxLabel->y() + taxLabel->height());

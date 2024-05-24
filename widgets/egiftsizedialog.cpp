@@ -1,6 +1,7 @@
 #include "egiftsizedialog.h"
 
 #include "elanguage.h"
+#include "estringhelpers.h"
 #include "elabel.h"
 #include "eframedbuttonwithicon.h"
 #include "engine/egameboard.h"
@@ -22,7 +23,8 @@ void eGiftSizeDialog::initialize(const eResourceType type,
     innerWid->move(p, p/2);
 
     const auto name = c->name();
-    const auto rof = eLanguage::text("give_to") + " " + name;
+    auto rof = eLanguage::zeusText(41, 0); // give to
+    eStringHelpers::replace(rof, "[city_name]", name);
     const auto rofLabel = new eLabel(window());
     rofLabel->setTinyFontSize();
     rofLabel->setSmallPadding();
@@ -33,24 +35,25 @@ void eGiftSizeDialog::initialize(const eResourceType type,
 
     const int baseCount = eGiftHelpers::giftCount(type);
     const auto avCount = board.resourceCount(type);
-    using gsType = std::vector<std::pair<int, std::string>>;
-    gsType gs{{baseCount, "small"},
-              {2*baseCount, "medium"},
-              {3*baseCount, "large"}};
+    using gsType = std::vector<std::pair<int, int>>;
+    gsType gs{{baseCount, 22}, // small
+              {2*baseCount, 23}, // medium
+              {3*baseCount, 24}}; // large
     const auto typeStr = eResourceTypeHelpers::typeLongName(type);
     for(const auto& g : gs) {
         const int count = g.first;
         if(count > avCount) break;
         const auto countStr = std::to_string(count);
-        const auto key = g.second + "_gift_of";
-        const auto giftStr = eLanguage::text(key);
-        const auto text = giftStr + " " + countStr + " " + typeStr;
+        const int string = g.second;
+        auto giftStr = eLanguage::zeusText(41, string);
+        eStringHelpers::replace(giftStr, "[amount]", countStr);
+        eStringHelpers::replace(giftStr, "[item]", typeStr);
 
         const auto b = new eFramedButtonWithIcon(window());
         b->setPressAction([type, count, func]() {
             func(type, count);
         });
-        b->initialize(type, text);
+        b->initialize(type, giftStr);
         innerWid->addWidget(b);
     }
 

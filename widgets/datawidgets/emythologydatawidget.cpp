@@ -60,7 +60,7 @@ public:
 eWidget* createNoneLabel(eWidget* const parent,
                          eMainWindow* const w) {
     const auto none = new eMythologyButton(w);
-    none->initialize(eLanguage::text("none"));
+    none->initialize(eLanguage::zeusText(283, 12)); // none
     parent->addWidget(none);
     none->align(eAlignment::hcenter);
     return none;
@@ -69,7 +69,7 @@ eWidget* createNoneLabel(eWidget* const parent,
 void eMythologyDataWidget::initialize() {
     {
         mSeeImmortals = new eViewModeButton(
-                        eLanguage::text("see_immortals"),
+                        eLanguage::zeusText(14, 15),
                         eViewMode::immortals,
                         window());
         addViewButton(mSeeImmortals);
@@ -82,7 +82,7 @@ void eMythologyDataWidget::initialize() {
 
     mSanctuaries = new eTitledWidget(window());
     mSanctuaries->setWidth(innerW);
-    mSanctuaries->initialize(eLanguage::text("sanctuaries"));
+    mSanctuaries->initialize(eLanguage::zeusText(59, 1)); // sanctuaries
     inner->addWidget(mSanctuaries);
 
     const auto saw = mSanctuaries->widget();
@@ -108,7 +108,7 @@ void eMythologyDataWidget::initialize() {
 
     mGodsAttacking = new eTitledWidget(window());
     mGodsAttacking->setWidth(innerW);
-    mGodsAttacking->initialize(eLanguage::text("gods_attacking"));
+    mGodsAttacking->initialize(eLanguage::zeusText(59, 16)); // gods attacking
     inner->addWidget(mGodsAttacking);
 
     const auto gaw = mGodsAttacking->widget();
@@ -120,7 +120,7 @@ void eMythologyDataWidget::initialize() {
 
     mMonstersAttacking = new eTitledWidget(window());
     mMonstersAttacking->setWidth(innerW);
-    mMonstersAttacking->initialize(eLanguage::text("monsters_attacking"));
+    mMonstersAttacking->initialize(eLanguage::zeusText(59, 17)); // monsters attacking
     inner->addWidget(mMonstersAttacking);
 
     const auto maw = mMonstersAttacking->widget();
@@ -170,7 +170,7 @@ void eMythologyDataWidget::paintEvent(ePainter& p) {
                     });
 
                     const auto stateB = new eMythologyButton(window());
-                    stateB->initialize(eLanguage::text("working"));
+                    stateB->initialize(eLanguage::zeusText(59, 2)); // working
                     w->addWidget(stateB);
                     stateB->align(eAlignment::hcenter);
                     stateB->setPressAction([this, sptr]() {

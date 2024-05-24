@@ -9,28 +9,28 @@
 
 void eHygieneSafetyDataWidget::initialize() {
     mSeeWater = new eViewModeButton(
-                     eLanguage::text("see_water"),
+                     eLanguage::zeusText(14, 5),
                      eViewMode::water,
                      window());
     addViewButton(mSeeWater);
 
 
     mSeeHygiene = new eViewModeButton(
-                     eLanguage::text("see_hygiene"),
+                     eLanguage::zeusText(14, 6),
                      eViewMode::hygiene,
                      window());
     addViewButton(mSeeHygiene);
 
 
     mSeeHazards = new eViewModeButton(
-                     eLanguage::text("see_hazards"),
+                     eLanguage::zeusText(14, 7),
                      eViewMode::hazards,
                      window());
     addViewButton(mSeeHazards);
 
 
     mSeeUnrest = new eViewModeButton(
-                     eLanguage::text("see_unrest"),
+                     eLanguage::zeusText(14, 8),
                      eViewMode::unrest,
                      window());
 
@@ -39,11 +39,12 @@ void eHygieneSafetyDataWidget::initialize() {
     eDataWidget::initialize();
 
     const auto inner = innerWidget();
+    const int iw = inner->width();
 
     const auto chtitle = new eLabel(window());
     chtitle->setVerySmallFontSize();
     chtitle->setNoPadding();
-    chtitle->setText(eLanguage::text("city_hygiene"));
+    chtitle->setText(eLanguage::zeusText(56, 1)); // city hygiene
     chtitle->fitContent();
     inner->addWidget(chtitle);
     chtitle->align(eAlignment::hcenter);
@@ -52,7 +53,7 @@ void eHygieneSafetyDataWidget::initialize() {
     mHygieneLabel->setNoPadding();
     mHygieneLabel->setYellowFontColor();
     mHygieneLabel->setVerySmallFontSize();
-    mHygieneLabel->setText(eLanguage::text("excellent"));
+    mHygieneLabel->setText(eLanguage::zeusText(56, 10)); // excellent
     mHygieneLabel->fitContent();
     inner->addWidget(mHygieneLabel);
     mHygieneLabel->align(eAlignment::hcenter);
@@ -64,7 +65,7 @@ void eHygieneSafetyDataWidget::initialize() {
     const auto l1 = new eLineWidget(window());
     l1->setNoPadding();
     l1->fitContent();
-    l1->setWidth(inner->width());
+    l1->setWidth(iw);
     inner->addWidget(l1);
 
     const auto spacer2 = new eWidget(window());
@@ -75,16 +76,20 @@ void eHygieneSafetyDataWidget::initialize() {
         const auto unrestTitle = new eLabel(window());
         unrestTitle->setTinyFontSize();
         unrestTitle->setNoPadding();
-        unrestTitle->setText(eLanguage::text("unrest"));
+        unrestTitle->setText(eLanguage::zeusText(56, 17)); // unrest
         unrestTitle->fitContent();
         inner->addWidget(unrestTitle);
         unrestTitle->align(eAlignment::hcenter);
     }
     {
-        mUnrestLabel = new eMultiLineLabel(window());
+        mUnrestLabel = new eLabel(window());
+        mUnrestLabel->setWrapWidth(iw);
+        mUnrestLabel->setWrapAlignment(eAlignment::hcenter);
         mUnrestLabel->setNoPadding();
         mUnrestLabel->setVerySmallFontSize();
-        mUnrestLabel->setText(eLanguage::text("there_is_no_unrest"));
+        mUnrestLabel->setYellowFontColor();
+        mUnrestLabel->setText(eLanguage::zeusText(56, 23)); // no unrest
+        mUnrestLabel->fitContent();
 
         inner->addWidget(mUnrestLabel);
         mUnrestLabel->align(eAlignment::hcenter);
@@ -96,28 +101,50 @@ void eHygieneSafetyDataWidget::paintEvent(ePainter& p) {
     const bool update = ((mTime++) % 20) == 0;
     if(update) {
         const int hygiene = mBoard.health();
-        std::string hygTxt;
+        int hString = -1;
         if(hygiene > 90) {
-            hygTxt = "excellent";
+            hString = 12;
+        } else if(hygiene > 85) {
+            hString = 11;
         } else if(hygiene > 80) {
-            hygTxt = "very_good";
+            hString = 10;
+        } else if(hygiene > 75) {
+            hString = 9;
         } else if(hygiene > 70) {
-            hygTxt = "good";
+            hString = 8;
+        } else if(hygiene > 65) {
+            hString = 7;
+        } else if(hygiene > 60) {
+            hString = 6;
+        } else if(hygiene > 55) {
+            hString = 5;
         } else if(hygiene > 50) {
-            hygTxt = "ok";
-        } else { // bad
-            hygTxt = "bad";
+            hString = 4;
+        } else if(hygiene > 45) {
+            hString = 3;
+        } else {
+            hString = 2;
         }
-        mHygieneLabel->setText(eLanguage::text(hygTxt));
+        mHygieneLabel->setText(eLanguage::zeusText(56, hString));
+        mHygieneLabel->fitContent();
+        mHygieneLabel->align(eAlignment::hcenter);
 
         const int unrest = mBoard.unrest();
-        std::string unTxt;
-        if(unrest > 5) {
-            unTxt = "there_is_a_lot_of_unrest";
+        int uString = -1;
+        if(unrest > 8) {
+            uString = 19;
+        } else if(unrest > 6) {
+            uString = 20;
+        } else if(unrest > 4) {
+            uString = 21;
+        } else if(unrest > 0) {
+            uString = 22;
         } else {
-            unTxt = "there_is_no_unrest";
+            uString = 23;
         }
-        mUnrestLabel->setText(eLanguage::text(unTxt));
+        mUnrestLabel->setText(eLanguage::zeusText(56, uString));
+        mUnrestLabel->fitContent();
+        mUnrestLabel->align(eAlignment::hcenter);
     }
     eWidget::paintEvent(p);
 }

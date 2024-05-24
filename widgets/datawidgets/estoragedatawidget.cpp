@@ -52,8 +52,8 @@ eWidget* eStorageDataWidget::sdwColumn(
 void eStorageDataWidget::initialize() {
     {
         mSeeDistribution = new eViewModeButton(
-                        eLanguage::text("see_distribution"),
-                        eViewMode::taxes,
+                        eLanguage::zeusText(14, 4),
+                        eViewMode::distribution,
                         window());
         addViewButton(mSeeDistribution);
     }

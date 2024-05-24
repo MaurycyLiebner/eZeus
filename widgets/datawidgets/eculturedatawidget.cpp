@@ -7,11 +7,11 @@
 #include "elanguage.h"
 
 eWidget* eCultureDataWidget::createCoverageWidget(
-        const std::string& gamesName,
-        const std::string& disciplineName,
+        const int gamesName,
+        const int disciplineName,
         eLabel** const clabel) {
-    const auto gamesNameStr = eLanguage::text(gamesName);
-    const auto disciplineNameStr = eLanguage::text(disciplineName);
+    const auto gamesNameStr = eLanguage::zeusText(58, gamesName);
+    const auto disciplineNameStr = eLanguage::zeusText(58, disciplineName);
 
     const auto cw = new eWidget(window());
     cw->setNoPadding();
@@ -37,7 +37,7 @@ eWidget* eCultureDataWidget::createCoverageWidget(
     const int p = covLabel->padding()/2;
     covLabel->setNoPadding();
     covLabel->setTinyFontSize();
-    covLabel->setText(eLanguage::text("terrible_standing"));
+    covLabel->setText(eLanguage::zeusText(58, 14)); // terrible
     covLabel->fitContent();
     ccw->addWidget(covLabel);
     covLabel->setX(disciplineLabel->width() + p);
@@ -55,25 +55,25 @@ eWidget* eCultureDataWidget::createCoverageWidget(
 
 void eCultureDataWidget::initialize() {
     mSeePhilosophers = new eViewModeButton(
-                     eLanguage::text("see_philosophers"),
+                     eLanguage::zeusText(14, 12), // see philosophers
                      eViewMode::philosophers,
                      window());
     addViewButton(mSeePhilosophers);
 
     mSeeAthletes = new eViewModeButton(
-                     eLanguage::text("see_athletes"),
+                     eLanguage::zeusText(14, 13),
                      eViewMode::athletes,
                      window());
     addViewButton(mSeeAthletes);
 
     mSeeActors = new eViewModeButton(
-                     eLanguage::text("see_actors"),
+                     eLanguage::zeusText(14, 14),
                      eViewMode::actors,
                      window());
     addViewButton(mSeeActors);
 
     mSeeAllCulture = new eViewModeButton(
-                     eLanguage::text("see_all_culture"),
+                     eLanguage::zeusText(14, 10),
                      eViewMode::allCulture,
                      window());
     addViewButton(mSeeAllCulture);
@@ -89,7 +89,7 @@ void eCultureDataWidget::initialize() {
     title->setTinyFontSize();
     title->setNoPadding();
     title->setWrapWidth(iw->width());
-    title->setText(eLanguage::text("games_standing"));
+    title->setText(eLanguage::zeusText(58, 1)); // Likely standing in Panhellenic Games
     title->fitContent();
     cw->addWidget(title);
 
@@ -99,23 +99,23 @@ void eCultureDataWidget::initialize() {
     line->setWidth(title->width());
     cw->addWidget(line);
 
-    const auto pwid = createCoverageWidget("isthmian_games",
-                                           "philosophy_discipline",
+    const auto pwid = createCoverageWidget(2, // isthmian games
+                                           3, // philosophy
                                            &mPhilosophyCoverage);
     cw->addWidget(pwid);
 
-    const auto awid = createCoverageWidget("nemean_games",
-                                           "athletics_discipline",
+    const auto awid = createCoverageWidget(4, // nemean games
+                                           5, // athletics
                                            &mAthleticsCoverage);
     cw->addWidget(awid);
 
-    const auto dwid = createCoverageWidget("pythian_games",
-                                           "drama_discipline",
+    const auto dwid = createCoverageWidget(6, // pythian games
+                                           7, // drama
                                            &mDramaCoverage);
     cw->addWidget(dwid);
 
-    const auto allwid = createCoverageWidget("olympian_games",
-                                             "all_discipline",
+    const auto allwid = createCoverageWidget(8, // olympian games
+                                             9, // all
                                              &mAllCoverage);
     cw->addWidget(allwid);
 
@@ -127,19 +127,19 @@ void eCultureDataWidget::initialize() {
     updateCoverage();
 }
 
-std::string coverageToText(const int c) {
-    if(c < 20) return "terrible_standing";
-    if(c < 40) return "poor_standing";
-    if(c < 60) return "not_bad_standing";
-    if(c < 80) return "ok_standing";
-    return "good_standing";
+int coverageToText(const int c) {
+    if(c < 20) return 14; // terrible
+    if(c < 40) return 13; // poor
+    if(c < 60) return 12; // ok
+    if(c < 80) return 11; // not bad
+    return 10; // good
 }
 
 void eCultureDataWidget::updateCoverage() {
     {
         const int pc = mBoard.philosophyCoverage();
         const auto pt = coverageToText(pc);
-        const auto ptt = eLanguage::text(pt);
+        const auto ptt = eLanguage::zeusText(58, pt);
         mPhilosophyCoverage->setText(ptt);
         mPhilosophyCoverage->fitContent();
     }
@@ -147,7 +147,7 @@ void eCultureDataWidget::updateCoverage() {
     {
         const int ac = mBoard.athleticsCoverage();
         const auto at = coverageToText(ac);
-        const auto att = eLanguage::text(at);
+        const auto att = eLanguage::zeusText(58, at);
         mAthleticsCoverage->setText(att);
         mAthleticsCoverage->fitContent();
     }
@@ -155,7 +155,7 @@ void eCultureDataWidget::updateCoverage() {
     {
         const int dc = mBoard.dramaCoverage();
         const auto dt = coverageToText(dc);
-        const auto dtt = eLanguage::text(dt);
+        const auto dtt = eLanguage::zeusText(58, dt);
         mDramaCoverage->setText(dtt);
         mDramaCoverage->fitContent();
     }
@@ -163,7 +163,7 @@ void eCultureDataWidget::updateCoverage() {
     {
         const int ddc = mBoard.allCultureCoverage();
         const auto ddt = coverageToText(ddc);
-        const auto ddtt = eLanguage::text(ddt);
+        const auto ddtt = eLanguage::zeusText(58, ddt);
         mAllCoverage->setText(ddtt);
         mAllCoverage->fitContent();
     }

@@ -5,7 +5,6 @@
 
 class eGameBoard;
 class eLabel;
-class eMultiLineLabel;
 class eGameWidget;
 class eViewModeButton;
 
@@ -23,7 +22,7 @@ private:
     eViewModeButton* mSeeUnrest = nullptr;
 
     eLabel* mHygieneLabel = nullptr;
-    eMultiLineLabel* mUnrestLabel = nullptr;
+    eLabel* mUnrestLabel = nullptr;
 
     int mTime{0};
 };

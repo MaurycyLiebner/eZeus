@@ -1,14 +1,31 @@
 #include "ewagerate.h"
 
+#include "elanguage.h"
+
 std::string eWageRateHelpers::name(const eWageRate wr) {
+    const int group = 285;
+    int string = -1;
     switch(wr) {
-    case eWageRate::none: return "none";
-    case eWageRate::veryLow: return "very low";
-    case eWageRate::low: return "low";
-    case eWageRate::normal: return "normal";
-    case eWageRate::high: return "high";
-    case eWageRate::veryHigh: return "very high";
+    case eWageRate::none:
+        string = 0;
+        break;
+    case eWageRate::veryLow:
+        string = 1;
+        break;
+    case eWageRate::low:
+        string = 2;
+        break;
+    case eWageRate::normal:
+        string = 3;
+        break;
+    case eWageRate::high:
+        string = 4;
+        break;
+    case eWageRate::veryHigh:
+        string = 5;
+        break;
     }
+    return eLanguage::zeusText(group, string);
 }
 
 double eWageRateHelpers::wageMultiplier(const eWageRate wr) {

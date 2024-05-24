@@ -23,8 +23,8 @@ private:
     eViewModeButton* mSeeTaxes = nullptr;
 
     eLabel* mTaxLabel = nullptr;
-    eMultiLineLabel* mYields = nullptr;
-    eMultiLineLabel* mPerPop = nullptr;
+    eLabel* mYields = nullptr;
+    eLabel* mPerPop = nullptr;
 
     eTaxRate mTaxRate{eTaxRate::normal};
 

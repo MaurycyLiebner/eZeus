@@ -11,7 +11,7 @@
 void eHusbandryDataWidget::initialize() {
     {
         mSeeHusbandry = new eViewModeButton(
-                        eLanguage::text("see_husbandry"),
+                        eLanguage::zeusText(14, 2),
                         eViewMode::husbandry,
                         window());
         addViewButton(mSeeHusbandry);
@@ -20,11 +20,14 @@ void eHusbandryDataWidget::initialize() {
     eDataWidget::initialize();
 
     const auto iw = innerWidget();
+    const int iww = iw->width();
 
-    const auto canSupport1 = new eMultiLineLabel(window());
+    const auto canSupport1 = new eLabel(window());
+    canSupport1->setWrapWidth(iww);
+    canSupport1->setWrapAlignment(eAlignment::hcenter);
     canSupport1->setTinyFontSize();
     canSupport1->setNoPadding();
-    canSupport1->setText(eLanguage::text("current_food_can_support_1"));
+    canSupport1->setText(eLanguage::zeusText(57, 1)); // current food productioin can support
     canSupport1->fitContent();
     iw->addWidget(canSupport1);
     canSupport1->align(eAlignment::hcenter);
@@ -36,10 +39,12 @@ void eHusbandryDataWidget::initialize() {
     iw->addWidget(mCanSupportLabel);
     mCanSupportLabel->align(eAlignment::hcenter);
 
-    const auto canSupport2 = new eMultiLineLabel(window());
+    const auto canSupport2 = new eLabel(window());
+    canSupport2->setWrapWidth(iww);
+    canSupport2->setWrapAlignment(eAlignment::hcenter);
     canSupport2->setTinyFontSize();
     canSupport2->setNoPadding();
-    canSupport2->setText(eLanguage::text("current_food_can_support_2"));
+    canSupport2->setText(eLanguage::zeusText(57, 2)); // people
     canSupport2->fitContent();
     iw->addWidget(canSupport2);
     canSupport2->align(eAlignment::hcenter);
@@ -48,7 +53,7 @@ void eHusbandryDataWidget::initialize() {
     mOpinionLabel->setNoPadding();
     mOpinionLabel->setYellowFontColor();
     mOpinionLabel->setTinyFontSize();
-    mOpinionLabel->setText(eLanguage::text("far_too_little"));
+    mOpinionLabel->setText(eLanguage::zeusText(57, 3)); // far too little
     mOpinionLabel->fitContent();
     iw->addWidget(mOpinionLabel);
     mOpinionLabel->align(eAlignment::hcenter);
@@ -67,10 +72,12 @@ void eHusbandryDataWidget::initialize() {
     spacer2->setHeight(spacing());
     iw->addWidget(spacer2);
 
-    const auto storedFood1 = new eMultiLineLabel(window());
+    const auto storedFood1 = new eLabel(window());
+    storedFood1->setWrapWidth(iww);
+    storedFood1->setWrapAlignment(eAlignment::hcenter);
     storedFood1->setTinyFontSize();
     storedFood1->setNoPadding();
-    storedFood1->setText(eLanguage::text("stored_food_for_1"));
+    storedFood1->setText(eLanguage::zeusText(57, 27)); // stored food for
     storedFood1->fitContent();
     iw->addWidget(storedFood1);
     storedFood1->align(eAlignment::hcenter);
@@ -82,10 +89,12 @@ void eHusbandryDataWidget::initialize() {
     iw->addWidget(mStoredFoodLabel);
     mStoredFoodLabel->align(eAlignment::hcenter);
 
-    const auto storedFood2 = new eMultiLineLabel(window());
+    const auto storedFood2 = new eLabel(window());
+    storedFood2->setWrapWidth(iww);
+    storedFood2->setWrapAlignment(eAlignment::hcenter);
     storedFood2->setTinyFontSize();
     storedFood2->setNoPadding();
-    storedFood2->setText(eLanguage::text("stored_food_for_2"));
+    storedFood2->setText(eLanguage::zeusText(57, 28)); // months
     storedFood2->fitContent();
     iw->addWidget(storedFood2);
     storedFood2->align(eAlignment::hcenter);
@@ -107,17 +116,19 @@ void eHusbandryDataWidget::paintEvent(ePainter& p) {
         std::string txt;
         const int pop = mBoard.population();
         if(pop == 0 || a < 0.75*pop) {
-            txt = "far_too_little";
-        } else if(a < 0.9*pop) {
-            txt = "much_too_little";
-        } else if(a < 1.2*pop) {
-            txt = "just_enough";
-        } else if(a < 1.5*pop) {
-            txt = "plenty";
+            txt = eLanguage::zeusText(57, 3); // far too litte
+        } else if(a < 0.85*pop) {
+            txt = eLanguage::zeusText(57, 4);  // much too little
+        } else if(a < 0.95*pop) {
+            txt = eLanguage::zeusText(57, 5); // too little
+        } else if(a < 1.10*pop) {
+            txt = eLanguage::zeusText(57, 6); // just enough
+        } else if(a < 1.35*pop) {
+            txt = eLanguage::zeusText(57, 7); // plenty
         } else {
-            txt = "surplus";
+            txt = eLanguage::zeusText(57, 8); // surplus
         }
-        mOpinionLabel->setText(eLanguage::text(txt));
+        mOpinionLabel->setText(txt);
         mOpinionLabel->fitContent();
         mOpinionLabel->align(eAlignment::hcenter);
 

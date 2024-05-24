@@ -16,7 +16,7 @@
 void eAdminDataWidget::initialize() {
     {
         mSeeTaxes = new eViewModeButton(
-                        eLanguage::text("see_taxes"),
+                        eLanguage::zeusText(14, 9), // see taxes
                         eViewMode::taxes,
                         window());
         addViewButton(mSeeTaxes);
@@ -25,11 +25,13 @@ void eAdminDataWidget::initialize() {
     eDataWidget::initialize();
 
     const auto inner = innerWidget();
+    const int iw = inner->width();
 
     {
-        const auto l = new eLabel(eLanguage::text("tax_rate"), window());
+        const auto l = new eLabel(window());
         l->setNoPadding();
         l->setVerySmallFontSize();
+        l->setText(eLanguage::zeusText(131, 0)); // tax rate
         l->fitContent();
         inner->addWidget(l);
         l->align(eAlignment::hcenter);
@@ -67,27 +69,33 @@ void eAdminDataWidget::initialize() {
     setTaxRate(mBoard.taxRate());
 
     {
-        auto yt = eLanguage::text("taxes_yield_data_widget");
-        const int y = mBoard.taxesPaidLastYear();
-        eStringHelpers::replace(yt, "%1", std::to_string(y));
-        mYields = new eMultiLineLabel(window());
+        mYields = new eLabel(window());
+        mYields->setWrapWidth(iw);
+        mYields->setWrapAlignment(eAlignment::hcenter);
         mYields->setNoPadding();
         mYields->setTinyFontSize();
-        mYields->setText(yt);
+        const auto yt = eLanguage::zeusText(60, 4); // yields an estimated
+        const int y = mBoard.taxesPaidLastYear();
+        const auto dr = eLanguage::zeusText(8, 1);
+        mYields->setText(yt + " " + std::to_string(y) + " " + dr);
+        mYields->fitContent();
         inner->addWidget(mYields);
         mYields->align(eAlignment::hcenter);
     }
 
     {
-        auto pt = eLanguage::text("population_visited_by_clerk_data_widget");
-        const int paid = mBoard.peoplePaidTaxesLastYear();
-        const int pop = mBoard.population();
-        const int per = std::round(100.*paid/pop);
-        eStringHelpers::replace(pt, "%1", std::to_string(per));
-        mPerPop = new eMultiLineLabel(window());
+        mPerPop = new eLabel(window());
+        mPerPop->setWrapWidth(iw);
+        mPerPop->setWrapAlignment(eAlignment::hcenter);
         mPerPop->setNoPadding();
         mPerPop->setTinyFontSize();
-        mPerPop->setText(pt);
+        const auto pt = eLanguage::zeusText(60, 5); // of population visited by clerk
+        const int paid = mBoard.peoplePaidTaxesLastYear();
+        const int pop = mBoard.population();
+        int per = pop == 0 ? 0 : std::round(100.*paid/pop);
+        per = std::clamp(per, 0, 100);
+        mPerPop->setText(std::to_string(per) + "% " + pt);
+        mPerPop->fitContent();
         inner->addWidget(mPerPop);
         mPerPop->align(eAlignment::hcenter);
     }
@@ -107,22 +115,25 @@ void eAdminDataWidget::paintEvent(ePainter& p) {
     const bool update = ((mTime++) % 20) == 0;
     if(update) {
         {
-            auto yt = eLanguage::text("taxes_yield_data_widget");
+            const auto yt = eLanguage::zeusText(60, 4); // yields an estimated
             const int y = mBoard.taxesPaidLastYear();
-            eStringHelpers::replace(yt, "%1", std::to_string(y));
-            mYields->setText(yt);
+            const auto dr = eLanguage::zeusText(8, 1);
+            mYields->setText(yt + " " + std::to_string(y) + " " + dr);
+            mYields->fitContent();
             mYields->align(eAlignment::hcenter);
         }
         {
-            auto pt = eLanguage::text("population_visited_by_clerk_data_widget");
+            const auto pt = eLanguage::zeusText(60, 5); // of population visited by clerk
             const int paid = mBoard.peoplePaidTaxesLastYear();
             const int pop = mBoard.population();
             int per = pop == 0 ? 0 : std::round(100.*paid/pop);
             per = std::clamp(per, 0, 100);
-            eStringHelpers::replace(pt, "%1", std::to_string(per));
-            mPerPop->setText(pt);
+            mPerPop->setText(std::to_string(per) + "% " + pt);
+            mPerPop->fitContent();
             mPerPop->align(eAlignment::hcenter);
         }
+        const auto inner = innerWidget();
+        inner->stackVertically();
     }
     eWidget::paintEvent(p);
 }

@@ -51,13 +51,13 @@ private:
 
 void eOverviewDataWidget::initialize() {
     mSeeProblems = new eViewModeButton(
-                     eLanguage::text("see_problems"),
+                     eLanguage::zeusText(14, 18),
                      eViewMode::problems,
                      window());
     addViewButton(mSeeProblems);
 
     mSeeRoads = new eViewModeButton(
-                     eLanguage::text("see_roads"),
+                     eLanguage::zeusText(14, 19),
                      eViewMode::roads,
                      window());
     addViewButton(mSeeRoads);
@@ -69,32 +69,32 @@ void eOverviewDataWidget::initialize() {
 
     mPopularity = new eOverviewEntry(window());
     mPopularity->setWidth(innerW);
-    mPopularity->initialize(eLanguage::text("popularity"));
+    mPopularity->initialize(eLanguage::zeusText(61, 1)); // popularity
     inner->addWidget(mPopularity);
 
     mFoodLevel = new eOverviewEntry(window());
     mFoodLevel->setWidth(innerW);
-    mFoodLevel->initialize(eLanguage::text("food_level"));
+    mFoodLevel->initialize(eLanguage::zeusText(61, 4)); // food level
     inner->addWidget(mFoodLevel);
 
     mUnemployment = new eOverviewEntry(window());
     mUnemployment->setWidth(innerW);
-    mUnemployment->initialize(eLanguage::text("unemployment"));
+    mUnemployment->initialize(eLanguage::zeusText(61, 107)); // unemployment
     inner->addWidget(mUnemployment);
 
     mHygiene = new eOverviewEntry(window());
     mHygiene->setWidth(innerW);
-    mHygiene->initialize(eLanguage::text("hygiene"));
+    mHygiene->initialize(eLanguage::zeusText(61, 6)); // hygiene
     inner->addWidget(mHygiene);
 
     mUnrest = new eOverviewEntry(window());
     mUnrest->setWidth(innerW);
-    mUnrest->initialize(eLanguage::text("unrest"));
+    mUnrest->initialize(eLanguage::zeusText(61, 7)); // unrest
     inner->addWidget(mUnrest);
 
     mFinances = new eOverviewEntry(window());
     mFinances->setWidth(innerW);
-    mFinances->initialize(eLanguage::text("finances"));
+    mFinances->initialize(eLanguage::zeusText(61, 8)); // finances
     inner->addWidget(mFinances);
 
     const auto spacer1 = new eWidget(window());
@@ -114,7 +114,7 @@ void eOverviewDataWidget::initialize() {
     const auto requestsLabel = new eLabel(window());
     requestsLabel->setTinyFontSize();
     requestsLabel->setNoPadding();
-    requestsLabel->setText(eLanguage::text("requests"));
+    requestsLabel->setText(eLanguage::zeusText(61, 195)); // requests
     requestsLabel->fitContent();
     inner->addWidget(requestsLabel);
     requestsLabel->align(eAlignment::hcenter);
@@ -281,37 +281,51 @@ void eOverviewDataWidget::paintEvent(ePainter& p) {
     if(update) {
         {
             const int pop = mBoard.popularity();
-            std::string txt;
-            if(pop > 80) {
-                txt = "great";
+            int string = -1;
+            if(pop > 90) {
+                string = 38; // superb
+            } else if(pop > 85) {
+                string = 37; // great
+            } else if(pop > 80) {
+                string = 36; // high
+            } else if(pop > 75) {
+                string = 34; // good
+            } else if(pop > 70) {
+                string = 33; // ok
             } else if(pop > 60) {
-                txt = "good";
-            } else {
-                txt = "bad";
+                string = 32; // poor
+            } else if(pop > 50) {
+                string = 31; // bad
+            } else if(pop > 40) {
+                string = 28; // awful
+            }else {
+                string = 27; // terrible
             }
-            mPopularity->setText(eLanguage::text(txt));
+            mPopularity->setText(eLanguage::zeusText(61, string));
         }
         {
             const auto& husbData = mBoard.husbandryData();
             const int a = husbData.canSupport();
             const int pop = mBoard.population();
-            std::string txt;
+            int string = -1;
             if(pop == 0 || a < 0.75*pop) {
-                txt = "too_low";
+                string = 94; // too low
+            } else if(a < 0.85*pop) {
+                string = 95; // low
             } else {
-                txt = "high";
+                string = 97; // good
             }
-            mFoodLevel->setText(eLanguage::text(txt));
+            mFoodLevel->setText(eLanguage::zeusText(61, string));
         }
         {
             const auto& emplData = mBoard.employmentData();
             const int w = emplData.employable();
             const int u = emplData.unemployed();
             if(u == 0) {
-                mUnemployment->setTitle(eLanguage::text("employment"));
-                mUnemployment->setText(eLanguage::text("good"));
+                mUnemployment->setTitle(eLanguage::zeusText(61, 5)); // employment
+                mUnemployment->setText(eLanguage::zeusText(61, 93)); // good
             } else {
-                mUnemployment->setTitle(eLanguage::text("unemployment"));
+                mUnemployment->setTitle(eLanguage::zeusText(61, 107)); // unemployment
                 int per = w == 0 ? 0 : std::round(100.*u/w);
                 per = std::clamp(per, 0, 100);
                 mUnemployment->setText(std::to_string(per) + "%");
@@ -319,34 +333,52 @@ void eOverviewDataWidget::paintEvent(ePainter& p) {
         }
         {
             const int hygiene = mBoard.health();
-            std::string txt;
+            int string = -1;
             if(hygiene > 90) {
-                txt = "excellent";
+                string = 137; // perfect
+            } else if(hygiene > 85) {
+                string = 136; // great
             } else if(hygiene > 80) {
-                txt = "very_good";
+                string = 135; // excellent
+            } else if(hygiene > 75) {
+                string = 134; // very good
             } else if(hygiene > 70) {
-                txt = "good";
+                string = 133; // good
+            } else if(hygiene > 65) {
+                string = 132; // ok
+            } else if(hygiene > 60) {
+                string = 131; // not good
+            } else if(hygiene > 55) {
+                string = 130; // poort
             } else if(hygiene > 50) {
-                txt = "ok";
-            } else { // bad
-                txt = "bad";
+                string = 129; // bad
+            } else if(hygiene > 45) {
+                string = 128; // terrible
+            } else {
+                string = 127; // appalling
             }
-            mHygiene->setText(eLanguage::text(txt));
+            mHygiene->setText(eLanguage::zeusText(61, string));
         }
         {
             const int unrest = mBoard.unrest();
-            std::string txt;
+            int string = -1;
             if(unrest == 0) {
-                txt = "none";
+                string = 149; // none
+            } else if(unrest > 10) {
+                string = 144; // severe
             } else if(unrest > 5) {
-                txt = "high";
+                string = 146; // high
+            } else {
+                string = 148; // low
             }
-            mUnrest->setText(eLanguage::text(txt));
+            mUnrest->setText(eLanguage::zeusText(61, string));
         }
         {
-            std::string txt;
-            txt = "down";
-            mFinances->setText(eLanguage::text(txt));
+            int string = -1;
+            string = 153; // up
+            string = 154; // ok
+            string = 155; // down
+            mFinances->setText(eLanguage::zeusText(61, string));
         }
     }
     eWidget::paintEvent(p);
@@ -415,11 +447,11 @@ void eOverviewDataWidget::addCityRequests() {
                 const auto acceptA = [qq]() {
                     qq->dispatch();
                 };
-                const auto title = eLanguage::text("request");
-                const auto text = eLanguage::text("dispatch_goods");
+                const auto title = eLanguage::zeusText(5, 6); // Request
+                const auto text = eLanguage::zeusText(5, 7); // Dispatch goods?
                 gw->showQuestion(title, text, acceptA);
             } else {
-                const auto tip = eLanguage::text("request_tip_not_enough");
+                const auto tip = eLanguage::zeusText(5, 9); // You do not have enough to fulfill the request
                 gw->showTip(tip);
             }
         });

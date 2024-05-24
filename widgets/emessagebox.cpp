@@ -62,7 +62,7 @@ void eMessageBox::initialize(const eEventData& ed,
     ww->setSmallPadding();
 
     {
-        const auto to = eLanguage::text("message_to");
+        const auto to = eLanguage::zeusText(63, 5); // to
         const auto str = ed.fDate.shortString() +
                          "     " + to + " " + ed.fPlayerName;
         const auto d = new eLabel(str, window());
@@ -78,7 +78,7 @@ void eMessageBox::initialize(const eEventData& ed,
         const auto butt = new eExclamationButton(window());
         butt->setPressAction(viewTile);
         www->addWidget(butt);
-        const auto go = eLanguage::text("go_to_site");
+        const auto go = eLanguage::zeusText(12, 1); // got to site of event
         const auto l = new eLabel(go, window());
         l->setSmallFontSize();
         l->fitContent();
@@ -309,7 +309,7 @@ void eMessageBox::initialize(const eEventData& ed,
         const auto a1B = new eFramedButton(window());
         a1B->setSmallFontSize();
         a1B->setUnderline(false);
-        a1B->setText(eLanguage::text(ed.fA1Key));
+        a1B->setText(ed.fA1Key);
         a1B->fitContent();
         wid->addWidget(a1B);
         a1B->setPressAction([this, ed]() {
@@ -321,7 +321,7 @@ void eMessageBox::initialize(const eEventData& ed,
         const auto a2B = new eFramedButton(window());
         a2B->setSmallFontSize();
         a2B->setUnderline(false);
-        a2B->setText(eLanguage::text(ed.fA2Key));
+        a2B->setText(ed.fA2Key);
         a2B->fitContent();
         wid->addWidget(a2B);
         a2B->setPressAction([this, ed]() {
@@ -408,7 +408,9 @@ eWidget* eMessageBox::createTributeWidget(const eResourceType type,
         const auto textLabel = new eLabel(window());
         textLabel->setSmallFontSize();
         textLabel->setNoPadding();
-        const auto mtc = eLanguage::text("months_to_comply");
+        const auto m = eLanguage::zeusText(8, 5);
+        const auto c = eLanguage::zeusText(12, 2);
+        const auto mtc = m + " " + c; // months to comply
         textLabel->setText("        " + mtc + " " + monthsStr);
         textLabel->fitContent();
         tributeWid->addWidget(textLabel);

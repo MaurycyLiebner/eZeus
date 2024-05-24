@@ -9,10 +9,11 @@
 #include "buildings/eaestheticsbuilding.h"
 
 #include "elanguage.h"
+#include "estringhelpers.h"
 
 void eAppealDataWidget::initialize() {
     mSeeAppeal = new eViewModeButton(
-                     eLanguage::text("see_appeal"),
+                     eLanguage::zeusText(14, 17), // see appeal
                      eViewMode::appeal,
                      window());
     addViewButton(mSeeAppeal);
@@ -99,7 +100,10 @@ void eAppealDataWidget::paintEvent(ePainter& p) {
             mMonumentsWidget->removeAllWidgets();
             const auto gw = gameWidget();
 
-            const auto commParser = [&](const int id, const std::string& name) {
+            const auto templ1 = eLanguage::zeusText(133, 3); // [commemorative_monument]
+            const auto templ2 = eLanguage::zeusText(133, 4); // [commemorative_monument] ([amount])
+
+            const auto commParser = [&](const int id, const int string) {
                 std::vector<eTile*> tiles;
                 for(const auto b : mBuildings) {
                     const auto bt = b->type();
@@ -113,11 +117,17 @@ void eAppealDataWidget::paintEvent(ePainter& p) {
                 }
                 if(tiles.empty()) return;
 
-                auto title = eLanguage::text(name + "_monument_data_widget");
+                std::string title;
                 const auto count = tiles.size();
                 if(count > 1) {
-                    title = title + " (" + std::to_string(count) + ")";
+                    title = templ2;
+                    const auto countStr = std::to_string(count);
+                    eStringHelpers::replace(title, "[amount]", countStr);
+                } else {
+                    title = templ1;
                 }
+                const auto monStr = eLanguage::zeusText(133, string);
+                eStringHelpers::replace(title, "[commemorative_monument]", monStr);
 
                 const auto w = new eMonumentButton(window());
                 w->initialize(title, tiles, gw);
@@ -125,15 +135,15 @@ void eAppealDataWidget::paintEvent(ePainter& p) {
                 w->align(eAlignment::hcenter);
             };
 
-            commParser(0, "population");
-            commParser(1, "victory");
-            commParser(2, "colony");
-            commParser(3, "athlete");
-            commParser(4, "conquest");
-            commParser(5, "happiness");
-            commParser(6, "commemorative7");
-            commParser(7, "commemorative8");
-            commParser(8, "scholar");
+            commParser(0, 5); // population
+            commParser(1, 7); // victory
+            commParser(2, 10); // colony
+            commParser(3, 13); // athelete
+            commParser(4, 8); // conquest
+            commParser(5, 11); // happiness
+            commParser(6, 6); // heroic
+            commParser(7, 9); // diplomacy
+            commParser(8, 12); // scholar
 
             std::map<eGodType, std::vector<eTile*>> gods;
             for(const auto b : mBuildings) {
@@ -148,11 +158,16 @@ void eAppealDataWidget::paintEvent(ePainter& p) {
                 const auto g = gg.first;
                 const auto& tiles = gg.second;
                 const auto count = tiles.size();
-                const auto name = eGod::sGodName(g);
-                auto title = name;
+                std::string title;
                 if(count > 1) {
-                    title = title + " (" + std::to_string(count) + ")";
+                    title = templ2;
+                    const auto countStr = std::to_string(count);
+                    eStringHelpers::replace(title, "[amount]", countStr);
+                } else {
+                    title = templ1;
                 }
+                const auto name = eGod::sGodName(g);
+                eStringHelpers::replace(title, "[commemorative_monument]", name);
 
                 const auto w = new eMonumentButton(window());
                 w->initialize(title, tiles, gw);

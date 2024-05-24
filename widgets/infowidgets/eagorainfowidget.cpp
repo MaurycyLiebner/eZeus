@@ -34,7 +34,7 @@ public:
         }
         if(dark) mStateLabel->setDarkFontColor();
         else mStateLabel->setLightFontColor();
-        mStateLabel->setText(eLanguage::text(text));
+        mStateLabel->setText(text);
         mStateLabel->fitContent();
     }
 private:

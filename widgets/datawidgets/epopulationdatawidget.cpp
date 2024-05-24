@@ -10,7 +10,7 @@
 
 void ePopulationDataWidget::initialize() {
     mSeeSupplies = new eViewModeButton(
-                     eLanguage::text("see_supplies"),
+                     eLanguage::zeusText(14, 1),
                      eViewMode::supplies,
                      window());
     addViewButton(mSeeSupplies);
@@ -18,6 +18,7 @@ void ePopulationDataWidget::initialize() {
     eDataWidget::initialize();
 
     const auto inner = innerWidget();
+    const int iw = inner->width();
 
     const int pp = spacing();
 
@@ -28,7 +29,7 @@ void ePopulationDataWidget::initialize() {
         const auto hfor1 = new eLabel(window());
         hfor1->setVerySmallFontSize();
         hfor1->setNoPadding();
-        hfor1->setText(eLanguage::text("housing_for1"));
+        hfor1->setText(eLanguage::zeusText(55, 8)); // housing for
         hfor1->fitContent();
         cw1->addWidget(hfor1);
 
@@ -41,13 +42,13 @@ void ePopulationDataWidget::initialize() {
         const auto hfor2 = new eLabel(window());
         hfor2->setVerySmallFontSize();
         hfor2->setNoPadding();
-        hfor2->setText(eLanguage::text("housing_for2"));
+        hfor2->setText(eLanguage::zeusText(55, 9)); // more people
         hfor2->fitContent();
         cw1->addWidget(hfor2);
 
         cw1->stackVertically();
         cw1->fitContent();
-        cw1->setWidth(inner->width());
+        cw1->setWidth(iw);
 
         hfor1->align(eAlignment::hcenter);
         mVacLabel->align(eAlignment::hcenter);
@@ -59,17 +60,20 @@ void ePopulationDataWidget::initialize() {
     const auto l1 = new eLineWidget(window());
     l1->setNoPadding();
     l1->fitContent();
-    l1->setWidth(inner->width());
+    l1->setWidth(iw);
     inner->addWidget(l1);
     l1->setY(cw1->y() + cw1->height() + pp);
 
     {
-        mPeopleDirection = new eMultiLineLabel(window());
+        mPeopleDirection = new eLabel(window());
+        mPeopleDirection->setWrapWidth(iw);
+        mPeopleDirection->setWrapAlignment(eAlignment::hcenter);
         mPeopleDirection->setNoPadding();
         mPeopleDirection->setVerySmallFontSize();
-        mPeopleDirection->setText(eLanguage::text("people_wish_to_come"));
+        mPeopleDirection->setText(eLanguage::zeusText(55, 20)); // people wish to come
 
         inner->addWidget(mPeopleDirection);
+        mPeopleDirection->fitContent();
         mPeopleDirection->align(eAlignment::hcenter);
         mPeopleDirection->setY(l1->y() + l1->height() + pp);
     }
@@ -77,7 +81,7 @@ void ePopulationDataWidget::initialize() {
     const auto l2 = new eLineWidget(window());
     l2->setNoPadding();
     l2->fitContent();
-    l2->setWidth(inner->width());
+    l2->setWidth(iw);
     inner->addWidget(l2);
     l2->setY(mPeopleDirection->y() + mPeopleDirection->height() + pp);
 
@@ -85,22 +89,29 @@ void ePopulationDataWidget::initialize() {
         mImiLimitedW = new eWidget(window());
         mImiLimitedW->setNoPadding();
 
-        const auto il1 = new eMultiLineLabel(window());
+        const auto il1 = new eLabel(window());
+        il1->setWrapWidth(iw);
+        il1->setWrapAlignment(eAlignment::hcenter);
         il1->setVerySmallFontSize();
         il1->setNoPadding();
-        il1->setText(eLanguage::text("immigration_limited_by"));
+        il1->setText(eLanguage::zeusText(55, 12)); // immigration limited by
+        il1->fitContent();
         mImiLimitedW->addWidget(il1);
 
-        mImiLimitedReason = new eMultiLineLabel(window());
+        mImiLimitedReason = new eLabel(window());
+        mImiLimitedReason->setWrapWidth(iw);
+        mImiLimitedReason->setWrapAlignment(eAlignment::hcenter);
         mImiLimitedReason->setYellowFontColor();
         mImiLimitedReason->setVerySmallFontSize();
         mImiLimitedReason->setNoPadding();
-        mImiLimitedReason->setText(eLanguage::text("lack_of_housing_vacs"));
+        mImiLimitedReason->setText(eLanguage::zeusText(55, 13)); // lack of housing vacancies
+        mImiLimitedReason->fitContent();
         mImiLimitedW->addWidget(mImiLimitedReason);
+
 
         mImiLimitedW->stackVertically();
         mImiLimitedW->fitContent();
-        mImiLimitedW->setWidth(inner->width() - 2*pp);
+        mImiLimitedW->setWidth(iw - 2*pp);
 
         il1->align(eAlignment::hcenter);
         mImiLimitedReason->align(eAlignment::hcenter);
@@ -120,15 +131,18 @@ void ePopulationDataWidget::initialize() {
         mNewcomersLabel->fitContent();
         cw4->addWidget(mNewcomersLabel);
 
-        const auto il1 = new eMultiLineLabel(window());
+        const auto il1 = new eLabel(window());
+        il1->setWrapWidth(iw);
+        il1->setWrapAlignment(eAlignment::hcenter);
         il1->setVerySmallFontSize();
         il1->setNoPadding();
-        il1->setText(eLanguage::text("newcomers_arrived"));
+        il1->setText(eLanguage::zeusText(55, 10)); // newcomers arrived this month
+        il1->fitContent();
         cw4->addWidget(il1);
 
         cw4->stackVertically();
         cw4->fitContent();
-        cw4->setWidth(inner->width() - 2*pp);
+        cw4->setWidth(iw - 2*pp);
 
         il1->align(eAlignment::hcenter);
         mNewcomersLabel->align(eAlignment::hcenter);
@@ -156,12 +170,12 @@ void ePopulationDataWidget::paintEvent(ePainter& p) {
         const int l = popData.left();
         std::string pdtxt;
         if(l > a) {
-            pdtxt = "people_are_leaving_the_city";
+            pdtxt = eLanguage::zeusText(55, 21); // people are leaving the city
         } else if(a > l) {
-            pdtxt = "people_wish_to_come";
+            pdtxt = eLanguage::zeusText(55, 20); // people with to come to the city
         }
         if(!pdtxt.empty()) {
-            mPeopleDirection->setText(eLanguage::text(pdtxt));
+            mPeopleDirection->setText(pdtxt);
             mPeopleDirection->fitContent();
             mPeopleDirection->align(eAlignment::hcenter);
         }
@@ -174,13 +188,15 @@ void ePopulationDataWidget::paintEvent(ePainter& p) {
         const auto& husbData = mBoard.husbandryData();
         std::string ilrtxt;
         if(v <= 0) {
-            ilrtxt = "lack_of_housing_vacs";
+            ilrtxt = eLanguage::zeusText(55, 13); // lack of housing vacancies
         } else if(husbData.storedFood() < 1) {
-            ilrtxt = "lack_of_food";
+            ilrtxt = eLanguage::zeusText(55, 16); // lack of food
         } else {
-            ilrtxt = "lack_of_housing_vacs";
+            ilrtxt = eLanguage::zeusText(55, 13); // lack of housing vacancies
         }
-        mImiLimitedReason->setText(eLanguage::text(ilrtxt));
+        mImiLimitedReason->setText(ilrtxt);
+        mImiLimitedReason->fitContent();
+        mImiLimitedReason->align(eAlignment::hcenter);
     }
     eWidget::paintEvent(p);
 }
