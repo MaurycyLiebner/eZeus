@@ -319,11 +319,15 @@ void eOverviewDataWidget::paintEvent(ePainter& p) {
         }
         {
             const auto& emplData = mBoard.employmentData();
+            const int f = emplData.freeJobVacancies();
             const int w = emplData.employable();
             const int u = emplData.unemployed();
             if(u == 0) {
-                mUnemployment->setTitle(eLanguage::zeusText(61, 5)); // employment
-                mUnemployment->setText(eLanguage::zeusText(61, 93)); // good
+                mUnemployment->setTitle(eLanguage::zeusText(61, 115)); // employment good
+                mUnemployment->setText("");
+            } else if(f > 0) {
+                mUnemployment->setTitle(eLanguage::zeusText(61, 111)); // workers needed
+                mUnemployment->setText(std::to_string(f));
             } else {
                 mUnemployment->setTitle(eLanguage::zeusText(61, 107)); // unemployment
                 int per = w == 0 ? 0 : std::round(100.*u/w);
