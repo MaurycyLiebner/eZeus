@@ -9,6 +9,7 @@
 #include "engine/eeventdata.h"
 #include "gameEvents/eplayerconquesteventbase.h"
 
+#include "characters/actions/godHelp/eaphroditehelpaction.h"
 #include "characters/actions/godHelp/eapollohelpaction.h"
 #include "characters/actions/godHelp/eareshelpaction.h"
 #include "characters/actions/godHelp/eartemishelpaction.h"
@@ -18,6 +19,7 @@
 #include "characters/actions/godHelp/edionysushelpaction.h"
 #include "characters/actions/godHelp/ehadeshelpaction.h"
 #include "characters/actions/godHelp/eherahelpaction.h"
+#include "characters/actions/godHelp/ehermeshelpaction.h"
 #include "characters/actions/godHelp/eposeidonhelpaction.h"
 #include "characters/actions/godHelp/ezeushelpaction.h"
 
@@ -287,6 +289,9 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
     const auto type = godType();
     bool r = false;
     switch(type) {
+    case eGodType::aphrodite: {
+        r = eAphroditeHelpAction::sHelpNeeded(board);
+    } break;
     case eGodType::apollo: {
         r = eApolloHelpAction::sHelpNeeded(board);
     } break;
@@ -313,6 +318,9 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
     } break;
     case eGodType::hera: {
         r = eHeraHelpAction::sHelpNeeded(board);
+    } break;
+    case eGodType::hermes: {
+        r = eHermesHelpAction::sHelpNeeded(board);
     } break;
     case eGodType::poseidon: {
         r = ePoseidonHelpAction::sHelpNeeded(board);
@@ -342,6 +350,9 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
         return false;
     }
     switch(type) {
+    case eGodType::aphrodite:
+        a = e::make_shared<eAphroditeHelpAction>(c);
+        break;
     case eGodType::apollo:
         a = e::make_shared<eApolloHelpAction>(c);
         break;
@@ -368,6 +379,9 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
         break;
     case eGodType::hera:
         a = e::make_shared<eHeraHelpAction>(c);
+        break;
+    case eGodType::hermes:
+        a = e::make_shared<eHermesHelpAction>(c);
         break;
     case eGodType::poseidon:
         a = e::make_shared<ePoseidonHelpAction>(c);

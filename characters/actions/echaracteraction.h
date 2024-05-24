@@ -31,6 +31,7 @@ enum class eCharActionType {
     godVisitAction,
     godWorshippedAction,
 
+    aphroditeHelpAction,
     apolloHelpAction,
     aresHelpAction,
     artemisHelpAction,
@@ -40,6 +41,7 @@ enum class eCharActionType {
     dionysusHelpAction,
     hadesHelpAction,
     heraHelpAction,
+    hermesHelpAction,
     poseidonHelpAction,
     zeusHelpAction,
 

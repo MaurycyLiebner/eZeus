@@ -287,8 +287,13 @@ eCityRequest eReceiveRequestEvent::cityRequest() const {
 
 void eReceiveRequestEvent::dispatch() {
     auto& board = getBoard();
-    board.removeCityRequest(mainEvent<eReceiveRequestEvent>());
     board.takeResource(mResource, mCount);
+    fulfillWithoutCost();
+}
+
+void eReceiveRequestEvent::fulfillWithoutCost() {
+    auto& board = getBoard();
+    board.removeCityRequest(mainEvent<eReceiveRequestEvent>());
     const auto e = e::make_shared<eReceiveRequestEvent>(*this);
     int postpone = mPostpone - 1;
     auto date = startDate();

@@ -30,6 +30,7 @@
 #include "ewaitaction.h"
 #include "esickdisgruntledaction.h"
 
+#include "godHelp/eaphroditehelpaction.h"
 #include "godHelp/eartemishelpaction.h"
 #include "godHelp/eathenahelpaction.h"
 #include "godHelp/eatlashelpaction.h"
@@ -41,6 +42,7 @@
 #include "godHelp/ezeushelpaction.h"
 #include "godHelp/eapollohelpaction.h"
 #include "godHelp/eareshelpaction.h"
+#include "godHelp/ehermeshelpaction.h"
 
 stdsptr<eCharacterAction> eCharacterAction::sCreate(
         eCharacter* const c, const eCharActionType type) {
@@ -104,6 +106,8 @@ stdsptr<eCharacterAction> eCharacterAction::sCreate(
     case eCharActionType::waitAction:
         return e::make_shared<eWaitAction>(c);
 
+    case eCharActionType::aphroditeHelpAction:
+        return e::make_shared<eAphroditeHelpAction>(c);
     case eCharActionType::apolloHelpAction:
         return e::make_shared<eApolloHelpAction>(c);
     case eCharActionType::aresHelpAction:
@@ -122,6 +126,8 @@ stdsptr<eCharacterAction> eCharacterAction::sCreate(
         return e::make_shared<eHadesHelpAction>(c);
     case eCharActionType::heraHelpAction:
         return e::make_shared<eHeraHelpAction>(c);
+    case eCharActionType::hermesHelpAction:
+        return e::make_shared<eHermesHelpAction>(c);
     case eCharActionType::poseidonHelpAction:
         return e::make_shared<ePoseidonHelpAction>(c);
     case eCharActionType::zeusHelpAction:

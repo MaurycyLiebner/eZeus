@@ -158,6 +158,7 @@ SOURCES += \
         characters/actions/esoldieraction.cpp \
         characters/actions/etraderaction.cpp \
         characters/actions/ewaitaction.cpp \
+        characters/actions/godHelp/eaphroditehelpaction.cpp \
         characters/actions/godHelp/eapollohelpaction.cpp \
         characters/actions/godHelp/eareshelpaction.cpp \
         characters/actions/godHelp/eartemishelpaction.cpp \
@@ -167,6 +168,7 @@ SOURCES += \
         characters/actions/godHelp/edionysushelpaction.cpp \
         characters/actions/godHelp/ehadeshelpaction.cpp \
         characters/actions/godHelp/eherahelpaction.cpp \
+        characters/actions/godHelp/ehermeshelpaction.cpp \
         characters/actions/godHelp/eposeidonhelpaction.cpp \
         characters/actions/godHelp/eprovideresourcehelpaction.cpp \
         characters/actions/godHelp/ezeushelpaction.cpp \
@@ -674,6 +676,7 @@ HEADERS += \
     characters/actions/esoldieraction.h \
     characters/actions/etraderaction.h \
     characters/actions/ewaitaction.h \
+    characters/actions/godHelp/eaphroditehelpaction.h \
     characters/actions/godHelp/eapollohelpaction.h \
     characters/actions/godHelp/eareshelpaction.h \
     characters/actions/godHelp/eartemishelpaction.h \
@@ -683,6 +686,7 @@ HEADERS += \
     characters/actions/godHelp/edionysushelpaction.h \
     characters/actions/godHelp/ehadeshelpaction.h \
     characters/actions/godHelp/eherahelpaction.h \
+    characters/actions/godHelp/ehermeshelpaction.h \
     characters/actions/godHelp/eposeidonhelpaction.h \
     characters/actions/godHelp/eprovideresourcehelpaction.h \
     characters/actions/godHelp/ezeushelpaction.h \

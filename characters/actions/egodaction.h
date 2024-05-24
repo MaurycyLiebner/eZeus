@@ -21,7 +21,8 @@ enum class eGodActType {
     provideAgora,
     provideDrachmas,
     atlasHelp,
-    apolloHelp
+    apolloHelp,
+    aphroditeHelp
 };
 
 class eGodAct {

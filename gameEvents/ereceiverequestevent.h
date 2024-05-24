@@ -39,6 +39,7 @@ public:
 
     eCityRequest cityRequest() const;
     void dispatch();
+    void fulfillWithoutCost();
 private:
     void finished(eEventTrigger& t, const eReason& r);
 
