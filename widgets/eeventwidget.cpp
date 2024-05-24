@@ -56,6 +56,7 @@ eEventButton::eEventButton(const eEvent e,
         break;
 
     case eEvent::godVisit:
+    case eEvent::godHelp:
         coll = &texs.fGodVisitAlert;
         break;
 
