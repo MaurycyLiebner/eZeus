@@ -1,9 +1,12 @@
 #include "edestructiontextures.h"
 
-#include "etextureloadinghelpers.h"
-#include "etextureloader.h"
 #include "offsets/SprAmbient.h"
 #include "offsets/destruction.h"
+
+#include "spriteData/fire115.h"
+#include "spriteData/fire130.h"
+#include "spriteData/fire145.h"
+#include "spriteData/fire160.h"
 
 #include "spriteData/plague15.h"
 #include "spriteData/plague30.h"
@@ -14,6 +17,16 @@
 #include "spriteData/destruction30.h"
 #include "spriteData/destruction45.h"
 #include "spriteData/destruction60.h"
+
+#include "spriteData/rock15.h"
+#include "spriteData/rock30.h"
+#include "spriteData/rock45.h"
+#include "spriteData/rock60.h"
+
+#include "spriteData/arrow15.h"
+#include "spriteData/arrow30.h"
+#include "spriteData/arrow45.h"
+#include "spriteData/arrow60.h"
 
 #include "textures/espriteloader.h"
 
@@ -46,32 +59,30 @@ eDestructionTextures::eDestructionTextures(const int tileW, const int tileH,
 }
 
 void eDestructionTextures::load() {
-    eTextureLoader texLoader(fRenderer);
-    texLoader.initialize("../textures/" + std::to_string(fTileH) + "/destruction.ei");
-
-    std::string basedir{"../ZeusTextures/"};
-    basedir += std::to_string(fTileH) + "/";
     {
-
-        std::string dir = basedir + "destruction/";
-        const std::string pathBase{dir + "destruction_"};
-        eTextureClass texClass(pathBase, texLoader, &eDestructionOffset);
+        const auto& sds = spriteData(fTileH,
+                                     eFire1SpriteData15,
+                                     eFire1SpriteData30,
+                                     eFire1SpriteData45,
+                                     eFire1SpriteData60);
+        eSpriteLoader loader(fTileH, "fire1", sds,
+                             nullptr/*&eDestructionOffset*/, fRenderer);
 
         for(int i = 0; i < 3; i++) {
             fFire.emplace_back(fRenderer);
         }
 
         for(int i = 37; i < 63; i++) {
-            texClass.load(i, fFire[0], false);
+            loader.load(37, i, fFire[0]);
         }
         for(int i = 63; i < 89; i++) {
-            texClass.load(i, fFire[1], false);
+            loader.load(37, i, fFire[1]);
         }
     //    for(int i = 89; i < 115; i++) {
     //        eTextureLoadingHelpers::loadTex(pathBase, i, fFire[2]);
     //    }
         for(int i = 115; i < 133; i++) {
-            texClass.load(i, fFire[2], false);
+            loader.load(37, i, fFire[2]);
         }
     //    for(int i = 133; i < 157; i++) {
     //        eTextureLoadingHelpers::loadTex(pathBase, i, fFire[4]);
@@ -91,93 +102,105 @@ void eDestructionTextures::load() {
     //        eTextureLoadingHelpers::loadTex(pathBase, i, fBigFire[1]);
     //    }
 
-        {
-            const auto& sds = spriteData(fTileH,
-                                         eDestructionSpriteData15,
-                                         eDestructionSpriteData30,
-                                         eDestructionSpriteData45,
-                                         eDestructionSpriteData60);
-            eSpriteLoader loader(fTileH, "destruction", sds,
-                                 &eDestructionOffset, fRenderer);
-            for(int i = 492; i < 692; i++) {
-                loader.load(492, i, fBless);
-            }
+    }
 
-            for(int i = 692; i < 716; i++) {
-                loader.load(492, i, fCursed);
-            }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eDestructionSpriteData15,
+                                     eDestructionSpriteData30,
+                                     eDestructionSpriteData45,
+                                     eDestructionSpriteData60);
+        eSpriteLoader loader(fTileH, "destruction", sds,
+                             &eDestructionOffset, fRenderer);
+        for(int i = 492; i < 692; i++) {
+            loader.load(492, i, fBless);
+        }
 
-            for(int i = 716; i < 740; i++) {
-                loader.load(492, i, fBlessed);
-            }
+        for(int i = 692; i < 716; i++) {
+            loader.load(492, i, fCursed);
+        }
 
-            for(int i = 807; i < 1007; i++) {
-                loader.load(492, i, fCurse);
-            }
-            {
-                const auto& sds = spriteData(fTileH,
-                                             ePlagueSpriteData15,
-                                             ePlagueSpriteData30,
-                                             ePlagueSpriteData45,
-                                             ePlagueSpriteData60);
-                eSpriteLoader loader(fTileH, "plague", sds,
-                                     &eDestructionOffset, fRenderer);
-                for(int i = 1085; i < 1103; i++) {
-                    loader.load(1085, i, fPlague);
-                }
-            }
+        for(int i = 716; i < 740; i++) {
+            loader.load(492, i, fBlessed);
+        }
 
-            for(int i = 1103; i < 1167; i++) {
-                loader.load(492, i, fGodOrangeMissile);
-            }
+        for(int i = 807; i < 1007; i++) {
+            loader.load(492, i, fCurse);
+        }
 
-            for(int i = 1212; i < 1276; i++) {
-                loader.load(492, i, fGodBlueArrow);
-            }
+        for(int i = 1103; i < 1167; i++) {
+            loader.load(492, i, fGodOrangeMissile);
+        }
 
-            for(int i = 1276; i < 1340; i++) {
-                loader.load(492, i, fGodOrangeArrow);
-            }
+        for(int i = 1212; i < 1276; i++) {
+            loader.load(492, i, fGodBlueArrow);
+        }
 
-            for(int i = 1340; i < 1404; i++) {
-                loader.load(492, i, fMonsterMissile);
-            }
+        for(int i = 1276; i < 1340; i++) {
+            loader.load(492, i, fGodOrangeArrow);
+        }
 
-            for(int i = 1404; i < 1468; i++) {
-                loader.load(492, i, fGodBlueMissile);
-            }
+        for(int i = 1340; i < 1404; i++) {
+            loader.load(492, i, fMonsterMissile);
+        }
 
-            for(int i = 1468; i < 1532; i++) {
-                loader.load(492, i, fGodRedMissile);
-            }
+        for(int i = 1404; i < 1468; i++) {
+            loader.load(492, i, fGodBlueMissile);
+        }
 
-            for(int i = 1532; i < 1596; i++) {
-                loader.load(492, i, fGodGreenMissile);
-            }
+        for(int i = 1468; i < 1532; i++) {
+            loader.load(492, i, fGodRedMissile);
+        }
 
-            for(int i = 1596; i < 1660; i++) {
-                loader.load(492, i, fGodPinkMissile);
-            }
+        for(int i = 1532; i < 1596; i++) {
+            loader.load(492, i, fGodGreenMissile);
+        }
 
-            for(int i = 1750; i < 1814; i++) {
-                loader.load(492, i, fGodPurpleMissile);
-            }
+        for(int i = 1596; i < 1660; i++) {
+            loader.load(492, i, fGodPinkMissile);
+        }
+
+        for(int i = 1750; i < 1814; i++) {
+            loader.load(492, i, fGodPurpleMissile);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     ePlagueSpriteData15,
+                                     ePlagueSpriteData30,
+                                     ePlagueSpriteData45,
+                                     ePlagueSpriteData60);
+        eSpriteLoader loader(fTileH, "plague", sds,
+                             &eDestructionOffset, fRenderer);
+        for(int i = 1085; i < 1103; i++) {
+            loader.load(1085, i, fPlague);
         }
     }
 
     {
-        const auto dir = basedir + "SprAmbient/";
-        const std::string pathBase{dir + "SprAmbient_"};
-        eTextureClass texClass(pathBase, texLoader, &eSprAmbientOffset);
+        const auto& sds = spriteData(fTileH,
+                                     eRockSpriteData15,
+                                     eRockSpriteData30,
+                                     eRockSpriteData45,
+                                     eRockSpriteData60);
+        eSpriteLoader loader(fTileH, "rock", sds,
+                             &eSprAmbientOffset, fRenderer);
 
         for(int i = 1490; i < 1492; i++) {
-            texClass.load(i, fRock);
-        }
-
-        for(int i = 2607; i < 2639; i++) {
-            texClass.load(i, fArrow);
+            loader.load(1490, i, fRock);
         }
     }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eArrowSpriteData15,
+                                     eArrowSpriteData30,
+                                     eArrowSpriteData45,
+                                     eArrowSpriteData60);
+        eSpriteLoader loader(fTileH, "arrow", sds,
+                             &eSprAmbientOffset, fRenderer);
 
-    texLoader.waitUntilFinished();
+        for(int i = 2607; i < 2639; i++) {
+            loader.load(2607, i, fArrow);
+        }
+    }
 }

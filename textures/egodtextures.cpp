@@ -86,7 +86,6 @@
 #include "spriteData/zeus60.h"
 
 #include "espriteloader.h"
-#include "etextureloader.h"
 
 eGodTextures::eGodTextures(const int tileW, const int tileH,
                            SDL_Renderer* const renderer) :
@@ -348,67 +347,4 @@ void eGodTextures::loadZeus() {
     eSpriteLoader loader(fTileH, "zeus", sds,
                          &eZeus_ZeusOffset, fRenderer);
     loadExtendedGod(fZeus, 1, 185, 185, 225, 226, 394, 395, 651, loader);
-}
-
-void eBasicGodTextures::load(const std::string& pathBase,
-                             const int w0, const int w1,
-                             const int d0, const int d1,
-                             const int f0, const int f1,
-                             const eOffsets& offs,
-                             eTextureLoader& texLoader) {
-    eTextureClass texClass(pathBase, texLoader, &offs);
-
-    texClass.loadSkipFlipped(fWalk, w0, w1);
-    texClass.loadSkipFlipped(fFight, f0, f1);
-
-    for(int i = d0; i < d1; i++) {
-        texClass.load(i, fDisappear);
-    }
-}
-
-void eDionysusTextures::load(const std::string& pathBase,
-                             const int w0, const int w1,
-                             const int d0, const int d1,
-                             const int f0, const int f1,
-                             const int a0, const int a1,
-                             const eOffsets& offs,
-                             eTextureLoader& texLoader) {
-    eTextureClass texClass(pathBase, texLoader, &offs);
-
-    eBasicGodTextures::load(pathBase,
-                            w0, w1, d0, d1, f0, f1,
-                            offs, texLoader);
-    for(int i = a0; i < a1; i++) {
-        texClass.load(i, fAppear);
-    }
-}
-
-void eHermesTextures::load(const std::string& pathBase,
-                           const int w0, const int w1,
-                           const int r0, const int r1,
-                           const int f0, const int f1,
-                           const eOffsets& offs,
-                           eTextureLoader& texLoader) {
-    eTextureClass texClass(pathBase, texLoader, &offs);
-
-    eBasicGodTextures::load(pathBase,
-                            w0, w1, 0, 0, f0, f1,
-                            offs, texLoader);
-    texClass.loadSkipFlipped(fRun, r0, r1);
-}
-
-void eExtendedGodTextures::load(const std::string& pathBase,
-                                const int w0, const int w1,
-                                const int d0, const int d1,
-                                const int f0, const int f1,
-                                const int b0, const int b1,
-                                const eOffsets& offs,
-                                eTextureLoader& texLoader) {
-    eTextureClass texClass(pathBase, texLoader, &offs);
-
-    eBasicGodTextures::load(pathBase,
-                            w0, w1, d0, d1, f0, f1,
-                            offs, texLoader);
-
-    texClass.loadSkipFlipped(fBless, b0, b1);
 }

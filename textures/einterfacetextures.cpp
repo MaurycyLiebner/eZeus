@@ -1,7 +1,5 @@
 #include "einterfacetextures.h"
 
-#include "etextureloadinghelpers.h"
-
 #include "spriteData/interfaceBanners15.h"
 #include "spriteData/interfaceBanners30.h"
 #include "spriteData/interfaceBanners45.h"

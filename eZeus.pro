@@ -399,9 +399,6 @@ SOURCES += \
         textures/estonestodry.cpp \
         textures/esurroundingterrain.cpp \
         textures/eterraintextures.cpp \
-        textures/etextureclass.cpp \
-        textures/etextureloader.cpp \
-        textures/etextureloadinghelpers.cpp \
         textures/etiletotexture.cpp \
         textures/evaryingsizetex.cpp \
         textures/ewatercorner.cpp \
@@ -1013,6 +1010,10 @@ HEADERS += \
     spriteData/armsVendor30.h \
     spriteData/armsVendor45.h \
     spriteData/armsVendor60.h \
+    spriteData/arrow15.h \
+    spriteData/arrow30.h \
+    spriteData/arrow45.h \
+    spriteData/arrow60.h \
     spriteData/artemis15.h \
     spriteData/artemis30.h \
     spriteData/artemis45.h \
@@ -1178,6 +1179,10 @@ HEADERS += \
     spriteData/empireFigures45.h \
     spriteData/empireFigures60.h \
     spriteData/espritedata.h \
+    spriteData/fire115.h \
+    spriteData/fire130.h \
+    spriteData/fire145.h \
+    spriteData/fire160.h \
     spriteData/fireFighter15.h \
     spriteData/fireFighter30.h \
     spriteData/fireFighter45.h \
@@ -1543,6 +1548,10 @@ HEADERS += \
     spriteData/religion30.h \
     spriteData/religion45.h \
     spriteData/religion60.h \
+    spriteData/rock15.h \
+    spriteData/rock30.h \
+    spriteData/rock45.h \
+    spriteData/rock60.h \
     spriteData/rockThrower15.h \
     spriteData/rockThrower30.h \
     spriteData/rockThrower45.h \
@@ -1699,6 +1708,30 @@ HEADERS += \
     spriteData/zeus30.h \
     spriteData/zeus45.h \
     spriteData/zeus60.h \
+    spriteData/zeusElevationTiles15.h \
+    spriteData/zeusElevationTiles215.h \
+    spriteData/zeusElevationTiles230.h \
+    spriteData/zeusElevationTiles245.h \
+    spriteData/zeusElevationTiles260.h \
+    spriteData/zeusElevationTiles30.h \
+    spriteData/zeusElevationTiles45.h \
+    spriteData/zeusElevationTiles60.h \
+    spriteData/zeusLand115.h \
+    spriteData/zeusLand130.h \
+    spriteData/zeusLand145.h \
+    spriteData/zeusLand160.h \
+    spriteData/zeusLand315.h \
+    spriteData/zeusLand330.h \
+    spriteData/zeusLand345.h \
+    spriteData/zeusLand360.h \
+    spriteData/zeusOverlay15.h \
+    spriteData/zeusOverlay30.h \
+    spriteData/zeusOverlay45.h \
+    spriteData/zeusOverlay60.h \
+    spriteData/zeusQuarryTileSet15.h \
+    spriteData/zeusQuarryTileSet30.h \
+    spriteData/zeusQuarryTileSet45.h \
+    spriteData/zeusQuarryTileSet60.h \
     spriteData/zeusSanctuary115.h \
     spriteData/zeusSanctuary130.h \
     spriteData/zeusSanctuary145.h \
@@ -1711,10 +1744,18 @@ HEADERS += \
     spriteData/zeusSanctuary330.h \
     spriteData/zeusSanctuary345.h \
     spriteData/zeusSanctuary360.h \
+    spriteData/zeusStairs15.h \
+    spriteData/zeusStairs30.h \
+    spriteData/zeusStairs45.h \
+    spriteData/zeusStairs60.h \
     spriteData/zeusStatue15.h \
     spriteData/zeusStatue30.h \
     spriteData/zeusStatue45.h \
     spriteData/zeusStatue60.h \
+    spriteData/zeusTrees15.h \
+    spriteData/zeusTrees30.h \
+    spriteData/zeusTrees45.h \
+    spriteData/zeusTrees60.h \
     textures/ebeachtodry.h \
     textures/ebuildingtextures.h \
     textures/echaractertextures.h \
@@ -1730,9 +1771,6 @@ HEADERS += \
     textures/estonestodry.h \
     textures/esurroundingterrain.h \
     textures/eterraintextures.h \
-    textures/etextureclass.h \
-    textures/etextureloader.h \
-    textures/etextureloadinghelpers.h \
     textures/etiletotexture.h \
     textures/evaryingsizetex.h \
     textures/ewatercorner.h \

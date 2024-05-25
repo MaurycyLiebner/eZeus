@@ -1,9 +1,6 @@
 #include "ebuildingtextures.h"
 
-#include "etextureloadinghelpers.h"
 #include "offsets/SprAmbient.h"
-
-#include "etextureloader.h"
 
 #include "spriteData/beautification215.h"
 #include "spriteData/beautification230.h"

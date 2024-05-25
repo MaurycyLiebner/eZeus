@@ -1,7 +1,6 @@
 #include "echaractertextures.h"
 
 #include "espriteloader.h"
-#include "etextureloadinghelpers.h"
 
 #include "offsets/SprMain.h"
 #include "offsets/Zeus_Greek.h"
@@ -268,8 +267,6 @@
 #include "spriteData/banners60.h"
 
 #include "espriteloader.h"
-
-#include "etextureloader.h"
 
 eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
                                        SDL_Renderer* const renderer) :
