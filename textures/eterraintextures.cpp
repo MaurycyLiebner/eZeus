@@ -37,6 +37,16 @@ eTerrainTextures::eTerrainTextures(const int tileW, const int tileH,
     fLargeTallStoneTerrainTexs(renderer),
     fHugeTallStoneTerrainTexs(renderer),
 
+    fAppeal(renderer),
+    fHouseAppeal(renderer),
+
+    fBeachRoad(renderer),
+    fToBeachRoad(renderer),
+    fRoad(renderer),
+    fPrettyRoad(renderer),
+
+    fSanctuaryStairs(renderer),
+
     fTinyStones(renderer),
 
     fFlatMarble(renderer),
@@ -166,6 +176,14 @@ void eTerrainTextures::load() {
         const std::string pathBase{terrDir + "Zeus_Overlay_"};
         eTextureClass texClass(pathBase, texLoader);
 
+        for(int i = 1; i < 11; i++) {
+            texClass.load(i, fAppeal);
+        }
+
+        for(int i = 11; i < 21; i++) {
+            texClass.load(i, fHouseAppeal);
+        }
+
         for(int i = 21; i < 29; i++) {
             texClass.load(i, fTinyStones);
         }
@@ -216,6 +234,22 @@ void eTerrainTextures::load() {
 
         for(int i = 0; i < 15; i++) {
             fWaterTexs.emplace_back(fRenderer);
+        }
+
+        for(int i = 81; i < 99; i++) {
+            texClass.load(i, fBeachRoad);
+        }
+
+        for(int i = 231; i < 235; i++) {
+            texClass.load(i, fToBeachRoad);
+        }
+
+        for(int i = 235; i < 253; i++) {
+            texClass.load(i, fRoad);
+        }
+
+        for(int i = 253; i < 302; i++) {
+            texClass.load(i, fPrettyRoad);
         }
 
         for(int i = 99; i < 189;) {
@@ -304,6 +338,15 @@ void eTerrainTextures::load() {
 
         for(int i = 95; i < 155; i++) {
             texClass.load(i, fDeepMarble);
+        }
+    }
+
+    {
+        const std::string pathBase{terrDir + "Zeus_Religion_"};
+        eTextureClass texClass(pathBase, texLoader);
+
+        for(int i = 1; i < 13; i++) {
+            texClass.load(i, fSanctuaryStairs);
         }
     }
 

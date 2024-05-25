@@ -12,6 +12,6 @@ eStairsRenderer::eStairsRenderer(
 std::shared_ptr<eTexture>
 eStairsRenderer::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
-    const auto& blds = eGameTextures::buildings()[sizeId];
-    return blds.fSanctuaryStairs.getTexture(mId);
+    const auto& terr = eGameTextures::terrain()[sizeId];
+    return terr.fSanctuaryStairs.getTexture(mId);
 }

@@ -168,11 +168,6 @@ public:
     std::shared_ptr<eTexture> fWatchPost;
     eTextureCollection fWatchPostOverlay;
 
-    eTextureCollection fBeachRoad;
-    eTextureCollection fToBeachRoad;
-    eTextureCollection fRoad;
-    eTextureCollection fPrettyRoad;
-
     eTextureCollection fWaitingMeat;
     eTextureCollection fWaitingCheese;
     eTextureCollection fWaitingWheat;
@@ -319,9 +314,6 @@ public:
     std::shared_ptr<eTexture> fStoneCircle;
     eTextureCollection fStoneCircleOverlay;
 
-    eTextureCollection fAppeal;
-    eTextureCollection fHouseAppeal;
-
     eTextureCollection fZeusStatues;
     eTextureCollection fPoseidonStatues;
     eTextureCollection fHadesStatues;
@@ -365,14 +357,11 @@ public:
     eTextureCollection fHeraMonuments;
     eTextureCollection fAtlasMonuments;
 
-    std::shared_ptr<eTexture> fMonumentStone;
-
     std::vector<eTextureCollection> fSanctuary;
 
     eTextureCollection fSanctuaryWOverlay;
     eTextureCollection fSanctuaryHOverlay;
 
-    eTextureCollection fSanctuaryStairs;
     eTextureCollection fSanctuaryFire;
 
     eTextureCollection fFish;

@@ -65,7 +65,7 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
     case eBuildingType::templeHermes:
     case eBuildingType::templePoseidon:
     case eBuildingType::templeZeus: {
-        const auto& coll = blds.fSanctuaryStairs;
+        const auto& coll = textures.fSanctuaryStairs;
         return coll.getTexture(seed % coll.size());
     } break;
     case eBuildingType::oliveTree:

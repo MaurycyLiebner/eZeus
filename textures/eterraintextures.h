@@ -51,6 +51,16 @@ public:
     eTextureCollection fLargeTallStoneTerrainTexs;
     eTextureCollection fHugeTallStoneTerrainTexs;
 
+    eTextureCollection fAppeal;
+    eTextureCollection fHouseAppeal;
+
+    eTextureCollection fBeachRoad;
+    eTextureCollection fToBeachRoad;
+    eTextureCollection fRoad;
+    eTextureCollection fPrettyRoad;
+
+    eTextureCollection fSanctuaryStairs;
+
     eTextureCollection fTinyStones;
 
     eTextureCollection fFlatMarble;

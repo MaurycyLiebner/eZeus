@@ -719,9 +719,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                 if(ae || ch || tile->underBuilding()) {
                     const eTextureCollection* coll;
                     if(ch) {
-                        coll = &builTexs.fHouseAppeal;
+                        coll = &trrTexs.fHouseAppeal;
                     } else {
-                        coll = &builTexs.fAppeal;
+                        coll = &trrTexs.fAppeal;
                     }
                     const double app = am.heat(dtx, dty);
                     const double mult = app > 0 ? 1 : -1;
@@ -1358,7 +1358,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 }
             }
             tex->clearColorMod();
-            const auto& road = builTexs.fRoad.getTexture(0);
+            const auto& road = trrTexs.fRoad.getTexture(0);
             road->setColorMod(255, 0, 0);
             for(int j = t->y() - 3; j < t->y() + 3; j++) {
                 double rx;
@@ -1503,7 +1503,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 }
             }
             tex->clearColorMod();
-            const auto& road = builTexs.fRoad.getTexture(0);
+            const auto& road = trrTexs.fRoad.getTexture(0);
             road->setColorMod(255, 0, 0);
             for(int j = ty - 3; j < ty + 3; j++) {
                 double rx;

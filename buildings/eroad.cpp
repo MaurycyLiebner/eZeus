@@ -24,17 +24,18 @@ void eRoad::erase() {
 
 std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
-    const auto& sizeColl = eGameTextures::buildings()[sizeId];
+    const auto& trrTexs = eGameTextures::terrain()[sizeId];
+    const auto& builTexs = eGameTextures::buildings()[sizeId];
 
-    if(mRoadblock) return sizeColl.fRoadblock;
+    if(mRoadblock) return builTexs.fRoadblock;
 
     if(mUnderAgora) {
-        const auto& coll = sizeColl.fAgoraRoad;
+        const auto& coll = builTexs.fAgoraRoad;
         return coll.getTexture(seed() % coll.size());
     }
 
-    const auto& tbcoll = sizeColl.fToBeachRoad;
-    const auto& bcoll = sizeColl.fBeachRoad;
+    const auto& tbcoll = trrTexs.fToBeachRoad;
+    const auto& bcoll = trrTexs.fBeachRoad;
 
     const auto ti = centerTile();
     const auto tr = ti->topRight();
@@ -66,7 +67,7 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
         } else if((trb || blb) || ((tlw && !tlb) || (brw && !brb))) {
             texId = 11;
         }
-        return sizeColl.fBridge.getTexture(texId);
+        return builTexs.fBridge.getTexture(texId);
     }
 
     const auto trt = tr ? tr->underBuildingType() : eBuildingType::none;
@@ -220,7 +221,7 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
         } else if(tlb) {
             id = 48;
         }
-        return sizeColl.fAvenueRoad.getTexture(id);
+        return builTexs.fAvenueRoad.getTexture(id);
     }
 
     if(ti->terrain() == eTerrain::beach) {
@@ -262,8 +263,8 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
         return bcoll.getTexture(12);
 
     } else {
-        const auto& pcoll = sizeColl.fPrettyRoad;
-        const auto& rcoll = sizeColl.fRoad;
+        const auto& pcoll = trrTexs.fPrettyRoad;
+        const auto& rcoll = trrTexs.fRoad;
 
         const auto& b = getBoard();
         const auto t = centerTile();
