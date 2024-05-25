@@ -1,0 +1,72 @@
+#include <vector>
+
+#include "espritedata.h"
+
+const auto eInterfaceMapEditorSpriteData15 = std::vector<eSpriteData> {
+   eSpriteData{1, 0, 0, 93, 384}, // 1
+   eSpriteData{0, 0, 0, 22, 20}, // 2
+   eSpriteData{0, 22, 0, 22, 20}, // 3
+   eSpriteData{0, 44, 0, 22, 20}, // 4
+   eSpriteData{0, 66, 0, 22, 20}, // 5
+   eSpriteData{0, 88, 0, 22, 20}, // 6
+   eSpriteData{0, 110, 0, 22, 20}, // 7
+   eSpriteData{0, 132, 0, 22, 20}, // 8
+   eSpriteData{0, 154, 0, 22, 20}, // 9
+   eSpriteData{0, 176, 0, 22, 20}, // 10
+   eSpriteData{0, 198, 0, 22, 20}, // 11
+   eSpriteData{0, 220, 0, 22, 20}, // 12
+   eSpriteData{0, 242, 0, 22, 20}, // 13
+   eSpriteData{0, 264, 0, 22, 20}, // 14
+   eSpriteData{0, 286, 0, 22, 20}, // 15
+   eSpriteData{0, 308, 0, 22, 20}, // 16
+   eSpriteData{0, 330, 0, 22, 20}, // 17
+   eSpriteData{0, 352, 0, 22, 20}, // 18
+   eSpriteData{0, 374, 0, 22, 20}, // 19
+   eSpriteData{0, 396, 0, 22, 20}, // 20
+   eSpriteData{0, 418, 0, 22, 20}, // 21
+   eSpriteData{0, 440, 0, 22, 20}, // 22
+   eSpriteData{0, 462, 0, 22, 20}, // 23
+   eSpriteData{0, 484, 0, 22, 20}, // 24
+   eSpriteData{0, 506, 0, 22, 20}, // 25
+   eSpriteData{0, 528, 0, 22, 20}, // 26
+   eSpriteData{0, 550, 0, 22, 20}, // 27
+   eSpriteData{0, 572, 0, 22, 20}, // 28
+   eSpriteData{0, 594, 0, 22, 20}, // 29
+   eSpriteData{0, 616, 0, 22, 20}, // 30
+   eSpriteData{0, 638, 0, 22, 20}, // 31
+   eSpriteData{0, 660, 0, 22, 20}, // 32
+   eSpriteData{0, 682, 0, 22, 20}, // 33
+   eSpriteData{0, 704, 0, 22, 20}, // 34
+   eSpriteData{0, 726, 0, 22, 20}, // 35
+   eSpriteData{0, 748, 0, 22, 20}, // 36
+   eSpriteData{0, 770, 0, 22, 20}, // 37
+   eSpriteData{0, 792, 0, 22, 20}, // 38
+   eSpriteData{0, 814, 0, 22, 20}, // 39
+   eSpriteData{0, 836, 0, 22, 20}, // 40
+   eSpriteData{0, 858, 0, 22, 20}, // 41
+   eSpriteData{0, 880, 0, 22, 20}, // 42
+   eSpriteData{0, 902, 0, 22, 20}, // 43
+   eSpriteData{0, 924, 0, 22, 20}, // 44
+   eSpriteData{0, 946, 0, 22, 20}, // 45
+   eSpriteData{0, 968, 0, 22, 20}, // 46
+   eSpriteData{0, 990, 0, 22, 20}, // 47
+   eSpriteData{0, 1012, 0, 22, 20}, // 48
+   eSpriteData{0, 1034, 0, 22, 20}, // 49
+   eSpriteData{0, 1056, 0, 22, 20}, // 50
+   eSpriteData{0, 1078, 0, 22, 20}, // 51
+   eSpriteData{0, 1100, 0, 22, 20}, // 52
+   eSpriteData{0, 1122, 0, 22, 20}, // 53
+   eSpriteData{0, 1144, 0, 22, 20}, // 54
+   eSpriteData{0, 1166, 0, 22, 20}, // 55
+   eSpriteData{0, 1188, 0, 22, 20}, // 56
+   eSpriteData{0, 1210, 0, 22, 20}, // 57
+   eSpriteData{0, 1232, 0, 13, 13}, // 58
+   eSpriteData{0, 1245, 0, 13, 13}, // 59
+   eSpriteData{0, 1258, 0, 13, 13}, // 60
+   eSpriteData{0, 1271, 0, 13, 13}, // 61
+   eSpriteData{0, 1284, 0, 13, 13}, // 62
+   eSpriteData{0, 1297, 0, 13, 13}, // 63
+   eSpriteData{0, 1310, 0, 13, 13}, // 64
+   eSpriteData{0, 1323, 0, 13, 13}, // 65
+   eSpriteData{0, 1336, 0, 93, 15}, // 66
+};

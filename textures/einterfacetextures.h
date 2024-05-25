@@ -11,9 +11,6 @@ public:
     void load();
     bool fLoaded = false;
 
-    void loadInterfaceBanners();
-    bool fInterfaceBannersLoaded = false;
-
     const int fTileW;
     const int fTileH;
     SDL_Renderer* const fRenderer;

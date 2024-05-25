@@ -1274,6 +1274,34 @@ HEADERS += \
     spriteData/interfaceBanners30.h \
     spriteData/interfaceBanners45.h \
     spriteData/interfaceBanners60.h \
+    spriteData/interfaceMapEditor15.h \
+    spriteData/interfaceMapEditor30.h \
+    spriteData/interfaceMapEditor45.h \
+    spriteData/interfaceMapEditor60.h \
+    spriteData/interfaceNewBbuttons15.h \
+    spriteData/interfaceNewBbuttons30.h \
+    spriteData/interfaceNewBbuttons45.h \
+    spriteData/interfaceNewBbuttons60.h \
+    spriteData/interfaceNewParts15.h \
+    spriteData/interfaceNewParts30.h \
+    spriteData/interfaceNewParts45.h \
+    spriteData/interfaceNewParts60.h \
+    spriteData/interfaceParts15.h \
+    spriteData/interfaceParts30.h \
+    spriteData/interfaceParts45.h \
+    spriteData/interfaceParts60.h \
+    spriteData/interfaceRadar15.h \
+    spriteData/interfaceRadar30.h \
+    spriteData/interfaceRadar45.h \
+    spriteData/interfaceRadar60.h \
+    spriteData/interfaceSprites15.h \
+    spriteData/interfaceSprites30.h \
+    spriteData/interfaceSprites45.h \
+    spriteData/interfaceSprites60.h \
+    spriteData/interfaceWorldSide15.h \
+    spriteData/interfaceWorldSide30.h \
+    spriteData/interfaceWorldSide45.h \
+    spriteData/interfaceWorldSide60.h \
     spriteData/jason15.h \
     spriteData/jason30.h \
     spriteData/jason45.h \
@@ -1415,6 +1443,14 @@ HEADERS += \
     spriteData/poseidonInterface30.h \
     spriteData/poseidonInterface45.h \
     spriteData/poseidonInterface60.h \
+    spriteData/poseidonQuestButtons15.h \
+    spriteData/poseidonQuestButtons30.h \
+    spriteData/poseidonQuestButtons45.h \
+    spriteData/poseidonQuestButtons60.h \
+    spriteData/poseidonUnits15.h \
+    spriteData/poseidonUnits30.h \
+    spriteData/poseidonUnits45.h \
+    spriteData/poseidonUnits60.h \
     spriteData/religion15.h \
     spriteData/religion30.h \
     spriteData/religion45.h \

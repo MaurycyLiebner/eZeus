@@ -60,29 +60,29 @@ const auto ePoseidonInterfaceSpriteData60 = std::vector<eSpriteData> {
    eSpriteData{0, 968, 168, 38, 76}, // 55
    eSpriteData{0, 1006, 168, 68, 80}, // 56
    eSpriteData{0, 1074, 168, 68, 40}, // 57
-   eSpriteData{0, 1142, 168, 372, 1536}, // 58
-   eSpriteData{0, 1514, 244, 372, 1536}, // 59
-   eSpriteData{0, 244, 246, 372, 1536}, // 60
-   eSpriteData{0, 616, 248, 372, 1536}, // 61
+   eSpriteData{1, 0, 0, 372, 1536}, // 58
+   eSpriteData{2, 0, 0, 372, 1536}, // 59
+   eSpriteData{3, 0, 0, 372, 1536}, // 60
+   eSpriteData{4, 0, 0, 372, 1536}, // 61
    eSpriteData{0, 2022, 32, 4, 2}, // 62
-   eSpriteData{0, 1514, 168, 48, 72}, // 63
-   eSpriteData{0, 1074, 208, 68, 78}, // 64
-   eSpriteData{0, 0, 242, 68, 80}, // 65
-   eSpriteData{0, 1562, 168, 48, 72}, // 66
-   eSpriteData{0, 1886, 244, 66, 80}, // 67
-   eSpriteData{0, 1952, 244, 70, 82}, // 68
-   eSpriteData{0, 1610, 168, 38, 62}, // 69
-   eSpriteData{0, 1648, 168, 58, 70}, // 70
-   eSpriteData{0, 1706, 168, 58, 72}, // 71
-   eSpriteData{0, 1764, 168, 38, 68}, // 72
-   eSpriteData{0, 988, 248, 56, 76}, // 73
-   eSpriteData{0, 68, 286, 58, 80}, // 74
-   eSpriteData{0, 1802, 168, 44, 60}, // 75
-   eSpriteData{0, 1044, 286, 62, 70}, // 76
-   eSpriteData{0, 126, 294, 64, 74}, // 77
-   eSpriteData{0, 1886, 326, 70, 64}, // 78
-   eSpriteData{0, 1956, 326, 88, 72}, // 79
-   eSpriteData{0, 988, 356, 90, 80}, // 80
+   eSpriteData{0, 1142, 168, 48, 72}, // 63
+   eSpriteData{0, 1190, 168, 68, 78}, // 64
+   eSpriteData{0, 1258, 168, 68, 80}, // 65
+   eSpriteData{0, 1326, 168, 48, 72}, // 66
+   eSpriteData{0, 1374, 168, 66, 80}, // 67
+   eSpriteData{0, 1440, 168, 70, 82}, // 68
+   eSpriteData{0, 1510, 168, 38, 62}, // 69
+   eSpriteData{0, 1548, 168, 58, 70}, // 70
+   eSpriteData{0, 1606, 168, 58, 72}, // 71
+   eSpriteData{0, 1664, 168, 38, 68}, // 72
+   eSpriteData{0, 1702, 168, 56, 76}, // 73
+   eSpriteData{0, 1758, 168, 58, 80}, // 74
+   eSpriteData{0, 312, 202, 44, 60}, // 75
+   eSpriteData{0, 1074, 208, 62, 70}, // 76
+   eSpriteData{0, 244, 214, 64, 74}, // 77
+   eSpriteData{0, 356, 216, 70, 64}, // 78
+   eSpriteData{0, 518, 218, 88, 72}, // 79
+   eSpriteData{0, 824, 236, 90, 80}, // 80
    eSpriteData{0, 2026, 32, 4, 2}, // 81
    eSpriteData{0, 2030, 32, 4, 2}, // 82
    eSpriteData{0, 2034, 32, 4, 2}, // 83

@@ -32,6 +32,51 @@
 #include "spriteData/poseidonInterface45.h"
 #include "spriteData/poseidonInterface60.h"
 
+#include "spriteData/interfaceNewBbuttons15.h"
+#include "spriteData/interfaceNewBbuttons30.h"
+#include "spriteData/interfaceNewBbuttons45.h"
+#include "spriteData/interfaceNewBbuttons60.h"
+
+#include "spriteData/interfaceNewParts15.h"
+#include "spriteData/interfaceNewParts30.h"
+#include "spriteData/interfaceNewParts45.h"
+#include "spriteData/interfaceNewParts60.h"
+
+#include "spriteData/interfaceParts15.h"
+#include "spriteData/interfaceParts30.h"
+#include "spriteData/interfaceParts45.h"
+#include "spriteData/interfaceParts60.h"
+
+#include "spriteData/interfaceWorldSide15.h"
+#include "spriteData/interfaceWorldSide30.h"
+#include "spriteData/interfaceWorldSide45.h"
+#include "spriteData/interfaceWorldSide60.h"
+
+#include "spriteData/interfaceMapEditor15.h"
+#include "spriteData/interfaceMapEditor30.h"
+#include "spriteData/interfaceMapEditor45.h"
+#include "spriteData/interfaceMapEditor60.h"
+
+#include "spriteData/interfaceSprites15.h"
+#include "spriteData/interfaceSprites30.h"
+#include "spriteData/interfaceSprites45.h"
+#include "spriteData/interfaceSprites60.h"
+
+#include "spriteData/poseidonUnits15.h"
+#include "spriteData/poseidonUnits30.h"
+#include "spriteData/poseidonUnits45.h"
+#include "spriteData/poseidonUnits60.h"
+
+#include "spriteData/poseidonQuestButtons15.h"
+#include "spriteData/poseidonQuestButtons30.h"
+#include "spriteData/poseidonQuestButtons45.h"
+#include "spriteData/poseidonQuestButtons60.h"
+
+#include "spriteData/interfaceRadar15.h"
+#include "spriteData/interfaceRadar30.h"
+#include "spriteData/interfaceRadar45.h"
+#include "spriteData/interfaceRadar60.h"
+
 #include "espriteloader.h"
 
 eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
@@ -222,418 +267,449 @@ void eInterfaceTextures::load() {
     if(fLoaded) return;
     fLoaded = true;
 
-    loadInterfaceBanners();
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eInterfaceBannersSpriteData15,
+                                     eInterfaceBannersSpriteData30,
+                                     eInterfaceBannersSpriteData45,
+                                     eInterfaceBannersSpriteData60);
+        eSpriteLoader loader(fTileH, "interfaceBanners", sds,
+                             nullptr, fRenderer);
 
-    const std::string basedir{"../ZeusTextures/" + std::to_string(fTileH) + "/"};
-    const auto dir = basedir + "Zeus_Interface/";
+        for(int i = 147; i < 167; i++) {
+            loader.load(147, i, fInterfaceBanners);
+        }
+
+        for(int i = 167; i < 184; i++) {
+            loader.load(147, i, fInterfaceBannerTops);
+        }
+    }
 
     {
-        const std::string pathBase{dir + "Zeus_Interface_New_Bbuttons_"};
-
+        const auto& sds = spriteData(fTileH,
+                                     eInterfaceNewBbuttonsSpriteData15,
+                                     eInterfaceNewBbuttonsSpriteData30,
+                                     eInterfaceNewBbuttonsSpriteData45,
+                                     eInterfaceNewBbuttonsSpriteData60);
+        eSpriteLoader loader(fTileH, "interfaceNewBbuttons", sds,
+                             nullptr, fRenderer);
         for(int i = 4; i < 7; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fCommonHousing);
+            loader.load(1, i, fCommonHousing);
         }
 
         for(int i = 7; i < 10; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fEliteHousing);
+            loader.load(1, i, fEliteHousing);
         }
 
         for(int i = 10; i < 13; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fFoodFarming);
+            loader.load(1, i, fFoodFarming);
         }
 
         for(int i = 13; i < 16; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fOtherFarming);
+            loader.load(1, i, fOtherFarming);
         }
 
         for(int i = 16; i < 19; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fAnimalFarming);
+            loader.load(1, i, fAnimalFarming);
         }
 
         for(int i = 19; i < 22; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fAnimalHunting);
+            loader.load(1, i, fAnimalHunting);
         }
 
         for(int i = 22; i < 25; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fResources);
+            loader.load(1, i, fResources);
         }
 
         for(int i = 25; i < 28; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fProcessing);
+            loader.load(1, i, fProcessing);
         }
 
         for(int i = 28; i < 31; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fArtisansGuild);
+            loader.load(1, i, fArtisansGuild);
         }
 
         for(int i = 31; i < 34; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fGranary);
+            loader.load(1, i, fGranary);
         }
 
         for(int i = 34; i < 37; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWarehouse);
+            loader.load(1, i, fWarehouse);
         }
 
         for(int i = 37; i < 40; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fAgoras);
+            loader.load(1, i, fAgoras);
         }
 
         for(int i = 40; i < 43; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fTrade);
+            loader.load(1, i, fTrade);
         }
 
         for(int i = 43; i < 46; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fFireFighter);
+            loader.load(1, i, fFireFighter);
         }
 
         for(int i = 46; i < 49; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fFountain);
+            loader.load(1, i, fFountain);
         }
 
         for(int i = 49; i < 52; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fPolice);
+            loader.load(1, i, fPolice);
         }
 
         for(int i = 52; i < 55; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fHospital);
+            loader.load(1, i, fHospital);
         }
 
         for(int i = 55; i < 58; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fPalace);
+            loader.load(1, i, fPalace);
         }
 
         for(int i = 58; i < 61; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fTaxCollector);
+            loader.load(1, i, fTaxCollector);
         }
 
         for(int i = 61; i < 64; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fBridge);
+            loader.load(1, i, fBridge);
         }
 
         for(int i = 67; i < 70; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fPhilosophy);
+            loader.load(1, i, fPhilosophy);
         }
 
         for(int i = 70; i < 73; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fGymnasium);
+            loader.load(1, i, fGymnasium);
         }
 
         for(int i = 73; i < 76; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fDrama);
+            loader.load(1, i, fDrama);
         }
 
         for(int i = 76; i < 79; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fStadium);
+            loader.load(1, i, fStadium);
         }
 
         for(int i = 79; i < 82; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fTemples);
+            loader.load(1, i, fTemples);
         }
 
         for(int i = 82; i < 85; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fHeroShrines);
+            loader.load(1, i, fHeroShrines);
         }
 
         for(int i = 85; i < 88; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fFortifications);
+            loader.load(1, i, fFortifications);
         }
 
         for(int i = 88; i < 91; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fMilitaryProduction);
+            loader.load(1, i, fMilitaryProduction);
         }
 
         for(int i = 91; i < 94; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fBeautification);
+            loader.load(1, i, fBeautification);
         }
 
         for(int i = 94; i < 97; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fRecreation);
+            loader.load(1, i, fRecreation);
         }
 
         for(int i = 97; i < 100; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fMonuments);
+            loader.load(1, i, fMonuments);
         }
     }
 
     {
-        const std::string pathBase{dir + "Zeus_interfaceParts_"};
-
-        fArmyStatus = std::make_shared<eTexture>();
-        fArmyStatus->load(fRenderer, pathBase + "00002.png");
+        const auto& sds = spriteData(fTileH,
+                                     eInterfacePartsSpriteData15,
+                                     eInterfacePartsSpriteData30,
+                                     eInterfacePartsSpriteData45,
+                                     eInterfacePartsSpriteData60);
+        eSpriteLoader loader(fTileH, "interfaceParts", sds,
+                             nullptr, fRenderer);
+        fArmyStatus = loader.load(1, 2);
 
         for(int i = 11; i < 15; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fGoToCompany);
+            loader.load(1, i, fGoToCompany);
         }
 
         for(int i = 15; i < 19; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fRotateCompany);
+            loader.load(1, i, fRotateCompany);
         }
 
         for(int i = 19; i < 23; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fGoToBanner);
+            loader.load(1, i, fGoToBanner);
         }
 
         for(int i = 23; i < 27; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fGoHome);
+            loader.load(1, i, fGoHome);
         }
 
         for(int i = 27; i < 31; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fDefensiveTactics);
+            loader.load(1, i, fDefensiveTactics);
         }
 
         for(int i = 31; i < 35; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fOffensiveTactics);
+            loader.load(1, i, fOffensiveTactics);
         }
 
         for(int i = 35; i < 39; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fSpecialTactics);
+            loader.load(1, i, fSpecialTactics);
         }
     }
     {
-        const std::string pathBase{dir + "Zeus_Interface_New_parts_"};
+        const auto& sds = spriteData(fTileH,
+                                     eInterfaceNewPartsSpriteData15,
+                                     eInterfaceNewPartsSpriteData30,
+                                     eInterfaceNewPartsSpriteData45,
+                                     eInterfaceNewPartsSpriteData60);
+        eSpriteLoader loader(fTileH, "interfaceNewParts", sds,
+                             nullptr, fRenderer);
 
-        fGameTopBar = std::make_shared<eTexture>();
-        fGameTopBar->load(fRenderer, pathBase + "00001.png");
-
-        fGameMenuBackground = std::make_shared<eTexture>();
-        fGameMenuBackground->load(fRenderer, pathBase + "00002.png");
-
-        fGameArmyBackground = std::make_shared<eTexture>();
-        fGameArmyBackground->load(fRenderer, pathBase + "00003.png");
-
+        fGameTopBar = loader.load(1, 1);
+        fGameMenuBackground = loader.load(1, 2);
+        fGameArmyBackground = loader.load(1, 3);
 
         for(int i = 5; i < 37; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fRotation);
+            loader.load(1, i, fRotation);
         }
 
-        eTextureLoadingHelpers::loadTex(pathBase, 40, fLargeCheckBox);
-        eTextureLoadingHelpers::loadTex(pathBase, 37, fLargeCheckBox);
+        loader.load(1, 40, fLargeCheckBox);
+        loader.load(1, 37, fLargeCheckBox);
 
         for(int i = 37; i < 41; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fGoals);
+            loader.load(1, i, fGoals);
         }
 
         for(int i = 41; i < 45; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWorld);
+            loader.load(1, i, fWorld);
         }
 
         for(int i = 45; i < 49; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fBuildRoad);
+            loader.load(1, i, fBuildRoad);
         }
 
         for(int i = 49; i < 53; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fRoadBlock);
+            loader.load(1, i, fRoadBlock);
         }
 
         for(int i = 53; i < 57; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fClear);
+            loader.load(1, i, fClear);
         }
 
         for(int i = 57; i < 61; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fUndo);
+            loader.load(1, i, fUndo);
         }
 
         for(int i = 61; i < 65; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fMessages);
+            loader.load(1, i, fMessages);
         }
 
         for(int i = 89; i < 93; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fOverview);
+            loader.load(1, i, fOverview);
         }
 
         for(int i = 93; i < 97; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fPopulation);
+            loader.load(1, i, fPopulation);
         }
 
         for(int i = 97; i < 101; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fHusbandry);
+            loader.load(1, i, fHusbandry);
         }
 
         for(int i = 101; i < 105; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fIndustry);
+            loader.load(1, i, fIndustry);
         }
 
         for(int i = 105; i < 109; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fDistribution);
+            loader.load(1, i, fDistribution);
         }
 
         for(int i = 109; i < 113; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fHygieneSafety);
+            loader.load(1, i, fHygieneSafety);
         }
 
         for(int i = 113; i < 117; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fAdministration);
+            loader.load(1, i, fAdministration);
         }
 
         for(int i = 117; i < 121; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fCulture);
+            loader.load(1, i, fCulture);
         }
 
         for(int i = 121; i < 125; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fMythology);
+            loader.load(1, i, fMythology);
         }
 
         for(int i = 125; i < 129; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fMilitary);
+            loader.load(1, i, fMilitary);
         }
 
         for(int i = 129; i < 133; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fAesthetics);
+            loader.load(1, i, fAesthetics);
         }
 
         for(int i = 137; i < 140; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fSeeButton);
+            loader.load(1, i, fSeeButton);
         }
 
         for(int i = 184; i < 187; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fFireAlert);
+            loader.load(1, i, fFireAlert);
         }
         for(int i = 187; i < 190; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fGroundFissureAlert);
+            loader.load(1, i, fGroundFissureAlert);
         }
         for(int i = 190; i < 193; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fFloodAlert);
+            loader.load(1, i, fFloodAlert);
         }
         for(int i = 193; i < 196; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fAvalancheAltert);
+            loader.load(1, i, fAvalancheAltert);
         }
         for(int i = 196; i < 199; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fLavaAltert);
+            loader.load(1, i, fLavaAltert);
         }
         for(int i = 199; i < 202; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fCollapseAltert);
+            loader.load(1, i, fCollapseAltert);
         }
         for(int i = 202; i < 205; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fRoadBlockAltert);
+            loader.load(1, i, fRoadBlockAltert);
         }
         for(int i = 205; i < 208; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fVirusAlert);
+            loader.load(1, i, fVirusAlert);
         }
         for(int i = 208; i < 211; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fIllnessAlert);
+            loader.load(1, i, fIllnessAlert);
         }
         for(int i = 211; i < 214; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fInvasionAlert);
+            loader.load(1, i, fInvasionAlert);
         }
         for(int i = 214; i < 217; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fMonsterAltert);
+            loader.load(1, i, fMonsterAltert);
         }
         for(int i = 217; i < 220; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fGodAttackAlert);
+            loader.load(1, i, fGodAttackAlert);
         }
         for(int i = 220; i < 223; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fGodVisitAlert);
+            loader.load(1, i, fGodVisitAlert);
         }
         for(int i = 223; i < 226; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fHeroArrivalAlert);
+            loader.load(1, i, fHeroArrivalAlert);
         }
         for(int i = 226; i < 229; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fArmyComebackAlert);
+            loader.load(1, i, fArmyComebackAlert);
         }
 
 
         for(int i = 263; i < 267; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fShowInfo);
+            loader.load(1, i, fShowInfo);
         }
 
         for(int i = 267; i < 271; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fShowMap);
+            loader.load(1, i, fShowMap);
         }
     }
 
     {
-        const std::string pathBase{dir + "Zeus_WorldSide_"};
+        const auto& sds = spriteData(fTileH,
+                                     eInterfaceWorldSideSpriteData15,
+                                     eInterfaceWorldSideSpriteData30,
+                                     eInterfaceWorldSideSpriteData45,
+                                     eInterfaceWorldSideSpriteData60);
+        eSpriteLoader loader(fTileH, "interfaceWorldSide", sds,
+                             nullptr, fRenderer);
+        fWorldMenuBackground = loader.load(1, 1);
 
-        fWorldMenuBackground = std::make_shared<eTexture>();
-        fWorldMenuBackground->load(fRenderer, pathBase + "00001.png");
-
-        eTextureLoadingHelpers::loadTex(pathBase, 40, fLargeCheckBox);
-        eTextureLoadingHelpers::loadTex(pathBase, 37, fLargeCheckBox);
+        loader.load(1, 40, fLargeCheckBox);
+        loader.load(1, 37, fLargeCheckBox);
 
         for(int i = 2; i < 6; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldSmallButton);
+            loader.load(1, i, fWorldSmallButton);
         }
         for(int i = 6; i < 10; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldBigButton);
+            loader.load(1, i, fWorldBigButton);
         }
         for(int i = 10; i < 14; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fRequestButton);
+            loader.load(1, i, fRequestButton);
         }
         for(int i = 14; i < 18; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fFulfillButton);
+            loader.load(1, i, fFulfillButton);
         }
         for(int i = 18; i < 22; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fGiftButton);
+            loader.load(1, i, fGiftButton);
         }
         for(int i = 22; i < 26; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fRaidButton);
+            loader.load(1, i, fRaidButton);
         }
         for(int i = 26; i < 30; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fConquerButton);
+            loader.load(1, i, fConquerButton);
         }
 
         for(int i = 30; i < 34; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldLeftArrowButton);
+            loader.load(1, i, fWorldLeftArrowButton);
         }
         for(int i = 34; i < 38; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldRightArrowButton);
+            loader.load(1, i, fWorldRightArrowButton);
         }
         for(int i = 38; i < 42; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldHistoryButton);
+            loader.load(1, i, fWorldHistoryButton);
         }
 
         for(int i = 42; i < 46; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWorldBgsButton);
+            loader.load(1, i, fWorldBgsButton);
         }
     }
 
     {
-        const std::string pathBase{dir + "Zeus_MapEditor_"};
+        const auto& sds = spriteData(fTileH,
+                                     eInterfaceMapEditorSpriteData15,
+                                     eInterfaceMapEditorSpriteData30,
+                                     eInterfaceMapEditorSpriteData45,
+                                     eInterfaceMapEditorSpriteData60);
+        eSpriteLoader loader(fTileH, "interfaceMapEditor", sds,
+                             nullptr, fRenderer);
 
-        fMapEditMenuBackground = std::make_shared<eTexture>();
-        fMapEditMenuBackground->load(fRenderer, pathBase + "00001.png");
+        fMapEditMenuBackground = loader.load(1, 1);
 
         for(int i = 2; i < 6; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fBrushSize);
+            loader.load(1, i, fBrushSize);
         }
         for(int i = 6; i < 10; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fEmptyLand);
+            loader.load(1, i, fEmptyLand);
         }
         for(int i = 10; i < 14; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fForest);
+            loader.load(1, i, fForest);
         }
         for(int i = 14; i < 18; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWaterMarshBeach);
+            loader.load(1, i, fWaterMarshBeach);
         }
         for(int i = 18; i < 22; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fMeadow);
+            loader.load(1, i, fMeadow);
         }
         for(int i = 22; i < 26; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fFishAndUrchin);
+            loader.load(1, i, fFishAndUrchin);
         }
         for(int i = 26; i < 30; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fRocks);
+            loader.load(1, i, fRocks);
         }
         for(int i = 30; i < 34; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fScrub);
+            loader.load(1, i, fScrub);
         }
         for(int i = 34; i < 38; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fElevation);
+            loader.load(1, i, fElevation);
         }
         for(int i = 38; i < 42; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fDisasters);
+            loader.load(1, i, fDisasters);
         }
         for(int i = 42; i < 46; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fWaterPoints);
+            loader.load(1, i, fWaterPoints);
         }
         for(int i = 46; i < 50; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fLandInvasionPoints);
+            loader.load(1, i, fLandInvasionPoints);
         }
         for(int i = 50; i < 54; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fExitEndEntryPoints);
+            loader.load(1, i, fExitEndEntryPoints);
         }
         for(int i = 54; i < 58; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fAnimalPoints);
+            loader.load(1, i, fAnimalPoints);
         }
     }
 
@@ -908,36 +984,49 @@ void eInterfaceTextures::load() {
     }
 
     {
-        const std::string pathBase{dir + "Zeus_Radar_"};
+        const auto& sds = spriteData(fTileH,
+                                     eInterfaceRadarSpriteData15,
+                                     eInterfaceRadarSpriteData30,
+                                     eInterfaceRadarSpriteData45,
+                                     eInterfaceRadarSpriteData60);
+        eSpriteLoader loader(fTileH, "interfaceRadar", sds,
+                             nullptr, fRenderer);
 
         for(int i = 262; i < 267; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fDiamond);
+            loader.load(262, i, fDiamond);
         }
     }
 
-    fSpawner = std::make_shared<eTexture>();
-    fSpawner->load(fRenderer, dir + "Zeus_sprites_00026.png");
-
     {
-        const auto pathBase = dir + "Zeus_sprites_";
+        const auto& sds = spriteData(fTileH,
+                                     eInterfaceSpritesSpriteData15,
+                                     eInterfaceSpritesSpriteData30,
+                                     eInterfaceSpritesSpriteData45,
+                                     eInterfaceSpritesSpriteData60);
+        eSpriteLoader loader(fTileH, "interfaceSprites", sds,
+                             nullptr, fRenderer);
+
+        fSpawner = loader.load(1, 26);
+
         for(int i = 1; i < 4; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fColumn1);
+            loader.load(1, i, fColumn1);
         }
         for(int i = 4; i < 7; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fColumn2);
+            loader.load(1, i, fColumn2);
         }
         for(int i = 7; i < 10; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fColumn3);
+            loader.load(1, i, fColumn3);
         }
         for(int i = 10; i < 13; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fColumn4);
+            loader.load(1, i, fColumn4);
         }
         for(int i = 13; i < 16; i++) {
-            eTextureLoadingHelpers::loadTex(pathBase, i, fColumn5);
+            loader.load(1, i, fColumn5);
         }
     }
 
     {
+        const std::string basedir{"../ZeusTextures/" + std::to_string(fTileH) + "/"};
         const auto dir = basedir + "/Zeus_Data_Images/";
 
         fLoadImage1 = std::make_shared<eTexture>();
@@ -984,16 +1073,27 @@ void eInterfaceTextures::load() {
     }
 
     {
-        const auto dir = basedir + "/Poseidon_Loaded/";
-        const auto pathBase = dir + "Poseidon_Storage_";
-        fOrangesUnit = std::make_shared<eTexture>();
-        fOrangesUnit->load(fRenderer, pathBase + "00114.png");
+        const auto& sds = spriteData(fTileH,
+                                     ePoseidonUnitsSpriteData15,
+                                     ePoseidonUnitsSpriteData30,
+                                     ePoseidonUnitsSpriteData45,
+                                     ePoseidonUnitsSpriteData60);
+        eSpriteLoader loader(fTileH, "poseidonUnits", sds,
+                             nullptr, fRenderer);
 
-        fAtlasQuestIcon = std::make_shared<eTexture>();
-        fAtlasQuestIcon->load(fRenderer, pathBase + "00129.png");
+        fOrangesUnit = loader.load(114, 114);
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     ePoseidonQuestButtonsSpriteData15,
+                                     ePoseidonQuestButtonsSpriteData30,
+                                     ePoseidonQuestButtonsSpriteData45,
+                                     ePoseidonQuestButtonsSpriteData60);
+        eSpriteLoader loader(fTileH, "poseidonQuestButtons", sds,
+                             nullptr, fRenderer);
 
-        fHeraQuestIcon = std::make_shared<eTexture>();
-        fHeraQuestIcon->load(fRenderer, pathBase + "00130.png");
+        fAtlasQuestIcon = loader.load(129, 129);
+        fHeraQuestIcon = loader.load(129, 130);
     }
 
     {
@@ -1059,26 +1159,5 @@ void eInterfaceTextures::load() {
         fDrachmasUnit = loader.load(1, 184);
         fDrachmasTopMenu = loader.load(1, 185);
         fPopulationTopMenu = loader.load(1, 186);
-    }
-}
-
-void eInterfaceTextures::loadInterfaceBanners() {
-    if(fInterfaceBannersLoaded) return;
-    fInterfaceBannersLoaded = true;
-
-    const auto& sds = spriteData(fTileH,
-                                 eInterfaceBannersSpriteData15,
-                                 eInterfaceBannersSpriteData30,
-                                 eInterfaceBannersSpriteData45,
-                                 eInterfaceBannersSpriteData60);
-    eSpriteLoader loader(fTileH, "interfaceBanners", sds,
-                         nullptr, fRenderer);
-
-    for(int i = 147; i < 167; i++) {
-        loader.load(147, i, fInterfaceBanners);
-    }
-
-    for(int i = 167; i < 184; i++) {
-        loader.load(147, i, fInterfaceBannerTops);
     }
 }
