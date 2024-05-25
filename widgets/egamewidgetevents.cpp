@@ -237,6 +237,10 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, inst.fInvasionDefeat);
         return;
     } break;
+    case eEvent::invasionVictoryMonn: {
+        showMessage(ed, inst.fInvasionVictoryMonument);
+        return;
+    } break;
     case eEvent::invasionVictory: {
         showMessage(ed, inst.fInvasionVictory);
         return;

@@ -31,6 +31,7 @@ enum class eEvent {
     invasion1,
     invasion,
     invasionDefeat,
+    invasionVictoryMonn,
     invasionVictory,
     invasionBribed,
 
