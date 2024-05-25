@@ -200,6 +200,11 @@ public:
     static bool sAttackable(const eBuildingType bt);
 
     static std::string sNameForBuilding(eBuilding* const b);
+    static void sInfoText(eBuilding* const b,
+                          std::string& title,
+                          std::string& info,
+                          std::string& employmentInfo,
+                          std::string& additionalInfo);
 
     using eTileValidator = std::function<bool(eTile*)>;
     eTile* tileNeighbour(const eMoveDirection o,
