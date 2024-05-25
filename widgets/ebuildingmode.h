@@ -129,6 +129,7 @@ enum class eBuildingMode {
     shellGarden,
     sundial,
     dolphinSculpture,
+    orrery,
     spring,
     topiary,
     baths,

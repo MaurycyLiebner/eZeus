@@ -201,6 +201,8 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::sundial;
     case eBuildingMode::dolphinSculpture:
         return eBuildingType::dolphinSculpture;
+    case eBuildingMode::orrery:
+        return eBuildingType::orrery;
     case eBuildingMode::spring:
         return eBuildingType::spring;
     case eBuildingMode::topiary:

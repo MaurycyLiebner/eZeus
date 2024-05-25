@@ -178,6 +178,8 @@ int costBase(const eBuildingType type) {
         return 20;
     case eBuildingType::dolphinSculpture:
         return 40;
+    case eBuildingType::orrery:
+        return 40;
     case eBuildingType::spring:
         return 40;
     case eBuildingType::topiary:

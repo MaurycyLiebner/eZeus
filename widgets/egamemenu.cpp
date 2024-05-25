@@ -678,6 +678,7 @@ void eGameMenu::initialize(eGameBoard* const b) {
                                      eSPR{eBuildingMode::sundial, eLanguage::zeusText(28, 20)},
                                      eSPR{eBuildingMode::hedgeMaze, eLanguage::zeusText(28, 17)},
                                      eSPR{eBuildingMode::dolphinSculpture, eLanguage::zeusText(28, 148)},
+                                     eSPR{eBuildingMode::orrery, eLanguage::zeusText(28, 149)},
                                      eSPR{eBuildingMode::spring, eLanguage::zeusText(28, 22)},
                                      eSPR{eBuildingMode::topiary, eLanguage::zeusText(28, 21)},
                                      eSPR{eBuildingMode::fishPond, eLanguage::zeusText(28, 18)},

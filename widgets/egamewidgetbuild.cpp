@@ -1421,6 +1421,10 @@ bool eGameWidget::buildMouseRelease() {
             build(mHoverTX, mHoverTY, 3, 3,
                   [this]() { return e::make_shared<eDolphinSculpture>(*mBoard); });
         }; break;
+        case eBuildingMode::orrery: {
+            build(mHoverTX, mHoverTY, 3, 3,
+                  [this]() { return e::make_shared<eOrrery>(*mBoard); });
+        }; break;
         case eBuildingMode::spring: {
             build(mHoverTX, mHoverTY, 3, 3,
                   [this]() { return e::make_shared<eSpring>(*mBoard); });
