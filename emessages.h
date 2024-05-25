@@ -175,6 +175,7 @@ public:
     eMessageType fInvasionBribed;
     eMessageType fInvasionDefeat;
     eMessageType fInvasionVictory;
+    eMessageType fInvasionVictoryMonument;
 
     eMessageType fTributePaidGranted;
     eMessageType fTributePaidAccepted;

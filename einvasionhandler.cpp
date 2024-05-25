@@ -132,6 +132,7 @@ void eInvasionHandler::initialize(eTile* const tile,
         }
         if(s) {
             requestBanner();
+            b->incCount();
             s->setBanner(b.get());
         }
     }
@@ -173,6 +174,7 @@ void eInvasionHandler::initialize(eTile* const tile,
         }
         if(s) {
             requestBanner();
+            b->incCount();
             s->setBanner(b.get());
         }
     }
@@ -219,6 +221,7 @@ void eInvasionHandler::initialize(eTile* const tile,
         }
         if(s) {
             requestBanner();
+            b->incCount();
             s->setBanner(b.get());
         }
     }

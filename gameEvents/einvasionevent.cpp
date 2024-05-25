@@ -84,10 +84,11 @@ void eInvasionEvent::trigger() {
     const int infantry = mInfantry;
     const int cavalry = mCavalry;
     const int archers = mArchers;
-    ed.fA2 = [boardPtr, city, infantry, cavalry, archers]() { // fight
-        auto& board = *boardPtr;
-        const auto tile = board.landInvasionTile(0);
+    const auto tile = board.landInvasionTile(0);
+    ed.fTile = tile;
+    ed.fA2 = [boardPtr, tile, city, infantry, cavalry, archers]() { // fight
         if(!tile) return;
+        auto& board = *boardPtr;
         const auto eh = new eInvasionHandler(board, city);
         eh->initialize(tile, infantry, cavalry, archers);
     };

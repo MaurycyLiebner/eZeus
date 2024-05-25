@@ -484,6 +484,12 @@ bool eMessages::loadImpl() {
     fInvasionVictory.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_players_city_saved_title"];
     fInvasionVictory.fCondensed.fText = fMessages["PHRASE_CONDENSED_players_city_saved_initial_announcement"];
 
+    fInvasionVictoryMonument.fFull.fTitle = fMessages["PHRASE_players_city_saved_title"];
+    fInvasionVictoryMonument.fFull.fText = fMessages["PHRASE_players_city_saved_init_announcment_comm_monument"];
+
+    fInvasionVictoryMonument.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_players_city_saved_title"];
+    fInvasionVictoryMonument.fCondensed.fText = fMessages["PHRASE_CONDENSED_players_city_saved_init_announcment_comm_monument"];
+
     fTributePaidGranted.fFull.fTitle = fMessages["PHRASE_tribute_paid_title"];
     fTributePaidGranted.fFull.fText = fMessages["PHRASE_tribute_paid_granted"];
     fTributePaidGranted.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_tribute_paid_title"];

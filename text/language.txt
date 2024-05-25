@@ -1,3 +1,7 @@
+settings "Settings"
+
+none "None"
+
 add "Add"
 mythology "Mythology"
 friendly_gods "Friendly Gods"
