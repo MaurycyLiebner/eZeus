@@ -833,6 +833,125 @@ void eGameTextures::loadZeus() {
     });
 }
 
+void eGameTextures::loadFire() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadFire();
+    });
+}
+
+void eGameTextures::loadBlessed() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadBlessed();
+    });
+}
+
+void eGameTextures::loadCursed() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadCursed();
+    });
+}
+
+void eGameTextures::loadRock() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadRock();
+    });
+}
+
+void eGameTextures::loadArrow() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadArrow();
+    });
+}
+
+void eGameTextures::loadBless() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadBless();
+    });
+}
+
+void eGameTextures::loadCurse() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadCurse();
+    });
+}
+
+void eGameTextures::loadPlague() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadPlague();
+    });
+}
+
+void eGameTextures::loadGodOrangeMissile() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadGodOrangeMissile();
+    });
+}
+
+void eGameTextures::loadGodBlueArrow() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadGodBlueArrow();
+    });
+}
+
+void eGameTextures::loadGodOrangeArrow() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadGodOrangeArrow();
+    });
+}
+
+void eGameTextures::loadMonsterMissile() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadMonsterMissile();
+    });
+}
+
+void eGameTextures::loadGodBlueMissile() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadGodBlueMissile();
+    });
+}
+
+void eGameTextures::loadGodRedMissile() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadGodRedMissile();
+    });
+}
+
+void eGameTextures::loadGodGreenMissile() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadGodGreenMissile();
+    });
+}
+
+void eGameTextures::loadGodPinkMissile() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadGodPinkMissile();
+    });
+}
+
+void eGameTextures::loadGodPurpleMissile() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadGodPurpleMissile();
+    });
+}
+
 bool eGameTextures::initialize(SDL_Renderer* const r) {
     if(sInitialized) return true;
     int i = 0;
@@ -870,19 +989,6 @@ bool eGameTextures::initialize(SDL_Renderer* const r) {
                 text = "Loading medium building textures...";
             } else if(i == 3) {
                 text = "Loading large building textures...";
-            }
-        }, i);
-
-        gGameLoaders.emplace_back([i](std::string& text) {
-            sDestructionTextures[i].load();
-            if(i == 0) {
-                text = "Loading tiny destruction textures...";
-            } else if(i == 1) {
-                text = "Loading small destruction textures...";
-            } else if(i == 2) {
-                text = "Loading medium destruction textures...";
-            } else if(i == 3) {
-                text = "Loading large destruction textures...";
             }
         }, i);
 

@@ -1,4 +1,4 @@
-﻿#ifndef EGAMETEXTURES_H
+#ifndef EGAMETEXTURES_H
 #define EGAMETEXTURES_H
 
 #include "eterraintextures.h"
@@ -151,6 +151,29 @@ public:
     static void loadHermes();
     static void loadPoseidon();
     static void loadZeus();
+
+    static void loadFire();
+
+    static void loadBlessed();
+    static void loadCursed();
+
+    static void loadRock();
+    static void loadArrow();
+
+    static void loadBless();
+    static void loadCurse();
+
+    static void loadPlague();
+
+    static void loadGodOrangeMissile();
+    static void loadGodBlueArrow();
+    static void loadGodOrangeArrow();
+    static void loadMonsterMissile();
+    static void loadGodBlueMissile();
+    static void loadGodRedMissile();
+    static void loadGodGreenMissile();
+    static void loadGodPinkMissile();
+    static void loadGodPurpleMissile();
 
     static bool initialize(SDL_Renderer* const r);
     static bool loadNextMenu(const eSettings& settings,

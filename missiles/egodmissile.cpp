@@ -12,8 +12,10 @@ eGodMissile::getTexture(const eTileSize size) const {
     using eTexPtr = eTextureCollection eDestructionTextures::*;
     eTexPtr texptr;
     if(mActionType == eCharacterActionType::bless) {
+        eGameTextures::loadBless();
         texptr = &eDestructionTextures::fBless;
     } else if(mActionType == eCharacterActionType::curse) {
+        eGameTextures::loadCurse();
         texptr = &eDestructionTextures::fCurse;
     } else {
         switch(mCharType) {
@@ -39,6 +41,7 @@ eGodMissile::getTexture(const eTileSize size) const {
             texptr = eHero::sHeroMissile(ht);
         } break;
         default:
+            eGameTextures::loadMonsterMissile();
             texptr = &eDestructionTextures::fMonsterMissile;
         }
     }

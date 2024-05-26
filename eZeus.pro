@@ -1074,6 +1074,14 @@ HEADERS += \
     spriteData/blankStatue30.h \
     spriteData/blankStatue45.h \
     spriteData/blankStatue60.h \
+    spriteData/bless15.h \
+    spriteData/bless30.h \
+    spriteData/bless45.h \
+    spriteData/bless60.h \
+    spriteData/blessed15.h \
+    spriteData/blessed30.h \
+    spriteData/blessed45.h \
+    spriteData/blessed60.h \
     spriteData/boar15.h \
     spriteData/boar30.h \
     spriteData/boar45.h \
@@ -1110,6 +1118,14 @@ HEADERS += \
     spriteData/culture30.h \
     spriteData/culture45.h \
     spriteData/culture60.h \
+    spriteData/curse15.h \
+    spriteData/curse30.h \
+    spriteData/curse45.h \
+    spriteData/curse60.h \
+    spriteData/cursed15.h \
+    spriteData/cursed30.h \
+    spriteData/cursed45.h \
+    spriteData/cursed60.h \
     spriteData/cyclops15.h \
     spriteData/cyclops30.h \
     spriteData/cyclops45.h \
@@ -1235,6 +1251,38 @@ HEADERS += \
     spriteData/goatherd30.h \
     spriteData/goatherd45.h \
     spriteData/goatherd60.h \
+    spriteData/godBlueArrow15.h \
+    spriteData/godBlueArrow30.h \
+    spriteData/godBlueArrow45.h \
+    spriteData/godBlueArrow60.h \
+    spriteData/godBlueMissile15.h \
+    spriteData/godBlueMissile30.h \
+    spriteData/godBlueMissile45.h \
+    spriteData/godBlueMissile60.h \
+    spriteData/godGreenMissile15.h \
+    spriteData/godGreenMissile30.h \
+    spriteData/godGreenMissile45.h \
+    spriteData/godGreenMissile60.h \
+    spriteData/godOrangeArrow15.h \
+    spriteData/godOrangeArrow30.h \
+    spriteData/godOrangeArrow45.h \
+    spriteData/godOrangeArrow60.h \
+    spriteData/godOrangeMissile15.h \
+    spriteData/godOrangeMissile30.h \
+    spriteData/godOrangeMissile45.h \
+    spriteData/godOrangeMissile60.h \
+    spriteData/godPinkMissile15.h \
+    spriteData/godPinkMissile30.h \
+    spriteData/godPinkMissile45.h \
+    spriteData/godPinkMissile60.h \
+    spriteData/godPurpleMissile15.h \
+    spriteData/godPurpleMissile30.h \
+    spriteData/godPurpleMissile45.h \
+    spriteData/godPurpleMissile60.h \
+    spriteData/godRedMissile15.h \
+    spriteData/godRedMissile30.h \
+    spriteData/godRedMissile45.h \
+    spriteData/godRedMissile60.h \
     spriteData/greekHoplite15.h \
     spriteData/greekHoplite30.h \
     spriteData/greekHoplite45.h \
@@ -1423,6 +1471,10 @@ HEADERS += \
     spriteData/minotaur30.h \
     spriteData/minotaur45.h \
     spriteData/minotaur60.h \
+    spriteData/monsterMissile15.h \
+    spriteData/monsterMissile30.h \
+    spriteData/monsterMissile45.h \
+    spriteData/monsterMissile60.h \
     spriteData/mun-Palace15.h \
     spriteData/mun-Palace30.h \
     spriteData/mun-Palace45.h \

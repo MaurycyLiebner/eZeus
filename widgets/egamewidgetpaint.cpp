@@ -337,6 +337,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             double frx;
             double fry;
             drawXY(tx, ty, frx, fry, 1, 1, a);
+            eGameTextures::loadFire();
             const int f = (tx + ty) % destTexs.fFire.size();
             const auto& ff = destTexs.fFire[f];
             const int dt = mTime/8 + std::abs(tx*ty);
@@ -616,6 +617,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                         if(const auto ch = dynamic_cast<eSmallHouse*>(ub)) {
                             const bool p = ch->plague();
                             if(p && ch->people()) {
+                                eGameTextures::loadPlague();
                                 const auto& blsd = destTexs.fPlague;
                                 const int texId = ub->textureTime() % blsd.size();
                                 const auto tex = blsd.getTexture(texId);
@@ -633,10 +635,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                             const int bx = drawX;
                             const int by = drawY - tsRect.h;
                             if(ub->blessed()) {
+                                eGameTextures::loadBlessed();
                                 const auto& blsd = destTexs.fBlessed;
                                 const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
                                 tp.drawTexture(bx, by, tex, eAlignment::bottom);
                             } else if(ub->cursed()) {
+                                eGameTextures::loadCursed();
                                 const auto& blsd = destTexs.fCursed;
                                 const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
                                 tp.drawTexture(bx, by, tex, eAlignment::bottom);

@@ -4,7 +4,9 @@
 
 eArrowMissile::eArrowMissile(eGameBoard& board,
                              const std::vector<ePathPoint>& path) :
-    eMissile(board, eMissileType::arrow, path) {}
+    eMissile(board, eMissileType::arrow, path) {
+    eGameTextures::loadArrow();
+}
 
 std::shared_ptr<eTexture>
 eArrowMissile::getTexture(const eTileSize size) const {

@@ -32,6 +32,7 @@ bool eHero::sRangedHero(const eHeroType ht) {
 eHero::eTexPtr eHero::sHeroMissile(const eHeroType gt) {
     switch(gt) {
     case eHeroType::atalanta:
+        eGameTextures::loadGodBlueArrow();
         return &eDestructionTextures::fGodBlueArrow;
     default:
         return nullptr;
