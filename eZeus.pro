@@ -1006,6 +1006,10 @@ HEADERS += \
     spriteData/aresWarrior30.h \
     spriteData/aresWarrior45.h \
     spriteData/aresWarrior60.h \
+    spriteData/armory15.h \
+    spriteData/armory30.h \
+    spriteData/armory45.h \
+    spriteData/armory60.h \
     spriteData/armsVendor15.h \
     spriteData/armsVendor30.h \
     spriteData/armsVendor45.h \
@@ -1026,6 +1030,10 @@ HEADERS += \
     spriteData/artisan30.h \
     spriteData/artisan45.h \
     spriteData/artisan60.h \
+    spriteData/artisansGuild15.h \
+    spriteData/artisansGuild30.h \
+    spriteData/artisansGuild45.h \
+    spriteData/artisansGuild60.h \
     spriteData/atalanta15.h \
     spriteData/atalanta30.h \
     spriteData/atalanta45.h \
@@ -1058,10 +1066,18 @@ HEADERS += \
     spriteData/atlasStatue30.h \
     spriteData/atlasStatue45.h \
     spriteData/atlasStatue60.h \
+    spriteData/avenue15.h \
+    spriteData/avenue30.h \
+    spriteData/avenue45.h \
+    spriteData/avenue60.h \
     spriteData/banners15.h \
     spriteData/banners30.h \
     spriteData/banners45.h \
     spriteData/banners60.h \
+    spriteData/baths15.h \
+    spriteData/baths30.h \
+    spriteData/baths45.h \
+    spriteData/baths60.h \
     spriteData/beautification215.h \
     spriteData/beautification230.h \
     spriteData/beautification245.h \
@@ -1070,6 +1086,14 @@ HEADERS += \
     spriteData/bellerophon30.h \
     spriteData/bellerophon45.h \
     spriteData/bellerophon60.h \
+    spriteData/bench15.h \
+    spriteData/bench30.h \
+    spriteData/bench45.h \
+    spriteData/bench60.h \
+    spriteData/birdBath15.h \
+    spriteData/birdBath30.h \
+    spriteData/birdBath45.h \
+    spriteData/birdBath60.h \
     spriteData/blankStatue15.h \
     spriteData/blankStatue30.h \
     spriteData/blankStatue45.h \
@@ -1086,6 +1110,10 @@ HEADERS += \
     spriteData/boar30.h \
     spriteData/boar45.h \
     spriteData/boar60.h \
+    spriteData/bridge15.h \
+    spriteData/bridge30.h \
+    spriteData/bridge45.h \
+    spriteData/bridge60.h \
     spriteData/bronzeMiner15.h \
     spriteData/bronzeMiner30.h \
     spriteData/bronzeMiner45.h \
@@ -1094,6 +1122,10 @@ HEADERS += \
     spriteData/calydonianBoar30.h \
     spriteData/calydonianBoar45.h \
     spriteData/calydonianBoar60.h \
+    spriteData/cardingShed15.h \
+    spriteData/cardingShed30.h \
+    spriteData/cardingShed45.h \
+    spriteData/cardingShed60.h \
     spriteData/cart15.h \
     spriteData/cart30.h \
     spriteData/cart45.h \
@@ -1114,6 +1146,22 @@ HEADERS += \
     spriteData/chimera30.h \
     spriteData/chimera45.h \
     spriteData/chimera60.h \
+    spriteData/college15.h \
+    spriteData/college30.h \
+    spriteData/college45.h \
+    spriteData/college60.h \
+    spriteData/columns15.h \
+    spriteData/columns30.h \
+    spriteData/columns45.h \
+    spriteData/columns60.h \
+    spriteData/commemorative15.h \
+    spriteData/commemorative30.h \
+    spriteData/commemorative45.h \
+    spriteData/commemorative60.h \
+    spriteData/commonHouse15.h \
+    spriteData/commonHouse30.h \
+    spriteData/commonHouse45.h \
+    spriteData/commonHouse60.h \
     spriteData/culture15.h \
     spriteData/culture30.h \
     spriteData/culture45.h \
@@ -1130,6 +1178,10 @@ HEADERS += \
     spriteData/cyclops30.h \
     spriteData/cyclops45.h \
     spriteData/cyclops60.h \
+    spriteData/dairy15.h \
+    spriteData/dairy30.h \
+    spriteData/dairy45.h \
+    spriteData/dairy60.h \
     spriteData/deer15.h \
     spriteData/deer30.h \
     spriteData/deer45.h \
@@ -1162,6 +1214,10 @@ HEADERS += \
     spriteData/disgruntled30.h \
     spriteData/disgruntled45.h \
     spriteData/disgruntled60.h \
+    spriteData/dolphinSculpture15.h \
+    spriteData/dolphinSculpture30.h \
+    spriteData/dolphinSculpture45.h \
+    spriteData/dolphinSculpture60.h \
     spriteData/donkey15.h \
     spriteData/donkey30.h \
     spriteData/donkey45.h \
@@ -1170,6 +1226,10 @@ HEADERS += \
     spriteData/dragon30.h \
     spriteData/dragon45.h \
     spriteData/dragon60.h \
+    spriteData/dramaSchool15.h \
+    spriteData/dramaSchool30.h \
+    spriteData/dramaSchool45.h \
+    spriteData/dramaSchool60.h \
     spriteData/echidna15.h \
     spriteData/echidna30.h \
     spriteData/echidna45.h \
@@ -1186,6 +1246,10 @@ HEADERS += \
     spriteData/egyptianHoplite30.h \
     spriteData/egyptianHoplite45.h \
     spriteData/egyptianHoplite60.h \
+    spriteData/eliteHouse15.h \
+    spriteData/eliteHouse30.h \
+    spriteData/eliteHouse45.h \
+    spriteData/eliteHouse60.h \
     spriteData/empireBits15.h \
     spriteData/empireBits30.h \
     spriteData/empireBits45.h \
@@ -1207,10 +1271,18 @@ HEADERS += \
     spriteData/fish30.h \
     spriteData/fish45.h \
     spriteData/fish60.h \
+    spriteData/fishPond15.h \
+    spriteData/fishPond30.h \
+    spriteData/fishPond45.h \
+    spriteData/fishPond60.h \
     spriteData/fishPondOverlay15.h \
     spriteData/fishPondOverlay30.h \
     spriteData/fishPondOverlay45.h \
     spriteData/fishPondOverlay60.h \
+    spriteData/fishery15.h \
+    spriteData/fishery30.h \
+    spriteData/fishery45.h \
+    spriteData/fishery60.h \
     spriteData/fisheryBoatBuilding15.h \
     spriteData/fisheryBoatBuilding30.h \
     spriteData/fisheryBoatBuilding45.h \
@@ -1235,6 +1307,10 @@ HEADERS += \
     spriteData/fleecedSheep30.h \
     spriteData/fleecedSheep45.h \
     spriteData/fleecedSheep60.h \
+    spriteData/flowerGarden15.h \
+    spriteData/flowerGarden30.h \
+    spriteData/flowerGarden45.h \
+    spriteData/flowerGarden60.h \
     spriteData/foodCart15.h \
     spriteData/foodCart30.h \
     spriteData/foodCart45.h \
@@ -1243,6 +1319,22 @@ HEADERS += \
     spriteData/foodVendor30.h \
     spriteData/foodVendor45.h \
     spriteData/foodVendor60.h \
+    spriteData/foundry15.h \
+    spriteData/foundry30.h \
+    spriteData/foundry45.h \
+    spriteData/foundry60.h \
+    spriteData/fountain15.h \
+    spriteData/fountain30.h \
+    spriteData/fountain45.h \
+    spriteData/fountain60.h \
+    spriteData/gatehouseAndTower15.h \
+    spriteData/gatehouseAndTower30.h \
+    spriteData/gatehouseAndTower45.h \
+    spriteData/gatehouseAndTower60.h \
+    spriteData/gazebo15.h \
+    spriteData/gazebo30.h \
+    spriteData/gazebo45.h \
+    spriteData/gazebo60.h \
     spriteData/goat15.h \
     spriteData/goat30.h \
     spriteData/goat45.h \
@@ -1299,6 +1391,14 @@ HEADERS += \
     spriteData/grower30.h \
     spriteData/grower45.h \
     spriteData/grower60.h \
+    spriteData/growersLodge15.h \
+    spriteData/growersLodge30.h \
+    spriteData/growersLodge45.h \
+    spriteData/growersLodge60.h \
+    spriteData/gymnasium15.h \
+    spriteData/gymnasium30.h \
+    spriteData/gymnasium45.h \
+    spriteData/gymnasium60.h \
     spriteData/gymnast15.h \
     spriteData/gymnast30.h \
     spriteData/gymnast45.h \
@@ -1327,6 +1427,10 @@ HEADERS += \
     spriteData/hector30.h \
     spriteData/hector45.h \
     spriteData/hector60.h \
+    spriteData/hedgeMaze15.h \
+    spriteData/hedgeMaze30.h \
+    spriteData/hedgeMaze45.h \
+    spriteData/hedgeMaze60.h \
     spriteData/hephaestus15.h \
     spriteData/hephaestus30.h \
     spriteData/hephaestus45.h \
@@ -1367,6 +1471,14 @@ HEADERS += \
     spriteData/horse30.h \
     spriteData/horse45.h \
     spriteData/horse60.h \
+    spriteData/horseRanch15.h \
+    spriteData/horseRanch30.h \
+    spriteData/horseRanch45.h \
+    spriteData/horseRanch60.h \
+    spriteData/horseRanchEnclosure15.h \
+    spriteData/horseRanchEnclosure30.h \
+    spriteData/horseRanchEnclosure45.h \
+    spriteData/horseRanchEnclosure60.h \
     spriteData/horseVendor15.h \
     spriteData/horseVendor30.h \
     spriteData/horseVendor45.h \
@@ -1375,6 +1487,10 @@ HEADERS += \
     spriteData/horseman30.h \
     spriteData/horseman45.h \
     spriteData/horseman60.h \
+    spriteData/hospital15.h \
+    spriteData/hospital30.h \
+    spriteData/hospital45.h \
+    spriteData/hospital60.h \
     spriteData/housing15.h \
     spriteData/housing30.h \
     spriteData/housing45.h \
@@ -1383,6 +1499,10 @@ HEADERS += \
     spriteData/hunter30.h \
     spriteData/hunter45.h \
     spriteData/hunter60.h \
+    spriteData/huntingLodge15.h \
+    spriteData/huntingLodge30.h \
+    spriteData/huntingLodge45.h \
+    spriteData/huntingLodge60.h \
     spriteData/husbandry15.h \
     spriteData/husbandry30.h \
     spriteData/husbandry45.h \
@@ -1443,10 +1563,18 @@ HEADERS += \
     spriteData/maenads30.h \
     spriteData/maenads45.h \
     spriteData/maenads60.h \
+    spriteData/maintenanceOffice15.h \
+    spriteData/maintenanceOffice30.h \
+    spriteData/maintenanceOffice45.h \
+    spriteData/maintenanceOffice60.h \
     spriteData/marbleMiner15.h \
     spriteData/marbleMiner30.h \
     spriteData/marbleMiner45.h \
     spriteData/marbleMiner60.h \
+    spriteData/masonryShop15.h \
+    spriteData/masonryShop30.h \
+    spriteData/masonryShop45.h \
+    spriteData/masonryShop60.h \
     spriteData/masonryShopOverlays15.h \
     spriteData/masonryShopOverlays30.h \
     spriteData/masonryShopOverlays45.h \
@@ -1471,6 +1599,10 @@ HEADERS += \
     spriteData/minotaur30.h \
     spriteData/minotaur45.h \
     spriteData/minotaur60.h \
+    spriteData/mint15.h \
+    spriteData/mint30.h \
+    spriteData/mint45.h \
+    spriteData/mint60.h \
     spriteData/monsterMissile15.h \
     spriteData/monsterMissile30.h \
     spriteData/monsterMissile45.h \
@@ -1507,14 +1639,30 @@ HEADERS += \
     spriteData/oilVendor30.h \
     spriteData/oilVendor45.h \
     spriteData/oilVendor60.h \
+    spriteData/olivePress15.h \
+    spriteData/olivePress30.h \
+    spriteData/olivePress45.h \
+    spriteData/olivePress60.h \
+    spriteData/oliveTree15.h \
+    spriteData/oliveTree30.h \
+    spriteData/oliveTree45.h \
+    spriteData/oliveTree60.h \
     spriteData/orangeTender15.h \
     spriteData/orangeTender30.h \
     spriteData/orangeTender45.h \
     spriteData/orangeTender60.h \
+    spriteData/orangeTendersLodge15.h \
+    spriteData/orangeTendersLodge30.h \
+    spriteData/orangeTendersLodge45.h \
+    spriteData/orangeTendersLodge60.h \
     spriteData/orangesCart15.h \
     spriteData/orangesCart30.h \
     spriteData/orangesCart45.h \
     spriteData/orangesCart60.h \
+    spriteData/orrery15.h \
+    spriteData/orrery30.h \
+    spriteData/orrery45.h \
+    spriteData/orrery60.h \
     spriteData/ox15.h \
     spriteData/ox30.h \
     spriteData/ox45.h \
@@ -1527,10 +1675,18 @@ HEADERS += \
     spriteData/palaceOverlay30.h \
     spriteData/palaceOverlay45.h \
     spriteData/palaceOverlay60.h \
+    spriteData/palaceTiles15.h \
+    spriteData/palaceTiles30.h \
+    spriteData/palaceTiles45.h \
+    spriteData/palaceTiles60.h \
     spriteData/paneling15.h \
     spriteData/paneling30.h \
     spriteData/paneling45.h \
     spriteData/paneling60.h \
+    spriteData/park15.h \
+    spriteData/park30.h \
+    spriteData/park45.h \
+    spriteData/park60.h \
     spriteData/peddler15.h \
     spriteData/peddler30.h \
     spriteData/peddler30.h \
@@ -1568,6 +1724,14 @@ HEADERS += \
     spriteData/plague30.h \
     spriteData/plague45.h \
     spriteData/plague60.h \
+    spriteData/plantation15.h \
+    spriteData/plantation30.h \
+    spriteData/plantation45.h \
+    spriteData/plantation60.h \
+    spriteData/podium15.h \
+    spriteData/podium30.h \
+    spriteData/podium45.h \
+    spriteData/podium60.h \
     spriteData/porter15.h \
     spriteData/porter30.h \
     spriteData/porter45.h \
@@ -1576,6 +1740,10 @@ HEADERS += \
     spriteData/poseidon30.h \
     spriteData/poseidon45.h \
     spriteData/poseidon60.h \
+    spriteData/poseidonHerosHall15.h \
+    spriteData/poseidonHerosHall30.h \
+    spriteData/poseidonHerosHall45.h \
+    spriteData/poseidonHerosHall60.h \
     spriteData/poseidonInterface15.h \
     spriteData/poseidonInterface30.h \
     spriteData/poseidonInterface45.h \
@@ -1588,7 +1756,15 @@ HEADERS += \
     spriteData/poseidonStatue30.h \
     spriteData/poseidonStatue45.h \
     spriteData/poseidonStatue60.h \
+    spriteData/poseidonStatues115.h \
+    spriteData/poseidonStatues130.h \
+    spriteData/poseidonStatues145.h \
     spriteData/poseidonStatues15.h \
+    spriteData/poseidonStatues160.h \
+    spriteData/poseidonStatues215.h \
+    spriteData/poseidonStatues230.h \
+    spriteData/poseidonStatues245.h \
+    spriteData/poseidonStatues260.h \
     spriteData/poseidonStatues30.h \
     spriteData/poseidonStatues45.h \
     spriteData/poseidonStatues60.h \
@@ -1600,6 +1776,10 @@ HEADERS += \
     spriteData/religion30.h \
     spriteData/religion45.h \
     spriteData/religion60.h \
+    spriteData/roadblock15.h \
+    spriteData/roadblock30.h \
+    spriteData/roadblock45.h \
+    spriteData/roadblock60.h \
     spriteData/rock15.h \
     spriteData/rock30.h \
     spriteData/rock45.h \
@@ -1612,6 +1792,14 @@ HEADERS += \
     spriteData/sanctuaryFire30.h \
     spriteData/sanctuaryFire45.h \
     spriteData/sanctuaryFire60.h \
+    spriteData/sanctuaryOverlay15.h \
+    spriteData/sanctuaryOverlay30.h \
+    spriteData/sanctuaryOverlay45.h \
+    spriteData/sanctuaryOverlay60.h \
+    spriteData/sculptureStudio15.h \
+    spriteData/sculptureStudio30.h \
+    spriteData/sculptureStudio45.h \
+    spriteData/sculptureStudio60.h \
     spriteData/scylla15.h \
     spriteData/scylla30.h \
     spriteData/scylla45.h \
@@ -1624,10 +1812,18 @@ HEADERS += \
     spriteData/settlers230.h \
     spriteData/settlers245.h \
     spriteData/settlers260.h \
+    spriteData/shellGarden15.h \
+    spriteData/shellGarden30.h \
+    spriteData/shellGarden45.h \
+    spriteData/shellGarden60.h \
     spriteData/shepherd15.h \
     spriteData/shepherd30.h \
     spriteData/shepherd45.h \
     spriteData/shepherd60.h \
+    spriteData/shortObelisk15.h \
+    spriteData/shortObelisk30.h \
+    spriteData/shortObelisk45.h \
+    spriteData/shortObelisk60.h \
     spriteData/sick15.h \
     spriteData/sick30.h \
     spriteData/sick45.h \
@@ -1640,10 +1836,30 @@ HEADERS += \
     spriteData/sphinx30.h \
     spriteData/sphinx45.h \
     spriteData/sphinx60.h \
+    spriteData/spring15.h \
+    spriteData/spring30.h \
+    spriteData/spring45.h \
+    spriteData/spring60.h \
+    spriteData/stadium15.h \
+    spriteData/stadium30.h \
+    spriteData/stadium45.h \
+    spriteData/stadium60.h \
+    spriteData/stadiumOverlays115.h \
+    spriteData/stadiumOverlays130.h \
+    spriteData/stadiumOverlays145.h \
     spriteData/stadiumOverlays15.h \
+    spriteData/stadiumOverlays160.h \
+    spriteData/stadiumOverlays215.h \
+    spriteData/stadiumOverlays230.h \
+    spriteData/stadiumOverlays245.h \
+    spriteData/stadiumOverlays260.h \
     spriteData/stadiumOverlays30.h \
     spriteData/stadiumOverlays45.h \
     spriteData/stadiumOverlays60.h \
+    spriteData/stoneCircle15.h \
+    spriteData/stoneCircle30.h \
+    spriteData/stoneCircle45.h \
+    spriteData/stoneCircle60.h \
     spriteData/stor-bays15.h \
     spriteData/stor-bays30.h \
     spriteData/stor-bays45.h \
@@ -1660,6 +1876,14 @@ HEADERS += \
     spriteData/storage30.h \
     spriteData/storage45.h \
     spriteData/storage60.h \
+    spriteData/sundial15.h \
+    spriteData/sundial30.h \
+    spriteData/sundial45.h \
+    spriteData/sundial60.h \
+    spriteData/tallObelisk15.h \
+    spriteData/tallObelisk30.h \
+    spriteData/tallObelisk45.h \
+    spriteData/tallObelisk60.h \
     spriteData/talos15.h \
     spriteData/talos30.h \
     spriteData/talos45.h \
@@ -1668,6 +1892,14 @@ HEADERS += \
     spriteData/taxCollector30.h \
     spriteData/taxCollector45.h \
     spriteData/taxCollector60.h \
+    spriteData/taxOffice15.h \
+    spriteData/taxOffice30.h \
+    spriteData/taxOffice45.h \
+    spriteData/taxOffice60.h \
+    spriteData/theater15.h \
+    spriteData/theater30.h \
+    spriteData/theater45.h \
+    spriteData/theater60.h \
     spriteData/theaterOverlay15.h \
     spriteData/theaterOverlay30.h \
     spriteData/theaterOverlay45.h \
@@ -1676,6 +1908,14 @@ HEADERS += \
     spriteData/theseus30.h \
     spriteData/theseus45.h \
     spriteData/theseus60.h \
+    spriteData/timberMill15.h \
+    spriteData/timberMill30.h \
+    spriteData/timberMill45.h \
+    spriteData/timberMill60.h \
+    spriteData/topiary15.h \
+    spriteData/topiary30.h \
+    spriteData/topiary45.h \
+    spriteData/topiary60.h \
     spriteData/tradeBoat15.h \
     spriteData/tradeBoat30.h \
     spriteData/tradeBoat45.h \
@@ -1696,6 +1936,10 @@ HEADERS += \
     spriteData/transporter30.h \
     spriteData/transporter45.h \
     spriteData/transporter60.h \
+    spriteData/triremeWharf15.h \
+    spriteData/triremeWharf30.h \
+    spriteData/triremeWharf45.h \
+    spriteData/triremeWharf60.h \
     spriteData/trojanHoplite15.h \
     spriteData/trojanHoplite30.h \
     spriteData/trojanHoplite45.h \
@@ -1716,6 +1960,10 @@ HEADERS += \
     spriteData/urchinGatherer30.h \
     spriteData/urchinGatherer45.h \
     spriteData/urchinGatherer60.h \
+    spriteData/urchinQuay15.h \
+    spriteData/urchinQuay30.h \
+    spriteData/urchinQuay45.h \
+    spriteData/urchinQuay60.h \
     spriteData/urchinUnpackingOverlay15.h \
     spriteData/urchinUnpackingOverlay30.h \
     spriteData/urchinUnpackingOverlay45.h \
@@ -1724,10 +1972,18 @@ HEADERS += \
     spriteData/vendorOverlays30.h \
     spriteData/vendorOverlays45.h \
     spriteData/vendorOverlays60.h \
+    spriteData/vine15.h \
+    spriteData/vine30.h \
+    spriteData/vine45.h \
+    spriteData/vine60.h \
     spriteData/waitingOverlay15.h \
     spriteData/waitingOverlay30.h \
     spriteData/waitingOverlay45.h \
     spriteData/waitingOverlay60.h \
+    spriteData/wall15.h \
+    spriteData/wall30.h \
+    spriteData/wall45.h \
+    spriteData/wall60.h \
     spriteData/warehouseOverlay15.h \
     spriteData/warehouseOverlay30.h \
     spriteData/warehouseOverlay45.h \
@@ -1740,10 +1996,18 @@ HEADERS += \
     spriteData/watchman30.h \
     spriteData/watchman45.h \
     spriteData/watchman60.h \
+    spriteData/watchpost15.h \
+    spriteData/watchpost30.h \
+    spriteData/watchpost45.h \
+    spriteData/watchpost60.h \
     spriteData/waterDistributor15.h \
     spriteData/waterDistributor30.h \
     spriteData/waterDistributor45.h \
     spriteData/waterDistributor60.h \
+    spriteData/waterPark15.h \
+    spriteData/waterPark30.h \
+    spriteData/waterPark45.h \
+    spriteData/waterPark60.h \
     spriteData/wineVendor15.h \
     spriteData/wineVendor30.h \
     spriteData/wineVendor45.h \
@@ -1752,6 +2016,10 @@ HEADERS += \
     spriteData/wineVendorOverlay30.h \
     spriteData/wineVendorOverlay45.h \
     spriteData/wineVendorOverlay60.h \
+    spriteData/winery15.h \
+    spriteData/winery30.h \
+    spriteData/winery45.h \
+    spriteData/winery60.h \
     spriteData/wolf15.h \
     spriteData/wolf30.h \
     spriteData/wolf45.h \
@@ -1768,6 +2036,10 @@ HEADERS += \
     spriteData/zeusElevationTiles30.h \
     spriteData/zeusElevationTiles45.h \
     spriteData/zeusElevationTiles60.h \
+    spriteData/zeusHerosHall15.h \
+    spriteData/zeusHerosHall30.h \
+    spriteData/zeusHerosHall45.h \
+    spriteData/zeusHerosHall60.h \
     spriteData/zeusLand115.h \
     spriteData/zeusLand130.h \
     spriteData/zeusLand145.h \
@@ -1796,6 +2068,10 @@ HEADERS += \
     spriteData/zeusSanctuary330.h \
     spriteData/zeusSanctuary345.h \
     spriteData/zeusSanctuary360.h \
+    spriteData/zeusSanctuaryElements15.h \
+    spriteData/zeusSanctuaryElements30.h \
+    spriteData/zeusSanctuaryElements45.h \
+    spriteData/zeusSanctuaryElements60.h \
     spriteData/zeusStairs15.h \
     spriteData/zeusStairs30.h \
     spriteData/zeusStairs45.h \

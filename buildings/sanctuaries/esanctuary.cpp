@@ -28,6 +28,51 @@ eSanctuary::eSanctuary(eGameBoard& board,
                        const int sw, const int sh,
                        const int maxEmployees) :
     eEmployingBuilding(board, type, sw, sh, maxEmployees) {
+    eGameTextures::loadSanctuary();
+    switch(godType()) {
+    case eGodType::aphrodite:
+        eGameTextures::loadAphroditeMonuments();
+        break;
+    case eGodType::apollo:
+        eGameTextures::loadApolloMonuments();
+        break;
+    case eGodType::ares:
+        eGameTextures::loadAresMonuments();
+        break;
+    case eGodType::artemis:
+        eGameTextures::loadArtemisMonuments();
+        break;
+    case eGodType::athena:
+        eGameTextures::loadAthenaMonuments();
+        break;
+    case eGodType::atlas:
+        eGameTextures::loadAtlasMonuments();
+        break;
+    case eGodType::demeter:
+        eGameTextures::loadDemeterMonuments();
+        break;
+    case eGodType::dionysus:
+        eGameTextures::loadDionysusMonuments();
+        break;
+    case eGodType::hades:
+        eGameTextures::loadHadesMonuments();
+        break;
+    case eGodType::hephaestus:
+        eGameTextures::loadHephaestusMonuments();
+        break;
+    case eGodType::hera:
+        eGameTextures::loadHeraMonuments();
+        break;
+    case eGodType::hermes:
+        eGameTextures::loadHermesMonuments();
+        break;
+    case eGodType::poseidon:
+        eGameTextures::loadPoseidonMonuments();
+        break;
+    case eGodType::zeus:
+        eGameTextures::loadZeusMonuments();
+        break;
+    }
     board.registerSanctuary(this);
 }
 

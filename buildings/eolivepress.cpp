@@ -1,5 +1,7 @@
 #include "eolivepress.h"
 
+#include "textures/egametextures.h"
+
 eOlivePress::eOlivePress(eGameBoard& board) :
     eProcessingBuilding(board,
                         &eBuildingTextures::fOlivePress,
@@ -8,5 +10,5 @@ eOlivePress::eOlivePress(eGameBoard& board) :
                         eBuildingType::olivePress, 2, 2, 12,
                         eResourceType::olives,
                         eResourceType::oliveOil, 1, 2) {
-
+    eGameTextures::loadOlivePress();
 }

@@ -10,6 +10,7 @@
 
 eTower::eTower(eGameBoard& board) :
     eEmployingBuilding(board, eBuildingType::tower, 2, 2, 15) {
+    eGameTextures::loadGatehouseAndTower();
     eGameTextures::loadArcher();
 }
 

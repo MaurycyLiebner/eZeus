@@ -18,7 +18,7 @@ eDairy::eDairy(eGameBoard& board) :
                          eCharacterType::goat,
                          2, 2, 8),
     mTextures(eGameTextures::buildings())  {
-
+    eGameTextures::loadDairy();
 }
 
 std::vector<eOverlay> eDairy::getOverlays(const eTileSize size) const {

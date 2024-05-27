@@ -7,7 +7,9 @@
 eUrchinQuay::eUrchinQuay(eGameBoard& board, const eOrientation o) :
     eResourceCollectBuildingBase(board, eBuildingType::urchinQuay,
                                  2, 2, 10, eResourceType::urchin),
-    mO(o) {}
+    mO(o) {
+    eGameTextures::loadUrchinQuay();
+}
 
 eUrchinQuay::~eUrchinQuay() {
     if(mGatherer) mGatherer->kill();

@@ -3,18 +3,178 @@
 
 #include "etexturecollection.h"
 
+struct eSpriteData;
+
 class eBuildingTextures {
 public:
     eBuildingTextures(const int tileW, const int tileH,
                      SDL_Renderer* const renderer);
 
     void load();
-
     bool fLoaded = false;
 
     const int fTileW;
     const int fTileH;
     SDL_Renderer* const fRenderer;
+
+    bool fCommonHouseLoaded = false;
+    void loadCommonHouse();
+    bool fEliteHouseLoaded = false;
+    void loadEliteHouse();
+    bool fCollegeLoaded = false;
+    void loadCollege();
+    bool fGymnasiumLoaded = false;
+    void loadGymnasium();
+    bool fDramaSchoolLoaded = false;
+    void loadDramaSchool();
+    bool fPodiumLoaded = false;
+    void loadPodium();
+    bool fTheaterLoaded = false;
+    void loadTheater();
+    bool fStadiumLoaded = false;
+    void loadStadium();
+    bool fFountainLoaded = false;
+    void loadFountain();
+    bool fHospitalLoaded = false;
+    void loadHospital();
+    bool fOliveTreeLoaded = false;
+    void loadOliveTree();
+    bool fVineLoaded = false;
+    void loadVine();
+    bool fPlantationLoaded = false;
+    void loadPlantation();
+    bool fHuntingLodgeLoaded = false;
+    void loadHuntingLodge();
+    bool fFisheryLoaded = false;
+    void loadFishery();
+    bool fUrchinQuayLoaded = false;
+    void loadUrchinQuay();
+    bool fCardingShedLoaded = false;
+    void loadCardingShed();
+    bool fDairyLoaded = false;
+    void loadDairy();
+    bool fGrowersLodgeLoaded = false;
+    void loadGrowersLodge();
+    bool fTimberMillLoaded = false;
+    void loadTimberMill();
+    bool fMasonryShopLoaded = false;
+    void loadMasonryShop();
+    bool fMintLoaded = false;
+    void loadMint();
+    bool fFoundryLoaded = false;
+    void loadFoundry();
+    bool fArtisansGuildLoaded = false;
+    void loadArtisansGuild();
+    bool fOlivePressLoaded = false;
+    void loadOlivePress();
+    bool fWineryLoaded = false;
+    void loadWinery();
+    bool fSculptureStudioLoaded = false;
+    void loadSculptureStudio();
+    bool fTriremeWharfLoaded = false;
+    void loadTriremeWharf();
+    bool fHorseRanchLoaded = false;
+    void loadHorseRanch();
+    bool fArmoryLoaded = false;
+    void loadArmory();
+    bool fGatehouseAndTowerLoaded = false;
+    void loadGatehouseAndTower();
+    bool fWallLoaded = false;
+    void loadWall();
+    bool fMaintenanceOfficeLoaded = false;
+    void loadMaintenanceOffice();
+    bool fTaxOfficeLoaded = false;
+    void loadTaxOffice();
+    bool fWatchpostLoaded = false;
+    void loadWatchpost();
+    bool fRoadblockLoaded = false;
+    void loadRoadblock();
+    bool fBridgeLoaded = false;
+    void loadBridge();
+    bool fPalaceLoaded = false;
+    void loadPalace();
+    bool fPalaceTilesLoaded = false;
+    void loadPalaceTiles();
+    bool fSanctuaryLoaded = false;
+    void loadSanctuary();
+    bool fHerosHallLoaded = false;
+    void loadHerosHall();
+    bool fWaitingOverlayLoaded = false;
+    void loadWaitingOverlay();
+    bool fOrangeTendersLodgeLoaded = false;
+    void loadOrangeTendersLodge();
+    bool fWaterParkLoaded = false;
+    void loadWaterPark();
+    bool fShortObeliskLoaded = false;
+    void loadShortObelisk();
+    bool fBirdBathLoaded = false;
+    void loadBirdBath();
+    bool fBathsLoaded = false;
+    void loadBaths();
+    bool fShellGardenLoaded = false;
+    void loadShellGarden();
+    bool fOrreryLoaded = false;
+    void loadOrrery();
+    bool fDolphinSculptureLoaded = false;
+    void loadDolphinSculpture();
+    bool fStoneCircleLoaded = false;
+    void loadStoneCircle();
+    bool fSpringLoaded = false;
+    void loadSpring();
+    bool fTopiaryLoaded = false;
+    void loadTopiary();
+    bool fSundialLoaded = false;
+    void loadSundial();
+    bool fTallObeliskLoaded = false;
+    void loadTallObelisk();
+    bool fAvenueLoaded = false;
+    void loadAvenue();
+    bool fColumnsLoaded = false;
+    void loadColumns();
+    bool fCommemorativeLoaded = false;
+    void loadCommemorative();
+    bool fFishPondLoaded = false;
+    void loadFishPond();
+    bool fHedgeMazeLoaded = false;
+    void loadHedgeMaze();
+    bool fGazeboLoaded = false;
+    void loadGazebo();
+    bool fFlowerGardenLoaded = false;
+    void loadFlowerGarden();
+    bool fBenchLoaded = false;
+    void loadBench();
+    bool fParkLoaded = false;
+    void loadPark();
+
+    bool fZeusMonumentsLoaded = false;
+    void loadZeusMonuments();
+    bool fPoseidonMonumentsLoaded = false;
+    void loadPoseidonMonuments();
+    bool fHadesMonumentsLoaded = false;
+    void loadHadesMonuments();
+    bool fDemeterMonumentsLoaded = false;
+    void loadDemeterMonuments();
+    bool fAthenaMonumentsLoaded = false;
+    void loadAthenaMonuments();
+    bool fArtemisMonumentsLoaded = false;
+    void loadArtemisMonuments();
+    bool fApolloMonumentsLoaded = false;
+    void loadApolloMonuments();
+    bool fAresMonumentsLoaded = false;
+    void loadAresMonuments();
+    bool fHephaestusMonumentsLoaded = false;
+    void loadHephaestusMonuments();
+    bool fAphroditeMonumentsLoaded = false;
+    void loadAphroditeMonuments();
+    bool fHermesMonumentsLoaded = false;
+    void loadHermesMonuments();
+    bool fDionysusMonumentsLoaded = false;
+    void loadDionysusMonuments();
+
+    bool fHeraMonumentsLoaded = false;
+    void loadHeraMonuments();
+    bool fAtlasMonumentsLoaded = false;
+    void loadAtlasMonuments();
 
     std::shared_ptr<eTexture> fHouseSpace;
     std::vector<eTextureCollection> fCommonHouse;
@@ -369,6 +529,19 @@ public:
 
     std::shared_ptr<eTexture> fRoadblock;
     eTextureCollection fBridge;
+
+private:
+    bool fFisheryOverlayLoaded = false;
+    void loadFisheryOverlay();
+
+    void loadGodMonuments(const std::vector<eSpriteData>& sd15,
+                          const std::vector<eSpriteData>& sd30,
+                          const std::vector<eSpriteData>& sd45,
+                          const std::vector<eSpriteData>& sd60,
+                          const std::string& name,
+                          eTextureCollection& coll);
+    void generateFlipped(const eTextureCollection& src,
+                         eTextureCollection& dst);
 };
 
 #endif // EBUILDINGTEXTURES_H

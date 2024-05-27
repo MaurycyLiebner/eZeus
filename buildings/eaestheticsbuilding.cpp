@@ -23,25 +23,25 @@ std::shared_ptr<eTexture> eAestheticsBuilding::getTexture(
 eBench::eBench(eGameBoard& board) :
     eAestheticsBuilding(board, &eBuildingTextures::fBench,
                         eBuildingType::bench, 1, 1) {
-
+    eGameTextures::loadBench();
 }
 
 eFlowerGarden::eFlowerGarden(eGameBoard& board) :
     eAestheticsBuilding(board, &eBuildingTextures::fFlowerGarden,
                         eBuildingType::flowerGarden, 2, 2) {
-
+    eGameTextures::loadFlowerGarden();
 }
 
 eGazebo::eGazebo(eGameBoard& board) :
     eAestheticsBuilding(board, &eBuildingTextures::fGazebo,
                         eBuildingType::gazebo, 2, 2) {
-
+    eGameTextures::loadGazebo();
 }
 
 eHedgeMaze::eHedgeMaze(eGameBoard& board) :
     eAestheticsBuilding(board, &eBuildingTextures::fHedgeMaze,
                         eBuildingType::hedgeMaze, 3, 3) {
-
+    eGameTextures::loadHedgeMaze();
 }
 
 eFishPond::eFishPond(eGameBoard& board) :
@@ -49,7 +49,7 @@ eFishPond::eFishPond(eGameBoard& board) :
                           0.87, -3.10,
                           &eBuildingTextures::fFishPondOverlay,
                           eBuildingType::fishPond, 4, 4) {
-
+    eGameTextures::loadFishPond();
 }
 
 eOverlayAesthBuilding::eOverlayAesthBuilding(
@@ -85,43 +85,43 @@ eBirdBath::eBirdBath(eGameBoard& board) :
                           -1.35, -1.7,
                           &eBuildingTextures::fBirdBathOverlay,
                           eBuildingType::birdBath, 1, 1) {
-
+    eGameTextures::loadBirdBath();
 }
 
 eShortObelisk::eShortObelisk(eGameBoard& board) :
     eAestheticsBuilding(board, &eBuildingTextures::fShortObelisk,
                         eBuildingType::shortObelisk, 1, 1) {
-
+    eGameTextures::loadShortObelisk();
 }
 
 eTallObelisk::eTallObelisk(eGameBoard& board) :
     eAestheticsBuilding(board, &eBuildingTextures::fTallObelisk,
                         eBuildingType::tallObelisk, 1, 1) {
-
+    eGameTextures::loadTallObelisk();
 }
 
 eOrrery::eOrrery(eGameBoard& board) :
     eAestheticsBuilding(board, &eBuildingTextures::fOrrery,
                         eBuildingType::orrery, 3, 3) {
-
+    eGameTextures::loadOrrery();
 }
 
 eShellGarden::eShellGarden(eGameBoard& board) :
     eAestheticsBuilding(board, &eBuildingTextures::fShellGarden,
                         eBuildingType::shellGarden, 2, 2) {
-
+    eGameTextures::loadShellGarden();
 }
 
 eSundial::eSundial(eGameBoard& board) :
     eAestheticsBuilding(board, &eBuildingTextures::fSundial,
                         eBuildingType::sundial, 2, 2) {
-
+    eGameTextures::loadSundial();
 }
 
 eDolphinSculpture::eDolphinSculpture(eGameBoard& board) :
     eAestheticsBuilding(board, &eBuildingTextures::fDolphinSculpture,
                         eBuildingType::dolphinSculpture, 3, 3) {
-
+    eGameTextures::loadDolphinSculpture();
 }
 
 eSpring::eSpring(eGameBoard& board) :
@@ -129,14 +129,14 @@ eSpring::eSpring(eGameBoard& board) :
                           -3.0, -3.0,
                           &eBuildingTextures::fSpring,
                           eBuildingType::spring, 3, 3) {
-
+    eGameTextures::loadSpring();
 }
 
 
 eTopiary::eTopiary(eGameBoard& board) :
     eAestheticsBuilding(board, &eBuildingTextures::fTopiary,
                         eBuildingType::topiary, 3, 3) {
-
+    eGameTextures::loadTopiary();
 }
 
 eBaths::eBaths(eGameBoard& board) :
@@ -144,7 +144,7 @@ eBaths::eBaths(eGameBoard& board) :
                           -2.39, -3.20,
                           &eBuildingTextures::fBathsOverlay,
                           eBuildingType::baths, 4, 4) {
-
+    eGameTextures::loadBaths();
 }
 
 eStoneCircle::eStoneCircle(eGameBoard& board) :
@@ -152,12 +152,13 @@ eStoneCircle::eStoneCircle(eGameBoard& board) :
                           -0.5, -4.0,
                           &eBuildingTextures::fStoneCircleOverlay,
                           eBuildingType::stoneCircle, 4, 4) {
-
+    eGameTextures::loadStoneCircle();
 }
 
 
 eWaterPark::eWaterPark(eGameBoard& board) :
     eBuilding(board, eBuildingType::waterPark, 2, 2) {
+    eGameTextures::loadWaterPark();
     setEnabled(true);
 }
 
@@ -212,7 +213,7 @@ std::vector<eOverlay> eWaterPark::getOverlays(
 eCommemorative::eCommemorative(const int id, eGameBoard& board) :
     eBuilding(board, eBuildingType::commemorative, 3, 3),
     mId(id) {
-
+    eGameTextures::loadCommemorative();
 }
 
 std::shared_ptr<eTexture>
@@ -226,7 +227,52 @@ eGodMonument::eGodMonument(const eGodType god,
                            const eGodQuestId id,
                            eGameBoard& board) :
     eBuilding(board, eBuildingType::godMonument, 2, 2),
-    mGod(god), mId(id) {}
+    mGod(god), mId(id) {
+    switch(god) {
+    case eGodType::aphrodite:
+        eGameTextures::loadAphroditeMonuments();
+        break;
+    case eGodType::apollo:
+        eGameTextures::loadApolloMonuments();
+        break;
+    case eGodType::ares:
+        eGameTextures::loadAresMonuments();
+        break;
+    case eGodType::artemis:
+        eGameTextures::loadArtemisMonuments();
+        break;
+    case eGodType::athena:
+        eGameTextures::loadAthenaMonuments();
+        break;
+    case eGodType::atlas:
+        eGameTextures::loadAtlasMonuments();
+        break;
+    case eGodType::demeter:
+        eGameTextures::loadDemeterMonuments();
+        break;
+    case eGodType::dionysus:
+        eGameTextures::loadDionysusMonuments();
+        break;
+    case eGodType::hades:
+        eGameTextures::loadHadesMonuments();
+        break;
+    case eGodType::hephaestus:
+        eGameTextures::loadHephaestusMonuments();
+        break;
+    case eGodType::hera:
+        eGameTextures::loadHeraMonuments();
+        break;
+    case eGodType::hermes:
+        eGameTextures::loadHermesMonuments();
+        break;
+    case eGodType::poseidon:
+        eGameTextures::loadPoseidonMonuments();
+        break;
+    case eGodType::zeus:
+        eGameTextures::loadZeusMonuments();
+        break;
+    }
+}
 
 void eGodMonument::erase() {
     for(const auto& t : mTiles) {
@@ -247,7 +293,9 @@ void eGodMonument::addTile(eGodMonumentTile* const tile) {
 }
 
 eGodMonumentTile::eGodMonumentTile(eGameBoard& board) :
-    eBuilding(board, eBuildingType::godMonumentTile, 1, 1) {}
+    eBuilding(board, eBuildingType::godMonumentTile, 1, 1) {
+    eGameTextures::loadPalaceTiles();
+}
 
 void eGodMonumentTile::erase() {
     mMonument->erase();

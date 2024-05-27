@@ -952,6 +952,552 @@ void eGameTextures::loadGodPurpleMissile() {
     });
 }
 
+void eGameTextures::loadCommonHouse() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadCommonHouse();
+    });
+}
+
+void eGameTextures::loadEliteHouse() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadEliteHouse();
+    });
+}
+
+void eGameTextures::loadCollege() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadCollege();
+    });
+}
+
+void eGameTextures::loadGymnasium() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadGymnasium();
+    });
+}
+
+void eGameTextures::loadDramaSchool() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadDramaSchool();
+    });
+}
+
+void eGameTextures::loadPodium() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadPodium();
+    });
+}
+
+void eGameTextures::loadTheater() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadTheater();
+    });
+}
+
+void eGameTextures::loadStadium() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadStadium();
+    });
+}
+
+void eGameTextures::loadFountain() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadFountain();
+    });
+}
+
+void eGameTextures::loadHospital() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadHospital();
+    });
+}
+
+void eGameTextures::loadOliveTree() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadOliveTree();
+    });
+}
+
+void eGameTextures::loadVine() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadVine();
+    });
+}
+
+void eGameTextures::loadPlantation() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadPlantation();
+    });
+}
+
+void eGameTextures::loadHuntingLodge() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadHuntingLodge();
+    });
+}
+
+void eGameTextures::loadFishery() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadFishery();
+    });
+}
+
+void eGameTextures::loadUrchinQuay() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadUrchinQuay();
+    });
+}
+
+void eGameTextures::loadCardingShed() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadCardingShed();
+    });
+}
+
+void eGameTextures::loadDairy() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadDairy();
+    });
+}
+
+void eGameTextures::loadGrowersLodge() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadGrowersLodge();
+    });
+}
+
+void eGameTextures::loadTimberMill() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadTimberMill();
+    });
+}
+
+void eGameTextures::loadMasonryShop() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadMasonryShop();
+    });
+}
+
+void eGameTextures::loadMint() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadMint();
+    });
+}
+
+void eGameTextures::loadFoundry() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadFoundry();
+    });
+}
+
+void eGameTextures::loadArtisansGuild() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadArtisansGuild();
+    });
+}
+
+void eGameTextures::loadOlivePress() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadOlivePress();
+    });
+}
+
+void eGameTextures::loadWinery() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadWinery();
+    });
+}
+
+void eGameTextures::loadSculptureStudio() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadSculptureStudio();
+    });
+}
+
+void eGameTextures::loadTriremeWharf() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadTriremeWharf();
+    });
+}
+
+void eGameTextures::loadHorseRanch() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadHorseRanch();
+    });
+}
+
+void eGameTextures::loadArmory() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadArmory();
+    });
+}
+
+void eGameTextures::loadGatehouseAndTower() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadGatehouseAndTower();
+    });
+}
+
+void eGameTextures::loadWall() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadWall();
+    });
+}
+
+void eGameTextures::loadMaintenanceOffice() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadMaintenanceOffice();
+    });
+}
+
+void eGameTextures::loadTaxOffice() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadTaxOffice();
+    });
+}
+
+void eGameTextures::loadWatchpost() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadWatchpost();
+    });
+}
+
+void eGameTextures::loadRoadblock() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadRoadblock();
+    });
+}
+
+void eGameTextures::loadBridge() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadBridge();
+    });
+}
+
+void eGameTextures::loadPalace() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadPalace();
+    });
+}
+
+void eGameTextures::loadPalaceTiles() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadPalaceTiles();
+    });
+}
+
+void eGameTextures::loadSanctuary() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadSanctuary();
+    });
+}
+
+void eGameTextures::loadOrangeTendersLodge() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadOrangeTendersLodge();
+    });
+}
+
+void eGameTextures::loadWaterPark() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadWaterPark();
+    });
+}
+
+void eGameTextures::loadShortObelisk() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadShortObelisk();
+    });
+}
+
+void eGameTextures::loadBirdBath() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadBirdBath();
+    });
+}
+
+void eGameTextures::loadBaths() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadBaths();
+    });
+}
+
+void eGameTextures::loadShellGarden() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadShellGarden();
+    });
+}
+
+void eGameTextures::loadOrrery() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadOrrery();
+    });
+}
+
+void eGameTextures::loadDolphinSculpture() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadDolphinSculpture();
+    });
+}
+
+void eGameTextures::loadStoneCircle() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadStoneCircle();
+    });
+}
+
+void eGameTextures::loadSpring() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadSpring();
+    });
+}
+
+void eGameTextures::loadTopiary() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadTopiary();
+    });
+}
+
+void eGameTextures::loadSundial() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadSundial();
+    });
+}
+
+void eGameTextures::loadTallObelisk() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadTallObelisk();
+    });
+}
+
+void eGameTextures::loadAvenue() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadAvenue();
+    });
+}
+
+void eGameTextures::loadColumns() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadColumns();
+    });
+}
+
+void eGameTextures::loadCommemorative() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadCommemorative();
+    });
+}
+
+void eGameTextures::loadFishPond() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadFishPond();
+    });
+}
+
+void eGameTextures::loadHedgeMaze() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadHedgeMaze();
+    });
+}
+
+void eGameTextures::loadGazebo() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadGazebo();
+    });
+}
+
+void eGameTextures::loadFlowerGarden() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadFlowerGarden();
+    });
+}
+
+void eGameTextures::loadBench() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadBench();
+    });
+}
+
+void eGameTextures::loadPark() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadPark();
+    });
+}
+
+void eGameTextures::loadZeusMonuments() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadZeusMonuments();
+    });
+}
+
+void eGameTextures::loadPoseidonMonuments() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadPoseidonMonuments();
+    });
+}
+
+void eGameTextures::loadHadesMonuments() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadHadesMonuments();
+    });
+}
+
+void eGameTextures::loadDemeterMonuments() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadDemeterMonuments();
+    });
+}
+
+void eGameTextures::loadAthenaMonuments() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadAthenaMonuments();
+    });
+}
+
+void eGameTextures::loadArtemisMonuments() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadArtemisMonuments();
+    });
+}
+
+void eGameTextures::loadApolloMonuments() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadApolloMonuments();
+    });
+}
+
+void eGameTextures::loadAresMonuments() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadAresMonuments();
+    });
+}
+
+void eGameTextures::loadHephaestusMonuments() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadHephaestusMonuments();
+    });
+}
+
+void eGameTextures::loadAphroditeMonuments() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadAphroditeMonuments();
+    });
+}
+
+void eGameTextures::loadHermesMonuments() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadHermesMonuments();
+    });
+}
+
+void eGameTextures::loadDionysusMonuments() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadDionysusMonuments();
+    });
+}
+
+void eGameTextures::loadHeraMonuments() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadHeraMonuments();
+    });
+}
+
+void eGameTextures::loadAtlasMonuments() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadAtlasMonuments();
+    });
+}
+
+void eGameTextures::loadHerosHall() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadHerosHall();
+    });
+}
+
+void eGameTextures::loadWaitingOverlay() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadWaitingOverlay();
+    });
+}
+
 bool eGameTextures::initialize(SDL_Renderer* const r) {
     if(sInitialized) return true;
     int i = 0;

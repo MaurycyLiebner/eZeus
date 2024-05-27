@@ -13,5 +13,6 @@ eMint::eMint(eGameBoard& board) :
                              eBuildingType::mint,
                              eHasResourceObject::sCreate(eHasResourceObjectType::silver),
                              2, 2, 15, eResourceType::silver) {
+    eGameTextures::loadMint();
     setRawCountCollect(4);
 }

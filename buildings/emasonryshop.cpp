@@ -22,6 +22,7 @@ eMasonryShop::eMasonryShop(eGameBoard& board) :
                              eBuildingType::masonryShop,
                              eHasResourceObject::sCreate(eHasResourceObjectType::marble),
                              2, 2, 15, eResourceType::marble) {
+    eGameTextures::loadMasonryShop();
     setAddResource(false);
     setRawInc(8);
     setRawCountCollect(0);

@@ -7,7 +7,7 @@ ePalaceTile::ePalaceTile(eGameBoard& board,
                          const bool other) :
     eBuilding(board, eBuildingType::palaceTile, 1, 1),
     mOther(other) {
-
+    eGameTextures::loadPalaceTiles();
 }
 
 void ePalaceTile::erase() {

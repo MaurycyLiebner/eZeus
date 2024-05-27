@@ -9,7 +9,16 @@ eGrowersLodge::eGrowersLodge(eGameBoard& board, const eGrowerType type) :
                        type == eGrowerType::grapesAndOlives ?
                            eBuildingType::growersLodge :
                            eBuildingType::orangeTendersLodge, 2, 2, 12),
-    mType(type) {}
+    mType(type) {
+    switch(type) {
+    case eGrowerType::grapesAndOlives:
+        eGameTextures::loadGrowersLodge();
+        break;
+    case eGrowerType::oranges:
+        eGameTextures::loadOrangeTendersLodge();
+        break;
+    }
+}
 
 eGrowersLodge::~eGrowersLodge() {
     if(mCart) mCart->kill();

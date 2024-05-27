@@ -10,4 +10,5 @@ eTaxOffice::eTaxOffice(eGameBoard& board) :
                     &eBuildingTextures::fTaxOfficeOverlay,
                     [this]() { return e::make_shared<eTaxCollector>(getBoard()); },
                     eBuildingType::taxOffice, 2, 2, 8) {
+    eGameTextures::loadTaxOffice();
 }

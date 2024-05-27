@@ -7,7 +7,9 @@
 eFishery::eFishery(eGameBoard& board, const eOrientation o) :
     eResourceCollectBuildingBase(board, eBuildingType::fishery,
                                  2, 2, 10, eResourceType::fish),
-    mO(o) {}
+    mO(o) {
+    eGameTextures::loadFishery();
+}
 
 eFishery::~eFishery() {
     if(mBoat) mBoat->kill();

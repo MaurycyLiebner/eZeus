@@ -1,6 +1,7 @@
 #include "etheater.h"
 
 #include "characters/eactor.h"
+#include "textures/egametextures.h"
 
 eTheater::eTheater(eGameBoard& board) :
     ePatrolTarget(board,
@@ -10,4 +11,5 @@ eTheater::eTheater(eGameBoard& board) :
                   &eBuildingTextures::fTheaterOverlay,
                   [this]() { return e::make_shared<eActor>(getBoard()); },
                   eBuildingType::theater, 5, 5, 18) {
+    eGameTextures::loadTheater();
 }

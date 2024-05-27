@@ -6,6 +6,7 @@ eGatehouse::eGatehouse(eGameBoard& board, const bool r) :
     eBuilding(board, eBuildingType::gatehouse,
               r ? 2 : 5, r ? 5 : 2),
     mRotated(r) {
+    eGameTextures::loadGatehouseAndTower();
     setEnabled(true);
 }
 

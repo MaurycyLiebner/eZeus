@@ -4,7 +4,7 @@
 
 eWall::eWall(eGameBoard& board) :
     eBuilding(board, eBuildingType::wall, 1, 1) {
-
+    eGameTextures::loadWall();
 }
 
 std::shared_ptr<eTexture>

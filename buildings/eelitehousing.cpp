@@ -6,7 +6,9 @@
 
 eEliteHousing::eEliteHousing(eGameBoard& board) :
     eHouseBase(board, eBuildingType::eliteHousing,
-               4, 4, {6, 6, 10, 16, 20}) {}
+               4, 4, {6, 6, 10, 16, 20}) {
+    eGameTextures::loadEliteHouse();
+}
 
 std::shared_ptr<eTexture>
 eEliteHousing::getLeftTexture(const eTileSize size) const {

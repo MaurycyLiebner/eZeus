@@ -29,7 +29,7 @@ eResourceCollectBuilding::eResourceCollectBuilding(
     mWaitingOO(waitingOO),
     mWaitingOX(waitingOX), mWaitingOY(waitingOY),
     mHasRes(hr) {
-
+    eGameTextures::loadWaitingOverlay();
 }
 
 eResourceCollectBuilding::~eResourceCollectBuilding() {

@@ -568,6 +568,7 @@ void eHerosHall::updateRequirementStatus(eHeroRequirement& hr) {
 eHerosHall::eHerosHall(const eHeroType type, eGameBoard& board) :
     eBuilding(board, sHeroTypeToHallType(type), 4, 4),
     mType(type) {
+    eGameTextures::loadHerosHall();
     board.registerHeroHall(this);
     setOverlayEnabledFunc([]() { return true; });
 

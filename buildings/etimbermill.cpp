@@ -13,5 +13,6 @@ eTimberMill::eTimberMill(eGameBoard& board) :
                              eBuildingType::timberMill,
                              eHasResourceObject::sCreate(eHasResourceObjectType::forest),
                              2, 2, 12, eResourceType::wood) {
+    eGameTextures::loadTimberMill();
     setRawCountCollect(4);
 }

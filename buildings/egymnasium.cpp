@@ -1,6 +1,7 @@
 #include "egymnasium.h"
 
 #include "characters/egymnast.h"
+#include "textures/egametextures.h"
 
 eGymnasium::eGymnasium(eGameBoard& board) :
     ePatrolBuilding(board,
@@ -9,5 +10,5 @@ eGymnasium::eGymnasium(eGameBoard& board) :
                     &eBuildingTextures::fGymnasiumOverlay,
                     [this]() { return e::make_shared<eGymnast>(getBoard()); },
                     eBuildingType::gymnasium, 3, 3, 7) {
-
+    eGameTextures::loadGymnasium();
 }

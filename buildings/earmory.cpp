@@ -1,5 +1,7 @@
 #include "earmory.h"
 
+#include "textures/egametextures.h"
+
 eArmory::eArmory(eGameBoard& board) :
     eProcessingBuilding(board,
                         &eBuildingTextures::fArmory,
@@ -8,5 +10,5 @@ eArmory::eArmory(eGameBoard& board) :
                         eBuildingType::armory, 2, 2, 18,
                         eResourceType::bronze,
                         eResourceType::armor, 2, 4) {
-
+    eGameTextures::loadArmory();
 }

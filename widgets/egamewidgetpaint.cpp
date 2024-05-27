@@ -1010,6 +1010,7 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         const auto drawBridge = [&]() {
             if(mode == eBuildingMode::bridge) {
+                eGameTextures::loadBridge();
                 const bool r = eVectorHelpers::contains(bridgetTs, tile);
                 if(r) {
                     const int texId = bridgeRot ? 11 : 10;
@@ -1194,6 +1195,7 @@ void eGameWidget::paintEvent(ePainter& p) {
 
     if(mode == eBuildingMode::bridge) {
         if(!bridgeValid && bridgetTs.empty()) {
+            eGameTextures::loadBridge();
             const auto hoverTile = mBoard->tile(mHoverTX, mHoverTY);
             const auto& tex = builTexs.fBridge.getTexture(10);
             tex->setColorMod(255, 0, 0);

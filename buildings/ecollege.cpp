@@ -7,7 +7,7 @@
 eCollege::eCollege(eGameBoard& board) :
     eEmployingBuilding(board, eBuildingType::college, 3, 3, 12),
     mTextures(eGameTextures::buildings()) {
-
+    eGameTextures::loadCollege();
 }
 
 std::shared_ptr<eTexture> eCollege::getTexture(const eTileSize size) const {

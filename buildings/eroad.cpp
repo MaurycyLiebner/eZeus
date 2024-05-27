@@ -27,7 +27,10 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
     const auto& trrTexs = eGameTextures::terrain()[sizeId];
     const auto& builTexs = eGameTextures::buildings()[sizeId];
 
-    if(mRoadblock) return builTexs.fRoadblock;
+    if(mRoadblock) {
+        eGameTextures::loadRoadblock();
+        return builTexs.fRoadblock;
+    }
 
     if(mUnderAgora) {
         const auto& coll = builTexs.fAgoraRoad;
@@ -50,6 +53,8 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
 
     const bool bridge = ti->hasBridge();
     if(bridge) {
+        eGameTextures::loadBridge();
+
         int texId = 10;
 
         const bool trb = tr && tr->hasBridge();

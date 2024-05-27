@@ -18,7 +18,7 @@ eCardingShed::eCardingShed(eGameBoard& board) :
                          eCharacterType::sheep,
                          2, 2, 8),
     mTextures(eGameTextures::buildings())  {
-
+    eGameTextures::loadCardingShed();
 }
 
 std::vector<eOverlay> eCardingShed::getOverlays(const eTileSize size) const {

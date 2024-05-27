@@ -4,7 +4,9 @@
 #include "characters/actions/eartisanaction.h"
 
 eArtisansGuild::eArtisansGuild(eGameBoard& board) :
-    eEmployingBuilding(board, eBuildingType::artisansGuild, 2, 2, 25) {}
+    eEmployingBuilding(board, eBuildingType::artisansGuild, 2, 2, 25) {
+    eGameTextures::loadArtisansGuild();
+}
 
 eArtisansGuild::~eArtisansGuild() {
     if(mArtisan) mArtisan->kill();

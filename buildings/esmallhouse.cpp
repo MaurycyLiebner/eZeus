@@ -15,7 +15,9 @@
 
 eSmallHouse::eSmallHouse(eGameBoard& board) :
     eHouseBase(board, eBuildingType::commonHouse, 2, 2,
-               {8, 16, 24, 32, 40, 48, 60}) {}
+               {8, 16, 24, 32, 40, 48, 60}) {
+    eGameTextures::loadCommonHouse();
+}
 
 eSmallHouse::~eSmallHouse() {
     if(mSick) mSick->kill();

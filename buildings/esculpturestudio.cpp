@@ -1,5 +1,7 @@
 #include "esculpturestudio.h"
 
+#include "textures/egametextures.h"
+
 eSculptureStudio::eSculptureStudio(eGameBoard& board) :
     eProcessingBuilding(board,
                         &eBuildingTextures::fSculptureStudio,
@@ -8,5 +10,5 @@ eSculptureStudio::eSculptureStudio(eGameBoard& board) :
                         eBuildingType::sculptureStudio, 2, 2, 12,
                         eResourceType::bronze,
                         eResourceType::sculpture, 1, 10) {
-
+    eGameTextures::loadSculptureStudio();
 }

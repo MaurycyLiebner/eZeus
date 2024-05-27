@@ -2,55 +2,230 @@
 
 #include "offsets/SprAmbient.h"
 
-#include "spriteData/beautification215.h"
-#include "spriteData/beautification230.h"
-#include "spriteData/beautification245.h"
-#include "spriteData/beautification260.h"
+#include "spriteData/palaceTiles15.h"
+#include "spriteData/palaceTiles30.h"
+#include "spriteData/palaceTiles45.h"
+#include "spriteData/palaceTiles60.h"
 
-#include "spriteData/culture15.h"
-#include "spriteData/culture30.h"
-#include "spriteData/culture45.h"
-#include "spriteData/culture60.h"
+#include "spriteData/commonHouse15.h"
+#include "spriteData/commonHouse30.h"
+#include "spriteData/commonHouse45.h"
+#include "spriteData/commonHouse60.h"
 
-#include "spriteData/healthNSan15.h"
-#include "spriteData/healthNSan30.h"
-#include "spriteData/healthNSan45.h"
-#include "spriteData/healthNSan60.h"
+#include "spriteData/eliteHouse15.h"
+#include "spriteData/eliteHouse30.h"
+#include "spriteData/eliteHouse45.h"
+#include "spriteData/eliteHouse60.h"
 
-#include "spriteData/housing15.h"
-#include "spriteData/housing30.h"
-#include "spriteData/housing45.h"
-#include "spriteData/housing60.h"
+#include "spriteData/college15.h"
+#include "spriteData/college30.h"
+#include "spriteData/college45.h"
+#include "spriteData/college60.h"
 
-#include "spriteData/husbandry15.h"
-#include "spriteData/husbandry30.h"
-#include "spriteData/husbandry45.h"
-#include "spriteData/husbandry60.h"
+#include "spriteData/gymnasium15.h"
+#include "spriteData/gymnasium30.h"
+#include "spriteData/gymnasium45.h"
+#include "spriteData/gymnasium60.h"
 
-#include "spriteData/industry15.h"
-#include "spriteData/industry30.h"
-#include "spriteData/industry45.h"
-#include "spriteData/industry60.h"
+#include "spriteData/dramaSchool15.h"
+#include "spriteData/dramaSchool30.h"
+#include "spriteData/dramaSchool45.h"
+#include "spriteData/dramaSchool60.h"
 
-#include "spriteData/military15.h"
-#include "spriteData/military30.h"
-#include "spriteData/military45.h"
-#include "spriteData/military60.h"
+#include "spriteData/podium15.h"
+#include "spriteData/podium30.h"
+#include "spriteData/podium45.h"
+#include "spriteData/podium60.h"
 
-#include "spriteData/municipal15.h"
-#include "spriteData/municipal30.h"
-#include "spriteData/municipal45.h"
-#include "spriteData/municipal60.h"
+#include "spriteData/theater15.h"
+#include "spriteData/theater30.h"
+#include "spriteData/theater45.h"
+#include "spriteData/theater60.h"
+
+#include "spriteData/stadium15.h"
+#include "spriteData/stadium30.h"
+#include "spriteData/stadium45.h"
+#include "spriteData/stadium60.h"
+
+#include "spriteData/fountain15.h"
+#include "spriteData/fountain30.h"
+#include "spriteData/fountain45.h"
+#include "spriteData/fountain60.h"
+
+#include "spriteData/hospital15.h"
+#include "spriteData/hospital30.h"
+#include "spriteData/hospital45.h"
+#include "spriteData/hospital60.h"
+
+#include "spriteData/oliveTree15.h"
+#include "spriteData/oliveTree30.h"
+#include "spriteData/oliveTree45.h"
+#include "spriteData/oliveTree60.h"
+
+#include "spriteData/vine15.h"
+#include "spriteData/vine30.h"
+#include "spriteData/vine45.h"
+#include "spriteData/vine60.h"
+
+#include "spriteData/plantation15.h"
+#include "spriteData/plantation30.h"
+#include "spriteData/plantation45.h"
+#include "spriteData/plantation60.h"
+
+#include "spriteData/huntingLodge15.h"
+#include "spriteData/huntingLodge30.h"
+#include "spriteData/huntingLodge45.h"
+#include "spriteData/huntingLodge60.h"
+
+#include "spriteData/fishery15.h"
+#include "spriteData/fishery30.h"
+#include "spriteData/fishery45.h"
+#include "spriteData/fishery60.h"
+
+#include "spriteData/urchinQuay15.h"
+#include "spriteData/urchinQuay30.h"
+#include "spriteData/urchinQuay45.h"
+#include "spriteData/urchinQuay60.h"
+
+#include "spriteData/cardingShed15.h"
+#include "spriteData/cardingShed30.h"
+#include "spriteData/cardingShed45.h"
+#include "spriteData/cardingShed60.h"
+
+#include "spriteData/dairy15.h"
+#include "spriteData/dairy30.h"
+#include "spriteData/dairy45.h"
+#include "spriteData/dairy60.h"
+
+#include "spriteData/growersLodge15.h"
+#include "spriteData/growersLodge30.h"
+#include "spriteData/growersLodge45.h"
+#include "spriteData/growersLodge60.h"
+
+#include "spriteData/timberMill15.h"
+#include "spriteData/timberMill30.h"
+#include "spriteData/timberMill45.h"
+#include "spriteData/timberMill60.h"
+
+#include "spriteData/masonryShop15.h"
+#include "spriteData/masonryShop30.h"
+#include "spriteData/masonryShop45.h"
+#include "spriteData/masonryShop60.h"
+
+#include "spriteData/mint15.h"
+#include "spriteData/mint30.h"
+#include "spriteData/mint45.h"
+#include "spriteData/mint60.h"
+
+#include "spriteData/foundry15.h"
+#include "spriteData/foundry30.h"
+#include "spriteData/foundry45.h"
+#include "spriteData/foundry60.h"
+
+#include "spriteData/artisansGuild15.h"
+#include "spriteData/artisansGuild30.h"
+#include "spriteData/artisansGuild45.h"
+#include "spriteData/artisansGuild60.h"
+
+#include "spriteData/olivePress15.h"
+#include "spriteData/olivePress30.h"
+#include "spriteData/olivePress45.h"
+#include "spriteData/olivePress60.h"
+
+#include "spriteData/winery15.h"
+#include "spriteData/winery30.h"
+#include "spriteData/winery45.h"
+#include "spriteData/winery60.h"
+
+#include "spriteData/sculptureStudio15.h"
+#include "spriteData/sculptureStudio30.h"
+#include "spriteData/sculptureStudio45.h"
+#include "spriteData/sculptureStudio60.h"
+
+#include "spriteData/triremeWharf15.h"
+#include "spriteData/triremeWharf30.h"
+#include "spriteData/triremeWharf45.h"
+#include "spriteData/triremeWharf60.h"
+
+#include "spriteData/horseRanch15.h"
+#include "spriteData/horseRanch30.h"
+#include "spriteData/horseRanch45.h"
+#include "spriteData/horseRanch60.h"
+
+#include "spriteData/horseRanchEnclosure15.h"
+#include "spriteData/horseRanchEnclosure30.h"
+#include "spriteData/horseRanchEnclosure45.h"
+#include "spriteData/horseRanchEnclosure60.h"
+
+#include "spriteData/armory15.h"
+#include "spriteData/armory30.h"
+#include "spriteData/armory45.h"
+#include "spriteData/armory60.h"
+
+#include "spriteData/gatehouseAndTower15.h"
+#include "spriteData/gatehouseAndTower30.h"
+#include "spriteData/gatehouseAndTower45.h"
+#include "spriteData/gatehouseAndTower60.h"
+
+#include "spriteData/wall15.h"
+#include "spriteData/wall30.h"
+#include "spriteData/wall45.h"
+#include "spriteData/wall60.h"
+
+#include "spriteData/maintenanceOffice15.h"
+#include "spriteData/maintenanceOffice30.h"
+#include "spriteData/maintenanceOffice45.h"
+#include "spriteData/maintenanceOffice60.h"
+
+#include "spriteData/taxOffice15.h"
+#include "spriteData/taxOffice30.h"
+#include "spriteData/taxOffice45.h"
+#include "spriteData/taxOffice60.h"
+
+#include "spriteData/watchpost15.h"
+#include "spriteData/watchpost30.h"
+#include "spriteData/watchpost45.h"
+#include "spriteData/watchpost60.h"
+
+#include "spriteData/roadblock15.h"
+#include "spriteData/roadblock30.h"
+#include "spriteData/roadblock45.h"
+#include "spriteData/roadblock60.h"
+
+#include "spriteData/bridge15.h"
+#include "spriteData/bridge30.h"
+#include "spriteData/bridge45.h"
+#include "spriteData/bridge60.h"
 
 #include "spriteData/mun_Palace15.h"
 #include "spriteData/mun_Palace30.h"
 #include "spriteData/mun_Palace45.h"
 #include "spriteData/mun_Palace60.h"
 
-#include "spriteData/religion15.h"
-#include "spriteData/religion30.h"
-#include "spriteData/religion45.h"
-#include "spriteData/religion60.h"
+#include "spriteData/zeusSanctuaryElements15.h"
+#include "spriteData/zeusSanctuaryElements30.h"
+#include "spriteData/zeusSanctuaryElements45.h"
+#include "spriteData/zeusSanctuaryElements60.h"
+
+#include "spriteData/zeusHerosHall15.h"
+#include "spriteData/zeusHerosHall30.h"
+#include "spriteData/zeusHerosHall45.h"
+#include "spriteData/zeusHerosHall60.h"
+
+#include "spriteData/poseidonHerosHall15.h"
+#include "spriteData/poseidonHerosHall30.h"
+#include "spriteData/poseidonHerosHall45.h"
+#include "spriteData/poseidonHerosHall60.h"
+
+#include "spriteData/poseidonStatues115.h"
+#include "spriteData/poseidonStatues130.h"
+#include "spriteData/poseidonStatues145.h"
+#include "spriteData/poseidonStatues160.h"
+
+#include "spriteData/poseidonStatues215.h"
+#include "spriteData/poseidonStatues230.h"
+#include "spriteData/poseidonStatues245.h"
+#include "spriteData/poseidonStatues260.h"
 
 #include "spriteData/stor_bays15.h"
 #include "spriteData/stor_bays30.h"
@@ -62,10 +237,90 @@
 #include "spriteData/storNDist45.h"
 #include "spriteData/storNDist60.h"
 
-#include "spriteData/aesthetic15.h"
-#include "spriteData/aesthetic30.h"
-#include "spriteData/aesthetic45.h"
-#include "spriteData/aesthetic60.h"
+#include "spriteData/tallObelisk15.h"
+#include "spriteData/tallObelisk30.h"
+#include "spriteData/tallObelisk45.h"
+#include "spriteData/tallObelisk60.h"
+
+#include "spriteData/avenue15.h"
+#include "spriteData/avenue30.h"
+#include "spriteData/avenue45.h"
+#include "spriteData/avenue60.h"
+
+#include "spriteData/columns15.h"
+#include "spriteData/columns30.h"
+#include "spriteData/columns45.h"
+#include "spriteData/columns60.h"
+
+#include "spriteData/commemorative15.h"
+#include "spriteData/commemorative30.h"
+#include "spriteData/commemorative45.h"
+#include "spriteData/commemorative60.h"
+
+#include "spriteData/fishPond15.h"
+#include "spriteData/fishPond30.h"
+#include "spriteData/fishPond45.h"
+#include "spriteData/fishPond60.h"
+
+#include "spriteData/hedgeMaze15.h"
+#include "spriteData/hedgeMaze30.h"
+#include "spriteData/hedgeMaze45.h"
+#include "spriteData/hedgeMaze60.h"
+
+#include "spriteData/gazebo15.h"
+#include "spriteData/gazebo30.h"
+#include "spriteData/gazebo45.h"
+#include "spriteData/gazebo60.h"
+
+#include "spriteData/flowerGarden15.h"
+#include "spriteData/flowerGarden30.h"
+#include "spriteData/flowerGarden45.h"
+#include "spriteData/flowerGarden60.h"
+
+#include "spriteData/bench15.h"
+#include "spriteData/bench30.h"
+#include "spriteData/bench45.h"
+#include "spriteData/bench60.h"
+
+#include "spriteData/park15.h"
+#include "spriteData/park30.h"
+#include "spriteData/park45.h"
+#include "spriteData/park60.h"
+
+#include "spriteData/sundial15.h"
+#include "spriteData/sundial30.h"
+#include "spriteData/sundial45.h"
+#include "spriteData/sundial60.h"
+
+#include "spriteData/topiary15.h"
+#include "spriteData/topiary30.h"
+#include "spriteData/topiary45.h"
+#include "spriteData/topiary60.h"
+
+#include "spriteData/spring15.h"
+#include "spriteData/spring30.h"
+#include "spriteData/spring45.h"
+#include "spriteData/spring60.h"
+
+#include "spriteData/stoneCircle15.h"
+#include "spriteData/stoneCircle30.h"
+#include "spriteData/stoneCircle45.h"
+#include "spriteData/stoneCircle60.h"
+
+#include "spriteData/dolphinSculpture15.h"
+#include "spriteData/dolphinSculpture30.h"
+#include "spriteData/dolphinSculpture45.h"
+#include "spriteData/dolphinSculpture60.h"
+
+#include "spriteData/orrery15.h"
+#include "spriteData/orrery30.h"
+#include "spriteData/orrery45.h"
+#include "spriteData/orrery60.h"
+
+#include "spriteData/shellGarden15.h"
+#include "spriteData/shellGarden30.h"
+#include "spriteData/shellGarden45.h"
+#include "spriteData/shellGarden60.h"
 
 #include "spriteData/storage15.h"
 #include "spriteData/storage30.h"
@@ -117,10 +372,20 @@
 #include "spriteData/fisheryUnpackingOverlay45.h"
 #include "spriteData/fisheryUnpackingOverlay60.h"
 
-#include "spriteData/stadiumOverlays15.h"
-#include "spriteData/stadiumOverlays30.h"
-#include "spriteData/stadiumOverlays45.h"
-#include "spriteData/stadiumOverlays60.h"
+#include "spriteData/stadiumOverlays115.h"
+#include "spriteData/stadiumOverlays130.h"
+#include "spriteData/stadiumOverlays145.h"
+#include "spriteData/stadiumOverlays160.h"
+
+#include "spriteData/sanctuaryOverlay15.h"
+#include "spriteData/sanctuaryOverlay30.h"
+#include "spriteData/sanctuaryOverlay45.h"
+#include "spriteData/sanctuaryOverlay60.h"
+
+#include "spriteData/stadiumOverlays215.h"
+#include "spriteData/stadiumOverlays230.h"
+#include "spriteData/stadiumOverlays245.h"
+#include "spriteData/stadiumOverlays260.h"
 
 #include "spriteData/sanctuaryFire15.h"
 #include "spriteData/sanctuaryFire30.h"
@@ -252,10 +517,30 @@
 #include "spriteData/zeusSanctuary345.h"
 #include "spriteData/zeusSanctuary360.h"
 
-#include "spriteData/poseidonStatues15.h"
-#include "spriteData/poseidonStatues30.h"
-#include "spriteData/poseidonStatues45.h"
-#include "spriteData/poseidonStatues60.h"
+#include "spriteData/orangeTendersLodge15.h"
+#include "spriteData/orangeTendersLodge30.h"
+#include "spriteData/orangeTendersLodge45.h"
+#include "spriteData/orangeTendersLodge60.h"
+
+#include "spriteData/waterPark15.h"
+#include "spriteData/waterPark30.h"
+#include "spriteData/waterPark45.h"
+#include "spriteData/waterPark60.h"
+
+#include "spriteData/baths15.h"
+#include "spriteData/baths30.h"
+#include "spriteData/baths45.h"
+#include "spriteData/baths60.h"
+
+#include "spriteData/birdBath15.h"
+#include "spriteData/birdBath30.h"
+#include "spriteData/birdBath45.h"
+#include "spriteData/birdBath60.h"
+
+#include "spriteData/shortObelisk15.h"
+#include "spriteData/shortObelisk30.h"
+#include "spriteData/shortObelisk45.h"
+#include "spriteData/shortObelisk60.h"
 
 #include "textures/espriteloader.h"
 
@@ -456,300 +741,1770 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
 
 }
 
-void eBuildingTextures::load() {
-    if(fLoaded) return;
-    fLoaded = true;
+void eBuildingTextures::loadCommonHouse() {
+    if(fCommonHouseLoaded) return;
+    fCommonHouseLoaded = true;
 
-    {
-        {
-            const auto& sds = spriteData(fTileH,
-                                         eHousingSpriteData15,
-                                         eHousingSpriteData30,
-                                         eHousingSpriteData45,
-                                         eHousingSpriteData60);
-            eSpriteLoader loader(fTileH, "housing", sds,
-                                 nullptr, fRenderer);
+    const auto& sds = spriteData(fTileH,
+                                 eCommonHouseSpriteData15,
+                                 eCommonHouseSpriteData30,
+                                 eCommonHouseSpriteData45,
+                                 eCommonHouseSpriteData60);
+    eSpriteLoader loader(fTileH, "commonHouse", sds,
+                         nullptr, fRenderer);
 
-            fHouseSpace = loader.load(1, 15);
-            for(int i = 1; i < 15;) {
-                auto& coll = fCommonHouse.emplace_back(fRenderer);
-                for(int j = 0; j < 2; j++, i++) {
-                    loader.load(1, i, coll);
-                }
-            }
-
-            for(int i = 16; i < 46;) {
-                auto& coll = fEliteHouse.emplace_back(fRenderer);
-                for(int j = 0; j < 5; j++, i++) {
-                    loader.load(1, i, coll);
-                }
-            }
-
-            for(int i = 46; i < 50; i++) {
-                loader.load(1, i, fEliteHouseHorses);
-            }
+    fHouseSpace = loader.load(1, 15);
+    for(int i = 1; i < 15;) {
+        auto& coll = fCommonHouse.emplace_back(fRenderer);
+        for(int j = 0; j < 2; j++, i++) {
+            loader.load(1, i, coll);
         }
+    }
+}
 
-        {
-            const auto& sds = spriteData(fTileH,
-                                         eCultureSpriteData15,
-                                         eCultureSpriteData30,
-                                         eCultureSpriteData45,
-                                         eCultureSpriteData60);
-            eSpriteLoader loader(fTileH, "culture", sds,
-                                 nullptr, fRenderer);
+void eBuildingTextures::loadEliteHouse() {
+    if(fEliteHouseLoaded) return;
+    fEliteHouseLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eEliteHouseSpriteData15,
+                                 eEliteHouseSpriteData30,
+                                 eEliteHouseSpriteData45,
+                                 eEliteHouseSpriteData60);
+    eSpriteLoader loader(fTileH, "eliteHouse", sds,
+                         nullptr, fRenderer);
 
-            fCollege = loader.load(1, 1);
-
-            for(int i = 2; i < 26; i++) {
-                loader.load(1, i, fCollegeOverlay);
-            }
-
-            fGymnasium = loader.load(1, 26);
-
-            for(int i = 27; i < 59; i++) {
-                loader.load(1, i, fGymnasiumOverlay);
-            }
-
-            fDramaSchool = loader.load(1, 59);
-
-            for(int i = 60; i < 84; i++) {
-                loader.load(1, i, fDramaSchoolOverlay);
-            }
-
-            fPodium = loader.load(1, 84);
-
-            for(int i = 85; i < 109; i++) {
-                loader.load(1, i, fPodiumOverlay);
-            }
-
-            fTheater = loader.load(1, 109);
-
-            fStadium2H = loader.load(1, 110);
-            fStadium1H = loader.load(1, 111);
-            fStadium1W = loader.load(1, 112);
-            fStadium2W = loader.load(1, 113);
+    for(int i = 16; i < 46;) {
+        auto& coll = fEliteHouse.emplace_back(fRenderer);
+        for(int j = 0; j < 5; j++, i++) {
+            loader.load(16, i, coll);
         }
     }
 
+    for(int i = 46; i < 50; i++) {
+        loader.load(16, i, fEliteHouseHorses);
+    }
+}
+
+void eBuildingTextures::loadCollege() {
+    if(fCollegeLoaded) return;
+    fCollegeLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eCollegeSpriteData15,
+                                 eCollegeSpriteData30,
+                                 eCollegeSpriteData45,
+                                 eCollegeSpriteData60);
+    eSpriteLoader loader(fTileH, "college", sds,
+                         nullptr, fRenderer);
+    fCollege = loader.load(1, 1);
+
+    for(int i = 2; i < 26; i++) {
+        loader.load(1, i, fCollegeOverlay);
+    }
+}
+
+void eBuildingTextures::loadGymnasium() {
+    if(fGymnasiumLoaded) return;
+    fGymnasiumLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eGymnasiumSpriteData15,
+                                 eGymnasiumSpriteData30,
+                                 eGymnasiumSpriteData45,
+                                 eGymnasiumSpriteData60);
+    eSpriteLoader loader(fTileH, "gymnasium", sds,
+                         nullptr, fRenderer);
+
+    fGymnasium = loader.load(26, 26);
+
+    for(int i = 27; i < 59; i++) {
+        loader.load(26, i, fGymnasiumOverlay);
+    }
+}
+
+void eBuildingTextures::loadDramaSchool() {
+    if(fDramaSchoolLoaded) return;
+    fDramaSchoolLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eDramaSchoolSpriteData15,
+                                 eDramaSchoolSpriteData30,
+                                 eDramaSchoolSpriteData45,
+                                 eDramaSchoolSpriteData60);
+    eSpriteLoader loader(fTileH, "dramaSchool", sds,
+                         nullptr, fRenderer);
+    fDramaSchool = loader.load(59, 59);
+
+    for(int i = 60; i < 84; i++) {
+        loader.load(59, i, fDramaSchoolOverlay);
+    }
+}
+
+void eBuildingTextures::loadPodium() {
+    if(fPodiumLoaded) return;
+    fPodiumLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 ePodiumSpriteData15,
+                                 ePodiumSpriteData30,
+                                 ePodiumSpriteData45,
+                                 ePodiumSpriteData60);
+    eSpriteLoader loader(fTileH, "podium", sds,
+                         nullptr, fRenderer);
+    fPodium = loader.load(84, 84);
+
+    for(int i = 85; i < 109; i++) {
+        loader.load(84, i, fPodiumOverlay);
+    }
+}
+
+void eBuildingTextures::loadTheater() {
+    if(fTheaterLoaded) return;
+    fTheaterLoaded = true;
+
     {
-
         const auto& sds = spriteData(fTileH,
-                                     eHealthNSanSpriteData15,
-                                     eHealthNSanSpriteData30,
-                                     eHealthNSanSpriteData45,
-                                     eHealthNSanSpriteData60);
-        eSpriteLoader loader(fTileH, "healthNSan", sds,
+                                     eTheaterSpriteData15,
+                                     eTheaterSpriteData30,
+                                     eTheaterSpriteData45,
+                                     eTheaterSpriteData60);
+        eSpriteLoader loader(fTileH, "theater", sds,
                              nullptr, fRenderer);
+        fTheater = loader.load(109, 109);
+    }
 
-        fFountain = loader.load(1, 1);
-        for(int i = 2; i < 8; i++) {
-            loader.load(1, i, fFountainOverlay);
-        }
 
-        fHospital = loader.load(1, 8);
-        for(int i = 9; i < 21; i++) {
-            loader.load(1, i, fHospitalOverlay);
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eTheaterOverlaySpriteData15,
+                                     eTheaterOverlaySpriteData30,
+                                     eTheaterOverlaySpriteData45,
+                                     eTheaterOverlaySpriteData60);
+        eSpriteLoader loader(fTileH, "theaterOverlay", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        for(int i = 656; i < 680; i++) {
+            loader.load(656, i, fTheaterOverlay);
         }
+    }
+}
+
+void eBuildingTextures::loadStadium() {
+    if(fStadiumLoaded) return;
+    fStadiumLoaded = true;
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eStadiumSpriteData15,
+                                     eStadiumSpriteData30,
+                                     eStadiumSpriteData45,
+                                     eStadiumSpriteData60);
+        eSpriteLoader loader(fTileH, "stadium", sds,
+                             nullptr, fRenderer);
+        fStadium2H = loader.load(110, 110);
+        fStadium1H = loader.load(110, 111);
+        fStadium1W = loader.load(110, 112);
+        fStadium2W = loader.load(110, 113);
     }
 
     {
         const auto& sds = spriteData(fTileH,
-                                     eHusbandrySpriteData15,
-                                     eHusbandrySpriteData30,
-                                     eHusbandrySpriteData45,
-                                     eHusbandrySpriteData60);
-        eSpriteLoader loader(fTileH, "husbandry", sds,
+                                     eStadiumOverlays1SpriteData15,
+                                     eStadiumOverlays1SpriteData30,
+                                     eStadiumOverlays1SpriteData45,
+                                     eStadiumOverlays1SpriteData60);
+        eSpriteLoader loader(fTileH, "stadiumOverlays1", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+
+        for(int i = 1492; i < 1510; i++) {
+            loader.load(1492, i, fStadiumOverlay1);
+        }
+
+        for(int i = 1510; i < 1530; i++) {
+            loader.load(1492, i, fStadiumOverlay2);
+        }
+
+        for(int i = 1530; i < 1547; i++) {
+            loader.load(1492, i, fStadiumOverlay3);
+        }
+
+        for(int i = 1547; i < 1629;) {
+            for(int j = 0; j < 2; j++, i++) {
+                eTextureCollection* coll;
+                if(j == 0) {
+                    coll = &fStadiumOverlay4W;
+                } else {
+                    coll = &fStadiumOverlay4H;
+                }
+                loader.load(1492, i, *coll);
+            }
+        }
+
+        for(int i = 1629; i < 1653; i++) {
+            loader.load(1492, i, fStadiumAudiance1W);
+        }
+
+        for(int i = 1653; i < 1677; i++) {
+            loader.load(1492, i, fStadiumAudiance2W);
+        }
+
+        for(int i = 1677; i < 1701; i++) {
+            loader.load(1492, i, fStadiumAudiance1H);
+        }
+
+        for(int i = 1701; i < 1725; i++) {
+            loader.load(1492, i, fStadiumAudiance2H);
+        }
+    }
+    {
+
+        const auto& sds = spriteData(fTileH,
+                                     eStadiumOverlays2SpriteData15,
+                                     eStadiumOverlays2SpriteData30,
+                                     eStadiumOverlays2SpriteData45,
+                                     eStadiumOverlays2SpriteData60);
+        eSpriteLoader loader(fTileH, "stadiumOverlays2", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+
+        for(int i = 1773; i < 1937;) {
+            for(int j = 0; j < 2; j++, i++) {
+                eTextureCollection* coll;
+                if(j == 0) {
+                    coll = &fStadiumOverlay5W;
+                } else {
+                    coll = &fStadiumOverlay5H;
+                }
+                loader.load(1773, i, *coll);
+            }
+        }
+    }
+}
+
+void eBuildingTextures::loadFountain() {
+    if(fFountainLoaded) return;
+    fFountainLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eFountainSpriteData15,
+                                 eFountainSpriteData30,
+                                 eFountainSpriteData45,
+                                 eFountainSpriteData60);
+    eSpriteLoader loader(fTileH, "fountain", sds,
+                         nullptr, fRenderer);
+
+    fFountain = loader.load(1, 1);
+    for(int i = 2; i < 8; i++) {
+        loader.load(1, i, fFountainOverlay);
+    }
+}
+
+void eBuildingTextures::loadHospital() {
+    if(fHospitalLoaded) return;
+    fHospitalLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eHospitalSpriteData15,
+                                 eHospitalSpriteData30,
+                                 eHospitalSpriteData45,
+                                 eHospitalSpriteData60);
+    eSpriteLoader loader(fTileH, "hospital", sds,
+                         nullptr, fRenderer);
+    fHospital = loader.load(8, 8);
+    for(int i = 9; i < 21; i++) {
+        loader.load(8, i, fHospitalOverlay);
+    }
+}
+
+void eBuildingTextures::loadOliveTree() {
+    if(fOliveTreeLoaded) return;
+    fOliveTreeLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eOliveTreeSpriteData15,
+                                 eOliveTreeSpriteData30,
+                                 eOliveTreeSpriteData45,
+                                 eOliveTreeSpriteData60);
+    eSpriteLoader loader(fTileH, "oliveTree", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 1; i < 7; i++) {
+        loader.load(1, i, fOliveTree);
+    }
+}
+
+void eBuildingTextures::loadVine() {
+    if(fVineLoaded) return;
+    fVineLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eVineSpriteData15,
+                                 eVineSpriteData30,
+                                 eVineSpriteData45,
+                                 eVineSpriteData60);
+    eSpriteLoader loader(fTileH, "vine", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 7; i < 13; i++) {
+        loader.load(7, i, fVine);
+    }
+}
+
+void eBuildingTextures::loadPlantation() {
+    if(fPlantationLoaded) return;
+    fPlantationLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 ePlantationSpriteData15,
+                                 ePlantationSpriteData30,
+                                 ePlantationSpriteData45,
+                                 ePlantationSpriteData60);
+    eSpriteLoader loader(fTileH, "plantation", sds,
+                         nullptr, fRenderer);
+
+    fPlantation = loader.load(13, 13);
+
+    for(int i = 14; i < 20; i++) {
+        loader.load(13, i, fWheat);
+    }
+
+    for(int i = 20; i < 26; i++) {
+        loader.load(13, i, fCarrots);
+    }
+
+    for(int i = 26; i < 32; i++) {
+        loader.load(13, i, fOnions);
+    }
+}
+
+void eBuildingTextures::loadHuntingLodge() {
+    if(fHuntingLodgeLoaded) return;
+    fHuntingLodgeLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eHuntingLodgeSpriteData15,
+                                 eHuntingLodgeSpriteData30,
+                                 eHuntingLodgeSpriteData45,
+                                 eHuntingLodgeSpriteData60);
+    eSpriteLoader loader(fTileH, "huntingLodge", sds,
+                         nullptr, fRenderer);
+
+    fHuntingLodge = loader.load(32, 32);
+    for(int i = 33; i < 48; i++) {
+        loader.load(32, i, fHuntingLodgeOverlay);
+    }
+}
+
+void eBuildingTextures::loadFishery() {
+    if(fFisheryLoaded) return;
+    fFisheryLoaded = true;
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eFisherySpriteData15,
+                                     eFisherySpriteData30,
+                                     eFisherySpriteData45,
+                                     eFisherySpriteData60);
+        eSpriteLoader loader(fTileH, "fishery", sds,
                              nullptr, fRenderer);
-
-        for(int i = 1; i < 7; i++) {
-            loader.load(1, i, fOliveTree);
-        }
-
-        for(int i = 7; i < 13; i++) {
-            loader.load(1, i, fVine);
-        }
-
-        fPlantation = loader.load(1, 13);
-
-        for(int i = 14; i < 20; i++) {
-            loader.load(1, i, fWheat);
-        }
-
-        for(int i = 20; i < 26; i++) {
-            loader.load(1, i, fCarrots);
-        }
-
-        for(int i = 26; i < 32; i++) {
-            loader.load(1, i, fOnions);
-        }
-
-        fHuntingLodge = loader.load(1, 32);
-        for(int i = 33; i < 48; i++) {
-            loader.load(1, i, fHuntingLodgeOverlay);
-        }
 
         for(int i = 48; i < 52; i++) {
-            loader.load(1, i, fFishery);
+            loader.load(48, i, fFishery);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eFisheryBoatBuildingSpriteData15,
+                                     eFisheryBoatBuildingSpriteData30,
+                                     eFisheryBoatBuildingSpriteData45,
+                                     eFisheryBoatBuildingSpriteData60);
+        eSpriteLoader loader(fTileH, "fisheryBoatBuilding", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        for(int i = 982; i < 992; i++) {
+            loader.load(982, i, fFisheryBoatBuildingW);
+        }
+        for(int i = 992; i < 1002; i++) {
+            loader.load(982, i, fFisheryBoatBuildingH);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eFisheryUnpackingOverlaySpriteData15,
+                                     eFisheryUnpackingOverlaySpriteData30,
+                                     eFisheryUnpackingOverlaySpriteData45,
+                                     eFisheryUnpackingOverlaySpriteData60);
+        eSpriteLoader loader(fTileH, "fisheryUnpackingOverlay", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        for(int i = 890; i < 910; i++) {
+            loader.load(890, i, fFisheryUnpackingOverlayTL);
         }
 
-        for(int i = 52; i < 56; i++) {
-            loader.load(1, i, fUrchinQuay);
+        for(int i = 910; i < 930; i++) {
+            loader.load(890, i, fFisheryUnpackingOverlayTR);
         }
 
-        fCardingShed = loader.load(1, 56);
-        for(int i = 57; i < 69; i++) {
-            loader.load(1, i, fCardingShedOverlay);
+        for(int i = 930; i < 950; i++) {
+            loader.load(890, i, fFisheryUnpackingOverlayBL);
         }
 
-        fDairy = loader.load(1, 69);
-        for(int i = 70; i < 91; i++) {
-            loader.load(1, i, fDairyOverlay);
-        }
-
-        fGrowersLodge = loader.load(1, 91);
-        for(int i = 92; i < 102; i++) {
-            loader.load(1, i, fGrowersLodgeOverlay);
+        for(int i = 950; i < 970; i++) {
+            loader.load(890, i, fFisheryUnpackingOverlayBR);
         }
     }
 
-    {
+    loadFisheryOverlay();
+}
 
+void eBuildingTextures::loadFisheryOverlay() {
+    if(fFisheryOverlayLoaded) return;
+    fFisheryOverlayLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eFisheryOverlaySpriteData15,
+                                 eFisheryOverlaySpriteData30,
+                                 eFisheryOverlaySpriteData45,
+                                 eFisheryOverlaySpriteData60);
+    eSpriteLoader loader(fTileH, "fisheryOverlay", sds,
+                         &eSprAmbientOffset, fRenderer);
+
+    for(int j = 0; j < 8; j++) {
+        fFisheryOverlay.emplace_back(fRenderer);
+    }
+
+    for(int i = 2117; i < 2213;) {
+        for(int j = 0; j < 8; j++, i++) {
+            if(j > 3 && j < 7) continue;
+            loader.load(2117, i, fFisheryOverlay[j]);
+        }
+    }
+    for(int i = 2117; i < 2213;) {
+        for(int j = 0; j < 8; j++, i++) {
+            if(j > 3 && j < 7) continue;
+            loader.load(2117, i, fFisheryOverlay[j]);
+        }
+    }
+
+    generateFlipped(fFisheryOverlay[0], fFisheryOverlay[6]);
+    generateFlipped(fFisheryOverlay[1], fFisheryOverlay[5]);
+    generateFlipped(fFisheryOverlay[2], fFisheryOverlay[4]);
+}
+
+void eBuildingTextures::loadUrchinQuay() {
+    if(fUrchinQuayLoaded) return;
+    fUrchinQuayLoaded = true;
+
+    {
         const auto& sds = spriteData(fTileH,
-                                     eIndustrySpriteData15,
-                                     eIndustrySpriteData30,
-                                     eIndustrySpriteData45,
-                                     eIndustrySpriteData60);
-        eSpriteLoader loader(fTileH, "industry", sds,
+                                     eUrchinQuaySpriteData15,
+                                     eUrchinQuaySpriteData30,
+                                     eUrchinQuaySpriteData45,
+                                     eUrchinQuaySpriteData60);
+        eSpriteLoader loader(fTileH, "urchinQuay", sds,
                              nullptr, fRenderer);
 
-        fTimberMill = loader.load(1, 1);
-        for(int i = 2; i < 12; i++) {
-            loader.load(1, i, fTimberMillOverlay);
+        for(int i = 52; i < 56; i++) {
+            loader.load(52, i, fUrchinQuay);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eUrchinUnpackingOverlaySpriteData15,
+                                     eUrchinUnpackingOverlaySpriteData30,
+                                     eUrchinUnpackingOverlaySpriteData45,
+                                     eUrchinUnpackingOverlaySpriteData60);
+        eSpriteLoader loader(fTileH, "urchinUnpackingOverlay", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        for(int i = 680; i < 730; i++) {
+            loader.load(680, i, fUrchinQuayUnpackingOverlayTL);
         }
 
-        fMasonryShop = loader.load(1, 12);
+        for(int i = 730; i < 780; i++) {
+            loader.load(680, i, fUrchinQuayUnpackingOverlayTR);
+        }
+
+        for(int i = 780; i < 830; i++) {
+            loader.load(680, i, fUrchinQuayUnpackingOverlayBL);
+        }
+
+        for(int i = 830; i < 880; i++) {
+            loader.load(680, i, fUrchinQuayUnpackingOverlayBR);
+        }
+    }
+
+    loadFisheryOverlay();
+}
+
+void eBuildingTextures::loadCardingShed() {
+    if(fCardingShedLoaded) return;
+    fCardingShedLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eCardingShedSpriteData15,
+                                 eCardingShedSpriteData30,
+                                 eCardingShedSpriteData45,
+                                 eCardingShedSpriteData60);
+    eSpriteLoader loader(fTileH, "cardingShed", sds,
+                         nullptr, fRenderer);
+
+    fCardingShed = loader.load(56, 56);
+    for(int i = 57; i < 69; i++) {
+        loader.load(56, i, fCardingShedOverlay);
+    }
+}
+
+void eBuildingTextures::loadDairy() {
+    if(fDairyLoaded) return;
+    fDairyLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eDairySpriteData15,
+                                 eDairySpriteData30,
+                                 eDairySpriteData45,
+                                 eDairySpriteData60);
+    eSpriteLoader loader(fTileH, "dairy", sds,
+                         nullptr, fRenderer);
+
+    fDairy = loader.load(69, 69);
+    for(int i = 70; i < 91; i++) {
+        loader.load(69, i, fDairyOverlay);
+    }
+}
+
+void eBuildingTextures::loadGrowersLodge() {
+    if(fGrowersLodgeLoaded) return;
+    fGrowersLodgeLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eGrowersLodgeSpriteData15,
+                                 eGrowersLodgeSpriteData30,
+                                 eGrowersLodgeSpriteData45,
+                                 eGrowersLodgeSpriteData60);
+    eSpriteLoader loader(fTileH, "growersLodge", sds,
+                         nullptr, fRenderer);
+
+    fGrowersLodge = loader.load(91, 91);
+    for(int i = 92; i < 102; i++) {
+        loader.load(91, i, fGrowersLodgeOverlay);
+    }
+}
+
+void eBuildingTextures::loadTimberMill() {
+    if(fTimberMillLoaded) return;
+    fTimberMillLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eTimberMillSpriteData15,
+                                 eTimberMillSpriteData30,
+                                 eTimberMillSpriteData45,
+                                 eTimberMillSpriteData60);
+    eSpriteLoader loader(fTileH, "timberMill", sds,
+                         nullptr, fRenderer);
+
+    fTimberMill = loader.load(1, 1);
+    for(int i = 2; i < 12; i++) {
+        loader.load(1, i, fTimberMillOverlay);
+    }
+}
+
+void eBuildingTextures::loadMasonryShop() {
+    if(fMasonryShopLoaded) return;
+    fMasonryShopLoaded = true;
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eMasonryShopSpriteData15,
+                                     eMasonryShopSpriteData30,
+                                     eMasonryShopSpriteData45,
+                                     eMasonryShopSpriteData60);
+        eSpriteLoader loader(fTileH, "masonryShop", sds,
+                             nullptr, fRenderer);
+
+        fMasonryShop = loader.load(12, 12);
         for(int i = 13; i < 21; i++) {
-            loader.load(1, i, fMasonryShopStones);
+            loader.load(12, i, fMasonryShopStones);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eMasonryShopOverlaysSpriteData15,
+                                     eMasonryShopOverlaysSpriteData30,
+                                     eMasonryShopOverlaysSpriteData45,
+                                     eMasonryShopOverlaysSpriteData60);
+        eSpriteLoader loader(fTileH, "masonryShopOverlays", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        loader.loadSkipFlipped(1937, 1937, 2017, fMasonryShopOverlay1);
+        loader.loadSkipFlipped(1937, 2017, 2097, fMasonryShopOverlay2);
+    }
+}
+
+void eBuildingTextures::loadMint() {
+    if(fMintLoaded) return;
+    fMintLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eMintSpriteData15,
+                                 eMintSpriteData30,
+                                 eMintSpriteData45,
+                                 eMintSpriteData60);
+    eSpriteLoader loader(fTileH, "mint", sds,
+                         nullptr, fRenderer);
+
+    fMint = loader.load(21, 21);
+    for(int i = 22; i < 32; i++) {
+        loader.load(21, i, fMintOverlay);
+    }
+}
+
+void eBuildingTextures::loadFoundry() {
+    if(fFoundryLoaded) return;
+    fFoundryLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eFoundrySpriteData15,
+                                 eFoundrySpriteData30,
+                                 eFoundrySpriteData45,
+                                 eFoundrySpriteData60);
+    eSpriteLoader loader(fTileH, "foundry", sds,
+                         nullptr, fRenderer);
+
+    fFoundry = loader.load(36, 36);
+    for(int i = 37; i < 49; i++) {
+        loader.load(36, i, fFoundryOverlay);
+    }
+}
+
+void eBuildingTextures::loadArtisansGuild() {
+    if(fArtisansGuildLoaded) return;
+    fArtisansGuildLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eArtisansGuildSpriteData15,
+                                 eArtisansGuildSpriteData30,
+                                 eArtisansGuildSpriteData45,
+                                 eArtisansGuildSpriteData60);
+    eSpriteLoader loader(fTileH, "artisansGuild", sds,
+                         nullptr, fRenderer);
+
+    fArtisansGuild = loader.load(49, 49);
+    for(int i = 50; i < 60; i++) {
+        loader.load(49, i, fArtisansGuildOverlay);
+    }
+}
+
+void eBuildingTextures::loadOlivePress() {
+    if(fOlivePressLoaded) return;
+    fOlivePressLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eOlivePressSpriteData15,
+                                 eOlivePressSpriteData30,
+                                 eOlivePressSpriteData45,
+                                 eOlivePressSpriteData60);
+    eSpriteLoader loader(fTileH, "olivePress", sds,
+                         nullptr, fRenderer);
+
+    fOlivePress = loader.load(60, 60);
+    for(int i = 61; i < 73; i++) {
+        loader.load(60, i, fOlivePressOverlay);
+    }
+}
+
+void eBuildingTextures::loadWinery() {
+    if(fWineryLoaded) return;
+    fWineryLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eWinerySpriteData15,
+                                 eWinerySpriteData30,
+                                 eWinerySpriteData45,
+                                 eWinerySpriteData60);
+    eSpriteLoader loader(fTileH, "winery", sds,
+                         nullptr, fRenderer);
+
+    fWinery = loader.load(73, 73);
+    for(int i = 74; i < 86; i++) {
+        loader.load(73, i, fWineryOverlay);
+    }
+}
+
+void eBuildingTextures::loadSculptureStudio() {
+    if(fSculptureStudioLoaded) return;
+    fSculptureStudioLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eSculptureStudioSpriteData15,
+                                 eSculptureStudioSpriteData30,
+                                 eSculptureStudioSpriteData45,
+                                 eSculptureStudioSpriteData60);
+    eSpriteLoader loader(fTileH, "sculptureStudio", sds,
+                         nullptr, fRenderer);
+
+    fSculptureStudio = loader.load(86, 86);
+    for(int i = 87; i < 122; i++) {
+        loader.load(86, i, fSculptureStudioOverlay);
+    }
+}
+
+void eBuildingTextures::loadTriremeWharf() {
+    if(fTriremeWharfLoaded) return;
+    fTriremeWharfLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eTriremeWharfSpriteData15,
+                                 eTriremeWharfSpriteData30,
+                                 eTriremeWharfSpriteData45,
+                                 eTriremeWharfSpriteData60);
+    eSpriteLoader loader(fTileH, "triremeWharf", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 1; i < 5; i++) {
+        loader.load(1, i, fTriremeWharf);
+    }
+}
+
+void eBuildingTextures::loadHorseRanch() {
+    if(fHorseRanchLoaded) return;
+    fHorseRanchLoaded = true;
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eHorseRanchSpriteData15,
+                                     eHorseRanchSpriteData30,
+                                     eHorseRanchSpriteData45,
+                                     eHorseRanchSpriteData60);
+        eSpriteLoader loader(fTileH, "horseRanch", sds,
+                             nullptr, fRenderer);
+
+        fHorseRanch = loader.load(5, 5);
+        for(int i = 6; i < 22; i++) {
+            loader.load(5, i, fHorseRanchOverlay);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eHorseRanchEnclosureSpriteData15,
+                                     eHorseRanchEnclosureSpriteData30,
+                                     eHorseRanchEnclosureSpriteData45,
+                                     eHorseRanchEnclosureSpriteData60);
+        eSpriteLoader loader(fTileH, "horseRanchEnclosure", sds,
+                             nullptr, fRenderer);
+
+        fHorseRanchEnclosure = loader.load(41, 41);
+    }
+}
+
+void eBuildingTextures::loadArmory() {
+    if(fArmoryLoaded) return;
+    fArmoryLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eArmorySpriteData15,
+                                 eArmorySpriteData30,
+                                 eArmorySpriteData45,
+                                 eArmorySpriteData60);
+    eSpriteLoader loader(fTileH, "armory", sds,
+                         nullptr, fRenderer);
+
+    fArmory = loader.load(22, 22);
+    for(int i = 23; i < 41; i++) {
+        loader.load(22, i, fArmoryOverlay);
+    }
+}
+
+void eBuildingTextures::loadGatehouseAndTower() {
+    if(fGatehouseAndTowerLoaded) return;
+    fGatehouseAndTowerLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eGatehouseAndTowerSpriteData15,
+                                 eGatehouseAndTowerSpriteData30,
+                                 eGatehouseAndTowerSpriteData45,
+                                 eGatehouseAndTowerSpriteData60);
+    eSpriteLoader loader(fTileH, "gatehouseAndTower", sds,
+                         nullptr, fRenderer);
+
+    loader.load(50, 50, fGatehouseW);
+    loader.load(50, 52, fGatehouseW);
+    loader.load(50, 54, fGatehouseW);
+    loader.load(50, 57, fGatehouseW);
+
+    loader.load(50, 51, fGatehouseH);
+    loader.load(50, 53, fGatehouseH);
+    loader.load(50, 55, fGatehouseH);
+    loader.load(50, 58, fGatehouseH);
+
+    fTower = loader.load(50, 56);
+}
+
+void eBuildingTextures::loadWall() {
+    if(fWallLoaded) return;
+    fWallLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eWallSpriteData15,
+                                 eWallSpriteData30,
+                                 eWallSpriteData45,
+                                 eWallSpriteData60);
+    eSpriteLoader loader(fTileH, "wall", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 59; i < 95; i++) {
+        loader.load(59, i, fWall);
+    }
+}
+
+void eBuildingTextures::loadMaintenanceOffice() {
+    if(fMaintenanceOfficeLoaded) return;
+    fMaintenanceOfficeLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eMaintenanceOfficeSpriteData15,
+                                 eMaintenanceOfficeSpriteData30,
+                                 eMaintenanceOfficeSpriteData45,
+                                 eMaintenanceOfficeSpriteData60);
+    eSpriteLoader loader(fTileH, "maintenanceOffice", sds,
+                         nullptr, fRenderer);
+
+    fMaintenanceOffice = loader.load(1, 1);
+    for(int i = 2; i < 46; i++) {
+        loader.load(1, i, fMaintenanceOfficeOverlay);
+    }
+}
+
+void eBuildingTextures::loadTaxOffice() {
+    if(fTaxOfficeLoaded) return;
+    fTaxOfficeLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eTaxOfficeSpriteData15,
+                                 eTaxOfficeSpriteData30,
+                                 eTaxOfficeSpriteData45,
+                                 eTaxOfficeSpriteData60);
+    eSpriteLoader loader(fTileH, "taxOffice", sds,
+                         nullptr, fRenderer);
+
+    fTaxOffice = loader.load(46, 46);
+    for(int i = 47; i < 65; i++) {
+        loader.load(46, i, fTaxOfficeOverlay);
+    }
+}
+
+void eBuildingTextures::loadWatchpost() {
+    if(fWatchpostLoaded) return;
+    fWatchpostLoaded = true;
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eWatchpostSpriteData15,
+                                     eWatchpostSpriteData30,
+                                     eWatchpostSpriteData45,
+                                     eWatchpostSpriteData60);
+        eSpriteLoader loader(fTileH, "watchpost", sds,
+                             nullptr, fRenderer);
+
+        fWatchPost = loader.load(65, 65);
+    }
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eWatchPostOverlaySpriteData15,
+                                     eWatchPostOverlaySpriteData30,
+                                     eWatchPostOverlaySpriteData45,
+                                     eWatchPostOverlaySpriteData60);
+        eSpriteLoader loader(fTileH, "watchPostOverlay", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        for(int i = 2958; i < 3011; i++) {
+            loader.load(2958, i, fWatchPostOverlay);
+        }
+    }
+}
+
+void eBuildingTextures::loadRoadblock() {
+    if(fRoadblockLoaded) return;
+    fRoadblockLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eRoadblockSpriteData15,
+                                 eRoadblockSpriteData30,
+                                 eRoadblockSpriteData45,
+                                 eRoadblockSpriteData60);
+    eSpriteLoader loader(fTileH, "roadblock", sds,
+                         nullptr, fRenderer);
+
+    fRoadblock = loader.load(76, 76);
+}
+
+void eBuildingTextures::loadBridge() {
+    if(fBridgeLoaded) return;
+    fBridgeLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eBridgeSpriteData15,
+                                 eBridgeSpriteData30,
+                                 eBridgeSpriteData45,
+                                 eBridgeSpriteData60);
+    eSpriteLoader loader(fTileH, "bridge", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 77; i < 89; i++) {
+        loader.load(77, i, fBridge);
+    }
+}
+
+void eBuildingTextures::loadPalaceTiles() {
+    if(fPalaceTilesLoaded) return;
+    fPalaceTilesLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 ePalaceTilesSpriteData15,
+                                 ePalaceTilesSpriteData30,
+                                 ePalaceTilesSpriteData45,
+                                 ePalaceTilesSpriteData60);
+    eSpriteLoader loader(fTileH, "palaceTiles", sds,
+                         nullptr, fRenderer);
+
+    loader.load(25, 25, fPalaceTiles);
+    loader.load(26, 26, fPalaceTiles);
+}
+
+void eBuildingTextures::loadPalace() {
+    if(fPalaceLoaded) return;
+    fPalaceLoaded = true;
+
+    loadPalaceTiles();
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eMun_PalaceSpriteData15,
+                                     eMun_PalaceSpriteData30,
+                                     eMun_PalaceSpriteData45,
+                                     eMun_PalaceSpriteData60);
+        eSpriteLoader loader(fTileH, "mun_Palace", sds,
+                             nullptr, fRenderer);
+
+        fPalace2H = loader.load(1, 1);
+        fPalace1H = loader.load(1, 12);
+        fPalace1W = loader.load(1, 13);
+        fPalace2W = loader.load(1, 14);
+    }
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     ePalaceOverlaySpriteData15,
+                                     ePalaceOverlaySpriteData30,
+                                     ePalaceOverlaySpriteData45,
+                                     ePalaceOverlaySpriteData60);
+        eSpriteLoader loader(fTileH, "palaceOverlay", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        for(int i = 3011; i < 3035; i++) {
+            loader.load(3011, i, fPalaceHOverlay);
         }
 
-        fMint = loader.load(1, 21);
-        for(int i = 22; i < 32; i++) {
-            loader.load(1, i, fMintOverlay);
+        generateFlipped(fPalaceHOverlay, fPalaceWOverlay);
+    }
+}
+
+void eBuildingTextures::loadSanctuary() {
+    if(fSanctuaryLoaded) return;
+    fSanctuaryLoaded = true;
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eZeusSanctuaryElementsSpriteData15,
+                                     eZeusSanctuaryElementsSpriteData30,
+                                     eZeusSanctuaryElementsSpriteData45,
+                                     eZeusSanctuaryElementsSpriteData60);
+        eSpriteLoader loader(fTileH, "zeusSanctuaryElements", sds,
+                             nullptr, fRenderer);
+
+        int i = 1;
+        const auto loadStatues = [&](eTextureCollection& coll) {
+            for(int j = 0; j < 4; j++, i++) {
+                loader.load(1, i, coll);
+            }
+        };
+        loadStatues(fZeusStatues);
+        {
+            // loadStatues(fPoseidonStatues);
+            i += 4;
+        }
+        loadStatues(fHadesStatues);
+        loadStatues(fDemeterStatues);
+        loadStatues(fAthenaStatues);
+        loadStatues(fArtemisStatues);
+        loadStatues(fApolloStatues);
+        loadStatues(fAresStatues);
+        loadStatues(fHephaestusStatues);
+        loadStatues(fAphroditeStatues);
+        loadStatues(fHermesStatues);
+        loadStatues(fDionysusStatues);
+
+        for(int i = 49; i < 55; i++) {
+            loader.load(1, i, fSanctuaryTiles);
+        }
+        for(int i = 55; i < 61; i++) {
+            loader.load(1, i, fSanctuarySpace);
         }
 
-        fFoundry = loader.load(1, 36);
-        for(int i = 37; i < 49; i++) {
-            loader.load(1, i, fFoundryOverlay);
-        }
+        fSanctuaryAltar = loader.load(1, 61);
+    }
 
-        fArtisansGuild = loader.load(1, 49);
-        for(int i = 50; i < 60; i++) {
-            loader.load(1, i, fArtisansGuildOverlay);
-        }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     ePoseidonStatues1SpriteData15,
+                                     ePoseidonStatues1SpriteData30,
+                                     ePoseidonStatues1SpriteData45,
+                                     ePoseidonStatues1SpriteData60);
+        eSpriteLoader loader(fTileH, "poseidonStatues1", sds,
+                             nullptr, fRenderer);
 
-        fOlivePress = loader.load(1, 60);
-        for(int i = 61; i < 73; i++) {
-            loader.load(1, i, fOlivePressOverlay);
-        }
+        int i = 1;
+        const auto loadStatues = [&](eTextureCollection& coll) {
+            for(int j = 0; j < 4; j++, i++) {
+                loader.load(1, i, coll);
+            }
+        };
 
-        fWinery = loader.load(1, 73);
-        for(int i = 74; i < 86; i++) {
-            loader.load(1, i, fWineryOverlay);
-        }
+        loadStatues(fHeraStatues);
+        loadStatues(fAtlasStatues);
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     ePoseidonStatues2SpriteData15,
+                                     ePoseidonStatues2SpriteData30,
+                                     ePoseidonStatues2SpriteData45,
+                                     ePoseidonStatues2SpriteData60);
+        eSpriteLoader loader(fTileH, "poseidonStatues2", sds,
+                             nullptr, fRenderer);
 
-        fSculptureStudio = loader.load(1, 86);
-        for(int i = 87; i < 122; i++) {
-            loader.load(1, i, fSculptureStudioOverlay);
+        int i = 11;
+        const auto loadStatues = [&](eTextureCollection& coll) {
+            for(int j = 0; j < 4; j++, i++) {
+                loader.load(11, i, coll);
+            }
+        };
+
+        loadStatues(fPoseidonStatues);
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eSanctuaryFireSpriteData15,
+                                     eSanctuaryFireSpriteData30,
+                                     eSanctuaryFireSpriteData45,
+                                     eSanctuaryFireSpriteData60);
+        eSpriteLoader loader(fTileH, "sanctuaryFire", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+
+        for(int i = 2105; i < 2117; i++) {
+            loader.load(2105, i, fSanctuaryFire);
         }
     }
 
     {
         const auto& sds = spriteData(fTileH,
-                                     eMilitarySpriteData15,
-                                     eMilitarySpriteData30,
-                                     eMilitarySpriteData45,
-                                     eMilitarySpriteData60);
-        eSpriteLoader loader(fTileH, "military", sds,
+                                     eSanctuaryOverlaySpriteData15,
+                                     eSanctuaryOverlaySpriteData30,
+                                     eSanctuaryOverlaySpriteData45,
+                                     eSanctuaryOverlaySpriteData60);
+        eSpriteLoader loader(fTileH, "sanctuaryOverlay", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        for(int i = 1725; i < 1773; i++) {
+            loader.load(1725, i, fSanctuaryHOverlay);
+        }
+
+        generateFlipped(fSanctuaryHOverlay, fSanctuaryWOverlay);
+    }
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eBlankStatueSpriteData15,
+                                     eBlankStatueSpriteData30,
+                                     eBlankStatueSpriteData45,
+                                     eBlankStatueSpriteData60);
+        eSpriteLoader loader(fTileH, "blankStatue", sds,
+                             nullptr, fRenderer);
+
+        fBlankMonument = loader.load(1, 1);
+    }
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eZeusSanctuary1SpriteData15,
+                                     eZeusSanctuary1SpriteData30,
+                                     eZeusSanctuary1SpriteData45,
+                                     eZeusSanctuary1SpriteData60);
+        eSpriteLoader loader(fTileH, "zeusSanctuary1", sds,
                              nullptr, fRenderer);
 
         for(int i = 1; i < 5; i++) {
-            loader.load(1, i, fTriremeWharf);
-        }
-
-        fHorseRanch = loader.load(1, 5);
-        for(int i = 6; i < 22; i++) {
-            loader.load(1, i, fHorseRanchOverlay);
-        }
-        fHorseRanchEnclosure = loader.load(1, 41);
-
-        fArmory = loader.load(1, 22);
-        for(int i = 23; i < 41; i++) {
-            loader.load(1, i, fArmoryOverlay);
-        }
-
-        loader.load(1, 50, fGatehouseW);
-        loader.load(1, 52, fGatehouseW);
-        loader.load(1, 54, fGatehouseW);
-        loader.load(1, 57, fGatehouseW);
-
-        loader.load(1, 51, fGatehouseH);
-        loader.load(1, 53, fGatehouseH);
-        loader.load(1, 55, fGatehouseH);
-        loader.load(1, 58, fGatehouseH);
-
-        fTower = loader.load(1, 56);
-
-        for(int i = 59; i < 95; i++) {
-            loader.load(1, i, fWall);
+            auto& coll = fSanctuary.emplace_back(fRenderer);
+            loader.load(1, i, coll);
         }
     }
 
     {
         const auto& sds = spriteData(fTileH,
-                                     eMunicipalSpriteData15,
-                                     eMunicipalSpriteData30,
-                                     eMunicipalSpriteData45,
-                                     eMunicipalSpriteData60);
-        eSpriteLoader loader(fTileH, "municipal", sds,
+                                     eZeusSanctuary2SpriteData15,
+                                     eZeusSanctuary2SpriteData30,
+                                     eZeusSanctuary2SpriteData45,
+                                     eZeusSanctuary2SpriteData60);
+        eSpriteLoader loader(fTileH, "zeusSanctuary2", sds,
                              nullptr, fRenderer);
 
-        fMaintenanceOffice = loader.load(1, 1);
-        for(int i = 2; i < 46; i++) {
-            loader.load(1, i, fMaintenanceOfficeOverlay);
-        }
-
-        fTaxOffice = loader.load(1, 46);
-        for(int i = 47; i < 65; i++) {
-            loader.load(1, i, fTaxOfficeOverlay);
-        }
-
-        fWatchPost = loader.load(1, 65);
-
-        fRoadblock = loader.load(1, 76);
-
-        for(int i = 77; i < 89; i++) {
-            loader.load(1, i, fBridge);
-        }
-
-        {
-            const auto& sds = spriteData(fTileH,
-                                         eMun_PalaceSpriteData15,
-                                         eMun_PalaceSpriteData30,
-                                         eMun_PalaceSpriteData45,
-                                         eMun_PalaceSpriteData60);
-            eSpriteLoader loader(fTileH, "mun_Palace", sds,
-                                 nullptr, fRenderer);
-
-            fPalace2H = loader.load(1, 1);
-            fPalace1H = loader.load(1, 12);
-            fPalace1W = loader.load(1, 13);
-            fPalace2W = loader.load(1, 14);
-
-            loader.load(1, 25, fPalaceTiles);
-            loader.load(1, 26, fPalaceTiles);
+        for(int i = 1; i < 5; i++) {
+            auto& coll = fSanctuary[i - 1];
+            loader.load(1, i, coll);
         }
     }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eZeusSanctuary3SpriteData15,
+                                     eZeusSanctuary3SpriteData30,
+                                     eZeusSanctuary3SpriteData45,
+                                     eZeusSanctuary3SpriteData60);
+        eSpriteLoader loader(fTileH, "zeusSanctuary3", sds,
+                             nullptr, fRenderer);
+
+        for(int i = 1; i < 5; i++) {
+            auto& coll = fSanctuary[i - 1];
+            loader.load(1, i, coll);
+        }
+    }
+}
+
+void eBuildingTextures::loadHerosHall() {
+    if(fHerosHallLoaded) return;
+    fHerosHallLoaded = true;
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eZeusHerosHallSpriteData15,
+                                     eZeusHerosHallSpriteData30,
+                                     eZeusHerosHallSpriteData45,
+                                     eZeusHerosHallSpriteData60);
+        eSpriteLoader loader(fTileH, "zeusHerosHall", sds,
+                             nullptr, fRenderer);
+
+        fHeroHall = loader.load(62, 62);
+        for(int i = 63; i < 69; i++) {
+            loader.load(62, i, fHeroStatues);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     ePoseidonHerosHallSpriteData15,
+                                     ePoseidonHerosHallSpriteData30,
+                                     ePoseidonHerosHallSpriteData45,
+                                     ePoseidonHerosHallSpriteData60);
+        eSpriteLoader loader(fTileH, "poseidonHerosHall", sds,
+                             nullptr, fRenderer);
+
+        for(int i = 9; i < 11; i++) {
+            loader.load(9, i, fHeroStatues);
+        }
+    }
+}
+
+void eBuildingTextures::loadWaitingOverlay() {
+    if(fWaitingOverlayLoaded) return;
+    fWaitingOverlayLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eWaitingOverlaySpriteData15,
+                                 eWaitingOverlaySpriteData30,
+                                 eWaitingOverlaySpriteData45,
+                                 eWaitingOverlaySpriteData60);
+    eSpriteLoader loader(fTileH, "waitingOverlay", sds,
+                         &eSprAmbientOffset, fRenderer);
+
+    loader.loadSkipFlipped(2277, 2277, 2437, fWaitingOverlay0);
+    loader.loadSkipFlipped(2277, 2437, 2533, fWaitingOverlay1);
+}
+
+void eBuildingTextures::loadOrangeTendersLodge() {
+    if(fOrangeTendersLodgeLoaded) return;
+    fOrangeTendersLodgeLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eOrangeTendersLodgeSpriteData15,
+                                 eOrangeTendersLodgeSpriteData30,
+                                 eOrangeTendersLodgeSpriteData45,
+                                 eOrangeTendersLodgeSpriteData60);
+    eSpriteLoader loader(fTileH, "orangeTendersLodge", sds,
+                         nullptr, fRenderer);
+
+    fOrangeTendersLodge = loader.load(51, 51);
+
+    for(int i = 52; i < 87; i++) {
+        loader.load(51, i, fOrangeTendersLodgeOverlay);
+    }
+}
+
+void eBuildingTextures::loadWaterPark() {
+    if(fWaterParkLoaded) return;
+    fWaterParkLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eWaterParkSpriteData15,
+                                 eWaterParkSpriteData30,
+                                 eWaterParkSpriteData45,
+                                 eWaterParkSpriteData60);
+    eSpriteLoader loader(fTileH, "waterPark", sds,
+                         nullptr, fRenderer);
+
+    const auto loadWaterPark = [&](const int i,
+                                   std::shared_ptr<eTexture>& tex,
+                                   eTextureCollection& overlay) {
+        tex = loader.load(64, i);
+        const int jMax = i + 8;
+        for(int j = i + 1; j < jMax; j++) {
+            loader.load(64, j, overlay);
+        }
+    };
+
+    loadWaterPark(64, fWaterPark1, fWaterPark1Overlay);
+    loadWaterPark(72, fWaterPark2, fWaterPark2Overlay);
+    loadWaterPark(80, fWaterPark3, fWaterPark3Overlay);
+    loadWaterPark(88, fWaterPark4, fWaterPark4Overlay);
+    loadWaterPark(96, fWaterPark5, fWaterPark5Overlay);
+    loadWaterPark(104, fWaterPark6, fWaterPark6Overlay);
+    loadWaterPark(112, fWaterPark7, fWaterPark7Overlay);
+    loadWaterPark(120, fWaterPark8, fWaterPark8Overlay);
+}
+
+void eBuildingTextures::loadBaths() {
+    if(fBathsLoaded) return;
+    fBathsLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eBathsSpriteData15,
+                                 eBathsSpriteData30,
+                                 eBathsSpriteData45,
+                                 eBathsSpriteData60);
+    eSpriteLoader loader(fTileH, "baths", sds,
+                         nullptr, fRenderer);
+
+    fBaths = loader.load(36, 36);
+    for(int i = 37; i < 53; i++) {
+        loader.load(36, i, fBathsOverlay);
+    }
+}
+
+void eBuildingTextures::loadShellGarden() {
+    if(fShellGardenLoaded) return;
+    fShellGardenLoaded = true;
+
+
+    const auto& sds = spriteData(fTileH,
+                                 eShellGardenSpriteData15,
+                                 eShellGardenSpriteData30,
+                                 eShellGardenSpriteData45,
+                                 eShellGardenSpriteData60);
+    eSpriteLoader loader(fTileH, "shellGarden", sds,
+                         nullptr, fRenderer);
+
+    fShellGarden = loader.load(35, 35);
+}
+
+void eBuildingTextures::loadOrrery() {
+    if(fOrreryLoaded) return;
+    fOrreryLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eOrrerySpriteData15,
+                                 eOrrerySpriteData30,
+                                 eOrrerySpriteData45,
+                                 eOrrerySpriteData60);
+    eSpriteLoader loader(fTileH, "orrery", sds,
+                         nullptr, fRenderer);
+
+    fOrrery = loader.load(34, 34);
+}
+
+void eBuildingTextures::loadDolphinSculpture() {
+    if(fDolphinSculptureLoaded) return;
+    fDolphinSculptureLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eDolphinSculptureSpriteData15,
+                                 eDolphinSculptureSpriteData30,
+                                 eDolphinSculptureSpriteData45,
+                                 eDolphinSculptureSpriteData60);
+    eSpriteLoader loader(fTileH, "dolphinSculpture", sds,
+                         nullptr, fRenderer);
+
+    fDolphinSculpture = loader.load(33, 33);
+}
+
+void eBuildingTextures::loadStoneCircle() {
+    if(fStoneCircleLoaded) return;
+    fStoneCircleLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eStoneCircleSpriteData15,
+                                 eStoneCircleSpriteData30,
+                                 eStoneCircleSpriteData45,
+                                 eStoneCircleSpriteData60);
+    eSpriteLoader loader(fTileH, "stoneCircle", sds,
+                         nullptr, fRenderer);
+
+    fStoneCircle = loader.load(27, 27);
+    for(int i = 28; i < 33; i++) {
+        loader.load(27, i, fStoneCircleOverlay);
+    }
+}
+
+void eBuildingTextures::loadSpring() {
+    if(fSpringLoaded) return;
+    fSpringLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eSpringSpriteData15,
+                                 eSpringSpriteData30,
+                                 eSpringSpriteData45,
+                                 eSpringSpriteData60);
+    eSpriteLoader loader(fTileH, "spring", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 20; i < 27; i++) {
+        loader.load(20, i, fSpring);
+    }
+}
+
+void eBuildingTextures::loadTopiary() {
+    if(fTopiaryLoaded) return;
+    fTopiaryLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eTopiarySpriteData15,
+                                 eTopiarySpriteData30,
+                                 eTopiarySpriteData45,
+                                 eTopiarySpriteData60);
+    eSpriteLoader loader(fTileH, "topiary", sds,
+                         nullptr, fRenderer);
+
+    fTopiary = loader.load(19, 19);
+}
+
+void eBuildingTextures::loadSundial() {
+    if(fSundialLoaded) return;
+    fSundialLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eSundialSpriteData15,
+                                 eSundialSpriteData30,
+                                 eSundialSpriteData45,
+                                 eSundialSpriteData60);
+    eSpriteLoader loader(fTileH, "sundial", sds,
+                         nullptr, fRenderer);
+
+    fSundial = loader.load(18, 18);
+}
+
+void eBuildingTextures::loadTallObelisk() {
+    if(fTallObeliskLoaded) return;
+    fTallObeliskLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eTallObeliskSpriteData15,
+                                 eTallObeliskSpriteData30,
+                                 eTallObeliskSpriteData45,
+                                 eTallObeliskSpriteData60);
+    eSpriteLoader loader(fTileH, "tallObelisk", sds,
+                         nullptr, fRenderer);
+
+    fTallObelisk = loader.load(17, 17);
+}
+
+void eBuildingTextures::loadAvenue() {
+    if(fAvenueLoaded) return;
+    fAvenueLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eAvenueSpriteData15,
+                                 eAvenueSpriteData30,
+                                 eAvenueSpriteData45,
+                                 eAvenueSpriteData60);
+    eSpriteLoader loader(fTileH, "avenue", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 39; i < 88; i++) {
+        loader.load(39, i, fAvenueRoad);
+    }
+
+    fAvenue.emplace_back(fRenderer);
+    for(int i = 88; i < 97; i++) {
+        loader.load(39, i, fAvenue[0]);
+    }
+
+    fAvenue.emplace_back(fRenderer);
+    for(int i = 97; i < 106; i++) {
+        loader.load(39, i, fAvenue[1]);
+    }
+
+    fAvenue.emplace_back(fRenderer);
+    for(int i = 106; i < 115; i++) {
+        loader.load(39, i, fAvenue[2]);
+    }
+
+    fAvenue.emplace_back(fRenderer);
+    for(int i = 115; i < 124; i++) {
+        loader.load(39, i, fAvenue[3]);
+    }
+
+    fAvenue.emplace_back(fRenderer);
+    for(int i = 124; i < 132; i++) {
+        loader.load(39, i, fAvenue[4]);
+    }
+}
+
+void eBuildingTextures::loadColumns() {
+    if(fColumnsLoaded) return;
+    fColumnsLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eColumnsSpriteData15,
+                                 eColumnsSpriteData30,
+                                 eColumnsSpriteData45,
+                                 eColumnsSpriteData60);
+    eSpriteLoader loader(fTileH, "columns", sds,
+                         nullptr, fRenderer);
+
+    fDoricColumn = loader.load(34, 34);
+    fIonicColumn = loader.load(34, 35);
+    fCorinthianColumn = loader.load(34, 36);
+
+    fColumnConnectionH = loader.load(34, 37);
+    fColumnConnectionW = loader.load(34, 38);
+}
+
+void eBuildingTextures::loadCommemorative() {
+    if(fCommemorativeLoaded) return;
+    fCommemorativeLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eCommemorativeSpriteData15,
+                                 eCommemorativeSpriteData30,
+                                 eCommemorativeSpriteData45,
+                                 eCommemorativeSpriteData60);
+    eSpriteLoader loader(fTileH, "commemorative", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 25; i < 34; i++) {
+        loader.load(25, i, fCommemorative);
+    }
+}
+
+void eBuildingTextures::loadFishPond() {
+    if(fFishPondLoaded) return;
+    fFishPondLoaded = true;
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eFishPondSpriteData15,
+                                     eFishPondSpriteData30,
+                                     eFishPondSpriteData45,
+                                     eFishPondSpriteData60);
+        eSpriteLoader loader(fTileH, "fishPond", sds,
+                             nullptr, fRenderer);
+
+        fFishPond = loader.load(24, 24);
+    }
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eFishPondOverlaySpriteData15,
+                                     eFishPondOverlaySpriteData30,
+                                     eFishPondOverlaySpriteData45,
+                                     eFishPondOverlaySpriteData60);
+        eSpriteLoader loader(fTileH, "fishPondOverlay", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        for(int i = 2759; i < 2790; i++) {
+            loader.load(2759, i, fFishPondOverlay);
+        }
+    }
+}
+
+void eBuildingTextures::loadHedgeMaze() {
+    if(fHedgeMazeLoaded) return;
+    fHedgeMazeLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eHedgeMazeSpriteData15,
+                                 eHedgeMazeSpriteData30,
+                                 eHedgeMazeSpriteData45,
+                                 eHedgeMazeSpriteData60);
+    eSpriteLoader loader(fTileH, "hedgeMaze", sds,
+                         nullptr, fRenderer);
+
+    fHedgeMaze = loader.load(23, 23);
+}
+
+void eBuildingTextures::loadGazebo() {
+    if(fGazeboLoaded) return;
+    fGazeboLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eGazeboSpriteData15,
+                                 eGazeboSpriteData30,
+                                 eGazeboSpriteData45,
+                                 eGazeboSpriteData60);
+    eSpriteLoader loader(fTileH, "gazebo", sds,
+                         nullptr, fRenderer);
+
+    fGazebo = loader.load(22, 22);
+}
+
+void eBuildingTextures::loadFlowerGarden() {
+    if(fFlowerGardenLoaded) return;
+    fFlowerGardenLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eFlowerGardenSpriteData15,
+                                 eFlowerGardenSpriteData30,
+                                 eFlowerGardenSpriteData45,
+                                 eFlowerGardenSpriteData60);
+    eSpriteLoader loader(fTileH, "flowerGarden", sds,
+                         nullptr, fRenderer);
+
+    fFlowerGarden = loader.load(21, 21);
+}
+
+void eBuildingTextures::loadBench() {
+    if(fBenchLoaded) return;
+    fBenchLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eBenchSpriteData15,
+                                 eBenchSpriteData30,
+                                 eBenchSpriteData45,
+                                 eBenchSpriteData60);
+    eSpriteLoader loader(fTileH, "bench", sds,
+                         nullptr, fRenderer);
+
+    fBench = loader.load(20, 20);
+}
+
+void eBuildingTextures::loadPark() {
+    if(fParkLoaded) return;
+    fParkLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eParkSpriteData15,
+                                 eParkSpriteData30,
+                                 eParkSpriteData45,
+                                 eParkSpriteData60);
+    eSpriteLoader loader(fTileH, "park", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 12; i < 16; i++) {
+        loader.load(12, i, fPark);
+    }
+    for(int i = 16; i < 19; i++) {
+        loader.load(12, i, fLargePark);
+    }
+    loader.load(12, 19, fHugePark);
+}
+
+void eBuildingTextures::loadBirdBath() {
+    if(fBirdBathLoaded) return;
+    fBirdBathLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eBirdBathSpriteData15,
+                                 eBirdBathSpriteData30,
+                                 eBirdBathSpriteData45,
+                                 eBirdBathSpriteData60);
+    eSpriteLoader loader(fTileH, "birdBath", sds,
+                         nullptr, fRenderer);
+
+    fBirdBath = loader.load(53, 53);
+    for(int i = 54; i < 63; i++) {
+        loader.load(53, i, fBirdBathOverlay);
+    }
+}
+
+void eBuildingTextures::loadShortObelisk() {
+    if(fShortObeliskLoaded) return;
+    fShortObeliskLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eShortObeliskSpriteData15,
+                                 eShortObeliskSpriteData30,
+                                 eShortObeliskSpriteData45,
+                                 eShortObeliskSpriteData60);
+    eSpriteLoader loader(fTileH, "shortObelisk", sds,
+                         nullptr, fRenderer);
+
+    fShortObelisk = loader.load(63, 63);
+}
+
+void eBuildingTextures::loadZeusMonuments() {
+    if(fZeusMonumentsLoaded) return;
+    fZeusMonumentsLoaded = true;
+    loadGodMonuments(eZeusStatueSpriteData15,
+                     eZeusStatueSpriteData30,
+                     eZeusStatueSpriteData45,
+                     eZeusStatueSpriteData60,
+                     "zeusStatue",
+                     fZeusMonuments);
+}
+
+void eBuildingTextures::loadPoseidonMonuments() {
+    if(fPoseidonMonumentsLoaded) return;
+    fPoseidonMonumentsLoaded = true;
+    loadGodMonuments(ePoseidonStatueSpriteData15,
+                     ePoseidonStatueSpriteData30,
+                     ePoseidonStatueSpriteData45,
+                     ePoseidonStatueSpriteData60,
+                     "poseidonStatue",
+                     fPoseidonMonuments);
+}
+
+void eBuildingTextures::loadHadesMonuments() {
+    if(fHadesMonumentsLoaded) return;
+    fHadesMonumentsLoaded = true;
+    loadGodMonuments(eHadesStatueSpriteData15,
+                     eHadesStatueSpriteData30,
+                     eHadesStatueSpriteData45,
+                     eHadesStatueSpriteData60,
+                     "hadesStatue",
+                     fHadesMonuments);
+}
+
+void eBuildingTextures::loadDemeterMonuments() {
+    if(fDemeterMonumentsLoaded) return;
+    fDemeterMonumentsLoaded = true;
+    loadGodMonuments(eDemeterStatueSpriteData15,
+                     eDemeterStatueSpriteData30,
+                     eDemeterStatueSpriteData45,
+                     eDemeterStatueSpriteData60,
+                     "demeterStatue",
+                     fDemeterMonuments);
+}
+
+void eBuildingTextures::loadAthenaMonuments() {
+    if(fAthenaMonumentsLoaded) return;
+    fAthenaMonumentsLoaded = true;
+    loadGodMonuments(eAthenaStatueSpriteData15,
+                     eAthenaStatueSpriteData30,
+                     eAthenaStatueSpriteData45,
+                     eAthenaStatueSpriteData60,
+                     "athenaStatue",
+                     fAthenaMonuments);
+}
+
+void eBuildingTextures::loadArtemisMonuments() {
+    if(fArtemisMonumentsLoaded) return;
+    fArtemisMonumentsLoaded = true;
+    loadGodMonuments(eArtemisStatueSpriteData15,
+                     eArtemisStatueSpriteData30,
+                     eArtemisStatueSpriteData45,
+                     eArtemisStatueSpriteData60,
+                     "artemisStatue",
+                     fArtemisMonuments);
+}
+
+void eBuildingTextures::loadApolloMonuments() {
+    if(fApolloMonumentsLoaded) return;
+    fApolloMonumentsLoaded = true;
+    loadGodMonuments(eApolloStatueSpriteData15,
+                     eApolloStatueSpriteData30,
+                     eApolloStatueSpriteData45,
+                     eApolloStatueSpriteData60,
+                     "apolloStatue",
+                     fApolloMonuments);
+}
+
+void eBuildingTextures::loadAresMonuments() {
+    if(fAresMonumentsLoaded) return;
+    fAresMonumentsLoaded = true;
+    loadGodMonuments(eAresStatueSpriteData15,
+                     eAresStatueSpriteData30,
+                     eAresStatueSpriteData45,
+                     eAresStatueSpriteData60,
+                     "aresStatue",
+                     fAresMonuments);
+}
+
+void eBuildingTextures::loadHephaestusMonuments() {
+    if(fHephaestusMonumentsLoaded) return;
+    fHephaestusMonumentsLoaded = true;
+    loadGodMonuments(eHephaestusStatueSpriteData15,
+                     eHephaestusStatueSpriteData30,
+                     eHephaestusStatueSpriteData45,
+                     eHephaestusStatueSpriteData60,
+                     "hephaestusStatue",
+                     fHephaestusMonuments);
+}
+
+void eBuildingTextures::loadAphroditeMonuments() {
+    if(fAphroditeMonumentsLoaded) return;
+    fAphroditeMonumentsLoaded = true;
+    loadGodMonuments(eAphroditeStatueSpriteData15,
+                     eAphroditeStatueSpriteData30,
+                     eAphroditeStatueSpriteData45,
+                     eAphroditeStatueSpriteData60,
+                     "aphroditeStatue",
+                     fAphroditeMonuments);
+}
+
+void eBuildingTextures::loadHermesMonuments() {
+    if(fHermesMonumentsLoaded) return;
+    fHermesMonumentsLoaded = true;
+    loadGodMonuments(eHermesStatueSpriteData15,
+                     eHermesStatueSpriteData30,
+                     eHermesStatueSpriteData45,
+                     eHermesStatueSpriteData60,
+                     "hermesStatue",
+                     fHermesMonuments);
+}
+
+void eBuildingTextures::loadDionysusMonuments() {
+    if(fDionysusMonumentsLoaded) return;
+    fDionysusMonumentsLoaded = true;
+    loadGodMonuments(eDionysusStatueSpriteData15,
+                     eDionysusStatueSpriteData30,
+                     eDionysusStatueSpriteData45,
+                     eDionysusStatueSpriteData60,
+                     "dionysusStatue",
+                     fDionysusMonuments);
+}
+
+void eBuildingTextures::loadAtlasMonuments() {
+    if(fAtlasMonumentsLoaded) return;
+    fAtlasMonumentsLoaded = true;
+    loadGodMonuments(eAtlasStatueSpriteData15,
+                     eAtlasStatueSpriteData30,
+                     eAtlasStatueSpriteData45,
+                     eAtlasStatueSpriteData60,
+                     "atlasStatue",
+                     fAtlasMonuments);
+}
+
+void eBuildingTextures::loadHeraMonuments() {
+    if(fHeraMonumentsLoaded) return;
+    fHeraMonumentsLoaded = true;
+    loadGodMonuments(eHeraStatueSpriteData15,
+                     eHeraStatueSpriteData30,
+                     eHeraStatueSpriteData45,
+                     eHeraStatueSpriteData60,
+                     "heraStatue",
+                     fHeraMonuments);
+}
+
+void eBuildingTextures::load() {
+    if(fLoaded) return;
+    fLoaded = true;
 
     {
         const auto& sds = spriteData(fTileH,
@@ -807,219 +2562,6 @@ void eBuildingTextures::load() {
 
     {
         const auto& sds = spriteData(fTileH,
-                                     eTheaterOverlaySpriteData15,
-                                     eTheaterOverlaySpriteData30,
-                                     eTheaterOverlaySpriteData45,
-                                     eTheaterOverlaySpriteData60);
-        eSpriteLoader loader(fTileH, "theaterOverlay", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-        for(int i = 656; i < 680; i++) {
-            loader.load(656, i, fTheaterOverlay);
-        }
-    }
-
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eFisheryBoatBuildingSpriteData15,
-                                     eFisheryBoatBuildingSpriteData30,
-                                     eFisheryBoatBuildingSpriteData45,
-                                     eFisheryBoatBuildingSpriteData60);
-        eSpriteLoader loader(fTileH, "fisheryBoatBuilding", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-        for(int i = 982; i < 992; i++) {
-            loader.load(982, i, fFisheryBoatBuildingW);
-        }
-        for(int i = 992; i < 1002; i++) {
-            loader.load(982, i, fFisheryBoatBuildingH);
-        }
-    }
-
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eFisheryOverlaySpriteData15,
-                                     eFisheryOverlaySpriteData30,
-                                     eFisheryOverlaySpriteData45,
-                                     eFisheryOverlaySpriteData60);
-        eSpriteLoader loader(fTileH, "fisheryOverlay", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-        for(int j = 0; j < 8; j++) {
-            fFisheryOverlay.emplace_back(fRenderer);
-        }
-
-        for(int i = 2117; i < 2213;) {
-            for(int j = 0; j < 8; j++, i++) {
-                if(j > 3 && j < 7) continue;
-                loader.load(2117, i, fFisheryOverlay[j]);
-            }
-        }
-        for(int i = 2117; i < 2213;) {
-            for(int j = 0; j < 8; j++, i++) {
-                if(j > 3 && j < 7) continue;
-                loader.load(2117, i, fFisheryOverlay[j]);
-            }
-        }
-    }
-
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eUrchinUnpackingOverlaySpriteData15,
-                                     eUrchinUnpackingOverlaySpriteData30,
-                                     eUrchinUnpackingOverlaySpriteData45,
-                                     eUrchinUnpackingOverlaySpriteData60);
-        eSpriteLoader loader(fTileH, "urchinUnpackingOverlay", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-        for(int i = 680; i < 730; i++) {
-            loader.load(680, i, fUrchinQuayUnpackingOverlayTL);
-        }
-
-        for(int i = 730; i < 780; i++) {
-            loader.load(680, i, fUrchinQuayUnpackingOverlayTR);
-        }
-
-        for(int i = 780; i < 830; i++) {
-            loader.load(680, i, fUrchinQuayUnpackingOverlayBL);
-        }
-
-        for(int i = 830; i < 880; i++) {
-            loader.load(680, i, fUrchinQuayUnpackingOverlayBR);
-        }
-    }
-
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eFisheryUnpackingOverlaySpriteData15,
-                                     eFisheryUnpackingOverlaySpriteData30,
-                                     eFisheryUnpackingOverlaySpriteData45,
-                                     eFisheryUnpackingOverlaySpriteData60);
-        eSpriteLoader loader(fTileH, "fisheryUnpackingOverlay", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-        for(int i = 890; i < 910; i++) {
-            loader.load(890, i, fFisheryUnpackingOverlayTL);
-        }
-
-        for(int i = 910; i < 930; i++) {
-            loader.load(890, i, fFisheryUnpackingOverlayTR);
-        }
-
-        for(int i = 930; i < 950; i++) {
-            loader.load(890, i, fFisheryUnpackingOverlayBL);
-        }
-
-        for(int i = 950; i < 970; i++) {
-            loader.load(890, i, fFisheryUnpackingOverlayBR);
-        }
-    }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eStadiumOverlaysSpriteData15,
-                                     eStadiumOverlaysSpriteData30,
-                                     eStadiumOverlaysSpriteData45,
-                                     eStadiumOverlaysSpriteData60);
-        eSpriteLoader loader(fTileH, "stadiumOverlays", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-
-        for(int i = 1492; i < 1510; i++) {
-            loader.load(1492, i, fStadiumOverlay1);
-        }
-
-        for(int i = 1510; i < 1530; i++) {
-            loader.load(1492, i, fStadiumOverlay2);
-        }
-
-        for(int i = 1530; i < 1547; i++) {
-            loader.load(1492, i, fStadiumOverlay3);
-        }
-
-        for(int i = 1547; i < 1629;) {
-            for(int j = 0; j < 2; j++, i++) {
-                eTextureCollection* coll;
-                if(j == 0) {
-                    coll = &fStadiumOverlay4W;
-                } else {
-                    coll = &fStadiumOverlay4H;
-                }
-                loader.load(1492, i, *coll);
-            }
-        }
-
-        for(int i = 1629; i < 1653; i++) {
-            loader.load(1492, i, fStadiumAudiance1W);
-        }
-
-        for(int i = 1653; i < 1677; i++) {
-            loader.load(1492, i, fStadiumAudiance2W);
-        }
-
-        for(int i = 1677; i < 1701; i++) {
-            loader.load(1492, i, fStadiumAudiance1H);
-        }
-
-        for(int i = 1701; i < 1725; i++) {
-            loader.load(1492, i, fStadiumAudiance2H);
-        }
-
-        for(int i = 1725; i < 1773; i++) {
-            loader.load(1492, i, fSanctuaryHOverlay);
-        }
-
-        for(int i = 1773; i < 1937;) {
-            for(int j = 0; j < 2; j++, i++) {
-                eTextureCollection* coll;
-                if(j == 0) {
-                    coll = &fStadiumOverlay5W;
-                } else {
-                    coll = &fStadiumOverlay5H;
-                }
-                loader.load(1492, i, *coll);
-            }
-        }
-    }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eSanctuaryFireSpriteData15,
-                                     eSanctuaryFireSpriteData30,
-                                     eSanctuaryFireSpriteData45,
-                                     eSanctuaryFireSpriteData60);
-        eSpriteLoader loader(fTileH, "sanctuaryFire", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-
-        for(int i = 2105; i < 2117; i++) {
-            loader.load(2105, i, fSanctuaryFire);
-        }
-    }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eMasonryShopOverlaysSpriteData15,
-                                     eMasonryShopOverlaysSpriteData30,
-                                     eMasonryShopOverlaysSpriteData45,
-                                     eMasonryShopOverlaysSpriteData60);
-        eSpriteLoader loader(fTileH, "masonryShopOverlays", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-        loader.loadSkipFlipped(1937, 1937, 2017, fMasonryShopOverlay1);
-        loader.loadSkipFlipped(1937, 2017, 2097, fMasonryShopOverlay2);
-    }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eWaitingOverlaySpriteData15,
-                                     eWaitingOverlaySpriteData30,
-                                     eWaitingOverlaySpriteData45,
-                                     eWaitingOverlaySpriteData60);
-        eSpriteLoader loader(fTileH, "waitingOverlay", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-        loader.loadSkipFlipped(2277, 2277, 2437, fWaitingOverlay0);
-        loader.loadSkipFlipped(2277, 2437, 2533, fWaitingOverlay1);
-    }
-    {
-        const auto& sds = spriteData(fTileH,
                                      eVendorOverlaysSpriteData15,
                                      eVendorOverlaysSpriteData30,
                                      eVendorOverlaysSpriteData45,
@@ -1058,45 +2600,6 @@ void eBuildingTextures::load() {
 
         for(int i = 429; i < 453; i++) {
             loader.load(429, i, fWineVendorOverlay2);
-        }
-    }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eFishPondOverlaySpriteData15,
-                                     eFishPondOverlaySpriteData30,
-                                     eFishPondOverlaySpriteData45,
-                                     eFishPondOverlaySpriteData60);
-        eSpriteLoader loader(fTileH, "fishPondOverlay", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-        for(int i = 2759; i < 2790; i++) {
-            loader.load(2759, i, fFishPondOverlay);
-        }
-    }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eWatchPostOverlaySpriteData15,
-                                     eWatchPostOverlaySpriteData30,
-                                     eWatchPostOverlaySpriteData45,
-                                     eWatchPostOverlaySpriteData60);
-        eSpriteLoader loader(fTileH, "watchPostOverlay", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-        for(int i = 2958; i < 3011; i++) {
-            loader.load(2958, i, fWatchPostOverlay);
-        }
-    }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     ePalaceOverlaySpriteData15,
-                                     ePalaceOverlaySpriteData30,
-                                     ePalaceOverlaySpriteData45,
-                                     ePalaceOverlaySpriteData60);
-        eSpriteLoader loader(fTileH, "palaceOverlay", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-        for(int i = 3011; i < 3035; i++) {
-            loader.load(3011, i, fPalaceHOverlay);
         }
     }
 
@@ -1246,364 +2749,6 @@ void eBuildingTextures::load() {
         fGranaryWheat = loader.load(1, 52);
     }
 
-
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eBeautification2SpriteData15,
-                                     eBeautification2SpriteData30,
-                                     eBeautification2SpriteData45,
-                                     eBeautification2SpriteData60);
-        eSpriteLoader loader(fTileH, "beautification2", sds,
-                             nullptr, fRenderer);
-
-        for(int i = 12; i < 16; i++) {
-            loader.load(1, i, fPark);
-        }
-        for(int i = 16; i < 19; i++) {
-            loader.load(1, i, fLargePark);
-        }
-        loader.load(1, 19, fHugePark);
-
-        fBench = loader.load(1, 20);
-        fFlowerGarden = loader.load(1, 21);
-        fGazebo = loader.load(1, 22);
-        fHedgeMaze = loader.load(1, 23);
-        fFishPond = loader.load(1, 24);
-
-        for(int i = 25; i < 34; i++) {
-            loader.load(1, i, fCommemorative);
-        }
-
-        fDoricColumn = loader.load(1, 34);
-        fIonicColumn = loader.load(1, 35);
-        fCorinthianColumn = loader.load(1, 36);
-
-        fColumnConnectionH = loader.load(1, 37);
-        fColumnConnectionW = loader.load(1, 38);
-
-        for(int i = 39; i < 88; i++) {
-            loader.load(1, i, fAvenueRoad);
-        }
-
-        fAvenue.emplace_back(fRenderer);
-        for(int i = 88; i < 97; i++) {
-            loader.load(1, i, fAvenue[0]);
-        }
-
-        fAvenue.emplace_back(fRenderer);
-        for(int i = 97; i < 106; i++) {
-            loader.load(1, i, fAvenue[1]);
-        }
-
-        fAvenue.emplace_back(fRenderer);
-        for(int i = 106; i < 115; i++) {
-            loader.load(1, i, fAvenue[2]);
-        }
-
-        fAvenue.emplace_back(fRenderer);
-        for(int i = 115; i < 124; i++) {
-            loader.load(1, i, fAvenue[3]);
-        }
-
-        fAvenue.emplace_back(fRenderer);
-        for(int i = 124; i < 132; i++) {
-            loader.load(1, i, fAvenue[4]);
-        }
-    }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eReligionSpriteData15,
-                                     eReligionSpriteData30,
-                                     eReligionSpriteData45,
-                                     eReligionSpriteData60);
-        eSpriteLoader loader(fTileH, "religion", sds,
-                             nullptr, fRenderer);
-
-        int i = 1;
-        const auto loadStatues = [&](eTextureCollection& coll) {
-            for(int j = 0; j < 4; j++, i++) {
-                loader.load(1, i, coll);
-            }
-        };
-        loadStatues(fZeusStatues);
-        {
-            // loadStatues(fPoseidonStatues);
-            i += 4;
-        }
-        loadStatues(fHadesStatues);
-        loadStatues(fDemeterStatues);
-        loadStatues(fAthenaStatues);
-        loadStatues(fArtemisStatues);
-        loadStatues(fApolloStatues);
-        loadStatues(fAresStatues);
-        loadStatues(fHephaestusStatues);
-        loadStatues(fAphroditeStatues);
-        loadStatues(fHermesStatues);
-        loadStatues(fDionysusStatues);
-
-        for(int i = 49; i < 55; i++) {
-            loader.load(1, i, fSanctuaryTiles);
-        }
-        for(int i = 55; i < 61; i++) {
-            loader.load(1, i, fSanctuarySpace);
-        }
-
-        fSanctuaryAltar = loader.load(1, 61);
-        fHeroHall = loader.load(1, 62);
-        for(int i = 63; i < 69; i++) {
-            loader.load(1, i, fHeroStatues);
-        }
-    }
-
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eAestheticSpriteData15,
-                                     eAestheticSpriteData30,
-                                     eAestheticSpriteData45,
-                                     eAestheticSpriteData60);
-        eSpriteLoader loader(fTileH, "aesthetic", sds,
-                             nullptr, fRenderer);
-
-        fTallObelisk = loader.load(1, 17);
-        fSundial = loader.load(1, 18);
-        fTopiary = loader.load(1, 19);
-
-        for(int i = 20; i < 27; i++) {
-            loader.load(1, i, fSpring);
-        }
-        fStoneCircle = loader.load(1, 27);
-        for(int i = 28; i < 33; i++) {
-            loader.load(1, i, fStoneCircleOverlay);
-        }
-        fDolphinSculpture = loader.load(1, 33);
-        fOrrery = loader.load(1, 34);
-        fShellGarden = loader.load(1, 35);
-
-        fBaths = loader.load(1, 36);
-        for(int i = 37; i < 53; i++) {
-            loader.load(1, i, fBathsOverlay);
-        }
-
-        fBirdBath = loader.load(1, 53);
-        for(int i = 54; i < 63; i++) {
-            loader.load(1, i, fBirdBathOverlay);
-        }
-
-        fShortObelisk = loader.load(1, 63);
-        const auto loadWaterPark = [&](const int i,
-                                       std::shared_ptr<eTexture>& tex,
-                                       eTextureCollection& overlay) {
-            tex = loader.load(1, i);
-            const int jMax = i + 8;
-            for(int j = i + 1; j < jMax; j++) {
-                loader.load(1, j, overlay);
-            }
-        };
-        loadWaterPark(64, fWaterPark1, fWaterPark1Overlay);
-        loadWaterPark(72, fWaterPark2, fWaterPark2Overlay);
-        loadWaterPark(80, fWaterPark3, fWaterPark3Overlay);
-        loadWaterPark(88, fWaterPark4, fWaterPark4Overlay);
-        loadWaterPark(96, fWaterPark5, fWaterPark5Overlay);
-        loadWaterPark(104, fWaterPark6, fWaterPark6Overlay);
-        loadWaterPark(112, fWaterPark7, fWaterPark7Overlay);
-        loadWaterPark(120, fWaterPark8, fWaterPark8Overlay);
-    }
-
-    {
-        const auto& sds = spriteData(fTileH,
-                                     ePoseidonStatuesSpriteData15,
-                                     ePoseidonStatuesSpriteData30,
-                                     ePoseidonStatuesSpriteData45,
-                                     ePoseidonStatuesSpriteData60);
-        eSpriteLoader loader(fTileH, "poseidonStatues", sds,
-                             nullptr, fRenderer);
-
-        int i = 1;
-        const auto loadStatues = [&](eTextureCollection& coll) {
-            for(int j = 0; j < 4; j++, i++) {
-                loader.load(1, i, coll);
-            }
-        };
-
-        loadStatues(fHeraStatues);
-        loadStatues(fAtlasStatues);
-        for(int j = 0; j < 2; j++, i++) {
-            loader.load(1, i, fHeroStatues);
-        }
-        loadStatues(fPoseidonStatues);
-    }
-
-    const auto loadGodMonuments = [&](const std::vector<eSpriteData>& sd15,
-                                      const std::vector<eSpriteData>& sd30,
-                                      const std::vector<eSpriteData>& sd45,
-                                      const std::vector<eSpriteData>& sd60,
-                                      const std::string& name,
-                                      eTextureCollection& coll) {
-        const auto& sds = spriteData(fTileH, sd15, sd30, sd45, sd60);
-        eSpriteLoader loader(fTileH, name, sds,
-                             nullptr, fRenderer);
-        for(int i = 1; i < 5; i++) {
-            loader.load(1, i, coll);
-        }
-    };
-
-    loadGodMonuments(eZeusStatueSpriteData15,
-                     eZeusStatueSpriteData30,
-                     eZeusStatueSpriteData45,
-                     eZeusStatueSpriteData60,
-                     "zeusStatue",
-                     fZeusMonuments);
-    loadGodMonuments(ePoseidonStatueSpriteData15,
-                     ePoseidonStatueSpriteData30,
-                     ePoseidonStatueSpriteData45,
-                     ePoseidonStatueSpriteData60,
-                     "poseidonStatue",
-                     fPoseidonMonuments);
-    loadGodMonuments(eHadesStatueSpriteData15,
-                     eHadesStatueSpriteData30,
-                     eHadesStatueSpriteData45,
-                     eHadesStatueSpriteData60,
-                     "hadesStatue",
-                     fHadesMonuments);
-    loadGodMonuments(eDemeterStatueSpriteData15,
-                     eDemeterStatueSpriteData30,
-                     eDemeterStatueSpriteData45,
-                     eDemeterStatueSpriteData60,
-                     "demeterStatue",
-                     fDemeterMonuments);
-    loadGodMonuments(eAthenaStatueSpriteData15,
-                     eAthenaStatueSpriteData30,
-                     eAthenaStatueSpriteData45,
-                     eAthenaStatueSpriteData60,
-                     "athenaStatue",
-                     fAthenaMonuments);
-    loadGodMonuments(eArtemisStatueSpriteData15,
-                     eArtemisStatueSpriteData30,
-                     eArtemisStatueSpriteData45,
-                     eArtemisStatueSpriteData60,
-                     "artemisStatue",
-                     fArtemisMonuments);
-    loadGodMonuments(eApolloStatueSpriteData15,
-                     eApolloStatueSpriteData30,
-                     eApolloStatueSpriteData45,
-                     eApolloStatueSpriteData60,
-                     "apolloStatue",
-                     fApolloMonuments);
-    loadGodMonuments(eAresStatueSpriteData15,
-                     eAresStatueSpriteData30,
-                     eAresStatueSpriteData45,
-                     eAresStatueSpriteData60,
-                     "aresStatue",
-                     fAresMonuments);
-    loadGodMonuments(eHephaestusStatueSpriteData15,
-                     eHephaestusStatueSpriteData30,
-                     eHephaestusStatueSpriteData45,
-                     eHephaestusStatueSpriteData60,
-                     "hephaestusStatue",
-                     fHephaestusMonuments);
-    loadGodMonuments(eAphroditeStatueSpriteData15,
-                     eAphroditeStatueSpriteData30,
-                     eAphroditeStatueSpriteData45,
-                     eAphroditeStatueSpriteData60,
-                     "aphroditeStatue",
-                     fAphroditeMonuments);
-    loadGodMonuments(eHermesStatueSpriteData15,
-                     eHermesStatueSpriteData30,
-                     eHermesStatueSpriteData45,
-                     eHermesStatueSpriteData60,
-                     "hermesStatue",
-                     fHermesMonuments);
-    loadGodMonuments(eDionysusStatueSpriteData15,
-                     eDionysusStatueSpriteData30,
-                     eDionysusStatueSpriteData45,
-                     eDionysusStatueSpriteData60,
-                     "dionysusStatue",
-                     fDionysusMonuments);
-
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eBlankStatueSpriteData15,
-                                     eBlankStatueSpriteData30,
-                                     eBlankStatueSpriteData45,
-                                     eBlankStatueSpriteData60);
-        eSpriteLoader loader(fTileH, "blankStatue", sds,
-                             nullptr, fRenderer);
-
-        fBlankMonument = loader.load(1, 1);
-    }
-
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eZeusSanctuary1SpriteData15,
-                                     eZeusSanctuary1SpriteData30,
-                                     eZeusSanctuary1SpriteData45,
-                                     eZeusSanctuary1SpriteData60);
-        eSpriteLoader loader(fTileH, "zeusSanctuary1", sds,
-                             nullptr, fRenderer);
-
-        for(int i = 1; i < 5; i++) {
-            auto& coll = fSanctuary.emplace_back(fRenderer);
-            loader.load(1, i, coll);
-        }
-    }
-
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eZeusSanctuary2SpriteData15,
-                                     eZeusSanctuary2SpriteData30,
-                                     eZeusSanctuary2SpriteData45,
-                                     eZeusSanctuary2SpriteData60);
-        eSpriteLoader loader(fTileH, "zeusSanctuary2", sds,
-                             nullptr, fRenderer);
-
-        for(int i = 1; i < 5; i++) {
-            auto& coll = fSanctuary[i - 1];
-            loader.load(1, i, coll);
-        }
-    }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eZeusSanctuary3SpriteData15,
-                                     eZeusSanctuary3SpriteData30,
-                                     eZeusSanctuary3SpriteData45,
-                                     eZeusSanctuary3SpriteData60);
-        eSpriteLoader loader(fTileH, "zeusSanctuary3", sds,
-                             nullptr, fRenderer);
-
-        for(int i = 1; i < 5; i++) {
-            auto& coll = fSanctuary[i - 1];
-            loader.load(1, i, coll);
-        }
-    }
-
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eAtlasStatueSpriteData15,
-                                     eAtlasStatueSpriteData30,
-                                     eAtlasStatueSpriteData45,
-                                     eAtlasStatueSpriteData60);
-        eSpriteLoader loader(fTileH, "atlasStatue", sds,
-                             nullptr, fRenderer);
-
-        for(int i = 1; i < 5; i++) {
-            loader.load(1, i, fAtlasMonuments);
-        }
-    }
-
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eHeraStatueSpriteData15,
-                                     eHeraStatueSpriteData30,
-                                     eHeraStatueSpriteData45,
-                                     eHeraStatueSpriteData60);
-        eSpriteLoader loader(fTileH, "heraStatue", sds,
-                             nullptr, fRenderer);
-
-        for(int i = 1; i < 5; i++) {
-            loader.load(1, i, fHeraMonuments);
-        }
-    }
-
     {
         const auto& sds = spriteData(fTileH,
                                      eStorageSpriteData15,
@@ -1621,44 +2766,46 @@ void eBuildingTextures::load() {
 //            eTextureLoadingHelpers::loadTex(pathBase, i, fCorralOverlay);
 //        }
 
-        fOrangeTendersLodge = loader.load(51, 51);
-
-        for(int i = 52; i < 87; i++) {
-            loader.load(51, i, fOrangeTendersLodgeOverlay);
-        }
-
         for(int i = 87; i < 91; i++) {
-            loader.load(51, i, fWarehouseOranges);
+            loader.load(87, i, fWarehouseOranges);
         }
 
         for(int i = 99; i < 104; i++) {
-            loader.load(51, i, fWaitingOranges);
+            loader.load(87, i, fWaitingOranges);
         }
 
-        fGranaryOranges = loader.load(51, 122);
+        fGranaryOranges = loader.load(87, 122);
         fGranaryOranges->setOffset(-3, -3);
 
         for(int i = 123; i < 129; i++) {
-            loader.load(51, i, fOrangeTree);
+            loader.load(87, i, fOrangeTree);
         }
     }
+}
 
-    const auto generateFlipped = [](const eTextureCollection& src,
-                                    eTextureCollection& dst) {
-        for(int i = 0; i < src.size(); i++) {
-            auto& tex = dst.addTexture();
-            const auto& srcTex = src.getTexture(i);
-            const int w = srcTex->width();
-            const int ox = srcTex->offsetX();
-            const int oy = srcTex->offsetY();
-            tex->setOffset(w - ox, oy);
-            tex->setFlipTex(srcTex);
-        }
-    };
-    generateFlipped(fPalaceHOverlay, fPalaceWOverlay);
-    generateFlipped(fSanctuaryHOverlay, fSanctuaryWOverlay);
+void eBuildingTextures::loadGodMonuments(
+        const std::vector<eSpriteData>& sd15,
+        const std::vector<eSpriteData>& sd30,
+        const std::vector<eSpriteData>& sd45,
+        const std::vector<eSpriteData>& sd60,
+        const std::string& name,
+        eTextureCollection& coll) {
+    const auto& sds = spriteData(fTileH, sd15, sd30, sd45, sd60);
+    eSpriteLoader loader(fTileH, name, sds, nullptr, fRenderer);
+    for(int i = 1; i < 5; i++) {
+        loader.load(1, i, coll);
+    }
+}
 
-    generateFlipped(fFisheryOverlay[0], fFisheryOverlay[6]);
-    generateFlipped(fFisheryOverlay[1], fFisheryOverlay[5]);
-    generateFlipped(fFisheryOverlay[2], fFisheryOverlay[4]);
+void eBuildingTextures::generateFlipped(const eTextureCollection& src,
+                                        eTextureCollection& dst) {
+    for(int i = 0; i < src.size(); i++) {
+        auto& tex = dst.addTexture();
+        const auto& srcTex = src.getTexture(i);
+        const int w = srcTex->width();
+        const int ox = srcTex->offsetX();
+        const int oy = srcTex->offsetY();
+        tex->setOffset(w - ox, oy);
+        tex->setFlipTex(srcTex);
+    }
 }

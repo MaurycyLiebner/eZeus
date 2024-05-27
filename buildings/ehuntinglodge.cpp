@@ -6,7 +6,9 @@
 
 eHuntingLodge::eHuntingLodge(eGameBoard& board) :
     eResourceCollectBuildingBase(board, eBuildingType::huntingLodge,
-                          2, 2, 8, eResourceType::meat) {}
+                          2, 2, 8, eResourceType::meat) {
+    eGameTextures::loadHuntingLodge();
+}
 
 eHuntingLodge::~eHuntingLodge() {
     if(mHunter) mHunter->kill();

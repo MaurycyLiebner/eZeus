@@ -8,6 +8,7 @@ ePalace::ePalace(eGameBoard& board, const bool r) :
     eBuilding(board, eBuildingType::palace,
               r ? 4 : 8, r ? 8 : 4),
     mRotated(r) {
+    eGameTextures::loadPalace();
     setEnabled(true);
     board.registerPalace(this);
 }

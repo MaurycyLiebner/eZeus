@@ -6,7 +6,7 @@
 eDramaSchool::eDramaSchool(eGameBoard& board) :
     eEmployingBuilding(board, eBuildingType::dramaSchool, 3, 3, 10),
     mTextures(eGameTextures::buildings()) {
-
+    eGameTextures::loadDramaSchool();
 }
 
 std::shared_ptr<eTexture> eDramaSchool::getTexture(const eTileSize size) const {

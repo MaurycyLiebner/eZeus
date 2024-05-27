@@ -13,5 +13,6 @@ eFoundry::eFoundry(eGameBoard& board) :
                              eBuildingType::foundry,
                              eHasResourceObject::sCreate(eHasResourceObjectType::copper),
                              2, 2, 15, eResourceType::bronze) {
+    eGameTextures::loadFoundry();
     setRawCountCollect(4);
 }

@@ -5,8 +5,9 @@
 #include "ehorseranchenclosure.h"
 
 eHorseRanch::eHorseRanch(eGameBoard& board) :
-    eEmployingBuilding(board, eBuildingType::horseRanch, 3, 3, 15) {}
-
+    eEmployingBuilding(board, eBuildingType::horseRanch, 3, 3, 15) {
+    eGameTextures::loadHorseRanch();
+}
 
 eHorseRanch::~eHorseRanch() {
     if(mTakeCart) mTakeCart->kill();

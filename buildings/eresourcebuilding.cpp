@@ -19,7 +19,17 @@ eResourceBuilding::eResourceBuilding(
         eGameBoard& board, const eResourceBuildingType type) :
     eBuilding(board, resourceTypeToBuildingType(type), 1, 1),
     mType(type) {
-
+    switch(type) {
+    case eResourceBuildingType::oliveTree:
+        eGameTextures::loadOliveTree();
+        break;
+    case eResourceBuildingType::vine:
+        eGameTextures::loadVine();
+        break;
+    case eResourceBuildingType::orangeTree:
+        //eGameTextures::loadOrangeTree();
+        break;
+    }
 }
 
 std::shared_ptr<eTexture> eResourceBuilding::getTexture(const eTileSize size) const {
