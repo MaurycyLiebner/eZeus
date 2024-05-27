@@ -31,23 +31,23 @@ const auto eStorNDistSpriteData60 = std::vector<eSpriteData> {
    eSpriteData{0, 2034, 84, 2, 2}, // 26
    eSpriteData{0, 920, 288, 116, 178}, // 27
    eSpriteData{0, 2036, 84, 2, 2}, // 28
-   eSpriteData{0, 1036, 346, 476, 360}, // 29
+   eSpriteData{1, 0, 0, 476, 360}, // 29
    eSpriteData{0, 588, 166, 74, 76}, // 30
    eSpriteData{0, 588, 242, 74, 76}, // 31
-   eSpriteData{0, 0, 290, 74, 76}, // 32
-   eSpriteData{0, 74, 290, 74, 76}, // 33
-   eSpriteData{0, 148, 290, 74, 76}, // 34
-   eSpriteData{0, 472, 294, 74, 76}, // 35
-   eSpriteData{0, 1864, 296, 74, 76}, // 36
-   eSpriteData{0, 1938, 296, 74, 76}, // 37
-   eSpriteData{0, 546, 318, 74, 76}, // 38
-   eSpriteData{0, 1512, 346, 74, 76}, // 39
-   eSpriteData{0, 620, 348, 74, 76}, // 40
-   eSpriteData{0, 694, 348, 74, 76}, // 41
-   eSpriteData{0, 768, 348, 74, 76}, // 42
-   eSpriteData{0, 842, 348, 74, 76}, // 43
-   eSpriteData{0, 0, 366, 74, 76}, // 44
-   eSpriteData{0, 74, 366, 74, 76}, // 45
+   eSpriteData{0, 1036, 288, 74, 76}, // 32
+   eSpriteData{0, 0, 290, 74, 76}, // 33
+   eSpriteData{0, 74, 290, 74, 76}, // 34
+   eSpriteData{0, 148, 290, 74, 76}, // 35
+   eSpriteData{0, 472, 294, 74, 76}, // 36
+   eSpriteData{0, 1864, 296, 74, 76}, // 37
+   eSpriteData{0, 1938, 296, 74, 76}, // 38
+   eSpriteData{0, 546, 318, 74, 76}, // 39
+   eSpriteData{0, 1110, 320, 74, 76}, // 40
+   eSpriteData{0, 1184, 320, 74, 76}, // 41
+   eSpriteData{0, 1258, 320, 74, 76}, // 42
+   eSpriteData{0, 1332, 346, 74, 76}, // 43
+   eSpriteData{0, 1406, 346, 74, 76}, // 44
+   eSpriteData{0, 1480, 346, 74, 76}, // 45
    eSpriteData{0, 684, 106, 48, 30}, // 46
    eSpriteData{0, 732, 106, 48, 30}, // 47
    eSpriteData{0, 780, 106, 40, 26}, // 48

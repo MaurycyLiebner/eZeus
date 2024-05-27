@@ -33,10 +33,10 @@ const auto eZeusElevationTiles2SpriteData60 = std::vector<eSpriteData> {
    eSpriteData{0, 464, 180, 116, 98}, // 28
    eSpriteData{0, 580, 180, 116, 120}, // 29
    eSpriteData{0, 696, 180, 116, 98}, // 30
-   eSpriteData{1, 0, 0, 236, 120}, // 31
-   eSpriteData{2, 0, 0, 236, 144}, // 32
-   eSpriteData{3, 0, 0, 236, 180}, // 33
-   eSpriteData{4, 0, 0, 236, 128}, // 34
-   eSpriteData{0, 812, 180, 116, 170}, // 35
-   eSpriteData{0, 928, 180, 116, 164}, // 36
+   eSpriteData{0, 812, 180, 236, 120}, // 31
+   eSpriteData{0, 1624, 240, 236, 144}, // 32
+   eSpriteData{0, 116, 278, 236, 180}, // 33
+   eSpriteData{0, 1048, 282, 236, 128}, // 34
+   eSpriteData{0, 1392, 180, 116, 170}, // 35
+   eSpriteData{0, 1860, 240, 116, 164}, // 36
 };

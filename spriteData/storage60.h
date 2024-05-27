@@ -26,23 +26,23 @@ const auto eStorageSpriteData60 = std::vector<eSpriteData> {
    eSpriteData{0, 1744, 0, 62, 52}, // 107
    eSpriteData{0, 1806, 0, 62, 62}, // 108
    eSpriteData{0, 1868, 0, 48, 68}, // 109
-   eSpriteData{1, 0, 0, 222, 104}, // 110
-   eSpriteData{2, 0, 0, 222, 104}, // 111
-   eSpriteData{3, 0, 0, 222, 104}, // 112
-   eSpriteData{4, 0, 0, 222, 104}, // 113
+   eSpriteData{0, 1392, 48, 222, 104}, // 110
+   eSpriteData{0, 1614, 62, 222, 104}, // 111
+   eSpriteData{0, 0, 72, 222, 104}, // 112
+   eSpriteData{0, 464, 72, 222, 104}, // 113
    eSpriteData{0, 1916, 0, 36, 24}, // 114
    eSpriteData{0, 1952, 0, 34, 30}, // 115
    eSpriteData{0, 1986, 0, 38, 32}, // 116
    eSpriteData{0, 1916, 30, 46, 40}, // 117
-   eSpriteData{0, 1596, 46, 126, 158}, // 118
-   eSpriteData{0, 1392, 48, 126, 158}, // 119
-   eSpriteData{0, 1722, 62, 126, 158}, // 120
-   eSpriteData{0, 1848, 70, 126, 158}, // 121
+   eSpriteData{0, 1836, 70, 126, 158}, // 118
+   eSpriteData{0, 222, 72, 126, 158}, // 119
+   eSpriteData{0, 686, 72, 126, 158}, // 120
+   eSpriteData{0, 928, 76, 126, 158}, // 121
    eSpriteData{0, 1392, 24, 34, 20}, // 122
-   eSpriteData{0, 0, 72, 116, 76}, // 123
-   eSpriteData{0, 116, 72, 116, 90}, // 124
-   eSpriteData{0, 232, 72, 116, 110}, // 125
-   eSpriteData{0, 464, 72, 116, 122}, // 126
-   eSpriteData{0, 580, 72, 116, 122}, // 127
-   eSpriteData{0, 696, 72, 116, 122}, // 128
+   eSpriteData{0, 1054, 76, 116, 76}, // 123
+   eSpriteData{0, 348, 78, 116, 90}, // 124
+   eSpriteData{0, 812, 84, 116, 110}, // 125
+   eSpriteData{0, 1170, 92, 116, 122}, // 126
+   eSpriteData{0, 1054, 152, 116, 122}, // 127
+   eSpriteData{0, 1286, 152, 116, 122}, // 128
 };

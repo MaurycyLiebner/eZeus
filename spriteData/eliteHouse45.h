@@ -28,13 +28,13 @@ const auto eEliteHouseSpriteData45 = std::vector<eSpriteData> {
    eSpriteData{0, 531, 180, 177, 107}, // 38
    eSpriteData{0, 708, 180, 177, 150}, // 39
    eSpriteData{0, 1239, 182, 177, 129}, // 40
-   eSpriteData{1, 0, 0, 177, 224}, // 41
-   eSpriteData{2, 0, 0, 177, 216}, // 42
-   eSpriteData{0, 1593, 196, 177, 141}, // 43
-   eSpriteData{0, 0, 224, 177, 150}, // 44
-   eSpriteData{0, 177, 224, 177, 132}, // 45
+   eSpriteData{0, 1593, 196, 177, 224}, // 41
+   eSpriteData{0, 0, 224, 177, 216}, // 42
+   eSpriteData{0, 177, 224, 177, 141}, // 43
+   eSpriteData{0, 354, 227, 177, 150}, // 44
+   eSpriteData{0, 885, 252, 177, 132}, // 45
    eSpriteData{0, 1947, 0, 95, 119}, // 46
    eSpriteData{0, 1947, 119, 95, 119}, // 47
-   eSpriteData{0, 354, 227, 95, 119}, // 48
-   eSpriteData{0, 1947, 238, 95, 119}, // 49
+   eSpriteData{0, 1947, 238, 95, 119}, // 48
+   eSpriteData{0, 1416, 255, 95, 119}, // 49
 };

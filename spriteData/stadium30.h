@@ -3,8 +3,8 @@
 #include "espritedata.h"
 
 const auto eStadiumSpriteData30 = std::vector<eSpriteData> {
-   eSpriteData{1, 0, 0, 298, 157}, // 110
-   eSpriteData{2, 0, 0, 298, 175}, // 111
-   eSpriteData{3, 0, 0, 298, 175}, // 112
-   eSpriteData{4, 0, 0, 298, 157}, // 113
+   eSpriteData{0, 0, 0, 298, 157}, // 110
+   eSpriteData{0, 298, 0, 298, 175}, // 111
+   eSpriteData{0, 596, 0, 298, 175}, // 112
+   eSpriteData{0, 894, 0, 298, 157}, // 113
 };

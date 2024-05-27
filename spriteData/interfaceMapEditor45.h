@@ -68,5 +68,5 @@ const auto eInterfaceMapEditorSpriteData45 = std::vector<eSpriteData> {
    eSpriteData{0, 1840, 60, 38, 39}, // 63
    eSpriteData{0, 1878, 60, 38, 39}, // 64
    eSpriteData{0, 1916, 60, 38, 39}, // 65
-   eSpriteData{2, 0, 0, 279, 45}, // 66
+   eSpriteData{0, 1650, 99, 279, 45}, // 66
 };

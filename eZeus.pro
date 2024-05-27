@@ -962,10 +962,6 @@ HEADERS += \
     spriteData/actor30.h \
     spriteData/actor45.h \
     spriteData/actor60.h \
-    spriteData/aesthetic15.h \
-    spriteData/aesthetic30.h \
-    spriteData/aesthetic45.h \
-    spriteData/aesthetic60.h \
     spriteData/amazonArcher15.h \
     spriteData/amazonArcher30.h \
     spriteData/amazonArcher45.h \
@@ -1078,10 +1074,6 @@ HEADERS += \
     spriteData/baths30.h \
     spriteData/baths45.h \
     spriteData/baths60.h \
-    spriteData/beautification215.h \
-    spriteData/beautification230.h \
-    spriteData/beautification245.h \
-    spriteData/beautification260.h \
     spriteData/bellerophon15.h \
     spriteData/bellerophon30.h \
     spriteData/bellerophon45.h \
@@ -1162,10 +1154,6 @@ HEADERS += \
     spriteData/commonHouse30.h \
     spriteData/commonHouse45.h \
     spriteData/commonHouse60.h \
-    spriteData/culture15.h \
-    spriteData/culture30.h \
-    spriteData/culture45.h \
-    spriteData/culture60.h \
     spriteData/curse15.h \
     spriteData/curse30.h \
     spriteData/curse45.h \
@@ -1198,10 +1186,6 @@ HEADERS += \
     spriteData/demeterStatue30.h \
     spriteData/demeterStatue45.h \
     spriteData/demeterStatue60.h \
-    spriteData/destruction15.h \
-    spriteData/destruction30.h \
-    spriteData/destruction45.h \
-    spriteData/destruction60.h \
     spriteData/dionysus15.h \
     spriteData/dionysus30.h \
     spriteData/dionysus45.h \
@@ -1258,7 +1242,6 @@ HEADERS += \
     spriteData/empireFigures30.h \
     spriteData/empireFigures45.h \
     spriteData/empireFigures60.h \
-    spriteData/espritedata.h \
     spriteData/fire115.h \
     spriteData/fire130.h \
     spriteData/fire145.h \
@@ -1419,10 +1402,6 @@ HEADERS += \
     spriteData/healer30.h \
     spriteData/healer45.h \
     spriteData/healer60.h \
-    spriteData/healthNSan15.h \
-    spriteData/healthNSan30.h \
-    spriteData/healthNSan45.h \
-    spriteData/healthNSan60.h \
     spriteData/hector15.h \
     spriteData/hector30.h \
     spriteData/hector45.h \
@@ -1491,10 +1470,6 @@ HEADERS += \
     spriteData/hospital30.h \
     spriteData/hospital45.h \
     spriteData/hospital60.h \
-    spriteData/housing15.h \
-    spriteData/housing30.h \
-    spriteData/housing45.h \
-    spriteData/housing60.h \
     spriteData/hunter15.h \
     spriteData/hunter30.h \
     spriteData/hunter45.h \
@@ -1503,18 +1478,10 @@ HEADERS += \
     spriteData/huntingLodge30.h \
     spriteData/huntingLodge45.h \
     spriteData/huntingLodge60.h \
-    spriteData/husbandry15.h \
-    spriteData/husbandry30.h \
-    spriteData/husbandry45.h \
-    spriteData/husbandry60.h \
     spriteData/hydra15.h \
     spriteData/hydra30.h \
     spriteData/hydra45.h \
     spriteData/hydra60.h \
-    spriteData/industry15.h \
-    spriteData/industry30.h \
-    spriteData/industry45.h \
-    spriteData/industry60.h \
     spriteData/interfaceBanners15.h \
     spriteData/interfaceBanners30.h \
     spriteData/interfaceBanners45.h \
@@ -1591,10 +1558,6 @@ HEADERS += \
     spriteData/medusa30.h \
     spriteData/medusa45.h \
     spriteData/medusa60.h \
-    spriteData/military15.h \
-    spriteData/military30.h \
-    spriteData/military45.h \
-    spriteData/military60.h \
     spriteData/minotaur15.h \
     spriteData/minotaur30.h \
     spriteData/minotaur45.h \
@@ -1607,18 +1570,10 @@ HEADERS += \
     spriteData/monsterMissile30.h \
     spriteData/monsterMissile45.h \
     spriteData/monsterMissile60.h \
-    spriteData/mun-Palace15.h \
-    spriteData/mun-Palace30.h \
-    spriteData/mun-Palace45.h \
-    spriteData/mun-Palace60.h \
     spriteData/mun_Palace15.h \
     spriteData/mun_Palace30.h \
     spriteData/mun_Palace45.h \
     spriteData/mun_Palace60.h \
-    spriteData/municipal15.h \
-    spriteData/municipal30.h \
-    spriteData/municipal45.h \
-    spriteData/municipal60.h \
     spriteData/nudeSheep15.h \
     spriteData/nudeSheep30.h \
     spriteData/nudeSheep45.h \
@@ -1689,7 +1644,6 @@ HEADERS += \
     spriteData/park60.h \
     spriteData/peddler15.h \
     spriteData/peddler30.h \
-    spriteData/peddler30.h \
     spriteData/peddler45.h \
     spriteData/peddler60.h \
     spriteData/perseus15.h \
@@ -1759,23 +1713,15 @@ HEADERS += \
     spriteData/poseidonStatues115.h \
     spriteData/poseidonStatues130.h \
     spriteData/poseidonStatues145.h \
-    spriteData/poseidonStatues15.h \
     spriteData/poseidonStatues160.h \
     spriteData/poseidonStatues215.h \
     spriteData/poseidonStatues230.h \
     spriteData/poseidonStatues245.h \
     spriteData/poseidonStatues260.h \
-    spriteData/poseidonStatues30.h \
-    spriteData/poseidonStatues45.h \
-    spriteData/poseidonStatues60.h \
     spriteData/poseidonUnits15.h \
     spriteData/poseidonUnits30.h \
     spriteData/poseidonUnits45.h \
     spriteData/poseidonUnits60.h \
-    spriteData/religion15.h \
-    spriteData/religion30.h \
-    spriteData/religion45.h \
-    spriteData/religion60.h \
     spriteData/roadblock15.h \
     spriteData/roadblock30.h \
     spriteData/roadblock45.h \
@@ -1847,23 +1793,15 @@ HEADERS += \
     spriteData/stadiumOverlays115.h \
     spriteData/stadiumOverlays130.h \
     spriteData/stadiumOverlays145.h \
-    spriteData/stadiumOverlays15.h \
     spriteData/stadiumOverlays160.h \
     spriteData/stadiumOverlays215.h \
     spriteData/stadiumOverlays230.h \
     spriteData/stadiumOverlays245.h \
     spriteData/stadiumOverlays260.h \
-    spriteData/stadiumOverlays30.h \
-    spriteData/stadiumOverlays45.h \
-    spriteData/stadiumOverlays60.h \
     spriteData/stoneCircle15.h \
     spriteData/stoneCircle30.h \
     spriteData/stoneCircle45.h \
     spriteData/stoneCircle60.h \
-    spriteData/stor-bays15.h \
-    spriteData/stor-bays30.h \
-    spriteData/stor-bays45.h \
-    spriteData/stor-bays60.h \
     spriteData/storNDist15.h \
     spriteData/storNDist30.h \
     spriteData/storNDist45.h \
@@ -2243,4 +2181,271 @@ DISTFILES += \
     sanctuaries/hermes.txt \
     sanctuaries/poseidon.txt \
     sanctuaries/zeus.txt \
-    text/language.txt
+    text/language.txt \
+    textureTemplates/achilles \
+    textureTemplates/actor \
+    textureTemplates/amazonArcher \
+    textureTemplates/amazonSpear \
+    textureTemplates/aphrodite \
+    textureTemplates/aphroditeStatue \
+    textureTemplates/apollo \
+    textureTemplates/apolloStatue \
+    textureTemplates/archer \
+    textureTemplates/ares \
+    textureTemplates/aresStatue \
+    textureTemplates/aresWarrior \
+    textureTemplates/armory \
+    textureTemplates/armsVendor \
+    textureTemplates/arrow \
+    textureTemplates/artemis \
+    textureTemplates/artemisStatue \
+    textureTemplates/artisan \
+    textureTemplates/artisansGuild \
+    textureTemplates/atalanta \
+    textureTemplates/athena \
+    textureTemplates/athenaStatue \
+    textureTemplates/atlanteanArcher \
+    textureTemplates/atlanteanChariot \
+    textureTemplates/atlanteanHoplite \
+    textureTemplates/atlas \
+    textureTemplates/atlasStatue \
+    textureTemplates/avenue \
+    textureTemplates/banners \
+    textureTemplates/baths \
+    textureTemplates/bellerophon \
+    textureTemplates/bench \
+    textureTemplates/birdBath \
+    textureTemplates/blankStatue \
+    textureTemplates/bless \
+    textureTemplates/blessed \
+    textureTemplates/boar \
+    textureTemplates/bridge \
+    textureTemplates/bronzeMiner \
+    textureTemplates/calydonianBoar \
+    textureTemplates/cardingShed \
+    textureTemplates/cart \
+    textureTemplates/centaurArcher \
+    textureTemplates/centaurHorseman \
+    textureTemplates/cerberus \
+    textureTemplates/chimera \
+    textureTemplates/college \
+    textureTemplates/columns \
+    textureTemplates/commemorative \
+    textureTemplates/commonHouse \
+    textureTemplates/curse \
+    textureTemplates/cursed \
+    textureTemplates/cyclops \
+    textureTemplates/dairy \
+    textureTemplates/deer \
+    textureTemplates/deerHunter \
+    textureTemplates/demeter \
+    textureTemplates/demeterStatue \
+    textureTemplates/dionysus \
+    textureTemplates/dionysusStatue \
+    textureTemplates/disgruntled \
+    textureTemplates/dolphinSculpture \
+    textureTemplates/donkey \
+    textureTemplates/dragon \
+    textureTemplates/dramaSchool \
+    textureTemplates/echidna \
+    textureTemplates/egyptianArcher \
+    textureTemplates/egyptianChariot \
+    textureTemplates/egyptianHoplite \
+    textureTemplates/eliteHouse \
+    textureTemplates/empireBits \
+    textureTemplates/empireFigures \
+    textureTemplates/fire1 \
+    textureTemplates/fireFighter \
+    textureTemplates/fish \
+    textureTemplates/fishPond \
+    textureTemplates/fishPondOverlay \
+    textureTemplates/fishery \
+    textureTemplates/fisheryBoatBuilding \
+    textureTemplates/fisheryOverlay \
+    textureTemplates/fisheryUnpackingOverlay \
+    textureTemplates/fishingBoat \
+    textureTemplates/fleeceVendor \
+    textureTemplates/fleecedSheep \
+    textureTemplates/flowerGarden \
+    textureTemplates/foodCart \
+    textureTemplates/foodVendor \
+    textureTemplates/foundry \
+    textureTemplates/fountain \
+    textureTemplates/gatehouseAndTower \
+    textureTemplates/gazebo \
+    textureTemplates/goat \
+    textureTemplates/goatherd \
+    textureTemplates/godBlueArrow \
+    textureTemplates/godBlueMissile \
+    textureTemplates/godGreenMissile \
+    textureTemplates/godOrangeArrow \
+    textureTemplates/godOrangeMissile \
+    textureTemplates/godPinkMissile \
+    textureTemplates/godPurpleMissile \
+    textureTemplates/godRedMissile \
+    textureTemplates/greekHoplite \
+    textureTemplates/greekHorseman \
+    textureTemplates/greekRockThrower \
+    textureTemplates/grower \
+    textureTemplates/growersLodge \
+    textureTemplates/gymnasium \
+    textureTemplates/gymnast \
+    textureTemplates/hades \
+    textureTemplates/hadesStatue \
+    textureTemplates/harpie \
+    textureTemplates/healer \
+    textureTemplates/hector \
+    textureTemplates/hedgeMaze \
+    textureTemplates/hephaestus \
+    textureTemplates/hephaestusStatue \
+    textureTemplates/hera \
+    textureTemplates/heraStatue \
+    textureTemplates/heracles \
+    textureTemplates/hermes \
+    textureTemplates/hermesStatue \
+    textureTemplates/homeless \
+    textureTemplates/hoplite \
+    textureTemplates/horse \
+    textureTemplates/horseRanch \
+    textureTemplates/horseRanchEnclosure \
+    textureTemplates/horseVendor \
+    textureTemplates/horseman \
+    textureTemplates/hospital \
+    textureTemplates/hunter \
+    textureTemplates/huntingLodge \
+    textureTemplates/hydra \
+    textureTemplates/interfaceBanners \
+    textureTemplates/interfaceMapEditor \
+    textureTemplates/interfaceNewBbuttons \
+    textureTemplates/interfaceNewParts \
+    textureTemplates/interfaceParts \
+    textureTemplates/interfaceRadar \
+    textureTemplates/interfaceSprites \
+    textureTemplates/interfaceWorldSide \
+    textureTemplates/jason \
+    textureTemplates/kraken \
+    textureTemplates/lumberjack \
+    textureTemplates/maenads \
+    textureTemplates/maintenanceOffice \
+    textureTemplates/marbleMiner \
+    textureTemplates/masonryShop \
+    textureTemplates/masonryShopOverlays \
+    textureTemplates/mayanArcher \
+    textureTemplates/mayanHoplite \
+    textureTemplates/medusa \
+    textureTemplates/minotaur \
+    textureTemplates/mint \
+    textureTemplates/monsterMissile \
+    textureTemplates/mun_Palace \
+    textureTemplates/nudeSheep \
+    textureTemplates/oceanidHoplite \
+    textureTemplates/oceanidSpearthrower \
+    textureTemplates/odysseus \
+    textureTemplates/oilVendor \
+    textureTemplates/olivePress \
+    textureTemplates/oliveTree \
+    textureTemplates/orangeTender \
+    textureTemplates/orangeTendersLodge \
+    textureTemplates/orangesCart \
+    textureTemplates/orrery \
+    textureTemplates/ox \
+    textureTemplates/oxHandler \
+    textureTemplates/palaceOverlay \
+    textureTemplates/palaceTiles \
+    textureTemplates/paneling \
+    textureTemplates/park \
+    textureTemplates/peddler \
+    textureTemplates/perseus \
+    textureTemplates/persianArcher \
+    textureTemplates/persianHoplite \
+    textureTemplates/persianHorseman \
+    textureTemplates/philosopher \
+    textureTemplates/phoenicianArcher \
+    textureTemplates/phoenicianHorseman \
+    textureTemplates/plague \
+    textureTemplates/plantation \
+    textureTemplates/podium \
+    textureTemplates/porter \
+    textureTemplates/poseidon \
+    textureTemplates/poseidonHerosHall \
+    textureTemplates/poseidonInterface \
+    textureTemplates/poseidonQuestButtons \
+    textureTemplates/poseidonStatue \
+    textureTemplates/poseidonStatues1 \
+    textureTemplates/poseidonStatues2 \
+    textureTemplates/poseidonUnits \
+    textureTemplates/roadblock \
+    textureTemplates/rock \
+    textureTemplates/rockThrower \
+    textureTemplates/sanctuaryFire \
+    textureTemplates/sanctuaryOverlay \
+    textureTemplates/sculptureStudio \
+    textureTemplates/scylla \
+    textureTemplates/settlers1 \
+    textureTemplates/settlers2 \
+    textureTemplates/shellGarden \
+    textureTemplates/shepherd \
+    textureTemplates/shortObelisk \
+    textureTemplates/sick \
+    textureTemplates/silverMiner \
+    textureTemplates/sphinx \
+    textureTemplates/spring \
+    textureTemplates/stadium \
+    textureTemplates/stadiumOverlays1 \
+    textureTemplates/stadiumOverlays2 \
+    textureTemplates/stoneCircle \
+    textureTemplates/storNDist \
+    textureTemplates/stor_bays \
+    textureTemplates/storage \
+    textureTemplates/sundial \
+    textureTemplates/tallObelisk \
+    textureTemplates/talos \
+    textureTemplates/taxCollector \
+    textureTemplates/taxOffice \
+    textureTemplates/theater \
+    textureTemplates/theaterOverlay \
+    textureTemplates/theseus \
+    textureTemplates/timberMill \
+    textureTemplates/topiary \
+    textureTemplates/tradeBoat \
+    textureTemplates/trader \
+    textureTemplates/tradingPostOverlay \
+    textureTemplates/trailer \
+    textureTemplates/transporter \
+    textureTemplates/triremeWharf \
+    textureTemplates/trojanHoplite \
+    textureTemplates/trojanHorseman \
+    textureTemplates/trojanSpearthrower \
+    textureTemplates/urchin \
+    textureTemplates/urchinGatherer \
+    textureTemplates/urchinQuay \
+    textureTemplates/urchinUnpackingOverlay \
+    textureTemplates/vendorOverlays \
+    textureTemplates/vine \
+    textureTemplates/waitingOverlay \
+    textureTemplates/wall \
+    textureTemplates/warehouseOverlay \
+    textureTemplates/watchPostOverlay \
+    textureTemplates/watchman \
+    textureTemplates/watchpost \
+    textureTemplates/waterDistributor \
+    textureTemplates/waterPark \
+    textureTemplates/wineVendor \
+    textureTemplates/wineVendorOverlay \
+    textureTemplates/winery \
+    textureTemplates/wolf \
+    textureTemplates/zeus \
+    textureTemplates/zeusElevationTiles \
+    textureTemplates/zeusElevationTiles2 \
+    textureTemplates/zeusHerosHall \
+    textureTemplates/zeusLand1 \
+    textureTemplates/zeusLand3 \
+    textureTemplates/zeusOverlay \
+    textureTemplates/zeusQuarryTileSet \
+    textureTemplates/zeusSanctuary1 \
+    textureTemplates/zeusSanctuary2 \
+    textureTemplates/zeusSanctuary3 \
+    textureTemplates/zeusSanctuaryElements \
+    textureTemplates/zeusStairs \
+    textureTemplates/zeusStatue \
+    textureTemplates/zeusTrees

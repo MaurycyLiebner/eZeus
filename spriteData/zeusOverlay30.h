@@ -65,10 +65,10 @@ const auto eZeusOverlaySpriteData30 = std::vector<eSpriteData> {
    eSpriteData{0, 928, 46, 58, 30}, // 60
    eSpriteData{0, 986, 46, 58, 30}, // 61
    eSpriteData{0, 1044, 46, 58, 30}, // 62
-   eSpriteData{1, 0, 0, 238, 125}, // 63
+   eSpriteData{0, 1624, 52, 238, 125}, // 63
    eSpriteData{0, 1102, 46, 24, 21}, // 64
    eSpriteData{0, 1126, 46, 19, 38}, // 65
-   eSpriteData{0, 1682, 49, 40, 54}, // 66
-   eSpriteData{0, 1722, 49, 39, 58}, // 67
-   eSpriteData{0, 1914, 49, 38, 41}, // 68
+   eSpriteData{0, 1914, 49, 40, 54}, // 66
+   eSpriteData{0, 1954, 49, 39, 58}, // 67
+   eSpriteData{0, 1993, 49, 38, 41}, // 68
 };
