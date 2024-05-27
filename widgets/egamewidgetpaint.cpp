@@ -574,17 +574,19 @@ void eGameWidget::paintEvent(ePainter& p) {
             if(ty == fitY || tx == fitX) {
                 const auto bRender = [&](const int tx, const int ty,
                                          const bool last) {
-                    const int xPart = tx - tsRect.x;
-                    const int yPart = tsRect.y + tsRect.h - ty + (tx == tsRect.x + tsRect.w - 1 ? 0 : -1);
-                    const int partNumber = xPart + yPart;
-                    const int relX = mTileW*partNumber/2;
+                    SDL_Rect clipRect;
+                    clipRect.y = -10000;
+                    clipRect.h = 20000;
+                    const int d = ty == fitY ? 1 : 0;
+                    clipRect.x = mDX + (tx - ty - d)*mTileW/2;
+                    clipRect.w = mTileW/2;
+                    SDL_RenderSetClipRect(p.renderer(), &clipRect);
+
                     const bool erase = inErase(ub);
                     const auto tex = ts.fTex;
                     if(tex) {
                         if(erase) tex->setColorMod(255, 175, 255);
-                        tp.drawTexturePortion(drawX, drawY, relX, 0,
-                                              relX, mTileW/2, tex,
-                                              eAlignment::top, true);
+                        tp.drawTexture(drawX, drawY, tex, eAlignment::top);
                         if(erase) tex->clearColorMod();
                     }
                     if(ub->overlayEnabled() && ts.fOvelays) {
@@ -592,26 +594,17 @@ void eGameWidget::paintEvent(ePainter& p) {
                         for(const auto& o : overlays) {
                             const auto& tex = o.fTex;
 
-                            const double xOffset = mTileH*tex->offsetX()/30.;
-                            const double dx = (o.fX - o.fY)*(mTileW/2);
-                            const int oSrcX = std::round(relX - dx + xOffset);
-                            const int dPixX = relX;
-                            const double dy = (o.fX + o.fY)*(mTileH/2.);
-                            const int dPixY = std::round(dy);
-
                             if(erase) tex->setColorMod(255, 175, 255);
                             if(o.fAlignTop) {
-                                tp.drawTexturePortion(drawX, drawY, dPixX, dPixY,
-                                                      oSrcX, mTileW/2, tex,
-                                                      eAlignment::top, false);
+                                tp.drawTexture(drawX + o.fX, drawY + o.fY,
+                                               tex, eAlignment::top);
                             } else {
-                                tp.drawTexturePortion(drawX, drawY, dPixX, dPixY,
-                                                      oSrcX, mTileW/2, tex,
-                                                      eAlignment::none, false);
+                                tp.drawTexture(drawX + o.fX, drawY + o.fY, tex);
                             }
                             if(erase) tex->clearColorMod();
                         }
                     }
+                    SDL_RenderSetClipRect(p.renderer(), nullptr);
 
                     if(last) {
                         if(const auto ch = dynamic_cast<eSmallHouse*>(ub)) {
