@@ -14,7 +14,10 @@ public:
              const eCharacterType type);
     ~eSoldier();
 
-    void beingKilled();
+    void beingKilled() override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 
     eSoldierAction* soldierAction() const;
 

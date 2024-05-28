@@ -56,3 +56,18 @@ void eSoldier::beingKilled() {
         }
     }
 }
+
+void eSoldier::read(eReadStream& src) {
+    eFightingPatroler::read(src);
+    src >> mRange;
+    auto& board = getBoard();
+    src.readSoldierBanner(&board, [this](const stdsptr<eSoldierBanner>& b) {
+        mBanner = b;
+    });
+}
+
+void eSoldier::write(eWriteStream& dst) const {
+    eFightingPatroler::write(dst);
+    dst << mRange;
+    dst.writeSoldierBanner(mBanner);
+}
