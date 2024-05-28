@@ -962,6 +962,10 @@ HEADERS += \
     spriteData/actor30.h \
     spriteData/actor45.h \
     spriteData/actor60.h \
+    spriteData/agora15.h \
+    spriteData/agora30.h \
+    spriteData/agora45.h \
+    spriteData/agora60.h \
     spriteData/amazonArcher15.h \
     spriteData/amazonArcher30.h \
     spriteData/amazonArcher45.h \
@@ -1242,6 +1246,7 @@ HEADERS += \
     spriteData/empireFigures30.h \
     spriteData/empireFigures45.h \
     spriteData/empireFigures60.h \
+    spriteData/espritedata.h \
     spriteData/fire115.h \
     spriteData/fire130.h \
     spriteData/fire145.h \
@@ -1358,6 +1363,10 @@ HEADERS += \
     spriteData/godRedMissile30.h \
     spriteData/godRedMissile45.h \
     spriteData/godRedMissile60.h \
+    spriteData/granary15.h \
+    spriteData/granary30.h \
+    spriteData/granary45.h \
+    spriteData/granary60.h \
     spriteData/greekHoplite15.h \
     spriteData/greekHoplite30.h \
     spriteData/greekHoplite45.h \
@@ -1674,6 +1683,14 @@ HEADERS += \
     spriteData/phoenicianHorseman30.h \
     spriteData/phoenicianHorseman45.h \
     spriteData/phoenicianHorseman60.h \
+    spriteData/pier115.h \
+    spriteData/pier130.h \
+    spriteData/pier145.h \
+    spriteData/pier160.h \
+    spriteData/pier215.h \
+    spriteData/pier230.h \
+    spriteData/pier245.h \
+    spriteData/pier260.h \
     spriteData/plague15.h \
     spriteData/plague30.h \
     spriteData/plague45.h \
@@ -1862,6 +1879,10 @@ HEADERS += \
     spriteData/trader30.h \
     spriteData/trader45.h \
     spriteData/trader60.h \
+    spriteData/tradingPost15.h \
+    spriteData/tradingPost30.h \
+    spriteData/tradingPost45.h \
+    spriteData/tradingPost60.h \
     spriteData/tradingPostOverlay15.h \
     spriteData/tradingPostOverlay30.h \
     spriteData/tradingPostOverlay45.h \
@@ -1922,6 +1943,10 @@ HEADERS += \
     spriteData/wall30.h \
     spriteData/wall45.h \
     spriteData/wall60.h \
+    spriteData/warehouse15.h \
+    spriteData/warehouse30.h \
+    spriteData/warehouse45.h \
+    spriteData/warehouse60.h \
     spriteData/warehouseOverlay15.h \
     spriteData/warehouseOverlay30.h \
     spriteData/warehouseOverlay45.h \
@@ -2184,6 +2209,7 @@ DISTFILES += \
     text/language.txt \
     textureTemplates/achilles \
     textureTemplates/actor \
+    textureTemplates/agora \
     textureTemplates/amazonArcher \
     textureTemplates/amazonSpear \
     textureTemplates/aphrodite \
@@ -2283,6 +2309,7 @@ DISTFILES += \
     textureTemplates/godPinkMissile \
     textureTemplates/godPurpleMissile \
     textureTemplates/godRedMissile \
+    textureTemplates/granary \
     textureTemplates/greekHoplite \
     textureTemplates/greekHorseman \
     textureTemplates/greekRockThrower \
@@ -2362,6 +2389,8 @@ DISTFILES += \
     textureTemplates/philosopher \
     textureTemplates/phoenicianArcher \
     textureTemplates/phoenicianHorseman \
+    textureTemplates/pier1 \
+    textureTemplates/pier2 \
     textureTemplates/plague \
     textureTemplates/plantation \
     textureTemplates/podium \
@@ -2394,7 +2423,6 @@ DISTFILES += \
     textureTemplates/stadiumOverlays1 \
     textureTemplates/stadiumOverlays2 \
     textureTemplates/stoneCircle \
-    textureTemplates/storNDist \
     textureTemplates/stor_bays \
     textureTemplates/storage \
     textureTemplates/sundial \
@@ -2409,6 +2437,7 @@ DISTFILES += \
     textureTemplates/topiary \
     textureTemplates/tradeBoat \
     textureTemplates/trader \
+    textureTemplates/tradingPost \
     textureTemplates/tradingPostOverlay \
     textureTemplates/trailer \
     textureTemplates/transporter \
@@ -2424,6 +2453,7 @@ DISTFILES += \
     textureTemplates/vine \
     textureTemplates/waitingOverlay \
     textureTemplates/wall \
+    textureTemplates/warehouse \
     textureTemplates/warehouseOverlay \
     textureTemplates/watchPostOverlay \
     textureTemplates/watchman \

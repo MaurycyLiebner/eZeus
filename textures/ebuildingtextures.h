@@ -176,6 +176,15 @@ public:
     bool fAtlasMonumentsLoaded = false;
     void loadAtlasMonuments();
 
+    bool fAgoraLoaded = false;
+    void loadAgora();
+    bool fGranaryLoaded = false;
+    void loadGranary();
+    bool fPierLoaded = false;
+    void loadPier();
+    bool fTradingPostLoaded = false;
+    void loadTradingPost();
+
     std::shared_ptr<eTexture> fHouseSpace;
     std::vector<eTextureCollection> fCommonHouse;
 

@@ -232,11 +232,6 @@
 #include "spriteData/stor_bays45.h"
 #include "spriteData/stor_bays60.h"
 
-#include "spriteData/storNDist15.h"
-#include "spriteData/storNDist30.h"
-#include "spriteData/storNDist45.h"
-#include "spriteData/storNDist60.h"
-
 #include "spriteData/tallObelisk15.h"
 #include "spriteData/tallObelisk30.h"
 #include "spriteData/tallObelisk45.h"
@@ -541,6 +536,36 @@
 #include "spriteData/shortObelisk30.h"
 #include "spriteData/shortObelisk45.h"
 #include "spriteData/shortObelisk60.h"
+
+#include "spriteData/agora15.h"
+#include "spriteData/agora30.h"
+#include "spriteData/agora45.h"
+#include "spriteData/agora60.h"
+
+#include "spriteData/granary15.h"
+#include "spriteData/granary30.h"
+#include "spriteData/granary45.h"
+#include "spriteData/granary60.h"
+
+#include "spriteData/pier115.h"
+#include "spriteData/pier130.h"
+#include "spriteData/pier145.h"
+#include "spriteData/pier160.h"
+
+#include "spriteData/pier215.h"
+#include "spriteData/pier230.h"
+#include "spriteData/pier245.h"
+#include "spriteData/pier260.h"
+
+#include "spriteData/warehouse15.h"
+#include "spriteData/warehouse30.h"
+#include "spriteData/warehouse45.h"
+#include "spriteData/warehouse60.h"
+
+#include "spriteData/tradingPost15.h"
+#include "spriteData/tradingPost30.h"
+#include "spriteData/tradingPost45.h"
+#include "spriteData/tradingPost60.h"
 
 #include "textures/espriteloader.h"
 
@@ -2502,64 +2527,39 @@ void eBuildingTextures::loadHeraMonuments() {
                      fHeraMonuments);
 }
 
-void eBuildingTextures::load() {
-    if(fLoaded) return;
-    fLoaded = true;
+void eBuildingTextures::loadAgora() {
+    if(fAgoraLoaded) return;
+    fAgoraLoaded = true;
 
     {
         const auto& sds = spriteData(fTileH,
-                                     eTradingPostOverlaySpriteData15,
-                                     eTradingPostOverlaySpriteData30,
-                                     eTradingPostOverlaySpriteData45,
-                                     eTradingPostOverlaySpriteData60);
-        eSpriteLoader loader(fTileH, "tradingPostOverlay", sds,
-                             &eSprAmbientOffset, fRenderer);
+                                     eAgoraSpriteData15,
+                                     eAgoraSpriteData30,
+                                     eAgoraSpriteData45,
+                                     eAgoraSpriteData60);
+        eSpriteLoader loader(fTileH, "agora", sds,
+                             nullptr, fRenderer);
 
-        for(int i = 43; i < 82; i++) {
-            loader.load(43, i, fTradingPostOverlay);
+        fFoodVendor = loader.load(1, 1);
+        fFoodVendorOverlay = loader.load(1, 2);
+        fFleeceVendor = loader.load(1, 3);
+        fFleeceVendorOverlay = loader.load(1, 4);
+        fOilVendor = loader.load(1, 5);
+        fOilVendorOverlay = loader.load(1, 6);
+        fWineVendor = loader.load(1, 7);
+        fWineVendorOverlay = loader.load(1, 8);
+        fArmsVendor = loader.load(1, 9);
+        fArmsVendorOverlay = loader.load(1, 10);
+        fHorseTrainer = loader.load(1, 11);
+        fHorseTrainerOverlay = loader.load(1, 12);
+
+        for(int i = 13; i < 16; i++) {
+            loader.load(1, i, fAgoraRoad);
+        }
+        for(int i = 16; i < 19; i++) {
+            loader.load(1, i, fAgora);
         }
     }
-
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eWarehouseOverlaySpriteData15,
-                                     eWarehouseOverlaySpriteData30,
-                                     eWarehouseOverlaySpriteData45,
-                                     eWarehouseOverlaySpriteData60);
-        eSpriteLoader loader(fTileH, "warehouseOverlay", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-        for(int i = 269; i < 293; i++) {
-            loader.load(269, i, fWarehouseOverlay);
-        }
-    }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eFishSpriteData15,
-                                     eFishSpriteData30,
-                                     eFishSpriteData45,
-                                     eFishSpriteData60);
-        eSpriteLoader loader(fTileH, "fish", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-        for(int i = 453; i < 493; i++) {
-            loader.load(453, i, fFish);
-        }
-    }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eUrchinSpriteData15,
-                                     eUrchinSpriteData30,
-                                     eUrchinSpriteData45,
-                                     eUrchinSpriteData60);
-        eSpriteLoader loader(fTileH, "urchin", sds,
-                             &eSprAmbientOffset, fRenderer);
-
-        for(int i = 3035; i < 3051; i++) {
-            loader.load(3035, i, fUrchin);
-        }
-    }
-
     {
         const auto& sds = spriteData(fTileH,
                                      eVendorOverlaysSpriteData15,
@@ -2600,6 +2600,143 @@ void eBuildingTextures::load() {
 
         for(int i = 429; i < 453; i++) {
             loader.load(429, i, fWineVendorOverlay2);
+        }
+    }
+}
+
+void eBuildingTextures::loadGranary() {
+    if(fGranaryLoaded) return;
+    fGranaryLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eGranarySpriteData15,
+                                 eGranarySpriteData30,
+                                 eGranarySpriteData45,
+                                 eGranarySpriteData60);
+    eSpriteLoader loader(fTileH, "granary", sds,
+                         nullptr, fRenderer);
+
+    fGranary = loader.load(29, 29);
+    for(int i = 30; i < 46; i++) {
+        loader.load(29, i, fGranaryOverlay);
+    }
+
+    fGranaryUrchin = loader.load(29, 46);
+    fGranaryFish = loader.load(29, 47);
+    fGranaryMeat = loader.load(29, 48);
+    fGranaryCheese = loader.load(29, 49);
+    fGranaryCheese->setOffset(-3, 2);
+    fGranaryCarrots = loader.load(29, 50);
+    fGranaryOnions = loader.load(29, 51);
+    fGranaryOnions->setOffset(-4, 0);
+    fGranaryWheat = loader.load(29, 52);
+}
+
+void eBuildingTextures::loadPier() {
+    if(fPierLoaded) return;
+    fPierLoaded = true;
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     ePier1SpriteData15,
+                                     ePier1SpriteData30,
+                                     ePier1SpriteData45,
+                                     ePier1SpriteData60);
+        eSpriteLoader loader(fTileH, "pier1", sds,
+                             nullptr, fRenderer);
+
+        for(int i = 19; i < 23; i++) {
+            loader.load(19, i, fPier1);
+        }
+    }
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     ePier2SpriteData15,
+                                     ePier2SpriteData30,
+                                     ePier2SpriteData45,
+                                     ePier2SpriteData60);
+        eSpriteLoader loader(fTileH, "pier2", sds,
+                             nullptr, fRenderer);
+
+
+        fPier2 = loader.load(25, 25);
+        fPier2->setOffset(-88, 90);
+    }
+}
+
+void eBuildingTextures::loadTradingPost() {
+    if(fTradingPostLoaded) return;
+    fTradingPostLoaded = true;
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eTradingPostOverlaySpriteData15,
+                                     eTradingPostOverlaySpriteData30,
+                                     eTradingPostOverlaySpriteData45,
+                                     eTradingPostOverlaySpriteData60);
+        eSpriteLoader loader(fTileH, "tradingPostOverlay", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        for(int i = 43; i < 82; i++) {
+            loader.load(43, i, fTradingPostOverlay);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eTradingPostSpriteData15,
+                                     eTradingPostSpriteData30,
+                                     eTradingPostSpriteData45,
+                                     eTradingPostSpriteData60);
+        eSpriteLoader loader(fTileH, "tradingPost", sds,
+                             nullptr, fRenderer);
+
+        fTradingPost = loader.load(27, 27);
+        fTradingPost->setOffset(-88, 90);
+    }
+}
+
+void eBuildingTextures::load() {
+    if(fLoaded) return;
+    fLoaded = true;
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eWarehouseOverlaySpriteData15,
+                                     eWarehouseOverlaySpriteData30,
+                                     eWarehouseOverlaySpriteData45,
+                                     eWarehouseOverlaySpriteData60);
+        eSpriteLoader loader(fTileH, "warehouseOverlay", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        for(int i = 269; i < 293; i++) {
+            loader.load(269, i, fWarehouseOverlay);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eFishSpriteData15,
+                                     eFishSpriteData30,
+                                     eFishSpriteData45,
+                                     eFishSpriteData60);
+        eSpriteLoader loader(fTileH, "fish", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        for(int i = 453; i < 493; i++) {
+            loader.load(453, i, fFish);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eUrchinSpriteData15,
+                                     eUrchinSpriteData30,
+                                     eUrchinSpriteData45,
+                                     eUrchinSpriteData60);
+        eSpriteLoader loader(fTileH, "urchin", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        for(int i = 3035; i < 3051; i++) {
+            loader.load(3035, i, fUrchin);
         }
     }
 
@@ -2693,60 +2830,15 @@ void eBuildingTextures::load() {
 
     {
         const auto& sds = spriteData(fTileH,
-                                     eStorNDistSpriteData15,
-                                     eStorNDistSpriteData30,
-                                     eStorNDistSpriteData45,
-                                     eStorNDistSpriteData60);
-        eSpriteLoader loader(fTileH, "storNDist", sds,
+                                     eWarehouseSpriteData15,
+                                     eWarehouseSpriteData30,
+                                     eWarehouseSpriteData45,
+                                     eWarehouseSpriteData60);
+        eSpriteLoader loader(fTileH, "warehouse", sds,
                              nullptr, fRenderer);
 
-        fFoodVendor = loader.load(1, 1);
-        fFoodVendorOverlay = loader.load(1, 2);
-        fFleeceVendor = loader.load(1, 3);
-        fFleeceVendorOverlay = loader.load(1, 4);
-        fOilVendor = loader.load(1, 5);
-        fOilVendorOverlay = loader.load(1, 6);
-        fWineVendor = loader.load(1, 7);
-        fWineVendorOverlay = loader.load(1, 8);
-        fArmsVendor = loader.load(1, 9);
-        fArmsVendorOverlay = loader.load(1, 10);
-        fHorseTrainer = loader.load(1, 11);
-        fHorseTrainerOverlay = loader.load(1, 12);
-
-        for(int i = 13; i < 16; i++) {
-            loader.load(1, i, fAgoraRoad);
-        }
-        for(int i = 16; i < 19; i++) {
-            loader.load(1, i, fAgora);
-        }
-
-        fWarehouse = loader.load(1, 23);
+        fWarehouse = loader.load(23, 23);
         fWarehouse->setOffset(-58, 60);
-
-        for(int i = 19; i < 23; i++) {
-            loader.load(1, i, fPier1);
-        }
-
-        fPier2 = loader.load(1, 25);
-        fPier2->setOffset(-88, 90);
-
-        fTradingPost = loader.load(1, 27);
-        fTradingPost->setOffset(-88, 90);
-
-        fGranary = loader.load(1, 29);
-        for(int i = 30; i < 46; i++) {
-            loader.load(1, i, fGranaryOverlay);
-        }
-
-        fGranaryUrchin = loader.load(1, 46);
-        fGranaryFish = loader.load(1, 47);
-        fGranaryMeat = loader.load(1, 48);
-        fGranaryCheese = loader.load(1, 49);
-        fGranaryCheese->setOffset(-3, 2);
-        fGranaryCarrots = loader.load(1, 50);
-        fGranaryOnions = loader.load(1, 51);
-        fGranaryOnions->setOffset(-4, 0);
-        fGranaryWheat = loader.load(1, 52);
     }
 
     {

@@ -258,6 +258,11 @@ public:
 
     static void loadWaitingOverlay();
 
+    static void loadAgora();
+    static void loadPier();
+    static void loadTradingPost();
+    static void loadGranary();
+
     static bool initialize(SDL_Renderer* const r);
     static bool loadNextMenu(const eSettings& settings,
                              std::string& text);

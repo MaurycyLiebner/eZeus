@@ -16,6 +16,7 @@ eTradePost::eTradePost(eGameBoard& board, eWorldCity& city,
     eWarehouseBase(board, eBuildingType::tradePost, 4, 4, 24,
                    eResourceType::tradePost, 15),
     mCity(city), mType(type) {
+    eGameTextures::loadTradingPost();
     setOverlayEnabledFunc([]() { return true; });
     setOrders(eResourceType::none, eResourceType::none);
     getBoard().registerTradePost(this);

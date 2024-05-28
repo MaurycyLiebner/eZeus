@@ -6,6 +6,7 @@ eGranary::eGranary(eGameBoard& board) :
     eStorageBuilding(board, eBuildingType::granary,
                      4, 4, 18, eResourceType::food),
     mTextures(eGameTextures::buildings()) {
+    eGameTextures::loadGranary();
     setOverlayEnabledFunc([]() { return true; });
 }
 

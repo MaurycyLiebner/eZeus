@@ -4,7 +4,9 @@
 
 ePier::ePier(eGameBoard& board, const eOrientation o) :
     eBuilding(board, eBuildingType::pier, 2, 2),
-    mO(o) {}
+    mO(o) {
+    eGameTextures::loadPier();
+}
 
 std::shared_ptr<eTexture> ePier::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);

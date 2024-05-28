@@ -1498,6 +1498,34 @@ void eGameTextures::loadWaitingOverlay() {
     });
 }
 
+void eGameTextures::loadAgora() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadAgora();
+    });
+}
+
+void eGameTextures::loadPier() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadPier();
+    });
+}
+
+void eGameTextures::loadTradingPost() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadTradingPost();
+    });
+}
+
+void eGameTextures::loadGranary() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadGranary();
+    });
+}
+
 bool eGameTextures::initialize(SDL_Renderer* const r) {
     if(sInitialized) return true;
     int i = 0;
