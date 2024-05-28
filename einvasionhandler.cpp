@@ -82,7 +82,7 @@ void eInvasionHandler::initialize(eTile* const tile,
     const auto requestBanner = [&]() {
         if(!b || b->count() >= 8) {
             b = e::make_shared<eSoldierBanner>(
-                    eBannerType::hoplite, mBoard);
+                    eBannerType::enemy, mBoard);
             mBanners.push_back(b);
             solds.push_back(b.get());
             b->setPlayerId(2);

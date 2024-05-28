@@ -54,6 +54,8 @@ eCharacterType eSoldierBanner::characterType() const {
         return eCharacterType::amazon;
     case eBannerType::aresWarrior:
         return eCharacterType::aresWarrior;
+    case eBannerType::enemy:
+        return eCharacterType::none;
     }
     return eCharacterType::hoplite;
 }
@@ -121,6 +123,8 @@ void eSoldierBanner::moveToDefault() {
             break;
         }
     } break;
+    case eBannerType::enemy:
+        break;
     }
 }
 
@@ -406,6 +410,8 @@ void eSoldierBanner::updateCount() {
             case eBannerType::aresWarrior:
                 cht = eCharacterType::aresWarrior;
                 break;
+            case eBannerType::enemy:
+                return;
             }
             const auto home = eSoldierAction::sFindHome(cht, mBoard);
             if(!home) break;
@@ -430,6 +436,8 @@ void eSoldierBanner::updateCount() {
             break;
         case eBannerType::amazon:
         case eBannerType::aresWarrior:
+            break;
+        case eBannerType::enemy:
             break;
         }
         return;
