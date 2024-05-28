@@ -130,6 +130,7 @@ SOURCES += \
         characters/actions/ecollectaction.cpp \
         characters/actions/ecollectresourceaction.cpp \
         characters/actions/ecomplexaction.cpp \
+        characters/actions/edefendcityaction.cpp \
         characters/actions/edieaction.cpp \
         characters/actions/efightaction.cpp \
         characters/actions/efirefighteraction.cpp \
@@ -167,6 +168,7 @@ SOURCES += \
         characters/actions/godHelp/edemeterhelpaction.cpp \
         characters/actions/godHelp/edionysushelpaction.cpp \
         characters/actions/godHelp/ehadeshelpaction.cpp \
+        characters/actions/godHelp/ehephaestushelpaction.cpp \
         characters/actions/godHelp/eherahelpaction.cpp \
         characters/actions/godHelp/ehermeshelpaction.cpp \
         characters/actions/godHelp/eposeidonhelpaction.cpp \
@@ -646,6 +648,7 @@ HEADERS += \
     characters/actions/ecollectaction.h \
     characters/actions/ecollectresourceaction.h \
     characters/actions/ecomplexaction.h \
+    characters/actions/edefendcityaction.h \
     characters/actions/edieaction.h \
     characters/actions/efightaction.h \
     characters/actions/efirefighteraction.h \
@@ -682,6 +685,7 @@ HEADERS += \
     characters/actions/godHelp/edemeterhelpaction.h \
     characters/actions/godHelp/edionysushelpaction.h \
     characters/actions/godHelp/ehadeshelpaction.h \
+    characters/actions/godHelp/ehephaestushelpaction.h \
     characters/actions/godHelp/eherahelpaction.h \
     characters/actions/godHelp/ehermeshelpaction.h \
     characters/actions/godHelp/eposeidonhelpaction.h \

@@ -34,6 +34,9 @@ public:
     void write(eWriteStream& dst) const;
 
     void killAllWithCorpse();
+
+    eInvasionStage stage() const { return mStage; }
+    eTile* tile() const { return mTile; }
 private:
     eGameBoard& mBoard;
     stdsptr<eWorldCity> mCity;

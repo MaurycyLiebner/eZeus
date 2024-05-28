@@ -43,6 +43,9 @@
 #include "godHelp/eapollohelpaction.h"
 #include "godHelp/eareshelpaction.h"
 #include "godHelp/ehermeshelpaction.h"
+#include "godHelp/ehephaestushelpaction.h"
+
+#include "edefendcityaction.h"
 
 stdsptr<eCharacterAction> eCharacterAction::sCreate(
         eCharacter* const c, const eCharActionType type) {
@@ -126,6 +129,8 @@ stdsptr<eCharacterAction> eCharacterAction::sCreate(
         return e::make_shared<eHadesHelpAction>(c);
     case eCharActionType::heraHelpAction:
         return e::make_shared<eHeraHelpAction>(c);
+    case eCharActionType::hephaestusHelpAction:
+        return e::make_shared<eHephaestusHelpAction>(c);
     case eCharActionType::hermesHelpAction:
         return e::make_shared<eHermesHelpAction>(c);
     case eCharActionType::poseidonHelpAction:
@@ -137,6 +142,9 @@ stdsptr<eCharacterAction> eCharacterAction::sCreate(
         return e::make_shared<eGodMonsterActionInd>(c);
     case eCharActionType::sickDisgruntledAction:
         return e::make_shared<eSickDisgruntledAction>(c, nullptr);
+
+    case eCharActionType::defendCityAction:
+        return e::make_shared<eDefendCityAction>(c);
     }
     return nullptr;
 }

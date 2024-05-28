@@ -41,6 +41,7 @@ enum class eCharActionType {
     dionysusHelpAction,
     hadesHelpAction,
     heraHelpAction,
+    hephaestusHelpAction,
     hermesHelpAction,
     poseidonHelpAction,
     zeusHelpAction,
@@ -62,7 +63,8 @@ enum class eCharActionType {
     soldierAction,
     traderAction,
     waitAction,
-    sickDisgruntledAction
+    sickDisgruntledAction,
+    defendCityAction
 };
 
 class eCharacterAction : public eStdSelfRef {

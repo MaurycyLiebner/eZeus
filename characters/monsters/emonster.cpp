@@ -66,6 +66,11 @@ eCharacterType eMonster::sMonsterToCharacterType(const eMonsterType type) {
     }
 }
 
+int eMonster::sMonsterAttackTime(const eMonsterType type) {
+    (void)type;
+    return 500;
+}
+
 stdsptr<eMonster> eMonster::sCreateMonster(const eMonsterType type, eGameBoard& board) {
     switch(type) {
     case eMonsterType::calydonianBoar:

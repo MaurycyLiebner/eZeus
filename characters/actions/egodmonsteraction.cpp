@@ -15,6 +15,115 @@
 #include "emonsteraction.h"
 #include "epatrolmoveaction.h"
 
+
+void eGodMonsterAction::appear() {
+    const auto c = character();
+    const auto ct = c->type();
+    bool isGod;
+    const auto gt = eGod::sCharacterToGodType(ct, &isGod);
+    if(isGod) {
+        if(gt == eGodType::hermes) {
+            hermesRun(true);
+        } else {
+            const auto c = character();
+            c->setActionType(eCharacterActionType::appear);
+            const auto a = e::make_shared<eWaitAction>(c);
+            const int time = eGod::sGodAppearTime(gt);
+            a->setTime(time);
+            setCurrentAction(a);
+            playAppearSound();
+        }
+    }
+}
+
+void eGodMonsterAction::disappear(
+        const bool die,
+        const stdsptr<eCharActFunc>& finish) {
+    const auto c = character();
+    const auto ct = c->type();
+    bool isGod;
+    const auto gt = eGod::sCharacterToGodType(ct, &isGod);
+    if(isGod) {
+        if(gt == eGodType::hermes) {
+            hermesRun(false);
+        } else {
+            const auto c = character();
+            c->setActionType(die ? eCharacterActionType::die :
+                                   eCharacterActionType::disappear);
+            const auto a = e::make_shared<eWaitAction>(c);
+            a->setFinishAction(finish);
+            a->setFailAction(finish);
+            a->setTime(500);
+            setCurrentAction(a);
+            playDisappearSound();
+        }
+    }
+}
+
+void eGodMonsterAction::teleport(eTile* const tile) {
+    using eGA_TF = eGA_teleportFinish;
+    const auto finish = std::make_shared<eGA_TF>(
+                            board(), this, tile);
+    disappear(false, finish);
+}
+
+void eGodMonsterAction::playAppearSound() {
+    const auto c = character();
+    auto& board = c->getBoard();
+    const auto ct = c->type();
+    bool isGod;
+    const auto gt = eGod::sCharacterToGodType(ct, &isGod);
+    if(!isGod) return;
+    board.ifVisible(c->tile(), [gt]() {
+        eSounds::playGodSound(gt, eGodSound::appear);
+    });
+}
+
+void eGodMonsterAction::playDisappearSound() {
+    const auto c = character();
+    auto& board = c->getBoard();
+    const auto ct = c->type();
+    bool isGod;
+    const auto gt = eGod::sCharacterToGodType(ct, &isGod);
+    if(!isGod) return;
+    board.ifVisible(c->tile(), [gt]() {
+        eSounds::playGodSound(gt, eGodSound::disappear);
+    });
+}
+
+void eGodMonsterAction::hermesRun(const bool appear) {
+    const auto c = character();
+    c->setActionType(eCharacterActionType::appear);
+    c->setSpeed(2.0);
+    const auto tile = c->tile();
+    const stdptr<eGodMonsterAction> tptr(this);
+    using eGA_HRF = eGA_hermesRunFinish;
+    const auto finish = std::make_shared<eGA_HRF>(
+                            board(), this, c, appear);
+    if(tile->hasRoad()) {
+        patrol(finish, 20);
+    } else {
+        moveAround(finish, 1000);
+    }
+    if(appear) playAppearSound();
+}
+
+void eGodMonsterAction::randomPlaceOnBoard() {
+    const auto c = character();
+    auto& board = c->getBoard();
+    const int w = board.width();
+    const int h = board.height();
+    const int rdx = rand() % w;
+    const int rdy = rand() % h;
+    int tx;
+    int ty;
+    eTileHelper::dtileIdToTileId(rdx, rdy, tx, ty);
+    const auto tile = eTileHelper::closestRoad(tx, ty,
+                                               board);
+    if(!tile) return;
+    c->changeTile(tile);
+}
+
 void eGodMonsterAction::moveAround(const stdsptr<eCharActFunc>& finishAct,
                                    const int time) {
     const auto c = character();
@@ -117,7 +226,11 @@ void eGodMonsterAction::spawnMissile(const eCharacterActionType at,
         c->setOrientation(o);
     }
 
-    if(playSound) playSound->call();
+    if(playSound) {
+        playSound->call();
+    } else {
+        eSounds::playAttackSound(c);
+    }
 
     const auto a = e::make_shared<eWaitAction>(c);
     a->setFailAction(finish);

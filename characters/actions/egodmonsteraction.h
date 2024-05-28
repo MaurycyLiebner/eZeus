@@ -126,7 +126,20 @@ public:
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
+
+
+    void appear();
+    void disappear(const bool die = false,
+                   const stdsptr<eCharActFunc>& finish = nullptr);
+    void teleport(eTile* const tile);
+
+    void randomPlaceOnBoard();
+
+    void playAppearSound();
+    void playDisappearSound();
 private:
+    void hermesRun(const bool appear);
+
     std::vector<ePausedAction> mPausedActions;
 };
 

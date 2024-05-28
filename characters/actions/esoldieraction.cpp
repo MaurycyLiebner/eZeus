@@ -84,9 +84,10 @@ bool eSoldierAction::decide() {
     return true;
 }
 
-void signalBeingAttack(eSoldier* const attacked,
-                       eSoldier* const by,
-                       eGameBoard& brd) {
+void eSoldierAction::sSignalBeingAttack(
+        eSoldier* const attacked,
+        eCharacter* const by,
+        eGameBoard& brd) {
     const auto tt = attacked->tile();
     const int ttx = tt->x();
     const int tty = tt->y();
@@ -232,7 +233,7 @@ void eSoldierAction::increment(const int by) {
                         const auto o = sAngleOrientation(mAngle);
                         c->setOrientation(o);
                         const auto ss = static_cast<eSoldier*>(cc.get());
-                        signalBeingAttack(ss, s, brd);
+                        sSignalBeingAttack(ss, s, brd);
                         return;
                     }
                     if(buildingAttack) {
@@ -459,7 +460,7 @@ void eSoldierAction::goAbroad() {
     }
 }
 
-void eSoldierAction::beingAttacked(eSoldier* const ss) {
+void eSoldierAction::beingAttacked(eCharacter* const ss) {
     const auto tt = ss->tile();
     const int ttx = tt->x();
     const int tty = tt->y();

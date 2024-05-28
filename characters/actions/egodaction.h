@@ -260,13 +260,6 @@ class eGodAction : public eGodMonsterAction {
 public:
     eGodAction(eCharacter* const c, const eCharActionType type);
 
-    void appear();
-    void disappear(const bool die = false,
-                   const stdsptr<eCharActFunc>& finish = nullptr);
-    void teleport(eTile* const tile);
-
-    void randomPlaceOnBoard();
-
     using eTexPtr = eTextureCollection eDestructionTextures::*;
     bool lookForRangeAction(const int dtime,
                             int& time, const int freq,
@@ -310,12 +303,7 @@ public:
     void goToTarget();
 
     eGodType type() const { return mType; }
-
-    void playAppearSound();
-    void playDisappearSound();
 private:
-    void hermesRun(const bool appear);
-
     const eGodType mType;
 };
 
@@ -382,7 +370,7 @@ class eGA_teleportFinish : public eCharActFunc {
 public:
     eGA_teleportFinish(eGameBoard& board) :
         eCharActFunc(board, eCharActFuncType::GA_teleportFinish) {}
-    eGA_teleportFinish(eGameBoard& board, eGodAction* const ca,
+    eGA_teleportFinish(eGameBoard& board, eGodMonsterAction* const ca,
                        eTile* const tile) :
         eCharActFunc(board, eCharActFuncType::GA_teleportFinish),
         mTptr(ca), mTile(tile) {}
@@ -397,7 +385,7 @@ public:
 
     void read(eReadStream& src) override {
         src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
-            mTptr = static_cast<eGodAction*>(ca);
+            mTptr = static_cast<eGodMonsterAction*>(ca);
         });
         mTile = src.readTile(board());
     }
@@ -407,7 +395,7 @@ public:
         dst.writeTile(mTile);
     }
 private:
-    stdptr<eGodAction> mTptr;
+    stdptr<eGodMonsterAction> mTptr;
     eTile* mTile = nullptr;
 };
 
@@ -415,7 +403,7 @@ class eGA_hermesRunFinish : public eCharActFunc {
 public:
     eGA_hermesRunFinish(eGameBoard& board) :
         eCharActFunc(board, eCharActFuncType::GA_hermesRunFinish) {}
-    eGA_hermesRunFinish(eGameBoard& board, eGodAction* const ca,
+    eGA_hermesRunFinish(eGameBoard& board, eGodMonsterAction* const ca,
                         eCharacter* const c, const bool appear) :
         eCharActFunc(board, eCharActFuncType::GA_hermesRunFinish),
         mTptr(ca), mCptr(c), mAppear(appear) {}
@@ -429,7 +417,7 @@ public:
 
     void read(eReadStream& src) override {
         src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
-            mTptr = static_cast<eGodAction*>(ca);
+            mTptr = static_cast<eGodMonsterAction*>(ca);
         });
         src.readCharacter(&board(), [this](eCharacter* const c) {
             mCptr = c;
@@ -445,7 +433,7 @@ public:
         dst << mAppear;
     }
 private:
-    stdptr<eGodAction> mTptr;
+    stdptr<eGodMonsterAction> mTptr;
     stdptr<eCharacter> mCptr;
     bool mAppear;
 };
@@ -491,7 +479,7 @@ class eGoToTargetTeleport : public eFindFailFunc {
 public:
     eGoToTargetTeleport(eGameBoard& board) :
         eFindFailFunc(board, eFindFailFuncType::teleport2) {}
-    eGoToTargetTeleport(eGameBoard& board, eGodAction* const ca) :
+    eGoToTargetTeleport(eGameBoard& board, eGodMonsterAction* const ca) :
         eFindFailFunc(board, eFindFailFuncType::teleport2),
         mTptr(ca) {}
 
@@ -502,7 +490,7 @@ public:
 
     void read(eReadStream& src) {
         src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
-            mTptr = static_cast<eGodAction*>(ca);
+            mTptr = static_cast<eGodMonsterAction*>(ca);
         });
     }
 
@@ -510,7 +498,7 @@ public:
         dst.writeCharacterAction(mTptr);
     }
 private:
-    stdptr<eGodAction> mTptr;
+    stdptr<eGodMonsterAction> mTptr;
 };
 
 #endif // EGODACTION_H

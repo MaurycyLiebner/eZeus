@@ -29,6 +29,11 @@ bool eHero::sRangedHero(const eHeroType ht) {
     return ht == eHeroType::atalanta;
 }
 
+int eHero::sHeroAttackTime(const eHeroType ht) {
+    if(ht == eHeroType::atalanta) return 360;
+    return 0;
+}
+
 eHero::eTexPtr eHero::sHeroMissile(const eHeroType gt) {
     switch(gt) {
     case eHeroType::atalanta:

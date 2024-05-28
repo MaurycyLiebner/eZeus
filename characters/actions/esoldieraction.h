@@ -71,11 +71,14 @@ public:
     void goBackToBanner(const eAction& findFailAct = nullptr,
                         const eAction& findFinishAct = nullptr);
 
-    void beingAttacked(eSoldier* const ss);
+    void beingAttacked(eCharacter* const ss);
     void beingAttacked(const int ttx, const int tty);
 
     static eBuilding* sFindHome(const eCharacterType t,
                                 const eGameBoard& brd);
+    static void sSignalBeingAttack(eSoldier* const attacked,
+                                   eCharacter* const by,
+                                   eGameBoard& brd);
 private:
     bool attackBuilding(eTile* const t);
     stdsptr<eObsticleHandler> obsticleHandler();

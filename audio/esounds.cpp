@@ -557,6 +557,31 @@ void eSounds::playAttackSound(eCharacter* const c) {
     case eCharacterType::talos:
         sInstance.mTalos.playAttack();
         break;
+
+    case eCharacterType::achilles:
+        sInstance.mAchilles.playAttack();
+        break;
+    case eCharacterType::atalanta:
+        sInstance.mAtalanta.playAttack();
+        break;
+    case eCharacterType::bellerophon:
+        sInstance.mBellerophon.playAttack();
+        break;
+    case eCharacterType::hercules:
+        sInstance.mHercules.playAttack();
+        break;
+    case eCharacterType::jason:
+        sInstance.mJason.playAttack();
+        break;
+    case eCharacterType::odysseus:
+        sInstance.mOdysseus.playAttack();
+        break;
+    case eCharacterType::perseus:
+        sInstance.mPerseus.playAttack();
+        break;
+    case eCharacterType::theseus:
+        sInstance.mTheseus.playAttack();
+        break;
     default:
         break;
     }

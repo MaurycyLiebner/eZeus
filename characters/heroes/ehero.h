@@ -23,6 +23,7 @@ public:
     static eHeroType sCharacterToHeroType(
             const eCharacterType type, bool* const valid = nullptr);
     static bool sRangedHero(const eHeroType ht);
+    static int sHeroAttackTime(const eHeroType ht);
 
     using eTexPtr = eTextureCollection eDestructionTextures::*;
     static eTexPtr sHeroMissile(const eHeroType gt);

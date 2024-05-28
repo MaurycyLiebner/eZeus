@@ -34,6 +34,7 @@ public:
             const eCharacterType type, bool* const valid = nullptr);
     static eCharacterType sMonsterToCharacterType(
             const eMonsterType type);
+    static int sMonsterAttackTime(const eMonsterType type);
     static stdsptr<eMonster> sCreateMonster(
             const eMonsterType type, eGameBoard& board);
     static eGodType sMonsterSender(const eMonsterType type,

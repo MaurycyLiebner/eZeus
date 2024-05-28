@@ -19,6 +19,7 @@
 #include "characters/actions/godHelp/edionysushelpaction.h"
 #include "characters/actions/godHelp/ehadeshelpaction.h"
 #include "characters/actions/godHelp/eherahelpaction.h"
+#include "characters/actions/godHelp/ehephaestushelpaction.h"
 #include "characters/actions/godHelp/ehermeshelpaction.h"
 #include "characters/actions/godHelp/eposeidonhelpaction.h"
 #include "characters/actions/godHelp/ezeushelpaction.h"
@@ -364,6 +365,9 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
     case eGodType::hera: {
         r = eHeraHelpAction::sHelpNeeded(board);
     } break;
+    case eGodType::hephaestus: {
+        r = eHephaestusHelpAction::sHelpNeeded(board);
+    } break;
     case eGodType::hermes: {
         r = eHermesHelpAction::sHelpNeeded(board);
     } break;
@@ -424,6 +428,9 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
         break;
     case eGodType::hera:
         a = e::make_shared<eHeraHelpAction>(c);
+        break;
+    case eGodType::hephaestus:
+        a = e::make_shared<eHephaestusHelpAction>(c);
         break;
     case eGodType::hermes:
         a = e::make_shared<eHermesHelpAction>(c);

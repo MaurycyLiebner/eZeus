@@ -224,7 +224,8 @@ bool eMonsterAction::lookForRangeAction(const int dtime,
                                            board(), this);
 
             pauseAction();
-            spawnMissile(at, chart, 500, tt,
+            const int attackTime = eMonster::sMonsterAttackTime(mType);
+            spawnMissile(at, chart, attackTime, tt,
                          missileSound, act, finishAttackA);
             return true;
         }
