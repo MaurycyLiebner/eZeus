@@ -185,8 +185,8 @@ void eCharacterTextures::loadTalos() {
     eSpriteLoader loader(fTileH, "talos", sds,
                          &eZeus_talosOffset, fRenderer);
 
-    loader.loadSkipFlipped(1, 1, 153, fTalos.fWalk);
-    loader.loadSkipFlipped(1, 153, 273, fTalos.fDie);
+    loader.loadSkipFlipped(1, 1, 145, fTalos.fWalk);
+    loader.loadSkipFlipped(1, 145, 273, fTalos.fDie);
     loader.loadSkipFlipped(1, 273, 393, fTalos.fFight);
     loader.loadSkipFlipped(1, 393, 545, fTalos.fFight2);
 }
