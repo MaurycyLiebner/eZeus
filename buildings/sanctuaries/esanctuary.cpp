@@ -192,6 +192,16 @@ void eSanctuary::timeChanged(const int by) {
             spawnPatrolingGod();
         }
     }
+
+    if(mAskedForHelp) {
+        const int checkInterval = 1000;
+        mCheckHelpNeeded += by;
+        if(mCheckHelpNeeded > checkInterval) {
+            mCheckHelpNeeded -= checkInterval;
+            eHelpDenialReason r;
+            askForHelp(r);
+        }
+    }
 }
 
 int eSanctuary::spaceLeft(const eResourceType type) const {
@@ -294,6 +304,8 @@ void eSanctuary::read(eReadStream& src) {
     src >> mSpawnWait;
     src >> mGodAbroad;
 
+    src >> mAskedForHelp;
+    src >> mCheckHelpNeeded;
     src >> mHelpTimer;
 }
 
@@ -315,6 +327,8 @@ void eSanctuary::write(eWriteStream& dst) const {
     dst << mSpawnWait;
     dst << mGodAbroad;
 
+    dst << mAskedForHelp;
+    dst << mCheckHelpNeeded;
     dst << mHelpTimer;
 }
 
@@ -327,7 +341,7 @@ void eSanctuary::addWarriorTile(eTile* const t) {
 }
 
 bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
-    if(mGodAbroad || mHelpTimer < 10000) {
+    if(mGodAbroad || mHelpTimer < 25000) {
         reason = eHelpDenialReason::tooSoon;
         return false;
     }
@@ -379,6 +393,7 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
     } break;
     }
     if(!r) {
+        mAskedForHelp = true;
         reason = eHelpDenialReason::noTarget;
         return false;
     }
@@ -447,6 +462,7 @@ bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
         return false;
     }
     mHelpTimer = 0;
+    mAskedForHelp = false;
     c->setAction(a);
     eEventData ed;
     ed.fGod = type;

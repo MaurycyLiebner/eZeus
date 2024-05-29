@@ -82,6 +82,8 @@ private:
     bool mGodAbroad = false;
     int mSpawnWait = 0;
 
+    bool mAskedForHelp = false;
+    int mCheckHelpNeeded = 0;
     int mHelpTimer = 100000;
 
     std::vector<eTile*> mWarriorTiles;
