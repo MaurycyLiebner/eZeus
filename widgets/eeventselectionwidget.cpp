@@ -63,7 +63,9 @@ void eEventSelectionWidget::initialize(
             eGameEventType::receiveRequest,
             eGameEventType::giftTo,
             eGameEventType::giftFrom,
-            eGameEventType::godQuest
+            eGameEventType::godQuest,
+            eGameEventType::militaryChange,
+            eGameEventType::economicChange
         };
         const std::vector<std::string> labels = {
             eLanguage::text("god_visit"),
@@ -76,7 +78,9 @@ void eEventSelectionWidget::initialize(
             eLanguage::text("receive_request"),
             eLanguage::text("gift_to"),
             eLanguage::text("gift_from"),
-            eLanguage::text("god_quest")
+            eLanguage::text("god_quest"),
+            eLanguage::text("military_change_long_name"),
+            eLanguage::text("economic_change_long_name")
         };
         const auto echoose = new eChooseButton(window());
         const auto act = [this, add, boardPtr, types, labels, editEvent](const int val) {

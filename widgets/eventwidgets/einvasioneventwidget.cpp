@@ -71,7 +71,7 @@ void eInvasionEventWidget::initialize(eInvasionEvent* const e) {
 }
 
 void eInvasionEventWidget::setCity(eWorldCity* const c) {
-    const auto type = c ? c->type() : eWorldCityType::ruins; ;
+    const auto type = c ? c->type() : eWorldCityType::ruins;
     bool infantryVisible = false;
     bool cavalryVisible = false;
     bool archersVisible = false;

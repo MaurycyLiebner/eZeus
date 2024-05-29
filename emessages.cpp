@@ -639,6 +639,26 @@ bool eMessages::loadImpl() {
     fArmyReturns.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_army_returns_title"];
     fArmyReturns.fCondensed.fText = fMessages["PHRASE_CONDENSED_army_returns_initial_announcement"];
 
+    fMilitaryBuildup.fFull.fTitle = fMessages["PHRASE_military_change_title_I"];
+    fMilitaryBuildup.fFull.fText = fMessages["PHRASE_military_change_initial_announcement_I"];
+    fMilitaryBuildup.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_military_change_title_I"];
+    fMilitaryBuildup.fCondensed.fText = fMessages["PHRASE_CONDENSED_military_change_initial_announcement_I"];
+
+    fMilitaryDecline.fFull.fTitle = fMessages["PHRASE_military_change_title_D"];
+    fMilitaryDecline.fFull.fText = fMessages["PHRASE_military_change_initial_announcement_D"];
+    fMilitaryDecline.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_military_change_title_D"];
+    fMilitaryDecline.fCondensed.fText = fMessages["PHRASE_CONDENSED_military_change_initial_announcement_D"];
+
+    fEconomicProsperity.fFull.fTitle = fMessages["PHRASE_economic_change_title_I"];
+    fEconomicProsperity.fFull.fText = fMessages["PHRASE_economic_change_initial_announcement_I"];
+    fEconomicProsperity.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_economic_change_title_I"];
+    fEconomicProsperity.fCondensed.fText = fMessages["PHRASE_CONDENSED_economic_change_initial_announcement_I"];
+
+    fEconomicDecline.fFull.fTitle = fMessages["PHRASE_economic_change_title_D"];
+    fEconomicDecline.fFull.fText = fMessages["PHRASE_economic_change_initial_announcement_D"];
+    fEconomicDecline.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_economic_change_title_D"];
+    fEconomicDecline.fCondensed.fText = fMessages["PHRASE_CONDENSED_economic_change_initial_announcement_D"];
+
     return true;
 }
 

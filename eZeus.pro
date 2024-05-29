@@ -343,6 +343,8 @@ SOURCES += \
         fileIO/ewritestream.cpp \
         gameEvents/earmyeventbase.cpp \
         gameEvents/earmyreturnevent.cpp \
+        gameEvents/eeconomicchangeevent.cpp \
+        gameEvents/eeconomicmilitarychangeeventbase.cpp \
         gameEvents/eeventtrigger.cpp \
         gameEvents/egameevent.cpp \
         gameEvents/egiftfromevent.cpp \
@@ -355,6 +357,7 @@ SOURCES += \
         gameEvents/einvasionevent.cpp \
         gameEvents/einvasionwarningevent.cpp \
         gameEvents/emakerequestevent.cpp \
+        gameEvents/emilitarychangeevent.cpp \
         gameEvents/emonsterinvasionevent.cpp \
         gameEvents/emonsterinvasioneventbase.cpp \
         gameEvents/emonsterunleashedevent.cpp \
@@ -510,6 +513,7 @@ SOURCES += \
         widgets/etriggerselectionwidget.cpp \
         widgets/eupbutton.cpp \
         widgets/evaluebutton.cpp \
+        widgets/eventwidgets/eeconomicmilitarychangeeventwidget.cpp \
         widgets/eventwidgets/eeventwidgetbase.cpp \
         widgets/eventwidgets/egiftfromeventwidget.cpp \
         widgets/eventwidgets/egodattackeventwidget.cpp \
@@ -868,6 +872,8 @@ HEADERS += \
     fileIO/ewritestream.h \
     gameEvents/earmyeventbase.h \
     gameEvents/earmyreturnevent.h \
+    gameEvents/eeconomicchangeevent.h \
+    gameEvents/eeconomicmilitarychangeeventbase.h \
     gameEvents/eeventtrigger.h \
     gameEvents/egameevent.h \
     gameEvents/egiftfromevent.h \
@@ -880,6 +886,7 @@ HEADERS += \
     gameEvents/einvasionevent.h \
     gameEvents/einvasionwarningevent.h \
     gameEvents/emakerequestevent.h \
+    gameEvents/emilitarychangeevent.h \
     gameEvents/emonsterinvasionevent.h \
     gameEvents/emonsterinvasioneventbase.h \
     gameEvents/emonsterunleashedevent.h \
@@ -2172,6 +2179,7 @@ HEADERS += \
     widgets/etriggerselectionwidget.h \
     widgets/eupbutton.h \
     widgets/evaluebutton.h \
+    widgets/eventwidgets/eeconomicmilitarychangeeventwidget.h \
     widgets/eventwidgets/eeventwidgetbase.h \
     widgets/eventwidgets/egiftfromeventwidget.h \
     widgets/eventwidgets/egodattackeventwidget.h \

@@ -223,6 +223,12 @@ public:
     eMessageType fAllyAttackedByPlayer;
 
     eMessageType fArmyReturns;
+
+    eMessageType fMilitaryBuildup;
+    eMessageType fMilitaryDecline;
+
+    eMessageType fEconomicProsperity;
+    eMessageType fEconomicDecline;
 private:
     bool loadImpl();
     void load(eGodMessages& god, const std::string& godName);

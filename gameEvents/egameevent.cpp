@@ -19,6 +19,8 @@
 #include "eplayerraidevent.h"
 #include "eraidresourceevent.h"
 #include "earmyreturnevent.h"
+#include "emilitarychangeevent.h"
+#include "eeconomicchangeevent.h"
 
 eGameEvent::eGameEvent(const eGameEventType type,
                        const eGameEventBranch branch,
@@ -75,6 +77,10 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
         return e::make_shared<ePlayerRaidEvent>(branch, board);
     case eGameEventType::armyReturnEvent:
         return e::make_shared<eArmyReturnEvent>(branch, board);
+    case eGameEventType::economicChange:
+        return e::make_shared<eEconomicChangeEvent>(branch, board);
+    case eGameEventType::militaryChange:
+        return e::make_shared<eMilitaryChangeEvent>(branch, board);
     }
     return nullptr;
 }

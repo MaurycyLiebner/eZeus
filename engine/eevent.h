@@ -122,7 +122,12 @@ enum class eEvent {
     allyAttackedByPlayer,
 
     cityRaidFailed,
-    armyReturns
+    armyReturns,
+
+    militaryBuildup,
+    militaryDecline,
+    economicProsperity,
+    economicDecline,
 };
 
 #endif // EEVENT_H

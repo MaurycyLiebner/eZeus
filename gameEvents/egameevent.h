@@ -29,7 +29,10 @@ enum class eGameEventType {
     playerConquestEvent,
     playerRaidEvent,
     raidResourceReceive,
-    armyReturnEvent
+    armyReturnEvent,
+
+    militaryChange,
+    economicChange
 };
 
 enum class eGameEventBranch {

@@ -10,6 +10,7 @@
 #include "emainwindow.h"
 #include "widgets/etriggerselectionwidget.h"
 #include "widgets/eeventselectionwidget.h"
+#include "gameEvents/eeconomicmilitarychangeeventbase.h"
 
 #include "egodattackeventwidget.h"
 #include "emonsterattackeventwidget.h"
@@ -17,6 +18,7 @@
 #include "egiftfromeventwidget.h"
 #include "ereceiverequesteventwidget.h"
 #include "egodquesteventwidget.h"
+#include "eeconomicmilitarychangeeventwidget.h"
 
 void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
     setType(eFrameType::message);
@@ -96,6 +98,13 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
         const auto eew = new eGodQuestEventWidget(window());
         const auto gqee = static_cast<eGodQuestEventBase*>(e.get());
         eew->initialize(gqee);
+        cont->addWidget(eew);
+    } break;
+    case eGameEventType::militaryChange:
+    case eGameEventType::economicChange:{
+        const auto eew = new eEconomicMilitaryChangeEventWidget(window());
+        const auto emceb = static_cast<eEconomicMilitaryChangeEventBase*>(e.get());
+        eew->initialize(emceb);
         cont->addWidget(eew);
     } break;
     default:

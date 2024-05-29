@@ -576,6 +576,19 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
     case eEvent::armyReturns: {
         showMessage(ed, inst.fArmyReturns, true);
     } break;
+
+    case eEvent::militaryBuildup: {
+        showMessage(ed, inst.fMilitaryBuildup, true);
+    } break;
+    case eEvent::militaryDecline: {
+        showMessage(ed, inst.fMilitaryDecline, true);
+    } break;
+    case eEvent::economicProsperity: {
+        showMessage(ed, inst.fEconomicProsperity, true);
+    } break;
+    case eEvent::economicDecline: {
+        showMessage(ed, inst.fEconomicDecline, true);
+    } break;
     }
     mGm->pushEvent(e, ed);
 }
