@@ -144,10 +144,29 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
         case eWorldCityRelationship::ally: {
             const auto& coll = texs.fAllyCityFlag;
             const int cs = coll.size();
-            p.drawTexture(flagX, flagY, coll.getTexture(mFrame % cs), flagAl);
+            const auto& tex = coll.getTexture(mFrame % cs);
+            p.drawTexture(flagX, flagY, tex, flagAl);
         }   break;
         default:
             break;
+        }
+
+        const auto hc = mWorldBoard->homeCity();
+        if(ct != hc) {
+            const auto wt = static_cast<eWorldCity*>(ct.get());
+            const auto& aColl = texs.fCityArmy;
+            const auto& wColl = texs.fCityWealth;
+            const int a = std::clamp(wt->army(), 1, 5);
+            const int w = std::clamp(wt->wealth(), 1, 5);
+            const int lp = res.largePadding();
+            const int hp = res.hugePadding();
+            int xx = x - hp;
+            const int yy = y - hp;
+            const auto& aTex = aColl.getTexture(a - 1);
+            p.drawTexture(xx, yy, aTex, eAlignment::top);
+            xx += lp + aTex->width()/2;
+            const auto& wTex = wColl.getTexture(w - 1);
+            p.drawTexture(xx, yy, wTex, eAlignment::top);
         }
 
         if(ct->rebellion()) {
@@ -157,18 +176,24 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
             p.drawTexture(x, y, tex);
         }
 
-        const auto& name = ct->name();
-        const auto nameFind = mNames.find(name);
-        stdsptr<eTexture> nameTex;
-        if(nameFind == mNames.end()) {
-            nameTex = std::make_shared<eTexture>();
-            const auto font = eFonts::defaultFont(resolution().smallFontSize());
-            nameTex->loadText(renderer(), name, eFontColor::light, *font);
-            mNames[name] = nameTex;
-        } else {
-            nameTex = nameFind->second;
+        {
+            const auto& name = ct->name();
+            const auto nameFind = mNames.find(name);
+            stdsptr<eTexture> nameTex;
+            if(nameFind == mNames.end()) {
+                nameTex = std::make_shared<eTexture>();
+                const auto res = resolution();
+                const int fontSize = res.smallFontSize();
+                const auto font = eFonts::defaultFont(fontSize);
+                nameTex->loadText(renderer(), name, eFontColor::light, *font);
+                mNames[name] = nameTex;
+            } else {
+                nameTex = nameFind->second;
+            }
+            const int dx = x - nameTex->width()/2;
+            const int dy = y + nameTex->height();
+            p.drawTexture(dx, dy, nameTex);
         }
-        p.drawTexture(x - nameTex->width()/2, y + nameTex->height(), nameTex);
     };
 
     const auto& hc = mWorldBoard->homeCity();

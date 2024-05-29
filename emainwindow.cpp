@@ -256,6 +256,8 @@ void eMainWindow::showMainMenu() {
         wb.setHomeCity(hc);
 
         const auto c1 = eWorldCity::sCreateAthens();
+        c1->setArmy(3);
+        c1->setWealth(4);
         c1->setRelationship(eWorldCityRelationship::ally);
         c1->addBuys(eResourceTrade{eResourceType::marble, 0, 12, 120});
         c1->addBuys(eResourceTrade{eResourceType::wood, 0, 12, 80});
@@ -263,6 +265,8 @@ void eMainWindow::showMainMenu() {
         wb.addCity(c1);
 
         const auto c2 = eWorldCity::sCreateTroy();
+        c2->setArmy(5);
+        c2->setWealth(3);
         c2->setRelationship(eWorldCityRelationship::rival);
         c2->setWaterTrade(true);
         c2->addBuys(eResourceTrade{eResourceType::armor, 0, 12, 120});
