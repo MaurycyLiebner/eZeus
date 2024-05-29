@@ -197,16 +197,7 @@ std::string eResourceTypeHelpers::typeLongName(const eResourceType type) {
 
 std::shared_ptr<eTexture> eResourceTypeHelpers::icon(
         const eUIScale scale, const eResourceType type) {
-    int icoll;
-    switch(scale) {
-    case eUIScale::tiny:
-    case eUIScale::small:
-        icoll = 1;
-        break;
-    default:
-        icoll = 2;
-    }
-
+    const int icoll = static_cast<int>(scale);
     const auto& intrfc = eGameTextures::interface();
     const auto& coll = intrfc[icoll];
     switch(type) {
