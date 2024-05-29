@@ -48,11 +48,11 @@
 eInvasionHandler::eInvasionHandler(eGameBoard& board,
                                    const stdsptr<eWorldCity>& city) :
     mBoard(board), mCity(city) {
-    board.addInvasion(this);
+    board.addInvasionHandler(this);
 }
 
 eInvasionHandler::~eInvasionHandler() {
-    mBoard.removeInvasion(this);
+    mBoard.removeInvasionHandler(this);
 }
 
 template <typename T>
@@ -236,7 +236,7 @@ void eInvasionHandler::incTime(const int by) {
         const bool r = b->stationary();
         if(!r) return;
     }
-    const int wait = 2500;
+    const int wait = 10000;
     mWait += by;
     if(mWait < wait) return;
     mWait -= wait;

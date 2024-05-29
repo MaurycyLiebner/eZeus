@@ -430,6 +430,7 @@ void eGameBoard::planInvasion(const eDate& date,
                               const int archers) {
     const auto e = e::make_shared<eInvasionEvent>(
                        eGameEventBranch::root, *this);
+    e->initializeWarnings();
     const auto city = mWorldBoard.cities().front();
     e->initialize(city, infantry, cavalry, archers);
     e->initializeDate(date, 0, 1);
@@ -490,7 +491,7 @@ eGameEvent* eGameBoard::eventWithIOID(const int id) const {
     return nullptr;
 }
 
-eTile* eGameBoard::landInvasionTile(const int id) {
+eTile* eGameBoard::landInvasionTile(const int id) const {
     const auto it = mLandInvasion.find(id);
     if(it == mLandInvasion.end()) return nullptr;
     return it->second->tile();
@@ -509,18 +510,18 @@ void eGameBoard::removeLandInvasionPoint(const int id) {
     mLandInvasion.erase(id);
 }
 
-const eGameBoard::eIV& eGameBoard::invasions() const {
-    return mInvasions;
+const eGameBoard::eIV& eGameBoard::invasionHandlers() const {
+    return mInvasionHandlers;
 }
 
-void eGameBoard::addInvasion(eInvasionHandler* const i) {
-    if(mInvasions.empty()) eMusic::playRandomBattleMusic();
-    mInvasions.push_back(i);
+void eGameBoard::addInvasionHandler(eInvasionHandler* const i) {
+    if(mInvasionHandlers.empty()) eMusic::playRandomBattleMusic();
+    mInvasionHandlers.push_back(i);
 }
 
-void eGameBoard::removeInvasion(eInvasionHandler* const i) {
-    eVectorHelpers::remove(mInvasions, i);
-    if(mInvasions.empty()) eMusic::playRandomMusic();
+void eGameBoard::removeInvasionHandler(eInvasionHandler* const i) {
+    eVectorHelpers::remove(mInvasionHandlers, i);
+    if(mInvasionHandlers.empty()) eMusic::playRandomMusic();
 }
 
 int eGameBoard::addResource(const eResourceType type,
@@ -1028,6 +1029,28 @@ void eGameBoard::removeConquest(ePlayerConquestEventBase* const q) {
     eVectorHelpers::remove(mConquests, q);
 }
 
+eInvasionEvent* eGameBoard::invasionToDefend() const {
+    const auto date = eGameBoard::date();
+    for(const auto i : mInvasions) {
+        const int ip = i->invasionPoint();
+        const auto t = landInvasionTile(ip);
+        if(!t) continue;
+        const auto sDate = i->startDate();
+        if(sDate - date < 120) {
+            return i;
+        }
+    }
+    return nullptr;
+}
+
+void eGameBoard::addInvasion(eInvasionEvent* const i) {
+    mInvasions.push_back(i);
+}
+
+void eGameBoard::removeInvasion(eInvasionEvent* const i) {
+    eVectorHelpers::remove(mInvasions, i);
+}
+
 void eGameBoard::addArmyEvent(eArmyEventBase* const q) {
     mArmyEvents.push_back(q);
 }
@@ -1518,7 +1541,7 @@ void eGameBoard::incTime(const int by) {
         consolidateSoldiers();
     }
 
-    for(const auto i : mInvasions) {
+    for(const auto i : mInvasionHandlers) {
         i->incTime(by);
     }
 

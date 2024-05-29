@@ -3,8 +3,10 @@
 
 #include "egodmonsteraction.h"
 
+class eInvasionEvent;
+
 enum class eDefendCityStage {
-    none, appear, goTo, fight, comeback, disappear
+    none, appear, goTo, wait, fight, comeback, disappear
 };
 
 class eDefendCityAction : public eGodMonsterAction {
@@ -22,6 +24,7 @@ private:
     void goTo(const int fx, const int fy, const int dist);
     int range() const;
 
+    stdptr<eInvasionEvent> mEvent;
     eDefendCityStage mStage{eDefendCityStage::none};
     eTile* mStartTile = nullptr;
     stdptr<eCharacter> mAttackTarget;

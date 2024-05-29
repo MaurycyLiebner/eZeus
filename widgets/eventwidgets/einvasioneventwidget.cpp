@@ -53,6 +53,16 @@ void eInvasionEventWidget::initialize(eInvasionEvent* const e) {
     mArchersButtonL->setup(eLanguage::text("range:"), archersButton);
     addWidget(mArchersButtonL);
 
+    const auto invasionPointButtonL = new eLabeledWidget(window());
+    const auto invasionPointButton = new eValueButton(window());
+    invasionPointButton->setValueChangeAction([e](const int p) {
+        e->setInvasionPoint(p);
+    });
+    invasionPointButton->initialize(0, 999);
+    invasionPointButton->setValue(e->invasionPoint());
+    invasionPointButtonL->setup(eLanguage::text("invasion_point:"), invasionPointButton);
+    addWidget(invasionPointButtonL);
+
     const int p = padding();
     stackVertically(p);
     fitContent();

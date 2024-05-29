@@ -11,7 +11,7 @@
 #include "engine/eevent.h"
 
 enum class eHeroActionStage {
-    none, patrol, hunt, fight, goBack
+    none, patrol, hunt, fight, goBack, defend
 };
 
 class eHeroAction : public eActionWithComeback {
@@ -28,6 +28,7 @@ public:
     void sendOnQuest();
     void goBackToHall();
 private:
+    void defendCity();
     void lookForMonsterFight();
     bool fightMonster(eMonster* const m);
     void huntMonster(eMonster* const m);
@@ -39,6 +40,7 @@ private:
 
     eHeroActionStage mStage = eHeroActionStage::none;
     int mLookForMonster = 0;
+    int mLookForCityDefense = 0;
 };
 
 class eHA_patrolFail : public eCharActFunc {

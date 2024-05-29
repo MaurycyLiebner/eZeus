@@ -2,7 +2,7 @@
 
 #include "etilehelper.h"
 #include "buildings/epalace.h"
-#include "einvasionhandler.h"
+#include "gameEvents/einvasionevent.h"
 #include "characters/monsters/ecalydonianboar.h"
 #include "characters/actions/edefendcityaction.h"
 
@@ -42,14 +42,7 @@ void eHephaestusHelpAction::write(eWriteStream& dst) const {
 }
 
 bool eHephaestusHelpAction::sHelpNeeded(const eGameBoard& board) {
-    const auto& ivs = board.invasions();
-    for(const auto i : ivs) {
-        const auto s = i->stage();
-        if(s == eInvasionStage::spread) {
-            return true;
-        }
-    }
-    return false;
+    return board.invasionToDefend();
 }
 
 void eHephaestusHelpAction::provide() {

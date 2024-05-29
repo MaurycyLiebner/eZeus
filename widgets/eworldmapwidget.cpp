@@ -5,6 +5,7 @@
 
 #include "engine/egameboard.h"
 #include "gameEvents/earmyreturnevent.h"
+#include "gameEvents/einvasionevent.h"
 
 eWorldMapWidget::eWorldMapWidget(eMainWindow* const window) :
     eLabel(window) {}
@@ -187,6 +188,35 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
         y = (hy + (ccy - hy)*frac)*height();
     };
 
+    const auto cityFigures = [&](const eWorldCityType wct) {
+        switch(wct) {
+        case eWorldCityType::greekCity:
+            return &texs.fZeusGreekArmy;
+        case eWorldCityType::trojanCity:
+            return &texs.fZeusTrojanArmy;
+        case eWorldCityType::persianCity:
+            return &texs.fZeusPersianArmy;
+        case eWorldCityType::centaurCity:
+            return &texs.fZeusCentaurArmy;
+        case eWorldCityType::amazonCity:
+            return &texs.fZeusAmazonArmy;
+
+        case eWorldCityType::egyptianCity:
+            return &texs.fPoseidonEgyptianArmy;
+        case eWorldCityType::mayanCity:
+            return &texs.fPoseidonMayanArmy;
+        case eWorldCityType::phoenicianCity:
+            return &texs.fPoseidonPhoenicianArmy;
+        case eWorldCityType::oceanidCity:
+            return &texs.fPoseidonOceanidArmy;
+        case eWorldCityType::atlanteanCity:
+            return &texs.fPoseidonAtlanteanArmy;
+        default:
+            return static_cast<const eTextureCollection*>(nullptr);
+        }
+        return static_cast<const eTextureCollection*>(nullptr);
+    };
+
     const auto date = mGameBoard->date();
     const auto& cs = mGameBoard->armyEvents();
     for(const auto c : cs) {
@@ -215,43 +245,7 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
 
         for(const auto& a : forces.fAllies) {
             const int n = std::clamp(a->army()/2, 0, 2);
-            const eTextureCollection* coll = nullptr;
-            switch(a->type()) {
-            case eWorldCityType::greekCity:
-                coll = &texs.fZeusGreekArmy;
-                break;
-            case eWorldCityType::trojanCity:
-                coll = &texs.fZeusTrojanArmy;
-                break;
-            case eWorldCityType::persianCity:
-                coll = &texs.fZeusPersianArmy;
-                break;
-            case eWorldCityType::centaurCity:
-                coll = &texs.fZeusCentaurArmy;
-                break;
-            case eWorldCityType::amazonCity:
-                coll = &texs.fZeusAmazonArmy;
-                break;
-
-            case eWorldCityType::egyptianCity:
-                coll = &texs.fPoseidonEgyptianArmy;
-                break;
-            case eWorldCityType::mayanCity:
-                coll = &texs.fPoseidonMayanArmy;
-                break;
-            case eWorldCityType::phoenicianCity:
-                coll = &texs.fPoseidonPhoenicianArmy;
-                break;
-            case eWorldCityType::oceanidCity:
-                coll = &texs.fPoseidonOceanidArmy;
-                break;
-            case eWorldCityType::atlanteanCity:
-                coll = &texs.fPoseidonAtlanteanArmy;
-                break;
-            default:
-                break;
-            }
-
+            const auto coll = cityFigures(a->type());
             const auto tex = coll ? coll->getTexture(n) : nullptr;
             int x;
             int y;
@@ -292,6 +286,24 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
             p.drawTexture(x, y, tex, eAlignment::center);
             x += dx;
         }
+    }
+    const auto& is = mGameBoard->invasions();
+    for(const auto i : is) {
+        if(!i->warned()) continue;
+        const auto sDate = i->startDate();
+        const auto wDate = i->firstWarning();
+        const int days = sDate - date;
+        const int totDays = sDate - wDate;
+        const double frac = std::clamp(1. - (1.*days)/totDays, 0., 1.);
+        const auto& cc = i->city();
+        int x;
+        int y;
+        armyDrawXY(*cc, *hc, frac, x, y);
+
+        const int n = std::clamp(cc->army()/2, 0, 2);
+        const auto coll = cityFigures(cc->type());
+        const auto tex = coll ? coll->getTexture(n) : nullptr;
+        p.drawTexture(x, y, tex, eAlignment::center);
     }
 }
 

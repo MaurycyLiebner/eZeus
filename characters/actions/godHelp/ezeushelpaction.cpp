@@ -40,7 +40,7 @@ void eZeusHelpAction::write(eWriteStream& dst) const {
 }
 
 bool eZeusHelpAction::sHelpNeeded(const eGameBoard& board) {
-    const auto& ivs = board.invasions();
+    const auto& ivs = board.invasionHandlers();
     return !ivs.empty();
 }
 
@@ -58,7 +58,7 @@ void eZeusHelpAction::kill() {
 
 void eZHA_killFinish::call() {
     const auto& b = board();
-    const auto& ivs = b.invasions();
+    const auto& ivs = b.invasionHandlers();
     for(const auto iv : ivs) {
         iv->killAllWithCorpse();
     }

@@ -5,7 +5,9 @@
 #include "elanguage.h"
 
 eHero::eHero(eGameBoard& board, const eHeroType mt) :
-    eCharacter(board, sHeroToCharacterType(mt)) {}
+    eCharacter(board, sHeroToCharacterType(mt)) {
+    setAttack(0.5);
+}
 
 eHeroType eHero::sCharacterToHeroType(const eCharacterType type,
                                       bool* const valid) {

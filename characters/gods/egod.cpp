@@ -9,7 +9,9 @@
 
 eGod::eGod(eGameBoard& board, const eGodType gt) :
     eCharacter(board, sGodToCharacterType(gt)),
-    mType(gt) {}
+    mType(gt) {
+    setAttack(0.5);
+}
 
 int sGodTextId(const eGodType type) {
     switch(type) {

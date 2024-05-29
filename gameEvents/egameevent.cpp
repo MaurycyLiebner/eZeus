@@ -46,8 +46,11 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
         return e::make_shared<eMonsterInvasionEvent>(branch, board);
     case eGameEventType::monsterInvasionWarning:
         return e::make_shared<eMonsterInvasionWarningEvent>(branch, board);
-    case eGameEventType::invasion:
-        return e::make_shared<eInvasionEvent>(branch, board);
+    case eGameEventType::invasion: {
+        const auto e = e::make_shared<eInvasionEvent>(branch, board);
+        e->initializeWarnings();
+        return e;
+    } break;
     case eGameEventType::invasionWarning:
         return e::make_shared<eInvasionWarningEvent>(branch, board);
     case eGameEventType::payTribute:
@@ -90,6 +93,7 @@ void eGameEvent::addWarning(const int daysBefore,
     const auto startDate = mStartDate - daysBefore;
     event->initializeDate(startDate, period(), repeat());
     event->setReason(reason());
+    event->mParent = this;
     mWarnings.emplace_back(daysBefore, event);
 }
 

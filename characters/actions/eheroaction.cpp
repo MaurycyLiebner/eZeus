@@ -6,6 +6,7 @@
 #include "characters/actions/egodmonsteraction.h"
 #include "characters/actions/emovetoaction.h"
 #include "characters/actions/epatrolmoveaction.h"
+#include "characters/actions/edefendcityaction.h"
 #include "ekillcharacterfinishfail.h"
 #include "ewaitaction.h"
 #include "engine/egameboard.h"
@@ -45,12 +46,19 @@ bool eHeroAction::decide() {
 }
 
 void eHeroAction::increment(const int by) {
-    if(mStage == eHeroActionStage::patrol) {
+    if(mStage == eHeroActionStage::patrol ||
+       mStage == eHeroActionStage::goBack) {
         const int lookForMonsterCheck = 10000;
         mLookForMonster += by;
         if(mLookForMonster > lookForMonsterCheck) {
             mLookForMonster -= lookForMonsterCheck;
             lookForMonster();
+        }
+        const int lookForCityDefenseCheck = 5000;
+        mLookForCityDefense += by;
+        if(mLookForCityDefense > lookForCityDefenseCheck) {
+            mLookForCityDefense -= lookForCityDefenseCheck;
+            defendCity();
         }
     }
     if(mStage != eHeroActionStage::fight) {
@@ -63,12 +71,16 @@ void eHeroAction::read(eReadStream& src) {
     eActionWithComeback::read(src);
     src >> mStage;
     src >> mLookForMonster;
+    src >> mLookForCityDefense;
+    src >> mQuestWaiting;
 }
 
 void eHeroAction::write(eWriteStream& dst) const {
     eActionWithComeback::write(dst);
     dst << mStage;
     dst << mLookForMonster;
+    dst << mLookForCityDefense;
+    dst << mQuestWaiting;
 }
 
 void eHeroAction::lookForMonster() {
@@ -148,6 +160,16 @@ void eHeroAction::goBackToHall() {
     setCurrentAction(a);
     c->setActionType(eCharacterActionType::walk);
     a->start(hh);
+}
+
+void eHeroAction::defendCity() {
+    auto& board = eHeroAction::board();
+    const auto i = board.invasionToDefend();
+    if(!i) return;
+    mStage = eHeroActionStage::defend;
+    const auto c = character();
+    const auto da = e::make_shared<eDefendCityAction>(c);
+    setCurrentAction(da);
 }
 
 void eHeroAction::lookForMonsterFight() {

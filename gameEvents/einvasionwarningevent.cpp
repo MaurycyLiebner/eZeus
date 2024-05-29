@@ -6,6 +6,7 @@
 #include "engine/egameboard.h"
 #include "engine/eevent.h"
 #include "engine/eeventdata.h"
+#include "einvasionevent.h"
 
 eInvasionWarningEvent::eInvasionWarningEvent(
         const eGameEventBranch branch, eGameBoard& board) :
@@ -38,6 +39,13 @@ void eInvasionWarningEvent::trigger() {
     case eInvasionWarningType::warning1: {
         board.event(eEvent::invasion1, ed);
     } break;
+    }
+
+    const auto p = parent();
+    if(const auto i = dynamic_cast<eInvasionEvent*>(p)) {
+        const bool w = i->warned();
+        if(w) return;
+        i->setFirstWarning(startDate());
     }
 }
 

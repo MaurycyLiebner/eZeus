@@ -1,5 +1,7 @@
 #include "egodworshippedaction.h"
 
+#include "characters/actions/edefendcityaction.h"
+
 eGodWorshippedAction::eGodWorshippedAction(eCharacter* const c) :
     eGodAction(c, eCharActionType::godWorshippedAction) {}
 
@@ -7,8 +9,20 @@ void eGodWorshippedAction::increment(const int by) {
     const int lookForBlessCheck = 6000;
     const int lookForSoldierCheck = 1000;
 
-    bool r = lookForBlessCurse(by, mLookForBless, lookForBlessCheck, 10, 1);
-    if(!r) lookForSoldierAttack(by, mLookForSoldierAttack, lookForSoldierCheck, 10);
+    const bool r = lookForBlessCurse(by, mLookForBless,
+                                     lookForBlessCheck, 10, 1);
+    if(!r) {
+        const bool r = lookForSoldierAttack(by, mLookForSoldierAttack,
+                                            lookForSoldierCheck, 10);
+        if(!r) {
+            const int lookForCityDefenseCheck = 5000;
+            mLookForCityDefense += by;
+            if(mLookForCityDefense > lookForCityDefenseCheck) {
+                mLookForCityDefense -= lookForCityDefenseCheck;
+                defendCity();
+            }
+        }
+    }
 
     eGodAction::increment(by);
 }
@@ -25,6 +39,7 @@ bool eGodWorshippedAction::decide() {
             appear();
         }
         break;
+    case eGodWorshippedStage::defend:
     case eGodWorshippedStage::appear:
         mStage = eGodWorshippedStage::goTo1;
         goToTarget();
@@ -61,6 +76,7 @@ void eGodWorshippedAction::read(eReadStream& src) {
     src >> mStage;
     src >> mLookForBless;
     src >> mLookForSoldierAttack;
+    src >> mLookForCityDefense;
 }
 
 void eGodWorshippedAction::write(eWriteStream& dst) const {
@@ -68,4 +84,15 @@ void eGodWorshippedAction::write(eWriteStream& dst) const {
     dst << mStage;
     dst << mLookForBless;
     dst << mLookForSoldierAttack;
+    dst << mLookForCityDefense;
+}
+
+void eGodWorshippedAction::defendCity() {
+    auto& board = eGodWorshippedAction::board();
+    const auto i = board.invasionToDefend();
+    if(!i) return;
+    mStage = eGodWorshippedStage::defend;
+    const auto c = character();
+    const auto da = e::make_shared<eDefendCityAction>(c);
+    setCurrentAction(da);
 }

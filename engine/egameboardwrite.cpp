@@ -140,9 +140,9 @@ void eGameBoard::write(eWriteStream& dst) const {
     }
 
     {
-        const int ni = mInvasions.size();
+        const int ni = mInvasionHandlers.size();
         dst << ni;
-        for(const auto i : mInvasions) {
+        for(const auto i : mInvasionHandlers) {
             i->write(dst);
         }
     }

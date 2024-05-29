@@ -2,7 +2,7 @@
 
 #include "characters/echaracter.h"
 #include "engine/egameboard.h"
-#include "einvasionhandler.h"
+#include "gameEvents/einvasionevent.h"
 #include "egodaction.h"
 #include "emovetoaction.h"
 #include "vec2.h"
@@ -29,9 +29,23 @@ bool eDefendCityAction::decide() {
         mStartTile = c->tile();
         goToTarget();
         break;
-    case eDefendCityStage::goTo: {
-        mStage = eDefendCityStage::fight;
-        moveAround();
+    case eDefendCityStage::goTo:
+    case eDefendCityStage::wait: {
+        if(!mEvent) {
+            mStage = eDefendCityStage::comeback;
+            goBack();
+        } else {
+            auto& board = eDefendCityAction::board();
+            const auto date = board.date();
+            const auto eDate = mEvent->startDate();
+            if(date > eDate) {
+                mStage = eDefendCityStage::fight;
+                moveAround();
+            } else {
+                mStage = eDefendCityStage::wait;
+                moveAround();
+            }
+        }
     }   break;
     case eDefendCityStage::fight:
         mStage = eDefendCityStage::comeback;
@@ -200,38 +214,51 @@ void eDefendCityAction::increment(const int by) {
 }
 
 void eDefendCityAction::read(eReadStream& src) {
-    eGodMonsterAction::read(src);
-    src >> mStage;
     auto& board = eDefendCityAction::board();
+    eGodMonsterAction::read(src);
+    src.readGameEvent(&board, [this](eGameEvent* const e) {
+        mEvent = static_cast<eInvasionEvent*>(e);
+    });
+    src >> mStage;
     mStartTile = src.readTile(board);
     src.readCharacter(&board, [this](eCharacter* const c) {
         mAttackTarget = c;
     });
+    src >> mAttack;
+    src >> mLookForEnemy;
+    src >> mAttackTime;
+    src >> mRangeAttack;
+    src >> mAngle;
+    src >> mMissile;
 }
 
 void eDefendCityAction::write(eWriteStream& dst) const {
     eGodMonsterAction::write(dst);
+    dst.writeGameEvent(mEvent);
     dst << mStage;
     dst.writeTile(mStartTile);
     dst.writeCharacter(mAttackTarget);
+    dst << mAttack;
+    dst << mLookForEnemy;
+    dst << mAttackTime;
+    dst << mRangeAttack;
+    dst << mAngle;
+    dst << mMissile;
 }
 
 void eDefendCityAction::goToTarget() {
     auto& board = eDefendCityAction::board();
-    const auto& ivs = board.invasions();
-    eInvasionHandler* iv = nullptr;
-    for(const auto i : ivs) {
-        const auto s = i->stage();
-        if(s == eInvasionStage::spread) {
-            iv = i;
-            break;
-        }
-    }
-    if(!iv) {
+    mEvent = board.invasionToDefend();
+    if(!mEvent) {
         mStage = eDefendCityStage::comeback;
         return;
     }
-    const auto tile = iv->tile();
+    const int ip = mEvent->invasionPoint();
+    const auto tile = board.landInvasionTile(ip);
+    if(!tile) {
+        mStage = eDefendCityStage::comeback;
+        return;
+    }
     using eGTTT = eGoToTargetTeleport;
     const auto tele = std::make_shared<eGTTT>(board, this);
     goToTile(tile, tele);

@@ -4,7 +4,7 @@
 #include "egodaction.h"
 
 enum class eGodWorshippedStage {
-    none, appear, goTo1, patrol1, goTo2, patrol2, disappear
+    none, appear, goTo1, patrol1, goTo2, patrol2, disappear, defend
 };
 
 class eGodWorshippedAction : public eGodAction {
@@ -17,10 +17,13 @@ public:
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:
+    void defendCity();
+
     eGodWorshippedStage mStage{eGodWorshippedStage::none};
 
     int mLookForBless = 0;
     int mLookForSoldierAttack = 0;
+    int mLookForCityDefense = 0;
 };
 
 #endif // EGODWORSHIPPEDACTION_H

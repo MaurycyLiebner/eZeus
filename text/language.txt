@@ -54,6 +54,7 @@ city: "City:"
 infantry: "Infantry:"
 cavalry: "Cavalry:"
 range: "Range:"
+invasion_point: "Invasion point:"
 
 resource_type: "Resource type:"
 resource: "Resource:"

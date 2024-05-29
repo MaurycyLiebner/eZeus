@@ -190,6 +190,9 @@ void eGodMonsterAction::goToTile(
                         board, tile, findFailFunc);
     const auto a = e::make_shared<eMoveToAction>(c);
     a->setFailAction(ff);
+    a->setFindFailAction([findFailFunc, tile]() {
+        if(findFailFunc) findFailFunc->call(tile);
+    });
     a->setObsticleHandler(oh);
     a->setTileDistance(tileDistance);
     a->start(tile, pathFindWalkable, moveWalkable);

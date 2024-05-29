@@ -9,6 +9,7 @@ class eInvasionEvent : public eGameEvent {
 public:
     eInvasionEvent(const eGameEventBranch branch,
                    eGameBoard& board);
+    ~eInvasionEvent();
 
     void initialize(const stdsptr<eWorldCity>& city,
                     const int infantry,
@@ -23,6 +24,8 @@ public:
 
     stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
 
+    void initializeWarnings();
+
     const stdsptr<eWorldCity>& city() const { return mCity; }
     void setCity(const stdsptr<eWorldCity>& c);
 
@@ -32,6 +35,13 @@ public:
     void setCavalry(const int c) { mCavalry = c; }
     int archers() const { return mArchers; }
     void setArchers(const int a) { mArchers = a; }
+
+    int invasionPoint() const { return mInvasionPoint; }
+    void setInvasionPoint(const int p) { mInvasionPoint = p; }
+
+    void setFirstWarning(const eDate& w);
+    eDate firstWarning() const { return mFirstWarning; }
+    bool warned() const { return mWarned; }
 private:
     int bribeCost() const;
 
@@ -40,6 +50,11 @@ private:
     int mInfantry = 10;
     int mCavalry = 10;
     int mArchers = 10;
+
+    int mInvasionPoint = 0;
+
+    bool mWarned = false;
+    eDate mFirstWarning;
 };
 
 #endif // EINVASIONEVENT_H

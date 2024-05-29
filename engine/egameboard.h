@@ -46,6 +46,7 @@ class eSoldierBanner;
 class ePalace;
 class eLandInvasionPoint;
 class eReceiveRequestEvent;
+class eInvasionEvent;
 class eAgoraBase;
 class eHerosHall;
 
@@ -315,14 +316,14 @@ public:
     eSoldierBanner* soldierBannerWithIOID(const int id) const;
     eGameEvent* eventWithIOID(const int id) const;
 
-    eTile* landInvasionTile(const int id);
+    eTile* landInvasionTile(const int id) const;
     void addLandInvasionPoint(eLandInvasionPoint* const p);
     void removeLandInvasionPoint(const int id);
 
     using eIV = std::vector<eInvasionHandler*>;
-    const eIV& invasions() const;
-    void addInvasion(eInvasionHandler* const i);
-    void removeInvasion(eInvasionHandler* const i);
+    const eIV& invasionHandlers() const;
+    void addInvasionHandler(eInvasionHandler* const i);
+    void removeInvasionHandler(eInvasionHandler* const i);
 
     int addResource(const eResourceType type,
                     const int count);
@@ -374,6 +375,12 @@ public:
     const eConquests& conquests() const { return mConquests; }
     void addConquest(ePlayerConquestEventBase* const q);
     void removeConquest(ePlayerConquestEventBase* const q);
+
+    using eInvasions = std::vector<eInvasionEvent*>;
+    const eInvasions& invasions() const { return mInvasions; }
+    eInvasionEvent* invasionToDefend() const;
+    void addInvasion(eInvasionEvent* const i);
+    void removeInvasion(eInvasionEvent* const i);
 
     using eArmyEvents = std::vector<eArmyEventBase*>;
     const eArmyEvents& armyEvents() const { return mArmyEvents; }
@@ -474,6 +481,7 @@ private:
     std::vector<ePlayerConquestEventBase*> mConquests;
     std::vector<eArmyEventBase*> mArmyEvents;
     std::vector<eReceiveRequestEvent*> mCityRequests;
+    std::vector<eInvasionEvent*> mInvasions;
 
     std::vector<eSanctuary*> mSanctuaries;
     std::vector<eHerosHall*> mHeroHalls;
@@ -496,7 +504,7 @@ private:
 
     std::vector<eSoldierBanner*> mSelectedBanners;
 
-    std::vector<eInvasionHandler*> mInvasions;
+    std::vector<eInvasionHandler*> mInvasionHandlers;
 
     std::map<int, eLandInvasionPoint*> mLandInvasion;
 

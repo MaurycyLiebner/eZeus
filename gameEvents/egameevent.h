@@ -123,6 +123,8 @@ public:
     const std::vector<stdsptr<eEventTrigger>>& triggers() const
     { return mTriggers; }
     int triggerEventsCount() const;
+
+    eGameEvent* parent() const { return mParent; }
 protected:
     void addTrigger(const stdsptr<eEventTrigger>& et);
 private:
