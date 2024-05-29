@@ -168,6 +168,7 @@ void eSoldierAction::increment(const int by) {
             mAttackTime = 0;
             mRangeAttack = rangeAttackCheck;
             c->setActionType(eCharacterActionType::stand);
+            c->setPlayFightSound(false);
             setCurrentAction(nullptr);
             mLookForEnemy = lookForEnemyCheck;
         } else {
@@ -196,6 +197,7 @@ void eSoldierAction::increment(const int by) {
                 if(dist > 1.) continue;
                 mAttackTarget = eAttackTarget(cc.get());
                 mAttack = true;
+                c->setPlayFightSound(true);
                 mAttackTime = 0;
                 c->setActionType(eCharacterActionType::fight);
                 mAngle = posdif.angle();
@@ -227,6 +229,7 @@ void eSoldierAction::increment(const int by) {
                         const vec2d posdif = ccpos - cpos;
                         mAttackTarget = eAttackTarget(cc.get());
                         mAttack = true;
+                        c->setPlayFightSound(true);
                         mAttackTime = 0;
                         c->setActionType(eCharacterActionType::fight2);
                         mAngle = posdif.angle();

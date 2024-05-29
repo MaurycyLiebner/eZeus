@@ -228,12 +228,14 @@ void eGodMonsterAction::spawnMissile(const eCharacterActionType at,
         const auto o = sAngleOrientation(a);
         c->setOrientation(o);
     }
-
-    if(playSound) {
-        playSound->call();
-    } else {
-        eSounds::playAttackSound(c);
-    }
+    auto& board = this->board();
+    board.ifVisible(c->tile(), [&]() {
+        if(playSound) {
+            playSound->call();
+        } else {
+            eSounds::playAttackSound(c);
+        }
+    });
 
     const auto a = e::make_shared<eWaitAction>(c);
     a->setFailAction(finish);

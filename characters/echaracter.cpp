@@ -68,6 +68,11 @@ void eCharacter::fight(eCharacter* const c) {
     fa->setFailAction(ff);
     fa->setFinishAction(ff);
     setAction(fa);
+    mPlayFightSound = true;
+}
+
+void eCharacter::setPlayFightSound(const bool p) {
+    mPlayFightSound = p;
 }
 
 void eCharacter::kill() {
@@ -122,8 +127,9 @@ void eCharacter::changeTile(eTile* const t, const bool prepend) {
 void eCharacter::incTime(const int by) {
     mTime += by;
     const auto at = actionType();
-    if(at == eCharacterActionType::fight ||
-       at == eCharacterActionType::fight2) {
+    if(mPlayFightSound &&
+       (at == eCharacterActionType::fight ||
+        at == eCharacterActionType::fight2)) {
         mSoundPlayTime += by;
         const int soundPlayTime = 500;
         if(mSoundPlayTime > soundPlayTime) {
@@ -214,6 +220,7 @@ void eCharacter::pauseAction() {
 }
 
 void eCharacter::resumeAction() {
+    mPlayFightSound = false;
     if(mPausedActions.empty()) return;
     const auto p = mPausedActions.back();
     mPausedActions.pop_back();
@@ -247,6 +254,7 @@ void eCharacter::read(eReadStream& src) {
     src >> mOrientation;
     src >> mX;
     src >> mY;
+    src >> mPlayFightSound;
     src >> mSoundPlayTime;
     src >> mTime;
     src >> mHasSecondaryTexture;
@@ -287,6 +295,7 @@ void eCharacter::write(eWriteStream& dst) const {
     dst << mOrientation;
     dst << mX;
     dst << mY;
+    dst << mPlayFightSound;
     dst << mSoundPlayTime;
     dst << mTime;
     dst << mHasSecondaryTexture;

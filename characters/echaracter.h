@@ -43,6 +43,7 @@ public:
     void incTime(const int by);
 
     void fight(eCharacter* const c);
+    void setPlayFightSound(const bool p);
     void kill();
     void killWithCorpse();
 
@@ -112,6 +113,7 @@ private:
     double mX = 0.5;
     double mY = 0.5;
 
+    bool mPlayFightSound = false;
     int mSoundPlayTime = 0;
     int mTime = 0;
     bool mHasSecondaryTexture = false;

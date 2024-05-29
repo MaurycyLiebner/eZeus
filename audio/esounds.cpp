@@ -450,6 +450,7 @@ void eSounds::playHeroSound(const eHeroType h, const eHeroSound s) {
 void eSounds::playAttackSound(eCharacter* const c) {
     const auto ct = c->type();
     switch(ct) {
+    case eCharacterType::greekRockThrower:
     case eCharacterType::rockThrower:
         playRandomSound(sInstance.mRockthrowerAttack);
         break;
@@ -462,52 +463,72 @@ void eSounds::playAttackSound(eCharacter* const c) {
     case eCharacterType::deer:
         Mix_PlayChannel(-1, sInstance.mDeerAttack, 0);
         break;
+    case eCharacterType::greekHoplite:
     case eCharacterType::hoplite:
         playRandomSound(sInstance.mHopliteAttack);
         break;
 
-//    case eCharacterType::aphrodite:
-//        sInstance.mAphrodite.playAttack();
-//        break;
-//    case eCharacterType::apollo:
-//        sInstance.mApollo.playAttack();
-//        break;
-//    case eCharacterType::ares:
-//        sInstance.mAres.playAttack();
-//        break;
-//    case eCharacterType::artemis:
-//        sInstance.mArtemis.playAttack();
-//        break;
-//    case eCharacterType::athena:
-//        sInstance.mAthena.playAttack();
-//        break;
-//    case eCharacterType::atlas:
-//        sInstance.mAtlas.playAttack();
-//        break;
-//    case eCharacterType::demeter:
-//        sInstance.mDemeter.playAttack();
-//        break;
-//    case eCharacterType::dionysus:
-//        sInstance.mDionysus.playAttack();
-//        break;
-//    case eCharacterType::hades:
-//        sInstance.mHades.playAttack();
-//        break;
-//    case eCharacterType::hephaestus:
-//        sInstance.mHephaestus.playAttack();
-//        break;
-//    case eCharacterType::hera:
-//        sInstance.mHera.playAttack();
-//        break;
-//    case eCharacterType::hermes:
-//        sInstance.mHermes.playAttack();
-//        break;
-//    case eCharacterType::poseidon:
-//        sInstance.mPoseidon.playAttack();
-//        break;
-//    case eCharacterType::zeus:
-//        sInstance.mZeus.playAttack();
-//        break;
+    case eCharacterType::archer:
+        playRandomSound(sInstance.mArcherAttack);
+        break;
+
+    case eCharacterType::disgruntled:
+        Mix_PlayChannel(-1, sInstance.mOutlawAttack, 0);
+        break;
+
+    case eCharacterType::aresWarrior:
+        playRandomSound(sInstance.mAresWarriorAttack);
+        break;
+
+    case eCharacterType::trojanSpearthrower:
+        playRandomSound(sInstance.mTrojanSpearthrowerAttack);
+        break;
+    case eCharacterType::trojanHoplite:
+        playRandomSound(sInstance.mTrojanSwordAttack);
+        break;
+
+    case eCharacterType::aphrodite:
+        sInstance.mAphrodite.playAttack();
+        break;
+    case eCharacterType::apollo:
+        sInstance.mApollo.playAttack();
+        break;
+    case eCharacterType::ares:
+        sInstance.mAres.playAttack();
+        break;
+    case eCharacterType::artemis:
+        sInstance.mArtemis.playAttack();
+        break;
+    case eCharacterType::athena:
+        sInstance.mAthena.playAttack();
+        break;
+    case eCharacterType::atlas:
+        sInstance.mAtlas.playAttack();
+        break;
+    case eCharacterType::demeter:
+        sInstance.mDemeter.playAttack();
+        break;
+    case eCharacterType::dionysus:
+        sInstance.mDionysus.playAttack();
+        break;
+    case eCharacterType::hades:
+        sInstance.mHades.playAttack();
+        break;
+    case eCharacterType::hephaestus:
+        sInstance.mHephaestus.playAttack();
+        break;
+    case eCharacterType::hera:
+        sInstance.mHera.playAttack();
+        break;
+    case eCharacterType::hermes:
+        sInstance.mHermes.playAttack();
+        break;
+    case eCharacterType::poseidon:
+        sInstance.mPoseidon.playAttack();
+        break;
+    case eCharacterType::zeus:
+        sInstance.mZeus.playAttack();
+        break;
 
     case eCharacterType::calydonianBoar:
         sInstance.mCalydonianBoar.playAttack();
@@ -593,6 +614,7 @@ void eSounds::playDieSound(eCharacter* const c) {
     case eCharacterType::actor:
         Mix_PlayChannel(-1, sInstance.mActorDie, 0);
         break;
+    case eCharacterType::greekRockThrower:
     case eCharacterType::rockThrower:
         playRandomSound(sInstance.mRockthrowerDie);
         break;
@@ -605,8 +627,31 @@ void eSounds::playDieSound(eCharacter* const c) {
     case eCharacterType::deer:
         Mix_PlayChannel(-1, sInstance.mDeerDie, 0);
         break;
+    case eCharacterType::greekHoplite:
     case eCharacterType::hoplite:
         Mix_PlayChannel(-1, sInstance.mHopliteDie, 0);
+        break;
+
+    case eCharacterType::archer:
+        Mix_PlayChannel(-1, sInstance.mArcherDie, 0);
+        break;
+
+    case eCharacterType::disgruntled:
+        Mix_PlayChannel(-1, sInstance.mOutlawDie, 0);
+        break;
+
+    case eCharacterType::aresWarrior:
+        Mix_PlayChannel(-1, sInstance.mAresWarriorDie, 0);
+        break;
+
+    case eCharacterType::trojanHorseman:
+        Mix_PlayChannel(-1, sInstance.mTrojanHorseDie, 0);
+        break;
+    case eCharacterType::trojanSpearthrower:
+        Mix_PlayChannel(-1, sInstance.mTrojanSpearthrowerDie, 0);
+        break;
+    case eCharacterType::trojanHoplite:
+        Mix_PlayChannel(-1, sInstance.mTrojanSwordDie, 0);
         break;
 
     case eCharacterType::calydonianBoar:
@@ -669,6 +714,7 @@ void eSounds::playHitSound(eCharacter* const c) {
     case eCharacterType::actor:
         Mix_PlayChannel(-1, sInstance.mActorHit, 0);
         break;
+    case eCharacterType::greekRockThrower:
     case eCharacterType::rockThrower:
         Mix_PlayChannel(-1, sInstance.mRockthrowerHit, 0);
         break;
@@ -681,52 +727,75 @@ void eSounds::playHitSound(eCharacter* const c) {
     case eCharacterType::deer:
         Mix_PlayChannel(-1, sInstance.mDeerHit, 0);
         break;
+    case eCharacterType::greekHoplite:
     case eCharacterType::hoplite:
         Mix_PlayChannel(-1, sInstance.mHopliteHit, 0);
         break;
 
-//    case eCharacterType::aphrodite:
-//        sInstance.mAphrodite.playHit();
-//        break;
-//    case eCharacterType::apollo:
-//        sInstance.mApollo.playHit();
-//        break;
-//    case eCharacterType::ares:
-//        sInstance.mAres.playHit();
-//        break;
-//    case eCharacterType::artemis:
-//        sInstance.mArtemis.playHit();
-//        break;
-//    case eCharacterType::athena:
-//        sInstance.mAthena.playHit();
-//        break;
-//    case eCharacterType::atlas:
-//        sInstance.mAtlas.playHit();
-//        break;
-//    case eCharacterType::demeter:
-//        sInstance.mDemeter.playHit();
-//        break;
-//    case eCharacterType::dionysus:
-//        sInstance.mDionysus.playHit();
-//        break;
-//    case eCharacterType::hades:
-//        sInstance.mHades.playHit();
-//        break;
-//    case eCharacterType::hephaestus:
-//        sInstance.mHephaestus.playHit();
-//        break;
-//    case eCharacterType::hera:
-//        sInstance.mHera.playHit();
-//        break;
-//    case eCharacterType::hermes:
-//        sInstance.mHermes.playHit();
-//        break;
-//    case eCharacterType::poseidon:
-//        sInstance.mPoseidon.playHit();
-//        break;
-//    case eCharacterType::zeus:
-//        sInstance.mZeus.playHit();
-//        break;
+    case eCharacterType::archer:
+        Mix_PlayChannel(-1, sInstance.mArcherHit, 0);
+        break;
+
+    case eCharacterType::disgruntled:
+        Mix_PlayChannel(-1, sInstance.mOutlawHit, 0);
+        break;
+
+    case eCharacterType::aresWarrior:
+        Mix_PlayChannel(-1, sInstance.mAresWarriorHit, 0);
+        break;
+
+    case eCharacterType::trojanHorseman:
+        Mix_PlayChannel(-1, sInstance.mTrojanHorseHit, 0);
+        break;
+    case eCharacterType::trojanSpearthrower:
+        Mix_PlayChannel(-1, sInstance.mTrojanSpearthrowerHit, 0);
+        break;
+    case eCharacterType::trojanHoplite:
+        Mix_PlayChannel(-1, sInstance.mTrojanSwordHit, 0);
+        break;
+
+    case eCharacterType::aphrodite:
+        sInstance.mAphrodite.playHit();
+        break;
+    case eCharacterType::apollo:
+        sInstance.mApollo.playHit();
+        break;
+    case eCharacterType::ares:
+        sInstance.mAres.playHit();
+        break;
+    case eCharacterType::artemis:
+        sInstance.mArtemis.playHit();
+        break;
+    case eCharacterType::athena:
+        sInstance.mAthena.playHit();
+        break;
+    case eCharacterType::atlas:
+        sInstance.mAtlas.playHit();
+        break;
+    case eCharacterType::demeter:
+        sInstance.mDemeter.playHit();
+        break;
+    case eCharacterType::dionysus:
+        sInstance.mDionysus.playHit();
+        break;
+    case eCharacterType::hades:
+        sInstance.mHades.playHit();
+        break;
+    case eCharacterType::hephaestus:
+        sInstance.mHephaestus.playHit();
+        break;
+    case eCharacterType::hera:
+        sInstance.mHera.playHit();
+        break;
+    case eCharacterType::hermes:
+        sInstance.mHermes.playHit();
+        break;
+    case eCharacterType::poseidon:
+        sInstance.mPoseidon.playHit();
+        break;
+    case eCharacterType::zeus:
+        sInstance.mZeus.playHit();
+        break;
 
     case eCharacterType::calydonianBoar:
         sInstance.mCalydonianBoar.playHit();
@@ -1217,6 +1286,43 @@ void eSounds::loadImpl() {
     mDeerAttack = eSounds::loadSoundBase(wavsDir + "deer_attack.wav");
     mDeerDie = eSounds::loadSoundBase(wavsDir + "deer_die.wav");
     mDeerHit = eSounds::loadSoundBase(wavsDir + "deer_hit.wav");
+
+    mOutlawAttack = eSounds::loadSoundBase(wavsDir + "outlaw_attack.wav");
+    mOutlawDie = eSounds::loadSoundBase(wavsDir + "outlaw_die.wav");
+    mOutlawHit = eSounds::loadSoundBase(wavsDir + "outlaw_hit.wav");
+
+    mArcherDie = eSounds::loadSoundBase(wavsDir + "archer_die.wav");
+    mArcherHit = eSounds::loadSoundBase(wavsDir + "archer_hit.wav");
+    for(const auto& s : {"archer_volley1.wav",
+                         "archer_volley2.wav"}) {
+        mArcherAttack.addPath(wavsDir + s);
+    }
+
+    for(const auto& s : {"Ares_warr_atk1.wav",
+                         "Ares_warr_atk2.wav",
+                         "Ares_warr_atk3.wav",
+                         "Ares_warr_atk4.wav"}) {
+        mAresWarriorAttack.addPath(wavsDir + s);
+    }
+    mAresWarriorHit = eSounds::loadSoundBase(wavsDir + "Ares_warr_hit.wav");
+    mAresWarriorDie = eSounds::loadSoundBase(wavsDir + "Ares_warr_die.wav");
+
+    mTrojanHorseDie = eSounds::loadSoundBase(wavsDir + "troj_horse_die.wav");
+    mTrojanHorseHit = eSounds::loadSoundBase(wavsDir + "troj_horse_hit.wav");
+
+    mTrojanSpearthrowerDie = eSounds::loadSoundBase(wavsDir + "troj_jav_die.wav");
+    mTrojanSpearthrowerHit = eSounds::loadSoundBase(wavsDir + "troj_jav_hit.wav");
+    for(const auto& s : {"troj_jav_throw1.wav",
+                         "troj_jav_throw2.wav"}) {
+        mTrojanSpearthrowerAttack.addPath(wavsDir + s);
+    }
+
+    mTrojanSwordDie = eSounds::loadSoundBase(wavsDir + "troj_sword_die.wav");
+    mTrojanSwordHit = eSounds::loadSoundBase(wavsDir + "troj_sword_hit.wav");
+    for(const auto& s : {"troj_sword1.wav",
+                         "troj_sword2.wav"}) {
+        mTrojanSwordAttack.addPath(wavsDir + s);
+    }
 
     for(const auto& s : {"gen_die1.wav",
                          "gen_die2.wav",

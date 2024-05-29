@@ -195,6 +195,29 @@ private:
     eSoundVector mRockthrowerDie;
     Mix_Chunk* mRockthrowerHit = nullptr;
 
+    eSoundVector mArcherAttack;
+    Mix_Chunk* mArcherHit = nullptr;
+    Mix_Chunk* mArcherDie = nullptr;
+
+    Mix_Chunk* mOutlawHit = nullptr;
+    Mix_Chunk* mOutlawDie = nullptr;
+    Mix_Chunk* mOutlawAttack = nullptr;
+
+    eSoundVector mAresWarriorAttack;
+    Mix_Chunk* mAresWarriorHit = nullptr;
+    Mix_Chunk* mAresWarriorDie = nullptr;
+
+    Mix_Chunk* mTrojanHorseDie = nullptr;
+    Mix_Chunk* mTrojanHorseHit = nullptr;
+
+    Mix_Chunk* mTrojanSpearthrowerDie = nullptr;
+    Mix_Chunk* mTrojanSpearthrowerHit = nullptr;
+    eSoundVector mTrojanSpearthrowerAttack;
+
+    Mix_Chunk* mTrojanSwordDie = nullptr;
+    Mix_Chunk* mTrojanSwordHit = nullptr;
+    eSoundVector mTrojanSwordAttack;
+
     Mix_Chunk* mBoarAttack = nullptr;
     Mix_Chunk* mBoarDie = nullptr;
     Mix_Chunk* mBoarHit = nullptr;

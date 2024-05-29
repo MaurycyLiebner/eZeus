@@ -14,6 +14,7 @@
 #include "missiles/earrowmissile.h"
 
 #include "edieaction.h"
+#include "audio/esounds.h"
 
 eArcherAction::eArcherAction(eCharacter* const c) :
     eComplexAction(c, eCharActionType::archerAction) {}
@@ -41,6 +42,10 @@ void eArcherAction::increment(const int by) {
                 const int tty = tt->y();
                 eMissile::sCreate<eArrowMissile>(brd, tx, ty, 0.5,
                                                  ttx, tty, 0.5, 2);
+                auto& board = this->board();
+                board.ifVisible(c->tile(), [&]() {
+                    eSounds::playAttackSound(c);
+                });
             }
         }
         mAttackTime += by;
