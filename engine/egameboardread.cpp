@@ -170,7 +170,7 @@ void eGameBoard::read(eReadStream& src) {
         src >> nms;
         for(int i = 0; i < nms; i++) {
             src.readCharacter(this, [this](eCharacter* const c) {
-                mAttackingMonsters.push_back(c);
+                mMonsters.push_back(static_cast<eMonster*>(c));
             });
         }
     }

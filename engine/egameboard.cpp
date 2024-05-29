@@ -1063,10 +1063,6 @@ void eGameBoard::registerAttackingGod(eCharacter* const c) {
     mAttackingGods.push_back(c);
 }
 
-void eGameBoard::registerAttackingMonster(eCharacter* const c) {
-    mAttackingMonsters.push_back(c);
-}
-
 void eGameBoard::startPlague(eSmallHouse* const h) {
     const auto plague = std::make_shared<ePlague>(*this);
     plague->spreadFrom(h);
@@ -1318,7 +1314,6 @@ void eGameBoard::registerCharacter(eCharacter* const c) {
 
 bool eGameBoard::unregisterCharacter(eCharacter* const c) {
     eVectorHelpers::remove(mAttackingGods, c);
-    eVectorHelpers::remove(mAttackingMonsters, c);
     return eVectorHelpers::remove(mCharacters, c);
 }
 

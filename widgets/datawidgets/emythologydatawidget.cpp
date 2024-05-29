@@ -234,7 +234,7 @@ void eMythologyDataWidget::paintEvent(ePainter& p) {
         }
 
         {
-            const auto ma = mBoard.attackingMonsters();
+            const auto ma = mBoard.monsters();
             const bool changed = !eVectorHelpers::same(ma, mMonstersAttackingV);
 
             if(changed || mMonstersAttackingF) {

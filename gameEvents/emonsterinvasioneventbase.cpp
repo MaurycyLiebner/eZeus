@@ -42,12 +42,12 @@ void eMonsterInvasionEventBase::read(eReadStream& src) {
 eMonster* eMonsterInvasionEventBase::triggerBase() const {
     auto& board = getBoard();
     const auto monster = eMonster::sCreateMonster(mType, board);
+    board.registerMonster(monster.get());
+    monster->setPlayerId(2);
 
     const auto a = e::make_shared<eMonsterAction>(monster.get());
     monster->setAction(a);
     a->increment(1);
-
-    board.registerAttackingMonster(monster.get());
 
     return monster.get();
 }

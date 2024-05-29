@@ -173,9 +173,9 @@ void eGameBoard::write(eWriteStream& dst) const {
     }
 
     {
-        const int nms = mAttackingMonsters.size();
+        const int nms = mMonsters.size();
         dst << nms;
-        for(const auto g : mAttackingMonsters) {
+        for(const auto g : mMonsters) {
             dst.writeCharacter(g);
         }
     }

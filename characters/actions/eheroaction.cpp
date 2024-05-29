@@ -194,6 +194,7 @@ void eHeroAction::lookForMonsterFight() {
                 bool monster;
                 const auto mt = eMonster::sCharacterToMonsterType(cctype, &monster);
                 if(!monster) continue;
+                if(cc->playerId() == 1) continue;
                 const auto sl = eMonster::sSlayer(mt);
                 if(sl != ht) continue;
                 const auto m = static_cast<eMonster*>(cc.get());

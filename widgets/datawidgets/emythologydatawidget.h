@@ -8,6 +8,7 @@ class eTitledWidget;
 
 class eSanctuary;
 class eCharacter;
+class eMonster;
 
 class eMythologyDataWidget : public eDataWidget {
 public:
@@ -26,7 +27,7 @@ private:
     std::vector<eCharacter*> mGodsAttackingV;
     eTitledWidget* mGodsAttacking = nullptr;
     bool mMonstersAttackingF = true;
-    std::vector<eCharacter*> mMonstersAttackingV;
+    std::vector<eMonster*> mMonstersAttackingV;
     eTitledWidget* mMonstersAttacking = nullptr;
 
     int mTime{0};

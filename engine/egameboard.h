@@ -390,8 +390,6 @@ public:
     using eChars = std::vector<eCharacter*>;
     const eChars& attackingGods() const { return mAttackingGods; }
     void registerAttackingGod(eCharacter* const c);
-    const eChars& attackingMonsters() const { return mAttackingMonsters; }
-    void registerAttackingMonster(eCharacter* const c);
 
     void startPlague(eSmallHouse* const h);
     stdsptr<ePlague> plagueForHouse(eSmallHouse* const h);
@@ -553,7 +551,6 @@ private:
     std::vector<eGodType> mHostileGods;
 
     std::vector<eCharacter*> mAttackingGods;
-    std::vector<eCharacter*> mAttackingMonsters;
 
     std::vector<stdsptr<ePlague>> mPlagues;
 };

@@ -11,7 +11,6 @@
 eMonster::eMonster(eGameBoard& board, const eMonsterType mt) :
     eCharacter(board, sMonsterToCharacterType(mt)) {
     setAttack(0.5);
-    board.registerMonster(this);
 }
 
 eMonster::~eMonster() {
