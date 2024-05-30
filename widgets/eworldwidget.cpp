@@ -34,6 +34,7 @@ void eWorldWidget::initialize() {
             e->initializeDate(date, period, 1);
             e->initialize(forces, mCity, r);
             mBoard->addRootGameEvent(e);
+            update();
         };
         std::vector<eResourceType> resources;
         resources.push_back(eResourceType::none);
@@ -57,6 +58,7 @@ void eWorldWidget::initialize() {
             e->initializeDate(date, period, 1);
             e->initialize(forces, mCity);
             mBoard->addRootGameEvent(e);
+            update();
         };
         openEnlistForcesDialog(enlistAction, mCity);
     };
@@ -72,6 +74,9 @@ void eWorldWidget::initialize() {
         mCity = ct;
         mWM->setCity(ct);
     });
+    mWMW->setSetTextAction([this](const std::string& text) {
+        mWM->setText(text);
+    });
 
     addWidget(mWM);
     mWM->align(eAlignment::right | eAlignment::top);
@@ -80,6 +85,10 @@ void eWorldWidget::initialize() {
 void eWorldWidget::setBoard(eGameBoard* const board) {
     mBoard = board;
     mWMW->setBoard(board);
+}
+
+void eWorldWidget::update() {
+    mWMW->updateWidgets();
 }
 
 void eWorldWidget::openRequestDialog() {

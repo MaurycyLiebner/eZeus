@@ -20,8 +20,11 @@ public:
                     const eAction& openConquer);
 
     void setCity(const stdsptr<eWorldCity>& c);
+    void setText(const std::string& text);
     void updateRelationshipLabel() const;
 private:
+    eLabel* mTextLabel = nullptr;
+
     eLabel* mRelationshipLabel = nullptr;
     eLabel* mNameLabel = nullptr;
     eLabel* mLeaderLabel = nullptr;

@@ -140,12 +140,13 @@ void eWorldGoodsWidget::initialize() {
 void eWorldGoodsWidget::setCity(const stdsptr<eWorldCity>& c) {
     const auto buys = c ? c->buys() : std::vector<eResourceTrade>{};
     const auto sells = c ? c->sells() : std::vector<eResourceTrade>{};
+    const bool cc = c && c->isCurrentCity();
     mBuysWidget->setTrade(buys);
     mSellsWidget->setTrade(sells);
-    mBuysWidget->setVisible(!buys.empty());
-    mSellsWidget->setVisible(!sells.empty());
-    mGoodsLabel->setVisible(c.get());
-    mOrdersButton->setVisible(!buys.empty() || !sells.empty());
+    mBuysWidget->setVisible(!buys.empty() && !cc);
+    mSellsWidget->setVisible(!sells.empty() && !cc);
+    mGoodsLabel->setVisible(c.get() && !cc);
+    mOrdersButton->setVisible((!buys.empty() || !sells.empty()) && !cc);
     updateTradeY();
 
     if(c) {

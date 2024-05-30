@@ -253,6 +253,7 @@ void eMainWindow::showMainMenu() {
         auto& wb = board->getWorldBoard();
 
         const auto hc = eWorldCity::sCreateSparta(eWorldCityType::mainCity);
+        hc->setIsCurrentCity(true);
         wb.setHomeCity(hc);
 
         const auto c1 = eWorldCity::sCreateAthens();
@@ -431,6 +432,8 @@ void eMainWindow::showWorld() {
         mWW->resize(width(), height());
         mWW->initialize();
         mWW->setBoard(mBoard);
+    } else {
+        mWW->update();
     }
     setWidget(mWW);
 }

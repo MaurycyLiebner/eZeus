@@ -16,6 +16,8 @@ public:
     void initialize();
 
     void setBoard(eGameBoard* const board);
+
+    void update();
 protected:
     bool keyPressEvent(const eKeyPressEvent& e);
 private:

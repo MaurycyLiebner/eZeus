@@ -94,6 +94,9 @@ public:
     double x() const { return mX; }
     double y() const { return mY; }
 
+    bool isCurrentCity() const { return mIsCurrentCity; }
+    void setIsCurrentCity(const bool c) { mIsCurrentCity = c; }
+
     eWorldCityRelationship relationship() const { return mRel; }
     void setRelationship(const eWorldCityRelationship r) { mRel = r; }
 
@@ -114,6 +117,7 @@ public:
 private:
     int mIOID = -1;
 
+    bool mIsCurrentCity = false;
     eWorldCityType mType;
 
     std::string mName;

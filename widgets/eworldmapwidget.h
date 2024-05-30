@@ -15,10 +15,17 @@ public:
 
     using eSelectCityAction = std::function<void(const stdsptr<eWorldCity>&)>;
     void setSelectCityAction(const eSelectCityAction& s);
+    using eSetTextAction = std::function<void(const std::string&)>;
+    void setSetTextAction(const eSetTextAction& s);
+
+    void updateWidgets();
 protected:
     void paintEvent(ePainter& p);
     bool mousePressEvent(const eMouseEvent& e);
 private:
+    void armyDrawXY(eWorldCity& c1, eWorldCity& c2,
+                    const double frac, int& x, int& y);
+
     eGameBoard* mGameBoard = nullptr;
     eWorldBoard* mWorldBoard = nullptr;
     int mFrame = 0;
@@ -26,6 +33,7 @@ private:
     std::map<std::string, stdsptr<eTexture>> mNames;
 
     eSelectCityAction mSelectCityAction;
+    eSetTextAction mSetTextAction;
 };
 
 #endif // EWORLDMAPWIDGET_H

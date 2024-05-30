@@ -6,6 +6,9 @@
 #include "engine/egameboard.h"
 #include "gameEvents/earmyreturnevent.h"
 #include "gameEvents/einvasionevent.h"
+#include "elanguage.h"
+#include "audio/esounds.h"
+#include "estringhelpers.h"
 
 eWorldMapWidget::eWorldMapWidget(eMainWindow* const window) :
     eLabel(window) {}
@@ -23,10 +26,15 @@ void eWorldMapWidget::initialize() {
 void eWorldMapWidget::setBoard(eGameBoard* const b) {
     mGameBoard = b;
     mWorldBoard = b ? &b->getWorldBoard() : nullptr;
+    updateWidgets();
 }
 
 void eWorldMapWidget::setSelectCityAction(const eSelectCityAction& s) {
     mSelectCityAction = s;
+}
+
+void eWorldMapWidget::setSetTextAction(const eSetTextAction& s) {
+    mSetTextAction = s;
 }
 
 void eWorldMapWidget::paintEvent(ePainter& p) {
@@ -40,7 +48,7 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
     const auto& texs = intrfc[iRes];
     const bool poseidon = mGameBoard->poseidonMode();
 
-    const auto handleCity = [&](const stdsptr<eWorldCityBase>& ct) {
+    const auto handleCity = [&](const stdsptr<eWorldCity>& ct) {
         const auto t = ct->type();
         stdsptr<eTexture> tex;
         switch(t) {
@@ -153,11 +161,10 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
 
         const auto hc = mWorldBoard->homeCity();
         if(ct != hc) {
-            const auto wt = static_cast<eWorldCity*>(ct.get());
             const auto& aColl = texs.fCityArmy;
             const auto& wColl = texs.fCityWealth;
-            const int a = std::clamp(wt->army(), 1, 5);
-            const int w = std::clamp(wt->wealth(), 1, 5);
+            const int a = std::clamp(ct->army(), 1, 5);
+            const int w = std::clamp(ct->wealth(), 1, 5);
             const int lp = res.largePadding();
             const int hp = res.hugePadding();
             int xx = x - hp;
@@ -202,16 +209,6 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
     for(const auto& ct : cts) {
         handleCity(ct);
     }
-
-    const auto armyDrawXY = [&](eWorldCity& c1, eWorldCity& c2,
-                               const double frac, int& x, int& y) {
-        const double hx = c1.x();
-        const double hy = c1.y();
-        const double ccx = c2.x();
-        const double ccy = c2.y();
-        x = (hx + (ccx - hx)*frac)*width();
-        y = (hy + (ccy - hy)*frac)*height();
-    };
 
     const auto cityFigures = [&](const eWorldCityType wct) {
         switch(wct) {
@@ -334,24 +331,194 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
 
 bool eWorldMapWidget::mousePressEvent(const eMouseEvent& e) {
     if(e.button() == eMouseButton::right) {
-        mSelectCityAction(nullptr);
+        if(mSelectCityAction) mSelectCityAction(nullptr);
         return true;
+    } else {
+        return false;
     }
-    if(!mWorldBoard || !mSelectCityAction) return false;
-    const auto& cts = mWorldBoard->cities();
-    stdsptr<eWorldCity> closestCt;
-    int minDist = width()/50;
-    for(const auto& ct : cts) {
-        const int px = width()*ct->x();
-        const int py = height()*ct->y();
-        const int dx = e.x() - px;
-        const int dy = e.y() - py;
-        const int dist = sqrt(dx*dx + dy*dy);
-        if(dist < minDist) {
-            closestCt = ct;
-            minDist = dist;
+}
+
+class eTransparentWidget : public eWidget {
+public:
+    using eWidget::eWidget;
+
+    void setPressAction(const eAction& a) {
+        mPressAction = a;
+    }
+protected:
+    bool mousePressEvent(const eMouseEvent& e) {
+        if(e.button() == eMouseButton::left) {
+            if(mPressAction) mPressAction();
+            eSounds::playButtonSound();
+            return true;
+        } else {
+            return false;
         }
     }
-    mSelectCityAction(closestCt);
-    return true;
+
+    bool mouseMoveEvent(const eMouseEvent& e) {
+        (void)e;
+        return true;
+    }
+
+    bool mouseEnterEvent(const eMouseEvent& e) {
+        (void)e;
+        return true;
+    }
+
+    bool mouseLeaveEvent(const eMouseEvent& e) {
+        (void)e;
+        return true;
+    }
+private:
+    eAction mPressAction;
+};
+
+void eWorldMapWidget::updateWidgets() {
+    removeAllWidgets();
+    if(!mWorldBoard) return;
+    const auto& intrfc = eGameTextures::interface();
+    const auto res = resolution();
+    const int iRes = static_cast<int>(res.uiScale());
+    const auto& texs = intrfc[iRes];
+    const auto& tex = texs.fZeusMainCity;
+    const int w = tex->width();
+    const int h = tex->height();
+    const int w2 = 2*w;
+    const int h2 = 2*h;
+
+    const int group = 44;
+    const int string = 334;
+    const auto clickForInfo = eLanguage::zeusText(group, string);
+
+    const auto& hc = mWorldBoard->homeCity();
+    const auto date = mGameBoard->date();
+    const auto& cs = mGameBoard->armyEvents();
+    for(const auto c : cs) {
+        const auto cDate = c->startDate();
+        const int days = cDate - date;
+        const int totDays = eArmyEventBase::sWaitTime;
+        const double frac = std::clamp(1. - (1.*days)/totDays, 0., 1.);
+        const auto& cc = c->city();
+        const bool reverse = dynamic_cast<eArmyReturnEvent*>(c);
+        const auto& forces = c->forces();
+        {
+            int cx;
+            int cy;
+            if(reverse) armyDrawXY(*cc, *hc, frac, cx, cy);
+            else armyDrawXY(*hc, *cc, frac, cx, cy);
+            const int s = forces.fSoldiers.size();
+            const bool hs = forces.fHeroes.empty();
+            if(s != 0 || !hs) {
+                const int x = cx - w2/2;
+                const int y = cy - h2/2;
+                const auto ww = new eTransparentWidget(window());
+                ww->setPressAction([this, cc, reverse]() {
+                    if(mSetTextAction) {
+                        const int group = 47;
+                        const int string = reverse ? 15 : 11;
+                        auto text = eLanguage::zeusText(group, string);
+                        eStringHelpers::replace(text, "[city_name]", cc->name());
+                        mSetTextAction(text);
+                    }
+                });
+                ww->resize(w2, h2);
+                addWidget(ww);
+                ww->move(x, y);
+                ww->setTooltip(clickForInfo);
+            }
+        }
+
+        for(const auto& a : forces.fAllies) {
+            int cx;
+            int cy;
+            if(reverse) armyDrawXY(*cc, *a, frac, cx, cy);
+            else armyDrawXY(*a, *cc, frac, cx, cy);
+            const int x = cx - w2/2;
+            const int y = cy - h2/2;
+            const auto ww = new eTransparentWidget(window());
+            ww->setPressAction([this, cc, reverse]() {
+                if(mSetTextAction) {
+                    const int group = 47;
+                    const int string = reverse ? 23 : 19;
+                    auto text = eLanguage::zeusText(group, string);
+                    eStringHelpers::replace(text, "[city_name]", cc->name());
+                    mSetTextAction(text);
+                }
+            });
+            ww->resize(w2, h2);
+            addWidget(ww);
+            ww->move(x, y);
+            ww->setTooltip(clickForInfo);
+        }
+    }
+    const auto& is = mGameBoard->invasions();
+    for(const auto i : is) {
+        if(!i->warned()) continue;
+        const auto sDate = i->startDate();
+        const auto wDate = i->firstWarning();
+        const int days = sDate - date;
+        const int totDays = sDate - wDate;
+        const double frac = std::clamp(1. - (1.*days)/totDays, 0., 1.);
+        const auto& cc = i->city();
+        int cx;
+        int cy;
+        armyDrawXY(*cc, *hc, frac, cx, cy);
+
+        const int x = cx - w2/2;
+        const int y = cy - h2/2;
+        const auto ww = new eTransparentWidget(window());
+        ww->setPressAction([this, cc]() {
+            if(mSetTextAction) {
+                const int group = 47;
+                const int string = 25;
+                const auto text = eLanguage::zeusText(group, string);
+                mSetTextAction(text);
+            }
+        });
+        ww->resize(w2, h2);
+        addWidget(ww);
+        ww->move(x, y);
+        ww->setTooltip(clickForInfo);
+    }
+
+    const auto& cts = mWorldBoard->cities();
+    for(const auto& ct : cts) {
+        const int cx = width()*ct->x();
+        const int cy = height()*ct->y();
+        const int x = cx - w/2;
+        const int y = cy - h/2;
+        const auto ww = new eTransparentWidget(window());
+        ww->setPressAction([this, ct]() {
+            if(mSelectCityAction) mSelectCityAction(ct);
+        });
+        ww->resize(w, h);
+        addWidget(ww);
+        ww->move(x, y);
+        ww->setTooltip(clickForInfo);
+    }
+    {
+        const int cx = width()*hc->x();
+        const int cy = height()*hc->y();
+        const int x = cx - w/2;
+        const int y = cy - h/2;
+        const auto ww = new eTransparentWidget(window());
+        ww->setPressAction([this, hc]() {
+            if(mSelectCityAction) mSelectCityAction(hc);
+        });
+        ww->resize(w, h);
+        addWidget(ww);
+        ww->move(x, y);
+        ww->setTooltip(clickForInfo);
+    }
+}
+
+void eWorldMapWidget::armyDrawXY(eWorldCity& c1, eWorldCity& c2,
+                                 const double frac, int& x, int& y) {
+    const double hx = c1.x();
+    const double hy = c1.y();
+    const double ccx = c2.x();
+    const double ccy = c2.y();
+    x = (hx + (ccx - hx)*frac)*width();
+    y = (hy + (ccy - hy)*frac)*height();
 }

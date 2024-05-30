@@ -13,8 +13,10 @@ public:
     void initialize();
     void setCity(const stdsptr<eWorldCity>& c);
 private:
+    eLabel* mTitleLabel = nullptr;
     eLabel* mTypeIcon = nullptr;
     eLabel* mTextLabel = nullptr;
+    eLabel* mAlliesLabel = nullptr;
 };
 
 #endif // EWORLDTRIBUTEWIDGET_H
