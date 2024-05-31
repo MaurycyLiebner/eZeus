@@ -78,8 +78,6 @@ public:
     bool visible() const { return mVisible; }
     void setVisible(const bool v) { mVisible = v; }
 
-    bool isSoldier() const;
-
     bool defend(const double a);
 
     static stdsptr<eCharacter> sCreate(

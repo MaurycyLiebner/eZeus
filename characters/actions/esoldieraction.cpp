@@ -175,42 +175,74 @@ void eSoldierAction::increment(const int by) {
             return;
         }
     }
+    const vec2d cpos{c->absX(), c->absY()};
+
+    const auto setMeleeAttackTarget = [&](const stdsptr<eCharacter>& cc) {
+        const vec2d ccpos{cc->absX(), cc->absY()};
+        const vec2d posdif = ccpos - cpos;
+        mAttackTarget = eAttackTarget(cc.get());
+        mAttack = true;
+        c->setPlayFightSound(true);
+        mAttackTime = 0;
+        c->setActionType(eCharacterActionType::fight);
+        mAngle = posdif.angle();
+        const auto o = sAngleOrientation(mAngle);
+        c->setOrientation(o);
+    };
 
     mBuildingAttack += by;
     const bool buildingAttack = mBuildingAttack > buildingCheck;
     if(buildingAttack) {
         mBuildingAttack -= buildingCheck;
     }
-    const vec2d cpos{c->absX(), c->absY()};
+    stdsptr<eCharacter> immortal;
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
             const auto t = brd.tile(tx + i, ty + j);
             if(!t) continue;
             const auto& chars = t->characters();
             for(const auto& cc : chars) {
-                if(!cc->isSoldier()) continue;
                 if(cc->playerId() == pid) continue;
                 if(cc->dead()) continue;
                 const vec2d ccpos{cc->absX(), cc->absY()};
                 const vec2d posdif = ccpos - cpos;
                 const double dist = posdif.length();
                 if(dist > 1.) continue;
-                mAttackTarget = eAttackTarget(cc.get());
-                mAttack = true;
-                c->setPlayFightSound(true);
-                mAttackTime = 0;
-                c->setActionType(eCharacterActionType::fight);
-                mAngle = posdif.angle();
-                const auto o = sAngleOrientation(mAngle);
-                c->setOrientation(o);
+                if(!cc->isSoldier()) {
+                    if(cc->isImmortal()) {
+                        immortal = cc;
+                    }
+                    continue;
+                }
+                setMeleeAttackTarget(cc);
                 return;
             }
             if(buildingAttack) {
                 const bool r = attackBuilding(t);
-                if(r) return;
+                if(r) {
+                    c->setActionType(eCharacterActionType::fight);
+                    return;
+                }
             }
         }
     }
+    if(immortal) {
+        setMeleeAttackTarget(immortal);
+        return;
+    }
+
+    const auto setRangeAttackTarget = [&](const stdsptr<eCharacter>& cc) {
+        const vec2d ccpos{cc->absX(), cc->absY()};
+        const vec2d posdif = ccpos - cpos;
+        mAttackTarget = eAttackTarget(cc.get());
+        mAttack = true;
+        c->setPlayFightSound(true);
+        mAttackTime = 0;
+        c->setActionType(eCharacterActionType::fight2);
+        mAngle = posdif.angle();
+        const auto o = sAngleOrientation(mAngle);
+        c->setOrientation(o);
+    };
 
     if(range > 0) {
         mRangeAttack += by;
@@ -222,19 +254,15 @@ void eSoldierAction::increment(const int by) {
                     if(!t) continue;
                     const auto& chars = t->characters();
                     for(const auto& cc : chars) {
-                        if(!cc->isSoldier()) continue;
                         if(cc->playerId() == pid) continue;
                         if(cc->dead()) continue;
-                        const vec2d ccpos{cc->absX(), cc->absY()};
-                        const vec2d posdif = ccpos - cpos;
-                        mAttackTarget = eAttackTarget(cc.get());
-                        mAttack = true;
-                        c->setPlayFightSound(true);
-                        mAttackTime = 0;
-                        c->setActionType(eCharacterActionType::fight2);
-                        mAngle = posdif.angle();
-                        const auto o = sAngleOrientation(mAngle);
-                        c->setOrientation(o);
+                        if(!cc->isSoldier()) {
+                            if(cc->isImmortal()) {
+                                immortal = cc;
+                            }
+                            continue;
+                        }
+                        setRangeAttackTarget(cc);
                         const auto ss = static_cast<eSoldier*>(cc.get());
                         sSignalBeingAttack(ss, s, brd);
                         return;
@@ -248,6 +276,11 @@ void eSoldierAction::increment(const int by) {
                     }
                 }
             }
+        }
+
+        if(immortal) {
+            setRangeAttackTarget(immortal);
+            return;
         }
     }
 

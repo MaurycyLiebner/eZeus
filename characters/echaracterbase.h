@@ -174,6 +174,12 @@ public:
     void setType(eCharacterType type) { mType = type; }
     eCharacterType type() const { return mType; }
 
+    bool isSoldier() const;
+    bool isGod() const;
+    bool isHero() const;
+    bool isMonster() const;
+    bool isImmortal() const;
+
     virtual void read(eReadStream& src);
     virtual void write(eWriteStream& dst) const;
 private:

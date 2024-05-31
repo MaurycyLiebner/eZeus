@@ -130,29 +130,6 @@ void eDefendCityAction::increment(const int by) {
         }
     }
 
-    mLookForEnemy += by;
-    if(mLookForEnemy > lookForEnemyCheck) {
-        mLookForEnemy -= lookForEnemyCheck;
-        const int erange = 3 + range;
-        bool found = false;
-        for(int i = -erange; i <= erange && !found; i++) {
-            for(int j = -erange; j <= erange && !found; j++) {
-                const int ttx = tx + i;
-                const int tty = ty + j;
-                const auto t = brd.tile(ttx, tty);
-                if(!t) continue;
-                const auto& chars = t->characters();
-                for(const auto& cc : chars) {
-                    if(!cc->isSoldier()) continue;
-                    if(cc->playerId() == pid) continue;
-                    if(cc->dead()) continue;
-                    found = true;
-                    goTo(ttx, tty, range);
-                    break;
-                }
-            }
-        }
-    }
     const vec2d cpos{c->absX(), c->absY()};
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
@@ -205,6 +182,30 @@ void eDefendCityAction::increment(const int by) {
                         eSoldierAction::sSignalBeingAttack(ss, c, brd);
                         return;
                     }
+                }
+            }
+        }
+    }
+
+    mLookForEnemy += by;
+    if(mLookForEnemy > lookForEnemyCheck) {
+        mLookForEnemy -= lookForEnemyCheck;
+        const int erange = 3 + range;
+        bool found = false;
+        for(int i = -erange; i <= erange && !found; i++) {
+            for(int j = -erange; j <= erange && !found; j++) {
+                const int ttx = tx + i;
+                const int tty = ty + j;
+                const auto t = brd.tile(ttx, tty);
+                if(!t) continue;
+                const auto& chars = t->characters();
+                for(const auto& cc : chars) {
+                    if(!cc->isSoldier()) continue;
+                    if(cc->playerId() == pid) continue;
+                    if(cc->dead()) continue;
+                    found = true;
+                    goTo(ttx, tty, range);
+                    break;
                 }
             }
         }

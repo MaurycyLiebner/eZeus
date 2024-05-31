@@ -178,15 +178,6 @@ void eCharacter::setProvide(const eProvide p, const int n) {
     mProvideCount = n;
 }
 
-bool eCharacter::isSoldier() const {
-    const auto t = type();
-    const int min = static_cast<int>(eCharacterType::rockThrower);
-    const int max = static_cast<int>(eCharacterType::greekHorseman);
-    const int bi = static_cast<int>(t);
-    if(bi >= min && bi <= max) return true;
-    return false;
-}
-
 bool eCharacter::defend(const double a) {
     if(dead()) return true;
 
