@@ -34,6 +34,9 @@ public:
 
     using eAction = std::function<void()>;
     void dispatch(const eAction& close = nullptr);
+
+    void won();
+    void lost();
 private:
     void finished(eEventTrigger& t, const eReason& r);
 

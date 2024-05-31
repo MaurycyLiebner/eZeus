@@ -217,7 +217,8 @@ public:
                                               const std::vector<eResourceType>& plunderResources)>;
     void setEnlistForcesRequest(const eEnlistRequest& req);
     void requestForces(const eEnlistAction& action,
-                       const std::vector<eResourceType>& plunderResources = {});
+                       const std::vector<eResourceType>& plunderResources = {},
+                       const std::vector<stdsptr<eWorldCity>>& exclude = {});
 
     using eAction = std::function<void()>;
     bool ifVisible(eTile* const tile, const eAction& func) const;
@@ -438,7 +439,7 @@ private:
     eAction mRequestUpdateHandler;
     eVisibilityChecker mVisibilityChecker;
     eTipShower mTipShower;
-    eEnlistRequest mElistRequester;
+    eEnlistRequest mEnlistRequester;
 
     std::string mPlayerName = "Ailuropoda";
 

@@ -6,6 +6,7 @@
 #include "engine/egameboard.h"
 #include "gameEvents/earmyreturnevent.h"
 #include "gameEvents/einvasionevent.h"
+#include "gameEvents/etroopsrequestfulfilledevent.h"
 #include "elanguage.h"
 #include "audio/esounds.h"
 #include "estringhelpers.h"
@@ -413,10 +414,11 @@ void eWorldMapWidget::updateWidgets() {
                 const int x = cx - w2/2;
                 const int y = cy - h2/2;
                 const auto ww = new eTransparentWidget(window());
-                ww->setPressAction([this, cc, reverse]() {
+                ww->setPressAction([this, c, cc, reverse]() {
                     if(mSetTextAction) {
                         const int group = 47;
-                        const int string = reverse ? 15 : 11;
+                        const bool help = dynamic_cast<eTroopsRequestFulfilledEvent*>(c);
+                        const int string = reverse ? 15 : (help ? 9 : 11);
                         auto text = eLanguage::zeusText(group, string);
                         eStringHelpers::replace(text, "[city_name]", cc->name());
                         mSetTextAction(text);

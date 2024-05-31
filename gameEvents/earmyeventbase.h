@@ -14,6 +14,9 @@ public:
                    eGameBoard& board);
     ~eArmyEventBase();
 
+    void write(eWriteStream& dst) const override;
+    void read(eReadStream& src) override;
+
     static const int sWaitTime = 150;
 
     const eEnlistedForces& forces() const { return mForces; }

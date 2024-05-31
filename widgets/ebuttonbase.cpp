@@ -31,6 +31,7 @@ bool eButtonBase::hovered() const {
 }
 
 bool eButtonBase::mousePressEvent(const eMouseEvent& e) {
+    if(!mEnabled) return false;
     if(e.button() == eMouseButton::left) {
         mPressed = true;
         return true;
@@ -40,6 +41,7 @@ bool eButtonBase::mousePressEvent(const eMouseEvent& e) {
 }
 
 bool eButtonBase::mouseReleaseEvent(const eMouseEvent& e) {
+    if(!mEnabled) return false;
     if(e.button() == eMouseButton::left) {
         mPressed = false;
         if(mPressAction) mPressAction();
@@ -51,11 +53,13 @@ bool eButtonBase::mouseReleaseEvent(const eMouseEvent& e) {
 }
 
 bool eButtonBase::mouseMoveEvent(const eMouseEvent& e) {
+    if(!mEnabled) return false;
     (void)e;
     return true;
 }
 
 bool eButtonBase::mouseEnterEvent(const eMouseEvent& e) {
+    if(!mEnabled) return false;
     (void)e;
     if(mEnterAction) {
         mEnterAction();
@@ -65,6 +69,7 @@ bool eButtonBase::mouseEnterEvent(const eMouseEvent& e) {
 }
 
 bool eButtonBase::mouseLeaveEvent(const eMouseEvent& e) {
+    if(!mEnabled) return false;
     (void)e;
     if(mLeaveAction) {
         mLeaveAction();

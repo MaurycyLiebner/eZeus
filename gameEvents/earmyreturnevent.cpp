@@ -74,21 +74,6 @@ std::string eArmyReturnEvent::longName() const {
     return eLanguage::text("army_returns_event_long_name");
 }
 
-void eArmyReturnEvent::write(eWriteStream& dst) const {
-    eGameEvent::write(dst);
-    mForces.write(dst);
-    dst.writeCity(mCity.get());
-}
-
-void eArmyReturnEvent::read(eReadStream& src) {
-    eGameEvent::read(src);
-    auto& board = getBoard();
-    mForces.read(board, src);
-    src.readCity(&board, [this](const stdsptr<eWorldCity>& c) {
-        mCity = c;
-    });
-}
-
 stdsptr<eGameEvent> eArmyReturnEvent::makeCopy(const std::string& reason) const {
     const auto c = e::make_shared<eArmyReturnEvent>(branch(), getBoard());
     c->mForces = mForces;

@@ -82,7 +82,7 @@ void eEventSelectionWidget::initialize(
             eLanguage::text("god_quest"),
             eLanguage::text("military_change_long_name"),
             eLanguage::text("economic_change_long_name"),
-            eLanguage::text("troops_request_long_name")
+            eLanguage::text("troops_request_short_name")
         };
         const auto echoose = new eChooseButton(window());
         const auto act = [this, add, boardPtr, types, labels, editEvent](const int val) {

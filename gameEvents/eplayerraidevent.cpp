@@ -85,19 +85,12 @@ std::string ePlayerRaidEvent::longName() const {
 }
 
 void ePlayerRaidEvent::write(eWriteStream& dst) const {
-    eGameEvent::write(dst);
-    mForces.write(dst);
-    dst.writeCity(mCity.get());
+    ePlayerConquestEventBase::write(dst);
     dst << mResource;
 }
 
 void ePlayerRaidEvent::read(eReadStream& src) {
-    eGameEvent::read(src);
-    auto& board = getBoard();
-    mForces.read(board, src);
-    src.readCity(&board, [this](const stdsptr<eWorldCity>& c) {
-        mCity = c;
-    });
+    ePlayerConquestEventBase::read(src);
     src >> mResource;
 }
 

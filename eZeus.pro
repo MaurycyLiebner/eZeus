@@ -369,6 +369,7 @@ SOURCES += \
         gameEvents/ereceiverequestevent.cpp \
         gameEvents/eresourcegrantedeventbase.cpp \
         gameEvents/etroopsrequestevent.cpp \
+        gameEvents/etroopsrequestfulfilledevent.cpp \
         main.cpp \
         missiles/earrowmissile.cpp \
         missiles/egodmissile.cpp \
@@ -900,6 +901,7 @@ HEADERS += \
     gameEvents/ereceiverequestevent.h \
     gameEvents/eresourcegrantedeventbase.h \
     gameEvents/etroopsrequestevent.h \
+    gameEvents/etroopsrequestfulfilledevent.h \
     missiles/earrowmissile.h \
     missiles/egodmissile.h \
     missiles/emissile.h \

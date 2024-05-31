@@ -1725,12 +1725,13 @@ void eGameBoard::showTip(const std::string& tip) {
 }
 
 void eGameBoard::setEnlistForcesRequest(const eEnlistRequest& req) {
-    mElistRequester = req;
+    mEnlistRequester = req;
 }
 
 void eGameBoard::requestForces(const eEnlistAction& action,
-                               const std::vector<eResourceType>& plunderResources) {
-    if(mElistRequester) {
+                               const std::vector<eResourceType>& plunderResources,
+                               const std::vector<stdsptr<eWorldCity>>& exclude) {
+    if(mEnlistRequester) {
         auto f = getEnlistableForces();
         std::vector<bool> heroesAbroad;
         for(const auto h : f.fHeroes) {
@@ -1738,7 +1739,10 @@ void eGameBoard::requestForces(const eEnlistAction& action,
             const bool abroad = !hh ? true : hh->heroOnQuest();
             heroesAbroad.push_back(abroad);
         }
-        mElistRequester(f, heroesAbroad, action, plunderResources);
+        for(const auto& e : exclude) {
+            eVectorHelpers::remove(f.fAllies, e);
+        }
+        mEnlistRequester(f, heroesAbroad, action, plunderResources);
     }
 }
 
