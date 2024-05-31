@@ -146,7 +146,6 @@ void eReceiveRequestEvent::trigger() {
     const int avCount = board.resourceCount(mResource);
     ed.fSpaceCount = avCount;
 
-    ed.fType = eMessageEventType::requestTributeGranted;
     if(avCount >= mCount) {
         ed.fA0 = [this]() { // dispatch now
             dispatch();
@@ -179,7 +178,6 @@ void eReceiveRequestEvent::trigger() {
 
     ed.fType = eMessageEventType::generalRequestGranted;
     if(mPostpone == 0) { // initial
-        const auto request = cityRequest();
         board.addCityRequest(mainEvent<eReceiveRequestEvent>());
     }
     if(rel == eWorldCityRelationship::rival) {

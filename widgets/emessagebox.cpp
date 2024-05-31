@@ -37,9 +37,13 @@ void eMessageBox::initialize(const eEventData& ed,
     const auto w0 = new eWidget(window());
     {
         w0->setNoPadding();
-        if(ed.fCity) {
+        if(const auto& c = ed.fCity) {
             eStringHelpers::replaceAll(msg.fTitle, "[city_name]",
-                                       ed.fCity->name());
+                                       c->name());
+        }
+        if(const auto& c = ed.fRivalCity) {
+            eStringHelpers::replaceAll(msg.fTitle, "[rival_city_name]",
+                                       c->name());
         }
         {
             const auto type = ed.fResourceType;
@@ -111,13 +115,19 @@ void eMessageBox::initialize(const eEventData& ed,
                                       std::to_string(ed.fTime));
         }
     }
+    if(ed.fRivalCity) {
+        eStringHelpers::replaceAll(msg.fText, "[rival_nationality]",
+                                   ed.fRivalCity->nationality());
+        eStringHelpers::replaceAll(msg.fText, "[rival_city_name]",
+                                   ed.fRivalCity->name());
+    }
 
     ww->addWidget(text);
     addWidget(ww);
 
     eOkButton* ok = nullptr;
     eWidget* wid = nullptr;
-    const bool addOk = !ed.fA0 && !ed.fA1 && !ed.fA2;
+    const bool addOk = !ed.fCA0 && !ed.fA0 && !ed.fA1 && !ed.fA2;
     if(addOk) {
         ok = new eOkButton(window());
         ok->setPressAction([this]() {
@@ -328,6 +338,70 @@ void eMessageBox::initialize(const eEventData& ed,
             if(ed.fA2) ed.fA2();
             close();
         });
+
+        const int w = width() - 4*p;
+        wid->setWidth(w);
+        wid->layoutHorizontallyWithoutSpaces();
+        wid->fitContent();
+        wid->setWidth(w);
+        a0B->align(eAlignment::vcenter);
+        a1B->align(eAlignment::vcenter);
+        a2B->align(eAlignment::vcenter);
+
+        addWidget(wid);
+    } else if(ed.fType == eMessageEventType::troopsRequest) {
+        const auto c = ed.fCity;
+        if(!c) return;
+        const int time = ed.fTime;
+        const auto timeStr = std::to_string(time);
+
+        eStringHelpers::replaceAll(msg.fText, "[travel_time]",
+                                   timeStr);
+
+        wid = new eWidget(window());
+        wid->setNoPadding();
+
+        const auto a0B = new eFramedButton(window());
+        a0B->setSmallFontSize();
+        a0B->setUnderline(false);
+        a0B->setText(ed.fA0Key);
+        a0B->fitContent();
+        wid->addWidget(a0B);
+        if(ed.fCA0) {
+            a0B->setPressAction([this, ed]() {
+                ed.fCA0([this]() { close(); });
+            });
+        } else {
+            a0B->setPressAction([this, ed]() {
+                if(ed.fA0) ed.fA0();
+                close();
+            });
+        }
+        a0B->setVisible(ed.fA0 != nullptr || ed.fCA0 != nullptr);
+
+        const auto a1B = new eFramedButton(window());
+        a1B->setSmallFontSize();
+        a1B->setUnderline(false);
+        a1B->setText(ed.fA1Key);
+        a1B->fitContent();
+        wid->addWidget(a1B);
+        a1B->setPressAction([this, ed]() {
+            if(ed.fA1) ed.fA1();
+            close();
+        });
+        a1B->setVisible(ed.fA1 != nullptr);
+
+        const auto a2B = new eFramedButton(window());
+        a2B->setSmallFontSize();
+        a2B->setUnderline(false);
+        a2B->setText(ed.fA2Key);
+        a2B->fitContent();
+        wid->addWidget(a2B);
+        a2B->setPressAction([this, ed]() {
+            if(ed.fA2) ed.fA2();
+            close();
+        });
+        a1B->setVisible(ed.fA2 != nullptr);
 
         const int w = width() - 4*p;
         wid->setWidth(w);

@@ -368,6 +368,7 @@ SOURCES += \
         gameEvents/eraidresourceevent.cpp \
         gameEvents/ereceiverequestevent.cpp \
         gameEvents/eresourcegrantedeventbase.cpp \
+        gameEvents/etroopsrequestevent.cpp \
         main.cpp \
         missiles/earrowmissile.cpp \
         missiles/egodmissile.cpp \
@@ -521,6 +522,7 @@ SOURCES += \
         widgets/eventwidgets/einvasioneventwidget.cpp \
         widgets/eventwidgets/emonsterattackeventwidget.cpp \
         widgets/eventwidgets/ereceiverequesteventwidget.cpp \
+        widgets/eventwidgets/etroopsrequesteventwidget.cpp \
         widgets/eviewmode.cpp \
         widgets/ewidget.cpp \
         widgets/eworldgoodswidget.cpp \
@@ -897,6 +899,7 @@ HEADERS += \
     gameEvents/eraidresourceevent.h \
     gameEvents/ereceiverequestevent.h \
     gameEvents/eresourcegrantedeventbase.h \
+    gameEvents/etroopsrequestevent.h \
     missiles/earrowmissile.h \
     missiles/egodmissile.h \
     missiles/emissile.h \
@@ -2187,6 +2190,7 @@ HEADERS += \
     widgets/eventwidgets/einvasioneventwidget.h \
     widgets/eventwidgets/emonsterattackeventwidget.h \
     widgets/eventwidgets/ereceiverequesteventwidget.h \
+    widgets/eventwidgets/etroopsrequesteventwidget.h \
     widgets/eviewmode.h \
     widgets/ewidget.h \
     widgets/eworldgoodswidget.h \

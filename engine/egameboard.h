@@ -56,6 +56,7 @@ class eSoldier;
 class eInvasionHandler;
 class ePlayerConquestEventBase;
 class eArmyEventBase;
+class eTroopsRequestEvent;
 enum class eMessageEventType;
 
 struct eMessageType;
@@ -208,6 +209,15 @@ public:
     using eTipShower = std::function<void(const std::string&)>;
     void setTipShower(const eTipShower& ts);
     void showTip(const std::string& tip);
+
+    using eEnlistAction = std::function<void(const eEnlistedForces&, eResourceType)>;
+    using eEnlistRequest = std::function<void(const eEnlistedForces& enlistable,
+                                              const std::vector<bool>& heroesAbroad,
+                                              const eEnlistAction& action,
+                                              const std::vector<eResourceType>& plunderResources)>;
+    void setEnlistForcesRequest(const eEnlistRequest& req);
+    void requestForces(const eEnlistAction& action,
+                       const std::vector<eResourceType>& plunderResources = {});
 
     using eAction = std::function<void()>;
     bool ifVisible(eTile* const tile, const eAction& func) const;
@@ -371,6 +381,11 @@ public:
     void addCityRequest(eReceiveRequestEvent* const q);
     void removeCityRequest(eReceiveRequestEvent* const q);
 
+    using eTroopsRequests = std::vector<eTroopsRequestEvent*>;
+    const eTroopsRequests& cityTroopsRequests() const { return mCityTroopsRequests; }
+    void addCityTroopsRequest(eTroopsRequestEvent* const q);
+    void removeCityTroopsRequest(eTroopsRequestEvent* const q);
+
     using eConquests = std::vector<ePlayerConquestEventBase*>;
     const eConquests& conquests() const { return mConquests; }
     void addConquest(ePlayerConquestEventBase* const q);
@@ -423,6 +438,7 @@ private:
     eAction mRequestUpdateHandler;
     eVisibilityChecker mVisibilityChecker;
     eTipShower mTipShower;
+    eEnlistRequest mElistRequester;
 
     std::string mPlayerName = "Ailuropoda";
 
@@ -480,6 +496,7 @@ private:
     std::vector<eArmyEventBase*> mArmyEvents;
     std::vector<eReceiveRequestEvent*> mCityRequests;
     std::vector<eInvasionEvent*> mInvasions;
+    std::vector<eTroopsRequestEvent*> mCityTroopsRequests;
 
     std::vector<eSanctuary*> mSanctuaries;
     std::vector<eHerosHall*> mHeroHalls;

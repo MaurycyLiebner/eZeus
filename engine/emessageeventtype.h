@@ -7,7 +7,8 @@ enum class eMessageEventType {
     requestTributeGranted,
     resourceGranted,
     generalRequestGranted,
-    invasionMessage
+    invasionMessage,
+    troopsRequest
 };
 
 #endif // EMESSAGEEVENTTYPE_H

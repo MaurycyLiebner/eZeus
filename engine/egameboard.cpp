@@ -1020,6 +1020,16 @@ void eGameBoard::removeCityRequest(eReceiveRequestEvent* const q) {
     if(mRequestUpdateHandler) mRequestUpdateHandler();
 }
 
+void eGameBoard::addCityTroopsRequest(eTroopsRequestEvent* const q) {
+    mCityTroopsRequests.push_back(q);
+    if(mRequestUpdateHandler) mRequestUpdateHandler();
+}
+
+void eGameBoard::removeCityTroopsRequest(eTroopsRequestEvent* const q) {
+    eVectorHelpers::remove(mCityTroopsRequests, q);
+    if(mRequestUpdateHandler) mRequestUpdateHandler();
+}
+
 void eGameBoard::addConquest(ePlayerConquestEventBase* const q) {
     mConquests.push_back(q);
 }
@@ -1712,6 +1722,24 @@ void eGameBoard::setTipShower(const eTipShower& ts) {
 
 void eGameBoard::showTip(const std::string& tip) {
     if(mTipShower) mTipShower(tip);
+}
+
+void eGameBoard::setEnlistForcesRequest(const eEnlistRequest& req) {
+    mElistRequester = req;
+}
+
+void eGameBoard::requestForces(const eEnlistAction& action,
+                               const std::vector<eResourceType>& plunderResources) {
+    if(mElistRequester) {
+        auto f = getEnlistableForces();
+        std::vector<bool> heroesAbroad;
+        for(const auto h : f.fHeroes) {
+            const auto hh = heroHall(h);
+            const bool abroad = !hh ? true : hh->heroOnQuest();
+            heroesAbroad.push_back(abroad);
+        }
+        mElistRequester(f, heroesAbroad, action, plunderResources);
+    }
 }
 
 bool eGameBoard::ifVisible(eTile* const tile, const eAction& func) const {

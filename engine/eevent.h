@@ -128,6 +128,28 @@ enum class eEvent {
     militaryDecline,
     economicProsperity,
     economicDecline,
+
+    troopsRequestVassalInitial,
+    troopsRequestVassalFirstReminder,
+    troopsRequestVassalLastReminder,
+    troopsRequestVassalConquered,
+
+    troopsRequestColonyInitial,
+    troopsRequestColonyFirstReminder,
+    troopsRequestColonyLastReminder,
+    troopsRequestColonyConquered,
+
+    troopsRequestParentCityInitial,
+    troopsRequestParentCityFirstReminder,
+    troopsRequestParentCityLastReminder,
+    troopsRequestParentCityConquered,
+
+    troopsRequestAllyInitial,
+    troopsRequestAllyFirstReminder,
+    troopsRequestAllyLastReminder,
+    troopsRequestAllyConquered,
+
+    troopsRequestAttackAverted
 };
 
 #endif // EEVENT_H

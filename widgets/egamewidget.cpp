@@ -50,6 +50,8 @@
 #include "etilehelper.h"
 #include "widgets/equestionwidget.h"
 
+#include "widgets/eenlistforcesdialog.h"
+
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {}
 
@@ -74,6 +76,19 @@ void eGameWidget::setBoard(eGameBoard* const board) {
     });
     mBoard->setTipShower([this](const std::string& tip) {
         showTip(tip);
+    });
+    using eEnlistAction = std::function<void(const eEnlistedForces&, eResourceType)>;
+    mBoard->setEnlistForcesRequest([this](
+                                   const eEnlistedForces& enlistable,
+                                   const std::vector<bool>& heroesAbroad,
+                                   const eEnlistAction& action,
+                                   const std::vector<eResourceType>& plunderResources) {
+        const auto d = new eEnlistForcesDialog(window());
+        d->initialize(enlistable, heroesAbroad, action, plunderResources);
+        addWidget(d);
+        d->align(eAlignment::vcenter);
+        d->setX(x() + (width() - d->width())/2);
+        window()->execDialog(d);
     });
 }
 

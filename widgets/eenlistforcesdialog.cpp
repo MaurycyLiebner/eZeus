@@ -7,6 +7,7 @@
 #include "econtextmenu.h"
 #include "emainwindow.h"
 #include "echoosebutton.h"
+#include "eframedlabel.h"
 
 enum class eEnlistType {
     horseman, hoplite, navy,
@@ -575,8 +576,26 @@ void eEnlistForcesDialog::initialize(
         dispatchButt->setText(eLanguage::zeusText(283, 21));
         dispatchButt->fitContent();
         const auto dispatchAct = [this, action]() {
-            if(action) action(mSelected, mSelectedPlunder);
-            deleteLater();
+            if(mSelected.fHeroes.empty() && mSelected.fSoldiers.empty()) {
+                const auto msgb = new eFramedLabel(window());
+                msgb->setType(eFrameType::message);
+                msgb->setWrapWidth(width()/2);
+                msgb->setSmallFontSize();
+                msgb->setText(eLanguage::zeusText(5, 13));
+                msgb->fitContent();
+                const int p = msgb->padding();
+                addWidget(msgb);
+                msgb->resize(msgb->width() + 2*p, msgb->height() + 2*p);
+                msgb->align(eAlignment::center);
+                eTip etip;
+                etip.fWid = msgb;
+                etip.fLastFrame = mFrame + 100;
+                mTips.push_back(etip);
+                updateTipPositions();
+            } else {
+                if(action) action(mSelected, mSelectedPlunder);
+                deleteLater();
+            }
         };
         dispatchButt->setPressAction(dispatchAct);
         buttonsWid->addWidget(dispatchButt);
@@ -682,3 +701,31 @@ void eEnlistForcesDialog::initialize(
     innerWid->addWidget(buttonsWid);
     innerWid->layoutVerticallyWithoutSpaces();
 }
+
+void eEnlistForcesDialog::paintEvent(ePainter& p) {
+    mFrame++;
+    bool updateTips = false;
+    for(int i = 0; i < int(mTips.size()); i++) {
+        const auto& tip = mTips[i];
+        if(mFrame > tip.fLastFrame) {
+            tip.fWid->deleteLater();
+            mTips.erase(mTips.begin() + i);
+            updateTips = true;
+            i--;
+        }
+    }
+    if(updateTips) updateTipPositions();
+    eClosableDialog::paintEvent(p);
+}
+
+void eEnlistForcesDialog::updateTipPositions() {
+    const int p = padding();
+    int y = 6*p;
+    for(const auto& tip : mTips) {
+        const auto w = tip.fWid;
+        w->setY(y);
+        const int wh = w->height();
+        y += wh + 2*p;
+    }
+}
+

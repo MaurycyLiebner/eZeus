@@ -6,6 +6,7 @@
 #include "emessageeventtype.h"
 
 using eAction = std::function<void()>;
+using eCloseOnAction = std::function<void(const eAction&)>;
 
 enum class eGodType;
 enum class eHeroType;
@@ -19,6 +20,7 @@ struct eEventData {
     eTile* fTile = nullptr;
     stdptr<eCharacter> fChar;
     int fBribe = 0;
+    eCloseOnAction fCA0 = nullptr;
     eAction fA0 = nullptr;
     std::string fA0Key;
     eAction fA1 = nullptr;
@@ -26,6 +28,7 @@ struct eEventData {
     eAction fA2 = nullptr;
     std::string fA2Key;
     stdsptr<eWorldCity> fCity;
+    stdsptr<eWorldCity> fRivalCity;
     eResourceType fResourceType = eResourceType::drachmas;
     int fResourceCount = 0;
     int fSpaceCount = 0;

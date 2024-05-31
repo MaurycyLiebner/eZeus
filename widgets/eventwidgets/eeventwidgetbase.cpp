@@ -19,6 +19,7 @@
 #include "ereceiverequesteventwidget.h"
 #include "egodquesteventwidget.h"
 #include "eeconomicmilitarychangeeventwidget.h"
+#include "etroopsrequesteventwidget.h"
 
 void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
     setType(eFrameType::message);
@@ -90,6 +91,12 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
     case eGameEventType::receiveRequest: {
         const auto eew = new eReceiveRequestEventWidget(window());
         const auto rree = static_cast<eReceiveRequestEvent*>(e.get());
+        eew->initialize(rree);
+        cont->addWidget(eew);
+    } break;
+    case eGameEventType::troopsRequest: {
+        const auto eew = new eTroopsRequestEventWidget(window());
+        const auto rree = static_cast<eTroopsRequestEvent*>(e.get());
         eew->initialize(rree);
         cont->addWidget(eew);
     } break;

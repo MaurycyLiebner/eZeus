@@ -77,6 +77,19 @@ struct eResourceGrantedMessages {
     eMessageType fRefused;
 };
 
+struct eTroopsRequestedMessages {
+    eMessageType fInitialAnnouncement;
+    eMessageType fFirstReminder;
+    eMessageType fLastReminder;
+    eReason fEarlyReason;
+    eReason fComplyReason;
+    eReason fTooLateReason;
+    eReason fRefuseReason;
+    eReason fLostBattleReason;
+
+    eMessageType fConquered;
+};
+
 class eMessages {
 public:
     eMessages() {}
@@ -229,8 +242,21 @@ public:
 
     eMessageType fEconomicProsperity;
     eMessageType fEconomicDecline;
+
+    eTroopsRequestedMessages fAllyTroopsRequest;
+    eTroopsRequestedMessages fVassalTroopsRequest;
+    eTroopsRequestedMessages fColonyTroopsRequest;
+    eTroopsRequestedMessages fParentCityTroopsRequest;
+
+    eMessageType fTroopsRequestAttackAverted;
 private:
     bool loadImpl();
+
+    void loadMessage(eMessageType& m,
+                     const std::string& titleKey,
+                     const std::string& textKey);
+    void loadReason(eReason& r, const std::string& key);
+
     void load(eGodMessages& god, const std::string& godName);
     void load(eHeroMessages& hero, const std::string& heroName);
     void load(eMonsterMessages& monster,
@@ -241,6 +267,9 @@ private:
                             const std::string& letter);
     void loadResourceGranted(eResourceGrantedMessages& granted,
                              const std::string& name);
+    void load(eTroopsRequestedMessages& troops,
+              const std::string& name,
+              const std::string& letter);
 
     bool mLoaded = false;
 };

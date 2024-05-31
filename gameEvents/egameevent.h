@@ -32,7 +32,9 @@ enum class eGameEventType {
     armyReturnEvent,
 
     militaryChange,
-    economicChange
+    economicChange,
+
+    troopsRequest
 };
 
 enum class eGameEventBranch {

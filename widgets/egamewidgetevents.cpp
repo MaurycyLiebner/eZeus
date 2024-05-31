@@ -589,6 +589,62 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
     case eEvent::economicDecline: {
         showMessage(ed, inst.fEconomicDecline, true);
     } break;
+
+    case eEvent::troopsRequestVassalInitial: {
+        showMessage(ed, inst.fVassalTroopsRequest.fInitialAnnouncement, true);
+    } break;
+    case eEvent::troopsRequestColonyInitial: {
+        showMessage(ed, inst.fColonyTroopsRequest.fInitialAnnouncement, true);
+    } break;
+    case eEvent::troopsRequestParentCityInitial: {
+        showMessage(ed, inst.fParentCityTroopsRequest.fInitialAnnouncement, true);
+    } break;
+    case eEvent::troopsRequestAllyInitial: {
+        showMessage(ed, inst.fAllyTroopsRequest.fInitialAnnouncement, true);
+    } break;
+
+    case eEvent::troopsRequestVassalFirstReminder: {
+        showMessage(ed, inst.fVassalTroopsRequest.fFirstReminder, true);
+    } break;
+    case eEvent::troopsRequestColonyFirstReminder: {
+        showMessage(ed, inst.fColonyTroopsRequest.fFirstReminder, true);
+    } break;
+    case eEvent::troopsRequestParentCityFirstReminder: {
+        showMessage(ed, inst.fParentCityTroopsRequest.fFirstReminder, true);
+    } break;
+    case eEvent::troopsRequestAllyFirstReminder: {
+        showMessage(ed, inst.fAllyTroopsRequest.fFirstReminder, true);
+    } break;
+
+    case eEvent::troopsRequestVassalLastReminder: {
+        showMessage(ed, inst.fVassalTroopsRequest.fLastReminder, true);
+    } break;
+    case eEvent::troopsRequestColonyLastReminder: {
+        showMessage(ed, inst.fColonyTroopsRequest.fLastReminder, true);
+    } break;
+    case eEvent::troopsRequestParentCityLastReminder: {
+        showMessage(ed, inst.fParentCityTroopsRequest.fLastReminder, true);
+    } break;
+    case eEvent::troopsRequestAllyLastReminder: {
+        showMessage(ed, inst.fAllyTroopsRequest.fLastReminder, true);
+    } break;
+
+    case eEvent::troopsRequestVassalConquered: {
+        showMessage(ed, inst.fVassalTroopsRequest.fConquered, true);
+    } break;
+    case eEvent::troopsRequestColonyConquered: {
+        showMessage(ed, inst.fColonyTroopsRequest.fConquered, true);
+    } break;
+    case eEvent::troopsRequestParentCityConquered: {
+        showMessage(ed, inst.fParentCityTroopsRequest.fConquered, true);
+    } break;
+    case eEvent::troopsRequestAllyConquered: {
+        showMessage(ed, inst.fAllyTroopsRequest.fConquered, true);
+    } break;
+
+    case eEvent::troopsRequestAttackAverted: {
+        showMessage(ed, inst.fTroopsRequestAttackAverted, true);
+    } break;
     }
     mGm->pushEvent(e, ed);
 }

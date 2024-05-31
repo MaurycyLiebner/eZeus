@@ -28,6 +28,7 @@ raid_resource_long_name "Raid resource granted"
 army_returns_event_long_name "Army returns"
 military_change_long_name "Military change"
 economic_change_long_name "Economic change"
+troops_request_long_name "Troops request from %1"
 
 quest_tip_build_hh "Build Hero's Hall for %1 to fulfill a quest"
 quest_tip_summon_hero "Summon %1 to fulfill a quest"
@@ -40,6 +41,7 @@ early "Ealry"
 comply "Comply"
 refuse "Refuse"
 too_late "Too late"
+lost_battle "Lost battle"
 
 fulfilled_trigger "Fulfilled"
 
@@ -57,6 +59,8 @@ infantry: "Infantry:"
 cavalry: "Cavalry:"
 range: "Range:"
 invasion_point: "Invasion point:"
+
+rival: "Rival:"
 
 change_by: "Change by:"
 

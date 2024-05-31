@@ -246,6 +246,49 @@ void eMessages::loadResourceGranted(eResourceGrantedMessages& granted,
     granted.fRefused.fCondensed.fText = fMessages["PHRASE_CONDENSED_gift_refused"];
 }
 
+void eMessages::loadMessage(eMessageType& m,
+                            const std::string& titleKey,
+                            const std::string& textKey) {
+    m.fFull.fTitle = fMessages["PHRASE_" + titleKey];
+    m.fFull.fText = fMessages["PHRASE_" + textKey];
+    m.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + titleKey];
+    m.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + textKey];
+};
+void eMessages::loadReason(eReason& r,
+                           const std::string& key) {
+    r.fFull = fMessages["PHRASE_" + key];
+    r.fCondensed = fMessages["PHRASE_CONDENSED_" + key];
+};
+
+void eMessages::load(eTroopsRequestedMessages& troops,
+                     const std::string& name,
+                     const std::string& letter) {
+    loadMessage(troops.fInitialAnnouncement,
+                name + "_under_attack_title_" + letter,
+                name + "_under_attack_initial_announcement_" + letter);
+    loadMessage(troops.fFirstReminder,
+                name + "_under_attack_title_" + letter,
+                name + "_under_attack_first_reminder_" + letter);
+    loadMessage(troops.fLastReminder,
+                name + "_under_attack_title_" + letter,
+                name + "_under_attack_last_reminder_" + letter);
+
+    loadReason(troops.fEarlyReason,
+               name + "_under_attack_early_reason_" + letter);
+    loadReason(troops.fComplyReason,
+               name + "_under_attack_comply_reason_" + letter);
+    loadReason(troops.fTooLateReason,
+               name + "_under_attack_too_late_reason_" + letter);
+    loadReason(troops.fRefuseReason,
+               name + "_under_attack_refuse_reason_" + letter);
+    loadReason(troops.fLostBattleReason,
+               name + "_under_attack_lost_battle_reason_" + letter);
+
+    loadMessage(troops.fConquered,
+                name + "_conquered_by_rival_title",
+                name + "_conquered_by_rival_initial_announcement");
+}
+
 bool eMessages::loadImpl() {
     if(mLoaded) return false;
     mLoaded = true;
@@ -658,6 +701,15 @@ bool eMessages::loadImpl() {
     fEconomicDecline.fFull.fText = fMessages["PHRASE_economic_change_initial_announcement_D"];
     fEconomicDecline.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_economic_change_title_D"];
     fEconomicDecline.fCondensed.fText = fMessages["PHRASE_CONDENSED_economic_change_initial_announcement_D"];
+
+    load(fAllyTroopsRequest, "ally", "S");
+    load(fVassalTroopsRequest, "vassal", "P");
+    load(fColonyTroopsRequest, "colony", "P");
+    load(fParentCityTroopsRequest, "parentcity", "R");
+
+    loadMessage(fTroopsRequestAttackAverted,
+                "attack_averted_title",
+                "attack_averted_initial_announcement");
 
     return true;
 }
