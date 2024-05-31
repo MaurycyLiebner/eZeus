@@ -90,6 +90,7 @@ public:
     void setRebellion(const bool r) { mRebellion = r; }
 
     eWorldCityType type() const { return mType; }
+    bool isDistant() const;
 
     double x() const { return mX; }
     double y() const { return mY; }

@@ -20,6 +20,24 @@ eWorldCityBase::eWorldCityBase(const eWorldCityType type,
     }
 }
 
+bool eWorldCityBase::isDistant() const {
+    switch(mType) {
+    case eWorldCityType::distantCity:
+    case eWorldCityType::distantCityN:
+    case eWorldCityType::distantCityNE:
+    case eWorldCityType::distantCityE:
+    case eWorldCityType::distantCitySE:
+    case eWorldCityType::distantCityS:
+    case eWorldCityType::distantCitySW:
+    case eWorldCityType::distantCityW:
+    case eWorldCityType::distantCityNW:
+        return true;
+    default:
+        return false;
+    }
+    return false;
+}
+
 void eWorldCityBase::setAttitude(const int a) {
     mAt = std::clamp(a, 0, 100);
 }

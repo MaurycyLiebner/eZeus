@@ -50,10 +50,15 @@ void eWorldMenu::initialize(const eAction& openRequest,
 
     {
         mRequestButton = eButton::sCreate(coll.fRequestButton, window(), this);
+        mRequestButton->setTooltip(eLanguage::zeusText(44, 308));
         mFulfillButton = eButton::sCreate(coll.fFulfillButton, window(), this);
+        mFulfillButton->setTooltip(eLanguage::zeusText(44, 310));
         mGiftButton = eButton::sCreate(coll.fGiftButton, window(), this);
+        mGiftButton->setTooltip(eLanguage::zeusText(44, 311));
         mRaidButton = eButton::sCreate(coll.fRaidButton, window(), this);
+        mRaidButton->setTooltip(eLanguage::zeusText(44, 312));
         mConquerButton = eButton::sCreate(coll.fConquerButton, window(), this);
+        mConquerButton->setTooltip(eLanguage::zeusText(44, 313));
 
         const int xwrb = std::round(6.5*mult);
         const int xwfb = 35*mult;
@@ -114,6 +119,7 @@ void eWorldMenu::initialize(const eAction& openRequest,
         const auto wat = eButton::sCreate(coll.fWorldBigButton, window(), this);
 
         mAttitudeLabel = new eLabel("unknown", window());
+        mAttitudeLabel->setTooltip(eLanguage::zeusText(44, 333));
         mAttitudeLabel->setSmallFontSize();
         mAttitudeLabel->fitContent();
         wat->addWidget(mAttitudeLabel);
@@ -186,7 +192,7 @@ void eWorldMenu::initialize(const eAction& openRequest,
         mTributeWidget->setY(mult*205);
 
         mTributeWidget->setWidth(mult*75);
-        mTributeWidget->setHeight(mult*24);
+        mTributeWidget->setHeight(mult*21);
 
         mTributeWidget->initialize();
     }

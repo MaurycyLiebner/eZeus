@@ -40,11 +40,21 @@ void eWorldTributeWidget::setCity(const stdsptr<eWorldCity>& c) {
     mTypeIcon->hide();
     mTextLabel->hide();
     if(c) {
+        const bool isDist = c->isDistant();
+        if(isDist) {
+            mAlliesLabel->setText(eLanguage::zeusText(44, 325));
+            mAlliesLabel->show();
+            return;
+        }
         const auto rel = c->relationship();
         const bool vassOrCol = rel == eWorldCityRelationship::vassal ||
                                rel == eWorldCityRelationship::collony;
         if(!vassOrCol) {
             if(rel == eWorldCityRelationship::ally) {
+                mAlliesLabel->setText(eLanguage::zeusText(44, 323));
+                mAlliesLabel->show();
+            } else if(rel == eWorldCityRelationship::rival) {
+                mAlliesLabel->setText(eLanguage::zeusText(44, 324));
                 mAlliesLabel->show();
             }
             return;
@@ -52,13 +62,13 @@ void eWorldTributeWidget::setCity(const stdsptr<eWorldCity>& c) {
         mTitleLabel->show();
         mTypeIcon->show();
         mTextLabel->show();
-        const auto type = c->tributeType();
+        const auto ttype = c->tributeType();
         const int count = c->tributeCount();
         const auto uiScale = resolution().uiScale();
-        const auto icon = eResourceTypeHelpers::icon(uiScale, type);
+        const auto icon = eResourceTypeHelpers::icon(uiScale, ttype);
         mTypeIcon->setTexture(icon);
         mTypeIcon->fitContent();
-        const auto name = eResourceTypeHelpers::typeName(type);
+        const auto name = eResourceTypeHelpers::typeName(ttype);
         const auto yearly = eLanguage::zeusText(44, 322);
         const auto text = std::to_string(count) + " " + name + " " + yearly;
         mTextLabel->setText(text);
