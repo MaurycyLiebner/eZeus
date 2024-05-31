@@ -12,6 +12,42 @@ eInvasionEvent::eInvasionEvent(const eGameEventBranch branch,
                                eGameBoard& board) :
     eGameEvent(eGameEventType::invasion, branch, board) {}
 
+void eInvasionEvent::pointerCreated() {
+    auto& board = getBoard();
+    const auto warnTypes = {
+        eInvasionWarningType::warning36,
+        eInvasionWarningType::warning24,
+        eInvasionWarningType::warning12,
+        eInvasionWarningType::warning6,
+        eInvasionWarningType::warning1
+    };
+    for(const auto w : warnTypes) {
+        int months;
+        switch(w) {
+        case eInvasionWarningType::warning36:
+            months = 36;
+            break;
+        case eInvasionWarningType::warning24:
+            months = 24;
+            break;
+        case eInvasionWarningType::warning12:
+            months = 12;
+            break;
+        case eInvasionWarningType::warning6:
+            months = 6;
+            break;
+        case eInvasionWarningType::warning1:
+            months = 1;
+            break;
+        }
+        const int daysBefore = 31*months;
+        const auto e = e::make_shared<eInvasionWarningEvent>(
+                           eGameEventBranch::child, board);
+        e->initialize(w, mCity);
+        addWarning(daysBefore, e);
+    }
+}
+
 eInvasionEvent::~eInvasionEvent() {
     auto& board = getBoard();
     board.removeInvasion(this);
@@ -110,42 +146,6 @@ stdsptr<eGameEvent> eInvasionEvent::makeCopy(const std::string& reason) const {
     c->initialize(mCity, mInfantry, mCavalry, mArchers);
     c->setReason(reason);
     return c;
-}
-
-void eInvasionEvent::initializeWarnings() {
-    auto& board = getBoard();
-    const auto warnTypes = {
-        eInvasionWarningType::warning36,
-        eInvasionWarningType::warning24,
-        eInvasionWarningType::warning12,
-        eInvasionWarningType::warning6,
-        eInvasionWarningType::warning1
-    };
-    for(const auto w : warnTypes) {
-        int months;
-        switch(w) {
-        case eInvasionWarningType::warning36:
-            months = 36;
-            break;
-        case eInvasionWarningType::warning24:
-            months = 24;
-            break;
-        case eInvasionWarningType::warning12:
-            months = 12;
-            break;
-        case eInvasionWarningType::warning6:
-            months = 6;
-            break;
-        case eInvasionWarningType::warning1:
-            months = 1;
-            break;
-        }
-        const int daysBefore = 31*months;
-        const auto e = e::make_shared<eInvasionWarningEvent>(
-                           eGameEventBranch::child, board);
-        e->initialize(w, mCity);
-        addWarning(daysBefore, e);
-    }
 }
 
 void eInvasionEvent::setCity(const stdsptr<eWorldCity>& c) {

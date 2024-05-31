@@ -9,6 +9,7 @@ class eInvasionEvent : public eGameEvent {
 public:
     eInvasionEvent(const eGameEventBranch branch,
                    eGameBoard& board);
+    void pointerCreated() override;
     ~eInvasionEvent();
 
     void initialize(const stdsptr<eWorldCity>& city,
@@ -23,8 +24,6 @@ public:
     void read(eReadStream& src) override;
 
     stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
-
-    void initializeWarnings();
 
     const stdsptr<eWorldCity>& city() const { return mCity; }
     void setCity(const stdsptr<eWorldCity>& c);

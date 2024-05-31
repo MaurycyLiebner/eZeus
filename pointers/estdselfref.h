@@ -36,8 +36,11 @@ private:
         std::shared_ptr<T> thisRef = std::shared_ptr<T>(static_cast<T*>(this));
         this->mThisWeak = std::static_pointer_cast<eStdSelfRef>(thisRef);
         this->mReady = true;
+        pointerCreated();
         return thisRef;
     }
+
+    virtual void pointerCreated() {}
 private:
     bool mReady = false;
     std::weak_ptr<eStdSelfRef> mThisWeak;

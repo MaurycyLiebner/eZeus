@@ -49,9 +49,7 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
     case eGameEventType::monsterInvasionWarning:
         return e::make_shared<eMonsterInvasionWarningEvent>(branch, board);
     case eGameEventType::invasion: {
-        const auto e = e::make_shared<eInvasionEvent>(branch, board);
-        e->initializeWarnings();
-        return e;
+        return e::make_shared<eInvasionEvent>(branch, board);
     } break;
     case eGameEventType::invasionWarning:
         return e::make_shared<eInvasionWarningEvent>(branch, board);

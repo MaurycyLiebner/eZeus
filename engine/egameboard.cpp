@@ -430,7 +430,6 @@ void eGameBoard::planInvasion(const eDate& date,
                               const int archers) {
     const auto e = e::make_shared<eInvasionEvent>(
                        eGameEventBranch::root, *this);
-    e->initializeWarnings();
     const auto city = mWorldBoard.cities().front();
     e->initialize(city, infantry, cavalry, archers);
     e->initializeDate(date, 0, 1);
