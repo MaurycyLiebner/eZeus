@@ -8,7 +8,9 @@
 
 #include "emainwindow.h"
 
-void eTopBarWidget::initialize() {
+void eTopBarWidget::initialize(eGameBoard* const b) {
+    mBoard = b;
+
     const auto& intrfc = eGameTextures::interface();
     const auto uiScale = resolution().uiScale();
     const int icoll = static_cast<int>(uiScale);
@@ -31,21 +33,26 @@ void eTopBarWidget::initialize() {
     const auto s2 = new eWidget(window());
     s2->setWidth(mult*25);
 
-    mDateLabel = new eButton(window());
+    if(mBoard->editorMode()) {
+        const auto button = new eButton(window());
+        button->setPressAction([this]() {
+            const auto dw = new eDateWidget(window());
+            dw->initialize([this](const eDate& d) {
+                mBoard->setDate(d);
+                mDateLabel->setText(d.shortString());
+            }, false);
+            dw->setDate(mBoard->date());
+            window()->execDialog(dw);
+            dw->align(eAlignment::center);
+        });
+        mDateLabel = button;
+    } else {
+        mDateLabel = new eLabel(window());
+    }
     const eDate date(30, eMonth::january, -1500);
     mDateLabel->setSmallFontSize();
     mDateLabel->setText(date.shortString());
     mDateLabel->fitContent();
-    mDateLabel->setPressAction([this]() {
-        const auto dw = new eDateWidget(window());
-        dw->initialize([this](const eDate& d) {
-            mBoard->setDate(d);
-            mDateLabel->setText(d.shortString());
-        }, false);
-        dw->setDate(mBoard->date());
-        window()->execDialog(dw);
-        dw->align(eAlignment::center);
-    });
 
     const auto s3 = new eWidget(window());
     s3->setWidth(mult*20);
@@ -65,10 +72,6 @@ void eTopBarWidget::initialize() {
     mDateLabel->align(eAlignment::vcenter);
 
     layoutHorizontally();
-}
-
-void eTopBarWidget::setBoard(eGameBoard* const b) {
-    mBoard = b;
 }
 
 void eTopBarWidget::paintEvent(ePainter& p) {

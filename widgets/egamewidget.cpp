@@ -163,10 +163,9 @@ void eGameWidget::initialize() {
     mTopBar = new eTopBarWidget(window());
     const int gw = width() - mGm->width();
     mTopBar->setWidth(gw);
-    mTopBar->initialize();
+    mTopBar->initialize(mBoard);
     addWidget(mTopBar);
     mTopBar->align(eAlignment::top);
-    mTopBar->setBoard(mBoard);
 
     mTem = new eTerrainEditMenu(window());
     mTem->initialize();
@@ -201,6 +200,7 @@ void eGameWidget::initialize() {
         settingsButt->setVisible(c);
     });
     addWidget(mMenuSwitch);
+    mMenuSwitch->setVisible(mBoard->editorMode());
 
     const auto& setts = window()->settings();
     const auto sizes = setts.availableSizes();

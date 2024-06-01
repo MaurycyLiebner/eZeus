@@ -3,6 +3,8 @@
 #include "textures/egametextures.h"
 #include "textures/einterfacetextures.h"
 
+#include "engine/egameboard.h"
+
 #include "elanguage.h"
 
 class eResourceStorageStack : public eWidget {
@@ -17,6 +19,8 @@ public:
                     std::map<eResourceType, eSwitchButton*>& buttons,
                     std::map<eResourceType, eSpinBox*>& spinBoxes,
                     const std::map<eResourceType, int>& maxCount) {
+        auto& board = stor->getBoard();
+
         const auto countW = new eWidget(window());
         const auto iconsW = new eWidget(window());
         const auto namesW = new eWidget(window());
@@ -51,14 +55,19 @@ public:
             icon->setVisible(c > 0);
 
             const auto nameStr = eResourceTypeHelpers::typeName(type);
-//            const auto n = new eLabel(window());
-            const auto n = new eButton(window());
-            n->setPressAction([stor, type, count, icon]() {
-                stor->add(type, 1);
-                const int c = stor->count(type);
-                count->setText(std::to_string(c));
-                icon->setVisible(c > 0);
-            });
+            eLabel* n = nullptr;
+            if(board.editorMode()) {
+                const auto button = new eButton(window());
+                button->setPressAction([stor, type, count, icon]() {
+                    stor->add(type, 1);
+                    const int c = stor->count(type);
+                    count->setText(std::to_string(c));
+                    icon->setVisible(c > 0);
+                });
+                n = button;
+            } else {
+                n = new eLabel(window());
+            }
             n->setSmallFontSize();
             n->setText(nameStr);
             n->fitContent();
