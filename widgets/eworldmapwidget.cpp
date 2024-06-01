@@ -346,11 +346,24 @@ public:
     void setPressAction(const eAction& a) {
         mPressAction = a;
     }
+
+    void setReleaseAction(const eAction& a) {
+        mReleaseAction = a;
+    }
 protected:
     bool mousePressEvent(const eMouseEvent& e) {
         if(e.button() == eMouseButton::left) {
             if(mPressAction) mPressAction();
             eSounds::playButtonSound();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    bool mouseReleaseEvent(const eMouseEvent& e) {
+        if(e.button() == eMouseButton::left) {
+            if(mReleaseAction) mReleaseAction();
             return true;
         } else {
             return false;
@@ -373,6 +386,42 @@ protected:
     }
 private:
     eAction mPressAction;
+    eAction mReleaseAction;
+};
+
+class eCityTransparentWidget : public eTransparentWidget {
+public:
+    using eTransparentWidget::eTransparentWidget;
+
+    void setCity(const stdsptr<eWorldCity>& c) {
+        mCity = c;
+    }
+protected:
+    bool mousePressEvent(const eMouseEvent& e) {
+        if(e.button() == eMouseButton::left) {
+            mPressX = e.x();
+            mPressY = e.y();
+        }
+        return eTransparentWidget::mousePressEvent(e);
+    }
+
+    bool mouseMoveEvent(const eMouseEvent& e) {
+        if(static_cast<bool>(e.buttons() & eMouseButton::left)) {
+            if(!mCity) return true;
+            const auto p = parent();
+            const double pw = p->width();
+            const double ph = p->height();
+            const double cx = (x() + width()/2 + e.x() - mPressX)/pw;
+            const double cy = (y() + height()/2 + e.y() - mPressY)/ph;
+            mCity->move(cx, cy);
+        }
+        return true;
+    }
+private:
+    stdsptr<eWorldCity> mCity;
+
+    int mPressX = 0;
+    int mPressY = 0;
 };
 
 void eWorldMapWidget::updateWidgets() {
@@ -490,7 +539,13 @@ void eWorldMapWidget::updateWidgets() {
         const int cy = height()*ct->y();
         const int x = cx - w/2;
         const int y = cy - h/2;
-        const auto ww = new eTransparentWidget(window());
+        const auto ww = new eCityTransparentWidget(window());
+        if(mGameBoard->editorMode()) {
+            ww->setCity(ct);
+            ww->setReleaseAction([this]() {
+                updateWidgets();
+            });
+        }
         ww->setPressAction([this, ct]() {
             if(mSelectCityAction) mSelectCityAction(ct);
         });
@@ -504,7 +559,13 @@ void eWorldMapWidget::updateWidgets() {
         const int cy = height()*hc->y();
         const int x = cx - w/2;
         const int y = cy - h/2;
-        const auto ww = new eTransparentWidget(window());
+        const auto ww = new eCityTransparentWidget(window());
+        if(mGameBoard->editorMode()) {
+            ww->setCity(hc);
+            ww->setReleaseAction([this]() {
+                updateWidgets();
+            });
+        }
         ww->setPressAction([this, hc]() {
             if(mSelectCityAction) mSelectCityAction(hc);
         });

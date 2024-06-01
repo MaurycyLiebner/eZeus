@@ -417,6 +417,7 @@ public:
     eTile* entryPoint() const;
     eTile* exitPoint() const;
 
+    bool editorMode() const { return mEditorMode; }
     bool poseidonMode() const { return mPoseidonMode; }
 private:
     void updateNeighbours();
@@ -432,6 +433,7 @@ private:
     void handleGamesBegin(const eGames game);
     void handleGamesEnd(const eGames game);
 
+    bool mEditorMode = true;
     bool mPoseidonMode = false;
     eWorldBoard mWorldBoard;
 

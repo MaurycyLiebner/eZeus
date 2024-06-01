@@ -38,6 +38,11 @@ bool eWorldCityBase::isDistant() const {
     return false;
 }
 
+void eWorldCityBase::move(const double x, const double y) {
+    mX = x;
+    mY = y;
+}
+
 void eWorldCityBase::setAttitude(const int a) {
     mAt = std::clamp(a, 0, 100);
 }

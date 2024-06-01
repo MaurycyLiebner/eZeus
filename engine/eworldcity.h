@@ -92,6 +92,8 @@ public:
     eWorldCityType type() const { return mType; }
     bool isDistant() const;
 
+    void move(const double x, const double y);
+
     double x() const { return mX; }
     double y() const { return mY; }
 
