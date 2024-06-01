@@ -4,6 +4,14 @@
 #include "ebutton.h"
 #include "textures/egametextures.h"
 #include "eworldgoodswidget.h"
+#include "engine/egameboard.h"
+#include "eframedbutton.h"
+#include "eresourcebutton.h"
+#include "evaluebutton.h"
+#include "evectorhelpers.h"
+
+#include "emainwindow.h"
+#include "ecancelbutton.h"
 
 #include "elanguage.h"
 
@@ -62,6 +70,139 @@ void eTradeTypesWidget::setTrade(const std::vector<eResourceTrade>& trade) {
     }
 }
 
+class eTradeEditWidget : public eFramedWidget {
+public:
+    using eFramedWidget::eFramedWidget;
+
+    class eTradeResourceButton : public eWidget {
+    public:
+        using eWidget::eWidget;
+
+        void initialize(const eResourceType type, const int count,
+                        const eAction& changeAction,
+                        const eAction& removeAction) {
+            mCountButton = new eValueButton(window());
+            mCountButton->initialize(1, 99);
+            mCountButton->setValueChangeAction([changeAction](const int) {
+                if(changeAction) changeAction();
+            });
+            addWidget(mCountButton);
+
+            mResourceButton = new eResourceButton(window());
+            mResourceButton->initialize([changeAction](const eResourceType) {
+                if(changeAction) changeAction();
+            });
+            addWidget(mResourceButton);
+
+            const auto closeButton = new eCancelButton(window());
+            closeButton->setPressAction([removeAction]() {
+                if(removeAction) removeAction();
+            });
+            addWidget(closeButton);
+
+            setTypeAndCount(type, count);
+        }
+
+        void setTypeAndCount(const eResourceType type, const int count) {
+            mResourceButton->setResource(type);
+            mCountButton->setValue(count);
+
+            stackHorizontally();
+            fitContent();
+        }
+
+        int count() const { return mCountButton->value(); }
+        eResourceType type() const { return mResourceButton->resource(); }
+    private:
+        eValueButton* mCountButton = nullptr;
+        eResourceButton* mResourceButton = nullptr;
+    };
+
+    void initialize(std::vector<eResourceTrade>* const trade,
+                    eAction changeAction) {
+        changeAction = [this, changeAction]() {
+            updateVector();
+            if(changeAction) changeAction();
+        };
+
+        setType(eFrameType::message);
+
+        const int p = padding();
+
+        mInnerWidget = new eWidget(window());
+        addWidget(mInnerWidget);
+        mInnerWidget->move(p, p);
+        mInnerWidget->resize(width() - 2*p, height() - 2*p);
+
+        mButtonsWidget = new eWidget(window());
+        mButtonsWidget->setWidth(mInnerWidget->width());
+        mInnerWidget->addWidget(mButtonsWidget);
+
+        mTrade = trade;
+
+        for(const auto r : *trade) {
+            const auto b = new eTradeResourceButton(window());
+            b->initialize(r.fType, r.fMax, changeAction, [this, b, changeAction]() {
+                changeAction();
+                eVectorHelpers::remove(mButtons, b);
+                b->deleteLater();
+                updateVector();
+            });
+            mButtonsWidget->addWidget(b);
+            b->align(eAlignment::hcenter);
+            mButtons.push_back(b);
+        }
+        mButtonsWidget->stackVertically();
+        mButtonsWidget->fitHeight();
+
+        const auto addButton = new eFramedButton(window());
+        addButton->setPressAction([this, changeAction]() {
+            const auto b = new eTradeResourceButton(window());
+            const auto r = eResourceType::marble;
+            b->initialize(r, 12, changeAction, [this, b, changeAction]() {
+                changeAction();
+                eVectorHelpers::remove(mButtons, b);
+                b->deleteLater();
+                updateVector();
+            });
+            mButtonsWidget->addWidget(b);
+            b->align(eAlignment::hcenter);
+            mButtons.push_back(b);
+
+            mButtonsWidget->stackVertically();
+            mButtonsWidget->fitHeight();
+
+            mInnerWidget->stackVertically();
+            changeAction();
+        });
+        addButton->setText(eLanguage::text("add"));
+        addButton->fitContent();
+        mInnerWidget->addWidget(addButton);
+        addButton->align(eAlignment::hcenter);
+
+        mInnerWidget->stackVertically();
+    }
+private:
+    void updateVector() {
+        mTrade->clear();
+        for(const auto b : mButtons) {
+            const auto type = b->type();
+            const int count = b->count();
+            eResourceTrade rt;
+            rt.fMax = count;
+            rt.fType = type;
+            rt.fUsed = 0;
+            rt.fPrice = eResourceTypeHelpers::defaultPrice(type);
+            mTrade->push_back(rt);
+        }
+    }
+
+    std::vector<eResourceTrade>* mTrade = nullptr;
+    eWidget* mInnerWidget = nullptr;
+    eWidget* mButtonsWidget = nullptr;
+    std::vector<eTradeResourceButton*> mButtons;
+};
+
 void eWorldTradeWidget::initialize(const std::string& name) {
     int iRes;
     int mult;
@@ -69,9 +210,31 @@ void eWorldTradeWidget::initialize(const std::string& name) {
 
     setWidth(mult*75);
 
-    mNameLabel = new eLabel(name, window());
+    if(true) { // editor mode
+        const auto button = new eButton(window());
+
+        button->setPressAction([this]() {
+            if(!mTrade) return;
+            const auto d = new eTradeEditWidget(window());
+            const auto res = resolution();
+            const int w = res.centralWidgetSmallWidth();
+            const int h = res.centralWidgetSmallHeight();
+            d->resize(w, h);
+            d->initialize(mTrade, [this]() {
+                setTrade(mTrade);
+            });
+
+            window()->execDialog(d);
+            d->align(eAlignment::center);
+        });
+
+        mNameLabel = button;
+    } else {
+        mNameLabel = new eLabel(window());
+    }
     mNameLabel->setTinyPadding();
     mNameLabel->setSmallFontSize();
+    mNameLabel->setText(name);
     mNameLabel->fitContent();
     addWidget(mNameLabel);
     mNameLabel->align(eAlignment::top | eAlignment::hcenter);
@@ -92,9 +255,10 @@ void eWorldTradeWidget::setName(const std::string &name) {
     mNameLabel->align(eAlignment::top | eAlignment::hcenter);
 }
 
-void eWorldTradeWidget::setTrade(const std::vector<eResourceTrade>& trade) {
+void eWorldTradeWidget::setTrade(std::vector<eResourceTrade>* const trade) {
+    mTrade = trade;
     const int oh = height();
-    mTradeTypesWidget->setTrade(trade);
+    mTradeTypesWidget->setTrade(trade ? *trade : std::vector<eResourceTrade>{});
     fitContent();
     const int nh = height();
     setY(y() + oh - nh);
@@ -107,10 +271,11 @@ void eWorldGoodsWidget::initialize() {
     const auto& intrfc = eGameTextures::interface();
     const auto& coll = intrfc[iRes];
 
-    const auto goodsStr = eLanguage::zeusText(47, 6);
-    mGoodsLabel = new eLabel(goodsStr, window());
+    mGoodsLabel = new eLabel(window());
     mGoodsLabel->setSmallFontSize();
     mGoodsLabel->setTinyPadding();
+    const auto goodsStr = eLanguage::zeusText(47, 6);
+    mGoodsLabel->setText(goodsStr);
     mGoodsLabel->fitContent();
     addWidget(mGoodsLabel);
     mGoodsLabel->align(eAlignment::top | eAlignment::hcenter);
@@ -138,15 +303,18 @@ void eWorldGoodsWidget::initialize() {
 }
 
 void eWorldGoodsWidget::setCity(const stdsptr<eWorldCity>& c) {
-    const auto buys = c ? c->buys() : std::vector<eResourceTrade>{};
-    const auto sells = c ? c->sells() : std::vector<eResourceTrade>{};
+    const auto buys = c ? &c->buys() : nullptr;
+    const auto sells = c ? &c->sells() : nullptr;
     const bool cc = c && c->isCurrentCity();
+    const bool edit = mBoard ? mBoard->editorMode() : false;
     mBuysWidget->setTrade(buys);
     mSellsWidget->setTrade(sells);
-    mBuysWidget->setVisible(!buys.empty() && !cc);
-    mSellsWidget->setVisible(!sells.empty() && !cc);
-    mGoodsLabel->setVisible(c.get() && !cc);
-    mOrdersButton->setVisible((!buys.empty() || !sells.empty()) && !cc);
+    const bool neb = buys && !buys->empty();
+    const bool nes = sells && !sells->empty();
+    mBuysWidget->setVisible(neb && (!cc || edit));
+    mSellsWidget->setVisible(nes && (!cc || edit));
+    mGoodsLabel->setVisible(c.get() && (!cc || edit));
+    mOrdersButton->setVisible((neb || nes) && (!cc || edit));
     updateTradeY();
 
     if(c) {

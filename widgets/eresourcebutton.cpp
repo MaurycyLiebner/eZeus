@@ -48,6 +48,7 @@ void eResourceButton::initialize(const eResourceAction& ract) {
 }
 
 void eResourceButton::setResource(const eResourceType res) {
+    mRes = res;
     const auto str = eResourceTypeHelpers::typeName(res);
     setText(str);
     fitContent();

@@ -25,8 +25,10 @@ public:
 
     void initialize(const std::string& name);
     void setName(const std::string& name);
-    void setTrade(const std::vector<eResourceTrade>& trade);
+    void setTrade(std::vector<eResourceTrade>* const trade);
 private:
+    std::vector<eResourceTrade>* mTrade = nullptr;
+
     eLabel* mNameLabel = nullptr;
     eTradeTypesWidget* mTradeTypesWidget = nullptr;;
 };
@@ -35,11 +37,14 @@ class eWorldGoodsWidget : public eWidget {
 public:
     using eWidget::eWidget;
 
+    using eDialogOpener = std::function<void(eWidget*)>;
     void initialize();
 
     void setCity(const stdsptr<eWorldCity>& c);
 private:
     void updateTradeY() const;
+
+    eGameBoard* mBoard = nullptr;
 
     eLabel* mGoodsLabel = nullptr;
     eButton* mOrdersButton = nullptr;

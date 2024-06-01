@@ -282,3 +282,41 @@ int eResourceTypeHelpers::transportSize(const eResourceType type) {
     }
     return 0;
 }
+
+int eResourceTypeHelpers::defaultPrice(const eResourceType type) {
+    switch(type) {
+    case eResourceType::urchin:
+    case eResourceType::fish:
+    case eResourceType::meat:
+    case eResourceType::cheese:
+    case eResourceType::carrots:
+    case eResourceType::onions:
+    case eResourceType::wheat:
+    case eResourceType::oranges:
+
+    case eResourceType::grapes:
+    case eResourceType::olives:
+    case eResourceType::wine:
+    case eResourceType::oliveOil:
+    case eResourceType::fleece:
+
+    case eResourceType::wood:
+    case eResourceType::bronze:
+    case eResourceType::marble:
+
+    case eResourceType::armor:
+
+    case eResourceType::sculpture:
+        return 120;
+
+    case eResourceType::food:
+    case eResourceType::warehouse:
+    case eResourceType::all:
+    case eResourceType::none:
+    case eResourceType::horse:
+    case eResourceType::silver:
+    case eResourceType::drachmas:
+        return 0;
+    }
+    return 0;
+}
