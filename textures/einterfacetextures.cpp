@@ -1154,6 +1154,8 @@ void eInterfaceTextures::load() {
         fDionysusQuestIcon = loader.load(1, 181);
         fHadesQuestIcon = loader.load(1, 182);
 
+        fTroopsRequestIcon = loader.load(1, 183);
+
         fDrachmasUnit = loader.load(1, 184);
         fDrachmasTopMenu = loader.load(1, 185);
         fPopulationTopMenu = loader.load(1, 186);

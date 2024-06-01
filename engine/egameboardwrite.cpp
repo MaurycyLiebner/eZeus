@@ -6,6 +6,7 @@
 #include "missiles/emissile.h"
 #include "gameEvents/egameevent.h"
 #include "gameEvents/ereceiverequestevent.h"
+#include "gameEvents/etroopsrequestevent.h"
 #include "eplague.h"
 
 void eGameBoard::write(eWriteStream& dst) const {
@@ -108,6 +109,14 @@ void eGameBoard::write(eWriteStream& dst) const {
         const int nq = mCityRequests.size();
         dst << nq;
         for(const auto& q : mCityRequests) {
+            dst.writeGameEvent(q);
+        }
+    }
+
+    {
+        const int nq = mCityTroopsRequests.size();
+        dst << nq;
+        for(const auto& q : mCityTroopsRequests) {
             dst.writeGameEvent(q);
         }
     }

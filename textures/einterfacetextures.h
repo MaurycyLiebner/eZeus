@@ -203,6 +203,8 @@ public:
     std::shared_ptr<eTexture> fHeraQuestIcon;
     std::shared_ptr<eTexture> fAtlasQuestIcon;
 
+    std::shared_ptr<eTexture> fTroopsRequestIcon;
+
     std::shared_ptr<eTexture> fUrchinUnit;
     std::shared_ptr<eTexture> fFishUnit;
     std::shared_ptr<eTexture> fMeatUnit;

@@ -10,6 +10,7 @@
 #include "estringhelpers.h"
 #include "buildings/eheroshall.h"
 #include "gameEvents/ereceiverequestevent.h"
+#include "gameEvents/etroopsrequestevent.h"
 #include "widgets/elinewidget.h"
 
 class eOverviewEntry : public eWidget {
@@ -247,9 +248,26 @@ public:
         const auto cityName = city->name();
         const auto res = resolution();
         const auto uiScale = res.uiScale();
-        const auto godIcon = eResourceTypeHelpers::icon(uiScale, resource);
+        const auto resIcon = eResourceTypeHelpers::icon(uiScale, resource);
 
-        eRequestButton::initialize(godIcon, cityName, checker);
+        eRequestButton::initialize(resIcon, cityName, checker);
+    }
+};
+
+class eTroopsRequestButton : public eRequestButton {
+public:
+    using eRequestButton::eRequestButton;
+
+    void initialize(const stdsptr<eWorldCity>& city,
+                    const eViableChecker& checker) {
+        const auto cityName = city->name();
+        const auto res = resolution();
+        const auto uiScale = res.uiScale();
+        const int iRes = static_cast<int>(uiScale);
+        const auto& intrfc = eGameTextures::interface();
+        const auto& texs = intrfc[iRes];
+        const auto troopsIcon = texs.fTroopsRequestIcon;
+        eRequestButton::initialize(troopsIcon, cityName, checker);
     }
 };
 
@@ -458,6 +476,28 @@ void eOverviewDataWidget::addCityRequests() {
                 const auto tip = eLanguage::zeusText(5, 9); // You do not have enough to fulfill the request
                 gw->showTip(tip);
             }
+        });
+        mQuestButtons->addWidget(b);
+    }
+    const auto& qqs = mBoard.cityTroopsRequests();
+    for(const auto& qq : qqs) {
+        const auto b = new eTroopsRequestButton(window());
+        b->setWidth(mQuestButtons->width());
+        b->initialize(qq->city(), [this]() {
+            const auto& bs = mBoard.banners();
+            for(const auto& b : bs) {
+                const bool a = b->isAbroad();
+                if(!a) return true;
+            }
+            const auto& hs = mBoard.heroHalls();
+            for(const auto h : hs) {
+                const bool a = h->heroOnQuest();
+                if(!a) return true;
+            }
+            return false;
+        });
+        b->setPressAction([qq]() {
+            qq->dispatch();
         });
         mQuestButtons->addWidget(b);
     }

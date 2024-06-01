@@ -6,6 +6,7 @@
 #include "missiles/emissile.h"
 #include "gameEvents/egameevent.h"
 #include "gameEvents/ereceiverequestevent.h"
+#include "gameEvents/etroopsrequestevent.h"
 #include "eplague.h"
 
 void eGameBoard::read(eReadStream& src) {
@@ -82,6 +83,17 @@ void eGameBoard::read(eReadStream& src) {
             src.readGameEvent(this, [this](eGameEvent* const e) {
                 const auto re = static_cast<eReceiveRequestEvent*>(e);
                 mCityRequests.push_back(re);
+            });
+        }
+    }
+
+    {
+        int nq;
+        src >> nq;
+        for(int i = 0; i < nq; i++) {
+            src.readGameEvent(this, [this](eGameEvent* const e) {
+                const auto re = static_cast<eTroopsRequestEvent*>(e);
+                mCityTroopsRequests.push_back(re);
             });
         }
     }
