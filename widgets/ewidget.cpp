@@ -432,15 +432,17 @@ void eWidget::stackVertically(const int p) {
     }
 }
 
-void eWidget::layoutVertically() {
+void eWidget::layoutVertically(const bool skipHidden) {
     const int spaces = mChildren.size() + 1;
     int wsHeight = 0;
     for(const auto w : mChildren) {
+        if(skipHidden && !w->visible()) continue;
         wsHeight += w->height();
     }
     const int space = (height() - wsHeight)/spaces;
     int y = space;
     for(const auto w : mChildren) {
+        if(skipHidden && !w->visible()) continue;
         w->setY(y);
         y += w->height() + space;
     }

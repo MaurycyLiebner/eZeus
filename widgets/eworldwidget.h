@@ -8,6 +8,7 @@
 
 class eWorldMenu;
 class eWorldMapWidget;
+class eFramedButton;
 
 class eWorldWidget : public eWidget {
 public:
@@ -33,6 +34,7 @@ private:
     eWorldMenu* mWM = nullptr;
     eWorldMapWidget* mWMW = nullptr;
     eGameBoard* mBoard = nullptr;
+    eFramedButton* mSettingsButton = nullptr;
 };
 
 #endif // EWORLDWIDGET_H

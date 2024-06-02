@@ -102,7 +102,7 @@ public:
     void removeAllWidgets();
 
     void stackVertically(const int p = 0);
-    void layoutVertically();
+    void layoutVertically(const bool skipHidden = false);
     void layoutVerticallyWithoutSpaces();
     void stackHorizontally(const int p = 0);
     void layoutHorizontally();

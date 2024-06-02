@@ -37,7 +37,6 @@ class eWorldGoodsWidget : public eWidget {
 public:
     using eWidget::eWidget;
 
-    using eDialogOpener = std::function<void(eWidget*)>;
     void initialize();
 
     void setCity(const stdsptr<eWorldCity>& c);

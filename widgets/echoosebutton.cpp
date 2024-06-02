@@ -5,8 +5,11 @@
 void eChooseButton::initialize(
         const int nRows,
         const eLabels& labels,
-        const eButtonAction& act) {
+        const eButtonAction& act,
+        const bool small) {
     setType(eFrameType::message);
+
+    if(small) setSmallPadding();
 
     std::vector<eFramedButton*> buttons;
 
@@ -14,6 +17,10 @@ void eChooseButton::initialize(
     for(const auto& l : labels) {
         const auto b = new eFramedButton(window());
         b->setUnderline(false);
+        if(small) {
+            b->setSmallFontSize();
+            b->setSmallPadding();
+        }
         b->setText(l);
         b->fitContent();
         b->setPressAction([this, act, i]() {
@@ -42,7 +49,7 @@ void eChooseButton::initialize(
         b->move(x, y);
         y += b->height() + p;
         r++;
-        if(r > nRows) {
+        if(r >= nRows) {
             r = 0;
             x += colWidth + p;
             y = 2*p;

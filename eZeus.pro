@@ -441,6 +441,7 @@ SOURCES += \
         widgets/echeckbox.cpp \
         widgets/echoosebutton.cpp \
         widgets/ecitybutton.cpp \
+        widgets/ecitysettingswidget.cpp \
         widgets/eclosabledialog.cpp \
         widgets/ecombobox.cpp \
         widgets/econtextmenu.cpp \
@@ -512,6 +513,7 @@ SOURCES += \
         widgets/eterraineditmenu.cpp \
         widgets/etilepainter.cpp \
         widgets/etopbarwidget.cpp \
+        widgets/etradeeditwidget.cpp \
         widgets/etriggerselectionwidget.cpp \
         widgets/eupbutton.cpp \
         widgets/evaluebutton.cpp \
@@ -2114,6 +2116,7 @@ HEADERS += \
     widgets/echeckbox.h \
     widgets/echoosebutton.h \
     widgets/ecitybutton.h \
+    widgets/ecitysettingswidget.h \
     widgets/eclosabledialog.h \
     widgets/ecombobox.h \
     widgets/econtextmenu.h \
@@ -2181,6 +2184,7 @@ HEADERS += \
     widgets/eterraineditmenu.h \
     widgets/etilepainter.h \
     widgets/etopbarwidget.h \
+    widgets/etradeeditwidget.h \
     widgets/etriggerselectionwidget.h \
     widgets/eupbutton.h \
     widgets/evaluebutton.h \

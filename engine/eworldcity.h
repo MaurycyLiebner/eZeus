@@ -43,7 +43,10 @@ enum class eWorldCityRelationship {
     collony,
     vassal,
     ally,
-    rival
+    rival,
+    distantCity,
+    enchantedPlace,
+    destroyedCity
 };
 
 enum class eWorldCityAttitude {
@@ -89,6 +92,7 @@ public:
     bool rebellion() const { return mRebellion; }
     void setRebellion(const bool r) { mRebellion = r; }
 
+    void setType(const eWorldCityType type) { mType = type; }
     eWorldCityType type() const { return mType; }
     bool isDistant() const;
 
@@ -100,6 +104,9 @@ public:
     bool isCurrentCity() const { return mIsCurrentCity; }
     void setIsCurrentCity(const bool c) { mIsCurrentCity = c; }
 
+    static std::string sRelationshipName(
+            const eWorldCityRelationship r,
+            const bool currentCity);
     eWorldCityRelationship relationship() const { return mRel; }
     void setRelationship(const eWorldCityRelationship r) { mRel = r; }
 
@@ -107,7 +114,10 @@ public:
     void setAttitude(const int a);
     void incAttitude(const int a);
 
+    static std::vector<std::string> sNames();
+    void setName(const std::string& name);
     const std::string& name() const { return mName; }
+    static std::string sNationality(const eWorldCityType type);
     std::string nationality() const;
     const std::string& leader() const { return mLeader; }
     std::string anArmy() const;
@@ -124,6 +134,7 @@ private:
     eWorldCityType mType;
 
     std::string mName;
+    int mNameString = -1;
     std::string mLeader;
 
     double mX;
@@ -189,6 +200,9 @@ public:
     { return mSells; }
     bool sells(const eResourceType type) const;
     void addSells(const eResourceTrade& s);
+
+    void setTributeType(const eResourceType r) { mTributeType = r; }
+    void setTributeCount(const int c) { mTributeCount = c; }
 
     eResourceType tributeType() const { return mTributeType; }
     int tributeCount() const { return mTributeCount; }

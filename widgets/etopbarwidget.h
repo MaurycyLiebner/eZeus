@@ -46,14 +46,15 @@ class eTopBarWidget : public eWidget {
 public:
     using eWidget::eWidget;
 
-    void initialize(eGameBoard* const b);
+    void initialize();
+    void setBoard(eGameBoard* const board);
 
     void paintEvent(ePainter& p);
 private:
     eGameBoard* mBoard = nullptr;
     eTopWidget* mDrachmasWidget = nullptr;
     eTopWidget* mPopulationWidget = nullptr;
-    eLabel* mDateLabel = nullptr;
+    eButton* mDateLabel = nullptr;
     int mTime = 0;
 };
 

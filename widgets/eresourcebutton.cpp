@@ -3,9 +3,10 @@
 #include "echoosebutton.h"
 #include "emainwindow.h"
 
-void eResourceButton::initialize(const eResourceAction& ract) {
-    setPressAction([this, ract]() {
-        const std::vector<eResourceType> resources {
+void eResourceButton::initialize(const eResourceAction& ract,
+                                 const bool drachmas) {
+    setPressAction([this, ract, drachmas]() {
+        std::vector<eResourceType> resources {
             eResourceType::urchin,
             eResourceType::fish,
             eResourceType::meat,
@@ -28,6 +29,9 @@ void eResourceButton::initialize(const eResourceAction& ract) {
             eResourceType::armor,
             eResourceType::sculpture
         };
+        if(drachmas) {
+            resources.push_back(eResourceType::drachmas);
+        }
         std::vector<std::string> resourceNames;
         for(const auto res : resources) {
             const auto str = eResourceTypeHelpers::typeName(res);
@@ -45,6 +49,7 @@ void eResourceButton::initialize(const eResourceAction& ract) {
         choose->align(eAlignment::center);
     });
     setResource(eResourceType::none);
+    setUnderline(false);
 }
 
 void eResourceButton::setResource(const eResourceType res) {

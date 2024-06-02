@@ -44,7 +44,7 @@ void eButton::paintEvent(ePainter& p) {
             p.drawTexture(rect(), mHoverTexture, textAlignment());
         } else {
             eLabel::paintEvent(p);
-            if(mUnderline) {
+            if(mUnderline && enabled()) {
                 const auto& t = texture();
                 if(!t) return;
                 const int tw = t->width();

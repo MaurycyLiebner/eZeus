@@ -1,4 +1,7 @@
 settings "Settings"
+tribute "Tribute"
+choose "Choose"
+relationship "Relationship"
 
 none "None"
 

@@ -360,32 +360,8 @@ void eWorldMenu::updateRelationshipLabel() const {
     }
 
     {
-        int group = 253;
-        int string = -1;
-        if(mCity->isCurrentCity()) {
-            group = 47;
-            string = 0;
-        } else {
-            switch(rel) {
-            case eWorldCityRelationship::mainCity:
-                group = 39;
-                string = 0;
-                break;
-            case eWorldCityRelationship::collony:
-                string = 3;
-                break;
-            case eWorldCityRelationship::vassal:
-                string = 2;
-                break;
-            case eWorldCityRelationship::ally:
-                string = 0;
-                break;
-            case eWorldCityRelationship::rival:
-                string = 1;
-                break;
-            }
-        }
-        const auto relStr = eLanguage::zeusText(group, string);
+        const auto relStr = eWorldCity::sRelationshipName(
+                                rel, mCity->isCurrentCity());
         mRelationshipLabel->setText(relStr);
         mRelationshipLabel->fitContent();
         mRelationshipLabel->align(eAlignment::hcenter);

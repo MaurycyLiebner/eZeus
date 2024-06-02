@@ -10,7 +10,8 @@ public:
     using eFramedButton::eFramedButton;
 
     using eResourceAction = std::function<void(const eResourceType)>;
-    void initialize(const eResourceAction& ract);
+    void initialize(const eResourceAction& ract,
+                    const bool drachmas = false);
 
     eResourceType resource() const { return mRes; }
     void setResource(const eResourceType res);

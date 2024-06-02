@@ -12,6 +12,13 @@ namespace eVectorHelpers {
     }
 
     template <typename T>
+    int index(const std::vector<T>& v, const T& t) {
+        const auto it = std::find(v.begin(), v.end(), t);
+        if(it == v.end()) return -1;
+        return it - v.begin();
+    }
+
+    template <typename T>
     bool remove(std::vector<T>& v, const T& t) {
         const auto it = std::find(v.begin(), v.end(), t);
         if(it != v.end()) {

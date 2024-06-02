@@ -8,9 +8,7 @@
 
 #include "emainwindow.h"
 
-void eTopBarWidget::initialize(eGameBoard* const b) {
-    mBoard = b;
-
+void eTopBarWidget::initialize() {
     const auto& intrfc = eGameTextures::interface();
     const auto uiScale = resolution().uiScale();
     const int icoll = static_cast<int>(uiScale);
@@ -33,26 +31,23 @@ void eTopBarWidget::initialize(eGameBoard* const b) {
     const auto s2 = new eWidget(window());
     s2->setWidth(mult*25);
 
-    if(mBoard->editorMode()) {
-        const auto button = new eButton(window());
-        button->setPressAction([this]() {
-            const auto dw = new eDateWidget(window());
-            dw->initialize([this](const eDate& d) {
-                mBoard->setDate(d);
-                mDateLabel->setText(d.shortString());
-            }, false);
-            dw->setDate(mBoard->date());
-            window()->execDialog(dw);
-            dw->align(eAlignment::center);
-        });
-        mDateLabel = button;
-    } else {
-        mDateLabel = new eLabel(window());
-    }
+    mDateLabel = new eButton(window());
+    mDateLabel->setPressAction([this]() {
+        if(!mBoard) return;
+        const auto dw = new eDateWidget(window());
+        dw->initialize([this](const eDate& d) {
+            mBoard->setDate(d);
+            mDateLabel->setText(d.shortString());
+        }, false);
+        dw->setDate(mBoard->date());
+        window()->execDialog(dw);
+        dw->align(eAlignment::center);
+    });
     const eDate date(30, eMonth::january, -1500);
     mDateLabel->setSmallFontSize();
     mDateLabel->setText(date.shortString());
     mDateLabel->fitContent();
+    mDateLabel->setEnabled(false);
 
     const auto s3 = new eWidget(window());
     s3->setWidth(mult*20);
@@ -74,6 +69,10 @@ void eTopBarWidget::initialize(eGameBoard* const b) {
     layoutHorizontally();
 }
 
+void eTopBarWidget::setBoard(eGameBoard* const board) {
+    mBoard = board;
+}
+
 void eTopBarWidget::paintEvent(ePainter& p) {
     // const bool update = (++mTime % 60) == 0;
     if(mBoard) {
@@ -85,6 +84,7 @@ void eTopBarWidget::paintEvent(ePainter& p) {
         mDrachmasWidget->setText(std::to_string(d));
 
         mDateLabel->setText(mBoard->date().shortString());
+        mDateLabel->setEnabled(mBoard->editorMode());
 
         int iRes;
         int mult;
@@ -98,5 +98,7 @@ void eTopBarWidget::paintEvent(ePainter& p) {
             tex->render(rend, x, 0, flip);
             flip = !flip;
         }
+    } else {
+        mDateLabel->setEnabled(false);
     }
 }

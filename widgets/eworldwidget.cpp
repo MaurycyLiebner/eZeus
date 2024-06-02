@@ -8,6 +8,9 @@
 #include "egamewidget.h"
 #include "egiftsizedialog.h"
 #include "evectorhelpers.h"
+#include "eframedbutton.h"
+#include "elanguage.h"
+#include "ecitysettingswidget.h"
 
 #include "gameEvents/eplayerconquestevent.h"
 #include "gameEvents/eplayerraidevent.h"
@@ -72,6 +75,7 @@ void eWorldWidget::initialize() {
 
     mWMW->setSelectCityAction([this](const stdsptr<eWorldCity>& ct) {
         mCity = ct;
+        mSettingsButton->setVisible(mCity && mBoard && mBoard->editorMode());
         mWM->setCity(ct);
     });
     mWMW->setSetTextAction([this](const std::string& text) {
@@ -80,11 +84,33 @@ void eWorldWidget::initialize() {
 
     addWidget(mWM);
     mWM->align(eAlignment::right | eAlignment::top);
+
+    mSettingsButton = new eFramedButton(window());
+    mSettingsButton->setUnderline(false);
+    mSettingsButton->setRenderBg(true);
+    mSettingsButton->setText(eLanguage::text("settings"));
+    mSettingsButton->fitContent();
+    mSettingsButton->hide();
+    addWidget(mSettingsButton);
+    mSettingsButton->setPressAction([this]() {
+        if(!mBoard || !mCity) return;
+        const auto d = new eCitySettingsWidget(window());
+        d->initialize(mCity);
+
+        window()->execDialog(d);
+        d->align(eAlignment::center);
+    });
+
+    const int p = padding();
+    const int x = width() - mWM->width() - p - mSettingsButton->width();
+    mSettingsButton->move(x, p);
 }
 
 void eWorldWidget::setBoard(eGameBoard* const board) {
     mBoard = board;
     mWMW->setBoard(board);
+    mSettingsButton->setVisible(mCity && board && board->editorMode());
+    update();
 }
 
 void eWorldWidget::update() {

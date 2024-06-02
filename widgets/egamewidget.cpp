@@ -163,7 +163,8 @@ void eGameWidget::initialize() {
     mTopBar = new eTopBarWidget(window());
     const int gw = width() - mGm->width();
     mTopBar->setWidth(gw);
-    mTopBar->initialize(mBoard);
+    mTopBar->initialize();
+    mTopBar->setBoard(mBoard);
     addWidget(mTopBar);
     mTopBar->align(eAlignment::top);
 

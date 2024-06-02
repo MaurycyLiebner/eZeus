@@ -11,7 +11,8 @@ public:
     using eButtonAction = std::function<void(int)>;
     void initialize(const int nRows,
                     const eLabels& labels,
-                    const eButtonAction& act);
+                    const eButtonAction& act,
+                    const bool small = false);
 };
 
 #endif // ECHOOSEBUTTON_H
