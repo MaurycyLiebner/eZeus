@@ -71,60 +71,62 @@ void eInvasionEventWidget::initialize(eInvasionEvent* const e) {
 }
 
 void eInvasionEventWidget::setCity(eWorldCity* const c) {
-    const auto type = c ? c->type() : eWorldCityType::ruins;
     bool infantryVisible = false;
     bool cavalryVisible = false;
     bool archersVisible = false;
-    switch(type) {
-    case eWorldCityType::greekCity:
-        infantryVisible = true;
-        cavalryVisible = true;
-        archersVisible = true;
-        break;
-    case eWorldCityType::trojanCity:
-        infantryVisible = true;
-        cavalryVisible = true;
-        archersVisible = true;
-        break;
-    case eWorldCityType::persianCity:
-        infantryVisible = true;
-        cavalryVisible = true;
-        archersVisible = true;
-        break;
-    case eWorldCityType::centaurCity:
-        cavalryVisible = true;
-        archersVisible = true;
-        break;
-    case eWorldCityType::amazonCity:
-        infantryVisible = true;
-        archersVisible = true;
-        break;
+    if(c) {
+        const auto nat = c->nationality();
+        switch(nat) {
+        case eNationality::greek:
+            infantryVisible = true;
+            cavalryVisible = true;
+            archersVisible = true;
+            break;
+        case eNationality::trojan:
+            infantryVisible = true;
+            cavalryVisible = true;
+            archersVisible = true;
+            break;
+        case eNationality::persian:
+            infantryVisible = true;
+            cavalryVisible = true;
+            archersVisible = true;
+            break;
+        case eNationality::centaur:
+            cavalryVisible = true;
+            archersVisible = true;
+            break;
+        case eNationality::amazon:
+            infantryVisible = true;
+            archersVisible = true;
+            break;
 
-    case eWorldCityType::egyptianCity:
-        infantryVisible = true;
-        cavalryVisible = true;
-        archersVisible = true;
-        break;
-    case eWorldCityType::mayanCity:
-        infantryVisible = true;
-        archersVisible = true;
-        break;
-    case eWorldCityType::phoenicianCity:
-        cavalryVisible = true;
-        archersVisible = true;
-        break;
-    case eWorldCityType::oceanidCity:
-        infantryVisible = true;
-        archersVisible = true;
-        break;
-    case eWorldCityType::atlanteanCity:
-        infantryVisible = true;
-        cavalryVisible = true;
-        archersVisible = true;
-        break;
+        case eNationality::egyptian:
+            infantryVisible = true;
+            cavalryVisible = true;
+            archersVisible = true;
+            break;
+        case eNationality::mayan:
+            infantryVisible = true;
+            archersVisible = true;
+            break;
+        case eNationality::phoenician:
+            cavalryVisible = true;
+            archersVisible = true;
+            break;
+        case eNationality::oceanid:
+            infantryVisible = true;
+            archersVisible = true;
+            break;
+        case eNationality::atlantean:
+            infantryVisible = true;
+            cavalryVisible = true;
+            archersVisible = true;
+            break;
 
-    default:
-        break;
+        default:
+            break;
+        }
     }
 
     mInfantryButtonL->setVisible(infantryVisible);

@@ -53,85 +53,95 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
         const auto t = ct->type();
         stdsptr<eTexture> tex;
         switch(t) {
-        case eWorldCityType::mainCity: {
+        case eCityType::parentCity: {
             if(poseidon) tex = texs.fPoseidonMainCity;
             else tex = texs.fZeusMainCity;
         } break;
-        case eWorldCityType::collony: {
+        case eCityType::colony: {
             if(poseidon) tex = texs.fPoseidonCollony;
             else tex = texs.fZeusCollony;
         } break;
-        case eWorldCityType::disabledColony: {
-            if(poseidon) tex = texs.fPoseidonDisabledCollony;
-            else tex = texs.fZeusDisabledCollony;
+//        case eCityType::disabledColony: {
+//            if(poseidon) tex = texs.fPoseidonDisabledCollony;
+//            else tex = texs.fZeusDisabledCollony;
+//        } break;
+
+        case eCityType::foreignCity: {
+            const auto nat = ct->nationality();
+            switch(nat) {
+            case eNationality::greek:
+                tex = texs.fZeusGreekCity;
+                break;
+            case eNationality::trojan:
+                tex = texs.fZeusTrojanCity;
+                break;
+            case eNationality::persian:
+                tex = texs.fZeusPersianCity;
+                break;
+            case eNationality::centaur:
+                tex = texs.fZeusCentaurCity;
+                break;
+            case eNationality::amazon:
+                tex = texs.fZeusAmazonCity;
+                break;
+
+            case eNationality::egyptian:
+                tex = texs.fPoseidonEgyptianCity;
+                break;
+            case eNationality::mayan:
+                tex = texs.fPoseidonMayanCity;
+                break;
+            case eNationality::phoenician:
+                tex = texs.fPoseidonPhoenicianCity;
+                break;
+            case eNationality::oceanid:
+                tex = texs.fPoseidonOceanidCity;
+                break;
+            case eNationality::atlantean:
+                tex = texs.fPoseidonAtlanteanCity;
+                break;
+            }
         } break;
 
-        case eWorldCityType::greekCity:
-            tex = texs.fZeusGreekCity;
-            break;
-        case eWorldCityType::trojanCity:
-            tex = texs.fZeusTrojanCity;
-            break;
-        case eWorldCityType::persianCity:
-            tex = texs.fZeusPersianCity;
-            break;
-        case eWorldCityType::centaurCity:
-            tex = texs.fZeusCentaurCity;
-            break;
-        case eWorldCityType::amazonCity:
-            tex = texs.fZeusAmazonCity;
-            break;
-
-        case eWorldCityType::egyptianCity:
-            tex = texs.fPoseidonEgyptianCity;
-            break;
-        case eWorldCityType::mayanCity:
-            tex = texs.fPoseidonMayanCity;
-            break;
-        case eWorldCityType::phoenicianCity:
-            tex = texs.fPoseidonPhoenicianCity;
-            break;
-        case eWorldCityType::oceanidCity:
-            tex = texs.fPoseidonOceanidCity;
-            break;
-        case eWorldCityType::atlanteanCity:
-            tex = texs.fPoseidonAtlanteanCity;
-            break;
-
-        case eWorldCityType::place:
+        case eCityType::enchantedPlace:
             tex = texs.fZeusPlace;
             break;
-        case eWorldCityType::ruins:
+        case eCityType::destroyedCity:
             tex = texs.fZeusRuins;
             break;
 
-        case eWorldCityType::distantCity:
-            tex = texs.fZeusDistantCity;
-            break;
-        case eWorldCityType::distantCityN:
-            tex = texs.fZeusDistantCityN;
-            break;
-        case eWorldCityType::distantCityNE:
-            tex = texs.fZeusDistantCityNE;
-            break;
-        case eWorldCityType::distantCityE:
-            tex = texs.fZeusDistantCityE;
-            break;
-        case eWorldCityType::distantCitySE:
-            tex = texs.fZeusDistantCitySE;
-            break;
-        case eWorldCityType::distantCityS:
-            tex = texs.fZeusDistantCityS;
-            break;
-        case eWorldCityType::distantCitySW:
-            tex = texs.fZeusDistantCitySW;
-            break;
-        case eWorldCityType::distantCityW:
-            tex = texs.fZeusDistantCityW;
-            break;
-        case eWorldCityType::distantCityNW:
-            tex = texs.fZeusDistantCityNW;
-            break;
+        case eCityType::distantCity: {
+            const auto dir = ct->direction();
+            switch(dir) {
+            case eDistantDirection::none:
+                tex = texs.fZeusDistantCity;
+                break;
+            case eDistantDirection::N:
+                tex = texs.fZeusDistantCityN;
+                break;
+            case eDistantDirection::NE:
+                tex = texs.fZeusDistantCityNE;
+                break;
+            case eDistantDirection::E:
+                tex = texs.fZeusDistantCityE;
+                break;
+            case eDistantDirection::SE:
+                tex = texs.fZeusDistantCitySE;
+                break;
+            case eDistantDirection::S:
+                tex = texs.fZeusDistantCityS;
+                break;
+            case eDistantDirection::SW:
+                tex = texs.fZeusDistantCitySW;
+                break;
+            case eDistantDirection::W:
+                tex = texs.fZeusDistantCityW;
+                break;
+            case eDistantDirection::NW:
+                tex = texs.fZeusDistantCityNW;
+                break;
+            }
+        } break;
 
         }
 
@@ -142,26 +152,22 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
         const auto flagAl = eAlignment::hcenter | eAlignment::top;
         const int flagX = x + tex->width()/2;
         const int flagY = y + tex->height()/2;
-        switch(ct->relationship()) {
-        case eWorldCityRelationship::mainCity:
+        if(ct->isParentCity()) {
             p.drawTexture(flagX, flagY, texs.fMainCityFlag, flagAl);
-            break;
-        case eWorldCityRelationship::vassal:
-        case eWorldCityRelationship::collony:
+        } else if(ct->isVassal() || ct->isColony()) {
             p.drawTexture(flagX, flagY, texs.fEmpireCityFlag, flagAl);
-            break;
-        case eWorldCityRelationship::ally: {
+        } else if(ct->isAlly()) {
             const auto& coll = texs.fAllyCityFlag;
             const int cs = coll.size();
             const auto& tex = coll.getTexture(mFrame % cs);
             p.drawTexture(flagX, flagY, tex, flagAl);
-        }   break;
-        default:
-            break;
         }
 
         const auto hc = mWorldBoard->homeCity();
-        if(ct != hc) {
+        if(ct != hc &&
+           t != eCityType::destroyedCity &&
+           t != eCityType::distantCity &&
+           t != eCityType::enchantedPlace) {
             const auto& aColl = texs.fCityArmy;
             const auto& wColl = texs.fCityWealth;
             const int a = std::clamp(ct->army(), 1, 5);
@@ -211,28 +217,28 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
         handleCity(ct);
     }
 
-    const auto cityFigures = [&](const eWorldCityType wct) {
-        switch(wct) {
-        case eWorldCityType::greekCity:
+    const auto cityFigures = [&](const eNationality nat) {
+        switch(nat) {
+        case eNationality::greek:
             return &texs.fZeusGreekArmy;
-        case eWorldCityType::trojanCity:
+        case eNationality::trojan:
             return &texs.fZeusTrojanArmy;
-        case eWorldCityType::persianCity:
+        case eNationality::persian:
             return &texs.fZeusPersianArmy;
-        case eWorldCityType::centaurCity:
+        case eNationality::centaur:
             return &texs.fZeusCentaurArmy;
-        case eWorldCityType::amazonCity:
+        case eNationality::amazon:
             return &texs.fZeusAmazonArmy;
 
-        case eWorldCityType::egyptianCity:
+        case eNationality::egyptian:
             return &texs.fPoseidonEgyptianArmy;
-        case eWorldCityType::mayanCity:
+        case eNationality::mayan:
             return &texs.fPoseidonMayanArmy;
-        case eWorldCityType::phoenicianCity:
+        case eNationality::phoenician:
             return &texs.fPoseidonPhoenicianArmy;
-        case eWorldCityType::oceanidCity:
+        case eNationality::oceanid:
             return &texs.fPoseidonOceanidArmy;
-        case eWorldCityType::atlanteanCity:
+        case eNationality::atlantean:
             return &texs.fPoseidonAtlanteanArmy;
         default:
             return static_cast<const eTextureCollection*>(nullptr);
@@ -268,7 +274,7 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
 
         for(const auto& a : forces.fAllies) {
             const int n = std::clamp(a->army()/2, 0, 2);
-            const auto coll = cityFigures(a->type());
+            const auto coll = cityFigures(a->nationality());
             const auto tex = coll ? coll->getTexture(n) : nullptr;
             int x;
             int y;
@@ -324,7 +330,7 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
         armyDrawXY(*cc, *hc, frac, x, y);
 
         const int n = std::clamp(cc->army()/2, 0, 2);
-        const auto coll = cityFigures(cc->type());
+        const auto coll = cityFigures(cc->nationality());
         const auto tex = coll ? coll->getTexture(n) : nullptr;
         p.drawTexture(x, y, tex, eAlignment::center);
     }

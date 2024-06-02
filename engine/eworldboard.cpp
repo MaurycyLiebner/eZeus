@@ -15,11 +15,12 @@ void eWorldBoard::nextYear() {
 std::vector<stdsptr<eWorldCity>> eWorldBoard::getTribute() const {
     std::vector<stdsptr<eWorldCity>> r;
     for(const auto& c : mCities) {
+        const auto type = c->type();
         const auto rel = c->relationship();
-        if(rel == eWorldCityRelationship::collony ||
-           rel == eWorldCityRelationship::vassal) {
-            r.push_back(c);
-        }
+        const bool e = type == eCityType::colony ||
+                       (type == eCityType::foreignCity &&
+                        rel == eForeignCityRelationship::vassal);
+        if(e) r.push_back(c);
     }
     return r;
 }
@@ -85,8 +86,10 @@ void eWorldBoard::read(eReadStream& src) {
 
 void eWorldBoard::attackedAlly() {
     for(const auto& c : mCities) {
+        const auto type = c->type();
         const auto rel = c->relationship();
-        if(rel == eWorldCityRelationship::ally) {
+        if(type == eCityType::foreignCity &&
+           rel == eForeignCityRelationship::ally) {
             c->incAttitude(-25);
         }
     }

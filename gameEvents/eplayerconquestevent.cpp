@@ -41,7 +41,7 @@ void ePlayerConquestEvent::trigger() {
     eEventData ed;
     ed.fCity = mCity;
     const auto rel = mCity->relationship();
-    if(rel == eWorldCityRelationship::ally) {
+    if(rel == eForeignCityRelationship::ally) {
         auto& worldBoard = board.getWorldBoard();
         worldBoard.attackedAlly();
         board.event(eEvent::allyAttackedByPlayer, ed);
@@ -49,7 +49,7 @@ void ePlayerConquestEvent::trigger() {
     if(conquered) {
         board.event(eEvent::cityConquered, ed);
         board.allow(eBuildingType::commemorative, 4);
-        mCity->setRelationship(eWorldCityRelationship::vassal);
+        mCity->setRelationship(eForeignCityRelationship::vassal);
     } else {
         board.event(eEvent::cityConquerFailed, ed);
     }

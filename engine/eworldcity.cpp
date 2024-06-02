@@ -4,39 +4,77 @@
 #include "egifthelpers.h"
 #include "evectorhelpers.h"
 
-eWorldCityBase::eWorldCityBase(const eWorldCityType type,
+eWorldCityBase::eWorldCityBase(const eCityType type,
                                const std::string& name,
                                const double x, const double y) :
-    mType(type), mName(name), mX(x), mY(y) {
+    mType(type), mName(name), mX(x), mY(y) {}
+
+std::string eWorldCityBase::sTypeName(const eCityType type) {
+    const int group = 39;
+    int string = -1;
     switch(type) {
-    case eWorldCityType::mainCity:
-        setRelationship(eWorldCityRelationship::mainCity);
+    case eCityType::parentCity:
+        string = 0;
         break;
-    case eWorldCityType::collony:
-        setRelationship(eWorldCityRelationship::collony);
+    case eCityType::colony:
+        string = 1;
         break;
-    default:
-        setRelationship(eWorldCityRelationship::rival);
+    case eCityType::foreignCity:
+        string = 2;
+        break;
+    case eCityType::distantCity:
+        string = 4;
+        break;
+    case eCityType::enchantedPlace:
+        string = 5;
+        break;
+    case eCityType::destroyedCity:
+        string = 6;
         break;
     }
+    return eLanguage::zeusText(group, string);
 }
 
 bool eWorldCityBase::isDistant() const {
-    switch(mType) {
-    case eWorldCityType::distantCity:
-    case eWorldCityType::distantCityN:
-    case eWorldCityType::distantCityNE:
-    case eWorldCityType::distantCityE:
-    case eWorldCityType::distantCitySE:
-    case eWorldCityType::distantCityS:
-    case eWorldCityType::distantCitySW:
-    case eWorldCityType::distantCityW:
-    case eWorldCityType::distantCityNW:
-        return true;
-    default:
-        return false;
+    return mType == eCityType::distantCity;
+}
+
+bool eWorldCityBase::isVassal() const {
+    return mType == eCityType::foreignCity &&
+           mRel == eForeignCityRelationship::vassal;
+}
+
+bool eWorldCityBase::isColony() const {
+    return mType == eCityType::colony;
+}
+
+bool eWorldCityBase::isParentCity() const {
+    return mType == eCityType::parentCity;
+}
+
+bool eWorldCityBase::isRival() const {
+    return mType == eCityType::foreignCity &&
+           mRel == eForeignCityRelationship::rival;
+}
+
+bool eWorldCityBase::isAlly() const {
+    return mType == eCityType::foreignCity &&
+            mRel == eForeignCityRelationship::ally;
+}
+
+std::string eWorldCityBase::sDirectionName(const eDistantDirection d) {
+    switch(d) {
+    case eDistantDirection::none: return "none";
+    case eDistantDirection::N: return "N";
+    case eDistantDirection::NE: return "NE";
+    case eDistantDirection::E: return "E";
+    case eDistantDirection::SE: return "SE";
+    case eDistantDirection::S: return "S";
+    case eDistantDirection::SW: return "SW";
+    case eDistantDirection::W: return "W";
+    case eDistantDirection::NW: return "NW";
     }
-    return false;
+    return "none";
 }
 
 void eWorldCityBase::move(const double x, const double y) {
@@ -44,33 +82,19 @@ void eWorldCityBase::move(const double x, const double y) {
     mY = y;
 }
 
-std::string eWorldCityBase::sRelationshipName(
-        const eWorldCityRelationship r,
-        const bool currentCity) {
+std::string eWorldCityBase::sRelationshipName(const eForeignCityRelationship r) {
     int group = 253;
     int string = -1;
-    if(currentCity) {
-        group = 47;
+    switch(r) {
+    case eForeignCityRelationship::vassal:
+        string = 2;
+        break;
+    case eForeignCityRelationship::ally:
         string = 0;
-    } else {
-        switch(r) {
-        case eWorldCityRelationship::mainCity:
-            group = 39;
-            string = 0;
-            break;
-        case eWorldCityRelationship::collony:
-            string = 3;
-            break;
-        case eWorldCityRelationship::vassal:
-            string = 2;
-            break;
-        case eWorldCityRelationship::ally:
-            string = 0;
-            break;
-        case eWorldCityRelationship::rival:
-            string = 1;
-            break;
-        }
+        break;
+    case eForeignCityRelationship::rival:
+        string = 1;
+        break;
     }
     return eLanguage::zeusText(group, string);
 }
@@ -97,39 +121,39 @@ void eWorldCityBase::setName(const std::string& name) {
     mNameString = eVectorHelpers::index(names, name);
 }
 
-std::string eWorldCityBase::sNationality(const eWorldCityType type) {
+std::string eWorldCityBase::sNationalityName(const eNationality type) {
     const int group = 37;
     int string = -1;
     switch(type) {
-    case eWorldCityType::greekCity:
+    case eNationality::greek:
         string = 0;
         break;
-    case eWorldCityType::trojanCity:
+    case eNationality::trojan:
         string = 1;
         break;
-    case eWorldCityType::persianCity:
+    case eNationality::persian:
         string = 2;
         break;
-    case eWorldCityType::centaurCity:
+    case eNationality::centaur:
         string = 3;
         break;
-    case eWorldCityType::amazonCity:
+    case eNationality::amazon:
         string = 4;
         break;
 
-    case eWorldCityType::egyptianCity:
+    case eNationality::egyptian:
         string = 5;
         break;
-    case eWorldCityType::mayanCity:
+    case eNationality::mayan:
         string = 6;
         break;
-    case eWorldCityType::phoenicianCity:
+    case eNationality::phoenician:
         string = 7;
         break;
-    case eWorldCityType::oceanidCity:
+    case eNationality::oceanid:
         string = 8;
         break;
-    case eWorldCityType::atlanteanCity:
+    case eNationality::atlantean:
         string = 9;
         break;
     default:
@@ -138,43 +162,39 @@ std::string eWorldCityBase::sNationality(const eWorldCityType type) {
     return eLanguage::zeusText(group, string);
 }
 
-std::string eWorldCityBase::nationality() const {
-    return sNationality(mType);
-}
-
 std::string eWorldCityBase::anArmy() const {
     const int group  = 37;
     int string = -1;
-    switch(mType) {
-    case eWorldCityType::greekCity:
+    switch(mNationality) {
+    case eNationality::greek:
         string = 0;
         break;
-    case eWorldCityType::trojanCity:
+    case eNationality::trojan:
         string = 1;
         break;
-    case eWorldCityType::persianCity:
+    case eNationality::persian:
         string = 2;
         break;
-    case eWorldCityType::centaurCity:
+    case eNationality::centaur:
         string = 3;
         break;
-    case eWorldCityType::amazonCity:
+    case eNationality::amazon:
         string = 4;
         break;
 
-    case eWorldCityType::egyptianCity:
+    case eNationality::egyptian:
         string = 5;
         break;
-    case eWorldCityType::mayanCity:
+    case eNationality::mayan:
         string = 6;
         break;
-    case eWorldCityType::phoenicianCity:
+    case eNationality::phoenician:
         string = 7;
         break;
-    case eWorldCityType::oceanidCity:
+    case eNationality::oceanid:
         string = 8;
         break;
-    case eWorldCityType::atlanteanCity:
+    case eNationality::atlantean:
         string = 9;
         break;
     default:
@@ -314,61 +334,93 @@ bool eWorldCity::acceptsGift(const eResourceType type,
     }
 }
 
-stdsptr<eWorldCity> eWorldCity::sCreateAthens(const eWorldCityType type) {
+stdsptr<eWorldCity> eWorldCity::sCreateAthens() {
     const auto name = eLanguage::zeusText(21, 4); // athens
-    return std::make_shared<eWorldCity>(type, name, 0.464, 0.514);
+    const auto c = std::make_shared<eWorldCity>(eCityType::foreignCity, name, 0.464, 0.514);
+    c->setNationality(eNationality::greek);
+    return c;
 }
 
-stdsptr<eWorldCity> eWorldCity::sCreateSparta(const eWorldCityType type) {
+stdsptr<eWorldCity> eWorldCity::sCreateSparta() {
     const auto name = eLanguage::zeusText(21, 57); // sparta
-    return std::make_shared<eWorldCity>(type, name, 0.320, 0.615);
+    const auto c = std::make_shared<eWorldCity>(
+                       eCityType::foreignCity, name, 0.320, 0.615);
+    c->setNationality(eNationality::greek);
+    return c;
 }
 
-stdsptr<eWorldCity> eWorldCity::sCreateKnossos(const eWorldCityType type) {
+stdsptr<eWorldCity> eWorldCity::sCreateKnossos() {
     const auto name = eLanguage::zeusText(21, 29); // knossos
-    return std::make_shared<eWorldCity>(type, name, 0.588, 0.825);
+    const auto c = std::make_shared<eWorldCity>(
+                       eCityType::foreignCity, name, 0.588, 0.825);
+    c->setNationality(eNationality::greek);
+    return c;
 }
 
-stdsptr<eWorldCity> eWorldCity::sCreateCorinth(const eWorldCityType type) {
+stdsptr<eWorldCity> eWorldCity::sCreateCorinth() {
     const auto name = eLanguage::zeusText(21, 10); // corinth
-    return std::make_shared<eWorldCity>(type, name, 0.401, 0.522);
+    const auto c = std::make_shared<eWorldCity>(
+                       eCityType::foreignCity, name, 0.401, 0.522);
+    c->setNationality(eNationality::greek);
+    return c;
 }
 
-stdsptr<eWorldCity> eWorldCity::sCreateOlympia(const eWorldCityType type) {
+stdsptr<eWorldCity> eWorldCity::sCreateOlympia() {
     const auto name = eLanguage::zeusText(21, 45); // olympia
-    return std::make_shared<eWorldCity>(type, name, 0.263, 0.542);
+    const auto c = std::make_shared<eWorldCity>(
+                       eCityType::foreignCity, name, 0.263, 0.542);
+    c->setNationality(eNationality::greek);
+    return c;
 }
 
 
-stdsptr<eWorldCity> eWorldCity::sCreateEgypt(const eWorldCityType type) {
+stdsptr<eWorldCity> eWorldCity::sCreateEgypt() {
     const auto name = eLanguage::zeusText(21, 16); // egypt
-    return std::make_shared<eWorldCity>(type, name, 0.350, 0.820);
+    const auto c = std::make_shared<eWorldCity>(
+                       eCityType::foreignCity, name, 0.350, 0.820);
+    c->setNationality(eNationality::egyptian);
+    return c;
 }
 
-stdsptr<eWorldCity> eWorldCity::sCreateCyprus(const eWorldCityType type) {
+stdsptr<eWorldCity> eWorldCity::sCreateCyprus() {
     const auto name = eLanguage::zeusText(21, 13); // cyprus
-    return std::make_shared<eWorldCity>(type, name, 0.790, 0.814);
+    const auto c = std::make_shared<eWorldCity>(
+                       eCityType::foreignCity, name, 0.790, 0.814);
+    c->setNationality(eNationality::greek);
+    return c;
 }
 
 
-stdsptr<eWorldCity> eWorldCity::sCreateTroy(const eWorldCityType type) {
+stdsptr<eWorldCity> eWorldCity::sCreateTroy() {
     const auto name = eLanguage::zeusText(21, 68); // troy
-    return std::make_shared<eWorldCity>(type, name, 0.693, 0.245);
+    const auto c = std::make_shared<eWorldCity>(
+                       eCityType::foreignCity, name, 0.693, 0.245);
+    c->setNationality(eNationality::trojan);
+    return c;
 }
 
 
-stdsptr<eWorldCity> eWorldCity::sCreateMtPelion(const eWorldCityType type) {
+stdsptr<eWorldCity> eWorldCity::sCreateMtPelion() {
     const auto name = eLanguage::zeusText(21, 46); // mt. pelion
-    return std::make_shared<eWorldCity>(type, name, 0.356, 0.276);
+    const auto c = std::make_shared<eWorldCity>(
+                       eCityType::foreignCity, name, 0.356, 0.276);
+    c->setNationality(eNationality::centaur);
+    return c;
 }
 
 
-stdsptr<eWorldCity> eWorldCity::sCreateSardis(const eWorldCityType type) {
+stdsptr<eWorldCity> eWorldCity::sCreateSardis() {
     const auto name = eLanguage::zeusText(21, 54); // sardis
-    return std::make_shared<eWorldCity>(type, name, 0.835, 0.443);
+    const auto c = std::make_shared<eWorldCity>(
+                       eCityType::foreignCity, name, 0.835, 0.443);
+    c->setNationality(eNationality::persian);
+    return c;
 }
 
-stdsptr<eWorldCity> eWorldCity::sCreateHattusas(const eWorldCityType type) {
+stdsptr<eWorldCity> eWorldCity::sCreateHattusas() {
     const auto name = eLanguage::zeusText(21, 24); // hattusas
-    return std::make_shared<eWorldCity>(type, name, 0.835, 0.340);
+    const auto c = std::make_shared<eWorldCity>(
+                       eCityType::foreignCity, name, 0.835, 0.340);
+    c->setNationality(eNationality::persian);
+    return c;
 }

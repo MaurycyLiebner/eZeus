@@ -983,16 +983,14 @@ eEnlistedForces eGameBoard::getEnlistableForces() const {
 
     const auto& cts = mWorldBoard.cities();
     for(const auto& c : cts) {
-        switch(c->relationship()) {
-        case eWorldCityRelationship::ally:
-        case eWorldCityRelationship::vassal:
-        case eWorldCityRelationship::collony: {
-            if(c->attitude() > 50) {
-                result.fAllies.push_back(c);
-            }
-        } break;
-        default:
-            break;
+        const auto type = c->type();
+        const auto rel = c->relationship();
+        const bool e = type == eCityType::colony ||
+                       (type == eCityType::foreignCity &&
+                        (rel == eForeignCityRelationship::ally ||
+                         rel == eForeignCityRelationship::vassal));
+        if(e && c->attitude() > 50) {
+            result.fAllies.push_back(c);
         }
     }
 

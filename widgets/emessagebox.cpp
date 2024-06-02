@@ -102,8 +102,10 @@ void eMessageBox::initialize(const eEventData& ed,
     eStringHelpers::replaceAll(msg.fText, "[player_name]",
                                ed.fPlayerName);
     if(ed.fCity) {
+        const auto nat = ed.fCity->nationality();
+        const auto natName = eWorldCity::sNationalityName(nat);
         eStringHelpers::replaceAll(msg.fText, "[nationality]",
-                                   ed.fCity->nationality());
+                                   natName);
         eStringHelpers::replaceAll(msg.fText, "[city_name]",
                                    ed.fCity->name());
         eStringHelpers::replaceAll(msg.fText, "[leader_name]",
@@ -116,8 +118,10 @@ void eMessageBox::initialize(const eEventData& ed,
         }
     }
     if(ed.fRivalCity) {
+        const auto nat = ed.fRivalCity->nationality();
+        const auto natName = eWorldCity::sNationalityName(nat);
         eStringHelpers::replaceAll(msg.fText, "[rival_nationality]",
-                                   ed.fRivalCity->nationality());
+                                   natName);
         eStringHelpers::replaceAll(msg.fText, "[rival_city_name]",
                                    ed.fRivalCity->name());
     }

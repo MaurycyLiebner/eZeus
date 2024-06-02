@@ -90,40 +90,40 @@ void eInvasionHandler::initialize(eTile* const tile,
         }
     };
 
-    const auto cType = mCity->type();
+    const auto nat = mCity->nationality();
 
     for(int i = 0; i < infantry; i++) {
         stdsptr<eSoldier> s;
-        switch(cType) {
-        case eWorldCityType::greekCity:
+        switch(nat) {
+        case eNationality::greek:
             s = spawnSoldier<eGreekHoplite>(mBoard, tile);
             break;
-        case eWorldCityType::trojanCity:
+        case eNationality::trojan:
             s = spawnSoldier<eTrojanHoplite>(mBoard, tile);
             break;
-        case eWorldCityType::persianCity:
+        case eNationality::persian:
             s = spawnSoldier<ePersianHoplite>(mBoard, tile);
             break;
-        case eWorldCityType::centaurCity:
+        case eNationality::centaur:
             break;
-        case eWorldCityType::amazonCity: {
+        case eNationality::amazon: {
             const auto a = spawnSoldier<eAmazon>(mBoard, tile);
             a->setIsArcher(false);
             s = a;
         } break;
 
-        case eWorldCityType::egyptianCity:
+        case eNationality::egyptian:
             s = spawnSoldier<eEgyptianHoplite>(mBoard, tile);
             break;
-        case eWorldCityType::mayanCity:
+        case eNationality::mayan:
             s = spawnSoldier<eMayanHoplite>(mBoard, tile);
             break;
-        case eWorldCityType::phoenicianCity:
+        case eNationality::phoenician:
             break;
-        case eWorldCityType::oceanidCity:
+        case eNationality::oceanid:
             s = spawnSoldier<eOceanidHoplite>(mBoard, tile);
             break;
-        case eWorldCityType::atlanteanCity:
+        case eNationality::atlantean:
             s = spawnSoldier<eAtlanteanHoplite>(mBoard, tile);
             break;
 
@@ -139,33 +139,33 @@ void eInvasionHandler::initialize(eTile* const tile,
     b.reset();
     for(int i = 0; i < cavalry; i++) {
         stdsptr<eSoldier> s;
-        switch(cType) {
-        case eWorldCityType::greekCity:
+        switch(nat) {
+        case eNationality::greek:
             s = spawnSoldier<eGreekHorseman>(mBoard, tile);
             break;
-        case eWorldCityType::trojanCity:
+        case eNationality::trojan:
             s = spawnSoldier<eTrojanHorseman>(mBoard, tile);
             break;
-        case eWorldCityType::persianCity:
+        case eNationality::persian:
             s = spawnSoldier<ePersianHorseman>(mBoard, tile);
             break;
-        case eWorldCityType::centaurCity:
+        case eNationality::centaur:
             s = spawnSoldier<eCentaurHorseman>(mBoard, tile);
             break;
-        case eWorldCityType::amazonCity:
+        case eNationality::amazon:
             break;
 
-        case eWorldCityType::egyptianCity:
+        case eNationality::egyptian:
             s = spawnSoldier<eEgyptianChariot>(mBoard, tile);
             break;
-        case eWorldCityType::mayanCity:
+        case eNationality::mayan:
             break;
-        case eWorldCityType::phoenicianCity:
+        case eNationality::phoenician:
             s = spawnSoldier<ePhoenicianHorseman>(mBoard, tile);
             break;
-        case eWorldCityType::oceanidCity:
+        case eNationality::oceanid:
             break;
-        case eWorldCityType::atlanteanCity:
+        case eNationality::atlantean:
             s = spawnSoldier<eAtlanteanChariot>(mBoard, tile);
             break;
 
@@ -181,38 +181,38 @@ void eInvasionHandler::initialize(eTile* const tile,
     b.reset();
     for(int i = 0; i < archers; i++) {
         stdsptr<eSoldier> s;
-        switch(cType) {
-        case eWorldCityType::greekCity:
+        switch(nat) {
+        case eNationality::greek:
             spawnSoldier<eGreekRockThrower>(mBoard, tile);
             break;
-        case eWorldCityType::trojanCity:
+        case eNationality::trojan:
             s = spawnSoldier<eTrojanSpearthrower>(mBoard, tile);
             break;
-        case eWorldCityType::persianCity:
+        case eNationality::persian:
             s = spawnSoldier<ePersianArcher>(mBoard, tile);
             break;
-        case eWorldCityType::centaurCity:
+        case eNationality::centaur:
             s = spawnSoldier<eCentaurArcher>(mBoard, tile);
             break;
-        case eWorldCityType::amazonCity: {
+        case eNationality::amazon: {
             const auto a = spawnSoldier<eAmazon>(mBoard, tile);
             a->setIsArcher(true);
             s = a;
         } break;
 
-        case eWorldCityType::egyptianCity:
+        case eNationality::egyptian:
             s = spawnSoldier<eEgyptianArcher>(mBoard, tile);
             break;
-        case eWorldCityType::mayanCity:
+        case eNationality::mayan:
             s = spawnSoldier<eMayanArcher>(mBoard, tile);
             break;
-        case eWorldCityType::phoenicianCity:
+        case eNationality::phoenician:
             s = spawnSoldier<ePhoenicianArcher>(mBoard, tile);
             break;
-        case eWorldCityType::oceanidCity:
+        case eNationality::oceanid:
             s = spawnSoldier<eOceanidSpearthrower>(mBoard, tile);
             break;
-        case eWorldCityType::atlanteanCity:
+        case eNationality::atlantean:
             s = spawnSoldier<eAtlanteanArcher>(mBoard, tile);
             break;
 

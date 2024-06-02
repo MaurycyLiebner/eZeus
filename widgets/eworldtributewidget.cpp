@@ -46,14 +46,12 @@ void eWorldTributeWidget::setCity(const stdsptr<eWorldCity>& c) {
             mAlliesLabel->show();
             return;
         }
-        const auto rel = c->relationship();
-        const bool vassOrCol = rel == eWorldCityRelationship::vassal ||
-                               rel == eWorldCityRelationship::collony;
+        const bool vassOrCol = c->isVassal() || c->isColony();
         if(!vassOrCol) {
-            if(rel == eWorldCityRelationship::ally) {
+            if(c->isAlly()) {
                 mAlliesLabel->setText(eLanguage::zeusText(44, 323));
                 mAlliesLabel->show();
-            } else if(rel == eWorldCityRelationship::rival) {
+            } else if(c->isRival()) {
                 mAlliesLabel->setText(eLanguage::zeusText(44, 324));
                 mAlliesLabel->show();
             }

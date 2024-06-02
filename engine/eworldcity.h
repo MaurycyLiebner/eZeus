@@ -7,49 +7,48 @@
 #include "pointers/estdselfref.h"
 #include "fileIO/estreams.h"
 
-enum class eWorldCityType {
-    mainCity,
-    collony,
-    disabledColony,
+enum class eNationality {
+    greek,
+    trojan,
+    persian,
+    centaur,
+    amazon,
 
-    greekCity,
-    trojanCity,
-    persianCity,
-    centaurCity,
-    amazonCity,
-
-    egyptianCity,
-    mayanCity,
-    phoenicianCity,
-    oceanidCity,
-    atlanteanCity,
-
-    place,
-    ruins,
-
-    distantCity,
-    distantCityN,
-    distantCityNE,
-    distantCityE,
-    distantCitySE,
-    distantCityS,
-    distantCitySW,
-    distantCityW,
-    distantCityNW
+    egyptian,
+    mayan,
+    phoenician,
+    oceanid,
+    atlantean,
 };
 
-enum class eWorldCityRelationship {
-    mainCity,
-    collony,
-    vassal,
-    ally,
-    rival,
+enum class eDistantDirection {
+    none,
+    N,
+    NE,
+    E,
+    SE,
+    S,
+    SW,
+    W,
+    NW
+};
+
+enum class eCityType {
+    parentCity,
+    colony,
+    foreignCity,
     distantCity,
     enchantedPlace,
     destroyedCity
 };
 
-enum class eWorldCityAttitude {
+enum class eForeignCityRelationship {
+    vassal,
+    ally,
+    rival
+};
+
+enum class eCityAttitude {
     // ally, colony, vassal
     philanthropic, // - recently pleased
     resentful, // - recently displeased
@@ -85,16 +84,30 @@ enum class eWorldCityAttitude {
 class eWorldCityBase {
 public:
     eWorldCityBase() {}
-    eWorldCityBase(const eWorldCityType type,
+    eWorldCityBase(const eCityType type,
                    const std::string& name,
                    const double x, const double y);
 
     bool rebellion() const { return mRebellion; }
     void setRebellion(const bool r) { mRebellion = r; }
 
-    void setType(const eWorldCityType type) { mType = type; }
-    eWorldCityType type() const { return mType; }
+    static std::string sTypeName(const eCityType type);
+    void setType(const eCityType type) { mType = type; }
+    eCityType type() const { return mType; }
+
     bool isDistant() const;
+    bool isVassal() const;
+    bool isColony() const;
+    bool isParentCity() const;
+    bool isRival() const;
+    bool isAlly() const;
+
+    void setNationality(const eNationality n) { mNationality = n; }
+    eNationality nationality() const { return mNationality; }
+
+    static std::string sDirectionName(const eDistantDirection d);
+    void setDirection(const eDistantDirection n) { mDirection = n; }
+    eDistantDirection direction() const { return mDirection; }
 
     void move(const double x, const double y);
 
@@ -105,10 +118,9 @@ public:
     void setIsCurrentCity(const bool c) { mIsCurrentCity = c; }
 
     static std::string sRelationshipName(
-            const eWorldCityRelationship r,
-            const bool currentCity);
-    eWorldCityRelationship relationship() const { return mRel; }
-    void setRelationship(const eWorldCityRelationship r) { mRel = r; }
+            const eForeignCityRelationship r);
+    eForeignCityRelationship relationship() const { return mRel; }
+    void setRelationship(const eForeignCityRelationship r) { mRel = r; }
 
     int attitude() const { return mAt; }
     void setAttitude(const int a);
@@ -117,8 +129,7 @@ public:
     static std::vector<std::string> sNames();
     void setName(const std::string& name);
     const std::string& name() const { return mName; }
-    static std::string sNationality(const eWorldCityType type);
-    std::string nationality() const;
+    static std::string sNationalityName(const eNationality type);
     const std::string& leader() const { return mLeader; }
     std::string anArmy() const;
 
@@ -131,7 +142,10 @@ private:
     int mIOID = -1;
 
     bool mIsCurrentCity = false;
-    eWorldCityType mType;
+    eCityType mType;
+
+    eNationality mNationality{eNationality::greek};
+    eDistantDirection mDirection{eDistantDirection::none};
 
     std::string mName;
     int mNameString = -1;
@@ -142,7 +156,7 @@ private:
 
     bool mRebellion = false;
 
-    eWorldCityRelationship mRel{eWorldCityRelationship::ally};
+    eForeignCityRelationship mRel{eForeignCityRelationship::ally};
     int mAt{60};
 };
 
@@ -213,32 +227,21 @@ public:
     void gifted(const eResourceType type, const int count);
     bool acceptsGift(const eResourceType type, const int count) const;
 
-    static stdsptr<eWorldCity> sCreateAthens(
-            const eWorldCityType type = eWorldCityType::greekCity);
-    static stdsptr<eWorldCity> sCreateSparta(
-            const eWorldCityType type = eWorldCityType::greekCity);
-    static stdsptr<eWorldCity> sCreateKnossos(
-            const eWorldCityType type = eWorldCityType::greekCity);
-    static stdsptr<eWorldCity> sCreateCorinth(
-            const eWorldCityType type = eWorldCityType::greekCity);
-    static stdsptr<eWorldCity> sCreateOlympia(
-            const eWorldCityType type = eWorldCityType::greekCity);
+    static stdsptr<eWorldCity> sCreateAthens();
+    static stdsptr<eWorldCity> sCreateSparta();
+    static stdsptr<eWorldCity> sCreateKnossos();
+    static stdsptr<eWorldCity> sCreateCorinth();
+    static stdsptr<eWorldCity> sCreateOlympia();
 
-    static stdsptr<eWorldCity> sCreateEgypt(
-            const eWorldCityType type = eWorldCityType::distantCitySE);
-    static stdsptr<eWorldCity> sCreateCyprus(
-            const eWorldCityType type = eWorldCityType::distantCitySE);
+    static stdsptr<eWorldCity> sCreateEgypt();
+    static stdsptr<eWorldCity> sCreateCyprus();
 
-    static stdsptr<eWorldCity> sCreateTroy(
-            const eWorldCityType type = eWorldCityType::trojanCity);
+    static stdsptr<eWorldCity> sCreateTroy();
 
-    static stdsptr<eWorldCity> sCreateMtPelion(
-            const eWorldCityType type = eWorldCityType::centaurCity);
+    static stdsptr<eWorldCity> sCreateMtPelion();
 
-    static stdsptr<eWorldCity> sCreateSardis(
-            const eWorldCityType type = eWorldCityType::persianCity);
-    static stdsptr<eWorldCity> sCreateHattusas(
-            const eWorldCityType type = eWorldCityType::persianCity);
+    static stdsptr<eWorldCity> sCreateSardis();
+    static stdsptr<eWorldCity> sCreateHattusas();
 private:
     bool mAbroad = false;
 

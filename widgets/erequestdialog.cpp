@@ -35,9 +35,8 @@ void eRequestDialog::initialize(const stdsptr<eWorldCity>& c,
         sells.push_back(ts.fType);
     }
     const int att = c->attitude();
-    const auto rel = c->relationship();
     sells.push_back(eResourceType::drachmas);
-    if(att <= 50 && rel != eWorldCityRelationship::rival) {
+    if(att <= 50 && !c->isRival()) {
         const auto notReg = eLanguage::zeusText(41, 11); // not regarded
         const int p = std::round(13*mult);
         const int h = 2*p;
@@ -60,11 +59,9 @@ void eRequestDialog::initialize(const stdsptr<eWorldCity>& c,
                 func(s);
             });
             std::string request;
-            const auto rel = c->relationship();
-            if(rel == eWorldCityRelationship::collony ||
-               rel == eWorldCityRelationship::vassal) {
+            if(c->isVassal() || c->isColony()) {
                 request = eLanguage::zeusText(41, 5); // order
-            } else if(rel == eWorldCityRelationship::rival) {
+            } else if(c->isRival()) {
                 request = eLanguage::zeusText(41, 4); // demand
             } else {
                 request = eLanguage::zeusText(41, 3); // request

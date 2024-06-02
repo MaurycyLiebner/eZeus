@@ -216,13 +216,11 @@ void eWorldMenu::setCity(const stdsptr<eWorldCity>& c) {
 
     if(c) {
         const auto rel = c->relationship();
-        vassalOrColony = rel == eWorldCityRelationship::vassal ||
-                         rel == eWorldCityRelationship::collony;
-        const int min = static_cast<int>(eWorldCityType::distantCity);
-        const int max = static_cast<int>(eWorldCityType::distantCityNW);
         const auto type = c->type();
-        const int typei = static_cast<int>(type);
-        distant = typei >= min && typei <= max;
+        vassalOrColony = (type == eCityType::foreignCity &&
+                          rel == eForeignCityRelationship::vassal) ||
+                         type == eCityType::colony;
+        distant = type == eCityType::distantCity;
         updateRelationshipLabel();
         mNameLabel->setText(c->name());
         const auto leader = eLanguage::zeusText(44, 328);
@@ -257,99 +255,102 @@ void eWorldMenu::updateRelationshipLabel() const {
         return;
     }
     const auto rel = mCity->relationship();
+    const auto type = mCity->type();
     if(mCity->isCurrentCity()) {
         mAttitudeLabel->setText("");
     } else {
-        eWorldCityAttitude at;
+        eCityAttitude at;
         const int iat = mCity->attitude();
-        if(rel == eWorldCityRelationship::ally) {
-            if(iat < 20) at = eWorldCityAttitude::annoyed;
-            else if(iat < 40) at = eWorldCityAttitude::apatheticA;
-            else if(iat < 60) at = eWorldCityAttitude::sympathetic;
-            else if(iat < 80) at = eWorldCityAttitude::congenial;
-            else at = eWorldCityAttitude::helpful;
-        } else if(rel == eWorldCityRelationship::collony ||
-                  rel == eWorldCityRelationship::vassal) {
-            if(iat < 20) at = eWorldCityAttitude::angry;
-            else if(iat < 40) at = eWorldCityAttitude::bitter;
-            else if(iat < 60) at = eWorldCityAttitude::loyal;
-            else if(iat < 80) at = eWorldCityAttitude::dedicated;
-            else at = eWorldCityAttitude::devoted;
+        if((type == eCityType::foreignCity &&
+            rel == eForeignCityRelationship::ally)) {
+            if(iat < 20) at = eCityAttitude::annoyed;
+            else if(iat < 40) at = eCityAttitude::apatheticA;
+            else if(iat < 60) at = eCityAttitude::sympathetic;
+            else if(iat < 80) at = eCityAttitude::congenial;
+            else at = eCityAttitude::helpful;
+        } else if(type == eCityType::colony ||
+                  (type == eCityType::foreignCity &&
+                   rel == eForeignCityRelationship::vassal)) {
+            if(iat < 20) at = eCityAttitude::angry;
+            else if(iat < 40) at = eCityAttitude::bitter;
+            else if(iat < 60) at = eCityAttitude::loyal;
+            else if(iat < 80) at = eCityAttitude::dedicated;
+            else at = eCityAttitude::devoted;
         } else { // rival
-            if(iat < 20) at = eWorldCityAttitude::furious;
-            else if(iat < 40) at = eWorldCityAttitude::displeased;
-            else if(iat < 60) at = eWorldCityAttitude::apatheticR;
-            else if(iat < 80) at = eWorldCityAttitude::respectful;
-            else at = eWorldCityAttitude::admiring;
+            if(iat < 20) at = eCityAttitude::furious;
+            else if(iat < 40) at = eCityAttitude::displeased;
+            else if(iat < 60) at = eCityAttitude::apatheticR;
+            else if(iat < 80) at = eCityAttitude::respectful;
+            else at = eCityAttitude::admiring;
         }
         const int group = 65;
         int string = -1;
         switch(at) {
-        case eWorldCityAttitude::philanthropic:
+        case eCityAttitude::philanthropic:
             string = 15;
             break;
-        case eWorldCityAttitude::resentful:
+        case eCityAttitude::resentful:
             string = 16;
             break;
 
-        case eWorldCityAttitude::helpful:
+        case eCityAttitude::helpful:
             string = 0;
             break;
-        case eWorldCityAttitude::congenial:
+        case eCityAttitude::congenial:
             string = 1;
             break;
-        case eWorldCityAttitude::sympathetic:
+        case eCityAttitude::sympathetic:
             string = 2;
             break;
-        case eWorldCityAttitude::apatheticA:
+        case eCityAttitude::apatheticA:
             string = 3;
             break;
-        case eWorldCityAttitude::annoyed:
+        case eCityAttitude::annoyed:
             string = 4;
             break;
 
 
-        case eWorldCityAttitude::devoted:
+        case eCityAttitude::devoted:
             string = 10;
             break;
-        case eWorldCityAttitude::dedicated:
+        case eCityAttitude::dedicated:
             string = 11;
             break;
-        case eWorldCityAttitude::loyal:
+        case eCityAttitude::loyal:
             string = 12;
             break;
-        case eWorldCityAttitude::bitter:
+        case eCityAttitude::bitter:
             string = 13;
             break;
-        case eWorldCityAttitude::angry:
+        case eCityAttitude::angry:
             string = 14;
             break;
 
 
-        case eWorldCityAttitude::docile:
+        case eCityAttitude::docile:
             string = 17;
             break;
-        case eWorldCityAttitude::hostile:
+        case eCityAttitude::hostile:
             string = 18;
             break;
 
-        case eWorldCityAttitude::admiring:
+        case eCityAttitude::admiring:
             string = 5;
             break;
-        case eWorldCityAttitude::respectful:
+        case eCityAttitude::respectful:
             string = 6;
             break;
-        case eWorldCityAttitude::apatheticR:
+        case eCityAttitude::apatheticR:
             string = 7;
             break;
-        case eWorldCityAttitude::displeased:
+        case eCityAttitude::displeased:
             string = 8;
             break;
-        case eWorldCityAttitude::furious:
+        case eCityAttitude::furious:
             string = 9;
             break;
         default:
-        case eWorldCityAttitude::insubordinate:
+        case eCityAttitude::insubordinate:
             string = 19;
             break;
         }
@@ -360,8 +361,53 @@ void eWorldMenu::updateRelationshipLabel() const {
     }
 
     {
-        const auto relStr = eWorldCity::sRelationshipName(
-                                rel, mCity->isCurrentCity());
+        int group = -1;
+        int string = -1;
+        if(mCity->isCurrentCity()) {
+            group = 47;
+            string = 0;
+        } else {
+            switch(mCity->type()) {
+            case eCityType::parentCity:
+                group = 39;
+                string = 0;
+                break;
+            case eCityType::colony:
+                group = 253;
+                string = 3;
+                break;
+            case eCityType::foreignCity: {
+                switch(mCity->relationship()) {
+                case eForeignCityRelationship::vassal:
+                    group = 253;
+                    string = 2;
+                    break;
+                case eForeignCityRelationship::ally:
+                    group = 253;
+                    string = 0;
+                    break;
+                case eForeignCityRelationship::rival:
+                    group = 253;
+                    string = 1;
+                    break;
+                }
+            } break;
+
+            case eCityType::distantCity:
+                group = 39;
+                string = 4;
+                break;
+            case eCityType::enchantedPlace:
+                group = 39;
+                string = 5;
+                break;
+            case eCityType::destroyedCity:
+                group = 39;
+                string = 6;
+                break;
+            }
+        }
+        const auto relStr = eLanguage::zeusText(group, string);
         mRelationshipLabel->setText(relStr);
         mRelationshipLabel->fitContent();
         mRelationshipLabel->align(eAlignment::hcenter);

@@ -59,22 +59,19 @@ void eReceiveRequestEvent::trigger() {
     ed.fA1Key = eLanguage::zeusText(44, 211);
     ed.fA2Key = eLanguage::zeusText(44, 212);
 
-    const auto rel = mCity->relationship();
-
     if(mFinish) {
         auto& msgs = eMessages::instance;
         if(mPostpone > 1) {
             ed.fType = eMessageEventType::resourceGranted;
             eEvent event;
             eReceiveRequestMessages* rrmsgs = nullptr;
-            if(rel == eWorldCityRelationship::rival) {
+            if(mCity->isRival()) {
                 event = eEvent::generalRequestRivalTooLate;
                 rrmsgs = &msgs.fGeneralRequestRivalD;
-            } else if(rel == eWorldCityRelationship::vassal ||
-                      rel == eWorldCityRelationship::collony) {
+            } else if(mCity->isVassal() || mCity->isColony()) {
                 event = eEvent::generalRequestSubjectTooLate;
                 rrmsgs = &msgs.fGeneralRequestSubjectP;
-            } else if(rel == eWorldCityRelationship::mainCity) {
+            } else if(mCity->isParentCity()) {
                 event = eEvent::generalRequestParentTooLate;
                 rrmsgs = &msgs.fGeneralRequestParentR;
             } else { // ally
@@ -91,14 +88,13 @@ void eReceiveRequestEvent::trigger() {
             ed.fType = eMessageEventType::resourceGranted;
             eEvent event;
             eReceiveRequestMessages* rrmsgs = nullptr;
-            if(rel == eWorldCityRelationship::rival) {
+            if(mCity->isRival()) {
                 event = eEvent::generalRequestRivalComply;
                 rrmsgs = &msgs.fGeneralRequestRivalD;
-            } else if(rel == eWorldCityRelationship::vassal ||
-                      rel == eWorldCityRelationship::collony) {
+            } else if(mCity->isVassal() || mCity->isColony()) {
                 event = eEvent::generalRequestSubjectComply;
                 rrmsgs = &msgs.fGeneralRequestSubjectP;
-            } else if(rel == eWorldCityRelationship::mainCity) {
+            } else if(mCity->isParentCity()) {
                 event = eEvent::generalRequestParentComply;
                 rrmsgs = &msgs.fGeneralRequestParentR;
             } else { // ally
@@ -120,14 +116,13 @@ void eReceiveRequestEvent::trigger() {
         eEvent event;
         eReceiveRequestMessages* rrmsgs = nullptr;
         auto& msgs = eMessages::instance;
-        if(rel == eWorldCityRelationship::rival) {
+        if(mCity->isRival()) {
             event = eEvent::generalRequestRivalRefuse;
             rrmsgs = &msgs.fGeneralRequestRivalD;
-        } else if(rel == eWorldCityRelationship::vassal ||
-                  rel == eWorldCityRelationship::collony) {
+        } else if(mCity->isVassal() || mCity->isColony()) {
             event = eEvent::generalRequestSubjectRefuse;
             rrmsgs = &msgs.fGeneralRequestSubjectP;
-        } else if(rel == eWorldCityRelationship::mainCity) {
+        } else if(mCity->isParentCity()) {
             event = eEvent::generalRequestParentRefuse;
             rrmsgs = &msgs.fGeneralRequestParentR;
         } else { // ally
@@ -180,7 +175,7 @@ void eReceiveRequestEvent::trigger() {
     if(mPostpone == 0) { // initial
         board.addCityRequest(mainEvent<eReceiveRequestEvent>());
     }
-    if(rel == eWorldCityRelationship::rival) {
+    if(mCity->isRival()) {
         if(mPostpone == 0) { // initial
             board.event(eEvent::generalRequestRivalInitial, ed);
         } else if(mPostpone == 1) { // reminder
@@ -190,8 +185,7 @@ void eReceiveRequestEvent::trigger() {
         } else if(mPostpone == 3) { // warning
             board.event(eEvent::generalRequestRivalWarning, ed);
         }
-    } else if(rel == eWorldCityRelationship::vassal ||
-              rel == eWorldCityRelationship::collony) {
+    } else if(mCity->isVassal() || mCity->isColony()) {
         if(mPostpone == 0) { // initial
             board.event(eEvent::generalRequestSubjectInitial, ed);
         } else if(mPostpone == 1) { // reminder
@@ -201,7 +195,7 @@ void eReceiveRequestEvent::trigger() {
         } else if(mPostpone == 3) { // warning
             board.event(eEvent::generalRequestSubjectWarning, ed);
         }
-    } else if(rel == eWorldCityRelationship::mainCity) {
+    } else if(mCity->isParentCity()) {
         if(mPostpone == 0) { // initial
             board.event(eEvent::generalRequestParentInitial, ed);
         } else if(mPostpone == 1) { // reminder

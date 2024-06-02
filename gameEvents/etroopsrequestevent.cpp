@@ -105,8 +105,6 @@ void eTroopsRequestEvent::trigger() {
     ed.fA1Key = eLanguage::zeusText(44, 211);
     ed.fA2Key = eLanguage::zeusText(44, 212);
 
-    const auto rel = mCity->relationship();
-
     if(mFinish) {
         if(mPostpone > 2) {
             lost();
@@ -148,7 +146,7 @@ void eTroopsRequestEvent::trigger() {
     if(mPostpone == 0) { // initial
         board.addCityTroopsRequest(mainEvent<eTroopsRequestEvent>());
     }
-    if(rel == eWorldCityRelationship::vassal) {
+    if(mCity->isVassal()) {
         if(mPostpone == 0) { // initial
             board.event(eEvent::troopsRequestVassalInitial, ed);
         } else if(mPostpone == 1) { // reminder
@@ -156,7 +154,7 @@ void eTroopsRequestEvent::trigger() {
         } else if(mPostpone == 2) { // overdue
             board.event(eEvent::troopsRequestVassalLastReminder, ed);
         }
-    } else if(rel == eWorldCityRelationship::collony) {
+    } else if(mCity->isColony()) {
         if(mPostpone == 0) { // initial
             board.event(eEvent::troopsRequestColonyInitial, ed);
         } else if(mPostpone == 1) { // reminder
@@ -164,7 +162,7 @@ void eTroopsRequestEvent::trigger() {
         } else if(mPostpone == 2) { // overdue
             board.event(eEvent::troopsRequestColonyLastReminder, ed);
         }
-    } else if(rel == eWorldCityRelationship::mainCity) {
+    } else if(mCity->isParentCity()) {
         if(mPostpone == 0) { // initial
             board.event(eEvent::troopsRequestParentCityInitial, ed);
         } else if(mPostpone == 1) { // reminder
@@ -209,15 +207,13 @@ void eTroopsRequestEvent::won() {
     ed.fRivalCity = mRivalCity;
     ed.fType = eMessageEventType::common;
 
-    const auto rel = mCity->relationship();
-
     auto& msgs = eMessages::instance;
     eTroopsRequestedMessages* rrmsgs = nullptr;
-    if(rel == eWorldCityRelationship::vassal) {
+    if(mCity->isVassal()) {
         rrmsgs = &msgs.fVassalTroopsRequest;
-    } else if(rel == eWorldCityRelationship::collony) {
+    } else if(mCity->isColony()) {
         rrmsgs = &msgs.fColonyTroopsRequest;
-    } else if(rel == eWorldCityRelationship::mainCity) {
+    } else if(mCity->isParentCity()) {
         rrmsgs = &msgs.fParentCityTroopsRequest;
     } else { // ally
         rrmsgs = &msgs.fAllyTroopsRequest;
@@ -237,18 +233,17 @@ void eTroopsRequestEvent::lost() {
     ed.fRivalCity = mRivalCity;
     ed.fType = eMessageEventType::common;
 
-    const auto rel = mCity->relationship();
 
     auto& msgs = eMessages::instance;
     eEvent event;
     eTroopsRequestedMessages* rrmsgs = nullptr;
-    if(rel == eWorldCityRelationship::vassal) {
+    if(mCity->isVassal()) {
         event = eEvent::troopsRequestVassalConquered;
         rrmsgs = &msgs.fVassalTroopsRequest;
-    } else if(rel == eWorldCityRelationship::collony) {
+    } else if(mCity->isColony()) {
         event = eEvent::troopsRequestColonyConquered;
         rrmsgs = &msgs.fColonyTroopsRequest;
-    } else if(rel == eWorldCityRelationship::mainCity) {
+    } else if(mCity->isParentCity()) {
         event = eEvent::troopsRequestParentCityConquered;
         rrmsgs = &msgs.fParentCityTroopsRequest;
     } else { // ally
@@ -257,7 +252,7 @@ void eTroopsRequestEvent::lost() {
     }
     board.event(event, ed);
     mCity->incAttitude(-25);
-    mCity->setRelationship(eWorldCityRelationship::rival);
+    mCity->setRelationship(eForeignCityRelationship::rival);
 
     const auto& reason = rrmsgs->fLostBattleReason;
     const auto me = mainEvent<eTroopsRequestEvent>();

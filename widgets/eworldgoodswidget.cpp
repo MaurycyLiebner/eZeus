@@ -163,8 +163,7 @@ void eWorldGoodsWidget::setCity(const stdsptr<eWorldCity>& c) {
     updateTradeY();
 
     if(c) {
-        const auto rel = c->relationship();
-        if(rel == eWorldCityRelationship::rival) {
+        if(c->isRival()) {
             mBuysWidget->setName(eLanguage::zeusText(47, 3));
             mSellsWidget->setName(eLanguage::zeusText(47, 4));
         } else {

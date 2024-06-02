@@ -136,117 +136,83 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
     nameButton->align(eAlignment::hcenter);
 
     const auto nationalityButton = new eFramedButton(window());
+    const auto directionButton = new eFramedButton(window());
+    const auto type = c->type();
+    nationalityButton->setVisible(type == eCityType::foreignCity ||
+                                  type == eCityType::colony);
+    directionButton->setVisible(type == eCityType::distantCity);
 
-    const auto relationshipButton = new eFramedButton(window());
-    relationshipButton->setUnderline(false);
-    const auto rel = c->relationship();
-    const auto relName = eWorldCity::sRelationshipName(rel, false);
-    relationshipButton->setText(relName);
-    relationshipButton->fitContent();
-    relationshipButton->setPressAction([this, relationshipButton,
-                                        nationalityButton, c, buttonsW]() {
-        const std::vector<eWorldCityRelationship> relationships =
-            {eWorldCityRelationship::mainCity,
-             eWorldCityRelationship::collony,
-             eWorldCityRelationship::vassal,
-             eWorldCityRelationship::ally,
-             eWorldCityRelationship::rival,
-             eWorldCityRelationship::distantCity,
-             eWorldCityRelationship::enchantedPlace,
-             eWorldCityRelationship::destroyedCity};
-        std::vector<std::string> relationshipNames;
-        for(const auto r : relationships) {
-            int group = 253;
-            int string = -1;
-            switch(r) {
-            case eWorldCityRelationship::mainCity:
-                group = 39;
-                string = 0;
-                break;
-            case eWorldCityRelationship::collony:
-                group = 39;
-                string = 1;
-                break;
-            case eWorldCityRelationship::vassal:
-                group = 253;
-                string = 2;
-                break;
-            case eWorldCityRelationship::ally:
-                group = 253;
-                string = 0;
-                break;
-            case eWorldCityRelationship::rival:
-                group = 253;
-                string = 1;
-                break;
-            case eWorldCityRelationship::distantCity:
-                group = 39;
-                string = 4;
-                break;
-            case eWorldCityRelationship::enchantedPlace:
-                group = 39;
-                string = 5;
-                break;
-            case eWorldCityRelationship::destroyedCity:
-                group = 39;
-                string = 6;
-                break;
-            }
-            const auto name = eLanguage::zeusText(group, string);
-            relationshipNames.push_back(name);
+    const auto typeButton = new eFramedButton(window());
+    typeButton->setUnderline(false);
+    const auto rel = c->type();
+    const auto relName = eWorldCity::sTypeName(rel);
+    typeButton->setText(relName);
+    typeButton->fitContent();
+    typeButton->setPressAction([this, typeButton, directionButton,
+                                nationalityButton, c, buttonsW]() {
+        const std::vector<eCityType> types =
+            {eCityType::parentCity,
+             eCityType::colony,
+             eCityType::foreignCity,
+             eCityType::distantCity,
+             eCityType::enchantedPlace,
+             eCityType::destroyedCity};
+        std::vector<std::string> typeNames;
+        for(const auto t : types) {
+            const auto name = eWorldCity::sTypeName(t);
+            typeNames.push_back(name);
         }
-        const auto act = [nationalityButton, c, buttonsW,
-                          relationships, relationshipNames,
-                          relationshipButton](const int val) {
-            const auto rel = relationships[val];
-            c->setRelationship(rel);
-            const auto name = relationshipNames[val];
-            relationshipButton->setText(name);
-            relationshipButton->fitContent();
-            relationshipButton->align(eAlignment::hcenter);
+        const auto act = [nationalityButton, directionButton,
+                          c, buttonsW, types, typeNames,
+                          typeButton](const int val) {
+            const auto type = types[val];
+            c->setType(type);
+            const auto name = typeNames[val];
+            typeButton->setText(name);
+            typeButton->fitContent();
+            typeButton->align(eAlignment::hcenter);
 
-            nationalityButton->setVisible(rel == eWorldCityRelationship::collony ||
-                                          rel == eWorldCityRelationship::vassal ||
-                                          rel == eWorldCityRelationship::ally ||
-                                          rel == eWorldCityRelationship::rival);
+            nationalityButton->setVisible(type == eCityType::foreignCity ||
+                                          type == eCityType::colony);
+            directionButton->setVisible(type == eCityType::distantCity);
             buttonsW->layoutVertically(true);
         };
         const auto d = new eChooseButton(window());
-        d->initialize(4, relationshipNames, act);
+        d->initialize(3, typeNames, act);
 
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW->addWidget(relationshipButton);
-    relationshipButton->align(eAlignment::hcenter);
+    buttonsW->addWidget(typeButton);
+    typeButton->align(eAlignment::hcenter);
 
     nationalityButton->setUnderline(false);
     const auto nationality = c->nationality();
-    nationalityButton->setText(nationality);
+    nationalityButton->setText(eWorldCity::sNationalityName(nationality));
     nationalityButton->fitContent();
     nationalityButton->setPressAction([this, nationalityButton, c]() {
         const auto d = new eChooseButton(window());
-        const std::vector<eWorldCityType> nationalities =
-            {eWorldCityType::greekCity,
-             eWorldCityType::trojanCity,
-             eWorldCityType::persianCity,
-             eWorldCityType::centaurCity,
-             eWorldCityType::amazonCity,
+        const std::vector<eNationality> nationalities =
+            {eNationality::greek,
+             eNationality::trojan,
+             eNationality::persian,
+             eNationality::centaur,
+             eNationality::amazon,
 
-             eWorldCityType::egyptianCity,
-             eWorldCityType::mayanCity,
-             eWorldCityType::phoenicianCity,
-             eWorldCityType::oceanidCity,
-             eWorldCityType::atlanteanCity};
+             eNationality::egyptian,
+             eNationality::mayan,
+             eNationality::phoenician,
+             eNationality::oceanid,
+             eNationality::atlantean};
         std::vector<std::string> nationalityNames;
         for(const auto r : nationalities) {
-            const auto name = eWorldCity::sNationality(r);
+            const auto name = eWorldCity::sNationalityName(r);
             nationalityNames.push_back(name);
         }
         const auto act = [nationalities, nationalityNames,
                           c, nationalityButton](const int val) {
             const auto nat = nationalities[val];
-            c->setType(nat);
+            c->setNationality(nat);
             const auto name = nationalityNames[val];
             nationalityButton->setText(name);
             nationalityButton->fitContent();
@@ -259,6 +225,44 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
     });
     buttonsW->addWidget(nationalityButton);
     nationalityButton->align(eAlignment::hcenter);
+
+    directionButton->setUnderline(false);
+    const auto dir = c->direction();
+    directionButton->setText(eWorldCity::sDirectionName(dir));
+    directionButton->fitContent();
+    directionButton->setPressAction([this, directionButton, c]() {
+        const auto d = new eChooseButton(window());
+        const std::vector<eDistantDirection> directions =
+            {eDistantDirection::none,
+             eDistantDirection::N,
+             eDistantDirection::NE,
+             eDistantDirection::E,
+             eDistantDirection::SE,
+             eDistantDirection::S,
+             eDistantDirection::SW,
+             eDistantDirection::W,
+             eDistantDirection::NW};
+        std::vector<std::string> directionNames;
+        for(const auto r : directions) {
+            const auto name = eWorldCity::sDirectionName(r);
+            directionNames.push_back(name);
+        }
+        const auto act = [directions, directionNames,
+                          c, directionButton](const int val) {
+            const auto dir = directions[val];
+            c->setDirection(dir);
+            const auto name = directionNames[val];
+            directionButton->setText(name);
+            directionButton->fitContent();
+            directionButton->align(eAlignment::hcenter);
+        };
+        d->initialize(5, directionNames, act);
+
+        window()->execDialog(d);
+        d->align(eAlignment::center);
+    });
+    buttonsW->addWidget(directionButton);
+    directionButton->align(eAlignment::hcenter);
 
     const auto buysButton = new eFramedButton(window());
     buysButton->setUnderline(false);
