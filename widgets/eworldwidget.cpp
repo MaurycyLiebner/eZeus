@@ -68,10 +68,7 @@ void eWorldWidget::initialize() {
     mWM->initialize(requestFunc, giftFunc, raidFunc, conquerFunc);
 
     mWMW = new eWorldMapWidget(window());
-    mWMW->initialize();
     addWidget(mWMW);
-    mWMW->align(eAlignment::center);
-    mWMW->setX((width() - mWM->width() - mWMW->width())/2);
 
     mWMW->setSelectCityAction([this](const stdsptr<eWorldCity>& ct) {
         mCity = ct;
@@ -84,6 +81,30 @@ void eWorldWidget::initialize() {
 
     addWidget(mWM);
     mWM->align(eAlignment::right | eAlignment::top);
+
+    const int p = padding();
+
+    mMapButton = new eFramedButton(window());
+    mMapButton->setUnderline(false);
+    mMapButton->setRenderBg(true);
+    mMapButton->setText(eLanguage::text("map"));
+    mMapButton->fitContent();
+    addWidget(mMapButton);
+    mMapButton->setPressAction([this]() {
+        if(!mBoard) return;
+        auto& wb = mBoard->getWorldBoard();
+        auto m = wb.map();
+        if(m == eWorldMap::poseidon4) {
+            m = eWorldMap::greece1;
+        } else {
+            m = static_cast<eWorldMap>(static_cast<int>(m) + 1);
+        }
+        wb.setMap(m);
+        setMap(m);
+    });
+
+    const int x = width() - mWM->width() - p - mMapButton->width();
+    mMapButton->move(x, p);
 
     mSettingsButton = new eFramedButton(window());
     mSettingsButton->setUnderline(false);
@@ -100,15 +121,17 @@ void eWorldWidget::initialize() {
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-
-    const int p = padding();
-    const int x = width() - mWM->width() - p - mSettingsButton->width();
-    mSettingsButton->move(x, p);
+    const int xx = width() - mWM->width() - p - mSettingsButton->width();
+    mSettingsButton->move(xx, mMapButton->y() + mMapButton->height() + p);
 }
 
 void eWorldWidget::setBoard(eGameBoard* const board) {
     mBoard = board;
     mWMW->setBoard(board);
+    if(board) {
+        const auto& wb = board->getWorldBoard();
+        setMap(wb.map());
+    }
     mSettingsButton->setVisible(mCity && board && board->editorMode());
     update();
 }
@@ -158,6 +181,71 @@ void eWorldWidget::openGiftDialog() {
     d->align(eAlignment::vcenter);
     d->setX(mWMW->x() + (mWMW->width() - d->width())/2);
     window()->execDialog(d);
+}
+
+void eWorldWidget::setMap(const eWorldMap map) {
+    const auto& intrfc = eGameTextures::interface();
+    const auto res = resolution();
+    const int iRes = static_cast<int>(res.uiScale());
+    const auto& texs = intrfc[iRes];
+
+    stdsptr<eTexture> tex;
+    switch(map) {
+    case eWorldMap::greece1:
+        eGameTextures::loadMapOfGreece1();
+        tex = texs.fMapOfGreece1;
+        break;
+    case eWorldMap::greece2:
+        eGameTextures::loadMapOfGreece2();
+        tex = texs.fMapOfGreece2;
+        break;
+    case eWorldMap::greece3:
+        eGameTextures::loadMapOfGreece3();
+        tex = texs.fMapOfGreece3;
+        break;
+    case eWorldMap::greece4:
+        eGameTextures::loadMapOfGreece4();
+        tex = texs.fMapOfGreece4;
+        break;
+    case eWorldMap::greece5:
+        eGameTextures::loadMapOfGreece5();
+        tex = texs.fMapOfGreece5;
+        break;
+    case eWorldMap::greece6:
+        eGameTextures::loadMapOfGreece6();
+        tex = texs.fMapOfGreece6;
+        break;
+    case eWorldMap::greece7:
+        eGameTextures::loadMapOfGreece7();
+        tex = texs.fMapOfGreece7;
+        break;
+    case eWorldMap::greece8:
+        eGameTextures::loadMapOfGreece8();
+        tex = texs.fMapOfGreece8;
+        break;
+
+    case eWorldMap::poseidon1:
+        eGameTextures::loadPoseidonMap1();
+        tex = texs.fPoseidonMap1;
+        break;
+    case eWorldMap::poseidon2:
+        eGameTextures::loadPoseidonMap2();
+        tex = texs.fPoseidonMap2;
+        break;
+    case eWorldMap::poseidon3:
+        eGameTextures::loadPoseidonMap3();
+        tex = texs.fPoseidonMap3;
+        break;
+    case eWorldMap::poseidon4:
+        eGameTextures::loadPoseidonMap4();
+        tex = texs.fPoseidonMap4;
+        break;
+    }
+
+    mWMW->setTexture(tex);
+    mWMW->fitContent();
+    mWMW->align(eAlignment::center);
+    mWMW->setX((width() - mWM->width() - mWMW->width())/2);
 }
 
 void eWorldWidget::openEnlistForcesDialog(

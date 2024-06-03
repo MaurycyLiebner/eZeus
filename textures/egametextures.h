@@ -263,6 +263,20 @@ public:
     static void loadTradingPost();
     static void loadGranary();
 
+    static void loadMapOfGreece1();
+    static void loadMapOfGreece2();
+    static void loadMapOfGreece3();
+    static void loadMapOfGreece4();
+    static void loadMapOfGreece5();
+    static void loadMapOfGreece6();
+    static void loadMapOfGreece7();
+    static void loadMapOfGreece8();
+
+    static void loadPoseidonMap1();
+    static void loadPoseidonMap2();
+    static void loadPoseidonMap3();
+    static void loadPoseidonMap4();
+
     static bool initialize(SDL_Renderer* const r);
     static bool loadNextMenu(const eSettings& settings,
                              std::string& text);

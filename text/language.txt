@@ -2,6 +2,7 @@ settings "Settings"
 tribute "Tribute"
 choose "Choose"
 relationship "Relationship"
+map "Map"
 
 none "None"
 

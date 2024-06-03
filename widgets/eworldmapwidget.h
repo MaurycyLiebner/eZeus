@@ -9,8 +9,6 @@ class eWorldMapWidget : public eLabel {
 public:
     eWorldMapWidget(eMainWindow* const window);
 
-    void initialize();
-
     void setBoard(eGameBoard* const b);
 
     using eSelectCityAction = std::function<void(const stdsptr<eWorldCity>&)>;

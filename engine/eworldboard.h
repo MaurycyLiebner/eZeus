@@ -6,6 +6,22 @@
 #include "eworldcity.h"
 #include "pointers/estdselfref.h"
 
+enum class eWorldMap {
+    greece1,
+    greece2,
+    greece3,
+    greece4,
+    greece5,
+    greece6,
+    greece7,
+    greece8,
+
+    poseidon1,
+    poseidon2,
+    poseidon3,
+    poseidon4
+};
+
 class eWorldBoard {
 public:
     eWorldBoard();
@@ -23,6 +39,9 @@ public:
     const std::vector<stdsptr<eWorldCity>>& cities() const
     { return mCities; }
 
+    eWorldMap map() const { return mMap; }
+    void setMap(const eWorldMap m) { mMap = m; }
+
     int cityId(const eWorldCity& city) const;
 
     stdsptr<eWorldCity> cityWithIOID(const int id) const;
@@ -33,6 +52,7 @@ public:
 
     void attackedAlly();
 private:
+    eWorldMap mMap{eWorldMap::greece8};
     stdsptr<eWorldCity> mHomeCity;
     std::vector<stdsptr<eWorldCity>> mCities;
 };

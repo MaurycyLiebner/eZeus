@@ -14,16 +14,6 @@
 eWorldMapWidget::eWorldMapWidget(eMainWindow* const window) :
     eLabel(window) {}
 
-void eWorldMapWidget::initialize() {
-    const auto& intrfc = eGameTextures::interface();
-    const auto res = resolution();
-    const int iRes = static_cast<int>(res.uiScale());
-    const auto& texs = intrfc[iRes];
-
-    setTexture(texs.fMapOfGreece);
-    fitContent();
-}
-
 void eWorldMapWidget::setBoard(eGameBoard* const b) {
     mGameBoard = b;
     mWorldBoard = b ? &b->getWorldBoard() : nullptr;

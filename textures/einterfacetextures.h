@@ -15,6 +15,34 @@ public:
     const int fTileH;
     SDL_Renderer* const fRenderer;
 
+    std::string loadMapDirPath() const;
+
+    bool fMapOfGreece1Loaded = false;
+    void loadMapOfGreece1();
+    bool fMapOfGreece2Loaded = false;
+    void loadMapOfGreece2();
+    bool fMapOfGreece3Loaded = false;
+    void loadMapOfGreece3();
+    bool fMapOfGreece4Loaded = false;
+    void loadMapOfGreece4();
+    bool fMapOfGreece5Loaded = false;
+    void loadMapOfGreece5();
+    bool fMapOfGreece6Loaded = false;
+    void loadMapOfGreece6();
+    bool fMapOfGreece7Loaded = false;
+    void loadMapOfGreece7();
+    bool fMapOfGreece8Loaded = false;
+    void loadMapOfGreece8();
+
+    bool fPoseidonMap1Loaded = false;
+    void loadPoseidonMap1();
+    bool fPoseidonMap2Loaded = false;
+    void loadPoseidonMap2();
+    bool fPoseidonMap3Loaded = false;
+    void loadPoseidonMap3();
+    bool fPoseidonMap4Loaded = false;
+    void loadPoseidonMap4();
+
     std::shared_ptr<eTexture> fGameTopBar;
     std::shared_ptr<eTexture> fGameMenuBackground;
     std::shared_ptr<eTexture> fGameArmyBackground;
@@ -333,7 +361,19 @@ public:
     eTextureCollection fCityWealth;
     eTextureCollection fCityRebellion;
 
-    std::shared_ptr<eTexture> fMapOfGreece;
+    std::shared_ptr<eTexture> fPoseidonMap1;
+    std::shared_ptr<eTexture> fPoseidonMap2;
+    std::shared_ptr<eTexture> fPoseidonMap3;
+    std::shared_ptr<eTexture> fPoseidonMap4;
+
+    std::shared_ptr<eTexture> fMapOfGreece1;
+    std::shared_ptr<eTexture> fMapOfGreece2;
+    std::shared_ptr<eTexture> fMapOfGreece3;
+    std::shared_ptr<eTexture> fMapOfGreece4;
+    std::shared_ptr<eTexture> fMapOfGreece5;
+    std::shared_ptr<eTexture> fMapOfGreece6;
+    std::shared_ptr<eTexture> fMapOfGreece7;
+    std::shared_ptr<eTexture> fMapOfGreece8;
 
     eTextureCollection fInterfaceBanners;
     eTextureCollection fInterfaceBannerTops;

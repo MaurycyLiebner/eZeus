@@ -65,6 +65,7 @@ void eWorldBoard::setIOIDs() const {
 }
 
 void eWorldBoard::write(eWriteStream& dst) const {
+    dst << mMap;
     mHomeCity->write(dst);
     dst << mCities.size();
     for(const auto& c : mCities) {
@@ -73,6 +74,7 @@ void eWorldBoard::write(eWriteStream& dst) const {
 }
 
 void eWorldBoard::read(eReadStream& src) {
+    src >> mMap;
     mHomeCity = std::make_shared<eWorldCity>();
     mHomeCity->read(src);
     int nc;

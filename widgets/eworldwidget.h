@@ -29,11 +29,13 @@ private:
             const std::vector<eResourceType>& plunderResources = {});
     void openRequestDialog();
     void openGiftDialog();
+    void setMap(const eWorldMap map);
 
     stdsptr<eWorldCity> mCity;
     eWorldMenu* mWM = nullptr;
     eWorldMapWidget* mWMW = nullptr;
     eGameBoard* mBoard = nullptr;
+    eFramedButton* mMapButton = nullptr;
     eFramedButton* mSettingsButton = nullptr;
 };
 

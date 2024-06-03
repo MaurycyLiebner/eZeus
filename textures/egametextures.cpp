@@ -1526,6 +1526,90 @@ void eGameTextures::loadGranary() {
     });
 }
 
+void eGameTextures::loadMapOfGreece1() {
+    loadTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadMapOfGreece1();
+    });
+}
+
+void eGameTextures::loadMapOfGreece2() {
+    loadTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadMapOfGreece2();
+    });
+}
+
+void eGameTextures::loadMapOfGreece3() {
+    loadTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadMapOfGreece3();
+    });
+}
+
+void eGameTextures::loadMapOfGreece4() {
+    loadTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadMapOfGreece4();
+    });
+}
+
+void eGameTextures::loadMapOfGreece5() {
+    loadTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadMapOfGreece5();
+    });
+}
+
+void eGameTextures::loadMapOfGreece6() {
+    loadTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadMapOfGreece6();
+    });
+}
+
+void eGameTextures::loadMapOfGreece7() {
+    loadTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadMapOfGreece7();
+    });
+}
+
+void eGameTextures::loadMapOfGreece8() {
+    loadTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadMapOfGreece8();
+    });
+}
+
+void eGameTextures::loadPoseidonMap1() {
+    loadTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadPoseidonMap1();
+    });
+}
+
+void eGameTextures::loadPoseidonMap2() {
+    loadTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadPoseidonMap2();
+    });
+}
+
+void eGameTextures::loadPoseidonMap3() {
+    loadTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadPoseidonMap3();
+    });
+}
+
+void eGameTextures::loadPoseidonMap4() {
+    loadTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadPoseidonMap4();
+    });
+}
+
 bool eGameTextures::initialize(SDL_Renderer* const r) {
     if(sInitialized) return true;
     int i = 0;
