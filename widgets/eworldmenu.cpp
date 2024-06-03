@@ -254,107 +254,12 @@ void eWorldMenu::updateRelationshipLabel() const {
         mAttitudeLabel->setText("");
         return;
     }
-    const auto rel = mCity->relationship();
-    const auto type = mCity->type();
+
     if(mCity->isCurrentCity()) {
         mAttitudeLabel->setText("");
     } else {
-        eCityAttitude at;
-        const int iat = mCity->attitude();
-        if((type == eCityType::foreignCity &&
-            rel == eForeignCityRelationship::ally)) {
-            if(iat < 20) at = eCityAttitude::annoyed;
-            else if(iat < 40) at = eCityAttitude::apatheticA;
-            else if(iat < 60) at = eCityAttitude::sympathetic;
-            else if(iat < 80) at = eCityAttitude::congenial;
-            else at = eCityAttitude::helpful;
-        } else if(type == eCityType::colony ||
-                  (type == eCityType::foreignCity &&
-                   rel == eForeignCityRelationship::vassal)) {
-            if(iat < 20) at = eCityAttitude::angry;
-            else if(iat < 40) at = eCityAttitude::bitter;
-            else if(iat < 60) at = eCityAttitude::loyal;
-            else if(iat < 80) at = eCityAttitude::dedicated;
-            else at = eCityAttitude::devoted;
-        } else { // rival
-            if(iat < 20) at = eCityAttitude::furious;
-            else if(iat < 40) at = eCityAttitude::displeased;
-            else if(iat < 60) at = eCityAttitude::apatheticR;
-            else if(iat < 80) at = eCityAttitude::respectful;
-            else at = eCityAttitude::admiring;
-        }
-        const int group = 65;
-        int string = -1;
-        switch(at) {
-        case eCityAttitude::philanthropic:
-            string = 15;
-            break;
-        case eCityAttitude::resentful:
-            string = 16;
-            break;
-
-        case eCityAttitude::helpful:
-            string = 0;
-            break;
-        case eCityAttitude::congenial:
-            string = 1;
-            break;
-        case eCityAttitude::sympathetic:
-            string = 2;
-            break;
-        case eCityAttitude::apatheticA:
-            string = 3;
-            break;
-        case eCityAttitude::annoyed:
-            string = 4;
-            break;
-
-
-        case eCityAttitude::devoted:
-            string = 10;
-            break;
-        case eCityAttitude::dedicated:
-            string = 11;
-            break;
-        case eCityAttitude::loyal:
-            string = 12;
-            break;
-        case eCityAttitude::bitter:
-            string = 13;
-            break;
-        case eCityAttitude::angry:
-            string = 14;
-            break;
-
-
-        case eCityAttitude::docile:
-            string = 17;
-            break;
-        case eCityAttitude::hostile:
-            string = 18;
-            break;
-
-        case eCityAttitude::admiring:
-            string = 5;
-            break;
-        case eCityAttitude::respectful:
-            string = 6;
-            break;
-        case eCityAttitude::apatheticR:
-            string = 7;
-            break;
-        case eCityAttitude::displeased:
-            string = 8;
-            break;
-        case eCityAttitude::furious:
-            string = 9;
-            break;
-        default:
-        case eCityAttitude::insubordinate:
-            string = 19;
-            break;
-        }
-        const auto atStr = eLanguage::zeusText(group, string);
+        const auto at = mCity->attitudeClass();
+        const auto atStr = eWorldCity::sAttitudeName(at);
         mAttitudeLabel->setText(atStr);
         mAttitudeLabel->fitContent();
         mAttitudeLabel->align(eAlignment::center);

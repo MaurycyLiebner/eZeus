@@ -102,6 +102,7 @@ public:
     bool isRival() const;
     bool isAlly() const;
 
+    static std::string sNationalityName(const eNationality type);
     void setNationality(const eNationality n) { mNationality = n; }
     eNationality nationality() const { return mNationality; }
 
@@ -122,6 +123,8 @@ public:
     eForeignCityRelationship relationship() const { return mRel; }
     void setRelationship(const eForeignCityRelationship r) { mRel = r; }
 
+    static std::string sAttitudeName(const eCityAttitude at);
+    eCityAttitude attitudeClass() const;
     int attitude() const { return mAt; }
     void setAttitude(const int a);
     void incAttitude(const int a);
@@ -129,8 +132,11 @@ public:
     static std::vector<std::string> sNames();
     void setName(const std::string& name);
     const std::string& name() const { return mName; }
-    static std::string sNationalityName(const eNationality type);
+
+    static std::vector<std::string> sLeaders();
+    void setLeader(const std::string& name);
     const std::string& leader() const { return mLeader; }
+
     std::string anArmy() const;
 
     void setIOID(const int id) { mIOID = id; }
@@ -149,7 +155,9 @@ private:
 
     std::string mName;
     int mNameString = -1;
+
     std::string mLeader;
+    int mLeaderString = -1;
 
     double mX;
     double mY;

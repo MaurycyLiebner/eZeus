@@ -3,6 +3,7 @@ tribute "Tribute"
 choose "Choose"
 relationship "Relationship"
 map "Map"
+leader "Leader"
 
 none "None"
 

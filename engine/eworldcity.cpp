@@ -99,6 +99,107 @@ std::string eWorldCityBase::sRelationshipName(const eForeignCityRelationship r) 
     return eLanguage::zeusText(group, string);
 }
 
+std::string eWorldCityBase::sAttitudeName(const eCityAttitude at) {
+
+    const int group = 65;
+    int string = -1;
+    switch(at) {
+    case eCityAttitude::philanthropic:
+        string = 15;
+        break;
+    case eCityAttitude::resentful:
+        string = 16;
+        break;
+
+    case eCityAttitude::helpful:
+        string = 0;
+        break;
+    case eCityAttitude::congenial:
+        string = 1;
+        break;
+    case eCityAttitude::sympathetic:
+        string = 2;
+        break;
+    case eCityAttitude::apatheticA:
+        string = 3;
+        break;
+    case eCityAttitude::annoyed:
+        string = 4;
+        break;
+
+
+    case eCityAttitude::devoted:
+        string = 10;
+        break;
+    case eCityAttitude::dedicated:
+        string = 11;
+        break;
+    case eCityAttitude::loyal:
+        string = 12;
+        break;
+    case eCityAttitude::bitter:
+        string = 13;
+        break;
+    case eCityAttitude::angry:
+        string = 14;
+        break;
+
+
+    case eCityAttitude::docile:
+        string = 17;
+        break;
+    case eCityAttitude::hostile:
+        string = 18;
+        break;
+
+    case eCityAttitude::admiring:
+        string = 5;
+        break;
+    case eCityAttitude::respectful:
+        string = 6;
+        break;
+    case eCityAttitude::apatheticR:
+        string = 7;
+        break;
+    case eCityAttitude::displeased:
+        string = 8;
+        break;
+    case eCityAttitude::furious:
+        string = 9;
+        break;
+    default:
+    case eCityAttitude::insubordinate:
+        string = 19;
+        break;
+    }
+    return eLanguage::zeusText(group, string);
+}
+
+eCityAttitude eWorldCityBase::attitudeClass() const {
+    eCityAttitude at;
+    const int iat = attitude();
+    if(isAlly()) {
+        if(iat < 20) at = eCityAttitude::annoyed;
+        else if(iat < 40) at = eCityAttitude::apatheticA;
+        else if(iat < 60) at = eCityAttitude::sympathetic;
+        else if(iat < 80) at = eCityAttitude::congenial;
+        else at = eCityAttitude::helpful;
+    } else if(isVassal() || isColony()) {
+        if(iat < 20) at = eCityAttitude::angry;
+        else if(iat < 40) at = eCityAttitude::bitter;
+        else if(iat < 60) at = eCityAttitude::loyal;
+        else if(iat < 80) at = eCityAttitude::dedicated;
+        else at = eCityAttitude::devoted;
+    } else { // rival
+        if(iat < 20) at = eCityAttitude::furious;
+        else if(iat < 40) at = eCityAttitude::displeased;
+        else if(iat < 60) at = eCityAttitude::apatheticR;
+        else if(iat < 80) at = eCityAttitude::respectful;
+        else at = eCityAttitude::admiring;
+    }
+    return at;
+}
+
 void eWorldCityBase::setAttitude(const int a) {
     mAt = std::clamp(a, 0, 100);
 }
@@ -119,6 +220,20 @@ void eWorldCityBase::setName(const std::string& name) {
     mName = name;
     const auto names = sNames();
     mNameString = eVectorHelpers::index(names, name);
+}
+
+std::vector<std::string> eWorldCityBase::sLeaders() {
+    std::vector<std::string> leaders;
+    for(int i = 0; i < 84; i++) {
+        leaders.push_back(eLanguage::zeusText(139, i));
+    }
+    return leaders;
+}
+
+void eWorldCityBase::setLeader(const std::string& name) {
+    mLeader = name;
+    const auto names = sLeaders();
+    mLeaderString = eVectorHelpers::index(names, name);
 }
 
 std::string eWorldCityBase::sNationalityName(const eNationality type) {
@@ -209,6 +324,7 @@ void eWorldCityBase::write(eWriteStream& dst) const {
     dst << mName;
     dst << mNameString;
     dst << mLeader;
+    dst << mLeaderString;
     dst << mX;
     dst << mY;
     dst << mRebellion;
@@ -225,6 +341,7 @@ void eWorldCityBase::read(eReadStream& src) {
         mName = eLanguage::zeusText(21, mNameString);
     }
     src >> mLeader;
+    src >> mLeaderString;
     src >> mX;
     src >> mY;
     src >> mRebellion;
