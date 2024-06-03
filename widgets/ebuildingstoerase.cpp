@@ -5,6 +5,7 @@
 #include "buildings/evendor.h"
 #include "buildings/eroad.h"
 #include "buildings/eagorabase.h"
+#include "buildings/egatehouse.h"
 #include "buildings/epalacetile.h"
 #include "buildings/epalace.h"
 #include "buildings/epier.h"
@@ -51,6 +52,8 @@ void eBuildingsToErase::addBuilding(eBuilding* const b) {
         const auto r = static_cast<eRoad*>(b);
         const auto a = r->underAgora();
         if(a) bb = a;
+        const auto g = r->underGatehouse();
+        if(g) bb = g;
     } else if(t == eBuildingType::palaceTile) {
         const auto pt = static_cast<ePalaceTile*>(b);
         const auto p = pt->palace();

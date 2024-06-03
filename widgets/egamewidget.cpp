@@ -42,6 +42,7 @@
 #include "buildings/ehorseranch.h"
 #include "buildings/ehorseranchenclosure.h"
 #include "buildings/eaestheticsbuilding.h"
+#include "buildings/egatehouse.h"
 
 #include "elanguage.h"
 
@@ -1136,9 +1137,11 @@ bool eGameWidget::inErase(eBuilding* const b) {
             }
             return false;
         } else {
-            const auto a = r->underAgora();
-            if(a) return inErase(a);
-            else rect = b->tileRect();
+            if(const auto a = r->underAgora()) {
+                return inErase(a);
+            } else if(const auto g = r->underGatehouse()) {
+                return inErase(g);
+            } else rect = b->tileRect();
         }
     } else if(const auto a = dynamic_cast<eAgoraBase*>(b)) {
         return inErase(a);
