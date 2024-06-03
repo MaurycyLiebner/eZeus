@@ -582,18 +582,18 @@ bool eGameWidget::buildMouseRelease() {
                     if(!t) break;
                     build(t->x(), t->y(), 1, 1,
                           [this]() { return e::make_shared<eRoad>(*mBoard); },
-                          {}, {}, true);
+                          false, true);
                     t = t->neighbour<eTile>(path[i]);
                 }
                 if(t) {
                     build(t->x(), t->y(), 1, 1,
                           [this]() { return e::make_shared<eRoad>(*mBoard); },
-                          {}, {}, true);
+                          false, true);
                 }
             } else {
                 build(startTile->x(), startTile->y(), 1, 1,
                       [this]() { return e::make_shared<eRoad>(*mBoard); },
-                      {}, {}, true);
+                      false, true);
             }
         }; break;
         case eBuildingMode::roadblock: {
@@ -614,8 +614,6 @@ bool eGameWidget::buildMouseRelease() {
             if(r) {
                 for(const auto t : path) {
                     const auto b = e::make_shared<eRoad>(*mBoard);
-                    const auto rend = e::make_shared<eBuildingRenderer>(b);
-                    t->setBuilding(rend);
                     b->setCenterTile(t);
                     b->setTileRect({t->x(), t->y(), 1, 1});
                     t->setUnderBuilding(b);
@@ -715,10 +713,6 @@ bool eGameWidget::buildMouseRelease() {
                 s = e::make_shared<eStadium>(*mBoard, mRotate);
                 return s;
             });
-            const auto renderer1 = e::make_shared<eStadium1Renderer>(s);
-            t1->setBuilding(renderer1);
-            const auto renderer2 = e::make_shared<eStadium2Renderer>(s);
-            t2->setBuilding(renderer2);
             mGm->clearMode();
         }; break;
         case eBuildingMode::palace: {
@@ -793,10 +787,6 @@ bool eGameWidget::buildMouseRelease() {
             build(tx, ty, sw, sh, [&]() {
                 return s;
             });
-            const auto renderer1 = e::make_shared<ePalace1Renderer>(s);
-            t1->setBuilding(renderer1);
-            const auto renderer2 = e::make_shared<ePalace2Renderer>(s);
-            t2->setBuilding(renderer2);
             mGm->clearMode();
         }; break;
         case eBuildingMode::eliteHousing: {
@@ -804,29 +794,11 @@ bool eGameWidget::buildMouseRelease() {
             if(!t1) return true;
             const bool cb = canBuild(t1->x() + 1, t1->y() + 1, 4, 4);
             if(!cb) return true;
-            const auto t2 = t1->tileRel<eTile>(2, 0);
-            if(!t2) return true;
-            const auto t3 = t1->tileRel<eTile>(2, 2);
-            if(!t3) return true;
-            const auto t4 = t1->tileRel<eTile>(0, 2);
-            if(!t4) return true;
             stdsptr<eEliteHousing> s;
             build(t1->x() + 1, t1->y() + 1, 4, 4, [&]() {
                 s = e::make_shared<eEliteHousing>(*mBoard);
                 return s;
             });
-            const auto renderer1 = e::make_shared<eEliteHousingRenderer>(
-                                       eEliteRendererType::top, s);
-            t1->setBuilding(renderer1);
-            const auto renderer2 = e::make_shared<eEliteHousingRenderer>(
-                                       eEliteRendererType::right, s);
-            t2->setBuilding(renderer2);
-            const auto renderer3 = e::make_shared<eEliteHousingRenderer>(
-                                       eEliteRendererType::bottom, s);
-            t3->setBuilding(renderer3);
-            const auto renderer4 = e::make_shared<eEliteHousingRenderer>(
-                                       eEliteRendererType::left, s);
-            t4->setBuilding(renderer4);
         }; break;
         case eBuildingMode::taxOffice: {
             build(mHoverTX, mHoverTY, 2, 2,
@@ -888,8 +860,6 @@ bool eGameWidget::buildMouseRelease() {
             if(c) {
                 const auto b = e::make_shared<eUrchinQuay>(*mBoard, o);
                 const auto tile = mBoard->tile(mHoverTX, mHoverTY);
-                const auto rend = e::make_shared<eBuildingRenderer>(b);
-                tile->setBuilding(rend);
                 b->setCenterTile(tile);
 
                 const int minY = mHoverTY - 1;
@@ -911,8 +881,6 @@ bool eGameWidget::buildMouseRelease() {
             if(c) {
                 const auto b = e::make_shared<eFishery>(*mBoard, o);
                 const auto tile = mBoard->tile(mHoverTX, mHoverTY);
-                const auto rend = e::make_shared<eBuildingRenderer>(b);
-                tile->setBuilding(rend);
                 b->setCenterTile(tile);
 
                 const int minY = mHoverTY - 1;
@@ -936,8 +904,6 @@ bool eGameWidget::buildMouseRelease() {
             if(c) {
                 const auto b = e::make_shared<ePier>(*mBoard, o);
                 const auto tile = mBoard->tile(mHoverTX, mHoverTY);
-                const auto rend = e::make_shared<eBuildingRenderer>(b);
-                tile->setBuilding(rend);
                 b->setCenterTile(tile);
 
                 const int minY = mHoverTY - 1;
@@ -1096,12 +1062,8 @@ bool eGameWidget::buildMouseRelease() {
                            eGatehouseRendererType::grt1, b1);
             const auto t1 = mBoard->tile(tx, ty + 1);
             if(!t1) return true;
-            t1->setBuilding(r1);
-            const auto r2 = e::make_shared<eGatehouseRenderer>(
-                           eGatehouseRendererType::grt2, b1);
             const auto t2 = t1->tileRel<eTile>(dx, dy);
             if(!t2) return true;
-            t2->setBuilding(r2);
 
             b1->setTileRect({tx, ty, sw, sh});
             const int minX = tx;
@@ -1123,28 +1085,24 @@ bool eGameWidget::buildMouseRelease() {
                 const auto r1 = e::make_shared<eRoad>(*mBoard);
                 r1->addUnderBuilding(t2);
                 t2->setUnderBuilding(r1);
-                t2->setBuilding(e::make_shared<eBuildingRenderer>(r1));
                 r1->setCenterTile(t2);
 
                 const auto t3 = t2->tileRel<eTile>(1, 0);
                 const auto r2 = e::make_shared<eRoad>(*mBoard);
                 r2->addUnderBuilding(t3);
                 t3->setUnderBuilding(r2);
-                t3->setBuilding(e::make_shared<eBuildingRenderer>(r2));
                 r2->setCenterTile(t3);
             } else {
                 const auto t2 = t1->tileRel<eTile>(2, -1);
                 const auto r1 = e::make_shared<eRoad>(*mBoard);
                 r1->addUnderBuilding(t2);
                 t2->setUnderBuilding(r1);
-                t2->setBuilding(e::make_shared<eBuildingRenderer>(r1));
                 r1->setCenterTile(t2);
 
                 const auto t3 = t2->tileRel<eTile>(0, 1);
                 const auto r2 = e::make_shared<eRoad>(*mBoard);
                 r2->addUnderBuilding(t3);
                 t3->setUnderBuilding(r2);
-                t3->setBuilding(e::make_shared<eBuildingRenderer>(r2));
                 r2->setCenterTile(t3);
             }
             const auto diff = mBoard->difficulty();
@@ -1733,8 +1691,6 @@ bool eGameWidget::buildMouseRelease() {
                     case eSanctEleType::stairs: {
                         tile->setSeed(t.fId);
                         tile->setWalkableElev(true);
-//                            const auto s = e::make_shared<eStairsRenderer>(t.fId, b);
-//                            tile->setBuilding(s);
                     } break;
                     case eSanctEleType::none:
                         break;

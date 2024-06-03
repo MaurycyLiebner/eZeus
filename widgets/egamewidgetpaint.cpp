@@ -561,7 +561,8 @@ void eGameWidget::paintEvent(ePainter& p) {
                     dy = 0.;
                 }
             };
-            const auto ts = ub->getTextureSpace(tx, ty, tp.size());
+            const auto size = tp.size();
+            const auto ts = ub->getTextureSpace(tx, ty, size);
             const auto tsRect = ts.fRect;
             const int fitY = tsRect.y + tsRect.h - 1;
             const int fitX = tsRect.x + tsRect.w - 1;
@@ -589,7 +590,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                         if(erase) tex->clearColorMod();
                     }
                     if(ub->overlayEnabled() && ts.fOvelays) {
-                        const auto overlays = ub->getOverlays(tp.size());
+                        const auto overlays = ub->getOverlays(size);
                         for(const auto& o : overlays) {
                             const auto& tex = o.fTex;
 
@@ -1336,11 +1337,12 @@ void eGameWidget::paintEvent(ePainter& p) {
 
     const auto t = mBoard->tile(mHoverTX, mHoverTY);
 
-    const auto& agr = builTexs.fAgora;
-    const auto& agrr = builTexs.fAgoraRoad;
-
     switch(mode) {
     case eBuildingMode::commonAgora: {
+        eGameTextures::loadAgora();
+        const auto& agr = builTexs.fAgora;
+        const auto& agrr = builTexs.fAgoraRoad;
+
         eAgoraOrientation bt;
         const auto p = agoraBuildPlaceIter(t, false, bt);
         if(p.empty()) {
@@ -1484,6 +1486,10 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     } break;
     case eBuildingMode::grandAgora: {
+        eGameTextures::loadAgora();
+        const auto& agr = builTexs.fAgora;
+        const auto& agrr = builTexs.fAgoraRoad;
+
         eAgoraOrientation bt;
         const auto p = agoraBuildPlaceIter(t, true, bt);
         const int tx = t->x();

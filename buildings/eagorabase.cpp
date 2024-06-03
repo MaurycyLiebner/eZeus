@@ -131,7 +131,6 @@ void eAgoraBase::setBuilding(const int id, const stdsptr<eBuilding>& b) {
     auto& brd = getBoard();
     const auto p = pt(id);
     const auto tile = brd.tile(p.x, p.y);
-    tile->setBuilding(e::make_shared<eBuildingRenderer>(b));
     b->setCenterTile(tile);
     const int minX = p.x;
     const int minY = p.y - 1;

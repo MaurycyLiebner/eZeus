@@ -15,11 +15,15 @@ void eHeatMapTask::run(eThreadBoard& board) {
     for(int tx = 0; tx < w; tx++) {
         for(int ty = 0; ty < h; ty++) {
             const auto t = board.dtile(tx, ty);
-            if(!t->mainBuildingTile()) continue;
             const auto& ub = t->underBuilding();
             const auto ubt = ub.type();
+            if(ubt == eBuildingType::none) continue;
+            const auto rect = ub.tileRect();
+            const int ttx = t->x();
+            const int tty = t->y();
+            if(ttx != rect.x || tty != rect.y) continue;
             const auto a = mHeatGetter(ubt);
-            mMap.addHeat(a, ub.tileRect());
+            mMap.addHeat(a, rect);
         }
     }
 }

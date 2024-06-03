@@ -142,7 +142,6 @@ private:
                const int sw, const int sh,
                const eBuildingCreator& bc,
                const bool fertile = false,
-               const eRendererCreator& rc = {},
                const bool flat = false);
     using eDA = eDomesticatedAnimal;
     using eAnimalCreator = std::function<stdsptr<eDA>(eGameBoard&)>;

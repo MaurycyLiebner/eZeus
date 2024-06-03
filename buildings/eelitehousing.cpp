@@ -10,6 +10,37 @@ eEliteHousing::eEliteHousing(eGameBoard& board) :
     eGameTextures::loadEliteHouse();
 }
 
+eTextureSpace eEliteHousing::getTextureSpace(
+        const int tx, const int ty,
+        const eTileSize size) const {
+    const SDL_Point p{tx, ty};
+    const auto r = tileRect();
+    if(!SDL_PointInRect(&p, &r)) return {nullptr};
+    const auto& coll = getTextureCollection(size);
+    const int rx = r.x;
+    const int ry = r.y;
+    const int dx = tx - rx;
+    const int dy = ty - ry;
+    if(dx < 2 && dy < 2) { // top
+        const auto& tex = coll.getTexture(3);
+        return {tex, true, {r.x, r.y, 2, 2}};
+    } else if(dx < 2 && dy >= 2) { // left
+        const int id = seed() % 2;
+        const auto& tex = coll.getTexture(id);
+        return {tex, false, {r.x, r.y + 2, 2, 2}};
+    } else if(dx >= 2 && dy < 2) { // right
+        const auto& tex = coll.getTexture(4);
+        return {tex, false, {r.x + 2, r.y, 2, 2}};
+    } else { // bottom
+        const auto& tex = coll.getTexture(2);
+        return {tex, false, {r.x + 2, r.y + 2, 2, 2}};
+    }
+}
+
+std::vector<eOverlay> eEliteHousing::getOverlays(const eTileSize size) const {
+    return getHorseOverlays(size);
+}
+
 std::shared_ptr<eTexture>
 eEliteHousing::getLeftTexture(const eTileSize size) const {
     const auto& coll = getTextureCollection(size);

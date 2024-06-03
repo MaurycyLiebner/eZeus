@@ -1184,7 +1184,6 @@ bool eGameWidget::build(const int tx, const int ty,
                         const int sw, const int sh,
                         const eBuildingCreator& bc,
                         const bool fertile,
-                        const eRendererCreator& rc,
                         const bool flat) {
     if(!bc) return false;
     const auto tile = mBoard->tile(tx, ty);
@@ -1195,8 +1194,6 @@ bool eGameWidget::build(const int tx, const int ty,
     if(!b) return false;
     const bool isRoad = b->type() == eBuildingType::road;
     if(!isRoad && tile->isElevationTile()) return false;
-    const auto rend = rc ? rc() : e::make_shared<eBuildingRenderer>(b);
-    tile->setBuilding(rend);
     b->setCenterTile(tile);
     int minX;
     int minY;
@@ -1242,7 +1239,7 @@ void eGameWidget::buildAnimal(eTile* const tile,
     build(tx, ty, 1, 2, [this, sh, type]() {
         return e::make_shared<eAnimalBuilding>(
                     *mBoard, sh.get(), type);
-    }, true, {}, true);
+    }, true, true);
 }
 
 void eGameWidget::switchPause() {

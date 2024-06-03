@@ -54,7 +54,6 @@ public:
     const std::vector<stdsptr<eMissile>>& missiles() const
     { return mMissiles; }
 
-    void setBuilding(const stdsptr<eBuildingRenderer>& b);
     eBuildingRenderer* building() const { return mBuilding.get(); }
     bool hasRoad() const override;
     void setUnderBuilding(const stdsptr<eBuilding>& b);

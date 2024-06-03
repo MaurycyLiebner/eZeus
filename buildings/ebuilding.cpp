@@ -1670,7 +1670,6 @@ void eBuilding::erase() {
     deleteLater();
     for(const auto t : mUnderBuilding) {
         t->setUnderBuilding(nullptr);
-        t->setBuilding(nullptr);
     }
     mUnderBuilding.clear();
 }
@@ -1691,8 +1690,6 @@ void eBuilding::collapse() {
         if(terrain == eTerrain::water) continue;
         const auto ruins = e::make_shared<eRuins>(b);
         ruins->setOnFire(onFire);
-        const auto renderer = e::make_shared<eBuildingRenderer>(ruins);
-        t->setBuilding(renderer);
         ruins->setCenterTile(t);
         t->setUnderBuilding(ruins);
         ruins->addUnderBuilding(t);
@@ -1835,16 +1832,6 @@ void eBuilding::read(eReadStream& src) {
         if(setUnder) {
             tile->setUnderBuilding(ref<eBuilding>());
         }
-    }
-
-    int nrend;
-    src >> nrend;
-    for(int i = 0; i < nrend; i++) {
-        eBuildingRendererType type;
-        src >> type;
-        const auto r = eBuildingRendererReader::sRead(ref<eBuilding>(), type, src);
-        const auto tile = src.readTile(board);
-        tile->setBuilding(r);
     }
 
     mCenterTile = src.readTile(board);

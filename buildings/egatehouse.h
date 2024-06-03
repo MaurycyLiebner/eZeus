@@ -8,7 +8,11 @@ public:
     eGatehouse(eGameBoard& board, const bool r);
 
     std::shared_ptr<eTexture>
-    getTexture(const eTileSize) const { return nullptr; }
+    getTexture(const eTileSize) const override { return nullptr; }
+
+    eTextureSpace
+    getTextureSpace(const int tx, const int ty,
+                    const eTileSize size) const override;
 
     std::shared_ptr<eTexture>
     getTextureSides(const eTileSize size) const;
