@@ -1,4 +1,5 @@
 settings "Settings"
+editor "Editor"
 tribute "Tribute"
 choose "Choose"
 relationship "Relationship"

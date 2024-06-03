@@ -137,9 +137,8 @@ void eGameWidget::setArmyMenuVisible(const bool v) {
         mGm->show();
         mTem->hide();
     } else {
-        const bool c = mMenuSwitch->checked();
-        mTem->setVisible(c);
-        mGm->setVisible(!c);
+        mTem->setVisible(mEditorMode);
+        mGm->setVisible(!mEditorMode);
     }
 }
 

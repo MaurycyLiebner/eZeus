@@ -218,6 +218,8 @@ private:
 
     void switchPause();
 
+    bool mEditorMode = false;
+
     bool mUpdateTerrain = true;
 
     bool mRotate = false;
@@ -280,7 +282,6 @@ private:
     eTerrainEditMenu* mTem = nullptr;
     eGameMenu* mGm = nullptr;
     eArmyMenu* mAm = nullptr;
-    eCheckBox* mMenuSwitch = nullptr;
 
     eWorldWidget* mWW = nullptr;
 

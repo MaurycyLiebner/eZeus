@@ -193,15 +193,23 @@ void eGameWidget::initialize() {
         settingsMenu->align(eAlignment::center);
     });
 
-    mMenuSwitch = new eCheckBox(window());
-    mMenuSwitch->move(mGm->x(), 0);
-    mMenuSwitch->setCheckAction([this, settingsButt](const bool c) {
-        mTem->setVisible(c);
-        mGm->setVisible(!c);
-        settingsButt->setVisible(c);
+    const auto editorSwitch = new eFramedButton(window());
+    editorSwitch->setRenderBg(true);
+    editorSwitch->setUnderline(false);
+    editorSwitch->setText(eLanguage::text("editor"));
+    editorSwitch->fitContent();
+    editorSwitch->move(mGm->x() - editorSwitch->width() - p,
+                       mTopBar->height() + p);
+    settingsButt->move(mGm->x() - settingsButt->width() - p,
+                       editorSwitch->y() + editorSwitch->height() + p);
+    editorSwitch->setPressAction([this, settingsButt]() {
+        mEditorMode = !mEditorMode;
+        mTem->setVisible(mEditorMode);
+        mGm->setVisible(!mEditorMode);
+        settingsButt->setVisible(mEditorMode);
     });
-    addWidget(mMenuSwitch);
-    mMenuSwitch->setVisible(mBoard->editorMode());
+    addWidget(editorSwitch);
+    editorSwitch->setVisible(mBoard->editorMode());
 
     const auto& setts = window()->settings();
     const auto sizes = setts.availableSizes();
