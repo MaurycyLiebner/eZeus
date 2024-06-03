@@ -20,7 +20,6 @@ public:
     eBuildingRenderer(const stdsptr<eBuilding>& b,
                       const eBuildingRendererType type =
                         eBuildingRendererType::basic);
-    ~eBuildingRenderer();
 
     virtual std::shared_ptr<eTexture>
         getTexture(const eTileSize size) const;

@@ -3,6 +3,7 @@
 #include "textures/egametextures.h"
 
 #include "engine/egameboard.h"
+#include "egatehouse.h"
 
 eRoad::eRoad(eGameBoard& board) :
     eBuilding(board, eBuildingType::road, 1, 1) {}
@@ -35,6 +36,22 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
     if(mUnderAgora) {
         const auto& coll = builTexs.fAgoraRoad;
         return coll.getTexture(seed() % coll.size());
+    }
+
+    if(mUnderGatehouse) {
+        const auto r = tileRect();
+        const auto rr = mUnderGatehouse->tileRect();
+        const int dx = r.x - rr.x;
+        const int dy = r.y - rr.y;
+        if(dy == 0) {
+            return mUnderGatehouse->getTextureEntranceBack(size).fTex;
+        } else if(dy == 1) {
+            return mUnderGatehouse->getTextureEntrance(size).fTex;
+        } else if(dx == 0) {
+            return mUnderGatehouse->getTextureEntranceBack(size).fTex;
+        } else if(dx == 1) {
+            return mUnderGatehouse->getTextureEntrance(size).fTex;
+        }
     }
 
     const auto& tbcoll = trrTexs.fToBeachRoad;
@@ -316,6 +333,10 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
 
 void eRoad::setUnderAgora(eAgoraBase* const a) {
     mUnderAgora = a;
+}
+
+void eRoad::setUnderGatehouse(eGatehouse* const g) {
+    mUnderGatehouse = g;
 }
 
 bool eRoad::isBridge() const {

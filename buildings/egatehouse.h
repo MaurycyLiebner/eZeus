@@ -7,6 +7,8 @@ class eGatehouse : public eBuilding {
 public:
     eGatehouse(eGameBoard& board, const bool r);
 
+    void erase() override;
+
     std::shared_ptr<eTexture>
     getTexture(const eTileSize) const override { return nullptr; }
 

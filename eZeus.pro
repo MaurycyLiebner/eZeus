@@ -336,8 +336,6 @@ SOURCES += \
         ewalkablehelpers.cpp \
         exmlparser.cpp \
         fileIO/ebuildingreader.cpp \
-        fileIO/ebuildingrendererreader.cpp \
-        fileIO/ebuildingrendererwriter.cpp \
         fileIO/ebuildingwriter.cpp \
         fileIO/ereadstream.cpp \
         fileIO/ewritestream.cpp \
@@ -869,8 +867,6 @@ HEADERS += \
     ewalkablehelpers.h \
     exmlparser.h \
     fileIO/ebuildingreader.h \
-    fileIO/ebuildingrendererreader.h \
-    fileIO/ebuildingrendererwriter.h \
     fileIO/ebuildingwriter.h \
     fileIO/ereadstream.h \
     fileIO/estreams.h \

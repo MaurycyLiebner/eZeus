@@ -4,13 +4,7 @@ eBuildingRenderer::eBuildingRenderer(const stdsptr<eBuilding>& b,
                                      const eBuildingRendererType type) :
     eObject(b->getBoard()),
     mBuilding(b),
-    mType(type) {
-    mBuilding->addRenderer(this);
-}
-
-eBuildingRenderer::~eBuildingRenderer() {
-    mBuilding->removeRenderer(this);
-}
+    mType(type) {}
 
 std::shared_ptr<eTexture>
 eBuildingRenderer::getTexture(const eTileSize size) const {

@@ -46,6 +46,9 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         src.readBuilding(&board, [r](eBuilding* const bb) {
             r->setUnderAgora(static_cast<eAgoraBase*>(bb));
         });
+        src.readBuilding(&board, [r](eBuilding* const bb) {
+            r->setUnderGatehouse(static_cast<eGatehouse*>(bb));
+        });
     } break;
     case eBuildingType::commonAgora: {
         eAgoraOrientation o;

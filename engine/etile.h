@@ -54,7 +54,6 @@ public:
     const std::vector<stdsptr<eMissile>>& missiles() const
     { return mMissiles; }
 
-    eBuildingRenderer* building() const { return mBuilding.get(); }
     bool hasRoad() const override;
     void setUnderBuilding(const stdsptr<eBuilding>& b);
     eBuilding* underBuilding() const { return mUnderBuilding.get(); }
@@ -111,7 +110,6 @@ private:
     std::vector<stdsptr<eMissile>> mMissiles;
     std::vector<stdsptr<eCharacter>> mCharacters;
     stdsptr<eBuilding> mUnderBuilding;
-    stdsptr<eBuildingRenderer> mBuilding;
     eBanner* mBanner = nullptr;
     stdptr<eSoldierBanner> mSoldierBanner;
 };

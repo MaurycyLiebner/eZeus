@@ -1,5 +1,8 @@
 #include "egatehouse.h"
 
+#include "engine/egameboard.h"
+#include "eroad.h"
+
 #include "textures/egametextures.h"
 
 eGatehouse::eGatehouse(eGameBoard& board, const bool r) :
@@ -8,6 +11,24 @@ eGatehouse::eGatehouse(eGameBoard& board, const bool r) :
     mRotated(r) {
     eGameTextures::loadGatehouseAndTower();
     setEnabled(true);
+}
+
+void eGatehouse::erase() {
+    const auto& brd = getBoard();
+    const auto rect = tileRect();
+    for(int x = rect.x; x < rect.x + rect.w; x++) {
+        for(int y = rect.y; y < rect.y + rect.h; y++) {
+            const auto t = brd.tile(x, y);
+            if(!t) continue;
+            const auto ub = t->underBuilding();
+            if(!ub) continue;
+            if(ub->type() == eBuildingType::road) {
+                const auto r = static_cast<eRoad*>(ub);
+                r->setUnderGatehouse(nullptr);
+            }
+        }
+    }
+    eBuilding::erase();
 }
 
 eTextureSpace eGatehouse::getTextureSpace(

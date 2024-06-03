@@ -40,7 +40,6 @@ enum class eHeroType;
 enum class eGodQuestId;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
-using eRendererCreator = std::function<stdsptr<eBuildingRenderer>()>;
 
 struct eSavedMessage {
     eEventData fEd;

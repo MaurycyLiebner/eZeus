@@ -1058,8 +1058,6 @@ bool eGameWidget::buildMouseRelease() {
             const bool cb3 = canBuild(tx + dx, ty + dy, 2, 2);
             if(!cb3) return true;
             const auto b1 = e::make_shared<eGatehouse>(*mBoard, mRotate);
-            const auto r1 = e::make_shared<eGatehouseRenderer>(
-                           eGatehouseRendererType::grt1, b1);
             const auto t1 = mBoard->tile(tx, ty + 1);
             if(!t1) return true;
             const auto t2 = t1->tileRel<eTile>(dx, dy);
@@ -1083,24 +1081,32 @@ bool eGameWidget::buildMouseRelease() {
             if(sw == 2) {
                 const auto t2 = t1->tileRel<eTile>(0, 1);
                 const auto r1 = e::make_shared<eRoad>(*mBoard);
+                r1->setTileRect({t2->x(), t2->y(), 1, 1});
+                r1->setUnderGatehouse(b1.get());
                 r1->addUnderBuilding(t2);
                 t2->setUnderBuilding(r1);
                 r1->setCenterTile(t2);
 
                 const auto t3 = t2->tileRel<eTile>(1, 0);
                 const auto r2 = e::make_shared<eRoad>(*mBoard);
+                r2->setTileRect({t3->x(), t3->y(), 1, 1});
+                r2->setUnderGatehouse(b1.get());
                 r2->addUnderBuilding(t3);
                 t3->setUnderBuilding(r2);
                 r2->setCenterTile(t3);
             } else {
                 const auto t2 = t1->tileRel<eTile>(2, -1);
                 const auto r1 = e::make_shared<eRoad>(*mBoard);
+                r1->setTileRect({t2->x(), t2->y(), 1, 1});
+                r1->setUnderGatehouse(b1.get());
                 r1->addUnderBuilding(t2);
                 t2->setUnderBuilding(r1);
                 r1->setCenterTile(t2);
 
                 const auto t3 = t2->tileRel<eTile>(0, 1);
                 const auto r2 = e::make_shared<eRoad>(*mBoard);
+                r2->setTileRect({t3->x(), t3->y(), 1, 1});
+                r2->setUnderGatehouse(b1.get());
                 r2->addUnderBuilding(t3);
                 t3->setUnderBuilding(r2);
                 r2->setCenterTile(t3);

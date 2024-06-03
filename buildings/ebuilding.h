@@ -241,9 +241,6 @@ public:
     void setCenterTile(eTile* const ct);
     eTile* centerTile() const;
 
-    void addRenderer(eBuildingRenderer* const r);
-    void removeRenderer(eBuildingRenderer* const r);
-
     bool enabled() const { return mEnabled; }
     void setEnabled(const bool e);
 
@@ -271,7 +268,6 @@ public:
 private:
     eTile* mCenterTile = nullptr;
     std::vector<eTile*> mUnderBuilding;
-    std::vector<eBuildingRenderer*> mRenderers;
     SDL_Rect mTileRect;
 
     int mIOID = -1;

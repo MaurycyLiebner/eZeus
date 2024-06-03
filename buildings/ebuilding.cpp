@@ -12,11 +12,6 @@
 
 #include "buildings/allbuildings.h"
 
-#include "ebuildingrenderer.h"
-
-#include "fileIO/ebuildingrendererwriter.h"
-#include "fileIO/ebuildingrendererreader.h"
-
 #include "evectorhelpers.h"
 
 #include "elanguage.h"
@@ -1738,14 +1733,6 @@ eTile* eBuilding::centerTile() const {
     return mCenterTile;
 }
 
-void eBuilding::addRenderer(eBuildingRenderer* const r) {
-    mRenderers.push_back(r);
-}
-
-void eBuilding::removeRenderer(eBuildingRenderer* const r) {
-    eVectorHelpers::remove(mRenderers, r);
-}
-
 void eBuilding::setEnabled(const bool e) {
     mEnabled = e;
 }
@@ -1854,13 +1841,6 @@ void eBuilding::write(eWriteStream& dst) const {
     for(const auto t : mUnderBuilding) {
         dst.writeTile(t);
         dst << (t->underBuilding() == this);
-    }
-
-    dst << mRenderers.size();
-    for(const auto r : mRenderers) {
-        dst << r->type();
-        eBuildingRendererWriter::sWrite(r, dst);
-        dst.writeTile(r->tile());
     }
 
     dst.writeTile(mCenterTile);

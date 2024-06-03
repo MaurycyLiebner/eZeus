@@ -13,6 +13,8 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
         const auto r = static_cast<const eRoad*>(b);
         const auto a = r->underAgora();
         dst.writeBuilding(a);
+        const auto g = r->underGatehouse();
+        dst.writeBuilding(g);
     } break;
     case eBuildingType::commonAgora: {
         const auto ca = static_cast<const eCommonAgora*>(b);
