@@ -200,6 +200,7 @@ public:
     static bool sAttackable(const eBuildingType bt);
 
     static std::string sNameForBuilding(eBuilding* const b);
+    static std::string sNameForBuilding(const eBuildingType type);
     static void sInfoText(eBuilding* const b,
                           std::string& title,
                           std::string& info,

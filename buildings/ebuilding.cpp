@@ -180,9 +180,43 @@ bool eBuilding::sAttackable(const eBuildingType bt) {
 
 std::string eBuilding::sNameForBuilding(eBuilding* const b) {
     if(!b) return "";
+    const auto type = b->type();
+    switch(type) {
+    case eBuildingType::commemorative: {
+        const auto c = static_cast<eCommemorative*>(b);
+        const int id = c->id();
+        const int group = 90;
+        int string = -1;
+        if(id == 0) {
+            string = 1;
+        } else if(id == 1) {
+            string = 2;
+        } else if(id == 2) {
+            string = 3;
+        } else if(id == 3) {
+            string = 4;
+        } else if(id == 4) {
+            string = 5;
+        } else if(id == 5) {
+            string = 6;
+        } else if(id == 6) {
+            string = 7;
+        } else if(id == 7) {
+            string = 8;
+        } else if(id == 8) {
+            string = 9;
+        }
+        return eLanguage::zeusText(group, string);
+    } break;
+    default:
+        break;
+    }
+    return sNameForBuilding(type);
+}
+
+std::string eBuilding::sNameForBuilding(const eBuildingType type) {
     int group = 28;
     int string = -1;
-    const auto type = b->type();
     switch(type) {
     case eBuildingType::road:
         string = 28;
@@ -511,30 +545,9 @@ std::string eBuilding::sNameForBuilding(eBuilding* const b) {
         string = 23;
         break;
 
-    case eBuildingType::commemorative: {
-        const auto c = static_cast<eCommemorative*>(b);
-        const int id = c->id();
-        group = 90;
-        if(id == 0) {
-            string = 1;
-        } else if(id == 1) {
-            string = 2;
-        } else if(id == 2) {
-            string = 3;
-        } else if(id == 3) {
-            string = 4;
-        } else if(id == 4) {
-            string = 5;
-        } else if(id == 5) {
-            string = 6;
-        } else if(id == 6) {
-            string = 7;
-        } else if(id == 7) {
-            string = 8;
-        } else if(id == 8) {
-            string = 9;
-        }
-    } break;
+    case eBuildingType::commemorative:
+        string = 119;
+        break;
 
     }
     return eLanguage::zeusText(group, string);

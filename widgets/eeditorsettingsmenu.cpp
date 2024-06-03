@@ -136,45 +136,43 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
         buildMenu->setType(eFrameType::message);
         buildMenu->resize(width(), height());
 
-        using eBVs = std::vector<std::pair<std::string, eBuildingType>>;
-        const eBVs bv {
-            {eLanguage::text("wheat_farm"), eBuildingType::wheatFarm},
-            {eLanguage::text("carrot_farm"), eBuildingType::carrotsFarm},
-            {eLanguage::text("onion_farm"), eBuildingType::onionsFarm},
+        const std::vector<eBuildingType> bv {
+            eBuildingType::wheatFarm,
+            eBuildingType::carrotsFarm,
+            eBuildingType::onionsFarm,
 
-            {eLanguage::text("vine"), eBuildingType::vine},
-            {eLanguage::text("olive_tree"), eBuildingType::oliveTree},
-            {eLanguage::text("orange_tree"), eBuildingType::orangeTree},
+            eBuildingType::vine,
+            eBuildingType::oliveTree,
+            eBuildingType::orangeTree,
 
-            {eLanguage::text("dairy"), eBuildingType::dairy},
-            {eLanguage::text("carding_shed"), eBuildingType::cardingShed},
+            eBuildingType::dairy,
+            eBuildingType::cardingShed,
 
-            {eLanguage::text("fishery"), eBuildingType::fishery},
-            {eLanguage::text("urchin_quay"), eBuildingType::urchinQuay},
-            {eLanguage::text("hunting_lodge"), eBuildingType::huntingLodge},
+            eBuildingType::fishery,
+            eBuildingType::urchinQuay,
+            eBuildingType::huntingLodge,
 
-            {eLanguage::text("mint"), eBuildingType::mint},
-            {eLanguage::text("foundry"), eBuildingType::foundry},
-            {eLanguage::text("timber_mill"), eBuildingType::timberMill},
-            {eLanguage::text("masonry_shop"), eBuildingType::masonryShop},
+            eBuildingType::mint,
+            eBuildingType::foundry,
+            eBuildingType::timberMill,
+            eBuildingType::masonryShop,
 
-            {eLanguage::text("winery"), eBuildingType::winery},
-            {eLanguage::text("olive_press"), eBuildingType::olivePress},
-            {eLanguage::text("sculpture_studio"), eBuildingType::sculptureStudio},
+            eBuildingType::winery,
+            eBuildingType::olivePress,
+            eBuildingType::sculptureStudio,
 
-            {eLanguage::text("armory"), eBuildingType::armory}
+            eBuildingType::armory
         };
 
         int w = 0;
         std::vector<eCheckableButton*> buttons;
-        for(const auto& b : bv) {
+        for(const auto& type : bv) {
             const auto bb = new eCheckableButton(window());
             bb->setSmallFontSize();
             bb->setSmallPadding();
-            bb->setText(b.first);
+            bb->setText(eBuilding::sNameForBuilding(type));
             bb->fitContent();
             w = std::max(w, bb->width());
-            const auto type = b.second;
             bb->setChecked(boardPtr->availableBuilding(type));
             bb->setCheckAction([type, boardPtr](const bool b) {
                 if(b) {
