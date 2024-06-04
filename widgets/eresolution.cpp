@@ -63,13 +63,13 @@ int eResolution::margin() const {
 double eResolution::multiplier() const {
     switch(mUIScale) {
     case eUIScale::tiny:
-        return 0.75;
+        return 0.5;
     case eUIScale::small:
         return 1.0;
     case eUIScale::medium:
-        return 1.25;
-    case eUIScale::large:
         return 1.5;
+    case eUIScale::large:
+        return 2.0;
     }
 }
 
