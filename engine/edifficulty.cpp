@@ -308,6 +308,14 @@ int fireRiskBase(const eBuildingType type) {
     case eBuildingType::horseTrainer:
         return 6;
 
+    case eBuildingType::bibliotheke:
+        return 5;
+    case eBuildingType::inventorsWorkshop:
+    case eBuildingType::laboratory:
+        return 8;
+    case eBuildingType::museum:
+        return 4;
+
     case eBuildingType::hospital:
         return 5;
     case eBuildingType::maintenanceOffice:
@@ -448,6 +456,13 @@ int damageRiskBase(const eBuildingType type) {
     case eBuildingType::podium:
         return 5;
     case eBuildingType::theater:
+        return 8;
+
+    case eBuildingType::museum:
+        return 8;
+    case eBuildingType::university:
+        return 6;
+    case eBuildingType::observatory:
         return 8;
 
     case eBuildingType::triremeWharf:
