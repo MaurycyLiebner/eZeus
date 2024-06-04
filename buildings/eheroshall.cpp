@@ -722,13 +722,13 @@ int eHerosHall::provide(const eProvide p, const int n) {
     const int max = 8;
     int* value = nullptr;
     switch(p) {
-    case eProvide::philosopher:
+    case eProvide::philosopherInventor:
         value = &mPhilosophers;
         break;
-    case eProvide::actor:
+    case eProvide::actorAstronomer:
         value = &mActors;
         break;
-    case eProvide::gymnast:
+    case eProvide::gymnastScholar:
         value = &mAthletes;
         break;
     default:

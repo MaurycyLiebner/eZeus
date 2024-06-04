@@ -67,6 +67,7 @@ public:
     eTextureCollection fHygieneSafety;
     eTextureCollection fAdministration;
     eTextureCollection fCulture;
+    eTextureCollection fScience; // poseidon
     eTextureCollection fMythology;
     eTextureCollection fMilitary;
     eTextureCollection fAesthetics;
@@ -110,6 +111,9 @@ public:
     eTextureCollection fCommonHousing;
     eTextureCollection fEliteHousing;
 
+    eTextureCollection fPoseidonCommonHousing;
+    eTextureCollection fPoseidonEliteHousing;
+
     eTextureCollection fFoodFarming;
     eTextureCollection fOtherFarming; // e.g. wine
     eTextureCollection fAnimalFarming;
@@ -133,13 +137,26 @@ public:
     eTextureCollection fTaxCollector;
     eTextureCollection fBridge;
 
+    eTextureCollection fPoseidonBridge;
+
     eTextureCollection fPhilosophy;
     eTextureCollection fGymnasium;
     eTextureCollection fDrama;
     eTextureCollection fStadium;
 
+    eTextureCollection fBibliotheke;
+    eTextureCollection fAstronomy;
+    eTextureCollection fTechnology;
+    eTextureCollection fMuseum;
+
     eTextureCollection fTemples;
     eTextureCollection fHeroShrines;
+
+    eTextureCollection fPoseidonTemples;
+    eTextureCollection fPoseidonHeroShrines;
+
+    eTextureCollection fPiramids;
+    eTextureCollection fHipodrome;
 
     eTextureCollection fFortifications;
     eTextureCollection fMilitaryProduction;

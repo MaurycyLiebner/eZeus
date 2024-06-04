@@ -93,6 +93,22 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
     case eBuildingMode::stadium:
         return eBuildingType::stadium;
 
+    case eBuildingMode::bibliotheke:
+        return eBuildingType::bibliotheke;
+
+    case eBuildingMode::observatory:
+        return eBuildingType::observatory;
+    case eBuildingMode::university:
+        return eBuildingType::university;
+
+    case eBuildingMode::laboratory:
+        return eBuildingType::laboratory;
+    case eBuildingMode::inventorsWorkshop:
+        return eBuildingType::inventorsWorkshop;
+
+    case eBuildingMode::museum:
+        return eBuildingType::museum;
+
     case eBuildingMode::granary:
         return eBuildingType::granary;
     case eBuildingMode::warehouse:

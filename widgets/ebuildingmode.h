@@ -59,6 +59,13 @@ enum class eBuildingMode {
     gymnasium,
     stadium,
 
+    bibliotheke,
+    observatory,
+    university,
+    laboratory,
+    inventorsWorkshop,
+    museum,
+
     granary,
     warehouse,
 

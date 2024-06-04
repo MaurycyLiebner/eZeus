@@ -30,6 +30,13 @@
 #include "buildings/epier.h"
 #include "buildings/emaintenanceoffice.h"
 
+#include "buildings/ebibliotheke.h"
+#include "buildings/eobservatory.h"
+#include "buildings/euniversity.h"
+#include "buildings/elaboratory.h"
+#include "buildings/einventorsworkshop.h"
+#include "buildings/emuseum.h"
+
 #include "buildings/egranary.h"
 #include "buildings/ewarehouse.h"
 

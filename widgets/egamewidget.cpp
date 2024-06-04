@@ -376,6 +376,9 @@ void buildTiles(int& minX, int& minY,
     } else if(sw == 5 || sh == 5) {
         minX -= 2;
         minY -= 2;
+    } else if(sw == 6 || sh == 6) {
+        minX -= 2;
+        minY -= 2;
     }
 
     maxX = minX + sw;

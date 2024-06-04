@@ -6,5 +6,5 @@ eGymnast::eGymnast(eGameBoard& board) :
     eBasicPatroler(board, &eCharacterTextures::fGymnast,
                    eCharacterType::gymnast) {
     eGameTextures::loadGymnast();
-    setProvide(eProvide::gymnast, 10000);
+    setProvide(eProvide::gymnastScholar, 10000);
 }

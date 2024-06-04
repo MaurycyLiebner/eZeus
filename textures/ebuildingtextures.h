@@ -185,6 +185,19 @@ public:
     bool fTradingPostLoaded = false;
     void loadTradingPost();
 
+    bool fBibliothekeLoaded = false;
+    void loadBibliotheke();
+    bool fObservatoryLoaded = false;
+    void loadObservatory();
+    bool fUniversityLoaded = false;
+    void loadUniversity();
+    bool fLaboratoryLoaded = false;
+    void loadLaboratory();
+    bool fInventorsWorkshopLoaded = false;
+    void loadInventorsWorkshop();
+    bool fMuseumLoaded = false;
+    void loadMuseum();
+
     std::shared_ptr<eTexture> fHouseSpace;
     std::vector<eTextureCollection> fCommonHouse;
 
@@ -225,6 +238,24 @@ public:
 
     eTextureCollection fStadiumAudiance1H;
     eTextureCollection fStadiumAudiance2H;
+
+    std::shared_ptr<eTexture> fBibliotheke;
+    eTextureCollection fBibliothekeOverlay;
+
+    std::shared_ptr<eTexture> fObservatory;
+    eTextureCollection fObservatoryOverlay;
+
+    std::shared_ptr<eTexture> fUniversity;
+    eTextureCollection fUniversityOverlay;
+
+    std::shared_ptr<eTexture> fLaboratory;
+    eTextureCollection fLaboratoryOverlay;
+
+    std::shared_ptr<eTexture> fInventorsWorkshop;
+    eTextureCollection fInventorsWorkshopOverlay;
+
+    std::shared_ptr<eTexture> fMuseum;
+    eTextureCollection fMuseumOverlay;
 
     std::shared_ptr<eTexture> fPalace1H;
     std::shared_ptr<eTexture> fPalace2H;

@@ -392,7 +392,12 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fHomeless(renderer),
 
     fKraken(renderer),
-    fScylla(renderer) {
+    fScylla(renderer),
+
+    fScholar(renderer),
+    fAstronomer(renderer),
+    fInventor(renderer),
+    fCurator(renderer) {
 
 }
 

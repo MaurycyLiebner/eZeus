@@ -1610,6 +1610,76 @@ void eGameTextures::loadPoseidonMap4() {
     });
 }
 
+void eGameTextures::loadScholar() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadScholar();
+    });
+}
+
+void eGameTextures::loadAstronomer() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadAstronomer();
+    });
+}
+
+void eGameTextures::loadInventor() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadInventor();
+    });
+}
+
+void eGameTextures::loadCurator() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadCurator();
+    });
+}
+
+void eGameTextures::loadBibliotheke() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadBibliotheke();
+    });
+}
+
+void eGameTextures::loadObservatory() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadObservatory();
+    });
+}
+
+void eGameTextures::loadUniversity() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadUniversity();
+    });
+}
+
+void eGameTextures::loadLaboratory() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadLaboratory();
+    });
+}
+
+void eGameTextures::loadInventorsWorkshop() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadInventorsWorkshop();
+    });
+}
+
+void eGameTextures::loadMuseum() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadMuseum();
+    });
+}
+
 bool eGameTextures::initialize(SDL_Renderer* const r) {
     if(sInitialized) return true;
     int i = 0;

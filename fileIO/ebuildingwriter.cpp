@@ -36,6 +36,12 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     case eBuildingType::dramaSchool:
     case eBuildingType::theater:
     case eBuildingType::hospital:
+    case eBuildingType::bibliotheke:
+    case eBuildingType::observatory:
+    case eBuildingType::university:
+    case eBuildingType::laboratory:
+    case eBuildingType::inventorsWorkshop:
+    case eBuildingType::museum:
         break;
     case eBuildingType::stadium: {
         const auto s = static_cast<const eStadium*>(b);
@@ -165,6 +171,7 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     case eBuildingType::gazebo:
     case eBuildingType::hedgeMaze:
     case eBuildingType::fishPond:
+    case eBuildingType::orrery:
         break;
 
     case eBuildingType::waterPark: {
@@ -235,7 +242,20 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
 
     case eBuildingType::ruins:
         break;
-    default:
+
+    case eBuildingType::achillesHall:
+    case eBuildingType::atalantaHall:
+    case eBuildingType::bellerophonHall:
+    case eBuildingType::herculesHall:
+    case eBuildingType::jasonHall:
+    case eBuildingType::odysseusHall:
+    case eBuildingType::perseusHall:
+    case eBuildingType::theseusHall:
+        break;
+
+    case eBuildingType::none:
+    case eBuildingType::erase:
+    case eBuildingType::bridge:
         return;
     }
     b->write(dst);

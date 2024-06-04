@@ -68,6 +68,9 @@ void drawXY(const int tx, const int ty,
     } else if(wSpan == 5 && hSpan == 5) {
         rx += 0.0;
         ry += 4.0;
+    } else if(wSpan == 6 && hSpan == 6) {
+        rx += 0.5;
+        ry += 5.5;
     }
     rx -= a;
     ry -= a;
@@ -556,6 +559,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                 } else if(w == 5 && h == 5) {
                     dx = -2.5;
                     dy = 2.5;
+                } else if(w == 6 && h == 6) {
+                    dx = -3.0;
+                    dy = 3.0;
                 } else {
                     dx = 0.;
                     dy = 0.;
@@ -589,7 +595,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                         tp.drawTexture(drawX, drawY, tex, eAlignment::top);
                         if(erase) tex->clearColorMod();
                     }
-                    if(ub->overlayEnabled() && ts.fOvelays) {
+                    if(/*ub->overlayEnabled() && */ts.fOvelays) {
                         const auto overlays = ub->getOverlays(size);
                         for(const auto& o : overlays) {
                             const auto& tex = o.fTex;
@@ -1979,6 +1985,30 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
             auto& ebs2 = ebs.emplace_back(mHoverTX + dx, mHoverTY + dy, b1);
             ebs2.fBR = e::make_shared<eStadium2Renderer>(b1);
+        } break;
+        case eBuildingMode::bibliotheke: {
+            const auto b1 = e::make_shared<eBibliotheke>(*mBoard);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
+        case eBuildingMode::observatory: {
+            const auto b1 = e::make_shared<eObservatory>(*mBoard);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
+        case eBuildingMode::university: {
+            const auto b1 = e::make_shared<eUniversity>(*mBoard);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
+        case eBuildingMode::laboratory: {
+            const auto b1 = e::make_shared<eLaboratory>(*mBoard);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
+        case eBuildingMode::inventorsWorkshop: {
+            const auto b1 = e::make_shared<eInventorsWorkshop>(*mBoard);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
+        case eBuildingMode::museum: {
+            const auto b1 = e::make_shared<eMuseum>(*mBoard);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
         case eBuildingMode::palace: {
             const int tx = mHoverTX;

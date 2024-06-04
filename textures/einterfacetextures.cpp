@@ -100,6 +100,7 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fHygieneSafety(renderer),
     fAdministration(renderer),
     fCulture(renderer),
+    fScience(renderer),
     fMythology(renderer),
     fMilitary(renderer),
     fAesthetics(renderer),
@@ -138,6 +139,9 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fCommonHousing(renderer),
     fEliteHousing(renderer),
 
+    fPoseidonCommonHousing(renderer),
+    fPoseidonEliteHousing(renderer),
+
     fFoodFarming(renderer),
     fOtherFarming(renderer),
     fAnimalFarming(renderer),
@@ -161,13 +165,26 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fTaxCollector(renderer),
     fBridge(renderer),
 
+    fPoseidonBridge(renderer),
+
     fPhilosophy(renderer),
     fGymnasium(renderer),
     fDrama(renderer),
     fStadium(renderer),
 
+    fBibliotheke(renderer),
+    fAstronomy(renderer),
+    fTechnology(renderer),
+    fMuseum(renderer),
+
     fTemples(renderer),
     fHeroShrines(renderer),
+
+    fPoseidonTemples(renderer),
+    fPoseidonHeroShrines(renderer),
+
+    fPiramids(renderer),
+    fHipodrome(renderer),
 
     fFortifications(renderer),
     fMilitaryProduction(renderer),
@@ -806,6 +823,47 @@ void eInterfaceTextures::load() {
                                      ePoseidonInterfaceSpriteData60);
         eSpriteLoader loader(fTileH, "poseidonInterface", sds,
                              nullptr, fRenderer);
+
+        for(int i = 1; i < 4; i++) {
+            loader.load(1, i, fBibliotheke);
+        }
+        for(int i = 4; i < 7; i++) {
+            loader.load(1, i, fAstronomy);
+        }
+        for(int i = 7; i < 10; i++) {
+            loader.load(1, i, fTechnology);
+        }
+        for(int i = 10; i < 13; i++) {
+            loader.load(1, i, fMuseum);
+        }
+
+        for(int i = 13; i < 16; i++) {
+            loader.load(1, i, fPoseidonTemples);
+        }
+        for(int i = 16; i < 19; i++) {
+            loader.load(1, i, fPoseidonHeroShrines);
+        }
+
+        for(int i = 19; i < 22; i++) {
+            loader.load(1, i, fPiramids);
+        }
+        for(int i = 22; i < 25; i++) {
+            loader.load(1, i, fHipodrome);
+        }
+        for(int i = 25; i < 28; i++) {
+            loader.load(1, i, fPoseidonBridge);
+        }
+
+        for(int i = 28; i < 31; i++) {
+            loader.load(1, i, fPoseidonCommonHousing);
+        }
+        for(int i = 31; i < 34; i++) {
+            loader.load(1, i, fPoseidonEliteHousing);
+        }
+
+        for(int i = 34; i < 38; i++) {
+            loader.load(1, i, fScience);
+        }
 
         fPoseidonMainCity = loader.load(1, 47);
         fPoseidonCollony = loader.load(1, 48);

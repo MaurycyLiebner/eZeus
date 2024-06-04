@@ -107,13 +107,13 @@ int eEliteHousing::provide(const eProvide p, const int n) {
         value = &mHorses;
         break;
 
-    case eProvide::philosopher:
+    case eProvide::philosopherInventor:
         value = &mPhilosophers;
         break;
-    case eProvide::actor:
+    case eProvide::actorAstronomer:
         value = &mActors;
         break;
-    case eProvide::gymnast:
+    case eProvide::gymnastScholar:
         value = &mAthletes;
         break;
 
@@ -186,7 +186,7 @@ eHouseMissing eEliteHousing::missing() const {
     const int dx = t->dx();
     const int dy = t->dy();
     const double appeal = b.appeal(dx ,dy);
-    const int stadium = b.hasStadium() ? 1 : 0;
+    const int stadium = (b.hasStadium() || b.hasMuseum()) ? 1 : 0;
     const int nVenues = mPhilosophers + mActors +
                         mAthletes + stadium;
     if(mFood > 0) {

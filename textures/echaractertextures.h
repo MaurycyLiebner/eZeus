@@ -374,6 +374,15 @@ public:
     bool fTheseusLoaded = false;
     void loadTheseus();
 
+    bool fScholarLoaded = false;
+    void loadScholar();
+    bool fAstronomerLoaded = false;
+    void loadAstronomer();
+    bool fInventorLoaded = false;
+    void loadInventor();
+    bool fCuratorLoaded = false;
+    void loadCurator();
+
     void loadBanners();
     bool fBannersLoaded = false;
 
@@ -546,6 +555,11 @@ public:
     eHeroTextures fOdysseus;
     eHeroTextures fPerseus;
     eHeroTextures fTheseus;
+
+    eBasicCharacterTextures fScholar;
+    eBasicCharacterTextures fAstronomer;
+    eBasicCharacterTextures fInventor;
+    eBasicCharacterTextures fCurator;
 };
 
 #endif // ECHARACTERTEXTURES_H

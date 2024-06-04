@@ -5,6 +5,6 @@
 eActor::eActor(eGameBoard& board) :
     eBasicPatroler(board, &eCharacterTextures::fActor,
                    eCharacterType::actor) {
-    setProvide(eProvide::actor, 10000);
+    setProvide(eProvide::actorAstronomer, 10000);
     eGameTextures::loadActor();
 }

@@ -259,6 +259,25 @@ std::string eBuilding::sNameForBuilding(const eBuildingType type) {
         string = 80;
         break;
 
+    case eBuildingType::bibliotheke:
+        string = 202;
+        break;
+    case eBuildingType::observatory:
+        string = 203;
+        break;
+    case eBuildingType::university:
+        string = 204;
+        break;
+    case eBuildingType::laboratory:
+        string = 205;
+        break;
+    case eBuildingType::inventorsWorkshop:
+        string = 206;
+        break;
+    case eBuildingType::museum:
+        string = 207;
+        break;
+
     case eBuildingType::wheatFarm:
         string = 31;
         break;
@@ -701,6 +720,126 @@ void eBuilding::sInfoText(eBuilding* const b,
         const auto t = static_cast<eTheater*>(b);
         const bool a = t->available();
         group = 82;
+        if(cursed) {
+            employmentInfoString = 13;
+        } else if(blessed) {
+            employmentInfoString = 14;
+        } else if(onFire) {
+            employmentInfoString = 12;
+        } else if(e == 0) {
+            employmentInfoString = 4;
+        } else if(!a) {
+            employmentInfoString = 2;
+        } else {
+            employmentInfoString = 3;
+        }
+    } break;
+    case eBuildingType::bibliotheke: {
+        group = 336;
+        if(cursed) {
+            employmentInfoString = 9;
+        } else if(blessed) {
+            employmentInfoString = 10;
+        } else if(onFire) {
+            employmentInfoString = 8;
+        } else if(e == 0) {
+            employmentInfoString = 7;
+        } else if(e == 1) {
+            employmentInfoString = 6;
+        } else if(e == 2) {
+            employmentInfoString = 5;
+        } else if(e == 3) {
+            employmentInfoString = 4;
+        } else if(e == 4) {
+            employmentInfoString = 3;
+        } else { // if(e == 5) {
+            employmentInfoString = 2;
+        }
+    } break;
+    case eBuildingType::university: {
+        group = 334;
+        if(cursed) {
+            employmentInfoString = 9;
+        } else if(blessed) {
+            employmentInfoString = 10;
+        } else if(onFire) {
+            employmentInfoString = 8;
+        } else if(e == 0) {
+            employmentInfoString = 7;
+        } else if(e < 3) {
+            employmentInfoString = 6;
+        } else if(e < 5) {
+            employmentInfoString = 5;
+        } else if(e < 8) {
+            employmentInfoString = 4;
+        } else if(e < 12) {
+            employmentInfoString = 3;
+        } else { // if(e == 12) {
+            employmentInfoString = 2;
+        }
+    } break;
+    case eBuildingType::inventorsWorkshop: {
+        group = 335;
+        if(cursed) {
+            employmentInfoString = 9;
+        } else if(blessed) {
+            employmentInfoString = 10;
+        } else if(onFire) {
+            employmentInfoString = 8;
+        } else if(e == 0) {
+            employmentInfoString = 7;
+        } else if(e < 3) {
+            employmentInfoString = 6;
+        } else if(e < 5) {
+            employmentInfoString = 5;
+        } else if(e < 8) {
+            employmentInfoString = 4;
+        } else if(e < 12) {
+            employmentInfoString = 3;
+        } else { // if(e == 12) {
+            employmentInfoString = 2;
+        }
+    } break;
+    case eBuildingType::observatory: {
+        const auto t = static_cast<eObservatory*>(b);
+        const bool a = t->available();
+        group = 337;
+        if(cursed) {
+            employmentInfoString = 13;
+        } else if(blessed) {
+            employmentInfoString = 14;
+        } else if(onFire) {
+            employmentInfoString = 12;
+        } else if(e == 0) {
+            employmentInfoString = 4;
+        } else if(!a) {
+            employmentInfoString = 2;
+        } else {
+            employmentInfoString = 3;
+        }
+    } break;
+    case eBuildingType::laboratory: {
+        const auto t = static_cast<eLaboratory*>(b);
+        const bool a = t->available();
+        group = 338;
+        if(cursed) {
+            employmentInfoString = 13;
+        } else if(blessed) {
+            employmentInfoString = 14;
+        } else if(onFire) {
+            employmentInfoString = 12;
+        } else if(e == 0) {
+            employmentInfoString = 4;
+        } else if(!a) {
+            employmentInfoString = 2;
+        } else {
+            employmentInfoString = 3;
+        }
+    } break;
+    case eBuildingType::museum: {
+        const auto t = static_cast<eMuseum*>(b);
+        const bool a = t->available();
+        group = 338;
         if(cursed) {
             employmentInfoString = 13;
         } else if(blessed) {

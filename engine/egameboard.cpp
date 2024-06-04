@@ -1413,6 +1413,18 @@ void eGameBoard::unregisterStadium() {
     if(mButtonVisUpdater) mButtonVisUpdater();
 }
 
+void eGameBoard::registerMuseum(eBuilding* const s) {
+    if(!mRegisterBuildingsEnabled) return;
+    mMuseum = s;
+    if(mButtonVisUpdater) mButtonVisUpdater();
+}
+
+void eGameBoard::unregisterMuseum() {
+    if(!mRegisterBuildingsEnabled) return;
+    mMuseum = nullptr;
+    if(mButtonVisUpdater) mButtonVisUpdater();
+}
+
 void eGameBoard::registerStorBuilding(eStorageBuilding* const b) {
     if(!mRegisterBuildingsEnabled) return;
     mStorBuildings.push_back(b);

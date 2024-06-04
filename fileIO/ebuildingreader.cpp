@@ -97,6 +97,24 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         src >> rotated;
         b = e::make_shared<eStadium>(board, rotated);
     } break;
+    case eBuildingType::bibliotheke: {
+        b = e::make_shared<eBibliotheke>(board);
+    } break;
+    case eBuildingType::observatory: {
+        b = e::make_shared<eObservatory>(board);
+    } break;
+    case eBuildingType::university: {
+        b = e::make_shared<eUniversity>(board);
+    } break;
+    case eBuildingType::laboratory: {
+        b = e::make_shared<eLaboratory>(board);
+    } break;
+    case eBuildingType::inventorsWorkshop: {
+        b = e::make_shared<eInventorsWorkshop>(board);
+    } break;
+    case eBuildingType::museum: {
+        b = e::make_shared<eMuseum>(board);
+    } break;
     case eBuildingType::palace: {
         bool rotated;
         src >> rotated;
@@ -370,6 +388,9 @@ stdsptr<eBuilding> eBuildingReader::sRead(
     case eBuildingType::spring: {
         b = e::make_shared<eSpring>(board);
     } break;
+    case eBuildingType::orrery: {
+        b = e::make_shared<eOrrery>(board);
+    } break;
     case eBuildingType::topiary: {
         b = e::make_shared<eTopiary>(board);
     } break;
@@ -457,10 +478,24 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         });
     } break;
 
+    case eBuildingType::achillesHall:
+    case eBuildingType::atalantaHall:
+    case eBuildingType::bellerophonHall:
+    case eBuildingType::herculesHall:
+    case eBuildingType::jasonHall:
+    case eBuildingType::odysseusHall:
+    case eBuildingType::perseusHall:
+    case eBuildingType::theseusHall: {
+        const auto hero = eHerosHall::sHallTypeToHeroType(type);
+        b = e::make_shared<eHerosHall>(hero, board);
+    } break;
+
     case eBuildingType::ruins: {
         b = e::make_shared<eRuins>(board);
     } break;
-    default:
+    case eBuildingType::none:
+    case eBuildingType::erase:
+    case eBuildingType::bridge:
         return nullptr;
     }
     if(b) b->read(src);

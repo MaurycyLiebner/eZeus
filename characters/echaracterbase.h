@@ -45,6 +45,11 @@ enum class eCharacterType {
     philosopher,
     actor,
 
+    scholar,
+    astronomer,
+    inventor,
+    curator,
+
     taxCollector,
     watchman,
     waterDistributor,

@@ -133,6 +133,19 @@ int costBase(const eBuildingType type) {
     case eBuildingType::theater:
         return 60;
 
+    case eBuildingType::bibliotheke:
+        return 18;
+    case eBuildingType::observatory:
+        return 75;
+    case eBuildingType::university:
+        return 30;
+    case eBuildingType::laboratory:
+        return 65;
+    case eBuildingType::inventorsWorkshop:
+        return 40;
+    case eBuildingType::museum:
+        return 225;
+
     case eBuildingType::artisansGuild:
         return 35;
 

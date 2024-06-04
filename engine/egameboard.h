@@ -108,6 +108,9 @@ public:
     void registerStadium(eBuilding* const s);
     void unregisterStadium();
 
+    void registerMuseum(eBuilding* const s);
+    void unregisterMuseum();
+
     void registerStorBuilding(eStorageBuilding* const b);
     bool unregisterStorBuilding(eStorageBuilding* const b);
 
@@ -121,6 +124,7 @@ public:
     bool unregisterMissile(eMissile* const m);
 
     bool hasStadium() const { return mStadium; }
+    bool hasMuseum() const { return mMuseum; }
 
     void registerPalace(ePalace* const p);
     void unregisterPalace();
@@ -434,7 +438,7 @@ private:
     void handleGamesEnd(const eGames game);
 
     bool mEditorMode = true;
-    bool mPoseidonMode = false;
+    bool mPoseidonMode = true;
     eWorldBoard mWorldBoard;
 
     eEventHandler mEventHandler;
@@ -548,6 +552,7 @@ private:
     int mWonGames = 0;
 
     eBuilding* mStadium = nullptr;
+    eBuilding* mMuseum = nullptr;
     ePalace* mPalace = nullptr;
 
     ePopulationData mPopData;

@@ -30,6 +30,7 @@ SOURCES += \
         buildings/eartisansguild.cpp \
         buildings/eavailablebuildings.cpp \
         buildings/eavenue.cpp \
+        buildings/ebibliotheke.cpp \
         buildings/ebuilding.cpp \
         buildings/ebuildingrenderer.cpp \
         buildings/ebuildingwithresource.cpp \
@@ -63,9 +64,13 @@ SOURCES += \
         buildings/ehospital.cpp \
         buildings/ehousebase.cpp \
         buildings/ehuntinglodge.cpp \
+        buildings/einventorsworkshop.cpp \
+        buildings/elaboratory.cpp \
         buildings/emaintenanceoffice.cpp \
         buildings/emasonryshop.cpp \
         buildings/emint.cpp \
+        buildings/emuseum.cpp \
+        buildings/eobservatory.cpp \
         buildings/eoilvendor.cpp \
         buildings/eolivepress.cpp \
         buildings/eonionfarm.cpp \
@@ -96,6 +101,7 @@ SOURCES += \
         buildings/etimbermill.cpp \
         buildings/etower.cpp \
         buildings/etradepost.cpp \
+        buildings/euniversity.cpp \
         buildings/eurchinquay.cpp \
         buildings/evendor.cpp \
         buildings/ewall.cpp \
@@ -187,6 +193,7 @@ SOURCES += \
         characters/earcherbase.cpp \
         characters/eareswarrior.cpp \
         characters/eartisan.cpp \
+        characters/eastronomer.cpp \
         characters/eatlanteanarcher.cpp \
         characters/eatlanteanchariot.cpp \
         characters/eatlanteanhoplite.cpp \
@@ -200,6 +207,7 @@ SOURCES += \
         characters/echaracterbase.cpp \
         characters/echaractercreator.cpp \
         characters/echariotbase.cpp \
+        characters/ecurator.cpp \
         characters/edeer.cpp \
         characters/edisgruntled.cpp \
         characters/edomesticatedanimal.cpp \
@@ -226,6 +234,7 @@ SOURCES += \
         characters/ehorseman.cpp \
         characters/ehorsemanbase.cpp \
         characters/ehunter.cpp \
+        characters/einventor.cpp \
         characters/elumberjack.cpp \
         characters/emarbleminer.cpp \
         characters/emayanarcher.cpp \
@@ -246,6 +255,7 @@ SOURCES += \
         characters/eresourcecollectorbase.cpp \
         characters/erockthrower.cpp \
         characters/erockthrowerbase.cpp \
+        characters/escholar.cpp \
         characters/esettler.cpp \
         characters/esheep.cpp \
         characters/eshepherd.cpp \
@@ -384,6 +394,7 @@ SOURCES += \
         spawners/espawner.cpp \
         textures/ebeachtodry.cpp \
         textures/ebuildingtextures.cpp \
+        textures/ebuildingtextures1.cpp \
         textures/echaractertextures.cpp \
         textures/echaractertextures1.cpp \
         textures/echaractertextures2.cpp \
@@ -392,6 +403,7 @@ SOURCES += \
         textures/echaractertextures5.cpp \
         textures/echaractertextures6.cpp \
         textures/echaractertextures7.cpp \
+        textures/echaractertextures8.cpp \
         textures/edestructiontextures.cpp \
         textures/efertiletodry.cpp \
         textures/eforesttodry.cpp \
@@ -421,6 +433,7 @@ SOURCES += \
         widgets/datawidgets/emythologydatawidget.cpp \
         widgets/datawidgets/eoverviewdatawidget.cpp \
         widgets/datawidgets/epopulationdatawidget.cpp \
+        widgets/datawidgets/esciencedatawidget.cpp \
         widgets/datawidgets/estoragedatawidget.cpp \
         widgets/datawidgets/eviewmodebutton.cpp \
         widgets/eacceptbutton.cpp \
@@ -556,6 +569,7 @@ HEADERS += \
     buildings/eartisansguild.h \
     buildings/eavailablebuildings.h \
     buildings/eavenue.h \
+    buildings/ebibliotheke.h \
     buildings/ebuilding.h \
     buildings/ebuildingrenderer.h \
     buildings/ebuildingwithresource.h \
@@ -589,9 +603,13 @@ HEADERS += \
     buildings/ehospital.h \
     buildings/ehousebase.h \
     buildings/ehuntinglodge.h \
+    buildings/einventorsworkshop.h \
+    buildings/elaboratory.h \
     buildings/emaintenanceoffice.h \
     buildings/emasonryshop.h \
     buildings/emint.h \
+    buildings/emuseum.h \
+    buildings/eobservatory.h \
     buildings/eoilvendor.h \
     buildings/eolivepress.h \
     buildings/eonionfarm.h \
@@ -622,6 +640,7 @@ HEADERS += \
     buildings/etimbermill.h \
     buildings/etower.h \
     buildings/etradepost.h \
+    buildings/euniversity.h \
     buildings/eurchinquay.h \
     buildings/evendor.h \
     buildings/ewall.h \
@@ -711,6 +730,7 @@ HEADERS += \
     characters/earcherbase.h \
     characters/eareswarrior.h \
     characters/eartisan.h \
+    characters/eastronomer.h \
     characters/eatlanteanarcher.h \
     characters/eatlanteanchariot.h \
     characters/eatlanteanhoplite.h \
@@ -723,6 +743,7 @@ HEADERS += \
     characters/echaracter.h \
     characters/echaracterbase.h \
     characters/echariotbase.h \
+    characters/ecurator.h \
     characters/edeer.h \
     characters/edisgruntled.h \
     characters/edomesticatedanimal.h \
@@ -749,6 +770,7 @@ HEADERS += \
     characters/ehorseman.h \
     characters/ehorsemanbase.h \
     characters/ehunter.h \
+    characters/einventor.h \
     characters/elumberjack.h \
     characters/emarbleminer.h \
     characters/emayanarcher.h \
@@ -769,6 +791,7 @@ HEADERS += \
     characters/eresourcecollectorbase.h \
     characters/erockthrower.h \
     characters/erockthrowerbase.h \
+    characters/escholar.h \
     characters/esettler.h \
     characters/esheep.h \
     characters/eshepherd.h \
@@ -1048,6 +1071,10 @@ HEADERS += \
     spriteData/artisansGuild30.h \
     spriteData/artisansGuild45.h \
     spriteData/artisansGuild60.h \
+    spriteData/astronomer15.h \
+    spriteData/astronomer30.h \
+    spriteData/astronomer45.h \
+    spriteData/astronomer60.h \
     spriteData/atalanta15.h \
     spriteData/atalanta30.h \
     spriteData/atalanta45.h \
@@ -1100,6 +1127,10 @@ HEADERS += \
     spriteData/bench30.h \
     spriteData/bench45.h \
     spriteData/bench60.h \
+    spriteData/bibliotheke15.h \
+    spriteData/bibliotheke30.h \
+    spriteData/bibliotheke45.h \
+    spriteData/bibliotheke60.h \
     spriteData/birdBath15.h \
     spriteData/birdBath30.h \
     spriteData/birdBath45.h \
@@ -1172,6 +1203,10 @@ HEADERS += \
     spriteData/commonHouse30.h \
     spriteData/commonHouse45.h \
     spriteData/commonHouse60.h \
+    spriteData/curator15.h \
+    spriteData/curator30.h \
+    spriteData/curator45.h \
+    spriteData/curator60.h \
     spriteData/curse15.h \
     spriteData/curse30.h \
     spriteData/curse45.h \
@@ -1537,6 +1572,14 @@ HEADERS += \
     spriteData/interfaceWorldSide30.h \
     spriteData/interfaceWorldSide45.h \
     spriteData/interfaceWorldSide60.h \
+    spriteData/inventor15.h \
+    spriteData/inventor30.h \
+    spriteData/inventor45.h \
+    spriteData/inventor60.h \
+    spriteData/inventorsWorkshop15.h \
+    spriteData/inventorsWorkshop30.h \
+    spriteData/inventorsWorkshop45.h \
+    spriteData/inventorsWorkshop60.h \
     spriteData/jason15.h \
     spriteData/jason30.h \
     spriteData/jason45.h \
@@ -1545,6 +1588,10 @@ HEADERS += \
     spriteData/kraken30.h \
     spriteData/kraken45.h \
     spriteData/kraken60.h \
+    spriteData/laboratory15.h \
+    spriteData/laboratory30.h \
+    spriteData/laboratory45.h \
+    spriteData/laboratory60.h \
     spriteData/lumberjack15.h \
     spriteData/lumberjack30.h \
     spriteData/lumberjack45.h \
@@ -1597,10 +1644,18 @@ HEADERS += \
     spriteData/mun_Palace30.h \
     spriteData/mun_Palace45.h \
     spriteData/mun_Palace60.h \
+    spriteData/museum15.h \
+    spriteData/museum30.h \
+    spriteData/museum45.h \
+    spriteData/museum60.h \
     spriteData/nudeSheep15.h \
     spriteData/nudeSheep30.h \
     spriteData/nudeSheep45.h \
     spriteData/nudeSheep60.h \
+    spriteData/observatory15.h \
+    spriteData/observatory30.h \
+    spriteData/observatory45.h \
+    spriteData/observatory60.h \
     spriteData/oceanidHoplite15.h \
     spriteData/oceanidHoplite30.h \
     spriteData/oceanidHoplite45.h \
@@ -1773,6 +1828,10 @@ HEADERS += \
     spriteData/sanctuaryOverlay30.h \
     spriteData/sanctuaryOverlay45.h \
     spriteData/sanctuaryOverlay60.h \
+    spriteData/scholar15.h \
+    spriteData/scholar30.h \
+    spriteData/scholar45.h \
+    spriteData/scholar60.h \
     spriteData/sculptureStudio15.h \
     spriteData/sculptureStudio30.h \
     spriteData/sculptureStudio45.h \
@@ -1925,6 +1984,10 @@ HEADERS += \
     spriteData/trojanSpearthrower30.h \
     spriteData/trojanSpearthrower45.h \
     spriteData/trojanSpearthrower60.h \
+    spriteData/university15.h \
+    spriteData/university30.h \
+    spriteData/university45.h \
+    spriteData/university60.h \
     spriteData/urchin15.h \
     spriteData/urchin30.h \
     spriteData/urchin45.h \
@@ -2094,6 +2157,7 @@ HEADERS += \
     widgets/datawidgets/emythologydatawidget.h \
     widgets/datawidgets/eoverviewdatawidget.h \
     widgets/datawidgets/epopulationdatawidget.h \
+    widgets/datawidgets/esciencedatawidget.h \
     widgets/datawidgets/estoragedatawidget.h \
     widgets/datawidgets/eviewmodebutton.h \
     widgets/eacceptbutton.h \
@@ -2245,6 +2309,7 @@ DISTFILES += \
     textureTemplates/artemisStatue \
     textureTemplates/artisan \
     textureTemplates/artisansGuild \
+    textureTemplates/astronomer \
     textureTemplates/atalanta \
     textureTemplates/athena \
     textureTemplates/athenaStatue \
@@ -2258,6 +2323,7 @@ DISTFILES += \
     textureTemplates/baths \
     textureTemplates/bellerophon \
     textureTemplates/bench \
+    textureTemplates/bibliotheke \
     textureTemplates/birdBath \
     textureTemplates/blankStatue \
     textureTemplates/bless \
@@ -2276,6 +2342,7 @@ DISTFILES += \
     textureTemplates/columns \
     textureTemplates/commemorative \
     textureTemplates/commonHouse \
+    textureTemplates/curator \
     textureTemplates/curse \
     textureTemplates/cursed \
     textureTemplates/cyclops \
@@ -2367,8 +2434,11 @@ DISTFILES += \
     textureTemplates/interfaceRadar \
     textureTemplates/interfaceSprites \
     textureTemplates/interfaceWorldSide \
+    textureTemplates/inventor \
+    textureTemplates/inventorsWorkshop \
     textureTemplates/jason \
     textureTemplates/kraken \
+    textureTemplates/laboratory \
     textureTemplates/lumberjack \
     textureTemplates/maenads \
     textureTemplates/maintenanceOffice \
@@ -2382,7 +2452,9 @@ DISTFILES += \
     textureTemplates/mint \
     textureTemplates/monsterMissile \
     textureTemplates/mun_Palace \
+    textureTemplates/museum \
     textureTemplates/nudeSheep \
+    textureTemplates/observatory \
     textureTemplates/oceanidHoplite \
     textureTemplates/oceanidSpearthrower \
     textureTemplates/odysseus \
@@ -2426,6 +2498,7 @@ DISTFILES += \
     textureTemplates/rockThrower \
     textureTemplates/sanctuaryFire \
     textureTemplates/sanctuaryOverlay \
+    textureTemplates/scholar \
     textureTemplates/sculptureStudio \
     textureTemplates/scylla \
     textureTemplates/settlers1 \
@@ -2463,6 +2536,7 @@ DISTFILES += \
     textureTemplates/trojanHoplite \
     textureTemplates/trojanHorseman \
     textureTemplates/trojanSpearthrower \
+    textureTemplates/university \
     textureTemplates/urchin \
     textureTemplates/urchinGatherer \
     textureTemplates/urchinQuay \

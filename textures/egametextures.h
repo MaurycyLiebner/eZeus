@@ -1,4 +1,4 @@
-#ifndef EGAMETEXTURES_H
+﻿#ifndef EGAMETEXTURES_H
 #define EGAMETEXTURES_H
 
 #include "eterraintextures.h"
@@ -276,6 +276,18 @@ public:
     static void loadPoseidonMap2();
     static void loadPoseidonMap3();
     static void loadPoseidonMap4();
+
+    static void loadScholar();
+    static void loadAstronomer();
+    static void loadInventor();
+    static void loadCurator();
+
+    static void loadBibliotheke();
+    static void loadObservatory();
+    static void loadUniversity();
+    static void loadLaboratory();
+    static void loadInventorsWorkshop();
+    static void loadMuseum();
 
     static bool initialize(SDL_Renderer* const r);
     static bool loadNextMenu(const eSettings& settings,

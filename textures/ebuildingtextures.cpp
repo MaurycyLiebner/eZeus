@@ -593,6 +593,13 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fStadiumAudiance1H(renderer),
     fStadiumAudiance2H(renderer),
 
+    fBibliothekeOverlay(renderer),
+    fObservatoryOverlay(renderer),
+    fUniversityOverlay(renderer),
+    fLaboratoryOverlay(renderer),
+    fInventorsWorkshopOverlay(renderer),
+    fMuseumOverlay(renderer),
+
     fPalaceHOverlay(renderer),
     fPalaceWOverlay(renderer),
 

@@ -652,6 +652,38 @@ bool eGameWidget::buildMouseRelease() {
                   [this]() { return e::make_shared<ePodium>(*mBoard); });
             showTip(eLanguage::zeusText(19, 223)); // build college
         }; break;
+
+
+        case eBuildingMode::bibliotheke: {
+            build(mHoverTX, mHoverTY, 2, 2,
+                  [this]() { return e::make_shared<eBibliotheke>(*mBoard); });
+        }; break;
+        case eBuildingMode::observatory: {
+            build(mHoverTX, mHoverTY, 5, 5,
+                  [this]() { return e::make_shared<eObservatory>(*mBoard); });
+            showTip(eLanguage::zeusText(19, 244)); // build university
+        }; break;
+        case eBuildingMode::university: {
+            build(mHoverTX, mHoverTY, 3, 3,
+                  [this]() { return e::make_shared<eUniversity>(*mBoard); });
+            showTip(eLanguage::zeusText(19, 243)); // build observatory
+        }; break;
+        case eBuildingMode::laboratory: {
+            build(mHoverTX, mHoverTY, 4, 4,
+                  [this]() { return e::make_shared<eLaboratory>(*mBoard); });
+            showTip(eLanguage::zeusText(19, 247)); // build inventors' workshop
+        }; break;
+        case eBuildingMode::inventorsWorkshop: {
+            build(mHoverTX, mHoverTY, 3, 3,
+                  [this]() { return e::make_shared<eInventorsWorkshop>(*mBoard); });
+            showTip(eLanguage::zeusText(19, 246)); // build laboratory
+        }; break;
+        case eBuildingMode::museum: {
+            build(mHoverTX, mHoverTY, 6, 6,
+                  [this]() { return e::make_shared<eMuseum>(*mBoard); });
+            showTip(eLanguage::zeusText(19, 248)); // build universities
+        }; break;
+
         case eBuildingMode::fountain: {
             build(mHoverTX, mHoverTY, 2, 2,
                   [this]() { return e::make_shared<eFountain>(*mBoard); });
@@ -714,6 +746,7 @@ bool eGameWidget::buildMouseRelease() {
                 return s;
             });
             mGm->clearMode();
+            showTip(eLanguage::zeusText(19, 227)); // build gymnsaium
         }; break;
         case eBuildingMode::palace: {
             if(mBoard->hasPalace()) return true;

@@ -7,9 +7,9 @@ enum class eProvide {
     maintanance,
     taxes,
 
-    philosopher,
-    actor,
-    gymnast,
+    philosopherInventor,
+    actorAstronomer,
+    gymnastScholar,
 
     water,
 

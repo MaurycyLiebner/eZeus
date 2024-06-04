@@ -18,6 +18,7 @@ class eHygieneSafetyDataWidget;
 class eHusbandryDataWidget;
 class eMythologyDataWidget;
 class eCultureDataWidget;
+class eScienceDataWidget;
 class eMilitaryDataWidget;
 class eOverviewDataWidget;
 class eMiniMap;
@@ -93,6 +94,7 @@ private:
     eFramedLabel* mNameLabel = nullptr;
 
     eWidget* mStadiumButton = nullptr;
+    eWidget* mMuseumButton = nullptr;
     eWidget* mPalaceButton = nullptr;
 
     ePopulationDataWidget* mPopDataW = nullptr;
@@ -103,6 +105,7 @@ private:
     eHygieneSafetyDataWidget* mHySaDataW = nullptr;
     eAdminDataWidget* mAdminDataW = nullptr;
     eCultureDataWidget* mCultureDataW = nullptr;
+    eScienceDataWidget* mScienceDataW = nullptr;
     eMythologyDataWidget* mMythDataW = nullptr;
     eMilitaryDataWidget* mMiltDataW = nullptr;
     eOverviewDataWidget* mOverDataW = nullptr;
