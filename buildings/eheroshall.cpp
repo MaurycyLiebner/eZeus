@@ -428,7 +428,7 @@ void eHerosHall::updateRequirementStatus(eHeroRequirement& hr) {
         sc = board.wonGames() > 0 ? 1 : 0;
         break;
     case eHeroRequirementType::cityGymnasiumAccess: {
-        const int ac = board.athleticsCoverage();
+        const int ac = board.athleticsLearningCoverage();
         sc = ac/24;
     } break;
     case eHeroRequirementType::people:

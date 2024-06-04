@@ -20,6 +20,8 @@ protected:
     eGameWidget* gameWidget() const { return mGW; }
     int spacing() const;
 
+    static int sCoverageToText(const int c);
+
     eGameBoard& mBoard;
 private:
     eGameWidget* mGW = nullptr;

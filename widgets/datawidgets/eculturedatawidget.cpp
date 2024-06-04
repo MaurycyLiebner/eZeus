@@ -127,42 +127,34 @@ void eCultureDataWidget::initialize() {
     updateCoverage();
 }
 
-int coverageToText(const int c) {
-    if(c < 20) return 14; // terrible
-    if(c < 40) return 13; // poor
-    if(c < 60) return 12; // ok
-    if(c < 80) return 11; // not bad
-    return 10; // good
-}
-
 void eCultureDataWidget::updateCoverage() {
     {
-        const int pc = mBoard.philosophyCoverage();
-        const auto pt = coverageToText(pc);
+        const int pc = mBoard.philosophyResearchCoverage();
+        const auto pt = sCoverageToText(pc);
         const auto ptt = eLanguage::zeusText(58, pt);
         mPhilosophyCoverage->setText(ptt);
         mPhilosophyCoverage->fitContent();
     }
 
     {
-        const int ac = mBoard.athleticsCoverage();
-        const auto at = coverageToText(ac);
+        const int ac = mBoard.athleticsLearningCoverage();
+        const auto at = sCoverageToText(ac);
         const auto att = eLanguage::zeusText(58, at);
         mAthleticsCoverage->setText(att);
         mAthleticsCoverage->fitContent();
     }
 
     {
-        const int dc = mBoard.dramaCoverage();
-        const auto dt = coverageToText(dc);
+        const int dc = mBoard.dramaAstronomyCoverage();
+        const auto dt = sCoverageToText(dc);
         const auto dtt = eLanguage::zeusText(58, dt);
         mDramaCoverage->setText(dtt);
         mDramaCoverage->fitContent();
     }
 
     {
-        const int ddc = mBoard.allCultureCoverage();
-        const auto ddt = coverageToText(ddc);
+        const int ddc = mBoard.allCultureScienceCoverage();
+        const auto ddt = sCoverageToText(ddc);
         const auto ddtt = eLanguage::zeusText(58, ddt);
         mAllCoverage->setText(ddtt);
         mAllCoverage->fitContent();

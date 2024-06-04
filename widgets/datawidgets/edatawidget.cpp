@@ -56,3 +56,11 @@ int eDataWidget::spacing() const {
     const double m = res.multiplier();
     return 3*m;
 }
+
+int eDataWidget::sCoverageToText(const int c) {
+    if(c < 20) return 14; // terrible
+    if(c < 40) return 13; // poor
+    if(c < 60) return 12; // ok
+    if(c < 80) return 11; // not bad
+    return 10; // good
+}

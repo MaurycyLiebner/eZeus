@@ -3,6 +3,8 @@
 
 #include "edatawidget.h"
 
+class eLabel;
+
 class eScienceDataWidget : public eDataWidget {
 public:
     using eDataWidget::eDataWidget;
@@ -13,6 +15,11 @@ public:
 protected:
     void paintEvent(ePainter& p);
 private:
+    eLabel* mAstronomyCoverage = nullptr;
+    eLabel* mResearchCoverage = nullptr;
+    eLabel* mLearningCoverage = nullptr;
+    eLabel* mExhibits = nullptr;
+
     int mTime{0};
 };
 

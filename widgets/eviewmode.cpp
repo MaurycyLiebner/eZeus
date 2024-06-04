@@ -129,6 +129,40 @@ bool eViewModeHelpers::buildingVisible(
                bt == eBuildingType::stadium;
     } break;
 
+    case eViewMode::astronomers: {
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing ||
+               bt == eBuildingType::university ||
+               bt == eBuildingType::observatory;
+    } break;
+    case eViewMode::scholars: {
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing ||
+               bt == eBuildingType::bibliotheke;
+    } break;
+    case eViewMode::inventors: {
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing ||
+               bt == eBuildingType::inventorsWorkshop ||
+               bt == eBuildingType::laboratory;
+    } break;
+    case eViewMode::curators: {
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing ||
+               bt == eBuildingType::university ||
+               bt == eBuildingType::museum;
+    } break;
+    case eViewMode::allScience: {
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing ||
+               bt == eBuildingType::university ||
+               bt == eBuildingType::observatory ||
+               bt == eBuildingType::museum ||
+               bt == eBuildingType::inventorsWorkshop ||
+               bt == eBuildingType::laboratory ||
+               bt == eBuildingType::bibliotheke;
+    } break;
+
     case eViewMode::appeal: {
         return eBuilding::sAestheticsBuilding(bt);
     } break;
@@ -262,6 +296,24 @@ bool eViewModeHelpers::characterVisible(
                c == eCharacterType::philosopher;
     } break;
 
+    case eViewMode::astronomers: {
+        return c == eCharacterType::astronomer;
+    } break;
+    case eViewMode::scholars: {
+        return c == eCharacterType::scholar;
+    } break;
+    case eViewMode::inventors: {
+        return c == eCharacterType::inventor;
+    } break;
+    case eViewMode::curators: {
+        return c == eCharacterType::curator;
+    } break;
+    case eViewMode::allScience: {
+        return c == eCharacterType::astronomer ||
+               c == eCharacterType::scholar ||
+               c == eCharacterType::inventor ||
+               c == eCharacterType::curator;
+    } break;
     case eViewMode::appeal: {
         return false;
     } break;

@@ -35,9 +35,9 @@ public:
     int fleece() const { return mFleece; }
     int oil() const { return mOil; }
 
-    int philosophers() const { return mPhilosophers; }
-    int actors() const { return mActors; }
-    int athletes() const { return mAthletes; }
+    int philosophersInventors() const { return mPhilosophers; }
+    int actorsAstronomers() const { return mActors; }
+    int athletesScholars() const { return mAthletes; }
 
     void levelUp();
     void levelDown();

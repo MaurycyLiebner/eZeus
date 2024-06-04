@@ -262,10 +262,10 @@ void eGameMenu::initialize(eGameBoard* const b) {
     const int cmy = 5*height()/8;
 
     const int dataWidWidth = 65*mult;
-    const int dataWidHeight = 113*mult;
+    const int dataWidHeight = 119*mult;
 
     const int wwHeight = 190*mult;
-    const int wy = dataWidHeight + 37*mult;
+    const int wy = dataWidHeight + 31*mult;
     const int wx = 24*mult;
 
     const auto createDataWidgetBase =
@@ -274,8 +274,9 @@ void eGameMenu::initialize(eGameBoard* const b) {
             const std::string& name) {
         const auto ww9 = new eWidget(window());
         const auto alabel = new eLabel(window());
-        alabel->setText(name);
         alabel->setSmallFontSize();
+        alabel->setTinyPadding();
+        alabel->setText(name);
         alabel->fitContent();
         ww9->addWidget(alabel);
         dataW->setWidth(dataWidWidth);

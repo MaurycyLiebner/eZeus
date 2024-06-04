@@ -61,6 +61,7 @@
 #include "estringhelpers.h"
 
 #include "buildings/eheroshall.h"
+#include "buildings/emuseum.h"
 #include "eplague.h"
 #include "audio/emusic.h"
 
@@ -1171,13 +1172,13 @@ void eGameBoard::updateCoverage() {
     for(const auto b : mTimedBuildings) {
         if(const auto h = dynamic_cast<eHouseBase*>(b)) {
             const int p = h->people();
-            if(h->athletes() > 0) {
+            if(h->athletesScholars() > 0) {
                 sport += p;
             }
-            if(h->philosophers() > 0) {
+            if(h->philosophersInventors() > 0) {
                 phil += p;
             }
-            if(h->actors() > 0) {
+            if(h->actorsAstronomers() > 0) {
                 drama += p;
             }
             if(h->paidTaxes()) {
@@ -1464,6 +1465,10 @@ void eGameBoard::registerMissile(eMissile* const m) {
 
 bool eGameBoard::unregisterMissile(eMissile* const m) {
     return eVectorHelpers::remove(mMissiles, m);
+}
+
+eMuseum* eGameBoard::museum() const {
+    return static_cast<eMuseum*>(mMuseum);
 }
 
 void eGameBoard::registerPalace(ePalace* const p) {

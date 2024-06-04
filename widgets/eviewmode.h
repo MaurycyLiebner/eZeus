@@ -28,6 +28,12 @@ enum class eViewMode {
     philosophers,
     allCulture,
 
+    astronomers,
+    scholars,
+    inventors,
+    curators,
+    allScience,
+
     taxes,
 
     immortals,

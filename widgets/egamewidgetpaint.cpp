@@ -430,36 +430,36 @@ void eGameWidget::paintEvent(ePainter& p) {
                 if(bt == eBuildingType::commonHouse) {
                     const auto ch = static_cast<eSmallHouse*>(ub);
                     if(ch->people() == 0) return;
-                    const int a = ch->actors()/2;
+                    const int a = ch->actorsAstronomers()/2;
                     drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
                 } else if(bt == eBuildingType::eliteHousing) {
                     const auto ch = static_cast<eEliteHousing*>(ub);
                     if(ch->people() == 0) return;
-                    const int a = ch->actors()/2;
+                    const int a = ch->actorsAstronomers()/2;
                     drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
                 }
             } else if(mViewMode == eViewMode::philosophers) {
                 if(bt == eBuildingType::commonHouse) {
                     const auto ch = static_cast<eSmallHouse*>(ub);
                     if(ch->people() == 0) return;
-                    const int a = ch->philosophers()/2;
+                    const int a = ch->philosophersInventors()/2;
                     drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
                 } else if(bt == eBuildingType::eliteHousing) {
                     const auto ch = static_cast<eEliteHousing*>(ub);
                     if(ch->people() == 0) return;
-                    const int a = ch->philosophers()/2;
+                    const int a = ch->philosophersInventors()/2;
                     drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
                 }
             } else if(mViewMode == eViewMode::athletes) {
                 if(bt == eBuildingType::commonHouse) {
                     const auto ch = static_cast<eSmallHouse*>(ub);
                     if(ch->people() == 0) return;
-                    const int a = ch->athletes()/2;
+                    const int a = ch->athletesScholars()/2;
                     drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
                 } else if(bt == eBuildingType::eliteHousing) {
                     const auto ch = static_cast<eEliteHousing*>(ub);
                     if(ch->people() == 0) return;
-                    const int a = ch->athletes()/2;
+                    const int a = ch->athletesScholars()/2;
                     drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
                 }
             } else if(mViewMode == eViewMode::supplies) {

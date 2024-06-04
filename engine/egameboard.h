@@ -64,6 +64,7 @@ struct eEventData;
 enum class eEvent;
 class ePlague;
 class eSmallHouse;
+class eMuseum;
 
 enum class eGames {
     isthmian,
@@ -125,6 +126,7 @@ public:
 
     bool hasStadium() const { return mStadium; }
     bool hasMuseum() const { return mMuseum; }
+    eMuseum* museum() const;
 
     void registerPalace(ePalace* const p);
     void unregisterPalace();
@@ -279,10 +281,10 @@ public:
     const std::vector<eBuilding*>& commemorativeBuildings() const
     { return mCommemorativeBuildings; }
 
-    int philosophyCoverage() const { return mPhilosophyCoverage; }
-    int athleticsCoverage() const { return mAthleticsCoverage; }
-    int dramaCoverage() const { return mDramaCoverage; }
-    int allCultureCoverage() const { return mAllDiscCoverage; }
+    int philosophyResearchCoverage() const { return mPhilosophyCoverage; }
+    int athleticsLearningCoverage() const { return mAthleticsCoverage; }
+    int dramaAstronomyCoverage() const { return mDramaCoverage; }
+    int allCultureScienceCoverage() const { return mAllDiscCoverage; }
     int taxesCoverage() const { return mTaxesCoverage; }
     int unrest() const { return mUnrest; }
     int popularity() const { return mPopularity; }
