@@ -1,6 +1,6 @@
 #include "estadium.h"
 
-#include "characters/egymnast.h"
+#include "characters/ecompetitor.h"
 
 #include "engine/egameboard.h"
 
@@ -9,7 +9,7 @@
 eStadium::eStadium(eGameBoard& board, const bool r) :
     ePatrolTarget(board, eBuildingType::gymnasium,
                   nullptr, 0, 0, eOverlays(),
-                  [this]() { return e::make_shared<eGymnast>(getBoard()); },
+                  [this]() { return e::make_shared<eCompetitor>(getBoard()); },
                   eBuildingType::stadium, r ? 5 : 10, r ? 10 : 5, 45),
     mRotated(r) {
     eGameTextures::loadStadium();

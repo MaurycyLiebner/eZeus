@@ -128,6 +128,12 @@ bool eViewModeHelpers::buildingVisible(
                bt == eBuildingType::gymnasium ||
                bt == eBuildingType::stadium;
     } break;
+    case eViewMode::competitors: {
+        return bt == eBuildingType::commonHouse ||
+               bt == eBuildingType::eliteHousing ||
+               bt == eBuildingType::gymnasium ||
+               bt == eBuildingType::stadium;
+    } break;
 
     case eViewMode::astronomers: {
         return bt == eBuildingType::commonHouse ||
@@ -286,6 +292,9 @@ bool eViewModeHelpers::characterVisible(
     } break;
     case eViewMode::athletes: {
         return c == eCharacterType::gymnast;
+    } break;
+    case eViewMode::competitors: {
+        return c == eCharacterType::competitor;
     } break;
     case eViewMode::philosophers: {
         return c == eCharacterType::philosopher;

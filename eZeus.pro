@@ -207,6 +207,7 @@ SOURCES += \
         characters/echaracterbase.cpp \
         characters/echaractercreator.cpp \
         characters/echariotbase.cpp \
+        characters/ecompetitor.cpp \
         characters/ecurator.cpp \
         characters/edeer.cpp \
         characters/edisgruntled.cpp \
@@ -743,6 +744,7 @@ HEADERS += \
     characters/echaracter.h \
     characters/echaracterbase.h \
     characters/echariotbase.h \
+    characters/ecompetitor.h \
     characters/ecurator.h \
     characters/edeer.h \
     characters/edisgruntled.h \
@@ -1203,6 +1205,10 @@ HEADERS += \
     spriteData/commonHouse30.h \
     spriteData/commonHouse45.h \
     spriteData/commonHouse60.h \
+    spriteData/competitor15.h \
+    spriteData/competitor30.h \
+    spriteData/competitor45.h \
+    spriteData/competitor60.h \
     spriteData/curator15.h \
     spriteData/curator30.h \
     spriteData/curator45.h \
@@ -2342,6 +2348,7 @@ DISTFILES += \
     textureTemplates/columns \
     textureTemplates/commemorative \
     textureTemplates/commonHouse \
+    textureTemplates/competitor \
     textureTemplates/curator \
     textureTemplates/curse \
     textureTemplates/cursed \

@@ -71,6 +71,7 @@ public:
     static void loadCart();
     static void loadBoar();
     static void loadGymnast();
+    static void loadCompetitor();
     static void loadGoat();
     static void loadWolf();
     static void loadHunter();

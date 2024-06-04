@@ -44,6 +44,7 @@ enum class eCharacterType {
     gymnast,
     philosopher,
     actor,
+    competitor,
 
     scholar,
     astronomer,

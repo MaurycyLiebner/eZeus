@@ -300,6 +300,13 @@ void eGameTextures::loadGymnast() {
     });
 }
 
+void eGameTextures::loadCompetitor() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadCompetitor();
+    });
+}
+
 void eGameTextures::loadGoat() {
     loadTexture([](const int i) {
         auto& c = sCharacterTextures[i];

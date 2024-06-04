@@ -291,6 +291,8 @@ public:
     void loadBoar();
     bool fGymnastLoaded = false;
     void loadGymnast();
+    bool fCompetitorLoaded = false;
+    void loadCompetitor();
     bool fGoatLoaded = false;
     void loadGoat();
     bool fWolfLoaded = false;
@@ -399,6 +401,7 @@ public:
     eFireFighterTextures fFireFighter;
     eBasicCharacterTextures fHealer;
     eBasicCharacterTextures fGymnast;
+    eBasicCharacterTextures fCompetitor;
     eBasicCharacterTextures fPhilosopher;
 
     eBasicCharacterTextures fOx;

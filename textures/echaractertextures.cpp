@@ -201,6 +201,11 @@
 #include "spriteData/gymnast45.h"
 #include "spriteData/gymnast60.h"
 
+#include "spriteData/competitor15.h"
+#include "spriteData/competitor30.h"
+#include "spriteData/competitor45.h"
+#include "spriteData/competitor60.h"
+
 #include "spriteData/goat15.h"
 #include "spriteData/goat30.h"
 #include "spriteData/goat45.h"
@@ -281,6 +286,7 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fFireFighter(renderer),
     fHealer(renderer),
     fGymnast(renderer),
+    fCompetitor(renderer),
     fPhilosopher(renderer),
 
     fOx(renderer),
@@ -1116,6 +1122,20 @@ void eCharacterTextures::loadGymnast() {
     eSpriteLoader loader(fTileH, "gymnast", sds,
                          &eSprMainOffset, fRenderer);
     loadBasicTexture(fGymnast, 10588, loader);
+}
+
+void eCharacterTextures::loadCompetitor() {
+    if(fCompetitorLoaded) return;
+    fCompetitorLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eCompetitorSpriteData15,
+                                 eCompetitorSpriteData30,
+                                 eCompetitorSpriteData45,
+                                 eCompetitorSpriteData60);
+    eSpriteLoader loader(fTileH, "competitor", sds,
+                         &eSprMainOffset, fRenderer);
+    loadBasicTexture(fCompetitor, 10692, loader);
 }
 
 void eCharacterTextures::loadGoat() {
