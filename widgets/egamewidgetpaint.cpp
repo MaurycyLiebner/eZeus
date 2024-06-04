@@ -595,7 +595,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                         tp.drawTexture(drawX, drawY, tex, eAlignment::top);
                         if(erase) tex->clearColorMod();
                     }
-                    if(/*ub->overlayEnabled() && */ts.fOvelays) {
+                    if(ub->overlayEnabled() && ts.fOvelays) {
                         const auto overlays = ub->getOverlays(size);
                         for(const auto& o : overlays) {
                             const auto& tex = o.fTex;
@@ -944,18 +944,38 @@ void eGameWidget::paintEvent(ePainter& p) {
             {
                 const auto type = b->type();
                 const auto& tps = charTexs.fBannerTops;
-                int itype;
-                if(type == eBannerType::aresWarrior) {
-                    itype = 0;
-                } else if(type == eBannerType::amazon) {
-                    itype = -1;
+                const auto& pTps = charTexs.fPoseidonBannerTops;
+                const bool p = mBoard->poseidonMode();
+                if(!p ||
+                   type == eBannerType::aresWarrior ||
+                   type == eBannerType::amazon) {
+                    int itype = -1;
+                    if(type == eBannerType::aresWarrior) {
+                        itype = 0;
+                    } else if(type == eBannerType::amazon) {
+                        itype = -1;
+                    } else if(type != eBannerType::enemy) {
+                        itype = static_cast<int>(type);
+                    }
+                    if(itype != -1) {
+                        const auto& top = tps.getTexture(itype);
+                        tp.drawTexture(rx - 2.5, ry -  3.5, top,
+                                       eAlignment::hcenter | eAlignment::top);
+                    }
                 } else {
-                    itype = static_cast<int>(type);
-                }
-                if(itype != -1) {
-                    const auto top = tps.getTexture(itype);
-                    tp.drawTexture(rx - 2.5, ry -  3.5, top,
-                                   eAlignment::hcenter | eAlignment::top);
+                    int itype = -1;
+                    if(type == eBannerType::horseman) {
+                        itype = 0;
+                    } else if(type == eBannerType::rockThrower) {
+                        itype = 1;
+                    } else if(type == eBannerType::hoplite) {
+                        itype = 2;
+                    }
+                    if(itype != -1) {
+                        const auto& top = pTps.getTexture(itype);
+                        tp.drawTexture(rx - 2.5, ry -  3.5, top,
+                                       eAlignment::hcenter | eAlignment::top);
+                    }
                 }
             }
         };

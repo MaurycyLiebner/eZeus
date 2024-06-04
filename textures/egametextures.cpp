@@ -1687,6 +1687,27 @@ void eGameTextures::loadMuseum() {
     });
 }
 
+void eGameTextures::loadHoplitePoseidon() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadHoplitePoseidon();
+    });
+}
+
+void eGameTextures::loadArcherPoseidon() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadArcherPoseidon();
+    });
+}
+
+void eGameTextures::loadChariotPoseidon() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadChariotPoseidon();
+    });
+}
+
 bool eGameTextures::initialize(SDL_Renderer* const r) {
     if(sInitialized) return true;
     int i = 0;

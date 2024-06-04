@@ -271,6 +271,11 @@
 #include "spriteData/banners45.h"
 #include "spriteData/banners60.h"
 
+#include "spriteData/poseidonBannerTops15.h"
+#include "spriteData/poseidonBannerTops30.h"
+#include "spriteData/poseidonBannerTops45.h"
+#include "spriteData/poseidonBannerTops60.h"
+
 #include "espriteloader.h"
 
 eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
@@ -347,6 +352,9 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fHoplite(renderer),
     fHorseman(renderer),
 
+    fHoplitePoseidon(renderer),
+    fArcherPoseidon(renderer),
+
     fGreekRockThrower(renderer),
     fGreekHoplite(renderer),
     fGreekHorseman(renderer),
@@ -382,6 +390,7 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
     fBannerRod(renderer),
     fBannerTops(renderer),
+    fPoseidonBannerTops(renderer),
 
     fTrader(renderer),
     fDonkey(renderer),
@@ -1393,28 +1402,43 @@ void eCharacterTextures::loadBanners() {
     if(fBannersLoaded) return;
     fBannersLoaded = true;
 
-    const auto& sds = spriteData(fTileH,
-                                 eBannersSpriteData15,
-                                 eBannersSpriteData30,
-                                 eBannersSpriteData45,
-                                 eBannersSpriteData60);
-    eSpriteLoader loader(fTileH, "banners", sds,
-                         nullptr, fRenderer);
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eBannersSpriteData15,
+                                     eBannersSpriteData30,
+                                     eBannersSpriteData45,
+                                     eBannersSpriteData60);
+        eSpriteLoader loader(fTileH, "banners", sds,
+                             nullptr, fRenderer);
 
-    for(int i = 1; i < 22; i++) {
-        loader.load(1, i, fBannerRod);
-    }
+        for(int i = 1; i < 22; i++) {
+            loader.load(1, i, fBannerRod);
+        }
 
-    int ban = 0;
-    for(int i = 43; i < 204;) {
-        fBanners.emplace_back(fRenderer);
-        auto& bani = fBanners[ban++];
-        for(int j = 0; j < 7; j++, i++) {
-            loader.load(1, i, bani);
+        int ban = 0;
+        for(int i = 43; i < 204;) {
+            fBanners.emplace_back(fRenderer);
+            auto& bani = fBanners[ban++];
+            for(int j = 0; j < 7; j++, i++) {
+                loader.load(1, i, bani);
+            }
+        }
+
+        for(int i = 204; i < 207; i++) {
+            loader.load(1, i, fBannerTops);
         }
     }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     ePoseidonBannerTopsSpriteData15,
+                                     ePoseidonBannerTopsSpriteData30,
+                                     ePoseidonBannerTopsSpriteData45,
+                                     ePoseidonBannerTopsSpriteData60);
+        eSpriteLoader loader(fTileH, "poseidonBannerTops", sds,
+                             nullptr, fRenderer);
 
-    for(int i = 204; i < 207; i++) {
-        loader.load(1, i, fBannerTops);
+        for(int i = 44; i < 47; i++) {
+            loader.load(44, i, fPoseidonBannerTops);
+        }
     }
 }

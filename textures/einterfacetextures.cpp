@@ -276,7 +276,8 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fCityRebellion(renderer),
 
     fInterfaceBanners(renderer),
-    fInterfaceBannerTops(renderer) {}
+    fInterfaceBannerTops(renderer),
+    fPoseidonInterfaceBannerTops(renderer) {}
 
 void eInterfaceTextures::load() {
     if(fLoaded) return;
@@ -863,6 +864,10 @@ void eInterfaceTextures::load() {
 
         for(int i = 34; i < 38; i++) {
             loader.load(1, i, fScience);
+        }
+
+        for(int i = 38; i < 41; i++) {
+            loader.load(1, i, fPoseidonInterfaceBannerTops);
         }
 
         fPoseidonMainCity = loader.load(1, 47);

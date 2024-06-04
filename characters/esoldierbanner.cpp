@@ -43,21 +43,39 @@ eSoldierBanner::~eSoldierBanner() {
 }
 
 eCharacterType eSoldierBanner::characterType() const {
-    switch(mType) {
-    case eBannerType::hoplite:
-        return eCharacterType::hoplite;
-    case eBannerType::horseman:
-        return eCharacterType::horseman;
-    case eBannerType::rockThrower:
-        return eCharacterType::rockThrower;
-    case eBannerType::amazon:
-        return eCharacterType::amazon;
-    case eBannerType::aresWarrior:
-        return eCharacterType::aresWarrior;
-    case eBannerType::enemy:
-        return eCharacterType::none;
+    const bool p = mBoard.poseidonMode();
+    if(p) {
+        switch(mType) {
+        case eBannerType::hoplite:
+            return eCharacterType::hoplitePoseidon;
+        case eBannerType::horseman:
+            return eCharacterType::chariotPoseidon;
+        case eBannerType::rockThrower:
+            return eCharacterType::archerPoseidon;
+        case eBannerType::amazon:
+            return eCharacterType::amazon;
+        case eBannerType::aresWarrior:
+            return eCharacterType::aresWarrior;
+        case eBannerType::enemy:
+            return eCharacterType::none;
+        }
+    } else {
+        switch(mType) {
+        case eBannerType::hoplite:
+            return eCharacterType::hoplite;
+        case eBannerType::horseman:
+            return eCharacterType::horseman;
+        case eBannerType::rockThrower:
+            return eCharacterType::rockThrower;
+        case eBannerType::amazon:
+            return eCharacterType::amazon;
+        case eBannerType::aresWarrior:
+            return eCharacterType::aresWarrior;
+        case eBannerType::enemy:
+            return eCharacterType::none;
+        }
     }
-    return eCharacterType::hoplite;
+    return eCharacterType::none;
 }
 
 stdsptr<eSoldier> eSoldierBanner::createSoldier(eTile* const t) {

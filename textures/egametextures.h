@@ -290,6 +290,10 @@ public:
     static void loadInventorsWorkshop();
     static void loadMuseum();
 
+    static void loadHoplitePoseidon();
+    static void loadArcherPoseidon();
+    static void loadChariotPoseidon();
+
     static bool initialize(SDL_Renderer* const r);
     static bool loadNextMenu(const eSettings& settings,
                              std::string& text);

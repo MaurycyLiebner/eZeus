@@ -385,6 +385,13 @@ public:
     bool fCuratorLoaded = false;
     void loadCurator();
 
+    bool fHoplitePoseidonLoaded = false;
+    void loadHoplitePoseidon();
+    bool fArcherPoseidonLoaded = false;
+    void loadArcherPoseidon();
+    bool fChariotPoseidonLoaded = false;
+    void loadChariotPoseidon();
+
     void loadBanners();
     bool fBannersLoaded = false;
 
@@ -479,6 +486,10 @@ public:
     eFightingCharacterTextures fHoplite;
     eFightingCharacterTextures fHorseman;
 
+    eFightingCharacterTextures fHoplitePoseidon;
+    eChariotTextures fChariotPoseidon;
+    eFightingCharacterTextures fArcherPoseidon;
+
     eRockThrowerTextures fGreekRockThrower;
     eFightingCharacterTextures fGreekHoplite;
     eFightingCharacterTextures fGreekHorseman;
@@ -519,6 +530,7 @@ public:
     eTextureCollection fBannerRod;
     std::vector<eTextureCollection> fBanners;
     eTextureCollection fBannerTops;
+    eTextureCollection fPoseidonBannerTops;
 
     eBasicCharacterTextures fTrader;
     eBasicCharacterTextures fDonkey;

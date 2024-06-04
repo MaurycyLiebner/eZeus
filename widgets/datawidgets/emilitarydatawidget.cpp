@@ -35,6 +35,7 @@ void eForcesWidget::setBanners(const eSoldierBanners& ss,
     const auto& intrfc = eGameTextures::interface();
     const auto& coll = intrfc[iRes];
     const auto& tops = coll.fInterfaceBannerTops;
+    const auto& pTops = coll.fPoseidonInterfaceBannerTops;
 
     mWidget->removeChildren();
     eWidget* line = nullptr;
@@ -61,26 +62,51 @@ void eForcesWidget::setBanners(const eSoldierBanners& ss,
 
         {
             int topId = 0;
-            switch(s->type()) {
-            case eBannerType::horseman:
-                topId = 0;
-                break;
-            case eBannerType::hoplite:
-                topId = 1;
-                break;
-            case eBannerType::rockThrower:
-                topId = 2;
-                break;
-            case eBannerType::amazon:
-                topId = 4;
-                break;
-            case eBannerType::aresWarrior:
-                topId = 5;
-                break;
-            }
+            const auto sType = s->type();
+            auto& board = s->getBoard();
+            const bool p = board.poseidonMode();
+            if(!p || sType == eBannerType::amazon ||
+               sType == eBannerType::aresWarrior) {
+                switch(sType) {
+                case eBannerType::horseman:
+                    topId = 0;
+                    break;
+                case eBannerType::hoplite:
+                    topId = 1;
+                    break;
+                case eBannerType::rockThrower:
+                    topId = 2;
+                    break;
+                case eBannerType::amazon:
+                    topId = 4;
+                    break;
+                case eBannerType::aresWarrior:
+                    topId = 5;
+                    break;
+                default:
+                    break;
+                }
 
-            const auto& top = tops.getTexture(topId);
-            button->setTexture(top);
+                const auto& top = tops.getTexture(topId);
+                button->setTexture(top);
+            } else {
+                switch(sType) {
+                case eBannerType::horseman:
+                    topId = 0;
+                    break;
+                case eBannerType::rockThrower:
+                    topId = 1;
+                    break;
+                case eBannerType::hoplite:
+                    topId = 2;
+                    break;
+                default:
+                    break;
+                }
+
+                const auto& top = pTops.getTexture(topId);
+                button->setTexture(top);
+            }
         }
         button->fitContent();
         line->addWidget(button);
@@ -100,7 +126,7 @@ void eMilitaryDataWidget::initialize() {
     {
         mSeeSecurity = new eViewModeButton(
                         eLanguage::zeusText(14, 16),
-                        eViewMode::husbandry,
+                        eViewMode::security,
                         window());
         addViewButton(mSeeSecurity);
     }

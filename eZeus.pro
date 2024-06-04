@@ -191,6 +191,7 @@ SOURCES += \
         characters/eanimal.cpp \
         characters/earcher.cpp \
         characters/earcherbase.cpp \
+        characters/earcherposeidon.cpp \
         characters/eareswarrior.cpp \
         characters/eartisan.cpp \
         characters/eastronomer.cpp \
@@ -207,6 +208,7 @@ SOURCES += \
         characters/echaracterbase.cpp \
         characters/echaractercreator.cpp \
         characters/echariotbase.cpp \
+        characters/echariotposeidon.cpp \
         characters/ecompetitor.cpp \
         characters/ecurator.cpp \
         characters/edeer.cpp \
@@ -231,6 +233,7 @@ SOURCES += \
         characters/ehomeless.cpp \
         characters/ehoplite.cpp \
         characters/ehoplitebase.cpp \
+        characters/ehopliteposeidon.cpp \
         characters/ehorse.cpp \
         characters/ehorseman.cpp \
         characters/ehorsemanbase.cpp \
@@ -729,6 +732,7 @@ HEADERS += \
     characters/eanimal.h \
     characters/earcher.h \
     characters/earcherbase.h \
+    characters/earcherposeidon.h \
     characters/eareswarrior.h \
     characters/eartisan.h \
     characters/eastronomer.h \
@@ -744,6 +748,7 @@ HEADERS += \
     characters/echaracter.h \
     characters/echaracterbase.h \
     characters/echariotbase.h \
+    characters/echariotposeidon.h \
     characters/ecompetitor.h \
     characters/ecurator.h \
     characters/edeer.h \
@@ -768,6 +773,7 @@ HEADERS += \
     characters/ehomeless.h \
     characters/ehoplite.h \
     characters/ehoplitebase.h \
+    characters/ehopliteposeidon.h \
     characters/ehorse.h \
     characters/ehorseman.h \
     characters/ehorsemanbase.h \
@@ -1033,6 +1039,10 @@ HEADERS += \
     spriteData/archer30.h \
     spriteData/archer45.h \
     spriteData/archer60.h \
+    spriteData/archerPoseidon15.h \
+    spriteData/archerPoseidon30.h \
+    spriteData/archerPoseidon45.h \
+    spriteData/archerPoseidon60.h \
     spriteData/ares15.h \
     spriteData/ares30.h \
     spriteData/ares45.h \
@@ -1185,6 +1195,10 @@ HEADERS += \
     spriteData/cerberus30.h \
     spriteData/cerberus45.h \
     spriteData/cerberus60.h \
+    spriteData/chariotPoseidon15.h \
+    spriteData/chariotPoseidon30.h \
+    spriteData/chariotPoseidon45.h \
+    spriteData/chariotPoseidon60.h \
     spriteData/chimera15.h \
     spriteData/chimera30.h \
     spriteData/chimera45.h \
@@ -1510,6 +1524,10 @@ HEADERS += \
     spriteData/hoplite30.h \
     spriteData/hoplite45.h \
     spriteData/hoplite60.h \
+    spriteData/hoplitePoseidon15.h \
+    spriteData/hoplitePoseidon30.h \
+    spriteData/hoplitePoseidon45.h \
+    spriteData/hoplitePoseidon60.h \
     spriteData/horse15.h \
     spriteData/horse30.h \
     spriteData/horse45.h \
@@ -1786,6 +1804,10 @@ HEADERS += \
     spriteData/poseidon30.h \
     spriteData/poseidon45.h \
     spriteData/poseidon60.h \
+    spriteData/poseidonBannerTops15.h \
+    spriteData/poseidonBannerTops30.h \
+    spriteData/poseidonBannerTops45.h \
+    spriteData/poseidonBannerTops60.h \
     spriteData/poseidonHerosHall15.h \
     spriteData/poseidonHerosHall30.h \
     spriteData/poseidonHerosHall45.h \
@@ -2305,6 +2327,7 @@ DISTFILES += \
     textureTemplates/apollo \
     textureTemplates/apolloStatue \
     textureTemplates/archer \
+    textureTemplates/archerPoseidon \
     textureTemplates/ares \
     textureTemplates/aresStatue \
     textureTemplates/aresWarrior \
@@ -2343,6 +2366,7 @@ DISTFILES += \
     textureTemplates/centaurArcher \
     textureTemplates/centaurHorseman \
     textureTemplates/cerberus \
+    textureTemplates/chariotPoseidon \
     textureTemplates/chimera \
     textureTemplates/college \
     textureTemplates/columns \
@@ -2424,6 +2448,7 @@ DISTFILES += \
     textureTemplates/hermesStatue \
     textureTemplates/homeless \
     textureTemplates/hoplite \
+    textureTemplates/hoplitePoseidon \
     textureTemplates/horse \
     textureTemplates/horseRanch \
     textureTemplates/horseRanchEnclosure \
@@ -2493,6 +2518,7 @@ DISTFILES += \
     textureTemplates/podium \
     textureTemplates/porter \
     textureTemplates/poseidon \
+    textureTemplates/poseidonBannerTops \
     textureTemplates/poseidonHerosHall \
     textureTemplates/poseidonInterface \
     textureTemplates/poseidonQuestButtons \

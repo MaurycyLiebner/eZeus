@@ -66,6 +66,10 @@ enum class eCharacterType {
     horseman,
     // put new soldiers below
 
+    hoplitePoseidon,
+    chariotPoseidon,
+    archerPoseidon,
+
     amazon,
     aresWarrior,
 

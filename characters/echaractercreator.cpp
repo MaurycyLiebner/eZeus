@@ -67,6 +67,16 @@
 #include "edisgruntled.h"
 #include "esick.h"
 
+#include "escholar.h"
+#include "eastronomer.h"
+#include "einventor.h"
+#include "ecurator.h"
+#include "ecompetitor.h"
+
+#include "ehopliteposeidon.h"
+#include "earcherposeidon.h"
+#include "echariotposeidon.h"
+
 #include "monsters/ecalydonianboar.h"
 
 #include "gods/eathena.h"
@@ -293,6 +303,24 @@ stdsptr<eCharacter> eCharacter::sCreate(
         return e::make_shared<ePerseus>(board);
     case eCharacterType::theseus:
         return e::make_shared<eTheseus>(board);
+
+    case eCharacterType::scholar:
+        return e::make_shared<eScholar>(board);
+    case eCharacterType::astronomer:
+        return e::make_shared<eAstronomer>(board);
+    case eCharacterType::inventor:
+        return e::make_shared<eInventor>(board);
+    case eCharacterType::curator:
+        return e::make_shared<eCurator>(board);
+    case eCharacterType::competitor:
+        return e::make_shared<eCompetitor>(board);
+
+    case eCharacterType::hoplitePoseidon:
+        return e::make_shared<eHoplitePoseidon>(board);
+    case eCharacterType::archerPoseidon:
+        return e::make_shared<eArcherPoseidon>(board);
+    case eCharacterType::chariotPoseidon:
+        return e::make_shared<eChariotPoseidon>(board);
     }
     return nullptr;
 }

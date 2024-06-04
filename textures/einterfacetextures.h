@@ -394,6 +394,7 @@ public:
 
     eTextureCollection fInterfaceBanners;
     eTextureCollection fInterfaceBannerTops;
+    eTextureCollection fPoseidonInterfaceBannerTops;
 };
 
 #endif // EINTERFACETEXTURES_H

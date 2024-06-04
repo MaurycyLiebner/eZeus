@@ -839,7 +839,7 @@ void eBuilding::sInfoText(eBuilding* const b,
     case eBuildingType::museum: {
         const auto t = static_cast<eMuseum*>(b);
         const bool a = t->available();
-        group = 338;
+        group = 339;
         if(cursed) {
             employmentInfoString = 13;
         } else if(blessed) {
