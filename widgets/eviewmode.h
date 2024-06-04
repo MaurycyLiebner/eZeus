@@ -26,6 +26,7 @@ enum class eViewMode {
     actors,
     athletes,
     philosophers,
+    competitors,
     allCulture,
 
     astronomers,

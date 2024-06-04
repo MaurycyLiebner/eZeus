@@ -54,29 +54,35 @@ eWidget* eCultureDataWidget::createCoverageWidget(
 }
 
 void eCultureDataWidget::initialize() {
-    mSeePhilosophers = new eViewModeButton(
+    const auto seePhilosophers = new eViewModeButton(
                      eLanguage::zeusText(14, 12), // see philosophers
                      eViewMode::philosophers,
                      window());
-    addViewButton(mSeePhilosophers);
+    addViewButton(seePhilosophers);
 
-    mSeeAthletes = new eViewModeButton(
+    const auto seeAthletes = new eViewModeButton(
                      eLanguage::zeusText(14, 13),
                      eViewMode::athletes,
                      window());
-    addViewButton(mSeeAthletes);
+    addViewButton(seeAthletes);
 
-    mSeeActors = new eViewModeButton(
+    const auto seeActors = new eViewModeButton(
                      eLanguage::zeusText(14, 14),
                      eViewMode::actors,
                      window());
-    addViewButton(mSeeActors);
+    addViewButton(seeActors);
 
-    mSeeAllCulture = new eViewModeButton(
+    const auto seeCompetitors = new eViewModeButton(
+                     eLanguage::zeusText(14, 11),
+                     eViewMode::competitors,
+                     window());
+    addViewButton(seeCompetitors);
+
+    const auto seeAllCulture = new eViewModeButton(
                      eLanguage::zeusText(14, 10),
                      eViewMode::allCulture,
                      window());
-    addViewButton(mSeeAllCulture);
+    addViewButton(seeAllCulture);
 
     eDataWidget::initialize();
 
@@ -119,7 +125,8 @@ void eCultureDataWidget::initialize() {
                                              &mAllCoverage);
     cw->addWidget(allwid);
 
-    cw->stackVertically();
+    const int p = resolution().veryTinyPadding();
+    cw->stackVertically(-p);
     cw->fitContent();
     iw->addWidget(cw);
     cw->setX(spacing()/2);

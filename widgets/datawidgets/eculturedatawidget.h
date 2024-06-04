@@ -6,7 +6,6 @@
 class eGameBoard;
 class eLabel;
 class eGameWidget;
-class eViewModeButton;
 
 class eCultureDataWidget : public eDataWidget {
 public:
@@ -21,11 +20,6 @@ private:
     eWidget* createCoverageWidget(const int gamesName,
                                   const int disciplineName,
                                   eLabel** const clabel);
-
-    eViewModeButton* mSeeActors = nullptr;
-    eViewModeButton* mSeeAthletes = nullptr;
-    eViewModeButton* mSeePhilosophers = nullptr;
-    eViewModeButton* mSeeAllCulture = nullptr;
 
     eLabel* mPhilosophyCoverage = nullptr;
     eLabel* mAthleticsCoverage = nullptr;
