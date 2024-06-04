@@ -30,6 +30,11 @@
 #include "spriteData/museum45.h"
 #include "spriteData/museum60.h"
 
+#include "spriteData/corral15.h"
+#include "spriteData/corral30.h"
+#include "spriteData/corral45.h"
+#include "spriteData/corral60.h"
+
 #include "textures/espriteloader.h"
 
 void eBuildingTextures::loadBibliotheke() {
@@ -137,5 +142,23 @@ void eBuildingTextures::loadMuseum() {
 
     for(int i = 163; i < 185; i++) {
         loader.load(162, i, fMuseumOverlay);
+    }
+}
+
+void eBuildingTextures::loadCorral() {
+    if(fCorralLoaded) return;
+    fCorralLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eCorralSpriteData15,
+                                 eCorralSpriteData30,
+                                 eCorralSpriteData45,
+                                 eCorralSpriteData60);
+    eSpriteLoader loader(fTileH, "corral", sds,
+                         nullptr, fRenderer);
+    fCorral = loader.load(1, 1);
+
+    for(int i = 2; i < 49; i++) {
+        loader.load(1, i, fCorralOverlay);
     }
 }

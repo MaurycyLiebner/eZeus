@@ -294,6 +294,8 @@ public:
     static void loadArcherPoseidon();
     static void loadChariotPoseidon();
 
+    static void loadCorral();
+
     static bool initialize(SDL_Renderer* const r);
     static bool loadNextMenu(const eSettings& settings,
                              std::string& text);

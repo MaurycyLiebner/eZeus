@@ -567,6 +567,11 @@
 #include "spriteData/tradingPost45.h"
 #include "spriteData/tradingPost60.h"
 
+#include "spriteData/chariotVendor15.h"
+#include "spriteData/chariotVendor30.h"
+#include "spriteData/chariotVendor45.h"
+#include "spriteData/chariotVendor60.h"
+
 #include "textures/espriteloader.h"
 
 eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
@@ -646,6 +651,7 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
 
     fTriremeWharf(renderer),
     fHorseRanchOverlay(renderer),
+    fCorralOverlay(renderer),
     fArmoryOverlay(renderer),
 
     fGatehouseW(renderer),
@@ -2608,6 +2614,18 @@ void eBuildingTextures::loadAgora() {
         for(int i = 429; i < 453; i++) {
             loader.load(429, i, fWineVendorOverlay2);
         }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eChariotVendorSpriteData15,
+                                     eChariotVendorSpriteData30,
+                                     eChariotVendorSpriteData45,
+                                     eChariotVendorSpriteData60);
+        eSpriteLoader loader(fTileH, "chariotVendor", sds,
+                             nullptr, fRenderer);
+
+        fChariotVendor = loader.load(49, 49);
+        fChariotVendorOverlay = loader.load(49, 50);
     }
 }
 

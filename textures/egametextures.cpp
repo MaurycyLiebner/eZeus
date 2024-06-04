@@ -1708,6 +1708,13 @@ void eGameTextures::loadChariotPoseidon() {
     });
 }
 
+void eGameTextures::loadCorral() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadCorral();
+    });
+}
+
 bool eGameTextures::initialize(SDL_Renderer* const r) {
     if(sInitialized) return true;
     int i = 0;

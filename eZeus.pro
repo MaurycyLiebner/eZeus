@@ -1199,6 +1199,10 @@ HEADERS += \
     spriteData/chariotPoseidon30.h \
     spriteData/chariotPoseidon45.h \
     spriteData/chariotPoseidon60.h \
+    spriteData/chariotVendor15.h \
+    spriteData/chariotVendor30.h \
+    spriteData/chariotVendor45.h \
+    spriteData/chariotVendor60.h \
     spriteData/chimera15.h \
     spriteData/chimera30.h \
     spriteData/chimera45.h \
@@ -1223,6 +1227,10 @@ HEADERS += \
     spriteData/competitor30.h \
     spriteData/competitor45.h \
     spriteData/competitor60.h \
+    spriteData/corral15.h \
+    spriteData/corral30.h \
+    spriteData/corral45.h \
+    spriteData/corral60.h \
     spriteData/curator15.h \
     spriteData/curator30.h \
     spriteData/curator45.h \
@@ -2367,12 +2375,14 @@ DISTFILES += \
     textureTemplates/centaurHorseman \
     textureTemplates/cerberus \
     textureTemplates/chariotPoseidon \
+    textureTemplates/chariotVendor \
     textureTemplates/chimera \
     textureTemplates/college \
     textureTemplates/columns \
     textureTemplates/commemorative \
     textureTemplates/commonHouse \
     textureTemplates/competitor \
+    textureTemplates/corral \
     textureTemplates/curator \
     textureTemplates/curse \
     textureTemplates/cursed \

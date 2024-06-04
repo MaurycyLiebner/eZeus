@@ -198,6 +198,9 @@ public:
     bool fMuseumLoaded = false;
     void loadMuseum();
 
+    bool fCorralLoaded = false;
+    void loadCorral();
+
     std::shared_ptr<eTexture> fHouseSpace;
     std::vector<eTextureCollection> fCommonHouse;
 
@@ -344,12 +347,14 @@ public:
     std::shared_ptr<eTexture> fSculptureStudio;
     eTextureCollection fSculptureStudioOverlay;
 
-
     eTextureCollection fTriremeWharf;
 
     std::shared_ptr<eTexture> fHorseRanch;
     eTextureCollection fHorseRanchOverlay;
     std::shared_ptr<eTexture> fHorseRanchEnclosure;
+
+    std::shared_ptr<eTexture> fCorral;
+    eTextureCollection fCorralOverlay;
 
     std::shared_ptr<eTexture> fArmory;
     eTextureCollection fArmoryOverlay;
@@ -404,6 +409,9 @@ public:
     std::shared_ptr<eTexture> fHorseTrainer;
     std::shared_ptr<eTexture> fHorseTrainerOverlay;
     eTextureCollection fHorseTrainerOverlay2;
+
+    std::shared_ptr<eTexture> fChariotVendor;
+    std::shared_ptr<eTexture> fChariotVendorOverlay;
 
     std::shared_ptr<eTexture> fWarehouse;
     eTextureCollection fWarehouseOverlay;
