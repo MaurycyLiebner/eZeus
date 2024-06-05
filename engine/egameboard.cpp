@@ -1595,13 +1595,15 @@ void eGameBoard::incTime(const int by) {
     if(nextMonth) {
         mPopData.nextMonth();
 
-        const auto m = mDate.month();
-        const int ng = std::abs(mDate.year() % 4);
-        const auto game = static_cast<eGames>(ng);
-        if(m == eMonth::june) {
-            handleGamesBegin(game);
-        } else if(m == eMonth::august) {
-            handleGamesEnd(game);
+        if(!mPoseidonMode) {
+            const auto m = mDate.month();
+            const int ng = std::abs(mDate.year() % 4);
+            const auto game = static_cast<eGames>(ng);
+            if(m == eMonth::june) {
+                handleGamesBegin(game);
+            } else if(m == eMonth::august) {
+                handleGamesEnd(game);
+            }
         }
     }
 
