@@ -1,5 +1,7 @@
 #include "ethreadpool.h"
 
+#include <chrono>
+
 eThreadPool::eThreadPool(eGameBoard& board) :
     mBoard(board) {}
 
@@ -44,11 +46,23 @@ void eThreadPool::threadEntry(eThreadData* data) {
         }
         if(task) {
             {
+//                using std::chrono::high_resolution_clock;
+//                using std::chrono::duration_cast;
+//                using std::chrono::duration;
+//                using std::chrono::milliseconds;
+
+//                const auto t1 = high_resolution_clock::now();
+
                 data->setRunning(true);
                 data->updateBoard();
                 auto& b = data->board();
                 task->run(b);
                 data->setRunning(false);
+
+//                const auto t2 = high_resolution_clock::now();
+
+//                const duration<double, std::milli> ms = t2 - t1;
+//                printf("run task: %f ms\n", ms.count());
             }
             std::lock_guard lock(mFinishedTasksMutex);
             mFinishedTasks.push_back(task);
