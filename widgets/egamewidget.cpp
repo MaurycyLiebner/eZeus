@@ -1186,6 +1186,19 @@ bool eGameWidget::inErase(eBuilding* const b) {
     return inErase(rect);
 }
 
+bool eGameWidget::inPatrolBuildingHover(eBuilding* const b) {
+    const auto mode = mGm->mode();
+    const bool e = mode == eBuildingMode::none;
+    if(!e) return false;
+    if(const auto pb = dynamic_cast<ePatrolBuildingBase*>(b)) {
+        const auto r = pb->tileRect();
+        const SDL_Point hover{mHoverTX, mHoverTY};
+        const bool hovered = SDL_PointInRect(&hover, &r);
+        return hovered;
+    }
+    return false;
+}
+
 bool eGameWidget::build(const int tx, const int ty,
                         const int sw, const int sh,
                         const eBuildingCreator& bc,

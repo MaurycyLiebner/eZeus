@@ -202,6 +202,8 @@ private:
     bool inErase(eAgoraBase* const a);
     bool inErase(eBuilding* const b);
 
+    bool inPatrolBuildingHover(eBuilding* const b);
+
     void setArmyMenuVisible(const bool v);
 
     void updateTerrainTextures(eTile* const tile,

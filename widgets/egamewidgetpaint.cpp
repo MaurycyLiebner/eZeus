@@ -605,11 +605,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                     SDL_RenderSetClipRect(p.renderer(), &clipRect);
 
                     const bool erase = inErase(ub);
+                    const bool hover = inPatrolBuildingHover(ub);
                     const auto tex = ts.fTex;
                     if(tex) {
                         if(erase) tex->setColorMod(255, 175, 255);
+                        else if(hover) tex->setColorMod(175, 255, 255);
                         tp.drawTexture(drawX, drawY, tex, eAlignment::top);
-                        if(erase) tex->clearColorMod();
+                        if(erase || hover) tex->clearColorMod();
                     }
                     if(ub->overlayEnabled() && ts.fOvelays) {
                         const auto overlays = ub->getOverlays(size);
@@ -617,13 +619,14 @@ void eGameWidget::paintEvent(ePainter& p) {
                             const auto& tex = o.fTex;
 
                             if(erase) tex->setColorMod(255, 175, 255);
+                            else if(hover) tex->setColorMod(175, 255, 255);
                             if(o.fAlignTop) {
                                 tp.drawTexture(drawX + o.fX, drawY + o.fY,
                                                tex, eAlignment::top);
                             } else {
                                 tp.drawTexture(drawX + o.fX, drawY + o.fY, tex);
                             }
-                            if(erase) tex->clearColorMod();
+                            if(erase || hover) tex->clearColorMod();
                         }
                     }
                     SDL_RenderSetClipRect(p.renderer(), nullptr);
