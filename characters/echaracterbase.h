@@ -201,7 +201,7 @@ private:
     bool mBusy = false;
 
     double mHP = 100;
-    double mAttack = 0.1;
+    double mAttack = 0;
     double mSpeed = 1;
 };
 

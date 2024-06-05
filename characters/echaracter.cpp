@@ -35,6 +35,10 @@ bool eCharacter::canFight(eCharacter* const c) {
         if(ct == eCharacterType::watchman) return true;
         else if(rand() % 10) return false;
     }
+    if(isSoldier()) {
+        if(ct == eCharacterType::watchman) return true;
+        else if(rand() % 10) return false;
+    }
     if(ct == eCharacterType::boar ||
        ct == eCharacterType::deer) {
         const bool h = t == eCharacterType::hunter;
