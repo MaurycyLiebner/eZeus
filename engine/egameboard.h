@@ -65,6 +65,7 @@ enum class eEvent;
 class ePlague;
 class eSmallHouse;
 class eMuseum;
+class eStadium;
 
 enum class eGames {
     isthmian,
@@ -126,6 +127,7 @@ public:
 
     bool hasStadium() const { return mStadium; }
     bool hasMuseum() const { return mMuseum; }
+    eStadium* stadium() const;
     eMuseum* museum() const;
 
     void registerPalace(ePalace* const p);

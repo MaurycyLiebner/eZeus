@@ -80,6 +80,7 @@ SOURCES += \
         buildings/epark.cpp \
         buildings/epatrolbuilding.cpp \
         buildings/epatrolbuildingbase.cpp \
+        buildings/epatrolsourcebuilding.cpp \
         buildings/epatroltarget.cpp \
         buildings/epier.cpp \
         buildings/epodium.cpp \
@@ -623,6 +624,7 @@ HEADERS += \
     buildings/epark.h \
     buildings/epatrolbuilding.h \
     buildings/epatrolbuildingbase.h \
+    buildings/epatrolsourcebuilding.h \
     buildings/epatroltarget.h \
     buildings/epier.h \
     buildings/epodium.h \

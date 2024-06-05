@@ -5,7 +5,6 @@
 
 eObservatory::eObservatory(eGameBoard& board) :
     ePatrolTarget(board,
-                  eBuildingType::university,
                   &eBuildingTextures::fObservatory,
                   -8.15, -10.65,
                   &eBuildingTextures::fObservatoryOverlay,

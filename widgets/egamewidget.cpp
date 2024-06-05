@@ -1191,6 +1191,7 @@ bool eGameWidget::inPatrolBuildingHover(eBuilding* const b) {
     const bool e = mode == eBuildingMode::none;
     if(!e) return false;
     if(const auto pb = dynamic_cast<ePatrolBuildingBase*>(b)) {
+        if(!pb->spawnsPatrolers()) return false;
         const auto r = pb->tileRect();
         const SDL_Point hover{mHoverTX, mHoverTY};
         const bool hovered = SDL_PointInRect(&hover, &r);
@@ -1487,7 +1488,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
                 if(!mPatrolBuilding && tile) {
                     if(const auto b = tile->underBuilding()) {
                         if(const auto pb = dynamic_cast<ePatrolBuilding*>(b)) {
-                            setPatrolBuilding(pb);
+                            if(pb->spawnsPatrolers()) setPatrolBuilding(pb);
                         } else if(const auto v = dynamic_cast<eVendor*>(b)) {
                             setPatrolBuilding(v->agora());
                         } else if(const auto s = dynamic_cast<eAgoraSpace*>(b)) {

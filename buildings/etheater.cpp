@@ -5,7 +5,6 @@
 
 eTheater::eTheater(eGameBoard& board) :
     ePatrolTarget(board,
-                  eBuildingType::dramaSchool,
                   &eBuildingTextures::fTheater,
                   -1.25, -6.5,
                   &eBuildingTextures::fTheaterOverlay,

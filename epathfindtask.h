@@ -21,7 +21,8 @@ public:
                   const bool onlyDiagonal,
                   const int range,
                   const eTileDistance& distance = nullptr,
-                  const eTileGetter& endTile = nullptr);
+                  const eTileGetter& endTile = nullptr,
+                  const bool findAll = false);
 protected:
     void run(eThreadBoard& data);
     void finish();
@@ -35,6 +36,7 @@ private:
     const bool mOnlyDiagonal;
     const int mRange;
     const eTileDistance mDistance;
+    const bool mFindAll;
 
     bool mR{false};
     ePath mPath;

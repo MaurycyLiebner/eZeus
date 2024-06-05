@@ -5,7 +5,6 @@
 
 eLaboratory::eLaboratory(eGameBoard& board) :
     ePatrolTarget(board,
-                  eBuildingType::inventorsWorkshop,
                   &eBuildingTextures::fLaboratory,
                   -5.55, -7.48,
                   &eBuildingTextures::fLaboratoryOverlay,

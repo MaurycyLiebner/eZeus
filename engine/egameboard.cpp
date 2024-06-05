@@ -62,6 +62,7 @@
 
 #include "buildings/eheroshall.h"
 #include "buildings/emuseum.h"
+#include "buildings/estadium.h"
 #include "eplague.h"
 #include "audio/emusic.h"
 
@@ -1465,6 +1466,10 @@ void eGameBoard::registerMissile(eMissile* const m) {
 
 bool eGameBoard::unregisterMissile(eMissile* const m) {
     return eVectorHelpers::remove(mMissiles, m);
+}
+
+eStadium* eGameBoard::stadium() const {
+    return static_cast<eStadium*>(mStadium);
 }
 
 eMuseum* eGameBoard::museum() const {

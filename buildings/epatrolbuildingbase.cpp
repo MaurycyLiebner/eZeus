@@ -65,6 +65,7 @@ void ePatrolBuildingBase::setBothDirections(const bool both) {
 }
 
 bool ePatrolBuildingBase::spawn() {
+    if(!mCharGenerator || !mActGenerator) return false;
     const auto chr = mCharGenerator();
     mChar = chr.get();
     if(!mChar) return false;
@@ -102,6 +103,10 @@ bool ePatrolBuildingBase::spawn() {
 
 void ePatrolBuildingBase::setSpawnPatrolers(const bool s) {
     mSpawnPatrolers = s;
+}
+
+bool ePatrolBuildingBase::spawnsPatrolers() const {
+    return mCharGenerator && mActGenerator;
 }
 
 void ePatrolBuildingBase::read(eReadStream& src) {

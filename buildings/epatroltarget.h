@@ -4,10 +4,8 @@
 #include "epatrolbuilding.h"
 
 class ePatrolTarget : public ePatrolBuilding {
-    friend class ePT_spawnGetActorFinish;
 public:
     ePatrolTarget(eGameBoard& board,
-                  const eBuildingType fromBuilding,
                   const eBaseTex baseTex,
                   const double overlayX,
                   const double overlayY,
@@ -19,22 +17,18 @@ public:
 
     bool available() const { return mAvailable > 0; }
 
+    void arrived();
+
     void timeChanged(const int by) override;
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:
-    void spawnGetActor();
-
-    const eBuildingType mFromBuilding;
     const eCharGenerator mCharGen;
 
     int mAvailable = -1;
 
-    const int mAvailableWaitTime = 50000;
-    const int mSpawnWaitTime = 20000;
-    int mSpawnTime = 0;
-    stdptr<eCharacter> mChar;
+    const int mAvailableWaitTime = 100000;
 };
 
 class ePT_spawnGetActorFinish : public eCharActFunc {
@@ -48,8 +42,7 @@ public:
     void call() override {
         if(!mTptr) return;
         const auto t = mTptr.get();
-        t->mAvailable = t->mAvailableWaitTime;
-        t->setSpawnPatrolers(true);
+        t->arrived();
     }
 
     void read(eReadStream& src) override {

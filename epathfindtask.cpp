@@ -12,7 +12,8 @@ ePathFindTask::ePathFindTask(const eTileGetter& startTile,
                              const bool onlyDiagonal,
                              const int range,
                              const eTileDistance& distance,
-                             const eTileGetter& endTile) :
+                             const eTileGetter& endTile,
+                             const bool findAll) :
     mStartTile(startTile),
     mEndTile(endTile),
     mTileWalkable(tileWalkable),
@@ -21,7 +22,8 @@ ePathFindTask::ePathFindTask(const eTileGetter& startTile,
     mFailFunc(failFunc),
     mOnlyDiagonal(onlyDiagonal),
     mRange(range),
-    mDistance(distance) {}
+    mDistance(distance),
+    mFindAll(findAll) {}
 
 void ePathFindTask::run(eThreadBoard& data) {
     if(mEndTile) {
@@ -31,6 +33,7 @@ void ePathFindTask::run(eThreadBoard& data) {
         [&](eTileBase* const t) {
             return mTileWalkable->walkable(t);
         }, endT);
+        if(mFindAll) pf0.setMode(ePathFinderMode::findAll);
         const bool r = pf0.findPath(startT, mRange, mOnlyDiagonal,
                                     data.width(), data.height(),
                                     mDistance);
@@ -48,6 +51,7 @@ void ePathFindTask::run(eThreadBoard& data) {
         [&](eTileBase* const t) {
            return mEndTileFunc(static_cast<eThreadTile*>(t));
         });
+        if(mFindAll) pf0.setMode(ePathFinderMode::findAll);
         const bool r = pf0.findPath(t, mRange, mOnlyDiagonal,
                                     data.width(), data.height(),
                                     mDistance);

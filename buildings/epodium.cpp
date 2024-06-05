@@ -5,7 +5,6 @@
 
 ePodium::ePodium(eGameBoard& board) :
     ePatrolTarget(board,
-                  eBuildingType::college,
                   &eBuildingTextures::fPodium,
                   -2.25, -3.78,
                   &eBuildingTextures::fPodiumOverlay,

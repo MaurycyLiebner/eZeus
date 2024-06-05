@@ -49,6 +49,8 @@ public:
     void setMaxDistance(const int m) { mMaxDistance = m; }
     int maxDistance() const { return mMaxDistance; }
 
+    bool spawnsPatrolers() const;
+
     const stdsptr<eDirectionTimes>& dirTimes() const
     { return mDirTimes; }
 

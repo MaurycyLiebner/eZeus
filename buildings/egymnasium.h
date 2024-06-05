@@ -1,9 +1,9 @@
 #ifndef EGYMNASIUM_H
 #define EGYMNASIUM_H
 
-#include "epatrolbuilding.h"
+#include "epatrolsourcebuilding.h"
 
-class eGymnasium : public ePatrolBuilding {
+class eGymnasium : public ePatrolSourceBuilding {
 public:
     eGymnasium(eGameBoard& board);
 };

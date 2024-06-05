@@ -4,7 +4,7 @@
 #include "engine/egameboard.h"
 
 eMuseum::eMuseum(eGameBoard& board) :
-    ePatrolTarget(board, eBuildingType::university,
+    ePatrolTarget(board,
                   &eBuildingTextures::fMuseum,
                   -11.55, -12.70,
                   &eBuildingTextures::fMuseumOverlay,
