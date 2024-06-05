@@ -22,6 +22,7 @@
 #include "emilitarychangeevent.h"
 #include "eeconomicchangeevent.h"
 #include "etroopsrequestevent.h"
+#include "etroopsrequestfulfilledevent.h"
 
 eGameEvent::eGameEvent(const eGameEventType type,
                        const eGameEventBranch branch,
@@ -83,6 +84,8 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
 
     case eGameEventType::troopsRequest:
         return e::make_shared<eTroopsRequestEvent>(branch, board);
+    case eGameEventType::troopsRequestFulfilled:
+        return e::make_shared<eTroopsRequestFulfilledEvent>(branch, board);
     }
     return nullptr;
 }
