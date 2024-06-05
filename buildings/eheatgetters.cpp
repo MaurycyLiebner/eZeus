@@ -51,6 +51,11 @@ eHeat eHeatGetters::appeal(const eBuildingType type) {
     case eBuildingType::theater: return {6, 3};
     case eBuildingType::stadium: return {0, 0};
 
+    case eBuildingType::bibliotheke: return {3, 3};
+    case eBuildingType::university: return {-5, 3};
+    case eBuildingType::observatory: return {7, 4};
+    case eBuildingType::museum: return {12, 4};
+
     case eBuildingType::doricColumn:
     case eBuildingType::ionicColumn:
     case eBuildingType::corinthianColumn: return {4, 3};
@@ -76,6 +81,7 @@ eHeat eHeatGetters::appeal(const eBuildingType type) {
     case eBuildingType::shellGarden: return {5, 5};
     case eBuildingType::sundial: return {7, 4};
     case eBuildingType::dolphinSculpture: return {12, 4};
+    case eBuildingType::orrery: return {9, 6};
     case eBuildingType::spring: return {10, 5};
     case eBuildingType::topiary: return {15, 3};
     case eBuildingType::baths: return {15, 6};

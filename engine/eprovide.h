@@ -10,6 +10,7 @@ enum class eProvide {
     philosopherInventor,
     actorAstronomer,
     gymnastScholar,
+    competitorCurator,
 
     water,
 

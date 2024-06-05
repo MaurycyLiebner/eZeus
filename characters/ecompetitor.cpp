@@ -6,5 +6,5 @@ eCompetitor::eCompetitor(eGameBoard& board) :
     eBasicPatroler(board, &eCharacterTextures::fCompetitor,
                    eCharacterType::competitor) {
     eGameTextures::loadCompetitor();
-    setProvide(eProvide::gymnastScholar, 10000);
+    setProvide(eProvide::competitorCurator, 10000);
 }

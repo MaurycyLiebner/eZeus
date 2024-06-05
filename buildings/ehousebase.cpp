@@ -27,6 +27,7 @@ void eHouseBase::timeChanged(const int by) {
         mPhilosophers = std::max(0, mPhilosophers - 1);
         mActors = std::max(0, mActors - 1);
         mAthletes = std::max(0, mAthletes - 1);
+        mCompetitors = std::max(0, mCompetitors - 1);
     }
     eBuilding::timeChanged(by);
 }
@@ -75,6 +76,7 @@ void eHouseBase::read(eReadStream& src) {
     src >> mPhilosophers;
     src >> mActors;
     src >> mAthletes;
+    src >> mCompetitors;
 
     src >> mUpdateCulture;
 }
@@ -95,6 +97,7 @@ void eHouseBase::write(eWriteStream& dst) const {
     dst << mPhilosophers;
     dst << mActors;
     dst << mAthletes;
+    dst << mCompetitors;
 
     dst << mUpdateCulture;
 }

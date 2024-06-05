@@ -38,6 +38,7 @@ public:
     int philosophersInventors() const { return mPhilosophers; }
     int actorsAstronomers() const { return mActors; }
     int athletesScholars() const { return mAthletes; }
+    int competitorsCurators() const { return mCompetitors; }
 
     void levelUp();
     void levelDown();
@@ -72,6 +73,7 @@ protected:
     int mPhilosophers = 0;
     int mActors = 0;
     int mAthletes = 0;
+    int mCompetitors = 0;
 private:
     const std::vector<int> mMaxPeople;
 };

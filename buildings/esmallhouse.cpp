@@ -65,6 +65,9 @@ int eSmallHouse::provide(const eProvide p, const int n) {
     case eProvide::gymnastScholar:
         value = &mAthletes;
         break;
+    case eProvide::competitorCurator:
+        value = &mCompetitors;
+        break;
 
     case eProvide::taxes: {
         if(mPaidTaxes) return 0;
@@ -242,9 +245,11 @@ eHouseMissing eSmallHouse::missing() const {
     const int dx = t->dx();
     const int dy = t->dy();
     const double appeal = b.appeal(dx, dy);
-    const int stadium = (b.hasStadium() || b.hasMuseum()) ? 1 : 0;
-    const int nVenues = mPhilosophers + mActors +
-                        mAthletes + stadium;
+    int nVenues = 0;
+    if(mPhilosophers > 0) nVenues++;
+    if(mActors > 0) nVenues++;
+    if(mAthletes > 0) nVenues++;
+    if(mCompetitors > 0) nVenues++;
     if(mFood > 0) {
         if(mWater > 0) {
             if(nVenues > 0) {
@@ -341,9 +346,11 @@ void eSmallHouse::updateLevel() {
     const int dx = t->dx();
     const int dy = t->dy();
     const double appeal = b.appeal(dx, dy);
-    const int stadium = b.hasStadium() ? 1 : 0;
-    const int nVenues = mPhilosophers + mActors +
-                        mAthletes + stadium;
+    int nVenues = 0;
+    if(mPhilosophers > 0) nVenues++;
+    if(mActors > 0) nVenues++;
+    if(mAthletes > 0) nVenues++;
+    if(mCompetitors > 0) nVenues++;
     if(mFood > 0) {
         if(mWater > 0 && nVenues > 0) {
             if(mFleece > 0 && appeal > 2.0) {

@@ -6,4 +6,5 @@ eCurator::eCurator(eGameBoard& board) :
     eBasicPatroler(board, &eCharacterTextures::fCurator,
                    eCharacterType::curator) {
     eGameTextures::loadCurator();
+    setProvide(eProvide::competitorCurator, 10000);
 }
