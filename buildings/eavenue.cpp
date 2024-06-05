@@ -4,7 +4,7 @@
 
 eAvenue::eAvenue(eGameBoard& board) :
     eBuilding(board, eBuildingType::avenue, 1, 1) {
-
+    eGameTextures::loadAvenue();
 }
 
 int eAvenue::provide(const eProvide p, const int n) {
