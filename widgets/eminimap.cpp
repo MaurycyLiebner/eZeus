@@ -96,6 +96,7 @@ SDL_Color colorForTile(eTile* const tile) {
         case eBuildingType::onionsFarm:
 
         case eBuildingType::huntingLodge:
+        case eBuildingType::corral:
         case eBuildingType::fishery:
         case eBuildingType::urchinQuay:
         case eBuildingType::cardingShed:

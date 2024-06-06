@@ -59,6 +59,7 @@ bool eBuilding::sWalkableBuilding(const eBuildingType t) {
     if(t == eBuildingType::orangeTree) return true;
     if(t == eBuildingType::sheep) return true;
     if(t == eBuildingType::goat) return true;
+    if(t == eBuildingType::cattle) return true;
     if(t == eBuildingType::templeTile) return true;
     if(t == eBuildingType::palaceTile) return true;
     if(t == eBuildingType::godMonumentTile) return true;
@@ -83,6 +84,7 @@ bool eBuilding::sFlatBuilding(const eBuildingType bt) {
            bt == eBuildingType::park ||
            bt == eBuildingType::oliveTree ||
            bt == eBuildingType::orangeTree ||
+           bt == eBuildingType::cattle ||
            bt == eBuildingType::sheep ||
            bt == eBuildingType::goat ||
            bt == eBuildingType::ruins ||
@@ -120,6 +122,7 @@ bool eBuilding::sFlammable(const eBuildingType bt) {
     if(bt == eBuildingType::road) return false;
     if(bt == eBuildingType::sheep) return false;
     if(bt == eBuildingType::goat) return false;
+    if(bt == eBuildingType::cattle) return false;
     if(bt == eBuildingType::ruins) return false;
     if(bt == eBuildingType::park) return false;
     if(bt == eBuildingType::wall) return false;
@@ -151,6 +154,7 @@ bool eBuilding::sBlessable(const eBuildingType bt) {
     if(bt == eBuildingType::road) return false;
     if(bt == eBuildingType::sheep) return false;
     if(bt == eBuildingType::goat) return false;
+    if(bt == eBuildingType::cattle) return false;
     if(bt == eBuildingType::ruins) return false;
     if(bt == eBuildingType::wall) return false;
     if(bt == eBuildingType::park) return false;
@@ -170,6 +174,7 @@ bool eBuilding::sAttackable(const eBuildingType bt) {
     if(bt == eBuildingType::road) return false;
     if(bt == eBuildingType::sheep) return false;
     if(bt == eBuildingType::goat) return false;
+    if(bt == eBuildingType::cattle) return false;
     if(bt == eBuildingType::ruins) return false;
     if(bt == eBuildingType::park) return false;
     if(bt == eBuildingType::palaceTile) return false;
@@ -303,6 +308,9 @@ std::string eBuilding::sNameForBuilding(const eBuildingType type) {
     case eBuildingType::growersLodge:
         string = 37;
         break;
+    case eBuildingType::corral:
+        string = 216;
+        break;
 
     case eBuildingType::dairy:
         string = 42;
@@ -315,6 +323,9 @@ std::string eBuilding::sNameForBuilding(const eBuildingType type) {
         break;
     case eBuildingType::sheep:
         string = 40;
+        break;
+    case eBuildingType::cattle:
+        string = 220;
         break;
 
     case eBuildingType::fishery:

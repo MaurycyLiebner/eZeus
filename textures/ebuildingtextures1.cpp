@@ -35,6 +35,16 @@
 #include "spriteData/corral45.h"
 #include "spriteData/corral60.h"
 
+#include "spriteData/corralCattleOverlay15.h"
+#include "spriteData/corralCattleOverlay30.h"
+#include "spriteData/corralCattleOverlay45.h"
+#include "spriteData/corralCattleOverlay60.h"
+
+#include "spriteData/corralProcessingOverlay15.h"
+#include "spriteData/corralProcessingOverlay30.h"
+#include "spriteData/corralProcessingOverlay45.h"
+#include "spriteData/corralProcessingOverlay60.h"
+
 #include "textures/espriteloader.h"
 
 void eBuildingTextures::loadBibliotheke() {
@@ -149,16 +159,47 @@ void eBuildingTextures::loadCorral() {
     if(fCorralLoaded) return;
     fCorralLoaded = true;
 
-    const auto& sds = spriteData(fTileH,
-                                 eCorralSpriteData15,
-                                 eCorralSpriteData30,
-                                 eCorralSpriteData45,
-                                 eCorralSpriteData60);
-    eSpriteLoader loader(fTileH, "corral", sds,
-                         nullptr, fRenderer);
-    fCorral = loader.load(1, 1);
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eCorralSpriteData15,
+                                     eCorralSpriteData30,
+                                     eCorralSpriteData45,
+                                     eCorralSpriteData60);
+        eSpriteLoader loader(fTileH, "corral", sds,
+                             nullptr, fRenderer);
+        fCorral = loader.load(1, 1);
 
-    for(int i = 2; i < 49; i++) {
-        loader.load(1, i, fCorralOverlay);
+        for(int i = 2; i < 49; i++) {
+            loader.load(1, i, fCorralOverlay);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eCorralCattleOverlaySpriteData15,
+                                     eCorralCattleOverlaySpriteData30,
+                                     eCorralCattleOverlaySpriteData45,
+                                     eCorralCattleOverlaySpriteData60);
+        eSpriteLoader loader(fTileH, "corralCattleOverlay", sds,
+                             nullptr, fRenderer);
+
+        for(int i = 0, j = 0; i < 3; i++) {
+            auto& o = fCorralCattleOverlay.emplace_back(fRenderer);
+            for(int k = 0; k < 21; k++, j++) {
+                loader.load(1815, 1815 + j, o);
+            }
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eCorralProcessingOverlaySpriteData15,
+                                     eCorralProcessingOverlaySpriteData30,
+                                     eCorralProcessingOverlaySpriteData45,
+                                     eCorralProcessingOverlaySpriteData60);
+        eSpriteLoader loader(fTileH, "corralProcessingOverlay", sds,
+                             nullptr, fRenderer);
+
+        for(int i = 1878; i < 1938; i++) {
+            loader.load(1878, i, fCorralProcessingOverlay);
+        }
     }
 }

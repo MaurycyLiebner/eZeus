@@ -29,10 +29,12 @@ enum class eBuildingMode {
     goat,
     cardingShed,
     sheep,
+    cattle,
 
     fishery,
     urchinQuay,
     huntingLodge,
+    corral,
 
     mint,
     foundry,

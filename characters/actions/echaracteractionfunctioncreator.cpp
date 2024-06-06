@@ -17,6 +17,7 @@
 #include "esoldieraction.h"
 #include "etraderaction.h"
 #include "ekillcharacterfinishfail.h"
+#include "ereplacecattleaction.h"
 
 #include "godHelp/ezeushelpaction.h"
 
@@ -160,6 +161,11 @@ stdsptr<eCharActFunc> eCharActFunc::sCreate(
 
     case eCharActFuncType::ZHA_killFinish:
         return std::make_shared<eZHA_killFinish>(board);
+
+    case eCharActFuncType::RC_finishAction:
+        return std::make_shared<eRC_finishAction>(board);
+    case eCharActFuncType::RC_finishWalkingAction:
+        return std::make_shared<eRC_finishWalkingAction>(board);
     }
     return nullptr;
 }

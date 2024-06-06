@@ -29,6 +29,8 @@
 #include "etraderaction.h"
 #include "ewaitaction.h"
 #include "esickdisgruntledaction.h"
+#include "etakecattleaction.h"
+#include "ereplacecattleaction.h"
 
 #include "godHelp/eaphroditehelpaction.h"
 #include "godHelp/eartemishelpaction.h"
@@ -82,6 +84,10 @@ stdsptr<eCharacterAction> eCharacterAction::sCreate(
         return e::make_shared<eGrowerAction>(c);
     case eCharActionType::heroAction:
         return e::make_shared<eHeroAction>(c);
+    case eCharActionType::takeCattleAction:
+        return e::make_shared<eTakeCattleAction>(c);
+    case eCharActionType::replaceCattleAction:
+        return e::make_shared<eReplaceCattleAction>(c);
     case eCharActionType::huntAction:
         return e::make_shared<eHuntAction>(c);
     case eCharActionType::monsterAction:

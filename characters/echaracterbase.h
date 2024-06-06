@@ -20,7 +20,10 @@ enum class eCharacterType {
 
     sheep,
     goat,
-    cattle,
+    cattle1,
+    cattle2,
+    cattle3,
+    bull,
     horse,
 
     grower,
@@ -40,6 +43,7 @@ enum class eCharacterType {
     artisan,
 
     hunter,
+    butcher,
 
     gymnast,
     philosopher,

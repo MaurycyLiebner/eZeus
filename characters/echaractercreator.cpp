@@ -66,6 +66,8 @@
 #include "ehomeless.h"
 #include "edisgruntled.h"
 #include "esick.h"
+#include "ebutcher.h"
+#include "ecattle.h"
 
 #include "escholar.h"
 #include "eastronomer.h"
@@ -90,8 +92,11 @@ stdsptr<eCharacter> eCharacter::sCreate(
         const eCharacterType t, eGameBoard& board) {
     switch(t) {
     case eCharacterType::none:
-    case eCharacterType::cattle:
         return nullptr;
+    case eCharacterType::cattle1:
+    case eCharacterType::cattle2:
+    case eCharacterType::cattle3:
+        return e::make_shared<eCattle>(board, t);
     case eCharacterType::actor:
         return e::make_shared<eActor>(board);
     case eCharacterType::archer:
@@ -184,6 +189,8 @@ stdsptr<eCharacter> eCharacter::sCreate(
         return e::make_shared<eHorseman>(board);
     case eCharacterType::hunter:
         return e::make_shared<eHunter>(board);
+    case eCharacterType::butcher:
+        return e::make_shared<eButcher>(board);
     case eCharacterType::lumberjack:
         return e::make_shared<eLumberjack>(board);
     case eCharacterType::marbleMiner:

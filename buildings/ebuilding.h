@@ -41,6 +41,7 @@ enum class eBuildingType {
 
     goat,
     sheep,
+    cattle,
 
     oliveTree,
     vine,
@@ -57,6 +58,8 @@ enum class eBuildingType {
     dairy,
     growersLodge,
     orangeTendersLodge,
+
+    corral,
 
     granary,
     warehouse,

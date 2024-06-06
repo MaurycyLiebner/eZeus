@@ -37,7 +37,119 @@
 #include "spriteData/archerPoseidon45.h"
 #include "spriteData/archerPoseidon60.h"
 
+#include "spriteData/cattle115.h"
+#include "spriteData/cattle130.h"
+#include "spriteData/cattle145.h"
+#include "spriteData/cattle160.h"
+
+#include "spriteData/cattle215.h"
+#include "spriteData/cattle230.h"
+#include "spriteData/cattle245.h"
+#include "spriteData/cattle260.h"
+
+#include "spriteData/cattle315.h"
+#include "spriteData/cattle330.h"
+#include "spriteData/cattle345.h"
+#include "spriteData/cattle360.h"
+
+#include "spriteData/bull15.h"
+#include "spriteData/bull30.h"
+#include "spriteData/bull45.h"
+#include "spriteData/bull60.h"
+
+#include "spriteData/butcher15.h"
+#include "spriteData/butcher30.h"
+#include "spriteData/butcher45.h"
+#include "spriteData/butcher60.h"
+
 #include "offsets/PoseidonImps.h"
+
+void sLoadCattle(eSpriteLoader& loader,
+                 eCattleTextures& cattle,
+                 const int first) {
+    loader.loadSkipFlipped(first, first, first + 96, cattle.fWalk);
+    loader.loadSkipFlipped(first, first + 96, first + 192, cattle.fStand);
+
+    for(int i = first + 192; i < first + 200; i++) {
+        loader.load(first, i, cattle.fDie);
+    }
+};
+
+void eCharacterTextures::loadCattle() {
+    if(fCattleLoaded) return;
+    fCattleLoaded = true;
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eCattle1SpriteData15,
+                                     eCattle1SpriteData30,
+                                     eCattle1SpriteData45,
+                                     eCattle1SpriteData60);
+        eSpriteLoader loader(fTileH, "cattle1", sds,
+                             &ePoseidonImpsOffset, fRenderer);
+
+        sLoadCattle(loader, fCattle1, 2290);
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eCattle2SpriteData15,
+                                     eCattle2SpriteData30,
+                                     eCattle2SpriteData45,
+                                     eCattle2SpriteData60);
+        eSpriteLoader loader(fTileH, "cattle2", sds,
+                             &ePoseidonImpsOffset, fRenderer);
+
+        sLoadCattle(loader, fCattle2, 2490);
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eCattle3SpriteData15,
+                                     eCattle3SpriteData30,
+                                     eCattle3SpriteData45,
+                                     eCattle3SpriteData60);
+        eSpriteLoader loader(fTileH, "cattle3", sds,
+                             &ePoseidonImpsOffset, fRenderer);
+
+        sLoadCattle(loader, fCattle3, 2690);
+    }
+}
+
+void eCharacterTextures::loadBull() {
+    if(fBullLoaded) return;
+    fBullLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eBullSpriteData15,
+                                 eBullSpriteData30,
+                                 eBullSpriteData45,
+                                 eBullSpriteData60);
+    eSpriteLoader loader(fTileH, "bull", sds,
+                         &ePoseidonImpsOffset, fRenderer);
+
+    loader.loadSkipFlipped(2890, 2890, 2986, fBull.fWalk);
+    loader.loadSkipFlipped(2890, 2986, 3082, fBull.fStand);
+
+    for(int i = 3082; i < 3090; i++) {
+        loader.load(2890, i, fBull.fDie);
+    }
+    loader.loadSkipFlipped(2890, 3090, 3442, fBull.fAttack);
+}
+
+void eCharacterTextures::loadButcher() {
+    if(fButcherLoaded) return;
+    fButcherLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eButcherSpriteData15,
+                                 eButcherSpriteData30,
+                                 eButcherSpriteData45,
+                                 eButcherSpriteData60);
+    eSpriteLoader loader(fTileH, "butcher", sds,
+                         &ePoseidonImpsOffset, fRenderer);
+
+    loader.loadSkipFlipped(2186, 2186, 2282, fButcher.fWalk);
+
+    for(int i = 2282; i < 2290; i++) {
+        loader.load(2186, i, fButcher.fDie);
+    }
+}
 
 void eCharacterTextures::loadScholar() {
     if(fScholarLoaded) return;

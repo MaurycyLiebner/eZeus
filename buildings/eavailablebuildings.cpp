@@ -175,6 +175,9 @@ bool eAvailableBuildings::available(
         return fUrchinQuay;
     case eBuildingType::huntingLodge:
         return fHuntingLodge;
+    case eBuildingType::corral:
+    case eBuildingType::cattle:
+        return fCorral;
 
     case eBuildingType::mint:
         return fMint;
@@ -426,6 +429,8 @@ bool* eAvailableBuildings::allowedPtr(const eBuildingType type) {
         return &fUrchinQuay;
     case eBuildingType::huntingLodge:
         return &fHuntingLodge;
+    case eBuildingType::corral:
+        return &fCorral;
 
     case eBuildingType::mint:
         return &fMint;

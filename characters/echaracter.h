@@ -40,7 +40,7 @@ public:
 
     virtual void beingKilled() {}
 
-    void incTime(const int by);
+    virtual void incTime(const int by);
 
     void fight(eCharacter* const c);
     void setPlayFightSound(const bool p);

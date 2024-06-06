@@ -389,7 +389,9 @@ void eGameMenu::initialize(eGameBoard* const b) {
 
     const std::vector<eSPR> ah1spr = {eSPR{eBuildingMode::fishery, eLanguage::zeusText(28, 44)},
                                       eSPR{eBuildingMode::urchinQuay, eLanguage::zeusText(28, 45)},
-                                      eSPR{eBuildingMode::huntingLodge, eLanguage::zeusText(28, 46)}};
+                                      eSPR{eBuildingMode::huntingLodge, eLanguage::zeusText(28, 46)},
+                                      eSPR{eBuildingMode::corral, eLanguage::zeusText(28, 216)},
+                                      eSPR{eBuildingMode::cattle, eLanguage::zeusText(28, 220)}};
 
     const auto ah1 = [this, cmx, cmy, ah1spr]() {
         openBuildWidget(cmx, cmy, ah1spr);

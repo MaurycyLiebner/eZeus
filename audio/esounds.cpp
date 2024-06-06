@@ -190,7 +190,9 @@ void eSounds::playSoundForTile(eTile* const tile) {
             return eSounds::playSheepSound();
         case eCharacterType::goat:
             return eSounds::playGoatSound();
-        case eCharacterType::cattle:
+        case eCharacterType::cattle1:
+        case eCharacterType::cattle2:
+        case eCharacterType::cattle3:
             return eSounds::playCattleSound();
         case eCharacterType::cartTransporter:
             return eSounds::playStorageSound();

@@ -39,6 +39,7 @@ SOURCES += \
         buildings/ecollege.cpp \
         buildings/ecolumn.cpp \
         buildings/ecommonagora.cpp \
+        buildings/ecorral.cpp \
         buildings/edairy.cpp \
         buildings/edramaschool.cpp \
         buildings/eelitehousing.cpp \
@@ -160,10 +161,12 @@ SOURCES += \
         characters/actions/epatrolaction.cpp \
         characters/actions/epatrolguidedmoveaction.cpp \
         characters/actions/epatrolmoveaction.cpp \
+        characters/actions/ereplacecattleaction.cpp \
         characters/actions/esettleraction.cpp \
         characters/actions/eshepherdaction.cpp \
         characters/actions/esickdisgruntledaction.cpp \
         characters/actions/esoldieraction.cpp \
+        characters/actions/etakecattleaction.cpp \
         characters/actions/etraderaction.cpp \
         characters/actions/ewaitaction.cpp \
         characters/actions/godHelp/eaphroditehelpaction.cpp \
@@ -202,7 +205,9 @@ SOURCES += \
         characters/ebasicpatroler.cpp \
         characters/eboar.cpp \
         characters/ebronzeminer.cpp \
+        characters/ebutcher.cpp \
         characters/ecarttransporter.cpp \
+        characters/ecattle.cpp \
         characters/ecentaurarcher.cpp \
         characters/ecentaurhorseman.cpp \
         characters/echaracter.cpp \
@@ -583,6 +588,7 @@ HEADERS += \
     buildings/ecollege.h \
     buildings/ecolumn.h \
     buildings/ecommonagora.h \
+    buildings/ecorral.h \
     buildings/edairy.h \
     buildings/edramaschool.h \
     buildings/eelitehousing.h \
@@ -702,10 +708,12 @@ HEADERS += \
     characters/actions/epatrolaction.h \
     characters/actions/epatrolguidedmoveaction.h \
     characters/actions/epatrolmoveaction.h \
+    characters/actions/ereplacecattleaction.h \
     characters/actions/esettleraction.h \
     characters/actions/eshepherdaction.h \
     characters/actions/esickdisgruntledaction.h \
     characters/actions/esoldieraction.h \
+    characters/actions/etakecattleaction.h \
     characters/actions/etraderaction.h \
     characters/actions/ewaitaction.h \
     characters/actions/godHelp/eaphroditehelpaction.h \
@@ -744,7 +752,9 @@ HEADERS += \
     characters/ebasicpatroler.h \
     characters/eboar.h \
     characters/ebronzeminer.h \
+    characters/ebutcher.h \
     characters/ecarttransporter.h \
+    characters/ecattle.h \
     characters/ecentaurarcher.h \
     characters/ecentaurhorseman.h \
     characters/echaracter.h \
@@ -1173,6 +1183,14 @@ HEADERS += \
     spriteData/bronzeMiner30.h \
     spriteData/bronzeMiner45.h \
     spriteData/bronzeMiner60.h \
+    spriteData/bull15.h \
+    spriteData/bull30.h \
+    spriteData/bull45.h \
+    spriteData/bull60.h \
+    spriteData/butcher15.h \
+    spriteData/butcher30.h \
+    spriteData/butcher45.h \
+    spriteData/butcher60.h \
     spriteData/calydonianBoar15.h \
     spriteData/calydonianBoar30.h \
     spriteData/calydonianBoar45.h \
@@ -1185,6 +1203,18 @@ HEADERS += \
     spriteData/cart30.h \
     spriteData/cart45.h \
     spriteData/cart60.h \
+    spriteData/cattle115.h \
+    spriteData/cattle130.h \
+    spriteData/cattle145.h \
+    spriteData/cattle160.h \
+    spriteData/cattle215.h \
+    spriteData/cattle230.h \
+    spriteData/cattle245.h \
+    spriteData/cattle260.h \
+    spriteData/cattle315.h \
+    spriteData/cattle330.h \
+    spriteData/cattle345.h \
+    spriteData/cattle360.h \
     spriteData/centaurArcher15.h \
     spriteData/centaurArcher30.h \
     spriteData/centaurArcher45.h \
@@ -1233,6 +1263,14 @@ HEADERS += \
     spriteData/corral30.h \
     spriteData/corral45.h \
     spriteData/corral60.h \
+    spriteData/corralCattleOverlay15.h \
+    spriteData/corralCattleOverlay30.h \
+    spriteData/corralCattleOverlay45.h \
+    spriteData/corralCattleOverlay60.h \
+    spriteData/corralProcessingOverlay15.h \
+    spriteData/corralProcessingOverlay30.h \
+    spriteData/corralProcessingOverlay45.h \
+    spriteData/corralProcessingOverlay60.h \
     spriteData/curator15.h \
     spriteData/curator30.h \
     spriteData/curator45.h \
@@ -2370,9 +2408,14 @@ DISTFILES += \
     textureTemplates/boar \
     textureTemplates/bridge \
     textureTemplates/bronzeMiner \
+    textureTemplates/bull \
+    textureTemplates/butcher \
     textureTemplates/calydonianBoar \
     textureTemplates/cardingShed \
     textureTemplates/cart \
+    textureTemplates/cattle1 \
+    textureTemplates/cattle2 \
+    textureTemplates/cattle3 \
     textureTemplates/centaurArcher \
     textureTemplates/centaurHorseman \
     textureTemplates/cerberus \
@@ -2385,6 +2428,8 @@ DISTFILES += \
     textureTemplates/commonHouse \
     textureTemplates/competitor \
     textureTemplates/corral \
+    textureTemplates/corralCattleOverlay \
+    textureTemplates/corralProcessingOverlay \
     textureTemplates/curator \
     textureTemplates/curse \
     textureTemplates/cursed \

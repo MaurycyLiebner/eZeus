@@ -105,6 +105,19 @@ struct eHorseTextures : public eBasicCharacterTextures {
     std::vector<eTextureCollection> fStand;
 };
 
+struct eCattleTextures : public eBasicCharacterTextures {
+    using eBasicCharacterTextures::eBasicCharacterTextures;
+
+    std::vector<eTextureCollection> fStand;
+};
+
+struct eBullTextures : public eBasicCharacterTextures {
+    using eBasicCharacterTextures::eBasicCharacterTextures;
+
+    std::vector<eTextureCollection> fStand;
+    std::vector<eTextureCollection> fAttack;
+};
+
 struct eArcherTextures : public eFightingCharacterTextures {
     using eFightingCharacterTextures::eFightingCharacterTextures;
 
@@ -392,6 +405,13 @@ public:
     bool fChariotPoseidonLoaded = false;
     void loadChariotPoseidon();
 
+    bool fCattleLoaded = false;
+    void loadCattle();
+    bool fBullLoaded = false;
+    void loadBull();
+    bool fButcherLoaded = false;
+    void loadButcher();
+
     void loadBanners();
     bool fBannersLoaded = false;
 
@@ -449,6 +469,12 @@ public:
     eAnimalTextures fBoar;
     eAnimalTextures fDeer;
     eAnimalTextures fWolf;
+
+    eCattleTextures fCattle1;
+    eCattleTextures fCattle2;
+    eCattleTextures fCattle3;
+    eBullTextures fBull;
+    eBasicCharacterTextures fButcher;
 
     eAnimalTextures fGoat;
     eAnimalTextures fNudeSheep;

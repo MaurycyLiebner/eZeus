@@ -1727,6 +1727,27 @@ void eGameTextures::loadCorral() {
     });
 }
 
+void eGameTextures::loadButcher() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadButcher();
+    });
+}
+
+void eGameTextures::loadCattle() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadCattle();
+    });
+}
+
+void eGameTextures::loadBull() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadBull();
+    });
+}
+
 bool eGameTextures::initialize(SDL_Renderer* const r) {
     if(sInitialized) return true;
     int i = 0;

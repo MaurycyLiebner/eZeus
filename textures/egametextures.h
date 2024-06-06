@@ -297,6 +297,10 @@ public:
 
     static void loadCorral();
 
+    static void loadButcher();
+    static void loadCattle();
+    static void loadBull();
+
     static bool initialize(SDL_Renderer* const r);
     static bool loadNextMenu(const eSettings& settings,
                              std::string& text);

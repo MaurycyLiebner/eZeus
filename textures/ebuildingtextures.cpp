@@ -652,6 +652,7 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fTriremeWharf(renderer),
     fHorseRanchOverlay(renderer),
     fCorralOverlay(renderer),
+    fCorralProcessingOverlay(renderer),
     fArmoryOverlay(renderer),
 
     fGatehouseW(renderer),

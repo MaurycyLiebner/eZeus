@@ -41,6 +41,8 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::cardingShed;
     case eBuildingMode::sheep:
         return eBuildingType::sheep;
+    case eBuildingMode::cattle:
+        return eBuildingType::cattle;
 
     case eBuildingMode::fishery:
         return eBuildingType::fishery;
@@ -48,6 +50,8 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::urchinQuay;
     case eBuildingMode::huntingLodge:
         return eBuildingType::huntingLodge;
+    case eBuildingMode::corral:
+        return eBuildingType::corral;
 
     case eBuildingMode::mint:
         return eBuildingType::mint;

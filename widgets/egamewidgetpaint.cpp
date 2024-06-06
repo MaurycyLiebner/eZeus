@@ -613,7 +613,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                         tp.drawTexture(drawX, drawY, tex, eAlignment::top);
                         if(erase || hover) tex->clearColorMod();
                     }
-                    if(ub->overlayEnabled() && ts.fOvelays) {
+                    if(/*ub->overlayEnabled() && */ts.fOvelays) {
                         const auto overlays = ub->getOverlays(size);
                         for(const auto& o : overlays) {
                             const auto& tex = o.fTex;
@@ -705,9 +705,11 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto drawSheepGoat = [&]() {
             if(mode == eBuildingMode::sheep ||
                mode == eBuildingMode::goat ||
+               mode == eBuildingMode::cattle ||
                mode == eBuildingMode::erase) {
                 if(bt == eBuildingType::sheep ||
-                   bt == eBuildingType::goat) {
+                   bt == eBuildingType::goat ||
+                   bt == eBuildingType::cattle) {
                     const auto tex = trrTexs.fBuildingBase;
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     bd = true;
@@ -2160,6 +2162,11 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         case eBuildingMode::huntingLodge: {
             const auto b1 = e::make_shared<eHuntingLodge>(*mBoard);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
+
+        case eBuildingMode::corral: {
+            const auto b1 = e::make_shared<eCorral>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
 

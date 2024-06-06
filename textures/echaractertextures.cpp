@@ -332,6 +332,12 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fDeer(renderer),
     fWolf(renderer),
 
+    fCattle1(renderer),
+    fCattle2(renderer),
+    fCattle3(renderer),
+    fBull(renderer),
+    fButcher(renderer),
+
     fGoat(renderer),
     fNudeSheep(renderer),
     fFleecedSheep(renderer),

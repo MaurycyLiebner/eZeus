@@ -16,6 +16,7 @@ eHeat eHeatGetters::appeal(const eBuildingType type) {
     case eBuildingType::urchinQuay:
     case eBuildingType::fishery: return {-15, 4};
     case eBuildingType::huntingLodge: return {-6, 4};
+    case eBuildingType::corral: return {-12, 5};
     case eBuildingType::orangeTendersLodge: return {2, 2};
 
     case eBuildingType::timberMill: return {-5, 4};
@@ -133,6 +134,7 @@ eHeat eHeatGetters::farming(const eBuildingType type) {
     case eBuildingType::dairy: return {10, 5};
     case eBuildingType::urchinQuay: return {10, 5};
     case eBuildingType::fishery: return {10, 5};
+    case eBuildingType::corral: return {10, 5};
     case eBuildingType::huntingLodge: return {10, 5};
     case eBuildingType::orangeTendersLodge: return {10, 5};
     case eBuildingType::ruins:

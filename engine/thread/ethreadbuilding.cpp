@@ -5,6 +5,7 @@
 #include "buildings/eresourcebuildingbase.h"
 #include "buildings/eresourcebuilding.h"
 #include "buildings/sanctuaries/esanctbuilding.h"
+#include "buildings/eanimalbuilding.h"
 #include "buildings/ehorseranch.h"
 
 void eThreadBuilding::load(eBuilding* const src) {
@@ -54,6 +55,8 @@ void eThreadBuilding::load(eBuilding* const src) {
         } else if(const auto b = dynamic_cast<eSanctBuilding*>(src)) {
             mWorkedOn = b->workedOn();
             mResourcesAvailable = b->resourcesAvailable();
+        } else if(const auto b = dynamic_cast<eAnimalBuilding*>(src)) {
+            mWorkedOn = b->animal();
         }
     } else {
         mType = eBuildingType::none;

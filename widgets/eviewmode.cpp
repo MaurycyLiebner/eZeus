@@ -32,6 +32,7 @@ bool eViewModeHelpers::buildingVisible(
                bt == eBuildingType::carrotsFarm ||
                bt == eBuildingType::onionsFarm ||
                bt == eBuildingType::huntingLodge ||
+               bt == eBuildingType::corral ||
                bt == eBuildingType::fishery ||
                bt == eBuildingType::urchinQuay ||
                bt == eBuildingType::cardingShed ||
@@ -228,8 +229,11 @@ bool eViewModeHelpers::characterVisible(
                c == eCharacterType::goatherd ||
                c == eCharacterType::sheep ||
                c == eCharacterType::goat ||
-               c == eCharacterType::cattle ||
+               c == eCharacterType::cattle1 ||
+               c == eCharacterType::cattle2 ||
+               c == eCharacterType::cattle3 ||
                c == eCharacterType::horse ||
+               c == eCharacterType::butcher ||
                c == eCharacterType::hunter ||
                c == eCharacterType::fishingBoat;
     } break;

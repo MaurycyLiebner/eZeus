@@ -1247,6 +1247,8 @@ void eGameWidget::buildAnimal(eTile* const tile,
     if(!cb) return;
     const auto sh = creator(*mBoard);
     sh->changeTile(tile);
+    const auto o = static_cast<eOrientation>(rand() % 8);
+    sh->setOrientation(o);
     const auto w = eWalkableObject::sCreateFertile();
     const auto a = e::make_shared<eAnimalAction>(sh.get(), tx, ty, w);
     sh->setAction(a);

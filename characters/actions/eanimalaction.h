@@ -19,8 +19,6 @@ public:
 
     bool decide();
 
-    void nextAction();
-
     void setLayTime(const int l) { mLayTime = l; }
     void setWalkTime(const int w) { mWalkTime = w; }
 

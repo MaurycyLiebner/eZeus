@@ -2,7 +2,7 @@
 
 eAnimalBuilding::eAnimalBuilding(
          eGameBoard& board,
-         eDomesticatedAnimal* const a,
+         eCharacter* const a,
          const eBuildingType type) :
     eBuilding(board, type, 1, 2),
     mA(a) {
@@ -14,5 +14,23 @@ eAnimalBuilding::~eAnimalBuilding() {
 }
 
 void eAnimalBuilding::nextMonth() {
-    if(!mA) erase();
+    const bool isCattle = type() == eBuildingType::cattle;
+    if(!mA && !isCattle) erase();
+}
+
+void eAnimalBuilding::read(eReadStream& src) {
+    eBuilding::read(src);
+    auto& board = getBoard();
+    src.readCharacter(&board, [this](eCharacter* const c) {
+        mA = c;
+    });
+}
+
+void eAnimalBuilding::write(eWriteStream& dst) const {
+    eBuilding::write(dst);
+    dst.writeCharacter(mA);
+}
+
+void eAnimalBuilding::setAnimal(eCharacter* const a) {
+    mA = a;
 }

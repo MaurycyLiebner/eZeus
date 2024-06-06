@@ -1,0 +1,69 @@
+#include <vector>
+
+#include "espritedata.h"
+
+const auto eCorralCattleOverlaySpriteData45 = std::vector<eSpriteData> {
+   eSpriteData{0, 0, 0, 110, 53}, // 1815
+   eSpriteData{0, 110, 0, 110, 53}, // 1816
+   eSpriteData{0, 220, 0, 110, 53}, // 1817
+   eSpriteData{0, 330, 0, 110, 53}, // 1818
+   eSpriteData{0, 440, 0, 110, 53}, // 1819
+   eSpriteData{0, 550, 0, 110, 54}, // 1820
+   eSpriteData{0, 660, 0, 110, 54}, // 1821
+   eSpriteData{0, 770, 0, 110, 54}, // 1822
+   eSpriteData{0, 880, 0, 110, 54}, // 1823
+   eSpriteData{0, 990, 0, 110, 54}, // 1824
+   eSpriteData{0, 1100, 0, 110, 54}, // 1825
+   eSpriteData{0, 1210, 0, 110, 54}, // 1826
+   eSpriteData{0, 1320, 0, 110, 54}, // 1827
+   eSpriteData{0, 1430, 0, 110, 54}, // 1828
+   eSpriteData{0, 1540, 0, 110, 54}, // 1829
+   eSpriteData{0, 1650, 0, 110, 54}, // 1830
+   eSpriteData{0, 1760, 0, 110, 54}, // 1831
+   eSpriteData{0, 1870, 0, 110, 53}, // 1832
+   eSpriteData{0, 0, 53, 110, 53}, // 1833
+   eSpriteData{0, 110, 53, 110, 53}, // 1834
+   eSpriteData{0, 220, 53, 110, 53}, // 1835
+   eSpriteData{0, 330, 53, 110, 62}, // 1836
+   eSpriteData{0, 440, 53, 110, 62}, // 1837
+   eSpriteData{0, 1870, 53, 110, 62}, // 1838
+   eSpriteData{0, 550, 54, 110, 62}, // 1839
+   eSpriteData{0, 660, 54, 110, 62}, // 1840
+   eSpriteData{0, 770, 54, 110, 62}, // 1841
+   eSpriteData{0, 880, 54, 110, 62}, // 1842
+   eSpriteData{0, 990, 54, 110, 62}, // 1843
+   eSpriteData{0, 1100, 54, 110, 62}, // 1844
+   eSpriteData{0, 1210, 54, 110, 60}, // 1845
+   eSpriteData{0, 1320, 54, 110, 60}, // 1846
+   eSpriteData{0, 1430, 54, 110, 60}, // 1847
+   eSpriteData{0, 1540, 54, 110, 60}, // 1848
+   eSpriteData{0, 1650, 54, 110, 62}, // 1849
+   eSpriteData{0, 1760, 54, 110, 62}, // 1850
+   eSpriteData{0, 0, 106, 110, 62}, // 1851
+   eSpriteData{0, 110, 106, 110, 62}, // 1852
+   eSpriteData{0, 220, 106, 110, 62}, // 1853
+   eSpriteData{0, 1210, 114, 110, 62}, // 1854
+   eSpriteData{0, 1320, 114, 110, 62}, // 1855
+   eSpriteData{0, 1430, 114, 110, 62}, // 1856
+   eSpriteData{0, 1540, 114, 110, 65}, // 1857
+   eSpriteData{0, 330, 115, 110, 65}, // 1858
+   eSpriteData{0, 440, 115, 110, 65}, // 1859
+   eSpriteData{0, 1870, 115, 110, 65}, // 1860
+   eSpriteData{0, 550, 116, 110, 65}, // 1861
+   eSpriteData{0, 660, 116, 110, 65}, // 1862
+   eSpriteData{0, 770, 116, 110, 65}, // 1863
+   eSpriteData{0, 880, 116, 110, 65}, // 1864
+   eSpriteData{0, 990, 116, 110, 65}, // 1865
+   eSpriteData{0, 1100, 116, 110, 65}, // 1866
+   eSpriteData{0, 1650, 116, 110, 65}, // 1867
+   eSpriteData{0, 1760, 116, 110, 65}, // 1868
+   eSpriteData{0, 0, 168, 110, 65}, // 1869
+   eSpriteData{0, 110, 168, 110, 65}, // 1870
+   eSpriteData{0, 220, 168, 110, 65}, // 1871
+   eSpriteData{0, 1210, 176, 110, 65}, // 1872
+   eSpriteData{0, 1320, 176, 110, 65}, // 1873
+   eSpriteData{0, 1430, 176, 110, 65}, // 1874
+   eSpriteData{0, 1540, 179, 110, 65}, // 1875
+   eSpriteData{0, 330, 180, 110, 65}, // 1876
+   eSpriteData{0, 440, 180, 110, 65}, // 1877
+};

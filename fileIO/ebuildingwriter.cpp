@@ -66,6 +66,7 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     case eBuildingType::vine:
     case eBuildingType::orangeTree:
     case eBuildingType::huntingLodge:
+    case eBuildingType::corral:
         break;
     case eBuildingType::urchinQuay: {
         const auto p = static_cast<const eUrchinQuay*>(b);
@@ -97,6 +98,7 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     case eBuildingType::cardingShed:
     case eBuildingType::sheep:
     case eBuildingType::goat:
+    case eBuildingType::cattle:
     case eBuildingType::wheatFarm:
     case eBuildingType::onionsFarm:
     case eBuildingType::carrotsFarm:

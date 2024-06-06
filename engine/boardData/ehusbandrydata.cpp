@@ -16,6 +16,7 @@ int eHusbandryData::canSupport() const {
         case eBuildingType::carrotsFarm:
         case eBuildingType::onionsFarm:
         case eBuildingType::huntingLodge:
+        case eBuildingType::corral:
         case eBuildingType::fishery:
         case eBuildingType::urchinQuay:
         case eBuildingType::dairy:

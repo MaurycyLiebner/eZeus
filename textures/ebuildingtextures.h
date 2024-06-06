@@ -355,6 +355,8 @@ public:
 
     std::shared_ptr<eTexture> fCorral;
     eTextureCollection fCorralOverlay;
+    std::vector<eTextureCollection> fCorralCattleOverlay;
+    eTextureCollection fCorralProcessingOverlay;
 
     std::shared_ptr<eTexture> fArmory;
     eTextureCollection fArmoryOverlay;

@@ -8,6 +8,7 @@
 
 #include "characters/esheep.h"
 #include "characters/egoat.h"
+#include "characters/ecattle.h"
 
 #include "spawners/eboarspawner.h"
 #include "spawners/edeerspawner.h"
@@ -885,6 +886,10 @@ bool eGameWidget::buildMouseRelease() {
             build(mHoverTX, mHoverTY, 2, 2,
                   [this]() { return e::make_shared<eHuntingLodge>(*mBoard); });
         }; break;
+        case eBuildingMode::corral: {
+            build(mHoverTX, mHoverTY, 4, 4,
+                  [this]() { return e::make_shared<eCorral>(*mBoard); });
+        }; break;
 
 
         case eBuildingMode::urchinQuay: {
@@ -1004,6 +1009,15 @@ bool eGameWidget::buildMouseRelease() {
                 buildAnimal(tile, eBuildingType::goat,
                             [](eGameBoard& board) {
                     return e::make_shared<eGoat>(board);
+                });
+            };
+            break;
+        case eBuildingMode::cattle:
+            apply = [this](eTile* const tile) {
+                buildAnimal(tile, eBuildingType::cattle,
+                            [](eGameBoard& board) {
+                    return e::make_shared<eCattle>(
+                                board, eCharacterType::cattle2);
                 });
             };
             break;

@@ -40,6 +40,8 @@ int costBase(const eBuildingType type) {
     case eBuildingType::goat:
     case eBuildingType::sheep:
         return 4;
+    case eBuildingType::cattle:
+        return 8;
 
     case eBuildingType::carrotsFarm:
     case eBuildingType::onionsFarm:
@@ -57,6 +59,8 @@ int costBase(const eBuildingType type) {
         return 20;
     case eBuildingType::huntingLodge:
         return 20;
+    case eBuildingType::corral:
+        return 75;
     case eBuildingType::urchinQuay:
         return 30;
 
@@ -287,6 +291,8 @@ int fireRiskBase(const eBuildingType type) {
         return 8;
     case eBuildingType::huntingLodge:
         return 8;
+    case eBuildingType::corral:
+        return 8;
     case eBuildingType::urchinQuay:
         return 5;
 
@@ -415,6 +421,8 @@ int damageRiskBase(const eBuildingType type) {
     case eBuildingType::fishery:
         return 5;
     case eBuildingType::huntingLodge:
+        return 5;
+    case eBuildingType::corral:
         return 5;
     case eBuildingType::urchinQuay:
         return 5;

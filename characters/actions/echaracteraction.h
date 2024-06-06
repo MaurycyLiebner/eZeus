@@ -50,6 +50,8 @@ enum class eCharActionType {
 
     growerAction,
     heroAction,
+    takeCattleAction,
+    replaceCattleAction,
     huntAction,
     monsterAction,
     moveAroundAction,

@@ -164,6 +164,9 @@ stdsptr<eBuilding> eBuildingReader::sRead(
     case eBuildingType::huntingLodge: {
         b = e::make_shared<eHuntingLodge>(board);
     } break;
+    case eBuildingType::corral: {
+        b = e::make_shared<eCorral>(board);
+    } break;
 
     case eBuildingType::urchinQuay: {
         eOrientation o;
@@ -215,8 +218,16 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         b = e::make_shared<eCardingShed>(board);
     } break;
     case eBuildingType::sheep: {
+        b = e::make_shared<eAnimalBuilding>(
+                board, nullptr, eBuildingType::sheep);
     } break;
     case eBuildingType::goat: {
+        b = e::make_shared<eAnimalBuilding>(
+                board, nullptr, eBuildingType::goat);
+    } break;
+    case eBuildingType::cattle: {
+        b = e::make_shared<eAnimalBuilding>(
+                board, nullptr, eBuildingType::cattle);
     } break;
     case eBuildingType::wheatFarm: {
         b = e::make_shared<eWheatFarm>(board);

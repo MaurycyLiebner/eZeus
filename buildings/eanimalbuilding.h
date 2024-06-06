@@ -2,21 +2,27 @@
 #define EANIMALBUILDING_H
 
 #include "ebuilding.h"
-#include "characters/edomesticatedanimal.h"
+#include "characters/echaracter.h"
 
 class eAnimalBuilding : public eBuilding {
 public:
     eAnimalBuilding(eGameBoard& board,
-                    eDomesticatedAnimal* const a,
+                    eCharacter* const a,
                     const eBuildingType type);
     ~eAnimalBuilding();
 
     std::shared_ptr<eTexture> getTexture(
-            const eTileSize) const { return nullptr; };
+            const eTileSize) const override { return nullptr; };
 
-    void nextMonth();
+    void nextMonth() override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
+
+    eCharacter* animal() const { return mA; }
+    void setAnimal(eCharacter* const a);
 private:
-    const stdptr<eDomesticatedAnimal> mA;
+    stdptr<eCharacter> mA;
 };
 
 #endif // EANIMALBUILDING_H

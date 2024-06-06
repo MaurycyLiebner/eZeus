@@ -29,7 +29,7 @@ public:
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 
-    void goBack(const stdsptr<eWalkableObject>& walkable);
+    void goBack(stdsptr<eWalkableObject> walkable);
     void goBack(eBuilding* const b,
                 const stdsptr<eWalkableObject>& walkable);
     void goBack(const SDL_Rect& rect,

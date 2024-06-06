@@ -41,7 +41,7 @@ void eActionWithComeback::write(eWriteStream& dst) const {
     dst << mGoBackFail;
 }
 
-void eActionWithComeback::goBack(const stdsptr<eWalkableObject>& walkable) {
+void eActionWithComeback::goBack(stdsptr<eWalkableObject> walkable) {
     const auto c = character();
     const auto ct = c->tile();
     if(ct == mStartTile) return teleportDecision();
@@ -78,6 +78,9 @@ void eActionWithComeback::goBack(const stdsptr<eWalkableObject>& walkable) {
             goBack(w);
         }
     });
+    if(const auto ub = mStartTile->underBuilding()) {
+        walkable = eWalkableObject::sCreateRect(ub, walkable);
+    }
     a->start(finalTile, walkable);
     setCurrentAction(a);
 }

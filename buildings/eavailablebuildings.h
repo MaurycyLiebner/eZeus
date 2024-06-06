@@ -48,6 +48,7 @@ public:
     bool fFishery = false;
     bool fUrchinQuay = false;
     bool fHuntingLodge = false;
+    bool fCorral = false;
 
     bool fMint = false;
     bool fFoundry = false;

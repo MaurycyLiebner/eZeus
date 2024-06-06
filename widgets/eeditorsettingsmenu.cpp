@@ -151,6 +151,7 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
             eBuildingType::fishery,
             eBuildingType::urchinQuay,
             eBuildingType::huntingLodge,
+            eBuildingType::corral,
 
             eBuildingType::mint,
             eBuildingType::foundry,
