@@ -30,13 +30,21 @@ bool eKnownEndPathFinder::findPath(
         const int srcW, const int srcH,
         const eTileDistance& distance) {
     if(!start) return false;
-    if(mEndTile == start) return true;
 
     const bool finishOnFound = mMode == ePathFinderMode::findSingle;
 
     mData = ePathFindData();
     mData.fOnlyDiagonal = onlyDiagonal;
     mData.fStart = start;
+
+    if(finishOnFound && mEndTile == start) {
+        mData.fFound = true;
+        mData.fDistance = 0;
+        mData.fFinalX = start->x();
+        mData.fFinalY = start->y();
+        return true;
+    }
+
     auto& brd = mData.fBoard;
     {
 //        const int startX = start->dx();
