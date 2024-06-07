@@ -1824,7 +1824,7 @@ void eBuilding::incTime(const int by) {
             mMaintance = std::max(0, mMaintance - 1);
         }
     } else {
-        const int m4 = 10000 + pow(mMaintance, 4);
+        const int m4 = 10*pow(10 + mMaintance, 4);
         const auto diff = b.difficulty();
         const int fireRisk = eDifficultyHelpers::fireRisk(diff, mType);
         if(fireRisk && by) {
@@ -1902,6 +1902,12 @@ bool eBuilding::spreadFire() {
             if(ub == this) return false;
             const auto t = ub->type();
             if(!sFlammable(t)) return false;
+            if(t == eBuildingType::commonHouse ||
+               t == eBuildingType::eliteHousing) {
+                const auto b = static_cast<eHouseBase*>(ub);
+                const int p = b->people();
+                if(p == 0) return false;
+            }
             return true;
         });
         if(t) break;

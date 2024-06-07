@@ -124,6 +124,7 @@ int eHouseBase::evict() {
 }
 
 void eHouseBase::setPeople(const int p) {
+    if(p == 0) setOnFire(false);
     if(p == mPeople) return;
 
     auto& popData = getBoard().populationData();

@@ -126,7 +126,7 @@ void eSmallHouse::timeChanged(const int by) {
         mWater = std::max(0, mWater - 1);
     }
     mUpdateHygiene += by;
-    const int hupdate = 5000;
+    const int hupdate = 10000;
     if(mUpdateHygiene > hupdate) {
         mUpdateHygiene -= hupdate;
         const int subWater = (100 - mWaterSatisfaction)/20;
@@ -136,8 +136,18 @@ void eSmallHouse::timeChanged(const int by) {
     }
 
     auto& b = getBoard();
-    if(!mPlague) {
-        const int m4 = 10000 + pow(mHygiene, 3);
+    if(mPlague) {
+        if(mHygiene > 25) {
+            const int m4 = 10*pow(10000./mHygiene, 4);
+            if(by) {
+                const int healPeriod = m4/by;
+                if(healPeriod && rand() % healPeriod == 0) {
+                    b.healHouse(this);
+                }
+            }
+        }
+    } else {
+        const int m4 = 10*pow(10 + mHygiene, 4);
         const auto diff = b.difficulty();
         const int plagueRisk = eDifficultyHelpers::plagueRisk(diff);
         if(plagueRisk && by) {
@@ -155,7 +165,7 @@ void eSmallHouse::timeChanged(const int by) {
             }
         }
     } else {
-        const int m4 = 10000 + pow(mSatisfaction, 3);
+        const int m4 = 10*pow(10 + mSatisfaction, 3);
         const auto diff = b.difficulty();
         const int crimeRisk = eDifficultyHelpers::crimeRisk(diff);
         if(crimeRisk && by) {
@@ -167,7 +177,7 @@ void eSmallHouse::timeChanged(const int by) {
     }
 
     {
-        const int m4 = 10000 + pow(mSatisfaction, 3);
+        const int m4 = 10*pow(10 + mSatisfaction, 3);
         const auto diff = b.difficulty();
         const int leaveRisk = eDifficultyHelpers::crimeRisk(diff);
         if(leaveRisk && by) {
