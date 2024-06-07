@@ -230,7 +230,8 @@ public:
 
     void incTime(const int by);
     int time() const { return mTime; }
-    int textureTime() const { return mTextureTime/4; }
+    int textureTime() const;
+    void setFrameShift(const int f) { mFrameShift = f; }
 
     void addUnderBuilding(eTile* const t);
 
@@ -295,7 +296,7 @@ private:
     bool mOnFire = false;
 
     int mTime = 0;
-    int mTextureTime = 0;
+    int mFrameShift = rand() % 100;
 
     bool mEnabled = false;
     std::function<bool()> mOverlayEnabled = [this]() {

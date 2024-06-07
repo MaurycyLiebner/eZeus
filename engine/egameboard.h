@@ -168,6 +168,8 @@ public:
     int countBanners(const eBannerType bt) const;
 
     void incTime(const int by);
+    void incFrame();
+    int frame() const { return mFrame; }
     void handleFinishedTasks();
     void scheduleDataUpdate();
     int totalTime() const { return mTotalTime; }
@@ -464,6 +466,7 @@ private:
     int mPeoplePaidTaxesLastYear = 0;
     int mPeoplePaidTaxesThisYear = 0;
 
+    int mFrame = 0;
     int mTotalTime = 0;
     int mTime = 0;
     int mEmploymentCheckTime = 0;

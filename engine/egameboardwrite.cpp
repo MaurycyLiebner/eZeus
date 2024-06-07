@@ -25,6 +25,7 @@ void eGameBoard::write(eWriteStream& dst) const {
     dst << mPeoplePaidTaxesThisYear;
 
     mDate.write(dst);
+    dst << mFrame;
     dst << mTime;
     dst << mTotalTime;
 

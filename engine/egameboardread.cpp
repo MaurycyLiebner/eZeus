@@ -28,6 +28,7 @@ void eGameBoard::read(eReadStream& src) {
     src >> mPeoplePaidTaxesThisYear;
 
     mDate.read(src);
+    src >> mFrame;
     src >> mTime;
     src >> mTotalTime;
 

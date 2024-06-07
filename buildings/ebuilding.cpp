@@ -119,12 +119,13 @@ bool eBuilding::sHeroHall(const eBuildingType bt) {
 bool eBuilding::sFlammable(const eBuildingType bt) {
     const bool s = sSanctuaryBuilding(bt);
     if(s) return false;
+    if(sHeroHall(bt)) return false;
+    if(sAestheticsBuilding(bt)) return false;
     if(bt == eBuildingType::road) return false;
     if(bt == eBuildingType::sheep) return false;
     if(bt == eBuildingType::goat) return false;
     if(bt == eBuildingType::cattle) return false;
     if(bt == eBuildingType::ruins) return false;
-    if(bt == eBuildingType::park) return false;
     if(bt == eBuildingType::wall) return false;
     if(bt == eBuildingType::gatehouse) return false;
     if(bt == eBuildingType::tower) return false;
@@ -136,15 +137,16 @@ bool eBuilding::sFlammable(const eBuildingType bt) {
 
 bool eBuilding::sTimedBuilding(const eBuildingType bt) {
     if(bt == eBuildingType::road) return false;
+    if(bt == eBuildingType::ruins) return false;
     if(bt == eBuildingType::templeTile) return false;
     if(bt == eBuildingType::templeMonument) return false;
     if(bt == eBuildingType::templeStatue) return false;
-    if(bt == eBuildingType::park) return false;
     if(bt == eBuildingType::wall) return false;
     if(bt == eBuildingType::gatehouse) return false;
     if(bt == eBuildingType::palaceTile) return false;
     if(bt == eBuildingType::godMonumentTile) return false;
     if(bt == eBuildingType::bridge) return false;
+    if(sAestheticsBuilding(bt)) return false;
     return true;
 }
 
@@ -157,7 +159,6 @@ bool eBuilding::sBlessable(const eBuildingType bt) {
     if(bt == eBuildingType::cattle) return false;
     if(bt == eBuildingType::ruins) return false;
     if(bt == eBuildingType::wall) return false;
-    if(bt == eBuildingType::park) return false;
     if(bt == eBuildingType::gatehouse) return false;
     if(bt == eBuildingType::tower) return false;
     if(bt == eBuildingType::palaceTile) return false;
@@ -1781,7 +1782,6 @@ void eBuilding::incTime(const int by) {
     if(dead()) return;
     auto& b = getBoard();
     mTime += by;
-    mTextureTime++;
     if(mBlessTime > 0) {
         mBlessTime -= by;
         if(mBlessTime <= 0) {
@@ -1841,6 +1841,11 @@ void eBuilding::incTime(const int by) {
         }
     }
     timeChanged(by);
+}
+
+int eBuilding::textureTime() const {
+    auto& board = getBoard();
+    return mFrameShift + board.frame();
 }
 
 void eBuilding::addUnderBuilding(eTile* const t) {

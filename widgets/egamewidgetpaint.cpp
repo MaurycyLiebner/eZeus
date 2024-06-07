@@ -196,6 +196,7 @@ void eGameWidget::paintEvent(ePainter& p) {
     mBoard->scheduleDataUpdate();
     mBoard->updateAppealMapIfNeeded();
     mBoard->handleFinishedTasks();
+    mBoard->incFrame();
     if(!mPaused && !mLocked && !mMenu && !mMsgBox && !mInfoWidget) {
         mTime += mSpeed;
         mBoard->incTime(mSpeed);
@@ -2561,7 +2562,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         for(auto& eb : ebs) {
             if(!eb.fB) continue;
             const auto b = eb.fB;
-
+            b->setFrameShift(0);
             b->setSeed(0);
             b->addUnderBuilding(t);
             b->setCenterTile(t);

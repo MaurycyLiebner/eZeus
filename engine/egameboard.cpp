@@ -1670,6 +1670,10 @@ void eGameBoard::incTime(const int by) {
     }
 }
 
+void eGameBoard::incFrame() {
+    mFrame++;
+}
+
 void eGameBoard::handleFinishedTasks() {
     mThreadPool.handleFinished();
 }
