@@ -375,8 +375,44 @@ void eHerosHall::addRequirement(const eHeroRequirement& hr) {
 }
 
 void eHerosHall::updateRequirementsStatus() {
+    int met = 0;
     for(auto& r : mRequirements) {
         updateRequirementStatus(r);
+        const bool m = r.met();
+        if(m) met++;
+    }
+    const int nReqs = mRequirements.size();
+    if(!mShownReadyTip && met == nReqs) {
+        mShownReadyTip = true;
+        int string = -1;
+        switch(mType) {
+        case eHeroType::achilles:
+            string = 234;
+            break;
+        case eHeroType::hercules:
+            string = 235;
+            break;
+        case eHeroType::jason:
+            string = 236;
+            break;
+        case eHeroType::odysseus:
+            string = 237;
+            break;
+        case eHeroType::perseus:
+            string = 238;
+            break;
+        case eHeroType::theseus:
+            string = 239;
+            break;
+        case eHeroType::bellerophon:
+            string = 241;
+            break;
+        case eHeroType::atalanta:
+            string = 240;
+            break;
+        }
+        auto& board = getBoard();
+        board.showTip(eLanguage::zeusText(19, string));
     }
 }
 
@@ -684,11 +720,13 @@ std::vector<eOverlay> eHerosHall::getOverlays(const eTileSize size) const {
 }
 
 void eHerosHall::timeChanged(const int by) {
-    const int wait = 10000;
-    mRequirementsUpdate += by;
-    if(mRequirementsUpdate > wait) {
-        mRequirementsUpdate -= wait;
-        updateRequirementsStatus();
+    if(mStage == eHeroSummoningStage::none) {
+        const int wait = 10000;
+        mRequirementsUpdate += by;
+        if(mRequirementsUpdate > wait) {
+            mRequirementsUpdate -= wait;
+            updateRequirementsStatus();
+        }
     }
 
     const int cupdate = 5000;

@@ -66,6 +66,10 @@ struct eHeroRequirement {
     eHeroRequirementType fType;
     int fRequiredCount;
     int fStatusCount = 0;
+
+    bool met() const {
+        return fStatusCount >= fRequiredCount;
+    }
 };
 
 enum class eHeroSummoningStage {
@@ -133,6 +137,8 @@ private:
     stdptr<eHero> mHero;
     int mSpawnWait = 0;
     bool mHeroOnQuest = false;
+
+    bool mShownReadyTip = false;
 };
 
 #endif // EHEROSHALL_H

@@ -23,7 +23,7 @@ void eHerosHallInfoWidget::initialize(eHerosHall* const b) {
         w->setNoPadding();
         w->setWidth(widgetWidth() - 2*p);
 
-        const bool finished = r.fStatusCount >= r.fRequiredCount;
+        const bool finished = r.met();
         if(finished) met++;
 
         int x = 0;
