@@ -837,6 +837,9 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::taxOffice: {
             build(mHoverTX, mHoverTY, 2, 2,
                   [this]() { return e::make_shared<eTaxOffice>(*mBoard); });
+            if(!mBoard->hasPalace()) {
+                showTip(eLanguage::zeusText(19, 221));
+            }
         }; break;
         case eBuildingMode::mint: {
             build(mHoverTX, mHoverTY, 2, 2,
@@ -1200,6 +1203,10 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::armory: {
             build(mHoverTX, mHoverTY, 2, 2,
                   [this]() { return e::make_shared<eArmory>(*mBoard); });
+            showTip(eLanguage::zeusText(19, 194));
+            if(mBoard->supportsBuilding(eBuildingMode::foundry)) {
+                showTip(eLanguage::zeusText(19, 195));
+            }
         }; break;
         case eBuildingMode::horseRanch: {
             const int tx = mHoverTX;
@@ -1229,18 +1236,34 @@ bool eGameWidget::buildMouseRelease() {
                   [hr]() { return hr; });
             build(tx + dx, ty + dy, 4, 4,
                   [hre]() { return hre; });
+            showTip(eLanguage::zeusText(19, 187));
+            if(mBoard->supportsBuilding(eBuildingMode::wheatFarm)) {
+                showTip(eLanguage::zeusText(19, 188));
+            }
         }; break;
         case eBuildingMode::olivePress: {
             build(mHoverTX, mHoverTY, 2, 2,
                   [this]() { return e::make_shared<eOlivePress>(*mBoard); });
+            showTip(eLanguage::zeusText(19, 199));
+            if(mBoard->supportsBuilding(eBuildingMode::oliveTree)) {
+                showTip(eLanguage::zeusText(19, 200));
+            }
         }; break;
         case eBuildingMode::winery: {
             build(mHoverTX, mHoverTY, 2, 2,
                   [this]() { return e::make_shared<eWinery>(*mBoard); });
+            showTip(eLanguage::zeusText(19, 197));
+            if(mBoard->supportsBuilding(eBuildingMode::vine)) {
+                showTip(eLanguage::zeusText(19, 198));
+            }
         }; break;
         case eBuildingMode::sculptureStudio: {
             build(mHoverTX, mHoverTY, 2, 2,
                   [this]() { return e::make_shared<eSculptureStudio>(*mBoard); });
+            showTip(eLanguage::zeusText(19, 196));
+            if(mBoard->supportsBuilding(eBuildingMode::foundry)) {
+                showTip(eLanguage::zeusText(19, 195));
+            }
         }; break;
 
         case eBuildingMode::artisansGuild: {

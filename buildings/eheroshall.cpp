@@ -413,6 +413,7 @@ void eHerosHall::updateRequirementsStatus() {
         }
         auto& board = getBoard();
         board.showTip(eLanguage::zeusText(19, string));
+        board.showTip(eLanguage::zeusText(19, 242));
     }
 }
 
