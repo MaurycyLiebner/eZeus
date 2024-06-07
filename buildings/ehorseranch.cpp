@@ -73,7 +73,6 @@ void eHorseRanch::timeChanged(const int by) {
     eEmployingBuilding::timeChanged(by);
 }
 
-
 int eHorseRanch::count(const eResourceType type) const {
     if(type == eResourceType::wheat) return mWheat/100;
     if(type == eResourceType::horse) return horseCount();
@@ -137,6 +136,10 @@ void eHorseRanch::read(eReadStream& src) {
     src >> mWheat;
     src >> mWheatTime;
     src >> mHorseTime;
+    auto& board = getBoard();
+    src.readCharacter(&board, [this](eCharacter* const c) {
+        mTakeCart = static_cast<eCartTransporter*>(c);
+    });
 }
 
 void eHorseRanch::write(eWriteStream& dst) const {
@@ -145,4 +148,5 @@ void eHorseRanch::write(eWriteStream& dst) const {
     dst << mWheat;
     dst << mWheatTime;
     dst << mHorseTime;
+    dst.writeCharacter(mTakeCart);
 }
