@@ -67,6 +67,7 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     case eBuildingType::orangeTree:
     case eBuildingType::huntingLodge:
     case eBuildingType::corral:
+    case eBuildingType::chariotFactory:
         break;
     case eBuildingType::urchinQuay: {
         const auto p = static_cast<const eUrchinQuay*>(b);
@@ -138,7 +139,8 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     case eBuildingType::oilVendor:
     case eBuildingType::wineVendor:
     case eBuildingType::armsVendor:
-    case eBuildingType::horseTrainer: {
+    case eBuildingType::horseTrainer:
+    case eBuildingType::chariotVendor: {
         const auto v = static_cast<const eVendor*>(b);
         const auto a = v->agora();
         dst.writeBuilding(a);

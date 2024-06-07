@@ -70,7 +70,7 @@ eGameBoard::eGameBoard() :
     mThreadPool(*this),
     mHusbData(mPopData, *this),
     mEmplData(mPopData, *this) {
-    mSupportedResources = eResourceType::all;
+    mSupportedResources = eResourceType::allBasic;
 }
 
 eGameBoard::~eGameBoard() {
@@ -228,6 +228,18 @@ bool eGameBoard::supportsBuilding(const eBuildingMode mode) const {
 
 bool eGameBoard::availableBuilding(const eBuildingType type,
                                    const int id) const {
+    switch(type) {
+    case eBuildingType::chariotVendor:
+    case eBuildingType::chariotFactory: {
+        if(!mPoseidonMode) return false;
+    } break;
+    case eBuildingType::horseTrainer: {
+        if(mPoseidonMode) return false;
+    } break;
+    default:
+        break;
+    }
+
     return mAvailableBuildings.available(type, id);
 }
 

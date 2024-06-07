@@ -6,6 +6,8 @@
 #include "buildings/egrandagora.h"
 #include "buildings/evendor.h"
 
+#include "engine/egameboard.h"
+
 #include "elanguage.h"
 
 class eAgoraButton : public eFramedButton {
@@ -183,15 +185,19 @@ void eAgoraInfoWidget::initialize(eAgoraBase* const a) {
 
     x += food->width() + d;
 
+    auto& board = a->getBoard();
+    const bool pp = board.poseidonMode();
+    const auto horseRes = pp ? eResourceType::chariot : eResourceType::horse;
+
     const auto horse = new eAgoraButton(window());
-    horse->initialize(a, eResourceType::horse);
+    horse->initialize(a, horseRes);
     cw->addWidget(horse);
     horse->move(x, y);
-    horse->setPressAction([a, horse]() {
-        const auto v = a->vendor(eResourceType::horse);
+    horse->setPressAction([a, horse, horseRes]() {
+        const auto v = a->vendor(horseRes);
         if(!v) return;
         const bool ve = v->vendorEnabled();
         v->setVendorEnabled(!ve);
-        horse->updateStateLabel(a, eResourceType::horse);
+        horse->updateStateLabel(a, horseRes);
     });
 }

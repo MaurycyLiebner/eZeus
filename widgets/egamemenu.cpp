@@ -463,7 +463,8 @@ void eGameMenu::initialize(eGameBoard* const b) {
                                      eSPR{eBuildingMode::oilVendor, eLanguage::zeusText(28, 70)},
                                      eSPR{eBuildingMode::wineVendor, eLanguage::zeusText(28, 71)},
                                      eSPR{eBuildingMode::armsVendor, eLanguage::zeusText(28, 72)},
-                                     eSPR{eBuildingMode::horseTrainer, eLanguage::zeusText(28, 73)}};
+                                     eSPR{eBuildingMode::horseTrainer, eLanguage::zeusText(28, 73)},
+                                     eSPR{eBuildingMode::chariotVendor, eLanguage::zeusText(28, 215)}};
     const auto a3 = [this, cmx, cmy, a3spr]() {
         openBuildWidget(cmx, cmy, a3spr);
     };
@@ -698,7 +699,8 @@ void eGameMenu::initialize(eGameBoard* const b) {
         openBuildWidget(cmx, cmy, f8spr);
     };
     const std::vector<eSPR> mp8spr = {eSPR{eBuildingMode::armory, eLanguage::zeusText(28, 135)},
-                                      eSPR{eBuildingMode::horseRanch, eLanguage::zeusText(28, 133)}};
+                                      eSPR{eBuildingMode::horseRanch, eLanguage::zeusText(28, 133)},
+                                      eSPR{eBuildingMode::chariotFactory, eLanguage::zeusText(28, 212)}};
     const auto mp8 = [this, cmx, cmy, mp8spr]() {
         openBuildWidget(cmx, cmy, mp8spr);
     };

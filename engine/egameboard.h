@@ -432,6 +432,7 @@ public:
 
     bool editorMode() const { return mEditorMode; }
     bool poseidonMode() const { return mPoseidonMode; }
+    void setPoseidonMode(const bool p) { mPoseidonMode = p; }
 private:
     void updateNeighbours();
 

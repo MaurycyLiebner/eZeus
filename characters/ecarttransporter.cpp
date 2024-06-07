@@ -7,14 +7,22 @@
 #include "eox.h"
 #include "eporter.h"
 #include "ehorse.h"
+#include "echariot.h"
 
 eCartTransporter::eCartTransporter(eGameBoard& board) :
     eBasicPatroler(board, &eCharacterTextures::fTransporter,
                    eCharacterType::cartTransporter) {
-    eGameTextures::loadOxHandler();
     eGameTextures::loadTransporter();
     eGameTextures::loadCart();
     setHasSecondaryTexture(true);
+}
+
+eCartTransporter::~eCartTransporter() {
+    if(mOx) mOx->kill();
+    if(mTrailer) mTrailer->kill();
+    for(const auto& f : mFollowers) {
+        if(f) f->kill();
+    }
 }
 
 eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
@@ -207,16 +215,19 @@ void eCartTransporter::setResource(const eResourceType type,
     case eCartTransporterType::oil:
     case eCartTransporterType::wine:
     case eCartTransporterType::arms:
-    case eCartTransporterType::horse: {
+    case eCartTransporterType::horse:
+    case eCartTransporterType::chariot: {
+        const auto chr = eCartTransporterType::chariot;
+        const int nFollPerRes = mType == chr ? 2 : 1;
         {
             const int iMax = mFollowers.size();
-            for(int i = count; i < iMax; i++) {
+            for(int i = count*nFollPerRes; i < iMax; i++) {
                 const auto f = mFollowers.back();
                 mFollowers.pop_back();
                 f->kill();
             }
         }
-        const int iMax = count - mFollowers.size();
+        const int iMax = count - mFollowers.size()/nFollPerRes;
         for(int i = 0; i < iMax; i++) {
             eCharacter* follow;
             if(mFollowers.empty()) {
@@ -231,6 +242,16 @@ void eCartTransporter::setResource(const eResourceType type,
             stdsptr<eCharacter> follower;
             if(mType == eCartTransporterType::horse) {
                 follower = e::make_shared<eHorse>(board);
+            } else if(mType == eCartTransporterType::chariot) {
+                follower = e::make_shared<eHorse>(board);
+                const auto aox = e::make_shared<eFollowAction>(
+                                   follow, follower.get());
+                follower->setAction(aox);
+                follower->changeTile(t);
+                mFollowers.push_back(follower);
+                follow = follower.get();
+
+                follower = e::make_shared<eChariot>(board);
             } else {
                 follower = e::make_shared<ePorter>(board);
             }
@@ -276,6 +297,7 @@ void eCartTransporter::read(eReadStream& src) {
     src >> mResourceCount;
     src >> mType;
     src >> mResourceType;
+    src >> mSupports;
     src >> mSupport;
     src >> mWaiting;
     src >> mIsOx;
@@ -302,6 +324,7 @@ void eCartTransporter::write(eWriteStream& dst) const {
     dst << mResourceCount;
     dst << mType;
     dst << mResourceType;
+    dst << mSupports;
     dst << mSupport;
     dst << mWaiting;
     dst << mIsOx;
@@ -318,28 +341,41 @@ void eCartTransporter::write(eWriteStream& dst) const {
 void eCartTransporter::updateTextures() {
     switch(mType) {
     case eCartTransporterType::basic: {
+        eGameTextures::loadTransporter();
+        eGameTextures::loadCart();
         setCharTextures(&eCharacterTextures::fTransporter);
     } break;
     case eCartTransporterType::ox: {
+        eGameTextures::loadOxHandler();
         setCharTextures(&eCharacterTextures::fOxHandler);
     } break;
     case eCartTransporterType::food: {
+        eGameTextures::loadFoodVendor();
         setCharTextures(&eCharacterTextures::fFoodVendor);
     } break;
     case eCartTransporterType::fleece: {
+        eGameTextures::loadFleeceVendor();
         setCharTextures(&eCharacterTextures::fFleeceVendor);
     } break;
     case eCartTransporterType::oil: {
+        eGameTextures::loadOilVendor();
         setCharTextures(&eCharacterTextures::fOilVendor);
     } break;
     case eCartTransporterType::wine: {
+        eGameTextures::loadWineVendor();
         setCharTextures(&eCharacterTextures::fWineVendor);
     } break;
     case eCartTransporterType::arms: {
+        eGameTextures::loadArmsVendor();
         setCharTextures(&eCharacterTextures::fArmsVendor);
     } break;
     case eCartTransporterType::horse: {
+        eGameTextures::loadHorseVendor();
         setCharTextures(&eCharacterTextures::fHorseVendor);
+    } break;
+    case eCartTransporterType::chariot: {
+        eGameTextures::loadChariotVendorCharacter();
+        setCharTextures(&eCharacterTextures::fChariotVendor);
     } break;
     }
 }

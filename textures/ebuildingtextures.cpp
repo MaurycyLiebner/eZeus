@@ -572,6 +572,13 @@
 #include "spriteData/chariotVendor45.h"
 #include "spriteData/chariotVendor60.h"
 
+#include "spriteData/chariotVendorOverlay15.h"
+#include "spriteData/chariotVendorOverlay30.h"
+#include "spriteData/chariotVendorOverlay45.h"
+#include "spriteData/chariotVendorOverlay60.h"
+
+#include "offsets/PoseidonImps.h"
+
 #include "textures/espriteloader.h"
 
 eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
@@ -682,6 +689,12 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fArmsVendorOverlay2(renderer),
     fWineVendorOverlay2(renderer),
     fHorseTrainerOverlay2(renderer),
+
+    fChariotVendorOverlay2(renderer),
+
+    fChariotFactoryOverlay(renderer),
+    fChariotFactoryOverlay1(renderer),
+    fChariotFactoryChariots(renderer),
 
     fWarehouseOverlay(renderer),
 
@@ -2603,19 +2616,11 @@ void eBuildingTextures::loadAgora() {
             loader.load(2639, i, fArmsVendorOverlay2);
         }
     }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eWineVendorOverlaySpriteData15,
-                                     eWineVendorOverlaySpriteData30,
-                                     eWineVendorOverlaySpriteData45,
-                                     eWineVendorOverlaySpriteData60);
-        eSpriteLoader loader(fTileH, "wineVendorOverlay", sds,
-                             &eSprAmbientOffset, fRenderer);
+}
 
-        for(int i = 429; i < 453; i++) {
-            loader.load(429, i, fWineVendorOverlay2);
-        }
-    }
+void eBuildingTextures::loadChariotVendor() {
+    if(fChariotVendorLoaded) return;
+    fChariotVendorLoaded = true;
     {
         const auto& sds = spriteData(fTileH,
                                      eChariotVendorSpriteData15,
@@ -2627,6 +2632,35 @@ void eBuildingTextures::loadAgora() {
 
         fChariotVendor = loader.load(49, 49);
         fChariotVendorOverlay = loader.load(49, 50);
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eChariotVendorOverlaySpriteData15,
+                                     eChariotVendorOverlaySpriteData30,
+                                     eChariotVendorOverlaySpriteData45,
+                                     eChariotVendorOverlaySpriteData60);
+        eSpriteLoader loader(fTileH, "chariotVendorOverlay", sds,
+                             &ePoseidonImpsOffset, fRenderer);
+
+        for(int i = 3674; i < 3718; i++) {
+            loader.load(3674, i, fChariotVendorOverlay2);
+        }
+    }
+}
+
+void eBuildingTextures::loadWineVendor() {
+    if(fWIneVendorLoaded) return;
+    fWIneVendorLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eWineVendorOverlaySpriteData15,
+                                 eWineVendorOverlaySpriteData30,
+                                 eWineVendorOverlaySpriteData45,
+                                 eWineVendorOverlaySpriteData60);
+    eSpriteLoader loader(fTileH, "wineVendorOverlay", sds,
+                         &eSprAmbientOffset, fRenderer);
+
+    for(int i = 429; i < 453; i++) {
+        loader.load(429, i, fWineVendorOverlay2);
     }
 }
 
@@ -2890,6 +2924,10 @@ void eBuildingTextures::load() {
 
         for(int i = 99; i < 104; i++) {
             loader.load(87, i, fWaitingOranges);
+        }
+
+        for(int i = 110; i < 114; i++) {
+            loader.load(87, i, fChariotFactoryChariots);
         }
 
         fGranaryOranges = loader.load(87, 122);

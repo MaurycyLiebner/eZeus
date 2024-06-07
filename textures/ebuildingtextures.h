@@ -201,6 +201,15 @@ public:
     bool fCorralLoaded = false;
     void loadCorral();
 
+    bool fChariotFactoryLoaded = false;
+    void loadChariotFactory();
+
+    bool fChariotVendorLoaded = false;
+    void loadChariotVendor();
+
+    bool fWIneVendorLoaded = false;
+    void loadWineVendor();
+
     std::shared_ptr<eTexture> fHouseSpace;
     std::vector<eTextureCollection> fCommonHouse;
 
@@ -414,6 +423,13 @@ public:
 
     std::shared_ptr<eTexture> fChariotVendor;
     std::shared_ptr<eTexture> fChariotVendorOverlay;
+    eTextureCollection fChariotVendorOverlay2;
+
+    std::shared_ptr<eTexture> fChariotFactory;
+    eTextureCollection fChariotFactoryOverlay;
+    eTextureCollection fChariotFactoryOverlay1;
+    std::vector<eTextureCollection> fChariotFactoryHorses;
+    eTextureCollection fChariotFactoryChariots;
 
     std::shared_ptr<eTexture> fWarehouse;
     eTextureCollection fWarehouseOverlay;

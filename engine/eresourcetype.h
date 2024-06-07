@@ -34,12 +34,16 @@ enum class eResourceType {
     armor = 1 << 16,
     sculpture = 1 << 17,
 
-    all = (1 << 18) - 1,
-    warehouse = (all & ~food) | wheat,
-    tradePost = all,
+    allBasic = (1 << 18) - 1,
+    warehouse = (allBasic & ~food) | wheat,
+    tradePost = allBasic,
 
-    silver = 1 << 19,
-    horse = 1 << 20,
+    horse = 1 << 18,
+    chariot = 1 << 19,
+
+    allTransportable = (1 << 20) - 1,
+
+    silver = 1 << 20,
     drachmas = 1 << 21
 };
 

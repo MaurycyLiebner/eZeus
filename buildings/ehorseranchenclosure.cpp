@@ -12,6 +12,12 @@ eHorseRanchEnclosure::eHorseRanchEnclosure(eGameBoard& board) :
     setEnabled(true);
 }
 
+eHorseRanchEnclosure::~eHorseRanchEnclosure() {
+    for(const auto& h : mHorses) {
+        h->kill();
+    }
+}
+
 void eHorseRanchEnclosure::erase() {
     mRanch->eBuilding::erase();
     eBuilding::erase();

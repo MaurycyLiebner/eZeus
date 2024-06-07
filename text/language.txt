@@ -1,10 +1,14 @@
 settings "Settings"
 editor "Editor"
+zeus "Zeus"
+poseidon "Poseidon"
 tribute "Tribute"
 choose "Choose"
 relationship "Relationship"
 map "Map"
 leader "Leader"
+
+save_and_reset "Save and load the game to apply changes"
 
 none "None"
 

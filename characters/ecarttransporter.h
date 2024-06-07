@@ -22,12 +22,14 @@ enum class eCartTransporterType {
     oil,
     wine,
     arms,
-    horse
+    horse,
+    chariot
 };
 
 class eCartTransporter : public eBasicPatroler {
 public:
     eCartTransporter(eGameBoard& board);
+    ~eCartTransporter();
 
     eOverlay getSecondaryTexture(const eTileSize size) const override;
 
@@ -51,6 +53,9 @@ public:
     void setSupport(const eCartActionTypeSupport s) { mSupport = s; }
     eCartActionTypeSupport support() const { return mSupport; }
 
+    void setSupportResource(const eResourceType r) { mSupports = r; }
+    eResourceType supportsResource() { return mSupports; }
+
     bool waiting() const { return mWaiting; }
     void setWaiting(const bool w) { mWaiting = w; }
 
@@ -62,6 +67,7 @@ private:
     int mResourceCount = 0;
     eCartTransporterType mType = eCartTransporterType::basic;
     eResourceType mResourceType = eResourceType::none;
+    eResourceType mSupports = eResourceType::allTransportable;
 
     eCartActionTypeSupport mSupport = eCartActionTypeSupport::both;
 

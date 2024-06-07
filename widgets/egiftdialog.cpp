@@ -34,7 +34,7 @@ void eGiftDialog::initialize(const stdsptr<eWorldCity>& c,
 
     std::vector<eResourceType> gifts;
     auto all = eResourceTypeHelpers::extractResourceTypes(
-                eResourceType::all);
+                eResourceType::allBasic);
     all.push_back(eResourceType::drachmas);
     for(const auto r : all) {
         const int count = eGiftHelpers::giftCount(r);

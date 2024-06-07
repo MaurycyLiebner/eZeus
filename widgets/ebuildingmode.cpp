@@ -74,6 +74,8 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::armory;
     case eBuildingMode::horseRanch:
         return eBuildingType::horseRanch;
+    case eBuildingMode::chariotFactory:
+        return eBuildingType::chariotFactory;
 
     case eBuildingMode::wall:
         return eBuildingType::wall;
@@ -140,6 +142,8 @@ eBuildingType eBuildingModeHelpers::toBuildingType(const eBuildingMode mode) {
         return eBuildingType::armsVendor;
     case eBuildingMode::horseTrainer:
         return eBuildingType::horseTrainer;
+    case eBuildingMode::chariotVendor:
+        return eBuildingType::chariotVendor;
 
     case eBuildingMode::maintenanceOffice:
         return eBuildingType::maintenanceOffice;

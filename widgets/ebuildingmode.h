@@ -47,6 +47,7 @@ enum class eBuildingMode {
     artisansGuild,
     armory,
     horseRanch,
+    chariotFactory,
 
     wall,
     tower,
@@ -83,6 +84,7 @@ enum class eBuildingMode {
     wineVendor,
     armsVendor,
     horseTrainer,
+    chariotVendor,
 
     maintenanceOffice,
     fountain,

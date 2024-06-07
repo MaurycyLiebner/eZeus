@@ -112,6 +112,9 @@ std::string eResourceTypeHelpers::typeName(const eResourceType type) {
     case eResourceType::horse:
         string = 15;
         break;
+    case eResourceType::chariot:
+        string = 22;
+        break;
     default:
         break;
     }
@@ -189,6 +192,9 @@ std::string eResourceTypeHelpers::typeLongName(const eResourceType type) {
     case eResourceType::horse:
         string = 15;
         break;
+    case eResourceType::chariot:
+        string = 22;
+        break;
     default:
         break;
     }
@@ -232,6 +238,8 @@ std::shared_ptr<eTexture> eResourceTypeHelpers::icon(
         return coll.fFleeceUnit;
     case eResourceType::horse:
         return coll.fHorseUnit;
+    case eResourceType::chariot:
+        return coll.fChariotUnit;
     case eResourceType::armor:
         return coll.fArmsUnit;
     case eResourceType::sculpture:
@@ -311,7 +319,7 @@ int eResourceTypeHelpers::defaultPrice(const eResourceType type) {
 
     case eResourceType::food:
     case eResourceType::warehouse:
-    case eResourceType::all:
+    case eResourceType::allBasic:
     case eResourceType::none:
     case eResourceType::horse:
     case eResourceType::silver:

@@ -78,6 +78,7 @@ enum class eBuildingType {
     wineVendor,
     armsVendor,
     horseTrainer,
+    chariotVendor,
 
     timberMill,
     masonryShop,
@@ -96,6 +97,7 @@ enum class eBuildingType {
     triremeWharf,
     horseRanch,
     horseRanchEnclosure,
+    chariotFactory,
     armory,
 
     maintenanceOffice,

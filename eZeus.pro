@@ -36,6 +36,8 @@ SOURCES += \
         buildings/ebuildingwithresource.cpp \
         buildings/ecardingshed.cpp \
         buildings/ecarrotfarm.cpp \
+        buildings/echariotfactory.cpp \
+        buildings/echariotvendor.cpp \
         buildings/ecollege.cpp \
         buildings/ecolumn.cpp \
         buildings/ecommonagora.cpp \
@@ -213,6 +215,7 @@ SOURCES += \
         characters/echaracter.cpp \
         characters/echaracterbase.cpp \
         characters/echaractercreator.cpp \
+        characters/echariot.cpp \
         characters/echariotbase.cpp \
         characters/echariotposeidon.cpp \
         characters/ecompetitor.cpp \
@@ -585,6 +588,8 @@ HEADERS += \
     buildings/ebuildingwithresource.h \
     buildings/ecardingshed.h \
     buildings/ecarrotfarm.h \
+    buildings/echariotfactory.h \
+    buildings/echariotvendor.h \
     buildings/ecollege.h \
     buildings/ecolumn.h \
     buildings/ecommonagora.h \
@@ -759,6 +764,7 @@ HEADERS += \
     characters/ecentaurhorseman.h \
     characters/echaracter.h \
     characters/echaracterbase.h \
+    characters/echariot.h \
     characters/echariotbase.h \
     characters/echariotposeidon.h \
     characters/ecompetitor.h \
@@ -1227,6 +1233,22 @@ HEADERS += \
     spriteData/cerberus30.h \
     spriteData/cerberus45.h \
     spriteData/cerberus60.h \
+    spriteData/chariot15.h \
+    spriteData/chariot30.h \
+    spriteData/chariot45.h \
+    spriteData/chariot60.h \
+    spriteData/chariotFactory15.h \
+    spriteData/chariotFactory30.h \
+    spriteData/chariotFactory45.h \
+    spriteData/chariotFactory60.h \
+    spriteData/chariotFactoryHorses15.h \
+    spriteData/chariotFactoryHorses30.h \
+    spriteData/chariotFactoryHorses45.h \
+    spriteData/chariotFactoryHorses60.h \
+    spriteData/chariotFactoryOverlay115.h \
+    spriteData/chariotFactoryOverlay130.h \
+    spriteData/chariotFactoryOverlay145.h \
+    spriteData/chariotFactoryOverlay160.h \
     spriteData/chariotPoseidon15.h \
     spriteData/chariotPoseidon30.h \
     spriteData/chariotPoseidon45.h \
@@ -1235,6 +1257,14 @@ HEADERS += \
     spriteData/chariotVendor30.h \
     spriteData/chariotVendor45.h \
     spriteData/chariotVendor60.h \
+    spriteData/chariotVendorCharacter15.h \
+    spriteData/chariotVendorCharacter30.h \
+    spriteData/chariotVendorCharacter45.h \
+    spriteData/chariotVendorCharacter60.h \
+    spriteData/chariotVendorOverlay15.h \
+    spriteData/chariotVendorOverlay30.h \
+    spriteData/chariotVendorOverlay45.h \
+    spriteData/chariotVendorOverlay60.h \
     spriteData/chimera15.h \
     spriteData/chimera30.h \
     spriteData/chimera45.h \
@@ -2419,8 +2449,14 @@ DISTFILES += \
     textureTemplates/centaurArcher \
     textureTemplates/centaurHorseman \
     textureTemplates/cerberus \
+    textureTemplates/chariot \
+    textureTemplates/chariotFactory \
+    textureTemplates/chariotFactoryHorses \
+    textureTemplates/chariotFactoryOverlay1 \
     textureTemplates/chariotPoseidon \
     textureTemplates/chariotVendor \
+    textureTemplates/chariotVendorCharacter \
+    textureTemplates/chariotVendorOverlay \
     textureTemplates/chimera \
     textureTemplates/college \
     textureTemplates/columns \

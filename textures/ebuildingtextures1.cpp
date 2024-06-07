@@ -45,7 +45,73 @@
 #include "spriteData/corralProcessingOverlay45.h"
 #include "spriteData/corralProcessingOverlay60.h"
 
+#include "spriteData/chariotFactory15.h"
+#include "spriteData/chariotFactory30.h"
+#include "spriteData/chariotFactory45.h"
+#include "spriteData/chariotFactory60.h"
+
+#include "spriteData/chariotFactoryOverlay115.h"
+#include "spriteData/chariotFactoryOverlay130.h"
+#include "spriteData/chariotFactoryOverlay145.h"
+#include "spriteData/chariotFactoryOverlay160.h"
+
+#include "spriteData/chariotFactoryHorses15.h"
+#include "spriteData/chariotFactoryHorses30.h"
+#include "spriteData/chariotFactoryHorses45.h"
+#include "spriteData/chariotFactoryHorses60.h"
+
+#include "offsets/PoseidonImps.h"
+
 #include "textures/espriteloader.h"
+
+void eBuildingTextures::loadChariotFactory() {
+    if(fChariotFactoryLoaded) return;
+    fChariotFactoryLoaded = true;
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eChariotFactorySpriteData15,
+                                     eChariotFactorySpriteData30,
+                                     eChariotFactorySpriteData45,
+                                     eChariotFactorySpriteData60);
+        eSpriteLoader loader(fTileH, "chariotFactory", sds,
+                             nullptr, fRenderer);
+        fChariotFactory = loader.load(15, 15);
+
+        for(int i = 16; i < 36; i++) {
+            loader.load(15, i, fChariotFactoryOverlay);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eChariotFactoryOverlay1SpriteData15,
+                                     eChariotFactoryOverlay1SpriteData30,
+                                     eChariotFactoryOverlay1SpriteData45,
+                                     eChariotFactoryOverlay1SpriteData60);
+        eSpriteLoader loader(fTileH, "chariotFactoryOverlay1", sds,
+                             &ePoseidonImpsOffset, fRenderer);
+
+        for(int i = 3718; i < 3742; i++) {
+            loader.load(3718, i, fChariotFactoryOverlay1);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eChariotFactoryHorsesSpriteData15,
+                                     eChariotFactoryHorsesSpriteData30,
+                                     eChariotFactoryHorsesSpriteData45,
+                                     eChariotFactoryHorsesSpriteData60);
+        eSpriteLoader loader(fTileH, "chariotFactoryHorses", sds,
+                             &ePoseidonImpsOffset, fRenderer);
+
+        for(int i = 5374; i < 5558;) {
+            auto& coll = fChariotFactoryHorses.emplace_back(fRenderer);
+            for(int j = 0; j < 46; j++, i++) {
+                loader.load(5374, i, coll);
+            }
+        }
+    }
+}
 
 void eBuildingTextures::loadBibliotheke() {
     if(fBibliothekeLoaded) return;

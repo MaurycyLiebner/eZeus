@@ -9,5 +9,5 @@ eWineVendor::eWineVendor(eGameBoard& board) :
             -2.15, -2.35, &eBuildingTextures::fWineVendorOverlay,
             0.35, -2.55, &eBuildingTextures::fWineVendorOverlay2,
             eBuildingType::wineVendor, 2, 2, 4) {
-    eGameTextures::loadWineVendor();
+    eGameTextures::loadWineVendorBuilding();
 }

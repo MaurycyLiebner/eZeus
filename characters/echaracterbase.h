@@ -25,6 +25,7 @@ enum class eCharacterType {
     cattle3,
     bull,
     horse,
+    chariot,
 
     grower,
 

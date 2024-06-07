@@ -51,7 +51,7 @@ void eCharacterTextures::loadOrangesCart() {
     eSpriteLoader loader(fTileH, "orangesCart", sds,
                          &ePoseidonImpsOffset, fRenderer);
 
-    loader.loadSkipFlipped(1091, 1091, 1115, fWineCart);
+    loader.loadSkipFlipped(1091, 1091, 1115, fOrangesCart);
 }
 
 void eCharacterTextures::loadDeerHunter() {

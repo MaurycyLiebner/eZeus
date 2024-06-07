@@ -199,7 +199,8 @@ void eAgoraBase::agoraProvide(eBuilding* const b) {
         case eBuildingType::oilVendor:
         case eBuildingType::armsVendor:
         case eBuildingType::wineVendor:
-        case eBuildingType::horseTrainer: {
+        case eBuildingType::horseTrainer:
+        case eBuildingType::chariotVendor: {
             const auto fv = static_cast<eVendor*>(fvb);
             const int r = fv->peddlerResource();
             if(r <= 0) continue;
@@ -222,7 +223,8 @@ int eAgoraBase::agoraCount(const eResourceType r) const {
         case eBuildingType::oilVendor:
         case eBuildingType::armsVendor:
         case eBuildingType::wineVendor:
-        case eBuildingType::horseTrainer: {
+        case eBuildingType::horseTrainer:
+        case eBuildingType::chariotVendor: {
             const auto fv = static_cast<eVendor*>(fvb);
             if(fv->resourceType() != r) continue;
             return fv->peddlerResource();

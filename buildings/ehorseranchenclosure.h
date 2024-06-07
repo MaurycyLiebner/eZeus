@@ -9,6 +9,7 @@ class eHorseRanch;
 class eHorseRanchEnclosure : public eBuilding {
 public:
     eHorseRanchEnclosure(eGameBoard& board);
+    ~eHorseRanchEnclosure();
 
     void erase() override;
 

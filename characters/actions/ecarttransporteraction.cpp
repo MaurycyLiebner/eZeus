@@ -66,6 +66,12 @@ eCartActionTypeSupport eCartTransporterAction::support() const {
     return ct->support();
 }
 
+eResourceType eCartTransporterAction::supportsResource() const {
+    const auto c = character();
+    const auto ct = static_cast<eCartTransporter*>(c);
+    return ct->supportsResource();
+}
+
 void eCartTransporterAction::findTarget() {
     const auto tasks = mBuilding->cartTasks();
     const auto supp = support();
@@ -78,7 +84,10 @@ void eCartTransporterAction::findTarget() {
         for(const auto& t : tasks) {
             if(t.fType == eCartActionType::give && !supportGive) continue;
             if(t.fType == eCartActionType::take && !supportTake) continue;
-            handled.push_back(t);
+            const auto r = t.fResource;
+            const auto sr = supportsResource();
+            const bool spprts = static_cast<bool>(r & sr);
+            if(spprts) handled.push_back(t);
         }
         findTarget(handled);
     }

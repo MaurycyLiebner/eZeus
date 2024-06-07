@@ -393,6 +393,9 @@ std::string eBuilding::sNameForBuilding(const eBuildingType type) {
     case eBuildingType::horseTrainer:
         string = 73;
         break;
+    case eBuildingType::chariotVendor:
+        string = 215;
+        break;
 
     case eBuildingType::podium:
         string = 81;
@@ -506,6 +509,9 @@ std::string eBuilding::sNameForBuilding(const eBuildingType type) {
         break;
     case eBuildingType::horseRanch:
         string = 133;
+        break;
+    case eBuildingType::chariotFactory:
+        string = 212;
         break;
 
     case eBuildingType::park:
@@ -883,6 +889,27 @@ void eBuilding::sInfoText(eBuilding* const b,
             employmentInfoString = 6;
         } else {
             employmentInfoString = 7;
+        }
+    } break;
+    case eBuildingType::chariotFactory: {
+        const auto cf = static_cast<eChariotFactory*>(b);
+        const int w = cf->wood();
+        const int h = cf->horses();
+        group = 89;
+        if(w == 0 || h == 0) {
+            employmentInfoString = 11;
+        } else if(e == 0) {
+            employmentInfoString = 5;
+        } else if(e == maxE) {
+            employmentInfoString = 6;
+        } else if(e > 20) {
+            employmentInfoString = 7;
+        } else if(e > 15) {
+            employmentInfoString = 8;
+        } else if(e > 10) {
+            employmentInfoString = 9;
+        } else {
+            employmentInfoString = 10;
         }
     } break;
     case eBuildingType::commemorative: {

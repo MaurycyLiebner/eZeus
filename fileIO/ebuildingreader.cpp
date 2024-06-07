@@ -316,6 +316,13 @@ stdsptr<eBuilding> eBuildingReader::sRead(
     case eBuildingType::horseTrainer: {
         b = createVendor<eHorseVendor>(board, src);
     } break;
+    case eBuildingType::chariotVendor: {
+        b = createVendor<eChariotVendor>(board, src);
+    } break;
+
+    case eBuildingType::chariotFactory: {
+        b = e::make_shared<eChariotFactory>(board);
+    } break;
 
     case eBuildingType::park: {
         b = e::make_shared<ePark>(board);

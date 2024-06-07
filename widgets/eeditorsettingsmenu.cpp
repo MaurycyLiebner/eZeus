@@ -94,6 +94,20 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
         mythMenu->layoutVertically();
     };
 
+    const auto modeButt = new eFramedButton(window());
+    modeButt->setUnderline(false);
+    modeButt->setText(board.poseidonMode() ? eLanguage::text("poseidon") :
+                                             eLanguage::text("zeus"));
+    modeButt->fitContent();
+    modeButt->setPressAction([modeButt, boardPtr]() {
+        boardPtr->setPoseidonMode(!boardPtr->poseidonMode());
+        modeButt->setText(boardPtr->poseidonMode() ? eLanguage::text("poseidon") :
+                                                     eLanguage::text("zeus"));
+        boardPtr->showTip(eLanguage::text("save_and_reset"));
+    });
+    addWidget(modeButt);
+    modeButt->align(eAlignment::hcenter);
+
     const auto mythButt = new eFramedButton(window());
     mythButt->setUnderline(false);
     mythButt->setText(eLanguage::text("mythology"));

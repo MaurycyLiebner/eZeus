@@ -46,18 +46,22 @@ std::vector<eOverlay> eVendor::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& texs = eGameTextures::buildings();
 
-    eOverlay o;
-    o.fTex = texs[sizeId].*mOverlayTex;
-    o.fX = mOverlayX;
-    o.fY = mOverlayY;
-    os.push_back(o);
+    if(mOverlayTex) {
+        eOverlay o;
+        o.fTex = texs[sizeId].*mOverlayTex;
+        o.fX = mOverlayX;
+        o.fY = mOverlayY;
+        os.push_back(o);
+    }
 
-    eOverlay o2;
-    const auto& coll = texs[sizeId].*mOverlayTex2;
-    o2.fTex = coll.getTexture(textureTime() % coll.size());
-    o2.fX = mOverlayX2;
-    o2.fY = mOverlayY2;
-    os.push_back(o2);
+    if(mOverlayTex2) {
+        eOverlay o2;
+        const auto& coll = texs[sizeId].*mOverlayTex2;
+        o2.fTex = coll.getTexture(textureTime() % coll.size());
+        o2.fX = mOverlayX2;
+        o2.fY = mOverlayY2;
+        os.push_back(o2);
+    }
 
     return os;
 }
@@ -108,6 +112,9 @@ void eVendor::timeChanged(const int by) {
                 break;
             case eResourceType::horse:
                 mCart->setType(eCartTransporterType::horse);
+                break;
+            case eResourceType::chariot:
+                mCart->setType(eCartTransporterType::chariot);
                 break;
             default:
                 break;

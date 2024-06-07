@@ -62,7 +62,49 @@
 #include "spriteData/butcher45.h"
 #include "spriteData/butcher60.h"
 
+#include "spriteData/chariotVendorCharacter15.h"
+#include "spriteData/chariotVendorCharacter30.h"
+#include "spriteData/chariotVendorCharacter45.h"
+#include "spriteData/chariotVendorCharacter60.h"
+
+#include "spriteData/chariot15.h"
+#include "spriteData/chariot30.h"
+#include "spriteData/chariot45.h"
+#include "spriteData/chariot60.h"
+
 #include "offsets/PoseidonImps.h"
+
+void eCharacterTextures::loadChariot() {
+    if(fChariotLoaded) return;
+    fChariotLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eChariotSpriteData15,
+                                 eChariotSpriteData30,
+                                 eChariotSpriteData45,
+                                 eChariotSpriteData60);
+    eSpriteLoader loader(fTileH, "chariot", sds,
+                         &ePoseidonImpsOffset, fRenderer);
+
+    loader.loadSkipFlipped(7756, 7756, 7796, fChariot);
+}
+
+void eCharacterTextures::loadChariotVendor() {
+    if(fChariotVendorLoaded) return;
+    fChariotVendorLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eChariotVendorCharacterSpriteData15,
+                                 eChariotVendorCharacterSpriteData30,
+                                 eChariotVendorCharacterSpriteData45,
+                                 eChariotVendorCharacterSpriteData60);
+    eSpriteLoader loader(fTileH, "chariotVendorCharacter", sds,
+                         &ePoseidonImpsOffset, fRenderer);
+
+    loader.loadSkipFlipped(7876, 7876, 7972, fChariotVendor.fWalk);
+
+    for(int i = 7972; i < 7980; i++) {
+        loader.load(7876, i, fChariotVendor.fDie);
+    }
+}
 
 void sLoadCattle(eSpriteLoader& loader,
                  eCattleTextures& cattle,

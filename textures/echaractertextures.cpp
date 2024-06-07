@@ -418,7 +418,9 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fScholar(renderer),
     fAstronomer(renderer),
     fInventor(renderer),
-    fCurator(renderer) {
+    fCurator(renderer),
+
+    fChariotVendor(renderer) {
 
 }
 

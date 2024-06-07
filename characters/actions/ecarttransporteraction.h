@@ -18,6 +18,7 @@ public:
     bool decide() override;
 
     eCartActionTypeSupport support() const;
+    eResourceType supportsResource() const;
 
     bool waiting();
 protected:

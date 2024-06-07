@@ -86,7 +86,8 @@ void eBuildingsToErase::erase(eBuilding* const b) {
     case eBuildingType::oilVendor:
     case eBuildingType::armsVendor:
     case eBuildingType::wineVendor:
-    case eBuildingType::horseTrainer: {
+    case eBuildingType::horseTrainer:
+    case eBuildingType::chariotVendor: {
         const auto v = static_cast<eVendor*>(b);
         v->deleteLater();
         const auto a = v->agora();

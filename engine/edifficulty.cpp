@@ -108,6 +108,7 @@ int costBase(const eBuildingType type) {
     case eBuildingType::wineVendor:
     case eBuildingType::armsVendor:
     case eBuildingType::horseTrainer:
+    case eBuildingType::chariotVendor:
         return 10;
 
     case eBuildingType::fountain:
@@ -235,7 +236,29 @@ int costBase(const eBuildingType type) {
     case eBuildingType::templeDionysus:
         return 400;
 
-    default:
+    case eBuildingType::chariotFactory:
+        return 110;
+
+    case eBuildingType::agoraSpace:
+    case eBuildingType::ruins:
+    case eBuildingType::horseRanchEnclosure:
+    case eBuildingType::commemorative:
+    case eBuildingType::palaceTile:
+    case eBuildingType::godMonument:
+    case eBuildingType::godMonumentTile:
+    case eBuildingType::temple:
+    case eBuildingType::templeTile:
+    case eBuildingType::templeStatue:
+    case eBuildingType::templeMonument:
+    case eBuildingType::templeAltar:
+    case eBuildingType::achillesHall:
+    case eBuildingType::atalantaHall:
+    case eBuildingType::bellerophonHall:
+    case eBuildingType::herculesHall:
+    case eBuildingType::jasonHall:
+    case eBuildingType::odysseusHall:
+    case eBuildingType::perseusHall:
+    case eBuildingType::theseusHall:
         return 0;
     }
 }
@@ -312,6 +335,7 @@ int fireRiskBase(const eBuildingType type) {
     case eBuildingType::wineVendor:
     case eBuildingType::armsVendor:
     case eBuildingType::horseTrainer:
+    case eBuildingType::chariotVendor:
         return 6;
 
     case eBuildingType::bibliotheke:
@@ -341,6 +365,8 @@ int fireRiskBase(const eBuildingType type) {
         return 5;
     case eBuildingType::horseRanch:
         return 5;
+    case eBuildingType::chariotFactory:
+        return 6;
 
     default:
         return 0;
@@ -475,6 +501,8 @@ int damageRiskBase(const eBuildingType type) {
 
     case eBuildingType::triremeWharf:
         return 5;
+    case eBuildingType::chariotFactory:
+        return 6;
 
     default:
         return 0;

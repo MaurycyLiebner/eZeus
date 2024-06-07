@@ -36,7 +36,8 @@ eHeat eHeatGetters::appeal(const eBuildingType type) {
     case eBuildingType::oilVendor:
     case eBuildingType::armsVendor:
     case eBuildingType::wineVendor: return {2, 2};
-    case eBuildingType::horseTrainer: return {-2, 2};
+    case eBuildingType::horseTrainer:
+    case eBuildingType::chariotVendor: return {-2, 2};
 
     case eBuildingType::fountain: return {4, 4};
     case eBuildingType::hospital: return {-2, 4};

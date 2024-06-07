@@ -290,6 +290,11 @@ public:
     static void loadLaboratory();
     static void loadInventorsWorkshop();
     static void loadMuseum();
+    static void loadChariotFactory();
+    static void loadChariotVendor();
+    static void loadChariotVendorCharacter();
+    static void loadChariot();
+    static void loadWineVendorBuilding();
 
     static void loadHoplitePoseidon();
     static void loadArcherPoseidon();

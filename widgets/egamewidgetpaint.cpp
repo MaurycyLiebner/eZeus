@@ -1721,6 +1721,14 @@ void eGameWidget::paintEvent(ePainter& p) {
                 return canBuildVendor(tx, ty, eResourceType::horse);
             };
         } break;
+        case eBuildingMode::chariotVendor: {
+            canBuildFunc = [&](const int tx, const int ty,
+                               const int sw, const int sh) {
+                (void)sw;
+                (void)sh;
+                return canBuildVendor(tx, ty, eResourceType::chariot);
+            };
+        } break;
         default: {
             canBuildFunc = [&](const int tx, const int ty,
                                const int sw, const int sh) {
@@ -2345,6 +2353,10 @@ void eGameWidget::paintEvent(ePainter& p) {
                 ebs.emplace_back(tx + dx, ty + dy, b2);
             }
         } break;
+        case eBuildingMode::chariotFactory: {
+            const auto b1 = e::make_shared<eChariotFactory>(*mBoard);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
         case eBuildingMode::olivePress: {
             const auto b1 = e::make_shared<eOlivePress>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
@@ -2394,6 +2406,10 @@ void eGameWidget::paintEvent(ePainter& p) {
         } break;
         case eBuildingMode::horseTrainer: {
             const auto b1 = e::make_shared<eHorseVendor>(*mBoard);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
+        case eBuildingMode::chariotVendor: {
+            const auto b1 = e::make_shared<eChariotVendor>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
 

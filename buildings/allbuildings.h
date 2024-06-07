@@ -30,6 +30,7 @@
 #include "buildings/efishery.h"
 #include "buildings/epier.h"
 #include "buildings/emaintenanceoffice.h"
+#include "buildings/echariotfactory.h"
 
 #include "buildings/ebibliotheke.h"
 #include "buildings/eobservatory.h"
@@ -74,6 +75,7 @@
 #include "buildings/ewinevendor.h"
 #include "buildings/earmsvendor.h"
 #include "buildings/ehorsevendor.h"
+#include "buildings/echariotvendor.h"
 
 #include "buildings/epark.h"
 #include "buildings/ecolumn.h"

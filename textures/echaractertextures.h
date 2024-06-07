@@ -412,6 +412,12 @@ public:
     bool fButcherLoaded = false;
     void loadButcher();
 
+    bool fChariotVendorLoaded = false;
+    void loadChariotVendor();
+
+    bool fChariotLoaded = false;
+    void loadChariot();
+
     void loadBanners();
     bool fBannersLoaded = false;
 
@@ -601,6 +607,9 @@ public:
     eBasicCharacterTextures fAstronomer;
     eBasicCharacterTextures fInventor;
     eBasicCharacterTextures fCurator;
+
+    eBasicCharacterTextures fChariotVendor;
+    std::vector<eTextureCollection> fChariot;
 };
 
 #endif // ECHARACTERTEXTURES_H

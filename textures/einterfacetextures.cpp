@@ -1140,6 +1140,7 @@ void eInterfaceTextures::load() {
                              nullptr, fRenderer);
 
         fOrangesUnit = loader.load(114, 114);
+        fChariotUnit = loader.load(114, 117);
     }
     {
         const auto& sds = spriteData(fTileH,

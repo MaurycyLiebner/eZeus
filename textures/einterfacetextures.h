@@ -266,6 +266,7 @@ public:
     std::shared_ptr<eTexture> fOlivesUnit;
     std::shared_ptr<eTexture> fFleeceUnit;
     std::shared_ptr<eTexture> fHorseUnit;
+    std::shared_ptr<eTexture> fChariotUnit;
     std::shared_ptr<eTexture> fArmsUnit;
     std::shared_ptr<eTexture> fSculptureUnit;
     std::shared_ptr<eTexture> fOliveOilUnit;

@@ -1241,6 +1241,10 @@ bool eGameWidget::buildMouseRelease() {
                 showTip(eLanguage::zeusText(19, 188));
             }
         }; break;
+        case eBuildingMode::chariotFactory: {
+            build(mHoverTX, mHoverTY, 4, 4,
+                  [this]() { return e::make_shared<eChariotFactory>(*mBoard); });
+        }; break;
         case eBuildingMode::olivePress: {
             build(mHoverTX, mHoverTY, 2, 2,
                   [this]() { return e::make_shared<eOlivePress>(*mBoard); });
@@ -1294,6 +1298,10 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::horseTrainer: {
             return buildVendor<eHorseVendor>(*mBoard, mHoverTX, mHoverTY,
                                              eResourceType::horse);
+        }; break;
+        case eBuildingMode::chariotVendor: {
+            return buildVendor<eChariotVendor>(*mBoard, mHoverTX, mHoverTY,
+                                               eResourceType::chariot);
         }; break;
 
         case eBuildingMode::park:

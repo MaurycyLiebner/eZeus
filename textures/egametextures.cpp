@@ -1699,6 +1699,41 @@ void eGameTextures::loadMuseum() {
     });
 }
 
+void eGameTextures::loadChariotFactory() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadChariotFactory();
+    });
+}
+
+void eGameTextures::loadChariotVendor() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadChariotVendor();
+    });
+}
+
+void eGameTextures::loadChariotVendorCharacter() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadChariotVendor();
+    });
+}
+
+void eGameTextures::loadChariot() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadChariot();
+    });
+}
+
+void eGameTextures::loadWineVendorBuilding() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadWineVendor();
+    });
+}
+
 void eGameTextures::loadHoplitePoseidon() {
     loadTexture([](const int i) {
         auto& c = sCharacterTextures[i];
