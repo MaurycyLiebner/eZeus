@@ -1650,6 +1650,29 @@ void eBuilding::sInfoText(eBuilding* const b,
             employmentInfoString = 25;
         }
     } break;
+    case eBuildingType::corral: {
+        group = 141;
+
+        if(onFire) {
+            employmentInfoString = 8;
+        } else if(e == 0) {
+            employmentInfoString = 7;
+        } else if(blessed) {
+            employmentInfoString = 10;
+        } else if(cursed) {
+            employmentInfoString = 9;
+        } else if(e == maxE) {
+            employmentInfoString = 2;
+        } else if(e > 20) {
+            employmentInfoString = 3;
+        } else if(e > 15) {
+            employmentInfoString = 4;
+        } else if(e > 10) {
+            employmentInfoString = 5;
+        } else {
+            employmentInfoString = 6;
+        }
+    } break;
     case eBuildingType::achillesHall:
         group = 185;
         titleString = 8;
