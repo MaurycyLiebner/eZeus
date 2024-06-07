@@ -86,6 +86,7 @@ std::vector<eOverlay> eCorral::getOverlays(const eTileSize size) const {
 
 void eCorral::read(eReadStream& src) {
     eResourceBuildingBase::read(src);
+    src >> mNoCattle;
     src >> mProcessing;
     src >> mNCattle;
     src >> mTakeWait;
@@ -95,6 +96,7 @@ void eCorral::read(eReadStream& src) {
 
 void eCorral::write(eWriteStream& dst) const {
     eResourceBuildingBase::write(dst);
+    dst << mNoCattle;
     dst << mProcessing;
     dst << mNCattle;
     dst << mTakeWait;
@@ -138,6 +140,10 @@ void eCorral::timeChanged(const int by) {
 void eCorral::addCattle() {
     mNCattle = std::clamp(mNCattle + 1, 0, 3);
     if(mNCattle == 1) mKillWait = 0;
+}
+
+void eCorral::setNoCattle(const bool c) {
+    mNoCattle = c;
 }
 
 bool eCorral::killCattle() {

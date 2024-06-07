@@ -889,6 +889,8 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::corral: {
             build(mHoverTX, mHoverTY, 4, 4,
                   [this]() { return e::make_shared<eCorral>(*mBoard); });
+            showTip(eLanguage::zeusText(19, 255));
+            showTip(eLanguage::zeusText(19, 256));
         }; break;
 
 
@@ -990,37 +992,68 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::dairy: {
             build(mHoverTX, mHoverTY, 2, 2,
                   [this]() { return e::make_shared<eDairy>(*mBoard); });
+            showTip(eLanguage::zeusText(19, 219));
+            showTip(eLanguage::zeusText(19, 220));
         }; break;
         case eBuildingMode::cardingShed: {
             build(mHoverTX, mHoverTY, 2, 2,
                   [this]() { return e::make_shared<eCardingShed>(*mBoard); });
+            showTip(eLanguage::zeusText(19, 217));
+            showTip(eLanguage::zeusText(19, 218));
         }; break;
 
-        case eBuildingMode::sheep:
-            apply = [this](eTile* const tile) {
+        case eBuildingMode::sheep: {
+            const auto skip = std::make_shared<bool>(false);
+            apply = [this, skip](eTile* const tile) {
+                if(*skip) return;
+                const int allowed = mBoard->countAllowed(eBuildingType::sheep);
+                if(allowed <= 0) {
+                    showTip(eLanguage::zeusText(19, 211));
+                    showTip(eLanguage::zeusText(19, 212));
+                    *skip = true;
+                    return;
+                }
                 buildAnimal(tile, eBuildingType::sheep,
                             [](eGameBoard& board) {
                     return e::make_shared<eSheep>(board);
                 });
             };
-            break;
-        case eBuildingMode::goat:
-            apply = [this](eTile* const tile) {
+        } break;
+        case eBuildingMode::goat: {
+            const auto skip = std::make_shared<bool>(false);
+            apply = [this, skip](eTile* const tile) {
+                if(*skip) return;
+                const int allowed = mBoard->countAllowed(eBuildingType::goat);
+                if(allowed <= 0) {
+                    showTip(eLanguage::zeusText(19, 215));
+                    showTip(eLanguage::zeusText(19, 216));
+                    *skip = true;
+                    return;
+                }
                 buildAnimal(tile, eBuildingType::goat,
                             [](eGameBoard& board) {
                     return e::make_shared<eGoat>(board);
                 });
             };
-            break;
-        case eBuildingMode::cattle:
-            apply = [this](eTile* const tile) {
+        } break;
+        case eBuildingMode::cattle: {
+            const auto skip = std::make_shared<bool>(false);
+            apply = [this, skip](eTile* const tile) {
+                if(*skip) return;
+                const int allowed = mBoard->countAllowed(eBuildingType::cattle);
+                if(allowed <= 0) {
+                    showTip(eLanguage::zeusText(19, 252));
+                    showTip(eLanguage::zeusText(19, 253));
+                    *skip = true;
+                    return;
+                }
                 buildAnimal(tile, eBuildingType::cattle,
                             [](eGameBoard& board) {
                     return e::make_shared<eCattle>(
                                 board, eCharacterType::cattle2);
                 });
             };
-            break;
+        } break;
 
         case eBuildingMode::wheatFarm: {
             build(mHoverTX, mHoverTY, 3, 3,

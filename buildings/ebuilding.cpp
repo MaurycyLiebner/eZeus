@@ -606,6 +606,7 @@ void eBuilding::sInfoText(eBuilding* const b,
     int infoString = 1;
     int employmentInfoString = -1;
     int additionalInfoString = -1;
+    int employmentInfoGroup = -1;
     switch(type) {
     case eBuildingType::park: {
         group = 75;
@@ -1652,12 +1653,18 @@ void eBuilding::sInfoText(eBuilding* const b,
         }
     } break;
     case eBuildingType::corral: {
+        const auto c = static_cast<eCorral*>(b);
+        const bool noCattle = c->noCattle();
+
         group = 141;
 
         if(onFire) {
             employmentInfoString = 8;
         } else if(e == 0) {
             employmentInfoString = 7;
+        } else if(noCattle) {
+            employmentInfoGroup = 105;
+            employmentInfoString = 8;
         } else if(blessed) {
             employmentInfoString = 10;
         } else if(cursed) {
@@ -1725,7 +1732,8 @@ void eBuilding::sInfoText(eBuilding* const b,
     }
     title = eLanguage::zeusText(group, titleString);
     info = eLanguage::zeusText(group, infoString);
-    employmentInfo = eLanguage::zeusText(group, employmentInfoString);
+    const int g = employmentInfoGroup == -1 ? group : employmentInfoGroup;
+    employmentInfo = eLanguage::zeusText(g, employmentInfoString);
     additionalInfo = eLanguage::zeusText(group, additionalInfoString);
 }
 

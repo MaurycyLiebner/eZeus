@@ -62,9 +62,9 @@ void eTakeCattleAction::write(eWriteStream& dst) const {
     dst << mNoCattle;
 }
 
-bool hasCattle(eTileBase* const tile) {
-    return tile->hasCharacter([](const eCharacterBase& c) {
-        return c.type() == eCharacterType::cattle3;
+bool hasCattle(eTileBase* const tile, const eCharacterType t) {
+    return tile->hasCharacter([t](const eCharacterBase& c) {
+        return c.type() == t;
     });
 }
 
@@ -73,19 +73,40 @@ void eTakeCattleAction::goGetCattle() {
 
     auto aType = std::make_shared<eCharacterType>();
 
-    const auto hha = [aType](eTileBase* const tile) {
-        return hasCattle(tile);
+    const auto foundAny = std::make_shared<bool>(false);
+
+    const auto hha = [aType, foundAny](eTileBase* const tile) {
+        const bool c3 = hasCattle(tile, eCharacterType::cattle3);
+        if(c3) {
+            *foundAny = true;
+            return true;
+        }
+        const bool c2 = hasCattle(tile, eCharacterType::cattle2);
+        if(c2) {
+            *foundAny = true;
+        } else {
+            const bool c1 = hasCattle(tile, eCharacterType::cattle1);
+            if(c1) {
+                *foundAny = true;
+            }
+        }
+        return false;
     };
 
     const auto a = e::make_shared<eMoveToAction>(c);
+    const stdptr<eTakeCattleAction> tptr(this);
     const stdptr<eCharacter> cptr(c);
-    a->setFoundAction([cptr, c]() {
+    a->setFoundAction([tptr, this, cptr, c]() {
+        if(tptr) {
+            mNoCattle = false;
+            mCorral->setNoCattle(false);
+        }
         if(cptr) c->setActionType(eCharacterActionType::walk);
     });
-    const stdptr<eTakeCattleAction> tptr(this);
-    const auto findFailFunc = [tptr, this]() {
+    const auto findFailFunc = [tptr, this, foundAny]() {
         if(tptr) {
             mNoCattle = true;
+            mCorral->setNoCattle(!*foundAny);
             goBack(eWalkableObject::sCreateDefault());
         }
     };

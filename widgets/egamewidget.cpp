@@ -691,6 +691,9 @@ void eGameWidget::showMessage(eEventData& ed,
 }
 
 void eGameWidget::showTip(const std::string& tip) {
+    for(const auto& t : mTips) {
+        if(t.fText == tip) return;
+    }
     const auto msgb = new eFramedLabel(window());
     msgb->setType(eFrameType::message);
     msgb->setWrapWidth(width()/2);
@@ -702,6 +705,7 @@ void eGameWidget::showTip(const std::string& tip) {
     msgb->resize(msgb->width() + 2*p, msgb->height() + 2*p);
     msgb->setX((width() - mGm->width() - msgb->width())/2);
     eTip etip;
+    etip.fText = tip;
     etip.fWid = msgb;
     etip.fLastFrame = mFrame + 500;
     mTips.push_back(etip);

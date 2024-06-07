@@ -17,12 +17,15 @@ public:
 
     int cattleCount() const { return mNCattle; }
     void addCattle();
+    bool noCattle() const { return mNoCattle; }
+    void setNoCattle(const bool c);
 private:
     bool killCattle();
 
     bool takeCattle();
     void replaceCattle();
 
+    bool mNoCattle = true;
     int mProcessing = 0;
     int mNCattle = 0;
     int mTakeWait = 0;

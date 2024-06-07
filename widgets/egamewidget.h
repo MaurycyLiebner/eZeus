@@ -286,6 +286,7 @@ private:
     eWorldWidget* mWW = nullptr;
 
     struct eTip {
+        std::string fText;
         eWidget* fWid = nullptr;
         int fLastFrame = 0;
     };

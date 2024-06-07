@@ -273,6 +273,35 @@ std::vector<eBuilding*> eGameBoard::buildings(const eBuildingValidator& v) const
     return result;
 }
 
+int eGameBoard::countBuildings(const eBuildingValidator& v) const {
+    const auto vv = buildings(v);
+    return vv.size();
+}
+
+int eGameBoard::countBuildings(const eBuildingType t) const {
+    return countBuildings([t](eBuilding* const b) {
+        const auto bt = b->type();
+        return bt == t;
+    });
+}
+
+int eGameBoard::countAllowed(const eBuildingType t) const {
+    eBuildingType parent;
+
+    if(t == eBuildingType::sheep) {
+        parent = eBuildingType::cardingShed;
+    } else if(t == eBuildingType::goat) {
+        parent = eBuildingType::dairy;
+    } else if(t == eBuildingType::cattle) {
+        parent = eBuildingType::corral;
+    } else {
+        return 0;
+    }
+    const int already = countBuildings(t);
+
+    return 8*countBuildings(parent) - already;
+}
+
 eBuilding* eGameBoard::randomBuilding(const eBuildingValidator& v) const {
     auto blds = mTimedBuildings;
     std::random_shuffle(blds.begin(), blds.end());

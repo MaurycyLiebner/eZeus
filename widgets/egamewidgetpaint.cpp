@@ -1286,27 +1286,38 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
 
         if(mode == eBuildingMode::sheep ||
-           mode == eBuildingMode::goat) {
+           mode == eBuildingMode::goat ||
+           mode == eBuildingMode::cattle) {
             const auto tex = trrTexs.fBuildingBase;
+            tex->setColorMod(0, 255, 0);
+            const auto bt = eBuildingModeHelpers::toBuildingType(mode);
+            const int allowed = mBoard->countAllowed(bt);
+            int n = 1;
             for(int x = sMinX; x <= sMaxX; x++) {
                 for(int y = sMinY; y <= sMaxY; y++) {
                     const auto t = mBoard->tile(x, y);
                     if(!t) continue;
-                    if(t->terrain() != eTerrain::fertile) continue;
                     if(t->underBuilding()) continue;
                     const auto t2 = mBoard->tile(x, y + 1);
                     if(!t2) continue;
-                    if(t2->terrain() != eTerrain::fertile) continue;
                     if(t2->underBuilding()) continue;
+                    if(t2->terrain() != eTerrain::fertile &&
+                       t->terrain() != eTerrain::fertile) continue;
                     double rx;
                     double ry;
                     const int a = t->altitude();
+                    const bool exccess = n > allowed;
+                    if(exccess) {
+                        tex->setColorMod(255, 0, 0);
+                    }
                     drawXY(x, y, rx, ry, 1, 1, a);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tp.drawTexture(rx, ry + 1, tex, eAlignment::top);
                     y++;
+                    n++;
                 }
             }
+            tex->clearColorMod();
         }
 
         if(mode == eBuildingMode::park ||
@@ -1364,15 +1375,18 @@ void eGameWidget::paintEvent(ePainter& p) {
 
 
     if(mode == eBuildingMode::sheep ||
-       mode == eBuildingMode::goat) {
+       mode == eBuildingMode::goat ||
+       mode == eBuildingMode::cattle) {
         if(mLeftPressed) return;
+        const auto bt = eBuildingModeHelpers::toBuildingType(mode);
+        const int allowed = mBoard->countAllowed(bt);
         double rx;
         double ry;
         const auto t = mBoard->tile(mHoverTX, mHoverTY);
         if(!t) return;
         const int tx = t->x();
         const int ty = t->y();
-        const bool cb = canBuild(tx, ty, 1, 2, true, true);
+        const bool cb = allowed > 0 && canBuild(tx, ty, 1, 2, true, true);
         const auto& tex = trrTexs.fBuildingBase;
         tex->setColorMod(cb ? 0 : 255, cb ? 255 : 0, 0);
         const int a = t->altitude();
