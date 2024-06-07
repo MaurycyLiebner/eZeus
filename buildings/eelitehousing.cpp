@@ -123,6 +123,7 @@ int eEliteHousing::provide(const eProvide p, const int n) {
     case eProvide::taxes: {
         if(mPaidTaxes) return 0;
         auto& b = getBoard();
+        if(!b.hasPalace()) return 0;
         const auto diff = b.difficulty();
         const int taxMult = eDifficultyHelpers::taxMultiplier(
                                 diff, type(), mLevel);
