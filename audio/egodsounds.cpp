@@ -6,57 +6,34 @@
 eGodSounds::eGodSounds(const std::string& shortName,
                        const std::string& longName) :
     fShortName(shortName),
-    fLongName(longName) {}
-
-eGodSounds::~eGodSounds() {
-    Mix_FreeChunk(fWooing0);
-    Mix_FreeChunk(fJealousy1);
-    Mix_FreeChunk(fJealousy2);
-
-    Mix_FreeChunk(fInvade);
-    Mix_FreeChunk(fAppear);
-    Mix_FreeChunk(fDisappear);
-
-    for(const auto a : fAttack) {
-        Mix_FreeChunk(a);
-    }
-    Mix_FreeChunk(fCurse);
-    Mix_FreeChunk(fHit);
-    Mix_FreeChunk(fSanctify);
-}
-
-void eGodSounds::load() {
-    if(fLoaded) return;
-    fLoaded = true;
-
+    fLongName(longName) {
     const std::string voiceDir{eGameDir::path("Audio/Voice/Walker/")};
     const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
 
-    fWooing0 = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_3.mp3");
-    fJealousy1 = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_2.mp3");
-    fJealousy2 = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_1.mp3");
+    fWooing0->addPath(voiceDir + fShortName + "_ev_3.mp3");
+    fJealousy1->addPath(voiceDir + fShortName + "_ev_2.mp3");
+    fJealousy2->addPath(voiceDir + fShortName + "_ev_1.mp3");
 
-    fInvade = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_4.mp3");
+    fInvade->addPath(voiceDir + fShortName + "_ev_4.mp3");
 
-    fMonster = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_5.mp3");
-    fQuest = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_6.mp3");
-    fQuestFinished = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_7.mp3");
-    fHelp = eSounds::loadSoundBase(voiceDir + fShortName + "_ev_8.mp3");
+    fMonster->addPath(voiceDir + fShortName + "_ev_5.mp3");
+    fQuest->addPath(voiceDir + fShortName + "_ev_6.mp3");
+    fQuestFinished->addPath(voiceDir + fShortName + "_ev_7.mp3");
+    fHelp->addPath(voiceDir + fShortName + "_ev_8.mp3");
 
-    fAppear = eSounds::loadSoundBase(wavsDir + "G_" + fLongName + "_mat.wav");
-    fDisappear = eSounds::loadSoundBase(wavsDir + "G_" + fLongName + "_demat.wav");
+    fAppear->addPath(wavsDir + "G_" + fLongName + "_mat.wav");
+    fDisappear->addPath(wavsDir + "G_" + fLongName + "_demat.wav");
 
     for(const auto& s : {"G_" + fLongName + "_atk1.wav",
                          "G_" + fLongName + "_atk2.wav",
                          "G_" + fLongName + "_atk3.wav",
                          "G_" + fLongName + "_atk4.wav"}) {
-        const auto r = eSounds::loadSoundBase(wavsDir + s);
-        if(r) fAttack.push_back(r);
+        fAttack->addPath(wavsDir + s);
     }
 
-    fCurse = eSounds::loadSoundBase(wavsDir + "G_" + fLongName + "_curse.wav");
-    fHit = eSounds::loadSoundBase(wavsDir + "G_" + fLongName + "_hit.wav");
-    fSanctify = eSounds::loadSoundBase(wavsDir + "G_" + fLongName + "_sanctify.wav");
+    fCurse->addPath(wavsDir + "G_" + fLongName + "_curse.wav");
+    fHit->addPath(wavsDir + "G_" + fLongName + "_hit.wav");
+    fSanctify->addPath(wavsDir + "G_" + fLongName + "_sanctify.wav");
 }
 
 void eGodSounds::play(const eGodSound s) {

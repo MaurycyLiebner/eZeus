@@ -1,10 +1,7 @@
 ﻿#ifndef ESOUNDS_H
 #define ESOUNDS_H
 
-#include <string>
-#include <vector>
-
-#include <SDL2/SDL_mixer.h>
+#include "esoundvector.h"
 
 #include "egodsounds.h"
 #include "eherosounds.h"
@@ -12,30 +9,9 @@
 
 class eTile;
 
-class eSoundVector {
-public:
-    int soundCount() const { return mPaths.size(); }
-
-    void addPath(const std::string& path) {
-        mPaths.push_back({nullptr, path});
-    }
-
-    void deleteSounds() const {
-        for(const auto& s : mPaths) {
-            if(!s.first) continue;
-            Mix_FreeChunk(s.first);
-        }
-    }
-
-    void play(const int id);
-private:
-    std::vector<std::pair<Mix_Chunk*, std::string>> mPaths;
-};
-
 class eSounds {
 public:
     eSounds();
-    ~eSounds();
 
     static void loadButtonSound();
 
@@ -45,6 +21,9 @@ public:
     static void playButtonSound();
 
     static void playSoundForTile(eTile* const tile);
+    static bool playSoundForBuilding(eBuilding* const b);
+    static bool playSoundForCharacter(eCharacter* const c);
+    static bool playSoundForTerrain(const eTerrain terrain);
 
     static void playEnvironmentSound();
 
@@ -112,8 +91,6 @@ public:
     static void playAttackSound(eCharacter* const c);
     static void playDieSound(eCharacter* const c);
     static void playHitSound(eCharacter* const c);
-
-    static Mix_Chunk* loadSoundBase(const std::string& path);
 private:
     void loadImpl();
 
@@ -121,127 +98,127 @@ private:
 
     bool mLoaded{false};
 
-    Mix_Chunk* mButton = nullptr;
+    std::shared_ptr<eSoundVector> mButton = std::make_shared<eSoundVector>();
 
-    eSoundVector mEnvironment;
+    std::shared_ptr<eSoundVector> mEnvironment = std::make_shared<eSoundVector>();
 
-    eSoundVector mMaintenance;
-    eSoundVector mCommonHousing;
-    eSoundVector mEliteHousing;
-    eSoundVector mFarming;
-    eSoundVector mOrchard;
-    eSoundVector mSheepFarm;
-    eSoundVector mGoatFarm;
-    eSoundVector mSea;
-    eSoundVector mTriremeWharf;
-    eSoundVector mHunting;
-    eSoundVector mTimberMill;
-    eSoundVector mMarble;
-    eSoundVector mMint;
-    eSoundVector mFoundry;
-    eSoundVector mWorkshops;
-    eSoundVector mStorage;
-    eSoundVector mAgoraFood;
-    eSoundVector mAgoraFleece;
-    eSoundVector mAgoraOil;
-    eSoundVector mAgoraWine;
-    eSoundVector mAgoraArms;
-    eSoundVector mAgoraHorse;
-    eSoundVector mTrade;
-    eSoundVector mTaxes;
-    eSoundVector mPalace;
-    eSoundVector mDefensive;
-    eSoundVector mInfirmary;
-    eSoundVector mTheatre;
-    eSoundVector mDrama;
-    eSoundVector mPhilosophy;
-    eSoundVector mGymnasium;
-    eSoundVector mStadium;
-    eSoundVector mSanctuary;
-    eSoundVector mArmory;
-    eSoundVector mHorseRanch;
-    eSoundVector mBeautification;
-    eSoundVector mFountain;
-    eSoundVector mArtisansGuild;
+    std::shared_ptr<eSoundVector> mMaintenance = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mCommonHousing = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mEliteHousing = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mFarming = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mOrchard = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mSheepFarm = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mGoatFarm = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mSea = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mTriremeWharf = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mHunting = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mTimberMill = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mMarble = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mMint = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mFoundry = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mWorkshops = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mStorage = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mAgoraFood = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mAgoraFleece = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mAgoraOil = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mAgoraWine = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mAgoraArms = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mAgoraHorse = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mTrade = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mTaxes = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mPalace = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mDefensive = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mInfirmary = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mTheatre = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mDrama = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mPhilosophy = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mGymnasium = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mStadium = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mSanctuary = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mArmory = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mHorseRanch = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mBeautification = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mFountain = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mArtisansGuild = std::make_shared<eSoundVector>();
 
     // terrain
-    eSoundVector mMeadow;
-    eSoundVector mFarmland;
-    eSoundVector mBeach;
-    eSoundVector mRocky;
-    eSoundVector mVegetation;
-    eSoundVector mWater;
+    std::shared_ptr<eSoundVector> mMeadow = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mFarmland = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mBeach = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mRocky = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mVegetation = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mWater = std::make_shared<eSoundVector>();
     // animals
-    eSoundVector mBoar;
-    eSoundVector mGoat;
-    eSoundVector mWolf;
-    eSoundVector mSheep;
-    eSoundVector mCattle;
-    eSoundVector mDeer;
+    std::shared_ptr<eSoundVector> mBoar = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mGoat = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mWolf = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mSheep = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mCattle = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mDeer = std::make_shared<eSoundVector>();
 
     // collectors
-    eSoundVector mCopperMiner;
-    eSoundVector mSilverMiner;
-    eSoundVector mTreeCutter;
-    eSoundVector mStoneCutter;
+    std::shared_ptr<eSoundVector> mCopperMiner = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mSilverMiner = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mTreeCutter = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mStoneCutter = std::make_shared<eSoundVector>();
 
-    eSoundVector mArtisan;
+    std::shared_ptr<eSoundVector> mArtisan = std::make_shared<eSoundVector>();
 
     // rockthrower
-    Mix_Chunk* mActorDie = nullptr;
-    Mix_Chunk* mActorHit = nullptr;
+    std::shared_ptr<eSoundVector> mActorDie = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mActorHit = std::make_shared<eSoundVector>();
 
-    eSoundVector mRockthrowerAttack;
-    eSoundVector mRockthrowerDie;
-    Mix_Chunk* mRockthrowerHit = nullptr;
+    std::shared_ptr<eSoundVector> mRockthrowerAttack = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mRockthrowerDie = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mRockthrowerHit = std::make_shared<eSoundVector>();
 
-    eSoundVector mArcherAttack;
-    Mix_Chunk* mArcherHit = nullptr;
-    Mix_Chunk* mArcherDie = nullptr;
+    std::shared_ptr<eSoundVector> mArcherAttack = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mArcherHit = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mArcherDie = std::make_shared<eSoundVector>();
 
-    Mix_Chunk* mOutlawHit = nullptr;
-    Mix_Chunk* mOutlawDie = nullptr;
-    Mix_Chunk* mOutlawAttack = nullptr;
+    std::shared_ptr<eSoundVector> mOutlawHit = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mOutlawDie = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mOutlawAttack = std::make_shared<eSoundVector>();
 
-    eSoundVector mAresWarriorAttack;
-    Mix_Chunk* mAresWarriorHit = nullptr;
-    Mix_Chunk* mAresWarriorDie = nullptr;
+    std::shared_ptr<eSoundVector> mAresWarriorAttack = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mAresWarriorHit = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mAresWarriorDie = std::make_shared<eSoundVector>();
 
-    Mix_Chunk* mTrojanHorseDie = nullptr;
-    Mix_Chunk* mTrojanHorseHit = nullptr;
+    std::shared_ptr<eSoundVector> mTrojanHorseDie = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mTrojanHorseHit = std::make_shared<eSoundVector>();
 
-    Mix_Chunk* mTrojanSpearthrowerDie = nullptr;
-    Mix_Chunk* mTrojanSpearthrowerHit = nullptr;
-    eSoundVector mTrojanSpearthrowerAttack;
+    std::shared_ptr<eSoundVector> mTrojanSpearthrowerDie = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mTrojanSpearthrowerHit = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mTrojanSpearthrowerAttack = std::make_shared<eSoundVector>();
 
-    Mix_Chunk* mTrojanSwordDie = nullptr;
-    Mix_Chunk* mTrojanSwordHit = nullptr;
-    eSoundVector mTrojanSwordAttack;
+    std::shared_ptr<eSoundVector> mTrojanSwordDie = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mTrojanSwordHit = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mTrojanSwordAttack = std::make_shared<eSoundVector>();
 
-    Mix_Chunk* mBoarAttack = nullptr;
-    Mix_Chunk* mBoarDie = nullptr;
-    Mix_Chunk* mBoarHit = nullptr;
+    std::shared_ptr<eSoundVector> mBoarAttack = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mBoarDie = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mBoarHit = std::make_shared<eSoundVector>();
 
-    Mix_Chunk* mBoarHunterAttack = nullptr;
-    Mix_Chunk* mBoarHunterDie = nullptr;
-    Mix_Chunk* mBoarHunterHit = nullptr;
+    std::shared_ptr<eSoundVector> mBoarHunterAttack = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mBoarHunterDie = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mBoarHunterHit = std::make_shared<eSoundVector>();
 
-    Mix_Chunk* mDeerAttack = nullptr;
-    Mix_Chunk* mDeerDie = nullptr;
-    Mix_Chunk* mDeerHit = nullptr;
+    std::shared_ptr<eSoundVector> mDeerAttack = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mDeerDie = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mDeerHit = std::make_shared<eSoundVector>();
 
-    Mix_Chunk* mHopliteDie = nullptr;
-    eSoundVector mHopliteAttack;
-    Mix_Chunk* mHopliteHit = nullptr;
+    std::shared_ptr<eSoundVector> mHopliteDie = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mHopliteAttack = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mHopliteHit = std::make_shared<eSoundVector>();
 
-    eSoundVector mGenDie;
-    eSoundVector mGenHit;
+    std::shared_ptr<eSoundVector> mGenDie = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mGenHit = std::make_shared<eSoundVector>();
 
     // events
-    Mix_Chunk* mFire = nullptr;
-    Mix_Chunk* mCollapse = nullptr;
+    std::shared_ptr<eSoundVector> mFire = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mCollapse = std::make_shared<eSoundVector>();
 
-    Mix_Chunk* mFireballHit = nullptr;
+    std::shared_ptr<eSoundVector> mFireballHit = std::make_shared<eSoundVector>();
 
     eGodSounds mAphrodite{"Aph", "aphrodite"};
     eGodSounds mApollo{"Apo", "apollo"};

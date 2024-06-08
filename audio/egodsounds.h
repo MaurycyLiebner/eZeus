@@ -1,10 +1,7 @@
 #ifndef EGODSOUNDS_H
 #define EGODSOUNDS_H
 
-#include <string>
-#include <vector>
-
-#include <SDL2/SDL_mixer.h>
+#include "esoundvector.h"
 
 #include "characters/gods/egod.h"
 
@@ -28,81 +25,63 @@ enum class eGodSound {
 struct eGodSounds {
     eGodSounds(const std::string& shortName,
                const std::string& longName);
-    ~eGodSounds();
-
-    void load();
 
     void play(const eGodSound s);
 
     void playWooing0() {
-        load();
-        Mix_PlayChannel(-1, fWooing0, 0);
+        fWooing0->playRandomSound();
     }
 
     void playJealousy1() {
-        load();
-        Mix_PlayChannel(-1, fJealousy1, 0);
+        fJealousy1->playRandomSound();
     }
 
     void playJealousy2() {
-        load();
-        Mix_PlayChannel(-1, fJealousy2, 0);
+        fJealousy2->playRandomSound();
     }
 
     void playInvade() {
-        load();
-        Mix_PlayChannel(-1, fInvade, 0);
+        fInvade->playRandomSound();
     }
 
     void playMonster() {
-        load();
-        Mix_PlayChannel(-1, fMonster, 0);
+        fMonster->playRandomSound();
     }
 
     void playQuest() {
-        load();
-        Mix_PlayChannel(-1, fQuest, 0);
+        fQuest->playRandomSound();
     }
 
     void playQuestFinished() {
-        load();
-        Mix_PlayChannel(-1, fQuestFinished, 0);
+        fQuestFinished->playRandomSound();
     }
 
     void playHelp() {
-        load();
-        Mix_PlayChannel(-1, fHelp, 0);
+        fHelp->playRandomSound();
     }
 
     void playAppear() {
-        load();
-        Mix_PlayChannel(-1, fAppear, 0);
+        fAppear->playRandomSound();
     }
 
     void playDisappear() {
-        load();
-        Mix_PlayChannel(-1, fDisappear, 0);
+        fDisappear->playRandomSound();
     }
 
     void playAttack() {
-        load();
-        const int id = rand() % fAttack.size();
-        Mix_PlayChannel(-1, fAttack[id], 0);
+        fAttack->playRandomSound();
     }
 
     void playCurse() {
-        load();
-        Mix_PlayChannel(-1, fCurse, 0);
+        fCurse->playRandomSound();
     }
 
     void playHit() {
-        load();
-        Mix_PlayChannel(-1, fHit, 0);
+        fHit->playRandomSound();
     }
 
     void playSanctify() {
-        load();
-        Mix_PlayChannel(-1, fSanctify, 0);
+        fSanctify->playRandomSound();
     }
 
     const std::string fShortName;
@@ -110,24 +89,22 @@ struct eGodSounds {
 
     bool fFirstVisit = true;
 
-    bool fLoaded = false;
+    std::shared_ptr<eSoundVector> fWooing0 = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> fJealousy1 = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> fJealousy2 = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> fInvade = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> fMonster = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> fQuest = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> fQuestFinished = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> fHelp = std::make_shared<eSoundVector>();
 
-    Mix_Chunk* fWooing0 = nullptr;
-    Mix_Chunk* fJealousy1 = nullptr;
-    Mix_Chunk* fJealousy2 = nullptr;
-    Mix_Chunk* fInvade = nullptr;
-    Mix_Chunk* fMonster = nullptr;
-    Mix_Chunk* fQuest = nullptr;
-    Mix_Chunk* fQuestFinished = nullptr;
-    Mix_Chunk* fHelp = nullptr;
+    std::shared_ptr<eSoundVector> fAppear = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> fDisappear = std::make_shared<eSoundVector>();
 
-    Mix_Chunk* fAppear = nullptr;
-    Mix_Chunk* fDisappear = nullptr;
-
-    std::vector<Mix_Chunk*> fAttack;
-    Mix_Chunk* fCurse = nullptr;
-    Mix_Chunk* fHit = nullptr;
-    Mix_Chunk* fSanctify = nullptr;
+    std::shared_ptr<eSoundVector> fAttack = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> fCurse = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> fHit = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> fSanctify = std::make_shared<eSoundVector>();
 };
 
 #endif // EGODSOUNDS_H

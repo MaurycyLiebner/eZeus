@@ -8,99 +8,11 @@
 
 eSounds eSounds::sInstance;
 
-Mix_Chunk* eSounds::loadSoundBase(const std::string& path) {
-    const auto wav = Mix_LoadWAV(path.c_str());
-    if(!wav) {
-        printf("Failed to load sound '%s'!\n SDL_mixer Error: %s\n",
-               path.c_str(), Mix_GetError());
-        return nullptr;
-    }
-    return wav;
-}
-
-eSounds::eSounds() {
-
-}
-
-void deleteSounds(const eSoundVector& sounds) {
-    sounds.deleteSounds();
-}
-
-eSounds::~eSounds() {
-    Mix_FreeChunk(mButton);
-
-    deleteSounds(mEnvironment);
-
-    deleteSounds(mMaintenance);
-    deleteSounds(mCommonHousing);
-    deleteSounds(mEliteHousing);
-    deleteSounds(mFarming);
-    deleteSounds(mOrchard);
-    deleteSounds(mSheepFarm);
-    deleteSounds(mGoatFarm);
-    deleteSounds(mSea);
-    deleteSounds(mTriremeWharf);
-    deleteSounds(mHunting);
-    deleteSounds(mTimberMill);
-    deleteSounds(mMarble);
-    deleteSounds(mMint);
-    deleteSounds(mFoundry);
-    deleteSounds(mWorkshops);
-    deleteSounds(mStorage);
-    deleteSounds(mAgoraFood);
-    deleteSounds(mAgoraFleece);
-    deleteSounds(mAgoraOil);
-    deleteSounds(mAgoraWine);
-    deleteSounds(mAgoraArms);
-    deleteSounds(mAgoraHorse);
-    deleteSounds(mTrade);
-    deleteSounds(mTaxes);
-    deleteSounds(mPalace);
-    deleteSounds(mDefensive);
-    deleteSounds(mInfirmary);
-    deleteSounds(mTheatre);
-    deleteSounds(mDrama);
-    deleteSounds(mPhilosophy);
-    deleteSounds(mGymnasium);
-    deleteSounds(mStadium);
-    deleteSounds(mSanctuary);
-    deleteSounds(mArmory);
-    deleteSounds(mHorseRanch);
-    deleteSounds(mBeautification);
-    deleteSounds(mFountain);
-    deleteSounds(mArtisansGuild);
-
-    // terrain
-    deleteSounds(mMeadow);
-    deleteSounds(mFarmland);
-    deleteSounds(mBeach);
-    deleteSounds(mRocky);
-    deleteSounds(mVegetation);
-    deleteSounds(mWater);
-    // animals
-    deleteSounds(mBoar);
-    deleteSounds(mGoat);
-    deleteSounds(mWolf);
-    deleteSounds(mSheep);
-    deleteSounds(mCattle);
-    deleteSounds(mDeer);
-
-    // collectors
-    deleteSounds(mCopperMiner);
-    deleteSounds(mSilverMiner);
-    deleteSounds(mTreeCutter);
-    deleteSounds(mStoneCutter);
-
-    deleteSounds(mArtisan);
-
-    // events
-    Mix_FreeChunk(mFire);
-    Mix_FreeChunk(mCollapse);
-}
+eSounds::eSounds() {}
 
 void eSounds::loadButtonSound() {
     const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
-    sInstance.mButton = eSounds::loadSoundBase(wavsDir + "button.wav");
+    sInstance.mButton->addPath(wavsDir + "button.wav");
 }
 
 void eSounds::load() {
@@ -112,284 +24,336 @@ bool eSounds::loaded() {
 }
 
 void eSounds::playButtonSound() {
-    Mix_PlayChannel(-1, sInstance.mButton, 0);
+    sInstance.mButton->playRandomSound();
 }
 
 void eSounds::playSoundForTile(eTile* const tile) {
     if(tile->onFire()) return eSounds::playFireSound();
     if(const auto b = tile->underBuilding()) {
-        switch(b->type()) {
-        case eBuildingType::commonHouse:
-            return eSounds::playCommonHousingSound();
-        case eBuildingType::theater:
-            return eSounds::playTheatreSound();
-        case eBuildingType::dramaSchool:
-            return eSounds::playDramaSound();
-        case eBuildingType::timberMill:
-            return eSounds::playTimberMillSound();
-        case eBuildingType::warehouse:
-        case eBuildingType::granary:
-            return eSounds::playStorageSound();
-        case eBuildingType::foundry:
-            return eSounds::playFoundrySound();
-        case eBuildingType::mint:
-            return eSounds::playMintSound();
-        case eBuildingType::maintenanceOffice:
-            return eSounds::playMaintananceSound();
-        case eBuildingType::taxOffice:
-            return eSounds::playTaxesSound();
-        case eBuildingType::palace:
-            return eSounds::playPalaceSound();
-        case eBuildingType::podium:
-        case eBuildingType::college:
-            return eSounds::playPhilosophySound();
-        case eBuildingType::gymnasium:
-            return eSounds::playGymnasiumSound();
-        case eBuildingType::stadium:
-            return eSounds::playStadiumSound();
-        case eBuildingType::fountain:
-            return eSounds::playFountainSound();
-        case eBuildingType::armory:
-            return eSounds::playArmorySound();
-        case eBuildingType::foodVendor:
-            return eSounds::playFoodVendorSound();
-        case eBuildingType::fleeceVendor:
-            return eSounds::playFleeceVendorSound();
-        case eBuildingType::oilVendor:
-            return eSounds::playOilVendorSound();
-        case eBuildingType::wineVendor:
-            return eSounds::playWineVendorSound();
-        case eBuildingType::armsVendor:
-            return eSounds::playArmsVendorSound();
-        case eBuildingType::horseTrainer:
-            return eSounds::playHorseTrainerSound();
-        case eBuildingType::horseRanch:
-        case eBuildingType::horseRanchEnclosure:
-            return eSounds::playHorseRanchSound();
-        case eBuildingType::artisansGuild:
-            return eSounds::playArtisansGuildSound();
-        default: break;
-        }
+        const bool r = playSoundForBuilding(b);
+        if(r) return;
     }
 
     for(const auto& c : tile->characters()) {
-        switch(c->type()) {
-        case eCharacterType::hunter:
-            return eSounds::playHuntingSound();
-        case eCharacterType::silverMiner:
-            return eSounds::playMintSound();
-        case eCharacterType::lumberjack:
-            return eSounds::playTimberMillSound();
-        case eCharacterType::boar:
-            return eSounds::playBoarSound();
-        case eCharacterType::deer:
-            return eSounds::playDeerSound();
-        case eCharacterType::wolf:
-            return eSounds::playWolfSound();
-        case eCharacterType::sheep:
-            return eSounds::playSheepSound();
-        case eCharacterType::goat:
-            return eSounds::playGoatSound();
-        case eCharacterType::cattle1:
-        case eCharacterType::cattle2:
-        case eCharacterType::cattle3:
-        case eCharacterType::bull:
-            return eSounds::playCattleSound();
-        case eCharacterType::cartTransporter:
-            return eSounds::playStorageSound();
-        default: break;
-        }
+        const bool r = playSoundForCharacter(c.get());
+        if(r) return;
     }
 
-    switch(tile->terrain()) {
-    case eTerrain::beach:
-        return eSounds::playBeachSound();
-    case eTerrain::water:
-        return eSounds::playWaterSound();
-    case eTerrain::silver:
-    case eTerrain::copper:
-    case eTerrain::flatStones:
-    case eTerrain::tallStones:
-        return eSounds::playRockySound();
-    default: break;
-    }
+    const bool r = playSoundForTerrain(tile->terrain());
+    if(r) return;
 
     eSounds::playEnvironmentSound();
 }
 
-void playRandomSound(eSoundVector& sounds) {
-    const int sc = sounds.soundCount();
-    if(sc <= 0) return;
-    const int id = rand() % sc;
-    sounds.play(id);
+bool eSounds::playSoundForBuilding(eBuilding* const b) {
+    const auto type = b->type();
+    switch(type) {
+    case eBuildingType::commonHouse:
+        eSounds::playCommonHousingSound();
+        return true;
+    case eBuildingType::theater:
+        eSounds::playTheatreSound();
+        return true;
+    case eBuildingType::dramaSchool:
+        eSounds::playDramaSound();
+        return true;
+    case eBuildingType::timberMill:
+        eSounds::playTimberMillSound();
+        return true;
+    case eBuildingType::warehouse:
+    case eBuildingType::granary:
+        eSounds::playStorageSound();
+        return true;
+    case eBuildingType::foundry:
+        eSounds::playFoundrySound();
+        return true;
+    case eBuildingType::mint:
+        eSounds::playMintSound();
+        return true;
+    case eBuildingType::maintenanceOffice:
+        eSounds::playMaintananceSound();
+        return true;
+    case eBuildingType::taxOffice:
+        eSounds::playTaxesSound();
+        return true;
+    case eBuildingType::palace:
+        eSounds::playPalaceSound();
+        return true;
+    case eBuildingType::podium:
+    case eBuildingType::college:
+        eSounds::playPhilosophySound();
+        return true;
+    case eBuildingType::gymnasium:
+        eSounds::playGymnasiumSound();
+        return true;
+    case eBuildingType::stadium:
+        eSounds::playStadiumSound();
+        return true;
+    case eBuildingType::fountain:
+        eSounds::playFountainSound();
+        return true;
+    case eBuildingType::armory:
+        eSounds::playArmorySound();
+        return true;
+    case eBuildingType::foodVendor:
+        eSounds::playFoodVendorSound();
+        return true;
+    case eBuildingType::fleeceVendor:
+        eSounds::playFleeceVendorSound();
+        return true;
+    case eBuildingType::oilVendor:
+        eSounds::playOilVendorSound();
+        return true;
+    case eBuildingType::wineVendor:
+        eSounds::playWineVendorSound();
+        return true;
+    case eBuildingType::armsVendor:
+        eSounds::playArmsVendorSound();
+        return true;
+    case eBuildingType::horseTrainer:
+        eSounds::playHorseTrainerSound();
+        return true;
+    case eBuildingType::horseRanch:
+    case eBuildingType::horseRanchEnclosure:
+        eSounds::playHorseRanchSound();
+        return true;
+    case eBuildingType::artisansGuild:
+        eSounds::playArtisansGuildSound();
+        return true;
+    default:
+        break;
+    }
+    return false;
+}
+
+bool eSounds::playSoundForCharacter(eCharacter* const c) {
+    const auto type = c->type();
+    switch(type) {
+    case eCharacterType::hunter:
+        eSounds::playHuntingSound();
+        return true;
+    case eCharacterType::silverMiner:
+        eSounds::playMintSound();
+        return true;
+    case eCharacterType::lumberjack:
+        eSounds::playTimberMillSound();
+        return true;
+    case eCharacterType::boar:
+        eSounds::playBoarSound();
+        return true;
+    case eCharacterType::deer:
+        eSounds::playDeerSound();
+        return true;
+    case eCharacterType::wolf:
+        eSounds::playWolfSound();
+        return true;
+    case eCharacterType::sheep:
+        eSounds::playSheepSound();
+        return true;
+    case eCharacterType::goat:
+        eSounds::playGoatSound();
+        return true;
+    case eCharacterType::cattle1:
+    case eCharacterType::cattle2:
+    case eCharacterType::cattle3:
+    case eCharacterType::bull:
+        eSounds::playCattleSound();
+        return true;
+    case eCharacterType::cartTransporter:
+        eSounds::playStorageSound();
+        return true;
+    default:
+        break;
+    }
+    return false;
+}
+
+bool eSounds::playSoundForTerrain(const eTerrain terrain) {
+    switch(terrain) {
+    case eTerrain::beach:
+        eSounds::playBeachSound();
+        return true;
+    case eTerrain::water:
+        eSounds::playWaterSound();
+        return true;
+    case eTerrain::silver:
+    case eTerrain::copper:
+    case eTerrain::flatStones:
+    case eTerrain::tallStones:
+        eSounds::playRockySound();
+        return true;
+    default:
+        break;
+    }
+    return false;
 }
 
 void eSounds::playEnvironmentSound() {
-    playRandomSound(sInstance.mEnvironment);
+    sInstance.mEnvironment->playRandomSound();
 }
 
 void eSounds::playBeachSound() {
-    playRandomSound(sInstance.mBeach);
+    sInstance.mBeach->playRandomSound();
 }
 
 void eSounds::playWaterSound() {
-    playRandomSound(sInstance.mWater);
+    sInstance.mWater->playRandomSound();
 }
 
 void eSounds::playRockySound() {
-    playRandomSound(sInstance.mRocky);
+    sInstance.mRocky->playRandomSound();
 }
 
 void eSounds::playCommonHousingSound() {
-    playRandomSound(sInstance.mCommonHousing);
+    sInstance.mCommonHousing->playRandomSound();
 }
 
 void eSounds::playTheatreSound() {
-    playRandomSound(sInstance.mTheatre);
+    sInstance.mTheatre->playRandomSound();
 }
 
 void eSounds::playDramaSound() {
-    playRandomSound(sInstance.mDrama);
+    sInstance.mDrama->playRandomSound();
 }
 
 void eSounds::playPhilosophySound() {
-    playRandomSound(sInstance.mPhilosophy);
+    sInstance.mPhilosophy->playRandomSound();
 }
 
 void eSounds::playGymnasiumSound() {
-    playRandomSound(sInstance.mGymnasium);
+    sInstance.mGymnasium->playRandomSound();
 }
 
 void eSounds::playStadiumSound() {
-    playRandomSound(sInstance.mStadium);
+    sInstance.mStadium->playRandomSound();
 }
 
 void eSounds::playArtisansGuildSound() {
-    playRandomSound(sInstance.mArtisansGuild);
+    sInstance.mArtisansGuild->playRandomSound();
 }
 
 void eSounds::playFountainSound() {
-    playRandomSound(sInstance.mFountain);
+    sInstance.mFountain->playRandomSound();
 }
 
 void eSounds::playTaxesSound() {
-    playRandomSound(sInstance.mTaxes);
+    sInstance.mTaxes->playRandomSound();
 }
 
 void eSounds::playPalaceSound() {
-    playRandomSound(sInstance.mPalace);
+    sInstance.mPalace->playRandomSound();
 }
 
 void eSounds::playMaintananceSound() {
-    playRandomSound(sInstance.mMaintenance);
+    sInstance.mMaintenance->playRandomSound();
 }
 
 void eSounds::playFoundrySound() {
-    playRandomSound(sInstance.mFoundry);
+    sInstance.mFoundry->playRandomSound();
 }
 
 void eSounds::playMintSound() {
-    playRandomSound(sInstance.mMint);
+    sInstance.mMint->playRandomSound();
 }
 
 void eSounds::playTimberMillSound() {
-    playRandomSound(sInstance.mTimberMill);
+    sInstance.mTimberMill->playRandomSound();
 }
 
 void eSounds::playArmorySound() {
-    playRandomSound(sInstance.mArmory);
+    sInstance.mArmory->playRandomSound();
 }
 
 void eSounds::playHorseRanchSound() {
-    playRandomSound(sInstance.mHorseRanch);
+    sInstance.mHorseRanch->playRandomSound();
 }
 
 void eSounds::playHuntingSound() {
-    playRandomSound(sInstance.mHunting);
+    sInstance.mHunting->playRandomSound();
 }
 
 void eSounds::playBoarSound() {
-    playRandomSound(sInstance.mBoar);
+    sInstance.mBoar->playRandomSound();
 }
 
 void eSounds::playDeerSound(){
-    playRandomSound(sInstance.mDeer);
+    sInstance.mDeer->playRandomSound();
 }
 
 void eSounds::playWolfSound() {
-    playRandomSound(sInstance.mWolf);
+    sInstance.mWolf->playRandomSound();
 }
 
 void eSounds::playSheepSound() {
-    playRandomSound(sInstance.mSheep);
+    sInstance.mSheep->playRandomSound();
 }
 
 void eSounds::playGoatSound() {
-    playRandomSound(sInstance.mGoat);
+    sInstance.mGoat->playRandomSound();
 }
 
 void eSounds::playCattleSound() {
-    playRandomSound(sInstance.mCattle);
+    sInstance.mCattle->playRandomSound();
 }
 
 void eSounds::playStorageSound() {
-    playRandomSound(sInstance.mStorage);
+    sInstance.mStorage->playRandomSound();
 }
 
 void eSounds::playFoodVendorSound() {
-    playRandomSound(sInstance.mAgoraFood);
+    sInstance.mAgoraFood->playRandomSound();
 }
 
 void eSounds::playFleeceVendorSound() {
-    playRandomSound(sInstance.mAgoraFleece);
+    sInstance.mAgoraFleece->playRandomSound();
 }
 
 void eSounds::playOilVendorSound() {
-    playRandomSound(sInstance.mAgoraOil);
+    sInstance.mAgoraOil->playRandomSound();
 }
 
 void eSounds::playWineVendorSound() {
-    playRandomSound(sInstance.mAgoraWine);
+    sInstance.mAgoraWine->playRandomSound();
 }
 
 void eSounds::playArmsVendorSound() {
-    playRandomSound(sInstance.mAgoraArms);
+    sInstance.mAgoraArms->playRandomSound();
 }
 
 void eSounds::playHorseTrainerSound() {
-    playRandomSound(sInstance.mAgoraHorse);
+    sInstance.mAgoraHorse->playRandomSound();
 }
 
 void eSounds::playFireSound() {
-    Mix_PlayChannel(-1, sInstance.mFire, 0);
+    sInstance.mFire->playRandomSound();
 }
 
 void eSounds::playCollapseSound() {
-    Mix_PlayChannel(-1, sInstance.mCollapse, 0);
+    sInstance.mCollapse->playRandomSound();
 }
 
 void eSounds::playFireballHitSound() {
-    Mix_PlayChannel(-1, sInstance.mFireballHit, 0);
+    sInstance.mFireballHit->playRandomSound();
 }
 
 void eSounds::playCopperMinerSound() {
-    playRandomSound(sInstance.mCopperMiner);
+    sInstance.mCopperMiner->playRandomSound();
 }
 
 void eSounds::playSilverMinerSound() {
-    playRandomSound(sInstance.mSilverMiner);
+    sInstance.mSilverMiner->playRandomSound();
 }
 
 void eSounds::playStoneCutterSound() {
-    playRandomSound(sInstance.mStoneCutter);
+    sInstance.mStoneCutter->playRandomSound();
 }
 
 void eSounds::playTreeCutterSound() {
-    playRandomSound(sInstance.mTreeCutter);
+    sInstance.mTreeCutter->playRandomSound();
 }
 
 void eSounds::playArtisanSound() {
-    playRandomSound(sInstance.mArtisan);
+    sInstance.mArtisan->playRandomSound();
 }
 
 void eSounds::playGodSound(const eGodType g, const eGodSound s) {
@@ -455,39 +419,39 @@ void eSounds::playAttackSound(eCharacter* const c) {
     switch(ct) {
     case eCharacterType::greekRockThrower:
     case eCharacterType::rockThrower:
-        playRandomSound(sInstance.mRockthrowerAttack);
+        sInstance.mRockthrowerAttack->playRandomSound();
         break;
     case eCharacterType::boar:
-        Mix_PlayChannel(-1, sInstance.mBoarAttack, 0);
+        sInstance.mBoarAttack->playRandomSound();
         break;
     case eCharacterType::hunter:
-        Mix_PlayChannel(-1, sInstance.mBoarHunterAttack, 0);
+        sInstance.mBoarHunterAttack->playRandomSound();
         break;
     case eCharacterType::deer:
-        Mix_PlayChannel(-1, sInstance.mDeerAttack, 0);
+        sInstance.mDeerAttack->playRandomSound();
         break;
     case eCharacterType::greekHoplite:
     case eCharacterType::hoplite:
-        playRandomSound(sInstance.mHopliteAttack);
+        sInstance.mHopliteAttack->playRandomSound();
         break;
 
     case eCharacterType::archer:
-        playRandomSound(sInstance.mArcherAttack);
+        sInstance.mArcherAttack->playRandomSound();
         break;
 
     case eCharacterType::disgruntled:
-        Mix_PlayChannel(-1, sInstance.mOutlawAttack, 0);
+        sInstance.mOutlawAttack->playRandomSound();
         break;
 
     case eCharacterType::aresWarrior:
-        playRandomSound(sInstance.mAresWarriorAttack);
+        sInstance.mAresWarriorAttack->playRandomSound();
         break;
 
     case eCharacterType::trojanSpearthrower:
-        playRandomSound(sInstance.mTrojanSpearthrowerAttack);
+        sInstance.mTrojanSpearthrowerAttack->playRandomSound();
         break;
     case eCharacterType::trojanHoplite:
-        playRandomSound(sInstance.mTrojanSwordAttack);
+        sInstance.mTrojanSwordAttack->playRandomSound();
         break;
 
     case eCharacterType::aphrodite:
@@ -615,46 +579,46 @@ void eSounds::playDieSound(eCharacter* const c) {
     const auto ct = c->type();
     switch(ct) {
     case eCharacterType::actor:
-        Mix_PlayChannel(-1, sInstance.mActorDie, 0);
+        sInstance.mActorDie->playRandomSound();
         break;
     case eCharacterType::greekRockThrower:
     case eCharacterType::rockThrower:
-        playRandomSound(sInstance.mRockthrowerDie);
+        sInstance.mRockthrowerDie->playRandomSound();
         break;
     case eCharacterType::boar:
-        Mix_PlayChannel(-1, sInstance.mBoarDie, 0);
+        sInstance.mBoarDie->playRandomSound();
         break;
     case eCharacterType::hunter:
-        Mix_PlayChannel(-1, sInstance.mBoarHunterDie, 0);
+        sInstance.mBoarHunterDie->playRandomSound();
         break;
     case eCharacterType::deer:
-        Mix_PlayChannel(-1, sInstance.mDeerDie, 0);
+        sInstance.mDeerDie->playRandomSound();
         break;
     case eCharacterType::greekHoplite:
     case eCharacterType::hoplite:
-        Mix_PlayChannel(-1, sInstance.mHopliteDie, 0);
+        sInstance.mHopliteDie->playRandomSound();
         break;
 
     case eCharacterType::archer:
-        Mix_PlayChannel(-1, sInstance.mArcherDie, 0);
+        sInstance.mArcherDie->playRandomSound();
         break;
 
     case eCharacterType::disgruntled:
-        Mix_PlayChannel(-1, sInstance.mOutlawDie, 0);
+        sInstance.mOutlawDie->playRandomSound();
         break;
 
     case eCharacterType::aresWarrior:
-        Mix_PlayChannel(-1, sInstance.mAresWarriorDie, 0);
+        sInstance.mAresWarriorDie->playRandomSound();
         break;
 
     case eCharacterType::trojanHorseman:
-        Mix_PlayChannel(-1, sInstance.mTrojanHorseDie, 0);
+        sInstance.mTrojanHorseDie->playRandomSound();
         break;
     case eCharacterType::trojanSpearthrower:
-        Mix_PlayChannel(-1, sInstance.mTrojanSpearthrowerDie, 0);
+        sInstance.mTrojanSpearthrowerDie->playRandomSound();
         break;
     case eCharacterType::trojanHoplite:
-        Mix_PlayChannel(-1, sInstance.mTrojanSwordDie, 0);
+        sInstance.mTrojanSwordDie->playRandomSound();
         break;
 
     case eCharacterType::calydonianBoar:
@@ -706,7 +670,7 @@ void eSounds::playDieSound(eCharacter* const c) {
         sInstance.mTalos.playDie();
         break;
     default:
-        playRandomSound(sInstance.mGenDie);
+        sInstance.mGenDie->playRandomSound();
         break;
     }
 }
@@ -715,46 +679,46 @@ void eSounds::playHitSound(eCharacter* const c) {
     const auto ct = c->type();
     switch(ct) {
     case eCharacterType::actor:
-        Mix_PlayChannel(-1, sInstance.mActorHit, 0);
+        sInstance.mActorHit->playRandomSound();
         break;
     case eCharacterType::greekRockThrower:
     case eCharacterType::rockThrower:
-        Mix_PlayChannel(-1, sInstance.mRockthrowerHit, 0);
+        sInstance.mRockthrowerHit->playRandomSound();
         break;
     case eCharacterType::boar:
-        Mix_PlayChannel(-1, sInstance.mBoarHit, 0);
+        sInstance.mBoarHit->playRandomSound();
         break;
     case eCharacterType::hunter:
-        Mix_PlayChannel(-1, sInstance.mBoarHunterHit, 0);
+        sInstance.mBoarHunterHit->playRandomSound();
         break;
     case eCharacterType::deer:
-        Mix_PlayChannel(-1, sInstance.mDeerHit, 0);
+        sInstance.mDeerHit->playRandomSound();
         break;
     case eCharacterType::greekHoplite:
     case eCharacterType::hoplite:
-        Mix_PlayChannel(-1, sInstance.mHopliteHit, 0);
+        sInstance.mHopliteHit->playRandomSound();
         break;
 
     case eCharacterType::archer:
-        Mix_PlayChannel(-1, sInstance.mArcherHit, 0);
+        sInstance.mArcherHit->playRandomSound();
         break;
 
     case eCharacterType::disgruntled:
-        Mix_PlayChannel(-1, sInstance.mOutlawHit, 0);
+        sInstance.mOutlawHit->playRandomSound();
         break;
 
     case eCharacterType::aresWarrior:
-        Mix_PlayChannel(-1, sInstance.mAresWarriorHit, 0);
+        sInstance.mAresWarriorHit->playRandomSound();
         break;
 
     case eCharacterType::trojanHorseman:
-        Mix_PlayChannel(-1, sInstance.mTrojanHorseHit, 0);
+        sInstance.mTrojanHorseHit->playRandomSound();
         break;
     case eCharacterType::trojanSpearthrower:
-        Mix_PlayChannel(-1, sInstance.mTrojanSpearthrowerHit, 0);
+        sInstance.mTrojanSpearthrowerHit->playRandomSound();
         break;
     case eCharacterType::trojanHoplite:
-        Mix_PlayChannel(-1, sInstance.mTrojanSwordHit, 0);
+        sInstance.mTrojanSwordHit->playRandomSound();
         break;
 
     case eCharacterType::aphrodite:
@@ -849,7 +813,7 @@ void eSounds::playHitSound(eCharacter* const c) {
         sInstance.mTalos.playHit();
         break;
     default:
-        playRandomSound(sInstance.mGenHit);
+        sInstance.mGenHit->playRandomSound();
         break;
     }
 }
@@ -881,7 +845,7 @@ void eSounds::loadImpl() {
                              "voice.wav",
                              "shimmer6.wav",
                              "shimmer7.wav"}) {
-            mEnvironment.addPath(layer1Dir + s);
+            mEnvironment->addPath(layer1Dir + s);
         }
     }
     const std::string layer2Dir{eGameDir::path("Audio/Ambient/Layer2/")};
@@ -890,7 +854,7 @@ void eSounds::loadImpl() {
                          "maintenance2.wav",
                          "maintenance3.wav",
                          "maintenance4.wav"}) {
-        mMaintenance.addPath(layer2Dir + s);
+        mMaintenance->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"wagon1.wav",
@@ -902,14 +866,14 @@ void eSounds::loadImpl() {
                          "city5.wav",
                          "city8.wav",
                          "city9.wav"}) {
-        mCommonHousing.addPath(layer2Dir + s);
+        mCommonHousing->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"elite1.wav",
                          "elite2.wav",
                          "city2.wav",
                          "city7.wav"}) {
-        mEliteHousing.addPath(layer2Dir + s);
+        mEliteHousing->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"dig3.wav",
@@ -920,26 +884,26 @@ void eSounds::loadImpl() {
                          "dig8.wav",
                          "bird1.wav",
                          "bird2.wav"}) {
-        mFarming.addPath(layer2Dir + s);
+        mFarming->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"rustling1.wav",
                          "rustling2.wav",
                          "orchard1.wav",
                          "orchard2.wav"}) {
-        mOrchard.addPath(layer2Dir + s);
+        mOrchard->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"shearing1.wav",
                          "shearing2.wav",
                          "shearing3.wav"}) {
-        mSheepFarm.addPath(layer2Dir + s);
+        mSheepFarm->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"goatherd1.wav",
                          "goatherd2.wav",
                          "goatherd3.wav"}) {
-        mGoatFarm.addPath(layer2Dir + s);
+        mGoatFarm->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"dock1.wav",
@@ -948,37 +912,37 @@ void eSounds::loadImpl() {
                          "urchin1.wav",
                          "urchin2.wav",
                          "urchin3.wav"}) {
-        mSea.addPath(layer2Dir + s);
+        mSea->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"trireme1.wav",
                          "trireme2.wav",
                          "trireme3.wav",
                          "trireme4.wav"}) {
-        mTriremeWharf.addPath(layer2Dir + s);
+        mTriremeWharf->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"hunting1.wav",
                          "hunting2.wav"}) {
-        mHunting.addPath(layer2Dir + s);
+        mHunting->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"timber_mill1.wav",
                          "timber_mill2.wav",
                          "timber_mill3.wav"}) {
-        mTimberMill.addPath(layer2Dir + s);
+        mTimberMill->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"marble1.wav",
                          "marble2.wav"}) {
-        mMarble.addPath(layer2Dir + s);
+        mMarble->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"mint1.wav",
                          "mint2.wav",
                          "mint3.wav",
                          "mint4.wav"}) {
-        mMint.addPath(layer2Dir + s);
+        mMint->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"foundry1.wav",
@@ -986,14 +950,14 @@ void eSounds::loadImpl() {
                          "foundry3.wav",
                          "foundry4.wav",
                          "foundry5.wav"}) {
-        mFoundry.addPath(layer2Dir + s);
+        mFoundry->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"wagon4.wav",
                          "wagon5.wav",
                          "wagon6.wav",
                          "wagon7.wav"}) {
-        mWorkshops.addPath(layer2Dir + s);
+        mWorkshops->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"chest1.wav",
@@ -1003,77 +967,77 @@ void eSounds::loadImpl() {
                          "drop_wood.wav",
                          "storage_cart1.wav",
                          "warehouse.wav"}) {
-        mStorage.addPath(layer2Dir + s);
+        mStorage->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"agora_food1.wav",
                          "agora_food2.wav",
                          "agora_food3.wav",
                          "agora_food4.wav"}) {
-        mAgoraFood.addPath(layer2Dir + s);
+        mAgoraFood->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"agora_fleece1.wav",
                          "agora_fleece2.wav"}) {
-        mAgoraFleece.addPath(layer2Dir + s);
+        mAgoraFleece->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"agora_fleece1.wav",
                          "agora_fleece2.wav"}) {
-        mAgoraFleece.addPath(layer2Dir + s);
+        mAgoraFleece->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"agora_oil.wav",
                          "agora_gen1.wav"}) {
-        mAgoraOil.addPath(layer2Dir + s);
+        mAgoraOil->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"agora_wine1.wav",
                          "agora_wine2.wav"}) {
-        mAgoraWine.addPath(layer2Dir + s);
+        mAgoraWine->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"agora_arms1.wav",
                          "agora_arms2.wav",
                          "agora_gen2.wav"}) {
-        mAgoraArms.addPath(layer2Dir + s);
+        mAgoraArms->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"agora_horse1.wav",
                          "agora_horse2.wav"}) {
-        mAgoraHorse.addPath(layer2Dir + s);
+        mAgoraHorse->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"trade1.wav",
                          "trade2.wav",
                          "trade3.wav",
                          "trade4.wav"}) {
-        mTrade.addPath(layer2Dir + s);
+        mTrade->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"tax1.wav",
                          "tax2.wav",
                          "tax3.wav"}) {
-        mTaxes.addPath(layer2Dir + s);
+        mTaxes->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"palace1.wav",
                          "palace2.wav",
                          "palace3.wav"}) {
-        mPalace.addPath(layer2Dir + s);
+        mPalace->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"defensive1.wav",
                          "defensive2.wav",
                          "defensive3.wav"}) {
-        mDefensive.addPath(layer2Dir + s);
+        mDefensive->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"infirmary1.wav",
                          "infirmary2.wav",
                          "infirmary3.wav",
                          "infirmary4.wav"}) {
-        mInfirmary.addPath(layer2Dir + s);
+        mInfirmary->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"drama1.wav",
@@ -1085,12 +1049,12 @@ void eSounds::loadImpl() {
                          "thtr_mumbl3.wav",
                          "thtr_women.wav",
         }) {
-        mTheatre.addPath(layer2Dir + s);
+        mTheatre->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"thtr_spin1.wav",
                          "thtr_spin2.wav"}) {
-        mDrama.addPath(layer2Dir + s);
+        mDrama->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"Plato.wav",
@@ -1099,31 +1063,31 @@ void eSounds::loadImpl() {
                          "college.wav",
                          "college2.wav",
                          "podium1.wav"}) {
-        mPhilosophy.addPath(layer2Dir + s);
+        mPhilosophy->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"gym1.wav",
                          "gym2.wav",
                          "gym3.wav"}) {
-        mGymnasium.addPath(layer2Dir + s);
+        mGymnasium->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"cheer.wav",
                          "javelin.wav",
                          "wrestling.wav",
                          "cheer2.wav"}) {
-        mStadium.addPath(layer2Dir + s);
+        mStadium->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"sanctuary1.wav",
                          "sanctuary2.wav"}) {
-        mSanctuary.addPath(layer2Dir + s);
+        mSanctuary->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"armory1.wav",
                          "armory2.wav",
                          "armory3.wav"}) {
-        mArmory.addPath(layer2Dir + s);
+        mArmory->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"horse1.wav",
@@ -1131,23 +1095,23 @@ void eSounds::loadImpl() {
                          "horse3.wav",
                          "horse4.wav",
                          "horse5.wav"}) {
-        mHorseRanch.addPath(layer2Dir + s);
+        mHorseRanch->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"win_chime1.wav",
                          "win_chime2.wav",
                          "recreation1.wav"}) {
-        mBeautification.addPath(layer2Dir + s);
+        mBeautification->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"fountain1.wav",
                          "fountain2.wav"}) {
-        mFountain.addPath(layer2Dir + s);
+        mFountain->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"artisan_guild1.wav",
                          "artisan_guild2.wav"}) {
-        mArtisansGuild.addPath(layer2Dir + s);
+        mArtisansGuild->addPath(layer2Dir + s);
     }
 
 
@@ -1157,7 +1121,7 @@ void eSounds::loadImpl() {
                          "finch2.wav",
                          "sparrow1.wav",
                          "bird3.wav"}) {
-        mMeadow.addPath(layer2Dir + s);
+        mMeadow->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"bird1.wav",
@@ -1165,31 +1129,31 @@ void eSounds::loadImpl() {
                          "bird4.wav",
                          "rustling1.wav",
                          "rustling2.wav"}) {
-        mFarmland.addPath(layer2Dir + s);
+        mFarmland->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"wave1.wav",
                          "wave2.wav",
                          "wave3.wav",
                          "wave4.wav"}) {
-        mBeach.addPath(layer2Dir + s);
+        mBeach->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"rumble.wav",
                          "rockslide1.wav",
                          "rockslide2.wav"}) {
-        mRocky.addPath(layer2Dir + s);
+        mRocky->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"bird3.wav",
                          "bird4.wav",
                          "bird5.wav"}) {
-        mVegetation.addPath(layer2Dir + s);
+        mVegetation->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"water_space1.wav",
                          "water_space2.wav"}) {
-        mWater.addPath(layer2Dir + s);
+        mWater->addPath(layer2Dir + s);
     }
 
 
@@ -1198,133 +1162,133 @@ void eSounds::loadImpl() {
                          "boar2.wav",
                          "boar3.wav",
                          "boar4.wav"}) {
-        mBoar.addPath(layer2Dir + s);
+        mBoar->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"goat1.wav",
                          "goat2.wav",
                          "goat3.wav",
                          "goat4.wav"}) {
-        mGoat.addPath(layer2Dir + s);
+        mGoat->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"wolf1.wav",
                          "wolf2.wav",
                          "wolf3.wav",
                          "wolf4.wav"}) {
-        mWolf.addPath(layer2Dir + s);
+        mWolf->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"sheep1.wav",
                          "sheep2.wav",
                          "sheep3.wav",
                          "sheep4.wav"}) {
-        mSheep.addPath(layer2Dir + s);
+        mSheep->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"cattle1.wav",
                          "cattle2.wav",
                          "cattle3.wav",
                          "cattle4.wav"}) {
-        mCattle.addPath(layer2Dir + s);
+        mCattle->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"deer1.wav",
                          "deer2.wav",
                          "deer3.wav",
                          "deer4.wav"}) {
-        mDeer.addPath(layer2Dir + s);
+        mDeer->addPath(layer2Dir + s);
     }
 
 
     const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
-    mFire = eSounds::loadSoundBase(wavsDir + "Fire.wav");
-    mCollapse = eSounds::loadSoundBase(wavsDir + "collapse.wav");
+    mFire->addPath(wavsDir + "Fire.wav");
+    mCollapse->addPath(wavsDir + "collapse.wav");
 
-    mFireballHit = eSounds::loadSoundBase(wavsDir + "Fireball_hit.wav");
+    mFireballHit->addPath(wavsDir + "Fireball_hit.wav");
 
 
     for(const auto& s : {"copperminer1.wav",
                          "copperminer2.wav"}) {
-        mCopperMiner.addPath(wavsDir + s);
+        mCopperMiner->addPath(wavsDir + s);
     }
 
     for(const auto& s : {"silverminer1.wav",
                          "silverminer2.wav"}) {
-        mSilverMiner.addPath(wavsDir + s);
+        mSilverMiner->addPath(wavsDir + s);
     }
 
     for(const auto& s : {"treecutter1.wav",
                          "treecutter2.wav"}) {
-        mTreeCutter.addPath(wavsDir + s);
+        mTreeCutter->addPath(wavsDir + s);
     }
 
     for(const auto& s : {"stonecutter1.wav",
                          "stonecutter2.wav"}) {
-        mStoneCutter.addPath(wavsDir + s);
+        mStoneCutter->addPath(wavsDir + s);
     }
 
     for(const auto& s : {"artisan1.wav",
                          "artisan2.wav"}) {
-        mArtisan.addPath(wavsDir + s);
+        mArtisan->addPath(wavsDir + s);
     }
 
-    mActorDie = eSounds::loadSoundBase(wavsDir + "actor_die.wav");
-    mActorHit = eSounds::loadSoundBase(wavsDir + "actor_hit.wav");
+    mActorDie->addPath(wavsDir + "actor_die.wav");
+    mActorHit->addPath(wavsDir + "actor_hit.wav");
 
     for(const auto& s : {"am_warr_atk1.wav",
                          "am_warr_atk2.wav"}) {
-        mRockthrowerAttack.addPath(wavsDir + s);
+        mRockthrowerAttack->addPath(wavsDir + s);
     }
     for(const auto& s : {"am_arch_die.wav",
                          "am_warr_die.wav"}) {
-        mRockthrowerDie.addPath(wavsDir + s);
+        mRockthrowerDie->addPath(wavsDir + s);
     }
-    mRockthrowerHit = eSounds::loadSoundBase(wavsDir + "am_warr_hit.wav");
+    mRockthrowerHit->addPath(wavsDir + "am_warr_hit.wav");
 
-    mBoarAttack = eSounds::loadSoundBase(wavsDir + "boar_attack.wav");
-    mBoarDie = eSounds::loadSoundBase(wavsDir + "boar_die.wav");
-    mBoarHit = eSounds::loadSoundBase(wavsDir + "boar_hit.wav");
+    mBoarAttack->addPath(wavsDir + "boar_attack.wav");
+    mBoarDie->addPath(wavsDir + "boar_die.wav");
+    mBoarHit->addPath(wavsDir + "boar_hit.wav");
 
-    mDeerAttack = eSounds::loadSoundBase(wavsDir + "deer_attack.wav");
-    mDeerDie = eSounds::loadSoundBase(wavsDir + "deer_die.wav");
-    mDeerHit = eSounds::loadSoundBase(wavsDir + "deer_hit.wav");
+    mDeerAttack->addPath(wavsDir + "deer_attack.wav");
+    mDeerDie->addPath(wavsDir + "deer_die.wav");
+    mDeerHit->addPath(wavsDir + "deer_hit.wav");
 
-    mOutlawAttack = eSounds::loadSoundBase(wavsDir + "outlaw_attack.wav");
-    mOutlawDie = eSounds::loadSoundBase(wavsDir + "outlaw_die.wav");
-    mOutlawHit = eSounds::loadSoundBase(wavsDir + "outlaw_hit.wav");
+    mOutlawAttack->addPath(wavsDir + "outlaw_attack.wav");
+    mOutlawDie->addPath(wavsDir + "outlaw_die.wav");
+    mOutlawHit->addPath(wavsDir + "outlaw_hit.wav");
 
-    mArcherDie = eSounds::loadSoundBase(wavsDir + "archer_die.wav");
-    mArcherHit = eSounds::loadSoundBase(wavsDir + "archer_hit.wav");
+    mArcherDie->addPath(wavsDir + "archer_die.wav");
+    mArcherHit->addPath(wavsDir + "archer_hit.wav");
     for(const auto& s : {"archer_volley1.wav",
                          "archer_volley2.wav"}) {
-        mArcherAttack.addPath(wavsDir + s);
+        mArcherAttack->addPath(wavsDir + s);
     }
 
     for(const auto& s : {"Ares_warr_atk1.wav",
                          "Ares_warr_atk2.wav",
                          "Ares_warr_atk3.wav",
                          "Ares_warr_atk4.wav"}) {
-        mAresWarriorAttack.addPath(wavsDir + s);
+        mAresWarriorAttack->addPath(wavsDir + s);
     }
-    mAresWarriorHit = eSounds::loadSoundBase(wavsDir + "Ares_warr_hit.wav");
-    mAresWarriorDie = eSounds::loadSoundBase(wavsDir + "Ares_warr_die.wav");
+    mAresWarriorHit->addPath(wavsDir + "Ares_warr_hit.wav");
+    mAresWarriorDie->addPath(wavsDir + "Ares_warr_die.wav");
 
-    mTrojanHorseDie = eSounds::loadSoundBase(wavsDir + "troj_horse_die.wav");
-    mTrojanHorseHit = eSounds::loadSoundBase(wavsDir + "troj_horse_hit.wav");
+    mTrojanHorseDie->addPath(wavsDir + "troj_horse_die.wav");
+    mTrojanHorseHit->addPath(wavsDir + "troj_horse_hit.wav");
 
-    mTrojanSpearthrowerDie = eSounds::loadSoundBase(wavsDir + "troj_jav_die.wav");
-    mTrojanSpearthrowerHit = eSounds::loadSoundBase(wavsDir + "troj_jav_hit.wav");
+    mTrojanSpearthrowerDie->addPath(wavsDir + "troj_jav_die.wav");
+    mTrojanSpearthrowerHit->addPath(wavsDir + "troj_jav_hit.wav");
     for(const auto& s : {"troj_jav_throw1.wav",
                          "troj_jav_throw2.wav"}) {
-        mTrojanSpearthrowerAttack.addPath(wavsDir + s);
+        mTrojanSpearthrowerAttack->addPath(wavsDir + s);
     }
 
-    mTrojanSwordDie = eSounds::loadSoundBase(wavsDir + "troj_sword_die.wav");
-    mTrojanSwordHit = eSounds::loadSoundBase(wavsDir + "troj_sword_hit.wav");
+    mTrojanSwordDie->addPath(wavsDir + "troj_sword_die.wav");
+    mTrojanSwordHit->addPath(wavsDir + "troj_sword_hit.wav");
     for(const auto& s : {"troj_sword1.wav",
                          "troj_sword2.wav"}) {
-        mTrojanSwordAttack.addPath(wavsDir + s);
+        mTrojanSwordAttack->addPath(wavsDir + s);
     }
 
     for(const auto& s : {"gen_die1.wav",
@@ -1335,7 +1299,7 @@ void eSounds::loadImpl() {
                          "gen_die6.wav",
                          "gen_die7.wav",
                          "gen_die8.wav"}) {
-        mGenDie.addPath(wavsDir + s);
+        mGenDie->addPath(wavsDir + s);
     }
 
     for(const auto& s : {"gen_hit1.wav",
@@ -1346,14 +1310,6 @@ void eSounds::loadImpl() {
                          "gen_hit6.wav",
                          "gen_hit7.wav",
                          "gen_hit8.wav"}) {
-        mGenHit.addPath(wavsDir + s);
+        mGenHit->addPath(wavsDir + s);
     }
-}
-
-void eSoundVector::play(const int id) {
-    auto& p = mPaths[id];
-    if(!p.first) {
-        p.first = eSounds::loadSoundBase(p.second);
-    }
-    Mix_PlayChannel(-1, p.first, 0);
 }

@@ -21,6 +21,7 @@ SOURCES += \
         audio/emonstersounds.cpp \
         audio/emusic.cpp \
         audio/esounds.cpp \
+        audio/esoundvector.cpp \
         buildings/eaestheticsbuilding.cpp \
         buildings/eagorabase.cpp \
         buildings/eagoraspace.cpp \
@@ -572,6 +573,7 @@ HEADERS += \
     audio/emonstersounds.h \
     audio/emusic.h \
     audio/esounds.h \
+    audio/esoundvector.h \
     buildings/allbuildings.h \
     buildings/eaestheticsbuilding.h \
     buildings/eagorabase.h \

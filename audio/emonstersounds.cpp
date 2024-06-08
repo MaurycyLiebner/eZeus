@@ -6,34 +6,20 @@
 
 eMonsterSounds::eMonsterSounds(const std::string& shortName,
                                const std::string& longName) :
-    fShortName(shortName), fLongName(longName) {}
-
-eMonsterSounds::~eMonsterSounds() {
-    for(const auto a : fAttack) {
-        Mix_FreeChunk(a);
-    }
-    Mix_FreeChunk(fVoice);
-    Mix_FreeChunk(fDie);
-    Mix_FreeChunk(fHit);
-}
-
-void eMonsterSounds::load() {
-    if(fLoaded) return;
-    fLoaded = true;
+    fShortName(shortName), fLongName(longName) {
     const std::string voiceDir{eGameDir::path("Audio/Voice/Walker/")};
     const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
 
-    fVoice = eSounds::loadSoundBase(voiceDir + "M_" + fShortName + ".mp3");
+    fVoice->addPath(voiceDir + "M_" + fShortName + ".mp3");
 
     for(const auto& s : {"M_" + fLongName + "_atk1.wav",
                          "M_" + fLongName + "_atk2.wav",
                          "M_" + fLongName + "_atk3.wav",
                          "M_" + fLongName + "_atk4.wav"}) {
-        const auto r = eSounds::loadSoundBase(wavsDir + s);
-        if(r) fAttack.push_back(r);
+        fAttack->addPath(wavsDir + s);
     }
-    fDie = eSounds::loadSoundBase(wavsDir + "M_" + fLongName + "_die.wav");
-    fHit = eSounds::loadSoundBase(wavsDir + "M_" + fLongName + "_hit.wav");
+    fDie->addPath(wavsDir + "M_" + fLongName + "_die.wav");
+    fHit->addPath(wavsDir + "M_" + fLongName + "_hit.wav");
 }
 
 void eMonsterSounds::play(const eMonsterSound s) {
