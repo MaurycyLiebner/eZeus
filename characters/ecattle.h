@@ -17,7 +17,10 @@ public:
 private:
     bool mature();
 
+    int mId;
     int mMatureWait = 0;
+
+    static int sId;
 };
 
 #endif // ECATTLE_H

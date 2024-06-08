@@ -96,6 +96,7 @@ stdsptr<eCharacter> eCharacter::sCreate(
     case eCharacterType::cattle1:
     case eCharacterType::cattle2:
     case eCharacterType::cattle3:
+    case eCharacterType::bull:
         return e::make_shared<eCattle>(board, t);
     case eCharacterType::actor:
         return e::make_shared<eActor>(board);

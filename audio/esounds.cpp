@@ -193,6 +193,7 @@ void eSounds::playSoundForTile(eTile* const tile) {
         case eCharacterType::cattle1:
         case eCharacterType::cattle2:
         case eCharacterType::cattle3:
+        case eCharacterType::bull:
             return eSounds::playCattleSound();
         case eCharacterType::cartTransporter:
             return eSounds::playStorageSound();

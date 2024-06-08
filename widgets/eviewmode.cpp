@@ -232,6 +232,7 @@ bool eViewModeHelpers::characterVisible(
                c == eCharacterType::cattle1 ||
                c == eCharacterType::cattle2 ||
                c == eCharacterType::cattle3 ||
+               c == eCharacterType::bull ||
                c == eCharacterType::horse ||
                c == eCharacterType::butcher ||
                c == eCharacterType::hunter ||

@@ -111,10 +111,9 @@ struct eCattleTextures : public eBasicCharacterTextures {
     std::vector<eTextureCollection> fStand;
 };
 
-struct eBullTextures : public eBasicCharacterTextures {
-    using eBasicCharacterTextures::eBasicCharacterTextures;
+struct eBullTextures : public eCattleTextures {
+    using eCattleTextures::eCattleTextures;
 
-    std::vector<eTextureCollection> fStand;
     std::vector<eTextureCollection> fAttack;
 };
 
