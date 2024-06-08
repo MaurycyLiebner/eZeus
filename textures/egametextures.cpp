@@ -1727,6 +1727,13 @@ void eGameTextures::loadChariot() {
     });
 }
 
+void eGameTextures::loadElephant() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadElephant();
+    });
+}
+
 void eGameTextures::loadWineVendorBuilding() {
     loadTexture([](const int i) {
         auto& c = sBuildingTextures[i];

@@ -1381,6 +1381,10 @@ HEADERS += \
     spriteData/egyptianHoplite30.h \
     spriteData/egyptianHoplite45.h \
     spriteData/egyptianHoplite60.h \
+    spriteData/elephant15.h \
+    spriteData/elephant30.h \
+    spriteData/elephant45.h \
+    spriteData/elephant60.h \
     spriteData/eliteHouse15.h \
     spriteData/eliteHouse30.h \
     spriteData/eliteHouse45.h \
@@ -2486,6 +2490,7 @@ DISTFILES += \
     textureTemplates/egyptianArcher \
     textureTemplates/egyptianChariot \
     textureTemplates/egyptianHoplite \
+    textureTemplates/elephant \
     textureTemplates/eliteHouse \
     textureTemplates/empireBits \
     textureTemplates/empireFigures \

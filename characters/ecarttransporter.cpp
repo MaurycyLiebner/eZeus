@@ -1,8 +1,9 @@
-#include "ecarttransporter.h"
+﻿#include "ecarttransporter.h"
 
 #include "textures/egametextures.h"
 
 #include "characters/actions/efollowaction.h"
+#include "engine/egameboard.h"
 #include "etrailer.h"
 #include "eox.h"
 #include "eporter.h"
@@ -168,20 +169,23 @@ void eCartTransporter::setType(const eCartTransporterType t) {
     if(mOx) mOx->kill();
     if(mTrailer) mTrailer->kill();
     if(mType == eCartTransporterType::ox) {
-        setCharTextures(&eCharacterTextures::fOxHandler);
-
         const auto t = tile();
         auto& board = getBoard();
 
-        mOx = e::make_shared<eOx>(board);
-        const auto aox = e::make_shared<eFollowAction>(this, mOx.get());
-        mOx->setAction(aox);
-        mOx->changeTile(t);
+        eCharacter* follow = this;
+
+        if(!board.poseidonMode()) {
+            mOx = e::make_shared<eOx>(board);
+            const auto aox = e::make_shared<eFollowAction>(follow, mOx.get());
+            mOx->setAction(aox);
+            mOx->changeTile(t);
+            follow = mOx.get();
+        }
+
         mTrailer = e::make_shared<eTrailer>(board);
         mTrailer->setFollow(this);
         mTrailer->setBig(mBigTrailer);
-        const auto atr = e::make_shared<eFollowAction>(
-                           mOx.get(), mTrailer.get());
+        const auto atr = e::make_shared<eFollowAction>(follow, mTrailer.get());
         mTrailer->setAction(atr);
         mTrailer->changeTile(t);
     }
@@ -346,8 +350,14 @@ void eCartTransporter::updateTextures() {
         setCharTextures(&eCharacterTextures::fTransporter);
     } break;
     case eCartTransporterType::ox: {
-        eGameTextures::loadOxHandler();
-        setCharTextures(&eCharacterTextures::fOxHandler);
+        auto& board = getBoard();
+        if(board.poseidonMode()) {
+            eGameTextures::loadElephant();
+            setCharTextures(&eCharacterTextures::fElephant);
+        } else {
+            eGameTextures::loadOxHandler();
+            setCharTextures(&eCharacterTextures::fOxHandler);
+        }
     } break;
     case eCartTransporterType::food: {
         eGameTextures::loadFoodVendor();

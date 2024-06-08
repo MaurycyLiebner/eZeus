@@ -72,7 +72,30 @@
 #include "spriteData/chariot45.h"
 #include "spriteData/chariot60.h"
 
+#include "spriteData/elephant15.h"
+#include "spriteData/elephant30.h"
+#include "spriteData/elephant45.h"
+#include "spriteData/elephant60.h"
+
 #include "offsets/PoseidonImps.h"
+
+void eCharacterTextures::loadElephant() {
+    if(fElephantLoaded) return;
+    fElephantLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eElephantSpriteData15,
+                                 eElephantSpriteData30,
+                                 eElephantSpriteData45,
+                                 eElephantSpriteData60);
+    eSpriteLoader loader(fTileH, "elephant", sds,
+                         &ePoseidonImpsOffset, fRenderer);
+
+    loader.loadSkipFlipped(5078, 5078, 5174, fElephant.fWalk);
+
+    for(int i = 5174; i < 5182; i++) {
+        loader.load(5078, i, fElephant.fDie);
+    }
+}
 
 void eCharacterTextures::loadChariot() {
     if(fChariotLoaded) return;

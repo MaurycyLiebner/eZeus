@@ -418,6 +418,9 @@ public:
     bool fChariotLoaded = false;
     void loadChariot();
 
+    bool fElephantLoaded = false;
+    void loadElephant();
+
     void loadBanners();
     bool fBannersLoaded = false;
 
@@ -610,6 +613,8 @@ public:
 
     eBasicCharacterTextures fChariotVendor;
     std::vector<eTextureCollection> fChariot;
+
+    eBasicCharacterTextures fElephant;
 };
 
 #endif // ECHARACTERTEXTURES_H

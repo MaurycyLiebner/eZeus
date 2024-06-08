@@ -420,7 +420,9 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fInventor(renderer),
     fCurator(renderer),
 
-    fChariotVendor(renderer) {
+    fChariotVendor(renderer),
+
+    fElephant(renderer) {
 
 }
 

@@ -295,6 +295,7 @@ public:
     static void loadChariotVendorCharacter();
     static void loadChariot();
     static void loadWineVendorBuilding();
+    static void loadElephant();
 
     static void loadHoplitePoseidon();
     static void loadArcherPoseidon();
