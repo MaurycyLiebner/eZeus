@@ -57,6 +57,21 @@ bool eSounds::playSoundForBuilding(eBuilding* const b) {
     case eBuildingType::dramaSchool:
         eSounds::playDramaSound();
         return true;
+    case eBuildingType::university:
+        eSounds::playUniversitySound();
+        return true;
+    case eBuildingType::observatory:
+        eSounds::playObservatorySound();
+        return true;
+    case eBuildingType::inventorsWorkshop:
+        eSounds::playInventorsWorkshopSound();
+        return true;
+    case eBuildingType::laboratory:
+        eSounds::playLaboratorySound();
+        return true;
+    case eBuildingType::museum:
+        eSounds::playMuseumSound();
+        return true;
     case eBuildingType::timberMill:
         eSounds::playTimberMillSound();
         return true;
@@ -67,6 +82,10 @@ bool eSounds::playSoundForBuilding(eBuilding* const b) {
     case eBuildingType::foundry:
         eSounds::playFoundrySound();
         return true;
+    case eBuildingType::growersLodge:
+    case eBuildingType::orangeTendersLodge:
+        eSounds::playFruitLodgeSound();
+        return true;
     case eBuildingType::mint:
         eSounds::playMintSound();
         return true;
@@ -76,8 +95,17 @@ bool eSounds::playSoundForBuilding(eBuilding* const b) {
     case eBuildingType::taxOffice:
         eSounds::playTaxesSound();
         return true;
+    case eBuildingType::hospital:
+        eSounds::playInfirmarySound();
+        return true;
     case eBuildingType::palace:
         eSounds::playPalaceSound();
+        return true;
+    case eBuildingType::huntingLodge:
+        eSounds::playHuntingSound();
+        return true;
+    case eBuildingType::corral:
+        eSounds::playCorralSound();
         return true;
     case eBuildingType::podium:
     case eBuildingType::college:
@@ -113,12 +141,26 @@ bool eSounds::playSoundForBuilding(eBuilding* const b) {
     case eBuildingType::horseTrainer:
         eSounds::playHorseTrainerSound();
         return true;
+    case eBuildingType::chariotVendor:
+        eSounds::playChariotVendorSound();
+        return true;
     case eBuildingType::horseRanch:
     case eBuildingType::horseRanchEnclosure:
         eSounds::playHorseRanchSound();
         return true;
+    case eBuildingType::chariotFactory:
+        eSounds::playChariotFactorySound();
+        return true;
     case eBuildingType::artisansGuild:
         eSounds::playArtisansGuildSound();
+        return true;
+    case eBuildingType::urchinQuay:
+        eSounds::playUrchinSound();
+        return true;
+
+    case eBuildingType::tradePost:
+    case eBuildingType::pier:
+        eSounds::playTradeSound();
         return true;
     default:
         break;
@@ -228,12 +270,36 @@ void eSounds::playStadiumSound() {
     sInstance.mStadium->playRandomSound();
 }
 
+void eSounds::playUniversitySound() {
+    sInstance.mUniversity->playRandomSound();
+}
+
+void eSounds::playObservatorySound() {
+    sInstance.mObservatory->playRandomSound();
+}
+
+void eSounds::playInventorsWorkshopSound() {
+    sInstance.mInventorsWorkshop->playRandomSound();
+}
+
+void eSounds::playLaboratorySound() {
+    sInstance.mLaboratory->playRandomSound();
+}
+
+void eSounds::playMuseumSound() {
+    sInstance.mMuseum->playRandomSound();
+}
+
 void eSounds::playArtisansGuildSound() {
     sInstance.mArtisansGuild->playRandomSound();
 }
 
 void eSounds::playFountainSound() {
     sInstance.mFountain->playRandomSound();
+}
+
+void eSounds::playInfirmarySound() {
+    sInstance.mInfirmary->playRandomSound();
 }
 
 void eSounds::playTaxesSound() {
@@ -268,6 +334,10 @@ void eSounds::playHorseRanchSound() {
     sInstance.mHorseRanch->playRandomSound();
 }
 
+void eSounds::playChariotFactorySound() {
+    sInstance.mChariotFactory->playRandomSound();
+}
+
 void eSounds::playHuntingSound() {
     sInstance.mHunting->playRandomSound();
 }
@@ -296,6 +366,14 @@ void eSounds::playCattleSound() {
     sInstance.mCattle->playRandomSound();
 }
 
+void eSounds::playCorralSound() {
+    sInstance.mCorral->playRandomSound();
+}
+
+void eSounds::playFruitLodgeSound() {
+    sInstance.mFruitLodge->playRandomSound();
+}
+
 void eSounds::playStorageSound() {
     sInstance.mStorage->playRandomSound();
 }
@@ -322,6 +400,14 @@ void eSounds::playArmsVendorSound() {
 
 void eSounds::playHorseTrainerSound() {
     sInstance.mAgoraHorse->playRandomSound();
+}
+
+void eSounds::playChariotVendorSound() {
+    sInstance.mAgoraChariot->playRandomSound();
+}
+
+void eSounds::playTradeSound() {
+    sInstance.mTrade->playRandomSound();
 }
 
 void eSounds::playFireSound() {
@@ -354,6 +440,10 @@ void eSounds::playTreeCutterSound() {
 
 void eSounds::playArtisanSound() {
     sInstance.mArtisan->playRandomSound();
+}
+
+void eSounds::playUrchinSound() {
+    sInstance.mUrchin->playRandomSound();
 }
 
 void eSounds::playGodSound(const eGodType g, const eGodSound s) {
@@ -822,6 +912,47 @@ void eSounds::loadImpl() {
     if(mLoaded) return;
     mLoaded = true;
 
+    mAphrodite.load();
+    mApollo.load();
+    mAres.load();
+    mArtemis.load();
+    mAthena.load();
+    mAtlas.load();
+    mDemeter.load();
+    mDionysus.load();
+    mHades.load();
+    mHephaestus.load();
+    mHera.load();
+    mHermes.load();
+    mPoseidon.load();
+    mZeus.load();
+
+    mAchilles.load();
+    mAtalanta.load();
+    mBellerophon.load();
+    mHercules.load();
+    mJason.load();
+    mOdysseus.load();
+    mPerseus.load();
+    mTheseus.load();
+
+    mCalydonianBoar.load();
+    mCerberus.load();
+    mChimera.load();
+    mCyclops.load();
+    mDragon.load();
+    mEchidna.load();
+    mHarpies.load();
+    mHector.load();
+    mHydra.load();
+    mKraken.load();
+    mMaenads.load();
+    mMedusa.load();
+    mMinotaur.load();
+    mScylla.load();
+    mSphinx.load();
+    mTalos.load();
+
     {
         const std::string layer1Dir{eGameDir::path("Audio/Ambient/Layer1/")};
         for(const auto& s : {"wind1.wav",
@@ -926,6 +1057,11 @@ void eSounds::loadImpl() {
                          "hunting2.wav"}) {
         mHunting->addPath(layer2Dir + s);
     }
+    for(const auto& s : {"corral1.wav",
+                         "corral2.wav",
+                         "corral3.wav"}) {
+        mCorral->addPath(layer2Dir + s);
+    }
 
     for(const auto& s : {"timber_mill1.wav",
                          "timber_mill2.wav",
@@ -1006,6 +1142,11 @@ void eSounds::loadImpl() {
     for(const auto& s : {"agora_horse1.wav",
                          "agora_horse2.wav"}) {
         mAgoraHorse->addPath(layer2Dir + s);
+    }
+
+    for(const auto& s : {"agora_chariot1.wav",
+                         "agora_chariot2.wav"}) {
+        mAgoraChariot->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"trade1.wav",
@@ -1200,6 +1341,46 @@ void eSounds::loadImpl() {
         mDeer->addPath(layer2Dir + s);
     }
 
+    for(const auto& s : {"urchin1.wav",
+                         "urchin2.wav",
+                         "urchin3.wav"}) {
+        mUrchin->addPath(layer2Dir + s);
+    }
+
+    for(const auto& s : {"university1.wav",
+                         "university2.wav"}) {
+        mUniversity->addPath(layer2Dir + s);
+    }
+
+    for(const auto& s : {"observatory1.wav",
+                         "observatory2.wav"}) {
+        mObservatory->addPath(layer2Dir + s);
+    }
+
+    for(const auto& s : {"invention1.wav",
+                         "invention2.wav"}) {
+        mInventorsWorkshop->addPath(layer2Dir + s);
+    }
+
+    for(const auto& s : {"lab1.wav",
+                         "lab2.wav"}) {
+        mLaboratory->addPath(layer2Dir + s);
+    }
+
+    for(const auto& s : {"museum1.wav",
+                         "museum2.wav"}) {
+        mMuseum->addPath(layer2Dir + s);
+    }
+
+    for(const auto& s : {"chariot_build1.wav",
+                         "chariot_build2.wav"}) {
+        mChariotFactory->addPath(layer2Dir + s);
+    }
+
+    for(const auto& s : {"fruit_lodge1.wav",
+                         "fruit_lodge2.wav"}) {
+        mFruitLodge->addPath(layer2Dir + s);
+    }
 
     const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
     mFire->addPath(wavsDir + "Fire.wav");

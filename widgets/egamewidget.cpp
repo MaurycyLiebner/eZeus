@@ -992,6 +992,8 @@ void eGameWidget::updatePatrolPath() {
 
 void eGameWidget::setPatrolBuilding(ePatrolBuildingBase* const pb) {
     if(pb) {
+        eSounds::playSoundForBuilding(pb);
+
         setViewMode(eViewMode::patrolBuilding);
 
         const auto fw = new eFramedWidget(window());
@@ -1415,18 +1417,19 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
             return true;
         }
         if(!solds.empty()) return true;
-        int tx;
-        int ty;
-        pixToId(e.x(), e.y(), tx, ty);
         if(mPatrolBuilding) {
             setPatrolBuilding(nullptr);
             return true;
         }
+        int tx;
+        int ty;
+        pixToId(e.x(), e.y(), tx, ty);
         const auto tile = mBoard->tile(tx, ty);
         if(!tile) return true;
         const auto b = tile->underBuilding();
         if(!b) return true;
         mInfoWidget = openInfoWidget(b);
+        eSounds::playSoundForBuilding(b);
     } break;
     default: return true;
     }

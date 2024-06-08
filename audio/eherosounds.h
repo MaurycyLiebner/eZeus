@@ -17,6 +17,8 @@ public:
     eHeroSounds(const std::string& shortName,
                 const std::string& longName);
 
+    void load();
+
     void play(const eHeroSound s);
 
     void playArrival() {
@@ -42,6 +44,8 @@ public:
     std::shared_ptr<eSoundVector> fAttack = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> fHit = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> fDie = std::make_shared<eSoundVector>();
+private:
+    bool mLoaded = false;
 };
 
 #endif // EHEROSOUNDS_H

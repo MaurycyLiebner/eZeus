@@ -1,16 +1,5 @@
 #include "esoundvector.h"
 
-eSoundVector::~eSoundVector() {
-    for(const auto& s : mPaths) {
-        if(!s.first) continue;
-        Mix_FreeChunk(s.first);
-    }
-}
-
-void eSoundVector::addPath(const std::string& path) {
-    mPaths.push_back({nullptr, path});
-}
-
 Mix_Chunk* loadSound(const std::string& path) {
     const auto wav = Mix_LoadWAV(path.c_str());
     if(!wav) {
@@ -21,12 +10,26 @@ Mix_Chunk* loadSound(const std::string& path) {
     return wav;
 }
 
+eSoundVector::~eSoundVector() {
+    for(const auto& s : mPaths) {
+        if(!s.first) continue;
+        Mix_FreeChunk(s.first);
+    }
+}
+
+const bool sLoadOnAdd = false;
+
+void eSoundVector::addPath(const std::string& path) {
+    const auto sound = sLoadOnAdd ? loadSound(path) : nullptr;
+    mPaths.push_back({sound, path});
+}
+
 void eSoundVector::play(const int id) {
     auto& p = mPaths[id];
     if(!p.first) {
         p.first = loadSound(p.second);
     }
-    if(p.first) Mix_PlayChannel(-1, p.first, 0);
+    if(p.first)     Mix_PlayChannel(-1, p.first, 0);
 }
 
 void eSoundVector::playRandomSound() {

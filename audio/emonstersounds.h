@@ -17,6 +17,8 @@ public:
     eMonsterSounds(const std::string& shortName,
                    const std::string& longName);
 
+    void load();
+
     void play(const eMonsterSound s);
 
     void playVoice() {
@@ -42,6 +44,8 @@ public:
     std::shared_ptr<eSoundVector> fAttack = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> fDie = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> fHit = std::make_shared<eSoundVector>();
+private:
+    bool mLoaded = false;
 };
 
 #endif // EMONSTERSOUNDS_H

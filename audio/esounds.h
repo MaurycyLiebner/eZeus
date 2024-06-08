@@ -39,9 +39,16 @@ public:
     static void playGymnasiumSound();
     static void playStadiumSound();
 
+    static void playUniversitySound();
+    static void playObservatorySound();
+    static void playInventorsWorkshopSound();
+    static void playLaboratorySound();
+    static void playMuseumSound();
+
     static void playArtisansGuildSound();
 
     static void playFountainSound();
+    static void playInfirmarySound();
     static void playTaxesSound();
     static void playPalaceSound();
     static void playMaintananceSound();
@@ -52,6 +59,7 @@ public:
 
     static void playArmorySound();
     static void playHorseRanchSound();
+    static void playChariotFactorySound();
 
     static void playHuntingSound();
     static void playBoarSound();
@@ -61,6 +69,8 @@ public:
     static void playSheepSound();
     static void playGoatSound();
     static void playCattleSound();
+    static void playCorralSound();
+    static void playFruitLodgeSound();
 
     static void playStorageSound();
 
@@ -70,6 +80,9 @@ public:
     static void playWineVendorSound();
     static void playArmsVendorSound();
     static void playHorseTrainerSound();
+    static void playChariotVendorSound();
+
+    static void playTradeSound();
 
     static void playFireSound();
     static void playCollapseSound();
@@ -82,6 +95,8 @@ public:
     static void playTreeCutterSound();
 
     static void playArtisanSound();
+
+    static void playUrchinSound();
 
     static void playGodSound(const eGodType g,
                              const eGodSound s);
@@ -106,6 +121,8 @@ private:
     std::shared_ptr<eSoundVector> mCommonHousing = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> mEliteHousing = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> mFarming = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mCorral = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mFruitLodge = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> mOrchard = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> mSheepFarm = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> mGoatFarm = std::make_shared<eSoundVector>();
@@ -124,6 +141,7 @@ private:
     std::shared_ptr<eSoundVector> mAgoraWine = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> mAgoraArms = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> mAgoraHorse = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mAgoraChariot = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> mTrade = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> mTaxes = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> mPalace = std::make_shared<eSoundVector>();
@@ -163,6 +181,17 @@ private:
     std::shared_ptr<eSoundVector> mStoneCutter = std::make_shared<eSoundVector>();
 
     std::shared_ptr<eSoundVector> mArtisan = std::make_shared<eSoundVector>();
+
+    std::shared_ptr<eSoundVector> mUrchin = std::make_shared<eSoundVector>();
+
+    // science
+    std::shared_ptr<eSoundVector> mUniversity = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mObservatory = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mInventorsWorkshop = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mLaboratory = std::make_shared<eSoundVector>();
+    std::shared_ptr<eSoundVector> mMuseum = std::make_shared<eSoundVector>();
+
+    std::shared_ptr<eSoundVector> mChariotFactory = std::make_shared<eSoundVector>();
 
     // rockthrower
     std::shared_ptr<eSoundVector> mActorDie = std::make_shared<eSoundVector>();

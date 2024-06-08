@@ -6,7 +6,11 @@
 
 eMonsterSounds::eMonsterSounds(const std::string& shortName,
                                const std::string& longName) :
-    fShortName(shortName), fLongName(longName) {
+    fShortName(shortName), fLongName(longName) {}
+
+void eMonsterSounds::load() {
+    if(mLoaded) return;
+    mLoaded = true;
     const std::string voiceDir{eGameDir::path("Audio/Voice/Walker/")};
     const std::string wavsDir{eGameDir::path("Audio/Wavs/")};
 

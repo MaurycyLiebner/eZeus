@@ -26,6 +26,8 @@ struct eGodSounds {
     eGodSounds(const std::string& shortName,
                const std::string& longName);
 
+    void load();
+
     void play(const eGodSound s);
 
     void playWooing0() {
@@ -105,6 +107,8 @@ struct eGodSounds {
     std::shared_ptr<eSoundVector> fCurse = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> fHit = std::make_shared<eSoundVector>();
     std::shared_ptr<eSoundVector> fSanctify = std::make_shared<eSoundVector>();
+private:
+    bool mLoaded = false;
 };
 
 #endif // EGODSOUNDS_H
