@@ -68,6 +68,7 @@
 #include "esick.h"
 #include "ebutcher.h"
 #include "ecattle.h"
+#include "echariot.h"
 
 #include "escholar.h"
 #include "eastronomer.h"
@@ -110,6 +111,8 @@ stdsptr<eCharacter> eCharacter::sCreate(
         return e::make_shared<eBronzeMiner>(board);
     case eCharacterType::cartTransporter:
         return e::make_shared<eCartTransporter>(board);
+    case eCharacterType::chariot:
+        return e::make_shared<eChariot>(board);
     case eCharacterType::deer:
         return e::make_shared<eDeer>(board);
     case eCharacterType::wolf:
