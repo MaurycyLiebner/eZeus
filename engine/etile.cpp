@@ -224,8 +224,8 @@ eBuildingType eTile::underBuildingType() const {
     else return mUnderBuilding->type();
 }
 
-void eTile::setBanner(eBanner* const s) {
-    mBanner = s;
+void eTile::setBanner(const stdsptr<eBanner>& b) {
+    mBanner = b;
 }
 
 void eTile::setSoldierBanner(eSoldierBanner* const b) {

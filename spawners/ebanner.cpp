@@ -14,12 +14,10 @@ eBanner::eBanner(const eBannerTypeS type,
                  eGameBoard& board) :
     mType(type), mId(id), mTile(tile), mBoard(board) {
     board.registerBanner(this);
-    mTile->setBanner(this);
 }
 
 eBanner::~eBanner() {
     mBoard.unregisterBanner(this);
-    if(mTile) mTile->setBanner(nullptr);
 }
 
 void eBanner::read(eReadStream& src) {
@@ -34,17 +32,19 @@ eBanner* eBanner::sCreate(const int id,
                           eTile* const tile,
                           eGameBoard& board,
                           const eBannerTypeS type) {
+    stdsptr<eBanner> b;
     switch(type) {
     case eBannerTypeS::boar:
-        return new eBoarSpawner(id, tile, board);
+        b = std::make_shared<eBoarSpawner>(id, tile, board);
     case eBannerTypeS::deer:
-        return new eDeerSpawner(id, tile, board);
+        b = std::make_shared<eDeerSpawner>(id, tile, board);
     case eBannerTypeS::landInvasion:
-        return new eLandInvasionPoint(id, tile, board);
+        b = std::make_shared<eLandInvasionPoint>(id, tile, board);
     case eBannerTypeS::entryPoint:
-        return new eEntryPoint(id, tile, board);
+        b = std::make_shared<eEntryPoint>(id, tile, board);
     case eBannerTypeS::exitPoint:
-        return new eExitPoint(id, tile, board);
+        b = std::make_shared<eExitPoint>(id, tile, board);
     }
+    tile->setBanner(b);
     return nullptr;
 }

@@ -59,8 +59,8 @@ public:
     eBuilding* underBuilding() const { return mUnderBuilding.get(); }
     eBuildingType underBuildingType() const override;
 
-    void setBanner(eBanner* const s);
-    eBanner* banner() const { return mBanner; }
+    void setBanner(const stdsptr<eBanner>& b);
+    eBanner* banner() const { return mBanner.get(); }
 
     void setSoldierBanner(eSoldierBanner* const b);
     eSoldierBanner* soldierBanner() const { return mSoldierBanner; }
@@ -110,7 +110,7 @@ private:
     std::vector<stdsptr<eMissile>> mMissiles;
     std::vector<stdsptr<eCharacter>> mCharacters;
     stdsptr<eBuilding> mUnderBuilding;
-    eBanner* mBanner = nullptr;
+    stdsptr<eBanner> mBanner;
     stdptr<eSoldierBanner> mSoldierBanner;
 };
 

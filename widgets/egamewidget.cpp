@@ -393,7 +393,9 @@ bool eGameWidget::canBuildBase(const int minX, const int maxX,
     for(int x = minX; x < maxX; x++) {
         for(int y = minY; y < maxY; y++) {
             const auto t = mBoard->tile(x, y);
-            if(!t || t->underBuilding()) return false;
+            if(!t) return false;
+            if(t->underBuilding()) return false;
+            if(t->banner()) return false;
             const auto ttt = t->terrain();
             if(fertile && ttt == eTerrain::fertile) {
                 fertileFound = true;

@@ -1613,7 +1613,9 @@ void eGameBoard::registerBanner(eBanner* const b) {
         if(bid != id) continue;
         const auto btype = b->type();
         if(btype != type) continue;
-        delete b;
+        const auto t = b->tile();
+        if(!t) break;
+        t->setBanner(nullptr);
         break;
     }
     mBanners.push_back(b);

@@ -395,21 +395,21 @@ bool eGameWidget::buildMouseRelease() {
             };
         } else if(mode == eTerrainEditMode::entryPoint) {
             apply = [this, modeId](eTile* const tile) {
-                const auto os = tile->banner();
-                if(os) delete os;
-                new eEntryPoint(modeId, tile, *mBoard);
+                const auto b = std::make_shared<eEntryPoint>(
+                                   modeId, tile, *mBoard);
+                tile->setBanner(b);
             };
         } else if(mode == eTerrainEditMode::exitPoint) {
             apply = [this, modeId](eTile* const tile) {
-                const auto os = tile->banner();
-                if(os) delete os;
-                new eExitPoint(modeId, tile, *mBoard);
+                const auto b = std::make_shared<eExitPoint>(
+                                   modeId, tile, *mBoard);
+                tile->setBanner(b);
             };
         } else if(mode == eTerrainEditMode::landInvasion) {
             apply = [this, modeId](eTile* const tile) {
-                const auto os = tile->banner();
-                if(os) delete os;
-                new eLandInvasionPoint(modeId, tile, *mBoard);
+                const auto b = std::make_shared<eLandInvasionPoint>(
+                                   modeId, tile, *mBoard);
+                tile->setBanner(b);
             };
         } else {
             apply = [mode](eTile* const tile) {
