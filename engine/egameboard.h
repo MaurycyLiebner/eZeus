@@ -80,6 +80,7 @@ public:
     ~eGameBoard();
 
     void initialize(const int w, const int h);
+    void resize(const int w, const int h);
     void clear();
 
     eTile* tile(const int x, const int y) const;
@@ -435,6 +436,10 @@ public:
     bool editorMode() const { return mEditorMode; }
     bool poseidonMode() const { return mPoseidonMode; }
     void setPoseidonMode(const bool p) { mPoseidonMode = p; }
+
+    void scheduleTerrainUpdate() { mUpdateTerrain = true; }
+    bool terrainUpdateScheduled() const { return mUpdateTerrain; }
+    void afterTerrainUpdated() { mUpdateTerrain = false; }
 private:
     void updateNeighbours();
 
@@ -452,6 +457,8 @@ private:
     bool mEditorMode = true;
     bool mPoseidonMode = true;
     eWorldBoard mWorldBoard;
+
+    bool mUpdateTerrain = true;
 
     eEventHandler mEventHandler;
     eAction mRequestUpdateHandler;

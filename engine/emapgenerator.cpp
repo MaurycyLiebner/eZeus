@@ -264,7 +264,10 @@ void eMapGenerator::generateAnimals(const eMGS& settings) {
 }
 
 void eMapGenerator::generate(const eMGS& settings) {
+    mBoard.initialize(mBoard.width(), mBoard.height());
     generateTerrain(settings);
     generateSilverAndBronze(settings);
     generateAnimals(settings);
+    mBoard.updateMarbleTiles();
+    mBoard.scheduleTerrainUpdate();
 }

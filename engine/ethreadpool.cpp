@@ -18,13 +18,19 @@ eThreadPool::~eThreadPool() {
 }
 
 void eThreadPool::initialize(const int w, const int h) {
-    //const int hc = std::thread::hardware_concurrency();
-    const int threads = 1;//hc > 1 ? hc - 1 : 1;
-    for(int i = 0; i < threads; i++) {
-        const auto b = new eThreadData;
-        b->initialize(w, h);
-        mThreadData.push_back(b);
-        mThreads.emplace_back(std::bind(&eThreadPool::threadEntry, this, b));
+    if(mThreads.empty()) {
+        //const int hc = std::thread::hardware_concurrency();
+        const int threads = 1;//hc > 1 ? hc - 1 : 1;
+        for(int i = 0; i < threads; i++) {
+            const auto b = new eThreadData;
+            b->initialize(w, h);
+            mThreadData.push_back(b);
+            mThreads.emplace_back(std::bind(&eThreadPool::threadEntry, this, b));
+        }
+    } else {
+        for(auto& t : mThreadData) {
+            t->initialize(w, h);
+        }
     }
 }
 

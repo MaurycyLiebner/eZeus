@@ -9,6 +9,7 @@ public:
 
     void initialize(const eAction& newGameA,
                     const eAction& loadGameA,
+                    const eAction& editGameA,
                     const eAction& settingsA,
                     const eAction& quitA);
 private:

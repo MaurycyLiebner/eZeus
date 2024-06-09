@@ -220,8 +220,6 @@ private:
 
     bool mEditorMode = false;
 
-    bool mUpdateTerrain = true;
-
     bool mRotate = false;
     int mRotateId = 0;
 

@@ -79,12 +79,13 @@ eGameBoard::~eGameBoard() {
 }
 
 void eGameBoard::initialize(const int w, const int h) {
+    waitUntilFinished();
     mThreadPool.initialize(w, h);
 
     clear();
     mTiles.reserve(w);
     for(int x = 0; x < w; x++) {
-        std::vector<eTile*> yArr;
+        auto& yArr = mTiles.emplace_back();
         yArr.reserve(h);
         for(int y = 0; y < h; y++) {
             int tx;
@@ -93,7 +94,6 @@ void eGameBoard::initialize(const int w, const int h) {
             const auto tile = new eTile(tx, ty, x, y);
             yArr.push_back(tile);
         }
-        mTiles.push_back(yArr);
     }
     mWidth = w;
     mHeight = h;
@@ -101,6 +101,46 @@ void eGameBoard::initialize(const int w, const int h) {
     mAppealMap.initialize(w, h);
 
     updateNeighbours();
+    updateMarbleTiles();
+    scheduleTerrainUpdate();
+}
+
+void eGameBoard::resize(const int w, const int h) {
+    waitUntilFinished();
+    mThreadPool.initialize(w, h);
+
+    mTiles.reserve(w);
+
+    for(int x = w; x < mWidth; x++) {
+        mTiles.pop_back();
+    }
+    for(int x = 0; x < w; x++) {
+        auto& yArr = mTiles[x];
+        for(int y = h; y < mHeight; y++) {
+            yArr.pop_back();
+        }
+    }
+
+    for(int x = 0; x < w; x++) {
+        auto& yArr = x < mWidth ? mTiles[x] : mTiles.emplace_back();
+        yArr.reserve(h);
+        for(int y = 0; y < h; y++) {
+            if(x < mWidth && y < mHeight) continue;
+            int tx;
+            int ty;
+            eTileHelper::dtileIdToTileId(x, y, tx, ty);
+            const auto tile = new eTile(tx, ty, x, y);
+            yArr.push_back(tile);
+        }
+    }
+    mWidth = w;
+    mHeight = h;
+
+    mAppealMap.initialize(w, h);
+
+    updateNeighbours();
+    updateMarbleTiles();
+    scheduleTerrainUpdate();
 }
 
 void eGameBoard::clear() {
@@ -363,6 +403,7 @@ void eGameBoard::updateMarbleTiles() {
         mMarbleTiles.push_back(t);
     });
 }
+
 void eGameBoard::setFriendlyGods(const std::vector<eGodType>& gods) {
     mFriendlyGods = gods;
 

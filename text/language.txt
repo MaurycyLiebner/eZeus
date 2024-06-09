@@ -7,6 +7,10 @@ choose "Choose"
 relationship "Relationship"
 map "Map"
 leader "Leader"
+resize "Resize"
+generate "Generate"
+width "Width"
+height "Height"
 
 save_and_reset "Save and load the game to apply changes"
 

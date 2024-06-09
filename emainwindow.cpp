@@ -304,6 +304,10 @@ void eMainWindow::showMainMenu() {
         fw->align(eAlignment::center);
     };
 
+    const auto editGameAction = [this]() {
+        showSettingsMenu();
+    };
+
     const auto settingsAction = [this]() {
         showSettingsMenu();
     };
@@ -314,6 +318,7 @@ void eMainWindow::showMainMenu() {
 
     mm->initialize(newGameAction,
                    loadGameAction,
+                   editGameAction,
                    settingsAction,
                    quitAction);
 }

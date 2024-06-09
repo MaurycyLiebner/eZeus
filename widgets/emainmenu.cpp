@@ -23,6 +23,7 @@ void addButton(const std::string& text,
 
 void eMainMenu::initialize(const eAction& newGameA,
                            const eAction& loadGameA,
+                           const eAction& editGameA,
                            const eAction& settingsA,
                            const eAction& quitA) {
     eMainMenuBase::initialize();
@@ -39,6 +40,7 @@ void eMainMenu::initialize(const eAction& newGameA,
 
     addButton(eLanguage::zeusText(1, 1), newGameA, buttons, window());
     addButton(eLanguage::zeusText(1, 3), loadGameA, buttons, window());
+    addButton(eLanguage::zeusText(287, 3), editGameA, buttons, window());
     addButton(eLanguage::zeusText(2, 0), settingsA, buttons, window());
     addButton(eLanguage::zeusText(1, 5), quitA, buttons, window());
 

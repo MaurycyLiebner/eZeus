@@ -232,10 +232,10 @@ void eGameWidget::paintEvent(ePainter& p) {
     const int sMaxX = std::max(mPressedTX, mHoverTX);
     const int sMaxY = std::max(mPressedTY, mHoverTY);
 
-    const bool terrUpdated = mUpdateTerrain;
-    if(mUpdateTerrain) {
+    const bool terrUpdated = mBoard->terrainUpdateScheduled();
+    if(terrUpdated) {
         updateTerrainTextures();
-        mUpdateTerrain = false;
+        mBoard->afterTerrainUpdated();
     }
 
     const auto drawTerrain = [&](eTile* const tile) {

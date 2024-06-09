@@ -418,7 +418,7 @@ bool eGameWidget::buildMouseRelease() {
             };
         }
         mBoard->updateMarbleTiles();
-        mUpdateTerrain = true;
+        mBoard->scheduleTerrainUpdate();
     } else {
         const auto mode = mGm->mode();
         switch(mode) {
@@ -457,7 +457,7 @@ bool eGameWidget::buildMouseRelease() {
             const int nErased = eraser.erase(false);
             totalCost += cost*nErased;
             mBoard->incDrachmas(-totalCost);
-            mUpdateTerrain = true;
+            mBoard->scheduleTerrainUpdate();
 
             std::string title;
             std::string text;
@@ -1309,7 +1309,7 @@ bool eGameWidget::buildMouseRelease() {
                 build(tile->x(), tile->y(), 1, 1,
                       [this]() { return e::make_shared<ePark>(*mBoard); });
             };
-            mUpdateTerrain = true;
+            mBoard->scheduleTerrainUpdate();
             break;
         case eBuildingMode::doricColumn:
             apply = [this](eTile* const tile) {
