@@ -6,16 +6,6 @@ eMusic eMusic::sInstance;
 
 eMusic::eMusic() {}
 
-eMusic::~eMusic() {
-    Mix_FreeMusic(mSetupMusic);
-    for(const auto m : mMusic) {
-        Mix_FreeMusic(m);
-    }
-    for(const auto m : mBattleMusic) {
-        Mix_FreeMusic(m);
-    }
-}
-
 void eMusic::loadMenu() {
     sInstance.loadMenuImpl();
 }
@@ -62,38 +52,39 @@ void eMusic::incTimeImpl() {
 }
 
 void eMusic::playMenuMusicImpl() {
+    const bool change = mMusicType != eMusicType::setup;
     mMusicType = eMusicType::setup;
     if(Mix_PlayingMusic()) {
+        if(!change) return;
         Mix_FadeOutMusic(1000);
         return;
     }
-    if(!mSetupMusic) return;
     Mix_HaltMusic();
-    Mix_PlayMusic(mSetupMusic, -1);
+    mSetupMusic->playRandomSound(true);
 }
 
 void eMusic::playRandomMusicImpl() {
+    const bool change = mMusicType != eMusicType::music;
     mMusicType = eMusicType::music;
     if(Mix_PlayingMusic()) {
+        if(!change) return;
         Mix_FadeOutMusic(1000);
         return;
     }
-    if(mMusic.empty()) return;
     Mix_HaltMusic();
-    const int id = rand() % mMusic.size();
-    Mix_PlayMusic(mMusic[id], 0);
+    mMusic->playRandomSound();
 }
 
 void eMusic::playRandomBattleMusicImpl() {
+    const bool change = mMusicType != eMusicType::battle;
     mMusicType = eMusicType::battle;
     if(Mix_PlayingMusic()) {
+        if(!change) return;
         Mix_FadeOutMusic(1000);
         return;
     }
-    if(mBattleMusic.empty()) return;
     Mix_HaltMusic();
-    const int id = rand() % mBattleMusic.size();
-    Mix_PlayMusic(mBattleMusic[id], 0);
+    mBattleMusic->playRandomSound();
 }
 
 void eMusic::loadImpl() {
@@ -101,57 +92,30 @@ void eMusic::loadImpl() {
     mLoaded = true;
     const std::string dir{eGameDir::path("Audio/Music/")};
 
-    loadMusic(dir + "Afigisi.mp3");
-    loadMusic(dir + "Amolfi.mp3");
-    loadMusic(dir + "Eilavia.mp3");
-    loadMusic(dir + "Eplitha.mp3");
-    loadMusic(dir + "Fengari.mp3");
-    loadMusic(dir + "Iremos.mp3");
-    loadMusic(dir + "Mnimio.mp3");
-    loadMusic(dir + "Naoss.mp3");
-    loadMusic(dir + "Oyonos.mp3");
-    loadMusic(dir + "Perifanos.mp3");
-    loadMusic(dir + "Pnevma.mp3");
-    loadMusic(dir + "Proi.mp3");
+    mMusic->addPath(dir + "Afigisi.mp3");
+    mMusic->addPath(dir + "Amolfi.mp3");
+    mMusic->addPath(dir + "Eilavia.mp3");
+    mMusic->addPath(dir + "Eplitha.mp3");
+    mMusic->addPath(dir + "Fengari.mp3");
+    mMusic->addPath(dir + "Iremos.mp3");
+    mMusic->addPath(dir + "Mnimio.mp3");
+    mMusic->addPath(dir + "Naoss.mp3");
+    mMusic->addPath(dir + "Oyonos.mp3");
+    mMusic->addPath(dir + "Perifanos.mp3");
+    mMusic->addPath(dir + "Pnevma.mp3");
+    mMusic->addPath(dir + "Proi.mp3");
 
-    loadBattleMusic(dir + "Battle1.mp3");
-    loadBattleMusic(dir + "Battle2.mp3");
-    loadBattleMusic(dir + "Battle3.mp3");
-    loadBattleMusic(dir + "Battle4.mp3");
-    loadBattleMusic(dir + "Battle_long.mp3");
-    loadBattleMusic(dir + "Battle_long2.mp3");
+    mBattleMusic->addPath(dir + "Battle1.mp3");
+    mBattleMusic->addPath(dir + "Battle2.mp3");
+    mBattleMusic->addPath(dir + "Battle3.mp3");
+    mBattleMusic->addPath(dir + "Battle4.mp3");
+    mBattleMusic->addPath(dir + "Battle_long.mp3");
+    mBattleMusic->addPath(dir + "Battle_long2.mp3");
 }
 
 void eMusic::loadMenuImpl() {
+    if(mMenuLoaded) return;
+    mMenuLoaded = true;
     const std::string dir{eGameDir::path("Audio/Music/")};
-
-    loadSetupMusic(dir + "Setup.mp3");
-}
-
-Mix_Music* loadMusicBase(const std::string& path) {
-    const auto music = Mix_LoadMUS(path.c_str());
-    if(!music) {
-        printf("Failed to load music! SDL_mixer Error: %s\n", Mix_GetError());
-        return nullptr;
-    }
-    return music;
-}
-
-bool eMusic::loadSetupMusic(const std::string& path) {
-    mSetupMusic = loadMusicBase(path);
-    return mSetupMusic;
-}
-
-bool eMusic::loadMusic(const std::string& path) {
-    const auto m = loadMusicBase(path);
-    if(!m) return false;
-    mMusic.push_back(m);
-    return true;
-}
-
-bool eMusic::loadBattleMusic(const std::string& path) {
-    const auto m = loadMusicBase(path);
-    if(!m) return false;
-    mBattleMusic.push_back(m);
-    return true;
+    mSetupMusic->addPath(dir + "Setup.mp3");
 }

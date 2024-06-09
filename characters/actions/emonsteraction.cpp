@@ -30,14 +30,16 @@ bool eMonsterAction::decide() {
     const auto c = character();
     switch(mStage) {
     case eMonsterAttackStage::none:
-        mStage = eMonsterAttackStage::goBack;
+        mStage = eMonsterAttackStage::wait;
         randomPlaceOnBoard();
         if(!c->tile()) c->kill();
         break;
-    case eMonsterAttackStage::wait:
+    case eMonsterAttackStage::wait: {
         mStage = eMonsterAttackStage::goTo;
         goToTarget();
-        break;
+        auto& board = this->board();
+        board.updateMusic();
+    } break;
     case eMonsterAttackStage::goTo:
         mStage = eMonsterAttackStage::patrol;
         goToNearestRoad();
@@ -46,10 +48,12 @@ bool eMonsterAction::decide() {
         mStage = eMonsterAttackStage::goBack;
         goBack();
         break;
-    case eMonsterAttackStage::goBack:
+    case eMonsterAttackStage::goBack: {
         mStage = eMonsterAttackStage::wait;
-        moveAround();
-        break;
+        moveAround(nullptr, 100000);
+        auto& board = this->board();
+        board.updateMusic();
+    } break;
     }
     return true;
 }

@@ -20,6 +20,7 @@ SOURCES += \
         audio/eherosounds.cpp \
         audio/emonstersounds.cpp \
         audio/emusic.cpp \
+        audio/emusicvector.cpp \
         audio/esounds.cpp \
         audio/esoundvector.cpp \
         buildings/eaestheticsbuilding.cpp \
@@ -572,6 +573,7 @@ HEADERS += \
     audio/eherosounds.h \
     audio/emonstersounds.h \
     audio/emusic.h \
+    audio/emusicvector.h \
     audio/esounds.h \
     audio/esoundvector.h \
     buildings/allbuildings.h \

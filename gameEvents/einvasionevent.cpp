@@ -7,6 +7,7 @@
 #include "elanguage.h"
 #include "estringhelpers.h"
 #include "einvasionwarningevent.h"
+#include "audio/emusic.h"
 
 eInvasionEvent::eInvasionEvent(const eGameEventBranch branch,
                                eGameBoard& board) :
@@ -80,6 +81,7 @@ void eInvasionEvent::trigger() {
         eEventData ed;
         ed.fCity = city;
         boardPtr->event(eEvent::invasionDefeat, ed);
+        boardPtr->updateMusic();
     };
     if(board.drachmas() >= bribe) { // bribe
         ed.fA1 = [boardPtr, bribe, city]() {
@@ -87,6 +89,7 @@ void eInvasionEvent::trigger() {
             eEventData ed;
             ed.fCity = city;
             boardPtr->event(eEvent::invasionBribed, ed);
+            boardPtr->updateMusic();
         };
     }
     const int infantry = mInfantry;
@@ -101,6 +104,7 @@ void eInvasionEvent::trigger() {
         eh->initialize(tile, infantry, cavalry, archers);
     };
     board.event(eEvent::invasion, ed);
+    eMusic::playRandomBattleMusic();
 }
 
 std::string eInvasionEvent::longName() const {

@@ -55,6 +55,7 @@
 #include "eeventdata.h"
 
 #include "einvasionhandler.h"
+#include "characters/actions/emonsteraction.h"
 
 #include "evectorhelpers.h"
 #include "egifthelpers.h"
@@ -557,13 +558,13 @@ const eGameBoard::eIV& eGameBoard::invasionHandlers() const {
 }
 
 void eGameBoard::addInvasionHandler(eInvasionHandler* const i) {
-    if(mInvasionHandlers.empty()) eMusic::playRandomBattleMusic();
     mInvasionHandlers.push_back(i);
+    updateMusic();
 }
 
 void eGameBoard::removeInvasionHandler(eInvasionHandler* const i) {
     eVectorHelpers::remove(mInvasionHandlers, i);
-    if(mInvasionHandlers.empty()) eMusic::playRandomMusic();
+    updateMusic();
 }
 
 int eGameBoard::addResource(const eResourceType type,
@@ -1111,6 +1112,7 @@ void eGameBoard::removeArmyEvent(eArmyEventBase* const q) {
 
 void eGameBoard::registerAttackingGod(eCharacter* const c) {
     mAttackingGods.push_back(c);
+    updateMusic();
 }
 
 void eGameBoard::startPlague(eSmallHouse* const h) {
@@ -1141,6 +1143,29 @@ void eGameBoard::healHouse(eSmallHouse* const h) {
         else p->healHouse(h);
     } else {
         h->setPlague(false);
+    }
+}
+
+void eGameBoard::updateMusic() {
+    bool monsterActiveAttack = false;
+    for(const auto m : mMonsters) {
+        const auto a = m->action();
+        if(const auto ma = dynamic_cast<eMonsterAction*>(a)) {
+            const auto stage = ma->stage();
+            if(stage == eMonsterAttackStage::none ||
+               stage == eMonsterAttackStage::wait) {
+                continue;
+            }
+            monsterActiveAttack = true;
+            break;
+        }
+    }
+    if(!monsterActiveAttack &&
+       mInvasionHandlers.empty() &&
+       mAttackingGods.empty()) {
+        eMusic::playRandomMusic();
+    } else {
+        eMusic::playRandomBattleMusic();
     }
 }
 
@@ -1363,7 +1388,8 @@ void eGameBoard::registerCharacter(eCharacter* const c) {
 }
 
 bool eGameBoard::unregisterCharacter(eCharacter* const c) {
-    eVectorHelpers::remove(mAttackingGods, c);
+    const bool r = eVectorHelpers::remove(mAttackingGods, c);
+    if(r) updateMusic();
     return eVectorHelpers::remove(mCharacters, c);
 }
 
@@ -1535,6 +1561,7 @@ void eGameBoard::registerMonster(eMonster* const m) {
 
 void eGameBoard::unregisterMonster(eMonster* const m) {
     eVectorHelpers::remove(mMonsters, m);
+    updateMusic();
 }
 
 void eGameBoard::registerBanner(eBanner* const b) {

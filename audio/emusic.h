@@ -1,10 +1,9 @@
 #ifndef EMUSIC_H
 #define EMUSIC_H
 
-#include <SDL2/SDL_mixer.h>
+#include "emusicvector.h"
 
-#include <vector>
-#include <string>
+#include <memory>
 
 enum class eMusicType {
     none, setup, music, battle
@@ -13,7 +12,6 @@ enum class eMusicType {
 class eMusic {
 public:
     eMusic();
-    ~eMusic();
 
     static void loadMenu();
     static void load();
@@ -33,17 +31,15 @@ private:
 
     void loadImpl();
     void loadMenuImpl();
-    bool loadSetupMusic(const std::string& path);
-    bool loadMusic(const std::string& path);
-    bool loadBattleMusic(const std::string& path);
     static eMusic sInstance;
 
     bool mLoaded{false};
+    bool mMenuLoaded{false};
     eMusicType mMusicType{eMusicType::none};
 
-    Mix_Music* mSetupMusic = nullptr;
-    std::vector<Mix_Music*> mMusic;
-    std::vector<Mix_Music*> mBattleMusic;
+    std::shared_ptr<eMusicVector> mSetupMusic = std::make_shared<eMusicVector>();
+    std::shared_ptr<eMusicVector> mMusic = std::make_shared<eMusicVector>();
+    std::shared_ptr<eMusicVector> mBattleMusic = std::make_shared<eMusicVector>();
 };
 
 #endif // EMUSIC_H

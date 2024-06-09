@@ -22,6 +22,8 @@ public:
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 
+    eMonsterAttackStage stage() const { return mStage; }
+
     void goToTarget();
     void goBack();
 private:

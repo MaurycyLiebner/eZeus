@@ -427,6 +427,8 @@ public:
     using ePlagues = std::vector<stdsptr<ePlague>>;
     const ePlagues& plagues() const { return mPlagues; }
 
+    void updateMusic();
+
     eTile* entryPoint() const;
     eTile* exitPoint() const;
 

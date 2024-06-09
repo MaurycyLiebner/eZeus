@@ -26,10 +26,8 @@ void eSoundVector::addPath(const std::string& path) {
 
 void eSoundVector::play(const int id) {
     auto& p = mPaths[id];
-    if(!p.first) {
-        p.first = loadSound(p.second);
-    }
-    if(p.first)     Mix_PlayChannel(-1, p.first, 0);
+    if(!p.first) p.first = loadSound(p.second);
+    if(p.first) Mix_PlayChannel(-1, p.first, 0);
 }
 
 void eSoundVector::playRandomSound() {
