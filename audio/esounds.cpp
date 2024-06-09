@@ -47,15 +47,42 @@ void eSounds::playSoundForTile(eTile* const tile) {
 
 bool eSounds::playSoundForBuilding(eBuilding* const b) {
     const auto type = b->type();
+    const bool a = eBuilding::sAestheticsBuilding(type);
+    if(a) {
+        eSounds::playBeautificationSound();
+        return true;
+    }
+    const bool s = eBuilding::sSanctuaryBuilding(type);
+    if(s) {
+        eSounds::playSanctuarySound();
+        return true;
+    }
     switch(type) {
+    case eBuildingType::wheatFarm:
+    case eBuildingType::onionsFarm:
+    case eBuildingType::carrotsFarm:
+        eSounds::playFarmingSound();
+        return true;
+    case eBuildingType::cardingShed:
+        eSounds::playShearingSound();
+        return true;
+    case eBuildingType::dairy:
+        eSounds::playGoatherdSound();
+        return true;
     case eBuildingType::commonHouse:
         eSounds::playCommonHousingSound();
+        return true;
+    case eBuildingType::eliteHousing:
+        eSounds::playEliteHousingSound();
         return true;
     case eBuildingType::theater:
         eSounds::playTheatreSound();
         return true;
     case eBuildingType::dramaSchool:
         eSounds::playDramaSound();
+        return true;
+    case eBuildingType::bibliotheke:
+        eSounds::playBibliothekeSound();
         return true;
     case eBuildingType::university:
         eSounds::playUniversitySound();
@@ -154,8 +181,9 @@ bool eSounds::playSoundForBuilding(eBuilding* const b) {
     case eBuildingType::artisansGuild:
         eSounds::playArtisansGuildSound();
         return true;
+    case eBuildingType::fishery:
     case eBuildingType::urchinQuay:
-        eSounds::playUrchinSound();
+        eSounds::playSeaSound();
         return true;
 
     case eBuildingType::tradePost:
@@ -246,8 +274,24 @@ void eSounds::playRockySound() {
     sInstance.mRocky->playRandomSound();
 }
 
+void eSounds::playBeautificationSound() {
+    sInstance.mBeautification->playRandomSound();
+}
+
+void eSounds::playSanctuarySound() {
+    sInstance.mSanctuary->playRandomSound();
+}
+
+void eSounds::playFarmingSound() {
+    sInstance.mFarming->playRandomSound();
+}
+
 void eSounds::playCommonHousingSound() {
     sInstance.mCommonHousing->playRandomSound();
+}
+
+void eSounds::playEliteHousingSound() {
+    sInstance.mEliteHousing->playRandomSound();
 }
 
 void eSounds::playTheatreSound() {
@@ -268,6 +312,10 @@ void eSounds::playGymnasiumSound() {
 
 void eSounds::playStadiumSound() {
     sInstance.mStadium->playRandomSound();
+}
+
+void eSounds::playBibliothekeSound() {
+    sInstance.mBibliotheke->playRandomSound();
 }
 
 void eSounds::playUniversitySound() {
@@ -374,6 +422,14 @@ void eSounds::playFruitLodgeSound() {
     sInstance.mFruitLodge->playRandomSound();
 }
 
+void eSounds::playGoatherdSound() {
+    sInstance.mGoatFarm->playRandomSound();
+}
+
+void eSounds::playShearingSound() {
+    sInstance.mSheepFarm->playRandomSound();
+}
+
 void eSounds::playStorageSound() {
     sInstance.mStorage->playRandomSound();
 }
@@ -442,8 +498,8 @@ void eSounds::playArtisanSound() {
     sInstance.mArtisan->playRandomSound();
 }
 
-void eSounds::playUrchinSound() {
-    sInstance.mUrchin->playRandomSound();
+void eSounds::playSeaSound() {
+    sInstance.mSea->playRandomSound();
 }
 
 void eSounds::playGodSound(const eGodType g, const eGodSound s) {
@@ -1341,10 +1397,11 @@ void eSounds::loadImpl() {
         mDeer->addPath(layer2Dir + s);
     }
 
-    for(const auto& s : {"urchin1.wav",
-                         "urchin2.wav",
-                         "urchin3.wav"}) {
-        mUrchin->addPath(layer2Dir + s);
+    for(const auto& s : {"reading1.wav.wav",
+                         "reading2.wav.wav",
+                         "get_book.wav.wav",
+                         "close_book.wav.wav"}) {
+        mBibliotheke->addPath(layer2Dir + s);
     }
 
     for(const auto& s : {"university1.wav",
