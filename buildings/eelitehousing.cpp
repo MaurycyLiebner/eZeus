@@ -6,9 +6,7 @@
 
 eEliteHousing::eEliteHousing(eGameBoard& board) :
     eHouseBase(board, eBuildingType::eliteHousing,
-               4, 4, {6, 6, 10, 16, 20}) {
-    eGameTextures::loadEliteHouse();
-}
+               4, 4, {6, 6, 10, 16, 20}) {}
 
 eTextureSpace eEliteHousing::getTextureSpace(
         const int tx, const int ty,
@@ -38,6 +36,8 @@ eTextureSpace eEliteHousing::getTextureSpace(
 }
 
 std::vector<eOverlay> eEliteHousing::getOverlays(const eTileSize size) const {
+    auto& board = getBoard();
+    if(board.poseidonMode()) return {};
     return getHorseOverlays(size);
 }
 
@@ -72,6 +72,7 @@ eEliteHousing::getHorseOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& texs = eGameTextures::buildings()[sizeId];
 
+    eGameTextures::loadEliteHouse();
     const auto& coll = texs.fEliteHouseHorses;
     eOverlay h;
     h.fX = -2.0;
@@ -236,6 +237,7 @@ eHouseMissing eEliteHousing::missing() const {
 
 void eEliteHousing::read(eReadStream& src) {
     eHouseBase::read(src);
+    src >> mUpdateLevel;
     src >> mWine;
     src >> mArms;
     src >> mHorses;
@@ -243,6 +245,7 @@ void eEliteHousing::read(eReadStream& src) {
 
 void eEliteHousing::write(eWriteStream& dst) const {
     eHouseBase::write(dst);
+    dst << mUpdateLevel;
     dst << mWine;
     dst << mArms;
     dst << mHorses;
@@ -252,8 +255,16 @@ const eTextureCollection& eEliteHousing::getTextureCollection(
         const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
-    if(mPeople <= 0) return blds.fEliteHouse[0];
-    return blds.fEliteHouse[mLevel + 1];
+    auto& board = getBoard();
+    if(board.poseidonMode()) {
+        eGameTextures::loadPoseidonEliteHouse();
+        if(mPeople <= 0) return blds.fPoseidonEliteHouse[0];
+        return blds.fPoseidonEliteHouse[mLevel + 1];
+    } else {
+        eGameTextures::loadEliteHouse();
+        if(mPeople <= 0) return blds.fEliteHouse[0];
+        return blds.fEliteHouse[mLevel + 1];
+    }
 }
 
 void eEliteHousing::updateLevel() {

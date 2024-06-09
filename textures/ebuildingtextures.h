@@ -19,8 +19,12 @@ public:
 
     bool fCommonHouseLoaded = false;
     void loadCommonHouse();
+    bool fPoseidonCommonHouseLoaded = false;
+    void loadPoseidonCommonHouse();
     bool fEliteHouseLoaded = false;
     void loadEliteHouse();
+    bool fPoseidonEliteHouseLoaded = false;
+    void loadPoseidonEliteHouse();
     bool fCollegeLoaded = false;
     void loadCollege();
     bool fGymnasiumLoaded = false;
@@ -212,8 +216,10 @@ public:
 
     std::shared_ptr<eTexture> fHouseSpace;
     std::vector<eTextureCollection> fCommonHouse;
+    std::vector<eTextureCollection> fPoseidonCommonHouse;
 
     std::vector<eTextureCollection> fEliteHouse;
+    std::vector<eTextureCollection> fPoseidonEliteHouse;
     eTextureCollection fEliteHouseHorses;
 
     std::shared_ptr<eTexture> fGymnasium;

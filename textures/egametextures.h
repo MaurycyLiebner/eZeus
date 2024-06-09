@@ -178,7 +178,9 @@ public:
     static void loadGodPurpleMissile();
 
     static void loadCommonHouse();
+    static void loadPoseidonCommonHouse();
     static void loadEliteHouse();
+    static void loadPoseidonEliteHouse();
     static void loadCollege();
     static void loadGymnasium();
     static void loadDramaSchool();

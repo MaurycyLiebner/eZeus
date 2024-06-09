@@ -60,9 +60,58 @@
 #include "spriteData/chariotFactoryHorses45.h"
 #include "spriteData/chariotFactoryHorses60.h"
 
+#include "spriteData/poseidonCommonHouse15.h"
+#include "spriteData/poseidonCommonHouse30.h"
+#include "spriteData/poseidonCommonHouse45.h"
+#include "spriteData/poseidonCommonHouse60.h"
+
+#include "spriteData/poseidonEliteHouse15.h"
+#include "spriteData/poseidonEliteHouse30.h"
+#include "spriteData/poseidonEliteHouse45.h"
+#include "spriteData/poseidonEliteHouse60.h"
+
 #include "offsets/PoseidonImps.h"
 
 #include "textures/espriteloader.h"
+
+void eBuildingTextures::loadPoseidonCommonHouse() {
+    if(fPoseidonCommonHouseLoaded) return;
+    fPoseidonCommonHouseLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonCommonHouseSpriteData15,
+                                 ePoseidonCommonHouseSpriteData30,
+                                 ePoseidonCommonHouseSpriteData45,
+                                 ePoseidonCommonHouseSpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonCommonHouse", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 1; i < 11;) {
+        auto& coll = fPoseidonCommonHouse.emplace_back(fRenderer);
+        for(int j = 0; j < 2; j++, i++) {
+            loader.load(1, i, coll);
+        }
+    }
+}
+
+void eBuildingTextures::loadPoseidonEliteHouse() {
+    if(fPoseidonEliteHouseLoaded) return;
+    fPoseidonEliteHouseLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonEliteHouseSpriteData15,
+                                 ePoseidonEliteHouseSpriteData30,
+                                 ePoseidonEliteHouseSpriteData45,
+                                 ePoseidonEliteHouseSpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonEliteHouse", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 11; i < 41;) {
+        auto& coll = fPoseidonEliteHouse.emplace_back(fRenderer);
+        for(int j = 0; j < 5; j++, i++) {
+            loader.load(11, i, coll);
+        }
+    }
+}
 
 void eBuildingTextures::loadChariotFactory() {
     if(fChariotFactoryLoaded) return;

@@ -27,10 +27,24 @@ eSmallHouse::~eSmallHouse() {
 std::shared_ptr<eTexture> eSmallHouse::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings();
+    const auto& texs = blds[sizeId];
+
     if(mPeople == 0) return blds[sizeId].fHouseSpace;
-    const auto& coll = blds[sizeId].fCommonHouse[mLevel];
-    const int texId = seed() % coll.size();
-    return coll.getTexture(texId);
+    auto& board = getBoard();
+    const eTextureCollection* coll = nullptr;
+    if(board.poseidonMode()) {
+        const int id = mLevel - 2;
+        if(id < 0) {
+            coll = &texs.fCommonHouse[mLevel];
+        } else {
+            eGameTextures::loadPoseidonCommonHouse();
+            coll = &texs.fPoseidonCommonHouse[id];
+        }
+    } else {
+        coll = &texs.fCommonHouse[mLevel];
+    }
+    const int texId = seed() % coll->size();
+    return coll->getTexture(texId);
 }
 
 int eSmallHouse::provide(const eProvide p, const int n) {

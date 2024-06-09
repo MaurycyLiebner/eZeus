@@ -978,10 +978,24 @@ void eGameTextures::loadCommonHouse() {
     });
 }
 
+void eGameTextures::loadPoseidonCommonHouse() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadPoseidonCommonHouse();
+    });
+}
+
 void eGameTextures::loadEliteHouse() {
     loadTexture([](const int i) {
         auto& c = sBuildingTextures[i];
         c.loadEliteHouse();
+    });
+}
+
+void eGameTextures::loadPoseidonEliteHouse() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadPoseidonEliteHouse();
     });
 }
 

@@ -1894,6 +1894,14 @@ HEADERS += \
     spriteData/poseidonBannerTops30.h \
     spriteData/poseidonBannerTops45.h \
     spriteData/poseidonBannerTops60.h \
+    spriteData/poseidonCommonHouse15.h \
+    spriteData/poseidonCommonHouse30.h \
+    spriteData/poseidonCommonHouse45.h \
+    spriteData/poseidonCommonHouse60.h \
+    spriteData/poseidonEliteHouse15.h \
+    spriteData/poseidonEliteHouse30.h \
+    spriteData/poseidonEliteHouse45.h \
+    spriteData/poseidonEliteHouse60.h \
     spriteData/poseidonHerosHall15.h \
     spriteData/poseidonHerosHall30.h \
     spriteData/poseidonHerosHall45.h \
@@ -2621,6 +2629,8 @@ DISTFILES += \
     textureTemplates/porter \
     textureTemplates/poseidon \
     textureTemplates/poseidonBannerTops \
+    textureTemplates/poseidonCommonHouse \
+    textureTemplates/poseidonEliteHouse \
     textureTemplates/poseidonHerosHall \
     textureTemplates/poseidonInterface \
     textureTemplates/poseidonQuestButtons \
