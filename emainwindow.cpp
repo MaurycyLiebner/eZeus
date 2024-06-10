@@ -176,6 +176,8 @@ void eMainWindow::showMainMenu() {
     setWidget(mm);
 
     const auto newGameAction = [this]() {
+        return showChooseGameMenu();
+
         const auto board = new eGameBoard();
         board->initialize(100, 200);
 
@@ -350,10 +352,17 @@ void eMainWindow::showSettingsMenu() {
     setWidget(esm);
 }
 
+void eMainWindow::showChooseGameMenu() {
+    const auto gem = new eChooseGameEditMenu(this);
+    gem->resize(width(), height());
+    gem->initialize(false);
+    setWidget(gem);
+}
+
 void eMainWindow::showChooseGameEditMenu() {
     const auto gem = new eChooseGameEditMenu(this);
     gem->resize(width(), height());
-    gem->initialize();
+    gem->initialize(true);
     setWidget(gem);
 }
 

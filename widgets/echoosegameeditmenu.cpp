@@ -82,7 +82,7 @@ private:
 eChooseGameEditMenu::eChooseGameEditMenu(eMainWindow* const window) :
     eMainMenuBase(window) {}
 
-void eChooseGameEditMenu::initialize() {
+void eChooseGameEditMenu::initialize(const bool editor) {
     eMainMenuBase::initialize();
 
     std::vector<eCampaignGlossary> glossaries;
@@ -126,7 +126,8 @@ void eChooseGameEditMenu::initialize() {
     const auto title = new eLabel(window());
     title->setHugeFontSize();
     title->setSmallPadding();
-    title->setText(eLanguage::zeusText(287, 3));
+    title->setText(editor ? eLanguage::zeusText(287, 3) :
+                            eLanguage::zeusText(293, 9));
     title->fitContent();
     iw->addWidget(title);
     title->align(eAlignment::hcenter);
@@ -136,126 +137,128 @@ void eChooseGameEditMenu::initialize() {
     scrollCont->resize(cw - 4*p, ch/2);
     scrollCont->initialize();
 
-    const auto buttonsW = new eWidget(window());
-    buttonsW->setNoPadding();
-
-    const auto newB = new eFramedButton(window());
-    newB->setUnderline(false);
-    newB->setSmallFontSize();
-    newB->setSmallPadding();
-    newB->setText(eLanguage::zeusText(287, 0));
-    newB->fitContent();
-    buttonsW->addWidget(newB);
-    newB->setPressAction([cw, p, this]() {
-        const auto box = new eFramedWidget(window());
-        box->setType(eFrameType::message);
-        box->setWidth(cw);
-
-        const auto iw = new eWidget(window());
-        iw->setNoPadding();
-        iw->setWidth(cw - 4*p);
-
-        const auto title = new eLabel(window());
-        title->setHugeFontSize();
-        title->setSmallPadding();
-        title->setText(eLanguage::zeusText(287, 0));
-        title->fitContent();
-        iw->addWidget(title);
-        title->align(eAlignment::hcenter);
-
-        const auto edit = new eLineEdit(window());
-        edit->setRenderBg(true);
-        edit->setText(eLanguage::zeusText(287, 0));
-        edit->fitContent();
-        edit->setText("");
-        edit->setWidth(cw - 6*p);
-        iw->addWidget(edit);
-        edit->align(eAlignment::hcenter);
-
+    if(editor) {
         const auto buttonsW = new eWidget(window());
         buttonsW->setNoPadding();
+
+        const auto newB = new eFramedButton(window());
+        newB->setUnderline(false);
+        newB->setSmallFontSize();
+        newB->setSmallPadding();
+        newB->setText(eLanguage::zeusText(287, 0));
+        newB->fitContent();
+        buttonsW->addWidget(newB);
+        newB->setPressAction([cw, p, this]() {
+            const auto box = new eFramedWidget(window());
+            box->setType(eFrameType::message);
+            box->setWidth(cw);
+
+            const auto iw = new eWidget(window());
+            iw->setNoPadding();
+            iw->setWidth(cw - 4*p);
+
+            const auto title = new eLabel(window());
+            title->setHugeFontSize();
+            title->setSmallPadding();
+            title->setText(eLanguage::zeusText(287, 0));
+            title->fitContent();
+            iw->addWidget(title);
+            title->align(eAlignment::hcenter);
+
+            const auto edit = new eLineEdit(window());
+            edit->setRenderBg(true);
+            edit->setText(eLanguage::zeusText(287, 0));
+            edit->fitContent();
+            edit->setText("");
+            edit->setWidth(cw - 6*p);
+            iw->addWidget(edit);
+            edit->align(eAlignment::hcenter);
+
+            const auto buttonsW = new eWidget(window());
+            buttonsW->setNoPadding();
+            buttonsW->setWidth(iw->width());
+
+            const auto cButton = new eCancelButton(window());
+            buttonsW->addWidget(cButton);
+            cButton->setPressAction([this]() {
+                window()->showChooseGameEditMenu();
+            });
+
+            const auto proceedW = new eWidget(window());
+            proceedW->setNoPadding();
+
+            const auto proceedLabel = new eLabel(window());
+            proceedLabel->setSmallFontSize();
+            proceedLabel->setSmallPadding();
+            proceedLabel->setText(eLanguage::zeusText(287, 2));
+            proceedLabel->fitContent();
+            proceedW->addWidget(proceedLabel);
+
+            const auto proceedB = new eProceedButton(window());
+            proceedB->setPressAction([this, edit]() {
+                auto name = edit->text();
+                std::string trimmedName;
+                while(!name.empty() && name[0] == ' ') {
+                    name.erase(name.begin());
+                }
+                while(!name.empty() && name[name.size() - 1] == ' ') {
+                    name.pop_back();
+                }
+                if(name.empty()) return;
+                eCampaign c;
+                c.initialize(name);
+                c.save();
+                window()->showChooseGameEditMenu();
+            });
+            proceedW->addWidget(proceedB);
+
+            proceedW->stackHorizontally(2*p);
+            proceedW->fitContent();
+            proceedLabel->align(eAlignment::vcenter);
+            proceedB->align(eAlignment::vcenter);
+            buttonsW->addWidget(proceedW);
+
+            buttonsW->layoutHorizontallyWithoutSpaces();
+            buttonsW->fitHeight();
+
+            iw->addWidget(buttonsW);
+
+            iw->stackVertically(2*p);
+            iw->fitHeight();
+            box->addWidget(iw);
+            iw->move(2*p, 2*p);
+            box->setHeight(iw->height() + 4*p);
+
+            window()->execDialog(box);
+            box->align(eAlignment::center);
+        });
+
+        const auto deleteB = new eFramedButton(window());
+        deleteB->setUnderline(false);
+        deleteB->setSmallFontSize();
+        deleteB->setSmallPadding();
+        deleteB->setText(eLanguage::zeusText(287, 1));
+        deleteB->fitContent();
+        buttonsW->addWidget(deleteB);
+        deleteB->setPressAction([this]() {
+           const auto q = new eQuestionWidget(window());
+           const auto acceptA = [this]() {
+               const auto dir = "../Adventures/" + mSelected.fFolderName + "/";
+               std::filesystem::remove_all(dir);
+               window()->showChooseGameEditMenu();
+           };
+           q->initialize(eLanguage::zeusText(5, 179),
+                         eLanguage::zeusText(5, 180),
+                         acceptA, nullptr);
+           window()->execDialog(q);
+           q->align(eAlignment::center);
+        });
+
         buttonsW->setWidth(iw->width());
-
-        const auto cButton = new eCancelButton(window());
-        buttonsW->addWidget(cButton);
-        cButton->setPressAction([this]() {
-            window()->showChooseGameEditMenu();
-        });
-
-        const auto proceedW = new eWidget(window());
-        proceedW->setNoPadding();
-
-        const auto proceedLabel = new eLabel(window());
-        proceedLabel->setSmallFontSize();
-        proceedLabel->setSmallPadding();
-        proceedLabel->setText(eLanguage::zeusText(287, 2));
-        proceedLabel->fitContent();
-        proceedW->addWidget(proceedLabel);
-
-        const auto proceedB = new eProceedButton(window());
-        proceedB->setPressAction([this, edit]() {
-            auto name = edit->text();
-            std::string trimmedName;
-            while(!name.empty() && name[0] == ' ') {
-                name.erase(name.begin());
-            }
-            while(!name.empty() && name[name.size() - 1] == ' ') {
-                name.pop_back();
-            }
-            if(name.empty()) return;
-            eCampaign c;
-            c.initialize(name);
-            c.save();
-            window()->showChooseGameEditMenu();
-        });
-        proceedW->addWidget(proceedB);
-
-        proceedW->stackHorizontally(2*p);
-        proceedW->fitContent();
-        proceedLabel->align(eAlignment::vcenter);
-        proceedB->align(eAlignment::vcenter);
-        buttonsW->addWidget(proceedW);
-
         buttonsW->layoutHorizontallyWithoutSpaces();
         buttonsW->fitHeight();
-
         iw->addWidget(buttonsW);
-
-        iw->stackVertically(2*p);
-        iw->fitHeight();
-        box->addWidget(iw);
-        iw->move(2*p, 2*p);
-        box->setHeight(iw->height() + 4*p);
-
-        window()->execDialog(box);
-        box->align(eAlignment::center);
-    });
-
-    const auto deleteB = new eFramedButton(window());
-    deleteB->setUnderline(false);
-    deleteB->setSmallFontSize();
-    deleteB->setSmallPadding();
-    deleteB->setText(eLanguage::zeusText(287, 1));
-    deleteB->fitContent();
-    buttonsW->addWidget(deleteB);
-    deleteB->setPressAction([this]() {
-       const auto q = new eQuestionWidget(window());
-       const auto acceptA = [this]() {
-           const auto dir = "../Adventures/" + mSelected.fFolderName + "/";
-           std::filesystem::remove_all(dir);
-           window()->showChooseGameEditMenu();
-       };
-       q->initialize(eLanguage::zeusText(5, 179),
-                     eLanguage::zeusText(5, 180),
-                     acceptA, nullptr);
-       window()->execDialog(q);
-       q->align(eAlignment::center);
-    });
-
-    buttonsW->setWidth(iw->width());
-    buttonsW->layoutHorizontallyWithoutSpaces();
-    buttonsW->fitHeight();
-    iw->addWidget(buttonsW);
+    }
 
     const auto buttons2W = new eWidget(window());
     buttons2W->setNoPadding();
@@ -272,13 +275,18 @@ void eChooseGameEditMenu::initialize() {
     const auto proceedLabel = new eLabel(window());
     proceedLabel->setSmallFontSize();
     proceedLabel->setSmallPadding();
-    proceedLabel->setText(eLanguage::zeusText(287, 2));
+    proceedLabel->setText(editor ? eLanguage::zeusText(287, 2) :
+                                   eLanguage::zeusText(287, 6));
     proceedLabel->fitContent();
     proceedW->addWidget(proceedLabel);
 
     const auto proceedB = new eProceedButton(window());
-    proceedB->setPressAction([]() {
+    proceedB->setPressAction([this, editor]() {
+        if(editor) {
 
+        } else {
+
+        }
     });
     proceedW->addWidget(proceedB);
 
@@ -331,6 +339,21 @@ void eChooseGameEditMenu::initialize() {
     mDesc = new eLabel(window());
     mDesc->setWrapWidth(descIW->width());
 
+    descIW->addWidget(mTitle);
+    descIW->addWidget(mDesc);
+    descIW->stackVertically(p);
+
+    sideW->addWidget(descWW);
+
+    sideW->stackVertically(p);
+    sideW->fitContent();
+    iww->addWidget(sideW);
+
+    iww->stackHorizontally(p);
+    iww->fitContent();
+    addWidget(iww);
+    iww->align(eAlignment::center);
+
     {
         const auto scrollArea = new eWidget(window());
 
@@ -370,21 +393,6 @@ void eChooseGameEditMenu::initialize() {
         scrollArea->fitContent();
         scrollCont->setScrollArea(scrollArea);
     }
-
-    descIW->addWidget(mTitle);
-    descIW->addWidget(mDesc);
-    descIW->stackVertically(p);
-
-    sideW->addWidget(descWW);
-
-    sideW->stackVertically(p);
-    sideW->fitContent();
-    iww->addWidget(sideW);
-
-    iww->stackHorizontally(p);
-    iww->fitContent();
-    addWidget(iww);
-    iww->align(eAlignment::center);
 }
 
 void eChooseGameEditMenu::setGlossary(const eCampaignGlossary& g) {

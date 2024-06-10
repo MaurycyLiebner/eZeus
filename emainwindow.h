@@ -49,6 +49,7 @@ public:
     void showMenuLoading();
     void showMainMenu();
     void showSettingsMenu();
+    void showChooseGameMenu();
     void showChooseGameEditMenu();
     void showGame(eGameBoard* board,
                   const eGameWidgetSettings& settings);

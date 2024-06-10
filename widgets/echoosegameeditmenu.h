@@ -11,7 +11,7 @@ class eChooseGameEditMenu : public eMainMenuBase {
 public:
     eChooseGameEditMenu(eMainWindow* const window);
 
-    void initialize();
+    void initialize(const bool editor);
 
     void setGlossary(const eCampaignGlossary& g);
 private:
