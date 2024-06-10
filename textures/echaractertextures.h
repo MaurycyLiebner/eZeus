@@ -217,6 +217,8 @@ public:
     void loadSilverMiner();
     bool fArcherLoaded = false;
     void loadArcher();
+    bool fPoseidonTowerArcherLoaded = false;
+    void loadPoseidonTowerArcher();
     bool fLumberjackLoaded = false;
     void loadLumberjack();
     bool fTaxCollectorLoaded = false;
@@ -515,6 +517,7 @@ public:
     eOrangeTenderTextures fOrangeTender;
 
     eArcherTextures fArcher;
+    eArcherTextures fPoseidonTowerArcher;
 
     eRockThrowerTextures fRockThrower;
     eFightingCharacterTextures fHoplite;

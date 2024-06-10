@@ -59,6 +59,7 @@ public:
     static void loadMarbleMiner();
     static void loadSilverMiner();
     static void loadArcher();
+    static void loadPoseidonTowerArcher();
     static void loadLumberjack();
     static void loadTaxCollector();
     static void loadTransporter();

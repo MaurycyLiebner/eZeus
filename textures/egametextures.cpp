@@ -221,6 +221,13 @@ void eGameTextures::loadArcher() {
     });
 }
 
+void eGameTextures::loadPoseidonTowerArcher() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadPoseidonTowerArcher();
+    });
+}
+
 void eGameTextures::loadLumberjack() {
     loadTexture([](const int i) {
         auto& c = sCharacterTextures[i];

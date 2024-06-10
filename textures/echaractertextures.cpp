@@ -353,6 +353,7 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fOrangeTender(renderer),
 
     fArcher(renderer),
+    fPoseidonTowerArcher(renderer),
 
     fRockThrower(renderer),
     fHoplite(renderer),

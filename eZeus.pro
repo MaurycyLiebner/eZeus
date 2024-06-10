@@ -1926,6 +1926,10 @@ HEADERS += \
     spriteData/poseidonStatues230.h \
     spriteData/poseidonStatues245.h \
     spriteData/poseidonStatues260.h \
+    spriteData/poseidonTowerArcher15.h \
+    spriteData/poseidonTowerArcher30.h \
+    spriteData/poseidonTowerArcher45.h \
+    spriteData/poseidonTowerArcher60.h \
     spriteData/poseidonUnits15.h \
     spriteData/poseidonUnits30.h \
     spriteData/poseidonUnits45.h \
@@ -2637,6 +2641,7 @@ DISTFILES += \
     textureTemplates/poseidonStatue \
     textureTemplates/poseidonStatues1 \
     textureTemplates/poseidonStatues2 \
+    textureTemplates/poseidonTowerArcher \
     textureTemplates/poseidonUnits \
     textureTemplates/roadblock \
     textureTemplates/rock \

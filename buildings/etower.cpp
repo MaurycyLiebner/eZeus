@@ -11,7 +11,6 @@
 eTower::eTower(eGameBoard& board) :
     eEmployingBuilding(board, eBuildingType::tower, 2, 2, 15) {
     eGameTextures::loadGatehouseAndTower();
-    eGameTextures::loadArcher();
 }
 
 std::shared_ptr<eTexture>
@@ -24,11 +23,19 @@ eTower::getTexture(const eTileSize size) const {
 std::vector<eOverlay>
 eTower::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
-    const auto& texs = eGameTextures::characters();
-    const auto& aTexs = texs[sizeId].fArcher;
+    const auto& texs = eGameTextures::characters()[sizeId];
+    const eArcherTextures* aTexs;
+    auto& board = getBoard();
+    if(board.poseidonMode()) {
+        eGameTextures::loadPoseidonTowerArcher();
+        aTexs = &texs.fPoseidonTowerArcher;
+    } else {
+        eGameTextures::loadArcher();
+        aTexs = &texs.fArcher;
+    }
     if(mAttack) {
         const int oid = static_cast<int>(mAttackOrientation);
-        const auto& coll = &aTexs.fFight[oid];
+        const auto& coll = &aTexs->fFight[oid];
         const int t = time()/20;
         const int texId = t % coll->size();
         eOverlay o;
@@ -37,7 +44,7 @@ eTower::getOverlays(const eTileSize size) const {
         o.fY = -5.5;
         return {o};
     } else {
-        const auto& colls = aTexs.fPatrol;
+        const auto& colls = aTexs->fPatrol;
         const int tt = textureTime();
         const int idid = tt/50 % 8;
         const int ids[8] = {5, 0, 3, 7, 4, 2, 6, 1};

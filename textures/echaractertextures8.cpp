@@ -77,7 +77,33 @@
 #include "spriteData/elephant45.h"
 #include "spriteData/elephant60.h"
 
+#include "spriteData/poseidonTowerArcher15.h"
+#include "spriteData/poseidonTowerArcher30.h"
+#include "spriteData/poseidonTowerArcher45.h"
+#include "spriteData/poseidonTowerArcher60.h"
+
 #include "offsets/PoseidonImps.h"
+
+void eCharacterTextures::loadPoseidonTowerArcher() {
+    if(fPoseidonTowerArcherLoaded) return;
+    fPoseidonTowerArcherLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonTowerArcherSpriteData15,
+                                 ePoseidonTowerArcherSpriteData30,
+                                 ePoseidonTowerArcherSpriteData45,
+                                 ePoseidonTowerArcherSpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonTowerArcher", sds,
+                         &ePoseidonImpsOffset, fRenderer);
+
+    loader.loadSkipFlipped(4398, 4398, 4494, fPoseidonTowerArcher.fWalk);
+
+    for(int i = 4494; i < 4502; i++) {
+        loader.load(4398, i, fPoseidonTowerArcher.fDie);
+    }
+
+    loader.loadSkipFlipped(4398, 4502, 4622, fPoseidonTowerArcher.fFight);
+    loader.loadSkipFlipped(4398, 4622, 4718, fPoseidonTowerArcher.fPatrol);
+}
 
 void eCharacterTextures::loadElephant() {
     if(fElephantLoaded) return;
