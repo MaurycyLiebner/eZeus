@@ -238,6 +238,7 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fBigDownButton(renderer),
 
     fExclamationButton(renderer),
+    fProceedButton(renderer),
     fOkButton(renderer),
     fHelpButton(renderer),
 
@@ -991,6 +992,10 @@ void eInterfaceTextures::load() {
 
         for(int i = 64; i < 68; i++) {
             loader.load(1, i, fExclamationButton);
+        }
+
+        for(int i = 68; i < 72; i++) {
+            loader.load(1, i, fProceedButton);
         }
 
         for(int i = 333; i < 337; i++) {

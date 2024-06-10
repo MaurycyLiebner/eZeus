@@ -298,6 +298,7 @@ public:
     eTextureCollection fBigDownButton;
 
     eTextureCollection fExclamationButton;
+    eTextureCollection fProceedButton;
     eTextureCollection fOkButton;
     eTextureCollection fHelpButton;
 

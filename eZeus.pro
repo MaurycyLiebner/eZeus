@@ -467,6 +467,7 @@ SOURCES += \
         widgets/echeckablebutton.cpp \
         widgets/echeckbox.cpp \
         widgets/echoosebutton.cpp \
+        widgets/echoosegameeditmenu.cpp \
         widgets/ecitybutton.cpp \
         widgets/ecitysettingswidget.cpp \
         widgets/eclosabledialog.cpp \
@@ -524,6 +525,7 @@ SOURCES += \
         widgets/enumlineeditwidget.cpp \
         widgets/eokbutton.cpp \
         widgets/epainter.cpp \
+        widgets/eproceedbutton.cpp \
         widgets/eprogressbar.cpp \
         widgets/equestionwidget.cpp \
         widgets/erequestdialog.cpp \
@@ -2307,6 +2309,7 @@ HEADERS += \
     widgets/echeckablebutton.h \
     widgets/echeckbox.h \
     widgets/echoosebutton.h \
+    widgets/echoosegameeditmenu.h \
     widgets/ecitybutton.h \
     widgets/ecitysettingswidget.h \
     widgets/eclosabledialog.h \
@@ -2360,6 +2363,7 @@ HEADERS += \
     widgets/enumlineeditwidget.h \
     widgets/eokbutton.h \
     widgets/epainter.h \
+    widgets/eproceedbutton.h \
     widgets/eprogressbar.h \
     widgets/equestionwidget.h \
     widgets/erequestdialog.h \

@@ -8,18 +8,20 @@ eCampaign::eCampaign() {
 
 }
 
-void eCampaign::initialize() {
-    mParentBoard.initialize(100, 100);
+void eCampaign::initialize(const std::string& title) {
+    mTitle = title;
+
+    mParentBoard = std::make_shared<eGameBoard>();
+    mParentBoard->initialize(100, 100);
 
     for(int i = 0; i < 4; i++) {
         auto& board = mColonyBoards.emplace_back();
-        board.initialize(100, 100);
+        board = std::make_shared<eGameBoard>();
+        board->initialize(100, 100);
     }
 }
 
-bool eCampaign::loadStrings(const std::string& path) {
-    std::map<std::string, std::string> map;
-
+bool eCampaign::sLoadStrings(const std::string& path, eMap& map) {
     std::ifstream file(path);
     if(!file.good()) {
         printf("File missing %s\n", path.c_str());
@@ -45,6 +47,13 @@ bool eCampaign::loadStrings(const std::string& path) {
 
         map[key] = value;
     }
+    return true;
+}
+
+bool eCampaign::loadStrings(const std::string& path) {
+    std::map<std::string, std::string> map;
+    const bool r = sLoadStrings(path, map);
+    if(!r) return false;
 
     mTitle = map["Adventure_Title"];
     mIntroduction = map["Adventure_Introduction"];
@@ -87,7 +96,7 @@ bool eCampaign::writeStrings(const std::string& path) const {
     file << "Adventure_Introduction=\"" + mIntroduction + "\"\n";
     file << "Adventure_Complete=\"" + mComplete + "\"\n";
     file << '\n';
-    for(int i = 0; i < 10; i++) {
+    for(int i = 1; i < 11; i++) {
         const eParentCityEpisode* e = nullptr;
         const int iMax = mParentCityEpisodes.size();
         if(i < iMax) {
@@ -102,7 +111,7 @@ bool eCampaign::writeStrings(const std::string& path) const {
         file << "Parent_Episode_" + is + "_Complete=\"" + completeStr + "\"\n";
     }
     file << '\n';
-    for(int i = 0; i < 4; i++) {
+    for(int i = 1; i < 5; i++) {
         const eColonyEpisode* e = nullptr;
         const int iMax = mColonyEpisodes.size();
         if(i < iMax) {
@@ -121,18 +130,42 @@ bool eCampaign::writeStrings(const std::string& path) const {
     return true;
 }
 
+bool eCampaign::sReadGlossary(const std::string& name,
+                              eCampaignGlossary& glossary) {
+    const auto baseDir = "../Adventures/";
+    const auto aDir = baseDir + name + "/";
+    const auto txtFile = aDir + name + ".txt";
+    std::map<std::string, std::string> map;
+    const bool r = sLoadStrings(txtFile, map);
+    if(!r) return false;
+    glossary.fFolderName = name;
+    glossary.fTitle = map["Adventure_Title"];
+    glossary.fIntroduction = map["Adventure_Introduction"];
+    glossary.fComplete = map["Adventure_Complete"];
+
+    const auto pakFile = aDir + name + ".epak";
+    const auto file = SDL_RWFromFile(pakFile.c_str(), "r+b");
+    if(!file) return false;
+    eReadStream src(file);
+    src >> glossary.fBitmap;
+    SDL_RWclose(file);
+    return true;
+}
+
 void eCampaign::read(eReadStream& src) {
     src >> mBitmap;
     src >> mInitialFunds;
-    src >> mStartDate;
+    mStartDate.read(src);
     mWorldBoard.read(src);
-    mParentBoard.read(src);
+    mParentBoard = std::make_shared<eGameBoard>();
+    mParentBoard->read(src);
     {
         int nc;
         src >> nc;
         for(int i = 0; i < nc; i++) {
             auto& b = mColonyBoards.emplace_back();
-            b.read(src);
+            b = std::make_shared<eGameBoard>();
+            b->read(src);
         }
     }
 
@@ -170,13 +203,13 @@ void eCampaign::read(eReadStream& src) {
 void eCampaign::write(eWriteStream& dst) const {
     dst << mBitmap;
     dst << mInitialFunds;
-    dst << mStartDate;
+    mStartDate.write(dst);
     mWorldBoard.write(dst);
-    mParentBoard.write(dst);
+    mParentBoard->write(dst);
 
     dst << mColonyBoards.size();
     for(const auto& b : mColonyBoards) {
-        b.write(dst);
+        b->write(dst);
     }
 
     dst << mEpisodes.size();

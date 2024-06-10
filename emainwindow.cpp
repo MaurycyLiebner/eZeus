@@ -7,6 +7,7 @@
 #include "widgets/egamemenu.h"
 #include "widgets/emenuloadingwidget.h"
 #include "widgets/eworldwidget.h"
+#include "widgets/echoosegameeditmenu.h"
 
 #include "audio/emusic.h"
 
@@ -305,7 +306,7 @@ void eMainWindow::showMainMenu() {
     };
 
     const auto editGameAction = [this]() {
-        showSettingsMenu();
+        showChooseGameEditMenu();
     };
 
     const auto settingsAction = [this]() {
@@ -348,6 +349,14 @@ void eMainWindow::showSettingsMenu() {
     esm->initialize(applyA, fullscrennA);
     setWidget(esm);
 }
+
+void eMainWindow::showChooseGameEditMenu() {
+    const auto gem = new eChooseGameEditMenu(this);
+    gem->resize(width(), height());
+    gem->initialize();
+    setWidget(gem);
+}
+
 #include "characters/ehoplite.h"
 #include "characters/erockthrower.h"
 #include "characters/egreekhoplite.h"

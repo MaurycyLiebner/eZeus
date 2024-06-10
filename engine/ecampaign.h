@@ -132,26 +132,38 @@ struct eColonyEpisode : public eEpisode {
     std::string fSelection;
 };
 
+struct eCampaignGlossary {
+    std::string fFolderName;
+    int fBitmap = 0;
+    std::string fTitle;
+    std::string fIntroduction;
+    std::string fComplete;
+};
+
 class eCampaign {
 public:
     eCampaign();
 
-    void initialize();
+    void initialize(const std::string& title);
 
     void setInitialFunds(const int f) { mInitialFunds = f; }
     void setStartDate(const eDate& d) { mStartDate = d; }
 
     void setBitmap(const int b) { mBitmap = b; }
 
+    using eMap = std::map<std::string, std::string>;
+    static bool sLoadStrings(const std::string& path, eMap& map);
     bool loadStrings(const std::string& path);
     bool writeStrings(const std::string& path) const;
 
     eWorldBoard& worldBoard() { return mWorldBoard; }
     eGameBoard& parentCityBoard()
-    { return mParentBoard; }
+    { return *mParentBoard; }
     eGameBoard& colonyBoard(const int id)
-    { return mColonyBoards[id]; }
+    { return *mColonyBoards[id]; }
 
+    static bool sReadGlossary(const std::string& name,
+                              eCampaignGlossary& glossary);
     void read(eReadStream& src);
     void write(eWriteStream& dst) const;
 
@@ -168,8 +180,8 @@ private:
     eDate mStartDate;
 
     eWorldBoard mWorldBoard;
-    eGameBoard mParentBoard;
-    std::vector<eGameBoard> mColonyBoards;
+    stdsptr<eGameBoard> mParentBoard;
+    std::vector<stdsptr<eGameBoard>> mColonyBoards;
 
     std::vector<eEpisodeType> mEpisodes;
 

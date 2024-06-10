@@ -95,6 +95,8 @@ public:
     void setFlipTex(const std::shared_ptr<eTexture>& tex);
     void setParentTexture(const SDL_Rect& rect,
                           const std::shared_ptr<eTexture>& tex);
+
+    SDL_Texture* tex() const { return mTex; }
 private:
     std::shared_ptr<eTexture> mParentTex;
     int mX = 0;

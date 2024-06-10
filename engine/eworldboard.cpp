@@ -58,7 +58,7 @@ stdsptr<eWorldCity> eWorldBoard::cityWithIOID(const int id) const {
 
 void eWorldBoard::setIOIDs() const {
     int id = 0;
-    mHomeCity->setIOID(id++);
+    if(mHomeCity) mHomeCity->setIOID(id++);
     for(const auto& c : mCities) {
         c->setIOID(id++);
     }
@@ -66,7 +66,8 @@ void eWorldBoard::setIOIDs() const {
 
 void eWorldBoard::write(eWriteStream& dst) const {
     dst << mMap;
-    mHomeCity->write(dst);
+    dst << (mHomeCity != nullptr);
+    if(mHomeCity) mHomeCity->write(dst);
     dst << mCities.size();
     for(const auto& c : mCities) {
         c->write(dst);
@@ -75,8 +76,12 @@ void eWorldBoard::write(eWriteStream& dst) const {
 
 void eWorldBoard::read(eReadStream& src) {
     src >> mMap;
-    mHomeCity = std::make_shared<eWorldCity>();
-    mHomeCity->read(src);
+    bool hc;
+    src >> hc;
+    if(hc) {
+        mHomeCity = std::make_shared<eWorldCity>();
+        mHomeCity->read(src);
+    }
     int nc;
     src >> nc;
     for(int i = 0; i < nc; i++) {

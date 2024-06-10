@@ -53,6 +53,9 @@ public:
                      const SDL_Color& color) const;
 
     void setClipRect(const SDL_Rect* const rect);
+
+    int x() const { return mX; }
+    int y() const { return mY; }
 private:
     std::vector<ePainterSave> mSaves;
 
