@@ -65,6 +65,7 @@ void eWorldBoard::setIOIDs() const {
 }
 
 void eWorldBoard::write(eWriteStream& dst) const {
+    dst << mPoseidonMode;
     dst << mMap;
     dst << (mHomeCity != nullptr);
     if(mHomeCity) mHomeCity->write(dst);
@@ -75,6 +76,7 @@ void eWorldBoard::write(eWriteStream& dst) const {
 }
 
 void eWorldBoard::read(eReadStream& src) {
+    src >> mPoseidonMode;
     src >> mMap;
     bool hc;
     src >> hc;

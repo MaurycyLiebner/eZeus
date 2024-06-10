@@ -175,6 +175,8 @@ private:
     std::string mIntroduction;
     std::string mComplete;
 
+    int mCurrentEpisode = 0;
+
     int mInitialFunds = 5000;
 
     eDate mStartDate;
@@ -187,6 +189,7 @@ private:
 
     std::vector<stdsptr<eParentCityEpisode>> mParentCityEpisodes;
     std::vector<stdsptr<eColonyEpisode>> mColonyEpisodes;
+    std::vector<int> mPlayedColonyEpisodes;
 };
 
 #endif // ECAMPAIGN_H

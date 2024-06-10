@@ -131,7 +131,8 @@ public:
     static std::string sStateName(const eCityState s);
     void setState(const eCityState state) { mState = state; }
     eCityState state() const { return mState; };
-    bool active() const { return mState == eCityState::active; }
+    bool active() const { return mType != eCityType::colony ||
+                                 mState == eCityState::active; }
 
     static std::string sAttitudeName(const eCityAttitude at);
     eCityAttitude attitudeClass() const;

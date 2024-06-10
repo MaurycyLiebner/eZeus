@@ -51,7 +51,14 @@ public:
     void read(eReadStream& src);
 
     void attackedAlly();
+
+    bool editorMode() const { return mEditorMode; }
+    void setEditorMode(const bool m) { mEditorMode = m; }
+    bool poseidonMode() const { return mPoseidonMode; }
+    void setPoseidonMode(const bool p) { mPoseidonMode = p; }
 private:
+    bool mEditorMode = true;
+    bool mPoseidonMode = true;
     eWorldMap mMap{eWorldMap::greece8};
     stdsptr<eWorldCity> mHomeCity;
     std::vector<stdsptr<eWorldCity>> mCities;

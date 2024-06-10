@@ -434,6 +434,7 @@ public:
     eTile* exitPoint() const;
 
     bool editorMode() const { return mEditorMode; }
+    void setEditorMode(const bool m) { mEditorMode = m; }
     bool poseidonMode() const { return mPoseidonMode; }
     void setPoseidonMode(const bool p) { mPoseidonMode = p; }
 

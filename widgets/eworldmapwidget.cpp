@@ -37,9 +37,11 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
     const auto res = resolution();
     const int iRes = static_cast<int>(res.uiScale());
     const auto& texs = intrfc[iRes];
-    const bool poseidon = mGameBoard->poseidonMode();
+    const bool poseidon = mWorldBoard->poseidonMode();
+    const bool editor = mWorldBoard->editorMode();
 
     const auto handleCity = [&](const stdsptr<eWorldCity>& ct) {
+        if(!editor && !ct->active()) return;
         const auto t = ct->type();
         stdsptr<eTexture> tex;
         switch(t) {
@@ -237,93 +239,95 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
         return static_cast<const eTextureCollection*>(nullptr);
     };
 
-    const auto date = mGameBoard->date();
-    const auto& cs = mGameBoard->armyEvents();
-    for(const auto c : cs) {
-        const auto cDate = c->startDate();
-        const int days = cDate - date;
-        const int totDays = eArmyEventBase::sWaitTime;
-        const double frac = std::clamp(1. - (1.*days)/totDays, 0., 1.);
-        const auto& cc = c->city();
-        int x;
-        int y;
-        const bool reverse = dynamic_cast<eArmyReturnEvent*>(c);
-        if(reverse) armyDrawXY(*cc, *hc, frac, x, y);
-        else armyDrawXY(*hc, *cc, frac, x, y);
-        const int dx = res.largePadding();
-        const auto& forces = c->forces();
-        const int s = forces.fSoldiers.size();
-        if(s != 0) {
-            const int n = std::clamp(s/3, 0, 2);
-            const eTextureCollection* coll = nullptr;;
-            if(poseidon) coll = &texs.fPoseidonPlayerArmy;
-            else coll = &texs.fZeusPlayerArmy;;
-            const auto& tex = coll->getTexture(n);
-            p.drawTexture(x, y, tex, eAlignment::center);
-            x += dx;
-        }
-
-        for(const auto& a : forces.fAllies) {
-            const int n = std::clamp(a->army()/2, 0, 2);
-            const auto coll = cityFigures(a->nationality());
-            const auto tex = coll ? coll->getTexture(n) : nullptr;
+    if(mGameBoard) {
+        const auto date = mGameBoard->date();
+        const auto& cs = mGameBoard->armyEvents();
+        for(const auto c : cs) {
+            const auto cDate = c->startDate();
+            const int days = cDate - date;
+            const int totDays = eArmyEventBase::sWaitTime;
+            const double frac = std::clamp(1. - (1.*days)/totDays, 0., 1.);
+            const auto& cc = c->city();
             int x;
             int y;
-            if(reverse) armyDrawXY(*cc, *a, frac, x, y);
-            else armyDrawXY(*a, *cc, frac, x, y);
-            if(tex) p.drawTexture(x, y, tex, eAlignment::center);
-        }
-
-        for(const auto h : forces.fHeroes) {
-            stdsptr<eTexture> tex;
-            switch(h) {
-            case eHeroType::achilles:
-                tex = texs.fZeusAchilles;
-                break;
-            case eHeroType::atalanta:
-                tex = texs.fPoseidonAtalanta;
-                break;
-            case eHeroType::bellerophon:
-                tex = texs.fPoseidonBellerophon;
-                break;
-            case eHeroType::hercules:
-                tex = texs.fZeusHercules;
-                break;
-            case eHeroType::jason:
-                tex = texs.fZeusJason;
-                break;
-            case eHeroType::odysseus:
-                tex = texs.fZeusOdysseus;
-                break;
-            case eHeroType::perseus:
-                tex = texs.fZeusPerseus;
-                break;
-            case eHeroType::theseus:
-                tex = texs.fZeusTheseus;
-                break;
+            const bool reverse = dynamic_cast<eArmyReturnEvent*>(c);
+            if(reverse) armyDrawXY(*cc, *hc, frac, x, y);
+            else armyDrawXY(*hc, *cc, frac, x, y);
+            const int dx = res.largePadding();
+            const auto& forces = c->forces();
+            const int s = forces.fSoldiers.size();
+            if(s != 0) {
+                const int n = std::clamp(s/3, 0, 2);
+                const eTextureCollection* coll = nullptr;;
+                if(poseidon) coll = &texs.fPoseidonPlayerArmy;
+                else coll = &texs.fZeusPlayerArmy;;
+                const auto& tex = coll->getTexture(n);
+                p.drawTexture(x, y, tex, eAlignment::center);
+                x += dx;
             }
 
-            p.drawTexture(x, y, tex, eAlignment::center);
-            x += dx;
-        }
-    }
-    const auto& is = mGameBoard->invasions();
-    for(const auto i : is) {
-        if(!i->warned()) continue;
-        const auto sDate = i->startDate();
-        const auto wDate = i->firstWarning();
-        const int days = sDate - date;
-        const int totDays = sDate - wDate;
-        const double frac = std::clamp(1. - (1.*days)/totDays, 0., 1.);
-        const auto& cc = i->city();
-        int x;
-        int y;
-        armyDrawXY(*cc, *hc, frac, x, y);
+            for(const auto& a : forces.fAllies) {
+                const int n = std::clamp(a->army()/2, 0, 2);
+                const auto coll = cityFigures(a->nationality());
+                const auto tex = coll ? coll->getTexture(n) : nullptr;
+                int x;
+                int y;
+                if(reverse) armyDrawXY(*cc, *a, frac, x, y);
+                else armyDrawXY(*a, *cc, frac, x, y);
+                if(tex) p.drawTexture(x, y, tex, eAlignment::center);
+            }
 
-        const int n = std::clamp(cc->army()/2, 0, 2);
-        const auto coll = cityFigures(cc->nationality());
-        const auto tex = coll ? coll->getTexture(n) : nullptr;
-        p.drawTexture(x, y, tex, eAlignment::center);
+            for(const auto h : forces.fHeroes) {
+                stdsptr<eTexture> tex;
+                switch(h) {
+                case eHeroType::achilles:
+                    tex = texs.fZeusAchilles;
+                    break;
+                case eHeroType::atalanta:
+                    tex = texs.fPoseidonAtalanta;
+                    break;
+                case eHeroType::bellerophon:
+                    tex = texs.fPoseidonBellerophon;
+                    break;
+                case eHeroType::hercules:
+                    tex = texs.fZeusHercules;
+                    break;
+                case eHeroType::jason:
+                    tex = texs.fZeusJason;
+                    break;
+                case eHeroType::odysseus:
+                    tex = texs.fZeusOdysseus;
+                    break;
+                case eHeroType::perseus:
+                    tex = texs.fZeusPerseus;
+                    break;
+                case eHeroType::theseus:
+                    tex = texs.fZeusTheseus;
+                    break;
+                }
+
+                p.drawTexture(x, y, tex, eAlignment::center);
+                x += dx;
+            }
+        }
+        const auto& is = mGameBoard->invasions();
+        for(const auto i : is) {
+            if(!i->warned()) continue;
+            const auto sDate = i->startDate();
+            const auto wDate = i->firstWarning();
+            const int days = sDate - date;
+            const int totDays = sDate - wDate;
+            const double frac = std::clamp(1. - (1.*days)/totDays, 0., 1.);
+            const auto& cc = i->city();
+            int x;
+            int y;
+            armyDrawXY(*cc, *hc, frac, x, y);
+
+            const int n = std::clamp(cc->army()/2, 0, 2);
+            const auto coll = cityFigures(cc->nationality());
+            const auto tex = coll ? coll->getTexture(n) : nullptr;
+            p.drawTexture(x, y, tex, eAlignment::center);
+        }
     }
 }
 
@@ -438,33 +442,60 @@ void eWorldMapWidget::updateWidgets() {
     const int string = 334;
     const auto clickForInfo = eLanguage::zeusText(group, string);
 
+    const bool editor = mWorldBoard->editorMode();
+
     const auto& hc = mWorldBoard->homeCity();
-    const auto date = mGameBoard->date();
-    const auto& cs = mGameBoard->armyEvents();
-    for(const auto c : cs) {
-        const auto cDate = c->startDate();
-        const int days = cDate - date;
-        const int totDays = eArmyEventBase::sWaitTime;
-        const double frac = std::clamp(1. - (1.*days)/totDays, 0., 1.);
-        const auto& cc = c->city();
-        const bool reverse = dynamic_cast<eArmyReturnEvent*>(c);
-        const auto& forces = c->forces();
-        {
-            int cx;
-            int cy;
-            if(reverse) armyDrawXY(*cc, *hc, frac, cx, cy);
-            else armyDrawXY(*hc, *cc, frac, cx, cy);
-            const int s = forces.fSoldiers.size();
-            const bool hs = forces.fHeroes.empty();
-            if(s != 0 || !hs) {
+    if(mGameBoard) {
+        const auto date = mGameBoard->date();
+        const auto& cs = mGameBoard->armyEvents();
+        for(const auto c : cs) {
+            const auto cDate = c->startDate();
+            const int days = cDate - date;
+            const int totDays = eArmyEventBase::sWaitTime;
+            const double frac = std::clamp(1. - (1.*days)/totDays, 0., 1.);
+            const auto& cc = c->city();
+            const bool reverse = dynamic_cast<eArmyReturnEvent*>(c);
+            const auto& forces = c->forces();
+            {
+                int cx;
+                int cy;
+                if(reverse) armyDrawXY(*cc, *hc, frac, cx, cy);
+                else armyDrawXY(*hc, *cc, frac, cx, cy);
+                const int s = forces.fSoldiers.size();
+                const bool hs = forces.fHeroes.empty();
+                if(s != 0 || !hs) {
+                    const int x = cx - w2/2;
+                    const int y = cy - h2/2;
+                    const auto ww = new eTransparentWidget(window());
+                    ww->setPressAction([this, c, cc, reverse]() {
+                        if(mSetTextAction) {
+                            const int group = 47;
+                            const bool help = dynamic_cast<eTroopsRequestFulfilledEvent*>(c);
+                            const int string = reverse ? 15 : (help ? 9 : 11);
+                            auto text = eLanguage::zeusText(group, string);
+                            eStringHelpers::replace(text, "[city_name]", cc->name());
+                            mSetTextAction(text);
+                        }
+                    });
+                    ww->resize(w2, h2);
+                    addWidget(ww);
+                    ww->move(x, y);
+                    ww->setTooltip(clickForInfo);
+                }
+            }
+
+            for(const auto& a : forces.fAllies) {
+                int cx;
+                int cy;
+                if(reverse) armyDrawXY(*cc, *a, frac, cx, cy);
+                else armyDrawXY(*a, *cc, frac, cx, cy);
                 const int x = cx - w2/2;
                 const int y = cy - h2/2;
                 const auto ww = new eTransparentWidget(window());
-                ww->setPressAction([this, c, cc, reverse]() {
+                ww->setPressAction([this, cc, reverse]() {
                     if(mSetTextAction) {
                         const int group = 47;
-                        const bool help = dynamic_cast<eTroopsRequestFulfilledEvent*>(c);
-                        const int string = reverse ? 15 : (help ? 9 : 11);
+                        const int string = reverse ? 23 : 19;
                         auto text = eLanguage::zeusText(group, string);
                         eStringHelpers::replace(text, "[city_name]", cc->name());
                         mSetTextAction(text);
@@ -476,21 +507,27 @@ void eWorldMapWidget::updateWidgets() {
                 ww->setTooltip(clickForInfo);
             }
         }
-
-        for(const auto& a : forces.fAllies) {
+        const auto& is = mGameBoard->invasions();
+        for(const auto i : is) {
+            if(!i->warned()) continue;
+            const auto sDate = i->startDate();
+            const auto wDate = i->firstWarning();
+            const int days = sDate - date;
+            const int totDays = sDate - wDate;
+            const double frac = std::clamp(1. - (1.*days)/totDays, 0., 1.);
+            const auto& cc = i->city();
             int cx;
             int cy;
-            if(reverse) armyDrawXY(*cc, *a, frac, cx, cy);
-            else armyDrawXY(*a, *cc, frac, cx, cy);
+            armyDrawXY(*cc, *hc, frac, cx, cy);
+
             const int x = cx - w2/2;
             const int y = cy - h2/2;
             const auto ww = new eTransparentWidget(window());
-            ww->setPressAction([this, cc, reverse]() {
+            ww->setPressAction([this, cc]() {
                 if(mSetTextAction) {
                     const int group = 47;
-                    const int string = reverse ? 23 : 19;
-                    auto text = eLanguage::zeusText(group, string);
-                    eStringHelpers::replace(text, "[city_name]", cc->name());
+                    const int string = 25;
+                    const auto text = eLanguage::zeusText(group, string);
                     mSetTextAction(text);
                 }
             });
@@ -500,44 +537,16 @@ void eWorldMapWidget::updateWidgets() {
             ww->setTooltip(clickForInfo);
         }
     }
-    const auto& is = mGameBoard->invasions();
-    for(const auto i : is) {
-        if(!i->warned()) continue;
-        const auto sDate = i->startDate();
-        const auto wDate = i->firstWarning();
-        const int days = sDate - date;
-        const int totDays = sDate - wDate;
-        const double frac = std::clamp(1. - (1.*days)/totDays, 0., 1.);
-        const auto& cc = i->city();
-        int cx;
-        int cy;
-        armyDrawXY(*cc, *hc, frac, cx, cy);
-
-        const int x = cx - w2/2;
-        const int y = cy - h2/2;
-        const auto ww = new eTransparentWidget(window());
-        ww->setPressAction([this, cc]() {
-            if(mSetTextAction) {
-                const int group = 47;
-                const int string = 25;
-                const auto text = eLanguage::zeusText(group, string);
-                mSetTextAction(text);
-            }
-        });
-        ww->resize(w2, h2);
-        addWidget(ww);
-        ww->move(x, y);
-        ww->setTooltip(clickForInfo);
-    }
 
     const auto& cts = mWorldBoard->cities();
     for(const auto& ct : cts) {
+        if(!editor && !ct->active()) return;
         const int cx = width()*ct->x();
         const int cy = height()*ct->y();
         const int x = cx - w/2;
         const int y = cy - h/2;
         const auto ww = new eCityTransparentWidget(window());
-        if(mGameBoard->editorMode()) {
+        if(mWorldBoard->editorMode()) {
             ww->setCity(ct);
             ww->setReleaseAction([this]() {
                 updateWidgets();
@@ -557,7 +566,7 @@ void eWorldMapWidget::updateWidgets() {
         const int x = cx - w/2;
         const int y = cy - h/2;
         const auto ww = new eCityTransparentWidget(window());
-        if(mGameBoard->editorMode()) {
+        if(mWorldBoard->editorMode()) {
             ww->setCity(hc);
             ww->setReleaseAction([this]() {
                 updateWidgets();
