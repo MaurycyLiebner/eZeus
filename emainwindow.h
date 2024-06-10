@@ -42,6 +42,8 @@ public:
 
     void startGameAction(eGameBoard* const board,
                          const eGameWidgetSettings& settings);
+    void startGameAction(const eAction& a);
+
     bool saveGame(const std::string& path);
     bool loadGame(const std::string& path);
     void closeGame();

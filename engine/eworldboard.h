@@ -34,8 +34,7 @@ public:
     void setHomeCity(const stdsptr<eWorldCity>& hc);
     void addCity(const stdsptr<eWorldCity>& c);
 
-    const stdsptr<eWorldCity>& homeCity() const
-    { return mHomeCity; }
+    stdsptr<eWorldCity> currentCity() const;
     const std::vector<stdsptr<eWorldCity>>& cities() const
     { return mCities; }
 
@@ -52,6 +51,9 @@ public:
 
     void attackedAlly();
 
+    stdsptr<eWorldCity> colonyWithId(const int id) const;
+    void activateColony(const int id);
+
     bool editorMode() const { return mEditorMode; }
     void setEditorMode(const bool m) { mEditorMode = m; }
     bool poseidonMode() const { return mPoseidonMode; }
@@ -60,7 +62,6 @@ private:
     bool mEditorMode = true;
     bool mPoseidonMode = true;
     eWorldMap mMap{eWorldMap::greece8};
-    stdsptr<eWorldCity> mHomeCity;
     std::vector<stdsptr<eWorldCity>> mCities;
 };
 

@@ -25,12 +25,16 @@ std::vector<stdsptr<eWorldCity>> eWorldBoard::getTribute() const {
     return r;
 }
 
-void eWorldBoard::setHomeCity(const stdsptr<eWorldCity>& hc) {
-    mHomeCity = hc;
-}
-
 void eWorldBoard::addCity(const stdsptr<eWorldCity>& c) {
     mCities.push_back(c);
+}
+
+stdsptr<eWorldCity> eWorldBoard::currentCity() const {
+    for(const auto& c : mCities) {
+        const bool cc = c->isCurrentCity();
+        if(cc) return c;
+    }
+    return nullptr;
 }
 
 int eWorldBoard::cityId(const eWorldCity& city) const {
@@ -43,12 +47,6 @@ int eWorldBoard::cityId(const eWorldCity& city) const {
 }
 
 stdsptr<eWorldCity> eWorldBoard::cityWithIOID(const int id) const {
-    if(mHomeCity) {
-        const int i = mHomeCity->ioID();
-        if(id == i) {
-            return mHomeCity;
-        }
-    }
     for(const auto& c : mCities) {
         const int i = c->ioID();
         if(id == i) return c;
@@ -58,7 +56,6 @@ stdsptr<eWorldCity> eWorldBoard::cityWithIOID(const int id) const {
 
 void eWorldBoard::setIOIDs() const {
     int id = 0;
-    if(mHomeCity) mHomeCity->setIOID(id++);
     for(const auto& c : mCities) {
         c->setIOID(id++);
     }
@@ -67,8 +64,6 @@ void eWorldBoard::setIOIDs() const {
 void eWorldBoard::write(eWriteStream& dst) const {
     dst << mPoseidonMode;
     dst << mMap;
-    dst << (mHomeCity != nullptr);
-    if(mHomeCity) mHomeCity->write(dst);
     dst << mCities.size();
     for(const auto& c : mCities) {
         c->write(dst);
@@ -78,12 +73,6 @@ void eWorldBoard::write(eWriteStream& dst) const {
 void eWorldBoard::read(eReadStream& src) {
     src >> mPoseidonMode;
     src >> mMap;
-    bool hc;
-    src >> hc;
-    if(hc) {
-        mHomeCity = std::make_shared<eWorldCity>();
-        mHomeCity->read(src);
-    }
     int nc;
     src >> nc;
     for(int i = 0; i < nc; i++) {
@@ -102,4 +91,20 @@ void eWorldBoard::attackedAlly() {
             c->incAttitude(-25);
         }
     }
+}
+
+stdsptr<eWorldCity> eWorldBoard::colonyWithId(const int id) const {
+    int i = 0;
+    for(const auto& c : mCities) {
+        const auto type = c->type();
+        if(type != eCityType::colony) continue;
+        if(i == id) return c;
+        i++;
+    }
+    return nullptr;
+}
+
+void eWorldBoard::activateColony(const int id) {
+    const auto c = colonyWithId(id);
+    if(c) c->setState(eCityState::active);
 }

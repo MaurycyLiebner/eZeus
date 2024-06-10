@@ -159,7 +159,7 @@ private:
     int mIOID = -1;
 
     bool mIsCurrentCity = false;
-    eCityType mType;
+    eCityType mType{eCityType::foreignCity};
 
     eNationality mNationality{eNationality::greek};
     eDistantDirection mDirection{eDistantDirection::none};
@@ -171,8 +171,8 @@ private:
     std::string mLeader;
     int mLeaderString = -1;
 
-    double mX;
-    double mY;
+    double mX = 0.5;
+    double mY = 0.5;
 
     bool mRebellion = false;
 

@@ -9,6 +9,7 @@
 #include "eproceedbutton.h"
 #include "elineedit.h"
 #include "equestionwidget.h"
+#include "eeditormainmenu.h"
 
 #include "elanguage.h"
 
@@ -78,9 +79,6 @@ private:
 
     int mBitmap = 0;
 };
-
-eChooseGameEditMenu::eChooseGameEditMenu(eMainWindow* const window) :
-    eMainMenuBase(window) {}
 
 void eChooseGameEditMenu::initialize(const bool editor) {
     eMainMenuBase::initialize();
@@ -282,8 +280,17 @@ void eChooseGameEditMenu::initialize(const bool editor) {
 
     const auto proceedB = new eProceedButton(window());
     proceedB->setPressAction([this, editor]() {
-        if(editor) {
+        const auto name = mSelected.fFolderName;
+        if(name.empty()) return;
+        const auto w = window();
 
+        if(editor) {
+            const auto e = new eEditorMainMenu(window());
+            e->resize(w->width(), w->height());
+            const auto c = std::make_shared<eCampaign>();
+            c->load(name);
+            e->initialize(c);
+            w->setWidget(e);
         } else {
 
         }

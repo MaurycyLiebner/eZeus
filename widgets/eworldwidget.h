@@ -17,6 +17,7 @@ public:
     void initialize();
 
     void setBoard(eGameBoard* const board);
+    void setWorldBoard(eWorldBoard* const board);
 
     void update();
 protected:
@@ -34,8 +35,8 @@ private:
     stdsptr<eWorldCity> mCity;
     eWorldMenu* mWM = nullptr;
     eWorldMapWidget* mWMW = nullptr;
+    eWorldBoard* mWorldBoard = nullptr;
     eGameBoard* mBoard = nullptr;
-    eFramedButton* mMapButton = nullptr;
     eFramedButton* mSettingsButton = nullptr;
 };
 

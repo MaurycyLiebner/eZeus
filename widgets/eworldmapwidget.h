@@ -10,6 +10,7 @@ public:
     eWorldMapWidget(eMainWindow* const window);
 
     void setBoard(eGameBoard* const b);
+    void setWorldBoard(eWorldBoard* const b);
 
     using eSelectCityAction = std::function<void(const stdsptr<eWorldCity>&)>;
     void setSelectCityAction(const eSelectCityAction& s);

@@ -9,8 +9,7 @@ class eBitmapWidget;
 
 class eChooseGameEditMenu : public eMainMenuBase {
 public:
-    eChooseGameEditMenu(eMainWindow* const window);
-
+    using eMainMenuBase::eMainMenuBase;
     void initialize(const bool editor);
 
     void setGlossary(const eCampaignGlossary& g);

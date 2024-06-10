@@ -4,6 +4,8 @@
 
 #include <filesystem>
 
+#include "evectorhelpers.h"
+
 eCampaign::eCampaign() {
 
 }
@@ -258,4 +260,20 @@ bool eCampaign::save() const {
     write(dst);
     SDL_RWclose(file);
     return true;
+}
+
+void eCampaign::finishedColonyEpisode(const int id) {
+    mPlayedColonyEpisodes.push_back(id);
+    mWorldBoard.activateColony(id);
+}
+
+std::vector<int> eCampaign::colonyEpisodesLeft() const {
+    std::vector<int> result;
+    const int iMax = mColonyEpisodes.size();
+    for(int i = 0; i < iMax; i++) {
+        const bool p = eVectorHelpers::contains(mPlayedColonyEpisodes, i);
+        if(p) continue;
+        result.push_back(i);
+    }
+    return result;
 }

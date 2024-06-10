@@ -108,12 +108,16 @@ void eMainWindow::setFullscreen(const bool f) {
 
 void eMainWindow::startGameAction(eGameBoard* const board,
                                   const eGameWidgetSettings& settings) {
-    const auto l = new eGameLoadingWidget(this);
-    l->resize(width(), height());
     const auto show = [this, board, settings]() {
         showGame(board, settings);
     };
-    l->setDoneAction(show);
+    startGameAction(show);
+}
+
+void eMainWindow::startGameAction(const eAction& a) {
+    const auto l = new eGameLoadingWidget(this);
+    l->resize(width(), height());
+    l->setDoneAction(a);
     setWidget(l);
     l->initialize();
 }

@@ -169,6 +169,10 @@ public:
 
     bool load(const std::string& name);
     bool save() const;
+
+    void finishedColonyEpisode(const int id);
+
+    std::vector<int> colonyEpisodesLeft() const;
 private:
     int mBitmap = 0;
     std::string mTitle;

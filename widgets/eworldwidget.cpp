@@ -72,7 +72,7 @@ void eWorldWidget::initialize() {
 
     mWMW->setSelectCityAction([this](const stdsptr<eWorldCity>& ct) {
         mCity = ct;
-        mSettingsButton->setVisible(mCity && mBoard && mBoard->editorMode());
+        mSettingsButton->setVisible(mCity && mWorldBoard && mWorldBoard->editorMode());
         mWM->setCity(ct);
     });
     mWMW->setSetTextAction([this](const std::string& text) {
@@ -84,27 +84,40 @@ void eWorldWidget::initialize() {
 
     const int p = padding();
 
-    mMapButton = new eFramedButton(window());
-    mMapButton->setUnderline(false);
-    mMapButton->setRenderBg(true);
-    mMapButton->setText(eLanguage::text("map"));
-    mMapButton->fitContent();
-    addWidget(mMapButton);
-    mMapButton->setPressAction([this]() {
-        if(!mBoard) return;
-        auto& wb = mBoard->getWorldBoard();
-        auto m = wb.map();
+    const auto mapButton = new eFramedButton(window());
+    mapButton->setUnderline(false);
+    mapButton->setRenderBg(true);
+    mapButton->setText(eLanguage::text("map"));
+    mapButton->fitContent();
+    addWidget(mapButton);
+    mapButton->setPressAction([this]() {
+        if(!mWorldBoard) return;
+        auto m = mWorldBoard->map();
         if(m == eWorldMap::poseidon4) {
             m = eWorldMap::greece1;
         } else {
             m = static_cast<eWorldMap>(static_cast<int>(m) + 1);
         }
-        wb.setMap(m);
+        mWorldBoard->setMap(m);
         setMap(m);
     });
 
-    const int x = width() - mWM->width() - p - mMapButton->width();
-    mMapButton->move(x, p);
+    const int x = width() - mWM->width() - p - mapButton->width();
+    mapButton->move(x, p);
+
+    const auto addCityButton = new eFramedButton(window());
+    addCityButton->setUnderline(false);
+    addCityButton->setRenderBg(true);
+    addCityButton->setText(eLanguage::text("add_city"));
+    addCityButton->fitContent();
+    addWidget(addCityButton);
+    addCityButton->setPressAction([this]() {
+        if(!mWorldBoard) return;
+        mWorldBoard->addCity(std::make_shared<eWorldCity>());
+        mWMW->updateWidgets();
+    });
+    const int xx = width() - mWM->width() - p - addCityButton->width();
+    addCityButton->move(xx, mapButton->y() + mapButton->height() + p);
 
     mSettingsButton = new eFramedButton(window());
     mSettingsButton->setUnderline(false);
@@ -114,24 +127,27 @@ void eWorldWidget::initialize() {
     mSettingsButton->hide();
     addWidget(mSettingsButton);
     mSettingsButton->setPressAction([this]() {
-        if(!mBoard || !mCity) return;
+        if(!mCity) return;
         const auto d = new eCitySettingsWidget(window());
         d->initialize(mCity);
 
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    const int xx = width() - mWM->width() - p - mSettingsButton->width();
-    mSettingsButton->move(xx, mMapButton->y() + mMapButton->height() + p);
+    const int xxx = width() - mWM->width() - p - mSettingsButton->width();
+    mSettingsButton->move(xxx, addCityButton->y() + addCityButton->height() + p);
 }
 
 void eWorldWidget::setBoard(eGameBoard* const board) {
     mBoard = board;
     mWMW->setBoard(board);
-    if(board) {
-        const auto& wb = board->getWorldBoard();
-        setMap(wb.map());
-    }
+    setWorldBoard(&mBoard->getWorldBoard());
+}
+
+void eWorldWidget::setWorldBoard(eWorldBoard* const board) {
+    mWorldBoard = board;
+    mWMW->setWorldBoard(board);
+    if(board) setMap(board->map());
     mSettingsButton->setVisible(mCity && board && board->editorMode());
     update();
 }

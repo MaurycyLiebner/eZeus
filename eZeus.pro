@@ -476,6 +476,7 @@ SOURCES += \
         widgets/edatebutton.cpp \
         widgets/edatewidget.cpp \
         widgets/edownbutton.cpp \
+        widgets/eeditormainmenu.cpp \
         widgets/eeditorsettingsmenu.cpp \
         widgets/eenlistforcesdialog.cpp \
         widgets/eeventbackground.cpp \
@@ -2318,6 +2319,7 @@ HEADERS += \
     widgets/edatebutton.h \
     widgets/edatewidget.h \
     widgets/edownbutton.h \
+    widgets/eeditormainmenu.h \
     widgets/eeditorsettingsmenu.h \
     widgets/eenlistforcesdialog.h \
     widgets/eeventbackground.h \

@@ -1068,6 +1068,7 @@ eEnlistedForces eGameBoard::getEnlistableForces() const {
 
     const auto& cts = mWorldBoard.cities();
     for(const auto& c : cts) {
+        if(!c->active()) continue;
         const auto type = c->type();
         const auto rel = c->relationship();
         const bool e = type == eCityType::colony ||

@@ -16,7 +16,11 @@ eWorldMapWidget::eWorldMapWidget(eMainWindow* const window) :
 
 void eWorldMapWidget::setBoard(eGameBoard* const b) {
     mGameBoard = b;
-    mWorldBoard = b ? &b->getWorldBoard() : nullptr;
+    setWorldBoard(b ? &b->getWorldBoard() : nullptr);
+}
+
+void eWorldMapWidget::setWorldBoard(eWorldBoard* const b) {
+    mWorldBoard = b;
     updateWidgets();
 }
 
@@ -156,7 +160,7 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
             p.drawTexture(flagX, flagY, tex, flagAl);
         }
 
-        const auto hc = mWorldBoard->homeCity();
+        const auto hc = mWorldBoard->currentCity();
         if(ct != hc &&
            t != eCityType::destroyedCity &&
            t != eCityType::distantCity &&
@@ -203,8 +207,7 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
         }
     };
 
-    const auto& hc = mWorldBoard->homeCity();
-    handleCity(hc);
+    const auto hc = mWorldBoard->currentCity();
     const auto& cts = mWorldBoard->cities();
     for(const auto& ct : cts) {
         handleCity(ct);
@@ -444,7 +447,7 @@ void eWorldMapWidget::updateWidgets() {
 
     const bool editor = mWorldBoard->editorMode();
 
-    const auto& hc = mWorldBoard->homeCity();
+    const auto& hc = mWorldBoard->currentCity();
     if(mGameBoard) {
         const auto date = mGameBoard->date();
         const auto& cs = mGameBoard->armyEvents();
@@ -560,7 +563,7 @@ void eWorldMapWidget::updateWidgets() {
         ww->move(x, y);
         ww->setTooltip(clickForInfo);
     }
-    {
+    if(hc) {
         const int cx = width()*hc->x();
         const int cy = height()*hc->y();
         const int x = cx - w/2;

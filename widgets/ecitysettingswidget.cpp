@@ -118,7 +118,8 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
 
     const auto nameButton = new eFramedButton(window());
     nameButton->setUnderline(false);
-    nameButton->setText(c->name());
+    const auto n = c->name();
+    nameButton->setText(n.empty() ? eLanguage::text("name") : n);
     nameButton->fitContent();
     nameButton->setPressAction([this, nameButton, c]() {
         const auto d = new eNameWidget(window());
