@@ -5,6 +5,7 @@
 #include "engine/etile.h"
 
 #include "eterraintextures.h"
+#include "egametextures.h"
 
 #include "ebeachtodry.h"
 #include "ewatertodry.h"
@@ -44,7 +45,8 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
                              const bool drawElev,
                              int& futureDim,
                              int& drawDim,
-                             const eTextureCollection** coll) {
+                             const eTextureCollection** coll,
+                             const bool poseidonMode) {
     drawDim = 1;
     futureDim = 1;
     const int seed = tile->seed();
@@ -377,24 +379,28 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
         }
     } break;
     case eTerrain::forest: {
+        if(poseidonMode) eGameTextures::loadPoseidonTrees();
         const auto id = eForestToDry::get(tile);
         switch(id) {
         case eForestToDryId::none: {
-            const auto& coll = textures.fForestTerrainTexs;
+            const auto& coll = poseidonMode ? textures.fPoseidonForestTerrainTexs :
+                                              textures.fForestTerrainTexs;
             const int texId = seed % coll.size();
             return coll.getTexture(texId);
         } break;
         case eForestToDryId::somewhere: {
-            const int scrubCount = textures.fForestToScrubTerrainTexs.size();
+            const auto& coll = poseidonMode ? textures.fPoseidonForestToScrubTerrainTexs :
+                                              textures.fForestToScrubTerrainTexs;
+            const int scrubCount = coll.size();
             const int scrub = tile->scrubId(scrubCount) - 1;
             if(scrub == -1) {
-                const auto& vec = textures.fForestToDryTerrainTexs;
+                const auto& vec = poseidonMode ? textures.fPoseidonForestToDryTerrainTexs :
+                                                 textures.fForestToDryTerrainTexs;;
                 const int collId = seed % vec.size();
                 const auto& coll = vec[collId];
                 const int texId = seed % coll.size();
                 return coll.getTexture(texId);
             } else {
-                const auto& coll = textures.fForestToScrubTerrainTexs;
                 return coll.getTexture(scrub);
             }
         } break;

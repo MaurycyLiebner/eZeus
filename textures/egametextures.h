@@ -310,6 +310,8 @@ public:
     static void loadCattle();
     static void loadBull();
 
+    static void loadPoseidonTrees();
+
     static bool initialize(SDL_Renderer* const r);
     static bool loadNextMenu(const eSettings& settings,
                              std::string& text);

@@ -109,6 +109,7 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
         modeButt->setText(boardPtr->poseidonMode() ? eLanguage::text("poseidon") :
                                                      eLanguage::text("zeus"));
         boardPtr->showTip(eLanguage::text("save_and_reset"));
+        boardPtr->scheduleTerrainUpdate();
     });
     addWidget(modeButt);
     modeButt->align(eAlignment::hcenter);

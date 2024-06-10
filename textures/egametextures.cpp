@@ -1811,6 +1811,13 @@ void eGameTextures::loadBull() {
     });
 }
 
+void eGameTextures::loadPoseidonTrees() {
+    loadTexture([](const int i) {
+        auto& c = sTerrainTextures[i];
+        c.loadPoseidonTrees();
+    });
+}
+
 bool eGameTextures::initialize(SDL_Renderer* const r) {
     if(sInitialized) return true;
     int i = 0;

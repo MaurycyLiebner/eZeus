@@ -14,6 +14,9 @@ public:
     const int fTileH;
     SDL_Renderer* const fRenderer;
 
+    bool fPoseidonTreesLoaded = false;
+    void loadPoseidonTrees();
+
     eTextureCollection fDryTerrainTexs;
     eTextureCollection fBeachTerrainTexs;
     eTextureCollection fBeachToDryTerrainTexs;
@@ -28,6 +31,9 @@ public:
     std::vector<eTextureCollection> fForestToDryTerrainTexs;
     eTextureCollection fForestToScrubTerrainTexs;
     eTextureCollection fForestTerrainTexs;
+    std::vector<eTextureCollection> fPoseidonForestToDryTerrainTexs;
+    eTextureCollection fPoseidonForestToScrubTerrainTexs;
+    eTextureCollection fPoseidonForestTerrainTexs;
     eTextureCollection fChoppedForestToScrubTerrainTexs;
     eTextureCollection fChoppedForestTerrainTexs;
     std::vector<eTextureCollection> fWaterToBeachTerrainTexs;

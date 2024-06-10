@@ -18,7 +18,8 @@ namespace eTileToTexture {
                  const bool drawElev,
                  int& futureDim,
                  int& drawDim,
-                 const eTextureCollection** coll);
+                 const eTextureCollection** coll,
+                 const bool poseidonMode);
 };
 
 #endif // ETILETOTEXTURE_H

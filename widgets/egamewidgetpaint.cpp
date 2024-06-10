@@ -155,7 +155,8 @@ void eGameWidget::updateTerrainTextures(eTile* const tile,
                                        mTileSize, mDrawElevation,
                                        painter.fFutureDim,
                                        painter.fDrawDim,
-                                       &painter.fColl);
+                                       &painter.fColl,
+                                       mBoard->poseidonMode());
 }
 
 void eGameWidget::updateTerrainTextures() {

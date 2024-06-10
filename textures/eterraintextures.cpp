@@ -42,6 +42,11 @@
 #include "spriteData/zeusStairs45.h"
 #include "spriteData/zeusStairs60.h"
 
+#include "spriteData/poseidonTrees15.h"
+#include "spriteData/poseidonTrees30.h"
+#include "spriteData/poseidonTrees45.h"
+#include "spriteData/poseidonTrees60.h"
+
 eTerrainTextures::eTerrainTextures(const int tileW, const int tileH,
                                    SDL_Renderer* const renderer) :
     fTileW(tileW), fTileH(tileH),
@@ -55,6 +60,8 @@ eTerrainTextures::eTerrainTextures(const int tileW, const int tileH,
     fScrubTerrainTexs(renderer),
     fForestToScrubTerrainTexs(renderer),
     fForestTerrainTexs(renderer),
+    fPoseidonForestToScrubTerrainTexs(renderer),
+    fPoseidonForestTerrainTexs(renderer),
     fChoppedForestToScrubTerrainTexs(renderer),
     fChoppedForestTerrainTexs(renderer),
     fWaterToBeachToDryTerrainTexs(renderer),
@@ -419,5 +426,37 @@ void eTerrainTextures::load() {
         for(int i = 1; i < 13; i++) {
             loader.load(1, i, fSanctuaryStairs);
         }
+    }
+}
+
+void eTerrainTextures::loadPoseidonTrees() {
+    if(fPoseidonTreesLoaded) return;
+    fPoseidonTreesLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonTreesSpriteData15,
+                                 ePoseidonTreesSpriteData30,
+                                 ePoseidonTreesSpriteData45,
+                                 ePoseidonTreesSpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonTrees", sds,
+                         nullptr, fRenderer);
+
+    {
+        eTextureCollection coll(fRenderer);
+        for(int i = 1; i < 13; i++) {
+            loader.load(1, i, coll);
+        }
+        fPoseidonForestToDryTerrainTexs.push_back(coll);
+    }
+
+    for(int i = 13; i < 33; i++) {
+        loader.load(1, i, fPoseidonForestTerrainTexs);
+    }
+
+    for(int i = 33; i < 45; i++) {
+        loader.load(1, i, fPoseidonForestToScrubTerrainTexs);
+    }
+
+    for(int i = 45; i < 97; i++) {
+        loader.load(1, i, fPoseidonForestTerrainTexs);
     }
 }
