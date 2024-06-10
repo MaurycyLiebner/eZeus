@@ -99,6 +99,19 @@ std::string eWorldCityBase::sRelationshipName(const eForeignCityRelationship r) 
     return eLanguage::zeusText(group, string);
 }
 
+std::string eWorldCityBase::sStateName(const eCityState s) {
+    int string = -1;
+    switch(s) {
+    case eCityState::active:
+        string = 248;
+        break;
+    case eCityState::inactive:
+        string = 249;
+        break;
+    }
+    return eLanguage::zeusText(44, string);
+}
+
 std::string eWorldCityBase::sAttitudeName(const eCityAttitude at) {
 
     const int group = 65;

@@ -159,12 +159,14 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
 
     const auto relationshipButton = new eFramedButton(window());
     const auto nationalityButton = new eFramedButton(window());
+    const auto stateButton = new eFramedButton(window());
     const auto attitudeButton = new eFramedButton(window());
     const auto directionButton = new eFramedButton(window());
     const auto type = c->type();
     relationshipButton->setVisible(type == eCityType::foreignCity);
     nationalityButton->setVisible(type == eCityType::foreignCity ||
                                   type == eCityType::colony);
+    stateButton->setVisible(type == eCityType::colony);
     attitudeButton->setVisible(type == eCityType::foreignCity ||
                                type == eCityType::colony);
     directionButton->setVisible(type == eCityType::distantCity);
@@ -177,7 +179,8 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
     typeButton->fitContent();
     typeButton->setPressAction([this, relationshipButton, typeButton,
                                directionButton, nationalityButton,
-                               attitudeButton, c, buttonsW]() {
+                               stateButton, attitudeButton,
+                               c, buttonsW]() {
         const std::vector<eCityType> types =
             {eCityType::parentCity,
              eCityType::colony,
@@ -191,7 +194,8 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
             typeNames.push_back(name);
         }
         const auto act = [relationshipButton, nationalityButton,
-                          directionButton, attitudeButton, c, buttonsW,
+                          stateButton, directionButton,
+                          attitudeButton, c, buttonsW,
                           types, typeNames, typeButton](const int val) {
             const auto type = types[val];
             c->setType(type);
@@ -203,6 +207,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
             relationshipButton->setVisible(type == eCityType::foreignCity);
             nationalityButton->setVisible(type == eCityType::foreignCity ||
                                           type == eCityType::colony);
+            stateButton->setVisible(type == eCityType::colony);
             attitudeButton->setVisible(type == eCityType::foreignCity ||
                                        type == eCityType::colony);
             directionButton->setVisible(type == eCityType::distantCity);
@@ -221,7 +226,6 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
     });
     buttonsW->addWidget(typeButton);
     typeButton->align(eAlignment::hcenter);
-
 
     relationshipButton->setUnderline(false);
     const auto relationship = c->relationship();
@@ -261,6 +265,35 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
     });
     buttonsW->addWidget(relationshipButton);
     relationshipButton->align(eAlignment::hcenter);
+
+    stateButton->setUnderline(false);
+    const auto state = c->state();
+    stateButton->setText(eWorldCity::sStateName(state));
+    stateButton->fitContent();
+    stateButton->setPressAction([this, stateButton, c]() {
+        const auto d = new eChooseButton(window());
+        const std::vector<eCityState> states =
+            {eCityState::active, eCityState::inactive};
+        std::vector<std::string> stateNames;
+        for(const auto s : states) {
+            const auto name = eWorldCity::sStateName(s);
+            stateNames.push_back(name);
+        }
+        const auto act = [stateButton, states, stateNames, c](const int val) {
+            const auto state = states[val];
+            c->setState(state);
+            const auto name = stateNames[val];
+            stateButton->setText(name);
+            stateButton->fitContent();
+            stateButton->align(eAlignment::hcenter);
+        };
+        d->initialize(5, stateNames, act);
+
+        window()->execDialog(d);
+        d->align(eAlignment::center);
+    });
+    buttonsW->addWidget(stateButton);
+    stateButton->align(eAlignment::hcenter);
 
     attitudeButton->setUnderline(false);
     const auto attitude = c->attitudeClass();

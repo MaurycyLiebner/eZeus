@@ -48,14 +48,15 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
             else tex = texs.fZeusMainCity;
         } break;
         case eCityType::colony: {
-            if(poseidon) tex = texs.fPoseidonCollony;
-            else tex = texs.fZeusCollony;
+            const bool active = ct->active();
+            if(active) {
+                if(poseidon) tex = texs.fPoseidonCollony;
+                else tex = texs.fZeusCollony;
+            } else {
+                if(poseidon) tex = texs.fPoseidonDisabledCollony;
+                else tex = texs.fZeusDisabledCollony;
+            }
         } break;
-//        case eCityType::disabledColony: {
-//            if(poseidon) tex = texs.fPoseidonDisabledCollony;
-//            else tex = texs.fZeusDisabledCollony;
-//        } break;
-
         case eCityType::foreignCity: {
             const auto nat = ct->nationality();
             switch(nat) {

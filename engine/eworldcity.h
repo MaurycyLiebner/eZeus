@@ -81,6 +81,11 @@ enum class eCityAttitude {
     insubordinate
 };
 
+enum class eCityState {
+    active,
+    inactive
+};
+
 class eWorldCityBase {
 public:
     eWorldCityBase() {}
@@ -123,6 +128,11 @@ public:
     eForeignCityRelationship relationship() const { return mRel; }
     void setRelationship(const eForeignCityRelationship r) { mRel = r; }
 
+    static std::string sStateName(const eCityState s);
+    void setState(const eCityState state) { mState = state; }
+    eCityState state() const { return mState; };
+    bool active() const { return mState == eCityState::active; }
+
     static std::string sAttitudeName(const eCityAttitude at);
     eCityAttitude attitudeClass() const;
     int attitude() const { return mAt; }
@@ -152,6 +162,7 @@ private:
 
     eNationality mNationality{eNationality::greek};
     eDistantDirection mDirection{eDistantDirection::none};
+    eCityState mState{eCityState::active};
 
     std::string mName;
     int mNameString = -1;
