@@ -196,6 +196,10 @@ public:
     void deleteParentCityEpisode(const int id);
     void setVictoryParentCityEpisode(const int id);
     void copyParentCityEpisodeSettings(const int from, const int to);
+
+    const std::string& titleText() const { return mTitle; }
+    const std::string& introductionText() const { return mIntroduction; }
+    const std::string& completeText() const { return mComplete; }
 private:
     int mBitmap = 0;
     std::string mTitle;

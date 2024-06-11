@@ -29,6 +29,7 @@ void eTextScroller::initialize() {
     mBg->resize(width(), height());
 
     mTextLabel = new eLabel(window());
+    mTextLabel->setNoPadding();
     mTextLabel->setWrapWidth(width() - 2*p);
     mBg->addWidget(mTextLabel);
     mTextLabel->move(p, p);

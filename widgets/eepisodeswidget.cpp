@@ -209,6 +209,14 @@ private:
     eFramedButton* mTextB = nullptr;
 };
 
+void eEpisodesWidget::deselectText(const int skipId) {
+    const int iMax = mWs.size();
+    for(int i = 0; i < iMax; i++) {
+        if(i == skipId) continue;
+        mWs[i]->deselectTextB();
+    }
+}
+
 void eEpisodesWidget::add(const std::shared_ptr<eParentCityEpisode>& e,
                           const bool last) {
     const int colW = columnWidth();
@@ -232,11 +240,7 @@ void eEpisodesWidget::add(const std::shared_ptr<eParentCityEpisode>& e,
         update();
     };
     const auto setTextE = [this, id]() {
-        const int iMax = mWs.size();
-        for(int i = 0; i < iMax; i++) {
-            if(i == id) continue;
-            mWs[i]->deselectTextB();
-        }
+        deselectText(id);
         mSta(id);
     };
     w->initialize(id, colW, e, last, newE, insertE, deleteE, victoryE, setTextE);

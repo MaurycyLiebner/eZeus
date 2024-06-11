@@ -10,6 +10,7 @@
 #include "ebitmapwidget.h"
 #include "eepisodeswidget.h"
 #include "etextscroller.h"
+#include "equestionwidget.h"
 
 void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
     eMainMenuBase::initialize();
@@ -167,9 +168,60 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
     });
     topButtons->addWidget(bitmap);
 
-    topButtons->stackHorizontally();
+    const auto advTextB = new eFramedButton(window());
+    advTextB->setUnderline(false);
+    advTextB->setSmallPadding();
+    advTextB->setSmallFontSize();
+    advTextB->setText("x");
+    advTextB->setTooltip(eLanguage::zeusText(278, 6));
+    advTextB->fitContent();
+    topButtons->addWidget(advTextB);
+
+    const auto advTextL = new eLabel(window());
+    advTextL->setNoPadding();
+    advTextL->setTinyFontSize();
+    advTextL->setText(eLanguage::zeusText(195, 5));
+    advTextL->fitContent();
+    topButtons->addWidget(advTextL);
+
+    const auto saveButton = new eFramedButton(window());
+    saveButton->setUnderline(false);
+    saveButton->setSmallFontSize();
+    saveButton->setSmallPadding();
+    saveButton->setText(eLanguage::zeusText(44, 74));
+    saveButton->fitContent();
+    topButtons->addWidget(saveButton);
+    saveButton->setPressAction([campaign]() {
+        campaign->save();
+    });
+
+    const auto quitButton = new eFramedButton(window());
+    quitButton->setUnderline(false);
+    quitButton->setSmallFontSize();
+    quitButton->setSmallPadding();
+    quitButton->setText(eLanguage::zeusText(5, 0));
+    quitButton->fitContent();
+    topButtons->addWidget(quitButton);
+    quitButton->setPressAction([campaign, this]() {
+        const auto q = new eQuestionWidget(window());
+        const auto saveA = [this, campaign]() {
+            campaign->save();
+            window()->showMainMenu();
+        };
+        const auto closeA = [this]() {
+            window()->showMainMenu();
+        };
+        q->initialize(eLanguage::zeusText(195, 23),
+                      eLanguage::zeusText(195, 25),
+                      saveA, closeA);
+        window()->execDialog(q);
+        q->align(eAlignment::center);
+    });
+
+    topButtons->stackHorizontally(p);
     topButtons->fitContent();
     iw->addWidget(topButtons);
+    advTextL->align(eAlignment::vcenter);
 
     const auto hW = new eWidget(window());
     hW->setNoPadding();
@@ -261,11 +313,13 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
     eW->setWidth(eww);
     const int ehh = 2*frame->height()/3;
     eW->setHeight(ehh);
-    const auto setTextE = [campaign,
+    const auto setTextE = [advTextB, campaign,
                            titleTitle, titleText,
                            introTitle, introText,
                            completeTitle, completeText,
                            selectionTitle, selectionText](const int id) {
+        advTextB->setText("");
+
         campaign->loadStrings();
         const auto& es = campaign->parentCityEpisodes();
         const auto e = es[id];
@@ -285,6 +339,38 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
         selectionTitle->hide();
         selectionText->hide();
     };
+
+    const auto pressE = [advTextB, eW, campaign,
+                        titleTitle, titleText,
+                        introTitle, introText,
+                        completeTitle, completeText,
+                        selectionTitle, selectionText]() {
+        advTextB->setText("x");
+        eW->deselectText();
+
+        campaign->loadStrings();
+
+        const auto t = campaign->titleText();
+        titleTitle->setVisible(!t.empty());
+        titleText->setText(t);
+        titleText->setVisible(!t.empty());
+
+        const auto i = campaign->introductionText();
+        introTitle->setVisible(!i.empty());
+        introText->setText(i);
+        introText->setVisible(!i.empty());
+
+        const auto c = campaign->completeText();
+        completeTitle->setVisible(!c.empty());
+        completeText->setText(c);
+        completeText->setVisible(!c.empty());
+
+        selectionTitle->hide();
+        selectionText->hide();
+    };
+
+    advTextB->setPressAction(pressE);
+
     eW->intialize(campaign, setTextE);
     vW->addWidget(eW);
 
@@ -300,6 +386,8 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
 
     iw->stackVertically();
     frame->align(eAlignment::center);
+
+    pressE();
 }
 
 void eEditorMainMenu::addGoBackButton(eWidget* const to) {

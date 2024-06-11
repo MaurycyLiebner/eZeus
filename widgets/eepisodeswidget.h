@@ -16,6 +16,7 @@ public:
     void intialize(const std::shared_ptr<eCampaign>& c,
                    const eSetTextAction& sta);
 
+    void deselectText(const int skipId = -1);
 private:
     void update();
     void add(const std::shared_ptr<eParentCityEpisode>& e, const bool last);

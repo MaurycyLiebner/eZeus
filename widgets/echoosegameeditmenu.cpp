@@ -285,8 +285,9 @@ void eChooseGameEditMenu::initialize(const bool editor) {
     mTitle->align(eAlignment::hcenter);
 
     mDesc = new eLabel(window());
-    mDesc->setWrapWidth(descIW->width() - 2*p);
+    mDesc->setWrapWidth(descIW->width());
     mDesc->setSmallFontSize();
+    mDesc->setNoPadding();
 
     descIW->addWidget(mTitle);
     descIW->addWidget(mDesc);
