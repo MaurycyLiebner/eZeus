@@ -1,4 +1,4 @@
-#ifndef EWORLDBOARD_H
+﻿#ifndef EWORLDBOARD_H
 #define EWORLDBOARD_H
 
 #include <vector>
@@ -53,6 +53,9 @@ public:
 
     stdsptr<eWorldCity> colonyWithId(const int id) const;
     void activateColony(const int id);
+
+    void setColonyAsCurrentCity(const int id);
+    void setParentAsCurrentCity();
 
     bool editorMode() const { return mEditorMode; }
     void setEditorMode(const bool m) { mEditorMode = m; }

@@ -7,6 +7,7 @@
 #include "eworldgoodswidget.h"
 #include "eworldtributewidget.h"
 #include "egamewidget.h"
+#include "engine/eworldboard.h"
 
 #include "elanguage.h"
 
@@ -74,22 +75,38 @@ void eWorldMenu::initialize(const eAction& openRequest,
 
         mRequestButton->setX(xwrb);
         mRequestButton->setY(ywrb);
-        mRequestButton->setPressAction(openRequest);
+        mRequestButton->setPressAction([this, openRequest]() {
+            const bool editor = mBoard && mBoard->editorMode();
+            if(editor) return;
+            if(openRequest) openRequest();
+        });
 
         mFulfillButton->setX(xwfb);
         mFulfillButton->setY(ywfb);
 
         mGiftButton->setX(xwgb);
         mGiftButton->setY(ywgb);
-        mGiftButton->setPressAction(openGift);
+        mGiftButton->setPressAction([this, openGift]() {
+            const bool editor = mBoard && mBoard->editorMode();
+            if(editor) return;
+            if(openGift) openGift();
+        });
 
         mRaidButton->setX(xwrdb);
         mRaidButton->setY(ywrdb);
-        mRaidButton->setPressAction(openRaid);
+        mRaidButton->setPressAction([this, openRaid]() {
+            const bool editor = mBoard && mBoard->editorMode();
+            if(editor) return;
+            if(openRaid) openRaid();
+        });
 
         mConquerButton->setX(xwcb);
         mConquerButton->setY(ywcb);
-        mConquerButton->setPressAction(openConquer);
+        mConquerButton->setPressAction([this, openConquer]() {
+            const bool editor = mBoard && mBoard->editorMode();
+            if(editor) return;
+            if(openConquer) openConquer();
+        });
 
         const auto wh = eButton::sCreate(coll.fHelpButton, window(), this);
         const int whx = 6*mult;
@@ -100,6 +117,8 @@ void eWorldMenu::initialize(const eAction& openRequest,
 
         const auto wgw = eButton::sCreate(coll.fWorldSmallButton, window(), this);
         wgw->setPressAction([this](){
+            const bool editor = mBoard && mBoard->editorMode();
+            if(editor) return;
             window()->showGame(nullptr, eGameWidgetSettings());
         });
         const int wgwx = 20*mult;
@@ -240,6 +259,10 @@ void eWorldMenu::setCity(const stdsptr<eWorldCity>& c) {
 
     mGoodsWidget->setCity(c);
     mTributeWidget->setCity(c);
+}
+
+void eWorldMenu::setWorldBoard(eWorldBoard* const b) {
+    mBoard = b;
 }
 
 void eWorldMenu::setText(const std::string& text) {

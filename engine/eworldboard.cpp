@@ -108,3 +108,22 @@ void eWorldBoard::activateColony(const int id) {
     const auto c = colonyWithId(id);
     if(c) c->setState(eCityState::active);
 }
+
+void eWorldBoard::setColonyAsCurrentCity(const int id) {
+    for(const auto& c : mCities) {
+        c->setIsCurrentCity(false);
+    }
+    const auto c = colonyWithId(id);
+    if(c) c->setIsCurrentCity(true);
+}
+
+void eWorldBoard::setParentAsCurrentCity() {
+    for(const auto& c : mCities) {
+        const auto type = c->type();
+        if(type == eCityType::parentCity) {
+            c->setIsCurrentCity(true);
+        } else {
+            c->setIsCurrentCity(false);
+        }
+    }
+}

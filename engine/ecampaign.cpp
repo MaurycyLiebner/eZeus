@@ -156,6 +156,7 @@ bool eCampaign::sReadGlossary(const std::string& name,
 
 void eCampaign::read(eReadStream& src) {
     src >> mBitmap;
+    src >> mAtlantean;
     src >> mInitialFunds;
     mStartDate.read(src);
     mWorldBoard.read(src);
@@ -200,10 +201,21 @@ void eCampaign::read(eReadStream& src) {
             mColonyEpisodes.push_back(e);
         }
     }
+
+    {
+        int ne;
+        src >> ne;
+        for(int i = 0; i < ne; i++) {
+            int e;
+            src >> e;
+            mPlayedColonyEpisodes.push_back(e);
+        }
+    }
 }
 
 void eCampaign::write(eWriteStream& dst) const {
     dst << mBitmap;
+    dst << mAtlantean;
     dst << mInitialFunds;
     mStartDate.write(dst);
     mWorldBoard.write(dst);
@@ -227,6 +239,11 @@ void eCampaign::write(eWriteStream& dst) const {
     dst << mColonyEpisodes.size();
     for(const auto& e : mColonyEpisodes) {
         e->write(dst);
+    }
+
+    dst << mPlayedColonyEpisodes.size();
+    for(const int e : mPlayedColonyEpisodes) {
+        dst << e;
     }
 }
 
@@ -262,9 +279,14 @@ bool eCampaign::save() const {
     return true;
 }
 
-void eCampaign::finishedColonyEpisode(const int id) {
-    mPlayedColonyEpisodes.push_back(id);
-    mWorldBoard.activateColony(id);
+void eCampaign::startEpisode(const eEpisodeType type, const int cid) {
+    if(type == eEpisodeType::colony) {
+        mPlayedColonyEpisodes.push_back(cid);
+        mWorldBoard.activateColony(cid);
+        mWorldBoard.setColonyAsCurrentCity(cid);
+    } else { // parentCity
+        mWorldBoard.setParentAsCurrentCity();
+    }
 }
 
 std::vector<int> eCampaign::colonyEpisodesLeft() const {

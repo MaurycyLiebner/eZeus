@@ -37,6 +37,8 @@ private:
     eWorldMapWidget* mWMW = nullptr;
     eWorldBoard* mWorldBoard = nullptr;
     eGameBoard* mBoard = nullptr;
+    eFramedButton* mMapButton = nullptr;
+    eFramedButton* mAddCityButton = nullptr;
     eFramedButton* mSettingsButton = nullptr;
 };
 

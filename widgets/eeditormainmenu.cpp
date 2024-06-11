@@ -7,6 +7,7 @@
 #include "egamewidget.h"
 #include "emainwindow.h"
 #include "audio/emusic.h"
+#include "ebitmapwidget.h"
 
 void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
     eMainMenuBase::initialize();
@@ -33,6 +34,7 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
 
     const auto editParentMap = new eFramedButton(window());
     editParentMap->setText(eLanguage::zeusText(195, 3));
+    editParentMap->setTooltip(eLanguage::zeusText(278, 4));
     editParentMap->setUnderline(false);
     editParentMap->fitContent();
     editParentMap->setPressAction([this, campaign]() {
@@ -55,6 +57,7 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
 
     const auto editWorldMap = new eFramedButton(window());
     editWorldMap->setText(eLanguage::zeusText(195, 4));
+    editWorldMap->setTooltip(eLanguage::zeusText(278, 5));
     editWorldMap->setUnderline(false);
     editWorldMap->fitContent();
     editWorldMap->setPressAction([this, campaign]() {
@@ -68,6 +71,92 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
         addGoBackButton(ww);
     });
     topButtons->addWidget(editWorldMap);
+
+    const auto nationality = new eFramedButton(window());
+    nationality->setUnderline(false);
+    const bool a = campaign->atlantean();
+    nationality->setText(a ? eLanguage::zeusText(195, 60) : // atlantean
+                             eLanguage::zeusText(195, 59)); // greek
+    nationality->fitContent();
+    nationality->setTooltip(eLanguage::zeusText(278, 10));
+    nationality->setPressAction([campaign, nationality]() {
+        const bool a = !campaign->atlantean();
+        campaign->setAtlantean(a);
+        nationality->setText(a ? eLanguage::zeusText(195, 60) : // atlantean
+                                 eLanguage::zeusText(195, 59)); // greek
+    });
+    topButtons->addWidget(nationality);
+
+    const auto bitmap = new eFramedButton(window());
+    bitmap->setUnderline(false);
+    bitmap->setText(eLanguage::zeusText(195, 47));
+    bitmap->fitContent();
+    bitmap->setTooltip(eLanguage::zeusText(278, 9));
+    bitmap->setPressAction([this, campaign]() {
+        const bool small = false;
+        const int nRows = 3;
+        const auto d = new eFramedWidget(window());
+        d->setType(eFrameType::message);
+
+        if(small) setSmallPadding();
+
+        std::vector<eFramedButton*> buttons;
+
+        for(int i = 0; i < 12; i++) {
+            const auto b = new eFramedButton(window());
+            b->setSmallPadding();
+            b->setUnderline(false);
+            if(small) {
+                b->setSmallFontSize();
+                b->setSmallPadding();
+            }
+            const auto bitmap = new eBitmapWidget(window());
+            bitmap->setNoPadding();
+            bitmap->setScaling(0.25);
+            bitmap->setBitmap(i);
+            bitmap->fitContent();
+            b->addWidget(bitmap);
+            b->fitContent();
+            bitmap->align(eAlignment::center);
+            b->setPressAction([d, campaign, i]() {
+                campaign->setBitmap(i);
+                d->deleteLater();
+            });
+            d->addWidget(b);
+            buttons.push_back(b);
+        }
+
+        int colWidth = 0;
+        for(const auto b : buttons) {
+            const int w = b->width();
+            if(w > colWidth) colWidth = w;
+        }
+
+        const int p = d->padding();
+
+        int r = 0;
+        int x = 2*p;
+        int y = 2*p;
+
+        for(const auto b : buttons) {
+            b->setWidth(colWidth);
+            b->move(x, y);
+            y += b->height() + p;
+            r++;
+            if(r >= nRows) {
+                r = 0;
+                x += colWidth + p;
+                y = 2*p;
+            }
+        }
+
+        d->fitContent();
+
+        window()->execDialog(d);
+        d->align(eAlignment::center);
+    });
+    topButtons->addWidget(bitmap);
+
     topButtons->stackHorizontally();
     topButtons->fitContent();
     iw->addWidget(topButtons);

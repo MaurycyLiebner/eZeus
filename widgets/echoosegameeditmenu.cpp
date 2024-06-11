@@ -10,75 +10,12 @@
 #include "elineedit.h"
 #include "equestionwidget.h"
 #include "eeditormainmenu.h"
+#include "ebitmapwidget.h"
 
 #include "elanguage.h"
 
 #include <filesystem>
 namespace fs = std::filesystem;
-
-class eBitmapWidget : public eWidget {
-public:
-    using eWidget::eWidget;
-
-    void setBitmap(const int b) {
-        mBitmap = b;
-    }
-protected:
-    void sizeHint(int& w, int& h) {
-        const auto res = resolution();
-        const double mult = res.multiplier();
-        w = std::round(mult*400);
-        h = std::round(mult*300);
-    }
-
-    void paintEvent(ePainter& p) {
-        const auto res = resolution();
-        const double mult = res.multiplier();
-        const auto tex = texture();
-        const int tw = tex->width();
-        const int th = tex->height();
-        const SDL_Rect srcRect{0, 0, tw, th};
-        const int w = std::round(mult*400);
-        const int h = std::round(mult*300);
-        const SDL_Rect dstRect{p.x(), p.y(), w, h};
-        SDL_RenderCopy(p.renderer(), tex->tex(), &srcRect, &dstRect);
-    }
-private:
-    stdsptr<eTexture> texture() const {
-        const auto res = resolution();
-        const auto uiScale = res.uiScale();
-        const int iRes = static_cast<int>(uiScale);
-        const auto& intrfc = eGameTextures::interface()[iRes];
-        if(mBitmap == 0) {
-            return intrfc.fLoadImage1;
-        } else if(mBitmap == 1) {
-            return intrfc.fLoadImage2;
-        } else if(mBitmap == 2) {
-            return intrfc.fLoadImage3;
-        } else if(mBitmap == 3) {
-            return intrfc.fLoadImage4;
-        } else if(mBitmap == 4) {
-            return intrfc.fLoadImage5;
-        } else if(mBitmap == 5) {
-            return intrfc.fLoadImage6;
-        } else if(mBitmap == 6) {
-            return intrfc.fLoadImage7;
-        } else if(mBitmap == 7) {
-            return intrfc.fLoadImage8;
-        } else if(mBitmap == 8) {
-            return intrfc.fLoadImage9;
-        } else if(mBitmap == 9) {
-            return intrfc.fLoadImage10;
-        } else if(mBitmap == 10) {
-            return intrfc.fLoadImage11;
-        } else if(mBitmap == 11) {
-            return intrfc.fLoadImage12;
-        }
-        return intrfc.fLoadImage1;
-    }
-
-    int mBitmap = 0;
-};
 
 void eChooseGameEditMenu::initialize(const bool editor) {
     eMainMenuBase::initialize();

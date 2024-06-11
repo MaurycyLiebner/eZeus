@@ -10,6 +10,8 @@
 class eWorldGoodsWidget;
 class eWorldTributeWidget;
 
+class eWorldBoard;
+
 class eWorldMenu : public eLabel {
 public:
     using eLabel::eLabel;
@@ -20,9 +22,12 @@ public:
                     const eAction& openConquer);
 
     void setCity(const stdsptr<eWorldCity>& c);
+    void setWorldBoard(eWorldBoard* const b);
     void setText(const std::string& text);
     void updateRelationshipLabel() const;
 private:
+    eWorldBoard* mBoard = nullptr;
+
     eLabel* mTextLabel = nullptr;
 
     eLabel* mRelationshipLabel = nullptr;

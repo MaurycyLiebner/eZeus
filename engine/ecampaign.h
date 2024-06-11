@@ -170,7 +170,10 @@ public:
     bool load(const std::string& name);
     bool save() const;
 
-    void finishedColonyEpisode(const int id);
+    void startEpisode(const eEpisodeType type, const int cid = -1);
+
+    bool atlantean() const { return mAtlantean; }
+    void setAtlantean(const bool a) { mAtlantean = a; }
 
     std::vector<int> colonyEpisodesLeft() const;
 private:
@@ -178,6 +181,8 @@ private:
     std::string mTitle;
     std::string mIntroduction;
     std::string mComplete;
+
+    bool mAtlantean = true;
 
     int mCurrentEpisode = 0;
 
