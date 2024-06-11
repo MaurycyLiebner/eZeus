@@ -6,6 +6,10 @@ void eButtonBase::setPressAction(const eAction& a) {
     mPressAction = a;
 }
 
+void eButtonBase::setRightPressAction(const eAction& a) {
+    mRightPressAction = a;
+}
+
 void eButtonBase::setMouseEnterAction(const eAction& a) {
     mEnterAction = a;
 }
@@ -32,7 +36,8 @@ bool eButtonBase::hovered() const {
 
 bool eButtonBase::mousePressEvent(const eMouseEvent& e) {
     if(!mEnabled) return false;
-    if(e.button() == eMouseButton::left) {
+    const auto b = e.button();
+    if(b == eMouseButton::left || b == eMouseButton::right) {
         mPressed = true;
         return true;
     } else {
@@ -42,9 +47,15 @@ bool eButtonBase::mousePressEvent(const eMouseEvent& e) {
 
 bool eButtonBase::mouseReleaseEvent(const eMouseEvent& e) {
     if(!mEnabled) return false;
-    if(e.button() == eMouseButton::left) {
+    const auto b = e.button();
+    if(b == eMouseButton::left) {
         mPressed = false;
         if(mPressAction) mPressAction();
+        eSounds::playButtonSound();
+        return true;
+    } else if(b == eMouseButton::right) {
+        mPressed = false;
+        if(mRightPressAction) mRightPressAction();
         eSounds::playButtonSound();
         return true;
     } else {

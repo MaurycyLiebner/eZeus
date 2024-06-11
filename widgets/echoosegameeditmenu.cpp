@@ -276,12 +276,17 @@ void eChooseGameEditMenu::initialize(const bool editor) {
     descIW->move(p, p);
 
     mTitle = new eLabel(window());
-    mTitle->setYellowFontColor();
     mTitle->setSmallFontSize();
+    mTitle->setNoPadding();
+    mTitle->setText("Height");
+    mTitle->fitContent();
+    mTitle->setText("");
+    mTitle->setYellowFontColor();
     mTitle->align(eAlignment::hcenter);
 
     mDesc = new eLabel(window());
-    mDesc->setWrapWidth(descIW->width());
+    mDesc->setWrapWidth(descIW->width() - 2*p);
+    mDesc->setSmallFontSize();
 
     descIW->addWidget(mTitle);
     descIW->addWidget(mDesc);
@@ -346,4 +351,5 @@ void eChooseGameEditMenu::setGlossary(const eCampaignGlossary& g) {
     mTitle->fitContent();
     mTitle->align(eAlignment::hcenter);
     mDesc->setText(g.fIntroduction);
+    mDesc->fitContent();
 }

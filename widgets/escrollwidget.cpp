@@ -16,6 +16,11 @@ void eScrollWidget::scrollDown() {
     clampDY();
 }
 
+void eScrollWidget::scrollToTheTop() {
+    mDy = 0;
+    clampDY();
+}
+
 void eScrollWidget::paintEvent(ePainter& p) {
     //p.fillRect(rect(), {255, 0, 0, 255});
     if(mScrollArea) {

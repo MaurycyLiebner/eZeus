@@ -402,6 +402,18 @@ bool eWidget::isKeyboardGrabber() {
     return sKeyboardGrabber == this;
 }
 
+void eWidget::insertWidget(const int id, eWidget* const w) {
+    const int nc = mChildren.size();
+    if(id < 0) {
+        prependWidget(w);
+    } else if(id >= nc) {
+        addWidget(w);
+    } else {
+        mChildren.insert(mChildren.begin() + id, w);
+        w->mParent = this;
+    }
+}
+
 void eWidget::prependWidget(eWidget* const w) {
     mChildren.insert(mChildren.begin(), w);
     w->mParent = this;

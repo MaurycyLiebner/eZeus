@@ -480,6 +480,7 @@ SOURCES += \
         widgets/eeditormainmenu.cpp \
         widgets/eeditorsettingsmenu.cpp \
         widgets/eenlistforcesdialog.cpp \
+        widgets/eepisodeswidget.cpp \
         widgets/eeventbackground.cpp \
         widgets/eeventselectionwidget.cpp \
         widgets/eeventtimewidget.cpp \
@@ -542,6 +543,7 @@ SOURCES += \
         widgets/eswitchbutton.cpp \
         widgets/etabwidget.cpp \
         widgets/eterraineditmenu.cpp \
+        widgets/etextscroller.cpp \
         widgets/etilepainter.cpp \
         widgets/etopbarwidget.cpp \
         widgets/etradeeditwidget.cpp \
@@ -2324,6 +2326,7 @@ HEADERS += \
     widgets/eeditormainmenu.h \
     widgets/eeditorsettingsmenu.h \
     widgets/eenlistforcesdialog.h \
+    widgets/eepisodeswidget.h \
     widgets/eeventbackground.h \
     widgets/eeventselectionwidget.h \
     widgets/eeventtimewidget.h \
@@ -2382,6 +2385,7 @@ HEADERS += \
     widgets/eswitchbutton.h \
     widgets/etabwidget.h \
     widgets/eterraineditmenu.h \
+    widgets/etextscroller.h \
     widgets/etilepainter.h \
     widgets/etopbarwidget.h \
     widgets/etradeeditwidget.h \

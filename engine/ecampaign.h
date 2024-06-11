@@ -1,4 +1,4 @@
-#ifndef ECAMPAIGN_H
+﻿#ifndef ECAMPAIGN_H
 #define ECAMPAIGN_H
 
 #include "egameboard.h"
@@ -46,7 +46,7 @@ struct eEpisodeGoal {
 };
 
 struct eEpisode {
-    void read(eReadStream& src) {
+    virtual void read(eReadStream& src) {
         {
             int nfg;
             src >> nfg;
@@ -89,7 +89,7 @@ struct eEpisode {
         fAvailableBuildings.read(src);
     }
 
-    void write(eWriteStream& dst) const {
+    virtual void write(eWriteStream& dst) const {
         dst << fFriendlyGods.size();
         for(const auto g : fFriendlyGods) {
             dst << g;
@@ -126,6 +126,17 @@ struct eEpisode {
 };
 
 struct eParentCityEpisode : public eEpisode {
+    void read(eReadStream& src) override {
+        eEpisode::read(src);
+        src >> fNextEpisode;
+    }
+
+    void write(eWriteStream& dst) const override {
+        eEpisode::write(dst);
+        dst << fNextEpisode;
+    }
+
+    eEpisodeType fNextEpisode{eEpisodeType::parentCity};
 };
 
 struct eColonyEpisode : public eEpisode {
@@ -153,7 +164,7 @@ public:
 
     using eMap = std::map<std::string, std::string>;
     static bool sLoadStrings(const std::string& path, eMap& map);
-    bool loadStrings(const std::string& path);
+    bool loadStrings();
     bool writeStrings(const std::string& path) const;
 
     eWorldBoard& worldBoard() { return mWorldBoard; }
@@ -176,6 +187,15 @@ public:
     void setAtlantean(const bool a) { mAtlantean = a; }
 
     std::vector<int> colonyEpisodesLeft() const;
+
+    using eParentCityEpisodes = std::vector<stdsptr<eParentCityEpisode>>;
+    eParentCityEpisodes& parentCityEpisodes()
+    { return mParentCityEpisodes; }
+    stdsptr<eParentCityEpisode> addParentCityEpisode();
+    stdsptr<eParentCityEpisode> insertParentCityEpisode(const int id);
+    void deleteParentCityEpisode(const int id);
+    void setVictoryParentCityEpisode(const int id);
+    void copyParentCityEpisodeSettings(const int from, const int to);
 private:
     int mBitmap = 0;
     std::string mTitle;
@@ -193,8 +213,6 @@ private:
     eWorldBoard mWorldBoard;
     stdsptr<eGameBoard> mParentBoard;
     std::vector<stdsptr<eGameBoard>> mColonyBoards;
-
-    std::vector<eEpisodeType> mEpisodes;
 
     std::vector<stdsptr<eParentCityEpisode>> mParentCityEpisodes;
     std::vector<stdsptr<eColonyEpisode>> mColonyEpisodes;

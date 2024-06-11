@@ -35,3 +35,17 @@ int eScrollWidgetComplete::listWidth() const {
     const int p = padding();
     return width() - mSB->width() - p;
 }
+
+int eScrollWidgetComplete::areaWidth() const {
+    const int p = padding();
+    const int swwidth = listWidth();
+    return swwidth - 2*p;
+}
+
+void eScrollWidgetComplete::scrollToTheTop() {
+    mSW->scrollToTheTop();
+}
+
+void eScrollWidgetComplete::clampDY() {
+    mSW->clampDY();
+}

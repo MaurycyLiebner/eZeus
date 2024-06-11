@@ -12,14 +12,14 @@ public:
 
     void scrollUp();
     void scrollDown();
+    void scrollToTheTop();
+    void clampDY();
 protected:
     void paintEvent(ePainter& p) override;
 
     bool keyPressEvent(const eKeyPressEvent& e) override;
     bool mouseWheelEvent(const eMouseWheelEvent& e) override;
 private:
-    void clampDY();
-
     int mDy = 0;
 
     eWidget* mScrollArea = nullptr;

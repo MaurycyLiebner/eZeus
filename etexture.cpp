@@ -55,7 +55,7 @@ bool eTexture::load(SDL_Renderer* const r,
     return true;
 }
 
-SDL_Texture* generateTextTexture(SDL_Renderer* const r,
+SDL_Texture*  generateTextTexture(SDL_Renderer* const r,
                                  const std::string& text,
                                  const SDL_Color& color,
                                  TTF_Font& font,
@@ -95,17 +95,26 @@ std::vector<std::string> textLines(const std::string& text,
     while(index < ts) {
         const bool isLast = index == ts - 1;
         const auto c = text[index++];
-        if(c == ' ' || isLast) {
-            if(isLast && c != ' ') word += c;
+        if(c == ' ' || c == '\n' || isLast) {
+            if(isLast && c != ' ' && c != '\n') word += c;
             int w = 0;
             int h = 0;
-            const auto newLine = line + (line.empty() ? "" : " ") +  word;
+            const auto newLine = line + (line.empty() ? "" : " ") + word;
             TTF_SizeUTF8(&font, newLine.c_str(), &w, &h);
             if(line.empty() || w < width) {
                 line = newLine;
+                if(c == '\n') {
+                    result.push_back(line);
+                    line = "";
+                }
             } else {
                 result.push_back(line);
-                line = word;
+                if(c == '\n') {
+                    result.push_back(word);
+                    line = "";
+                } else {
+                    line = word;
+                }
             }
             word = "";
         } else {
@@ -125,7 +134,7 @@ bool eTexture::loadText(SDL_Renderer* const r,
                         const eAlignment align) {
     reset();
 
-    if(width && static_cast<bool>(align & eAlignment::hcenter)) {
+    if(width) {
         int w;
         int h;
         TTF_SizeUTF8(&font, text.c_str(), &w, &h);
@@ -136,12 +145,15 @@ bool eTexture::loadText(SDL_Renderer* const r,
             std::vector<std::shared_ptr<eTexture>> texs;
             for(const auto& l : lines) {
                 auto& tex = texs.emplace_back();
-                tex = std::make_shared<eTexture>();
-                tex->loadText(r, l, color, font);
-                mHeight += tex->height();
-                mWidth = std::max(mWidth, tex->width());
+                if(!l.empty()) {
+                    tex = std::make_shared<eTexture>();
+                    tex->loadText(r, l, color, font);
+                    mHeight += tex->height();
+                    mWidth = std::max(mWidth, tex->width());
+                } else {
+                    mHeight += h;
+                }
             }
-
             mTex = SDL_CreateTexture(r, SDL_PIXELFORMAT_ARGB8888,
                                      SDL_TEXTUREACCESS_TARGET, mWidth, mHeight);
 
@@ -168,11 +180,16 @@ bool eTexture::loadText(SDL_Renderer* const r,
 
                 int y = 0;
                 for(const auto& tex : texs) {
-                    const int w = tex->width();
-                    const int x = (mWidth - w)/2;
-                    const SDL_Rect dstRect{x, y, w, tex->height()};
-                    SDL_RenderCopy(r, tex->mTex, NULL, &dstRect);
-                    y += dstRect.h;
+                    if(tex) {
+                        const int w = tex->width();
+                        const int x = align == eAlignment::hcenter ?
+                                          (mWidth - w)/2 : 0;
+                        const SDL_Rect dstRect{x, y, w, tex->height()};
+                        SDL_RenderCopy(r, tex->mTex, NULL, &dstRect);
+                        y += dstRect.h;
+                    } else {
+                        y += h;
+                    }
                 }
 
                 SDL_SetRenderTarget(r, nullptr);

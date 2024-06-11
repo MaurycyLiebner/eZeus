@@ -8,6 +8,7 @@ public:
     using eLabel::eLabel;
 
     void setPressAction(const eAction& a);
+    void setRightPressAction(const eAction& a);
     void setMouseEnterAction(const eAction& a);
     void setMouseLeaveAction(const eAction& a);
 
@@ -24,6 +25,7 @@ protected:
     bool mouseLeaveEvent(const eMouseEvent& e);
 private:
     eAction mPressAction;
+    eAction mRightPressAction;
     eAction mEnterAction;
     eAction mLeaveAction;
 

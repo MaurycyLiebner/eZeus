@@ -14,6 +14,10 @@ public:
     void setScrollArea(eWidget* const widget);
 
     int listWidth() const;
+    int areaWidth() const;
+
+    void scrollToTheTop();
+    void clampDY();
 private:
     eScrollBar* mSB = nullptr;
     eScrollWidget* mSW = nullptr;

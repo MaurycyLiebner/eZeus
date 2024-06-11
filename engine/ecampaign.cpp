@@ -3,6 +3,7 @@
 #include <fstream>
 
 #include <filesystem>
+#include <regex>
 
 #include "evectorhelpers.h"
 
@@ -21,6 +22,8 @@ void eCampaign::initialize(const std::string& title) {
         board = std::make_shared<eGameBoard>();
         board->initialize(100, 100);
     }
+
+    addParentCityEpisode();
 }
 
 bool eCampaign::sLoadStrings(const std::string& path, eMap& map) {
@@ -29,32 +32,54 @@ bool eCampaign::sLoadStrings(const std::string& path, eMap& map) {
         printf("File missing %s\n", path.c_str());
         return false;
     }
-    std::string str;
-    while(std::getline(file, str)) {
-        if(str.empty()) continue;
-        if(str.front() == '\r') continue;
-        if(str.front() == '\t') continue;
-        if(str.front() == ';') continue;
-        const auto keyEnd1 = str.find(' ');
-        const auto keyEnd2 = str.find('=');
-        const auto keyEnd = std::min(keyEnd1, keyEnd2);
-        if(keyEnd == std::string::npos) continue;
-        const auto key = str.substr(0, keyEnd);
+    std::string line;
+    std::string key;
+    std::string value;
+    while(std::getline(file, line)) {
+        if(line.empty()) continue;
+        if(line.front() == '\r') continue;
+        if(line.front() == '\t') continue;
+        if(line.front() == ';') continue;
+        if(key.empty()) {
+            const auto keyEnd1 = line.find(' ');
+            const auto keyEnd2 = line.find('=');
+            const auto keyEnd = std::min(keyEnd1, keyEnd2);
+            if(keyEnd == std::string::npos) continue;
+            key = line.substr(0, keyEnd);
+        }
 
-        const auto valueStart = str.find('"');
-        if(valueStart == std::string::npos) continue;
-        const auto valueEnd = str.find('"', valueStart + 1);
+        unsigned long valueStart = 0;
+        if(value.empty()) {
+            valueStart = line.find('"');
+            if(valueStart == std::string::npos) continue;
+            valueStart += 1;
+        }
+        bool foundEnd = true;
+        auto valueEnd = line.find('"', valueStart + 1);
+        if(valueEnd == std::string::npos) {
+            valueEnd = line.size();
+            foundEnd = false;
+        }
         const auto valueLen = valueEnd - valueStart;
-        const auto value = str.substr(valueStart + 1, valueLen - 1);
+        value = value + line.substr(valueStart, valueLen);
 
-        map[key] = value;
+        if(foundEnd) {
+            value = std::regex_replace(value, std::regex("@L"), "\n");
+            value = std::regex_replace(value, std::regex("@P"), "\n");
+            map[key] = value;
+            key = "";
+            value = "";
+        }
     }
     return true;
 }
 
-bool eCampaign::loadStrings(const std::string& path) {
+bool eCampaign::loadStrings() {
+    const auto baseDir = "../Adventures/";
+    const auto aDir = baseDir + mTitle + "/";
+    const auto txtFile = aDir + mTitle + ".txt";
     std::map<std::string, std::string> map;
-    const bool r = sLoadStrings(path, map);
+    const bool r = sLoadStrings(txtFile, map);
     if(!r) return false;
 
     mTitle = map["Adventure_Title"];
@@ -176,16 +201,6 @@ void eCampaign::read(eReadStream& src) {
         int ne;
         src >> ne;
         for(int i = 0; i < ne; i++) {
-            eEpisodeType e;
-            src >> e;
-            mEpisodes.push_back(e);
-        }
-    }
-
-    {
-        int ne;
-        src >> ne;
-        for(int i = 0; i < ne; i++) {
             const auto e = std::make_shared<eParentCityEpisode>();
             e->read(src);
             mParentCityEpisodes.push_back(e);
@@ -226,11 +241,6 @@ void eCampaign::write(eWriteStream& dst) const {
         b->write(dst);
     }
 
-    dst << mEpisodes.size();
-    for(const auto e : mEpisodes) {
-        dst << e;
-    }
-
     dst << mParentCityEpisodes.size();
     for(const auto& e : mParentCityEpisodes) {
         e->write(dst);
@@ -252,7 +262,7 @@ bool eCampaign::load(const std::string& name) {
     const auto baseDir = "../Adventures/";
     const auto aDir = baseDir + mTitle + "/";
     const auto txtFile = aDir + mTitle + ".txt";
-    loadStrings(txtFile);
+    loadStrings();
 
     const auto pakFile = aDir + mTitle + ".epak";
     const auto file = SDL_RWFromFile(pakFile.c_str(), "r+b");
@@ -298,4 +308,45 @@ std::vector<int> eCampaign::colonyEpisodesLeft() const {
         result.push_back(i);
     }
     return result;
+}
+
+stdsptr<eParentCityEpisode> eCampaign::addParentCityEpisode() {
+    const auto e = std::make_shared<eParentCityEpisode>();
+    mParentCityEpisodes.push_back(e);
+    return e;
+}
+
+stdsptr<eParentCityEpisode> eCampaign::insertParentCityEpisode(const int id) {
+    const auto e = std::make_shared<eParentCityEpisode>();
+    mParentCityEpisodes.insert(mParentCityEpisodes.begin() + id, e);
+    return e;
+}
+
+void eCampaign::deleteParentCityEpisode(const int id) {
+    mParentCityEpisodes.erase(mParentCityEpisodes.begin() + id);
+}
+
+void eCampaign::setVictoryParentCityEpisode(const int id) {
+    for(int i = mParentCityEpisodes.size() - 1; i > id; i--) {
+        deleteParentCityEpisode(id);
+    }
+}
+
+void eCampaign::copyParentCityEpisodeSettings(const int from, const int to) {
+    const auto f = mParentCityEpisodes[from];
+    const auto t = mParentCityEpisodes[to];
+    const size_t size = 1000000;
+    void* mem = malloc(size);
+    {
+        const auto file = SDL_RWFromMem(mem, size);
+        eWriteStream dst(file);
+        f->write(dst);
+    }
+    {
+        const auto file = SDL_RWFromMem(mem, size);
+        eReadStream src(file);
+        f->read(src);
+    }
+
+    free(mem);
 }

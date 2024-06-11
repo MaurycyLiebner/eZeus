@@ -8,6 +8,8 @@
 #include "emainwindow.h"
 #include "audio/emusic.h"
 #include "ebitmapwidget.h"
+#include "eepisodeswidget.h"
+#include "etextscroller.h"
 
 void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
     eMainMenuBase::initialize();
@@ -33,6 +35,8 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
     topButtons->setNoPadding();
 
     const auto editParentMap = new eFramedButton(window());
+    editParentMap->setSmallFontSize();
+    editParentMap->setSmallPadding();
     editParentMap->setText(eLanguage::zeusText(195, 3));
     editParentMap->setTooltip(eLanguage::zeusText(278, 4));
     editParentMap->setUnderline(false);
@@ -56,6 +60,8 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
     topButtons->addWidget(editParentMap);
 
     const auto editWorldMap = new eFramedButton(window());
+    editWorldMap->setSmallFontSize();
+    editWorldMap->setSmallPadding();
     editWorldMap->setText(eLanguage::zeusText(195, 4));
     editWorldMap->setTooltip(eLanguage::zeusText(278, 5));
     editWorldMap->setUnderline(false);
@@ -73,6 +79,8 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
     topButtons->addWidget(editWorldMap);
 
     const auto nationality = new eFramedButton(window());
+    nationality->setSmallFontSize();
+    nationality->setSmallPadding();
     nationality->setUnderline(false);
     const bool a = campaign->atlantean();
     nationality->setText(a ? eLanguage::zeusText(195, 60) : // atlantean
@@ -88,6 +96,8 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
     topButtons->addWidget(nationality);
 
     const auto bitmap = new eFramedButton(window());
+    bitmap->setSmallFontSize();
+    bitmap->setSmallPadding();
     bitmap->setUnderline(false);
     bitmap->setText(eLanguage::zeusText(195, 47));
     bitmap->fitContent();
@@ -160,6 +170,133 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
     topButtons->stackHorizontally();
     topButtons->fitContent();
     iw->addWidget(topButtons);
+
+    const auto hW = new eWidget(window());
+    hW->setNoPadding();
+
+    const int eww = 2*iw->width()/3;
+    const int ewww = iw->width() - eww - 4*p;
+
+    const auto textW = new eWidget(window());
+    textW->setNoPadding();
+    textW->setWidth(ewww);
+
+    textW->setHeight(iw->height() - topButtons->height());
+
+    const auto titleTitle = new eLabel(window());
+    titleTitle->setTinyFontSize();
+    titleTitle->setNoPadding();
+    titleTitle->setText(eLanguage::zeusText(195, 6));
+    titleTitle->fitContent();
+    textW->addWidget(titleTitle);
+    titleTitle->align(eAlignment::hcenter);
+
+    const auto titleText = new eFramedLabel(window());
+    titleText->setTinyFontSize();
+    titleText->setTinyPadding();
+    titleText->setType(eFrameType::inner);
+    titleText->setWidth(ewww);
+    titleText->setText("Height");
+    titleText->fitHeight();
+    titleText->setText("");
+    textW->addWidget(titleText);
+
+    const int textH = (textW->height() - 4*titleTitle->height() -
+                      titleText->height())/3;
+
+    const auto introTitle = new eLabel(window());
+    introTitle->setTinyFontSize();
+    introTitle->setNoPadding();
+    introTitle->setText(eLanguage::zeusText(195, 7));
+    introTitle->fitContent();
+    textW->addWidget(introTitle);
+    introTitle->align(eAlignment::hcenter);
+
+    const auto introText = new eTextScroller(window());
+    introText->setWidth(ewww);
+    introText->setHeight(textH);
+    introText->initialize();
+    introText->setTinyTextFontSize();
+    introText->setTinyTextPadding();
+    textW->addWidget(introText);
+
+    const auto completeTitle = new eLabel(window());
+    completeTitle->setTinyFontSize();
+    completeTitle->setNoPadding();
+    completeTitle->setText(eLanguage::zeusText(195, 8));
+    completeTitle->fitContent();
+    textW->addWidget(completeTitle);
+    completeTitle->align(eAlignment::hcenter);
+
+    const auto completeText = new eTextScroller(window());
+    completeText->setWidth(ewww);
+    completeText->setHeight(textH);
+    completeText->initialize();
+    completeText->setTinyTextFontSize();
+    completeText->setTinyTextPadding();
+    textW->addWidget(completeText);
+
+    const auto selectionTitle = new eLabel(window());
+    selectionTitle->setTinyFontSize();
+    selectionTitle->setNoPadding();
+    selectionTitle->setText(eLanguage::zeusText(195, 58));
+    selectionTitle->fitContent();
+    textW->addWidget(selectionTitle);
+    selectionTitle->align(eAlignment::hcenter);
+
+    const auto selectionText = new eTextScroller(window());
+    selectionText->setWidth(ewww);
+    selectionText->setHeight(textH);
+    selectionText->initialize();
+    selectionText->setTinyTextFontSize();
+    selectionText->setTinyTextPadding();
+    textW->addWidget(selectionText);
+
+    textW->stackVertically();
+
+    const auto vW = new eWidget(window());
+    vW->setNoPadding();
+
+    const auto eW = new eEpisodesWidget(window());
+    eW->setWidth(eww);
+    const int ehh = 2*frame->height()/3;
+    eW->setHeight(ehh);
+    const auto setTextE = [campaign,
+                           titleTitle, titleText,
+                           introTitle, introText,
+                           completeTitle, completeText,
+                           selectionTitle, selectionText](const int id) {
+        campaign->loadStrings();
+        const auto& es = campaign->parentCityEpisodes();
+        const auto e = es[id];
+
+        titleTitle->setVisible(!e->fTitle.empty());
+        titleText->setText(e->fTitle);
+        titleText->setVisible(!e->fTitle.empty());
+
+        introTitle->setVisible(!e->fIntroduction.empty());
+        introText->setText(e->fIntroduction);
+        introText->setVisible(!e->fIntroduction.empty());
+
+        completeTitle->setVisible(!e->fComplete.empty());
+        completeText->setText(e->fComplete);
+        completeText->setVisible(!e->fComplete.empty());
+
+        selectionTitle->hide();
+        selectionText->hide();
+    };
+    eW->intialize(campaign, setTextE);
+    vW->addWidget(eW);
+
+    vW->stackVertically();
+    vW->fitContent();
+    hW->addWidget(vW);
+
+    hW->addWidget(textW);
+
+    hW->stackHorizontally();
+    hW->fitContent();
+    iw->addWidget(hW);
 
     iw->stackVertically();
     frame->align(eAlignment::center);
