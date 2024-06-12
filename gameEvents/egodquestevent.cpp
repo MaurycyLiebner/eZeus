@@ -9,31 +9,31 @@
 #include "buildings/eheroshall.h"
 #include "estringhelpers.h"
 
-eGodQuestEvent::eGodQuestEvent(const eGameEventBranch branch,
-                               eGameBoard& board) :
-    eGodQuestEventBase(eGameEventType::godQuest, branch, board) {
+eGodQuestEvent::eGodQuestEvent(const eGameEventBranch branch) :
+    eGodQuestEventBase(eGameEventType::godQuest, branch) {
     const auto e4 = eLanguage::text("fulfilled_trigger");
-    mFulfilledTrigger = e::make_shared<eEventTrigger>(e4, board);
+    mFulfilledTrigger = e::make_shared<eEventTrigger>(e4);
 
     addTrigger(mFulfilledTrigger);
 }
 
 eGodQuestEvent::~eGodQuestEvent() {
-    auto& board = getBoard();
-    board.removeGodQuest(this);
+    const auto board = gameBoard();
+    if(board) board->removeGodQuest(this);
 }
 
 void eGodQuestEvent::trigger() {
-    auto& board = getBoard();
-    board.addGodQuest(this);
+    const auto board = gameBoard();
+    if(!board) return;
+    board->addGodQuest(this);
     eEventData ed;
     ed.fHero = hero();
     ed.fQuestId = id();
     ed.fGod = god();
-    board.event(eEvent::godQuest, ed);
+    board->event(eEvent::godQuest, ed);
     const auto& inst = eMessages::instance;
     const auto gm = inst.godMessages(god());
-    if(!gm) return board.allowHero(hero());
+    if(!gm) return board->allowHero(hero());
     const eQuestMessages* qm = nullptr;
     switch(id()) {
     case eGodQuestId::godQuest1:
@@ -44,7 +44,7 @@ void eGodQuestEvent::trigger() {
         break;
     }
     const auto reason = qm->fQuest.fReason;
-    board.allowHero(hero(), reason);
+    board->allowHero(hero(), reason);
 }
 
 std::string eGodQuestEvent::longName() const {
@@ -52,7 +52,9 @@ std::string eGodQuestEvent::longName() const {
 }
 
 stdsptr<eGameEvent> eGodQuestEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eGodQuestEvent>(branch(), getBoard());
+    const auto c = e::make_shared<eGodQuestEvent>(branch());
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->setReason(reason);
     c->setGod(god());
     c->setId(id());
@@ -61,17 +63,18 @@ stdsptr<eGameEvent> eGodQuestEvent::makeCopy(const std::string& reason) const {
 }
 
 void eGodQuestEvent::fulfill() {
-    auto& board = getBoard();
-    const auto hh = board.heroHall(hero());
+    const auto board = gameBoard();
+    if(!board) return;
+    const auto hh = board->heroHall(hero());
     if(!hh) return;
     const auto s = hh->stage();
     if(s != eHeroSummoningStage::arrived) return;
     hh->sendHeroOnQuest();
-    board.removeGodQuest(this);
+    board->removeGodQuest(this);
 
     const auto e = e::make_shared<eGodQuestFulfilledEvent>(
-                       eGameEventBranch::child, board);
-    const auto boardDate = board.date();
+                       eGameEventBranch::child);
+    const auto boardDate = board->date();
     const int period = 150;
     const auto date = boardDate + period;
     e->initializeDate(date, period, 1);
@@ -82,8 +85,9 @@ void eGodQuestEvent::fulfill() {
 }
 
 void eGodQuestEvent::fulfilled() {
-    const auto& board = getBoard();
-    const auto date = board.date();
+    const auto board = gameBoard();
+    if(!board) return;
+    const auto date = board->date();
     const auto& msgs = eMessages::instance;
     const auto godMsgs = msgs.godMessages(god());
     const eQuestMessages* qMsgs = nullptr;

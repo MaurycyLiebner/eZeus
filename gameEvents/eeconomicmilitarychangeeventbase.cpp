@@ -9,8 +9,7 @@ void eEconomicMilitaryChangeEventBase::write(eWriteStream& dst) const {
 void eEconomicMilitaryChangeEventBase::read(eReadStream& src) {
     eGameEvent::read(src);
     src >> mBy;
-    auto& board = getBoard();
-    src.readCity(&board, [this](const stdsptr<eWorldCity>& c) {
+    src.readCity(worldBoard(), [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
 }

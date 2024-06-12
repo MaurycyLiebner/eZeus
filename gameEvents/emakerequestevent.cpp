@@ -7,10 +7,8 @@
 #include "engine/eevent.h"
 #include "engine/egifthelpers.h"
 
-eMakeRequestEvent::eMakeRequestEvent(
-        const eGameEventBranch branch,
-        eGameBoard& board) :
-    eGameEvent(eGameEventType::makeRequest, branch, board) {}
+eMakeRequestEvent::eMakeRequestEvent(const eGameEventBranch branch) :
+    eGameEvent(eGameEventType::makeRequest, branch) {}
 
 void eMakeRequestEvent::initialize(
         const bool postpone,
@@ -23,10 +21,11 @@ void eMakeRequestEvent::initialize(
 
 void eMakeRequestEvent::trigger() {
     if(!mCity) return;
-    auto& board = getBoard();
+    const auto board = gameBoard();
+    if(!board) return;
     const int count = 2*eGiftHelpers::giftCount(mResource);
 
-    const int space = board.spaceForResource(mResource);
+    const int space = board->spaceForResource(mResource);
     eEventData ed;
     ed.fCity = mCity;
     ed.fSpaceCount = space;
@@ -39,69 +38,66 @@ void eMakeRequestEvent::trigger() {
             const auto e = e::make_shared<eMakeRequestEvent>(
                         *this);
             e->initialize(false, mResource, mCity);
-            const auto date = board.date() + 31;
+            const auto date = board->date() + 31;
             e->initializeDate(date);
             addConsequence(e);
         }
     } else {
         ed.fType = eMessageEventType::requestTributeGranted;
         if(space != 0) {
-            ed.fA0 = [this, count]() { // accept
-                auto& board = getBoard();
-                const int a = board.addResource(mResource, count);
+            ed.fA0 = [this, board, count]() { // accept
+                const int a = board->addResource(mResource, count);
                 if(a == count) return;
                 eEventData ed;
                 ed.fType = eMessageEventType::resourceGranted;
                 ed.fCity = mCity;
                 ed.fResourceType = mResource;
                 ed.fResourceCount = a;
-                board.event(eEvent::requestAccepted, ed);
+                board->event(eEvent::requestAccepted, ed);
             };
         }
 
         if(mPostpone) {
-            ed.fA1 = [this, count]() { // postpone
-                auto& board = getBoard();
+            ed.fA1 = [this, board, count]() { // postpone
                 eEventData ed;
                 ed.fType = eMessageEventType::resourceGranted;
                 ed.fCity = mCity;
                 ed.fResourceType = mResource;
                 ed.fResourceCount = count;
-                board.event(eEvent::requestPostponed, ed);
+                board->event(eEvent::requestPostponed, ed);
 
                 const auto e = e::make_shared<eMakeRequestEvent>(
                             *this);
                 e->initialize(false, mResource, mCity);
-                const auto date = board.date() + 31;
+                const auto date = board->date() + 31;
                 e->initializeDate(date);
                 addConsequence(e);
             };
         }
 
-        ed.fA2 = [this, count]() { // decline
-            auto& board = getBoard();
+        ed.fA2 = [this, board, count]() { // decline
             eEventData ed;
             ed.fType = eMessageEventType::resourceGranted;
             ed.fCity = mCity;
             ed.fResourceType = mResource;
             ed.fResourceCount = count;
-            board.event(eEvent::requestRefused, ed);
+            board->event(eEvent::requestRefused, ed);
         };
     }
     if(!mPostpone) {
         if(space == 0) {
-            board.event(eEvent::requestForfeited, ed);
+            board->event(eEvent::requestForfeited, ed);
         } else if(space >= count) {
-            board.event(eEvent::requestGranted, ed);
+            board->event(eEvent::requestGranted, ed);
         } else {
-            board.event(eEvent::requestLastChance, ed);
+            board->event(eEvent::requestLastChance, ed);
         }
     } else if(space == 0) {
-        board.event(eEvent::requestInsufficientSpace, ed);
+        board->event(eEvent::requestInsufficientSpace, ed);
     } else if(space >= count) {
-        board.event(eEvent::requestGranted, ed);
+        board->event(eEvent::requestGranted, ed);
     } else {
-        board.event(eEvent::requestPartialSpace, ed);
+        board->event(eEvent::requestPartialSpace, ed);
     }
 }
 
@@ -126,13 +122,15 @@ void eMakeRequestEvent::read(eReadStream& src) {
     eGameEvent::read(src);
     src >> mPostpone;
     src >> mResource;
-    src.readCity(&getBoard(), [this](const stdsptr<eWorldCity>& c) {
+    src.readCity(worldBoard(), [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
 }
 
 stdsptr<eGameEvent> eMakeRequestEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eMakeRequestEvent>(branch(), getBoard());
+    const auto c = e::make_shared<eMakeRequestEvent>(branch());
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->initialize(mPostpone, mResource, mCity);
     c->setReason(reason);
     return c;

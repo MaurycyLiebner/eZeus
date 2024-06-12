@@ -7,7 +7,7 @@
 #include "etroopsrequestevent.h"
 
 eTroopsRequestFulfilledEvent::eTroopsRequestFulfilledEvent(
-        const eGameEventBranch branch, eGameBoard& board) :
+        const eGameEventBranch branch, eGameBoard* const board) :
     ePlayerConquestEventBase(eGameEventType::troopsRequestFulfilled,
                              branch, board) {}
 
@@ -58,7 +58,10 @@ std::string eTroopsRequestFulfilledEvent::longName() const {
 }
 
 stdsptr<eGameEvent> eTroopsRequestFulfilledEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eTroopsRequestFulfilledEvent>(branch(), getBoard());
+    const auto c = e::make_shared<eTroopsRequestFulfilledEvent>(
+                       branch(), gameBoard());
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->mForces = mForces;
     c->mCity = mCity;
     c->mRivalCity = mRivalCity;

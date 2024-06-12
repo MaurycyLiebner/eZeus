@@ -72,7 +72,7 @@ struct eEpisode {
                 eGameEventType type;
                 src >> type;
                 const auto branch = eGameEventBranch::root;
-                const auto e = eGameEvent::sCreate(type, branch, fFakeBoard);
+                const auto e = eGameEvent::sCreate(type, branch, nullptr);
                 e->read(src);
                 fEvents.push_back(e);
             }
@@ -121,8 +121,6 @@ struct eEpisode {
     std::vector<stdsptr<eEpisodeGoal>> fGoals;
 
     eAvailableBuildings fAvailableBuildings;
-
-    eGameBoard fFakeBoard;
 };
 
 struct eParentCityEpisode : public eEpisode {

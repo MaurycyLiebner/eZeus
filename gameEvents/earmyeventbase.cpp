@@ -4,9 +4,10 @@
 
 eArmyEventBase::eArmyEventBase(const eGameEventType type,
                                const eGameEventBranch branch,
-                               eGameBoard& board) :
-    eGameEvent(type, branch, board) {
-    board.addArmyEvent(this);
+                               eGameBoard* const board) :
+    eGameEvent(type, branch) {
+    setGameBoard(board);
+    board->addArmyEvent(this);
 }
 
 eArmyEventBase::~eArmyEventBase() {
@@ -14,8 +15,9 @@ eArmyEventBase::~eArmyEventBase() {
 }
 
 void eArmyEventBase::removeArmyEvent() {
-    auto& board = getBoard();
-    board.removeArmyEvent(this);
+    const auto board = gameBoard();
+    if(!board) return;
+    board->removeArmyEvent(this);
 }
 
 void eArmyEventBase::write(eWriteStream& dst) const {
@@ -26,9 +28,10 @@ void eArmyEventBase::write(eWriteStream& dst) const {
 
 void eArmyEventBase::read(eReadStream& src) {
     eGameEvent::read(src);
-    auto& board = getBoard();
-    mForces.read(board, src);
-    src.readCity(&board, [this](const stdsptr<eWorldCity>& c) {
+    const auto board = gameBoard();
+    const auto wboard = worldBoard();
+    mForces.read(*board, *wboard, src);
+    src.readCity(wboard, [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
 }

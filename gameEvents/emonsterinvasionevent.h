@@ -15,8 +15,7 @@ class eMonsterInvasionEvent;
 
 class eMonsterInvasionWarningEvent : public eGameEvent {
 public:
-    eMonsterInvasionWarningEvent(const eGameEventBranch branch,
-                                 eGameBoard& board);
+    eMonsterInvasionWarningEvent(const eGameEventBranch branch);
 
     void initialize(const eMonsterInvasionWarningType type,
                     const eMonsterType monster);
@@ -37,8 +36,7 @@ private:
 
 class eMonsterInvasionEvent : public eMonsterInvasionEventBase {
 public:
-    eMonsterInvasionEvent(const eGameEventBranch branch,
-                          eGameBoard& board);
+    eMonsterInvasionEvent(const eGameEventBranch branch);
 
     void trigger() override;
     std::string longName() const override;

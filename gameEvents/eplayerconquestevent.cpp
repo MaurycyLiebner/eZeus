@@ -5,9 +5,8 @@
 #include "engine/eevent.h"
 #include "elanguage.h"
 
-ePlayerConquestEvent::ePlayerConquestEvent(
-        const eGameEventBranch branch,
-        eGameBoard& board) :
+ePlayerConquestEvent::ePlayerConquestEvent(const eGameEventBranch branch,
+                                           eGameBoard* const board) :
     ePlayerConquestEventBase(eGameEventType::playerConquestEvent,
                              branch, board) {}
 
@@ -19,10 +18,11 @@ void ePlayerConquestEvent::initialize(
 }
 
 void ePlayerConquestEvent::trigger() {
+    const auto board = gameBoard();
+    if(!board) return;
     removeArmyEvent();
     removeConquestEvent();
     if(!mCity) return;
-    auto& board = getBoard();
 
     const int enemyStr = mCity->strength();
     const int str = mForces.strength();
@@ -42,16 +42,16 @@ void ePlayerConquestEvent::trigger() {
     ed.fCity = mCity;
     const auto rel = mCity->relationship();
     if(rel == eForeignCityRelationship::ally) {
-        auto& worldBoard = board.getWorldBoard();
-        worldBoard.attackedAlly();
-        board.event(eEvent::allyAttackedByPlayer, ed);
+        const auto w = worldBoard();
+        if(w) w->attackedAlly();
+        board->event(eEvent::allyAttackedByPlayer, ed);
     }
     if(conquered) {
-        board.event(eEvent::cityConquered, ed);
-        board.allow(eBuildingType::commemorative, 4);
+        board->event(eEvent::cityConquered, ed);
+        board->allow(eBuildingType::commemorative, 4);
         mCity->setRelationship(eForeignCityRelationship::vassal);
     } else {
-        board.event(eEvent::cityConquerFailed, ed);
+        board->event(eEvent::cityConquerFailed, ed);
     }
     mCity->incAttitude(-50);
 
@@ -63,7 +63,9 @@ std::string ePlayerConquestEvent::longName() const {
 }
 
 stdsptr<eGameEvent> ePlayerConquestEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<ePlayerConquestEvent>(branch(), getBoard());
+    const auto c = e::make_shared<ePlayerConquestEvent>(branch(), gameBoard());
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->mForces = mForces;
     c->mCity = mCity;
     c->setReason(reason);

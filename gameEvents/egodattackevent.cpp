@@ -5,9 +5,8 @@
 #include "engine/eeventdata.h"
 #include "characters/actions/egodattackaction.h"
 
-eGodAttackEvent::eGodAttackEvent(const eGameEventBranch branch,
-                                 eGameBoard& board) :
-    eGameEvent(eGameEventType::godAttack, branch, board) {}
+eGodAttackEvent::eGodAttackEvent(const eGameEventBranch branch) :
+    eGameEvent(eGameEventType::godAttack, branch) {}
 
 void eGodAttackEvent::setTypes(const std::vector<eGodType>& types) {
     mTypes = types;
@@ -21,7 +20,8 @@ void eGodAttackEvent::setRandom(const bool r) {
 
 void eGodAttackEvent::trigger() {
     if(mTypes.empty()) return;
-    auto& board = getBoard();
+    const auto board = gameBoard();
+    if(!board) return;
     int tid;
     const int nTypes = mTypes.size();
     if(mRandom) {
@@ -31,7 +31,7 @@ void eGodAttackEvent::trigger() {
         if(++mNextId >= nTypes) mNextId = 0;
     }
     const auto t = mTypes.at(tid);
-    const auto god = eGod::sCreateGod(t, board);
+    const auto god = eGod::sCreateGod(t, *board);
 
     const auto a = e::make_shared<eGodAttackAction>(god.get());
     god->setAttitude(eGodAttitude::hostile);
@@ -41,8 +41,8 @@ void eGodAttackEvent::trigger() {
     ed.fChar = god.get();
     ed.fTile = god->tile();
     ed.fGod = t;
-    board.registerAttackingGod(god.get());
-    board.event(eEvent::godInvasion, ed);
+    board->registerAttackingGod(god.get());
+    board->event(eEvent::godInvasion, ed);
 }
 
 std::string eGodAttackEvent::longName() const {
@@ -73,7 +73,9 @@ void eGodAttackEvent::read(eReadStream& src) {
 }
 
 stdsptr<eGameEvent> eGodAttackEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eGodAttackEvent>(branch(), getBoard());
+    const auto c = e::make_shared<eGodAttackEvent>(branch());
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->mTypes = mTypes;
     c->mNextId = mNextId;
     c->mRandom = mRandom;

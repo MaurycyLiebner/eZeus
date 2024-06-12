@@ -37,7 +37,7 @@ stdsptr<eSanctuary> createSanctuary(const eBuildingType type,
 stdsptr<eBuilding> eBuildingReader::sRead(
         eGameBoard& board, const eBuildingType type,
         eReadStream& src) {
-    const auto& wrld = board.getWorldBoard();
+    const auto wrld = board.getWorldBoard();
     stdsptr<eBuilding> b;
     switch(type) {
     case eBuildingType::road: {
@@ -197,7 +197,7 @@ stdsptr<eBuilding> eBuildingReader::sRead(
 
         int ctid;
         src >> ctid;
-        const auto& cts = wrld.cities();
+        const auto& cts = wrld->cities();
         const auto ct = cts[ctid];
 
         const auto tp = e::make_shared<eTradePost>(board, *ct, tpt);

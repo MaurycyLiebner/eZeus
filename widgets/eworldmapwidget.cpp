@@ -16,7 +16,7 @@ eWorldMapWidget::eWorldMapWidget(eMainWindow* const window) :
 
 void eWorldMapWidget::setBoard(eGameBoard* const b) {
     mGameBoard = b;
-    setWorldBoard(b ? &b->getWorldBoard() : nullptr);
+    setWorldBoard(b ? b->getWorldBoard() : nullptr);
 }
 
 void eWorldMapWidget::setWorldBoard(eWorldBoard* const b) {

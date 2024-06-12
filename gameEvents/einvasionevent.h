@@ -7,9 +7,7 @@
 
 class eInvasionEvent : public eGameEvent {
 public:
-    eInvasionEvent(const eGameEventBranch branch,
-                   eGameBoard& board);
-    void pointerCreated() override;
+    eInvasionEvent(const eGameEventBranch branch);
     ~eInvasionEvent();
 
     void initialize(const stdsptr<eWorldCity>& city,

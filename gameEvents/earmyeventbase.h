@@ -11,7 +11,7 @@ class eArmyEventBase : public eGameEvent {
 public:
     eArmyEventBase(const eGameEventType type,
                    const eGameEventBranch branch,
-                   eGameBoard& board);
+                   eGameBoard* const board);
     ~eArmyEventBase();
 
     void write(eWriteStream& dst) const override;

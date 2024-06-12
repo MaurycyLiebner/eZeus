@@ -5,11 +5,9 @@
 #include "characters/actions/emonsteraction.h"
 #include "emonsterinvasionevent.h"
 
-eMonsterInvasionEventBase::eMonsterInvasionEventBase(
-        const eGameEventType type,
-        const eGameEventBranch branch,
-        eGameBoard& board) :
-    eGameEvent(type, branch, board) {}
+eMonsterInvasionEventBase::eMonsterInvasionEventBase(const eGameEventType type,
+        const eGameEventBranch branch) :
+    eGameEvent(type, branch) {}
 
 
 void eMonsterInvasionEventBase::setType(const eMonsterType type) {
@@ -40,9 +38,10 @@ void eMonsterInvasionEventBase::read(eReadStream& src) {
 }
 
 eMonster* eMonsterInvasionEventBase::triggerBase() const {
-    auto& board = getBoard();
-    const auto monster = eMonster::sCreateMonster(mType, board);
-    board.registerMonster(monster.get());
+    const auto board = gameBoard();
+    if(!board) return nullptr;
+    const auto monster = eMonster::sCreateMonster(mType, *board);
+    board->registerMonster(monster.get());
     monster->setPlayerId(2);
 
     const auto a = e::make_shared<eMonsterAction>(monster.get());

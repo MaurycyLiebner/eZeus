@@ -5,8 +5,7 @@
 
 class eGiftFromEvent : public eResourceGrantedEventBase {
 public:
-    eGiftFromEvent(const eGameEventBranch branch,
-                   eGameBoard& board);
+    eGiftFromEvent(const eGameEventBranch branch);
 
     std::string longName() const override;
 

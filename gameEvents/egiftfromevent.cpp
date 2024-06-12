@@ -6,8 +6,7 @@
 #include "engine/eeventdata.h"
 #include "engine/eevent.h"
 
-eGiftFromEvent::eGiftFromEvent(const eGameEventBranch branch,
-                               eGameBoard& board) :
+eGiftFromEvent::eGiftFromEvent(const eGameEventBranch branch) :
     eResourceGrantedEventBase(
         eEvent::giftCashAccepted,
         eEvent::giftAccepted,
@@ -18,7 +17,7 @@ eGiftFromEvent::eGiftFromEvent(const eGameEventBranch branch,
         eEvent::giftLastChance,
         eEvent::giftInsufficientSpace,
         eEvent::giftPartialSpace,
-        eGameEventType::giftFrom, branch, board) {}
+        eGameEventType::giftFrom, branch) {}
 
 std::string eGiftFromEvent::longName() const {
     auto tmpl = eLanguage::text("gift_of_from");
@@ -32,7 +31,9 @@ std::string eGiftFromEvent::longName() const {
 }
 
 stdsptr<eGameEvent> eGiftFromEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eGiftFromEvent>(branch(), getBoard());
+    const auto c = e::make_shared<eGiftFromEvent>(branch());
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->setReason(reason);
     c->initialize(mPostpone, mResource, mCount, mCity);
     return c;

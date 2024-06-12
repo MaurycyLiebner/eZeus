@@ -87,7 +87,7 @@ void eEventSelectionWidget::initialize(
         const auto echoose = new eChooseButton(window());
         const auto act = [this, add, boardPtr, types, labels, editEvent](const int val) {
             const auto type = types[val];
-            const auto e = eGameEvent::sCreate(type, mBranch, *boardPtr);
+            const auto e = eGameEvent::sCreate(type, mBranch, boardPtr);
 
             if(e) {
                 const auto boardDate = boardPtr->date();

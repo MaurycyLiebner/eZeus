@@ -23,6 +23,7 @@ class eWorldCity;
 class eBanner;
 class eSoldierBanner;
 class eGameEvent;
+class eWorldBoard;
 
 using eDirectionTimes = std::map<eTile*, eDirectionLastUseTime>;
 
@@ -114,6 +115,7 @@ public:
             eGameBoard& board);
     using eCityFunc = std::function<void(stdsptr<eWorldCity>)>;
     void readCity(eGameBoard* board, const eCityFunc& func);
+    void readCity(eWorldBoard* board, const eCityFunc& func);
     using eBannerFunc = std::function<void(eBanner*)>;
     void readBanner(eGameBoard* board, const eBannerFunc& func);
     using eSoldierBannerFunc = std::function<void(stdsptr<eSoldierBanner>)>;

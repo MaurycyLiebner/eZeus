@@ -10,20 +10,18 @@
 
 #include "etroopsrequestfulfilledevent.h"
 
-eTroopsRequestEvent::eTroopsRequestEvent(
-        const eGameEventBranch branch,
-        eGameBoard& board) :
-    eGameEvent(eGameEventType::troopsRequest, branch, board) {
+eTroopsRequestEvent::eTroopsRequestEvent(const eGameEventBranch branch) :
+    eGameEvent(eGameEventType::troopsRequest, branch) {
     const auto e1 = eLanguage::text("early");
-    mEarlyTrigger = e::make_shared<eEventTrigger>(e1, board);
+    mEarlyTrigger = e::make_shared<eEventTrigger>(e1);
     const auto e2 = eLanguage::text("comply");
-    mComplyTrigger = e::make_shared<eEventTrigger>(e2, board);
+    mComplyTrigger = e::make_shared<eEventTrigger>(e2);
     const auto e3 = eLanguage::text("too_late");
-    mTooLateTrigger = e::make_shared<eEventTrigger>(e3, board);
+    mTooLateTrigger = e::make_shared<eEventTrigger>(e3);
     const auto e4 = eLanguage::text("refuse");
-    mRefuseTrigger = e::make_shared<eEventTrigger>(e4, board);
+    mRefuseTrigger = e::make_shared<eEventTrigger>(e4);
     const auto e5 = eLanguage::text("lost_battle");
-    mLostBattleTrigger = e::make_shared<eEventTrigger>(e5, board);
+    mLostBattleTrigger = e::make_shared<eEventTrigger>(e5);
 
     addTrigger(mEarlyTrigger);
     addTrigger(mComplyTrigger);
@@ -33,8 +31,8 @@ eTroopsRequestEvent::eTroopsRequestEvent(
 }
 
 eTroopsRequestEvent::~eTroopsRequestEvent() {
-    auto& board = getBoard();
-    board.removeCityTroopsRequest(this);
+    const auto board = gameBoard();
+    if(board) board->removeCityTroopsRequest(this);
 }
 
 void eTroopsRequestEvent::initialize(
@@ -68,17 +66,18 @@ void eTroopsRequestEvent::read(eReadStream& src) {
     eGameEvent::read(src);
     src >> mFinish;
     src >> mPostpone;
-    src.readCity(&getBoard(), [this](const stdsptr<eWorldCity>& c) {
+    src.readCity(worldBoard(), [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
-    src.readCity(&getBoard(), [this](const stdsptr<eWorldCity>& c) {
+    src.readCity(worldBoard(), [this](const stdsptr<eWorldCity>& c) {
         mRivalCity = c;
     });
 }
 
 stdsptr<eGameEvent> eTroopsRequestEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eTroopsRequestEvent>(
-                       branch(), getBoard());
+    const auto c = e::make_shared<eTroopsRequestEvent>(branch());
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->initialize(mPostpone, mCity, mRivalCity, mFinish);
     c->setReason(reason);
     return c;
@@ -96,7 +95,8 @@ const int gPostponeDays = 6*31;
 
 void eTroopsRequestEvent::trigger() {
     if(!mCity) return;
-    auto& board = getBoard();
+    const auto board = gameBoard();
+    if(!board) return;
     eEventData ed;
     ed.fCity = mCity;
     ed.fRivalCity = mRivalCity;
@@ -119,24 +119,22 @@ void eTroopsRequestEvent::trigger() {
     };
 
     if(mPostpone < 2) {
-        ed.fA1 = [this]() { // postpone
-            auto& board = getBoard();
+        ed.fA1 = [this, board]() { // postpone
             const auto e = e::make_shared<eTroopsRequestEvent>(
-                               eGameEventBranch::child, board);
+                               eGameEventBranch::child);
             e->initialize(mPostpone + 1, mCity, mRivalCity);
-            const auto date = board.date() + gPostponeDays;
+            const auto date = board->date() + gPostponeDays;
             e->initializeDate(date);
             addConsequence(e);
         };
     }
 
-    ed.fA2 = [this]() { // refuse
-        auto& board = getBoard();
-        board.removeCityTroopsRequest(mainEvent<eTroopsRequestEvent>());
+    ed.fA2 = [this, board]() { // refuse
+        board->removeCityTroopsRequest(mainEvent<eTroopsRequestEvent>());
         const auto e = e::make_shared<eTroopsRequestEvent>(
-                           eGameEventBranch::child, board);
+                           eGameEventBranch::child);
         e->initialize(5, mCity, mRivalCity, true);
-        const auto date = board.date() + 31;
+        const auto date = board->date() + 31;
         e->initializeDate(date);
         addConsequence(e);
     };
@@ -144,53 +142,53 @@ void eTroopsRequestEvent::trigger() {
 
     ed.fType = eMessageEventType::troopsRequest;
     if(mPostpone == 0) { // initial
-        board.addCityTroopsRequest(mainEvent<eTroopsRequestEvent>());
+        board->addCityTroopsRequest(mainEvent<eTroopsRequestEvent>());
     }
     if(mCity->isVassal()) {
         if(mPostpone == 0) { // initial
-            board.event(eEvent::troopsRequestVassalInitial, ed);
+            board->event(eEvent::troopsRequestVassalInitial, ed);
         } else if(mPostpone == 1) { // reminder
-            board.event(eEvent::troopsRequestVassalFirstReminder, ed);
+            board->event(eEvent::troopsRequestVassalFirstReminder, ed);
         } else if(mPostpone == 2) { // overdue
-            board.event(eEvent::troopsRequestVassalLastReminder, ed);
+            board->event(eEvent::troopsRequestVassalLastReminder, ed);
         }
     } else if(mCity->isColony()) {
         if(mPostpone == 0) { // initial
-            board.event(eEvent::troopsRequestColonyInitial, ed);
+            board->event(eEvent::troopsRequestColonyInitial, ed);
         } else if(mPostpone == 1) { // reminder
-            board.event(eEvent::troopsRequestColonyFirstReminder, ed);
+            board->event(eEvent::troopsRequestColonyFirstReminder, ed);
         } else if(mPostpone == 2) { // overdue
-            board.event(eEvent::troopsRequestColonyLastReminder, ed);
+            board->event(eEvent::troopsRequestColonyLastReminder, ed);
         }
     } else if(mCity->isParentCity()) {
         if(mPostpone == 0) { // initial
-            board.event(eEvent::troopsRequestParentCityInitial, ed);
+            board->event(eEvent::troopsRequestParentCityInitial, ed);
         } else if(mPostpone == 1) { // reminder
-            board.event(eEvent::troopsRequestParentCityFirstReminder, ed);
+            board->event(eEvent::troopsRequestParentCityFirstReminder, ed);
         } else if(mPostpone == 2) { // overdue
-            board.event(eEvent::troopsRequestParentCityLastReminder, ed);
+            board->event(eEvent::troopsRequestParentCityLastReminder, ed);
         }
     } else { // ally
         if(mPostpone == 0) { // initial
-            board.event(eEvent::troopsRequestAllyInitial, ed);
+            board->event(eEvent::troopsRequestAllyInitial, ed);
         } else if(mPostpone == 1) { // reminder
-            board.event(eEvent::troopsRequestAllyFirstReminder, ed);
+            board->event(eEvent::troopsRequestAllyFirstReminder, ed);
         } else if(mPostpone == 2) { // overdue
-            board.event(eEvent::troopsRequestAllyLastReminder, ed);
+            board->event(eEvent::troopsRequestAllyLastReminder, ed);
         }
     }
 }
 
 void eTroopsRequestEvent::dispatch(const eAction& close) {
-    auto& board = getBoard();
-    board.requestForces([this, close](const eEnlistedForces& f,
+    const auto board = gameBoard();
+    if(!board) return;
+    board->requestForces([this, board, close](const eEnlistedForces& f,
                                       const eResourceType) {
-        auto& board = getBoard();
-        board.enlistForces(f);
-        board.removeCityTroopsRequest(mainEvent<eTroopsRequestEvent>());
+        board->enlistForces(f);
+        board->removeCityTroopsRequest(mainEvent<eTroopsRequestEvent>());
         const auto e = e::make_shared<eTroopsRequestFulfilledEvent>(
                            eGameEventBranch::child, board);
-        const auto currentDate = board.date();
+        const auto currentDate = board->date();
         e->initialize(f, mCity, mRivalCity);
         const auto edate = currentDate + 3*31;
         e->initializeDate(edate);
@@ -201,7 +199,8 @@ void eTroopsRequestEvent::dispatch(const eAction& close) {
 }
 
 void eTroopsRequestEvent::won() {
-    auto& board = getBoard();
+    const auto board = gameBoard();
+    if(!board) return;
     eEventData ed;
     ed.fCity = mCity;
     ed.fRivalCity = mRivalCity;
@@ -218,7 +217,7 @@ void eTroopsRequestEvent::won() {
     } else { // ally
         rrmsgs = &msgs.fAllyTroopsRequest;
     }
-    board.event(eEvent::troopsRequestAttackAverted, ed);
+    board->event(eEvent::troopsRequestAttackAverted, ed);
     mCity->incAttitude(10);
 
     const auto& reason = rrmsgs->fComplyReason;
@@ -227,7 +226,8 @@ void eTroopsRequestEvent::won() {
 }
 
 void eTroopsRequestEvent::lost() {
-    auto& board = getBoard();
+    const auto board = gameBoard();
+    if(!board) return;
     eEventData ed;
     ed.fCity = mCity;
     ed.fRivalCity = mRivalCity;
@@ -250,7 +250,7 @@ void eTroopsRequestEvent::lost() {
         event = eEvent::troopsRequestAllyConquered;
         rrmsgs = &msgs.fAllyTroopsRequest;
     }
-    board.event(event, ed);
+    board->event(event, ed);
     mCity->incAttitude(-25);
     mCity->setRelationship(eForeignCityRelationship::rival);
 
@@ -260,7 +260,8 @@ void eTroopsRequestEvent::lost() {
 }
 
 void eTroopsRequestEvent::finished(eEventTrigger& t, const eReason& r) {
-    const auto& board = getBoard();
-    const auto date = board.date();
+    const auto board = gameBoard();
+    if(!board) return;
+    const auto date = board->date();
     t.trigger(*this, date, r.fFull);
 }

@@ -9,12 +9,8 @@
 #include "einvasionwarningevent.h"
 #include "audio/emusic.h"
 
-eInvasionEvent::eInvasionEvent(const eGameEventBranch branch,
-                               eGameBoard& board) :
-    eGameEvent(eGameEventType::invasion, branch, board) {}
-
-void eInvasionEvent::pointerCreated() {
-    auto& board = getBoard();
+eInvasionEvent::eInvasionEvent(const eGameEventBranch branch) :
+    eGameEvent(eGameEventType::invasion, branch) {
     const auto warnTypes = {
         eInvasionWarningType::warning36,
         eInvasionWarningType::warning24,
@@ -43,15 +39,15 @@ void eInvasionEvent::pointerCreated() {
         }
         const int daysBefore = 31*months;
         const auto e = e::make_shared<eInvasionWarningEvent>(
-                           eGameEventBranch::child, board);
+                           eGameEventBranch::child);
         e->initialize(w, mCity);
         addWarning(daysBefore, e);
     }
 }
 
 eInvasionEvent::~eInvasionEvent() {
-    auto& board = getBoard();
-    board.removeInvasion(this);
+    const auto board = gameBoard();
+    if(board) board->removeInvasion(this);
 }
 
 void eInvasionEvent::initialize(const stdsptr<eWorldCity>& city,
@@ -66,8 +62,9 @@ void eInvasionEvent::initialize(const stdsptr<eWorldCity>& city,
 }
 
 void eInvasionEvent::trigger() {
-    auto& board = getBoard();
-    board.removeInvasion(this);
+    const auto board = gameBoard();
+    if(!board) return;
+    board->removeInvasion(this);
     eEventData ed;
     ed.fCity = mCity;
     ed.fType = eMessageEventType::invasion;
@@ -75,35 +72,33 @@ void eInvasionEvent::trigger() {
     ed.fBribe = bribe;
     ed.fReason = reason();
 
-    const auto boardPtr = &board;
     const auto city = mCity;
-    ed.fA0 = [boardPtr, city]() { // surrender
+    ed.fA0 = [board, city]() { // surrender
         eEventData ed;
         ed.fCity = city;
-        boardPtr->event(eEvent::invasionDefeat, ed);
-        boardPtr->updateMusic();
+        board->event(eEvent::invasionDefeat, ed);
+        board->updateMusic();
     };
-    if(board.drachmas() >= bribe) { // bribe
-        ed.fA1 = [boardPtr, bribe, city]() {
-            boardPtr->incDrachmas(-bribe);
+    if(board->drachmas() >= bribe) { // bribe
+        ed.fA1 = [board, bribe, city]() {
+            board->incDrachmas(-bribe);
             eEventData ed;
             ed.fCity = city;
-            boardPtr->event(eEvent::invasionBribed, ed);
-            boardPtr->updateMusic();
+            board->event(eEvent::invasionBribed, ed);
+            board->updateMusic();
         };
     }
     const int infantry = mInfantry;
     const int cavalry = mCavalry;
     const int archers = mArchers;
-    const auto tile = board.landInvasionTile(mInvasionPoint);
+    const auto tile = board->landInvasionTile(mInvasionPoint);
     ed.fTile = tile;
-    ed.fA2 = [boardPtr, tile, city, infantry, cavalry, archers]() { // fight
+    ed.fA2 = [board, tile, city, infantry, cavalry, archers]() { // fight
         if(!tile) return;
-        auto& board = *boardPtr;
-        const auto eh = new eInvasionHandler(board, city);
+        const auto eh = new eInvasionHandler(*board, city);
         eh->initialize(tile, infantry, cavalry, archers);
     };
-    board.event(eEvent::invasion, ed);
+    board->event(eEvent::invasion, ed);
     eMusic::playRandomBattleMusic();
 }
 
@@ -131,7 +126,7 @@ void eInvasionEvent::write(eWriteStream& dst) const {
 
 void eInvasionEvent::read(eReadStream& src) {
     eGameEvent::read(src);
-    src.readCity(&getBoard(), [this](const stdsptr<eWorldCity>& c) {
+    src.readCity(gameBoard(), [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
 
@@ -146,7 +141,9 @@ void eInvasionEvent::read(eReadStream& src) {
 }
 
 stdsptr<eGameEvent> eInvasionEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eInvasionEvent>(branch(), getBoard());
+    const auto c = e::make_shared<eInvasionEvent>(branch());
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->initialize(mCity, mInfantry, mCavalry, mArchers);
     c->setReason(reason);
     return c;
@@ -165,13 +162,15 @@ void eInvasionEvent::setCity(const stdsptr<eWorldCity>& c) {
 void eInvasionEvent::setFirstWarning(const eDate& w) {
     mFirstWarning = w;
     mWarned = true;
-    auto& board = getBoard();
-    board.addInvasion(this);
+    const auto board = gameBoard();
+    if(!board) return;
+    board->addInvasion(this);
 }
 
 int eInvasionEvent::bribeCost() const {
-    auto& board = getBoard();
-    const auto diff = board.difficulty();
+    const auto board = gameBoard();
+    if(!board) return 0;
+    const auto diff = board->difficulty();
     const int rt = eDifficultyHelpers::soliderBribe(
                        diff, eCharacterType::rockThrower);
     const int ht = eDifficultyHelpers::soliderBribe(

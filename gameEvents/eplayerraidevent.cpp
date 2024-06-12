@@ -9,7 +9,7 @@
 
 ePlayerRaidEvent::ePlayerRaidEvent(
         const eGameEventBranch branch,
-        eGameBoard& board) :
+        eGameBoard* const board) :
     ePlayerConquestEventBase(eGameEventType::playerRaidEvent,
                              branch, board) {}
 
@@ -26,7 +26,8 @@ void ePlayerRaidEvent::trigger() {
     removeArmyEvent();
     removeConquestEvent();
     if(!mCity) return;
-    auto& board = getBoard();
+    const auto board = gameBoard();
+    if(!board) return;
 
     const int enemyStr = mCity->strength();
     const int str = mForces.strength();
@@ -45,9 +46,9 @@ void ePlayerRaidEvent::trigger() {
     ed.fCity = mCity;
     const auto rel = mCity->relationship();
     if(rel == eForeignCityRelationship::ally) {
-        auto& worldBoard = board.getWorldBoard();
-        worldBoard.attackedAlly();
-        board.event(eEvent::allyAttackedByPlayer, ed);
+        const auto wboard = worldBoard();
+        wboard->attackedAlly();
+        board->event(eEvent::allyAttackedByPlayer, ed);
     }
     if(raided) {
         eResourceType res = mResource;
@@ -66,15 +67,15 @@ void ePlayerRaidEvent::trigger() {
         }
         const int count = 2*eGiftHelpers::giftCount(res);
         const auto e = e::make_shared<eRaidResourceEvent>(
-                           eGameEventBranch::child, board);
-        const auto boardDate = board.date();
+                           eGameEventBranch::child);
+        const auto boardDate = board->date();
         const int period = 75;
         const auto date = boardDate + period;
         e->initializeDate(date, period, 1);
         e->initialize(true, res, count, mCity);
         addConsequence(e);
     } else {
-        board.event(eEvent::cityRaidFailed, ed);
+        board->event(eEvent::cityRaidFailed, ed);
     }
 
     planArmyReturn();
@@ -95,7 +96,9 @@ void ePlayerRaidEvent::read(eReadStream& src) {
 }
 
 stdsptr<eGameEvent> ePlayerRaidEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<ePlayerRaidEvent>(branch(), getBoard());
+    const auto c = e::make_shared<ePlayerRaidEvent>(branch(), gameBoard());
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->mForces = mForces;
     c->mCity = mCity;
     c->mResource = mResource;

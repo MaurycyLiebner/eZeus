@@ -11,7 +11,8 @@ struct eEnlistedForces {
     std::vector<stdsptr<eWorldCity>> fAllies;
     bool fAres = false;
 
-    void read(eGameBoard& board, eReadStream& src);
+    void read(eGameBoard& board, eWorldBoard& wboard,
+              eReadStream& src);
     void write(eWriteStream& dst) const;
 
     void clear();

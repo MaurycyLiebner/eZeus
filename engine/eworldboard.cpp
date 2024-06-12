@@ -62,6 +62,8 @@ void eWorldBoard::setIOIDs() const {
 }
 
 void eWorldBoard::write(eWriteStream& dst) const {
+    setIOIDs();
+
     dst << mPoseidonMode;
     dst << mMap;
     dst << mCities.size();

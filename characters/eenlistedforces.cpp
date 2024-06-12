@@ -1,7 +1,9 @@
 #include "eenlistedforces.h"
 
 
-void eEnlistedForces::read(eGameBoard& board, eReadStream& src) {
+void eEnlistedForces::read(eGameBoard& board,
+                           eWorldBoard& wboard,
+                           eReadStream& src) {
     {
         int ns;
         src >> ns;
@@ -28,7 +30,7 @@ void eEnlistedForces::read(eGameBoard& board, eReadStream& src) {
             const auto func = [this](const stdsptr<eWorldCity>& c) {
                 fAllies.push_back(c);
             };
-            src.readCity(&board, func);
+            src.readCity(&wboard, func);
         }
     }
 

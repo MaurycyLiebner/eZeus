@@ -5,8 +5,7 @@
 
 class eMilitaryChangeEvent : public eEconomicMilitaryChangeEventBase {
 public:
-    eMilitaryChangeEvent(const eGameEventBranch branch,
-                         eGameBoard& board);
+    eMilitaryChangeEvent(const eGameEventBranch branch);
 
    void trigger() override;
    std::string longName() const override;;

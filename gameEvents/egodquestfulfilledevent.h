@@ -5,8 +5,7 @@
 
 class eGodQuestFulfilledEvent : public eGodQuestEventBase {
 public:
-    eGodQuestFulfilledEvent(const eGameEventBranch branch,
-                            eGameBoard& board);
+    eGodQuestFulfilledEvent(const eGameEventBranch branch);
 
     void trigger() override;
     std::string longName() const override;

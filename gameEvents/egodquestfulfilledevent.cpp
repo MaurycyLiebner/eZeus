@@ -9,21 +9,21 @@
 #include "buildings/eheroshall.h"
 
 eGodQuestFulfilledEvent::eGodQuestFulfilledEvent(
-        const eGameEventBranch branch,
-        eGameBoard& board) :
-    eGodQuestEventBase(eGameEventType::godQuestFulfilled, branch, board) {}
+        const eGameEventBranch branch) :
+    eGodQuestEventBase(eGameEventType::godQuestFulfilled, branch) {}
 
 void eGodQuestFulfilledEvent::trigger() {
+    const auto board = gameBoard();
+    if(!board) return;
     eEventData ed;
     ed.fHero = hero();
     ed.fQuestId = id();
     ed.fGod = god();
-    auto& board = getBoard();
-    board.event(eEvent::godQuestFulfilled, ed);
-    board.allow(eBuildingType::godMonument, static_cast<int>(god()));
-    const auto hh = board.heroHall(hero());
+    board->event(eEvent::godQuestFulfilled, ed);
+    board->allow(eBuildingType::godMonument, static_cast<int>(god()));
+    const auto hh = board->heroHall(hero());
     if(hh) hh->setHeroOnQuest(false);
-    board.removeGodQuest(mainEvent<eGodQuestEvent>());
+    board->removeGodQuest(mainEvent<eGodQuestEvent>());
     const auto me = mainEvent<eGodQuestEvent>();
     me->fulfilled();
 }
@@ -35,7 +35,9 @@ std::string eGodQuestFulfilledEvent::longName() const {
 stdsptr<eGameEvent> eGodQuestFulfilledEvent::makeCopy(
         const std::string& reason) const {
     const auto c = e::make_shared<eGodQuestFulfilledEvent>(
-                       branch(), getBoard());
+                       branch());
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->setReason(reason);
     c->setGod(god());
     c->setId(id());

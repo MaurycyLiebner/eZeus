@@ -249,7 +249,7 @@ public:
     void scheduleAppealMapUpdate();
     void updateAppealMapIfNeeded();
 
-    eWorldBoard& getWorldBoard() { return mWorldBoard; }
+    eWorldBoard* getWorldBoard() { return mWorldBoard; }
 
     void enlistForces(const eEnlistedForces& forces);
     void clearBannerSelection();
@@ -441,6 +441,8 @@ public:
     void scheduleTerrainUpdate() { mUpdateTerrain = true; }
     bool terrainUpdateScheduled() const { return mUpdateTerrain; }
     void afterTerrainUpdated() { mUpdateTerrain = false; }
+
+    void setWorldBoard(eWorldBoard* const wb);
 private:
     void updateNeighbours();
 
@@ -457,7 +459,7 @@ private:
 
     bool mEditorMode = true;
     bool mPoseidonMode = true;
-    eWorldBoard mWorldBoard;
+    eWorldBoard* mWorldBoard = nullptr;
 
     bool mUpdateTerrain = true;
 

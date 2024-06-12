@@ -30,7 +30,7 @@ void eWorldWidget::initialize() {
                                          const eResourceType r) {
             mBoard->enlistForces(forces);
             const auto e = e::make_shared<ePlayerRaidEvent>(
-                               eGameEventBranch::root, *mBoard);
+                               eGameEventBranch::root, mBoard);
             const auto boardDate = mBoard->date();
             const int period = eArmyEventBase::sWaitTime;
             const auto date = boardDate + period;
@@ -54,7 +54,7 @@ void eWorldWidget::initialize() {
             (void)r;
             mBoard->enlistForces(forces);
             const auto e = e::make_shared<ePlayerConquestEvent>(
-                               eGameEventBranch::root, *mBoard);
+                               eGameEventBranch::root, mBoard);
             const auto boardDate = mBoard->date();
             const int period = eArmyEventBase::sWaitTime;
             const auto date = boardDate + period;
@@ -142,7 +142,7 @@ void eWorldWidget::initialize() {
 void eWorldWidget::setBoard(eGameBoard* const board) {
     mBoard = board;
     mWMW->setBoard(board);
-    setWorldBoard(&mBoard->getWorldBoard());
+    setWorldBoard(mBoard->getWorldBoard());
 }
 
 void eWorldWidget::setWorldBoard(eWorldBoard* const board) {
@@ -166,7 +166,7 @@ void eWorldWidget::openRequestDialog() {
     const auto func = [this, d](const eResourceType type) {
         mBoard->request(mCity, type);
         const auto wb = mBoard->getWorldBoard();
-        const auto& cts = wb.cities();
+        const auto& cts = wb->cities();
         for(const auto& ct : cts) {
             ct->incAttitude(-10);
         }

@@ -7,7 +7,7 @@ class ePlayerConquestEventBase : public eArmyEventBase {
 public:
     ePlayerConquestEventBase(const eGameEventType type,
                              const eGameEventBranch branch,
-                             eGameBoard& board);
+                             eGameBoard* const board);
     ~ePlayerConquestEventBase();
 
     void addAres();

@@ -9,7 +9,7 @@
 void eReceiveRequestEventWidget::initialize(eReceiveRequestEvent* const e) {
     const auto cityButtonL = new eLabeledWidget(window());
     const auto cityButton = new eCityButton(window());
-    auto& board = e->getBoard();
+    const auto board = e->worldBoard();
     cityButton->initialize(board, [e](const stdsptr<eWorldCity>& c){
         e->setCity(c);
     });

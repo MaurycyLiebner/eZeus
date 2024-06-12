@@ -5,8 +5,7 @@
 
 class eGodQuestEvent : public eGodQuestEventBase {
 public:
-    eGodQuestEvent(const eGameEventBranch branch,
-                   eGameBoard& board);
+    eGodQuestEvent(const eGameEventBranch branch);
     ~eGodQuestEvent();
 
     void trigger() override;

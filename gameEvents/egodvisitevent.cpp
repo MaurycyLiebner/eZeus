@@ -6,9 +6,8 @@
 #include "characters/actions/egodvisitaction.h"
 #include "elanguage.h"
 
-eGodVisitEvent::eGodVisitEvent(const eGameEventBranch branch,
-                               eGameBoard& board) :
-    eGameEvent(eGameEventType::godVisit, branch, board) {}
+eGodVisitEvent::eGodVisitEvent(const eGameEventBranch branch) :
+    eGameEvent(eGameEventType::godVisit, branch) {}
 
 void eGodVisitEvent::setTypes(const std::vector<eGodType>& types) {
     mTypes = types;
@@ -22,7 +21,8 @@ void eGodVisitEvent::setRandom(const bool r) {
 
 void eGodVisitEvent::trigger() {
     if(mTypes.empty()) return;
-    auto& board = getBoard();
+    const auto board = gameBoard();
+    if(!board) return;
     int tid;
     const int nTypes = mTypes.size();
     if(mRandom) {
@@ -32,7 +32,7 @@ void eGodVisitEvent::trigger() {
         if(++mNextId >= nTypes) mNextId = 0;
     }
     const auto t = mTypes.at(tid);
-    const auto god = eGod::sCreateGod(t, board);
+    const auto god = eGod::sCreateGod(t, *board);
 
     const auto a = e::make_shared<eGodVisitAction>(god.get());
     god->setAction(a);
@@ -42,7 +42,7 @@ void eGodVisitEvent::trigger() {
     ed.fChar = god.get();
     ed.fTile = god->tile();
     ed.fGod = t;
-    board.event(eEvent::godVisit, ed);
+    board->event(eEvent::godVisit, ed);
 }
 
 std::string eGodVisitEvent::longName() const {
@@ -73,7 +73,9 @@ void eGodVisitEvent::read(eReadStream& src) {
 }
 
 stdsptr<eGameEvent> eGodVisitEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eGodVisitEvent>(branch(), getBoard());
+    const auto c = e::make_shared<eGodVisitEvent>(branch());
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->mTypes = mTypes;
     c->mNextId = mNextId;
     c->mRandom = mRandom;

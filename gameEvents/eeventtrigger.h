@@ -7,11 +7,11 @@
 #include "engine/edate.h"
 
 class eGameEvent;
+class eWorldBoard;
 
-class eEventTrigger : public eObject {
+class eEventTrigger : public eStdSelfRef {
 public:
-    eEventTrigger(const std::string& name,
-                  eGameBoard& board);
+    eEventTrigger(const std::string& name);
 
     const std::string& name() const { return mName; }
 
@@ -27,7 +27,16 @@ public:
     const std::vector<stdsptr<eGameEvent>>& events() const
     { return mEvents; }
     int eventCount() const { return mEvents.size(); }
+
+    eGameBoard* gameBoard() const { return mBoard; }
+    eWorldBoard* worldBoard() const { return mWorldBoard; }
+
+    void setGameBoard(eGameBoard* const b);
+    void setWorldBoard(eWorldBoard* const b);
 private:
+    eGameBoard* mBoard = nullptr;
+    eWorldBoard* mWorldBoard = nullptr;
+
     std::string mName;
     std::vector<stdsptr<eGameEvent>> mEvents;
 };

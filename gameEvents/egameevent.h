@@ -10,6 +10,7 @@
 
 class eWriteStream;
 class eReadStream;
+class eWorldBoard;
 
 enum class eGameEventType {
     godVisit,
@@ -44,11 +45,10 @@ enum class eGameEventBranch {
     trigger
 };
 
-class eGameEvent : public eObject {
+class eGameEvent : public eStdSelfRef {
 public:
     eGameEvent(const eGameEventType type,
-               const eGameEventBranch branch,
-               eGameBoard& board);
+               const eGameEventBranch branch);
     ~eGameEvent();
 
     virtual void trigger() = 0;
@@ -62,7 +62,7 @@ public:
 
     static stdsptr<eGameEvent> sCreate(const eGameEventType type,
                                        const eGameEventBranch branch,
-                                       eGameBoard& board);
+                                       eGameBoard* const board);
 
     eGameEventType type() const { return mType; }
 
@@ -131,11 +131,20 @@ public:
     int triggerEventsCount() const;
 
     eGameEvent* parent() const { return mParent; }
+
+    eGameBoard* gameBoard() const { return mBoard; }
+    eWorldBoard* worldBoard() const { return mWorldBoard; }
+
+    void setGameBoard(eGameBoard* const b);
+    void setWorldBoard(eWorldBoard* const b);
 protected:
     void addTrigger(const stdsptr<eEventTrigger>& et);
 private:
     const eGameEventType mType;
     const eGameEventBranch mBranch;
+
+    eGameBoard* mBoard = nullptr;
+    eWorldBoard* mWorldBoard = nullptr;
 
     stdptr<eGameEvent> mParent;
 

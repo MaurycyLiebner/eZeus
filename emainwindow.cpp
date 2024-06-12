@@ -144,6 +144,7 @@ bool eMainWindow::loadGame(const std::string& path) {
     s.read(src);
     const auto board = new eGameBoard();
     board->read(src);
+    src.handlePostFuncs();
     SDL_RWclose(file);
 
     startGameAction(board, s);
@@ -257,12 +258,12 @@ void eMainWindow::showMainMenu() {
         board->setHostileGods(hostileGods);
         board->setHostileMonsters(monsters);
 
-        auto& wb = board->getWorldBoard();
+        const auto wb = board->getWorldBoard();
 
         const auto hc = eWorldCity::sCreateSparta();
         hc->setType(eCityType::parentCity);
         hc->setIsCurrentCity(true);
-        wb.setHomeCity(hc);
+        wb->setHomeCity(hc);
 
         const auto c1 = eWorldCity::sCreateAthens();
         c1->setArmy(3);
@@ -271,7 +272,7 @@ void eMainWindow::showMainMenu() {
         c1->addBuys(eResourceTrade{eResourceType::marble, 0, 12, 120});
         c1->addBuys(eResourceTrade{eResourceType::wood, 0, 12, 80});
         c1->addSells(eResourceTrade{eResourceType::fleece, 0, 12, 60});
-        wb.addCity(c1);
+        wb->addCity(c1);
 
         const auto c2 = eWorldCity::sCreateTroy();
         c2->setArmy(5);
@@ -282,7 +283,7 @@ void eMainWindow::showMainMenu() {
         c2->addBuys(eResourceTrade{eResourceType::wheat, 0, 12, 80});
         c2->addSells(eResourceTrade{eResourceType::sculpture, 0, 12, 200});
         c2->addSells(eResourceTrade{eResourceType::bronze, 0, 12, 80});
-        wb.addCity(c2);
+        wb->addCity(c2);
 
         const auto c3 = eWorldCity::sCreateMtPelion();
         c3->setRelationship(eForeignCityRelationship::ally);
@@ -291,7 +292,7 @@ void eMainWindow::showMainMenu() {
         c3->addBuys(eResourceTrade{eResourceType::wheat, 0, 12, 80});
         c3->addSells(eResourceTrade{eResourceType::sculpture, 0, 12, 200});
         c3->addSells(eResourceTrade{eResourceType::bronze, 0, 12, 80});
-        wb.addCity(c3);
+        wb->addCity(c3);
 
         startGameAction(board, eGameWidgetSettings());
     };

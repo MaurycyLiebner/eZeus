@@ -4,9 +4,8 @@
 #include "elanguage.h"
 #include "estringhelpers.h"
 
-eGiftToEvent::eGiftToEvent(const eGameEventBranch branch,
-                           eGameBoard& board) :
-    eGameEvent(eGameEventType::giftTo, branch, board) {}
+eGiftToEvent::eGiftToEvent(const eGameEventBranch branch) :
+    eGameEvent(eGameEventType::giftTo, branch) {}
 
 void eGiftToEvent::initialize(const stdsptr<eWorldCity>& c,
                               const eResourceType type,
@@ -17,8 +16,9 @@ void eGiftToEvent::initialize(const stdsptr<eWorldCity>& c,
 }
 
 void eGiftToEvent::trigger() {
-    auto& board = getBoard();
-    board.giftToReceived(mCity, mResource, mCount);
+    const auto board = gameBoard();
+    if(!board) return;
+    board->giftToReceived(mCity, mResource, mCount);
 }
 
 std::string eGiftToEvent::longName() const {
@@ -43,13 +43,15 @@ void eGiftToEvent::read(eReadStream& src) {
     eGameEvent::read(src);
     src >> mCount;
     src >> mResource;
-    src.readCity(&getBoard(), [this](const stdsptr<eWorldCity>& c) {
+    src.readCity(worldBoard(), [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
 }
 
 stdsptr<eGameEvent> eGiftToEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eGiftToEvent>(branch(), getBoard());
+    const auto c = e::make_shared<eGiftToEvent>(branch());
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->setReason(reason);
     c->initialize(mCity, mResource, mCount);
     return c;

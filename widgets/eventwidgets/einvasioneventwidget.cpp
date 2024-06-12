@@ -14,7 +14,7 @@ void eInvasionEventWidget::initialize(eInvasionEvent* const e) {
     const auto cityButtonL = new eLabeledWidget(window());
     const auto cc = e->city();
     const auto cityButton = new eCityButton(window());
-    auto& board = e->getBoard();
+    const auto board = e->worldBoard();
     cityButton->initialize(board, [this, e](const stdsptr<eWorldCity>& c){
         e->setCity(c);
         setCity(c.get());

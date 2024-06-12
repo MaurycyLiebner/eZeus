@@ -13,8 +13,7 @@ enum class eInvasionWarningType {
 
 class eInvasionWarningEvent : public eGameEvent {
 public:
-    eInvasionWarningEvent(const eGameEventBranch branch,
-                          eGameBoard& board);
+    eInvasionWarningEvent(const eGameEventBranch branch);
 
     void initialize(const eInvasionWarningType type,
                     const stdsptr<eWorldCity>& city);

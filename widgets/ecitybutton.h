@@ -12,7 +12,7 @@ public:
     using eFramedButton::eFramedButton;
 
     using eCityAction = std::function<void(const stdsptr<eWorldCity>&)>;
-    void initialize(eGameBoard& board, const eCityAction& cact);
+    void initialize(eWorldBoard* const board, const eCityAction& cact);
 
     const stdsptr<eWorldCity>& city() const { return mCity; }
     void setCity(const stdsptr<eWorldCity>& c);

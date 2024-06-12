@@ -6,9 +6,10 @@
 ePlayerConquestEventBase::ePlayerConquestEventBase(
         const eGameEventType type,
         const eGameEventBranch branch,
-        eGameBoard& board) :
+        eGameBoard* const board) :
     eArmyEventBase(type, branch, board) {
-    board.addConquest(this);
+    setGameBoard(board);
+    board->addConquest(this);
 }
 
 ePlayerConquestEventBase::~ePlayerConquestEventBase() {
@@ -20,15 +21,17 @@ void ePlayerConquestEventBase::addAres() {
 }
 
 void ePlayerConquestEventBase::removeConquestEvent() {
-    auto& board = getBoard();
-    board.removeConquest(this);
+    const auto board = gameBoard();
+    if(!board) return;
+    board->removeConquest(this);
 }
 
 void ePlayerConquestEventBase::planArmyReturn() {
-    auto& board = getBoard();
+    const auto board = gameBoard();
+    if(!board) return;
     const auto e = e::make_shared<eArmyReturnEvent>(
                        eGameEventBranch::child, board);
-    const auto boardDate = board.date();
+    const auto boardDate = board->date();
     const int period = eArmyEventBase::sWaitTime;
     const auto date = boardDate + period;
     e->initializeDate(date, period, 1);

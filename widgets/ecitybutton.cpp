@@ -5,13 +5,11 @@
 #include "engine/egameboard.h"
 #include "elanguage.h"
 
-void eCityButton::initialize(eGameBoard& board,
+void eCityButton::initialize(eWorldBoard* const board,
                              const eCityAction& cact) {
     setUnderline(false);
-    const auto boardPtr = &board;
-    setPressAction([this, boardPtr, cact]() {
-        auto& world = boardPtr->getWorldBoard();
-        const auto& cities = world.cities();
+    setPressAction([this, board, cact]() {
+        const auto& cities = board->cities();
         std::vector<std::string> cityNames;
         for(const auto& c : cities) {
             cityNames.push_back(c->name());

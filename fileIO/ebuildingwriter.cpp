@@ -6,7 +6,7 @@
 void eBuildingWriter::sWrite(const eBuilding* const b,
                              eWriteStream& dst) {
     auto& board = b->getBoard();
-    const auto& wrld = board.getWorldBoard();
+    const auto wrld = board.getWorldBoard();
     const auto type = b->type();
     switch(type) {
     case eBuildingType::road: {
@@ -88,7 +88,7 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
         const auto tpt = tp->tpType();
         dst << tpt;
         dst << tp->orientation();
-        dst << wrld.cityId(tp->city());
+        dst << wrld->cityId(tp->city());
 
         if(tpt == eTradePostType::pier) {
             const auto ub = tp->unpackBuilding();

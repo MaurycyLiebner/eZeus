@@ -329,7 +329,7 @@ bool buildVendor(eGameBoard& brd, const int tx, const int ty,
 }
 
 bool eGameWidget::buildMouseRelease() {
-    const auto& wrld = mBoard->getWorldBoard();
+    const auto wrld = mBoard->getWorldBoard();
     std::function<void(eTile* const)> apply;
     if(mTem->visible()) {
         const auto mode = mTem->mode();
@@ -979,7 +979,7 @@ bool eGameWidget::buildMouseRelease() {
                 } break;
                 }
                 const int ctid = mGm->cityId();
-                const auto& cts = wrld.cities();
+                const auto& cts = wrld->cities();
                 const auto ct = cts[ctid];
                 const auto tp = e::make_shared<eTradePost>(
                                     *mBoard, *ct, eTradePostType::pier);
@@ -1095,10 +1095,10 @@ bool eGameWidget::buildMouseRelease() {
 
         case eBuildingMode::tradePost: {
             const int ctid = mGm->cityId();
-            const auto cts = wrld.cities();
+            const auto cts = wrld->cities();
             const auto ct = cts[ctid];
             build(mHoverTX, mHoverTY, 4, 4,
-                  [this, wrld, ct]() {
+                  [this, ct]() {
                 const auto tp = e::make_shared<eTradePost>(*mBoard, *ct);
                 return tp;
             });

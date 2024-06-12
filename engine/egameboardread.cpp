@@ -210,14 +210,10 @@ void eGameBoard::read(eReadStream& src) {
         eGameEventType type;
         src >> type;
         const auto branch = eGameEventBranch::root;
-        const auto e = eGameEvent::sCreate(type, branch, *this);
+        const auto e = eGameEvent::sCreate(type, branch, this);
         e->read(src);
-        mGameEvents.push_back(e);
+        addRootGameEvent(e);
     }
 
     mAvailableBuildings.read(src);
-
-    mWorldBoard.read(src);
-
-    src.handlePostFuncs();
 }

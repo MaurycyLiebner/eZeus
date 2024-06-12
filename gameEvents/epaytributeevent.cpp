@@ -4,9 +4,8 @@
 #include "elanguage.h"
 #include "estringhelpers.h"
 
-ePayTributeEvent::ePayTributeEvent(const eGameEventBranch branch,
-                                   eGameBoard& board) :
-    eGameEvent(eGameEventType::payTribute, branch, board) {}
+ePayTributeEvent::ePayTributeEvent(const eGameEventBranch branch) :
+    eGameEvent(eGameEventType::payTribute, branch) {}
 
 void ePayTributeEvent::initialize(const stdsptr<eWorldCity>& c) {
     mCity = c;
@@ -14,8 +13,9 @@ void ePayTributeEvent::initialize(const stdsptr<eWorldCity>& c) {
 
 void ePayTributeEvent::trigger() {
     if(!mCity) return;
-    auto& board = getBoard();
-    board.tributeFrom(mCity, false);
+    const auto board = gameBoard();
+    if(!board) return;
+    board->tributeFrom(mCity, false);
 }
 
 std::string ePayTributeEvent::longName() const {
@@ -33,14 +33,16 @@ void ePayTributeEvent::write(eWriteStream& dst) const {
 
 void ePayTributeEvent::read(eReadStream& src) {
     eGameEvent::read(src);
-    src.readCity(&getBoard(), [this](const stdsptr<eWorldCity>& c) {
+    src.readCity(worldBoard(), [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
 }
 
 stdsptr<eGameEvent> ePayTributeEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<ePayTributeEvent>(branch(), getBoard());
+    const auto c = e::make_shared<ePayTributeEvent>(branch());
     c->setReason(reason);
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->initialize(mCity);
     return c;
 }

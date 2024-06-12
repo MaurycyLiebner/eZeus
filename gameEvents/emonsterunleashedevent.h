@@ -5,8 +5,7 @@
 
 class eMonsterUnleashedEvent : public eMonsterInvasionEventBase {
 public:
-    eMonsterUnleashedEvent(const eGameEventBranch branch,
-                           eGameBoard& board);
+    eMonsterUnleashedEvent(const eGameEventBranch branch);
 
     void trigger() override;
     std::string longName() const override;

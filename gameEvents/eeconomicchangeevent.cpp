@@ -5,10 +5,9 @@
 #include "engine/eevent.h"
 #include "elanguage.h"
 
-eEconomicChangeEvent::eEconomicChangeEvent(
-        const eGameEventBranch branch, eGameBoard& board) :
+eEconomicChangeEvent::eEconomicChangeEvent(const eGameEventBranch branch) :
     eEconomicMilitaryChangeEventBase(
-        eGameEventType::economicChange, branch, board) {}
+        eGameEventType::economicChange, branch) {}
 
 void eEconomicChangeEvent::trigger() {
     const auto city = this->city();
@@ -17,11 +16,12 @@ void eEconomicChangeEvent::trigger() {
     int w = city->wealth();
     w = std::clamp(w + by, 1, 5);
     city->setWealth(w);
-    auto& board = getBoard();
+    const auto board = gameBoard();
+    if(!board) return;
     eEventData ed;
     ed.fCity = city;
-    if(by > 0) board.event(eEvent::economicProsperity, ed);
-    else board.event(eEvent::economicDecline, ed);
+    if(by > 0) board->event(eEvent::economicProsperity, ed);
+    else board->event(eEvent::economicDecline, ed);
 }
 
 std::string eEconomicChangeEvent::longName() const {
@@ -29,7 +29,9 @@ std::string eEconomicChangeEvent::longName() const {
 }
 
 stdsptr<eGameEvent> eEconomicChangeEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eEconomicChangeEvent>(branch(), getBoard());
+    const auto c = e::make_shared<eEconomicChangeEvent>(branch());
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->setBy(by());
     c->setCity(city());
     c->setReason(reason);

@@ -16,11 +16,13 @@ void eCampaign::initialize(const std::string& title) {
 
     mParentBoard = std::make_shared<eGameBoard>();
     mParentBoard->initialize(100, 100);
+    mParentBoard->setWorldBoard(&mWorldBoard);
 
     for(int i = 0; i < 4; i++) {
         auto& board = mColonyBoards.emplace_back();
         board = std::make_shared<eGameBoard>();
         board->initialize(100, 100);
+        board->setWorldBoard(&mWorldBoard);
     }
 
     addParentCityEpisode();
@@ -55,7 +57,7 @@ bool eCampaign::sLoadStrings(const std::string& path, eMap& map) {
             valueStart += 1;
         }
         bool foundEnd = true;
-        auto valueEnd = line.find('"', valueStart + 1);
+        auto valueEnd = line.find('"', valueStart);
         if(valueEnd == std::string::npos) {
             valueEnd = line.size();
             foundEnd = false;
@@ -186,6 +188,7 @@ void eCampaign::read(eReadStream& src) {
     mStartDate.read(src);
     mWorldBoard.read(src);
     mParentBoard = std::make_shared<eGameBoard>();
+    mParentBoard->setWorldBoard(&mWorldBoard);
     mParentBoard->read(src);
     {
         int nc;
@@ -193,6 +196,7 @@ void eCampaign::read(eReadStream& src) {
         for(int i = 0; i < nc; i++) {
             auto& b = mColonyBoards.emplace_back();
             b = std::make_shared<eGameBoard>();
+            b->setWorldBoard(&mWorldBoard);
             b->read(src);
         }
     }

@@ -8,9 +8,8 @@
 #include "engine/eeventdata.h"
 #include "einvasionevent.h"
 
-eInvasionWarningEvent::eInvasionWarningEvent(
-        const eGameEventBranch branch, eGameBoard& board) :
-    eGameEvent(eGameEventType::invasionWarning, branch, board) {}
+eInvasionWarningEvent::eInvasionWarningEvent(const eGameEventBranch branch) :
+    eGameEvent(eGameEventType::invasionWarning, branch) {}
 
 void eInvasionWarningEvent::initialize(
         const eInvasionWarningType type,
@@ -20,24 +19,25 @@ void eInvasionWarningEvent::initialize(
 }
 
 void eInvasionWarningEvent::trigger() {
-    auto& board = getBoard();
+    const auto board = gameBoard();
+    if(!board) return;
     eEventData ed;
     ed.fCity = mCity;
     switch(mType) {
     case eInvasionWarningType::warning36: {
-        board.event(eEvent::invasion36, ed);
+        board->event(eEvent::invasion36, ed);
     } break;
     case eInvasionWarningType::warning24: {
-        board.event(eEvent::invasion24, ed);
+        board->event(eEvent::invasion24, ed);
     } break;
     case eInvasionWarningType::warning12: {
-        board.event(eEvent::invasion12, ed);
+        board->event(eEvent::invasion12, ed);
     } break;
     case eInvasionWarningType::warning6: {
-        board.event(eEvent::invasion6, ed);
+        board->event(eEvent::invasion6, ed);
     } break;
     case eInvasionWarningType::warning1: {
-        board.event(eEvent::invasion1, ed);
+        board->event(eEvent::invasion1, ed);
     } break;
     }
 
@@ -66,7 +66,7 @@ void eInvasionWarningEvent::write(eWriteStream& dst) const {
 void eInvasionWarningEvent::read(eReadStream& src) {
     eGameEvent::read(src);
     src >> mType;
-    src.readCity(&getBoard(), [this](const stdsptr<eWorldCity>& c) {
+    src.readCity(worldBoard(), [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
 }
@@ -74,8 +74,10 @@ void eInvasionWarningEvent::read(eReadStream& src) {
 stdsptr<eGameEvent> eInvasionWarningEvent::makeCopy(
         const std::string& reason) const {
     const auto c = e::make_shared<eInvasionWarningEvent>(
-                       branch(), getBoard());
+                       branch());
     c->setReason(reason);
+    c->setGameBoard(gameBoard());
+    c->setWorldBoard(worldBoard());
     c->mType = mType;
     c->mCity = mCity;
     return c;

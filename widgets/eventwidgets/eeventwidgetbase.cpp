@@ -140,7 +140,7 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
             const auto act = [this, e](const int id) {
                 const auto& ts = e->triggers();
                 const auto& t = ts[id];
-                const auto boardPtr = &e->getBoard();
+                const auto boardPtr = e->gameBoard();
 
                 const auto choose = new eEventSelectionWidget(
                                         eGameEventBranch::trigger,

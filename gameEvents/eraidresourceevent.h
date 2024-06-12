@@ -5,8 +5,7 @@
 
 class eRaidResourceEvent : public eResourceGrantedEventBase {
 public:
-    eRaidResourceEvent(const eGameEventBranch branch,
-                       eGameBoard& board);
+    eRaidResourceEvent(const eGameEventBranch branch);
 
     std::string longName() const override;
 
