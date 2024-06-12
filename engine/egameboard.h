@@ -444,6 +444,11 @@ public:
     void afterTerrainUpdated() { mUpdateTerrain = false; }
 
     void setWorldBoard(eWorldBoard* const wb);
+
+    const std::vector<eGodQuest>& fulfilledQuests() const
+    { return mFulfilledQuests; }
+    const std::vector<eMonsterType>& slayedMonsters() const
+    { return mSlayedMonsters; }
 private:
     void updateNeighbours();
 
@@ -602,6 +607,9 @@ private:
     std::vector<eCharacter*> mAttackingGods;
 
     std::vector<stdsptr<ePlague>> mPlagues;
+
+    std::vector<eGodQuest> mFulfilledQuests;
+    std::vector<eMonsterType> mSlayedMonsters;
 };
 
 #endif // EGAMEBOARD_H

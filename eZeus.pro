@@ -482,6 +482,8 @@ SOURCES += \
         widgets/eeditormainmenu.cpp \
         widgets/eeditorsettingsmenu.cpp \
         widgets/eenlistforcesdialog.cpp \
+        widgets/eepisodegoalselectionwidget.cpp \
+        widgets/eepisodegoalwidget.cpp \
         widgets/eepisodeswidget.cpp \
         widgets/eeventbackground.cpp \
         widgets/eeventselectionwidget.cpp \
@@ -2330,6 +2332,8 @@ HEADERS += \
     widgets/eeditormainmenu.h \
     widgets/eeditorsettingsmenu.h \
     widgets/eenlistforcesdialog.h \
+    widgets/eepisodegoalselectionwidget.h \
+    widgets/eepisodegoalwidget.h \
     widgets/eepisodeswidget.h \
     widgets/eeventbackground.h \
     widgets/eeventselectionwidget.h \

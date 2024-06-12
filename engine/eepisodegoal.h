@@ -18,17 +18,18 @@ enum class eEpisodeGoalType {
 
 struct eEpisodeGoal {
     eEpisodeGoalType fType;
-    int fEnumInt1;
-    int fEnumInt2;
-    int fRequiredCount;
+    int fEnumInt1 = 0;
+    int fEnumInt2 = 0;
+    int fRequiredCount = 0;
     int fStatusCount = 0;
     stdsptr<eWorldCity> fCity;
 
-    void read(eReadStream& src);
+    void read(eWorldBoard* const board, eReadStream& src);
     void write(eWriteStream& dst) const;
 
     bool met() const;
 
+    static std::string sText(const eEpisodeGoalType type);
     std::string text(const bool colonyEpisode,
                      const bool atlantean) const;
 

@@ -49,7 +49,7 @@ struct eEpisode {
             src >> ng;
             for(int i = 0; i < ng; i++) {
                 const auto g = std::make_shared<eEpisodeGoal>();
-                g->read(src);
+                g->read(fWorldBoard, src);
                 fGoals.push_back(g);
             }
         }

@@ -9,12 +9,16 @@
 #include "buildings/eelitehousing.h"
 #include "engine/egameboard.h"
 
-void eEpisodeGoal::read(eReadStream& src) {
+void eEpisodeGoal::read(eWorldBoard* const board,
+                        eReadStream& src) {
     src >> fType;
     src >> fEnumInt1;
     src >> fEnumInt2;
     src >> fRequiredCount;
     src >> fStatusCount;
+    src.readCity(board, [this](const stdsptr<eWorldCity>& c) {
+        fCity = c;
+    });
 }
 
 void eEpisodeGoal::write(eWriteStream& dst) const {
@@ -23,10 +27,34 @@ void eEpisodeGoal::write(eWriteStream& dst) const {
     dst << fEnumInt2;
     dst << fRequiredCount;
     dst << fStatusCount;
+    dst.writeCity(fCity.get());
 }
 
 bool eEpisodeGoal::met() const {
     return fStatusCount >= fRequiredCount;
+}
+
+std::string eEpisodeGoal::sText(const eEpisodeGoalType type) {
+    switch(type) {
+    case eEpisodeGoalType::population:
+        return eLanguage::zeusText(194, 0);
+    case eEpisodeGoalType::treasury:
+        return eLanguage::zeusText(194, 1);
+    case eEpisodeGoalType::sanctuary:
+        return eLanguage::zeusText(194, 2);
+    case eEpisodeGoalType::support:
+        return eLanguage::zeusText(194, 3);
+    case eEpisodeGoalType::quest:
+        return eLanguage::zeusText(194, 4);
+    case eEpisodeGoalType::slay:
+        return eLanguage::zeusText(194, 5);
+    case eEpisodeGoalType::rule:
+        return eLanguage::zeusText(194, 7);
+    case eEpisodeGoalType::housing:
+        return eLanguage::zeusText(194, 9);
+    case eEpisodeGoalType::setAsideGoods:
+        return eLanguage::zeusText(194, 14);
+    }
 }
 
 std::string eEpisodeGoal::text(const bool colonyEpisode,
@@ -52,37 +80,7 @@ std::string eEpisodeGoal::text(const bool colonyEpisode,
         auto t = eLanguage::zeusText(194, 24);
         const auto type = static_cast<eBannerType>(fEnumInt1);
         eStringHelpers::replace(t, "[amount]", std::to_string(fRequiredCount));
-        std::string name;
-        if(atlantean) {
-            switch(type) {
-            case eBannerType::hoplite:
-                name = eLanguage::zeusText(138, 79);
-                break;
-            case eBannerType::rockThrower:
-                name = eLanguage::zeusText(138, 77);
-                break;
-            case eBannerType::horseman:
-                name = eLanguage::zeusText(138, 80);
-                break;
-            default:
-                break;
-            }
-        } else {
-            switch(type) {
-            case eBannerType::hoplite:
-                name = eLanguage::zeusText(138, 72);
-                break;
-            case eBannerType::rockThrower:
-                name = eLanguage::zeusText(138, 74);
-                break;
-            case eBannerType::horseman:
-                name = eLanguage::zeusText(138, 71);
-                break;
-            default:
-                break;
-            }
-        }
-
+        const auto name = eSoldierBanner::sName(type, atlantean);
         eStringHelpers::replace(t, "[military_or_better]", name);
         return t;
     } break;
@@ -102,13 +100,14 @@ std::string eEpisodeGoal::text(const bool colonyEpisode,
         auto t = eLanguage::zeusText(194, 33);
         eStringHelpers::replace(t, "[amount]", std::to_string(fRequiredCount));
         std::string level;
-        const auto type = static_cast<eBuildingType>(fEnumInt1);
+        const auto type = fEnumInt1 == 0 ? eBuildingType::commonHouse :
+                                           eBuildingType::eliteHousing;
         switch(type) {
         case eBuildingType::commonHouse:
-            eSmallHouse::sName(fEnumInt2);
+            level = eSmallHouse::sName(fEnumInt2);
             break;
         case eBuildingType::eliteHousing:
-            eEliteHousing::sName(fEnumInt2);
+            level = eEliteHousing::sName(fEnumInt2);
             break;
         default:
             break;
@@ -127,6 +126,7 @@ std::string eEpisodeGoal::text(const bool colonyEpisode,
         return t;
     } break;
     }
+    return "";
 }
 
 void eEpisodeGoal::update(eGameBoard* const b) {
@@ -147,10 +147,10 @@ void eEpisodeGoal::update(eGameBoard* const b) {
         fStatusCount = b->countSoldiers(type);
     } break;
     case eEpisodeGoalType::quest: {
-
+        fStatusCount = b->fulfilledQuests().size();
     } break;
     case eEpisodeGoalType::slay: {
-
+        fStatusCount = b->slayedMonsters().size();
     } break;
     case eEpisodeGoalType::rule: {
         fStatusCount = fCity->isVassal() ? 1 : 0;

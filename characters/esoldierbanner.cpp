@@ -374,6 +374,41 @@ void eSoldierBanner::sPlace(std::vector<eSoldierBanner*> bs,
     }
 }
 
+std::string eSoldierBanner::sName(
+        const eBannerType type,
+        const bool atlantean) {
+    if(atlantean) {
+        switch(type) {
+        case eBannerType::hoplite:
+            return eLanguage::zeusText(138, 79);
+            break;
+        case eBannerType::rockThrower:
+            return eLanguage::zeusText(138, 77);
+            break;
+        case eBannerType::horseman:
+            return eLanguage::zeusText(138, 80);
+            break;
+        default:
+            break;
+        }
+    } else {
+        switch(type) {
+        case eBannerType::hoplite:
+            return eLanguage::zeusText(138, 72);
+            break;
+        case eBannerType::rockThrower:
+            return eLanguage::zeusText(138, 74);
+            break;
+        case eBannerType::horseman:
+            return eLanguage::zeusText(138, 71);
+            break;
+        default:
+            break;
+        }
+    }
+    return "";
+}
+
 void eSoldierBanner::updatePlaces() {
     const auto soldiers = notDead();
     if(soldiers.empty()) return;

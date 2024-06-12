@@ -177,11 +177,11 @@ public:
         settingsW->fitHeight();
         settingsB->align(eAlignment::hcenter);
         addWidget(settingsW);
-        settingsB->setPressAction([this, e]() {
+        settingsB->setPressAction([this, c, e]() {
             const auto w = window();
             const auto m = new eEditorSettingsMenu(w);
             m->resize(w->width()/2, 2*w->height()/3);
-            m->initialize(e.get());
+            m->initialize(e.get(), &c->worldBoard());
 
             window()->execDialog(m);
             m->align(eAlignment::center);

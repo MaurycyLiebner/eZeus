@@ -10,13 +10,15 @@
 #include "emainwindow.h"
 
 #include "widgets/eeventselectionwidget.h"
+#include "widgets/eepisodegoalselectionwidget.h"
 #include "gameEvents/egameevent.h"
 #include "widgets/echeckablebutton.h"
 
 #include "engine/ecampaign.h"
 #include "evectorhelpers.h"
 
-void eEditorSettingsMenu::initialize(eEpisode* const ep) {
+void eEditorSettingsMenu::initialize(eEpisode* const ep,
+                                     eWorldBoard* const board) {
     setType(eFrameType::message);
 
     const auto mythologyAct = [this, ep]() {
@@ -132,8 +134,24 @@ void eEditorSettingsMenu::initialize(eEpisode* const ep) {
     addWidget(eventsButt);
     eventsButt->align(eAlignment::hcenter);
 
-    const auto goalsAct = []() {
+    const auto goalsAct = [this, ep, board]() {
+        const auto choose = new eEpisodeGoalSelectionWidget(
+                                window());
 
+        choose->resize(width(), height());
+        const auto get = [ep]() {
+            return ep->fGoals;
+        };
+        const auto add = [ep](const stdsptr<eEpisodeGoal>& e) {
+            ep->fGoals.push_back(e);
+        };
+        const auto remove = [ep](const stdsptr<eEpisodeGoal>& e) {
+            eVectorHelpers::remove(ep->fGoals, e);
+        };
+        choose->initialize(get, add, remove, board);
+
+        window()->execDialog(choose);
+        choose->align(eAlignment::center);
     };
 
     const auto goalsButt = new eFramedButton(window());
