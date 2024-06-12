@@ -36,15 +36,20 @@ eBanner* eBanner::sCreate(const int id,
     switch(type) {
     case eBannerTypeS::boar:
         b = std::make_shared<eBoarSpawner>(id, tile, board);
+        break;
     case eBannerTypeS::deer:
         b = std::make_shared<eDeerSpawner>(id, tile, board);
+        break;
     case eBannerTypeS::landInvasion:
         b = std::make_shared<eLandInvasionPoint>(id, tile, board);
+        break;
     case eBannerTypeS::entryPoint:
         b = std::make_shared<eEntryPoint>(id, tile, board);
+        break;
     case eBannerTypeS::exitPoint:
         b = std::make_shared<eExitPoint>(id, tile, board);
+        break;
     }
     tile->setBanner(b);
-    return nullptr;
+    return b.get();
 }

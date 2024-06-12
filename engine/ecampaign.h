@@ -189,7 +189,9 @@ public:
     bool load(const std::string& name);
     bool save() const;
 
-    void startEpisode(const eEpisodeType type, const int cid = -1);
+    eEpisode* currentEpisode();
+    void startEpisode(const int cid = -1);
+    void episodeFinished();
 
     bool atlantean() const { return mAtlantean; }
     void setAtlantean(const bool a);
@@ -214,6 +216,14 @@ public:
     const std::string& titleText() const { return mTitle; }
     const std::string& introductionText() const { return mIntroduction; }
     const std::string& completeText() const { return mComplete; }
+
+    eEpisodeType currentEpisodeType() const
+    { return mCurrentEpisodeType; }
+
+    void setDifficulty(const eDifficulty d);
+    eDifficulty difficulty() const { return mDifficulty; }
+
+    void setEditorMode(const bool e);
 private:
     int mBitmap = 0;
     std::string mTitle;
@@ -222,11 +232,14 @@ private:
 
     bool mAtlantean = true;
 
-    int mCurrentEpisode = 0;
+    int mCurrentParentEpisode = 0;
+    eEpisodeType mCurrentEpisodeType = eEpisodeType::parentCity;
 
     int mInitialFunds = 5000;
 
-    eDate mStartDate;
+    eDate mStartDate = eDate(1, eMonth::january, -1500);
+
+    eDifficulty mDifficulty{eDifficulty::hero};
 
     eWorldBoard mWorldBoard;
     stdsptr<eGameBoard> mParentBoard;

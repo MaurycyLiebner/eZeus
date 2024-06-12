@@ -119,7 +119,8 @@ void eWorldMenu::initialize(const eAction& openRequest,
         wgw->setPressAction([this](){
             const bool editor = mBoard && mBoard->editorMode();
             if(editor) return;
-            window()->showGame(nullptr, eGameWidgetSettings());
+            window()->showGame(static_cast<eGameBoard*>(nullptr),
+                               eGameWidgetSettings());
         });
         const int wgwx = 20*mult;
         const int wgwy = 285*mult;

@@ -114,6 +114,14 @@ void eMainWindow::startGameAction(eGameBoard* const board,
     startGameAction(show);
 }
 
+void eMainWindow::startGameAction(const stdsptr<eCampaign>& c,
+                                  const eGameWidgetSettings& settings) {
+    const auto show = [this, c, settings]() {
+        showGame(c, settings);
+    };
+    startGameAction(show);
+}
+
 void eMainWindow::startGameAction(const eAction& a) {
     const auto l = new eGameLoadingWidget(this);
     l->resize(width(), height());
@@ -131,7 +139,7 @@ bool eMainWindow::saveGame(const std::string& path) {
     eWriteStream dst(file);
     const auto s = mGW->settings();
     s.write(dst);
-    mBoard->write(dst);
+    mCampaign->write(dst);
     SDL_RWclose(file);
     return true;
 }
@@ -142,12 +150,12 @@ bool eMainWindow::loadGame(const std::string& path) {
     eReadStream src(file);
     eGameWidgetSettings s;
     s.read(src);
-    const auto board = new eGameBoard();
-    board->read(src);
+    const auto c = std::make_shared<eCampaign>();
+    c->read(src);
     src.handlePostFuncs();
     SDL_RWclose(file);
 
-    startGameAction(board, s);
+    startGameAction(c, s);
     return true;
 }
 
@@ -376,20 +384,11 @@ void eMainWindow::showChooseGameEditMenu() {
 #include "characters/egreekhoplite.h"
 #include "characters/esoldierbanner.h"
 #include "characters/actions/esoldieraction.h"
-void eMainWindow::showGame(eGameBoard* board,
+void eMainWindow::showGame(const stdsptr<eCampaign>& c,
                            const eGameWidgetSettings& settings) {
-    if(!board) board = mBoard;
-
-    if(mBoard == board && mGW) {
-        return setWidget(mGW);
-    }
-
-    if(mGW) {
-        mGW->deleteLater();
-        mGW = nullptr;
-    }
-
-    mBoard = board;
+    mCampaign = c;
+    const auto e = c->currentEpisode();
+    showGame(e->fBoard, settings);
 
 //    const auto spawnHoplite = [&](const int x, const int y,
 //                                  const int pid) {
@@ -442,21 +441,36 @@ void eMainWindow::showGame(eGameBoard* board,
 //        }
 //    }
 
+//    board->planInvasion(board->date() + 37*31, 10, 10, 10);
+}
+
+void eMainWindow::showGame(eGameBoard* b,
+                           const eGameWidgetSettings& settings) {
+    if(!b) b = mBoard;
+
+    if(b == mBoard && mGW) {
+        return setWidget(mGW);
+    }
+
+    if(mGW) {
+        mGW->deleteLater();
+        mGW = nullptr;
+    }
+
+    mBoard = b;
+
     eMusic::playRandomMusic();
     mGW = new eGameWidget(this);
-    mGW->setBoard(mBoard);
+    mGW->setBoard(b);
     mGW->resize(width(), height());
     mGW->initialize();
     mGW->setSettings(settings);
-
-//    board->planInvasion(board->date() + 37*31, 10, 10, 10);
-
     setWidget(mGW);
 }
 
 void eMainWindow::showWorld() {
     if(mWidget == mWW) return;
-    if(!mBoard) return;
+    if(!mCampaign) return;
     if(!mWW) {
         mWW = new eWorldWidget(this);
         mWW->resize(width(), height());

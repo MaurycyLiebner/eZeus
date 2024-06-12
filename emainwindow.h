@@ -14,6 +14,7 @@ using eSlot = std::function<void()>;
 class eGameBoard;
 class eGameWidget;
 class eWorldWidget;
+class eCampaign;
 
 struct eGameWidgetSettings;
 
@@ -42,6 +43,8 @@ public:
 
     void startGameAction(eGameBoard* const board,
                          const eGameWidgetSettings& settings);
+    void startGameAction(const stdsptr<eCampaign>& c,
+                         const eGameWidgetSettings& settings);
     void startGameAction(const eAction& a);
 
     bool saveGame(const std::string& path);
@@ -53,7 +56,9 @@ public:
     void showSettingsMenu();
     void showChooseGameMenu();
     void showChooseGameEditMenu();
-    void showGame(eGameBoard* board,
+    void showGame(const stdsptr<eCampaign>& c,
+                  const eGameWidgetSettings& settings);
+    void showGame(eGameBoard* b,
                   const eGameWidgetSettings& settings);
     void showWorld();
 
@@ -72,6 +77,7 @@ private:
 
     int mShiftPressed = 0;
 
+    stdsptr<eCampaign> mCampaign;
     eGameBoard* mBoard = nullptr;
     eGameWidget* mGW = nullptr;
     eWorldWidget* mWW = nullptr;

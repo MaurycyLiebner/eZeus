@@ -215,6 +215,7 @@ public:
     std::shared_ptr<eTexture> fLoadImage11;
     std::shared_ptr<eTexture> fLoadImage12;
     std::shared_ptr<eTexture> fMainMenuImage;
+    std::shared_ptr<eTexture> fIntroductionImage;
 
     eTextureCollection fCheckBox;
     eTextureCollection fLargeCheckBox;

@@ -56,6 +56,11 @@ void eTextScroller::setTinyTextFontSize() {
     mScrollTextLabel->setTinyFontSize();
 }
 
+void eTextScroller::setSmallTextFontSize() {
+    mTextLabel->setSmallFontSize();
+    mScrollTextLabel->setSmallFontSize();
+}
+
 void eTextScroller::setTinyTextPadding() {
     mTextLabel->setTinyPadding();
 }

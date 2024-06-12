@@ -188,6 +188,7 @@ public:
     void payTaxes(const int d, const int people);
     void incDrachmas(const int d);
     int drachmas() const { return mDrachmas; }
+    void setDifficulty(const eDifficulty d) { mDifficulty = d; }
     eDifficulty difficulty() const { return mDifficulty; }
     const eDate& date() const { return mDate; }
     void setDate(const eDate& d);
@@ -463,7 +464,7 @@ private:
     void handleGamesBegin(const eGames game);
     void handleGamesEnd(const eGames game);
 
-    bool mEditorMode = true;
+    bool mEditorMode = false;
     bool mPoseidonMode = true;
     eWorldBoard* mWorldBoard = nullptr;
 

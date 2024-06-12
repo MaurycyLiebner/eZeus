@@ -321,7 +321,8 @@ void eWorldWidget::openEnlistForcesDialog(
 bool eWorldWidget::keyPressEvent(const eKeyPressEvent& e) {
     const auto k = e.key();
     if(k == SDL_SCANCODE_ESCAPE) {
-        window()->showGame(nullptr, eGameWidgetSettings());
+        window()->showGame(static_cast<eGameBoard*>(nullptr),
+                           eGameWidgetSettings());
     }
     return true;
 }

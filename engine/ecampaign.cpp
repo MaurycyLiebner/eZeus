@@ -189,8 +189,11 @@ bool eCampaign::sReadGlossary(const std::string& name,
 void eCampaign::read(eReadStream& src) {
     src >> mBitmap;
     src >> mAtlantean;
+    src >> mCurrentParentEpisode;
+    src >> mCurrentEpisodeType;
     src >> mInitialFunds;
     mStartDate.read(src);
+    src >> mDifficulty;
     mWorldBoard.read(src);
     mParentBoard = std::make_shared<eGameBoard>();
     mParentBoard->setWorldBoard(&mWorldBoard);
@@ -244,8 +247,11 @@ void eCampaign::read(eReadStream& src) {
 void eCampaign::write(eWriteStream& dst) const {
     dst << mBitmap;
     dst << mAtlantean;
+    dst << mCurrentParentEpisode;
+    dst << mCurrentEpisodeType;
     dst << mInitialFunds;
     mStartDate.write(dst);
+    dst << mDifficulty;
     mWorldBoard.write(dst);
     mParentBoard->write(dst);
 
@@ -274,8 +280,6 @@ bool eCampaign::load(const std::string& name) {
     mTitle = name;
     const auto baseDir = "../Adventures/";
     const auto aDir = baseDir + mTitle + "/";
-    const auto txtFile = aDir + mTitle + ".txt";
-    loadStrings();
 
     const auto pakFile = aDir + mTitle + ".epak";
     const auto file = SDL_RWFromFile(pakFile.c_str(), "r+b");
@@ -283,6 +287,9 @@ bool eCampaign::load(const std::string& name) {
     eReadStream src(file);
     read(src);
     SDL_RWclose(file);
+
+    const auto txtFile = aDir + mTitle + ".txt";
+    loadStrings();
     return true;
 }
 
@@ -302,13 +309,37 @@ bool eCampaign::save() const {
     return true;
 }
 
-void eCampaign::startEpisode(const eEpisodeType type, const int cid) {
-    if(type == eEpisodeType::colony) {
+eEpisode* eCampaign::currentEpisode() {
+    if(mCurrentEpisodeType == eEpisodeType::colony) {
+        const int idid = mPlayedColonyEpisodes.size() - 1;
+        const int id = mPlayedColonyEpisodes[idid];
+        return mColonyEpisodes[id].get();
+    }
+    return mParentCityEpisodes[mCurrentParentEpisode].get();
+}
+
+void eCampaign::startEpisode(const int cid) {
+    if(mCurrentEpisodeType == eEpisodeType::colony) {
         mPlayedColonyEpisodes.push_back(cid);
         mWorldBoard.activateColony(cid);
         mWorldBoard.setColonyAsCurrentCity(cid);
     } else { // parentCity
         mWorldBoard.setParentAsCurrentCity();
+    }
+}
+
+void eCampaign::episodeFinished() {
+    const auto e = currentEpisode();
+    if(mCurrentEpisodeType == eEpisodeType::parentCity) {
+        const auto ee = static_cast<eParentCityEpisode*>(e);
+        const auto n = ee->fNextEpisode;
+        if(n == eEpisodeType::parentCity) {
+            mCurrentParentEpisode++;
+        }
+        mCurrentEpisodeType = n;
+    } else {
+        mCurrentParentEpisode++;
+        mCurrentEpisodeType = eEpisodeType::parentCity;
     }
 }
 
@@ -385,6 +416,22 @@ void eCampaign::copyEpisodeSettings(eEpisode* const from,
     }
 
     free(mem);
+}
+
+void eCampaign::setDifficulty(const eDifficulty d) {
+    mDifficulty = d;
+    mParentBoard->setDifficulty(d);
+    for(const auto& b : mColonyBoards) {
+        b->setDifficulty(d);
+    }
+}
+
+void eCampaign::setEditorMode(const bool e) {
+    mWorldBoard.setEditorMode(e);
+    mParentBoard->setEditorMode(e);
+    for(const auto& c : mColonyBoards) {
+        c->setEditorMode(e);
+    }
 }
 
 void eCampaign::copyColonyEpisodeSettings(const int from, const int to) {

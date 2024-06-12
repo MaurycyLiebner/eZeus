@@ -1133,6 +1133,9 @@ void eInterfaceTextures::load() {
 
         fMainMenuImage = std::make_shared<eTexture>();
         fMainMenuImage->load(fRenderer, dir + "Zeus_FE_Registry.jpg");
+
+        fIntroductionImage = std::make_shared<eTexture>();
+        fIntroductionImage->load(fRenderer, dir + "Zeus_FE_MissionIntroduction.jpg");
     }
 
     {

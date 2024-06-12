@@ -15,6 +15,7 @@ public:
 
     void setText(const std::string& text);
     void setTinyTextFontSize();
+    void setSmallTextFontSize();
     void setTinyTextPadding();
 private:
     eFramedWidget* mBg = nullptr;
