@@ -25,10 +25,8 @@ eEventSelectionWidget::eEventSelectionWidget(
 void eEventSelectionWidget::initialize(
         const eEventsGetter& get,
         const eEventAdder& add,
-        const eEventRemover& remove,
-        eGameBoard& board) {
+        const eEventRemover& remove) {
     eScrollButtonsList::initialize();
-    const auto boardPtr = &board;
 
     const auto iniEs = get();
     for(const auto& e : iniEs) {
@@ -51,7 +49,7 @@ void eEventSelectionWidget::initialize(
         editEvent(e);
     });
 
-    setButtonCreateEvent([this, add, boardPtr, editEvent]() {
+    setButtonCreateEvent([this, add, editEvent]() {
         const std::vector<eGameEventType> types = {
             eGameEventType::godVisit,
             eGameEventType::godAttack,
@@ -85,12 +83,12 @@ void eEventSelectionWidget::initialize(
             eLanguage::text("troops_request_short_name")
         };
         const auto echoose = new eChooseButton(window());
-        const auto act = [this, add, boardPtr, types, labels, editEvent](const int val) {
+        const auto act = [this, add, types, labels, editEvent](const int val) {
             const auto type = types[val];
-            const auto e = eGameEvent::sCreate(type, mBranch, boardPtr);
+            const auto e = eGameEvent::sCreate(type, mBranch, nullptr);
 
             if(e) {
-                const auto boardDate = boardPtr->date();
+                const auto boardDate = eDate(1, eMonth::january, -1500);
                 const int period = 150;
                 const auto date = boardDate + period;
                 e->initializeDate(date, period, 1);

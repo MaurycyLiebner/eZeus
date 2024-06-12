@@ -1243,6 +1243,11 @@ eTile* eGameBoard::exitPoint() const {
     return nullptr;
 }
 
+void eGameBoard::setPoseidonMode(const bool p) {
+    mPoseidonMode = p;
+    scheduleTerrainUpdate();
+}
+
 void eGameBoard::setWorldBoard(eWorldBoard* const wb) {
     mWorldBoard = wb;
     for(const auto& e : mGameEvents) {

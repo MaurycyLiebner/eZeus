@@ -456,6 +456,7 @@ void eMainWindow::showGame(eGameBoard* board,
 
 void eMainWindow::showWorld() {
     if(mWidget == mWW) return;
+    if(!mBoard) return;
     if(!mWW) {
         mWW = new eWorldWidget(this);
         mWW->resize(width(), height());

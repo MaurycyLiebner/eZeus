@@ -25,7 +25,7 @@
 #include "emainwindow.h"
 
 #include "eframedbutton.h"
-#include "widgets/eeditorsettingsmenu.h"
+#include "widgets/eboardsettingsmenu.h"
 #include "widgets/infowidgets/einfowidget.h"
 #include "emessagebox.h"
 
@@ -186,7 +186,7 @@ void eGameWidget::initialize() {
     settingsButt->setUnderline(false);
     settingsButt->setRenderBg(true);
     settingsButt->setPressAction([this]() {
-        const auto settingsMenu = new eEditorSettingsMenu(window());
+        const auto settingsMenu = new eBoardSettingsMenu(window());
         settingsMenu->resize(width()/2, 2*height()/3);
         settingsMenu->initialize(*mBoard);
 

@@ -23,6 +23,11 @@ void eCampaign::initialize(const std::string& title) {
         board = std::make_shared<eGameBoard>();
         board->initialize(100, 100);
         board->setWorldBoard(&mWorldBoard);
+
+        const auto e = std::make_shared<eColonyEpisode>();
+        e->fBoard = board.get();
+        e->fWorldBoard = &mWorldBoard;
+        mColonyEpisodes.push_back(e);
     }
 
     addParentCityEpisode();
@@ -206,6 +211,8 @@ void eCampaign::read(eReadStream& src) {
         src >> ne;
         for(int i = 0; i < ne; i++) {
             const auto e = std::make_shared<eParentCityEpisode>();
+            e->fBoard = mParentBoard.get();
+            e->fWorldBoard = &mWorldBoard;
             e->read(src);
             mParentCityEpisodes.push_back(e);
         }
@@ -216,6 +223,8 @@ void eCampaign::read(eReadStream& src) {
         src >> ne;
         for(int i = 0; i < ne; i++) {
             const auto e = std::make_shared<eColonyEpisode>();
+            e->fBoard = mColonyBoards[i].get();
+            e->fWorldBoard = &mWorldBoard;
             e->read(src);
             mColonyEpisodes.push_back(e);
         }
@@ -303,6 +312,20 @@ void eCampaign::startEpisode(const eEpisodeType type, const int cid) {
     }
 }
 
+void eCampaign::setAtlantean(const bool a) {
+    mAtlantean = a;
+    for(const auto& e : mParentCityEpisodes) {
+        e->fAtlantean = a;
+    }
+    for(const auto& e : mColonyEpisodes) {
+        e->fAtlantean = a;
+    }
+    mParentBoard->setPoseidonMode(a);
+    for(const auto& b : mColonyBoards) {
+        b->setPoseidonMode(a);
+    }
+}
+
 std::vector<int> eCampaign::colonyEpisodesLeft() const {
     std::vector<int> result;
     const int iMax = mColonyEpisodes.size();
@@ -316,6 +339,8 @@ std::vector<int> eCampaign::colonyEpisodesLeft() const {
 
 stdsptr<eParentCityEpisode> eCampaign::addParentCityEpisode() {
     const auto e = std::make_shared<eParentCityEpisode>();
+    e->fBoard = mParentBoard.get();
+    e->fWorldBoard = &mWorldBoard;
     mParentCityEpisodes.push_back(e);
     return e;
 }
@@ -339,17 +364,23 @@ void eCampaign::setVictoryParentCityEpisode(const int id) {
 void eCampaign::copyParentCityEpisodeSettings(const int from, const int to) {
     const auto f = mParentCityEpisodes[from];
     const auto t = mParentCityEpisodes[to];
+    copyParentCityEpisodeSettings(f.get(), t.get());
+}
+
+void eCampaign::copyParentCityEpisodeSettings(eParentCityEpisode* const from,
+                                              eParentCityEpisode* const to) {
+    to->clear();
     const size_t size = 1000000;
     void* mem = malloc(size);
     {
         const auto file = SDL_RWFromMem(mem, size);
         eWriteStream dst(file);
-        f->write(dst);
+        from->write(dst);
     }
     {
         const auto file = SDL_RWFromMem(mem, size);
         eReadStream src(file);
-        f->read(src);
+        to->read(src);
     }
 
     free(mem);

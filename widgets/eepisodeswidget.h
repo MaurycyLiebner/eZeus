@@ -19,7 +19,9 @@ public:
     void deselectText(const int skipId = -1);
 private:
     void update();
-    void add(const std::shared_ptr<eParentCityEpisode>& e, const bool last);
+    void add(eCampaign* const c,
+             const std::shared_ptr<eParentCityEpisode>& e,
+             const bool last);
     int columnWidth() const { return width()/sNCols; }
 
     static const int sNCols = 4;

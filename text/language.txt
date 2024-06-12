@@ -1,3 +1,4 @@
+
 settings "Settings"
 editor "Editor"
 zeus "Zeus"
@@ -14,8 +15,6 @@ width "Width"
 height "Height"
 return "Return"
 add_city "Add city"
-
-save_and_reset "Save and load the game to apply changes"
 
 none "None"
 

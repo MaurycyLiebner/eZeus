@@ -72,7 +72,9 @@ struct eEpisode {
                 eGameEventType type;
                 src >> type;
                 const auto branch = eGameEventBranch::root;
-                const auto e = eGameEvent::sCreate(type, branch, nullptr);
+                const auto e = eGameEvent::sCreate(type, branch, fBoard);
+                e->setGameBoard(fBoard);
+                e->setWorldBoard(fWorldBoard);
                 e->read(src);
                 fEvents.push_back(e);
             }
@@ -109,6 +111,35 @@ struct eEpisode {
         }
         fAvailableBuildings.write(dst);
     }
+
+    bool availableBuilding(const eBuildingType type,
+                           const int id = -1) const {
+        switch(type) {
+        case eBuildingType::chariotVendor:
+        case eBuildingType::chariotFactory: {
+            if(!fAtlantean) return false;
+        } break;
+        case eBuildingType::horseTrainer: {
+            if(fAtlantean) return false;
+        } break;
+        default:
+            break;
+        }
+
+        return fAvailableBuildings.available(type, id);
+    }
+
+    void clear() {
+        fFriendlyGods.clear();
+        fHostileGods.clear();
+        fEvents.clear();
+        fGoals.clear();
+        fAvailableBuildings = eAvailableBuildings();
+    }
+
+    eGameBoard* fBoard = nullptr;
+    eWorldBoard* fWorldBoard = nullptr;
+    bool fAtlantean = true;
 
     std::string fTitle;
     std::string fIntroduction;
@@ -182,7 +213,7 @@ public:
     void startEpisode(const eEpisodeType type, const int cid = -1);
 
     bool atlantean() const { return mAtlantean; }
-    void setAtlantean(const bool a) { mAtlantean = a; }
+    void setAtlantean(const bool a);
 
     std::vector<int> colonyEpisodesLeft() const;
 
@@ -194,6 +225,8 @@ public:
     void deleteParentCityEpisode(const int id);
     void setVictoryParentCityEpisode(const int id);
     void copyParentCityEpisodeSettings(const int from, const int to);
+    void copyParentCityEpisodeSettings(eParentCityEpisode* const from,
+                                       eParentCityEpisode* const to);
 
     const std::string& titleText() const { return mTitle; }
     const std::string& introductionText() const { return mIntroduction; }

@@ -3,13 +3,13 @@
 
 #include "eframedwidget.h"
 
-class eGameBoard;
+class eEpisode;
 
 class eEditorSettingsMenu : public eFramedWidget {
 public:
     using eFramedWidget::eFramedWidget;
 
-    void initialize(eGameBoard& board);
+    void initialize(eEpisode* const ep);
 };
 
 #endif // EEDITORSETTINGSMENU_H

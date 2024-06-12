@@ -7,6 +7,7 @@
 #include "elanguage.h"
 #include "echoosebutton.h"
 #include "emainwindow.h"
+#include "eeditorsettingsmenu.h"
 
 #include "engine/ecampaign.h"
 
@@ -73,7 +74,7 @@ void eEpisodesWidget::update() {
     const int iMax = es.size();
     for(int i = 0; i < iMax; i++) {
         const auto& e = es[i];
-        add(e, i == iMax - 1);
+        add(mC.get(), e, i == iMax - 1);
     }
 }
 
@@ -83,6 +84,7 @@ public:
 
     using ePCE = std::shared_ptr<eParentCityEpisode>;
     void initialize(const int id, const int colW,
+                    eCampaign* const c,
                     const ePCE& e, const bool last,
                     const eAction& newE,
                     const eAction& insertE,
@@ -175,6 +177,42 @@ public:
         settingsW->fitHeight();
         settingsB->align(eAlignment::hcenter);
         addWidget(settingsW);
+        settingsB->setPressAction([this, e]() {
+            const auto w = window();
+            const auto m = new eEditorSettingsMenu(w);
+            m->resize(w->width()/2, 2*w->height()/3);
+            m->initialize(e.get());
+
+            window()->execDialog(m);
+            m->align(eAlignment::center);
+        });
+        settingsB->setRightPressAction([this, c, e]() {
+            const auto& es = c->parentCityEpisodes();
+            std::vector<stdsptr<eParentCityEpisode>> res;
+            std::vector<std::string> anames;
+            const int iMax = es.size();
+            for(int i = 0; i < iMax; i++) {
+                const auto& ee = es[i];
+                if(ee == e) continue;
+                anames.push_back(eLanguage::zeusText(195, 34 + i));
+                res.push_back(ee);
+            }
+            anames.push_back(eLanguage::zeusText(195, 44)); // clear
+            const auto choose = new eChooseButton(window());
+            const auto act = [c, res, e](const int val) {
+                const int rs = res.size();
+                if(val < rs) {
+                    const auto& ee = res[val];
+                    c->copyParentCityEpisodeSettings(ee.get(), e.get());
+                } else {
+                    e->clear();
+                }
+            };
+            choose->initialize(8, anames, act);
+
+            window()->execDialog(choose);
+            choose->align(eAlignment::center);
+        });
 
         const auto textW = new eWidget(window());
         textW->setNoPadding();
@@ -217,7 +255,8 @@ void eEpisodesWidget::deselectText(const int skipId) {
     }
 }
 
-void eEpisodesWidget::add(const std::shared_ptr<eParentCityEpisode>& e,
+void eEpisodesWidget::add(eCampaign* const c,
+                          const std::shared_ptr<eParentCityEpisode>& e,
                           const bool last) {
     const int colW = columnWidth();
 
@@ -243,7 +282,8 @@ void eEpisodesWidget::add(const std::shared_ptr<eParentCityEpisode>& e,
         deselectText(id);
         mSta(id);
     };
-    w->initialize(id, colW, e, last, newE, insertE, deleteE, victoryE, setTextE);
+    w->initialize(id, colW, c, e, last,
+                  newE, insertE, deleteE, victoryE, setTextE);
     mWs.push_back(w);
 
     mEpisodesW->addWidget(w);

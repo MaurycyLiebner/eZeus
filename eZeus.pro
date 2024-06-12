@@ -457,6 +457,7 @@ SOURCES += \
         widgets/earmymenu.cpp \
         widgets/ebasicbutton.cpp \
         widgets/ebitmapwidget.cpp \
+        widgets/eboardsettingsmenu.cpp \
         widgets/ebuildbutton.cpp \
         widgets/ebuildingmode.cpp \
         widgets/ebuildingstoerase.cpp \
@@ -2303,6 +2304,7 @@ HEADERS += \
     widgets/earmymenu.h \
     widgets/ebasicbutton.h \
     widgets/ebitmapwidget.h \
+    widgets/eboardsettingsmenu.h \
     widgets/ebuildbutton.h \
     widgets/ebuildingmode.h \
     widgets/ebuildingstoerase.h \

@@ -7,34 +7,30 @@
 #include "egodselectionwidget.h"
 #include "emonsterselectionwidget.h"
 
-#include "engine/egameboard.h"
 #include "emainwindow.h"
 
 #include "widgets/eeventselectionwidget.h"
 #include "gameEvents/egameevent.h"
 #include "widgets/echeckablebutton.h"
-#include "engine/emapgenerator.h"
 
-#include "eacceptbutton.h"
-#include "ecancelbutton.h"
-#include "enumlineedit.h"
+#include "engine/ecampaign.h"
+#include "evectorhelpers.h"
 
-void eEditorSettingsMenu::initialize(eGameBoard& board) {
+void eEditorSettingsMenu::initialize(eEpisode* const ep) {
     setType(eFrameType::message);
 
-    const auto boardPtr = &board;
-    const auto mythologyAct = [this, boardPtr]() {
+    const auto mythologyAct = [this, ep]() {
         const auto mythMenu = new eFramedWidget(window());
         mythMenu->setType(eFrameType::message);
         mythMenu->resize(width(), height());
 
-        const auto friendGodsAct = [this, boardPtr]() {
+        const auto friendGodsAct = [this, ep]() {
             const auto choose = new eGodSelectionWidget(window());
-            const auto act = [boardPtr](const std::vector<eGodType>& godNs) {
-                boardPtr->setFriendlyGods(godNs);
+            const auto act = [ep](const std::vector<eGodType>& godNs) {
+                ep->fFriendlyGods = godNs;
             };
 
-            const auto& iniG = boardPtr->friendlyGods();
+            const auto& iniG = ep->fFriendlyGods;
             choose->resize(width(), height());
             choose->initialize(act, iniG);
 
@@ -50,13 +46,13 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
         mythMenu->addWidget(friendGodsButt);
         friendGodsButt->align(eAlignment::hcenter);
 
-        const auto hostileGodsAct = [this, boardPtr]() {
+        const auto hostileGodsAct = [this, ep]() {
             const auto choose = new eGodSelectionWidget(window());
-            const auto act = [boardPtr](const std::vector<eGodType>& godNs) {
-                boardPtr->setHostileGods(godNs);
+            const auto act = [ep](const std::vector<eGodType>& godNs) {
+                ep->fHostileGods = godNs;
             };
 
-            const auto& iniG = boardPtr->hostileGods();
+            const auto& iniG = ep->fHostileGods;
             choose->resize(width(), height());
             choose->initialize(act, iniG);
 
@@ -72,147 +68,32 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
         mythMenu->addWidget(hostileGodsButt);
         hostileGodsButt->align(eAlignment::hcenter);
 
-        const auto monstersAct = [this, boardPtr]() {
-            const auto choose = new eMonsterSelectionWidget(window());
-            const auto act = [boardPtr](const std::vector<eMonsterType>& monsters) {
-                boardPtr->setHostileMonsters(monsters);
-            };
+//        const auto monstersAct = [this, ep]() {
+//            const auto choose = new eMonsterSelectionWidget(window());
+//            const auto act = [ep](const std::vector<eMonsterType>& monsters) {
+//                ep->setHostileMonsters(monsters);
+//            };
 
-            const auto& iniM = boardPtr->hostileMonsters();
-            choose->resize(width(), height());
-            choose->initialize(act, iniM);
+//            const auto& iniM = ep->hostileMonsters();
+//            choose->resize(width(), height());
+//            choose->initialize(act, iniM);
 
-            window()->execDialog(choose);
-            choose->align(eAlignment::center);
-        };
+//            window()->execDialog(choose);
+//            choose->align(eAlignment::center);
+//        };
 
-        const auto monstersButt = new eFramedButton(window());
-        monstersButt->setUnderline(false);
-        monstersButt->setText(eLanguage::text("monsters"));
-        monstersButt->fitContent();
-        monstersButt->setPressAction(monstersAct);
-        mythMenu->addWidget(monstersButt);
-        monstersButt->align(eAlignment::hcenter);
+//        const auto monstersButt = new eFramedButton(window());
+//        monstersButt->setUnderline(false);
+//        monstersButt->setText(eLanguage::text("monsters"));
+//        monstersButt->fitContent();
+//        monstersButt->setPressAction(monstersAct);
+//        mythMenu->addWidget(monstersButt);
+//        monstersButt->align(eAlignment::hcenter);
 
         window()->execDialog(mythMenu);
         mythMenu->align(eAlignment::center);
         mythMenu->layoutVertically();
     };
-
-    const auto modeButt = new eFramedButton(window());
-    modeButt->setUnderline(false);
-    modeButt->setText(board.poseidonMode() ? eLanguage::text("poseidon") :
-                                             eLanguage::text("zeus"));
-    modeButt->fitContent();
-    modeButt->setPressAction([modeButt, boardPtr]() {
-        boardPtr->setPoseidonMode(!boardPtr->poseidonMode());
-        modeButt->setText(boardPtr->poseidonMode() ? eLanguage::text("poseidon") :
-                                                     eLanguage::text("zeus"));
-        boardPtr->showTip(eLanguage::text("save_and_reset"));
-        boardPtr->scheduleTerrainUpdate();
-    });
-    addWidget(modeButt);
-    modeButt->align(eAlignment::hcenter);
-
-    const auto resizeButt = new eFramedButton(window());
-    resizeButt->setUnderline(false);
-    resizeButt->setText(eLanguage::text("resize"));
-    resizeButt->fitContent();
-    resizeButt->setPressAction([this, boardPtr]() {
-        const auto resizeMenu = new eFramedWidget(window());
-        resizeMenu->setType(eFrameType::message);
-        resizeMenu->resize(width(), height());
-
-        const auto res = resolution();
-        const int p = res.largePadding();
-
-        const auto iw = new eWidget(window());
-        iw->setNoPadding();
-        resizeMenu->addWidget(iw);
-        iw->move(p, p);
-
-        const auto editW = new eWidget(window());
-        editW->setNoPadding();
-        iw->addWidget(editW);
-
-        const auto widthL = new eLabel(window());
-        widthL->setText(eLanguage::text("width"));
-        widthL->fitContent();
-        editW->addWidget(widthL);
-
-        const auto width = new eNumLineEdit(window());
-        width->setRenderBg(true);
-        width->setRange(10, 999);
-        width->setValue(999);
-        width->fitContent();
-        width->setValue(boardPtr->width());
-        editW->addWidget(width);
-
-        const auto heightL = new eLabel(window());
-        heightL->setText(eLanguage::text("height"));
-        heightL->fitContent();
-        editW->addWidget(heightL);
-
-        const auto height = new eNumLineEdit(window());
-        height->setRenderBg(true);
-        height->setRange(10, 999);
-        height->setValue(999);
-        height->fitContent();
-        height->setValue(boardPtr->height());
-        editW->addWidget(height);
-
-        editW->stackHorizontally();
-        editW->fitContent();
-
-        widthL->align(eAlignment::vcenter);
-        width->align(eAlignment::vcenter);
-        heightL->align(eAlignment::vcenter);
-        height->align(eAlignment::vcenter);
-
-        const auto buttonsW = new eWidget(window());
-        buttonsW->setNoPadding();
-
-        const auto accept = new eAcceptButton(window());
-        const auto cancel = new eCancelButton(window());
-        accept->setPressAction([resizeMenu, width, height, boardPtr]() {
-            const int w = width->value();
-            const int h = height->value();
-            boardPtr->resize(w, h);
-            resizeMenu->deleteLater();
-        });
-        cancel->setPressAction([resizeMenu]() {
-            resizeMenu->deleteLater();
-        });
-
-        buttonsW->addWidget(accept);
-        buttonsW->addWidget(cancel);
-        buttonsW->fitHeight();
-        buttonsW->setWidth(editW->width());
-        buttonsW->layoutHorizontallyWithoutSpaces();
-        iw->addWidget(buttonsW);
-
-        iw->stackVertically();
-        iw->fitContent();
-        resizeMenu->resize(2*p + iw->width(), 2*p + iw->height());
-
-        window()->execDialog(resizeMenu);
-        resizeMenu->align(eAlignment::center);
-    });
-    addWidget(resizeButt);
-    resizeButt->align(eAlignment::hcenter);
-
-    const auto generateButt = new eFramedButton(window());
-    generateButt->setUnderline(false);
-    generateButt->setText(eLanguage::text("generate"));
-    generateButt->fitContent();
-    generateButt->setPressAction([boardPtr]() {
-        eMapGenerator g(*boardPtr);
-        eMapGeneratorSettings sett;
-
-        g.generate(sett);
-    });
-    addWidget(generateButt);
-    generateButt->align(eAlignment::hcenter);
 
     const auto mythButt = new eFramedButton(window());
     mythButt->setUnderline(false);
@@ -222,22 +103,22 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
     addWidget(mythButt);
     mythButt->align(eAlignment::hcenter);
 
-    const auto eventsAct = [this, boardPtr]() {
+    const auto eventsAct = [this, ep]() {
         const auto choose = new eEventSelectionWidget(
                                 eGameEventBranch::root,
                                 window());
 
         choose->resize(width(), height());
-        const auto get = [boardPtr]() {
-            return boardPtr->gameEvents();
+        const auto get = [ep]() {
+            return ep->fEvents;
         };
-        const auto add = [boardPtr](const stdsptr<eGameEvent>& e) {
-            boardPtr->addRootGameEvent(e);
+        const auto add = [ep](const stdsptr<eGameEvent>& e) {
+            ep->fEvents.push_back(e);
         };
-        const auto remove = [boardPtr](const stdsptr<eGameEvent>& e) {
-            boardPtr->removeRootGameEvent(e);
+        const auto remove = [ep](const stdsptr<eGameEvent>& e) {
+            eVectorHelpers::remove(ep->fEvents, e);
         };
-        choose->initialize(get, add, remove, *boardPtr);
+        choose->initialize(get, add, remove);
 
         window()->execDialog(choose);
         choose->align(eAlignment::center);
@@ -251,7 +132,7 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
     addWidget(eventsButt);
     eventsButt->align(eAlignment::hcenter);
 
-    const auto buildingsAct = [this, boardPtr]() {
+    const auto buildingsAct = [this, ep]() {
         const auto buildMenu = new eFramedWidget(window());
         buildMenu->setType(eFrameType::message);
         buildMenu->resize(width(), height());
@@ -294,12 +175,12 @@ void eEditorSettingsMenu::initialize(eGameBoard& board) {
             bb->setText(eBuilding::sNameForBuilding(type));
             bb->fitContent();
             w = std::max(w, bb->width());
-            bb->setChecked(boardPtr->availableBuilding(type));
-            bb->setCheckAction([type, boardPtr](const bool b) {
+            bb->setChecked(ep->availableBuilding(type));
+            bb->setCheckAction([type, ep](const bool b) {
                 if(b) {
-                    boardPtr->allow(type);
+                    ep->fAvailableBuildings.allow(type);
                 } else {
-                    boardPtr->disallow(type);
+                    ep->fAvailableBuildings.disallow(type);
                 }
             });
             buttons.push_back(bb);
