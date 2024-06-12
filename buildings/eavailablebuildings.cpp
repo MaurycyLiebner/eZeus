@@ -198,6 +198,11 @@ bool eAvailableBuildings::available(
     case eBuildingType::armory:
         return fArmory;
 
+    case eBuildingType::horseRanch:
+        return fHorseRanch;
+    case eBuildingType::chariotFactory:
+        return fChariotFactory;
+
     case eBuildingType::templeAphrodite:
         return fAphroditeSanctuary == eAvailable::available;
     case eBuildingType::templeApollo:
@@ -450,6 +455,11 @@ bool* eAvailableBuildings::allowedPtr(const eBuildingType type) {
 
     case eBuildingType::armory:
         return &fArmory;
+
+    case eBuildingType::horseRanch:
+        return &fHorseRanch;
+    case eBuildingType::chariotFactory:
+        return &fChariotFactory;
 
     default:
         return nullptr;

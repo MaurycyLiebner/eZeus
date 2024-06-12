@@ -61,6 +61,9 @@ public:
 
     bool fArmory = false;
 
+    bool fHorseRanch = false;
+    bool fChariotFactory = false;
+
     eAvailable  fAphroditeSanctuary = eAvailable::notAvailable;
     eAvailable  fApolloSanctuary = eAvailable::notAvailable;
     eAvailable  fAresSanctuary = eAvailable::notAvailable;

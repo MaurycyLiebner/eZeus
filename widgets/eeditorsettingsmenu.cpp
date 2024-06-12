@@ -163,7 +163,10 @@ void eEditorSettingsMenu::initialize(eEpisode* const ep) {
             eBuildingType::olivePress,
             eBuildingType::sculptureStudio,
 
-            eBuildingType::armory
+            eBuildingType::armory,
+
+            eBuildingType::horseRanch,
+            eBuildingType::chariotFactory,
         };
 
         int w = 0;
