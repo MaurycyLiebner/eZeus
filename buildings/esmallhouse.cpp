@@ -13,6 +13,8 @@
 #include "characters/actions/emovetoaction.h"
 #include "characters/actions/ekillcharacterfinishfail.h"
 
+#include "elanguage.h"
+
 eSmallHouse::eSmallHouse(eGameBoard& board) :
     eHouseBase(board, eBuildingType::commonHouse, 2, 2,
                {8, 16, 24, 32, 40, 48, 60}) {
@@ -362,6 +364,10 @@ void eSmallHouse::write(eWriteStream& dst) const {
     dst.writeCharacter(mSick.get());
     dst << mSpawnDisg;
     dst.writeCharacter(mDisg.get());
+}
+
+std::string eSmallHouse::sName(const int level) {
+    return eLanguage::zeusText(28, 2 + level);
 }
 
 void eSmallHouse::updateLevel() {

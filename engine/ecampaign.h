@@ -3,46 +3,11 @@
 
 #include "egameboard.h"
 
+#include "eepisodegoal.h"
+
 enum class eEpisodeType {
     parentCity,
     colony
-};
-
-enum class eEpisodeGoalType {
-    population,
-    treasury,
-    sanctuary,
-    support,
-    quest,
-    slay,
-    rule,
-    housing,
-    setAsideGoods
-};
-
-struct eEpisodeGoal {
-    eEpisodeGoalType fType;
-    int fEnumInt;
-    int fRequiredCount;
-    int fStatusCount = 0;
-
-    void read(eReadStream& src) {
-        src >> fType;
-        src >> fEnumInt;
-        src >> fRequiredCount;
-        src >> fStatusCount;
-    }
-
-    void write(eWriteStream& dst) const {
-        dst << fType;
-        dst << fEnumInt;
-        dst << fRequiredCount;
-        dst << fStatusCount;
-    }
-
-    bool met() const {
-        return fStatusCount >= fRequiredCount;
-    }
 };
 
 struct eEpisode {

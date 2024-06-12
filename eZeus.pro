@@ -325,6 +325,7 @@ SOURCES += \
         engine/ecityrequest.cpp \
         engine/edate.cpp \
         engine/edifficulty.cpp \
+        engine/eepisodegoal.cpp \
         engine/eeventtime.cpp \
         engine/efunctask.cpp \
         engine/egameboard.cpp \
@@ -885,6 +886,7 @@ HEADERS += \
     engine/ecityrequest.h \
     engine/edate.h \
     engine/edifficulty.h \
+    engine/eepisodegoal.h \
     engine/eevent.h \
     engine/eeventdata.h \
     engine/eeventtime.h \

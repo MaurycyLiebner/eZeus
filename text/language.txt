@@ -1,8 +1,5 @@
-
 settings "Settings"
 editor "Editor"
-zeus "Zeus"
-poseidon "Poseidon"
 tribute "Tribute"
 choose "Choose"
 relationship "Relationship"
@@ -19,13 +16,6 @@ add_city "Add city"
 none "None"
 
 add "Add"
-mythology "Mythology"
-friendly_gods "Friendly Gods"
-hostile_gods "Hostile Gods"
-monsters "Monsters"
-
-events "Events"
-buildings "Buildings"
 
 gift_of_from "Gift of %1 from %2"
 gift_of_to "Gift of %1 to %2"

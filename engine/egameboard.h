@@ -167,6 +167,7 @@ public:
     const std::vector<stdsptr<eSoldierBanner>>& banners() const
     { return mSoldierBanners; }
     int countBanners(const eBannerType bt) const;
+    int countSoldiers(const eBannerType bt) const;
 
     void incTime(const int by);
     void incFrame();

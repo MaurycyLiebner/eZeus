@@ -2014,3 +2014,14 @@ int eGameBoard::countBanners(const eBannerType bt) const {
     }
     return c;
 }
+
+int eGameBoard::countSoldiers(const eBannerType bt) const {
+    int c = 0;
+    for(const auto& bn : mSoldierBanners) {
+        const int pid = bn->playerId();
+        if(pid != 1) continue;
+        if(bn->type() != bt) continue;
+        c += bn->count();
+    }
+    return c;
+}

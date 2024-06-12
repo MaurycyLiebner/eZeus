@@ -40,7 +40,7 @@ void eEditorSettingsMenu::initialize(eEpisode* const ep) {
 
         const auto friendGodsButt = new eFramedButton(window());
         friendGodsButt->setUnderline(false);
-        friendGodsButt->setText(eLanguage::text("friendly_gods"));
+        friendGodsButt->setText(eLanguage::zeusText(44, 174));
         friendGodsButt->fitContent();
         friendGodsButt->setPressAction(friendGodsAct);
         mythMenu->addWidget(friendGodsButt);
@@ -62,7 +62,7 @@ void eEditorSettingsMenu::initialize(eEpisode* const ep) {
 
         const auto hostileGodsButt = new eFramedButton(window());
         hostileGodsButt->setUnderline(false);
-        hostileGodsButt->setText(eLanguage::text("hostile_gods"));
+        hostileGodsButt->setText(eLanguage::zeusText(44, 173));
         hostileGodsButt->fitContent();
         hostileGodsButt->setPressAction(hostileGodsAct);
         mythMenu->addWidget(hostileGodsButt);
@@ -84,7 +84,7 @@ void eEditorSettingsMenu::initialize(eEpisode* const ep) {
 
 //        const auto monstersButt = new eFramedButton(window());
 //        monstersButt->setUnderline(false);
-//        monstersButt->setText(eLanguage::text("monsters"));
+//        monstersButt->setText(eLanguage::zeusText(44, 175));
 //        monstersButt->fitContent();
 //        monstersButt->setPressAction(monstersAct);
 //        mythMenu->addWidget(monstersButt);
@@ -97,7 +97,7 @@ void eEditorSettingsMenu::initialize(eEpisode* const ep) {
 
     const auto mythButt = new eFramedButton(window());
     mythButt->setUnderline(false);
-    mythButt->setText(eLanguage::text("mythology"));
+    mythButt->setText(eLanguage::zeusText(44, 162));
     mythButt->fitContent();
     mythButt->setPressAction(mythologyAct);
     addWidget(mythButt);
@@ -126,11 +126,23 @@ void eEditorSettingsMenu::initialize(eEpisode* const ep) {
 
     const auto eventsButt = new eFramedButton(window());
     eventsButt->setUnderline(false);
-    eventsButt->setText(eLanguage::text("events"));
+    eventsButt->setText(eLanguage::zeusText(44, 94));
     eventsButt->fitContent();
     eventsButt->setPressAction(eventsAct);
     addWidget(eventsButt);
     eventsButt->align(eAlignment::hcenter);
+
+    const auto goalsAct = []() {
+
+    };
+
+    const auto goalsButt = new eFramedButton(window());
+    goalsButt->setUnderline(false);
+    goalsButt->setText(eLanguage::zeusText(44, 45));
+    goalsButt->fitContent();
+    goalsButt->setPressAction(goalsAct);
+    addWidget(goalsButt);
+    goalsButt->align(eAlignment::hcenter);
 
     const auto buildingsAct = [this, ep]() {
         const auto buildMenu = new eFramedWidget(window());
@@ -209,7 +221,7 @@ void eEditorSettingsMenu::initialize(eEpisode* const ep) {
 
     const auto buildingsButt = new eFramedButton(window());
     buildingsButt->setUnderline(false);
-    buildingsButt->setText(eLanguage::text("buildings"));
+    buildingsButt->setText(eLanguage::zeusText(44, 44));
     buildingsButt->fitContent();
     buildingsButt->setPressAction(buildingsAct);
     addWidget(buildingsButt);

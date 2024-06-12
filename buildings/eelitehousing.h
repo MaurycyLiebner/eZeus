@@ -53,6 +53,8 @@ public:
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
+
+    static std::string sName(const int level);
 private:
     const eTextureCollection& getTextureCollection(
             const eTileSize size) const;

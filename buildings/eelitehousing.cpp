@@ -3,6 +3,7 @@
 #include "engine/egameboard.h"
 
 #include "textures/egametextures.h"
+#include "elanguage.h"
 
 eEliteHousing::eEliteHousing(eGameBoard& board) :
     eHouseBase(board, eBuildingType::eliteHousing,
@@ -249,6 +250,10 @@ void eEliteHousing::write(eWriteStream& dst) const {
     dst << mWine;
     dst << mArms;
     dst << mHorses;
+}
+
+std::string eEliteHousing::sName(const int level) {
+    return eLanguage::zeusText(28, 10 + level);
 }
 
 const eTextureCollection& eEliteHousing::getTextureCollection(
