@@ -23,8 +23,8 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
     const auto frame = new eFramedWidget(window());
     frame->setType(eFrameType::message);
     frame->setNoPadding();
-    const int w = 4*width()/5;
-    const int h = 4*height()/5;
+    const int w = width();
+    const int h = height();
     const auto iw = new eWidget(window());
     frame->resize(w, h);
     iw->resize(w - 2*p, h - 2*p);
@@ -311,9 +311,15 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
 
     const auto eW = new eEpisodesWidget(window());
     eW->setWidth(eww);
-    const int ehh = 2*frame->height()/3;
+    const int ehh = 2*(iw->height() - topButtons->height())/3;
     eW->setHeight(ehh);
-    const auto setTextE = [advTextB, campaign,
+
+    const auto eCW = new eEpisodesWidget(window());
+    eCW->setWidth(eww);
+    const int ehhh = iw->height() - ehh;
+    eCW->setHeight(ehhh);
+
+    const auto setParentTextE = [advTextB, campaign,
                            titleTitle, titleText,
                            introTitle, introText,
                            completeTitle, completeText,
@@ -340,13 +346,42 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
         selectionText->hide();
     };
 
-    const auto pressE = [advTextB, eW, campaign,
+    const auto setColonyTextE = [advTextB, campaign,
+                           titleTitle, titleText,
+                           introTitle, introText,
+                           completeTitle, completeText,
+                           selectionTitle, selectionText](const int id) {
+        advTextB->setText("");
+
+        campaign->loadStrings();
+        const auto& es = campaign->colonyEpisodes();
+        const auto e = es[id];
+
+        titleTitle->setVisible(!e->fTitle.empty());
+        titleText->setText(e->fTitle);
+        titleText->setVisible(!e->fTitle.empty());
+
+        introTitle->setVisible(!e->fIntroduction.empty());
+        introText->setText(e->fIntroduction);
+        introText->setVisible(!e->fIntroduction.empty());
+
+        completeTitle->setVisible(!e->fComplete.empty());
+        completeText->setText(e->fComplete);
+        completeText->setVisible(!e->fComplete.empty());
+
+        selectionTitle->setVisible(!e->fSelection.empty());
+        selectionText->setText(e->fSelection);
+        selectionText->setVisible(!e->fSelection.empty());
+    };
+
+    const auto pressE = [advTextB, eW, eCW, campaign,
                         titleTitle, titleText,
                         introTitle, introText,
                         completeTitle, completeText,
                         selectionTitle, selectionText]() {
         advTextB->setText("x");
         eW->deselectText();
+        eCW->deselectText();
 
         campaign->loadStrings();
 
@@ -371,8 +406,27 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
 
     advTextB->setPressAction(pressE);
 
-    eW->intialize(campaign, setTextE);
+    eW->intialize(false, campaign, setParentTextE, nullptr);
     vW->addWidget(eW);
+
+    const auto editColonyBoard = [this, campaign](const int id) {
+        const auto w = window();
+        w->takeWidget();
+        w->startGameAction([this, campaign, id, w]() {
+            eMusic::playRandomMusic();
+            const auto gw = new eGameWidget(w);
+            gw->setBoard(&campaign->colonyBoard(id));
+            gw->resize(w->width(), w->height());
+            gw->initialize();
+            eGameWidgetSettings settings;
+            settings.fPaused = true;
+            gw->setSettings(settings);
+            w->setWidget(gw);
+            addGoBackButton(gw);
+        });
+    };
+    eCW->intialize(true, campaign, setColonyTextE, editColonyBoard);
+    vW->addWidget(eCW);
 
     vW->stackVertically();
     vW->fitContent();

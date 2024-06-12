@@ -364,15 +364,16 @@ void eCampaign::setVictoryParentCityEpisode(const int id) {
 void eCampaign::copyParentCityEpisodeSettings(const int from, const int to) {
     const auto f = mParentCityEpisodes[from];
     const auto t = mParentCityEpisodes[to];
-    copyParentCityEpisodeSettings(f.get(), t.get());
+    copyEpisodeSettings(f.get(), t.get());
 }
 
-void eCampaign::copyParentCityEpisodeSettings(eParentCityEpisode* const from,
-                                              eParentCityEpisode* const to) {
+void eCampaign::copyEpisodeSettings(eEpisode* const from,
+                                    eEpisode* const to) {
     to->clear();
     const size_t size = 1000000;
     void* mem = malloc(size);
     {
+        mWorldBoard.setIOIDs();
         const auto file = SDL_RWFromMem(mem, size);
         eWriteStream dst(file);
         from->write(dst);
@@ -384,4 +385,10 @@ void eCampaign::copyParentCityEpisodeSettings(eParentCityEpisode* const from,
     }
 
     free(mem);
+}
+
+void eCampaign::copyColonyEpisodeSettings(const int from, const int to) {
+    const auto f = mColonyEpisodes[from];
+    const auto t = mColonyEpisodes[to];
+    copyEpisodeSettings(f.get(), t.get());
 }

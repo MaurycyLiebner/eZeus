@@ -134,7 +134,21 @@ struct eParentCityEpisode : public eEpisode {
 };
 
 struct eColonyEpisode : public eEpisode {
+    void read(eReadStream& src) override {
+        eEpisode::read(src);
+        src.readCity(fWorldBoard, [this](const stdsptr<eWorldCity>& c) {
+            fCity = c;
+        });
+    }
+
+    void write(eWriteStream& dst) const override {
+        eEpisode::write(dst);
+        dst.writeCity(fCity.get());
+    }
+
     std::string fSelection;
+
+    stdsptr<eWorldCity> fCity;
 };
 
 struct eCampaignGlossary {
@@ -190,8 +204,12 @@ public:
     void deleteParentCityEpisode(const int id);
     void setVictoryParentCityEpisode(const int id);
     void copyParentCityEpisodeSettings(const int from, const int to);
-    void copyParentCityEpisodeSettings(eParentCityEpisode* const from,
-                                       eParentCityEpisode* const to);
+
+    using eColonyEpisodes = std::vector<stdsptr<eColonyEpisode>>;
+    eColonyEpisodes& colonyEpisodes()
+    { return mColonyEpisodes; }
+    void copyColonyEpisodeSettings(const int from, const int to);
+    void copyEpisodeSettings(eEpisode* const from, eEpisode* const to);
 
     const std::string& titleText() const { return mTitle; }
     const std::string& introductionText() const { return mIntroduction; }

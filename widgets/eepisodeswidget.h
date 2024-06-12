@@ -5,7 +5,7 @@
 
 class eWidgetColumn;
 class eCampaign;
-class eParentCityEpisode;
+class eEpisode;
 class eEpisodeWidget;
 
 class eEpisodesWidget : public eWidget {
@@ -13,20 +13,25 @@ public:
     using eWidget::eWidget;
 
     using eSetTextAction = std::function<void(int)>;
-    void intialize(const std::shared_ptr<eCampaign>& c,
-                   const eSetTextAction& sta);
+    using eEditColonyBoardAction = std::function<void(int)>;
+    void intialize(const bool colony,
+                   const std::shared_ptr<eCampaign>& c,
+                   const eSetTextAction& sta,
+                   const eEditColonyBoardAction& ecb);
 
     void deselectText(const int skipId = -1);
 private:
     void update();
     void add(eCampaign* const c,
-             const std::shared_ptr<eParentCityEpisode>& e,
+             const std::shared_ptr<eEpisode>& e,
              const bool last);
     int columnWidth() const { return width()/sNCols; }
 
     static const int sNCols = 4;
 
+    bool mColony = false;
     eSetTextAction mSta;
+    eEditColonyBoardAction mEcb;
     std::shared_ptr<eCampaign> mC;
     eWidget* mEpisodesW = nullptr;
     std::vector<eEpisodeWidget*> mWs;

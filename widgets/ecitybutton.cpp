@@ -12,8 +12,13 @@ void eCityButton::initialize(eWorldBoard* const board,
         const auto& cities = board->cities();
         std::vector<std::string> cityNames;
         for(const auto& c : cities) {
+            if(mValidator) {
+                const bool v = mValidator(c);
+                if(!v) continue;
+            }
             cityNames.push_back(c->name());
         }
+        if(cityNames.empty()) return;
         const auto choose = new eChooseButton(window());
         const auto act = [this, cities, cact](const int val) {
             const auto c = cities[val];
@@ -26,6 +31,10 @@ void eCityButton::initialize(eWorldBoard* const board,
         choose->align(eAlignment::center);
     });
     setCity(nullptr);
+}
+
+void eCityButton::setValidator(const eCityValidator& v) {
+    mValidator = v;
 }
 
 void eCityButton::setCity(const stdsptr<eWorldCity>& c) {
