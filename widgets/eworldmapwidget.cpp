@@ -10,9 +10,16 @@
 #include "elanguage.h"
 #include "audio/esounds.h"
 #include "estringhelpers.h"
+#include "evectorhelpers.h"
 
 eWorldMapWidget::eWorldMapWidget(eMainWindow* const window) :
     eLabel(window) {}
+
+void eWorldMapWidget::setSelectColonyMode(
+        const bool scm, const eColonySelection& s) {
+    mSelectColonyMode = scm;
+    mColonySelection = s;
+}
 
 void eWorldMapWidget::setBoard(eGameBoard* const b) {
     mGameBoard = b;
@@ -21,6 +28,7 @@ void eWorldMapWidget::setBoard(eGameBoard* const b) {
 
 void eWorldMapWidget::setWorldBoard(eWorldBoard* const b) {
     mWorldBoard = b;
+    if(b) setMap(b->map());
     updateWidgets();
 }
 
@@ -45,7 +53,11 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
     const bool editor = mWorldBoard->editorMode();
 
     const auto handleCity = [&](const stdsptr<eWorldCity>& ct) {
-        if(!editor && !ct->active()) return;
+        if(!mSelectColonyMode && !editor && !ct->active()) return;
+        if(mSelectColonyMode) {
+            const bool c = eVectorHelpers::contains(mColonySelection, ct);
+            if(!c) return;
+        }
         const auto t = ct->type();
         stdsptr<eTexture> tex;
         switch(t) {
@@ -543,19 +555,29 @@ void eWorldMapWidget::updateWidgets() {
 
     const auto& cts = mWorldBoard->cities();
     for(const auto& ct : cts) {
-        if(!editor && !ct->active()) return;
+        if(!mSelectColonyMode && !editor && !ct->active()) return;
+        if(mSelectColonyMode) {
+            const bool c = eVectorHelpers::contains(mColonySelection, ct);
+            if(!c) return;
+        }
         const int cx = width()*ct->x();
         const int cy = height()*ct->y();
         const int x = cx - w/2;
         const int y = cy - h/2;
         const auto ww = new eCityTransparentWidget(window());
-        if(mWorldBoard->editorMode()) {
+        if(editor) {
             ww->setCity(ct);
             ww->setReleaseAction([this]() {
                 updateWidgets();
             });
         }
         ww->setPressAction([this, ct]() {
+            if(mSelectColonyMode) {
+                for(const auto& c : mColonySelection) {
+                    c->setState(eCityState::inactive);
+                }
+                ct->setState(eCityState::active);
+            }
             if(mSelectCityAction) mSelectCityAction(ct);
         });
         ww->resize(w, h);
@@ -563,7 +585,7 @@ void eWorldMapWidget::updateWidgets() {
         ww->move(x, y);
         ww->setTooltip(clickForInfo);
     }
-    if(hc) {
+    if(hc && !mSelectColonyMode) {
         const int cx = width()*hc->x();
         const int cy = height()*hc->y();
         const int x = cx - w/2;
@@ -593,4 +615,67 @@ void eWorldMapWidget::armyDrawXY(eWorldCity& c1, eWorldCity& c2,
     const double ccy = c2.y();
     x = (hx + (ccx - hx)*frac)*width();
     y = (hy + (ccy - hy)*frac)*height();
+}
+
+void eWorldMapWidget::setMap(const eWorldMap map) {
+    const auto& intrfc = eGameTextures::interface();
+    const auto res = resolution();
+    const int iRes = static_cast<int>(res.uiScale());
+    const auto& texs = intrfc[iRes];
+
+    stdsptr<eTexture> tex;
+    switch(map) {
+    case eWorldMap::greece1:
+        eGameTextures::loadMapOfGreece1();
+        tex = texs.fMapOfGreece1;
+        break;
+    case eWorldMap::greece2:
+        eGameTextures::loadMapOfGreece2();
+        tex = texs.fMapOfGreece2;
+        break;
+    case eWorldMap::greece3:
+        eGameTextures::loadMapOfGreece3();
+        tex = texs.fMapOfGreece3;
+        break;
+    case eWorldMap::greece4:
+        eGameTextures::loadMapOfGreece4();
+        tex = texs.fMapOfGreece4;
+        break;
+    case eWorldMap::greece5:
+        eGameTextures::loadMapOfGreece5();
+        tex = texs.fMapOfGreece5;
+        break;
+    case eWorldMap::greece6:
+        eGameTextures::loadMapOfGreece6();
+        tex = texs.fMapOfGreece6;
+        break;
+    case eWorldMap::greece7:
+        eGameTextures::loadMapOfGreece7();
+        tex = texs.fMapOfGreece7;
+        break;
+    case eWorldMap::greece8:
+        eGameTextures::loadMapOfGreece8();
+        tex = texs.fMapOfGreece8;
+        break;
+
+    case eWorldMap::poseidon1:
+        eGameTextures::loadPoseidonMap1();
+        tex = texs.fPoseidonMap1;
+        break;
+    case eWorldMap::poseidon2:
+        eGameTextures::loadPoseidonMap2();
+        tex = texs.fPoseidonMap2;
+        break;
+    case eWorldMap::poseidon3:
+        eGameTextures::loadPoseidonMap3();
+        tex = texs.fPoseidonMap3;
+        break;
+    case eWorldMap::poseidon4:
+        eGameTextures::loadPoseidonMap4();
+        tex = texs.fPoseidonMap4;
+        break;
+    }
+
+    setTexture(tex);
+    fitContent();
 }

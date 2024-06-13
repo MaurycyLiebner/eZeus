@@ -197,7 +197,10 @@ void eEpisodeGoalWidget::initialize(const stdsptr<eEpisodeGoal>& e,
             updateText();
         }, false);
         auto res = static_cast<eResourceType>(e->fEnumInt1);
-        if(res == eResourceType::none) res = eResourceType::marble;
+        if(res == eResourceType::none) {
+            res = eResourceType::marble;
+            e->fEnumInt1 = static_cast<int>(res);
+        }
         resButton->setResource(res);
         detailsW->addWidget(resButton);
 

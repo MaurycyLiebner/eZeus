@@ -190,6 +190,7 @@ void eCampaign::read(eReadStream& src) {
     src >> mBitmap;
     src >> mAtlantean;
     src >> mCurrentParentEpisode;
+    src >> mCurrentColonyEpisode;
     src >> mCurrentEpisodeType;
     src >> mInitialFunds;
     mDate.read(src);
@@ -248,6 +249,7 @@ void eCampaign::write(eWriteStream& dst) const {
     dst << mBitmap;
     dst << mAtlantean;
     dst << mCurrentParentEpisode;
+    dst << mCurrentColonyEpisode;
     dst << mCurrentEpisodeType;
     dst << mInitialFunds;
     mDate.write(dst);
@@ -286,6 +288,7 @@ bool eCampaign::load(const std::string& name) {
     if(!file) return false;
     eReadStream src(file);
     read(src);
+    src.handlePostFuncs();
     SDL_RWclose(file);
 
     const auto txtFile = aDir + mTitle + ".txt";
@@ -311,11 +314,14 @@ bool eCampaign::save() const {
 
 eEpisode* eCampaign::currentEpisode() {
     if(mCurrentEpisodeType == eEpisodeType::colony) {
-        const int idid = mPlayedColonyEpisodes.size() - 1;
-        const int id = mPlayedColonyEpisodes[idid];
-        return mColonyEpisodes[id].get();
+        return mColonyEpisodes[mCurrentColonyEpisode].get();
+    } else {
+        return mParentCityEpisodes[mCurrentParentEpisode].get();
     }
-    return mParentCityEpisodes[mCurrentParentEpisode].get();
+}
+
+void eCampaign::setCurrentColonyEpisode(const int e) {
+    mCurrentColonyEpisode = e;
 }
 
 void eCampaign::startEpisode(const int cid) {
@@ -338,9 +344,15 @@ void eCampaign::episodeFinished() {
     mDate = board->date();
     if(mCurrentEpisodeType == eEpisodeType::parentCity) {
         const auto ee = static_cast<eParentCityEpisode*>(e);
-        const auto n = ee->fNextEpisode;
+        auto n = ee->fNextEpisode;
         if(n == eEpisodeType::parentCity) {
             mCurrentParentEpisode++;
+        } else {
+            const auto rem  = remainingColonies();
+            if(rem.size() == 0) {
+                mCurrentParentEpisode++;
+                n = eEpisodeType::parentCity;
+            }
         }
         mCurrentEpisodeType = n;
     } else {
@@ -354,24 +366,14 @@ bool eCampaign::finished() const {
     return mCurrentParentEpisode >= n;
 }
 
-std::vector<stdsptr<eWorldCity>> eCampaign::establishedColonies() const {
-    std::vector<stdsptr<eWorldCity>> result;
-    for(const int p : mPlayedColonyEpisodes) {
-        const auto& ep = mColonyEpisodes[p];
-        const auto c = ep->fCity;
-        result.push_back(c);
-    }
-    return result;
-}
-
-std::vector<stdsptr<eWorldCity>> eCampaign::remainingColonies() const {
-    std::vector<stdsptr<eWorldCity>> result;
+std::vector<eColonyEpisode*> eCampaign::remainingColonies() const {
+    std::vector<eColonyEpisode*> result;
     for(int i = 0; i < 4; i++) {
         const bool p = eVectorHelpers::contains(mPlayedColonyEpisodes, i);
         if(p) continue;
         const auto& ep = mColonyEpisodes[i];
-        const auto c = ep->fCity;
-        result.push_back(c);
+        if(!ep->fCity) continue;
+        result.push_back(ep.get());
     }
     return result;
 }
@@ -446,6 +448,7 @@ void eCampaign::copyEpisodeSettings(eEpisode* const from,
         const auto file = SDL_RWFromMem(mem, size);
         eReadStream src(file);
         to->read(src);
+        src.handlePostFuncs();
     }
 
     free(mem);

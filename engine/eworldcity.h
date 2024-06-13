@@ -163,7 +163,7 @@ private:
 
     eNationality mNationality{eNationality::greek};
     eDistantDirection mDirection{eDistantDirection::none};
-    eCityState mState{eCityState::active};
+    eCityState mState{eCityState::inactive};
 
     std::string mName;
     int mNameString = -1;

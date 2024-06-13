@@ -194,12 +194,13 @@ public:
     bool save() const;
 
     eEpisode* currentEpisode();
+    void setCurrentColonyEpisode(const int e);
     void startEpisode(const int cid = -1);
     void episodeFinished();
-    eEpisodeType currentEpisodeType() const { return mCurrentEpisodeType; }
+    eEpisodeType currentEpisodeType() const
+    { return mCurrentEpisodeType; }
     bool finished() const;
-    std::vector<stdsptr<eWorldCity>> establishedColonies() const;
-    std::vector<stdsptr<eWorldCity>> remainingColonies() const;
+    std::vector<eColonyEpisode*> remainingColonies() const;
 
     bool atlantean() const { return mAtlantean; }
     void setAtlantean(const bool a);
@@ -225,9 +226,6 @@ public:
     const std::string& introductionText() const { return mIntroduction; }
     const std::string& completeText() const { return mComplete; }
 
-    eEpisodeType currentEpisodeType() const
-    { return mCurrentEpisodeType; }
-
     void setDifficulty(const eDifficulty d);
     eDifficulty difficulty() const { return mDifficulty; }
 
@@ -241,6 +239,7 @@ private:
     bool mAtlantean = true;
 
     int mCurrentParentEpisode = 0;
+    int mCurrentColonyEpisode = 0;
     eEpisodeType mCurrentEpisodeType = eEpisodeType::parentCity;
 
     int mInitialFunds = 5000;

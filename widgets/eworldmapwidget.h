@@ -9,6 +9,9 @@ class eWorldMapWidget : public eLabel {
 public:
     eWorldMapWidget(eMainWindow* const window);
 
+    using eColonySelection = std::vector<stdsptr<eWorldCity>>;
+    void setSelectColonyMode(const bool scm, const eColonySelection& s);
+
     void setBoard(eGameBoard* const b);
     void setWorldBoard(eWorldBoard* const b);
 
@@ -18,12 +21,17 @@ public:
     void setSetTextAction(const eSetTextAction& s);
 
     void updateWidgets();
+
+    void setMap(const eWorldMap map);
 protected:
     void paintEvent(ePainter& p);
     bool mousePressEvent(const eMouseEvent& e);
 private:
     void armyDrawXY(eWorldCity& c1, eWorldCity& c2,
                     const double frac, int& x, int& y);
+
+    bool mSelectColonyMode = false;
+    std::vector<stdsptr<eWorldCity>> mColonySelection;
 
     eGameBoard* mGameBoard = nullptr;
     eWorldBoard* mWorldBoard = nullptr;

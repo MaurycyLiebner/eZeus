@@ -205,66 +205,7 @@ void eWorldWidget::openGiftDialog() {
 }
 
 void eWorldWidget::setMap(const eWorldMap map) {
-    const auto& intrfc = eGameTextures::interface();
-    const auto res = resolution();
-    const int iRes = static_cast<int>(res.uiScale());
-    const auto& texs = intrfc[iRes];
-
-    stdsptr<eTexture> tex;
-    switch(map) {
-    case eWorldMap::greece1:
-        eGameTextures::loadMapOfGreece1();
-        tex = texs.fMapOfGreece1;
-        break;
-    case eWorldMap::greece2:
-        eGameTextures::loadMapOfGreece2();
-        tex = texs.fMapOfGreece2;
-        break;
-    case eWorldMap::greece3:
-        eGameTextures::loadMapOfGreece3();
-        tex = texs.fMapOfGreece3;
-        break;
-    case eWorldMap::greece4:
-        eGameTextures::loadMapOfGreece4();
-        tex = texs.fMapOfGreece4;
-        break;
-    case eWorldMap::greece5:
-        eGameTextures::loadMapOfGreece5();
-        tex = texs.fMapOfGreece5;
-        break;
-    case eWorldMap::greece6:
-        eGameTextures::loadMapOfGreece6();
-        tex = texs.fMapOfGreece6;
-        break;
-    case eWorldMap::greece7:
-        eGameTextures::loadMapOfGreece7();
-        tex = texs.fMapOfGreece7;
-        break;
-    case eWorldMap::greece8:
-        eGameTextures::loadMapOfGreece8();
-        tex = texs.fMapOfGreece8;
-        break;
-
-    case eWorldMap::poseidon1:
-        eGameTextures::loadPoseidonMap1();
-        tex = texs.fPoseidonMap1;
-        break;
-    case eWorldMap::poseidon2:
-        eGameTextures::loadPoseidonMap2();
-        tex = texs.fPoseidonMap2;
-        break;
-    case eWorldMap::poseidon3:
-        eGameTextures::loadPoseidonMap3();
-        tex = texs.fPoseidonMap3;
-        break;
-    case eWorldMap::poseidon4:
-        eGameTextures::loadPoseidonMap4();
-        tex = texs.fPoseidonMap4;
-        break;
-    }
-
-    mWMW->setTexture(tex);
-    mWMW->fitContent();
+    mWMW->setMap(map);
     mWMW->align(eAlignment::center);
     mWMW->setX((width() - mWM->width() - mWMW->width())/2);
 }

@@ -334,6 +334,9 @@ std::string eWorldCityBase::anArmy() const {
 void eWorldCityBase::write(eWriteStream& dst) const {
     dst << mIOID;
     dst << mType;
+    dst << mNationality;
+    dst << mDirection;
+    dst << mState;
     dst << mName;
     dst << mNameString;
     dst << mLeader;
@@ -348,6 +351,9 @@ void eWorldCityBase::write(eWriteStream& dst) const {
 void eWorldCityBase::read(eReadStream& src) {
     src >> mIOID;
     src >> mType;
+    src >> mNationality;
+    src >> mDirection;
+    src >> mState;
     src >> mName;
     src >> mNameString;
     if(mNameString > -1 && mNameString < 82) {

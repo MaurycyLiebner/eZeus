@@ -19,7 +19,8 @@ public:
     void initialize(const eAction& openRequest,
                     const eAction& openGift,
                     const eAction& openRaid,
-                    const eAction& openConquer);
+                    const eAction& openConquer,
+                    const bool showText = true);
 
     void setCity(const stdsptr<eWorldCity>& c);
     void setWorldBoard(eWorldBoard* const b);
@@ -46,6 +47,8 @@ private:
     eButton* mConquerButton = nullptr;
 
     stdsptr<eWorldCity> mCity;
+
+    bool mShowText = true;
 };
 
 #endif // EWORLDMENU_H

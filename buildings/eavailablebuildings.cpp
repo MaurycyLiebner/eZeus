@@ -6,6 +6,8 @@
 #include "buildings/ebuilding.h"
 
 void eAvailableBuildings::read(eReadStream& src) {
+    src >> fEliteHousing;
+
     src >> fWheatFarm;
     src >> fCarrotsFarm;
     src >> fOnionFarm;
@@ -31,6 +33,9 @@ void eAvailableBuildings::read(eReadStream& src) {
     src >> fSculptureStudio;
 
     src >> fArmory;
+
+    src >> fHorseRanch;
+    src >> fChariotFactory;
 
     src >> fAphroditeSanctuary;
     src >> fApolloSanctuary;
@@ -74,6 +79,8 @@ void eAvailableBuildings::read(eReadStream& src) {
 }
 
 void eAvailableBuildings::write(eWriteStream& dst) const {
+    dst << fEliteHousing;
+
     dst << fWheatFarm;
     dst << fCarrotsFarm;
     dst << fOnionFarm;
@@ -99,6 +106,9 @@ void eAvailableBuildings::write(eWriteStream& dst) const {
     dst << fSculptureStudio;
 
     dst << fArmory;
+
+    dst << fHorseRanch;
+    dst << fChariotFactory;
 
     dst << fAphroditeSanctuary;
     dst << fApolloSanctuary;
@@ -145,6 +155,9 @@ bool eAvailableBuildings::available(
         const eBuildingType type,
         const int id) const {
     switch(type) {
+    case eBuildingType::eliteHousing:
+        return fEliteHousing;
+
     case eBuildingType::wheatFarm:
         return fWheatFarm;
     case eBuildingType::carrotsFarm:
@@ -409,6 +422,9 @@ void eAvailableBuildings::disallow(
 
 bool* eAvailableBuildings::allowedPtr(const eBuildingType type) {
     switch(type) {
+    case eBuildingType::eliteHousing:
+        return &fEliteHousing;
+
     case eBuildingType::wheatFarm:
         return &fWheatFarm;
     case eBuildingType::carrotsFarm:

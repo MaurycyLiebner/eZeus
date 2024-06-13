@@ -8,6 +8,7 @@
 #include "widgets/emenuloadingwidget.h"
 #include "widgets/eworldwidget.h"
 #include "widgets/echoosegameeditmenu.h"
+#include "widgets/eselectcolonywidget.h"
 
 #include "audio/emusic.h"
 
@@ -143,7 +144,24 @@ void eMainWindow::episodeFinished() {
         e->initialize(mCampaign);
         setWidget(e);
     } else {
-
+        const auto w = new eSelectColonyWidget(this);
+        const auto sel = mCampaign->remainingColonies();
+        const auto selA = [this](const stdsptr<eWorldCity>& c) {
+            int cid = 0;
+            const auto& eps = mCampaign->colonyEpisodes();
+            for(const auto& e : eps) {
+                if(e->fCity == c) break;
+                cid++;
+            }
+            mCampaign->setCurrentColonyEpisode(cid);
+            const auto e = new eEpisodeIntroductionWidget(this);
+            e->resize(width(), height());
+            e->initialize(mCampaign, cid);
+            setWidget(e);
+        };
+        w->resize(width(), height());
+        w->initialize(sel, selA, &mCampaign->worldBoard());
+        setWidget(w);
     }
 }
 

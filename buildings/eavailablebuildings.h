@@ -34,6 +34,8 @@ private:
     bool* allowedPtr(const eBuildingType type);
     eAvailable* availablePtr(const eBuildingType type);
 public:
+    bool fEliteHousing = false;
+
     bool fWheatFarm = false;
     bool fCarrotsFarm = false;
     bool fOnionFarm = false;
@@ -64,29 +66,29 @@ public:
     bool fHorseRanch = false;
     bool fChariotFactory = false;
 
-    eAvailable  fAphroditeSanctuary = eAvailable::notAvailable;
-    eAvailable  fApolloSanctuary = eAvailable::notAvailable;
-    eAvailable  fAresSanctuary = eAvailable::notAvailable;
-    eAvailable  fArtemisSanctuary = eAvailable::notAvailable;
-    eAvailable  fAthenaSanctuary = eAvailable::notAvailable;
-    eAvailable  fAtlasSanctuary = eAvailable::notAvailable;
-    eAvailable  fDemeterSanctuary = eAvailable::notAvailable;
-    eAvailable  fDionysusSanctuary = eAvailable::notAvailable;
-    eAvailable  fHadesSanctuary = eAvailable::notAvailable;
-    eAvailable  fHephaestusSanctuary = eAvailable::notAvailable;
-    eAvailable  fHeraSanctuary = eAvailable::notAvailable;
-    eAvailable  fHermesSanctuary = eAvailable::notAvailable;
-    eAvailable  fPoseidonSanctuary = eAvailable::notAvailable;
-    eAvailable  fZeusSanctuary = eAvailable::notAvailable;
+    eAvailable fAphroditeSanctuary = eAvailable::notAvailable;
+    eAvailable fApolloSanctuary = eAvailable::notAvailable;
+    eAvailable fAresSanctuary = eAvailable::notAvailable;
+    eAvailable fArtemisSanctuary = eAvailable::notAvailable;
+    eAvailable fAthenaSanctuary = eAvailable::notAvailable;
+    eAvailable fAtlasSanctuary = eAvailable::notAvailable;
+    eAvailable fDemeterSanctuary = eAvailable::notAvailable;
+    eAvailable fDionysusSanctuary = eAvailable::notAvailable;
+    eAvailable fHadesSanctuary = eAvailable::notAvailable;
+    eAvailable fHephaestusSanctuary = eAvailable::notAvailable;
+    eAvailable fHeraSanctuary = eAvailable::notAvailable;
+    eAvailable fHermesSanctuary = eAvailable::notAvailable;
+    eAvailable fPoseidonSanctuary = eAvailable::notAvailable;
+    eAvailable fZeusSanctuary = eAvailable::notAvailable;
 
-    eAvailable  fAchillesHall = eAvailable::notAvailable;
-    eAvailable  fAtalantaHall = eAvailable::notAvailable;
-    eAvailable  fBellerophonHall = eAvailable::notAvailable;
-    eAvailable  fHerculesHall = eAvailable::notAvailable;
-    eAvailable  fJasonHall = eAvailable::notAvailable;
-    eAvailable  fOdysseusHall = eAvailable::notAvailable;
-    eAvailable  fPerseusHall = eAvailable::notAvailable;
-    eAvailable  fTheseusHall = eAvailable::notAvailable;
+    eAvailable fAchillesHall = eAvailable::notAvailable;
+    eAvailable fAtalantaHall = eAvailable::notAvailable;
+    eAvailable fBellerophonHall = eAvailable::notAvailable;
+    eAvailable fHerculesHall = eAvailable::notAvailable;
+    eAvailable fJasonHall = eAvailable::notAvailable;
+    eAvailable fOdysseusHall = eAvailable::notAvailable;
+    eAvailable fPerseusHall = eAvailable::notAvailable;
+    eAvailable fTheseusHall = eAvailable::notAvailable;
 
     int fPopulationMonument = 0;
     int fVictoryMonument = 0;

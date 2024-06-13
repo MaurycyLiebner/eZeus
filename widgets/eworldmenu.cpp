@@ -14,7 +14,8 @@
 void eWorldMenu::initialize(const eAction& openRequest,
                             const eAction& openGift,
                             const eAction& openRaid,
-                            const eAction& openConquer) {
+                            const eAction& openConquer,
+                            const bool showText) {
     int iRes;
     int mult;
     iResAndMult(iRes, mult);
@@ -190,6 +191,8 @@ void eWorldMenu::initialize(const eAction& openRequest,
         mTextLabel->setWrapAlignment(eAlignment::hcenter);
         mTextLabel->setWidth(w);
         mTextLabel->setHeight(mult*105);
+        mTextLabel->setVisible(showText);
+        mShowText = showText;
     }
 
     {
@@ -221,7 +224,7 @@ void eWorldMenu::initialize(const eAction& openRequest,
 }
 
 void eWorldMenu::setCity(const stdsptr<eWorldCity>& c) {
-    if(!c) {
+    if(!c && mShowText) {
         const auto text = eLanguage::zeusText(47, 5);
         mTextLabel->setText(text);
         mTextLabel->show();

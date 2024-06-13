@@ -229,6 +229,7 @@ void eChooseGameEditMenu::initialize(const bool editor) {
             e->resize(w->width(), w->height());
             const auto c = std::make_shared<eCampaign>();
             c->load(name);
+            c->setEditorMode(true);
             e->initialize(c);
             w->setWidget(e);
         } else {
