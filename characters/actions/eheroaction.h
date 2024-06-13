@@ -111,10 +111,12 @@ public:
         auto& board = eCharActFunc::board();
         eEventData ed;
         const auto ct = mMptr->type();
-        ed.fMonster = eMonster::sCharacterToMonsterType(ct);
+        const auto mt = eMonster::sCharacterToMonsterType(ct);
+        ed.fMonster = mt;
         ed.fTile = mMptr->tile();
         board.event(eEvent::monsterSlain, ed);
         mMptr->killWithCorpse();
+        board.addSlayedMonster(mt);
     }
 
     void read(eReadStream& src) {

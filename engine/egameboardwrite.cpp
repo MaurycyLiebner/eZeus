@@ -97,6 +97,22 @@ void eGameBoard::write(eWriteStream& dst) const {
     }
 
     {
+        const int nq = mFulfilledQuests.size();
+        dst << nq;
+        for(const auto& q : mFulfilledQuests) {
+            q.write(dst);
+        }
+    }
+
+    {
+        const int nm = mSlayedMonsters.size();
+        dst << nm;
+        for(const auto m : mSlayedMonsters) {
+            dst << m;
+        }
+    }
+
+    {
         const int nq = mGodQuests.size();
         dst << nq;
         for(const auto& q : mGodQuests) {

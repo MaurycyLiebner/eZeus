@@ -448,8 +448,10 @@ public:
 
     const std::vector<eGodQuest>& fulfilledQuests() const
     { return mFulfilledQuests; }
+    void addFulfilledQuest(const eGodQuest q);
     const std::vector<eMonsterType>& slayedMonsters() const
     { return mSlayedMonsters; }
+    void addSlayedMonster(const eMonsterType m);
 private:
     void updateNeighbours();
 

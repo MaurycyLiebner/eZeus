@@ -70,6 +70,24 @@ void eGameBoard::read(eReadStream& src) {
         int nq;
         src >> nq;
         for(int i = 0; i < nq; i++) {
+            auto& q = mFulfilledQuests.emplace_back();
+            q.read(src);
+        }
+    }
+
+    {
+        int nm;
+        src >> nm;
+        for(int i = 0; i < nm; i++) {
+            auto& m = mSlayedMonsters.emplace_back();
+            src >> m;
+        }
+    }
+
+    {
+        int nq;
+        src >> nq;
+        for(int i = 0; i < nq; i++) {
             src.readGameEvent(this, [this](eGameEvent* const e) {
                 const auto ge = static_cast<eGodQuestEvent*>(e);
                 mGodQuests.push_back(ge);

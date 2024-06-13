@@ -21,10 +21,11 @@ void eGodQuestFulfilledEvent::trigger() {
     ed.fGod = god();
     board->event(eEvent::godQuestFulfilled, ed);
     board->allow(eBuildingType::godMonument, static_cast<int>(god()));
+    board->addFulfilledQuest(godQuest());
     const auto hh = board->heroHall(hero());
     if(hh) hh->setHeroOnQuest(false);
-    board->removeGodQuest(mainEvent<eGodQuestEvent>());
     const auto me = mainEvent<eGodQuestEvent>();
+    board->removeGodQuest(me);
     me->fulfilled();
 }
 

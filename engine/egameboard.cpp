@@ -2025,3 +2025,11 @@ int eGameBoard::countSoldiers(const eBannerType bt) const {
     }
     return c;
 }
+
+void eGameBoard::addFulfilledQuest(const eGodQuest q) {
+    mFulfilledQuests.push_back(q);
+}
+
+void eGameBoard::addSlayedMonster(const eMonsterType m) {
+    mSlayedMonsters.push_back(m);
+}
