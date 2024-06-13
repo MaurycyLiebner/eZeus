@@ -325,6 +325,9 @@ public:
     using eGameEvents = std::vector<stdsptr<eGameEvent>>;
     const eGameEvents& gameEvents() const { return mGameEvents; }
 
+    using eGoals = std::vector<stdsptr<eEpisodeGoal>>;
+    const eGoals& goals() const { return mGoals; }
+
     void addRootGameEvent(const stdsptr<eGameEvent>& e);
     void removeRootGameEvent(const stdsptr<eGameEvent>& e);
 

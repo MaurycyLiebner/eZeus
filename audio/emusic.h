@@ -22,12 +22,18 @@ public:
     static void playMenuMusic();
     static void playRandomMusic();
     static void playRandomBattleMusic();
+    static void playMissionIntroMusic();
+    static void playMissionVictoryMusic();
+    static void playCampaignVictoryMusic();
 private:
     void incTimeImpl();
 
     void playMenuMusicImpl();
     void playRandomMusicImpl();
     void playRandomBattleMusicImpl();
+    void playMissionIntroMusicImpl();
+    void playMissionVictoryMusicImpl();
+    void playCampaignVictoryMusicImpl();
 
     void loadImpl();
     void loadMenuImpl();
@@ -40,6 +46,9 @@ private:
     std::shared_ptr<eMusicVector> mSetupMusic = std::make_shared<eMusicVector>();
     std::shared_ptr<eMusicVector> mMusic = std::make_shared<eMusicVector>();
     std::shared_ptr<eMusicVector> mBattleMusic = std::make_shared<eMusicVector>();
+    eMusicVector mMissionIntro;
+    eMusicVector mMissionVictory;
+    eMusicVector mCampaignVictory;
 };
 
 #endif // EMUSIC_H

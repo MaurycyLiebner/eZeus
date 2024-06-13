@@ -132,6 +132,30 @@ void eMainWindow::startGameAction(const eAction& a) {
     l->initialize();
 }
 
+void eMainWindow::showEpisodeIntroduction(
+        const stdsptr<eCampaign>& c) {
+    eMusic::playMissionIntroMusic();
+    if(c) mCampaign = c;
+    const auto e = new eEpisodeIntroductionWidget(this);
+    const auto proceedA = [this]() {
+        mCampaign->startEpisode();
+        startGameAction([this]() {
+            eGameWidgetSettings settings;
+            settings.fPaused = true;
+            showGame(mCampaign, settings);
+        });
+    };
+    e->resize(width(), height());
+    const auto ee = mCampaign->currentEpisode();
+    e->initialize(mCampaign,
+                  mCampaign->titleText(),
+                  ee->fIntroduction,
+                  ee->fGoals,
+                  proceedA,
+                  eEpisodeIntroType::intro);
+    setWidget(e);
+}
+
 void eMainWindow::episodeFinished() {
     if(!mCampaign) return;
     mCampaign->episodeFinished();
@@ -139,10 +163,7 @@ void eMainWindow::episodeFinished() {
     if(f) return showMainMenu();
     const auto n = mCampaign->currentEpisodeType();
     if(n == eEpisodeType::parentCity) {
-        const auto e = new eEpisodeIntroductionWidget(this);
-        e->resize(width(), height());
-        e->initialize(mCampaign);
-        setWidget(e);
+        showEpisodeIntroduction();
     } else {
         const auto w = new eSelectColonyWidget(this);
         const auto sel = mCampaign->remainingColonies();
@@ -154,10 +175,7 @@ void eMainWindow::episodeFinished() {
                 cid++;
             }
             mCampaign->setCurrentColonyEpisode(cid);
-            const auto e = new eEpisodeIntroductionWidget(this);
-            e->resize(width(), height());
-            e->initialize(mCampaign, cid);
-            setWidget(e);
+            showEpisodeIntroduction();
         };
         w->resize(width(), height());
         w->initialize(sel, selA, &mCampaign->worldBoard());
@@ -210,7 +228,6 @@ void eMainWindow::closeGame() {
 void eMainWindow::showMenuLoading() {
     const auto mlw = new eMenuLoadingWidget(this);
     mlw->setDoneAction([this]() {
-        eMusic::playMenuMusic();
         showMainMenu();
     });
     mlw->initialize();
@@ -219,125 +236,14 @@ void eMainWindow::showMenuLoading() {
 }
 
 void eMainWindow::showMainMenu() {
+    eMusic::playMenuMusic();
+
     const auto mm = new eMainMenu(this);
     mm->resize(width(), height());
     setWidget(mm);
 
     const auto newGameAction = [this]() {
-        return showChooseGameMenu();
-
-        const auto board = new eGameBoard();
-        board->initialize(100, 200);
-
-        std::vector<eResourceType> missingPos{eResourceType::oliveOil,
-                                              eResourceType::wine,
-                                              eResourceType::bronze,
-                                              eResourceType::marble,
-                                              eResourceType::food};
-        std::random_shuffle(missingPos.begin(), missingPos.end());
-
-        std::vector<eGodType> friendlyGods;
-        std::vector<eResourceType> missing;
-        for(int i = 0; i < 2; i++) {
-            const auto ms = missingPos[i];
-            switch(ms) {
-            case eResourceType::oliveOil:
-                friendlyGods.push_back(eGodType::athena);
-                break;
-            case eResourceType::wine:
-                friendlyGods.push_back(eGodType::dionysus);
-                break;
-            case eResourceType::bronze:
-                friendlyGods.push_back(eGodType::hephaestus);
-                break;
-            case eResourceType::marble:
-                friendlyGods.push_back(eGodType::atlas);
-                break;
-            case eResourceType::food:
-                friendlyGods.push_back(eGodType::demeter);
-                break;
-            default:
-                break;
-            }
-
-            missing.push_back(ms);
-        }
-
-
-        eMapGenerator g(*board);
-        eMapGeneratorSettings sett;
-
-        g.generate(sett);
-
-        const int iMax = static_cast<int>(eGodType::zeus) + 1;
-        std::vector<eGodType> gods;
-        for(int i = 0; i < iMax; i++) {
-            const auto t = static_cast<eGodType>(i);
-            const bool r =  eVectorHelpers::contains(friendlyGods, t);
-            if(r) continue;
-            gods.push_back(t);
-        }
-
-        std::random_shuffle(gods.begin(), gods.end());
-
-        for(int i = 0; i < 2; i++) {
-            const auto g = gods[i];
-            eVectorHelpers::remove(gods, g);
-            friendlyGods.push_back(g);
-        }
-        friendlyGods.push_back(eGodType::apollo);
-        friendlyGods.push_back(eGodType::hephaestus);
-
-        std::vector<eGodType> hostileGods;
-        std::vector<eMonsterType> monsters;
-        for(int i = 0; i < 2; i++) {
-            const auto g = gods[i];
-            eVectorHelpers::remove(gods, g);
-            hostileGods.push_back(g);
-            monsters.push_back(eMonster::sGodsMinion(g));
-        }
-
-        board->setFriendlyGods(friendlyGods);
-        board->setHostileGods(hostileGods);
-        board->setHostileMonsters(monsters);
-
-        const auto wb = board->getWorldBoard();
-
-        const auto hc = eWorldCity::sCreateSparta();
-        hc->setType(eCityType::parentCity);
-        hc->setIsCurrentCity(true);
-        wb->setHomeCity(hc);
-
-        const auto c1 = eWorldCity::sCreateAthens();
-        c1->setArmy(3);
-        c1->setWealth(4);
-        c1->setRelationship(eForeignCityRelationship::ally);
-        c1->addBuys(eResourceTrade{eResourceType::marble, 0, 12, 120});
-        c1->addBuys(eResourceTrade{eResourceType::wood, 0, 12, 80});
-        c1->addSells(eResourceTrade{eResourceType::fleece, 0, 12, 60});
-        wb->addCity(c1);
-
-        const auto c2 = eWorldCity::sCreateTroy();
-        c2->setArmy(5);
-        c2->setWealth(3);
-        c2->setRelationship(eForeignCityRelationship::rival);
-        c2->setWaterTrade(true);
-        c2->addBuys(eResourceTrade{eResourceType::armor, 0, 12, 120});
-        c2->addBuys(eResourceTrade{eResourceType::wheat, 0, 12, 80});
-        c2->addSells(eResourceTrade{eResourceType::sculpture, 0, 12, 200});
-        c2->addSells(eResourceTrade{eResourceType::bronze, 0, 12, 80});
-        wb->addCity(c2);
-
-        const auto c3 = eWorldCity::sCreateMtPelion();
-        c3->setRelationship(eForeignCityRelationship::ally);
-        c3->setWaterTrade(true);
-        c3->addBuys(eResourceTrade{eResourceType::armor, 0, 12, 120});
-        c3->addBuys(eResourceTrade{eResourceType::wheat, 0, 12, 80});
-        c3->addSells(eResourceTrade{eResourceType::sculpture, 0, 12, 200});
-        c3->addSells(eResourceTrade{eResourceType::bronze, 0, 12, 80});
-        wb->addCity(c3);
-
-        startGameAction(board, eGameWidgetSettings());
+        showChooseGameMenu();
     };
 
     const auto loadGameAction = [this, mm]() {

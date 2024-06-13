@@ -28,6 +28,7 @@
 #include "elanguage.h"
 
 #include "ebuildwidget.h"
+#include "ebasicbutton.h"
 
 struct eSubButtonData {
     eBuildingMode fMode;
@@ -242,7 +243,8 @@ eGameMenu::~eGameMenu() {
     }
 }
 
-void eGameMenu::initialize(eGameBoard* const b) {
+void eGameMenu::initialize(eGameBoard* const b,
+                           const eAction& goalsView) {
     mBoard = b;
     const bool poseidon = b->poseidonMode();
     eGameMenuBase::initialize();
@@ -902,7 +904,9 @@ void eGameMenu::initialize(eGameBoard* const b) {
     {
         const auto butts = new eWidget(window());
         butts->setPadding(0);
-        const auto goals = eCheckableButton::sCreate(coll.fGoals, window(), butts);
+        const auto goals = new eBasicButton(&eInterfaceTextures::fGoals, window());
+        butts->addWidget(goals);
+        goals->setPressAction(goalsView);
         const auto rotate = eCheckableButton::sCreate(coll.fRotation, window(), butts);
         mWorldButton = eButton::sCreate(coll.fWorld, window(), butts);
         const int w = goals->width() + rotate->width() + mWorldButton->width() + 5;

@@ -169,6 +169,8 @@ void eEditorSettingsMenu::initialize(eEpisode* const ep,
         buildMenu->resize(width(), height());
 
         const std::vector<eBuildingType> bv {
+            eBuildingType::eliteHousing,
+
             eBuildingType::wheatFarm,
             eBuildingType::carrotsFarm,
             eBuildingType::onionsFarm,

@@ -585,26 +585,6 @@ void eWorldMapWidget::updateWidgets() {
         ww->move(x, y);
         ww->setTooltip(clickForInfo);
     }
-    if(hc && !mSelectColonyMode) {
-        const int cx = width()*hc->x();
-        const int cy = height()*hc->y();
-        const int x = cx - w/2;
-        const int y = cy - h/2;
-        const auto ww = new eCityTransparentWidget(window());
-        if(mWorldBoard->editorMode()) {
-            ww->setCity(hc);
-            ww->setReleaseAction([this]() {
-                updateWidgets();
-            });
-        }
-        ww->setPressAction([this, hc]() {
-            if(mSelectCityAction) mSelectCityAction(hc);
-        });
-        ww->resize(w, h);
-        addWidget(ww);
-        ww->move(x, y);
-        ww->setTooltip(clickForInfo);
-    }
 }
 
 void eWorldMapWidget::armyDrawXY(eWorldCity& c1, eWorldCity& c2,

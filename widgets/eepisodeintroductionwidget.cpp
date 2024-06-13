@@ -13,17 +13,24 @@
 #include "eupbutton.h"
 #include "edownbutton.h"
 #include "egamewidget.h"
+#include "eframedbutton.h"
 
 #include "audio/emusic.h"
 
 void eEpisodeIntroductionWidget::initialize(
-        const std::shared_ptr<eCampaign>& c,
-        const int cid) {
-    const auto& intrfc = eGameTextures::interface();
+        const stdsptr<eCampaign>& c,
+        const std::string& title,
+        const std::string& text,
+        const eGoals& goals,
+        const eAction& proceedA,
+        const eEpisodeIntroType type) {
     const auto res = resolution();
+    const auto& intrfc = eGameTextures::interface();
     const int iRes = static_cast<int>(res.uiScale());
     const auto& texs = intrfc[iRes];
-    setTexture(texs.fIntroductionImage);
+    if(type == eEpisodeIntroType::intro) {
+        setTexture(texs.fIntroductionImage);
+    }
 
     const auto frame = new eFramedWidget(window());
     frame->setType(eFrameType::message);
@@ -44,7 +51,7 @@ void eEpisodeIntroductionWidget::initialize(
     const auto mainTitle = new eLabel(window());
     mainTitle->setNoPadding();
     mainTitle->setHugeFontSize();
-    mainTitle->setText(c->titleText());
+    mainTitle->setText(title);
     mainTitle->fitContent();
     inner->addWidget(mainTitle);
     mainTitle->align(eAlignment::hcenter);
@@ -66,7 +73,6 @@ void eEpisodeIntroductionWidget::initialize(
     const auto goalsInner = new eWidget(window());
     goalsInner->setNoPadding();
 
-    const auto& goals = e->fGoals;
     for(const auto& g : goals) {
         const auto w = new eWidget(window());
         w->setNoPadding();
@@ -74,7 +80,8 @@ void eEpisodeIntroductionWidget::initialize(
         const auto checkBox = new eLabel(window());
         checkBox->setNoPadding();
         const auto& ctexs = texs.fCheckBox;
-        checkBox->setTexture(ctexs.getTexture(1));
+        const int tid = g->met() ? 0 : 1;
+        checkBox->setTexture(ctexs.getTexture(tid));
         checkBox->fitContent();
         w->addWidget(checkBox);
 
@@ -105,80 +112,90 @@ void eEpisodeIntroductionWidget::initialize(
     lowerButtons->setNoPadding();
     lowerButtons->setWidth(iw);
 
-    const auto diffW = new eWidget(window());
-    diffW->setNoPadding();
+    if(type == eEpisodeIntroType::intro) {
+        const auto diffW = new eWidget(window());
+        diffW->setNoPadding();
 
-    const auto diffLabel = new eLabel(window());
-    diffLabel->setNoPadding();
-    diffLabel->setSmallFontSize();
-    const auto diffText = eLanguage::zeusText(44, 219);
-    const auto defDiff = eDifficulty::hero;
-    const auto diff = std::make_shared<eDifficulty>(defDiff);
-    c->setDifficulty(defDiff);
-    const auto hdiff = eDifficultyHelpers::name(*diff);
-    diffLabel->setText("  " + diffText + "  " + hdiff);
-    diffLabel->fitContent();
-
-    const auto up = new eUpButton(window());
-    diffW->addWidget(up);
-    up->setPressAction([diff, diffLabel, diffText, c]() {
-        if(*diff == eDifficulty::olympian) return;
-        const int diffi = static_cast<int>(*diff);
-        *diff = static_cast<eDifficulty>(diffi + 1);
+        const auto diffLabel = new eLabel(window());
+        diffLabel->setNoPadding();
+        diffLabel->setSmallFontSize();
+        const auto diffText = eLanguage::zeusText(44, 219);
+        const auto defDiff = eDifficulty::hero;
+        const auto diff = std::make_shared<eDifficulty>(defDiff);
+        c->setDifficulty(defDiff);
         const auto hdiff = eDifficultyHelpers::name(*diff);
         diffLabel->setText("  " + diffText + "  " + hdiff);
         diffLabel->fitContent();
-        c->setDifficulty(*diff);
-    });
 
-    const auto down = new eDownButton(window());
-    diffW->addWidget(down);
-    down->setPressAction([diff, diffLabel, diffText, c]() {
-        if(*diff == eDifficulty::beginner) return;
-        const int diffi = static_cast<int>(*diff);
-        *diff = static_cast<eDifficulty>(diffi - 1);
-        const auto hdiff = eDifficultyHelpers::name(*diff);
-        diffLabel->setText("  " + diffText + " " + hdiff);
-        diffLabel->fitContent();
-        c->setDifficulty(*diff);
-    });
-
-    diffW->addWidget(diffLabel);
-
-    diffW->stackHorizontally();
-    diffW->fitContent();
-    lowerButtons->addWidget(diffW);
-
-    const auto proceedW = new eWidget(window());
-    proceedW->setNoPadding();
-
-    const auto proceedLabel = new eLabel(window());
-    proceedLabel->setSmallFontSize();
-    proceedLabel->setSmallPadding();
-    proceedLabel->setText(eLanguage::zeusText(62, 5));
-    proceedLabel->fitContent();
-    proceedW->addWidget(proceedLabel);
-
-    const auto proceedB = new eProceedButton(window());
-    proceedB->setPressAction([this, c, cid]() {
-        c->startEpisode(cid);
-        const auto w = window();
-        w->startGameAction([w, c]() {
-            eGameWidgetSettings settings;
-            settings.fPaused = true;
-            w->showGame(c, settings);
+        const auto up = new eUpButton(window());
+        diffW->addWidget(up);
+        up->setPressAction([diff, diffLabel, diffText, c]() {
+            if(*diff == eDifficulty::olympian) return;
+            const int diffi = static_cast<int>(*diff);
+            *diff = static_cast<eDifficulty>(diffi + 1);
+            const auto hdiff = eDifficultyHelpers::name(*diff);
+            diffLabel->setText("  " + diffText + "  " + hdiff);
+            diffLabel->fitContent();
+            c->setDifficulty(*diff);
         });
-    });
-    proceedW->addWidget(proceedB);
 
-    proceedW->stackHorizontally(2*p);
-    proceedW->fitContent();
-    proceedLabel->align(eAlignment::vcenter);
-    proceedB->align(eAlignment::vcenter);
+        const auto down = new eDownButton(window());
+        diffW->addWidget(down);
+        down->setPressAction([diff, diffLabel, diffText, c]() {
+            if(*diff == eDifficulty::beginner) return;
+            const int diffi = static_cast<int>(*diff);
+            *diff = static_cast<eDifficulty>(diffi - 1);
+            const auto hdiff = eDifficultyHelpers::name(*diff);
+            diffLabel->setText("  " + diffText + " " + hdiff);
+            diffLabel->fitContent();
+            c->setDifficulty(*diff);
+        });
 
-    lowerButtons->addWidget(proceedW);
+        diffW->addWidget(diffLabel);
 
-    lowerButtons->layoutHorizontallyWithoutSpaces();
+        diffW->stackHorizontally();
+        diffW->fitContent();
+        lowerButtons->addWidget(diffW);
+
+        const auto proceedW = new eWidget(window());
+        proceedW->setNoPadding();
+
+        const auto proceedLabel = new eLabel(window());
+        proceedLabel->setSmallFontSize();
+        proceedLabel->setSmallPadding();
+        proceedLabel->setText(eLanguage::zeusText(62, 5));
+        proceedLabel->fitContent();
+        proceedW->addWidget(proceedLabel);
+
+        const auto proceedB = new eProceedButton(window());
+        proceedB->setPressAction(proceedA);
+        proceedW->addWidget(proceedB);
+
+        proceedW->stackHorizontally(2*p);
+        proceedW->fitContent();
+        proceedLabel->align(eAlignment::vcenter);
+        proceedB->align(eAlignment::vcenter);
+
+        lowerButtons->addWidget(proceedW);
+        proceedW->align(eAlignment::right);
+    } else if(type == eEpisodeIntroType::goals) {
+        const auto rpc = new eLabel(window());
+        rpc->setNoPadding();
+        rpc->setSmallFontSize();
+        rpc->setText(eLanguage::zeusText(13, 1));
+        rpc->fitContent();
+        lowerButtons->addWidget(rpc);
+        rpc->align(eAlignment::hcenter);
+    } else if(type == eEpisodeIntroType::victory) {
+        const auto p = new eFramedButton(window());
+        p->setUnderline(false);
+        p->setText(eLanguage::zeusText(62, 2));
+        p->fitContent();
+        p->setPressAction(proceedA);
+        lowerButtons->addWidget(p);
+        p->align(eAlignment::hcenter);
+    }
+
     lowerButtons->fitHeight();
 
     const auto introText = new eTextScroller(window());
@@ -192,7 +209,7 @@ void eEpisodeIntroductionWidget::initialize(
     introText->initialize();
     introText->setSmallTextFontSize();
     introText->setTinyTextPadding();
-    introText->setText(e->fIntroduction);
+    introText->setText(text);
     inner->addWidget(introText);
 
     inner->addWidget(lowerButtons);

@@ -233,12 +233,9 @@ void eChooseGameEditMenu::initialize(const bool editor) {
             e->initialize(c);
             w->setWidget(e);
         } else {
-            const auto e = new eEpisodeIntroductionWidget(window());
-            e->resize(w->width(), w->height());
             const auto c = std::make_shared<eCampaign>();
             c->load(name);
-            e->initialize(c);
-            w->setWidget(e);
+            w->showEpisodeIntroduction(c);
         }
     });
     proceedW->addWidget(proceedB);

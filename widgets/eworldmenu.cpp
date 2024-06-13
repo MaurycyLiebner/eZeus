@@ -116,26 +116,27 @@ void eWorldMenu::initialize(const eAction& openRequest,
         wh->setX(whx);
         wh->setY(why);
 
-        const auto wgw = eButton::sCreate(coll.fWorldSmallButton, window(), this);
-        wgw->setPressAction([this](){
-            const bool editor = mBoard && mBoard->editorMode();
-            if(editor) return;
-            window()->showGame(static_cast<eGameBoard*>(nullptr),
-                               eGameWidgetSettings());
-        });
-        const int wgwx = 20*mult;
-        const int wgwy = 285*mult;
+        if(mShowText) {
+            const auto wgw = eButton::sCreate(coll.fWorldSmallButton, window(), this);
+            wgw->setPressAction([this](){
+                const bool editor = mBoard && mBoard->editorMode();
+                if(editor) return;
+                window()->showGame(static_cast<eGameBoard*>(nullptr),
+                                   eGameWidgetSettings());
+            });
+            const int wgwx = 20*mult;
+            const int wgwy = 285*mult;
 
-        const auto backToCityStr = eLanguage::zeusText(47, 8);
-        const auto wgwtxt = new eLabel(backToCityStr, window());
-        wgwtxt->setSmallFontSize();
-        wgwtxt->fitContent();
-        wgw->addWidget(wgwtxt);
-        wgwtxt->align(eAlignment::center);
+            const auto backToCityStr = eLanguage::zeusText(47, 8);
+            const auto wgwtxt = new eLabel(backToCityStr, window());
+            wgwtxt->setSmallFontSize();
+            wgwtxt->fitContent();
+            wgw->addWidget(wgwtxt);
+            wgwtxt->align(eAlignment::center);
 
-        wgw->setX(wgwx);
-        wgw->setY(wgwy);
-
+            wgw->setX(wgwx);
+            wgw->setY(wgwy);
+        }
 
         const auto wat = eButton::sCreate(coll.fWorldBigButton, window(), this);
 
@@ -233,6 +234,7 @@ void eWorldMenu::setCity(const stdsptr<eWorldCity>& c) {
     }
 
     mCity = c;
+    const bool cc = c->isCurrentCity();
 
     bool vassalOrColony = false;
     bool distant = false;
@@ -255,11 +257,11 @@ void eWorldMenu::setCity(const stdsptr<eWorldCity>& c) {
         mLeaderLabel->setText("");
     }
 
-    mRequestButton->setEnabled(c.get() && !distant);
-    mFulfillButton->setEnabled(c.get() && !distant);
-    mGiftButton->setEnabled(c.get() && !distant);
-    mRaidButton->setEnabled(c.get() && !vassalOrColony && !distant);
-    mConquerButton->setEnabled(c.get() && !vassalOrColony && !distant);
+    mRequestButton->setEnabled(c.get() && !distant && !cc);
+    mFulfillButton->setEnabled(c.get() && !distant && !cc);
+    mGiftButton->setEnabled(c.get() && !distant && !cc);
+    mRaidButton->setEnabled(c.get() && !vassalOrColony && !distant && !cc);
+    mConquerButton->setEnabled(c.get() && !vassalOrColony && !distant && !cc);
 
     mGoodsWidget->setCity(c);
     mTributeWidget->setCity(c);

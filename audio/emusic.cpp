@@ -34,6 +34,18 @@ void eMusic::playRandomBattleMusic() {
     sInstance.playRandomBattleMusicImpl();
 }
 
+void eMusic::playMissionIntroMusic() {
+    sInstance.playMissionIntroMusicImpl();
+}
+
+void eMusic::playMissionVictoryMusic() {
+    sInstance.playMissionVictoryMusicImpl();
+}
+
+void eMusic::playCampaignVictoryMusic() {
+    sInstance.playCampaignVictoryMusicImpl();
+}
+
 void eMusic::incTimeImpl() {
     if(Mix_PlayingMusic()) return;
     switch(mMusicType) {
@@ -87,6 +99,21 @@ void eMusic::playRandomBattleMusicImpl() {
     mBattleMusic->playRandomSound();
 }
 
+void eMusic::playMissionIntroMusicImpl() {
+    Mix_HaltMusic();
+    mMissionIntro.playRandomSound();
+}
+
+void eMusic::playMissionVictoryMusicImpl() {
+    Mix_HaltMusic();
+    mMissionVictory.playRandomSound();
+}
+
+void eMusic::playCampaignVictoryMusicImpl() {
+    Mix_HaltMusic();
+    mCampaignVictory.playRandomSound();
+}
+
 void eMusic::loadImpl() {
     if(mLoaded) return;
     mLoaded = true;
@@ -111,6 +138,9 @@ void eMusic::loadImpl() {
     mBattleMusic->addPath(dir + "Battle4.mp3");
     mBattleMusic->addPath(dir + "Battle_long.mp3");
     mBattleMusic->addPath(dir + "Battle_long2.mp3");
+
+    mMissionVictory.addPath(dir + "mission_victory.wav");
+    mCampaignVictory.addPath(dir + "campaign_victory.wav");
 }
 
 void eMusic::loadMenuImpl() {
@@ -118,4 +148,5 @@ void eMusic::loadMenuImpl() {
     mMenuLoaded = true;
     const std::string dir{eGameDir::path("Audio/Music/")};
     mSetupMusic->addPath(dir + "Setup.mp3");
+    mMissionIntro.addPath(dir + "mission_intro.wav");
 }

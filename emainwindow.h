@@ -69,6 +69,9 @@ public:
                     const bool closable = true,
                     const eAction& closeFunc = nullptr,
                     eWidget* const parent = nullptr);
+
+    void showEpisodeIntroduction(const stdsptr<eCampaign>& c = nullptr);
+    const stdsptr<eCampaign>& campaign() const { return mCampaign; }
 private:
     eSettings mSettings{false, true, false, false, false, eResolution()};
 

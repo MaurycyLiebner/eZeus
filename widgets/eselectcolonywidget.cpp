@@ -25,7 +25,7 @@ void eSelectColonyWidget::initialize(const eColonySelection& sel,
     const auto w = new eWidget(window());
     w->setNoPadding();
     menu->addWidget(w);
-    w->move(16*mult, 178*mult);
+    w->move(17*mult, 178*mult);
     w->resize(158*mult, 216*mult);
 
     const auto cityLabel = new eLabel(window());

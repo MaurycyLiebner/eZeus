@@ -47,7 +47,8 @@ class eGameMenu : public eGameMenuBase {
 public:
     using eGameMenuBase::eGameMenuBase;
     ~eGameMenu();
-    void initialize(eGameBoard* const b);
+    void initialize(eGameBoard* const b,
+                    const eAction& goalsView);
 
     int cityId() const { return mCityId; }
     eBuildingMode mode() const { return mMode; }

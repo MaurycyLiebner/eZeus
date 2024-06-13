@@ -195,7 +195,7 @@ public:
 
     eEpisode* currentEpisode();
     void setCurrentColonyEpisode(const int e);
-    void startEpisode(const int cid = -1);
+    void startEpisode();
     void episodeFinished();
     eEpisodeType currentEpisodeType() const
     { return mCurrentEpisodeType; }

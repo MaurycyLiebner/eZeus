@@ -324,11 +324,11 @@ void eCampaign::setCurrentColonyEpisode(const int e) {
     mCurrentColonyEpisode = e;
 }
 
-void eCampaign::startEpisode(const int cid) {
+void eCampaign::startEpisode() {
     if(mCurrentEpisodeType == eEpisodeType::colony) {
-        mPlayedColonyEpisodes.push_back(cid);
-        mWorldBoard.activateColony(cid);
-        mWorldBoard.setColonyAsCurrentCity(cid);
+        mPlayedColonyEpisodes.push_back(mCurrentColonyEpisode);
+        mWorldBoard.activateColony(mCurrentColonyEpisode);
+        mWorldBoard.setColonyAsCurrentCity(mCurrentColonyEpisode);
     } else { // parentCity
         mWorldBoard.setParentAsCurrentCity();
     }

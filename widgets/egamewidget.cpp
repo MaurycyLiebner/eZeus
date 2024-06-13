@@ -52,6 +52,9 @@
 #include "widgets/equestionwidget.h"
 
 #include "widgets/eenlistforcesdialog.h"
+#include "widgets/eepisodeintroductionwidget.h"
+#include "engine/ecampaign.h"
+#include "audio/emusic.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {}
@@ -79,8 +82,26 @@ void eGameWidget::setBoard(eGameBoard* const board) {
         showTip(tip);
     });
     mBoard->setEpisodeFinishedHandler([this]() {
+        eMusic::playMissionVictoryMusic();
+        mLocked = true;
         const auto w = window();
-        w->episodeFinished();
+        const auto c = w->campaign();
+
+        const auto e = new eEpisodeIntroductionWidget(w);
+        const auto proceedA = [w]() {
+            w->episodeFinished();
+        };
+        e->resize(width(), height());
+        const auto ee = c->currentEpisode();
+        e->initialize(c,
+                      eLanguage::zeusText(62, 0),
+                      ee->fComplete,
+                      mBoard->goals(),
+                      proceedA,
+                      eEpisodeIntroType::victory);
+        addWidget(e);
+        e->align(eAlignment::vcenter);
+        e->setX(x() + (width() - e->width() - mGm->width())/2);
     });
     using eEnlistAction = std::function<void(const eEnlistedForces&, eResourceType)>;
     mBoard->setEnlistForcesRequest([this](
@@ -92,9 +113,11 @@ void eGameWidget::setBoard(eGameBoard* const board) {
         d->initialize(enlistable, heroesAbroad, action, plunderResources);
         addWidget(d);
         d->align(eAlignment::vcenter);
-        d->setX(x() + (width() - d->width())/2);
+        d->setX(x() + (width() - d->width() - mGm->width())/2);
         window()->execDialog(d);
     });
+
+    mBoard->updateMusic();
 }
 
 eGameWidgetSettings eGameWidget::settings() const {
@@ -129,7 +152,10 @@ void eGameWidget::initialize() {
     }
 
     mGm = new eGameMenu(window());
-    mGm->initialize(mBoard);
+    const auto viewGoals = [this]() {
+        showGoals();
+    };
+    mGm->initialize(mBoard, viewGoals);
     addWidget(mGm);
     mGm->align(eAlignment::right | eAlignment::top);
     mGm->setGameWidget(this);
@@ -1574,6 +1600,28 @@ bool eGameWidget::mouseWheelEvent(const eMouseWheelEvent& e) {
         }
     }
     return true;
+}
+
+void eGameWidget::showGoals() {
+    const auto w = window();
+    const auto c = w->campaign();
+
+    const auto e = new eEpisodeIntroductionWidget(w);
+    const auto proceedA = [e]() {
+        e->deleteLater();
+    };
+    e->resize(width(), height());
+    const auto ee = c->currentEpisode();
+    e->initialize(c,
+                  c->titleText(),
+                  ee->fIntroduction,
+                  mBoard->goals(),
+                  proceedA,
+                  eEpisodeIntroType::goals);
+    addWidget(e);
+    e->align(eAlignment::vcenter);
+    e->setX(x() + (width() - e->width() - mGm->width())/2);
+    window()->execDialog(e);
 }
 
 void eGameWidget::setDX(const int dx) {

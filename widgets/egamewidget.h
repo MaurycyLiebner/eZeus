@@ -108,6 +108,8 @@ protected:
     bool mouseReleaseEvent(const eMouseEvent& e);
     bool mouseWheelEvent(const eMouseWheelEvent& e);
 private:
+    void showGoals();
+
     void setDX(const int dx);
     void setDY(const int dy);
     void clampViewBox();
