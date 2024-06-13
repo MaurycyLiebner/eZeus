@@ -10,7 +10,14 @@
 #include "audio/emusic.h"
 
 eInvasionEvent::eInvasionEvent(const eGameEventBranch branch) :
-    eGameEvent(eGameEventType::invasion, branch) {
+    eGameEvent(eGameEventType::invasion, branch) {}
+
+eInvasionEvent::~eInvasionEvent() {
+    const auto board = gameBoard();
+    if(board) board->removeInvasion(this);
+}
+
+void eInvasionEvent::pointerCreated() {
     const auto warnTypes = {
         eInvasionWarningType::warning36,
         eInvasionWarningType::warning24,
@@ -43,11 +50,6 @@ eInvasionEvent::eInvasionEvent(const eGameEventBranch branch) :
         e->initialize(w, mCity);
         addWarning(daysBefore, e);
     }
-}
-
-eInvasionEvent::~eInvasionEvent() {
-    const auto board = gameBoard();
-    if(board) board->removeInvasion(this);
 }
 
 void eInvasionEvent::initialize(const stdsptr<eWorldCity>& city,

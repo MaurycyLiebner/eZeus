@@ -192,7 +192,7 @@ void eCampaign::read(eReadStream& src) {
     src >> mCurrentParentEpisode;
     src >> mCurrentEpisodeType;
     src >> mInitialFunds;
-    mStartDate.read(src);
+    mDate.read(src);
     src >> mDifficulty;
     mWorldBoard.read(src);
     mParentBoard = std::make_shared<eGameBoard>();
@@ -250,7 +250,7 @@ void eCampaign::write(eWriteStream& dst) const {
     dst << mCurrentParentEpisode;
     dst << mCurrentEpisodeType;
     dst << mInitialFunds;
-    mStartDate.write(dst);
+    mDate.write(dst);
     dst << mDifficulty;
     mWorldBoard.write(dst);
     mParentBoard->write(dst);
@@ -326,10 +326,16 @@ void eCampaign::startEpisode(const int cid) {
     } else { // parentCity
         mWorldBoard.setParentAsCurrentCity();
     }
+    const auto e = currentEpisode();
+    e->fStartDate = mDate;
+    const auto board = e->fBoard;
+    board->startEpisode(e);
 }
 
 void eCampaign::episodeFinished() {
     const auto e = currentEpisode();
+    const auto board = e->fBoard;
+    mDate = board->date();
     if(mCurrentEpisodeType == eEpisodeType::parentCity) {
         const auto ee = static_cast<eParentCityEpisode*>(e);
         const auto n = ee->fNextEpisode;
@@ -341,6 +347,33 @@ void eCampaign::episodeFinished() {
         mCurrentParentEpisode++;
         mCurrentEpisodeType = eEpisodeType::parentCity;
     }
+}
+
+bool eCampaign::finished() const {
+    const int n = mParentCityEpisodes.size();
+    return mCurrentParentEpisode >= n;
+}
+
+std::vector<stdsptr<eWorldCity>> eCampaign::establishedColonies() const {
+    std::vector<stdsptr<eWorldCity>> result;
+    for(const int p : mPlayedColonyEpisodes) {
+        const auto& ep = mColonyEpisodes[p];
+        const auto c = ep->fCity;
+        result.push_back(c);
+    }
+    return result;
+}
+
+std::vector<stdsptr<eWorldCity>> eCampaign::remainingColonies() const {
+    std::vector<stdsptr<eWorldCity>> result;
+    for(int i = 0; i < 4; i++) {
+        const bool p = eVectorHelpers::contains(mPlayedColonyEpisodes, i);
+        if(p) continue;
+        const auto& ep = mColonyEpisodes[i];
+        const auto c = ep->fCity;
+        result.push_back(c);
+    }
+    return result;
 }
 
 void eCampaign::setAtlantean(const bool a) {

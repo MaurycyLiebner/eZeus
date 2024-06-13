@@ -34,6 +34,7 @@
 #include "engine/egodquest.h"
 #include "ecityrequest.h"
 #include "gameEvents/egodquestevent.h"
+#include "eepisodegoal.h"
 
 class eGameEvent;
 
@@ -66,6 +67,7 @@ class ePlague;
 class eSmallHouse;
 class eMuseum;
 class eStadium;
+struct eEpisode;
 
 enum class eGames {
     isthmian,
@@ -213,6 +215,7 @@ public:
     using eEventHandler = std::function<void(eEvent, eEventData&)>;
     void setEventHandler(const eEventHandler& eh);
     void event(const eEvent e, eEventData& ed);
+    void setEpisodeFinishedHandler(const eAction& a);
 
     void setRequestUpdateHandler(const eAction& ru);
 
@@ -452,6 +455,10 @@ public:
     const std::vector<eMonsterType>& slayedMonsters() const
     { return mSlayedMonsters; }
     void addSlayedMonster(const eMonsterType m);
+
+    void startEpisode(eEpisode* const e);
+
+    bool checkGoalsFulfilled() const;
 private:
     void updateNeighbours();
 
@@ -477,6 +484,7 @@ private:
     eVisibilityChecker mVisibilityChecker;
     eTipShower mTipShower;
     eEnlistRequest mEnlistRequester;
+    eAction mEpisodeFinishedHandler;
 
     std::string mPlayerName = "Ailuropoda";
 
@@ -602,6 +610,8 @@ private:
 
     std::vector<eGameEvent*> mAllGameEvents;
     std::vector<stdsptr<eGameEvent>> mGameEvents;
+    int mGoalsCheckTime = 0;
+    std::vector<stdsptr<eEpisodeGoal>> mGoals;
 
     std::vector<eMonsterType> mHostileMonsters;
     std::vector<eGodType> mFriendlyGods;

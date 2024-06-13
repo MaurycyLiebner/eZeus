@@ -12,6 +12,7 @@ enum class eEpisodeType {
 
 struct eEpisode {
     virtual void read(eReadStream& src) {
+        fStartDate.read(src);
         {
             int nfg;
             src >> nfg;
@@ -57,6 +58,7 @@ struct eEpisode {
     }
 
     virtual void write(eWriteStream& dst) const {
+        fStartDate.write(dst);
         dst << fFriendlyGods.size();
         for(const auto g : fFriendlyGods) {
             dst << g;
@@ -105,6 +107,8 @@ struct eEpisode {
     eGameBoard* fBoard = nullptr;
     eWorldBoard* fWorldBoard = nullptr;
     bool fAtlantean = true;
+
+    eDate fStartDate = eDate(1, eMonth::january, -1500);
 
     std::string fTitle;
     std::string fIntroduction;
@@ -166,7 +170,7 @@ public:
     void initialize(const std::string& title);
 
     void setInitialFunds(const int f) { mInitialFunds = f; }
-    void setStartDate(const eDate& d) { mStartDate = d; }
+    void setDate(const eDate& d) { mDate = d; }
 
     void setBitmap(const int b) { mBitmap = b; }
 
@@ -192,6 +196,10 @@ public:
     eEpisode* currentEpisode();
     void startEpisode(const int cid = -1);
     void episodeFinished();
+    eEpisodeType currentEpisodeType() const { return mCurrentEpisodeType; }
+    bool finished() const;
+    std::vector<stdsptr<eWorldCity>> establishedColonies() const;
+    std::vector<stdsptr<eWorldCity>> remainingColonies() const;
 
     bool atlantean() const { return mAtlantean; }
     void setAtlantean(const bool a);
@@ -237,7 +245,7 @@ private:
 
     int mInitialFunds = 5000;
 
-    eDate mStartDate = eDate(1, eMonth::january, -1500);
+    eDate mDate = eDate(1, eMonth::january, -1500);
 
     eDifficulty mDifficulty{eDifficulty::hero};
 

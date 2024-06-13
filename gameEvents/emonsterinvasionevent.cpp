@@ -75,7 +75,10 @@ stdsptr<eGameEvent> eMonsterInvasionWarningEvent::makeCopy(
 
 eMonsterInvasionEvent::eMonsterInvasionEvent(const eGameEventBranch branch) :
     eMonsterInvasionEventBase(eGameEventType::monsterInvasion,
-                              branch) {
+                              branch) {}
+
+void eMonsterInvasionEvent::pointerCreated() {
+
     const auto warnTypes = {
         eMonsterInvasionWarningType::warning36,
         eMonsterInvasionWarningType::warning24,

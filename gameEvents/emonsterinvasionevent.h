@@ -38,6 +38,8 @@ class eMonsterInvasionEvent : public eMonsterInvasionEventBase {
 public:
     eMonsterInvasionEvent(const eGameEventBranch branch);
 
+    void pointerCreated() override;
+
     void trigger() override;
     std::string longName() const override;
 

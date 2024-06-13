@@ -78,6 +78,10 @@ void eGameWidget::setBoard(eGameBoard* const board) {
     mBoard->setTipShower([this](const std::string& tip) {
         showTip(tip);
     });
+    mBoard->setEpisodeFinishedHandler([this]() {
+        const auto w = window();
+        w->episodeFinished();
+    });
     using eEnlistAction = std::function<void(const eEnlistedForces&, eResourceType)>;
     mBoard->setEnlistForcesRequest([this](
                                    const eEnlistedForces& enlistable,

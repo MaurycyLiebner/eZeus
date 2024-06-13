@@ -129,7 +129,7 @@ std::string eEpisodeGoal::text(const bool colonyEpisode,
     return "";
 }
 
-void eEpisodeGoal::update(eGameBoard* const b) {
+void eEpisodeGoal::update(const eGameBoard* const b) {
     switch(fType) {
     case eEpisodeGoalType::population: {
         fStatusCount = b->population();

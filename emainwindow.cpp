@@ -28,6 +28,7 @@
 #include "evectorhelpers.h"
 
 #include "widgets/eeventbackground.h"
+#include "widgets/eepisodeintroductionwidget.h"
 
 eMainWindow::eMainWindow() {}
 
@@ -128,6 +129,22 @@ void eMainWindow::startGameAction(const eAction& a) {
     l->setDoneAction(a);
     setWidget(l);
     l->initialize();
+}
+
+void eMainWindow::episodeFinished() {
+    if(!mCampaign) return;
+    mCampaign->episodeFinished();
+    const bool f = mCampaign->finished();
+    if(f) return showMainMenu();
+    const auto n = mCampaign->currentEpisodeType();
+    if(n == eEpisodeType::parentCity) {
+        const auto e = new eEpisodeIntroductionWidget(this);
+        e->resize(width(), height());
+        e->initialize(mCampaign);
+        setWidget(e);
+    } else {
+
+    }
 }
 
 bool eMainWindow::saveGame(const std::string& path) {

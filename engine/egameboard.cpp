@@ -67,6 +67,8 @@
 #include "eplague.h"
 #include "audio/emusic.h"
 
+#include "ecampaign.h"
+
 eGameBoard::eGameBoard() :
     mThreadPool(*this),
     mHusbData(mPopData, *this),
@@ -1806,6 +1808,14 @@ void eGameBoard::incTime(const int by) {
     for(const auto m : missiles) {
         m->incTime(by);
     }
+
+    const int goalsCheckWait = 15050;
+    mGoalsCheckTime += by;
+    if(mGoalsCheckTime > goalsCheckWait) {
+        mGoalsCheckTime -= goalsCheckWait;
+        const bool f = checkGoalsFulfilled();
+        if(f) mEpisodeFinishedHandler();
+    }
 }
 
 void eGameBoard::incFrame() {
@@ -1832,9 +1842,6 @@ void eGameBoard::incDrachmas(const int d) {
 
 void eGameBoard::setDate(const eDate& d) {
     mDate = d;
-    for(const auto& e : mGameEvents) {
-        e->rewind(mDate);
-    }
 }
 
 double eGameBoard::appeal(const int tx, const int ty) const {
@@ -1874,6 +1881,10 @@ void eGameBoard::setEventHandler(const eEventHandler& eh) {
 
 void eGameBoard::event(const eEvent e, eEventData& ed) {
     if(mEventHandler) mEventHandler(e, ed);
+}
+
+void eGameBoard::setEpisodeFinishedHandler(const eAction& a) {
+    mEpisodeFinishedHandler = a;
 }
 
 void eGameBoard::setVisibilityChecker(const eVisibilityChecker& vc) {
@@ -2032,4 +2043,29 @@ void eGameBoard::addFulfilledQuest(const eGodQuest q) {
 
 void eGameBoard::addSlayedMonster(const eMonsterType m) {
     mSlayedMonsters.push_back(m);
+}
+
+void eGameBoard::startEpisode(eEpisode* const e) {
+    mGameEvents.clear();
+    mWorldBoard = e->fWorldBoard;
+    mGameEvents = e->fEvents;
+    const auto& date = e->fStartDate;
+    setDate(date);
+    for(const auto& ee : mGameEvents) {
+        ee->setupStartDate(date);
+    }
+    setFriendlyGods(e->fFriendlyGods);
+    mAvailableBuildings = e->fAvailableBuildings;
+    mPoseidonMode = e->fAtlantean;
+    mGoals = e->fGoals;
+}
+
+bool eGameBoard::checkGoalsFulfilled() const {
+    if(mGoals.empty()) return false;
+    for(const auto& g : mGoals) {
+        g->update(this);
+        const bool m = g->met();
+        if(!m) return false;
+    }
+    return true;
 }

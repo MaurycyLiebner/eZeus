@@ -125,9 +125,6 @@ public:
     int repeat() const { return mTotNRuns; }
     void setRepeat(const int r);
 
-    void rewind();
-    void rewind(const eDate& date);
-
     void handleNewDate(const eDate& date);
     bool finished() const { return mRemNRuns <= 0; }
 

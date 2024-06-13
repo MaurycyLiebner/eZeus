@@ -17,7 +17,8 @@
 #include "audio/emusic.h"
 
 void eEpisodeIntroductionWidget::initialize(
-        const std::shared_ptr<eCampaign>& c) {
+        const std::shared_ptr<eCampaign>& c,
+        const int cid) {
     const auto& intrfc = eGameTextures::interface();
     const auto res = resolution();
     const int iRes = static_cast<int>(res.uiScale());
@@ -159,8 +160,8 @@ void eEpisodeIntroductionWidget::initialize(
     proceedW->addWidget(proceedLabel);
 
     const auto proceedB = new eProceedButton(window());
-    proceedB->setPressAction([this, c]() {
-        c->startEpisode();
+    proceedB->setPressAction([this, c, cid]() {
+        c->startEpisode(cid);
         const auto w = window();
         w->startGameAction([w, c]() {
             eGameWidgetSettings settings;

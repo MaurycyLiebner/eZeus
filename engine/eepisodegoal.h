@@ -33,7 +33,7 @@ struct eEpisodeGoal {
     std::string text(const bool colonyEpisode,
                      const bool atlantean) const;
 
-    void update(eGameBoard* const b);
+    void update(const eGameBoard* const b);
 };
 
 #endif // EEPISODEGOAL_H

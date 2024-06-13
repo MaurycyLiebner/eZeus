@@ -10,6 +10,8 @@ public:
     eInvasionEvent(const eGameEventBranch branch);
     ~eInvasionEvent();
 
+    void pointerCreated() override;
+
     void initialize(const stdsptr<eWorldCity>& city,
                     const int infantry,
                     const int cavalry,

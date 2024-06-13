@@ -46,6 +46,7 @@ public:
     void startGameAction(const stdsptr<eCampaign>& c,
                          const eGameWidgetSettings& settings);
     void startGameAction(const eAction& a);
+    void episodeFinished();
 
     bool saveGame(const std::string& path);
     bool loadGame(const std::string& path);
