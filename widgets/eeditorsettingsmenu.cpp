@@ -115,6 +115,7 @@ void eEditorSettingsMenu::initialize(eEpisode* const ep,
             return ep->fEvents;
         };
         const auto add = [ep](const stdsptr<eGameEvent>& e) {
+            e->setWorldBoard(ep->fWorldBoard);
             ep->fEvents.push_back(e);
         };
         const auto remove = [ep](const stdsptr<eGameEvent>& e) {
