@@ -333,6 +333,7 @@ std::string eWorldCityBase::anArmy() const {
 
 void eWorldCityBase::write(eWriteStream& dst) const {
     dst << mIOID;
+    dst << mIsCurrentCity;
     dst << mType;
     dst << mNationality;
     dst << mDirection;
@@ -350,6 +351,7 @@ void eWorldCityBase::write(eWriteStream& dst) const {
 
 void eWorldCityBase::read(eReadStream& src) {
     src >> mIOID;
+    src >> mIsCurrentCity;
     src >> mType;
     src >> mNationality;
     src >> mDirection;

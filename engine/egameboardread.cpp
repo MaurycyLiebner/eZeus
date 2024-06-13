@@ -233,5 +233,13 @@ void eGameBoard::read(eReadStream& src) {
         addRootGameEvent(e);
     }
 
+    int ng;
+    src >> ng;
+    for(int i = 0; i < ng; i++) {
+        const auto g = std::make_shared<eEpisodeGoal>();
+        g->read(mWorldBoard, src);
+        mGoals.push_back(g);
+    }
+
     mAvailableBuildings.read(src);
 }

@@ -125,6 +125,7 @@ void eMainWindow::startGameAction(const stdsptr<eCampaign>& c,
 }
 
 void eMainWindow::startGameAction(const eAction& a) {
+    clearWidgets();
     const auto l = new eGameLoadingWidget(this);
     l->resize(width(), height());
     l->setDoneAction(a);
@@ -134,6 +135,7 @@ void eMainWindow::startGameAction(const eAction& a) {
 
 void eMainWindow::showEpisodeIntroduction(
         const stdsptr<eCampaign>& c) {
+    clearWidgets();
     eMusic::playMissionIntroMusic();
     if(c) mCampaign = c;
     const auto e = new eEpisodeIntroductionWidget(this);
@@ -156,7 +158,19 @@ void eMainWindow::showEpisodeIntroduction(
     setWidget(e);
 }
 
+void eMainWindow::clearWidgets() {
+    if(mGW && mWidget != mGW) {
+        mGW->deleteLater();
+        mGW = nullptr;
+    }
+    if(mWW && mWidget != mWW) {
+        mWW->deleteLater();
+        mWW = nullptr;
+    }
+}
+
 void eMainWindow::episodeFinished() {
+    clearWidgets();
     if(!mCampaign) return;
     mCampaign->episodeFinished();
     const bool f = mCampaign->finished();
@@ -205,6 +219,7 @@ bool eMainWindow::loadGame(const std::string& path) {
     s.read(src);
     const auto c = std::make_shared<eCampaign>();
     c->read(src);
+    c->loadStrings();
     src.handlePostFuncs();
     SDL_RWclose(file);
 
@@ -236,6 +251,7 @@ void eMainWindow::showMenuLoading() {
 }
 
 void eMainWindow::showMainMenu() {
+    clearWidgets();
     eMusic::playMenuMusic();
 
     const auto mm = new eMainMenu(this);

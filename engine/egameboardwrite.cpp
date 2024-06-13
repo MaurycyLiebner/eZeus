@@ -222,5 +222,10 @@ void eGameBoard::write(eWriteStream& dst) const {
         e->write(dst);
     }
 
+    dst << mGoals.size();
+    for(const auto& g : mGoals) {
+        g->write(dst);
+    }
+
     mAvailableBuildings.write(dst);
 }

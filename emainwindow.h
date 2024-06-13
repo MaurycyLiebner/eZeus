@@ -73,6 +73,8 @@ public:
     void showEpisodeIntroduction(const stdsptr<eCampaign>& c = nullptr);
     const stdsptr<eCampaign>& campaign() const { return mCampaign; }
 private:
+    void clearWidgets();
+
     eSettings mSettings{false, true, false, false, false, eResolution()};
 
     bool mQuit = false;

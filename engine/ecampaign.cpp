@@ -11,8 +11,8 @@ eCampaign::eCampaign() {
 
 }
 
-void eCampaign::initialize(const std::string& title) {
-    mTitle = title;
+void eCampaign::initialize(const std::string& name) {
+    mName = name;
 
     mParentBoard = std::make_shared<eGameBoard>();
     mParentBoard->initialize(100, 100);
@@ -83,8 +83,8 @@ bool eCampaign::sLoadStrings(const std::string& path, eMap& map) {
 
 bool eCampaign::loadStrings() {
     const auto baseDir = "../Adventures/";
-    const auto aDir = baseDir + mTitle + "/";
-    const auto txtFile = aDir + mTitle + ".txt";
+    const auto aDir = baseDir + mName + "/";
+    const auto txtFile = aDir + mName + ".txt";
     std::map<std::string, std::string> map;
     const bool r = sLoadStrings(txtFile, map);
     if(!r) return false;
@@ -188,6 +188,7 @@ bool eCampaign::sReadGlossary(const std::string& name,
 
 void eCampaign::read(eReadStream& src) {
     src >> mBitmap;
+    src >> mName;
     src >> mAtlantean;
     src >> mCurrentParentEpisode;
     src >> mCurrentColonyEpisode;
@@ -247,6 +248,7 @@ void eCampaign::read(eReadStream& src) {
 
 void eCampaign::write(eWriteStream& dst) const {
     dst << mBitmap;
+    dst << mName;
     dst << mAtlantean;
     dst << mCurrentParentEpisode;
     dst << mCurrentColonyEpisode;
@@ -279,11 +281,11 @@ void eCampaign::write(eWriteStream& dst) const {
 }
 
 bool eCampaign::load(const std::string& name) {
-    mTitle = name;
+    mName = name;
     const auto baseDir = "../Adventures/";
-    const auto aDir = baseDir + mTitle + "/";
+    const auto aDir = baseDir + mName + "/";
 
-    const auto pakFile = aDir + mTitle + ".epak";
+    const auto pakFile = aDir + mName + ".epak";
     const auto file = SDL_RWFromFile(pakFile.c_str(), "r+b");
     if(!file) return false;
     eReadStream src(file);
@@ -291,19 +293,19 @@ bool eCampaign::load(const std::string& name) {
     src.handlePostFuncs();
     SDL_RWclose(file);
 
-    const auto txtFile = aDir + mTitle + ".txt";
+    const auto txtFile = aDir + mName + ".txt";
     loadStrings();
     return true;
 }
 
 bool eCampaign::save() const {
     const auto baseDir = "../Adventures/";
-    const auto aDir = baseDir + mTitle + "/";
+    const auto aDir = baseDir + mName + "/";
     std::filesystem::create_directories(aDir);
-    const auto txtFile = aDir + mTitle + ".txt";
+    const auto txtFile = aDir + mName + ".txt";
     if(!std::filesystem::exists(txtFile)) writeStrings(txtFile);
 
-    const auto pakFile = aDir + mTitle + ".epak";
+    const auto pakFile = aDir + mName + ".epak";
     const auto file = SDL_RWFromFile(pakFile.c_str(), "w+b");
     if(!file) return false;
     eWriteStream dst(file);

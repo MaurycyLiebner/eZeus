@@ -167,7 +167,7 @@ class eCampaign {
 public:
     eCampaign();
 
-    void initialize(const std::string& title);
+    void initialize(const std::string& name);
 
     void setInitialFunds(const int f) { mInitialFunds = f; }
     void setDate(const eDate& d) { mDate = d; }
@@ -232,6 +232,7 @@ public:
     void setEditorMode(const bool e);
 private:
     int mBitmap = 0;
+    std::string mName;
     std::string mTitle;
     std::string mIntroduction;
     std::string mComplete;

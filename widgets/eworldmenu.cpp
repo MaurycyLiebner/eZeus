@@ -234,7 +234,7 @@ void eWorldMenu::setCity(const stdsptr<eWorldCity>& c) {
     }
 
     mCity = c;
-    const bool cc = c->isCurrentCity();
+    const bool cc = c ? c->isCurrentCity() : false;
 
     bool vassalOrColony = false;
     bool distant = false;

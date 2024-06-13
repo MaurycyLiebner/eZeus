@@ -555,10 +555,10 @@ void eWorldMapWidget::updateWidgets() {
 
     const auto& cts = mWorldBoard->cities();
     for(const auto& ct : cts) {
-        if(!mSelectColonyMode && !editor && !ct->active()) return;
+        if(!mSelectColonyMode && !editor && !ct->active()) continue;
         if(mSelectColonyMode) {
             const bool c = eVectorHelpers::contains(mColonySelection, ct);
-            if(!c) return;
+            if(!c) continue;
         }
         const int cx = width()*ct->x();
         const int cy = height()*ct->y();
