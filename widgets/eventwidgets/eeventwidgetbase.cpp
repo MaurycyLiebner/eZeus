@@ -31,36 +31,6 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
     cont->move(2*p, 2*p);
     cont->resize(width() - 4*p, height() - 4*p);
 
-    const auto dateButtonL = new eLabeledWidget(window());
-    const auto dateButton = new eDateButton(window());
-    dateButton->setDateChangeAction([e](const eDate& d) {
-        e->setStartDate(d);
-    });
-    dateButton->initialize();
-    dateButton->setDate(e->startDate());
-    dateButtonL->setup(eLanguage::text("date:"), dateButton);
-    cont->addWidget(dateButtonL);
-
-    const auto periodButtonL = new eLabeledWidget(window());
-    const auto periodButton = new eValueButton(window());
-    periodButton->setValueChangeAction([e](const int p) {
-        e->setPeriod(p);
-    });
-    periodButton->initialize(31, 99999);
-    periodButton->setValue(e->period());
-    periodButtonL->setup(eLanguage::text("period:"), periodButton);
-    cont->addWidget(periodButtonL);
-
-    const auto repeatButtonL = new eLabeledWidget(window());
-    const auto repeatButton = new eValueButton(window());
-    repeatButton->setValueChangeAction([e](const int p) {
-        e->setRepeat(p);
-    });
-    repeatButton->initialize(0, 99999);
-    repeatButton->setValue(e->repeat());
-    repeatButtonL->setup(eLanguage::text("repeat:"), repeatButton);
-    cont->addWidget(repeatButtonL);
-
     const auto et = e->type();
     switch(et) {
     case eGameEventType::godAttack: {
@@ -118,6 +88,65 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
         break;
     }
 
+    const auto dateW = new eWidget(window());
+    dateW->setNoPadding();
+
+    const auto yearsButtonL = new eLabeledWidget(window());
+    const auto yearsButton = new eValueButton(window());
+    yearsButton->setValueChangeAction([e, yearsButton](const int y) {
+        e->setDatePlusYears(y);
+        yearsButton->setText("+" + yearsButton->text());
+    });
+    yearsButton->initialize(0, 99999);
+    yearsButton->setValue(e->datePlusYears());
+    yearsButton->setText("+" + yearsButton->text());
+    yearsButtonL->setup(eLanguage::text("years:"), yearsButton);
+    dateW->addWidget(yearsButtonL);
+
+    const auto monthssButtonL = new eLabeledWidget(window());
+    const auto monthsButton = new eValueButton(window());
+    monthsButton->setValueChangeAction([e, monthsButton](const int y) {
+        e->setDatePlusMonths(y);
+        monthsButton->setText("+" + monthsButton->text());
+    });
+    monthsButton->initialize(0, 99999);
+    monthsButton->setValue(e->datePlusMonths());
+    monthsButton->setText("+" + monthsButton->text());
+    monthssButtonL->setup(eLanguage::text("months:"), monthsButton);
+    dateW->addWidget(monthssButtonL);
+
+    const auto daysButtonL = new eLabeledWidget(window());
+    const auto daysButton = new eValueButton(window());
+    daysButton->setValueChangeAction([e, daysButton](const int y) {
+        e->setDatePlusDays(y);
+        daysButton->setText("+" + daysButton->text());
+    });
+    daysButton->initialize(0, 99999);
+    daysButton->setValue(e->datePlusDays());
+    daysButton->setText("+" + daysButton->text());
+    daysButtonL->setup(eLanguage::text("days:"), daysButton);
+    dateW->addWidget(daysButtonL);
+
+    const auto periodButtonL = new eLabeledWidget(window());
+    const auto periodButton = new eValueButton(window());
+    periodButton->setValueChangeAction([e](const int p) {
+        e->setPeriod(p);
+    });
+    periodButton->initialize(31, 99999);
+    periodButton->setValue(e->period());
+    periodButtonL->setup(eLanguage::text("period:"), periodButton);
+    dateW->addWidget(periodButtonL);
+
+    const auto repeatButtonL = new eLabeledWidget(window());
+    const auto repeatButton = new eValueButton(window());
+    repeatButton->setValueChangeAction([e](const int p) {
+        e->setRepeat(p);
+    });
+    repeatButton->initialize(0, 99999);
+    repeatButton->setValue(e->repeat());
+    repeatButtonL->setup(eLanguage::text("repeat:"), repeatButton);
+    dateW->addWidget(repeatButtonL);
+
     const auto& ts = e->triggers();
     if(!ts.empty()) {
         const int ec = e->triggerEventsCount();
@@ -165,8 +194,11 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
             window()->execDialog(choose);
             choose->align(eAlignment::center);
         });
-        cont->addWidget(triggersButt);
+        dateW->addWidget(triggersButt);
     }
 
-    cont->stackVertically(p);
+    dateW->stackVertically(p);
+    dateW->fitContent();
+    cont->addWidget(dateW);
+    cont->layoutHorizontallyWithoutSpaces();
 }

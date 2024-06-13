@@ -86,6 +86,18 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
     return nullptr;
 }
 
+void eGameEvent::setupStartDate(const eDate& currentDate) {
+    mStartDate = currentDate;
+    mStartDate.nextYears(mDatePlusYears);
+    mStartDate.nextMonths(mDatePlusMonths);
+    bool nextMonth;
+    bool nextYear;
+    mStartDate.nextDays(mDatePlusDays, nextMonth, nextYear);
+    for(const auto& w : mWarnings) {
+        w.second->setStartDate(mStartDate - w.first);
+    }
+}
+
 void eGameEvent::initializeDate(const eDate& startDate,
                                 const int period,
                                 const int nRuns) {

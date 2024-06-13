@@ -41,6 +41,9 @@ public:
     eMonth month() const { return mMonth; }
     int year() const { return mYear; }
 
+    void nextMonths(const int m);
+    void nextYears(const int y);
+
     bool operator>(const eDate& other) const;
     bool operator<(const eDate& other) const;
     bool operator<=(const eDate& other) const;

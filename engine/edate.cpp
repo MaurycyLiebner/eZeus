@@ -67,6 +67,22 @@ void eDate::prevDays(const int d, bool& prevMonth, bool& prevYear) {
     }
 }
 
+void eDate::nextMonths(const int m) {
+    for(int i = 0; i < m; i++) {
+        if(mMonth == eMonth::december) {
+            mYear++;
+            mMonth = eMonth::january;
+        } else {
+            const int im = static_cast<int>(mMonth);
+            mMonth = static_cast<eMonth>(im + 1);
+        }
+    }
+}
+
+void eDate::nextYears(const int y) {
+    mYear += y;
+}
+
 bool eDate::operator>(const eDate& other) const {
     return mYear > other.mYear ||
            (mYear == other.mYear && mMonth > other.mMonth) ||

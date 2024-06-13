@@ -69,6 +69,8 @@ public:
     void setIOID(const int id) { mIOID = id; }
     int ioID() const { return mIOID; }
 
+    void setupStartDate(const eDate& currentDate);
+
     void initializeDate(const eDate& startDate,
                         const int period = 0,
                         const int nRuns = 1);
@@ -109,6 +111,13 @@ public:
 
     const eDate& startDate() const { return mStartDate; }
     void setStartDate(const eDate& d);
+
+    int datePlusDays() const { return mDatePlusDays; }
+    void setDatePlusDays(const int d) { mDatePlusDays = d; }
+    int datePlusMonths() const { return mDatePlusMonths; }
+    void setDatePlusMonths(const int m) { mDatePlusMonths = m; }
+    int datePlusYears() const { return mDatePlusYears; }
+    void setDatePlusYears(const int y) { mDatePlusYears = y; }
 
     int period() const { return mPeriodDays; }
     void setPeriod(const int p);
@@ -155,6 +164,9 @@ private:
     std::string mReason;
 
     eDate mStartDate{1, eMonth::january, 1};
+    int mDatePlusDays = 15;
+    int mDatePlusMonths = 2;
+    int mDatePlusYears = 3;
     int mPeriodDays = 100;
     int mTotNRuns = 1;
 

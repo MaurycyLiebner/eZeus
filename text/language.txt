@@ -53,6 +53,9 @@ lost_battle "Lost battle"
 fulfilled_trigger "Fulfilled"
 
 date: "Date:"
+years: "Years:"
+months: "Months:"
+days: "Days:"
 period: "Period:"
 repeat: "Repeat:"
 
