@@ -167,6 +167,8 @@ void eChooseGameEditMenu::initialize(const bool editor) {
 
             window()->execDialog(box);
             box->align(eAlignment::center);
+
+            edit->grabKeyboard();
         });
 
         const auto deleteB = new eFramedButton(window());
