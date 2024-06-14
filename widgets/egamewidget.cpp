@@ -59,10 +59,25 @@
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {}
 
+eGameWidget::~eGameWidget() {
+    setBoard(nullptr);
+}
 
 void eGameWidget::setBoard(eGameBoard* const board) {
     if(mBoard == board) return;
+    if(mBoard) {
+        mBoard->setEventHandler(nullptr);
+        mBoard->setRequestUpdateHandler(nullptr);
+        mBoard->setVisibilityChecker(nullptr);
+        mBoard->setButtonsVisUpdater(nullptr);
+        mBoard->setMessageShower(nullptr);
+        mBoard->setTipShower(nullptr);
+        mBoard->setEpisodeFinishedHandler(nullptr);
+        mBoard->setAutosaver(nullptr);
+        mBoard->setEnlistForcesRequest(nullptr);
+    }
     mBoard = board;
+    if(!mBoard) return;
     mBoard->setEventHandler([this](const eEvent e, eEventData& ed) {
         handleEvent(e, ed);
     });

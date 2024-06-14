@@ -76,7 +76,7 @@ enum class eGames {
     olympian
 };
 
-class eGameBoard {
+class eGameBoard : public eStdSelfRef {
 public:
     eGameBoard();
     ~eGameBoard();

@@ -1681,7 +1681,9 @@ void eGameBoard::incTime(const int by) {
         const int nd = time/dayLen;
         auto date = mDate;
         date.nextDays(nd, nextMonth, nextYear);
-        if(nextYear) mAutosaver();
+        if(nextYear) {
+            if(mAutosaver) mAutosaver();
+        }
     }
 
     const int iMax = mPlannedActions.size() - 1;
@@ -1824,7 +1826,11 @@ void eGameBoard::incTime(const int by) {
     if(mGoalsCheckTime > goalsCheckWait) {
         mGoalsCheckTime -= goalsCheckWait;
         const bool f = checkGoalsFulfilled();
-        if(f) mEpisodeFinishedHandler();
+        if(f) {
+            if(mEpisodeFinishedHandler) {
+                mEpisodeFinishedHandler();
+            }
+        }
     }
 }
 

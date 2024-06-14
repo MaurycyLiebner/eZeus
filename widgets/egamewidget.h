@@ -76,6 +76,7 @@ struct eGameWidgetSettings {
 class eGameWidget : public eWidget {
 public:
     eGameWidget(eMainWindow* const window);
+    ~eGameWidget();
 
     void initialize();
 
@@ -261,7 +262,7 @@ private:
 
     int mUpdateRect = 0;
     std::vector<SDL_Rect> mUpdateRects;
-    eGameBoard* mBoard = nullptr;
+    stdptr<eGameBoard> mBoard;
 
     bool mDrawElevation = true;
     stdptr<ePatrolBuildingBase> mPatrolBuilding;

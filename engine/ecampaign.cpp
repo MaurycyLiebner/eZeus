@@ -14,13 +14,13 @@ eCampaign::eCampaign() {
 void eCampaign::initialize(const std::string& name) {
     mName = name;
 
-    mParentBoard = std::make_shared<eGameBoard>();
+    mParentBoard = e::make_shared<eGameBoard>();
     mParentBoard->initialize(100, 100);
     mParentBoard->setWorldBoard(&mWorldBoard);
 
     for(int i = 0; i < 4; i++) {
         auto& board = mColonyBoards.emplace_back();
-        board = std::make_shared<eGameBoard>();
+        board = e::make_shared<eGameBoard>();
         board->initialize(100, 100);
         board->setWorldBoard(&mWorldBoard);
 
@@ -197,7 +197,7 @@ void eCampaign::read(eReadStream& src) {
     mDate.read(src);
     src >> mDifficulty;
     mWorldBoard.read(src);
-    mParentBoard = std::make_shared<eGameBoard>();
+    mParentBoard = e::make_shared<eGameBoard>();
     mParentBoard->setWorldBoard(&mWorldBoard);
     mParentBoard->read(src);
     {
@@ -205,7 +205,7 @@ void eCampaign::read(eReadStream& src) {
         src >> nc;
         for(int i = 0; i < nc; i++) {
             auto& b = mColonyBoards.emplace_back();
-            b = std::make_shared<eGameBoard>();
+            b = e::make_shared<eGameBoard>();
             b->setWorldBoard(&mWorldBoard);
             b->read(src);
         }
