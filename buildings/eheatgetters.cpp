@@ -98,6 +98,7 @@ eHeat eHeatGetters::housing(const eBuildingType type) {
     case eBuildingType::commonHouse: return {10, 5};
     case eBuildingType::eliteHousing: return {10, 5};
     case eBuildingType::ruins:
+    case eBuildingType::placeholder:
     case eBuildingType::wall:
     case eBuildingType::gatehouse:
     case eBuildingType::tower:
@@ -116,6 +117,7 @@ eHeat eHeatGetters::industry(const eBuildingType type) {
     case eBuildingType::sculptureStudio: return {10, 5};
     case eBuildingType::armory: return {10, 5};
     case eBuildingType::ruins:
+    case eBuildingType::placeholder:
     case eBuildingType::wall:
     case eBuildingType::gatehouse:
     case eBuildingType::tower:
@@ -139,6 +141,7 @@ eHeat eHeatGetters::farming(const eBuildingType type) {
     case eBuildingType::huntingLodge: return {10, 5};
     case eBuildingType::orangeTendersLodge: return {10, 5};
     case eBuildingType::ruins:
+    case eBuildingType::placeholder:
     case eBuildingType::wall:
     case eBuildingType::gatehouse:
     case eBuildingType::tower:
@@ -154,6 +157,7 @@ eHeat eHeatGetters::storage(const eBuildingType type) {
     case eBuildingType::warehouse: return {10, 5};
     case eBuildingType::tradePost: return {10, 5};
     case eBuildingType::ruins:
+    case eBuildingType::placeholder:
     case eBuildingType::wall:
     case eBuildingType::gatehouse:
     case eBuildingType::tower:
@@ -172,6 +176,7 @@ eHeat eHeatGetters::culture(const eBuildingType type) {
     case eBuildingType::theater: return {10, 5};
     case eBuildingType::stadium: return {10, 5};
     case eBuildingType::ruins:
+    case eBuildingType::placeholder:
     case eBuildingType::wall:
     case eBuildingType::gatehouse:
     case eBuildingType::tower:
@@ -234,6 +239,7 @@ eHeat eHeatGetters::empty(const eBuildingType type) {
     (void)type;
     switch(type) {
     case eBuildingType::ruins:
+    case eBuildingType::placeholder:
     case eBuildingType::wall:
     case eBuildingType::gatehouse:
     case eBuildingType::tower:
@@ -247,6 +253,7 @@ eHeat eHeatGetters::any(const eBuildingType type) {
     (void)type;
     switch(type) {
     case eBuildingType::ruins:
+    case eBuildingType::placeholder:
     case eBuildingType::wall:
     case eBuildingType::gatehouse:
     case eBuildingType::tower:

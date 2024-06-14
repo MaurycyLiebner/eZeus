@@ -102,5 +102,6 @@
 #include "buildings/egrandagora.h"
 
 #include "buildings/eruins.h"
+#include "buildings/eplaceholder.h"
 
 #endif // ALLBUILDINGS_H

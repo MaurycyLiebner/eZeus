@@ -47,6 +47,15 @@ std::shared_ptr<eTexture> eResourceBuilding::getTexture(const eTileSize size) co
     return std::shared_ptr<eTexture>();
 }
 
+void eResourceBuilding::erase() {
+    if(mSanctuary) return;
+    eBuilding::erase();
+}
+
+void eResourceBuilding::sanctuaryErase() {
+    eBuilding::erase();
+}
+
 int eResourceBuilding::takeResource(const int by) {
     if(mResource == 0) return 0;
     const int take = std::clamp(by, 0, mResource);
@@ -58,6 +67,10 @@ int eResourceBuilding::takeResource(const int by) {
 void eResourceBuilding::workOn() {
     mWorkedOn = true;
     mNextRipe = time() + mRipeWait;
+}
+
+void eResourceBuilding::setSanctuary(const bool s) {
+    mSanctuary = s;
 }
 
 void eResourceBuilding::timeChanged(const int by) {
@@ -74,4 +87,22 @@ void eResourceBuilding::timeChanged(const int by) {
             mNextRipe = time() + 2*mRipeWait;
         }
     }
+}
+
+void eResourceBuilding::read(eReadStream& src) {
+    eBuilding::read(src);
+    src >> mSanctuary;
+    src >> mWorkedOn;
+    src >> mNextRipe;
+    src >> mRipe;
+    src >> mResource;
+}
+
+void eResourceBuilding::write(eWriteStream& dst) const {
+    eBuilding::write(dst);
+    dst << mSanctuary;
+    dst << mWorkedOn;
+    dst << mNextRipe;
+    dst << mRipe;
+    dst << mResource;
 }

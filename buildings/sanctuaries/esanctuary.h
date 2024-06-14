@@ -42,6 +42,7 @@ public:
 
     std::vector<eTile*> warriorTiles() const;
     void addWarriorTile(eTile* const t);
+    void addSpecialTile(eTile* const t);
 
     bool askForHelp(eHelpDenialReason& reason);
 
@@ -87,6 +88,7 @@ private:
     int mHelpTimer = 100000;
 
     std::vector<eTile*> mWarriorTiles;
+    std::vector<eTile*> mSpecialTiles;
 };
 
 #endif // ESANCTUARY_H

@@ -53,6 +53,7 @@ bool eBuilding::sWalkableBuilding(const eBuildingType t) {
     if(t == eBuildingType::road) return true;
     if(t == eBuildingType::bridge) return true;
     if(t == eBuildingType::ruins) return true;
+    if(t == eBuildingType::placeholder) return true;
     if(t == eBuildingType::vine) return true;
     if(t == eBuildingType::park) return true;
     if(t == eBuildingType::oliveTree) return true;
@@ -88,6 +89,7 @@ bool eBuilding::sFlatBuilding(const eBuildingType bt) {
            bt == eBuildingType::sheep ||
            bt == eBuildingType::goat ||
            bt == eBuildingType::ruins ||
+           bt == eBuildingType::placeholder ||
            bt == eBuildingType::palaceTile ||
            bt == eBuildingType::godMonumentTile;
 }
@@ -126,6 +128,7 @@ bool eBuilding::sFlammable(const eBuildingType bt) {
     if(bt == eBuildingType::goat) return false;
     if(bt == eBuildingType::cattle) return false;
     if(bt == eBuildingType::ruins) return false;
+    if(bt == eBuildingType::placeholder) return false;
     if(bt == eBuildingType::wall) return false;
     if(bt == eBuildingType::gatehouse) return false;
     if(bt == eBuildingType::tower) return false;
@@ -138,6 +141,7 @@ bool eBuilding::sFlammable(const eBuildingType bt) {
 bool eBuilding::sTimedBuilding(const eBuildingType bt) {
     if(bt == eBuildingType::road) return false;
     if(bt == eBuildingType::ruins) return false;
+    if(bt == eBuildingType::placeholder) return false;
     if(bt == eBuildingType::templeTile) return false;
     if(bt == eBuildingType::templeMonument) return false;
     if(bt == eBuildingType::templeStatue) return false;
@@ -158,6 +162,7 @@ bool eBuilding::sBlessable(const eBuildingType bt) {
     if(bt == eBuildingType::goat) return false;
     if(bt == eBuildingType::cattle) return false;
     if(bt == eBuildingType::ruins) return false;
+    if(bt == eBuildingType::placeholder) return false;
     if(bt == eBuildingType::wall) return false;
     if(bt == eBuildingType::gatehouse) return false;
     if(bt == eBuildingType::tower) return false;
@@ -177,6 +182,7 @@ bool eBuilding::sAttackable(const eBuildingType bt) {
     if(bt == eBuildingType::goat) return false;
     if(bt == eBuildingType::cattle) return false;
     if(bt == eBuildingType::ruins) return false;
+    if(bt == eBuildingType::placeholder) return false;
     if(bt == eBuildingType::park) return false;
     if(bt == eBuildingType::palaceTile) return false;
     if(bt == eBuildingType::godMonumentTile) return false;

@@ -14,7 +14,10 @@ public:
     eResourceBuilding(eGameBoard& board,
                       const eResourceBuildingType type);
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
+
+    void erase() override;
+    void sanctuaryErase();
 
     eResourceBuildingType type() const { return mType; }
 
@@ -24,10 +27,15 @@ public:
     int takeResource(const int by);
     bool workedOn() const { return mWorkedOn; }
     void workOn();
-    void timeChanged(const int by);
+    void setSanctuary(const bool s);
+    void timeChanged(const int by) override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     const eResourceBuildingType mType;
     const int mRipeWait = 40000;
+    bool mSanctuary = false;
     bool mWorkedOn = false;
     int mNextRipe = 0;
     int mRipe = 0; // 0 - 5

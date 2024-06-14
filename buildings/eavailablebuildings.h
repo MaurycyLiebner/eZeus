@@ -30,7 +30,14 @@ struct eAvailableBuildings {
                const int id = -1);
     void disallow(const eBuildingType type,
                   const int id = -1);
-private:
+
+    void startEpisode(const eAvailableBuildings& o);
+private:    
+    void startEpisode(const eAvailableBuildings& o,
+                      bool eAvailableBuildings::* ptr);
+    void startEpisode(const eAvailableBuildings& o,
+                      eAvailable eAvailableBuildings::* ptr);
+
     bool* allowedPtr(const eBuildingType type);
     eAvailable* availablePtr(const eBuildingType type);
 public:

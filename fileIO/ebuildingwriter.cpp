@@ -245,6 +245,7 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     } break;
 
     case eBuildingType::ruins:
+    case eBuildingType::placeholder:
         break;
 
     case eBuildingType::achillesHall:

@@ -168,7 +168,8 @@ enum class eBuildingType {
     perseusHall,
     theseusHall,
 
-    ruins
+    ruins,
+    placeholder
 };
 
 struct eTextureSpace {

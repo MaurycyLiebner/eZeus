@@ -1728,26 +1728,14 @@ bool eGameWidget::buildMouseRelease() {
 
                     switch(t.fType) {
                     case eSanctEleType::copper:
-                        tile->setTerrain(eTerrain::copper);
-                        break;
                     case eSanctEleType::silver:
-                        tile->setTerrain(eTerrain::silver);
-                        break;
                     case eSanctEleType::oliveTree:
-                        build(tile->x(), tile->y(), 1, 1,
-                              [this]() { return e::make_shared<eResourceBuilding>(
-                                        *mBoard, eResourceBuildingType::oliveTree); });
-                        break;
                     case eSanctEleType::vine:
+                    case eSanctEleType::orangeTree: {
                         build(tile->x(), tile->y(), 1, 1,
-                              [this]() { return e::make_shared<eResourceBuilding>(
-                                        *mBoard, eResourceBuildingType::vine); });
-                        break;
-                    case eSanctEleType::orangeTree:
-                        build(tile->x(), tile->y(), 1, 1,
-                              [this]() { return e::make_shared<eResourceBuilding>(
-                                        *mBoard, eResourceBuildingType::orangeTree); });
-                        break;
+                              [this]() { return e::make_shared<ePlaceholder>(*mBoard); });
+                        b->addSpecialTile(tile);
+                    } break;
                     case eSanctEleType::defaultStatue:
                     case eSanctEleType::aphroditeStatue:
                     case eSanctEleType::apolloStatue:
@@ -1829,6 +1817,8 @@ bool eGameWidget::buildMouseRelease() {
                     }
                 }
             }
+
+            b->buildingProgressed();
         }; break;
         default: break;
         }

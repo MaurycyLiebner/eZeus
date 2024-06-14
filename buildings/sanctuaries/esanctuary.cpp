@@ -24,6 +24,9 @@
 #include "characters/actions/godHelp/eposeidonhelpaction.h"
 #include "characters/actions/godHelp/ezeushelpaction.h"
 
+#include "buildings/eresourcebuilding.h"
+#include "buildings/eplaceholder.h"
+
 eSanctuary::eSanctuary(eGameBoard& board,
                        const eBuildingType type,
                        const int sw, const int sh,
@@ -104,6 +107,25 @@ void eSanctuary::erase() {
     for(const auto& e : mElements) {
         e->eBuilding::erase();
     }
+    for(const auto s : mSpecialTiles) {
+        const auto ub = s->underBuilding();
+        if(!ub) continue;
+        const auto ubt = ub->type();
+        switch(ubt) {
+        case eBuildingType::placeholder: {
+            const auto p = static_cast<ePlaceholder*>(ub);
+            p->sanctuaryErase();
+        } break;
+        case eBuildingType::oliveTree:
+        case eBuildingType::vine:
+        case eBuildingType::orangeTree: {
+            const auto r = static_cast<eResourceBuilding*>(ub);
+            r->sanctuaryErase();
+        } break;
+        default:
+            break;
+        }
+    }
     eBuilding::erase();
 }
 
@@ -170,9 +192,43 @@ void eSanctuary::spawnPatrolingGod() {
 void eSanctuary::buildingProgressed() {
     const bool f = finished();
     if(f) {
-        eEventData ed;
-        ed.fGod = godType();
         auto& board = getBoard();
+        const auto g = godType();
+        for(const auto s : mSpecialTiles) {
+            const auto ub = s->underBuilding();
+            if(ub) ub->erase();
+            const auto build = [&](const eResourceBuildingType type) {
+                const auto b = e::make_shared<eResourceBuilding>(
+                            board, type);
+                b->setSanctuary(true);
+                b->setCenterTile(s);
+                b->setTileRect({s->x(), s->y(), 1, 1});
+                s->setUnderBuilding(b);
+                b->addUnderBuilding(s);
+            };
+            switch(g) {
+            case eGodType::hephaestus:
+                s->setTerrain(eTerrain::copper);
+                break;
+            case eGodType::hades:
+                s->setTerrain(eTerrain::silver);
+                break;
+            case eGodType::athena:
+                build(eResourceBuildingType::oliveTree);
+                break;
+            case eGodType::dionysus:
+                build(eResourceBuildingType::vine);
+                break;
+            case eGodType::hera:
+                build(eResourceBuildingType::orangeTree);
+                break;
+            default:
+                break;
+            }
+        }
+
+        eEventData ed;
+        ed.fGod = g;
         board.event(eEvent::sanctuaryComplete, ed);
     }
 }
@@ -295,10 +351,12 @@ void eSanctuary::read(eReadStream& src) {
 
     src >> mAltitude;
 
-    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+    auto& board = getBoard();
+
+    src.readCharacter(&board, [this](eCharacter* const c) {
         mCart = static_cast<eCartTransporter*>(c);
     });
-    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+    src.readCharacter(&board, [this](eCharacter* const c) {
         mGod = static_cast<eGod*>(c);
     });
     src >> mSpawnWait;
@@ -307,6 +365,20 @@ void eSanctuary::read(eReadStream& src) {
     src >> mAskedForHelp;
     src >> mCheckHelpNeeded;
     src >> mHelpTimer;
+
+    int nw;
+    src >> nw;
+    for(int i = 0; i < nw; i++) {
+        const auto t = src.readTile(board);
+        mWarriorTiles.push_back(t);
+    }
+
+    int ns;
+    src >> ns;
+    for(int i = 0; i < ns; i++) {
+        const auto t = src.readTile(board);
+        mSpecialTiles.push_back(t);
+    }
 }
 
 void eSanctuary::write(eWriteStream& dst) const {
@@ -330,6 +402,16 @@ void eSanctuary::write(eWriteStream& dst) const {
     dst << mAskedForHelp;
     dst << mCheckHelpNeeded;
     dst << mHelpTimer;
+
+    dst << mWarriorTiles.size();
+    for(const auto t : mWarriorTiles) {
+        dst.writeTile(t);
+    }
+
+    dst << mSpecialTiles.size();
+    for(const auto t : mSpecialTiles) {
+        dst.writeTile(t);
+    }
 }
 
 std::vector<eTile*> eSanctuary::warriorTiles() const {
@@ -338,6 +420,10 @@ std::vector<eTile*> eSanctuary::warriorTiles() const {
 
 void eSanctuary::addWarriorTile(eTile* const t) {
     mWarriorTiles.push_back(t);
+}
+
+void eSanctuary::addSpecialTile(eTile* const t) {
+    mSpecialTiles.push_back(t);
 }
 
 bool eSanctuary::askForHelp(eHelpDenialReason& reason) {

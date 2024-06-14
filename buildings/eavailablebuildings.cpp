@@ -165,13 +165,21 @@ bool eAvailableBuildings::available(
     case eBuildingType::onionsFarm:
         return fOnionFarm;
 
-    case eBuildingType::growersLodge:
+    case eBuildingType::growersLodge: {
+        const bool s = fAthenaSanctuary == eAvailable::built ||
+                       fDionysusSanctuary == eAvailable::built;
+        if(s) return true;
         return fVine || fOliveTree;
+    } break;
     case eBuildingType::vine:
         return fVine;
     case eBuildingType::oliveTree:
         return fOliveTree;
-    case eBuildingType::orangeTendersLodge:
+    case eBuildingType::orangeTendersLodge: {
+        const bool s = fHeraSanctuary == eAvailable::built;
+        if(s) return true;
+        return fOrangeTree;
+    } break;
     case eBuildingType::orangeTree:
         return fOrangeTree;
 
@@ -192,19 +200,31 @@ bool eAvailableBuildings::available(
     case eBuildingType::cattle:
         return fCorral;
 
-    case eBuildingType::mint:
+    case eBuildingType::mint: {
+        const bool s = fHadesSanctuary == eAvailable::built;
+        if(s) return true;
         return fMint;
-    case eBuildingType::foundry:
+    } break;
+    case eBuildingType::foundry: {
+        const bool s = fHephaestusSanctuary == eAvailable::built;
+        if(s) return true;
         return fFoundry;
+    } break;
     case eBuildingType::timberMill:
         return fTimberMill;
     case eBuildingType::masonryShop:
         return fMasonryShop;
 
-    case eBuildingType::winery:
+    case eBuildingType::winery: {
+        const bool s = fDionysusSanctuary == eAvailable::built;
+        if(s) return true;
         return fWinery;
-    case eBuildingType::olivePress:
+    } break;
+    case eBuildingType::olivePress: {
+        const bool s = fAthenaSanctuary == eAvailable::built;
+        if(s) return true;
         return fOlivePress;
+    } break;
     case eBuildingType::sculptureStudio:
         return fSculptureStudio;
 
@@ -418,6 +438,66 @@ void eAvailableBuildings::disallow(
         *aa = false;
         return;
     }
+}
+
+void eAvailableBuildings::startEpisode(const eAvailableBuildings& o) {
+    startEpisode(o, &eAvailableBuildings::fEliteHousing);
+
+    startEpisode(o, &eAvailableBuildings::fWheatFarm);
+    startEpisode(o, &eAvailableBuildings::fCarrotsFarm);
+    startEpisode(o, &eAvailableBuildings::fOnionFarm);
+
+    startEpisode(o, &eAvailableBuildings::fVine);
+    startEpisode(o, &eAvailableBuildings::fOliveTree);
+    startEpisode(o, &eAvailableBuildings::fOrangeTree);
+
+    startEpisode(o, &eAvailableBuildings::fDairy);
+    startEpisode(o, &eAvailableBuildings::fCardingShed);
+
+    startEpisode(o, &eAvailableBuildings::fFishery);
+    startEpisode(o, &eAvailableBuildings::fUrchinQuay);
+    startEpisode(o, &eAvailableBuildings::fHuntingLodge);
+    startEpisode(o, &eAvailableBuildings::fCorral);
+
+    startEpisode(o, &eAvailableBuildings::fMint);
+    startEpisode(o, &eAvailableBuildings::fFoundry);
+    startEpisode(o, &eAvailableBuildings::fTimberMill);
+    startEpisode(o, &eAvailableBuildings::fMasonryShop);
+
+    startEpisode(o, &eAvailableBuildings::fWinery);
+    startEpisode(o, &eAvailableBuildings::fOlivePress);
+    startEpisode(o, &eAvailableBuildings::fSculptureStudio);
+
+    startEpisode(o, &eAvailableBuildings::fArmory);
+
+    startEpisode(o, &eAvailableBuildings::fHorseRanch);
+    startEpisode(o, &eAvailableBuildings::fChariotFactory);
+
+    startEpisode(o, &eAvailableBuildings::fAphroditeSanctuary);
+    startEpisode(o, &eAvailableBuildings::fApolloSanctuary);
+    startEpisode(o, &eAvailableBuildings::fAresSanctuary);
+    startEpisode(o, &eAvailableBuildings::fArtemisSanctuary);
+    startEpisode(o, &eAvailableBuildings::fAthenaSanctuary);
+    startEpisode(o, &eAvailableBuildings::fAtlasSanctuary);
+    startEpisode(o, &eAvailableBuildings::fDemeterSanctuary);
+    startEpisode(o, &eAvailableBuildings::fDionysusSanctuary);
+    startEpisode(o, &eAvailableBuildings::fHadesSanctuary);
+    startEpisode(o, &eAvailableBuildings::fHephaestusSanctuary);
+    startEpisode(o, &eAvailableBuildings::fHeraSanctuary);
+    startEpisode(o, &eAvailableBuildings::fHermesSanctuary);
+    startEpisode(o, &eAvailableBuildings::fPoseidonSanctuary);
+    startEpisode(o, &eAvailableBuildings::fZeusSanctuary);
+}
+
+void eAvailableBuildings::startEpisode(const eAvailableBuildings& o,
+                               bool eAvailableBuildings::*ptr) {
+    this->*ptr = o.*ptr;
+}
+
+void eAvailableBuildings::startEpisode(const eAvailableBuildings& o,
+                                       eAvailable eAvailableBuildings::*ptr) {
+    if(this->*ptr == eAvailable::built) return;
+    this->*ptr = o.*ptr;
 }
 
 bool* eAvailableBuildings::allowedPtr(const eBuildingType type) {

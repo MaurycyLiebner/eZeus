@@ -615,7 +615,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                         tp.drawTexture(drawX, drawY, tex, eAlignment::top);
                         if(erase || hover) tex->clearColorMod();
                     }
-                    if(/*ub->overlayEnabled() && */ts.fOvelays) {
+                    if(ub->overlayEnabled() && ts.fOvelays) {
                         const auto overlays = ub->getOverlays(size);
                         for(const auto& o : overlays) {
                             const auto& tex = o.fTex;
