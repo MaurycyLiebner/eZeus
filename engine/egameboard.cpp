@@ -2057,8 +2057,8 @@ void eGameBoard::startEpisode(eEpisode* const e) {
         eee->setupStartDate(date);
         mGameEvents.push_back(eee);
     }
-    setFriendlyGods(e->fFriendlyGods);
     mAvailableBuildings = e->fAvailableBuildings;
+    setFriendlyGods(e->fFriendlyGods);
     mPoseidonMode = e->fAtlantean;
     const auto& gs = e->fGoals;
     for(const auto& g : gs) {
