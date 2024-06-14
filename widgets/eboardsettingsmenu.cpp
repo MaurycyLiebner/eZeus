@@ -11,8 +11,10 @@
 
 #include "engine/egameboard.h"
 #include "emainwindow.h"
+#include "egamewidget.h"
 
-void eBoardSettingsMenu::initialize(eGameBoard& board) {
+void eBoardSettingsMenu::initialize(
+        eGameWidget* const gw, eGameBoard& board) {
     setType(eFrameType::message);
 
     const auto boardPtr = &board;
@@ -21,7 +23,7 @@ void eBoardSettingsMenu::initialize(eGameBoard& board) {
     resizeButt->setUnderline(false);
     resizeButt->setText(eLanguage::text("resize"));
     resizeButt->fitContent();
-    resizeButt->setPressAction([this, boardPtr]() {
+    resizeButt->setPressAction([this, gw, boardPtr]() {
         const auto resizeMenu = new eFramedWidget(window());
         resizeMenu->setType(eFrameType::message);
         resizeMenu->resize(width(), height());
@@ -77,10 +79,11 @@ void eBoardSettingsMenu::initialize(eGameBoard& board) {
 
         const auto accept = new eAcceptButton(window());
         const auto cancel = new eCancelButton(window());
-        accept->setPressAction([resizeMenu, width, height, boardPtr]() {
+        accept->setPressAction([resizeMenu, width, height, boardPtr, gw]() {
             const int w = width->value();
             const int h = height->value();
             boardPtr->resize(w, h);
+            gw->updateViewBoxSize();
             resizeMenu->deleteLater();
         });
         cancel->setPressAction([resizeMenu]() {

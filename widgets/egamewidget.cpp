@@ -137,6 +137,7 @@ void eGameWidget::setBoard(eGameBoard* const board) {
     });
 
     mBoard->updateMusic();
+    updateViewBoxSize();
 }
 
 eGameWidgetSettings eGameWidget::settings() const {
@@ -237,7 +238,7 @@ void eGameWidget::initialize() {
     settingsButt->setPressAction([this]() {
         const auto settingsMenu = new eBoardSettingsMenu(window());
         settingsMenu->resize(width()/2, 2*height()/3);
-        settingsMenu->initialize(*mBoard);
+        settingsMenu->initialize(this, *mBoard);
 
         window()->execDialog(settingsMenu);
         settingsMenu->align(eAlignment::center);
@@ -1693,19 +1694,22 @@ void eGameWidget::setTileSize(const eTileSize size) {
     setDX(dx);
     setDY(dy);
 
-    {
-        double fx;
-        double fy;
-        viewBoxSize(fx, fy);
-        const auto mm = mGm->miniMap();
-        mm->setViewBoxSize(fx, fy);
-        const auto mma = mAm->miniMap();
-        mma->setViewBoxSize(fx, fy);
-    }
+    updateViewBoxSize();
 
     clampViewBox();
 
     updateTerrainTextures();
+}
+
+void eGameWidget::updateViewBoxSize() {
+    if(!mBoard || !mGm) return;
+    double fx;
+    double fy;
+    viewBoxSize(fx, fy);
+    const auto mm = mGm->miniMap();
+    mm->setViewBoxSize(fx, fy);
+    const auto mma = mAm->miniMap();
+    mma->setViewBoxSize(fx, fy);
 }
 
 void eGameWidget::actionOnSelectedTiles(const eTileAction& apply) {
