@@ -678,7 +678,13 @@ eHerosHall::~eHerosHall() {
 std::shared_ptr<eTexture> eHerosHall::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& texs = eGameTextures::buildings()[sizeId];
-    return texs.fHeroHall;
+    auto& board = getBoard();
+    if(board.poseidonMode()) {
+        eGameTextures::loadPoseidonHerosHall();
+        return texs.fPoseidonHeroHall;
+    } else {
+        return texs.fHeroHall;
+    }
 }
 
 std::vector<eOverlay> eHerosHall::getOverlays(const eTileSize size) const {

@@ -782,6 +782,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fHeraMonuments(renderer),
     fAtlasMonuments(renderer),
 
+    fPoseidonSanctuary(renderer),
+
     fSanctuaryWOverlay(renderer),
     fSanctuaryHOverlay(renderer),
     fSanctuaryFire(renderer),
@@ -1916,19 +1918,25 @@ void eBuildingTextures::loadSanctuary() {
             loader.load(1, i, coll);
         }
     }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eZeusSanctuary3SpriteData15,
-                                     eZeusSanctuary3SpriteData30,
-                                     eZeusSanctuary3SpriteData45,
-                                     eZeusSanctuary3SpriteData60);
-        eSpriteLoader loader(fTileH, "zeusSanctuary3", sds,
-                             nullptr, fRenderer);
+}
 
-        for(int i = 1; i < 5; i++) {
-            auto& coll = fSanctuary[i - 1];
-            loader.load(1, i, coll);
-        }
+void eBuildingTextures::loadZeusSanctuary() {
+    if(fZeusSanctuaryLoaded) return;
+    fZeusSanctuaryLoaded = true;
+
+    if(fSanctuary.empty()) loadSanctuary();
+
+    const auto& sds = spriteData(fTileH,
+                                 eZeusSanctuary3SpriteData15,
+                                 eZeusSanctuary3SpriteData30,
+                                 eZeusSanctuary3SpriteData45,
+                                 eZeusSanctuary3SpriteData60);
+    eSpriteLoader loader(fTileH, "zeusSanctuary3", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 1; i < 5; i++) {
+        auto& coll = fSanctuary[i - 1];
+        loader.load(1, i, coll);
     }
 }
 

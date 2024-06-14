@@ -70,7 +70,7 @@ private:
     eSanctCost mCost{0, 0, 0};
     eSanctCost mStored{0, 0, 0};
     bool mWorkedOn = false;
-    int mProgress = 0;//mMaxProgress;
+    int mProgress = mMaxProgress;
 };
 
 #endif // ESANCTBUILDING_H

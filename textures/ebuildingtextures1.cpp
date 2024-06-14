@@ -70,9 +70,51 @@
 #include "spriteData/poseidonEliteHouse45.h"
 #include "spriteData/poseidonEliteHouse60.h"
 
+#include "spriteData/poseidonSanctuary15.h"
+#include "spriteData/poseidonSanctuary30.h"
+#include "spriteData/poseidonSanctuary45.h"
+#include "spriteData/poseidonSanctuary60.h"
+
+#include "spriteData/poseidonHerosHall215.h"
+#include "spriteData/poseidonHerosHall230.h"
+#include "spriteData/poseidonHerosHall245.h"
+#include "spriteData/poseidonHerosHall260.h"
+
 #include "offsets/PoseidonImps.h"
 
 #include "textures/espriteloader.h"
+
+void eBuildingTextures::loadPoseidonHerosHall() {
+    if(fPoseidonHerosHallLoaded) return;
+    fPoseidonHerosHallLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonHerosHall2SpriteData15,
+                                 ePoseidonHerosHall2SpriteData30,
+                                 ePoseidonHerosHall2SpriteData45,
+                                 ePoseidonHerosHall2SpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonHerosHall2", sds,
+                         nullptr, fRenderer);
+
+    fPoseidonHeroHall = loader.load(1, 1);
+}
+
+void eBuildingTextures::loadPoseidonSanctuary() {
+    if(fPoseidonSanctuaryLoaded) return;
+    fPoseidonSanctuaryLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonSanctuarySpriteData15,
+                                 ePoseidonSanctuarySpriteData30,
+                                 ePoseidonSanctuarySpriteData45,
+                                 ePoseidonSanctuarySpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonSanctuary", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 1; i < 5; i++) {
+        loader.load(1, i, fPoseidonSanctuary);
+    }
+}
 
 void eBuildingTextures::loadPoseidonCommonHouse() {
     if(fPoseidonCommonHouseLoaded) return;

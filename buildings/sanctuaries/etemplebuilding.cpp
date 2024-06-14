@@ -1,6 +1,7 @@
 #include "etemplebuilding.h"
 
 #include "textures/egametextures.h"
+#include "engine/egameboard.h"
 
 eTempleBuilding::eTempleBuilding(eGameBoard& board) :
     eSanctBuilding({5, 5, 0}, 3, board,
@@ -20,8 +21,18 @@ eTempleBuilding::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
     const int id = p - 1;
-    const auto& coll = blds.fSanctuary[mId];
-    return coll.getTexture(id);
+    auto& board = getBoard();
+    if(board.poseidonMode() && id == 2) {
+        eGameTextures::loadPoseidonSanctuary();
+        const auto& coll = blds.fPoseidonSanctuary;
+        return coll.getTexture(mId);
+    } else {
+        if(id == 2) {
+            eGameTextures::loadZeusSanctuary();
+        }
+        const auto& coll = blds.fSanctuary[mId];
+        return coll.getTexture(id);
+    }
 }
 
 std::vector<eOverlay> eTempleBuilding::getOverlays(const eTileSize size) const {

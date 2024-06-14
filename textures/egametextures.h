@@ -300,6 +300,10 @@ public:
     static void loadWineVendorBuilding();
     static void loadElephant();
 
+    static void loadZeusSanctuary();
+    static void loadPoseidonSanctuary();
+    static void loadPoseidonHerosHall();
+
     static void loadHoplitePoseidon();
     static void loadArcherPoseidon();
     static void loadChariotPoseidon();

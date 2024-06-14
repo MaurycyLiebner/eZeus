@@ -1755,6 +1755,27 @@ void eGameTextures::loadElephant() {
     });
 }
 
+void eGameTextures::loadZeusSanctuary() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadZeusSanctuary();
+    });
+}
+
+void eGameTextures::loadPoseidonSanctuary() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadPoseidonSanctuary();
+    });
+}
+
+void eGameTextures::loadPoseidonHerosHall() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadPoseidonHerosHall();
+    });
+}
+
 void eGameTextures::loadWineVendorBuilding() {
     loadTexture([](const int i) {
         auto& c = sBuildingTextures[i];

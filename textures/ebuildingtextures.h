@@ -101,6 +101,12 @@ public:
     void loadPalaceTiles();
     bool fSanctuaryLoaded = false;
     void loadSanctuary();
+    bool fZeusSanctuaryLoaded = false;
+    void loadZeusSanctuary();
+    bool fPoseidonSanctuaryLoaded = false;
+    void loadPoseidonSanctuary();
+    bool fPoseidonHerosHallLoaded = false;
+    void loadPoseidonHerosHall();
     bool fHerosHallLoaded = false;
     void loadHerosHall();
     bool fWaitingOverlayLoaded = false;
@@ -567,6 +573,7 @@ public:
     std::shared_ptr<eTexture> fSanctuaryAltar;
 
     std::shared_ptr<eTexture> fHeroHall;
+    std::shared_ptr<eTexture> fPoseidonHeroHall;
     // achilles, hercules, jason, odysseus,
     // perseus, theseus, bellerophon, atalanta
     eTextureCollection fHeroStatues;
@@ -590,6 +597,7 @@ public:
     eTextureCollection fAtlasMonuments;
 
     std::vector<eTextureCollection> fSanctuary;
+    eTextureCollection fPoseidonSanctuary;
 
     eTextureCollection fSanctuaryWOverlay;
     eTextureCollection fSanctuaryHOverlay;
