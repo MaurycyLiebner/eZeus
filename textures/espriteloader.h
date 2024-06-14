@@ -64,9 +64,14 @@ public:
         const auto& sd = mSds[i - doff];
         const int tid = sd.fTexId;
         const auto t = getTex(tid);
-        const SDL_Rect rect{sd.fX, sd.fY, sd.fW, sd.fH};
-        const auto tex = std::make_shared<eTexture>();
-        tex->setParentTexture(rect, t);
+        std::shared_ptr<eTexture> tex;
+        if(mSds.size() == 1) {
+            tex = t;
+        } else {
+            const SDL_Rect rect{sd.fX, sd.fY, sd.fW, sd.fH};
+            tex = std::make_shared<eTexture>();
+            tex->setParentTexture(rect, t);
+        }
         if(mOffs) {
             const auto& off = (*mOffs)[i - 1];
             tex->setOffset(off.first, off.second);
