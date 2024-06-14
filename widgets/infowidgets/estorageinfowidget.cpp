@@ -74,6 +74,7 @@ public:
             n->setHeight(rowHeight);
 
             const auto b = new eSwitchButton(window());
+            b->setUnderline(false);
 
             b->setSwitchAction([b](const int i) {
                 if(i == 0 || i == 3) {
