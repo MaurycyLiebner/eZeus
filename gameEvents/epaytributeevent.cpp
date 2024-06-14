@@ -37,12 +37,3 @@ void ePayTributeEvent::read(eReadStream& src) {
         mCity = c;
     });
 }
-
-stdsptr<eGameEvent> ePayTributeEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<ePayTributeEvent>(branch());
-    c->setReason(reason);
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->initialize(mCity);
-    return c;
-}

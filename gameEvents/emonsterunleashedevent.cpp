@@ -36,13 +36,3 @@ void eMonsterUnleashedEvent::trigger() {
 std::string eMonsterUnleashedEvent::longName() const {
     return eLanguage::text("monster_unleash_long_name");
 }
-
-stdsptr<eGameEvent> eMonsterUnleashedEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eMonsterUnleashedEvent>(branch());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->setType(type());
-    c->setPointId(pointId());
-    c->setReason(reason);
-    return c;
-}

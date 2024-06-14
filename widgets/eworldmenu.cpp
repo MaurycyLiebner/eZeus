@@ -116,7 +116,7 @@ void eWorldMenu::initialize(const eAction& openRequest,
         wh->setX(whx);
         wh->setY(why);
 
-        if(mShowText) {
+        if(showText) {
             const auto wgw = eButton::sCreate(coll.fWorldSmallButton, window(), this);
             wgw->setPressAction([this](){
                 const bool editor = mBoard && mBoard->editorMode();

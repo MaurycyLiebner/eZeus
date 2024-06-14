@@ -94,14 +94,3 @@ void ePlayerRaidEvent::read(eReadStream& src) {
     ePlayerConquestEventBase::read(src);
     src >> mResource;
 }
-
-stdsptr<eGameEvent> ePlayerRaidEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<ePlayerRaidEvent>(branch(), gameBoard());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->mForces = mForces;
-    c->mCity = mCity;
-    c->mResource = mResource;
-    c->setReason(reason);
-    return c;
-}

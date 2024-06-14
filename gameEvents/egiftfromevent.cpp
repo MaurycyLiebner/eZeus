@@ -29,12 +29,3 @@ std::string eGiftFromEvent::longName() const {
     eStringHelpers::replace(tmpl, "%2", ctstr);
     return tmpl;
 }
-
-stdsptr<eGameEvent> eGiftFromEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eGiftFromEvent>(branch());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->setReason(reason);
-    c->initialize(mPostpone, mResource, mCount, mCity);
-    return c;
-}

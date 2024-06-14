@@ -27,13 +27,3 @@ void eEconomicChangeEvent::trigger() {
 std::string eEconomicChangeEvent::longName() const {
     return eLanguage::text("economic_change_long_name");
 }
-
-stdsptr<eGameEvent> eEconomicChangeEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eEconomicChangeEvent>(branch());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->setBy(by());
-    c->setCity(city());
-    c->setReason(reason);
-    return c;
-}

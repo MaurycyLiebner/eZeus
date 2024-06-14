@@ -74,15 +74,6 @@ void eTroopsRequestEvent::read(eReadStream& src) {
     });
 }
 
-stdsptr<eGameEvent> eTroopsRequestEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eTroopsRequestEvent>(branch());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->initialize(mPostpone, mCity, mRivalCity, mFinish);
-    c->setReason(reason);
-    return c;
-}
-
 void eTroopsRequestEvent::setCity(const stdsptr<eWorldCity>& c) {
     mCity = c;
 }

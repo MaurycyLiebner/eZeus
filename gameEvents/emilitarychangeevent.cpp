@@ -27,13 +27,3 @@ void eMilitaryChangeEvent::trigger() {
 std::string eMilitaryChangeEvent::longName() const {
     return eLanguage::text("military_change_long_name");
 }
-
-stdsptr<eGameEvent> eMilitaryChangeEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eMilitaryChangeEvent>(branch());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->setBy(by());
-    c->setCity(city());
-    c->setReason(reason);
-    return c;
-}

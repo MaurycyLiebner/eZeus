@@ -142,15 +142,6 @@ void eInvasionEvent::read(eReadStream& src) {
     mFirstWarning.read(src);
 }
 
-stdsptr<eGameEvent> eInvasionEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eInvasionEvent>(branch());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->initialize(mCity, mInfantry, mCavalry, mArchers);
-    c->setReason(reason);
-    return c;
-}
-
 void eInvasionEvent::setCity(const stdsptr<eWorldCity>& c) {
     mCity = c;
     const auto& ws = warnings();

@@ -32,6 +32,30 @@ eGameEvent::~eGameEvent() {
     if(mBoard) mBoard->removeGameEvent(this);
 }
 
+stdsptr<eGameEvent> eGameEvent::makeCopy() const {
+    const size_t size = 1000000;
+    void* mem = malloc(size);
+    {
+        mWorldBoard->setIOIDs();
+        const auto file = SDL_RWFromMem(mem, size);
+        eWriteStream dst(file);
+        write(dst);
+    }
+    const auto result = sCreate(mType, mBranch, mBoard);
+    result->setGameBoard(mBoard);
+    result->setWorldBoard(mWorldBoard);
+    {
+        const auto file = SDL_RWFromMem(mem, size);
+        eReadStream src(file);
+        result->read(src);
+        src.handlePostFuncs();
+    }
+
+    free(mem);
+
+    return result;
+}
+
 stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
                                         const eGameEventBranch branch,
                                         eGameBoard* const board) {

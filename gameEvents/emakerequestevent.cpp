@@ -127,16 +127,6 @@ void eMakeRequestEvent::read(eReadStream& src) {
     });
 }
 
-stdsptr<eGameEvent> eMakeRequestEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eMakeRequestEvent>(branch());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->initialize(mPostpone, mResource, mCity);
-    c->setReason(reason);
-    return c;
-}
-
-
 void eMakeRequestEvent::setCity(const stdsptr<eWorldCity>& c) {
     mCity = c;
 }

@@ -32,16 +32,3 @@ void eGodQuestFulfilledEvent::trigger() {
 std::string eGodQuestFulfilledEvent::longName() const {
     return eLanguage::text("god_quest_fulfilled");
 }
-
-stdsptr<eGameEvent> eGodQuestFulfilledEvent::makeCopy(
-        const std::string& reason) const {
-    const auto c = e::make_shared<eGodQuestFulfilledEvent>(
-                       branch());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->setReason(reason);
-    c->setGod(god());
-    c->setId(id());
-    c->setHero(hero());
-    return c;
-}

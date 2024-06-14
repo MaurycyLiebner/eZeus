@@ -17,8 +17,6 @@ public:
 
     void write(eWriteStream& dst) const override;
     void read(eReadStream& src) override;
-
-    stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
 private:
     eResourceType mResource;
 };

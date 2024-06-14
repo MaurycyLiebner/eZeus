@@ -61,13 +61,3 @@ void ePlayerConquestEvent::trigger() {
 std::string ePlayerConquestEvent::longName() const {
     return eLanguage::text("player_conquest_event_long_name");
 }
-
-stdsptr<eGameEvent> ePlayerConquestEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<ePlayerConquestEvent>(branch(), gameBoard());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->mForces = mForces;
-    c->mCity = mCity;
-    c->setReason(reason);
-    return c;
-}

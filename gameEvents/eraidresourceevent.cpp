@@ -22,12 +22,3 @@ eRaidResourceEvent::eRaidResourceEvent(const eGameEventBranch branch) :
 std::string eRaidResourceEvent::longName() const {
     return eLanguage::text("raid_resource_long_name");
 }
-
-stdsptr<eGameEvent> eRaidResourceEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eRaidResourceEvent>(branch());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->setReason(reason);
-    c->initialize(mPostpone, mResource, mCount, mCity);
-    return c;
-}

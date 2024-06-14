@@ -47,12 +47,3 @@ void eGiftToEvent::read(eReadStream& src) {
         mCity = c;
     });
 }
-
-stdsptr<eGameEvent> eGiftToEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eGiftToEvent>(branch());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->setReason(reason);
-    c->initialize(mCity, mResource, mCount);
-    return c;
-}

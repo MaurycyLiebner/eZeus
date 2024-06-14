@@ -55,7 +55,7 @@ public:
 
     virtual std::string longName() const = 0;
 
-    virtual stdsptr<eGameEvent> makeCopy(const std::string& reason) const = 0;
+    stdsptr<eGameEvent> makeCopy() const;
 
     virtual void write(eWriteStream& dst) const;
     virtual void read(eReadStream& src);

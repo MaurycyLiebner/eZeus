@@ -251,6 +251,7 @@ void eMainWindow::showMenuLoading() {
 }
 
 void eMainWindow::showMainMenu() {
+    mCampaign = nullptr;
     clearWidgets();
     eMusic::playMenuMusic();
 

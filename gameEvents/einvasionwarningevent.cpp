@@ -71,18 +71,6 @@ void eInvasionWarningEvent::read(eReadStream& src) {
     });
 }
 
-stdsptr<eGameEvent> eInvasionWarningEvent::makeCopy(
-        const std::string& reason) const {
-    const auto c = e::make_shared<eInvasionWarningEvent>(
-                       branch());
-    c->setReason(reason);
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->mType = mType;
-    c->mCity = mCity;
-    return c;
-}
-
 void eInvasionWarningEvent::setCity(const stdsptr<eWorldCity>& c) {
     mCity = c;
 }

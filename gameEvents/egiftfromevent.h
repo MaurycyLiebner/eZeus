@@ -8,8 +8,6 @@ public:
     eGiftFromEvent(const eGameEventBranch branch);
 
     std::string longName() const override;
-
-    stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
 };
 
 #endif // EGIFTFROMEVENT_H

@@ -27,8 +27,6 @@ public:
 
     void write(eWriteStream& dst) const override ;
     void read(eReadStream& src) override;
-
-    stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
 private:
     eMonsterInvasionWarningType mType;
     eMonsterType mMonster;
@@ -42,8 +40,6 @@ public:
 
     void trigger() override;
     std::string longName() const override;
-
-    stdsptr<eGameEvent> makeCopy(const std::string& reason) const override;
 };
 
 #endif // EMONSTERINVASIONEVENT_H

@@ -74,13 +74,3 @@ void eArmyReturnEvent::trigger() {
 std::string eArmyReturnEvent::longName() const {
     return eLanguage::text("army_returns_event_long_name");
 }
-
-stdsptr<eGameEvent> eArmyReturnEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eArmyReturnEvent>(branch(), gameBoard());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->mForces = mForces;
-    c->mCity = mCity;
-    c->setReason(reason);
-    return c;
-}

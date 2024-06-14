@@ -61,18 +61,6 @@ void eMonsterInvasionWarningEvent::read(eReadStream& src) {
     src >> mMonster;
 }
 
-stdsptr<eGameEvent> eMonsterInvasionWarningEvent::makeCopy(
-        const std::string& reason) const {
-    const auto c = e::make_shared<eMonsterInvasionWarningEvent>(
-                       branch());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->setReason(reason);
-    c->mType = mType;
-    c->mMonster = mMonster;
-    return c;
-}
-
 eMonsterInvasionEvent::eMonsterInvasionEvent(const eGameEventBranch branch) :
     eMonsterInvasionEventBase(eGameEventType::monsterInvasion,
                               branch) {}
@@ -134,14 +122,4 @@ void eMonsterInvasionEvent::trigger() {
 
 std::string eMonsterInvasionEvent::longName() const {
     return eLanguage::text("monster_invasion_long_name");
-}
-
-stdsptr<eGameEvent> eMonsterInvasionEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eMonsterInvasionEvent>(branch());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->setType(type());
-    c->setPointId(pointId());
-    c->setReason(reason);
-    return c;
 }

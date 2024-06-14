@@ -56,15 +56,3 @@ std::string eTroopsRequestFulfilledEvent::longName() const {
     eStringHelpers::replace(tmpl, "%1", ctstr);
     return tmpl;
 }
-
-stdsptr<eGameEvent> eTroopsRequestFulfilledEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eTroopsRequestFulfilledEvent>(
-                       branch(), gameBoard());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->mForces = mForces;
-    c->mCity = mCity;
-    c->mRivalCity = mRivalCity;
-    c->setReason(reason);
-    return c;
-}

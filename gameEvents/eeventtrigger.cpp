@@ -10,7 +10,8 @@ void eEventTrigger::trigger(eGameEvent& parent,
                             const eDate& date,
                             const std::string& reason) {
     for(const auto& e : mEvents) {
-        const auto c = e->makeCopy(reason);
+        const auto c = e->makeCopy();
+        c->setReason(reason);
         if(!c) continue;
         const int delay = e->period();
         const auto d = date + delay;

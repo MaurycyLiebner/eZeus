@@ -51,17 +51,6 @@ std::string eGodQuestEvent::longName() const {
     return eLanguage::text("god_quest");
 }
 
-stdsptr<eGameEvent> eGodQuestEvent::makeCopy(const std::string& reason) const {
-    const auto c = e::make_shared<eGodQuestEvent>(branch());
-    c->setGameBoard(gameBoard());
-    c->setWorldBoard(worldBoard());
-    c->setReason(reason);
-    c->setGod(god());
-    c->setId(id());
-    c->setHero(hero());
-    return c;
-}
-
 void eGodQuestEvent::fulfill() {
     const auto board = gameBoard();
     if(!board) return;
