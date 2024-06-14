@@ -499,3 +499,13 @@ void eGod::sGodStrings(std::vector<eGodType>& gods,
         godNames.push_back(sGodName(g));
     }
 }
+
+void eGod::read(eReadStream& src) {
+    eCharacter::read(src);
+    src >> mAttitude;
+}
+
+void eGod::write(eWriteStream& dst) const {
+    eCharacter::write(dst);
+    dst << mAttitude;
+}

@@ -61,6 +61,9 @@ public:
 
     eGodAttitude attitude() const { return mAttitude; }
     void setAttitude(const eGodAttitude attitude) { mAttitude = attitude; }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 private:
     const eGodType mType;
     eGodAttitude mAttitude = eGodAttitude::friendly;
