@@ -21,43 +21,6 @@ stdsptr<eBuilding> createVendor(eGameBoard& board,
     return v;
 }
 
-stdsptr<eSanctuary> createSanctuary(const eBuildingType type,
-                     const int sw, const int sh,
-                     eGameBoard& board) {
-    switch(type) {
-    case eBuildingType::templeAphrodite:
-        return e::make_shared<eAphroditeSanctuary>(sw, sh, board);
-    case eBuildingType::templeApollo:
-        return e::make_shared<eApolloSanctuary>(sw, sh, board);
-    case eBuildingType::templeAres:
-        return e::make_shared<eAresSanctuary>(sw, sh, board);
-    case eBuildingType::templeArtemis:
-        return e::make_shared<eArtemisSanctuary>(sw, sh, board);
-    case eBuildingType::templeAthena:
-        return e::make_shared<eAthenaSanctuary>(sw, sh, board);
-    case eBuildingType::templeAtlas:
-        return e::make_shared<eAtlasSanctuary>(sw, sh, board);
-    case eBuildingType::templeDemeter:
-        return e::make_shared<eDemeterSanctuary>(sw, sh, board);
-    case eBuildingType::templeDionysus:
-        return e::make_shared<eDionysusSanctuary>(sw, sh, board);
-    case eBuildingType::templeHades:
-        return e::make_shared<eHadesSanctuary>(sw, sh, board);
-    case eBuildingType::templeHephaestus:
-        return e::make_shared<eHephaestusSanctuary>(sw, sh, board);
-    case eBuildingType::templeHera:
-        return e::make_shared<eHeraSanctuary>(sw, sh, board);
-    case eBuildingType::templeHermes:
-        return e::make_shared<eHermesSanctuary>(sw, sh, board);
-    case eBuildingType::templePoseidon:
-        return e::make_shared<ePoseidonSanctuary>(sw, sh, board);
-    case eBuildingType::templeZeus:
-        return e::make_shared<eZeusSanctuary>(sw, sh, board);
-    default:
-        return nullptr;
-    }
-}
-
 stdsptr<eBuilding> eBuildingReader::sRead(
         eGameBoard& board, const eBuildingType type,
         eReadStream& src) {
@@ -462,7 +425,7 @@ stdsptr<eBuilding> eBuildingReader::sRead(
         int sh;
         src >> sh;
 
-        b = createSanctuary(type, sw, sh, board);
+        b = eSanctuary::sCreate(type, sw, sh, board);
     } break;
     case eBuildingType::templeStatue: {
         eGodType godType;

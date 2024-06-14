@@ -21,6 +21,13 @@ struct eSanctCost {
         fSculpture -= c.fSculpture;
         return *this;
     }
+
+    eSanctCost operator-(const eSanctCost& c1) const {
+        eSanctCost c;
+        c = *this;
+        c.operator-=(c1);
+        return c;
+    }
 };
 
 class eSanctuary;
@@ -63,7 +70,7 @@ private:
     eSanctCost mCost{0, 0, 0};
     eSanctCost mStored{0, 0, 0};
     bool mWorkedOn = false;
-    int mProgress = mMaxProgress;
+    int mProgress = 0;//mMaxProgress;
 };
 
 #endif // ESANCTBUILDING_H

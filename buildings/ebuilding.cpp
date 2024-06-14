@@ -1998,9 +1998,9 @@ std::vector<eTile*> eBuilding::neighbours() const {
     std::vector<eTile*> result;
 
     const int left = mTileRect.x - 1;
-    const int right = mTileRect.x + mTileRect.w + 1;
+    const int right = mTileRect.x + mTileRect.w;
     const int top = mTileRect.y - 1;
-    const int bottom = mTileRect.y + mTileRect.h + 1;
+    const int bottom = mTileRect.y + mTileRect.h;
 
     const auto& brd = getBoard();
 
@@ -2039,6 +2039,15 @@ std::vector<eTile*> eBuilding::neighbours() const {
 void eBuilding::setBlessed(const double b) {
     mBlessTime = 30000;
     mBlessed = b;
+}
+
+bool eBuilding::accessToRoad() const {
+    const auto ns = neighbours();
+    for(const auto n : ns) {
+        const bool r = n->hasRoad();
+        if(r) return true;
+    }
+    return false;
 }
 
 void eBuilding::read(eReadStream& src) {

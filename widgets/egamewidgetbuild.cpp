@@ -1562,82 +1562,8 @@ bool eGameWidget::buildMouseRelease() {
             const bool cb = canBuildBase(minX, maxX, minY, maxY);
             if(!cb) return true;
 
-            eGodType god;
-            stdsptr<eSanctuary> b;
-            switch(mode) {
-            case eBuildingMode::templeZeus: {
-                god = eGodType::zeus;
-                b = e::make_shared<eZeusSanctuary>(
-                        sw, sh, *mBoard);
-            } break;
-            case eBuildingMode::templeAphrodite: {
-                god = eGodType::aphrodite;
-                b = e::make_shared<eAphroditeSanctuary>(
-                        sw, sh, *mBoard);
-            } break;
-            case eBuildingMode::templeAres: {
-                god = eGodType::ares;
-                b = e::make_shared<eAresSanctuary>(
-                        sw, sh, *mBoard);
-            } break;
-            case eBuildingMode::templeApollo: {
-                god = eGodType::apollo;
-                b = e::make_shared<eApolloSanctuary>(
-                        sw, sh, *mBoard);
-            } break;
-            case eBuildingMode::templeAthena: {
-                god = eGodType::athena;
-                b = e::make_shared<eAthenaSanctuary>(
-                        sw, sh, *mBoard);
-            } break;
-            case eBuildingMode::templeAtlas: {
-                god = eGodType::atlas;
-                b = e::make_shared<eAtlasSanctuary>(
-                        sw, sh, *mBoard);
-            } break;
-            case eBuildingMode::templeArtemis: {
-                god = eGodType::artemis;
-                b = e::make_shared<eArtemisSanctuary>(
-                        sw, sh, *mBoard);
-            } break;
-            case eBuildingMode::templeDemeter: {
-                god = eGodType::demeter;
-                b = e::make_shared<eDemeterSanctuary>(
-                        sw, sh, *mBoard);
-            } break;
-            case eBuildingMode::templeDionysus: {
-                god = eGodType::dionysus;
-                b = e::make_shared<eDionysusSanctuary>(
-                        sw, sh, *mBoard);
-            } break;
-            case eBuildingMode::templeHades: {
-                god = eGodType::hades;
-                b = e::make_shared<eHadesSanctuary>(
-                        sw, sh, *mBoard);
-            } break;
-            case eBuildingMode::templeHephaestus: {
-                god = eGodType::hephaestus;
-                b = e::make_shared<eHephaestusSanctuary>(
-                        sw, sh, *mBoard);
-            } break;
-            case eBuildingMode::templeHera: {
-                god = eGodType::hera;
-                b = e::make_shared<eHeraSanctuary>(
-                        sw, sh, *mBoard);
-            } break;
-            case eBuildingMode::templeHermes: {
-                god = eGodType::hermes;
-                b = e::make_shared<eHermesSanctuary>(
-                        sw, sh, *mBoard);
-            } break;
-            case eBuildingMode::templePoseidon: {
-                god = eGodType::poseidon;
-                b = e::make_shared<ePoseidonSanctuary>(
-                        sw, sh, *mBoard);
-            } break;
-            default:
-                break;
-            }
+            const auto b = eSanctuary::sCreate(bt, sw, sh, *mBoard);
+            const auto god = b->godType();
 
             const bool r = canBuildBase(minX, maxX, minY, maxY);
             if(!r) return true;

@@ -70,7 +70,17 @@ public:
 
     void godComeback();
     bool godAbroad() const { return mGodAbroad; }
+
+    void setConstructionHalted(const bool h);
+    bool constructionHalted() const { return mHaltConstruction; }
+
+
+    static stdsptr<eSanctuary> sCreate(
+            const eBuildingType type,
+            const int sw, const int sh,
+            eGameBoard& board);
 private:
+    bool mHaltConstruction = false;
     eSanctCost mStored{0, 0, 0};
     eSanctCost mUsed{0, 0, 0};
     int mAltitude = 0;

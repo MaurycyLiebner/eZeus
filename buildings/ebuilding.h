@@ -275,6 +275,8 @@ public:
     bool blessed() const { return mBlessed > 0.01; }
     bool cursed() const { return mBlessed < -0.01; }
 
+    bool accessToRoad() const;
+
     virtual void read(eReadStream& src);
     virtual void write(eWriteStream& dst) const;
 
