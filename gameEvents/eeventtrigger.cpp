@@ -44,6 +44,8 @@ void eEventTrigger::read(eReadStream& src) {
 }
 
 void eEventTrigger::addEvent(const stdsptr<eGameEvent>& e) {
+    e->setGameBoard(mBoard);
+    e->setWorldBoard(mWorldBoard);
     mEvents.push_back(e);
 }
 

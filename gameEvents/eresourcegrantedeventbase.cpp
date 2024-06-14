@@ -56,6 +56,8 @@ void eResourceGrantedEventBase::trigger() {
         if(mPostpone) {
             const auto branch = eGameEventBranch::child;
             const auto e = eGameEvent::sCreate(type(), branch, board);
+            e->setGameBoard(gameBoard());
+            e->setWorldBoard(worldBoard());
             using eRGEB = eResourceGrantedEventBase;
             const auto ee = static_cast<eRGEB*>(e.get());
             ee->initialize(false, mResource, mCount, mCity);
@@ -93,6 +95,8 @@ void eResourceGrantedEventBase::trigger() {
 
                 const auto branch = eGameEventBranch::child;
                 const auto e = eGameEvent::sCreate(type(), branch, board);
+                e->setGameBoard(gameBoard());
+                e->setWorldBoard(worldBoard());
                 using eRGEB = eResourceGrantedEventBase;
                 const auto ee = static_cast<eRGEB*>(e.get());
                 ee->initialize(false, mResource, mCount, mCity);

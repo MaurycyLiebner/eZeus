@@ -24,6 +24,8 @@ struct eEpisodeGoal {
     int fStatusCount = 0;
     stdsptr<eWorldCity> fCity;
 
+    stdsptr<eEpisodeGoal> makeCopy() const;
+
     void read(eWorldBoard* const board, eReadStream& src);
     void write(eWriteStream& dst) const;
 

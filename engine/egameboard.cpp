@@ -2047,17 +2047,25 @@ void eGameBoard::addSlayedMonster(const eMonsterType m) {
 
 void eGameBoard::startEpisode(eEpisode* const e) {
     mGameEvents.clear();
+    mGoals.clear();
     mWorldBoard = e->fWorldBoard;
-    mGameEvents = e->fEvents;
     const auto& date = e->fStartDate;
     setDate(date);
-    for(const auto& ee : mGameEvents) {
-        ee->setupStartDate(date);
+    const auto& es = e->fEvents;
+    for(const auto& ee : es) {
+        const auto eee = ee->makeCopy();
+        eee->setupStartDate(date);
+        mGameEvents.push_back(eee);
     }
     setFriendlyGods(e->fFriendlyGods);
     mAvailableBuildings = e->fAvailableBuildings;
     mPoseidonMode = e->fAtlantean;
-    mGoals = e->fGoals;
+    const auto& gs = e->fGoals;
+    for(const auto& g : gs) {
+        const auto gg = g->makeCopy();
+        gg->update(this);
+        mGoals.push_back(gg);
+    }
 }
 
 bool eGameBoard::checkGoalsFulfilled() const {

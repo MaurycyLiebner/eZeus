@@ -229,6 +229,8 @@ void eGameBoard::read(eReadStream& src) {
         src >> type;
         const auto branch = eGameEventBranch::root;
         const auto e = eGameEvent::sCreate(type, branch, this);
+        e->setGameBoard(this);
+        e->setWorldBoard(mWorldBoard);
         e->read(src);
         addRootGameEvent(e);
     }

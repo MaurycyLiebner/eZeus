@@ -9,6 +9,12 @@
 #include "buildings/eelitehousing.h"
 #include "engine/egameboard.h"
 
+stdsptr<eEpisodeGoal> eEpisodeGoal::makeCopy() const {
+    const auto result = std::make_shared<eEpisodeGoal>();
+    *result = *this;
+    return result;
+}
+
 void eEpisodeGoal::read(eWorldBoard* const board,
                         eReadStream& src) {
     src >> fType;
