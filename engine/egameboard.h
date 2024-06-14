@@ -225,7 +225,7 @@ public:
 
     using eTipShower = std::function<void(const std::string&)>;
     void setTipShower(const eTipShower& ts);
-    void showTip(const std::string& tip);
+    void showTip(const std::string& tip) const;
 
     using eEnlistAction = std::function<void(const eEnlistedForces&, eResourceType)>;
     using eEnlistRequest = std::function<void(const eEnlistedForces& enlistable,

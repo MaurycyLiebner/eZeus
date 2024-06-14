@@ -103,6 +103,7 @@ void eEpisodeIntroductionWidget::initialize(
         l->align(eAlignment::vcenter);
         goalsInner->addWidget(w);
 
+        bool addStatusText = true;
         if(g->fType == eEpisodeGoalType::setAsideGoods) {
             const auto res = static_cast<eResourceType>(g->fEnumInt1);
             const int has = board->resourceCount(res);
@@ -124,6 +125,19 @@ void eEpisodeIntroductionWidget::initialize(
                     setAside->hide();
                     checkBox->setTexture(ctexs.getTexture(0));
                 });
+                addStatusText = false;
+            }
+        }
+        if(addStatusText) {
+            const auto st = g->statusText();
+            if(!st.empty()) {
+                const auto stl = new eLabel(window());
+                stl->setSmallFontSize();
+                stl->setTinyPadding();
+                stl->setText(st);
+                stl->fitContent();
+                w->addWidget(stl);
+                stl->align(eAlignment::vcenter | eAlignment::right);
             }
         }
     }

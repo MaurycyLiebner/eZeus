@@ -135,33 +135,133 @@ std::string eEpisodeGoal::text(const bool colonyEpisode,
     return "";
 }
 
+std::string eEpisodeGoal::statusText() const {
+    switch(fType) {
+    case eEpisodeGoalType::population: {
+        auto text = eLanguage::zeusText(194, 43);
+        const auto popStr = std::to_string(fStatusCount);
+        eStringHelpers::replace(text, "[amount]", popStr);
+        return text;
+    } break;
+    case eEpisodeGoalType::treasury: {
+        auto text = eLanguage::zeusText(194, 44);
+        const auto treStr = std::to_string(fStatusCount);
+        eStringHelpers::replace(text, "[amount]", treStr);
+        return text;
+    } break;
+    case eEpisodeGoalType::sanctuary: {
+        auto text = eLanguage::zeusText(194, 45);
+        const auto perStr = std::to_string(fStatusCount);
+        eStringHelpers::replace(text, "[percent]", perStr + "%");
+        return text;
+    } break;
+    case eEpisodeGoalType::support: {
+        auto text = eLanguage::zeusText(194, 50);
+        const auto countStr = std::to_string(fStatusCount);
+        eStringHelpers::replace(text, "[amount]", countStr);
+        return text;
+    } break;
+    case eEpisodeGoalType::quest: {
+        if(fStatusCount == 0) {
+            return eLanguage::zeusText(194, 52);
+        } else {
+            return eLanguage::zeusText(194, 51);
+        }
+    } break;
+    case eEpisodeGoalType::slay: {
+        if(fStatusCount == 0) {
+            return eLanguage::zeusText(194, 54);
+        } else {
+            return eLanguage::zeusText(194, 53);
+        }
+    } break;
+    case eEpisodeGoalType::rule: {
+
+    } break;
+    case eEpisodeGoalType::housing: {
+        auto text = eLanguage::zeusText(194, 58);
+        const auto qStr = std::to_string(fStatusCount);
+        eStringHelpers::replace(text, "[amount]", qStr);
+        return text;
+    } break;
+    case eEpisodeGoalType::setAsideGoods: {
+        auto text = eLanguage::zeusText(194, 60);
+        const auto countStr = std::to_string(fPreviewCount);
+        eStringHelpers::replace(text, "[amount]", countStr);
+        return text;
+    } break;
+    }
+    return "";
+}
+
 void eEpisodeGoal::update(const eGameBoard* const b) {
     switch(fType) {
     case eEpisodeGoalType::population: {
+        const bool wasMet = met();
         fStatusCount = b->population();
+        const bool isMet = met();
+        if(!wasMet && isMet) {
+            b->showTip(eLanguage::zeusText(194, 73));
+        } else if(wasMet && !isMet) {
+            b->showTip(eLanguage::zeusText(194, 74));
+        }
     } break;
     case eEpisodeGoalType::treasury: {
+        const bool wasMet = met();
         fStatusCount = b->drachmas();
+        const bool isMet = met();
+        if(!wasMet && isMet) {
+            b->showTip(eLanguage::zeusText(194, 75));
+        } else if(wasMet && !isMet) {
+            b->showTip(eLanguage::zeusText(194, 76));
+        }
     } break;
     case eEpisodeGoalType::sanctuary: {
+        const bool wasMet = met();
         const auto type = static_cast<eGodType>(fEnumInt1);
         const auto s = b->sanctuary(type);
         fStatusCount = s ? s->progress() : 0;
+        const bool isMet = met();
+        if(!wasMet && isMet) {
+            b->showTip(eLanguage::zeusText(194, 77));
+        }
     } break;
     case eEpisodeGoalType::support: {
         const auto type = static_cast<eBannerType>(fEnumInt1);
         fStatusCount = b->countSoldiers(type);
+        if(type == eBannerType::rockThrower) {
+            fStatusCount += b->countSoldiers(eBannerType::hoplite);
+            fStatusCount += b->countSoldiers(eBannerType::horseman);
+        } else if(type == eBannerType::hoplite) {
+            fStatusCount += b->countSoldiers(eBannerType::horseman);
+        }
     } break;
     case eEpisodeGoalType::quest: {
+        const bool wasMet = met();
         fStatusCount = b->fulfilledQuests().size();
+        const bool isMet = met();
+        if(!wasMet && isMet) {
+            b->showTip(eLanguage::zeusText(194, 81));
+        }
     } break;
     case eEpisodeGoalType::slay: {
+        const bool wasMet = met();
         fStatusCount = b->slayedMonsters().size();
+        const bool isMet = met();
+        if(!wasMet && isMet) {
+            b->showTip(eLanguage::zeusText(194, 83));
+        }
     } break;
     case eEpisodeGoalType::rule: {
+        const bool wasMet = met();
         fStatusCount = fCity->isVassal() ? 1 : 0;
+        const bool isMet = met();
+        if(!wasMet && isMet) {
+            b->showTip(eLanguage::zeusText(194, 87));
+        }
     } break;
     case eEpisodeGoalType::housing: {
+        const bool wasMet = met();
         fStatusCount = 0;
         const auto type = static_cast<eBuildingType>(fEnumInt1);
         b->buildings([&](eBuilding* const b) {
@@ -174,10 +274,16 @@ void eEpisodeGoal::update(const eGameBoard* const b) {
             }
             return false;
         });
+        const bool isMet = met();
+        if(!wasMet && isMet) {
+            b->showTip(eLanguage::zeusText(194, 91));
+        } else if(wasMet && !isMet) {
+            b->showTip(eLanguage::zeusText(194, 92));
+        }
     } break;
     case eEpisodeGoalType::setAsideGoods: {
-//        const auto res = static_cast<eResourceType>(fEnumInt1);
-//        fStatusCount = b->resourceCount(res);
+        const auto res = static_cast<eResourceType>(fEnumInt1);
+        fPreviewCount = b->resourceCount(res);
     } break;
     }
 }

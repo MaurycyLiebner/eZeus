@@ -1915,7 +1915,7 @@ void eGameBoard::setTipShower(const eTipShower& ts) {
     mTipShower = ts;
 }
 
-void eGameBoard::showTip(const std::string& tip) {
+void eGameBoard::showTip(const std::string& tip) const {
     if(mTipShower) mTipShower(tip);
 }
 

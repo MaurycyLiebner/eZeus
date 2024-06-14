@@ -22,6 +22,7 @@ struct eEpisodeGoal {
     int fEnumInt2 = 0;
     int fRequiredCount = 0;
     int fStatusCount = 0;
+    int fPreviewCount = 0;
     stdsptr<eWorldCity> fCity;
 
     stdsptr<eEpisodeGoal> makeCopy() const;
@@ -34,6 +35,7 @@ struct eEpisodeGoal {
     static std::string sText(const eEpisodeGoalType type);
     std::string text(const bool colonyEpisode,
                      const bool atlantean) const;
+    std::string statusText() const;
 
     void update(const eGameBoard* const b);
 };
