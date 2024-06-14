@@ -282,6 +282,13 @@ public:
     static void loadPoseidonMap3();
     static void loadPoseidonMap4();
 
+    static void loadPoseidonCampaign1();
+    static void loadPoseidonCampaign2();
+    static void loadPoseidonCampaign3();
+    static void loadPoseidonCampaign4();
+    static void loadPoseidonCampaign5();
+    static void loadPoseidonCampaign6();
+
     static void loadScholar();
     static void loadAstronomer();
     static void loadInventor();

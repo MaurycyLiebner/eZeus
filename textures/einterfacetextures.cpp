@@ -75,6 +75,36 @@
 #include "spriteData/interfaceRadar45.h"
 #include "spriteData/interfaceRadar60.h"
 
+#include "spriteData/poseidonCampaign115.h"
+#include "spriteData/poseidonCampaign130.h"
+#include "spriteData/poseidonCampaign145.h"
+#include "spriteData/poseidonCampaign160.h"
+
+#include "spriteData/poseidonCampaign215.h"
+#include "spriteData/poseidonCampaign230.h"
+#include "spriteData/poseidonCampaign245.h"
+#include "spriteData/poseidonCampaign260.h"
+
+#include "spriteData/poseidonCampaign315.h"
+#include "spriteData/poseidonCampaign330.h"
+#include "spriteData/poseidonCampaign345.h"
+#include "spriteData/poseidonCampaign360.h"
+
+#include "spriteData/poseidonCampaign415.h"
+#include "spriteData/poseidonCampaign430.h"
+#include "spriteData/poseidonCampaign445.h"
+#include "spriteData/poseidonCampaign460.h"
+
+#include "spriteData/poseidonCampaign515.h"
+#include "spriteData/poseidonCampaign530.h"
+#include "spriteData/poseidonCampaign545.h"
+#include "spriteData/poseidonCampaign560.h"
+
+#include "spriteData/poseidonCampaign615.h"
+#include "spriteData/poseidonCampaign630.h"
+#include "spriteData/poseidonCampaign645.h"
+#include "spriteData/poseidonCampaign660.h"
+
 #include "espriteloader.h"
 
 eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
@@ -1331,4 +1361,88 @@ void eInterfaceTextures::loadPoseidonMap4() {
     const auto dir = loadMapDirPath();
     fPoseidonMap4 = std::make_shared<eTexture>();
     fPoseidonMap4->load(fRenderer, dir + "Poseidon_map04.jpg");
+}
+
+void eInterfaceTextures::loadPoseidonCampaign1() {
+    if(fPoseidonCampaign1Loaded) return;
+    fPoseidonCampaign1Loaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonCampaign1SpriteData15,
+                                 ePoseidonCampaign1SpriteData30,
+                                 ePoseidonCampaign1SpriteData45,
+                                 ePoseidonCampaign1SpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonCampaign1", sds,
+                         nullptr, fRenderer);
+
+    fPoseidonCampaign1 = loader.load(1, 1);
+}
+
+void eInterfaceTextures::loadPoseidonCampaign2() {
+    if(fPoseidonCampaign2Loaded) return;
+    fPoseidonCampaign2Loaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonCampaign2SpriteData15,
+                                 ePoseidonCampaign2SpriteData30,
+                                 ePoseidonCampaign2SpriteData45,
+                                 ePoseidonCampaign2SpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonCampaign2", sds,
+                         nullptr, fRenderer);
+
+    fPoseidonCampaign2 = loader.load(2, 2);
+}
+
+void eInterfaceTextures::loadPoseidonCampaign3() {
+    if(fPoseidonCampaign3Loaded) return;
+    fPoseidonCampaign3Loaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonCampaign3SpriteData15,
+                                 ePoseidonCampaign3SpriteData30,
+                                 ePoseidonCampaign3SpriteData45,
+                                 ePoseidonCampaign3SpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonCampaign3", sds,
+                         nullptr, fRenderer);
+
+    fPoseidonCampaign3 = loader.load(3, 3);
+}
+
+void eInterfaceTextures::loadPoseidonCampaign4() {
+    if(fPoseidonCampaign4Loaded) return;
+    fPoseidonCampaign4Loaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonCampaign4SpriteData15,
+                                 ePoseidonCampaign4SpriteData30,
+                                 ePoseidonCampaign4SpriteData45,
+                                 ePoseidonCampaign4SpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonCampaign4", sds,
+                         nullptr, fRenderer);
+
+    fPoseidonCampaign4 = loader.load(4, 4);
+}
+
+void eInterfaceTextures::loadPoseidonCampaign5() {
+    if(fPoseidonCampaign5Loaded) return;
+    fPoseidonCampaign5Loaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonCampaign5SpriteData15,
+                                 ePoseidonCampaign5SpriteData30,
+                                 ePoseidonCampaign5SpriteData45,
+                                 ePoseidonCampaign5SpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonCampaign5", sds,
+                         nullptr, fRenderer);
+
+    fPoseidonCampaign5 = loader.load(5, 5);
+}
+
+void eInterfaceTextures::loadPoseidonCampaign6() {
+    if(fPoseidonCampaign6Loaded) return;
+    fPoseidonCampaign6Loaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonCampaign6SpriteData15,
+                                 ePoseidonCampaign6SpriteData30,
+                                 ePoseidonCampaign6SpriteData45,
+                                 ePoseidonCampaign6SpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonCampaign6", sds,
+                         nullptr, fRenderer);
+
+    fPoseidonCampaign6 = loader.load(6, 6);
 }

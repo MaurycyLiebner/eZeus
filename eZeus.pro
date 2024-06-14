@@ -1911,6 +1911,30 @@ HEADERS += \
     spriteData/poseidonBannerTops30.h \
     spriteData/poseidonBannerTops45.h \
     spriteData/poseidonBannerTops60.h \
+    spriteData/poseidonCampaign115.h \
+    spriteData/poseidonCampaign130.h \
+    spriteData/poseidonCampaign145.h \
+    spriteData/poseidonCampaign160.h \
+    spriteData/poseidonCampaign215.h \
+    spriteData/poseidonCampaign230.h \
+    spriteData/poseidonCampaign245.h \
+    spriteData/poseidonCampaign260.h \
+    spriteData/poseidonCampaign315.h \
+    spriteData/poseidonCampaign330.h \
+    spriteData/poseidonCampaign345.h \
+    spriteData/poseidonCampaign360.h \
+    spriteData/poseidonCampaign415.h \
+    spriteData/poseidonCampaign430.h \
+    spriteData/poseidonCampaign445.h \
+    spriteData/poseidonCampaign460.h \
+    spriteData/poseidonCampaign515.h \
+    spriteData/poseidonCampaign530.h \
+    spriteData/poseidonCampaign545.h \
+    spriteData/poseidonCampaign560.h \
+    spriteData/poseidonCampaign615.h \
+    spriteData/poseidonCampaign630.h \
+    spriteData/poseidonCampaign645.h \
+    spriteData/poseidonCampaign660.h \
     spriteData/poseidonCommonHouse15.h \
     spriteData/poseidonCommonHouse30.h \
     spriteData/poseidonCommonHouse45.h \
@@ -2673,6 +2697,12 @@ DISTFILES += \
     textureTemplates/porter \
     textureTemplates/poseidon \
     textureTemplates/poseidonBannerTops \
+    textureTemplates/poseidonCampaign1 \
+    textureTemplates/poseidonCampaign2 \
+    textureTemplates/poseidonCampaign3 \
+    textureTemplates/poseidonCampaign4 \
+    textureTemplates/poseidonCampaign5 \
+    textureTemplates/poseidonCampaign6 \
     textureTemplates/poseidonCommonHouse \
     textureTemplates/poseidonEliteHouse \
     textureTemplates/poseidonHerosHall \

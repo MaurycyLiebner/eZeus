@@ -113,7 +113,7 @@ void eEditorMainMenu::initialize(const stdsptr<eCampaign>& campaign) {
 
         std::vector<eFramedButton*> buttons;
 
-        for(int i = 0; i < 12; i++) {
+        for(int i = 0; i < 18; i++) {
             const auto b = new eFramedButton(window());
             b->setSmallPadding();
             b->setUnderline(false);

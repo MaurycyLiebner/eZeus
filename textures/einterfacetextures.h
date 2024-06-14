@@ -43,6 +43,19 @@ public:
     bool fPoseidonMap4Loaded = false;
     void loadPoseidonMap4();
 
+    bool fPoseidonCampaign1Loaded = false;
+    void loadPoseidonCampaign1();
+    bool fPoseidonCampaign2Loaded = false;
+    void loadPoseidonCampaign2();
+    bool fPoseidonCampaign3Loaded = false;
+    void loadPoseidonCampaign3();
+    bool fPoseidonCampaign4Loaded = false;
+    void loadPoseidonCampaign4();
+    bool fPoseidonCampaign5Loaded = false;
+    void loadPoseidonCampaign5();
+    bool fPoseidonCampaign6Loaded = false;
+    void loadPoseidonCampaign6();
+
     std::shared_ptr<eTexture> fGameTopBar;
     std::shared_ptr<eTexture> fGameMenuBackground;
     std::shared_ptr<eTexture> fGameArmyBackground;
@@ -216,6 +229,13 @@ public:
     std::shared_ptr<eTexture> fLoadImage12;
     std::shared_ptr<eTexture> fMainMenuImage;
     std::shared_ptr<eTexture> fIntroductionImage;
+
+    std::shared_ptr<eTexture> fPoseidonCampaign1;
+    std::shared_ptr<eTexture> fPoseidonCampaign2;
+    std::shared_ptr<eTexture> fPoseidonCampaign3;
+    std::shared_ptr<eTexture> fPoseidonCampaign4;
+    std::shared_ptr<eTexture> fPoseidonCampaign5;
+    std::shared_ptr<eTexture> fPoseidonCampaign6;
 
     eTextureCollection fCheckBox;
     eTextureCollection fLargeCheckBox;

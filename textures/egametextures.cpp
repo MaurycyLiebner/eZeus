@@ -1650,6 +1650,48 @@ void eGameTextures::loadPoseidonMap4() {
     });
 }
 
+void eGameTextures::loadPoseidonCampaign1() {
+    loadInterfaceTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadPoseidonCampaign1();
+    });
+}
+
+void eGameTextures::loadPoseidonCampaign2() {
+    loadInterfaceTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadPoseidonCampaign2();
+    });
+}
+
+void eGameTextures::loadPoseidonCampaign3() {
+    loadInterfaceTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadPoseidonCampaign3();
+    });
+}
+
+void eGameTextures::loadPoseidonCampaign4() {
+    loadInterfaceTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadPoseidonCampaign4();
+    });
+}
+
+void eGameTextures::loadPoseidonCampaign5() {
+    loadInterfaceTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadPoseidonCampaign5();
+    });
+}
+
+void eGameTextures::loadPoseidonCampaign6() {
+    loadInterfaceTexture([](const int i) {
+        auto& c = sInterfaceTextures[i];
+        c.loadPoseidonCampaign6();
+    });
+}
+
 void eGameTextures::loadScholar() {
     loadTexture([](const int i) {
         auto& c = sCharacterTextures[i];

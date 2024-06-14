@@ -51,6 +51,24 @@ stdsptr<eTexture> eBitmapWidget::texture() const {
         return intrfc.fLoadImage11;
     } else if(mBitmap == 11) {
         return intrfc.fLoadImage12;
+    } else if(mBitmap == 12) {
+        eGameTextures::loadPoseidonCampaign1();
+        return intrfc.fPoseidonCampaign1;
+    } else if(mBitmap == 13) {
+        eGameTextures::loadPoseidonCampaign2();
+        return intrfc.fPoseidonCampaign2;
+    } else if(mBitmap == 14) {
+        eGameTextures::loadPoseidonCampaign3();
+        return intrfc.fPoseidonCampaign3;
+    } else if(mBitmap == 15) {
+        eGameTextures::loadPoseidonCampaign4();
+        return intrfc.fPoseidonCampaign4;
+    } else if(mBitmap == 16) {
+        eGameTextures::loadPoseidonCampaign5();
+        return intrfc.fPoseidonCampaign5;
+    } else if(mBitmap == 17) {
+        eGameTextures::loadPoseidonCampaign6();
+        return intrfc.fPoseidonCampaign6;
     }
     return intrfc.fLoadImage1;
 }
