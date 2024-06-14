@@ -51,15 +51,15 @@ void eEventSelectionWidget::initialize(
 
     setButtonCreateEvent([this, add, editEvent]() {
         const std::vector<eGameEventType> types = {
-            eGameEventType::godVisit,
+//            eGameEventType::godVisit,
             eGameEventType::godAttack,
             eGameEventType::monsterUnleashed,
             eGameEventType::monsterInvasion,
             eGameEventType::invasion,
-            eGameEventType::payTribute,
-            eGameEventType::makeRequest,
+//            eGameEventType::payTribute,
+//            eGameEventType::makeRequest,
             eGameEventType::receiveRequest,
-            eGameEventType::giftTo,
+//            eGameEventType::giftTo,
             eGameEventType::giftFrom,
             eGameEventType::godQuest,
             eGameEventType::militaryChange,
@@ -67,15 +67,15 @@ void eEventSelectionWidget::initialize(
             eGameEventType::troopsRequest
         };
         const std::vector<std::string> labels = {
-            eLanguage::text("god_visit"),
+//            eLanguage::text("god_visit"),
             eLanguage::text("god_attack"),
             eLanguage::text("monster_unleash_long_name"),
             eLanguage::text("monster_invasion_long_name"),
             eLanguage::text("invasion"),
-            eLanguage::text("pay_tribute"),
-            eLanguage::text("make_request"),
+//            eLanguage::text("pay_tribute"),
+//            eLanguage::text("make_request"),
             eLanguage::text("receive_request"),
-            eLanguage::text("gift_to"),
+//            eLanguage::text("gift_to"),
             eLanguage::text("gift_from"),
             eLanguage::text("god_quest"),
             eLanguage::text("military_change_long_name"),

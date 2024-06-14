@@ -197,9 +197,11 @@ bool eGameEvent::hasActiveNonTriggerConsequences(const eDate& date) const {
 }
 
 std::string eGameEvent::longDatedName() const {
-    const auto dateStr = mStartDate.shortString();
+    auto dateStr = "+" + std::to_string(mDatePlusYears);
+    dateStr += "  +" + std::to_string(mDatePlusMonths);
+    dateStr += "  +" + std::to_string(mDatePlusDays);
     const auto eventName = longName();
-    return dateStr + " " + eventName;
+    return dateStr + "  |  " + eventName;
 }
 
 void eGameEvent::setReason(const std::string& r) {
