@@ -72,9 +72,13 @@ void eEpisodeIntroductionWidget::initialize(
 
     const auto goalsInner = new eWidget(window());
     goalsInner->setNoPadding();
+    goalsInner->setWidth(iw - 2*p);
 
+    const auto board = e->fBoard;
+    board->updateResources();
     for(const auto& g : goals) {
         const auto w = new eWidget(window());
+        w->setWidth(goalsInner->width());
         w->setNoPadding();
 
         const auto checkBox = new eLabel(window());
@@ -94,15 +98,38 @@ void eEpisodeIntroductionWidget::initialize(
         l->fitContent();
         w->addWidget(l);
         w->stackHorizontally(p);
-        w->fitContent();
+        w->fitHeight();
         checkBox->align(eAlignment::vcenter);
         l->align(eAlignment::vcenter);
         goalsInner->addWidget(w);
+
+        if(g->fType == eEpisodeGoalType::setAsideGoods) {
+            const auto res = static_cast<eResourceType>(g->fEnumInt1);
+            const int has = board->resourceCount(res);
+            if(!g->met() && has >= g->fRequiredCount) {
+                const auto setAside = new eFramedButton(window());
+                setAside->setUnderline(false);
+                setAside->setRenderBg(true);
+                setAside->setTinyPadding();
+                setAside->setSmallFontSize();
+                setAside->setText(eLanguage::zeusText(194, 61));
+                setAside->fitContent();
+                setAside->setWidth(2*setAside->width());
+                w->addWidget(setAside);
+                setAside->align(eAlignment::vcenter | eAlignment::right);
+                setAside->setPressAction([board, res, g, setAside,
+                                          checkBox, ctexs]() {
+                    board->takeResource(res, g->fRequiredCount);
+                    g->fStatusCount = g->fRequiredCount;
+                    setAside->hide();
+                    checkBox->setTexture(ctexs.getTexture(0));
+                });
+            }
+        }
     }
 
     goalsInner->stackVertically();
     goalsInner->fitHeight();
-    goalsInner->setWidth(iw - 2*p);
     goalsInner->move(p, p);
     goalsFrame->addWidget(goalsInner);
     goalsFrame->setHeight(goalsInner->height() + 2*p);

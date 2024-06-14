@@ -176,8 +176,8 @@ void eEpisodeGoal::update(const eGameBoard* const b) {
         });
     } break;
     case eEpisodeGoalType::setAsideGoods: {
-        const auto res = static_cast<eResourceType>(fEnumInt1);
-        fStatusCount = b->resourceCount(res);
+//        const auto res = static_cast<eResourceType>(fEnumInt1);
+//        fStatusCount = b->resourceCount(res);
     } break;
     }
 }
