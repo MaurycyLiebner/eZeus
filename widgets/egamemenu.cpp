@@ -686,10 +686,14 @@ void eGameMenu::initialize(eGameBoard* const b,
     const auto buttonsVec7 = eButtonsDataVec{
                             {eBuildingMode::none,
                              eLanguage::zeusText(28, 83),
-                             t7, 0, 0, &coll.fTemples, t7spr},
+                             t7, 0, 0, poseidon ? &coll.fPoseidonTemples :
+                                                  &coll.fTemples,
+                             t7spr},
                             {eBuildingMode::none,
                              eLanguage::zeusText(28, 125),
-                             hs7, 0, 1, &coll.fHeroShrines, hs7spr}};
+                             hs7, 0, 1, poseidon ? &coll.fPoseidonHeroShrines :
+                                                   &coll.fHeroShrines,
+                             hs7spr}};
     const auto ww7 = createDataWidget(mMythDataW, buttonsVec7,
                                       eLanguage::zeusText(88, 7));
 
