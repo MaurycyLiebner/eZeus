@@ -103,6 +103,10 @@ void eGameWidget::setBoard(eGameBoard* const board) {
         e->align(eAlignment::vcenter);
         e->setX(x() + (width() - e->width() - mGm->width())/2);
     });
+    mBoard->setAutosaver([this]() {
+        const auto w = window();
+        w->saveGame("../saves/autosave history.ez");
+    });
     using eEnlistAction = std::function<void(const eEnlistedForces&, eResourceType)>;
     mBoard->setEnlistForcesRequest([this](
                                    const eEnlistedForces& enlistable,

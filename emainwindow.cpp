@@ -141,6 +141,7 @@ void eMainWindow::showEpisodeIntroduction(
     const auto e = new eEpisodeIntroductionWidget(this);
     const auto proceedA = [this]() {
         mCampaign->startEpisode();
+        saveGame("../saves/autosave replay.ez");
         startGameAction([this]() {
             eGameWidgetSettings settings;
             settings.fPaused = true;
@@ -204,8 +205,14 @@ bool eMainWindow::saveGame(const std::string& path) {
     const auto file = SDL_RWFromFile(path.c_str(), "w+b");
     if(!file) return false;
     eWriteStream dst(file);
-    const auto s = mGW->settings();
-    s.write(dst);
+    if(mGW) {
+        const auto s = mGW->settings();
+        s.write(dst);
+    } else {
+        eGameWidgetSettings s;
+        s.fPaused = true;
+        s.write(dst);
+    }
     mCampaign->write(dst);
     SDL_RWclose(file);
     return true;

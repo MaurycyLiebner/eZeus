@@ -216,6 +216,7 @@ public:
     void setEventHandler(const eEventHandler& eh);
     void event(const eEvent e, eEventData& ed);
     void setEpisodeFinishedHandler(const eAction& a);
+    void setAutosaver(const eAction& a);
 
     void setRequestUpdateHandler(const eAction& ru);
 
@@ -488,6 +489,7 @@ private:
     eTipShower mTipShower;
     eEnlistRequest mEnlistRequester;
     eAction mEpisodeFinishedHandler;
+    eAction mAutosaver;
 
     std::string mPlayerName = "Ailuropoda";
 

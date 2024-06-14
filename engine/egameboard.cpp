@@ -1673,6 +1673,17 @@ std::vector<eAgoraBase*> eGameBoard::agoras() const {
 }
 
 void eGameBoard::incTime(const int by) {
+    const int dayLen = 350;
+    { // autosave
+        const int time = mTime + by;
+        bool nextMonth = false;
+        bool nextYear = false;
+        const int nd = time/dayLen;
+        auto date = mDate;
+        date.nextDays(nd, nextMonth, nextYear);
+        if(nextYear) mAutosaver();
+    }
+
     const int iMax = mPlannedActions.size() - 1;
     for(int i = iMax; i >= 0; i--) {
         const auto a = mPlannedActions[i];
@@ -1720,7 +1731,6 @@ void eGameBoard::incTime(const int by) {
     mTotalTime += by;
     bool nextMonth = false;
     bool nextYear = false;
-    const int dayLen = 350;
     const int nd = mTime/dayLen;
     mDate.nextDays(nd, nextMonth, nextYear);
     mTime -= nd*dayLen;
@@ -1885,6 +1895,10 @@ void eGameBoard::event(const eEvent e, eEventData& ed) {
 
 void eGameBoard::setEpisodeFinishedHandler(const eAction& a) {
     mEpisodeFinishedHandler = a;
+}
+
+void eGameBoard::setAutosaver(const eAction& a) {
+    mAutosaver = a;
 }
 
 void eGameBoard::setVisibilityChecker(const eVisibilityChecker& vc) {
