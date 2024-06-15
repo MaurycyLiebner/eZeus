@@ -34,6 +34,8 @@ protected:
 private:
     eViewModeButton* mSeeSecurity = nullptr;
 
+    eWidget* mForcesWidget = nullptr;
+
     eForcesWidget* mAbroad = nullptr;
     eForcesWidget* mInCity = nullptr;
     eForcesWidget* mStandingDown = nullptr;

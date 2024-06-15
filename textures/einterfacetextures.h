@@ -185,6 +185,7 @@ public:
     eTextureCollection fUndo;
 
     eTextureCollection fMessages;
+    eTextureCollection fMoreInfo;
 
     eTextureCollection fGoals;
     eTextureCollection fRotation;
@@ -206,6 +207,18 @@ public:
     eTextureCollection fGodVisitAlert;
     eTextureCollection fHeroArrivalAlert;
     eTextureCollection fArmyComebackAlert;
+
+    // 4 left, 4 middle, 4 right
+    // normal, hover, pressed, disabled
+    std::vector<eTextureCollection> fMicroButton;
+
+    // normal, hover, pressed, disabled
+    eTextureCollection fMilitaryControlManual;
+    eTextureCollection fMilitaryControlAutomatic;
+
+    std::shared_ptr<eTexture> fSoldiersIcon;
+    std::shared_ptr<eTexture> fShipsIcon;
+    std::shared_ptr<eTexture> fTowersIcon;
 
     // topLeft, top, topRight, left, center, right, bottomLeft, bottom, bottomRight,
     std::vector<eTextureCollection> fComboBox;

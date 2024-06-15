@@ -229,6 +229,7 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fUndo(renderer),
 
     fMessages(renderer),
+    fMoreInfo(renderer),
 
     fGoals(renderer),
     fRotation(renderer),
@@ -249,6 +250,9 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
     fGodVisitAlert(renderer),
     fHeroArrivalAlert(renderer),
     fArmyComebackAlert(renderer),
+
+    fMilitaryControlManual(renderer),
+    fMilitaryControlAutomatic(renderer),
 
     fBuildingButton(renderer),
     fBuildingButtonHover(renderer),
@@ -551,6 +555,10 @@ void eInterfaceTextures::load() {
             loader.load(1, i, fMessages);
         }
 
+        for(int i = 65; i < 69; i++) {
+            loader.load(1, i, fMoreInfo);
+        }
+
         for(int i = 89; i < 93; i++) {
             loader.load(1, i, fOverview);
         }
@@ -599,6 +607,10 @@ void eInterfaceTextures::load() {
             loader.load(1, i, fSeeButton);
         }
 
+        fSoldiersIcon = loader.load(1, 173);
+        fShipsIcon = loader.load(1, 174);
+        fTowersIcon = loader.load(1, 175);
+
         for(int i = 184; i < 187; i++) {
             loader.load(1, i, fFireAlert);
         }
@@ -645,6 +657,20 @@ void eInterfaceTextures::load() {
             loader.load(1, i, fArmyComebackAlert);
         }
 
+        for(int i = 230; i < 242;) {
+            auto& coll = fMicroButton.emplace_back(fRenderer);
+            for(int j = 0; j < 4; j++, i++) {
+                loader.load(1, i, coll);
+            }
+        }
+
+        for(int i = 248; i < 252; i++) {
+            loader.load(1, i, fMilitaryControlManual);
+        }
+
+        for(int i = 252; i < 256; i++) {
+            loader.load(1, i, fMilitaryControlAutomatic);
+        }
 
         for(int i = 263; i < 267; i++) {
             loader.load(1, i, fShowInfo);

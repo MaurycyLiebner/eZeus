@@ -5,6 +5,8 @@
 #include "engine/egameboard.h"
 #include "elanguage.h"
 #include "evectorhelpers.h"
+#include "widgets/emicrobutton.h"
+#include "widgets/ebasicbutton.h"
 
 void eForcesWidget::initialize(const std::string& title) {
     setNoPadding();
@@ -130,37 +132,117 @@ void eMilitaryDataWidget::initialize() {
                         window());
         addViewButton(mSeeSecurity);
     }
+    const auto res = resolution();
+    const auto uiScale = res.uiScale();
+    const int iRes = static_cast<int>(uiScale);
+    const auto& intrfc = eGameTextures::interface()[iRes];
 
     eDataWidget::initialize();
 
     const auto inner = innerWidget();
     const int iw = inner->width();
 
+    mForcesWidget = new eWidget(window());
+    mForcesWidget->setNoPadding();
+    mForcesWidget->setWidth(iw);
+
     mAbroad = new eForcesWidget(window());
     mAbroad->setWidth(iw);
     mAbroad->initialize(eLanguage::zeusText(51, 1)); // forces abroad
-    inner->addWidget(mAbroad);
+    mForcesWidget->addWidget(mAbroad);
     mAbroad->hide();
 
     mInCity = new eForcesWidget(window());
     mInCity->setWidth(iw);
     mInCity->initialize(eLanguage::zeusText(51, 0)); // forces in city
-    inner->addWidget(mInCity);
+    mForcesWidget->addWidget(mInCity);
     mInCity->hide();
 
     mStandingDown = new eForcesWidget(window());
     mStandingDown->setWidth(iw);
     mStandingDown->initialize(eLanguage::zeusText(51, 2)); // standing down
-    inner->addWidget(mStandingDown);
+    mForcesWidget->addWidget(mStandingDown);
     mStandingDown->hide();
 
-    inner->stackVertically();
+    mForcesWidget->stackVertically();
+    mForcesWidget->fitHeight();
+    inner->addWidget(mForcesWidget);
+
+    const auto buttonsW = new eWidget(window());
+    buttonsW->setNoPadding();
+    buttonsW->setWidth(iw);
+
+    const double mult = res.multiplier();
+
+    const int microW = std::round(84*mult);
+    const auto microButtonsW = new eWidget(window());
+    microButtonsW->setNoPadding();
+    microButtonsW->setWidth(microW);
+    const auto atPalace = new eMicroButton(window());
+    atPalace->setNoPadding();
+    atPalace->setTinyFontSize();
+    atPalace->setText(eLanguage::zeusText(51, 8));
+    atPalace->setWidth(microW);
+    atPalace->fitHeight();
+    microButtonsW->addWidget(atPalace);
+
+    const int iconX = std::round(-10*mult);
+    const auto soldiersIcon = new eLabel(window());
+    soldiersIcon->setTexture(intrfc.fSoldiersIcon);
+    soldiersIcon->fitContent();
+    atPalace->addWidget(soldiersIcon);
+    soldiersIcon->setX(iconX - soldiersIcon->width()/2);
+    soldiersIcon->align(eAlignment::vcenter);
+
+    const auto noShips = new eMicroButton(window());
+    noShips->setNoPadding();
+    noShips->setTinyFontSize();
+    noShips->setText(eLanguage::zeusText(51, 83));
+    noShips->setWidth(microW);
+    noShips->fitHeight();
+    microButtonsW->addWidget(noShips);
+
+    const auto shipsIcon = new eLabel(window());
+    shipsIcon->setTexture(intrfc.fShipsIcon);
+    shipsIcon->fitContent();
+    noShips->addWidget(shipsIcon);
+    shipsIcon->setX(iconX - shipsIcon->width()/2);
+    shipsIcon->align(eAlignment::vcenter);
+
+    const auto noTowers = new eMicroButton(window());
+    noTowers->setNoPadding();
+    noTowers->setTinyFontSize();
+    noTowers->setText(eLanguage::zeusText(51, 84));
+    noTowers->setWidth(microW);
+    noTowers->fitHeight();
+    microButtonsW->addWidget(noTowers);
+
+    const auto towersIcon = new eLabel(window());
+    towersIcon->setTexture(intrfc.fTowersIcon);
+    towersIcon->fitContent();
+    noTowers->addWidget(towersIcon);
+    towersIcon->setX(iconX - towersIcon->width()/2);
+    towersIcon->align(eAlignment::vcenter);
+
+    const int microP = std::round(4*mult);
+    microButtonsW->stackVertically(microP);
+    microButtonsW->fitHeight();
+    buttonsW->addWidget(microButtonsW);
+    microButtonsW->setX(std::round(18*mult));
+
+    const auto coll = &eInterfaceTextures::fMilitaryControlManual;
+    const auto controlButton = new eBasicButton(coll, window());
+    buttonsW->addWidget(controlButton);
+    controlButton->setX(std::round(106*mult));
+
+    buttonsW->fitHeight();
+    inner->addWidget(buttonsW);
+    buttonsW->align(eAlignment::bottom);
 }
 
 void eMilitaryDataWidget::paintEvent(ePainter& p) {
     const bool update = ((mTime++) % 20) == 0;
     if(update) {
-        const auto inner = innerWidget();
         const auto& ss = mBoard.banners();
         using eSoldierBanners = std::vector<stdsptr<eSoldierBanner>>;
         eSoldierBanners abroad;
@@ -204,7 +286,8 @@ void eMilitaryDataWidget::paintEvent(ePainter& p) {
         } else {
             mStandingDown->show();
         }
-        inner->stackVertically();
+        mForcesWidget->stackVertically();
+        mForcesWidget->fitHeight();
     }
     eWidget::paintEvent(p);
 }

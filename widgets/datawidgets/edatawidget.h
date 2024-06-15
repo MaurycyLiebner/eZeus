@@ -15,6 +15,8 @@ public:
 
     void setGameWidget(eGameWidget* const gw);
 protected:
+    virtual void openMoreInfoWiget() {}
+
     void addViewButton(eViewModeButton* const b);
     eWidget* innerWidget() const { return mInnerWidget; }
     eGameWidget* gameWidget() const { return mGW; }

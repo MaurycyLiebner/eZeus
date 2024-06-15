@@ -1,6 +1,7 @@
 #include "edatawidget.h"
 
 #include "eviewmodebutton.h"
+#include "widgets/ebasicbutton.h"
 
 eDataWidget::eDataWidget(eGameBoard& b, eMainWindow* const w) :
     eWidget(w), mBoard(b) {}
@@ -34,6 +35,14 @@ void eDataWidget::initialize() {
     mInnerWidget->setNoPadding();
     frame->addWidget(mInnerWidget);
     mInnerWidget->move(pp, pp);
+
+    const auto coll = &eInterfaceTextures::fMoreInfo;
+    const auto moreInfo = new eBasicButton(coll, window());
+    mInnerWidget->addWidget(moreInfo);
+    moreInfo->align(eAlignment::right | eAlignment::bottom);
+    moreInfo->setPressAction([this]() {
+        openMoreInfoWiget();
+    });
 
     stackVertically();
     setNoPadding();
