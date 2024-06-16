@@ -72,7 +72,8 @@
 eGameBoard::eGameBoard() :
     mThreadPool(*this),
     mHusbData(mPopData, *this),
-    mEmplData(mPopData, *this) {
+    mEmplData(mPopData, *this),
+    mEmplDistributor(mEmplData) {
     mSupportedResources = eResourceType::allBasic;
 }
 
@@ -1502,10 +1503,22 @@ void eGameBoard::registerBuilding(eBuilding* const b) {
 
 bool eGameBoard::unregisterBuilding(eBuilding* const b) {
     if(!mRegisterBuildingsEnabled) return false;
+    const auto bt = b->type();
     eVectorHelpers::remove(mAllBuildings, b);
-    eVectorHelpers::remove(mTimedBuildings, b);
+    const bool tb = eVectorHelpers::remove(mTimedBuildings, b);
+    if(tb) {
+        eSector s;
+        const bool r = eSectorHelpers::sBuildingSector(bt, s);
+        if(r) {
+            const auto e = dynamic_cast<eEmployingBuilding*>(b);
+            if(e) {
+                const int me = e->maxEmployees();
+                mEmplDistributor.incMaxEmployees(s, -me);
+            }
+        }
+    }
     eVectorHelpers::remove(mCommemorativeBuildings, b);
-    if(b->type() == eBuildingType::commonHouse) {
+    if(bt == eBuildingType::commonHouse) {
         const auto ch = static_cast<eSmallHouse*>(b);
         const auto p = plagueForHouse(ch);
         if(p) {

@@ -8,6 +8,7 @@
 #include "widgets/edownbutton.h"
 #include "widgets/emultilinelabel.h"
 #include "widgets/elinewidget.h"
+#include "widgets/eworkforceallocationwidget.h"
 
 #include "widgets/eframedwidget.h"
 
@@ -258,4 +259,11 @@ void eEmploymentDataWidget::setWageRate(const eWageRate wr) {
     mBoard.setWageRate(wr);
     mWageRate = wr;
     mWageLabel->setText(eWageRateHelpers::name(wr));
+}
+
+void eEmploymentDataWidget::openMoreInfoWiget() {
+    const auto w = new eWorkforceAllocationWidget(window());
+    w->initialize(mBoard);
+    const auto gw = gameWidget();
+    gw->openDialog(w);
 }

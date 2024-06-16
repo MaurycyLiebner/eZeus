@@ -324,6 +324,10 @@ public:
     std::shared_ptr<eTexture> fNHasArms;
     std::shared_ptr<eTexture> fNHasHorses;
 
+    // normal, pressed
+    eTextureCollection fSmallUpButton;
+    eTextureCollection fSmallDownButton;
+
     // normal, hover, pressed, disabled
     eTextureCollection fUpButton;
     eTextureCollection fDownButton;

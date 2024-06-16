@@ -326,6 +326,7 @@ SOURCES += \
         engine/ecityrequest.cpp \
         engine/edate.cpp \
         engine/edifficulty.cpp \
+        engine/eemploymentdistributor.cpp \
         engine/eepisodegoal.cpp \
         engine/eeventtime.cpp \
         engine/efunctask.cpp \
@@ -547,6 +548,8 @@ SOURCES += \
         widgets/escrollwidgetcomplete.cpp \
         widgets/eselectcolonywidget.cpp \
         widgets/esettingsmenu.cpp \
+        widgets/esmalldownbutton.cpp \
+        widgets/esmallupbutton.cpp \
         widgets/espinbox.cpp \
         widgets/eswitchbutton.cpp \
         widgets/etabwidget.cpp \
@@ -569,6 +572,7 @@ SOURCES += \
         widgets/eventwidgets/etroopsrequesteventwidget.cpp \
         widgets/eviewmode.cpp \
         widgets/ewidget.cpp \
+        widgets/eworkforceallocationwidget.cpp \
         widgets/eworldgoodswidget.cpp \
         widgets/eworldmapwidget.cpp \
         widgets/eworldmenu.cpp \
@@ -893,6 +897,7 @@ HEADERS += \
     engine/ecityrequest.h \
     engine/edate.h \
     engine/edifficulty.h \
+    engine/eemploymentdistributor.h \
     engine/eepisodegoal.h \
     engine/eevent.h \
     engine/eeventdata.h \
@@ -2429,6 +2434,8 @@ HEADERS += \
     widgets/escrollwidgetcomplete.h \
     widgets/eselectcolonywidget.h \
     widgets/esettingsmenu.h \
+    widgets/esmalldownbutton.h \
+    widgets/esmallupbutton.h \
     widgets/espinbox.h \
     widgets/eswitchbutton.h \
     widgets/etabwidget.h \
@@ -2451,6 +2458,7 @@ HEADERS += \
     widgets/eventwidgets/etroopsrequesteventwidget.h \
     widgets/eviewmode.h \
     widgets/ewidget.h \
+    widgets/eworkforceallocationwidget.h \
     widgets/eworldgoodswidget.h \
     widgets/eworldmapwidget.h \
     widgets/eworldmenu.h \

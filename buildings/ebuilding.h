@@ -26,6 +26,7 @@ enum class eBuildingType {
     dramaSchool,
     podium,
     theater,
+    stadium,
 
     bibliotheke,
     observatory,
@@ -33,8 +34,6 @@ enum class eBuildingType {
     laboratory,
     inventorsWorkshop,
     museum,
-
-    stadium,
 
     fountain,
     hospital,

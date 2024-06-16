@@ -1712,6 +1712,13 @@ void eGameWidget::updateViewBoxSize() {
     mma->setViewBoxSize(fx, fy);
 }
 
+void eGameWidget::openDialog(eWidget* const d) {
+    addWidget(d);
+    d->align(eAlignment::vcenter);
+    d->setX(x() + (width() - d->width() - mGm->width())/2);
+    window()->execDialog(d);
+}
+
 void eGameWidget::actionOnSelectedTiles(const eTileAction& apply) {
     if(!apply) return;
     const int minX = std::min(mPressedTX, mHoverTX);

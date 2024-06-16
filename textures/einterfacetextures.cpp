@@ -265,6 +265,9 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
 
     fSeeButton(renderer),
 
+    fSmallUpButton(renderer),
+    fSmallDownButton(renderer),
+
     fUpButton(renderer),
     fDownButton(renderer),
 
@@ -1084,6 +1087,13 @@ void eInterfaceTextures::load() {
 
         for(int i = 356; i < 364; i++) {
             loader.load(1, i, fButtonFrameHover);
+        }
+
+        for(int i = 376; i < 378; i++) {
+            loader.load(1, i, fSmallUpButton);
+        }
+        for(int i = 378; i < 380; i++) {
+            loader.load(1, i, fSmallDownButton);
         }
 
         for(int i = 388; i < 392; i++) {

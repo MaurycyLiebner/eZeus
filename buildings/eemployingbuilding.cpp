@@ -9,13 +9,23 @@ eEmployingBuilding::eEmployingBuilding(
         const int maxEmployees) :
     eBuildingWithResource(board, type, sw, sh),
     mMaxEmployees(maxEmployees) {
-    auto& emplData = getBoard().employmentData();
+    auto& emplData = board.employmentData();
     emplData.incTotalJobVacancies(mMaxEmployees);
+    auto& distr = board.employmentDistributor();
+    eSector s;
+    const bool r = eSectorHelpers::sBuildingSector(type, s);
+    if(r) distr.incMaxEmployees(s, maxEmployees);
 }
 
 eEmployingBuilding::~eEmployingBuilding() {
-    auto& emplData = getBoard().employmentData();
+    auto& board = getBoard();
+    auto& emplData = board.employmentData();
     emplData.incTotalJobVacancies(-mMaxEmployees);
+    auto& distr = board.employmentDistributor();
+    eSector s;
+    const bool r = eSectorHelpers::sBuildingSector(type(), s);
+    const int me = maxEmployees();
+    if(r) distr.incMaxEmployees(s, -me);
 }
 
 void eEmployingBuilding::timeChanged(const int by) {

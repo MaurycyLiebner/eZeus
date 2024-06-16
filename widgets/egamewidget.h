@@ -102,6 +102,8 @@ public:
                       const eAction& action);
 
     void updateViewBoxSize();
+
+    void openDialog(eWidget* const d);
 protected:
     void paintEvent(ePainter& p);
 

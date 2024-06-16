@@ -35,6 +35,7 @@
 #include "ecityrequest.h"
 #include "gameEvents/egodquestevent.h"
 #include "eepisodegoal.h"
+#include "eemploymentdistributor.h"
 
 class eGameEvent;
 
@@ -470,6 +471,9 @@ public:
 
     void musterAllSoldiers();
     void sendAllSoldiersHome();
+
+    eEmploymentDistributor& employmentDistributor()
+    { return mEmplDistributor; }
 private:
     void updateNeighbours();
 
@@ -637,6 +641,8 @@ private:
 
     std::vector<eGodQuest> mFulfilledQuests;
     std::vector<eMonsterType> mSlayedMonsters;
+
+    eEmploymentDistributor mEmplDistributor;
 };
 
 #endif // EGAMEBOARD_H

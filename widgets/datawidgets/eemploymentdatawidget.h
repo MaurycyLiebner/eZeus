@@ -16,6 +16,7 @@ public:
 
 protected:
     void paintEvent(ePainter& p);
+    void openMoreInfoWiget();
 private:
     void setWageRate(const eWageRate wr);
 
