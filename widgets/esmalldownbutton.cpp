@@ -15,4 +15,6 @@ eSmallDownButton::eSmallDownButton(eMainWindow* const window) :
     setTexture(coll.getTexture(0));
     setPressedTexture(coll.getTexture(1));
     fitContent();
+
+    setUnderline(false);
 }

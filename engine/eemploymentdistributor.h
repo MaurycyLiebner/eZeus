@@ -24,15 +24,17 @@ namespace eSectorHelpers {
 }
 
 enum class ePriority {
-    veryLow = 1,
-    low = 2,
-    moderate = 3,
-    high = 4,
-    veryHigh = 5
+    noPriority,
+    veryLow,
+    low,
+    moderate,
+    high,
+    veryHigh
 };
 
 namespace ePriorityHelpers {
     std::string sName(const ePriority p);
+    int sWeight(const ePriority p);
 }
 
 class eEmploymentDistributor {

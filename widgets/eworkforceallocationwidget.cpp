@@ -53,7 +53,7 @@ void eWorkforceAllocationWidget::initialize(eGameBoard& board) {
         w0->addWidget(down);
         down->setPressAction([this, distrPtr, s, pL]() {
             auto p = distrPtr->priority(s);
-            if(p == ePriority::veryLow) return;
+            if(p == ePriority::noPriority) return;
             p = static_cast<ePriority>(static_cast<int>(p) - 1);
             distrPtr->setPriority(s, p);
             pL->setText(ePriorityHelpers::sName(p));
@@ -197,6 +197,10 @@ void eWorkforceAllocationWidget::initialize(eGameBoard& board) {
     const auto aw = addFramedWidget(totH);
     aw->addWidget(allocationW);
     allocationW->setWidth(aw->width());
+
+    setCloseAction([this]() {
+        deleteLater();
+    });
 }
 
 void eWorkforceAllocationWidget::updateLabels() {

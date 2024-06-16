@@ -69,49 +69,50 @@ void eEmploymentDistributor::distribute() {
         return;
     }
 
-
-    // Step 2: Normalize priorities and calculate total priority weight
     int totalPriorityWeight = 0;
     for(const auto& task : mPriorities) {
-        const int priorityValue = static_cast<int>(task.second);
+        const int priority = ePriorityHelpers::sWeight(task.second);
         const int maxEmployees = mMaxEmployees[task.first];
-        totalPriorityWeight += maxEmployees*priorityValue;
+        totalPriorityWeight += maxEmployees*priority;
     }
 
-    // Step 3: Distribute employees based on normalized priority values
+    int allocatedCounter = 0;
+
+    struct eSectorReminder {
+        double fRem;
+        eSector fS;
+    };
+
+    std::vector<eSectorReminder> reminders;
     for(const auto& task : mPriorities) {
-        const int priority = static_cast<int>(task.second);
-        const int maxEmployees = mMaxEmployees[task.first];
-        const int allocated = std::round(static_cast<double>(mTotalEmployees * maxEmployees * priority) / totalPriorityWeight);
-        mEmployees[task.first] = std::min(allocated, maxEmployees);
+        const auto s = task.first;
+        if(totalPriorityWeight == 0) {
+            reminders.push_back({0, s});
+            continue;
+        }
+        const int priority = ePriorityHelpers::sWeight(task.second);
+        const int maxEmployees = mMaxEmployees[s];
+        const double allocatedF = static_cast<double>(mTotalEmployees * maxEmployees * priority) / totalPriorityWeight;
+        const int allocated = std::floor(allocatedF);
+        const int a = std::min(allocated, maxEmployees);
+        reminders.push_back({allocatedF - a, s});
+        allocatedCounter += a;
+        mEmployees[s] = a;
     }
-
-    // Step 4: Adjust to ensure the total number of employees equals totalEmployees
-//    int currentAllocation = std::accumulate(mEmployees.begin(), mEmployees.end(), 0,
-//        [](int sum, const std::pair<eSector, int>& p) { return sum + p.second; });
-
-//    while(currentAllocation > mTotalEmployees) {
-//        for(auto& task : mEmployees) {
-//            if(task.second > 0) {
-//                task.second--;
-//                currentAllocation--;
-//                if(currentAllocation == mTotalEmployees) break;
-//            }
-//        }
-//    }
-
-//    while(currentAllocation < mTotalEmployees) {
-//        for(auto& task : mEmployees) {
-//            // Ensure we do not exceed the maximum limit for each task
-//            auto maxEmployees = std::find_if(normalizedTasks.begin(), normalizedTasks.end(),
-//                                             [&task](const auto& t) { return t.first == task.first; })->second.second;
-//            if(mEmployees[task.first] < maxEmployees) {
-//                task.second++;
-//                currentAllocation++;
-//                if (currentAllocation == mTotalEmployees) break;
-//            }
-//        }
-//    }
+    const auto comp = [](const eSectorReminder& r1, const eSectorReminder& r2) {
+        return r1.fRem > r2.fRem;
+    };
+    std::sort(reminders.begin(), reminders.end(), comp);
+    while(allocatedCounter < mTotalEmployees) {
+        for(auto& r : reminders) {
+            if(allocatedCounter >= mTotalEmployees) break;
+            const auto s = r.fS;
+            const int me = mMaxEmployees[s];
+            if(mEmployees[s] >= me) continue;
+            mEmployees[s]++;
+            allocatedCounter++;
+        }
+    }
 }
 
 std::string eSectorHelpers::sName(const eSector s, const bool atlantean) {
@@ -219,4 +220,22 @@ bool eSectorHelpers::sBuildingSector(const eBuildingType type,
         return false;
     }
     return true;
+}
+
+int ePriorityHelpers::sWeight(const ePriority p) {
+    switch(p) {
+    case ePriority::noPriority:
+        return 0;
+    case ePriority::veryLow:
+        return 1;
+    case ePriority::low:
+        return 3;
+    case ePriority::moderate:
+        return 5;
+    case ePriority::high:
+        return 8;
+    case ePriority::veryHigh:
+        return 12;
+    }
+    return 0;
 }
