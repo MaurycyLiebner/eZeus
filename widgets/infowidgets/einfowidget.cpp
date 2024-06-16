@@ -116,6 +116,15 @@ eWidget* eInfoWidget::centralWidget() const {
     return mCentralWidget;
 }
 
+int eInfoWidget::remainingHeight() const {
+    const int p = padding();
+    int h = height() - 6*p - mTitleLabel->height();
+    for(const auto w : mWidgets) {
+        h -= w->height() + p;
+    }
+    return h;
+}
+
 bool eInfoWidget::mousePressEvent(const eMouseEvent& e) {
     return e.button() == eMouseButton::left;
 }

@@ -26,6 +26,8 @@ public:
     int widgetWidth() const;
 
     eWidget* centralWidget() const;
+
+    int remainingHeight() const;
 protected:
     bool mousePressEvent(const eMouseEvent& e);
 private:

@@ -199,7 +199,7 @@ void eGameWidget::paintEvent(ePainter& p) {
     mBoard->handleFinishedTasks();
     mBoard->incFrame();
     const int nc = children().size() - mTips.size();
-    printf("%d\n", nc);
+//    printf("%d\n", nc);
     if(!mPaused && !mLocked && !mMenu && !mMsgBox && !mInfoWidget && nc < 7) {
         mTime += mSpeed;
         mBoard->incTime(mSpeed);

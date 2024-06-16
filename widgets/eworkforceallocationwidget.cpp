@@ -201,6 +201,123 @@ void eWorkforceAllocationWidget::initialize(eGameBoard& board) {
     setCloseAction([this]() {
         deleteLater();
     });
+
+    const auto industryStatusL = new eLabel(window());
+    industryStatusL->setNoPadding();
+    industryStatusL->setText(eLanguage::zeusText(50, 22));
+    industryStatusL->fitContent();
+
+    const auto subtitle = new eLabel(window());
+    subtitle->setNoPadding();
+    subtitle->setTinyFontSize();
+    subtitle->setText(eLanguage::zeusText(50, 23)); // click on industry ...
+    subtitle->fitContent();
+
+    const auto titleW = addRegularWidget(industryStatusL->height() +
+                                         subtitle->height());
+    titleW->addWidget(industryStatusL);
+    titleW->addWidget(subtitle);
+    titleW->stackVertically();
+    industryStatusL->align(eAlignment::hcenter);
+
+    const auto industryW = new eWidget(window());
+    industryW->setNoPadding();
+
+    auto industryWW = new eWidget(window());
+    industryWW->setNoPadding();
+    industryW->addWidget(industryWW);
+
+    const auto uiScale = res.uiScale();
+    const auto all = eResourceType::allBasic;
+    const auto r = eResourceTypeHelpers::extractResourceTypes(all);
+    const int ccw0 = std::round(30*mult);
+    const int ccw1 = std::round(90*mult);
+//    const int ccw2 = std::round(160*mult);
+    const int h = remainingHeight();
+    int y = 2*p;
+    for(const auto rr : r) {
+        const auto w = new eWidget(window());
+        w->setNoPadding();
+
+        const auto iconW = new eWidget(window());
+        iconW->setNoPadding();
+        iconW->setWidth(ccw0);
+
+        const auto icon = eResourceTypeHelpers::icon(uiScale, rr);
+        const auto iconL = new eLabel(window());
+        iconL->setNoPadding();
+        iconL->setTexture(icon);
+        iconL->fitContent();
+        iconW->addWidget(iconL);
+        iconW->fitHeight();
+        w->addWidget(iconW);
+
+        const auto nameW = new eWidget(window());
+        nameW->setNoPadding();
+        nameW->setWidth(ccw1);
+
+        const auto nameL = new eButton(window());
+        nameL->setNoPadding();
+        nameL->setSmallFontSize();
+        const auto name = eResourceTypeHelpers::typeName(rr);
+        nameL->setText(name);
+        nameL->fitContent();
+        nameW->addWidget(nameL);
+        nameW->fitHeight();
+        w->addWidget(nameW);
+        nameL->setPressAction([nameL]() {
+            if(true) {
+                nameL->setLightFontColor();
+            } else {
+                nameL->setYellowFontColor();
+            }
+        });
+
+//        const auto buttonW = new eWidget(window());
+//        buttonW->setNoPadding();
+//        buttonW->setWidth(ccw2);
+
+//        const auto button = new eButtonBase(window());
+//        button->setText(eLanguage::zeusText(50, 30));
+//        button->setNoPadding();
+//        button->setSmallFontSize();
+//        button->fitContent();
+//        buttonW->addWidget(button);
+//        buttonW->fitHeight();
+//        w->addWidget(buttonW);
+//        button->setPressAction([button]() {
+//            if(true) {
+//                button->setText(eLanguage::zeusText(50, 30));
+//                button->setLightFontColor();
+//            } else {
+//                button->setText(eLanguage::zeusText(50, 31));
+//                button->setYellowFontColor();
+//            }
+//        });
+
+        w->stackHorizontally();
+        w->fitContent();
+
+        y += w->height();
+
+        if(y > remainingHeight()) {
+            industryWW->stackVertically();
+            industryWW->fitContent();
+            y = 2*p;
+            industryWW = new eWidget(window());
+            industryWW->setNoPadding();
+            industryW->addWidget(industryWW);
+        }
+        industryWW->addWidget(w);
+    }
+
+    industryWW->stackVertically();
+    industryWW->fitContent();
+
+    industryW->stackHorizontally(p);
+    industryW->fitContent();
+    const auto iw = addFramedWidget(h);
+    iw->addWidget(industryW);
 }
 
 void eWorkforceAllocationWidget::updateLabels() {
