@@ -69,48 +69,49 @@ void eEmploymentDistributor::distribute() {
         return;
     }
 
+
     // Step 2: Normalize priorities and calculate total priority weight
-    std::vector<std::pair<eSector, std::pair<int, int>>> normalizedTasks;
     int totalPriorityWeight = 0;
     for(const auto& task : mPriorities) {
         const int priorityValue = static_cast<int>(task.second);
         const int maxEmployees = mMaxEmployees[task.first];
-        normalizedTasks.push_back({task.first, {priorityValue, maxEmployees}});
-        totalPriorityWeight += priorityValue;
+        totalPriorityWeight += maxEmployees*priorityValue;
     }
 
     // Step 3: Distribute employees based on normalized priority values
-    for(const auto& task : normalizedTasks) {
-        const int allocated = std::round(static_cast<double>(task.second.first) / totalPriorityWeight * mTotalEmployees);
-        mEmployees[task.first] = std::min(allocated, task.second.second);
+    for(const auto& task : mPriorities) {
+        const int priority = static_cast<int>(task.second);
+        const int maxEmployees = mMaxEmployees[task.first];
+        const int allocated = std::round(static_cast<double>(mTotalEmployees * maxEmployees * priority) / totalPriorityWeight);
+        mEmployees[task.first] = std::min(allocated, maxEmployees);
     }
 
     // Step 4: Adjust to ensure the total number of employees equals totalEmployees
-    int currentAllocation = std::accumulate(mEmployees.begin(), mEmployees.end(), 0,
-        [](int sum, const std::pair<eSector, int>& p) { return sum + p.second; });
+//    int currentAllocation = std::accumulate(mEmployees.begin(), mEmployees.end(), 0,
+//        [](int sum, const std::pair<eSector, int>& p) { return sum + p.second; });
 
-    while(currentAllocation > mTotalEmployees) {
-        for(auto& task : mEmployees) {
-            if(task.second > 0) {
-                task.second--;
-                currentAllocation--;
-                if(currentAllocation == mTotalEmployees) break;
-            }
-        }
-    }
+//    while(currentAllocation > mTotalEmployees) {
+//        for(auto& task : mEmployees) {
+//            if(task.second > 0) {
+//                task.second--;
+//                currentAllocation--;
+//                if(currentAllocation == mTotalEmployees) break;
+//            }
+//        }
+//    }
 
-    while(currentAllocation < mTotalEmployees) {
-        for(auto& task : mEmployees) {
-            // Ensure we do not exceed the maximum limit for each task
-            auto maxEmployees = std::find_if(normalizedTasks.begin(), normalizedTasks.end(),
-                                             [&task](const auto& t) { return t.first == task.first; })->second.second;
-            if(mEmployees[task.first] < maxEmployees) {
-                task.second++;
-                currentAllocation++;
-                if (currentAllocation == mTotalEmployees) break;
-            }
-        }
-    }
+//    while(currentAllocation < mTotalEmployees) {
+//        for(auto& task : mEmployees) {
+//            // Ensure we do not exceed the maximum limit for each task
+//            auto maxEmployees = std::find_if(normalizedTasks.begin(), normalizedTasks.end(),
+//                                             [&task](const auto& t) { return t.first == task.first; })->second.second;
+//            if(mEmployees[task.first] < maxEmployees) {
+//                task.second++;
+//                currentAllocation++;
+//                if (currentAllocation == mTotalEmployees) break;
+//            }
+//        }
+//    }
 }
 
 std::string eSectorHelpers::sName(const eSector s, const bool atlantean) {

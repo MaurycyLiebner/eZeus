@@ -208,7 +208,13 @@ void eWorkforceAllocationWidget::updateLabels() {
         const auto s = static_cast<eSector>(i);
         const auto l = mEmplLabels[s];
         const int e = distributor.employees(s);
+        const int maxE = distributor.maxEmployees(s);
         l->setText(std::to_string(e));
         l->fitContent();
+        if(e == maxE) {
+            l->setLightFontColor();
+        } else {
+            l->setYellowFontColor();
+        }
     }
 }
