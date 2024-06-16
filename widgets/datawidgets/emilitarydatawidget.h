@@ -6,6 +6,7 @@
 
 class eGameBoard;
 class eSoldierBanner;
+class eMicroButton;
 
 using eSB = stdsptr<eSoldierBanner>;
 using eSoldierBanners = std::vector<eSB>;
@@ -32,6 +33,8 @@ public:
 protected:
     void paintEvent(ePainter& p);
 private:
+    void updateWidgets();
+
     eViewModeButton* mSeeSecurity = nullptr;
 
     eWidget* mForcesWidget = nullptr;
@@ -39,6 +42,10 @@ private:
     eForcesWidget* mAbroad = nullptr;
     eForcesWidget* mInCity = nullptr;
     eForcesWidget* mStandingDown = nullptr;
+
+    eMicroButton* mAtPalace = nullptr;
+    eMicroButton* mNoShips = nullptr;
+    eMicroButton* mNoTowers = nullptr;
 
     int mTime{0};
 };

@@ -328,6 +328,13 @@ std::vector<eBuilding*> eGameBoard::buildings(const eBuildingValidator& v) const
     return result;
 }
 
+std::vector<eBuilding*> eGameBoard::buildings(const eBuildingType type) const {
+    return buildings([type](eBuilding* const b) {
+        const auto bt = b->type();
+        return type == bt;
+    });
+}
+
 int eGameBoard::countBuildings(const eBuildingValidator& v) const {
     const auto vv = buildings(v);
     return vv.size();
@@ -2096,4 +2103,20 @@ bool eGameBoard::checkGoalsFulfilled() const {
         if(!m) return false;
     }
     return true;
+}
+
+void eGameBoard::setManTowers(const bool m) {
+    mManTowers = m;
+}
+
+void eGameBoard::musterAllSoldiers() {
+    for(const auto& s : mSoldierBanners) {
+        s->backFromHome();
+    }
+}
+
+void eGameBoard::sendAllSoldiersHome() {
+    for(const auto& s : mSoldierBanners) {
+        s->goHome();
+    }
 }

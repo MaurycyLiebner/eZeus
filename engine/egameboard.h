@@ -288,6 +288,7 @@ public:
 
     using eBuildingValidator = std::function<bool(eBuilding*)>;
     std::vector<eBuilding*> buildings(const eBuildingValidator& v) const;
+    std::vector<eBuilding*> buildings(const eBuildingType type) const;
     int countBuildings(const eBuildingValidator& v) const;
     int countBuildings(const eBuildingType t) const;
     int countAllowed(const eBuildingType t) const;
@@ -463,6 +464,12 @@ public:
     void startEpisode(eEpisode* const e);
 
     bool checkGoalsFulfilled() const;
+
+    bool manTowers() const { return mManTowers; }
+    void setManTowers(const bool m);
+
+    void musterAllSoldiers();
+    void sendAllSoldiersHome();
 private:
     void updateNeighbours();
 
@@ -578,6 +585,8 @@ private:
     std::vector<ePlannedAction*> mPlannedActions;
 
     std::vector<eTile*> mMarbleTiles;
+
+    bool mManTowers = true;
 
     int mSoldiersUpdate = 10000;
     int mMaxRabble = 0;

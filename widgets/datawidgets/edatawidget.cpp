@@ -2,6 +2,7 @@
 
 #include "eviewmodebutton.h"
 #include "widgets/ebasicbutton.h"
+#include "elanguage.h"
 
 eDataWidget::eDataWidget(eGameBoard& b, eMainWindow* const w) :
     eWidget(w), mBoard(b) {}
@@ -38,11 +39,13 @@ void eDataWidget::initialize() {
 
     const auto coll = &eInterfaceTextures::fMoreInfo;
     const auto moreInfo = new eBasicButton(coll, window());
-    mInnerWidget->addWidget(moreInfo);
+    frame->addWidget(moreInfo);
     moreInfo->align(eAlignment::right | eAlignment::bottom);
+    moreInfo->move(moreInfo->x() - pp, moreInfo->y() - pp);
     moreInfo->setPressAction([this]() {
         openMoreInfoWiget();
     });
+    moreInfo->setTooltip(eLanguage::zeusText(51, 79));
 
     stackVertically();
     setNoPadding();
