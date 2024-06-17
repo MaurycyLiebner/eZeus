@@ -1503,20 +1503,20 @@ void eGameBoard::registerBuilding(eBuilding* const b) {
 
 bool eGameBoard::unregisterBuilding(eBuilding* const b) {
     if(!mRegisterBuildingsEnabled) return false;
-    const auto bt = b->type();
     eVectorHelpers::remove(mAllBuildings, b);
     eVectorHelpers::remove(mTimedBuildings, b);
     eVectorHelpers::remove(mCommemorativeBuildings, b);
-    if(bt == eBuildingType::commonHouse) {
-        const auto ch = static_cast<eSmallHouse*>(b);
-        const auto p = plagueForHouse(ch);
-        if(p) {
-            p->removeHouse(ch);
-            const int c = p->houseCount();
-            if(c <= 0) healPlague(p);
-        }
-    }
     scheduleAppealMapUpdate();
+    return true;
+}
+
+bool eGameBoard::unregisterCommonHouse(eSmallHouse* const ch) {
+    const auto p = plagueForHouse(ch);
+    if(p) {
+        p->removeHouse(ch);
+        const int c = p->houseCount();
+        if(c <= 0) healPlague(p);
+    }
     return true;
 }
 

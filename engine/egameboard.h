@@ -104,6 +104,8 @@ public:
     void registerBuilding(eBuilding* const b);
     bool unregisterBuilding(eBuilding* const b);
 
+    bool unregisterCommonHouse(eSmallHouse* const ch);
+
     void registerEmplBuilding(eEmployingBuilding* const b);
     bool unregisterEmplBuilding(eEmployingBuilding* const b);
 

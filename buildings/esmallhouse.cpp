@@ -24,6 +24,8 @@ eSmallHouse::eSmallHouse(eGameBoard& board) :
 eSmallHouse::~eSmallHouse() {
     if(mSick) mSick->kill();
     if(mDisg) mDisg->kill();
+    auto& board = getBoard();
+    board.unregisterCommonHouse(this);
 }
 
 std::shared_ptr<eTexture> eSmallHouse::getTexture(const eTileSize size) const {
