@@ -10,6 +10,7 @@
 #include "buildings/ebuilding.h"
 #include "elanguage.h"
 #include "boardData/eemploymentdata.h"
+#include "eresourcetype.h"
 
 eEmploymentDistributor::eEmploymentDistributor(eEmploymentData& empl) :
     mEmplData(empl) {
@@ -55,6 +56,30 @@ int eEmploymentDistributor::employees(const eSector s) {
     return mEmployees[s];
 }
 
+void eEmploymentDistributor::read(eReadStream& src) {
+    for(auto& e : mEmployees) {
+        src >> e.second;
+    }
+    for(auto& e : mMaxEmployees) {
+        src >> e.second;
+    }
+    for(auto& e : mPriorities) {
+        src >> e.second;
+    }
+}
+
+void eEmploymentDistributor::write(eWriteStream& dst) const {
+    for(auto& e : mEmployees) {
+        dst << e.second;
+    }
+    for(auto& e : mMaxEmployees) {
+        dst << e.second;
+    }
+    for(auto& e : mPriorities) {
+        dst << e.second;
+    }
+}
+
 void eEmploymentDistributor::distribute() {
     mChanged = false;
 
@@ -95,7 +120,7 @@ void eEmploymentDistributor::distribute() {
         const double allocatedF = static_cast<double>(mTotalEmployees * maxEmployees * priority) / totalPriorityWeight;
         const int allocated = std::floor(allocatedF);
         const int a = std::min(allocated, maxEmployees);
-        reminders.push_back({allocatedF - a, s});
+        reminders.push_back({(allocatedF - a)/maxEmployees, s});
         allocatedCounter += a;
         mEmployees[s] = a;
     }
@@ -104,6 +129,7 @@ void eEmploymentDistributor::distribute() {
     };
     std::sort(reminders.begin(), reminders.end(), comp);
     while(allocatedCounter < mTotalEmployees) {
+        bool changed = false;
         for(auto& r : reminders) {
             if(allocatedCounter >= mTotalEmployees) break;
             const auto s = r.fS;
@@ -111,7 +137,9 @@ void eEmploymentDistributor::distribute() {
             if(mEmployees[s] >= me) continue;
             mEmployees[s]++;
             allocatedCounter++;
+            changed = true;
         }
+        if(!changed) break;
     }
 }
 
@@ -238,4 +266,91 @@ int ePriorityHelpers::sWeight(const ePriority p) {
         return 12;
     }
     return 0;
+}
+
+std::vector<eResourceType> eIndustryHelpers::sIndustries(
+        const eBuildingType type) {
+    switch(type) {
+    case eBuildingType::wheatFarm:
+        return {eResourceType::wheat};
+    case eBuildingType::carrotsFarm:
+        return {eResourceType::carrots};
+    case eBuildingType::onionsFarm:
+        return {eResourceType::onions};
+    case eBuildingType::fishery:
+        return {eResourceType::fish};
+    case eBuildingType::urchinQuay:
+        return {eResourceType::urchin};
+    case eBuildingType::cardingShed:
+        return {eResourceType::fleece};
+    case eBuildingType::dairy:
+        return {eResourceType::cheese};
+    case eBuildingType::growersLodge:
+        return {eResourceType::olives, eResourceType::grapes};
+    case eBuildingType::orangeTendersLodge:
+        return {eResourceType::oranges};
+    case eBuildingType::corral:
+    case eBuildingType::huntingLodge:
+        return {eResourceType::meat};
+    case eBuildingType::timberMill:
+        return {eResourceType::wood};
+    case eBuildingType::masonryShop:
+        return {eResourceType::marble};
+    case eBuildingType::foundry:
+        return {eResourceType::bronze};
+    case eBuildingType::olivePress:
+        return {eResourceType::oliveOil};
+    case eBuildingType::winery:
+        return {eResourceType::wine};
+    case eBuildingType::sculptureStudio:
+        return {eResourceType::sculpture};
+    case eBuildingType::armory:
+        return {eResourceType::armor};
+    default:
+        return {};
+    }
+    return {};
+}
+
+std::vector<eBuildingType> eIndustryHelpers::sBuildings(const eResourceType type) {
+    switch(type) {
+    case eResourceType::wheat:
+        return {eBuildingType::wheatFarm};
+    case eResourceType::carrots:
+        return {eBuildingType::carrotsFarm};
+    case eResourceType::onions:
+        return {eBuildingType::onionsFarm};
+    case eResourceType::fish:
+        return {eBuildingType::fishery};
+    case eResourceType::urchin:
+        return {eBuildingType::urchinQuay};
+    case eResourceType::fleece:
+        return {eBuildingType::cardingShed};
+    case eResourceType::cheese:
+        return {eBuildingType::dairy};
+    case eResourceType::olives:
+    case eResourceType::grapes:
+        return {eBuildingType::growersLodge};
+    case eResourceType::oranges:
+        return {eBuildingType::orangeTendersLodge};
+    case eResourceType::meat:
+        return {eBuildingType::huntingLodge, eBuildingType::corral};
+    case eResourceType::wood:
+        return {eBuildingType::timberMill};
+    case eResourceType::marble:
+        return {eBuildingType::masonryShop};
+    case eResourceType::bronze:
+        return {eBuildingType::foundry};
+    case eResourceType::oliveOil:
+        return {eBuildingType::olivePress};
+    case eResourceType::wine:
+        return {eBuildingType::winery};
+    case eResourceType::sculpture:
+        return {eBuildingType::sculptureStudio};
+    case eResourceType::armor:
+        return {eBuildingType::armory};
+    default:
+        return {};
+    }
+    return {};
 }

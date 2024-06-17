@@ -13,8 +13,9 @@ eHouseBase::eHouseBase(eGameBoard& board,
 }
 
 eHouseBase::~eHouseBase() {
-    auto& popData = getBoard().populationData();
-    popData.incPopulation(-mPeople);
+    auto& board = getBoard();
+    auto& popData = board.populationData();
+    board.incPopulation(-mPeople);
     popData.incVacancies(-vacancies());
 }
 
@@ -127,10 +128,11 @@ void eHouseBase::setPeople(const int p) {
     if(p == 0) setOnFire(false);
     if(p == mPeople) return;
 
-    auto& popData = getBoard().populationData();
+    auto& board = getBoard();
+    auto& popData = board.populationData();
 
     const int pc = p - mPeople;
-    popData.incPopulation(pc);
+    board.incPopulation(pc);
 
     const int vb = vacancies();
     mPeople = p;

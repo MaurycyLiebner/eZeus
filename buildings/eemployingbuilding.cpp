@@ -9,36 +9,17 @@ eEmployingBuilding::eEmployingBuilding(
         const int maxEmployees) :
     eBuildingWithResource(board, type, sw, sh),
     mMaxEmployees(maxEmployees) {
-    auto& emplData = board.employmentData();
-    emplData.incTotalJobVacancies(mMaxEmployees);
-    auto& distr = board.employmentDistributor();
-    eSector s;
-    const bool r = eSectorHelpers::sBuildingSector(type, s);
-    if(r) distr.incMaxEmployees(s, maxEmployees);
+    board.registerEmplBuilding(this);
 }
 
 eEmployingBuilding::~eEmployingBuilding() {
     auto& board = getBoard();
-    auto& emplData = board.employmentData();
-    emplData.incTotalJobVacancies(-mMaxEmployees);
-    auto& distr = board.employmentDistributor();
-    eSector s;
-    const bool r = eSectorHelpers::sBuildingSector(type(), s);
-    const int me = maxEmployees();
-    if(r) distr.incMaxEmployees(s, -me);
+    board.unregisterEmplBuilding(this);
 }
 
-void eEmployingBuilding::timeChanged(const int by) {
-    mEmployedUpdate += by;
-    if(mEmployedUpdate > mEmployedUpdateWait) {
-        mEmployedUpdate -= mEmployedUpdateWait;
-        const auto& emplData = getBoard().employmentData();
-        const double ef = emplData.employedFraction();
-        const int e = std::round(ef*mMaxEmployees);
-        mEmployed = std::clamp(e, 0, mMaxEmployees);
-        setEnabled(mEmployed > 0);
-    }
-    eBuildingWithResource::timeChanged(by);
+void eEmployingBuilding::setEmployed(const int e) {
+    mEmployed = e;
+    setEnabled(mEmployed > 0);
 }
 
 double eEmployingBuilding::employedFraction() const {
@@ -57,18 +38,22 @@ double eEmployingBuilding::effectiveness() const {
     return ef*(1 + 0.5*blessed);
 }
 
+void eEmployingBuilding::setShutDown(const bool sd) {
+    mShutDown = sd;
+    if(sd) setEmployed(0);
+}
+
 void eEmployingBuilding::read(eReadStream& src) {
     eBuildingWithResource::read(src);
+    src >> mShutDown;
     src >> mMaxEmployees;
-    src >> mEmployedUpdateWait;
-    src >> mEmployedUpdate;
     src >> mEmployed;
+    setEnabled(mEmployed > 0);
 }
 
 void eEmployingBuilding::write(eWriteStream& dst) const {
     eBuildingWithResource::write(dst);
+    dst << mShutDown;
     dst << mMaxEmployees;
-    dst << mEmployedUpdateWait;
-    dst << mEmployedUpdate;
     dst << mEmployed;
 }

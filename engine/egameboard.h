@@ -104,6 +104,9 @@ public:
     void registerBuilding(eBuilding* const b);
     bool unregisterBuilding(eBuilding* const b);
 
+    void registerEmplBuilding(eEmployingBuilding* const b);
+    bool unregisterEmplBuilding(eEmployingBuilding* const b);
+
     void registerTradePost(eTradePost* const b);
     bool unregisterTradePost(eTradePost* const b);
     bool hasTradePost(const eWorldCity& city);
@@ -474,6 +477,17 @@ public:
 
     eEmploymentDistributor& employmentDistributor()
     { return mEmplDistributor; }
+
+    void addShutDown(const eResourceType type);
+    void removeShutDown(const eResourceType type);
+    bool isShutDown(const eResourceType type) const;
+    bool isShutDown(const eBuildingType type) const;
+    int industryJobVacancies(const eResourceType type) const;
+    void distributeEmployees(const eSector s);
+    void distributeEmployees();
+    void scheduleDistributeEmployees();
+
+    void incPopulation(const int by);
 private:
     void updateNeighbours();
 
@@ -568,6 +582,7 @@ private:
     std::vector<eCharacterAction*> mCharacterActions;
     std::vector<eSoldier*> mSoldiers;
     std::vector<eBuilding*> mTimedBuildings;
+    std::vector<eEmployingBuilding*> mEmployingBuildings;
     std::vector<eBuilding*> mAllBuildings;
     std::vector<eBuilding*> mCommemorativeBuildings;
     std::vector<eTradePost*> mTradePosts;
@@ -643,6 +658,10 @@ private:
     std::vector<eMonsterType> mSlayedMonsters;
 
     eEmploymentDistributor mEmplDistributor;
+    std::vector<eResourceType> mShutDown;
+    std::map<eSector, std::vector<eEmployingBuilding*>> mSectorBuildings;
+    bool mEmploymentUpdateScheduled = true;
+    int mEmploymentUpdateWait = 0;
 };
 
 #endif // EGAMEBOARD_H

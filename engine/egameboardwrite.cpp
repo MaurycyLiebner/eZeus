@@ -29,6 +29,13 @@ void eGameBoard::write(eWriteStream& dst) const {
     dst << mTime;
     dst << mTotalTime;
 
+    mEmplDistributor.write(dst);
+
+    dst << mShutDown.size();
+    for(const auto i : mShutDown) {
+        dst << i;
+    }
+
     dst << mSoldiersUpdate;
     dst << mMaxRabble;
     dst << mMaxHoplites;

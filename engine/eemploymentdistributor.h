@@ -2,9 +2,14 @@
 #define EEMPLOYMENTDISTRIBUTOR_H
 
 #include <map>
+#include <vector>
+
+#include "fileIO/ewritestream.h"
+#include "fileIO/ereadstream.h"
 
 enum class eBuildingType;
 class eEmploymentData;
+enum class eResourceType;
 
 enum class eSector {
     husbandry,
@@ -21,6 +26,11 @@ namespace eSectorHelpers {
     std::string sName(const eSector s, const bool atlantean);
     bool sBuildingSector(const eBuildingType type,
                          eSector& sector);
+}
+
+namespace eIndustryHelpers {
+    std::vector<eResourceType> sIndustries(const eBuildingType type);
+    std::vector<eBuildingType> sBuildings(const eResourceType type);
 }
 
 enum class ePriority {
@@ -48,10 +58,13 @@ public:
     void incMaxEmployees(const eSector s, const int by);
 
     int employees(const eSector s);
+
+    void read(eReadStream& src);
+    void write(eWriteStream& dst) const;
 private:
     void distribute();
 
-    bool mChanged = false;
+    bool mChanged = true;
     int mTotalEmployees = 0;
 
     eEmploymentData& mEmplData;

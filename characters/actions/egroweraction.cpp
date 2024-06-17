@@ -3,6 +3,7 @@
 #include "characters/actions/emovetoaction.h"
 #include "characters/actions/ewaitaction.h"
 #include "buildings/eresourcebuilding.h"
+#include "engine/egameboard.h"
 
 eGrowerAction::eGrowerAction(const eGrowerType type,
                              eGrowersLodge* const lodge,
@@ -16,14 +17,15 @@ eGrowerAction::eGrowerAction(const eGrowerType type,
 eGrowerAction::eGrowerAction(eCharacter* const c) :
     eGrowerAction(eGrowerType::grapesAndOlives, nullptr, c) {}
 
-bool hasResource(eThreadTile* const tile, const eGrowerType gt) {
+bool hasResource(eThreadTile* const tile, const eGrowerType gt,
+                 const bool grapesDisabled, const bool olivesDisabled) {
     if(rand() % 2) return false;
     const auto ub = tile->underBuildingType();
     bool r;
     switch(gt) {
     case eGrowerType::grapesAndOlives:
-        r = ub == eBuildingType::vine ||
-            ub == eBuildingType::oliveTree;
+        r = (ub == eBuildingType::vine && !grapesDisabled) ||
+            (ub == eBuildingType::oliveTree && !olivesDisabled);
         break;
     case eGrowerType::oranges:
         r = ub == eBuildingType::orangeTree;
@@ -172,8 +174,11 @@ bool eGrowerAction::findResourceDecision() {
     const stdptr<eGrowerAction> tptr(this);
 
     const auto gt = mType;
-    const auto hha = [gt](eThreadTile* const tile) {
-        return hasResource(tile, gt);
+    auto& board = this->board();
+    const bool gd = board.isShutDown(eResourceType::grapes);
+    const bool od = board.isShutDown(eResourceType::olives);
+    const auto hha = [gt, gd, od](eThreadTile* const tile) {
+        return hasResource(tile, gt, gd, od);
     };
 
     const auto a = e::make_shared<eMoveToAction>(mGrower);

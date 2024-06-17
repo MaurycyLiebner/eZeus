@@ -1505,18 +1505,7 @@ bool eGameBoard::unregisterBuilding(eBuilding* const b) {
     if(!mRegisterBuildingsEnabled) return false;
     const auto bt = b->type();
     eVectorHelpers::remove(mAllBuildings, b);
-    const bool tb = eVectorHelpers::remove(mTimedBuildings, b);
-    if(tb) {
-        eSector s;
-        const bool r = eSectorHelpers::sBuildingSector(bt, s);
-        if(r) {
-            const auto e = dynamic_cast<eEmployingBuilding*>(b);
-            if(e) {
-                const int me = e->maxEmployees();
-                mEmplDistributor.incMaxEmployees(s, -me);
-            }
-        }
-    }
+    eVectorHelpers::remove(mTimedBuildings, b);
     eVectorHelpers::remove(mCommemorativeBuildings, b);
     if(bt == eBuildingType::commonHouse) {
         const auto ch = static_cast<eSmallHouse*>(b);
@@ -1529,6 +1518,45 @@ bool eGameBoard::unregisterBuilding(eBuilding* const b) {
     }
     scheduleAppealMapUpdate();
     return true;
+}
+
+void eGameBoard::registerEmplBuilding(eEmployingBuilding* const b) {
+    if(!mRegisterBuildingsEnabled) return;
+    mEmployingBuildings.push_back(b);
+    const auto type = b->type();
+    const bool sd = isShutDown(type);
+    eSector s;
+    const bool r = eSectorHelpers::sBuildingSector(type, s);
+    if(r) {
+        mSectorBuildings[s].push_back(b);
+    }
+    if(!sd) {
+        const int me = b->maxEmployees();
+        mEmplData.incTotalJobVacancies(me);
+        if(r) mEmplDistributor.incMaxEmployees(s, me);
+    }
+    distributeEmployees();
+}
+
+bool eGameBoard::unregisterEmplBuilding(eEmployingBuilding* const b) {
+    if(!mRegisterBuildingsEnabled) return false;
+    const bool rr = eVectorHelpers::remove(mEmployingBuildings, b);
+    const auto type = b->type();
+    eSector s;
+    const bool r = eSectorHelpers::sBuildingSector(type, s);
+    if(r) {
+        eVectorHelpers::remove(mSectorBuildings[s], b);
+    }
+    if(rr) {
+        const bool sd = isShutDown(type);
+        if(!sd) {
+            const int me = b->maxEmployees();
+            mEmplData.incTotalJobVacancies(-me);
+            if(r) mEmplDistributor.incMaxEmployees(s, -me);
+        }
+    }
+    distributeEmployees();
+    return rr;
 }
 
 void eGameBoard::registerTradePost(eTradePost* const b) {
@@ -1852,6 +1880,15 @@ void eGameBoard::incTime(const int by) {
             }
         }
     }
+
+    const int employmentUpdateWait = 5678;
+    mEmploymentUpdateWait += by;
+    if(mEmploymentUpdateWait > employmentUpdateWait) {
+        if(mEmploymentUpdateScheduled) {
+            mEmploymentUpdateWait = 0;
+            distributeEmployees();
+        }
+    }
 }
 
 void eGameBoard::incFrame() {
@@ -1894,6 +1931,7 @@ void eGameBoard::setTaxRate(const eTaxRate tr) {
 
 void eGameBoard::setWageRate(const eWageRate wr) {
     mWageRate = wr;
+    distributeEmployees();
 }
 
 void eGameBoard::addRubbish(const stdsptr<eObject>& o) {
@@ -2132,4 +2170,132 @@ void eGameBoard::sendAllSoldiersHome() {
     for(const auto& s : mSoldierBanners) {
         s->goHome();
     }
+}
+
+void eGameBoard::addShutDown(const eResourceType type) {
+    mShutDown.push_back(type);
+    for(const auto b : mEmployingBuildings) {
+        const auto bt = b->type();
+        const auto is = eIndustryHelpers::sIndustries(bt);
+        if(is.empty()) continue;
+        const bool r = eVectorHelpers::contains(is, type);
+        if(!r) continue;
+        const bool sd = is.size() == 1 ? true : isShutDown(bt);
+        if(!sd) continue;
+        b->setShutDown(true);
+        const int maxE = b->maxEmployees();
+        mEmplData.incTotalJobVacancies(-maxE);
+        eSector s;
+        const bool ss = eSectorHelpers::sBuildingSector(bt, s);
+        if(!ss) continue;
+        mEmplDistributor.incMaxEmployees(s, -maxE);
+    }
+    distributeEmployees();
+}
+
+void eGameBoard::removeShutDown(const eResourceType type) {
+    const bool r = eVectorHelpers::remove(mShutDown, type);
+    if(!r) return;
+    for(const auto b : mEmployingBuildings) {
+        const auto bt = b->type();
+        const auto is = eIndustryHelpers::sIndustries(bt);
+        if(is.empty()) continue;
+        const bool r = eVectorHelpers::contains(is, type);
+        if(!r) continue;
+        b->setShutDown(false);
+        const int maxE = b->maxEmployees();
+        mEmplData.incTotalJobVacancies(maxE);
+        eSector s;
+        const bool ss = eSectorHelpers::sBuildingSector(bt, s);
+        if(!ss) continue;
+        mEmplDistributor.incMaxEmployees(s, maxE);
+    }
+    distributeEmployees();
+}
+
+bool eGameBoard::isShutDown(const eResourceType type) const {
+    return eVectorHelpers::contains(mShutDown, type);
+}
+
+bool eGameBoard::isShutDown(const eBuildingType type) const {
+    const auto is = eIndustryHelpers::sIndustries(type);
+    if(is.empty()) return false;
+    for(const auto i : is) {
+        const bool sd = isShutDown(i);
+        if(!sd) return false;
+    }
+    return true;
+}
+
+int eGameBoard::industryJobVacancies(const eResourceType type) const {
+    const auto bs = eIndustryHelpers::sBuildings(type);
+    int result = 0;
+    for(const auto b : bs) {
+        result += countBuildings(b);
+    }
+    return result;
+}
+
+void eGameBoard::distributeEmployees(const eSector s) {
+    int e = mEmplDistributor.employees(s);
+    const int maxE = mEmplDistributor.maxEmployees(s);
+    const double frac = e/static_cast<double>(maxE);
+    const auto& sb = mSectorBuildings[s];
+    struct eSectorReminder {
+        double fRem;
+        eEmployingBuilding* fB;
+    };
+
+    std::vector<eSectorReminder> reminders;
+    for(const auto b : sb) {
+        const auto type = b->type();
+        const bool sd = isShutDown(type);
+        if(sd) {
+            b->setShutDown(true);
+            continue;
+        } else {
+            b->setShutDown(false);
+        }
+        const int me = b->maxEmployees();
+        const double eeF = frac*me;
+        const int ee = std::floor(eeF);
+        b->setEmployed(ee);
+        e -= ee;
+        reminders.push_back({(eeF - ee)/me, b});
+    }
+
+    const auto comp = [](const eSectorReminder& r1, const eSectorReminder& r2) {
+        return r1.fRem > r2.fRem;
+    };
+    std::sort(reminders.begin(), reminders.end(), comp);
+
+    while(e > 0) {
+        bool changed = false;
+        for(auto& r : reminders) {
+            if(e <= 0) break;
+            const auto b = r.fB;
+            const int me = b->maxEmployees();
+            const int ee = b->employed();
+            if(ee >= me) continue;
+            b->setEmployed(ee + 1);
+            e--;
+            changed = true;
+        }
+        if(!changed) break;
+    }
+}
+
+void eGameBoard::distributeEmployees() {
+    for(const auto& s : mSectorBuildings) {
+        distributeEmployees(s.first);
+    }
+}
+
+void eGameBoard::scheduleDistributeEmployees() {
+    mEmploymentUpdateScheduled = true;
+}
+
+void eGameBoard::incPopulation(const int by) {
+    mPopData.incPopulation(by);
+    scheduleDistributeEmployees();
 }

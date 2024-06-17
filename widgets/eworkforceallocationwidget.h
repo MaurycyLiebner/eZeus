@@ -15,6 +15,7 @@ private:
     void updateLabels();
 
     eGameBoard* mBoard = nullptr;
+    std::map<eSector, eLabel*> mEmplMaxLabels;
     std::map<eSector, eLabel*> mEmplLabels;
 };
 

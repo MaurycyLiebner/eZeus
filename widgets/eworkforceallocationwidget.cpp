@@ -59,6 +59,7 @@ void eWorkforceAllocationWidget::initialize(eGameBoard& board) {
             pL->setText(ePriorityHelpers::sName(p));
             pL->fitContent();
             updateLabels();
+            mBoard->distributeEmployees();
         });
         const auto up = new eSmallUpButton(window());
         w0->addWidget(up);
@@ -70,6 +71,7 @@ void eWorkforceAllocationWidget::initialize(eGameBoard& board) {
             pL->setText(ePriorityHelpers::sName(p));
             pL->fitContent();
             updateLabels();
+            mBoard->distributeEmployees();
         });
 
         pL->setNoPadding();
@@ -114,6 +116,7 @@ void eWorkforceAllocationWidget::initialize(eGameBoard& board) {
         w2L->setText(std::to_string(maxE));
         w2L->fitContent();
         w2->addWidget(w2L);
+        mEmplMaxLabels[s] = w2L;
 
         w2->fitHeight();
         w2->setX(x);
@@ -236,6 +239,9 @@ void eWorkforceAllocationWidget::initialize(eGameBoard& board) {
     const int h = remainingHeight();
     int y = 2*p;
     for(const auto rr : r) {
+        const int vacs = mBoard->industryJobVacancies(rr);
+        if(vacs == 0) continue;
+
         const auto w = new eWidget(window());
         w->setNoPadding();
 
@@ -259,18 +265,33 @@ void eWorkforceAllocationWidget::initialize(eGameBoard& board) {
         const auto nameL = new eButton(window());
         nameL->setNoPadding();
         nameL->setSmallFontSize();
+        const bool s = mBoard->isShutDown(rr);
         const auto name = eResourceTypeHelpers::typeName(rr);
-        nameL->setText(name);
+        if(s) {
+            nameL->setText(name + "*");
+            nameL->setYellowFontColor();
+        } else {
+            nameL->setText(name);
+            nameL->setLightFontColor();
+        }
         nameL->fitContent();
         nameW->addWidget(nameL);
         nameW->fitHeight();
         w->addWidget(nameW);
-        nameL->setPressAction([nameL]() {
-            if(true) {
+        nameL->setPressAction([this, rr, nameL, name]() {
+            const bool s = mBoard->isShutDown(rr);
+            if(s) {
                 nameL->setLightFontColor();
+                nameL->setText(name);
+                nameL->fitContent();
+                mBoard->removeShutDown(rr);
             } else {
                 nameL->setYellowFontColor();
+                nameL->setText(name + "*");
+                nameL->fitContent();
+                mBoard->addShutDown(rr);
             }
+            updateLabels();
         });
 
 //        const auto buttonW = new eWidget(window());
@@ -337,5 +358,8 @@ void eWorkforceAllocationWidget::updateLabels() {
         } else {
             l->setYellowFontColor();
         }
+        const auto ml = mEmplMaxLabels[s];
+        ml->setText(std::to_string(maxE));
+        ml->fitContent();
     }
 }

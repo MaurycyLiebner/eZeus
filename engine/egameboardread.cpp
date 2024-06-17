@@ -32,6 +32,16 @@ void eGameBoard::read(eReadStream& src) {
     src >> mTime;
     src >> mTotalTime;
 
+    mEmplDistributor.read(src);
+
+    int ns;
+    src >> ns;
+    for(int i = 0; i < ns; i++) {
+        eResourceType type;
+        src >> type;
+        mShutDown.push_back(type);
+    }
+
     src >> mSoldiersUpdate;
     src >> mMaxRabble;
     src >> mMaxHoplites;

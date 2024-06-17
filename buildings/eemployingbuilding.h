@@ -11,20 +11,20 @@ public:
                        const int maxEmployees);
     ~eEmployingBuilding();
 
-    void timeChanged(const int by) override;
-
     int employed() const { return mEmployed; }
+    void setEmployed(const int e);
     void setMaxEmployees(const int m) { mMaxEmployees = m; }
     int maxEmployees() const { return mMaxEmployees; }
     double employedFraction() const;
     double effectiveness() const;
+    bool shutDown() const { return mShutDown; }
+    void setShutDown(const bool sd);
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:
+    bool mShutDown = false;
     int mMaxEmployees;
-    int mEmployedUpdateWait = 1000;
-    int mEmployedUpdate = mEmployedUpdateWait;
     int mEmployed = 0;
 };
 

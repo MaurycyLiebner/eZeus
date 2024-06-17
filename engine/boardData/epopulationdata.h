@@ -2,10 +2,10 @@
 #define EPOPULATIONDATA_H
 
 class ePopulationData {
+    friend class eGameBoard;
 public:
     ePopulationData();
 
-    void incPopulation(const int p);
     void incVacancies(const int v);
     void incSettlers(const int s);
     void incLeft(const int s);
@@ -16,6 +16,8 @@ public:
     int settlers() const { return mSettlers; }
     int arrived() const { return mArrivedThisMonth; }
     int left() const { return mLeftThisMonth; }
+private:
+    void incPopulation(const int p);
 private:
     int mPop{0};
     int mVacs{0};

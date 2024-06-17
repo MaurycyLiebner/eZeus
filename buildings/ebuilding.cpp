@@ -882,8 +882,11 @@ void eBuilding::sInfoText(eBuilding* const b,
     case eBuildingType::horseRanch: {
         const auto hr = static_cast<eHorseRanch*>(b);
         const int w = hr->wheat();
+        const bool sd = hr->shutDown();
         group = 89;
-        if(w == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(w == 0) {
             employmentInfoString = 11;
         } else if(e < 2) {
             employmentInfoString = 10;
@@ -901,8 +904,11 @@ void eBuilding::sInfoText(eBuilding* const b,
         const auto cf = static_cast<eChariotFactory*>(b);
         const int w = cf->wood();
         const int h = cf->horses();
-        group = 89;
-        if(w == 0 || h == 0) {
+        const bool sd = cf->shutDown();
+        group = 281;
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(w == 0 || h == 0) {
             employmentInfoString = 11;
         } else if(e == 0) {
             employmentInfoString = 5;
@@ -1080,8 +1086,11 @@ void eBuilding::sInfoText(eBuilding* const b,
         const auto f = static_cast<eFishery*>(b);
         const bool nt = f->noTarget();
         const auto state = f->state();
+        const bool sd = f->shutDown();
         group = 102;
-        if(cursed) {
+        if(sd) {
+            employmentInfoString = 9;
+        } else if(cursed) {
             employmentInfoString = 11;
         } else if(blessed) {
             employmentInfoString = 12;
@@ -1165,8 +1174,12 @@ void eBuilding::sInfoText(eBuilding* const b,
         }
     } break;
     case eBuildingType::wheatFarm: {
+        const auto wf = static_cast<eWheatFarm*>(b);
+        const bool sd = wf->shutDown();
         group = 112;
-        if(e == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(e == 0) {
             employmentInfoString = 5;
         } else if(e == maxE) {
             employmentInfoString = 6;
@@ -1181,8 +1194,12 @@ void eBuilding::sInfoText(eBuilding* const b,
         }
     } break;
     case eBuildingType::onionsFarm: {
+        const auto wf = static_cast<eOnionFarm*>(b);
+        const bool sd = wf->shutDown();
         group = 113;
-        if(e == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(e == 0) {
             employmentInfoString = 5;
         } else if(e == maxE) {
             employmentInfoString = 6;
@@ -1197,8 +1214,12 @@ void eBuilding::sInfoText(eBuilding* const b,
         }
     } break;
     case eBuildingType::carrotsFarm: {
+        const auto wf = static_cast<eCarrotFarm*>(b);
+        const bool sd = wf->shutDown();
         group = 114;
-        if(e == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(e == 0) {
             employmentInfoString = 5;
         } else if(e == maxE) {
             employmentInfoString = 6;
@@ -1221,8 +1242,12 @@ void eBuilding::sInfoText(eBuilding* const b,
         employmentInfoString = 1;
     } break;
     case eBuildingType::foundry: {
+        const auto f = static_cast<eFoundry*>(b);
+        const bool sd = f->shutDown();
         group = 117;
-        if(e == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(e == 0) {
             employmentInfoString = 5;
         } else if(e == maxE) {
             employmentInfoString = 6;
@@ -1237,8 +1262,12 @@ void eBuilding::sInfoText(eBuilding* const b,
         }
     } break;
     case eBuildingType::masonryShop: {
+        const auto ms = static_cast<eMasonryShop*>(b);
+        const bool sd = ms->shutDown();
         group = 118;
-        if(e == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(e == 0) {
             employmentInfoString = 5;
         } else if(e == maxE) {
             employmentInfoString = 6;
@@ -1253,8 +1282,12 @@ void eBuilding::sInfoText(eBuilding* const b,
         }
     } break;
     case eBuildingType::mint: {
+        const auto m = static_cast<eMint*>(b);
+        const bool sd = m->shutDown();
         group = 119;
-        if(e == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(e == 0) {
             employmentInfoString = 5;
         } else if(e == maxE) {
             employmentInfoString = 6;
@@ -1269,8 +1302,12 @@ void eBuilding::sInfoText(eBuilding* const b,
         }
     } break;
     case eBuildingType::timberMill: {
+        const auto tm = static_cast<eTimberMill*>(b);
+        const bool sd = tm->shutDown();
         group = 120;
-        if(e == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(e == 0) {
             employmentInfoString = 5;
         } else if(e == maxE) {
             employmentInfoString = 6;
@@ -1285,8 +1322,12 @@ void eBuilding::sInfoText(eBuilding* const b,
         }
     } break;
     case eBuildingType::dairy: {
+        const auto d = static_cast<eDairy*>(b);
+        const bool sd = d->shutDown();
         group = 121;
-        if(e == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(e == 0) {
             employmentInfoString = 5;
         } else if(e == maxE) {
             employmentInfoString = 6;
@@ -1304,8 +1345,11 @@ void eBuilding::sInfoText(eBuilding* const b,
         const auto w = static_cast<eWinery*>(b);
         const int r = w->rawCount();
         if(r == 0) additionalInfoString = 11;
+        const bool sd = w->shutDown();
         group = 122;
-        if(e == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(e == 0) {
             employmentInfoString = 5;
         } else if(e == maxE) {
             employmentInfoString = 6;
@@ -1320,8 +1364,12 @@ void eBuilding::sInfoText(eBuilding* const b,
         }
     } break;
     case eBuildingType::cardingShed: {
+        const auto cs = static_cast<eCardingShed*>(b);
+        const bool sd = cs->shutDown();
         group = 123;
-        if(e == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(e == 0) {
             employmentInfoString = 5;
         } else if(e == maxE) {
             employmentInfoString = 6;
@@ -1338,8 +1386,11 @@ void eBuilding::sInfoText(eBuilding* const b,
     case eBuildingType::armory: {
         const auto a = static_cast<eArmory*>(b);
         const int r = a->rawCount();
+        const bool sd = a->shutDown();
         group = 124;
-        if(r == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(r == 0) {
             employmentInfoString = 11;
         } else if(e == 0) {
             employmentInfoString = 5;
@@ -1358,8 +1409,11 @@ void eBuilding::sInfoText(eBuilding* const b,
     case eBuildingType::olivePress: {
         const auto a = static_cast<eOlivePress*>(b);
         const int r = a->rawCount();
+        const bool sd = a->shutDown();
         group = 125;
-        if(r == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(r == 0) {
             employmentInfoString = 11;
         } else if(e == 0) {
             employmentInfoString = 5;
@@ -1378,8 +1432,11 @@ void eBuilding::sInfoText(eBuilding* const b,
     case eBuildingType::sculptureStudio: {
         const auto a = static_cast<eSculptureStudio*>(b);
         const int r = a->rawCount();
+        const bool sd = a->shutDown();
         group = 126;
-        if(r == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(r == 0) {
             employmentInfoString = 11;
         } else if(e == 0) {
             employmentInfoString = 5;
@@ -1525,9 +1582,11 @@ void eBuilding::sInfoText(eBuilding* const b,
     case eBuildingType::huntingLodge: {
         const auto hl = static_cast<eHuntingLodge*>(b);
         const bool noTarget = hl->noTarget();
+        const bool sd = hl->shutDown();
         group = 154;
-
-        if(e == 0) {
+        if(sd) {
+            employmentInfoString = 4;
+        } else if(e == 0) {
             employmentInfoString = 5;
         } else if(noTarget) {
             employmentInfoString = 12;
@@ -1556,10 +1615,12 @@ void eBuilding::sInfoText(eBuilding* const b,
     case eBuildingType::urchinQuay: {
         const auto uq = static_cast<eUrchinQuay*>(b);
         const bool noTarget = uq->noTarget();
+        const bool sd = uq->shutDown();
         group = 159;
-        infoString = -1;
-
-        if(noTarget) {
+        infoString = -1;        
+        if(sd) {
+            employmentInfoString = 5;
+        } else if(noTarget) {
             employmentInfoString = 1;
         } else if(cursed) {
             employmentInfoString = 7;
@@ -1636,9 +1697,11 @@ void eBuilding::sInfoText(eBuilding* const b,
     case eBuildingType::growersLodge: {
         const auto gl = static_cast<eGrowersLodge*>(b);
         const bool noTarget = gl->noTarget();
+        const bool sd = gl->shutDown();
         group = 179;
-
-        if(onFire) {
+        if(sd) {
+            employmentInfoString = 2;
+        } else if(onFire) {
             employmentInfoString = 13;
         } else if(e == 0) {
             employmentInfoString = 3;
@@ -1659,11 +1722,13 @@ void eBuilding::sInfoText(eBuilding* const b,
     case eBuildingType::orangeTendersLodge: {
         const auto gl = static_cast<eGrowersLodge*>(b);
         const bool noTarget = gl->noTarget();
+        const bool sd = gl->shutDown();
         group = 179;
         titleString = 17;
         infoString = 18;
-
-        if(onFire) {
+        if(sd) {
+            employmentInfoString = 19;
+        } else if(onFire) {
             employmentInfoString = 29;
         } else if(e == 0) {
             employmentInfoString = 20;
@@ -1688,10 +1753,11 @@ void eBuilding::sInfoText(eBuilding* const b,
     case eBuildingType::corral: {
         const auto c = static_cast<eCorral*>(b);
         const bool noCattle = c->noCattle();
-
+        const bool sd = c->shutDown();
         group = 141;
-
-        if(onFire) {
+        if(sd) {
+            employmentInfoString = 14;
+        } else if(onFire) {
             employmentInfoString = 8;
         } else if(e == 0) {
             employmentInfoString = 7;
