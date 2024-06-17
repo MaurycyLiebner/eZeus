@@ -38,6 +38,7 @@ std::vector<eResourceType> eResourceTypeHelpers::extractResourceTypes(const eRes
     extractResourceType(from, eResourceType::armor, result);
     extractResourceType(from, eResourceType::sculpture, result);
     extractResourceType(from, eResourceType::horse, result);
+    extractResourceType(from, eResourceType::chariot, result);
     return result;
 }
 

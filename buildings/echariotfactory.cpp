@@ -44,8 +44,8 @@ eChariotFactory::getOverlays(const eTileSize size) const {
         const auto& coll = texs.fChariotFactoryOverlay;
         const int texId = textureTime() % coll.size();
         o.fTex = coll.getTexture(texId);
-        o.fX = -0.6;
-        o.fY = -4.00;
+        o.fX = -0.63;
+        o.fY = -3.92;
     } else if(mChariots > 0) {
         eOverlay& o = os.emplace_back();
         const int texId = std::min(3, mChariots - 1);

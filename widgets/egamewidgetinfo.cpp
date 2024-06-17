@@ -55,6 +55,8 @@ eInfoWidget* eGameWidget::openInfoWidget(eBuilding* const b) {
         const auto hhWid = new eHerosHallInfoWidget(window(), false, false);
         hhWid->initialize(hh);
         wid = hhWid;
+    } else if(const auto encl = dynamic_cast<eHorseRanchEnclosure*>(b)) {
+        return openInfoWidget(encl->ranch());
     } else {
         eAgoraBase* a = nullptr;
         if(const auto aa = dynamic_cast<eAgoraBase*>(b)) {

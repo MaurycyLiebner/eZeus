@@ -661,7 +661,7 @@ private:
     std::vector<eResourceType> mShutDown;
     std::map<eSector, std::vector<eEmployingBuilding*>> mSectorBuildings;
     bool mEmploymentUpdateScheduled = true;
-    int mEmploymentUpdateWait = 0;
+    int mEmploymentUpdateWait = __INT_MAX__/10;
 };
 
 #endif // EGAMEBOARD_H

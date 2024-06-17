@@ -57,24 +57,12 @@ int eEmploymentDistributor::employees(const eSector s) {
 }
 
 void eEmploymentDistributor::read(eReadStream& src) {
-    for(auto& e : mEmployees) {
-        src >> e.second;
-    }
-    for(auto& e : mMaxEmployees) {
-        src >> e.second;
-    }
     for(auto& e : mPriorities) {
         src >> e.second;
     }
 }
 
 void eEmploymentDistributor::write(eWriteStream& dst) const {
-    for(auto& e : mEmployees) {
-        dst << e.second;
-    }
-    for(auto& e : mMaxEmployees) {
-        dst << e.second;
-    }
     for(auto& e : mPriorities) {
         dst << e.second;
     }
@@ -306,6 +294,10 @@ std::vector<eResourceType> eIndustryHelpers::sIndustries(
         return {eResourceType::sculpture};
     case eBuildingType::armory:
         return {eResourceType::armor};
+    case eBuildingType::horseRanch:
+        return {eResourceType::horse};
+    case eBuildingType::chariotFactory:
+        return {eResourceType::chariot};
     default:
         return {};
     }
@@ -349,6 +341,10 @@ std::vector<eBuildingType> eIndustryHelpers::sBuildings(const eResourceType type
         return {eBuildingType::sculptureStudio};
     case eResourceType::armor:
         return {eBuildingType::armory};
+    case eResourceType::horse:
+        return {eBuildingType::horseRanch};
+    case eResourceType::chariot:
+        return {eBuildingType::chariotFactory};
     default:
         return {};
     }

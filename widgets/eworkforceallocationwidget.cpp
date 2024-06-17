@@ -231,7 +231,7 @@ void eWorkforceAllocationWidget::initialize(eGameBoard& board) {
     industryW->addWidget(industryWW);
 
     const auto uiScale = res.uiScale();
-    const auto all = eResourceType::allBasic;
+    const auto all = eResourceType::allTransportable;
     const auto r = eResourceTypeHelpers::extractResourceTypes(all);
     const int ccw0 = std::round(30*mult);
     const int ccw1 = std::round(90*mult);
