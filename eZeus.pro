@@ -477,8 +477,6 @@ SOURCES += \
         widgets/ecitybutton.cpp \
         widgets/ecitysettingswidget.cpp \
         widgets/eclosabledialog.cpp \
-        widgets/ecombobox.cpp \
-        widgets/econtextmenu.cpp \
         widgets/edatebutton.cpp \
         widgets/edatewidget.cpp \
         widgets/edownbutton.cpp \
@@ -2376,8 +2374,6 @@ HEADERS += \
     widgets/ecitybutton.h \
     widgets/ecitysettingswidget.h \
     widgets/eclosabledialog.h \
-    widgets/ecombobox.h \
-    widgets/econtextmenu.h \
     widgets/edatebutton.h \
     widgets/edatewidget.h \
     widgets/edownbutton.h \

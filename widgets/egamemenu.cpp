@@ -3,7 +3,6 @@
 #include "textures/egametextures.h"
 #include "emainwindow.h"
 #include "echeckablebutton.h"
-#include "econtextmenu.h"
 #include "engine/egameboard.h"
 #include "engine/edifficulty.h"
 
@@ -171,21 +170,6 @@ eWidget* eGameMenu::createSubButtons(
     result->fitContent();
 
     return result;
-}
-
-void eGameMenu::addAction(const eSPR& c, const int mult,
-                          const eInterfaceTextures& coll,
-                          eContextMenu* const cm) {
-    auto& a = cm->addAction(c.fName, [this, c]() {
-        setMode(c.fMode);
-        mCityId = c.fCity;
-    });
-    const auto diff = mBoard->difficulty();
-    const auto mode = c.fMode;
-    const auto t = eBuildingModeHelpers::toBuildingType(mode);
-    const int cost = eDifficultyHelpers::buildingCost(diff, t);
-    a.addTexture(mult*20, coll.fDrachmasUnit);
-    a.addText(0, std::to_string(cost));
 }
 
 eBuildButton* eGameMenu::createBuildButton(const eSPR& c) {

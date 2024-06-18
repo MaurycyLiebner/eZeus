@@ -34,8 +34,6 @@ struct eSubButtonData;
 
 class eSubButton;
 
-class eContextMenu;
-
 struct eSPR {
     eBuildingMode fMode;
     std::string fName;
@@ -80,9 +78,6 @@ private:
     using eButtonsDataVec = std::vector<eSubButtonData>;
     eWidget* createSubButtons(const int resoltuionMult,
                               const eButtonsDataVec& buttons);
-    void addAction(const eSPR& c, const int mult,
-                   const eInterfaceTextures& coll,
-                   eContextMenu* const cm);
     eBuildButton* createBuildButton(const eSPR& c);
 
     void displayPrice(const int price, const int loc);
