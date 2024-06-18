@@ -40,6 +40,7 @@
 class eGameEvent;
 
 class eSpawner;
+enum class eBannerTypeS;
 class eCharacter;
 class eBuilding;
 class eTradePost;
@@ -146,6 +147,7 @@ public:
     void registerMonster(eMonster* const m);
     void unregisterMonster(eMonster* const m);
 
+    eBanner* banner(const eBannerTypeS type, const int id = 0) const;
     void registerBanner(eBanner* const b);
     void unregisterBanner(eBanner* const b);
 

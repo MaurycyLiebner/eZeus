@@ -1702,19 +1702,23 @@ void eGameBoard::unregisterMonster(eMonster* const m) {
     updateMusic();
 }
 
-void eGameBoard::registerBanner(eBanner* const b) {
-    const int id = b->id();
-    const auto type = b->type();
+eBanner* eGameBoard::banner(const eBannerTypeS type, const int id) const {
     for(const auto b : mBanners) {
         const int bid = b->id();
         if(bid != id) continue;
         const auto btype = b->type();
         if(btype != type) continue;
-        const auto t = b->tile();
-        if(!t) break;
-        t->setBanner(nullptr);
-        break;
+        return b;
     }
+    return nullptr;
+}
+
+void eGameBoard::registerBanner(eBanner* const b) {
+    const int id = b->id();
+    const auto type = b->type();
+    const auto bb = banner(type, id);
+    const auto t = bb ? bb->tile() : nullptr;
+    if(t) t->setBanner(nullptr);
     mBanners.push_back(b);
 }
 
