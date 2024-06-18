@@ -266,7 +266,7 @@ public:
         const int iRes = static_cast<int>(uiScale);
         const auto& intrfc = eGameTextures::interface();
         const auto& texs = intrfc[iRes];
-        const auto troopsIcon = texs.fTroopsRequestIcon;
+        const auto& troopsIcon = texs.fTroopsRequestIcon;
         eRequestButton::initialize(troopsIcon, cityName, checker);
     }
 };

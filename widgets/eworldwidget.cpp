@@ -11,6 +11,7 @@
 #include "eframedbutton.h"
 #include "elanguage.h"
 #include "ecitysettingswidget.h"
+#include "efulfilldialog.h"
 
 #include "gameEvents/eplayerconquestevent.h"
 #include "gameEvents/eplayerraidevent.h"
@@ -21,6 +22,9 @@ void eWorldWidget::initialize() {
     mWM = new eWorldMenu(window());
     const auto requestFunc = [this]() {
         openRequestDialog();
+    };
+    const auto fulfillFunc = [this]() {
+        openFulfillDialog();
     };
     const auto giftFunc = [this]() {
         openGiftDialog();
@@ -46,7 +50,7 @@ void eWorldWidget::initialize() {
         for(const auto& s : sells) {
             resources.push_back(s.fType);
         }
-        openEnlistForcesDialog(enlistAction, mCity, resources);
+        openEnlistForcesDialog(enlistAction, {mCity}, resources);
     };
     const auto conquerFunc = [this]() {
         const auto enlistAction = [this](const eEnlistedForces& forces,
@@ -63,9 +67,10 @@ void eWorldWidget::initialize() {
             mBoard->addRootGameEvent(e);
             update();
         };
-        openEnlistForcesDialog(enlistAction, mCity);
+        openEnlistForcesDialog(enlistAction, {mCity});
     };
-    mWM->initialize(requestFunc, giftFunc, raidFunc, conquerFunc);
+    mWM->initialize(requestFunc, fulfillFunc, giftFunc,
+                    raidFunc, conquerFunc);
 
     mWMW = new eWorldMapWidget(window());
     addWidget(mWMW);
@@ -161,6 +166,13 @@ void eWorldWidget::update() {
     mWMW->updateWidgets();
 }
 
+void eWorldWidget::openEnlistForcesDialog(
+        const eEnlistAction& a,
+        const std::vector<stdsptr<eWorldCity>>& exclude,
+        const std::vector<eResourceType>& plunderResources) {
+    mBoard->requestForces(a, plunderResources, exclude);
+}
+
 void eWorldWidget::openRequestDialog() {
     const auto d = new eRequestDialog(window());
     const auto func = [this, d](const eResourceType type) {
@@ -175,10 +187,13 @@ void eWorldWidget::openRequestDialog() {
         d->deleteLater();
     };
     d->initialize(mCity, func);
-    addWidget(d);
-    d->align(eAlignment::vcenter);
-    d->setX(mWMW->x() + (mWMW->width() - d->width())/2);
-    window()->execDialog(d);
+    openDialog(d);
+}
+
+void eWorldWidget::openFulfillDialog() {
+    const auto d = new eFulfillDialog(window());
+    d->initialize(mBoard, mCity);
+    openDialog(d);
 }
 
 void eWorldWidget::openGiftDialog() {
@@ -192,16 +207,10 @@ void eWorldWidget::openGiftDialog() {
             dd->deleteLater();
         };
         dd->initialize(type, mCity, func, *mBoard);
-        addWidget(dd);
-        dd->align(eAlignment::vcenter);
-        dd->setX(mWMW->x() + (mWMW->width() - dd->width())/2);
-        window()->execDialog(dd);
+        openDialog(dd);
     };
     d->initialize(mCity, func, *mBoard);
-    addWidget(d);
-    d->align(eAlignment::vcenter);
-    d->setX(mWMW->x() + (mWMW->width() - d->width())/2);
-    window()->execDialog(d);
+    openDialog(d);
 }
 
 void eWorldWidget::setMap(const eWorldMap map) {
@@ -210,12 +219,18 @@ void eWorldWidget::setMap(const eWorldMap map) {
     mWMW->setX((width() - mWM->width() - mWMW->width())/2);
 }
 
+void eWorldWidget::openDialog(eWidget* const d) {
+    addWidget(d);
+    d->align(eAlignment::vcenter);
+    d->setX(mWMW->x() + (mWMW->width() - d->width())/2);
+    window()->execDialog(d);
+}
+
 void eWorldWidget::openEnlistForcesDialog(
-        const eEnlistAction& a,
-        const stdsptr<eWorldCity>& exclude,
+        const eEnlistedForces& enlistable,
+        const std::vector<bool>& heroesAbroad,
+        const eEnlistAction& action,
         const std::vector<eResourceType>& plunderResources) {
-    auto f = mBoard->getEnlistableForces();
-    eVectorHelpers::remove(f.fAllies, exclude);
 
 //    {
 //        f.fHeroes.push_back(eHeroType::achilles);
@@ -246,17 +261,8 @@ void eWorldWidget::openEnlistForcesDialog(
 //    }
 
     const auto d = new eEnlistForcesDialog(window());
-    std::vector<bool> heroesAbroad;
-    for(const auto h : f.fHeroes) {
-        const auto hh = mBoard->heroHall(h);
-        const bool abroad = !hh ? true : hh->heroOnQuest();
-        heroesAbroad.push_back(abroad);
-    }
-    d->initialize(f, heroesAbroad, a, plunderResources);
-    addWidget(d);
-    d->align(eAlignment::vcenter);
-    d->setX(mWMW->x() + (mWMW->width() - d->width())/2);
-    window()->execDialog(d);
+    d->initialize(enlistable, heroesAbroad, action, plunderResources);
+    openDialog(d);
 }
 
 bool eWorldWidget::keyPressEvent(const eKeyPressEvent& e) {

@@ -17,6 +17,7 @@ public:
     using eLabel::eLabel;
 
     void initialize(const eAction& openRequest,
+                    const eAction& openFulfill,
                     const eAction& openGift,
                     const eAction& openRaid,
                     const eAction& openConquer,

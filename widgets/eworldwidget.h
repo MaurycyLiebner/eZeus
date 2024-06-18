@@ -20,15 +20,24 @@ public:
     void setWorldBoard(eWorldBoard* const board);
 
     void update();
-protected:
-    bool keyPressEvent(const eKeyPressEvent& e);
-private:
+
     using eEnlistAction = eEnlistForcesDialog::eEnlistAction;
     void openEnlistForcesDialog(
             const eEnlistAction& a,
-            const stdsptr<eWorldCity>& exclude,
+            const std::vector<stdsptr<eWorldCity>>& exclude,
             const std::vector<eResourceType>& plunderResources = {});
+    void openEnlistForcesDialog(
+            const eEnlistedForces& enlistable,
+            const std::vector<bool>& heroesAbroad,
+            const eEnlistAction& action,
+            const std::vector<eResourceType>& plunderResources = {});
+
+    void openDialog(eWidget* const d);
+protected:
+    bool keyPressEvent(const eKeyPressEvent& e);
+private:
     void openRequestDialog();
+    void openFulfillDialog();
     void openGiftDialog();
     void setMap(const eWorldMap map);
 

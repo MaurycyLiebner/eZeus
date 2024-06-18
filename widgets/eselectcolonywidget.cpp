@@ -10,7 +10,7 @@ void eSelectColonyWidget::initialize(const eColonySelection& sel,
                                      const eCitySelected& s,
                                      eWorldBoard* const board) {
     const auto menu = new eWorldMenu(window());
-    menu->initialize(nullptr, nullptr, nullptr, nullptr, false);
+    menu->initialize(nullptr, nullptr, nullptr, nullptr, nullptr, false);
 
     const auto res = resolution();
     const double mult = res.multiplier();

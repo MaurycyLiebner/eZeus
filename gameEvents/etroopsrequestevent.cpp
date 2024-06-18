@@ -173,8 +173,9 @@ void eTroopsRequestEvent::trigger() {
 void eTroopsRequestEvent::dispatch(const eAction& close) {
     const auto board = gameBoard();
     if(!board) return;
-    board->requestForces([this, board, close](const eEnlistedForces& f,
-                                      const eResourceType) {
+    board->requestForces([this, board, close](
+                         const eEnlistedForces& f,
+                         const eResourceType) {
         board->enlistForces(f);
         board->removeCityTroopsRequest(mainEvent<eTroopsRequestEvent>());
         const auto e = e::make_shared<eTroopsRequestFulfilledEvent>(

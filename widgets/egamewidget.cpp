@@ -53,6 +53,7 @@
 
 #include "widgets/eenlistforcesdialog.h"
 #include "widgets/eepisodeintroductionwidget.h"
+#include "widgets/eworldwidget.h"
 #include "engine/ecampaign.h"
 #include "audio/emusic.h"
 
@@ -128,12 +129,16 @@ void eGameWidget::setBoard(eGameBoard* const board) {
                                    const std::vector<bool>& heroesAbroad,
                                    const eEnlistAction& action,
                                    const std::vector<eResourceType>& plunderResources) {
+        const auto w = window();
+        const auto cw = w->currentWidget();
+        const auto ww = w->worldWidget();
         const auto d = new eEnlistForcesDialog(window());
         d->initialize(enlistable, heroesAbroad, action, plunderResources);
-        addWidget(d);
-        d->align(eAlignment::vcenter);
-        d->setX(x() + (width() - d->width() - mGm->width())/2);
-        window()->execDialog(d);
+        if(cw == ww) {
+            ww->openDialog(d);
+        } else {
+            openDialog(d);
+        }
     });
 
     mBoard->updateMusic();

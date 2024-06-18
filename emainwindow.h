@@ -63,6 +63,9 @@ public:
                   const eGameWidgetSettings& settings);
     void showWorld();
 
+    eWidget* currentWidget() const { return mWidget; }
+    eWorldWidget* worldWidget() const { return mWW; }
+
     const eSettings& settings() const { return mSettings; }
 
     void execDialog(eWidget* const d,

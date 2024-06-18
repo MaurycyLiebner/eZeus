@@ -500,6 +500,7 @@ SOURCES += \
         widgets/eframedbuttonwithicon.cpp \
         widgets/eframedlabel.cpp \
         widgets/eframedwidget.cpp \
+        widgets/efulfilldialog.cpp \
         widgets/egameloadingwidget.cpp \
         widgets/egamemainmenu.cpp \
         widgets/egamemenu.cpp \
@@ -525,6 +526,7 @@ SOURCES += \
         widgets/emainmenubase.cpp \
         widgets/emenuloadingwidget.cpp \
         widgets/emessagebox.cpp \
+        widgets/emessagewidget.cpp \
         widgets/emicrobutton.cpp \
         widgets/emilitarymoreinfowidget.cpp \
         widgets/eminimap.cpp \
@@ -2391,6 +2393,7 @@ HEADERS += \
     widgets/eframedbuttonwithicon.h \
     widgets/eframedlabel.h \
     widgets/eframedwidget.h \
+    widgets/efulfilldialog.h \
     widgets/egameloadingwidget.h \
     widgets/egamemainmenu.h \
     widgets/egamemenu.h \
@@ -2412,6 +2415,7 @@ HEADERS += \
     widgets/emainmenubase.h \
     widgets/emenuloadingwidget.h \
     widgets/emessagebox.h \
+    widgets/emessagewidget.h \
     widgets/emicrobutton.h \
     widgets/emilitarymoreinfowidget.h \
     widgets/eminimap.h \

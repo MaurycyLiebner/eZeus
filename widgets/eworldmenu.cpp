@@ -12,6 +12,7 @@
 #include "elanguage.h"
 
 void eWorldMenu::initialize(const eAction& openRequest,
+                            const eAction& openFulfill,
                             const eAction& openGift,
                             const eAction& openRaid,
                             const eAction& openConquer,
@@ -84,6 +85,11 @@ void eWorldMenu::initialize(const eAction& openRequest,
 
         mFulfillButton->setX(xwfb);
         mFulfillButton->setY(ywfb);
+        mFulfillButton->setPressAction([this, openFulfill]() {
+            const bool editor = mBoard && mBoard->editorMode();
+            if(editor) return;
+            if(openFulfill) openFulfill();
+        });
 
         mGiftButton->setX(xwgb);
         mGiftButton->setY(ywgb);
