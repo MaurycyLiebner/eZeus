@@ -265,6 +265,8 @@ eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
 
     fSeeButton(renderer),
 
+    fSpawner(renderer),
+
     fSmallUpButton(renderer),
     fSmallDownButton(renderer),
 
@@ -942,6 +944,8 @@ void eInterfaceTextures::load() {
         fPoseidonAtalanta = loader.load(1, 55);
         fPoseidonBellerophon = loader.load(1, 56);
 
+        fDeerPoint = loader.load(1, 57);
+
         for(int i = 63; i < 66; i++) {
             loader.load(1, i, fPoseidonPlayerArmy);
         }
@@ -1138,8 +1142,6 @@ void eInterfaceTextures::load() {
         eSpriteLoader loader(fTileH, "interfaceSprites", sds,
                              nullptr, fRenderer);
 
-        fSpawner = loader.load(1, 26);
-
         for(int i = 1; i < 4; i++) {
             loader.load(1, i, fColumn1);
         }
@@ -1155,6 +1157,20 @@ void eInterfaceTextures::load() {
         for(int i = 13; i < 16; i++) {
             loader.load(1, i, fColumn5);
         }
+
+        for(int i = 20; i < 28; i++) {
+            loader.load(1, i, fSpawner);
+        }
+        fLandInvasionPoint = loader.load(1, 29);
+        fEntryPoint = loader.load(1, 30);
+        fExitPoint = loader.load(1, 31);
+        fRiverEntryPoint = loader.load(1, 32);
+        fRiverExitPoint = loader.load(1, 33);
+        fFishPoint = loader.load(1, 34);
+        fUrchinPoint = loader.load(1, 35);
+        fWolfPoint = loader.load(1, 36);
+        fBoarPoint = loader.load(1, 37);
+        fMonsterPoint = loader.load(1, 38);
     }
 
     {

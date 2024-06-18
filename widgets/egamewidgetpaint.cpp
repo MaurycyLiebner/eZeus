@@ -902,7 +902,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                         if(pg.fX == tx && pg.fY == ty) {
                             const bool invalid = !eVectorHelpers::contains(mPatrolPath, tile) &&
                                                  !eVectorHelpers::contains(mPatrolPath1, tile);
-                            const auto& tex = intrTexs.fSpawner;
+                            const auto& coll = intrTexs.fSpawner;
+                            const int texId = mFrame % coll.size();
+                            const auto& tex = coll.getTexture(texId);
                             if(invalid) tex->setColorMod(255, 125, 125);
                             //const auto& coll = builTexs.fPatrolGuides;
                             //const auto tex = coll.getTexture(14);
@@ -924,10 +926,39 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto drawSpawner = [&]() {
             const auto b = tile->banner();
             if(mTem->visible() && b) {
-                tp.drawTexture(rx, ry - 1, intrTexs.fSpawner,
+                const auto& coll = intrTexs.fSpawner;
+                const int texId = mFrame % coll.size();
+                const auto& tex = coll.getTexture(texId);
+                tp.drawTexture(rx, ry - 1, tex,
                                eAlignment::hcenter | eAlignment::top);
                 const int id = b->id();
                 drawNumber(id);
+
+                std::shared_ptr<eTexture> topTex;
+                switch(b->type()) {
+                case eBannerTypeS::boar:
+                    topTex = intrTexs.fBoarPoint;
+                    break;
+                case eBannerTypeS::deer:
+                    topTex = intrTexs.fDeerPoint;
+                    break;
+                case eBannerTypeS::landInvasion:
+                    topTex = intrTexs.fLandInvasionPoint;
+                    break;
+                case eBannerTypeS::entryPoint:
+                    topTex = intrTexs.fEntryPoint;
+                    break;
+                case eBannerTypeS::exitPoint:
+                    topTex = intrTexs.fExitPoint;
+                    break;
+                case eBannerTypeS::monsterPoint:
+                    topTex = intrTexs.fMonsterPoint;
+                    break;
+                }
+                if(topTex) {
+                    tp.drawTexture(rx - 2.5, ry - 3.5, topTex,
+                                   eAlignment::hcenter | eAlignment::top);
+                }
             }
         };
 

@@ -367,9 +367,9 @@ bool eGameWidget::buildMouseRelease() {
             };
         } else if(mode == eTerrainEditMode::boar) {
             apply = [this, modeId](eTile* const tile) {
-                const auto os = tile->banner();
-                if(os) delete os;
-                new eBoarSpawner(modeId, tile, *mBoard);
+                const auto b = std::make_shared<eBoarSpawner>(
+                                   modeId, tile, *mBoard);
+                tile->setBanner(b);
             };
         } else if(mode == eTerrainEditMode::fish) {
             apply = [](eTile* const tile) {
@@ -381,9 +381,9 @@ bool eGameWidget::buildMouseRelease() {
             };
         } else if(mode == eTerrainEditMode::deer) {
             apply = [this, modeId](eTile* const tile) {
-                const auto os = tile->banner();
-                if(os) delete os;
-                new eDeerSpawner(modeId, tile, *mBoard);
+                const auto b = std::make_shared<eDeerSpawner>(
+                                   modeId, tile, *mBoard);
+                tile->setBanner(b);
             };
         } else if(mode == eTerrainEditMode::fire) {
             apply = [](eTile* const tile) {
