@@ -103,41 +103,43 @@ void eEpisodeIntroductionWidget::initialize(
         l->align(eAlignment::vcenter);
         goalsInner->addWidget(w);
 
-        bool addStatusText = true;
-        if(g->fType == eEpisodeGoalType::setAsideGoods) {
-            const auto res = static_cast<eResourceType>(g->fEnumInt1);
-            const int has = board->resourceCount(res);
-            if(!g->met() && has >= g->fRequiredCount) {
-                const auto setAside = new eFramedButton(window());
-                setAside->setUnderline(false);
-                setAside->setRenderBg(true);
-                setAside->setTinyPadding();
-                setAside->setSmallFontSize();
-                setAside->setText(eLanguage::zeusText(194, 61));
-                setAside->fitContent();
-                setAside->setWidth(2*setAside->width());
-                w->addWidget(setAside);
-                setAside->align(eAlignment::vcenter | eAlignment::right);
-                setAside->setPressAction([board, res, g, setAside,
-                                          checkBox, ctexs]() {
-                    board->takeResource(res, g->fRequiredCount);
-                    g->fStatusCount = g->fRequiredCount;
-                    setAside->hide();
-                    checkBox->setTexture(ctexs.getTexture(0));
-                });
-                addStatusText = false;
+        if(type == eEpisodeIntroType::goals) {
+            bool addStatusText = true;
+            if(g->fType == eEpisodeGoalType::setAsideGoods) {
+                const auto res = static_cast<eResourceType>(g->fEnumInt1);
+                const int has = board->resourceCount(res);
+                if(!g->met() && has >= g->fRequiredCount) {
+                    const auto setAside = new eFramedButton(window());
+                    setAside->setUnderline(false);
+                    setAside->setRenderBg(true);
+                    setAside->setTinyPadding();
+                    setAside->setSmallFontSize();
+                    setAside->setText(eLanguage::zeusText(194, 61));
+                    setAside->fitContent();
+                    setAside->setWidth(2*setAside->width());
+                    w->addWidget(setAside);
+                    setAside->align(eAlignment::vcenter | eAlignment::right);
+                    setAside->setPressAction([board, res, g, setAside,
+                                              checkBox, ctexs]() {
+                        board->takeResource(res, g->fRequiredCount);
+                        g->fStatusCount = g->fRequiredCount;
+                        setAside->hide();
+                        checkBox->setTexture(ctexs.getTexture(0));
+                    });
+                    addStatusText = false;
+                }
             }
-        }
-        if(addStatusText) {
-            const auto st = g->statusText();
-            if(!st.empty()) {
-                const auto stl = new eLabel(window());
-                stl->setSmallFontSize();
-                stl->setTinyPadding();
-                stl->setText(st);
-                stl->fitContent();
-                w->addWidget(stl);
-                stl->align(eAlignment::vcenter | eAlignment::right);
+            if(addStatusText) {
+                const auto st = g->statusText();
+                if(!st.empty()) {
+                    const auto stl = new eLabel(window());
+                    stl->setSmallFontSize();
+                    stl->setTinyPadding();
+                    stl->setText(st);
+                    stl->fitContent();
+                    w->addWidget(stl);
+                    stl->align(eAlignment::vcenter | eAlignment::right);
+                }
             }
         }
     }
