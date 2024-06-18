@@ -1034,6 +1034,7 @@ HEADERS += \
     offsets/zeus_minotaur.h \
     offsets/zeus_odysseus.h \
     offsets/zeus_perseus.h \
+    offsets/zeus_satyr.h \
     offsets/zeus_scylla.h \
     offsets/zeus_talos.h \
     offsets/zeus_theseus.h \
@@ -2018,6 +2019,10 @@ HEADERS += \
     spriteData/sanctuaryOverlay30.h \
     spriteData/sanctuaryOverlay45.h \
     spriteData/sanctuaryOverlay60.h \
+    spriteData/satyr15.h \
+    spriteData/satyr30.h \
+    spriteData/satyr45.h \
+    spriteData/satyr60.h \
     spriteData/scholar15.h \
     spriteData/scholar30.h \
     spriteData/scholar45.h \
@@ -2739,6 +2744,7 @@ DISTFILES += \
     textureTemplates/rockThrower \
     textureTemplates/sanctuaryFire \
     textureTemplates/sanctuaryOverlay \
+    textureTemplates/satyr \
     textureTemplates/scholar \
     textureTemplates/sculptureStudio \
     textureTemplates/scylla \

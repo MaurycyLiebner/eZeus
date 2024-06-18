@@ -705,6 +705,13 @@ void eGameTextures::loadTalos() {
     });
 }
 
+void eGameTextures::loadSatyr() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadSatyr();
+    });
+}
+
 void eGameTextures::loadAchilles() {
     loadTexture([](const int i) {
         auto& c = sCharacterTextures[i];

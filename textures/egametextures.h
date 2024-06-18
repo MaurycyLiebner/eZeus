@@ -130,6 +130,7 @@ public:
     static void loadScylla();
     static void loadSphinx();
     static void loadTalos();
+    static void loadSatyr();
 
     static void loadAchilles();
     static void loadAtalanta();

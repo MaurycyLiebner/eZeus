@@ -422,6 +422,9 @@ public:
     bool fElephantLoaded = false;
     void loadElephant();
 
+    bool fSatyrLoaded = false;
+    void loadSatyr();
+
     void loadBanners();
     bool fBannersLoaded = false;
 
@@ -598,6 +601,8 @@ public:
     eWaterMonsterTextures fScylla;
     eMonsterTextures fSphinx;
     eMonsterTextures fTalos;
+
+    eMonsterTextures fSatyr;
 
     eHeroTextures fAchilles;
     eHeroTextures fAtalanta;

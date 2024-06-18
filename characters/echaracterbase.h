@@ -151,6 +151,7 @@ enum class eCharacterType {
     scylla, // apollo, odysseus
     sphinx, // hera, atalanta
     talos, // hephaestus, jason
+    satyr,
 
     achilles, // hector, maenads
     atalanta, // harpies, sphinx

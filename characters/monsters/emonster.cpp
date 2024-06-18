@@ -38,6 +38,7 @@ eMonsterType eMonster::sCharacterToMonsterType(const eCharacterType type,
     case eCharacterType::scylla: return eMonsterType::scylla;
     case eCharacterType::sphinx: return eMonsterType::sphinx;
     case eCharacterType::talos: return eMonsterType::talos;
+    case eCharacterType::satyr: return eMonsterType::satyr;
     default:
         if(valid) *valid = false;
         return eMonsterType::calydonianBoar;
@@ -62,6 +63,7 @@ eCharacterType eMonster::sMonsterToCharacterType(const eMonsterType type) {
     case eMonsterType::scylla: return eCharacterType::scylla;
     case eMonsterType::sphinx: return eCharacterType::sphinx;
     case eMonsterType::talos: return eCharacterType::talos;
+    case eMonsterType::satyr: return eCharacterType::satyr;
     default: return eCharacterType::calydonianBoar;
     }
 }
@@ -105,6 +107,8 @@ stdsptr<eMonster> eMonster::sCreateMonster(const eMonsterType type, eGameBoard& 
         return e::make_shared<eSphinx>(board);
     case eMonsterType::talos:
         return e::make_shared<eTalos>(board);
+    case eMonsterType::satyr:
+        return e::make_shared<eSatyr>(board);
     }
     return nullptr;
 }
@@ -127,6 +131,7 @@ eGodType eMonster::sMonsterSender(const eMonsterType type, bool* const valid) {
     case eMonsterType::scylla: return eGodType::apollo;
     case eMonsterType::sphinx: return eGodType::hera;
     case eMonsterType::talos: return eGodType::hephaestus;
+    case eMonsterType::satyr: return eGodType::dionysus;
 
     case eMonsterType::echidna:
     case eMonsterType::harpies:
@@ -230,6 +235,9 @@ std::string eMonster::sMonsterName(const eMonsterType type) {
         break;
     case eMonsterType::talos:
         string = 8;
+        break;
+    case eMonsterType::satyr:
+        string = 17;
         break;
     }
     return eLanguage::zeusText(group, string);

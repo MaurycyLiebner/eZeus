@@ -97,3 +97,10 @@ eTalos::eTalos(eGameBoard& board) :
                   eMonsterType::talos) {
     eGameTextures::loadTalos();
 }
+
+eSatyr::eSatyr(eGameBoard& board) :
+    eBasicMonster(board, &eCharacterTextures::fSatyr,
+                  eMonsterType::satyr) {
+    eGameTextures::loadSatyr();
+}
+

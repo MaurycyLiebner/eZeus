@@ -10,6 +10,7 @@
 #include "offsets/zeus_scylla.h"
 #include "offsets/Poseidon_Sphinx.h"
 #include "offsets/zeus_talos.h"
+#include "offsets/zeus_satyr.h"
 
 #include "spriteData/hydra15.h"
 #include "spriteData/hydra30.h"
@@ -50,6 +51,11 @@
 #include "spriteData/talos30.h"
 #include "spriteData/talos45.h"
 #include "spriteData/talos60.h"
+
+#include "spriteData/satyr15.h"
+#include "spriteData/satyr30.h"
+#include "spriteData/satyr45.h"
+#include "spriteData/satyr60.h"
 
 void eCharacterTextures::loadHydra() {
     if(fHydraLoaded) return;
@@ -189,4 +195,21 @@ void eCharacterTextures::loadTalos() {
     loader.loadSkipFlipped(1, 145, 273, fTalos.fDie);
     loader.loadSkipFlipped(1, 273, 393, fTalos.fFight);
     loader.loadSkipFlipped(1, 393, 545, fTalos.fFight2);
+}
+
+void eCharacterTextures::loadSatyr() {
+    if(fSatyrLoaded) return;
+    const auto& sds = spriteData(fTileH,
+                                 eSatyrSpriteData15,
+                                 eSatyrSpriteData30,
+                                 eSatyrSpriteData45,
+                                 eSatyrSpriteData60);
+    fSatyrLoaded = true;
+    eSpriteLoader loader(fTileH, "satyr", sds,
+                         &eZeus_satyrOffset, fRenderer);
+
+    loader.loadSkipFlipped(1, 1, 129, fSatyr.fWalk);
+    loader.loadSkipFlipped(1, 129, 289, fSatyr.fDie);
+    loader.loadSkipFlipped(1, 289, 417, fSatyr.fFight);
+    loader.loadSkipFlipped(1, 417, 561, fSatyr.fFight2);
 }

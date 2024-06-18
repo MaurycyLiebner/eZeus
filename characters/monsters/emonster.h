@@ -22,7 +22,8 @@ enum class eMonsterType {
     minotaur, // hermes, theseus
     scylla, // apollo, odysseus
     sphinx, // hera, atalanta
-    talos // hephaestus, jason
+    talos, // hephaestus, jason
+    satyr
 };
 
 class eMonster : public eCharacter {

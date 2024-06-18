@@ -84,4 +84,9 @@ public:
     eTalos(eGameBoard& board);
 };
 
+class eSatyr : public eBasicMonster {
+public:
+    eSatyr(eGameBoard& board);
+};
+
 #endif // ECALYDONIANBOAR_H
