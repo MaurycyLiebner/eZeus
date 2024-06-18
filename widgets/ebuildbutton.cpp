@@ -13,7 +13,7 @@ void eBuildButton::initialize(const std::string& name,
     const int width = 190*mult;
 
     setWidth(width);
-    setHeight(8*mult);
+    setHeight(10*mult);
 
     const auto& coll = intrfc[iRes];
 

@@ -2,8 +2,10 @@
 
 #include "textures/egametextures.h"
 #include "eactionlistwidget.h"
+#include "engine/egameboard.h"
+#include "spawners/ebanner.h"
 
-void eTerrainEditMenu::initialize() {
+void eTerrainEditMenu::initialize(eGameBoard* const board) {
     eGameMenuBase::initialize();
 
     int iRes;
@@ -17,42 +19,43 @@ void eTerrainEditMenu::initialize() {
     setPadding(0);
     fitContent();
 
+    const int spacing = 2*mult;
+
     const auto w0 = new eWidget(window());
     const auto w1 = new eWidget(window());
 
     const auto w2 = new eActionListWidget(window());
-    w2->setSmallFontSize();
     w2->addAction("Forest", [this]() {
         mMode = eTerrainEditMode::forest;
     });
     w2->addAction("Chopped Forest", [this]() {
         mMode = eTerrainEditMode::choppedForest;
     });
+    w2->stackVertically(spacing);
     w2->fitContent();
 
     const auto w3 = new eActionListWidget(window());
-    w3->setSmallFontSize();
     w3->addAction("Water", [this]() {
         mMode = eTerrainEditMode::water;
     });
     w3->addAction("Beach", [this]() {
         mMode = eTerrainEditMode::beach;
     });
+    w3->stackVertically(spacing);
     w3->fitContent();
 
     const auto w4 = new eWidget(window());
     const auto w5 = new eActionListWidget(window());
-    w5->setSmallFontSize();
     w5->addAction("Fish", [this]() {
         mMode = eTerrainEditMode::fish;
     });
     w5->addAction("Urchin", [this]() {
         mMode = eTerrainEditMode::urchin;
     });
+    w5->stackVertically(spacing);
     w5->fitContent();
 
     const auto w6 = new eActionListWidget(window());
-    w6->setSmallFontSize();
     w6->addAction("Flat Rock", [this]() {
         mMode = eTerrainEditMode::flatStones;
     });
@@ -68,12 +71,12 @@ void eTerrainEditMenu::initialize() {
     w6->addAction("Silver Ore", [this]() {
         mMode = eTerrainEditMode::silver;
     });
+    w6->stackVertically(spacing);
     w6->fitContent();
 
     const auto w7 = new eWidget(window());
 
     const auto w8 = new eActionListWidget(window());
-    w8->setSmallFontSize();
     w8->addAction("Raise", [this]() {
         mMode = eTerrainEditMode::raise;
     });
@@ -89,64 +92,83 @@ void eTerrainEditMenu::initialize() {
     w8->addAction("Make Walkable", [this]() {
         mMode = eTerrainEditMode::makeWalkable;
     });
+    w8->stackVertically(spacing);
     w8->fitContent();
 
     const auto w9 = new eActionListWidget(window());
-    w9->setSmallFontSize();
     w9->addAction("Fire", [this]() {
         mMode = eTerrainEditMode::fire;
     });
     w9->addAction("Ruins", [this]() {
         mMode = eTerrainEditMode::ruins;
     });
+    w9->stackVertically(spacing);
     w9->fitContent();
 
     const auto w10 = new eWidget(window());
 
 
     const auto w11 = new eActionListWidget(window());
-    w11->setSmallFontSize();
     for(int i = 0; i < 8; i++) {
-        w11->addAction("Land Invasion " + std::to_string(i), [this, i]() {
+        w11->addAction("Land inv pt " + std::to_string(i + 1), [this, i]() {
             mMode = eTerrainEditMode::landInvasion;
             mModeId = i;
+        }, [board, i]() {
+            const auto b = board->banner(eBannerTypeS::landInvasion, i);
+            return b != nullptr;
         });
     }
     for(int i = 0; i < 3; i++) {
-        w11->addAction("Monster Point " + std::to_string(i), [this, i]() {
+        w11->addAction("Monster Point " + std::to_string(i + 1), [this, i]() {
             mMode = eTerrainEditMode::monsterPoint;
             mModeId = i;
+        }, [board, i]() {
+            const auto b = board->banner(eBannerTypeS::monsterPoint, i);
+            return b != nullptr;
         });
     }
+    w11->stackVertically(spacing);
     w11->fitContent();
 
     const auto w12 = new eActionListWidget(window());
-    w12->setSmallFontSize();
     w12->addAction("Entry Point", [this]() {
         mMode = eTerrainEditMode::entryPoint;
         mModeId = 0;
+    }, [board]() {
+        const auto b = board->banner(eBannerTypeS::entryPoint);
+        return b != nullptr;
     });
     w12->addAction("Exit Point", [this]() {
         mMode = eTerrainEditMode::exitPoint;
         mModeId = 0;
+    }, [board]() {
+        const auto b = board->banner(eBannerTypeS::exitPoint);
+        return b != nullptr;
     });
+    w12->stackVertically(spacing);
     w12->fitContent();
 
 
     const auto w13 = new eActionListWidget(window());
-    w13->setSmallFontSize();
     for(int i = 0; i < 3; i++) {
-        w13->addAction("Boar " + std::to_string(i), [this, i]() {
+        w13->addAction("Boar spawn " + std::to_string(i + 1), [this, i]() {
             mMode = eTerrainEditMode::boar;
             mModeId = i;
+        }, [board, i]() {
+            const auto b = board->banner(eBannerTypeS::boar, i);
+            return b != nullptr;
         });
     }
     for(int i = 0; i < 3; i++) {
-        w13->addAction("Deer " + std::to_string(i), [this, i]() {
+        w13->addAction("Deer spawn " + std::to_string(i + 1), [this, i]() {
             mMode = eTerrainEditMode::deer;
             mModeId = i;
+        }, [board, i]() {
+            const auto b = board->banner(eBannerTypeS::deer, i);
+            return b != nullptr;
         });
     }
+    w13->stackVertically(spacing);
     w13->fitContent();
 
     mWidgets.push_back(w0);
@@ -166,7 +188,7 @@ void eTerrainEditMenu::initialize() {
 
     for(const auto w : mWidgets) {
         addWidget(w);
-        w->move(21*mult, 10*mult);
+        w->move(24*mult, 10*mult);
         w->setWidth(width() - w->x());
         w->hide();
     }

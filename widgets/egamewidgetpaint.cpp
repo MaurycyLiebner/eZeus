@@ -932,7 +932,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 tp.drawTexture(rx, ry - 1, tex,
                                eAlignment::hcenter | eAlignment::top);
                 const int id = b->id();
-                drawNumber(id);
+                drawNumber(id + 1);
 
                 std::shared_ptr<eTexture> topTex;
                 switch(b->type()) {

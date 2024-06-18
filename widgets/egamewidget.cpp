@@ -225,7 +225,7 @@ void eGameWidget::initialize() {
     mTopBar->align(eAlignment::top);
 
     mTem = new eTerrainEditMenu(window());
-    mTem->initialize();
+    mTem->initialize(mBoard);
     addWidget(mTem);
     mTem->align(eAlignment::right | eAlignment::top);
     mTem->hide();

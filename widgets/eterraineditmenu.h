@@ -47,7 +47,7 @@ class eTerrainEditMenu : public eGameMenuBase {
 public:
     using eGameMenuBase::eGameMenuBase;
 
-    void initialize();
+    void initialize(eGameBoard* const board);
 
     eTerrainEditMode mode() const;
     int modeId() const { return mModeId; }
