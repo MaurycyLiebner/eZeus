@@ -14,6 +14,7 @@
 #include "spawners/edeerspawner.h"
 #include "spawners/eentrypoint.h"
 #include "spawners/eexitpoint.h"
+#include "spawners/emonsterpoint.h"
 #include "spawners/elandinvasionpoint.h"
 
 #include "ebuildingstoerase.h"
@@ -408,6 +409,12 @@ bool eGameWidget::buildMouseRelease() {
         } else if(mode == eTerrainEditMode::landInvasion) {
             apply = [this, modeId](eTile* const tile) {
                 const auto b = std::make_shared<eLandInvasionPoint>(
+                                   modeId, tile, *mBoard);
+                tile->setBanner(b);
+            };
+        } else if(mode == eTerrainEditMode::monsterPoint) {
+            apply = [this, modeId](eTile* const tile) {
+                const auto b = std::make_shared<eMonsterPoint>(
                                    modeId, tile, *mBoard);
                 tile->setBanner(b);
             };

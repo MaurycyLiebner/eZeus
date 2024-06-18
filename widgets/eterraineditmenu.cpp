@@ -112,6 +112,12 @@ void eTerrainEditMenu::initialize() {
             mModeId = i;
         });
     }
+    for(int i = 0; i < 3; i++) {
+        w11->addAction("Monster Point " + std::to_string(i), [this, i]() {
+            mMode = eTerrainEditMode::monsterPoint;
+            mModeId = i;
+        });
+    }
     w11->fitContent();
 
     const auto w12 = new eActionListWidget(window());

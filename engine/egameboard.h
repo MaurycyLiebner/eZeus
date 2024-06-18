@@ -56,6 +56,7 @@ class eThreadPool;
 
 class eSoldier;
 class eInvasionHandler;
+class eMonsterPoint;
 class ePlayerConquestEventBase;
 class eArmyEventBase;
 class eTroopsRequestEvent;
@@ -357,6 +358,10 @@ public:
     eSoldierBanner* soldierBannerWithIOID(const int id) const;
     eGameEvent* eventWithIOID(const int id) const;
 
+    eTile* monsterTile(const int id) const;
+    void addMonsterPoint(eMonsterPoint* const p);
+    void removeMonsterPoint(const int id);
+
     eTile* landInvasionTile(const int id) const;
     void addLandInvasionPoint(eLandInvasionPoint* const p);
     void removeLandInvasionPoint(const int id);
@@ -601,6 +606,7 @@ private:
 
     std::vector<eInvasionHandler*> mInvasionHandlers;
 
+    std::map<int, eMonsterPoint*> mMonsterPoints;
     std::map<int, eLandInvasionPoint*> mLandInvasion;
 
     std::vector<ePlannedAction*> mPlannedActions;

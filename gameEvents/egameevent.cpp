@@ -119,6 +119,7 @@ void eGameEvent::setupStartDate(const eDate& currentDate) {
     for(const auto& w : mWarnings) {
         w.second->setStartDate(mStartDate - w.first);
     }
+    mNextDate = mStartDate;
 }
 
 void eGameEvent::initializeDate(const eDate& startDate,

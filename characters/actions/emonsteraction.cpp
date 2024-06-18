@@ -31,8 +31,10 @@ bool eMonsterAction::decide() {
     switch(mStage) {
     case eMonsterAttackStage::none:
         mStage = eMonsterAttackStage::wait;
-        randomPlaceOnBoard();
-        if(!c->tile()) c->kill();
+        if(!c->tile()) {
+            randomPlaceOnBoard();
+            if(!c->tile()) c->kill();
+        }
         break;
     case eMonsterAttackStage::wait: {
         mStage = eMonsterAttackStage::goTo;

@@ -11,7 +11,8 @@ enum class eBannerTypeS {
     deer,
     landInvasion,
     entryPoint,
-    exitPoint
+    exitPoint,
+    monsterPoint
 };
 
 class eBanner {

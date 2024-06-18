@@ -32,6 +32,7 @@
 
 #include "emessages.h"
 
+#include "spawners/emonsterpoint.h"
 #include "spawners/elandinvasionpoint.h"
 
 #include "buildings/eheatgetters.h"
@@ -587,6 +588,25 @@ eGameEvent* eGameBoard::eventWithIOID(const int id) const {
         if(eio == id) return e;
     }
     return nullptr;
+}
+
+eTile* eGameBoard::monsterTile(const int id) const {
+    const auto it = mMonsterPoints.find(id);
+    if(it == mMonsterPoints.end()) return nullptr;
+    return it->second->tile();
+}
+
+void eGameBoard::addMonsterPoint(eMonsterPoint* const p) {
+    const int id = p->id();
+    const auto it = mMonsterPoints.find(id);
+    if(it != mMonsterPoints.end()) {
+        delete it->second;
+    }
+    mMonsterPoints[id] = p;
+}
+
+void eGameBoard::removeMonsterPoint(const int id) {
+    mMonsterPoints.erase(id);
 }
 
 eTile* eGameBoard::landInvasionTile(const int id) const {
