@@ -215,6 +215,11 @@ void eSoldierBanner::callSoldiers() {
     }
 }
 
+bool eSoldierBanner::isGoingHome() const {
+    if(!mHome) return false;
+    return !mSoldiers.empty();
+}
+
 void eSoldierBanner::addSoldier(eSoldier* const s) {
     mSoldiers.push_back(s);
     updatePlaces();
@@ -262,6 +267,15 @@ bool eSoldierBanner::stationary() const {
         if(at != eCharacterActionType::stand) return false;
     }
     return true;
+}
+
+bool eSoldierBanner::fighting() const {
+    for(const auto s : mSoldiers) {
+        const auto at = s->actionType();
+        if(at == eCharacterActionType::fight ||
+           at == eCharacterActionType::fight2) return true;
+    }
+    return false;
 }
 
 void eSoldierBanner::read(eReadStream& src) {

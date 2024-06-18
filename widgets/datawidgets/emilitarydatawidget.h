@@ -32,6 +32,7 @@ public:
     void initialize();
 protected:
     void paintEvent(ePainter& p);
+    void openMoreInfoWiget();
 private:
     void updateWidgets();
 

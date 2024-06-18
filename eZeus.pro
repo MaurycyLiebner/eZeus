@@ -526,6 +526,7 @@ SOURCES += \
         widgets/emenuloadingwidget.cpp \
         widgets/emessagebox.cpp \
         widgets/emicrobutton.cpp \
+        widgets/emilitarymoreinfowidget.cpp \
         widgets/eminimap.cpp \
         widgets/emonsterbutton.cpp \
         widgets/emonsterselectionwidget.cpp \
@@ -2412,6 +2413,7 @@ HEADERS += \
     widgets/emenuloadingwidget.h \
     widgets/emessagebox.h \
     widgets/emicrobutton.h \
+    widgets/emilitarymoreinfowidget.h \
     widgets/eminimap.h \
     widgets/emonsterbutton.h \
     widgets/emonsterselectionwidget.h \

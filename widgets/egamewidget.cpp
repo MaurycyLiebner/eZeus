@@ -1715,6 +1715,7 @@ void eGameWidget::updateViewBoxSize() {
 void eGameWidget::openDialog(eWidget* const d) {
     addWidget(d);
     d->align(eAlignment::vcenter);
+    d->setY(d->y() + mTopBar->height());
     d->setX(x() + (width() - d->width() - mGm->width())/2);
     window()->execDialog(d);
 }

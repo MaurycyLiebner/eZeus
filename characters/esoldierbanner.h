@@ -45,6 +45,7 @@ public:
     void callSoldiers();
 
     bool isHome() const { return mHome; }
+    bool isGoingHome() const;
     bool isAbroad() const { return mAbroad; }
 
     void addSoldier(eSoldier* const s);
@@ -67,6 +68,7 @@ public:
     void decCount();
 
     bool stationary() const;
+    bool fighting() const;
 
     const std::string& name() const { return mName; }
     void setName(const std::string& n) { mName = n; }

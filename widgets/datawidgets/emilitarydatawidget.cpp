@@ -7,6 +7,7 @@
 #include "evectorhelpers.h"
 #include "widgets/emicrobutton.h"
 #include "widgets/ebasicbutton.h"
+#include "widgets/emilitarymoreinfowidget.h"
 
 void eForcesWidget::initialize(const std::string& title) {
     setNoPadding();
@@ -241,6 +242,8 @@ void eMilitaryDataWidget::initialize() {
     buttonsW->fitHeight();
     inner->addWidget(buttonsW);
     buttonsW->align(eAlignment::bottom);
+
+    showMoreInfoButton();
 }
 
 void eMilitaryDataWidget::paintEvent(ePainter& p) {
@@ -249,6 +252,13 @@ void eMilitaryDataWidget::paintEvent(ePainter& p) {
         updateWidgets();
     }
     eWidget::paintEvent(p);
+}
+
+void eMilitaryDataWidget::openMoreInfoWiget() {
+    const auto w = new eMilitaryMoreInfoWidget(window());
+    w->initialize(mBoard);
+    const auto gw = gameWidget();
+    gw->openDialog(w);
 }
 
 void eMilitaryDataWidget::updateWidgets() {

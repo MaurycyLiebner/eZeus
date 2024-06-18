@@ -38,14 +38,15 @@ void eDataWidget::initialize() {
     mInnerWidget->move(pp, pp);
 
     const auto coll = &eInterfaceTextures::fMoreInfo;
-    const auto moreInfo = new eBasicButton(coll, window());
-    frame->addWidget(moreInfo);
-    moreInfo->align(eAlignment::right | eAlignment::bottom);
-    moreInfo->move(moreInfo->x() - pp, moreInfo->y() - pp);
-    moreInfo->setPressAction([this]() {
+    mMoreInfo = new eBasicButton(coll, window());
+    frame->addWidget(mMoreInfo);
+    mMoreInfo->align(eAlignment::right | eAlignment::bottom);
+    mMoreInfo->move(mMoreInfo->x() - pp, mMoreInfo->y() - pp);
+    mMoreInfo->setPressAction([this]() {
         openMoreInfoWiget();
     });
-    moreInfo->setTooltip(eLanguage::zeusText(51, 79));
+    mMoreInfo->setTooltip(eLanguage::zeusText(51, 79));
+    mMoreInfo->hide();
 
     stackVertically();
     setNoPadding();
@@ -67,6 +68,10 @@ int eDataWidget::spacing() const {
     const auto res = resolution();
     const double m = res.multiplier();
     return 3*m;
+}
+
+void eDataWidget::showMoreInfoButton() {
+    mMoreInfo->show();
 }
 
 int eDataWidget::sCoverageToText(const int c) {

@@ -6,6 +6,7 @@
 class eViewModeButton;
 class eGameWidget;
 class eGameBoard;
+class eBasicButton;
 
 class eDataWidget : public eWidget {
 public:
@@ -21,12 +22,14 @@ protected:
     eWidget* innerWidget() const { return mInnerWidget; }
     eGameWidget* gameWidget() const { return mGW; }
     int spacing() const;
+    void showMoreInfoButton();
 
     static int sCoverageToText(const int c);
 
     eGameBoard& mBoard;
 private:
     eGameWidget* mGW = nullptr;
+    eBasicButton* mMoreInfo = nullptr;
     eWidget* mInnerWidget = nullptr;
     std::vector<eViewModeButton*> mButtons;
 };

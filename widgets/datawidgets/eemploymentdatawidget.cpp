@@ -218,6 +218,8 @@ void eEmploymentDataWidget::initialize() {
     }
 
     setWageRate(mBoard.wageRate());
+
+    showMoreInfoButton();
 }
 
 void eEmploymentDataWidget::paintEvent(ePainter& p) {
