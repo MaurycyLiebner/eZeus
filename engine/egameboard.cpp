@@ -1775,11 +1775,11 @@ void eGameBoard::incTime(const int by) {
 //                     eResourceType::fleece, 16);
 //    }
 
-    for(const auto& p : mPlagues) {
-        const int r = rand() % 5000;
-        const bool spread = r/by == 0;
-        if(spread) p->randomSpread();
-    }
+//    for(const auto& p : mPlagues) {
+//        const int r = rand() % 5000;
+//        const bool spread = r/by == 0;
+//        if(spread) p->randomSpread();
+//    }
 
     mSoldiersUpdate += by;
     const int sup = 1000;
