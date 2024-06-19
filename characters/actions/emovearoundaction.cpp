@@ -55,7 +55,10 @@ eCharacterActionState eMoveAroundAction::nextTurn(eOrientation& turn) {
                                  eOrientation::topLeft,
                                  eOrientation::top};
     std::random_shuffle(os.begin(), os.end());
-    const auto t = character()->tile();
+    const auto c = character();
+    const bool keepO = (rand() % (mMaxDist/2)) != 0;
+    if(keepO) os.insert(os.begin(), c->orientation());
+    const auto t = c->tile();
     if(!t) return eCharacterActionState::failed;
     const int tx = t->x() - mStartTX;
     const int ty = t->y() - mStartTY;
