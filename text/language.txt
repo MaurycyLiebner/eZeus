@@ -12,6 +12,8 @@ width "Width"
 height "Height"
 return "Return"
 add_city "Add city"
+water_trade "Water trade"
+land_trade "Land trade"
 
 none "None"
 

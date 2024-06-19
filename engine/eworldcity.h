@@ -218,6 +218,8 @@ public:
     void setWaterTrade(const bool w) { mWaterTrade = w; }
     bool waterTrade() const { return mWaterTrade; }
 
+    bool trades() const;
+
     void setAbroad(const bool a) { mAbroad = a; }
     bool abroad() const { return mAbroad; }
 

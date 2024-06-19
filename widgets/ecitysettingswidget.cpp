@@ -471,5 +471,25 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
     buttonsW->addWidget(tributeButton);
     tributeButton->align(eAlignment::hcenter);
 
+    const auto waterTradeButton = new eFramedButton(window());
+    waterTradeButton->setUnderline(false);
+    if(c->waterTrade()) {
+        waterTradeButton->setText(eLanguage::text("water_trade"));
+    } else {
+        waterTradeButton->setText(eLanguage::text("land_trade"));
+    }
+    waterTradeButton->fitContent();
+    waterTradeButton->setPressAction([c, waterTradeButton]() {
+        const bool wt = !c->waterTrade();
+        c->setWaterTrade(wt);
+        if(wt) {
+            waterTradeButton->setText(eLanguage::text("water_trade"));
+        } else {
+            waterTradeButton->setText(eLanguage::text("land_trade"));
+        }
+    });
+    buttonsW->addWidget(waterTradeButton);
+    waterTradeButton->align(eAlignment::hcenter);
+
     buttonsW->layoutVertically(true);
 }

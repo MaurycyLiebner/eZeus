@@ -108,7 +108,7 @@ void eTradePost::timeChanged(const int by) {
     mRouteTimer += by;
     if(mRouteTimer > rt) {
         mRouteTimer -= rt;
-        spawnTrader();
+        if(mCity.trades()) spawnTrader();
     }
     eWarehouseBase::timeChanged(by);
 }
@@ -200,6 +200,7 @@ void eTradePost::spawnTrader() {
 }
 
 int eTradePost::buy(const int cash) {
+    if(!mCity.trades()) return 0;
     int spent = 0;
     for(auto& b : mCity.buys()) {
         const auto expt = mExports & b.fType;
@@ -219,6 +220,7 @@ int eTradePost::buy(const int cash) {
 }
 
 int eTradePost::sell(const int items) {
+    if(!mCity.trades()) return 0;
     int earned = 0;
     for(auto& b : mCity.sells()) {
         const auto impt = mImports & b.fType;
