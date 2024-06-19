@@ -1259,6 +1259,10 @@ bool eGameWidget::inPatrolBuildingHover(eBuilding* const b) {
         const SDL_Point hover{mHoverTX, mHoverTY};
         const bool hovered = SDL_PointInRect(&hover, &r);
         return hovered;
+    } else if(const auto as = dynamic_cast<eAgoraSpace*>(b)) {
+        return inPatrolBuildingHover(as->agora());
+    } else if(const auto v = dynamic_cast<eVendor*>(b)) {
+        return inPatrolBuildingHover(v->agora());
     }
     return false;
 }
