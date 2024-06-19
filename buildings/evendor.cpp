@@ -67,10 +67,10 @@ std::vector<eOverlay> eVendor::getOverlays(const eTileSize size) const {
 }
 
 void eVendor::erase() {
+    deleteLater();
     const auto a = agora();
     a->setBuilding(this, nullptr);
     a->fillSpaces();
-    deleteLater();
 }
 
 int eVendor::add(const eResourceType type, const int count) {
