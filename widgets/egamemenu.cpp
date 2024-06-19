@@ -28,6 +28,7 @@
 
 #include "ebuildwidget.h"
 #include "ebasicbutton.h"
+#include "erotatebutton.h"
 
 struct eSubButtonData {
     eBuildingMode fMode;
@@ -893,11 +894,14 @@ void eGameMenu::initialize(eGameBoard* const b,
         const auto butts = new eWidget(window());
         butts->setPadding(0);
         const auto goals = new eBasicButton(&eInterfaceTextures::fGoals, window());
+        goals->setTooltip(eLanguage::zeusText(68, 9));
         butts->addWidget(goals);
         goals->setPressAction(goalsView);
-        const auto rotate = eCheckableButton::sCreate(coll.fRotation, window(), butts);
+        mRotateButton = new eRotateButton(window());
+        butts->addWidget(mRotateButton);
         mWorldButton = eButton::sCreate(coll.fWorld, window(), butts);
-        const int w = goals->width() + rotate->width() + mWorldButton->width() + 5;
+        mWorldButton->setTooltip(eLanguage::zeusText(68, 17));
+        const int w = goals->width() + mRotateButton->width() + mWorldButton->width() + 5;
         butts->resize(w, mWorldButton->height());
         butts->layoutHorizontally();
         butts->setX(mult*5);
@@ -934,6 +938,10 @@ void eGameMenu::setGameWidget(eGameWidget* const gw) {
 
     mWorldButton->setPressAction([this]() {
         window()->showWorld();
+    });
+
+    mRotateButton->setDirectionSetter([gw](const eWorldDirection dir) {
+        gw->setWorldDirection(dir);
     });
 }
 

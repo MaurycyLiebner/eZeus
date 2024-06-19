@@ -29,6 +29,7 @@ class eBuildWidget;
 class eFramedLabel;
 enum class eEvent;
 struct eEventData;
+class eRotateButton;
 
 struct eSubButtonData;
 
@@ -106,6 +107,7 @@ private:
     eMilitaryDataWidget* mMiltDataW = nullptr;
     eOverviewDataWidget* mOverDataW = nullptr;
 
+    eRotateButton* mRotateButton = nullptr;
     eButton* mWorldButton = nullptr;
 
     eMiniMap* mMiniMap = nullptr;

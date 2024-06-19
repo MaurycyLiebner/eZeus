@@ -1721,6 +1721,11 @@ void eGameWidget::updateViewBoxSize() {
     mma->setViewBoxSize(fx, fy);
 }
 
+void eGameWidget::setWorldDirection(const eWorldDirection dir) {
+    if(!mBoard) return;
+    mBoard->setWorldDirection(dir);
+}
+
 void eGameWidget::openDialog(eWidget* const d) {
     addWidget(d);
     d->align(eAlignment::vcenter);

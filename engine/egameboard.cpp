@@ -158,6 +158,10 @@ void eGameBoard::clear() {
     mHeight = 0;
 }
 
+void eGameBoard::setWorldDirection(const eWorldDirection dir) {
+
+}
+
 void eGameBoard::iterateOverAllTiles(const eTileAction& a) {
     for(int y = 0; y < mHeight; y++) {
         for(int x = 0; x < mWidth; x++) {

@@ -79,6 +79,13 @@ enum class eGames {
     olympian
 };
 
+enum class eWorldDirection {
+    N,
+    E,
+    S,
+    W
+};
+
 class eGameBoard : public eStdSelfRef {
 public:
     eGameBoard();
@@ -87,6 +94,8 @@ public:
     void initialize(const int w, const int h);
     void resize(const int w, const int h);
     void clear();
+
+    void setWorldDirection(const eWorldDirection dir);
 
     eTile* tile(const int x, const int y) const;
     eTile* dtile(const int x, const int y) const;
@@ -516,6 +525,7 @@ private:
     bool mEditorMode = false;
     bool mPoseidonMode = true;
     eWorldBoard* mWorldBoard = nullptr;
+    eWorldDirection mDirection{eWorldDirection::N};
 
     bool mUpdateTerrain = true;
 

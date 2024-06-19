@@ -545,6 +545,7 @@ SOURCES += \
         widgets/erequestdialog.cpp \
         widgets/eresolution.cpp \
         widgets/eresourcebutton.cpp \
+        widgets/erotatebutton.cpp \
         widgets/escrollbar.cpp \
         widgets/escrollbuttonslist.cpp \
         widgets/escrollwidget.cpp \
@@ -2439,6 +2440,7 @@ HEADERS += \
     widgets/erequestdialog.h \
     widgets/eresolution.h \
     widgets/eresourcebutton.h \
+    widgets/erotatebutton.h \
     widgets/escrollbar.h \
     widgets/escrollbuttonslist.h \
     widgets/escrollwidget.h \

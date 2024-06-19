@@ -38,6 +38,7 @@ enum class eAgoraOrientation;
 enum class eGodType;
 enum class eHeroType;
 enum class eGodQuestId;
+enum class eWorldDirection;
 
 using eBuildingCreator = std::function<stdsptr<eBuilding>()>;
 
@@ -102,6 +103,8 @@ public:
                       const eAction& action);
 
     void updateViewBoxSize();
+
+    void setWorldDirection(const eWorldDirection dir);
 
     void openDialog(eWidget* const d);
 protected:
