@@ -6,14 +6,17 @@
 #include "walkable/ewalkableobject.h"
 
 eFollowAction::eFollowAction(eCharacter* const f,
-                             eCharacter* const c) :
-    eComplexAction(c, eCharActionType::followAction),
+                             eCharacter* const c,
+                             const eCharActionType type) :
+    eComplexAction(c, type),
     mFollow(f) {
-    if(f) {
-        c->setSpeed(f->speed());
-    }
+    if(f) c->setSpeed(f->speed());
     c->setActionType(eCharacterActionType::stand);
 }
+
+eFollowAction::eFollowAction(eCharacter* const f,
+                             eCharacter* const c) :
+    eFollowAction(f, c, eCharActionType::followAction) {}
 
 eFollowAction::eFollowAction(eCharacter* const c) :
     eFollowAction(nullptr, c) {}
@@ -53,8 +56,9 @@ void eFollowAction::write(eWriteStream& dst) const {
 
 void eFollowAction::increment(const int by) {
     const auto ft = mFollow ? mFollow->tile() : nullptr;
+    const bool dead = mFollow ? mFollow->dead() : false;
     const auto c = character();
-    if(!ft) {
+    if(!ft || dead) {
         const auto ca = currentAction();
         if(ca) return eComplexAction::increment(by);
         if(mTiles.empty()) {
@@ -77,7 +81,11 @@ void eFollowAction::increment(const int by) {
     if(!mTiles.empty()) {
         auto& b = mTiles.back();
         if(ft == b.fTile) {
-            b.fO = mFollow->orientation();
+            const auto at = mFollow->actionType();
+            if(at == eCharacterActionType::walk ||
+               at == eCharacterActionType::carry) {
+                b.fO = mFollow->orientation();
+            }
             eComplexAction::increment(by);
             return;
         }

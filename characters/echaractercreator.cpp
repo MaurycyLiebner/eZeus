@@ -268,6 +268,8 @@ stdsptr<eCharacter> eCharacter::sCreate(
         return e::make_shared<eSphinx>(board);
     case eCharacterType::talos:
         return e::make_shared<eTalos>(board);
+    case eCharacterType::satyr:
+        return e::make_shared<eSatyr>(board);
 
     case eCharacterType::aphrodite:
         return e::make_shared<eAphrodite>(board);

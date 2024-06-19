@@ -12,6 +12,10 @@
 class eTile;
 
 class eFollowAction : public eComplexAction {
+protected:
+    eFollowAction(eCharacter* const f,
+                  eCharacter* const c,
+                  const eCharActionType type);
 public:
     eFollowAction(eCharacter* const f,
                   eCharacter* const c);

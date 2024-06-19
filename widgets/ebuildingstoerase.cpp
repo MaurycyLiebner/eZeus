@@ -81,19 +81,6 @@ void eBuildingsToErase::addBuilding(eBuilding* const b) {
 
 void eBuildingsToErase::erase(eBuilding* const b) {
     switch(b->type()) {
-    case eBuildingType::foodVendor:
-    case eBuildingType::fleeceVendor:
-    case eBuildingType::oilVendor:
-    case eBuildingType::armsVendor:
-    case eBuildingType::wineVendor:
-    case eBuildingType::horseTrainer:
-    case eBuildingType::chariotVendor: {
-        const auto v = static_cast<eVendor*>(b);
-        v->deleteLater();
-        const auto a = v->agora();
-        a->setBuilding(v, nullptr);
-        a->fillSpaces();
-    } break;
     case eBuildingType::eliteHousing:
     case eBuildingType::commonHouse: {
         const auto hb = static_cast<eHouseBase*>(b);

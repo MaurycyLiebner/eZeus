@@ -1973,7 +1973,14 @@ void eBuilding::collapse() {
     const auto tp = type();
     const bool noRuins = tp == eBuildingType::oliveTree ||
                          tp == eBuildingType::vine ||
-                         tp == eBuildingType::orangeTree;
+                         tp == eBuildingType::orangeTree ||
+                         tp == eBuildingType::foodVendor ||
+                         tp == eBuildingType::fleeceVendor ||
+                         tp == eBuildingType::oilVendor ||
+                         tp == eBuildingType::wineVendor ||
+                         tp == eBuildingType::armsVendor ||
+                         tp == eBuildingType::horseTrainer ||
+                         tp == eBuildingType::chariotVendor;
     const bool onFire = mOnFire;
     setOnFire(false);
     erase();
