@@ -2,6 +2,8 @@
 
 #include "buildings/ebuilding.h"
 #include "engine/egameboard.h"
+#include "edionysusfollowaction.h"
+#include "characters/monsters/ecalydonianboar.h"
 
 eGodAttackAction::eGodAttackAction(eCharacter* const c) :
     eGodAction(c, eCharActionType::godAttackAction) {}
@@ -143,6 +145,7 @@ bool eGodAttackAction::decide() {
         break;
     case eGodAttackStage::appear:
         mStage = eGodAttackStage::goTo1;
+        initialize();
         goToTarget();
         break;
     case eGodAttackStage::goTo1: {
@@ -182,4 +185,26 @@ void eGodAttackAction::write(eWriteStream& dst) const {
     dst << mLookForCurse;
     dst << mLookForAttack;
     dst << mLookForGod;
+}
+
+void eGodAttackAction::initialize() {
+    auto& board = this->board();
+    const auto c = character();
+    const auto tile = c->tile();
+    if(!tile) return;
+    const auto type = this->type();
+    if(type == eGodType::dionysus) {
+        eCharacter* f = c;
+        eDionysusFollowAction* fa = nullptr;
+        for(int i = 0; i < 3; i++) {
+            const auto s = e::make_shared<eSatyr>(board);
+            s->changeTile(tile);
+            const auto a = e::make_shared<eDionysusFollowAction>(
+                               f, s.get());
+            s->setAction(a);
+            f = s.get();
+            if(fa) fa->setFollower(s.get());
+            fa = a.get();
+        }
+    }
 }

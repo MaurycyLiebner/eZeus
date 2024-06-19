@@ -21,6 +21,7 @@ public:
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:
+    void initialize();
 
     bool lookForAttack(const int dtime, int& time,
                        const int freq, const int range);

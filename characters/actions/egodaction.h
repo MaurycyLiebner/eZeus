@@ -226,8 +226,13 @@ public:
     void act() {
         if(!mCptr) return;
         if(mBTarget) {
-            mBTarget->collapse();
-            eSounds::playCollapseSound();
+            const auto type = mCptr->type();
+            if(type == eCharacterType::hephaestus) {
+                mBTarget->setOnFire(true);
+            } else {
+                mBTarget->collapse();
+                eSounds::playCollapseSound();
+            }
         } else if(mCTarget) {
             mCTarget->killWithCorpse();
         }

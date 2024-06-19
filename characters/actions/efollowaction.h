@@ -23,9 +23,9 @@ public:
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
-private:
+protected:
     void increment(const int by) override;
-
+private:
     stdptr<eCharacter> mFollow;
 
     struct ePathNode {

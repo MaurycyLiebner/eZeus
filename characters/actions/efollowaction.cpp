@@ -9,6 +9,9 @@ eFollowAction::eFollowAction(eCharacter* const f,
                              eCharacter* const c) :
     eComplexAction(c, eCharActionType::followAction),
     mFollow(f) {
+    if(f) {
+        c->setSpeed(f->speed());
+    }
     c->setActionType(eCharacterActionType::stand);
 }
 
@@ -23,6 +26,8 @@ void eFollowAction::read(eReadStream& src) {
     eComplexAction::read(src);
     src.readCharacter(&board(), [this](eCharacter* const c) {
         mFollow = c;
+        const auto cc = character();
+        cc->setSpeed(c->speed());
     });
     src >> mDistance;
     int s;

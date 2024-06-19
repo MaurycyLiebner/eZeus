@@ -145,6 +145,7 @@ SOURCES += \
         characters/actions/ecomplexaction.cpp \
         characters/actions/edefendcityaction.cpp \
         characters/actions/edieaction.cpp \
+        characters/actions/edionysusfollowaction.cpp \
         characters/actions/efightaction.cpp \
         characters/actions/efirefighteraction.cpp \
         characters/actions/efollowaction.cpp \
@@ -719,6 +720,7 @@ HEADERS += \
     characters/actions/ecomplexaction.h \
     characters/actions/edefendcityaction.h \
     characters/actions/edieaction.h \
+    characters/actions/edionysusfollowaction.h \
     characters/actions/efightaction.h \
     characters/actions/efirefighteraction.h \
     characters/actions/efollowaction.h \

@@ -156,26 +156,31 @@ class eChar_killWithCorpseFinish : public eCharActFunc {
 public:
     eChar_killWithCorpseFinish(eGameBoard& board) :
         eCharActFunc(board, eCharActFuncType::Char_killWithCorpseFinish) {}
-    eChar_killWithCorpseFinish(eGameBoard& board, eCharacter* const t) :
+    eChar_killWithCorpseFinish(eGameBoard& board, eCharacter* const t,
+                               const bool withCorpse = false) :
         eCharActFunc(board, eCharActFuncType::Char_killWithCorpseFinish),
-        mTptr(t) {}
+        mWithCorpse(withCorpse), mTptr(t) {}
 
     void call() override {
         if(!mTptr) return;
         const auto t = mTptr.get();
-        t->kill();
+        if(mWithCorpse) t->killWithCorpse();
+        else t->kill();
     }
 
     void read(eReadStream& src) override {
+        src >> mWithCorpse;
         src.readCharacter(&board(), [this](eCharacter* const c) {
             mTptr = c;
         });
     }
 
     void write(eWriteStream& dst) const override {
+        dst << mWithCorpse;
         dst.writeCharacter(mTptr);
     }
 private:
+    bool mWithCorpse;
     stdptr<eCharacter> mTptr;
 };
 
