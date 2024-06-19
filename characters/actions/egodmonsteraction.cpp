@@ -1,4 +1,4 @@
-#include "egodmonsteraction.h"
+﻿#include "egodmonsteraction.h"
 
 #include "ewaitaction.h"
 #include "emovearoundaction.h"
@@ -427,9 +427,10 @@ void eGMA_spawnMissileFinish::call() {
                     brd, tx, ty, h,
                     ttx, tty, h, 0);
 
-        m->setTexture(mChart, mAt);
-
-        m->setFinishAction(mHitAct);
+        if(m) {
+            m->setTexture(mChart, mAt);
+            m->setFinishAction(mHitAct);
+        }
 
         if(mFinishAttackA) mFinishAttackA->call();
     }

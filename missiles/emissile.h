@@ -170,10 +170,11 @@ stdsptr<T> eMissile::sCreate(eGameBoard& brd,
                              const double h1,
                              const double dh) {
     std::vector<ePathPoint> path;
-    const auto t = brd.tile(tx0, ty1);
+    const auto t = brd.tile(tx0, ty0);
     if(!t) return nullptr;
     const double ca = t->altitude() + h0;
     const auto tt = brd.tile(tx1, ty1);
+    if(!tt) return nullptr;
     const double cca = tt->altitude() + h1;
     path.push_back(ePathPoint{(double)tx0, (double)ty0, ca});
     path.push_back(ePathPoint{0.75*tx0 + 0.25*tx1,
