@@ -3,7 +3,7 @@
 void eBuildWidget::initialize(const std::vector<eBuildButton*>& ws) {
     if(ws.empty()) return;
     const int dim = ws[0]->height();
-    const int margin = dim/2;
+    const int margin = dim/4;
 
     int y = 0;
     for(const auto w : ws) {
