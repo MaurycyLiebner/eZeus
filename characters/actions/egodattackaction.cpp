@@ -5,6 +5,7 @@
 #include "edionysusfollowaction.h"
 #include "characters/monsters/ecalydonianboar.h"
 #include "characters/actions/ewaitaction.h"
+#include "buildings/epalace.h"
 
 eGodAttackAction::eGodAttackAction(eCharacter* const c) :
     eGodAction(c, eCharActionType::godAttackAction) {}
@@ -231,6 +232,18 @@ void eGodAttackAction::initialize() {
             f = s.get();
             if(fa) fa->setFollower(s.get());
             fa = a.get();
+        }
+    } else if(type == eGodType::hades) {
+        const auto p = board.palace();
+        if(p) p->setBlessed(-1.);
+        const auto& chars = board.characters();
+        for(const auto c : chars) {
+            const auto cType = c->type();
+            const bool r = eDionysusFollowAction::sShouldFollow(cType);
+            if(!r) continue;
+            const auto ccaa = c->actionType();
+            if(ccaa == eCharacterActionType::die) continue;
+            c->killWithCorpse();
         }
     }
 }

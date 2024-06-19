@@ -96,6 +96,8 @@ public:
 
     void registerCharacter(eCharacter* const c);
     bool unregisterCharacter(eCharacter* const c);
+    const std::vector<eCharacter*>& characters() const
+    { return mCharacters; }
 
     void registerCharacterAction(eCharacterAction* const ca);
     bool unregisterCharacterAction(eCharacterAction* const ca);
