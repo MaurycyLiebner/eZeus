@@ -187,6 +187,8 @@ bool eSectorHelpers::sBuildingSector(const eBuildingType type,
     case eBuildingType::warehouse:
     case eBuildingType::tradePost:
     case eBuildingType::pier:
+    case eBuildingType::commonAgora:
+    case eBuildingType::grandAgora:
     case eBuildingType::foodVendor:
     case eBuildingType::fleeceVendor:
     case eBuildingType::oilVendor:

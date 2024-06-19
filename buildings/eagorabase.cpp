@@ -54,6 +54,7 @@ void eAgoraBase::erase() {
 
 void eAgoraBase::read(eReadStream& src) {
     ePatrolBuildingBase::read(src);
+    setMaxEmployees(0);
     fillSpaces();
 }
 
