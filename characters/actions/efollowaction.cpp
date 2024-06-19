@@ -54,6 +54,21 @@ void eFollowAction::write(eWriteStream& dst) const {
     }
 }
 
+eOrientation sOrientation(eTile* const from,
+                          eTile* const to) {
+    const int dx = to->x() - from->x();
+    const int dy = to->y() - from->y();
+    if(dx < 0 && dy < 0) return eOrientation::top;
+    else if(dx > 0 && dy > 0) return eOrientation::bottom;
+    else if(dx > 0 && dy < 0) return eOrientation::right;
+    else if(dx < 0 && dy > 0) return eOrientation::left;
+    else if(dy < 0) return eOrientation::topRight;
+    else if(dx > 0) return eOrientation::bottomRight;
+    else if(dy > 0) return eOrientation::bottomLeft;
+    else if(dx < 0) return eOrientation::topLeft;
+    return eOrientation::topLeft;
+}
+
 void eFollowAction::increment(const int by) {
     const auto ft = mFollow ? mFollow->tile() : nullptr;
     const bool dead = mFollow ? mFollow->dead() : false;
@@ -89,6 +104,7 @@ void eFollowAction::increment(const int by) {
             eComplexAction::increment(by);
             return;
         }
+        b.fO = sOrientation(b.fTile, ft);
     }
     mTiles.push_back({ft, mFollow->orientation()});
     const int nt = mTiles.size();
