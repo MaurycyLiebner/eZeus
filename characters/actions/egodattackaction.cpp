@@ -4,6 +4,7 @@
 #include "engine/egameboard.h"
 #include "edionysusfollowaction.h"
 #include "characters/monsters/ecalydonianboar.h"
+#include "characters/actions/ewaitaction.h"
 
 eGodAttackAction::eGodAttackAction(eCharacter* const c) :
     eGodAction(c, eCharActionType::godAttackAction) {}
@@ -19,6 +20,31 @@ void eGodAttackAction::increment(const int by) {
         bool r = lookForBlessCurse(by, mLookForCurse, lookForCurseCheck, 10, -1);
         if(!r) r = lookForAttack(by, mLookForAttack, lookForAttackCheck, 10);
         if(!r) lookForGodAttack(by, mLookForGod, lookForGodCheck, 10);
+    }
+
+    const auto type = this->type();
+    if(type == eGodType::atlas) {
+        auto& board = this->board();
+        const auto tile = c->tile();
+        if(tile) {
+            const auto& chars = tile->characters();
+            for(const auto& cc : chars) {
+                if(cc.get() == c) continue;
+                const auto cType = cc->type();
+                const bool r = eDionysusFollowAction::sShouldFollow(cType);
+                if(!r) continue;
+                const auto ccaa = cc->actionType();
+                if(ccaa == eCharacterActionType::die) continue;
+                const auto wa = e::make_shared<eWaitAction>(cc.get());
+                wa->setTime(20000);
+                cc->setActionType(eCharacterActionType::stand);
+                cc->setAction(wa);
+                const auto killA = std::make_shared<eChar_killWithCorpseFinish>(
+                                       board, cc.get(), true);
+                wa->setFinishAction(killA);
+                wa->setFailAction(killA);
+            }
+        }
     }
 
     eGodAction::increment(by);

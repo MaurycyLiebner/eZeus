@@ -13,10 +13,11 @@ public:
 
     void setFollower(eCharacter* const f);
 
+    static bool sShouldFollow(const eCharacterType c);
+
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:
-    static bool sShouldFollow(const eCharacterType c);
 
     void increment(const int by) override;
 
