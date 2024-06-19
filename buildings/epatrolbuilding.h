@@ -32,12 +32,16 @@ public:
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
     std::vector<eOverlay> getOverlays(const eTileSize size) const;
+protected:
+    void setOverlaySpeed(const double s);
 private:
     const eBaseTex mBaseTex;
     const eOverlays mOverlays;
 
     const double mOverlayX;
     const double mOverlayY;
+
+    double mOverlaySpeed = 1.;
 };
 
 #endif // EPATROLBUILDING_H

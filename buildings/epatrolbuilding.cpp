@@ -48,10 +48,15 @@ std::vector<eOverlay> ePatrolBuilding::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings();
     const auto& coll = blds[sizeId].*mOverlays;
-    const int texId = textureTime() % coll.size();
+    const int frame = std::round(mOverlaySpeed * textureTime());
+    const int texId = frame % coll.size();
     eOverlay o;
     o.fTex = coll.getTexture(texId);
     o.fX = mOverlayX;
     o.fY = mOverlayY;
     return std::vector<eOverlay>({o});
+}
+
+void ePatrolBuilding::setOverlaySpeed(const double s) {
+    mOverlaySpeed = s;
 }

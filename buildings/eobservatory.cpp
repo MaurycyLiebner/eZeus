@@ -11,4 +11,5 @@ eObservatory::eObservatory(eGameBoard& board) :
                   [this]() { return e::make_shared<eAstronomer>(getBoard()); },
                   eBuildingType::observatory, 5, 5, 18) {
     eGameTextures::loadObservatory();
+    setOverlaySpeed(0.25);
 }
