@@ -39,3 +39,83 @@ eTile* eTileHelper::closestRoad(const int rdx, const int rdy,
     const auto tile = roadTile ? roadTile : plainTile;
     return tile;
 }
+
+void eTileHelper::rotatedDTileIdToDTileId(const int rdtx, const int rdty,
+                                          int& dtx, int& dty,
+                                          const eWorldDirection dir,
+                                          const int width, const int height) {
+    if(dir == eWorldDirection::N) {
+        dtx = rdtx;
+        dty = rdty;
+    } else if(dir == eWorldDirection::E) {
+        dtx = width - rdty/2 - 1;
+        dty = 2*rdtx;
+    } else if(dir == eWorldDirection::S) {
+        dtx = width - rdtx - 1;
+        dty = height - rdty - 1;
+    } else { // if(dir == eWorldDirection::W) {
+        dtx = rdty/2;
+        dty = height - rdtx - 1;
+    }
+}
+
+void eTileHelper::dTileIdToRotatedDTileId(const int dtx, const int dty,
+                                          int& rdtx, int& rdty,
+                                          const eWorldDirection dir,
+                                          const int width, const int height) {
+    if(dir == eWorldDirection::N) {
+        rdtx = dtx;
+        rdty = dty;
+    } else if(dir == eWorldDirection::E) {
+        rdtx = dty/2;
+        rdty = 2*(width - dtx - 1);
+    } else if(dir == eWorldDirection::S) {
+        rdtx = width - dtx - 1;
+        rdty = height - dty - 1;
+    } else { // if(dir == eWorldDirection::W) {
+        rdtx = height - dty - 1;
+        rdty = 2*dtx;
+    }
+}
+
+void eTileHelper::tileIdToRotatedTileId(const int tx, const int ty,
+                                        int& rtx, int& rty,
+                                        const eWorldDirection dir,
+                                        const int width, const int height) {
+    int dtx;
+    int dty;
+    tileIdToDTileId(tx, ty, dtx, dty);
+    int rdtx;
+    int rdty;
+    dTileIdToRotatedDTileId(dtx, dty, rdtx, rdty, dir, width, height);
+    dtileIdToTileId(rdtx, rdty, rtx, rty);
+}
+
+SDL_Rect eTileHelper::toRotatedRect(const SDL_Rect& r, const eWorldDirection dir,
+                                    const int width, const int height) {
+    if(dir == eWorldDirection::N) {
+        return r;
+    } else if(dir == eWorldDirection::E) {
+        const int tx = r.x + r.w - 1;
+        const int ty = r.y;
+        int rtx;
+        int rty;
+        tileIdToRotatedTileId(tx, ty, rtx, rty, dir, width, height);
+        return SDL_Rect{rtx, rty, r.h, r.w};
+    } else if(dir == eWorldDirection::S) {
+        const int tx = r.x + r.w - 1;
+        const int ty = r.y + r.h - 1;
+        int rtx;
+        int rty;
+        tileIdToRotatedTileId(tx, ty, rtx, rty, dir, width, height);
+        return SDL_Rect{rtx, rty, r.w, r.h};
+    } else if(dir == eWorldDirection::W) {
+        const int tx = r.x;
+        const int ty = r.y + r.h - 1;
+        int rtx;
+        int rty;
+        tileIdToRotatedTileId(tx, ty, rtx, rty, dir, width, height);
+        return SDL_Rect{rtx, rty, r.h, r.w};
+    }
+    return r;
+}

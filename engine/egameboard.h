@@ -79,13 +79,6 @@ enum class eGames {
     olympian
 };
 
-enum class eWorldDirection {
-    N,
-    E,
-    S,
-    W
-};
-
 class eGameBoard : public eStdSelfRef {
 public:
     eGameBoard();
@@ -96,6 +89,13 @@ public:
     void clear();
 
     void setWorldDirection(const eWorldDirection dir);
+
+    eTile* rotateddtile(const int x, const int y) const;
+
+    eWorldDirection direction() const { return mDirection; }
+
+    int rotatedWidth() const;
+    int rotatedHeight() const;
 
     eTile* tile(const int x, const int y) const;
     eTile* dtile(const int x, const int y) const;

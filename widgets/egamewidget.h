@@ -116,6 +116,11 @@ protected:
     bool mouseReleaseEvent(const eMouseEvent& e);
     bool mouseWheelEvent(const eMouseWheelEvent& e);
 private:
+    void drawXY(int tx, int ty,
+                double& rx, double& ry,
+                const int wSpan, const int hSpan,
+                const int a);
+
     void showGoals();
 
     void setDX(const int dx);

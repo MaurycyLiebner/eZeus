@@ -2,6 +2,7 @@
 #define EXMLPARSER_H
 
 #include <map>
+#include <string>
 
 using eTextGroup = std::map<int, std::string>;
 using eTextStrings = std::map<int, eTextGroup>;

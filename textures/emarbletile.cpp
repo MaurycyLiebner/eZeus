@@ -4,30 +4,31 @@ bool edge(eTile* const tile,
           bool& tl, bool& tr,
           bool& br, bool& bl,
           bool& t, bool& r,
-          bool& b, bool& l) {
+          bool& b, bool& l,
+          const eWorldDirection dir) {
     const auto terr = tile->terrain();
 
-    tile->neighboursWithTerrain(terr, tl, tr, br, bl, t, r, b, l);
-    const auto tlt = tile->topLeft();
+    tile->neighboursWithTerrain(terr, tl, tr, br, bl, t, r, b, l, dir);
+    const auto tlt = tile->topLeftRotated(dir);
     tl = tl || !tlt || !tlt->marbleLevel();
-    const auto trt = tile->topRight();
+    const auto trt = tile->topRightRotated(dir);
     tr = tr || !trt || !trt->marbleLevel();
-    const auto brt = tile->bottomRight();
+    const auto brt = tile->bottomRightRotated(dir);
     br = br || !brt || !brt->marbleLevel();
-    const auto blt = tile->bottomLeft();
+    const auto blt = tile->bottomLeftRotated(dir);
     bl = bl || !blt || !blt->marbleLevel();
-    const auto tt = tile->top();
+    const auto tt = tile->topRotated(dir);
     t = t || !tt || !tt->marbleLevel();
-    const auto rt = tile->right();
+    const auto rt = tile->rightRotated(dir);
     r = r || !rt || !rt->marbleLevel();
-    const auto bt = tile->bottom();
+    const auto bt = tile->bottomRotated(dir);
     b = b || !bt || !bt->marbleLevel();
-    const auto lt = tile->left();
+    const auto lt = tile->leftRotated(dir);
     l = l || !lt || !lt->marbleLevel();
     return tl || tr || br || bl || t || r || b || l;
 }
 
-bool edge(eTile* const tile) {
+bool edge(eTile* const tile, const eWorldDirection dir) {
     bool tl;
     bool tr;
     bool br;
@@ -36,10 +37,11 @@ bool edge(eTile* const tile) {
     bool r;
     bool b;
     bool l;
-    return edge(tile, tl, tr, br, bl, t, r, b, l);
+    return edge(tile, tl, tr, br, bl, t, r, b, l, dir);
 }
 
-bool eMarbleTile::isEdge(eTile* const tile) {
+bool eMarbleTile::isEdge(eTile* const tile,
+                         const eWorldDirection dir) {
     const auto terr = tile->terrain();
 
     bool tl;
@@ -50,7 +52,7 @@ bool eMarbleTile::isEdge(eTile* const tile) {
     bool r;
     bool b;
     bool l;
-    tile->neighboursWithTerrain(terr, tl, tr, br, bl, t, r, b, l);
+    tile->neighboursWithTerrain(terr, tl, tr, br, bl, t, r, b, l, dir);
 
     const bool edge = tl || tr || br || bl || t || r || b || l;
     return edge;
@@ -58,7 +60,8 @@ bool eMarbleTile::isEdge(eTile* const tile) {
 
 std::shared_ptr<eTexture> eMarbleTile::get(
         eTile* const tile,
-        const eTerrainTextures& textures) {
+        const eTerrainTextures& textures,
+        const eWorldDirection dir) {
     const int seed = tile->seed();
 
     const int ml = tile->marbleLevel();
@@ -77,30 +80,30 @@ std::shared_ptr<eTexture> eMarbleTile::get(
     bool r;
     bool b;
     bool l;
-    const bool e = edge(tile, tl, tr, br, bl, t, r, b, l);
+    const bool e = edge(tile, tl, tr, br, bl, t, r, b, l, dir);
 
     if(!e) {
         if(ml == 1) {
             return textures.fMarble.getTexture(seed % 6);
         }
 
-        const auto tlt = tile->topLeft<eTile>();
-        tl = !tlt || edge(tlt);
-        const auto trt = tile->topRight<eTile>();
-        tr = !trt || edge(trt);
-        const auto blt = tile->bottomLeft<eTile>();
-        bl = !blt || edge(blt);
-        const auto brt = tile->bottomRight<eTile>();
-        br = !brt || edge(brt);
+        const auto tlt = tile->topLeftRotated<eTile>(dir);
+        tl = !tlt || edge(tlt, dir);
+        const auto trt = tile->topRightRotated<eTile>(dir);
+        tr = !trt || edge(trt, dir);
+        const auto blt = tile->bottomLeftRotated<eTile>(dir);
+        bl = !blt || edge(blt, dir);
+        const auto brt = tile->bottomRightRotated<eTile>(dir);
+        br = !brt || edge(brt, dir);
 
-        const auto tt = tile->top<eTile>();
-        t = !tt || edge(tt);
-        const auto rt = tile->right<eTile>();
-        r = !rt || edge(rt);
-        const auto bt = tile->bottom<eTile>();
-        b = !bt || edge(bt);
-        const auto lt = tile->left<eTile>();
-        l = !lt || edge(lt);
+        const auto tt = tile->topRotated<eTile>(dir);
+        t = !tt || edge(tt, dir);
+        const auto rt = tile->rightRotated<eTile>(dir);
+        r = !rt || edge(rt, dir);
+        const auto bt = tile->bottomRotated<eTile>(dir);
+        b = !bt || edge(bt, dir);
+        const auto lt = tile->leftRotated<eTile>(dir);
+        l = !lt || edge(lt, dir);
     }
 
     const auto& coll = e ? textures.fMarble : textures.fDeepMarble;

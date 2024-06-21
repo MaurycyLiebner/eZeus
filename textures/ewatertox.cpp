@@ -2,12 +2,13 @@
 
 #include "esurroundingterrain.h"
 
-int eWaterToX::get(eTile* const tile, const eTerrain x) {
+int eWaterToX::get(eTile* const tile, const eTerrain x,
+                   const eWorldDirection dir) {
     const auto water = eTerrain::water;
 
     if(tile->terrain() != water) return -1;
 
-    eSurroundingTerrain tt(tile);
+    eSurroundingTerrain tt(tile, dir);
 
     int id = -1;
 

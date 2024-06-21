@@ -2,6 +2,7 @@
 #define EFERTILETODRY_H
 
 class eTile;
+enum class eWorldDirection;
 
 enum class eFertileToDryId {
     somewhere,
@@ -9,7 +10,7 @@ enum class eFertileToDryId {
 };
 
 namespace eFertileToDry {
-    eFertileToDryId get(eTile* const tile);
+    eFertileToDryId get(eTile* const tile, const eWorldDirection dir);
 };
 
 #endif // EFERTILETODRY_H

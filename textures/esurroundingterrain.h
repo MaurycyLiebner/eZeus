@@ -4,7 +4,8 @@
 #include "engine/etile.h"
 
 struct eSurroundingTerrain {
-    eSurroundingTerrain(eTile* const tile);
+    eSurroundingTerrain(eTile* const tile,
+                        const eWorldDirection dir);
 
     bool operator()(const eTerrain t,
                     const eTerrain tr,

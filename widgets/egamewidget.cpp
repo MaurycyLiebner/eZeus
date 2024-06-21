@@ -390,12 +390,12 @@ bool eGameWidget::tileVisible(eTile* const tile) const {
 }
 
 void eGameWidget::iterateOverVisibleTiles(const eTileAction& a) {
-    const int minX = std::clamp(-mDX/mTileW - 5, 0, mBoard->width());
+    const int minX = std::clamp(-mDX/mTileW - 5, 0, mBoard->rotatedWidth());
     const int visWidth = width() - mGm->width();
-    const int maxX = std::clamp(minX + visWidth/mTileW + 10, 0, mBoard->width());
+    const int maxX = std::clamp(minX + visWidth/mTileW + 10, 0, mBoard->rotatedWidth());
 
-    const int minY = std::clamp(-2*mDY/mTileH - 10, 0, mBoard->height());
-    const int maxY = std::clamp(minY + 2*height()/mTileH + 15, 0, mBoard->height());
+    const int minY = std::clamp(-2*mDY/mTileH - 10, 0, mBoard->rotatedHeight());
+    const int maxY = std::clamp(minY + 2*height()/mTileH + 15, 0, mBoard->rotatedHeight());
 
     const bool play = Mix_Playing(-1) == 0 && (rand() % 250) == 0;
     if(play) {
@@ -407,7 +407,8 @@ void eGameWidget::iterateOverVisibleTiles(const eTileAction& a) {
 
     for(int y = minY; y < maxY; y++) {
         for(int x = minX; x < maxX; x++) {
-            const auto t = mBoard->dtile(x, y);
+            const auto t = mBoard->rotateddtile(x, y);
+            if(!t) continue;
             a(t);
         }
     }

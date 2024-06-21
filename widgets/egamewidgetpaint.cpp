@@ -19,6 +19,7 @@
 #include "characters/actions/esoldieraction.h"
 
 #include "evectorhelpers.h"
+#include "etilehelper.h"
 
 bool sDontDrawAppeal(const eTerrain terr) {
     return terr == eTerrain::stones ||
@@ -49,10 +50,26 @@ void drawColumn(eTilePainter& tp, const int n,
                    eAlignment::hcenter | eAlignment::top);
 }
 
-void drawXY(const int tx, const int ty,
-            double& rx, double& ry,
-            const int wSpan, const int hSpan,
-            const int a) {
+void eGameWidget::drawXY(int tx, int ty,
+                         double& rx, double& ry,
+                         const int wSpan, const int hSpan,
+                         const int a) {
+    if(mBoard) {
+        const auto dir = mBoard->direction();
+        if(dir != eWorldDirection::N) {
+            const int width = mBoard->width();
+            const int height = mBoard->height();
+            int dtx;
+            int dty;
+            eTileHelper::tileIdToDTileId(tx, ty, dtx, dty);
+            int rdtx;
+            int rdty;
+            eTileHelper::dTileIdToRotatedDTileId(
+                    dtx, dty, rdtx, rdty, dir, width, height);
+            eTileHelper::dtileIdToTileId(rdtx, rdty, tx, ty);
+        }
+    }
+
     rx = tx + 0.5;
     ry = ty + 1.5;
 
@@ -156,7 +173,8 @@ void eGameWidget::updateTerrainTextures(eTile* const tile,
                                        painter.fFutureDim,
                                        painter.fDrawDim,
                                        &painter.fColl,
-                                       mBoard->poseidonMode());
+                                       mBoard->poseidonMode(),
+                                       mBoard->direction());
 }
 
 void eGameWidget::updateTerrainTextures() {
@@ -227,6 +245,9 @@ void eGameWidget::paintEvent(ePainter& p) {
     const auto& intrTexs = eGameTextures::interface().at(tid);
     const auto& destTexs = eGameTextures::destrution().at(tid);
     const auto& charTexs = eGameTextures::characters().at(tid);
+    const auto dir = mBoard->direction();
+    const int boardw = mBoard->width();
+    const int boardh = mBoard->height();
 
     const auto mode = mGm->mode();
 
@@ -325,6 +346,11 @@ void eGameWidget::paintEvent(ePainter& p) {
     const auto buildingDrawer = [&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
+        int rtx;
+        int rty;
+        eTileHelper::tileIdToRotatedTileId(tx, ty,
+                                           rtx, rty, dir,
+                                           boardw, boardh);
         const int a = mDrawElevation ? tile->altitude() : 0;
 
         const auto ub = tile->underBuilding();
@@ -590,14 +616,16 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto size = tp.size();
             const auto ts = ub->getTextureSpace(tx, ty, size);
             const auto tsRect = ts.fRect;
-            const int fitY = tsRect.y + tsRect.h - 1;
-            const int fitX = tsRect.x + tsRect.w - 1;
+            const auto rtsRect = eTileHelper::toRotatedRect(
+                                     tsRect, dir, boardw, boardh);
+            const int fitY = rtsRect.y + rtsRect.h - 1;
+            const int fitX = rtsRect.x + rtsRect.w - 1;
             double dx;
             double dy;
             getDisplacement(tsRect.w, tsRect.h, dx, dy);
             const double drawX = fitX + dx + 1 - a;
             const double drawY = fitY + dy + 1 - a;
-            if(ty == fitY || tx == fitX) {
+            if(rty == fitY || rtx == fitX) {
                 const auto bRender = [&](const int tx, const int ty,
                                          const bool last) {
                     SDL_Rect clipRect;
@@ -671,9 +699,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                         drawBuildingModes();
                     }
                 };
-                bRender(tx, ty, false);
-                if(tx == fitX && ty == fitY) {
-                    bRender(tx + 1, ty + 1, true);
+                bRender(rtx, rty, false);
+                if(rtx == fitX && rty == fitY) {
+                    bRender(rtx + 1, rty + 1, true);
                 }
             }
         } else if(ub) {
@@ -1036,29 +1064,27 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         };
 
-
-        const auto terrTile = mBoard->tile(tx, ty);
-        if(terrTile) {
-            const auto terrUb = terrTile->underBuilding();
-            const auto terrBt = terrTile->underBuildingType();
+        if(tile) {
+            const auto terrUb = tile->underBuilding();
+            const auto terrBt = tile->underBuildingType();
             bool flatSanct = false;
             if(terrUb) {
                 if(const auto sb = dynamic_cast<eSanctBuilding*>(terrUb)) {
                     flatSanct = sb->progress() <= 0;
                 }
             }
-            const auto terr = terrTile->terrain();
+            const auto terr = tile->terrain();
             if(!terrUb || flatSanct ||
                eBuilding::sFlatBuilding(terrBt)) {
                 if(mViewMode == eViewMode::appeal && !terrUb &&
                    !sDontDrawAppeal(terr)) {
                     const auto& am = mBoard->appealMap();
-                    const int ttdx = terrTile->dx();
-                    const int ttdy = terrTile->dy();
+                    const int ttdx = tile->dx();
+                    const int ttdy = tile->dy();
                     const auto ae = am.enabled(ttdx, ttdy);
-                    if(!ae) drawTerrain(terrTile);
+                    if(!ae) drawTerrain(tile);
                 } else {
-                    drawTerrain(terrTile);
+                    drawTerrain(tile);
                 }
             }
         }

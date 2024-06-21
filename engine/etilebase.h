@@ -13,6 +13,13 @@ class eCharacterBase;
 
 enum class eBuildingType;
 
+enum class eWorldDirection {
+    N,
+    E,
+    S,
+    W
+};
+
 class eTileBase {
 public:
     eTileBase() {}
@@ -73,6 +80,24 @@ public:
     template <typename T = eTileBase>
     T* bottom() const;
 
+    template <typename T = eTileBase>
+    T* topLeftRotated(const eWorldDirection dir) const;
+    template <typename T = eTileBase>
+    T* topRightRotated(const eWorldDirection dir) const;
+    template <typename T = eTileBase>
+    T* bottomRightRotated(const eWorldDirection dir) const;
+    template <typename T = eTileBase>
+    T* bottomLeftRotated(const eWorldDirection dir) const;
+
+    template <typename T = eTileBase>
+    T* leftRotated(const eWorldDirection dir) const;
+    template <typename T = eTileBase>
+    T* topRotated(const eWorldDirection dir) const;
+    template <typename T = eTileBase>
+    T* rightRotated(const eWorldDirection dir) const;
+    template <typename T = eTileBase>
+    T* bottomRotated(const eWorldDirection dir) const;
+
     using eTO = std::pair<eOrientation, eTileBase*>;
     using eTileVerifier = std::function<bool(eTileBase* const)>;
 
@@ -90,6 +115,13 @@ public:
     T* tileRel(const int x, const int y) const;
     template <typename T = eTileBase>
     T* tileAbs(const int x, const int y) const;
+
+    template <typename T = eTileBase>
+    T* tileRelRotated(const int x, const int y,
+                      const eWorldDirection dir) const;
+    template <typename T = eTileBase>
+    T* tileAbsRotated(const int x, const int y,
+                      const eWorldDirection dir) const;
 
     void setAltitude(const int a, const bool update = true);
     virtual void setTerrain(const eTerrain terr);
@@ -154,6 +186,110 @@ private:
     bool mRoadblock = false;
 };
 
+template<typename T>
+T* eTileBase::bottomRotated(const eWorldDirection dir) const {
+    if(dir == eWorldDirection::N) {
+        return bottom<T>();
+    } else if(dir == eWorldDirection::E) {
+        return left<T>();
+    } else if(dir == eWorldDirection::S) {
+        return top<T>();
+    } else if(dir == eWorldDirection::W) {
+        return right<T>();
+    }
+}
+
+template<typename T>
+T* eTileBase::rightRotated(const eWorldDirection dir) const {
+    if(dir == eWorldDirection::N) {
+        return right<T>();
+    } else if(dir == eWorldDirection::E) {
+        return bottom<T>();
+    } else if(dir == eWorldDirection::S) {
+        return left<T>();
+    } else if(dir == eWorldDirection::W) {
+        return top<T>();
+    }
+}
+
+template<typename T>
+T* eTileBase::topRotated(const eWorldDirection dir) const {
+    if(dir == eWorldDirection::N) {
+        return top<T>();
+    } else if(dir == eWorldDirection::E) {
+        return right<T>();
+    } else if(dir == eWorldDirection::S) {
+        return bottom<T>();
+    } else if(dir == eWorldDirection::W) {
+        return left<T>();
+    }
+}
+
+template<typename T>
+T* eTileBase::leftRotated(const eWorldDirection dir) const {
+    if(dir == eWorldDirection::N) {
+        return left<T>();
+    } else if(dir == eWorldDirection::E) {
+        return top<T>();
+    } else if(dir == eWorldDirection::S) {
+        return right<T>();
+    } else if(dir == eWorldDirection::W) {
+        return bottom<T>();
+    }
+}
+
+template<typename T>
+T* eTileBase::bottomLeftRotated(const eWorldDirection dir) const {
+    if(dir == eWorldDirection::N) {
+        return bottomLeft<T>();
+    } else if(dir == eWorldDirection::E) {
+        return topLeft<T>();
+    } else if(dir == eWorldDirection::S) {
+        return topRight<T>();
+    } else if(dir == eWorldDirection::W) {
+        return bottomRight<T>();
+    }
+}
+
+template<typename T>
+T* eTileBase::bottomRightRotated(const eWorldDirection dir) const {
+    if(dir == eWorldDirection::N) {
+        return bottomRight<T>();
+    } else if(dir == eWorldDirection::E) {
+        return bottomLeft<T>();
+    } else if(dir == eWorldDirection::S) {
+        return topLeft<T>();
+    } else if(dir == eWorldDirection::W) {
+        return topRight<T>();
+    }
+}
+
+template<typename T>
+T* eTileBase::topRightRotated(const eWorldDirection dir) const {
+    if(dir == eWorldDirection::N) {
+        return topRight<T>();
+    } else if(dir == eWorldDirection::E) {
+        return bottomRight<T>();
+    } else if(dir == eWorldDirection::S) {
+        return bottomLeft<T>();
+    } else if(dir == eWorldDirection::W) {
+        return topLeft<T>();
+    }
+}
+
+template<typename T>
+T* eTileBase::topLeftRotated(const eWorldDirection dir) const {
+    if(dir == eWorldDirection::N) {
+        return topLeft<T>();
+    } else if(dir == eWorldDirection::E) {
+        return topRight<T>();
+    } else if(dir == eWorldDirection::S) {
+        return bottomRight<T>();
+    } else if(dir == eWorldDirection::W) {
+        return bottomLeft<T>();
+    }
+}
+
 template <typename T>
 T* eTileBase::left() const {
     return tileRel<T>(-1, 1);
@@ -203,6 +339,54 @@ T* eTileBase::neighbour(const eOrientation o) const {
     } break;
     }
     return nullptr;
+}
+
+template <typename T>
+T* eTileBase::tileRelRotated(const int x, const int y,
+                             const eWorldDirection dir) const {
+    if(x == 0 && y == 0) {
+        const auto t = static_cast<const T*>(this);
+        return const_cast<T*>(t);
+    }
+    if(x > 0) {
+        const auto br = bottomRightRotated<T>(dir);
+        if(!br) {
+            if(y != 0) {
+                const auto ry = tileRelRotated<T>(x - 1, y, dir);
+                if(!ry) return nullptr;
+                return ry->template tileRelRotated<T>(1, 0, dir);
+            }
+            return nullptr;
+        }
+        return br->template tileRelRotated<T>(x - 1, y, dir);
+    } else if(x < 0) {
+        const auto tl = topLeftRotated<T>(dir);
+        if(!tl)  {
+            if(y != 0) {
+                const auto ry = tileRelRotated<T>(x + 1, y, dir);
+                if(!ry) return nullptr;
+                return ry->template tileRelRotated<T>(-1, 0, dir);
+            }
+            return nullptr;
+        }
+        return tl->template tileRelRotated<T>(x + 1, y, dir);
+    }
+    if(y > 0) {
+        const auto bl = bottomLeftRotated<T>(dir);
+        if(!bl) return nullptr;
+        return bl->template tileRelRotated<T>(x, y - 1, dir);
+    } else if(y < 0) {
+        const auto tr = topRightRotated<T>(dir);
+        if(!tr) return nullptr;
+        return tr->template tileRelRotated<T>(x, y + 1, dir);
+    }
+    return nullptr;
+}
+
+template <typename T>
+T* eTileBase::tileAbsRotated(const int x, const int y,
+                             const eWorldDirection dir) const {
+    return tileRelRotated<T>(x - mX, y - mY, dir);
 }
 
 template <typename T>

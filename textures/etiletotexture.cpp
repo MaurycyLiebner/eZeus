@@ -27,15 +27,19 @@
 
 #include "textures/eparktexture.h"
 
+#include "engine/egameboard.h"
+
 std::shared_ptr<eTexture> getStonesTexture(eTile* const tile,
                           const eTextureCollection& small,
                           const eTextureCollection& large,
                           const eTextureCollection& huge,
-                          int& futureDim, int& drawDim) {
+                          int& futureDim, int& drawDim,
+                          const eWorldDirection dir) {
     return eVaryingSizeTex::getVaryingTexture(
                  eStonesToDry::get, tile,
                  small, large, huge,
-                 futureDim, drawDim);
+                 futureDim, drawDim,
+                 dir);
 }
 
 std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
@@ -46,7 +50,8 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
                              int& futureDim,
                              int& drawDim,
                              const eTextureCollection** coll,
-                             const bool poseidonMode) {
+                             const bool poseidonMode,
+                             const eWorldDirection dir) {
     drawDim = 1;
     futureDim = 1;
     const int seed = tile->seed();
@@ -99,21 +104,23 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
                              blds.fPark,
                              blds.fLargePark,
                              blds.fHugePark,
-                             futureDim, drawDim);
+                             futureDim, drawDim,
+                             dir);
     } break;
     default: break;
     }
 
     const bool hr = ut == eBuildingType::road;
 
-    const auto tr = tile->topRight();
-    const auto r = tile->right();
-    const auto br = tile->bottomRight();
-    const auto b = tile->bottom();
-    const auto bl = tile->bottomLeft();
-    const auto l = tile->left();
-    const auto tl = tile->topLeft();
-    const auto t = tile->top();
+    eTile* tr = nullptr;
+    eTile* r = nullptr;
+    eTile* br = nullptr;
+    eTile* b = nullptr;
+    eTile* bl = nullptr;
+    eTile* l = nullptr;
+    eTile* tl = nullptr;
+    eTile* t = nullptr;
+    tile->rotatedNeighbours(tr, r, br, b, bl, l, tl, t, dir);
 
     if(drawElev) {
         const int a = tile->altitude();
@@ -250,7 +257,7 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
         }
     } break;
     case eTerrain::beach: {
-        const int toDryId = eBeachToDry::get(tile);
+        const int toDryId = eBeachToDry::get(tile, dir);
         if(toDryId != -1) {
             const auto& coll = textures.fBeachToDryTerrainTexs;
             return coll.getTexture(toDryId);
@@ -260,18 +267,18 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
         return coll.getTexture(texId);
     } break;
     case eTerrain::water: {
-        const int cornerId = eWaterCorner::get(tile);
+        const int cornerId = eWaterCorner::get(tile, dir);
         if(cornerId != -1) {
             const auto& coll = textures.fWaterToBeachToDryTerrainTexs;
             return coll.getTexture(cornerId);
         }
-        const int toBeachId = eWaterToBeach::get(tile);
+        const int toBeachId = eWaterToBeach::get(tile, dir);
         if(toBeachId != -1) {
             const auto& texs = textures.fWaterToBeachTerrainTexs[toBeachId];
             const int texId = seed % texs.size();
             return texs.getTexture(texId);
         }
-        const int toDryId = eWaterToDry::get(tile);
+        const int toDryId = eWaterToDry::get(tile, dir);
         if(toDryId != -1) {
             const auto& texs = textures.fWaterToDryTerrainTexs[toDryId];
             const int texId = seed % texs.size();
@@ -351,7 +358,7 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
         return nullptr;
     } break;
     case eTerrain::fertile: {
-        const auto id = eFertileToDry::get(tile);
+        const auto id = eFertileToDry::get(tile, dir);
         const int scrubCount = textures.fFertileToScrubTerrainTexs.size();
         const int scrub = tile->scrubId(scrubCount) - 1;
         switch(id) {
@@ -380,7 +387,7 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
     } break;
     case eTerrain::forest: {
         if(poseidonMode) eGameTextures::loadPoseidonTrees();
-        const auto id = eForestToDry::get(tile);
+        const auto id = eForestToDry::get(tile, dir);
         switch(id) {
         case eForestToDryId::none: {
             const auto& coll = poseidonMode ? textures.fPoseidonForestTerrainTexs :
@@ -424,28 +431,28 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
         return getStonesTexture(tile, textures.fFlatStonesTerrainTexs,
                                 textures.fLargeFlatStonesTerrainTexs,
                                 textures.fHugeFlatStonesTerrainTexs,
-                                futureDim, drawDim);
+                                futureDim, drawDim, dir);
     } break;
     case eTerrain::copper: {
         return getStonesTexture(tile, textures.fBronzeTerrainTexs,
                                 textures.fLargeBronzeTerrainTexs,
                                 textures.fHugeBronzeTerrainTexs,
-                                futureDim, drawDim);
+                                futureDim, drawDim, dir);
     } break;
     case eTerrain::silver: {
         return getStonesTexture(tile, textures.fSilverTerrainTexs,
                                 textures.fLargeSilverTerrainTexs,
                                 textures.fHugeSilverTerrainTexs,
-                                futureDim, drawDim);
+                                futureDim, drawDim, dir);
     } break;
     case eTerrain::tallStones: {
         return getStonesTexture(tile, textures.fTallStoneTerrainTexs,
                                 textures.fLargeTallStoneTerrainTexs,
                                 textures.fHugeTallStoneTerrainTexs,
-                                futureDim, drawDim);
+                                futureDim, drawDim, dir);
     } break;
     case eTerrain::marble: {
-        return eMarbleTile::get(tile, textures);
+        return eMarbleTile::get(tile, textures, dir);
     } break;
 
     case eTerrain::dryBased:

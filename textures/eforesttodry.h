@@ -2,6 +2,7 @@
 #define EFORESTTODRY_H
 
 class eTile;
+enum class eWorldDirection;
 
 enum class eForestToDryId {
     somewhere,
@@ -9,7 +10,7 @@ enum class eForestToDryId {
 };
 
 namespace eForestToDry {
-    eForestToDryId get(eTile* const tile);
+    eForestToDryId get(eTile* const tile, const eWorldDirection dir);
 };
 
 #endif // EFORESTTODRY_H

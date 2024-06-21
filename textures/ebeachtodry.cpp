@@ -3,7 +3,8 @@
 #include "engine/etile.h"
 #include "esurroundingterrain.h"
 
-int eBeachToDry::get(eTile* const tile) {
+int eBeachToDry::get(eTile* const tile,
+                     const eWorldDirection dir) {
     const auto dry = eTerrain::dryBased;
     const auto beach = eTerrain::beach;
 
@@ -11,7 +12,7 @@ int eBeachToDry::get(eTile* const tile) {
 
     const auto bow = beach | eTerrain::water;
 
-    eSurroundingTerrain tt(tile);
+    eSurroundingTerrain tt(tile, dir);
 
     int id = -1;
     if(tt(bow, bow, bow, bow, dry | bow, dry, dry | bow, bow)) {

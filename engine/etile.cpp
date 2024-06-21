@@ -6,6 +6,7 @@
 #include "buildings/ebuilding.h"
 #include "buildings/ebuildingrenderer.h"
 #include "characters/echaracter.h"
+#include "egameboard.h"
 
 #include "evectorhelpers.h"
 
@@ -48,7 +49,8 @@ void eTile::surroundingTerrain(eTerrain& tlTerr,
                                eTerrain& tTerr,
                                eTerrain& rTerr,
                                eTerrain& bTerr,
-                               eTerrain& lTerr) const {
+                               eTerrain& lTerr,
+                               const eWorldDirection dir) const {
     tlTerr = terrain();
     trTerr = tlTerr;
     brTerr = tlTerr;
@@ -59,54 +61,56 @@ void eTile::surroundingTerrain(eTerrain& tlTerr,
     bTerr = tlTerr;
     lTerr = tlTerr;
 
+    eTile* tr = nullptr;
+    eTile* r = nullptr;
+    eTile* br = nullptr;
+    eTile* b = nullptr;
+    eTile* bl = nullptr;
+    eTile* l = nullptr;
+    eTile* tl = nullptr;
+    eTile* t = nullptr;
+    rotatedNeighbours(tr, r, br, b, bl, l, tl, t, dir);
+
     {
-        const auto tl = topLeft();
         if(tl) {
             tlTerr = tl->terrain();
         }
     }
     {
-        const auto tr = topRight();
         if(tr) {
             trTerr = tr->terrain();
         }
     }
     {
-        const auto br = bottomRight();
         if(br) {
             brTerr = br->terrain();
         }
     }
     {
-        const auto bl = bottomLeft();
         if(bl) {
             blTerr = bl->terrain();
         }
     }
 
     {
-        const auto t = top();
         if(t) {
             tTerr = t->terrain();
         }
     }
 
     {
-        const auto r = right();
         if(r) {
             rTerr = r->terrain();
         }
     }
 
     {
-        const auto b = bottom();
         if(b) {
             bTerr = b->terrain();
         }
     }
 
     {
-        const auto l = left();
         if(l) {
             lTerr = l->terrain();
         }
@@ -117,7 +121,8 @@ void eTile::neighboursWithTerrain(const eTerrain terr,
                                   bool& tl, bool& tr,
                                   bool& br, bool& bl,
                                   bool& t, bool& r,
-                                  bool& b, bool& l) const {
+                                  bool& b, bool& l,
+                                  const eWorldDirection dir) const {
     eTerrain tlTerr;
     eTerrain trTerr;
     eTerrain brTerr;
@@ -129,7 +134,7 @@ void eTile::neighboursWithTerrain(const eTerrain terr,
     eTerrain lTerr;
 
     surroundingTerrain(tlTerr, trTerr, brTerr, blTerr,
-                       tTerr, rTerr, bTerr, lTerr);
+                       tTerr, rTerr, bTerr, lTerr, dir);
 
     tl = tlTerr != terr;
     tr = trTerr != terr;
@@ -140,6 +145,54 @@ void eTile::neighboursWithTerrain(const eTerrain terr,
     r = rTerr != terr;
     b = bTerr != terr;
     l = lTerr != terr;
+}
+
+void eTile::rotatedNeighbours(eTilePtr& tr,
+                              eTilePtr& r,
+                              eTilePtr& br,
+                              eTilePtr& b,
+                              eTilePtr& bl,
+                              eTilePtr& l,
+                              eTilePtr& tl,
+                              eTilePtr& t,
+                              const eWorldDirection dir) const {
+    if(dir == eWorldDirection::N) {
+        tr = topRight<eTile>();
+        r = right<eTile>();
+        br = bottomRight<eTile>();
+        b = bottom<eTile>();
+        bl = bottomLeft<eTile>();
+        l = left<eTile>();
+        tl = topLeft<eTile>();
+        t = top<eTile>();
+    } else if(dir == eWorldDirection::E) {
+        tr = bottomRight<eTile>();
+        r = bottom<eTile>();
+        br = bottomLeft<eTile>();
+        b = left<eTile>();
+        bl = topLeft<eTile>();
+        l = top<eTile>();
+        tl = topRight<eTile>();
+        t = right<eTile>();
+    } else if(dir == eWorldDirection::S) {
+        tr = bottomLeft<eTile>();
+        r = left<eTile>();
+        br = topLeft<eTile>();
+        b = top<eTile>();
+        bl = topRight<eTile>();
+        l = right<eTile>();
+        tl = bottomRight<eTile>();
+        t = bottom<eTile>();
+    } else if(dir == eWorldDirection::W) {
+        tr = topLeft<eTile>();
+        r = top<eTile>();
+        br = topRight<eTile>();
+        b = right<eTile>();
+        bl = bottomRight<eTile>();
+        l = bottom<eTile>();
+        tl = bottomLeft<eTile>();
+        t = left<eTile>();
+    }
 }
 
 bool eTile::onFire() const {

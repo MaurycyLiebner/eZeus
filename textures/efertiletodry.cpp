@@ -2,7 +2,8 @@
 
 #include "engine/etile.h"
 
-eFertileToDryId eFertileToDry::get(eTile* const tile) {
+eFertileToDryId eFertileToDry::get(eTile* const tile,
+                                   const eWorldDirection dir) {
     if(!tile) return eFertileToDryId::none;
 
     const auto terr = tile->terrain();
@@ -15,7 +16,7 @@ eFertileToDryId eFertileToDry::get(eTile* const tile) {
     bool r;
     bool b;
     bool l;
-    tile->neighboursWithTerrain(terr, tl, tr, br, bl, t, r, b, l);
+    tile->neighboursWithTerrain(terr, tl, tr, br, bl, t, r, b, l, dir);
 
     eFertileToDryId result;
     if(tl || tr || bl || br || t || l || r || b) {

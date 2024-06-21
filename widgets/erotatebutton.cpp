@@ -31,6 +31,10 @@ void eRotateButton::setDirection(const eWorldDirection dir) {
     updateTexture();
 }
 
+void eRotateButton::setDirectionSetter(const eDirectionSetter& s) {
+    mSetter = s;
+}
+
 bool eRotateButton::mousePressEvent(const eMouseEvent& e) {
     if(!mEnabled) return false;
     const auto b = e.button();

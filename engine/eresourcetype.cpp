@@ -321,8 +321,10 @@ int eResourceTypeHelpers::defaultPrice(const eResourceType type) {
     case eResourceType::food:
     case eResourceType::warehouse:
     case eResourceType::allBasic:
+    case eResourceType::allTransportable:
     case eResourceType::none:
     case eResourceType::horse:
+    case eResourceType::chariot:
     case eResourceType::silver:
     case eResourceType::drachmas:
         return 0;

@@ -3,14 +3,15 @@
 #include "engine/etile.h"
 #include "esurroundingterrain.h"
 
-int eWaterCorner::get(eTile* const tile) {
+int eWaterCorner::get(eTile* const tile,
+                      const eWorldDirection dir) {
     const auto dry = eTerrain::dryBased;
     const auto water = eTerrain::water;
     const auto beach = eTerrain::beach;
 
     if(tile->terrain() != water) return -1;
 
-    eSurroundingTerrain tt(tile);
+    eSurroundingTerrain tt(tile, dir);
 
     int id = -1;
     if(tt(water, water, water, water, beach | water, beach, dry, water)) {

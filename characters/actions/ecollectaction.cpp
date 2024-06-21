@@ -15,7 +15,7 @@ eCollectAction::eCollectAction(eCharacter* const c) :
 
 void transformMarble(eTile* const t, eGameBoard& board) {
     if(t->resource() > 0) return;
-    if(eMarbleTile::isEdge(t)) {
+    if(eMarbleTile::isEdge(t, eWorldDirection::N)) {
         t->setMarbleLevel(1);
         board.restockMarbleTiles();
     } else {

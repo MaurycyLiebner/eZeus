@@ -2,7 +2,7 @@
 
 #include "engine/etile.h"
 
-eForestToDryId eForestToDry::get(eTile* const tile) {
+eForestToDryId eForestToDry::get(eTile* const tile, const eWorldDirection dir) {
     if(!tile) return eForestToDryId::none;
 
     const auto terr = tile->terrain();
@@ -15,7 +15,7 @@ eForestToDryId eForestToDry::get(eTile* const tile) {
     bool r;
     bool b;
     bool l;
-    tile->neighboursWithTerrain(terr, tl, tr, br, bl, t, r, b, l);
+    tile->neighboursWithTerrain(terr, tl, tr, br, bl, t, r, b, l, dir);
 
     eForestToDryId result;
     if(tl || tr || bl || br || t || l || r || b) {

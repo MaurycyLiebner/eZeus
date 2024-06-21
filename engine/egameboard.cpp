@@ -159,7 +159,40 @@ void eGameBoard::clear() {
 }
 
 void eGameBoard::setWorldDirection(const eWorldDirection dir) {
+    mDirection = dir;
+    updateMarbleTiles();
+    scheduleTerrainUpdate();
+}
 
+eTile* eGameBoard::rotateddtile(const int x, const int y) const {
+    int rx;
+    int ry;
+    eTileHelper::rotatedDTileIdToDTileId(
+            x, y, rx, ry, mDirection, mWidth, mHeight);
+    return dtile(rx, ry);
+}
+
+int eGameBoard::rotatedWidth() const {
+    if(mDirection == eWorldDirection::N) {
+        return mWidth;
+    } else if(mDirection == eWorldDirection::E) {
+        return mHeight;
+    } else if(mDirection == eWorldDirection::S) {
+        return mWidth;
+    } else { // if(mDirection == eWorldDirection::W) {
+        return mHeight;
+    }}
+
+int eGameBoard::rotatedHeight() const {
+    if(mDirection == eWorldDirection::N) {
+        return mHeight;
+    } else if(mDirection == eWorldDirection::E) {
+        return mWidth;
+    } else if(mDirection == eWorldDirection::S) {
+        return mHeight;
+    } else { // if(mDirection == eWorldDirection::W) {
+        return mWidth;
+    }
 }
 
 void eGameBoard::iterateOverAllTiles(const eTileAction& a) {

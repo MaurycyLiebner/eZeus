@@ -25,6 +25,7 @@ class eBanner;
 class eSoldierBanner;
 class eTexture;
 class eTextureCollection;
+enum class eWorldDirection;
 
 struct eTileTerrainPainter {
     stdsptr<eTexture> fTex = nullptr;
@@ -79,12 +80,24 @@ public:
                             eTerrain& tTerr,
                             eTerrain& rTerr,
                             eTerrain& bTerr,
-                            eTerrain& lTerr) const;
+                            eTerrain& lTerr,
+                            const eWorldDirection dir) const;
     void neighboursWithTerrain(const eTerrain terr,
                                bool& tl, bool& tr,
                                bool& br, bool& bl,
                                bool& t, bool& r,
-                               bool& b, bool& l) const;
+                               bool& b, bool& l,
+                               const eWorldDirection dir) const;
+    using eTilePtr = eTile*;
+    void rotatedNeighbours(eTilePtr& tr,
+                           eTilePtr& r,
+                           eTilePtr& br,
+                           eTilePtr& b,
+                           eTilePtr& bl,
+                           eTilePtr& l,
+                           eTilePtr& tl,
+                           eTilePtr& t,
+                           const eWorldDirection dir) const;
 
     void addTerrainTile(eTile* const tile) { mTerrainTiles.push_back(tile); }
     std::vector<eTile*>& terrainTiles() { return mTerrainTiles; }

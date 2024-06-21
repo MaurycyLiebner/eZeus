@@ -2,6 +2,7 @@
 #define ESTDSELFREF_H
 
 #include <memory>
+#include <cstdio>
 
 template <class T> class eStdPointer;
 template <class T> using stdsptr = std::shared_ptr<T>;

@@ -24,6 +24,9 @@ void eRoad::erase() {
 }
 
 std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
+    auto& board = getBoard();
+    const auto dir = board.direction();
+
     const int sizeId = static_cast<int>(size);
     const auto& trrTexs = eGameTextures::terrain()[sizeId];
     const auto& builTexs = eGameTextures::buildings()[sizeId];
@@ -58,10 +61,10 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
     const auto& bcoll = trrTexs.fBeachRoad;
 
     const auto ti = centerTile();
-    const auto tr = ti->topRight();
-    const auto br = ti->bottomRight();
-    const auto bl = ti->bottomLeft();
-    const auto tl = ti->topLeft();
+    const auto tr = ti->topRightRotated(dir);
+    const auto br = ti->bottomRightRotated(dir);
+    const auto bl = ti->bottomLeftRotated(dir);
+    const auto tl = ti->topLeftRotated(dir);
 
     const bool trRoad = !tr || tr->hasRoad();
     const bool brRoad = !br || br->hasRoad();
@@ -112,10 +115,10 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
         const bool trb = trt == eBuildingType::avenue ||
                          trt == eBuildingType::road;
 
-        const auto t = ti->top<eTile>();
-        const auto b = ti->bottom<eTile>();
-        const auto l = ti->left<eTile>();
-        const auto r = ti->right<eTile>();
+        const auto t = ti->topRotated<eTile>(dir);
+        const auto b = ti->bottomRotated<eTile>(dir);
+        const auto l = ti->leftRotated<eTile>(dir);
+        const auto r = ti->rightRotated<eTile>(dir);
 
         const auto tt = t ? t->underBuildingType() : eBuildingType::none;
         const auto bt = b ? b->underBuildingType() : eBuildingType::none;

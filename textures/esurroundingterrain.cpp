@@ -1,7 +1,8 @@
 #include "esurroundingterrain.h"
 
-eSurroundingTerrain::eSurroundingTerrain(eTile* const tile) {
-    tile->surroundingTerrain(mTL, mTR, mBR, mBL, mT, mR, mB, mL);
+eSurroundingTerrain::eSurroundingTerrain(eTile* const tile,
+                                         const eWorldDirection dir) {
+    tile->surroundingTerrain(mTL, mTR, mBR, mBL, mT, mR, mB, mL, dir);
 }
 
 bool eSurroundingTerrain::operator()(const eTerrain t, const eTerrain tr,
