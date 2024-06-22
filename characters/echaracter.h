@@ -57,6 +57,7 @@ public:
     static const int sTextureTimeDivisor = 20;
     int textureTime() const { return time()/sTextureTimeDivisor; }
     eOrientation orientation() const { return mOrientation; }
+    eOrientation rotatedOrientation() const;
 
     void changeTile(eTile* const t, const bool prepend = false);
     void setX(const double x) { mX = x; }

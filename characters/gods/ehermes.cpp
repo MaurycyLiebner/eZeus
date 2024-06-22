@@ -15,7 +15,7 @@ eHermes::getTexture(const eTileSize size) const {
     const eTextureCollection* coll = nullptr;
     bool wrap = true;
     bool disappear = false;
-    const int oid = static_cast<int>(orientation());
+    const int oid = static_cast<int>(rotatedOrientation());
     const auto a = actionType();
     switch(a) {
     case eCharacterActionType::stand:

@@ -15,7 +15,7 @@ std::shared_ptr<eTexture> eResourceCollector::getTexture(const eTileSize size) c
     const int id = static_cast<int>(size);
     const auto& charTexs = mTextures[id].*mCharTexs;
     const eTextureCollection* coll = nullptr;
-    const int oid = static_cast<int>(orientation());
+    const int oid = static_cast<int>(rotatedOrientation());
     bool wrap = true;
     const auto a = actionType();
     switch(a) {

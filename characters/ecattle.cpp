@@ -25,7 +25,7 @@ std::shared_ptr<eTexture> eCattle::getTexture(const eTileSize size) const {
         eGameTextures::loadBull();
         const auto& charTexs = texs[id].fBull;
         const eTextureCollection* coll = nullptr;
-        const int oid = static_cast<int>(orientation());
+        const int oid = static_cast<int>(rotatedOrientation());
         bool wrap = true;
         const auto a = actionType();
         switch(a) {
@@ -54,7 +54,7 @@ std::shared_ptr<eTexture> eCattle::getTexture(const eTileSize size) const {
     }
     const auto& charTexs = texs[id].*cTexs;
     const eTextureCollection* coll = nullptr;
-    const int oid = static_cast<int>(orientation());
+    const int oid = static_cast<int>(rotatedOrientation());
     bool wrap = true;
     const auto a = actionType();
     switch(a) {

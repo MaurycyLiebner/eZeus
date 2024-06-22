@@ -36,7 +36,7 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
     }
     const int id = static_cast<int>(size);
     const auto& texs = eGameTextures::characters()[id];
-    const int oi = static_cast<int>(orientation());
+    const int oi = static_cast<int>(rotatedOrientation());
 
     int ci = 0;
 
@@ -69,7 +69,7 @@ eOverlay eCartTransporter::getSecondaryTexture(const eTileSize size) const {
 
     double xx;
     double yy;
-    switch(orientation()) {
+    switch(rotatedOrientation()) {
     case eOrientation::topRight:
         xx = 0.25;
         yy = -0.60;

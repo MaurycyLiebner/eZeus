@@ -22,7 +22,7 @@ std::shared_ptr<eTexture> eFireFighter::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
     const auto& charTexs = mTextures[id].*mCharTexs;
     const eTextureCollection* coll = nullptr;
-    const int oid = static_cast<int>(orientation());
+    const int oid = static_cast<int>(rotatedOrientation());
     bool boomerang = false;
     bool wrap = true;
     const auto a = actionType();

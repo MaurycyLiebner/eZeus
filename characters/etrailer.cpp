@@ -11,7 +11,7 @@ std::shared_ptr<eTexture>
 eTrailer::getTexture(const eTileSize size) const {
     const int id = static_cast<int>(size);
     const auto& charTexs = eGameTextures::characters()[id];
-    const int oid = static_cast<int>(orientation());
+    const int oid = static_cast<int>(rotatedOrientation());
     const eTextureCollection* coll = nullptr;
     const int resCount = mFollow ? mFollow->resCount() : mResCount;
     const auto resType = mFollow ? mFollow->resType() : mResType;

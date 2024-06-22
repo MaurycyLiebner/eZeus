@@ -13,7 +13,7 @@ std::shared_ptr<eTexture> eFishingBoat::getTexture(const eTileSize size) const {
     const auto& colls = texs[id];
     const auto& charTexs = colls.fFishingBoat;
     const eTextureCollection* coll = nullptr;
-    const int oid = static_cast<int>(orientation());
+    const int oid = static_cast<int>(rotatedOrientation());
     bool wrap = true;
     const auto a = actionType();
     switch(a) {

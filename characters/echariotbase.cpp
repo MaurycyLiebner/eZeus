@@ -19,7 +19,7 @@ eChariotBase::getTexture(const eTileSize size) const {
     const auto& texs = gTexs[id].*mCharTexs;
     const eTextureCollection* coll = nullptr;
     bool wrap = true;
-    const int oid = static_cast<int>(orientation());
+    const int oid = static_cast<int>(rotatedOrientation());
     const auto a = actionType();
     switch(a) {
     case eCharacterActionType::stand:

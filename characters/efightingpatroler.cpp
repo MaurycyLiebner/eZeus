@@ -13,7 +13,7 @@ std::shared_ptr<eTexture> eFightingPatroler::getTexture(const eTileSize size) co
     const auto& textures = eGameTextures::characters();
     const auto& charTexs = textures[id].*mCharTexs;
     const eTextureCollection* coll = nullptr;
-    const int oid = static_cast<int>(orientation());
+    const int oid = static_cast<int>(rotatedOrientation());
     bool wrap = true;
     const auto a = actionType();
     switch(a) {

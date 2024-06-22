@@ -17,7 +17,7 @@ eBasicGod::getTexture(const eTileSize size) const {
     bool reverse = false;
     bool wrap = true;
     bool disappear = false;
-    const int oid = static_cast<int>(orientation());
+    const int oid = static_cast<int>(rotatedOrientation());
     const auto a = actionType();
     switch(a) {
     case eCharacterActionType::stand:

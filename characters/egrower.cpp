@@ -36,7 +36,7 @@ std::shared_ptr<eTexture> eGrower::getGrapesAndOlivesTex(
         const eCharacterTextures& texs) const {
     const auto& charTexs = texs.fGrower;
     const eTextureCollection* coll = nullptr;
-    const int oid = static_cast<int>(orientation());
+    const int oid = static_cast<int>(rotatedOrientation());
     bool wrap = true;
     const auto a = actionType();
     switch(a) {
@@ -73,7 +73,7 @@ std::shared_ptr<eTexture> eGrower::getOrangesTex(
         const eCharacterTextures& texs) const {
     const auto& charTexs = texs.fOrangeTender;
     const eTextureCollection* coll = nullptr;
-    const int oid = static_cast<int>(orientation());
+    const int oid = static_cast<int>(rotatedOrientation());
     bool wrap = true;
     const auto a = actionType();
     switch(a) {

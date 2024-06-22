@@ -108,6 +108,71 @@ double eCharacter::absY() const {
     return mY + mTile->y();
 }
 
+eOrientation eCharacter::rotatedOrientation() const {
+    auto& board = getBoard();
+    const auto dir = board.direction();
+    if(dir == eWorldDirection::N) {
+        return mOrientation;
+    } else if(dir == eWorldDirection::E) {
+        switch(mOrientation) {
+        case eOrientation::topRight:
+            return eOrientation::topLeft;
+        case eOrientation::right:
+            return eOrientation::top;
+        case eOrientation::bottomRight:
+            return eOrientation::topRight;
+        case eOrientation::bottom:
+            return eOrientation::right;
+        case eOrientation::bottomLeft:
+            return eOrientation::bottomRight;
+        case eOrientation::left:
+            return eOrientation::bottom;
+        case eOrientation::topLeft:
+            return eOrientation::bottomLeft;
+        case eOrientation::top:
+            return eOrientation::left;
+        }
+    } else if(dir == eWorldDirection::S) {
+        switch(mOrientation) {
+        case eOrientation::topRight:
+            return eOrientation::bottomLeft;
+        case eOrientation::right:
+            return eOrientation::left;
+        case eOrientation::bottomRight:
+            return eOrientation::topLeft;
+        case eOrientation::bottom:
+            return eOrientation::top;
+        case eOrientation::bottomLeft:
+            return eOrientation::topRight;
+        case eOrientation::left:
+            return eOrientation::right;
+        case eOrientation::topLeft:
+            return eOrientation::bottomRight;
+        case eOrientation::top:
+            return eOrientation::bottom;
+        }
+    } else { // if(dir == eWorldDirection::W) {
+        switch(mOrientation) {
+        case eOrientation::topRight:
+            return eOrientation::bottomRight;
+        case eOrientation::right:
+            return eOrientation::bottom;
+        case eOrientation::bottomRight:
+            return eOrientation::bottomLeft;
+        case eOrientation::bottom:
+            return eOrientation::left;
+        case eOrientation::bottomLeft:
+            return eOrientation::topLeft;
+        case eOrientation::left:
+            return eOrientation::top;
+        case eOrientation::topLeft:
+            return eOrientation::topRight;
+        case eOrientation::top:
+            return eOrientation::right;
+        }
+    }
+}
+
 void eCharacter::changeTile(eTile* const t, const bool prepend) {
     const auto tsptr = ref<eCharacter>();
     if(mTile) mTile->removeCharacter(tsptr);

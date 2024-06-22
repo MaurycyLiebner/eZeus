@@ -805,6 +805,11 @@ void eGameWidget::paintEvent(ePainter& p) {
             if(!tile) return;
             const int tx = tile->x();
             const int ty = tile->y();
+            int rtx;
+            int rty;
+            eTileHelper::tileIdToRotatedTileId(tx, ty,
+                                               rtx, rty, dir,
+                                               boardw, boardh);
             const int a = tile->altitude();
             const auto bttt = tile->underBuildingType();
             const bool flat = eBuilding::sFlatBuilding(bttt);
@@ -829,17 +834,30 @@ void eGameWidget::paintEvent(ePainter& p) {
                     if(!v) continue;
                     const double cx = c->x();
                     const double cy = c->y();
-                    double x = tx - a + cx + 0.25;
-                    double y = ty - a + cy + 0.25;
+                    double x;
+                    double y;
+                    if(dir == eWorldDirection::N) {
+                        x = tx - a + cx + 0.25;
+                        y = ty - a + cy + 0.25;
+                    } else if(dir == eWorldDirection::E) {
+                        x = rtx - a + cy + 0.25;
+                        y = rty - a - cx + 1.25;
+                    } else if(dir == eWorldDirection::S) {
+                        x = rtx - a - cx + 1.25;
+                        y = rty - a - cy + 1.25;
+                    } else { // if(dir == eWorldDirection::W) {
+                        x = rtx - a - cy + 1.25;
+                        y = rty - a + cx + 0.25;
+                    }
                     {
-                        const auto t = tile->top<eTile>();
-                        const auto l = tile->left<eTile>();
-                        const auto r = tile->right<eTile>();
-                        const auto b = tile->bottom<eTile>();
-                        const auto tl = tile->topLeft<eTile>();
-                        const auto tr = tile->topRight<eTile>();
-                        const auto bl = tile->bottomLeft<eTile>();
-                        const auto br = tile->bottomRight<eTile>();
+                        const auto t = tile->topRotated<eTile>(dir);
+                        const auto l = tile->leftRotated<eTile>(dir);
+                        const auto r = tile->rightRotated<eTile>(dir);
+                        const auto b = tile->bottomRotated<eTile>(dir);
+                        const auto tl = tile->topLeftRotated<eTile>(dir);
+                        const auto tr = tile->topRightRotated<eTile>(dir);
+                        const auto bl = tile->bottomLeftRotated<eTile>(dir);
+                        const auto br = tile->bottomRightRotated<eTile>(dir);
                         if(tl && tl->altitude() > a) {
                             const double mult = 1 - cx;
                             const int tla = tl->altitude();
@@ -1181,21 +1199,21 @@ void eGameWidget::paintEvent(ePainter& p) {
             x1y1
         };
 
-        const auto tileCharRenderOrder = [](const eTile* tile) {
+        const auto tileCharRenderOrder = [dir](const eTile* tile) {
             const auto tileFlat = [](const eTile* const tile) {
                 const auto bt = tile->underBuildingType();
                 const bool flat = eBuilding::sFlatBuilding(bt);
                 return flat;
             };
             {
-                const auto t_x0y1 = tile->bottomLeft<eTile>();
+                const auto t_x0y1 = tile->bottomLeftRotated<eTile>(dir);
                 if(t_x0y1) {
                     const bool flat = tileFlat(t_x0y1);
                     if(!flat) return eCharRenderOrder::x0y1x1y0;
                 }
             }
             {
-                const auto t_x1y0 = tile->bottomLeft<eTile>();
+                const auto t_x1y0 = tile->bottomLeftRotated<eTile>(dir);
                 if(t_x1y0) {
                     const bool flat = tileFlat(t_x1y0);
                     if(!flat) return eCharRenderOrder::x0y1x1y0;
@@ -1204,13 +1222,13 @@ void eGameWidget::paintEvent(ePainter& p) {
             return eCharRenderOrder::x1y1;
         };
         {
-            const auto tt = tile->tileRel<eTile>(-3, -3);
+            const auto tt = tile->tileRelRotated<eTile>(-3, -3, dir);
             if(tt) {
                 drawCharacters(tt, true);
             }
         }
         {
-            const auto t = tile->top<eTile>();
+            const auto t = tile->topRotated<eTile>(dir);
             if(t) {
                 const auto order = tileCharRenderOrder(t);
                 if(order == eCharRenderOrder::x1y1) {
@@ -1219,7 +1237,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         }
         {
-            const auto tl = tile->topLeft<eTile>();
+            const auto tl = tile->topLeftRotated<eTile>(dir);
             if(tl) {
                 const auto order = tileCharRenderOrder(tl);
                 if(order == eCharRenderOrder::x0y1x1y0) {
@@ -1230,7 +1248,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         }
         {
-            const auto tr = tile->topRight<eTile>();
+            const auto tr = tile->topRightRotated<eTile>(dir);
             if(tr) {
                 const auto order = tileCharRenderOrder(tr);
                 if(order == eCharRenderOrder::x0y1x1y0) {
