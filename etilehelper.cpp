@@ -91,6 +91,19 @@ void eTileHelper::tileIdToRotatedTileId(const int tx, const int ty,
     dtileIdToTileId(rdtx, rdty, rtx, rty);
 }
 
+void eTileHelper::rotatedTileIdToTileId(const int rtx, const int rty,
+                                        int& tx, int& ty,
+                                        const eWorldDirection dir,
+                                        const int width, const int height) {
+    int rdtx;
+    int rdty;
+    tileIdToDTileId(rtx, rty, rdtx, rdty);
+    int dtx;
+    int dty;
+    rotatedDTileIdToDTileId(rdtx, rdty, dtx, dty, dir, width, height);
+    dtileIdToTileId(dtx, dty, tx, ty);
+}
+
 SDL_Rect eTileHelper::toRotatedRect(const SDL_Rect& r, const eWorldDirection dir,
                                     const int width, const int height) {
     if(dir == eWorldDirection::N) {

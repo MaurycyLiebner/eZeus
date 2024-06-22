@@ -160,7 +160,6 @@ void eGameBoard::clear() {
 
 void eGameBoard::setWorldDirection(const eWorldDirection dir) {
     mDirection = dir;
-    updateMarbleTiles();
     scheduleTerrainUpdate();
 }
 
@@ -176,30 +175,53 @@ int eGameBoard::rotatedWidth() const {
     if(mDirection == eWorldDirection::N) {
         return mWidth;
     } else if(mDirection == eWorldDirection::E) {
-        return mHeight;
+        return mHeight/2;
     } else if(mDirection == eWorldDirection::S) {
         return mWidth;
     } else { // if(mDirection == eWorldDirection::W) {
-        return mHeight;
+        return mHeight/2;
     }}
 
 int eGameBoard::rotatedHeight() const {
     if(mDirection == eWorldDirection::N) {
         return mHeight;
     } else if(mDirection == eWorldDirection::E) {
-        return mWidth;
+        return 2*mWidth;
     } else if(mDirection == eWorldDirection::S) {
         return mHeight;
     } else { // if(mDirection == eWorldDirection::W) {
-        return mWidth;
+        return 2*mWidth;
     }
 }
 
 void eGameBoard::iterateOverAllTiles(const eTileAction& a) {
-    for(int y = 0; y < mHeight; y++) {
+    if(mDirection == eWorldDirection::N) {
+        for(int y = 0; y < mHeight; y++) {
+            for(int x = 0; x < mWidth; x++) {
+                const auto t = dtile(x, y);
+                a(t);
+            }
+        }
+    } else if(mDirection == eWorldDirection::E) {
+        for(int x = mWidth - 1; x >= 0; x--) {
+            for(int y = 0; y < mHeight; y++) {
+                const auto t = dtile(x, y);
+                a(t);
+            }
+        }
+    } else if(mDirection == eWorldDirection::S) {
+        for(int y = mHeight - 1; y >= 0; y--) {
+            for(int x = mWidth - 1; x >= 0; x--) {
+                const auto t = dtile(x, y);
+                a(t);
+            }
+        }
+    } else if(mDirection == eWorldDirection::W) {
         for(int x = 0; x < mWidth; x++) {
-            const auto t = dtile(x, y);
-            a(t);
+            for(int y = mHeight - 1; y >= 0; y--) {
+                const auto t = dtile(x, y);
+                a(t);
+            }
         }
     }
 }

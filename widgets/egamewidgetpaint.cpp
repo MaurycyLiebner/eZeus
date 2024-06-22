@@ -93,37 +93,39 @@ void eGameWidget::drawXY(int tx, int ty,
     ry -= a;
 }
 
-stdsptr<eTexture> getBasementTexture(
-        eTile* const tile, eBuilding* const d,
-        const eTerrainTextures& trrTexs) {
-    const int tx = tile->x();
-    const int ty = tile->y();
-
-    const auto tr = d->tileRect();
+stdsptr<eTexture> eGameWidget::getBasementTexture(
+        const int rtx, const int rty,
+        eBuilding* const d,
+        const eTerrainTextures& trrTexs,
+        const eWorldDirection dir,
+        const int boardw,
+        const int boardh) {
+    auto tr = d->tileRect();
+    tr = eTileHelper::toRotatedRect(tr, dir, boardw, boardh);
     const int right = tr.x + tr.w - 1;
     const int bottom = tr.y + tr.h - 1;
     int id = 0;
     if(tr.w == 1 && tr.h == 1) {
         id = 0;
-    } else if(tx == tr.x) {
-        if(ty == tr.y) {
+    } else if(rtx == tr.x) {
+        if(rty == tr.y) {
             id = 2;
-        } else if(ty == bottom) {
+        } else if(rty == bottom) {
             id = 8;
         } else {
             id = 9;
         }
-    } else if(tx == right) {
-        if(ty == tr.y) {
+    } else if(rtx == right) {
+        if(rty == tr.y) {
             id = 4;
-        } else if(ty == bottom) {
+        } else if(rty == bottom) {
             id = 6;
         } else {
             id = 5;
         }
-    } else if(ty == tr.y) {
+    } else if(rty == tr.y) {
         id = 3;
-    } else if(ty == bottom) {
+    } else if(rty == bottom) {
         id = 7;
     } else {
         id = 1;
@@ -583,7 +585,8 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         if(ub && !v) {
             if(!isPatrolSelected(ub) && mViewMode != eViewMode::appeal) {
-                const auto tex = getBasementTexture(tile, ub, trrTexs);
+                const auto tex = getBasementTexture(rtx, rty, ub, trrTexs,
+                                                    dir, boardw, boardh);
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
             }
         } else if(ub && !eBuilding::sFlatBuilding(bt)) {
@@ -716,6 +719,11 @@ void eGameWidget::paintEvent(ePainter& p) {
     iterateOverVisibleTiles([&](eTile* const tile) {
         const int tx = tile->x();
         const int ty = tile->y();
+        int rtx;
+        int rty;
+        eTileHelper::tileIdToRotatedTileId(tx, ty,
+                                           rtx, rty, dir,
+                                           boardw, boardh);
         const int dtx = tile->dx();
         const int dty = tile->dy();
         const int a = mDrawElevation ? tile->altitude() : 0;
@@ -758,7 +766,8 @@ void eGameWidget::paintEvent(ePainter& p) {
                 if(isPatrolSelected(ub)) {
                     tex = trrTexs.fSelectedBuildingBase;
                 } else {
-                    tex = getBasementTexture(tile, ub, trrTexs);
+                    tex = getBasementTexture(rtx, rty, ub, trrTexs,
+                                             dir, boardw, boardh);
                 }
                 tp.drawTexture(rx, ry, tex, eAlignment::top);
                 bd = true;

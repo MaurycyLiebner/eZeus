@@ -279,6 +279,8 @@ void eGameWidget::pixToId(const int pixX, const int pixY,
     idX = std::round((pixX - mDX)/w + (pixY - mDY)/h - 0.5);
     idY = std::round(-(pixX - mDX)/w + (pixY - mDY)/h - 0.5);
 
+    bool found = false;
+
     for(int x = idX + 4; x >= idX - 4; x--) {
         for(int y = idY + 4; y >= idY - 4; y--) {
             const auto t = mBoard->tile(x, y);
@@ -293,10 +295,20 @@ void eGameWidget::pixToId(const int pixX, const int pixY,
             if(dist < mTileH) {
                 idX = x;
                 idY = y;
-                return;
+                found = true;
+                break;
             }
         }
+        if(found) break;
     }
+
+    const auto dir = mBoard->direction();
+    const int width = mBoard->width();
+    const int height = mBoard->height();
+    const int idXT = idX;
+    const int idYT = idY;
+    eTileHelper::rotatedTileIdToTileId(idXT, idYT, idX, idY,
+                                       dir, width, height);
 }
 
 void eGameWidget::setViewMode(const eViewMode m) {
@@ -1668,15 +1680,17 @@ void eGameWidget::setDY(const int dy) {
 
 void eGameWidget::clampViewBox() {
     if(mTem->visible()) return;
-    const int w = mBoard->width();
+    const int w = mBoard->rotatedWidth();
     const int ww = width() - mGm->width();
     mDX = std::min(0, mDX);
     mDX = std::max(-w*mTileW + ww + mTileW, mDX);
 
-    const int h = mBoard->height();
+    const int h = mBoard->rotatedHeight();
     const int hh = height();
-    mDY = std::min(-mTileH/2, mDY);
-    mDY = std::max(-h*mTileH/2 + hh, mDY);
+    const auto dir = mBoard->direction();
+    const int inc = dir == eWorldDirection::E ? mTileH/2 : 0;
+    mDY = std::min(-mTileH/2 + 2*inc, mDY);
+    mDY = std::max(-h*mTileH/2 + hh + inc, mDY);
 }
 
 void eGameWidget::setTileSize(const eTileSize size) {

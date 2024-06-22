@@ -233,6 +233,11 @@ private:
 
     void switchPause();
 
+    stdsptr<eTexture> getBasementTexture(
+            const int tx, const int ty, eBuilding* const d,
+            const eTerrainTextures& trrTexs, const eWorldDirection dir,
+            const int boardw, const int boardh);
+
     bool mEditorMode = false;
 
     bool mRotate = false;

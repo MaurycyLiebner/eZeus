@@ -23,6 +23,10 @@ namespace eTileHelper {
                                int& rtx, int& rty,
                                const eWorldDirection dir,
                                const int width, const int height);
+    void rotatedTileIdToTileId(const int rtx, const int rty,
+                               int& tx, int& ty,
+                               const eWorldDirection dir,
+                               const int width, const int height);
 
     eTile* closestRoad(const int rdx, const int rdy,
                        eGameBoard& board);
