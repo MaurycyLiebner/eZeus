@@ -1397,10 +1397,10 @@ void eSounds::loadImpl() {
         mDeer->addPath(layer2Dir + s);
     }
 
-    for(const auto& s : {"reading1.wav.wav",
-                         "reading2.wav.wav",
-                         "get_book.wav.wav",
-                         "close_book.wav.wav"}) {
+    for(const auto& s : {"reading1.wav",
+                         "reading2.wav",
+                         "get_book.wav",
+                         "close_book.wav"}) {
         mBibliotheke->addPath(layer2Dir + s);
     }
 
