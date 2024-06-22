@@ -48,14 +48,14 @@ void eTileHelper::rotatedDTileIdToDTileId(const int rdtx, const int rdty,
         dtx = rdtx;
         dty = rdty;
     } else if(dir == eWorldDirection::E) {
-        dtx = width - rdty/2 - 1;
-        dty = 2*rdtx;
+        dtx = width - 1 - (rdty + 1)/2;
+        dty = 2*rdtx + (rdty % 2);
     } else if(dir == eWorldDirection::S) {
         dtx = width - rdtx - 1;
         dty = height - rdty - 1;
     } else { // if(dir == eWorldDirection::W) {
         dtx = rdty/2;
-        dty = height - rdtx - 1;
+        dty = (height - 2) - 2*rdtx - (rdty % 2);
     }
 }
 
@@ -68,13 +68,13 @@ void eTileHelper::dTileIdToRotatedDTileId(const int dtx, const int dty,
         rdty = dty;
     } else if(dir == eWorldDirection::E) {
         rdtx = dty/2;
-        rdty = 2*(width - dtx - 1);
+        rdty = 2*width - 2 - 2*dtx - (dty % 2);
     } else if(dir == eWorldDirection::S) {
         rdtx = width - dtx - 1;
         rdty = height - dty - 1;
     } else { // if(dir == eWorldDirection::W) {
-        rdtx = height - dty - 1;
-        rdty = 2*dtx;
+        rdtx = (height - 1)/2 - dty/2 - (dty % 2);
+        rdty = 2*dtx + (dty % 2);
     }
 }
 
