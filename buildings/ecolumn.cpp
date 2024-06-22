@@ -6,19 +6,19 @@
 eDoricColumn::eDoricColumn(eGameBoard& board) :
     eColumn(board, &eBuildingTextures::fDoricColumn,
             eBuildingType::doricColumn, 1, 1) {
-
+    eGameTextures::loadColumns();
 }
 
 eIonicColumn::eIonicColumn(eGameBoard& board) :
     eColumn(board, &eBuildingTextures::fIonicColumn,
             eBuildingType::ionicColumn, 1, 1) {
-
+    eGameTextures::loadColumns();
 }
 
 eCorinthianColumn::eCorinthianColumn(eGameBoard& board) :
     eColumn(board, &eBuildingTextures::fCorinthianColumn,
             eBuildingType::corinthianColumn, 1, 1) {
-
+    eGameTextures::loadColumns();
 }
 
 std::vector<eOverlay> eColumn::getOverlays(const eTileSize size) const {
