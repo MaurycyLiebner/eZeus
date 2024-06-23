@@ -33,17 +33,53 @@ eTextureSpace ePalace::getTextureSpace(const int tx, const int ty,
     const auto& blds = eGameTextures::buildings();
     const int sizeId = static_cast<int>(size);
     const auto& plcs = blds[sizeId];
+    auto& board = getBoard();
+    const auto dir = board.direction();
+    const bool dirRot = dir == eWorldDirection::E ||
+                        dir == eWorldDirection::W;
+    const bool dirReorder = dir == eWorldDirection::E ||
+                            dir == eWorldDirection::S;
     if(mRotated) {
-        if(ty - r.y > 3) {
-            return {plcs.fPalace2H, true, SDL_Rect{r.x, r.y + 4, 4, 4}};
+        const bool h2 = ty - r.y > 3;
+        SDL_Rect rect;
+        if(h2) {
+            rect = SDL_Rect{r.x, r.y + 4, 4, 4};
         } else {
-            return {plcs.fPalace1H, false, SDL_Rect{r.x, r.y, 4, 4}};
+            rect = SDL_Rect{r.x, r.y, 4, 4};
+        }
+        if(dirRot) {
+            if(h2 != dirReorder) {
+                return {plcs.fPalace2W, true, rect};
+            } else {
+                return {plcs.fPalace1W, false, rect};
+            }
+        } else {
+            if(h2 != dirReorder) {
+                return {plcs.fPalace2H, true, rect};
+            } else {
+                return {plcs.fPalace1H, false, rect};
+            }
         }
     } else {
-        if(tx - r.x > 3) {
-            return {plcs.fPalace2W, true, SDL_Rect{r.x + 4, r.y, 4, 4}};
+        const bool h2 = tx - r.x > 3;
+        SDL_Rect rect;
+        if(h2) {
+            rect = SDL_Rect{r.x + 4, r.y, 4, 4};
         } else {
-            return {plcs.fPalace1W, false, SDL_Rect{r.x, r.y, 4, 4}};
+            rect = SDL_Rect{r.x, r.y, 4, 4};
+        }
+        if(dirRot) {
+            if(h2 != dirReorder) {
+                return {plcs.fPalace2H, true, rect};
+            } else {
+                return {plcs.fPalace1H, false, rect};
+            }
+        } else {
+            if(h2 != dirReorder) {
+                return {plcs.fPalace2W, true, rect};
+            } else {
+                return {plcs.fPalace1W, false, rect};
+            }
         }
     }
 }
@@ -74,8 +110,12 @@ std::vector<eOverlay> ePalace::getOverlays(const eTileSize size) const {
 
     std::vector<eOverlay> os;
 
+    auto& board = getBoard();
+    const auto dir = board.direction();
+    const bool dirRot = dir == eWorldDirection::E ||
+                        dir == eWorldDirection::W;
     const int tt = textureTime();
-    if(mRotated) {
+    if(mRotated != dirRot) {
         const auto& coll = texs.fPalaceHOverlay;
         eOverlay a0;
         a0.fX = 1.0;
