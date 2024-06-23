@@ -2392,20 +2392,50 @@ void eGameWidget::paintEvent(ePainter& p) {
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
         case eBuildingMode::gatehouse: {
+            int ddx = 0;
+            int ddy = 0;
             int dx;
             int dy;
-            if(mRotate) {
-                dx = 0;
-                dy = 3;
-            } else {
-                dx = 3;
-                dy = 0;
+            if(dir == eWorldDirection::N) {
+                if(mRotate) {
+                    dx = 0;
+                    dy = 3;
+                } else {
+                    dx = 3;
+                    dy = 0;
+                }
+            } else if(dir == eWorldDirection::E) {
+                if(mRotate) {
+                    dx = 0;
+                    dy = 3;
+                } else {
+                    dx = 3;
+                    dy = 0;
+                }
+            } else if(dir == eWorldDirection::S) {
+                if(mRotate) {
+                    dx = 0;
+                    dy = -3;
+                    ddy = 3;
+                } else {
+                    dx = -3;
+                    dy = 0;
+                    ddx = 3;
+                }
+            } else { // if(dir == eWorldDirection::W) {
+                if(mRotate) {
+                    dx = 0;
+                    dy = 3;
+                } else {
+                    dx = 3;
+                    dy = 0;
+                }
             }
             const auto b1 = e::make_shared<eGatehouse>(*mBoard, mRotate);
-            auto& ebs1 = ebs.emplace_back(mHoverTX, mHoverTY, b1);
+            auto& ebs1 = ebs.emplace_back(mHoverTX + ddx, mHoverTY + ddy, b1);
             ebs1.fBR = e::make_shared<eGatehouseRenderer>(
                            eGatehouseRendererType::grt1, b1);
-            auto& ebs2 = ebs.emplace_back(mHoverTX + dx, mHoverTY + dy, b1);
+            auto& ebs2 = ebs.emplace_back(mHoverTX + ddx + dx, mHoverTY + ddy + dy, b1);
             ebs2.fBR = e::make_shared<eGatehouseRenderer>(
                            eGatehouseRendererType::grt2, b1);
         } break;
