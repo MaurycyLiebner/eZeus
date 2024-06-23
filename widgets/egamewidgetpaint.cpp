@@ -2428,13 +2428,20 @@ void eGameWidget::paintEvent(ePainter& p) {
             } else if(mRotateId == 1) { // topRight
                 dy = -3;
                 dx = -1;
-                under = true;
             } else if(mRotateId == 2) { // topLeft
                 dx = -4;
-                dy = 1;
                 under = true;
             } else if(mRotateId == 3) { // bottomLeft
                 dy = 4;
+            }
+            if(dir == eWorldDirection::N) {
+                under = mRotateId == 1 || mRotateId == 2; // topRight, topLeft
+            } else if(dir == eWorldDirection::E) {
+                under = mRotateId == 1 || mRotateId == 0; // topLeft, bottomLeft
+            } else if(dir == eWorldDirection::S) {
+                under = mRotateId == 0 || mRotateId == 3; // bottomRight, bottomLeft
+            } else if(dir == eWorldDirection::W) {
+                under = mRotateId == 2 || mRotateId == 3; // topRight, bottomRight
             }
             const auto b2 = e::make_shared<eHorseRanchEnclosure>(*mBoard);
             b2->setRanch(b1.get());
