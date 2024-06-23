@@ -2692,6 +2692,27 @@ void eGameWidget::paintEvent(ePainter& p) {
             const int sw = eb.fBR->spanW();
             const int sh = eb.fBR->spanH();
             drawXY(eb.fTx, eb.fTy, rx, ry, sw, sh, a);
+            if(dir == eWorldDirection::E) {
+                if((sw == 4 && sh == 4) || (sw == 2 && sh == 2)) {
+                    rx -= 1;
+                } else if(sw == 6 && sh == 6) {
+                    ry -= 1;
+                }
+            } else if(dir == eWorldDirection::S) {
+                if((sw == 4 && sh == 4) || (sw == 2 && sh == 2)) {
+                    rx -= 1;
+                    ry += 1;
+                } else if(sw == 6 && sh == 6) {
+                    rx -= 1;
+                    ry -= 1;
+                }
+            } else if(dir == eWorldDirection::W) {
+                if((sw == 4 && sh == 4) || (sw == 2 && sh == 2)) {
+                    ry += 1;
+                } else if(sw == 6 && sh == 6) {
+                    rx -= 1;
+                }
+            }
             const auto tex = eb.fBR->getTexture(tp.size());
 
             if(tex) {
