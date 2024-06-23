@@ -59,14 +59,8 @@ void eGameWidget::drawXY(int tx, int ty,
         if(dir != eWorldDirection::N) {
             const int width = mBoard->width();
             const int height = mBoard->height();
-            int dtx;
-            int dty;
-            eTileHelper::tileIdToDTileId(tx, ty, dtx, dty);
-            int rdtx;
-            int rdty;
-            eTileHelper::dTileIdToRotatedDTileId(
-                    dtx, dty, rdtx, rdty, dir, width, height);
-            eTileHelper::dtileIdToTileId(rdtx, rdty, tx, ty);
+            eTileHelper::tileIdToRotatedTileId(tx, ty, tx, ty,
+                                               dir, width, height);
         }
     }
 
