@@ -1282,18 +1282,28 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto t = mPatrolBuilding->centerTile();
             const int tx = t->x();
             const int ty = t->y();
+            int rtx;
+            int rty;
+            eTileHelper::tileIdToRotatedTileId(tx, ty,
+                                               rtx, rty, dir,
+                                               boardw, boardh);
             const int ta = t->altitude();
             std::vector<SDL_Point> polygon;
             polygon.reserve(pgs.size() + 2);
-            polygon.push_back({tx - ta, ty - ta});
+            polygon.push_back({rtx - ta, rty - ta});
             for(const auto& pg : pgs) {
                 const int tx = pg.fX;
                 const int ty = pg.fY;
+                int rtx;
+                int rty;
+                eTileHelper::tileIdToRotatedTileId(tx, ty,
+                                                   rtx, rty, dir,
+                                                   boardw, boardh);
                 const auto t = mBoard->tile(tx, ty);
                 const int ta = t->altitude();
-                polygon.push_back({pg.fX - ta, pg.fY - ta});
+                polygon.push_back({rtx - ta, rty - ta});
             }
-            polygon.push_back({tx - ta, ty - ta});
+            polygon.push_back({rtx - ta, rty - ta});
             tp.drawPolygon(polygon, {0, 0, 0, 255});
         }
     }
