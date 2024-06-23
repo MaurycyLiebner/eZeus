@@ -1183,11 +1183,11 @@ void eGameWidget::paintEvent(ePainter& p) {
             clipRect.h = 20000;
             switch(side) {
             case eTileClipSide::left: {
-                clipRect.x = mDX + (tile->x() - tile->y() - 1)*mTileW/2;
+                clipRect.x = mDX + (rtx - rty - 1)*mTileW/2;
                 clipRect.w = 10000;
             } break;
             case eTileClipSide::right: {
-                clipRect.x = mDX + (tile->x() - tile->y() - 1)*mTileW/2 - 10000;
+                clipRect.x = mDX + (rtx - rty - 1)*mTileW/2 - 10000;
                 clipRect.w = mTileW + 10000;
             } break;
             }
@@ -1213,7 +1213,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 }
             }
             {
-                const auto t_x1y0 = tile->bottomLeftRotated<eTile>(dir);
+                const auto t_x1y0 = tile->bottomRightRotated<eTile>(dir);
                 if(t_x1y0) {
                     const bool flat = tileFlat(t_x1y0);
                     if(!flat) return eCharRenderOrder::x0y1x1y0;
