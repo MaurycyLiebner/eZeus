@@ -2648,6 +2648,10 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto b1 = e::make_shared<eSundial>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
+        case eBuildingMode::orrery: {
+            const auto b1 = e::make_shared<eOrrery>(*mBoard);
+            ebs.emplace_back(mHoverTX, mHoverTY, b1);
+        } break;
         case eBuildingMode::dolphinSculpture: {
             const auto b1 = e::make_shared<eDolphinSculpture>(*mBoard);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
