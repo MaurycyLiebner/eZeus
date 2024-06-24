@@ -690,6 +690,7 @@ bool eGameWidget::buildMouseRelease() {
             build(mHoverTX, mHoverTY, 6, 6,
                   [this]() { return e::make_shared<eMuseum>(*mBoard); });
             showTip(eLanguage::zeusText(19, 248)); // build universities
+            mGm->clearMode();
         }; break;
 
         case eBuildingMode::fountain: {
@@ -1141,11 +1142,17 @@ bool eGameWidget::buildMouseRelease() {
             }
             const int tx = mHoverTX;
             const int ty = mHoverTY - 1;
-            const bool cb1 = canBuild(tx, ty, 2, 2);
+            int ttx = tx;
+            int tty = ty;
+            const bool cb1 = canBuildBase(ttx, ttx + 2, tty, tty + 2);
             if(!cb1) return true;
-            const bool cb2 = canBuild(tx + dx/2, ty + dy/2, 2, 2);
+            ttx = tx + dx/2;
+            tty = ty + dy/2;
+            const bool cb2 = canBuildBase(ttx, ttx + 2, tty, tty + 2);
             if(!cb2) return true;
-            const bool cb3 = canBuild(tx + dx, ty + dy, 2, 2);
+            ttx = tx + dx;
+            tty = ty + dy;
+            const bool cb3 = canBuildBase(ttx, ttx + 2, tty, tty + 2);
             if(!cb3) return true;
             const auto b1 = e::make_shared<eGatehouse>(*mBoard, mRotate);
             const auto t1 = mBoard->tile(tx, ty + 1);
