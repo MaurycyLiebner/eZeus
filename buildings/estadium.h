@@ -16,9 +16,6 @@ public:
 
     std::vector<eOverlay> getOverlays(const eTileSize size) const override;
 
-    std::shared_ptr<eTexture> getTexture1(const eTileSize size) const;
-    std::shared_ptr<eTexture> getTexture2(const eTileSize size) const;
-
     bool rotated() const { return mRotated; }
 protected:
     int overlayId() const { return mOverlayId; }
