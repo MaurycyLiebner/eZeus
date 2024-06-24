@@ -15,25 +15,75 @@ eTextureSpace eEliteHousing::getTextureSpace(
     const SDL_Point p{tx, ty};
     const auto r = tileRect();
     if(!SDL_PointInRect(&p, &r)) return {nullptr};
+    auto& board = getBoard();
+    const auto dir = board.direction();
     const auto& coll = getTextureCollection(size);
     const int rx = r.x;
     const int ry = r.y;
     const int dx = tx - rx;
     const int dy = ty - ry;
     if(dx < 2 && dy < 2) { // top
-        const auto& tex = coll.getTexture(3);
-        return {tex, true, {r.x, r.y, 2, 2}};
+        if(dir == eWorldDirection::N) {
+            const auto& tex = coll.getTexture(3);
+            return {tex, true, {r.x, r.y, 2, 2}};
+        } else if(dir == eWorldDirection::E) {
+            const int id = seed() % 2;
+            const auto& tex = coll.getTexture(id);
+            return {tex, true, {r.x, r.y, 2, 2}};
+        } else if(dir == eWorldDirection::S) {
+            const auto& tex = coll.getTexture(2);
+            return {tex, true, {r.x, r.y, 2, 2}};
+        } else { // if(dir == eWorldDirection::W) {
+            const auto& tex = coll.getTexture(4);
+            return {tex, true, {r.x, r.y, 2, 2}};
+        }
     } else if(dx < 2 && dy >= 2) { // left
-        const int id = seed() % 2;
-        const auto& tex = coll.getTexture(id);
-        return {tex, false, {r.x, r.y + 2, 2, 2}};
+        if(dir == eWorldDirection::N) {
+            const int id = seed() % 2;
+            const auto& tex = coll.getTexture(id);
+            return {tex, false, {r.x, r.y + 2, 2, 2}};
+        } else if(dir == eWorldDirection::E) {
+            const auto& tex = coll.getTexture(2);
+            return {tex, false, {r.x, r.y + 2, 2, 2}};
+        } else if(dir == eWorldDirection::S) {
+            const auto& tex = coll.getTexture(4);
+            return {tex, false, {r.x, r.y + 2, 2, 2}};
+        } else { // if(dir == eWorldDirection::W) {
+            const auto& tex = coll.getTexture(3);
+            return {tex, false, {r.x, r.y + 2, 2, 2}};
+        }
     } else if(dx >= 2 && dy < 2) { // right
-        const auto& tex = coll.getTexture(4);
-        return {tex, false, {r.x + 2, r.y, 2, 2}};
+        if(dir == eWorldDirection::N) {
+            const auto& tex = coll.getTexture(4);
+            return {tex, false, {r.x + 2, r.y, 2, 2}};
+        } else if(dir == eWorldDirection::E) {
+            const auto& tex = coll.getTexture(3);
+            return {tex, false, {r.x + 2, r.y, 2, 2}};
+        } else if(dir == eWorldDirection::S) {
+            const int id = seed() % 2;
+            const auto& tex = coll.getTexture(id);
+            return {tex, false, {r.x + 2, r.y, 2, 2}};
+        } else { // if(dir == eWorldDirection::W) {
+            const auto& tex = coll.getTexture(2);
+            return {tex, false, {r.x + 2, r.y, 2, 2}};
+        }
     } else { // bottom
-        const auto& tex = coll.getTexture(2);
-        return {tex, false, {r.x + 2, r.y + 2, 2, 2}};
+        if(dir == eWorldDirection::N) {
+            const auto& tex = coll.getTexture(2);
+            return {tex, false, {r.x + 2, r.y + 2, 2, 2}};
+        } else if(dir == eWorldDirection::E) {
+            const auto& tex = coll.getTexture(4);
+            return {tex, false, {r.x + 2, r.y + 2, 2, 2}};
+        } else if(dir == eWorldDirection::S) {
+            const auto& tex = coll.getTexture(3);
+            return {tex, false, {r.x + 2, r.y + 2, 2, 2}};
+        } else { // if(dir == eWorldDirection::W) {
+            const int id = seed() % 2;
+            const auto& tex = coll.getTexture(id);
+            return {tex, false, {r.x + 2, r.y + 2, 2, 2}};
+        }
     }
+    return {};
 }
 
 std::vector<eOverlay> eEliteHousing::getOverlays(const eTileSize size) const {

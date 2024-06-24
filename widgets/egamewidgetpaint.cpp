@@ -2223,17 +2223,62 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
         } break;
         case eBuildingMode::eliteHousing: {
+            int dx1;
+            int dy1;
+            int dx2;
+            int dy2;
+            int dx3;
+            int dy3;
+            int dx4;
+            int dy4;
+            if(dir == eWorldDirection::N) {
+                dx1 = 0;
+                dy1 = 0;
+                dx2 = 2;
+                dy2 = 0;
+                dx3 = 2;
+                dy3 = 2;
+                dx4 = 0;
+                dy4 = 2;
+            } else if(dir == eWorldDirection::E) {
+                dx1 = 2;
+                dy1 = 0;
+                dx2 = 2;
+                dy2 = 2;
+                dx3 = 0;
+                dy3 = 2;
+                dx4 = 0;
+                dy4 = 0;
+            } else if(dir == eWorldDirection::S) {
+                dx1 = 2;
+                dy1 = 2;
+                dx2 = 0;
+                dy2 = 2;
+                dx3 = 0;
+                dy3 = 0;
+                dx4 = 2;
+                dy4 = 0;
+            } else { // if(dir == eWorldDirection::W) {
+                dx1 = 0;
+                dy1 = 2;
+                dx2 = 0;
+                dy2 = 0;
+                dx3 = 2;
+                dy3 = 0;
+                dx4 = 2;
+                dy4 = 2;
+            }
             const auto b1 = e::make_shared<eEliteHousing>(*mBoard);
-            auto& ebs1 = ebs.emplace_back(mHoverTX, mHoverTY, b1);
+            auto& ebs1 = ebs.emplace_back(mHoverTX + dx1, mHoverTY + dy1, b1);
             ebs1.fBR = e::make_shared<eEliteHousingRenderer>(
                            eEliteRendererType::top, b1);
-            auto& ebs2 = ebs.emplace_back(mHoverTX + 2, mHoverTY, b1);
+            auto& ebs2 = ebs.emplace_back(mHoverTX + dx2, mHoverTY + dy2, b1);
             ebs2.fBR = e::make_shared<eEliteHousingRenderer>(
                            eEliteRendererType::right, b1);
-            auto& ebs3 = ebs.emplace_back(mHoverTX + 2, mHoverTY + 2, b1);
+            auto& ebs3 = ebs.emplace_back(mHoverTX + dx3, mHoverTY + dy3, b1);
             ebs3.fBR = e::make_shared<eEliteHousingRenderer>(
                            eEliteRendererType::bottom, b1);
-            auto& ebs4 = ebs.emplace_back(mHoverTX, mHoverTY + 2, b1);
+            auto& ebs4 = ebs.emplace_back(mHoverTX + dx4, mHoverTY + dy4, b1);
             ebs4.fBR = e::make_shared<eEliteHousingRenderer>(
                            eEliteRendererType::left, b1);
         } break;
