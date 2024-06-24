@@ -38,17 +38,53 @@ eTextureSpace eStadium::getTextureSpace(const int tx, const int ty,
     const auto& blds = eGameTextures::buildings();
     const int sizeId = static_cast<int>(size);
     const auto& plcs = blds[sizeId];
+    auto& board = getBoard();
+    const auto dir = board.direction();
+    const bool dirRot = dir == eWorldDirection::E ||
+                        dir == eWorldDirection::W;
+    const bool dirReorder = dir == eWorldDirection::E ||
+                            dir == eWorldDirection::S;
     if(mRotated) {
-        if(ty - r.y > 4) {
-            return {plcs.fStadium2H, true, SDL_Rect{r.x, r.y + 5, 5, 5}};
+        const bool h2 = ty - r.y > 4;
+        SDL_Rect rect;
+        if(h2) {
+            rect = SDL_Rect{r.x, r.y + 5, 5, 5};
         } else {
-            return {plcs.fStadium1H, false, SDL_Rect{r.x, r.y, 5, 5}};
+            rect = SDL_Rect{r.x, r.y, 5, 5};
+        }
+        if(dirRot) {
+            if(h2 != dirReorder) {
+                return {plcs.fStadium1W, false, rect};
+            } else {
+                return {plcs.fStadium2W, true, rect};
+            }
+        } else {
+            if(h2 != dirReorder) {
+                return {plcs.fStadium2H, true, rect};
+            } else {
+                return {plcs.fStadium1H, false, rect};
+            }
         }
     } else {
-        if(tx - r.x > 4) {
-            return {plcs.fStadium2W, true, SDL_Rect{r.x + 5, r.y, 5, 5}};
+        const bool h2 = tx - r.x > 4;
+        SDL_Rect rect;
+        if(h2) {
+            rect = SDL_Rect{r.x + 5, r.y, 5, 5};
         } else {
-            return {plcs.fStadium1W, false, SDL_Rect{r.x, r.y, 5, 5}};
+            rect = SDL_Rect{r.x, r.y, 5, 5};
+        }
+        if(dirRot) {
+            if(h2 != dirReorder) {
+                return {plcs.fStadium2H, true, rect};
+            } else {
+                return {plcs.fStadium1H, false, rect};
+            }
+        } else {
+            if(h2 != dirReorder) {
+                return {plcs.fStadium2W, true, rect};
+            } else {
+                return {plcs.fStadium1W, false, rect};
+            }
         }
     }
 }

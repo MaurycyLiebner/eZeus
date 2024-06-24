@@ -49,9 +49,9 @@ eTextureSpace ePalace::getTextureSpace(const int tx, const int ty,
         }
         if(dirRot) {
             if(h2 != dirReorder) {
-                return {plcs.fPalace2W, true, rect};
-            } else {
                 return {plcs.fPalace1W, false, rect};
+            } else {
+                return {plcs.fPalace2W, true, rect};
             }
         } else {
             if(h2 != dirReorder) {
