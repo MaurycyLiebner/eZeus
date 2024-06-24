@@ -21,15 +21,6 @@ eStadium::~eStadium() {
     b.unregisterStadium();
 }
 
-void eStadium::timeChanged(const int by) {
-    mOverlayTime++;
-    if(mOverlayTime > 500) {
-        mOverlayTime = 0;
-        mOverlayId = (mOverlayId + 1) % 5;
-    }
-    ePatrolTarget::timeChanged(by);
-}
-
 eTextureSpace eStadium::getTextureSpace(const int tx, const int ty,
                                         const eTileSize size) const {
     const SDL_Point p{tx, ty};
@@ -95,8 +86,16 @@ std::vector<eOverlay> eStadium::getOverlays(const eTileSize size) const {
 
     std::vector<eOverlay> os;
 
+    auto& board = getBoard();
+    const auto dir = board.direction();
+    const bool dirRot = dir == eWorldDirection::E ||
+                        dir == eWorldDirection::W;
     const int tt = textureTime();
-    if(mRotated) {
+    const int dur = 120;
+    const int ttt = tt % (5 * dur);
+    const int oi = ttt/dur;
+    const int tttt = ttt - oi * dur;
+    if(mRotated != dirRot) {
         {
             const auto& coll = texs.fStadiumAudiance1H;
             eOverlay a0;
@@ -120,7 +119,6 @@ std::vector<eOverlay> eStadium::getOverlays(const eTileSize size) const {
         double ox = 0;
         double oy = -6;
         const eTextureCollection* coll = nullptr;
-        const int oi = overlayId();
         if(oi == 0) {
             coll = &texs.fStadiumOverlay1;
             oy -= 2;
@@ -139,7 +137,7 @@ std::vector<eOverlay> eStadium::getOverlays(const eTileSize size) const {
             oy -= 3;
         }
 
-        const int t = overlayTime();
+        const int t = tttt;
 
         const int ttt = wrap ? t % coll->size() :
                                std::clamp(t, 0, coll->size() - 1);
@@ -169,7 +167,6 @@ std::vector<eOverlay> eStadium::getOverlays(const eTileSize size) const {
         double ox = 0;
         double oy = -5;
         const eTextureCollection* coll = nullptr;
-        const int oi = overlayId();
         if(oi == 0) {
             coll = &texs.fStadiumOverlay1;
             ox -= 2;
@@ -187,7 +184,7 @@ std::vector<eOverlay> eStadium::getOverlays(const eTileSize size) const {
             coll = &texs.fStadiumOverlay2;
             ox -= 3;
         }
-        const int t = overlayTime();
+        const int t = tttt;
 
         const int ttt = wrap ? t % coll->size() :
                                std::clamp(t, 0, coll->size() - 1);
