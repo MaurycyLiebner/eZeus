@@ -17,6 +17,8 @@ public:
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:
+    int rotatedId() const;
+
     int mId;
 };
 
