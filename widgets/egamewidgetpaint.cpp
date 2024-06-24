@@ -2431,13 +2431,23 @@ void eGameWidget::paintEvent(ePainter& p) {
                     dy = 0;
                 }
             }
+            const bool switched = (mRotate && dir == eWorldDirection::W) ||
+                                  (!mRotate && dir == eWorldDirection::E);
+            int x1 = mHoverTX + ddx;
+            int y1 = mHoverTY + ddy;
+            int x2 = mHoverTX + ddx + dx;
+            int y2 = mHoverTY + ddy + dy;
+            if(switched) {
+                std::swap(x1, x2);
+                std::swap(y1, y2);
+            }
             const auto b1 = e::make_shared<eGatehouse>(*mBoard, mRotate);
-            auto& ebs1 = ebs.emplace_back(mHoverTX + ddx, mHoverTY + ddy, b1);
+            auto& ebs1 = ebs.emplace_back(x1, y1, b1);
             ebs1.fBR = e::make_shared<eGatehouseRenderer>(
-                           eGatehouseRendererType::grt1, b1);
-            auto& ebs2 = ebs.emplace_back(mHoverTX + ddx + dx, mHoverTY + ddy + dy, b1);
+                           mRotate, eGatehouseRendererType::grt1, b1);
+            auto& ebs2 = ebs.emplace_back(x2, y2, b1);
             ebs2.fBR = e::make_shared<eGatehouseRenderer>(
-                           eGatehouseRendererType::grt2, b1);
+                           mRotate, eGatehouseRendererType::grt2, b1);
         } break;
 
         case eBuildingMode::armory: {

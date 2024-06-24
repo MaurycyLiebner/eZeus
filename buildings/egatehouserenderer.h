@@ -11,7 +11,8 @@ enum class eGatehouseRendererType {
 
 class eGatehouseRenderer : public eBuildingRenderer {
 public:
-    eGatehouseRenderer(const eGatehouseRendererType type,
+    eGatehouseRenderer(const bool rotated,
+                       const eGatehouseRendererType type,
                        const stdsptr<eGatehouse>& b);
 
     std::shared_ptr<eTexture>
@@ -24,6 +25,7 @@ public:
 
     eGatehouseRendererType gtype() const { return mType; }
 private:
+    const bool mRotated;
     const eGatehouseRendererType mType;
     const stdsptr<eGatehouse> mBuilding;
 };
