@@ -179,6 +179,11 @@ void eGameWidget::updateTerrainTextures() {
     const auto& builTexs = eGameTextures::buildings().at(tid);
 
     mBoard->iterateOverAllTiles([&](eTile* const tile) {
+        auto& p = tile->terrainPainter();
+        p.fDrawDim = 1;
+        p.fFutureDim = 1;
+    });
+    mBoard->iterateOverAllTiles([&](eTile* const tile) {
         updateTerrainTextures(tile, trrTexs, builTexs);
     });
 }
@@ -286,8 +291,10 @@ void eGameWidget::paintEvent(ePainter& p) {
         drawXY(tx, ty, rx, ry, drawDim, drawDim, a);
 
         if(tex) {
-            if(drawDim == 3) {
-                rx += 1;
+            if(drawDim == 2) {
+                rx -= 1;
+            } else if(drawDim == 3) {
+                rx -= 1;
                 ry -= 1;
             }
             bool eraseCm = false;
