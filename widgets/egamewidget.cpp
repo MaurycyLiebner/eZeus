@@ -316,8 +316,8 @@ void eGameWidget::setViewMode(const eViewMode m) {
 }
 
 void eGameWidget::mapDimensions(int& mdx, int& mdy) const {
-    const int w = mBoard->width();
-    const int h = mBoard->height();
+    const int w = mBoard->rotatedWidth();
+    const int h = mBoard->rotatedHeight();
     mdx = mTileW*w;
     mdy = mTileH*h/2;
 }
@@ -367,11 +367,33 @@ void eGameWidget::viewTile(eTile* const tile) {
     int mdx;
     int mdy;
     mapDimensions(mdx, mdy);
-    const int tx = tile->dx()*mTileW;
-    const int ty = tile->dy()*mTileH/2;
+    const int dtx = tile->dx();
+    const int dty = tile->dy();
+    const auto dir = mBoard->direction();
+    const int width = mBoard->width();
+    const int height = mBoard->height();
+    int rdtx;
+    int rdty;
+    eTileHelper::dTileIdToRotatedDTileId(dtx, dty, rdtx, rdty,
+                                         dir, width, height);
+    const int tx = rdtx*mTileW;
+    const int ty = rdty*mTileH/2;
     const double x = double(tx)/mdx;
     const double y = double(ty)/mdy;
     viewFraction(x, y);
+}
+
+eTile* eGameWidget::viewedTile() const {
+    double fx;
+    double fy;
+    viewedFraction(fx, fy);
+    int mdx;
+    int mdy;
+    mapDimensions(mdx, mdy);
+    const int vx = fx*mdx/mTileW;
+    const int vy = fy*mdy*2/mTileH;
+    const auto tile = mBoard->rotateddtile(vx, vy);
+    return tile;
 }
 
 bool eGameWidget::tileVisible(eTile* const tile) const {
@@ -1738,7 +1760,10 @@ void eGameWidget::updateViewBoxSize() {
 
 void eGameWidget::setWorldDirection(const eWorldDirection dir) {
     if(!mBoard) return;
+    const auto tile = viewedTile();
     mBoard->setWorldDirection(dir);
+    viewTile(tile);
+    clampViewBox();
 }
 
 void eGameWidget::openDialog(eWidget* const d) {

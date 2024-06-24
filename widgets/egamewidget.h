@@ -89,6 +89,7 @@ public:
 
     void viewFraction(const double fx, const double fy);
     void viewTile(eTile* const tile);
+    eTile* viewedTile() const;
     bool tileVisible(eTile* const tile) const;
 
     void setBoard(eGameBoard* const board);
