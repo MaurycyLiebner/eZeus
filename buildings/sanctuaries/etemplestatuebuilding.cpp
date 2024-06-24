@@ -1,6 +1,7 @@
 #include "etemplestatuebuilding.h"
 
 #include "textures/egametextures.h"
+#include "engine/egameboard.h"
 
 eTempleStatueBuilding::eTempleStatueBuilding(
         const eGodType god,
@@ -62,7 +63,42 @@ eTempleStatueBuilding::getTexture(const eTileSize size) const {
         coll = &blds.fZeusStatues;
         break;
     }
-
+    auto& board = getBoard();
+    const auto dir = board.direction();
+    int dirId;
+    if(dir == eWorldDirection::N) {
+        dirId = mId;
+    } else if(dir == eWorldDirection::E) {
+        if(mId == 0) {
+            dirId = 3;
+        } else if(mId == 1) {
+            dirId = 0;
+        } else if(mId == 2) {
+            dirId = 1;
+        } else { // if(mId == 3) {
+            dirId = 2;
+        }
+    } else if(dir == eWorldDirection::S) {
+        if(mId == 0) {
+            dirId = 1;
+        } else if(mId == 1) {
+            dirId = 3;
+        } else if(mId == 2) {
+            dirId = 0;
+        } else { // if(mId == 3) {
+            dirId = 2;
+        }
+    } else { // if(dir == eWorldDirection::W) {
+        if(mId == 0) {
+            dirId = 1;
+        } else if(mId == 1) {
+            dirId = 2;
+        } else if(mId == 2) {
+            dirId = 3;
+        } else { // if(mId == 3) {
+            dirId = 0;
+        }
+    }
     if(!coll) return nullptr;
-    return coll->getTexture(mId);
+    return coll->getTexture(dirId);
 }

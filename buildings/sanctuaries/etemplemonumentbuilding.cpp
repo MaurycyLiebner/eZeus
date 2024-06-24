@@ -1,6 +1,7 @@
 #include "etemplemonumentbuilding.h"
 
 #include "textures/egametextures.h"
+#include "engine/egameboard.h"
 
 eTempleMonumentBuilding::eTempleMonumentBuilding(
         const eGodType god,
@@ -60,5 +61,41 @@ eTempleMonumentBuilding::getTexture(const eTileSize size) const {
     const auto coll = sGodMonumentTextureCollection(size, mGod);
 
     if(!coll) return nullptr;
-    return coll->getTexture(mId);
+    auto& board = getBoard();
+    const auto dir = board.direction();
+    int dirId;
+    if(dir == eWorldDirection::N) {
+        dirId = mId;
+    } else if(dir == eWorldDirection::E) {
+        if(mId == 0) {
+            dirId = 3;
+        } else if(mId == 1) {
+            dirId = 0;
+        } else if(mId == 2) {
+            dirId = 1;
+        } else { // if(mId == 3) {
+            dirId = 2;
+        }
+    } else if(dir == eWorldDirection::S) {
+        if(mId == 0) {
+            dirId = 1;
+        } else if(mId == 1) {
+            dirId = 3;
+        } else if(mId == 2) {
+            dirId = 0;
+        } else { // if(mId == 3) {
+            dirId = 2;
+        }
+    } else { // if(dir == eWorldDirection::W) {
+        if(mId == 0) {
+            dirId = 1;
+        } else if(mId == 1) {
+            dirId = 2;
+        } else if(mId == 2) {
+            dirId = 3;
+        } else { // if(mId == 3) {
+            dirId = 0;
+        }
+    }
+    return coll->getTexture(dirId);
 }
