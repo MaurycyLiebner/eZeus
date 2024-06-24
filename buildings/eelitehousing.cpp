@@ -87,9 +87,11 @@ eTextureSpace eEliteHousing::getTextureSpace(
 }
 
 std::vector<eOverlay> eEliteHousing::getOverlays(const eTileSize size) const {
-    auto& board = getBoard();
-    if(board.poseidonMode()) return {};
-    return getHorseOverlays(size);
+//    auto& board = getBoard();
+//    if(board.poseidonMode()) return {};
+//    return getHorseOverlays(size);
+    (void)size;
+    return {};
 }
 
 std::shared_ptr<eTexture>
@@ -119,7 +121,9 @@ eEliteHousing::getRightTexture(const eTileSize size) const {
 
 std::vector<eOverlay>
 eEliteHousing::getHorseOverlays(const eTileSize size) const {
-    if(mLevel < 3 || mHorses < 1) return {};
+    if(mLevel < 3 || mHorses < 1 || mPeople <= 0) {
+        return {};
+    }
     const int sizeId = static_cast<int>(size);
     const auto& texs = eGameTextures::buildings()[sizeId];
 
