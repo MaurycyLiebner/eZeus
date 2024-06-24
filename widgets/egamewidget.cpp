@@ -433,7 +433,7 @@ void eGameWidget::iterateOverVisibleTiles(const eTileAction& a) {
     const int maxX = std::clamp(minX + visWidth/mTileW + 10, 0, mBoard->rotatedWidth());
 
     const int minY = std::clamp(-2*mDY/mTileH - 10, 0, mBoard->rotatedHeight());
-    const int maxY = std::clamp(minY + 2*height()/mTileH + 15, 0, mBoard->rotatedHeight());
+    const int maxY = std::clamp(minY + 2*height()/mTileH + 35, 0, mBoard->rotatedHeight());
 
     const bool play = Mix_Playing(-1) == 0 && (rand() % 250) == 0;
     if(play) {
