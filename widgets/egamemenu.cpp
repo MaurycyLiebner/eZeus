@@ -211,6 +211,10 @@ void eGameMenu::updateRequestButtons() {
     mOverDataW->updateRequestButtons();
 }
 
+void eGameMenu::setWorldDirection(const eWorldDirection dir) {
+    mRotateButton->setDirection(dir);
+}
+
 void eGameMenu::displayPrice(const int price, const int loc) {
     const auto w = mPriceWidgets[loc];
     const auto l = mPriceLabels[loc];

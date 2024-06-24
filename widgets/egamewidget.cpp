@@ -153,6 +153,7 @@ eGameWidgetSettings eGameWidget::settings() const {
     r.fTileSize = mTileSize;
     r.fDX = mDX;
     r.fDY = mDY;
+    r.fDir = mBoard ? mBoard->direction() : eWorldDirection::N;
     return r;
 }
 
@@ -161,8 +162,10 @@ void eGameWidget::setSettings(const eGameWidgetSettings& s) {
     mSpeedId = s.fSpeedId;
     mSpeed = s.fSpeed;
     setTileSize(s.fTileSize);
+    if(mBoard) mBoard->setWorldDirection(s.fDir);
     setDX(s.fDX);
     setDY(s.fDY);
+    mGm->setWorldDirection(s.fDir);
 }
 
 void eGameWidget::initialize() {

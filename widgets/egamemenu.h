@@ -72,6 +72,8 @@ public:
     void setModeChangedAction(const eAction& func);
 
     void updateRequestButtons();
+
+    void setWorldDirection(const eWorldDirection dir);
 protected:
     bool mousePressEvent(const eMouseEvent& e);
 private:
