@@ -387,6 +387,8 @@ bool eSanctuary::finished() const {
 void eSanctuary::read(eReadStream& src) {
     eEmployingBuilding::read(src);
 
+    src >> mRotated;
+
     src >> mHaltConstruction;
 
     src >> mStored.fMarble;
@@ -431,6 +433,8 @@ void eSanctuary::read(eReadStream& src) {
 
 void eSanctuary::write(eWriteStream& dst) const {
     eEmployingBuilding::write(dst);
+
+    dst << mRotated;
 
     dst << mHaltConstruction;
 

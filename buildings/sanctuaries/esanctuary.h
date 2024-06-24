@@ -79,11 +79,15 @@ public:
             const eBuildingType type,
             const int sw, const int sh,
             eGameBoard& board);
+
+    void setRotated(const bool r) { mRotated = r; }
+    bool rotated() const { return mRotated; }
 private:
     bool mHaltConstruction = false;
     eSanctCost mStored{0, 0, 0};
     eSanctCost mUsed{0, 0, 0};
     int mAltitude = 0;
+    bool mRotated = false;
 
     stdptr<eCartTransporter> mCart;
 

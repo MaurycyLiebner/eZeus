@@ -17,8 +17,12 @@ public:
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:
+    bool hasNeighbour() const;
+
     int rotatedId() const;
 
+    mutable bool mUpdateHasNeighbour = true;
+    mutable bool mHasNeighbour = false;
     int mId;
 };
 

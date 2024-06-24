@@ -1577,6 +1577,7 @@ bool eGameWidget::buildMouseRelease() {
             if(!cb) return true;
 
             const auto b = eSanctuary::sCreate(bt, sw, sh, *mBoard);
+            b->setRotated(mRotate);
             const auto god = b->godType();
 
             const bool r = canBuildBase(minX, maxX, minY, maxY);
