@@ -1764,6 +1764,11 @@ void eGameWidget::setWorldDirection(const eWorldDirection dir) {
     mBoard->setWorldDirection(dir);
     viewTile(tile);
     clampViewBox();
+    const auto mm = mGm->miniMap();
+    mm->scheduleUpdate();
+    const auto mma = mAm->miniMap();
+    mma->scheduleUpdate();
+    updateViewBoxSize();
 }
 
 void eGameWidget::openDialog(eWidget* const d) {

@@ -59,13 +59,13 @@ bool eRotateButton::mouseReleaseEvent(const eMouseEvent& e) {
             mDirection = eWorldDirection::N;
         } else if(mHovered == eButtonHoverPortion::left) {
             if(mDirection == eWorldDirection::N) {
-                mDirection = eWorldDirection::W;
+                mDirection = eWorldDirection::E;
             } else {
                 const int i = static_cast<int>(mDirection) - 1;
                 mDirection = static_cast<eWorldDirection>(i);
             }
         } else if(mHovered == eButtonHoverPortion::right) {
-            if(mDirection == eWorldDirection::W) {
+            if(mDirection == eWorldDirection::E) {
                 mDirection = eWorldDirection::N;
             } else {
                 const int i = static_cast<int>(mDirection) + 1;

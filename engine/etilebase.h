@@ -15,9 +15,9 @@ enum class eBuildingType;
 
 enum class eWorldDirection {
     N,
-    E,
+    W,
     S,
-    W
+    E
 };
 
 class eTileBase {

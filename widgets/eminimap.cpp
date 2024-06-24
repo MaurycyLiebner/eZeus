@@ -54,8 +54,8 @@ void eMiniMap::paintEvent(ePainter& p) {
     p.save();
     p.drawTexture(0, 0, mTexture);
     p.restore();
-    const int w = mViewBoxW*mBoard->width()*mTDim;
-    const int h = mViewBoxH*mBoard->height()*mTDim/2;
+    const int w = mViewBoxW*mBoard->rotatedWidth()*mTDim;
+    const int h = mViewBoxH*mBoard->rotatedHeight()*mTDim/2;
     const int x = width()/2 - w/2 + mDrawX;
     const int y = height()/2 - h/2 + mDrawY;
     const SDL_Rect rect{x, y, w, h};
@@ -172,7 +172,7 @@ void eMiniMap::updateTexture() {
 
     for(int x = xMin; x < xMax; x++) {
         for(int y = yMin; y < yMax; y++) {
-            const auto tile = mBoard->dtile(x, y);
+            const auto tile = mBoard->rotateddtile(x, y);
             if(!tile) continue;
             const auto color = colorForTile(tile);
             const auto t = ds.getTexture(0);
@@ -187,14 +187,14 @@ void eMiniMap::updateTexture() {
 }
 
 void eMiniMap::viewFraction(const double fx, const double fy) {
-    const int px = fx*mBoard->width()*mTDim;
-    const int py = fy*mBoard->height()*mTDim/2;
+    const int px = fx*mBoard->rotatedWidth()*mTDim;
+    const int py = fy*mBoard->rotatedHeight()*mTDim/2;
     viewAbsPix(px, py);
 }
 
 void eMiniMap::viewedFraction(double& fx, double& fy) {
-    fx = double(mCenterX)/(mBoard->width()*mTDim);
-    fy = double(mCenterY)/(mBoard->height()*mTDim/2);
+    fx = double(mCenterX)/(mBoard->rotatedWidth()*mTDim);
+    fy = double(mCenterY)/(mBoard->rotatedHeight()*mTDim/2);
 }
 
 void eMiniMap::viewTile(const int tileX, const int tileY) {
@@ -220,8 +220,8 @@ void eMiniMap::viewRelPix(const int pixX, const int pixY) {
 }
 
 void eMiniMap::viewAbsPix(const int px, const int py) {
-    const int w = mBoard->width()*mTDim;
-    const int h = mBoard->height()*mTDim/2;
+    const int w = mBoard->rotatedWidth()*mTDim;
+    const int h = mBoard->rotatedHeight()*mTDim/2;
     mCenterX = std::clamp(px, 0, w);
     mCenterY = std::clamp(py, 0, h);
     if(mCenterX < width()/2) {

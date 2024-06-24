@@ -20,6 +20,8 @@ public:
     void viewedTile(int& tileX, int& tileY) const;
 
     void setViewBoxSize(const double fx, const double fy);
+
+    void scheduleUpdate();
 protected:
     bool mousePressEvent(const eMouseEvent& e);
     bool mouseMoveEvent(const eMouseEvent& e);
@@ -29,8 +31,6 @@ private:
     void updateTexture();
     void viewRelPix(const int pixX, const int pixY);
     void viewAbsPix(const int px, const int py);
-
-    void scheduleUpdate();
 
     int mTime = 0;
 
