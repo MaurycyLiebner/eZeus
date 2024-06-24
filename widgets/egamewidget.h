@@ -242,6 +242,8 @@ private:
             const eTerrainTextures& trrTexs, const eWorldDirection dir,
             const int boardw, const int boardh);
 
+    void updateTopBottomAltitude();
+
     bool mEditorMode = false;
 
     bool mRotate = false;
@@ -257,6 +259,9 @@ private:
     int mSpeed = sSpeeds[mSpeedId];
 
     int mWheel = 0;
+
+    int mTopMinAltitude = 0;
+    int mBottomMaxAltitude = 0;
 
     int mDX = 0;
     int mDY = 0;

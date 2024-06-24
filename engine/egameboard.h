@@ -508,6 +508,11 @@ public:
     void scheduleDistributeEmployees();
 
     void incPopulation(const int by);
+
+    void topElevationExtremas(int& min, int& max) const;
+    void rightElevationExtremas(int& min, int& max) const;
+    void bottomElevationExtremas(int& min, int& max) const;
+    void leftElevationExtremas(int& min, int& max) const;
 private:
     void updateNeighbours();
 

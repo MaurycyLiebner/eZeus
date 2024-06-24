@@ -2382,3 +2382,47 @@ void eGameBoard::incPopulation(const int by) {
     mPopData.incPopulation(by);
     scheduleDistributeEmployees();
 }
+
+void eGameBoard::topElevationExtremas(int& min, int& max) const {
+    min = 10000;
+    max = -10000;
+    for(int x = 0; x < mWidth; x++) {
+        const auto t = dtile(x, 0);
+        const int a = t->altitude();
+        min = std::min(min, a);
+        max = std::max(max, a);
+    }
+}
+
+void eGameBoard::rightElevationExtremas(int& min, int& max) const {
+    min = 10000;
+    max = -10000;
+    for(int y = 0; y < mHeight; y++) {
+        const auto t = dtile(mWidth - 1, y);
+        const int a = t->altitude();
+        min = std::min(min, a);
+        max = std::max(max, a);
+    }
+}
+
+void eGameBoard::bottomElevationExtremas(int& min, int& max) const {
+    min = 10000;
+    max = -10000;
+    for(int x = 0; x < mWidth; x++) {
+        const auto t = dtile(x, mHeight - 1);
+        const int a = t->altitude();
+        min = std::min(min, a);
+        max = std::max(max, a);
+    }
+}
+
+void eGameBoard::leftElevationExtremas(int& min, int& max) const {
+    min = 10000;
+    max = -10000;
+    for(int y = 0; y < mHeight; y++) {
+        const auto t = dtile(0, y);
+        const int a = t->altitude();
+        min = std::min(min, a);
+        max = std::max(max, a);
+    }
+}

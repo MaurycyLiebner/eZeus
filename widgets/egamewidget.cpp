@@ -143,6 +143,7 @@ void eGameWidget::setBoard(eGameBoard* const board) {
 
     mBoard->updateMusic();
     updateViewBoxSize();
+    updateTopBottomAltitude();
 }
 
 eGameWidgetSettings eGameWidget::settings() const {
@@ -1714,8 +1715,29 @@ void eGameWidget::clampViewBox() {
     const int hh = height();
     const auto dir = mBoard->direction();
     const int inc = dir == eWorldDirection::E ? mTileH/2 : 0;
-    mDY = std::min(-mTileH/2 + 2*inc, mDY);
-    mDY = std::max(-h*mTileH/2 + hh + inc, mDY);
+    const int dt = mTopMinAltitude < 0 ? mTopMinAltitude : 0;
+    mDY = std::min(-mTileH/2 + 2*inc + dt*mTileH, mDY);
+    const int db = mBottomMaxAltitude > 0 ? mBottomMaxAltitude : 0;
+    mDY = std::max(-h*mTileH/2 + hh + inc + db*mTileH, mDY);
+}
+
+void eGameWidget::updateTopBottomAltitude() {
+    if(!mBoard) return;
+    const auto dir = mBoard->direction();
+    int i;
+    if(dir == eWorldDirection::N) {
+        mBoard->topElevationExtremas(mTopMinAltitude, i);
+        mBoard->bottomElevationExtremas(i, mBottomMaxAltitude);
+    } else if(dir == eWorldDirection::E) {
+        mBoard->rightElevationExtremas(mTopMinAltitude, i);
+        mBoard->leftElevationExtremas(i, mBottomMaxAltitude);
+    } else if(dir == eWorldDirection::S) {
+        mBoard->bottomElevationExtremas(mTopMinAltitude, i);
+        mBoard->topElevationExtremas(i, mBottomMaxAltitude);
+    } else { // if(dir == eWorldDirection::W) {
+        mBoard->leftElevationExtremas(mTopMinAltitude, i);
+        mBoard->rightElevationExtremas(i, mBottomMaxAltitude);
+    }
 }
 
 void eGameWidget::setTileSize(const eTileSize size) {
@@ -1765,6 +1787,7 @@ void eGameWidget::setWorldDirection(const eWorldDirection dir) {
     if(!mBoard) return;
     const auto tile = viewedTile();
     mBoard->setWorldDirection(dir);
+    updateTopBottomAltitude();
     viewTile(tile);
     clampViewBox();
     const auto mm = mGm->miniMap();
