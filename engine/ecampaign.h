@@ -12,6 +12,7 @@ enum class eEpisodeType {
 
 struct eEpisode {
     virtual void read(eReadStream& src) {
+        src >> fAtlantean;
         fStartDate.read(src);
         {
             int nfg;
@@ -58,6 +59,7 @@ struct eEpisode {
     }
 
     virtual void write(eWriteStream& dst) const {
+        dst << fAtlantean;
         fStartDate.write(dst);
         dst << fFriendlyGods.size();
         for(const auto g : fFriendlyGods) {
