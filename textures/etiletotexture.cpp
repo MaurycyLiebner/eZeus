@@ -73,7 +73,88 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
     case eBuildingType::templePoseidon:
     case eBuildingType::templeZeus: {
         const auto& coll = textures.fSanctuaryStairs;
-        return coll.getTexture(seed % coll.size());
+        int texId = seed % coll.size();
+        if(dir == eWorldDirection::N) {
+        } else if(dir == eWorldDirection::E) {
+            if(texId == 0) {
+                texId = 6;
+            } else if(texId == 1) {
+                texId = 7;
+            } else if(texId == 2) {
+                texId = 0;
+            } else if(texId == 3) {
+                texId = 1;
+            } else if(texId == 4) {
+                texId = 2;
+            } else if(texId == 5) {
+                texId = 3;
+            } else if(texId == 6) {
+                texId = 4;
+            } else if(texId == 7) {
+                texId = 5;
+            } else if(texId == 8) {
+                texId = 11;
+            } else if(texId == 9) {
+                texId = 8;
+            } else if(texId == 10) {
+                texId = 9;
+            } else if(texId == 11) {
+                texId = 10;
+            }
+        } else if(dir == eWorldDirection::S) {
+            if(texId == 0) {
+                texId = 4;
+            } else if(texId == 1) {
+                texId = 5;
+            } else if(texId == 2) {
+                texId = 6;
+            } else if(texId == 3) {
+                texId = 7;
+            } else if(texId == 4) {
+                texId = 0;
+            } else if(texId == 5) {
+                texId = 1;
+            } else if(texId == 6) {
+                texId = 2;
+            } else if(texId == 7) {
+                texId = 3;
+            } else if(texId == 8) {
+                texId = 10;
+            } else if(texId == 9) {
+                texId = 11;
+            } else if(texId == 10) {
+                texId = 8;
+            } else if(texId == 11) {
+                texId = 9;
+            }
+        } else { // if(dir == eWorldDirection::W) {
+            if(texId == 0) {
+                texId = 2;
+            } else if(texId == 1) {
+                texId = 3;
+            } else if(texId == 2) {
+                texId = 4;
+            } else if(texId == 3) {
+                texId = 5;
+            } else if(texId == 4) {
+                texId = 6;
+            } else if(texId == 5) {
+                texId = 7;
+            } else if(texId == 6) {
+                texId = 0;
+            } else if(texId == 7) {
+                texId = 1;
+            } else if(texId == 8) {
+                texId = 9;
+            } else if(texId == 9) {
+                texId = 10;
+            } else if(texId == 10) {
+                texId = 11;
+            } else if(texId == 11) {
+                texId = 8;
+            }
+        }
+        return coll.getTexture(texId);
     } break;
     case eBuildingType::oliveTree:
     case eBuildingType::vine:
