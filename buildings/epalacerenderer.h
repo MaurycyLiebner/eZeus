@@ -11,7 +11,7 @@ public:
     std::shared_ptr<eTexture>
         getTexture(const eTileSize size) const;
     std::vector<eOverlay>
-        getOverlays(const eTileSize) const;
+        getOverlays(const eTileSize size) const;
 
     int spanW() const { return 4; }
     int spanH() const { return 4; }

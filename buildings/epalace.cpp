@@ -84,26 +84,6 @@ eTextureSpace ePalace::getTextureSpace(const int tx, const int ty,
     }
 }
 
-std::shared_ptr<eTexture> ePalace::getTexture1(const eTileSize size) const {
-    const auto& blds = eGameTextures::buildings();
-    const int sizeId = static_cast<int>(size);
-    if(mRotated) {
-        return blds[sizeId].fPalace1H;
-    } else {
-        return blds[sizeId].fPalace1W;
-    }
-}
-
-std::shared_ptr<eTexture> ePalace::getTexture2(const eTileSize size) const {
-    const auto& blds = eGameTextures::buildings();
-    const int sizeId = static_cast<int>(size);
-    if(mRotated) {
-        return blds[sizeId].fPalace2H;
-    } else {
-        return blds[sizeId].fPalace2W;
-    }
-}
-
 std::vector<eOverlay> ePalace::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& texs = eGameTextures::buildings()[sizeId];

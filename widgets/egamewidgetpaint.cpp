@@ -2218,6 +2218,9 @@ void eGameWidget::paintEvent(ePainter& p) {
             ebs1.fBR = e::make_shared<ePalace1Renderer>(b1);
             auto& ebs2 = ebs.emplace_back(tx + dx, ty + dy, b1);
             ebs2.fBR = e::make_shared<ePalace2Renderer>(b1);
+            if(dir == eWorldDirection::S) {
+                std::swap(ebs1, ebs2);
+            }
         } break;
         case eBuildingMode::eliteHousing: {
             const auto b1 = e::make_shared<eEliteHousing>(*mBoard);
