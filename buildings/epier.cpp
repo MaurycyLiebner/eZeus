@@ -1,6 +1,7 @@
 #include "epier.h"
 
 #include "textures/egametextures.h"
+#include "engine/egameboard.h"
 
 ePier::ePier(eGameBoard& board, const eOrientation o) :
     eBuilding(board, eBuildingType::pier, 2, 2),
@@ -12,8 +13,11 @@ std::shared_ptr<eTexture> ePier::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings();
     const auto& coll = blds[sizeId].fPier1;
+    auto& board = getBoard();
+    const auto dir = board.direction();
+    const auto o = sRotated(mO, dir);
     int id = 3;
-    switch(mO) {
+    switch(o) {
     case eOrientation::topRight:
         id = 0;
         break;

@@ -3,6 +3,7 @@
 #include "characters/efishingboat.h"
 #include "characters/actions/ecollectresourceaction.h"
 #include "textures/egametextures.h"
+#include "engine/egameboard.h"
 
 eFishery::eFishery(eGameBoard& board, const eOrientation o) :
     eResourceCollectBuildingBase(board, eBuildingType::fishery,
@@ -51,8 +52,11 @@ std::shared_ptr<eTexture> eFishery::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings();
     const auto& coll = blds[sizeId].fFishery;
+    auto& board = getBoard();
+    const auto dir = board.direction();
+    const auto o = sRotated(mO, dir);
     int id = 3;
-    switch(mO) {
+    switch(o) {
     case eOrientation::topRight:
         id = 0;
         break;
@@ -76,11 +80,14 @@ std::shared_ptr<eTexture> eFishery::getTexture(const eTileSize size) const {
 std::vector<eOverlay> eFishery::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
+    auto& board = getBoard();
+    const auto dir = board.direction();
+    const auto oo = sRotated(mO, dir);
     switch(mState) {
     case eFisheryState::buildingBoat: {
         eOverlay o;
         const eTextureCollection* coll;
-        switch(mO) {
+        switch(oo) {
         case eOrientation::topRight:
             coll = &blds.fFisheryBoatBuildingH;
             o.fX = 0.2;
@@ -111,7 +118,7 @@ std::vector<eOverlay> eFishery::getOverlays(const eTileSize size) const {
     case eFisheryState::waiting: {
         eOverlay o;
         const eTextureCollection* coll;
-        switch(mO) {
+        switch(oo) {
         case eOrientation::topRight:
             coll = &blds.fFisheryOverlay[0];
             o.fX = 0.2;
@@ -142,7 +149,7 @@ std::vector<eOverlay> eFishery::getOverlays(const eTileSize size) const {
     case eFisheryState::unpacking: {
         eOverlay o;
         const eTextureCollection* coll;
-        switch(mO) {
+        switch(oo) {
         case eOrientation::topRight:
             coll = &blds.fFisheryUnpackingOverlayTR;
             o.fX = -0.3;

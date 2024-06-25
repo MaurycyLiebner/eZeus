@@ -932,6 +932,7 @@ HEADERS += \
     engine/ewagerate.h \
     engine/eworldboard.h \
     engine/eworldcity.h \
+    engine/eworlddirection.h \
     engine/thread/ethreadboard.h \
     engine/thread/ethreadbuilding.h \
     engine/thread/ethreadcharacter.h \

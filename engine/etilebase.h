@@ -13,13 +13,6 @@ class eCharacterBase;
 
 enum class eBuildingType;
 
-enum class eWorldDirection {
-    N,
-    W,
-    S,
-    E
-};
-
 class eTileBase {
 public:
     eTileBase() {}
