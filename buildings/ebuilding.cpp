@@ -1913,20 +1913,14 @@ void eBuilding::incTime(const int by) {
             }
         }
     } else if(rand() % (2000/by) == 0) {
-        bool lower = true;
-        if(const auto sh = dynamic_cast<eSmallHouse*>(this)) {
-            if(sh->people() <= 0) lower = false;
-        } else if(const auto eh = dynamic_cast<eEliteHousing*>(this)) {
-            if(eh->people() <= 0) lower = false;
-        }
-        if(lower) {
+        if(!isEmptyHome()) {
             mMaintance = std::max(0, mMaintance - 1);
         }
-    } else {
+    } else if(!isEmptyHome()) {
         const int m4 = 10*pow(10 + mMaintance, 4);
         const auto diff = b.difficulty();
         const int fireRisk = eDifficultyHelpers::fireRisk(diff, mType);
-        if(fireRisk && by) {
+        if(fireRisk && by && sFlammable(type())) {
             const int firePeriod = m4/(by*fireRisk);
             if(firePeriod && rand() % firePeriod == 0) {
                 setOnFire(true);
@@ -1997,6 +1991,17 @@ void eBuilding::collapse() {
     }
 }
 
+bool eBuilding::isEmptyHome() const {
+    const auto t = type();
+    if(t == eBuildingType::commonHouse ||
+       t == eBuildingType::eliteHousing) {
+        const auto b = static_cast<const eHouseBase*>(this);
+        const int p = b->people();
+        if(p == 0) return true;
+    }
+    return false;
+}
+
 bool eBuilding::spreadFire() {
     auto dirs = gExtractDirections(eMoveDirection::allDirections);
     std::random_shuffle(dirs.begin(), dirs.end());
@@ -2008,12 +2013,7 @@ bool eBuilding::spreadFire() {
             if(ub == this) return false;
             const auto t = ub->type();
             if(!sFlammable(t)) return false;
-            if(t == eBuildingType::commonHouse ||
-               t == eBuildingType::eliteHousing) {
-                const auto b = static_cast<eHouseBase*>(ub);
-                const int p = b->people();
-                if(p == 0) return false;
-            }
+            if(ub->isEmptyHome()) return false;
             return true;
         });
         if(t) break;

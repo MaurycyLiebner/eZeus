@@ -240,6 +240,7 @@ public:
     virtual void erase();
     void collapse();
 
+    bool isEmptyHome() const;
     bool isOnFire();
     void setOnFire(const bool f);
 
