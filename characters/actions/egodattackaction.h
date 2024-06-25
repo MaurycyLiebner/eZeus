@@ -25,6 +25,8 @@ private:
 
     bool lookForAttack(const int dtime, int& time,
                        const int freq, const int range);
+    bool lookForTargetedAttack(const int dtime, int& time,
+                               const int freq, const int range);
 
     bool lookForGodAttack(const int dtime, int& time,
                           const int freq, const int range);
@@ -34,10 +36,12 @@ private:
 
     eGodAttackStage mStage{eGodAttackStage::none};
 
-    int mLookForCurse = 0;
-    int mLookForAttack = 0;
-    int mLookForGod = 0;
-    int mLookForSpecial = 0;
+    int mLookForCurse = rand() % 2000;
+    int mLookForTargetedCurse = rand() % 2000;
+    int mLookForAttack = rand() % 2000;
+    int mLookForTargetedAttack = rand() % 2000;
+    int mLookForGod = rand() % 2000;
+    int mLookForSpecial = rand() % 2000;
 };
 
 class eGAA_loserDisappearFinish : public eCharActFunc {

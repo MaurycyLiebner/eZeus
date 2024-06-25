@@ -36,6 +36,28 @@ bool eGodAction::lookForBlessCurse(
                               at, act, chart, s);
 }
 
+bool eGodAction::lookForTargetedBlessCurse(
+        const int dtime, int& time,
+        const int freq, const int range,
+        const double bless) {
+    using eLFBG = eLookForTargetedBlessGodAct;
+    const auto act = std::make_shared<eLFBG>(
+                         board(), bless, type());
+    eCharacterActionType at;
+    eGodSound s;
+    if(bless > 0) {
+        at = eCharacterActionType::bless;
+        s = eGodSound::santcify;
+    } else {
+        at = eCharacterActionType::curse;
+        s = eGodSound::curse;
+    }
+    const auto c = character();
+    const auto chart = c->type();
+    return lookForRangeAction(dtime, time, freq, range,
+                              at, act, chart, s);
+}
+
 bool eGodAction::lookForSoldierAttack(
         const int dtime, int& time,
         const int freq, const int range) {
@@ -100,6 +122,7 @@ bool eGodAction::lookForRangeAction(
                             finishAttackA);
             return true;
         }
+        time += freq/2;
     }
     return false;
 }

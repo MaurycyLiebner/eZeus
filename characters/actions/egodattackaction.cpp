@@ -16,37 +16,63 @@ void eGodAttackAction::increment(const int by) {
     const auto at = c->actionType();
     if(at == eCharacterActionType::walk) {
         const int lookForCurseCheck = 6000;
-        const int lookForAttackCheck = 8000;
+        int lookForAttackCheck = 8000;
         const int lookForGodCheck = 1000;
+        switch(type) {
+        case eGodType::aphrodite:
+        case eGodType::apollo:
+        case eGodType::atlas:
+        case eGodType::demeter:
+        case eGodType::dionysus:
+        case eGodType::hades:
+        case eGodType::hephaestus:
+        case eGodType::hera:
+        case eGodType::hermes:
+        case eGodType::poseidon:
+            lookForAttackCheck = 12000;
+            break;
+        case eGodType::ares:
+        case eGodType::artemis:
+        case eGodType::athena:
+        case eGodType::zeus:
+            lookForAttackCheck = 8000;
+            break;
+        }
+
+        const int lookForTargetedAttackCheck = 4000;
+        const int lookForTargetedCurseCheck = 3000;
 
         bool r = lookForBlessCurse(by, mLookForCurse, lookForCurseCheck, 10, -1);
         if(!r) r = lookForAttack(by, mLookForAttack, lookForAttackCheck, 10);
+        if(!r) r = lookForTargetedAttack(by, mLookForTargetedAttack, lookForTargetedAttackCheck, 10);
+        if(!r) r = lookForTargetedBlessCurse(by, mLookForTargetedCurse, lookForTargetedCurseCheck, 10, -1);
         if(!r) lookForGodAttack(by, mLookForGod, lookForGodCheck, 10);
-
-        if(type == eGodType::apollo) {
-            auto& board = this->board();
-            using eLFPG = eLookForPlagueGodAct;
-            const auto act = std::make_shared<eLFPG>(board);
-            const auto at = eCharacterActionType::curse;
-            const auto s = eGodSound::curse;
-            const auto c = character();
-            const auto chart = c->type();
-            const int lookForSpecialCheck = 8000;
-            lookForRangeAction(by, mLookForSpecial,
-                               lookForSpecialCheck, 10,
-                               at, act, chart, s);
-        } else if(type == eGodType::aphrodite) {
-            auto& board = this->board();
-            using eLFEG = eLookForEvictGodAct;
-            const auto act = std::make_shared<eLFEG>(board);
-            const auto at = eCharacterActionType::curse;
-            const auto s = eGodSound::curse;
-            const auto c = character();
-            const auto chart = c->type();
-            const int lookForSpecialCheck = 4000;
-            lookForRangeAction(by, mLookForSpecial,
-                               lookForSpecialCheck, 10,
-                               at, act, chart, s);
+        if(!r) {
+            if(type == eGodType::apollo) {
+                auto& board = this->board();
+                using eLFPG = eLookForPlagueGodAct;
+                const auto act = std::make_shared<eLFPG>(board);
+                const auto at = eCharacterActionType::curse;
+                const auto s = eGodSound::curse;
+                const auto c = character();
+                const auto chart = c->type();
+                const int lookForSpecialCheck = 7500;
+                lookForRangeAction(by, mLookForSpecial,
+                                   lookForSpecialCheck, 10,
+                                   at, act, chart, s);
+            } else if(type == eGodType::aphrodite) {
+                auto& board = this->board();
+                using eLFEG = eLookForEvictGodAct;
+                const auto act = std::make_shared<eLFEG>(board);
+                const auto at = eCharacterActionType::curse;
+                const auto s = eGodSound::curse;
+                const auto c = character();
+                const auto chart = c->type();
+                const int lookForSpecialCheck = 3500;
+                lookForRangeAction(by, mLookForSpecial,
+                                   lookForSpecialCheck, 10,
+                                   at, act, chart, s);
+            }
         }
     }
 
@@ -82,6 +108,21 @@ bool eGodAttackAction::lookForAttack(const int dtime,
                                      const int range) {
     const auto c = character();
     const auto act = std::make_shared<eLookForAttackGodAct>(board(), c);
+
+    const auto at = eCharacterActionType::fight;
+    const auto s = eGodSound::attack;
+    const auto chart = c->type();
+
+    return lookForRangeAction(dtime, time, freq, range,
+                              at, act, chart, s);
+}
+
+bool eGodAttackAction::lookForTargetedAttack(const int dtime,
+                                             int& time, const int freq,
+                                             const int range) {
+    const auto c = character();
+    const auto act = std::make_shared<eLookForTargetedAttackGodAct>(
+                         board(), type());
 
     const auto at = eCharacterActionType::fight;
     const auto s = eGodSound::attack;
@@ -228,7 +269,9 @@ void eGodAttackAction::read(eReadStream& src) {
     eGodAction::read(src);
     src >> mStage;
     src >> mLookForCurse;
+    src >> mLookForTargetedCurse;
     src >> mLookForAttack;
+    src >> mLookForTargetedAttack;
     src >> mLookForGod;
     src >> mLookForSpecial;
 }
@@ -237,7 +280,9 @@ void eGodAttackAction::write(eWriteStream& dst) const {
     eGodAction::write(dst);
     dst << mStage;
     dst << mLookForCurse;
+    dst << mLookForTargetedCurse;
     dst << mLookForAttack;
+    dst << mLookForTargetedAttack;
     dst << mLookForGod;
     dst << mLookForSpecial;
 }

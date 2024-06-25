@@ -52,6 +52,8 @@ public:
     static int sGodBlessTime(const eGodType gt);
     static int sGodAppearTime(const eGodType gt);
 
+    static bool sTarget(const eGodType gt, const eBuildingType bt);
+
     static std::string sGodName(const eGodType gt);
 
     static void sGodStrings(std::vector<eGodType>& gods,

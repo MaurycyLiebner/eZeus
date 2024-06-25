@@ -26,7 +26,9 @@ enum class eGodActType {
     aphroditeHelp,
 
     lookForPlague,
-    lookForEvict
+    lookForEvict,
+    lookForTargetedBless,
+    lookForTargetedAttack
 };
 
 class eGodAct {
@@ -198,6 +200,71 @@ private:
     stdptr<eHouseBase> mTarget;
 };
 
+class eLookForTargetedBlessGodAct : public eGodAct {
+public:
+    eLookForTargetedBlessGodAct(eGameBoard& board, const double bless,
+                                const eGodType type) :
+        eGodAct(board, eGodActType::lookForTargetedBless),
+        mBless(bless), mType(type) {}
+    eLookForTargetedBlessGodAct(eGameBoard& board) :
+        eLookForTargetedBlessGodAct(board, 0, eGodType::zeus) {}
+
+    eTile* find(eTile* const t) {
+        const auto b = t->underBuilding();
+        if(!b) return nullptr;
+        const auto type = b->type();
+        if(!eBuilding::sBlessable(type)) return nullptr;
+        if(!eGod::sTarget(mType, type)) return nullptr;
+        if(b->blessed() || b->cursed()) return nullptr;
+        mTarget = b;
+        return b->centerTile();
+    }
+
+    void act() {
+        if(mTarget) {
+            const auto type = mTarget->type();
+            const bool batch = type == eBuildingType::oliveTree ||
+                               type == eBuildingType::vine ||
+                               type == eBuildingType::orangeTree;
+            if(batch) {
+                auto& board = this->board();
+                const auto tile = mTarget->centerTile();
+                const int tx = tile->x();
+                const int ty = tile->y();
+                for(int x = tx - 3; x <= tx + 3; x++) {
+                    for(int y = ty - 3; y <= ty + 3; y++) {
+                        const auto tile = board.tile(x, y);
+                        if(!tile) continue;
+                        const auto ub = tile->underBuilding();
+                        if(!ub) continue;
+                        const auto utype = ub->type();
+                        if(type == utype) ub->setBlessed(mBless);
+                    }
+                }
+            }
+            mTarget->setBlessed(mBless);
+        }
+    }
+
+    void read(eReadStream& src) {
+        src.readBuilding(&board(), [this](eBuilding* const b) {
+            mTarget = b;
+        });
+        src >> mBless;
+        src >> mType;
+    }
+
+    void write(eWriteStream& dst) const {
+        dst.writeBuilding(mTarget);
+        dst << mBless;
+        dst << mType;
+    }
+private:
+    stdptr<eBuilding> mTarget;
+    double mBless = 0;
+    eGodType mType;
+};
+
 class eLookForBlessGodAct : public eGodAct {
 public:
     eLookForBlessGodAct(eGameBoard& board, const double bless) :
@@ -269,6 +336,47 @@ public:
     }
 private:
     stdptr<eCharacter> mTarget;
+};
+
+class eLookForTargetedAttackGodAct : public eGodAct {
+public:
+    eLookForTargetedAttackGodAct(eGameBoard& board,
+                                 const eGodType type) :
+        eGodAct(board, eGodActType::lookForTargetedAttack),
+        mType(type) {}
+    eLookForTargetedAttackGodAct(eGameBoard& board) :
+        eLookForTargetedAttackGodAct(board, eGodType::zeus) {}
+
+    eTile* find(eTile* const t) {
+        const auto b = t->underBuilding();
+        const auto type = b->type();
+        if(!b || !eBuilding::sAttackable(type)) return nullptr;
+        const bool target = eGod::sTarget(mType, type);
+        if(!target) return nullptr;
+        return b->centerTile();
+    }
+
+    void act() {
+        if(mBTarget) {
+            mBTarget->collapse();
+            eSounds::playCollapseSound();
+        }
+    }
+
+    void read(eReadStream& src) {
+        src >> mType;
+        src.readBuilding(&board(), [this](eBuilding* const b) {
+            mBTarget = b;
+        });
+    }
+
+    void write(eWriteStream& dst) const {
+        dst << mType;
+        dst.writeBuilding(mBTarget);
+    }
+private:
+    eGodType mType;
+    stdptr<eBuilding> mBTarget;
 };
 
 class eLookForAttackGodAct : public eGodAct {
@@ -360,6 +468,9 @@ public:
     bool lookForBlessCurse(const int dtime, int& time,
                            const int freq, const int range,
                            const double bless);
+    bool lookForTargetedBlessCurse(const int dtime, int& time,
+                                   const int freq, const int range,
+                                   const double bless);
 
     bool lookForSoldierAttack(const int dtime, int& time,
                               const int freq, const int range);
