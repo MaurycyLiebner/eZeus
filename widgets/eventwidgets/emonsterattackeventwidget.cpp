@@ -27,10 +27,10 @@ void eMonsterAttackEventWidget::initialize(eMonsterInvasionEventBase* const e) {
     const auto invasionPointButtonL = new eLabeledWidget(window());
     const auto invasionPointButton = new eValueButton(window());
     invasionPointButton->setValueChangeAction([e](const int p) {
-        e->setPointId(p);
+        e->setPointId(p - 1);
     });
     invasionPointButton->initialize(0, 999);
-    invasionPointButton->setValue(e->pointId());
+    invasionPointButton->setValue(e->pointId() + 1);
     invasionPointButtonL->setup(eLanguage::text("invasion_point:"), invasionPointButton);
     addWidget(invasionPointButtonL);
 

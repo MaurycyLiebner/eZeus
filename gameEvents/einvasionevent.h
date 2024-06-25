@@ -48,7 +48,7 @@ private:
     int mCavalry = 10;
     int mArchers = 10;
 
-    int mInvasionPoint = 0;
+    int mInvasionPoint = 1;
 
     bool mWarned = false;
     eDate mFirstWarning;

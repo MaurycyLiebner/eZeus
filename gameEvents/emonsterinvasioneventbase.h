@@ -21,7 +21,7 @@ protected:
     eMonster* triggerBase() const;
 private:
     eMonsterType mType = eMonsterType::calydonianBoar;
-    int mPointId = 0;
+    int mPointId = 1;
 };
 
 #endif // EMONSTERINVASIONEVENTBASE_H
