@@ -20,18 +20,25 @@ void eGodVisitEvent::setRandom(const bool r) {
 }
 
 void eGodVisitEvent::trigger() {
-    if(mTypes.empty()) return;
     const auto board = gameBoard();
     if(!board) return;
+    std::vector<eGodType> types;
+    for(const auto t : mTypes) {
+        const auto s = board->sanctuary(t);
+        if(!s || !s->finished()) {
+            types.push_back(t);
+        }
+    }
+    if(types.empty()) return;
     int tid;
-    const int nTypes = mTypes.size();
+    const int nTypes = types.size();
     if(mRandom) {
-        tid = rand() % mTypes.size();
+        tid = rand() % types.size();
     } else {
         tid = mNextId;
         if(++mNextId >= nTypes) mNextId = 0;
     }
-    const auto t = mTypes.at(tid);
+    const auto t = types.at(tid);
     const auto god = eGod::sCreateGod(t, *board);
 
     const auto a = e::make_shared<eGodVisitAction>(god.get());
