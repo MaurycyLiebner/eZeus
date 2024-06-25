@@ -1289,6 +1289,27 @@ void eGameBoard::healHouse(eSmallHouse* const h) {
     }
 }
 
+stdsptr<ePlague> eGameBoard::nearestPlague(
+        const int tx, const int ty, int& dist) const {
+    dist = __INT_MAX__/2;
+    stdsptr<ePlague> result;
+    for(const auto& p : mPlagues) {
+        const auto& hs = p->houses();
+        for(const auto h : hs) {
+            const auto tt = h->centerTile();
+            const int ttx = tt->x();
+            const int tty = tt->y();
+            const int d = sqrt((ttx - tx)*(ttx - tx) +
+                               (tty - ty)*(tty - ty));
+            if(d < dist) {
+                dist = d;
+                result = p;
+            }
+        }
+    }
+    return result;
+}
+
 void eGameBoard::updateMusic() {
     bool monsterActiveAttack = false;
     for(const auto m : mMonsters) {

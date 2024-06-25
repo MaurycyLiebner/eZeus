@@ -33,6 +33,9 @@ stdsptr<eGodAct> eGodAct::sCreate(
         return std::make_shared<eApolloHelpAct>(board);
     case eGodActType::aphroditeHelp:
         return std::make_shared<eAphroditeHelpAct>(board);
+
+    case eGodActType::lookForPlague:
+        return std::make_shared<eLookForPlagueGodAct>(board);
     }
     return nullptr;
 }

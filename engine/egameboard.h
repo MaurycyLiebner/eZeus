@@ -461,6 +461,8 @@ public:
     void healHouse(eSmallHouse* const h);
     using ePlagues = std::vector<stdsptr<ePlague>>;
     const ePlagues& plagues() const { return mPlagues; }
+    stdsptr<ePlague> nearestPlague(const int tx, const int ty,
+                                   int& dist) const;
 
     void updateMusic();
 

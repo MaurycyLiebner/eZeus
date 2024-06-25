@@ -12,6 +12,7 @@ eGodAttackAction::eGodAttackAction(eCharacter* const c) :
 
 void eGodAttackAction::increment(const int by) {
     const auto c = character();
+    const auto type = this->type();
     const auto at = c->actionType();
     if(at == eCharacterActionType::walk) {
         const int lookForCurseCheck = 6000;
@@ -21,9 +22,34 @@ void eGodAttackAction::increment(const int by) {
         bool r = lookForBlessCurse(by, mLookForCurse, lookForCurseCheck, 10, -1);
         if(!r) r = lookForAttack(by, mLookForAttack, lookForAttackCheck, 10);
         if(!r) lookForGodAttack(by, mLookForGod, lookForGodCheck, 10);
+
+        if(type == eGodType::apollo) {
+            auto& board = this->board();
+            using eLFPG = eLookForPlagueGodAct;
+            const auto act = std::make_shared<eLFPG>(board);
+            const auto at = eCharacterActionType::curse;
+            const auto s = eGodSound::curse;
+            const auto c = character();
+            const auto chart = c->type();
+            const int lookForSpecialCheck = 8000;
+            lookForRangeAction(by, mLookForSpecial,
+                               lookForSpecialCheck, 10,
+                               at, act, chart, s);
+        } else if(type == eGodType::aphrodite) {
+            auto& board = this->board();
+            using eLFEG = eLookForEvictGodAct;
+            const auto act = std::make_shared<eLFEG>(board);
+            const auto at = eCharacterActionType::curse;
+            const auto s = eGodSound::curse;
+            const auto c = character();
+            const auto chart = c->type();
+            const int lookForSpecialCheck = 4000;
+            lookForRangeAction(by, mLookForSpecial,
+                               lookForSpecialCheck, 10,
+                               at, act, chart, s);
+        }
     }
 
-    const auto type = this->type();
     if(type == eGodType::atlas) {
         auto& board = this->board();
         const auto tile = c->tile();
@@ -204,6 +230,7 @@ void eGodAttackAction::read(eReadStream& src) {
     src >> mLookForCurse;
     src >> mLookForAttack;
     src >> mLookForGod;
+    src >> mLookForSpecial;
 }
 
 void eGodAttackAction::write(eWriteStream& dst) const {
@@ -212,6 +239,7 @@ void eGodAttackAction::write(eWriteStream& dst) const {
     dst << mLookForCurse;
     dst << mLookForAttack;
     dst << mLookForGod;
+    dst << mLookForSpecial;
 }
 
 void eGodAttackAction::initialize() {

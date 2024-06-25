@@ -37,6 +37,7 @@ private:
     int mLookForCurse = 0;
     int mLookForAttack = 0;
     int mLookForGod = 0;
+    int mLookForSpecial = 0;
 };
 
 class eGAA_loserDisappearFinish : public eCharActFunc {

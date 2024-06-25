@@ -6,6 +6,7 @@
 #include "characters/gods/egod.h"
 #include "engine/egameboard.h"
 #include "audio/esounds.h"
+#include "buildings/esmallhouse.h"
 
 class eDestructionTextures;
 enum class eGodSound;
@@ -22,7 +23,10 @@ enum class eGodActType {
     provideDrachmas,
     atlasHelp,
     apolloHelp,
-    aphroditeHelp
+    aphroditeHelp,
+
+    lookForPlague,
+    lookForEvict
 };
 
 class eGodAct {
@@ -112,6 +116,86 @@ public:
     }
 private:
     stdptr<eGod> mG;
+};
+
+class eLookForPlagueGodAct : public eGodAct {
+public:
+    eLookForPlagueGodAct(eGameBoard& board) :
+        eGodAct(board, eGodActType::lookForPlague) {}
+
+    eTile* find(eTile* const t) {
+        const auto b = t->underBuilding();
+        if(!b) return nullptr;
+        const auto type = b->type();
+        if(type != eBuildingType::commonHouse) return nullptr;
+        const auto ch = static_cast<eSmallHouse*>(b);
+        const bool p = ch->plague();
+        if(p) return nullptr;
+        const auto tile = b->centerTile();
+        const int tx = tile->x();
+        const int ty = tile->y();
+        int dist;
+        auto& board = this->board();
+        board.nearestPlague(tx, ty, dist);
+        if(dist < 10) return nullptr;
+        mTarget = static_cast<eSmallHouse*>(b);
+        return tile;
+    }
+
+    void act() {
+        if(mTarget) {
+            auto& board = this->board();
+            board.startPlague(mTarget);
+        }
+    }
+
+    void read(eReadStream& src) {
+        src.readBuilding(&board(), [this](eBuilding* const b) {
+            mTarget = static_cast<eSmallHouse*>(b);
+        });
+    }
+
+    void write(eWriteStream& dst) const {
+        dst.writeBuilding(mTarget);
+    }
+private:
+    stdptr<eSmallHouse> mTarget;
+};
+
+class eLookForEvictGodAct : public eGodAct {
+public:
+    eLookForEvictGodAct(eGameBoard& board) :
+        eGodAct(board, eGodActType::lookForEvict) {}
+
+    eTile* find(eTile* const t) {
+        const auto b = t->underBuilding();
+        if(!b) return nullptr;
+        const auto type = b->type();
+        if(type != eBuildingType::commonHouse &&
+           type != eBuildingType::eliteHousing) return nullptr;
+        const auto hb = static_cast<eHouseBase*>(b);
+        if(hb->people() <= 0) return nullptr;
+        mTarget = hb;
+        return b->centerTile();
+    }
+
+    void act() {
+        if(mTarget) {
+            mTarget->leave();
+        }
+    }
+
+    void read(eReadStream& src) {
+        src.readBuilding(&board(), [this](eBuilding* const b) {
+            mTarget = static_cast<eHouseBase*>(b);
+        });
+    }
+
+    void write(eWriteStream& dst) const {
+        dst.writeBuilding(mTarget);
+    }
+private:
+    stdptr<eHouseBase> mTarget;
 };
 
 class eLookForBlessGodAct : public eGodAct {

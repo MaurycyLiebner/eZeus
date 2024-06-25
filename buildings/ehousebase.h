@@ -48,8 +48,10 @@ public:
 
     int kill(int k);
     int moveIn(int c);
+    void leave();
 
     int vacancies() const;
+    int leftCounter() const { return mLeftCounter; }
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
@@ -74,6 +76,8 @@ protected:
     int mActors = 0;
     int mAthletes = 0;
     int mCompetitors = 0;
+
+    int mLeftCounter = 0;
 private:
     const std::vector<int> mMaxPeople;
 };

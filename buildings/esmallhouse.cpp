@@ -9,10 +9,6 @@
 #include "characters/edisgruntled.h"
 #include "characters/actions/esickdisgruntledaction.h"
 
-#include "characters/esettler.h"
-#include "characters/actions/emovetoaction.h"
-#include "characters/actions/ekillcharacterfinishfail.h"
-
 #include "buildings/epalace.h"
 
 #include "elanguage.h"
@@ -123,9 +119,6 @@ int eSmallHouse::provide(const eProvide p, const int n) {
 }
 
 void eSmallHouse::timeChanged(const int by) {
-    if(mLeftCounter > 0) {
-        mLeftCounter = std::max(0, mLeftCounter - by);
-    }
     if(mPeople <= 0) {
         mHygiene = 100;
         if(mPlague) {
@@ -138,6 +131,7 @@ void eSmallHouse::timeChanged(const int by) {
         mWaterSatisfaction = 100;
         mWorkSatisfaction = 100;
         mTaxSatisfaction = 100;
+        eHouseBase::timeChanged(by);
         return;
     }
     mUpdateCulture += by;
@@ -463,40 +457,4 @@ void eSmallHouse::spawnDisgruntled() {
     mDisg = c.get();
     mDisg->setPlayerId(2);
     spawnCharacter(c);
-}
-
-void eSmallHouse::leave() {
-    if(mPeople <= 0) return;
-    mLeftCounter = 10000;
-    auto& board = getBoard();
-    auto& popData = board.populationData();
-    popData.incLeft(mPeople);
-    setPeople(0);
-
-    const auto c = e::make_shared<eSettler>(getBoard());
-    c->changeTile(centerTile());
-    const stdptr<eSettler> cptr(c.get());
-    const auto fail = std::make_shared<eKillCharacterFinishFail>(
-                          board, c.get());
-    const auto finish = std::make_shared<eKillCharacterFinishFail>(
-                            board, c.get());
-
-    const auto a = e::make_shared<eMoveToAction>(c.get());
-    a->setFailAction(fail);
-    a->setFinishAction(finish);
-    a->setFindFailAction([cptr]() {
-        if(cptr) cptr->kill();
-    });
-    c->setAction(a);
-    c->setActionType(eCharacterActionType::walk);
-    const int bw = board.width();
-    const int bh = board.height();
-    const auto edgeTile = [bw, bh](eTileBase* const tile) {
-        const int tx = tile->dx();
-        if(tx == 0 || tx >= bw) return true;
-        const int ty = tile->dy();
-        if(ty == 0 || ty >= bh) return true;
-        return false;
-    };
-    a->start(edgeTile);
 }
