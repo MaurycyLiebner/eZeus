@@ -1496,6 +1496,9 @@ void eGameWidget::paintEvent(ePainter& p) {
     }
 
     const auto t = mBoard->tile(mHoverTX, mHoverTY);
+    const int tx = mHoverTX;
+    const int ty = mHoverTY;
+    const int a = t ? t->altitude() : 0;
 
     switch(mode) {
     case eBuildingMode::commonAgora: {
@@ -1508,23 +1511,23 @@ void eGameWidget::paintEvent(ePainter& p) {
         if(p.empty()) {
             const auto& tex = trrTexs.fBuildingBase;
             tex->setColorMod(255, 0, 0);
-            for(int i = t->x() - 1; i < t->x() + 2; i++) {
-                for(int j = t->y() - 3; j < t->y() + 3; j++) {
+            for(int i = tx - 1; i < tx + 2; i++) {
+                for(int j = ty - 3; j < ty + 3; j++) {
                     double rx;
                     double ry;
-                    const int a = t->altitude();
                     drawXY(i, j, rx, ry, 1, 1, a);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                 }
             }
             tex->clearColorMod();
-            const auto& road = trrTexs.fRoad.getTexture(0);
+            const int texId = (dir == eWorldDirection::N ||
+                               dir == eWorldDirection::S) ? 0 : 1;
+            const auto& road = trrTexs.fRoad.getTexture(texId);
             road->setColorMod(255, 0, 0);
-            for(int j = t->y() - 3; j < t->y() + 3; j++) {
+            for(int j = ty - 3; j < ty + 3; j++) {
                 double rx;
                 double ry;
-                const int a = t->altitude();
-                drawXY(t->x() - 1, j, rx, ry, 1, 1, a);
+                drawXY(tx - 1, j, rx, ry, 1, 1, a);
                 tp.drawTexture(rx, ry, road, eAlignment::top);
             }
             road->clearColorMod();
@@ -1554,6 +1557,16 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const int ty = t->y();
                     const int a = t->altitude();
                     drawXY(tx, ty, rx, ry, dim, dim, a);
+                    if(dim == 2) {
+                        if(dir == eWorldDirection::E) {
+                            rx -= 1;
+                        } else if(dir == eWorldDirection::S) {
+                            rx -= 1;
+                            ry += 1;
+                        } else if(dir == eWorldDirection::W) {
+                            ry += 1;
+                        }
+                    }
                     tex->setColorMod(0, 255, 0);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
@@ -1582,6 +1595,16 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const int ty = t->y();
                     const int a = t->altitude();
                     drawXY(tx, ty, rx, ry, dim, dim, a);
+                    if(dim == 2) {
+                        if(dir == eWorldDirection::E) {
+                            rx -= 1;
+                        } else if(dir == eWorldDirection::S) {
+                            rx -= 1;
+                            ry += 1;
+                        } else if(dir == eWorldDirection::W) {
+                            ry += 1;
+                        }
+                    }
                     tex->setColorMod(0, 255, 0);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
@@ -1610,6 +1633,16 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const int ty = t->y();
                     const int a = t->altitude();
                     drawXY(tx, ty, rx, ry, dim, dim, a);
+                    if(dim == 2) {
+                        if(dir == eWorldDirection::E) {
+                            rx -= 1;
+                        } else if(dir == eWorldDirection::S) {
+                            rx -= 1;
+                            ry += 1;
+                        } else if(dir == eWorldDirection::W) {
+                            ry += 1;
+                        }
+                    }
                     tex->setColorMod(0, 255, 0);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
@@ -1638,6 +1671,16 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const int ty = t->y();
                     const int a = t->altitude();
                     drawXY(tx, ty, rx, ry, dim, dim, a);
+                    if(dim == 2) {
+                        if(dir == eWorldDirection::E) {
+                            rx -= 1;
+                        } else if(dir == eWorldDirection::S) {
+                            rx -= 1;
+                            ry += 1;
+                        } else if(dir == eWorldDirection::W) {
+                            ry += 1;
+                        }
+                    }
                     tex->setColorMod(0, 255, 0);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
@@ -1652,9 +1695,6 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         eAgoraOrientation bt;
         const auto p = agoraBuildPlaceIter(t, true, bt);
-        const int tx = t->x();
-        const int ty = t->y();
-        const int a = t->altitude();
         if(p.empty()) {
             const auto& tex = trrTexs.fBuildingBase;
             tex->setColorMod(255, 0, 0);
@@ -1667,7 +1707,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                 }
             }
             tex->clearColorMod();
-            const auto& road = trrTexs.fRoad.getTexture(0);
+            const int texId = (dir == eWorldDirection::N ||
+                               dir == eWorldDirection::S) ? 0 : 1;
+            const auto& road = trrTexs.fRoad.getTexture(texId);
             road->setColorMod(255, 0, 0);
             for(int j = ty - 3; j < ty + 3; j++) {
                 double rx;
@@ -1681,6 +1723,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                 const int iMax = p.size();
                 for(int i = 0; i < iMax; i++) {
                     const auto t = p[i];
+                    const int tx = t->x();
+                    const int ty = t->y();
+                    const int a = t->altitude();
                     stdsptr<eTexture> tex;
                     int dim;
                     if(i < 6) {
@@ -1698,6 +1743,16 @@ void eGameWidget::paintEvent(ePainter& p) {
                     double rx;
                     double ry;
                     drawXY(tx, ty, rx, ry, dim, dim, a);
+                    if(dim == 2) {
+                        if(dir == eWorldDirection::E) {
+                            rx -= 1;
+                        } else if(dir == eWorldDirection::S) {
+                            rx -= 1;
+                            ry += 1;
+                        } else if(dir == eWorldDirection::W) {
+                            ry += 1;
+                        }
+                    }
                     tex->setColorMod(0, 255, 0);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
@@ -1706,6 +1761,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                 const int iMax = p.size();
                 for(int i = 0; i < iMax; i++) {
                     const auto t = p[i];
+                    const int tx = t->x();
+                    const int ty = t->y();
+                    const int a = t->altitude();
                     stdsptr<eTexture> tex;
                     int dim;
                     if(i < 6) {
@@ -1723,6 +1781,16 @@ void eGameWidget::paintEvent(ePainter& p) {
                     double rx;
                     double ry;
                     drawXY(tx, ty, rx, ry, dim, dim, a);
+                    if(dim == 2) {
+                        if(dir == eWorldDirection::E) {
+                            rx -= 1;
+                        } else if(dir == eWorldDirection::S) {
+                            rx -= 1;
+                            ry += 1;
+                        } else if(dir == eWorldDirection::W) {
+                            ry += 1;
+                        }
+                    }
                     tex->setColorMod(0, 255, 0);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
                     tex->clearColorMod();
