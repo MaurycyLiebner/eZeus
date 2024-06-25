@@ -72,7 +72,9 @@ public:
     using eComplexAction::eComplexAction;
 
     void moveAround(const stdsptr<eCharActFunc>& finishAct = nullptr,
-                    const int time = 5000);
+                    const int time = 5000,
+                    const stdsptr<eWalkableObject>& walkable =
+                            eWalkableObject::sCreateDefault());
     using eTileDistance = std::function<int(eTileBase* const)>;
     void goToTarget(const eHeatGetters::eHeatGetter hg,
                     const stdsptr<eFindFailFunc>& findFailFunc,

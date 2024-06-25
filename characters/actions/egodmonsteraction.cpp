@@ -124,15 +124,17 @@ void eGodMonsterAction::randomPlaceOnBoard() {
     c->changeTile(tile);
 }
 
-void eGodMonsterAction::moveAround(const stdsptr<eCharActFunc>& finishAct,
-                                   const int time) {
+void eGodMonsterAction::moveAround(
+        const stdsptr<eCharActFunc>& finishAct,
+        const int time,
+        const stdsptr<eWalkableObject>& walkable) {
     const auto c = character();
     c->setActionType(eCharacterActionType::walk);
     const auto t = c->tile();
     const int tx = t->x();
     const int ty = t->y();
     const auto a = e::make_shared<eMoveAroundAction>(
-                       c, tx, ty, eWalkableObject::sCreateDefault());
+                       c, tx, ty, walkable);
     a->setFinishAction(finishAct);
     a->setFailAction(finishAct);
     a->setMaxDistance(10);

@@ -26,6 +26,7 @@ public:
 
     void goToTarget();
     void goBack();
+    void monsterPatrol();
 private:
     void destroyBuilding(eBuilding* const b);
     eTile* closestEmptySpace(const int rdx, const int rdy) const;

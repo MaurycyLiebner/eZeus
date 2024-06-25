@@ -44,7 +44,7 @@ bool eMonsterAction::decide() {
     } break;
     case eMonsterAttackStage::goTo:
         mStage = eMonsterAttackStage::patrol;
-        goToNearestRoad();
+        monsterPatrol();
         break;
     case eMonsterAttackStage::patrol:
         mStage = eMonsterAttackStage::goBack;
@@ -138,14 +138,36 @@ stdsptr<eObsticleHandler> eMonsterAction::obsticleHandler() {
 }
 
 void eMonsterAction::goToTarget() {
-    const stdptr<eMonsterAction> tptr(this);
-    const auto tryAgain = std::make_shared<eGoToTargetTryAgain>(
-                              board(), this);
-    eGodMonsterAction::goToTarget(eHeatGetters::any, tryAgain,
-                                  obsticleHandler(),
-                                  eWalkableHelpers::sMonsterTileDistance,
-                                  eWalkableObject::sCreateTerrain(),
-                                  eWalkableObject::sCreateDefault());
+    if(mType == eMonsterType::scylla ||
+       mType == eMonsterType::kraken) {
+        const auto c = character();
+
+        const auto underBuilding = [](eTileBase* const tile) {
+            const auto type = tile->underBuildingType();
+            return eBuilding::sAttackable(type);
+        };
+
+        const auto a = e::make_shared<eMoveToAction>(c);
+        const stdptr<eMonsterAction> tptr(this);
+        a->setFoundAction([tptr, this]() {
+            if(!tptr) return;
+            const auto c = character();
+            c->setActionType(eCharacterActionType::walk);
+        });
+        a->setRemoveLastTurn(true);
+
+        a->start(underBuilding, eWalkableObject::sCreateWater());
+        setCurrentAction(a);
+    } else {
+        const stdptr<eMonsterAction> tptr(this);
+        const auto tryAgain = std::make_shared<eGoToTargetTryAgain>(
+                                  board(), this);
+        eGodMonsterAction::goToTarget(eHeatGetters::any, tryAgain,
+                                      obsticleHandler(),
+                                      eWalkableHelpers::sMonsterTileDistance,
+                                      eWalkableObject::sCreateTerrain(),
+                                      eWalkableObject::sCreateDefault());
+    }
 }
 
 void eMonsterAction::goBack() {
@@ -160,6 +182,15 @@ void eMonsterAction::goBack() {
              eWalkableObject::sCreateDefault());
     setCurrentAction(a);
     c->setActionType(eCharacterActionType::walk);
+}
+
+void eMonsterAction::monsterPatrol() {
+    if(mType == eMonsterType::scylla ||
+       mType == eMonsterType::kraken) {
+        moveAround(nullptr, 5000, eWalkableObject::sCreateWater());
+    } else {
+        goToNearestRoad();
+    }
 }
 
 void eMonsterAction::destroyBuilding(eBuilding* const b) {
