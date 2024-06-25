@@ -3,6 +3,7 @@
 #include "characters/eurchingatherer.h"
 #include "characters/actions/ecollectresourceaction.h"
 #include "textures/egametextures.h"
+#include "engine/egameboard.h"
 
 eUrchinQuay::eUrchinQuay(eGameBoard& board, const eOrientation o) :
     eResourceCollectBuildingBase(board, eBuildingType::urchinQuay,
@@ -43,8 +44,11 @@ std::shared_ptr<eTexture> eUrchinQuay::getTexture(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings();
     const auto& coll = blds[sizeId].fUrchinQuay;
+    auto& board = getBoard();
+    const auto dir = board.direction();
+    const auto oo = sRotated(mO, dir);
     int id = 3;
-    switch(mO) {
+    switch(oo) {
     case eOrientation::topRight:
         id = 0;
         break;
@@ -68,11 +72,14 @@ std::shared_ptr<eTexture> eUrchinQuay::getTexture(const eTileSize size) const {
 std::vector<eOverlay> eUrchinQuay::getOverlays(const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
     const auto& blds = eGameTextures::buildings()[sizeId];
+    auto& board = getBoard();
+    const auto dir = board.direction();
+    const auto oo = sRotated(mO, dir);
     switch(mState) {
     case eUrchinQuayState::waiting: {
         eOverlay o;
         const eTextureCollection* coll;
-        switch(mO) {
+        switch(oo) {
         case eOrientation::topRight:
             coll = &blds.fFisheryOverlay[0];
             o.fX = -0.25;
@@ -103,7 +110,7 @@ std::vector<eOverlay> eUrchinQuay::getOverlays(const eTileSize size) const {
     case eUrchinQuayState::unpacking: {
         eOverlay o;
         const eTextureCollection* coll;
-        switch(mO) {
+        switch(oo) {
         case eOrientation::topRight:
             coll = &blds.fUrchinQuayUnpackingOverlayTR;
             o.fX = 0.19;
