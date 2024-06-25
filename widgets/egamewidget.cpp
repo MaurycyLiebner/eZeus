@@ -283,11 +283,18 @@ void eGameWidget::pixToId(const int pixX, const int pixY,
     idX = std::round((pixX - mDX)/w + (pixY - mDY)/h - 0.5);
     idY = std::round(-(pixX - mDX)/w + (pixY - mDY)/h - 0.5);
 
+    const auto dir = mBoard->direction();
+    const int width = mBoard->width();
+    const int height = mBoard->height();
+
     bool found = false;
 
     for(int x = idX + 4; x >= idX - 4; x--) {
         for(int y = idY + 4; y >= idY - 4; y--) {
-            const auto t = mBoard->tile(x, y);
+            int rx;
+            int ry;
+            eTileHelper::rotatedTileIdToTileId(x, y, rx, ry, dir, width, height);
+            const auto t = mBoard->tile(rx, ry);
             if(!t) continue;
             const int a = t->altitude();
             const int dx = 0;
@@ -306,9 +313,6 @@ void eGameWidget::pixToId(const int pixX, const int pixY,
         if(found) break;
     }
 
-    const auto dir = mBoard->direction();
-    const int width = mBoard->width();
-    const int height = mBoard->height();
     const int idXT = idX;
     const int idYT = idY;
     eTileHelper::rotatedTileIdToTileId(idXT, idYT, idX, idY,
