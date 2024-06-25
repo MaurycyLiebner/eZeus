@@ -2380,16 +2380,24 @@ void eGameWidget::paintEvent(ePainter& p) {
                 tx += 3;
             } break;
             }
-            switch(o) {
-            case eOrientation::bottomRight:
-            case eOrientation::bottomLeft:
-                ebs.insert(ebs.begin(), eB{tx, ty, b2});
-                break;
-            default:
-            case eOrientation::topRight:
-            case eOrientation::topLeft:
+            bool insert = false;
+            if(dir == eWorldDirection::N) {
+                insert = o == eOrientation::bottomRight ||
+                         o == eOrientation::bottomLeft;
+            } else if(dir == eWorldDirection::E) {
+                insert = o == eOrientation::topLeft ||
+                         o == eOrientation::bottomLeft;
+            } else if(dir == eWorldDirection::S) {
+                insert = o == eOrientation::topRight ||
+                         o == eOrientation::topLeft;
+            } else { // if(dir == eWorldDirection::W) {
+                insert = o == eOrientation::topRight ||
+                         o == eOrientation::bottomRight;
+            }
+            if(insert) {
+                ebs.insert(ebs.begin(), {tx, ty, b2});
+            } else {
                 ebs.emplace_back(tx, ty, b2);
-                break;
             }
         } break;
 

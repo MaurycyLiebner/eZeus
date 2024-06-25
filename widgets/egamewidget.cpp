@@ -703,6 +703,17 @@ bool canBuildFisheryTL(eTile* const t) {
 
 bool eGameWidget::canBuildFishery(const int tx, const int ty,
                                   eOrientation& o) {
+    for(int x = tx; x < tx + 2; x++) {
+        for(int y = ty - 1; y < ty - 1 + 2; y++) {
+            const auto t = mBoard->tile(x, y);
+            if(!t) return false;
+            if(t->underBuilding()) return false;
+            if(t->banner()) return false;
+            if(t->isElevationTile()) return false;
+            const auto& chars = t->characters();
+            if(!chars.empty()) return false;
+        }
+    }
     const auto t = mBoard->tile(tx, ty);
     if(!t) return false;
     const bool tr = canBuildFisheryTR(t);
