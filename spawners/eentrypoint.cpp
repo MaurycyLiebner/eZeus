@@ -19,6 +19,8 @@ void eEntryPoint::incTime(const int by) {
 
 void eEntryPoint::spawn(eTile* const tile) {
     auto& board = eEntryPoint::board();
+    const auto& ivs = board.invasionHandlers();
+    if(!ivs.empty()) return;
     const int pop = board.popularity();
     if(pop < 50) {
         const auto& husbData = board.husbandryData();
