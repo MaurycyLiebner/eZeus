@@ -13,6 +13,8 @@
 #include "characters/actions/emovetoaction.h"
 #include "characters/actions/ekillcharacterfinishfail.h"
 
+#include "buildings/epalace.h"
+
 #include "elanguage.h"
 
 eSmallHouse::eSmallHouse(eGameBoard& board) :
@@ -90,7 +92,8 @@ int eSmallHouse::provide(const eProvide p, const int n) {
     case eProvide::taxes: {
         if(mPaidTaxes) return 0;
         auto& b = getBoard();
-        if(!b.hasPalace()) return 0;
+        const auto p = b.palace();
+        if(!p || p->cursed()) return 0;
         const auto diff = b.difficulty();
         const int taxMult = eDifficultyHelpers::taxMultiplier(
                                 diff, type(), mLevel);

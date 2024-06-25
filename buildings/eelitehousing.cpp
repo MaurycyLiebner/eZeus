@@ -5,6 +5,8 @@
 #include "textures/egametextures.h"
 #include "elanguage.h"
 
+#include "buildings/epalace.h"
+
 eEliteHousing::eEliteHousing(eGameBoard& board) :
     eHouseBase(board, eBuildingType::eliteHousing,
                4, 4, {6, 6, 10, 16, 20}) {}
@@ -179,7 +181,8 @@ int eEliteHousing::provide(const eProvide p, const int n) {
     case eProvide::taxes: {
         if(mPaidTaxes) return 0;
         auto& b = getBoard();
-        if(!b.hasPalace()) return 0;
+        const auto p = b.palace();
+        if(!p || p->cursed()) return 0;
         const auto diff = b.difficulty();
         const int taxMult = eDifficultyHelpers::taxMultiplier(
                                 diff, type(), mLevel);
