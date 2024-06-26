@@ -397,7 +397,8 @@ public:
                  const eResourceType type);
     void planGiftFrom(const stdsptr<eWorldCity>& c,
                       const eResourceType type,
-                      const int count);
+                      const int count,
+                      const int delay);
     void tributeFrom(const stdsptr<eWorldCity>& c,
                     const bool postpone);
     void giftTo(const stdsptr<eWorldCity>& c,

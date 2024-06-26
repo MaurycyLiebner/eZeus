@@ -10,6 +10,26 @@ enum class eEpisodeType {
     colony
 };
 
+struct eSetAside {
+    eResourceType fRes;
+    int fCount;
+    stdsptr<eWorldCity> fFrom;
+
+    void read(eReadStream& src, eWorldBoard* const board) {
+        src >> fRes;
+        src >> fCount;
+        src.readCity(board, [this](const stdsptr<eWorldCity>& city) {
+            fFrom = city;
+        });
+    }
+
+    void write(eWriteStream& dst) const {
+        dst << fRes;
+        dst << fCount;
+        dst.writeCity(fFrom.get());
+    }
+};
+
 struct eEpisode {
     virtual void read(eReadStream& src) {
         src >> fAtlantean;
@@ -232,6 +252,9 @@ public:
     eDifficulty difficulty() const { return mDifficulty; }
 
     void setEditorMode(const bool e);
+
+    void setAside(const eResourceType res, const int count,
+                  const stdsptr<eWorldCity>& from);
 private:
     int mBitmap = 0;
     std::string mName;
@@ -258,6 +281,9 @@ private:
     std::vector<stdsptr<eParentCityEpisode>> mParentCityEpisodes;
     std::vector<stdsptr<eColonyEpisode>> mColonyEpisodes;
     std::vector<int> mPlayedColonyEpisodes;
+
+    std::vector<eSetAside> mForColony;
+    std::vector<eSetAside> mForParent;
 };
 
 #endif // ECAMPAIGN_H

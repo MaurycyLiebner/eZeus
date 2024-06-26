@@ -760,13 +760,14 @@ int eGameBoard::maxSanctuarySpaceForResource(
 
 void eGameBoard::planGiftFrom(const stdsptr<eWorldCity>& c,
                               const eResourceType type,
-                              const int count) {
+                              const int count,
+                              const int delay) {
     const auto e = e::make_shared<eGiftFromEvent>(
                        eGameEventBranch::root);
     e->setGameBoard(this);
     e->setWorldBoard(mWorldBoard);
     e->initialize(true, type, count, c);
-    const auto date = mDate + 31;
+    const auto date = mDate + delay;
     e->initializeDate(date);
     addRootGameEvent(e);
 }

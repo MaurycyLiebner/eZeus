@@ -244,6 +244,24 @@ void eCampaign::read(eReadStream& src) {
             mPlayedColonyEpisodes.push_back(e);
         }
     }
+    {
+        int ne;
+        src >> ne;
+        for(int i = 0; i < ne; i++) {
+            eSetAside set;
+            set.read(src, &mWorldBoard);
+            mForColony.push_back(set);
+        }
+    }
+    {
+        int ne;
+        src >> ne;
+        for(int i = 0; i < ne; i++) {
+            eSetAside set;
+            set.read(src, &mWorldBoard);
+            mForParent.push_back(set);
+        }
+    }
 }
 
 void eCampaign::write(eWriteStream& dst) const {
@@ -277,6 +295,16 @@ void eCampaign::write(eWriteStream& dst) const {
     dst << mPlayedColonyEpisodes.size();
     for(const int e : mPlayedColonyEpisodes) {
         dst << e;
+    }
+
+    dst << mForColony.size();
+    for(const auto& e : mForColony) {
+        e.write(dst);
+    }
+
+    dst << mForParent.size();
+    for(const auto& e : mForParent) {
+        e.write(dst);
     }
 }
 
@@ -338,12 +366,32 @@ void eCampaign::startEpisode() {
     e->fStartDate = mDate;
     const auto board = e->fBoard;
     board->startEpisode(e);
+    if(mCurrentEpisodeType == eEpisodeType::colony) {
+        for(const auto& g : mForColony) {
+            board->planGiftFrom(g.fFrom, g.fRes, g.fCount, 180);
+        }
+        mForColony.clear();
+    } else {
+        for(const auto& g : mForParent) {
+            board->planGiftFrom(g.fFrom, g.fRes, g.fCount, 180);
+        }
+        mForParent.clear();
+    }
 }
 
 void eCampaign::episodeFinished() {
     const auto e = currentEpisode();
     const auto board = e->fBoard;
     mDate = board->date();
+    const auto& gls = e->fGoals;
+    for(const auto& g : gls) {
+        const auto type = g->fType;
+        if(type != eEpisodeGoalType::setAsideGoods) continue;
+        const auto res = static_cast<eResourceType>(g->fEnumInt1);
+        const int count = g->fRequiredCount;
+        const auto from = mWorldBoard.currentCity();
+        setAside(res, count, from);
+    }
     if(mCurrentEpisodeType == eEpisodeType::parentCity) {
         const auto ee = static_cast<eParentCityEpisode*>(e);
         auto n = ee->fNextEpisode;
@@ -469,6 +517,19 @@ void eCampaign::setEditorMode(const bool e) {
     mParentBoard->setEditorMode(e);
     for(const auto& c : mColonyBoards) {
         c->setEditorMode(e);
+    }
+}
+
+void eCampaign::setAside(const eResourceType res, const int count,
+                         const stdsptr<eWorldCity>& from) {
+    eSetAside set;
+    set.fRes = res;
+    set.fCount = count;
+    set.fFrom = from;
+    if(mCurrentEpisodeType == eEpisodeType::colony) {
+        mForParent.push_back(set);
+    } else {
+        mForColony.push_back(set);
     }
 }
 
