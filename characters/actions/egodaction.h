@@ -349,8 +349,9 @@ public:
 
     eTile* find(eTile* const t) {
         const auto b = t->underBuilding();
+        if(!b) return nullptr;
         const auto type = b->type();
-        if(!b || !eBuilding::sAttackable(type)) return nullptr;
+        if(!eBuilding::sAttackable(type)) return nullptr;
         const bool target = eGod::sTarget(mType, type);
         if(!target) return nullptr;
         return b->centerTile();
