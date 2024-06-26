@@ -94,6 +94,11 @@ void eGameWidget::handleMonsterInvasion36Event(eEventData& ed) {
     const auto gm = inst.monsterMessages(ed.fMonster);
     if(!gm) return;
     eMessageType msg = gm->fInvasion36;
+    std::string reason = ed.fReason;
+    if(reason.empty()) {
+        reason = gm->fMonsterAttackReason;
+    }
+    eStringHelpers::replace(msg.fFull.fText, "[reason_phrase]", reason);
     eStringHelpers::replace(msg.fFull.fText, "[time_until_attack]", "36");
     eStringHelpers::replace(msg.fCondensed.fText, "[time_until_attack]", "36");
     showMessage(ed, msg);
