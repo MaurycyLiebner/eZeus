@@ -48,6 +48,7 @@ void eMoveToAction::start(const eTileFinal& final,
     const auto finishFunc = [tptr, this, c, moveWalkable](
                             std::vector<eOrientation> path) {
         if(!tptr) return;
+        const auto r = ref<eMoveToAction>();
         const auto failFunc = std::make_shared<eAA_patrolFail>(
                                   board(), this);
         const auto finishAction = std::make_shared<eAA_patrolFinish>(
@@ -57,12 +58,14 @@ void eMoveToAction::start(const eTileFinal& final,
             path.erase(path.begin());
         }
         mPathLength = path.size();
-        if(mFoundAction) mFoundAction();
+        if(mFoundAction) {
+            mFoundAction();
+            mFoundAction = nullptr;
+        }
         if(path.empty()) {
             finishAction->call();
             return;
         }
-        if(!tptr) return;
         const auto a  = e::make_shared<eMovePathAction>(
                             c, path, moveWalkable);
         a->setFailAction(failFunc);
@@ -74,8 +77,11 @@ void eMoveToAction::start(const eTileFinal& final,
 
     const auto findFailFunc = [tptr, this]() {
         if(!tptr) return;
-        if(mFindFailAction) mFindFailAction();
-        if(!tptr) return;
+        const auto r = ref<eMoveToAction>();
+        if(mFindFailAction) {
+            mFindFailAction();
+            mFindFailAction = nullptr;
+        }
         setState(eCharacterActionState::failed);
     };
 
