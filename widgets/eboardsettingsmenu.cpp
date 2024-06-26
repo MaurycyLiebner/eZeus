@@ -85,6 +85,7 @@ void eBoardSettingsMenu::initialize(
             boardPtr->resize(w, h);
             gw->updateViewBoxSize();
             gw->updateTopBottomAltitude();
+            gw->updateMinMaxAltitude();
             gw->updateMaps();
             resizeMenu->deleteLater();
         });
@@ -249,6 +250,7 @@ void eBoardSettingsMenu::initialize(
             sett.fElevation = elevationE->value();
             g.generate(sett);
             gw->updateTopBottomAltitude();
+            gw->updateMinMaxAltitude();
             gw->updateMaps();
             generateMenu->deleteLater();
         });

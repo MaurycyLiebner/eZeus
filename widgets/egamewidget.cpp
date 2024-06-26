@@ -144,6 +144,7 @@ void eGameWidget::setBoard(eGameBoard* const board) {
     mBoard->updateMusic();
     updateViewBoxSize();
     updateTopBottomAltitude();
+    updateMinMaxAltitude();
 }
 
 eGameWidgetSettings eGameWidget::settings() const {
@@ -289,8 +290,8 @@ void eGameWidget::pixToId(const int pixX, const int pixY,
 
     bool found = false;
 
-    for(int x = idX + 4; x >= idX - 4; x--) {
-        for(int y = idY + 4; y >= idY - 4; y--) {
+    for(int x = idX + 2*mMaxAltitude; x >= idX + 2*mMinAltitude; x--) {
+        for(int y = idY + 2*mMaxAltitude; y >= idY + 2*mMinAltitude; y--) {
             int rx;
             int ry;
             eTileHelper::rotatedTileIdToTileId(x, y, rx, ry, dir, width, height);
@@ -1754,6 +1755,10 @@ void eGameWidget::updateTopBottomAltitude() {
         mBoard->leftElevationExtremas(mTopMinAltitude, i);
         mBoard->rightElevationExtremas(i, mBottomMaxAltitude);
     }
+}
+
+void eGameWidget::updateMinMaxAltitude() {
+    mBoard->minMaxAltitude(mMinAltitude, mMaxAltitude);
 }
 
 void eGameWidget::updateMaps() {

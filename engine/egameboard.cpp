@@ -2459,3 +2459,16 @@ void eGameBoard::leftElevationExtremas(int& min, int& max) const {
         max = std::max(max, a);
     }
 }
+
+void eGameBoard::minMaxAltitude(int& min, int& max) const {
+    min = 10000;
+    max = -10000;
+    for(int x = 0; x < mWidth; x++) {
+        for(int y = 0; y < mHeight; y++) {
+            const auto t = dtile(x, y);
+            const int a = t->altitude();
+            if(a > max) max = a;
+            if(a < min) min = a;
+        }
+    }
+}

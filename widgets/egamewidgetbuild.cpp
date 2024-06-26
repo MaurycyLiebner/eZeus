@@ -1766,5 +1766,15 @@ bool eGameWidget::buildMouseRelease() {
     }
 
     actionOnSelectedTiles(apply);
+    if(mTem->visible()) {
+        const auto mode = mTem->mode();
+        if(mode == eTerrainEditMode::raise ||
+           mode == eTerrainEditMode::lower ||
+           mode == eTerrainEditMode::levelOut ||
+           mode == eTerrainEditMode::resetElev) {
+            updateTopBottomAltitude();
+            updateMinMaxAltitude();
+        }
+    }
     return true;
 }

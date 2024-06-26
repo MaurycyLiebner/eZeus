@@ -108,6 +108,7 @@ public:
 
     void updateViewBoxSize();
     void updateTopBottomAltitude();
+    void updateMinMaxAltitude();
     void updateMaps();
 
     void setWorldDirection(const eWorldDirection dir);
@@ -259,6 +260,9 @@ private:
     int mSpeed = sSpeeds[mSpeedId];
 
     int mWheel = 0;
+
+    int mMinAltitude = 0;
+    int mMaxAltitude = 0;
 
     int mTopMinAltitude = 0;
     int mBottomMaxAltitude = 0;

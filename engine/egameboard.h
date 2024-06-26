@@ -516,6 +516,8 @@ public:
     void rightElevationExtremas(int& min, int& max) const;
     void bottomElevationExtremas(int& min, int& max) const;
     void leftElevationExtremas(int& min, int& max) const;
+
+    void minMaxAltitude(int& min, int& max) const;
 private:
     void updateNeighbours();
 
