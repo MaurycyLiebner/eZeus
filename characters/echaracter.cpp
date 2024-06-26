@@ -286,6 +286,7 @@ void eCharacter::resumeAction() {
     mPausedActions.pop_back();
     setAction(p.fA);
     setActionType(p.fAt);
+    setOrientation(p.fO);
 }
 
 std::shared_ptr<eTexture> eCharacter::getTexture(
