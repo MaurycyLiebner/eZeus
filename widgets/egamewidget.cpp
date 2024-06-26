@@ -1721,19 +1721,20 @@ void eGameWidget::setDY(const int dy) {
 
 void eGameWidget::clampViewBox() {
     if(mTem->visible()) return;
+    const auto dir = mBoard->direction();
     const int w = mBoard->rotatedWidth();
     const int ww = width() - mGm->width();
     mDX = std::min(0, mDX);
-    mDX = std::max(-w*mTileW + ww + mTileW, mDX);
+    const int winc = dir == eWorldDirection::W ? mTileW/2 : 0;
+    mDX = std::max(-w*mTileW + ww + mTileW/2 + winc, mDX);
 
     const int h = mBoard->rotatedHeight();
     const int hh = height();
-    const auto dir = mBoard->direction();
-    const int inc = dir == eWorldDirection::E ? mTileH/2 : 0;
+    const int einc = dir == eWorldDirection::E ? mTileH/2 : 0;
     const int dt = mTopMinAltitude < 0 ? mTopMinAltitude : 0;
-    mDY = std::min(-mTileH/2 + 2*inc + dt*mTileH, mDY);
+    mDY = std::min(-mTileH/2 + 2*einc + dt*mTileH, mDY);
     const int db = mBottomMaxAltitude > 0 ? mBottomMaxAltitude : 0;
-    mDY = std::max(-h*mTileH/2 + hh + inc + db*mTileH, mDY);
+    mDY = std::max(-h*mTileH/2 + hh + einc + db*mTileH, mDY);
 }
 
 void eGameWidget::updateTopBottomAltitude() {
