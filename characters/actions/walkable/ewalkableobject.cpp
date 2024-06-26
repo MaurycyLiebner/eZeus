@@ -20,6 +20,15 @@ bool eWalkableObject::walkable(eTileBase* const t) const {
         const auto terr = t->terrain() & eTerrain::walkable;
         return static_cast<bool>(terr);
     }
+    case eWalkableObjectType::waterAndTerrain: {
+        const auto type = t->underBuildingType();
+        if(type == eBuildingType::road) return true;
+        const auto terr = t->terrain();
+        const auto terrW = terr & eTerrain::walkable;
+        if(!static_cast<bool>(terrW) && terr != eTerrain::water) return false;
+        if(!t->walkableElev() && t->isElevationTile()) return false;
+        return eBuilding::sWalkableBuilding(type);
+    }
     case eWalkableObjectType::fertile: {
         const bool r = t->walkable();
         if(!r) return false;
@@ -41,7 +50,7 @@ bool eWalkableObject::walkable(eTileBase* const t) const {
         if(!checker(b)) return false;
         return true;
     }
-    case eWalkableObjectType::water: {
+    case eWalkableObjectType::deepWater: {
         const bool r = t->terrain() == eTerrain::water;
         if(!r) return false;
         return !t->isShoreTile();
@@ -103,8 +112,12 @@ stdsptr<eWalkableObject> eWalkableObject::sCreateWall() {
     return sCreate(eWalkableObjectType::wall);
 }
 
-stdsptr<eWalkableObject> eWalkableObject::sCreateWater() {
-    return sCreate(eWalkableObjectType::water);
+stdsptr<eWalkableObject> eWalkableObject::sCreateDeepWater() {
+    return sCreate(eWalkableObjectType::deepWater);
+}
+
+stdsptr<eWalkableObject> eWalkableObject::sCreateWaterAndTerrain() {
+    return sCreate(eWalkableObjectType::waterAndTerrain);
 }
 
 stdsptr<eWalkableObject> eWalkableObject::sCreateAll() {

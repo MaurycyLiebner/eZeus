@@ -28,7 +28,7 @@ eTradePost::eTradePost(eGameBoard& board, eWorldCity& city,
             r->changeTile(tile);
             return r;
         });
-        setWalkable(eWalkableObject::sCreate(eWalkableObjectType::water));;
+        setWalkable(eWalkableObject::sCreate(eWalkableObjectType::deepWater));;
     } break;
     case eTradePostType::post: {
         setCharacterCreator([](eTile* const tile, eGameBoard& board) {

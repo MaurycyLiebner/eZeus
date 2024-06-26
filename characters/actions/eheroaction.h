@@ -33,6 +33,8 @@ private:
     bool fightMonster(eMonster* const m);
     void huntMonster(eMonster* const m);
 
+    stdsptr<eWalkableObject> defaultWalkable() const;
+
     eHeroType heroType() const;
     bool rangedHero() const;
 

@@ -8,6 +8,7 @@ class eTileBase;
 
 enum class eWalkableObjectType {
     ddefault,
+    waterAndTerrain,
     road,
     roadblock,
     terrain,
@@ -15,6 +16,7 @@ enum class eWalkableObjectType {
     wall,
     rect,
     hasResource,
+    deepWater,
     water,
     ranch,
     all
@@ -42,7 +44,8 @@ public:
     static stdsptr<eWalkableObject> sCreateTerrain();
     static stdsptr<eWalkableObject> sCreateFertile();
     static stdsptr<eWalkableObject> sCreateWall();
-    static stdsptr<eWalkableObject> sCreateWater();
+    static stdsptr<eWalkableObject> sCreateDeepWater();
+    static stdsptr<eWalkableObject> sCreateWaterAndTerrain();
     static stdsptr<eWalkableObject> sCreateAll();
     static stdsptr<eWalkableObject> sCreateRanch();
     static stdsptr<eWalkableObject> sCreateRect(const SDL_Rect& rect);

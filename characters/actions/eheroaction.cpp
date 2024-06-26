@@ -39,7 +39,7 @@ bool eHeroAction::decide() {
             sendOnQuest();
         } else {
             c->setActionType(eCharacterActionType::walk);
-            goBack(eWalkableObject::sCreateDefault());
+            goBack(defaultWalkable());
         }
     }
     return true;
@@ -124,7 +124,7 @@ void eHeroAction::sendOnQuest() {
 
     const auto exitPoint = board.exitPoint();
     if(exitPoint) {
-        a->start(exitPoint);
+        a->start(exitPoint, defaultWalkable());
     } else {
         const int bw = board.width();
         const int bh = board.height();
@@ -135,7 +135,7 @@ void eHeroAction::sendOnQuest() {
             if(ty == 0 || ty >= bh) return true;
             return false;
         };
-        a->start(edgeTile);
+        a->start(edgeTile, defaultWalkable());
     }
 }
 
@@ -159,7 +159,7 @@ void eHeroAction::goBackToHall() {
     });
     setCurrentAction(a);
     c->setActionType(eCharacterActionType::walk);
-    a->start(hh);
+    a->start(hh, defaultWalkable());
 }
 
 void eHeroAction::defendCity() {
@@ -259,6 +259,7 @@ void eHeroAction::huntMonster(eMonster* const m) {
     if(!mt) return;
     const int mtx = mt->x();
     const int mty = mt->y();
+    const auto mtype = m->type();
 
     const auto c = character();
 
@@ -281,7 +282,23 @@ void eHeroAction::huntMonster(eMonster* const m) {
     });
     a->setRemoveLastTurn(true);
     a->setWait(false);
-    a->start(monsterTile);
+    if(mtype == eCharacterType::scylla ||
+       mtype == eCharacterType::kraken) {
+        a->start(monsterTile, eWalkableObject::sCreateWaterAndTerrain());
+    } else {
+        a->start(monsterTile, defaultWalkable());
+    }
+}
+
+stdsptr<eWalkableObject> eHeroAction::defaultWalkable() const {
+    const auto c = character();
+    const auto tile = c->tile();
+    const bool w = tile->hasWater();
+    if(w) {
+        return eWalkableObject::sCreateWaterAndTerrain();
+    } else {
+        return eWalkableObject::sCreateDefault();
+    }
 }
 
 eHeroType eHeroAction::heroType() const {

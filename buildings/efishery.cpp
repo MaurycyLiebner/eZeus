@@ -239,7 +239,7 @@ void eFishery::spawnBoat() {
                             eHasResourceObjectType::fish);
     const auto a = e::make_shared<eCollectResourceAction>(
                        this, b.get(), hasRes);
-    const auto w = eWalkableObject::sCreateWater();
+    const auto w = eWalkableObject::sCreateDeepWater();
     a->setWalkable(w);
     a->setWaitTime(gUnpackTime);
     a->setFinishOnce(false);

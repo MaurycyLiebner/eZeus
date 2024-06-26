@@ -56,7 +56,7 @@ bool eMonsterAction::decide() {
         mStage = eMonsterAttackStage::wait;
         if(mType == eMonsterType::scylla ||
            mType == eMonsterType::kraken) {
-            moveAround(nullptr, 100000, eWalkableObject::sCreateWater());
+            moveAround(nullptr, 100000, eWalkableObject::sCreateDeepWater());
         } else {
             moveAround(nullptr, 200000);
         }
@@ -163,7 +163,7 @@ void eMonsterAction::goToTarget() {
         });
         a->setRemoveLastTurn(true);
 
-        a->start(underBuilding, eWalkableObject::sCreateWater());
+        a->start(underBuilding, eWalkableObject::sCreateDeepWater());
         setCurrentAction(a);
     } else {
         const stdptr<eMonsterAction> tptr(this);
@@ -188,7 +188,7 @@ void eMonsterAction::goBack() {
 
     if(mType == eMonsterType::scylla ||
        mType == eMonsterType::kraken) {
-        a->start(mHomeTile, eWalkableObject::sCreateWater());
+        a->start(mHomeTile, eWalkableObject::sCreateDeepWater());
     } else {
         a->start(mHomeTile, eWalkableObject::sCreateTerrain(),
                  eWalkableObject::sCreateDefault());
@@ -200,7 +200,7 @@ void eMonsterAction::goBack() {
 void eMonsterAction::monsterPatrol() {
     if(mType == eMonsterType::scylla ||
        mType == eMonsterType::kraken) {
-        moveAround(nullptr, 5000, eWalkableObject::sCreateWater());
+        moveAround(nullptr, 5000, eWalkableObject::sCreateDeepWater());
     } else {
         goToNearestRoad();
     }
