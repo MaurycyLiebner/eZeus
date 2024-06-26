@@ -15,7 +15,9 @@ void eEventTrigger::trigger(eGameEvent& parent,
         if(!c) continue;
         const int delay = e->period();
         const auto d = date + delay;
-        c->initializeDate(d);
+        const int period = e->period();
+        const int repeat = e->repeat();
+        c->initializeDate(d, period, repeat);
         parent.addConsequence(c);
     }
 }

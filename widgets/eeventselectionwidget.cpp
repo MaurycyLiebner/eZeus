@@ -88,6 +88,7 @@ void eEventSelectionWidget::initialize(
             const auto e = eGameEvent::sCreate(type, mBranch, nullptr);
 
             if(e) {
+                e->setIsEpisodeEvent(true);
                 const auto boardDate = eDate(1, eMonth::january, -1500);
                 const int period = 150;
                 const auto date = boardDate + period;

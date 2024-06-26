@@ -175,24 +175,10 @@ void eGameEvent::clearConsequences() {
     mConsequences.clear();
 }
 
-bool eGameEvent::hasActiveConsequences(const eDate& date) const {
+bool eGameEvent::hasActiveConsequences() const {
     for(const auto& c : mConsequences) {
-        const auto cDate = c->startDate();
-        const auto cc = c->hasActiveConsequences(date);
-        const bool cFuture = cDate > date || cc;
-        if(cFuture) return true;
-    }
-    return false;
-}
-
-bool eGameEvent::hasActiveNonTriggerConsequences(const eDate& date) const {
-    for(const auto& c : mConsequences) {
-        const bool te = c->isTriggerEvent();
-        if(te) continue;
-        const auto cDate = c->startDate();
-        const auto cc = c->hasActiveNonTriggerConsequences(date);
-        const bool cFuture = cDate > date || cc;
-        if(cFuture) return true;
+        if(!c->finished()) return true;
+        if(c->hasActiveConsequences()) return true;
     }
     return false;
 }
@@ -290,6 +276,15 @@ void eGameEvent::setWorldBoard(eWorldBoard* const b) {
     }
 }
 
+void eGameEvent::startingNewEpisode() {
+    if(mEpisodeEvent) {
+        setRepeat(0);
+    }
+    for(const auto& c : mConsequences) {
+        c->startingNewEpisode();
+    }
+}
+
 void eGameEvent::addTrigger(const stdsptr<eEventTrigger>& et) {
     mTriggers.push_back(et);
 }
@@ -321,6 +316,8 @@ void eGameEvent::write(eWriteStream& dst) const {
     for(const auto& et : mTriggers) {
         et->write(dst);
     }
+
+    dst << mEpisodeEvent;
 }
 
 void eGameEvent::read(eReadStream& src) {
@@ -357,4 +354,6 @@ void eGameEvent::read(eReadStream& src) {
     for(const auto& et : mTriggers) {
         et->read(src);
     }
+
+    src >> mEpisodeEvent;
 }

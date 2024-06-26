@@ -87,8 +87,7 @@ public:
 
     void addConsequence(const stdsptr<eGameEvent>& event);
     void clearConsequences();
-    bool hasActiveConsequences(const eDate& date) const;
-    bool hasActiveNonTriggerConsequences(const eDate& date) const;
+    bool hasActiveConsequences() const;
 
     template <typename T = eGameEvent>
     T* rootEvent() {
@@ -143,11 +142,18 @@ public:
 
     void setGameBoard(eGameBoard* const b);
     void setWorldBoard(eWorldBoard* const b);
+
+    void startingNewEpisode();
+
+    bool episodeEvent() const { return mEpisodeEvent; }
+    void setIsEpisodeEvent(const bool e) { mEpisodeEvent = e; }
 protected:
     void addTrigger(const stdsptr<eEventTrigger>& et);
 private:
     const eGameEventType mType;
     const eGameEventBranch mBranch;
+
+    bool mEpisodeEvent = false;
 
     eGameBoard* mBoard = nullptr;
     eWorldBoard* mWorldBoard = nullptr;

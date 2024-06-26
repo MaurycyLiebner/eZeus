@@ -532,6 +532,7 @@ void eGameBoard::setFriendlyGods(const std::vector<eGodType>& gods) {
 
     const auto e = e::make_shared<eGodVisitEvent>(
                        eGameEventBranch::root);
+    e->setIsEpisodeEvent(true);
     e->setGameBoard(this);
     eDate date = mDate;
     const int period = 450;
@@ -546,6 +547,7 @@ void eGameBoard::setHostileGods(const std::vector<eGodType>& gods) {
 
     const auto e = e::make_shared<eGodAttackEvent>(
                        eGameEventBranch::root);
+    e->setIsEpisodeEvent(true);
     e->setGameBoard(this);
     eDate date = mDate;
     const int period = 900;
@@ -2229,7 +2231,16 @@ void eGameBoard::addSlayedMonster(const eMonsterType m) {
 }
 
 void eGameBoard::startEpisode(eEpisode* const e) {
-    mGameEvents.clear();
+    for(int i = 0; i < static_cast<int>(mGameEvents.size()); i++) {
+        const auto& e = mGameEvents[i];
+        e->startingNewEpisode();
+        if(e->finished()) {
+            if(!e->hasActiveConsequences()) {
+                mGameEvents.erase(mGameEvents.begin() + i);
+                i--;
+            }
+        }
+    }
     mGoals.clear();
     mWorldBoard = e->fWorldBoard;
     const auto& date = e->fStartDate;
