@@ -402,6 +402,10 @@ bool eWidget::isKeyboardGrabber() {
     return sKeyboardGrabber == this;
 }
 
+bool eWidget::isLastPressed() const {
+    return sLastPressed == this;
+}
+
 void eWidget::insertWidget(const int id, eWidget* const w) {
     const int nc = mChildren.size();
     if(id < 0) {

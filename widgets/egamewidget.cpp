@@ -1755,6 +1755,13 @@ void eGameWidget::updateTopBottomAltitude() {
     }
 }
 
+void eGameWidget::updateMaps() {
+    const auto mm = mGm->miniMap();
+    mm->scheduleUpdate();
+    const auto mma = mAm->miniMap();
+    mma->scheduleUpdate();
+}
+
 void eGameWidget::setTileSize(const eTileSize size) {
     const auto& setts = window()->settings();
     const auto sizes = setts.availableSizes();
@@ -1805,10 +1812,7 @@ void eGameWidget::setWorldDirection(const eWorldDirection dir) {
     updateTopBottomAltitude();
     viewTile(tile);
     clampViewBox();
-    const auto mm = mGm->miniMap();
-    mm->scheduleUpdate();
-    const auto mma = mAm->miniMap();
-    mma->scheduleUpdate();
+    updateMaps();
     updateViewBoxSize();
 }
 

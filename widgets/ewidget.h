@@ -96,6 +96,8 @@ public:
     bool releaseKeyboard();
     bool isKeyboardGrabber();
 
+    bool isLastPressed() const;
+
     void insertWidget(const int id, eWidget* const w);
     void prependWidget(eWidget* const w);
     void addWidget(eWidget* const w);

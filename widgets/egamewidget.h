@@ -107,6 +107,8 @@ public:
                       const eAction& action);
 
     void updateViewBoxSize();
+    void updateTopBottomAltitude();
+    void updateMaps();
 
     void setWorldDirection(const eWorldDirection dir);
 
@@ -241,8 +243,6 @@ private:
             const int tx, const int ty, eBuilding* const d,
             const eTerrainTextures& trrTexs, const eWorldDirection dir,
             const int boardw, const int boardh);
-
-    void updateTopBottomAltitude();
 
     bool mEditorMode = false;
 

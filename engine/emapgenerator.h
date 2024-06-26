@@ -5,6 +5,26 @@ enum class eTerrain;
 class eGameBoard;
 
 struct eMapGeneratorSettings {
+    int fWater = sLastWater;
+    int fForest = sLastForest;
+    int fForestToFertile = sLastForestToFertile;
+    int fFertile = sLastFertile;
+    int fEmptyDry = sLastEmptyDry;
+    int fScrubDry = sLastScrubDry;
+    int fFlatStones = sLastFlatStones;
+    int fTallStones = sLastTallStones;
+    int fElevation = sLastElevation;
+
+    static int sLastWater;
+    static int sLastForest;
+    static int sLastForestToFertile;
+    static int sLastFertile;
+    static int sLastEmptyDry;
+    static int sLastScrubDry;
+    static int sLastFlatStones;
+    static int sLastTallStones;
+    static int sLastElevation;
+
     bool fCoppper = true;
     bool fSilver = true;
     int fHuntable = 2;

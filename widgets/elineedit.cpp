@@ -14,6 +14,23 @@ void eLineEdit::setRenderBg(const bool r) {
     mRenderBg = r;
 }
 
+bool eLineEdit::mouseMoveEvent(const eMouseEvent& e) {
+    (void)e;
+    return true;
+}
+
+bool eLineEdit::mouseEnterEvent(const eMouseEvent& e) {
+    (void)e;
+    mHovered = true;
+    return true;
+}
+
+bool eLineEdit::mouseLeaveEvent(const eMouseEvent& e) {
+    (void)e;
+    mHovered = false;
+    return true;
+}
+
 bool eLineEdit::keyPressEvent(const eKeyPressEvent& e) {
     const auto k = e.key();
     auto txt = text();
@@ -114,6 +131,7 @@ void eLineEdit::paintEvent(ePainter& p) {
     if(tex) {
         p.drawTexture(rect(), tex, textAlignment());
     }
+    if(!mHovered && !isKeyboardGrabber() && !isLastPressed()) return;
     mTime++;
     if(mTime > 10) {
         if(mTime > 20) {

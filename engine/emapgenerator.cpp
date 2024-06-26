@@ -8,6 +8,16 @@ using namespace noise;
 
 #include "egameboard.h"
 
+int eMapGeneratorSettings::sLastWater = 25;
+int eMapGeneratorSettings::sLastForest = 8;
+int eMapGeneratorSettings::sLastForestToFertile = 8;
+int eMapGeneratorSettings::sLastFertile = 10;
+int eMapGeneratorSettings::sLastEmptyDry = 5;
+int eMapGeneratorSettings::sLastScrubDry = 25;
+int eMapGeneratorSettings::sLastFlatStones = 5;
+int eMapGeneratorSettings::sLastTallStones = 5;
+int eMapGeneratorSettings::sLastElevation = 9;
+
 eMapGenerator::eMapGenerator(eGameBoard& board) :
     mBoard(board) {
 }
@@ -22,137 +32,57 @@ void eMapGenerator::generateTerrain(const eMGS& settings) {
 
     const double div = 50.;
 
+    const int weightSum = settings.fWater +
+                          settings.fForest +
+                          settings.fForestToFertile +
+                          settings.fFertile +
+                          settings.fEmptyDry +
+                          settings.fScrubDry +
+                          settings.fFlatStones +
+                          settings.fTallStones +
+                          settings.fElevation;
     const int w = mBoard.width();
     const int h = mBoard.height();
     for(int x = 0; x < w; x++) {
         for(int y = 0; y < h; y++) {
             const auto tile = mBoard.dtile(x, y);
             const double v = p.GetValue(x/div, y/div/2, 0.0);
+            int w = std::round(0.5*(v + 1)*weightSum);
             eTerrain terr;
-            if(v < -0.5) {
+            const auto checker = [&w](const int ww) {
+                const int oldW = w;
+                w -= ww;
+                return oldW < ww;
+            };
+            if(checker(settings.fWater)) {
                 terr = eTerrain::water;
-            } else if(v < -0.35) {
+            } else if(checker(settings.fForest)) {
                 terr = eTerrain::forest;
-            } else if(v < -0.2) {
+            } else if(checker(settings.fForestToFertile)) {
                 if(rand() % 2) {
                     terr = eTerrain::forest;
                 } else {
                     terr = eTerrain::fertile;
                 }
-            } else if(v < 0.0) {
+            } else if(checker(settings.fFertile)) {
                 terr = eTerrain::fertile;
-            } else if(v < 0.1) {
+            } else if(checker(settings.fEmptyDry)) {
                 terr = eTerrain::dry;
-            } else if(v < 0.65) {
-                const double dist = std::abs(v - 0.1);
+            } else if(checker(settings.fScrubDry)) {
+                const int oldW = w + settings.fScrubDry;
+                const double frac = double(oldW)/settings.fScrubDry;
+                const double dist = std::abs(frac*0.65);
                 tile->setScrub(1.25*dist);
                 terr = eTerrain::dry;
-            } else if(v < 0.75) {
+            } else if(checker(settings.fFlatStones)) {
                 terr = eTerrain::flatStones;
-            } else if(v < 0.85) {
+            } else if(checker(settings.fTallStones)) {
                 terr = eTerrain::tallStones;
-            }  else {
+            }  else { // if(checker(settings.fElevation)) {
                 tile->setAltitude(1);
                 terr = eTerrain::dry;
             }
             tile->setTerrain(terr);
-        }
-    }
-
-    std::vector<std::vector<eTile*>> waterMasses;
-
-    const auto inMasses = [&](eTile* const t) {
-        for(const auto& mass : waterMasses) {
-            for(const auto tm : mass) {
-                if(tm == t) return true;
-            }
-        }
-        return false;
-    };
-
-    const auto neighsWithWater = [&](eTile* const t) {
-        const auto tl = t->topLeft<eTile>();
-        const auto bl = t->bottomLeft<eTile>();
-        const auto br = t->bottomRight<eTile>();
-        const auto tr = t->topRight<eTile>();
-        std::vector<eTile*> result;
-        if(tl && tl->terrain() == eTerrain::water) {
-            result.push_back(tl);
-        }
-        if(bl && bl->terrain() == eTerrain::water) {
-            result.push_back(bl);
-        }
-        if(br && br->terrain() == eTerrain::water) {
-            result.push_back(br);
-        }
-        if(tr && tr->terrain() == eTerrain::water) {
-            result.push_back(tr);
-        }
-        return result;
-    };
-
-    std::function<void(eTile* const tt, std::vector<eTile*>& newMass)> processTile;
-    processTile = [&](eTile* const tt, std::vector<eTile*>& newMass) {
-        newMass.push_back(tt);
-        const auto ns = neighsWithWater(tt);
-        for(const auto n : ns) {
-            if(inMasses(n)) continue;
-            processTile(n, newMass);
-        }
-    };
-
-    for(int tx = 0; tx < w; tx++) {
-        for(int ty = 0; ty < h; ty++) {
-            const auto t = mBoard.dtile(tx, ty);
-            if(t->terrain() != eTerrain::water) continue;
-            if(inMasses(t)) continue;
-            auto& newMass = waterMasses.emplace_back();
-            processTile(t, newMass);
-        }
-    }
-
-    for(const auto& rm : waterMasses) {
-        const int iMax = sqrt(rm.size())/5;
-        for(int i = 0; i < iMax; i++) {
-            const auto tile = rm[rand() % rm.size()];
-            eTile* ct = tile;
-            while(true) {
-                const int tx = ct->x();
-                const int ty = ct->y();
-                const double v = p.GetValue(tx/div, ty/div, 0.0);
-                bool found = false;
-                std::vector<eTile*> valiable;
-                for(int x = -1; x <= 1 && !found; x++) {
-                    for(int y = -1; y <= 1 && !found; y++) {
-                        if(x == 0 && y == 0) continue;
-                        const int ttx = tx + x;
-                        const int tty = ty + y;
-                        const auto tt = mBoard.dtile(ttx, tty);
-                        if(!tt) continue;
-                        const double vv = p.GetValue(ttx/div, tty/div, 0.0);
-                        if(v < vv) {
-                            if(x != 0 && y != 0) {
-                                tt->setTerrain(eTerrain::water);
-                            } else {
-                                valiable.push_back(tt);
-                            }
-                        }
-                    }
-                }
-                if(valiable.empty()) break;
-
-                ct = valiable[rand() % valiable.size()];
-                ct->setTerrain(eTerrain::water);
-            }
-        }
-    }
-
-    for(int x = 0; x < w; x++) {
-        for(int y = 0; y < h; y++) {
-            const auto tile = mBoard.dtile(x, y);
-            if(tile->isElevationTile()) {
-                tile->setTerrain(eTerrain::dry);
-            }
         }
     }
 
@@ -182,7 +112,28 @@ void eMapGenerator::generateTerrain(const eMGS& settings) {
             if(tra != alt) ndiff++;
             if(bra != alt) ndiff++;
             if(bla != alt) ndiff++;
-            if(ndiff > 2) tile->setAltitude(iavrg);
+            if(ndiff > 2) {
+                if(iavrg == 0) {
+                    if(settings.fTallStones > 0) {
+                        tile->setTerrain(eTerrain::tallStones);
+                    } else if(settings.fFlatStones > 0) {
+                        tile->setTerrain(eTerrain::flatStones);
+                    } else if(settings.fScrubDry > 0) {
+                        tile->setTerrain(eTerrain::dry);
+                        tile->setScrub(1.25*0.65);
+                    }
+                }
+                tile->setAltitude(iavrg);
+            }
+        }
+    }
+
+    for(int x = 0; x < w; x++) {
+        for(int y = 0; y < h; y++) {
+            const auto tile = mBoard.dtile(x, y);
+            if(tile->isElevationTile()) {
+                tile->setTerrain(eTerrain::dry);
+            }
         }
     }
 }
@@ -264,10 +215,20 @@ void eMapGenerator::generateAnimals(const eMGS& settings) {
 }
 
 void eMapGenerator::generate(const eMGS& settings) {
+    eMGS::sLastWater = settings.fWater;
+    eMGS::sLastForest = settings.fForest;
+    eMGS::sLastForestToFertile = settings.fForestToFertile;
+    eMGS::sLastFertile = settings.fFertile;
+    eMGS::sLastEmptyDry = settings.fEmptyDry;
+    eMGS::sLastScrubDry = settings.fScrubDry;
+    eMGS::sLastFlatStones = settings.fFlatStones;
+    eMGS::sLastTallStones = settings.fTallStones;
+    eMGS::sLastElevation = settings.fElevation;
+
     mBoard.initialize(mBoard.width(), mBoard.height());
     generateTerrain(settings);
-    generateSilverAndBronze(settings);
-    generateAnimals(settings);
+//    generateSilverAndBronze(settings);
+//    generateAnimals(settings);
     mBoard.updateMarbleTiles();
     mBoard.scheduleTerrainUpdate();
 }

@@ -10,10 +10,14 @@ public:
     void setChangeAction(const eAction a);
 
     void setRenderBg(const bool r);
-
+protected:
+    bool mouseMoveEvent(const eMouseEvent& e);
+    bool mouseEnterEvent(const eMouseEvent& e);
+    bool mouseLeaveEvent(const eMouseEvent& e);
     bool keyPressEvent(const eKeyPressEvent& e);
     void paintEvent(ePainter& p);
 private:
+    bool mHovered = false;
     bool mRenderBg = false;
     eAction mChangeAction;
     int mTime = 0;
