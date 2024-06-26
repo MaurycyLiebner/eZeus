@@ -110,10 +110,24 @@ void eEpisodeGoalWidget::initialize(const stdsptr<eEpisodeGoal>& e,
         detailsW->addWidget(b);
     } break;
     case eEpisodeGoalType::quest: {
-
+        const auto b = new eValueButton(window());
+        b->initialize(0, 9);
+        b->setValue(e->fRequiredCount);
+        b->setValueChangeAction([e, updateText](const int c) {
+            e->fRequiredCount = c;
+            updateText();
+        });
+        detailsW->addWidget(b);
     } break;
     case eEpisodeGoalType::slay: {
-
+        const auto b = new eValueButton(window());
+        b->initialize(0, 9);
+        b->setValue(e->fRequiredCount);
+        b->setValueChangeAction([e, updateText](const int c) {
+            e->fRequiredCount = c;
+            updateText();
+        });
+        detailsW->addWidget(b);
     } break;
     case eEpisodeGoalType::rule: {
         const auto cityButton = new eCityButton(window());
