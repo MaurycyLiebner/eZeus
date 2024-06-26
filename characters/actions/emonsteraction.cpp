@@ -34,6 +34,8 @@ bool eMonsterAction::decide() {
         if(!c->tile()) {
             randomPlaceOnBoard();
             if(!c->tile()) c->kill();
+        } else {
+            mHomeTile = c->tile();
         }
         break;
     case eMonsterAttackStage::wait: {
@@ -52,7 +54,12 @@ bool eMonsterAction::decide() {
         break;
     case eMonsterAttackStage::goBack: {
         mStage = eMonsterAttackStage::wait;
-        moveAround(nullptr, 100000);
+        if(mType == eMonsterType::scylla ||
+           mType == eMonsterType::kraken) {
+            moveAround(nullptr, 100000, eWalkableObject::sCreateWater());
+        } else {
+            moveAround(nullptr, 200000);
+        }
         auto& board = this->board();
         board.updateMusic();
     } break;
@@ -178,8 +185,14 @@ void eMonsterAction::goBack() {
     a->setTileDistance(eWalkableHelpers::sMonsterTileDistance);
     a->setObsticleHandler(obsticleHandler());
     a->setFindFailAction([](){});
-    a->start(mHomeTile, eWalkableObject::sCreateTerrain(),
-             eWalkableObject::sCreateDefault());
+
+    if(mType == eMonsterType::scylla ||
+       mType == eMonsterType::kraken) {
+        a->start(mHomeTile, eWalkableObject::sCreateWater());
+    } else {
+        a->start(mHomeTile, eWalkableObject::sCreateTerrain(),
+                 eWalkableObject::sCreateDefault());
+    }
     setCurrentAction(a);
     c->setActionType(eCharacterActionType::walk);
 }

@@ -123,6 +123,7 @@ bool eBuilding::sFlammable(const eBuildingType bt) {
     if(s) return false;
     if(sHeroHall(bt)) return false;
     if(sAestheticsBuilding(bt)) return false;
+    if(bt == eBuildingType::none) return false;
     if(bt == eBuildingType::road) return false;
     if(bt == eBuildingType::sheep) return false;
     if(bt == eBuildingType::goat) return false;
@@ -139,6 +140,7 @@ bool eBuilding::sFlammable(const eBuildingType bt) {
 }
 
 bool eBuilding::sTimedBuilding(const eBuildingType bt) {
+    if(bt == eBuildingType::none) return false;
     if(bt == eBuildingType::road) return false;
     if(bt == eBuildingType::ruins) return false;
     if(bt == eBuildingType::placeholder) return false;
@@ -157,6 +159,7 @@ bool eBuilding::sTimedBuilding(const eBuildingType bt) {
 bool eBuilding::sBlessable(const eBuildingType bt) {
     const bool s = sSanctuaryBuilding(bt);
     if(s) return false;
+    if(bt == eBuildingType::none) return false;
     if(bt == eBuildingType::road) return false;
     if(bt == eBuildingType::sheep) return false;
     if(bt == eBuildingType::goat) return false;
@@ -177,6 +180,7 @@ bool eBuilding::sBlessable(const eBuildingType bt) {
 bool eBuilding::sAttackable(const eBuildingType bt) {
     const bool s = sSanctuaryBuilding(bt);
     if(s) return false;
+    if(bt == eBuildingType::none) return false;
     if(bt == eBuildingType::road) return false;
     if(bt == eBuildingType::sheep) return false;
     if(bt == eBuildingType::goat) return false;
