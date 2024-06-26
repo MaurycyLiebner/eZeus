@@ -27,19 +27,12 @@ public:
     void waitFinished();
 private:
     void threadEntry(eThreadData* data);
-    void updateData();
+
+    int mTaskId = 0;
 
     eGameBoard& mBoard;
-    bool mDataUpdateScheduled = false;
 
     bool mQuit = false;
-
-    int mBusy = 0;
-
-    std::mutex mTasksMutex;
-    std::condition_variable mCv;
-    std::condition_variable mCvFinished;
-    std::queue<eTask*> mTasks;
 
     std::mutex mFinishedTasksMutex;
     std::vector<eTask*> mFinishedTasks;

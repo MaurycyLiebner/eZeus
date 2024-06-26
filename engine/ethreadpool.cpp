@@ -7,10 +7,10 @@ eThreadPool::eThreadPool(eGameBoard& board) :
 
 eThreadPool::~eThreadPool() {
     {
-        std::unique_lock<std::mutex> lock(mTasksMutex);
-
         mQuit = true;
-        mCv.notify_all();
+        for(const auto d : mThreadData) {
+            d->fCv.notify_all();
+        }
     }
     for(auto& thread : mThreads) {
         thread.join();
@@ -19,8 +19,8 @@ eThreadPool::~eThreadPool() {
 
 void eThreadPool::initialize(const int w, const int h) {
     if(mThreads.empty()) {
-        //const int hc = std::thread::hardware_concurrency();
-        const int threads = 1;//hc > 1 ? hc - 1 : 1;
+        const int hc = std::thread::hardware_concurrency();
+        const int threads = std::clamp(hc, 1, 3);
         for(int i = 0; i < threads; i++) {
             const auto b = new eThreadData;
             b->initialize(w, h);
@@ -38,17 +38,17 @@ void eThreadPool::threadEntry(eThreadData* data) {
     eTask* task = nullptr;
     while(!mQuit) {
         {
-            std::unique_lock<std::mutex> lock(mTasksMutex);
+            std::unique_lock<std::mutex> lock(data->fTasksMutex);
 
-            while(!mQuit && mTasks.empty()) {
-                mCv.wait(lock);
+            while(!mQuit && data->fTasks.empty()) {
+                data->fCv.wait(lock);
             }
 
-            if(mTasks.empty()) return;
+            if(data->fTasks.empty()) return;
 
-            mBusy++;
-            task = mTasks.front();
-            mTasks.pop();
+            data->fBusy = true;
+            task = data->fTasks.front();
+            data->fTasks.pop();
         }
         if(task) {
             {
@@ -72,24 +72,22 @@ void eThreadPool::threadEntry(eThreadData* data) {
             }
             std::lock_guard lock(mFinishedTasksMutex);
             mFinishedTasks.push_back(task);
-            mBusy--;
-            mCvFinished.notify_one();
+            data->fBusy = false;
+            data->fCvFinished.notify_one();
         }
     }
 }
 
-void eThreadPool::updateData() {
-    mDataUpdateScheduled = false;
-    for(auto& d : mThreadData) {
+void eThreadPool::queueTask(eTask* const task) {
+    const int threadId = mTaskId++ % mThreadData.size();
+    const auto d = mThreadData[threadId];
+    if(d->fDataUpdateScheduled) {
+        d->fDataUpdateScheduled = false;
         d->scheduleUpdate(mBoard);
     }
-}
-
-void eThreadPool::queueTask(eTask* const task) {
-    if(mDataUpdateScheduled) updateData();
-    std::unique_lock<std::mutex> lock(mTasksMutex);
-    mTasks.emplace(task);
-    mCv.notify_one();
+    std::unique_lock<std::mutex> lock(d->fTasksMutex);
+    d->fTasks.emplace(task);
+    d->fCv.notify_one();
 }
 
 void eThreadPool::handleFinished() {
@@ -105,19 +103,30 @@ void eThreadPool::handleFinished() {
 }
 
 void eThreadPool::scheduleDataUpdate() {
-    mDataUpdateScheduled = true;
-    std::lock_guard lock(mTasksMutex);
-    if(!mTasks.empty()) updateData();
+    for(const auto d : mThreadData) {
+        d->fDataUpdateScheduled = true;
+        std::lock_guard lock(d->fTasksMutex);
+        if(!d->fTasks.empty()) {
+            d->fDataUpdateScheduled = false;
+            d->scheduleUpdate(mBoard);
+        }
+    }
 }
 
 bool eThreadPool::finished() {
-    std::lock_guard lock(mTasksMutex);
-    return mTasks.empty() && (mBusy == 0);
+    for(const auto d : mThreadData) {
+        std::lock_guard lock(d->fTasksMutex);
+        const bool f = d->fTasks.empty() && !d->fBusy;
+        if(!f) return false;
+    }
+    return true;
 }
 
 void eThreadPool::waitFinished() {
-    std::unique_lock<std::mutex> lock(mTasksMutex);
-    mCvFinished.wait(lock, [this]() {
-        return mTasks.empty() && (mBusy == 0);
-    });
+    for(const auto d : mThreadData) {
+        std::unique_lock<std::mutex> lock(d->fTasksMutex);
+        d->fCvFinished.wait(lock, [d]() {
+            return d->fTasks.empty() && !d->fBusy;
+        });
+    }
 }

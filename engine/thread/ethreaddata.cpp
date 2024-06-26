@@ -21,7 +21,7 @@ void eThreadData::scheduleUpdate(eGameBoard& board) {
 
 //    const auto t1 = high_resolution_clock::now();
 
-    std::lock_guard l(mMutex);
+    std::lock_guard l(mTmpBoardMutex);
     mTmpChanged = true;
     for(int i = 0; i < board.width(); i++) {
         for(int j = 0; j < board.height(); j++) {
@@ -40,7 +40,7 @@ void eThreadData::scheduleUpdate(eGameBoard& board) {
 
 void eThreadData::updateBoard() {
     if(mTmpChanged) {
-        std::lock_guard l(mMutex);
+        std::lock_guard l(mTmpBoardMutex);
         std::swap(mBoard, mTmpBoard);
         mTmpChanged = false;
     }
