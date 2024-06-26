@@ -1227,6 +1227,24 @@ void eGameWidget::paintEvent(ePainter& p) {
             if(tt) {
                 drawCharacters(tt, true);
             }
+            bool lastTile = false;
+            if(dir == eWorldDirection::N) {
+                lastTile = dty >= mBoard->height() - 2;
+            } else if(dir == eWorldDirection::E) {
+                lastTile = dtx <= 1;
+            } else if(dir == eWorldDirection::S) {
+                lastTile = dty <= 1;
+            } else if(dir == eWorldDirection::W) {
+                lastTile = dtx >= mBoard->width() - 2;
+            }
+            if(lastTile) {
+                for(int i = 0; i < 3; i++) {
+                    const auto tt = tile->tileRelRotated<eTile>(-i, -i, dir);
+                    if(tt) {
+                        drawCharacters(tt, true);
+                    }
+                }
+            }
         }
         {
             const auto t = tile->topRotated<eTile>(dir);
