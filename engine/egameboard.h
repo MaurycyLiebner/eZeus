@@ -518,6 +518,12 @@ public:
     void leftElevationExtremas(int& min, int& max) const;
 
     void minMaxAltitude(int& min, int& max) const;
+
+    bool landTradeShutdown() const { return mShutdownLandTrade; }
+    void setLandTradeShutdown(const bool s) { mShutdownLandTrade = s; }
+
+    bool seaTradeShutdown() const { return mShutdownSeaTrade; }
+    void setSeaTradeShutdown(const bool s) { mShutdownSeaTrade = s; }
 private:
     void updateNeighbours();
 
@@ -638,6 +644,9 @@ private:
     std::vector<eTile*> mMarbleTiles;
 
     bool mManTowers = true;
+
+    bool mShutdownLandTrade = false;
+    bool mShutdownSeaTrade = false;
 
     int mSoldiersUpdate = 10000;
     int mMaxRabble = 0;

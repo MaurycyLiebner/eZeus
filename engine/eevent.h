@@ -152,7 +152,8 @@ enum class eEvent {
     troopsRequestAttackAverted,
 
     godDisaster,
-    godDisasterEnds
+    godDisasterEnds,
+    godTradeResumes
 };
 
 #endif // EEVENT_H

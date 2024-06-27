@@ -659,6 +659,15 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         const auto msgs = inst.godMessages(ed.fGod);
         showMessage(ed, msgs->fDisasterEnds);
     } break;
+    case eEvent::godTradeResumes: {
+        if(ed.fGod == eGodType::zeus) {
+            showMessage(ed, inst.fZeusTradeResumes);
+        } else if(ed.fGod == eGodType::poseidon) {
+            showMessage(ed, inst.fPoseidonTradeResumes);
+        } else if(ed.fGod == eGodType::hermes) {
+            showMessage(ed, inst.fHermesTradeResumes);
+        }
+    } break;
     }
     mGm->pushEvent(e, ed);
 }

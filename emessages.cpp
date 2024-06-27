@@ -377,6 +377,21 @@ bool eMessages::loadImpl() {
     load(fPoseidon, "poseidon");
     load(fZeus, "zeus");
 
+    fZeusTradeResumes.fFull.fTitle = fMessages["PHRASE_zeus_invasion_trade_resumes_title"];
+    fZeusTradeResumes.fFull.fText = fMessages["PHRASE_zeus_invasion_trade_resumes_initial_announcement"];
+    fZeusTradeResumes.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_zeus_invasion_trade_resumes_title"];
+    fZeusTradeResumes.fCondensed.fText = fMessages["PHRASE_CONDENSED_zeus_invasion_trade_resumes_initial_announcement"];
+
+    fPoseidonTradeResumes.fFull.fTitle = fMessages["PHRASE_poseidon_invasion_trade_resumes_title"];
+    fPoseidonTradeResumes.fFull.fText = fMessages["PHRASE_poseidon_invasion_trade_resumes_initial_announcement"];
+    fPoseidonTradeResumes.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_poseidon_invasion_trade_resumes_title"];
+    fPoseidonTradeResumes.fCondensed.fText = fMessages["PHRASE_CONDENSED_poseidon_invasion_trade_resumes_initial_announcement"];
+
+    fHermesTradeResumes.fFull.fTitle = fMessages["PHRASE_hermes_invasion_trade_resumes_title"];
+    fHermesTradeResumes.fFull.fText = fMessages["PHRASE_hermes_invasion_trade_resumes_initial_announcement"];
+    fHermesTradeResumes.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_hermes_invasion_trade_resumes_title"];
+    fHermesTradeResumes.fCondensed.fText = fMessages["PHRASE_CONDENSED_hermes_invasion_trade_resumes_initial_announcement"];
+
     load(fAchilles, "achilles");
     load(fAtalanta, "atalanta");
     load(fBellerophon, "bellerophon");

@@ -382,6 +382,7 @@ SOURCES += \
         gameEvents/egodquestevent.cpp \
         gameEvents/egodquesteventbase.cpp \
         gameEvents/egodquestfulfilledevent.cpp \
+        gameEvents/egodtraderesumesevent.cpp \
         gameEvents/egodvisitevent.cpp \
         gameEvents/einvasionevent.cpp \
         gameEvents/einvasionwarningevent.cpp \
@@ -968,6 +969,7 @@ HEADERS += \
     gameEvents/egodquestevent.h \
     gameEvents/egodquesteventbase.h \
     gameEvents/egodquestfulfilledevent.h \
+    gameEvents/egodtraderesumesevent.h \
     gameEvents/egodvisitevent.h \
     gameEvents/einvasionevent.h \
     gameEvents/einvasionwarningevent.h \

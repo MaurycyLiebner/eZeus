@@ -36,6 +36,11 @@ void eGameBoard::write(eWriteStream& dst) const {
         dst << i;
     }
 
+    dst << mManTowers;
+
+    dst << mShutdownLandTrade;
+    dst << mShutdownSeaTrade;
+
     dst << mSoldiersUpdate;
     dst << mMaxRabble;
     dst << mMaxHoplites;

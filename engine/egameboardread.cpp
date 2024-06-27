@@ -42,6 +42,11 @@ void eGameBoard::read(eReadStream& src) {
         mShutDown.push_back(type);
     }
 
+    src >> mManTowers;
+
+    src >> mShutdownLandTrade;
+    src >> mShutdownSeaTrade;
+
     src >> mSoldiersUpdate;
     src >> mMaxRabble;
     src >> mMaxHoplites;

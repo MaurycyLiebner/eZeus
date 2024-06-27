@@ -53,6 +53,8 @@ public:
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
+
+    bool trades() const;
 private:
     eWorldCity& mCity;
     const eTradePostType mType;

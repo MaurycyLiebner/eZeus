@@ -145,6 +145,10 @@ public:
     eGodMessages fPoseidon;
     eGodMessages fZeus;
 
+    eMessageType fZeusTradeResumes;
+    eMessageType fPoseidonTradeResumes;
+    eMessageType fHermesTradeResumes;
+
     const eHeroMessages* heroMessages(const eHeroType heroType) const;
 
     eHeroMessages fAchilles;

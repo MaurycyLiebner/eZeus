@@ -4,6 +4,7 @@
 #include "engine/eevent.h"
 #include "engine/eeventdata.h"
 #include "characters/actions/egodattackaction.h"
+#include "egodtraderesumesevent.h"
 
 eGodAttackEvent::eGodAttackEvent(const eGameEventBranch branch) :
     eGameEvent(eGameEventType::godAttack, branch) {}
@@ -43,6 +44,23 @@ void eGodAttackEvent::trigger() {
     ed.fGod = t;
     board->registerAttackingGod(god.get());
     board->event(eEvent::godInvasion, ed);
+    if(t == eGodType::zeus) {
+        board->setLandTradeShutdown(true);
+        board->setSeaTradeShutdown(true);
+    } else if(t == eGodType::poseidon) {
+        board->setSeaTradeShutdown(true);
+    } else if(t == eGodType::hermes) {
+        board->setLandTradeShutdown(true);
+    }
+    if(t == eGodType::zeus ||
+       t == eGodType::poseidon ||
+       t == eGodType::hermes) {
+        const auto e = e::make_shared<eGodTradeResumesEvent>(
+                           eGameEventBranch::child);
+        e->setGod(t);
+        e->setStartDate(board->date() + 180);
+        addConsequence(e);
+    }
 }
 
 std::string eGodAttackEvent::longName() const {

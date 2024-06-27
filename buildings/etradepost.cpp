@@ -108,7 +108,7 @@ void eTradePost::timeChanged(const int by) {
     mRouteTimer += by;
     if(mRouteTimer > rt) {
         mRouteTimer -= rt;
-        if(mCity.trades()) spawnTrader();
+        if(trades()) spawnTrader();
     }
     eWarehouseBase::timeChanged(by);
 }
@@ -169,7 +169,7 @@ void eTradePost::updateRouteStart() {
         const int tx = finalTile->first;
         const int ty = finalTile->second;
         mRouteStart = getBoard().tile(tx, ty);
-        spawnTrader();
+        if(trades()) spawnTrader();
     };
 
     const auto findFailFunc = [tptr, this]() {
@@ -180,7 +180,7 @@ void eTradePost::updateRouteStart() {
     const auto pft = new ePathFindTask(startTile, walkable,
                                        final, finishFunc,
                                        findFailFunc, true,
-                                       200);
+                                       10000);
     tp.queueTask(pft);
 }
 
@@ -200,7 +200,7 @@ void eTradePost::spawnTrader() {
 }
 
 int eTradePost::buy(const int cash) {
-    if(!mCity.trades()) return 0;
+    if(!trades()) return 0;
     int spent = 0;
     for(auto& b : mCity.buys()) {
         const auto expt = mExports & b.fType;
@@ -220,7 +220,7 @@ int eTradePost::buy(const int cash) {
 }
 
 int eTradePost::sell(const int items) {
-    if(!mCity.trades()) return 0;
+    if(!trades()) return 0;
     int earned = 0;
     for(auto& b : mCity.sells()) {
         const auto impt = mImports & b.fType;
@@ -273,4 +273,14 @@ void eTradePost::write(eWriteStream& dst) const {
     dst << mImports;
     dst << mExports;
     dst << mRouteTimer;
+}
+
+bool eTradePost::trades() const {
+    if(!mCity.trades()) return false;
+    auto& board = getBoard();
+    if(mType == eTradePostType::pier) {
+        return !board.seaTradeShutdown();
+    } else {
+        return !board.landTradeShutdown();
+    }
 }
