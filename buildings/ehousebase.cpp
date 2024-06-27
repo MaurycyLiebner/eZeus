@@ -24,9 +24,6 @@ eHouseBase::~eHouseBase() {
 }
 
 void eHouseBase::timeChanged(const int by) {
-    if(mLeftCounter > 0) {
-        mLeftCounter = std::max(0, mLeftCounter - by);
-    }
     if(mPeople <= 0) return;
     const int cupdate = 5000;
     mUpdateCulture += by;
@@ -62,7 +59,6 @@ int eHouseBase::moveIn(int c) {
 
 void eHouseBase::leave() {
     if(mPeople <= 0) return;
-    mLeftCounter = 10000;
     auto& board = getBoard();
     auto& popData = board.populationData();
     popData.incLeft(mPeople);
@@ -123,8 +119,6 @@ void eHouseBase::read(eReadStream& src) {
     src >> mCompetitors;
 
     src >> mUpdateCulture;
-
-    src >> mLeftCounter;
 }
 
 void eHouseBase::write(eWriteStream& dst) const {
@@ -146,8 +140,6 @@ void eHouseBase::write(eWriteStream& dst) const {
     dst << mCompetitors;
 
     dst << mUpdateCulture;
-
-    dst << mLeftCounter;
 }
 
 void eHouseBase::setLevel(const int l) {
