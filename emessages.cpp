@@ -80,6 +80,16 @@ void eMessages::load(eGodMessages& god, const std::string& godName) {
     god.fSanctuaryComplete.fFull.fText = fMessages["PHRASE_" + godName + "_sanctuary_complete_initial_announcement"];
     god.fSanctuaryComplete.fCondensed.fTitle = fMessages["PHRASE_" + godName + "_sanctuary_complete_title"];
     god.fSanctuaryComplete.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_sanctuary_complete_initial_announcement"];
+
+    god.fDisaster.fFull.fTitle = fMessages["PHRASE_" + godName + "_disaster_title"];
+    god.fDisaster.fFull.fText = fMessages["PHRASE_" + godName + "_disaster_initial_announcement"];
+    god.fDisaster.fCondensed.fTitle = fMessages["PHRASE_" + godName + "_disaster_title"];
+    god.fDisaster.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_disaster_initial_announcement"];
+
+    god.fDisasterEnds.fFull.fTitle = fMessages["PHRASE_" + godName + "_disaster_ends_title"];
+    god.fDisasterEnds.fFull.fText = fMessages["PHRASE_" + godName + "_disaster_ends_initial_announcement"];
+    god.fDisasterEnds.fCondensed.fTitle = fMessages["PHRASE_" + godName + "_disaster_ends_title"];
+    god.fDisasterEnds.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + godName + "_disaster_ends_initial_announcement"];
 }
 
 void eMessages::load(eHeroMessages& hero, const std::string& heroName) {

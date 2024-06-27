@@ -378,6 +378,7 @@ SOURCES += \
         gameEvents/egiftfromevent.cpp \
         gameEvents/egifttoevent.cpp \
         gameEvents/egodattackevent.cpp \
+        gameEvents/egoddisasterevent.cpp \
         gameEvents/egodquestevent.cpp \
         gameEvents/egodquesteventbase.cpp \
         gameEvents/egodquestfulfilledevent.cpp \
@@ -569,6 +570,7 @@ SOURCES += \
         widgets/eventwidgets/eeventwidgetbase.cpp \
         widgets/eventwidgets/egiftfromeventwidget.cpp \
         widgets/eventwidgets/egodattackeventwidget.cpp \
+        widgets/eventwidgets/egoddisastereventwidget.cpp \
         widgets/eventwidgets/egodquesteventwidget.cpp \
         widgets/eventwidgets/einvasioneventwidget.cpp \
         widgets/eventwidgets/emonsterattackeventwidget.cpp \
@@ -962,6 +964,7 @@ HEADERS += \
     gameEvents/egiftfromevent.h \
     gameEvents/egifttoevent.h \
     gameEvents/egodattackevent.h \
+    gameEvents/egoddisasterevent.h \
     gameEvents/egodquestevent.h \
     gameEvents/egodquesteventbase.h \
     gameEvents/egodquestfulfilledevent.h \
@@ -2465,6 +2468,7 @@ HEADERS += \
     widgets/eventwidgets/eeventwidgetbase.h \
     widgets/eventwidgets/egiftfromeventwidget.h \
     widgets/eventwidgets/egodattackeventwidget.h \
+    widgets/eventwidgets/egoddisastereventwidget.h \
     widgets/eventwidgets/egodquesteventwidget.h \
     widgets/eventwidgets/einvasioneventwidget.h \
     widgets/eventwidgets/emonsterattackeventwidget.h \

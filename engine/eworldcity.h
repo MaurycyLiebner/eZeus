@@ -96,6 +96,9 @@ public:
     bool rebellion() const { return mRebellion; }
     void setRebellion(const bool r) { mRebellion = r; }
 
+    bool tradeShutdown() const { return mTradeShutdown; }
+    void setTradeShutdown(const bool s) { mTradeShutdown = s; }
+
     static std::string sTypeName(const eCityType type);
     void setType(const eCityType type) { mType = type; }
     eCityType type() const { return mType; }
@@ -173,6 +176,8 @@ private:
 
     double mX = 0.5;
     double mY = 0.5;
+
+    bool mTradeShutdown = false;
 
     bool mRebellion = false;
 

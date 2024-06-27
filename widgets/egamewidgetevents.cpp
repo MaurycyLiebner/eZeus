@@ -650,6 +650,15 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
     case eEvent::troopsRequestAttackAverted: {
         showMessage(ed, inst.fTroopsRequestAttackAverted, true);
     } break;
+
+    case eEvent::godDisaster: {
+        const auto msgs = inst.godMessages(ed.fGod);
+        showMessage(ed, msgs->fDisaster);
+    } break;
+    case eEvent::godDisasterEnds: {
+        const auto msgs = inst.godMessages(ed.fGod);
+        showMessage(ed, msgs->fDisasterEnds);
+    } break;
     }
     mGm->pushEvent(e, ed);
 }

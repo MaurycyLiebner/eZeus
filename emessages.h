@@ -29,6 +29,9 @@ struct eGodMessages {
     eQuestMessages fQuest2;
 
     eMessageType fSanctuaryComplete;
+
+    eMessageType fDisaster;
+    eMessageType fDisasterEnds;
 };
 
 struct eMonsterMessages {

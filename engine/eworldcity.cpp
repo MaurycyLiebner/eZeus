@@ -344,6 +344,7 @@ void eWorldCityBase::write(eWriteStream& dst) const {
     dst << mLeaderString;
     dst << mX;
     dst << mY;
+    dst << mTradeShutdown;
     dst << mRebellion;
     dst << mRel;
     dst << mAt;
@@ -365,6 +366,7 @@ void eWorldCityBase::read(eReadStream& src) {
     src >> mLeaderString;
     src >> mX;
     src >> mY;
+    src >> mTradeShutdown;
     src >> mRebellion;
     src >> mRel;
     src >> mAt;
@@ -388,6 +390,7 @@ bool eWorldCity::trades() const {
     if(mBuys.empty() & mSells.empty()) return false;
     if(rebellion()) return false;
     if(isRival()) return false;
+    if(tradeShutdown()) return false;
     return true;
 }
 

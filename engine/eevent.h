@@ -149,7 +149,10 @@ enum class eEvent {
     troopsRequestAllyLastReminder,
     troopsRequestAllyConquered,
 
-    troopsRequestAttackAverted
+    troopsRequestAttackAverted,
+
+    godDisaster,
+    godDisasterEnds
 };
 
 #endif // EEVENT_H

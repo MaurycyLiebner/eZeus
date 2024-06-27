@@ -36,7 +36,9 @@ enum class eGameEventType {
     economicChange,
 
     troopsRequest,
-    troopsRequestFulfilled
+    troopsRequestFulfilled,
+
+    godDisaster
 };
 
 enum class eGameEventBranch {
