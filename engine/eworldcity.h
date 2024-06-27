@@ -215,7 +215,11 @@ public:
     int strength() const;
 
     int army() const { return mArmy; }
-    void setArmy(const int a) { mArmy = a; }
+    void setArmy(const int a);
+    void setArmyTarget(const int a) { mTargetArmy = a; }
+    int armyTarget() const { return mTargetArmy; }
+
+    void incTime(const int by);
 
     int wealth() const { return mWealth; }
     void setWealth(const int w) { mWealth = w; }
@@ -273,7 +277,10 @@ private:
     bool mAbroad = false;
 
     int mArmy = 1; // 1-5
+    int mTargetArmy = 1; // 1-5
     int mWealth = 1; // 1-5
+
+    int mArmyUpdate = 0;
 
     bool mWaterTrade = false;
 

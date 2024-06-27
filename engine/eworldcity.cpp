@@ -386,6 +386,21 @@ int eWorldCity::strength() const {
     return (10 + (rand() % 3))*mArmy;
 }
 
+void eWorldCity::setArmy(const int a) {
+    mArmy = a;
+    mArmyUpdate = 0;
+}
+
+void eWorldCity::incTime(const int by) {
+    mArmyUpdate += by;
+    const int armyUpdateWait = 25000;
+    if(mArmyUpdate > armyUpdateWait) {
+        mArmyUpdate -= armyUpdateWait;
+        if(mTargetArmy > mArmy) mArmy++;
+        else if(mTargetArmy < mArmy) mArmy--;
+    }
+}
+
 bool eWorldCity::trades() const {
     if(mBuys.empty() & mSells.empty()) return false;
     if(rebellion()) return false;
@@ -428,6 +443,8 @@ void eWorldCity::write(eWriteStream& dst) const {
     eWorldCityBase::write(dst);
     dst << mAbroad;
     dst << mArmy;
+    dst << mTargetArmy;
+    dst << mArmyUpdate;
     dst << mWealth;
     dst << mWaterTrade;
     swrite(dst, mBuys);
@@ -448,6 +465,8 @@ void eWorldCity::read(eReadStream& src) {
     eWorldCityBase::read(src);
     src >> mAbroad;
     src >> mArmy;
+    src >> mTargetArmy;
+    src >> mArmyUpdate;
     src >> mWealth;
     src >> mWaterTrade;
     sread(src, mBuys);

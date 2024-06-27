@@ -3,7 +3,10 @@
 eWorldBoard::eWorldBoard() {}
 
 void eWorldBoard::incTime(const int by) {
-    (void)by;
+    for(const auto& c : mCities) {
+        if(c->isCurrentCity()) continue;
+        c->incTime(by);
+    }
 }
 
 void eWorldBoard::nextYear() {

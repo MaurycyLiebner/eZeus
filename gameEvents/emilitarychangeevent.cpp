@@ -13,8 +13,9 @@ void eMilitaryChangeEvent::trigger() {
     const auto city = this->city();
     const int by = this->by();
     if(!city || by == 0) return;
-    int a = city->army();
+    int a = city->armyTarget();
     a = std::clamp(a + by, 1, 5);
+    city->setArmyTarget(a);
     city->setArmy(a);
     const auto board = gameBoard();
     if(!board) return;
