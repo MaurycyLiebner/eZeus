@@ -20,11 +20,13 @@ void eGodDisasterEvent::trigger() {
         board->event(eEvent::godDisasterEnds, ed);
     } else {
         mCity->setTradeShutdown(true);
-        const auto c = makeCopy();
-        const auto cc = static_cast<eGodDisasterEvent*>(c.get());
-        cc->setEnd(true);
-        cc->setStartDate(board->date() + mDuration);
-        addConsequence(c);
+        const auto e = e::make_shared<eGodDisasterEvent>(
+                           eGameEventBranch::child);
+        e->setGod(mGod);
+        e->setCity(mCity);
+        e->setEnd(true);
+        e->setStartDate(board->date() + mDuration);
+        addConsequence(e);
         board->event(eEvent::godDisaster, ed);
     }
 }
