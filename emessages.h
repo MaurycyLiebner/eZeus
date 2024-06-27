@@ -230,6 +230,10 @@ public:
     eMessageType fSupportTroopsDepart;
     eMessageType fSupportTroopsDefeated;
 
+    eMessageType fStrikeDepart;
+    eMessageType fStrikeSuccessful;
+    eMessageType fStrikeUnsuccessul;
+
     eMessageType fIncreasedFavor;
     eMessageType fDecreasedFavor;
 

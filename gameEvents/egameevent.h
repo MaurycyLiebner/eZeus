@@ -41,7 +41,8 @@ enum class eGameEventType {
     godDisaster,
     godTradeResumes,
 
-    requestAid
+    requestAid,
+    requestStrike
 };
 
 enum class eGameEventBranch {

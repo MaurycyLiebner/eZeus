@@ -54,6 +54,8 @@ troops_request_long_name "Troops request from %1"
 troops_request_short_name "Troops request"
 god_disaster_long_name "God disaster"
 god_trade_resumes_long_name "God trade resumes"
+request_aid_long_name "Request aid"
+request_strike_long_name "Request strike"
 
 quest_tip_build_hh "Build Hero's Hall for %1 to fulfill a quest"
 quest_tip_summon_hero "Summon %1 to fulfill a quest"

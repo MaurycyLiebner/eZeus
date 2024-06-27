@@ -157,7 +157,11 @@ enum class eEvent {
 
     aidArrives,
     aidDeparts,
-    aidDefeated
+    aidDefeated,
+
+    strikeDeparture,
+    strikeSuccessful,
+    strikeUnsuccessful
 };
 
 #endif // EEVENT_H

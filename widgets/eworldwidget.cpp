@@ -17,6 +17,12 @@
 #include "gameEvents/eplayerconquestevent.h"
 #include "gameEvents/eplayerraidevent.h"
 #include "gameEvents/erequestaidevent.h"
+#include "gameEvents/erequeststrikeevent.h"
+
+#include "eacceptbutton.h"
+#include "ecancelbutton.h"
+#include "estringhelpers.h"
+#include "widgets/ecitybutton.h"
 
 #include "buildings/eheroshall.h"
 
@@ -218,6 +224,94 @@ void eWorldWidget::openRequestDialog() {
             qw->initialize(title, text);
             openDialog(qw);
             return;
+        } else {
+            const auto w = new eFramedWidget(window());
+            w->setType(eFrameType::message);
+            const int p = padding();
+            const int width = 40*p;
+            const auto cw = new eWidget(window());
+            cw->setNoPadding();
+            cw->setWidth(width);
+
+            const auto titleLabel = new eLabel(window());
+            titleLabel->setHugeFontSize();
+            titleLabel->setText(eLanguage::zeusText(5, 74)); // Military strike
+            titleLabel->fitContent();
+            cw->addWidget(titleLabel);
+
+            auto textBase = eLanguage::zeusText(5, 75);
+            eStringHelpers::replace(textBase, "[city_nameA]", mCity->name());
+            const auto rival = rivals[0];
+            auto text = textBase;
+            eStringHelpers::replace(text, "[city_nameB]", rival->name());
+
+            const auto textLabel = new eLabel(window());
+            textLabel->setSmallFontSize();
+            textLabel->setWrapWidth(width);
+            textLabel->setText(text);
+            textLabel->fitContent();
+            textLabel->setWidth(1.25*textLabel->width());
+            cw->addWidget(textLabel);
+            const int tly = titleLabel->y() + titleLabel->height();
+            textLabel->setY(tly);
+
+            const auto cityButton = new eCityButton(window());
+            cityButton->setValidator([](const stdsptr<eWorldCity>& c) {
+                return c->isRival();
+            });
+            cityButton->initialize(mWorldBoard,
+                                   [textLabel, textBase](
+                                   const stdsptr<eWorldCity>& c) {
+                auto text = textBase;
+                eStringHelpers::replace(text, "[city_nameB]", c->name());
+                textLabel->setText(text);
+                textLabel->fitContent();
+            });
+            cityButton->setCity(rival);
+            cw->addWidget(cityButton);
+            const int tly2 = textLabel->y() + textLabel->height() + p;
+            cityButton->setY(tly2);
+
+            const auto buttons = new eWidget(window());
+
+            const auto accept = new eAcceptButton(window());
+            const auto cancel = new eCancelButton(window());
+            accept->setPressAction([this, w, rivals, cityButton]() {
+                const auto e = e::make_shared<eRequestStrikeEvent>(
+                                   eGameEventBranch::root);
+                e->setGameBoard(mBoard);
+                e->setWorldBoard(mWorldBoard);
+                e->setCity(mCity);
+                e->setRivalCity(cityButton->city());
+                const auto date = mBoard->date() + 30;
+                e->initializeDate(date);
+                mBoard->addRootGameEvent(e);
+                w->deleteLater();
+            });
+            cancel->setPressAction([w]() {
+                w->deleteLater();
+            });
+            buttons->addWidget(cancel);
+            buttons->addWidget(accept);
+
+            buttons->setNoPadding();
+            accept->setX(width/5);
+            buttons->fitContent();
+
+            cw->addWidget(buttons);
+            const int by = cityButton->y() + cityButton->height() + p;
+            buttons->setY(by);
+
+            cw->fitContent();
+            cw->setHeight(cw->height() + p);
+            w->addWidget(cw);
+            cw->move(p, p);
+            w->resize(cw->width() + 2*p, cw->height() + 2*p);
+            titleLabel->align(eAlignment::hcenter);
+            cityButton->align(eAlignment::hcenter);
+            buttons->align(eAlignment::hcenter);
+
+            openDialog(w);
         }
         d->deleteLater();
     };

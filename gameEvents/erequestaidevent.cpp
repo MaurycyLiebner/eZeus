@@ -108,7 +108,7 @@ void eRequestAidEvent::trigger() {
     e->setCity(mCity);
     e->setEnd(true);
     e->setArrivalDate(mArrivalDate);
-    e->initializeDate(board->date() + 150);
+    e->initializeDate(date + 150);
     addConsequence(e);
     board->event(eEvent::aidArrives, ed);
 }

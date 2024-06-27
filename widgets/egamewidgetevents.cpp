@@ -703,6 +703,18 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, inst.fSupportTroopsDefeated);
         return;
     } break;
+    case eEvent::strikeDeparture: {
+        showMessage(ed, inst.fStrikeDepart);
+        return;
+    } break;
+    case eEvent::strikeSuccessful: {
+        showMessage(ed, inst.fStrikeSuccessful);
+        return;
+    } break;
+    case eEvent::strikeUnsuccessful: {
+        showMessage(ed, inst.fStrikeUnsuccessul);
+        return;
+    } break;
     }
     mGm->pushEvent(e, ed);
 }

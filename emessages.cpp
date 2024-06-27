@@ -670,6 +670,21 @@ bool eMessages::loadImpl() {
     fSupportTroopsDefeated.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_support_troops_defeated_title"];
     fSupportTroopsDefeated.fCondensed.fText = fMessages["PHRASE_CONDENSED_support_troops_defeated_initial_announcement"];
 
+    fStrikeDepart.fFull.fTitle = fMessages["PHRASE_strike_force_sets_forth_title"];
+    fStrikeDepart.fFull.fText = fMessages["PHRASE_strike_force_sets_forth_initial_announcement"];
+    fStrikeDepart.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_strike_force_sets_forth_title"];
+    fStrikeDepart.fCondensed.fText = fMessages["PHRASE_CONDENSED_strike_force_sets_forth_initial_announcement"];
+
+    fStrikeSuccessful.fFull.fTitle = fMessages["PHRASE_strike_successful_title"];
+    fStrikeSuccessful.fFull.fText = fMessages["PHRASE_strike_successful_initial_announcement"];
+    fStrikeSuccessful.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_strike_successful_title"];
+    fStrikeSuccessful.fCondensed.fText = fMessages["PHRASE_CONDENSED_strike_successful_initial_announcement"];
+
+    fStrikeUnsuccessul.fFull.fTitle = fMessages["PHRASE_strike_unsuccessful_title"];
+    fStrikeUnsuccessul.fFull.fText = fMessages["PHRASE_strike_unsuccessful_initial_announcement"];
+    fStrikeUnsuccessul.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_strike_unsuccessful_title"];
+    fStrikeUnsuccessul.fCondensed.fText = fMessages["PHRASE_CONDENSED_strike_unsuccessful_initial_announcement"];
+
     fIncreasedFavor.fFull.fTitle = fMessages["PHRASE_favor_change_title_I"];
     fIncreasedFavor.fFull.fText = fMessages["PHRASE_favor_change_initial_announcement_I"];
     fIncreasedFavor.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_favor_change_title_I"];
