@@ -226,6 +226,10 @@ public:
 
     eResourceGrantedMessages fGiftGranted;
 
+    eMessageType fSupportTroopsArrive;
+    eMessageType fSupportTroopsDepart;
+    eMessageType fSupportTroopsDefeated;
+
     eMessageType fIncreasedFavor;
     eMessageType fDecreasedFavor;
 

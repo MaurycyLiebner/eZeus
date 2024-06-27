@@ -153,7 +153,11 @@ enum class eEvent {
 
     godDisaster,
     godDisasterEnds,
-    godTradeResumes
+    godTradeResumes,
+
+    aidArrives,
+    aidDeparts,
+    aidDefeated
 };
 
 #endif // EEVENT_H

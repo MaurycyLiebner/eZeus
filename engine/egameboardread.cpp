@@ -259,4 +259,12 @@ void eGameBoard::read(eReadStream& src) {
     }
 
     mAvailableBuildings.read(src);
+
+    int na;
+    src >> na;
+    for(int i = 0; i < na; i++) {
+        const auto ma = std::make_shared<eMilitaryAid>();
+        ma->read(src, this);
+        addMilitaryAid(ma);
+    }
 }

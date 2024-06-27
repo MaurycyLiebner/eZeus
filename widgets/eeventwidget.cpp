@@ -77,6 +77,7 @@ eEventButton::eEventButton(const eEvent e,
         coll = &texs.fIllnessAlert;
         break;
     case eEvent::armyReturns:
+    case eEvent::aidArrives:
         coll = &texs.fArmyComebackAlert;
         break;
     default:

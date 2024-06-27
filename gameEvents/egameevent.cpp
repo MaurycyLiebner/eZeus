@@ -25,6 +25,7 @@
 #include "etroopsrequestfulfilledevent.h"
 #include "egoddisasterevent.h"
 #include "egodtraderesumesevent.h"
+#include "erequestaidevent.h"
 
 eGameEvent::eGameEvent(const eGameEventType type,
                        const eGameEventBranch branch) :
@@ -112,6 +113,9 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
         return e::make_shared<eGodDisasterEvent>(branch);
     case eGameEventType::godTradeResumes:
         return e::make_shared<eGodTradeResumesEvent>(branch);
+
+    case eGameEventType::requestAid:
+        return e::make_shared<eRequestAidEvent>(branch);
     }
     return nullptr;
 }

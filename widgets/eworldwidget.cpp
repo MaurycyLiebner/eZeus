@@ -12,9 +12,11 @@
 #include "elanguage.h"
 #include "ecitysettingswidget.h"
 #include "efulfilldialog.h"
+#include "emessagewidget.h"
 
 #include "gameEvents/eplayerconquestevent.h"
 #include "gameEvents/eplayerraidevent.h"
+#include "gameEvents/erequestaidevent.h"
 
 #include "buildings/eheroshall.h"
 
@@ -177,16 +179,49 @@ void eWorldWidget::openRequestDialog() {
     const auto d = new eRequestDialog(window());
     const auto func = [this, d](const eResourceType type) {
         mBoard->request(mCity, type);
-        const auto wb = mBoard->getWorldBoard();
-        const auto& cts = wb->cities();
+        const auto& cts = mWorldBoard->cities();
         for(const auto& ct : cts) {
+            if(ct->isCurrentCity()) continue;
             ct->incAttitude(-10);
         }
         mCity->incAttitude(-10);
         mWM->updateRelationshipLabel();
         d->deleteLater();
     };
-    d->initialize(mCity, func);
+    const auto requestAid = [this, d]() {
+        const auto has = mBoard->militaryAid(mCity);
+        if(has) return;
+        const auto& cts = mWorldBoard->cities();
+        for(const auto& ct : cts) {
+            if(ct->isCurrentCity()) continue;
+            ct->incAttitude(-10);
+        }
+        mCity->incAttitude(-10);
+        mWM->updateRelationshipLabel();
+
+        mBoard->requestAid(mCity);
+
+        d->deleteLater();
+    };
+    const auto requestStrike = [this, d]() {
+        const auto& cts = mWorldBoard->cities();
+        std::vector<stdsptr<eWorldCity>> rivals;
+        for(const auto& c : cts) {
+            if(!c->isRival()) continue;
+            rivals.push_back(c);
+        }
+        if(rivals.empty()) {
+            const auto title = eLanguage::zeusText(5, 72); // Nobody to strike
+            const auto text = eLanguage::zeusText(5, 73); // There are no cities to strike
+
+            const auto qw = new eMessageWidget(window());
+            qw->initialize(title, text);
+            openDialog(qw);
+            return;
+        }
+        d->deleteLater();
+    };
+    d->initialize(mCity, func, requestAid, requestStrike);
     openDialog(d);
 }
 

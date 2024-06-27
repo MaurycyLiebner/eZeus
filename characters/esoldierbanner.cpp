@@ -147,6 +147,7 @@ void eSoldierBanner::moveToDefault() {
 }
 
 void eSoldierBanner::goHome() {
+    if(mMilitaryAid) return;
     if(mPlayerId != 1) return;
     if(mHome) return;
     mHome = true;
@@ -280,6 +281,7 @@ bool eSoldierBanner::fighting() const {
 
 void eSoldierBanner::read(eReadStream& src) {
     src >> mIOID;
+    src >> mMilitaryAid;
     src >> mHome;
     src >> mAbroad;
     mTile = src.readTile(mBoard);
@@ -311,6 +313,7 @@ void eSoldierBanner::read(eReadStream& src) {
 
 void eSoldierBanner::write(eWriteStream& dst) const {
     dst << mIOID;
+    dst << mMilitaryAid;
     dst << mHome;
     dst << mAbroad;
     dst.writeTile(mTile);
@@ -424,6 +427,7 @@ std::string eSoldierBanner::sName(
 }
 
 void eSoldierBanner::updatePlaces() {
+    if(!mTile) return;
     const auto soldiers = notDead();
     if(soldiers.empty()) return;
 
@@ -455,6 +459,7 @@ void eSoldierBanner::updatePlaces() {
 }
 
 void eSoldierBanner::updateCount() {
+    if(mMilitaryAid) return;
     if(mPlayerId != 1) return;
     auto soldiers = notDead();
     const int n = soldiers.size();

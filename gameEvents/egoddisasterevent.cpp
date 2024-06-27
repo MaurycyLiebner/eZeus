@@ -25,7 +25,7 @@ void eGodDisasterEvent::trigger() {
         e->setGod(mGod);
         e->setCity(mCity);
         e->setEnd(true);
-        e->setStartDate(board->date() + mDuration);
+        e->initializeDate(board->date() + mDuration);
         addConsequence(e);
         board->event(eEvent::godDisaster, ed);
     }

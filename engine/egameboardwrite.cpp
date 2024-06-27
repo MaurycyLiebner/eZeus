@@ -240,4 +240,9 @@ void eGameBoard::write(eWriteStream& dst) const {
     }
 
     mAvailableBuildings.write(dst);
+
+    dst << mMilitaryAid.size();
+    for(const auto& a : mMilitaryAid) {
+        a->write(dst);
+    }
 }

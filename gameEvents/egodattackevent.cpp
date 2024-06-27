@@ -58,7 +58,7 @@ void eGodAttackEvent::trigger() {
         const auto e = e::make_shared<eGodTradeResumesEvent>(
                            eGameEventBranch::child);
         e->setGod(t);
-        e->setStartDate(board->date() + 180);
+        e->initializeDate(board->date() + 365);
         addConsequence(e);
     }
 }

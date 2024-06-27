@@ -36,6 +36,9 @@ public:
     void setIOID(const int id) { mIOID = id; }
     int ioID() const { return mIOID; }
 
+    bool militaryAid() const { return mMilitaryAid; }
+    void setMilitaryAid(const bool a) { mMilitaryAid = a; }
+
     void moveTo(const int x, const int y);
     void moveToDefault();
     void goHome();
@@ -92,6 +95,8 @@ private:
     const eBannerType mType;
     const int mId;
     std::string mName;
+
+    bool mMilitaryAid = false;
 
     int mIOID = -1;
 

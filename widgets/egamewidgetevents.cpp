@@ -584,80 +584,103 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
 
     case eEvent::militaryBuildup: {
         showMessage(ed, inst.fMilitaryBuildup, true);
+        return;
     } break;
     case eEvent::militaryDecline: {
         showMessage(ed, inst.fMilitaryDecline, true);
+        return;
     } break;
     case eEvent::economicProsperity: {
         showMessage(ed, inst.fEconomicProsperity, true);
+        return;
     } break;
     case eEvent::economicDecline: {
         showMessage(ed, inst.fEconomicDecline, true);
+        return;
     } break;
 
     case eEvent::troopsRequestVassalInitial: {
         showMessage(ed, inst.fVassalTroopsRequest.fInitialAnnouncement, true);
+        return;
     } break;
     case eEvent::troopsRequestColonyInitial: {
         showMessage(ed, inst.fColonyTroopsRequest.fInitialAnnouncement, true);
+        return;
     } break;
     case eEvent::troopsRequestParentCityInitial: {
         showMessage(ed, inst.fParentCityTroopsRequest.fInitialAnnouncement, true);
+        return;
     } break;
     case eEvent::troopsRequestAllyInitial: {
         showMessage(ed, inst.fAllyTroopsRequest.fInitialAnnouncement, true);
+        return;
     } break;
 
     case eEvent::troopsRequestVassalFirstReminder: {
         showMessage(ed, inst.fVassalTroopsRequest.fFirstReminder, true);
+        return;
     } break;
     case eEvent::troopsRequestColonyFirstReminder: {
         showMessage(ed, inst.fColonyTroopsRequest.fFirstReminder, true);
+        return;
     } break;
     case eEvent::troopsRequestParentCityFirstReminder: {
         showMessage(ed, inst.fParentCityTroopsRequest.fFirstReminder, true);
+        return;
     } break;
     case eEvent::troopsRequestAllyFirstReminder: {
         showMessage(ed, inst.fAllyTroopsRequest.fFirstReminder, true);
+        return;
     } break;
 
     case eEvent::troopsRequestVassalLastReminder: {
         showMessage(ed, inst.fVassalTroopsRequest.fLastReminder, true);
+        return;
     } break;
     case eEvent::troopsRequestColonyLastReminder: {
         showMessage(ed, inst.fColonyTroopsRequest.fLastReminder, true);
+        return;
     } break;
     case eEvent::troopsRequestParentCityLastReminder: {
         showMessage(ed, inst.fParentCityTroopsRequest.fLastReminder, true);
+        return;
     } break;
     case eEvent::troopsRequestAllyLastReminder: {
         showMessage(ed, inst.fAllyTroopsRequest.fLastReminder, true);
+        return;
     } break;
 
     case eEvent::troopsRequestVassalConquered: {
         showMessage(ed, inst.fVassalTroopsRequest.fConquered, true);
+        return;
     } break;
     case eEvent::troopsRequestColonyConquered: {
         showMessage(ed, inst.fColonyTroopsRequest.fConquered, true);
+        return;
     } break;
     case eEvent::troopsRequestParentCityConquered: {
         showMessage(ed, inst.fParentCityTroopsRequest.fConquered, true);
+        return;
     } break;
     case eEvent::troopsRequestAllyConquered: {
         showMessage(ed, inst.fAllyTroopsRequest.fConquered, true);
+        return;
     } break;
 
     case eEvent::troopsRequestAttackAverted: {
         showMessage(ed, inst.fTroopsRequestAttackAverted, true);
+        return;
     } break;
 
     case eEvent::godDisaster: {
         const auto msgs = inst.godMessages(ed.fGod);
         showMessage(ed, msgs->fDisaster);
+        return;
     } break;
     case eEvent::godDisasterEnds: {
         const auto msgs = inst.godMessages(ed.fGod);
         showMessage(ed, msgs->fDisasterEnds);
+        return;
     } break;
     case eEvent::godTradeResumes: {
         if(ed.fGod == eGodType::zeus) {
@@ -667,6 +690,18 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         } else if(ed.fGod == eGodType::hermes) {
             showMessage(ed, inst.fHermesTradeResumes);
         }
+        return;
+    } break;
+    case eEvent::aidArrives: {
+        showMessage(ed, inst.fSupportTroopsArrive);
+    } break;
+    case eEvent::aidDeparts: {
+        showMessage(ed, inst.fSupportTroopsDepart);
+        return;
+    } break;
+    case eEvent::aidDefeated: {
+        showMessage(ed, inst.fSupportTroopsDefeated);
+        return;
     } break;
     }
     mGm->pushEvent(e, ed);

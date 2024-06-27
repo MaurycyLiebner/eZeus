@@ -79,6 +79,50 @@ enum class eGames {
     olympian
 };
 
+struct eMilitaryAid {
+    bool allDead() const {
+        int c = 0;
+        for(const auto& s : fSoldiers) {
+            c += s->count();
+        }
+        return c == 0;
+    }
+
+    void goBack() {
+        for(const auto& s : fSoldiers) {
+            s->goAbroad();
+        }
+        fSoldiers.clear();
+    }
+
+    void write(eWriteStream& dst) {
+        dst.writeCity(fCity.get());
+        dst << fSoldiers.size();
+        for(const auto& s : fSoldiers) {
+            dst << s->type();
+            s->write(dst);
+        }
+    }
+
+    void read(eReadStream& src, eGameBoard* const board) {
+        src.readCity(board, [this](const stdsptr<eWorldCity>& c) {
+            fCity = c;
+        });
+        int ns;
+        src >> ns;
+        for(int i = 0; i < ns; i++) {
+            eBannerType type;
+            src >> type;
+            const auto b = e::make_shared<eSoldierBanner>(type, *board);
+            b->read(src);
+            fSoldiers.push_back(b);
+        }
+    }
+
+    stdsptr<eWorldCity> fCity;
+    std::vector<stdsptr<eSoldierBanner>> fSoldiers;
+};
+
 class eGameBoard : public eStdSelfRef {
 public:
     eGameBoard();
@@ -395,6 +439,7 @@ public:
                      const int count);
     void request(const stdsptr<eWorldCity>& c,
                  const eResourceType type);
+    void requestAid(const stdsptr<eWorldCity>& c);
     void planGiftFrom(const stdsptr<eWorldCity>& c,
                       const eResourceType type,
                       const int count,
@@ -524,6 +569,10 @@ public:
 
     bool seaTradeShutdown() const { return mShutdownSeaTrade; }
     void setSeaTradeShutdown(const bool s) { mShutdownSeaTrade = s; }
+
+    eMilitaryAid* militaryAid(const stdsptr<eWorldCity>& c) const;
+    void removeMilitaryAid(const stdsptr<eWorldCity>& c);
+    void addMilitaryAid(const stdsptr<eMilitaryAid>& a);
 private:
     void updateNeighbours();
 
@@ -642,6 +691,8 @@ private:
     std::vector<ePlannedAction*> mPlannedActions;
 
     std::vector<eTile*> mMarbleTiles;
+
+    std::vector<stdsptr<eMilitaryAid>> mMilitaryAid;
 
     bool mManTowers = true;
 

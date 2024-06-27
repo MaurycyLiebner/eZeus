@@ -11,7 +11,9 @@ public:
 
     using eRequestFunction = std::function<void(eResourceType)>;
     void initialize(const stdsptr<eWorldCity>& c,
-                    const eRequestFunction& func);
+                    const eRequestFunction& func,
+                    const eAction& requestDefensiveAid,
+                    const eAction& requestStrike);
 };
 
 #endif // EREQUESTDIALOG_H

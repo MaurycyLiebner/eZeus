@@ -655,6 +655,21 @@ bool eMessages::loadImpl() {
 
     loadResourceGranted(fGiftGranted, "gift");
 
+    fSupportTroopsArrive.fFull.fTitle = fMessages["PHRASE_support_troops_arrive_title"];
+    fSupportTroopsArrive.fFull.fText = fMessages["PHRASE_support_troops_arrive_initial_announcement"];
+    fSupportTroopsArrive.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_support_troops_arrive_title"];
+    fSupportTroopsArrive.fCondensed.fText = fMessages["PHRASE_CONDENSED_support_troops_arrive_initial_announcement"];
+
+    fSupportTroopsDepart.fFull.fTitle = fMessages["PHRASE_support_troops_depart_title"];
+    fSupportTroopsDepart.fFull.fText = fMessages["PHRASE_support_troops_depart_initial_announcement"];
+    fSupportTroopsDepart.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_support_troops_depart_title"];
+    fSupportTroopsDepart.fCondensed.fText = fMessages["PHRASE_CONDENSED_support_troops_depart_initial_announcement"];
+
+    fSupportTroopsDefeated.fFull.fTitle = fMessages["PHRASE_support_troops_defeated_title"];
+    fSupportTroopsDefeated.fFull.fText = fMessages["PHRASE_support_troops_defeated_initial_announcement"];
+    fSupportTroopsDefeated.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_support_troops_defeated_title"];
+    fSupportTroopsDefeated.fCondensed.fText = fMessages["PHRASE_CONDENSED_support_troops_defeated_initial_announcement"];
+
     fIncreasedFavor.fFull.fTitle = fMessages["PHRASE_favor_change_title_I"];
     fIncreasedFavor.fFull.fText = fMessages["PHRASE_favor_change_initial_announcement_I"];
     fIncreasedFavor.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_favor_change_title_I"];

@@ -397,6 +397,7 @@ SOURCES += \
         gameEvents/eplayerraidevent.cpp \
         gameEvents/eraidresourceevent.cpp \
         gameEvents/ereceiverequestevent.cpp \
+        gameEvents/erequestaidevent.cpp \
         gameEvents/eresourcegrantedeventbase.cpp \
         gameEvents/etroopsrequestevent.cpp \
         gameEvents/etroopsrequestfulfilledevent.cpp \
@@ -984,6 +985,7 @@ HEADERS += \
     gameEvents/eplayerraidevent.h \
     gameEvents/eraidresourceevent.h \
     gameEvents/ereceiverequestevent.h \
+    gameEvents/erequestaidevent.h \
     gameEvents/eresourcegrantedeventbase.h \
     gameEvents/etroopsrequestevent.h \
     gameEvents/etroopsrequestfulfilledevent.h \

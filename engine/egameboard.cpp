@@ -52,6 +52,7 @@
 #include "gameEvents/egifttoevent.h"
 #include "gameEvents/egiftfromevent.h"
 #include "gameEvents/ereceiverequestevent.h"
+#include "gameEvents/erequestaidevent.h"
 
 #include "eeventdata.h"
 
@@ -148,6 +149,10 @@ void eGameBoard::resize(const int w, const int h) {
 }
 
 void eGameBoard::clear() {
+    for(const auto c : mCharacters) {
+        c->kill();
+    }
+    emptyRubbish();
     for(const auto& x : mTiles) {
         for(const auto y : x) {
             delete y;
@@ -156,6 +161,7 @@ void eGameBoard::clear() {
     mTiles.clear();
     mWidth = 0;
     mHeight = 0;
+    emptyRubbish();
 }
 
 void eGameBoard::setWorldDirection(const eWorldDirection dir) {
@@ -786,6 +792,17 @@ void eGameBoard::request(const stdsptr<eWorldCity>& c,
     addRootGameEvent(e);
 }
 
+void eGameBoard::requestAid(const stdsptr<eWorldCity>& c) {
+    const auto e = e::make_shared<eRequestAidEvent>(
+                       eGameEventBranch::root);
+    e->setGameBoard(this);
+    e->setWorldBoard(mWorldBoard);
+    e->setCity(c);
+    const auto date = mDate + 30;
+    e->initializeDate(date);
+    addRootGameEvent(e);
+}
+
 void eGameBoard::tributeFrom(const stdsptr<eWorldCity>& c,
                              const bool postpone) {
     const auto type = c->tributeType();
@@ -1369,6 +1386,7 @@ void eGameBoard::setWorldBoard(eWorldBoard* const wb) {
 }
 
 void eGameBoard::registerSoldierBanner(const stdsptr<eSoldierBanner>& b) {
+    if(b->militaryAid()) return;
     b->setRegistered(true);
     mSoldierBanners.push_back(b);
     switch(b->type()) {
@@ -2471,4 +2489,25 @@ void eGameBoard::minMaxAltitude(int& min, int& max) const {
             if(a < min) min = a;
         }
     }
+}
+
+eMilitaryAid* eGameBoard::militaryAid(const stdsptr<eWorldCity>& c) const {
+    for(const auto& m : mMilitaryAid) {
+        if(m->fCity == c) return m.get();
+    }
+    return nullptr;
+}
+
+void eGameBoard::removeMilitaryAid(const stdsptr<eWorldCity>& c) {
+    const int iMax = mMilitaryAid.size();
+    for(int i = 0; i < iMax; i++) {
+        const auto& m = mMilitaryAid[i];
+        if(m->fCity != c) continue;
+        mMilitaryAid.erase(mMilitaryAid.begin() + i);
+        break;
+    }
+}
+
+void eGameBoard::addMilitaryAid(const stdsptr<eMilitaryAid>& a) {
+    mMilitaryAid.push_back(a);
 }

@@ -39,7 +39,9 @@ enum class eGameEventType {
     troopsRequestFulfilled,
 
     godDisaster,
-    godTradeResumes
+    godTradeResumes,
+
+    requestAid
 };
 
 enum class eGameEventBranch {
@@ -112,7 +114,6 @@ public:
     const std::string& reason() const { return mReason; }
 
     const eDate& startDate() const { return mStartDate; }
-    void setStartDate(const eDate& d);
 
     int datePlusDays() const { return mDatePlusDays; }
     void setDatePlusDays(const int d) { mDatePlusDays = d; }
@@ -155,6 +156,8 @@ protected:
 private:
     const eGameEventType mType;
     const eGameEventBranch mBranch;
+
+    void setStartDate(const eDate& d);
 
     bool mEpisodeEvent = false;
 
