@@ -13,7 +13,10 @@ enum class eEpisodeGoalType {
     slay,
     rule,
     housing,
-    setAsideGoods
+    setAsideGoods,
+    surviveUntil,
+    completeBefore,
+    tradingPartners
 };
 
 struct eEpisodeGoal {
@@ -35,7 +38,7 @@ struct eEpisodeGoal {
     static std::string sText(const eEpisodeGoalType type);
     std::string text(const bool colonyEpisode,
                      const bool atlantean) const;
-    std::string statusText() const;
+    std::string statusText(const eGameBoard* const b) const;
 
     void update(const eGameBoard* const b);
 };

@@ -130,7 +130,7 @@ void eEpisodeIntroductionWidget::initialize(
                 }
             }
             if(addStatusText) {
-                const auto st = g->statusText();
+                const auto st = g->statusText(board);
                 if(!st.empty()) {
                     const auto stl = new eLabel(window());
                     stl->setSmallFontSize();

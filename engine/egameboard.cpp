@@ -2491,3 +2491,17 @@ void eGameBoard::removeMilitaryAid(const stdsptr<eWorldCity>& c) {
 void eGameBoard::addMilitaryAid(const stdsptr<eMilitaryAid>& a) {
     mMilitaryAid.push_back(a);
 }
+
+void eGameBoard::episodeLost() const {
+
+}
+
+int eGameBoard::tradingPartners() const {
+    int n = 0;
+    for(const auto t : mTradePosts) {
+        const bool trades = t->trades();
+        if(!trades) continue;
+        n++;
+    }
+    return n;
+}

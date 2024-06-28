@@ -8,6 +8,7 @@
 #include "echoosebutton.h"
 #include "emainwindow.h"
 #include "ecitybutton.h"
+#include "edatebutton.h"
 #include "eresourcebutton.h"
 #include "buildings/esmallhouse.h"
 #include "buildings/eelitehousing.h"
@@ -220,6 +221,32 @@ void eEpisodeGoalWidget::initialize(const stdsptr<eEpisodeGoal>& e,
 
         const auto b = new eValueButton(window());
         b->initialize(0, 99999);
+        b->setValue(e->fRequiredCount);
+        b->setValueChangeAction([e, updateText](const int c) {
+            e->fRequiredCount = c;
+            updateText();
+        });
+        detailsW->addWidget(b);
+    } break;
+    case eEpisodeGoalType::surviveUntil:
+    case eEpisodeGoalType::completeBefore: {
+        const auto dateButton = new eDateButton(window());
+        dateButton->setDateChangeAction([e](const eDate& date) {
+            e->fEnumInt1 = date.day();
+            e->fEnumInt2 = static_cast<int>(date.month());
+            e->fRequiredCount = date.year();
+        });
+        dateButton->initialize();
+        const int day = e->fEnumInt1;
+        const int month = e->fEnumInt2;
+        const int year = e->fRequiredCount;
+        const eDate sdate{day, static_cast<eMonth>(month), year};
+        dateButton->setDate(sdate);
+        detailsW->addWidget(dateButton);
+    } break;
+    case eEpisodeGoalType::tradingPartners: {
+        const auto b = new eValueButton(window());
+        b->initialize(0, 99);
         b->setValue(e->fRequiredCount);
         b->setValueChangeAction([e, updateText](const int c) {
             e->fRequiredCount = c;

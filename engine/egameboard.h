@@ -319,7 +319,7 @@ public:
     void scheduleAppealMapUpdate();
     void updateAppealMapIfNeeded();
 
-    eWorldBoard* getWorldBoard() { return mWorldBoard; }
+    eWorldBoard* getWorldBoard() const { return mWorldBoard; }
 
     void enlistForces(const eEnlistedForces& forces);
     void clearBannerSelection();
@@ -573,6 +573,9 @@ public:
     eMilitaryAid* militaryAid(const stdsptr<eWorldCity>& c) const;
     void removeMilitaryAid(const stdsptr<eWorldCity>& c);
     void addMilitaryAid(const stdsptr<eMilitaryAid>& a);
+
+    void episodeLost() const;
+    int tradingPartners() const;
 private:
     void updateNeighbours();
 

@@ -44,7 +44,10 @@ void eEpisodeGoalSelectionWidget::initialize(
             eEpisodeGoalType::slay,
             eEpisodeGoalType::rule,
             eEpisodeGoalType::housing,
-            eEpisodeGoalType::setAsideGoods
+            eEpisodeGoalType::setAsideGoods,
+            eEpisodeGoalType::surviveUntil,
+            eEpisodeGoalType::completeBefore,
+            eEpisodeGoalType::tradingPartners
         };
         std::vector<std::string> labels;
         for(const auto t : types) {

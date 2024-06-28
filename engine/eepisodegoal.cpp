@@ -60,6 +60,12 @@ std::string eEpisodeGoal::sText(const eEpisodeGoalType type) {
         return eLanguage::zeusText(194, 9);
     case eEpisodeGoalType::setAsideGoods:
         return eLanguage::zeusText(194, 14);
+    case eEpisodeGoalType::surviveUntil:
+        return eLanguage::zeusText(194, 13);
+    case eEpisodeGoalType::completeBefore:
+        return eLanguage::zeusText(194, 12);
+    case eEpisodeGoalType::tradingPartners:
+        return eLanguage::zeusText(194, 10);
     }
 }
 
@@ -131,11 +137,36 @@ std::string eEpisodeGoal::text(const bool colonyEpisode,
         eStringHelpers::replace(t, "[item]", resName);
         return t;
     } break;
+    case eEpisodeGoalType::surviveUntil: {
+        const int day = fEnumInt1;
+        const int month = fEnumInt2;
+        const int year = fRequiredCount;
+        const eDate sdate{day, static_cast<eMonth>(month), year};
+        auto text = eLanguage::zeusText(194, 37); // Survive until
+        eStringHelpers::replace(text, "[finish_date]", sdate.shortString());
+        return text;
+    } break;
+    case eEpisodeGoalType::completeBefore: {
+        const int day = fEnumInt1;
+        const int month = fEnumInt2;
+        const int year = fRequiredCount;
+        const eDate sdate{day, static_cast<eMonth>(month), year};
+        auto text = eLanguage::zeusText(194, 38); // Complete before
+        eStringHelpers::replace(text, "[finish_date]", sdate.shortString());
+        return text;
+    } break;
+    case eEpisodeGoalType::tradingPartners: {
+        const int c = fRequiredCount;
+        const auto cStr = std::to_string(c);
+        auto text = eLanguage::zeusText(194, 34); // trading partners
+        eStringHelpers::replace(text, "[amount]", cStr);
+        return text;
+    } break;
     }
     return "";
 }
 
-std::string eEpisodeGoal::statusText() const {
+std::string eEpisodeGoal::statusText(const eGameBoard* const b) const {
     switch(fType) {
     case eEpisodeGoalType::population: {
         auto text = eLanguage::zeusText(194, 43);
@@ -188,6 +219,47 @@ std::string eEpisodeGoal::statusText() const {
         auto text = eLanguage::zeusText(194, 60);
         const auto countStr = std::to_string(fPreviewCount);
         eStringHelpers::replace(text, "[amount]", countStr);
+        return text;
+    } break;
+    case eEpisodeGoalType::surviveUntil: {
+        auto text = eLanguage::zeusText(194, 63); // months remaining
+        const auto cdate = b->date();
+        const int day = fEnumInt1;
+        const int month = fEnumInt2;
+        const int year = fRequiredCount;
+        const eDate sdate{day, static_cast<eMonth>(month), year};
+        int rem;
+        if(cdate > sdate) {
+            rem = 0;
+        } else {
+            rem = std::round((sdate - cdate)/30.5);
+        }
+        const auto countStr = std::to_string(rem);
+        eStringHelpers::replace(text, "[months_remaining]", countStr);
+        return text;
+    } break;
+    case eEpisodeGoalType::completeBefore: {
+        auto text = eLanguage::zeusText(194, 63); // months remaining
+        const auto cdate = b->date();
+        const int day = fEnumInt1;
+        const int month = fEnumInt2;
+        const int year = fRequiredCount;
+        const eDate sdate{day, static_cast<eMonth>(month), year};
+        int rem;
+        if(cdate > sdate) {
+            rem = 0;
+        } else {
+            rem = std::round((sdate - cdate)/30.5);
+        }
+        const auto countStr = std::to_string(rem);
+        eStringHelpers::replace(text, "[months_remaining]", countStr);
+        return text;
+    } break;
+    case eEpisodeGoalType::tradingPartners: {
+        const int c = fStatusCount;
+        const auto cStr = std::to_string(c);
+        auto text = eLanguage::zeusText(194, 59); // trading partners
+        eStringHelpers::replace(text, "[amount]", cStr);
         return text;
     } break;
     }
@@ -284,6 +356,36 @@ void eEpisodeGoal::update(const eGameBoard* const b) {
     case eEpisodeGoalType::setAsideGoods: {
         const auto res = static_cast<eResourceType>(fEnumInt1);
         fPreviewCount = b->resourceCount(res);
+    } break;
+    case eEpisodeGoalType::surviveUntil: {
+        const int day = fEnumInt1;
+        const int month = fEnumInt2;
+        const int year = fRequiredCount;
+        const auto sdate = eDate{day, static_cast<eMonth>(month), year};
+        const auto cdate = b->date();
+        fStatusCount = cdate > sdate ? 1 : 0;
+    } break;
+    case eEpisodeGoalType::completeBefore: {
+        const int day = fEnumInt1;
+        const int month = fEnumInt2;
+        const int year = fRequiredCount;
+        const auto sdate = eDate{day, static_cast<eMonth>(month), year};
+        const auto cdate = b->date();
+        if(cdate > sdate) {
+            b->episodeLost();
+        } else {
+            fStatusCount = cdate < sdate ? 1 : 0;
+        }
+    } break;
+    case eEpisodeGoalType::tradingPartners: {
+        const bool wasMet = met();
+        fStatusCount = b->tradingPartners();
+        const bool isMet = met();
+        if(!wasMet && isMet) {
+            b->showTip(eLanguage::zeusText(194, 93));
+        } else if(wasMet && !isMet) {
+            b->showTip(eLanguage::zeusText(194, 94));
+        }
     } break;
     }
 }
