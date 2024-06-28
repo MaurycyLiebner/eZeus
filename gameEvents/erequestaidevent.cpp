@@ -99,7 +99,7 @@ void eRequestAidEvent::trigger() {
 
         const int ctx = entryPoint->x();
         const int cty = entryPoint->y();
-        eSoldierBanner::sPlace(banners, ctx, cty, *board, 3);
+        eSoldierBanner::sPlace(banners, ctx, cty, *board, 3, 3);
         board->addMilitaryAid(ma);
     }
 

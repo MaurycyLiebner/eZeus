@@ -334,7 +334,8 @@ void eSoldierBanner::write(eWriteStream& dst) const {
 
 void eSoldierBanner::sPlace(std::vector<eSoldierBanner*> bs,
                             const int ctx, const int cty,
-                            eGameBoard& board, const int dist) {
+                            eGameBoard& board, const int dist,
+                            const int minDistFromEdge) {
     if(bs.empty()) return;
     const auto tt = board.tile(ctx, cty);
     if(tt) {
@@ -370,12 +371,21 @@ void eSoldierBanner::sPlace(std::vector<eSoldierBanner*> bs,
     int isld = 0;
     const int slds = bs.size();
 
+    const int bw = board.width();
+    const int bh = board.height();
+
     const auto prcsTile = [&](const int i, const int j) {
         if(isld >= slds) return false;
         const int tx = ctx + i;
         const int ty = cty + j;
         const auto tt = board.tile(tx, ty);
         if(!tt) return false;
+        const int dtx = tt->dx();
+        const int dty = tt->dy();
+        if(dtx < minDistFromEdge) return false;
+        if(dty < 2*minDistFromEdge) return false;
+        if(dtx > bw - minDistFromEdge) return false;
+        if(dty > bh - 2*minDistFromEdge) return false;
         if(!tt->walkable()) return false;
         if(tt->soldierBanner()) return false;
 

@@ -84,7 +84,8 @@ public:
 
     static void sPlace(std::vector<eSoldierBanner*> bs,
                        const int ctx, const int cty,
-                       eGameBoard& board, const int dist);
+                       eGameBoard& board, const int dist,
+                       const int minDistFromEdge);
     static std::string sName(const eBannerType type,
                              const bool atlantean);
 private:

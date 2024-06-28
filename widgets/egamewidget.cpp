@@ -1628,7 +1628,7 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
     } break;
     case eMouseButton::right: {
         const auto& solds = mBoard->selectedSoldiers();
-        eSoldierBanner::sPlace(solds, mHoverTX, mHoverTY, *mBoard, 3);
+        eSoldierBanner::sPlace(solds, mHoverTX, mHoverTY, *mBoard, 3, 2);
     } break;
     default: return false;
     }

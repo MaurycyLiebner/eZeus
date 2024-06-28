@@ -226,7 +226,7 @@ void eInvasionHandler::initialize(eTile* const tile,
         }
     }
 
-    eSoldierBanner::sPlace(solds, tx, ty, mBoard, 3);
+    eSoldierBanner::sPlace(solds, tx, ty, mBoard, 3, 3);
 }
 
 void eInvasionHandler::incTime(const int by) {
@@ -255,7 +255,7 @@ void eInvasionHandler::incTime(const int by) {
             int tx;
             int ty;
             eTileHelper::dtileIdToTileId(dtx, dty, tx, ty);
-            eSoldierBanner::sPlace(solds, tx, ty, mBoard, 3);
+            eSoldierBanner::sPlace(solds, tx, ty, mBoard, 3, 3);
         }
     } break;
     case eInvasionStage::invade: {
@@ -281,7 +281,7 @@ void eInvasionHandler::incTime(const int by) {
             mBoard.event(eEvent::invasionDefeat, ed);
             const int tx = mTile->x();
             const int ty = mTile->y();
-            eSoldierBanner::sPlace(solds, tx, ty, mBoard, 3);
+            eSoldierBanner::sPlace(solds, tx, ty, mBoard, 3, 0);
         }
     } break;
     case eInvasionStage::comeback: {
