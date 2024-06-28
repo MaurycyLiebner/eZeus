@@ -292,9 +292,9 @@ void eGameWidget::paintEvent(ePainter& p) {
 
         if(tex) {
             if(drawDim == 2) {
-                rx -= 1;
+//                rx -= 1;
             } else if(drawDim == 3) {
-                rx -= 1;
+                rx += 1;
                 ry -= 1;
             }
             bool eraseCm = false;

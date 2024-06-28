@@ -32,14 +32,14 @@ void eVaryingSizeTex::get(eTile* const tile,
                           int& futureDim, int& drawDim,
                           const eWorldDirection dir) {
     {
-        const auto t = tile->topRotated<eTile>(dir);
+        const auto t = tile->topRightRotated<eTile>(dir);
         if(t) {
             if(t->futureDim() == 2) {
                 futureDim = 0;
                 drawDim = 2;
                 return;
             }
-            const auto tt = t->topRotated<eTile>(dir);
+            const auto tt = t->topRightRotated<eTile>(dir);
             if(tt && tt->futureDim() == 3) {
                 futureDim = 0;
                 drawDim = 3;

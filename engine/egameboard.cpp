@@ -201,33 +201,13 @@ int eGameBoard::rotatedHeight() const {
 }
 
 void eGameBoard::iterateOverAllTiles(const eTileAction& a) {
-    if(mDirection == eWorldDirection::N) {
-        for(int y = 0; y < mHeight; y++) {
-            for(int x = 0; x < mWidth; x++) {
-                const auto t = dtile(x, y);
-                a(t);
-            }
-        }
-    } else if(mDirection == eWorldDirection::E) {
-        for(int x = mWidth - 1; x >= 0; x--) {
-            for(int y = 0; y < mHeight; y++) {
-                const auto t = dtile(x, y);
-                a(t);
-            }
-        }
-    } else if(mDirection == eWorldDirection::S) {
-        for(int y = mHeight - 1; y >= 0; y--) {
-            for(int x = mWidth - 1; x >= 0; x--) {
-                const auto t = dtile(x, y);
-                a(t);
-            }
-        }
-    } else if(mDirection == eWorldDirection::W) {
-        for(int x = 0; x < mWidth; x++) {
-            for(int y = mHeight - 1; y >= 0; y--) {
-                const auto t = dtile(x, y);
-                a(t);
-            }
+    const int height = rotatedHeight();
+    const int width = rotatedWidth();
+    for(int y = 0; y < height; y++) {
+        for(int x = 0; x < width; x++) {
+            const auto t = rotateddtile(x, y);
+            if(!t) continue;
+            a(t);
         }
     }
 }
