@@ -4,6 +4,8 @@
 #include "fileIO/ereadstream.h"
 #include "fileIO/ewritestream.h"
 
+#include "edate.h"
+
 enum class eEpisodeGoalType {
     population,
     treasury,
@@ -41,6 +43,9 @@ struct eEpisodeGoal {
     std::string statusText(const eGameBoard* const b) const;
 
     void update(const eGameBoard* const b);
+
+    eDate date() const; // for surviveUntil and completeBefore
+    void initializeDate(const eGameBoard* const b);
 };
 
 #endif // EEPISODEGOAL_H

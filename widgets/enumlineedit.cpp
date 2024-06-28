@@ -49,7 +49,12 @@ void eNumLineEdit::setRange(const int min, const int max) {
     mMax = max;
 }
 
-void eNumLineEdit::clamp() {;
+void eNumLineEdit::clamp() {
     const int v = clampedValue();
     setText(std::to_string(v));
+}
+
+bool eNumLineEdit::mouseWheelEvent(const eMouseWheelEvent& e) {
+    setValue(value() + ((e.dy() > 0) ? 1 : -1));
+    return true;
 }

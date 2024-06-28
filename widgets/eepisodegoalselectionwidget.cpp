@@ -21,7 +21,7 @@ void eEpisodeGoalSelectionWidget::initialize(
 
     const auto editEvent = [this, board](const stdsptr<eEpisodeGoal>& e) {
         const auto settings = new eEpisodeGoalWidget(window());
-        settings->resize(2*width()/3, height()/3);
+        settings->resize(2*width()/3, 2*height()/3);
         settings->initialize(e, board);
 
         window()->execDialog(settings);

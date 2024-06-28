@@ -2255,6 +2255,7 @@ void eGameBoard::startEpisode(eEpisode* const e) {
     const auto& gs = e->fGoals;
     for(const auto& g : gs) {
         const auto gg = g->makeCopy();
+        gg->initializeDate(this);
         gg->update(this);
         mGoals.push_back(gg);
     }

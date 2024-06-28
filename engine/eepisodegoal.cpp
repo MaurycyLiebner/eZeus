@@ -138,19 +138,13 @@ std::string eEpisodeGoal::text(const bool colonyEpisode,
         return t;
     } break;
     case eEpisodeGoalType::surviveUntil: {
-        const int day = fEnumInt1;
-        const int month = fEnumInt2;
-        const int year = fRequiredCount;
-        const eDate sdate{day, static_cast<eMonth>(month), year};
+        const auto sdate = date();
         auto text = eLanguage::zeusText(194, 37); // Survive until
         eStringHelpers::replace(text, "[finish_date]", sdate.shortString());
         return text;
     } break;
     case eEpisodeGoalType::completeBefore: {
-        const int day = fEnumInt1;
-        const int month = fEnumInt2;
-        const int year = fRequiredCount;
-        const eDate sdate{day, static_cast<eMonth>(month), year};
+        const auto sdate = date();
         auto text = eLanguage::zeusText(194, 38); // Complete before
         eStringHelpers::replace(text, "[finish_date]", sdate.shortString());
         return text;
@@ -224,10 +218,7 @@ std::string eEpisodeGoal::statusText(const eGameBoard* const b) const {
     case eEpisodeGoalType::surviveUntil: {
         auto text = eLanguage::zeusText(194, 63); // months remaining
         const auto cdate = b->date();
-        const int day = fEnumInt1;
-        const int month = fEnumInt2;
-        const int year = fRequiredCount;
-        const eDate sdate{day, static_cast<eMonth>(month), year};
+        const auto sdate = date();
         int rem;
         if(cdate > sdate) {
             rem = 0;
@@ -241,10 +232,7 @@ std::string eEpisodeGoal::statusText(const eGameBoard* const b) const {
     case eEpisodeGoalType::completeBefore: {
         auto text = eLanguage::zeusText(194, 63); // months remaining
         const auto cdate = b->date();
-        const int day = fEnumInt1;
-        const int month = fEnumInt2;
-        const int year = fRequiredCount;
-        const eDate sdate{day, static_cast<eMonth>(month), year};
+        const auto sdate = date();
         int rem;
         if(cdate > sdate) {
             rem = 0;
@@ -358,18 +346,12 @@ void eEpisodeGoal::update(const eGameBoard* const b) {
         fPreviewCount = b->resourceCount(res);
     } break;
     case eEpisodeGoalType::surviveUntil: {
-        const int day = fEnumInt1;
-        const int month = fEnumInt2;
-        const int year = fRequiredCount;
-        const auto sdate = eDate{day, static_cast<eMonth>(month), year};
+        const auto sdate = date();
         const auto cdate = b->date();
         fStatusCount = cdate > sdate ? 1 : 0;
     } break;
     case eEpisodeGoalType::completeBefore: {
-        const int day = fEnumInt1;
-        const int month = fEnumInt2;
-        const int year = fRequiredCount;
-        const auto sdate = eDate{day, static_cast<eMonth>(month), year};
+        const auto sdate = date();
         const auto cdate = b->date();
         if(cdate > sdate) {
             b->episodeLost();
@@ -388,4 +370,28 @@ void eEpisodeGoal::update(const eGameBoard* const b) {
         }
     } break;
     }
+}
+
+eDate eEpisodeGoal::date() const {
+    const int day = fEnumInt1;
+    const int month = fEnumInt2;
+    const int year = fRequiredCount;
+    return eDate{day, static_cast<eMonth>(month), year};
+}
+
+void eEpisodeGoal::initializeDate(const eGameBoard* const b) {
+    if(fType != eEpisodeGoalType::surviveUntil &&
+       fType != eEpisodeGoalType::completeBefore) return;
+    auto date = b->date();
+    const int days = fEnumInt1;
+    const int months = fEnumInt2;
+    const int years = fRequiredCount;
+    date.nextYears(years);
+    date.nextMonths(months);
+    bool nm;
+    bool ny;
+    date.nextDays(days, nm, ny);
+    fEnumInt1 = date.day();
+    fEnumInt2 = static_cast<int>(date.month());
+    fRequiredCount = date.year();
 }
