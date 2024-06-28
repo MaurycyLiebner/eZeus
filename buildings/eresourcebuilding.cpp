@@ -66,7 +66,7 @@ int eResourceBuilding::takeResource(const int by) {
 
 void eResourceBuilding::workOn() {
     mWorkedOn = true;
-    mNextRipe = time() + mRipeWait;
+    mNextRipe = 0;
 }
 
 void eResourceBuilding::setSanctuary(const bool s) {
@@ -74,8 +74,23 @@ void eResourceBuilding::setSanctuary(const bool s) {
 }
 
 void eResourceBuilding::timeChanged(const int by) {
-    (void)by;
-    if((mWorkedOn || mRipe >= 5) && time() >= mNextRipe) {
+    mNextRipe += by;
+    int wait = mRipe >= 5 ? 2*mRipeWait : mRipeWait;
+    if(mSanctuary || blessed()) {
+        if(mRipe >= 5) {
+            wait *= 3;
+        } else {
+            wait /= 3;
+        }
+    } else if(cursed()) {
+        if(mRipe >= 5) {
+            wait /= 3;
+        } else {
+            wait *= 3;
+        }
+    }
+    if((mWorkedOn || mRipe >= 5) && mNextRipe > wait) {
+        mNextRipe -= wait;
         mWorkedOn = false;
         if(mRipe >= 5) {
             mRipe = 0;
@@ -84,7 +99,6 @@ void eResourceBuilding::timeChanged(const int by) {
         }
         if(++mRipe == 5) {
             mResource = 1;
-            mNextRipe = time() + 2*mRipeWait;
         }
     }
 }
