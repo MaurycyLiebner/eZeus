@@ -179,7 +179,9 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
            t != eCityType::enchantedPlace) {
             const auto& aColl = texs.fCityArmy;
             const auto& wColl = texs.fCityWealth;
-            const int a = std::clamp(ct->shields(), 1, 5);
+            const int s = editor ? ct->militaryStrength() :
+                                   ct->shields();
+            const int a = std::clamp(s, 1, 5);
             const int w = std::clamp(ct->wealth(), 1, 5);
             const int lp = res.largePadding();
             const int hp = res.hugePadding();

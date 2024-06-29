@@ -104,17 +104,25 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
     if(!c) return;
     setType(eFrameType::message);
     const auto res = resolution();
-    const int w = res.centralWidgetSmallWidth();
+    const int w = res.centralWidgetLargeWidth();
     const int h = res.centralWidgetLargeHeight();
     resize(w, h);
 
     const int p = 2*padding();
 
-    const auto buttonsW = new eWidget(window());
-    buttonsW->setNoPadding();
-    addWidget(buttonsW);
-    buttonsW->move(p, p);
-    buttonsW->resize(w - 2*p, h - 2*p);
+    const auto buttonsW1 = new eWidget(window());
+    buttonsW1->setNoPadding();
+    addWidget(buttonsW1);
+    buttonsW1->move(p, p);
+    const int ww = (w - 3*p)/2;
+    const int hh = h - 2*p;
+    buttonsW1->resize(ww, hh);
+
+    const auto buttonsW2 = new eWidget(window());
+    buttonsW2->setNoPadding();
+    addWidget(buttonsW2);
+    buttonsW2->move(ww + 2*p, p);
+    buttonsW2->resize(ww, hh);
 
     const auto nameButton = new eFramedButton(window());
     nameButton->setUnderline(false);
@@ -134,7 +142,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW->addWidget(nameButton);
+    buttonsW1->addWidget(nameButton);
     nameButton->align(eAlignment::hcenter);
 
     const auto leaderButton = new eFramedButton(window());
@@ -155,7 +163,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW->addWidget(leaderButton);
+    buttonsW1->addWidget(leaderButton);
     leaderButton->align(eAlignment::hcenter);
 
     const auto relationshipButton = new eFramedButton(window());
@@ -181,7 +189,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
     typeButton->setPressAction([this, relationshipButton, typeButton,
                                directionButton, nationalityButton,
                                stateButton, attitudeButton,
-                               c, buttonsW]() {
+                               c, buttonsW1]() {
         const std::vector<eCityType> types =
             {eCityType::parentCity,
              eCityType::colony,
@@ -196,7 +204,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
         }
         const auto act = [relationshipButton, nationalityButton,
                           stateButton, directionButton,
-                          attitudeButton, c, buttonsW,
+                          attitudeButton, c, buttonsW1,
                           types, typeNames, typeButton](const int val) {
             const auto type = types[val];
             c->setType(type);
@@ -212,7 +220,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
             attitudeButton->setVisible(type == eCityType::foreignCity ||
                                        type == eCityType::colony);
             directionButton->setVisible(type == eCityType::distantCity);
-            buttonsW->layoutVertically(true);
+            buttonsW1->layoutVertically(true);
 
             const auto attitude = c->attitudeClass();
             attitudeButton->setText(eWorldCity::sAttitudeName(attitude));
@@ -225,7 +233,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW->addWidget(typeButton);
+    buttonsW1->addWidget(typeButton);
     typeButton->align(eAlignment::hcenter);
 
     relationshipButton->setUnderline(false);
@@ -264,7 +272,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW->addWidget(relationshipButton);
+    buttonsW1->addWidget(relationshipButton);
     relationshipButton->align(eAlignment::hcenter);
 
     stateButton->setUnderline(false);
@@ -293,7 +301,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW->addWidget(stateButton);
+    buttonsW1->addWidget(stateButton);
     stateButton->align(eAlignment::hcenter);
 
     attitudeButton->setUnderline(false);
@@ -340,7 +348,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW->addWidget(attitudeButton);
+    buttonsW1->addWidget(attitudeButton);
     attitudeButton->align(eAlignment::hcenter);
 
     nationalityButton->setUnderline(false);
@@ -380,7 +388,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW->addWidget(nationalityButton);
+    buttonsW1->addWidget(nationalityButton);
     nationalityButton->align(eAlignment::hcenter);
 
     directionButton->setUnderline(false);
@@ -418,7 +426,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW->addWidget(directionButton);
+    buttonsW1->addWidget(directionButton);
     directionButton->align(eAlignment::hcenter);
 
     const auto buysButton = new eFramedButton(window());
@@ -436,7 +444,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW->addWidget(buysButton);
+    buttonsW1->addWidget(buysButton);
     buysButton->align(eAlignment::hcenter);
 
     const auto sellsButton = new eFramedButton(window());
@@ -454,7 +462,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW->addWidget(sellsButton);
+    buttonsW1->addWidget(sellsButton);
     sellsButton->align(eAlignment::hcenter);
 
     const auto tributeButton = new eFramedButton(window());
@@ -468,7 +476,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW->addWidget(tributeButton);
+    buttonsW1->addWidget(tributeButton);
     tributeButton->align(eAlignment::hcenter);
 
     const auto waterTradeButton = new eFramedButton(window());
@@ -488,8 +496,39 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
             waterTradeButton->setText(eLanguage::text("land_trade"));
         }
     });
-    buttonsW->addWidget(waterTradeButton);
+    buttonsW1->addWidget(waterTradeButton);
     waterTradeButton->align(eAlignment::hcenter);
 
-    buttonsW->layoutVertically(true);
+    const auto mStr = new eValueButton(window());
+    mStr->initialize(1, 5);
+    mStr->setValue(c->militaryStrength());
+    const auto mStrStr = eLanguage::zeusText(44, 349);
+    mStr->setText(mStrStr + " " + mStr->text());
+    mStr->fitContent();
+    mStr->setValueChangeAction([c, mStr, mStrStr](const int v) {
+        const int vv = std::clamp(v, 1, 5);
+        c->setMilitaryStrength(vv);
+        mStr->setValue(vv);
+        mStr->setText(mStrStr + " " + mStr->text());
+    });
+    buttonsW2->addWidget(mStr);
+    mStr->align(eAlignment::hcenter);
+
+    const auto eStr = new eValueButton(window());
+    eStr->initialize(1, 5);
+    eStr->setValue(c->wealth());
+    const auto eStrStr = eLanguage::zeusText(44, 350);
+    eStr->setText(eStrStr + " " + eStr->text());
+    eStr->fitContent();
+    eStr->setValueChangeAction([c, eStr, eStrStr](const int v) {
+        const int vv = std::clamp(v, 1, 5);
+        c->setWealth(vv);
+        eStr->setValue(vv);
+        eStr->setText(eStrStr + " " + eStr->text());
+    });
+    buttonsW2->addWidget(eStr);
+    eStr->align(eAlignment::hcenter);
+
+    buttonsW1->layoutVertically(true);
+    buttonsW2->layoutVertically(true);
 }
