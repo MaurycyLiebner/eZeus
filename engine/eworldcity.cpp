@@ -475,8 +475,8 @@ void eWorldCity::read(eReadStream& src) {
     src >> mAt;
     src >> mAbroad;
     src >> mMilitaryStrength;
-    src >> mTargetArmy; // !!!
-    src >> mArmyUpdate; // !!!
+    src >> mTroops;
+    src >> mYearsElapsed;
     src >> mWealth;
     src >> mWaterTrade;
     sread(src, mBuys);

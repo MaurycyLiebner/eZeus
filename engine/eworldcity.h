@@ -267,9 +267,6 @@ private:
 
     bool mAbroad = false;
 
-    int mTargetArmy = 1; // !!! 1-5
-    int mArmyUpdate = 0; // !!!
-
     int mMilitaryStrength = 1; // 1-5
     int mTroops = 0;
     int mYearsElapsed = 0;
