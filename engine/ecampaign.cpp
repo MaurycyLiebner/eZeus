@@ -436,6 +436,7 @@ void eCampaign::setAtlantean(const bool a) {
     for(const auto& e : mColonyEpisodes) {
         e->fAtlantean = a;
     }
+    mWorldBoard.setPoseidonMode(a);
     mParentBoard->setPoseidonMode(a);
     for(const auto& b : mColonyBoards) {
         b->setPoseidonMode(a);
