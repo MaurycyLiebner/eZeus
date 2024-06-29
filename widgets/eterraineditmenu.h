@@ -6,6 +6,10 @@
 #include "engine/etile.h"
 #include "echeckablebutton.h"
 
+class eRotateButton;
+class eMiniMap;
+class eGameWidget;
+
 enum class eTerrainEditMode {
     dry = static_cast<int>(eTerrain::dry),
     beach = static_cast<int>(eTerrain::beach),
@@ -47,10 +51,15 @@ class eTerrainEditMenu : public eGameMenuBase {
 public:
     using eGameMenuBase::eGameMenuBase;
 
-    void initialize(eGameBoard* const board);
+    void initialize(eGameWidget* const gw,
+                    eGameBoard* const board);
 
     eTerrainEditMode mode() const;
     int modeId() const { return mModeId; }
+
+    eMiniMap* miniMap() const { return mMiniMap; }
+
+    void setWorldDirection(const eWorldDirection dir);
 private:
     eTerrainEditMode mMode = eTerrainEditMode::dry;
     int mModeId = 0;
@@ -58,6 +67,9 @@ private:
     eCheckableButton* mB1 = nullptr;
     eCheckableButton* mB4 = nullptr;
     eCheckableButton* mB7 = nullptr;
+
+    eRotateButton* mRotateButton = nullptr;
+    eMiniMap* mMiniMap = nullptr;
 
     std::vector<eWidget*> mWidgets;
 };

@@ -4,8 +4,12 @@
 #include "eactionlistwidget.h"
 #include "engine/egameboard.h"
 #include "spawners/ebanner.h"
+#include "erotatebutton.h"
+#include "eminimap.h"
+#include "egamewidget.h"
 
-void eTerrainEditMenu::initialize(eGameBoard* const board) {
+void eTerrainEditMenu::initialize(eGameWidget* const gw,
+                                  eGameBoard* const board) {
     eGameMenuBase::initialize();
 
     int iRes;
@@ -193,6 +197,15 @@ void eTerrainEditMenu::initialize(eGameBoard* const board) {
         w->hide();
     }
 
+    const int dataWidWidth = 65*mult;
+    const int dataWidHeight = 119*mult;
+    const int wy = dataWidHeight + 96*mult;
+    mMiniMap = new eMiniMap(window());
+    mMiniMap->resize(dataWidWidth, 4*dataWidWidth/5);
+    addWidget(mMiniMap);
+    mMiniMap->move(24*mult, wy);
+    mMiniMap->setBoard(board);
+
     const auto b0 = addButton(coll.fBrushSize, w0);
     mB1 = addButton(coll.fEmptyLand, w1);
     const auto b2 = addButton(coll.fForest, w2);
@@ -215,12 +228,16 @@ void eTerrainEditMenu::initialize(eGameBoard* const board) {
         btmButtons->setPadding(0);
 
         const auto b0 = eCheckableButton::sCreate(coll.fBuildRoad, window(), btmButtons);
-        const auto b2 = eCheckableButton::sCreate(coll.fRotation, window(), btmButtons);
+        mRotateButton = new eRotateButton(window());
+        btmButtons->addWidget(mRotateButton);
+        mRotateButton->setDirectionSetter([gw](const eWorldDirection dir) {
+            gw->setWorldDirection(dir);
+        });
         const auto b1 = eCheckableButton::sCreate(coll.fUndo, window(), btmButtons);
 
         const int x = mult*24;
         const int y = std::round(mult*279.5);
-        btmButtons->resize(b0->width() + b1->width() + b2->width(),
+        btmButtons->resize(b0->width() + b1->width() + mRotateButton->width(),
                            b0->height());
         btmButtons->move(x, y);
         btmButtons->layoutHorizontally();
@@ -237,4 +254,8 @@ eTerrainEditMode eTerrainEditMenu::mode() const {
         return eTerrainEditMode::scrub;
     }
     return mMode;
+}
+
+void eTerrainEditMenu::setWorldDirection(const eWorldDirection dir) {
+    mRotateButton->setDirection(dir);
 }

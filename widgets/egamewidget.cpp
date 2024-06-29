@@ -168,6 +168,7 @@ void eGameWidget::setSettings(const eGameWidgetSettings& s) {
     setDX(s.fDX);
     setDY(s.fDY);
     mGm->setWorldDirection(s.fDir);
+    if(mTem) mTem->setWorldDirection(s.fDir);
 }
 
 void eGameWidget::initialize() {
@@ -230,10 +231,18 @@ void eGameWidget::initialize() {
     mTopBar->align(eAlignment::top);
 
     mTem = new eTerrainEditMenu(window());
-    mTem->initialize(mBoard);
+    mTem->initialize(this, mBoard);
     addWidget(mTem);
     mTem->align(eAlignment::right | eAlignment::top);
     mTem->hide();
+
+    const auto mm2 = mTem->miniMap();
+    mm2->setChangeAction([this, mm2]() {
+        double fx;
+        double fy;
+        mm2->viewedFraction(fx, fy);
+        viewFraction(fx, fy);
+    });
 
     const auto str = eLanguage::text("settings");
     const auto settingsButt = new eFramedButton(str, window());
@@ -790,6 +799,8 @@ void eGameWidget::updateMinimap() {
     mm->viewFraction(fx, fy);
     const auto mma = mAm->miniMap();
     mma->viewFraction(fx, fy);
+    const auto mmt = mTem->miniMap();
+    mmt->viewFraction(fx, fy);
 }
 
 int eGameWidget::waterParkId() const {
@@ -1766,6 +1777,8 @@ void eGameWidget::updateMaps() {
     mm->scheduleUpdate();
     const auto mma = mAm->miniMap();
     mma->scheduleUpdate();
+    const auto mmt = mTem->miniMap();
+    mmt->scheduleUpdate();
 }
 
 void eGameWidget::setTileSize(const eTileSize size) {
@@ -1809,6 +1822,8 @@ void eGameWidget::updateViewBoxSize() {
     mm->setViewBoxSize(fx, fy);
     const auto mma = mAm->miniMap();
     mma->setViewBoxSize(fx, fy);
+    const auto mmt = mTem->miniMap();
+    mmt->setViewBoxSize(fx, fy);
 }
 
 void eGameWidget::setWorldDirection(const eWorldDirection dir) {
@@ -1820,6 +1835,8 @@ void eGameWidget::setWorldDirection(const eWorldDirection dir) {
     clampViewBox();
     updateMaps();
     updateViewBoxSize();
+    mGm->setWorldDirection(dir);
+    if(mTem) mTem->setWorldDirection(dir);
 }
 
 void eGameWidget::openDialog(eWidget* const d) {
