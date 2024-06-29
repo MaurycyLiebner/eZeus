@@ -23,7 +23,7 @@ public:
     eMainWindow();
     ~eMainWindow();
 
-    bool initialize(const eResolution& res);
+    bool initialize(const eSettings& settings);
 public:
 
     void setWidget(eWidget* const w);

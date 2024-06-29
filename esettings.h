@@ -5,29 +5,17 @@
 #include "engine/etile.h"
 
 struct eSettings {
-    bool fTinyTextures;
-    bool fSmallTextures;
-    bool fMediumTextures;
-    bool fLargeTextures;
-    bool fFullscreen;
-    eResolution fRes;
+    bool fTinyTextures = false;
+    bool fSmallTextures = true;
+    bool fMediumTextures = false;
+    bool fLargeTextures = false;
+    bool fFullscreen = false;
+    eResolution fRes = eResolution(1280, 720);
 
-    std::vector<eTileSize> availableSizes() const {
-        std::vector<eTileSize> sizes;
-        if(fTinyTextures) {
-            sizes.push_back(eTileSize::s15);
-        }
-        if(fSmallTextures) {
-            sizes.push_back(eTileSize::s30);
-        }
-        if(fMediumTextures) {
-            sizes.push_back(eTileSize::s45);
-        }
-        if(fLargeTextures) {
-            sizes.push_back(eTileSize::s60);
-        }
-        return sizes;
-    }
+    std::vector<eTileSize> availableSizes() const;
+
+    void write() const;
+    void read();
 };
 
 #endif // ESETTINGS_H

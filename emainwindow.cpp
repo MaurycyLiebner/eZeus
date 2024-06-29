@@ -39,7 +39,9 @@ eMainWindow::~eMainWindow() {
     setWidget(nullptr);
 }
 
-bool eMainWindow::initialize(const eResolution& res) {
+bool eMainWindow::initialize(const eSettings& settings) {
+    mSettings = settings;
+    const auto& res = mSettings.fRes;
     const int w = res.width();
     const int h = res.height();
     const auto window = SDL_CreateWindow("eZeus",
@@ -313,6 +315,7 @@ void eMainWindow::showSettingsMenu() {
         setResolution(settings.fRes);
         setFullscreen(settings.fFullscreen);
         mSettings = settings;
+        mSettings.write();
         if(!mSettings.fTinyTextures &&
            !mSettings.fSmallTextures &&
            !mSettings.fMediumTextures &&

@@ -360,6 +360,7 @@ SOURCES += \
         engine/thread/ethreaddata.cpp \
         engine/thread/ethreadtile.cpp \
         epathfindtask.cpp \
+        esettings.cpp \
         estringhelpers.cpp \
         etexture.cpp \
         etexturecollection.cpp \

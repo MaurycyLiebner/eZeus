@@ -7,6 +7,7 @@ class eGameDir {
 public:
     static void initialize();
     static std::string path(const std::string& path);
+    static std::string settingsPath();
 private:
     static std::string sPath;
 };

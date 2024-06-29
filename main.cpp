@@ -136,9 +136,10 @@ int main() {
         }
     }
 
-    const auto resolution = eResolution(1280, 720);
+    eSettings settings;
+    settings.read();
     eMainWindow w;
-    const bool i = w.initialize(resolution);
+    const bool i = w.initialize(settings);
     if(!i) return 1;
     eGameTextures::initialize(w.renderer());
 

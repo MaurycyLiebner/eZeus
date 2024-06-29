@@ -9,3 +9,7 @@ void eGameDir::initialize() {
 std::string eGameDir::path(const std::string& path) {
     return sPath + path;
 }
+
+std::string eGameDir::settingsPath() {
+    return "../settings.txt";
+}
