@@ -86,12 +86,33 @@ enum class eCityState {
     inactive
 };
 
-class eWorldCityBase {
+struct eResourceTrade {
+    eResourceType fType;
+    int fUsed;
+    int fMax;
+    int fPrice;
+
+    void write(eWriteStream& dst) const {
+        dst << fType;
+        dst << fUsed;
+        dst << fMax;
+        dst << fPrice;
+    }
+
+    void read(eReadStream& src) {
+        src >> fType;
+        src >> fUsed;
+        src >> fMax;
+        src >> fPrice;
+    }
+};
+
+class eWorldCity {
 public:
-    eWorldCityBase() {}
-    eWorldCityBase(const eCityType type,
-                   const std::string& name,
-                   const double x, const double y);
+    eWorldCity() {}
+    eWorldCity(const eCityType type,
+               const std::string& name,
+               const double x, const double y);
 
     bool rebellion() const { return mRebellion; }
     void setRebellion(const bool r) { mRebellion = r; }
@@ -156,60 +177,6 @@ public:
     void setIOID(const int id) { mIOID = id; }
     int ioID() const { return mIOID; }
 
-    virtual void write(eWriteStream& dst) const;
-    virtual void read(eReadStream& src);
-private:
-    int mIOID = -1;
-
-    bool mIsCurrentCity = false;
-    eCityType mType{eCityType::foreignCity};
-
-    eNationality mNationality{eNationality::greek};
-    eDistantDirection mDirection{eDistantDirection::none};
-    eCityState mState{eCityState::inactive};
-
-    std::string mName;
-    int mNameString = -1;
-
-    std::string mLeader;
-    int mLeaderString = -1;
-
-    double mX = 0.5;
-    double mY = 0.5;
-
-    bool mTradeShutdown = false;
-
-    bool mRebellion = false;
-
-    eForeignCityRelationship mRel{eForeignCityRelationship::ally};
-    int mAt{60};
-};
-
-struct eResourceTrade {
-    eResourceType fType;
-    int fUsed;
-    int fMax;
-    int fPrice;
-
-    void write(eWriteStream& dst) const {
-        dst << fType;
-        dst << fUsed;
-        dst << fMax;
-        dst << fPrice;
-    }
-
-    void read(eReadStream& src) {
-        src >> fType;
-        src >> fUsed;
-        src >> fMax;
-        src >> fPrice;
-    }
-};
-
-class eWorldCity : public eWorldCityBase {
-public:
-    using eWorldCityBase::eWorldCityBase;
-
     void nextYear();
 
     int strength() const;
@@ -252,8 +219,8 @@ public:
     eResourceType tributeType() const { return mTributeType; }
     int tributeCount() const { return mTributeCount; }
 
-    void write(eWriteStream& dst) const override;
-    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const;
+    void read(eReadStream& src);
 
     void gifted(const eResourceType type, const int count);
     bool acceptsGift(const eResourceType type, const int count) const;
@@ -274,6 +241,31 @@ public:
     static stdsptr<eWorldCity> sCreateSardis();
     static stdsptr<eWorldCity> sCreateHattusas();
 private:
+    int mIOID = -1;
+
+    bool mIsCurrentCity = false;
+    eCityType mType{eCityType::foreignCity};
+
+    eNationality mNationality{eNationality::greek};
+    eDistantDirection mDirection{eDistantDirection::none};
+    eCityState mState{eCityState::inactive};
+
+    std::string mName;
+    int mNameString = -1;
+
+    std::string mLeader;
+    int mLeaderString = -1;
+
+    double mX = 0.5;
+    double mY = 0.5;
+
+    bool mTradeShutdown = false;
+
+    bool mRebellion = false;
+
+    eForeignCityRelationship mRel{eForeignCityRelationship::ally};
+    int mAt{60};
+
     bool mAbroad = false;
 
     int mArmy = 1; // 1-5

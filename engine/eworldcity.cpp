@@ -4,12 +4,12 @@
 #include "egifthelpers.h"
 #include "evectorhelpers.h"
 
-eWorldCityBase::eWorldCityBase(const eCityType type,
+eWorldCity::eWorldCity(const eCityType type,
                                const std::string& name,
                                const double x, const double y) :
     mType(type), mName(name), mX(x), mY(y) {}
 
-std::string eWorldCityBase::sTypeName(const eCityType type) {
+std::string eWorldCity::sTypeName(const eCityType type) {
     const int group = 39;
     int string = -1;
     switch(type) {
@@ -35,34 +35,34 @@ std::string eWorldCityBase::sTypeName(const eCityType type) {
     return eLanguage::zeusText(group, string);
 }
 
-bool eWorldCityBase::isDistant() const {
+bool eWorldCity::isDistant() const {
     return mType == eCityType::distantCity;
 }
 
-bool eWorldCityBase::isVassal() const {
+bool eWorldCity::isVassal() const {
     return mType == eCityType::foreignCity &&
            mRel == eForeignCityRelationship::vassal;
 }
 
-bool eWorldCityBase::isColony() const {
+bool eWorldCity::isColony() const {
     return mType == eCityType::colony;
 }
 
-bool eWorldCityBase::isParentCity() const {
+bool eWorldCity::isParentCity() const {
     return mType == eCityType::parentCity;
 }
 
-bool eWorldCityBase::isRival() const {
+bool eWorldCity::isRival() const {
     return mType == eCityType::foreignCity &&
            mRel == eForeignCityRelationship::rival;
 }
 
-bool eWorldCityBase::isAlly() const {
+bool eWorldCity::isAlly() const {
     return mType == eCityType::foreignCity &&
             mRel == eForeignCityRelationship::ally;
 }
 
-std::string eWorldCityBase::sDirectionName(const eDistantDirection d) {
+std::string eWorldCity::sDirectionName(const eDistantDirection d) {
     switch(d) {
     case eDistantDirection::none: return "none";
     case eDistantDirection::N: return "N";
@@ -77,12 +77,12 @@ std::string eWorldCityBase::sDirectionName(const eDistantDirection d) {
     return "none";
 }
 
-void eWorldCityBase::move(const double x, const double y) {
+void eWorldCity::move(const double x, const double y) {
     mX = x;
     mY = y;
 }
 
-std::string eWorldCityBase::sRelationshipName(const eForeignCityRelationship r) {
+std::string eWorldCity::sRelationshipName(const eForeignCityRelationship r) {
     int group = 253;
     int string = -1;
     switch(r) {
@@ -99,7 +99,7 @@ std::string eWorldCityBase::sRelationshipName(const eForeignCityRelationship r) 
     return eLanguage::zeusText(group, string);
 }
 
-std::string eWorldCityBase::sStateName(const eCityState s) {
+std::string eWorldCity::sStateName(const eCityState s) {
     int string = -1;
     switch(s) {
     case eCityState::active:
@@ -112,7 +112,7 @@ std::string eWorldCityBase::sStateName(const eCityState s) {
     return eLanguage::zeusText(44, string);
 }
 
-std::string eWorldCityBase::sAttitudeName(const eCityAttitude at) {
+std::string eWorldCity::sAttitudeName(const eCityAttitude at) {
 
     const int group = 65;
     int string = -1;
@@ -188,7 +188,7 @@ std::string eWorldCityBase::sAttitudeName(const eCityAttitude at) {
     return eLanguage::zeusText(group, string);
 }
 
-eCityAttitude eWorldCityBase::attitudeClass() const {
+eCityAttitude eWorldCity::attitudeClass() const {
     eCityAttitude at;
     const int iat = attitude();
     if(isAlly()) {
@@ -213,15 +213,15 @@ eCityAttitude eWorldCityBase::attitudeClass() const {
     return at;
 }
 
-void eWorldCityBase::setAttitude(const int a) {
+void eWorldCity::setAttitude(const int a) {
     mAt = std::clamp(a, 0, 100);
 }
 
-void eWorldCityBase::incAttitude(const int a) {
+void eWorldCity::incAttitude(const int a) {
     setAttitude(mAt + a);
 }
 
-std::vector<std::string> eWorldCityBase::sNames() {
+std::vector<std::string> eWorldCity::sNames() {
     std::vector<std::string> cityNames;
     for(int i = 0; i < 82; i++) {
         cityNames.push_back(eLanguage::zeusText(21, i));
@@ -229,13 +229,13 @@ std::vector<std::string> eWorldCityBase::sNames() {
     return cityNames;
 }
 
-void eWorldCityBase::setName(const std::string& name) {
+void eWorldCity::setName(const std::string& name) {
     mName = name;
     const auto names = sNames();
     mNameString = eVectorHelpers::index(names, name);
 }
 
-std::vector<std::string> eWorldCityBase::sLeaders() {
+std::vector<std::string> eWorldCity::sLeaders() {
     std::vector<std::string> leaders;
     for(int i = 0; i < 84; i++) {
         leaders.push_back(eLanguage::zeusText(139, i));
@@ -243,13 +243,13 @@ std::vector<std::string> eWorldCityBase::sLeaders() {
     return leaders;
 }
 
-void eWorldCityBase::setLeader(const std::string& name) {
+void eWorldCity::setLeader(const std::string& name) {
     mLeader = name;
     const auto names = sLeaders();
     mLeaderString = eVectorHelpers::index(names, name);
 }
 
-std::string eWorldCityBase::sNationalityName(const eNationality type) {
+std::string eWorldCity::sNationalityName(const eNationality type) {
     const int group = 37;
     int string = -1;
     switch(type) {
@@ -290,7 +290,7 @@ std::string eWorldCityBase::sNationalityName(const eNationality type) {
     return eLanguage::zeusText(group, string);
 }
 
-std::string eWorldCityBase::anArmy() const {
+std::string eWorldCity::anArmy() const {
     const int group  = 37;
     int string = -1;
     switch(mNationality) {
@@ -329,47 +329,6 @@ std::string eWorldCityBase::anArmy() const {
         break;
     }
     return eLanguage::zeusText(group, 22 + string);
-}
-
-void eWorldCityBase::write(eWriteStream& dst) const {
-    dst << mIOID;
-    dst << mIsCurrentCity;
-    dst << mType;
-    dst << mNationality;
-    dst << mDirection;
-    dst << mState;
-    dst << mName;
-    dst << mNameString;
-    dst << mLeader;
-    dst << mLeaderString;
-    dst << mX;
-    dst << mY;
-    dst << mTradeShutdown;
-    dst << mRebellion;
-    dst << mRel;
-    dst << mAt;
-}
-
-void eWorldCityBase::read(eReadStream& src) {
-    src >> mIOID;
-    src >> mIsCurrentCity;
-    src >> mType;
-    src >> mNationality;
-    src >> mDirection;
-    src >> mState;
-    src >> mName;
-    src >> mNameString;
-    if(mNameString > -1 && mNameString < 82) {
-        mName = eLanguage::zeusText(21, mNameString);
-    }
-    src >> mLeader;
-    src >> mLeaderString;
-    src >> mX;
-    src >> mY;
-    src >> mTradeShutdown;
-    src >> mRebellion;
-    src >> mRel;
-    src >> mAt;
 }
 
 void eWorldCity::nextYear() {
@@ -440,7 +399,22 @@ void swrite(eWriteStream& dst,
 }
 
 void eWorldCity::write(eWriteStream& dst) const {
-    eWorldCityBase::write(dst);
+    dst << mIOID;
+    dst << mIsCurrentCity;
+    dst << mType;
+    dst << mNationality;
+    dst << mDirection;
+    dst << mState;
+    dst << mName;
+    dst << mNameString;
+    dst << mLeader;
+    dst << mLeaderString;
+    dst << mX;
+    dst << mY;
+    dst << mTradeShutdown;
+    dst << mRebellion;
+    dst << mRel;
+    dst << mAt;
     dst << mAbroad;
     dst << mArmy;
     dst << mTargetArmy;
@@ -462,7 +436,25 @@ void sread(eReadStream& src,
 }
 
 void eWorldCity::read(eReadStream& src) {
-    eWorldCityBase::read(src);
+    src >> mIOID;
+    src >> mIsCurrentCity;
+    src >> mType;
+    src >> mNationality;
+    src >> mDirection;
+    src >> mState;
+    src >> mName;
+    src >> mNameString;
+    if(mNameString > -1 && mNameString < 82) {
+        mName = eLanguage::zeusText(21, mNameString);
+    }
+    src >> mLeader;
+    src >> mLeaderString;
+    src >> mX;
+    src >> mY;
+    src >> mTradeShutdown;
+    src >> mRebellion;
+    src >> mRel;
+    src >> mAt;
     src >> mAbroad;
     src >> mArmy;
     src >> mTargetArmy;
