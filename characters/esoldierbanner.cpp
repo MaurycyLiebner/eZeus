@@ -170,6 +170,7 @@ void eSoldierBanner::goAbroad() {
     }
     if(mTile) {
         mTile->setSoldierBanner(nullptr);
+        mTile = nullptr;
     }
 }
 
