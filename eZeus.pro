@@ -10,6 +10,8 @@ QMAKE_CXXFLAGS_RELEASE -= -O1
 QMAKE_CFLAGS_RELEASE += -m64 -O3
 QMAKE_CXXFLAGS_RELEASE += -m64 -O3
 
+QMAKE_LFLAGS += -no-pie
+
 LIBS += -L/usr/lib/x86_64-linux-gnu
 LIBS += -lpthread
 LIBS += -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lstdc++fs
