@@ -30,7 +30,7 @@ void ePlayerConquestEvent::trigger() {
     const double killFrac = std::clamp(0.5*enemyStr/str, 0., 1.);
     mForces.kill(killFrac);
 
-    if(str > 0.75*enemyStr) {
+    {
         const double killFrac = std::clamp(0.5*str/enemyStr, 0., 1.);
         const int t = mCity->troops();
         mCity->setTroops((1 - killFrac)*t);
