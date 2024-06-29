@@ -685,6 +685,11 @@ bool eMessages::loadImpl() {
     fStrikeUnsuccessul.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_strike_unsuccessful_title"];
     fStrikeUnsuccessul.fCondensed.fText = fMessages["PHRASE_CONDENSED_strike_unsuccessful_initial_announcement"];
 
+    fRivalArmyAway.fFull.fTitle = fMessages["PHRASE_rival_away_title"];
+    fRivalArmyAway.fFull.fText = fMessages["PHRASE_rival_away_initial_announcement"];
+    fRivalArmyAway.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_rival_away_title"];
+    fRivalArmyAway.fCondensed.fText = fMessages["PHRASE_CONDENSED_rival_away_initial_announcement"];
+
     fIncreasedFavor.fFull.fTitle = fMessages["PHRASE_favor_change_title_I"];
     fIncreasedFavor.fFull.fText = fMessages["PHRASE_favor_change_initial_announcement_I"];
     fIncreasedFavor.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_favor_change_title_I"];

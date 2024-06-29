@@ -161,7 +161,9 @@ enum class eEvent {
 
     strikeDeparture,
     strikeSuccessful,
-    strikeUnsuccessful
+    strikeUnsuccessful,
+
+    rivalArmyAway
 };
 
 #endif // EEVENT_H

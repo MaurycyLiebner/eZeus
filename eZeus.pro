@@ -400,6 +400,7 @@ SOURCES += \
         gameEvents/erequestaidevent.cpp \
         gameEvents/erequeststrikeevent.cpp \
         gameEvents/eresourcegrantedeventbase.cpp \
+        gameEvents/erivalarmyawayevent.cpp \
         gameEvents/etroopsrequestevent.cpp \
         gameEvents/etroopsrequestfulfilledevent.cpp \
         main.cpp \
@@ -578,6 +579,7 @@ SOURCES += \
         widgets/eventwidgets/einvasioneventwidget.cpp \
         widgets/eventwidgets/emonsterattackeventwidget.cpp \
         widgets/eventwidgets/ereceiverequesteventwidget.cpp \
+        widgets/eventwidgets/erivalarmyawayeventwidget.cpp \
         widgets/eventwidgets/etroopsrequesteventwidget.cpp \
         widgets/eviewmode.cpp \
         widgets/ewidget.cpp \
@@ -989,6 +991,7 @@ HEADERS += \
     gameEvents/erequestaidevent.h \
     gameEvents/erequeststrikeevent.h \
     gameEvents/eresourcegrantedeventbase.h \
+    gameEvents/erivalarmyawayevent.h \
     gameEvents/etroopsrequestevent.h \
     gameEvents/etroopsrequestfulfilledevent.h \
     missiles/earrowmissile.h \
@@ -2479,6 +2482,7 @@ HEADERS += \
     widgets/eventwidgets/einvasioneventwidget.h \
     widgets/eventwidgets/emonsterattackeventwidget.h \
     widgets/eventwidgets/ereceiverequesteventwidget.h \
+    widgets/eventwidgets/erivalarmyawayeventwidget.h \
     widgets/eventwidgets/etroopsrequesteventwidget.h \
     widgets/eviewmode.h \
     widgets/ewidget.h \

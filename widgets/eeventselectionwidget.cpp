@@ -65,7 +65,8 @@ void eEventSelectionWidget::initialize(
             eGameEventType::militaryChange,
             eGameEventType::economicChange,
             eGameEventType::troopsRequest,
-            eGameEventType::godDisaster
+            eGameEventType::godDisaster,
+            eGameEventType::rivalArmyAway
         };
         const std::vector<std::string> labels = {
 //            eLanguage::text("god_visit"),
@@ -82,7 +83,8 @@ void eEventSelectionWidget::initialize(
             eLanguage::text("military_change_long_name"),
             eLanguage::text("economic_change_long_name"),
             eLanguage::text("troops_request_short_name"),
-            eLanguage::text("god_disaster_long_name")
+            eLanguage::text("god_disaster_long_name"),
+            eLanguage::text("rival_army_away_long_name")
         };
         const auto echoose = new eChooseButton(window());
         const auto act = [this, add, types, labels, editEvent](const int val) {

@@ -715,6 +715,10 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, inst.fStrikeUnsuccessul);
         return;
     } break;
+    case eEvent::rivalArmyAway: {
+        showMessage(ed, inst.fRivalArmyAway);
+        return;
+    } break;
     }
     mGm->pushEvent(e, ed);
 }

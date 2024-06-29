@@ -117,13 +117,14 @@ void eMessageBox::initialize(const eEventData& ed,
                                       std::to_string(ed.fTime));
         }
     }
-    if(ed.fRivalCity) {
-        const auto nat = ed.fRivalCity->nationality();
+    const auto c = ed.fRivalCity ? ed.fRivalCity : ed.fCity;
+    if(c) {
+        const auto nat = c->nationality();
         const auto natName = eWorldCity::sNationalityName(nat);
         eStringHelpers::replaceAll(msg.fText, "[rival_nationality]",
                                    natName);
         eStringHelpers::replaceAll(msg.fText, "[rival_city_name]",
-                                   ed.fRivalCity->name());
+                                   c->name());
     }
 
     ww->addWidget(text);

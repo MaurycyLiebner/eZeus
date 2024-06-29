@@ -27,6 +27,7 @@
 #include "egodtraderesumesevent.h"
 #include "erequestaidevent.h"
 #include "erequeststrikeevent.h"
+#include "erivalarmyawayevent.h"
 
 eGameEvent::eGameEvent(const eGameEventType type,
                        const eGameEventBranch branch) :
@@ -119,6 +120,9 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
         return e::make_shared<eRequestAidEvent>(branch);
     case eGameEventType::requestStrike:
         return e::make_shared<eRequestStrikeEvent>(branch);
+
+    case eGameEventType::rivalArmyAway:
+        return e::make_shared<eRivalArmyAwayEvent>(branch);
     }
     return nullptr;
 }

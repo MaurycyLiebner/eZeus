@@ -234,6 +234,8 @@ public:
     eMessageType fStrikeSuccessful;
     eMessageType fStrikeUnsuccessul;
 
+    eMessageType fRivalArmyAway;
+
     eMessageType fIncreasedFavor;
     eMessageType fDecreasedFavor;
 
