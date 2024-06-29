@@ -91,7 +91,7 @@ int eEnlistedForces::strength() const {
         str += std::floor(mult*s->count());
     }
     for(const auto& c : fAllies) {
-        str += 3*c->army();
+        str += 3*c->shields();
     }
     str += 8*fHeroes.size();
     if(fAres) str += 8;
@@ -109,8 +109,7 @@ void eEnlistedForces::kill(const double killFrac) {
     }
 
     for(const auto& c : fAllies) {
-        const int oA = c->army();
-        const int nA = std::clamp(oA - 1, 1, 5);
-        c->setArmy(nA);
+        const int t = c->troops();
+        c->setTroops((1 - killFrac)*t);
     }
 }

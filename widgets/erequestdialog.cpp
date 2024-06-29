@@ -103,7 +103,7 @@ void eRequestDialog::initialize(const stdsptr<eWorldCity>& c,
                 l->setTextAlignment(eAlignment::vcenter);
                 innerWid->addWidget(l);
             }
-        } else if(c->army() < 2) {
+        } else if(c->shields() < 2) {
             const int p = std::round(13*mult);
             const int h = 2*p;
 

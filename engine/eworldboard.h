@@ -26,7 +26,7 @@ class eWorldBoard {
 public:
     eWorldBoard();
 
-    void incTime(const int by);
+    void nextMonth(eGameBoard* const board);
     void nextYear();
 
     std::vector<stdsptr<eWorldCity>> getTribute() const;

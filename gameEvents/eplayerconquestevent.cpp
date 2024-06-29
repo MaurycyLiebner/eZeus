@@ -24,16 +24,16 @@ void ePlayerConquestEvent::trigger() {
     removeConquestEvent();
     if(!mCity) return;
 
-    const int enemyStr = mCity->strength();
+    const int enemyStr = mCity->troops();
     const int str = mForces.strength();
 
     const double killFrac = std::clamp(0.5*enemyStr/str, 0., 1.);
     mForces.kill(killFrac);
 
     if(str > 0.75*enemyStr) {
-        const int oA = mCity->army();
-        const int nA = std::clamp(oA - 1, 1, 5);
-        mCity->setArmy(nA);
+        const double killFrac = std::clamp(0.5*str/enemyStr, 0., 1.);
+        const int t = mCity->troops();
+        mCity->setTroops((1 - killFrac)*t);
     }
 
     const bool conquered = str > enemyStr;

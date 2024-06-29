@@ -395,6 +395,8 @@ void eWorldWidget::openEnlistForcesDialog(
 }
 
 bool eWorldWidget::keyPressEvent(const eKeyPressEvent& e) {
+    const bool edit = mWorldBoard->editorMode();
+    if(edit) return true;
     const auto k = e.key();
     if(k == SDL_SCANCODE_ESCAPE) {
         window()->showGame(static_cast<eGameBoard*>(nullptr),

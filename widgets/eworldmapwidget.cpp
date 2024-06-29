@@ -179,7 +179,7 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
            t != eCityType::enchantedPlace) {
             const auto& aColl = texs.fCityArmy;
             const auto& wColl = texs.fCityWealth;
-            const int a = std::clamp(ct->army(), 1, 5);
+            const int a = std::clamp(ct->shields(), 1, 5);
             const int w = std::clamp(ct->wealth(), 1, 5);
             const int lp = res.largePadding();
             const int hp = res.hugePadding();
@@ -282,7 +282,7 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
             }
 
             for(const auto& a : forces.fAllies) {
-                const int n = std::clamp(a->army()/2, 0, 2);
+                const int n = std::clamp(a->shields()/2, 0, 2);
                 const auto coll = cityFigures(a->nationality());
                 const auto tex = coll ? coll->getTexture(n) : nullptr;
                 int x;
@@ -338,7 +338,7 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
             int y;
             armyDrawXY(*cc, *hc, frac, x, y);
 
-            const int n = std::clamp(cc->army()/2, 0, 2);
+            const int n = std::clamp(cc->shields()/2, 0, 2);
             const auto coll = cityFigures(cc->nationality());
             const auto tex = coll ? coll->getTexture(n) : nullptr;
             p.drawTexture(x, y, tex, eAlignment::center);

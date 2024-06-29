@@ -29,17 +29,11 @@ void ePlayerRaidEvent::trigger() {
     const auto board = gameBoard();
     if(!board) return;
 
-    const int enemyStr = mCity->strength();
+    const int enemyStr = mCity->troops();
     const int str = mForces.strength();
 
     const double killFrac = std::clamp(0.5*enemyStr/str, 0., 1.);
     mForces.kill(killFrac);
-
-    if(str > 0.75*enemyStr) {
-        const int oA = mCity->army();
-        const int nA = std::clamp(oA - 1, 1, 5);
-        mCity->setArmy(nA);
-    }
 
     const bool raided = str > 0.75*enemyStr;
     eEventData ed;

@@ -25,17 +25,13 @@ void eTroopsRequestFulfilledEvent::trigger() {
     removeConquestEvent();
     if(!mCity) return;
 
-    const int enemyStr = mRivalCity->strength();
-    const int str = mCity->strength() + mForces.strength();
+    const int enemyStr = mRivalCity->troops();
+    const int str = mCity->troops() + mForces.strength();
 
     const double killFrac = std::clamp(0.5*enemyStr/str, 0., 1.);
     mForces.kill(killFrac);
-
-    if(str > 0.75*enemyStr) {
-        const int oA = mCity->army();
-        const int nA = std::clamp(oA - 1, 1, 5);
-        mCity->setArmy(nA);
-    }
+    const int t = mCity->troops();
+    mCity->setTroops((1 - 0.5*killFrac)*t);
 
     const bool defended = str > enemyStr;
 

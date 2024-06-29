@@ -1943,7 +1943,9 @@ void eGameBoard::incTime(const int by) {
         mLastEmploymentState = emplState;
     }
 
-    mWorldBoard->incTime(by);
+    if(nextMonth) {
+        mWorldBoard->nextMonth(this);
+    }
     if(nextYear) {
         mWorldBoard->nextYear();
         const auto cs = mWorldBoard->getTribute();

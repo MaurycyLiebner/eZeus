@@ -3,6 +3,7 @@
 #include "elanguage.h"
 #include "egifthelpers.h"
 #include "evectorhelpers.h"
+#include "engine/egameboard.h"
 
 eWorldCity::eWorldCity(const eCityType type,
                                const std::string& name,
@@ -331,6 +332,33 @@ std::string eWorldCity::anArmy() const {
     return eLanguage::zeusText(group, 22 + string);
 }
 
+void eWorldCity::nextMonth(eGameBoard* const board) {
+    const auto diff = board->difficulty();
+    double mult;
+    switch(diff) {
+    case eDifficulty::beginner:
+        mult = 3;
+        break;
+    case eDifficulty::mortal:
+        mult = 4;
+        break;
+    case eDifficulty::hero:
+        mult = 4.5;
+        break;
+    case eDifficulty::titan:
+        mult = 5;
+        break;
+    case eDifficulty::olympian:
+    default:
+        mult = 6;
+        break;
+    }
+    const int targetTroops = std::round(mMilitaryStrength*mult*sqrt(mYearsElapsed + 1));
+    if(mTroops < targetTroops) {
+        mTroops++;
+    }
+}
+
 void eWorldCity::nextYear() {
     for(auto& b : mBuys) {
         b.fUsed = 0;
@@ -339,25 +367,15 @@ void eWorldCity::nextYear() {
         s.fUsed = 0;
     }
     mReceived.clear();
+    mYearsElapsed++;
 }
 
-int eWorldCity::strength() const {
-    return (10 + (rand() % 3))*mArmy;
+int eWorldCity::shields() const {
+    return std::clamp(1 + mTroops/20, 1, 5);
 }
 
-void eWorldCity::setArmy(const int a) {
-    mArmy = a;
-    mArmyUpdate = 0;
-}
-
-void eWorldCity::incTime(const int by) {
-    mArmyUpdate += by;
-    const int armyUpdateWait = 25000;
-    if(mArmyUpdate > armyUpdateWait) {
-        mArmyUpdate -= armyUpdateWait;
-        if(mTargetArmy > mArmy) mArmy++;
-        else if(mTargetArmy < mArmy) mArmy--;
-    }
+void eWorldCity::setMilitaryStrength(const int s) {
+    mMilitaryStrength = std::clamp(s, 1, 5);
 }
 
 bool eWorldCity::trades() const {
@@ -416,9 +434,9 @@ void eWorldCity::write(eWriteStream& dst) const {
     dst << mRel;
     dst << mAt;
     dst << mAbroad;
-    dst << mArmy;
-    dst << mTargetArmy;
-    dst << mArmyUpdate;
+    dst << mMilitaryStrength;
+    dst << mTroops;
+    dst << mYearsElapsed;
     dst << mWealth;
     dst << mWaterTrade;
     swrite(dst, mBuys);
@@ -456,9 +474,9 @@ void eWorldCity::read(eReadStream& src) {
     src >> mRel;
     src >> mAt;
     src >> mAbroad;
-    src >> mArmy;
-    src >> mTargetArmy;
-    src >> mArmyUpdate;
+    src >> mMilitaryStrength;
+    src >> mTargetArmy; // !!!
+    src >> mArmyUpdate; // !!!
     src >> mWealth;
     src >> mWaterTrade;
     sread(src, mBuys);

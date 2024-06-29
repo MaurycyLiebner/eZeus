@@ -177,16 +177,15 @@ public:
     void setIOID(const int id) { mIOID = id; }
     int ioID() const { return mIOID; }
 
+    void nextMonth(eGameBoard* const board);
     void nextYear();
 
-    int strength() const;
+    void setTroops(const int t) { mTroops = t; }
+    int troops() const { return mTroops; }
 
-    int army() const { return mArmy; }
-    void setArmy(const int a);
-    void setArmyTarget(const int a) { mTargetArmy = a; }
-    int armyTarget() const { return mTargetArmy; }
-
-    void incTime(const int by);
+    int shields() const;
+    int militaryStrength() const { return mMilitaryStrength; }
+    void setMilitaryStrength(const int s);
 
     int wealth() const { return mWealth; }
     void setWealth(const int w) { mWealth = w; }
@@ -268,11 +267,13 @@ private:
 
     bool mAbroad = false;
 
-    int mArmy = 1; // 1-5
-    int mTargetArmy = 1; // 1-5
-    int mWealth = 1; // 1-5
+    int mTargetArmy = 1; // !!! 1-5
+    int mArmyUpdate = 0; // !!!
 
-    int mArmyUpdate = 0;
+    int mMilitaryStrength = 1; // 1-5
+    int mTroops = 0;
+    int mYearsElapsed = 0;
+    int mWealth = 1; // 1-5
 
     bool mWaterTrade = false;
 

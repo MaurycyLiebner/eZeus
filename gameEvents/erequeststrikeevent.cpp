@@ -20,10 +20,8 @@ void eRequestStrikeEvent::trigger() {
    const auto date = board->date();
 
     if(mEnd) {
-        const int a = mCity->army();
-        const int ra = mRivalCity->army();
-        const int str = mCity->strength();
-        const int rstr = mRivalCity->strength();
+        const int str = mCity->troops();
+        const int rstr = mRivalCity->troops();
 
         if(str > 1.5*rstr) {
             mRivalCity->setRelationship(eForeignCityRelationship::vassal);
@@ -32,10 +30,14 @@ void eRequestStrikeEvent::trigger() {
             board->event(eEvent::strikeUnsuccessful, ed);
         }
         if(rstr > 0.75*str) {
-            mCity->setArmy(std::max(1, a - 1));
+            const double killFrac = 0.25;
+            const int t = mCity->troops();
+            mCity->setTroops((1 - killFrac)*t);
         }
         if(str > rstr) {
-            mRivalCity->setArmy(std::max(1, ra - 1));
+            const double killFrac = 0.25;
+            const int t = mRivalCity->troops();
+            mRivalCity->setTroops((1 - killFrac)*t);
         }
     } else {
         const auto e = e::make_shared<eRequestStrikeEvent>(

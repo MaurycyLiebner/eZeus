@@ -44,7 +44,7 @@ void eRequestAidEvent::trigger() {
         ma->fCity = mCity;
         ed.fTile = entryPoint;
 
-        const int a = mCity->army();
+        const int a = mCity->shields();
 
         const int nRabble = a*4;
         const int nHoplites = (a - 1)*4;

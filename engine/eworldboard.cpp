@@ -2,10 +2,9 @@
 
 eWorldBoard::eWorldBoard() {}
 
-void eWorldBoard::incTime(const int by) {
+void eWorldBoard::nextMonth(eGameBoard* const board) {
     for(const auto& c : mCities) {
-        if(c->isCurrentCity()) continue;
-        c->incTime(by);
+        c->nextMonth(board);
     }
 }
 
