@@ -29,6 +29,8 @@ void eRequestAidEvent::trigger() {
             if(!needed || (ivhs.empty() && days > 600)) {
                 if(ma) {
                     ma->goBack();
+                    const int t = mCity->troops();
+                    mCity->setTroops(t + ma->count());
                     board->removeMilitaryAid(mCity);
                 }
                 board->event(eEvent::aidDeparts, ed);
@@ -36,6 +38,10 @@ void eRequestAidEvent::trigger() {
         }
         return;
     } else {
+        const int t = mCity->troops();
+        const int arrived = t/3;
+        mCity->setTroops(t - arrived);
+
         mArrivalDate = date;
         const auto entryPoint = board->entryPoint();
         if(!entryPoint) return;
@@ -44,11 +50,15 @@ void eRequestAidEvent::trigger() {
         ma->fCity = mCity;
         ed.fTile = entryPoint;
 
-        const int a = mCity->shields();
-
-        const int nRabble = a*4;
-        const int nHoplites = (a - 1)*4;
-        const int nHorsemen = (a - 2)*4;
+        int rem = arrived;
+        int nHorsemen = 0;
+        if(arrived >= 28) {
+            nHorsemen = (arrived - 12)/4;
+        }
+        rem -= nHorsemen;
+        const int nRabble = rem/2;
+        rem -= nRabble;
+        const int nHoplites = rem;
 
         int remRabble = nRabble;
         while(remRabble > 0) {

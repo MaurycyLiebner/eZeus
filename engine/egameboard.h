@@ -80,12 +80,16 @@ enum class eGames {
 };
 
 struct eMilitaryAid {
-    bool allDead() const {
+    bool count() const {
         int c = 0;
         for(const auto& s : fSoldiers) {
             c += s->count();
         }
-        return c == 0;
+        return c;
+    }
+
+    bool allDead() const {
+        return count() == 0;
     }
 
     void goBack() {
