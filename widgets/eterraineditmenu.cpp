@@ -26,7 +26,33 @@ void eTerrainEditMenu::initialize(eGameWidget* const gw,
 
     const int spacing = 2*mult;
 
-    const auto w0 = new eWidget(window());
+    const auto w0 = new eActionListWidget(window());
+    w0->addAction("Apply", [this]() {
+        mBrushType = eBrushType::apply;
+    }, [this]() {
+        return mBrushType == eBrushType::apply;
+    });
+    for(int i = 0; i < 5; i++) {
+        w0->addAction(eLanguage::zeusText(48, i), [this, i]() {
+            mBrushType = eBrushType::brush;
+            mBrushSize = i + 1;
+        }, [this, i]() {
+            return mBrushType == eBrushType::brush &&
+                   mBrushSize == i + 1;
+        });
+    }
+    for(int i = 0; i < 5; i++) {
+        w0->addAction(eLanguage::zeusText(48, 5 + i), [this, i]() {
+            mBrushType = eBrushType::square;
+            mBrushSize = i + 2;
+        }, [this, i]() {
+            return mBrushType == eBrushType::square &&
+                   mBrushSize == i + 2;
+        });
+    }
+    w0->stackVertically(spacing);
+    w0->fitContent();
+
     const auto w1 = new eWidget(window());
 
     const auto w2 = new eActionListWidget(window());
@@ -271,4 +297,18 @@ eTerrainEditMode eTerrainEditMenu::mode() const {
 
 void eTerrainEditMenu::setWorldDirection(const eWorldDirection dir) {
     mRotateButton->setDirection(dir);
+}
+
+eBrushType eTerrainEditMenu::brushType() const {
+    if(mMode == eTerrainEditMode::quake) {
+        return eBrushType::brush;
+    }
+    return mBrushType;
+}
+
+int eTerrainEditMenu::brushSize() const {
+    if(mMode == eTerrainEditMode::quake) {
+        return 1;
+    }
+    return mBrushSize;
 }

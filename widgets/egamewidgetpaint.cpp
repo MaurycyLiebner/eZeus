@@ -299,6 +299,13 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
             bool eraseCm = false;
             bool patrolCm = false;
+            bool editorHover = false;
+            if(mTem->visible()) {
+                editorHover = eVectorHelpers::contains(mHoverTiles, tile);
+                if(editorHover) {
+                    tex->setColorMod(255, 175, 255);
+                }
+            }
             if(mPatrolBuilding && (!mPatrolPath.empty() || !mPatrolPath1.empty())) {
                 patrolCm = eVectorHelpers::contains(mPatrolPath, tile) ||
                            eVectorHelpers::contains(mPatrolPath1, tile);
@@ -311,7 +318,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                         tex->setColorMod(255, 175, 175);
                     }
                 }
-            } else {
+            } else if(!mTem->visible() || mTem->brushType() == eBrushType::apply) {
                 const auto ub = tile->underBuilding();
                 if(ub) {
                     eraseCm = inErase(ub);
@@ -321,7 +328,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 if(eraseCm) tex->setColorMod(255, 175, 255);
             }
             tp.drawTexture(rx, ry, tex, eAlignment::top);
-            if(eraseCm || patrolCm) tex->clearColorMod();
+            if(eraseCm || patrolCm || editorHover) tex->clearColorMod();
         }
     };
 

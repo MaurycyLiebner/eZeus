@@ -134,6 +134,8 @@ private:
     void setDY(const int dy);
     void clampViewBox();
 
+    using eApply = std::function<void(eTile* const)>;
+    eApply editFunc();
     bool buildMouseRelease();
 
     using eTileAction = std::function<void(eTile* const)>;
@@ -325,6 +327,8 @@ private:
     std::deque<eTip> mTips;
 
     std::vector<stdsptr<eTexture>> mNumbers;
+    std::vector<eTile*> mInflTiles;
+    std::vector<eTile*> mHoverTiles;
 };
 
 #endif // EGAMEWIDGET_H

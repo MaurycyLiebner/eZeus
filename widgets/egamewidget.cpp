@@ -56,6 +56,7 @@
 #include "widgets/eworldwidget.h"
 #include "engine/ecampaign.h"
 #include "audio/emusic.h"
+#include "spawners/ebanner.h"
 
 eGameWidget::eGameWidget(eMainWindow* const window) :
     eWidget(window) {}
@@ -503,7 +504,8 @@ bool eGameWidget::canBuildBase(const int minX, const int maxX,
             const auto t = mBoard->tile(x, y);
             if(!t) return false;
             if(t->underBuilding()) return false;
-            if(t->banner()) return false;
+            const auto banner = t->banner();
+            if(banner && !banner->buildable()) return false;
             const auto ttt = t->terrain();
             if(fertile && ttt == eTerrain::fertile) {
                 fertileFound = true;
@@ -718,7 +720,8 @@ bool eGameWidget::canBuildFishery(const int tx, const int ty,
             const auto t = mBoard->tile(x, y);
             if(!t) return false;
             if(t->underBuilding()) return false;
-            if(t->banner()) return false;
+            const auto banner = t->banner();
+            if(banner && !banner->buildable()) return false;
             if(t->isElevationTile()) return false;
             const auto& chars = t->characters();
             if(!chars.empty()) return false;
@@ -1563,7 +1566,61 @@ bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
     return true;
 }
 
+void brushTiles(eGameBoard* const board, const int bSize,
+                const int cx, const int cy,
+                std::vector<eTile*>& result) {
+    int cdx0;
+    int cdy0;
+    eTileHelper::tileIdToDTileId(cx, cy, cdx0, cdy0);
+    const int x0 = cx - bSize + 1;
+    const int y0 = cy;
+    int dx0;
+    int dy0;
+    eTileHelper::tileIdToDTileId(x0, y0, dx0, dy0);
+    for(int ddy = 0; ddy < 2*bSize - 1; ddy++) {
+        const int dy = dy0 + ddy;
+        const int w = (ddy % 2) ? bSize - 1 : bSize;
+        int dx = dx0;
+        if(ddy % 2) {
+            if(cdy0 % 2 == bSize % 2) {
+                dx += 1;
+            }
+        }
+        for(int ddx = 0; ddx < w; ddx++) {
+            const auto t = board->dtile(dx + ddx, dy);
+            if(!t) continue;
+            result.push_back(t);
+        }
+    }
+}
+
+void squareTiles(eGameBoard* const board, const int bSize,
+                 const int cx, const int cy,
+                 std::vector<eTile*>& result) {
+    const int x0 = cx - bSize/2;
+    const int y0 = cy - bSize/2;
+    for(int dx = 0; dx < bSize; dx++) {
+        for(int dy = 0; dy < bSize; dy++) {
+            const int x = x0 + dx;
+            const int y = y0 + dy;
+            const auto t = board->tile(x, y);
+            if(!t) continue;
+            result.push_back(t);
+        }
+    }
+}
+
 bool eGameWidget::mouseMoveEvent(const eMouseEvent& e) {
+    mHoverTiles.clear();
+    if(mTem->visible()) {
+        const auto btype = mTem->brushType();
+        const int bsize = mTem->brushSize();
+        if(btype == eBrushType::brush) {
+            brushTiles(mBoard, bsize, mHoverTX, mHoverTY, mHoverTiles);
+        } else if(btype == eBrushType::square) {
+            squareTiles(mBoard, bsize, mHoverTX, mHoverTY, mHoverTiles);
+        }
+    }
     if(mLocked) return true;
     mMovedSincePress = true;
     if(static_cast<bool>(e.buttons() & eMouseButton::middle)) {
@@ -1578,6 +1635,30 @@ bool eGameWidget::mouseMoveEvent(const eMouseEvent& e) {
         mHoverX = e.x();
         mHoverY = e.y();
         pixToId(e.x(), e.y(), mHoverTX, mHoverTY);
+
+        const bool left = static_cast<bool>(e.buttons() & eMouseButton::left);
+        if(left && mTem->visible()) {
+            const auto btype = mTem->brushType();
+            if(btype == eBrushType::apply) return true;
+            const auto apply = editFunc();
+            if(!apply) return true;
+            for(const auto t : mHoverTiles) {
+                const bool r = eVectorHelpers::contains(mInflTiles, t);
+                if(r) continue;
+                apply(t);
+                mInflTiles.push_back(t);
+            }
+            const auto mode = mTem->mode();
+            if(mode == eTerrainEditMode::raise ||
+               mode == eTerrainEditMode::lower ||
+               mode == eTerrainEditMode::levelOut ||
+               mode == eTerrainEditMode::resetElev) {
+                updateTopBottomAltitude();
+                updateMinMaxAltitude();
+            }
+            mBoard->updateMarbleTiles();
+            mBoard->scheduleTerrainUpdate();
+        }
     }
     return true;
 }

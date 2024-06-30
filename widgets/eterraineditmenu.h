@@ -50,6 +50,12 @@ enum class eTerrainEditMode {
     disasterPoint
 };
 
+enum class eBrushType {
+    apply,
+    brush,
+    square
+};
+
 class eTerrainEditMenu : public eGameMenuBase {
 public:
     using eGameMenuBase::eGameMenuBase;
@@ -63,7 +69,12 @@ public:
     eMiniMap* miniMap() const { return mMiniMap; }
 
     void setWorldDirection(const eWorldDirection dir);
+
+    eBrushType brushType() const;
+    int brushSize() const;
 private:
+    eBrushType mBrushType = eBrushType::apply;
+    int mBrushSize = 1;
     eTerrainEditMode mMode = eTerrainEditMode::dry;
     int mModeId = 0;
 

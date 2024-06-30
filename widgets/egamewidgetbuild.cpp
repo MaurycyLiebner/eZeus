@@ -329,107 +329,114 @@ bool buildVendor(eGameBoard& brd, const int tx, const int ty,
     return true;
 }
 
-bool eGameWidget::buildMouseRelease() {
-    const auto wrld = mBoard->getWorldBoard();
-    std::function<void(eTile* const)> apply;
-    if(mTem->visible()) {
-        const auto mode = mTem->mode();
-        const int modeId = mTem->modeId();
-        if(mode == eTerrainEditMode::none) {
-            return false;
-        } else if(mode == eTerrainEditMode::scrub) {
-            apply = [](eTile* const tile) {
-                tile->incScrub(0.1);
-            };
-        } else if(mode == eTerrainEditMode::raise) {
-            apply = [](eTile* const tile) {
-                tile->setAltitude(tile->altitude() + 1);
-            };
-        } else if(mode == eTerrainEditMode::lower) {
-            apply = [](eTile* const tile) {
-                tile->setAltitude(tile->altitude() - 1);
-            };
-        } else if(mode == eTerrainEditMode::quake) {
-            apply = [](eTile* const tile) {
-                tile->setTerrain(eTerrain::quake);
-            };
-        } else if(mode == eTerrainEditMode::levelOut) {
-            const auto t = mBoard->tile(mPressedTX, mPressedTY);
-            if(t) {
-                const int a = t->altitude();
-                apply = [a](eTile* const tile) {
-                    tile->setAltitude(a);
-                };
-            }
-        } else if(mode == eTerrainEditMode::resetElev) {
-            apply = [](eTile* const tile) {
-                tile->setAltitude(0);
-            };
-        } else if(mode == eTerrainEditMode::makeWalkable) {
-            apply = [](eTile* const tile) {
-                tile->setWalkableElev(!tile->walkableElev());
-            };
-        } else if(mode == eTerrainEditMode::boar) {
-            apply = [this, modeId](eTile* const tile) {
-                const auto b = std::make_shared<eBoarSpawner>(
-                                   modeId, tile, *mBoard);
-                tile->setBanner(b);
-            };
-        } else if(mode == eTerrainEditMode::fish) {
-            apply = [](eTile* const tile) {
-                tile->setHasFish(!tile->hasFish());
-            };
-        } else if(mode == eTerrainEditMode::urchin) {
-            apply = [](eTile* const tile) {
-                tile->setHasUrchin(!tile->hasUrchin());
-            };
-        } else if(mode == eTerrainEditMode::deer) {
-            apply = [this, modeId](eTile* const tile) {
-                const auto b = std::make_shared<eDeerSpawner>(
-                                   modeId, tile, *mBoard);
-                tile->setBanner(b);
-            };
-        } else if(mode == eTerrainEditMode::fire) {
-            apply = [](eTile* const tile) {
-                tile->setOnFire(true);
-            };
-        } else if(mode == eTerrainEditMode::ruins) {
-            apply = [this](eTile* const tile) {
-                build(tile->x(), tile->y(), 1, 1,
-                      [this]() { return e::make_shared<eRuins>(*mBoard); });
-            };
-        } else if(mode == eTerrainEditMode::entryPoint) {
-            apply = [this, modeId](eTile* const tile) {
-                const auto b = std::make_shared<eEntryPoint>(
-                                   modeId, tile, *mBoard);
-                tile->setBanner(b);
-            };
-        } else if(mode == eTerrainEditMode::exitPoint) {
-            apply = [this, modeId](eTile* const tile) {
-                const auto b = std::make_shared<eExitPoint>(
-                                   modeId, tile, *mBoard);
-                tile->setBanner(b);
-            };
-        } else if(mode == eTerrainEditMode::landInvasion) {
-            apply = [this, modeId](eTile* const tile) {
-                const auto b = std::make_shared<eLandInvasionPoint>(
-                                   modeId, tile, *mBoard);
-                tile->setBanner(b);
-            };
-        } else if(mode == eTerrainEditMode::monsterPoint) {
-            apply = [this, modeId](eTile* const tile) {
-                const auto b = std::make_shared<eMonsterPoint>(
-                                   modeId, tile, *mBoard);
-                tile->setBanner(b);
-            };
-        } else {
-            apply = [mode](eTile* const tile) {
-                const auto terr = static_cast<eTerrain>(mode);
-                tile->setTerrain(terr);
+eGameWidget::eApply eGameWidget::editFunc() {
+    const auto mode = mTem->mode();
+    const int modeId = mTem->modeId();
+    if(mode == eTerrainEditMode::none) {
+        return nullptr;
+    } else if(mode == eTerrainEditMode::scrub) {
+        return [](eTile* const tile) {
+            tile->incScrub(0.1);
+        };
+    } else if(mode == eTerrainEditMode::raise) {
+        return [](eTile* const tile) {
+            tile->setAltitude(tile->altitude() + 1);
+        };
+    } else if(mode == eTerrainEditMode::lower) {
+        return [](eTile* const tile) {
+            tile->setAltitude(tile->altitude() - 1);
+        };
+    } else if(mode == eTerrainEditMode::quake) {
+        return [](eTile* const tile) {
+            tile->setTerrain(eTerrain::quake);
+        };
+    } else if(mode == eTerrainEditMode::levelOut) {
+        const auto t = mBoard->tile(mPressedTX, mPressedTY);
+        if(t) {
+            const int a = t->altitude();
+            return [a](eTile* const tile) {
+                tile->setAltitude(a);
             };
         }
-        mBoard->updateMarbleTiles();
-        mBoard->scheduleTerrainUpdate();
+    } else if(mode == eTerrainEditMode::resetElev) {
+        return [](eTile* const tile) {
+            tile->setAltitude(0);
+        };
+    } else if(mode == eTerrainEditMode::makeWalkable) {
+        return [](eTile* const tile) {
+            tile->setWalkableElev(!tile->walkableElev());
+        };
+    } else if(mode == eTerrainEditMode::boar) {
+        return [this, modeId](eTile* const tile) {
+            const auto b = std::make_shared<eBoarSpawner>(
+                               modeId, tile, *mBoard);
+            tile->setBanner(b);
+        };
+    } else if(mode == eTerrainEditMode::fish) {
+        return [](eTile* const tile) {
+            tile->setHasFish(!tile->hasFish());
+        };
+    } else if(mode == eTerrainEditMode::urchin) {
+        return [](eTile* const tile) {
+            tile->setHasUrchin(!tile->hasUrchin());
+        };
+    } else if(mode == eTerrainEditMode::deer) {
+        return [this, modeId](eTile* const tile) {
+            const auto b = std::make_shared<eDeerSpawner>(
+                               modeId, tile, *mBoard);
+            tile->setBanner(b);
+        };
+    } else if(mode == eTerrainEditMode::fire) {
+        return [](eTile* const tile) {
+            tile->setOnFire(true);
+        };
+    } else if(mode == eTerrainEditMode::ruins) {
+        return [this](eTile* const tile) {
+            build(tile->x(), tile->y(), 1, 1,
+                  [this]() { return e::make_shared<eRuins>(*mBoard); });
+        };
+    } else if(mode == eTerrainEditMode::entryPoint) {
+        return [this, modeId](eTile* const tile) {
+            const auto b = std::make_shared<eEntryPoint>(
+                               modeId, tile, *mBoard);
+            tile->setBanner(b);
+        };
+    } else if(mode == eTerrainEditMode::exitPoint) {
+        return [this, modeId](eTile* const tile) {
+            const auto b = std::make_shared<eExitPoint>(
+                               modeId, tile, *mBoard);
+            tile->setBanner(b);
+        };
+    } else if(mode == eTerrainEditMode::landInvasion) {
+        return [this, modeId](eTile* const tile) {
+            const auto b = std::make_shared<eLandInvasionPoint>(
+                               modeId, tile, *mBoard);
+            tile->setBanner(b);
+        };
+    } else if(mode == eTerrainEditMode::monsterPoint) {
+        return [this, modeId](eTile* const tile) {
+            const auto b = std::make_shared<eMonsterPoint>(
+                               modeId, tile, *mBoard);
+            tile->setBanner(b);
+        };
+    } else {
+        return [mode](eTile* const tile) {
+            const auto terr = static_cast<eTerrain>(mode);
+            tile->setTerrain(terr);
+        };
+    }
+    return nullptr;
+}
+
+bool eGameWidget::buildMouseRelease() {
+    const auto wrld = mBoard->getWorldBoard();
+    eApply apply;
+    if(mTem->visible()) {
+        mInflTiles.clear();
+        const auto brushType = mTem->brushType();
+        if(brushType != eBrushType::apply) return true;
+        apply = editFunc();
+        if(!apply) return true;
     } else {
         const auto mode = mGm->mode();
         switch(mode) {
@@ -1779,6 +1786,8 @@ bool eGameWidget::buildMouseRelease() {
             updateTopBottomAltitude();
             updateMinMaxAltitude();
         }
+        mBoard->updateMarbleTiles();
+        mBoard->scheduleTerrainUpdate();
     }
     return true;
 }
