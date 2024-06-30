@@ -1161,6 +1161,7 @@ void eInterfaceTextures::load() {
         for(int i = 20; i < 28; i++) {
             loader.load(1, i, fSpawner);
         }
+        fDisasterPoint = loader.load(1, 28);
         fLandInvasionPoint = loader.load(1, 29);
         fEntryPoint = loader.load(1, 30);
         fExitPoint = loader.load(1, 31);

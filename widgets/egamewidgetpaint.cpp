@@ -1010,6 +1010,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                 case eBannerTypeS::monsterPoint:
                     topTex = intrTexs.fMonsterPoint;
                     break;
+                case eBannerTypeS::disasterPoint:
+                    topTex = intrTexs.fDisasterPoint;
+                    break;
                 }
                 if(topTex) {
                     tp.drawTexture(rx - 2.5, ry - 3.5, topTex,

@@ -104,9 +104,9 @@ eTerrainTextures::eTerrainTextures(const int tileW, const int tileH,
 
     fElevation(renderer),
     fDoubleElevation(renderer),
-    fDoubleElevation2(renderer) {
+    fDoubleElevation2(renderer),
 
-}
+    fQuakeTexs(renderer) {}
 
 void loadWaterToX(SDL_Renderer* const renderer, int i0,
                   std::vector<eTextureCollection>& result,
@@ -200,6 +200,10 @@ void eTerrainTextures::load() {
         }
 
         loadWaterToX(fRenderer, 172, fWaterToDryTerrainTexs, loader);
+
+        for(int i = 244; i < 274; i++) {
+            loader.load(1, i, fQuakeTexs);
+        }
 
         loadStones(334, fFlatStonesTerrainTexs,
                    fLargeFlatStonesTerrainTexs,

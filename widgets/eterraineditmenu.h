@@ -44,7 +44,10 @@ enum class eTerrainEditMode {
     entryPoint,
     exitPoint,
     landInvasion,
-    monsterPoint
+    monsterPoint,
+
+    quake,
+    disasterPoint
 };
 
 class eTerrainEditMenu : public eGameMenuBase {

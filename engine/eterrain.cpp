@@ -15,6 +15,8 @@ double eTerrainTools::speed(const eTerrain t) {
         case eTerrain::tallStones: return 0;
         case eTerrain::marble: return 1;
 
+        case eTerrain::quake: return 1;
+
         default: return 0;
     }
 }

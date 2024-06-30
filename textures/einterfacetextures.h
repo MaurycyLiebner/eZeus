@@ -259,6 +259,7 @@ public:
     eTextureCollection fSeeButton;
 
     eTextureCollection fSpawner;
+    std::shared_ptr<eTexture> fDisasterPoint;
     std::shared_ptr<eTexture> fLandInvasionPoint;
     std::shared_ptr<eTexture> fEntryPoint;
     std::shared_ptr<eTexture> fExitPoint;

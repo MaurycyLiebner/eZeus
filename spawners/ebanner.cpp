@@ -21,6 +21,10 @@ eBanner::~eBanner() {
     mBoard.unregisterBanner(this);
 }
 
+bool eBanner::buildable() const {
+    return mType == eBannerTypeS::disasterPoint;
+}
+
 void eBanner::read(eReadStream& src) {
     src >> mIOID;
 }

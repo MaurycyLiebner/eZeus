@@ -319,6 +319,51 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
     }
 
     switch(tile->terrain()) {
+    case eTerrain::quake: {
+        int texId = 0;
+
+        const bool trs = tr && tr->terrain() == eTerrain::quake;
+        const bool brs = br && br->terrain() == eTerrain::quake;
+        const bool bls = bl && bl->terrain() == eTerrain::quake;
+        const bool tls = tl && tl->terrain() == eTerrain::quake;
+
+        if(trs && brs && bls && tls) {
+            texId = 29;
+        } else if(trs && bls && brs) {
+            texId = 25;
+        } else if(tls && brs && bls) {
+            texId = 26;
+        } else if(trs && bls && tls) {
+            texId = 27;
+        } else if(trs && brs && tls) {
+            texId = 28;
+        } else if(trs && bls) {
+            texId = seed % 4;
+        } else if(tls && brs) {
+            texId = 4 + (seed % 4);
+        } else if(trs && brs) {
+            texId = 8 + (seed % 2);
+        } else if(brs && bls) {
+            texId = 10 + (seed % 2);
+        } else if(tls && bls) {
+            texId = 12 + (seed % 2);
+        } else if(tls && trs) {
+            texId = 14 + (seed % 2);
+        } else if(trs) {
+            texId = 16 + (seed % 2);
+        } else if(bls) {
+            texId = 18 + (seed % 2);
+        } else if(brs) {
+            texId = 20 + (seed % 2);
+        } else if(tls) {
+            texId = 22 + (seed % 2);
+        } else {
+            texId = 24;
+        }
+
+        const auto& coll = textures.fQuakeTexs;
+        return coll.getTexture(texId);
+    } break;
     case eTerrain::dry: {
         const auto& vec = textures.fDryToScrubTerrainTexs;
         const int scrubCount = vec[0].size();

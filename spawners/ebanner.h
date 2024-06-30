@@ -12,7 +12,8 @@ enum class eBannerTypeS {
     landInvasion,
     entryPoint,
     exitPoint,
-    monsterPoint
+    monsterPoint,
+    disasterPoint
 };
 
 class eBanner {
@@ -32,6 +33,8 @@ public:
     int ioID() const { return mIOID; }
 
     eBannerTypeS type() const { return mType; }
+
+    bool buildable() const;
 
     virtual void read(eReadStream& src);;
     virtual void write(eWriteStream& dst) const;;

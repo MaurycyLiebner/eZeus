@@ -349,6 +349,10 @@ bool eGameWidget::buildMouseRelease() {
             apply = [](eTile* const tile) {
                 tile->setAltitude(tile->altitude() - 1);
             };
+        } else if(mode == eTerrainEditMode::quake) {
+            apply = [](eTile* const tile) {
+                tile->setTerrain(eTerrain::quake);
+            };
         } else if(mode == eTerrainEditMode::levelOut) {
             const auto t = mBoard->tile(mPressedTX, mPressedTY);
             if(t) {

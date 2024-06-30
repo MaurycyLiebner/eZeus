@@ -83,6 +83,8 @@ public:
     eTextureCollection fElevation;
     eTextureCollection fDoubleElevation;
     eTextureCollection fDoubleElevation2;
+
+    eTextureCollection fQuakeTexs;
 };
 
 #endif // ETERRAINTEXTURES_H

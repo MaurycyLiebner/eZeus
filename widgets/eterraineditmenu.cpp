@@ -7,6 +7,7 @@
 #include "erotatebutton.h"
 #include "eminimap.h"
 #include "egamewidget.h"
+#include "elanguage.h"
 
 void eTerrainEditMenu::initialize(eGameWidget* const gw,
                                   eGameBoard* const board) {
@@ -106,6 +107,18 @@ void eTerrainEditMenu::initialize(eGameWidget* const gw,
     w9->addAction("Ruins", [this]() {
         mMode = eTerrainEditMode::ruins;
     });
+    w9->addAction(eLanguage::zeusText(48, 67), [this]() {
+        mMode = eTerrainEditMode::quake;
+    });
+    for(int i = 0; i < 8; i++) {
+        w9->addAction(eLanguage::zeusText(48, 70 + i), [this, i]() {
+            mMode = eTerrainEditMode::disasterPoint;
+            mModeId = i;
+        }, [board, i]() {
+            const auto b = board->banner(eBannerTypeS::disasterPoint, i);
+            return b != nullptr;
+        });
+    }
     w9->stackVertically(spacing);
     w9->fitContent();
 
