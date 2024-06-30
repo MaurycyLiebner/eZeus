@@ -101,6 +101,8 @@ void eMessageBox::initialize(const eEventData& ed,
                                eLanguage::text("greetings"));
     eStringHelpers::replaceAll(msg.fText, "[player_name]",
                                ed.fPlayerName);
+    eStringHelpers::replaceAll(msg.fText, "[god]",
+                               eGod::sGodName(ed.fGod));
     if(ed.fCity) {
         const auto nat = ed.fCity->nationality();
         const auto natName = eWorldCity::sNationalityName(nat);

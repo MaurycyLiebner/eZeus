@@ -767,6 +767,11 @@ bool eMessages::loadImpl() {
     load(fColonyTroopsRequest, "colony", "P");
     load(fParentCityTroopsRequest, "parentcity", "R");
 
+    fEarthqauke.fFull.fTitle = fMessages["PHRASE_quake_title"];
+    fEarthqauke.fFull.fText = fMessages["PHRASE_quake_phrase_by_god"];
+    fEarthqauke.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_quake_title"];
+    fEarthqauke.fCondensed.fText = fMessages["PHRASE_CONDENSED_quake_phrase_by_god"];
+
     loadMessage(fTroopsRequestAttackAverted,
                 "attack_averted_title",
                 "attack_averted_initial_announcement");

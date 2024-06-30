@@ -266,6 +266,8 @@ public:
     eTroopsRequestedMessages fParentCityTroopsRequest;
 
     eMessageType fTroopsRequestAttackAverted;
+
+    eMessageType fEarthqauke;
 private:
     bool loadImpl();
 

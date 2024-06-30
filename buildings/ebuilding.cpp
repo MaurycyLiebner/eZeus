@@ -1985,7 +1985,8 @@ void eBuilding::collapse() {
     if(noRuins) return;
     for(const auto t : tiles) {
         const auto terrain = t->terrain();
-        if(terrain == eTerrain::water) continue;
+        const bool r = static_cast<bool>(eTerrain::buildable & terrain);
+        if(!r) continue;
         const auto ruins = e::make_shared<eRuins>(b);
         ruins->setOnFire(onFire);
         ruins->setCenterTile(t);

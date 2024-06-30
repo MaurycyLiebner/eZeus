@@ -374,6 +374,7 @@ SOURCES += \
         fileIO/ewritestream.cpp \
         gameEvents/earmyeventbase.cpp \
         gameEvents/earmyreturnevent.cpp \
+        gameEvents/eearthquakeevent.cpp \
         gameEvents/eeconomicchangeevent.cpp \
         gameEvents/eeconomicmilitarychangeeventbase.cpp \
         gameEvents/eeventtrigger.cpp \
@@ -416,6 +417,7 @@ SOURCES += \
         spawners/ebanner.cpp \
         spawners/eboarspawner.cpp \
         spawners/edeerspawner.cpp \
+        spawners/edisasterpoint.cpp \
         spawners/eentrypoint.cpp \
         spawners/eexitpoint.cpp \
         spawners/elandinvasionpoint.cpp \
@@ -965,6 +967,7 @@ HEADERS += \
     fileIO/ewritestream.h \
     gameEvents/earmyeventbase.h \
     gameEvents/earmyreturnevent.h \
+    gameEvents/eearthquakeevent.h \
     gameEvents/eeconomicchangeevent.h \
     gameEvents/eeconomicmilitarychangeeventbase.h \
     gameEvents/eeventtrigger.h \
@@ -1062,6 +1065,7 @@ HEADERS += \
     spawners/ebanner.h \
     spawners/eboarspawner.h \
     spawners/edeerspawner.h \
+    spawners/edisasterpoint.h \
     spawners/eentrypoint.h \
     spawners/eexitpoint.h \
     spawners/elandinvasionpoint.h \

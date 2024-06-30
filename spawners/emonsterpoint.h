@@ -8,8 +8,6 @@ public:
     eMonsterPoint(const int id,
                   eTile* const tile,
                   eGameBoard& board);
-    ~eMonsterPoint();
 };
-
 
 #endif // EMONSTERPOINT_H

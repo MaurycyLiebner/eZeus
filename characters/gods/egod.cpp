@@ -44,6 +44,7 @@ int sGodTextId(const eGodType type) {
     case eGodType::poseidon:
         return 1;
     case eGodType::zeus:
+    default:
         return 0;
     }
 }

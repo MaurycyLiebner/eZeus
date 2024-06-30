@@ -638,41 +638,18 @@ eGameEvent* eGameBoard::eventWithIOID(const int id) const {
 }
 
 eTile* eGameBoard::monsterTile(const int id) const {
-    const auto it = mMonsterPoints.find(id);
-    if(it == mMonsterPoints.end()) return nullptr;
-    return it->second->tile();
-}
-
-void eGameBoard::addMonsterPoint(eMonsterPoint* const p) {
-    const int id = p->id();
-    const auto it = mMonsterPoints.find(id);
-    if(it != mMonsterPoints.end()) {
-        delete it->second;
-    }
-    mMonsterPoints[id] = p;
-}
-
-void eGameBoard::removeMonsterPoint(const int id) {
-    mMonsterPoints.erase(id);
+    const auto b = banner(eBannerTypeS::monsterPoint, id);
+    return b ? b->tile() : nullptr;
 }
 
 eTile* eGameBoard::landInvasionTile(const int id) const {
-    const auto it = mLandInvasion.find(id);
-    if(it == mLandInvasion.end()) return nullptr;
-    return it->second->tile();
+    const auto b = banner(eBannerTypeS::landInvasion, id);
+    return b ? b->tile() : nullptr;
 }
 
-void eGameBoard::addLandInvasionPoint(eLandInvasionPoint* const p) {
-    const int id = p->id();
-    const auto it = mLandInvasion.find(id);
-    if(it != mLandInvasion.end()) {
-        delete it->second;
-    }
-    mLandInvasion[id] = p;
-}
-
-void eGameBoard::removeLandInvasionPoint(const int id) {
-    mLandInvasion.erase(id);
+eTile* eGameBoard::disasterTile(const int id) const {
+    const auto b = banner(eBannerTypeS::disasterPoint, id);
+    return b ? b->tile() : nullptr;
 }
 
 const eGameBoard::eIV& eGameBoard::invasionHandlers() const {
@@ -2507,4 +2484,71 @@ int eGameBoard::tradingPartners() const {
         n++;
     }
     return n;
+}
+
+eOrientation randomOrientation() {
+    std::vector<eOrientation> os{eOrientation::topRight,
+                                 eOrientation::bottomRight,
+                                 eOrientation::bottomLeft,
+                                 eOrientation::topLeft};
+    return os[rand() % os.size()];
+}
+
+void eGameBoard::earthquake(eTile* const startTile, const int size) {
+    struct eQuakeEnd {
+        eTile* fTile = nullptr;
+        eOrientation fLastO = randomOrientation();
+    };
+
+    std::queue<eQuakeEnd> ends;
+    mEarthquake.push_back(startTile);
+    ends.push({startTile});
+//    std::vector<eOrientation> os{eOrientation::topRight,
+//                                 eOrientation::bottomRight,
+//                                 eOrientation::bottomLeft,
+//                                 eOrientation::topLeft};
+//    std::random_shuffle(os.begin(), os.end());
+//    for(int i = 0; i < 2; i++) {
+//        const auto o = os[i];
+//        const auto tt = startTile->neighbour<eTile>(o);
+//        ends.push({tt});
+//        mEarthquake.push_back(tt);
+//    }
+    while((int)mEarthquake.size() < size && !ends.empty()) {
+        const auto t = ends.front();
+        ends.pop();
+        std::vector<eOrientation> os{eOrientation::topRight,
+                                     eOrientation::bottomRight,
+                                     eOrientation::bottomLeft,
+                                     eOrientation::topLeft};
+        std::random_shuffle(os.begin(), os.end());
+        if(rand() % 7) {
+            os.insert(os.begin(), t.fLastO);
+        }
+        for(const auto o : os) {
+            const auto tt = t.fTile->neighbour<eTile>(o);
+            if(!tt) continue;
+            const auto terr = tt->terrain();
+            if(terr == eTerrain::dry ||
+               terr == eTerrain::fertile ||
+               terr == eTerrain::forest ||
+               terr == eTerrain::choppedForest) {
+                ends.push({tt, o});
+                mEarthquake.push_back(tt);
+                if(rand() % 5 == 0) {
+                    ends.push({tt});
+                }
+                break;
+            }
+        }
+    }
+
+    for(const auto e : mEarthquake) {
+        e->setTerrain(eTerrain::quake);
+    }
+    scheduleTerrainUpdate();
+}
+
+bool eGameBoard::duringEarthquake() const {
+    return !mEarthquake.empty();
 }

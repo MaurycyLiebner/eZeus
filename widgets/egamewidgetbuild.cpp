@@ -16,6 +16,7 @@
 #include "spawners/eexitpoint.h"
 #include "spawners/emonsterpoint.h"
 #include "spawners/elandinvasionpoint.h"
+#include "spawners/edisasterpoint.h"
 
 #include "ebuildingstoerase.h"
 
@@ -416,6 +417,12 @@ eGameWidget::eApply eGameWidget::editFunc() {
     } else if(mode == eTerrainEditMode::monsterPoint) {
         return [this, modeId](eTile* const tile) {
             const auto b = std::make_shared<eMonsterPoint>(
+                               modeId, tile, *mBoard);
+            tile->setBanner(b);
+        };
+    } else if(mode == eTerrainEditMode::disasterPoint) {
+        return [this, modeId](eTile* const tile) {
+            const auto b = std::make_shared<eDisasterPoint>(
                                modeId, tile, *mBoard);
             tile->setBanner(b);
         };

@@ -420,12 +420,8 @@ public:
     eGameEvent* eventWithIOID(const int id) const;
 
     eTile* monsterTile(const int id) const;
-    void addMonsterPoint(eMonsterPoint* const p);
-    void removeMonsterPoint(const int id);
-
     eTile* landInvasionTile(const int id) const;
-    void addLandInvasionPoint(eLandInvasionPoint* const p);
-    void removeLandInvasionPoint(const int id);
+    eTile* disasterTile(const int id) const;
 
     using eIV = std::vector<eInvasionHandler*>;
     const eIV& invasionHandlers() const;
@@ -580,6 +576,9 @@ public:
 
     void episodeLost() const;
     int tradingPartners() const;
+
+    void earthquake(eTile* const startTile, const int size);
+    bool duringEarthquake() const;
 private:
     void updateNeighbours();
 
@@ -692,9 +691,6 @@ private:
 
     std::vector<eInvasionHandler*> mInvasionHandlers;
 
-    std::map<int, eMonsterPoint*> mMonsterPoints;
-    std::map<int, eLandInvasionPoint*> mLandInvasion;
-
     std::vector<ePlannedAction*> mPlannedActions;
 
     std::vector<eTile*> mMarbleTiles;
@@ -761,6 +757,8 @@ private:
     std::map<eSector, std::vector<eEmployingBuilding*>> mSectorBuildings;
     bool mEmploymentUpdateScheduled = true;
     int mEmploymentUpdateWait = __INT_MAX__/10;
+
+    std::vector<eTile*> mEarthquake;
 };
 
 #endif // EGAMEBOARD_H

@@ -719,6 +719,10 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, inst.fRivalArmyAway);
         return;
     } break;
+
+    case eEvent::earthquake: {
+        showMessage(ed, inst.fEarthqauke);
+    } break;
     }
     mGm->pushEvent(e, ed);
 }

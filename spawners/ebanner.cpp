@@ -8,6 +8,7 @@
 #include "emonsterpoint.h"
 #include "eentrypoint.h"
 #include "eexitpoint.h"
+#include "edisasterpoint.h"
 
 eBanner::eBanner(const eBannerTypeS type,
                  const int id,
@@ -56,6 +57,9 @@ eBanner* eBanner::sCreate(const int id,
         break;
     case eBannerTypeS::exitPoint:
         b = std::make_shared<eExitPoint>(id, tile, board);
+        break;
+    case eBannerTypeS::disasterPoint:
+        b = std::make_shared<eDisasterPoint>(id, tile, board);
         break;
     }
     tile->setBanner(b);

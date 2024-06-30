@@ -8,7 +8,6 @@ public:
     eLandInvasionPoint(const int id,
                        eTile* const tile,
                        eGameBoard& board);
-    ~eLandInvasionPoint();
 };
 
 #endif // ELANDINVASIONPOINT_H
