@@ -278,6 +278,7 @@ void eInvasionHandler::incTime(const int by) {
         } else if(p) {
             mStage = eInvasionStage::spread;
         } else {
+            mBoard.defeatedBy(mCity);
             mBoard.event(eEvent::invasionDefeat, ed);
             const int tx = mTile->x();
             const int ty = mTile->y();

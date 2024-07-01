@@ -1886,6 +1886,17 @@ void eGameBoard::incTime(const int by) {
         mPeoplePaidTaxesThisYear = 0;
         const int d = mEmplData.pensions();
         incDrachmas(-d);
+
+        for(const auto& c : mDefeatedBy) {
+            const auto rr = e::make_shared<eReceiveRequestEvent>(
+                                eGameEventBranch::root);
+            rr->initialize(0, eResourceType::drachmas, 100, c, false);
+            rr->setTributeRequest(true);
+            rr->initializeDate(mDate);
+            rr->setGameBoard(this);
+            rr->setWorldBoard(mWorldBoard);
+            addRootGameEvent(rr);
+        }
     }
     if(nextMonth) {
         mPopData.nextMonth();
@@ -2216,6 +2227,7 @@ void eGameBoard::addSlayedMonster(const eMonsterType m) {
 }
 
 void eGameBoard::startEpisode(eEpisode* const e) {
+    mDefeatedBy.clear();
     for(int i = 0; i < static_cast<int>(mGameEvents.size()); i++) {
         const auto& e = mGameEvents[i];
         e->startingNewEpisode();
@@ -2559,6 +2571,15 @@ void eGameBoard::earthquake(eTile* const startTile, const int size) {
 
 bool eGameBoard::duringEarthquake() const {
     return !mEarthquakes.empty();
+}
+
+void eGameBoard::defeatedBy(const stdsptr<eWorldCity>& c) {
+    const bool r = eVectorHelpers::contains(mDefeatedBy, c);
+    if(r) {
+        episodeLost();
+    } else {
+        mDefeatedBy.push_back(c);
+    }
 }
 
 void eGameBoard::progressEarthquakes() {

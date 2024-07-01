@@ -276,4 +276,12 @@ void eGameBoard::read(eReadStream& src) {
         e->read(src, *this);
         mEarthquakes.push_back(e);
     }
+
+    int nd;
+    src >> nd;
+    for(int i = 0; i < nd; i++) {
+        src.readCity(this, [this](const stdsptr<eWorldCity>& c) {
+            mDefeatedBy.push_back(c);
+        });
+    }
 }

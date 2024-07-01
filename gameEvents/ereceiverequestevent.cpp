@@ -64,7 +64,10 @@ void eReceiveRequestEvent::trigger() {
             ed.fType = eMessageEventType::resourceGranted;
             eEvent event;
             eReceiveRequestMessages* rrmsgs = nullptr;
-            if(mCity->isRival()) {
+            if(mTributeRequest) {
+                event = eEvent::generalRequestTributeTooLate;
+                rrmsgs = &msgs.fTributeRequest;
+            } else if(mCity->isRival()) {
                 event = eEvent::generalRequestRivalTooLate;
                 rrmsgs = &msgs.fGeneralRequestRivalD;
             } else if(mCity->isVassal() || mCity->isColony()) {
@@ -87,7 +90,10 @@ void eReceiveRequestEvent::trigger() {
             ed.fType = eMessageEventType::resourceGranted;
             eEvent event;
             eReceiveRequestMessages* rrmsgs = nullptr;
-            if(mCity->isRival()) {
+            if(mTributeRequest) {
+                event = eEvent::generalRequestTributeTooLate;
+                rrmsgs = &msgs.fTributeRequest;
+            } else if(mCity->isRival()) {
                 event = eEvent::generalRequestRivalComply;
                 rrmsgs = &msgs.fGeneralRequestRivalD;
             } else if(mCity->isVassal() || mCity->isColony()) {
@@ -115,7 +121,10 @@ void eReceiveRequestEvent::trigger() {
         eEvent event;
         eReceiveRequestMessages* rrmsgs = nullptr;
         auto& msgs = eMessages::instance;
-        if(mCity->isRival()) {
+        if(mTributeRequest) {
+            event = eEvent::generalRequestTributeRefuse;
+            rrmsgs = &msgs.fTributeRequest;
+        } else if(mCity->isRival()) {
             event = eEvent::generalRequestRivalRefuse;
             rrmsgs = &msgs.fGeneralRequestRivalD;
         } else if(mCity->isVassal() || mCity->isColony()) {
@@ -172,7 +181,17 @@ void eReceiveRequestEvent::trigger() {
     if(mPostpone == 0) { // initial
         board->addCityRequest(mainEvent<eReceiveRequestEvent>());
     }
-    if(mCity->isRival()) {
+    if(mTributeRequest) {
+        if(mPostpone == 0) { // initial
+            board->event(eEvent::generalRequestTributeInitial, ed);
+        } else if(mPostpone == 1) { // reminder
+            board->event(eEvent::generalRequestTributeReminder, ed);
+        } else if(mPostpone == 2) { // overdue
+            board->event(eEvent::generalRequestTributeOverdue, ed);
+        } else if(mPostpone == 3) { // warning
+            board->event(eEvent::generalRequestTributeWarning, ed);
+        }
+    } else if(mCity->isRival()) {
         if(mPostpone == 0) { // initial
             board->event(eEvent::generalRequestRivalInitial, ed);
         } else if(mPostpone == 1) { // reminder
@@ -228,6 +247,7 @@ std::string eReceiveRequestEvent::longName() const {
 
 void eReceiveRequestEvent::write(eWriteStream& dst) const {
     eGameEvent::write(dst);
+    dst << mTributeRequest;
     dst << mFinish;
     dst << mPostpone;
     dst << mResource;
@@ -237,6 +257,7 @@ void eReceiveRequestEvent::write(eWriteStream& dst) const {
 
 void eReceiveRequestEvent::read(eReadStream& src) {
     eGameEvent::read(src);
+    src >> mTributeRequest;
     src >> mFinish;
     src >> mPostpone;
     src >> mResource;

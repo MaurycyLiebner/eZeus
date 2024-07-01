@@ -579,6 +579,8 @@ public:
 
     void earthquake(eTile* const startTile, const int size);
     bool duringEarthquake() const;
+
+    void defeatedBy(const stdsptr<eWorldCity>& c);
 private:
     void updateNeighbours();
 
@@ -788,6 +790,8 @@ private:
 
     int mProgressEarthquakes = 0;
     std::vector<stdsptr<eEarthquake>> mEarthquakes;
+
+    std::vector<stdsptr<eWorldCity>> mDefeatedBy;
 };
 
 #endif // EGAMEBOARD_H

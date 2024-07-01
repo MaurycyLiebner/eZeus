@@ -37,8 +37,13 @@ public:
     eCityRequest cityRequest() const;
     void dispatch();
     void fulfillWithoutCost();
+
+    void setTributeRequest(const bool t) { mTributeRequest = t; }
+    bool tributeRequest() const { return mTributeRequest; }
 private:
     void finished(eEventTrigger& t, const eReason& r);
+
+    bool mTributeRequest = false;
 
     bool mFinish = false;
     int mPostpone = 0;

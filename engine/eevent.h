@@ -89,6 +89,14 @@ enum class eEvent {
     generalRequestParentTooLate,
     generalRequestParentRefuse,
 
+    generalRequestTributeInitial,
+    generalRequestTributeReminder,
+    generalRequestTributeOverdue,
+    generalRequestTributeWarning,
+    generalRequestTributeComply,
+    generalRequestTributeTooLate,
+    generalRequestTributeRefuse,
+
     giftGranted,
     giftCashGranted,
     giftPartialSpace,

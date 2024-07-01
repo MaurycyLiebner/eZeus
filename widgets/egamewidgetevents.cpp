@@ -505,6 +505,41 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         return;
     } break;
 
+    case eEvent::generalRequestTributeInitial: {
+        showMessage(ed, inst.fTributeRequest.fInitial, true);
+        return;
+    } break;
+    case eEvent::generalRequestTributeReminder: {
+        showMessage(ed, inst.fTributeRequest.fReminder, true);
+        return;
+    } break;
+    case eEvent::generalRequestTributeOverdue: {
+        showMessage(ed, inst.fTributeRequest.fOverdue, true);
+        return;
+    } break;
+    case eEvent::generalRequestTributeWarning: {
+        showMessage(ed, inst.fTributeRequest.fWarning, true);
+        return;
+    } break;
+    case eEvent::generalRequestTributeComply: {
+        const auto m = eMessages::favorMessage(
+                    inst.fTributeRequest.fComply);
+        showMessage(ed, m, true);
+        return;
+    } break;
+    case eEvent::generalRequestTributeTooLate: {
+        const auto m = eMessages::dfavorMessage(
+                    inst.fTributeRequest.fTooLate);
+        showMessage(ed, m, true);
+        return;
+    } break;
+    case eEvent::generalRequestTributeRefuse: {
+        const auto m = eMessages::dfavorMessage(
+                           inst.fTributeRequest.fRefuse);
+        showMessage(ed, m, true);
+        return;
+    } break;
+
     case eEvent::unemployment: {
         showMessage(ed, inst.fUnemployment, true);
         return;

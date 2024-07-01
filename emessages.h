@@ -224,6 +224,8 @@ public:
     eReceiveRequestMessages fGeneralRequestSubjectP;
     eReceiveRequestMessages fGeneralRequestParentR;
 
+    eReceiveRequestMessages fTributeRequest;
+
     eResourceGrantedMessages fGiftGranted;
 
     eMessageType fSupportTroopsArrive;
@@ -283,7 +285,8 @@ private:
               const std::string& monsterName2);
 
     void loadGeneralRequest(eReceiveRequestMessages& request,
-                            const std::string& letter);
+                            const std::string& letter,
+                            const std::string& mid = "general_request");
     void loadResourceGranted(eResourceGrantedMessages& granted,
                              const std::string& name);
     void load(eTroopsRequestedMessages& troops,

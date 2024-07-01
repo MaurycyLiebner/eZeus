@@ -251,4 +251,9 @@ void eGameBoard::write(eWriteStream& dst) const {
     for(const auto& e : mEarthquakes) {
         e->write(dst);
     }
+
+    dst << mDefeatedBy.size();
+    for(const auto& c : mDefeatedBy) {
+        dst.writeCity(c.get());
+    }
 }
