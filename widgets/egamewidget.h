@@ -218,7 +218,8 @@ private:
     void updateTipPositions();
 
     bool roadPath(std::vector<eOrientation>& path);
-    bool bridgeTiles(eTile* const t, std::vector<eTile*>& tiles,
+    bool bridgeTiles(eTile* const t, const eTerrain terr,
+                     std::vector<eTile*>& tiles,
                      bool& rotated);
 
     bool inErase(const int tx, const int ty);

@@ -82,10 +82,10 @@ std::shared_ptr<eTexture> eRoad::getTexture(const eTileSize size) const {
         const bool blb = bl && bl->hasBridge();
         const bool tlb = tl && tl->hasBridge();
 
-        const bool trw = tr && tr->hasWater();
-        const bool brw = br && br->hasWater();
-        const bool blw = bl && bl->hasWater();
-        const bool tlw = tl && tl->hasWater();
+        const bool trw = tr && (tr->hasWater() || tr->hasQuake());
+        const bool brw = br && (br->hasWater() || br->hasQuake());
+        const bool blw = bl && (bl->hasWater() || bl->hasQuake());
+        const bool tlw = tl && (tl->hasWater() || tl->hasQuake());
 
         if((tlb || brb) || ((trw && !trb) || (blw && !blb))) {
             texId = 10;

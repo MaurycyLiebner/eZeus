@@ -951,11 +951,13 @@ bool eGameWidget::roadPath(std::vector<eOrientation>& path) {
     return p.extractPath(path);
 }
 
-bool eGameWidget::bridgeTiles(eTile* const t, std::vector<eTile*>& tiles,
+bool eGameWidget::bridgeTiles(eTile* const t, const eTerrain terr,
+                              std::vector<eTile*>& tiles,
                               bool& rotated) {
+    tiles.clear();
     rotated = false;
     if(!t) return false;
-    if(!t->isShoreTile()) return false;
+    if(!t->isShoreTile(terr)) return false;
     if(t->underBuilding()) return false;
     const auto tl = t->topLeft<eTile>();
     if(!tl) return false;
@@ -966,83 +968,85 @@ bool eGameWidget::bridgeTiles(eTile* const t, std::vector<eTile*>& tiles,
     const auto br = t->bottomRight<eTile>();
     if(!br) return false;
 
-    if(tr->isShoreTile() && bl->isShoreTile()) {
-        if(br->hasWater()) {
+    if(tr->isShoreTile(terr) && bl->isShoreTile(terr)) {
+        if(br->hasTerrain(terr)) {
+            if(tl->hasTerrain(terr)) return false;
             auto tt = t;
             tiles.push_back(tt);
             while(true) {
                 const auto ttt = tt->bottomRight<eTile>();
-                if(!ttt || ttt->hasBridge() || !ttt->hasWater()) break;
+                if(!ttt || ttt->hasBridge() || !ttt->hasTerrain(terr)) break;
                 tt = ttt;
                 tiles.push_back(tt);
-                if(tt->isShoreTile()) break;
+                if(tt->isShoreTile(terr)) break;
             }
             if(!tt) return false;
             const auto tt_tr = tt->topRight<eTile>();
             const auto tt_bl = tt->bottomLeft<eTile>();
-            if(!tt_tr->isShoreTile() || !tt_bl->isShoreTile()) {
+            if(!tt_tr->isShoreTile(terr) || !tt_bl->isShoreTile(terr)) {
                 return false;
             }
             const auto tt_tl = tt->bottomRight<eTile>();
-            if(tt_tl->hasWater()) return false;
+            if(tt_tl->hasTerrain(terr)) return false;
         } else {
             auto tt = t;
             tiles.push_back(tt);
             while(true) {
                 const auto ttt = tt->topLeft<eTile>();
-                if(!ttt || ttt->hasBridge() || !ttt->hasWater()) break;
+                if(!ttt || ttt->hasBridge() || !ttt->hasTerrain(terr)) break;
                 tt = ttt;
                 tiles.push_back(tt);
-                if(tt->isShoreTile()) break;
+                if(tt->isShoreTile(terr)) break;
             }
             if(!tt) return false;
             const auto tt_tr = tt->topRight<eTile>();
             const auto tt_bl = tt->bottomLeft<eTile>();
-            if(!tt_tr->isShoreTile() || !tt_bl->isShoreTile()) {
+            if(!tt_tr->isShoreTile(terr) || !tt_bl->isShoreTile(terr)) {
                 return false;
             }
             const auto tt_tl = tt->topLeft<eTile>();
-            if(tt_tl->hasWater()) return false;
+            if(tt_tl->hasTerrain(terr)) return false;
         }
         return !tr->underBuilding() && !bl->underBuilding();
-    } else if(tl->isShoreTile() && br->isShoreTile()) {
+    } else if(tl->isShoreTile(terr) && br->isShoreTile(terr)) {
         rotated = true;
-        if(bl->hasWater()) {
+        if(bl->hasTerrain(terr)) {
+            if(tr->hasTerrain(terr)) return false;
             auto tt = t;
             tiles.push_back(tt);
             while(true) {
                 const auto ttt = tt->bottomLeft<eTile>();
-                if(!ttt || ttt->hasBridge() || !ttt->hasWater()) break;
+                if(!ttt || ttt->hasBridge() || !ttt->hasTerrain(terr)) break;
                 tt = ttt;
                 tiles.push_back(tt);
-                if(tt->isShoreTile()) break;
+                if(tt->isShoreTile(terr)) break;
             }
             if(!tt) return false;
             const auto tt_tl = tt->topLeft<eTile>();
             const auto tt_br = tt->bottomRight<eTile>();
-            if(!tt_tl->isShoreTile() || !tt_br->isShoreTile()) {
+            if(!tt_tl->isShoreTile(terr) || !tt_br->isShoreTile(terr)) {
                 return false;
             }
             const auto tt_bl = tt->bottomLeft<eTile>();
-            if(tt_bl->hasWater()) return false;
+            if(tt_bl->hasTerrain(terr)) return false;
         } else {
             auto tt = t;
             tiles.push_back(tt);
             while(true) {
                 const auto ttt = tt->topRight<eTile>();
-                if(!ttt || ttt->hasBridge() || !ttt->hasWater()) break;
+                if(!ttt || ttt->hasBridge() || !ttt->hasTerrain(terr)) break;
                 tt = ttt;
                 tiles.push_back(tt);
-                if(tt->isShoreTile()) break;
+                if(tt->isShoreTile(terr)) break;
             }
             if(!tt) return false;
             const auto tt_tl = tt->topLeft<eTile>();
             const auto tt_br = tt->bottomRight<eTile>();
-            if(!tt_tl->isShoreTile() || !tt_br->isShoreTile()) {
+            if(!tt_tl->isShoreTile(terr) || !tt_br->isShoreTile(terr)) {
                 return false;
             }
             const auto tt_tr = tt->topRight<eTile>();
-            if(tt_tr->hasWater()) return false;
+            if(tt_tr->hasTerrain(terr)) return false;
         }
         return !tl->underBuilding() && !br->underBuilding();
     }

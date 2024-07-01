@@ -343,7 +343,8 @@ void eGameWidget::paintEvent(ePainter& p) {
     bool bridgeRot;
     if(mode == eBuildingMode::bridge) {
         const auto startTile = mBoard->tile(mHoverTX, mHoverTY);
-        bridgeValid = bridgeTiles(startTile, bridgetTs, bridgeRot);
+        bridgeValid = bridgeTiles(startTile, eTerrain::water, bridgetTs, bridgeRot);
+        if(!bridgeValid) bridgeValid = bridgeTiles(startTile, eTerrain::quake, bridgetTs, bridgeRot);
     }
 
     const auto isPatrolSelected = [&](eBuilding* const ub) {

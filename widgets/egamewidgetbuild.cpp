@@ -636,7 +636,8 @@ bool eGameWidget::buildMouseRelease() {
             if(!startTile) return false;
             std::vector<eTile*> path;
             bool rotated;
-            const bool r = bridgeTiles(startTile, path, rotated);
+            bool r = bridgeTiles(startTile, eTerrain::water, path, rotated);
+            if(!r) r = bridgeTiles(startTile, eTerrain::quake, path, rotated);
             if(r) {
                 for(const auto t : path) {
                     const auto b = e::make_shared<eRoad>(*mBoard);

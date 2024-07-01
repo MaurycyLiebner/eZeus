@@ -26,12 +26,20 @@ void eTileBase::setMarbleLevel(const int l) {
     mMarbleLevel = l;
 }
 
+bool eTileBase::hasTerrain(const eTerrain terr) const {
+    return terrain() == terr;
+}
+
 bool eTileBase::hasBridge() const {
-    return hasRoad() && hasWater();
+    return hasRoad() && (hasWater() || hasQuake());
 }
 
 bool eTileBase::hasWater() const {
     return terrain() == eTerrain::water;
+}
+
+bool eTileBase::hasQuake() const {
+    return terrain() == eTerrain::quake;
 }
 
 bool eTileBase::walkable() const {
@@ -61,18 +69,25 @@ void eTileBase::updateIsElevationTile() {
     mElevation = false;
 }
 
-bool eTileBase::isShoreTile() const {
-    if(mTerr != eTerrain::water) return false;
+bool eTileBase::isShoreTile(const eTerrain terr) const {
+    if(mTerr != terr) return false;
     for(int x = -1; x < 2; x++) {
         for(int y = -1; y < 2; y++) {
             if(x == 0 && y == 0) continue;
             const auto t = tileRel(x, y);
             if(!t) continue;
-            if(t->terrain() != eTerrain::water) return true;
+            if(t->terrain() != terr) return true;
         }
     }
-
     return false;
+}
+
+bool eTileBase::isShoreTile() const {
+    return isShoreTile(eTerrain::water);
+}
+
+bool eTileBase::isQuakeShoreTile() const {
+    return isShoreTile(eTerrain::quake);
 }
 
 double eTileBase::sDistance(eTileBase* const t1,

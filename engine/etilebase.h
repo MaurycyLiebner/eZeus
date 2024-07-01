@@ -26,8 +26,10 @@ public:
     virtual bool onFire() const = 0;
     virtual void setOnFire(const bool f) = 0;
 
+    bool hasTerrain(const eTerrain terr) const;
     bool hasBridge() const;
     bool hasWater() const;
+    bool hasQuake() const;
 
     bool walkable() const;
 
@@ -39,7 +41,9 @@ public:
     int altitude() const { return mAltitude; }
     bool isElevationTile() const { return mElevation; }
     void updateIsElevationTile();
+    bool isShoreTile(const eTerrain terr) const;
     bool isShoreTile() const;
+    bool isQuakeShoreTile() const;
     eTerrain terrain() const { return mTerr; }
     double scrub() const { return mScrub; }
 
