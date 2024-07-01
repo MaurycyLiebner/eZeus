@@ -101,6 +101,10 @@ resource: "Resource:"
 
 duration: "Duration:"
 
+
+size: "Size:"
+disaster_point: "Disaster point:"
+
 god_visit "God visit"
 god_attack "God attack"
 monster_unleash_long_name "Monster unleash"

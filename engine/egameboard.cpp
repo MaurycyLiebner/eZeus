@@ -70,6 +70,7 @@
 #include "audio/emusic.h"
 
 #include "ecampaign.h"
+#include "eiteratesquare.h"
 
 eGameBoard::eGameBoard() :
     mThreadPool(*this),
@@ -1839,6 +1840,13 @@ void eGameBoard::incTime(const int by) {
 //        if(spread) p->randomSpread();
 //    }
 
+    mProgressEarthquakes += by;
+    const int earthquakeWait = 500;
+    if(mProgressEarthquakes > earthquakeWait) {
+        mProgressEarthquakes -= earthquakeWait;
+        progressEarthquakes();
+    }
+
     mSoldiersUpdate += by;
     const int sup = 1000;
     if(mSoldiersUpdate > sup) {
@@ -2500,8 +2508,13 @@ void eGameBoard::earthquake(eTile* const startTile, const int size) {
         eOrientation fLastO = randomOrientation();
     };
 
+    const auto quake = std::make_shared<eEarthquake>();
+    mEarthquakes.push_back(quake);
+
     std::queue<eQuakeEnd> ends;
-    mEarthquake.push_back(startTile);
+    quake->fStartTile = startTile;
+    auto& tiles = quake->fTiles;
+    tiles.push_back(startTile);
     ends.push({startTile});
 //    std::vector<eOrientation> os{eOrientation::topRight,
 //                                 eOrientation::bottomRight,
@@ -2514,7 +2527,7 @@ void eGameBoard::earthquake(eTile* const startTile, const int size) {
 //        ends.push({tt});
 //        mEarthquake.push_back(tt);
 //    }
-    while((int)mEarthquake.size() < size && !ends.empty()) {
+    while((int)tiles.size() < size && !ends.empty()) {
         const auto t = ends.front();
         ends.pop();
         std::vector<eOrientation> os{eOrientation::topRight,
@@ -2534,7 +2547,7 @@ void eGameBoard::earthquake(eTile* const startTile, const int size) {
                terr == eTerrain::forest ||
                terr == eTerrain::choppedForest) {
                 ends.push({tt, o});
-                mEarthquake.push_back(tt);
+                tiles.push_back(tt);
                 if(rand() % 5 == 0) {
                     ends.push({tt});
                 }
@@ -2542,13 +2555,46 @@ void eGameBoard::earthquake(eTile* const startTile, const int size) {
             }
         }
     }
-
-    for(const auto e : mEarthquake) {
-        e->setTerrain(eTerrain::quake);
-    }
-    scheduleTerrainUpdate();
 }
 
 bool eGameBoard::duringEarthquake() const {
-    return !mEarthquake.empty();
+    return !mEarthquakes.empty();
+}
+
+void eGameBoard::progressEarthquakes() {
+    if(mEarthquakes.empty()) return;
+    eSounds::playEarthquakeSound();
+    for(int i = 0; i < (int)mEarthquakes.size(); i++) {
+        const auto& e = mEarthquakes[i];
+        const auto st = e->fStartTile;
+        const int stx = st->x();
+        const int sty = st->y();
+        const auto prcs = [this, e, stx, sty](const int x, const int y) {
+            const int tx = stx + x;
+            const int ty = sty + y;
+            const auto t = tile(tx, ty);
+            if(!t) return false;
+            const bool r = eVectorHelpers::contains(e->fTiles, t);
+            if(!r) return false;
+            t->setTerrain(eTerrain::quake);
+            if(const auto ub = t->underBuilding()) {
+                const auto type = ub->type();
+                if(type == eBuildingType::ruins) {
+                    ub->erase();
+                } else {
+                    ub->collapse();
+                    eSounds::playCollapseSound();
+                }
+            }
+            eVectorHelpers::removeAll(e->fTiles, t);
+            return false;
+        };
+        eIterateSquare::iterateSquare(e->fLastDim, prcs);
+        e->fLastDim++;
+        if(e->fTiles.empty() || e->fLastDim > 50) {
+            eVectorHelpers::remove(mEarthquakes, e);
+            i--;
+        }
+    }
+    scheduleTerrainUpdate();
 }

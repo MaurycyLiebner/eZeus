@@ -267,4 +267,13 @@ void eGameBoard::read(eReadStream& src) {
         ma->read(src, this);
         addMilitaryAid(ma);
     }
+
+    src >> mProgressEarthquakes;
+    int ne;
+    src >> ne;
+    for(int i = 0; i < ne; i++) {
+        const auto e = std::make_shared<eEarthquake>();
+        e->read(src, *this);
+        mEarthquakes.push_back(e);
+    }
 }

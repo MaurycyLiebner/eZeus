@@ -478,6 +478,10 @@ void eSounds::playFireballHitSound() {
     sInstance.mFireballHit->playRandomSound();
 }
 
+void eSounds::playEarthquakeSound() {
+    sInstance.mEarthquake->playRandomSound();
+}
+
 void eSounds::playCopperMinerSound() {
     sInstance.mCopperMiner->playRandomSound();
 }
@@ -1036,6 +1040,8 @@ void eSounds::loadImpl() {
         }
     }
     const std::string layer2Dir{eGameDir::path("Audio/Ambient/Layer2/")};
+
+    mEarthquake->addPath(layer2Dir + "rumble.wav");
 
     for(const auto& s : {"maintenance1.wav",
                          "maintenance2.wav",

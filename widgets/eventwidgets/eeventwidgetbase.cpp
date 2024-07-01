@@ -13,6 +13,7 @@
 #include "gameEvents/eeconomicmilitarychangeeventbase.h"
 #include "gameEvents/egoddisasterevent.h"
 #include "gameEvents/erivalarmyawayevent.h"
+#include "gameEvents/eearthquakeevent.h"
 
 #include "egodattackeventwidget.h"
 #include "emonsterattackeventwidget.h"
@@ -24,6 +25,7 @@
 #include "etroopsrequesteventwidget.h"
 #include "egoddisastereventwidget.h"
 #include "erivalarmyawayeventwidget.h"
+#include "eeartquakeeventwidget.h"
 
 void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
     setType(eFrameType::message);
@@ -98,6 +100,12 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
         const auto eew = new eRivalArmyAwayEventWidget(window());
         const auto emceb = static_cast<eRivalArmyAwayEvent*>(e.get());
         eew->initialize(emceb);
+        cont->addWidget(eew);
+    } break;
+    case eGameEventType::earthquake:{
+        const auto eew = new eEartquakeEventWidget(window());
+        const auto ee = static_cast<eEarthquakeEvent*>(e.get());
+        eew->initialize(ee);
         cont->addWidget(eew);
     } break;
     default:

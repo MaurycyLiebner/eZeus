@@ -15,7 +15,7 @@ void eGodButton::initialize(const eGodAction& gact) {
             setType(t);
             if(gact) gact(t);
         };
-        choose->initialize(8, godNames, act);
+        choose->initialize(7, godNames, act);
 
         window()->execDialog(choose);
         choose->align(eAlignment::center);

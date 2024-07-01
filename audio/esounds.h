@@ -98,6 +98,8 @@ public:
 
     static void playFireballHitSound();
 
+    static void playEarthquakeSound();
+
     static void playCopperMinerSound();
     static void playSilverMinerSound();
     static void playStoneCutterSound();
@@ -256,6 +258,8 @@ private:
     std::shared_ptr<eSoundVector> mCollapse = std::make_shared<eSoundVector>();
 
     std::shared_ptr<eSoundVector> mFireballHit = std::make_shared<eSoundVector>();
+
+    std::shared_ptr<eSoundVector> mEarthquake = std::make_shared<eSoundVector>();
 
     eGodSounds mAphrodite{"Aph", "aphrodite"};
     eGodSounds mApollo{"Apo", "apollo"};

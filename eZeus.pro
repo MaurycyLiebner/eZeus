@@ -575,6 +575,7 @@ SOURCES += \
         widgets/etriggerselectionwidget.cpp \
         widgets/eupbutton.cpp \
         widgets/evaluebutton.cpp \
+        widgets/eventwidgets/eeartquakeeventwidget.cpp \
         widgets/eventwidgets/eeconomicmilitarychangeeventwidget.cpp \
         widgets/eventwidgets/eeventwidgetbase.cpp \
         widgets/eventwidgets/egiftfromeventwidget.cpp \
@@ -2480,6 +2481,7 @@ HEADERS += \
     widgets/etriggerselectionwidget.h \
     widgets/eupbutton.h \
     widgets/evaluebutton.h \
+    widgets/eventwidgets/eeartquakeeventwidget.h \
     widgets/eventwidgets/eeconomicmilitarychangeeventwidget.h \
     widgets/eventwidgets/eeventwidgetbase.h \
     widgets/eventwidgets/egiftfromeventwidget.h \

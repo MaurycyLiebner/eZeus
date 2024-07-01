@@ -245,4 +245,10 @@ void eGameBoard::write(eWriteStream& dst) const {
     for(const auto& a : mMilitaryAid) {
         a->write(dst);
     }
+
+    dst << mProgressEarthquakes;
+    dst << mEarthquakes.size();
+    for(const auto& e : mEarthquakes) {
+        e->write(dst);
+    }
 }

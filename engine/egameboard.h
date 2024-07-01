@@ -593,6 +593,8 @@ private:
     void handleGamesBegin(const eGames game);
     void handleGamesEnd(const eGames game);
 
+    void progressEarthquakes();
+
     bool mEditorMode = false;
     bool mPoseidonMode = true;
     eWorldBoard* mWorldBoard = nullptr;
@@ -758,7 +760,34 @@ private:
     bool mEmploymentUpdateScheduled = true;
     int mEmploymentUpdateWait = __INT_MAX__/10;
 
-    std::vector<eTile*> mEarthquake;
+    struct eEarthquake {
+        eTile* fStartTile = nullptr;
+        std::vector<eTile*> fTiles;
+        int fLastDim = 0;
+
+        void read(eReadStream& src, eGameBoard& board) {
+            fStartTile = src.readTile(board);
+            int nt;
+            src >> nt;
+            for(int i = 0; i < nt; i++) {
+                const auto t = src.readTile(board);
+                fTiles.push_back(t);
+            }
+            src >> fLastDim;
+        }
+
+        void write(eWriteStream& dst) {
+            dst.writeTile(fStartTile);
+            dst << fTiles.size();
+            for(const auto t : fTiles) {
+                dst.writeTile(t);
+            }
+            dst << fLastDim;
+        }
+    };
+
+    int mProgressEarthquakes = 0;
+    std::vector<stdsptr<eEarthquake>> mEarthquakes;
 };
 
 #endif // EGAMEBOARD_H

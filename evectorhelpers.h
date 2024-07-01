@@ -30,6 +30,15 @@ namespace eVectorHelpers {
     }
 
     template <typename T>
+    int removeAll(std::vector<T>& v, const T& t) {
+        const bool r = remove(v, t);
+        if(r) {
+            return 1 + removeAll(v, t);
+        }
+        return 0;
+    }
+
+    template <typename T>
     bool same(const std::vector<T>& v1, const std::vector<T>& v2) {
         if(v1.size() == v2.size()) {
             const int iMax = v1.size();

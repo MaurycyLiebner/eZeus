@@ -189,6 +189,11 @@ void eGameWidget::updateTerrainTextures() {
 }
 
 void eGameWidget::paintEvent(ePainter& p) {
+    if(mBoard->duringEarthquake()) {
+        mDX += (rand() % 11) - 5;
+        mDY += (rand() % 11) - 5;
+        clampViewBox();
+    }
     {
         const auto& ss = mBoard->selectedSoldiers();
         const bool v = !ss.empty();
