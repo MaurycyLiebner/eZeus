@@ -1364,6 +1364,8 @@ bool eGameWidget::buildMouseRelease() {
             break;
         case eBuildingMode::avenue:
             apply = [this](eTile* const tile) {
+                const bool hr = canBuildAvenue(tile);
+                if(!hr) return;
                 build(tile->x(), tile->y(), 1, 1,
                       [this]() { return e::make_shared<eAvenue>(*mBoard); });
             };

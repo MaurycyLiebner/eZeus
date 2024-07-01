@@ -1054,6 +1054,26 @@ bool eGameWidget::bridgeTiles(eTile* const t, const eTerrain terr,
     return false;
 }
 
+bool eGameWidget::canBuildAvenue(eTile* const t) const {
+    const auto tr = t->topRight<eTile>();
+    const auto br = t->bottomRight<eTile>();
+    const auto bl = t->bottomLeft<eTile>();
+    const auto tl = t->topLeft<eTile>();
+    const auto tt = t->top<eTile>();
+    const auto r = t->right<eTile>();
+    const auto b = t->bottom<eTile>();
+    const auto l = t->left<eTile>();
+    const bool hr = (tr && tr->hasRoad()) ||
+                    (br && br->hasRoad()) ||
+                    (bl && bl->hasRoad()) ||
+                    (tl && tl->hasRoad()) ||
+                    (tt && tt->hasRoad()) ||
+                    (r && r->hasRoad()) ||
+                    (b && b->hasRoad()) ||
+                    (l && l->hasRoad());
+    return hr;
+}
+
 using ePatrolGuides = std::vector<ePatrolGuide>;
 void eGameWidget::updatePatrolPath() {
     mPatrolPath.clear();

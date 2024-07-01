@@ -221,6 +221,7 @@ private:
     bool bridgeTiles(eTile* const t, const eTerrain terr,
                      std::vector<eTile*>& tiles,
                      bool& rotated);
+    bool canBuildAvenue(eTile* const t) const;
 
     bool inErase(const int tx, const int ty);
     bool inErase(const SDL_Rect& rect);

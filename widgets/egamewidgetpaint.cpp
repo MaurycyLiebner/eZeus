@@ -1463,6 +1463,10 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const auto t = mBoard->tile(x, y);
                     if(!t) continue;
                     if(t->underBuilding()) continue;
+                    if(mode == eBuildingMode::avenue) {
+                        const bool hr = canBuildAvenue(t);
+                        if(!hr) continue;
+                    }
                     const int a = t->altitude();
                     drawXY(x, y, rx, ry, 1, 1, a);
                     tp.drawTexture(rx, ry, tex, eAlignment::top);
@@ -1927,6 +1931,15 @@ void eGameWidget::paintEvent(ePainter& p) {
                 (void)sw;
                 (void)sh;
                 return canBuildVendor(tx, ty, eResourceType::chariot);
+            };
+        } break;
+        case eBuildingMode::avenue: {
+            canBuildFunc = [&](const int tx, const int ty,
+                               const int sw, const int sh) {
+                (void)sw;
+                (void)sh;
+                const auto t = mBoard->tile(tx, ty);
+                return canBuildAvenue(t);
             };
         } break;
         default: {
