@@ -185,12 +185,22 @@ void ePopulationDataWidget::paintEvent(ePainter& p) {
         mVacLabel->fitContent();
         mVacLabel->align(eAlignment::hcenter);
 
-        const auto& husbData = mBoard.husbandryData();
+        const auto limit = mBoard.immigrationLimit();
         std::string ilrtxt;
         if(v <= 0) {
             ilrtxt = eLanguage::zeusText(55, 13); // lack of housing vacancies
-        } else if(husbData.storedFood() < 1) {
-            ilrtxt = eLanguage::zeusText(55, 16); // lack of food
+        } else if(limit == eImmigrationLimitedBy::lowWages) {
+            ilrtxt = eLanguage::zeusText(55, 14);
+        } else if(limit == eImmigrationLimitedBy::unemployment) {
+            ilrtxt = eLanguage::zeusText(55, 15);
+        } else if(limit == eImmigrationLimitedBy::lackOfFood) {
+            ilrtxt = eLanguage::zeusText(55, 16);
+        } else if(limit == eImmigrationLimitedBy::highTaxes) {
+            ilrtxt = eLanguage::zeusText(55, 17);
+        } else if(limit == eImmigrationLimitedBy::prolongedDebt) {
+            ilrtxt = eLanguage::zeusText(55, 18);
+        } else if(limit == eImmigrationLimitedBy::excessiveMilitaryService) {
+            ilrtxt = eLanguage::zeusText(55, 19);
         } else {
             ilrtxt = eLanguage::zeusText(55, 13); // lack of housing vacancies
         }

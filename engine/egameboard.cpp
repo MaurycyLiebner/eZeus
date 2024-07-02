@@ -1868,6 +1868,36 @@ void eGameBoard::incTime(const int by) {
         updateCoverage();
     }
 
+    const int pop = mPopData.population();
+    const int food = resourceCount(eResourceType::food);
+    bool prolongedNoFood = false;
+    if(mNoFood && food < 1 && pop > 10) {
+        prolongedNoFood = mDate.year() - mNoFoodSince.year() > 1;
+    } else if(food < 1 && pop > 10) {
+        mNoFood = true;
+        mNoFoodSince = mDate;
+    } else {
+        mNoFood = false;
+    }
+    const int u = mEmplData.unemployed();
+    const int e = mEmplData.employable();
+    const int v = mPopData.vacancies();
+    if(prolongedNoFood) {
+        mImmigrationLimit = eILB::lackOfFood;
+    } else if(mDrachmas < 0 && mDate.year() - mInDebtSince.year() > 1) {
+        mImmigrationLimit = eILB::prolongedDebt;
+    } else if(static_cast<int>(mWageRate) < static_cast<int>(eWageRate::low)) {
+        mImmigrationLimit = eILB::lowWages;
+    } else if(e < 10 ? false : (1.*u/e > 0.25 && u > 50)) {
+        mImmigrationLimit = eILB::unemployment;
+    } else if(static_cast<int>(mTaxRate) > static_cast<int>(eTaxRate::high)) {
+        mImmigrationLimit = eILB::highTaxes;
+    } else if(v <= 0) {
+        mImmigrationLimit = eILB::lackOfVacancies;
+    } else {
+        mImmigrationLimit = eILB::none;
+    }
+
     mTime += by;
     mTotalTime += by;
     bool nextMonth = false;

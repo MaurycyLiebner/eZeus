@@ -17,6 +17,11 @@ void eGameBoard::write(eWriteStream& dst) const {
 
     dst << mEpisodeLost;
 
+    dst << mImmigrationLimit;
+    dst << mNoFood;
+    mNoFoodSince.write(dst);
+    mInDebtSince.write(dst);
+
     dst << mDrachmas;
     dst << mDifficulty;
     dst << mWageRate;

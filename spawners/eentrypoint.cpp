@@ -21,11 +21,10 @@ void eEntryPoint::spawn(eTile* const tile) {
     auto& board = eEntryPoint::board();
     const auto& ivs = board.invasionHandlers();
     if(!ivs.empty()) return;
-    const int pop = board.popularity();
-    if(pop < 50) {
-        const auto& husbData = board.husbandryData();
-        const int food = husbData.storedFood();
-        if(food < 1) return;
+    const auto limit = board.immigrationLimit();
+    if(limit != eImmigrationLimitedBy::none &&
+       limit != eImmigrationLimitedBy::lackOfVacancies) {
+        return;
     }
     auto& popData = board.populationData();
     const int v = popData.vacancies();

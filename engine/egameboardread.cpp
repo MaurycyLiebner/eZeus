@@ -20,6 +20,11 @@ void eGameBoard::read(eReadStream& src) {
 
     src >> mEpisodeLost;
 
+    src >> mImmigrationLimit;
+    src >> mNoFood;
+    mNoFoodSince.read(src);
+    mInDebtSince.read(src);
+
     src >> mDrachmas;
     src >> mDifficulty;
     src >> mWageRate;

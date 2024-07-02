@@ -238,7 +238,7 @@ void eEmploymentDataWidget::paintEvent(ePainter& p) {
         mPensionsLabel->fitContent();
         mPensionsLabel->align(eAlignment::hcenter);
 
-        const int w = emplData.employable();
+        const int w = emplData.employed();
         mWorkforceLabel->setText(std::to_string(w));
         mWorkforceLabel->fitContent();
         mWorkforceLabel->align(eAlignment::hcenter);
@@ -249,7 +249,8 @@ void eEmploymentDataWidget::paintEvent(ePainter& p) {
         mVacanciesNLabel->align(eAlignment::hcenter);
 
         const int u = emplData.unemployed();
-        const auto perStr = w ? " (" + std::to_string(100*u/w) + "%)" : "";
+        const int e = emplData.employable();
+        const auto perStr = e ? " (" + std::to_string(100*u/e) + "%)" : "";
         mUnemployedNLabel->setText(std::to_string(u) + perStr);
         mUnemployedNLabel->fitContent();
         mUnemployedNLabel->align(eAlignment::hcenter);

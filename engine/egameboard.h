@@ -127,6 +127,17 @@ struct eMilitaryAid {
     std::vector<stdsptr<eSoldierBanner>> fSoldiers;
 };
 
+enum class eImmigrationLimitedBy {
+    none,
+    lackOfVacancies,
+    lowWages,
+    unemployment,
+    lackOfFood,
+    highTaxes,
+    prolongedDebt,
+    excessiveMilitaryService
+};
+
 class eGameBoard : public eStdSelfRef {
 public:
     eGameBoard();
@@ -582,6 +593,9 @@ public:
     bool duringEarthquake() const;
 
     void defeatedBy(const stdsptr<eWorldCity>& c);
+
+    eImmigrationLimitedBy immigrationLimit() const
+    { return mImmigrationLimit; }
 private:
     void updateNeighbours();
 
@@ -621,6 +635,11 @@ private:
     eDifficulty mDifficulty{eDifficulty::beginner};
     eWageRate mWageRate{eWageRate::normal};
     eTaxRate mTaxRate{eTaxRate::normal};
+
+    using eILB = eImmigrationLimitedBy;
+    eILB mImmigrationLimit{eILB::lackOfVacancies};
+    bool mNoFood = false;
+    eDate mNoFoodSince;
 
     int mTaxesPaidLastYear = 0;
     int mTaxesPaidThisYear = 0;
