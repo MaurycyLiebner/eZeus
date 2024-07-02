@@ -776,6 +776,11 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, inst.fColonyRestored);
         return;
     } break;
+
+    case eEvent::debtAnniversary: {
+        showMessage(ed, inst.fDebtAnniversary);
+        return;
+    } break;
     }
     mGm->pushEvent(e, ed);
 }

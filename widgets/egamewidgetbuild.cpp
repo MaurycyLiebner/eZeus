@@ -446,6 +446,11 @@ bool eGameWidget::buildMouseRelease() {
         if(!apply) return true;
     } else {
         const auto mode = mGm->mode();
+        const int d = mBoard->drachmas();
+        if(mode != eBuildingMode::none && d < -1000) {
+            showTip(eLanguage::zeusText(19, 19)); // out of credit
+            return false;
+        }
         switch(mode) {
         case eBuildingMode::none: {
             return false;

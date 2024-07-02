@@ -805,6 +805,10 @@ bool eMessages::loadImpl() {
                 "colony_restored_title",
                 "colony_restored_initial_announcement");
 
+    loadMessage(fDebtAnniversary,
+                "still_in_debt_title",
+                "still_in_debt_initial_announcement");
+
     return true;
 }
 

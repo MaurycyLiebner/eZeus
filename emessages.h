@@ -276,6 +276,8 @@ public:
     eMessageType fCityBecomesVassal;
 
     eMessageType fColonyRestored;
+
+    eMessageType fDebtAnniversary;
 private:
     bool loadImpl();
 

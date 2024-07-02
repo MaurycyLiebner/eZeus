@@ -179,7 +179,9 @@ enum class eEvent {
     cityBecomesRival,
     cityBecomesVassal,
 
-    colonyRestored
+    colonyRestored,
+
+    debtAnniversary
 };
 
 #endif // EEVENT_H

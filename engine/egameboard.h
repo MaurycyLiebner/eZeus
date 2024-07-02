@@ -617,6 +617,7 @@ private:
     std::string mPlayerName = "Ailuropoda";
 
     int mDrachmas = 2500;
+    eDate mInDebtSince;
     eDifficulty mDifficulty{eDifficulty::beginner};
     eWageRate mWageRate{eWageRate::normal};
     eTaxRate mTaxRate{eTaxRate::normal};

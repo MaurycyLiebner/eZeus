@@ -1901,6 +1901,15 @@ void eGameBoard::incTime(const int by) {
         }
     }
     if(nextMonth) {
+        if(mDrachmas < 0) {
+            const bool sameMonth = mDate.month() == mInDebtSince.month();
+            const bool oneYear = mDate.year() - mInDebtSince.year() == 1;
+            if(sameMonth && oneYear) {
+                eEventData ed;
+                event(eEvent::debtAnniversary, ed);
+            }
+        }
+
         mPopData.nextMonth();
 
         if(!mPoseidonMode) {
@@ -2016,7 +2025,12 @@ void eGameBoard::payTaxes(const int d, const int people) {
 }
 
 void eGameBoard::incDrachmas(const int d) {
+    const bool wasInDebt = mDrachmas < 0;
     mDrachmas += d;
+    const bool isInDebt = mDrachmas < 0;
+    if(!wasInDebt && isInDebt) {
+        mInDebtSince = mDate;
+    }
 }
 
 void eGameBoard::setDate(const eDate& d) {
@@ -2165,7 +2179,7 @@ int eGameBoard::resourceCount(const eResourceType type) const {
 
 int eGameBoard::takeResource(const eResourceType type, const int count) {
     if(type == eResourceType::drachmas) {
-        mDrachmas -= count;
+        incDrachmas(-count);
         return count;
     }
     int r = 0;
