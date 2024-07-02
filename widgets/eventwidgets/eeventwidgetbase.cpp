@@ -14,6 +14,7 @@
 #include "gameEvents/egoddisasterevent.h"
 #include "gameEvents/erivalarmyawayevent.h"
 #include "gameEvents/eearthquakeevent.h"
+#include "gameEvents/ecitybecomesevent.h"
 
 #include "egodattackeventwidget.h"
 #include "emonsterattackeventwidget.h"
@@ -26,6 +27,7 @@
 #include "egoddisastereventwidget.h"
 #include "erivalarmyawayeventwidget.h"
 #include "eeartquakeeventwidget.h"
+#include "ecitybecomeseventwidget.h"
 
 void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
     setType(eFrameType::message);
@@ -105,6 +107,12 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
     case eGameEventType::earthquake:{
         const auto eew = new eEartquakeEventWidget(window());
         const auto ee = static_cast<eEarthquakeEvent*>(e.get());
+        eew->initialize(ee);
+        cont->addWidget(eew);
+    } break;
+    case eGameEventType::cityBecomes:{
+        const auto eew = new eCityBecomesEventWidget(window());
+        const auto ee = static_cast<eCityBecomesEvent*>(e.get());
         eew->initialize(ee);
         cont->addWidget(eew);
     } break;

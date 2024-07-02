@@ -201,7 +201,7 @@ std::string eBuilding::sNameForBuilding(eBuilding* const b) {
     case eBuildingType::commemorative: {
         const auto c = static_cast<eCommemorative*>(b);
         const int id = c->id();
-        const int group = 90;
+        const int group = 198;
         int string = -1;
         if(id == 0) {
             string = 1;

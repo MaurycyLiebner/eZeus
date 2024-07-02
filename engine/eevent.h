@@ -173,7 +173,11 @@ enum class eEvent {
 
     rivalArmyAway,
 
-    earthquake
+    earthquake,
+
+    cityBecomesAlly,
+    cityBecomesRival,
+    cityBecomesVassal
 };
 
 #endif // EEVENT_H

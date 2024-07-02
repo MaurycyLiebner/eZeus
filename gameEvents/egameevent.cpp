@@ -29,6 +29,7 @@
 #include "erequeststrikeevent.h"
 #include "erivalarmyawayevent.h"
 #include "eearthquakeevent.h"
+#include "ecitybecomesevent.h"
 
 eGameEvent::eGameEvent(const eGameEventType type,
                        const eGameEventBranch branch) :
@@ -127,6 +128,9 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
 
     case eGameEventType::earthquake:
         return e::make_shared<eEarthquakeEvent>(branch);
+
+    case eGameEventType::cityBecomes:
+        return e::make_shared<eCityBecomesEvent>(branch);
     }
     return nullptr;
 }

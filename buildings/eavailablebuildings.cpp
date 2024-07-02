@@ -67,8 +67,8 @@ void eAvailableBuildings::read(eReadStream& src) {
     src >> fAthleteMonument;
     src >> fConquestMonument;
     src >> fHappinessMonument;
-    src >> f7Monument;
-    src >> f8Monument;
+    src >> fHeroicMonument;
+    src >> fDiplomacyMonument;
     src >> fScholarMonument;
 
     const int iMax = static_cast<int>(eGodType::zeus) + 1;
@@ -140,8 +140,8 @@ void eAvailableBuildings::write(eWriteStream& dst) const {
     dst << fAthleteMonument;
     dst << fConquestMonument;
     dst << fHappinessMonument;
-    dst << f7Monument;
-    dst << f8Monument;
+    dst << fHeroicMonument;
+    dst << fDiplomacyMonument;
     dst << fScholarMonument;
 
     const int iMax = static_cast<int>(eGodType::zeus) + 1;
@@ -289,8 +289,8 @@ bool eAvailableBuildings::available(
         if(id == 3) return fAthleteMonument;
         if(id == 4) return fConquestMonument;
         if(id == 5) return fHappinessMonument;
-        if(id == 6) return f7Monument;
-        if(id == 7) return f8Monument;
+        if(id == 6) return fHeroicMonument;
+        if(id == 7) return fDiplomacyMonument;
         if(id == 8) return fScholarMonument;
         break;
     case eBuildingType::godMonument: {
@@ -314,8 +314,8 @@ void eAvailableBuildings::built(
         else if(id == 3) c = &fAthleteMonument;
         else if(id == 4) c = &fConquestMonument;
         else if(id == 5) c = &fHappinessMonument;
-        else if(id == 6) c = &f7Monument;
-        else if(id == 7) c = &f8Monument;
+        else if(id == 6) c = &fHeroicMonument;
+        else if(id == 7) c = &fDiplomacyMonument;
         else if(id == 8) c = &fScholarMonument;
         if(!c) return;
         *c = std::max(0, *c - 1);
@@ -396,8 +396,8 @@ void eAvailableBuildings::allow(
         else if(id == 3) c = &fAthleteMonument;
         else if(id == 4) c = &fConquestMonument;
         else if(id == 5) c = &fHappinessMonument;
-        else if(id == 6) c = &f7Monument;
-        else if(id == 7) c = &f8Monument;
+        else if(id == 6) c = &fHeroicMonument;
+        else if(id == 7) c = &fDiplomacyMonument;
         else if(id == 8) c = &fScholarMonument;
         if(!c) return;
         (*c)++;

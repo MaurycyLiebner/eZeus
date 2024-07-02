@@ -103,8 +103,8 @@ public:
     int fAthleteMonument = 0;
     int fConquestMonument = 0;
     int fHappinessMonument = 0;
-    int f7Monument = 0;
-    int f8Monument = 0;
+    int fHeroicMonument = 0;
+    int fDiplomacyMonument = 0;
     int fScholarMonument = 0;
 
     std::map<eGodType, int> mGodMonuments =

@@ -374,6 +374,7 @@ SOURCES += \
         fileIO/ewritestream.cpp \
         gameEvents/earmyeventbase.cpp \
         gameEvents/earmyreturnevent.cpp \
+        gameEvents/ecitybecomesevent.cpp \
         gameEvents/eearthquakeevent.cpp \
         gameEvents/eeconomicchangeevent.cpp \
         gameEvents/eeconomicmilitarychangeeventbase.cpp \
@@ -575,6 +576,7 @@ SOURCES += \
         widgets/etriggerselectionwidget.cpp \
         widgets/eupbutton.cpp \
         widgets/evaluebutton.cpp \
+        widgets/eventwidgets/ecitybecomeseventwidget.cpp \
         widgets/eventwidgets/eeartquakeeventwidget.cpp \
         widgets/eventwidgets/eeconomicmilitarychangeeventwidget.cpp \
         widgets/eventwidgets/eeventwidgetbase.cpp \
@@ -968,6 +970,7 @@ HEADERS += \
     fileIO/ewritestream.h \
     gameEvents/earmyeventbase.h \
     gameEvents/earmyreturnevent.h \
+    gameEvents/ecitybecomesevent.h \
     gameEvents/eearthquakeevent.h \
     gameEvents/eeconomicchangeevent.h \
     gameEvents/eeconomicmilitarychangeeventbase.h \
@@ -2481,6 +2484,7 @@ HEADERS += \
     widgets/etriggerselectionwidget.h \
     widgets/eupbutton.h \
     widgets/evaluebutton.h \
+    widgets/eventwidgets/ecitybecomeseventwidget.h \
     widgets/eventwidgets/eeartquakeeventwidget.h \
     widgets/eventwidgets/eeconomicmilitarychangeeventwidget.h \
     widgets/eventwidgets/eeventwidgetbase.h \

@@ -758,6 +758,19 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
     case eEvent::earthquake: {
         showMessage(ed, inst.fEarthqauke);
     } break;
+
+    case eEvent::cityBecomesAlly: {
+        showMessage(ed, inst.fCityBecomesAlly);
+        return;
+    } break;
+    case eEvent::cityBecomesRival: {
+        showMessage(ed, inst.fCityBecomesRival);
+        return;
+    } break;
+    case eEvent::cityBecomesVassal: {
+        showMessage(ed, inst.fCityBecomesVassal);
+        return;
+    } break;
     }
     mGm->pushEvent(e, ed);
 }

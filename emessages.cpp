@@ -775,6 +775,21 @@ bool eMessages::loadImpl() {
     fEarthqauke.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_quake_title"];
     fEarthqauke.fCondensed.fText = fMessages["PHRASE_CONDENSED_quake_phrase_by_god"];
 
+    fCityBecomesAlly.fFull.fTitle = fMessages["PHRASE_becomes_ally_title"];
+    fCityBecomesAlly.fFull.fText = fMessages["PHRASE_becomes_ally_initial_announcement"];
+    fCityBecomesAlly.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_becomes_ally_title"];
+    fCityBecomesAlly.fCondensed.fText = fMessages["PHRASE_CONDENSED_becomes_ally_initial_announcement"];
+
+    fCityBecomesRival.fFull.fTitle = fMessages["PHRASE_becomes_rival_title"];
+    fCityBecomesRival.fFull.fText = fMessages["PHRASE_becomes_rival_initial_announcement"];
+    fCityBecomesRival.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_becomes_rival_title"];
+    fCityBecomesRival.fCondensed.fText = fMessages["PHRASE_CONDENSED_becomes_rival_initial_announcement"];
+
+    fCityBecomesVassal.fFull.fTitle = fMessages["PHRASE_becomes_vassal_title"];
+    fCityBecomesVassal.fFull.fText = fMessages["PHRASE_becomes_vassal_initial_announcement"];
+    fCityBecomesVassal.fCondensed.fTitle = fMessages["PHRASE_CONDENSED_becomes_vassal_title"];
+    fCityBecomesVassal.fCondensed.fText = fMessages["PHRASE_CONDENSED_becomes_vassal_initial_announcement"];
+
     loadMessage(fTroopsRequestAttackAverted,
                 "attack_averted_title",
                 "attack_averted_initial_announcement");

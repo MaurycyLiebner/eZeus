@@ -45,7 +45,9 @@ enum class eGameEventType {
     requestStrike,
     rivalArmyAway,
 
-    earthquake
+    earthquake,
+
+    cityBecomes
 };
 
 enum class eGameEventBranch {

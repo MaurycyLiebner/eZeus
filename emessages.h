@@ -270,6 +270,10 @@ public:
     eMessageType fTroopsRequestAttackAverted;
 
     eMessageType fEarthqauke;
+
+    eMessageType fCityBecomesAlly;
+    eMessageType fCityBecomesRival;
+    eMessageType fCityBecomesVassal;
 private:
     bool loadImpl();
 
