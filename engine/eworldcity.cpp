@@ -383,6 +383,7 @@ bool eWorldCity::trades() const {
     if(rebellion()) return false;
     if(isRival()) return false;
     if(tradeShutdown()) return false;
+    if(mConqueredBy) return false;
     return true;
 }
 
@@ -418,6 +419,7 @@ void swrite(eWriteStream& dst,
 
 void eWorldCity::write(eWriteStream& dst) const {
     dst << mIOID;
+    dst.writeCity(mConqueredBy.get());
     dst << mIsCurrentCity;
     dst << mType;
     dst << mNationality;
@@ -453,8 +455,11 @@ void sread(eReadStream& src,
     }
 }
 
-void eWorldCity::read(eReadStream& src) {
+void eWorldCity::read(eReadStream& src, eWorldBoard* const board) {
     src >> mIOID;
+    src.readCity(board, [this](const stdsptr<eWorldCity>& c) {
+        mConqueredBy = c;
+    });
     src >> mIsCurrentCity;
     src >> mType;
     src >> mNationality;

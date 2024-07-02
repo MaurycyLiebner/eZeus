@@ -1947,6 +1947,7 @@ void eGameBoard::incTime(const int by) {
         mWorldBoard->nextYear();
         const auto cs = mWorldBoard->getTribute();
         for(const auto& c : cs) {
+            if(c->conqueredByRival()) continue;
             tributeFrom(c, true);
         }
     }

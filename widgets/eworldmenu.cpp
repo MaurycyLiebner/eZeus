@@ -267,7 +267,7 @@ void eWorldMenu::setCity(const stdsptr<eWorldCity>& c) {
     mFulfillButton->setEnabled(c.get() && !distant && !cc);
     mGiftButton->setEnabled(c.get() && !distant && !cc);
     mRaidButton->setEnabled(c.get() && !vassalOrColony && !distant && !cc);
-    mConquerButton->setEnabled(c.get() && !vassalOrColony && !distant && !cc);
+    mConquerButton->setEnabled(c.get() && (!vassalOrColony || c->conqueredByRival()) && !distant && !cc);
 
     mGoodsWidget->setCity(c);
     mTributeWidget->setCity(c);

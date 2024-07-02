@@ -264,12 +264,13 @@ void eMessages::loadMessage(eMessageType& m,
     m.fFull.fText = fMessages["PHRASE_" + textKey];
     m.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + titleKey];
     m.fCondensed.fText = fMessages["PHRASE_CONDENSED_" + textKey];
-};
+}
+
 void eMessages::loadReason(eReason& r,
                            const std::string& key) {
     r.fFull = fMessages["PHRASE_" + key];
     r.fCondensed = fMessages["PHRASE_CONDENSED_" + key];
-};
+}
 
 void eMessages::load(eTroopsRequestedMessages& troops,
                      const std::string& name,
@@ -793,6 +794,10 @@ bool eMessages::loadImpl() {
     loadMessage(fTroopsRequestAttackAverted,
                 "attack_averted_title",
                 "attack_averted_initial_announcement");
+
+    loadMessage(fColonyRestored,
+                "colony_restored_title",
+                "colony_restored_initial_announcement");
 
     return true;
 }

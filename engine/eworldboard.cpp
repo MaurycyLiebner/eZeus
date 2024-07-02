@@ -83,7 +83,7 @@ void eWorldBoard::read(eReadStream& src) {
     src >> nc;
     for(int i = 0; i < nc; i++) {
         const auto c = std::make_shared<eWorldCity>();
-        c->read(src);
+        c->read(src, this);
         addCity(c);
     }
 }

@@ -177,7 +177,9 @@ enum class eEvent {
 
     cityBecomesAlly,
     cityBecomesRival,
-    cityBecomesVassal
+    cityBecomesVassal,
+
+    colonyRestored
 };
 
 #endif // EEVENT_H

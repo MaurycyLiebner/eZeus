@@ -245,6 +245,7 @@ void eTroopsRequestEvent::lost() {
     board->event(event, ed);
     mCity->incAttitude(-25);
     mCity->setRelationship(eForeignCityRelationship::rival);
+    mCity->setConqueredBy(mRivalCity);
 
     const auto& reason = rrmsgs->fLostBattleReason;
     const auto me = mainEvent<eTroopsRequestEvent>();

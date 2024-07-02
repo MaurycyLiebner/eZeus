@@ -47,13 +47,25 @@ void ePlayerConquestEvent::trigger() {
         board->event(eEvent::allyAttackedByPlayer, ed);
     }
     if(conquered) {
-        board->event(eEvent::cityConquered, ed);
-        board->allow(eBuildingType::commemorative, 4);
-        mCity->setRelationship(eForeignCityRelationship::vassal);
-    } else {
-        board->event(eEvent::cityConquerFailed, ed);
+        mCity->setConqueredBy(nullptr);
     }
-    mCity->incAttitude(-50);
+    if(mCity->isColony()) {
+        if(conquered) {
+            board->event(eEvent::colonyRestored, ed);
+            mCity->incAttitude(50);
+        } else {
+            board->event(eEvent::cityConquerFailed, ed);
+        }
+    } else {
+        if(conquered) {
+            board->event(eEvent::cityConquered, ed);
+            board->allow(eBuildingType::commemorative, 4);
+            mCity->setRelationship(eForeignCityRelationship::vassal);
+        } else {
+            board->event(eEvent::cityConquerFailed, ed);
+        }
+        mCity->incAttitude(-50);
+    }
 
     planArmyReturn();
 }

@@ -194,7 +194,7 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
             p.drawTexture(xx, yy, wTex, eAlignment::top);
         }
 
-        if(ct->rebellion()) {
+        if(ct->rebellion() || ct->conqueredByRival()) {
             const auto& coll = texs.fCityRebellion;
             const int cs = coll.size();
             const auto tex = coll.getTexture(mFrame % cs);

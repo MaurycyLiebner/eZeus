@@ -219,10 +219,13 @@ public:
     int tributeCount() const { return mTributeCount; }
 
     void write(eWriteStream& dst) const;
-    void read(eReadStream& src);
+    void read(eReadStream& src, eWorldBoard* const board);
 
     void gifted(const eResourceType type, const int count);
     bool acceptsGift(const eResourceType type, const int count) const;
+
+    bool conqueredByRival() const { return mConqueredBy.get(); }
+    void setConqueredBy(const stdsptr<eWorldCity>& c) { mConqueredBy = c; }
 
     static stdsptr<eWorldCity> sCreateAthens();
     static stdsptr<eWorldCity> sCreateSparta();
@@ -241,6 +244,8 @@ public:
     static stdsptr<eWorldCity> sCreateHattusas();
 private:
     int mIOID = -1;
+
+    stdsptr<eWorldCity> mConqueredBy;
 
     bool mIsCurrentCity = false;
     eCityType mType{eCityType::foreignCity};

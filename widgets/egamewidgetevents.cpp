@@ -771,6 +771,11 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, inst.fCityBecomesVassal);
         return;
     } break;
+
+    case eEvent::colonyRestored: {
+        showMessage(ed, inst.fColonyRestored);
+        return;
+    } break;
     }
     mGm->pushEvent(e, ed);
 }

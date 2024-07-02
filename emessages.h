@@ -274,6 +274,8 @@ public:
     eMessageType fCityBecomesAlly;
     eMessageType fCityBecomesRival;
     eMessageType fCityBecomesVassal;
+
+    eMessageType fColonyRestored;
 private:
     bool loadImpl();
 
