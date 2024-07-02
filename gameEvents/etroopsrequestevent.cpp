@@ -238,6 +238,7 @@ void eTroopsRequestEvent::lost() {
     } else if(mCity->isParentCity()) {
         event = eEvent::troopsRequestParentCityConquered;
         rrmsgs = &msgs.fParentCityTroopsRequest;
+        board->setEpisodeLost();
     } else { // ally
         event = eEvent::troopsRequestAllyConquered;
         rrmsgs = &msgs.fAllyTroopsRequest;

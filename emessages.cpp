@@ -296,9 +296,15 @@ void eMessages::load(eTroopsRequestedMessages& troops,
     loadReason(troops.fLostBattleReason,
                name + "_under_attack_lost_battle_reason_" + letter);
 
-    loadMessage(troops.fConquered,
-                name + "_conquered_by_rival_title",
-                name + "_conquered_by_rival_initial_announcement");
+    if(name == "parentcity") {
+        loadMessage(troops.fConquered,
+                    "parent_city_falls_title",
+                    "parent_city_falls_initial_announcement");
+    } else {
+        loadMessage(troops.fConquered,
+                    name + "_conquered_by_rival_title",
+                    name + "_conquered_by_rival_initial_announcement");
+    }
 }
 
 bool eMessages::loadImpl() {
