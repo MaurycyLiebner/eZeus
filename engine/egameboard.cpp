@@ -1888,6 +1888,7 @@ void eGameBoard::incTime(const int by) {
         incDrachmas(-d);
 
         for(const auto& c : mDefeatedBy) {
+            if(!c->isRival()) continue;
             const auto rr = e::make_shared<eReceiveRequestEvent>(
                                 eGameEventBranch::root);
             rr->initialize(0, eResourceType::drachmas, 100, c, false);
