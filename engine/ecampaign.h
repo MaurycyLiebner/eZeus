@@ -215,7 +215,7 @@ public:
     bool load(const std::string& name);
     bool save() const;
 
-    eEpisode* currentEpisode();
+    eEpisode* currentEpisode() const;
     void setCurrentColonyEpisode(const int e);
     void startEpisode();
     void episodeFinished();

@@ -342,7 +342,7 @@ bool eCampaign::save() const {
     return true;
 }
 
-eEpisode* eCampaign::currentEpisode() {
+eEpisode* eCampaign::currentEpisode() const {
     if(mCurrentEpisodeType == eEpisodeType::colony) {
         return mColonyEpisodes[mCurrentColonyEpisode].get();
     } else {

@@ -498,6 +498,7 @@ SOURCES += \
         widgets/eepisodegoalselectionwidget.cpp \
         widgets/eepisodegoalwidget.cpp \
         widgets/eepisodeintroductionwidget.cpp \
+        widgets/eepisodelostwidget.cpp \
         widgets/eepisodeswidget.cpp \
         widgets/eeventbackground.cpp \
         widgets/eeventselectionwidget.cpp \
@@ -2410,6 +2411,7 @@ HEADERS += \
     widgets/eepisodegoalselectionwidget.h \
     widgets/eepisodegoalwidget.h \
     widgets/eepisodeintroductionwidget.h \
+    widgets/eepisodelostwidget.h \
     widgets/eepisodeswidget.h \
     widgets/eeventbackground.h \
     widgets/eeventselectionwidget.h \

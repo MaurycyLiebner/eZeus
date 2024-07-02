@@ -20,6 +20,7 @@
 
 #include "evectorhelpers.h"
 #include "etilehelper.h"
+#include "emainwindow.h"
 
 bool sDontDrawAppeal(const eTerrain terr) {
     return terr == eTerrain::stones ||
@@ -225,8 +226,15 @@ void eGameWidget::paintEvent(ePainter& p) {
     const int nc = children().size() - mTips.size();
 //    printf("%d\n", nc);
     if(!mPaused && !mLocked && !mMenu && !mMsgBox && !mInfoWidget && nc < 7) {
-        mTime += mSpeed;
-        mBoard->incTime(mSpeed);
+        const bool lost = mBoard->episodeLost();
+        if(lost) {
+            const auto w = window();
+            w->episodeLost();
+            return;
+        } else {
+            mTime += mSpeed;
+            mBoard->incTime(mSpeed);
+        }
     }
     mBoard->emptyRubbish();
     if(mHoverX == 0) {

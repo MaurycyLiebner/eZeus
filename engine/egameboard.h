@@ -574,7 +574,8 @@ public:
     void removeMilitaryAid(const stdsptr<eWorldCity>& c);
     void addMilitaryAid(const stdsptr<eMilitaryAid>& a);
 
-    void episodeLost() const;
+    void setEpisodeLost() const;
+    bool episodeLost() const { return mEpisodeLost; }
     int tradingPartners() const;
 
     void earthquake(eTile* const startTile, const int size);
@@ -599,6 +600,7 @@ private:
 
     bool mEditorMode = false;
     bool mPoseidonMode = true;
+    mutable bool mEpisodeLost = false;
     eWorldBoard* mWorldBoard = nullptr;
     eWorldDirection mDirection{eWorldDirection::N};
 

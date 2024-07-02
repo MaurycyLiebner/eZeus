@@ -1804,6 +1804,7 @@ std::vector<eAgoraBase*> eGameBoard::agoras() const {
 }
 
 void eGameBoard::incTime(const int by) {
+    if(mEpisodeLost) return;
     const int dayLen = 350;
     { // autosave
         const int time = mTime + by;
@@ -2494,8 +2495,8 @@ void eGameBoard::addMilitaryAid(const stdsptr<eMilitaryAid>& a) {
     mMilitaryAid.push_back(a);
 }
 
-void eGameBoard::episodeLost() const {
-
+void eGameBoard::setEpisodeLost() const {
+    mEpisodeLost = true;
 }
 
 int eGameBoard::tradingPartners() const {
@@ -2578,7 +2579,7 @@ bool eGameBoard::duringEarthquake() const {
 void eGameBoard::defeatedBy(const stdsptr<eWorldCity>& c) {
     const bool r = eVectorHelpers::contains(mDefeatedBy, c);
     if(r) {
-        episodeLost();
+        setEpisodeLost();
     } else {
         mDefeatedBy.push_back(c);
     }

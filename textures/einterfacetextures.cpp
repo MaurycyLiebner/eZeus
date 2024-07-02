@@ -1219,6 +1219,9 @@ void eInterfaceTextures::load() {
 
         fIntroductionImage = std::make_shared<eTexture>();
         fIntroductionImage->load(fRenderer, dir + "Zeus_FE_MissionIntroduction.jpg");
+
+        fDefeatImage = std::make_shared<eTexture>();
+        fDefeatImage->load(fRenderer, dir + "Zeus_Defeat.jpg");
     }
 
     {

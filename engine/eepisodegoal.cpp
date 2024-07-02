@@ -354,7 +354,7 @@ void eEpisodeGoal::update(const eGameBoard* const b) {
         const auto sdate = date();
         const auto cdate = b->date();
         if(cdate > sdate) {
-            b->episodeLost();
+            b->setEpisodeLost();
         } else {
             fStatusCount = cdate < sdate ? 1 : 0;
         }

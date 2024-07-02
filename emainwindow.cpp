@@ -30,6 +30,7 @@
 
 #include "widgets/eeventbackground.h"
 #include "widgets/eepisodeintroductionwidget.h"
+#include "widgets/eepisodelostwidget.h"
 
 eMainWindow::eMainWindow() {}
 
@@ -177,7 +178,7 @@ void eMainWindow::episodeFinished() {
     if(!mCampaign) return;
     mCampaign->episodeFinished();
     const bool f = mCampaign->finished();
-    if(f) return showMainMenu();
+    if(f) return adventureComplete();
     const auto n = mCampaign->currentEpisodeType();
     if(n == eEpisodeType::parentCity) {
         showEpisodeIntroduction();
@@ -198,6 +199,35 @@ void eMainWindow::episodeFinished() {
         w->initialize(sel, selA, &mCampaign->worldBoard());
         setWidget(w);
     }
+}
+
+void eMainWindow::adventureComplete() {
+    clearWidgets();
+    if(!mCampaign) return;
+    eMusic::playCampaignVictoryMusic();
+    const auto e = new eEpisodeIntroductionWidget(this);
+    const auto proceedA = [this]() {
+        showMainMenu();
+    };
+    e->resize(width(), height());
+    e->initialize(mCampaign,
+                  eLanguage::zeusText(62, 0),
+                  mCampaign->completeText(),
+                  {},
+                  proceedA,
+                  eEpisodeIntroType::campaingVictory);
+    setWidget(e);
+}
+
+void eMainWindow::episodeLost() {
+    clearWidgets();
+    const auto e = new eEpisodeLostWidget(this);
+    const auto proceedA = [this]() {
+        showMainMenu();
+    };
+    e->resize(width(), height());
+    e->initialize(proceedA);
+    setWidget(e);
 }
 
 bool eMainWindow::saveGame(const std::string& path) {

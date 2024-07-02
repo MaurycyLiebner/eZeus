@@ -18,6 +18,8 @@ void eGameBoard::read(eReadStream& src) {
 
     src >> mPoseidonMode;
 
+    src >> mEpisodeLost;
+
     src >> mDrachmas;
     src >> mDifficulty;
     src >> mWageRate;

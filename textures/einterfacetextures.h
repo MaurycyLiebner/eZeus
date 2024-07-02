@@ -242,6 +242,7 @@ public:
     std::shared_ptr<eTexture> fLoadImage12;
     std::shared_ptr<eTexture> fMainMenuImage;
     std::shared_ptr<eTexture> fIntroductionImage;
+    std::shared_ptr<eTexture> fDefeatImage;
 
     std::shared_ptr<eTexture> fPoseidonCampaign1;
     std::shared_ptr<eTexture> fPoseidonCampaign2;

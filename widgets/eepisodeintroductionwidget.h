@@ -10,7 +10,8 @@ enum class eEpisodeType;
 enum class eEpisodeIntroType {
     intro,
     goals,
-    victory
+    victory,
+    campaingVictory
 };
 
 class eEpisodeIntroductionWidget : public eLabel {

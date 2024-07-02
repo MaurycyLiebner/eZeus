@@ -15,6 +15,8 @@ void eGameBoard::write(eWriteStream& dst) const {
 
     dst << mPoseidonMode;
 
+    dst << mEpisodeLost;
+
     dst << mDrachmas;
     dst << mDifficulty;
     dst << mWageRate;

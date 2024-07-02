@@ -28,7 +28,8 @@ void eEpisodeIntroductionWidget::initialize(
     const auto& intrfc = eGameTextures::interface();
     const int iRes = static_cast<int>(res.uiScale());
     const auto& texs = intrfc[iRes];
-    if(type == eEpisodeIntroType::intro) {
+    if(type == eEpisodeIntroType::intro ||
+       type == eEpisodeIntroType::campaingVictory) {
         setTexture(texs.fIntroductionImage);
     }
 
@@ -56,100 +57,107 @@ void eEpisodeIntroductionWidget::initialize(
     inner->addWidget(mainTitle);
     mainTitle->align(eAlignment::hcenter);
 
-    const auto e = c->currentEpisode();
-    const auto et = c->currentEpisodeType();
-
     const auto subTitle = new eLabel(window());
     subTitle->setNoPadding();
-    subTitle->setText(e->fTitle);
+    if(type == eEpisodeIntroType::campaingVictory) {
+        subTitle->setText(c->titleText());
+    } else {
+        const auto e = c->currentEpisode();
+        subTitle->setText(e->fTitle);
+    }
     subTitle->fitContent();
     inner->addWidget(subTitle);
 
-    const auto goalsFrame = new eFramedWidget(window());
-    goalsFrame->setType(eFrameType::inner);
-    goalsFrame->setNoPadding();
-    goalsFrame->setWidth(iw);
+    eFramedWidget* goalsFrame = nullptr;
+    if(type != eEpisodeIntroType::campaingVictory) {
+        goalsFrame = new eFramedWidget(window());
+        goalsFrame->setType(eFrameType::inner);
+        goalsFrame->setNoPadding();
+        goalsFrame->setWidth(iw);
 
-    const auto goalsInner = new eWidget(window());
-    goalsInner->setNoPadding();
-    goalsInner->setWidth(iw - 2*p);
+        const auto goalsInner = new eWidget(window());
+        goalsInner->setNoPadding();
+        goalsInner->setWidth(iw - 2*p);
 
-    const auto board = e->fBoard;
-    board->updateResources();
-    for(const auto& g : goals) {
-        const auto w = new eWidget(window());
-        w->setWidth(goalsInner->width());
-        w->setNoPadding();
+        const auto e = c->currentEpisode();
+        const auto et = c->currentEpisodeType();
+        const auto board = e->fBoard;
+        board->updateResources();
+        for(const auto& g : goals) {
+            const auto w = new eWidget(window());
+            w->setWidth(goalsInner->width());
+            w->setNoPadding();
 
-        const auto checkBox = new eLabel(window());
-        checkBox->setNoPadding();
-        const auto& ctexs = texs.fCheckBox;
-        const int tid = g->met() ? 0 : 1;
-        checkBox->setTexture(ctexs.getTexture(tid));
-        checkBox->fitContent();
-        w->addWidget(checkBox);
+            const auto checkBox = new eLabel(window());
+            checkBox->setNoPadding();
+            const auto& ctexs = texs.fCheckBox;
+            const int tid = g->met() ? 0 : 1;
+            checkBox->setTexture(ctexs.getTexture(tid));
+            checkBox->fitContent();
+            w->addWidget(checkBox);
 
-        const bool col = et == eEpisodeType::colony;
-        const auto t = g->text(col, e->fAtlantean);
-        const auto l = new eLabel(window());
-        l->setSmallFontSize();
-        l->setTinyPadding();
-        l->setText(t);
-        l->fitContent();
-        w->addWidget(l);
-        w->stackHorizontally(p);
-        w->fitHeight();
-        checkBox->align(eAlignment::vcenter);
-        l->align(eAlignment::vcenter);
-        goalsInner->addWidget(w);
+            const bool col = et == eEpisodeType::colony;
+            const auto t = g->text(col, e->fAtlantean);
+            const auto l = new eLabel(window());
+            l->setSmallFontSize();
+            l->setTinyPadding();
+            l->setText(t);
+            l->fitContent();
+            w->addWidget(l);
+            w->stackHorizontally(p);
+            w->fitHeight();
+            checkBox->align(eAlignment::vcenter);
+            l->align(eAlignment::vcenter);
+            goalsInner->addWidget(w);
 
-        if(type == eEpisodeIntroType::goals) {
-            bool addStatusText = true;
-            if(g->fType == eEpisodeGoalType::setAsideGoods) {
-                const auto res = static_cast<eResourceType>(g->fEnumInt1);
-                const int has = board->resourceCount(res);
-                if(!g->met() && has >= g->fRequiredCount) {
-                    const auto setAside = new eFramedButton(window());
-                    setAside->setUnderline(false);
-                    setAside->setRenderBg(true);
-                    setAside->setTinyPadding();
-                    setAside->setSmallFontSize();
-                    setAside->setText(eLanguage::zeusText(194, 61));
-                    setAside->fitContent();
-                    setAside->setWidth(2*setAside->width());
-                    w->addWidget(setAside);
-                    setAside->align(eAlignment::vcenter | eAlignment::right);
-                    setAside->setPressAction([board, res, g, setAside,
-                                              checkBox, ctexs]() {
-                        board->takeResource(res, g->fRequiredCount);
-                        g->fStatusCount = g->fRequiredCount;
-                        setAside->hide();
-                        checkBox->setTexture(ctexs.getTexture(0));
-                    });
-                    addStatusText = false;
+            if(type == eEpisodeIntroType::goals) {
+                bool addStatusText = true;
+                if(g->fType == eEpisodeGoalType::setAsideGoods) {
+                    const auto res = static_cast<eResourceType>(g->fEnumInt1);
+                    const int has = board->resourceCount(res);
+                    if(!g->met() && has >= g->fRequiredCount) {
+                        const auto setAside = new eFramedButton(window());
+                        setAside->setUnderline(false);
+                        setAside->setRenderBg(true);
+                        setAside->setTinyPadding();
+                        setAside->setSmallFontSize();
+                        setAside->setText(eLanguage::zeusText(194, 61));
+                        setAside->fitContent();
+                        setAside->setWidth(2*setAside->width());
+                        w->addWidget(setAside);
+                        setAside->align(eAlignment::vcenter | eAlignment::right);
+                        setAside->setPressAction([board, res, g, setAside,
+                                                  checkBox, ctexs]() {
+                            board->takeResource(res, g->fRequiredCount);
+                            g->fStatusCount = g->fRequiredCount;
+                            setAside->hide();
+                            checkBox->setTexture(ctexs.getTexture(0));
+                        });
+                        addStatusText = false;
+                    }
                 }
-            }
-            if(addStatusText) {
-                const auto st = g->statusText(board);
-                if(!st.empty()) {
-                    const auto stl = new eLabel(window());
-                    stl->setSmallFontSize();
-                    stl->setTinyPadding();
-                    stl->setText(st);
-                    stl->fitContent();
-                    w->addWidget(stl);
-                    stl->align(eAlignment::vcenter | eAlignment::right);
+                if(addStatusText) {
+                    const auto st = g->statusText(board);
+                    if(!st.empty()) {
+                        const auto stl = new eLabel(window());
+                        stl->setSmallFontSize();
+                        stl->setTinyPadding();
+                        stl->setText(st);
+                        stl->fitContent();
+                        w->addWidget(stl);
+                        stl->align(eAlignment::vcenter | eAlignment::right);
+                    }
                 }
             }
         }
-    }
 
-    goalsInner->stackVertically();
-    goalsInner->fitHeight();
-    goalsInner->move(p, p);
-    goalsFrame->addWidget(goalsInner);
-    goalsFrame->setHeight(goalsInner->height() + 2*p);
-    inner->addWidget(goalsFrame);
+        goalsInner->stackVertically();
+        goalsInner->fitHeight();
+        goalsInner->move(p, p);
+        goalsFrame->addWidget(goalsInner);
+        goalsFrame->setHeight(goalsInner->height() + 2*p);
+        inner->addWidget(goalsFrame);
+    }
 
     const auto lowerButtons = new eWidget(window());
     lowerButtons->setNoPadding();
@@ -229,7 +237,8 @@ void eEpisodeIntroductionWidget::initialize(
         rpc->fitContent();
         lowerButtons->addWidget(rpc);
         rpc->align(eAlignment::hcenter);
-    } else if(type == eEpisodeIntroType::victory) {
+    } else if(type == eEpisodeIntroType::victory ||
+              type == eEpisodeIntroType::campaingVictory) {
         const auto p = new eFramedButton(window());
         p->setUnderline(false);
         p->setText(eLanguage::zeusText(62, 2));
@@ -246,7 +255,7 @@ void eEpisodeIntroductionWidget::initialize(
     int ith = ih - 4*p;
     ith -= mainTitle->height();
     ith -= subTitle->height();
-    ith -= goalsFrame->height();
+    ith -= goalsFrame ? goalsFrame->height() : 0;
     ith -= lowerButtons->height();
     introText->setHeight(ith);
     introText->initialize();
