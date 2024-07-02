@@ -4,6 +4,7 @@
 
 #include "engine/egameboard.h"
 #include "egatehouse.h"
+#include "elanguage.h"
 
 eRoad::eRoad(eGameBoard& board) :
     eBuilding(board, eBuildingType::road, 1, 1) {}
@@ -12,6 +13,14 @@ void eRoad::erase() {
     if(isBridge()) {
         std::vector<eTile*> tiles;
         bridgeConnectedTiles(tiles);
+        for(const auto t : tiles) {
+            const auto c = t->characters();
+            if(!c.empty()) {
+                auto& board = getBoard();
+                board.showTip(eLanguage::zeusText(19, 24)); // can't demolish water crossing with people
+                return;
+            }
+        }
         for(const auto t : tiles) {
             const auto b = t->underBuilding();
             if(!b) continue;
