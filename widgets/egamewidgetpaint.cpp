@@ -396,7 +396,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             eGameTextures::loadFire();
             const int f = (tx + ty) % destTexs.fFire.size();
             const auto& ff = destTexs.fFire[f];
-            const int dt = mTime/8 + std::abs(tx*ty);
+            const int dt = mBoard->frame() + std::abs(tx*ty);
             const auto tex = ff.getTexture(dt % ff.size());
             tp.drawTexture(frx + 1, fry, tex, eAlignment::hcenter | eAlignment::top);
         };
