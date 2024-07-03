@@ -2647,7 +2647,9 @@ void eGameBoard::progressEarthquakes() {
             t->setTerrain(eTerrain::quake);
             if(const auto ub = t->underBuilding()) {
                 const auto type = ub->type();
-                if(type == eBuildingType::ruins) {
+                const bool s = eBuilding::sSanctuaryBuilding(type);
+                if(s) {
+                } else if(type == eBuildingType::ruins) {
                     ub->erase();
                 } else {
                     ub->collapse();
