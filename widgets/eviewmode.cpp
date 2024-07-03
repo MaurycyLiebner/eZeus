@@ -289,7 +289,8 @@ bool eViewModeHelpers::characterVisible(
         return c == eCharacterType::fireFighter;
     } break;
     case eViewMode::unrest: {
-        return c == eCharacterType::watchman;
+        return c == eCharacterType::watchman ||
+               c == eCharacterType::disgruntled;
     } break;
 
     case eViewMode::actors: {
