@@ -218,7 +218,7 @@ void eSmallHouse::timeChanged(const int by) {
 
     if(mDisgruntled && !mDisg) {
         mSpawnDisg += by;
-        const int d = 5000;
+        const int d = 10000;
         if(mSpawnDisg > d) {
             mSpawnDisg -= d;
             spawnDisgruntled();
@@ -226,7 +226,7 @@ void eSmallHouse::timeChanged(const int by) {
     }
     if(mPlague && !mSick) {
         mSpawnSick += by;
-        const int s = 5000;
+        const int s = 10000;
         if(mSpawnSick > s) {
             mSpawnSick -= s;
             spawnSick();
@@ -250,7 +250,7 @@ void eSmallHouse::nextMonth() {
 
 void eSmallHouse::setPlague(const bool p) {
     mPlague = p;
-    mSpawnSick = __INT_MAX__/2;
+    mSpawnSick = rand() % 10000;
 }
 
 void eSmallHouse::setDisgruntled(const bool d) {
