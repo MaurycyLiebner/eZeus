@@ -42,6 +42,34 @@ void eActionWithComeback::write(eWriteStream& dst) const {
 }
 
 void eActionWithComeback::goBack(stdsptr<eWalkableObject> walkable) {
+    mDefaultTry = false;
+    mGoBackFail = false;
+    goBackInternal(walkable);
+}
+
+void eActionWithComeback::goBack(eBuilding* const b,
+                                 const stdsptr<eWalkableObject>& walkable) {
+    const auto rect = b->tileRect();
+    goBack(rect, walkable);
+}
+
+void eActionWithComeback::goBack(const SDL_Rect& rect,
+                                 const stdsptr<eWalkableObject>& walkable) {
+    mGoBackRect = rect;
+    const auto w = eWalkableObject::sCreateRect(rect, walkable);
+    eActionWithComeback::goBack(w);
+}
+
+void eActionWithComeback::goBackInternal(stdsptr<eWalkableObject> walkable) {
+    if(mGoBackFail) return;
+    if(mDefaultTry) {
+        if(SDL_RectEmpty(&mGoBackRect)) {
+            walkable = eWalkableObject::sCreateDefault();
+        } else {
+            walkable = eWalkableObject::sCreateRect(
+                    mGoBackRect, eWalkableObject::sCreateDefault());
+        }
+    }
     const auto c = character();
     const auto ct = c->tile();
     if(ct == mStartTile) return teleportDecision();
@@ -66,17 +94,8 @@ void eActionWithComeback::goBack(stdsptr<eWalkableObject> walkable) {
         if(!tptr) return;
         if(mDefaultTry) {
             mGoBackFail = true;
-            setCurrentAction(nullptr);
         } else {
             mDefaultTry = true;
-            stdsptr<eWalkableObject> w;
-            if(SDL_RectEmpty(&mGoBackRect)) {
-                w = eWalkableObject::sCreateDefault();
-            } else {
-                w = eWalkableObject::sCreateRect(
-                        mGoBackRect, eWalkableObject::sCreateDefault());
-            }
-            goBack(w);
         }
     });
     if(const auto ub = mStartTile->underBuilding()) {
@@ -84,19 +103,6 @@ void eActionWithComeback::goBack(stdsptr<eWalkableObject> walkable) {
     }
     a->start(finalTile, walkable);
     setCurrentAction(a);
-}
-
-void eActionWithComeback::goBack(eBuilding* const b,
-                                 const stdsptr<eWalkableObject>& walkable) {
-    const auto rect = b->tileRect();
-    goBack(rect, walkable);
-}
-
-void eActionWithComeback::goBack(const SDL_Rect& rect,
-                                 const stdsptr<eWalkableObject>& walkable) {
-    mGoBackRect = rect;
-    const auto w = eWalkableObject::sCreateRect(rect, walkable);
-    eActionWithComeback::goBack(w);
 }
 
 void eActionWithComeback::teleportDecision() {

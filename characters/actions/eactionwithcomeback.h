@@ -37,6 +37,7 @@ public:
 
     eTile* startTile() const { return mStartTile; }
 private:
+    void goBackInternal(stdsptr<eWalkableObject> walkable);
     void teleportDecision();
 
     eTile* mStartTile = nullptr;
@@ -61,7 +62,7 @@ public:
     void call() override {
         if(!mTptr) return;
         const auto t = mTptr.get();
-        t->goBack(mWalkable);
+        t->goBackInternal(mWalkable);
     }
 
     void read(eReadStream& src) override {
