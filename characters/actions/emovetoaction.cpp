@@ -82,7 +82,7 @@ void eMoveToAction::start(const eTileFinal& final,
             mFindFailAction();
             mFindFailAction = nullptr;
         }
-        setState(eCharacterActionState::failed);
+//        setState(eCharacterActionState::failed);
     };
 
     const auto pft = new ePathFindTask(startTile,

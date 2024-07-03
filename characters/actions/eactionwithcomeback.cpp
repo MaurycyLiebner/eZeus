@@ -66,6 +66,7 @@ void eActionWithComeback::goBack(stdsptr<eWalkableObject> walkable) {
         if(!tptr) return;
         if(mDefaultTry) {
             mGoBackFail = true;
+            setCurrentAction(nullptr);
         } else {
             mDefaultTry = true;
             stdsptr<eWalkableObject> w;
