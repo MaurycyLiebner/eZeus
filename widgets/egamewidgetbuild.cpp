@@ -22,6 +22,7 @@
 
 #include "widgets/equestionwidget.h"
 #include "elanguage.h"
+#include "estringhelpers.h"
 
 bool agoraRoadTile(eTile* const t) {
     if(!t) return false;
@@ -327,6 +328,9 @@ bool buildVendor(eGameBoard& brd, const int tx, const int ty,
     const auto fv = e::make_shared<T>(brd);
     fv->setAgora(agoraP);
     agora->setBuilding(space, fv);
+    const auto diff = brd.difficulty();
+    const int cost = eDifficultyHelpers::buildingCost(diff, fv->type());
+    brd.incDrachmas(-cost);
     return true;
 }
 
@@ -650,12 +654,12 @@ bool eGameWidget::buildMouseRelease() {
                     b->setTileRect({t->x(), t->y(), 1, 1});
                     t->setUnderBuilding(b);
                     b->addUnderBuilding(t);
-
-                    const auto diff = mBoard->difficulty();
-                    const int cost = eDifficultyHelpers::buildingCost(
-                                         diff, eBuildingType::bridge);
-                    mBoard->incDrachmas(-path.size()*cost);
                 }
+
+                const auto diff = mBoard->difficulty();
+                const int cost = eDifficultyHelpers::buildingCost(
+                                     diff, eBuildingType::bridge);
+                mBoard->incDrachmas(-path.size()*cost);
             }
         }; break;
         case eBuildingMode::commonHousing: {
@@ -948,6 +952,11 @@ bool eGameWidget::buildMouseRelease() {
                         }
                     }
                 }
+
+                const auto diff = mBoard->difficulty();
+                const int cost = eDifficultyHelpers::buildingCost(
+                                     diff, eBuildingType::urchinQuay);
+                mBoard->incDrachmas(-cost);
             }
         }; break;
         case eBuildingMode::fishery: {
@@ -969,6 +978,11 @@ bool eGameWidget::buildMouseRelease() {
                         }
                     }
                 }
+
+                const auto diff = mBoard->difficulty();
+                const int cost = eDifficultyHelpers::buildingCost(
+                                     diff, eBuildingType::fishery);
+                mBoard->incDrachmas(-cost);
             }
         }; break;
 
@@ -1590,6 +1604,24 @@ bool eGameWidget::buildMouseRelease() {
         case eBuildingMode::templePoseidon:
         case eBuildingMode::templeZeus: {
             const auto bt = eBuildingModeHelpers::toBuildingType(mode);
+            const int m = eBuilding::sInitialMarbleCost(bt);
+            const int hasM = mBoard->resourceCount(eResourceType::marble);
+            if(hasM < m) {
+                auto text = eLanguage::zeusText(19, 201);
+                const auto mStr = std::to_string(m);
+                eStringHelpers::replace(text, "[warning_amount]", mStr);
+                showTip(text);
+                if(mBoard->supportsBuilding(eBuildingMode::masonryShop)) {
+                    showTip(eLanguage::zeusText(19, 202));
+                }
+                return false;
+            }
+
+            const auto diff = mBoard->difficulty();
+            const int cost = eDifficultyHelpers::buildingCost(
+                                 diff, bt);
+            mBoard->incDrachmas(-cost);
+
             const auto h = eSanctBlueprints::sSanctuaryBlueprint(bt, mRotate);
 
             const int sw = h->fW;

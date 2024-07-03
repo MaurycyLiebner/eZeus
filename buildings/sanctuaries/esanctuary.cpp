@@ -481,7 +481,7 @@ void eSanctuary::addSpecialTile(eTile* const t) {
 }
 
 bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
-    if(mGodAbroad || mHelpTimer < 25000) {
+    if(mGodAbroad || mHelpTimer < 250000) {
         reason = eHelpDenialReason::tooSoon;
         return false;
     }

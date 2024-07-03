@@ -210,6 +210,7 @@ public:
     static bool sTimedBuilding(const eBuildingType bt);
     static bool sBlessable(const eBuildingType bt);
     static bool sAttackable(const eBuildingType bt);
+    static int sInitialMarbleCost(const eBuildingType bt);
 
     static std::string sNameForBuilding(eBuilding* const b);
     static std::string sNameForBuilding(const eBuildingType type);

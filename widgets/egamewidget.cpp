@@ -1413,11 +1413,6 @@ void eGameWidget::buildAnimal(eTile* const tile,
     const auto a = e::make_shared<eAnimalAction>(sh.get(), tx, ty, w);
     sh->setAction(a);
 
-    const auto diff = mBoard->difficulty();
-    const int cost = eDifficultyHelpers::buildingCost(
-                         diff, type);
-    mBoard->incDrachmas(-cost);
-
     build(tx, ty, 1, 2, [this, sh, type]() {
         return e::make_shared<eAnimalBuilding>(
                     *mBoard, sh.get(), type);

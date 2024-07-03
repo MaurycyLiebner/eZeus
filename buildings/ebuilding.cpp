@@ -194,6 +194,42 @@ bool eBuilding::sAttackable(const eBuildingType bt) {
     return true;
 }
 
+int eBuilding::sInitialMarbleCost(const eBuildingType bt) {
+    switch(bt) {
+    case eBuildingType::templeZeus:
+        return 48;
+    case eBuildingType::templePoseidon:
+        return 37;
+    case eBuildingType::templeHades:
+        return 37;
+    case eBuildingType::templeHera:
+        return 30;
+    case eBuildingType::templeDemeter:
+        return 27;
+    case eBuildingType::templeAthena:
+        return 24;
+    case eBuildingType::templeArtemis:
+        return 20;
+    case eBuildingType::templeApollo:
+        return 20;
+    case eBuildingType::templeAtlas:
+        return 25;
+    case eBuildingType::templeAres:
+        return 13;
+    case eBuildingType::templeHephaestus:
+        return 13;
+    case eBuildingType::templeAphrodite:
+        return 11;
+    case eBuildingType::templeHermes:
+        return 9;
+    case eBuildingType::templeDionysus:
+        return 8;
+    default:
+        return 0;
+    }
+    return 0;
+}
+
 std::string eBuilding::sNameForBuilding(eBuilding* const b) {
     if(!b) return "";
     const auto type = b->type();

@@ -87,7 +87,7 @@ void eHerosHallInfoWidget::initialize(eHerosHall* const b) {
 
     const int reqC = reqs.size();
     const auto stage = b->stage();
-    if(true) {//met >= reqC && stage == eHeroSummoningStage::none) {
+    if(met >= reqC && stage == eHeroSummoningStage::none) {
         const auto summonButton = new eFramedButton(window());
         const auto txt = eLanguage::zeusText(185, 62) + " " + eHero::sHeroName(ht);
         summonButton->setText(txt);
