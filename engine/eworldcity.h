@@ -218,6 +218,12 @@ public:
     eResourceType tributeType() const { return mTributeType; }
     int tributeCount() const { return mTributeCount; }
 
+    void setRecTributeType(const eResourceType r) { mRecTributeType = r; }
+    void setRecTributeCount(const int c) { mRecTributeCount = c; }
+
+    eResourceType recTributeType() const { return mRecTributeType; }
+    int recTributeCount() const { return mRecTributeCount; }
+
     void write(eWriteStream& dst) const;
     void read(eReadStream& src, eWorldBoard* const board);
 
@@ -286,6 +292,9 @@ private:
 
     eResourceType mTributeType = eResourceType::drachmas;
     int mTributeCount = 500;
+
+    eResourceType mRecTributeType = eResourceType::drachmas;
+    int mRecTributeCount = 100;
 };
 
 #endif // EWORLDCITY_H

@@ -443,6 +443,10 @@ void eWorldCity::write(eWriteStream& dst) const {
     dst << mWaterTrade;
     swrite(dst, mBuys);
     swrite(dst, mSells);
+    dst << mTributeType;
+    dst << mTributeCount;
+    dst << mRecTributeType;
+    dst << mRecTributeCount;
 }
 
 void sread(eReadStream& src,
@@ -486,6 +490,10 @@ void eWorldCity::read(eReadStream& src, eWorldBoard* const board) {
     src >> mWaterTrade;
     sread(src, mBuys);
     sread(src, mSells);
+    src >> mTributeType;
+    src >> mTributeCount;
+    src >> mRecTributeType;
+    src >> mRecTributeCount;
 }
 
 void eWorldCity::gifted(const eResourceType type, const int count) {

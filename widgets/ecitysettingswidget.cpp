@@ -13,7 +13,8 @@ class eTributeSettingsWidget : public eFramedWidget {
 public:
     using eFramedWidget::eFramedWidget;
 
-    void initialize(const stdsptr<eWorldCity>& c) {
+    void initialize(const stdsptr<eWorldCity>& c,
+                    const bool rec) {
         setType(eFrameType::message);
         const auto innerWidget = new eWidget(window());
         innerWidget->setNoPadding();
@@ -23,21 +24,23 @@ public:
 
         const auto countButton = new eValueButton(window());
         countButton->initialize(1, 9999);
-        countButton->setValue(c->tributeCount());
-        countButton->setValueChangeAction([c](const int v) {
-            c->setTributeCount(v);
+        countButton->setValue(rec ? c->recTributeCount() : c->tributeCount());
+        countButton->setValueChangeAction([c, rec](const int v) {
+            if(rec) c->setRecTributeCount(v);
+            else c->setTributeCount(v);
         });
         innerWidget->addWidget(countButton);
 
         const auto resButton = new eResourceButton(window());
-        resButton->initialize([this, p, innerWidget, c](
+        resButton->initialize([this, p, innerWidget, c, rec](
                               const eResourceType r) {
-            c->setTributeType(r);
+            if(rec) c->setRecTributeType(r);
+            else c->setTributeType(r);
             innerWidget->fitContent();
             resize(innerWidget->x() + innerWidget->width() + p,
                    innerWidget->y() + innerWidget->height() + p);
         }, true);
-        resButton->setResource(c->tributeType());
+        resButton->setResource(rec ? c->recTributeType() : c->tributeType());
         innerWidget->addWidget(resButton);
 
         innerWidget->stackHorizontally();
@@ -444,7 +447,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW1->addWidget(buysButton);
+    buttonsW2->addWidget(buysButton);
     buysButton->align(eAlignment::hcenter);
 
     const auto sellsButton = new eFramedButton(window());
@@ -462,7 +465,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW1->addWidget(sellsButton);
+    buttonsW2->addWidget(sellsButton);
     sellsButton->align(eAlignment::hcenter);
 
     const auto tributeButton = new eFramedButton(window());
@@ -471,13 +474,27 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
     tributeButton->fitContent();
     tributeButton->setPressAction([this, c]() {
         const auto d = new eTributeSettingsWidget(window());
-        d->initialize(c);
+        d->initialize(c, false);
 
         window()->execDialog(d);
         d->align(eAlignment::center);
     });
-    buttonsW1->addWidget(tributeButton);
+    buttonsW2->addWidget(tributeButton);
     tributeButton->align(eAlignment::hcenter);
+
+    const auto recTributeButton = new eFramedButton(window());
+    recTributeButton->setUnderline(false);
+    recTributeButton->setText(eLanguage::text("rec_tribute"));
+    recTributeButton->fitContent();
+    recTributeButton->setPressAction([this, c]() {
+        const auto d = new eTributeSettingsWidget(window());
+        d->initialize(c, true);
+
+        window()->execDialog(d);
+        d->align(eAlignment::center);
+    });
+    buttonsW2->addWidget(recTributeButton);
+    recTributeButton->align(eAlignment::hcenter);
 
     const auto waterTradeButton = new eFramedButton(window());
     waterTradeButton->setUnderline(false);
@@ -496,7 +513,7 @@ void eCitySettingsWidget::initialize(const stdsptr<eWorldCity>& c) {
             waterTradeButton->setText(eLanguage::text("land_trade"));
         }
     });
-    buttonsW1->addWidget(waterTradeButton);
+    buttonsW2->addWidget(waterTradeButton);
     waterTradeButton->align(eAlignment::hcenter);
 
     const auto mStr = new eValueButton(window());

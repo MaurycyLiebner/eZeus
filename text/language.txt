@@ -1,6 +1,7 @@
 settings "Settings"
 editor "Editor"
 tribute "Tribute"
+rec_tribute "Rec tribute"
 choose "Choose"
 relationship "Relationship"
 map "Map"

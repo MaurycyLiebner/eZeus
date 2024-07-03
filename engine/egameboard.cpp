@@ -1922,7 +1922,9 @@ void eGameBoard::incTime(const int by) {
             if(!c->isRival()) continue;
             const auto rr = e::make_shared<eReceiveRequestEvent>(
                                 eGameEventBranch::root);
-            rr->initialize(0, eResourceType::drachmas, 100, c, false);
+            const auto type = c->recTributeType();
+            const int count = c->recTributeCount();
+            rr->initialize(0, type, count, c, false);
             rr->setTributeRequest(true);
             rr->initializeDate(mDate);
             rr->setGameBoard(this);
