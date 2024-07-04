@@ -125,7 +125,7 @@ bool eCampaign::writeStrings(const std::string& path) const {
         return false;
     }
 
-    const auto titleStr = mTitle.empty() ? "INSERT TEXT HERE" : mTitle;
+    const auto titleStr = mTitle.empty() ? mName : mTitle;
     file << "Adventure_Title=\"" + titleStr + "\"\n";
     file << "Adventure_Introduction=\"" + mIntroduction + "\"\n";
     file << "Adventure_Complete=\"" + mComplete + "\"\n";
