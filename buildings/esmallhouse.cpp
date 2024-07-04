@@ -192,13 +192,17 @@ void eSmallHouse::timeChanged(const int by) {
     }
 
     {
-        const int m4 = 10*pow(10 + mSatisfaction, 3);
-        const auto diff = b.difficulty();
-        const int leaveRisk = eDifficultyHelpers::crimeRisk(diff);
-        if(leaveRisk && by) {
-            const int leavePeriod = m4/(by*leaveRisk);
-            if(leavePeriod && rand() % leavePeriod == 0) {
-                leave();
+        const auto s = b.sanctuary(eGodType::aphrodite);
+        const bool aphr = s && s->finished();
+        if(!aphr) {
+            const int m4 = 10*pow(10 + mSatisfaction, 3);
+            const auto diff = b.difficulty();
+            const int leaveRisk = eDifficultyHelpers::crimeRisk(diff);
+            if(leaveRisk && by) {
+                const int leavePeriod = m4/(by*leaveRisk);
+                if(leavePeriod && rand() % leavePeriod == 0) {
+                    leave();
+                }
             }
         }
     }
