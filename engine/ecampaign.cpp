@@ -188,6 +188,9 @@ bool eCampaign::sReadGlossary(const std::string& name,
 
 void eCampaign::read(eReadStream& src) {
     src >> mBitmap;
+    int version;
+    src >> version;
+    src.setFormat(version);
     src >> mName;
     src >> mAtlantean;
     src >> mCurrentParentEpisode;
@@ -266,6 +269,7 @@ void eCampaign::read(eReadStream& src) {
 
 void eCampaign::write(eWriteStream& dst) const {
     dst << mBitmap;
+    dst << eFileFormat::version;
     dst << mName;
     dst << mAtlantean;
     dst << mCurrentParentEpisode;

@@ -7,6 +7,7 @@
 #include <map>
 
 #include "pointers/estdpointer.h"
+#include "efileformat.h"
 
 class eTile;
 class eBuilding;
@@ -126,10 +127,15 @@ public:
     using eFunc = std::function<void()>;
     void addPostFunc(const eFunc& func);
     void handlePostFuncs();
+
+    void setFormat(const int f) { mFileFormat = f; }
+    int format() const { return mFileFormat; }
 private:
     std::vector<eFunc> mPostFuncs;
 
     SDL_RWops* const mSrc;
+
+    int mFileFormat = 0;
 };
 
 #endif // EREADSTREAM_H

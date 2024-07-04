@@ -966,6 +966,7 @@ HEADERS += \
     exmlparser.h \
     fileIO/ebuildingreader.h \
     fileIO/ebuildingwriter.h \
+    fileIO/efileformat.h \
     fileIO/ereadstream.h \
     fileIO/estreams.h \
     fileIO/ewritestream.h \
