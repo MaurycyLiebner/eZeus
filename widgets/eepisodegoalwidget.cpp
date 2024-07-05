@@ -142,7 +142,23 @@ void eEpisodeGoalWidget::initialize(const stdsptr<eEpisodeGoal>& e,
     case eEpisodeGoalType::housing: {
         const auto type = new eFramedButton(window());
         type->setUnderline(false);
-        type->setPressAction([this, e, updateText, type]() {
+        const auto nameGetter = [e]() {
+            std::string name;
+            const auto t = e->fEnumInt1 == 0 ? eBuildingType::commonHouse :
+                                               eBuildingType::eliteHousing;
+            switch(t) {
+            case eBuildingType::commonHouse:
+                return eSmallHouse::sName(e->fEnumInt2);
+            case eBuildingType::eliteHousing:
+                return eEliteHousing::sName(e->fEnumInt2);
+            default:
+                break;
+            }
+            return std::string();
+        };
+        type->setText(nameGetter());
+        type->fitContent();
+        type->setPressAction([this, e, updateText, type, nameGetter]() {
             const auto choose = new eChooseButton(window());
             std::vector<std::string> names;
             for(int i = 0; i < 7; i++) {
@@ -151,23 +167,11 @@ void eEpisodeGoalWidget::initialize(const stdsptr<eEpisodeGoal>& e,
             for(int i = 0; i < 5; i++) {
                 names.push_back(eEliteHousing::sName(i));
             }
-            const auto act = [e, updateText, type](const int val) {
+            const auto act = [e, updateText, type, nameGetter](const int val) {
                 e->fEnumInt1 = val > 6 ? 1 : 0;
                 e->fEnumInt2 = val > 6 ? (val - 6) : val;
                 {
-                    std::string name;
-                    const auto t = e->fEnumInt1 == 0 ? eBuildingType::commonHouse :
-                                                       eBuildingType::eliteHousing;
-                    switch(t) {
-                    case eBuildingType::commonHouse:
-                        name = eSmallHouse::sName(e->fEnumInt2);
-                        break;
-                    case eBuildingType::eliteHousing:
-                        name = eEliteHousing::sName(e->fEnumInt2);
-                        break;
-                    default:
-                        break;
-                    }
+                    const auto name = nameGetter();
                     type->setText(name);
                 }
                 updateText();
@@ -177,22 +181,6 @@ void eEpisodeGoalWidget::initialize(const stdsptr<eEpisodeGoal>& e,
             window()->execDialog(choose);
             choose->align(eAlignment::center);
         });
-        {
-            std::string name;
-            const auto t = static_cast<eBuildingType>(e->fEnumInt1);
-            switch(t) {
-            case eBuildingType::commonHouse:
-                name = eSmallHouse::sName(e->fEnumInt2);
-                break;
-            case eBuildingType::eliteHousing:
-                name = eEliteHousing::sName(e->fEnumInt2);
-                break;
-            default:
-                break;
-            }
-            type->setText(name);
-        }
-        type->fitContent();
         detailsW->addWidget(type);
 
         const auto b = new eValueButton(window());
