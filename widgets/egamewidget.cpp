@@ -1055,7 +1055,9 @@ bool eGameWidget::bridgeTiles(eTile* const t, const eTerrain terr,
 }
 
 bool eGameWidget::canBuildAvenue(eTile* const t) const {
-    const bool cb = canBuildBase(t->x(), t->x(), t->y(), t->y());
+    const int tx = t->x();
+    const int ty = t->y();
+    const bool cb = canBuildBase(tx, tx + 1, ty, ty + 1);
     if(!cb) return false;
     const auto tr = t->topRight<eTile>();
     const auto br = t->bottomRight<eTile>();
