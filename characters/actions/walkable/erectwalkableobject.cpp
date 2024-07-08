@@ -15,12 +15,17 @@ eRectWalkableObject::eRectWalkableObject() :
     eWalkableObject(eWalkableObjectType::rect) {}
 
 bool eRectWalkableObject::walkable(
-        eTileBase* const t, const eOrientation o) const {
+        eTileBase* const t) const {
     const SDL_Point p{t->x(), t->y()};
     const bool r = SDL_PointInRect(&p, &mRect);
     if(r) return true;
-    if(mOther) return mOther->walkable(t, o);
+    if(mOther) return mOther->walkable(t);
     return false;
+}
+
+eWalkableObjectType eRectWalkableObject::rootType() const {
+    if(!mOther) return eWalkableObjectType::rect;
+    return mOther->rootType();
 }
 
 void eRectWalkableObject::read(eReadStream& src) {

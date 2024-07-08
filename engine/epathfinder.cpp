@@ -71,58 +71,58 @@ bool ePathFinder::findPath(eTileBase* const start,
             mData.fFinalY = tty;
             if(finishOnFound) return;
         }
-        if(!mWalkable(tt.first, eOrientation::topRight)) return;
+        if(!mWalkable(tt.first)) return;
         if(notDiagonal) {
             if(x == -1 && y == -1) { // top
                 {
                     const auto ttt = tileGetter(brd, tile->first, 0, -1);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
+                        if(!mWalkable(ttt.first)) return;
                     }
                 }
                 {
                     const auto ttt = tileGetter(brd, tile->first, -1, 0);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
+                        if(!mWalkable(ttt.first)) return;
                     }
                 }
             } else if(x == -1 && y == 1) { // left
                 {
                     const auto ttt = tileGetter(brd, tile->first, -1, 0);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
+                        if(!mWalkable(ttt.first)) return;
                     }
                 }
                 {
                     const auto ttt = tileGetter(brd, tile->first, 0, 1);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
+                        if(!mWalkable(ttt.first)) return;
                     }
                 }
             } else if(x == 1 && y == 1) { // bottom
                 {
                     const auto ttt = tileGetter(brd, tile->first, 1, 0);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
+                        if(!mWalkable(ttt.first)) return;
                     }
                 }
                 {
                     const auto ttt = tileGetter(brd, tile->first, 0, 1);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
+                        if(!mWalkable(ttt.first)) return;
                     }
                 }
             } else if(x == 1 && y == -1) { // right
                 {
                     const auto ttt = tileGetter(brd, tile->first, 1, 0);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
+                        if(!mWalkable(ttt.first)) return;
                     }
                 }
                 {
                     const auto ttt = tileGetter(brd, tile->first, 0, -1);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
+                        if(!mWalkable(ttt.first)) return;
                     }
                 }
             }
@@ -192,7 +192,6 @@ bool ePathFinder::extractPath(const ePathFunc& pathFunc) {
     bestFinder = [&](const eTilePair& from) {
         if(!from.first || !from.second) return false;
         const auto tile = from.first;
-        const int dist = *from.second;
         const int tx = tile->x();
         const int ty = tile->y();
         const int dtx = mData.fStart->x();
@@ -219,16 +218,22 @@ bool ePathFinder::extractPath(const ePathFunc& pathFunc) {
                 {eOrientation::bottom, od ? eTilePair{nullptr, nullptr}
                                           : tileGetter(brd, tile, -1, -1)}};
 
+        int distP = __INT_MAX__;
+        eNeigh best{eOrientation::topRight, {nullptr, &distP}};
         for(const auto& n : neighs) {
             const auto& tp = n.second;
             if(!tp.first || !tp.second) continue;
 
-            if(mWalkable(tp.first, n.first)) {
-                if(*tp.second == dist - 1) {
-                    pathFunc(n);
-                    return bestFinder(tp);
+            if(mWalkable(tp.first)) {
+                const int ddist = *tp.second;
+                if(ddist < *best.second.second) {
+                    best = n;
                 }
             }
+        }
+        if(best.second.first) {
+            pathFunc(best);
+            return bestFinder(best.second);
         }
         return false;
     };

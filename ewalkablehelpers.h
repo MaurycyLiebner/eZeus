@@ -19,6 +19,7 @@ namespace eWalkableHelpers {
     bool sRoadRoadblockWalkable(eTileBase* const t);
     bool sBuildingsWalkable(eTileBase* const t);
     int sMonsterTileDistance(eTileBase* const tile);
+    int sRoadAvenueTileDistance(eTileBase* const tile);
     eWalkable sBuildingWalkable(
             eBuilding* const b, const eWalkable& w);
     eWalkable sBuildingWalkable(

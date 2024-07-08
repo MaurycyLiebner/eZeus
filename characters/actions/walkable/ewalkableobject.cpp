@@ -5,35 +5,24 @@
 #include "erectwalkableobject.h"
 #include "ehasresourcewalkableobject.h"
 
-bool roadWalkable(eTileBase* const t, const eOrientation o) {
-    const auto type = t->underBuildingType();
-    const bool hr = type == eBuildingType::road;
-    if(hr) return true;
-    const bool a = type == eBuildingType::avenue;
-    if(!a) return false;
-    if(o == eOrientation::topRight ||
-       o == eOrientation::bottomLeft) {
-        const auto tr = t->neighbour(eOrientation::topRight);
-        const auto bl = t->neighbour(eOrientation::bottomLeft);
-        return (tr && tr->hasRoad()) || (bl && bl->hasRoad());
-    } else if(o == eOrientation::topLeft ||
-              o == eOrientation::bottomRight) {
-        const auto tl = t->neighbour(eOrientation::topLeft);
-        const auto br = t->neighbour(eOrientation::bottomRight);
-        return (tl && tl->hasRoad()) || (br && br->hasRoad());
-    }
-    return false;
-}
 
-bool eWalkableObject::walkable(eTileBase* const t, const eOrientation o) const {
+bool eWalkableObject::walkable(eTileBase* const t) const {
     switch(mType) {
     case eWalkableObjectType::ddefault:
         return t->walkable();
     case eWalkableObjectType::road:
-        return roadWalkable(t, o);
+        return t->hasRoad();
+    case eWalkableObjectType::roadAvenue: {
+        const auto type = t->underBuildingType();
+        const bool hr = type == eBuildingType::road;
+        if(hr) return true;
+        const bool a = type == eBuildingType::avenue;
+        if(a) return true;
+        return false;
+    } break;
     case eWalkableObjectType::roadblock: {
-        const bool w = roadWalkable(t, o);
-        if(!w) return false;
+        const bool hr = t->hasRoad();
+        if(!hr) return false;
         return !t->hasRoadblock();
     }
     case eWalkableObjectType::terrain: {
@@ -114,6 +103,10 @@ stdsptr<eWalkableObject> eWalkableObject::sCreateDefault() {
 
 stdsptr<eWalkableObject> eWalkableObject::sCreateRoad() {
     return sCreate(eWalkableObjectType::road);
+}
+
+stdsptr<eWalkableObject> eWalkableObject::sCreateRoadAvenue() {
+    return sCreate(eWalkableObjectType::roadAvenue);
 }
 
 stdsptr<eWalkableObject> eWalkableObject::sCreateRoadblock() {

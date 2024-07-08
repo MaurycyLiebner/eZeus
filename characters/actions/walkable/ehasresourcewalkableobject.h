@@ -9,7 +9,7 @@ public:
                                const stdsptr<eWalkableObject>& w);
     eHasResourceWalkableObject();
 
-    bool walkable(eTileBase* const t, const eOrientation o) const override;
+    bool walkable(eTileBase* const t) const override;
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;

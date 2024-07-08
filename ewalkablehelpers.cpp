@@ -54,3 +54,10 @@ int eWalkableHelpers::sMonsterTileDistance(eTileBase* const tile) {
     if(r) return 1;
     return 4;
 }
+
+int eWalkableHelpers::sRoadAvenueTileDistance(eTileBase* const tile) {
+    const auto type = tile->underBuildingType();
+    const bool a = type == eBuildingType::avenue;
+    if(a) return 4;
+    return 1;
+}

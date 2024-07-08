@@ -65,7 +65,7 @@ eCharacterActionState eMoveAroundAction::nextTurn(eOrientation& turn) {
     const int oldDist = std::sqrt(tx*tx + ty*ty);
     for(const auto o : os) {
         const auto tt = t->neighbour(o);
-        if(!tt || !walkable(tt, o)) continue;
+        if(!tt || !walkable(tt)) continue;
         const int ttx = tt->x() - mStartTX;
         const int tty = tt->y() - mStartTY;
         const int dist = std::sqrt(ttx*ttx + tty*tty);

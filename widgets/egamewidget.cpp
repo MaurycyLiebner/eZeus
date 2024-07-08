@@ -930,7 +930,7 @@ void eGameWidget::showMessage(eEventData& ed,
 }
 
 bool eGameWidget::roadPath(std::vector<eOrientation>& path) {
-    ePathFinder p([](eTileBase* const t, const eOrientation) {
+    ePathFinder p([](eTileBase* const t) {
         const auto terr = t->terrain();
         const bool tr = static_cast<bool>(eTerrain::buildable & terr);
         if(!tr) return false;
@@ -1093,7 +1093,7 @@ void eGameWidget::updatePatrolPath() {
         const auto handlePath = [&](eTile* const from, eTile* const to,
                                     const bool comeback) {
             if(!from || !to) return false;
-            const auto valid = [&](eTileBase* const t, const eOrientation) {
+            const auto valid = [&](eTileBase* const t) {
                 const auto tt = static_cast<eTile*>(t);
                 const auto ub = tt->underBuilding() == mPatrolBuilding;
                 return t->hasRoad() || ub;

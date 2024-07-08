@@ -11,6 +11,7 @@ enum class eWalkableObjectType {
     ddefault,
     waterAndTerrain,
     road,
+    roadAvenue,
     roadblock,
     terrain,
     fertile,
@@ -30,10 +31,14 @@ public:
     eWalkableObject(const eWalkableObjectType t) :
         mType(t) {}
 
-    virtual bool walkable(eTileBase* const t, const eOrientation o) const;
+    virtual bool walkable(eTileBase* const t) const;
 
     virtual void read(eReadStream&) {}
     virtual void write(eWriteStream&) const {}
+
+    virtual eWalkableObjectType rootType() const {
+        return mType;
+    }
 
     eWalkableObjectType type() const { return mType; }
 
@@ -41,6 +46,7 @@ public:
             const eWalkableObjectType type);
     static stdsptr<eWalkableObject> sCreateDefault();
     static stdsptr<eWalkableObject> sCreateRoad();
+    static stdsptr<eWalkableObject> sCreateRoadAvenue();
     static stdsptr<eWalkableObject> sCreateRoadblock();
     static stdsptr<eWalkableObject> sCreateTerrain();
     static stdsptr<eWalkableObject> sCreateFertile();

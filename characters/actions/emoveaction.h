@@ -15,7 +15,7 @@ public:
                 const eCharActionType type);
     eMoveAction(eCharacter* const c, const eCharActionType type);
 
-    bool walkable(eTileBase* const tile, const eOrientation o) const;
+    bool walkable(eTileBase* const tile) const;
 
     void setObsticleHandler(const stdsptr<eObsticleHandler>& oh);
 

@@ -11,9 +11,8 @@ eHasResourceWalkableObject::eHasResourceWalkableObject(
 eHasResourceWalkableObject::eHasResourceWalkableObject() :
     eWalkableObject(eWalkableObjectType::hasResource) {}
 
-bool eHasResourceWalkableObject::walkable(
-        eTileBase* const t, const eOrientation o) const {
-    return mHr->has(t) || mW->walkable(t, o);
+bool eHasResourceWalkableObject::walkable(eTileBase* const t) const {
+    return mHr->has(t) || mW->walkable(t);
 }
 
 void eHasResourceWalkableObject::read(eReadStream& src) {

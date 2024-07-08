@@ -5,8 +5,7 @@
 
 class eKnownEndPathFinder {
 public:
-    using eTileWalkable = std::function<bool(eTileBase* const,
-                                             const eOrientation o)>;
+    using eTileWalkable = std::function<bool(eTileBase* const)>;
     using eTileFinish = std::function<bool(eTileBase* const)>;
     eKnownEndPathFinder(const eTileWalkable& walkable,
                         eTileBase* const endTile);

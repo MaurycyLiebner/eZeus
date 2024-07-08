@@ -17,7 +17,7 @@ public:
 protected:
     void patrol();
     void goBackDecision(const stdsptr<eWalkableObject>& w =
-                            eWalkableObject::sCreateRoad());
+                            eWalkableObject::sCreateRoadAvenue());
 private:
     eSmallHouse* mBuilding = nullptr;
 

@@ -10,8 +10,8 @@ public:
     eRectWalkableObject(const SDL_Rect& rect);
     eRectWalkableObject();
 
-    bool walkable(eTileBase* const t, const eOrientation o) const override;
-
+    bool walkable(eTileBase* const t) const override;
+    eWalkableObjectType rootType() const override;
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:

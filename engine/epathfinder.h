@@ -5,8 +5,7 @@
 
 class ePathFinder {
 public:
-    using eTileWalkable = std::function<bool(eTileBase* const,
-                                             const eOrientation o)>;
+    using eTileWalkable = std::function<bool(eTileBase* const)>;
     using eTileFinish = std::function<bool(eTileBase* const)>;
     ePathFinder(const eTileWalkable& walkable,
                 const eTileFinish& finish);

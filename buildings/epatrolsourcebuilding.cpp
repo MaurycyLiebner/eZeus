@@ -107,7 +107,7 @@ void ePatrolSourceBuilding::spawn(const int id) {
         return found;
     };
     const auto failFunc = []() {};
-    const auto rw = eWalkableObject::sCreateRoad();
+    const auto rw = eWalkableObject::sCreateRoadAvenue();
     const auto walkable = eWalkableObject::sCreateRect(tRect, rw);
     using ePath = std::vector<eOrientation>;
     const auto finishFunc = [this, walkable, targetRects, id](const ePath&) {
@@ -152,5 +152,5 @@ void ePatrolSourceBuilding::spawn(const int id, eBuilding* const targetBuilding)
     a->setFinishAction(finishAction);
     c->setAction(a);
     c->setActionType(eCharacterActionType::walk);
-    a->start(targetBuilding, eWalkableObject::sCreateRoad());
+    a->start(targetBuilding, eWalkableObject::sCreateRoadAvenue());
 }

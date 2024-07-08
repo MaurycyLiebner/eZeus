@@ -557,7 +557,7 @@ void eHerosHall::updateRequirementStatus(eHeroRequirement& hr) {
         }
     } break;
     case eHeroRequirementType::walls: {
-        ePathFinder p([](eTileBase* const t, const eOrientation) {
+        ePathFinder p([](eTileBase* const t) {
             const auto bt = t->underBuildingType();
             return bt != eBuildingType::road &&
                    bt != eBuildingType::wall;

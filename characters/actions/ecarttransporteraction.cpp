@@ -176,14 +176,14 @@ void eCartTransporterAction::findTarget(const std::vector<eCartTask>& tasks) {
     a->setRemoveLastTurn(true);
     a->setMaxFindDistance(200);
     const auto w = eWalkableObject::sCreateRect(
-                       buildingRect, eWalkableObject::sCreateRoad());
+                       buildingRect, eWalkableObject::sCreateRoadAvenue());
     a->start(finalTile, w);
 
     setCurrentAction(a);
 }
 
 void eCartTransporterAction::goBack() {
-    eActionWithComeback::goBack(mBuilding, eWalkableObject::sCreateRoad());
+    eActionWithComeback::goBack(mBuilding, eWalkableObject::sCreateRoadAvenue());
 }
 
 void eCartTransporterAction::targetResourceAction(const int bx, const int by) {
@@ -336,7 +336,7 @@ void eCartTransporterAction::waitOutside() {
 
     const auto buildingRect = mBuilding->tileRect();
     const auto w = eWalkableObject::sCreateRect(
-                       buildingRect, eWalkableObject::sCreateRoad());
+                       buildingRect, eWalkableObject::sCreateRoadAvenue());
     a->start(tt, w);
 
     setCurrentAction(a);
@@ -368,7 +368,7 @@ void eCartTransporterAction::spread() {
         return sqrt(dx*dx + dy*dy) > 4;
     };
     a->setRemoveLastTurn(true);
-    a->start(finalFunc, eWalkableObject::sCreateRoad());
+    a->start(finalFunc, eWalkableObject::sCreateRoadAvenue());
 
     setCurrentAction(a);
 }
