@@ -191,6 +191,9 @@ void eCampaign::read(eReadStream& src) {
     int version;
     src >> version;
     src.setFormat(version);
+    std::string name;
+    src >> name;
+    if(mName.empty()) mName = name;
     src >> mAtlantean;
     src >> mCurrentParentEpisode;
     src >> mCurrentColonyEpisode;
@@ -269,6 +272,7 @@ void eCampaign::read(eReadStream& src) {
 void eCampaign::write(eWriteStream& dst) const {
     dst << mBitmap;
     dst << eFileFormat::version;
+    dst << mName;
     dst << mAtlantean;
     dst << mCurrentParentEpisode;
     dst << mCurrentColonyEpisode;
