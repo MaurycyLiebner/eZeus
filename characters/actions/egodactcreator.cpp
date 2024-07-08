@@ -36,6 +36,8 @@ stdsptr<eGodAct> eGodAct::sCreate(
 
     case eGodActType::lookForPlague:
         return std::make_shared<eLookForPlagueGodAct>(board);
+    case eGodActType::lookForEvict:
+        return std::make_shared<eLookForEvictGodAct>(board);
     case eGodActType::lookForTargetedBless:
         return std::make_shared<eLookForTargetedBlessGodAct>(board);
     case eGodActType::lookForTargetedAttack:
