@@ -1388,6 +1388,7 @@ bool eGameWidget::buildMouseRelease() {
                 build(tile->x(), tile->y(), 1, 1,
                       [this]() { return e::make_shared<eAvenue>(*mBoard); });
             };
+            mBoard->scheduleTerrainUpdate();
             break;
 
 

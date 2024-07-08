@@ -149,17 +149,17 @@ private:
     bool canBuildBase(const int minX, const int maxX,
                       const int minY, const int maxY,
                       const bool fertile = false,
-                      const bool flat = false);
+                      const bool flat = false) const;
     bool canBuild(const int tx, const int ty,
                   const int sw, const int sh,
                   const bool fertile = false,
-                  const bool flat = false);
+                  const bool flat = false) const;
     bool canBuildVendor(const int tx, const int ty,
-                        const eResourceType resType);
+                        const eResourceType resType) const;
     bool canBuildFishery(const int tx, const int ty,
-                         eOrientation& o);
+                         eOrientation& o) const;
     bool canBuildPier(const int tx, const int ty,
-                      eOrientation& o);
+                      eOrientation& o) const;
 
     bool build(const int tx, const int ty,
                const int sw, const int sh,

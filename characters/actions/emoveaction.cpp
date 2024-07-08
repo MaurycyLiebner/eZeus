@@ -19,8 +19,8 @@ eMoveAction::eMoveAction(eCharacter* const c,
                          const eCharActionType type) :
     eMoveAction(c, nullptr, type) {}
 
-bool eMoveAction::walkable(eTileBase* const tile) const {
-    return mTileWalkable->walkable(tile);
+bool eMoveAction::walkable(eTileBase* const tile, const eOrientation o) const {
+    return mTileWalkable->walkable(tile, o);
 }
 
 void eMoveAction::setObsticleHandler(const stdsptr<eObsticleHandler>& oh) {
@@ -156,7 +156,7 @@ bool eMoveAction::nextTurn() {
         setState(eCharacterActionState::failed);
         return false;
     }
-    if(!mTileWalkable->walkable(mTargetTile)) {
+    if(!walkable(mTargetTile, turn)) {
         if(mObstHandler && mObstHandler->handle(mTargetTile)) {
         } else {
             setState(eCharacterActionState::failed);

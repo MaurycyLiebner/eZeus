@@ -152,7 +152,7 @@ void eTradePost::updateRouteStart() {
     const auto finalTile = std::make_shared<std::pair<int, int>>();
 
     const auto final = [finalTile, walkable](eTileBase* const t) {
-        if(!walkable->walkable(t)) return false;
+        if(!walkable->walkable(t, eOrientation::topRight)) return false;
         *finalTile = {t->x(), t->y()};
         if(!t->topRight()) return true;
         if(!t->bottomRight()) return true;

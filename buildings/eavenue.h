@@ -3,6 +3,8 @@
 
 #include "ebuilding.h"
 
+class eRoad;
+
 class eAvenue : public eBuilding {
 public:
     eAvenue(eGameBoard& board);
@@ -11,6 +13,8 @@ public:
 
     std::shared_ptr<eTexture>
         getTexture(const eTileSize size) const;
+
+    eTile* road() const;
 };
 
 #endif // EAVENUE_H

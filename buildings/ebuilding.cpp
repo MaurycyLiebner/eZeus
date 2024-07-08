@@ -56,6 +56,7 @@ bool eBuilding::sWalkableBuilding(const eBuildingType t) {
     if(t == eBuildingType::placeholder) return true;
     if(t == eBuildingType::vine) return true;
     if(t == eBuildingType::park) return true;
+    if(t == eBuildingType::avenue) return true;
     if(t == eBuildingType::oliveTree) return true;
     if(t == eBuildingType::orangeTree) return true;
     if(t == eBuildingType::sheep) return true;
@@ -83,6 +84,7 @@ bool eBuilding::sFlatBuilding(const eBuildingType bt) {
            bt == eBuildingType::templeTile ||
            bt == eBuildingType::vine ||
            bt == eBuildingType::park ||
+           bt == eBuildingType::avenue ||
            bt == eBuildingType::oliveTree ||
            bt == eBuildingType::orangeTree ||
            bt == eBuildingType::cattle ||
@@ -1904,23 +1906,35 @@ eTile* eBuilding::tileNeighbour(const eMoveDirection o,
     return nullptr;
 }
 
-std::vector<eTile*> eBuilding::surroundingRoad(const bool diagonal) const {
+std::vector<eTile*> eBuilding::surroundingRoad(
+        const bool diagonal, const bool jumpAvenue) const {
     const auto& board = getBoard();
     const auto tr = tileRect();
     std::vector<eTile*> r;
+    const auto addAvenue = [&r](eTile* const t) {
+        const auto ub = t->underBuilding();
+        const auto a = static_cast<eAvenue*>(ub);
+        const auto rr = a->road();
+        if(!rr) return;
+        r.push_back(rr);
+    };
     const int xMin = tr.x + (diagonal ? -1 : 0);
     const int xMax = tr.x + tr.w + (diagonal ? 1 : 0);
     for(int x = xMin; x < xMax; x++) {
         const auto t = board.tile(x, tr.y - 1);
         if(t && t->hasRoad()) r.push_back(t);
+        else if(jumpAvenue && t && t->hasAvenue()) addAvenue(t);
         const auto tt = board.tile(x, tr.y + tr.h);
         if(tt && tt->hasRoad()) r.push_back(tt);
+        else if(jumpAvenue && tt && tt->hasAvenue()) addAvenue(tt);
     }
     for(int y = tr.y; y < tr.y + tr.h; y++) {
         const auto t = board.tile(tr.x - 1, y);
         if(t && t->hasRoad()) r.push_back(t);
+        else if(jumpAvenue && t && t->hasAvenue()) addAvenue(t);
         const auto tt = board.tile(tr.x + tr.w, y);
         if(tt && tt->hasRoad()) r.push_back(tt);
+        else if(jumpAvenue && tt && tt->hasAvenue()) addAvenue(tt);
     }
     return r;
 }

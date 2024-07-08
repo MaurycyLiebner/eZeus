@@ -76,7 +76,7 @@ bool ePatrolBuildingBase::spawn() {
            bt == eBuildingType::grandAgora) {
             t = centerTile();
         } else {
-            const auto ts = surroundingRoad(false);
+            const auto ts = surroundingRoad(false, true);
             if(!ts.empty()) {
                 const int tss = ts.size();
                 if(++mSpawnRoadId >= tss) mSpawnRoadId = 0;

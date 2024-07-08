@@ -30,8 +30,8 @@ void ePathFindTask::run(eThreadBoard& data) {
         const auto startT = mStartTile(data);
         const auto endT = mEndTile(data);
         eKnownEndPathFinder pf0(
-        [&](eTileBase* const t) {
-            return mTileWalkable->walkable(t);
+        [&](eTileBase* const t, const eOrientation o) {
+            return mTileWalkable->walkable(t, o);
         }, endT);
         if(mFindAll) pf0.setMode(ePathFinderMode::findAll);
         const bool r = pf0.findPath(startT, mRange, mOnlyDiagonal,
@@ -45,8 +45,8 @@ void ePathFindTask::run(eThreadBoard& data) {
     } else if(mEndTileFunc) {
         const auto t = mStartTile(data);
         ePathFinder pf0(
-        [&](eTileBase* const t) {
-            return mTileWalkable->walkable(t);
+        [&](eTileBase* const t, const eOrientation o) {
+            return mTileWalkable->walkable(t, o);
         },
         [&](eTileBase* const t) {
            return mEndTileFunc(static_cast<eThreadTile*>(t));

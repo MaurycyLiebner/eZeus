@@ -497,7 +497,7 @@ void buildTiles(int& minX, int& minY,
 bool eGameWidget::canBuildBase(const int minX, const int maxX,
                                const int minY, const int maxY,
                                const bool fertile,
-                               const bool flat) {
+                               const bool flat) const {
     bool fertileFound = false;
     for(int x = minX; x < maxX; x++) {
         for(int y = minY; y < maxY; y++) {
@@ -529,7 +529,7 @@ bool eGameWidget::canBuildBase(const int minX, const int maxX,
 bool eGameWidget::canBuild(const int tx, const int ty,
                            const int sw, const int sh,
                            const bool fertile,
-                           const bool flat) {
+                           const bool flat) const {
     int minX;
     int minY;
     int maxX;
@@ -539,7 +539,7 @@ bool eGameWidget::canBuild(const int tx, const int ty,
 }
 
 bool eGameWidget::canBuildVendor(const int tx, const int ty,
-                                 const eResourceType resType) {
+                                 const eResourceType resType) const {
     const auto t = mBoard->tile(tx, ty);
     if(!t) return false;
     const auto b = t->underBuilding();
@@ -714,7 +714,7 @@ bool canBuildFisheryTL(eTile* const t) {
 }
 
 bool eGameWidget::canBuildFishery(const int tx, const int ty,
-                                  eOrientation& o) {
+                                  eOrientation& o) const {
     for(int x = tx; x < tx + 2; x++) {
         for(int y = ty - 1; y < ty - 1 + 2; y++) {
             const auto t = mBoard->tile(x, y);
@@ -753,7 +753,7 @@ bool eGameWidget::canBuildFishery(const int tx, const int ty,
 }
 
 bool eGameWidget::canBuildPier(const int tx, const int ty,
-                               eOrientation& o) {
+                               eOrientation& o) const {
     const bool r = canBuildFishery(tx, ty, o);
     if(!r) return false;
     switch(o) {
@@ -930,7 +930,7 @@ void eGameWidget::showMessage(eEventData& ed,
 }
 
 bool eGameWidget::roadPath(std::vector<eOrientation>& path) {
-    ePathFinder p([](eTileBase* const t) {
+    ePathFinder p([](eTileBase* const t, const eOrientation) {
         const auto terr = t->terrain();
         const bool tr = static_cast<bool>(eTerrain::buildable & terr);
         if(!tr) return false;
@@ -1055,6 +1055,8 @@ bool eGameWidget::bridgeTiles(eTile* const t, const eTerrain terr,
 }
 
 bool eGameWidget::canBuildAvenue(eTile* const t) const {
+    const bool cb = canBuildBase(t->x(), t->x(), t->y(), t->y());
+    if(!cb) return false;
     const auto tr = t->topRight<eTile>();
     const auto br = t->bottomRight<eTile>();
     const auto bl = t->bottomLeft<eTile>();
@@ -1091,7 +1093,7 @@ void eGameWidget::updatePatrolPath() {
         const auto handlePath = [&](eTile* const from, eTile* const to,
                                     const bool comeback) {
             if(!from || !to) return false;
-            const auto valid = [&](eTileBase* const t) {
+            const auto valid = [&](eTileBase* const t, const eOrientation) {
                 const auto tt = static_cast<eTile*>(t);
                 const auto ub = tt->underBuilding() == mPatrolBuilding;
                 return t->hasRoad() || ub;

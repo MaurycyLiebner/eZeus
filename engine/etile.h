@@ -56,6 +56,7 @@ public:
     { return mMissiles; }
 
     bool hasRoad() const override;
+    bool hasAvenue() const;
     void setUnderBuilding(const stdsptr<eBuilding>& b);
     eBuilding* underBuilding() const { return mUnderBuilding.get(); }
     eBuildingType underBuildingType() const override;

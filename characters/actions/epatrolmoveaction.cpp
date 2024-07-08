@@ -46,7 +46,7 @@ eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
     if(!tile) return eCharacterActionState::failed;
 
     const auto neighVer = [&](eTileBase* const t) {
-        return t && mWalkable->walkable(t) && t->neighbour(mO) != tile;
+        return t && mWalkable->walkable(t, mO) && t->neighbour(mO) != tile;
     };
     auto options = mDiagonalOnly ? tile->diagonalNeighbours(neighVer) :
                                    tile->neighbours(neighVer);

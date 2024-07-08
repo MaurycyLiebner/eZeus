@@ -5,15 +5,35 @@
 #include "erectwalkableobject.h"
 #include "ehasresourcewalkableobject.h"
 
-bool eWalkableObject::walkable(eTileBase* const t) const {
+bool roadWalkable(eTileBase* const t, const eOrientation o) {
+    const auto type = t->underBuildingType();
+    const bool hr = type == eBuildingType::road;
+    if(hr) return true;
+    const bool a = type == eBuildingType::avenue;
+    if(!a) return false;
+    if(o == eOrientation::topRight ||
+       o == eOrientation::bottomLeft) {
+        const auto tr = t->neighbour(eOrientation::topRight);
+        const auto bl = t->neighbour(eOrientation::bottomLeft);
+        return (tr && tr->hasRoad()) || (bl && bl->hasRoad());
+    } else if(o == eOrientation::topLeft ||
+              o == eOrientation::bottomRight) {
+        const auto tl = t->neighbour(eOrientation::topLeft);
+        const auto br = t->neighbour(eOrientation::bottomRight);
+        return (tl && tl->hasRoad()) || (br && br->hasRoad());
+    }
+    return false;
+}
+
+bool eWalkableObject::walkable(eTileBase* const t, const eOrientation o) const {
     switch(mType) {
     case eWalkableObjectType::ddefault:
         return t->walkable();
     case eWalkableObjectType::road:
-        return t->hasRoad();
+        return roadWalkable(t, o);
     case eWalkableObjectType::roadblock: {
-        const bool hr = t->hasRoad();
-        if(!hr) return false;
+        const bool w = roadWalkable(t, o);
+        if(!w) return false;
         return !t->hasRoadblock();
     }
     case eWalkableObjectType::terrain: {

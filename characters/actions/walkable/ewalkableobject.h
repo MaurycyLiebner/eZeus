@@ -3,6 +3,7 @@
 
 #include "fileIO/estreams.h"
 #include "pointers/estdpointer.h"
+#include "engine/eorientation.h"
 
 class eTileBase;
 
@@ -29,7 +30,7 @@ public:
     eWalkableObject(const eWalkableObjectType t) :
         mType(t) {}
 
-    virtual bool walkable(eTileBase* const t) const;
+    virtual bool walkable(eTileBase* const t, const eOrientation o) const;
 
     virtual void read(eReadStream&) {}
     virtual void write(eWriteStream&) const {}

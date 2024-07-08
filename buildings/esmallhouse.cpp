@@ -437,7 +437,7 @@ void eSmallHouse::updateSatisfaction() {
 }
 
 void eSmallHouse::spawnCharacter(const stdsptr<eCharacter>& c) {
-    auto ts = surroundingRoad(false);
+    auto ts = surroundingRoad(false, true);
     if(ts.empty()) {
         c->changeTile(centerTile());
     } else {

@@ -267,6 +267,12 @@ bool eTile::hasRoad() const {
     return t == eBuildingType::road;
 }
 
+bool eTile::hasAvenue() const {
+    if(!mUnderBuilding) return false;
+    const auto t = mUnderBuilding->type();
+    return t == eBuildingType::avenue;
+}
+
 void eTile::setUnderBuilding(const stdsptr<eBuilding>& b) {
     mUnderBuilding = b;
     scheduleTerrainUpdate();

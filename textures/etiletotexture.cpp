@@ -313,7 +313,7 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
         }
     }
 
-    if(hr) {
+    if(hr || ut == eBuildingType::avenue) {
         const auto b = tile->underBuilding();
         return b->getTexture(tileSize);
     }

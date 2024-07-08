@@ -164,3 +164,16 @@ eAvenue::getTexture(const eTileSize size) const {
     const auto& coll = avn[collId];
     return coll.getTexture(id);
 }
+
+eTile* eAvenue::road() const {
+    const auto t = centerTile();
+    const auto tl = t->topLeft<eTile>();
+    if(tl && tl->hasRoad()) return tl;
+    const auto br = t->bottomRight<eTile>();
+    if(br && br->hasRoad()) return br;
+    const auto bl = t->bottomLeft<eTile>();
+    if(bl && bl->hasRoad()) return bl;
+    const auto tr = t->topRight<eTile>();
+    if(tr && tr->hasRoad()) return tr;
+    return nullptr;
+}

@@ -71,58 +71,58 @@ bool ePathFinder::findPath(eTileBase* const start,
             mData.fFinalY = tty;
             if(finishOnFound) return;
         }
-        if(!mWalkable(tt.first)) return;
+        if(!mWalkable(tt.first, eOrientation::topRight)) return;
         if(notDiagonal) {
             if(x == -1 && y == -1) { // top
                 {
                     const auto ttt = tileGetter(brd, tile->first, 0, -1);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first)) return;
+                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
                     }
                 }
                 {
                     const auto ttt = tileGetter(brd, tile->first, -1, 0);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first)) return;
+                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
                     }
                 }
             } else if(x == -1 && y == 1) { // left
                 {
                     const auto ttt = tileGetter(brd, tile->first, -1, 0);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first)) return;
+                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
                     }
                 }
                 {
                     const auto ttt = tileGetter(brd, tile->first, 0, 1);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first)) return;
+                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
                     }
                 }
             } else if(x == 1 && y == 1) { // bottom
                 {
                     const auto ttt = tileGetter(brd, tile->first, 1, 0);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first)) return;
+                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
                     }
                 }
                 {
                     const auto ttt = tileGetter(brd, tile->first, 0, 1);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first)) return;
+                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
                     }
                 }
             } else if(x == 1 && y == -1) { // right
                 {
                     const auto ttt = tileGetter(brd, tile->first, 1, 0);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first)) return;
+                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
                     }
                 }
                 {
                     const auto ttt = tileGetter(brd, tile->first, 0, -1);
                     if(ttt.first && ttt.second) {
-                        if(!mWalkable(ttt.first)) return;
+                        if(!mWalkable(ttt.first, eOrientation::topRight)) return;
                     }
                 }
             }
@@ -223,7 +223,7 @@ bool ePathFinder::extractPath(const ePathFunc& pathFunc) {
             const auto& tp = n.second;
             if(!tp.first || !tp.second) continue;
 
-            if(mWalkable(tp.first)) {
+            if(mWalkable(tp.first, n.first)) {
                 if(*tp.second == dist - 1) {
                     pathFunc(n);
                     return bestFinder(tp);

@@ -14,11 +14,12 @@ eRectWalkableObject::eRectWalkableObject(const SDL_Rect& rect) :
 eRectWalkableObject::eRectWalkableObject() :
     eWalkableObject(eWalkableObjectType::rect) {}
 
-bool eRectWalkableObject::walkable(eTileBase* const t) const {
+bool eRectWalkableObject::walkable(
+        eTileBase* const t, const eOrientation o) const {
     const SDL_Point p{t->x(), t->y()};
     const bool r = SDL_PointInRect(&p, &mRect);
     if(r) return true;
-    if(mOther) return mOther->walkable(t);
+    if(mOther) return mOther->walkable(t, o);
     return false;
 }
 
