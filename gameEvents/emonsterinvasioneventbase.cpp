@@ -47,7 +47,14 @@ eMonster* eMonsterInvasionEventBase::triggerBase() const {
     const auto a = e::make_shared<eMonsterAction>(monster.get());
     monster->setAction(a);
     const auto tile = board->monsterTile(mPointId);
-    if(tile) monster->changeTile(tile);
+    if(tile) {
+        if(const auto ub = tile->underBuilding()) {
+            const auto type = ub->type();
+            const bool w = eBuilding::sWalkableBuilding(type);
+            if(!w) ub->collapse();
+        }
+        monster->changeTile(tile);
+    }
     a->increment(1);
 
     return monster.get();

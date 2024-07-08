@@ -23,7 +23,8 @@ eBanner::~eBanner() {
 }
 
 bool eBanner::buildable() const {
-    return mType == eBannerTypeS::disasterPoint;
+    return mType == eBannerTypeS::disasterPoint ||
+           mType == eBannerTypeS::monsterPoint;
 }
 
 void eBanner::read(eReadStream& src) {
