@@ -1096,9 +1096,13 @@ void eGameWidget::updatePatrolPath() {
                                     const bool comeback) {
             if(!from || !to) return false;
             const auto valid = [&](eTileBase* const t) {
+                const auto type = t->underBuildingType();
+                const bool hr = type == eBuildingType::road;
+                if(hr) return true;
+                const bool a = type == eBuildingType::avenue;
+                if(a) return true;
                 const auto tt = static_cast<eTile*>(t);
-                const auto ub = tt->underBuilding() == mPatrolBuilding;
-                return t->hasRoad() || ub;
+                return tt->underBuilding() == mPatrolBuilding;
             };
             const auto final = [&](eTileBase* const t) {
                 return t->x() == from->x() && t->y() == from->y();
@@ -1106,7 +1110,8 @@ void eGameWidget::updatePatrolPath() {
             ePathFinder p(valid, final);
             const int w = mBoard->width();
             const int h = mBoard->height();
-            const bool r = p.findPath(to, 100, true, w, h);
+            const bool r = p.findPath(to, 100, true, w, h,
+                                      eWalkableHelpers::sRoadAvenueTileDistance);
             if(!r) return false;
             std::vector<eTile*> path;
             p.extractPath(path, *mBoard);
