@@ -174,12 +174,31 @@ void eGameWidget::setSettings(const eGameWidgetSettings& s) {
 
 void eGameWidget::initialize() {
     {
-        const auto font = eFonts::defaultFont(resolution());
-        const auto r = window()->renderer();
-        for(int i = 0; i < 10; i++) {
-            const auto tex = std::make_shared<eTexture>();
-            tex->loadText(r, std::to_string(i), eFontColor::light, *font);
-            mNumbers.push_back(tex);
+        for(const auto size : {eTileSize::s15, eTileSize::s30,
+                               eTileSize::s45, eTileSize::s60}) {
+            auto& numbers = mNumbers[size];
+            int fs;
+            switch(size) {
+            case eTileSize::s15:
+                fs = 10;
+                break;
+            case eTileSize::s30:
+                fs = 20;
+                break;
+            case eTileSize::s45:
+                fs = 30;
+                break;
+            case eTileSize::s60:
+                fs = 40;
+                break;
+            }
+            const auto font = eFonts::defaultFont(fs);
+            const auto r = window()->renderer();
+            for(int i = 0; i < 10; i++) {
+                const auto tex = std::make_shared<eTexture>();
+                tex->loadText(r, std::to_string(i), eFontColor::light, *font);
+                numbers.push_back(tex);
+            }
         }
     }
 

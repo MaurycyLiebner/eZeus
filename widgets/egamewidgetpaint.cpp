@@ -252,6 +252,7 @@ void eGameWidget::paintEvent(ePainter& p) {
     p.setFont(eFonts::defaultFont(resolution()));
     p.translate(mDX, mDY);
     eTilePainter tp(p, mTileSize, mTileW, mTileH);
+    const auto& numbers = mNumbers[mTileSize];
 
     const int tid = static_cast<int>(mTileSize);
     const auto& trrTexs = eGameTextures::terrain().at(tid);
@@ -965,7 +966,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         };
 
         const auto drawNumber = [&](const int id) {
-            const auto tex = mNumbers[id % 10];
+            const auto tex = numbers[id % 10];
             tp.drawTexture(rx - 1.65, ry - 2.60, tex,
                            eAlignment::hcenter | eAlignment::top);
         };

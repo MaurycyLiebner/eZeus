@@ -328,7 +328,7 @@ private:
 
     std::deque<eTip> mTips;
 
-    std::vector<stdsptr<eTexture>> mNumbers;
+    std::map<eTileSize, std::vector<stdsptr<eTexture>>> mNumbers;
     std::vector<eTile*> mInflTiles;
     std::vector<eTile*> mHoverTiles;
 };
