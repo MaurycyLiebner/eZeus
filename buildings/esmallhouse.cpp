@@ -141,7 +141,7 @@ void eSmallHouse::timeChanged(const int by) {
         mWater = std::max(0, mWater - 1);
     }
     mUpdateHygiene += by;
-    const int hupdate = 10000;
+    const int hupdate = 25000;
     if(mUpdateHygiene > hupdate) {
         mUpdateHygiene -= hupdate;
         const int subWater = (100 - mWaterSatisfaction)/20;
