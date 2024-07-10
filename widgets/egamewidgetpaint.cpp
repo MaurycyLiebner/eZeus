@@ -417,13 +417,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const int n = h/15;
                     const eTextureCollection* coll = nullptr;
                     if(n < 2) {
-                        coll = &intrTexs.fColumn1;
+                        coll = &builTexs.fColumn1;
                     } else if(n < 3) {
-                        coll = &intrTexs.fColumn2;
+                        coll = &builTexs.fColumn2;
                     } else if(n < 4) {
-                        coll = &intrTexs.fColumn3;
+                        coll = &builTexs.fColumn3;
                     } else {
-                        coll = &intrTexs.fColumn4;
+                        coll = &builTexs.fColumn4;
                     }
 
                     drawColumn(tp, n, rx + cdx, ry + cdy, *coll);
@@ -433,14 +433,14 @@ void eGameWidget::paintEvent(ePainter& p) {
                     if(h->people() == 0) return;
                     const bool paid = h->paidTaxes();
                     const int n = paid ? 4 : 0;
-                    drawColumn(tp, n, rx + cdx, ry + cdy, intrTexs.fColumn1);
+                    drawColumn(tp, n, rx + cdx, ry + cdy, builTexs.fColumn1);
                 }
             } else if(mViewMode == eViewMode::water) {
                 if(bt == eBuildingType::commonHouse) {
                     const auto ch = static_cast<eSmallHouse*>(ub);
                     if(ch->people() == 0) return;
                     const int w = ch->water()/2;
-                    drawColumn(tp, w, rx + cdx, ry + cdy, intrTexs.fColumn5);
+                    drawColumn(tp, w, rx + cdx, ry + cdy, builTexs.fColumn5);
                 }
             } else if(mViewMode == eViewMode::hygiene) {
                 if(bt == eBuildingType::commonHouse) {
@@ -450,13 +450,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const int n = h/15;
                     const eTextureCollection* coll = nullptr;
                     if(n < 2) {
-                        coll = &intrTexs.fColumn4;
+                        coll = &builTexs.fColumn4;
                     } else if(n < 3) {
-                        coll = &intrTexs.fColumn3;
+                        coll = &builTexs.fColumn3;
                     } else if(n < 4) {
-                        coll = &intrTexs.fColumn2;
+                        coll = &builTexs.fColumn2;
                     } else {
-                        coll = &intrTexs.fColumn1;
+                        coll = &builTexs.fColumn1;
                     }
 
                     drawColumn(tp, n, rx + cdx, ry + cdy, *coll);
@@ -469,13 +469,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const int n = h/15;
                     const eTextureCollection* coll = nullptr;
                     if(n < 2) {
-                        coll = &intrTexs.fColumn1;
+                        coll = &builTexs.fColumn1;
                     } else if(n < 3) {
-                        coll = &intrTexs.fColumn2;
+                        coll = &builTexs.fColumn2;
                     } else if(n < 4) {
-                        coll = &intrTexs.fColumn3;
+                        coll = &builTexs.fColumn3;
                     } else {
-                        coll = &intrTexs.fColumn4;
+                        coll = &builTexs.fColumn4;
                     }
 
                     drawColumn(tp, n, rx + cdx, ry + cdy, *coll);
@@ -486,12 +486,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const auto ch = static_cast<eSmallHouse*>(ub);
                     if(ch->people() == 0) return;
                     const int a = ch->actorsAstronomers()/2;
-                    drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
+                    drawColumn(tp, a, rx + cdx, ry + cdy, builTexs.fColumn1);
                 } else if(bt == eBuildingType::eliteHousing) {
                     const auto ch = static_cast<eEliteHousing*>(ub);
                     if(ch->people() == 0) return;
                     const int a = ch->actorsAstronomers()/2;
-                    drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
+                    drawColumn(tp, a, rx + cdx, ry + cdy, builTexs.fColumn1);
                 }
             } else if(mViewMode == eViewMode::philosophers ||
                       mViewMode == eViewMode::inventors) {
@@ -499,12 +499,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const auto ch = static_cast<eSmallHouse*>(ub);
                     if(ch->people() == 0) return;
                     const int a = ch->philosophersInventors()/2;
-                    drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
+                    drawColumn(tp, a, rx + cdx, ry + cdy, builTexs.fColumn1);
                 } else if(bt == eBuildingType::eliteHousing) {
                     const auto ch = static_cast<eEliteHousing*>(ub);
                     if(ch->people() == 0) return;
                     const int a = ch->philosophersInventors()/2;
-                    drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
+                    drawColumn(tp, a, rx + cdx, ry + cdy, builTexs.fColumn1);
                 }
             } else if(mViewMode == eViewMode::athletes ||
                       mViewMode == eViewMode::scholars) {
@@ -512,12 +512,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const auto ch = static_cast<eSmallHouse*>(ub);
                     if(ch->people() == 0) return;
                     const int a = ch->athletesScholars()/2;
-                    drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
+                    drawColumn(tp, a, rx + cdx, ry + cdy, builTexs.fColumn1);
                 } else if(bt == eBuildingType::eliteHousing) {
                     const auto ch = static_cast<eEliteHousing*>(ub);
                     if(ch->people() == 0) return;
                     const int a = ch->athletesScholars()/2;
-                    drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
+                    drawColumn(tp, a, rx + cdx, ry + cdy, builTexs.fColumn1);
                 }
             } else if(mViewMode == eViewMode::competitors ||
                       mViewMode == eViewMode::curators) {
@@ -525,12 +525,12 @@ void eGameWidget::paintEvent(ePainter& p) {
                     const auto ch = static_cast<eSmallHouse*>(ub);
                     if(ch->people() == 0) return;
                     const int a = ch->competitorsCurators()/2;
-                    drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
+                    drawColumn(tp, a, rx + cdx, ry + cdy, builTexs.fColumn1);
                 } else if(bt == eBuildingType::eliteHousing) {
                     const auto ch = static_cast<eEliteHousing*>(ub);
                     if(ch->people() == 0) return;
                     const int a = ch->competitorsCurators()/2;
-                    drawColumn(tp, a, rx + cdx, ry + cdy, intrTexs.fColumn1);
+                    drawColumn(tp, a, rx + cdx, ry + cdy, builTexs.fColumn1);
                 }
             } else if(mViewMode == eViewMode::supplies) {
                 if(bt == eBuildingType::commonHouse) {
@@ -979,7 +979,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                         if(pg.fX == tx && pg.fY == ty) {
                             const bool invalid = !eVectorHelpers::contains(mPatrolPath, tile) &&
                                                  !eVectorHelpers::contains(mPatrolPath1, tile);
-                            const auto& coll = intrTexs.fSpawner;
+                            const auto& coll = builTexs.fSpawner;
                             const int texId = mFrame % coll.size();
                             const auto& tex = coll.getTexture(texId);
                             if(invalid) tex->setColorMod(255, 125, 125);
@@ -1003,7 +1003,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto drawSpawner = [&]() {
             const auto b = tile->banner();
             if(mTem->visible() && b) {
-                const auto& coll = intrTexs.fSpawner;
+                const auto& coll = builTexs.fSpawner;
                 const int texId = mFrame % coll.size();
                 const auto& tex = coll.getTexture(texId);
                 tp.drawTexture(rx, ry - 1, tex,
@@ -1014,25 +1014,25 @@ void eGameWidget::paintEvent(ePainter& p) {
                 std::shared_ptr<eTexture> topTex;
                 switch(b->type()) {
                 case eBannerTypeS::boar:
-                    topTex = intrTexs.fBoarPoint;
+                    topTex = builTexs.fBoarPoint;
                     break;
                 case eBannerTypeS::deer:
-                    topTex = intrTexs.fDeerPoint;
+                    topTex = builTexs.fDeerPoint;
                     break;
                 case eBannerTypeS::landInvasion:
-                    topTex = intrTexs.fLandInvasionPoint;
+                    topTex = builTexs.fLandInvasionPoint;
                     break;
                 case eBannerTypeS::entryPoint:
-                    topTex = intrTexs.fEntryPoint;
+                    topTex = builTexs.fEntryPoint;
                     break;
                 case eBannerTypeS::exitPoint:
-                    topTex = intrTexs.fExitPoint;
+                    topTex = builTexs.fExitPoint;
                     break;
                 case eBannerTypeS::monsterPoint:
-                    topTex = intrTexs.fMonsterPoint;
+                    topTex = builTexs.fMonsterPoint;
                     break;
                 case eBannerTypeS::disasterPoint:
-                    topTex = intrTexs.fDisasterPoint;
+                    topTex = builTexs.fDisasterPoint;
                     break;
                 }
                 if(topTex) {

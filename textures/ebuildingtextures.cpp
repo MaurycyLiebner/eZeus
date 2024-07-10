@@ -577,6 +577,11 @@
 #include "spriteData/chariotVendorOverlay45.h"
 #include "spriteData/chariotVendorOverlay60.h"
 
+#include "spriteData/interfaceSprites15.h"
+#include "spriteData/interfaceSprites30.h"
+#include "spriteData/interfaceSprites45.h"
+#include "spriteData/interfaceSprites60.h"
+
 #include "offsets/PoseidonImps.h"
 
 #include "textures/espriteloader.h"
@@ -791,9 +796,15 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fFish(renderer),
     fUrchin(renderer),
 
-    fBridge(renderer) {
+    fBridge(renderer),
 
-}
+    fColumn1(renderer),
+    fColumn2(renderer),
+    fColumn3(renderer),
+    fColumn4(renderer),
+    fColumn5(renderer),
+
+    fSpawner(renderer) {}
 
 void eBuildingTextures::loadCommonHouse() {
     if(fCommonHouseLoaded) return;
@@ -2944,6 +2955,48 @@ void eBuildingTextures::load() {
         for(int i = 123; i < 129; i++) {
             loader.load(87, i, fOrangeTree);
         }
+    }
+
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eInterfaceSpritesSpriteData15,
+                                     eInterfaceSpritesSpriteData30,
+                                     eInterfaceSpritesSpriteData45,
+                                     eInterfaceSpritesSpriteData60);
+        eSpriteLoader loader(fTileH, "interfaceSprites", sds,
+                             nullptr, fRenderer);
+
+        for(int i = 1; i < 4; i++) {
+            loader.load(1, i, fColumn1);
+        }
+        for(int i = 4; i < 7; i++) {
+            loader.load(1, i, fColumn2);
+        }
+        for(int i = 7; i < 10; i++) {
+            loader.load(1, i, fColumn3);
+        }
+        for(int i = 10; i < 13; i++) {
+            loader.load(1, i, fColumn4);
+        }
+        for(int i = 13; i < 16; i++) {
+            loader.load(1, i, fColumn5);
+        }
+
+        for(int i = 20; i < 28; i++) {
+            loader.load(1, i, fSpawner);
+        }
+        fDisasterPoint = loader.load(1, 28);
+        fLandInvasionPoint = loader.load(1, 29);
+        fEntryPoint = loader.load(1, 30);
+        fExitPoint = loader.load(1, 31);
+        fRiverEntryPoint = loader.load(1, 32);
+        fRiverExitPoint = loader.load(1, 33);
+        fFishPoint = loader.load(1, 34);
+        fUrchinPoint = loader.load(1, 35);
+        fWolfPoint = loader.load(1, 36);
+        fBoarPoint = loader.load(1, 37);
+        fMonsterPoint = loader.load(1, 38);
     }
 }
 

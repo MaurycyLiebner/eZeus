@@ -259,20 +259,6 @@ public:
 
     eTextureCollection fSeeButton;
 
-    eTextureCollection fSpawner;
-    std::shared_ptr<eTexture> fDisasterPoint;
-    std::shared_ptr<eTexture> fLandInvasionPoint;
-    std::shared_ptr<eTexture> fEntryPoint;
-    std::shared_ptr<eTexture> fExitPoint;
-    std::shared_ptr<eTexture> fRiverEntryPoint;
-    std::shared_ptr<eTexture> fRiverExitPoint;
-    std::shared_ptr<eTexture> fFishPoint;
-    std::shared_ptr<eTexture> fUrchinPoint;
-    std::shared_ptr<eTexture> fWolfPoint;
-    std::shared_ptr<eTexture> fBoarPoint;
-    std::shared_ptr<eTexture> fDeerPoint;
-    std::shared_ptr<eTexture> fMonsterPoint;
-
     //
 
     std::shared_ptr<eTexture> fDrachmasTopMenu;
@@ -358,12 +344,6 @@ public:
 
     eTextureCollection fButtonFrame;
     eTextureCollection fButtonFrameHover;
-
-    eTextureCollection fColumn1;
-    eTextureCollection fColumn2;
-    eTextureCollection fColumn3;
-    eTextureCollection fColumn4;
-    eTextureCollection fColumn5;
 
     eTextureCollection fDiamond;
 
