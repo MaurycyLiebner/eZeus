@@ -34,6 +34,7 @@ private:
     eResourceCollectorBase* mCharacter = nullptr;
     eShepherBuildingBase* mShed = nullptr;
 
+    bool mFinishOnce = true;
     int mGroomed = 0;
     bool mNoResource = false;
 };

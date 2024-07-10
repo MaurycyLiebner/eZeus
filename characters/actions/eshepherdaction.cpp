@@ -13,9 +13,7 @@ eShepherdAction::eShepherdAction(
     eActionWithComeback(c, eCharActionType::shepherdAction),
     mAnimalType(animalType),
     mCharacter(c),
-    mShed(shed) {
-    setFinishOnComeback(true);
-}
+    mShed(shed) {}
 
 eShepherdAction::eShepherdAction(eCharacter* const c) :
     eShepherdAction(nullptr, static_cast<eResourceCollectorBase*>(c),
@@ -69,7 +67,13 @@ bool eShepherdAction::decide() {
             const auto rType = mShed->resourceType();
             mShed->add(rType, coll);
             mCharacter->incCollected(-coll);
-            waitDecision();
+
+            if(mFinishOnce) {
+                setState(eCharacterActionState::finished);
+                return true;
+            } else {
+                waitDecision();
+            }
         } else {
             goBackDecision();
         }
@@ -121,6 +125,7 @@ void eShepherdAction::read(eReadStream& src) {
     src.readBuilding(&board(), [this](eBuilding* const b) {
         mShed = static_cast<eShepherBuildingBase*>(b);
     });
+    src >> mFinishOnce;
     src >> mGroomed;
     src >> mNoResource;
 }
@@ -130,6 +135,7 @@ void eShepherdAction::write(eWriteStream& dst) const {
     dst << mAnimalType;
     dst.writeCharacter(mCharacter);
     dst.writeBuilding(mShed);
+    dst << mFinishOnce;
     dst << mGroomed;
     dst << mNoResource;
 }

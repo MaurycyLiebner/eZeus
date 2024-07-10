@@ -10,9 +10,7 @@ eGrowerAction::eGrowerAction(const eGrowerType type,
                              eCharacter* const c) :
     eActionWithComeback(c, eCharActionType::growerAction),
     mType(type), mGrower(static_cast<eGrower*>(c)),
-    mLodge(lodge) {
-    setFinishOnComeback(true);
-}
+    mLodge(lodge) {}
 
 eGrowerAction::eGrowerAction(eCharacter* const c) :
     eGrowerAction(eGrowerType::grapesAndOlives, nullptr, c) {}
