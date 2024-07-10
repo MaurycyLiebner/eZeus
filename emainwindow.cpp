@@ -41,8 +41,7 @@ eMainWindow::~eMainWindow() {
 }
 
 bool eMainWindow::initialize(const eSettings& settings) {
-    mSettings = settings;
-    const auto& res = mSettings.fRes;
+    const auto& res = settings.fRes;
     const int w = res.width();
     const int h = res.height();
     const auto window = SDL_CreateWindow("eZeus",
@@ -70,6 +69,8 @@ bool eMainWindow::initialize(const eSettings& settings) {
     mSdlWindow = window;
     mSdlRenderer = renderer;
     setResolution(res);
+    setFullscreen(settings.fFullscreen);
+    mSettings = settings;
     SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
     const std::string icoPath = eGameDir::path("zeus.ico");
