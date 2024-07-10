@@ -212,6 +212,7 @@ bool eKnownEndPathFinder::extractPath(
     bestFinder = [&](const eTilePair& from) {
         if(!from.first || !from.second) return false;
         const auto tile = from.first;
+        const int dist = *from.second;
         const int tx = tile->x();
         const int ty = tile->y();
         const int dtx = mData.fStart->x();
@@ -246,7 +247,7 @@ bool eKnownEndPathFinder::extractPath(
 
             if(mWalkable(tp.first)) {
                 const int ddist = *tp.second;
-                if(ddist < *best.second.second) {
+                if(ddist < dist && ddist < *best.second.second) {
                     best = n;
                 }
             }
