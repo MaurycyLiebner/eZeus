@@ -2291,6 +2291,7 @@ void eGameBoard::startEpisode(eEpisode* const e) {
     mWorldBoard = e->fWorldBoard;
     const auto& date = e->fStartDate;
     setDate(date);
+    mDrachmas = e->fDrachmas;
     const auto& es = e->fEvents;
     for(const auto& ee : es) {
         const auto eee = ee->makeCopy();

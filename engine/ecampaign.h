@@ -33,6 +33,7 @@ struct eSetAside {
 struct eEpisode {
     virtual void read(eReadStream& src) {
         src >> fAtlantean;
+        src >> fDrachmas;
         fStartDate.read(src);
         {
             int nfg;
@@ -80,6 +81,7 @@ struct eEpisode {
 
     virtual void write(eWriteStream& dst) const {
         dst << fAtlantean;
+        dst << fDrachmas;
         fStartDate.write(dst);
         dst << fFriendlyGods.size();
         for(const auto g : fFriendlyGods) {
@@ -130,6 +132,7 @@ struct eEpisode {
     eWorldBoard* fWorldBoard = nullptr;
     bool fAtlantean = true;
 
+    int fDrachmas = 2500;
     eDate fStartDate = eDate(1, eMonth::january, -1500);
 
     std::string fTitle;
@@ -191,7 +194,10 @@ public:
 
     void initialize(const std::string& name);
 
-    void setInitialFunds(const int f) { mInitialFunds = f; }
+    int initialFunds() const { return mDrachmas; }
+    void setInitialFunds(const int f) { mDrachmas = f; }
+
+    const eDate& date() const { return mDate; }
     void setDate(const eDate& d) { mDate = d; }
 
     void setBitmap(const int b) { mBitmap = b; }
@@ -268,8 +274,7 @@ private:
     int mCurrentColonyEpisode = 0;
     eEpisodeType mCurrentEpisodeType = eEpisodeType::parentCity;
 
-    int mInitialFunds = 5000;
-
+    int mDrachmas = 5000;
     eDate mDate = eDate(1, eMonth::january, -1500);
 
     eDifficulty mDifficulty{eDifficulty::hero};

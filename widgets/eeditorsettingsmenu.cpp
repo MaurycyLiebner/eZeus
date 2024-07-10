@@ -13,13 +13,46 @@
 #include "widgets/eepisodegoalselectionwidget.h"
 #include "gameEvents/egameevent.h"
 #include "widgets/echeckablebutton.h"
+#include "widgets/edatebutton.h"
+#include "widgets/evaluebutton.h"
 
 #include "engine/ecampaign.h"
 #include "evectorhelpers.h"
 
-void eEditorSettingsMenu::initialize(eEpisode* const ep,
+void eEditorSettingsMenu::initialize(const bool first,
+                                     eCampaign* const c,
+                                     eEpisode* const ep,
                                      eWorldBoard* const board) {
     setType(eFrameType::message);
+
+    if(first) {
+        const auto dateButt = new eDateButton(window());
+        dateButt->initialize();
+        dateButt->setDate(c->date());
+        dateButt->setUnderline(false);
+        dateButt->fitContent();
+        dateButt->setDateChangeAction([c](const eDate& date) {
+            c->setDate(date);
+        });
+        addWidget(dateButt);
+        dateButt->align(eAlignment::hcenter);
+
+        const auto fundsButt = new eValueButton(window());
+        fundsButt->initialize(0, 99999);
+        const int f = c->initialFunds();
+        const auto fStr = std::to_string(f);
+        fundsButt->setValue(f);
+        fundsButt->setText(eLanguage::zeusText(44, 39) + " " + fStr);
+        fundsButt->setUnderline(false);
+        fundsButt->fitContent();
+        fundsButt->setValueChangeAction([c, fundsButt](const int funds) {
+            const auto fStr = std::to_string(funds);
+            fundsButt->setText(eLanguage::zeusText(44, 39) + " " + fStr);
+            c->setInitialFunds(funds);
+        });
+        addWidget(fundsButt);
+        fundsButt->align(eAlignment::hcenter);
+    }
 
     const auto mythologyAct = [this, ep]() {
         const auto mythMenu = new eFramedWidget(window());

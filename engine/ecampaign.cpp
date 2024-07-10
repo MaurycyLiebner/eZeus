@@ -198,7 +198,7 @@ void eCampaign::read(eReadStream& src) {
     src >> mCurrentParentEpisode;
     src >> mCurrentColonyEpisode;
     src >> mCurrentEpisodeType;
-    src >> mInitialFunds;
+    src >> mDrachmas;
     mDate.read(src);
     src >> mDifficulty;
     mWorldBoard.read(src);
@@ -277,7 +277,7 @@ void eCampaign::write(eWriteStream& dst) const {
     dst << mCurrentParentEpisode;
     dst << mCurrentColonyEpisode;
     dst << mCurrentEpisodeType;
-    dst << mInitialFunds;
+    dst << mDrachmas;
     mDate.write(dst);
     dst << mDifficulty;
     mWorldBoard.write(dst);
@@ -369,6 +369,7 @@ void eCampaign::startEpisode() {
         mWorldBoard.setParentAsCurrentCity();
     }
     const auto e = currentEpisode();
+    e->fDrachmas = mDrachmas;
     e->fStartDate = mDate;
     const auto board = e->fBoard;
     board->startEpisode(e);
@@ -388,6 +389,7 @@ void eCampaign::startEpisode() {
 void eCampaign::episodeFinished() {
     const auto e = currentEpisode();
     const auto board = e->fBoard;
+    mDrachmas = board->drachmas();
     mDate = board->date();
     const auto& gls = e->fGoals;
     for(const auto& g : gls) {

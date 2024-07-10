@@ -84,14 +84,14 @@ void eEpisodesWidget::update() {
         const int iMax = es.size();
         for(int i = 0; i < iMax; i++) {
             const auto& e = es[i];
-            add(mC.get(), e, i == iMax - 1);
+            add(mC.get(), e, i == 0, i == iMax - 1);
         }
     } else {
         auto& es = mC->parentCityEpisodes();
         const int iMax = es.size();
         for(int i = 0; i < iMax; i++) {
             const auto& e = es[i];
-            add(mC.get(), e, i == iMax - 1);
+            add(mC.get(), e, i == 0, i == iMax - 1);
         }
     }
 }
@@ -104,7 +104,9 @@ public:
     using ePCE = std::shared_ptr<eEpisode>;
     void initialize(const int id, const int colW,
                     eCampaign* const c,
-                    const ePCE& e, const bool last,
+                    const ePCE& e,
+                    const bool first,
+                    const bool last,
                     const eAction& newE,
                     const eAction& insertE,
                     const eAction& deleteE,
@@ -244,11 +246,11 @@ public:
         settingsW->fitHeight();
         settingsB->align(eAlignment::hcenter);
         addWidget(settingsW);
-        settingsB->setPressAction([this, c, e]() {
+        settingsB->setPressAction([this, c, e, first]() {
             const auto w = window();
             const auto m = new eEditorSettingsMenu(w);
             m->resize(w->width()/2, 2*w->height()/3);
-            m->initialize(e.get(), &c->worldBoard());
+            m->initialize(first, c, e.get(), &c->worldBoard());
 
             window()->execDialog(m);
             m->align(eAlignment::center);
@@ -353,7 +355,7 @@ void eEpisodesWidget::deselectText(const int skipId) {
 
 void eEpisodesWidget::add(eCampaign* const c,
                           const std::shared_ptr<eEpisode>& e,
-                          const bool last) {
+                          const bool first, const bool last) {
     const int colW = columnWidth();
 
     const auto w = new eEpisodeWidget(window());
@@ -381,7 +383,7 @@ void eEpisodesWidget::add(eCampaign* const c,
         deselectText(id);
         mSta(id);
     };
-    w->initialize(id, colW, c, e, last,
+    w->initialize(id, colW, c, e, first, last,
                   newE, insertE, deleteE, victoryE, setTextE,
                   mColony, mEcb);
     mWs.push_back(w);

@@ -24,7 +24,7 @@ private:
     void update();
     void add(eCampaign* const c,
              const std::shared_ptr<eEpisode>& e,
-             const bool last);
+             const bool first, const bool last);
     int columnWidth() const { return width()/sNCols; }
 
     static const int sNCols = 4;
