@@ -7,7 +7,7 @@ class eSpinBox : public eWidget {
 public:
     using eWidget::eWidget;
 
-    void initialize();
+    void initialize(const eAction& changed = nullptr);
 
     void setRange(const int min, const int max);
     void setIncrement(const int i);

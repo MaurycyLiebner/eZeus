@@ -24,33 +24,10 @@ eInfoWidget* eGameWidget::openInfoWidget(eBuilding* const b) {
         const auto storWid = new eTradePostInfoWidget(window());
         storWid->initialize(stor);
         wid = storWid;
-        const stdptr<eTradePost> storptr(stor);
-        closeAct = [storptr, storWid]() {
-            if(storptr) {
-                std::map<eResourceType, int> maxCount;
-                eResourceType imports;
-                eResourceType exports;
-                storWid->get(imports, exports, maxCount);
-                storptr->setOrders(imports, exports);
-                storptr->setMaxCount(maxCount);
-            }
-        };
     } else if(const auto stor = dynamic_cast<eStorageBuilding*>(b)) {
         const auto storWid = new eStorageInfoWidget(window());
         storWid->initialize(stor);
         wid = storWid;
-        const stdptr<eStorageBuilding> storptr(stor);
-        closeAct = [storptr, storWid]() {
-            if(!storptr) return;
-            std::map<eResourceType, int> maxCount;
-            eResourceType get;
-            eResourceType empty;
-            eResourceType accept;
-            eResourceType dontaccept;
-            storWid->get(get, empty, accept, dontaccept, maxCount);
-            storptr->setOrders(get, empty, accept);
-            storptr->setMaxCount(maxCount);
-        };
     } else if(const auto hh = dynamic_cast<eHerosHall*>(b)) {
         const auto hhWid = new eHerosHallInfoWidget(window(), false, false);
         hhWid->initialize(hh);

@@ -7,17 +7,19 @@
 #include "eupbutton.h"
 #include "edownbutton.h"
 
-void eSpinBox::initialize() {
+void eSpinBox::initialize(const eAction& changed) {
     mValueLabel = new eLabel(window());
 
     const auto up = new eUpButton(window());
-    up->setPressAction([this]() {
+    up->setPressAction([this, changed]() {
         setValue(mValue + mIncrement);
+        if(changed) changed();
     });
 
     const auto down = new eDownButton(window());
-    down->setPressAction([this]() {
+    down->setPressAction([this, changed]() {
         setValue(mValue - mIncrement);
+        if(changed) changed();
     });
 
     mValueLabel->setWidth(1.5*down->width());

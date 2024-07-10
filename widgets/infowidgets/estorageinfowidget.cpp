@@ -18,7 +18,8 @@ public:
                     const eResourceType accept,
                     std::map<eResourceType, eSwitchButton*>& buttons,
                     std::map<eResourceType, eSpinBox*>& spinBoxes,
-                    const std::map<eResourceType, int>& maxCount) {
+                    const std::map<eResourceType, int>& maxCount,
+                    const eAction& changed) {
         auto& board = stor->getBoard();
 
         const auto countW = new eWidget(window());
@@ -76,12 +77,13 @@ public:
             const auto b = new eSwitchButton(window());
             b->setUnderline(false);
 
-            b->setSwitchAction([b](const int i) {
+            b->setSwitchAction([b, changed](const int i) {
                 if(i == 0 || i == 3) {
                     b->setDarkFontColor();
                 } else {
                     b->setLightFontColor();
                 }
+                changed();
             });
 
             b->setSmallFontSize();
@@ -97,7 +99,7 @@ public:
             const auto s = new eSpinBox(window());
             s->setHeight(rowHeight);
             s->setWidth(spinsWidth);
-            s->initialize();
+            s->initialize(changed);
             s->label()->setSmallFontSize();
             const int space = stor->spaceCount();
             if(type == eResourceType::sculpture) {
@@ -124,10 +126,12 @@ public:
                 b->setValue(2);
             } else if(static_cast<bool>(empty & type)) {
                 b->setValue(3);
+                b->setDarkFontColor();
             } else if(static_cast<bool>(accept & type)) {
                 b->setValue(1);
             } else {
                 b->setValue(0);
+                b->setDarkFontColor();
             }
         }
 
@@ -182,8 +186,18 @@ void eStorageInfoWidget::initialize(eStorageBuilding* const stor) {
     const auto types = eResourceTypeHelpers::extractResourceTypes(all);
 
     const auto r = new eResourceStorageStack(window());
+    const auto changed = [this, stor]() {
+        std::map<eResourceType, int> maxCount;
+        eResourceType get;
+        eResourceType empty;
+        eResourceType accept;
+        eResourceType dontaccept;
+        this->get(get, empty, accept, dontaccept, maxCount);
+        stor->setOrders(get, empty, accept);
+        stor->setMaxCount(maxCount);
+    };
     r->initialize(stor, types, get, empty, accept,
-                  mButtons, mSpinBoxes, maxCount);
+                  mButtons, mSpinBoxes, maxCount, changed);
     stWid->addWidget(r);
     r->align(eAlignment::center);
 }

@@ -16,7 +16,8 @@ public:
                     std::map<eResourceType, eSpinBox*>& spinBoxes,
                     const std::map<eResourceType, int>& maxCount,
                     const std::string& notBuyingTxt,
-                    const std::string& buyingTxt) {
+                    const std::string& buyingTxt,
+                    const eAction& changed) {
         const auto countW = new eWidget(window());
         const auto iconsW = new eWidget(window());
         const auto namesW = new eWidget(window());
@@ -57,13 +58,13 @@ public:
             icon->setHeight(rowHeight);
 
             const auto nameStr = eResourceTypeHelpers::typeName(type);
-//            const auto n = new eLabel(window());
-            const auto n = new eButton(window());
-            n->setPressAction([stor, type, count]() {
-                stor->add(type, 1);
-                const int c = stor->count(type);
-                count->setText(std::to_string(c));
-            });
+            const auto n = new eLabel(window());
+//            const auto n = new eButton(window());
+//            n->setPressAction([stor, type, count]() {
+//                stor->add(type, 1);
+//                const int c = stor->count(type);
+//                count->setText(std::to_string(c));
+//            });
             n->setSmallFontSize();
             n->setText(nameStr);
             n->fitContent();
@@ -104,12 +105,13 @@ public:
 
             const auto b = new eSwitchButton(window());
 
-            b->setSwitchAction([b](const int i) {
+            b->setSwitchAction([b, changed](const int i) {
                 if(i == 0) {
                     b->setDarkFontColor();
                 } else {
                     b->setLightFontColor();
                 }
+                changed();
             });
 
             b->setSmallFontSize();
@@ -123,7 +125,7 @@ public:
             const auto s = new eSpinBox(window());
             s->setHeight(rowHeight);
             s->setWidth(spinsWidth);
-            s->initialize();
+            s->initialize(changed);
             s->label()->setSmallFontSize();
             const int space = stor->spaceCount();
             if(type == eResourceType::sculpture) {
@@ -161,6 +163,7 @@ public:
                 b->setValue(1);
             } else {
                 b->setValue(0);
+                b->setDarkFontColor();
             }
         }
 
@@ -218,6 +221,15 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
 
     const auto stWid = centralWidget();
 
+    const auto changed = [this, stor]() {
+        std::map<eResourceType, int> maxCount;
+        eResourceType imports;
+        eResourceType exports;
+        this->get(imports, exports, maxCount);
+        stor->setOrders(imports, exports);
+        stor->setMaxCount(maxCount);
+    };
+
     {
         const auto wrapper = new eWidget(window());
         const auto importsLabel = new eLabel(eLanguage::zeusText(130, 17), window());
@@ -230,7 +242,8 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
         r->initialize(stor, csells, imports,
                       mImportButtons, mSpinBoxes, maxCount,
                       eLanguage::zeusText(130, 20),
-                      eLanguage::zeusText(130, 12));
+                      eLanguage::zeusText(130, 12),
+                      changed);
 
         wrapper->addWidget(importsLabel);
         wrapper->addWidget(r);
@@ -253,7 +266,8 @@ void eTradePostInfoWidget::initialize(eTradePost* const stor) {
         r->initialize(stor, cbuys, exports,
                       mExportButtons, mSpinBoxes, maxCount,
                       eLanguage::zeusText(130, 21),
-                      eLanguage::zeusText(130, 13));
+                      eLanguage::zeusText(130, 13),
+                      changed);
 
         wrapper->addWidget(exportsLabel);
         wrapper->addWidget(r);
