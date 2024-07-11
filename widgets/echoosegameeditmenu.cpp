@@ -12,7 +12,7 @@
 #include "eeditormainmenu.h"
 #include "ebitmapwidget.h"
 #include "eepisodeintroductionwidget.h"
-
+#include "estringhelpers.h"
 #include "elanguage.h"
 
 #include <filesystem>
@@ -29,12 +29,7 @@ void eChooseGameEditMenu::initialize(const bool editor) {
         if(!dir) continue;
         const auto path = entry.path();
         const std::string pathStr = path;
-        std::string name;
-        for(int i = pathStr.size() - 1; i >= 0; i--) {
-            const auto c = pathStr[i];
-            if(c == '/') break;
-            name = c + name;
-        }
+        const auto name = eStringHelpers::pathToName(pathStr);
         eCampaignGlossary glossary;
         const bool r = eCampaign::sReadGlossary(name, glossary);
         if(r) glossaries.push_back(glossary);

@@ -4,8 +4,10 @@
 #include "eframedbutton.h"
 
 #include "eframedwidget.h"
-
+#include "enamewidget.h"
 #include "elanguage.h"
+#include "emainwindow.h"
+#include "engine/eworldcity.h"
 
 void addButton(const std::string& text,
                const eAction& a,
@@ -25,10 +27,13 @@ void eMainMenu::initialize(const eAction& newGameA,
                            const eAction& loadGameA,
                            const eAction& editGameA,
                            const eAction& settingsA,
-                           const eAction& quitA) {
+                           const eAction& quitA,
+                           const eAction& leaderA) {
     eMainMenuBase::initialize();
 
-    const auto buttons = new eWidget(window());
+    const auto w = window();
+
+    const auto buttons = new eWidget(w);
     addWidget(buttons);
 
     const auto res = resolution();
@@ -38,13 +43,27 @@ void eMainMenu::initialize(const eAction& newGameA,
 
     buttons->align(eAlignment::center);
 
-    addButton(eLanguage::zeusText(1, 1), newGameA, buttons, window());
-    addButton(eLanguage::zeusText(1, 3), loadGameA, buttons, window());
-    addButton(eLanguage::zeusText(287, 3), editGameA, buttons, window());
-    addButton(eLanguage::zeusText(2, 0), settingsA, buttons, window());
-    addButton(eLanguage::zeusText(1, 5), quitA, buttons, window());
+    addButton(eLanguage::zeusText(1, 1), newGameA, buttons, w);
+    addButton(eLanguage::zeusText(1, 3), loadGameA, buttons, w);
+    addButton(eLanguage::zeusText(287, 3), editGameA, buttons, w);
+    addButton(eLanguage::zeusText(2, 0), settingsA, buttons, w);
+    addButton(eLanguage::zeusText(1, 5), quitA, buttons, w);
 
     buttons->layoutVertically();
+
+    const auto leader = new eFramedButton(w);
+    leader->setRenderBg(true);
+    leader->setUnderline(false);
+    leader->setPressAction(leaderA);
+    leader->setText(w->leader());
+    leader->fitContent();
+    addWidget(leader);
+    const int p = res.hugePadding();
+    int tw;
+    int th;
+    textureSize(tw, th);
+    leader->setX((width() - tw)/2 + 2*p);
+    leader->setY(2*p);
 }
 
 bool eMainMenu::mousePressEvent(const eMouseEvent& e) {

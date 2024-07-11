@@ -547,6 +547,7 @@ SOURCES += \
         widgets/emouseevent.cpp \
         widgets/emultilinelabel.cpp \
         widgets/emultipleselectionwidget.cpp \
+        widgets/enamewidget.cpp \
         widgets/enumlineedit.cpp \
         widgets/enumlineeditwidget.cpp \
         widgets/eokbutton.cpp \
@@ -557,6 +558,7 @@ SOURCES += \
         widgets/erequestdialog.cpp \
         widgets/eresolution.cpp \
         widgets/eresourcebutton.cpp \
+        widgets/erosterofleaders.cpp \
         widgets/erotatebutton.cpp \
         widgets/escrollbar.cpp \
         widgets/escrollbuttonslist.cpp \
@@ -2457,6 +2459,7 @@ HEADERS += \
     widgets/emouseevent.h \
     widgets/emultilinelabel.h \
     widgets/emultipleselectionwidget.h \
+    widgets/enamewidget.h \
     widgets/enumlineedit.h \
     widgets/enumlineeditwidget.h \
     widgets/eokbutton.h \
@@ -2467,6 +2470,7 @@ HEADERS += \
     widgets/erequestdialog.h \
     widgets/eresolution.h \
     widgets/eresourcebutton.h \
+    widgets/erosterofleaders.h \
     widgets/erotatebutton.h \
     widgets/escrollbar.h \
     widgets/escrollbuttonslist.h \

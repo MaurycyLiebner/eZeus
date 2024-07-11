@@ -31,6 +31,7 @@
 #include "widgets/eeventbackground.h"
 #include "widgets/eepisodeintroductionwidget.h"
 #include "widgets/eepisodelostwidget.h"
+#include "widgets/erosterofleaders.h"
 
 eMainWindow::eMainWindow() {}
 
@@ -145,7 +146,8 @@ void eMainWindow::showEpisodeIntroduction(
     const auto e = new eEpisodeIntroductionWidget(this);
     const auto proceedA = [this]() {
         mCampaign->startEpisode();
-        saveGame("../saves/autosave replay.ez");
+        const auto dir = leaderSaveDir();
+        saveGame(dir + "autosave replay.ez");
         startGameAction([this]() {
             eGameWidgetSettings settings;
             settings.fPaused = true;
@@ -161,6 +163,10 @@ void eMainWindow::showEpisodeIntroduction(
                   proceedA,
                   eEpisodeIntroType::intro);
     setWidget(e);
+}
+
+std::string eMainWindow::leaderSaveDir() const {
+    return "../Save/" + mLeader + "/";
 }
 
 void eMainWindow::clearWidgets() {
@@ -280,10 +286,25 @@ void eMainWindow::closeGame() {
     showMainMenu();
 }
 
+void eMainWindow::showRosterOfLeaders() {
+    clearWidgets();
+
+    const auto rol = new eRosterOfLeaders(this);
+    rol->resize(width(), height());
+    rol->initialize();
+    setWidget(rol);
+}
+
 void eMainWindow::showMenuLoading() {
     const auto mlw = new eMenuLoadingWidget(this);
     mlw->setDoneAction([this]() {
-        showMainMenu();
+        const auto ls = eRosterOfLeaders::sLeaders();
+        if(ls.size() == 1) setLeader(ls[0]);
+        if(mLeader.empty()) {
+            showRosterOfLeaders();
+        } else {
+            showMainMenu();
+        }
     });
     mlw->initialize();
     mlw->resize(width(), height());
@@ -312,8 +333,9 @@ void eMainWindow::showMainMenu() {
             mm->removeWidget(fw);
             fw->deleteLater();
         };
+        const auto dir = leaderSaveDir();
         fw->intialize(eLanguage::zeusText(1, 3),
-                      "../saves/", func, closeAct);
+                      dir, func, closeAct);
         mm->addWidget(fw);
         fw->align(eAlignment::center);
     };
@@ -330,11 +352,16 @@ void eMainWindow::showMainMenu() {
         mQuit = true;
     };
 
+    const auto leaderAction = [this]() {
+        showRosterOfLeaders();
+    };
+
     mm->initialize(newGameAction,
                    loadGameAction,
                    editGameAction,
                    settingsAction,
-                   quitAction);
+                   quitAction,
+                   leaderAction);
 }
 
 void eMainWindow::showSettingsMenu() {

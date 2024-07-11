@@ -99,3 +99,13 @@ const eResolution& eLabelBase::res() const {
 int eLabelBase::lineWidth() const {
     return std::max(1, fontSize()/15);
 }
+
+void eLabelBase::textureSize(int& w, int& h) const {
+    if(!mTexture) {
+        w = 0;
+        h = 0;
+    } else {
+        w = mTexture->width();
+        h = mTexture->height();
+    }
+}

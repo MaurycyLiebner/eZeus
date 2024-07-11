@@ -325,9 +325,6 @@ public:
 
     void showMessage(eEventData& ed, const eMessageType& msg);
 
-    const std::string& playerName() const
-    { return mPlayerName; }
-
     using eTileAction = std::function<void(eTile* const)>;
     void iterateOverAllTiles(const eTileAction& a);
 
@@ -627,8 +624,6 @@ private:
     eEnlistRequest mEnlistRequester;
     eAction mEpisodeFinishedHandler;
     eAction mAutosaver;
-
-    std::string mPlayerName = "Ailuropoda";
 
     int mDrachmas = 2500;
     eDate mInDebtSince;

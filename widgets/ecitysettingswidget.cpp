@@ -8,6 +8,7 @@
 #include "evaluebutton.h"
 #include "elineedit.h"
 #include "echoosebutton.h"
+#include "enamewidget.h"
 
 class eTributeSettingsWidget : public eFramedWidget {
 public:
@@ -42,59 +43,6 @@ public:
         }, true);
         resButton->setResource(rec ? c->recTributeType() : c->tributeType());
         innerWidget->addWidget(resButton);
-
-        innerWidget->stackHorizontally();
-        innerWidget->fitContent();
-        resize(innerWidget->x() + innerWidget->width() + p,
-               innerWidget->y() + innerWidget->height() + p);
-    }
-};
-
-class eNameWidget : public eFramedWidget {
-public:
-    using eFramedWidget::eFramedWidget;
-
-    using eNameChangeAction = std::function<void(const std::string&)>;
-    void initialize(const std::string& ini,
-                    const std::vector<std::string>& names,
-                    const eNameChangeAction& nca) {
-        setType(eFrameType::message);
-        const auto innerWidget = new eWidget(window());
-        innerWidget->setNoPadding();
-        const int p = 2*padding();
-        innerWidget->move(p, p);
-        addWidget(innerWidget);
-
-        const auto le = new eLineEdit(window());
-        le->setRenderBg(true);
-        le->setText(eLanguage::zeusText(21, 76));
-        le->fitContent();
-        le->setWidth(3*le->width()/2);
-        le->setText(ini);
-        le->grabKeyboard();
-        le->setChangeAction([le, nca]() {
-            const auto name = le->text();
-            if(nca) nca(name);
-        });
-        innerWidget->addWidget(le);
-
-        const auto chooseButton = new eFramedButton(window());
-        chooseButton->setUnderline(false);
-        chooseButton->setText(eLanguage::text("choose"));
-        chooseButton->fitContent();
-        innerWidget->addWidget(chooseButton);
-        chooseButton->setPressAction([this, names, le, nca]() {
-            const auto choose = new eChooseButton(window());
-            const auto act = [names, le, nca](const int val) {
-                const auto name = names[val];
-                le->setText(name);
-                if(nca) nca(name);
-            };
-            choose->initialize(16, names, act, true);
-
-            window()->execDialog(choose);
-            choose->align(eAlignment::center);
-        });
 
         innerWidget->stackHorizontally();
         innerWidget->fitContent();

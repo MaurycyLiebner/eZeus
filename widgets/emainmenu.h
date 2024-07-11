@@ -11,7 +11,8 @@ public:
                     const eAction& loadGameA,
                     const eAction& editGameA,
                     const eAction& settingsA,
-                    const eAction& quitA);
+                    const eAction& quitA,
+                    const eAction& leaderA);
 private:
     bool mousePressEvent(const eMouseEvent& e);
     bool mouseReleaseEvent(const eMouseEvent& e);

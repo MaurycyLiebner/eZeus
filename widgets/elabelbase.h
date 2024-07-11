@@ -36,6 +36,8 @@ public:
     void setWrapAlignment(const eAlignment a) { mWrapAlign = a; }
 
     int lineWidth() const;
+
+    void textureSize(int& w, int& h) const;
 protected:
     const std::shared_ptr<eTexture>& texture() { return mTexture; }
     bool setFont(TTF_Font* const font);

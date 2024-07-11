@@ -54,6 +54,7 @@ public:
     bool loadGame(const std::string& path);
     void closeGame();
 
+    void showRosterOfLeaders();
     void showMenuLoading();
     void showMainMenu();
     void showSettingsMenu();
@@ -77,10 +78,16 @@ public:
 
     void showEpisodeIntroduction(const stdsptr<eCampaign>& c = nullptr);
     const stdsptr<eCampaign>& campaign() const { return mCampaign; }
+
+    const std::string& leader() const { return mLeader; }
+    void setLeader(const std::string& leader) { mLeader = leader; }
+    std::string leaderSaveDir() const;
 private:
     void clearWidgets();
 
     eSettings mSettings{false, true, false, false, false, eResolution()};
+
+    std::string mLeader;
 
     bool mQuit = false;
 

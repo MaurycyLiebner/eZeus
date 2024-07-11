@@ -122,7 +122,8 @@ void eGameWidget::setBoard(eGameBoard* const board) {
     });
     mBoard->setAutosaver([this]() {
         const auto w = window();
-        w->saveGame("../saves/autosave history.ez");
+        const auto dir = w->leaderSaveDir();
+        w->saveGame(dir + "autosave history.ez");
     });
     using eEnlistAction = std::function<void(const eEnlistedForces&, eResourceType)>;
     mBoard->setEnlistForcesRequest([this](
@@ -930,7 +931,7 @@ void eGameWidget::showMessage(eEventData& ed,
         };
     }
     ed.fDate = mBoard->date();
-    ed.fPlayerName = mBoard->playerName();
+    ed.fPlayerName = window()->leader();
 
     const auto close = [this]() {
         mMsgBox = nullptr;
@@ -1516,8 +1517,9 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
                     removeWidget(fw);
                     fw->deleteLater();
                 };
+                const auto dir = w->leaderSaveDir();
                 fw->intialize(eLanguage::zeusText(1, 4),
-                              "../saves/", func, closeAct);
+                              dir, func, closeAct);
                 addWidget(fw);
                 fw->align(eAlignment::center);
             };
@@ -1530,8 +1532,9 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
                     removeWidget(fw);
                     fw->deleteLater();
                 };
+                const auto dir = w->leaderSaveDir();
                 fw->intialize(eLanguage::zeusText(1, 3),
-                              "../saves/", func, closeAct);
+                              dir, func, closeAct);
                 addWidget(fw);
                 fw->align(eAlignment::center);
             };
