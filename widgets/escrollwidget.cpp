@@ -1,5 +1,7 @@
 #include "escrollwidget.h"
 
+#include <algorithm>
+
 void eScrollWidget::setScrollArea(eWidget* const w) {
     setMouseReceiver(w);
     mScrollArea = w;

@@ -10,6 +10,8 @@
 #include "echoosebutton.h"
 #include "enamewidget.h"
 
+#include <algorithm>
+
 class eTributeSettingsWidget : public eFramedWidget {
 public:
     using eFramedWidget::eFramedWidget;

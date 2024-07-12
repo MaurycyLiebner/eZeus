@@ -1,6 +1,7 @@
 #include "epathboard.h"
 
 #include "etilehelper.h"
+#include "elimits.h"
 
 ePathBoard::ePathBoard(const int x, const int y,
                        const int w, const int h) :

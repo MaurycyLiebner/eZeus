@@ -4,6 +4,8 @@
 #include "textures/egametextures.h"
 #include "characters/actions/eshepherdaction.h"
 
+#include <algorithm>
+
 stdsptr<eResourceCollectorBase> dairyCharGenerator(eGameBoard& board) {
     return e::make_shared<eGoatherd>(board);
 }

@@ -4,7 +4,7 @@
 #include "elabel.h"
 
 class eCampaign;
-class eEpisodeGoal;
+struct eEpisodeGoal;
 enum class eEpisodeType;
 
 enum class eEpisodeIntroType {

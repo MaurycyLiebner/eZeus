@@ -1,5 +1,7 @@
 #include "elineedit.h"
 
+#include <algorithm>
+
 eLineEdit::eLineEdit(eMainWindow* const window) :
     eFramedLabel(window) {
     setType(eFrameType::inner);

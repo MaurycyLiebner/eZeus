@@ -1,6 +1,7 @@
 #include "eloadtexthelper.h"
 
 #include <fstream>
+#include <algorithm>
 
 bool eLoadTextHelper::load(const std::string& path, eMap& map) {
     std::ifstream file(path);

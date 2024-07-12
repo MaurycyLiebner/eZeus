@@ -1,6 +1,7 @@
 #ifndef EFONTCOLOR_H
 #define EFONTCOLOR_H
 
+#define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 
 enum class eFontColor {

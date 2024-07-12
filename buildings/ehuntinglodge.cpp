@@ -4,6 +4,8 @@
 #include "textures/egametextures.h"
 #include "characters/actions/ehuntaction.h"
 
+#include <algorithm>
+
 eHuntingLodge::eHuntingLodge(eGameBoard& board) :
     eResourceCollectBuildingBase(board, eBuildingType::huntingLodge,
                           2, 2, 8, eResourceType::meat) {

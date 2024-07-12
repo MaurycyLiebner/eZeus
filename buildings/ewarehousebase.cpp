@@ -2,6 +2,8 @@
 
 #include "textures/egametextures.h"
 
+#include <algorithm>
+
 void eWarehouseBase::getSpaceOverlays(const eTileSize size,
                                       std::vector<eOverlay>& os,
                                       const eXY& xy) const {

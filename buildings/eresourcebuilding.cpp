@@ -3,6 +3,8 @@
 #include "textures/egametextures.h"
 #include "textures/ebuildingtextures.h"
 
+#include <algorithm>
+
 eBuildingType resourceTypeToBuildingType(const eResourceBuildingType r) {
     switch(r) {
     case eResourceBuildingType::oliveTree:

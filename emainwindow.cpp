@@ -14,8 +14,6 @@
 
 #include "engine/ethreadpool.h"
 
-#include "engine/emapgenerator.h"
-
 #include "egamedir.h"
 
 #include "fileIO/ereadstream.h"

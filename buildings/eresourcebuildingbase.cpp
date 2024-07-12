@@ -2,6 +2,8 @@
 
 #include "characters/actions/ecarttransporteraction.h"
 
+#include <algorithm>
+
 eResourceBuildingBase::eResourceBuildingBase(
         eGameBoard& board,
         const eBuildingType type,

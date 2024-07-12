@@ -4,6 +4,8 @@
 #include "textures/egametextures.h"
 #include "characters/actions/eshepherdaction.h"
 
+#include <algorithm>
+
 stdsptr<eResourceCollectorBase> cardingShedCharGenerator(eGameBoard& board) {
     return e::make_shared<eShepherd>(board);
 }

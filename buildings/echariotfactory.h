@@ -3,6 +3,8 @@
 
 #include "eemployingbuilding.h"
 
+#include <algorithm>
+
 class eChariotFactory : public eEmployingBuilding {
 public:
     eChariotFactory(eGameBoard& board);

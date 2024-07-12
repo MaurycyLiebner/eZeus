@@ -2,6 +2,8 @@
 
 #include "textures/egametextures.h"
 
+#include <algorithm>
+
 eFarmBase::eFarmBase(eGameBoard& board,
                      const eBuildingType type,
                      const int sw, const int sh,

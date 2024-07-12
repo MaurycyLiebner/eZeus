@@ -4,6 +4,8 @@
 
 #include "ehorseranchenclosure.h"
 
+#include <algorithm>
+
 eHorseRanch::eHorseRanch(eGameBoard& board) :
     eEmployingBuilding(board, eBuildingType::horseRanch, 3, 3, 15) {
     eGameTextures::loadHorseRanch();

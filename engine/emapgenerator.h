@@ -1,6 +1,8 @@
 #ifndef EMAPGENERATOR_H
 #define EMAPGENERATOR_H
 
+#ifdef __unix__
+
 enum class eTerrain;
 class eGameBoard;
 
@@ -47,5 +49,7 @@ private:
 
     eGameBoard& mBoard;
 };
+
+#endif
 
 #endif // EMAPGENERATOR_H

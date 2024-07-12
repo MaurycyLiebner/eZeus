@@ -3,6 +3,8 @@
 
 #include "elineedit.h"
 
+#include "elimits.h"
+
 class eNumLineEdit : public eLineEdit {
 public:
     eNumLineEdit(eMainWindow* const window);

@@ -7,6 +7,8 @@
 #include "eupbutton.h"
 #include "edownbutton.h"
 
+#include <algorithm>
+
 void eSpinBox::initialize(const eAction& changed) {
     mValueLabel = new eLabel(window());
 

@@ -4,6 +4,8 @@
 #include "characters/actions/ecarttransporteraction.h"
 #include "characters/actions/egroweraction.h"
 
+#include <algorithm>
+
 eGrowersLodge::eGrowersLodge(eGameBoard& board, const eGrowerType type) :
     eEmployingBuilding(board,
                        type == eGrowerType::grapesAndOlives ?

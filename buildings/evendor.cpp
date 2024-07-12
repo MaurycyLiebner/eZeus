@@ -5,6 +5,8 @@
 #include "textures/egametextures.h"
 #include "buildings/eagorabase.h"
 
+#include <algorithm>
+
 eVendor::eVendor(eGameBoard& board,
                  const eResourceType resType,
                  const eProvide provType,

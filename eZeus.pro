@@ -1,21 +1,35 @@
 TEMPLATE = app
-CONFIG += console c++17
+CONFIG += c++17
+CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-QMAKE_CFLAGS_RELEASE -= -O2
-QMAKE_CFLAGS_RELEASE -= -O1
-QMAKE_CXXFLAGS_RELEASE -= -O2
-QMAKE_CXXFLAGS_RELEASE -= -O1
-QMAKE_CFLAGS_RELEASE += -m64 -O3
-QMAKE_CXXFLAGS_RELEASE += -m64 -O3
+win32 {
+    QMAKE_CFLAGS_RELEASE += /O2 -O2 /GL
+    QMAKE_CXXFLAGS_RELEASE += /O2 -O2 /GL
 
-QMAKE_LFLAGS += -no-pie
+    INCLUDEPATH += C:\Users\maury\Documents\eZeusLibs\SDL2-2.30.5\include
 
-LIBS += -L/usr/lib/x86_64-linux-gnu
-LIBS += -lpthread
-LIBS += -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lstdc++fs
-LIBS += -lnoise
+    LIBS += -LC:\Users\maury\Documents\eZeusLibs\SDL2-2.30.5\lib\x64
+    LIBS += -LC:\Users\maury\Documents\eZeusLibs\SDL2_ttf-2.22.0\lib\x64
+    LIBS += -LC:\Users\maury\Documents\eZeusLibs\SDL2_mixer-2.8.0\lib\x64
+    LIBS += -LC:\Users\maury\Documents\eZeusLibs\SDL2_image-2.8.2\lib\x64
+} unix {
+    QMAKE_CFLAGS_RELEASE -= -O2
+    QMAKE_CFLAGS_RELEASE -= -O1
+    QMAKE_CXXFLAGS_RELEASE -= -O2
+    QMAKE_CXXFLAGS_RELEASE -= -O1
+    QMAKE_CFLAGS_RELEASE += -m64 -O3
+    QMAKE_CXXFLAGS_RELEASE += -m64 -O3
+
+    QMAKE_LFLAGS += -no-pie
+
+    LIBS += -lpthread
+    LIBS += -L/usr/lib/x86_64-linux-gnu
+    LIBS += -lstdc++fs
+    LIBS += -lnoise
+}
+LIBS += -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
 SOURCES += \
         audio/egodsounds.cpp \
@@ -502,7 +516,6 @@ SOURCES += \
         widgets/eepisodeswidget.cpp \
         widgets/eeventbackground.cpp \
         widgets/eeventselectionwidget.cpp \
-        widgets/eeventtimewidget.cpp \
         widgets/eeventwidget.cpp \
         widgets/eexclamationbutton.cpp \
         widgets/efilewidget.cpp \
@@ -905,6 +918,7 @@ HEADERS += \
     einvasionhandler.h \
     eiteratesquare.h \
     elanguage.h \
+    elimits.h \
     eloadtexthelper.h \
     emainwindow.h \
     emessage.h \
@@ -915,7 +929,6 @@ HEADERS += \
     engine/boardData/eheatmaptask.h \
     engine/boardData/ehusbandrydata.h \
     engine/boardData/epopulationdata.h \
-    engine/eboardbase.h \
     engine/ecampaign.h \
     engine/ecityrequest.h \
     engine/edate.h \
@@ -2418,7 +2431,6 @@ HEADERS += \
     widgets/eepisodeswidget.h \
     widgets/eeventbackground.h \
     widgets/eeventselectionwidget.h \
-    widgets/eeventtimewidget.h \
     widgets/eeventwidget.h \
     widgets/eexclamationbutton.h \
     widgets/efilewidget.h \

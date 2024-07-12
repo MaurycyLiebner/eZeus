@@ -8,6 +8,8 @@
 
 #include "elanguage.h"
 
+#include <algorithm>
+
 eCommonHouseInfoWidget::eCommonHouseInfoWidget(eMainWindow* const window) :
     eInfoWidget(window, true, true) {}
 

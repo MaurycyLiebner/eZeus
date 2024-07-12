@@ -5,6 +5,8 @@
 
 #include "buildings/ebuilding.h"
 
+#include <algorithm>
+
 void eAvailableBuildings::read(eReadStream& src) {
     src >> fEliteHousing;
 

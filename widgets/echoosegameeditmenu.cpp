@@ -29,7 +29,7 @@ void eChooseGameEditMenu::initialize(const bool editor) {
         const bool dir = entry.is_directory();
         if(!dir) continue;
         const auto path = entry.path();
-        const std::string pathStr = path;
+        const std::string pathStr = path.u8string();
         const auto name = eStringHelpers::pathToName(pathStr);
         eCampaignGlossary glossary;
         const bool r = eCampaign::sReadGlossary(name, glossary);

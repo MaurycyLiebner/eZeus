@@ -5,7 +5,7 @@
 
 class eWorldBoard;
 class eWorldCity;
-class eColonyEpisode;
+struct eColonyEpisode;
 
 class eSelectColonyWidget : public eWidget {
 public:

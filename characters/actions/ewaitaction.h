@@ -3,6 +3,8 @@
 
 #include "echaracteraction.h"
 
+#include "elimits.h"
+
 class eWaitAction : public eCharacterAction {
 public:
     eWaitAction(eCharacter* const c);

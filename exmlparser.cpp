@@ -1,6 +1,7 @@
 #include "exmlparser.h"
 
 #include <fstream>
+#include <cctype>
 
 bool match(const std::string& str, const std::string& line,
            const int oldIndex, int& newIndex) {

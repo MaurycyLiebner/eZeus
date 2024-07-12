@@ -7,6 +7,8 @@
 #include "characters/actions/etakecattleaction.h"
 #include "characters/actions/ereplacecattleaction.h"
 
+#include <algorithm>
+
 eCorral::eCorral(eGameBoard& board) :
     eResourceBuildingBase(board, eBuildingType::corral,
                           4, 4, 25, eResourceType::meat) {

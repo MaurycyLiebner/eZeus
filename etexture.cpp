@@ -1,5 +1,7 @@
 #include "etexture.h"
 
+#include <algorithm>
+
 eTexture::eTexture() {}
 
 eTexture::~eTexture() {

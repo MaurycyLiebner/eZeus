@@ -3,6 +3,8 @@
 #include "characters/actions/ecarttransporteraction.h"
 #include "textures/egametextures.h"
 
+#include <algorithm>
+
 eProcessingBuilding::eProcessingBuilding(
         eGameBoard& board,
         const eBaseTex baseTex,

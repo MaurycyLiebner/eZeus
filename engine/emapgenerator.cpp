@@ -1,4 +1,7 @@
 #include "emapgenerator.h"
+
+#ifdef __unix__
+
 #include <libnoise/noise.h>
 #include <libnoise/module/perlin.h>
 using namespace noise;
@@ -232,3 +235,5 @@ void eMapGenerator::generate(const eMGS& settings) {
     mBoard.updateMarbleTiles();
     mBoard.scheduleTerrainUpdate();
 }
+
+#endif

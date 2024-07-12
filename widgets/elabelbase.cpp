@@ -2,6 +2,8 @@
 
 #include "emainwindow.h"
 
+#include <algorithm>
+
 eLabelBase::eLabelBase(eMainWindow* const window) :
     mWindow(window) {
 

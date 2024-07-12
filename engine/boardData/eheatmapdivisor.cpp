@@ -1,5 +1,7 @@
 #include "eheatmapdivisor.h"
 
+#include <algorithm>
+
 eHeatMapRectangle::eHeatMapRectangle(const double maxHeat,
                                      const int maxHeatX,
                                      const int maxHeatY,

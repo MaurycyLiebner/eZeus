@@ -4,7 +4,7 @@
 #include "emoveaction.h"
 
 #include "walkable/ewalkableobject.h"
-
+#include "elimits.h"
 #include <vector>
 
 class eMoveAroundAction : public eMoveAction {

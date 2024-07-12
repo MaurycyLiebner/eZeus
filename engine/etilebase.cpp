@@ -2,6 +2,8 @@
 
 #include "buildings/ebuilding.h"
 
+#include <algorithm>
+
 void eTileBase::setWalkableElev(const bool w) {
     mWalkableElev = w;
 }

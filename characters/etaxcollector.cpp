@@ -2,6 +2,8 @@
 
 #include "textures/egametextures.h"
 
+#include "elimits.h"
+
 eTaxCollector::eTaxCollector(eGameBoard& board) :
     eBasicPatroler(board, &eCharacterTextures::fTaxCollector,
                    eCharacterType::taxCollector) {

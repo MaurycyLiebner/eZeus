@@ -2,7 +2,7 @@
 #define EGAMEBOARD_H
 
 #include <vector>
-
+#include "elimits.h"
 #include "etile.h"
 
 #include "boardData/epopulationdata.h"

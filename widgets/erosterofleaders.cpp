@@ -203,7 +203,7 @@ std::vector<std::string> eRosterOfLeaders::sLeaders() {
             const bool id = entry.is_directory();
             if(!id) continue;
             const auto path = entry.path();
-            leaders.push_back(path.filename());
+            leaders.push_back(path.filename().u8string());
         }
     }
     return leaders;

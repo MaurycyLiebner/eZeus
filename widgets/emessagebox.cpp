@@ -8,6 +8,7 @@
 #include "eframedbutton.h"
 
 #include <stdexcept>
+#include <algorithm>
 
 #include "elanguage.h"
 

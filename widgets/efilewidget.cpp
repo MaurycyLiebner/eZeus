@@ -99,7 +99,7 @@ void eFileWidget::intialize(const std::string& title,
     int y = 0;
     for(const auto& entry : sorted) {
         const auto path = entry.second;
-        const auto name = path.filename().stem();
+        const auto name = path.filename().stem().u8string();
         const auto b = new eButton(name, window());
         b->setUnderline(false);
         b->setDarkFontColor();

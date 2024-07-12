@@ -2,6 +2,8 @@
 
 #include "etilehelper.h"
 
+#include <algorithm>
+
 void eHeatMap::reset() {
     initialize(mWidth, mHeight);
 }

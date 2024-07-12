@@ -17,8 +17,6 @@
 
 #include "audio/esounds.h"
 
-#include "engine/emapgenerator.h"
-
 #include "engine/boardData/eheatmaptask.h"
 #include "engine/epathfinder.h"
 

@@ -1,5 +1,6 @@
 #include "eenlistedforces.h"
 
+#include <algorithm>
 
 void eEnlistedForces::read(eGameBoard& board,
                            eWorldBoard& wboard,
