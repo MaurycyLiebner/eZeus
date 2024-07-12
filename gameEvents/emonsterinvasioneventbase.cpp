@@ -4,6 +4,7 @@
 #include "engine/eeventdata.h"
 #include "characters/actions/emonsteraction.h"
 #include "emonsterinvasionevent.h"
+#include "eiteratesquare.h"
 
 eMonsterInvasionEventBase::eMonsterInvasionEventBase(const eGameEventType type,
         const eGameEventBranch branch) :
@@ -46,14 +47,35 @@ eMonster* eMonsterInvasionEventBase::triggerBase() const {
 
     const auto a = e::make_shared<eMonsterAction>(monster.get());
     monster->setAction(a);
-    const auto tile = board->monsterTile(mPointId);
+    auto tile = board->monsterTile(mPointId);
     if(tile) {
-        if(const auto ub = tile->underBuilding()) {
-            const auto type = ub->type();
-            const bool w = eBuilding::sWalkableBuilding(type);
-            if(!w) ub->collapse();
+        const int tx = tile->x();
+        const int ty = tile->y();
+        const auto placeMonster = [board, monster, tx, ty](
+                                  const int dx, const int dy) {
+            const int ttx = tx + dx;
+            const int tty = ty + dy;
+            const auto tile = board->tile(ttx, tty);
+            if(!tile) return false;
+            if(const auto ub = tile->underBuilding()) {
+                const auto type = ub->type();
+                const bool w = eBuilding::sWalkableBuilding(type);
+                if(!w) {
+                    const bool a = eBuilding::sAttackable(type);
+                    if(a) {
+                        ub->collapse();
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            monster->changeTile(tile);
+            return true;
+        };
+        int k = 0;
+        while(!monster->tile()) {
+            eIterateSquare::iterateSquare(k++, placeMonster);
         }
-        monster->changeTile(tile);
     }
     a->increment(1);
 
