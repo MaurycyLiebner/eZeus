@@ -37,3 +37,7 @@ std::string eGameDir::adventuresDir() {
 std::string eGameDir::saveDir() {
     return exeDir() + "../Save/";
 }
+
+std::string eGameDir::texturesDir() {
+    return exeDir() + "../textures/";
+}

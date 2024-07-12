@@ -1123,7 +1123,7 @@ void eInterfaceTextures::load() {
     }
 
     {
-        const std::string basedir{eGameDir::exeDir() + "../ZeusTextures/" + std::to_string(fTileH) + "/"};
+        const std::string basedir{eGameDir::texturesDir() + std::to_string(fTileH) + "/"};
         const auto dir = basedir + "/Zeus_Data_Images/";
 
         fLoadImage1 = std::make_shared<eTexture>();
@@ -1266,7 +1266,7 @@ void eInterfaceTextures::load() {
 }
 
 std::string eInterfaceTextures::loadMapDirPath() const {
-    const std::string basedir{eGameDir::exeDir() + "../ZeusTextures/" + std::to_string(fTileH) + "/"};
+    const std::string basedir{eGameDir::texturesDir() + std::to_string(fTileH) + "/"};
     const auto dir = basedir + "/Zeus_Data_Images/";
     return dir;
 }

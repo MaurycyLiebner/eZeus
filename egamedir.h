@@ -11,6 +11,7 @@ public:
     static std::string exeDir();
     static std::string adventuresDir();
     static std::string saveDir();
+    static std::string texturesDir();
 private:
     static std::string sPath;
 };
