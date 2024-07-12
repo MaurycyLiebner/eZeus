@@ -1,5 +1,7 @@
 #include "efonts.h"
 
+#include "egamedir.h"
+
 std::map<eFont, TTF_Font*> eFonts::sFonts;
 
 TTF_Font* eFonts::requestFont(const eFont& font) {
@@ -16,7 +18,7 @@ TTF_Font* eFonts::defaultFont(const eResolution res) {
 ;}
 
 TTF_Font* eFonts::defaultFont(const int fs) {
-    return requestFont({"../fonts/Zeus.ttf", fs});
+    return requestFont({eGameDir::exeDir() + "../fonts/Zeus.ttf", fs});
 }
 
 TTF_Font* eFonts::loadFont(const eFont& font) {

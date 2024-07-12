@@ -3,6 +3,7 @@
 
 #include "etexturecollection.h"
 #include "spriteData/espritedata.h"
+#include "egamedir.h"
 
 using eOffset = std::pair<int, int>;
 using eOffsets = std::vector<eOffset>;
@@ -81,7 +82,7 @@ public:
 private:
     void loadTex(const int i) {
         const auto tex = std::make_shared<eTexture>();
-        const std::string dir = "../textures/" + mSize + "/";
+        const std::string dir = eGameDir::exeDir() + "../textures/" + mSize + "/";
         tex->load(mRenderer, dir + mName + "_" + std::to_string(i) + ".png");
         mTexs[i] = tex;
     }

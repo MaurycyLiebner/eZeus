@@ -3,6 +3,7 @@
 #include "eloadtexthelper.h"
 
 #include "exmlparser.h"
+#include "egamedir.h"
 
 eLanguage eLanguage::instance;
 
@@ -26,8 +27,8 @@ bool eLanguage::loadImpl() {
     if(mLoaded) return false;
     mLoaded = true;
 
-    eXmlParser::sParse(fZeusText, "../Zeus_Text.xml");
+    eXmlParser::sParse(fZeusText, eGameDir::exeDir() + "../Zeus_Text.xml");
 
-    const std::string path = "../Text/language.txt";
+    const std::string path = eGameDir::exeDir() + "../Text/language.txt";
     return eLoadTextHelper::load(path, fText);
 }

@@ -166,7 +166,7 @@ void eMainWindow::showEpisodeIntroduction(
 }
 
 std::string eMainWindow::leaderSaveDir() const {
-    return "../Save/" + mLeader + "/";
+    return eGameDir::saveDir() + mLeader + "/";
 }
 
 void eMainWindow::clearWidgets() {

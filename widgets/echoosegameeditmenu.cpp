@@ -14,6 +14,7 @@
 #include "eepisodeintroductionwidget.h"
 #include "estringhelpers.h"
 #include "elanguage.h"
+#include "egamedir.h"
 
 #include <filesystem>
 namespace fs = std::filesystem;
@@ -22,7 +23,7 @@ void eChooseGameEditMenu::initialize(const bool editor) {
     eMainMenuBase::initialize();
 
     std::vector<eCampaignGlossary> glossaries;
-    const auto folder = "../Adventures/";
+    const auto folder = eGameDir::adventuresDir();
     std::filesystem::create_directories(folder);
     for(const auto& entry : fs::directory_iterator(folder)) {
         const bool dir = entry.is_directory();
@@ -176,7 +177,7 @@ void eChooseGameEditMenu::initialize(const bool editor) {
         deleteB->setPressAction([this]() {
            const auto q = new eQuestionWidget(window());
            const auto acceptA = [this]() {
-               const auto dir = "../Adventures/" + mSelected.fFolderName + "/";
+               const auto dir = eGameDir::adventuresDir() + mSelected.fFolderName + "/";
                std::filesystem::remove_all(dir);
                window()->showChooseGameEditMenu();
            };

@@ -102,6 +102,8 @@
 
 #include "espriteloader.h"
 
+#include "egamedir.h"
+
 eInterfaceTextures::eInterfaceTextures(const int tileW, const int tileH,
                                        SDL_Renderer* const renderer) :
     fTileW(tileW), fTileH(tileH),
@@ -1121,7 +1123,7 @@ void eInterfaceTextures::load() {
     }
 
     {
-        const std::string basedir{"../ZeusTextures/" + std::to_string(fTileH) + "/"};
+        const std::string basedir{eGameDir::exeDir() + "../ZeusTextures/" + std::to_string(fTileH) + "/"};
         const auto dir = basedir + "/Zeus_Data_Images/";
 
         fLoadImage1 = std::make_shared<eTexture>();
@@ -1264,7 +1266,7 @@ void eInterfaceTextures::load() {
 }
 
 std::string eInterfaceTextures::loadMapDirPath() const {
-    const std::string basedir{"../ZeusTextures/" + std::to_string(fTileH) + "/"};
+    const std::string basedir{eGameDir::exeDir() + "../ZeusTextures/" + std::to_string(fTileH) + "/"};
     const auto dir = basedir + "/Zeus_Data_Images/";
     return dir;
 }

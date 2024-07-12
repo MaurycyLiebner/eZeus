@@ -8,6 +8,7 @@
 #include "emainwindow.h"
 #include "enamewidget.h"
 #include "engine/eworldcity.h"
+#include "egamedir.h"
 
 #include <string>
 #include <iostream>
@@ -66,7 +67,7 @@ void eRosterOfLeaders::initialize() {
         d->initialize("", eWorldCity::sLeaders(),
                       [this](const std::string& name) {
             if(name.empty()) return;
-            const auto dir = "../Save/" + name + "/";
+            const auto dir = eGameDir::saveDir() + name + "/";
             std::filesystem::create_directories(dir);
             const auto w = window();
             w->showRosterOfLeaders();
@@ -89,7 +90,7 @@ void eRosterOfLeaders::initialize() {
     buttons1->addWidget(deleteB);
     deleteB->setPressAction([this, selected]() {
         if(selected->empty()) return;
-        const auto dir = "../Save/" + *selected + "/";
+        const auto dir = eGameDir::saveDir() + *selected + "/";
         std::filesystem::remove_all(dir);
         const auto w = window();
         if(*selected == w->leader()) {
@@ -196,7 +197,7 @@ void eRosterOfLeaders::initialize() {
 
 std::vector<std::string> eRosterOfLeaders::sLeaders() {
     std::vector<std::string> leaders;
-    const auto folder = "../Save/";
+    const auto folder = eGameDir::saveDir();
     if(std::filesystem::exists(folder)) {
         for(const auto& entry : fs::directory_iterator(folder)) {
             const bool id = entry.is_directory();

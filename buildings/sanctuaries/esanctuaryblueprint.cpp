@@ -3,6 +3,8 @@
 #include <fstream>
 #include <regex>
 
+#include "egamedir.h"
+
 eSanctBlueprints eSanctBlueprints::instance;
 
 bool loadLineBP(const int x,
@@ -179,7 +181,7 @@ eSanctBlueprint rotate(const eSanctBlueprint& src) {
 void eSanctBlueprints::loadImpl() {
     if(mLoaded) return;
     mLoaded = true;
-    const std::string dir = "../Sanctuaries/";
+    const std::string dir = eGameDir::exeDir() + "../Sanctuaries/";
 
     loadBP(fZeusW, dir + "zeus.txt");
     fZeusH = rotate(fZeusW);

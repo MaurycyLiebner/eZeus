@@ -6,6 +6,7 @@
 #include <regex>
 
 #include "evectorhelpers.h"
+#include "egamedir.h"
 
 eCampaign::eCampaign() {
 
@@ -82,7 +83,7 @@ bool eCampaign::sLoadStrings(const std::string& path, eMap& map) {
 }
 
 bool eCampaign::loadStrings() {
-    const auto baseDir = "../Adventures/";
+    const auto baseDir = eGameDir::adventuresDir();
     const auto aDir = baseDir + mName + "/";
     const auto txtFile = aDir + mName + ".txt";
     std::map<std::string, std::string> map;
@@ -166,7 +167,7 @@ bool eCampaign::writeStrings(const std::string& path) const {
 
 bool eCampaign::sReadGlossary(const std::string& name,
                               eCampaignGlossary& glossary) {
-    const auto baseDir = "../Adventures/";
+    const auto baseDir = eGameDir::adventuresDir();
     const auto aDir = baseDir + name + "/";
     const auto txtFile = aDir + name + ".txt";
     std::map<std::string, std::string> map;
@@ -316,7 +317,7 @@ void eCampaign::write(eWriteStream& dst) const {
 
 bool eCampaign::load(const std::string& name) {
     mName = name;
-    const auto baseDir = "../Adventures/";
+    const auto baseDir = eGameDir::adventuresDir();
     const auto aDir = baseDir + mName + "/";
 
     const auto pakFile = aDir + mName + ".epak";
@@ -333,7 +334,7 @@ bool eCampaign::load(const std::string& name) {
 }
 
 bool eCampaign::save() const {
-    const auto baseDir = "../Adventures/";
+    const auto baseDir = eGameDir::adventuresDir();
     const auto aDir = baseDir + mName + "/";
     std::filesystem::create_directories(aDir);
     const auto txtFile = aDir + mName + ".txt";
