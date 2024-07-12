@@ -1,11 +1,19 @@
 #include "egamedir.h"
 
 #include <SDL2/SDL_filesystem.h>
+#include <fstream>
 
 std::string eGameDir::sPath;
 
 void eGameDir::initialize() {
-    sPath = exeDir() + "../Zeus and Poseidon/";
+    sPath = exeDir() + "../../";
+    const auto zp = exeDir() + "../zeus_path.txt";
+    std::ifstream file(zp);
+    if(!file.good()) return;
+    std::string str;
+    const bool g = !!std::getline(file, str);
+    if(!g) return;
+    sPath = exeDir() + str;
 }
 
 std::string eGameDir::path(const std::string& path) {
