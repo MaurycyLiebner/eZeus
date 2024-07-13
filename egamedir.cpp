@@ -39,5 +39,5 @@ std::string eGameDir::saveDir() {
 }
 
 std::string eGameDir::texturesDir() {
-    return exeDir() + "../textures/";
+    return exeDir() + "../Textures/";
 }
