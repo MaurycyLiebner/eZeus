@@ -55,10 +55,14 @@ struct eArtisanTextures : public eBasicCharacterTextures {
     std::vector<eTextureCollection> fBuildStanding;
 };
 
-struct eShepherdTextures : public eResourceCollectorTextures {
+struct eShepherdTextures : public eBasicCharacterTextures {
     eShepherdTextures(SDL_Renderer* const renderer) :
-        eResourceCollectorTextures(renderer), fFight(renderer) {}
+        eBasicCharacterTextures(renderer),
+        fCollect(renderer),
+        fFight(renderer) {}
 
+    std::vector<eTextureCollection> fCarry;
+    eTextureCollection fCollect;
     eTextureCollection fFight;
 };
 

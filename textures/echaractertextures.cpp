@@ -629,7 +629,9 @@ void eCharacterTextures::loadGoatherd() {
                          &eSprMainOffset, fRenderer);
 
     loader.loadSkipFlipped(2377, 2377, 2473, fGoatherd.fWalk);
-    loader.loadSkipFlipped(2377, 2481, 2489, fGoatherd.fCollect);
+    for(int i = 2481; i < 2489; i++) {
+        loader.load(2377, i, fGoatherd.fCollect);
+    }
     loader.loadSkipFlipped(2377, 2489, 2585, fGoatherd.fCarry);
 
     for(int i = 2473; i < 2481; i++) {
@@ -834,7 +836,9 @@ void eCharacterTextures::loadShepherd() {
                          &eSprMainOffset, fRenderer);
 
     loader.loadSkipFlipped(3415, 3415, 3511, fShepherd.fWalk);
-    loader.loadSkipFlipped(3415, 3519, 3531, fShepherd.fCollect);
+    for(int i = 3519; i < 3531; i++) {
+        loader.load(3415, i, fShepherd.fCollect);
+    }
     loader.loadSkipFlipped(3415, 3531, 3627, fShepherd.fCarry);
 
     for(int i = 3627; i < 3637; i++) {

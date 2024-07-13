@@ -23,7 +23,7 @@ eShepherdBase::getTexture(const eTileSize size) const {
     case eCharacterActionType::stand:
         return charTexs.fWalk[oid].getTexture(0);
     case eCharacterActionType::collect: {
-        coll = &charTexs.fCollect[oid];
+        coll = &charTexs.fCollect;
     } break;
     case eCharacterActionType::fight: {
         coll = &charTexs.fFight;
