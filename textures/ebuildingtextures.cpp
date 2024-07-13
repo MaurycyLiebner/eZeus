@@ -582,6 +582,11 @@
 #include "spriteData/interfaceSprites45.h"
 #include "spriteData/interfaceSprites60.h"
 
+#include "spriteData/deerTop15.h"
+#include "spriteData/deerTop30.h"
+#include "spriteData/deerTop45.h"
+#include "spriteData/deerTop60.h"
+
 #include "offsets/PoseidonImps.h"
 
 #include "textures/espriteloader.h"
@@ -2997,6 +3002,19 @@ void eBuildingTextures::load() {
         fWolfPoint = loader.load(1, 36);
         fBoarPoint = loader.load(1, 37);
         fMonsterPoint = loader.load(1, 38);
+    }
+
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eDeerTopSpriteData15,
+                                     eDeerTopSpriteData30,
+                                     eDeerTopSpriteData45,
+                                     eDeerTopSpriteData60);
+        eSpriteLoader loader(fTileH, "deerTop", sds,
+                             nullptr, fRenderer);
+
+        fDeerPoint = loader.load(57, 57);
     }
 }
 

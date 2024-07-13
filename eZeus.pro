@@ -1404,6 +1404,10 @@ HEADERS += \
     spriteData/deerHunter30.h \
     spriteData/deerHunter45.h \
     spriteData/deerHunter60.h \
+    spriteData/deerTop15.h \
+    spriteData/deerTop30.h \
+    spriteData/deerTop45.h \
+    spriteData/deerTop60.h \
     spriteData/demeter15.h \
     spriteData/demeter30.h \
     spriteData/demeter45.h \
@@ -2627,6 +2631,7 @@ DISTFILES += \
     textureTemplates/dairy \
     textureTemplates/deer \
     textureTemplates/deerHunter \
+    textureTemplates/deerTop \
     textureTemplates/demeter \
     textureTemplates/demeterStatue \
     textureTemplates/dionysus \
