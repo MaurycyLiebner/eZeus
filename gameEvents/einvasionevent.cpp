@@ -9,6 +9,8 @@
 #include "einvasionwarningevent.h"
 #include "audio/emusic.h"
 
+#include <algorithm>
+
 eInvasionEvent::eInvasionEvent(const eGameEventBranch branch) :
     eGameEvent(eGameEventType::invasion, branch) {}
 
@@ -90,9 +92,73 @@ void eInvasionEvent::trigger() {
             board->updateMusic();
         };
     }
-    const int infantry = mInfantry;
-    const int cavalry = mCavalry;
-    const int archers = mArchers;
+
+    int infantry = 0;
+    int cavalry = 0;
+    int archers = 0;
+
+    if(mHardcoded) {
+        infantry = mInfantry;
+        cavalry = mCavalry;
+        archers = mArchers;
+    } else {
+        const int troops = std::max(12, 2*city->troops()/3);
+        const auto n = city->nationality();
+        switch(n) {
+        case eNationality::greek: {
+            infantry = std::ceil(0.6*troops);
+            cavalry = std::ceil(0.2*troops);
+            archers = std::ceil(0.2*troops);
+        } break;
+        case eNationality::trojan: {
+            infantry = std::ceil(0.5*troops);
+            cavalry = std::ceil(0.3*troops);
+            archers = std::ceil(0.2*troops);
+        } break;
+        case eNationality::persian: {
+            infantry = std::ceil(0.3*troops);
+            cavalry = std::ceil(0.3*troops);
+            archers = std::ceil(0.4*troops);
+        } break;
+        case eNationality::centaur: {
+            infantry = 0;
+            cavalry = std::ceil(0.5*troops);
+            archers = std::ceil(0.5*troops);
+        } break;
+        case eNationality::amazon: {
+            infantry = std::ceil(0.75*troops);
+            cavalry = 0;
+            archers = std::ceil(0.25*troops);
+        } break;
+
+        case eNationality::egyptian: {
+            infantry = std::ceil(0.5*troops);
+            cavalry = std::ceil(0.2*troops);
+            archers = std::ceil(0.3*troops);
+        } break;
+        case eNationality::mayan: {
+            infantry = std::ceil(0.25*troops);
+            cavalry = 0;
+            archers = std::ceil(0.75*troops);
+        } break;
+        case eNationality::phoenician: {
+            infantry = 0;
+            cavalry = std::ceil(0.3*troops);
+            archers = std::ceil(0.7*troops);
+        } break;
+        case eNationality::oceanid: {
+            infantry = std::ceil(0.5*troops);
+            cavalry = 0;
+            archers = std::ceil(0.5*troops);
+        } break;
+        case eNationality::atlantean: {
+            infantry = std::ceil(0.4*troops);
+            cavalry = std::ceil(0.3*troops);
+            archers = std::ceil(0.3*troops);
+        } break;
+        }
+    }
+
     const auto tile = board->landInvasionTile(mInvasionPoint);
     ed.fTile = tile;
     ed.fA2 = [board, tile, city, infantry, cavalry, archers]() { // fight
@@ -116,6 +182,8 @@ void eInvasionEvent::write(eWriteStream& dst) const {
     eGameEvent::write(dst);
     dst.writeCity(mCity.get());
 
+    dst << mHardcoded;
+
     dst << mInfantry;
     dst << mCavalry;
     dst << mArchers;
@@ -131,6 +199,8 @@ void eInvasionEvent::read(eReadStream& src) {
     src.readCity(gameBoard(), [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
+
+    src >> mHardcoded;
 
     src >> mInfantry;
     src >> mCavalry;

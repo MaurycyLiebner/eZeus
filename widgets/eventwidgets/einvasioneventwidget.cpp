@@ -9,6 +9,7 @@
 #include "widgets/elabeledwidget.h"
 #include "widgets/evaluebutton.h"
 #include "widgets/ecitybutton.h"
+#include "widgets/eswitchbutton.h"
 
 void eInvasionEventWidget::initialize(eInvasionEvent* const e) {
     const auto cityButtonL = new eLabeledWidget(window());
@@ -17,11 +18,26 @@ void eInvasionEventWidget::initialize(eInvasionEvent* const e) {
     const auto board = e->worldBoard();
     cityButton->initialize(board, [this, e](const stdsptr<eWorldCity>& c){
         e->setCity(c);
-        setCity(c.get());
+        mCity = c;
+        updateVisibility();
     });
     cityButton->setCity(cc);
     cityButtonL->setup(eLanguage::text("city:"), cityButton);
     addWidget(cityButtonL);
+
+    const auto hardcodedButton = new eSwitchButton(window());
+    hardcodedButton->setUnderline(false);
+    hardcodedButton->addValue(eLanguage::text("hardcoded"));
+    hardcodedButton->addValue(eLanguage::text("automatic"));
+    hardcodedButton->fitContent();
+    hardcodedButton->setSwitchAction([this, e](const int h) {
+        mHardcoded = h == 0;
+        e->setHardcoded(mHardcoded);
+        updateVisibility();
+    });
+    mHardcoded = e->hardcoded();
+    hardcodedButton->setValue(mHardcoded ? 0 : 1);
+    addWidget(hardcodedButton);
 
     mInfantryButtonL = new eLabeledWidget(window());
     const auto infantryButton = new eValueButton(window());
@@ -67,15 +83,16 @@ void eInvasionEventWidget::initialize(eInvasionEvent* const e) {
     stackVertically(p);
     fitContent();
 
-    setCity(cc.get());
+    mCity = cc;
+    updateVisibility();
 }
 
-void eInvasionEventWidget::setCity(eWorldCity* const c) {
+void eInvasionEventWidget::updateVisibility() {
     bool infantryVisible = false;
     bool cavalryVisible = false;
     bool archersVisible = false;
-    if(c) {
-        const auto nat = c->nationality();
+    if(mCity && mHardcoded) {
+        const auto nat = mCity->nationality();
         switch(nat) {
         case eNationality::greek:
             infantryVisible = true;

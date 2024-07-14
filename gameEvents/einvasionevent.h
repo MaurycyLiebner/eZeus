@@ -39,10 +39,15 @@ public:
     void setFirstWarning(const eDate& w);
     eDate firstWarning() const { return mFirstWarning; }
     bool warned() const { return mWarned; }
+
+    bool hardcoded() const { return mHardcoded; }
+    void setHardcoded(const bool h) { mHardcoded = h; }
 private:
     int bribeCost() const;
 
     stdsptr<eWorldCity> mCity;
+
+    bool mHardcoded = true;
 
     int mInfantry = 10;
     int mCavalry = 10;

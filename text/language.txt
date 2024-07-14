@@ -99,6 +99,8 @@ infantry: "Infantry:"
 cavalry: "Cavalry:"
 range: "Range:"
 invasion_point: "Invasion point:"
+hardcoded "Hardcoded"
+automatic "Automatic"
 
 rival: "Rival:"
 

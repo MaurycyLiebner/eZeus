@@ -13,7 +13,10 @@ public:
 
     void initialize(eInvasionEvent* const e);
 private:
-    void setCity(eWorldCity* const c);
+    void updateVisibility();
+
+    bool mHardcoded = true;
+    stdsptr<eWorldCity> mCity;
 
     eLabeledWidget* mInfantryButtonL = nullptr;
     eLabeledWidget* mCavalryButtonL = nullptr;
