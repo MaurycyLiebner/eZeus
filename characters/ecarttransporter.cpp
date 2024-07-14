@@ -228,7 +228,7 @@ void eCartTransporter::setResource(const eResourceType type,
             for(int i = count*nFollPerRes; i < iMax; i++) {
                 const auto f = mFollowers.back();
                 mFollowers.pop_back();
-                f->kill();
+                if(f) f->kill();
             }
         }
         const int iMax = count - mFollowers.size()/nFollPerRes;
@@ -237,7 +237,11 @@ void eCartTransporter::setResource(const eResourceType type,
             if(mFollowers.empty()) {
                 follow = this;
             } else {
-                follow = mFollowers.back().get();
+                const int iMax = mFollowers.size() - 1;
+                for(int i = iMax; i >= 0; i--) {
+                    follow = mFollowers[i].get();
+                    if(follow) break;
+                }
             }
 
             const auto t = tile();
