@@ -1516,6 +1516,22 @@ void eGameBoard::handleGamesEnd(const eGames game) {
         if(won) {
             showMessage(ed, msgs->fWon);
             mWonGames++;
+            int id = 0;
+            switch(game) {
+            case eGames::isthmian:
+                id = 8;
+                break;
+            case eGames::nemean:
+                id = 3;
+                break;
+            case eGames::pythian:
+                id = 8;
+                break;
+            case eGames::olympian:
+                id = 8;
+                break;
+            }
+            allow(eBuildingType::commemorative, id);
         } else {
             const bool second = rand() % 101 < 200*chance;
             if(second) {
