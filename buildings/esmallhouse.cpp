@@ -214,7 +214,7 @@ void eSmallHouse::timeChanged(const int by) {
         updateLevel();
     }
     mUpdateSatisfaction += by;
-    const int supdate = 5000;
+    const int supdate = 7500;
     if(mUpdateSatisfaction > supdate) {
         mUpdateSatisfaction -= supdate;
         updateSatisfaction();
