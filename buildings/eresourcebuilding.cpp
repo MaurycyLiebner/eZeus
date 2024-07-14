@@ -62,7 +62,11 @@ int eResourceBuilding::takeResource(const int by) {
     if(mResource == 0) return 0;
     const int take = std::clamp(by, 0, mResource);
     mResource -= take;
-    if(mResource == 0) mRipe = 0;
+    if(mResource == 0) {
+        mRipe = 0;
+        const auto tile = centerTile();
+        tile->scheduleTerrainUpdate();
+    }
     return take;
 }
 
@@ -102,6 +106,8 @@ void eResourceBuilding::timeChanged(const int by) {
         if(++mRipe == 5) {
             mResource = 1;
         }
+        const auto tile = centerTile();
+        tile->scheduleTerrainUpdate();
     }
 }
 
