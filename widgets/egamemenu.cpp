@@ -44,6 +44,9 @@ void tradePosts(std::vector<eSPR>& cs, eGameBoard& board) {
     const auto& wrld = board.getWorldBoard();
     int i = 0;
     for(const auto& c : wrld->cities()) {
+        if(c->isRival()) continue;
+        if(c->isCurrentCity()) continue;
+        if(!c->active()) continue;
         if(!board.hasTradePost(*c)) {
             if(!c->buys().empty() || !c->sells().empty()) {
                 if(c->waterTrade()) {
