@@ -323,7 +323,8 @@ void eEpisodeGoal::update(const eGameBoard* const b) {
     case eEpisodeGoalType::housing: {
         const bool wasMet = met();
         fStatusCount = 0;
-        const auto type = static_cast<eBuildingType>(fEnumInt1);
+        const auto type = fEnumInt1 == 0 ? eBuildingType::commonHouse :
+                                           eBuildingType::eliteHousing;
         b->buildings([&](eBuilding* const b) {
             const auto btype = b->type();
             if(btype != type) return false;
