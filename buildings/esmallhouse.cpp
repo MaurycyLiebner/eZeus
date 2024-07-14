@@ -286,7 +286,7 @@ eHouseMissing eSmallHouse::missing() const {
                 if(mFleece > 0) {
                     if(appeal > 2.0) {
                         if(nVenues > 1) {
-                            if(mOil > 0 && appeal > 5.0) {
+                            if(mOil > 0) {
                                 if(appeal > 5.0) {
                                     if(nVenues > 2) {
                                         if(appeal > 8.0) {
