@@ -22,6 +22,10 @@ std::shared_ptr<eTexture> ePalaceTile::getTexture(const eTileSize size) const {
     return coll.getTexture(id);
 }
 
+int ePalaceTile::provide(const eProvide p, const int n) {
+    return mPalace->provide(p, n);
+}
+
 void ePalaceTile::setPalace(ePalace* const palace) {
     mPalace = palace;
 }

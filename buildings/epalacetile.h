@@ -10,9 +10,11 @@ public:
     ePalaceTile(eGameBoard& board,
                 const bool other);
 
-    void erase();
+    void erase() override;
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
+
+    int provide(const eProvide p, const int n) override;
 
     void setPalace(ePalace* const palace);
     ePalace* palace() const { return mPalace; }
