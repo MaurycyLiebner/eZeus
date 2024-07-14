@@ -1884,7 +1884,47 @@ void eGameBoard::incTime(const int by) {
         updateCoverage();
     }
 
+    const auto& msgs = &eMessages::instance;
+    eEventData ed;
     const int pop = mPopData.population();
+    if(pop >= 100 && !mPop100) {
+        showMessage(ed, msgs->fPop100);
+        mPop100 = true;
+    } else if(pop >= 500 && !mPop500) {
+        showMessage(ed, msgs->fPop500);
+        mPop500 = true;
+    } else if(pop >= 1000 && !mPop1000) {
+        showMessage(ed, msgs->fPop1000);
+        allow(eBuildingType::commemorative, 0);
+        mPop1000 = true;
+    } else if(pop >= 2000 && !mPop2000) {
+        showMessage(ed, msgs->fPop2000);
+        allow(eBuildingType::commemorative, 0);
+        mPop2000 = true;
+    } else if(pop >= 3000 && !mPop3000) {
+        showMessage(ed, msgs->fPop3000);
+        mPop3000 = true;
+    } else if(pop >= 5000 && !mPop5000) {
+        showMessage(ed, msgs->fPop5000);
+        allow(eBuildingType::commemorative, 0);
+        mPop5000 = true;
+    } else if(pop >= 10000 && !mPop10000) {
+        showMessage(ed, msgs->fPop10000);
+        allow(eBuildingType::commemorative, 0);
+        mPop10000 = true;
+    } else if(pop >= 15000 && !mPop15000) {
+        showMessage(ed, msgs->fPop15000);
+        allow(eBuildingType::commemorative, 0);
+        mPop15000 = true;
+    } else if(pop >= 20000 && !mPop20000) {
+        showMessage(ed, msgs->fPop20000);
+        allow(eBuildingType::commemorative, 0);
+        mPop20000 = true;
+    } else if(pop >= 25000 && !mPop25000) {
+        showMessage(ed, msgs->fPop25000);
+        allow(eBuildingType::commemorative, 0);
+        mPop25000 = true;
+    }
     const int food = resourceCount(eResourceType::food);
     bool prolongedNoFood = false;
     if(mNoFood && food < 1 && pop > 10) {

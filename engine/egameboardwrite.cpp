@@ -263,4 +263,15 @@ void eGameBoard::write(eWriteStream& dst) const {
     for(const auto& c : mDefeatedBy) {
         dst.writeCity(c.get());
     }
+
+    dst << mPop100;
+    dst << mPop500;
+    dst << mPop1000;
+    dst << mPop2000;
+    dst << mPop3000;
+    dst << mPop5000;
+    dst << mPop10000;
+    dst << mPop15000;
+    dst << mPop20000;
+    dst << mPop25000;
 }

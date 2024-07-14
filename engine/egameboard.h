@@ -809,6 +809,17 @@ private:
     std::vector<stdsptr<eEarthquake>> mEarthquakes;
 
     std::vector<stdsptr<eWorldCity>> mDefeatedBy;
+
+    bool mPop100 = false;
+    bool mPop500 = false;
+    bool mPop1000 = false;
+    bool mPop2000 = false;
+    bool mPop3000 = false;
+    bool mPop5000 = false;
+    bool mPop10000 = false;
+    bool mPop15000 = false;
+    bool mPop20000 = false;
+    bool mPop25000 = false;
 };
 
 #endif // EGAMEBOARD_H

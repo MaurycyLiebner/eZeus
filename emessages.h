@@ -113,14 +113,14 @@ public:
 
     eMessageType fPop100;
     eMessageType fPop500;
-    eMessageType fPop1000;
-    eMessageType fPop2000;
+    eMessageType fPop1000; // comm
+    eMessageType fPop2000; // comm
     eMessageType fPop3000;
-    eMessageType fPop5000;
-    eMessageType fPop10000;
-    eMessageType fPop15000;
-    eMessageType fPop20000;
-    eMessageType fPop25000;
+    eMessageType fPop5000; // comm
+    eMessageType fPop10000; // comm
+    eMessageType fPop15000; // comm
+    eMessageType fPop20000; // comm
+    eMessageType fPop25000; // comm
 
     eMessageType fHappinessMonument;
 

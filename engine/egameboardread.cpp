@@ -291,4 +291,15 @@ void eGameBoard::read(eReadStream& src) {
             mDefeatedBy.push_back(c);
         });
     }
+
+     src >> mPop100;
+     src >> mPop500;
+     src >> mPop1000;
+     src >> mPop2000;
+     src >> mPop3000;
+     src >> mPop5000;
+     src >> mPop10000;
+     src >> mPop15000;
+     src >> mPop20000;
+     src >> mPop25000;
 }
