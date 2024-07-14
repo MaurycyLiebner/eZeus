@@ -62,6 +62,7 @@ void eEpisodeGoalWidget::initialize(const stdsptr<eEpisodeGoal>& e,
         detailsW->addWidget(b);
     } break;
     case eEpisodeGoalType::sanctuary: {
+        e->fRequiredCount = 100;
         const auto g = new eGodButton(window());
         g->initialize([e, updateText](const eGodType god) {
             e->fEnumInt1 = static_cast<int>(god);
