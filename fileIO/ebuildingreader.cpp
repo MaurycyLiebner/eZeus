@@ -30,6 +30,9 @@ stdsptr<eBuilding> eBuildingReader::sRead(
     case eBuildingType::road: {
         const auto r = e::make_shared<eRoad>(board);
         b = r;
+        bool roadblock;
+        src >> roadblock;
+        r->setRoadblock(roadblock);
         src.readBuilding(&board, [r](eBuilding* const bb) {
             r->setUnderAgora(static_cast<eAgoraBase*>(bb));
         });

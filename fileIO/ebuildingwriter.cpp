@@ -11,6 +11,7 @@ void eBuildingWriter::sWrite(const eBuilding* const b,
     switch(type) {
     case eBuildingType::road: {
         const auto r = static_cast<const eRoad*>(b);
+        dst << r->isRoadblock();
         const auto a = r->underAgora();
         dst.writeBuilding(a);
         const auto g = r->underGatehouse();
