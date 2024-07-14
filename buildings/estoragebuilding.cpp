@@ -155,6 +155,7 @@ int eStorageBuilding::sSpaceLeftDontAccept(
     const bool sculpt = type == eResourceType::sculpture;
     const int sspace = sculpt ? 1 : 4;
     int space = 0;
+    int count = 0;
     for(int i = 0; i < spaceCount; i++) {
         const int c = resourceCount[i];
         const auto t = resourceType[i];
@@ -162,10 +163,11 @@ int eStorageBuilding::sSpaceLeftDontAccept(
             space += sspace;
         } else if(static_cast<bool>(t & type)) {
             space += sspace - c;
+            count += c;
         }
     }
     const int max = maxCounts.at(type);
-    return std::min(max, space);
+    return std::min(std::max(0, max - count), space);
 }
 
 int eStorageBuilding::sSpaceLeft(
