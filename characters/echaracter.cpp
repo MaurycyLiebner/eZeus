@@ -310,8 +310,11 @@ void eCharacter::read(eReadStream& src) {
     src >> mVisible;
     src >> mProvide;
     src >> mProvideCount;
-    const auto tile = src.readTile(getBoard());
-    changeTile(tile);
+    mTile = src.readTile(getBoard());
+    if(mTile) {
+        const auto sptr = ref<eCharacter>();
+        mTile->addCharacter(sptr, false);
+    }
     src >> mOrientation;
     src >> mX;
     src >> mY;
