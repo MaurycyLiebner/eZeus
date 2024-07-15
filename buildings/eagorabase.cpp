@@ -189,7 +189,8 @@ void eAgoraBase::agoraProvide(eBuilding* const b) {
     if(!b) return;
     const auto bt = b->type();
     if(bt != eBuildingType::commonHouse &&
-       bt != eBuildingType::eliteHousing) return;
+       bt != eBuildingType::eliteHousing &&
+       bt != eBuildingType::avenue) return;
     for(int i = 0; i < mNPts; i++) {
         const auto fvb = building(i);
         if(!fvb) continue;
