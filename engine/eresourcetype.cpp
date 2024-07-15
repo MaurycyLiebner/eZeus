@@ -296,27 +296,40 @@ int eResourceTypeHelpers::defaultPrice(const eResourceType type) {
     switch(type) {
     case eResourceType::urchin:
     case eResourceType::fish:
+        return 36;
     case eResourceType::meat:
     case eResourceType::cheese:
+        return 45;
     case eResourceType::carrots:
     case eResourceType::onions:
     case eResourceType::wheat:
+        return 30;
     case eResourceType::oranges:
+        return 45;
 
     case eResourceType::grapes:
+        return 42;
     case eResourceType::olives:
+        return 38;
     case eResourceType::wine:
+        return 160;
     case eResourceType::oliveOil:
+        return 145;
     case eResourceType::fleece:
+        return 60;
 
     case eResourceType::wood:
+        return 75;
     case eResourceType::bronze:
+        return 110;
     case eResourceType::marble:
+        return 84;
 
     case eResourceType::armor:
+        return 200;
 
     case eResourceType::sculpture:
-        return 120;
+        return 640;
 
     case eResourceType::food:
     case eResourceType::warehouse:
