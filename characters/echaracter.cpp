@@ -45,6 +45,13 @@ bool eCharacter::canFight(eCharacter* const c) {
         if(!h) return false;
         return at != eCharacterActionType::carry;
     }
+    if(ct == eCharacterType::trailer) return false;
+    if(ct == eCharacterType::ox) return false;
+    if(ct == eCharacterType::horse) return false;
+    if(ct == eCharacterType::cattle1) return false;
+    if(ct == eCharacterType::cattle2) return false;
+    if(ct == eCharacterType::cattle3) return false;
+    if(ct == eCharacterType::chariot) return false;
     bool isGod;
     eGod::sCharacterToGodType(t, &isGod);
     if(isGod) return false;

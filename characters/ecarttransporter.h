@@ -63,6 +63,7 @@ public:
     void write(eWriteStream& dst) const override;
 private:
     void updateTextures();
+    void cleanupFollowers();
 
     int mResourceCount = 0;
     eCartTransporterType mType = eCartTransporterType::basic;

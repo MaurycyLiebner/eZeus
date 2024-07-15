@@ -221,6 +221,7 @@ void eCartTransporter::setResource(const eResourceType type,
     case eCartTransporterType::arms:
     case eCartTransporterType::horse:
     case eCartTransporterType::chariot: {
+        cleanupFollowers();
         const auto chr = eCartTransporterType::chariot;
         const int nFollPerRes = mType == chr ? 2 : 1;
         {
@@ -391,5 +392,19 @@ void eCartTransporter::updateTextures() {
         eGameTextures::loadChariotVendorCharacter();
         setCharTextures(&eCharacterTextures::fChariotVendor);
     } break;
+    }
+}
+
+void eCartTransporter::cleanupFollowers() {
+    for(int i = 0; i < (int)mFollowers.size(); i++) {
+        const auto f = mFollowers[i];
+        if(f) continue;
+        for(int j = i; j < (int)mFollowers.size(); j++) {
+            const auto ff = mFollowers[j];
+            if(ff) ff->kill();
+            mFollowers.erase(mFollowers.begin() + j);
+            j--;
+        }
+        break;
     }
 }
