@@ -40,7 +40,11 @@ void eStorageBuilding::timeChanged(const int by) {
 int eStorageBuilding::addNotAccept(const eResourceType type, const int count) {
     const bool sculpt = type == eResourceType::sculpture;
     const int sspace = sculpt ? 1 : 4;
-    int rem = count;
+    const int max = mMaxCount[type];
+    const int ccount = this->count(type);
+    int added = 0;
+    const int maxRem = std::max(0, max - ccount);
+    int rem = std::min(maxRem, count);
     for(int i = 0; i < mSpaceCount && rem > 0; i++) {
         const auto t = mResource[i];
         int& c = mResourceCount[i];
@@ -48,6 +52,7 @@ int eStorageBuilding::addNotAccept(const eResourceType type, const int count) {
             const int dep = std::min(sspace - c, rem);
             rem -= dep;
             c += dep;
+            added += dep;
         }
     }
     for(int i = 0; i < mSpaceCount && rem > 0; i++) {
@@ -58,10 +63,10 @@ int eStorageBuilding::addNotAccept(const eResourceType type, const int count) {
             const int dep = std::min(sspace, rem);
             rem -= dep;
             c += dep;
+            added += dep;
         }
     }
-    const int max = mMaxCount[type];
-    return std::min(max, count - rem);
+    return added;
 }
 
 int eStorageBuilding::add(const eResourceType type, const int count) {
