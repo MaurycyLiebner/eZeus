@@ -200,25 +200,10 @@ private:
     stdptr<eHouseBase> mTarget;
 };
 
-class eLookForTargetedBlessGodAct : public eGodAct {
-public:
-    eLookForTargetedBlessGodAct(eGameBoard& board, const double bless,
-                                const eGodType type) :
-        eGodAct(board, eGodActType::lookForTargetedBless),
-        mBless(bless), mType(type) {}
-    eLookForTargetedBlessGodAct(eGameBoard& board) :
-        eLookForTargetedBlessGodAct(board, 0, eGodType::zeus) {}
 
-    eTile* find(eTile* const t) {
-        const auto b = t->underBuilding();
-        if(!b) return nullptr;
-        const auto type = b->type();
-        if(!eBuilding::sBlessable(type)) return nullptr;
-        if(!eGod::sTarget(mType, type)) return nullptr;
-        if(b->blessed() || b->cursed()) return nullptr;
-        mTarget = b;
-        return b->centerTile();
-    }
+class eLookForBlessGodActBase : public eGodAct {
+public:
+    using eGodAct::eGodAct;
 
     void act() {
         if(mTarget) {
@@ -251,25 +236,58 @@ public:
             mTarget = b;
         });
         src >> mBless;
-        src >> mType;
     }
 
     void write(eWriteStream& dst) const {
         dst.writeBuilding(mTarget);
         dst << mBless;
+    }
+protected:
+    stdptr<eBuilding> mTarget;
+    double mBless = 0;
+};
+
+class eLookForTargetedBlessGodAct : public eLookForBlessGodActBase {
+public:
+    eLookForTargetedBlessGodAct(eGameBoard& board, const double bless,
+                                const eGodType type) :
+        eLookForBlessGodActBase(board, eGodActType::lookForTargetedBless),
+        mType(type) {
+        mBless = bless;
+    }
+    eLookForTargetedBlessGodAct(eGameBoard& board) :
+        eLookForTargetedBlessGodAct(board, 0, eGodType::zeus) {}
+
+    eTile* find(eTile* const t) {
+        const auto b = t->underBuilding();
+        if(!b) return nullptr;
+        const auto type = b->type();
+        if(!eBuilding::sBlessable(type)) return nullptr;
+        if(!eGod::sTarget(mType, type)) return nullptr;
+        if(b->blessed() || b->cursed()) return nullptr;
+        mTarget = b;
+        return b->centerTile();
+    }
+
+    void read(eReadStream& src) {
+        eLookForBlessGodActBase::read(src);
+        src >> mType;
+    }
+
+    void write(eWriteStream& dst) const {
+        eLookForBlessGodActBase::write(dst);
         dst << mType;
     }
 private:
-    stdptr<eBuilding> mTarget;
-    double mBless = 0;
     eGodType mType;
 };
 
-class eLookForBlessGodAct : public eGodAct {
+class eLookForBlessGodAct : public eLookForBlessGodActBase {
 public:
     eLookForBlessGodAct(eGameBoard& board, const double bless) :
-        eGodAct(board, eGodActType::lookForBless),
-        mBless(bless) {}
+        eLookForBlessGodActBase(board, eGodActType::lookForBless) {
+        mBless = bless;
+    }
     eLookForBlessGodAct(eGameBoard& board) :
         eLookForBlessGodAct(board, 0) {}
 
@@ -281,25 +299,6 @@ public:
         mTarget = b;
         return b->centerTile();
     }
-
-    void act() {
-        if(mTarget) mTarget->setBlessed(mBless);
-    }
-
-    void read(eReadStream& src) {
-        src.readBuilding(&board(), [this](eBuilding* const b) {
-            mTarget = b;
-        });
-        src >> mBless;
-    }
-
-    void write(eWriteStream& dst) const {
-        dst.writeBuilding(mTarget);
-        dst << mBless;
-    }
-private:
-    stdptr<eBuilding> mTarget;
-    double mBless = 0;
 };
 
 class eLookForSoldierAttackGodAct : public eGodAct {
