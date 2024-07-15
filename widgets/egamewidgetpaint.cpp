@@ -388,6 +388,20 @@ void eGameWidget::paintEvent(ePainter& p) {
         double ry;
         drawXY(tx, ty, rx, ry, 1, 1, a);
 
+        const auto drawBlessedCursed = [&](const double bx, const double by) {
+            if(ub->blessed()) {
+                eGameTextures::loadBlessed();
+                const auto& blsd = destTexs.fBlessed;
+                const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
+                tp.drawTexture(bx, by, tex, eAlignment::bottom);
+            } else if(ub->cursed()) {
+                eGameTextures::loadCursed();
+                const auto& blsd = destTexs.fCursed;
+                const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
+                tp.drawTexture(bx, by, tex, eAlignment::bottom);
+            }
+        };
+
         const auto drawFire = [&](eTile* const ubt) {
             const int tx = ubt->x();
             const int ty = ubt->y();
@@ -710,17 +724,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                         if(ts.fOvelays && tex) {
                             const int bx = drawX;
                             const int by = drawY - tsRect.h;
-                            if(ub->blessed()) {
-                                eGameTextures::loadBlessed();
-                                const auto& blsd = destTexs.fBlessed;
-                                const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
-                                tp.drawTexture(bx, by, tex, eAlignment::bottom);
-                            } else if(ub->cursed()) {
-                                eGameTextures::loadCursed();
-                                const auto& blsd = destTexs.fCursed;
-                                const auto tex = blsd.getTexture(ub->textureTime() % blsd.size());
-                                tp.drawTexture(bx, by, tex, eAlignment::bottom);
-                            }
+                            drawBlessedCursed(bx, by);
                         }
                         drawBuildingModes();
                     }
@@ -737,6 +741,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                     drawFire(ubt);
                 }
             }
+            drawBlessedCursed(rx + 0.75, ry);
         }
     };
     iterateOverVisibleTiles([&](eTile* const tile) {
