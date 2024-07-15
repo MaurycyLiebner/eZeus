@@ -14,7 +14,7 @@ private:
     virtual void setNakedTexture() {}
     virtual void setFleecedTexture() {}
 
-    const int mMaxGroom = 25;
+    const int mMaxGroom = 15;
     int mGroomed = 0;
     int mResource = 0;
 };
