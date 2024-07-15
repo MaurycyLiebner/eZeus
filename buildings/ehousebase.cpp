@@ -25,7 +25,7 @@ eHouseBase::~eHouseBase() {
 
 void eHouseBase::timeChanged(const int by) {
     if(mPeople <= 0) return;
-    const int cupdate = 5000;
+    const int cupdate = 10000;
     mUpdateCulture += by;
     if(mUpdateCulture > cupdate) {
         mUpdateCulture -= cupdate;
