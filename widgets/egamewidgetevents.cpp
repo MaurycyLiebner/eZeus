@@ -41,12 +41,12 @@ void eGameWidget::handleGodQuestEvent(eEventData& ed,
     showMessage(ed, msg);
 }
 
-void eGameWidget::handleGodVisitEvent(const eGodType god) {
+void eGameWidget::handleGodVisitEvent(eEventData& ed) {
+    const auto god = ed.fGod;
     const auto& inst = eMessages::instance;
     const auto msgs = inst.godMessages(god);
     int& lm = msgs->fLastMessage;
     lm = lm > 2 ? 0 : (lm + 1);
-    eEventData ed;
     if(lm == 0) {
         eSounds::playGodSound(god, eGodSound::wooing0);
         showMessage(ed, msgs->fWooing0);
@@ -167,7 +167,7 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
     } break;
 
     case eEvent::godVisit:
-        handleGodVisitEvent(ed.fGod);
+        handleGodVisitEvent(ed);
         break;
     case eEvent::godInvasion:
         handleGodInvasionEvent(ed);

@@ -186,7 +186,7 @@ private:
     void handleEvent(const eEvent e, eEventData& ed);
     void handleGodQuestEvent(eEventData& ed,
                              const bool fulfilled);
-    void handleGodVisitEvent(const eGodType god);
+    void handleGodVisitEvent(eEventData& ed);
     void handleGodInvasionEvent(eEventData& ed);
     void handleGodHelpEvent(eEventData& ed);
     void handleSanctuaryComplete(const eGodType god);
