@@ -2368,12 +2368,13 @@ void eGameBoard::startEpisode(eEpisode* const e) {
 
 bool eGameBoard::checkGoalsFulfilled() const {
     if(mGoals.empty()) return false;
+    bool result = true;
     for(const auto& g : mGoals) {
         g->update(this);
         const bool m = g->met();
-        if(!m) return false;
+        if(!m) result = false;
     }
-    return true;
+    return result;
 }
 
 void eGameBoard::setManTowers(const bool m) {

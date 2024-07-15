@@ -83,6 +83,10 @@ void eEpisodeIntroductionWidget::initialize(
         const auto et = c->currentEpisodeType();
         const auto board = e->fBoard;
         board->updateResources();
+
+        if(type == eEpisodeIntroType::goals) {
+            board->checkGoalsFulfilled();
+        }
         for(const auto& g : goals) {
             const auto w = new eWidget(window());
             w->setWidth(goalsInner->width());
