@@ -42,8 +42,9 @@ struct eSubButtonData {
 
 void tradePosts(std::vector<eSPR>& cs, eGameBoard& board) {
     const auto& wrld = board.getWorldBoard();
-    int i = 0;
+    int i = -1;
     for(const auto& c : wrld->cities()) {
+        i++;
         if(c->isRival()) continue;
         if(c->isCurrentCity()) continue;
         if(!c->active()) continue;
@@ -60,7 +61,6 @@ void tradePosts(std::vector<eSPR>& cs, eGameBoard& board) {
                 }
             }
         }
-        i++;
     }
 }
 
