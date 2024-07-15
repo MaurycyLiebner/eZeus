@@ -1663,7 +1663,7 @@ void eGameBoard::registerTradePost(eTradePost* const b) {
 bool eGameBoard::unregisterTradePost(eTradePost* const b) {
     if(!mRegisterBuildingsEnabled) return false;
     const bool r = eVectorHelpers::remove(mTradePosts, b);
-    if(r) mButtonVisUpdater();
+    if(r && mButtonVisUpdater) mButtonVisUpdater();
     return r;
 }
 
