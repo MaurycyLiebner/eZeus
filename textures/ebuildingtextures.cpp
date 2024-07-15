@@ -591,6 +591,8 @@
 
 #include "textures/espriteloader.h"
 
+#include <algorithm>
+
 eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
                                      SDL_Renderer* const renderer) :
     fTileW(tileW), fTileH(tileH),
@@ -3037,7 +3039,7 @@ void eBuildingTextures::generateFlipped(const eTextureCollection& src,
     for(int i = 0; i < src.size(); i++) {
         auto& tex = dst.addTexture();
         const auto& srcTex = src.getTexture(i);
-        const int w = srcTex->width();
+        const int w = std::round(srcTex->width()*30./fTileH);
         const int ox = srcTex->offsetX();
         const int oy = srcTex->offsetY();
         tex->setOffset(w - ox, oy);
