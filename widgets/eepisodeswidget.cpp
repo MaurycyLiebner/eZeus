@@ -383,7 +383,7 @@ void eEpisodesWidget::add(eCampaign* const c,
         deselectText(id);
         mSta(id);
     };
-    w->initialize(id, colW, c, e, first, last,
+    w->initialize(id, colW, c, e, first && !mColony, last,
                   newE, insertE, deleteE, victoryE, setTextE,
                   mColony, mEcb);
     mWs.push_back(w);
