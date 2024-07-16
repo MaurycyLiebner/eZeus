@@ -467,6 +467,7 @@ stdsptr<eParentCityEpisode> eCampaign::addParentCityEpisode() {
     const auto e = std::make_shared<eParentCityEpisode>();
     e->fBoard = mParentBoard.get();
     e->fWorldBoard = &mWorldBoard;
+    e->fAtlantean = mAtlantean;
     mParentCityEpisodes.push_back(e);
     return e;
 }
