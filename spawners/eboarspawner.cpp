@@ -5,7 +5,7 @@
 eBoarSpawner::eBoarSpawner(const int id,
                            eTile* const tile,
                            eGameBoard& board) :
-    eAnimalSpawner(eBannerTypeS::boar, id, tile, 8, 3000, board) {}
+    eAnimalSpawner(eBannerTypeS::boar, id, tile, 8, 6000, board) {}
 
 stdsptr<eWildAnimal> eBoarSpawner::create(eGameBoard& board) {
     const auto b = e::make_shared<eBoar>(board);
