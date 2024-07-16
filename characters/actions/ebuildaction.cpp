@@ -18,7 +18,7 @@ void eBuildAction::increment(const int by) {
             eSounds::playArtisanSound();
         });
     }
-    if(mTime > 2000) {
+    if(mTime > 6000) {
         setState(eCharacterActionState::finished);
     }
 }
