@@ -132,6 +132,7 @@ void eEpisodeGoalWidget::initialize(const stdsptr<eEpisodeGoal>& e,
         detailsW->addWidget(b);
     } break;
     case eEpisodeGoalType::rule: {
+        e->fRequiredCount = 1;
         const auto cityButton = new eCityButton(window());
         cityButton->initialize(board, [e, updateText](const stdsptr<eWorldCity>& c){
             e->fCity = c;
