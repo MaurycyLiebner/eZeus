@@ -46,9 +46,21 @@ void eSpawner::decCount() {
 }
 
 void eSpawner::spawnMax() {
+    const auto center = tile();
+    const int cx = center->x();
+    const int cy = center->y();
+    const int dist = 5;
     const int iMax = mMaxCount - mCount;
+    auto& board = this->board();
     for(int i = 0; i < iMax; i++) {
-        spawn(tile());
+        const int tx = cx + (rand() % dist);
+        const int ty = cy + (rand() % dist);
+        const auto tile = board.tile(tx, ty);
+        if(!tile) {
+            i--;
+            continue;
+        }
+        spawn(tile);
         mCount++;
     }
 }

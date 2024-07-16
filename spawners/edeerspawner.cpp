@@ -6,13 +6,10 @@
 eDeerSpawner::eDeerSpawner(const int id,
                            eTile* const tile,
                            eGameBoard& board) :
-    eSpawner(eBannerTypeS::deer, id, tile, 8, 3000, board) {}
+    eAnimalSpawner(eBannerTypeS::deer, id, tile, 8, 3000, board) {}
 
-void eDeerSpawner::spawn(eTile* const tile) {
-    const auto b = e::make_shared<eDeer>(board());
-    b->setSpawner(this);
-    b->changeTile(tile);
-    const auto a = e::make_shared<eAnimalAction>(
-                       b.get(), tile->x(), tile->y());
-    b->setAction(a);
+
+stdsptr<eWildAnimal> eDeerSpawner::create(eGameBoard& board) {
+    const auto b = e::make_shared<eDeer>(board);
+    return b;
 }

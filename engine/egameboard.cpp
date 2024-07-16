@@ -2332,6 +2332,15 @@ void eGameBoard::addSlayedMonster(const eMonsterType m) {
 }
 
 void eGameBoard::startEpisode(eEpisode* const e) {
+    if(mTimedBuildings.empty()) { // first episode
+        for(const auto s : mSpawners) {
+            const auto type = s->type();
+            if(type == eBannerTypeS::boar ||
+               type == eBannerTypeS::deer) {
+                s->spawnMax();
+            }
+        }
+    }
     mDefeatedBy.clear();
     for(int i = 0; i < static_cast<int>(mGameEvents.size()); i++) {
         const auto& e = mGameEvents[i];
