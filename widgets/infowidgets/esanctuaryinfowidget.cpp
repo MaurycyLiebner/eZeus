@@ -171,7 +171,8 @@ void eSanctuaryInfoWidget::initialize(eSanctuary* const s) {
 
         const auto cost = s->cost();
         const auto stored = s->stored();
-        const auto needed = cost - stored;
+        const auto used = s->used();
+        const auto needed = cost - stored - used;
         const int nm = needed.fMarble;
         const auto nmStr = std::to_string(nm);
         const int nw = needed.fWood;

@@ -55,6 +55,7 @@ public:
 
     eSanctCost cost() const;
     const eSanctCost& stored() const { return mStored; }
+    const eSanctCost& used() const { return mUsed; }
 
     void useResources(const eSanctCost& r);
 
