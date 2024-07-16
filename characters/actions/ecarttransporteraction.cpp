@@ -174,7 +174,9 @@ void eCartTransporterAction::findTarget(const std::vector<eCartTask>& tasks) {
         mNoTarget = true;
     });
     a->setRemoveLastTurn(true);
-    a->setMaxFindDistance(200);
+    if(const auto cart = dynamic_cast<eCartTransporter*>(c)) {
+        a->setMaxFindDistance(cart->maxDistance());
+    }
     const auto w = eWalkableObject::sCreateRect(
                        buildingRect, eWalkableObject::sCreateRoadAvenue());
     a->start(finalTile, w);

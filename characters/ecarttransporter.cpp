@@ -311,6 +311,7 @@ void eCartTransporter::read(eReadStream& src) {
     src >> mWaiting;
     src >> mIsOx;
     src >> mBigTrailer;
+    src >> mMaxDistance;
     src.readCharacter(&getBoard(), [this](eCharacter* const c) {
         mOx = static_cast<eOx*>(c);
     });
@@ -338,6 +339,7 @@ void eCartTransporter::write(eWriteStream& dst) const {
     dst << mWaiting;
     dst << mIsOx;
     dst << mBigTrailer;
+    dst << mMaxDistance;
     dst.writeCharacter(mOx);
     dst.writeCharacter(mTrailer);
 

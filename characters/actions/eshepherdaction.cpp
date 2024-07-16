@@ -158,6 +158,7 @@ bool eShepherdAction::findResourceDecision() {
         if(tptr) mNoResource = true;
     };
     a->setFindFailAction(findFailFunc);
+    a->setMaxFindDistance(40);
     a->start(hha);
     setCurrentAction(a);
     return true;

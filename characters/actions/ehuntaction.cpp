@@ -161,6 +161,7 @@ void eHuntAction::findResourceDecision() {
         }
     };
     a->setFindFailAction(findFailFunc);
+    a->setMaxFindDistance(60);
     a->start(hha);
     setCurrentAction(a);
 }

@@ -59,6 +59,9 @@ public:
     bool waiting() const { return mWaiting; }
     void setWaiting(const bool w) { mWaiting = w; }
 
+    int maxDistance() const { return mMaxDistance; }
+    void setMaxDistance(const int d) { mMaxDistance = d; }
+
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:
@@ -76,6 +79,8 @@ private:
 
     bool mIsOx = false;
     bool mBigTrailer = false;
+
+    int mMaxDistance = 10000;
 
     stdptr<eOx> mOx;
     stdptr<eTrailer> mTrailer;

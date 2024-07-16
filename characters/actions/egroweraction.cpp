@@ -193,6 +193,7 @@ bool eGrowerAction::findResourceDecision() {
         }
     };
     a->setFindFailAction(findFailFunc);
+    a->setMaxFindDistance(40);
     a->start(hha);
     setCurrentAction(a);
     return true;

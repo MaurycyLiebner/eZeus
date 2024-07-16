@@ -111,6 +111,7 @@ void eTakeCattleAction::goGetCattle() {
         }
     };
     a->setFindFailAction(findFailFunc);
+    a->setMaxFindDistance(40);
     a->start(hha);
     setCurrentAction(a);
 }
