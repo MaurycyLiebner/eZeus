@@ -2424,6 +2424,16 @@ void eGameBoard::addShutDown(const eResourceType type) {
 }
 
 void eGameBoard::removeShutDown(const eResourceType type) {
+    const auto oldShutDown = mShutDown;
+    const auto wasShutDown = [&](const eBuildingType bt) {
+        const auto is = eIndustryHelpers::sIndustries(bt);
+        if(is.empty()) return false;
+        for(const auto i : is) {
+            const bool sd = eVectorHelpers::contains(oldShutDown, i);
+            if(!sd) return false;
+        }
+        return true;
+    };
     const bool r = eVectorHelpers::remove(mShutDown, type);
     if(!r) return;
     for(const auto b : mEmployingBuildings) {
@@ -2432,6 +2442,10 @@ void eGameBoard::removeShutDown(const eResourceType type) {
         if(is.empty()) continue;
         const bool r = eVectorHelpers::contains(is, type);
         if(!r) continue;
+        const bool sd = is.size() == 1 ? false : isShutDown(bt);
+        if(sd) continue;
+        const bool wasSD = wasShutDown(bt);
+        if(!wasSD) continue;
         b->setShutDown(false);
         const int maxE = b->maxEmployees();
         mEmplData.incTotalJobVacancies(maxE);
