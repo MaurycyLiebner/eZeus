@@ -36,7 +36,13 @@ void eGodVisitEvent::trigger() {
         tid = rand() % types.size();
     } else {
         tid = mNextId;
-        if(++mNextId >= nTypes) mNextId = 0;
+        if(tid >= nTypes) {
+            tid = 0;
+            mNextId = 0;
+        }
+        if(++mNextId >= nTypes) {
+            mNextId = 0;
+        }
     }
     const auto t = types.at(tid);
     const auto god = eGod::sCreateGod(t, *board);
