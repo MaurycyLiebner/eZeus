@@ -60,7 +60,7 @@ void eCollectAction::increment(const int by) {
             }
         });
     }
-    if(mTime > 6000) {
+    if(mTime > 10000) {
         mTile->decResource(1);
         const auto c = character();
         const auto cc = static_cast<eResourceCollectorBase*>(c);

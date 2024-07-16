@@ -16,7 +16,7 @@ eFishery::~eFishery() {
     if(mBoat) mBoat->kill();
 }
 
-const int gUnpackTime = 5000;
+const int gUnpackTime = 10000;
 
 void eFishery::timeChanged(const int by) {
     if(enabled()) {
@@ -27,7 +27,7 @@ void eFishery::timeChanged(const int by) {
         }
         switch(mState) {
         case eFisheryState::buildingBoat: {
-            const int buildTime = 5000;
+            const int buildTime = 10000;
             if(mStateCount > buildTime) {
                 mStateCount -= buildTime;
                 mState = eFisheryState::waiting;
@@ -177,6 +177,8 @@ std::vector<eOverlay> eFishery::getOverlays(const eTileSize size) const {
         o.fTex = coll->getTexture(texId);
         return {o};
     } break;
+    default:
+        break;
     }
     return {};
 }
