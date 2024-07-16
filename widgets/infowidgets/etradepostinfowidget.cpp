@@ -104,7 +104,7 @@ public:
             p->align(eAlignment::vcenter);
 
             const auto b = new eSwitchButton(window());
-
+            b->setUnderline(false);
             b->setSwitchAction([b, changed](const int i) {
                 if(i == 0) {
                     b->setDarkFontColor();
