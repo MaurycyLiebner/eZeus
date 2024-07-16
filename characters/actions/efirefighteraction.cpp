@@ -38,7 +38,7 @@ void eFireFighterAction::increment(const int by) {
                     found = t->onFire();
                 }
             }
-            if(found) lookForFire();
+            if(found) lookForFire(false);
         }
     }
     ePatrolAction::increment(by);
@@ -81,7 +81,7 @@ bool eFireFighterAction::decide() {
                 goBackDecision(eWalkableObject::sCreateDefault());
             } else {
                 c->setActionType(eCharacterActionType::stand);
-                lookForFire();
+                lookForFire(true);
             }
         }
         return true;
@@ -107,7 +107,7 @@ void eFireFighterAction::write(eWriteStream& dst) const {
     dst << mUsedWater;
 }
 
-bool eFireFighterAction::lookForFire() {
+bool eFireFighterAction::lookForFire(const bool second) {
     const auto c = character();
 
     const auto failFunc = std::make_shared<eFFA_lookForFireFail>(
@@ -121,17 +121,24 @@ bool eFireFighterAction::lookForFire() {
     a->setFailAction(failFunc);
     a->setMaxFindDistance(50);
     const stdptr<eFireFighterAction> tptr(this);
-    a->setFoundAction([tptr, a, this]() {
+    a->setFoundAction([tptr, a, second, this]() {
         if(!tptr) return;
-        mFireFighting = true;
-        setCurrentAction(a);
-        const auto c = character();
-        c->setActionType(eCharacterActionType::carry);
+        if(second) {
+            mFireFighting = true;
+            const auto c = character();
+            c->setActionType(eCharacterActionType::carry);
+        } else {
+            lookForFire(true);
+        }
     });
     a->setRemoveLastTurn(true);
 
-    a->setWait(mFireFighting);
+    a->setWait(mFireFighting || second);
     a->start(onFire);
+    a->setMaxFindDistance(40);
+    if(second) {
+        setCurrentAction(a);
+    }
 
     return true;
 }

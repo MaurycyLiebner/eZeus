@@ -20,7 +20,7 @@ public:
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:
-    bool lookForFire();
+    bool lookForFire(const bool second);
     void putOutFire(eTile* const tile);
 
     bool mFireFighting{false};
