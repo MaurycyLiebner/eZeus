@@ -175,14 +175,16 @@ void eCartTransporter::setType(const eCartTransporterType t) {
         eCharacter* follow = this;
 
         if(!board.poseidonMode()) {
-            mOx = e::make_shared<eOx>(board);
+            const auto ox = e::make_shared<eOx>(board);
+            mOx = ox;
             const auto aox = e::make_shared<eFollowAction>(follow, mOx.get());
             mOx->setAction(aox);
             mOx->changeTile(t);
             follow = mOx.get();
         }
 
-        mTrailer = e::make_shared<eTrailer>(board);
+        const auto trailer = e::make_shared<eTrailer>(board);
+        mTrailer = trailer;
         mTrailer->setFollow(this);
         mTrailer->setBig(mBigTrailer);
         const auto atr = e::make_shared<eFollowAction>(follow, mTrailer.get());
