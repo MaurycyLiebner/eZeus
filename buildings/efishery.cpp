@@ -21,7 +21,7 @@ const int gUnpackTime = 5000;
 void eFishery::timeChanged(const int by) {
     if(enabled()) {
         mStateCount += by;
-        if(!mBoat) {
+        if(!mBoat && mState != eFisheryState::buildingBoat) {
             mState = eFisheryState::buildingBoat;
             mStateCount = 0;
         }

@@ -6,6 +6,7 @@
 class eFishingBoat;
 
 enum class eFisheryState {
+    none,
     buildingBoat,
     waiting,
     unpacking
@@ -39,7 +40,7 @@ private:
 
     bool mDisabled = false;
     int mStateCount = 0;
-    eFisheryState mState = eFisheryState::buildingBoat;
+    eFisheryState mState = eFisheryState::none;
     stdptr<eFishingBoat> mBoat;
 };
 
