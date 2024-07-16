@@ -75,7 +75,6 @@ void eSettlerAction::findHouse() {
         c->setVisible(true);
     });
     a->setRemoveLastTurn(true);
-    a->setMaxFindDistance(200);
     a->start(finalTile);
     setCurrentAction(a);
 }
