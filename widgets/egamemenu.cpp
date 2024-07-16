@@ -946,6 +946,7 @@ void eGameMenu::initialize(eGameBoard* const b,
 
 void eGameMenu::setGameWidget(eGameWidget* const gw) {
     mPopDataW->setGameWidget(gw);
+    mHusbDataW->setGameWidget(gw);
     mEmplDataW->setGameWidget(gw);
     mStrgDataW->setGameWidget(gw);
     mApplDataW->setGameWidget(gw);
