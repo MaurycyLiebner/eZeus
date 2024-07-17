@@ -105,7 +105,7 @@ void eSoldierBanner::moveTo(const int x, const int y) {
     mTile = t;
 
     updatePlaces();
-    callSoldiers();
+    if(!mHome) callSoldiers();
 }
 
 void eSoldierBanner::moveToDefault() {
