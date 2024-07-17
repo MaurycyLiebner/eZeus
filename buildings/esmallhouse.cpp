@@ -173,13 +173,17 @@ void eSmallHouse::timeChanged(const int by) {
         }
     }
 
+    const auto s = b.sanctuary(eGodType::dionysus);
+    const bool dion = s && s->finished();
     if(mDisgruntled) {
-        if(mSatisfaction > 30 && by > 0) {
+        if(dion) {
+            setDisgruntled(false);
+         } else if(mSatisfaction > 30 && by > 0) {
             if(rand() % (500000/(mSatisfaction*by)) == 0) {
                 setDisgruntled(false);
             }
         }
-    } else {
+    } else if(!dion) {
         const int m4 = 10*pow(10 + mSatisfaction, 3);
         const auto diff = b.difficulty();
         const int crimeRisk = eDifficultyHelpers::crimeRisk(diff);
