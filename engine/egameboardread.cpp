@@ -302,4 +302,14 @@ void eGameBoard::read(eReadStream& src) {
      src >> mPop15000;
      src >> mPop20000;
      src >> mPop25000;
+
+     int npa;
+     src >> npa;
+     for(int i = 0; i < npa; i++) {
+         ePlannedActionType type;
+         src >> type;
+         const auto a = ePlannedAction::sCreate(type);
+         a->read(src, *this);
+         mPlannedActions.push_back(a);
+     }
 }

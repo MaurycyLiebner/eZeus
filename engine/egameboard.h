@@ -72,6 +72,8 @@ class eMuseum;
 class eStadium;
 struct eEpisode;
 
+using eAction = std::function<void()>;
+
 enum class eGames {
     isthmian,
     nemean,

@@ -71,6 +71,7 @@
 
 #include "ecampaign.h"
 #include "eiteratesquare.h"
+#include "ecolonymonumentaction.h"
 
 eGameBoard::eGameBoard() :
     mThreadPool(*this),
@@ -1837,7 +1838,7 @@ void eGameBoard::incTime(const int by) {
     const int iMax = mPlannedActions.size() - 1;
     for(int i = iMax; i >= 0; i--) {
         const auto a = mPlannedActions[i];
-        a->incTime(by);
+        a->incTime(by, *this);
         if(a->finished()) {
             mPlannedActions.erase(mPlannedActions.begin() + i);
             delete a;
@@ -2375,13 +2376,7 @@ void eGameBoard::startEpisode(eEpisode* const e,
         mGoals.push_back(gg);
     }
     if(lastPlayedColony) {
-        const auto act = [this, lastPlayedColony]() {
-            eEventData ed;
-            ed.fCity = lastPlayedColony;
-            event(eEvent::colonyMonument, ed);
-            allow(eBuildingType::commemorative, 2);
-        };
-        const auto a = new ePlannedAction(false, 1500, act);
+        const auto a = new eColonyMonumentAction(lastPlayedColony);
         planAction(a);
     }
 }

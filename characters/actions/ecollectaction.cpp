@@ -5,6 +5,8 @@
 
 #include "textures/emarbletile.h"
 
+#include "engine/eregrowforestaction.h"
+
 eCollectAction::eCollectAction(eCharacter* const c,
                                const eTranformFunc tf) :
     eCharacterAction(c, eCharActionType::collectAction),
@@ -32,11 +34,7 @@ void transformMarble(eTile* const t, eGameBoard& board) {
 
 void transformForest(eTile* const t, eGameBoard& brd) {
     t->setTerrain(eTerrain::choppedForest);
-    const auto action = [t]() {
-        if(t->terrain() != eTerrain::choppedForest) return;
-        t->setTerrain(eTerrain::forest);
-    };
-    const auto a = new ePlannedAction(false, 75000, action);
+    const auto a = new eRegrowForestAction(t);
     brd.planAction(a);
 }
 

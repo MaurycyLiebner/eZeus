@@ -341,6 +341,7 @@ SOURCES += \
         engine/boardData/epopulationdata.cpp \
         engine/ecampaign.cpp \
         engine/ecityrequest.cpp \
+        engine/ecolonymonumentaction.cpp \
         engine/edate.cpp \
         engine/edifficulty.cpp \
         engine/eemploymentdistributor.cpp \
@@ -358,6 +359,7 @@ SOURCES += \
         engine/epathfinder.cpp \
         engine/eplague.cpp \
         engine/eplannedaction.cpp \
+        engine/eregrowforestaction.cpp \
         engine/eresourcetype.cpp \
         engine/etask.cpp \
         engine/etaxrate.cpp \
@@ -932,6 +934,7 @@ HEADERS += \
     engine/boardData/epopulationdata.h \
     engine/ecampaign.h \
     engine/ecityrequest.h \
+    engine/ecolonymonumentaction.h \
     engine/edate.h \
     engine/edifficulty.h \
     engine/eemploymentdistributor.h \
@@ -954,6 +957,7 @@ HEADERS += \
     engine/eplague.h \
     engine/eplannedaction.h \
     engine/eprovide.h \
+    engine/eregrowforestaction.h \
     engine/eresourcetype.h \
     engine/etask.h \
     engine/etaxrate.h \

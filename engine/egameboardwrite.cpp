@@ -274,4 +274,10 @@ void eGameBoard::write(eWriteStream& dst) const {
     dst << mPop15000;
     dst << mPop20000;
     dst << mPop25000;
+
+    dst << mPlannedActions.size();
+    for(const auto a : mPlannedActions) {
+        dst << a->type();
+        a->write(dst);
+    }
 }
