@@ -12,7 +12,7 @@ eDieAction::eDieAction(eCharacter* const c) :
 
 void eDieAction::increment(const int by) {
     mTime += by;
-    if(mTime > 1024) setState(eCharacterActionState::finished);
+    if(mTime > 2048) setState(eCharacterActionState::finished);
 }
 
 void eDieAction::read(eReadStream& src) {
