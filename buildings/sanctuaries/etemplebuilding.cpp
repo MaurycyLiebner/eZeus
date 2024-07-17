@@ -37,10 +37,8 @@ eTempleBuilding::getTexture(const eTileSize size) const {
 }
 
 std::vector<eOverlay> eTempleBuilding::getOverlays(const eTileSize size) const {
-    const int p = progress();
-    if(p < 3) {
-        return {};
-    }
+    const auto s = sanctuary();
+    if(!s->finished()) return {};
     const int dirId = rotatedId();
     if(dirId != 0 && dirId != 1) {
         return {};
