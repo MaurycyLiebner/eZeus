@@ -104,17 +104,19 @@ void eMessageBox::initialize(const eEventData& ed,
                                ed.fPlayerName);
     eStringHelpers::replaceAll(msg.fText, "[god]",
                                eGod::sGodName(ed.fGod));
-    if(ed.fCity) {
-        const auto nat = ed.fCity->nationality();
+    if(const auto c = ed.fCity) {
+        const auto nat = c->nationality();
         const auto natName = eWorldCity::sNationalityName(nat);
         eStringHelpers::replaceAll(msg.fText, "[nationality]",
                                    natName);
         eStringHelpers::replaceAll(msg.fText, "[city_name]",
-                                   ed.fCity->name());
+                                   c->name());
+        eStringHelpers::replaceAll(msg.fText, "[last_colony]",
+                                   c->name());
         eStringHelpers::replaceAll(msg.fText, "[leader_name]",
-                                   ed.fCity->leader());
+                                   c->leader());
         eStringHelpers::replaceAll(msg.fText, "[a_foreign_army]",
-                                   ed.fCity->anArmy());
+                                   c->anArmy());
         if(ed.fType == eMessageEventType::invasionMessage) {
             eStringHelpers::replaceAll(msg.fText, "[time_until_attack]",
                                       std::to_string(ed.fTime));

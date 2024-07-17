@@ -2331,7 +2331,8 @@ void eGameBoard::addSlayedMonster(const eMonsterType m) {
     mSlayedMonsters.push_back(m);
 }
 
-void eGameBoard::startEpisode(eEpisode* const e) {
+void eGameBoard::startEpisode(eEpisode* const e,
+                              const eWC& lastPlayedColony) {
     if(mTimedBuildings.empty()) { // first episode
         for(const auto s : mSpawners) {
             const auto type = s->type();
@@ -2372,6 +2373,16 @@ void eGameBoard::startEpisode(eEpisode* const e) {
         gg->initializeDate(this);
         gg->update(this);
         mGoals.push_back(gg);
+    }
+    if(lastPlayedColony) {
+        const auto act = [this, lastPlayedColony]() {
+            eEventData ed;
+            ed.fCity = lastPlayedColony;
+            event(eEvent::colonyMonument, ed);
+            allow(eBuildingType::commemorative, 2);
+        };
+        const auto a = new ePlannedAction(false, 1500, act);
+        planAction(a);
     }
 }
 

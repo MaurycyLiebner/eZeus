@@ -261,6 +261,8 @@ public:
 
     void setAside(const eResourceType res, const int count,
                   const stdsptr<eWorldCity>& from);
+
+    stdsptr<eWorldCity> lastPlayedColony() const;
 private:
     int mBitmap = 0;
     std::string mName;
@@ -273,6 +275,7 @@ private:
     int mCurrentParentEpisode = 0;
     int mCurrentColonyEpisode = 0;
     eEpisodeType mCurrentEpisodeType = eEpisodeType::parentCity;
+    eEpisodeType mPreviousEpisodeType = eEpisodeType::parentCity;
 
     int mDrachmas = 5000;
     eDate mDate = eDate(1, eMonth::january, -1500);

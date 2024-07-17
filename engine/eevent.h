@@ -181,7 +181,9 @@ enum class eEvent {
 
     colonyRestored,
 
-    debtAnniversary
+    debtAnniversary,
+
+    colonyMonument
 };
 
 #endif // EEVENT_H

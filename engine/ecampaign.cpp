@@ -373,7 +373,9 @@ void eCampaign::startEpisode() {
     e->fDrachmas = mDrachmas;
     e->fStartDate = mDate;
     const auto board = e->fBoard;
-    board->startEpisode(e);
+    const bool pcol = mPreviousEpisodeType == eEpisodeType::colony;
+    const auto col = pcol ? lastPlayedColony() : nullptr;
+    board->startEpisode(e, col);
     if(mCurrentEpisodeType == eEpisodeType::colony) {
         for(const auto& g : mForColony) {
             board->planGiftFrom(g.fFrom, g.fRes, g.fCount, 180);
@@ -392,6 +394,7 @@ void eCampaign::episodeFinished() {
     const auto board = e->fBoard;
     mDrachmas = board->drachmas();
     mDate = board->date();
+    mPreviousEpisodeType = mCurrentEpisodeType;
     const auto& gls = e->fGoals;
     for(const auto& g : gls) {
         const auto type = g->fType;
@@ -542,6 +545,12 @@ void eCampaign::setAside(const eResourceType res, const int count,
     } else {
         mForColony.push_back(set);
     }
+}
+
+stdsptr<eWorldCity> eCampaign::lastPlayedColony() const {
+    if(mPlayedColonyEpisodes.empty()) return nullptr;
+    const int i = mPlayedColonyEpisodes.back();
+    return mColonyEpisodes[i]->fCity;
 }
 
 void eCampaign::copyColonyEpisodeSettings(const int from, const int to) {

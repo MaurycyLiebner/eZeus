@@ -541,7 +541,9 @@ public:
     { return mSlayedMonsters; }
     void addSlayedMonster(const eMonsterType m);
 
-    void startEpisode(eEpisode* const e);
+    using eWC = stdsptr<eWorldCity>;
+    void startEpisode(eEpisode* const e,
+                      const eWC& lastPlayedColony);
 
     bool checkGoalsFulfilled() const;
 

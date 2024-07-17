@@ -809,6 +809,10 @@ bool eMessages::loadImpl() {
                 "still_in_debt_title",
                 "still_in_debt_initial_announcement");
 
+    loadMessage(fColonyMonument,
+                "colony_monument_title",
+                "colony_monument_initial_announcement");
+
     return true;
 }
 

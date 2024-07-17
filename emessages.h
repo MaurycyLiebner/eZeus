@@ -278,6 +278,8 @@ public:
     eMessageType fColonyRestored;
 
     eMessageType fDebtAnniversary;
+
+    eMessageType fColonyMonument;
 private:
     bool loadImpl();
 

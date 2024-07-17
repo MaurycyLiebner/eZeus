@@ -18,7 +18,7 @@ private:
     const int mActionTime;
     const eAction mAction;
     bool mFinished = false;
-    int mTime;
+    int mTime = 0;
 };
 
 #endif // EPLANNEDACTION_H
