@@ -345,24 +345,28 @@ void eSoldierBanner::sPlace(std::vector<eSoldierBanner*> bs,
             const auto bt = b->type();
             if(bt == eBuildingType::palace ||
                bt == eBuildingType::palaceTile) {
-                for(const auto bb : bs) {
+                for(int i = 0; i < (int)bs.size(); i++) {
+                    const auto bb = bs[i];
                     const auto bbt = bb->type();
                     if(bbt == eBannerType::hoplite ||
                        bbt == eBannerType::rockThrower ||
                        bbt == eBannerType::horseman) {
                         bb->moveToDefault();
                         eVectorHelpers::remove(bs, bb);
+                        i--;
                     }
                 }
             } else if(const auto sb = dynamic_cast<eSanctBuilding*>(b)) {
                 const auto s = sb->sanctuary();
                 const auto gt = s->godType();
-                for(const auto bb : bs) {
+                for(int i = 0; i < (int)bs.size(); i++) {
+                    const auto bb = bs[i];
                     const auto bbt = bb->type();
                     if((bbt == eBannerType::amazon && gt == eGodType::artemis) ||
                        (bbt == eBannerType::aresWarrior && gt == eGodType::ares)) {
                         bb->moveToDefault();
                         eVectorHelpers::remove(bs, bb);
+                        i--;
                     }
                 }
             }
