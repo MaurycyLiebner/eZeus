@@ -1052,8 +1052,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto& mss = tile->missiles();
             for(const auto& m : mss) {
                 const double h = m->height();
-                const double x = tx - a + m->x() + 0.25 - h;
-                const double y = ty - a + m->y() + 0.25 - h;
+                const double x = tx + m->x() + 0.25 - h;
+                const double y = ty + m->y() + 0.25 - h;
                 const auto tex = m->getTexture(mTileSize);
                 tp.drawTexture(x, y, tex);
             }
