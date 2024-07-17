@@ -153,7 +153,7 @@ void eSmallHouse::timeChanged(const int by) {
     auto& b = getBoard();
     if(mPlague) {
         if(mHygiene > 25) {
-            const int m4 = 10*pow(10000./mHygiene, 4);
+            const int m4 = 10*pow(2000./mHygiene, 4);
             if(by) {
                 const int healPeriod = m4/by;
                 if(healPeriod && rand() % healPeriod == 0) {
@@ -168,7 +168,12 @@ void eSmallHouse::timeChanged(const int by) {
         if(plagueRisk && by) {
             const int plaguePeriod = m4/(by*plagueRisk);
             if(plaguePeriod && rand() % plaguePeriod == 0) {
-                b.startPlague(this);
+                const auto center = centerTile();
+                const int tx = center->x();
+                const int ty = center->y();
+                int dist;
+                b.nearestPlague(tx, ty, dist);
+                if(dist > 5) b.startPlague(this);
             }
         }
     }
