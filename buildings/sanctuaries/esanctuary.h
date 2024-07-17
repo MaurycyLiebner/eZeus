@@ -83,6 +83,8 @@ public:
 
     void setRotated(const bool r) { mRotated = r; }
     bool rotated() const { return mRotated; }
+
+    void setSpawnWait(const int w);
 private:
     bool mHaltConstruction = false;
     eSanctCost mStored{0, 0, 0};

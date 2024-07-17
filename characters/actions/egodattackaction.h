@@ -84,14 +84,23 @@ public:
         mWt(wt), mLt(lt) {}
 
     void call() override {
+        auto& board = this->board();
         if(mWinnerPtr) mWinnerPtr->resumeAction();
         if(mLoserPtr) {
+            const auto loser = mLoserPtr->character();
+            const auto loserGod = static_cast<eGod*>(loser);
+            const auto att = loserGod->attitude();
+            if(att == eGodAttitude::worshipped) {
+                const auto type = loserGod->type();
+                const auto s = board.sanctuary(type);
+                if(s) s->setSpawnWait(20000);
+            }
             const auto finish = std::make_shared<eGAA_loserDisappearFinish>(
-                                    board(), mLoserPtr);
+                                    board, mLoserPtr);
             mLoserPtr->disappear(true, finish);
         }
         const auto tip = eGod::sFightResultString(mWt, mLt);
-        board().showTip(tip);
+        board.showTip(tip);
     }
 
     void read(eReadStream& src) override {

@@ -283,6 +283,10 @@ stdsptr<eSanctuary> eSanctuary::sCreate(
     }
 }
 
+void eSanctuary::setSpawnWait(const int w) {
+    mSpawnWait = w;
+}
+
 void eSanctuary::timeChanged(const int by) {
     mHelpTimer += by;
     if(!mCart) mCart = spawnCart(eCartActionTypeSupport::take);
