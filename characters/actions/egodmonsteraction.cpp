@@ -412,17 +412,17 @@ void eGMA_spawnMissileFinish::call() {
             switch(charType) {
             case eCharacterType::apollo:
             case eCharacterType::atalanta:
-                h = -0.5;
+                h = -1.5;
                 break;
             case eCharacterType::calydonianBoar:
                 h = -1;
                 break;
             default:
-                h = 0;
+                h = -0.5;
                 break;
             }
         } else {
-            h = 0;
+            h = -0.5;
         }
 
         const auto m = eMissile::sCreate<eGodMissile>(
