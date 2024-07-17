@@ -175,6 +175,7 @@ eGodType eSanctuary::godType() const {
 eGod* eSanctuary::spawnGod() {
     auto& board = getBoard();
     const auto c = eGod::sCreateGod(godType(), board);
+    c->setAttitude(eGodAttitude::worshipped);
     mGod = c.get();
     const auto ct = centerTile();
     const int tx = ct->x();
