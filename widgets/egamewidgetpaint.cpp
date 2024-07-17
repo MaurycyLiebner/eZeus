@@ -1384,16 +1384,18 @@ void eGameWidget::paintEvent(ePainter& p) {
         if(!bridgeValid && bridgetTs.empty()) {
             eGameTextures::loadBridge();
             const auto hoverTile = mBoard->tile(mHoverTX, mHoverTY);
-            const auto& tex = builTexs.fBridge.getTexture(10);
-            tex->setColorMod(255, 0, 0);
-            double rx;
-            double ry;
-            const int hx = hoverTile->x();
-            const int hy = hoverTile->y();
-            const int ha = hoverTile->altitude();
-            drawXY(hx, hy, rx, ry, 1, 1, ha);
-            tp.drawTexture(rx, ry, tex, eAlignment::top);
-            tex->clearColorMod();
+            if(hoverTile) {
+                const auto& tex = builTexs.fBridge.getTexture(10);
+                tex->setColorMod(255, 0, 0);
+                double rx;
+                double ry;
+                const int hx = hoverTile->x();
+                const int hy = hoverTile->y();
+                const int ha = hoverTile->altitude();
+                drawXY(hx, hy, rx, ry, 1, 1, ha);
+                tp.drawTexture(rx, ry, tex, eAlignment::top);
+                tex->clearColorMod();
+            }
         }
     }
 
