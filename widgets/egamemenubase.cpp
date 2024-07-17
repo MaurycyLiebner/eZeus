@@ -5,20 +5,21 @@ void eGameMenuBase::initialize() {
     int y;
     switch(resolution().uiScale()) {
     case eUIScale::tiny:
-        x = 5;
-        y = 15;
+        x = 2;
+        y = 11;
         break;
     case eUIScale::small:
         x = 6;
-        y = 21;
+        y = 22;
         break;
     case eUIScale::medium:
         x = 9;
-        y = 31;
+        y = 33;
         break;
+    case eUIScale::large:
     default:
         x = 12;
-        y = 42;
+        y = 44;
     }
     mButtonsWidget = new eWidget(window());
     mButtonsWidget->setX(x);
@@ -40,22 +41,23 @@ void eGameMenuBase::connectAndLayoutButtons() {
     double margin;
     switch(resolution().uiScale()) {
     case eUIScale::tiny:
-        margin = 2;
+        margin = 1;
         break;
     case eUIScale::small:
-        margin = 2;
+        margin = 1;
         break;
     case eUIScale::medium:
-        margin = 2.1835;
+        margin = 1.85;
         break;
+    case eUIScale::large:
     default:
-        margin = 3;
+        margin = 2;
     }
     const int n = mButtons.size();
     const int buttH = mButtons.front()->height();
     const int h = n*(buttH + margin);
     mButtonsWidget->setHeight(h);
-    mButtonsWidget->layoutVertically();
+    mButtonsWidget->layoutVerticallyWithoutSpaces();
     mButtonsWidget->fitContent();
 
     const int iMax = mButtons.size();
