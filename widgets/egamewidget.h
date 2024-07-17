@@ -249,6 +249,8 @@ private:
             const eTerrainTextures& trrTexs, const eWorldDirection dir,
             const int boardw, const int boardh);
 
+    std::vector<eTile*> selectedTiles() const;
+
     bool mEditorMode = false;
 
     bool mRotate = false;

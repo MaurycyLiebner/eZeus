@@ -134,6 +134,40 @@ stdsptr<eTexture> eGameWidget::getBasementTexture(
     return coll->getTexture(id);
 }
 
+std::vector<eTile*> eGameWidget::selectedTiles() const {
+    std::vector<eTile*> result;
+    const int x0 = mPressedX > mHoverX ? mHoverX : mPressedX;
+    const int y0 = mPressedY > mHoverY ? mHoverY : mPressedY;
+    const int x1 = mPressedX > mHoverX ? mPressedX : mHoverX;
+    const int y1 = mPressedY > mHoverY ? mPressedY : mHoverY;
+    int t0x;
+    int t0y;
+    int t1x;
+    int t1y;
+    pixToId(x0, y0, t0x, t0y);
+    pixToId(x1, y1, t1x, t1y);
+
+    int dt0x;
+    int dt0y;
+    eTileHelper::tileIdToDTileId(t0x, t0y, dt0x, dt0y);
+    int dt1x;
+    int dt1y;
+    eTileHelper::tileIdToDTileId(t1x, t1y, dt1x, dt1y);
+
+    const int xMin = std::min(dt0x, dt1x);
+    const int xMax = std::max(dt0x, dt1x);
+    const int yMin = std::min(dt0y, dt1y);
+    const int yMax = std::max(dt0y, dt1y);
+    for(int x = xMin; x < xMax; x++) {
+        for(int y = yMin; y < yMax; y++) {
+            const auto tile = mBoard->dtile(x, y);
+            if(!tile) continue;
+            result.push_back(tile);
+        }
+    }
+    return result;
+}
+
 class eGameBoardRegisterLock {
 public:
     eGameBoardRegisterLock(eGameBoard& board) :
@@ -1062,12 +1096,28 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto drawBanners = [&]() {
             const auto b = tile->soldierBanner();
             if(!b) return;
+            bool hover;
+            if(mLeftPressed && mMovedSincePress) {
+                hover = false;
+                const auto selected = selectedTiles();
+                for(const auto t : selected) {
+                   if(t == tile) {
+                       hover = true;
+                       break;
+                   }
+                }
+            } else {
+                hover = tx == mHoverTX && ty == mHoverTY;
+            }
+
             {
                 eGameTextures::loadBanners();
                 const auto& rods = charTexs.fBannerRod;
-                const auto rod = rods.getTexture(0);
+                const auto& rod = rods.getTexture(0);
+                if(hover) rod->setColorMod(175, 255, 255);
                 tp.drawTexture(rx, ry - 1, rod,
                                eAlignment::hcenter | eAlignment::top);
+                if(hover) rod->clearColorMod();
             }
             {
                 const int id = b->id();
@@ -1079,9 +1129,11 @@ void eGameWidget::paintEvent(ePainter& p) {
                 } else {
                     texId = 6;
                 }
-                const auto tex = bnr.getTexture(texId);
+                const auto& tex = bnr.getTexture(texId);
+                if(hover) tex->setColorMod(175, 255, 255);
                 tp.drawTexture(rx - 1, ry - 2.6, tex,
                                eAlignment::hcenter | eAlignment::top);
+                if(hover) tex->clearColorMod();
             }
             {
                 const auto type = b->type();
@@ -1101,8 +1153,10 @@ void eGameWidget::paintEvent(ePainter& p) {
                     }
                     if(itype != -1) {
                         const auto& top = tps.getTexture(itype);
+                        if(hover) top->setColorMod(175, 255, 255);
                         tp.drawTexture(rx - 2.5, ry -  3.5, top,
                                        eAlignment::hcenter | eAlignment::top);
+                        if(hover) top->clearColorMod();
                     }
                 } else {
                     int itype = -1;
@@ -1115,8 +1169,10 @@ void eGameWidget::paintEvent(ePainter& p) {
                     }
                     if(itype != -1) {
                         const auto& top = pTps.getTexture(itype);
+                        if(hover) top->setColorMod(175, 255, 255);
                         tp.drawTexture(rx - 2.5, ry -  3.5, top,
                                        eAlignment::hcenter | eAlignment::top);
+                        if(hover) top->clearColorMod();
                     }
                 }
             }

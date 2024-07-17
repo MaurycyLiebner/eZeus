@@ -1720,37 +1720,19 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
         const bool r = buildMouseRelease();
         if(!r && mGm->mode() == eBuildingMode::none) {
             if(mMovedSincePress) {
-                const int x0 = mPressedX > mHoverX ? mHoverX : mPressedX;
-                const int y0 = mPressedY > mHoverY ? mHoverY : mPressedY;
-                const int x1 = mPressedX > mHoverX ? mPressedX : mHoverX;
-                const int y1 = mPressedY > mHoverY ? mPressedY : mHoverY;
-                int t0x;
-                int t0y;
-                int t1x;
-                int t1y;
-                pixToId(x0, y0, t0x, t0y);
-                pixToId(x1, y1, t1x, t1y);
-
-                int dt0x;
-                int dt0y;
-                eTileHelper::tileIdToDTileId(t0x, t0y, dt0x, dt0y);
-                int dt1x;
-                int dt1y;
-                eTileHelper::tileIdToDTileId(t1x, t1y, dt1x, dt1y);
-
-                for(int x = dt0x; x < dt1x; x++) {
-                    for(int y = dt0y; y < dt1y; y++) {
-                        const auto tile = mBoard->dtile(x, y);
-                        if(!tile) continue;
-                        const auto b = tile->soldierBanner();
-                        if(b) {
-                            if(!b->selected()) mBoard->selectBanner(b);
-                        }
+                const auto selected = selectedTiles();
+                for(const auto tile : selected) {
+                    const auto b = tile->soldierBanner();
+                    if(b && !b->selected()) {
+                        mBoard->selectBanner(b);
                     }
                 }
             } else {
                 const auto tile = mBoard->tile(mHoverTX, mHoverTY);
-                if(!mPatrolBuilding && tile) {
+                if(tile && tile->soldierBanner()) {
+                    const auto sb = tile->soldierBanner();
+                    if(!sb->selected()) mBoard->selectBanner(sb);
+                } else if(!mPatrolBuilding && tile) {
                     if(const auto b = tile->underBuilding()) {
                         if(const auto pb = dynamic_cast<ePatrolBuilding*>(b)) {
                             if(pb->spawnsPatrolers()) setPatrolBuilding(pb);
