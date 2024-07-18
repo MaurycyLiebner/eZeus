@@ -110,6 +110,11 @@ void eSoldierAction::sSignalBeingAttack(
 }
 
 void eSoldierAction::increment(const int by) {
+    if(mSpreadPeriod && currentAction()) {
+        return eComplexAction::increment(by);
+    } else {
+        mSpreadPeriod = false;
+    }
     const int rangeAttackCheck = 500;
     const int lookForEnemyCheck = 500;
     const int missileCheck = 200;
@@ -338,6 +343,7 @@ void eSoldierAction::read(eReadStream& src) {
     src >> mAttackTime;
     src >> mAttack;
     mAttackTarget.read(board(), src);
+    src >> mSpreadPeriod;
 }
 
 void eSoldierAction::write(eWriteStream& dst) const {
@@ -350,6 +356,7 @@ void eSoldierAction::write(eWriteStream& dst) const {
     dst << mAttackTime;
     dst << mAttack;
     mAttackTarget.write(dst);
+    dst << mSpreadPeriod;
 }
 
 void eSoldierAction::moveBy(const double dx, const double dy) {

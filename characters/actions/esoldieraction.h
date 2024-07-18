@@ -79,6 +79,8 @@ public:
     static void sSignalBeingAttack(eSoldier* const attacked,
                                    eCharacter* const by,
                                    eGameBoard& brd);
+
+    void setSpreadPeriod(const bool s) { mSpreadPeriod = s; }
 private:
     bool attackBuilding(eTile* const t);
     stdsptr<eObsticleHandler> obsticleHandler();
@@ -95,6 +97,7 @@ private:
     int mAttackTime = 0;
     bool mAttack = false;
     eAttackTarget mAttackTarget;
+    bool mSpreadPeriod = false; // for spreading invasion forces
 };
 
 class eSoldierObsticleHandler : public eObsticleHandler {

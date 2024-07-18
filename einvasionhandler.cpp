@@ -61,6 +61,7 @@ stdsptr<T> spawnSoldier(eGameBoard& board,
     const auto h = e::make_shared<T>(board);
     h->setPlayerId(2);
     const auto a = e::make_shared<eSoldierAction>(h.get());
+    a->setSpreadPeriod(true);
     h->setAction(a);
     h->changeTile(tile);
     h->setActionType(eCharacterActionType::walk);
