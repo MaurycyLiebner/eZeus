@@ -723,7 +723,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                         const auto overlays = ub->getOverlays(size);
                         for(const auto& o : overlays) {
                             const auto& tex = o.fTex;
-
+                            if(!tex) continue;
                             if(erase) tex->setColorMod(255, 175, 255);
                             else if(hover) tex->setColorMod(175, 255, 255);
                             if(o.fAlignTop) {
