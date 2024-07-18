@@ -310,6 +310,7 @@ public:
         const auto& chars = t->characters();
         if(chars.empty()) return nullptr;
         for(const auto& cc : chars) {
+            if(cc->dead()) continue;
             const bool is = cc->isSoldier();
             if(!is) continue;
             const int pid = cc->playerId();
