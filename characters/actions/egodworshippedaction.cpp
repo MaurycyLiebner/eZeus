@@ -7,14 +7,14 @@ eGodWorshippedAction::eGodWorshippedAction(eCharacter* const c) :
 
 void eGodWorshippedAction::increment(const int by) {
     const int lookForBlessCheck = 6000;
-    const int lookForSoldierCheck = 1000;
+    const int lookForSoldierCheck = 2500;
 
     const bool r = lookForTargetedBlessCurse(by, mLookForBless,
                                              lookForBlessCheck, 10, 1);
     if(!r) {
         const bool r = lookForSoldierAttack(by, mLookForSoldierAttack,
                                             lookForSoldierCheck, 10);
-        if(!r) {
+        if(!r && mStage != eGodWorshippedStage::defend) {
             const int lookForCityDefenseCheck = 5000;
             mLookForCityDefense += by;
             if(mLookForCityDefense > lookForCityDefenseCheck) {

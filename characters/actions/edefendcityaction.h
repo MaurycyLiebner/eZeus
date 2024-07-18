@@ -34,6 +34,8 @@ private:
     int mRangeAttack = 0;
     double mAngle{0.};
     int mMissile = 0;
+    const int mMaxKilled = 6;
+    int mKilled = 0;
 };
 
 #endif // EDEFENDCITYACTION_H

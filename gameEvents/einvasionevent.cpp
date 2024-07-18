@@ -196,7 +196,8 @@ void eInvasionEvent::write(eWriteStream& dst) const {
 
 void eInvasionEvent::read(eReadStream& src) {
     eGameEvent::read(src);
-    src.readCity(gameBoard(), [this](const stdsptr<eWorldCity>& c) {
+    const auto board = gameBoard();
+    src.readCity(board, [this](const stdsptr<eWorldCity>& c) {
         mCity = c;
     });
 
@@ -210,6 +211,9 @@ void eInvasionEvent::read(eReadStream& src) {
 
     src >> mWarned;
     mFirstWarning.read(src);
+    if(mWarned) {
+        board->addInvasion(this);
+    }
 }
 
 void eInvasionEvent::setCity(const stdsptr<eWorldCity>& c) {

@@ -31,7 +31,7 @@ bool eDefendCityAction::decide() {
         break;
     case eDefendCityStage::goTo:
     case eDefendCityStage::wait: {
-        if(!mEvent) {
+        if(!mEvent || mKilled >= mMaxKilled) {
             mStage = eDefendCityStage::comeback;
             goBack();
         } else {
@@ -63,6 +63,9 @@ bool eDefendCityAction::decide() {
 }
 
 void eDefendCityAction::increment(const int by) {
+    if(mKilled >= mMaxKilled) {
+        return eGodMonsterAction::increment(by);
+    }
     const int rangeAttackCheck = 500;
     const int lookForEnemyCheck = 500;
     int missileCheck = 200;
@@ -125,6 +128,10 @@ void eDefendCityAction::increment(const int by) {
             c->setActionType(eCharacterActionType::stand);
             setCurrentAction(nullptr);
             mLookForEnemy = lookForEnemyCheck;
+            mKilled++;
+            if(mKilled >= mMaxKilled) {
+                return eGodMonsterAction::increment(by);
+            }
         } else {
             return;
         }
@@ -231,6 +238,7 @@ void eDefendCityAction::read(eReadStream& src) {
     src >> mRangeAttack;
     src >> mAngle;
     src >> mMissile;
+    src >> mKilled;
 }
 
 void eDefendCityAction::write(eWriteStream& dst) const {
@@ -245,6 +253,7 @@ void eDefendCityAction::write(eWriteStream& dst) const {
     dst << mRangeAttack;
     dst << mAngle;
     dst << mMissile;
+    dst << mKilled;
 }
 
 void eDefendCityAction::goToTarget() {

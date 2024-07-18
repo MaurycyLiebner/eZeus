@@ -70,7 +70,7 @@ bool eGodAction::lookForSoldierAttack(
     const auto c = character();
     const auto chart = c->type();
     return lookForRangeAction(dtime, time, freq, range,
-                              at, act, chart, s);
+                              at, act, chart, s, 4);
 }
 
 bool eGodAction::lookForRangeAction(
@@ -80,7 +80,8 @@ bool eGodAction::lookForRangeAction(
         const eCharacterActionType at,
         const stdsptr<eGodAct>& act,
         const eCharacterType chart,
-        const eGodSound missileSound) {
+        const eGodSound missileSound,
+        const int nMissiles) {
     const auto c = character();
     const auto cat = c->actionType();
     const bool walking = cat == eCharacterActionType::walk;
@@ -109,7 +110,7 @@ bool eGodAction::lookForRangeAction(
         std::random_shuffle(tiles.begin(), tiles.end());
         for(const auto t : tiles) {
             const auto tt = act->find(t);
-            if(!tt) continue;
+            if(!tt.target()) continue;
 
             using eGA_LFRAF = eGA_lookForRangeActionFinish;
             const auto finishAttackA =
@@ -117,9 +118,13 @@ bool eGodAction::lookForRangeAction(
                         board(), this);
 
             pauseAction();
-            spawnGodMissile(at, chart, tt,
-                            missileSound, act,
-                            finishAttackA);
+            if(nMissiles == 1) {
+                spawnGodMissile(at, chart, tt, missileSound,
+                                act, finishAttackA);
+            } else {
+                spawnGodMultipleMissiles(at, chart, tt, missileSound,
+                                         act, finishAttackA, nMissiles);
+            }
             return true;
         }
         time += freq/2;
@@ -130,7 +135,7 @@ bool eGodAction::lookForRangeAction(
 void eGodAction::spawnGodMissile(
         const eCharacterActionType at,
         const eCharacterType chart,
-        eTile* const target,
+        const eMissileTarget& target,
         const eGodSound sound,
         const stdsptr<eGodAct>& act,
         const stdsptr<eCharActFunc>& finishAttackA) {
@@ -148,7 +153,7 @@ void eGodAction::spawnGodMissile(
 void eGodAction::spawnGodMultipleMissiles(
         const eCharacterActionType at,
         const eCharacterType chart,
-        eTile* const target,
+        const eMissileTarget& target,
         const eGodSound sound,
         const stdsptr<eGodAct>& playHitSound,
         const stdsptr<eCharActFunc>& finishA,

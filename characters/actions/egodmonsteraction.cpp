@@ -205,23 +205,20 @@ void eGodMonsterAction::goToTile(
 void eGodMonsterAction::spawnMissile(const eCharacterActionType at,
                                      const eCharacterType chart,
                                      const int attackTime,
-                                     eTile* const target,
+                                     const eMissileTarget& target,
                                      const stdsptr<eCharActFunc>& playSound,
                                      const stdsptr<eGodAct>& hitAct,
                                      const stdsptr<eCharActFunc>& finishAttackA) {
-    const stdptr<eGodMonsterAction> tptr(this);
-    const auto finish = std::make_shared<eGMA_spawnMissileFinish>(
-                            board(), character(),
-                            at, chart, target,
-                            hitAct, finishAttackA);
     const auto c = character();
     c->setActionType(at);
     {
         const auto ct = c->tile();
         const int tx = ct->x();
         const int ty = ct->y();
-        const int ttx = target->x();
-        const int tty = target->y();
+        const auto tt = target.target();
+        if(!tt) return;
+        const int ttx = tt->x();
+        const int tty = tt->y();
         const double dx = ttx - tx;
         const double dy = tty - ty;
 
@@ -240,6 +237,11 @@ void eGodMonsterAction::spawnMissile(const eCharacterActionType at,
     });
 
     const auto a = e::make_shared<eWaitAction>(c);
+    const stdptr<eGodMonsterAction> tptr(this);
+    const auto finish = std::make_shared<eGMA_spawnMissileFinish>(
+                            board, character(),
+                            at, chart, target.target(),
+                            hitAct, finishAttackA);
     a->setFailAction(finish);
     a->setFinishAction(finish);
     a->setTime(attackTime);

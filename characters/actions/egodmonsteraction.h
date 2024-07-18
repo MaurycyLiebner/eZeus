@@ -25,6 +25,10 @@ public:
     eMissileTarget(eCharacter* const c) :
         mChar(c) {}
 
+    bool operator!() const {
+        return !target();
+    }
+
     eTile* target() const {
         if(mChar) return mChar->tile();
         return mTile;
@@ -97,7 +101,7 @@ public:
     void spawnMissile(const eCharacterActionType at,
                       const eCharacterType chart,
                       const int attackTime,
-                      eTile* const target,
+                      const eMissileTarget& target,
                       const stdsptr<eCharActFunc>& playSound,
                       const stdsptr<eGodAct>& hitAct,
                       const stdsptr<eCharActFunc>& finishAttackA = nullptr);

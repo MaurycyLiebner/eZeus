@@ -6,7 +6,7 @@ eGodVisitAction::eGodVisitAction(eCharacter* const c) :
     eGodAction(c, eCharActionType::godVisitAction) {}
 
 void eGodVisitAction::increment(const int by) {
-    const int lookForSoldierCheck = 1500;
+    const int lookForSoldierCheck = 2500;
     const int lookForBlessCheck = 18000;
 
     bool r = lookForBlessCurse(by, mLookForBless, lookForBlessCheck, 10, 1);

@@ -36,7 +36,7 @@ public:
     eGodAct(eGameBoard& board, const eGodActType type) :
         mType(type), mBoard(board) {}
 
-    virtual eTile* find(eTile* const t) = 0;
+    virtual eMissileTarget find(eTile* const t) = 0;
     virtual void act() = 0;
 
     eGodActType type() const { return mType; }
@@ -60,9 +60,10 @@ public:
     ePlayMonsterBuildingAttackSoundGodAct(eGameBoard& board) :
         ePlayMonsterBuildingAttackSoundGodAct(board, nullptr) {}
 
-    eTile* find(eTile* const t) {
+    eMissileTarget find(eTile* const t) {
         (void)t;
-        return nullptr;
+        const auto null = static_cast<eTile*>(nullptr);
+        return null;
     }
 
     void act() {
@@ -95,9 +96,10 @@ public:
     ePlayFightGodHitSoundGodAct(eGameBoard& board) :
         ePlayFightGodHitSoundGodAct(board, nullptr) {}
 
-    eTile* find(eTile* const t) {
+    eMissileTarget find(eTile* const t) {
         (void)t;
-        return nullptr;
+        const auto null = static_cast<eTile*>(nullptr);
+        return null;
     }
 
     void act() {
@@ -125,21 +127,22 @@ public:
     eLookForPlagueGodAct(eGameBoard& board) :
         eGodAct(board, eGodActType::lookForPlague) {}
 
-    eTile* find(eTile* const t) {
+    eMissileTarget find(eTile* const t) {
+        const auto null = static_cast<eTile*>(nullptr);
         const auto b = t->underBuilding();
-        if(!b) return nullptr;
+        if(!b) return null;
         const auto type = b->type();
-        if(type != eBuildingType::commonHouse) return nullptr;
+        if(type != eBuildingType::commonHouse) return null;
         const auto ch = static_cast<eSmallHouse*>(b);
         const bool p = ch->plague();
-        if(p) return nullptr;
+        if(p) return null;
         const auto tile = b->centerTile();
         const int tx = tile->x();
         const int ty = tile->y();
         int dist;
         auto& board = this->board();
         board.nearestPlague(tx, ty, dist);
-        if(dist < 10) return nullptr;
+        if(dist < 10) return null;
         mTarget = static_cast<eSmallHouse*>(b);
         return tile;
     }
@@ -169,14 +172,17 @@ public:
     eLookForEvictGodAct(eGameBoard& board) :
         eGodAct(board, eGodActType::lookForEvict) {}
 
-    eTile* find(eTile* const t) {
+    eMissileTarget find(eTile* const t) {
+        const auto null = static_cast<eTile*>(nullptr);
         const auto b = t->underBuilding();
-        if(!b) return nullptr;
+        if(!b) return null;
         const auto type = b->type();
         if(type != eBuildingType::commonHouse &&
-           type != eBuildingType::eliteHousing) return nullptr;
+           type != eBuildingType::eliteHousing) {
+            return null;
+        }
         const auto hb = static_cast<eHouseBase*>(b);
-        if(hb->people() <= 0) return nullptr;
+        if(hb->people() <= 0) return null;
         mTarget = hb;
         return b->centerTile();
     }
@@ -258,13 +264,22 @@ public:
     eLookForTargetedBlessGodAct(eGameBoard& board) :
         eLookForTargetedBlessGodAct(board, 0, eGodType::zeus) {}
 
-    eTile* find(eTile* const t) {
+    eMissileTarget find(eTile* const t) {
+        const auto null = static_cast<eTile*>(nullptr);
         const auto b = t->underBuilding();
-        if(!b) return nullptr;
+        if(!b) {
+            return null;
+        }
         const auto type = b->type();
-        if(!eBuilding::sBlessable(type)) return nullptr;
-        if(!eGod::sTarget(mType, type)) return nullptr;
-        if(b->blessed() || b->cursed()) return nullptr;
+        if(!eBuilding::sBlessable(type)) {
+            return null;
+        }
+        if(!eGod::sTarget(mType, type)) {
+            return null;
+        }
+        if(b->blessed() || b->cursed()) {
+            return null;
+        }
         mTarget = b;
         return b->centerTile();
     }
@@ -291,11 +306,12 @@ public:
     eLookForBlessGodAct(eGameBoard& board) :
         eLookForBlessGodAct(board, 0) {}
 
-    eTile* find(eTile* const t) {
+    eMissileTarget find(eTile* const t) {
+        const auto null = static_cast<eTile*>(nullptr);
         const auto b = t->underBuilding();
-        if(!b) return nullptr;
-        if(!eBuilding::sBlessable(b->type())) return nullptr;
-        if(b->blessed() || b->cursed()) return nullptr;
+        if(!b) return null;
+        if(!eBuilding::sBlessable(b->type())) return null;
+        if(b->blessed() || b->cursed()) return null;
         mTarget = b;
         return b->centerTile();
     }
@@ -306,9 +322,10 @@ public:
     eLookForSoldierAttackGodAct(eGameBoard& board) :
         eGodAct(board, eGodActType::lookForSoldierAttack) {}
 
-    eTile* find(eTile* const t) {
+    eMissileTarget find(eTile* const t) {
+        const auto null = static_cast<eTile*>(nullptr);
         const auto& chars = t->characters();
-        if(chars.empty()) return nullptr;
+        if(chars.empty()) return null;
         for(const auto& cc : chars) {
             if(cc->dead()) continue;
             const bool is = cc->isSoldier();
@@ -316,13 +333,15 @@ public:
             const int pid = cc->playerId();
             if(pid == 1) continue;
             mTarget = cc;
-            return t;
+            return cc.get();
         }
-        return nullptr;
+        return null;
     }
 
     void act() {
-        if(mTarget) mTarget->killWithCorpse();
+        if(mTarget && !mTarget->dead()) {
+            mTarget->killWithCorpse();
+        }
     }
 
     void read(eReadStream& src) {
@@ -347,13 +366,14 @@ public:
     eLookForTargetedAttackGodAct(eGameBoard& board) :
         eLookForTargetedAttackGodAct(board, eGodType::zeus) {}
 
-    eTile* find(eTile* const t) {
+    eMissileTarget find(eTile* const t) {
+        const auto null = static_cast<eTile*>(nullptr);
         const auto b = t->underBuilding();
-        if(!b) return nullptr;
+        if(!b) return null;
         const auto type = b->type();
-        if(!eBuilding::sAttackable(type)) return nullptr;
+        if(!eBuilding::sAttackable(type)) return null;
         const bool target = eGod::sTarget(mType, type);
-        if(!target) return nullptr;
+        if(!target) return null;
         return b->centerTile();
     }
 
@@ -388,16 +408,17 @@ public:
         eGodAct(board, eGodActType::lookForAttack),
         mCptr(c) {}
 
-    eTile* find(eTile* const t) {
-        if(!mCptr) return nullptr;
-        if(mCptr->tile() == t) return nullptr;
+    eMissileTarget find(eTile* const t) {
+        const auto null = static_cast<eTile*>(nullptr);
+        if(!mCptr) return null;
+        if(mCptr->tile() == t) return null;
         const auto b = t->underBuilding();
         if(b && eBuilding::sAttackable(b->type())) {
             mBTarget = b;
             return b->centerTile();
         } else {
             const auto& chars = t->characters();
-            if(chars.empty()) return nullptr;
+            if(chars.empty()) return null;
             for(const auto& cc : chars) {
                 if(mCptr == cc.get()) continue;
                 bool isGod = false;
@@ -410,9 +431,9 @@ public:
                 eHero::sCharacterToHeroType(cc->type(), &isHero);
                 if(isHero) continue;
                 mCTarget = cc;
-                return t;
+                return cc.get();
             }
-            return nullptr;
+            return null;
         }
     }
 
@@ -465,7 +486,8 @@ public:
                             const eCharacterActionType at,
                             const stdsptr<eGodAct>& act,
                             const eCharacterType chart,
-                            const eGodSound missileSound);
+                            const eGodSound missileSound,
+                            const int nMissiles = 1);
     bool lookForBlessCurse(const int dtime, int& time,
                            const int freq, const int range,
                            const double bless);
@@ -478,14 +500,14 @@ public:
 
     void spawnGodMissile(const eCharacterActionType at,
                          const eCharacterType chart,
-                         eTile* const target,
+                         const eMissileTarget& target,
                          const eGodSound sound,
                          const stdsptr<eGodAct>& act,
                          const stdsptr<eCharActFunc>& finishAttackA = nullptr);
     void spawnGodMultipleMissiles(
             const eCharacterActionType at,
             const eCharacterType chart,
-            eTile* const target,
+            const eMissileTarget& target,
             const eGodSound sound,
             const stdsptr<eGodAct>& playHitSound,
             const stdsptr<eCharActFunc>& finishA,

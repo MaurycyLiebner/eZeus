@@ -38,9 +38,10 @@ public:
     eAphroditeHelpAct(eGameBoard& board) :
         eAphroditeHelpAct(board, nullptr) {}
 
-    eTile* find(eTile* const t) {
+    eMissileTarget find(eTile* const t) {
         (void)t;
-        return nullptr;
+        const auto null = static_cast<eTile*>(nullptr);
+        return null;
     }
 
     void act() {
