@@ -184,7 +184,7 @@ void eInvasionHandler::initialize(eTile* const tile,
         stdsptr<eSoldier> s;
         switch(nat) {
         case eNationality::greek:
-            spawnSoldier<eGreekRockThrower>(mBoard, tile);
+            s = spawnSoldier<eGreekRockThrower>(mBoard, tile);
             break;
         case eNationality::trojan:
             s = spawnSoldier<eTrojanSpearthrower>(mBoard, tile);
