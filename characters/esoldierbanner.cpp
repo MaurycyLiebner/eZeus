@@ -280,11 +280,11 @@ void eSoldierBanner::read(eReadStream& src) {
     src >> mHome;
     src >> mAbroad;
     mTile = src.readTile(mBoard);
+    src >> mCount;
+    src >> mPlayerId;
     if(mPlayerId == 1 && mTile) {
         mTile->setSoldierBanner(this);
     }
-    src >> mCount;
-    src >> mPlayerId;
 
     int np;
     src >> np;
