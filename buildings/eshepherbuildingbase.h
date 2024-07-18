@@ -28,10 +28,13 @@ public:
                          const int maxEmployees);
     ~eShepherBuildingBase();
 
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
-    std::vector<eOverlay> getOverlays(const eTileSize size) const;
+    std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
+    std::vector<eOverlay> getOverlays(const eTileSize size) const override;
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 
     bool spawn();
 private:

@@ -58,6 +58,18 @@ void eShepherBuildingBase::timeChanged(const int by) {
     }
 }
 
+void eShepherBuildingBase::read(eReadStream& src) {
+    eResourceBuildingBase::read(src);
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mShepherd = static_cast<eResourceCollectorBase*>(c);
+    });
+}
+
+void eShepherBuildingBase::write(eWriteStream& dst) const {
+    eResourceBuildingBase::write(dst);
+    dst.writeCharacter(mShepherd.get());
+}
+
 bool eShepherBuildingBase::spawn() {
     if(resource() >= maxResource()) return false;
     const auto t = centerTile();
