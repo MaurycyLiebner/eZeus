@@ -86,6 +86,7 @@ void eInvasionHandler::initialize(eTile* const tile,
             mBanners.push_back(b);
             solds.push_back(b.get());
             b->setPlayerId(2);
+            b->backFromHome();
             b->moveTo(tx, ty);
         }
     };

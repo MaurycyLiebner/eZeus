@@ -1004,9 +1004,11 @@ void eGameBoard::addSoldier(const eCharacterType st) {
     b->moveToDefault();
 }
 
-void eGameBoard::removeSoldier(const eCharacterType st) {
+void eGameBoard::removeSoldier(const eCharacterType st,
+                               const bool skipNotHome) {
     for(const auto& b : mPalaceSoldierBanners) {
         if(b->isAbroad()) continue;
+        if(skipNotHome && !b->isHome()) continue;
         const auto bt = b->type();
         const int c = b->count();
         if(c <= 0) continue;
@@ -1023,9 +1025,10 @@ void eGameBoard::removeSoldier(const eCharacterType st) {
         }
         if(found) {
             b->decCount();
-            break;
+            return;
         }
     }
+    if(skipNotHome) removeSoldier(st, false);
 }
 
 void eGameBoard::distributeSoldiers() {
@@ -1760,12 +1763,18 @@ eMuseum* eGameBoard::museum() const {
 void eGameBoard::registerPalace(ePalace* const p) {
     if(!mRegisterBuildingsEnabled) return;
     mPalace = p;
+    updateMaxSoldiers();
+    distributeSoldiers();
+    consolidateSoldiers();
     if(mButtonVisUpdater) mButtonVisUpdater();
 }
 
 void eGameBoard::unregisterPalace() {
     if(!mRegisterBuildingsEnabled) return;
     mPalace = nullptr;
+    updateMaxSoldiers();
+    distributeSoldiers();
+    consolidateSoldiers();
     if(mButtonVisUpdater) mButtonVisUpdater();
 }
 

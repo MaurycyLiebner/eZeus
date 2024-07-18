@@ -313,7 +313,7 @@ void eSoldierAction::increment(const int by) {
         mGoToBannerCountdown -= by;
         if(mGoToBannerCountdown < 0) {
             mGoToBannerCountdown = __INT_MAX__;
-            const stdptr<eSoldierAction> tptr;
+            const stdptr<eSoldierAction> tptr(this);
             const auto taskFinished = [tptr]() {
                 if(!tptr) return;
                 tptr->mGoToBannerCountdown = 500;
