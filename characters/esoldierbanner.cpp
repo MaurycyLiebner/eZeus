@@ -206,14 +206,7 @@ void eSoldierBanner::backFromHome() {
 
 void eSoldierBanner::callSoldiers() {
     for(const auto s : mSoldiers) {
-        if(s->dead()) continue;
-        const auto tt = mPlaces[s];
-
-        const int ttx = tt->x();
-        const int tty = tt->y();
-
-        const auto a = s->soldierAction();
-        if(a) a->goTo(ttx, tty);
+        callSoldier(s);
     }
 }
 
@@ -225,6 +218,7 @@ bool eSoldierBanner::isGoingHome() const {
 void eSoldierBanner::addSoldier(eSoldier* const s) {
     mSoldiers.push_back(s);
     updatePlaces();
+    if(!mHome) callSoldier(s);
 }
 
 void eSoldierBanner::removeSoldier(eSoldier* const s) {
@@ -530,6 +524,18 @@ void eSoldierBanner::updateCount() {
         return;
     }
     updatePlaces();
+}
+
+void eSoldierBanner::callSoldier(eSoldier* const s) {
+    if(s->dead()) return;
+    const auto tt = place(s);
+    if(!tt) return;
+
+    const int ttx = tt->x();
+    const int tty = tt->y();
+
+    const auto a = s->soldierAction();
+    if(a) a->goTo(ttx, tty);
 }
 
 std::vector<eSoldier*> eSoldierBanner::notDead() const {
