@@ -169,7 +169,6 @@ void eSoldierAction::increment(const int by) {
             mRangeAttack = rangeAttackCheck;
             c->setActionType(eCharacterActionType::stand);
             c->setPlayFightSound(false);
-            setCurrentAction(nullptr);
             mLookForEnemy = lookForEnemyCheck;
         } else {
             return;
@@ -312,13 +311,17 @@ void eSoldierAction::increment(const int by) {
     if(!currentAction()) {
         mGoToBannerCountdown -= by;
         if(mGoToBannerCountdown < 0) {
-            mGoToBannerCountdown = __INT_MAX__;
+            mGoToBannerCountdown = 1000;
             const stdptr<eSoldierAction> tptr(this);
             const auto taskFinished = [tptr]() {
                 if(!tptr) return;
                 tptr->mGoToBannerCountdown = 500;
             };
-            goBackToBanner(taskFinished, taskFinished);
+            const auto taskFindFailed = [tptr]() {
+                if(!tptr) return;
+                tptr->mGoToBannerCountdown = 5000;
+            };
+            goBackToBanner(taskFindFailed, taskFinished);
         }
     }
 
