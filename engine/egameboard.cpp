@@ -82,6 +82,7 @@ eGameBoard::eGameBoard() :
 }
 
 eGameBoard::~eGameBoard() {
+    mRegisterBuildingsEnabled = false;
     clear();
 }
 
