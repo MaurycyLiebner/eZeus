@@ -1125,7 +1125,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 const auto& bnr = bnrs[id % bnrs.size()];
                 int texId;
                 if(b->selected()) {
-                    texId = (mFrame/10) % 6;
+                    texId = (mFrame/5) % 6;
                 } else {
                     texId = 6;
                 }
