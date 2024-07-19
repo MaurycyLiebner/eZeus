@@ -504,6 +504,12 @@ stdsptr<eBuilding> eBuildingReader::sRead(
     case eBuildingType::placeholder: {
         b = e::make_shared<ePlaceholder>(board);
     } break;
+
+    case eBuildingType::triremeWharf: {
+        eOrientation o;
+        src >> o;
+        b = e::make_shared<eTriremeWharf>(board, o);
+    } break;
     case eBuildingType::none:
     case eBuildingType::erase:
     case eBuildingType::bridge:

@@ -326,6 +326,12 @@ public:
     void loadFishingBoat();
     bool fTradeBoatLoaded = false;
     void loadTradeBoat();
+    bool fTriremeLoaded = false;
+    void loadTrireme();
+    bool fTriremeOverlayLoaded = false;
+    void loadTriremeOverlay();
+    bool fEnemyBoatLoaded = false;
+    void loadEnemyBoat();
     bool fDeerLoaded = false;
     void loadDeer();
     bool fGreekHopliteLoaded = false;
@@ -431,6 +437,9 @@ public:
 
     void loadBanners();
     bool fBannersLoaded = false;
+
+    void loadEliteCitizen();
+    bool fEliteCitizenLoaded = false;
 
     const int fTileW;
     const int fTileH;
@@ -584,6 +593,10 @@ public:
     eFishingBoatTextures fFishingBoat;
     eUrchinGathererTextures fUrchinGatherer;
     eTradeBoatTextures fTradeBoat;
+    eTradeBoatTextures fTrireme;
+    std::vector<eTextureCollection> fTriremeOverlay;
+    std::vector<eTextureCollection> fTriremeDieOverlay;
+    eTradeBoatTextures fEnemyBoat;
 
     eFightingCharacterTextures fDisgruntled;
     eFightingCharacterTextures fSick;
@@ -626,6 +639,8 @@ public:
     std::vector<eTextureCollection> fChariot;
 
     eBasicCharacterTextures fElephant;
+
+    eFightingCharacterTextures fEliteCitizen;
 };
 
 #endif // ECHARACTERTEXTURES_H

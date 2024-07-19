@@ -89,6 +89,10 @@
 
 #include "heroes/eachilles.h"
 
+#include "characters/eelitecitizen.h"
+#include "characters/etrireme.h"
+#include "characters/eenemyboat.h"
+
 stdsptr<eCharacter> eCharacter::sCreate(
         const eCharacterType t, eGameBoard& board) {
     switch(t) {
@@ -334,6 +338,13 @@ stdsptr<eCharacter> eCharacter::sCreate(
         return e::make_shared<eArcherPoseidon>(board);
     case eCharacterType::chariotPoseidon:
         return e::make_shared<eChariotPoseidon>(board);
+
+    case eCharacterType::eliteCitizen:
+        return e::make_shared<eEliteCitizen>(board);
+    case eCharacterType::trireme:
+        return e::make_shared<eTrireme>(board);
+    case eCharacterType::enemyBoat:
+        return e::make_shared<eEnemyBoat>(board);
     }
     return nullptr;
 }

@@ -375,6 +375,21 @@ void eGameTextures::loadTradeBoat() {
     });
 }
 
+void eGameTextures::loadTrireme() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadTrireme();
+        c.loadTriremeOverlay();
+    });
+}
+
+void eGameTextures::loadEnemyBoat() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadEnemyBoat();
+    });
+}
+
 void eGameTextures::loadDeer() {
     loadTexture([](const int i) {
         auto& c = sCharacterTextures[i];
@@ -1885,6 +1900,13 @@ void eGameTextures::loadPoseidonTrees() {
     loadTexture([](const int i) {
         auto& c = sTerrainTextures[i];
         c.loadPoseidonTrees();
+    });
+}
+
+void eGameTextures::loadEliteCitizen() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadEliteCitizen();
     });
 }
 

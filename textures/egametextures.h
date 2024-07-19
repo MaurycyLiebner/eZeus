@@ -81,6 +81,8 @@ public:
     static void loadUrchinGatherer();
     static void loadFishingBoat();
     static void loadTradeBoat();
+    static void loadTrireme();
+    static void loadEnemyBoat();
     static void loadDeer();
     static void loadGreekHoplite();
     static void loadGreekHorseman();
@@ -323,6 +325,8 @@ public:
     static void loadBull();
 
     static void loadPoseidonTrees();
+
+    static void loadEliteCitizen();
 
     static bool initialize(SDL_Renderer* const r);
     static bool loadNextMenu(const eSettings& settings,

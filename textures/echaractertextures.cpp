@@ -408,6 +408,8 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fUrchinGatherer(renderer),
 
     fTradeBoat(renderer),
+    fTrireme(renderer),
+    fEnemyBoat(renderer),
 
     fDisgruntled(renderer),
     fSick(renderer),
@@ -423,7 +425,9 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
 
     fChariotVendor(renderer),
 
-    fElephant(renderer) {
+    fElephant(renderer),
+
+    fEliteCitizen(renderer) {
 
 }
 
@@ -1322,7 +1326,7 @@ void eCharacterTextures::loadTradeBoat() {
 
     for(int i = 10421; i < 10484;) {
         for(int j = 0; j < 8; j++, i += 2) {
-            loader.load(10421, i, fTradeBoat.fSwim[j]);
+            loader.load(10420, i, fTradeBoat.fSwim[j]);
         }
     }
 
@@ -1330,14 +1334,14 @@ void eCharacterTextures::loadTradeBoat() {
         fTradeBoat.fDie.emplace_back(fRenderer);
     }
 
-    for(int i = 10484; i < 10564;) {
+    for(int i = 10484; i < 10580;) {
         for(int j = 0; j < 8; j++, i++) {
-            loader.load(10421, i, fTradeBoat.fDie[j]);
+            loader.load(10420, i, fTradeBoat.fDie[j]);
         }
     }
 
     for(int i = 10580; i < 10588; i++) {
-        loader.load(10421, i, fTradeBoat.fStand);
+        loader.load(10420, i, fTradeBoat.fStand);
     }
 }
 

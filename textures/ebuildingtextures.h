@@ -369,6 +369,14 @@ public:
     eTextureCollection fSculptureStudioOverlay;
 
     eTextureCollection fTriremeWharf;
+    eTextureCollection fTriremeWharfOverlay1BL;
+    eTextureCollection fTriremeWharfOverlay1BR;
+    eTextureCollection fTriremeWharfOverlay1TL;
+    eTextureCollection fTriremeWharfOverlay1TR;
+    eTextureCollection fTriremeWharfOverlay2BL;
+    eTextureCollection fTriremeWharfOverlay2BR;
+    eTextureCollection fTriremeWharfOverlay2TL;
+    eTextureCollection fTriremeWharfOverlay2TR;
 
     std::shared_ptr<eTexture> fHorseRanch;
     eTextureCollection fHorseRanchOverlay;

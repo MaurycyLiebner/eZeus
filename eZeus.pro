@@ -124,6 +124,7 @@ SOURCES += \
         buildings/etimbermill.cpp \
         buildings/etower.cpp \
         buildings/etradepost.cpp \
+        buildings/etriremewharf.cpp \
         buildings/euniversity.cpp \
         buildings/eurchinquay.cpp \
         buildings/evendor.cpp \
@@ -226,6 +227,7 @@ SOURCES += \
         characters/eatlanteanhoplite.cpp \
         characters/ebasicpatroler.cpp \
         characters/eboar.cpp \
+        characters/eboatbase.cpp \
         characters/ebronzeminer.cpp \
         characters/ebutcher.cpp \
         characters/ecarttransporter.cpp \
@@ -247,6 +249,8 @@ SOURCES += \
         characters/eegyptianarcher.cpp \
         characters/eegyptianchariot.cpp \
         characters/eegyptianhoplite.cpp \
+        characters/eelitecitizen.cpp \
+        characters/eenemyboat.cpp \
         characters/eenlistedforces.cpp \
         characters/efightingpatroler.cpp \
         characters/efirefighter.cpp \
@@ -302,6 +306,7 @@ SOURCES += \
         characters/etradeboat.cpp \
         characters/etrader.cpp \
         characters/etrailer.cpp \
+        characters/etrireme.cpp \
         characters/etrojanhoplite.cpp \
         characters/etrojanhorseman.cpp \
         characters/etrojanspearthrower.cpp \
@@ -453,6 +458,7 @@ SOURCES += \
         textures/echaractertextures6.cpp \
         textures/echaractertextures7.cpp \
         textures/echaractertextures8.cpp \
+        textures/echaractertextures9.cpp \
         textures/edestructiontextures.cpp \
         textures/efertiletodry.cpp \
         textures/eforesttodry.cpp \
@@ -719,6 +725,7 @@ HEADERS += \
     buildings/etimbermill.h \
     buildings/etower.h \
     buildings/etradepost.h \
+    buildings/etriremewharf.h \
     buildings/euniversity.h \
     buildings/eurchinquay.h \
     buildings/evendor.h \
@@ -819,6 +826,7 @@ HEADERS += \
     characters/eatlanteanhoplite.h \
     characters/ebasicpatroler.h \
     characters/eboar.h \
+    characters/eboatbase.h \
     characters/ebronzeminer.h \
     characters/ebutcher.h \
     characters/ecarttransporter.h \
@@ -839,6 +847,8 @@ HEADERS += \
     characters/eegyptianarcher.h \
     characters/eegyptianchariot.h \
     characters/eegyptianhoplite.h \
+    characters/eelitecitizen.h \
+    characters/eenemyboat.h \
     characters/eenlistedforces.h \
     characters/efightingpatroler.h \
     characters/efirefighter.h \
@@ -894,6 +904,7 @@ HEADERS += \
     characters/etradeboat.h \
     characters/etrader.h \
     characters/etrailer.h \
+    characters/etrireme.h \
     characters/etrojanhoplite.h \
     characters/etrojanhorseman.h \
     characters/etrojanspearthrower.h \
@@ -1470,6 +1481,10 @@ HEADERS += \
     spriteData/elephant30.h \
     spriteData/elephant45.h \
     spriteData/elephant60.h \
+    spriteData/eliteCitizen15.h \
+    spriteData/eliteCitizen30.h \
+    spriteData/eliteCitizen45.h \
+    spriteData/eliteCitizen60.h \
     spriteData/eliteHouse15.h \
     spriteData/eliteHouse30.h \
     spriteData/eliteHouse45.h \
@@ -1482,6 +1497,10 @@ HEADERS += \
     spriteData/empireFigures30.h \
     spriteData/empireFigures45.h \
     spriteData/empireFigures60.h \
+    spriteData/enemyBoat15.h \
+    spriteData/enemyBoat30.h \
+    spriteData/enemyBoat45.h \
+    spriteData/enemyBoat60.h \
     spriteData/espritedata.h \
     spriteData/fire115.h \
     spriteData/fire130.h \
@@ -2051,6 +2070,10 @@ HEADERS += \
     spriteData/poseidonUnits30.h \
     spriteData/poseidonUnits45.h \
     spriteData/poseidonUnits60.h \
+    spriteData/priest15.h \
+    spriteData/priest30.h \
+    spriteData/priest45.h \
+    spriteData/priest60.h \
     spriteData/roadblock15.h \
     spriteData/roadblock30.h \
     spriteData/roadblock45.h \
@@ -2215,10 +2238,26 @@ HEADERS += \
     spriteData/transporter30.h \
     spriteData/transporter45.h \
     spriteData/transporter60.h \
+    spriteData/trireme15.h \
+    spriteData/trireme30.h \
+    spriteData/trireme45.h \
+    spriteData/trireme60.h \
+    spriteData/triremeOverlay15.h \
+    spriteData/triremeOverlay30.h \
+    spriteData/triremeOverlay45.h \
+    spriteData/triremeOverlay60.h \
     spriteData/triremeWharf15.h \
     spriteData/triremeWharf30.h \
     spriteData/triremeWharf45.h \
     spriteData/triremeWharf60.h \
+    spriteData/triremeWharfOverlay115.h \
+    spriteData/triremeWharfOverlay130.h \
+    spriteData/triremeWharfOverlay145.h \
+    spriteData/triremeWharfOverlay160.h \
+    spriteData/triremeWharfOverlay215.h \
+    spriteData/triremeWharfOverlay230.h \
+    spriteData/triremeWharfOverlay245.h \
+    spriteData/triremeWharfOverlay260.h \
     spriteData/trojanHoplite15.h \
     spriteData/trojanHoplite30.h \
     spriteData/trojanHoplite45.h \
@@ -2654,9 +2693,11 @@ DISTFILES += \
     textureTemplates/egyptianChariot \
     textureTemplates/egyptianHoplite \
     textureTemplates/elephant \
+    textureTemplates/eliteCitizen \
     textureTemplates/eliteHouse \
     textureTemplates/empireBits \
     textureTemplates/empireFigures \
+    textureTemplates/enemyBoat \
     textureTemplates/fire1 \
     textureTemplates/fireFighter \
     textureTemplates/fish \
@@ -2799,6 +2840,7 @@ DISTFILES += \
     textureTemplates/poseidonTowerArcher \
     textureTemplates/poseidonTrees \
     textureTemplates/poseidonUnits \
+    textureTemplates/priest \
     textureTemplates/roadblock \
     textureTemplates/rock \
     textureTemplates/rockThrower \
@@ -2839,7 +2881,11 @@ DISTFILES += \
     textureTemplates/tradingPostOverlay \
     textureTemplates/trailer \
     textureTemplates/transporter \
+    textureTemplates/trireme \
+    textureTemplates/triremeOverlay \
     textureTemplates/triremeWharf \
+    textureTemplates/triremeWharfOverlay1 \
+    textureTemplates/triremeWharfOverlay2 \
     textureTemplates/trojanHoplite \
     textureTemplates/trojanHorseman \
     textureTemplates/trojanSpearthrower \

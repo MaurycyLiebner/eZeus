@@ -147,6 +147,16 @@
 #include "spriteData/triremeWharf45.h"
 #include "spriteData/triremeWharf60.h"
 
+#include "spriteData/triremeWharfOverlay115.h"
+#include "spriteData/triremeWharfOverlay130.h"
+#include "spriteData/triremeWharfOverlay145.h"
+#include "spriteData/triremeWharfOverlay160.h"
+
+#include "spriteData/triremeWharfOverlay215.h"
+#include "spriteData/triremeWharfOverlay230.h"
+#include "spriteData/triremeWharfOverlay245.h"
+#include "spriteData/triremeWharfOverlay260.h"
+
 #include "spriteData/horseRanch15.h"
 #include "spriteData/horseRanch30.h"
 #include "spriteData/horseRanch45.h"
@@ -669,6 +679,15 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fSculptureStudioOverlay(renderer),
 
     fTriremeWharf(renderer),
+    fTriremeWharfOverlay1BL(renderer),
+    fTriremeWharfOverlay1BR(renderer),
+    fTriremeWharfOverlay1TL(renderer),
+    fTriremeWharfOverlay1TR(renderer),
+    fTriremeWharfOverlay2BL(renderer),
+    fTriremeWharfOverlay2BR(renderer),
+    fTriremeWharfOverlay2TL(renderer),
+    fTriremeWharfOverlay2TR(renderer),
+
     fHorseRanchOverlay(renderer),
     fCorralOverlay(renderer),
     fCorralProcessingOverlay(renderer),
@@ -1525,16 +1544,62 @@ void eBuildingTextures::loadTriremeWharf() {
     if(fTriremeWharfLoaded) return;
     fTriremeWharfLoaded = true;
 
-    const auto& sds = spriteData(fTileH,
-                                 eTriremeWharfSpriteData15,
-                                 eTriremeWharfSpriteData30,
-                                 eTriremeWharfSpriteData45,
-                                 eTriremeWharfSpriteData60);
-    eSpriteLoader loader(fTileH, "triremeWharf", sds,
-                         nullptr, fRenderer);
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eTriremeWharfSpriteData15,
+                                     eTriremeWharfSpriteData30,
+                                     eTriremeWharfSpriteData45,
+                                     eTriremeWharfSpriteData60);
+        eSpriteLoader loader(fTileH, "triremeWharf", sds,
+                             nullptr, fRenderer);
 
-    for(int i = 1; i < 5; i++) {
-        loader.load(1, i, fTriremeWharf);
+        for(int i = 1; i < 5; i++) {
+            loader.load(1, i, fTriremeWharf);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eTriremeWharfOverlay1SpriteData15,
+                                     eTriremeWharfOverlay1SpriteData30,
+                                     eTriremeWharfOverlay1SpriteData45,
+                                     eTriremeWharfOverlay1SpriteData60);
+        eSpriteLoader loader(fTileH, "triremeWharfOverlay1", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        for(int i = 1338; i < 1366; i++) {
+            loader.load(1338, i, fTriremeWharfOverlay1BL);
+        }
+        for(int i = 1366; i < 1394; i++) {
+            loader.load(1338, i, fTriremeWharfOverlay1BR);
+        }
+        for(int i = 1394; i < 1422; i++) {
+            loader.load(1338, i, fTriremeWharfOverlay1TL);
+        }
+        for(int i = 1422; i < 1450; i++) {
+            loader.load(1338, i, fTriremeWharfOverlay1TR);
+        }
+    }
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eTriremeWharfOverlay2SpriteData15,
+                                     eTriremeWharfOverlay2SpriteData30,
+                                     eTriremeWharfOverlay2SpriteData45,
+                                     eTriremeWharfOverlay2SpriteData60);
+        eSpriteLoader loader(fTileH, "triremeWharfOverlay2", sds,
+                             &eSprAmbientOffset, fRenderer);
+
+        for(int i = 1450; i < 1460; i++) {
+            loader.load(1450, i, fTriremeWharfOverlay2BL);
+        }
+        for(int i = 1460; i < 1470; i++) {
+            loader.load(1450, i, fTriremeWharfOverlay2BR);
+        }
+        for(int i = 1470; i < 1480; i++) {
+            loader.load(1450, i, fTriremeWharfOverlay2TL);
+        }
+        for(int i = 1480; i < 1490; i++) {
+            loader.load(1450, i, fTriremeWharfOverlay2TR);
+        }
     }
 }
 

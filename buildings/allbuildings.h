@@ -104,4 +104,6 @@
 #include "buildings/eruins.h"
 #include "buildings/eplaceholder.h"
 
+#include "buildings/etriremewharf.h"
+
 #endif // ALLBUILDINGS_H

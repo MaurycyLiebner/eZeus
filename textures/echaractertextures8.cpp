@@ -82,7 +82,32 @@
 #include "spriteData/poseidonTowerArcher45.h"
 #include "spriteData/poseidonTowerArcher60.h"
 
+#include "spriteData/triremeOverlay15.h"
+#include "spriteData/triremeOverlay30.h"
+#include "spriteData/triremeOverlay45.h"
+#include "spriteData/triremeOverlay60.h"
+
 #include "offsets/PoseidonImps.h"
+
+void eCharacterTextures::loadTriremeOverlay() {
+    if(fTriremeOverlayLoaded) return;
+    fTriremeOverlayLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eTriremeOverlaySpriteData15,
+                                 eTriremeOverlaySpriteData30,
+                                 eTriremeOverlaySpriteData45,
+                                 eTriremeOverlaySpriteData60);
+    eSpriteLoader loader(fTileH, "triremeOverlay", sds,
+                         &ePoseidonImpsOffset, fRenderer);
+    for(int j = 0; j < 8; j++) {
+        fTriremeDieOverlay.emplace_back(fRenderer);
+    }
+    loader.loadSkipFlipped(8300, 8300, 8428, fTriremeDieOverlay);
+    for(int j = 0; j < 8; j++) {
+        fTriremeOverlay.emplace_back(fRenderer);
+    }
+    loader.loadSkipFlipped(8300, 8428, 8524, fTriremeOverlay);
+}
 
 void eCharacterTextures::loadPoseidonTowerArcher() {
     if(fPoseidonTowerArcherLoaded) return;

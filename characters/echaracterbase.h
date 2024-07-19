@@ -160,7 +160,11 @@ enum class eCharacterType {
     jason, // dragon, talos
     odysseus, // cyclops, scylla
     perseus, // medusa, kraken
-    theseus // calydonianBoar, minotaur
+    theseus, // calydonianBoar, minotaur
+
+    eliteCitizen,
+    trireme,
+    enemyBoat
 };
 
 class eCharacterBase {

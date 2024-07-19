@@ -1,12 +1,11 @@
 #ifndef ETRADEBOAT_H
 #define ETRADEBOAT_H
 
-#include "echaracter.h"
+#include "eboatbase.h"
 
-class eTradeBoat : public eCharacter {
+class eTradeBoat : public eBoatBase {
 public:
     eTradeBoat(eGameBoard& board);
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 };
 
 #endif // ETRADEBOAT_H
