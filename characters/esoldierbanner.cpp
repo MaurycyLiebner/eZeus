@@ -253,7 +253,7 @@ void eSoldierBanner::incCount() {
 }
 
 void eSoldierBanner::decCount() {
-    mCount--;
+    if(mCount > 0) mCount--;
     updateCount();
 }
 
@@ -437,11 +437,11 @@ std::string eSoldierBanner::sName(
 
 void eSoldierBanner::updatePlaces() {
     if(!mTile) return;
-    const auto soldiers = notDead();
-    if(soldiers.empty()) return;
+    purgeDead();
+    if(mSoldiers.empty()) return;
 
     int isld = 0;
-    const int slds = soldiers.size();
+    const int slds = mSoldiers.size();
 
     const auto prcsTile = [&](const int i, const int j) {
         if(isld >= slds) return false;
@@ -456,7 +456,7 @@ void eSoldierBanner::updatePlaces() {
             if(!eWalkableHelpers::sBuildingsWalkable(tt)) return false;
         }
 
-        const auto s = soldiers[isld++];
+        const auto s = mSoldiers[isld++];
         mPlaces[s] = tt;
         return false;
     };
@@ -470,8 +470,8 @@ void eSoldierBanner::updatePlaces() {
 void eSoldierBanner::updateCount() {
     if(mMilitaryAid) return;
     if(mPlayerId != 1) return;
-    auto soldiers = notDead();
-    const int n = soldiers.size();
+    purgeDead();
+    const int n = mSoldiers.size();
     if(!mHome && !mAbroad) {
         for(int i = n; i < mCount; i++) {
             eCharacterType cht;
@@ -498,17 +498,16 @@ void eSoldierBanner::updateCount() {
             if(!home) break;
             createSoldier(home->centerTile());
         }
+    }
 
-        for(int i = mCount; i < n; i++) {
-            const auto s = soldiers.back();
-            soldiers.pop_back();
-            const auto a = s->soldierAction();
-            if(a) a->goHome();
-            s->setBanner(nullptr);
-        }
+    while((int)mSoldiers.size() > std::max(0, mCount)) {
+        const auto s = mSoldiers.back();
+        const auto a = s->soldierAction();
+        if(a) a->goHome();
+        s->setBanner(nullptr);
     }
     const auto tptr = ref<eSoldierBanner>();
-    if(mCount <= 0 && soldiers.size() == 0) {
+    if(mCount <= 0 && mSoldiers.size() == 0) {
         switch(mType) {
         case eBannerType::rockThrower:
         case eBannerType::hoplite:
@@ -538,12 +537,13 @@ void eSoldierBanner::callSoldier(eSoldier* const s) {
     if(a) a->goTo(ttx, tty);
 }
 
-std::vector<eSoldier*> eSoldierBanner::notDead() const {
-    std::vector<eSoldier*> soldiers;
-    soldiers.reserve(mSoldiers.size());
-    for(const auto s : mSoldiers) {
-        if(s->dead()) continue;
-        soldiers.push_back(s);
+void eSoldierBanner::purgeDead() {
+    for(int i = 0; i < (int)mSoldiers.size(); i++) {
+        const auto s = mSoldiers[i];
+        const bool dead = s->dead();
+        if(dead) {
+            removeSoldier(s);
+            i--;
+        }
     }
-    return soldiers;
 }

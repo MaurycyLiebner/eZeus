@@ -92,7 +92,7 @@ private:
     void updatePlaces();
     void updateCount();
     void callSoldier(eSoldier* const s);
-    std::vector<eSoldier*> notDead() const;
+    void purgeDead();
 
     const eBannerType mType;
     const int mId;
