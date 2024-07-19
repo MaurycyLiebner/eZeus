@@ -447,7 +447,7 @@ public:
                 mBTarget->collapse();
                 eSounds::playCollapseSound();
             }
-        } else if(mCTarget) {
+        } else if(mCTarget && !mCTarget->dead()) {
             mCTarget->killWithCorpse();
         }
     }

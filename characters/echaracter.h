@@ -165,7 +165,7 @@ public:
     void call() override {
         if(!mTptr) return;
         const auto t = mTptr.get();
-        if(mWithCorpse) t->killWithCorpse();
+        if(mWithCorpse && !t->dead()) t->killWithCorpse();
         else t->kill();
     }
 

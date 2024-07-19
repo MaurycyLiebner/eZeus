@@ -1091,7 +1091,7 @@ void eGameBoard::walkerKilled() {
 }
 
 void eGameBoard::rockThrowerKilled() {
-    killCommonFolks(24);
+    killCommonFolks(4);
 }
 
 void eGameBoard::hopliteKilled() {
@@ -1105,6 +1105,7 @@ void eGameBoard::hopliteKilled() {
             const int shk = std::min(4, pop);
             eh->kill(shk);
             eh->removeArmor();
+            return;
         }
     }
 }
@@ -1121,6 +1122,7 @@ void eGameBoard::horsemanKilled() {
             eh->kill(shk);
             eh->removeArmor();
             eh->removeHorse();
+            return;
         }
     }
 }

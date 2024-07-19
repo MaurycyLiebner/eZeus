@@ -314,8 +314,7 @@ void eGodAttackAction::initialize() {
             const auto cType = c->type();
             const bool r = eDionysusFollowAction::sShouldFollow(cType);
             if(!r) continue;
-            const auto ccaa = c->actionType();
-            if(ccaa == eCharacterActionType::die) continue;
+            if(c->dead()) continue;
             c->killWithCorpse();
         }
     }
