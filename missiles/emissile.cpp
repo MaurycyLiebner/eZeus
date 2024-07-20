@@ -7,6 +7,7 @@
 #include "erockmissile.h"
 #include "egodmissile.h"
 #include "earrowmissile.h"
+#include "espearmissile.h"
 
 eMissile::eMissile(eGameBoard& board, const eMissileType type,
                    const std::vector<ePathPoint>& path) :
@@ -80,6 +81,8 @@ stdsptr<eMissile> eMissile::sCreate(
         return e::make_shared<eGodMissile>(brd);
     case eMissileType::arrow:
         return e::make_shared<eArrowMissile>(brd);
+    case eMissileType::spear:
+        return e::make_shared<eSpearMissile>(brd);
     }
     return nullptr;
 }

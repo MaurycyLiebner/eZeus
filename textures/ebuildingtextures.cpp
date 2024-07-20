@@ -597,6 +597,16 @@
 #include "spriteData/deerTop45.h"
 #include "spriteData/deerTop60.h"
 
+#include "spriteData/altarSheepOverlay15.h"
+#include "spriteData/altarSheepOverlay30.h"
+#include "spriteData/altarSheepOverlay45.h"
+#include "spriteData/altarSheepOverlay60.h"
+
+#include "spriteData/altarGoodsOverlay15.h"
+#include "spriteData/altarGoodsOverlay30.h"
+#include "spriteData/altarGoodsOverlay45.h"
+#include "spriteData/altarGoodsOverlay60.h"
+
 #include "offsets/PoseidonImps.h"
 
 #include "textures/espriteloader.h"
@@ -794,6 +804,9 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
 
     fSanctuaryTiles(renderer),
     fSanctuarySpace(renderer),
+    fAltarBullOverlay(renderer),
+    fAltarSheepOverlay(renderer),
+    fAltarGoodsOverlay(renderer),
 
     fHeroStatues(renderer),
 
@@ -831,6 +844,40 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fColumn5(renderer),
 
     fSpawner(renderer) {}
+
+void eBuildingTextures::loadAltarSheepOverlay() {
+    if(fAltarSheepOverlayLoaded) return;
+    fAltarSheepOverlayLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eAltarSheepOverlaySpriteData15,
+                                 eAltarSheepOverlaySpriteData30,
+                                 eAltarSheepOverlaySpriteData45,
+                                 eAltarSheepOverlaySpriteData60);
+    eSpriteLoader loader(fTileH, "altarSheepOverlay", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 493; i < 517; i++) {
+        loader.load(493, i, fAltarSheepOverlay);
+    }
+}
+
+void eBuildingTextures::loadAltarGoodsOverlay() {
+    if(fAltarGoodsOverlayLoaded) return;
+    fAltarGoodsOverlayLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eAltarGoodsOverlaySpriteData15,
+                                 eAltarGoodsOverlaySpriteData30,
+                                 eAltarGoodsOverlaySpriteData45,
+                                 eAltarGoodsOverlaySpriteData60);
+    eSpriteLoader loader(fTileH, "altarGoodsOverlay", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 517; i < 529; i++) {
+        loader.load(517, i, fAltarGoodsOverlay);
+    }
+}
 
 void eBuildingTextures::loadCommonHouse() {
     if(fCommonHouseLoaded) return;
@@ -2740,8 +2787,8 @@ void eBuildingTextures::loadChariotVendor() {
 }
 
 void eBuildingTextures::loadWineVendor() {
-    if(fWIneVendorLoaded) return;
-    fWIneVendorLoaded = true;
+    if(fWineVendorLoaded) return;
+    fWineVendorLoaded = true;
     const auto& sds = spriteData(fTileH,
                                  eWineVendorOverlaySpriteData15,
                                  eWineVendorOverlaySpriteData30,

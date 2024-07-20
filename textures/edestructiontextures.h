@@ -22,6 +22,12 @@ public:
 
     bool fRockLoaded = false;
     void loadRock();
+    bool fBlackSpearLoaded = false;
+    void loadBlackSpear();
+    bool fSpearLoaded = false;
+    void loadSpear();
+    bool fBlackArrowLoaded = false;
+    void loadBlackArrow();
     bool fArrowLoaded = false;
     void loadArrow();
 
@@ -59,6 +65,9 @@ public:
     eTextureCollection fCursed;
 
     eTextureCollection fRock;
+    eTextureCollection fBlackSpear;
+    eTextureCollection fSpear;
+    eTextureCollection fBlackArrow;
     eTextureCollection fArrow;
 
     eTextureCollection fBless;

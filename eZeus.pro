@@ -278,6 +278,7 @@ SOURCES += \
         characters/emayanhoplite.cpp \
         characters/eoceanidhoplite.cpp \
         characters/eoceanidspearthrower.cpp \
+        characters/eorichalcminer.cpp \
         characters/eox.cpp \
         characters/epeddler.cpp \
         characters/epersianarcher.cpp \
@@ -431,9 +432,11 @@ SOURCES += \
         gameEvents/etroopsrequestfulfilledevent.cpp \
         main.cpp \
         missiles/earrowmissile.cpp \
+        missiles/earrowspearbase.cpp \
         missiles/egodmissile.cpp \
         missiles/emissile.cpp \
         missiles/erockmissile.cpp \
+        missiles/espearmissile.cpp \
         pointers/eobject.cpp \
         pointers/estdselfref.cpp \
         spawners/eanimalspawner.cpp \
@@ -876,6 +879,7 @@ HEADERS += \
     characters/emayanhoplite.h \
     characters/eoceanidhoplite.h \
     characters/eoceanidspearthrower.h \
+    characters/eorichalcminer.h \
     characters/eox.h \
     characters/epeddler.h \
     characters/epersianarcher.h \
@@ -1038,9 +1042,11 @@ HEADERS += \
     gameEvents/etroopsrequestevent.h \
     gameEvents/etroopsrequestfulfilledevent.h \
     missiles/earrowmissile.h \
+    missiles/earrowspearbase.h \
     missiles/egodmissile.h \
     missiles/emissile.h \
     missiles/erockmissile.h \
+    missiles/espearmissile.h \
     offsets/PoseidonImps.h \
     offsets/Poseidon_Atalanta.h \
     offsets/Poseidon_Atlantean.h \
@@ -1121,6 +1127,18 @@ HEADERS += \
     spriteData/agora30.h \
     spriteData/agora45.h \
     spriteData/agora60.h \
+    spriteData/altarBullOverlay15.h \
+    spriteData/altarBullOverlay30.h \
+    spriteData/altarBullOverlay45.h \
+    spriteData/altarBullOverlay60.h \
+    spriteData/altarGoodsOverlay15.h \
+    spriteData/altarGoodsOverlay30.h \
+    spriteData/altarGoodsOverlay45.h \
+    spriteData/altarGoodsOverlay60.h \
+    spriteData/altarSheepOverlay15.h \
+    spriteData/altarSheepOverlay30.h \
+    spriteData/altarSheepOverlay45.h \
+    spriteData/altarSheepOverlay60.h \
     spriteData/amazonArcher15.h \
     spriteData/amazonArcher30.h \
     spriteData/amazonArcher45.h \
@@ -1257,6 +1275,14 @@ HEADERS += \
     spriteData/birdBath30.h \
     spriteData/birdBath45.h \
     spriteData/birdBath60.h \
+    spriteData/blackArrow15.h \
+    spriteData/blackArrow30.h \
+    spriteData/blackArrow45.h \
+    spriteData/blackArrow60.h \
+    spriteData/blackSpear15.h \
+    spriteData/blackSpear30.h \
+    spriteData/blackSpear45.h \
+    spriteData/blackSpear60.h \
     spriteData/blankStatue15.h \
     spriteData/blankStatue30.h \
     spriteData/blankStatue45.h \
@@ -1902,6 +1928,10 @@ HEADERS += \
     spriteData/orangesCart30.h \
     spriteData/orangesCart45.h \
     spriteData/orangesCart60.h \
+    spriteData/orichalcMiner15.h \
+    spriteData/orichalcMiner30.h \
+    spriteData/orichalcMiner45.h \
+    spriteData/orichalcMiner60.h \
     spriteData/orrery15.h \
     spriteData/orrery30.h \
     spriteData/orrery45.h \
@@ -2138,6 +2168,10 @@ HEADERS += \
     spriteData/silverMiner30.h \
     spriteData/silverMiner45.h \
     spriteData/silverMiner60.h \
+    spriteData/spear15.h \
+    spriteData/spear30.h \
+    spriteData/spear45.h \
+    spriteData/spear60.h \
     spriteData/sphinx15.h \
     spriteData/sphinx30.h \
     spriteData/sphinx45.h \
@@ -2603,6 +2637,9 @@ DISTFILES += \
     textureTemplates/achilles \
     textureTemplates/actor \
     textureTemplates/agora \
+    textureTemplates/altarBullOverlay \
+    textureTemplates/altarGoodsOverlay \
+    textureTemplates/altarSheepOverlay \
     textureTemplates/amazonArcher \
     textureTemplates/amazonSpear \
     textureTemplates/aphrodite \
@@ -2637,6 +2674,8 @@ DISTFILES += \
     textureTemplates/bench \
     textureTemplates/bibliotheke \
     textureTemplates/birdBath \
+    textureTemplates/blackArrow \
+    textureTemplates/blackSpear \
     textureTemplates/blankStatue \
     textureTemplates/bless \
     textureTemplates/blessed \
@@ -2798,6 +2837,7 @@ DISTFILES += \
     textureTemplates/orangeTender \
     textureTemplates/orangeTendersLodge \
     textureTemplates/orangesCart \
+    textureTemplates/orichalcMiner \
     textureTemplates/orrery \
     textureTemplates/ox \
     textureTemplates/oxHandler \
@@ -2857,6 +2897,7 @@ DISTFILES += \
     textureTemplates/shortObelisk \
     textureTemplates/sick \
     textureTemplates/silverMiner \
+    textureTemplates/spear \
     textureTemplates/sphinx \
     textureTemplates/spring \
     textureTemplates/stadium \

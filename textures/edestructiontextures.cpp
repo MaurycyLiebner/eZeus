@@ -83,6 +83,21 @@
 #include "spriteData/rock45.h"
 #include "spriteData/rock60.h"
 
+#include "spriteData/blackSpear15.h"
+#include "spriteData/blackSpear30.h"
+#include "spriteData/blackSpear45.h"
+#include "spriteData/blackSpear60.h"
+
+#include "spriteData/spear15.h"
+#include "spriteData/spear30.h"
+#include "spriteData/spear45.h"
+#include "spriteData/spear60.h"
+
+#include "spriteData/blackArrow15.h"
+#include "spriteData/blackArrow30.h"
+#include "spriteData/blackArrow45.h"
+#include "spriteData/blackArrow60.h"
+
 #include "spriteData/arrow15.h"
 #include "spriteData/arrow30.h"
 #include "spriteData/arrow45.h"
@@ -99,6 +114,9 @@ eDestructionTextures::eDestructionTextures(const int tileW, const int tileH,
     fCursed(renderer),
 
     fRock(renderer),
+    fBlackSpear(renderer),
+    fSpear(renderer),
+    fBlackArrow(renderer),
     fArrow(renderer),
 
     fBless(renderer),
@@ -212,6 +230,57 @@ void eDestructionTextures::loadRock() {
 
     for(int i = 1490; i < 1492; i++) {
         loader.load(1490, i, fRock);
+    }
+}
+
+void eDestructionTextures::loadBlackSpear() {
+    if(fBlackSpearLoaded) return;
+    fBlackSpearLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eBlackSpearSpriteData15,
+                                 eBlackSpearSpriteData30,
+                                 eBlackSpearSpriteData45,
+                                 eBlackSpearSpriteData60);
+    eSpriteLoader loader(fTileH, "blackSpear", sds,
+                         &eSprAmbientOffset, fRenderer);
+
+    for(int i = 2213; i < 2245; i++) {
+        loader.load(2213, i, fBlackSpear);
+    }
+}
+
+void eDestructionTextures::loadSpear() {
+    if(fSpearLoaded) return;
+    fSpearLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eSpearSpriteData15,
+                                 eSpearSpriteData30,
+                                 eSpearSpriteData45,
+                                 eSpearSpriteData60);
+    eSpriteLoader loader(fTileH, "spear", sds,
+                         &eSprAmbientOffset, fRenderer);
+
+    for(int i = 2245; i < 2277; i++) {
+        loader.load(2245, i, fSpear);
+    }
+}
+
+void eDestructionTextures::loadBlackArrow() {
+    if(fBlackArrowLoaded) return;
+    fBlackArrowLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eBlackArrowSpriteData15,
+                                 eBlackArrowSpriteData30,
+                                 eBlackArrowSpriteData45,
+                                 eBlackArrowSpriteData60);
+    eSpriteLoader loader(fTileH, "blackArrow", sds,
+                         &eSprAmbientOffset, fRenderer);
+
+    for(int i = 2575; i < 2607; i++) {
+        loader.load(2575, i, fBlackArrow);
     }
 }
 

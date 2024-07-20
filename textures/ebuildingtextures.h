@@ -217,8 +217,15 @@ public:
     bool fChariotVendorLoaded = false;
     void loadChariotVendor();
 
-    bool fWIneVendorLoaded = false;
+    bool fWineVendorLoaded = false;
     void loadWineVendor();
+
+    bool fAltarBullOverlayLoaded = false;
+    void loadAltarBullOverlay();
+    bool fAltarSheepOverlayLoaded = false;
+    void loadAltarSheepOverlay();
+    bool fAltarGoodsOverlayLoaded = false;
+    void loadAltarGoodsOverlay();
 
     std::shared_ptr<eTexture> fHouseSpace;
     std::vector<eTextureCollection> fCommonHouse;
@@ -579,6 +586,9 @@ public:
     eTextureCollection fSanctuaryTiles;
     eTextureCollection fSanctuarySpace;
     std::shared_ptr<eTexture> fSanctuaryAltar;
+    eTextureCollection fAltarBullOverlay;
+    eTextureCollection fAltarSheepOverlay;
+    eTextureCollection fAltarGoodsOverlay;
 
     std::shared_ptr<eTexture> fHeroHall;
     std::shared_ptr<eTexture> fPoseidonHeroHall;

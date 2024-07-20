@@ -195,6 +195,8 @@ public:
     void loadGoatherd();
     bool fBronzeMinerLoaded = false;
     void loadBronzeMiner();
+    bool fOrichalcMinerLoaded = false;
+    void loadOrichalcMiner();
     bool fArtisanLoaded = false;
     void loadArtisan();
     bool fFoodVendorLoaded = false;
@@ -473,6 +475,7 @@ public:
     eResourceCollectorTextures fMarbleMiner;
     eResourceCollectorTextures fSilverMiner;
     eResourceCollectorTextures fBronzeMiner;
+    eResourceCollectorTextures fOrichalcMiner;
     eResourceCollectorTextures fLumberjack;
 
     eArtisanTextures fArtisan;

@@ -49,7 +49,7 @@ public:
             eTextureCollection& coll) {
         const auto& sd = mSds[i - doff];
         const int tid = sd.fTexId;
-        const auto t = getTex(tid);
+        const auto t = tid == -1 ? nullptr : getTex(tid);
         const SDL_Rect rect{sd.fX, sd.fY, sd.fW, sd.fH};
         const auto& tex = coll.addTexture();
         tex->setParentTexture(rect, t);

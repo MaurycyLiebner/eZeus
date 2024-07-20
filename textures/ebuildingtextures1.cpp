@@ -80,9 +80,31 @@
 #include "spriteData/poseidonHerosHall245.h"
 #include "spriteData/poseidonHerosHall260.h"
 
+#include "spriteData/altarBullOverlay15.h"
+#include "spriteData/altarBullOverlay30.h"
+#include "spriteData/altarBullOverlay45.h"
+#include "spriteData/altarBullOverlay60.h"
+
 #include "offsets/PoseidonImps.h"
 
 #include "textures/espriteloader.h"
+
+void eBuildingTextures::loadAltarBullOverlay() {
+    if(fAltarBullOverlayLoaded) return;
+    fAltarBullOverlayLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eAltarBullOverlaySpriteData15,
+                                 eAltarBullOverlaySpriteData30,
+                                 eAltarBullOverlaySpriteData45,
+                                 eAltarBullOverlaySpriteData60);
+    eSpriteLoader loader(fTileH, "altarBullOverlay", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 3650; i < 3674; i++) {
+        loader.load(3650, i, fAltarBullOverlay);
+    }
+}
 
 void eBuildingTextures::loadPoseidonHerosHall() {
     if(fPoseidonHerosHallLoaded) return;

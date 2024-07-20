@@ -7,6 +7,7 @@
 
 #include "missiles/erockmissile.h"
 #include "missiles/earrowmissile.h"
+#include "missiles/espearmissile.h"
 
 #include "characters/esoldierbanner.h"
 
@@ -144,13 +145,15 @@ void eSoldierAction::increment(const int by) {
                 const auto ct = c->type();
                 if(ct == eCharacterType::amazon ||
                    ct == eCharacterType::centaurArcher ||
-                   ct == eCharacterType::trojanSpearthrower ||
                    ct == eCharacterType::egyptianArcher ||
                    ct == eCharacterType::atlanteanArcher ||
                    ct == eCharacterType::phoenicianArcher ||
-                   ct == eCharacterType::persianArcher ||
-                   ct == eCharacterType::oceanidSpearthrower) {
+                   ct == eCharacterType::persianArcher) {
                     eMissile::sCreate<eArrowMissile>(brd, tx, ty, 0.5,
+                                                     ttx, tty, 0.5, 2);
+                } else if(ct == eCharacterType::trojanSpearthrower ||
+                          ct == eCharacterType::oceanidSpearthrower) {
+                    eMissile::sCreate<eSpearMissile>(brd, tx, ty, 0.5,
                                                      ttx, tty, 0.5, 2);
                 } else {
                     eMissile::sCreate<eRockMissile>(brd, tx, ty, 0.5,

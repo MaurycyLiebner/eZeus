@@ -170,7 +170,17 @@ void eMythologyDataWidget::paintEvent(ePainter& p) {
                     });
 
                     const auto stateB = new eMythologyButton(window());
-                    stateB->initialize(eLanguage::zeusText(59, 2)); // working
+                    int textId = 2;
+                    if(s->finished()) {
+                        if(s->sacrificing()) {
+                            textId = 3; // sacrificing
+                        } else {
+                            textId = 2; // working
+                        }
+                    } else {
+                        textId = 9; // needs materials
+                    }
+                    stateB->initialize(eLanguage::zeusText(59, textId));
                     w->addWidget(stateB);
                     stateB->align(eAlignment::hcenter);
                     stateB->setPressAction([this, sptr]() {

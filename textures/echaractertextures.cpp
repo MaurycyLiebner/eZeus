@@ -309,6 +309,7 @@ eCharacterTextures::eCharacterTextures(const int tileW, const int tileH,
     fMarbleMiner(renderer),
     fSilverMiner(renderer),
     fBronzeMiner(renderer),
+    fOrichalcMiner(renderer),
     fLumberjack(renderer),
 
     fArtisan(renderer),

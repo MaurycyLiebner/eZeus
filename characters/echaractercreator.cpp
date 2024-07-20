@@ -92,6 +92,7 @@
 #include "characters/eelitecitizen.h"
 #include "characters/etrireme.h"
 #include "characters/eenemyboat.h"
+#include "characters/eorichalcminer.h"
 
 stdsptr<eCharacter> eCharacter::sCreate(
         const eCharacterType t, eGameBoard& board) {
@@ -113,6 +114,8 @@ stdsptr<eCharacter> eCharacter::sCreate(
         return e::make_shared<eBoar>(board);
     case eCharacterType::bronzeMiner:
         return e::make_shared<eBronzeMiner>(board);
+    case eCharacterType::orichalcMiner:
+        return e::make_shared<eOrichalcMiner>(board);
     case eCharacterType::cartTransporter:
         return e::make_shared<eCartTransporter>(board);
     case eCharacterType::chariot:

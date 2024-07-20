@@ -101,7 +101,8 @@ class eGodAct;
 enum class eMissileType {
     arrow,
     god,
-    rock
+    rock,
+    spear
 };
 
 class eMissile : public eStdSelfRef {

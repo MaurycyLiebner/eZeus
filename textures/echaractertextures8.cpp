@@ -87,7 +87,32 @@
 #include "spriteData/triremeOverlay45.h"
 #include "spriteData/triremeOverlay60.h"
 
+#include "spriteData/orichalcMiner15.h"
+#include "spriteData/orichalcMiner30.h"
+#include "spriteData/orichalcMiner45.h"
+#include "spriteData/orichalcMiner60.h"
+
 #include "offsets/PoseidonImps.h"
+
+void eCharacterTextures::loadOrichalcMiner() {
+    if(fOrichalcMinerLoaded) return;
+    fOrichalcMinerLoaded = true;
+    const auto& sds = spriteData(fTileH,
+                                 eOrichalcMinerSpriteData15,
+                                 eOrichalcMinerSpriteData30,
+                                 eOrichalcMinerSpriteData45,
+                                 eOrichalcMinerSpriteData60);
+    eSpriteLoader loader(fTileH, "orichalcMiner", sds,
+                         &ePoseidonImpsOffset, fRenderer);
+
+    loader.loadSkipFlipped(1507, 1507, 2691, fOrichalcMiner.fWalk);
+    loader.loadSkipFlipped(1507, 1719, 1815, fOrichalcMiner.fCarry);
+    loader.loadSkipFlipped(1507, 1611, 1707, fOrichalcMiner.fCollect);
+
+    for(int i = 1603; i < 1611; i++) {
+        loader.load(1507, i, fOrichalcMiner.fDie);
+    }
+}
 
 void eCharacterTextures::loadTriremeOverlay() {
     if(fTriremeOverlayLoaded) return;

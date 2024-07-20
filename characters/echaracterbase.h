@@ -164,7 +164,8 @@ enum class eCharacterType {
 
     eliteCitizen,
     trireme,
-    enemyBoat
+    enemyBoat,
+    orichalcMiner
 };
 
 class eCharacterBase {

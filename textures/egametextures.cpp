@@ -130,6 +130,13 @@ void eGameTextures::loadBronzeMiner() {
     });
 }
 
+void eGameTextures::loadOrichalcMiner() {
+    loadTexture([](const int i) {
+        auto& c = sCharacterTextures[i];
+        c.loadOrichalcMiner();
+    });
+}
+
 void eGameTextures::loadArtisan() {
     loadTexture([](const int i) {
         auto& c = sCharacterTextures[i];
@@ -909,6 +916,27 @@ void eGameTextures::loadRock() {
     });
 }
 
+void eGameTextures::loadBlackSpear() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadBlackSpear();
+    });
+}
+
+void eGameTextures::loadSpear() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadSpear();
+    });
+}
+
+void eGameTextures::loadBlackArrow() {
+    loadTexture([](const int i) {
+        auto& c = sDestructionTextures[i];
+        c.loadBlackArrow();
+    });
+}
+
 void eGameTextures::loadArrow() {
     loadTexture([](const int i) {
         auto& c = sDestructionTextures[i];
@@ -1291,6 +1319,27 @@ void eGameTextures::loadSanctuary() {
     loadTexture([](const int i) {
         auto& c = sBuildingTextures[i];
         c.loadSanctuary();
+    });
+}
+
+void eGameTextures::loadAltarBullOverlay() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadAltarBullOverlay();
+    });
+}
+
+void eGameTextures::loadAltarSheepOverlay() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadAltarSheepOverlay();
+    });
+}
+
+void eGameTextures::loadAltarGoodsOverlay() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadAltarGoodsOverlay();
     });
 }
 

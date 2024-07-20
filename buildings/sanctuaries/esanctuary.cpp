@@ -31,6 +31,8 @@
 #include "ehephaestussanctuary.h"
 #include "ezeussanctuary.h"
 
+#include "etemplealtarbuilding.h"
+
 eSanctuary::eSanctuary(eGameBoard& board,
                        const eBuildingType type,
                        const int sw, const int sh,
@@ -286,6 +288,16 @@ stdsptr<eSanctuary> eSanctuary::sCreate(
 
 void eSanctuary::setSpawnWait(const int w) {
     mSpawnWait = w;
+}
+
+bool eSanctuary::sacrificing() const {
+    for(const auto& e : mElements) {
+        const auto type = e->type();
+        if(type != eBuildingType::templeAltar) continue;
+        const auto altar = static_cast<eTempleAltarBuilding*>(e.get());
+        if(altar->sacrificing()) return true;
+    }
+    return false;
 }
 
 void eSanctuary::timeChanged(const int by) {

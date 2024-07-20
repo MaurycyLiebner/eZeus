@@ -1,14 +1,12 @@
 #ifndef EARROWMISSILE_H
 #define EARROWMISSILE_H
 
-#include "emissile.h"
+#include "earrowspearbase.h"
 
-class eArrowMissile : public eMissile {
+class eArrowMissile : public eArrowSpearBase {
 public:
     eArrowMissile(eGameBoard& board,
                   const std::vector<ePathPoint>& path = {});
-
-    std::shared_ptr<eTexture> getTexture(const eTileSize size) const;
 };
 
 #endif // EARROWMISSILE_H

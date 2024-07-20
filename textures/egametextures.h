@@ -46,6 +46,7 @@ public:
     static void loadWatchman();
     static void loadGoatherd();
     static void loadBronzeMiner();
+    static void loadOrichalcMiner();
     static void loadArtisan();
     static void loadFoodVendor();
     static void loadFleeceVendor();
@@ -164,6 +165,9 @@ public:
     static void loadCursed();
 
     static void loadRock();
+    static void loadBlackSpear();
+    static void loadSpear();
+    static void loadBlackArrow();
     static void loadArrow();
 
     static void loadBless();
@@ -223,6 +227,9 @@ public:
     static void loadPalace();
     static void loadPalaceTiles();
     static void loadSanctuary();
+    static void loadAltarBullOverlay();
+    static void loadAltarSheepOverlay();
+    static void loadAltarGoodsOverlay();
     static void loadOrangeTendersLodge();
     static void loadWaterPark();
     static void loadShortObelisk();
