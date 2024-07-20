@@ -106,7 +106,6 @@ void eMainWindow::setResolution(const eResolution& res) {
 }
 
 void eMainWindow::setFullscreen(const bool f) {
-    if(mSettings.fFullscreen == f) return;
     mSettings.fFullscreen = f;
     SDL_SetWindowFullscreen(mSdlWindow, f ? SDL_WINDOW_FULLSCREEN : 0);
 }
