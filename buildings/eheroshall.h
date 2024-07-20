@@ -115,9 +115,10 @@ public:
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
+
+    void updateRequirementsStatus();
 private:
     void addRequirement(const eHeroRequirement& hr);
-    void updateRequirementsStatus();
     void updateRequirementStatus(eHeroRequirement& hr);
 
     eHeroType mType;

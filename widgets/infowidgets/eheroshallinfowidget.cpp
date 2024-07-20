@@ -7,6 +7,7 @@
 #include "elanguage.h"
 
 void eHerosHallInfoWidget::initialize(eHerosHall* const b) {
+    b->updateRequirementsStatus();
     const auto ht = b->heroType();
     const auto title = eBuilding::sNameForBuilding(b);
     eInfoWidget::initialize(title);
