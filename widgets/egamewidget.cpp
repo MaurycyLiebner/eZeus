@@ -969,6 +969,30 @@ bool eGameWidget::roadPath(std::vector<eOrientation>& path) {
     return p.extractPath(path);
 }
 
+bool eGameWidget::columnPath(std::vector<eOrientation>& path) {
+    ePathFinder p([](eTileBase* const t) {
+        const auto terr = t->terrain();
+        const bool tr = static_cast<bool>(eTerrain::buildable & terr);
+        if(!tr) return false;
+        if(t->isElevationTile()) return false;
+        const auto bt = t->underBuildingType();
+        const bool r = bt == eBuildingType::doricColumn ||
+                       bt == eBuildingType::ionicColumn ||
+                       bt == eBuildingType::corinthianColumn ||
+                       bt == eBuildingType::none;
+        if(!r) return false;
+        return true;
+    }, [&](eTileBase* const t) {
+        return t->x() == mPressedTX && t->y() == mPressedTY;
+    });
+    const auto startTile = mBoard->tile(mHoverTX, mHoverTY);
+    const int w = mBoard->width();
+    const int h = mBoard->height();
+    const bool r = p.findPath(startTile, 100, true, w, h);
+    if(!r) return false;
+    return p.extractPath(path);
+}
+
 bool eGameWidget::bridgeTiles(eTile* const t, const eTerrain terr,
                               std::vector<eTile*>& tiles,
                               bool& rotated) {

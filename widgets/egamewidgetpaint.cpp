@@ -1413,12 +1413,16 @@ void eGameWidget::paintEvent(ePainter& p) {
         }
     }
 
-    if(mode == eBuildingMode::road && mLeftPressed) {
+    if((mode == eBuildingMode::road ||
+        mode == eBuildingMode::doricColumn ||
+        mode == eBuildingMode::ionicColumn ||
+        mode == eBuildingMode::corinthianColumn) && mLeftPressed) {
         const auto startTile = mBoard->tile(mHoverTX, mHoverTY);
         std::vector<eOrientation> path;
-        const bool r = roadPath(path);
+        const bool r = mode == eBuildingMode::road ? roadPath(path) :
+                                                     columnPath(path);
         if(r) {
-            const auto drawRoad = [&](eTile* const t) {
+            const auto drawBase = [&](eTile* const t) {
                 const auto& tex = trrTexs.fBuildingBase;
                 double rx;
                 double ry;
@@ -1428,10 +1432,10 @@ void eGameWidget::paintEvent(ePainter& p) {
             eTile* t = startTile;
             for(int i = path.size() - 1; i >= 0; i--) {
                 if(!t) break;
-                drawRoad(t);
+                drawBase(t);
                 t = t->neighbour<eTile>(path[i]);
             }
-            if(t) drawRoad(t);
+            if(t) drawBase(t);
             return;
         }
     }

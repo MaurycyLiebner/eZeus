@@ -1369,23 +1369,47 @@ bool eGameWidget::buildMouseRelease() {
             mBoard->scheduleTerrainUpdate();
             break;
         case eBuildingMode::doricColumn:
-            apply = [this](eTile* const tile) {
-                build(tile->x(), tile->y(), 1, 1,
-                      [this]() { return e::make_shared<eDoricColumn>(*mBoard); });
-            };
-            break;
         case eBuildingMode::ionicColumn:
-            apply = [this](eTile* const tile) {
-                build(tile->x(), tile->y(), 1, 1,
-                      [this]() { return e::make_shared<eIonicColumn>(*mBoard); });
-            };
-            break;
-        case eBuildingMode::corinthianColumn:
-            apply = [this](eTile* const tile) {
-                build(tile->x(), tile->y(), 1, 1,
-                      [this]() { return e::make_shared<eCorinthianColumn>(*mBoard); });
-            };
-            break;
+        case eBuildingMode::corinthianColumn: {
+            switch(mode) {
+            case eBuildingMode::doricColumn:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 1, 1,
+                          [this]() { return e::make_shared<eDoricColumn>(*mBoard); });
+                };
+                break;
+            case eBuildingMode::ionicColumn:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 1, 1,
+                          [this]() { return e::make_shared<eIonicColumn>(*mBoard); });
+                };
+                break;
+            case eBuildingMode::corinthianColumn:
+            default:
+                apply = [this](eTile* const tile) {
+                    build(tile->x(), tile->y(), 1, 1,
+                          [this]() { return e::make_shared<eCorinthianColumn>(*mBoard); });
+                };
+                break;
+            }
+
+            const auto startTile = mBoard->tile(mHoverTX, mHoverTY);
+            if(!startTile) return false;
+            std::vector<eOrientation> path;
+            const bool r = columnPath(path);
+            if(r) {
+                eTile* t = startTile;
+                for(int i = path.size() - 1; i >= 0; i--) {
+                    if(!t) break;
+                    apply(t);
+                    t = t->neighbour<eTile>(path[i]);
+                }
+                if(t) apply(t);
+            } else {
+                apply(startTile);
+            }
+            return true;
+        } break;
         case eBuildingMode::avenue:
             apply = [this](eTile* const tile) {
                 const bool hr = canBuildAvenue(tile);
