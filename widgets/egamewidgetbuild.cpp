@@ -857,6 +857,11 @@ bool eGameWidget::buildMouseRelease() {
             build(tx, ty, sw, sh, [&]() {
                 return s;
             });
+
+            mBoard->updateMaxSoldiers();
+            mBoard->distributeSoldiers();
+            mBoard->consolidateSoldiers();
+
             mGm->clearMode();
         }; break;
         case eBuildingMode::eliteHousing: {

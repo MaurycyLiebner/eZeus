@@ -176,6 +176,11 @@ void eSoldierBanner::goAbroad() {
 
 void eSoldierBanner::backFromAbroad(int& wait) {
     if(!mAbroad) return;
+    if(mCount <= 0) {
+        const auto tptr = ref<eSoldierBanner>();
+        mBoard.unregisterSoldierBanner(tptr);
+        return;
+    }
     mAbroad = false;
     moveToDefault();
     const auto entryPoint = mBoard.entryPoint();

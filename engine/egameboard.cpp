@@ -872,8 +872,10 @@ void eGameBoard::consolidateSoldiers() {
     eSoldierBanners hoplites;
     eSoldierBanners horsemen;
     for(const auto& s : mPalaceSoldierBanners) {
-        if(!s->isHome()) continue;
         if(s->isAbroad()) continue;
+        const auto tile = s->tile();
+        if(!tile) s->moveToDefault();
+        if(!s->isHome()) continue;
         switch(s->type()) {
         case eBannerType::rockThrower:
             rabble.push_back(s);
@@ -1766,9 +1768,6 @@ eMuseum* eGameBoard::museum() const {
 void eGameBoard::registerPalace(ePalace* const p) {
     if(!mRegisterBuildingsEnabled) return;
     mPalace = p;
-    updateMaxSoldiers();
-    distributeSoldiers();
-    consolidateSoldiers();
     if(mButtonVisUpdater) mButtonVisUpdater();
 }
 

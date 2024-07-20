@@ -597,15 +597,16 @@ public:
 
     eImmigrationLimitedBy immigrationLimit() const
     { return mImmigrationLimit; }
+
+    void updateMaxSoldiers();
+    void distributeSoldiers();
+    void consolidateSoldiers();
 private:
     void updateNeighbours();
 
-    void consolidateSoldiers();
-    void updateMaxSoldiers();
     void addSoldier(const eCharacterType st);
     void removeSoldier(const eCharacterType st,
                        const bool skipNotHome = true);
-    void distributeSoldiers();
 
     void updateCoverage();
 
