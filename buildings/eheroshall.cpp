@@ -483,7 +483,7 @@ void eHerosHall::updateRequirementStatus(eHeroRequirement& hr) {
 
     case eHeroRequirementType::popularity: {
         const int p = board.popularity();
-        sc = p/12;
+        sc = p/10;
     } break;
     case eHeroRequirementType::health: {
         const int p = board.health();
@@ -613,12 +613,12 @@ eHerosHall::eHerosHall(const eHeroType type, eGameBoard& board) :
     case eHeroType::achilles:
         addRequirement({eHeroRequirementType::armor, 32});
         addRequirement({eHeroRequirementType::hoplite, 3});
-        addRequirement({eHeroRequirementType::sanctuaryAthena, 1});
-        addRequirement({eHeroRequirementType::noUnrest, 1});
+        addRequirement({eHeroRequirementType::sanctuaryAthena, 100});
+        addRequirement({eHeroRequirementType::noUnrest, 5});
         addRequirement({eHeroRequirementType::wine, 16});
         break;
     case eHeroType::atalanta:
-        addRequirement({eHeroRequirementType::sanctuaryArtemis, 1});
+        addRequirement({eHeroRequirementType::sanctuaryArtemis, 100});
         addRequirement({eHeroRequirementType::stadium, 1});
         addRequirement({eHeroRequirementType::meat, 32});
         addRequirement({eHeroRequirementType::wood, 32});
@@ -645,21 +645,21 @@ eHerosHall::eHerosHall(const eHeroType type, eGameBoard& board) :
         addRequirement({eHeroRequirementType::wine, 16});
         break;
     case eHeroType::odysseus:
-        addRequirement({eHeroRequirementType::popularity, 2});
-        addRequirement({eHeroRequirementType::health, 2});
+        addRequirement({eHeroRequirementType::popularity, 8});
+        addRequirement({eHeroRequirementType::health, 10});
         addRequirement({eHeroRequirementType::eliteHouses, 8});
         addRequirement({eHeroRequirementType::oil, 32});
         addRequirement({eHeroRequirementType::wine, 16});
         break;
     case eHeroType::perseus:
-        addRequirement({eHeroRequirementType::sanctuaryHades, 2});
+        addRequirement({eHeroRequirementType::sanctuaryHades, 100});
         addRequirement({eHeroRequirementType::drachmas, 3000});
         addRequirement({eHeroRequirementType::fleece, 16});
         addRequirement({eHeroRequirementType::sculpture, 6});
         break;
     case eHeroType::theseus:
         addRequirement({eHeroRequirementType::nearPalace, 2});
-        addRequirement({eHeroRequirementType::appeal, 2});
+        addRequirement({eHeroRequirementType::appeal, 4});
         addRequirement({eHeroRequirementType::walls, 1});
         addRequirement({eHeroRequirementType::marble, 32});
         addRequirement({eHeroRequirementType::wine, 16});
