@@ -1548,6 +1548,7 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
 }
 
 bool eGameWidget::mousePressEvent(const eMouseEvent& e) {
+    mPressedButtons = mPressedButtons | e.button();
     if(mLocked) return true;
     mGm->closeBuildWidget();
     mMovedSincePress = false;
@@ -1712,6 +1713,8 @@ bool eGameWidget::mouseMoveEvent(const eMouseEvent& e) {
 }
 
 bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
+    const auto pressedButtons = mPressedButtons;
+    mPressedButtons = e.buttons();
     if(mLocked) return true;
     switch(e.button()) {
     case eMouseButton::left: {
@@ -1749,8 +1752,10 @@ bool eGameWidget::mouseReleaseEvent(const eMouseEvent& e) {
         mPressedTY = -1;
     } break;
     case eMouseButton::right: {
-        const auto& solds = mBoard->selectedSoldiers();
-        eSoldierBanner::sPlace(solds, mHoverTX, mHoverTY, *mBoard, 3, 2);
+        if(static_cast<bool>(pressedButtons & eMouseButton::right)) {
+            const auto& solds = mBoard->selectedSoldiers();
+            eSoldierBanner::sPlace(solds, mHoverTX, mHoverTY, *mBoard, 3, 2);
+        }
     } break;
     default: return false;
     }

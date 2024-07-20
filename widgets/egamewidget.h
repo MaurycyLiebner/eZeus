@@ -251,6 +251,8 @@ private:
 
     std::vector<eTile*> selectedTiles() const;
 
+    eMouseButton mPressedButtons = eMouseButton::none;
+
     bool mEditorMode = false;
 
     bool mRotate = false;
