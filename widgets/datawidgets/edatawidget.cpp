@@ -60,6 +60,10 @@ void eDataWidget::setGameWidget(eGameWidget* const gw) {
     }
 }
 
+void eDataWidget::shown() {
+    mTime = 0;
+}
+
 void eDataWidget::addViewButton(eViewModeButton* const b) {
     mButtons.push_back(b);
 }

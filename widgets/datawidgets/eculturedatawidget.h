@@ -25,8 +25,6 @@ private:
     eLabel* mAthleticsCoverage = nullptr;
     eLabel* mDramaCoverage = nullptr;
     eLabel* mAllCoverage = nullptr;
-
-    int mTime{0};
 };
 
 #endif // ECULTUREDATAWIDGET_H

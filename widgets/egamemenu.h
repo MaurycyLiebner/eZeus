@@ -30,6 +30,7 @@ class eFramedLabel;
 enum class eEvent;
 struct eEventData;
 class eRotateButton;
+class eDataWidget;
 
 struct eSubButtonData;
 
@@ -117,7 +118,7 @@ private:
     int mCityId = -1;
     eBuildingMode mMode{eBuildingMode::none};
 
-    std::vector<eWidget*> mWidgets;
+    std::vector<eWid> mWidgets;
 
     eEventWidget* mEventW = nullptr;
 

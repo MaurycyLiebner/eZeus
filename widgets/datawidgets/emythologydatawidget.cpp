@@ -138,11 +138,35 @@ void eMythologyDataWidget::paintEvent(ePainter& p) {
     if(update) {
         {
             const auto ss = mBoard.sanctuaries();
-            const bool changed = !eVectorHelpers::same(ss, mSanctuariesV);
+            bool changed = false;
+            if(ss.size() != mSanctuariesV.size()) {
+                changed = true;
+            } else {
+                const int iMax = ss.size();
+                for(int i = 0; i < iMax; i++) {
+                    const auto s1 = mSanctuariesV[i];
+                    const auto ss1 = ss[i];
+                    if(s1.fPtr != ss1) {
+                        changed = true;
+                        break;
+                    } else if(s1.fFinished != ss1->finished()) {
+                        changed = true;
+                        break;
+                    } else if(s1.fSacrificing != ss1->sacrificing()) {
+                        changed = true;
+                        break;
+                    }
+                }
+            }
 
             if(changed || mSanctuariesF) {
                 mSanctuariesF = false;
-                mSanctuariesV = ss;
+                mSanctuariesV.clear();
+                for(const auto s : ss) {
+                    const eSanctuaryState ss{s, s->finished(),
+                                             s->sacrificing()};
+                    mSanctuariesV.emplace_back(ss);
+                }
 
                 const auto w = mSanctuaries->widget();
                 w->removeAllWidgets();

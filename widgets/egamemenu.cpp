@@ -804,35 +804,38 @@ void eGameMenu::initialize(eGameBoard* const b,
 
     const auto ww10 = createDataWidgetBase(mOverDataW, mMiniMap,
                                            eLanguage::zeusText(88, 10));
-    mWidgets.push_back(ww0);
-    mWidgets.push_back(ww1);
-    mWidgets.push_back(ww2);
-    mWidgets.push_back(www3);
-    mWidgets.push_back(ww4);
-    mWidgets.push_back(ww5);
-    mWidgets.push_back(ww6);
-    mWidgets.push_back(ww7);
-    mWidgets.push_back(ww8);
-    mWidgets.push_back(ww9);
-    mWidgets.push_back(ww10);
+    mWidgets.push_back({ww0, mPopDataW});
+    mWidgets.push_back({ww1, mHusbDataW});
+    mWidgets.push_back({ww2, mEmplDataW});
+    mWidgets.push_back({www3, mStrgDataW});
+    mWidgets.push_back({ww4, mHySaDataW});
+    mWidgets.push_back({ww5, mAdminDataW});
+    mWidgets.push_back({ww6, poseidon ? static_cast<eDataWidget*>(mScienceDataW) :
+                                        static_cast<eDataWidget*>(mCultureDataW)});
+    mWidgets.push_back({ww7, mMythDataW});
+    mWidgets.push_back({ww8, mMiltDataW});
+    mWidgets.push_back({ww9, mApplDataW});
+    mWidgets.push_back({ww10, mOverDataW});
 
-    for(const auto w : mWidgets) {
+    for(const auto& ww : mWidgets) {
+        const auto w = ww.fW;
         addWidget(w);
         w->move(wx, 12*mult);
         w->hide();
     }
 
-    const auto b0 = addButton(coll.fPopulation, ww0);
-    const auto b1 = addButton(coll.fHusbandry, ww1);
-    const auto b2 = addButton(coll.fIndustry, ww2);
-    const auto b3 = addButton(coll.fDistribution, www3);
-    const auto b4 = addButton(coll.fHygieneSafety, ww4);
-    const auto b5 = addButton(coll.fAdministration, ww5);
-    const auto b6 = addButton(poseidon ? coll.fScience : coll.fCulture, ww6);
-    const auto b7 = addButton(coll.fMythology, ww7);
-    const auto b8 = addButton(coll.fMilitary, ww8);
-    const auto b9 = addButton(coll.fAesthetics, ww9);
-    const auto b10 = addButton(coll.fOverview, ww10);
+    const auto b0 = addButton(coll.fPopulation, mWidgets[0]);
+    const auto b1 = addButton(coll.fHusbandry, mWidgets[1]);
+    const auto b2 = addButton(coll.fIndustry, mWidgets[2]);
+    const auto b3 = addButton(coll.fDistribution, mWidgets[3]);
+    const auto b4 = addButton(coll.fHygieneSafety, mWidgets[4]);
+    const auto b5 = addButton(coll.fAdministration, mWidgets[5]);
+    const auto b6 = addButton(poseidon ? coll.fScience : coll.fCulture,
+                              mWidgets[6]);
+    const auto b7 = addButton(coll.fMythology, mWidgets[7]);
+    const auto b8 = addButton(coll.fMilitary, mWidgets[8]);
+    const auto b9 = addButton(coll.fAesthetics, mWidgets[9]);
+    const auto b10 = addButton(coll.fOverview, mWidgets[10]);
 
     const auto setupButtonHover =
         [this](eCheckableButton* b0, const std::string& txt) {

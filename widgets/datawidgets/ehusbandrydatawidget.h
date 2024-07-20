@@ -19,8 +19,6 @@ private:
     eLabel* mCanSupportLabel = nullptr;
     eLabel* mOpinionLabel = nullptr;
     eLabel* mStoredFoodLabel = nullptr;
-
-    int mTime{0};
 };
 
 #endif // EHUSBANDRYDATAWIDGET_H

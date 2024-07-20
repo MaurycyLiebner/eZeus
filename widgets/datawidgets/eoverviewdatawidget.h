@@ -31,8 +31,6 @@ private:
     eOverviewEntry* mHygiene = nullptr;
     eOverviewEntry* mUnrest = nullptr;
     eOverviewEntry* mFinances = nullptr;
-
-    int mTime{0};
 };
 
 #endif // EOVERVIEWDATAWIDGET_H

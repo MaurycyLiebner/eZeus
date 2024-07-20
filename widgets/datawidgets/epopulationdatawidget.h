@@ -27,8 +27,6 @@ private:
     eWidget* mImiLimitedW = nullptr;
     eLabel* mImiLimitedReason = nullptr;
     eWidget* mNewcomersW = nullptr;
-
-    int mTime{0};
 };
 
 #endif // EPOPULATIONDATAWIDGET_H

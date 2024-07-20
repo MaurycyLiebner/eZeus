@@ -19,8 +19,6 @@ private:
     eLabel* mResearchCoverage = nullptr;
     eLabel* mLearningCoverage = nullptr;
     eLabel* mExhibits = nullptr;
-
-    int mTime{0};
 };
 
 #endif // ESCIENCEDATAWIDGET_H

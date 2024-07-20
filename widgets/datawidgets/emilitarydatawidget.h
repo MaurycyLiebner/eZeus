@@ -47,8 +47,6 @@ private:
     eMicroButton* mAtPalace = nullptr;
     eMicroButton* mNoShips = nullptr;
     eMicroButton* mNoTowers = nullptr;
-
-    int mTime{0};
 };
 
 #endif // EMILITARYDATAWIDGET_H

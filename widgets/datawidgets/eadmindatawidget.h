@@ -27,8 +27,6 @@ private:
     eLabel* mPerPop = nullptr;
 
     eTaxRate mTaxRate{eTaxRate::normal};
-
-    int mTime{0};
 };
 
 #endif // EADMINDATAWIDGET_H

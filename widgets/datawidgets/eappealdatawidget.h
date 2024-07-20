@@ -22,8 +22,6 @@ private:
     eWidget* mMonumentsWidget = nullptr;
 
     std::vector<eBuilding*> mBuildings;
-
-    int mTime{0};
 };
 
 #endif // EAPPEALDATAWIDGET_H

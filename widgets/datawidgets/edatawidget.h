@@ -15,6 +15,7 @@ public:
     virtual void initialize();
 
     void setGameWidget(eGameWidget* const gw);
+    void shown();
 protected:
     virtual void openMoreInfoWiget() {}
 
@@ -27,6 +28,7 @@ protected:
     static int sCoverageToText(const int c);
 
     eGameBoard& mBoard;
+    int mTime = 0;
 private:
     eGameWidget* mGW = nullptr;
     eBasicButton* mMoreInfo = nullptr;

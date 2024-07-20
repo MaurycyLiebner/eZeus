@@ -1,5 +1,7 @@
 #include "egamemenubase.h"
 
+#include "datawidgets/edatawidget.h"
+
 void eGameMenuBase::initialize() {
     int x;
     int y;
@@ -30,7 +32,7 @@ void eGameMenuBase::initialize() {
 
 eCheckableButton* eGameMenuBase::addButton(
         const eTextureCollection& texs,
-        eWidget* const w) {
+        const eWid& w) {
     const auto b = eCheckableButton::sCreate(texs, window(), mButtonsWidget);
     mButtons.push_back(b);
     mWidgets.push_back(w);
@@ -70,7 +72,10 @@ void eGameMenuBase::connectAndLayoutButtons() {
                 for(int j = 0; j < jMax; j++) {
                     if(j < wSize) {
                         const auto w = mWidgets[j];
-                        w->setVisible(j == i);
+                        w.fW->setVisible(j == i);
+                        if(j == i && w.fDW) {
+                            w.fDW->shown();
+                        }
                     }
                     if(j == i) continue;
                     const auto b = mButtons[j];

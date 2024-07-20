@@ -23,8 +23,6 @@ private:
 
     eLabel* mHygieneLabel = nullptr;
     eLabel* mUnrestLabel = nullptr;
-
-    int mTime{0};
 };
 
 #endif // EHYGIENESAFETYDATAWIDGET_H

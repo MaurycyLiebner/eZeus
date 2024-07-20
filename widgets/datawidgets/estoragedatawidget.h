@@ -25,8 +25,6 @@ private:
     eViewModeButton* mSeeDistribution = nullptr;
 
     std::vector<eLabel*> mResourceLabels;
-
-    int mTime{0};
 };
 
 #endif // ESTORAGEDATAWIDGET_H

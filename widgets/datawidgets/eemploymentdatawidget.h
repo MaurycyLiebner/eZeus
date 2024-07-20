@@ -35,8 +35,6 @@ private:
     eLabel* mWageLabel = nullptr;
 
     eWageRate mWageRate{eWageRate::normal};
-
-    int mTime{0};
 };
 
 #endif // EEMPLOYMENTDATAWIDGET_H

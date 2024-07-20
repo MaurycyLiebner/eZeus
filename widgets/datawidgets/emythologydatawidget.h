@@ -20,8 +20,14 @@ protected:
 private:
     eViewModeButton* mSeeImmortals = nullptr;
 
+    struct eSanctuaryState {
+        eSanctuary* fPtr = nullptr;
+        bool fFinished = false;
+        bool fSacrificing = false;
+    };
+
     bool mSanctuariesF = true;
-    std::vector<eSanctuary*> mSanctuariesV;
+    std::vector<eSanctuaryState> mSanctuariesV;
     eTitledWidget* mSanctuaries = nullptr;
     bool mGodsAttackingF = true;
     std::vector<eCharacter*> mGodsAttackingV;
@@ -29,8 +35,6 @@ private:
     bool mMonstersAttackingF = true;
     std::vector<eMonster*> mMonstersAttackingV;
     eTitledWidget* mMonstersAttacking = nullptr;
-
-    int mTime{0};
 };
 
 #endif // EMYTHOLOGYDATAWIDGET_H
