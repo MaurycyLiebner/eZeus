@@ -1836,15 +1836,19 @@ void eGameWidget::showGoals() {
 }
 
 void eGameWidget::setDX(const int dx) {
+    const int oldDX = mDX;
     mDX = dx;
     clampViewBox();
     updateMinimap();
+    mPressedX += mDX - oldDX;
 }
 
 void eGameWidget::setDY(const int dy) {
+    const int oldDY = mDY;
     mDY = dy;
     clampViewBox();
     updateMinimap();
+    mPressedY += mDY - oldDY;
 }
 
 void eGameWidget::clampViewBox() {
