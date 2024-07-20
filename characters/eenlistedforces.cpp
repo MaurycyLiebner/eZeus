@@ -77,6 +77,8 @@ void eEnlistedForces::add(const eEnlistedForces& o) {
     fAres = fAres || o.fAres;
 }
 
+const double gHelpFrac = 0.67;
+
 int eEnlistedForces::strength() const {
     int str = 0;
     for(const auto& s : fSoldiers) {
@@ -92,7 +94,7 @@ int eEnlistedForces::strength() const {
         str += std::floor(mult*s->count());
     }
     for(const auto& c : fAllies) {
-        str += 3*c->shields();
+        str += gHelpFrac*c->troops();
     }
     str += 8*fHeroes.size();
     if(fAres) str += 8;
@@ -111,6 +113,6 @@ void eEnlistedForces::kill(const double killFrac) {
 
     for(const auto& c : fAllies) {
         const int t = c->troops();
-        c->setTroops((1 - killFrac)*t);
+        c->setTroops((1 - gHelpFrac*killFrac)*t);
     }
 }
