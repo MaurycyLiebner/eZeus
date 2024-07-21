@@ -461,23 +461,32 @@ bool eGameWidget::tileVisible(eTile* const tile) const {
 }
 
 void eGameWidget::iterateOverVisibleTiles(const eTileAction& a) {
-    const int minX = std::clamp(-mDX/mTileW - 5, 0, mBoard->rotatedWidth());
-    const int visWidth = width() - mGm->width();
-    const int maxX = std::clamp(minX + visWidth/mTileW + 10, 0, mBoard->rotatedWidth());
+    const int rw = mBoard->rotatedWidth();
+    const int rh = mBoard->rotatedHeight();
 
-    const int minY = std::clamp(-2*mDY/mTileH - 10, 0, mBoard->rotatedHeight());
-    const int maxY = std::clamp(minY + 2*height()/mTileH + 35, 0, mBoard->rotatedHeight());
+    const int minX = std::clamp(-mDX/mTileW, 0, rw);
+    const int visWidth = width() - mGm->width();
+    const int maxX = std::clamp(minX + visWidth/mTileW, 0, rw);
+
+    const int minY = std::clamp(-2*mDY/mTileH, 0, rh);
+    const int maxY = std::clamp(minY + 2*height()/mTileH, 0, rh);
 
     const bool play = Mix_Playing(-1) == 0 && (rand() % 250) == 0;
     if(play) {
         const int x = (minX + maxX)/2 + (rand() % 7 - 3);
         const int y = (minY + maxY)/2 + (rand() % 7 - 3);
-        const auto t = mBoard->tile(x, y);
+        const auto t = mBoard->dtile(x, y);
         if(t) eSounds::playSoundForTile(t);
     }
 
-    for(int y = minY; y < maxY; y++) {
-        for(int x = minX; x < maxX; x++) {
+    const int eminX = std::clamp(minX - 5, 0, rw);
+    const int emaxX = std::clamp(maxX + 10, 0, rw);
+
+    const int eminY = std::clamp(minY - 10, 0, rh);
+    const int emaxY = std::clamp(maxY + 35, 0, rh);
+
+    for(int y = eminY; y < emaxY; y++) {
+        for(int x = eminX; x < emaxX; x++) {
             const auto t = mBoard->rotateddtile(x, y);
             if(!t) continue;
             a(t);
