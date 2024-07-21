@@ -51,9 +51,12 @@ void eMiniMap::paintEvent(ePainter& p) {
         mUpdateScheduled = false;
     }
     if(!mTexture) return;
-    p.save();
-    p.drawTexture(0, 0, mTexture);
-    p.restore();
+    const SDL_Rect clip{0, 0, width(), height()};
+    p.setClipRect(&clip);
+    const int xMin = (mCenterX - mDrawX - width()/2);
+    const int yMin = (mCenterY - mDrawY - height()/2);
+    p.drawTexture(-xMin, -yMin, mTexture);
+    p.setClipRect(nullptr);
     const int w = mViewBoxW*mBoard->rotatedWidth()*mTDim;
     const int h = mViewBoxH*mBoard->rotatedHeight()*mTDim/2;
     const int x = width()/2 - w/2 + mDrawX;
@@ -153,33 +156,40 @@ void eMiniMap::updateTexture() {
     if(!mBoard) return;
     const auto rend = renderer();
     mTexture = std::make_shared<eTexture>();
-    mTexture->create(rend, width(), height());
+    const int w = mBoard->rotatedWidth()*mTDim;
+    const int h = mBoard->rotatedHeight()*mTDim/2;
+    mTexture->create(rend, w, h);
     mTexture->setAsRenderTarget(rend);
     SDL_SetRenderDrawColor(rend, 0, 0, 0, 0);
     SDL_RenderClear(rend);
     ePainter p(rend);
 
-    const int xMin = (mCenterX - mDrawX - width()/2)/mTDim;
-    const int xMax = (mCenterX - mDrawX + width()/2)/mTDim;
+//    const int xMin = (mCenterX - mDrawX - width()/2)/mTDim;
+//    const int xMax = (mCenterX - mDrawX + width()/2)/mTDim;
 
-    const int yMin = 2*(mCenterY - mDrawY - height()/2)/mTDim;
-    const int yMax = 2*(mCenterY - mDrawY + height()/2)/mTDim;
+//    const int yMin = 2*(mCenterY - mDrawY - height()/2)/mTDim;
+//    const int yMax = 2*(mCenterY - mDrawY + height()/2)/mTDim;
 
     const auto& intrfc = eGameTextures::interface();
     const int id = static_cast<int>(resolution().uiScale());
     const auto& coll = intrfc[id];
     const auto& ds = coll.fDiamond;
+    const auto& dtex = ds.getTexture(0);
+
+    const int xMin = 0;
+    const int xMax = mBoard->rotatedWidth();
+    const int yMin = 0;
+    const int yMax = mBoard->rotatedHeight();
 
     for(int x = xMin; x < xMax; x++) {
         for(int y = yMin; y < yMax; y++) {
             const auto tile = mBoard->rotateddtile(x, y);
             if(!tile) continue;
             const auto color = colorForTile(tile);
-            const auto t = ds.getTexture(0);
-            t->setColorMod(color.r, color.g, color.b);
+            dtex->setColorMod(color.r, color.g, color.b);
             const int px = (x - xMin)*mTDim + (y % 2 ? mTDim/2 : 0);
             const int py = (y - yMin)*mTDim/2;
-            p.drawTexture(px, py, t);
+            p.drawTexture(px, py, dtex);
         }
     }
 
@@ -238,7 +248,6 @@ void eMiniMap::viewAbsPix(const int px, const int py) {
     } else {
         mDrawY = 0;
     }
-    scheduleUpdate();
 }
 
 void eMiniMap::scheduleUpdate() {
