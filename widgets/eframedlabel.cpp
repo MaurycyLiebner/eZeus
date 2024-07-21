@@ -11,6 +11,11 @@ eFramedLabel::eFramedLabel(const std::string& text,
     setText(text);
 }
 
+void eFramedLabel::renderTargetsReset() {
+    eWidget::renderTargetsReset();
+    updateTexture();
+}
+
 void eFramedLabel::sizeHint(int& w, int& h) {
     const auto& tex = texture();
     if(tex) {

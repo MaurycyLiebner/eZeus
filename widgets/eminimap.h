@@ -9,6 +9,8 @@ class eMiniMap : public eWidget {
 public:
     using eWidget::eWidget;
 
+    void renderTargetsReset() override;
+
     void setBoard(eGameBoard* const board);
 
     void setChangeAction(const eAction& act);
@@ -23,10 +25,10 @@ public:
 
     void scheduleUpdate();
 protected:
-    bool mousePressEvent(const eMouseEvent& e);
-    bool mouseMoveEvent(const eMouseEvent& e);
+    bool mousePressEvent(const eMouseEvent& e) override;
+    bool mouseMoveEvent(const eMouseEvent& e) override;
 
-    void paintEvent(ePainter& p);
+    void paintEvent(ePainter& p) override;
 private:
     void updateTexture();
     void viewRelPix(const int pixX, const int pixY);

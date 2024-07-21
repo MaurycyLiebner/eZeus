@@ -10,9 +10,11 @@ public:
     eLabel(eMainWindow* const window);
     eLabel(const std::string& text,
            eMainWindow* const window);
+
+    void renderTargetsReset() override;
 protected:
-    void sizeHint(int& w, int& h);
-    void paintEvent(ePainter& p);
+    void sizeHint(int& w, int& h) override;
+    void paintEvent(ePainter& p) override;
 };
 
 #endif // ELABEL_H

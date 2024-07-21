@@ -41,9 +41,10 @@ public:
 protected:
     const std::shared_ptr<eTexture>& texture() { return mTexture; }
     bool setFont(TTF_Font* const font);
+    bool updateTexture();
 private:
-    bool updateTextTexture();
     const eResolution& res() const;
+    bool updateTextTexture();
 
     int mWidth = 0;
     eMainWindow* const mWindow;

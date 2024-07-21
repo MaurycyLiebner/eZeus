@@ -4,6 +4,11 @@
 
 #include "etilehelper.h"
 
+void eMiniMap::renderTargetsReset() {
+    eWidget::renderTargetsReset();
+    scheduleUpdate();
+}
+
 void eMiniMap::setBoard(eGameBoard* const board) {
     mBoard = board;
     if(mBoard) viewTile(board->width()/2, board->height()/2);

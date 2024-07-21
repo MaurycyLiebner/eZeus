@@ -11,6 +11,11 @@ eLabel::eLabel(const std::string& text,
     setText(text);
 }
 
+void eLabel::renderTargetsReset() {
+    eWidget::renderTargetsReset();
+    updateTexture();
+}
+
 void eLabel::sizeHint(int& w, int& h) {
     const auto& tex = texture();
     if(tex) {

@@ -18,6 +18,12 @@ eWidget::eWidget(eMainWindow* const window) :
     mPadding = resolution().largePadding();
 }
 
+void eWidget::renderTargetsReset() {
+    for(const auto w : mChildren) {
+        w->renderTargetsReset();
+    }
+}
+
 eWidget::~eWidget() {
     for(const auto w : mChildren) {
         delete w;

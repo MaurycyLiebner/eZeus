@@ -596,6 +596,20 @@ int eMainWindow::exec() {
             const bool shift = mShiftPressed > 0;
             if(e.type == SDL_QUIT) {
                 mQuit = true;
+            } else if(e.type == SDL_WINDOWEVENT) {
+                const auto we = e.window.event;
+                if(we == SDL_WINDOWEVENT_SHOWN ||
+                   we == SDL_WINDOWEVENT_EXPOSED ||
+                   we == SDL_WINDOWEVENT_RESIZED ||
+                   we == SDL_WINDOWEVENT_SIZE_CHANGED ||
+                   we == SDL_WINDOWEVENT_MINIMIZED ||
+                   we == SDL_WINDOWEVENT_MAXIMIZED ||
+                   we == SDL_WINDOWEVENT_RESTORED) {
+                    if(mWidget) mWidget->renderTargetsReset();
+                }
+            } else if(e.type == SDL_RENDER_TARGETS_RESET ||
+                      e.type == SDL_RENDER_DEVICE_RESET) {
+                if(mWidget) mWidget->renderTargetsReset();
             } else if(e.type == SDL_MOUSEMOTION) {
                 const eMouseEvent me(x, y, shift, buttons, button);
                 if(mWidget) mWidget->mouseMove(me);

@@ -44,6 +44,15 @@ bool eLabelBase::setFont(TTF_Font* const font) {
     return updateTextTexture();
 }
 
+bool eLabelBase::updateTexture() {
+    if(!mText.empty()) {
+        updateTextTexture();
+        return true;
+    } else {
+        return false;
+    }
+}
+
 bool eLabelBase::setText(const std::string& text) {
     if(text == mText) return true;
     mText = text;
