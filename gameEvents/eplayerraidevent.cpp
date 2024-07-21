@@ -47,7 +47,7 @@ void ePlayerRaidEvent::trigger() {
     if(raided) {
         eResourceType res = mResource;
         if(res == eResourceType::none) {
-            if(rand() % 2) {
+            if(eRand::rand() % 2) {
                 res = eResourceType::drachmas;
             } else {
                 const auto& sells = mCity->sells();
@@ -55,7 +55,7 @@ void ePlayerRaidEvent::trigger() {
                     res = eResourceType::drachmas;
                 } else {
                     const int ss = sells.size();
-                    res = sells[rand() % ss].fType;
+                    res = sells[eRand::rand() % ss].fType;
                 }
             }
         }

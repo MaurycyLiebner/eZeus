@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "erand.h"
+
 eHeatMapRectangle::eHeatMapRectangle(const double maxHeat,
                                      const int maxHeatX,
                                      const int maxHeatY,
@@ -81,7 +83,7 @@ const eHeatMapRectangle* eHeatMapDivisor::randomHeatDiv() const {
     }
     const int rdMax = 100*totalHeat;
     if(rdMax == 0) return nullptr;
-    const double rd = 0.01*(rand() % rdMax);
+    const double rd = 0.01*(eRand::rand() % rdMax);
 
     double acc = 0;
     for(const auto& div : mDivs) {

@@ -4,6 +4,8 @@
 #include "textures/egametextures.h"
 #include "textures/einterfacetextures.h"
 
+#include "erand.h"
+
 eLoadingWidget::eLoadingWidget(const int size,
                                const eLoader& loader,
                                eMainWindow* const window,
@@ -97,7 +99,7 @@ void eLoadingWidget::paintEvent(ePainter& p) {
         mLabel->setText(text);
         mLabelW->fitContent();
         mLabelW->align(eAlignment::hcenter);
-        setLoadImage(rand() % 12 + 1);
+        setLoadImage(eRand::rand() % 12 + 1);
 
         mPB->setWidth(mLabelW->width());
         mPB->align(eAlignment::hcenter);

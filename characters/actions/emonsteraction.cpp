@@ -109,8 +109,8 @@ void eMonsterAction::randomPlaceOnBoard() {
     auto& board = c->getBoard();
     const int w = board.width();
     const int h = board.height();
-    const int rdx = rand() % w;
-    const int rdy = rand() % h;
+    const int rdx = eRand::rand() % w;
+    const int rdy = eRand::rand() % h;
     const auto tile = closestEmptySpace(rdx, rdy);
     if(!tile) return;
     c->changeTile(tile);

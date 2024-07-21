@@ -29,7 +29,7 @@ void ePlague::spreadFrom(eSmallHouse* const h) {
             if(bt != eBuildingType::commonHouse) continue;
             const auto ch = static_cast<eSmallHouse*>(b);
             if(ch->plague()) continue;
-            if(ch != h && rand() % 2) continue;
+            if(ch != h && eRand::rand() % 2) continue;
             mHouses.push_back(ch);
             ch->setPlague(true);
         }

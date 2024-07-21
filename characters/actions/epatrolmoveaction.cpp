@@ -69,7 +69,7 @@ eCharacterActionState ePatrolMoveAction::nextTurn(eOrientation& t) {
             }
         }
         if(!minOs.empty()) {
-            const int id = rand() % minOs.size();
+            const int id = eRand::rand() % minOs.size();
             mO = minOs[id];
         }
     }

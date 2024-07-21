@@ -53,8 +53,8 @@ void eSpawner::spawnMax() {
     const int iMax = mMaxCount - mCount;
     auto& board = this->board();
     for(int i = 0; i < iMax; i++) {
-        const int tx = cx + (rand() % dist);
-        const int ty = cy + (rand() % dist);
+        const int tx = cx + (eRand::rand() % dist);
+        const int ty = cy + (eRand::rand() % dist);
         const auto tile = board.tile(tx, ty);
         if(!tile) {
             i--;

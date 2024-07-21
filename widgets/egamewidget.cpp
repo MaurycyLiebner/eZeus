@@ -471,10 +471,10 @@ void eGameWidget::iterateOverVisibleTiles(const eTileAction& a) {
     const int minY = std::clamp(-2*mDY/mTileH, 0, rh);
     const int maxY = std::clamp(minY + 2*height()/mTileH, 0, rh);
 
-    const bool play = Mix_Playing(-1) == 0 && (rand() % 250) == 0;
+    const bool play = Mix_Playing(-1) == 0 && (eRand::rand() % 250) == 0;
     if(play) {
-        const int x = (minX + maxX)/2 + (rand() % 7 - 3);
-        const int y = (minY + maxY)/2 + (rand() % 7 - 3);
+        const int x = (minX + maxX)/2 + (eRand::rand() % 7 - 3);
+        const int y = (minY + maxY)/2 + (eRand::rand() % 7 - 3);
         const auto t = mBoard->dtile(x, y);
         if(t) eSounds::playSoundForTile(t);
     }
@@ -1467,7 +1467,7 @@ void eGameWidget::buildAnimal(eTile* const tile,
     if(!cb) return;
     const auto sh = creator(*mBoard);
     sh->changeTile(tile);
-    const auto o = static_cast<eOrientation>(rand() % 8);
+    const auto o = static_cast<eOrientation>(eRand::rand() % 8);
     sh->setOrientation(o);
     const auto w = eWalkableObject::sCreateFertile();
     const auto a = e::make_shared<eAnimalAction>(sh.get(), tx, ty, w);

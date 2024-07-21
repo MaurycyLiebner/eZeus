@@ -270,7 +270,7 @@ void eInvasionHandler::incTime(const int by) {
         eEventData ed;
         ed.fCity = mCity;
         if(ss == 0) {
-            const bool monn = rand() % 2;
+            const bool monn = eRand::rand() % 2;
             if(monn) {
                 mBoard.allow(eBuildingType::commemorative, 1);
                 mBoard.event(eEvent::invasionVictoryMonn, ed);

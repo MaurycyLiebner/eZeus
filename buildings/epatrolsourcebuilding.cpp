@@ -28,7 +28,7 @@ ePatrolSourceBuilding::ePatrolSourceBuilding(eGameBoard& board,
     mTargets(targets) {
     for(const auto& t : mTargets) {
         (void)t;
-        mTargetData.push_back({rand() % mSpawnWaitTime, -1});
+        mTargetData.push_back({eRand::rand() % mSpawnWaitTime, -1});
     }
 }
 

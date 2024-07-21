@@ -26,7 +26,7 @@ void eGodAttackEvent::trigger() {
     int tid;
     const int nTypes = mTypes.size();
     if(mRandom) {
-        tid = rand() % mTypes.size();
+        tid = eRand::rand() % mTypes.size();
     } else {
         tid = mNextId;
         if(++mNextId >= nTypes) mNextId = 0;

@@ -133,7 +133,7 @@ std::vector<eTileBase::eTO> eTileBase::neighbours(const eTileVerifier& v) const 
 eTileBase::eTO eTileBase::randomNeighbour(const eTileVerifier& v) const {
     const auto ts = neighbours(v);
     if(ts.empty()) return {eOrientation::top, nullptr};
-    return ts[rand() % ts.size()];
+    return ts[eRand::rand() % ts.size()];
 }
 
 std::vector<eTileBase::eTO> eTileBase::diagonalNeighbours(const eTileVerifier& v) const {
@@ -150,7 +150,7 @@ std::vector<eTileBase::eTO> eTileBase::diagonalNeighbours(const eTileVerifier& v
 eTileBase::eTO eTileBase::randomDiagonalNeighbour(const eTileVerifier& v) const {
     const auto ts = diagonalNeighbours(v);
     if(ts.empty()) return {eOrientation::top, nullptr};
-    return ts[rand() % ts.size()];
+    return ts[eRand::rand() % ts.size()];
 }
 
 void eTileBase::setAltitude(const int a, const bool update) {

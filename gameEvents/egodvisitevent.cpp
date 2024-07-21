@@ -33,7 +33,7 @@ void eGodVisitEvent::trigger() {
     int tid;
     const int nTypes = types.size();
     if(mRandom) {
-        tid = rand() % types.size();
+        tid = eRand::rand() % types.size();
     } else {
         tid = mNextId;
         if(tid >= nTypes) {

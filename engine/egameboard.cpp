@@ -1519,7 +1519,7 @@ void eGameBoard::handleGamesEnd(const eGames game) {
     } else {
         const double coveragef = coverage/100.;
         const double chance = mult*coveragef*coveragef;
-        const bool won = rand() % 101 < 100*chance;
+        const bool won = eRand::rand() % 101 < 100*chance;
 
         eEventData ed;
         if(won) {
@@ -1542,7 +1542,7 @@ void eGameBoard::handleGamesEnd(const eGames game) {
             }
             allow(eBuildingType::commemorative, id);
         } else {
-            const bool second = rand() % 101 < 200*chance;
+            const bool second = eRand::rand() % 101 < 200*chance;
             if(second) {
                 showMessage(ed, msgs->fSecond);
             } else {
@@ -1864,7 +1864,7 @@ void eGameBoard::incTime(const int by) {
 //    }
 
 //    for(const auto& p : mPlagues) {
-//        const int r = rand() % 5000;
+//        const int r = eRand::rand() % 5000;
 //        const bool spread = r/by == 0;
 //        if(spread) p->randomSpread();
 //    }
@@ -2658,7 +2658,7 @@ eOrientation randomOrientation() {
                                  eOrientation::bottomRight,
                                  eOrientation::bottomLeft,
                                  eOrientation::topLeft};
-    return os[rand() % os.size()];
+    return os[eRand::rand() % os.size()];
 }
 
 void eGameBoard::earthquake(eTile* const startTile, const int size) {
@@ -2694,7 +2694,7 @@ void eGameBoard::earthquake(eTile* const startTile, const int size) {
                                      eOrientation::bottomLeft,
                                      eOrientation::topLeft};
         std::random_shuffle(os.begin(), os.end());
-        if(rand() % 7) {
+        if(eRand::rand() % 7) {
             os.insert(os.begin(), t.fLastO);
         }
         for(const auto o : os) {
@@ -2707,7 +2707,7 @@ void eGameBoard::earthquake(eTile* const startTile, const int size) {
                terr == eTerrain::choppedForest) {
                 ends.push({tt, o});
                 tiles.push_back(tt);
-                if(rand() % 5 == 0) {
+                if(eRand::rand() % 5 == 0) {
                     ends.push({tt});
                 }
                 break;

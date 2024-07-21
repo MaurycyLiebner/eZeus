@@ -113,8 +113,8 @@ void eGodMonsterAction::randomPlaceOnBoard() {
     auto& board = c->getBoard();
     const int w = board.width();
     const int h = board.height();
-    const int rdx = rand() % w;
-    const int rdy = rand() % h;
+    const int rdx = eRand::rand() % w;
+    const int rdy = eRand::rand() % h;
     int tx;
     int ty;
     eTileHelper::dtileIdToTileId(rdx, rdy, tx, ty);

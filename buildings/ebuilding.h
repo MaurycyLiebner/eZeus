@@ -9,6 +9,8 @@
 #include "engine/emovedirection.h"
 #include "engine/eprovide.h"
 
+#include "erand.h"
+
 class eGameBoard;
 class eTile;
 
@@ -303,7 +305,7 @@ private:
     bool mOnFire = false;
 
     int mTime = 0;
-    int mFrameShift = rand() % 100;
+    int mFrameShift = eRand::rand() % 100;
 
     bool mEnabled = false;
     std::function<bool()> mOverlayEnabled = [this]() {

@@ -12,7 +12,7 @@
 
 eTile::eTile(const int x, const int y,
              const int dx, const int dy) {
-    setSeed(rand());
+    setSeed(eRand::rand());
     setX(x);
     setY(y);
     setDX(dx);
@@ -39,7 +39,7 @@ std::vector<eTile*> eTile::surroundingRoads() const {
 eTile* eTile::nearestRoad() const {
     const auto tiles = surroundingRoads();
     if(tiles.empty()) return nullptr;
-    return tiles[rand() % tiles.size()];
+    return tiles[eRand::rand() % tiles.size()];
 }
 
 void eTile::surroundingTerrain(eTerrain& tlTerr,

@@ -36,12 +36,12 @@ private:
 
     eGodAttackStage mStage{eGodAttackStage::none};
 
-    int mLookForCurse = rand() % 2000;
-    int mLookForTargetedCurse = rand() % 2000;
-    int mLookForAttack = rand() % 2000;
-    int mLookForTargetedAttack = rand() % 2000;
-    int mLookForGod = rand() % 2000;
-    int mLookForSpecial = rand() % 2000;
+    int mLookForCurse = eRand::rand() % 2000;
+    int mLookForTargetedCurse = eRand::rand() % 2000;
+    int mLookForAttack = eRand::rand() % 2000;
+    int mLookForTargetedAttack = eRand::rand() % 2000;
+    int mLookForGod = eRand::rand() % 2000;
+    int mLookForSpecial = eRand::rand() % 2000;
 };
 
 class eGAA_loserDisappearFinish : public eCharActFunc {

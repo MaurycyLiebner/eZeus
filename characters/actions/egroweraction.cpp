@@ -17,7 +17,7 @@ eGrowerAction::eGrowerAction(eCharacter* const c) :
 
 bool hasResource(eThreadTile* const tile, const eGrowerType gt,
                  const bool grapesDisabled, const bool olivesDisabled) {
-    if(rand() % 2) return false;
+    if(eRand::rand() % 2) return false;
     const auto ub = tile->underBuildingType();
     bool r;
     switch(gt) {

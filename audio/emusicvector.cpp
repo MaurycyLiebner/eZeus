@@ -1,5 +1,7 @@
 #include "emusicvector.h"
 
+#include "erand.h"
+
 Mix_Music* loadMusic(const std::string& path) {
     const auto music = Mix_LoadMUS(path.c_str());
     if(!music) {
@@ -33,6 +35,6 @@ void eMusicVector::play(const int id, const bool loop) {
 void eMusicVector::playRandomSound(const bool loop) {
     const int sc = soundCount();
     if(sc <= 0) return;
-    const int id = rand() % sc;
+    const int id = eRand::rand() % sc;
     play(id, loop);
 }

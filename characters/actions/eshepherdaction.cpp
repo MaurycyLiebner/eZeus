@@ -21,7 +21,7 @@ eShepherdAction::eShepherdAction(eCharacter* const c) :
 
 bool hasAnimal(eTileBase* const tile, const eCharacterType type) {
     return tile->hasCharacter([&type](const eCharacterBase& c) {
-        if(rand() % 2) return false;
+        if(eRand::rand() % 2) return false;
         return c.type() == type && !c.busy();
     });
 }

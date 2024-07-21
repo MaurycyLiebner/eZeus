@@ -15,7 +15,7 @@ eAnimalAction::eAnimalAction(eCharacter* const c) :
 
 bool eAnimalAction::decide() {
     const auto c = character();
-    if(rand() % 2 == 0) {
+    if(eRand::rand() % 2 == 0) {
         c->setActionType(eCharacterActionType::walk);
         const auto m = e::make_shared<eMoveAroundAction>(
                            c, mSpawnerX, mSpawnerY,

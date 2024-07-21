@@ -56,7 +56,7 @@ eCharacterActionState eMoveAroundAction::nextTurn(eOrientation& turn) {
                                  eOrientation::top};
     std::random_shuffle(os.begin(), os.end());
     const auto c = character();
-    const bool keepO = (rand() % (mMaxDist/2)) != 0;
+    const bool keepO = (eRand::rand() % (mMaxDist/2)) != 0;
     if(keepO) os.insert(os.begin(), c->orientation());
     const auto t = c->tile();
     if(!t) return eCharacterActionState::failed;

@@ -1,6 +1,8 @@
 #ifndef ELIMITS_H
 #define ELIMITS_H
 
+#include "erand.h"
+
 #if (defined (_WIN32) || defined (_WIN64))
     #include <limits.h>
     #include <algorithm>
@@ -16,10 +18,7 @@
             for (diff_t i = last - first - 1; i > 0; --i)
             {
                 using std::swap;
-                swap(first[i], first[std::rand() % (i + 1)]);
-                // rand() % (i + 1) is not actually correct, because the generated number is
-                // not uniformly distributed for most values of i. The correct code would be
-                // a variation of the C++11 std::uniform_int_distribution implementation.
+                swap(first[i], first[eRand::rand() % (i + 1)]);
             }
         }
     }

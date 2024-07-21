@@ -28,7 +28,7 @@ eMapGenerator::eMapGenerator(eGameBoard& board) :
 void eMapGenerator::generateTerrain(const eMGS& settings) {
     (void)settings;
     module::Perlin p;
-    p.SetSeed(rand());
+    p.SetSeed(eRand::rand());
     p.SetOctaveCount(4.0);
     p.SetFrequency(1.0);
     p.SetPersistence(0.5);
@@ -62,7 +62,7 @@ void eMapGenerator::generateTerrain(const eMGS& settings) {
             } else if(checker(settings.fForest)) {
                 terr = eTerrain::forest;
             } else if(checker(settings.fForestToFertile)) {
-                if(rand() % 2) {
+                if(eRand::rand() % 2) {
                     terr = eTerrain::forest;
                 } else {
                     terr = eTerrain::fertile;
@@ -153,7 +153,7 @@ void eMapGenerator::generateStonesResource(
     while(generated < min && it++ < maxIt) {
         const double div = 12.5;
         module::Perlin p;
-        p.SetSeed(rand());
+        p.SetSeed(eRand::rand());
         p.SetOctaveCount(1.0);
         p.SetFrequency(1.0);
         p.SetPersistence(0.5);
@@ -196,8 +196,8 @@ void eMapGenerator::generateAnimals(const eMGS& settings) {
         const int h = mBoard.height();
 
         const int margin = 10;
-        const int x = margin + rand() % (w - 2*margin);
-        const int y = margin + rand() % (h - 2*margin);
+        const int x = margin + eRand::rand() % (w - 2*margin);
+        const int y = margin + eRand::rand() % (h - 2*margin);
 
         const auto tile = mBoard.dtile(x, y);
         const auto terr = tile->terrain();
@@ -208,7 +208,7 @@ void eMapGenerator::generateAnimals(const eMGS& settings) {
             continue;
         }
         stdsptr<eSpawner> spawner;
-        if(rand() % 2) {
+        if(eRand::rand() % 2) {
             spawner = std::make_shared<eBoarSpawner>(0, tile, mBoard);
         } else {
             spawner = std::make_shared<eDeerSpawner>(0, tile, mBoard);

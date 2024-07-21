@@ -33,11 +33,11 @@ bool eCharacter::canFight(eCharacter* const c) {
     const auto t = type();
     if(t == eCharacterType::disgruntled) {
         if(ct == eCharacterType::watchman) return true;
-        else if(rand() % 10) return false;
+        else if(eRand::rand() % 10) return false;
     }
     if(isSoldier()) {
         if(ct == eCharacterType::watchman) return true;
-        else if(rand() % 10) return false;
+        else if(eRand::rand() % 10) return false;
     }
     if(ct == eCharacterType::boar ||
        ct == eCharacterType::deer) {
@@ -212,7 +212,7 @@ void eCharacter::incTime(const int by) {
             mSoundPlayTime -= soundPlayTime;
             auto& board = getBoard();
             board.ifVisible(tile(), [&]() {
-                if(rand() % 2) {
+                if(eRand::rand() % 2) {
                     eSounds::playHitSound(this);
                 } else {
                     eSounds::playAttackSound(this);

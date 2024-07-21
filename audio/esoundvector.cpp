@@ -1,5 +1,7 @@
 #include "esoundvector.h"
 
+#include "erand.h"
+
 Mix_Chunk* loadSound(const std::string& path) {
     const auto wav = Mix_LoadWAV(path.c_str());
     if(!wav) {
@@ -33,6 +35,6 @@ void eSoundVector::play(const int id) {
 void eSoundVector::playRandomSound() {
     const int sc = soundCount();
     if(sc <= 0) return;
-    const int id = rand() % sc;
+    const int id = eRand::rand() % sc;
     play(id);
 }

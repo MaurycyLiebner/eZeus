@@ -382,6 +382,7 @@ SOURCES += \
         engine/thread/ethreaddata.cpp \
         engine/thread/ethreadtile.cpp \
         epathfindtask.cpp \
+        erand.cpp \
         esettings.cpp \
         estringhelpers.cpp \
         etexture.cpp \
@@ -991,6 +992,7 @@ HEADERS += \
     engine/thread/ethreadtile.h \
     eoverlay.h \
     epathfindtask.h \
+    erand.h \
     esettings.h \
     estringhelpers.h \
     etexture.h \

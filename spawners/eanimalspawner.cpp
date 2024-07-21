@@ -8,7 +8,7 @@ void eAnimalSpawner::spawn(eTile* const tile) {
     b->setActionType(eCharacterActionType::stand);
     b->setSpawner(this);
     b->changeTile(tile);
-    const int oi = rand() % 8;
+    const int oi = eRand::rand() % 8;
     const auto o = static_cast<eOrientation>(oi);
     b->setOrientation(o);
     const auto t = this->tile();

@@ -156,7 +156,7 @@ void eSmallHouse::timeChanged(const int by) {
             const int m4 = 10*pow(2000./mHygiene, 4);
             if(by) {
                 const int healPeriod = m4/by;
-                if(healPeriod && rand() % healPeriod == 0) {
+                if(healPeriod && eRand::rand() % healPeriod == 0) {
                     b.healHouse(this);
                 }
             }
@@ -167,7 +167,7 @@ void eSmallHouse::timeChanged(const int by) {
         const int plagueRisk = eDifficultyHelpers::plagueRisk(diff);
         if(plagueRisk && by) {
             const int plaguePeriod = m4/(by*plagueRisk);
-            if(plaguePeriod && rand() % plaguePeriod == 0) {
+            if(plaguePeriod && eRand::rand() % plaguePeriod == 0) {
                 const auto center = centerTile();
                 const int tx = center->x();
                 const int ty = center->y();
@@ -184,7 +184,7 @@ void eSmallHouse::timeChanged(const int by) {
         if(dion) {
             setDisgruntled(false);
          } else if(mSatisfaction > 30 && by > 0) {
-            if(rand() % (500000/(mSatisfaction*by)) == 0) {
+            if(eRand::rand() % (500000/(mSatisfaction*by)) == 0) {
                 setDisgruntled(false);
             }
         }
@@ -194,7 +194,7 @@ void eSmallHouse::timeChanged(const int by) {
         const int crimeRisk = eDifficultyHelpers::crimeRisk(diff);
         if(crimeRisk && by) {
             const int crimePeriod = m4/(by*crimeRisk);
-            if(crimePeriod && rand() % crimePeriod == 0) {
+            if(crimePeriod && eRand::rand() % crimePeriod == 0) {
                 setDisgruntled(true);
             }
         }
@@ -209,7 +209,7 @@ void eSmallHouse::timeChanged(const int by) {
             const int leaveRisk = eDifficultyHelpers::crimeRisk(diff);
             if(leaveRisk && by) {
                 const int leavePeriod = m4/(by*leaveRisk);
-                if(leavePeriod && rand() % leavePeriod == 0) {
+                if(leavePeriod && eRand::rand() % leavePeriod == 0) {
                     leave();
                 }
             }
@@ -263,7 +263,7 @@ void eSmallHouse::nextMonth() {
 
 void eSmallHouse::setPlague(const bool p) {
     mPlague = p;
-    mSpawnSick = rand() % 10000;
+    mSpawnSick = eRand::rand() % 10000;
 }
 
 void eSmallHouse::setDisgruntled(const bool d) {
@@ -450,7 +450,7 @@ void eSmallHouse::spawnCharacter(const stdsptr<eCharacter>& c) {
     if(ts.empty()) {
         c->changeTile(centerTile());
     } else {
-        const auto t = ts[rand() % ts.size()];
+        const auto t = ts[eRand::rand() % ts.size()];
         c->changeTile(t);
     }
     const auto a = e::make_shared<eSickDisgruntledAction>(c.get(), this);

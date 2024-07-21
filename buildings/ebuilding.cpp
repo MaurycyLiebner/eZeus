@@ -20,7 +20,7 @@ eBuilding::eBuilding(eGameBoard& board,
                      const eBuildingType type,
                      const int sw, const int sh) :
     eObject(board),
-    mSeed(rand()), mType(type),
+    mSeed(eRand::rand()), mType(type),
     mSpanW(sw), mSpanH(sh) {
     getBoard().registerBuilding(this);
 }
@@ -1950,8 +1950,8 @@ void eBuilding::incTime(const int by) {
         }
     }
     if(isOnFire()) {
-        if(rand() % (10000/by) == 0) {
-            if(rand() % 3) {
+        if(eRand::rand() % (10000/by) == 0) {
+            if(eRand::rand() % 3) {
                 const bool r = spreadFire();
                 eEventData ed;
                 ed.fTile = centerTile();
@@ -1966,7 +1966,7 @@ void eBuilding::incTime(const int by) {
                 return;
             }
         }
-    } else if(rand() % (2000/by) == 0) {
+    } else if(eRand::rand() % (2000/by) == 0) {
         if(!isEmptyHome()) {
             mMaintance = std::max(0, mMaintance - 1);
         }
@@ -1976,7 +1976,7 @@ void eBuilding::incTime(const int by) {
         const int fireRisk = eDifficultyHelpers::fireRisk(diff, mType);
         if(fireRisk && by && sFlammable(type())) {
             const int firePeriod = m4/(by*fireRisk);
-            if(firePeriod && rand() % firePeriod == 0) {
+            if(firePeriod && eRand::rand() % firePeriod == 0) {
                 setOnFire(true);
                 eEventData ed;
                 ed.fTile = centerTile();
@@ -1986,7 +1986,7 @@ void eBuilding::incTime(const int by) {
         const int damageRisk = eDifficultyHelpers::damageRisk(diff, mType);
         if(damageRisk && by) {
             const int damagePeriod = m4/(by*damageRisk);
-            if(damagePeriod && rand() % damagePeriod == 0) {
+            if(damagePeriod && eRand::rand() % damagePeriod == 0) {
                 eEventData ed;
                 ed.fTile = centerTile();
                 b.event(eEvent::collapse, ed);
