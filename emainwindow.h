@@ -85,7 +85,7 @@ public:
 private:
     void clearWidgets();
 
-    eSettings mSettings{false, true, false, false, false, eResolution()};
+    eSettings mSettings;
 
     std::string mLeader;
 

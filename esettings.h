@@ -9,7 +9,7 @@ struct eSettings {
     bool fSmallTextures = true;
     bool fMediumTextures = true;
     bool fLargeTextures = true;
-    bool fFullscreen = true;
+    bool fFullscreen = false;
     eResolution fRes = eResolution(1280, 720);
 
     std::vector<eTileSize> availableSizes() const;
