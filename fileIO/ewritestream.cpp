@@ -9,7 +9,7 @@
 #include "characters/actions/epatrolmoveaction.h"
 #include "spawners/ebanner.h"
 
-eWriteStream::eWriteStream(SDL_RWops* const dst) :
+eWriteStream::eWriteStream(const eWriteTarget& dst) :
     mDst(dst) {
 
 }

@@ -8,7 +8,7 @@
 #include "characters/actions/walkable/eobsticlehandler.h"
 #include "characters/actions/epatrolaction.h"
 
-eReadStream::eReadStream(SDL_RWops* const src) :
+eReadStream::eReadStream(const eReadSource& src) :
     mSrc(src) {
 
 }

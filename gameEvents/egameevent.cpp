@@ -44,16 +44,16 @@ stdsptr<eGameEvent> eGameEvent::makeCopy() const {
     void* mem = malloc(size);
     {
         mWorldBoard->setIOIDs();
-        const auto file = SDL_RWFromMem(mem, size);
-        eWriteStream dst(file);
+        eWriteTarget target(mem);
+        eWriteStream dst(target);
         write(dst);
     }
     const auto result = sCreate(mType, mBranch, mBoard);
     result->setGameBoard(mBoard);
     result->setWorldBoard(mWorldBoard);
     {
-        const auto file = SDL_RWFromMem(mem, size);
-        eReadStream src(file);
+        eReadSource source(mem);
+        eReadStream src(source);
         result->read(src);
         src.handlePostFuncs();
     }

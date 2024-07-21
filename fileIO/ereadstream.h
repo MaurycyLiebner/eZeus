@@ -6,6 +6,9 @@
 #include <string>
 #include <functional>
 #include <map>
+#include <fstream>
+#include <cstdint>
+#include <cstring>
 
 #include "pointers/estdpointer.h"
 #include "efileformat.h"
@@ -29,12 +32,36 @@ class eWorldBoard;
 
 using eDirectionTimes = std::map<eTile*, eDirectionLastUseTime>;
 
-class eReadStream {
+class eReadSource {
 public:
-    eReadStream(SDL_RWops* const src);
+    eReadSource(std::ifstream* const file) :
+        fFile(file) {}
+    eReadSource(void* mem) :
+        fMem(mem) {}
 
     inline size_t read(void* const data, const size_t len) {
-        return SDL_RWread(mSrc, data, len, 1);
+        if(fFile) {
+            fFile->read(static_cast<char*>(data), len);
+            return len;
+        } else if(fMem) {
+            std::memcpy(data, static_cast<char*>(fMem) + fMemPos, len);
+            fMemPos += len;
+            return len;
+        }
+        return 0;
+    }
+private:
+    std::ifstream* fFile = nullptr;
+    void* fMem = nullptr;
+    size_t fMemPos = 0;
+};
+
+class eReadStream {
+public:
+    eReadStream(const eReadSource& src);
+
+    inline size_t read(void* const data, const size_t len) {
+        return mSrc.read(data, len);
     }
 
     inline eReadStream& operator>>(bool& val) {
@@ -134,7 +161,7 @@ public:
 private:
     std::vector<eFunc> mPostFuncs;
 
-    SDL_RWops* const mSrc;
+    eReadSource mSrc;
 
     int mFileFormat = 0;
 };

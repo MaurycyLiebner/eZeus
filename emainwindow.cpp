@@ -20,6 +20,7 @@
 
 #include <chrono>
 #include <filesystem>
+#include <fstream>
 
 #include "widgets/efilewidget.h"
 #include "elanguage.h"
@@ -238,9 +239,10 @@ bool eMainWindow::saveGame(const std::string& path) {
     const auto fsp = std::filesystem::path(path);
     const auto fspd = fsp.parent_path();
     std::filesystem::create_directories(fspd);
-    const auto file = SDL_RWFromFile(path.c_str(), "w+b");
+    std::ofstream file(path, std::ios::out | std::ios::binary | std::ios::app);
     if(!file) return false;
-    eWriteStream dst(file);
+    eWriteTarget target(&file);
+    eWriteStream dst(target);
     if(mGW) {
         const auto s = mGW->settings();
         s.write(dst);
@@ -250,21 +252,22 @@ bool eMainWindow::saveGame(const std::string& path) {
         s.write(dst);
     }
     mCampaign->write(dst);
-    SDL_RWclose(file);
+    file.close();
     return true;
 }
 
 bool eMainWindow::loadGame(const std::string& path) {
-    const auto file = SDL_RWFromFile(path.c_str(), "r+b");
+    std::ifstream file(path, std::ios::in | std::ios::binary);
     if(!file) return false;
-    eReadStream src(file);
+    eReadSource source(&file);
+    eReadStream src(source);
     eGameWidgetSettings s;
     s.read(src);
     const auto c = std::make_shared<eCampaign>();
     c->read(src);
     c->loadStrings();
     src.handlePostFuncs();
-    SDL_RWclose(file);
+    file.close();
 
     startGameAction(c, s);
     return true;

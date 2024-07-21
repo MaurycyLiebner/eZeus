@@ -6,6 +6,9 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <fstream>
+#include <cstdint>
+#include <cstring>
 
 class eTile;
 class eBuilding;
@@ -24,12 +27,36 @@ class eGameEvent;
 
 using eDirectionTimes = std::map<eTile*, eDirectionLastUseTime>;
 
-class eWriteStream {
+class eWriteTarget {
 public:
-    eWriteStream(SDL_RWops* const dst);
+    eWriteTarget(std::ofstream* const file) :
+        fFile(file) {}
+    eWriteTarget(void* mem) :
+        fMem(mem) {}
 
     inline size_t write(const void* const data, const size_t len) {
-        return SDL_RWwrite(mDst, data, len, 1);
+        if(fFile) {
+            fFile->write(static_cast<const char*>(data), len);
+            return len;
+        } else if(fMem) {
+            std::memcpy(static_cast<char*>(fMem) + fMemPos, data, len);
+            fMemPos += len;
+            return len;
+        }
+        return 0;
+    }
+private:
+    std::ofstream* fFile = nullptr;
+    void* fMem = nullptr;
+    size_t fMemPos = 0;
+};
+
+class eWriteStream {
+public:
+    eWriteStream(const eWriteTarget& dst);
+
+    inline size_t write(const void* const data, const size_t len) {
+        return mDst.write(data, len);
     }
 
     inline eWriteStream& operator<<(const bool val) {
@@ -98,7 +125,7 @@ public:
     void writeSoldierBanner(eSoldierBanner* const b);
     void writeGameEvent(eGameEvent* const e);
 private:
-    SDL_RWops* const mDst;
+    eWriteTarget mDst;
 };
 
 #endif // EWRITESTREAM_H

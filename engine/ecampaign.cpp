@@ -179,11 +179,12 @@ bool eCampaign::sReadGlossary(const std::string& name,
     glossary.fComplete = map["Adventure_Complete"];
 
     const auto pakFile = aDir + name + ".epak";
-    const auto file = SDL_RWFromFile(pakFile.c_str(), "r+b");
+    std::ifstream file(pakFile, std::ios::in | std::ios::binary);
     if(!file) return false;
-    eReadStream src(file);
+    eReadSource source(&file);
+    eReadStream src(source);
     src >> glossary.fBitmap;
-    SDL_RWclose(file);
+    file.close();
     return true;
 }
 
@@ -321,12 +322,13 @@ bool eCampaign::load(const std::string& name) {
     const auto aDir = baseDir + mName + "/";
 
     const auto pakFile = aDir + mName + ".epak";
-    const auto file = SDL_RWFromFile(pakFile.c_str(), "r+b");
+    std::ifstream file(pakFile, std::ios::in | std::ios::binary);
     if(!file) return false;
-    eReadStream src(file);
+    eReadSource source(&file);
+    eReadStream src(source);
     read(src);
     src.handlePostFuncs();
-    SDL_RWclose(file);
+    file.close();
 
     const auto txtFile = aDir + mName + ".txt";
     loadStrings();
@@ -341,11 +343,12 @@ bool eCampaign::save() const {
     if(!std::filesystem::exists(txtFile)) writeStrings(txtFile);
 
     const auto pakFile = aDir + mName + ".epak";
-    const auto file = SDL_RWFromFile(pakFile.c_str(), "w+b");
+    std::ofstream file(pakFile, std::ios::out | std::ios::binary | std::ios::app);
     if(!file) return false;
-    eWriteStream dst(file);
+    eWriteTarget target(&file);
+    eWriteStream dst(target);
     write(dst);
-    SDL_RWclose(file);
+    file.close();
     return true;
 }
 
@@ -504,13 +507,13 @@ void eCampaign::copyEpisodeSettings(eEpisode* const from,
     void* mem = malloc(size);
     {
         mWorldBoard.setIOIDs();
-        const auto file = SDL_RWFromMem(mem, size);
-        eWriteStream dst(file);
+        eWriteTarget target(mem);
+        eWriteStream dst(target);
         from->write(dst);
     }
     {
-        const auto file = SDL_RWFromMem(mem, size);
-        eReadStream src(file);
+        eReadSource source(mem);
+        eReadStream src(source);
         to->read(src);
         src.handlePostFuncs();
     }
