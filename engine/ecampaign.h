@@ -263,6 +263,8 @@ public:
                   const stdsptr<eWorldCity>& from);
 
     stdsptr<eWorldCity> lastPlayedColony() const;
+
+    bool colonyEpisodeFinished(const int id) const;
 private:
     int mBitmap = 0;
     std::string mName;

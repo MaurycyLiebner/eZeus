@@ -207,13 +207,26 @@ void eCampaign::read(eReadStream& src) {
     mParentBoard = e::make_shared<eGameBoard>();
     mParentBoard->setWorldBoard(&mWorldBoard);
     mParentBoard->read(src);
+
+    {
+        int ne;
+        src >> ne;
+        for(int i = 0; i < ne; i++) {
+            int e;
+            src >> e;
+            mPlayedColonyEpisodes.push_back(e);
+        }
+    }
+
     {
         int nc;
         src >> nc;
         for(int i = 0; i < nc; i++) {
             auto& b = mColonyBoards.emplace_back();
+            const bool finished = colonyEpisodeFinished(i);
             b = e::make_shared<eGameBoard>();
             b->setWorldBoard(&mWorldBoard);
+            if(finished) continue;
             b->read(src);
         }
     }
@@ -242,15 +255,6 @@ void eCampaign::read(eReadStream& src) {
         }
     }
 
-    {
-        int ne;
-        src >> ne;
-        for(int i = 0; i < ne; i++) {
-            int e;
-            src >> e;
-            mPlayedColonyEpisodes.push_back(e);
-        }
-    }
     {
         int ne;
         src >> ne;
@@ -285,8 +289,16 @@ void eCampaign::write(eWriteStream& dst) const {
     mWorldBoard.write(dst);
     mParentBoard->write(dst);
 
+    dst << mPlayedColonyEpisodes.size();
+    for(const int e : mPlayedColonyEpisodes) {
+        dst << e;
+    }
+
     dst << mColonyBoards.size();
+    int cid = 0;
     for(const auto& b : mColonyBoards) {
+        const bool finished = colonyEpisodeFinished(cid++);
+        if(finished) continue;
         b->write(dst);
     }
 
@@ -298,11 +310,6 @@ void eCampaign::write(eWriteStream& dst) const {
     dst << mColonyEpisodes.size();
     for(const auto& e : mColonyEpisodes) {
         e->write(dst);
-    }
-
-    dst << mPlayedColonyEpisodes.size();
-    for(const int e : mPlayedColonyEpisodes) {
-        dst << e;
     }
 
     dst << mForColony.size();
@@ -555,6 +562,15 @@ stdsptr<eWorldCity> eCampaign::lastPlayedColony() const {
     if(mPlayedColonyEpisodes.empty()) return nullptr;
     const int i = mPlayedColonyEpisodes.back();
     return mColonyEpisodes[i]->fCity;
+}
+
+bool eCampaign::colonyEpisodeFinished(const int id) const {
+    const bool current = mCurrentColonyEpisode == id &&
+                         mCurrentEpisodeType == eEpisodeType::colony;
+    if(current) return false;
+    const bool finished = eVectorHelpers::contains(
+                              mPlayedColonyEpisodes, id);
+    return finished;
 }
 
 void eCampaign::copyColonyEpisodeSettings(const int from, const int to) {
