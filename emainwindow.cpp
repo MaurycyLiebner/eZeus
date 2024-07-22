@@ -100,6 +100,8 @@ void eMainWindow::addSlot(const eSlot& slot) {
 }
 
 void eMainWindow::setResolution(const eResolution& res) {
+    if(mSettings.fRes == res && !mFirstFullscrenSetting) return;
+    mFirstResolutionSetting = false;
     mSettings.fRes = res;
     const int w = res.width();
     const int h = res.height();
@@ -107,6 +109,8 @@ void eMainWindow::setResolution(const eResolution& res) {
 }
 
 void eMainWindow::setFullscreen(const bool f) {
+    if(mSettings.fFullscreen == f && !mFirstFullscrenSetting) return;
+    mFirstFullscrenSetting = false;
     mSettings.fFullscreen = f;
     SDL_SetWindowFullscreen(mSdlWindow, f ? SDL_WINDOW_FULLSCREEN : 0);
 }

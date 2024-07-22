@@ -90,6 +90,8 @@ private:
     std::string mLeader;
 
     bool mQuit = false;
+    bool mFirstFullscrenSetting = true;
+    bool mFirstResolutionSetting = true;
 
     std::vector<eSlot> mSlots;
 
