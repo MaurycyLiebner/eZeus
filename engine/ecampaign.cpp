@@ -343,7 +343,8 @@ bool eCampaign::save() const {
     if(!std::filesystem::exists(txtFile)) writeStrings(txtFile);
 
     const auto pakFile = aDir + mName + ".epak";
-    std::ofstream file(pakFile, std::ios::out | std::ios::binary | std::ios::app);
+    std::ofstream file(pakFile, std::ios::out | std::ios::binary |
+                       std::ios::trunc);
     if(!file) return false;
     eWriteTarget target(&file);
     eWriteStream dst(target);

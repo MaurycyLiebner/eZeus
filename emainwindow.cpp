@@ -243,7 +243,8 @@ bool eMainWindow::saveGame(const std::string& path) {
     const auto fsp = std::filesystem::path(path);
     const auto fspd = fsp.parent_path();
     std::filesystem::create_directories(fspd);
-    std::ofstream file(path, std::ios::out | std::ios::binary | std::ios::app);
+    std::ofstream file(path, std::ios::out | std::ios::binary |
+                       std::ios::trunc);
     if(!file) return false;
     eWriteTarget target(&file);
     eWriteStream dst(target);
