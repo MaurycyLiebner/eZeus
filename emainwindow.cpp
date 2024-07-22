@@ -592,6 +592,8 @@ int eMainWindow::exec() {
     SDL_Event e;
     eTooltip tooltip(*this);
 
+    const bool showFPS = false;
+
     int c = 0;
     int fpsVal = 0;
     while(!mQuit) {
@@ -605,13 +607,7 @@ int eMainWindow::exec() {
                 mQuit = true;
             } else if(e.type == SDL_WINDOWEVENT) {
                 const auto we = e.window.event;
-                if(we == SDL_WINDOWEVENT_SHOWN ||
-                   we == SDL_WINDOWEVENT_EXPOSED ||
-                   we == SDL_WINDOWEVENT_RESIZED ||
-                   we == SDL_WINDOWEVENT_SIZE_CHANGED ||
-                   we == SDL_WINDOWEVENT_MINIMIZED ||
-                   we == SDL_WINDOWEVENT_MAXIMIZED ||
-                   we == SDL_WINDOWEVENT_RESTORED) {
+                if(we == SDL_WINDOWEVENT_EXPOSED) {
                     if(mWidget) mWidget->renderTargetsReset();
                 }
             } else if(e.type == SDL_RENDER_TARGETS_RESET ||
@@ -705,8 +701,10 @@ int eMainWindow::exec() {
             }
         }
 
-        p.setFont(eFonts::defaultFont(resolution()));
-        p.drawText(0, 0, std::to_string(fpsVal), eFontColor::dark);
+        if(showFPS) {
+            p.setFont(eFonts::defaultFont(resolution()));
+            p.drawText(0, 0, std::to_string(fpsVal), eFontColor::dark);
+        }
 
         SDL_RenderPresent(mSdlRenderer);
 
@@ -721,11 +719,13 @@ int eMainWindow::exec() {
         const duration<double, std::milli> fpsSleep(fpsDuration - fpsElapsed);
         std::this_thread::sleep_for(fpsSleep);
 
-        c++;
-        if(c % 25 == 0) {
-            const auto fpsEnd = high_resolution_clock::now();
-            const duration<double, std::milli> fpsElapsed = fpsEnd - fpsStart;
-            fpsVal = (int)std::round(1000./fpsElapsed.count());
+        if(showFPS) {
+            c++;
+            if(c % 25 == 0) {
+                const auto fpsEnd = high_resolution_clock::now();
+                const duration<double, std::milli> fpsElapsed = fpsEnd - fpsStart;
+                fpsVal = (int)std::round(1000./fpsElapsed.count());
+            }
         }
     }
 
