@@ -293,7 +293,7 @@ void eMainWindow::closeGame() {
 
 void eMainWindow::showRosterOfLeaders() {
     clearWidgets();
-
+    eMusic::playMenuMusic();
     const auto rol = new eRosterOfLeaders(this);
     rol->resize(width(), height());
     rol->initialize();
