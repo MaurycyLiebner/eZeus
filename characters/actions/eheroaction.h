@@ -32,7 +32,7 @@ private:
     void defendCity();
     void lookForMonsterFight();
     bool fightMonster(eMonster* const m);
-    void huntMonster(eMonster* const m);
+    void huntMonster(eMonster* const m, const bool second);
 
     stdsptr<eWalkableObject> defaultWalkable() const;
 

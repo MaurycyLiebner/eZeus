@@ -95,7 +95,7 @@ void eHeroAction::lookForMonster() {
         const auto mt = eMonster::sCharacterToMonsterType(ct);
         const auto sl = eMonster::sSlayer(mt);
         if(sl != ht) continue;
-        huntMonster(m);
+        huntMonster(m, false);
     }
 }
 
@@ -265,7 +265,7 @@ bool eHeroAction::fightMonster(eMonster* const m) {
     return true;
 }
 
-void eHeroAction::huntMonster(eMonster* const m) {
+void eHeroAction::huntMonster(eMonster* const m, const bool second) {
     const auto mt = m->tile();
     if(!mt) return;
     const int mtx = mt->x();
@@ -285,11 +285,15 @@ void eHeroAction::huntMonster(eMonster* const m) {
     a->setFailAction(finish);
     a->setFinishAction(finish);
     const stdptr<eHeroAction> tptr(this);
-    a->setFoundAction([tptr, this, a, c]() {
-        if(!tptr) return;
-        mStage = eHeroActionStage::hunt;
-        c->setActionType(eCharacterActionType::walk);
-        setCurrentAction(a);
+    const stdptr<eMonster> mptr(m);
+    a->setFoundAction([tptr, mptr, this, a, c, second]() {
+        if(!tptr || !mptr) return;
+        if(second) {
+            mStage = eHeroActionStage::hunt;
+            c->setActionType(eCharacterActionType::walk);
+        } else {
+            huntMonster(mptr, true);
+        }
     });
     a->setRemoveLastTurn(true);
     a->setWait(false);
@@ -298,6 +302,9 @@ void eHeroAction::huntMonster(eMonster* const m) {
         a->start(monsterTile, eWalkableObject::sCreateWaterAndTerrain());
     } else {
         a->start(monsterTile, defaultWalkable());
+    }
+    if(second) {
+        setCurrentAction(a);
     }
 }
 
