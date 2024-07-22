@@ -826,6 +826,8 @@ private:
     bool mPop15000 = false;
     bool mPop20000 = false;
     bool mPop25000 = false;
+
+    int mUpdateResources = 999999;
 };
 
 #endif // EGAMEBOARD_H

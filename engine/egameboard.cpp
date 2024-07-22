@@ -1937,6 +1937,14 @@ void eGameBoard::incTime(const int by) {
         allow(eBuildingType::commemorative, 0);
         mPop25000 = true;
     }
+
+    const int updateResWait = 1000;
+    mUpdateResources += by;
+    if(mUpdateResources > updateResWait) {
+        mUpdateResources -= updateResWait;
+        updateResources();
+    }
+
     const int food = resourceCount(eResourceType::food);
     bool prolongedNoFood = false;
     if(mNoFood && food < 1 && pop > 10) {
