@@ -175,6 +175,7 @@ eHeat eHeatGetters::culture(const eBuildingType type) {
     case eBuildingType::dramaSchool: return {10, 5};
     case eBuildingType::theater: return {10, 5};
     case eBuildingType::stadium: return {10, 5};
+    case eBuildingType::commonHouse: return {5, 5};
     case eBuildingType::ruins:
     case eBuildingType::placeholder:
     case eBuildingType::wall:
