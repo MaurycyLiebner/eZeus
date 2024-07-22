@@ -358,6 +358,7 @@ void eHerosHall::read(eReadStream& src) {
     src >> mActors;
     src >> mAthletes;
     src >> mUpdateCulture;
+    src >> mHeroOnQuest;
 }
 
 void eHerosHall::write(eWriteStream& dst) const {
@@ -368,6 +369,7 @@ void eHerosHall::write(eWriteStream& dst) const {
     dst << mActors;
     dst << mAthletes;
     dst << mUpdateCulture;
+    dst << mHeroOnQuest;
 }
 
 void eHerosHall::addRequirement(const eHeroRequirement& hr) {
