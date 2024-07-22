@@ -8,6 +8,7 @@ class eSettlerAction : public eActionWithComeback {
     friend class eSA_findHouseFinish;
 public:
     eSettlerAction(eCharacter* const c);
+    ~eSettlerAction();
 
     bool decide() override;
 
@@ -22,7 +23,7 @@ protected:
     void leave();
     bool enterHouse();
 private:
-    int mNPeople = 8;
+    int mNPeople = 0;
     bool mNoHouses = false;
 };
 

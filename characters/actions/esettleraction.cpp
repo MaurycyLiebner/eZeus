@@ -14,6 +14,10 @@ eSettlerAction::eSettlerAction(eCharacter* const c) :
     setFinishOnComeback(true);
 }
 
+eSettlerAction::~eSettlerAction() {
+    setNumberPeople(0);
+}
+
 bool eSettlerAction::decide() {
     if(mNoHouses) {
         const auto c = character();
@@ -31,15 +35,22 @@ bool eSettlerAction::decide() {
 
 void eSettlerAction::read(eReadStream& src) {
     eActionWithComeback::read(src);
+    int nPeople;
+    src >> nPeople;
+    setNumberPeople(nPeople);
     src >> mNoHouses;
 }
 
 void eSettlerAction::write(eWriteStream& dst) const {
     eActionWithComeback::write(dst);
+    dst << mNPeople;
     dst << mNoHouses;
 }
 
 void eSettlerAction::setNumberPeople(const int p) {
+    auto& board = this->board();
+    auto& popData = board.populationData();
+    popData.incSettlers(p - mNPeople);
     mNPeople = p;
 }
 
@@ -136,13 +147,15 @@ bool eSettlerAction::enterHouse() {
             const auto ch = static_cast<eSmallHouse*>(b);
             const int v = ch->vacancies();
             if(v <= 0) continue;
-            mNPeople -= ch->moveIn(mNPeople);
+            const int nPeople = mNPeople - ch->moveIn(mNPeople);
+            setNumberPeople(nPeople);
             return true;
         } else if(t == eBuildingType::eliteHousing) {
             const auto ch = static_cast<eEliteHousing*>(b);
             const int v = ch->vacancies();
             if(v <= 0) continue;
-            mNPeople -= ch->moveIn(mNPeople);
+            const int nPeople = mNPeople - ch->moveIn(mNPeople);
+            setNumberPeople(nPeople);
             return true;
         }
     }

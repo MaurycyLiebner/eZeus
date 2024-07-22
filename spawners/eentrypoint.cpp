@@ -30,19 +30,12 @@ void eEntryPoint::spawn(eTile* const tile) {
     const int v = popData.vacancies();
     const int s = popData.settlers();
     if(s >= v) return;
-    popData.incSettlers(8);
     const auto b = e::make_shared<eSettler>(board);
     b->setVisible(false);
     b->changeTile(tile);
-    const auto fa = std::make_shared<eSS_spawnFinish>(board);
     const auto a = e::make_shared<eSettlerAction>(b.get());
-    a->setFailAction(fa);
-    a->setFinishAction(fa);
-    a->setDeleteFailAction(fa);
+    a->setNumberPeople(std::min(8, v - s));
     b->setAction(a);
 }
 
-void eSS_spawnFinish::call() {
-    auto& popData = board().populationData();
-    popData.incSettlers(-8);
-}
+void eSS_spawnFinish::call() {}
