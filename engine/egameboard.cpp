@@ -344,6 +344,7 @@ void eGameBoard::built(const eBuildingType type,
 
 void eGameBoard::destroyed(const eBuildingType type,
                            const int id) {
+    if(!mRegisterBuildingsEnabled) return;
     mAvailableBuildings.destroyed(type, id);
     if(mButtonVisUpdater) mButtonVisUpdater();
 }
