@@ -27,6 +27,7 @@ public:
     void lookForMonster();
     void sendOnQuest();
     void goBackToHall();
+    void waitAndGoBackToHall(const int w);
 private:
     void defendCity();
     void lookForMonsterFight();
@@ -132,6 +133,32 @@ public:
     }
 private:
     stdptr<eMonster> mMptr;
+};
+
+class eHA_waitAndGoToHallFinish : public eCharActFunc {
+public:
+    eHA_waitAndGoToHallFinish(eGameBoard& board) :
+        eCharActFunc(board, eCharActFuncType::HA_waitAndGoToHallFinish) {}
+    eHA_waitAndGoToHallFinish(eGameBoard& board, eHeroAction* const a) :
+        eCharActFunc(board, eCharActFuncType::HA_waitAndGoToHallFinish),
+        mAptr(a) {}
+
+    void call() override {
+        if(!mAptr) return;
+        mAptr->goBackToHall();
+    }
+
+    void read(eReadStream& src) override {
+        src.readCharacterAction(&board(), [this](eCharacterAction* const a) {
+            mAptr = static_cast<eHeroAction*>(a);
+        });
+    }
+
+    void write(eWriteStream& dst) const override {
+        dst.writeCharacterAction(mAptr);
+    }
+private:
+    stdptr<eHeroAction> mAptr;
 };
 
 #endif // EHEROACTION_H

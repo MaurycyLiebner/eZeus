@@ -439,7 +439,7 @@ void eSoldierAction::goTo(const int fx, const int fy,
 
 void eSoldierAction::waitAndGoHome(const int w) {
     const auto c = character();
-    c->setActionType(eCharacterActionType::fight);
+    c->setActionType(eCharacterActionType::none);
     const auto finish = std::make_shared<eSA_waitAndGoHomeFinish>(
                             board(), this);
     const auto a = e::make_shared<eWaitAction>(c);

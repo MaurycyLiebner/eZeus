@@ -28,26 +28,6 @@ void eArmyReturnEvent::trigger() {
     const auto entryPoint = board->entryPoint();
 
     int wait = 0;
-    for(const auto& s : mForces.fSoldiers) {
-        s->backFromAbroad(wait);
-    }
-
-    for(const auto h : mForces.fHeroes) {
-        const auto hh = board->heroHall(h);
-        if(!hh) continue;
-        hh->setHeroOnQuest(false);
-        if(!entryPoint) continue;
-        const auto hero = hh->spawnHero();
-        const auto a = hero->action();
-        const auto ha = dynamic_cast<eHeroAction*>(a);
-        if(!ha) continue;
-        hero->changeTile(entryPoint);
-        ha->goBackToHall();
-    }
-
-    for(const auto& a : mForces.fAllies) {
-        a->setAbroad(false);
-    }
 
     if(mForces.fAres) {
         const auto as = board->sanctuary(eGodType::ares);
@@ -60,9 +40,32 @@ void eArmyReturnEvent::trigger() {
                     god->setAction(ga);
                     god->changeTile(entryPoint);
                     ga->goBackToSanctuary();
+                    wait += 150;
                 }
             }
         }
+    }
+
+    for(const auto h : mForces.fHeroes) {
+        const auto hh = board->heroHall(h);
+        if(!hh) continue;
+        hh->setHeroOnQuest(false);
+        if(!entryPoint) continue;
+        const auto hero = hh->spawnHero();
+        const auto a = hero->action();
+        const auto ha = dynamic_cast<eHeroAction*>(a);
+        if(!ha) continue;
+        hero->changeTile(entryPoint);
+        ha->waitAndGoBackToHall(wait);
+        wait += 150;
+    }
+
+    for(const auto& s : mForces.fSoldiers) {
+        s->backFromAbroad(wait);
+    }
+
+    for(const auto& a : mForces.fAllies) {
+        a->setAbroad(false);
     }
 
     eEventData ed;

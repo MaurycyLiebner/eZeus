@@ -166,6 +166,9 @@ stdsptr<eCharActFunc> eCharActFunc::sCreate(
         return std::make_shared<eRC_finishAction>(board);
     case eCharActFuncType::RC_finishWalkingAction:
         return std::make_shared<eRC_finishWalkingAction>(board);
+
+    case eCharActFuncType::HA_waitAndGoToHallFinish:
+        return std::make_shared<eHA_waitAndGoToHallFinish>(board);
     }
     return nullptr;
 }

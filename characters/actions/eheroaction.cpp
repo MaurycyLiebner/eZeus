@@ -162,6 +162,17 @@ void eHeroAction::goBackToHall() {
     a->start(hh, defaultWalkable());
 }
 
+void eHeroAction::waitAndGoBackToHall(const int w) {
+    const auto c = character();
+    c->setActionType(eCharacterActionType::none);
+    const auto finish = std::make_shared<eHA_waitAndGoToHallFinish>(
+                            board(), this);
+    const auto a = e::make_shared<eWaitAction>(c);
+    a->setFinishAction(finish);
+    a->setTime(w);
+    setCurrentAction(a);
+}
+
 void eHeroAction::defendCity() {
     auto& board = eHeroAction::board();
     const auto i = board.invasionToDefend();
