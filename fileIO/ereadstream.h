@@ -9,6 +9,7 @@
 #include <fstream>
 #include <cstdint>
 #include <cstring>
+#include <cassert>
 
 #include "pointers/estdpointer.h"
 #include "efileformat.h"
@@ -40,6 +41,7 @@ public:
         fMem(mem) {}
 
     inline size_t read(void* const data, const size_t len) {
+        assert(fFile || fMem);
         if(fFile) {
             fFile->read(static_cast<char*>(data), len);
             return len;

@@ -9,6 +9,7 @@
 #include <fstream>
 #include <cstdint>
 #include <cstring>
+#include <cassert>
 
 class eTile;
 class eBuilding;
@@ -35,6 +36,7 @@ public:
         fMem(mem) {}
 
     inline size_t write(const void* const data, const size_t len) {
+        assert(fFile || fMem);
         if(fFile) {
             fFile->write(static_cast<const char*>(data), len);
             return len;
