@@ -916,6 +916,14 @@ void eGameBoard::consolidateSoldiers() {
     consolidator(horsemen);
 }
 
+bool eGameBoard::wasHeroSummoned(const eHeroType hero) const {
+    return eVectorHelpers::contains(mSummonedHeroes, hero);
+}
+
+void eGameBoard::heroSummoned(const eHeroType hero) {
+    mSummonedHeroes.push_back(hero);
+}
+
 void eGameBoard::updateMaxSoldiers() {
     mMaxRabble = 0;
     mMaxHoplites = 0;

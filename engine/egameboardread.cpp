@@ -312,4 +312,12 @@ void eGameBoard::read(eReadStream& src) {
          a->read(src, *this);
          mPlannedActions.push_back(a);
      }
+
+     int nh;
+     src >> nh;
+     for(int i = 0; i < nh; i++) {
+         eHeroType h;
+         src >> h;
+         mSummonedHeroes.push_back(h);
+     }
 }

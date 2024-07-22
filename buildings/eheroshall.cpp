@@ -316,6 +316,7 @@ void eHerosHall::arrive() {
     ed.fChar = mHero;
     ed.fTile = mHero ? mHero->tile() : nullptr;
     board.event(eEvent::heroArrival, ed);
+    board.heroSummoned(mType);
 }
 
 eHero* eHerosHall::spawnHero() {
@@ -668,6 +669,9 @@ eHerosHall::eHerosHall(const eHeroType type, eGameBoard& board) :
         break;
     }
     updateRequirementsStatus();
+
+    const bool s = board.wasHeroSummoned(type);
+    if(s) mStage = eHeroSummoningStage::arrived;
 }
 
 eHerosHall::~eHerosHall() {

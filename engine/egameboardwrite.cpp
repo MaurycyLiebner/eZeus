@@ -280,4 +280,9 @@ void eGameBoard::write(eWriteStream& dst) const {
         dst << a->type();
         a->write(dst);
     }
+
+    dst << mSummonedHeroes.size();
+    for(const auto h : mSummonedHeroes) {
+        dst << h;
+    }
 }

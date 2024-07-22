@@ -1,4 +1,4 @@
-﻿#ifndef EGAMEBOARD_H
+#ifndef EGAMEBOARD_H
 #define EGAMEBOARD_H
 
 #include <vector>
@@ -601,6 +601,9 @@ public:
     void updateMaxSoldiers();
     void distributeSoldiers();
     void consolidateSoldiers();
+
+    bool wasHeroSummoned(const eHeroType hero) const;
+    void heroSummoned(const eHeroType hero);
 private:
     void updateNeighbours();
 
@@ -771,6 +774,7 @@ private:
     std::vector<eMonsterType> mHostileMonsters;
     std::vector<eGodType> mFriendlyGods;
     std::vector<eGodType> mHostileGods;
+    std::vector<eHeroType> mSummonedHeroes;
 
     std::vector<eCharacter*> mAttackingGods;
 
