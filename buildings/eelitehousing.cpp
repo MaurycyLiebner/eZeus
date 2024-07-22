@@ -149,12 +149,15 @@ int eEliteHousing::provide(const eProvide p, const int n) {
         break;
     case eProvide::fleece:
         value = &mFleece;
+        max = 16;
         break;
     case eProvide::oil:
         value = &mOil;
+        max = 16;
         break;
     case eProvide::wine:
         value = &mWine;
+        max = 16;
         break;
     case eProvide::arms:
         max = 4;
