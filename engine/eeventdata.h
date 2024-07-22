@@ -15,7 +15,7 @@ enum class eMonsterType;
 
 struct eEventData {
     eMessageEventType fType = eMessageEventType::common;
-    eDate fDate;
+    eDate fDate = eDate(1, eMonth::january, -1500);
     std::string fPlayerName;
     eTile* fTile = nullptr;
     stdptr<eCharacter> fChar;
@@ -34,10 +34,10 @@ struct eEventData {
     int fSpaceCount = 0;
     int fTime = 0;
     std::string fReason;
-    eGodType fGod;
-    eGodQuestId fQuestId;
-    eHeroType fHero;
-    eMonsterType fMonster;
+    eGodType fGod = static_cast<eGodType>(0);
+    eGodQuestId fQuestId = static_cast<eGodQuestId>(0);
+    eHeroType fHero = static_cast<eHeroType>(0);
+    eMonsterType fMonster = static_cast<eMonsterType>(0);
 };
 
 #endif // EEVENTDATA_H
