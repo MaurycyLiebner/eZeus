@@ -77,7 +77,7 @@ void eEnlistedForces::add(const eEnlistedForces& o) {
     fAres = fAres || o.fAres;
 }
 
-const double gHelpFrac = 0.67;
+const double gHelpFrac = 0.33;
 
 int eEnlistedForces::strength() const {
     int str = 0;
