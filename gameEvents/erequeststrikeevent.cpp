@@ -9,6 +9,8 @@
 eRequestStrikeEvent::eRequestStrikeEvent(const eGameEventBranch branch) :
     eGameEvent(eGameEventType::requestStrike, branch) {}
 
+const double gStrikeFrac = 0.67;
+
 void eRequestStrikeEvent::trigger() {
     if(!mCity || !mRivalCity) return;
     const auto board = gameBoard();
@@ -20,7 +22,7 @@ void eRequestStrikeEvent::trigger() {
    const auto date = board->date();
 
     if(mEnd) {
-        const int str = mCity->troops();
+        const int str = gStrikeFrac*mCity->troops();
         const int rstr = mRivalCity->troops();
 
         if(str > 1.5*rstr) {
@@ -29,15 +31,16 @@ void eRequestStrikeEvent::trigger() {
         } else {
             board->event(eEvent::strikeUnsuccessful, ed);
         }
-        if(rstr > 0.75*str) {
-            const double killFrac = 0.25;
-            const int t = mCity->troops();
-            mCity->setTroops((1 - killFrac)*t);
+        {
+            const int troops = mRivalCity->troops();
+            const double killFrac = std::clamp(0.5*str/rstr, 0., 1.);
+            mRivalCity->setTroops((1 - killFrac)*troops);
         }
-        if(str > rstr) {
-            const double killFrac = 0.25;
-            const int t = mRivalCity->troops();
-            mRivalCity->setTroops((1 - killFrac)*t);
+
+        {
+            const int troops = mCity->troops();
+            const double killFrac = std::clamp(0.5*rstr/str, 0., 1.);
+            mCity->setTroops((1 - gStrikeFrac*killFrac)*troops);
         }
     } else {
         const auto e = e::make_shared<eRequestStrikeEvent>(
