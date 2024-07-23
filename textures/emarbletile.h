@@ -6,7 +6,7 @@
 #include "eterraintextures.h"
 
 namespace eMarbleTile {
-    bool isEdge(eTile* const tile);
+    bool edge(eTile* const tile);
     std::shared_ptr<eTexture> get(eTile* const tile,
             const eTerrainTextures& textures,
             const eWorldDirection dir);

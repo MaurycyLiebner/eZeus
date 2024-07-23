@@ -17,19 +17,9 @@ eCollectAction::eCollectAction(eCharacter* const c) :
 
 void transformMarble(eTile* const t, eGameBoard& board) {
     if(t->resource() > 0) return;
-    if(eMarbleTile::isEdge(t)) {
-        t->setMarbleLevel(1);
-        board.restockMarbleTiles();
-    } else {
-        const int l = t->marbleLevel();
-        if(l == 0) {
-            t->setMarbleLevel(1);
-            t->setResource(1);
-        } else if(l == 1) {
-            t->setMarbleLevel(2);
-            board.restockMarbleTiles();
-        }
-    }
+    const int l = t->marbleLevel();
+    t->setMarbleLevel(l + 1);
+    board.restockMarbleTiles();
 }
 
 void transformForest(eTile* const t, eGameBoard& brd) {

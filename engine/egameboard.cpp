@@ -72,6 +72,7 @@
 #include "ecampaign.h"
 #include "eiteratesquare.h"
 #include "ecolonymonumentaction.h"
+#include "textures/emarbletile.h"
 
 eGameBoard::eGameBoard() :
     mThreadPool(*this),
@@ -440,18 +441,49 @@ void eGameBoard::planAction(ePlannedAction* const a) {
 }
 
 void eGameBoard::restockMarbleTiles() {
-    int maxLevel = 0;
-    for(const auto t : mMarbleTiles) {
-        if(t->resource() > 0) return;
-        const int l = t->marbleLevel();
-        if(l > maxLevel) {
-            maxLevel = l;
+    for(const auto& mt : mMarbleTiles) {
+        mt.restock();
+    }
+}
+
+bool eGameBoard::eMarbleTiles::contains(eTile* const tile) const {
+    return eVectorHelpers::contains(fTiles, tile);
+}
+
+void eGameBoard::eMarbleTiles::add(eTile* const tile) {
+    fTiles.push_back(tile);
+}
+
+void eGameBoard::eMarbleTiles::addWithNeighbours(eTile* const tile) {
+    for(int x = -1; x <= 1; x++) {
+        for(int y = -1; y <= 1; y++) {
+            const auto n = tile->tileRel<eTile>(x, y);
+            const auto terr = n->terrain();
+            if(terr != eTerrain::marble) return;
+            const bool c = contains(n);
+            if(c) continue;
+            add(n);
+            addWithNeighbours(n);
         }
     }
-    for(const auto t : mMarbleTiles) {
+}
+
+void eGameBoard::eMarbleTiles::restock() const {
+    int maxLevel = 0;
+    for(const auto t : fTiles) {
+        if(t->resource() > 0) return;
+        const int l = t->marbleLevel();
+        if(l > maxLevel) maxLevel = l;
+    }
+    for(const auto t : fTiles) {
         const int l = t->marbleLevel();
         if(l == maxLevel) {
-            t->setResource(10000);
+            if(maxLevel == 2) {
+                t->setResource(99999);
+            } else {
+                const bool e = eMarbleTile::edge(t);
+                if(!e) t->setResource(1);
+            }
         }
     }
 }
@@ -459,8 +491,14 @@ void eGameBoard::restockMarbleTiles() {
 void eGameBoard::updateMarbleTiles() {
     mMarbleTiles.clear();
     iterateOverAllTiles([&](eTile* const t) {
-        if(t->terrain() != eTerrain::marble) return;
-        mMarbleTiles.push_back(t);
+        const auto terr = t->terrain();
+        if(terr != eTerrain::marble) return;
+        for(const auto& mt : mMarbleTiles) {
+            const bool c = mt.contains(t);
+            if(c) return;
+        }
+        auto& mt = mMarbleTiles.emplace_back();
+        mt.addWithNeighbours(t);
     });
 }
 

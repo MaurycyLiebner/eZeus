@@ -320,4 +320,6 @@ void eGameBoard::read(eReadStream& src) {
          src >> h;
          mSummonedHeroes.push_back(h);
      }
+
+     updateMarbleTiles();
 }

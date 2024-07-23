@@ -723,7 +723,16 @@ private:
 
     std::vector<ePlannedAction*> mPlannedActions;
 
-    std::vector<eTile*> mMarbleTiles;
+    struct eMarbleTiles {
+        bool contains(eTile* const tile) const;
+        void add(eTile* const tile);
+        void addWithNeighbours(eTile* const tile);
+        void restock() const;
+
+        std::vector<eTile*> fTiles;
+    };
+
+    std::vector<eMarbleTiles> mMarbleTiles;
 
     std::vector<stdsptr<eMilitaryAid>> mMilitaryAid;
 
