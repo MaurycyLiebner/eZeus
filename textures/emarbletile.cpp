@@ -40,8 +40,7 @@ bool edge(eTile* const tile, const eWorldDirection dir) {
     return edge(tile, tl, tr, br, bl, t, r, b, l, dir);
 }
 
-bool eMarbleTile::isEdge(eTile* const tile,
-                         const eWorldDirection dir) {
+bool eMarbleTile::isEdge(eTile* const tile) {
     const auto terr = tile->terrain();
 
     bool tl;
@@ -52,7 +51,8 @@ bool eMarbleTile::isEdge(eTile* const tile,
     bool r;
     bool b;
     bool l;
-    tile->neighboursWithTerrain(terr, tl, tr, br, bl, t, r, b, l, dir);
+    tile->neighboursWithTerrain(terr, tl, tr, br, bl, t, r, b, l,
+                                eWorldDirection::N);
 
     const bool edge = tl || tr || br || bl || t || r || b || l;
     return edge;
