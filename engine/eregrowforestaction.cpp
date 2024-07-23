@@ -3,7 +3,7 @@
 #include "engine/etile.h"
 
 eRegrowForestAction::eRegrowForestAction(eTile* const tile) :
-    ePlannedAction(false, 75000, ePlannedActionType::regrowForest),
+    ePlannedAction(false, 500000, ePlannedActionType::regrowForest),
     mTile(tile) {}
 
 eRegrowForestAction::eRegrowForestAction() :

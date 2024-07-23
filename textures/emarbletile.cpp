@@ -108,7 +108,7 @@ std::shared_ptr<eTexture> eMarbleTile::get(
 
     const auto& coll = e ? textures.fMarble : textures.fDeepMarble;
 
-    if(t && b && r && l && br && bl && tl && tr) {
+    if(br && bl && tl && tr) {
         return coll.getTexture(37);
     }
 

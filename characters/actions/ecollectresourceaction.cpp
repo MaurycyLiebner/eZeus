@@ -202,7 +202,14 @@ bool eCollectResourceAction::collect(eTile* const tile) {
     const auto finishAction = std::make_shared<eCRA_collectFinish>(
                                   board(), this, tile);
 
-    const auto a = e::make_shared<eCollectAction>(c);
+    eTranformFunc func = eTranformFunc::none;
+    const auto terr = tile->terrain();
+    if(terr == eTerrain::forest) {
+        func = eTranformFunc::tree;
+    } else if(terr == eTerrain::marble) {
+        func = eTranformFunc::marble;
+    }
+    const auto a = e::make_shared<eCollectAction>(c, func);
     a->setFailAction(failAction);
     a->setFinishAction(finishAction);
     a->setDeleteFailAction(failAction);

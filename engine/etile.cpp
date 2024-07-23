@@ -218,7 +218,7 @@ void eTile::setMarbleLevel(const int l) {
         for(int dy = -1; dy <= 1; dy++) {
             const auto t = tileRel<eTile>(dx, dy);
             if(!t) continue;
-            scheduleTerrainUpdate();
+            t->scheduleTerrainUpdate();
         }
     }
 }
