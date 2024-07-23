@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "engine/egameboard.h"
+
 void eEnlistedForces::read(eGameBoard& board,
                            eWorldBoard& wboard,
                            eReadStream& src) {
@@ -106,8 +108,20 @@ void eEnlistedForces::kill(const double killFrac) {
         const int oC = s->count();
         int nC = std::round((1 - killFrac)*oC);
         nC = std::clamp(nC, 0, 8);
+        auto& board = s->getBoard();
+        const auto type = s->type();
         for(int i = nC; i < oC; i++) {
             s->decCount();
+            switch(type) {
+            case eBannerType::hoplite:
+                board.hopliteKilled();
+                break;
+            case eBannerType::horseman:
+                board.horsemanKilled();
+                break;
+            default:
+                break;
+            }
         }
     }
 
