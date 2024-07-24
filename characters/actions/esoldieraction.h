@@ -82,7 +82,7 @@ public:
 
     void setSpreadPeriod(const bool s) { mSpreadPeriod = s; }
 private:
-    bool attackBuilding(eTile* const t);
+    bool attackBuilding(eTile* const t, const bool range);
     stdsptr<eObsticleHandler> obsticleHandler();
 
     int mGoToBannerCountdown = 0;
@@ -117,7 +117,7 @@ public:
         const auto ubt = ub->type();
         const bool r = eBuilding::sWalkableBuilding(ubt);
         if(r) return false;
-        mTptr->attackBuilding(tile);
+        mTptr->attackBuilding(tile, false);
         return true;
     }
 

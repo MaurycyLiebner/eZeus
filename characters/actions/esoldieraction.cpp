@@ -231,7 +231,7 @@ void eSoldierAction::increment(const int by) {
                 return;
             }
             if(buildingAttack) {
-                const bool r = attackBuilding(t);
+                const bool r = attackBuilding(t, false);
                 if(r) {
                     c->setActionType(eCharacterActionType::fight);
                     return;
@@ -268,7 +268,7 @@ void eSoldierAction::increment(const int by) {
                         return;
                     }
                     if(buildingAttack) {
-                        const bool r = attackBuilding(t);
+                        const bool r = attackBuilding(t, true);
                         if(r) {
                             c->setActionType(eCharacterActionType::fight2);
                             return;
@@ -571,7 +571,7 @@ eBuilding* eSoldierAction::sFindHome(const eCharacterType t,
     return b;
 }
 
-bool eSoldierAction::attackBuilding(eTile* const t) {
+bool eSoldierAction::attackBuilding(eTile* const t, const bool range) {
     const auto ub = t->underBuilding();
     if(!ub) return false;
     const auto c = character();
@@ -582,9 +582,11 @@ bool eSoldierAction::attackBuilding(eTile* const t) {
     if(!att) return false;
     mAttackTarget = eAttackTarget(ub);
     mAttack = true;
+    c->setPlayFightSound(true);
     mAttackTime = 0;
     mSavedAction = c->actionType();
-    c->setActionType(eCharacterActionType::fight);
+    c->setActionType(range ? eCharacterActionType::fight2 :
+                             eCharacterActionType::fight);
     const vec2d ccpos{1.*t->x(), 1.*t->y()};
     const vec2d posdif = ccpos - cpos;
     mAngle = posdif.angle();
