@@ -1538,6 +1538,9 @@ void eGameWidget::paintEvent(ePainter& p) {
                     double ry;
                     const auto t = mBoard->tile(x, y);
                     if(!t) continue;
+                    const auto terr = t->terrain();
+                    const bool b = static_cast<bool>(terr & eTerrain::buildable);
+                    if(!b) continue;
                     if(t->underBuilding()) continue;
                     if(mode == eBuildingMode::avenue) {
                         const bool hr = canBuildAvenue(t);
