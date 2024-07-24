@@ -168,6 +168,8 @@ void eTower::timeChanged(const int by) {
                 }
             }
         }
+    } else {
+        if(mArcher) mArcher->kill();
     }
     eEmployingBuilding::timeChanged(by);
 }

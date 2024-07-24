@@ -2534,6 +2534,7 @@ bool eGameBoard::isShutDown(const eResourceType type) const {
 }
 
 bool eGameBoard::isShutDown(const eBuildingType type) const {
+    if(type == eBuildingType::tower) return !mManTowers;
     const auto is = eIndustryHelpers::sIndustries(type);
     if(is.empty()) return false;
     for(const auto i : is) {

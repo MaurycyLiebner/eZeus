@@ -10,6 +10,7 @@ eEmployingBuilding::eEmployingBuilding(
     eBuildingWithResource(board, type, sw, sh),
     mMaxEmployees(maxEmployees) {
     board.registerEmplBuilding(this);
+    if(board.isShutDown(type)) setShutDown(true);
 }
 
 eEmployingBuilding::~eEmployingBuilding() {
