@@ -142,6 +142,9 @@ void eSoldierAction::increment(const int by) {
                 const auto tt = mAttackTarget.tile();
                 const int ttx = tt ? tt->x() : 0;
                 const int tty = tt ? tt->y() : 0;
+                const double dx = tx - ttx;
+                const double dy = ty - tty;
+                const double dist = sqrt(dx*dx + dy*dy);
                 const auto ct = c->type();
                 if(ct == eCharacterType::amazon ||
                    ct == eCharacterType::centaurArcher ||
@@ -150,14 +153,14 @@ void eSoldierAction::increment(const int by) {
                    ct == eCharacterType::phoenicianArcher ||
                    ct == eCharacterType::persianArcher) {
                     eMissile::sCreate<eArrowMissile>(brd, tx, ty, 0.5,
-                                                     ttx, tty, 0.5, 2);
+                                                     ttx, tty, 0.5, 0.25*dist);
                 } else if(ct == eCharacterType::trojanSpearthrower ||
                           ct == eCharacterType::oceanidSpearthrower) {
                     eMissile::sCreate<eSpearMissile>(brd, tx, ty, 0.5,
-                                                     ttx, tty, 0.5, 2);
+                                                     ttx, tty, 0.5, 0.1*dist);
                 } else {
                     eMissile::sCreate<eRockMissile>(brd, tx, ty, 0.5,
-                                                    ttx, tty, 0.5, 2);
+                                                    ttx, tty, 0.5, 0.5*dist);
                 }
             }
         }

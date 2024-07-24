@@ -13,7 +13,8 @@ eArrowSpearBase::getTexture(const eTileSize size) const {
     const auto& textures = eGameTextures::destrution();
     const auto& rockTex = textures[id].*mTexs;
     const double a = angle();
-    const auto o = sAngleOrientation(a);
-    const int texId = static_cast<int>(o);
+    const int iid = std::round(((a - 225)/11.25));
+    const int texId = iid < 0 ? ((32 + iid) % 32) :
+                                (iid % 32);
     return rockTex.getTexture(texId);
 }

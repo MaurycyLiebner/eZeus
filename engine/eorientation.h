@@ -3,6 +3,8 @@
 
 #include "eworlddirection.h"
 
+#include <cmath>
+
 enum class eOrientation {
     topRight,
     right,
