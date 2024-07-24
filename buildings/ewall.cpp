@@ -15,7 +15,7 @@ eWall::~eWall() {
     if(!mDeleteArchers) return;
     const auto tile = centerTile();
     if(!tile) return;
-    const auto& chars = tile->characters();
+    const auto chars = tile->characters();
     for(const auto& c : chars) {
         const auto type = c->type();
         if(type == eCharacterType::archer) c->kill();

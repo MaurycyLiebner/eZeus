@@ -21,7 +21,7 @@ eTower::~eTower() {
     const auto& tiles = tilesUnder();
     for(const auto tile : tiles) {
         if(!tile) continue;
-        const auto& chars = tile->characters();
+        const auto chars = tile->characters();
         for(const auto& c : chars) {
             const auto type = c->type();
             if(type == eCharacterType::archer) c->kill();
