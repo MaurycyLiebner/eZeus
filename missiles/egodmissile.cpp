@@ -9,6 +9,8 @@ eGodMissile::eGodMissile(eGameBoard& board,
 
 std::shared_ptr<eTexture>
 eGodMissile::getTexture(const eTileSize size) const {
+    auto& board = this->board();
+    const auto dir = board.direction();
     using eTexPtr = eTextureCollection eDestructionTextures::*;
     eTexPtr texptr;
     if(mActionType == eCharacterActionType::bless) {
@@ -51,7 +53,8 @@ eGodMissile::getTexture(const eTileSize size) const {
     const auto& coll = textures[id].*texptr;
     const double a = angle();
     const auto o = sAngleOrientation(a);
-    const int texId = static_cast<int>(o) + 8*textureTime();
+    const auto oo = sRotated(o, dir);
+    const int texId = static_cast<int>(oo) + 8*textureTime();
     return coll.getTexture(texId % coll.size());
 }
 
