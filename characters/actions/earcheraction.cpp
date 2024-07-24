@@ -127,7 +127,7 @@ bool eArcherAction::decide() {
     c->setActionType(eCharacterActionType::walk);
     const auto fail = std::make_shared<eAA_patrolFail>(board(), this);
     const auto finish = std::make_shared<eAA_patrolFinish>(board(), this);
-    const auto a = std::make_shared<ePatrolMoveAction>(
+    const auto a = e::make_shared<ePatrolMoveAction>(
                        c, false, eWalkableObject::sCreateWall());
     a->setFinishAction(fail);
     a->setFinishAction(finish);
