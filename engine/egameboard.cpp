@@ -2029,8 +2029,13 @@ void eGameBoard::incTime(const int by) {
     mDate.nextDays(nd, nextMonth, nextYear);
     mTime -= nd*dayLen;
 
-    for(const auto& e : mGameEvents) {
+    for(int i = 0; i < (int)mGameEvents.size(); i++) {
+        const auto& e = mGameEvents[i];
         e->handleNewDate(mDate);
+        if(e->finished() && !e->hasActiveConsequences()) {
+            eVectorHelpers::remove(mGameEvents, e);
+            i--;
+        }
     }
 
     if(nextYear) {
