@@ -360,6 +360,7 @@ void eHerosHall::read(eReadStream& src) {
     src >> mAthletes;
     src >> mUpdateCulture;
     src >> mHeroOnQuest;
+    src >> mSpawnWait;
     src.readCharacter(&getBoard(), [this](eCharacter* const c) {
         mHero = static_cast<eHero*>(c);
     });
@@ -374,6 +375,7 @@ void eHerosHall::write(eWriteStream& dst) const {
     dst << mAthletes;
     dst << mUpdateCulture;
     dst << mHeroOnQuest;
+    dst << mSpawnWait;
     dst.writeCharacter(mHero);
 }
 
