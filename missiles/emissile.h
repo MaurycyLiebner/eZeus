@@ -111,6 +111,8 @@ public:
              const std::vector<ePathPoint>& path = {});
     ~eMissile();
 
+    eGameBoard& board() const { return mBoard; }
+
     void incTime(const int by);
 
     virtual std::shared_ptr<eTexture>

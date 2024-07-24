@@ -9,11 +9,23 @@ eArrowSpearBase::eArrowSpearBase(eGameBoard& board,
 
 std::shared_ptr<eTexture>
 eArrowSpearBase::getTexture(const eTileSize size) const {
+    auto& board = this->board();
+    const auto dir = board.direction();
     const int id = static_cast<int>(size);
     const auto& textures = eGameTextures::destrution();
     const auto& rockTex = textures[id].*mTexs;
     const double a = angle();
-    const int iid = std::round(((a - 225)/11.25));
+    double da;
+    if(dir == eWorldDirection::N) {
+        da = 225;
+    } else if(dir == eWorldDirection::E) {
+        da = 315;
+    } else if(dir == eWorldDirection::S) {
+        da = 45;
+    } else { // if(dir == eWorldDirection::W) {
+        da = 135;
+    }
+    const int iid = std::round(((a - da)/11.25));
     const int texId = iid < 0 ? ((32 + iid) % 32) :
                                 (iid % 32);
     return rockTex.getTexture(texId);

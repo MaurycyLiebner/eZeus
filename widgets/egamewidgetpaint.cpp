@@ -1087,8 +1087,23 @@ void eGameWidget::paintEvent(ePainter& p) {
             const auto& mss = tile->missiles();
             for(const auto& m : mss) {
                 const double h = m->height();
-                const double x = tx + m->x() + 0.25 - h;
-                const double y = ty + m->y() + 0.25 - h;
+                const double mx = m->x();
+                const double my = m->y();
+                double x;
+                double y;
+                if(dir == eWorldDirection::N) {
+                    x = rtx + mx + 0.25 - h;
+                    y = rty + my + 0.25 - h;
+                } else if(dir == eWorldDirection::E) {
+                    x = rtx + my + 0.25 - h;
+                    y = rty - mx + 1.25 - h;
+                } else if(dir == eWorldDirection::S) {
+                    x = rtx - mx + 1.25 - h;
+                    y = rty - my + 1.25 - h;
+                } else { // if(dir == eWorldDirection::W) {
+                    x = rtx - my + 1.25 - h;
+                    y = rty + mx + 0.25 - h;
+                }
                 const auto tex = m->getTexture(mTileSize);
                 tp.drawTexture(x, y, tex);
             }
