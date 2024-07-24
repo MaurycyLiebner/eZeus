@@ -839,6 +839,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         const auto drawAppeal = [&]() {
             const auto terr = tile->terrain();
             if(sDontDrawAppeal(terr)) return;
+            if(tile->isElevationTile()) return;
             if(!v && mViewMode == eViewMode::appeal) {
                 const auto& am = mBoard->appealMap();
                 const auto ae = am.enabled(dtx, dty);
@@ -1191,7 +1192,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             if(!terrUb || flatSanct ||
                eBuilding::sFlatBuilding(terrBt)) {
                 if(mViewMode == eViewMode::appeal && !terrUb &&
-                   !sDontDrawAppeal(terr)) {
+                   !sDontDrawAppeal(terr) && !tile->isElevationTile()) {
                     const auto& am = mBoard->appealMap();
                     const int ttdx = tile->dx();
                     const int ttdy = tile->dy();
