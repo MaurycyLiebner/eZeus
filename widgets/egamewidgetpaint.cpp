@@ -2647,6 +2647,7 @@ void eGameWidget::paintEvent(ePainter& p) {
         } break;
         case eBuildingMode::tower: {
             const auto b1 = e::make_shared<eTower>(*mBoard);
+            b1->setDeleteArchers(false);
             ebs.emplace_back(mHoverTX, mHoverTY, b1);
         } break;
         case eBuildingMode::gatehouse: {

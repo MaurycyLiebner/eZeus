@@ -17,6 +17,16 @@ eTower::eTower(eGameBoard& board) :
 
 eTower::~eTower() {
     if(mArcher) mArcher->kill();
+    if(!mDeleteArchers) return;
+    const auto& tiles = tilesUnder();
+    for(const auto tile : tiles) {
+        if(!tile) continue;
+        const auto& chars = tile->characters();
+        for(const auto& c : chars) {
+            const auto type = c->type();
+            if(type == eCharacterType::archer) c->kill();
+        }
+    }
 }
 
 std::shared_ptr<eTexture>

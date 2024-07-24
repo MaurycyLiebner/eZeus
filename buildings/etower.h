@@ -21,7 +21,11 @@ public:
     void write(eWriteStream& dst) const override;
 
     bool spawn();
+
+    void setDeleteArchers(const bool d) { mDeleteArchers = d; }
 private:
+    bool mDeleteArchers = true;
+
     int mMissile = 0;
     int mRangeAttack = 0;
     int mAttackTime = 0;
