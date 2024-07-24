@@ -95,6 +95,7 @@ private:
 
     int mLookForEnemy = 0;
     int mAttackTime = 0;
+    eCharacterActionType mSavedAction = eCharacterActionType::stand;
     bool mAttack = false;
     eAttackTarget mAttackTarget;
     bool mSpreadPeriod = false; // for spreading invasion forces

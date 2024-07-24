@@ -178,7 +178,7 @@ void eSoldierAction::increment(const int by) {
             mAttackTarget.clear();
             mAttackTime = 0;
             mRangeAttack = rangeAttackCheck;
-            c->setActionType(eCharacterActionType::stand);
+            c->setActionType(mSavedAction);
             c->setPlayFightSound(false);
             mLookForEnemy = lookForEnemyCheck;
         } else {
@@ -187,14 +187,17 @@ void eSoldierAction::increment(const int by) {
     }
     const vec2d cpos{c->absX(), c->absY()};
 
-    const auto setMeleeAttackTarget = [&](const stdsptr<eCharacter>& cc) {
+    const auto setAttackTarget = [&](const stdsptr<eCharacter>& cc,
+                                     const bool range) {
         const vec2d ccpos{cc->absX(), cc->absY()};
         const vec2d posdif = ccpos - cpos;
         mAttackTarget = eAttackTarget(cc.get());
         mAttack = true;
         c->setPlayFightSound(true);
         mAttackTime = 0;
-        c->setActionType(eCharacterActionType::fight);
+        mSavedAction = c->actionType();
+        c->setActionType(range ? eCharacterActionType::fight2 :
+                                 eCharacterActionType::fight);
         mAngle = posdif.angle();
         const auto o = sAngleOrientation(mAngle);
         c->setOrientation(o);
@@ -224,7 +227,7 @@ void eSoldierAction::increment(const int by) {
                     }
                     continue;
                 }
-                setMeleeAttackTarget(cc);
+                setAttackTarget(cc, false);
                 return;
             }
             if(buildingAttack) {
@@ -237,22 +240,9 @@ void eSoldierAction::increment(const int by) {
         }
     }
     if(immortal) {
-        setMeleeAttackTarget(immortal);
+        setAttackTarget(immortal, false);
         return;
     }
-
-    const auto setRangeAttackTarget = [&](const stdsptr<eCharacter>& cc) {
-        const vec2d ccpos{cc->absX(), cc->absY()};
-        const vec2d posdif = ccpos - cpos;
-        mAttackTarget = eAttackTarget(cc.get());
-        mAttack = true;
-        c->setPlayFightSound(true);
-        mAttackTime = 0;
-        c->setActionType(eCharacterActionType::fight2);
-        mAngle = posdif.angle();
-        const auto o = sAngleOrientation(mAngle);
-        c->setOrientation(o);
-    };
 
     if(range > 0) {
         mRangeAttack += by;
@@ -272,7 +262,7 @@ void eSoldierAction::increment(const int by) {
                             }
                             continue;
                         }
-                        setRangeAttackTarget(cc);
+                        setAttackTarget(cc, true);
                         const auto ss = static_cast<eSoldier*>(cc.get());
                         sSignalBeingAttack(ss, s, brd);
                         return;
@@ -289,7 +279,7 @@ void eSoldierAction::increment(const int by) {
         }
 
         if(immortal) {
-            setRangeAttackTarget(immortal);
+            setAttackTarget(immortal, true);
             return;
         }
     }
@@ -350,6 +340,7 @@ void eSoldierAction::read(eReadStream& src) {
     src >> mAttack;
     mAttackTarget.read(board(), src);
     src >> mSpreadPeriod;
+    src >> mSavedAction;
 }
 
 void eSoldierAction::write(eWriteStream& dst) const {
@@ -363,6 +354,7 @@ void eSoldierAction::write(eWriteStream& dst) const {
     dst << mAttack;
     mAttackTarget.write(dst);
     dst << mSpreadPeriod;
+    dst << mSavedAction;
 }
 
 void eSoldierAction::moveBy(const double dx, const double dy) {
@@ -591,6 +583,7 @@ bool eSoldierAction::attackBuilding(eTile* const t) {
     mAttackTarget = eAttackTarget(ub);
     mAttack = true;
     mAttackTime = 0;
+    mSavedAction = c->actionType();
     c->setActionType(eCharacterActionType::fight);
     const vec2d ccpos{1.*t->x(), 1.*t->y()};
     const vec2d posdif = ccpos - cpos;
