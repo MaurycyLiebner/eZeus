@@ -1,4 +1,4 @@
-#include "esounds.h"
+﻿#include "esounds.h"
 
 #include "engine/etile.h"
 #include "buildings/ebuilding.h"
@@ -565,8 +565,12 @@ void eSounds::playHeroSound(const eHeroType h, const eHeroSound s) {
 }
 
 void eSounds::playAttackSound(eCharacter* const c) {
-    const auto ct = c->type();
-    switch(ct) {
+    const auto type = c->type();
+    playAttackSound(type);
+}
+
+void eSounds::playAttackSound(const eCharacterType type) {
+    switch(type) {
     case eCharacterType::greekRockThrower:
     case eCharacterType::rockThrower:
         sInstance.mRockthrowerAttack->playRandomSound();

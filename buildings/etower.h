@@ -8,13 +8,17 @@
 class eTower : public eEmployingBuilding {
 public:
     eTower(eGameBoard& board);
+    ~eTower();
 
     std::shared_ptr<eTexture>
-    getTexture(const eTileSize size) const;
+    getTexture(const eTileSize size) const override;
     std::vector<eOverlay>
-    getOverlays(const eTileSize size) const;
+    getOverlays(const eTileSize size) const override;
 
-    void timeChanged(const int by);
+    void timeChanged(const int by) override;
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
 
     bool spawn();
 private:
@@ -27,7 +31,7 @@ private:
 
     int mSpawnTime = 0;
 
-    stdsptr<eArcher> mArcher;
+    stdptr<eArcher> mArcher;
 };
 
 #endif // ETOWER_H

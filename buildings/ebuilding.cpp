@@ -2233,3 +2233,7 @@ void eBuilding::write(eWriteStream& dst) const {
 void eBuilding::setIOID(const int id) {
     mIOID = id;
 }
+
+void eBuilding::setHP(const int hp) {
+    mHp = hp;
+}

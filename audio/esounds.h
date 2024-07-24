@@ -115,6 +115,7 @@ public:
                               const eHeroSound s);
 
     static void playAttackSound(eCharacter* const c);
+    static void playAttackSound(const eCharacterType type);
     static void playDieSound(eCharacter* const c);
     static void playHitSound(eCharacter* const c);
 private:

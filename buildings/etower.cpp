@@ -7,10 +7,16 @@
 #include "missiles/earrowmissile.h"
 #include "characters/esoldier.h"
 #include "characters/actions/esoldieraction.h"
+#include "audio/esounds.h"
 
 eTower::eTower(eGameBoard& board) :
     eEmployingBuilding(board, eBuildingType::tower, 2, 2, 15) {
     eGameTextures::loadGatehouseAndTower();
+    setHP(5000);
+}
+
+eTower::~eTower() {
+    if(mArcher) mArcher->kill();
 }
 
 std::shared_ptr<eTexture>
@@ -71,7 +77,7 @@ void eTower::timeChanged(const int by) {
 
         const int rangeAttackCheck = 500;
         const int missileCheck = 200;
-        const int range = 5;
+        const int range = 8;
         const double attack = 0.5;
 
         const auto ct = centerTile();
@@ -91,6 +97,10 @@ void eTower::timeChanged(const int by) {
                     const int tty = tt->y();
                     eMissile::sCreate<eArrowMissile>(brd, tx, ty, 3.5,
                                                      ttx, tty, 0.5, 2);
+                    auto& board = getBoard();
+                    board.ifVisible(centerTile(), [&]() {
+                        eSounds::playAttackSound(eCharacterType::archer);
+                    });
                 }
             }
             mAttackTime += by;
@@ -162,11 +172,40 @@ void eTower::timeChanged(const int by) {
     eEmployingBuilding::timeChanged(by);
 }
 
+void eTower::read(eReadStream& src) {
+    eEmployingBuilding::read(src);
+    src >> mMissile;
+    src >> mRangeAttack;
+    src >> mAttackTime;
+    src >> mAttack;
+    src >> mAttackOrientation;
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mAttackTarget = c;
+    });
+    src >> mSpawnTime;
+    src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+        mArcher = static_cast<eArcher*>(c);
+    });
+}
+
+void eTower::write(eWriteStream& dst) const {
+    eEmployingBuilding::write(dst);
+    dst << mMissile;
+    dst << mRangeAttack;
+    dst << mAttackTime;
+    dst << mAttack;
+    dst << mAttackOrientation;
+    dst.writeCharacter(mAttackTarget);
+    dst << mSpawnTime;
+    dst.writeCharacter(mArcher);
+}
+
 bool eTower::spawn() {
-    mArcher = e::make_shared<eArcher>(getBoard());
-    mArcher->changeTile(centerTile());
-    const auto a = e::make_shared<eArcherAction>(mArcher.get());
-    mArcher->setAction(a);
+    const auto archer = e::make_shared<eArcher>(getBoard());
+    archer->changeTile(centerTile());
+    const auto a = e::make_shared<eArcherAction>(archer.get());
+    archer->setAction(a);
+    mArcher = archer;
     return true;
 }
 

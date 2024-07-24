@@ -286,6 +286,8 @@ public:
 
     void setIOID(const int id);
     int ioID() const { return mIOID; }
+
+    void setHP(const int hp);
 private:
     eTile* mCenterTile = nullptr;
     std::vector<eTile*> mUnderBuilding;

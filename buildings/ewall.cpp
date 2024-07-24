@@ -2,9 +2,24 @@
 
 #include "textures/egametextures.h"
 
+#include "characters/echaracter.h"
+#include "engine/egameboard.h"
+
 eWall::eWall(eGameBoard& board) :
     eBuilding(board, eBuildingType::wall, 1, 1) {
     eGameTextures::loadWall();
+    setHP(2000);
+}
+
+eWall::~eWall() {
+    if(!mDeleteArchers) return;
+    const auto tile = centerTile();
+    if(!tile) return;
+    const auto& chars = tile->characters();
+    for(const auto& c : chars) {
+        const auto type = c->type();
+        if(type == eCharacterType::archer) c->kill();
+    }
 }
 
 std::shared_ptr<eTexture>
@@ -14,10 +29,13 @@ eWall::getTexture(const eTileSize size) const {
     const auto& wll = blds.fWall;
     const auto t = centerTile();
 
-    const auto tl = t->topLeft<eTile>();
-    const auto br = t->bottomRight<eTile>();
-    const auto bl = t->bottomLeft<eTile>();
-    const auto tr = t->topRight<eTile>();
+    auto& board = getBoard();
+    const auto dir = board.direction();
+
+    const auto tl = t->topLeftRotated<eTile>(dir);
+    const auto br = t->bottomRightRotated<eTile>(dir);
+    const auto bl = t->bottomLeftRotated<eTile>(dir);
+    const auto tr = t->topRightRotated<eTile>(dir);
 
     const auto tlt = tl ? tl->underBuildingType() : eBuildingType::none;
     const auto brt = br ? br->underBuildingType() : eBuildingType::none;
@@ -37,10 +55,10 @@ eWall::getTexture(const eTileSize size) const {
                      trt == eBuildingType::tower ||
                      trt == eBuildingType::gatehouse;
 
-    const auto tt = t->top<eTile>();
-    const auto b = t->bottom<eTile>();
-    const auto l = t->left<eTile>();
-    const auto r = t->right<eTile>();
+    const auto tt = t->topRotated<eTile>(dir);
+    const auto b = t->bottomRotated<eTile>(dir);
+    const auto l = t->leftRotated<eTile>(dir);
+    const auto r = t->rightRotated<eTile>(dir);
 
     const auto ttt = tt ? tt->underBuildingType() : eBuildingType::none;
     const auto bt = b ? b->underBuildingType() : eBuildingType::none;
@@ -87,7 +105,11 @@ eWall::getTexture(const eTileSize size) const {
     } else if(blb && brb && trb) {
         if(bb) {
             if(rb) {
-                id = 2;
+                if(tlt != eBuildingType::wall) {
+                    id = 29;
+                } else {
+                    id = 2;
+                }
             } else {
                 id = 7;
             }
@@ -107,7 +129,11 @@ eWall::getTexture(const eTileSize size) const {
                     id = 2;
                 }
             } else {
-                id = 3;
+                if(tlt != eBuildingType::wall) {
+                    id = 30;
+                } else {
+                    id = 3;
+                }
             }
         } else {
             if(lb) {

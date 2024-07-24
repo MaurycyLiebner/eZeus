@@ -22,7 +22,7 @@ eArcherAction::eArcherAction(eCharacter* const c) :
 void eArcherAction::increment(const int by) {
     const int rangeAttackCheck = 500;
     const int missileCheck = 200;
-    const int range = 4;
+    const int range = 8;
 
     const auto c = character();
     const auto ct = c->tile();
