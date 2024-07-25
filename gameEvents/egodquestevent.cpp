@@ -51,6 +51,20 @@ std::string eGodQuestEvent::longName() const {
     return eLanguage::text("god_quest");
 }
 
+bool eGodQuestEvent::finished() const {
+    return mFulfilled;
+}
+
+void eGodQuestEvent::read(eReadStream& src) {
+    eGodQuestEventBase::read(src);
+    src >> mFulfilled;
+}
+
+void eGodQuestEvent::write(eWriteStream& dst) const {
+    eGodQuestEventBase::write(dst);
+    dst << mFulfilled;
+}
+
 void eGodQuestEvent::fulfill() {
     const auto board = gameBoard();
     if(!board) return;
@@ -92,4 +106,5 @@ void eGodQuestEvent::fulfilled() {
     const auto heroName = eHero::sHeroName(hero());
     eStringHelpers::replaceAll(rFull, "[hero_needed]", heroName);
     mFulfilledTrigger->trigger(*this, date, rFull);
+    mFulfilled = true;
 }

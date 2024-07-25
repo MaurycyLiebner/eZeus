@@ -135,7 +135,7 @@ public:
     void setRepeat(const int r);
 
     void handleNewDate(const eDate& date);
-    bool finished() const { return mRemNRuns <= 0; }
+    virtual bool finished() const { return mRemNRuns <= 0; }
 
     using eWarning = std::pair<int, stdsptr<eGameEvent>>;
     const std::vector<eWarning>& warnings() const
