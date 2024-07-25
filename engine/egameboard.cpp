@@ -2417,6 +2417,8 @@ void eGameBoard::startEpisode(eEpisode* const e,
     mDefeatedBy.clear();
     for(int i = 0; i < static_cast<int>(mGameEvents.size()); i++) {
         const auto& e = mGameEvents[i];
+        const auto type = e->type();
+        if(type == eGameEventType::godQuest) continue;
         e->startingNewEpisode();
         if(e->finished()) {
             if(!e->hasActiveConsequences()) {
