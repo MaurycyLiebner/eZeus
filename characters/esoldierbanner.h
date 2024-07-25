@@ -82,6 +82,10 @@ public:
     void setRegistered(const bool r) { mRegistered = r; }
     bool registered() const { return mRegistered; }
 
+
+    bool nearestSoldier(const int fromX, const int fromY,
+                        int& toX, int& toY) const;
+
     static void sPlace(std::vector<eSoldierBanner*> bs,
                        const int ctx, const int cty,
                        eGameBoard& board, const int dist,

@@ -45,7 +45,7 @@ void eInvasionWarningEvent::trigger() {
     if(const auto i = dynamic_cast<eInvasionEvent*>(p)) {
         const bool w = i->warned();
         if(w) return;
-        i->setFirstWarning(startDate());
+        i->setFirstWarning(board->date());
     }
 }
 

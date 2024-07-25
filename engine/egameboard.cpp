@@ -1263,7 +1263,7 @@ eInvasionEvent* eGameBoard::invasionToDefend() const {
         const int ip = i->invasionPoint();
         const auto t = landInvasionTile(ip);
         if(!t) continue;
-        const auto sDate = i->startDate();
+        const auto sDate = i->nextDate();
         if(sDate - date < 120) {
             return i;
         }

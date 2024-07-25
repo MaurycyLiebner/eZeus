@@ -552,3 +552,24 @@ void eSoldierBanner::purgeDead() {
         }
     }
 }
+
+bool eSoldierBanner::nearestSoldier(const int fromX, const int fromY,
+                                    int& toX, int& toY) const {
+    bool found = false;
+    int minDist = 99999;
+    for(const auto& s : mSoldiers) {
+        const auto t = s->tile();
+        if(!t) continue;
+        const int tx = t->x();
+        const int ty = t->y();
+        const int dx = fromX - tx;
+        const int dy = fromY - ty;
+        const int dist = sqrt(dx*dx + dy*dy);
+        if(dist > minDist) continue;
+        found = true;
+        toX = tx;
+        toY = ty;
+        minDist = dist;
+    }
+    return found;
+}

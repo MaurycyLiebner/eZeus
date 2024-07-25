@@ -45,14 +45,19 @@
 #include "etilehelper.h"
 #include "buildings/epalace.h"
 
+#include "gameEvents/einvasionevent.h"
+
 eInvasionHandler::eInvasionHandler(eGameBoard& board,
-                                   const stdsptr<eWorldCity>& city) :
-    mBoard(board), mCity(city) {
+                                   const stdsptr<eWorldCity>& city,
+                                   eInvasionEvent* const event) :
+    mBoard(board), mCity(city), mEvent(event) {
     board.addInvasionHandler(this);
+    if(event) event->addInvasionHandler(this);
 }
 
 eInvasionHandler::~eInvasionHandler() {
     mBoard.removeInvasionHandler(this);
+    if(mEvent) mEvent->removeInvasionHandler(this);
 }
 
 template <typename T>
@@ -240,10 +245,14 @@ void eInvasionHandler::incTime(const int by) {
     }
     const int wait = 10000;
     mWait += by;
-    if(mWait < wait) return;
+    if(mWait < wait) {
+        mStage = eInvasionStage::wait;
+        return;
+    }
     mWait -= wait;
     switch(mStage) {
-    case eInvasionStage::spread: {
+    case eInvasionStage::spread:
+    case eInvasionStage::wait: {
         mStage = eInvasionStage::invade;
         const auto p = mBoard.palace();
         if(p) {
@@ -317,6 +326,10 @@ void eInvasionHandler::read(eReadStream& src) {
     }
 
     src >> mWait;
+    src.readGameEvent(&mBoard, [this](eGameEvent* const e) {
+        mEvent = static_cast<eInvasionEvent*>(e);
+        if(mEvent) mEvent->addInvasionHandler(this);
+    });
 }
 
 void eInvasionHandler::write(eWriteStream& dst) const {
@@ -334,6 +347,7 @@ void eInvasionHandler::write(eWriteStream& dst) const {
     }
 
     dst << mWait;
+    dst.writeGameEvent(mEvent);
 }
 
 void eInvasionHandler::killAllWithCorpse() {
@@ -341,4 +355,25 @@ void eInvasionHandler::killAllWithCorpse() {
     for(const auto& b : mBanners) {
         b->killAllWithCorpse();
     }
+}
+
+bool eInvasionHandler::nearestSoldier(const int fromX, const int fromY,
+                                      int& toX, int& toY) const {
+    bool found = false;
+    int minDist = 99999;
+    for(const auto& b : mBanners) {
+        int toXX;
+        int toYY;
+        const bool r = b->nearestSoldier(fromX, fromY, toXX, toYY);
+        if(!r) continue;
+        const int dx = fromX - toXX;
+        const int dy = fromY - toYY;
+        const int dist = sqrt(dx*dx + dy*dy);
+        if(dist > minDist) continue;
+        found = true;
+        toX = toXX;
+        toY = toYY;
+        minDist = dist;
+    }
+    return found;
 }

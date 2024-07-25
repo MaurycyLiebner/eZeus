@@ -120,6 +120,7 @@ public:
     const std::string& reason() const { return mReason; }
 
     const eDate& startDate() const { return mStartDate; }
+    const eDate& nextDate() const { return mNextDate; }
 
     int datePlusDays() const { return mDatePlusDays; }
     void setDatePlusDays(const int d) { mDatePlusDays = d; }

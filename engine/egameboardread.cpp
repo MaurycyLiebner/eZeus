@@ -180,7 +180,7 @@ void eGameBoard::read(eReadStream& src) {
         src >> ni;
 
         for(int i = 0; i < ni; i++) {
-            const auto ii = new eInvasionHandler(*this, nullptr);
+            const auto ii = new eInvasionHandler(*this, nullptr, nullptr);
             ii->read(src);
         }
     }

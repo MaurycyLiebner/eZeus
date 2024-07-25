@@ -10,7 +10,10 @@
 #include "characters/actions/esoldieraction.h"
 
 eDefendCityAction::eDefendCityAction(eCharacter* const c) :
-    eGodMonsterAction(c, eCharActionType::defendCityAction) {}
+    eGodMonsterAction(c, eCharActionType::defendCityAction) {
+    const auto ctype = c->type();
+    if(ctype == eCharacterType::talos) mMaxKilled = 16;
+}
 
 bool eDefendCityAction::decide() {
     const auto c = character();
@@ -35,12 +38,14 @@ bool eDefendCityAction::decide() {
             mStage = eDefendCityStage::comeback;
             goBack();
         } else {
-            auto& board = eDefendCityAction::board();
-            const auto date = board.date();
-            const auto eDate = mEvent->startDate();
-            if(date > eDate) {
-                mStage = eDefendCityStage::fight;
-                moveAround();
+            if(mEvent->activeInvasions()) {
+                const bool r = goToNearestSoldier();
+                if(r) {
+                    mStage = eDefendCityStage::fight;
+                    moveAround(nullptr, 15000);
+                } else {
+                    mStage = eDefendCityStage::goTo;
+                }
             } else {
                 mStage = eDefendCityStage::wait;
                 moveAround();
@@ -130,6 +135,8 @@ void eDefendCityAction::increment(const int by) {
             mLookForEnemy = lookForEnemyCheck;
             mKilled++;
             if(mKilled >= mMaxKilled) {
+                mStage = eDefendCityStage::comeback;
+                goBack();
                 return eGodMonsterAction::increment(by);
             }
         } else {
@@ -281,15 +288,19 @@ void eDefendCityAction::goBack() {
     goToTile(mStartTile, tele);
 }
 
-void eDefendCityAction::goTo(const int fx, const int fy, const int dist) {
+bool eDefendCityAction::goTo(const int fx, const int fy, const int dist) {
     const auto c = character();
     const auto t = c->tile();
     const int sx = t->x();
     const int sy = t->y();
-    if(abs(fx - sx) <= dist && abs(fy - sy) <= dist) return;
+    const int dx = fx - sx;
+    const int dy = fy - sy;
+    if(sqrt(dx*dx + dy*dy) <= dist) return true;
 
     const auto hha = [fx, fy, dist](eThreadTile* const t) {
-        return abs(t->x() - fx) <= dist && abs(t->y() - fy) <= dist;
+        const int dx = fx - t->x();
+        const int dy = fy - t->y();
+        return sqrt(dx*dx + dy*dy) <= dist;
     };
 
     const auto walkable =
@@ -308,6 +319,22 @@ void eDefendCityAction::goTo(const int fx, const int fy, const int dist) {
         return board.tile(fx, fy);
     });
     setCurrentAction(a);
+    return false;
+}
+
+bool eDefendCityAction::goToNearestSoldier() {
+    if(!mEvent) return true;
+    const auto c = character();
+    const auto tile = c->tile();
+    const int tx = tile->x();
+    const int ty = tile->y();
+    int nX;
+    int nY;
+    const bool r = mEvent->nearestSoldier(tx, ty, nX, nY);
+    if(!r) return true;
+    const int range = this->range();
+    const bool rr = goTo(nX, nY, range);
+    return rr;
 }
 
 int eDefendCityAction::range() const {

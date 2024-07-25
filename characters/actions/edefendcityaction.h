@@ -21,7 +21,8 @@ public:
 private:
     void goToTarget();
     void goBack();
-    void goTo(const int fx, const int fy, const int dist);
+    bool goTo(const int fx, const int fy, const int dist);
+    bool goToNearestSoldier();
     int range() const;
 
     stdptr<eInvasionEvent> mEvent;
@@ -34,7 +35,7 @@ private:
     int mRangeAttack = 0;
     double mAngle{0.};
     int mMissile = 0;
-    const int mMaxKilled = 6;
+    int mMaxKilled = 6;
     int mKilled = 0;
 };
 

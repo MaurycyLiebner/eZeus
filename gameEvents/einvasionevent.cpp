@@ -8,6 +8,7 @@
 #include "estringhelpers.h"
 #include "einvasionwarningevent.h"
 #include "audio/emusic.h"
+#include "evectorhelpers.h"
 
 #include <algorithm>
 
@@ -161,9 +162,9 @@ void eInvasionEvent::trigger() {
 
     const auto tile = board->landInvasionTile(mInvasionPoint);
     ed.fTile = tile;
-    ed.fA2 = [board, tile, city, infantry, cavalry, archers]() { // fight
+    ed.fA2 = [this, board, tile, city, infantry, cavalry, archers]() { // fight
         if(!tile) return;
-        const auto eh = new eInvasionHandler(*board, city);
+        const auto eh = new eInvasionHandler(*board, city, this);
         eh->initialize(tile, infantry, cavalry, archers);
     };
     board->event(eEvent::invasion, ed);
@@ -216,6 +217,10 @@ void eInvasionEvent::read(eReadStream& src) {
     }
 }
 
+bool eInvasionEvent::finished() const {
+    return mHandlers.empty() && eGameEvent::finished();
+}
+
 void eInvasionEvent::setCity(const stdsptr<eWorldCity>& c) {
     mCity = c;
     const auto& ws = warnings();
@@ -232,6 +237,39 @@ void eInvasionEvent::setFirstWarning(const eDate& w) {
     const auto board = gameBoard();
     if(!board) return;
     board->addInvasion(this);
+}
+
+bool eInvasionEvent::activeInvasions() const {
+    return !mHandlers.empty();
+}
+
+void eInvasionEvent::addInvasionHandler(eInvasionHandler* const i) {
+    mHandlers.push_back(i);
+}
+
+void eInvasionEvent::removeInvasionHandler(eInvasionHandler* const i) {
+    eVectorHelpers::remove(mHandlers, i);
+}
+
+bool eInvasionEvent::nearestSoldier(const int fromX, const int fromY,
+                                    int& toX, int& toY) const {
+    bool found = false;
+    int minDist = 99999;
+    for(const auto i : mHandlers) {
+        int toXX;
+        int toYY;
+        const bool r = i->nearestSoldier(fromX, fromY, toXX, toYY);
+        if(!r) continue;
+        const int dx = fromX - toXX;
+        const int dy = fromY - toYY;
+        const int dist = sqrt(dx*dx + dy*dy);
+        if(dist > minDist) continue;
+        found = true;
+        toX = toXX;
+        toY = toYY;
+        minDist = dist;
+    }
+    return found;
 }
 
 int eInvasionEvent::bribeCost() const {

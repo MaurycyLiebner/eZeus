@@ -5,6 +5,8 @@
 
 #include "engine/eworldcity.h"
 
+class eInvasionHandler;
+
 class eInvasionEvent : public eGameEvent {
 public:
     eInvasionEvent(const eGameEventBranch branch);
@@ -22,6 +24,8 @@ public:
 
     void write(eWriteStream& dst) const override;
     void read(eReadStream& src) override;
+
+    bool finished() const override;
 
     const stdsptr<eWorldCity>& city() const { return mCity; }
     void setCity(const stdsptr<eWorldCity>& c);
@@ -42,10 +46,18 @@ public:
 
     bool hardcoded() const { return mHardcoded; }
     void setHardcoded(const bool h) { mHardcoded = h; }
+
+    bool activeInvasions() const;
+    void addInvasionHandler(eInvasionHandler* const i);
+    void removeInvasionHandler(eInvasionHandler* const i);
+
+    bool nearestSoldier(const int fromX, const int fromY,
+                        int& toX,int& toY) const;
 private:
     int bribeCost() const;
 
     stdsptr<eWorldCity> mCity;
+    std::vector<eInvasionHandler*> mHandlers;
 
     bool mHardcoded = true;
 

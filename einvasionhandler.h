@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "pointers/estdselfref.h"
+#include "pointers/estdpointer.h"
 
 class eGameBoard;
 class eInvasionEvent;
@@ -14,13 +15,14 @@ class eWorldCity;
 class eSoldierBanner;
 
 enum class eInvasionStage {
-    spread, invade, comeback
+    spread, wait, invade, comeback
 };
 
 class eInvasionHandler {
 public:
     eInvasionHandler(eGameBoard& board,
-                     const stdsptr<eWorldCity>& city);
+                     const stdsptr<eWorldCity>& city,
+                     eInvasionEvent* const event);
     ~eInvasionHandler();
 
     void initialize(eTile* const tile,
@@ -37,9 +39,13 @@ public:
 
     eInvasionStage stage() const { return mStage; }
     eTile* tile() const { return mTile; }
+
+    bool nearestSoldier(const int fromX, const int fromY,
+                        int& toX,int& toY) const;
 private:
     eGameBoard& mBoard;
     stdsptr<eWorldCity> mCity;
+    stdptr<eInvasionEvent> mEvent;
     eTile* mTile = nullptr;
     eInvasionStage mStage = eInvasionStage::spread;
     std::vector<stdsptr<eSoldierBanner>> mBanners;
