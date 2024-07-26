@@ -23,6 +23,18 @@ bool eCartTransporterAction::decide() {
     const auto c = static_cast<eCartTransporter*>(character());
     const bool r = eWalkableHelpers::sTileUnderBuilding(
                        c->tile(), mBuilding);
+    const int count = c->resCount();
+    const auto res = c->resType();
+    bool continuee = false;
+    if(mTask.fMaxCount > 0 && mTask.fResource == res) {
+        if(mTask.fType == eCartActionType::take) {
+            const int max = res == eResourceType::sculpture ? 1 : 4;
+            const int space = max - count;
+            continuee = space > 0;
+        } else { // give
+            continuee = count > 0;
+        }
+    }
     if(r || mWaitOutside) {
         if(mTask.fMaxCount > 0) {
             finishResourceAction(mTask);
@@ -54,6 +66,8 @@ bool eCartTransporterAction::decide() {
                 findTarget();
             }
         }
+    } else if(continuee && !mNoTarget) {
+        findTarget(mTask);
     } else {
         goBack();
     }
@@ -144,7 +158,6 @@ void eCartTransporterAction::findTarget(const std::vector<eCartTask>& tasks) {
                 }
                 if(mc <= 0) continue;
                 *ttask = task;
-                ttask->fMaxCount = mc;
                 *bx = t->x();
                 *by = t->y();
                 break;
@@ -202,7 +215,9 @@ void eCartTransporterAction::targetResourceAction(eBuildingWithResource* const r
     if(!rb) return;
     const auto c = character();
     const auto ct = static_cast<eCartTransporter*>(c);
-    targetProcessTask(rb, mTask);
+    const int takenGiven = targetProcessTask(rb, mTask);
+    mTask.fMaxCount -= takenGiven;
+
     auto tasks = mBuilding->cartTasks();
     const auto supp = support();
     const bool supportGive = supp & eCartActionTypeSupport::give;
@@ -219,31 +234,31 @@ void eCartTransporterAction::targetResourceAction(eBuildingWithResource* const r
     }
 }
 
-bool eCartTransporterAction::targetProcessTask(eBuildingWithResource* const rb,
-                                               const eCartTask& task) {
-    if(task.fMaxCount <= 0) return false;
+int eCartTransporterAction::targetProcessTask(eBuildingWithResource* const rb,
+                                              const eCartTask& task) {
+    if(task.fMaxCount <= 0) return 0;
     const auto c = static_cast<eCartTransporter*>(character());
     const auto res = c->resType();
     const int count = c->resCount();
     const auto tres = task.fResource;
     const int max = tres == eResourceType::sculpture ? 1 : 4;
     if(task.fType == eCartActionType::take) {
-        if(count > 0 && res != tres) return false;
+        if(count > 0 && res != tres) return 0;
         const int space = max - count;
-        if(space <= 0) return false;
+        if(space <= 0) return 0;
         const int toTake = std::min(space, task.fMaxCount);
         const int taken = rb->take(tres, toTake);
         c->setResource(tres, taken + count);
-        if(taken > 0) return true;
+        if(taken > 0) return taken;
     } else { // give
-        if(count == 0) return false;
-        if(res != tres) return false;
+        if(count == 0) return 0;
+        if(res != tres) return 0;
         const int toAdd = std::min(count, task.fMaxCount);
         const int added = rb->add(tres, toAdd);
         c->setResource(tres, count - added);
-        if(added > 0) return true;
+        return added;
     }
-    return false;
+    return 0;
 }
 
 void eCartTransporterAction::startResourceAction(const eCartTask& task) {

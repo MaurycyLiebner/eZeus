@@ -29,8 +29,8 @@ protected:
 
     void targetResourceAction(const int bx, const int by);
     void targetResourceAction(eBuildingWithResource* const rb);
-    bool targetProcessTask(eBuildingWithResource* const rb,
-                           const eCartTask& task);
+    int targetProcessTask(eBuildingWithResource* const rb,
+                          const eCartTask& task);
 
     void startResourceAction(const eCartTask& task);
     void finishResourceAction(const eCartTask& task);
