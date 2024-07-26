@@ -56,6 +56,15 @@ public:
     eResourceType empties() const { return mEmpty; }
     eResourceType canAccept() const { return mCanAccept; }
 
+    bool accepts(const eResourceType res) const
+    { return static_cast<bool>(mAccept & res); }
+    bool get(const eResourceType res) const
+    { return static_cast<bool>(mGet & res); }
+    bool empties(const eResourceType res) const
+    { return static_cast<bool>(mEmpty & res); }
+    bool canAccept(const eResourceType res) const
+    { return static_cast<bool>(mCanAccept & res); }
+
     void setOrders(const eResourceType get,
                    const eResourceType empty,
                    const eResourceType accept);

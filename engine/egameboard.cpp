@@ -2343,10 +2343,28 @@ int eGameBoard::takeResource(const eResourceType type, const int count) {
         return count;
     }
     int r = 0;
-    for(const auto s : mStorBuildings) {
-        if(r >= count) return count;
-        r += s->take(type, count - r);
-    }
+    using eValidator = std::function<bool(eStorageBuilding*)>;
+    const auto takeFunc = [&](const eValidator& v) {
+        if(r >= count) return;
+        for(const auto s : mStorBuildings) {
+            if(!v(s)) continue;
+            if(r >= count) return;
+            r += s->take(type, count - r);
+        }
+    };
+    takeFunc([&](eStorageBuilding* const s) {
+        return s->empties(type);
+    });
+    takeFunc([&](eStorageBuilding* const s) {
+        return !s->accepts(type);
+    });
+    takeFunc([&](eStorageBuilding* const s) {
+        return !s->get(type);
+    });
+    takeFunc([&](eStorageBuilding* const s) {
+        (void)s;
+        return true;
+    });
     return count - r;
 }
 
