@@ -20,7 +20,6 @@ int eHusbandryData::canSupport() const {
         case eBuildingType::fishery:
         case eBuildingType::urchinQuay:
         case eBuildingType::dairy:
-        case eBuildingType::growersLodge:
         case eBuildingType::orangeTendersLodge:
             return true;
         default:
