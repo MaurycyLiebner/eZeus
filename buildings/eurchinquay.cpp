@@ -1,4 +1,4 @@
-#include "eurchinquay.h"
+﻿#include "eurchinquay.h"
 
 #include "characters/eurchingatherer.h"
 #include "characters/actions/ecollectresourceaction.h"
@@ -16,7 +16,7 @@ eUrchinQuay::~eUrchinQuay() {
     if(mGatherer) mGatherer->kill();
 }
 
-const int gUnpackTime = 5000;
+const int gUnpackTime = 10000;
 
 void eUrchinQuay::timeChanged(const int by) {
     if(enabled()) {
