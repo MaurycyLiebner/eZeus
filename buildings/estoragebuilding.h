@@ -53,6 +53,7 @@ public:
 
     eResourceType accepts() const { return mAccept; }
     eResourceType get() const { return mGet; }
+    eResourceType empties() const { return mEmpty; }
     eResourceType canAccept() const { return mCanAccept; }
 
     void setOrders(const eResourceType get,

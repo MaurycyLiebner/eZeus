@@ -120,17 +120,16 @@ void eCartTransporterAction::findTarget(const std::vector<eCartTask>& tasks) {
             const auto res = task.fResource;
             if(task.fType == eCartActionType::take) {
                 if(bType == eBuildingType::warehouse ||
-                   bType == eBuildingType::granary) {
-                    const auto gts = ub.gets();
-                    const bool gtsRes = static_cast<bool>(gts & res);
-                    if(gtsRes) continue;
+                   bType == eBuildingType::granary ||
+                   bType == eBuildingType::tradePost) {
+                    const bool g = ub.gets(res);
+                    if(g) continue;
                 }
                 const bool has = ub.resourceHas(res);
                 if(has) found = true;
             } else { // give
-                const auto ets = ub.empties();
-                const bool etsRes = static_cast<bool>(ets & res);
-                if(etsRes) continue;
+                const bool e = ub.empties(res);
+                if(e) continue;
                 const bool has = ub.resourceHasSpace(res);
                 if(has) found = true;
             }

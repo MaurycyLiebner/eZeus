@@ -15,6 +15,8 @@ void eThreadBuilding::load(eBuilding* const src) {
 
     memset(mResourceCount, 0, sizeof(mResourceCount));
     memset(mResource, 0, sizeof(mResourceCount));
+    mGet = eResourceType::none;
+    mEmpty = eResourceType::none;
     mAccepts = eResourceType::none;
 
     if(src) {
@@ -32,6 +34,7 @@ void eThreadBuilding::load(eBuilding* const src) {
             const auto s = static_cast<eStorageBuilding*>(src);
             mAccepts = s->accepts();
             mGet = s->get();
+            mEmpty = s->empties();
             const auto rc = s->resourceCounts();
             const auto rt = s->resourceTypes();
             mSpaceCount = s->spaceCount();
@@ -110,4 +113,12 @@ bool eThreadBuilding::resourceHas(const eResourceType type) const {
 
 bool eThreadBuilding::resourceHasSpace(const eResourceType type) const {
     return resourceSpaceLeft(type) > 0;
+}
+
+bool eThreadBuilding::gets(const eResourceType res) const {
+    return static_cast<bool>(res & mGet);
+}
+
+bool eThreadBuilding::empties(const eResourceType res) const {
+    return static_cast<bool>(res & mEmpty);
 }

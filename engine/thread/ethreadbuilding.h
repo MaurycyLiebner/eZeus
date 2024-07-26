@@ -24,6 +24,9 @@ public:
     eResourceType gets() const { return mGet; }
     eResourceType empties() const { return mEmpty; }
 
+    bool gets(const eResourceType res) const;
+    bool empties(const eResourceType res) const;
+
     SDL_Rect tileRect() const { return mTileRect; }
 private:
     SDL_Rect mTileRect;
