@@ -2031,10 +2031,11 @@ void eGameBoard::incTime(const int by) {
 
     for(int i = 0; i < (int)mGameEvents.size(); i++) {
         const auto& e = mGameEvents[i];
-        e->handleNewDate(mDate);
         if(e->finished() && !e->hasActiveConsequences()) {
             eVectorHelpers::remove(mGameEvents, e);
             i--;
+        } else {
+            e->handleNewDate(mDate);
         }
     }
 
