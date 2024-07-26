@@ -19,6 +19,8 @@ public:
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 
+    void decCount(const int by);
+
     static bool sHelpNeeded(const eGameBoard& board,
                             const eResourceType res,
                             const int minSpace);
@@ -35,16 +37,19 @@ private:
 class eGodProvideResourceAct : public eGodAct {
 public:
     eGodProvideResourceAct(eGameBoard& board,
+                           eProvideResourceHelpAction* const action,
                            eStorageBuilding* const target,
                            const eResourceType resource,
                            const int count) :
         eGodAct(board, eGodActType::provideResource),
+        mAction(action),
         mTarget(target),
         mResource(resource),
         mCount(count) {}
 
     eGodProvideResourceAct(eGameBoard& board) :
-        eGodProvideResourceAct(board, nullptr, eResourceType::meat, 0) {}
+        eGodProvideResourceAct(board, nullptr, nullptr,
+                               eResourceType::meat, 0) {}
 
     eMissileTarget find(eTile* const t) {
         (void)t;
@@ -54,7 +59,10 @@ public:
 
     void act() {
         if(mTarget) {
-            mTarget->add(mResource, mCount);
+            const int added = mTarget->add(mResource, mCount);
+            if(mAction) {
+                mAction->decCount(added);
+            }
         }
     }
 
@@ -64,14 +72,19 @@ public:
         });
         src >> mResource;
         src >> mCount;
+        src.readCharacterAction(&board(), [this](eCharacterAction* const a) {
+            mAction = static_cast<eProvideResourceHelpAction*>(a);
+        });
     }
 
     void write(eWriteStream& dst) const {
         dst.writeBuilding(mTarget);
         dst << mResource;
         dst << mCount;
+        dst.writeCharacterAction(mAction);
     }
 private:
+    stdptr<eProvideResourceHelpAction> mAction;
     stdptr<eStorageBuilding> mTarget;
     eResourceType mResource;
     int mCount;

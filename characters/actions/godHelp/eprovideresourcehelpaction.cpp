@@ -25,10 +25,15 @@ bool eProvideResourceHelpAction::decide() {
         mStage = eProvideResourceHelpStage::give;
         give();
         break;
-    case eProvideResourceHelpStage::give:
-        mStage = eProvideResourceHelpStage::disappear;
-        disappear();
-        break;
+    case eProvideResourceHelpStage::give: {
+        if(mCount > 0) {
+            mStage = eProvideResourceHelpStage::goTo;
+            goToTarget();
+        } else {
+            mStage = eProvideResourceHelpStage::disappear;
+            disappear();
+        }
+    } break;
     case eProvideResourceHelpStage::disappear:
         const auto c = character();
         c->kill();
@@ -55,11 +60,14 @@ void eProvideResourceHelpAction::write(eWriteStream& dst) const {
     dst << mCount;
 }
 
+void eProvideResourceHelpAction::decCount(const int by) {
+    mCount -= by;
+}
+
 bool eProvideResourceHelpAction::sHelpNeeded(const eGameBoard& board,
                                              const eResourceType res,
                                              const int minSpace) {
-    eStorageBuilding* b = nullptr;
-    const int r = board.maxSingleSpaceForResource(res, &b);
+    const int r = board.spaceForResource(res);
     return r > minSpace;
 }
 
@@ -77,6 +85,7 @@ void eProvideResourceHelpAction::goToTarget() {
         const auto tile = eTileHelper::closestRoad(tx, ty, board);
         goToTile(tile, tele);
     } else {
+        mStage = eProvideResourceHelpStage::disappear;
         disappear();
     }
 }
@@ -91,7 +100,7 @@ void eProvideResourceHelpAction::give() {
                 board(), this);
     using eGPRA = eGodProvideResourceAct;
     const auto act = std::make_shared<eGPRA>(
-                board(), mTarget,
+                board(), this, mTarget,
                 mResource, mCount);
     pauseAction();
     spawnGodMissile(eCharacterActionType::bless,
