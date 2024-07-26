@@ -27,7 +27,7 @@ void eFishery::timeChanged(const int by) {
         }
         switch(mState) {
         case eFisheryState::buildingBoat: {
-            const int buildTime = 10000;
+            const int buildTime = 40000;
             if(mStateCount > buildTime) {
                 mStateCount -= buildTime;
                 mState = eFisheryState::waiting;
