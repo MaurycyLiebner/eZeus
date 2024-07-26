@@ -41,6 +41,8 @@
 #include "buildings/ehorseranchenclosure.h"
 #include "buildings/eaestheticsbuilding.h"
 #include "buildings/egatehouse.h"
+#include "buildings/etradepost.h"
+#include "buildings/epier.h"
 
 #include "elanguage.h"
 
@@ -1396,6 +1398,18 @@ bool eGameWidget::inErase(eBuilding* const b) {
         if(e1) return true;
         const auto hre = hr->ranch();
         rect = hre->tileRect();
+    } else if(const auto tp = dynamic_cast<eTradePost*>(b)) {
+        const bool e1 = inErase(tp->tileRect());
+        if(e1) return true;
+        const auto ub = tp->unpackBuilding();
+        if(!ub) return false;
+        rect = ub->tileRect();
+    } else if(const auto p = dynamic_cast<ePier*>(b)) {
+        const bool e1 = inErase(p->tileRect());
+        if(e1) return true;
+        const auto tp = p->tradePost();
+        if(!tp) return false;
+        rect = tp->tileRect();
     } else {
         rect = b->tileRect();
     }

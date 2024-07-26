@@ -1037,6 +1037,7 @@ bool eGameWidget::buildMouseRelease() {
                 tp->setOrientation(o);
                 tp->setUnpackBuilding(b.get());
                 build(tx, ty, 4, 4, [&]() { return tp; });
+                b->setTradePost(tp.get());
 
                 mGm->clearMode();
             }

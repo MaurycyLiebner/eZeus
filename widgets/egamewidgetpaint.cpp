@@ -2760,6 +2760,7 @@ void eGameWidget::paintEvent(ePainter& p) {
             }
             const auto b2 = e::make_shared<eHorseRanchEnclosure>(*mBoard);
             b2->setRanch(b1.get());
+            b1->setEnclosure(b2.get());
             if(under) {
                 ebs.insert(ebs.begin(), eB{tx + dx, ty + dy, b2});
             } else {
