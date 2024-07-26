@@ -1153,7 +1153,7 @@ void eBuilding::sInfoText(eBuilding* const b,
         } else if(onFire) {
             employmentInfoString = 14;
         } else {
-            employmentInfoString = 1;
+            employmentInfoString = -1;
         }
     } break;
     case eBuildingType::maintenanceOffice: {

@@ -67,6 +67,20 @@ eInfoWidget* eGameWidget::openInfoWidget(eBuilding* const b) {
                                  additionalInfo);
             ebWid->initialize(title, info, employmentInfo, eb, "");
             wid = ebWid;
+        } else if(const auto p = dynamic_cast<ePalace*>(b)) {
+            const auto pWid = new eInfoWidget(
+                                    window(), true, true);
+            std::string title;
+            std::string info;
+            std::string employmentInfo;
+            std::string additionalInfo;
+            eBuilding::sInfoText(p, title, info,
+                                 employmentInfo,
+                                 additionalInfo);
+            pWid->initialize(title);
+            pWid->addText(info);
+            if(!employmentInfo.empty()) pWid->addText(employmentInfo);
+            wid = pWid;
         } else {
             const auto bWid = new eInfoWidget(window(), true, true);
             const auto title = eBuilding::sNameForBuilding(b);
