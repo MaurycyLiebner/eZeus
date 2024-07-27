@@ -2038,6 +2038,7 @@ void eBuilding::collapse() {
         const bool r = static_cast<bool>(eTerrain::buildable & terrain);
         if(!r) continue;
         const auto ruins = e::make_shared<eRuins>(b);
+        ruins->setWasType(tp);
         ruins->setOnFire(onFire);
         ruins->setCenterTile(t);
         t->setUnderBuilding(ruins);
