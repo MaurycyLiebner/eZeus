@@ -1652,6 +1652,7 @@ bool eGameWidget::buildMouseRelease() {
             const int cost = eDifficultyHelpers::buildingCost(
                                  diff, bt);
             mBoard->incDrachmas(-cost);
+            mBoard->takeResource(eResourceType::marble, m);
 
             const auto h = eSanctBlueprints::sSanctuaryBlueprint(bt, mRotate);
 
