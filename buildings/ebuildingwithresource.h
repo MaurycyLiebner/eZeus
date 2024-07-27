@@ -53,6 +53,7 @@ public:
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 
+    const std::vector<eStash>& stash() const { return mStash; }
     int stash(const eResourceType type, const int count);
     int stashCount(const eResourceType type) const;
 protected:

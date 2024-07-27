@@ -136,6 +136,15 @@ std::vector<eCartTask> eStorageBuilding::cartTasks() const {
         }
     }
 
+    const auto& stash = this->stash();
+    for(const auto& s : stash) {
+        eCartTask task;
+        task.fType = eCartActionType::give;
+        task.fResource = s.fType;
+        task.fMaxCount = s.fCount;
+        tasks.push_back(task);
+    }
+
     return tasks;
 }
 
