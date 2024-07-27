@@ -138,6 +138,8 @@ std::vector<eCartTask> eStorageBuilding::cartTasks() const {
 
     const auto& stash = this->stash();
     for(const auto& s : stash) {
+        const bool g = static_cast<bool>(mGet & s.fType);
+        if(g) continue;
         eCartTask task;
         task.fType = eCartActionType::give;
         task.fResource = s.fType;
