@@ -84,6 +84,9 @@ eSanctuary::eSanctuary(eGameBoard& board,
         break;
     }
     board.registerSanctuary(this);
+    setStashable(eResourceType::marble |
+                 eResourceType::wood |
+                 eResourceType::sculpture);
 }
 
 eSanctuary::~eSanctuary() {
@@ -350,13 +353,14 @@ int eSanctuary::add(const eResourceType type, const int count) {
 
 
 std::vector<eCartTask> eSanctuary::cartTasks() const {
+    if(mHaltConstruction) return {};
     std::vector<eCartTask> tasks;
 
     const int m = spaceLeft(eResourceType::marble);
     const int w = spaceLeft(eResourceType::wood);
     const int s = spaceLeft(eResourceType::sculpture);
 
-    if(m) {
+    if(m > 0) {
         eCartTask task;
         task.fType = eCartActionType::take;
         task.fResource = eResourceType::marble;
@@ -364,7 +368,7 @@ std::vector<eCartTask> eSanctuary::cartTasks() const {
         tasks.push_back(task);
     }
 
-    if(w) {
+    if(w > 0) {
         eCartTask task;
         task.fType = eCartActionType::take;
         task.fResource = eResourceType::wood;
@@ -372,7 +376,7 @@ std::vector<eCartTask> eSanctuary::cartTasks() const {
         tasks.push_back(task);
     }
 
-    if(s) {
+    if(s > 0) {
         eCartTask task;
         task.fType = eCartActionType::take;
         task.fResource = eResourceType::sculpture;

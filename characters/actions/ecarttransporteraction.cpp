@@ -53,8 +53,13 @@ bool eCartTransporterAction::decide() {
                     const auto rt = c->resType();
                     const int r = mBuilding->add(rt, cc);
                     c->take(rt, r);
+                    cc = c->resCount();
+                    if(cc > 0) {
+                        const int s = mBuilding->stash(rt, cc);
+                        c->take(rt, s);
+                        cc = c->resCount();
+                    }
                 }
-                int cc = c->resCount();
                 if(cc > 0 && supp & eCartActionTypeSupport::give) {
                     eCartTask task;
                     task.fMaxCount = cc;

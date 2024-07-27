@@ -10,6 +10,7 @@ eTriremeWharf::eTriremeWharf(eGameBoard& board, const eOrientation o) :
                        3, 3, 100),
     mO(o) {
     eGameTextures::loadTriremeWharf();
+    setStashable(eResourceType::wood | eResourceType::armor);
 }
 
 eTriremeWharf::~eTriremeWharf() {

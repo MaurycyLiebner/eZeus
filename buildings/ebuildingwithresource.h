@@ -16,6 +16,11 @@ struct eCartTask {
     int fMaxCount = 0;
 };
 
+struct eStash {
+    eResourceType fType;
+    int fCount;
+};
+
 class eBuildingWithResource : public eBuilding {
 public:
     using eBuilding::eBuilding;
@@ -44,9 +49,21 @@ public:
     virtual std::vector<eCartTask> cartTasks() const {
         return {};
     }
+
+    void read(eReadStream& src) override;
+    void write(eWriteStream& dst) const override;
+
+    int stash(const eResourceType type, const int count);
+    int stashCount(const eResourceType type) const;
 protected:
+    void setStashable(const eResourceType s);
+    void addFromStash();
+
     stdptr<eCartTransporter> spawnCart(const eCartActionTypeSupport s =
                                     eCartActionTypeSupport::both);
+private:
+    eResourceType mStashable = eResourceType::none;
+    std::vector<eStash> mStash;
 };
 
 #endif // EBUILDINGWITHRESOURCE_H

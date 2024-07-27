@@ -21,6 +21,7 @@ eStorageBuilding::eStorageBuilding(eGameBoard& board,
         }
     }
     board.registerStorBuilding(this);
+    setStashable(mCanAccept);
 }
 
 eStorageBuilding::~eStorageBuilding() {
@@ -88,6 +89,7 @@ int eStorageBuilding::take(const eResourceType type, const int count) {
             }
         }
     }
+    addFromStash();
     return count - rem;
 }
 
