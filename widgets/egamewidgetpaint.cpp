@@ -259,7 +259,7 @@ void eGameWidget::paintEvent(ePainter& p) {
     mBoard->incFrame();
     const int nc = children().size() - mTips.size();
 //    printf("%d\n", nc);
-    if(!mPaused && !mLocked && !mMenu && !mMsgBox && !mInfoWidget && nc < 7) {
+    if(!mPaused && !mLocked && !mMsgBox && !mInfoWidget && nc < 7) {
         const bool lost = mBoard->episodeLost();
         if(lost) {
             const auto w = window();

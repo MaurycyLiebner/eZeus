@@ -313,7 +313,6 @@ private:
     std::vector<ePatrolGuide> mSavedGuides;
 
     eFramedLabel* mPausedLabel = nullptr;
-    eGameMainMenu* mMenu = nullptr;
 
     eTopBarWidget* mTopBar = nullptr;
     eInfoWidget* mInfoWidget = nullptr;

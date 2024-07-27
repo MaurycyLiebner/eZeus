@@ -1541,17 +1541,13 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
     } else if(k == SDL_Scancode::SDL_SCANCODE_DOWN) {
         setDY(mDY - 35);
     } else if(k == SDL_Scancode::SDL_SCANCODE_ESCAPE) {
-        if(mMenu) {
-            mMenu->deleteLater();
-            mMenu = nullptr;
-        } else if(!mMsgBox && !mBoard->editorMode()) {
+        if(!mMsgBox && !mBoard->editorMode()) {
             mBoard->waitUntilFinished();
-            mMenu = new eGameMainMenu(window());
-            mMenu->resize(width()/4, height()/2);
+            const auto menu = new eGameMainMenu(window());
+            menu->resize(width()/4, height()/2);
             const auto w = window();
-            const auto resumeAct = [this]() {
-                mMenu->deleteLater();
-                mMenu = nullptr;
+            const auto resumeAct = [menu]() {
+                menu->deleteLater();
             };
             const auto saveAct = [this, w]() {
                 const auto fw = new eFileWidget(w);
@@ -1567,6 +1563,7 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
                               dir, func, closeAct);
                 addWidget(fw);
                 fw->align(eAlignment::center);
+                w->execDialog(fw);
             };
             const auto loadAct = [this, w]() {
                 const auto fw = new eFileWidget(w);
@@ -1582,13 +1579,15 @@ bool eGameWidget::keyPressEvent(const eKeyPressEvent& e) {
                               dir, func, closeAct);
                 addWidget(fw);
                 fw->align(eAlignment::center);
+                w->execDialog(fw);
             };
             const auto exitAct = [w]() {
                 w->closeGame();
             };
-            mMenu->initialize(resumeAct, saveAct, loadAct, exitAct);
-            addWidget(mMenu);
-            mMenu->align(eAlignment::center);
+            menu->initialize(resumeAct, saveAct, loadAct, exitAct);
+            addWidget(menu);
+            menu->align(eAlignment::center);
+            w->execDialog(menu);
         }
     }
     return true;
