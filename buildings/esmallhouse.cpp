@@ -153,7 +153,7 @@ void eSmallHouse::timeChanged(const int by) {
     auto& b = getBoard();
     if(mPlague) {
         if(mHygiene > 25) {
-            const int m4 = 10*pow(750./mHygiene, 4);
+            const int m4 = 10*pow(1000./mHygiene, 4);
             if(by) {
                 const int healPeriod = m4/by;
                 if(healPeriod && eRand::rand() % healPeriod == 0) {
