@@ -62,6 +62,8 @@ public:
     int maxDistance() const { return mMaxDistance; }
     void setMaxDistance(const int d) { mMaxDistance = d; }
 
+    eCartTransporterType cartType() const { return mType; }
+
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:

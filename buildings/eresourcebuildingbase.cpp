@@ -44,7 +44,7 @@ int eResourceBuildingBase::add(const eResourceType type,
 
 int eResourceBuildingBase::take(const eResourceType type,
                                 const int count) {
-    if(type != mResType) return 0;
+    if(!static_cast<bool>(type & mResType)) return 0;
 
     const int result = std::clamp(count, 0, mResource);
     mResource -= result;
@@ -52,7 +52,7 @@ int eResourceBuildingBase::take(const eResourceType type,
 }
 
 int eResourceBuildingBase::count(const eResourceType type) const {
-    if(type != mResType) return 0;
+    if(!static_cast<bool>(type & mResType)) return 0;
     return mResource;
 }
 
