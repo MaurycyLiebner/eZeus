@@ -787,6 +787,7 @@ bool eGameWidget::buildMouseRelease() {
         }; break;
         case eBuildingMode::palace: {
             if(mBoard->hasPalace()) return true;
+            if(mBoard->hasActiveInvasions()) return true;
             const int tx = mHoverTX;
             const int ty = mHoverTY;
             int dx;

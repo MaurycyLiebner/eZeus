@@ -437,6 +437,7 @@ public:
     const eIV& invasionHandlers() const;
     void addInvasionHandler(eInvasionHandler* const i);
     void removeInvasionHandler(eInvasionHandler* const i);
+    bool hasActiveInvasions() const;
 
     int addResource(const eResourceType type,
                     const int count);

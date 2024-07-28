@@ -708,6 +708,10 @@ void eGameBoard::removeInvasionHandler(eInvasionHandler* const i) {
     updateMusic();
 }
 
+bool eGameBoard::hasActiveInvasions() const {
+    return !mInvasionHandlers.empty();
+}
+
 int eGameBoard::addResource(const eResourceType type,
                             const int count) {
     if(type == eResourceType::drachmas) {
