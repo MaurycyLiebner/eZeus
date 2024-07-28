@@ -6,7 +6,7 @@
 eDeerSpawner::eDeerSpawner(const int id,
                            eTile* const tile,
                            eGameBoard& board) :
-    eAnimalSpawner(eBannerTypeS::deer, id, tile, 8, 6000, board) {}
+    eAnimalSpawner(eBannerTypeS::deer, id, tile, 8, 5000, board) {}
 
 
 stdsptr<eWildAnimal> eDeerSpawner::create(eGameBoard& board) {
