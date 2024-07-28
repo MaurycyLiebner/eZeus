@@ -15,6 +15,7 @@
 #include "evectorhelpers.h"
 
 #include "elanguage.h"
+#include "audio/esounds.h"
 
 eBuilding::eBuilding(eGameBoard& board,
                      const eBuildingType type,
@@ -1950,20 +1951,23 @@ void eBuilding::incTime(const int by) {
         }
     }
     if(isOnFire()) {
-        if(eRand::rand() % (10000/by) == 0) {
-            if(eRand::rand() % 3) {
-                const bool r = spreadFire();
-                eEventData ed;
-                ed.fTile = centerTile();
-                if(r) b.event(eEvent::fire, ed);
-            } else if(mType == eBuildingType::ruins) {
+        if(eRand::rand() % 100 == 0) {
+            b.ifVisible(centerTile(), []() {
+                eSounds::playFireSound();
+            });
+        }
+        if(eRand::rand() % (50000/by) == 0) {
+            spreadFire();
+            eSounds::playFireSound();
+        } else if(eRand::rand() % (50000/by) == 0) {
+            eEventData ed;
+            ed.fTile = centerTile();
+            b.event(eEvent::collapse, ed);
+            collapse();
+            return;
+        } else if(mType == eBuildingType::ruins) {
+            if(eRand::rand() % (10000/by) == 0) {
                 setOnFire(false);
-            } else {
-                eEventData ed;
-                ed.fTile = centerTile();
-                b.event(eEvent::collapse, ed);
-                collapse();
-                return;
             }
         }
     } else if(eRand::rand() % (2000/by) == 0) {
