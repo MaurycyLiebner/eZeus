@@ -31,7 +31,7 @@ bool eGodVisitAction::decide() {
         mStage = eGodVisitStage::patrol;
         const auto tile = c->tile();
         if(tile->hasRoad()) patrol();
-        else moveAround();
+        else moveAround(nullptr, 25000);
     }   break;
     case eGodVisitStage::patrol:
         mStage = eGodVisitStage::disappear;
