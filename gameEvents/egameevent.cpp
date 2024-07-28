@@ -254,7 +254,7 @@ void eGameEvent::handleNewDate(const eDate& date) {
     for(const auto& c : mConsequences) {
         c->handleNewDate(date);
     }
-    if(finished()) return;
+    if(mRemNRuns <= 0) return;
     if(date > mNextDate) {
         trigger();
         mRemNRuns--;
