@@ -1,6 +1,7 @@
 #include "eavenue.h"
 
 #include "textures/egametextures.h"
+#include "engine/egameboard.h"
 
 eAvenue::eAvenue(eGameBoard& board) :
     eBuilding(board, eBuildingType::avenue, 1, 1) {
@@ -27,27 +28,28 @@ int eAvenue::provide(const eProvide p, const int n) {
     return n - rem;
 }
 
-using eTileGetter = eTile* (eTile::*)() const;
+using eTileGetter = eTile* (eTile::*)(const eWorldDirection) const;
 bool isSingle(eTile* const t,
               eTileGetter tg1,
-              eTileGetter tg2) {
+              eTileGetter tg2,
+              const eWorldDirection dir) {
     if(!t) return true;
     const int tx = t->x();
     const int ty = t->y();
-    const auto tl = (t->*tg1)();
-    const auto br = (t->*tg2)();
+    const auto tl = (t->*tg1)(dir);
+    const auto br = (t->*tg2)(dir);
     const bool tlb = tl && tl->underBuildingType() == eBuildingType::avenue;
     const bool brb = br && br->underBuildingType() == eBuildingType::avenue;
     bool single = true;
     if(tlb && brb) {
         bool s = false;
         if(tl) {
-            if(const auto tltl = (tl->*tg1)()) {
+            if(const auto tltl = (tl->*tg1)(dir)) {
                 s = tltl->underBuildingType() != eBuildingType::avenue;
             }
         }
         if(br && !s) {
-            if(const auto brbr = (br->*tg2)()) {
+            if(const auto brbr = (br->*tg2)(dir)) {
                 s = brbr->underBuildingType() != eBuildingType::avenue;
             }
         }
@@ -67,10 +69,13 @@ eAvenue::getTexture(const eTileSize size) const {
     const auto& avn = blds.fAvenue;
     const auto t = centerTile();
 
-    const auto tl = t->topLeft<eTile>();
-    const auto br = t->bottomRight<eTile>();
-    const auto bl = t->bottomLeft<eTile>();
-    const auto tr = t->topRight<eTile>();
+    auto& board = getBoard();
+    const auto dir = board.direction();
+
+    const auto tl = t->topLeftRotated<eTile>(dir);
+    const auto br = t->bottomRightRotated<eTile>(dir);
+    const auto bl = t->bottomLeftRotated<eTile>(dir);
+    const auto tr = t->topRightRotated<eTile>(dir);
 
     const auto tlt = tl ? tl->underBuildingType() : eBuildingType::none;
     const auto brt = br ? br->underBuildingType() : eBuildingType::none;
@@ -91,9 +96,9 @@ eAvenue::getTexture(const eTileSize size) const {
     int collId = 0;
     int id = 0;
     if(tlb && brb && blb && trb) {
-        const auto b = t->bottom<eTile>();
-        const auto l = t->left<eTile>();
-        const auto r = t->right<eTile>();
+        const auto b = t->bottomRotated<eTile>(dir);
+        const auto l = t->leftRotated<eTile>(dir);
+        const auto r = t->rightRotated<eTile>(dir);
 
         const auto bt = b ? b->underBuildingType() : eBuildingType::none;
         const auto lt = l ? l->underBuildingType() : eBuildingType::none;
@@ -129,16 +134,16 @@ eAvenue::getTexture(const eTileSize size) const {
         collId = 4;
         id = 7;
     } else if(tlb && brb) {
-        tg1 = &eTile::topLeft<eTile>;
-        tg2 = &eTile::bottomRight<eTile>;
+        tg1 = &eTile::topLeftRotated<eTile>;
+        tg2 = &eTile::bottomRightRotated<eTile>;
         if(trb) {
             collId = 0;
         } else {
             collId = 1;
         }
     } else if(blb && trb) {
-        tg2 = &eTile::bottomLeft<eTile>;
-        tg1 = &eTile::topRight<eTile>;
+        tg2 = &eTile::bottomLeftRotated<eTile>;
+        tg1 = &eTile::topRightRotated<eTile>;
         if(tlb) {
             collId = 2;
         } else {
@@ -146,9 +151,9 @@ eAvenue::getTexture(const eTileSize size) const {
         }
     }
     if(tg1 && tg2) {
-        const bool s = isSingle(t, tg1, tg2);
-        const bool tls = isSingle((t->*tg1)(), tg1, tg2);
-        const bool brs = isSingle((t->*tg2)(), tg1, tg2);
+        const bool s = isSingle(t, tg1, tg2, dir);
+        const bool tls = isSingle((t->*tg1)(dir), tg1, tg2, dir);
+        const bool brs = isSingle((t->*tg2)(dir), tg1, tg2, dir);
         if(s && !tls) {
             id = 3;
         } else if(s && !brs) {
