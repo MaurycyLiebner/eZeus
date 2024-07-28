@@ -6,4 +6,5 @@ eGoat::eGoat(eGameBoard& board) :
     eDomesticatedAnimal(board, &eCharacterTextures::fGoat,
                         eCharacterType::goat) {
     eGameTextures::loadGoat();
+    setMaxGroom(10);
 }

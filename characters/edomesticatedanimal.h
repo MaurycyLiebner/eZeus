@@ -10,11 +10,13 @@ public:
     void groom();
     int collect();
     bool canCollect() const { return mResource; }
+protected:
+    void setMaxGroom(const int g) { mMaxGroom = g; }
 private:
     virtual void setNakedTexture() {}
     virtual void setFleecedTexture() {}
 
-    const int mMaxGroom = 15;
+    int mMaxGroom = 15;
     int mGroomed = 0;
     int mResource = 0;
 };
