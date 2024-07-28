@@ -246,7 +246,9 @@ void eInvasionHandler::incTime(const int by) {
     const int wait = 10000;
     mWait += by;
     if(mWait < wait) {
-        mStage = eInvasionStage::wait;
+        if(mStage == eInvasionStage::spread) {
+            mStage = eInvasionStage::wait;
+        }
         return;
     }
     mWait -= wait;
