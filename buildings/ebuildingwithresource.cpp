@@ -18,7 +18,7 @@ int eBuildingWithResource::stash(const eResourceType type, const int count) {
 
 int eBuildingWithResource::stashCount(const eResourceType type) const {
     for(const auto& s : mStash) {
-        if(s.fType == type) {
+        if(static_cast<bool>(s.fType & type)) {
             return s.fCount;
         }
     }
@@ -40,6 +40,22 @@ void eBuildingWithResource::addFromStash() {
             s.fCount -= a;
         }
     }
+}
+
+int eBuildingWithResource::takeFromStash(const eResourceType t, const int count) {
+    for(int i = 0; i < (int)mStash.size(); i++) {
+        auto& s = mStash[i];
+        if(!static_cast<bool>(t & s.fType)) continue;
+        const int take = std::min(s.fCount, count);
+        if(take >= s.fCount) {
+            mStash.erase(mStash.begin() + i);
+            i--;
+        } else {
+            s.fCount -= take;
+        }
+        return take;
+    }
+    return 0;
 }
 
 stdptr<eCartTransporter> eBuildingWithResource::spawnCart(

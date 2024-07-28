@@ -59,6 +59,7 @@ public:
 protected:
     void setStashable(const eResourceType s);
     void addFromStash();
+    int takeFromStash(const eResourceType t, const int count);
 
     stdptr<eCartTransporter> spawnCart(const eCartActionTypeSupport s =
                                     eCartActionTypeSupport::both);

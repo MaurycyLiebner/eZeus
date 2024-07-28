@@ -77,6 +77,9 @@ int eStorageBuilding::add(const eResourceType type, const int count) {
 
 int eStorageBuilding::take(const eResourceType type, const int count) {
     int rem = count;
+    const int dep = takeFromStash(type, rem);
+    rem -= dep;
+    if(rem <= 0) return count;
     for(int i = 0; i < mSpaceCount && rem > 0; i++) {
         auto& t = mResource[i];
         int& c = mResourceCount[i];
@@ -94,7 +97,8 @@ int eStorageBuilding::take(const eResourceType type, const int count) {
 }
 
 int eStorageBuilding::count(const eResourceType type) const {
-    return sCount(type, mResourceCount, mResource, mSpaceCount);
+    return sCount(type, mResourceCount, mResource, mSpaceCount) +
+            stashCount(type);
 }
 
 int eStorageBuilding::spaceLeft(const eResourceType type) const {
