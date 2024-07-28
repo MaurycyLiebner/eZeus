@@ -324,7 +324,6 @@ void eCartTransporter::read(eReadStream& src) {
     src >> nf;
     for(int i = 0; i < nf; i++) {
         src.readCharacter(&getBoard(), [this](eCharacter* const c) {
-            if(!c) return;
             mFollowers.push_back(c);
         });
     }
