@@ -715,11 +715,23 @@ int eGameBoard::addResource(const eResourceType type,
         return count;
     }
     int rem = count;
-    for(const auto s : mStorBuildings) {
-        const int c = s->add(type, rem);
-        rem -= c;
-        if(rem <= 0) break;
-    }
+    using eValidator = std::function<bool(eStorageBuilding*)>;
+    const auto addFunc = [&](const eValidator& v) {
+        if(rem <= 0) return;
+        for(const auto s : mStorBuildings) {
+            if(!v(s)) continue;
+            const int c = s->add(type, rem);
+            rem -= c;
+            if(rem <= 0) break;
+        }
+    };
+    addFunc([&](eStorageBuilding* const s) {
+        return s->get(type);
+    });
+    addFunc([&](eStorageBuilding* const s) {
+        (void)s;
+        return true;
+    });
     return count - rem;
 }
 
