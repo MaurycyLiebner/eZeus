@@ -54,7 +54,7 @@ std::vector<eOverlay> eHorseRanch::getOverlays(
 
 void eHorseRanch::timeChanged(const int by) {
     const int wheat = 1000;
-    const int horse = 10000;
+    const int horse = 40000;
     if(enabled()) {
         if(!mTakeCart) {
             mTakeCart = spawnCart(eCartActionTypeSupport::take);
