@@ -191,6 +191,7 @@ bool eBuilding::sAttackable(const eBuildingType bt) {
     if(bt == eBuildingType::ruins) return false;
     if(bt == eBuildingType::placeholder) return false;
     if(bt == eBuildingType::park) return false;
+    if(bt == eBuildingType::avenue) return false;
     if(bt == eBuildingType::palaceTile) return false;
     if(bt == eBuildingType::godMonumentTile) return false;
     if(bt == eBuildingType::bridge) return false;
