@@ -410,69 +410,11 @@ void eMainWindow::showChooseGameEditMenu() {
     setWidget(gem);
 }
 
-#include "characters/ehoplite.h"
-#include "characters/erockthrower.h"
-#include "characters/egreekhoplite.h"
-#include "characters/esoldierbanner.h"
-#include "characters/actions/esoldieraction.h"
 void eMainWindow::showGame(const stdsptr<eCampaign>& c,
                            const eGameWidgetSettings& settings) {
     mCampaign = c;
     const auto e = c->currentEpisode();
     showGame(e->fBoard, settings);
-
-//    const auto spawnHoplite = [&](const int x, const int y,
-//                                  const int pid) {
-//        stdsptr<eSoldier> h;
-////            if(pid == 1) {
-//            h = e::make_shared<eRockThrower>(*mBoard);
-////            } else {
-////                h = e::make_shared<eGreekHoplite>(*mBoard);
-////            }
-//        h->setPlayerId(pid);
-//        const auto a = e::make_shared<eSoldierAction>(h.get());
-//        h->setAction(a);
-//        h->changeTile(mBoard->tile(x, y));
-//        h->setActionType(eCharacterActionType::stand);
-//        return h;
-//    };
-
-//    stdsptr<eSoldierBanner> b;
-//    int bi = 8;
-//    for(int i = 20; i < 30; i += 1) {
-//        for(int j = -10; j < 0; j += 1) {
-//            const auto s = spawnHoplite(i, j, 1);
-//            if(bi >= 8) {
-//                b = e::make_shared<eSoldierBanner>(eBannerType::rockThrower, *mBoard);
-//                b->setPlayerId(1);
-//                const auto n = new stdsptr<eSoldierBanner>(b);
-//                b->moveTo(i, j);
-//                bi = 0;
-//            }
-//            s->setBanner(b.get());
-//            b->incCount();
-//            bi++;
-//        }
-//    }
-
-//    bi = 8;
-//    for(int i = 40; i < 50; i += 1) {
-//        for(int j = -20; j < -10; j += 1) {
-//            const auto s = spawnHoplite(i, j, 2);
-//            if(bi >= 8) {
-//                b = e::make_shared<eSoldierBanner>(eBannerType::hoplite, *mBoard);
-//                b->setPlayerId(2);
-//                const auto n = new stdsptr<eSoldierBanner>(b);
-//                b->moveTo(i, j);
-//                bi = 0;
-//            }
-//            s->setBanner(b.get());
-//            b->incCount();
-//            bi++;
-//        }
-//    }
-
-//    board->planInvasion(board->date() + 37*31, 10, 10, 10);
 }
 
 void eMainWindow::showGame(eGameBoard* b,
