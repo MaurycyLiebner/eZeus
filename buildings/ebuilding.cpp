@@ -2032,7 +2032,10 @@ void eBuilding::collapse() {
                          tp == eBuildingType::wineVendor ||
                          tp == eBuildingType::armsVendor ||
                          tp == eBuildingType::horseTrainer ||
-                         tp == eBuildingType::chariotVendor;
+                         tp == eBuildingType::chariotVendor ||
+                         tp == eBuildingType::sheep ||
+                         tp == eBuildingType::goat ||
+                         tp == eBuildingType::cattle;
     const bool onFire = mOnFire;
     setOnFire(false);
     erase();
