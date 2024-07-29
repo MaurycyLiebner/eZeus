@@ -787,7 +787,10 @@ bool eGameWidget::buildMouseRelease() {
         }; break;
         case eBuildingMode::palace: {
             if(mBoard->hasPalace()) return true;
-            if(mBoard->hasActiveInvasions()) return true;
+            if(mBoard->hasActiveInvasions()) {
+                showTip(eLanguage::zeusText(19, 33)); // too close to enemy
+                return true;
+            }
             const int tx = mHoverTX;
             const int ty = mHoverTY;
             int dx;
