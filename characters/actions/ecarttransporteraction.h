@@ -38,6 +38,8 @@ protected:
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:
+    stdsptr<eWalkableObject> getWalkable() const;
+
     void updateWaiting();
 
     void waitOutside();

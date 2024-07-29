@@ -2,6 +2,8 @@
 
 #include "../echaracter.h"
 #include "buildings/ebuildingwithresource.h"
+#include "buildings/ehorseranchenclosure.h"
+#include "buildings/ehorseranch.h"
 #include "engine/egameboard.h"
 #include "emovetoaction.h"
 
@@ -194,15 +196,15 @@ void eCartTransporterAction::findTarget(const std::vector<eCartTask>& tasks) {
     if(const auto cart = dynamic_cast<eCartTransporter*>(c)) {
         a->setMaxFindDistance(cart->maxDistance());
     }
-    const auto w = eWalkableObject::sCreateRect(
-                       buildingRect, eWalkableObject::sCreateRoadAvenue());
+    const auto w = getWalkable();
     a->start(finalTile, w);
 
     setCurrentAction(a);
 }
 
 void eCartTransporterAction::goBack() {
-    eActionWithComeback::goBack(mBuilding, eWalkableObject::sCreateRoadAvenue());
+    const auto w = getWalkable();
+    eActionWithComeback::goBack(w);
 }
 
 void eCartTransporterAction::targetResourceAction(const int bx, const int by) {
@@ -328,6 +330,20 @@ void eCartTransporterAction::write(eWriteStream& dst) const {
     dst << mWaitOutside;
 }
 
+stdsptr<eWalkableObject> eCartTransporterAction::getWalkable() const {
+    const auto buildingRect = mBuilding->tileRect();
+    auto w = eWalkableObject::sCreateRoadAvenue();
+    w = eWalkableObject::sCreateRect(buildingRect, w);
+    const auto type = mBuilding->type();
+    if(type == eBuildingType::horseRanch) {
+        const auto hr = static_cast<eHorseRanch*>(mBuilding);
+        const auto e = hr->enclosure();
+        const auto eRect = e->tileRect();
+        w = eWalkableObject::sCreateRect(eRect, w);
+    }
+    return w;
+}
+
 void eCartTransporterAction::updateWaiting() {
     const auto c = static_cast<eCartTransporter*>(character());
     const bool r = eWalkableHelpers::sTileUnderBuilding(
@@ -355,9 +371,7 @@ void eCartTransporterAction::waitOutside() {
     a->setFinishAction(stand);
     a->setFailAction(stand);
 
-    const auto buildingRect = mBuilding->tileRect();
-    const auto w = eWalkableObject::sCreateRect(
-                       buildingRect, eWalkableObject::sCreateRoadAvenue());
+    const auto w = getWalkable();
     a->start(tt, w);
 
     setCurrentAction(a);
