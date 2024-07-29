@@ -13,6 +13,8 @@ public:
 
     void erase() override;
 
+    int provide(const eProvide p, const int n) override;
+
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
     std::vector<eOverlay> getOverlays(const eTileSize size) const override;
 

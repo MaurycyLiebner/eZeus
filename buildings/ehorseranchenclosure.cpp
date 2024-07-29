@@ -23,6 +23,11 @@ void eHorseRanchEnclosure::erase() {
     eBuilding::erase();
 }
 
+int eHorseRanchEnclosure::provide(const eProvide p, const int n) {
+    mRanch->provide(p, n);
+    return eBuildingWithResource::provide(p, n);
+}
+
 std::shared_ptr<eTexture> eHorseRanchEnclosure::getTexture(
         const eTileSize size) const {
     const int sizeId = static_cast<int>(size);
