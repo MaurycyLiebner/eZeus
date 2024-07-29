@@ -2214,6 +2214,10 @@ HEADERS += \
     spriteData/sundial30.h \
     spriteData/sundial45.h \
     spriteData/sundial60.h \
+    spriteData/supplies15.h \
+    spriteData/supplies30.h \
+    spriteData/supplies45.h \
+    spriteData/supplies60.h \
     spriteData/tallObelisk15.h \
     spriteData/tallObelisk30.h \
     spriteData/tallObelisk45.h \
@@ -2909,6 +2913,7 @@ DISTFILES += \
     textureTemplates/stor_bays \
     textureTemplates/storage \
     textureTemplates/sundial \
+    textureTemplates/supplies \
     textureTemplates/tallObelisk \
     textureTemplates/talos \
     textureTemplates/taxCollector \

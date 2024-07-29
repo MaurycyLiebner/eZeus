@@ -607,6 +607,11 @@
 #include "spriteData/altarGoodsOverlay45.h"
 #include "spriteData/altarGoodsOverlay60.h"
 
+#include "spriteData/supplies15.h"
+#include "spriteData/supplies30.h"
+#include "spriteData/supplies45.h"
+#include "spriteData/supplies60.h"
+
 #include "offsets/PoseidonImps.h"
 
 #include "textures/espriteloader.h"
@@ -3129,6 +3134,34 @@ void eBuildingTextures::load() {
                              nullptr, fRenderer);
 
         fDeerPoint = loader.load(57, 57);
+    }
+
+
+    {
+        const auto& sds = spriteData(fTileH,
+                                     eSuppliesSpriteData15,
+                                     eSuppliesSpriteData30,
+                                     eSuppliesSpriteData45,
+                                     eSuppliesSpriteData60);
+        eSpriteLoader loader(fTileH, "supplies", sds,
+                             nullptr, fRenderer);
+
+        fSuppliesBg = loader.load(137, 137);
+        fEliteSuppliesBg = loader.load(137, 139);
+
+        fHasFood = loader.load(137, 155);
+        fHasFleece = loader.load(137, 153);
+        fHasOil = loader.load(137, 156);
+        fHasWine = loader.load(137, 157);
+        fHasArms = loader.load(137, 154);
+        fHasHorses = loader.load(137, 158);
+
+        fNHasFood = loader.load(137, 161);
+        fNHasFleece = loader.load(137, 159);
+        fNHasOil = loader.load(137, 162);
+        fNHasWine = loader.load(137, 163);
+        fNHasArms = loader.load(137, 160);
+        fNHasHorses = loader.load(137, 164);
     }
 }
 
