@@ -91,12 +91,7 @@ int eHorseRanch::add(const eResourceType type, const int count) {
 
 int eHorseRanch::take(const eResourceType type, const int count) {
     if(type == eResourceType::horse) {
-        const int max = horseCount();
-        const int t = std::min(max, count);
-        for(int i = 0; i < t; i++) {
-            mEnclosure->takeHorse();
-        }
-        return t;
+        return mEnclosure->take(type, count);
     }
     return eEmployingBuilding::take(type, count);
 }

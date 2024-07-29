@@ -8,6 +8,7 @@
 #include "buildings/eanimalbuilding.h"
 #include "buildings/echariotfactory.h"
 #include "buildings/ehorseranch.h"
+#include "buildings/ehorseranchenclosure.h"
 #include "buildings/sanctuaries/esanctuary.h"
 
 void eThreadBuilding::load(eBuilding* const src) {
@@ -50,6 +51,10 @@ void eThreadBuilding::load(eBuilding* const src) {
         } else if(const auto b = dynamic_cast<eHorseRanch*>(src)) {
             mResource[0] = eResourceType::horse;
             mResourceCount[0] = b->horseCount();
+            mSpaceCount = 1;
+        } else if(const auto e = dynamic_cast<eHorseRanchEnclosure*>(src)) {
+            mResource[0] = eResourceType::horse;
+            mResourceCount[0] = e->horseCount();
             mSpaceCount = 1;
         } else if(const auto b = dynamic_cast<eChariotFactory*>(src)) {
             mResource[0] = eResourceType::chariot;

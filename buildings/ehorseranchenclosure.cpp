@@ -8,7 +8,7 @@
 #include "ehorseranch.h"
 
 eHorseRanchEnclosure::eHorseRanchEnclosure(eGameBoard& board) :
-    eBuilding(board, eBuildingType::horseRanchEnclosure, 4, 4) {
+    eBuildingWithResource(board, eBuildingType::horseRanchEnclosure, 4, 4) {
     setEnabled(true);
 }
 
@@ -49,6 +49,23 @@ std::vector<eOverlay> eHorseRanchEnclosure::getOverlays(
     return os;
 }
 
+int eHorseRanchEnclosure::count(const eResourceType type) const {
+    if(type == eResourceType::horse) return horseCount();
+    return eBuildingWithResource::count(type);
+}
+
+int eHorseRanchEnclosure::take(const eResourceType type, const int count) {
+    if(type == eResourceType::horse) {
+        const int max = horseCount();
+        const int t = std::min(max, count);
+        for(int i = 0; i < t; i++) {
+            takeHorse();
+        }
+        return t;
+    }
+    return eBuildingWithResource::take(type, count);
+}
+
 bool eHorseRanchEnclosure::spawnHorse() {
     if(mHorses.size() > 5) return false;
     const auto h = e::make_shared<eHorse>(getBoard());
@@ -60,7 +77,7 @@ bool eHorseRanchEnclosure::spawnHorse() {
     const auto a = e::make_shared<eAnimalAction>(
                        h.get(), tx, ty, walkable);
     a->setLayTime(500);
-    a->setWalkTime(1);
+    a->setWalkTime(1000);
     h->setAction(a);
     mHorses.push_back(h);
     return true;

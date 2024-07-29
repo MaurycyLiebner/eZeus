@@ -1,4 +1,4 @@
-#include "ewalkableobject.h"
+﻿#include "ewalkableobject.h"
 
 #include "buildings/ebuilding.h"
 

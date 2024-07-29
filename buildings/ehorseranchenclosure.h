@@ -1,12 +1,12 @@
 #ifndef EHORSERANCHENCLOSURE_H
 #define EHORSERANCHENCLOSURE_H
 
-#include "ebuilding.h"
+#include "ebuildingwithresource.h"
 
 class eHorse;
 class eHorseRanch;
 
-class eHorseRanchEnclosure : public eBuilding {
+class eHorseRanchEnclosure : public eBuildingWithResource {
 public:
     eHorseRanchEnclosure(eGameBoard& board);
     ~eHorseRanchEnclosure();
@@ -15,6 +15,9 @@ public:
 
     std::shared_ptr<eTexture> getTexture(const eTileSize size) const override;
     std::vector<eOverlay> getOverlays(const eTileSize size) const override;
+
+    int count(const eResourceType type) const override;
+    int take(const eResourceType type, const int count) override;
 
     int horseCount() const { return mHorses.size(); }
 
