@@ -586,69 +586,69 @@ void eGameWidget::paintEvent(ePainter& p) {
                     if(ch->people() == 0) return;
                     double rxx = rx - 2.5;
                     double ryy = ry - 2;
-                    tp.drawTexture(rxx, ryy, builTexs.fSuppliesBg);
+                    tp.scheduleDrawTexture(rxx, ryy, builTexs.fSuppliesBg);
                     rxx += 0.49;
                     ryy += 0.15;
                     const double inc = 0.43;
-                    tp.drawTexture(rxx, ryy,
-                                   ch->lowFood() ?
-                                       builTexs.fNHasFood :
-                                       builTexs.fHasFood);
+                    tp.scheduleDrawTexture(rxx, ryy,
+                                           ch->lowFood() ?
+                                               builTexs.fNHasFood :
+                                               builTexs.fHasFood);
                     rxx += inc;
                     ryy -= inc;
-                    tp.drawTexture(rxx, ryy,
-                                   ch->lowFleece() ?
-                                       builTexs.fNHasFleece :
-                                       builTexs.fHasFleece);
+                    tp.scheduleDrawTexture(rxx, ryy,
+                                           ch->lowFleece() ?
+                                               builTexs.fNHasFleece :
+                                               builTexs.fHasFleece);
                     rxx += inc;
                     ryy -= inc;
-                    tp.drawTexture(rxx, ryy,
-                                   ch->lowOil() ?
-                                       builTexs.fNHasOil :
-                                       builTexs.fHasOil);
+                    tp.scheduleDrawTexture(rxx, ryy,
+                                           ch->lowOil() ?
+                                               builTexs.fNHasOil :
+                                               builTexs.fHasOil);
                 } else if(bt == eBuildingType::eliteHousing) {
                     const auto ch = static_cast<eEliteHousing*>(ub);
                     if(ch->people() == 0) return;
                     double rxx = rx - 3.5;
                     double ryy = ry - 1.5;
-                    tp.drawTexture(rxx, ryy, builTexs.fEliteSuppliesBg);
+                    tp.scheduleDrawTexture(rxx, ryy, builTexs.fEliteSuppliesBg);
                     rxx += 0.49;
                     ryy += 0.15;
                     const double inc = 0.43;
-                    tp.drawTexture(rxx, ryy,
-                                   ch->lowFood() ?
-                                       builTexs.fNHasFood :
-                                       builTexs.fHasFood);
+                    tp.scheduleDrawTexture(rxx, ryy,
+                                           ch->lowFood() ?
+                                               builTexs.fNHasFood :
+                                               builTexs.fHasFood);
                     rxx += inc;
                     ryy -= inc;
-                    tp.drawTexture(rxx, ryy,
-                                   ch->lowFleece() ?
-                                       builTexs.fNHasFleece :
-                                       builTexs.fHasFleece);
+                    tp.scheduleDrawTexture(rxx, ryy,
+                                           ch->lowFleece() ?
+                                               builTexs.fNHasFleece :
+                                               builTexs.fHasFleece);
                     rxx += inc;
                     ryy -= inc;
-                    tp.drawTexture(rxx, ryy,
-                                   ch->lowOil() ?
-                                       builTexs.fNHasOil :
-                                       builTexs.fHasOil);
+                    tp.scheduleDrawTexture(rxx, ryy,
+                                           ch->lowOil() ?
+                                               builTexs.fNHasOil :
+                                               builTexs.fHasOil);
                     rxx += inc;
                     ryy -= inc;
-                    tp.drawTexture(rxx, ryy,
-                                   ch->lowWine() ?
-                                       builTexs.fNHasWine :
-                                       builTexs.fHasWine);
+                    tp.scheduleDrawTexture(rxx, ryy,
+                                           ch->lowWine() ?
+                                               builTexs.fNHasWine :
+                                               builTexs.fHasWine);
                     rxx += inc;
                     ryy -= inc;
-                    tp.drawTexture(rxx, ryy,
-                                   ch->lowArms() ?
-                                       builTexs.fNHasArms :
-                                       builTexs.fHasArms);
+                    tp.scheduleDrawTexture(rxx, ryy,
+                                           ch->lowArms() ?
+                                               builTexs.fNHasArms :
+                                               builTexs.fHasArms);
                     rxx += inc;
                     ryy -= inc;
-                    tp.drawTexture(rxx, ryy,
-                                   ch->lowHorses() ?
-                                       builTexs.fNHasHorses :
-                                       builTexs.fHasHorses);
+                    tp.scheduleDrawTexture(rxx, ryy,
+                                           ch->lowHorses() ?
+                                               builTexs.fNHasHorses :
+                                               builTexs.fHasHorses);
                 }
             }
         };
@@ -1402,6 +1402,8 @@ void eGameWidget::paintEvent(ePainter& p) {
             p.drawRect(selRect, SDL_Color{0, 255, 0, 255}, 1);
         }
     });
+
+    tp.handleScheduledDraw();
 
     if(mPatrolBuilding) {
         const auto& pgs = mPatrolBuilding->patrolGuides();

@@ -28,6 +28,10 @@ public:
     void drawTexture(const double x, const double y,
                      const std::shared_ptr<eTexture>& tex) const;
 
+    void scheduleDrawTexture(const double x, const double y,
+                             const std::shared_ptr<eTexture>& tex);
+    void handleScheduledDraw();
+
     void drawPolygon(std::vector<SDL_Point> pts,
                      const SDL_Color& color);
 private:
@@ -39,6 +43,14 @@ private:
     const eTileSize mSize;
     const int mTileW;
     const int mTileH;
+
+    struct eScheduledDraw {
+        double fX;
+        double fY;
+        std::shared_ptr<eTexture> fTex;
+    };
+
+    std::vector<eScheduledDraw> mScheduled;
 
     std::vector<eTilePainterSave> mSaves;
 

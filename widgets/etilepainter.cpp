@@ -50,6 +50,21 @@ void eTilePainter::drawTexture(const double x, const double y,
     mP.drawTexture(pixX, pixY, tex);
 }
 
+void eTilePainter::scheduleDrawTexture(const double x, const double y,
+                                       const std::shared_ptr<eTexture>& tex) {
+    auto& s = mScheduled.emplace_back();
+    s.fX = x;
+    s.fY = y;
+    s.fTex = tex;
+}
+
+void eTilePainter::handleScheduledDraw() {
+    for(const auto& s : mScheduled) {
+        drawTexture(s.fX, s.fY, s.fTex);
+    }
+    mScheduled.clear();
+}
+
 void eTilePainter::drawPolygon(
         std::vector<SDL_Point> pts, const SDL_Color& color) {
     std::vector<SDL_Point> ppts;
