@@ -737,6 +737,13 @@ void eGameWidget::paintEvent(ePainter& p) {
                     SDL_RenderSetClipRect(p.renderer(), nullptr);
 
                     if(last) {
+                        bool globalLast = true;
+                        if(bt == eBuildingType::eliteHousing) {
+                            const auto ubRect = ub->tileRect();
+                            const int globalFitY = ubRect.y + ubRect.h - 1;
+                            const int globalFitX = ubRect.x + ubRect.w - 1;
+                            globalLast = rtx == globalFitX && rty == globalFitY;
+                        }
                         if(const auto ch = dynamic_cast<eSmallHouse*>(ub)) {
                             const bool p = ch->plague();
                             if(p && ch->people()) {
@@ -759,7 +766,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                             const int by = drawY - tsRect.h;
                             drawBlessedCursed(bx, by);
                         }
-                        drawBuildingModes();
+                        if(globalLast) drawBuildingModes();
                     }
                 };
                 bRender(rtx, rty, false);
