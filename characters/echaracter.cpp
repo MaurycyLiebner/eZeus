@@ -201,6 +201,7 @@ void eCharacter::changeTile(eTile* const t, const bool prepend) {
 }
 
 void eCharacter::incTime(const int by) {
+    if(deleteScheduled()) return;
     mTime += by;
     const auto at = actionType();
     if(mPlayFightSound &&

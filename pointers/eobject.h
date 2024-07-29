@@ -12,6 +12,7 @@ public:
     eGameBoard& getBoard() const { return mBoard; }
 
     void deleteLater();
+    bool deleteScheduled() const { return mDeleteLater; }
 private:
     eGameBoard& mBoard;
     bool mDeleteLater = false;
