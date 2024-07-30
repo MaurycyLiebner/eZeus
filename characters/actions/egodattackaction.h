@@ -106,10 +106,10 @@ public:
     void read(eReadStream& src) override {
         src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
             mWinnerPtr = static_cast<eGodAction*>(ca);
-        });;
+        });
         src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
             mLoserPtr = static_cast<eGodAction*>(ca);
-        });;
+        });
         src >> mWt;
         src >> mLt;
     }
@@ -139,9 +139,10 @@ public:
 
     void call() override {
         if(!mTptr) return;
-        mTptr->resumeAction();
-        if(!mBptr) return;
-        mBptr->collapse();
+        const auto b = mBptr;
+        mTptr->resumeAction(); // can delete instance
+        if(!b) return;
+        b->collapse();
         eSounds::playCollapseSound();
     }
 
