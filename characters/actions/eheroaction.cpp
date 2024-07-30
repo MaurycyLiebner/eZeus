@@ -299,7 +299,7 @@ void eHeroAction::huntMonster(eMonster* const m, const bool second) {
     a->setWait(false);
     if(mtype == eCharacterType::scylla ||
        mtype == eCharacterType::kraken) {
-        a->start(monsterTile, eWalkableObject::sCreateWaterAndTerrain());
+        a->start(monsterTile, eWalkableObject::sCreateWaterAndDefault());
     } else {
         a->start(monsterTile, defaultWalkable());
     }
@@ -313,7 +313,7 @@ stdsptr<eWalkableObject> eHeroAction::defaultWalkable() const {
     const auto tile = c->tile();
     const bool w = tile->hasWater();
     if(w) {
-        return eWalkableObject::sCreateWaterAndTerrain();
+        return eWalkableObject::sCreateWaterAndDefault();
     } else {
         return eWalkableObject::sCreateDefault();
     }

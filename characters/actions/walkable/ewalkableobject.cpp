@@ -1,4 +1,4 @@
-﻿#include "ewalkableobject.h"
+#include "ewalkableobject.h"
 
 #include "buildings/ebuilding.h"
 
@@ -29,7 +29,7 @@ bool eWalkableObject::walkable(eTileBase* const t) const {
         const auto terr = t->terrain() & eTerrain::walkable;
         return static_cast<bool>(terr);
     }
-    case eWalkableObjectType::waterAndTerrain: {
+    case eWalkableObjectType::waterAndDefault: {
         const auto type = t->underBuildingType();
         if(type == eBuildingType::road) return true;
         const auto terr = t->terrain();
@@ -129,8 +129,8 @@ stdsptr<eWalkableObject> eWalkableObject::sCreateDeepWater() {
     return sCreate(eWalkableObjectType::deepWater);
 }
 
-stdsptr<eWalkableObject> eWalkableObject::sCreateWaterAndTerrain() {
-    return sCreate(eWalkableObjectType::waterAndTerrain);
+stdsptr<eWalkableObject> eWalkableObject::sCreateWaterAndDefault() {
+    return sCreate(eWalkableObjectType::waterAndDefault);
 }
 
 stdsptr<eWalkableObject> eWalkableObject::sCreateAll() {
