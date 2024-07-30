@@ -85,9 +85,10 @@ public:
 
     void call() override {
         if(!mTptr) return;
-        mTptr->resumeAction();
-        if(!mBptr) return;
-        mBptr->collapse();
+        const auto b = mBptr;
+        mTptr->resumeAction(); // can delete instance
+        if(!b) return;
+        b->collapse();
         eSounds::playCollapseSound();
     }
 
