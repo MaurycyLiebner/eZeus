@@ -26,11 +26,13 @@ public:
                                  const int count, const int space,
                                  const int months = -1);
 protected:
+//    void paintEvent(ePainter& p);
     bool keyPressEvent(const eKeyPressEvent& e);
     bool mousePressEvent(const eMouseEvent& e);
 private:
     bool mClosable = false;
     eAction mCloseFunc;
+//    eAction mDone;
 };
 
 #endif // EMESSAGEBOX_H

@@ -441,6 +441,16 @@ void eMessageBox::initialize(const eEventData& ed,
         ok->setX(ok->x() - 1.5*p);
         ok->setY(ok->y() - 1.5*p);
     }
+//    if(ed.fA2) {
+//        mDone = [this, ed]() {
+//            ed.fA2();
+//            close();
+//        };
+//    } else {
+//        mDone = [this]() {
+//            close();
+//        };
+//    }
     if(wid) {
         wid->align(eAlignment::hcenter);
         wid->setY(wid->y() + p/2);
@@ -535,6 +545,11 @@ eWidget* eMessageBox::createTributeWidget(const eResourceType type,
     tributeWid->fitContent();
     return tributeWid;
 }
+
+//void eMessageBox::paintEvent(ePainter& p) {
+//    eFramedWidget::paintEvent(p);
+//    if(mDone) mDone();
+//}
 
 bool eMessageBox::keyPressEvent(const eKeyPressEvent& e) {
     if(!mClosable) return true;
