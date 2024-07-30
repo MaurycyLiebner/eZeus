@@ -61,7 +61,7 @@ void eHeroAction::increment(const int by) {
             defendCity();
         }
     }
-    if(mStage != eHeroActionStage::fight) {
+    if(mStage == eHeroActionStage::hunt) {
         lookForMonsterFight();
     }
     eActionWithComeback::increment(by);
