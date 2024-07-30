@@ -42,7 +42,6 @@ void eCharacterAction::read(eReadStream& src) {
     src >> mIOID;
 
     src >> mState;
-    src >> mPauseType;
 
     mFinishAction = src.readCharActFunc(board());
     mFailAction = src.readCharActFunc(board());
@@ -53,7 +52,6 @@ void eCharacterAction::write(eWriteStream& dst) const {
     dst << mIOID;
 
     dst << mState;
-    dst << mPauseType;
 
     dst.writeCharActFunc(mFinishAction.get());
     dst.writeCharActFunc(mFailAction.get());

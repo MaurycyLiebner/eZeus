@@ -106,7 +106,6 @@ private:
     int mIOID = -1;
     const eCharActionType mType;
     eCharacterActionState mState{eCharacterActionState::running};
-    eCharacterActionType mPauseType;
 
     stdsptr<eCharActFunc> mFinishAction;
     stdsptr<eCharActFunc> mFailAction;
