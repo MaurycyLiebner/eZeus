@@ -27,8 +27,12 @@ std::shared_ptr<eTexture> eExtendedGod::getTexture(const eTileSize size) const {
         coll = &atn.fBless[oid];
         break;
     case eCharacterActionType::collect:
-    case eCharacterActionType::fight:
+    case eCharacterActionType::fight2:
         wrap = false;
+        coll = &atn.fFight[oid];
+        break;
+    case eCharacterActionType::fight:
+        wrap = true;
         coll = &atn.fFight[oid];
         break;
     case eCharacterActionType::carry:

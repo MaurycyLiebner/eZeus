@@ -64,7 +64,7 @@ bool eGodAction::lookForSoldierAttack(
     using eLFSAGA = eLookForSoldierAttackGodAct;
     const auto act = std::make_shared<eLFSAGA>(board());
 
-    const auto at = eCharacterActionType::fight;
+    const auto at = eCharacterActionType::fight2;
     const auto s = eGodSound::attack;
 
     const auto c = character();
@@ -186,7 +186,7 @@ void eGodAction::spawnGodTimedMissiles(
 void eGodAction::fightGod(
         eGod* const g,
         const stdsptr<eCharActFunc>& finishAttackA) {
-    const auto at = eCharacterActionType::fight;
+    const auto at = eCharacterActionType::fight2;
     const auto s = eGodSound::attack;
     using ePFGHSGA = ePlayFightGodHitSoundGodAct;
     const auto playHitSound = std::make_shared<ePFGHSGA>(

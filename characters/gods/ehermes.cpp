@@ -26,8 +26,12 @@ eHermes::getTexture(const eTileSize size) const {
         coll = &texs.fFight[oid];
         break;
     case eCharacterActionType::collect:
-    case eCharacterActionType::fight: {
+    case eCharacterActionType::fight2: {
         wrap = false;
+        coll = &texs.fFight[oid];
+    } break;
+    case eCharacterActionType::fight: {
+        wrap = true;
         coll = &texs.fFight[oid];
     } break;
     case eCharacterActionType::carry:

@@ -109,7 +109,7 @@ bool eGodAttackAction::lookForAttack(const int dtime,
     const auto c = character();
     const auto act = std::make_shared<eLookForAttackGodAct>(board(), c);
 
-    const auto at = eCharacterActionType::fight;
+    const auto at = eCharacterActionType::fight2;
     const auto s = eGodSound::attack;
     const auto chart = c->type();
 
@@ -124,7 +124,7 @@ bool eGodAttackAction::lookForTargetedAttack(const int dtime,
     const auto act = std::make_shared<eLookForTargetedAttackGodAct>(
                          board(), type());
 
-    const auto at = eCharacterActionType::fight;
+    const auto at = eCharacterActionType::fight2;
     const auto s = eGodSound::attack;
     const auto chart = c->type();
 
@@ -209,7 +209,7 @@ void eGodAttackAction::destroyBuilding(eBuilding* const b) {
     const auto playHitSound = std::make_shared<ePlayMonsterBuildingAttackSoundGodAct>(
                                   board(), b);
     pauseAction();
-    const auto at = eCharacterActionType::fight;
+    const auto at = eCharacterActionType::fight2;
     const auto s = eGodSound::attack;
     const auto c = character();
     const auto chart = c->type();

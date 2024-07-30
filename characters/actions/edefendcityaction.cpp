@@ -111,7 +111,7 @@ void eDefendCityAction::increment(const int by) {
             if(mMissile > missileCheck) {
                 mMissile -= missileCheck;
                 const auto tt = mAttackTarget->tile();
-                spawnMissile(eCharacterActionType::fight,
+                spawnMissile(eCharacterActionType::fight2,
                              ct, missileCheck, tt,
                              nullptr, nullptr);
             }
@@ -188,7 +188,7 @@ void eDefendCityAction::increment(const int by) {
                         mAttackTarget = cc;
                         mAttack = true;
                         mAttackTime = 0;
-                        c->setActionType(eCharacterActionType::fight);
+                        c->setActionType(eCharacterActionType::fight2);
                         mAngle = posdif.angle();
                         const auto o = sAngleOrientation(mAngle);
                         c->setOrientation(o);

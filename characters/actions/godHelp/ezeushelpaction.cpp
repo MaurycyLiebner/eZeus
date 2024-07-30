@@ -46,7 +46,7 @@ bool eZeusHelpAction::sHelpNeeded(const eGameBoard& board) {
 
 void eZeusHelpAction::kill() {
     const auto c = character();
-    c->setActionType(eCharacterActionType::fight);
+    c->setActionType(eCharacterActionType::fight2);
     const auto a = e::make_shared<eWaitAction>(c);
     using eF = eZHA_killFinish;
     const auto finish = std::make_shared<eF>(board());

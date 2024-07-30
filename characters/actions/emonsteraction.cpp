@@ -207,7 +207,7 @@ void eMonsterAction::monsterPatrol() {
 }
 
 void eMonsterAction::destroyBuilding(eBuilding* const b) {
-    const auto at = eCharacterActionType::fight;
+    const auto at = eCharacterActionType::fight2;
     const auto c = character();
     const auto chart = c->type();
     const auto finishAttackA = std::make_shared<eMA_destroyBuildingFinish>(
@@ -227,7 +227,7 @@ bool eMonsterAction::lookForAttack(const int dtime,
     const auto act = std::make_shared<eLookForAttackGodAct>(
                          board(), c);
 
-    const auto at = eCharacterActionType::fight;
+    const auto at = eCharacterActionType::fight2;
 
     return lookForRangeAction(dtime, time, freq, range,
                               at, act, nullptr);

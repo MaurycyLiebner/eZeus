@@ -410,7 +410,8 @@ void eGMA_spawnMissileFinish::call() {
     } else {
         auto& brd = c->getBoard();
         double h;
-        if(mAt == eCharacterActionType::fight) {
+        if(mAt == eCharacterActionType::fight ||
+           mAt == eCharacterActionType::fight2) {
             switch(charType) {
             case eCharacterType::apollo:
             case eCharacterType::atalanta:
