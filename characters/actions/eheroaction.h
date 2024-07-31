@@ -110,7 +110,7 @@ public:
         mMptr(m) {}
 
     void call() {
-        if(!mMptr) return;
+        if(!mMptr || mMptr->dead()) return;
         auto& board = eCharActFunc::board();
         eEventData ed;
         const auto ct = mMptr->type();
