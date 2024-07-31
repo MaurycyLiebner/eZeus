@@ -62,6 +62,8 @@ void eGameBoard::write(eWriteStream& dst) const {
     dst << mUnrest;
     dst << mPopularity;
     dst << mHealth;
+    dst << mExcessiveMilitaryServiceCount;
+    dst << mMonthsOfMilitaryService;
 
     dst << mWonGames;
 

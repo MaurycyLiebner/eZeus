@@ -756,6 +756,8 @@ private:
     int mUnrest = 0; // percent
     int mPopularity = 0;
     int mHealth = 0;
+    int mExcessiveMilitaryServiceCount = 0;
+    int mMonthsOfMilitaryService = 0;
 
     int mWonGames = 0;
 

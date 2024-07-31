@@ -68,6 +68,8 @@ void eGameBoard::read(eReadStream& src) {
     src >> mUnrest;
     src >> mPopularity;
     src >> mHealth;
+    src >> mExcessiveMilitaryServiceCount;
+    src >> mMonthsOfMilitaryService;
 
     src >> mWonGames;
 

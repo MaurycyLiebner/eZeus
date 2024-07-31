@@ -2031,6 +2031,8 @@ void eGameBoard::incTime(const int by) {
         mImmigrationLimit = eILB::unemployment;
     } else if(static_cast<int>(mTaxRate) > static_cast<int>(eTaxRate::high)) {
         mImmigrationLimit = eILB::highTaxes;
+    } else if(mExcessiveMilitaryServiceCount > 0) {
+        mImmigrationLimit = eILB::excessiveMilitaryService;
     } else if(v <= 0) {
         mImmigrationLimit = eILB::lackOfVacancies;
     } else {
@@ -2078,6 +2080,29 @@ void eGameBoard::incTime(const int by) {
         }
     }
     if(nextMonth) {
+        {
+            int nTot = 0;
+            int nCalled = 0;
+            for(const auto& s : mPalaceSoldierBanners) {
+                const bool a = s->isAbroad();
+                if(a) continue;
+                const int c = s->count();
+                nTot += c;
+                const bool h = s->isHome();
+                if(h) continue;
+                nCalled += c;
+            }
+            if(nTot == 0 || static_cast<double>(nCalled)/nTot < 0.25) {
+                mExcessiveMilitaryServiceCount--;
+                mMonthsOfMilitaryService = 0;
+            } else {
+                mMonthsOfMilitaryService++;
+                if(mMonthsOfMilitaryService > 6) {
+                    mExcessiveMilitaryServiceCount = 2;
+                }
+            }
+        }
+
         if(mDrachmas < 0) {
             const bool sameMonth = mDate.month() == mInDebtSince.month();
             const bool oneYear = mDate.year() - mInDebtSince.year() == 1;
