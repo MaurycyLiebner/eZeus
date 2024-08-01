@@ -11,12 +11,17 @@ eRoad::eRoad(eGameBoard& board) :
 
 void eRoad::erase() {
     if(isBridge()) {
+        auto& board = getBoard();
+        const bool a = board.hasActiveInvasions();
+        if(a) {
+            board.showTip(eLanguage::zeusText(19, 229)); // can't demolish during invasion
+            return;
+        }
         std::vector<eTile*> tiles;
         bridgeConnectedTiles(tiles);
         for(const auto t : tiles) {
             const auto c = t->characters();
             if(!c.empty()) {
-                auto& board = getBoard();
                 board.showTip(eLanguage::zeusText(19, 24)); // can't demolish water crossing with people
                 return;
             }

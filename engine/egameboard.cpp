@@ -73,6 +73,7 @@
 #include "eiteratesquare.h"
 #include "ecolonymonumentaction.h"
 #include "textures/emarbletile.h"
+#include "elanguage.h"
 
 eGameBoard::eGameBoard() :
     mThreadPool(*this),
@@ -397,6 +398,14 @@ int eGameBoard::countBuildings(const eBuildingType t) const {
         const auto bt = b->type();
         return bt == t;
     });
+}
+
+int eGameBoard::hasBuilding(const eBuildingType t) const {
+    for(const auto b : mTimedBuildings) {
+        const bool r = t == b->type();
+        if(r) return true;
+    }
+    return false;
 }
 
 int eGameBoard::countAllowed(const eBuildingType t) const {
@@ -2021,6 +2030,7 @@ void eGameBoard::incTime(const int by) {
     const int u = mEmplData.unemployed();
     const int e = mEmplData.employable();
     const int v = mPopData.vacancies();
+    const auto oldLimit = mImmigrationLimit;
     if(prolongedNoFood) {
         mImmigrationLimit = eILB::lackOfFood;
     } else if(mDrachmas < 0 && mDate.year() - mInDebtSince.year() > 1) {
@@ -2037,6 +2047,33 @@ void eGameBoard::incTime(const int by) {
         mImmigrationLimit = eILB::lackOfVacancies;
     } else {
         mImmigrationLimit = eILB::none;
+    }
+    if(oldLimit != mImmigrationLimit) {
+        switch(mImmigrationLimit) {
+        case eILB::lackOfFood:
+            showTip(eLanguage::zeusText(19, 112));
+            break;
+        case eILB::prolongedDebt:
+            showTip(eLanguage::zeusText(19, 116));
+            break;
+        case eILB::lowWages:
+            showTip(eLanguage::zeusText(19, 115));
+            break;
+        case eILB::unemployment:
+            showTip(eLanguage::zeusText(19, 113));
+            break;
+        case eILB::highTaxes:
+            showTip(eLanguage::zeusText(19, 114));
+            break;
+        case eILB::excessiveMilitaryService:
+            showTip(eLanguage::zeusText(19, 117));
+            break;
+        case eILB::lackOfVacancies:
+            showTip(eLanguage::zeusText(19, 111));
+            break;
+        case eILB::none:
+            showTip(eLanguage::zeusText(19, 124));
+        }
     }
 
     mTime += by;
