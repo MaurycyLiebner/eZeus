@@ -862,7 +862,7 @@ void eGameWidget::showTip(const std::string& tip) {
     eTip etip;
     etip.fText = tip;
     etip.fWid = msgb;
-    etip.fLastFrame = mFrame + 500;
+    etip.fLastFrame = mFrame + 300;
     mTips.push_back(etip);
     updateTipPositions();
 }
