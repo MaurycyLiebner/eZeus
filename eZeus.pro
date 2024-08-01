@@ -5,6 +5,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 win32 {
+    RC_ICONS += C:\Users\maury\Documents\eZeusBuild\zeus.ico
     QMAKE_CFLAGS_RELEASE += /O2 -O2 /GL
     QMAKE_CXXFLAGS_RELEASE += /O2 -O2 /GL
 
