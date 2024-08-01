@@ -128,6 +128,17 @@ void eVendor::timeChanged(const int by) {
             default:
                 break;
             }
+            switch(mResType) {
+            case eResourceType::food:
+            case eResourceType::fleece:
+            case eResourceType::oliveOil:
+            case eResourceType::wine:
+            case eResourceType::armor:
+                mCart->setMaxDistance(40);
+                break;
+            default:
+                break;
+            }
         }
     }
     eEmployingBuilding::timeChanged(by);
