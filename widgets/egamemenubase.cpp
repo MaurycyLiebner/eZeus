@@ -100,7 +100,7 @@ bool eGameMenuBase::mouseReleaseEvent(const eMouseEvent& e) {
 
 bool eGameMenuBase::mouseMoveEvent(const eMouseEvent& e) {
     (void)e;
-    return true;
+    return false;
 }
 
 bool eGameMenuBase::mouseEnterEvent(const eMouseEvent& e) {
