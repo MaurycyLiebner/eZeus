@@ -8,7 +8,7 @@
 eFollowAction::eFollowAction(eCharacter* const f,
                              eCharacter* const c,
                              const eCharActionType type) :
-    eComplexAction(c, type),
+    eMoveAction(c, eWalkableObject::sCreateAll(), type),
     mFollow(f) {
     if(f) c->setSpeed(f->speed());
     c->setActionType(eCharacterActionType::stand);
@@ -21,8 +21,8 @@ eFollowAction::eFollowAction(eCharacter* const f,
 eFollowAction::eFollowAction(eCharacter* const c) :
     eFollowAction(nullptr, c) {}
 
-void eFollowAction::setRemainder(const double r) {
-    mRemainder = r;
+void eFollowAction::catchUp() {
+    mCatchUp = true;
 }
 
 void eFollowAction::setDistance(const int d) {
@@ -30,7 +30,7 @@ void eFollowAction::setDistance(const int d) {
 }
 
 void eFollowAction::read(eReadStream& src) {
-    eComplexAction::read(src);
+    eMoveAction::read(src);
     src.readCharacter(&board(), [this](eCharacter* const c) {
         mFollow = c;
         if(c) {
@@ -38,6 +38,7 @@ void eFollowAction::read(eReadStream& src) {
             cc->setSpeed(c->speed());
         }
     });
+    src >> mCatchUp;
     src >> mDistance;
     int s;
     src >> s;
@@ -50,8 +51,9 @@ void eFollowAction::read(eReadStream& src) {
 }
 
 void eFollowAction::write(eWriteStream& dst) const {
-    eComplexAction::write(dst);
+    eMoveAction::write(dst);
     dst.writeCharacter(mFollow);
+    dst << mCatchUp;
     dst << mDistance;
     dst << mTiles.size();
     for(const auto& t : mTiles) {
@@ -80,25 +82,13 @@ void eFollowAction::increment(const int by) {
     const bool dead = mFollow ? mFollow->dead() : false;
     const auto c = character();
     const auto ctile = c->tile();
-    const auto ca = currentAction();
     if(!ft || dead) {
-        if(ca) return eComplexAction::increment(by);
         if(mTiles.empty()) {
             return setState(eCharacterActionState::finished);
         } else {
-            const auto walkable = eWalkableObject::sCreateAll();
-            std::vector<eOrientation> path;
-            path.reserve(mTiles.size());
-            for(int i = 0; i < mDistance && !mTiles.empty(); i++) {
-                const auto& f = mTiles.front();
-                path.push_back(f.fO);
-                mTiles.pop_front();
-            }
-            mTiles = {};
-            const auto a = e::make_shared<eMovePathAction>(c, path, walkable);
-            setCurrentAction(a);
+            setWait(false);
+            return eMoveAction::increment(by);
         }
-        return eComplexAction::increment(by);
     }
     if(!mTiles.empty()) {
         auto& b = mTiles.back();
@@ -115,47 +105,29 @@ void eFollowAction::increment(const int by) {
     } else if(ctile != ft) {
         mTiles.push_back({ft, mFollow->orientation()});
     }
-    while(!ca) {
-        const int nt = mTiles.size();
-        if(nt < mDistance + 2) return;
-        const auto pn = mTiles.front();
-        mTiles.pop_front();
-        c->setActionType(eCharacterActionType::walk);
-        c->changeTile(pn.fTile);
-        c->setOrientation(pn.fO);
-        const auto walkable = eWalkableObject::sCreateAll();
-        const std::vector<eOrientation> path = {pn.fO};
-        const auto a = e::make_shared<eMovePathAction>(c, path, walkable);
-        setCurrentAction(a);
-        const double rem = mRemainder;
-        a->setRemainder(mRemainder);
-        mRemainder = 0.;
-        const auto finish = std::make_shared<eFA_remainderSetterFinish>(
-                                board(), this, a.get());
-        a->setFinishAction(finish);
-        if(rem > 0) {
-            eComplexAction::increment(0);
-        }
+    const int nt = mTiles.size();
+    if((nt < mDistance + 1 && !mCatchUp) || mTiles.empty()) {
+        setWait(true);
+        mCatchUp = false;
+        return;
+    } else {
+        setWait(false);
     }
-    mRemainder = 0.;
-    eComplexAction::increment(by);
+    eMoveAction::increment(by);
 }
 
-void eFA_remainderSetterFinish::call() {
-    if(!mTptr || !mMptr) return;
-    mTptr->setRemainder(mMptr->remainder());
-}
-
-void eFA_remainderSetterFinish::read(eReadStream& src) {
-    src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
-        mTptr = static_cast<eFollowAction*>(ca);
-    });
-    src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
-        mMptr = static_cast<eMovePathAction*>(ca);
-    });
-}
-
-void eFA_remainderSetterFinish::write(eWriteStream& dst) const {
-    dst.writeCharacterAction(mTptr);
-    dst.writeCharacterAction(mMptr);
+eCharacterActionState eFollowAction::nextTurn(eOrientation& turn) {
+    if(mTiles.empty()) {
+        setWait(true);
+        mCatchUp = false;
+        return eCharacterActionState::running;
+    }
+    const auto c = character();
+    const auto pn = mTiles.front();
+    mTiles.pop_front();
+    c->setActionType(eCharacterActionType::walk);
+    c->changeTile(pn.fTile);
+    c->setOrientation(pn.fO);
+    turn = pn.fO;
+    return eCharacterActionState::running;
 }

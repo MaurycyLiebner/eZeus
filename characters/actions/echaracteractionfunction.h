@@ -84,9 +84,7 @@ enum class eCharacterActionFunctionType {
 
     HA_waitAndGoToHallFinish,
 
-    GWA_huntMonsterFinish,
-
-    FA_remainderSetterFinish
+    GWA_huntMonsterFinish
 };
 
 using eCharActFuncType = eCharacterActionFunctionType;

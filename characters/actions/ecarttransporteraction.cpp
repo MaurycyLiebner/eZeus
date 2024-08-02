@@ -38,6 +38,7 @@ bool eCartTransporterAction::decide() {
         }
     }
     if(r || mWaitOutside) {
+        if(!mWaitOutside) c->catchUp();
         if(mTask.fMaxCount > 0) {
             finishResourceAction(mTask);
             clearTask();

@@ -19,7 +19,6 @@
 #include "ekillcharacterfinishfail.h"
 #include "ereplacecattleaction.h"
 #include "egodworshippedaction.h"
-#include "efollowaction.h"
 
 #include "godHelp/ezeushelpaction.h"
 
@@ -174,9 +173,6 @@ stdsptr<eCharActFunc> eCharActFunc::sCreate(
 
     case eCharActFuncType::GWA_huntMonsterFinish:
         return std::make_shared<eGWA_huntMonsterFinish>(board);
-
-    case eCharActFuncType::FA_remainderSetterFinish:
-        return std::make_shared<eFA_remainderSetterFinish>(board);
     }
     return nullptr;
 }

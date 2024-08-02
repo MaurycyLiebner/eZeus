@@ -27,14 +27,6 @@ void eMoveAction::setObsticleHandler(const stdsptr<eObsticleHandler>& oh) {
     mObstHandler = oh;
 }
 
-void eMoveAction::setRemainder(const double r) {
-    mRemainder = r;
-}
-
-double eMoveAction::remainder() const {
-    return mRemainder;
-}
-
 void orientationToTargetCoords(const eOrientation o,
                                double& targetX,
                                double& targetY) {
@@ -89,12 +81,13 @@ void eMoveAction::increment(const int by) {
     }
 
     if(!mTargetTile) {
+        if(mWait) return;
         if(nextTurn()) increment(by);
         return;
     }
 
     const auto c = character();
-    moveBy(mRemainder + c->speed()*0.005 * by);
+    moveBy(c->speed()*0.005 * by);
 }
 
 void eMoveAction::read(eReadStream& src) {
@@ -102,6 +95,7 @@ void eMoveAction::read(eReadStream& src) {
     mTileWalkable = src.readWalkable();
     src >> mOrientation;
     mTargetTile = src.readTile(board());
+    src >> mWait;
     src >> mStartX;
     src >> mStartY;
     src >> mTargetX;
@@ -114,6 +108,7 @@ void eMoveAction::write(eWriteStream& dst) const {
     dst.writeWalkable(mTileWalkable.get());
     dst << mOrientation;
     dst.writeTile(mTargetTile);
+    dst << mWait;
     dst << mStartX;
     dst << mStartY;
     dst << mTargetX;
@@ -134,21 +129,23 @@ void eMoveAction::moveBy(const double inc) {
         moveVec *= inc;
         c->setX(x + moveVec.x);
         c->setY(y + moveVec.y);
-        mRemainder = 0.;
     } else {
         c->setX(mTargetX);
         c->setY(mTargetY);
         const stdptr<eMoveAction> tptr(this);
         const auto t = mTargetTile;
-        mRemainder = inc - dist;
         moveToTargetTile();
-        if(tptr && t != mTargetTile) moveBy(mRemainder);
+        if(tptr && t != mTargetTile && !mWait) moveBy(inc - dist);
     }
 }
 
 bool eMoveAction::nextTurn() {
     eOrientation turn;
     const auto r = nextTurn(turn);
+    if(mWait) {
+        mTargetTile = nullptr;
+        return false;
+    }
     setState(r);
     switch(r) {
     case eCharacterActionState::failed:
@@ -191,7 +188,11 @@ void eMoveAction::moveToTargetTile() {
     }
     const auto c = character();
     if(c->tile() == mTargetTile) {
-        nextTurn();
+        if(mWait) {
+            mTargetTile = nullptr;
+        } else {
+            nextTurn();
+        }
         return;
     }
     {

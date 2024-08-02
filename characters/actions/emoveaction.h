@@ -19,17 +19,15 @@ public:
 
     void setObsticleHandler(const stdsptr<eObsticleHandler>& oh);
 
-    void setRemainder(const double r);
-    double remainder() const;
-
     void increment(const int by) override;
 
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 protected:
     bool nextTurn();
+    void setWait(const bool w) { mWait = w; }
 private:
-    virtual eCharacterActionState nextTurn(eOrientation& t) = 0;
+    virtual eCharacterActionState nextTurn(eOrientation& turn) = 0;
     void moveBy(const double inc);
     void moveToTargetTile();
 
@@ -38,12 +36,12 @@ private:
     eOrientation mOrientation;
     eTile* mTargetTile = nullptr;
 
+    bool mWait = false;
+
     double mStartX;
     double mStartY;
     double mTargetX;
     double mTargetY;
-
-    double mRemainder = 0.;
 
     stdsptr<eObsticleHandler> mObstHandler;
 };

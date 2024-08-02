@@ -64,6 +64,8 @@ public:
 
     eCartTransporterType cartType() const { return mType; }
 
+    void catchUp();
+
     void read(eReadStream& src) override;
     void write(eWriteStream& dst) const override;
 private:

@@ -303,6 +303,20 @@ void eCartTransporter::setActionType(const eCharacterActionType t) {
     if(mOx) mOx->setActionType(t);
 }
 
+void eCartTransporter::catchUp() {
+    const auto cCatchUp = [](eCharacter* const c) {
+        const auto ca = c->action();
+        if(const auto a = dynamic_cast<eFollowAction*>(ca)) {
+            a->catchUp();
+        }
+    };
+    if(mOx) cCatchUp(mOx);
+    if(mTrailer) cCatchUp(mTrailer);
+    for(const auto& f : mFollowers) {
+        if(f) cCatchUp(f);
+    }
+}
+
 void eCartTransporter::read(eReadStream& src) {
     eBasicPatroler::read(src);
     src >> mResourceCount;
