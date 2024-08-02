@@ -26,6 +26,12 @@ public:
     eCheckableButton* addButton(const eTextureCollection& coll,
                                 const eWid& w);
     void connectAndLayoutButtons();
+protected:
+    bool mousePressEvent(const eMouseEvent& e) override;
+    bool mouseReleaseEvent(const eMouseEvent& e) override;
+    bool mouseMoveEvent(const eMouseEvent& e) override;
+    bool mouseEnterEvent(const eMouseEvent& e) override;
+    bool mouseLeaveEvent(const eMouseEvent& e) override;
 private:
     eWidget* mButtonsWidget = nullptr;
     std::vector<eCheckableButton*> mButtons;

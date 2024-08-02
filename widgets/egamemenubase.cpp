@@ -87,3 +87,28 @@ void eGameMenuBase::connectAndLayoutButtons() {
         });
     }
 }
+
+bool eGameMenuBase::mousePressEvent(const eMouseEvent& e) {
+    (void)e;
+    return true;
+}
+
+bool eGameMenuBase::mouseReleaseEvent(const eMouseEvent& e) {
+    (void)e;
+    return true;
+}
+
+bool eGameMenuBase::mouseMoveEvent(const eMouseEvent& e) {
+    (void)e;
+    return true;
+}
+
+bool eGameMenuBase::mouseEnterEvent(const eMouseEvent& e) {
+    (void)e;
+    return true;
+}
+
+bool eGameMenuBase::mouseLeaveEvent(const eMouseEvent& e) {
+    (void)e;
+    return true;
+}
