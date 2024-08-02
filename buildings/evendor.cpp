@@ -29,7 +29,9 @@ eVendor::eVendor(eGameBoard& board,
     mOverlayTex(overlayTex),
     mOverlayX2(overlayX2),
     mOverlayY2(overlayY2),
-    mOverlayTex2(overlayTex2) {}
+    mOverlayTex2(overlayTex2) {
+    eGameTextures::loadAgora();
+}
 
 eVendor::~eVendor() {
     if(mCart) mCart->kill();
