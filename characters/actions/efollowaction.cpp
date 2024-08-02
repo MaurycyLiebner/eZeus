@@ -21,6 +21,10 @@ eFollowAction::eFollowAction(eCharacter* const f,
 eFollowAction::eFollowAction(eCharacter* const c) :
     eFollowAction(nullptr, c) {}
 
+void eFollowAction::setRemainder(const double r) {
+    mRemainder = r;
+}
+
 void eFollowAction::setDistance(const int d) {
     mDistance = d;
 }
@@ -75,8 +79,9 @@ void eFollowAction::increment(const int by) {
     const auto ft = mFollow ? mFollow->tile() : nullptr;
     const bool dead = mFollow ? mFollow->dead() : false;
     const auto c = character();
+    const auto ctile = c->tile();
+    const auto ca = currentAction();
     if(!ft || dead) {
-        const auto ca = currentAction();
         if(ca) return eComplexAction::increment(by);
         if(mTiles.empty()) {
             return setState(eCharacterActionState::finished);
@@ -103,22 +108,54 @@ void eFollowAction::increment(const int by) {
                at == eCharacterActionType::carry) {
                 b.fO = mFollow->orientation();
             }
-            eComplexAction::increment(by);
-            return;
+        } else {
+            b.fO = sOrientation(b.fTile, ft);
+            mTiles.push_back({ft, mFollow->orientation()});
         }
-        b.fO = sOrientation(b.fTile, ft);
+    } else if(ctile != ft) {
+        mTiles.push_back({ft, mFollow->orientation()});
     }
-    mTiles.push_back({ft, mFollow->orientation()});
-    const int nt = mTiles.size();
-    if(nt < mDistance + 2) return;
-    if(nt > mDistance + 2) mTiles.pop_front();
-    const auto pn = mTiles.front();
-    c->setActionType(eCharacterActionType::walk);
-    c->changeTile(pn.fTile);
-    c->setOrientation(pn.fO);
-    const auto walkable = eWalkableObject::sCreateAll();
-    const std::vector<eOrientation> path = {pn.fO};
-    const auto a = e::make_shared<eMovePathAction>(c, path, walkable);
-    setCurrentAction(a);
+    while(!ca) {
+        const int nt = mTiles.size();
+        if(nt < mDistance + 2) return;
+        const auto pn = mTiles.front();
+        mTiles.pop_front();
+        c->setActionType(eCharacterActionType::walk);
+        c->changeTile(pn.fTile);
+        c->setOrientation(pn.fO);
+        const auto walkable = eWalkableObject::sCreateAll();
+        const std::vector<eOrientation> path = {pn.fO};
+        const auto a = e::make_shared<eMovePathAction>(c, path, walkable);
+        setCurrentAction(a);
+        const double rem = mRemainder;
+        a->setRemainder(mRemainder);
+        mRemainder = 0.;
+        const auto finish = std::make_shared<eFA_remainderSetterFinish>(
+                                board(), this, a.get());
+        a->setFinishAction(finish);
+        if(rem > 0) {
+            eComplexAction::increment(0);
+        }
+    }
+    mRemainder = 0.;
     eComplexAction::increment(by);
+}
+
+void eFA_remainderSetterFinish::call() {
+    if(!mTptr || !mMptr) return;
+    mTptr->setRemainder(mMptr->remainder());
+}
+
+void eFA_remainderSetterFinish::read(eReadStream& src) {
+    src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
+        mTptr = static_cast<eFollowAction*>(ca);
+    });
+    src.readCharacterAction(&board(), [this](eCharacterAction* const ca) {
+        mMptr = static_cast<eMovePathAction*>(ca);
+    });
+}
+
+void eFA_remainderSetterFinish::write(eWriteStream& dst) const {
+    dst.writeCharacterAction(mTptr);
+    dst.writeCharacterAction(mMptr);
 }

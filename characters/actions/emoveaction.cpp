@@ -27,6 +27,14 @@ void eMoveAction::setObsticleHandler(const stdsptr<eObsticleHandler>& oh) {
     mObstHandler = oh;
 }
 
+void eMoveAction::setRemainder(const double r) {
+    mRemainder = r;
+}
+
+double eMoveAction::remainder() const {
+    return mRemainder;
+}
+
 void orientationToTargetCoords(const eOrientation o,
                                double& targetX,
                                double& targetY) {
@@ -86,7 +94,7 @@ void eMoveAction::increment(const int by) {
     }
 
     const auto c = character();
-    moveBy(c->speed()*0.005 * by);
+    moveBy(mRemainder + c->speed()*0.005 * by);
 }
 
 void eMoveAction::read(eReadStream& src) {
@@ -126,13 +134,15 @@ void eMoveAction::moveBy(const double inc) {
         moveVec *= inc;
         c->setX(x + moveVec.x);
         c->setY(y + moveVec.y);
+        mRemainder = 0.;
     } else {
         c->setX(mTargetX);
         c->setY(mTargetY);
         const stdptr<eMoveAction> tptr(this);
         const auto t = mTargetTile;
+        mRemainder = inc - dist;
         moveToTargetTile();
-        if(tptr && t != mTargetTile) moveBy(inc - dist);
+        if(tptr && t != mTargetTile) moveBy(mRemainder);
     }
 }
 

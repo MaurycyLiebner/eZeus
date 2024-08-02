@@ -19,6 +19,9 @@ public:
 
     void setObsticleHandler(const stdsptr<eObsticleHandler>& oh);
 
+    void setRemainder(const double r);
+    double remainder() const;
+
     void increment(const int by) override;
 
     void read(eReadStream& src) override;
@@ -39,6 +42,8 @@ private:
     double mStartY;
     double mTargetX;
     double mTargetY;
+
+    double mRemainder = 0.;
 
     stdsptr<eObsticleHandler> mObstHandler;
 };
