@@ -1,4 +1,4 @@
-﻿#include "egodmonsteraction.h"
+#include "egodmonsteraction.h"
 
 #include "ewaitaction.h"
 #include "emovearoundaction.h"
@@ -159,14 +159,21 @@ void eGodMonsterAction::goToTarget(const eHeatGetters::eHeatGetter hg,
         if(!tptr || !cptr) return;
         eHeatMapDivisor divisor(map);
         divisor.divide(10);
-        int tx;
-        int ty;
-        const bool r = divisor.randomHeatTile(tx, ty);
+        int dtx;
+        int dty;
+        const bool r = divisor.randomHeatTile(dtx, dty);
         if(r) {
             auto& board = c->getBoard();
+            int tx;
+            int ty;
+            eTileHelper::dtileIdToTileId(dtx, dty, tx, ty);
             const auto tile = eTileHelper::closestRoad(tx, ty, board);
-            goToTile(tile, findFailFunc, oh, tileDistance,
-                     pathFindWalkable, moveWalkable);
+            if(tile) {
+                goToTile(tile, findFailFunc, oh, tileDistance,
+                         pathFindWalkable, moveWalkable);
+            } else {
+                setCurrentAction(nullptr);
+            }
         } else {
             setCurrentAction(nullptr);
         }
