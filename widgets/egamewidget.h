@@ -115,14 +115,17 @@ public:
 
     void openDialog(eWidget* const d);
 protected:
-    void paintEvent(ePainter& p);
+    void paintEvent(ePainter& p) override;
 
-    bool keyPressEvent(const eKeyPressEvent& e);
-    bool mousePressEvent(const eMouseEvent& e);
-    bool mouseMoveEvent(const eMouseEvent& e);
-    bool mouseReleaseEvent(const eMouseEvent& e);
-    bool mouseWheelEvent(const eMouseWheelEvent& e);
+    bool keyPressEvent(const eKeyPressEvent& e) override;
+    bool mousePressEvent(const eMouseEvent& e) override;
+    bool mouseMoveEvent(const eMouseEvent& e) override;
+    bool mouseReleaseEvent(const eMouseEvent& e) override;
+    bool mouseWheelEvent(const eMouseWheelEvent& e) override;
 private:
+    void renderTargetsReset() override;
+    void initializeNumbers();
+
     void drawXY(int tx, int ty,
                 double& rx, double& ry,
                 const int wSpan, const int hSpan,

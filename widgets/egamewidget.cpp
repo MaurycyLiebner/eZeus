@@ -173,36 +173,38 @@ void eGameWidget::setSettings(const eGameWidgetSettings& s) {
     if(mTem) mTem->setWorldDirection(s.fDir);
 }
 
-void eGameWidget::initialize() {
-    {
-        for(const auto size : {eTileSize::s15, eTileSize::s30,
-                               eTileSize::s45, eTileSize::s60}) {
-            auto& numbers = mNumbers[size];
-            int fs;
-            switch(size) {
-            case eTileSize::s15:
-                fs = 10;
-                break;
-            case eTileSize::s30:
-                fs = 20;
-                break;
-            case eTileSize::s45:
-                fs = 30;
-                break;
-            case eTileSize::s60:
-                fs = 40;
-                break;
-            }
-            const auto font = eFonts::defaultFont(fs);
-            const auto r = window()->renderer();
-            for(int i = 0; i < 10; i++) {
-                const auto tex = std::make_shared<eTexture>();
-                tex->loadText(r, std::to_string(i), eFontColor::light, *font);
-                numbers.push_back(tex);
-            }
+void eGameWidget::initializeNumbers() {
+    mNumbers.clear();
+    for(const auto size : {eTileSize::s15, eTileSize::s30,
+                           eTileSize::s45, eTileSize::s60}) {
+        auto& numbers = mNumbers[size];
+        int fs;
+        switch(size) {
+        case eTileSize::s15:
+            fs = 10;
+            break;
+        case eTileSize::s30:
+            fs = 20;
+            break;
+        case eTileSize::s45:
+            fs = 30;
+            break;
+        case eTileSize::s60:
+            fs = 40;
+            break;
+        }
+        const auto font = eFonts::defaultFont(fs);
+        const auto r = window()->renderer();
+        for(int i = 0; i < 10; i++) {
+            const auto tex = std::make_shared<eTexture>();
+            tex->loadText(r, std::to_string(i), eFontColor::light, *font);
+            numbers.push_back(tex);
         }
     }
+}
 
+void eGameWidget::initialize() {
+    initializeNumbers();
     mGm = new eGameMenu(window());
     const auto viewGoals = [this]() {
         showGoals();
@@ -1857,6 +1859,10 @@ bool eGameWidget::mouseWheelEvent(const eMouseWheelEvent& e) {
         }
     }
     return true;
+}
+
+void eGameWidget::renderTargetsReset() {
+    initializeNumbers();
 }
 
 void eGameWidget::showGoals() {
