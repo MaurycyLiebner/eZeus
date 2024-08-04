@@ -172,7 +172,7 @@ void eMonsterAction::goToTarget() {
         eGodMonsterAction::goToTarget(eHeatGetters::any, tryAgain,
                                       obsticleHandler(),
                                       eWalkableHelpers::sMonsterTileDistance,
-                                      eWalkableObject::sCreateTerrain(),
+                                      eWalkableObject::sCreateAttacker(),
                                       eWalkableObject::sCreateDefault());
     }
 }
@@ -190,7 +190,7 @@ void eMonsterAction::goBack() {
        mType == eMonsterType::kraken) {
         a->start(mHomeTile, eWalkableObject::sCreateDeepWater());
     } else {
-        a->start(mHomeTile, eWalkableObject::sCreateTerrain(),
+        a->start(mHomeTile, eWalkableObject::sCreateAttacker(),
                  eWalkableObject::sCreateDefault());
     }
     setCurrentAction(a);

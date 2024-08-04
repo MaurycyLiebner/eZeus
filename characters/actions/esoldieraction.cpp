@@ -405,7 +405,7 @@ void eSoldierAction::goTo(const int fx, const int fy,
         eWalkableObject::sCreateDefault();
     stdsptr<eWalkableObject> moveWalkable = nullptr;
     if(attackBuildings) {
-        pathFindWalkable = eWalkableObject::sCreateTerrain();
+        pathFindWalkable = eWalkableObject::sCreateAttacker();
         moveWalkable = eWalkableObject::sCreateDefault();
     }
 

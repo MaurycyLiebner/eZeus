@@ -29,6 +29,15 @@ bool eWalkableObject::walkable(eTileBase* const t) const {
         const auto terr = t->terrain() & eTerrain::walkable;
         return static_cast<bool>(terr);
     }
+    case eWalkableObjectType::attacker: {
+        const auto type = t->underBuildingType();
+        if(type == eBuildingType::temple ||
+           type == eBuildingType::templeAltar ||
+           type == eBuildingType::templeStatue ||
+           type == eBuildingType::templeMonument) return false;
+        const auto terr = t->terrain() & eTerrain::walkable;
+        return static_cast<bool>(terr);
+    }
     case eWalkableObjectType::waterAndDefault: {
         const auto type = t->underBuildingType();
         if(type == eBuildingType::road) return true;
@@ -115,6 +124,10 @@ stdsptr<eWalkableObject> eWalkableObject::sCreateRoadblock() {
 
 stdsptr<eWalkableObject> eWalkableObject::sCreateTerrain() {
     return sCreate(eWalkableObjectType::terrain);
+}
+
+stdsptr<eWalkableObject> eWalkableObject::sCreateAttacker() {
+    return sCreate(eWalkableObjectType::attacker);
 }
 
 stdsptr<eWalkableObject> eWalkableObject::sCreateFertile() {
