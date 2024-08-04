@@ -1874,7 +1874,6 @@ bool eGameWidget::buildMouseRelease() {
                         } else {
                             build(tx + 1, ty - 1, 4, 4, [tb]() { return tb; });
                         }
-                        tb->setCost({5, 5, 0});
                     } break;
                     case eSanctEleType::tile: {
                         const auto tt = e::make_shared<eTempleTileBuilding>(

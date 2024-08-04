@@ -52,8 +52,6 @@ public:
 
     const eSanctCost& cost() const { return mCost; }
 
-    void setCost(const eSanctCost& c);
-
     bool workedOn() const { return mWorkedOn; }
     void setWorkedOn(const bool w) { mWorkedOn = w; }
 
@@ -66,8 +64,8 @@ private:
     void scheduleTerrainUpdate();
 
     const int mMaxProgress;
+    const eSanctCost mCost{0, 0, 0};
     eSanctuary* mSanctuary = nullptr;
-    eSanctCost mCost{0, 0, 0};
     eSanctCost mStored{0, 0, 0};
     bool mWorkedOn = false;
     int mProgress = 0;

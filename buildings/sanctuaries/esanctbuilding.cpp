@@ -47,20 +47,12 @@ void eSanctBuilding::destroy() {
     scheduleTerrainUpdate();
 }
 
-void eSanctBuilding::setCost(const eSanctCost& c) {
-    mCost = c;
-}
-
 void eSanctBuilding::setSanctuary(eSanctuary* const s) {
     mSanctuary = s;
 }
 
 void eSanctBuilding::read(eReadStream& src) {
     eBuilding::read(src);
-
-    src >> mCost.fMarble;
-    src >> mCost.fSculpture;
-    src >> mCost.fWood;
 
     src >> mStored.fMarble;
     src >> mStored.fSculpture;
@@ -71,10 +63,6 @@ void eSanctBuilding::read(eReadStream& src) {
 
 void eSanctBuilding::write(eWriteStream& dst) const {
     eBuilding::write(dst);
-
-    dst << mCost.fMarble;
-    dst << mCost.fSculpture;
-    dst << mCost.fWood;
 
     dst << mStored.fMarble;
     dst << mStored.fSculpture;
