@@ -9,6 +9,6 @@ eSculptureStudio::eSculptureStudio(eGameBoard& board) :
                         &eBuildingTextures::fSculptureStudioOverlay,
                         eBuildingType::sculptureStudio, 2, 2, 12,
                         eResourceType::bronze,
-                        eResourceType::sculpture, 1, 10) {
+                        eResourceType::sculpture, 4, 10) {
     eGameTextures::loadSculptureStudio();
 }
