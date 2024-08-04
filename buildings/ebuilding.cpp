@@ -183,6 +183,9 @@ bool eBuilding::sBlessable(const eBuildingType bt) {
 bool eBuilding::sAttackable(const eBuildingType bt) {
     const bool s = sSanctuaryBuilding(bt);
     if(s) return false;
+    if(bt == eBuildingType::orangeTree) return false;
+    if(bt == eBuildingType::oliveTree) return false;
+    if(bt == eBuildingType::vine) return false;
     if(bt == eBuildingType::none) return false;
     if(bt == eBuildingType::road) return false;
     if(bt == eBuildingType::sheep) return false;
