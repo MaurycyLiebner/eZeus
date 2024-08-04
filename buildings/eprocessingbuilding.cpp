@@ -23,7 +23,7 @@ eProcessingBuilding::eProcessingBuilding(
     mBaseTex(baseTex), mOverlays(overlays),
     mOverlayX(overlayX), mOverlayY(overlayY),
     mRawMaterial(rawMaterial), mRawUse(rawUse),
-    mProcessWaitTime(10000*time) {
+    mProcessWaitTime(time) {
     setOverlayEnabledFunc([this]() {
         return enabled() && mRawCount > 0;
     });

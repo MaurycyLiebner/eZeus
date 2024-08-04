@@ -1,6 +1,7 @@
 #include "esculpturestudio.h"
 
 #include "textures/egametextures.h"
+#include "enumbers.h"
 
 eSculptureStudio::eSculptureStudio(eGameBoard& board) :
     eProcessingBuilding(board,
@@ -9,6 +10,7 @@ eSculptureStudio::eSculptureStudio(eGameBoard& board) :
                         &eBuildingTextures::fSculptureStudioOverlay,
                         eBuildingType::sculptureStudio, 2, 2, 12,
                         eResourceType::bronze,
-                        eResourceType::sculpture, 4, 10) {
+                        eResourceType::sculpture, 4,
+                        eNumbers::sSculptureStudioProcessingPeriod) {
     eGameTextures::loadSculptureStudio();
 }

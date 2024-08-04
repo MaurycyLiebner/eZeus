@@ -32,6 +32,7 @@
 #include "ezeussanctuary.h"
 
 #include "etemplealtarbuilding.h"
+#include "enumbers.h"
 
 eSanctuary::eSanctuary(eGameBoard& board,
                        const eBuildingType type,
@@ -502,7 +503,7 @@ void eSanctuary::addSpecialTile(eTile* const t) {
 }
 
 bool eSanctuary::askForHelp(eHelpDenialReason& reason) {
-    if(mGodAbroad || mHelpTimer < 250000) {
+    if(mGodAbroad || mHelpTimer < eNumbers::sGodHelpPeriod) {
         reason = eHelpDenialReason::tooSoon;
         return false;
     }

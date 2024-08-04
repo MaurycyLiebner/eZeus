@@ -18,16 +18,12 @@ eSpawner::~eSpawner() {
 
 void eSpawner::read(eReadStream& src) {
     eBanner::read(src);
-    src >> mMaxCount;
-    src >> mSpawnPeriod;
     src >> mCount;
     src >> mTime;
 }
 
 void eSpawner::write(eWriteStream& dst) const {
     eBanner::write(dst);
-    dst << mMaxCount;
-    dst << mSpawnPeriod;
     dst << mCount;
     dst << mTime;
 }

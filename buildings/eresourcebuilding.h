@@ -34,7 +34,7 @@ public:
     void write(eWriteStream& dst) const override;
 private:
     const eResourceBuildingType mType;
-    const int mRipeWait = 40000;
+    const int mRipePeriod;
     bool mSanctuary = false;
     bool mWorkedOn = false;
     int mNextRipe = 0;

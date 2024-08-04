@@ -9,6 +9,7 @@
 #include "textures/egametextures.h"
 
 #include "egamedir.h"
+#include "enumbers.h"
 
 bool init() {
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
@@ -137,6 +138,7 @@ int main() {
         }
     }
 
+    eNumbers::sLoad();
     eSettings settings;
     settings.read();
     eMainWindow w;

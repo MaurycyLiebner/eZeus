@@ -1,6 +1,7 @@
 #include "ewinery.h"
 
 #include "textures/egametextures.h"
+#include "enumbers.h"
 
 eWinery::eWinery(eGameBoard& board) :
     eProcessingBuilding(board,
@@ -9,6 +10,7 @@ eWinery::eWinery(eGameBoard& board) :
                         &eBuildingTextures::fWineryOverlay,
                         eBuildingType::winery, 2, 2, 12,
                         eResourceType::grapes,
-                        eResourceType::wine, 1, 2) {
+                        eResourceType::wine, 1,
+                        eNumbers::sWineryProcessingPeriod) {
     eGameTextures::loadWinery();
 }

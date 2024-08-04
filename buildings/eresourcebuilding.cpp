@@ -2,6 +2,7 @@
 
 #include "textures/egametextures.h"
 #include "textures/ebuildingtextures.h"
+#include "enumbers.h"
 
 #include <algorithm>
 
@@ -17,10 +18,22 @@ eBuildingType resourceTypeToBuildingType(const eResourceBuildingType r) {
     return eBuildingType::oliveTree;
 }
 
+int resourceTypeToRipePeriod(const eResourceBuildingType r) {
+    switch(r) {
+    case eResourceBuildingType::oliveTree:
+        return eNumbers::sOliveTreeRipePeriod;
+    case eResourceBuildingType::vine:
+        return eNumbers::sVineRipePeriod;
+    case eResourceBuildingType::orangeTree:
+        return eNumbers::sOrangeTreeRipePeriod;
+    }
+    return eNumbers::sOliveTreeRipePeriod;
+}
+
 eResourceBuilding::eResourceBuilding(
         eGameBoard& board, const eResourceBuildingType type) :
     eBuilding(board, resourceTypeToBuildingType(type), 1, 1),
-    mType(type) {
+    mType(type), mRipePeriod(resourceTypeToRipePeriod(type)) {
     switch(type) {
     case eResourceBuildingType::oliveTree:
         eGameTextures::loadOliveTree();
@@ -81,18 +94,19 @@ void eResourceBuilding::setSanctuary(const bool s) {
 
 void eResourceBuilding::timeChanged(const int by) {
     mNextRipe += by;
-    int wait = mRipe >= 5 ? 2*mRipeWait : mRipeWait;
+    const double mult = eNumbers::sTreeVineFullyRipePeriodMultiplier;
+    int wait = mRipe >= 5 ? mult*mRipePeriod : mRipePeriod;
     if(mSanctuary || blessed()) {
         if(mRipe >= 5) {
-            wait *= 3;
+            wait *= eNumbers::sTreeVineBlessedFullyRipePeriodMultiplier;
         } else {
-            wait /= 3;
+            wait *= eNumbers::sTreeVineBlessedRipePeriodMultiplier;
         }
     } else if(cursed()) {
         if(mRipe >= 5) {
-            wait /= 3;
+            wait *= eNumbers::sTreeVineCursedFullyRipePeriodMultiplier;
         } else {
-            wait *= 3;
+            wait *= eNumbers::sTreeVineCursedRipePeriodMultiplier;
         }
     }
     if((mWorkedOn || mRipe >= 5) && mNextRipe > wait) {

@@ -1,6 +1,7 @@
 #include "eolivepress.h"
 
 #include "textures/egametextures.h"
+#include "enumbers.h"
 
 eOlivePress::eOlivePress(eGameBoard& board) :
     eProcessingBuilding(board,
@@ -9,6 +10,7 @@ eOlivePress::eOlivePress(eGameBoard& board) :
                         &eBuildingTextures::fOlivePressOverlay,
                         eBuildingType::olivePress, 2, 2, 12,
                         eResourceType::olives,
-                        eResourceType::oliveOil, 1, 2) {
+                        eResourceType::oliveOil, 1,
+                        eNumbers::sOlivePressProcessingPeriod) {
     eGameTextures::loadOlivePress();
 }

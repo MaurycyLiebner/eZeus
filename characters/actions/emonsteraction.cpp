@@ -10,6 +10,8 @@
 
 #include "egodaction.h"
 
+#include "enumbers.h"
+
 eMonsterAction::eMonsterAction(eCharacter* const c) :
     eGodMonsterAction(c, eCharActionType::monsterAction),
     mType(eMonster::sCharacterToMonsterType(c->type())) {}
@@ -18,9 +20,8 @@ void eMonsterAction::increment(const int by) {
     const auto c = character();
     const auto at = c->actionType();
     if(at == eCharacterActionType::walk) {
-        const int lookForAttackCheck = 8000;
-
-        lookForAttack(by, mLookForAttack, lookForAttackCheck, 10);
+        lookForAttack(by, mLookForAttack,
+                      eNumbers::sMonsterAttackPeriod, 10);
     }
 
     eGodMonsterAction::increment(by);
@@ -56,9 +57,10 @@ bool eMonsterAction::decide() {
         mStage = eMonsterAttackStage::wait;
         if(mType == eMonsterType::scylla ||
            mType == eMonsterType::kraken) {
-            moveAround(nullptr, 100000, eWalkableObject::sCreateDeepWater());
+            moveAround(nullptr, eNumbers::sWaterMonsterInvadePeriod,
+                       eWalkableObject::sCreateDeepWater());
         } else {
-            moveAround(nullptr, 200000);
+            moveAround(nullptr, eNumbers::sLandMonsterInvadePeriod);
         }
         auto& board = this->board();
         board.updateMusic();

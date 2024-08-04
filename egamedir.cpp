@@ -24,6 +24,10 @@ std::string eGameDir::settingsPath() {
     return exeDir() + "../settings.txt";
 }
 
+std::string eGameDir::numbersPath() {
+    return exeDir() + "../numbers.txt";
+}
+
 std::string eGameDir::exeDir() {
     const auto d = SDL_GetBasePath();
     const std::string str(d);

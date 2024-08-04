@@ -74,6 +74,7 @@
 #include "ecolonymonumentaction.h"
 #include "textures/emarbletile.h"
 #include "elanguage.h"
+#include "enumbers.h"
 
 eGameBoard::eGameBoard() :
     mThreadPool(*this),
@@ -572,7 +573,7 @@ void eGameBoard::setFriendlyGods(const std::vector<eGodType>& gods) {
     e->setIsEpisodeEvent(true);
     e->setGameBoard(this);
     eDate date = mDate;
-    const int period = 450;
+    const int period = eNumbers::sFriendlyGodVisitPeriod;
     date += period;
     e->initializeDate(date, period, 10000);
     e->setTypes(gods);

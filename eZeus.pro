@@ -382,6 +382,7 @@ SOURCES += \
         engine/thread/ethreadcharacter.cpp \
         engine/thread/ethreaddata.cpp \
         engine/thread/ethreadtile.cpp \
+        enumbers.cpp \
         epathfindtask.cpp \
         erand.cpp \
         esettings.cpp \
@@ -991,6 +992,7 @@ HEADERS += \
     engine/thread/ethreadcharacter.h \
     engine/thread/ethreaddata.h \
     engine/thread/ethreadtile.h \
+    enumbers.h \
     eoverlay.h \
     epathfindtask.h \
     erand.h \
@@ -2626,6 +2628,7 @@ HEADERS += \
 DISTFILES += \
     Adventures/The Founding of Athens/The Founding of Athens.epak \
     Adventures/The Founding of Athens/The Founding of Athens.txt \
+    numbers.txt \
     sanctuaries/aphrodite.txt \
     sanctuaries/apollo.txt \
     sanctuaries/ares.txt \

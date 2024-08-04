@@ -28,11 +28,10 @@ public:
 
     void setSpawnPeriod(const int p);
 private:
-    int mMaxCount = 0;
+    const int mMaxCount;
     int mSpawnPeriod = 100;
 
     int mCount = 0;
-
     int mTime = 0;
 };
 
