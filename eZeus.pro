@@ -2628,7 +2628,6 @@ HEADERS += \
 DISTFILES += \
     Adventures/The Founding of Athens/The Founding of Athens.epak \
     Adventures/The Founding of Athens/The Founding of Athens.txt \
-    numbers.txt \
     sanctuaries/aphrodite.txt \
     sanctuaries/apollo.txt \
     sanctuaries/ares.txt \

@@ -1,15 +1,16 @@
 #include "echariotbase.h"
 
 #include "textures/egametextures.h"
+#include "enumbers.h"
 
 eChariotBase::eChariotBase(eGameBoard& board,
                              const eCharTexs charTexs,
                              const eCharacterType type) :
     eSoldier(board, &eCharacterTextures::fHoplite, type),
     mCharTexs(charTexs) {
-    setAttack(0.6);
-    setSpeed(1.5);
-    setHP(500);
+    setAttack(eNumbers::sChariotAttack);
+    setSpeed(eNumbers::sChariotSpeed);
+    setHP(eNumbers::sChariotHP);
 }
 
 std::shared_ptr<eTexture>

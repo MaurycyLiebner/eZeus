@@ -3,6 +3,7 @@
 #include "textures/egametextures.h"
 #include "characters/actions/ecarttransporteraction.h"
 #include "characters/actions/egroweraction.h"
+#include "enumbers.h"
 
 #include <algorithm>
 
@@ -119,9 +120,10 @@ void eGrowersLodge::timeChanged(const int by) {
         if(mSpawnEnabled) {
             if(!mGrower) {
                 mSpawnTime += by;
-                const int wait = mWaitTime/effectiveness();
+                const double eff = effectiveness();
+                const int wait = eNumbers::sGrowerSpawnWaitTime/eff;
                 if(mSpawnTime > wait) {
-                    mSpawnTime -= wait;
+                    mSpawnTime = 0;
                     spawnGrower(&eGrowersLodge::mGrower);
                 }
             }
@@ -230,7 +232,6 @@ void eGrowersLodge::read(eReadStream& src) {
     src.readCharacter(&getBoard(), [this](eCharacter* const c) {
         mCart = static_cast<eCartTransporter*>(c);
     });
-    src >> mWaitTime;
     src >> mSpawnTime;
     src.readCharacter(&getBoard(), [this](eCharacter* const c) {
         mGrower = static_cast<eGrower*>(c);
@@ -245,7 +246,6 @@ void eGrowersLodge::write(eWriteStream& dst) const {
     dst << mOlives;
     dst << mOranges;
     dst.writeCharacter(mCart);
-    dst << mWaitTime;
     dst << mSpawnTime;
     dst.writeCharacter(mGrower);
 }

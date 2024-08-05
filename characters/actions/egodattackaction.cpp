@@ -6,6 +6,7 @@
 #include "characters/monsters/ecalydonianboar.h"
 #include "characters/actions/ewaitaction.h"
 #include "buildings/epalace.h"
+#include "enumbers.h"
 
 eGodAttackAction::eGodAttackAction(eCharacter* const c) :
     eGodAction(c, eCharActionType::godAttackAction) {}
@@ -15,10 +16,17 @@ void eGodAttackAction::increment(const int by) {
     const auto type = this->type();
     const auto at = c->actionType();
     if(at == eCharacterActionType::walk) {
-        const int lookForCurseCheck = 6000;
-        int lookForAttackCheck = 8000;
+        const int cursePeriod = eNumbers::sGodAttackCursePeriod;
+        const int curseRange = eNumbers::sGodAttackCurseRange;
         const int lookForGodCheck = 1000;
+        int attackPeriod;
         switch(type) {
+        case eGodType::ares:
+        case eGodType::artemis:
+        case eGodType::athena:
+        case eGodType::zeus:
+            attackPeriod = eNumbers::sGodAttackAggressiveAttackPeriod;
+            break;
         case eGodType::aphrodite:
         case eGodType::apollo:
         case eGodType::atlas:
@@ -29,24 +37,25 @@ void eGodAttackAction::increment(const int by) {
         case eGodType::hera:
         case eGodType::hermes:
         case eGodType::poseidon:
-            lookForAttackCheck = 12000;
-            break;
-        case eGodType::ares:
-        case eGodType::artemis:
-        case eGodType::athena:
-        case eGodType::zeus:
-            lookForAttackCheck = 8000;
+        default:
+            attackPeriod = eNumbers::sGodAttackAttackPeriod;
             break;
         }
+        const int attackRange = eNumbers::sGodAttackAttackRange;
 
-        const int lookForTargetedAttackCheck = 4000;
-        const int lookForTargetedCurseCheck = 3000;
+        const int targetedAttackPeriod = eNumbers::sGodAttackTargetedAttackPeriod;
+        const int targetedAttackRange = eNumbers::sGodAttackTargetedAttackRange;
+        const int targetedCursePeriod = eNumbers::sGodAttackTargetedCursePeriod;
+        const int targetedCurseRange = eNumbers::sGodAttackTargetedCurseRange;
+        const int godFightRange = eNumbers::sGodAttackGodFightRange;
 
-        bool r = lookForBlessCurse(by, mLookForCurse, lookForCurseCheck, 10, -1);
-        if(!r) r = lookForAttack(by, mLookForAttack, lookForAttackCheck, 10);
-        if(!r) r = lookForTargetedAttack(by, mLookForTargetedAttack, lookForTargetedAttackCheck, 10);
-        if(!r) r = lookForTargetedBlessCurse(by, mLookForTargetedCurse, lookForTargetedCurseCheck, 10, -1);
-        if(!r) lookForGodAttack(by, mLookForGod, lookForGodCheck, 10);
+        bool r = lookForBlessCurse(by, mLookForCurse, cursePeriod, curseRange, -1);
+        if(!r) r = lookForAttack(by, mLookForAttack, attackPeriod, attackRange);
+        if(!r) r = lookForTargetedAttack(by, mLookForTargetedAttack,
+                                         targetedAttackPeriod, targetedAttackRange);
+        if(!r) r = lookForTargetedBlessCurse(by, mLookForTargetedCurse,
+                                             targetedCursePeriod, targetedCurseRange, -1);
+        if(!r) lookForGodAttack(by, mLookForGod, lookForGodCheck, godFightRange);
         if(!r) {
             if(type == eGodType::apollo) {
                 auto& board = this->board();
@@ -56,9 +65,10 @@ void eGodAttackAction::increment(const int by) {
                 const auto s = eGodSound::curse;
                 const auto c = character();
                 const auto chart = c->type();
-                const int lookForSpecialCheck = 7500;
+                const int plaguePeriod = eNumbers::sGodAttackApolloPlaguePeriod;
+                const int plagueRange = eNumbers::sGodAttackApolloPlagueRange;
                 lookForRangeAction(by, mLookForSpecial,
-                                   lookForSpecialCheck, 10,
+                                   plaguePeriod, plagueRange,
                                    at, act, chart, s);
             } else if(type == eGodType::aphrodite) {
                 auto& board = this->board();
@@ -68,9 +78,10 @@ void eGodAttackAction::increment(const int by) {
                 const auto s = eGodSound::curse;
                 const auto c = character();
                 const auto chart = c->type();
-                const int lookForSpecialCheck = 3500;
+                const int evictPeriod = eNumbers::sGodAttackAphroditeEvictPeriod;
+                const int evictRange = eNumbers::sGodAttackAphroditeEvictRange;
                 lookForRangeAction(by, mLookForSpecial,
-                                   lookForSpecialCheck, 10,
+                                   evictPeriod, evictRange,
                                    at, act, chart, s);
             }
         }

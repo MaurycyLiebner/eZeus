@@ -5,18 +5,23 @@
 
 class eDomesticatedAnimal : public eAnimal {
 public:
-    using eAnimal::eAnimal;
+    using eCharTexs = eAnimalTextures eCharacterTextures::*;
+    eDomesticatedAnimal(eGameBoard& board,
+                        const eCharTexs charTexs,
+                        const eCharacterType type,
+                        const int maxGroom);
 
     void groom();
     int collect();
     bool canCollect() const { return mResource; }
-protected:
-    void setMaxGroom(const int g) { mMaxGroom = g; }
+
+    void read(eReadStream& src);
+    void write(eWriteStream& dst) const;
 private:
     virtual void setNakedTexture() {}
     virtual void setFleecedTexture() {}
 
-    int mMaxGroom = 15;
+    const int mMaxGroom;
     int mGroomed = 0;
     int mResource = 0;
 };

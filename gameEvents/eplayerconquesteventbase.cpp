@@ -2,6 +2,7 @@
 
 #include "engine/egameboard.h"
 #include "earmyreturnevent.h"
+#include "enumbers.h"
 
 ePlayerConquestEventBase::ePlayerConquestEventBase(
         const eGameEventType type,
@@ -32,7 +33,7 @@ void ePlayerConquestEventBase::planArmyReturn() {
     const auto e = e::make_shared<eArmyReturnEvent>(
                        eGameEventBranch::child, board);
     const auto boardDate = board->date();
-    const int period = eArmyEventBase::sWaitTime;
+    const int period = eNumbers::sArmyTravelTime;
     const auto date = boardDate + period;
     e->initializeDate(date, period, 1);
     e->initialize(mForces, mCity);

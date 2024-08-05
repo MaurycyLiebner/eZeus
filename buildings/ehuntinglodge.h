@@ -25,8 +25,7 @@ private:
     bool spawn();
 
     stdptr<eHunter> mHunter;
-    const int mWaitTime = 5000;
-    int mSpawnTime = mWaitTime;
+    int mSpawnTime = 1000000;
 };
 
 #endif // EHUNTINGLODGE_H

@@ -4,6 +4,7 @@
 #include "characters/actions/ecollectresourceaction.h"
 #include "textures/egametextures.h"
 #include "engine/egameboard.h"
+#include "enumbers.h"
 
 eFishery::eFishery(eGameBoard& board, const eOrientation o) :
     eResourceCollectBuildingBase(board, eBuildingType::fishery,
@@ -16,8 +17,6 @@ eFishery::~eFishery() {
     if(mBoat) mBoat->kill();
 }
 
-const int gUnpackTime = 10000;
-
 void eFishery::timeChanged(const int by) {
     if(enabled()) {
         mStateCount += by;
@@ -27,16 +26,15 @@ void eFishery::timeChanged(const int by) {
         }
         switch(mState) {
         case eFisheryState::buildingBoat: {
-            const int buildTime = 40000;
-            if(mStateCount > buildTime) {
-                mStateCount -= buildTime;
+            if(mStateCount > eNumbers::sFisheryBoatBuildTime) {
+                mStateCount = 0;
                 mState = eFisheryState::waiting;
                 spawnBoat();
             }
         } break;
         case eFisheryState::unpacking: {
-            if(mStateCount > gUnpackTime) {
-                mStateCount -= gUnpackTime;
+            if(mStateCount > eNumbers::sFisheryUnpackTime) {
+                mStateCount = 0;
                 mState = eFisheryState::waiting;
                 eResourceBuildingBase::add(eResourceType::fish, 3);
                 updateDisabled();
@@ -243,7 +241,7 @@ void eFishery::spawnBoat() {
                        this, b.get(), hasRes);
     const auto w = eWalkableObject::sCreateDeepWater();
     a->setWalkable(w);
-    a->setWaitTime(gUnpackTime);
+    a->setWaitTime(eNumbers::sFisheryUnpackTime);
     a->setFinishOnce(false);
     b->setAction(a);
 }

@@ -6,6 +6,7 @@
 #include "textures/emarbletile.h"
 
 #include "engine/eregrowforestaction.h"
+#include "enumbers.h"
 
 eCollectAction::eCollectAction(eCharacter* const c,
                                const eTranformFunc tf) :
@@ -31,10 +32,10 @@ void transformForest(eTile* const t, eGameBoard& brd) {
 void eCollectAction::increment(const int by) {
     mTime += by;
     mSoundTime += sqrt(by);
+    const auto c = character();
+    const auto cType = c->type();
     if(mSoundTime > 100) {
         mSoundTime = 0;
-        const auto c = character();
-        const auto cType = c->type();
         auto& board = c->getBoard();
         board.ifVisible(c->tile(), [cType]() {
             if(cType == eCharacterType::marbleMiner) {
@@ -48,7 +49,21 @@ void eCollectAction::increment(const int by) {
             }
         });
     }
-    if(mTime > 10000) {
+    int period = 10000;
+    if(cType == eCharacterType::marbleMiner) {
+        period = eNumbers::sMarbleCollectTime;
+    } else if(cType == eCharacterType::bronzeMiner) {
+        period = eNumbers::sBronzeCollectTime;
+    } else if(cType == eCharacterType::silverMiner) {
+        period = eNumbers::sSilverCollectTime;
+    } else if(cType == eCharacterType::lumberjack) {
+        period = eNumbers::sWoodCollectTime;
+    } else if(cType == eCharacterType::fishingBoat) {
+        period = eNumbers::sFishCollectTime;
+    } else if(cType == eCharacterType::urchinGatherer) {
+        period = eNumbers::sUrchinCollectTime;
+    }
+    if(mTime > period) {
         mTile->decResource(1);
         const auto c = character();
         const auto cc = static_cast<eResourceCollectorBase*>(c);

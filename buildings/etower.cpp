@@ -8,11 +8,12 @@
 #include "characters/esoldier.h"
 #include "characters/actions/esoldieraction.h"
 #include "audio/esounds.h"
+#include "enumbers.h"
 
 eTower::eTower(eGameBoard& board) :
     eEmployingBuilding(board, eBuildingType::tower, 2, 2, 15) {
     eGameTextures::loadGatehouseAndTower();
-    setHP(5000);
+    setHP(eNumbers::sTowerHP);
 }
 
 eTower::~eTower() {
@@ -75,11 +76,10 @@ eTower::getOverlays(const eTileSize size) const {
 }
 
 void eTower::timeChanged(const int by) {
-    const int waitTime = 5000;
     if(enabled()) {
         if(!mArcher) {
             mSpawnTime += by;
-            if(mSpawnTime > waitTime) {
+            if(mSpawnTime > eNumbers::sTowerSpawnPeriod) {
                 spawn();
                 mSpawnTime = 0;
             }
@@ -87,8 +87,8 @@ void eTower::timeChanged(const int by) {
 
         const int rangeAttackCheck = 500;
         const int missileCheck = 200;
-        const int range = 8;
-        const double attack = 0.5;
+        const int range = eNumbers::sTowerRange;
+        const double attack = eNumbers::sTowerAttack;
 
         const auto ct = centerTile();
         const int tx = ct->x();

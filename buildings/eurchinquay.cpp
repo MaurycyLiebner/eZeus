@@ -4,6 +4,7 @@
 #include "characters/actions/ecollectresourceaction.h"
 #include "textures/egametextures.h"
 #include "engine/egameboard.h"
+#include "enumbers.h"
 
 eUrchinQuay::eUrchinQuay(eGameBoard& board, const eOrientation o) :
     eResourceCollectBuildingBase(board, eBuildingType::urchinQuay,
@@ -16,8 +17,6 @@ eUrchinQuay::~eUrchinQuay() {
     if(mGatherer) mGatherer->kill();
 }
 
-const int gUnpackTime = 10000;
-
 void eUrchinQuay::timeChanged(const int by) {
     if(enabled()) {
         mStateCount += by;
@@ -27,8 +26,8 @@ void eUrchinQuay::timeChanged(const int by) {
         }
         switch(mState) {
         case eUrchinQuayState::unpacking: {
-            if(mStateCount > gUnpackTime) {
-                mStateCount -= gUnpackTime;
+            if(mStateCount > eNumbers::sUrchinQuayUnpackTime) {
+                mStateCount = 0;
                 mState = eUrchinQuayState::waiting;
                 eResourceBuildingBase::add(eResourceType::urchin, 3);
                 updateDisabled();
@@ -202,7 +201,7 @@ void eUrchinQuay::spawnGatherer() {
                        this, b.get(), hasRes);
     const auto w = eWalkableObject::sCreateDeepWater();
     a->setWalkable(w);
-    a->setWaitTime(gUnpackTime);
+    a->setWaitTime(eNumbers::sUrchinQuayUnpackTime);
     a->setFinishOnce(false);
     b->setAction(a);
 }

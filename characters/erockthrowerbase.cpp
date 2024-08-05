@@ -1,9 +1,11 @@
 #include "erockthrowerbase.h"
 
+#include "enumbers.h"
+
 eRockThrowerBase::eRockThrowerBase(eGameBoard& board,
                                    const eCharTexs charTexs,
                                    const eCharacterType type) :
-    eRangeSoldier(board, charTexs, type, 4) {
-    setAttack(0.05);
-    setHP(300);
+    eRangeSoldier(board, charTexs, type, eNumbers::sRabbleRange) {
+    setAttack(eNumbers::sRabbleAttack);
+    setHP(eNumbers::sRabbleHP);
 }

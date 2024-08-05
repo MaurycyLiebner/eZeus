@@ -15,6 +15,7 @@
 
 #include "edieaction.h"
 #include "audio/esounds.h"
+#include "enumbers.h"
 
 eArcherAction::eArcherAction(eCharacter* const c) :
     eComplexAction(c, eCharActionType::archerAction) {}
@@ -22,7 +23,7 @@ eArcherAction::eArcherAction(eCharacter* const c) :
 void eArcherAction::increment(const int by) {
     const int rangeAttackCheck = 500;
     const int missileCheck = 200;
-    const int range = 8;
+    const int range = eNumbers::sWallArcherRange;
 
     const auto c = character();
     const auto ct = c->tile();

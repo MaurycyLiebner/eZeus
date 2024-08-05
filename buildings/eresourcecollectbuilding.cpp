@@ -4,6 +4,7 @@
 #include "characters/actions/ecollectresourceaction.h"
 #include "textures/egametextures.h"
 #include "engine/egameboard.h"
+#include "enumbers.h"
 
 eResourceCollectBuilding::eResourceCollectBuilding(
         eGameBoard& board,
@@ -128,7 +129,7 @@ void eResourceCollectBuilding::timeChanged(const int by) {
                 const auto rt = resourceType();
                 if(rt == eResourceType::silver) {
                     auto& brd = getBoard();
-                    brd.incDrachmas(25);
+                    brd.incDrachmas(eNumbers::sMintDrachmasPerSilver);
                     mRawCount--;
                 } else {
                     const int c = eResourceCollectBuilding::add(rt, 1);

@@ -21,7 +21,6 @@ public:
     void write(eWriteStream& dst) const override;
 private:
     const std::vector<eBuildingTextures>& mTextures;
-    const int mWaitTime = 15000;
     int mNextRipe = 0;
     int mRipe = 0; // 0 - 5
 };

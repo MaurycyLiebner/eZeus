@@ -4,11 +4,12 @@
 
 #include "characters/echaracter.h"
 #include "engine/egameboard.h"
+#include "enumbers.h"
 
 eWall::eWall(eGameBoard& board) :
     eBuilding(board, eBuildingType::wall, 1, 1) {
     eGameTextures::loadWall();
-    setHP(2000);
+    setHP(eNumbers::sWallHP);
 }
 
 eWall::~eWall() {

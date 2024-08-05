@@ -1,6 +1,7 @@
 #include "echariotfactory.h"
 
 #include "textures/egametextures.h"
+#include "enumbers.h"
 
 eChariotFactory::eChariotFactory(eGameBoard& board) :
     eEmployingBuilding(board, eBuildingType::chariotFactory, 4, 4, 30) {
@@ -90,10 +91,10 @@ void eChariotFactory::timeChanged(const int by) {
             mHorseCart->setType(eCartTransporterType::horse);
         }
         if(mWood > 2 && mChariots < 4) {
-            const int chariotBuildingType = 20000;
+            const int chariotBuildingType = eNumbers::sChariotBuildingTime;
             mChariotBuildingTime += by;
             if(mChariotBuildingTime > chariotBuildingType) {
-                mChariotBuildingTime -= chariotBuildingType;
+                mChariotBuildingTime = 0;
                 mChariots++;
                 mWood -= 2;
             }

@@ -1,6 +1,7 @@
 #include "ecattle.h"
 
 #include "textures/egametextures.h"
+#include "enumbers.h"
 
 int eCattle::sId = 0;
 
@@ -82,9 +83,9 @@ std::shared_ptr<eTexture> eCattle::getTexture(const eTileSize size) const {
 void eCattle::incTime(const int by) {
     eCharacter::incTime(by);
     mMatureWait += by;
-    const int matureWait = 25000;
+    const int matureWait = eNumbers::sCattleMaturePeriod;
     if(mMatureWait > matureWait) {
-        mMatureWait -= matureWait;
+        mMatureWait = 0;
         mature();
     }
 }

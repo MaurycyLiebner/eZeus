@@ -4,6 +4,7 @@
 #include "eemployingbuilding.h"
 
 #include "characters/actions/epatrolaction.h"
+#include "enumbers.h"
 
 class ePatrolBuildingBase : public eEmployingBuilding {
 public:
@@ -46,7 +47,6 @@ public:
     void setSpawnPatrolers(const bool s);
     bool spawnPatrolers() const { return mSpawnPatrolers; }
 
-    void setMaxDistance(const int m) { mMaxDistance = m; }
     int maxDistance() const { return mMaxDistance; }
 
     bool spawnsPatrolers() const;
@@ -68,10 +68,10 @@ private:
 
     bool mSpawnPatrolers = true;
 
-    int mMaxDistance = 40;
+    const int mMaxDistance = eNumbers::sPatrolerMaxDistance;
 
-    const int mWaitTime = 5000;
-    int mSpawnTime = mWaitTime;
+    const int mWaitTime = eNumbers::sPatrolerWaitTime;
+    int mSpawnTime = 1000000;
     stdptr<eCharacter> mChar;
 
     ePatrolGuides mPatrolGuides;

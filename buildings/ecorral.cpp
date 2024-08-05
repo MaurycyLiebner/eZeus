@@ -6,6 +6,7 @@
 #include "characters/actions/efollowaction.h"
 #include "characters/actions/etakecattleaction.h"
 #include "characters/actions/ereplacecattleaction.h"
+#include "enumbers.h"
 
 #include <algorithm>
 
@@ -113,28 +114,31 @@ void eCorral::timeChanged(const int by) {
     if(newP == 0 && mProcessing > 0) {
         add(eResourceType::meat, 3);
     }
+
+    const double eff = effectiveness();
+
     mProcessing = newP;
 
     if(mNCattle < 3) {
-        const int takeWait = 10000;
+        const int takeWait = eNumbers::sCorralTakePeriod/eff;
         mTakeWait += by;
         if(mTakeWait > takeWait) {
-            mTakeWait -= takeWait;
+            mTakeWait = 0;
             takeCattle();
         }
     }
     if(mNCattle > 0) {
-        const int killWait = 10000;
+        const int killWait = eNumbers::sCorralKillPeriod/eff;
         mKillWait += by;
         if(mKillWait > killWait) {
-            mKillWait -= killWait;
+            mKillWait = 0;
             killCattle();
         }
     }
-    const int replaceWait = 10000;
+    const int replaceWait = eNumbers::sCorralReplacePeriod/eff;
     mReplaceWait += by;
     if(mReplaceWait > replaceWait) {
-        mReplaceWait -= replaceWait;
+        mReplaceWait = 0;
         replaceCattle();
     }
 }
@@ -154,7 +158,8 @@ bool eCorral::killCattle() {
     const int space = spaceLeft(eResourceType::meat);
     if(space < 3) return false;
     mNCattle--;
-    mProcessing = 10000;
+    const double eff = effectiveness();
+    mProcessing = eNumbers::sCorralProcessingPeriod/eff;
     return true;
 }
 

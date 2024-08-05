@@ -3,6 +3,7 @@
 #include "textures/egametextures.h"
 
 #include "ehorseranchenclosure.h"
+#include "enumbers.h"
 
 #include <algorithm>
 
@@ -53,21 +54,19 @@ std::vector<eOverlay> eHorseRanch::getOverlays(
 }
 
 void eHorseRanch::timeChanged(const int by) {
-    const int wheat = 1000;
-    const int horse = 40000;
     if(enabled()) {
         if(!mTakeCart) {
             mTakeCart = spawnCart(eCartActionTypeSupport::take);
         }
         if(mWheat > 0) {
             mWheatTime += by;
-            if(mWheatTime > wheat) {
+            if(mWheatTime > eNumbers::sHorseRanchWheatUsePeriod) {
+                mWheatTime = 0;
                 mWheat -= 10;
-                mWheatTime -= wheat;
             }
             mHorseTime += by;
-            if(mHorseTime > horse) {
-                mHorseTime -= horse;
+            if(mHorseTime > eNumbers::sHorseRanchHorseSpawnPeriod) {
+                mHorseTime = 0;
                 mEnclosure->spawnHorse();
             }
         }

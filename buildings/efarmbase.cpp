@@ -1,6 +1,7 @@
 #include "efarmbase.h"
 
 #include "textures/egametextures.h"
+#include "enumbers.h"
 
 #include <algorithm>
 
@@ -54,8 +55,9 @@ std::vector<eOverlay> eFarmBase::getOverlays(const eTileSize size) const {
 void eFarmBase::timeChanged(const int by) {
     if(enabled()) {
         mNextRipe += by;
-        if(mNextRipe > mWaitTime) {
-            mNextRipe -= mWaitTime;
+        const int period = eNumbers::sFarmRipePeriod;
+        if(mNextRipe > period) {
+            mNextRipe = 0;
             if(++mRipe == 5) {
                 add(resourceType(), 4*effectiveness());
                 mRipe = 0;

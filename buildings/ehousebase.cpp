@@ -5,6 +5,7 @@
 #include "characters/esettler.h"
 #include "characters/actions/emovetoaction.h"
 #include "characters/actions/ekillcharacterfinishfail.h"
+#include "enumbers.h"
 
 eHouseBase::eHouseBase(eGameBoard& board,
                        const eBuildingType type,
@@ -25,10 +26,9 @@ eHouseBase::~eHouseBase() {
 
 void eHouseBase::timeChanged(const int by) {
     if(mPeople <= 0) return;
-    const int cupdate = 20000;
     mUpdateCulture += by;
-    if(mUpdateCulture > cupdate) {
-        mUpdateCulture -= cupdate;
+    if(mUpdateCulture > eNumbers::sHouseCultureDecrementPeriod) {
+        mUpdateCulture = 0;
         mPhilosophers = std::max(0, mPhilosophers - 1);
         mActors = std::max(0, mActors - 1);
         mAthletes = std::max(0, mAthletes - 1);

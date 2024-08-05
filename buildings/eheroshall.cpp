@@ -13,6 +13,7 @@
 #include "engine/eeventdata.h"
 #include "characters/actions/emovetoaction.h"
 #include "estringhelpers.h"
+#include "enumbers.h"
 
 eBuildingType eHerosHall::sHeroTypeToHallType(const eHeroType type) {
     switch(type) {
@@ -301,7 +302,7 @@ std::string eHerosHall::sHeroRequirementStatusText(const eHeroRequirement& hr) {
 
 void eHerosHall::summon() {
     mStage = eHeroSummoningStage::summoned;
-    mArrivalCountdown = 15000;
+    mArrivalCountdown = eNumbers::sHerosHallArrivalPeriod;
 }
 
 void eHerosHall::arrive() {
@@ -331,7 +332,7 @@ eHero* eHerosHall::spawnHero() {
     mHero->changeTile(cr);
     const auto ha = e::make_shared<eHeroAction>(c.get());
     mHero->setAction(ha);
-    mSpawnWait = 5000;
+    mSpawnWait = eNumbers::sHerosHallSpawnPeriod;
     return mHero;
 }
 
@@ -748,7 +749,7 @@ void eHerosHall::timeChanged(const int by) {
         }
     }
 
-    const int cupdate = 5000;
+    const int cupdate = eNumbers::sHouseCultureDecrementPeriod;
     mUpdateCulture += by;
     if(mUpdateCulture > cupdate) {
         mUpdateCulture -= cupdate;

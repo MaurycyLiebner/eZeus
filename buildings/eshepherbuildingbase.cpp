@@ -50,9 +50,10 @@ void eShepherBuildingBase::timeChanged(const int by) {
     eResourceBuildingBase::timeChanged(by);
     if(!mShepherd) {
         mSpawnTime += by;
-        const int wait = mWaitTime/effectiveness();
+        const int period = eNumbers::sShepherdGoatherdWaitTime;
+        const int wait = period/effectiveness();
         if(mSpawnTime > wait) {
-            mSpawnTime -= wait;
+            mSpawnTime = 0;
             spawn();
         }
     }
@@ -63,11 +64,13 @@ void eShepherBuildingBase::read(eReadStream& src) {
     src.readCharacter(&getBoard(), [this](eCharacter* const c) {
         mShepherd = static_cast<eResourceCollectorBase*>(c);
     });
+    src >> mSpawnTime;
 }
 
 void eShepherBuildingBase::write(eWriteStream& dst) const {
     eResourceBuildingBase::write(dst);
     dst.writeCharacter(mShepherd.get());
+    dst << mSpawnTime;
 }
 
 bool eShepherBuildingBase::spawn() {

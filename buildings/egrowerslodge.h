@@ -49,8 +49,7 @@ private:
 
     stdptr<eCartTransporter> mCart;
 
-    int mWaitTime = 5000;
-    int mSpawnTime = mWaitTime;
+    int mSpawnTime = 1000000;
 
     stdptr<eGrower> mGrower;
 };

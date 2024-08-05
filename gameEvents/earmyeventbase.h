@@ -17,8 +17,6 @@ public:
     void write(eWriteStream& dst) const override;
     void read(eReadStream& src) override;
 
-    static const int sWaitTime = 150;
-
     const eEnlistedForces& forces() const { return mForces; }
     const stdsptr<eWorldCity>& city() const { return mCity; }
 protected:

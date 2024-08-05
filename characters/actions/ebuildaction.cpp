@@ -3,6 +3,7 @@
 #include "engine/egameboard.h"
 #include "audio/esounds.h"
 #include "buildings/sanctuaries/esanctbuilding.h"
+#include "enumbers.h"
 
 eBuildAction::eBuildAction(eCharacter* const c) :
     eCharacterAction(c, eCharActionType::buildAction) {}
@@ -18,7 +19,7 @@ void eBuildAction::increment(const int by) {
             eSounds::playArtisanSound();
         });
     }
-    if(mTime > 6000) {
+    if(mTime > eNumbers::sArtisanBuildTime) {
         setState(eCharacterActionState::finished);
     }
 }

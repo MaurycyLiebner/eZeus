@@ -40,7 +40,7 @@ void ePatrolSourceBuilding::timeChanged(const int by) {
             int& spawnTime = mTargetData[i].fSpawnTime;
             spawnTime += by;
             if(spawnTime > mSpawnWaitTime) {
-                spawnTime -= mSpawnWaitTime;
+                spawnTime = 0;
                 spawn(i);
             }
         }

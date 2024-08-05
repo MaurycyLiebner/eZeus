@@ -4,6 +4,7 @@
 #include "characters/actions/ewaitaction.h"
 #include "buildings/eresourcebuilding.h"
 #include "engine/egameboard.h"
+#include "enumbers.h"
 
 eGrowerAction::eGrowerAction(const eGrowerType type,
                              eGrowersLodge* const lodge,
@@ -133,7 +134,7 @@ bool eGrowerAction::decide() {
             mNoResource = false;
             goBackDecision();
         } else {
-            if(mGroomed > 5) {
+            if(mGroomed > eNumbers::sGrowerMaxGroom) {
                 mGroomed = 0;
                 goBackDecision();
             } else {
@@ -193,7 +194,7 @@ bool eGrowerAction::findResourceDecision() {
         }
     };
     a->setFindFailAction(findFailFunc);
-    a->setMaxFindDistance(40);
+    a->setMaxFindDistance(eNumbers::sGrowerMaxDistance);
     a->start(hha);
     setCurrentAction(a);
     return true;
@@ -241,7 +242,7 @@ void eGrowerAction::workOnDecision(eTile* const tile) {
     const auto deleteFail = std::make_shared<eGRA_workOnDecisionDeleteFail>(
                             board(), tile);
     w->setDeleteFailAction(deleteFail);
-    w->setTime(2000);
+    w->setTime(eNumbers::sGrowerWorkTime);
     setCurrentAction(w);
 }
 
@@ -251,5 +252,5 @@ void eGrowerAction::goBackDecision() {
 }
 
 void eGrowerAction::waitDecision() {
-    wait(5000);
+    wait(eNumbers::sGrowerSpawnWaitTime);
 }

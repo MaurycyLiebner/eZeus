@@ -17,6 +17,7 @@
 #include "buildings/sanctuaries/etemplebuilding.h"
 #include "ekillcharacterfinishfail.h"
 #include "ewaitaction.h"
+#include "enumbers.h"
 
 eAttackTarget::eAttackTarget() :
     mC(nullptr), mB(nullptr) {}
@@ -92,8 +93,9 @@ void eSoldierAction::sSignalBeingAttack(
     const auto tt = attacked->tile();
     const int ttx = tt->x();
     const int tty = tt->y();
-    for(int ii = -2; ii <= 2; ii++) {
-        for(int jj = -2; jj <= 2; jj++) {
+    const int range = eNumbers::sSoldierBeingAttackedCallRange;
+    for(int ii = -range; ii <= range; ii++) {
+        for(int jj = -range; jj <= range; jj++) {
             const auto tt = brd.tile(ttx + ii, tty + jj);
             if(!tt) continue;
             const auto& ccchars = tt->characters();

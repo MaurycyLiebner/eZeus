@@ -4,6 +4,7 @@
 #include "eresourcebuildingbase.h"
 
 #include "textures/ebuildingtextures.h"
+#include "enumbers.h"
 
 class eResourceCollectorBase;
 
@@ -51,8 +52,7 @@ private:
 
     stdptr<eResourceCollectorBase> mShepherd;
 
-    int mWaitTime = 2000;
-    int mSpawnTime = mWaitTime;
+    int mSpawnTime = 1000000;
 };
 
 #endif // ESHEPHERBUILDINGBASE_H

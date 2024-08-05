@@ -1906,7 +1906,7 @@ std::vector<eAgoraBase*> eGameBoard::agoras() const {
 
 void eGameBoard::incTime(const int by) {
     if(mEpisodeLost) return;
-    const int dayLen = 350;
+    const int dayLen = eNumbers::sDayLength;
     { // autosave
         const int time = mTime + by;
         bool nextMonth = false;
@@ -1943,9 +1943,9 @@ void eGameBoard::incTime(const int by) {
 //    }
 
     mProgressEarthquakes += by;
-    const int earthquakeWait = 500;
+    const int earthquakeWait = eNumbers::sEarthquakeProgressPeriod;
     if(mProgressEarthquakes > earthquakeWait) {
-        mProgressEarthquakes -= earthquakeWait;
+        mProgressEarthquakes = 0;
         progressEarthquakes();
     }
 

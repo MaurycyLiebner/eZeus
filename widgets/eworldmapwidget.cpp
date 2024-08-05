@@ -11,6 +11,7 @@
 #include "audio/esounds.h"
 #include "estringhelpers.h"
 #include "evectorhelpers.h"
+#include "enumbers.h"
 
 eWorldMapWidget::eWorldMapWidget(eMainWindow* const window) :
     eLabel(window) {}
@@ -262,7 +263,7 @@ void eWorldMapWidget::paintEvent(ePainter& p) {
         for(const auto c : cs) {
             const auto cDate = c->startDate();
             const int days = cDate - date;
-            const int totDays = eArmyEventBase::sWaitTime;
+            const int totDays = eNumbers::sArmyTravelTime;
             const double frac = std::clamp(1. - (1.*days)/totDays, 0., 1.);
             const auto& cc = c->city();
             int x;
@@ -468,7 +469,7 @@ void eWorldMapWidget::updateWidgets() {
         for(const auto c : cs) {
             const auto cDate = c->startDate();
             const int days = cDate - date;
-            const int totDays = eArmyEventBase::sWaitTime;
+            const int totDays = eNumbers::sArmyTravelTime;
             const double frac = std::clamp(1. - (1.*days)/totDays, 0., 1.);
             const auto& cc = c->city();
             const bool reverse = dynamic_cast<eArmyReturnEvent*>(c);

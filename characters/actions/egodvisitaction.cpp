@@ -1,16 +1,19 @@
 #include "egodvisitaction.h"
 
 #include "characters/echaracter.h"
+#include "enumbers.h"
 
 eGodVisitAction::eGodVisitAction(eCharacter* const c) :
     eGodAction(c, eCharActionType::godVisitAction) {}
 
 void eGodVisitAction::increment(const int by) {
-    const int lookForSoldierCheck = 2500;
-    const int lookForBlessCheck = 18000;
+    const int attackPeriod = eNumbers::sGodVisitSoldierAttackPeriod;
+    const int attackRange = eNumbers::sGodVisitSoldierAttackRange;
+    const int blessPeriod = eNumbers::sGodVisitBlessPeriod;
+    const int blessRange = eNumbers::sGodVisitBlessRange;
 
-    bool r = lookForBlessCurse(by, mLookForBless, lookForBlessCheck, 10, 1);
-    if(!r) lookForSoldierAttack(by, mLookForSoldierAttack, lookForSoldierCheck, 10);
+    bool r = lookForBlessCurse(by, mLookForBless, blessPeriod, blessRange, 1);
+    if(!r) lookForSoldierAttack(by, mLookForSoldierAttack, attackPeriod, attackRange);
 
     eGodAction::increment(by);
 }
@@ -30,8 +33,8 @@ bool eGodVisitAction::decide() {
     case eGodVisitStage::appear: {
         mStage = eGodVisitStage::patrol;
         const auto tile = c->tile();
-        if(tile->hasRoad()) patrol();
-        else moveAround(nullptr, 25000);
+        if(tile->hasRoad()) patrol(nullptr, eNumbers::sGodVisitPatrolDistance);
+        else moveAround(nullptr, eNumbers::sGodVisitMoveAroundTime);
     }   break;
     case eGodVisitStage::patrol:
         mStage = eGodVisitStage::disappear;

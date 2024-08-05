@@ -94,7 +94,7 @@ bool eGodAction::lookForRangeAction(
 
     time += dtime;
     if(time > freq) {
-        time -= freq;
+        time = 0;
         std::vector<eTile*> tiles;
         const int rr = 2*range + 1;
         tiles.reserve(rr*rr);

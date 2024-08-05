@@ -3,6 +3,7 @@
 
 #include "eemployingbuilding.h"
 #include "characters/eartisan.h"
+#include "enumbers.h"
 
 class eArtisansGuild : public eEmployingBuilding {
 public:
@@ -19,7 +20,7 @@ public:
 private:
     stdptr<eArtisan> mArtisan;
 
-    int mWaitTime = 2000;
+    const int mWaitTime = eNumbers::sArtisanWaitTime;
     int mSpawnTime = mWaitTime;
 };
 

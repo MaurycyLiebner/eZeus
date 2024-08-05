@@ -4,19 +4,21 @@
 #include "characters/actions/emovetoaction.h"
 #include "characters/actions/eheroaction.h"
 #include "vec2.h"
+#include "enumbers.h"
 
 eGodWorshippedAction::eGodWorshippedAction(eCharacter* const c) :
     eGodAction(c, eCharActionType::godWorshippedAction) {}
 
 void eGodWorshippedAction::increment(const int by) {
-    const int lookForBlessCheck = 6000;
-    const int lookForSoldierCheck = 2500;
-
+    const int blessPeriod = eNumbers::sGodWorshippedBlessPeriod;
+    const int blessRange = eNumbers::sGodWorshippedBlessRange;
     const bool r = lookForTargetedBlessCurse(by, mLookForBless,
-                                             lookForBlessCheck, 10, 1);
+                                             blessPeriod, blessRange, 1);
     if(!r) {
+        const int attackPeriod = eNumbers::sGodWorshippedSoldierAttackPeriod;
+        const int attackRange = eNumbers::sGodWorshippedSoldierAttackRange;
         const bool r = lookForSoldierAttack(by, mLookForSoldierAttack,
-                                            lookForSoldierCheck, 10);
+                                            attackPeriod, attackRange);
         if(!r) {
             if(mStage != eGodWorshippedStage::defend &&
                mStage != eGodWorshippedStage::huntMonster &&

@@ -36,7 +36,7 @@ private:
 
     const eTargets mTargets;
 
-    const int mSpawnWaitTime = 10000;
+    const int mSpawnWaitTime = eNumbers::sPatrolerSourceSpawnPeriod;
     std::vector<eTargetData> mTargetData;
 };
 

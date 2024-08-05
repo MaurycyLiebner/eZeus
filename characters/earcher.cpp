@@ -2,10 +2,11 @@
 
 #include "textures/egametextures.h"
 #include "engine/egameboard.h"
+#include "enumbers.h"
 
 eArcher::eArcher(eGameBoard& board) :
     eCharacter(board, eCharacterType::archer) {
-    setAttack(0.5);
+    setAttack(eNumbers::sWallArcherAttack);
 }
 
 std::shared_ptr<eTexture>

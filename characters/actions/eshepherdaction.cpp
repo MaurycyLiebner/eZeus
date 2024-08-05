@@ -6,6 +6,8 @@
 #include "ewaitaction.h"
 #include "emovetoaction.h"
 
+#include "enumbers.h"
+
 eShepherdAction::eShepherdAction(
         eShepherBuildingBase* const shed,
         eResourceCollectorBase* const c,
@@ -105,7 +107,7 @@ bool eShepherdAction::decide() {
             mNoResource = false;
             goBackDecision();
         } else {
-            if(mGroomed > 20) {
+            if(mGroomed > eNumbers::sShepherdGoatherdMaxGroom) {
                 mGroomed = 0;
                 goBackDecision();
             } else {
@@ -158,7 +160,7 @@ bool eShepherdAction::findResourceDecision() {
         if(tptr) mNoResource = true;
     };
     a->setFindFailAction(findFailFunc);
-    a->setMaxFindDistance(40);
+    a->setMaxFindDistance(eNumbers::sShepherdGoatherdMaxDistance);
     a->start(hha);
     setCurrentAction(a);
     return true;
@@ -178,7 +180,7 @@ void eShepherdAction::collectDecision(eDomesticatedAnimal* const a) {
     const auto deleteFail = std::make_shared<eSA_collectDecisionDeleteFail>(
                                 board(), a);
     wait->setDeleteFailAction(deleteFail);
-    wait->setTime(2000);
+    wait->setTime(eNumbers::sShepherdGoatherdCollectTime);
     setCurrentAction(wait);
 }
 
@@ -195,7 +197,7 @@ void eShepherdAction::groomDecision(eDomesticatedAnimal* const a) {
     const auto deleteFail = std::make_shared<eSA_groomDecisionDeleteFail>(
                                 board(), a);
     wait->setDeleteFailAction(deleteFail);
-    wait->setTime(1000);
+    wait->setTime(eNumbers::sShepherdGoatherdGroomTime);
     setCurrentAction(wait);
 }
 
@@ -210,5 +212,5 @@ void eShepherdAction::goBackDecision() {
 }
 
 void eShepherdAction::waitDecision() {
-    wait(5000);
+    wait(eNumbers::sShepherdGoatherdWaitTime);
 }

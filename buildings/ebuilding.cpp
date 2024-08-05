@@ -1960,29 +1960,32 @@ void eBuilding::incTime(const int by) {
                 eSounds::playFireSound();
             });
         }
-        if(eRand::rand() % (50000/by) == 0) {
+        if(eRand::rand() % (eNumbers::sSpreadFirePeriod/by) == 0) {
             spreadFire();
             eSounds::playFireSound();
-        } else if(eRand::rand() % (50000/by) == 0) {
+        } else if(eRand::rand() % (eNumbers::sFireCollapsePeriod/by) == 0) {
             eEventData ed;
             ed.fTile = centerTile();
             b.event(eEvent::collapse, ed);
             collapse();
             return;
         } else if(mType == eBuildingType::ruins) {
-            if(eRand::rand() % (10000/by) == 0) {
+            if(eRand::rand() % (eNumbers::sRuinsFireEndPeriod/by) == 0) {
                 setOnFire(false);
             }
         }
-    } else if(eRand::rand() % (2000/by) == 0) {
+    } else if(eRand::rand() % (eNumbers::sMaintenanceDecrementPeriod/by) == 0) {
         if(!isEmptyHome()) {
             mMaintance = std::max(0, mMaintance - 1);
         }
     } else if(!isEmptyHome()) {
-        const int m4 = 10*pow(10 + mMaintance, 4);
         const auto diff = b.difficulty();
         const int fireRisk = eDifficultyHelpers::fireRisk(diff, mType);
         if(fireRisk && by && sFlammable(type())) {
+            const double pm = eNumbers::sFireRiskPeriodMultiplier;
+            const double pbi = eNumbers::sFireRiskPeriodBaseIncrement;
+            const double pe = eNumbers::sFireRiskPeriodExponent;
+            const int m4 = pm*pow(pbi + mMaintance, pe);
             const int firePeriod = m4/(by*fireRisk);
             if(firePeriod && eRand::rand() % firePeriod == 0) {
                 setOnFire(true);
@@ -1993,6 +1996,10 @@ void eBuilding::incTime(const int by) {
         }
         const int damageRisk = eDifficultyHelpers::damageRisk(diff, mType);
         if(damageRisk && by) {
+            const double pm = eNumbers::sCollapseRiskPeriodMultiplier;
+            const double pbi = eNumbers::sCollapseRiskPeriodBaseIncrement;
+            const double pe = eNumbers::sCollapseRiskPeriodExponent;
+            const int m4 = pm*pow(pbi + mMaintance, pe);
             const int damagePeriod = m4/(by*damageRisk);
             if(damagePeriod && eRand::rand() % damagePeriod == 0) {
                 eEventData ed;

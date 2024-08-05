@@ -1,10 +1,12 @@
 #include "ehorsemanbase.h"
 
+#include "enumbers.h"
+
 eHorsemanBase::eHorsemanBase(eGameBoard& board,
                              const eCharTexs charTexs,
                              const eCharacterType type) :
     eSoldier(board, charTexs, type) {
-    setAttack(0.6);
-    setSpeed(1.5);
-    setHP(500);
+    setAttack(eNumbers::sHorsemanAttack);
+    setSpeed(eNumbers::sHorsemanSpeed);
+    setHP(eNumbers::sHorsemanHP);
 }

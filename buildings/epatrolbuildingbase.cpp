@@ -41,7 +41,7 @@ void ePatrolBuildingBase::timeChanged(const int by) {
             mSpawnTime += by;
             const int wait = mWaitTime/effectiveness();
             if(mSpawnTime > wait) {
-                mSpawnTime -= wait;
+                mSpawnTime = 0;
                 spawn();
             }
         }

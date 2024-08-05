@@ -10,6 +10,7 @@
 #include "characters/etrader.h"
 #include "characters/actions/etraderaction.h"
 #include "characters/etradeboat.h"
+#include "enumbers.h"
 
 eTradePost::eTradePost(eGameBoard& board, eWorldCity& city,
                        const eTradePostType type) :
@@ -104,10 +105,9 @@ std::vector<eOverlay> eTradePost::getOverlays(const eTileSize size) const {
 }
 
 void eTradePost::timeChanged(const int by) {
-    const int rt = 30000;
     mRouteTimer += by;
-    if(mRouteTimer > rt) {
-        mRouteTimer -= rt;
+    if(mRouteTimer > eNumbers::sTraderSpawnPeriod) {
+        mRouteTimer = 0;
         if(trades()) spawnTrader();
     }
     eWarehouseBase::timeChanged(by);

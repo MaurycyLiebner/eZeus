@@ -1,10 +1,12 @@
 #include "espearthrowerbase.h"
 
+#include "enumbers.h"
+
 eSpearthrowerBase::eSpearthrowerBase(eGameBoard& board,
                                      const eCharTexs charTexs,
                                      const eCharacterType type) :
     eSoldier(board, charTexs, type) {
-    setRange(4);
-    setAttack(0.05);
-    setHP(300);
+    setRange(eNumbers::sSpearthrowerRange);
+    setAttack(eNumbers::sSpearthrowerAttack);
+    setHP(eNumbers::sSpearthrowerHP);
 }

@@ -3,6 +3,7 @@
 #include "characters/ehunter.h"
 #include "textures/egametextures.h"
 #include "characters/actions/ehuntaction.h"
+#include "enumbers.h"
 
 #include <algorithm>
 
@@ -46,7 +47,8 @@ void eHuntingLodge::timeChanged(const int by) {
     eResourceCollectBuildingBase::timeChanged(by);
     if(!mHunter) {
         mSpawnTime += by;
-        const int wait = mWaitTime/effectiveness();
+        const double eff = effectiveness();
+        const int wait = eNumbers::sHuntingLodgeWaitPeriod/eff;
         if(mSpawnTime > wait) {
             mSpawnTime -= wait;
             spawn();
