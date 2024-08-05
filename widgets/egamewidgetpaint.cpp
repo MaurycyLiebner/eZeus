@@ -2753,6 +2753,7 @@ void eGameWidget::paintEvent(ePainter& p) {
                 dx = -1;
             } else if(mRotateId == 2) { // topLeft
                 dx = -4;
+                dy = 1;
                 under = true;
             } else if(mRotateId == 3) { // bottomLeft
                 dy = 4;
