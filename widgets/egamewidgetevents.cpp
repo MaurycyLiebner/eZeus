@@ -625,6 +625,14 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, inst.fMilitaryDecline, true);
         return;
     } break;
+    case eEvent::tradeShutdowns: {
+        showMessage(ed, inst.fTradeShutsDown, true);
+        return;
+    } break;
+    case eEvent::tradeOpensUp: {
+        showMessage(ed, inst.fTradeOpensUp, true);
+        return;
+    } break;
     case eEvent::economicProsperity: {
         showMessage(ed, inst.fEconomicProsperity, true);
         return;

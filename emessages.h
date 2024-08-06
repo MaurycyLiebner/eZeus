@@ -280,6 +280,21 @@ public:
     eMessageType fDebtAnniversary;
 
     eMessageType fColonyMonument;
+
+    eMessageType fPriceIncrease;
+    eMessageType fPriceDecrease;
+
+    eMessageType fDemandIncrease;
+    eMessageType fDemandDecrease;
+
+    eMessageType fSupplyIncrease;
+    eMessageType fSupplyDecrease;
+
+    eMessageType fTradeShutsDown;
+    eMessageType fTradeOpensUp;
+
+    eMessageType fWageIncrease;
+    eMessageType fWageDecrease;
 private:
     bool loadImpl();
 

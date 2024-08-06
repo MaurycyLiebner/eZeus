@@ -813,6 +813,41 @@ bool eMessages::loadImpl() {
                 "colony_monument_title",
                 "colony_monument_initial_announcement");
 
+    loadMessage(fPriceIncrease,
+                "price_change_title_I",
+                "price_change_initial_announcement_I");
+    loadMessage(fPriceDecrease,
+                "price_change_title_D",
+                "price_change_initial_announcement_D");
+
+    loadMessage(fDemandIncrease,
+                "demand_change_title_I",
+                "demand_change_initial_announcement_I");
+    loadMessage(fDemandDecrease,
+                "demand_change_title_D",
+                "demand_change_initial_announcement_D");
+
+    loadMessage(fSupplyIncrease,
+                "supply_change_title_I",
+                "supply_change_initial_announcement_I");
+    loadMessage(fSupplyDecrease,
+                "supply_change_title_D",
+                "supply_change_initial_announcement_D");
+
+    loadMessage(fTradeShutsDown,
+                "trade_shuts_down_title",
+                "trade_shuts_down_initial_announcement");
+    loadMessage(fTradeOpensUp,
+                "trade_opens_up_title",
+                "trade_opens_up_initial_announcement");
+
+    loadMessage(fWageIncrease,
+                "wage_change_title_I",
+                "wage_change_initial_announcement_I");
+    loadMessage(fWageDecrease,
+                "wage_change_title_D",
+                "wage_change_initial_announcement_D");
+
     return true;
 }
 

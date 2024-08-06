@@ -47,7 +47,10 @@ enum class eGameEventType {
 
     earthquake,
 
-    cityBecomes
+    cityBecomes,
+
+    tradeShutdowns,
+    tradeOpensUp
 };
 
 enum class eGameEventBranch {

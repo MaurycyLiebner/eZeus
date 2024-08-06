@@ -399,6 +399,7 @@ SOURCES += \
         fileIO/ewritestream.cpp \
         gameEvents/earmyeventbase.cpp \
         gameEvents/earmyreturnevent.cpp \
+        gameEvents/ebasiccityevent.cpp \
         gameEvents/ecitybecomesevent.cpp \
         gameEvents/eearthquakeevent.cpp \
         gameEvents/eeconomicchangeevent.cpp \
@@ -431,6 +432,8 @@ SOURCES += \
         gameEvents/erequeststrikeevent.cpp \
         gameEvents/eresourcegrantedeventbase.cpp \
         gameEvents/erivalarmyawayevent.cpp \
+        gameEvents/etradeopenupevent.cpp \
+        gameEvents/etradeshutdownevent.cpp \
         gameEvents/etroopsrequestevent.cpp \
         gameEvents/etroopsrequestfulfilledevent.cpp \
         main.cpp \
@@ -607,6 +610,7 @@ SOURCES += \
         widgets/etriggerselectionwidget.cpp \
         widgets/eupbutton.cpp \
         widgets/evaluebutton.cpp \
+        widgets/eventwidgets/ebasiccityeventwidget.cpp \
         widgets/eventwidgets/ecitybecomeseventwidget.cpp \
         widgets/eventwidgets/eeartquakeeventwidget.cpp \
         widgets/eventwidgets/eeconomicmilitarychangeeventwidget.cpp \
@@ -1012,6 +1016,7 @@ HEADERS += \
     fileIO/ewritestream.h \
     gameEvents/earmyeventbase.h \
     gameEvents/earmyreturnevent.h \
+    gameEvents/ebasiccityevent.h \
     gameEvents/ecitybecomesevent.h \
     gameEvents/eearthquakeevent.h \
     gameEvents/eeconomicchangeevent.h \
@@ -1044,6 +1049,8 @@ HEADERS += \
     gameEvents/erequeststrikeevent.h \
     gameEvents/eresourcegrantedeventbase.h \
     gameEvents/erivalarmyawayevent.h \
+    gameEvents/etradeopenupevent.h \
+    gameEvents/etradeshutdownevent.h \
     gameEvents/etroopsrequestevent.h \
     gameEvents/etroopsrequestfulfilledevent.h \
     missiles/earrowmissile.h \
@@ -2595,6 +2602,7 @@ HEADERS += \
     widgets/etriggerselectionwidget.h \
     widgets/eupbutton.h \
     widgets/evaluebutton.h \
+    widgets/eventwidgets/ebasiccityeventwidget.h \
     widgets/eventwidgets/ecitybecomeseventwidget.h \
     widgets/eventwidgets/eeartquakeeventwidget.h \
     widgets/eventwidgets/eeconomicmilitarychangeeventwidget.h \

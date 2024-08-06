@@ -15,6 +15,7 @@
 #include "gameEvents/erivalarmyawayevent.h"
 #include "gameEvents/eearthquakeevent.h"
 #include "gameEvents/ecitybecomesevent.h"
+#include "gameEvents/ebasiccityevent.h"
 
 #include "egodattackeventwidget.h"
 #include "emonsterattackeventwidget.h"
@@ -28,6 +29,7 @@
 #include "erivalarmyawayeventwidget.h"
 #include "eeartquakeeventwidget.h"
 #include "ecitybecomeseventwidget.h"
+#include "ebasiccityeventwidget.h"
 
 void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
     setType(eFrameType::message);
@@ -79,40 +81,47 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
         cont->addWidget(eew);
     } break;
     case eGameEventType::godQuest:
-    case eGameEventType::godQuestFulfilled:{
+    case eGameEventType::godQuestFulfilled: {
         const auto eew = new eGodQuestEventWidget(window());
         const auto gqee = static_cast<eGodQuestEventBase*>(e.get());
         eew->initialize(gqee);
         cont->addWidget(eew);
     } break;
     case eGameEventType::militaryChange:
-    case eGameEventType::economicChange:{
+    case eGameEventType::economicChange: {
         const auto eew = new eEconomicMilitaryChangeEventWidget(window());
         const auto emceb = static_cast<eEconomicMilitaryChangeEventBase*>(e.get());
         eew->initialize(emceb);
         cont->addWidget(eew);
     } break;
-    case eGameEventType::godDisaster:{
+    case eGameEventType::godDisaster: {
         const auto eew = new eGodDisasterEventWidget(window());
         const auto emceb = static_cast<eGodDisasterEvent*>(e.get());
         eew->initialize(emceb);
         cont->addWidget(eew);
     } break;
-    case eGameEventType::rivalArmyAway:{
+    case eGameEventType::rivalArmyAway: {
         const auto eew = new eRivalArmyAwayEventWidget(window());
         const auto emceb = static_cast<eRivalArmyAwayEvent*>(e.get());
         eew->initialize(emceb);
         cont->addWidget(eew);
     } break;
-    case eGameEventType::earthquake:{
+    case eGameEventType::earthquake: {
         const auto eew = new eEartquakeEventWidget(window());
         const auto ee = static_cast<eEarthquakeEvent*>(e.get());
         eew->initialize(ee);
         cont->addWidget(eew);
     } break;
-    case eGameEventType::cityBecomes:{
+    case eGameEventType::cityBecomes: {
         const auto eew = new eCityBecomesEventWidget(window());
         const auto ee = static_cast<eCityBecomesEvent*>(e.get());
+        eew->initialize(ee);
+        cont->addWidget(eew);
+    } break;
+    case eGameEventType::tradeShutdowns:
+    case eGameEventType::tradeOpensUp: {
+        const auto eew = new eBasicCityEventWidget(window());
+        const auto ee = static_cast<eBasicCityEvent*>(e.get());
         eew->initialize(ee);
         cont->addWidget(eew);
     } break;

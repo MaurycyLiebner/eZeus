@@ -104,6 +104,19 @@ void eMessageBox::initialize(const eEventData& ed,
                                ed.fPlayerName);
     eStringHelpers::replaceAll(msg.fText, "[god]",
                                eGod::sGodName(ed.fGod));
+
+    const auto type = ed.fResourceType;
+    const auto item = eResourceTypeHelpers::typeLongName(type);
+    const auto itemshort = eResourceTypeHelpers::typeName(type);
+    const int count = ed.fResourceCount;
+    const auto countStr = std::to_string(count);
+
+    eStringHelpers::replaceAll(msg.fText, "[amount]",
+                               countStr);
+    eStringHelpers::replaceAll(msg.fText, "[item]",
+                               item);
+    eStringHelpers::replaceAll(msg.fText, "[itemshort]",
+                               itemshort);
     if(const auto c = ed.fCity) {
         const auto nat = c->nationality();
         const auto natName = eWorldCity::sNationalityName(nat);
@@ -201,21 +214,8 @@ void eMessageBox::initialize(const eEventData& ed,
     } else if(ed.fType == eMessageEventType::requestTributeGranted) {
         const auto c = ed.fCity;
         if(!c) return;
-        const auto type = ed.fResourceType;
-        const auto nameShort = eResourceTypeHelpers::typeName(type);
-        const auto name = eResourceTypeHelpers::typeLongName(type);
-        const auto itemshort = eResourceTypeHelpers::typeName(type);
-        const int count = ed.fResourceCount;
-        const auto countStr = std::to_string(count);
         const int space = ed.fSpaceCount;
         const auto tributeWid = createTributeWidget(type, count, space);
-
-        eStringHelpers::replaceAll(msg.fText, "[amount]",
-                                   countStr);
-        eStringHelpers::replaceAll(msg.fText, "[item]",
-                                   name);
-        eStringHelpers::replaceAll(msg.fText, "[itemshort]",
-                                   itemshort);
 
         ww->addWidget(tributeWid);
         tributeWid->setX(p);
@@ -269,42 +269,18 @@ void eMessageBox::initialize(const eEventData& ed,
 
         addWidget(wid);
     } else if(ed.fType == eMessageEventType::resourceGranted) {
-        const auto type = ed.fResourceType;
-        const auto name = eResourceTypeHelpers::typeLongName(type);
-        const auto itemshort = eResourceTypeHelpers::typeName(type);
-        const int count = ed.fResourceCount;
-        const auto countStr = std::to_string(count);
         const auto tributeWid = createTributeWidget(type, count, -1);
-
-        eStringHelpers::replaceAll(msg.fText, "[amount]",
-                                   countStr);
-        eStringHelpers::replaceAll(msg.fText, "[item]",
-                                   name);
-        eStringHelpers::replaceAll(msg.fText, "[itemshort]",
-                                   itemshort);
 
         ww->addWidget(tributeWid);
         tributeWid->setX(p);
     } else if(ed.fType == eMessageEventType::generalRequestGranted) {
         const auto c = ed.fCity;
         if(!c) return;
-        const auto type = ed.fResourceType;
-        const auto nameShort = eResourceTypeHelpers::typeName(type);
-        const auto name = eResourceTypeHelpers::typeLongName(type);
-        const auto itemshort = eResourceTypeHelpers::typeName(type);
-        const int count = ed.fResourceCount;
-        const auto countStr = std::to_string(count);
         const int space = ed.fSpaceCount;
         const int time = ed.fTime;
         const auto timeStr = std::to_string(time);
         const auto tributeWid = createTributeWidget(type, count, space, time);
 
-        eStringHelpers::replaceAll(msg.fText, "[amount]",
-                                   countStr);
-        eStringHelpers::replaceAll(msg.fText, "[item]",
-                                   name);
-        eStringHelpers::replaceAll(msg.fText, "[itemshort]",
-                                   itemshort);
         eStringHelpers::replaceAll(msg.fText, "[time_allotted]",
                                    timeStr);
 

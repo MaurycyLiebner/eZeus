@@ -30,6 +30,8 @@
 #include "erivalarmyawayevent.h"
 #include "eearthquakeevent.h"
 #include "ecitybecomesevent.h"
+#include "etradeshutdownevent.h"
+#include "etradeopenupevent.h"
 
 eGameEvent::eGameEvent(const eGameEventType type,
                        const eGameEventBranch branch) :
@@ -131,6 +133,11 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
 
     case eGameEventType::cityBecomes:
         return e::make_shared<eCityBecomesEvent>(branch);
+
+    case eGameEventType::tradeShutdowns:
+        return e::make_shared<eTradeShutDownEvent>(branch);
+    case eGameEventType::tradeOpensUp:
+        return e::make_shared<eTradeOpenUpEvent>(branch);
     }
     return nullptr;
 }
