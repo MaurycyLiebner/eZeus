@@ -291,6 +291,8 @@ public:
     std::shared_ptr<eTexture> fOnionsUnit;
     std::shared_ptr<eTexture> fWheatUnit;
     std::shared_ptr<eTexture> fOrangesUnit;
+    std::shared_ptr<eTexture> fBlackMarbleUnit;
+    std::shared_ptr<eTexture> fOrichalcUnit;
 
     std::shared_ptr<eTexture> fWoodUnit;
     std::shared_ptr<eTexture> fBronzeUnit;

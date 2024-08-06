@@ -52,6 +52,101 @@ void eEditorSettingsMenu::initialize(const bool first,
         });
         addWidget(fundsButt);
         fundsButt->align(eAlignment::hcenter);
+
+        const auto pricesAct = [this, c]() {
+            const auto priceMenu = new eFramedWidget(window());
+            priceMenu->setType(eFrameType::message);
+            priceMenu->resize(width(), height());
+
+            eWidget* column = nullptr;
+            int i = 1;
+            const auto addW = [&](eWidget* const w) {
+                if(i > 5 || !column) {
+                    if(column) {
+                        column->stackVertically();
+                        column->fitContent();
+                        column->align(eAlignment::vcenter);
+                    }
+                    column = new eWidget(window());
+                    priceMenu->addWidget(column);
+                    i = 0;
+                } else {
+                    i++;
+                }
+                column->addWidget(w);
+            };
+
+            const auto res = resolution();
+            const auto uiScale = res.uiScale();
+            auto& prices = c->prices();
+            std::map<eResourceType, eValueButton*> buttons;
+            for(const auto& p : prices) {
+                const auto w = new eWidget(window());
+                w->setNoPadding();
+
+                const auto type = p.first;
+                const auto icon = eResourceTypeHelpers::icon(uiScale, type);
+                const auto iconLabel = new eLabel(window());
+                iconLabel->setTexture(icon);
+                iconLabel->fitContent();
+                w->addWidget(iconLabel);
+
+                const auto priceButt = new eValueButton(window());
+                buttons[type] = priceButt;
+                priceButt->initialize(0, 99999);
+                const int f = p.second;
+                const auto fStr = std::to_string(f);
+                priceButt->setValue(f);
+                priceButt->setText(fStr);
+                priceButt->setUnderline(false);
+                priceButt->fitContent();
+                priceButt->setValueChangeAction([c, type](const int price) {
+                    auto& prices = c->prices();
+                    prices[type] = price;
+                });
+                w->addWidget(priceButt);
+                w->stackHorizontally();
+                w->fitContent();
+
+                addW(w);
+            }
+
+            if(column) {
+                const auto resetButt = new eFramedButton(window());
+                resetButt->setUnderline(false);
+                resetButt->setText(eLanguage::zeusText(44, 214));
+                resetButt->fitContent();
+                resetButt->setPressAction([c, buttons]() {
+                    auto& prices = c->prices();
+                    for(auto& p : prices) {
+                        const auto type = p.first;
+                        const int dprice = eResourceTypeHelpers::defaultPrice(type);
+                        prices[type] = dprice;
+                        const auto butt = buttons.find(type);
+                        if(butt != buttons.end()) {
+                            butt->second->setValue(dprice);
+                        }
+                    }
+                });
+                column->addWidget(resetButt);
+
+                column->stackVertically();
+                column->fitContent();
+                column->align(eAlignment::vcenter);
+            }
+
+            window()->execDialog(priceMenu);
+            priceMenu->align(eAlignment::center);
+            priceMenu->layoutHorizontally();
+        };
+
+        const auto pricesButt = new eFramedButton(window());
+        pricesButt->setUnderline(false);
+        pricesButt->setText(eLanguage::zeusText(54, 9));
+        pricesButt->fitContent();
+        pricesButt->setPressAction(pricesAct);
+        addWidget(pricesButt);
+        pricesButt->align(eAlignment::hcenter);
     }
 
     const auto mythologyAct = [this, ep]() {

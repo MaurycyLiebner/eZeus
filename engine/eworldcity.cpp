@@ -398,6 +398,20 @@ void eWorldCity::addBuys(const eResourceTrade& b) {
     mBuys.push_back(b);
 }
 
+void eWorldCity::changeDemand(const eResourceType res, const int by) {
+    for(auto& b : mBuys) {
+        if(b.fType != res) continue;
+        b.fMax = std::clamp(b.fMax + by, 0, 100);
+    }
+}
+
+void eWorldCity::changeSupply(const eResourceType res, const int by) {
+    for(auto& s : mSells) {
+        if(s.fType != res) continue;
+        s.fMax = std::clamp(s.fMax + by, 0, 100);
+    }
+}
+
 bool eWorldCity::sells(const eResourceType type) const {
     for(const auto& rt : mSells) {
         if(rt.fType == type) return true;

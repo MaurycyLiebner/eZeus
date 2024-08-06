@@ -606,6 +606,10 @@ public:
 
     bool wasHeroSummoned(const eHeroType hero) const;
     void heroSummoned(const eHeroType hero);
+
+    const std::map<eResourceType, int>& prices() const
+    { return mPrices; }
+    int price(const eResourceType type) const;
 private:
     void updateNeighbours();
 
@@ -641,6 +645,8 @@ private:
     eDifficulty mDifficulty{eDifficulty::beginner};
     eWageRate mWageRate{eWageRate::normal};
     eTaxRate mTaxRate{eTaxRate::normal};
+
+    std::map<eResourceType, int> mPrices;
 
     using eILB = eImmigrationLimitedBy;
     eILB mImmigrationLimit{eILB::lackOfVacancies};

@@ -1182,6 +1182,8 @@ void eInterfaceTextures::load() {
                              nullptr, fRenderer);
 
         fOrangesUnit = loader.load(114, 114);
+        fOrichalcUnit = loader.load(114, 115);
+        fBlackMarbleUnit = loader.load(114, 116);
         fChariotUnit = loader.load(114, 117);
     }
     {

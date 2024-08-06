@@ -202,19 +202,20 @@ void eTradePost::spawnTrader() {
 int eTradePost::buy(const int cash) {
     if(!trades()) return 0;
     int spent = 0;
+    auto& brd = getBoard();
     for(auto& b : mCity.buys()) {
         const auto expt = mExports & b.fType;
+        const int price = brd.price(b.fType);
         const bool exp = static_cast<bool>(expt);
         if(!exp) continue;
         if(b.fUsed >= b.fMax) continue;
-        if(b.fPrice > cash) continue;
+        if(price > cash) continue;
         const int c = count(b.fType);
         if(c <= 0) continue;
         take(b.fType, 1);
         b.fUsed++;
-        spent += b.fPrice;
+        spent += price;
     }
-    auto& brd = getBoard();
     brd.incDrachmas(spent);
     return spent;
 }
@@ -222,19 +223,20 @@ int eTradePost::buy(const int cash) {
 int eTradePost::sell(const int items) {
     if(!trades()) return 0;
     int earned = 0;
+    auto& brd = getBoard();
     for(auto& b : mCity.sells()) {
         const auto impt = mImports & b.fType;
         const bool imp = static_cast<bool>(impt);
+        const int price = brd.price(b.fType);
         if(!imp) continue;
         if(b.fUsed >= b.fMax) continue;
-        if(b.fPrice > items) continue;
+        if(price > items) continue;
         const int c = spaceLeftDontAccept(b.fType);
         if(c <= 0) continue;
         addNotAccept(b.fType, 1);
         b.fUsed++;
-        earned += b.fPrice;
+        earned += price;
     }
-    auto& brd = getBoard();
     brd.incDrachmas(-earned);
     return earned;
 }

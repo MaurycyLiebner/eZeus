@@ -988,6 +988,12 @@ void eGameBoard::heroSummoned(const eHeroType hero) {
     mSummonedHeroes.push_back(hero);
 }
 
+int eGameBoard::price(const eResourceType type) const {
+    const auto it = mPrices.find(type);
+    if(it == mPrices.end()) return 0;
+    return it->second;
+}
+
 void eGameBoard::updateMaxSoldiers() {
     mMaxRabble = 0;
     mMaxHoplites = 0;
@@ -2530,6 +2536,7 @@ void eGameBoard::startEpisode(eEpisode* const e,
     const auto& date = e->fStartDate;
     setDate(date);
     mDrachmas = e->fDrachmas;
+    mPrices = e->fPrices;
     const auto& es = e->fEvents;
     for(const auto& ee : es) {
         const auto eee = ee->makeCopy();

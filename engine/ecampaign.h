@@ -135,6 +135,8 @@ struct eEpisode {
     int fDrachmas = 2500;
     eDate fStartDate = eDate(1, eMonth::january, -1500);
 
+    std::map<eResourceType, int> fPrices;
+
     std::string fTitle;
     std::string fIntroduction;
     std::string fComplete;
@@ -262,6 +264,9 @@ public:
     void setAside(const eResourceType res, const int count,
                   const stdsptr<eWorldCity>& from);
 
+    std::map<eResourceType, int>& prices()
+    { return mPrices; }
+
     stdsptr<eWorldCity> lastPlayedColony() const;
 
     bool colonyEpisodeFinished(const int id) const;
@@ -281,6 +286,7 @@ private:
 
     int mDrachmas = 5000;
     eDate mDate = eDate(1, eMonth::january, -1500);
+    std::map<eResourceType, int> mPrices;
 
     eDifficulty mDifficulty{eDifficulty::hero};
 

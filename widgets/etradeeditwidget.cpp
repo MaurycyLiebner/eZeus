@@ -124,7 +124,6 @@ void eTradeEditWidget::updateVector() {
         rt.fMax = count;
         rt.fType = type;
         rt.fUsed = 0;
-        rt.fPrice = eResourceTypeHelpers::defaultPrice(type);
         mTrade->push_back(rt);
     }
 }

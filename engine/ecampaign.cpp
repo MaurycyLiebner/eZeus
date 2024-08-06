@@ -9,7 +9,11 @@
 #include "egamedir.h"
 
 eCampaign::eCampaign() {
-
+    const auto types = eResourceTypeHelpers::extractResourceTypes(
+                           eResourceType::allBasic);
+    for(const auto type : types) {
+        mPrices[type] = eResourceTypeHelpers::defaultPrice(type);
+    }
 }
 
 void eCampaign::initialize(const std::string& name) {
@@ -202,6 +206,9 @@ void eCampaign::read(eReadStream& src) {
     src >> mCurrentEpisodeType;
     src >> mDrachmas;
     mDate.read(src);
+    for(auto& p : mPrices) {
+        src >> p.second;
+    }
     src >> mDifficulty;
     mWorldBoard.read(src);
     mParentBoard = e::make_shared<eGameBoard>();
@@ -285,6 +292,9 @@ void eCampaign::write(eWriteStream& dst) const {
     dst << mCurrentEpisodeType;
     dst << mDrachmas;
     mDate.write(dst);
+    for(const auto& p : mPrices) {
+        dst << p.second;
+    }
     dst << mDifficulty;
     mWorldBoard.write(dst);
     mParentBoard->write(dst);
@@ -383,6 +393,7 @@ void eCampaign::startEpisode() {
     const auto e = currentEpisode();
     e->fDrachmas = mDrachmas;
     e->fStartDate = mDate;
+    e->fPrices = mPrices;
     const auto board = e->fBoard;
     const bool pcol = mPreviousEpisodeType == eEpisodeType::colony;
     const auto col = pcol ? lastPlayedColony() : nullptr;
@@ -405,6 +416,7 @@ void eCampaign::episodeFinished() {
     const auto board = e->fBoard;
     mDrachmas = board->drachmas();
     mDate = board->date();
+    mPrices = board->prices();
     mPreviousEpisodeType = mCurrentEpisodeType;
     const auto& gls = e->fGoals;
     for(const auto& g : gls) {

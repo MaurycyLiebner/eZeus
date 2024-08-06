@@ -90,20 +90,17 @@ struct eResourceTrade {
     eResourceType fType;
     int fUsed;
     int fMax;
-    int fPrice;
 
     void write(eWriteStream& dst) const {
         dst << fType;
         dst << fUsed;
         dst << fMax;
-        dst << fPrice;
     }
 
     void read(eReadStream& src) {
         src >> fType;
         src >> fUsed;
         src >> fMax;
-        src >> fPrice;
     }
 };
 
@@ -204,6 +201,9 @@ public:
     { return mBuys; }
     bool buys(const eResourceType type) const;
     void addBuys(const eResourceTrade& b);
+
+    void changeDemand(const eResourceType res, const int by);
+    void changeSupply(const eResourceType res, const int by);
 
     const std::vector<eResourceTrade>& sells() const
     { return mSells; }

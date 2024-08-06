@@ -2,7 +2,7 @@
 
 #include "textures/egametextures.h"
 #include "textures/einterfacetextures.h"
-
+#include "engine/egameboard.h"
 #include "elanguage.h"
 
 class eResourceStorageStack : public eWidget {
@@ -87,7 +87,8 @@ public:
             pi->fitContent();
 
             const auto p = new eLabel(window());
-            p->setText(std::to_string(trade.fPrice));
+            auto& board = stor->getBoard();
+            p->setText(std::to_string(board.price(trade.fType)));
             p->setSmallFontSize();
             p->setNoPadding();
             p->fitContent();

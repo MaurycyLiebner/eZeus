@@ -31,6 +31,10 @@ void eGameBoard::write(eWriteStream& dst) const {
     dst << mPeoplePaidTaxesLastYear;
     dst << mPeoplePaidTaxesThisYear;
 
+    for(const auto& p : mPrices) {
+        dst << p.second;
+    }
+
     mDate.write(dst);
     dst << mFrame;
     dst << mTime;

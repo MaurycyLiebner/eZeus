@@ -34,6 +34,10 @@ void eGameBoard::read(eReadStream& src) {
     src >> mPeoplePaidTaxesLastYear;
     src >> mPeoplePaidTaxesThisYear;
 
+    for(auto& p : mPrices) {
+        src >> p.second;
+    }
+
     mDate.read(src);
     src >> mFrame;
     src >> mTime;
