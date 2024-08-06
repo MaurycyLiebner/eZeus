@@ -2,12 +2,13 @@
 
 #include "textures/echaractertextures.h"
 #include "textures/egametextures.h"
+#include "enumbers.h"
 
 eAresWarrior::eAresWarrior(eGameBoard& board) :
     eSoldier(board, nullptr, eCharacterType::aresWarrior) {
     eGameTextures::loadAresWarrior();
-    setAttack(0.5);
-    setHP(500);
+    setAttack(eNumbers::sHopliteAttack);
+    setHP(eNumbers::sHopliteHP);
 }
 
 std::shared_ptr<eTexture>
