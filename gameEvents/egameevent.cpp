@@ -310,7 +310,7 @@ void eGameEvent::setWorldBoard(eWorldBoard* const b) {
 }
 
 void eGameEvent::startingNewEpisode() {
-    if(mEpisodeEvent) {
+    if(mEpisodeEvent && mType != eGameEventType::tradeOpensUp) {
         setRepeat(0);
     }
     for(const auto& c : mConsequences) {
