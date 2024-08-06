@@ -30,8 +30,9 @@ int eEmploymentData::employed() const {
 
 int eEmploymentData::pensions() const {
     const auto wageRate = mBoard.wageRate();
+    const auto wageMult = mBoard.wageMultiplier();
     const double frac = eWageRateHelpers::wageMultiplier(wageRate);
-    return frac*employed();
+    return wageMult*frac*employed();
 }
 
 int eEmploymentData::unemployed() const {

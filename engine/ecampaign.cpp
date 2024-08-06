@@ -393,6 +393,7 @@ void eCampaign::startEpisode() {
     const auto e = currentEpisode();
     e->fDrachmas = mDrachmas;
     e->fStartDate = mDate;
+    e->fWageMultiplier = mWageMultiplier;
     e->fPrices = mPrices;
     const auto board = e->fBoard;
     const bool pcol = mPreviousEpisodeType == eEpisodeType::colony;
@@ -416,6 +417,7 @@ void eCampaign::episodeFinished() {
     const auto board = e->fBoard;
     mDrachmas = board->drachmas();
     mDate = board->date();
+    mWageMultiplier = board->wageMultiplier();
     mPrices = board->prices();
     mPreviousEpisodeType = mCurrentEpisodeType;
     const auto& gls = e->fGoals;

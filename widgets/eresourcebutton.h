@@ -11,7 +11,8 @@ public:
 
     using eResourceAction = std::function<void(const eResourceType)>;
     void initialize(const eResourceAction& ract,
-                    const bool drachmas = false);
+                    const eResourceType res =
+                        eResourceType::allBasic);
 
     eResourceType resource() const { return mRes; }
     void setResource(const eResourceType res);

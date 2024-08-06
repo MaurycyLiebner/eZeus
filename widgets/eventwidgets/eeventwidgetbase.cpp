@@ -16,6 +16,9 @@
 #include "gameEvents/eearthquakeevent.h"
 #include "gameEvents/ecitybecomesevent.h"
 #include "gameEvents/ebasiccityevent.h"
+#include "gameEvents/esupplydemandchangeevent.h"
+#include "gameEvents/epricechangeevent.h"
+#include "gameEvents/ewagechangeevent.h"
 
 #include "egodattackeventwidget.h"
 #include "emonsterattackeventwidget.h"
@@ -30,6 +33,9 @@
 #include "eeartquakeeventwidget.h"
 #include "ecitybecomeseventwidget.h"
 #include "ebasiccityeventwidget.h"
+#include "esupplydemandchangeeventwidget.h"
+#include "epricechangeeventwidget.h"
+#include "ewagechangeeventwidget.h"
 
 void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
     setType(eFrameType::message);
@@ -122,6 +128,25 @@ void eEventWidgetBase::initialize(const stdsptr<eGameEvent>& e) {
     case eGameEventType::tradeOpensUp: {
         const auto eew = new eBasicCityEventWidget(window());
         const auto ee = static_cast<eBasicCityEvent*>(e.get());
+        eew->initialize(ee);
+        cont->addWidget(eew);
+    } break;
+    case eGameEventType::supplyChange:
+    case eGameEventType::demandChange: {
+        const auto eew = new eSupplyDemandChangeEventWidget(window());
+        const auto ee = static_cast<eSupplyDemandChangeEvent*>(e.get());
+        eew->initialize(ee);
+        cont->addWidget(eew);
+    } break;
+    case eGameEventType::priceChange: {
+        const auto eew = new ePriceChangeEventWidget(window());
+        const auto ee = static_cast<ePriceChangeEvent*>(e.get());
+        eew->initialize(ee);
+        cont->addWidget(eew);
+    } break;
+    case eGameEventType::wageChange: {
+        const auto eew = new eWageChangeEventWidget(window());
+        const auto ee = static_cast<eWageChangeEvent*>(e.get());
         eew->initialize(ee);
         cont->addWidget(eew);
     } break;

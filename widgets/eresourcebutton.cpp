@@ -4,34 +4,10 @@
 #include "emainwindow.h"
 
 void eResourceButton::initialize(const eResourceAction& ract,
-                                 const bool drachmas) {
-    setPressAction([this, ract, drachmas]() {
-        std::vector<eResourceType> resources {
-            eResourceType::urchin,
-            eResourceType::fish,
-            eResourceType::meat,
-            eResourceType::cheese,
-            eResourceType::carrots,
-            eResourceType::onions,
-            eResourceType::wheat,
-            eResourceType::oranges,
+                                 const eResourceType res) {
+    setPressAction([this, ract, res]() {
+        const auto resources = eResourceTypeHelpers::extractResourceTypes(res);
 
-            eResourceType::grapes,
-            eResourceType::olives,
-            eResourceType::wine,
-            eResourceType::oliveOil,
-            eResourceType::fleece,
-
-            eResourceType::wood,
-            eResourceType::bronze,
-            eResourceType::marble,
-
-            eResourceType::armor,
-            eResourceType::sculpture
-        };
-        if(drachmas) {
-            resources.push_back(eResourceType::drachmas);
-        }
         std::vector<std::string> resourceNames;
         for(const auto res : resources) {
             const auto str = eResourceTypeHelpers::typeName(res);

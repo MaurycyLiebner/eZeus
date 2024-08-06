@@ -633,6 +633,38 @@ void eGameWidget::handleEvent(const eEvent e, eEventData& ed) {
         showMessage(ed, inst.fTradeOpensUp, true);
         return;
     } break;
+    case eEvent::supplyIncrease: {
+        showMessage(ed, inst.fSupplyIncrease, true);
+        return;
+    } break;
+    case eEvent::supplyDecrease: {
+        showMessage(ed, inst.fSupplyDecrease, true);
+        return;
+    } break;
+    case eEvent::demandIncrease: {
+        showMessage(ed, inst.fDemandIncrease, true);
+        return;
+    } break;
+    case eEvent::demandDecrease: {
+        showMessage(ed, inst.fDemandDecrease, true);
+        return;
+    } break;
+    case eEvent::priceIncrease: {
+        showMessage(ed, inst.fPriceIncrease, true);
+        return;
+    } break;
+    case eEvent::priceDecrease: {
+        showMessage(ed, inst.fPriceDecrease, true);
+        return;
+    } break;
+    case eEvent::wageIncrease: {
+        showMessage(ed, inst.fWageIncrease, true);
+        return;
+    } break;
+    case eEvent::wageDecrease: {
+        showMessage(ed, inst.fWageDecrease, true);
+        return;
+    } break;
     case eEvent::economicProsperity: {
         showMessage(ed, inst.fEconomicProsperity, true);
         return;

@@ -186,7 +186,16 @@ enum class eEvent {
     colonyMonument,
 
     tradeShutdowns,
-    tradeOpensUp
+    tradeOpensUp,
+
+    supplyIncrease,
+    supplyDecrease,
+    demandIncrease,
+    demandDecrease,
+    priceIncrease,
+    priceDecrease,
+    wageIncrease,
+    wageDecrease
 };
 
 #endif // EEVENT_H

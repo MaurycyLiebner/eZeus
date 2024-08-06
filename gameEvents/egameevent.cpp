@@ -32,6 +32,10 @@
 #include "ecitybecomesevent.h"
 #include "etradeshutdownevent.h"
 #include "etradeopenupevent.h"
+#include "esupplychangeevent.h"
+#include "edemandchangeevent.h"
+#include "epricechangeevent.h"
+#include "ewagechangeevent.h"
 
 eGameEvent::eGameEvent(const eGameEventType type,
                        const eGameEventBranch branch) :
@@ -138,6 +142,16 @@ stdsptr<eGameEvent> eGameEvent::sCreate(const eGameEventType type,
         return e::make_shared<eTradeShutDownEvent>(branch);
     case eGameEventType::tradeOpensUp:
         return e::make_shared<eTradeOpenUpEvent>(branch);
+
+    case eGameEventType::supplyChange:
+        return e::make_shared<eSupplyChangeEvent>(branch);
+    case eGameEventType::demandChange:
+        return e::make_shared<eDemandChangeEvent>(branch);
+
+    case eGameEventType::priceChange:
+        return e::make_shared<ePriceChangeEvent>(branch);
+    case eGameEventType::wageChange:
+        return e::make_shared<eWageChangeEvent>(branch);
     }
     return nullptr;
 }
@@ -310,7 +324,12 @@ void eGameEvent::setWorldBoard(eWorldBoard* const b) {
 }
 
 void eGameEvent::startingNewEpisode() {
-    if(mEpisodeEvent && mType != eGameEventType::tradeOpensUp) {
+    const bool keepType = mType == eGameEventType::tradeOpensUp ||
+                          mType == eGameEventType::supplyChange ||
+                          mType == eGameEventType::demandChange ||
+                          mType == eGameEventType::priceChange ||
+                          mType == eGameEventType::wageChange;
+    if(mEpisodeEvent && !keepType) {
         setRepeat(0);
     }
     for(const auto& c : mConsequences) {

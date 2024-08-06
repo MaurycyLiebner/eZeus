@@ -28,6 +28,7 @@ void eGameBoard::read(eReadStream& src) {
     src >> mDrachmas;
     src >> mDifficulty;
     src >> mWageRate;
+    src >> mWageMultiplier;
     src >> mTaxRate;
     src >> mTaxesPaidLastYear;
     src >> mTaxesPaidThisYear;

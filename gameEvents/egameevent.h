@@ -50,7 +50,14 @@ enum class eGameEventType {
     cityBecomes,
 
     tradeShutdowns,
-    tradeOpensUp
+    tradeOpensUp,
+
+    supplyChange,
+    demandChange,
+
+    priceChange,
+
+    wageChange
 };
 
 enum class eGameEventBranch {

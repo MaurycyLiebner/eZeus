@@ -42,7 +42,7 @@ public:
             innerWidget->fitContent();
             resize(innerWidget->x() + innerWidget->width() + p,
                    innerWidget->y() + innerWidget->height() + p);
-        }, true);
+        }, eResourceType::allBasic & eResourceType::drachmas);
         resButton->setResource(rec ? c->recTributeType() : c->tributeType());
         innerWidget->addWidget(resButton);
 

@@ -65,6 +65,13 @@ trade_shutdown_long_name "Trade with %1 shuts down"
 trade_shutdown_short_name "Trade shuts down"
 trade_openup_long_name "Trade with %1 opens up"
 trade_openup_short_name "Trade opens up"
+supply_change_long_name "Supply from %1 changed"
+supply_change_short_name "Supply change"
+demand_change_long_name "Demand from %1 changed"
+demand_change_short_name "Demand change"
+price_change_long_name "%1 price change"
+price_change_short_name "Price change"
+wage_change "Wage change"
 
 city "City"
 ally "ally"
@@ -112,6 +119,7 @@ change_by: "Change by:"
 
 resource_type: "Resource type:"
 resource: "Resource:"
+percent: "Percent:"
 
 duration: "Duration:"
 

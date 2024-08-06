@@ -16,6 +16,7 @@ bool extractResourceType(const eResourceType from,
 
 std::vector<eResourceType> eResourceTypeHelpers::extractResourceTypes(const eResourceType from) {
     std::vector<eResourceType> result;
+    extractResourceType(from, eResourceType::drachmas, result);
     extractResourceType(from, eResourceType::silver, result);
     extractResourceType(from, eResourceType::urchin, result);
     extractResourceType(from, eResourceType::fish, result);

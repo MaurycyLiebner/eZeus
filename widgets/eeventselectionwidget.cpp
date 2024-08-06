@@ -70,7 +70,11 @@ void eEventSelectionWidget::initialize(
             eGameEventType::earthquake,
             eGameEventType::cityBecomes,
             eGameEventType::tradeShutdowns,
-            eGameEventType::tradeOpensUp
+            eGameEventType::tradeOpensUp,
+            eGameEventType::supplyChange,
+            eGameEventType::demandChange,
+            eGameEventType::priceChange,
+            eGameEventType::wageChange
         };
         const std::vector<std::string> labels = {
 //            eLanguage::text("god_visit"),
@@ -92,7 +96,11 @@ void eEventSelectionWidget::initialize(
             eLanguage::text("earthquake_long_name"),
             eLanguage::text("city_becomes"),
             eLanguage::text("trade_shutdown_short_name"),
-            eLanguage::text("trade_openup_short_name")
+            eLanguage::text("trade_openup_short_name"),
+            eLanguage::text("supply_change_short_name"),
+            eLanguage::text("demand_change_short_name"),
+            eLanguage::text("price_change_short_name"),
+            eLanguage::text("wage_change")
         };
         const auto echoose = new eChooseButton(window());
         const auto act = [this, add, types, labels, editEvent](const int val) {
@@ -110,7 +118,7 @@ void eEventSelectionWidget::initialize(
                 addButton(e->longDatedName());
             }
         };
-        echoose->initialize(8, labels, act);
+        echoose->initialize(10, labels, act);
 
         window()->execDialog(echoose);
         echoose->align(eAlignment::center);

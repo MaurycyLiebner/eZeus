@@ -994,6 +994,15 @@ int eGameBoard::price(const eResourceType type) const {
     return it->second;
 }
 
+void eGameBoard::incPrice(const eResourceType type, const int by) {
+    mPrices[type] += by;
+}
+
+void eGameBoard::changeWage(const int per) {
+    const double mult = 1 + per/100.;
+    mWageMultiplier *= mult;
+}
+
 void eGameBoard::updateMaxSoldiers() {
     mMaxRabble = 0;
     mMaxHoplites = 0;
@@ -2536,6 +2545,7 @@ void eGameBoard::startEpisode(eEpisode* const e,
     const auto& date = e->fStartDate;
     setDate(date);
     mDrachmas = e->fDrachmas;
+    mWageMultiplier = e->fWageMultiplier;
     mPrices = e->fPrices;
     const auto& es = e->fEvents;
     for(const auto& ee : es) {

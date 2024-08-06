@@ -134,7 +134,7 @@ struct eEpisode {
 
     int fDrachmas = 2500;
     eDate fStartDate = eDate(1, eMonth::january, -1500);
-
+    double fWageMultiplier = 1.;
     std::map<eResourceType, int> fPrices;
 
     std::string fTitle;
@@ -286,6 +286,7 @@ private:
 
     int mDrachmas = 5000;
     eDate mDate = eDate(1, eMonth::january, -1500);
+    double mWageMultiplier = 1.;
     std::map<eResourceType, int> mPrices;
 
     eDifficulty mDifficulty{eDifficulty::hero};

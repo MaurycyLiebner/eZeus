@@ -282,6 +282,8 @@ public:
     eTaxRate taxRate() const { return mTaxRate; }
     eWageRate wageRate() const { return mWageRate; }
 
+    double wageMultiplier() const { return mWageMultiplier; }
+
     void setTaxRate(const eTaxRate tr);
     void setWageRate(const eWageRate wr);
 
@@ -610,6 +612,9 @@ public:
     const std::map<eResourceType, int>& prices() const
     { return mPrices; }
     int price(const eResourceType type) const;
+    void incPrice(const eResourceType type, const int by);
+
+    void changeWage(const int per);
 private:
     void updateNeighbours();
 
@@ -641,6 +646,7 @@ private:
     eAction mAutosaver;
 
     int mDrachmas = 2500;
+    double mWageMultiplier = 1.;
     eDate mInDebtSince;
     eDifficulty mDifficulty{eDifficulty::beginner};
     eWageRate mWageRate{eWageRate::normal};

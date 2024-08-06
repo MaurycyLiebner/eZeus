@@ -200,7 +200,7 @@ void eEpisodeGoalWidget::initialize(const stdsptr<eEpisodeGoal>& e,
                               const eResourceType r) {
             e->fEnumInt1 = static_cast<int>(r);
             updateText();
-        }, false);
+        });
         auto res = static_cast<eResourceType>(e->fEnumInt1);
         if(res == eResourceType::none) {
             res = eResourceType::marble;

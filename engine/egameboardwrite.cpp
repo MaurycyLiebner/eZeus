@@ -25,6 +25,7 @@ void eGameBoard::write(eWriteStream& dst) const {
     dst << mDrachmas;
     dst << mDifficulty;
     dst << mWageRate;
+    dst << mWageMultiplier;
     dst << mTaxRate;
     dst << mTaxesPaidLastYear;
     dst << mTaxesPaidThisYear;

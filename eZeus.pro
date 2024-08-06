@@ -401,6 +401,7 @@ SOURCES += \
         gameEvents/earmyreturnevent.cpp \
         gameEvents/ebasiccityevent.cpp \
         gameEvents/ecitybecomesevent.cpp \
+        gameEvents/edemandchangeevent.cpp \
         gameEvents/eearthquakeevent.cpp \
         gameEvents/eeconomicchangeevent.cpp \
         gameEvents/eeconomicmilitarychangeeventbase.cpp \
@@ -426,16 +427,20 @@ SOURCES += \
         gameEvents/eplayerconquestevent.cpp \
         gameEvents/eplayerconquesteventbase.cpp \
         gameEvents/eplayerraidevent.cpp \
+        gameEvents/epricechangeevent.cpp \
         gameEvents/eraidresourceevent.cpp \
         gameEvents/ereceiverequestevent.cpp \
         gameEvents/erequestaidevent.cpp \
         gameEvents/erequeststrikeevent.cpp \
         gameEvents/eresourcegrantedeventbase.cpp \
         gameEvents/erivalarmyawayevent.cpp \
+        gameEvents/esupplychangeevent.cpp \
+        gameEvents/esupplydemandchangeevent.cpp \
         gameEvents/etradeopenupevent.cpp \
         gameEvents/etradeshutdownevent.cpp \
         gameEvents/etroopsrequestevent.cpp \
         gameEvents/etroopsrequestfulfilledevent.cpp \
+        gameEvents/ewagechangeevent.cpp \
         main.cpp \
         missiles/earrowmissile.cpp \
         missiles/earrowspearbase.cpp \
@@ -621,9 +626,12 @@ SOURCES += \
         widgets/eventwidgets/egodquesteventwidget.cpp \
         widgets/eventwidgets/einvasioneventwidget.cpp \
         widgets/eventwidgets/emonsterattackeventwidget.cpp \
+        widgets/eventwidgets/epricechangeeventwidget.cpp \
         widgets/eventwidgets/ereceiverequesteventwidget.cpp \
         widgets/eventwidgets/erivalarmyawayeventwidget.cpp \
+        widgets/eventwidgets/esupplydemandchangeeventwidget.cpp \
         widgets/eventwidgets/etroopsrequesteventwidget.cpp \
+        widgets/eventwidgets/ewagechangeeventwidget.cpp \
         widgets/eviewmode.cpp \
         widgets/ewidget.cpp \
         widgets/eworkforceallocationwidget.cpp \
@@ -1018,6 +1026,7 @@ HEADERS += \
     gameEvents/earmyreturnevent.h \
     gameEvents/ebasiccityevent.h \
     gameEvents/ecitybecomesevent.h \
+    gameEvents/edemandchangeevent.h \
     gameEvents/eearthquakeevent.h \
     gameEvents/eeconomicchangeevent.h \
     gameEvents/eeconomicmilitarychangeeventbase.h \
@@ -1043,16 +1052,20 @@ HEADERS += \
     gameEvents/eplayerconquestevent.h \
     gameEvents/eplayerconquesteventbase.h \
     gameEvents/eplayerraidevent.h \
+    gameEvents/epricechangeevent.h \
     gameEvents/eraidresourceevent.h \
     gameEvents/ereceiverequestevent.h \
     gameEvents/erequestaidevent.h \
     gameEvents/erequeststrikeevent.h \
     gameEvents/eresourcegrantedeventbase.h \
     gameEvents/erivalarmyawayevent.h \
+    gameEvents/esupplychangeevent.h \
+    gameEvents/esupplydemandchangeevent.h \
     gameEvents/etradeopenupevent.h \
     gameEvents/etradeshutdownevent.h \
     gameEvents/etroopsrequestevent.h \
     gameEvents/etroopsrequestfulfilledevent.h \
+    gameEvents/ewagechangeevent.h \
     missiles/earrowmissile.h \
     missiles/earrowspearbase.h \
     missiles/egodmissile.h \
@@ -2613,9 +2626,12 @@ HEADERS += \
     widgets/eventwidgets/egodquesteventwidget.h \
     widgets/eventwidgets/einvasioneventwidget.h \
     widgets/eventwidgets/emonsterattackeventwidget.h \
+    widgets/eventwidgets/epricechangeeventwidget.h \
     widgets/eventwidgets/ereceiverequesteventwidget.h \
     widgets/eventwidgets/erivalarmyawayeventwidget.h \
+    widgets/eventwidgets/esupplydemandchangeeventwidget.h \
     widgets/eventwidgets/etroopsrequesteventwidget.h \
+    widgets/eventwidgets/ewagechangeeventwidget.h \
     widgets/eviewmode.h \
     widgets/ewidget.h \
     widgets/eworkforceallocationwidget.h \
