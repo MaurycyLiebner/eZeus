@@ -551,7 +551,14 @@ int eMainWindow::exec() {
                 mQuit = true;
             } else if(e.type == SDL_WINDOWEVENT) {
                 const auto we = e.window.event;
-                if(we == SDL_WINDOWEVENT_EXPOSED) {
+                if(we == SDL_WINDOWEVENT_MINIMIZED) {
+                    resetRenderTargets = true;
+                    while(SDL_WaitEvent(&e)) {
+                        if(e.window.event == SDL_WINDOWEVENT_RESTORED) {
+                            break;
+                        }
+                    }
+                } else if(we == SDL_WINDOWEVENT_EXPOSED) {
                     resetRenderTargets = true;
                 }
             } else if(e.type == SDL_RENDER_TARGETS_RESET ||

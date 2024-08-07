@@ -163,7 +163,11 @@ void eMiniMap::updateTexture() {
     mTexture = std::make_shared<eTexture>();
     const int w = mBoard->rotatedWidth()*mTDim;
     const int h = mBoard->rotatedHeight()*mTDim/2;
-    mTexture->create(rend, w, h);
+    const bool v = mTexture->create(rend, w, h);
+    if(!v) {
+        mTexture.reset();
+        return;
+    }
     mTexture->setAsRenderTarget(rend);
     SDL_SetRenderDrawColor(rend, 0, 0, 0, 0);
     SDL_RenderClear(rend);

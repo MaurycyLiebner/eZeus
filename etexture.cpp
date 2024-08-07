@@ -20,6 +20,7 @@ bool eTexture::create(SDL_Renderer* const r,
     reset();
     mTex = SDL_CreateTexture(r, SDL_PIXELFORMAT_RGBA8888,
                              SDL_TEXTUREACCESS_TARGET, width, height);
+    if(!mTex) return false;
     SDL_SetTextureBlendMode(mTex, SDL_BLENDMODE_BLEND);
     mWidth = width;
     mHeight = height;

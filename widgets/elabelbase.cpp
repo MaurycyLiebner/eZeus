@@ -99,7 +99,12 @@ bool eLabelBase::updateTextTexture() {
     if(!mFont) return false;
     mTexture = std::make_shared<eTexture>();
     const auto r = mWindow->renderer();
-    mTexture->loadText(r, mText, mFontColor, *mFont, mWidth, mWrapAlign);
+    const bool v = mTexture->loadText(r, mText, mFontColor, *mFont,
+                                      mWidth, mWrapAlign);
+    if(!v) {
+        mTexture.reset();
+        mUpdateTextTextureFailed = true;
+    }
     return true;
 }
 
@@ -119,4 +124,12 @@ void eLabelBase::textureSize(int& w, int& h) const {
         w = mTexture->width();
         h = mTexture->height();
     }
+}
+
+const std::shared_ptr<eTexture>& eLabelBase::texture() {
+    if(mUpdateTextTextureFailed) {
+        mUpdateTextTextureFailed = false;
+        updateTextTexture();
+    }
+    return mTexture;
 }

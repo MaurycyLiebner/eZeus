@@ -39,7 +39,7 @@ public:
 
     void textureSize(int& w, int& h) const;
 protected:
-    const std::shared_ptr<eTexture>& texture() { return mTexture; }
+    const std::shared_ptr<eTexture>& texture();
     bool setFont(TTF_Font* const font);
     bool updateTexture();
 private:
@@ -51,6 +51,7 @@ private:
     TTF_Font* mFont = nullptr;
     std::string mText;
     std::shared_ptr<eTexture> mTexture;
+    bool mUpdateTextTextureFailed = false;
     eFontColor mFontColor = eFontColor::light;
     eAlignment mTextAlign = eAlignment::center;
     eAlignment mWrapAlign = eAlignment::left;
