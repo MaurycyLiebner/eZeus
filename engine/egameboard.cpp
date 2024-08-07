@@ -2239,7 +2239,7 @@ void eGameBoard::incTime(const int by) {
         m->incTime(by);
     }
 
-    const int goalsCheckWait = 15050;
+    const int goalsCheckWait = 5050;
     mGoalsCheckTime += by;
     if(mGoalsCheckTime > goalsCheckWait) {
         mGoalsCheckTime -= goalsCheckWait;
