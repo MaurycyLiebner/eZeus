@@ -539,6 +539,7 @@ int eMainWindow::exec() {
 
     int c = 0;
     int fpsVal = 0;
+    bool resetRenderTargets = false;
     while(!mQuit) {
         const auto fpsStart = high_resolution_clock::now();
 
@@ -551,11 +552,11 @@ int eMainWindow::exec() {
             } else if(e.type == SDL_WINDOWEVENT) {
                 const auto we = e.window.event;
                 if(we == SDL_WINDOWEVENT_EXPOSED) {
-                    if(mWidget) mWidget->renderTargetsReset();
+                    resetRenderTargets = true;
                 }
             } else if(e.type == SDL_RENDER_TARGETS_RESET ||
                       e.type == SDL_RENDER_DEVICE_RESET) {
-                if(mWidget) mWidget->renderTargetsReset();
+                resetRenderTargets = true;
             } else if(e.type == SDL_MOUSEMOTION) {
                 const eMouseEvent me(x, y, shift, buttons, button);
                 if(mWidget) mWidget->mouseMove(me);
@@ -610,6 +611,11 @@ int eMainWindow::exec() {
                     mShiftPressed--;
                 }
             }
+        }
+
+        if(resetRenderTargets) {
+            resetRenderTargets = false;
+            if(mWidget) mWidget->renderTargetsReset();
         }
 
         SDL_SetRenderDrawColor(mSdlRenderer, 0x0, 0x0, 0x0, 0xFF);
