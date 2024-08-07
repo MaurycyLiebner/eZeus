@@ -311,6 +311,7 @@ void eNumbers::sLoad() {
     loadD("house_leave_risk_period_multiplier_d", sHouseLeaveRiskPeriodMultiplier, 10);
     loadD("house_leave_risk_period_base_increment_d", sHouseLeaveRiskPeriodBaseIncrement, 10);
     loadD("house_leave_risk_period_exponent_d", sHouseLeaveRiskPeriodExponent, 3);
+    loadI("house_satisfaction_update_period_i", sHouseSatisfactionUpdatePeriod, 7500);
     loadI("house_disgruntled_spawn_period_i", sHouseDisgruntledSpawnPeriod, 10000);
     loadI("house_sick_spawn_period_i", sHouseSickSpawnPeriod, 10000);
 
