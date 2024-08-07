@@ -1862,6 +1862,7 @@ bool eGameWidget::mouseWheelEvent(const eMouseWheelEvent& e) {
 }
 
 void eGameWidget::renderTargetsReset() {
+    eWidget::renderTargetsReset();
     initializeNumbers();
 }
 
