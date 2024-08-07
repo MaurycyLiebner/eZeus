@@ -2115,8 +2115,6 @@ void eGameBoard::incTime(const int by) {
         mTaxesPaidThisYear = 0;
         mPeoplePaidTaxesLastYear = mPeoplePaidTaxesThisYear;
         mPeoplePaidTaxesThisYear = 0;
-        const int d = mEmplData.pensions();
-        incDrachmas(-d);
 
         for(const auto& c : mDefeatedBy) {
             if(!c->isRival()) continue;
@@ -2133,6 +2131,8 @@ void eGameBoard::incTime(const int by) {
         }
     }
     if(nextMonth) {
+        const int d = std::ceil(mEmplData.pensions()/12.);
+        incDrachmas(-d);
         {
             int nTot = 0;
             int nCalled = 0;
