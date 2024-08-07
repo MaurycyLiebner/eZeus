@@ -70,3 +70,8 @@ void eScrollWidget::clampDY() {
         mDy = 0;
     }
 }
+
+void eScrollWidget::renderTargetsReset() {
+    eWidget::renderTargetsReset();
+    if(mScrollArea) mScrollArea->renderTargetsReset();
+}

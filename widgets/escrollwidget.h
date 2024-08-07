@@ -14,6 +14,8 @@ public:
     void scrollDown();
     void scrollToTheTop();
     void clampDY();
+
+    void renderTargetsReset() override;
 protected:
     void paintEvent(ePainter& p) override;
 
