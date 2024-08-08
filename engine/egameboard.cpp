@@ -81,6 +81,11 @@ eGameBoard::eGameBoard() :
     mHusbData(mPopData, *this),
     mEmplData(mPopData, *this),
     mEmplDistributor(mEmplData) {
+    const auto types = eResourceTypeHelpers::extractResourceTypes(
+                           eResourceType::allBasic);
+    for(const auto type : types) {
+        mPrices[type] = eResourceTypeHelpers::defaultPrice(type);
+    }
     mSupportedResources = eResourceType::allBasic;
 }
 
