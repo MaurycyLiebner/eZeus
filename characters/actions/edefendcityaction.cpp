@@ -8,11 +8,16 @@
 #include "vec2.h"
 #include "characters/esoldier.h"
 #include "characters/actions/esoldieraction.h"
+#include "enumbers.h"
 
 eDefendCityAction::eDefendCityAction(eCharacter* const c) :
     eGodMonsterAction(c, eCharActionType::defendCityAction) {
     const auto ctype = c->type();
-    if(ctype == eCharacterType::talos) mMaxKilled = 16;
+    if(ctype == eCharacterType::talos) {
+        mMaxKilled = eNumbers::sDefendCityTalosMaxKilled;
+    } else {
+        mMaxKilled = eNumbers::sDefendCityMaxKilled;
+    }
 }
 
 bool eDefendCityAction::decide() {

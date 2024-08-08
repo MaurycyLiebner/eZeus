@@ -192,6 +192,9 @@ int eNumbers::sWatchmanHP;
 double eNumbers::sWatchmanAttack;
 int eNumbers::sWatchmanSatisfactionProvide;
 
+int eNumbers::sDefendCityMaxKilled;
+int eNumbers::sDefendCityTalosMaxKilled;
+
 void eNumbers::sLoad() {
     const auto path = eGameDir::numbersPath();
     std::map<std::string, std::string> map;
@@ -428,4 +431,7 @@ void eNumbers::sLoad() {
     loadI("watchman_hp_i", sWatchmanHP, 200);
     loadD("watchman_attack_d", sWatchmanAttack, 0.5);
     loadI("watchman_satisfaction_provide_i", sWatchmanSatisfactionProvide, 25);
+
+    loadI("defend_city_max_killed_i", sDefendCityMaxKilled, 6);
+    loadI("defend_city_talos_max_killed_i", sDefendCityTalosMaxKilled, 16);
 }

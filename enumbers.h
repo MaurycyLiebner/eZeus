@@ -189,6 +189,9 @@ struct eNumbers {
     static int sWatchmanHP;
     static double sWatchmanAttack;
     static int sWatchmanSatisfactionProvide;
+
+    static int sDefendCityMaxKilled;
+    static int sDefendCityTalosMaxKilled;
 };
 
 #endif // ENUMBERS_H
