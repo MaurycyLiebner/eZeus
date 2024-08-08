@@ -15,7 +15,7 @@ public:
     virtual void initialize();
 
     void setGameWidget(eGameWidget* const gw);
-    void shown();
+    virtual void shown();
 protected:
     virtual void openMoreInfoWiget() {}
 

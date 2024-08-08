@@ -21,6 +21,7 @@
 #include "evectorhelpers.h"
 #include "etilehelper.h"
 #include "emainwindow.h"
+#include "eminimap.h"
 
 bool sDontDrawAppeal(const eTerrain terr) {
     return terr == eTerrain::stones ||
@@ -187,6 +188,8 @@ void eGameWidget::setArmyMenuVisible(const bool v) {
     if(v) {
         mGm->show();
         mTem->hide();
+        const auto map = mAm->miniMap();
+        map->scheduleUpdate();
     } else {
         mTem->setVisible(mEditorMode);
         mGm->setVisible(!mEditorMode);

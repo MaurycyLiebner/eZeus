@@ -12,6 +12,7 @@
 #include "gameEvents/ereceiverequestevent.h"
 #include "gameEvents/etroopsrequestevent.h"
 #include "widgets/elinewidget.h"
+#include "widgets/eminimap.h"
 
 class eOverviewEntry : public eWidget {
 public:
@@ -128,6 +129,11 @@ void eOverviewDataWidget::initialize() {
     inner->stackVertically();
 
     updateRequestButtons();
+}
+
+void eOverviewDataWidget::shown() {
+    eDataWidget::show();
+    if(mMap) mMap->scheduleUpdate();
 }
 
 stdsptr<eTexture> sGodIcon(const eUIScale scale,
@@ -292,6 +298,10 @@ void eOverviewDataWidget::updateRequestButtons() {
     addCityRequests();
     mQuestButtons->stackVertically();
     mQuestButtons->fitHeight();
+}
+
+void eOverviewDataWidget::setMap(eMiniMap* const map) {
+    mMap = map;
 }
 
 void eOverviewDataWidget::paintEvent(ePainter& p) {

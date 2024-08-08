@@ -6,6 +6,7 @@
 class eGameWidget;
 class eViewModeButton;
 class eOverviewEntry;
+class eMiniMap;
 
 class eOverviewDataWidget : public eDataWidget {
 public:
@@ -13,7 +14,10 @@ public:
 
     void initialize() override;
 
+    void shown() override;
+
     void updateRequestButtons();
+    void setMap(eMiniMap* const map);
 protected:
     void paintEvent(ePainter& p) override;
 private:
@@ -31,6 +35,8 @@ private:
     eOverviewEntry* mHygiene = nullptr;
     eOverviewEntry* mUnrest = nullptr;
     eOverviewEntry* mFinances = nullptr;
+
+    eMiniMap* mMap = nullptr;
 };
 
 #endif // EOVERVIEWDATAWIDGET_H
