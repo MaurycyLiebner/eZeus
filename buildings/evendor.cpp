@@ -4,6 +4,7 @@
 #include "characters/ecarttransporter.h"
 #include "textures/egametextures.h"
 #include "buildings/eagorabase.h"
+#include "enumbers.h"
 
 #include <algorithm>
 
@@ -136,7 +137,11 @@ void eVendor::timeChanged(const int by) {
             case eResourceType::oliveOil:
             case eResourceType::wine:
             case eResourceType::armor:
-                mCart->setMaxDistance(40);
+                mCart->setMaxDistance(eNumbers::sBasicVendorMaxResourceTakeDistance);
+                break;
+            case eResourceType::horse:
+            case eResourceType::chariot:
+                mCart->setMaxDistance(eNumbers::sHorseVendorMaxResourceTakeDistance);
                 break;
             default:
                 break;

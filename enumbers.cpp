@@ -195,6 +195,12 @@ int eNumbers::sWatchmanSatisfactionProvide;
 int eNumbers::sDefendCityMaxKilled;
 int eNumbers::sDefendCityTalosMaxKilled;
 
+int eNumbers::sBasicVendorMaxResourceTakeDistance;
+int eNumbers::sHorseVendorMaxResourceTakeDistance;
+int eNumbers::sResourceBuildingMaxResourceGiveDistance;
+int eNumbers::sProcessingBuildingMaxResourceTakeDistance;
+int eNumbers::sTriremeWharfMaxResourceTakeDistance;
+
 void eNumbers::sLoad() {
     const auto path = eGameDir::numbersPath();
     std::map<std::string, std::string> map;
@@ -434,4 +440,11 @@ void eNumbers::sLoad() {
 
     loadI("defend_city_max_killed_i", sDefendCityMaxKilled, 6);
     loadI("defend_city_talos_max_killed_i", sDefendCityTalosMaxKilled, 16);
+
+    loadI("basic_vendor_max_resource_take_distance_i", sBasicVendorMaxResourceTakeDistance, 60);
+    loadI("horse_vendor_max_resource_take_distance_i", sHorseVendorMaxResourceTakeDistance, 200);
+
+    loadI("resource_building_max_resource_give_distance_i", sResourceBuildingMaxResourceGiveDistance, 60);
+    loadI("processing_building_max_resource_take_distance_i", sProcessingBuildingMaxResourceTakeDistance, 60);
+    loadI("trireme_wharf_max_resource_take_distance_i", sTriremeWharfMaxResourceTakeDistance, 60);
 }

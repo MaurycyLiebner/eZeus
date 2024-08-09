@@ -4,6 +4,7 @@
 #include "characters/actions/ecarttransporteraction.h"
 #include "textures/egametextures.h"
 #include "engine/egameboard.h"
+#include "enumbers.h"
 
 eTriremeWharf::eTriremeWharf(eGameBoard& board, const eOrientation o) :
     eEmployingBuilding(board, eBuildingType::triremeWharf,
@@ -56,7 +57,7 @@ void eTriremeWharf::timeChanged(const int by) {
     if(enabled()) {
         if(!mTakeCart) {
             mTakeCart = spawnCart(eCartActionTypeSupport::take);
-            mTakeCart->setMaxDistance(60);
+            mTakeCart->setMaxDistance(eNumbers::sTriremeWharfMaxResourceTakeDistance);
         }
     }
     eEmployingBuilding::timeChanged(by);

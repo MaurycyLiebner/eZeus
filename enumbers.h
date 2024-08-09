@@ -192,6 +192,12 @@ struct eNumbers {
 
     static int sDefendCityMaxKilled;
     static int sDefendCityTalosMaxKilled;
+
+    static int sBasicVendorMaxResourceTakeDistance;
+    static int sHorseVendorMaxResourceTakeDistance;
+    static int sResourceBuildingMaxResourceGiveDistance;
+    static int sProcessingBuildingMaxResourceTakeDistance;
+    static int sTriremeWharfMaxResourceTakeDistance;
 };
 
 #endif // ENUMBERS_H

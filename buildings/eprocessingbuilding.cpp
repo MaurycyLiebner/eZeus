@@ -2,6 +2,7 @@
 
 #include "characters/actions/ecarttransporteraction.h"
 #include "textures/egametextures.h"
+#include "enumbers.h"
 
 #include <algorithm>
 
@@ -54,7 +55,7 @@ void eProcessingBuilding::timeChanged(const int by) {
     if(enabled()) {
         if(!mTakeCart) {
             mTakeCart = spawnCart(eCartActionTypeSupport::take);
-            mTakeCart->setMaxDistance(60);
+            mTakeCart->setMaxDistance(eNumbers::sProcessingBuildingMaxResourceTakeDistance);
         }
         mProcessTime += by;
         const int wait = mProcessWaitTime/effectiveness();

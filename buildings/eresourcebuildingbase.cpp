@@ -1,6 +1,7 @@
 #include "eresourcebuildingbase.h"
 
 #include "characters/actions/ecarttransporteraction.h"
+#include "enumbers.h"
 
 #include <algorithm>
 
@@ -23,7 +24,7 @@ void eResourceBuildingBase::timeChanged(const int by) {
     if(enabled()) {
         if(!mCart) {
             mCart = spawnCart(eCartActionTypeSupport::give);
-            mCart->setMaxDistance(60);
+            mCart->setMaxDistance(eNumbers::sResourceBuildingMaxResourceGiveDistance);
         } else if(mCart && mCart->waiting() && mResource > 0) {
             const int a = mCart->add(mResType, mResource);
             mResource -= a;
