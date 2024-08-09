@@ -8,7 +8,7 @@ class eGameBoard;
 class eSoldierBanner;
 class eMicroButton;
 
-using eSB = stdsptr<eSoldierBanner>;
+using eSB = stdptr<eSoldierBanner>;
 using eSoldierBanners = std::vector<eSB>;
 using eSoldierBannerAction = std::function<void(const eSB&)>;
 

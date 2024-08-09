@@ -60,7 +60,7 @@ void eForcesWidget::setBanners(const eSoldierBanners& ss,
         button->setNoPadding();
         button->setTooltip(s->name());
         button->setPressAction([s, act]() {
-            if(act) act(s);
+            if(act && s) act(s);
         });
 
         {
@@ -263,7 +263,7 @@ void eMilitaryDataWidget::openMoreInfoWiget() {
 
 void eMilitaryDataWidget::updateWidgets() {
     const auto& ss = mBoard.banners();
-    using eSoldierBanners = std::vector<stdsptr<eSoldierBanner>>;
+    using eSoldierBanners = std::vector<stdptr<eSoldierBanner>>;
     eSoldierBanners abroad;
     eSoldierBanners inCity;
     eSoldierBanners standingDown;
