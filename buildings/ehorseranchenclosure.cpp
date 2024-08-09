@@ -44,7 +44,7 @@ std::vector<eOverlay> eHorseRanchEnclosure::getOverlays(
     std::vector<eOverlay> os;
     for(const auto& h : mHorses) {
         auto& o = os.emplace_back();
-        o.fTex = h->getTexture(size);
+        o.fTex = h->getNotRotatedTexture(size);
         const auto t = h->tile();
         const int tx = t->x();
         const int ty = t->y();
