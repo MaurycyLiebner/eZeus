@@ -2048,6 +2048,7 @@ void eBuilding::collapse() {
                          tp == eBuildingType::armsVendor ||
                          tp == eBuildingType::horseTrainer ||
                          tp == eBuildingType::chariotVendor ||
+                         tp == eBuildingType::agoraSpace ||
                          tp == eBuildingType::sheep ||
                          tp == eBuildingType::goat ||
                          tp == eBuildingType::cattle ||
