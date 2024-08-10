@@ -21,7 +21,8 @@ void eMonsterAction::increment(const int by) {
     const auto at = c->actionType();
     if(at == eCharacterActionType::walk) {
         lookForAttack(by, mLookForAttack,
-                      eNumbers::sMonsterAttackPeriod, 10);
+                      eNumbers::sMonsterAttackPeriod,
+                      eNumbers::sMonsterAttackRange);
     }
 
     eGodMonsterAction::increment(by);

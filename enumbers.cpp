@@ -121,6 +121,7 @@ int eNumbers::sGrowerWorkTime;
 int eNumbers::sGrowerSpawnWaitTime;
 
 int eNumbers::sMonsterAttackPeriod;
+int eNumbers::sMonsterAttackRange;
 int eNumbers::sLandMonsterInvadePeriod;
 int eNumbers::sWaterMonsterInvadePeriod;
 
@@ -367,6 +368,7 @@ void eNumbers::sLoad() {
     loadI("grower_spawn_wait_time_i", sGrowerSpawnWaitTime, 5000);
 
     loadI("monster_attack_period_i", sMonsterAttackPeriod, 8000);
+    loadI("monster_attack_range_i", sMonsterAttackRange, 10);
     loadI("land_monster_invade_period_i", sLandMonsterInvadePeriod, 200000);
     loadI("water_monster_invade_period_i", sWaterMonsterInvadePeriod, 100000);
 

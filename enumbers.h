@@ -119,6 +119,7 @@ struct eNumbers {
     static int sGrowerSpawnWaitTime;
 
     static int sMonsterAttackPeriod;
+    static int sMonsterAttackRange;
     static int sLandMonsterInvadePeriod;
     static int sWaterMonsterInvadePeriod;
 
