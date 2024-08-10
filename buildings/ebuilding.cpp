@@ -139,6 +139,7 @@ bool eBuilding::sFlammable(const eBuildingType bt) {
     if(bt == eBuildingType::palaceTile) return false;
     if(bt == eBuildingType::godMonumentTile) return false;
     if(bt == eBuildingType::bridge) return false;
+    if(bt == eBuildingType::agoraSpace) return false;
     return true;
 }
 
@@ -155,6 +156,7 @@ bool eBuilding::sTimedBuilding(const eBuildingType bt) {
     if(bt == eBuildingType::palaceTile) return false;
     if(bt == eBuildingType::godMonumentTile) return false;
     if(bt == eBuildingType::bridge) return false;
+    if(bt == eBuildingType::agoraSpace) return false;
     if(sAestheticsBuilding(bt)) return false;
     return true;
 }
@@ -175,6 +177,7 @@ bool eBuilding::sBlessable(const eBuildingType bt) {
     if(bt == eBuildingType::palaceTile) return false;
     if(bt == eBuildingType::godMonumentTile) return false;
     if(bt == eBuildingType::bridge) return false;
+    if(bt == eBuildingType::agoraSpace) return false;
     if(sHeroHall(bt)) return false;
     if(sAestheticsBuilding(bt)) return false;
     return true;
@@ -198,6 +201,7 @@ bool eBuilding::sAttackable(const eBuildingType bt) {
     if(bt == eBuildingType::palaceTile) return false;
     if(bt == eBuildingType::godMonumentTile) return false;
     if(bt == eBuildingType::bridge) return false;
+    if(bt == eBuildingType::agoraSpace) return false;
     return true;
 }
 
