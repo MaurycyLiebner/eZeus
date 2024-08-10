@@ -114,6 +114,11 @@ std::vector<eCartTask> eHorseRanch::cartTasks() const {
     return tasks;
 }
 
+int eHorseRanch::provide(const eProvide p, const int n) {
+    mEnclosure->eBuildingWithResource::provide(p, n);
+    return eEmployingBuilding::provide(p, n);
+}
+
 void eHorseRanch::setEnclosure(eHorseRanchEnclosure* const e) {
     mEnclosure = e;
 }

@@ -25,6 +25,8 @@ public:
 
     std::vector<eCartTask> cartTasks() const override;
 
+    int provide(const eProvide p, const int n) override;
+
     int wheat() const { return mWheat; }
 
     eHorseRanchEnclosure* enclosure() const { return mEnclosure; }

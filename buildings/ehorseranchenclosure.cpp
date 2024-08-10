@@ -24,7 +24,7 @@ void eHorseRanchEnclosure::erase() {
 }
 
 int eHorseRanchEnclosure::provide(const eProvide p, const int n) {
-    mRanch->provide(p, n);
+    mRanch->eEmployingBuilding::provide(p, n);
     return eBuildingWithResource::provide(p, n);
 }
 
