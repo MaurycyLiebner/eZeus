@@ -2050,7 +2050,8 @@ void eBuilding::collapse() {
                          tp == eBuildingType::chariotVendor ||
                          tp == eBuildingType::sheep ||
                          tp == eBuildingType::goat ||
-                         tp == eBuildingType::cattle;
+                         tp == eBuildingType::cattle ||
+                         tp == eBuildingType::road;
     const bool onFire = mOnFire;
     setOnFire(false);
     erase();

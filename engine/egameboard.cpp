@@ -66,6 +66,9 @@
 #include "buildings/eheroshall.h"
 #include "buildings/emuseum.h"
 #include "buildings/estadium.h"
+#include "buildings/eagoraspace.h"
+#include "buildings/evendor.h"
+#include "buildings/eroad.h"
 #include "eplague.h"
 #include "audio/emusic.h"
 
@@ -2935,7 +2938,19 @@ void eGameBoard::progressEarthquakes() {
                 } else if(type == eBuildingType::ruins) {
                     ub->erase();
                 } else {
-                    ub->collapse();
+                    if(const auto as = dynamic_cast<eAgoraSpace*>(ub)) {
+                        const auto a = as->agora();
+                        a->collapse();
+                    } else if(const auto v = dynamic_cast<eVendor*>(ub)) {
+                        const auto a = v->agora();
+                        a->collapse();
+                    } else if(const auto r = dynamic_cast<eRoad*>(ub)) {
+                        const auto a = r->underAgora();
+                        if(a) a->collapse();
+                        r->collapse();
+                    } else {
+                        ub->collapse();
+                    }
                     eSounds::playCollapseSound();
                 }
             }
