@@ -292,6 +292,19 @@ std::string eBuilding::sNameForBuilding(const eBuildingType type) {
         string = 9;
         break;
 
+    case eBuildingType::tradePost:
+        string = 62;
+        break;
+    case eBuildingType::pier:
+        string = 61;
+        break;
+    case eBuildingType::triremeWharf:
+        string = 136;
+        break;
+    case eBuildingType::ruins:
+        string = 169;
+        break;
+
     case eBuildingType::fountain:
         string = 74;
         break;
@@ -643,6 +656,19 @@ std::string eBuilding::sNameForBuilding(const eBuildingType type) {
         string = 119;
         break;
 
+    case eBuildingType::erase:
+    case eBuildingType::none:
+    case eBuildingType::palaceTile:
+    case eBuildingType::agoraSpace:
+    case eBuildingType::horseRanchEnclosure:
+    case eBuildingType::godMonumentTile:
+    case eBuildingType::temple:
+    case eBuildingType::templeTile:
+    case eBuildingType::templeStatue:
+    case eBuildingType::templeMonument:
+    case eBuildingType::templeAltar:
+    case eBuildingType::placeholder:
+        break;
     }
     return eLanguage::zeusText(group, string);
 }
