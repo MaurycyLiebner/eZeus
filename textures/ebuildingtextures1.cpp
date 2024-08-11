@@ -90,9 +90,29 @@
 #include "spriteData/blackMarbleWorkshop45.h"
 #include "spriteData/blackMarbleWorkshop60.h"
 
+#include "spriteData/orichalcTowerOverlay15.h"
+#include "spriteData/orichalcTowerOverlay30.h"
+#include "spriteData/orichalcTowerOverlay45.h"
+#include "spriteData/orichalcTowerOverlay60.h"
+
 #include "offsets/PoseidonImps.h"
 
 #include "textures/espriteloader.h"
+
+void eBuildingTextures::loadOrichalcTowerOverlay() {
+    if(fOrichalcTowerOverlayLoaded) return;
+    fOrichalcTowerOverlayLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eOrichalcTowerOverlaySpriteData15,
+                                 eOrichalcTowerOverlaySpriteData30,
+                                 eOrichalcTowerOverlaySpriteData45,
+                                 eOrichalcTowerOverlaySpriteData60);
+    eSpriteLoader loader(fTileH, "orichalcTowerOverlay", sds,
+                         nullptr, fRenderer);
+
+    fOrichalcTowerOverlay = loader.load(45, 45);
+}
 
 void eBuildingTextures::loadBlackMarbleWorkshop() {
     if(fBlackMarbleWorkshopLoaded) return;

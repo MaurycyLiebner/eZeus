@@ -1961,6 +1961,10 @@ HEADERS += \
     spriteData/orichalcMiner30.h \
     spriteData/orichalcMiner45.h \
     spriteData/orichalcMiner60.h \
+    spriteData/orichalcTowerOverlay15.h \
+    spriteData/orichalcTowerOverlay30.h \
+    spriteData/orichalcTowerOverlay45.h \
+    spriteData/orichalcTowerOverlay60.h \
     spriteData/orrery15.h \
     spriteData/orrery30.h \
     spriteData/orrery45.h \
@@ -2876,6 +2880,7 @@ DISTFILES += \
     textureTemplates/orangeTendersLodge \
     textureTemplates/orangesCart \
     textureTemplates/orichalcMiner \
+    textureTemplates/orichalcTowerOverlay \
     textureTemplates/orrery \
     textureTemplates/ox \
     textureTemplates/oxHandler \
