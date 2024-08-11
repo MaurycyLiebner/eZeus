@@ -100,9 +100,53 @@
 #include "spriteData/poseidonBridge45.h"
 #include "spriteData/poseidonBridge60.h"
 
+#include "spriteData/poseidonPyramid15.h"
+#include "spriteData/poseidonPyramid30.h"
+#include "spriteData/poseidonPyramid45.h"
+#include "spriteData/poseidonPyramid60.h"
+
+#include "spriteData/poseidonPyramid215.h"
+#include "spriteData/poseidonPyramid230.h"
+#include "spriteData/poseidonPyramid245.h"
+#include "spriteData/poseidonPyramid260.h"
+
 #include "offsets/PoseidonImps.h"
 
 #include "textures/espriteloader.h"
+
+void eBuildingTextures::loadPyramid() {
+    if(fPyramidLoaded) return;
+    fPyramidLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonPyramidSpriteData15,
+                                 ePoseidonPyramidSpriteData30,
+                                 ePoseidonPyramidSpriteData45,
+                                 ePoseidonPyramidSpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonPyramid", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 1; i < 46; i++) {
+        loader.load(1, i, fPyramid);
+    }
+}
+
+void eBuildingTextures::loadPyramid2() {
+    if(fPyramid2Loaded) return;
+    fPyramid2Loaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonPyramid2SpriteData15,
+                                 ePoseidonPyramid2SpriteData30,
+                                 ePoseidonPyramid2SpriteData45,
+                                 ePoseidonPyramid2SpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonPyramid2", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 1; i < 39; i++) {
+        loader.load(1, i, fPyramid2);
+    }
+}
 
 void eBuildingTextures::loadPoseidonBridge() {
     if(fPoseidonBridgeLoaded) return;

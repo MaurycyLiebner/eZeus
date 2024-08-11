@@ -726,6 +726,7 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fWaitingGrapes(renderer),
     fWaitingOlives(renderer),
     fWaitingArmor(renderer),
+    fWaitingOrichalc(renderer),
 
     fAgoraRoad(renderer),
     fAgora(renderer),
@@ -756,6 +757,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fWarehouseOnions(renderer),
     fWarehouseWheat(renderer),
     fWarehouseOranges(renderer),
+    fWarehouseBlackMarble(renderer),
+    fWarehouseOrichalc(renderer),
     fWarehouseWood(renderer),
     fWarehouseBronze(renderer),
     fWarehouseMarble(renderer),
@@ -833,6 +836,8 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fAtlasMonuments(renderer),
 
     fPoseidonSanctuary(renderer),
+    fPyramid(renderer),
+    fPyramid2(renderer),
 
     fSanctuaryWOverlay(renderer),
     fSanctuaryHOverlay(renderer),
@@ -3059,20 +3064,24 @@ void eBuildingTextures::load() {
         eSpriteLoader loader(fTileH, "storage", sds,
                              nullptr, fRenderer);
 
-
-//        fCorral = std::make_shared<eTexture>();
-//        fCorral->load(fRenderer, pathBase + "00001.png");
-
-//        for(int i = 2; i < 49; i++) {
-//            eTextureLoadingHelpers::loadTex(pathBase, i, fCorralOverlay);
-//        }
-
         for(int i = 87; i < 91; i++) {
             loader.load(87, i, fWarehouseOranges);
         }
 
+        for(int i = 91; i < 95; i++) {
+            loader.load(87, i, fWarehouseBlackMarble);
+        }
+
+        for(int i = 95; i < 99; i++) {
+            loader.load(87, i, fWarehouseOrichalc);
+        }
+
         for(int i = 99; i < 104; i++) {
             loader.load(87, i, fWaitingOranges);
+        }
+
+        for(int i = 104; i < 109; i++) {
+            loader.load(87, i, fWaitingOrichalc);
         }
 
         for(int i = 110; i < 114; i++) {

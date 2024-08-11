@@ -113,6 +113,10 @@ public:
     void loadZeusSanctuary();
     bool fPoseidonSanctuaryLoaded = false;
     void loadPoseidonSanctuary();
+    bool fPyramidLoaded = false;
+    void loadPyramid();
+    bool fPyramid2Loaded = false;
+    void loadPyramid2();
     bool fPoseidonHerosHallLoaded = false;
     void loadPoseidonHerosHall();
     bool fHerosHallLoaded = false;
@@ -432,6 +436,7 @@ public:
     eTextureCollection fWaitingGrapes;
     eTextureCollection fWaitingOlives;
     eTextureCollection fWaitingArmor;
+    eTextureCollection fWaitingOrichalc;
 
     eTextureCollection fAgoraRoad;
     eTextureCollection fAgora;
@@ -488,6 +493,8 @@ public:
     eTextureCollection fWarehouseOnions;
     eTextureCollection fWarehouseWheat;
     eTextureCollection fWarehouseOranges;
+    eTextureCollection fWarehouseBlackMarble;
+    eTextureCollection fWarehouseOrichalc;
 
     eTextureCollection fWarehouseWood;
     eTextureCollection fWarehouseBronze;
@@ -628,6 +635,8 @@ public:
 
     std::vector<eTextureCollection> fSanctuary;
     eTextureCollection fPoseidonSanctuary;
+    eTextureCollection fPyramid;
+    eTextureCollection fPyramid2;
 
     eTextureCollection fSanctuaryWOverlay;
     eTextureCollection fSanctuaryHOverlay;

@@ -1304,6 +1304,14 @@ HEADERS += \
     spriteData/blackArrow30.h \
     spriteData/blackArrow45.h \
     spriteData/blackArrow60.h \
+    spriteData/blackMarbleTerrain15.h \
+    spriteData/blackMarbleTerrain30.h \
+    spriteData/blackMarbleTerrain45.h \
+    spriteData/blackMarbleTerrain60.h \
+    spriteData/blackMarbleTrailer15.h \
+    spriteData/blackMarbleTrailer30.h \
+    spriteData/blackMarbleTrailer45.h \
+    spriteData/blackMarbleTrailer60.h \
     spriteData/blackMarbleWorkshop15.h \
     spriteData/blackMarbleWorkshop30.h \
     spriteData/blackMarbleWorkshop45.h \
@@ -1957,10 +1965,30 @@ HEADERS += \
     spriteData/orangesCart30.h \
     spriteData/orangesCart45.h \
     spriteData/orangesCart60.h \
+    spriteData/orichalcArcher15.h \
+    spriteData/orichalcArcher30.h \
+    spriteData/orichalcArcher45.h \
+    spriteData/orichalcArcher60.h \
+    spriteData/orichalcCart15.h \
+    spriteData/orichalcCart30.h \
+    spriteData/orichalcCart45.h \
+    spriteData/orichalcCart60.h \
+    spriteData/orichalcExplosion15.h \
+    spriteData/orichalcExplosion30.h \
+    spriteData/orichalcExplosion45.h \
+    spriteData/orichalcExplosion60.h \
     spriteData/orichalcMiner15.h \
     spriteData/orichalcMiner30.h \
     spriteData/orichalcMiner45.h \
     spriteData/orichalcMiner60.h \
+    spriteData/orichalcMissile15.h \
+    spriteData/orichalcMissile30.h \
+    spriteData/orichalcMissile45.h \
+    spriteData/orichalcMissile60.h \
+    spriteData/orichalcTerrain15.h \
+    spriteData/orichalcTerrain30.h \
+    spriteData/orichalcTerrain45.h \
+    spriteData/orichalcTerrain60.h \
     spriteData/orichalcTowerOverlay15.h \
     spriteData/orichalcTowerOverlay30.h \
     spriteData/orichalcTowerOverlay45.h \
@@ -2105,6 +2133,14 @@ HEADERS += \
     spriteData/poseidonInterface30.h \
     spriteData/poseidonInterface45.h \
     spriteData/poseidonInterface60.h \
+    spriteData/poseidonPyramid15.h \
+    spriteData/poseidonPyramid215.h \
+    spriteData/poseidonPyramid230.h \
+    spriteData/poseidonPyramid245.h \
+    spriteData/poseidonPyramid260.h \
+    spriteData/poseidonPyramid30.h \
+    spriteData/poseidonPyramid45.h \
+    spriteData/poseidonPyramid60.h \
     spriteData/poseidonQuestButtons15.h \
     spriteData/poseidonQuestButtons30.h \
     spriteData/poseidonQuestButtons45.h \
@@ -2720,6 +2756,8 @@ DISTFILES += \
     textureTemplates/bibliotheke \
     textureTemplates/birdBath \
     textureTemplates/blackArrow \
+    textureTemplates/blackMarbleTerrain \
+    textureTemplates/blackMarbleTrailer \
     textureTemplates/blackMarbleWorkshop \
     textureTemplates/blackSpear \
     textureTemplates/blankStatue \
@@ -2883,7 +2921,12 @@ DISTFILES += \
     textureTemplates/orangeTender \
     textureTemplates/orangeTendersLodge \
     textureTemplates/orangesCart \
+    textureTemplates/orichalcArcher \
+    textureTemplates/orichalcCart \
+    textureTemplates/orichalcExplosion \
     textureTemplates/orichalcMiner \
+    textureTemplates/orichalcMissile \
+    textureTemplates/orichalcTerrain \
     textureTemplates/orichalcTowerOverlay \
     textureTemplates/orrery \
     textureTemplates/ox \
@@ -2920,6 +2963,8 @@ DISTFILES += \
     textureTemplates/poseidonHerosHall \
     textureTemplates/poseidonHerosHall2 \
     textureTemplates/poseidonInterface \
+    textureTemplates/poseidonPyramid \
+    textureTemplates/poseidonPyramid2 \
     textureTemplates/poseidonQuestButtons \
     textureTemplates/poseidonSanctuary \
     textureTemplates/poseidonStatue \

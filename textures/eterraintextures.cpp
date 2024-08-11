@@ -42,6 +42,16 @@
 #include "spriteData/zeusStairs45.h"
 #include "spriteData/zeusStairs60.h"
 
+#include "spriteData/blackMarbleTerrain15.h"
+#include "spriteData/blackMarbleTerrain30.h"
+#include "spriteData/blackMarbleTerrain45.h"
+#include "spriteData/blackMarbleTerrain60.h"
+
+#include "spriteData/orichalcTerrain15.h"
+#include "spriteData/orichalcTerrain30.h"
+#include "spriteData/orichalcTerrain45.h"
+#include "spriteData/orichalcTerrain60.h"
+
 #include "spriteData/poseidonTrees15.h"
 #include "spriteData/poseidonTrees30.h"
 #include "spriteData/poseidonTrees45.h"
@@ -82,6 +92,10 @@ eTerrainTextures::eTerrainTextures(const int tileW, const int tileH,
     fLargeTallStoneTerrainTexs(renderer),
     fHugeTallStoneTerrainTexs(renderer),
 
+    fOrichalcTerrainTexs(renderer),
+    fLargeOrichalcTerrainTexs(renderer),
+    fHugeOrichalcTerrainTexs(renderer),
+
     fAppeal(renderer),
     fHouseAppeal(renderer),
 
@@ -98,6 +112,11 @@ eTerrainTextures::eTerrainTextures(const int tileW, const int tileH,
     fDryToMarble(renderer),
     fMarble(renderer),
     fDeepMarble(renderer),
+
+    fFlatBlackMarble(renderer),
+    fDryToBlackMarble(renderer),
+    fBlackMarble(renderer),
+    fDeepBlackMarble(renderer),
 
     fBuildingBase2(renderer),
     fBuildingBase3(renderer),
@@ -138,18 +157,19 @@ void loadWaterToX(SDL_Renderer* const renderer, int i0,
 void loadStones(int i0, eTextureCollection& result,
                 eTextureCollection& resultLarge,
                 eTextureCollection& resultHuge,
-                eSpriteLoader& loader) {
+                eSpriteLoader& loader,
+                const int doff = 1) {
     int i = i0;
     for(; i < i0 + 8; i++) {
-        loader.load(1, i, result);
+        loader.load(doff, i, result);
     }
 
     for(; i < i0 + 12; i++) {
-        loader.load(1, i, resultLarge);
+        loader.load(doff, i, resultLarge);
     }
 
     for(; i < i0 + 14; i++) {
-        loader.load(1, i, resultHuge);
+        loader.load(doff, i, resultHuge);
     }
 }
 
@@ -463,4 +483,50 @@ void eTerrainTextures::loadPoseidonTrees() {
     for(int i = 45; i < 97; i++) {
         loader.load(1, i, fPoseidonForestTerrainTexs);
     }
+}
+
+void eTerrainTextures::loadBlackMarble() {
+    if(fBlackMarbleLoaded) return;
+    fBlackMarbleLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eBlackMarbleTerrainSpriteData15,
+                                 eBlackMarbleTerrainSpriteData30,
+                                 eBlackMarbleTerrainSpriteData45,
+                                 eBlackMarbleTerrainSpriteData60);
+    eSpriteLoader loader(fTileH, "blackMarbleTerrain", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 1; i < 27; i++) {
+        loader.load(1, i, fFlatBlackMarble);
+    }
+
+    for(int i = 27; i < 35; i++) {
+        loader.load(1, i, fDryToBlackMarble);
+    }
+
+    for(int i = 35; i < 95; i++) {
+        loader.load(1, i, fBlackMarble);
+    }
+
+    for(int i = 95; i < 155; i++) {
+        loader.load(1, i, fDeepBlackMarble);
+    }
+}
+
+void eTerrainTextures::loadOrichalc() {
+    if(fOrichalcLoaded) return;
+    fOrichalcLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eOrichalcTerrainSpriteData15,
+                                 eOrichalcTerrainSpriteData30,
+                                 eOrichalcTerrainSpriteData45,
+                                 eOrichalcTerrainSpriteData60);
+    eSpriteLoader loader(fTileH, "orichalcTerrain", sds,
+                         nullptr, fRenderer);
+
+    loadStones(155, fOrichalcTerrainTexs,
+               fLargeOrichalcTerrainTexs,
+               fHugeOrichalcTerrainTexs, loader, 155);
 }

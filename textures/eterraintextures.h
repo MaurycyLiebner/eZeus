@@ -16,6 +16,10 @@ public:
 
     bool fPoseidonTreesLoaded = false;
     void loadPoseidonTrees();
+    bool fBlackMarbleLoaded = false;
+    void loadBlackMarble();
+    bool fOrichalcLoaded = false;
+    void loadOrichalc();
 
     eTextureCollection fDryTerrainTexs;
     eTextureCollection fBeachTerrainTexs;
@@ -57,6 +61,10 @@ public:
     eTextureCollection fLargeTallStoneTerrainTexs;
     eTextureCollection fHugeTallStoneTerrainTexs;
 
+    eTextureCollection fOrichalcTerrainTexs;
+    eTextureCollection fLargeOrichalcTerrainTexs;
+    eTextureCollection fHugeOrichalcTerrainTexs;
+
     eTextureCollection fAppeal;
     eTextureCollection fHouseAppeal;
 
@@ -73,6 +81,11 @@ public:
     eTextureCollection fDryToMarble;
     eTextureCollection fMarble;
     eTextureCollection fDeepMarble;
+
+    eTextureCollection fFlatBlackMarble;
+    eTextureCollection fDryToBlackMarble;
+    eTextureCollection fBlackMarble;
+    eTextureCollection fDeepBlackMarble;
 
     std::shared_ptr<eTexture> fBuildingBase;
     std::shared_ptr<eTexture> fSelectedBuildingBase;

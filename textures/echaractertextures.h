@@ -306,7 +306,9 @@ public:
     void loadHealer();
     bool fCartLoaded = false;
     void loadCart();
+    void loadOrichalcCart();
     void loadOrangesCart();
+    void loadBlackMarbleTrailer();
     bool fBoarLoaded = false;
     void loadBoar();
     bool fGymnastLoaded = false;
@@ -467,10 +469,13 @@ public:
     eTextureCollection fWoodTrailer2;
     eTextureCollection fMarbleTrailer1;
     eTextureCollection fMarbleTrailer2;
+    eTextureCollection fBlackMarbleTrailer1;
+    eTextureCollection fBlackMarbleTrailer2;
     eTextureCollection fSculptureTrailer;
 
     eTextureCollection fEmptyBigTrailer;
     eTextureCollection fMarbleBigTrailer;
+    eTextureCollection fBlackMarbleBigTrailer;
 
     eResourceCollectorTextures fMarbleMiner;
     eResourceCollectorTextures fSilverMiner;
@@ -532,6 +537,7 @@ public:
     std::vector<eTextureCollection> fWineCart;
 
     std::vector<eTextureCollection> fOrangesCart;
+    std::vector<eTextureCollection> fOrichalcCart;
 
     eOrangeTenderTextures fOrangeTender;
 

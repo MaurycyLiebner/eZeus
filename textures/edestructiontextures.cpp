@@ -2,6 +2,7 @@
 
 #include "offsets/SprAmbient.h"
 #include "offsets/destruction.h"
+#include "offsets/PoseidonImps.h"
 
 #include "spriteData/fire115.h"
 #include "spriteData/fire130.h"
@@ -103,6 +104,11 @@
 #include "spriteData/arrow45.h"
 #include "spriteData/arrow60.h"
 
+#include "spriteData/orichalcMissile15.h"
+#include "spriteData/orichalcMissile30.h"
+#include "spriteData/orichalcMissile45.h"
+#include "spriteData/orichalcMissile60.h"
+
 #include "textures/espriteloader.h"
 
 eDestructionTextures::eDestructionTextures(const int tileW, const int tileH,
@@ -132,7 +138,8 @@ eDestructionTextures::eDestructionTextures(const int tileW, const int tileH,
     fGodRedMissile(renderer),
     fGodGreenMissile(renderer),
     fGodPinkMissile(renderer),
-    fGodPurpleMissile(renderer) {
+    fGodPurpleMissile(renderer),
+    fOrichalcMissile(renderer) {
 
 }
 
@@ -490,5 +497,21 @@ void eDestructionTextures::loadGodPurpleMissile() {
                          &eDestructionOffset, fRenderer);
     for(int i = 1750; i < 1814; i++) {
         loader.load(1750, i, fGodPurpleMissile);
+    }
+}
+
+void eDestructionTextures::loadOrichalcMissile() {
+    if(fOrichalcMissileLoaded) return;
+    fOrichalcMissileLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eOrichalcMissileSpriteData15,
+                                 eOrichalcMissileSpriteData30,
+                                 eOrichalcMissileSpriteData45,
+                                 eOrichalcMissileSpriteData60);
+    eSpriteLoader loader(fTileH, "orichalcMissile", sds,
+                         &ePoseidonImpsOffset, fRenderer);
+    for(int i = 4718; i < 4758; i++) {
+        loader.load(4718, i, fOrichalcMissile);
     }
 }
