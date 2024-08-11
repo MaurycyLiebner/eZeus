@@ -3,5 +3,5 @@
 #include "espritedata.h"
 
 const auto eRoadblockSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 29, 15}, // 76
+   eSpriteData{0, 0, 0, 31, 16}, // 76
 };

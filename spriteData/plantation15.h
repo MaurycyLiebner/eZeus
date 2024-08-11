@@ -3,23 +3,23 @@
 #include "espritedata.h"
 
 const auto ePlantationSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 89, 57}, // 13
-   eSpriteData{0, 89, 0, 29, 15}, // 14
-   eSpriteData{0, 118, 0, 29, 16}, // 15
-   eSpriteData{0, 147, 0, 29, 18}, // 16
-   eSpriteData{0, 176, 0, 29, 22}, // 17
-   eSpriteData{0, 205, 0, 29, 23}, // 18
-   eSpriteData{0, 234, 0, 29, 25}, // 19
-   eSpriteData{0, 263, 0, 29, 15}, // 20
-   eSpriteData{0, 292, 0, 29, 15}, // 21
-   eSpriteData{0, 321, 0, 29, 16}, // 22
-   eSpriteData{0, 350, 0, 29, 18}, // 23
-   eSpriteData{0, 379, 0, 29, 19}, // 24
-   eSpriteData{0, 408, 0, 29, 21}, // 25
-   eSpriteData{0, 437, 0, 29, 15}, // 26
-   eSpriteData{0, 466, 0, 29, 15}, // 27
-   eSpriteData{0, 495, 0, 29, 15}, // 28
-   eSpriteData{0, 524, 0, 29, 15}, // 29
-   eSpriteData{0, 553, 0, 29, 15}, // 30
-   eSpriteData{0, 582, 0, 29, 16}, // 31
+   eSpriteData{0, 0, 0, 94, 60}, // 13
+   eSpriteData{0, 94, 0, 31, 16}, // 14
+   eSpriteData{0, 125, 0, 31, 17}, // 15
+   eSpriteData{0, 156, 0, 31, 19}, // 16
+   eSpriteData{0, 187, 0, 31, 23}, // 17
+   eSpriteData{0, 218, 0, 31, 24}, // 18
+   eSpriteData{0, 249, 0, 31, 27}, // 19
+   eSpriteData{0, 280, 0, 31, 16}, // 20
+   eSpriteData{0, 311, 0, 31, 16}, // 21
+   eSpriteData{0, 342, 0, 31, 17}, // 22
+   eSpriteData{0, 373, 0, 31, 19}, // 23
+   eSpriteData{0, 404, 0, 31, 20}, // 24
+   eSpriteData{0, 435, 0, 31, 22}, // 25
+   eSpriteData{0, 466, 0, 31, 16}, // 26
+   eSpriteData{0, 497, 0, 31, 16}, // 27
+   eSpriteData{0, 528, 0, 31, 16}, // 28
+   eSpriteData{0, 559, 0, 31, 16}, // 29
+   eSpriteData{0, 590, 0, 31, 16}, // 30
+   eSpriteData{0, 621, 0, 31, 17}, // 31
 };

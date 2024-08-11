@@ -3,23 +3,23 @@
 #include "espritedata.h"
 
 const auto eTaxOfficeSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 59, 44}, // 46
-   eSpriteData{0, 59, 0, 16, 22}, // 47
-   eSpriteData{0, 75, 0, 16, 22}, // 48
-   eSpriteData{0, 91, 0, 16, 22}, // 49
-   eSpriteData{0, 107, 0, 16, 22}, // 50
-   eSpriteData{0, 123, 0, 16, 22}, // 51
-   eSpriteData{0, 139, 0, 16, 22}, // 52
-   eSpriteData{0, 155, 0, 16, 22}, // 53
-   eSpriteData{0, 171, 0, 16, 22}, // 54
-   eSpriteData{0, 187, 0, 16, 22}, // 55
-   eSpriteData{0, 203, 0, 16, 22}, // 56
-   eSpriteData{0, 219, 0, 16, 22}, // 57
-   eSpriteData{0, 235, 0, 16, 22}, // 58
-   eSpriteData{0, 251, 0, 16, 22}, // 59
-   eSpriteData{0, 267, 0, 16, 22}, // 60
-   eSpriteData{0, 283, 0, 16, 22}, // 61
-   eSpriteData{0, 299, 0, 16, 22}, // 62
-   eSpriteData{0, 315, 0, 16, 22}, // 63
-   eSpriteData{0, 331, 0, 16, 22}, // 64
+   eSpriteData{0, 0, 0, 63, 47}, // 46
+   eSpriteData{0, 63, 0, 17, 23}, // 47
+   eSpriteData{0, 80, 0, 17, 23}, // 48
+   eSpriteData{0, 97, 0, 17, 23}, // 49
+   eSpriteData{0, 114, 0, 17, 23}, // 50
+   eSpriteData{0, 131, 0, 17, 23}, // 51
+   eSpriteData{0, 148, 0, 17, 23}, // 52
+   eSpriteData{0, 165, 0, 17, 23}, // 53
+   eSpriteData{0, 182, 0, 17, 23}, // 54
+   eSpriteData{0, 199, 0, 17, 23}, // 55
+   eSpriteData{0, 216, 0, 17, 23}, // 56
+   eSpriteData{0, 233, 0, 17, 23}, // 57
+   eSpriteData{0, 250, 0, 17, 23}, // 58
+   eSpriteData{0, 267, 0, 17, 23}, // 59
+   eSpriteData{0, 284, 0, 17, 23}, // 60
+   eSpriteData{0, 301, 0, 17, 23}, // 61
+   eSpriteData{0, 318, 0, 17, 23}, // 62
+   eSpriteData{0, 335, 0, 17, 23}, // 63
+   eSpriteData{0, 352, 0, 17, 23}, // 64
 };

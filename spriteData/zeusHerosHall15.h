@@ -3,11 +3,11 @@
 #include "espritedata.h"
 
 const auto eZeusHerosHallSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 119, 80}, // 62
-   eSpriteData{0, 119, 0, 31, 61}, // 63
-   eSpriteData{0, 150, 0, 31, 61}, // 64
-   eSpriteData{0, 181, 0, 31, 61}, // 65
-   eSpriteData{0, 212, 0, 31, 61}, // 66
-   eSpriteData{0, 243, 0, 31, 61}, // 67
-   eSpriteData{0, 274, 0, 31, 61}, // 68
+   eSpriteData{0, 0, 0, 126, 85}, // 62
+   eSpriteData{0, 126, 0, 33, 65}, // 63
+   eSpriteData{0, 159, 0, 33, 65}, // 64
+   eSpriteData{0, 192, 0, 33, 65}, // 65
+   eSpriteData{0, 225, 0, 33, 65}, // 66
+   eSpriteData{0, 258, 0, 33, 65}, // 67
+   eSpriteData{0, 291, 0, 33, 65}, // 68
 };

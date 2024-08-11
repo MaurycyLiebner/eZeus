@@ -3,5 +3,5 @@
 #include "espritedata.h"
 
 const auto eBenchSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 29, 15}, // 20
+   eSpriteData{0, 0, 0, 31, 16}, // 20
 };

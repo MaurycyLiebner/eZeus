@@ -3,25 +3,25 @@
 #include "espritedata.h"
 
 const auto eChariotFactorySpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 119, 98}, // 15
-   eSpriteData{0, 119, 0, 26, 20}, // 16
-   eSpriteData{0, 145, 0, 26, 20}, // 17
-   eSpriteData{0, 171, 0, 26, 20}, // 18
-   eSpriteData{0, 197, 0, 26, 20}, // 19
-   eSpriteData{0, 223, 0, 26, 20}, // 20
-   eSpriteData{0, 249, 0, 26, 20}, // 21
-   eSpriteData{0, 275, 0, 26, 20}, // 22
-   eSpriteData{0, 301, 0, 26, 20}, // 23
-   eSpriteData{0, 327, 0, 26, 20}, // 24
-   eSpriteData{0, 353, 0, 26, 20}, // 25
-   eSpriteData{0, 379, 0, 26, 20}, // 26
-   eSpriteData{0, 405, 0, 26, 20}, // 27
-   eSpriteData{0, 431, 0, 26, 20}, // 28
-   eSpriteData{0, 457, 0, 26, 20}, // 29
-   eSpriteData{0, 483, 0, 26, 20}, // 30
-   eSpriteData{0, 509, 0, 26, 20}, // 31
-   eSpriteData{0, 535, 0, 26, 20}, // 32
-   eSpriteData{0, 561, 0, 26, 20}, // 33
-   eSpriteData{0, 587, 0, 26, 20}, // 34
-   eSpriteData{0, 613, 0, 26, 20}, // 35
+   eSpriteData{0, 0, 0, 126, 104}, // 15
+   eSpriteData{0, 126, 0, 27, 21}, // 16
+   eSpriteData{0, 153, 0, 27, 21}, // 17
+   eSpriteData{0, 180, 0, 27, 21}, // 18
+   eSpriteData{0, 207, 0, 27, 21}, // 19
+   eSpriteData{0, 234, 0, 27, 21}, // 20
+   eSpriteData{0, 261, 0, 27, 21}, // 21
+   eSpriteData{0, 288, 0, 27, 21}, // 22
+   eSpriteData{0, 315, 0, 27, 21}, // 23
+   eSpriteData{0, 342, 0, 27, 21}, // 24
+   eSpriteData{0, 369, 0, 27, 21}, // 25
+   eSpriteData{0, 396, 0, 27, 21}, // 26
+   eSpriteData{0, 423, 0, 27, 21}, // 27
+   eSpriteData{0, 450, 0, 27, 21}, // 28
+   eSpriteData{0, 477, 0, 27, 21}, // 29
+   eSpriteData{0, 504, 0, 27, 21}, // 30
+   eSpriteData{0, 531, 0, 27, 21}, // 31
+   eSpriteData{0, 558, 0, 27, 21}, // 32
+   eSpriteData{0, 585, 0, 27, 21}, // 33
+   eSpriteData{0, 612, 0, 27, 21}, // 34
+   eSpriteData{0, 639, 0, 27, 21}, // 35
 };

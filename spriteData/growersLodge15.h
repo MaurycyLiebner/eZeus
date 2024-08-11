@@ -3,15 +3,15 @@
 #include "espritedata.h"
 
 const auto eGrowersLodgeSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 59, 44}, // 91
-   eSpriteData{0, 59, 0, 47, 21}, // 92
-   eSpriteData{0, 106, 0, 47, 21}, // 93
-   eSpriteData{0, 153, 0, 47, 21}, // 94
-   eSpriteData{0, 200, 0, 47, 21}, // 95
-   eSpriteData{0, 247, 0, 47, 21}, // 96
-   eSpriteData{0, 294, 0, 47, 21}, // 97
-   eSpriteData{0, 341, 0, 47, 21}, // 98
-   eSpriteData{0, 388, 0, 47, 21}, // 99
-   eSpriteData{0, 435, 0, 47, 21}, // 100
-   eSpriteData{0, 482, 0, 47, 21}, // 101
+   eSpriteData{0, 0, 0, 63, 46}, // 91
+   eSpriteData{0, 63, 0, 50, 22}, // 92
+   eSpriteData{0, 113, 0, 50, 22}, // 93
+   eSpriteData{0, 163, 0, 50, 22}, // 94
+   eSpriteData{0, 213, 0, 50, 22}, // 95
+   eSpriteData{0, 263, 0, 50, 22}, // 96
+   eSpriteData{0, 313, 0, 50, 22}, // 97
+   eSpriteData{0, 363, 0, 50, 22}, // 98
+   eSpriteData{0, 413, 0, 50, 22}, // 99
+   eSpriteData{0, 463, 0, 50, 22}, // 100
+   eSpriteData{0, 513, 0, 50, 22}, // 101
 };

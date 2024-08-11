@@ -3,15 +3,15 @@
 #include "espritedata.h"
 
 const auto eArtisansGuildSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 59, 42}, // 49
-   eSpriteData{0, 59, 0, 38, 31}, // 50
-   eSpriteData{0, 97, 0, 38, 31}, // 51
-   eSpriteData{0, 135, 0, 38, 31}, // 52
-   eSpriteData{0, 173, 0, 38, 31}, // 53
-   eSpriteData{0, 211, 0, 38, 31}, // 54
-   eSpriteData{0, 249, 0, 38, 31}, // 55
-   eSpriteData{0, 287, 0, 38, 31}, // 56
-   eSpriteData{0, 325, 0, 38, 31}, // 57
-   eSpriteData{0, 363, 0, 38, 31}, // 58
-   eSpriteData{0, 401, 0, 38, 31}, // 59
+   eSpriteData{0, 0, 0, 63, 44}, // 49
+   eSpriteData{0, 63, 0, 40, 32}, // 50
+   eSpriteData{0, 103, 0, 40, 32}, // 51
+   eSpriteData{0, 143, 0, 40, 32}, // 52
+   eSpriteData{0, 183, 0, 40, 32}, // 53
+   eSpriteData{0, 223, 0, 40, 32}, // 54
+   eSpriteData{0, 263, 0, 40, 32}, // 55
+   eSpriteData{0, 303, 0, 40, 32}, // 56
+   eSpriteData{0, 343, 0, 40, 32}, // 57
+   eSpriteData{0, 383, 0, 40, 32}, // 58
+   eSpriteData{0, 423, 0, 40, 32}, // 59
 };

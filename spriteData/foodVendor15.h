@@ -3,108 +3,108 @@
 #include "espritedata.h"
 
 const auto eFoodVendorSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 13, 18}, // 2887
-   eSpriteData{0, 13, 0, 10, 17}, // 2888
-   eSpriteData{0, 23, 0, 8, 18}, // 2889
-   eSpriteData{0, 31, 0, 11, 20}, // 2890
+   eSpriteData{0, 0, 0, 13, 19}, // 2887
+   eSpriteData{0, 13, 0, 10, 18}, // 2888
+   eSpriteData{0, 23, 0, 8, 19}, // 2889
+   eSpriteData{0, 31, 0, 12, 21}, // 2890
    eSpriteData{-1, 0, 0, 0, 0}, // 2891
    eSpriteData{-1, 0, 0, 0, 0}, // 2892
    eSpriteData{-1, 0, 0, 0, 0}, // 2893
-   eSpriteData{0, 42, 0, 11, 18}, // 2894
-   eSpriteData{0, 53, 0, 13, 18}, // 2895
-   eSpriteData{0, 66, 0, 10, 17}, // 2896
-   eSpriteData{0, 76, 0, 8, 19}, // 2897
-   eSpriteData{0, 84, 0, 11, 20}, // 2898
+   eSpriteData{0, 43, 0, 12, 19}, // 2894
+   eSpriteData{0, 55, 0, 13, 19}, // 2895
+   eSpriteData{0, 68, 0, 10, 18}, // 2896
+   eSpriteData{0, 78, 0, 8, 20}, // 2897
+   eSpriteData{0, 86, 0, 12, 21}, // 2898
    eSpriteData{-1, 0, 0, 0, 0}, // 2899
    eSpriteData{-1, 0, 0, 0, 0}, // 2900
    eSpriteData{-1, 0, 0, 0, 0}, // 2901
-   eSpriteData{0, 95, 0, 11, 18}, // 2902
-   eSpriteData{0, 106, 0, 12, 17}, // 2903
-   eSpriteData{0, 118, 0, 8, 17}, // 2904
-   eSpriteData{0, 126, 0, 9, 19}, // 2905
-   eSpriteData{0, 135, 0, 13, 19}, // 2906
+   eSpriteData{0, 98, 0, 11, 19}, // 2902
+   eSpriteData{0, 109, 0, 13, 18}, // 2903
+   eSpriteData{0, 122, 0, 8, 18}, // 2904
+   eSpriteData{0, 130, 0, 9, 20}, // 2905
+   eSpriteData{0, 139, 0, 13, 20}, // 2906
    eSpriteData{-1, 0, 0, 0, 0}, // 2907
    eSpriteData{-1, 0, 0, 0, 0}, // 2908
    eSpriteData{-1, 0, 0, 0, 0}, // 2909
-   eSpriteData{0, 148, 0, 11, 18}, // 2910
-   eSpriteData{0, 159, 0, 11, 18}, // 2911
-   eSpriteData{0, 170, 0, 8, 18}, // 2912
-   eSpriteData{0, 178, 0, 9, 19}, // 2913
-   eSpriteData{0, 187, 0, 13, 18}, // 2914
+   eSpriteData{0, 152, 0, 12, 19}, // 2910
+   eSpriteData{0, 164, 0, 12, 19}, // 2911
+   eSpriteData{0, 176, 0, 8, 19}, // 2912
+   eSpriteData{0, 184, 0, 9, 20}, // 2913
+   eSpriteData{0, 193, 0, 13, 19}, // 2914
    eSpriteData{-1, 0, 0, 0, 0}, // 2915
    eSpriteData{-1, 0, 0, 0, 0}, // 2916
    eSpriteData{-1, 0, 0, 0, 0}, // 2917
-   eSpriteData{0, 200, 0, 12, 17}, // 2918
-   eSpriteData{0, 212, 0, 11, 17}, // 2919
-   eSpriteData{0, 223, 0, 8, 17}, // 2920
-   eSpriteData{0, 231, 0, 9, 19}, // 2921
-   eSpriteData{0, 240, 0, 12, 18}, // 2922
+   eSpriteData{0, 206, 0, 12, 18}, // 2918
+   eSpriteData{0, 218, 0, 11, 17}, // 2919
+   eSpriteData{0, 229, 0, 8, 18}, // 2920
+   eSpriteData{0, 237, 0, 10, 20}, // 2921
+   eSpriteData{0, 247, 0, 12, 19}, // 2922
    eSpriteData{-1, 0, 0, 0, 0}, // 2923
    eSpriteData{-1, 0, 0, 0, 0}, // 2924
    eSpriteData{-1, 0, 0, 0, 0}, // 2925
-   eSpriteData{0, 252, 0, 12, 17}, // 2926
-   eSpriteData{0, 264, 0, 11, 17}, // 2927
-   eSpriteData{0, 275, 0, 9, 18}, // 2928
-   eSpriteData{0, 284, 0, 10, 19}, // 2929
-   eSpriteData{0, 294, 0, 12, 19}, // 2930
+   eSpriteData{0, 259, 0, 12, 18}, // 2926
+   eSpriteData{0, 271, 0, 12, 18}, // 2927
+   eSpriteData{0, 283, 0, 9, 19}, // 2928
+   eSpriteData{0, 292, 0, 10, 20}, // 2929
+   eSpriteData{0, 302, 0, 13, 20}, // 2930
    eSpriteData{-1, 0, 0, 0, 0}, // 2931
    eSpriteData{-1, 0, 0, 0, 0}, // 2932
    eSpriteData{-1, 0, 0, 0, 0}, // 2933
-   eSpriteData{0, 306, 0, 12, 18}, // 2934
-   eSpriteData{0, 318, 0, 12, 17}, // 2935
-   eSpriteData{0, 330, 0, 10, 18}, // 2936
-   eSpriteData{0, 340, 0, 10, 19}, // 2937
-   eSpriteData{0, 350, 0, 11, 20}, // 2938
+   eSpriteData{0, 315, 0, 12, 19}, // 2934
+   eSpriteData{0, 327, 0, 12, 18}, // 2935
+   eSpriteData{0, 339, 0, 10, 19}, // 2936
+   eSpriteData{0, 349, 0, 11, 20}, // 2937
+   eSpriteData{0, 360, 0, 12, 21}, // 2938
    eSpriteData{-1, 0, 0, 0, 0}, // 2939
    eSpriteData{-1, 0, 0, 0, 0}, // 2940
    eSpriteData{-1, 0, 0, 0, 0}, // 2941
-   eSpriteData{0, 361, 0, 11, 18}, // 2942
-   eSpriteData{0, 372, 0, 11, 17}, // 2943
-   eSpriteData{0, 383, 0, 10, 18}, // 2944
-   eSpriteData{0, 393, 0, 9, 19}, // 2945
-   eSpriteData{0, 402, 0, 11, 19}, // 2946
+   eSpriteData{0, 372, 0, 12, 19}, // 2942
+   eSpriteData{0, 384, 0, 12, 18}, // 2943
+   eSpriteData{0, 396, 0, 10, 19}, // 2944
+   eSpriteData{0, 406, 0, 10, 20}, // 2945
+   eSpriteData{0, 416, 0, 12, 20}, // 2946
    eSpriteData{-1, 0, 0, 0, 0}, // 2947
    eSpriteData{-1, 0, 0, 0, 0}, // 2948
    eSpriteData{-1, 0, 0, 0, 0}, // 2949
-   eSpriteData{0, 413, 0, 11, 18}, // 2950
-   eSpriteData{0, 424, 0, 10, 17}, // 2951
-   eSpriteData{0, 434, 0, 8, 18}, // 2952
-   eSpriteData{0, 442, 0, 10, 19}, // 2953
-   eSpriteData{0, 452, 0, 12, 19}, // 2954
+   eSpriteData{0, 428, 0, 12, 19}, // 2950
+   eSpriteData{0, 440, 0, 11, 17}, // 2951
+   eSpriteData{0, 451, 0, 8, 19}, // 2952
+   eSpriteData{0, 459, 0, 10, 20}, // 2953
+   eSpriteData{0, 469, 0, 12, 20}, // 2954
    eSpriteData{-1, 0, 0, 0, 0}, // 2955
    eSpriteData{-1, 0, 0, 0, 0}, // 2956
    eSpriteData{-1, 0, 0, 0, 0}, // 2957
-   eSpriteData{0, 464, 0, 12, 18}, // 2958
-   eSpriteData{0, 476, 0, 12, 17}, // 2959
-   eSpriteData{0, 488, 0, 8, 17}, // 2960
-   eSpriteData{0, 496, 0, 9, 19}, // 2961
-   eSpriteData{0, 505, 0, 12, 18}, // 2962
+   eSpriteData{0, 481, 0, 12, 19}, // 2958
+   eSpriteData{0, 493, 0, 13, 17}, // 2959
+   eSpriteData{0, 506, 0, 8, 18}, // 2960
+   eSpriteData{0, 514, 0, 9, 20}, // 2961
+   eSpriteData{0, 523, 0, 13, 19}, // 2962
    eSpriteData{-1, 0, 0, 0, 0}, // 2963
    eSpriteData{-1, 0, 0, 0, 0}, // 2964
    eSpriteData{-1, 0, 0, 0, 0}, // 2965
-   eSpriteData{0, 517, 0, 12, 17}, // 2966
-   eSpriteData{0, 529, 0, 13, 17}, // 2967
-   eSpriteData{0, 542, 0, 8, 17}, // 2968
-   eSpriteData{0, 550, 0, 8, 19}, // 2969
-   eSpriteData{0, 558, 0, 12, 18}, // 2970
+   eSpriteData{0, 536, 0, 13, 17}, // 2966
+   eSpriteData{0, 549, 0, 13, 18}, // 2967
+   eSpriteData{0, 562, 0, 8, 18}, // 2968
+   eSpriteData{0, 570, 0, 8, 20}, // 2969
+   eSpriteData{0, 578, 0, 13, 19}, // 2970
    eSpriteData{-1, 0, 0, 0, 0}, // 2971
    eSpriteData{-1, 0, 0, 0, 0}, // 2972
    eSpriteData{-1, 0, 0, 0, 0}, // 2973
-   eSpriteData{0, 570, 0, 12, 17}, // 2974
-   eSpriteData{0, 582, 0, 13, 18}, // 2975
-   eSpriteData{0, 595, 0, 9, 17}, // 2976
-   eSpriteData{0, 604, 0, 8, 19}, // 2977
-   eSpriteData{0, 612, 0, 12, 19}, // 2978
+   eSpriteData{0, 591, 0, 12, 18}, // 2974
+   eSpriteData{0, 603, 0, 14, 19}, // 2975
+   eSpriteData{0, 617, 0, 9, 18}, // 2976
+   eSpriteData{0, 626, 0, 8, 20}, // 2977
+   eSpriteData{0, 634, 0, 13, 20}, // 2978
    eSpriteData{-1, 0, 0, 0, 0}, // 2979
    eSpriteData{-1, 0, 0, 0, 0}, // 2980
    eSpriteData{-1, 0, 0, 0, 0}, // 2981
-   eSpriteData{0, 624, 0, 12, 18}, // 2982
-   eSpriteData{0, 636, 0, 10, 18}, // 2983
-   eSpriteData{0, 646, 0, 12, 19}, // 2984
-   eSpriteData{0, 658, 0, 14, 20}, // 2985
-   eSpriteData{0, 672, 0, 14, 20}, // 2986
-   eSpriteData{0, 686, 0, 15, 20}, // 2987
-   eSpriteData{0, 701, 0, 16, 18}, // 2988
-   eSpriteData{0, 717, 0, 16, 18}, // 2989
-   eSpriteData{0, 733, 0, 16, 17}, // 2990
+   eSpriteData{0, 647, 0, 12, 19}, // 2982
+   eSpriteData{0, 659, 0, 10, 19}, // 2983
+   eSpriteData{0, 669, 0, 13, 20}, // 2984
+   eSpriteData{0, 682, 0, 14, 21}, // 2985
+   eSpriteData{0, 696, 0, 15, 21}, // 2986
+   eSpriteData{0, 711, 0, 16, 21}, // 2987
+   eSpriteData{0, 727, 0, 16, 19}, // 2988
+   eSpriteData{0, 743, 0, 16, 19}, // 2989
+   eSpriteData{0, 759, 0, 16, 18}, // 2990
 };

@@ -3,13 +3,13 @@
 #include "espritedata.h"
 
 const auto eGatehouseAndTowerSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 59, 73}, // 50
-   eSpriteData{0, 59, 0, 59, 73}, // 51
-   eSpriteData{0, 118, 0, 29, 56}, // 52
-   eSpriteData{0, 147, 0, 29, 51}, // 53
-   eSpriteData{0, 176, 0, 29, 49}, // 54
-   eSpriteData{0, 205, 0, 29, 49}, // 55
-   eSpriteData{0, 234, 0, 59, 87}, // 56
-   eSpriteData{0, 293, 0, 26, 56}, // 57
-   eSpriteData{0, 319, 0, 24, 51}, // 58
+   eSpriteData{0, 0, 0, 63, 77}, // 50
+   eSpriteData{0, 63, 0, 63, 77}, // 51
+   eSpriteData{0, 126, 0, 31, 59}, // 52
+   eSpriteData{0, 157, 0, 31, 54}, // 53
+   eSpriteData{0, 188, 0, 31, 51}, // 54
+   eSpriteData{0, 219, 0, 31, 52}, // 55
+   eSpriteData{0, 250, 0, 63, 92}, // 56
+   eSpriteData{0, 313, 0, 27, 59}, // 57
+   eSpriteData{0, 340, 0, 25, 54}, // 58
 };

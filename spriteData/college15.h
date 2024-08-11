@@ -3,29 +3,29 @@
 #include "espritedata.h"
 
 const auto eCollegeSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 89, 72}, // 1
-   eSpriteData{0, 89, 0, 47, 46}, // 2
-   eSpriteData{0, 136, 0, 47, 46}, // 3
-   eSpriteData{0, 183, 0, 47, 46}, // 4
-   eSpriteData{0, 230, 0, 47, 46}, // 5
-   eSpriteData{0, 277, 0, 47, 46}, // 6
-   eSpriteData{0, 324, 0, 47, 46}, // 7
-   eSpriteData{0, 371, 0, 47, 46}, // 8
-   eSpriteData{0, 418, 0, 47, 46}, // 9
-   eSpriteData{0, 465, 0, 47, 46}, // 10
-   eSpriteData{0, 512, 0, 47, 46}, // 11
-   eSpriteData{0, 559, 0, 47, 46}, // 12
-   eSpriteData{0, 606, 0, 47, 46}, // 13
-   eSpriteData{0, 653, 0, 47, 46}, // 14
-   eSpriteData{0, 700, 0, 47, 46}, // 15
-   eSpriteData{0, 747, 0, 47, 46}, // 16
-   eSpriteData{0, 794, 0, 47, 46}, // 17
-   eSpriteData{0, 841, 0, 47, 46}, // 18
-   eSpriteData{0, 888, 0, 47, 46}, // 19
-   eSpriteData{0, 935, 0, 47, 46}, // 20
-   eSpriteData{0, 982, 0, 47, 46}, // 21
-   eSpriteData{0, 1029, 0, 47, 46}, // 22
-   eSpriteData{0, 1076, 0, 47, 46}, // 23
-   eSpriteData{0, 1123, 0, 47, 46}, // 24
-   eSpriteData{0, 1170, 0, 47, 46}, // 25
+   eSpriteData{0, 0, 0, 94, 76}, // 1
+   eSpriteData{0, 94, 0, 50, 48}, // 2
+   eSpriteData{0, 144, 0, 50, 48}, // 3
+   eSpriteData{0, 194, 0, 50, 48}, // 4
+   eSpriteData{0, 244, 0, 50, 48}, // 5
+   eSpriteData{0, 294, 0, 50, 48}, // 6
+   eSpriteData{0, 344, 0, 50, 48}, // 7
+   eSpriteData{0, 394, 0, 50, 48}, // 8
+   eSpriteData{0, 444, 0, 50, 48}, // 9
+   eSpriteData{0, 494, 0, 50, 48}, // 10
+   eSpriteData{0, 544, 0, 50, 48}, // 11
+   eSpriteData{0, 594, 0, 50, 48}, // 12
+   eSpriteData{0, 644, 0, 50, 48}, // 13
+   eSpriteData{0, 694, 0, 50, 48}, // 14
+   eSpriteData{0, 744, 0, 50, 48}, // 15
+   eSpriteData{0, 794, 0, 50, 48}, // 16
+   eSpriteData{0, 844, 0, 50, 48}, // 17
+   eSpriteData{0, 894, 0, 50, 48}, // 18
+   eSpriteData{0, 944, 0, 50, 48}, // 19
+   eSpriteData{0, 994, 0, 50, 48}, // 20
+   eSpriteData{0, 1044, 0, 50, 48}, // 21
+   eSpriteData{0, 1094, 0, 50, 48}, // 22
+   eSpriteData{0, 1144, 0, 50, 48}, // 23
+   eSpriteData{0, 1194, 0, 50, 48}, // 24
+   eSpriteData{0, 1244, 0, 50, 48}, // 25
 };

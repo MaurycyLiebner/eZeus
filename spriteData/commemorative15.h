@@ -3,13 +3,13 @@
 #include "espritedata.h"
 
 const auto eCommemorativeSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 89, 74}, // 25
-   eSpriteData{0, 89, 0, 89, 74}, // 26
-   eSpriteData{0, 178, 0, 89, 74}, // 27
-   eSpriteData{0, 267, 0, 89, 74}, // 28
-   eSpriteData{0, 356, 0, 89, 74}, // 29
-   eSpriteData{0, 445, 0, 89, 74}, // 30
-   eSpriteData{0, 534, 0, 89, 74}, // 31
-   eSpriteData{0, 623, 0, 89, 78}, // 32
-   eSpriteData{0, 712, 0, 89, 74}, // 33
+   eSpriteData{0, 0, 0, 94, 78}, // 25
+   eSpriteData{0, 94, 0, 94, 78}, // 26
+   eSpriteData{0, 188, 0, 94, 78}, // 27
+   eSpriteData{0, 282, 0, 94, 78}, // 28
+   eSpriteData{0, 376, 0, 94, 78}, // 29
+   eSpriteData{0, 470, 0, 94, 78}, // 30
+   eSpriteData{0, 564, 0, 94, 78}, // 31
+   eSpriteData{0, 658, 0, 94, 82}, // 32
+   eSpriteData{0, 752, 0, 94, 78}, // 33
 };

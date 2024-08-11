@@ -3,5 +3,5 @@
 #include "espritedata.h"
 
 const auto ePoseidonCampaign5SpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 200, 150}, // 5
+   eSpriteData{0, 0, 0, 212, 159}, // 5
 };

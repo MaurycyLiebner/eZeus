@@ -3,8 +3,8 @@
 #include "espritedata.h"
 
 const auto eUrchinQuaySpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 59, 47}, // 52
-   eSpriteData{0, 59, 0, 59, 50}, // 53
-   eSpriteData{0, 118, 0, 59, 37}, // 54
-   eSpriteData{0, 177, 0, 59, 39}, // 55
+   eSpriteData{0, 0, 0, 63, 49}, // 52
+   eSpriteData{0, 63, 0, 63, 52}, // 53
+   eSpriteData{0, 126, 0, 63, 39}, // 54
+   eSpriteData{0, 189, 0, 63, 41}, // 55
 };

@@ -3,28 +3,28 @@
 #include "espritedata.h"
 
 const auto eTheaterOverlaySpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 82, 73}, // 656
-   eSpriteData{0, 82, 0, 83, 73}, // 657
-   eSpriteData{0, 165, 0, 83, 73}, // 658
-   eSpriteData{0, 248, 0, 83, 73}, // 659
-   eSpriteData{0, 331, 0, 83, 73}, // 660
-   eSpriteData{0, 414, 0, 83, 73}, // 661
-   eSpriteData{0, 497, 0, 83, 73}, // 662
-   eSpriteData{0, 580, 0, 83, 73}, // 663
-   eSpriteData{0, 663, 0, 83, 73}, // 664
-   eSpriteData{0, 746, 0, 83, 73}, // 665
-   eSpriteData{0, 829, 0, 83, 73}, // 666
-   eSpriteData{0, 912, 0, 83, 73}, // 667
-   eSpriteData{0, 995, 0, 83, 73}, // 668
-   eSpriteData{0, 1078, 0, 83, 73}, // 669
-   eSpriteData{0, 1161, 0, 83, 73}, // 670
-   eSpriteData{0, 1244, 0, 83, 73}, // 671
-   eSpriteData{0, 1327, 0, 83, 73}, // 672
-   eSpriteData{0, 1410, 0, 83, 73}, // 673
-   eSpriteData{0, 1493, 0, 83, 73}, // 674
-   eSpriteData{0, 1576, 0, 83, 73}, // 675
-   eSpriteData{0, 1659, 0, 83, 73}, // 676
-   eSpriteData{0, 1742, 0, 83, 73}, // 677
-   eSpriteData{0, 1825, 0, 83, 73}, // 678
-   eSpriteData{0, 1908, 0, 83, 73}, // 679
+   eSpriteData{0, 0, 0, 87, 77}, // 656
+   eSpriteData{0, 87, 0, 87, 77}, // 657
+   eSpriteData{0, 174, 0, 87, 77}, // 658
+   eSpriteData{0, 261, 0, 87, 77}, // 659
+   eSpriteData{0, 348, 0, 88, 77}, // 660
+   eSpriteData{0, 436, 0, 88, 77}, // 661
+   eSpriteData{0, 524, 0, 88, 77}, // 662
+   eSpriteData{0, 612, 0, 88, 77}, // 663
+   eSpriteData{0, 700, 0, 88, 77}, // 664
+   eSpriteData{0, 788, 0, 88, 77}, // 665
+   eSpriteData{0, 876, 0, 88, 77}, // 666
+   eSpriteData{0, 964, 0, 88, 77}, // 667
+   eSpriteData{0, 1052, 0, 88, 77}, // 668
+   eSpriteData{0, 1140, 0, 88, 77}, // 669
+   eSpriteData{0, 1228, 0, 88, 77}, // 670
+   eSpriteData{0, 1316, 0, 88, 77}, // 671
+   eSpriteData{0, 1404, 0, 88, 77}, // 672
+   eSpriteData{0, 1492, 0, 87, 77}, // 673
+   eSpriteData{0, 1579, 0, 87, 77}, // 674
+   eSpriteData{0, 1666, 0, 87, 77}, // 675
+   eSpriteData{0, 1753, 0, 87, 77}, // 676
+   eSpriteData{0, 1840, 0, 87, 77}, // 677
+   eSpriteData{0, 1927, 0, 87, 77}, // 678
+   eSpriteData{0, 0, 77, 87, 77}, // 679
 };

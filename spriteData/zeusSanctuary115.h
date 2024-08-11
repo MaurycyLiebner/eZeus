@@ -3,8 +3,8 @@
 #include "espritedata.h"
 
 const auto eZeusSanctuary1SpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 119, 93}, // 1
-   eSpriteData{0, 119, 0, 119, 98}, // 2
-   eSpriteData{0, 238, 0, 119, 69}, // 3
-   eSpriteData{0, 357, 0, 119, 63}, // 4
+   eSpriteData{0, 0, 0, 126, 98}, // 1
+   eSpriteData{0, 126, 0, 126, 104}, // 2
+   eSpriteData{0, 252, 0, 126, 73}, // 3
+   eSpriteData{0, 378, 0, 126, 67}, // 4
 };

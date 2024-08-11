@@ -3,17 +3,17 @@
 #include "espritedata.h"
 
 const auto eFoundrySpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 59, 43}, // 36
-   eSpriteData{0, 59, 0, 60, 44}, // 37
-   eSpriteData{0, 119, 0, 60, 44}, // 38
-   eSpriteData{0, 179, 0, 60, 44}, // 39
-   eSpriteData{0, 239, 0, 60, 44}, // 40
-   eSpriteData{0, 299, 0, 60, 44}, // 41
-   eSpriteData{0, 359, 0, 60, 44}, // 42
-   eSpriteData{0, 419, 0, 60, 44}, // 43
-   eSpriteData{0, 479, 0, 60, 44}, // 44
-   eSpriteData{0, 539, 0, 60, 44}, // 45
-   eSpriteData{0, 599, 0, 60, 44}, // 46
-   eSpriteData{0, 659, 0, 60, 44}, // 47
-   eSpriteData{0, 719, 0, 60, 44}, // 48
+   eSpriteData{0, 0, 0, 63, 45}, // 36
+   eSpriteData{0, 63, 0, 64, 47}, // 37
+   eSpriteData{0, 127, 0, 64, 47}, // 38
+   eSpriteData{0, 191, 0, 64, 47}, // 39
+   eSpriteData{0, 255, 0, 64, 47}, // 40
+   eSpriteData{0, 319, 0, 64, 47}, // 41
+   eSpriteData{0, 383, 0, 64, 47}, // 42
+   eSpriteData{0, 447, 0, 64, 47}, // 43
+   eSpriteData{0, 511, 0, 64, 47}, // 44
+   eSpriteData{0, 575, 0, 64, 47}, // 45
+   eSpriteData{0, 639, 0, 64, 47}, // 46
+   eSpriteData{0, 703, 0, 64, 47}, // 47
+   eSpriteData{0, 767, 0, 64, 47}, // 48
 };

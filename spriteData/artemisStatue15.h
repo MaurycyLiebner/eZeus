@@ -3,8 +3,8 @@
 #include "espritedata.h"
 
 const auto eArtemisStatueSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 59, 99}, // 1
-   eSpriteData{0, 59, 0, 59, 103}, // 2
-   eSpriteData{0, 118, 0, 59, 104}, // 3
-   eSpriteData{0, 177, 0, 59, 100}, // 4
+   eSpriteData{0, 0, 0, 63, 105}, // 1
+   eSpriteData{0, 63, 0, 63, 109}, // 2
+   eSpriteData{0, 126, 0, 63, 110}, // 3
+   eSpriteData{0, 189, 0, 63, 105}, // 4
 };

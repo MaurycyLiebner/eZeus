@@ -3,16 +3,16 @@
 #include "espritedata.h"
 
 const auto eBridgeSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 60, 50}, // 77
-   eSpriteData{0, 60, 0, 60, 50}, // 78
-   eSpriteData{0, 120, 0, 60, 50}, // 79
-   eSpriteData{0, 180, 0, 60, 50}, // 80
-   eSpriteData{0, 240, 0, 60, 50}, // 81
-   eSpriteData{0, 300, 0, 60, 50}, // 82
-   eSpriteData{0, 360, 0, 60, 50}, // 83
-   eSpriteData{0, 420, 0, 60, 50}, // 84
-   eSpriteData{0, 480, 0, 29, 17}, // 85
-   eSpriteData{0, 509, 0, 29, 17}, // 86
-   eSpriteData{0, 538, 0, 29, 16}, // 87
-   eSpriteData{0, 567, 0, 29, 16}, // 88
+   eSpriteData{0, 0, 0, 63, 53}, // 77
+   eSpriteData{0, 63, 0, 63, 53}, // 78
+   eSpriteData{0, 126, 0, 63, 53}, // 79
+   eSpriteData{0, 189, 0, 63, 53}, // 80
+   eSpriteData{0, 252, 0, 63, 53}, // 81
+   eSpriteData{0, 315, 0, 63, 53}, // 82
+   eSpriteData{0, 378, 0, 63, 53}, // 83
+   eSpriteData{0, 441, 0, 63, 53}, // 84
+   eSpriteData{0, 504, 0, 31, 18}, // 85
+   eSpriteData{0, 535, 0, 31, 18}, // 86
+   eSpriteData{0, 566, 0, 31, 16}, // 87
+   eSpriteData{0, 597, 0, 31, 17}, // 88
 };

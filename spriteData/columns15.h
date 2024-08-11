@@ -3,9 +3,9 @@
 #include "espritedata.h"
 
 const auto eColumnsSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 29, 31}, // 34
-   eSpriteData{0, 29, 0, 29, 31}, // 35
-   eSpriteData{0, 58, 0, 29, 31}, // 36
-   eSpriteData{0, 87, 0, 16, 10}, // 37
-   eSpriteData{0, 103, 0, 15, 11}, // 38
+   eSpriteData{0, 0, 0, 31, 33}, // 34
+   eSpriteData{0, 31, 0, 31, 33}, // 35
+   eSpriteData{0, 62, 0, 31, 33}, // 36
+   eSpriteData{0, 93, 0, 16, 10}, // 37
+   eSpriteData{0, 109, 0, 16, 12}, // 38
 };

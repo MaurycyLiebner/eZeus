@@ -3,28 +3,28 @@
 #include "espritedata.h"
 
 const auto eCursedSpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 60, 60}, // 692
-   eSpriteData{0, 60, 0, 60, 60}, // 693
-   eSpriteData{0, 120, 0, 60, 60}, // 694
-   eSpriteData{0, 180, 0, 60, 60}, // 695
-   eSpriteData{0, 240, 0, 60, 60}, // 696
-   eSpriteData{0, 300, 0, 60, 60}, // 697
-   eSpriteData{0, 360, 0, 60, 60}, // 698
-   eSpriteData{0, 420, 0, 60, 60}, // 699
-   eSpriteData{0, 480, 0, 60, 60}, // 700
-   eSpriteData{0, 540, 0, 60, 60}, // 701
-   eSpriteData{0, 600, 0, 60, 60}, // 702
-   eSpriteData{0, 660, 0, 60, 60}, // 703
-   eSpriteData{0, 720, 0, 60, 60}, // 704
-   eSpriteData{0, 780, 0, 60, 60}, // 705
-   eSpriteData{0, 840, 0, 60, 60}, // 706
-   eSpriteData{0, 900, 0, 60, 60}, // 707
-   eSpriteData{0, 960, 0, 60, 60}, // 708
-   eSpriteData{0, 1020, 0, 60, 60}, // 709
-   eSpriteData{0, 1080, 0, 60, 60}, // 710
-   eSpriteData{0, 1140, 0, 60, 60}, // 711
-   eSpriteData{0, 1200, 0, 60, 60}, // 712
-   eSpriteData{0, 1260, 0, 60, 60}, // 713
-   eSpriteData{0, 1320, 0, 60, 60}, // 714
-   eSpriteData{0, 1380, 0, 60, 60}, // 715
+   eSpriteData{0, 0, 0, 64, 64}, // 692
+   eSpriteData{0, 64, 0, 64, 64}, // 693
+   eSpriteData{0, 128, 0, 64, 64}, // 694
+   eSpriteData{0, 192, 0, 64, 64}, // 695
+   eSpriteData{0, 256, 0, 64, 64}, // 696
+   eSpriteData{0, 320, 0, 64, 64}, // 697
+   eSpriteData{0, 384, 0, 64, 64}, // 698
+   eSpriteData{0, 448, 0, 64, 64}, // 699
+   eSpriteData{0, 512, 0, 64, 64}, // 700
+   eSpriteData{0, 576, 0, 64, 64}, // 701
+   eSpriteData{0, 640, 0, 64, 64}, // 702
+   eSpriteData{0, 704, 0, 64, 64}, // 703
+   eSpriteData{0, 768, 0, 64, 64}, // 704
+   eSpriteData{0, 832, 0, 64, 64}, // 705
+   eSpriteData{0, 896, 0, 64, 64}, // 706
+   eSpriteData{0, 960, 0, 64, 64}, // 707
+   eSpriteData{0, 1024, 0, 64, 64}, // 708
+   eSpriteData{0, 1088, 0, 64, 64}, // 709
+   eSpriteData{0, 1152, 0, 64, 64}, // 710
+   eSpriteData{0, 1216, 0, 64, 64}, // 711
+   eSpriteData{0, 1280, 0, 64, 64}, // 712
+   eSpriteData{0, 1344, 0, 64, 64}, // 713
+   eSpriteData{0, 1408, 0, 64, 64}, // 714
+   eSpriteData{0, 1472, 0, 64, 64}, // 715
 };

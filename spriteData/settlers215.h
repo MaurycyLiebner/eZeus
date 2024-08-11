@@ -3,108 +3,108 @@
 #include "espritedata.h"
 
 const auto eSettlers2SpriteData15 = std::vector<eSpriteData> {
-   eSpriteData{0, 0, 0, 26, 31}, // 1793
-   eSpriteData{0, 26, 0, 29, 22}, // 1794
-   eSpriteData{0, 55, 0, 26, 24}, // 1795
-   eSpriteData{0, 81, 0, 15, 26}, // 1796
+   eSpriteData{0, 0, 0, 27, 32}, // 1793
+   eSpriteData{0, 27, 0, 31, 23}, // 1794
+   eSpriteData{0, 58, 0, 28, 25}, // 1795
+   eSpriteData{0, 86, 0, 16, 27}, // 1796
    eSpriteData{-1, 0, 0, 0, 0}, // 1797
    eSpriteData{-1, 0, 0, 0, 0}, // 1798
    eSpriteData{-1, 0, 0, 0, 0}, // 1799
-   eSpriteData{0, 96, 0, 16, 33}, // 1800
-   eSpriteData{0, 112, 0, 26, 31}, // 1801
-   eSpriteData{0, 138, 0, 29, 23}, // 1802
-   eSpriteData{0, 167, 0, 26, 24}, // 1803
-   eSpriteData{0, 193, 0, 15, 26}, // 1804
+   eSpriteData{0, 102, 0, 16, 34}, // 1800
+   eSpriteData{0, 118, 0, 27, 33}, // 1801
+   eSpriteData{0, 145, 0, 31, 24}, // 1802
+   eSpriteData{0, 176, 0, 28, 25}, // 1803
+   eSpriteData{0, 204, 0, 16, 27}, // 1804
    eSpriteData{-1, 0, 0, 0, 0}, // 1805
    eSpriteData{-1, 0, 0, 0, 0}, // 1806
    eSpriteData{-1, 0, 0, 0, 0}, // 1807
-   eSpriteData{0, 208, 0, 16, 33}, // 1808
-   eSpriteData{0, 224, 0, 26, 31}, // 1809
-   eSpriteData{0, 250, 0, 29, 23}, // 1810
-   eSpriteData{0, 279, 0, 26, 24}, // 1811
-   eSpriteData{0, 305, 0, 16, 26}, // 1812
+   eSpriteData{0, 220, 0, 16, 34}, // 1808
+   eSpriteData{0, 236, 0, 27, 33}, // 1809
+   eSpriteData{0, 263, 0, 31, 24}, // 1810
+   eSpriteData{0, 294, 0, 27, 25}, // 1811
+   eSpriteData{0, 321, 0, 16, 27}, // 1812
    eSpriteData{-1, 0, 0, 0, 0}, // 1813
    eSpriteData{-1, 0, 0, 0, 0}, // 1814
    eSpriteData{-1, 0, 0, 0, 0}, // 1815
-   eSpriteData{0, 321, 0, 16, 33}, // 1816
-   eSpriteData{0, 337, 0, 26, 31}, // 1817
-   eSpriteData{0, 363, 0, 29, 22}, // 1818
-   eSpriteData{0, 392, 0, 26, 24}, // 1819
-   eSpriteData{0, 418, 0, 16, 26}, // 1820
+   eSpriteData{0, 337, 0, 16, 34}, // 1816
+   eSpriteData{0, 353, 0, 27, 32}, // 1817
+   eSpriteData{0, 380, 0, 30, 23}, // 1818
+   eSpriteData{0, 410, 0, 27, 25}, // 1819
+   eSpriteData{0, 437, 0, 16, 27}, // 1820
    eSpriteData{-1, 0, 0, 0, 0}, // 1821
    eSpriteData{-1, 0, 0, 0, 0}, // 1822
    eSpriteData{-1, 0, 0, 0, 0}, // 1823
-   eSpriteData{0, 434, 0, 16, 33}, // 1824
-   eSpriteData{0, 450, 0, 26, 30}, // 1825
-   eSpriteData{0, 476, 0, 29, 22}, // 1826
-   eSpriteData{0, 505, 0, 25, 24}, // 1827
-   eSpriteData{0, 530, 0, 16, 26}, // 1828
+   eSpriteData{0, 453, 0, 16, 34}, // 1824
+   eSpriteData{0, 469, 0, 27, 32}, // 1825
+   eSpriteData{0, 496, 0, 30, 23}, // 1826
+   eSpriteData{0, 526, 0, 27, 25}, // 1827
+   eSpriteData{0, 553, 0, 16, 27}, // 1828
    eSpriteData{-1, 0, 0, 0, 0}, // 1829
    eSpriteData{-1, 0, 0, 0, 0}, // 1830
    eSpriteData{-1, 0, 0, 0, 0}, // 1831
-   eSpriteData{0, 546, 0, 16, 33}, // 1832
-   eSpriteData{0, 562, 0, 26, 30}, // 1833
-   eSpriteData{0, 588, 0, 29, 22}, // 1834
-   eSpriteData{0, 617, 0, 25, 24}, // 1835
-   eSpriteData{0, 642, 0, 16, 26}, // 1836
+   eSpriteData{0, 569, 0, 16, 34}, // 1832
+   eSpriteData{0, 585, 0, 27, 32}, // 1833
+   eSpriteData{0, 612, 0, 30, 23}, // 1834
+   eSpriteData{0, 642, 0, 27, 25}, // 1835
+   eSpriteData{0, 669, 0, 16, 27}, // 1836
    eSpriteData{-1, 0, 0, 0, 0}, // 1837
    eSpriteData{-1, 0, 0, 0, 0}, // 1838
    eSpriteData{-1, 0, 0, 0, 0}, // 1839
-   eSpriteData{0, 658, 0, 16, 33}, // 1840
-   eSpriteData{0, 674, 0, 26, 30}, // 1841
-   eSpriteData{0, 700, 0, 29, 22}, // 1842
-   eSpriteData{0, 729, 0, 25, 24}, // 1843
-   eSpriteData{0, 754, 0, 16, 26}, // 1844
+   eSpriteData{0, 685, 0, 16, 34}, // 1840
+   eSpriteData{0, 701, 0, 27, 32}, // 1841
+   eSpriteData{0, 728, 0, 30, 23}, // 1842
+   eSpriteData{0, 758, 0, 27, 25}, // 1843
+   eSpriteData{0, 785, 0, 16, 27}, // 1844
    eSpriteData{-1, 0, 0, 0, 0}, // 1845
    eSpriteData{-1, 0, 0, 0, 0}, // 1846
    eSpriteData{-1, 0, 0, 0, 0}, // 1847
-   eSpriteData{0, 770, 0, 16, 33}, // 1848
-   eSpriteData{0, 786, 0, 26, 30}, // 1849
-   eSpriteData{0, 812, 0, 29, 22}, // 1850
-   eSpriteData{0, 841, 0, 25, 24}, // 1851
-   eSpriteData{0, 866, 0, 16, 26}, // 1852
+   eSpriteData{0, 801, 0, 16, 34}, // 1848
+   eSpriteData{0, 817, 0, 27, 32}, // 1849
+   eSpriteData{0, 844, 0, 30, 23}, // 1850
+   eSpriteData{0, 874, 0, 27, 25}, // 1851
+   eSpriteData{0, 901, 0, 16, 27}, // 1852
    eSpriteData{-1, 0, 0, 0, 0}, // 1853
    eSpriteData{-1, 0, 0, 0, 0}, // 1854
    eSpriteData{-1, 0, 0, 0, 0}, // 1855
-   eSpriteData{0, 882, 0, 16, 33}, // 1856
-   eSpriteData{0, 898, 0, 26, 30}, // 1857
-   eSpriteData{0, 924, 0, 29, 22}, // 1858
-   eSpriteData{0, 953, 0, 25, 24}, // 1859
-   eSpriteData{0, 978, 0, 16, 26}, // 1860
+   eSpriteData{0, 917, 0, 16, 34}, // 1856
+   eSpriteData{0, 933, 0, 27, 32}, // 1857
+   eSpriteData{0, 960, 0, 30, 23}, // 1858
+   eSpriteData{0, 990, 0, 27, 25}, // 1859
+   eSpriteData{0, 1017, 0, 16, 27}, // 1860
    eSpriteData{-1, 0, 0, 0, 0}, // 1861
    eSpriteData{-1, 0, 0, 0, 0}, // 1862
    eSpriteData{-1, 0, 0, 0, 0}, // 1863
-   eSpriteData{0, 994, 0, 16, 33}, // 1864
-   eSpriteData{0, 1010, 0, 26, 31}, // 1865
-   eSpriteData{0, 1036, 0, 29, 23}, // 1866
-   eSpriteData{0, 1065, 0, 26, 24}, // 1867
-   eSpriteData{0, 1091, 0, 16, 26}, // 1868
+   eSpriteData{0, 1033, 0, 16, 34}, // 1864
+   eSpriteData{0, 1049, 0, 27, 32}, // 1865
+   eSpriteData{0, 1076, 0, 30, 24}, // 1866
+   eSpriteData{0, 1106, 0, 27, 25}, // 1867
+   eSpriteData{0, 1133, 0, 16, 27}, // 1868
    eSpriteData{-1, 0, 0, 0, 0}, // 1869
    eSpriteData{-1, 0, 0, 0, 0}, // 1870
    eSpriteData{-1, 0, 0, 0, 0}, // 1871
-   eSpriteData{0, 1107, 0, 16, 33}, // 1872
-   eSpriteData{0, 1123, 0, 26, 31}, // 1873
-   eSpriteData{0, 1149, 0, 29, 23}, // 1874
-   eSpriteData{0, 1178, 0, 26, 24}, // 1875
-   eSpriteData{0, 1204, 0, 16, 26}, // 1876
+   eSpriteData{0, 1149, 0, 16, 34}, // 1872
+   eSpriteData{0, 1165, 0, 27, 33}, // 1873
+   eSpriteData{0, 1192, 0, 31, 24}, // 1874
+   eSpriteData{0, 1223, 0, 27, 25}, // 1875
+   eSpriteData{0, 1250, 0, 16, 27}, // 1876
    eSpriteData{-1, 0, 0, 0, 0}, // 1877
    eSpriteData{-1, 0, 0, 0, 0}, // 1878
    eSpriteData{-1, 0, 0, 0, 0}, // 1879
-   eSpriteData{0, 1220, 0, 16, 33}, // 1880
-   eSpriteData{0, 1236, 0, 26, 31}, // 1881
-   eSpriteData{0, 1262, 0, 29, 23}, // 1882
-   eSpriteData{0, 1291, 0, 26, 24}, // 1883
-   eSpriteData{0, 1317, 0, 15, 26}, // 1884
+   eSpriteData{0, 1266, 0, 16, 34}, // 1880
+   eSpriteData{0, 1282, 0, 27, 33}, // 1881
+   eSpriteData{0, 1309, 0, 31, 24}, // 1882
+   eSpriteData{0, 1340, 0, 28, 25}, // 1883
+   eSpriteData{0, 1368, 0, 16, 27}, // 1884
    eSpriteData{-1, 0, 0, 0, 0}, // 1885
    eSpriteData{-1, 0, 0, 0, 0}, // 1886
    eSpriteData{-1, 0, 0, 0, 0}, // 1887
-   eSpriteData{0, 1332, 0, 16, 33}, // 1888
-   eSpriteData{0, 1348, 0, 26, 24}, // 1889
-   eSpriteData{0, 1374, 0, 27, 25}, // 1890
-   eSpriteData{0, 1401, 0, 27, 26}, // 1891
-   eSpriteData{0, 1428, 0, 29, 27}, // 1892
-   eSpriteData{0, 1457, 0, 30, 27}, // 1893
-   eSpriteData{0, 1487, 0, 32, 27}, // 1894
-   eSpriteData{0, 1519, 0, 32, 29}, // 1895
-   eSpriteData{0, 1551, 0, 33, 30}, // 1896
+   eSpriteData{0, 1384, 0, 16, 34}, // 1888
+   eSpriteData{0, 1400, 0, 27, 25}, // 1889
+   eSpriteData{0, 1427, 0, 29, 26}, // 1890
+   eSpriteData{0, 1456, 0, 29, 27}, // 1891
+   eSpriteData{0, 1485, 0, 30, 29}, // 1892
+   eSpriteData{0, 1515, 0, 31, 29}, // 1893
+   eSpriteData{0, 1546, 0, 33, 29}, // 1894
+   eSpriteData{0, 1579, 0, 33, 30}, // 1895
+   eSpriteData{0, 1612, 0, 34, 31}, // 1896
 };
