@@ -1304,6 +1304,10 @@ HEADERS += \
     spriteData/blackArrow30.h \
     spriteData/blackArrow45.h \
     spriteData/blackArrow60.h \
+    spriteData/blackMarbleWorkshop15.h \
+    spriteData/blackMarbleWorkshop30.h \
+    spriteData/blackMarbleWorkshop45.h \
+    spriteData/blackMarbleWorkshop60.h \
     spriteData/blackSpear15.h \
     spriteData/blackSpear30.h \
     spriteData/blackSpear45.h \
@@ -2708,6 +2712,7 @@ DISTFILES += \
     textureTemplates/bibliotheke \
     textureTemplates/birdBath \
     textureTemplates/blackArrow \
+    textureTemplates/blackMarbleWorkshop \
     textureTemplates/blackSpear \
     textureTemplates/blankStatue \
     textureTemplates/bless \

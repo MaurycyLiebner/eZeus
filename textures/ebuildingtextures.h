@@ -63,6 +63,10 @@ public:
     void loadTimberMill();
     bool fMasonryShopLoaded = false;
     void loadMasonryShop();
+    bool fBlackMarbleWorkshopLoaded = false;
+    void loadBlackMarbleWorkshop();
+    bool fMasonryShopOverlaysLoaded = false;
+    void loadMasonryShopOverlays();
     bool fMintLoaded = false;
     void loadMint();
     bool fFoundryLoaded = false;
@@ -352,6 +356,8 @@ public:
 
     std::shared_ptr<eTexture> fMasonryShop;
     eTextureCollection fMasonryShopStones;
+    std::shared_ptr<eTexture> fBlackMarbleWorkshop;
+    eTextureCollection fBlackMarbleWorkshopStones;
     std::vector<eTextureCollection> fWaitingOverlay0;
     std::vector<eTextureCollection> fWaitingOverlay1;
     std::vector<eTextureCollection> fMasonryShopOverlay1;

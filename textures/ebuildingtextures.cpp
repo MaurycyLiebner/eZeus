@@ -686,6 +686,7 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
 
     fTimberMillOverlay(renderer),
     fMasonryShopStones(renderer),
+    fBlackMarbleWorkshopStones(renderer),
     fMintOverlay(renderer),
     fFoundryOverlay(renderer),
     fArtisansGuildOverlay(renderer),
@@ -1457,32 +1458,36 @@ void eBuildingTextures::loadMasonryShop() {
     if(fMasonryShopLoaded) return;
     fMasonryShopLoaded = true;
 
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eMasonryShopSpriteData15,
-                                     eMasonryShopSpriteData30,
-                                     eMasonryShopSpriteData45,
-                                     eMasonryShopSpriteData60);
-        eSpriteLoader loader(fTileH, "masonryShop", sds,
-                             nullptr, fRenderer);
+    const auto& sds = spriteData(fTileH,
+                                 eMasonryShopSpriteData15,
+                                 eMasonryShopSpriteData30,
+                                 eMasonryShopSpriteData45,
+                                 eMasonryShopSpriteData60);
+    eSpriteLoader loader(fTileH, "masonryShop", sds,
+                         nullptr, fRenderer);
 
-        fMasonryShop = loader.load(12, 12);
-        for(int i = 13; i < 21; i++) {
-            loader.load(12, i, fMasonryShopStones);
-        }
+    fMasonryShop = loader.load(12, 12);
+    for(int i = 13; i < 21; i++) {
+        loader.load(12, i, fMasonryShopStones);
     }
-    {
-        const auto& sds = spriteData(fTileH,
-                                     eMasonryShopOverlaysSpriteData15,
-                                     eMasonryShopOverlaysSpriteData30,
-                                     eMasonryShopOverlaysSpriteData45,
-                                     eMasonryShopOverlaysSpriteData60);
-        eSpriteLoader loader(fTileH, "masonryShopOverlays", sds,
-                             &eSprAmbientOffset, fRenderer);
 
-        loader.loadSkipFlipped(1937, 1937, 2017, fMasonryShopOverlay1);
-        loader.loadSkipFlipped(1937, 2017, 2097, fMasonryShopOverlay2);
-    }
+    loadMasonryShopOverlays();
+}
+
+void eBuildingTextures::loadMasonryShopOverlays() {
+    if(fMasonryShopOverlaysLoaded) return;
+    fMasonryShopOverlaysLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eMasonryShopOverlaysSpriteData15,
+                                 eMasonryShopOverlaysSpriteData30,
+                                 eMasonryShopOverlaysSpriteData45,
+                                 eMasonryShopOverlaysSpriteData60);
+    eSpriteLoader loader(fTileH, "masonryShopOverlays", sds,
+                         &eSprAmbientOffset, fRenderer);
+
+    loader.loadSkipFlipped(1937, 1937, 2017, fMasonryShopOverlay1);
+    loader.loadSkipFlipped(1937, 2017, 2097, fMasonryShopOverlay2);
 }
 
 void eBuildingTextures::loadMint() {

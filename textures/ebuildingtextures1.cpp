@@ -85,9 +85,34 @@
 #include "spriteData/altarBullOverlay45.h"
 #include "spriteData/altarBullOverlay60.h"
 
+#include "spriteData/blackMarbleWorkshop15.h"
+#include "spriteData/blackMarbleWorkshop30.h"
+#include "spriteData/blackMarbleWorkshop45.h"
+#include "spriteData/blackMarbleWorkshop60.h"
+
 #include "offsets/PoseidonImps.h"
 
 #include "textures/espriteloader.h"
+
+void eBuildingTextures::loadBlackMarbleWorkshop() {
+    if(fBlackMarbleWorkshopLoaded) return;
+    fBlackMarbleWorkshopLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eBlackMarbleWorkshopSpriteData15,
+                                 eBlackMarbleWorkshopSpriteData30,
+                                 eBlackMarbleWorkshopSpriteData45,
+                                 eBlackMarbleWorkshopSpriteData60);
+    eSpriteLoader loader(fTileH, "blackMarbleWorkshop", sds,
+                         nullptr, fRenderer);
+
+    fBlackMarbleWorkshop = loader.load(36, 36);
+    for(int i = 37; i < 45; i++) {
+        loader.load(36, i, fBlackMarbleWorkshopStones);
+    }
+
+    loadMasonryShopOverlays();
+}
 
 void eBuildingTextures::loadAltarBullOverlay() {
     if(fAltarBullOverlayLoaded) return;
