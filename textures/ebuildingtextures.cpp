@@ -842,6 +842,7 @@ eBuildingTextures::eBuildingTextures(const int tileW, const int tileH,
     fUrchin(renderer),
 
     fBridge(renderer),
+    fPoseidonBridge(renderer),
 
     fColumn1(renderer),
     fColumn2(renderer),

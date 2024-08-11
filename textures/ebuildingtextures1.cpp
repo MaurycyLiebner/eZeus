@@ -95,9 +95,31 @@
 #include "spriteData/orichalcTowerOverlay45.h"
 #include "spriteData/orichalcTowerOverlay60.h"
 
+#include "spriteData/poseidonBridge15.h"
+#include "spriteData/poseidonBridge30.h"
+#include "spriteData/poseidonBridge45.h"
+#include "spriteData/poseidonBridge60.h"
+
 #include "offsets/PoseidonImps.h"
 
 #include "textures/espriteloader.h"
+
+void eBuildingTextures::loadPoseidonBridge() {
+    if(fPoseidonBridgeLoaded) return;
+    fPoseidonBridgeLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 ePoseidonBridgeSpriteData15,
+                                 ePoseidonBridgeSpriteData30,
+                                 ePoseidonBridgeSpriteData45,
+                                 ePoseidonBridgeSpriteData60);
+    eSpriteLoader loader(fTileH, "poseidonBridge", sds,
+                         nullptr, fRenderer);
+
+    for(int i = 1; i < 17; i++) {
+        loader.load(1, i, fPoseidonBridge);
+    }
+}
 
 void eBuildingTextures::loadOrichalcTowerOverlay() {
     if(fOrichalcTowerOverlayLoaded) return;

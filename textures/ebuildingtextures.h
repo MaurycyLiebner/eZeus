@@ -101,6 +101,8 @@ public:
     void loadRoadblock();
     bool fBridgeLoaded = false;
     void loadBridge();
+    bool fPoseidonBridgeLoaded = false;
+    void loadPoseidonBridge();
     bool fPalaceLoaded = false;
     void loadPalace();
     bool fPalaceTilesLoaded = false;
@@ -637,6 +639,7 @@ public:
 
     std::shared_ptr<eTexture> fRoadblock;
     eTextureCollection fBridge;
+    eTextureCollection fPoseidonBridge;
 
     eTextureCollection fColumn1;
     eTextureCollection fColumn2;

@@ -2057,6 +2057,10 @@ HEADERS += \
     spriteData/poseidonBannerTops30.h \
     spriteData/poseidonBannerTops45.h \
     spriteData/poseidonBannerTops60.h \
+    spriteData/poseidonBridge15.h \
+    spriteData/poseidonBridge30.h \
+    spriteData/poseidonBridge45.h \
+    spriteData/poseidonBridge60.h \
     spriteData/poseidonCampaign115.h \
     spriteData/poseidonCampaign130.h \
     spriteData/poseidonCampaign145.h \
@@ -2904,6 +2908,7 @@ DISTFILES += \
     textureTemplates/porter \
     textureTemplates/poseidon \
     textureTemplates/poseidonBannerTops \
+    textureTemplates/poseidonBridge \
     textureTemplates/poseidonCampaign1 \
     textureTemplates/poseidonCampaign2 \
     textureTemplates/poseidonCampaign3 \
