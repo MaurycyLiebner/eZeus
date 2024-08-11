@@ -578,6 +578,7 @@ std::string eBuilding::sNameForBuilding(const eBuildingType type) {
         string = 135;
         break;
     case eBuildingType::horseRanch:
+    case eBuildingType::horseRanchEnclosure:
         string = 133;
         break;
     case eBuildingType::chariotFactory:
@@ -660,7 +661,6 @@ std::string eBuilding::sNameForBuilding(const eBuildingType type) {
     case eBuildingType::none:
     case eBuildingType::palaceTile:
     case eBuildingType::agoraSpace:
-    case eBuildingType::horseRanchEnclosure:
     case eBuildingType::godMonumentTile:
     case eBuildingType::temple:
     case eBuildingType::templeTile:
@@ -2061,7 +2061,16 @@ void eBuilding::erase() {
 }
 
 void eBuilding::collapse() {
-    const auto tiles = mUnderBuilding;
+    auto tiles = mUnderBuilding;
+    if(const auto r = dynamic_cast<eHorseRanch*>(this)) {
+        const auto e = r->enclosure();
+        const auto etiles = e->mUnderBuilding;
+        tiles.insert(tiles.end(), etiles.begin(), etiles.end());
+    } else if(const auto e = dynamic_cast<eHorseRanchEnclosure*>(this)) {
+        const auto r = e->ranch();
+        const auto rtiles = r->mUnderBuilding;
+        tiles.insert(tiles.end(), rtiles.begin(), rtiles.end());
+    }
     auto& b = getBoard();
     const auto tp = type();
     const bool noRuins = tp == eBuildingType::oliveTree ||
