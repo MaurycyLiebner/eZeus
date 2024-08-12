@@ -90,6 +90,11 @@
 #include "spriteData/blackMarbleWorkshop45.h"
 #include "spriteData/blackMarbleWorkshop60.h"
 
+#include "spriteData/refinery15.h"
+#include "spriteData/refinery30.h"
+#include "spriteData/refinery45.h"
+#include "spriteData/refinery60.h"
+
 #include "spriteData/orichalcTowerOverlay15.h"
 #include "spriteData/orichalcTowerOverlay30.h"
 #include "spriteData/orichalcTowerOverlay45.h"
@@ -178,6 +183,24 @@ void eBuildingTextures::loadOrichalcTowerOverlay() {
                          nullptr, fRenderer);
 
     fOrichalcTowerOverlay = loader.load(45, 45);
+}
+
+void eBuildingTextures::loadRefinery() {
+    if(fRefineryLoaded) return;
+    fRefineryLoaded = true;
+
+    const auto& sds = spriteData(fTileH,
+                                 eRefinerySpriteData15,
+                                 eRefinerySpriteData30,
+                                 eRefinerySpriteData45,
+                                 eRefinerySpriteData60);
+    eSpriteLoader loader(fTileH, "refinery", sds,
+                         nullptr, fRenderer);
+
+    fRefinery = loader.load(1, 1);
+    for(int i = 2; i < 15; i++) {
+        loader.load(1, i, fRefineryOverlay);
+    }
 }
 
 void eBuildingTextures::loadBlackMarbleWorkshop() {

@@ -2177,6 +2177,10 @@ HEADERS += \
     spriteData/priest30.h \
     spriteData/priest45.h \
     spriteData/priest60.h \
+    spriteData/refinery15.h \
+    spriteData/refinery30.h \
+    spriteData/refinery45.h \
+    spriteData/refinery60.h \
     spriteData/roadblock15.h \
     spriteData/roadblock30.h \
     spriteData/roadblock45.h \
@@ -2974,6 +2978,7 @@ DISTFILES += \
     textureTemplates/poseidonTrees \
     textureTemplates/poseidonUnits \
     textureTemplates/priest \
+    textureTemplates/refinery \
     textureTemplates/roadblock \
     textureTemplates/rock \
     textureTemplates/rockThrower \
