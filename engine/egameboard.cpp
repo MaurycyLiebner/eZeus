@@ -69,6 +69,7 @@
 #include "buildings/eagoraspace.h"
 #include "buildings/evendor.h"
 #include "buildings/eroad.h"
+#include "buildings/egatehouse.h"
 #include "eplague.h"
 #include "audio/emusic.h"
 
@@ -2947,7 +2948,9 @@ void eGameBoard::progressEarthquakes() {
                     } else if(const auto r = dynamic_cast<eRoad*>(ub)) {
                         const auto a = r->underAgora();
                         if(a) a->collapse();
-                        r->collapse();
+                        const auto g = r->underGatehouse();
+                        if(g) g->collapse();
+                        r->eBuilding::erase();
                     } else {
                         ub->collapse();
                     }
