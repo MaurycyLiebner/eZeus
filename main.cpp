@@ -144,9 +144,12 @@ int main() {
     eMainWindow w;
     const bool i = w.initialize(settings);
     if(!i) return 1;
-    eGameTextures::initialize(w.renderer());
+    const bool e = eGameTextures::initialize(w.renderer());
 
-    const int r = w.exec();
+    int r = 0;
+    if(e) {
+        r = w.exec();
+    }
 
     close();
 

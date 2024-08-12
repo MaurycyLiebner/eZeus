@@ -15,6 +15,9 @@ public:
     const int fTileH;
     SDL_Renderer* const fRenderer;
 
+    void loadMapBinary(bool& loaded,
+                       const std::string& name,
+                       std::shared_ptr<eTexture>& tex) const;
     std::string loadMapDirPath() const;
 
     bool fMapOfGreece1Loaded = false;

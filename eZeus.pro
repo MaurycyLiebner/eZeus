@@ -331,6 +331,7 @@ SOURCES += \
         characters/monsters/ecalydonianboar.cpp \
         characters/monsters/emonster.cpp \
         characters/monsters/ewatermonster.cpp \
+        ebinaryimageloader.cpp \
         efontcolor.cpp \
         egamedir.cpp \
         einvasionhandler.cpp \
@@ -657,6 +658,7 @@ HEADERS += \
     audio/emusicvector.h \
     audio/esounds.h \
     audio/esoundvector.h \
+    binary.h \
     buildings/allbuildings.h \
     buildings/eaestheticsbuilding.h \
     buildings/eagorabase.h \
@@ -946,6 +948,7 @@ HEADERS += \
     characters/monsters/ecalydonianboar.h \
     characters/monsters/emonster.h \
     characters/monsters/ewatermonster.h \
+    ebinaryimageloader.h \
     efontcolor.h \
     egamedir.h \
     einvasionhandler.h \

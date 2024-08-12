@@ -1123,53 +1123,73 @@ void eInterfaceTextures::load() {
     }
 
     {
-        const std::string basedir{eGameDir::texturesDir() + std::to_string(fTileH) + "/"};
-        const auto dir = basedir + "/Zeus_Data_Images/";
+        const bool binary = true;
+        if(binary) {
+            const auto dir = std::to_string(fTileH) + "/Zeus_Data_Images/";
+            fLoadImage1 = eBinaryImageLoader::load(fRenderer, dir + "Zeus_Load1.jpg");
+            fLoadImage2 = eBinaryImageLoader::load(fRenderer, dir + "Zeus_Load2.jpg");
+            fLoadImage3 = eBinaryImageLoader::load(fRenderer, dir + "Zeus_Load3.jpg");
+            fLoadImage4 = eBinaryImageLoader::load(fRenderer, dir + "Zeus_Load4.jpg");
+            fLoadImage5 = eBinaryImageLoader::load(fRenderer, dir + "Poseidon_Load1.jpg");
+            fLoadImage6 = eBinaryImageLoader::load(fRenderer, dir + "Poseidon_Load2.jpg");
+            fLoadImage7 = eBinaryImageLoader::load(fRenderer, dir + "Poseidon_Load3.jpg");
+            fLoadImage8 = eBinaryImageLoader::load(fRenderer, dir + "Poseidon_Load4.jpg");
+            fLoadImage9 = eBinaryImageLoader::load(fRenderer, dir + "Poseidon_Load5.jpg");
+            fLoadImage10 = eBinaryImageLoader::load(fRenderer, dir + "Poseidon_Load6.jpg");
+            fLoadImage11 = eBinaryImageLoader::load(fRenderer, dir + "Poseidon_Load7.jpg");
+            fLoadImage12 = eBinaryImageLoader::load(fRenderer, dir + "Poseidon_Load8.jpg");
+            fMainMenuImage = eBinaryImageLoader::load(fRenderer, dir + "Zeus_FE_Registry.jpg");
+            fIntroductionImage = eBinaryImageLoader::load(fRenderer, dir + "Zeus_FE_MissionIntroduction.jpg");
+            fDefeatImage = eBinaryImageLoader::load(fRenderer, dir + "Zeus_Defeat.jpg");
+        } else {
+            const std::string basedir{eGameDir::texturesDir() + std::to_string(fTileH) + "/"};
+            const auto dir = basedir + "/Zeus_Data_Images/";
 
-        fLoadImage1 = std::make_shared<eTexture>();
-        fLoadImage1->load(fRenderer, dir + "Zeus_Load1.jpg");
+            fLoadImage1 = std::make_shared<eTexture>();
+            fLoadImage1->load(fRenderer, dir + "Zeus_Load1.jpg");
 
-        fLoadImage2 = std::make_shared<eTexture>();
-        fLoadImage2->load(fRenderer, dir + "Zeus_Load2.jpg");
+            fLoadImage2 = std::make_shared<eTexture>();
+            fLoadImage2->load(fRenderer, dir + "Zeus_Load2.jpg");
 
-        fLoadImage3 = std::make_shared<eTexture>();
-        fLoadImage3->load(fRenderer, dir + "Zeus_Load3.jpg");
+            fLoadImage3 = std::make_shared<eTexture>();
+            fLoadImage3->load(fRenderer, dir + "Zeus_Load3.jpg");
 
-        fLoadImage4 = std::make_shared<eTexture>();
-        fLoadImage4->load(fRenderer, dir + "Zeus_Load4.jpg");
+            fLoadImage4 = std::make_shared<eTexture>();
+            fLoadImage4->load(fRenderer, dir + "Zeus_Load4.jpg");
 
-        fLoadImage5 = std::make_shared<eTexture>();
-        fLoadImage5->load(fRenderer, dir + "Poseidon_Load1.jpg");
+            fLoadImage5 = std::make_shared<eTexture>();
+            fLoadImage5->load(fRenderer, dir + "Poseidon_Load1.jpg");
 
-        fLoadImage6 = std::make_shared<eTexture>();
-        fLoadImage6->load(fRenderer, dir + "Poseidon_Load2.jpg");
+            fLoadImage6 = std::make_shared<eTexture>();
+            fLoadImage6->load(fRenderer, dir + "Poseidon_Load2.jpg");
 
-        fLoadImage7 = std::make_shared<eTexture>();
-        fLoadImage7->load(fRenderer, dir + "Poseidon_Load3.jpg");
+            fLoadImage7 = std::make_shared<eTexture>();
+            fLoadImage7->load(fRenderer, dir + "Poseidon_Load3.jpg");
 
-        fLoadImage8 = std::make_shared<eTexture>();
-        fLoadImage8->load(fRenderer, dir + "Poseidon_Load4.jpg");
+            fLoadImage8 = std::make_shared<eTexture>();
+            fLoadImage8->load(fRenderer, dir + "Poseidon_Load4.jpg");
 
-        fLoadImage9 = std::make_shared<eTexture>();
-        fLoadImage9->load(fRenderer, dir + "Poseidon_Load5.jpg");
+            fLoadImage9 = std::make_shared<eTexture>();
+            fLoadImage9->load(fRenderer, dir + "Poseidon_Load5.jpg");
 
-        fLoadImage10 = std::make_shared<eTexture>();
-        fLoadImage10->load(fRenderer, dir + "Poseidon_Load6.jpg");
+            fLoadImage10 = std::make_shared<eTexture>();
+            fLoadImage10->load(fRenderer, dir + "Poseidon_Load6.jpg");
 
-        fLoadImage11 = std::make_shared<eTexture>();
-        fLoadImage11->load(fRenderer, dir + "Poseidon_Load7.jpg");
+            fLoadImage11 = std::make_shared<eTexture>();
+            fLoadImage11->load(fRenderer, dir + "Poseidon_Load7.jpg");
 
-        fLoadImage12 = std::make_shared<eTexture>();
-        fLoadImage12->load(fRenderer, dir + "Poseidon_Load8.jpg");
+            fLoadImage12 = std::make_shared<eTexture>();
+            fLoadImage12->load(fRenderer, dir + "Poseidon_Load8.jpg");
 
-        fMainMenuImage = std::make_shared<eTexture>();
-        fMainMenuImage->load(fRenderer, dir + "Zeus_FE_Registry.jpg");
+            fMainMenuImage = std::make_shared<eTexture>();
+            fMainMenuImage->load(fRenderer, dir + "Zeus_FE_Registry.jpg");
 
-        fIntroductionImage = std::make_shared<eTexture>();
-        fIntroductionImage->load(fRenderer, dir + "Zeus_FE_MissionIntroduction.jpg");
+            fIntroductionImage = std::make_shared<eTexture>();
+            fIntroductionImage->load(fRenderer, dir + "Zeus_FE_MissionIntroduction.jpg");
 
-        fDefeatImage = std::make_shared<eTexture>();
-        fDefeatImage->load(fRenderer, dir + "Zeus_Defeat.jpg");
+            fDefeatImage = std::make_shared<eTexture>();
+            fDefeatImage->load(fRenderer, dir + "Zeus_Defeat.jpg");
+        }
     }
 
     {
@@ -1267,106 +1287,166 @@ void eInterfaceTextures::load() {
     }
 }
 
+void eInterfaceTextures::loadMapBinary(
+        bool& loaded,
+        const std::string& name,
+        std::shared_ptr<eTexture>& tex) const {
+    if(loaded) return;
+    loaded = true;
+    const auto dir = std::to_string(fTileH) + "/Zeus_Data_Images/";
+    tex = eBinaryImageLoader::load(fRenderer, dir + name);
+}
+
 std::string eInterfaceTextures::loadMapDirPath() const {
     const std::string basedir{eGameDir::texturesDir() + std::to_string(fTileH) + "/"};
     const auto dir = basedir + "/Zeus_Data_Images/";
     return dir;
 }
 
+const bool gLoadMapBinary = true;
+
 void eInterfaceTextures::loadMapOfGreece1() {
-    if(fMapOfGreece1Loaded) return;
-    fMapOfGreece1Loaded = true;
-    const auto dir = loadMapDirPath();
-    fMapOfGreece1 = std::make_shared<eTexture>();
-    fMapOfGreece1->load(fRenderer, dir + "Zeus_MapOfGreece01.JPG");
+    if(gLoadMapBinary) {
+        loadMapBinary(fMapOfGreece1Loaded, "Zeus_MapOfGreece01.JPG", fMapOfGreece1);
+    } else {
+        if(fMapOfGreece1Loaded) return;
+        fMapOfGreece1Loaded = true;
+        const auto dir = loadMapDirPath();
+        fMapOfGreece1 = std::make_shared<eTexture>();
+        fMapOfGreece1->load(fRenderer, dir + "Zeus_MapOfGreece01.JPG");
+    }
 }
 
 void eInterfaceTextures::loadMapOfGreece2() {
-    if(fMapOfGreece2Loaded) return;
-    fMapOfGreece2Loaded = true;
-    const auto dir = loadMapDirPath();
-    fMapOfGreece2 = std::make_shared<eTexture>();
-    fMapOfGreece2->load(fRenderer, dir + "Zeus_MapOfGreece02.JPG");
+    if(gLoadMapBinary) {
+        loadMapBinary(fMapOfGreece2Loaded, "Zeus_MapOfGreece02.JPG", fMapOfGreece2);
+    } else {
+        if(fMapOfGreece2Loaded) return;
+        fMapOfGreece2Loaded = true;
+        const auto dir = loadMapDirPath();
+        fMapOfGreece2 = std::make_shared<eTexture>();
+        fMapOfGreece2->load(fRenderer, dir + "Zeus_MapOfGreece02.JPG");
+    }
 }
 
 void eInterfaceTextures::loadMapOfGreece3() {
-    if(fMapOfGreece3Loaded) return;
-    fMapOfGreece3Loaded = true;
-    const auto dir = loadMapDirPath();
-    fMapOfGreece3 = std::make_shared<eTexture>();
-    fMapOfGreece3->load(fRenderer, dir + "Zeus_MapOfGreece03.JPG");
+    if(gLoadMapBinary) {
+        loadMapBinary(fMapOfGreece3Loaded, "Zeus_MapOfGreece03.JPG", fMapOfGreece3);
+    } else {
+        if(fMapOfGreece3Loaded) return;
+        fMapOfGreece3Loaded = true;
+        const auto dir = loadMapDirPath();
+        fMapOfGreece3 = std::make_shared<eTexture>();
+        fMapOfGreece3->load(fRenderer, dir + "Zeus_MapOfGreece03.JPG");
+    }
 }
 
 void eInterfaceTextures::loadMapOfGreece4() {
+    if(gLoadMapBinary) {
+        loadMapBinary(fMapOfGreece4Loaded, "Zeus_MapOfGreece04.JPG", fMapOfGreece4);
+    } else {
     if(fMapOfGreece4Loaded) return;
-    fMapOfGreece4Loaded = true;
-    const auto dir = loadMapDirPath();
-    fMapOfGreece4 = std::make_shared<eTexture>();
-    fMapOfGreece4->load(fRenderer, dir + "Zeus_MapOfGreece04.JPG");
+        fMapOfGreece4Loaded = true;
+        const auto dir = loadMapDirPath();
+        fMapOfGreece4 = std::make_shared<eTexture>();
+        fMapOfGreece4->load(fRenderer, dir + "Zeus_MapOfGreece04.JPG");
+    }
 }
 
 void eInterfaceTextures::loadMapOfGreece5() {
-    if(fMapOfGreece5Loaded) return;
-    fMapOfGreece5Loaded = true;
-    const auto dir = loadMapDirPath();
-    fMapOfGreece5 = std::make_shared<eTexture>();
-    fMapOfGreece5->load(fRenderer, dir + "Zeus_MapOfGreece05.JPG");
+    if(gLoadMapBinary) {
+        loadMapBinary(fMapOfGreece5Loaded, "Zeus_MapOfGreece05.JPG", fMapOfGreece5);
+    } else {
+        if(fMapOfGreece5Loaded) return;
+        fMapOfGreece5Loaded = true;
+        const auto dir = loadMapDirPath();
+        fMapOfGreece5 = std::make_shared<eTexture>();
+        fMapOfGreece5->load(fRenderer, dir + "Zeus_MapOfGreece05.JPG");
+    }
 }
 
 void eInterfaceTextures::loadMapOfGreece6() {
-    if(fMapOfGreece6Loaded) return;
-    fMapOfGreece6Loaded = true;
-    const auto dir = loadMapDirPath();
-    fMapOfGreece6 = std::make_shared<eTexture>();
-    fMapOfGreece6->load(fRenderer, dir + "Zeus_MapOfGreece06.JPG");
+    if(gLoadMapBinary) {
+        loadMapBinary(fMapOfGreece6Loaded, "Zeus_MapOfGreece06.JPG", fMapOfGreece6);
+    } else {
+        if(fMapOfGreece6Loaded) return;
+        fMapOfGreece6Loaded = true;
+        const auto dir = loadMapDirPath();
+        fMapOfGreece6 = std::make_shared<eTexture>();
+        fMapOfGreece6->load(fRenderer, dir + "Zeus_MapOfGreece06.JPG");
+    }
 }
 
 void eInterfaceTextures::loadMapOfGreece7() {
-    if(fMapOfGreece7Loaded) return;
-    fMapOfGreece7Loaded = true;
-    const auto dir = loadMapDirPath();
-    fMapOfGreece7 = std::make_shared<eTexture>();
-    fMapOfGreece7->load(fRenderer, dir + "Zeus_MapOfGreece07.JPG");
+    if(gLoadMapBinary) {
+        loadMapBinary(fMapOfGreece7Loaded, "Zeus_MapOfGreece07.JPG", fMapOfGreece7);
+    } else {
+        if(fMapOfGreece7Loaded) return;
+        fMapOfGreece7Loaded = true;
+        const auto dir = loadMapDirPath();
+        fMapOfGreece7 = std::make_shared<eTexture>();
+        fMapOfGreece7->load(fRenderer, dir + "Zeus_MapOfGreece07.JPG");
+    }
 }
 
 void eInterfaceTextures::loadMapOfGreece8() {
-    if(fMapOfGreece8Loaded) return;
-    fMapOfGreece8Loaded = true;
-    const auto dir = loadMapDirPath();
-    fMapOfGreece8 = std::make_shared<eTexture>();
-    fMapOfGreece8->load(fRenderer, dir + "Zeus_MapOfGreece08.JPG");
+    if(gLoadMapBinary) {
+        loadMapBinary(fMapOfGreece8Loaded, "Zeus_MapOfGreece08.JPG", fMapOfGreece8);
+    } else {
+        if(fMapOfGreece8Loaded) return;
+        fMapOfGreece8Loaded = true;
+        const auto dir = loadMapDirPath();
+        fMapOfGreece8 = std::make_shared<eTexture>();
+        fMapOfGreece8->load(fRenderer, dir + "Zeus_MapOfGreece08.JPG");
+    }
 }
 
 void eInterfaceTextures::loadPoseidonMap1() {
-    if(fPoseidonMap1Loaded) return;
-    fPoseidonMap1Loaded = true;
-    const auto dir = loadMapDirPath();
-    fPoseidonMap1 = std::make_shared<eTexture>();
-    fPoseidonMap1->load(fRenderer, dir + "Poseidon_map01.jpg");
+    if(gLoadMapBinary) {
+        loadMapBinary(fPoseidonMap1Loaded, "Poseidon_map01.jpg", fPoseidonMap1);
+    } else {
+        if(fPoseidonMap1Loaded) return;
+        fPoseidonMap1Loaded = true;
+        const auto dir = loadMapDirPath();
+        fPoseidonMap1 = std::make_shared<eTexture>();
+        fPoseidonMap1->load(fRenderer, dir + "Poseidon_map01.jpg");
+    }
 }
 
 void eInterfaceTextures::loadPoseidonMap2() {
-    if(fPoseidonMap2Loaded) return;
-    fPoseidonMap2Loaded = true;
-    const auto dir = loadMapDirPath();
-    fPoseidonMap2 = std::make_shared<eTexture>();
-    fPoseidonMap2->load(fRenderer, dir + "Poseidon_map02.jpg");
+    if(gLoadMapBinary) {
+        loadMapBinary(fPoseidonMap2Loaded, "Poseidon_map02.jpg", fPoseidonMap2);
+    } else {
+        if(fPoseidonMap2Loaded) return;
+        fPoseidonMap2Loaded = true;
+        const auto dir = loadMapDirPath();
+        fPoseidonMap2 = std::make_shared<eTexture>();
+        fPoseidonMap2->load(fRenderer, dir + "Poseidon_map02.jpg");
+    }
 }
 
 void eInterfaceTextures::loadPoseidonMap3() {
-    if(fPoseidonMap3Loaded) return;
-    fPoseidonMap3Loaded = true;
-    const auto dir = loadMapDirPath();
-    fPoseidonMap3 = std::make_shared<eTexture>();
-    fPoseidonMap3->load(fRenderer, dir + "Poseidon_map03.jpg");
+    if(gLoadMapBinary) {
+        loadMapBinary(fPoseidonMap3Loaded, "Poseidon_map03.jpg", fPoseidonMap3);
+    } else {
+        if(fPoseidonMap3Loaded) return;
+        fPoseidonMap3Loaded = true;
+        const auto dir = loadMapDirPath();
+        fPoseidonMap3 = std::make_shared<eTexture>();
+        fPoseidonMap3->load(fRenderer, dir + "Poseidon_map03.jpg");
+    }
 }
 
 void eInterfaceTextures::loadPoseidonMap4() {
-    if(fPoseidonMap4Loaded) return;
-    fPoseidonMap4Loaded = true;
-    const auto dir = loadMapDirPath();
-    fPoseidonMap4 = std::make_shared<eTexture>();
-    fPoseidonMap4->load(fRenderer, dir + "Poseidon_map04.jpg");
+    if(gLoadMapBinary) {
+        loadMapBinary(fPoseidonMap4Loaded, "Poseidon_map04.jpg", fPoseidonMap4);
+    } else {
+        if(fPoseidonMap4Loaded) return;
+        fPoseidonMap4Loaded = true;
+        const auto dir = loadMapDirPath();
+        fPoseidonMap4 = std::make_shared<eTexture>();
+        fPoseidonMap4->load(fRenderer, dir + "Poseidon_map04.jpg");
+    }
 }
 
 void eInterfaceTextures::loadPoseidonCampaign1() {

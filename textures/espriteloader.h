@@ -4,6 +4,7 @@
 #include "etexturecollection.h"
 #include "spriteData/espritedata.h"
 #include "egamedir.h"
+#include "ebinaryimageloader.h"
 
 using eOffset = std::pair<int, int>;
 using eOffsets = std::vector<eOffset>;
@@ -81,9 +82,17 @@ public:
     }
 private:
     void loadTex(const int i) {
-        const auto tex = std::make_shared<eTexture>();
-        const std::string dir = eGameDir::texturesDir() + mSize + "/";
-        tex->load(mRenderer, dir + mName + "_" + std::to_string(i) + ".png");
+        const bool binary = true;
+        std::shared_ptr<eTexture> tex;
+        if(binary) {
+            const auto path = mSize + "/" + mName + "_" + std::to_string(i) + ".png";
+            tex = eBinaryImageLoader::load(mRenderer, path);
+        } else {
+            tex = std::make_shared<eTexture>();
+            const std::string dir = eGameDir::texturesDir() + mSize + "/";
+            const auto path = dir + mName + "_" + std::to_string(i) + ".png";
+            tex->load(mRenderer, path);
+        }
         mTexs[i] = tex;
     }
 

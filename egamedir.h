@@ -9,6 +9,7 @@ public:
     static std::string path(const std::string& path);
     static std::string settingsPath();
     static std::string numbersPath();
+    static std::string binaryPath();
     static std::string exeDir();
     static std::string adventuresDir();
     static std::string saveDir();
