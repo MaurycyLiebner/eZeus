@@ -106,7 +106,10 @@ void eHorseRanchEnclosure::read(eReadStream& src) {
     int nh;
     src >> nh;
     for(int i = 0; i < nh; i++) {
-        spawnHorse();
+        src.readCharacter(&getBoard(), [this](eCharacter* const c) {
+            if(!c) return;
+            mHorses.push_back(c->ref<eHorse>());
+        });
     }
 }
 
@@ -114,4 +117,7 @@ void eHorseRanchEnclosure::write(eWriteStream& dst) const {
     eBuilding::write(dst);
 
     dst << mHorses.size();
+    for(const auto& h : mHorses) {
+        dst.writeCharacter(h.get());
+    }
 }
