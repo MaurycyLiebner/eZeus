@@ -10,7 +10,7 @@ Currently only Enlish and Polish versions are supported due to font glyphs limit
 
 Only windows binaries are provided. If you want to play on Linux you have to build eZeus yourself.
 
-First download eZeus-0.8.0.zip and extract it in original game's directory (e.g. (...)/Zeus and Poseidon/eZeus). Install VC_redist.x64.exe from eZeus directory. Use engconverter-0.5.exe to convert original game's Zeus_Text.eng file to Zeus_Text.xml and put it in eZeus directory. You can run the game using eZeus.exe from eZeus/Bin directory.
+First download eZeus-0.8.0.zip and extract it in original game's directory (e.g. (...)/Zeus and Poseidon/eZeus-0.8.0). Install VC_redist.x64.exe from eZeus directory. Use engconverter-0.5.exe to convert original game's Zeus_Text.eng file to Zeus_Text.xml and put it in eZeus-0.8.0 directory. You can run the game using eZeus.exe from eZeus-0.8.0/Bin directory.
 
 ## How To Build on Linux
 
@@ -31,7 +31,7 @@ You will need Qt Creator (qt.io).
 
 Open eZeus.pro in Qt Creator and use it to build eZeus.
 
-Before running eZeus binary make sure to setup all files as specified in **How To Play** section. Put eZeus binary in (...)/Zeus and Poseidon/eZeus/Bin directory and run it.
+Before running eZeus binary make sure to setup all files as specified in **How To Play** section. Put eZeus binary in (...)/Zeus and Poseidon/eZeus-0.8.0/Bin directory and run it.
 
 ## Authors
 
