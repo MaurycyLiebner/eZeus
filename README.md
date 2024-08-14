@@ -1,6 +1,8 @@
 <h1 align="center">eZeus</h1>
 
-eZeus is an open-source implementation of Zeus: Master of Olympus game.
+eZeus is an open-source implementation of Zeus: Master of Olympus game
+
+[Watch trailer](https://www.youtube.com/watch?v=3eGON6Krr44)
 
 ## How To Play
 
