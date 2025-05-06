@@ -4,12 +4,20 @@
 #include "egameboard.h"
 #include "evectorhelpers.h"
 
+#include <algorithm>
+#include <random>
+
 ePlague::ePlague(eGameBoard& board) :
     mBoard(board) {}
 
 void ePlague::randomSpread() {
     if(mHouses.empty()) return;
-    std::random_shuffle(mHouses.begin(), mHouses.end());
+
+    // Replace random_shuffle with shuffle
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(mHouses.begin(), mHouses.end(), g);
+
     spreadFrom(mHouses[0]);
 }
 

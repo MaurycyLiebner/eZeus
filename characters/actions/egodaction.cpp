@@ -107,7 +107,9 @@ bool eGodAction::lookForRangeAction(
                 tiles.push_back(t);
             }
         }
-        std::random_shuffle(tiles.begin(), tiles.end());
+        std::random_device rd;
+std::mt19937 g(rd());  // Zufallsgenerator
+std::shuffle(tiles.begin(), tiles.end(), g);
         for(const auto t : tiles) {
             const auto tt = act->find(t);
             if(!tt.target()) continue;

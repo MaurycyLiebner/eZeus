@@ -80,6 +80,9 @@
 #include "elanguage.h"
 #include "enumbers.h"
 
+#include <algorithm>
+#include <random>
+
 eGameBoard::eGameBoard() :
     mThreadPool(*this),
     mHusbData(mPopData, *this),
@@ -437,10 +440,12 @@ int eGameBoard::countAllowed(const eBuildingType t) const {
 
 eBuilding* eGameBoard::randomBuilding(const eBuildingValidator& v) const {
     auto blds = mTimedBuildings;
-    std::random_shuffle(blds.begin(), blds.end());
-    for(const auto b : blds) {
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(blds.begin(), blds.end(), g);
+    for (const auto b : blds) {
         const bool r = v(b);
-        if(r) return b;
+        if (r) return b;
     }
     return nullptr;
 }
@@ -1172,20 +1177,21 @@ void eGameBoard::distributeSoldiers() {
 
 void eGameBoard::killCommonFolks(int toKill) {
     auto bs = mTimedBuildings;
-    std::random_shuffle(bs.begin(), bs.end());
-    for(const auto b : bs) {
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(bs.begin(), bs.end(), g);
+    for (const auto b : bs) {
         const auto bt = b->type();
-        if(bt == eBuildingType::commonHouse) {
+        if (bt == eBuildingType::commonHouse) {
             const auto sh = static_cast<eSmallHouse*>(b);
             const int pop = sh->people();
             const int shk = std::min(toKill, pop);
             toKill -= shk;
             sh->kill(shk);
-            if(toKill <= 0) break;
+            if (toKill <= 0) break;
         }
     }
 }
-
 void eGameBoard::walkerKilled() {
     killCommonFolks(5);
 }
@@ -1196,10 +1202,12 @@ void eGameBoard::rockThrowerKilled() {
 
 void eGameBoard::hopliteKilled() {
     auto bs = mTimedBuildings;
-    std::random_shuffle(bs.begin(), bs.end());
-    for(const auto b : bs) {
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(bs.begin(), bs.end(), g);
+    for (const auto b : bs) {
         const auto bt = b->type();
-        if(bt == eBuildingType::eliteHousing) {
+        if (bt == eBuildingType::eliteHousing) {
             const auto eh = static_cast<eEliteHousing*>(b);
             const int pop = eh->people();
             const int shk = std::min(4, pop);
@@ -1212,10 +1220,12 @@ void eGameBoard::hopliteKilled() {
 
 void eGameBoard::horsemanKilled() {
     auto bs = mTimedBuildings;
-    std::random_shuffle(bs.begin(), bs.end());
-    for(const auto b : bs) {
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(bs.begin(), bs.end(), g);
+    for (const auto b : bs) {
         const auto bt = b->type();
-        if(bt == eBuildingType::eliteHousing) {
+        if (bt == eBuildingType::eliteHousing) {
             const auto eh = static_cast<eEliteHousing*>(b);
             const int pop = eh->people();
             const int shk = std::min(4, pop);
@@ -2862,17 +2872,7 @@ void eGameBoard::earthquake(eTile* const startTile, const int size) {
     auto& tiles = quake->fTiles;
     tiles.push_back(startTile);
     ends.push({startTile});
-//    std::vector<eOrientation> os{eOrientation::topRight,
-//                                 eOrientation::bottomRight,
-//                                 eOrientation::bottomLeft,
-//                                 eOrientation::topLeft};
-//    std::random_shuffle(os.begin(), os.end());
-//    for(int i = 0; i < 2; i++) {
-//        const auto o = os[i];
-//        const auto tt = startTile->neighbour<eTile>(o);
-//        ends.push({tt});
-//        mEarthquake.push_back(tt);
-//    }
+    
     while((int)tiles.size() < size && !ends.empty()) {
         const auto t = ends.front();
         ends.pop();
@@ -2880,7 +2880,12 @@ void eGameBoard::earthquake(eTile* const startTile, const int size) {
                                      eOrientation::bottomRight,
                                      eOrientation::bottomLeft,
                                      eOrientation::topLeft};
-        std::random_shuffle(os.begin(), os.end());
+
+        // Replace random_shuffle with shuffle
+        std::random_device rd;
+        std::mt19937 g(rd());
+        std::shuffle(os.begin(), os.end(), g);
+
         if(eRand::rand() % 7) {
             os.insert(os.begin(), t.fLastO);
         }

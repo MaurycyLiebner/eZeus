@@ -1,10 +1,12 @@
 #include "emovearoundaction.h"
-
 #include "characters/echaracter.h"
+#include <algorithm>  // Für std::shuffle
+#include <random>     // Für std::random_device und std::mt19937
+#include <vector>     // Für std::vector
 
 eMoveAroundAction::eMoveAroundAction(eCharacter* const c,
                                      const int startX, const int startY,
-                                     const stdsptr<eWalkableObject>& walkable) :
+                                     const std::shared_ptr<eWalkableObject>& walkable) :
     eMoveAction(c, walkable, eCharActionType::moveAroundAction) {
     mStartTX = startX;
     mStartTY = startY;
@@ -54,7 +56,12 @@ eCharacterActionState eMoveAroundAction::nextTurn(eOrientation& turn) {
                                  eOrientation::left,
                                  eOrientation::topLeft,
                                  eOrientation::top};
-    std::random_shuffle(os.begin(), os.end());
+
+    // Ersetze std::random_shuffle durch std::shuffle
+    std::random_device rd;  // Zufallsquelle
+    std::mt19937 g(rd());   // Zufallsgenerator
+    std::shuffle(os.begin(), os.end(), g);
+
     const auto c = character();
     const bool keepO = (eRand::rand() % (mMaxDist/2)) != 0;
     if(keepO) os.insert(os.begin(), c->orientation());

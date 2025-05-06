@@ -4,6 +4,35 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
+# Gemeinsame Einstellungen
+QMAKE_CXXFLAGS += -std=c++17
+QMAKE_LFLAGS += -stdlib=libc++
+
+macx {
+    # Erlaube Architekturwahl über Kommandozeilenparameter oder Standardwert
+    !equals(QMAKE_APPLE_DEVICE_ARCHS, x86_64): !equals(QMAKE_APPLE_DEVICE_ARCHS, arm64): QMAKE_APPLE_DEVICE_ARCHS = x86_64
+
+    message("Target architecture: $$QMAKE_APPLE_DEVICE_ARCHS")
+
+    # Architekturabhängige Einstellungen
+    contains(QMAKE_APPLE_DEVICE_ARCHS, x86_64) {
+        INCLUDEPATH += /usr/local/include/SDL2
+        LIBS += -L/usr/local/lib -lSDL2_mixer
+        message("Building for x86_64")
+    }
+
+    contains(QMAKE_APPLE_DEVICE_ARCHS, arm64) {
+        INCLUDEPATH += /opt/homebrew/include/SDL2
+        LIBS += -L/opt/homebrew/lib -lSDL2_mixer
+        message("Building for arm64")
+    }
+
+    QMAKE_MAC_SDK = macosx
+    QMAKE_CFLAGS_RELEASE += -O3
+    QMAKE_CXXFLAGS_RELEASE += -O3
+}
+
+# Windows spezifische Einstellungen
 win32 {
     RC_ICONS += C:\Users\maury\Documents\eZeusBuild\zeus.ico
     QMAKE_CFLAGS_RELEASE += /O2 -O2 /GL
@@ -15,7 +44,10 @@ win32 {
     LIBS += -LC:\Users\maury\Documents\eZeusLibs\SDL2_ttf-2.22.0\lib\x64
     LIBS += -LC:\Users\maury\Documents\eZeusLibs\SDL2_mixer-2.8.0\lib\x64
     LIBS += -LC:\Users\maury\Documents\eZeusLibs\SDL2_image-2.8.2\lib\x64
-} unix {
+}
+
+# Linux spezifische Einstellungen
+unix:!macx {
     QMAKE_CFLAGS_RELEASE -= -O2
     QMAKE_CFLAGS_RELEASE -= -O1
     QMAKE_CXXFLAGS_RELEASE -= -O2

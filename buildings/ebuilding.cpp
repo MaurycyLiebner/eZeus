@@ -17,6 +17,9 @@
 #include "elanguage.h"
 #include "audio/esounds.h"
 
+#include <algorithm>
+#include <random>
+
 eBuilding::eBuilding(eGameBoard& board,
                      const eBuildingType type,
                      const int sw, const int sh) :
@@ -2119,7 +2122,10 @@ bool eBuilding::isEmptyHome() const {
 
 bool eBuilding::spreadFire() {
     auto dirs = gExtractDirections(eMoveDirection::allDirections);
-    std::random_shuffle(dirs.begin(), dirs.end());
+    std::random_device rd;
+	std::mt19937 g(rd()); // Zufallsgenerator
+	std::vector<eMoveDirection> myVector = dirs;  // Assuming dirs is the correct type
+	std::shuffle(myVector.begin(), myVector.end(), g);
     eTile* t = nullptr;
     for(const auto dir : dirs) {
         t = tileNeighbour(dir, [this](eTile* const tile) {
