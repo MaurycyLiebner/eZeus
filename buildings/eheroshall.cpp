@@ -765,7 +765,7 @@ eHerosHall::eHerosHall(const eHeroType type, eGameBoard& board,
         break;
     case eHeroType::bellerophon:
         addRequirement({eHeroRequirementType::horses, 15});
-        addRequirement({eHeroRequirementType::taxes, 5});
+        addRequirement({eHeroRequirementType::taxes, 4});
         addRequirement({eHeroRequirementType::drachmas, 10000});
         addRequirement({eHeroRequirementType::bronzeOrichalc, 24});
         addRequirement({eHeroRequirementType::wine, 24});

@@ -1870,7 +1870,7 @@ int eGameBoard::allCultureScienceCoverage(const eCityId cid) const {
 int eGameBoard::taxesCoverage(const eCityId cid) const {
     const auto city = boardCityWithId(cid);
     if(!city) return 0;
-    return city->philosophyResearchCoverage();
+    return city->taxesCoverage();
 }
 
 int eGameBoard::unrest(const eCityId cid) const {
