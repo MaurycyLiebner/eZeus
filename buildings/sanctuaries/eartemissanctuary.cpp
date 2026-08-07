@@ -5,18 +5,32 @@
 #include "enumbers.h"
 
 eArtemisSanctuary::eArtemisSanctuary(
-        const int sw, const int sh, eGameBoard& board,
+        const int sw, const int sh,
+        eGameBoard& board,
         const eCityId cid) :
     eSanctuaryWithWarriors(board, eBuildingType::templeArtemis,
                            sw, sh, 60, cid) {}
 
 eAresSanctuary::eAresSanctuary(
-        const int sw, const int sh, eGameBoard& board,
+        const int sw, const int sh,
+        eGameBoard& board,
         const eCityId cid) :
     eSanctuaryWithWarriors(board, eBuildingType::templeAres,
                            sw, sh, 60, cid) {}
 
-void eSanctuaryWithWarriors::timeChanged(const int by) {
+void eSanctuaryWithWarriors::erase() {
+    eSanctuary::erase();
+    const auto& board = getBoard();
+    const auto cid = cityId();
+    const auto city = board.boardCityWithId(cid);
+    if(!city) return;
+    for(const auto& s : mSoldierBanners) {
+        city->unregisterSoldierBanner(s);
+    }
+}
+
+void eSanctuaryWithWarriors::timeChanged(const int by)
+{
     if(finished()) {
         int id = 0;
         while(mSoldierBanners.size() < 2) {

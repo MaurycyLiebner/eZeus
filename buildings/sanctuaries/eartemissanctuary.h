@@ -7,6 +7,8 @@ class eSanctuaryWithWarriors : public eSanctuary {
 public:
     using eSanctuary::eSanctuary;
 
+    void erase() override;
+
     void timeChanged(const int by) override;
 
     void read(eReadStream& src) override;
