@@ -456,6 +456,10 @@ void eMainWindow::showGame(eGameBoard* b,
     }
 
     mBoard = b;
+    if(mBoard) {
+        mBoard->updateAppealMapIfNeeded();
+        mBoard->waitUntilFinished();
+    }
 
     eMusic::playRandomMusic();
     mGW = new eGameWidget(this);
