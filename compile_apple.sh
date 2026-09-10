@@ -1,3 +1,11 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+trap 'printf "[!] Build failed at line %s: %s\n" "$LINENO" "$BASH_COMMAND" >&2' ERR
+
+BASE_CPATH=${CPATH:-}
+BASE_LIBRARY_PATH=${LIBRARY_PATH:-}
+
 ## Script for compiling eZeus on Apple Silicon as Universal Binary.
 # softwareupdate --install-rosetta
 # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -7,7 +15,8 @@
 
 function macos_patch
 {
-	find . -type f -name "*.cpp" | while read -r file; do
+	echo "[*] Checking source compatibility..."
+	find . -type d -name 'build_*' -prune -o -type f -name "*.cpp" -print | while IFS= read -r file; do
 
     if grep -E -q '^[^/[:space:]]*.*std::random_shuffle' "$file"; then
         perl -0777 -pi.bak -e '
@@ -48,8 +57,19 @@ done
     
 PRO_FILE="eZeus.pro"
 TMP_FILE="${PRO_FILE}.tmp"
+PRO_MODE=$(stat -f '%Lp' "$PRO_FILE")
 
-read -r -d '' NEW_CONTENT << EOM
+echo "[*] Updating $PRO_FILE..."
+
+SRC_LINE_NUM=$(grep -n "^SOURCES += \\\\" "$PRO_FILE" | cut -d: -f1 || true)
+
+if [ -z "$SRC_LINE_NUM" ]; then
+    echo "Fehler: Zeile 'SOURCES += \\' nicht gefunden in $PRO_FILE"
+    exit 1
+fi
+
+{
+cat <<'EOM'
 TEMPLATE = app
 CONFIG += c++17
 CONFIG += console
@@ -62,7 +82,7 @@ QMAKE_LFLAGS += -stdlib=libc++
 macx {
     !equals(QMAKE_APPLE_DEVICE_ARCHS, arm64): !equals(QMAKE_APPLE_DEVICE_ARCHS, x86_64): QMAKE_APPLE_DEVICE_ARCHS = arm64
 
-    message("Target architecture: \$\$QMAKE_APPLE_DEVICE_ARCHS")
+    message("Target architecture: $$QMAKE_APPLE_DEVICE_ARCHS")
 
     contains(QMAKE_APPLE_DEVICE_ARCHS, x86_64) {
         INCLUDEPATH += /usr/local/include/SDL2
@@ -111,23 +131,13 @@ unix:!macx {
 }
 LIBS += -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 EOM
-
-SRC_LINE_NUM=$(grep -n "^SOURCES += \\\\" "$PRO_FILE" | cut -d: -f1)
-
-if [ -z "$SRC_LINE_NUM" ]; then
-    echo "Fehler: Zeile 'SOURCES += \\' nicht gefunden in $PRO_FILE"
-    exit 1
-fi
-
-tail -n +$SRC_LINE_NUM "$PRO_FILE" > "$TMP_FILE.rest"
-
-{
-    echo "$NEW_CONTENT"
-    echo
-    cat "$TMP_FILE.rest"
+    printf '\n'
+    tail -n +"$SRC_LINE_NUM" "$PRO_FILE"
 } > "$TMP_FILE"
 
-mv "$TMP_FILE" "$PRO_FILE"  
+chmod "$PRO_MODE" "$TMP_FILE"
+mv "$TMP_FILE" "$PRO_FILE"
+rm -f "$TMP_FILE.rest"
 
 }
 
@@ -142,23 +152,23 @@ function build_arch
     pushd "$BUILDDIR" >/dev/null
 
     if [ "$ARCH" = "arm64" ]; then
-        export CPATH=/opt/homebrew/include:$CPATH
-        export LIBRARY_PATH=/opt/homebrew/lib:$LIBRARY_PATH
+        export CPATH="/opt/homebrew/include${BASE_CPATH:+:$BASE_CPATH}"
+        export LIBRARY_PATH="/opt/homebrew/lib${BASE_LIBRARY_PATH:+:$BASE_LIBRARY_PATH}"
     else
-        export CPATH=/usr/local/include:$CPATH
-        export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
+        export CPATH="/usr/local/include${BASE_CPATH:+:$BASE_CPATH}"
+        export LIBRARY_PATH="/usr/local/lib${BASE_LIBRARY_PATH:+:$BASE_LIBRARY_PATH}"
     fi
 
-    qmake QMAKE_APPLE_DEVICE_ARCHS=$ARCH ..
-    make -j$(sysctl -n hw.ncpu)
+    qmake "QMAKE_APPLE_DEVICE_ARCHS=$ARCH" ..
+    make -j"$(sysctl -n hw.ncpu)"
 
     dylibbundler -of -cd -b -x "eZeus" -d "libs" -p "@executable_path/libs/"
     
-    curl -L -O https://github.com/MacThings/eZeus/releases/download/Zeus/Zeus_MM.xml
-	curl -L -O https://github.com/MacThings/eZeus/releases/download/Zeus/Zeus_Text.xml
+    curl --fail --location --remote-name --show-error https://github.com/MacThings/eZeus/releases/download/Zeus/Zeus_MM.xml
+	curl --fail --location --remote-name --show-error https://github.com/MacThings/eZeus/releases/download/Zeus/Zeus_Text.xml
         
     make clean
-    rm Makefile
+    rm -f Makefile
     
     popd >/dev/null
 }
@@ -167,5 +177,6 @@ macos_patch
 build_arch arm64
 build_arch x86_64
 
-echo -e "\n\nBuild completed!\nDownload Windows package:\nhttps://github.com/MaurycyLiebner/eZeus/releases/download/0.8.1-beta/eZeus-0.8.1-beta.zip\n"
-echo -e "Copy the two .xml files in the buildfolder to your eZeus root folder (not to the Bin folder within eZeus) and you are done."
+printf '\n\nBuild completed!\nDownload Windows package:\n%s\n\n' \
+    'https://github.com/MaurycyLiebner/eZeus/releases/download/0.8.1-beta/eZeus-0.8.1-beta.zip'
+printf '%s\n' 'Copy the two .xml files in the buildfolder to your eZeus root folder (not to the Bin folder within eZeus) and you are done.'
