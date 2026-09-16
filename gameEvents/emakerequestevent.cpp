@@ -29,6 +29,7 @@ void eMakeRequestEvent::initialize(
         const eResourceType res,
         const stdsptr<eWorldCity> &c) {
     mPostpone = postpone;
+    setResourceType(0, res);
     mResource = res;
     mCity = c;
     mCount = 2*eGiftHelpers::giftCount(mResource);
