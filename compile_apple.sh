@@ -178,5 +178,5 @@ build_arch arm64
 build_arch x86_64
 
 printf '\n\nBuild completed!\nDownload Windows package:\n%s\n\n' \
-    'https://github.com/MaurycyLiebner/eZeus/releases/download/0.8.1-beta/eZeus-0.8.1-beta.zip'
+    'https://github.com/MaurycyLiebner/eZeus/releases/download/0.8.2-beta/eZeus-0.8.2-beta.zip'
 printf '%s\n' 'Copy the two .xml files in the buildfolder to your eZeus root folder (not to the Bin folder within eZeus) and you are done.'
