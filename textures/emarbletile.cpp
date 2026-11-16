@@ -44,13 +44,15 @@ bool eMarbleTile::edge(eTile* const tile) {
 std::shared_ptr<eTexture> eMarbleTile::get(
         eTile* const tile,
         const eTerrainTextures& textures,
-        const eWorldDirection dir) {
+        const eWorldDirection dir,
+        const bool black) {
     const int seed = tile->seed();
 
     const int ml = tile->marbleLevel();
 
     if(ml == 0) {
-        const auto& fm = textures.fFlatMarble;
+        const auto& fm = black ? textures.fFlatBlackMarble :
+                                 textures.fFlatMarble;
         const int id = seed % fm.size();
         return fm.getTexture(id);
     }
@@ -65,7 +67,9 @@ std::shared_ptr<eTexture> eMarbleTile::get(
     bool l;
     const bool e = edge(tile, tl, tr, br, bl, t, r, b, l, dir);
 
-    const auto& coll = ml > 1 ? textures.fDeepMarble : textures.fMarble;
+    const auto& coll = black ?
+                (ml > 1 ? textures.fDeepBlackMarble : textures.fBlackMarble) :
+                (ml > 1 ? textures.fDeepMarble : textures.fMarble);
 
     if(!e) return coll.getTexture(seed % 6);
 

@@ -1213,6 +1213,13 @@ void eGameTextures::loadTimberMill() {
     });
 }
 
+void eGameTextures::loadBlackMarbleWorkshop() {
+    loadTexture([](const int i) {
+        auto& c = sBuildingTextures[i];
+        c.loadBlackMarbleWorkshop();
+    });
+}
+
 void eGameTextures::loadMasonryShop() {
     loadTexture([](const int i) {
         auto& c = sBuildingTextures[i];
@@ -2023,6 +2030,13 @@ void eGameTextures::loadPoseidonTrees() {
     loadTexture([](const int i) {
         auto& c = sTerrainTextures[i];
         c.loadPoseidonTrees();
+    });
+}
+
+void eGameTextures::loadBlackMarble() {
+    loadTexture([](const int i) {
+        auto& c = sTerrainTextures[i];
+        c.loadBlackMarble();
     });
 }
 

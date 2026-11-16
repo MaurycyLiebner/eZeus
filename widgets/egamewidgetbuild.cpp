@@ -2172,6 +2172,7 @@ bool eGameWidget::buildMouseRelease() {
             mBoard->updateTerritoryBorders();
         }
         mBoard->updateMarbleTiles();
+        mBoard->updateBlackMarbleTiles();
         mBoard->scheduleTerrainUpdate();
     }
     if(r) {

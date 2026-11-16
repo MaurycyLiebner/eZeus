@@ -105,6 +105,9 @@ void eTerrainEditMenu::initialize(eGameWidget* const gw,
     w6->addAction("Marble", [this]() {
         mMode = eTerrainEditMode::marble;
     });
+    w6->addAction("Black Marble", [this]() {
+        mMode = eTerrainEditMode::blackMarble;
+    });
     w6->addAction("Copper Ore", [this]() {
         mMode = eTerrainEditMode::bronze;
     });

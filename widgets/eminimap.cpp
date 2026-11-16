@@ -157,6 +157,8 @@ SDL_Color gTerrainColor(eTile* const tile) {
     case eTerrain::silver:
     case eTerrain::marble:
         return {125, 235, 255, 255};
+    case eTerrain::blackMarble:
+        return {45, 45, 60, 255};
     default:
         return {66, 89, 148, 255};
     }
