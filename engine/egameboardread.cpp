@@ -181,6 +181,7 @@ void eGameBoard::read(eReadStream& src) {
     src >> mSavedYear;
 
     updateMarbleTiles();
+    updateBlackMarbleTiles();
     updateTerritoryBorders();
     for(const auto& c : mCitiesOnBoard) {
         c->updateResources();

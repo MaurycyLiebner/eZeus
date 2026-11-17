@@ -714,6 +714,10 @@ std::shared_ptr<eTexture> eTileToTexture::get(eTile* const tile,
     case eTerrain::marble: {
         return eMarbleTile::get(tile, textures, dir);
     } break;
+    case eTerrain::blackMarble: {
+        eGameTextures::loadBlackMarble();
+        return eMarbleTile::get(tile, textures, dir, true);
+    } break;
 
     case eTerrain::dryBased:
         break;

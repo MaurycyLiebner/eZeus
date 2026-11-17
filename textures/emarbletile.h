@@ -9,7 +9,8 @@ namespace eMarbleTile {
     bool edge(eTile* const tile);
     std::shared_ptr<eTexture> get(eTile* const tile,
             const eTerrainTextures& textures,
-            const eWorldDirection dir);
+            const eWorldDirection dir,
+            const bool black = false);
 };
 
 #endif // EMARBLETILE_H

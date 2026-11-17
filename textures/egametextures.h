@@ -213,6 +213,7 @@ public:
     static void loadGrowersLodge();
     static void loadTimberMill();
     static void loadMasonryShop();
+    static void loadBlackMarbleWorkshop();
     static void loadMint();
     static void loadFoundry();
     static void loadRefinery();
@@ -345,6 +346,7 @@ public:
 
     static void loadPoseidonTrees();
     static void loadOrichalc();
+    static void loadBlackMarble();
 
     static void loadEliteCitizen();
 

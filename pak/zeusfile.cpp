@@ -773,6 +773,7 @@ bool ZeusFile::loadBoard(eGameBoard& board, eCampaign& campaign,
                 tile->setTerrain(eTerrain::water);
             } else if(t_terrain & 0x20000) { // marble quarry
                 if(t_terrain & 0x100000) { // black marble
+                    tile->setTerrain(eTerrain::blackMarble);
                 } else { // normal marble
                     tile->setTerrain(eTerrain::marble);
                 }
@@ -997,6 +998,7 @@ bool ZeusFile::loadBoard(eGameBoard& board, eCampaign& campaign,
     }
 
     board.updateMarbleTiles();
+    board.updateBlackMarbleTiles();
 
     return true;
 }

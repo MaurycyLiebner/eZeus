@@ -24,7 +24,7 @@ eBlackMarbleWorkshop::eBlackMarbleWorkshop(eGameBoard& board, const eCityId cid)
                              eBuildingType::blackMarbleWorkshop,
                              eHasResourceObject::sCreate(eHasResourceObjectType::blackMarble),
                              2, 2, 15, eResourceType::blackMarble, cid) {
-    eGameTextures::loadMasonryShop();
+    eGameTextures::loadBlackMarbleWorkshop();
     setAddResource(false);
     setRawInc(8);
     setRawCountCollect(0);
@@ -37,8 +37,8 @@ eBlackMarbleWorkshop::getOverlays(const eTileSize size) const {
     const auto& btexs = eGameTextures::buildings()[sizeId];
     const int t = textureTime();
     const int rc = rawCount();
-    if(rc) {
-        const auto& stones = btexs.fBlackMarbleWorkshopStones;
+    const auto& stones = btexs.fBlackMarbleWorkshopStones;
+    if(rc && stones.size() > 0) {
         const int sid = std::clamp(8 - rc, 0, stones.size());
 
         eOverlay& o = os.emplace_back();

@@ -27,7 +27,7 @@ enum class eTerrainEditMode {
     tallStones = static_cast<int>(eTerrain::tallStones),
     marble = static_cast<int>(eTerrain::marble),
 
-    none,
+    none = static_cast<int>(eTerrain::marble) + 1,
     scrub,
     scrubArea,
     removeScrub,
@@ -70,7 +70,9 @@ enum class eTerrainEditMode {
     landSlidePoint,
 
     cityTerritory,
-    assignAllCityTerritory
+    assignAllCityTerritory,
+
+    blackMarble = static_cast<int>(eTerrain::blackMarble)
 };
 
 enum class eBrushType {

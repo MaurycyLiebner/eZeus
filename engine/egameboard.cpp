@@ -566,11 +566,13 @@ void eGameBoard::eMarbleTiles::add(eTile* const tile) {
 }
 
 void eGameBoard::eMarbleTiles::addWithNeighbours(eTile* const tile) {
+    const auto groupTerr = tile->terrain();
     for(int x = -1; x <= 1; x++) {
         for(int y = -1; y <= 1; y++) {
             const auto n = tile->tileRel<eTile>(x, y);
+            if(!n) return;
             const auto terr = n->terrain();
-            if(terr != eTerrain::marble) return;
+            if(terr != groupTerr) return;
             const bool c = contains(n);
             if(c) continue;
             add(n);
@@ -614,7 +616,7 @@ void eGameBoard::updateMarbleTiles() {
 }
 
 void eGameBoard::restockBlackMarbleTiles() {
-    for(const auto& mt : mMarbleTiles) {
+    for(const auto& mt : mBlackMarbleTiles) {
         mt.restock();
     }
 }
