@@ -311,7 +311,7 @@ void eGameEvent::handleNewDate(const eDate& date) {
         trigger();
         mRemNRuns--;
         const int periodDays = choosePeriod();
-        mNextDate += periodDays;
+        mNextDate = date + periodDays;
         updateWarningDates();
         callBaseTrigger();
     }

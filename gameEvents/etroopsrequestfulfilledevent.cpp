@@ -28,6 +28,7 @@ void eTroopsRequestFulfilledEvent::trigger() {
     removeArmyEvent();
     removeConquestEvent();
     if(!mCity) return;
+    if(!mRivalCity) return;
 
     const int enemyStr = mRivalCity->troops();
     const int str = mCity->troops() + mForces.strength();
@@ -47,6 +48,24 @@ void eTroopsRequestFulfilledEvent::trigger() {
     }
 
     planArmyReturn();
+}
+
+void eTroopsRequestFulfilledEvent::write(eWriteStream& dst) const {
+    ePlayerConquestEventBase::write(dst);
+    dst.writeCity(mRivalCity.get());
+}
+
+void eTroopsRequestFulfilledEvent::read(eReadStream& src) {
+    ePlayerConquestEventBase::read(src);
+    const auto v = src.formatVersion();
+    if(v >= eFileFormat::troopsRequestFix) {
+        const auto board = gameBoard();
+        src.readCity(board, [this](const stdsptr<eWorldCity>& c) {
+            mRivalCity = c;
+        });
+    } else {
+        mRivalCity = mCity;
+    }
 }
 
 std::string eTroopsRequestFulfilledEvent::longName() const {
